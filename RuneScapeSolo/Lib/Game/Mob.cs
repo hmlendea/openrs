@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +16,7 @@ namespace RSCXNALib.Game
         }
 
         public long nameHash;
-        public String username;
+        public string username;
         public int serverIndex;
         public int serverID;
         public int currentX;
@@ -30,7 +30,7 @@ namespace RSCXNALib.Game
         public int[] waypointsX;
         public int[] waypointsY;
         public int[] appearanceItems;
-        public String lastMessage;
+        public string lastMessage;
         public int lastMessageTimeout;
         public int itemAboveHeadID;
         public int playerSkullTimeout;

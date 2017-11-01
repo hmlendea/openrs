@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -88,7 +88,7 @@ namespace RSCXNALib.Game
 		private int loadedSameIndex = 0;
 		public void loadSection(int sectionX, int sectionY, int height, int sector)
 		{
-			String filename = "m" + height + sectionX / 10 + sectionX % 10 + sectionY / 10 + sectionY % 10;
+			string filename = "m" + height + sectionX / 10 + sectionX % 10 + sectionY / 10 + sectionY % 10;
 			//if(filename=="m05049")
 			//{
 			//    if (loadedSameIndex==1)

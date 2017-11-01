@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,7 +16,7 @@ namespace RSCXNALib
         public static Random ran = new Random();
         static bool isConnecting = false;
         Thread connectionThread;
-        public void connect(String user, String pass, bool reconnecting)
+        public void connect(string user, string pass, bool reconnecting)
         {
             if (isConnecting)
             {
@@ -231,7 +231,7 @@ namespace RSCXNALib
             loginScreenPrint("Please enter your usename and password", "");
         }
 
-        protected void gameBoxPrint(String s1, String s2)
+        protected void gameBoxPrint(string s1, string s2)
         {
             
             //Font font = new Font("Helvetica", 1, 15);
@@ -277,7 +277,7 @@ namespace RSCXNALib
             if (command == 48)
             {
                 var s1 = Encoding.UTF8.GetString((byte[])(Array)packetData, 1, length - 1);
-                //String s1 = new String(packetData, 1, length - 1);
+                //string s1 = new string(packetData, 1, length - 1);
                 displayMessage(s1);
                 return;
             }
@@ -345,7 +345,7 @@ namespace RSCXNALib
             if (command == 170)
             {
                 long l1 = DataOperations.getLong(packetData, 1);
-                String s = ChatMessage.bytesToString(packetData, 9, length - 9);
+                string s = ChatMessage.bytesToString(packetData, 9, length - 9);
                 displayMessage("@pri@" + DataOperations.hashToName(l1) + ": tells you " + s);
                 return;
             }
@@ -396,7 +396,7 @@ namespace RSCXNALib
             streamClass.formatPacket();
         }
 
-        protected void addIgnore(String arg0)
+        protected void addIgnore(string arg0)
         {
             long l = DataOperations.nameToHash(arg0);
             streamClass.createPacket(25);
@@ -434,7 +434,7 @@ namespace RSCXNALib
 
         }
 
-        protected void addFriend(String arg0)
+        protected void addFriend(string arg0)
         {
             streamClass.createPacket(168);
             streamClass.addLong(DataOperations.nameToHash(arg0));
@@ -494,14 +494,14 @@ namespace RSCXNALib
             streamClass.formatPacket();
         }
 
-        protected void sendCommand(String s1)
+        protected void sendCommand(string s1)
         {
             streamClass.createPacket(90);
             streamClass.addString(s1);
             streamClass.formatPacket();
         }
 
-        public virtual void loginScreenPrint(String s1, String s2)
+        public virtual void loginScreenPrint(string s1, string s2)
         {
         }
 
@@ -521,7 +521,7 @@ namespace RSCXNALib
         {
         }
 
-        public virtual void displayMessage(String s1)
+        public virtual void displayMessage(string s1)
         {
         }
 
@@ -536,8 +536,8 @@ namespace RSCXNALib
         }
 
         public static int maxPacketReadCount;
-        public String username;
-        String password;
+        public string username;
+        string password;
         public StreamClass streamClass;
         public sbyte[] packetData;
         public int reconnectTries;

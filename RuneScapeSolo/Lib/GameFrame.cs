@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +8,7 @@ namespace RSCXNALib
 {
     public class GameFrame
     {
-        public GameFrame(GameApplet arg0, int width, int height, String title, bool resizable, bool translate)
+        public GameFrame(GameApplet arg0, int width, int height, string title, bool resizable, bool translate)
         {
             yOffset = 28;
             frameWidth = width;

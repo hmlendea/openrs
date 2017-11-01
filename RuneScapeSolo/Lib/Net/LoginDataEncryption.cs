@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -20,7 +20,7 @@ namespace RSCXNALib.Net
         }
 
 
-        public void addString(String s)
+        public void addString(string s)
         {
 
             var bytes0 = Encoding.UTF8.GetBytes(s);

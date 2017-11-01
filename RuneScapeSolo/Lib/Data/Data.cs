@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +7,9 @@ namespace RSCXNALib.Data
 {
     public class Data
     {
-        public static int getModelNameIndex(String arg0)
+        public static int getModelNameIndex(string arg0)
         {
-           // Data.getModelNameIndex(arg0);
+            // Data.getModelNameIndex(arg0);
             if (arg0.ToLower().Equals("na"))
                 return 0;
             for (int i = 0; i < modelCount; i++)
@@ -30,7 +30,7 @@ namespace RSCXNALib.Data
 
         public static int readShort()
         {
-            
+
             // org.moparscape.msc.client.Data.readShort();
             int i = DataOperations.getShort(integerData, integerDataIndex);
             integerDataIndex += 2;
@@ -48,11 +48,11 @@ namespace RSCXNALib.Data
             return i;
         }
 
-        public static String readString()
+        public static string readString()
         {
-           // org.moparscape.msc.client.Data.readString();
+            // org.moparscape.msc.client.Data.readString();
 
-            String s;
+            string s;
             for (s = ""; stringData[stringDataIndex] != 0; s = s + (char)stringData[stringDataIndex++]) ;
             stringDataIndex++;
             return s;
@@ -68,9 +68,9 @@ namespace RSCXNALib.Data
             integerData = DataOperations.loadData("integer.dat", 0, arg0);
             integerDataIndex = 0;
             itemCount = readShort();
-            itemName = new String[itemCount];
-            itemDescription = new String[itemCount];
-            itemCommand = new String[itemCount];
+            itemName = new string[itemCount];
+            itemDescription = new string[itemCount];
+            itemCommand = new string[itemCount];
             itemInventoryPicture = new int[itemCount];
             itemBasePrice = new int[itemCount];
             itemStackable = new int[itemCount];
@@ -129,9 +129,9 @@ namespace RSCXNALib.Data
                 }
 
             npcCount = readShort();
-            npcName = new String[npcCount];
-            npcDescription = new String[npcCount];
-            npcCommand = new String[npcCount];
+            npcName = new string[npcCount];
+            npcDescription = new string[npcCount];
+            npcCommand = new string[npcCount];
             npcAttack = new int[npcCount];
             npcStrength = new int[npcCount];
             npcHits = new int[npcCount];
@@ -215,8 +215,8 @@ namespace RSCXNALib.Data
                 npcCommand[k7] = readString();
 
             textureCount = readShort();
-            textureName = new String[textureCount];
-            textureSubName = new String[textureCount];
+            textureName = new string[textureCount];
+            textureSubName = new string[textureCount];
             for (int l7 = 0; l7 < textureCount; l7++)
                 textureName[l7] = readString();
 
@@ -224,7 +224,7 @@ namespace RSCXNALib.Data
                 textureSubName[i8] = readString();
 
             animationCount = readShort();
-            animationName = new String[animationCount];
+            animationName = new string[animationCount];
             animationCharacterColor = new int[animationCount];
             animationGenderModels = new int[animationCount];
             animationHasA = new int[animationCount];
@@ -249,10 +249,10 @@ namespace RSCXNALib.Data
                 animationNumber[k9] = readByte();
 
             objectCount = readShort();
-            objectName = new String[objectCount];
-            objectDescription = new String[objectCount];
-            objectCommand1 = new String[objectCount];
-            objectCommand2 = new String[objectCount];
+            objectName = new string[objectCount];
+            objectDescription = new string[objectCount];
+            objectCommand1 = new string[objectCount];
+            objectCommand2 = new string[objectCount];
             objectModelNumber = new int[objectCount];
             objectWidth = new int[objectCount];
             objectHeight = new int[objectCount];
@@ -286,10 +286,10 @@ namespace RSCXNALib.Data
                 objectGroundItemVar[l11] = readByte();
 
             wallObjectCount = readShort();
-            wallObjectName = new String[wallObjectCount];
-            wallObjectDescription = new String[wallObjectCount];
-            wallObjectCommand1 = new String[wallObjectCount];
-            wallObjectCommand2 = new String[wallObjectCount];
+            wallObjectName = new string[wallObjectCount];
+            wallObjectDescription = new string[wallObjectCount];
+            wallObjectCommand1 = new string[wallObjectCount];
+            wallObjectCommand2 = new string[wallObjectCount];
             wallObjectModelHeight = new int[wallObjectCount];
             wallObjectModel_FaceBack = new int[wallObjectCount];
             wallObjectModel_FaceFront = new int[wallObjectCount];
@@ -356,8 +356,8 @@ namespace RSCXNALib.Data
 
             spellProjectileCount = readShort();
             spellCount = readShort();
-            spellName = new String[spellCount];
-            spellDescription = new String[spellCount];
+            spellName = new string[spellCount];
+            spellDescription = new string[spellCount];
             spellRequiredLevel = new int[spellCount];
             spellDifferentRuneCount = new int[spellCount];
             spellType = new int[spellCount];
@@ -397,8 +397,8 @@ namespace RSCXNALib.Data
             }
 
             prayerCount = readShort();
-            prayerName = new String[prayerCount];
-            prayerDescription = new String[prayerCount];
+            prayerName = new string[prayerCount];
+            prayerDescription = new string[prayerCount];
             prayerRequiredLevel = new int[prayerCount];
             prayerDrainRate = new int[prayerCount];
             for (int i18 = 0; i18 < prayerCount; i18++)
@@ -419,21 +419,21 @@ namespace RSCXNALib.Data
 
         public static int itemCount;
         public static int highestLoadedPicture;
-        public static String[] npcName;
-        public static String[] npcDescription;
-        public static String[] npcCommand;
+        public static string[] npcName;
+        public static string[] npcDescription;
+        public static string[] npcCommand;
         public static int spellProjectileCount;
         public static int objectCount;
-        public static String[] wallObjectName;
-        public static String[] wallObjectDescription;
-        public static String[] wallObjectCommand1;
-        public static String[] wallObjectCommand2;
+        public static string[] wallObjectName;
+        public static string[] wallObjectDescription;
+        public static string[] wallObjectCommand1;
+        public static string[] wallObjectCommand2;
         public static int spellCount;
         public static int[] npcCameraArray1;
         public static int[] npcCameraArray2;
-        public static String[] itemName;
-        public static String[] itemDescription;
-        public static String[] itemCommand;
+        public static string[] itemName;
+        public static string[] itemDescription;
+        public static string[] itemCommand;
         public static int[] itemInventoryPicture;
         public static int[] itemBasePrice;
         public static int[] itemStackable;
@@ -442,9 +442,9 @@ namespace RSCXNALib.Data
         public static int[] itemPictureMask;
         public static int[] itemSpecial;
         public static int[] itemMembers;
-        public static String[] prayerName;
-        public static String[] prayerDescription;
-        public static String[] animationName;
+        public static string[] prayerName;
+        public static string[] prayerDescription;
+        public static string[] animationName;
         public static int prayerCount;
         public static int[] npcHairColor;
         public static int[] npcTopColor;
@@ -453,13 +453,13 @@ namespace RSCXNALib.Data
         public static int overlayTextureCount;
         public static int wallObjectCount;
         public static int animationCount;
-        public static String[] modelName = new String[5000];
-        public static String[] textureName;
-        public static String[] textureSubName;
-        public static String[] objectName;
-        public static String[] objectDescription;
-        public static String[] objectCommand1;
-        public static String[] objectCommand2;
+        public static string[] modelName = new string[5000];
+        public static string[] textureName;
+        public static string[] textureSubName;
+        public static string[] objectName;
+        public static string[] objectDescription;
+        public static string[] objectCommand1;
+        public static string[] objectCommand2;
         public static int textureCount;
         public static int akd;
         public static int[] prayerRequiredLevel;
@@ -467,8 +467,8 @@ namespace RSCXNALib.Data
         public static int[] TileGroundOverlayTexture;
         public static int[] tileGroundOverlayTypes;
         public static int[] aki;
-        public static String[] spellName;
-        public static String[] spellDescription;
+        public static string[] spellName;
+        public static string[] spellDescription;
         public static int[] npcWalkModelArray;
         public static int[] npcCombatModel;
         public static int[] npcCombatSprite;
@@ -497,13 +497,13 @@ namespace RSCXNALib.Data
         public static int[] objectHeight;
         public static int[] objectType;
         public static int[] objectGroundItemVar;
-        public static String[] aml = new String[5000];
+        public static string[] aml = new string[5000];
         public static int[] wallObjectModelHeight;
         public static int[] wallObjectModel_FaceBack;
         public static int[] wallObjectModel_FaceFront;
         public static int[] wallObjectType;
         public static int[] wallObjectUnknown;
-        public static String[] and = new String[5000];
+        public static string[] and = new string[5000];
         static sbyte[] stringData;
         static sbyte[] integerData;
         static int stringDataIndex;

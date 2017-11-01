@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -59,7 +59,7 @@ namespace RSCXNALib.Net
             packetData[packetOffset++] = (byte)i;
         }
 
-        public void addString(String s)
+        public void addString(string s)
         {
             var bytes = Encoding.UTF8.GetBytes(s);
 
@@ -230,7 +230,7 @@ namespace RSCXNALib.Net
         public int maxPacketLength;
         public static int[] packetLengthCount = new int[256];
         public int packetCount;
-        public String errorText;
+        public string errorText;
         public bool error;
     }
 

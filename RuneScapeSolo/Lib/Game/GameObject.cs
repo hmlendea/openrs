@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -270,7 +270,7 @@ namespace RSCXNALib.Game
             objectState = 1;
         }
 
-        public GameObject(String fileName)
+        public GameObject(string fileName)
         {
             objectState = 1;
             visible = true;

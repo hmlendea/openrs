@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,7 +29,7 @@ namespace RSCXNALib
             return list.ToArray();
         }
 
-        public static void addFile(String filename, BinaryReader reader)
+        public static void addFile(string filename, BinaryReader reader)
         {
 
             link.fileName[currentFile] = filename;
@@ -45,7 +45,7 @@ namespace RSCXNALib
         }
 
 
-        public static void addFile(String fileName, sbyte[] fileData)
+        public static void addFile(string fileName, sbyte[] fileData)
         {
             link.fileName[currentFile] = fileName;
 
@@ -54,7 +54,7 @@ namespace RSCXNALib
             currentFile++;
         }
 
-        public static bool loadFile(String fileName)
+        public static bool loadFile(string fileName)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace RSCXNALib
             }
         }
 
-        public static sbyte[] getFile(String fileName)
+        public static sbyte[] getFile(string fileName)
         {
             for (int i = 0; i < currentFile; i++)
                 if (link.fileName[i].Equals(fileName))
@@ -107,7 +107,7 @@ namespace RSCXNALib
 
         //}
 
-        public static String getAddress(String ip)
+        public static string getAddress(string ip)
         {
             for (iplookup = ip; iplookup != null; )
                 try
@@ -124,10 +124,10 @@ namespace RSCXNALib
         static int port;
         static TcpClient socket;
         //  static Runnable thread = null;
-        static String iplookup = null;
-        static String address;
+        static string iplookup = null;
+        static string address;
         static int currentFile;
-        private static String[] fileName = new String[50];
+        private static string[] fileName = new string[50];
         private static sbyte[][] fileData = new sbyte[50][];
 
     }

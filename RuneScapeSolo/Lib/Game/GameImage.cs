@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -2354,22 +2354,22 @@ namespace RSCXNALib.Game
 
         //}
 
-        public void drawLabel(String s, int i, int k, int l, int i1)
+        public void drawLabel(string s, int i, int k, int l, int i1)
         {
             drawString(s, i - textWidth(s, l), k, l, i1);
         }
 
-        public void drawText(String s, int i, int k, int l, int i1)
+        public void drawText(string s, int i, int k, int l, int i1)
         {
             drawString(s, i - textWidth(s, l) / 2, k, l, i1);
         }
 
-        //public int textWidth(String s, int _w)
+        //public int textWidth(string s, int _w)
         //{
         //    return (int)mudclient.gameFont12.MeasureString(s).X;
         //}
 
-        public void drawFloatingText(String arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
+        public void drawFloatingText(string arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
         {
             try
             {
@@ -2420,7 +2420,7 @@ namespace RSCXNALib.Game
 
         public static List<stringDrawDef> stringsToDraw = new List<stringDrawDef>();
 
-        public void drawString(String arg0, int arg1, int arg2, int arg3, int arg4)
+        public void drawString(string arg0, int arg1, int arg2, int arg3, int arg4)
         {
             try
             {
@@ -2704,7 +2704,7 @@ namespace RSCXNALib.Game
                 return gameFonts[i][8] - 1;
         }
 
-        public int textWidth(String arg0, int arg1)
+        public int textWidth(string arg0, int arg1)
         {
             int i = 0;
             sbyte[] abyte0 = gameFonts[arg1];
@@ -2782,7 +2782,7 @@ namespace RSCXNALib.Game
 
         static GameImage()
         {
-            String s = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
+            string s = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
             bne = new int[256];
             for (int i = 0; i < 256; i++)
             {

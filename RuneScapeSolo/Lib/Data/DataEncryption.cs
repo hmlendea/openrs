@@ -26,15 +26,15 @@ namespace RSCXNALib.Data
 //        }
 
 ////JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-////ORIGINAL LINE: @SuppressWarnings("deprecation") public void addString(String arg0)
-//        //public virtual void addString(String arg0)
+////ORIGINAL LINE: @SuppressWarnings("deprecation") public void addString(string arg0)
+//        //public virtual void addString(string arg0)
 //        //{
 //        //    arg0.getBytes(0, arg0.Length, data, offset);
 //        //    offset += arg0.Length;
 //        //    data[offset++] = 10;
 //        //}
 
-//        public void addString(String arg0)
+//        public void addString(string arg0)
 //        {
 
 //            //arg0.getBytes(0, arg0.Length, data, offset);

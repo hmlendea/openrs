@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -785,7 +785,7 @@ namespace RSCXNALib
             engineHandle.landscapeMembers = unpackData("land.mem", "members landscape", 85);
         }
 
-        public void drawModel(int l, String s1)
+        public void drawModel(int l, string s1)
         {
             int i1 = objectX[l];
             int j1 = objectY[l];
@@ -1006,7 +1006,7 @@ namespace RSCXNALib
             gameGraphics.drawText("Your stake:", byte0 + 117, byte1 + 30, 1, 0xffff00);
             for (int i1 = 0; i1 < duelOurStakeCount; i1++)
             {
-                String s1 = Data.Data.itemName[duelOurStakeItem[i1]];
+                string s1 = Data.Data.itemName[duelOurStakeItem[i1]];
                 if (Data.Data.itemStackable[duelOurStakeItem[i1]] == 0)
                     s1 = s1 + " x " + formatItemCount(duelOurStakeItemCount[i1]);
                 gameGraphics.drawText(s1, byte0 + 117, byte1 + 42 + i1 * 12, 1, 0xffffff);
@@ -1017,7 +1017,7 @@ namespace RSCXNALib
             gameGraphics.drawText("Your opponent's stake:", byte0 + 351, byte1 + 30, 1, 0xffff00);
             for (int j1 = 0; j1 < duelOpponentStakeCount; j1++)
             {
-                String s2 = Data.Data.itemName[duelOpponentStakeItem[j1]];
+                string s2 = Data.Data.itemName[duelOpponentStakeItem[j1]];
                 if (Data.Data.itemStackable[duelOpponentStakeItem[j1]] == 0)
                     s2 = s2 + " x " + formatItemCount(duelOutStakeItemCount[j1]);
                 gameGraphics.drawText(s2, byte0 + 351, byte1 + 42 + j1 * 12, 1, 0xffffff);
@@ -1095,7 +1095,7 @@ namespace RSCXNALib
                 audioPlayer.stop();
         }
 
-        //protected TcpClient makeSocket(String address, int port) {
+        //protected TcpClient makeSocket(string address, int port) {
 
         //    if(link.gameApplet != null) {
         //        Socket socket = link.getSocket(port);
@@ -1722,7 +1722,7 @@ namespace RSCXNALib
                         {
                             sbyte byte7 = packetData[off];
                             off++;
-                            String s3 = ChatMessage.bytesToString(packetData, off, byte7);
+                            string s3 = ChatMessage.bytesToString(packetData, off, byte7);
                             //if (useChatFilter)
                             //    s3 = ChatFilter.filterChat(s3);
                             bool ignore = false;
@@ -1810,7 +1810,7 @@ namespace RSCXNALib
                         {
                             sbyte byte8 = packetData[off];
                             off++;
-                            String s4 = ChatMessage.bytesToString(packetData, off, byte8);
+                            string s4 = ChatMessage.bytesToString(packetData, off, byte8);
                             mob.lastMessageTimeout = 150;
                             mob.lastMessage = s4;
                             if (mob == ourPlayer)
@@ -1996,7 +1996,7 @@ namespace RSCXNALib
                             off++;
                             if (mob != null)
                             {
-                                String s5 = ChatMessage.bytesToString(packetData, off, messageLength);
+                                string s5 = ChatMessage.bytesToString(packetData, off, messageLength);
                                 mob.lastMessageTimeout = 150;
                                 mob.lastMessage = s5;
                                 if (playerIndex == ourPlayer.serverIndex)
@@ -2035,7 +2035,7 @@ namespace RSCXNALib
                     {
                         int optionLength = DataOperations.getByte(packetData[off]);
                         off++;
-                        questionMenuAnswer[index] = new String(packetData.Select(c => (char)c).ToArray(), off, optionLength);
+                        questionMenuAnswer[index] = new string(packetData.Select(c => (char)c).ToArray(), off, optionLength);
                         off += optionLength;
                     }
 
@@ -2577,7 +2577,7 @@ namespace RSCXNALib
                 }
                 if (packetID == 11)
                 {
-                    String s1 = new String(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
+                    string s1 = new string(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
                     playSound(s1);
                     return;
                 }
@@ -2602,7 +2602,7 @@ namespace RSCXNALib
                     {
                         lastLoginDays = DataOperations.getShort(packetData, 1);
                         subDaysLeft = DataOperations.getShort(packetData, 3);
-                        lastLoginAddress = new String(packetData.Select(c => (char)c).ToArray(), 5, packetLength - 5);
+                        lastLoginAddress = new string(packetData.Select(c => (char)c).ToArray(), 5, packetLength - 5);
                         showWelcomeBox = true;
                         loginScreenShown = true;
                     }
@@ -2610,14 +2610,14 @@ namespace RSCXNALib
                 }
                 if (packetID == 148)
                 {
-                    serverMessage = new String(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
+                    serverMessage = new string(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
                     showServerMessageBox = true;
                     serverMessageBoxTop = false;
                     return;
                 }
                 if (packetID == 64)
                 {
-                    serverMessage = new String(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
+                    serverMessage = new string(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
                     showServerMessageBox = true;
                     serverMessageBoxTop = true;
                     return;
@@ -2710,7 +2710,7 @@ namespace RSCXNALib
                     questPoints = DataOperations.getByte(packetData[1]);
                     int count = DataOperations.getByte(packetData[2]);
                     int off = 3;
-                    string[] newQuestNames = new String[count];
+                    string[] newQuestNames = new string[count];
                     int[] newQuestStage = new int[count];
                     for (int i = 0; i < count; i++)
                     {
@@ -3237,7 +3237,7 @@ namespace RSCXNALib
             {
                 //   label4:
                 bool breakThis = false;
-                String s1 = Data.Data.animationName[i1];
+                string s1 = Data.Data.animationName[i1];
                 for (int j1 = 0; j1 < i1; j1++)
                 {
                     if (!Data.Data.animationName[j1].ToLower().Equals(s1))
@@ -3381,7 +3381,7 @@ namespace RSCXNALib
             i1 += 20;
             gameGraphics.drawText("Welcome to RuneScape " + loginUsername, 256, i1, 4, 0xffff00);
             i1 += 30;
-            String s1;
+            string s1;
             // lastLoginDays    subDaysLeft    lastLoginAddress
             if (lastLoginDays == 0)
                 s1 = "earlier today";
@@ -3424,7 +3424,7 @@ namespace RSCXNALib
                     gameGraphics.drawText("Do this from the 'account management' area on our front webpage", 256, i1, 1, 0xff8000);
                     i1 += 15;
                 } else {
-                    String s2;
+                    string s2;
                     if(lastChangedRecoveryDays == 0)
                         s2 = "Earlier today";
                     else
@@ -4106,7 +4106,7 @@ namespace RSCXNALib
             }
         }
 
-        //public String getParameter(String s1) {
+        //public string getParameter(string s1) {
         //    if(link.gameApplet != null)
         //        return link.gameApplet.getParameter(s1);
         //    else
@@ -4133,7 +4133,7 @@ namespace RSCXNALib
             }
         }
 
-        public override void loginScreenPrint(String s1, String s2)
+        public override void loginScreenPrint(string s1, string s2)
         {
             if (loginScreen == 2 && loginMenuLogin != null)
                 loginMenuLogin.updateText(loginMenuStatusText, s1 + " " + s2);
@@ -4369,7 +4369,7 @@ namespace RSCXNALib
             gameGraphics.drawText("You are about to give:", byte0 + 117, byte1 + 30, 1, 0xffff00);
             for (int i1 = 0; i1 < tradeConfigItemCount; i1++)
             {
-                String s1 = Data.Data.itemName[tradeConfirmItems[i1]];
+                string s1 = Data.Data.itemName[tradeConfirmItems[i1]];
                 if (Data.Data.itemStackable[tradeConfirmItems[i1]] == 0)
                     s1 = s1 + " x " + formatItemCount(tradeConfigItemsCount[i1]);
                 gameGraphics.drawText(s1, byte0 + 117, byte1 + 42 + i1 * 12, 1, 0xffffff);
@@ -4380,7 +4380,7 @@ namespace RSCXNALib
             gameGraphics.drawText("In return you will receive:", byte0 + 351, byte1 + 30, 1, 0xffff00);
             for (int j1 = 0; j1 < tradeConfirmOtherItemCount; j1++)
             {
-                String s2 = Data.Data.itemName[tradeConfirmOtherItems[j1]];
+                string s2 = Data.Data.itemName[tradeConfirmOtherItems[j1]];
                 if (Data.Data.itemStackable[tradeConfirmOtherItems[j1]] == 0)
                     s2 = s2 + " x " + formatItemCount(tradeConfirmOtherItemsCount[j1]);
                 gameGraphics.drawText(s2, byte0 + 351, byte1 + 42 + j1 * 12, 1, 0xffffff);
@@ -4607,7 +4607,7 @@ namespace RSCXNALib
             {
                 for (int l1 = 0; l1 < base.friendsCount; l1++)
                 {
-                    String s1;
+                    string s1;
                     if (base.friendsWorld[l1] == 99)
                         s1 = "@gre@";
                     else
@@ -4756,7 +4756,7 @@ namespace RSCXNALib
                 int l1 = 0;
                 for (int l2 = 0; l2 < Data.Data.spellCount; l2++)
                 {
-                    String s1 = "@yel@";
+                    string s1 = "@yel@";
                     for (int k4 = 0; k4 < Data.Data.spellDifferentRuneCount[l2]; k4++)
                     {
                         int j5 = Data.Data.spelRequiredRuneID[l2][k4];
@@ -4784,7 +4784,7 @@ namespace RSCXNALib
                         gameGraphics.drawPicture(l + 2 + l4 * 44, i1 + 150, baseItemPicture + Data.Data.itemInventoryPicture[l5]);
                         int i6 = getInventoryItemTotalCount(l5);
                         int j6 = Data.Data.spellRequiredRuneCount[l3][l4];
-                        String s3 = "@red@";
+                        string s3 = "@red@";
                         if (hasRequiredRunes(l5, j6))
                             s3 = "@gre@";
                         gameGraphics.drawString(s3 + i6 + "/" + j6, l + 2 + l4 * 44, i1 + 150, 1, 0xffffff);
@@ -4802,7 +4802,7 @@ namespace RSCXNALib
                 int i2 = 0;
                 for (int i3 = 0; i3 < Data.Data.prayerCount; i3++)
                 {
-                    String s2 = "@whi@";
+                    string s2 = "@whi@";
                     if (Data.Data.prayerRequiredLevel[i3] > playerStatBase[5])
                         s2 = "@bla@";
                     if (prayerOn[i3])
@@ -4907,7 +4907,7 @@ namespace RSCXNALib
             }
         }
 
-        public override sbyte[] unpackData(String arg0, String arg1, int arg2)
+        public override sbyte[] unpackData(string arg0, string arg1, int arg2)
         {
             sbyte[] abyte0 = link.getFile(arg0);
             if (abyte0 != null)
@@ -5387,7 +5387,7 @@ namespace RSCXNALib
                 base.lastMouseButton = 0;
             if (chatInputMenu.isClicked(chatInputBox))
             {
-                String input = chatInputMenu.getText(chatInputBox);
+                string input = chatInputMenu.getText(chatInputBox);
                 chatInputMenu.updateText(chatInputBox, "");
                 if (input.StartsWith("::"))
                 {
@@ -5656,7 +5656,7 @@ namespace RSCXNALib
                         int type = _obj.entityType[player] / 10000;
                         if (type == 1)
                         {
-                            String s1 = "";
+                            string s1 = "";
                             int k4 = 0;
                             if (ourPlayer.level > 0 && playerArray[index].level > 0)
                                 k4 = ourPlayer.level - playerArray[index].level;
@@ -5789,7 +5789,7 @@ namespace RSCXNALib
                             else
                                 if (type == 3)
                                 {
-                                    String s2 = "";
+                                    string s2 = "";
                                     int l4 = -1;
                                     int id = npcArray[index].npcId;
                                     if (Data.Data.npcAttackable[id] > 0)
@@ -6210,13 +6210,13 @@ namespace RSCXNALib
             gameCamera.createTexture(Data.Data.textureCount, 7, 11);
             for (int l = 0; l < Data.Data.textureCount; l++)
             {
-                String s1 = Data.Data.textureName[l];
+                string s1 = Data.Data.textureName[l];
                 sbyte[] abyte2 = DataOperations.loadData(s1 + ".dat", 0, abyte0);
                 gameGraphics.unpackImageData(baseTexturePic, abyte2, abyte1, 1);
                 gameGraphics.drawBox(0, 0, 128, 128, 0xff00ff);
                 gameGraphics.drawPicture(0, 0, baseTexturePic);
                 int i1 = ((GameImage)(gameGraphics)).pictureAssumedWidth[baseTexturePic];
-                String s2 = Data.Data.textureSubName[l];
+                string s2 = Data.Data.textureSubName[l];
                 if (s2 != null && s2.Length > 0)
                 {
                     sbyte[] abyte3 = DataOperations.loadData(s2 + ".dat", 0, abyte0);
@@ -6299,7 +6299,7 @@ namespace RSCXNALib
                     break;
                 }
 
-                String s1 = null;
+                string s1 = null;
                 if ((selectedItem >= 0 || selectedSpell >= 0) && menuOptionsCount == 1)
                     s1 = "Choose a target";
                 else
@@ -6669,7 +6669,7 @@ namespace RSCXNALib
                 for (int j7 = 0; j7 < 5; j7++)
                     if (messagesTimeout[j7] > 0)
                     {
-                        String s1 = messagesArray[j7];
+                        string s1 = messagesArray[j7];
                         gameGraphics.drawString(s1, 7, windowHeight - 18 - j7 * 12, 1, 0xffff00);
                     }
 
@@ -6713,7 +6713,7 @@ namespace RSCXNALib
         {
             if (base.enteredInputText.Length > 0)
             {
-                String s1 = base.enteredInputText.Trim();
+                string s1 = base.enteredInputText.Trim();
                 base.inputText = "";
                 base.enteredInputText = "";
                 if (s1.Length > 0)
@@ -7279,7 +7279,7 @@ namespace RSCXNALib
             }
         }
 
-        public override void displayMessage(String s1)
+        public override void displayMessage(string s1)
         {
             if (s1.StartsWith("@bor@"))
             {
@@ -7864,9 +7864,9 @@ namespace RSCXNALib
             return true;
         }
 
-        public static String formatItemCount(int arg0)
+        public static string formatItemCount(int arg0)
         {
-            String s1 = arg0.ToString();
+            string s1 = arg0.ToString();
             for (int l = s1.Length - 3; l > 0; l -= 3)
                 s1 = s1.Substring(0, l) + "," + s1.Substring(l);
 
@@ -7891,7 +7891,7 @@ namespace RSCXNALib
             return getInventoryItemTotalCount(l) >= i1;
         }
 
-        public void displayMessage(String message, int type)
+        public void displayMessage(string message, int type)
         {
             if (type == 2 || type == 4 || type == 6)
             {
@@ -7899,7 +7899,7 @@ namespace RSCXNALib
                 int l = message.IndexOf(":");
                 if (l != -1)
                 {
-                    String s1 = message.Substring(0, l);
+                    string s1 = message.Substring(0, l);
                     long l1 = DataOperations.nameToHash(s1);
                     for (int j1 = 0; j1 < base.ignoresCount; j1++)
                         if (base.ignoresList[j1] == l1)
@@ -8312,7 +8312,7 @@ namespace RSCXNALib
                 gameGraphics.drawText(base.inputText + "*", 256, l, 4, 0xffffff);
                 if (base.enteredInputText.Length > 0)
                 {
-                    String s1 = base.enteredInputText.Trim();
+                    string s1 = base.enteredInputText.Trim();
                     base.inputText = "";
                     base.enteredInputText = "";
                     showFriendsBox = 0;
@@ -8330,7 +8330,7 @@ namespace RSCXNALib
                 gameGraphics.drawText(base.pmText + "*", 256, l, 4, 0xffffff);
                 if (base.enteredPMText.Length > 0)
                 {
-                    String s2 = base.enteredPMText;
+                    string s2 = base.enteredPMText;
                     base.pmText = "";
                     base.enteredPMText = "";
                     showFriendsBox = 0;
@@ -8352,7 +8352,7 @@ namespace RSCXNALib
                 gameGraphics.drawText(base.inputText + "*", 256, l, 4, 0xffffff);
                 if (base.enteredInputText.Length > 0)
                 {
-                    String s3 = base.enteredInputText.Trim();
+                    string s3 = base.enteredInputText.Trim();
                     base.inputText = "";
                     base.enteredInputText = "";
                     showFriendsBox = 0;
@@ -8366,7 +8366,7 @@ namespace RSCXNALib
             gameGraphics.drawText("Cancel", 256, 208, 1, i1);
         }
 
-        public void playSound(String s1)
+        public void playSound(string s1)
         {
             if (audioPlayer == null || !Config.MEMBERS_FEATURES)
                 return;
@@ -8470,11 +8470,11 @@ namespace RSCXNALib
         {
             //try
             //{
-            //    String charName = DataOperations.hashToName(DataOperations.nameToHash(username));
+            //    string charName = DataOperations.hashToName(DataOperations.nameToHash(username));
             //    File dir = new File(Config.MEDIA_DIR + "/" + charName);
             //    if (!dir.exists() || !dir.isDirectory())
             //        dir.mkdir();
-            //    String folder = dir.getPath() + "/";
+            //    string folder = dir.getPath() + "/";
             //    File file = null;
             //    for (int count = 0; file == null || file.exists(); count++)
             //        file = new File(folder + "screenshot" + count + ".png");
@@ -8520,13 +8520,13 @@ namespace RSCXNALib
             return null;
         }
 
-        public bool handleCommand(String command)
+        public bool handleCommand(string command)
         {
             try
             {
                 int firstSpace = command.IndexOf(' ');
-                String cmd = command;
-                string[] args = new String[0];
+                string cmd = command;
+                string[] args = new string[0];
                 if (firstSpace != -1)
                 {
                     cmd = command.Substring(0, firstSpace).Trim();
@@ -8550,7 +8550,7 @@ namespace RSCXNALib
                 if (cmd.Equals("tell"))
                 {
                     long recipient = DataOperations.nameToHash(args[0]);
-                    String message = joinString(args, " ", 1).Trim();
+                    string message = joinString(args, " ", 1).Trim();
                     if (message.Equals(""))
                         return true;
                     int len = ChatMessage.stringToBytes(message);
@@ -8569,15 +8569,15 @@ namespace RSCXNALib
             return false;
         }
 
-        public String joinString(String[] hay, String glue, int start)
+        public string joinString(string[] hay, string glue, int start)
         {
-            String ret = "";
+            string ret = "";
             for (int i = start; i < hay.Length; i++)
                 ret += hay[i] + (i != hay.Length - 1 ? glue : "");
             return ret;
         }
 
-        public String joinString(String[] hay, String glue)
+        public string joinString(string[] hay, string glue)
         {
             return joinString(hay, glue, 0);
         }
@@ -8594,7 +8594,7 @@ namespace RSCXNALib
             cameraFieldOfView = 9;
             showQuestionMenu = false;
             loginScreenShown = false;
-            questionMenuAnswer = new String[10];
+            questionMenuAnswer = new string[10];
             appearanceBodyGender = 1;
             appearance2Colour = 2;
             appearanceHairColour = 2;
@@ -8607,7 +8607,7 @@ namespace RSCXNALib
             playerArray = new Mob[500];
             selectedShopItemIndex = -1;
             selectedShopItemType = -2;
-            menuText1 = new String[250];
+            menuText1 = new string[250];
             isSleeping = false;
             tradeItemsOther = new int[14];
             tradeItemOtherCount = new int[14];
@@ -8634,7 +8634,7 @@ namespace RSCXNALib
             serverMessageBoxTop = false;
             cameraRotationYIncrement = 2;
             wallObjectArray = new GameObject[500];
-            messagesArray = new String[5];
+            messagesArray = new string[5];
             objectAlreadyInMenu = new bool[1500];
             objectArray = new GameObject[1500];
             selectedSpell = -1;
@@ -8713,7 +8713,7 @@ namespace RSCXNALib
             duelOpponentStakeItem = new int[8];
             duelOutStakeItemCount = new int[8];
             equipmentStatus = new int[5];
-            receivedMessages = new String[50];
+            receivedMessages = new string[50];
             cameraRotationXIncrement = 2;
             teleBubbleTime = new int[50];
             gridSize = 128;
@@ -8728,7 +8728,7 @@ namespace RSCXNALib
             memoryError = false;
             duelOurStakeItem = new int[8];
             duelOurStakeItemCount = new int[8];
-            menuText2 = new String[250];
+            menuText2 = new string[250];
             loginUsername = "";
             loginPassword = "";
             duelOpponent = "";
@@ -8753,7 +8753,7 @@ namespace RSCXNALib
             showRoofs = true;
             autoScreenshot = false;
             useChatFilter = true;
-            usedQuestName = new String[0];
+            usedQuestName = new string[0];
             subDaysLeft = 0;
             shopItemSellPrice = new int[256];
             shopItemBuyPrice = new int[256];
@@ -8765,13 +8765,13 @@ namespace RSCXNALib
             //ImageIO.setCacheDirectory(new File(Config.CONF_DIR));
         }
 
-        public String tradeOtherName;
+        public string tradeOtherName;
         public int windowWidth;
         public int windowHeight;
         public int cameraFieldOfView;
         public bool showQuestionMenu;
         public bool loginScreenShown;
-        public String[] questionMenuAnswer;
+        public string[] questionMenuAnswer;
         public int appearanceHeadType;
         public int appearanceBodyGender;
         public int appearance2Colour;
@@ -8810,8 +8810,8 @@ namespace RSCXNALib
     };
         public int selectedShopItemIndex;
         public int selectedShopItemType;
-        public String sleepingStatusText;
-        public String[] menuText1;
+        public string sleepingStatusText;
+        public string[] menuText1;
         public bool isSleeping;
         public int modelFireLightningSpellNumber;
         public int modelTorchNumber;
@@ -8872,7 +8872,7 @@ namespace RSCXNALib
         public int lastPlayerCount;
         public int drawUpdatesPerformed;
         public Mob[] playerBufferArray;
-        public String serverMessage;
+        public string serverMessage;
         public int groundItemCount;
         public bool duelOpponentAccepted;
         public bool duelMyAccepted;
@@ -8888,7 +8888,7 @@ namespace RSCXNALib
         public int itemsAboveHeadCount;
         public AudioReader audioPlayer;
         public GameObject[] wallObjectArray;
-        public String[] messagesArray;
+        public string[] messagesArray;
         public long duelOpponentHash;
         public Menu questMenu;
         int questMenuHandle;
@@ -8897,7 +8897,7 @@ namespace RSCXNALib
         public GameObject[] objectArray;
         public int selectedSpell;
         public bool cameraAutoAngleDebug;
-        public String lastLoginAddress;
+        public string lastLoginAddress;
         public Mob ourPlayer;
         int sectionX;
         int sectionY;
@@ -9019,7 +9019,7 @@ namespace RSCXNALib
         public int[] inventoryItemCount;
         public int[] inventoryItemEquipped;
         public int selectedItem;
-        String selectedItemName;
+        string selectedItemName;
         public Mob[] lastPlayerArray;
         public bool showTradeConfirmBox;
         public bool tradeConfirmAccepted;
@@ -9110,13 +9110,13 @@ namespace RSCXNALib
         int friendsIgnoreMenuSelected;
         long pmTarget;
         public int healthBarVisibleCount;
-        public String[] menuText2;
+        public string[] menuText2;
         public int sleepWordDelayTimer;
         public int mouseButtonHeldTime;
         public int mouseClickedHeldInTradeDuelBox;
-        public String loginUsername;
-        public String loginPassword;
-        public String duelOpponent;
+        public string loginUsername;
+        public string loginPassword;
+        public string duelOpponent;
         public int bankPage;
         public Menu loginMenuFirst;
         public int[] healthBarX;
@@ -9151,7 +9151,7 @@ namespace RSCXNALib
         public bool showRoofs;
         public bool autoScreenshot;
         public bool useChatFilter;
-        public String[] usedQuestName;
+        public string[] usedQuestName;
         public int subDaysLeft;
         public int[] shopItemSellPrice;
         public int[] shopItemBuyPrice;

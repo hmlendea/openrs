@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,7 +32,7 @@ namespace RSCXNALib
         {
         }
 
-        public void createWindow(int width, int height, String title, bool resizable)
+        public void createWindow(int width, int height, string title, bool resizable)
         {
             Console.WriteLine("Started application");
             appletWidth = width;
@@ -437,7 +437,7 @@ namespace RSCXNALib
             GameImage.addFont(DataOperations.loadData("h24b.jf", 0, bytes));
         }
 
-        private void drawLoadingScreen(int percentage, String fileTitle)
+        private void drawLoadingScreen(int percentage, string fileTitle)
         {
             try
             {
@@ -474,7 +474,7 @@ namespace RSCXNALib
             catch (Exception _ex) { }
         }
 
-        public void drawLoadingBarText(int i, String s)
+        public void drawLoadingBarText(int i, string s)
         {
             try
             {
@@ -503,7 +503,7 @@ namespace RSCXNALib
             }
         }
 
-        //public void drawString(String arg1, int arg3, int arg4, Color color)
+        //public void drawString(string arg1, int arg3, int arg4, Color color)
         //{
         //    //Object obj;
         //    //if (gameFrame == null)
@@ -528,7 +528,7 @@ namespace RSCXNALib
         //    //spriteBatch.EndSafe();
         //}
 
-        public virtual sbyte[] unpackData(String filename, String fileTitle, int startPercentage)
+        public virtual sbyte[] unpackData(string filename, string fileTitle, int startPercentage)
         {
 
             Console.WriteLine("Using default load");
@@ -615,12 +615,12 @@ namespace RSCXNALib
             return default(Uri);//super.getDocumentBase();
         }
 
-        public String getParameter(String s)
+        public string getParameter(string s)
         {
             return ""; //super.getParameter(s);
         }
 
-        public TcpClient makeSocket(String address, int port)
+        public TcpClient makeSocket(string address, int port)
         {
             var socket = new TcpClient(address, port);
             socket.SendTimeout = 30000;
@@ -685,8 +685,8 @@ namespace RSCXNALib
         public int mouseYOffset = 0;
         public int gameLoadingScreen;
         public int gameLoadingPercentage;
-        public String gameLoadingFileTitle;
-        public static String allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
+        public string gameLoadingFileTitle;
+        public static string allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
         public bool keyLeftDown;
         public bool keyRightDown;
         public bool keyUpDown;
@@ -699,10 +699,10 @@ namespace RSCXNALib
         public int mouseButton;
         public int lastMouseButton;
         public bool keyF1Toggle;
-        public String inputText;
-        public String enteredInputText;
-        public String pmText;
-        public String enteredPMText;
+        public string inputText;
+        public string enteredInputText;
+        public string pmText;
+        public string enteredPMText;
 
         public static int[][] bgPixels = null;
         public static Texture2D bgImage = null;

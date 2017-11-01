@@ -10,7 +10,7 @@ namespace RSCXNALib.Data
     {
 
         //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-        //ORIGINAL LINE: public static java.io.InputStream openInputStream(String objName) throws java.io.IOException
+        //ORIGINAL LINE: public static java.io.InputStream openInputStream(string objName) throws java.io.IOException
         //public static InputStream openInputStream(string objName)
         //{
         //    object obj;
@@ -26,7 +26,7 @@ namespace RSCXNALib.Data
         //    return ((InputStream)(obj));
         //}
 
-        public static MemoryStream openInputStream(String arg0)
+        public static MemoryStream openInputStream(string arg0)
         {
 
             //return org.moparscape.msc.client.DataOperations.getByte(byte0);
@@ -103,7 +103,7 @@ namespace RSCXNALib.Data
         }
 
         ////JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-        ////ORIGINAL LINE: public static void readFully(String s, byte abyte0[] , int i) throws java.io.IOException
+        ////ORIGINAL LINE: public static void readFully(string s, byte abyte0[] , int i) throws java.io.IOException
         //public static void readFully(string s, sbyte[] abyte0, int i)
         //{
         //    InputStream inputstream = openInputStream(s);

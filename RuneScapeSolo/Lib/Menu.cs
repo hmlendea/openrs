@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,8 +33,8 @@ namespace RSCXNALib
             componentHeight = new int[i];
             copmonentInputMaxLength = new int[i];
             componentTextSize = new int[i];
-            componentText = new String[i];
-            componentTextList = new String[i][];
+            componentText = new string[i];
+            componentTextList = new string[i][];
             scrollBarGradientColorTop = rgbToIntMod(114, 114, 176);
             scrollBarGradientColorBottom = rgbToIntMod(14, 14, 62);
             scrollBarDraggingBarLine1Color = rgbToIntMod(200, 208, 232);
@@ -110,7 +110,7 @@ namespace RSCXNALib
                     componentText[selectedComponent] = componentText[selectedComponent].Substring(0, i - 1);
                 if ((key == Keys.Enter) && i > 0)
                     componentSkip[selectedComponent] = true;
-                String s = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789!\"" + (char)243 + "$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
+                string s = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789!\"" + (char)243 + "$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
                 if (i < copmonentInputMaxLength[selectedComponent])
                 {
                     for (int k = 0; k < s.Length; k++)
@@ -178,13 +178,13 @@ namespace RSCXNALib
             }
         }
 
-        protected void gef(int i, int k, int l, String s, int i1)
+        protected void gef(int i, int k, int l, string s, int i1)
         {
             int j1 = l + gameImage.textHeightNumber(i1) / 3;
             geg(i, k, j1, s, i1);
         }
 
-        protected void geg(int arg0, int arg1, int arg2, String arg3, int arg4)
+        protected void geg(int arg0, int arg1, int arg2, string arg3, int arg4)
         {
             int i;
             if (componentWhiteText[arg0])
@@ -194,7 +194,7 @@ namespace RSCXNALib
             gameImage.drawString(arg3, arg1, arg2, arg4, i);
         }
 
-        protected void drawInputBox(int arg0, int arg1, int arg2, int arg3, int arg4, String arg5, int arg6)
+        protected void drawInputBox(int arg0, int arg1, int arg2, int arg3, int arg4, string arg5, int arg6)
         {
             if (componentIsPasswordField[arg0])
             {
@@ -273,7 +273,7 @@ namespace RSCXNALib
             gameImage.drawLineX(i, k, l, 0);
         }
 
-        protected void gem(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, String[] arg6,
+        protected void gem(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, string[] arg6,
                 int arg7, int arg8)
         {
             int i = arg4 / gameImage.textHeightNumber(arg5);
@@ -344,7 +344,7 @@ namespace RSCXNALib
             gameImage.drawLineY(l1 + 2 + 8, j1 + k + 14, k1, scrollBarDraggingBarLine2Color);// drawgging bar
         }
 
-        protected void gfa(int arg0, int arg1, int arg2, int arg3, String[] arg4)
+        protected void gfa(int arg0, int arg1, int arg2, int arg3, string[] arg4)
         {
             int i = 0;
             int k = arg4.Length;
@@ -387,7 +387,7 @@ namespace RSCXNALib
 
         }
 
-        protected void gfb(int arg0, int arg1, int arg2, int arg3, String[] arg4)
+        protected void gfb(int arg0, int arg1, int arg2, int arg3, string[] arg4)
         {
             int i = arg4.Length;
             int k = arg2 - (gameImage.textHeightNumber(arg3) * (i - 1)) / 2;
@@ -422,7 +422,7 @@ namespace RSCXNALib
 
         }
         // drawList(x, componentX[x], componentY[x], componentWidth[x], componentHeight[x], componentTextSize[x], componentTextList[x], listLength[x], gbc[x]);
-        protected void drawList(int listIndex, int listX, int listY, int listWidth, int listHeight, int listTextSize, String[] listText,
+        protected void drawList(int listIndex, int listX, int listY, int listWidth, int listHeight, int listTextSize, string[] listText,
                 int listLength, int shownEntries)
         {
             int entryCount = listHeight / gameImage.textHeightNumber(listTextSize);
@@ -500,7 +500,7 @@ namespace RSCXNALib
 
         }
 
-        public int drawText(int i, int k, String s, int l, bool flag)
+        public int drawText(int i, int k, string s, int l, bool flag)
         {
             componentType[menuItemsCount] = 1;
             componentAcceptsInput[menuItemsCount] = true;
@@ -566,7 +566,7 @@ namespace RSCXNALib
             copmonentInputMaxLength[menuItemsCount] = k1;
             listLength[menuItemsCount] = 0;
             listShownEntries[menuItemsCount] = 0;
-            componentTextList[menuItemsCount] = new String[k1];
+            componentTextList[menuItemsCount] = new string[k1];
             return menuItemsCount++;
         }
 
@@ -618,7 +618,7 @@ namespace RSCXNALib
             componentWidth[menuItemsCount] = l;
             componentHeight[menuItemsCount] = i1;
             copmonentInputMaxLength[menuItemsCount] = k1;
-            componentTextList[menuItemsCount] = new String[k1];
+            componentTextList[menuItemsCount] = new string[k1];
             listLength[menuItemsCount] = 0;
             listShownEntries[menuItemsCount] = 0;
             gbe[menuItemsCount] = -1;
@@ -649,14 +649,14 @@ namespace RSCXNALib
             gbf[i] = -1;
         }
 
-        public void addListItem(int i, int k, String s)
+        public void addListItem(int i, int k, string s)
         {
             componentTextList[i][k] = s;
             if (k + 1 > listLength[i])
                 listLength[i] = k + 1;
         }
 
-        public void addMessage(int arg0, String arg1, bool arg2)
+        public void addMessage(int arg0, string arg1, bool arg2)
         {
             int i = listLength[arg0]++;
             if (i >= copmonentInputMaxLength[arg0])
@@ -672,12 +672,12 @@ namespace RSCXNALib
                 listShownEntries[arg0] = 0xf423f;
         }
 
-        public void updateText(int i, String s)
+        public void updateText(int i, string s)
         {
             componentText[i] = s;
         }
 
-        public String getText(int i)
+        public string getText(int i)
         {
             if (componentText[i] == null)
                 return "null";
@@ -726,8 +726,8 @@ namespace RSCXNALib
         int[] componentHeight;
         int[] copmonentInputMaxLength;
         int[] componentTextSize;
-        String[] componentText;
-        String[][] componentTextList;
+        string[] componentText;
+        string[][] componentTextList;
         int mouseX;
         int mouseY;
         int lastMouseButton;
