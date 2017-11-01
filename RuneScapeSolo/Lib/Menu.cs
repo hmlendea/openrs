@@ -165,8 +165,8 @@ namespace RSCXNALib
             gameImage.drawBox(x, y, w, h, 0xffffff);
             gameImage.drawLineX(x, y, w, gdc);
             gameImage.drawLineY(x, y, h, gdc);
-			gameImage.drawLineX(x, (y + h) - 1, w, gdf);
-			gameImage.drawLineY((x + w) - 1, y, h, gdf);
+            gameImage.drawLineX(x, (y + h) - 1, w, gdf);
+            gameImage.drawLineY((x + w) - 1, y, h, gdf);
             if (gbe[arg0] == 1)
             {
                 for (int i = 0; i < h; i++)
@@ -211,11 +211,11 @@ namespace RSCXNALib
             }
             else
                 if (componentType[arg0] == 6)
-                {
-                    if (lastMouseButton == 1 && mouseX >= arg1 - arg3 / 2 && mouseY >= arg2 - arg4 / 2 && mouseX <= arg1 + arg3 / 2 && mouseY <= arg2 + arg4 / 2)
-                        selectedComponent = arg0;
-                    arg1 -= gameImage.textWidth(arg5, arg6) / 2;
-                }
+            {
+                if (lastMouseButton == 1 && mouseX >= arg1 - arg3 / 2 && mouseY >= arg2 - arg4 / 2 && mouseX <= arg1 + arg3 / 2 && mouseY <= arg2 + arg4 / 2)
+                    selectedComponent = arg0;
+                arg1 -= gameImage.textWidth(arg5, arg6) / 2;
+            }
             if (selectedComponent == arg0)
                 arg5 = arg5 + "*";
             int k = arg2 + gameImage.textHeightNumber(arg6) / 3;
