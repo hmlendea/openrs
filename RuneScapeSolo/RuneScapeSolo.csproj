@@ -34,6 +34,7 @@
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -65,12 +66,62 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameWindow.cs" />
+    <Compile Include="Face.cs" />
+    <Compile Include="MudclientActionExtensions.cs" />
+    <Compile Include="OB3Model.cs" />
+    <Compile Include="Vertex.cs" />
+    <Compile Include="Primitives\GeometricPrimitive.cs" />
+    <Compile Include="Lib\Config.cs" />
+    <Compile Include="Lib\GameApplet.cs" />
+    <Compile Include="Lib\GameAppletMiddleMan.cs" />
+    <Compile Include="Lib\GameFrame.cs" />
+    <Compile Include="Lib\GameImageMiddleMan.cs" />
+    <Compile Include="Lib\Helper.cs" />
+    <Compile Include="Lib\Link.cs" />
+    <Compile Include="Lib\Menu.cs" />
+    <Compile Include="Lib\mudclient.cs" />
+    <Compile Include="Lib\Data\AudioReader.cs" />
+    <Compile Include="Lib\Data\BZip2BlockEntry.cs" />
+    <Compile Include="Lib\Data\BZip2Decompressor.cs" />
+    <Compile Include="Lib\Data\Data.cs" />
+    <Compile Include="Lib\Data\DataEncryption.cs" />
+    <Compile Include="Lib\Data\DataFileDecrypter.cs" />
+    <Compile Include="Lib\Data\DataFileVariables.cs" />
+    <Compile Include="Lib\Data\DataOperations.cs" />
+    <Compile Include="Lib\Data\RectangularArrays.cs" />
+    <Compile Include="Lib\Extensions\GraphicsDeviceExtensions.cs" />
+    <Compile Include="Lib\Extensions\MemoryStreamExtensions.cs" />
+    <Compile Include="Lib\Game\ChatFilter.cs" />
+    <Compile Include="Lib\Game\ChatMessage.cs" />
+    <Compile Include="Lib\Game\EngineHandle.cs" />
+    <Compile Include="Lib\Game\GameImage.cs" />
+    <Compile Include="Lib\Game\GameObject.cs" />
+    <Compile Include="Lib\Game\Mob.cs" />
+    <Compile Include="Lib\Game\Cameras\Camera.cs" />
+    <Compile Include="Lib\Game\Cameras\CameraModel.cs" />
+    <Compile Include="Lib\Game\Cameras\CameraVariable.cs" />
+    <Compile Include="Lib\Models\Sector.cs" />
+    <Compile Include="Lib\Models\Sprite.cs" />
+    <Compile Include="Lib\Models\Tile.cs" />
+    <Compile Include="Lib\Net\LoginDataEncryption.cs" />
+    <Compile Include="Lib\Net\PacketConstruction.cs" />
+    <Compile Include="Lib\Net\StreamClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuneScapeSolo.Data\RuneScapeSolo.Data.csproj">
       <Project>{1F0B4C1F-5C31-465E-8747-54399762C50A}</Project>
       <Name>RuneScapeSolo.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Primitives\" />
+    <Folder Include="Lib\" />
+    <Folder Include="Lib\Data\" />
+    <Folder Include="Lib\Extensions\" />
+    <Folder Include="Lib\Game\" />
+    <Folder Include="Lib\Models\" />
+    <Folder Include="Lib\Net\" />
+    <Folder Include="Lib\Game\Cameras\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
