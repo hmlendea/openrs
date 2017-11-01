@@ -2,23 +2,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RSCXNALib.Data;
+using RuneScapeSolo.Lib.Data;
 using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace RSCXNALib.Game
+namespace RuneScapeSolo.Lib.Game
 {
 
     public class GameImage  //: org.moparscape.msc.client.GameImage
-    /* implements ImageProducer, ImageObserver */{
+                            /* implements ImageProducer, ImageObserver */
+    {
         // public static Texture2D[] UnpackedImages = new Texture2D[5000];
 
 
 
         public GameImage(int width, int height, int size /*, java.awt.Component destY*/)
         //  : base(_pixels, y, destX, destY)
-        {           
+        {
             interlace = false;
             loggedIn = false;
             imageHeight = height;
@@ -618,7 +619,7 @@ namespace RSCXNALib.Game
             int x;
             try
             {
-                for (x = 0; x < 255; )
+                for (x = 0; x < 255;)
                 {
                     int i1 = spriteData[off++] & 0xff;
                     for (int k1 = 0; k1 < i1; k1++)
@@ -629,7 +630,7 @@ namespace RSCXNALib.Game
 
                 for (int y = 1; y < 40; y++)
                 {
-                    for (int l1 = 0; l1 < 255; )
+                    for (int l1 = 0; l1 < 255;)
                     {
                         int i2 = spriteData[off++] & 0xff;
                         for (int j2 = 0; j2 < i2; j2++)
@@ -759,7 +760,7 @@ namespace RSCXNALib.Game
                     l = 1;
                 else
                     if (l == 0xff00ff)
-                        l = 0;
+                    l = 0;
                 ai1[k] = l;
             }
             //Color[] clrs = new Color[pictureWidth[_pixels] * pictureHeight[_pixels]];
@@ -1556,26 +1557,26 @@ namespace RSCXNALib.Game
                 bnn++;
             else
                 if (arg4 == 128)
-                    cab = arg3;
-                else
-                    caa++;
+                cab = arg3;
+            else
+                caa++;
             int k5 = l3;
             int l5 = l3;
             if (j4 < k5)
                 k5 = j4;
             else
                 if (j4 > l5)
-                    l5 = j4;
+                l5 = j4;
             if (l4 < k5)
                 k5 = l4;
             else
                 if (l4 > l5)
-                    l5 = l4;
+                l5 = l4;
             if (j5 < k5)
                 k5 = j5;
             else
                 if (j5 > l5)
-                    l5 = j5;
+                l5 = j5;
             if (k5 < imageY)
                 k5 = imageY;
             if (l5 > imageHeight)
@@ -2068,9 +2069,9 @@ namespace RSCXNALib.Game
                                     arg0[j4 + arg5] = ((i * i1 >> 8) << 16) + ((k * j1 >> 8) << 8) + (l * k1 >> 8);
                                 else
                                     if (i == 255 && k == l)
-                                        arg0[j4 + arg5] = ((i * l1 >> 8) << 16) + ((k * i2 >> 8) << 8) + (l * j2 >> 8);
-                                    else
-                                        arg0[j4 + arg5] = arg2;
+                                    arg0[j4 + arg5] = ((i * l1 >> 8) << 16) + ((k * i2 >> 8) << 8) + (l * j2 >> 8);
+                                else
+                                    arg0[j4 + arg5] = arg2;
                             }
                             arg3 += arg8;
                         }
@@ -2198,9 +2199,9 @@ namespace RSCXNALib.Game
                                     arg0[j4 + arg6] = ((i * i1 >> 8) << 16) + ((k * j1 >> 8) << 8) + (l * k1 >> 8);
                                 else
                                     if (i == 255 && k == l)
-                                        arg0[j4 + arg6] = ((i * l1 >> 8) << 16) + ((k * i2 >> 8) << 8) + (l * j2 >> 8);
-                                    else
-                                        arg0[j4 + arg6] = arg3;
+                                    arg0[j4 + arg6] = ((i * l1 >> 8) << 16) + ((k * i2 >> 8) << 8) + (l * j2 >> 8);
+                                else
+                                    arg0[j4 + arg6] = arg3;
                             }
                             arg4 += arg9;
                         }
@@ -2383,9 +2384,9 @@ namespace RSCXNALib.Game
                         i1 += 4;
                     else
                         if (arg0[i1] == '~' && i1 + 4 < arg0.Length && arg0[i1 + 4] == '~')
-                            i1 += 4;
-                        else
-                            i += abyte0[bne[arg0[i1]] + 7];
+                        i1 += 4;
+                    else
+                        i += abyte0[bne[arg0[i1]] + 7];
                     if (arg0[i1] == ' ')
                         l = i1;
                     if (arg0[i1] == '%')
@@ -2500,7 +2501,8 @@ namespace RSCXNALib.Game
                             if (c >= '0' && c <= '9' && c1 >= '0' && c1 <= '9' && c2 >= '0' && c2 <= '9')
                                 arg1 = int.Parse(arg0.Substring(i + 1, i + 4));
                             i += 3;
-                        } else if (arg0[i] != '@' && arg0[i] != '~')
+                        }
+                        else if (arg0[i] != '@' && arg0[i] != '~')
                         {
                             int k = bne[arg0[i]];
                             if (loggedIn && !cac[arg3] && arg4 != 0)
@@ -2713,9 +2715,9 @@ namespace RSCXNALib.Game
                     k += 4;
                 else
                     if (arg0[k] == '~' && k + 4 < arg0.Length && arg0[k + 4] == '~')
-                        k += 4;
-                    else
-                        i += abyte0[bne[arg0[k]] + 7];
+                    k += 4;
+                else
+                    i += abyte0[bne[arg0[k]] + 7];
 
             return i;
 

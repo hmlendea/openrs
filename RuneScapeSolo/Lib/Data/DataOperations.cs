@@ -2,7 +2,7 @@ using System.IO;
 using System;
 using System.Net;
 using System.Collections.Generic;
-namespace RSCXNALib.Data
+namespace RuneScapeSolo.Lib.Data
 {
 
 

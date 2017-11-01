@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using RSCXNALib.Game;
-namespace RSCXNALib.Game.Cameras
+using RuneScapeSolo.Lib.Game;
+namespace RuneScapeSolo.Lib.Game.Cameras
 {
 
     public class Camera // : org.moparscape.msc.client.Camera
@@ -626,7 +626,7 @@ namespace RSCXNALib.Game.Cameras
                             bfn[j14] = 0;
                         else
                             if (bfn[j14] > 255)
-                                bfn[j14] = 255;
+                            bfn[j14] = 255;
                         if (l6.currentTextureIndex >= 0)
                             if (bel[l6.currentTextureIndex] == 1)
                                 bfn[j14] <<= 9;
@@ -824,389 +824,389 @@ namespace RSCXNALib.Game.Cameras
             }
             else
                 if (arg4 == 4)
+            {
+                int i1 = arg6[0] + bcm;
+                int i2 = arg6[1] + bcm;
+                int i3 = arg6[2] + bcm;
+                int i4 = arg6[3] + bcm;
+                int j5 = arg5[0];
+                int l6 = arg5[1];
+                int j8 = arg5[2];
+                int l9 = arg5[3];
+                int l10 = arg7[0];
+                int l11 = arg7[1];
+                int j12 = arg7[2];
+                int l12 = arg7[3];
+                int j13 = (bcm + bck) - 1;
+                int l13 = 0;
+                int j14 = 0;
+                int l14 = 0;
+                int j15 = 0;
+                int l15 = 0xbc614e;
+                int j16 = -l15;// 0xff439eb2;
+                if (i4 != i1)
                 {
-                    int i1 = arg6[0] + bcm;
-                    int i2 = arg6[1] + bcm;
-                    int i3 = arg6[2] + bcm;
-                    int i4 = arg6[3] + bcm;
-                    int j5 = arg5[0];
-                    int l6 = arg5[1];
-                    int j8 = arg5[2];
-                    int l9 = arg5[3];
-                    int l10 = arg7[0];
-                    int l11 = arg7[1];
-                    int j12 = arg7[2];
-                    int l12 = arg7[3];
-                    int j13 = (bcm + bck) - 1;
-                    int l13 = 0;
-                    int j14 = 0;
-                    int l14 = 0;
-                    int j15 = 0;
-                    int l15 = 0xbc614e;
-                    int j16 = -l15;// 0xff439eb2;
-                    if (i4 != i1)
+                    j14 = (l9 - j5 << 8) / (i4 - i1);
+                    j15 = (l12 - l10 << 8) / (i4 - i1);
+                    if (i1 < i4)
                     {
-                        j14 = (l9 - j5 << 8) / (i4 - i1);
-                        j15 = (l12 - l10 << 8) / (i4 - i1);
-                        if (i1 < i4)
-                        {
-                            l13 = j5 << 8;
-                            l14 = l10 << 8;
-                            l15 = i1;
-                            j16 = i4;
-                        }
-                        else
-                        {
-                            l13 = l9 << 8;
-                            l14 = l12 << 8;
-                            l15 = i4;
-                            j16 = i1;
-                        }
-                        if (l15 < 0)
-                        {
-                            l13 -= j14 * l15;
-                            l14 -= j15 * l15;
-                            l15 = 0;
-                        }
-                        if (j16 > j13)
-                            j16 = j13;
+                        l13 = j5 << 8;
+                        l14 = l10 << 8;
+                        l15 = i1;
+                        j16 = i4;
                     }
-                    int l16 = 0;
-                    int j17 = 0;
-                    int l17 = 0;
-                    int j18 = 0;
-                    int l18 = 0xbc614e;
-                    int j19 = -l18;//0xff439eb2;
-                    if (i2 != i1)
+                    else
                     {
-                        j17 = (l6 - j5 << 8) / (i2 - i1);
-                        j18 = (l11 - l10 << 8) / (i2 - i1);
-                        if (i1 < i2)
-                        {
-                            l16 = j5 << 8;
-                            l17 = l10 << 8;
-                            l18 = i1;
-                            j19 = i2;
-                        }
-                        else
-                        {
-                            l16 = l6 << 8;
-                            l17 = l11 << 8;
-                            l18 = i2;
-                            j19 = i1;
-                        }
-                        if (l18 < 0)
-                        {
-                            l16 -= j17 * l18;
-                            l17 -= j18 * l18;
-                            l18 = 0;
-                        }
-                        if (j19 > j13)
-                            j19 = j13;
+                        l13 = l9 << 8;
+                        l14 = l12 << 8;
+                        l15 = i4;
+                        j16 = i1;
                     }
-                    int l19 = 0;
-                    int j20 = 0;
-                    int l20 = 0;
-                    int j21 = 0;
-                    int k21 = 0xbc614e;
-                    int l21 = -k21;//0xff439eb2;
-                    if (i3 != i2)
+                    if (l15 < 0)
                     {
-                        j20 = (j8 - l6 << 8) / (i3 - i2);
-                        j21 = (j12 - l11 << 8) / (i3 - i2);
-                        if (i2 < i3)
-                        {
-                            l19 = l6 << 8;
-                            l20 = l11 << 8;
-                            k21 = i2;
-                            l21 = i3;
-                        }
-                        else
-                        {
-                            l19 = j8 << 8;
-                            l20 = j12 << 8;
-                            k21 = i3;
-                            l21 = i2;
-                        }
-                        if (k21 < 0)
-                        {
-                            l19 -= j20 * k21;
-                            l20 -= j21 * k21;
-                            k21 = 0;
-                        }
-                        if (l21 > j13)
-                            l21 = j13;
+                        l13 -= j14 * l15;
+                        l14 -= j15 * l15;
+                        l15 = 0;
                     }
-                    int i22 = 0;
-                    int j22 = 0;
-                    int k22 = 0;
-                    int l22 = 0;
-                    int i23 = 0xbc614e;
-                    int j23 = -i23;//0xff439eb2;
-                    if (i4 != i3)
+                    if (j16 > j13)
+                        j16 = j13;
+                }
+                int l16 = 0;
+                int j17 = 0;
+                int l17 = 0;
+                int j18 = 0;
+                int l18 = 0xbc614e;
+                int j19 = -l18;//0xff439eb2;
+                if (i2 != i1)
+                {
+                    j17 = (l6 - j5 << 8) / (i2 - i1);
+                    j18 = (l11 - l10 << 8) / (i2 - i1);
+                    if (i1 < i2)
                     {
-                        j22 = (l9 - j8 << 8) / (i4 - i3);
-                        l22 = (l12 - j12 << 8) / (i4 - i3);
-                        if (i3 < i4)
-                        {
-                            i22 = j8 << 8;
-                            k22 = j12 << 8;
-                            i23 = i3;
-                            j23 = i4;
-                        }
-                        else
-                        {
-                            i22 = l9 << 8;
-                            k22 = l12 << 8;
-                            i23 = i4;
-                            j23 = i3;
-                        }
-                        if (i23 < 0)
-                        {
-                            i22 -= j22 * i23;
-                            k22 -= l22 * i23;
-                            i23 = 0;
-                        }
-                        if (j23 > j13)
-                            j23 = j13;
+                        l16 = j5 << 8;
+                        l17 = l10 << 8;
+                        l18 = i1;
+                        j19 = i2;
                     }
-                    bfj = l15;
-                    if (l18 < bfj)
-                        bfj = l18;
-                    if (k21 < bfj)
-                        bfj = k21;
-                    if (i23 < bfj)
-                        bfj = i23;
-                    bfk = (int)j16;
-                    if (j19 > bfk)
-                        bfk = (int)j19;
-                    if (l21 > bfk)
-                        bfk = (int)l21;
-                    if (j23 > bfk)
-                        bfk = (int)j23;
-                    int k23 = 0;
-                    for (arg2 = bfj; arg2 < bfk; arg2++)
+                    else
                     {
-                        if (arg2 >= l15 && arg2 < j16)
+                        l16 = l6 << 8;
+                        l17 = l11 << 8;
+                        l18 = i2;
+                        j19 = i1;
+                    }
+                    if (l18 < 0)
+                    {
+                        l16 -= j17 * l18;
+                        l17 -= j18 * l18;
+                        l18 = 0;
+                    }
+                    if (j19 > j13)
+                        j19 = j13;
+                }
+                int l19 = 0;
+                int j20 = 0;
+                int l20 = 0;
+                int j21 = 0;
+                int k21 = 0xbc614e;
+                int l21 = -k21;//0xff439eb2;
+                if (i3 != i2)
+                {
+                    j20 = (j8 - l6 << 8) / (i3 - i2);
+                    j21 = (j12 - l11 << 8) / (i3 - i2);
+                    if (i2 < i3)
+                    {
+                        l19 = l6 << 8;
+                        l20 = l11 << 8;
+                        k21 = i2;
+                        l21 = i3;
+                    }
+                    else
+                    {
+                        l19 = j8 << 8;
+                        l20 = j12 << 8;
+                        k21 = i3;
+                        l21 = i2;
+                    }
+                    if (k21 < 0)
+                    {
+                        l19 -= j20 * k21;
+                        l20 -= j21 * k21;
+                        k21 = 0;
+                    }
+                    if (l21 > j13)
+                        l21 = j13;
+                }
+                int i22 = 0;
+                int j22 = 0;
+                int k22 = 0;
+                int l22 = 0;
+                int i23 = 0xbc614e;
+                int j23 = -i23;//0xff439eb2;
+                if (i4 != i3)
+                {
+                    j22 = (l9 - j8 << 8) / (i4 - i3);
+                    l22 = (l12 - j12 << 8) / (i4 - i3);
+                    if (i3 < i4)
+                    {
+                        i22 = j8 << 8;
+                        k22 = j12 << 8;
+                        i23 = i3;
+                        j23 = i4;
+                    }
+                    else
+                    {
+                        i22 = l9 << 8;
+                        k22 = l12 << 8;
+                        i23 = i4;
+                        j23 = i3;
+                    }
+                    if (i23 < 0)
+                    {
+                        i22 -= j22 * i23;
+                        k22 -= l22 * i23;
+                        i23 = 0;
+                    }
+                    if (j23 > j13)
+                        j23 = j13;
+                }
+                bfj = l15;
+                if (l18 < bfj)
+                    bfj = l18;
+                if (k21 < bfj)
+                    bfj = k21;
+                if (i23 < bfj)
+                    bfj = i23;
+                bfk = (int)j16;
+                if (j19 > bfk)
+                    bfk = (int)j19;
+                if (l21 > bfk)
+                    bfk = (int)l21;
+                if (j23 > bfk)
+                    bfk = (int)j23;
+                int k23 = 0;
+                for (arg2 = bfj; arg2 < bfk; arg2++)
+                {
+                    if (arg2 >= l15 && arg2 < j16)
+                    {
+                        arg0 = (int)(arg1 = l13);
+                        arg3 = k23 = l14;
+                        l13 += j14;
+                        l14 += j15;
+                    }
+                    else
+                    {
+                        arg0 = 0xa0000;
+                        arg1 = unchecked((int)0xfff60000);//0xfff60000;
+                    }
+                    if (arg2 >= l18 && arg2 < j19)
+                    {
+                        if (l16 < arg0)
                         {
-                            arg0 = (int)(arg1 = l13);
-                            arg3 = k23 = l14;
-                            l13 += j14;
-                            l14 += j15;
+                            arg0 = l16;
+                            arg3 = l17;
                         }
-                        else
+                        if (l16 > arg1)
                         {
-                            arg0 = 0xa0000;
-                            arg1 = unchecked((int)0xfff60000);//0xfff60000;
+                            arg1 = l16;
+                            k23 = l17;
                         }
-                        if (arg2 >= l18 && arg2 < j19)
+                        l16 += j17;
+                        l17 += j18;
+                    }
+                    if (arg2 >= k21 && arg2 < l21)
+                    {
+                        if (l19 < arg0)
                         {
-                            if (l16 < arg0)
-                            {
-                                arg0 = l16;
-                                arg3 = l17;
-                            }
-                            if (l16 > arg1)
-                            {
-                                arg1 = l16;
-                                k23 = l17;
-                            }
-                            l16 += j17;
-                            l17 += j18;
+                            arg0 = l19;
+                            arg3 = l20;
                         }
-                        if (arg2 >= k21 && arg2 < l21)
+                        if (l19 > arg1)
                         {
-                            if (l19 < arg0)
-                            {
-                                arg0 = l19;
-                                arg3 = l20;
-                            }
-                            if (l19 > arg1)
-                            {
-                                arg1 = l19;
-                                k23 = l20;
-                            }
-                            l19 += j20;
-                            l20 += j21;
+                            arg1 = l19;
+                            k23 = l20;
                         }
-                        if (arg2 >= i23 && arg2 < j23)
+                        l19 += j20;
+                        l20 += j21;
+                    }
+                    if (arg2 >= i23 && arg2 < j23)
+                    {
+                        if (i22 < arg0)
                         {
-                            if (i22 < arg0)
-                            {
-                                arg0 = i22;
-                                arg3 = k22;
-                            }
-                            if (i22 > arg1)
-                            {
-                                arg1 = i22;
-                                k23 = k22;
-                            }
-                            i22 += j22;
-                            k22 += l22;
+                            arg0 = i22;
+                            arg3 = k22;
                         }
-                        CameraVariable m8 = bfi[arg2];
-                        m8.flm = arg0;
-                        m8.fln = arg1;
-                        m8.fma = arg3;
-                        m8.fmb = k23;
+                        if (i22 > arg1)
+                        {
+                            arg1 = i22;
+                            k23 = k22;
+                        }
+                        i22 += j22;
+                        k22 += l22;
+                    }
+                    CameraVariable m8 = bfi[arg2];
+                    m8.flm = arg0;
+                    m8.fln = arg1;
+                    m8.fma = arg3;
+                    m8.fmb = k23;
+                }
+
+                if (bfj < bcm - bck)
+                    bfj = bcm - bck;
+            }
+            else
+            {
+                bfk = bfj = arg6[0] += bcm;
+                for (arg2 = 1; arg2 < arg4; arg2++)
+                {
+                    int j1;
+                    if ((j1 = arg6[arg2] += bcm) < bfj)
+                        bfj = j1;
+                    else
+                        if (j1 > bfk)
+                        bfk = j1;
+                }
+
+                if (bfj < bcm - bck)
+                    bfj = bcm - bck;
+                if (bfk >= bcm + bck)
+                    bfk = (bcm + bck) - 1;
+                if (bfj >= bfk)
+                    return;
+                for (arg2 = bfj; arg2 < bfk; arg2++)
+                {
+                    CameraVariable m1 = bfi[arg2];
+                    m1.flm = 0xa0000;
+                    m1.fln = unchecked((int)0xfff60000);//0xfff60000;
+                }
+
+                int k1 = arg4 - 1;
+                int j2 = arg6[0];
+                int j3 = arg6[k1];
+                if (j2 < j3)
+                {
+                    int j4 = (arg5[0] << 8);
+                    int k5 = ((arg5[k1] - arg5[0]) << 8) / (j3 - j2);
+                    int i7 = (arg7[0] << 8);
+                    int k8 = ((arg7[k1] - arg7[0]) << 8) / (j3 - j2);
+                    if (j2 < 0)
+                    {
+                        j4 -= k5 * j2;
+                        i7 -= k8 * j2;
+                        j2 = 0;
+                    }
+                    if (j3 > bfk)
+                        j3 = bfk;
+                    for (arg2 = j2; arg2 <= j3; arg2++)
+                    {
+                        CameraVariable m3 = bfi[arg2];
+                        m3.flm = m3.fln = j4;
+                        m3.fma = m3.fmb = i7;
+                        j4 += k5;
+                        i7 += k8;
                     }
 
-                    if (bfj < bcm - bck)
-                        bfj = bcm - bck;
                 }
                 else
+                    if (j2 > j3)
                 {
-                    bfk = bfj = arg6[0] += bcm;
-                    for (arg2 = 1; arg2 < arg4; arg2++)
+                    int k4 = arg5[k1] << 8;
+                    int l5 = (arg5[0] - arg5[k1] << 8) / (j2 - j3);
+                    int j7 = arg7[k1] << 8;
+                    int l8 = (arg7[0] - arg7[k1] << 8) / (j2 - j3);
+                    if (j3 < 0)
                     {
-                        int j1;
-                        if ((j1 = arg6[arg2] += bcm) < bfj)
-                            bfj = j1;
-                        else
-                            if (j1 > bfk)
-                                bfk = j1;
+                        k4 -= l5 * j3;
+                        j7 -= l8 * j3;
+                        j3 = 0;
+                    }
+                    if (j2 > bfk)
+                        j2 = bfk;
+                    for (arg2 = j3; arg2 <= j2; arg2++)
+                    {
+                        CameraVariable m4 = bfi[arg2];
+                        m4.flm = m4.fln = k4;
+                        m4.fma = m4.fmb = j7;
+                        k4 += l5;
+                        j7 += l8;
                     }
 
-                    if (bfj < bcm - bck)
-                        bfj = bcm - bck;
-                    if (bfk >= bcm + bck)
-                        bfk = (bcm + bck) - 1;
-                    if (bfj >= bfk)
-                        return;
-                    for (arg2 = bfj; arg2 < bfk; arg2++)
+                }
+                for (arg2 = 0; arg2 < k1; arg2++)
+                {
+                    int l4 = arg2 + 1;
+                    int k2 = arg6[arg2];
+                    int k3 = arg6[l4];
+                    if (k2 < k3)
                     {
-                        CameraVariable m1 = bfi[arg2];
-                        m1.flm = 0xa0000;
-                        m1.fln = unchecked((int)0xfff60000);//0xfff60000;
-                    }
-
-                    int k1 = arg4 - 1;
-                    int j2 = arg6[0];
-                    int j3 = arg6[k1];
-                    if (j2 < j3)
-                    {
-                        int j4 = (arg5[0] << 8);
-                        int k5 = ((arg5[k1] - arg5[0]) << 8) / (j3 - j2);
-                        int i7 = (arg7[0] << 8);
-                        int k8 = ((arg7[k1] - arg7[0]) << 8) / (j3 - j2);
-                        if (j2 < 0)
+                        int i6 = arg5[arg2] << 8;
+                        int k7 = (arg5[l4] - arg5[arg2] << 8) / (k3 - k2);
+                        int i9 = arg7[arg2] << 8;
+                        int i10 = (arg7[l4] - arg7[arg2] << 8) / (k3 - k2);
+                        if (k2 < 0)
                         {
-                            j4 -= k5 * j2;
-                            i7 -= k8 * j2;
-                            j2 = 0;
+                            i6 -= k7 * k2;
+                            i9 -= i10 * k2;
+                            k2 = 0;
                         }
-                        if (j3 > bfk)
-                            j3 = bfk;
-                        for (arg2 = j2; arg2 <= j3; arg2++)
+                        if (k3 > bfk)
+                            k3 = bfk;
+                        for (int i11 = k2; i11 <= k3; i11++)
                         {
-                            CameraVariable m3 = bfi[arg2];
-                            m3.flm = m3.fln = j4;
-                            m3.fma = m3.fmb = i7;
-                            j4 += k5;
-                            i7 += k8;
+                            CameraVariable m5 = bfi[i11];
+                            if (i6 < m5.flm)
+                            {
+                                m5.flm = i6;
+                                m5.fma = i9;
+                            }
+                            if (i6 > m5.fln)
+                            {
+                                m5.fln = i6;
+                                m5.fmb = i9;
+                            }
+                            i6 += k7;
+                            i9 += i10;
                         }
 
                     }
                     else
-                        if (j2 > j3)
-                        {
-                            int k4 = arg5[k1] << 8;
-                            int l5 = (arg5[0] - arg5[k1] << 8) / (j2 - j3);
-                            int j7 = arg7[k1] << 8;
-                            int l8 = (arg7[0] - arg7[k1] << 8) / (j2 - j3);
-                            if (j3 < 0)
-                            {
-                                k4 -= l5 * j3;
-                                j7 -= l8 * j3;
-                                j3 = 0;
-                            }
-                            if (j2 > bfk)
-                                j2 = bfk;
-                            for (arg2 = j3; arg2 <= j2; arg2++)
-                            {
-                                CameraVariable m4 = bfi[arg2];
-                                m4.flm = m4.fln = k4;
-                                m4.fma = m4.fmb = j7;
-                                k4 += l5;
-                                j7 += l8;
-                            }
-
-                        }
-                    for (arg2 = 0; arg2 < k1; arg2++)
+                        if (k2 > k3)
                     {
-                        int l4 = arg2 + 1;
-                        int k2 = arg6[arg2];
-                        int k3 = arg6[l4];
-                        if (k2 < k3)
+                        int j6 = arg5[l4] << 8;
+                        int l7 = (arg5[arg2] - arg5[l4] << 8) / (k2 - k3);
+                        int j9 = arg7[l4] << 8;
+                        int j10 = (arg7[arg2] - arg7[l4] << 8) / (k2 - k3);
+                        if (k3 < 0)
                         {
-                            int i6 = arg5[arg2] << 8;
-                            int k7 = (arg5[l4] - arg5[arg2] << 8) / (k3 - k2);
-                            int i9 = arg7[arg2] << 8;
-                            int i10 = (arg7[l4] - arg7[arg2] << 8) / (k3 - k2);
-                            if (k2 < 0)
-                            {
-                                i6 -= k7 * k2;
-                                i9 -= i10 * k2;
-                                k2 = 0;
-                            }
-                            if (k3 > bfk)
-                                k3 = bfk;
-                            for (int i11 = k2; i11 <= k3; i11++)
-                            {
-                                CameraVariable m5 = bfi[i11];
-                                if (i6 < m5.flm)
-                                {
-                                    m5.flm = i6;
-                                    m5.fma = i9;
-                                }
-                                if (i6 > m5.fln)
-                                {
-                                    m5.fln = i6;
-                                    m5.fmb = i9;
-                                }
-                                i6 += k7;
-                                i9 += i10;
-                            }
-
+                            j6 -= l7 * k3;
+                            j9 -= j10 * k3;
+                            k3 = 0;
                         }
-                        else
-                            if (k2 > k3)
+                        if (k2 > bfk)
+                            k2 = bfk;
+                        for (int j11 = k3; j11 <= k2; j11++)
+                        {
+                            CameraVariable m6 = bfi[j11];
+                            if (j6 < m6.flm)
                             {
-                                int j6 = arg5[l4] << 8;
-                                int l7 = (arg5[arg2] - arg5[l4] << 8) / (k2 - k3);
-                                int j9 = arg7[l4] << 8;
-                                int j10 = (arg7[arg2] - arg7[l4] << 8) / (k2 - k3);
-                                if (k3 < 0)
-                                {
-                                    j6 -= l7 * k3;
-                                    j9 -= j10 * k3;
-                                    k3 = 0;
-                                }
-                                if (k2 > bfk)
-                                    k2 = bfk;
-                                for (int j11 = k3; j11 <= k2; j11++)
-                                {
-                                    CameraVariable m6 = bfi[j11];
-                                    if (j6 < m6.flm)
-                                    {
-                                        m6.flm = j6;
-                                        m6.fma = j9;
-                                    }
-                                    if (j6 > m6.fln)
-                                    {
-                                        m6.fln = j6;
-                                        m6.fmb = j9;
-                                    }
-                                    j6 += l7;
-                                    j9 += j10;
-                                }
-
+                                m6.flm = j6;
+                                m6.fma = j9;
                             }
-                    }
+                            if (j6 > m6.fln)
+                            {
+                                m6.fln = j6;
+                                m6.fmb = j9;
+                            }
+                            j6 += l7;
+                            j9 += j10;
+                        }
 
-                    if (bfj < bcm - bck)
-                        bfj = bcm - bck;
+                    }
                 }
+
+                if (bfj < bcm - bck)
+                    bfj = bcm - bck;
+            }
             if (bcb && bce < maxHighlightedObjects && bcd >= bfj && bcd < bfk)
             {
                 CameraVariable m2 = bfi[bcd];
@@ -1707,7 +1707,7 @@ namespace RSCXNALib.Game.Cameras
                 arg2 = 0;
             else
                 if (arg2 > 16256)
-                    arg2 = 16256;
+                arg2 = 16256;
             arg4 += arg7;
             arg5 += arg8;
             arg6 += arg9;
@@ -1720,7 +1720,7 @@ namespace RSCXNALib.Game.Cameras
                 k = 0;
             else
                 if (k > 16256)
-                    k = 16256;
+                k = 16256;
             int j1 = k - arg2 >> 4;
             int k1 = i1 - arg3 >> 4;
             for (int i2 = arg10 >> 4; i2 > 0; i2--)
@@ -1797,7 +1797,7 @@ namespace RSCXNALib.Game.Cameras
                     k = 0;
                 else
                     if (k > 16256)
-                        k = 16256;
+                    k = 16256;
                 j1 = k - arg2 >> 4;
                 k1 = i1 - arg3 >> 4;
             }
@@ -1834,7 +1834,7 @@ namespace RSCXNALib.Game.Cameras
                 arg2 = 0;
             else
                 if (arg2 > 16256)
-                    arg2 = 16256;
+                arg2 = 16256;
             arg4 += arg7;
             arg5 += arg8;
             arg6 += arg9;
@@ -1847,7 +1847,7 @@ namespace RSCXNALib.Game.Cameras
                 k = 0;
             else
                 if (k > 16256)
-                    k = 16256;
+                k = 16256;
             int j1 = k - arg2 >> 4;
             int k1 = i1 - arg3 >> 4;
             for (int i2 = arg10 >> 4; i2 > 0; i2--)
@@ -1924,7 +1924,7 @@ namespace RSCXNALib.Game.Cameras
                     k = 0;
                 else
                     if (k > 16256)
-                        k = 16256;
+                    k = 16256;
                 j1 = k - arg2 >> 4;
                 k1 = i1 - arg3 >> 4;
             }
@@ -1961,7 +1961,7 @@ namespace RSCXNALib.Game.Cameras
                 k = 0;
             else
                 if (k > 16256)
-                    k = 16256;
+                k = 16256;
             for (int l1 = arg11; l1 > 0; l1 -= 16)
             {
                 arg5 += arg8;
@@ -1978,7 +1978,7 @@ namespace RSCXNALib.Game.Cameras
                     k = 0;
                 else
                     if (k > 16256)
-                        k = 16256;
+                    k = 16256;
                 int j1 = k - arg2 >> 4;
                 int k1 = i1 - arg3 >> 4;
                 int i2 = arg13 >> 23;
@@ -2113,7 +2113,7 @@ namespace RSCXNALib.Game.Cameras
                 k = 0;
             else
                 if (k > 4032)
-                    k = 4032;
+                k = 4032;
             for (int l1 = arg10; l1 > 0; l1 -= 16)
             {
                 arg4 += arg7;
@@ -2130,7 +2130,7 @@ namespace RSCXNALib.Game.Cameras
                     k = 0;
                 else
                     if (k > 4032)
-                        k = 4032;
+                    k = 4032;
                 int j1 = k - arg2 >> 4;
                 int k1 = i1 - arg3 >> 4;
                 int i2 = arg12 >> 20;
@@ -2231,7 +2231,7 @@ namespace RSCXNALib.Game.Cameras
                 k = 0;
             else
                 if (k > 4032)
-                    k = 4032;
+                k = 4032;
             for (int l1 = arg10; l1 > 0; l1 -= 16)
             {
                 arg4 += arg7;
@@ -2248,7 +2248,7 @@ namespace RSCXNALib.Game.Cameras
                     k = 0;
                 else
                     if (k > 4032)
-                        k = 4032;
+                    k = 4032;
                 int j1 = k - arg2 >> 4;
                 int k1 = i1 - arg3 >> 4;
                 int i2 = arg12 >> 20;
@@ -2349,7 +2349,7 @@ namespace RSCXNALib.Game.Cameras
                 k = 0;
             else
                 if (k > 4032)
-                    k = 4032;
+                k = 4032;
             for (int l1 = arg11; l1 > 0; l1 -= 16)
             {
                 arg5 += arg8;
@@ -2366,7 +2366,7 @@ namespace RSCXNALib.Game.Cameras
                     k = 0;
                 else
                     if (k > 4032)
-                        k = 4032;
+                    k = 4032;
                 int j1 = k - arg2 >> 4;
                 int k1 = i1 - arg3 >> 4;
                 int i2 = arg13 >> 20;
@@ -2720,19 +2720,19 @@ namespace RSCXNALib.Game.Cameras
                     k5 = i2;
                 else
                     if (i2 < j5)
-                        j5 = i2;
+                    j5 = i2;
                 i2 = k.cfl[ai[l6]];
                 if (i2 > i6)
                     i6 = i2;
                 else
                     if (i2 < l5)
-                        l5 = i2;
+                    l5 = i2;
                 i2 = k.cfm[ai[l6]];
                 if (i2 > k6)
                     k6 = i2;
                 else
                     if (i2 < j6)
-                        j6 = i2;
+                    j6 = i2;
             }
 
             l1.bkh = j5;
@@ -2776,19 +2776,19 @@ namespace RSCXNALib.Game.Cameras
                 k3 = j1;
             else
                 if (j1 < j3)
-                    j3 = j1;
+                j3 = j1;
             j1 = k.cfl[faceVertices[1]];
             if (j1 > i4)
                 i4 = j1;
             else
                 if (j1 < l3)
-                    l3 = j1;
+                l3 = j1;
             j1 = k.cfm[faceVertices[1]];
             if (j1 > k4)
                 k4 = j1;
             else
                 if (j1 < j4)
-                    j4 = j1;
+                j4 = j1;
             l1.bkh = j3;
             l1.bki = k3;
             l1.bkd = l3 - 20;
@@ -3228,7 +3228,7 @@ namespace RSCXNALib.Game.Cameras
                 }
                 else
                     if (arg1[l21] > j21)
-                        j21 = arg1[l21];
+                    j21 = arg1[l21];
 
             for (int i22 = 1; i22 < i1; i22++)
                 if (arg3[i22] < i21)
@@ -3238,7 +3238,7 @@ namespace RSCXNALib.Game.Cameras
                 }
                 else
                     if (arg3[i22] > k21)
-                        k21 = arg3[i22];
+                    k21 = arg3[i22];
 
             if (i21 >= j21)
                 return false;
@@ -3309,83 +3309,83 @@ namespace RSCXNALib.Game.Cameras
                     }
                     else
                         if (arg3[l1] < arg3[i2])
-                        {
-                            int j3 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[l1]);
-                            int i8 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[l1]);
-                            int k12 = arg2[l1];
-                            int j17 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg3[l1]);
-                            if (bka(j3, i8, k12, j17, flag))
-                                return true;
-                            l1 = ((l1 - 1) + i1) % i1;
-                            if (l1 == i2)
-                                byte0 = 2;
-                        }
-                        else
-                        {
-                            int k3 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[i2]);
-                            int j8 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[i2]);
-                            int l12 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
-                            int k17 = arg2[i2];
-                            if (bka(k3, j8, l12, k17, flag))
-                                return true;
-                            i2 = (i2 + 1) % i1;
-                            if (l1 == i2)
-                                byte0 = 2;
-                        }
+                    {
+                        int j3 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[l1]);
+                        int i8 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[l1]);
+                        int k12 = arg2[l1];
+                        int j17 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg3[l1]);
+                        if (bka(j3, i8, k12, j17, flag))
+                            return true;
+                        l1 = ((l1 - 1) + i1) % i1;
+                        if (l1 == i2)
+                            byte0 = 2;
+                    }
+                    else
+                    {
+                        int k3 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[i2]);
+                        int j8 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[i2]);
+                        int l12 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
+                        int k17 = arg2[i2];
+                        if (bka(k3, j8, l12, k17, flag))
+                            return true;
+                        i2 = (i2 + 1) % i1;
+                        if (l1 == i2)
+                            byte0 = 2;
+                    }
                 }
                 else
                     if (arg1[k1] < arg3[l1])
+                {
+                    if (arg1[k1] < arg3[i2])
                     {
-                        if (arg1[k1] < arg3[i2])
-                        {
-                            int l3 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg1[k1]);
-                            int k8 = arg0[k1];
-                            int i13 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[k1]);
-                            int l17 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[k1]);
-                            if (bka(l3, k8, i13, l17, flag))
-                                return true;
-                            k1 = (k1 + 1) % k;
-                            if (j1 == k1)
-                                byte0 = 1;
-                        }
-                        else
-                        {
-                            int i4 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[i2]);
-                            int l8 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[i2]);
-                            int j13 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
-                            int i18 = arg2[i2];
-                            if (bka(i4, l8, j13, i18, flag))
-                                return true;
-                            i2 = (i2 + 1) % i1;
-                            if (l1 == i2)
-                                byte0 = 2;
-                        }
+                        int l3 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg1[k1]);
+                        int k8 = arg0[k1];
+                        int i13 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[k1]);
+                        int l17 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[k1]);
+                        if (bka(l3, k8, i13, l17, flag))
+                            return true;
+                        k1 = (k1 + 1) % k;
+                        if (j1 == k1)
+                            byte0 = 1;
                     }
                     else
+                    {
+                        int i4 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[i2]);
+                        int l8 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[i2]);
+                        int j13 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
+                        int i18 = arg2[i2];
+                        if (bka(i4, l8, j13, i18, flag))
+                            return true;
+                        i2 = (i2 + 1) % i1;
+                        if (l1 == i2)
+                            byte0 = 2;
+                    }
+                }
+                else
                         if (arg3[l1] < arg3[i2])
-                        {
-                            int j4 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[l1]);
-                            int i9 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[l1]);
-                            int k13 = arg2[l1];
-                            int j18 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg3[l1]);
-                            if (bka(j4, i9, k13, j18, flag))
-                                return true;
-                            l1 = ((l1 - 1) + i1) % i1;
-                            if (l1 == i2)
-                                byte0 = 2;
-                        }
-                        else
-                        {
-                            int k4 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[i2]);
-                            int j9 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[i2]);
-                            int l13 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
-                            int k18 = arg2[i2];
-                            if (bka(k4, j9, l13, k18, flag))
-                                return true;
-                            i2 = (i2 + 1) % i1;
-                            if (l1 == i2)
-                                byte0 = 2;
-                        }
+                {
+                    int j4 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[l1]);
+                    int i9 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[l1]);
+                    int k13 = arg2[l1];
+                    int j18 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg3[l1]);
+                    if (bka(j4, i9, k13, j18, flag))
+                        return true;
+                    l1 = ((l1 - 1) + i1) % i1;
+                    if (l1 == i2)
+                        byte0 = 2;
+                }
+                else
+                {
+                    int k4 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[i2]);
+                    int j9 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[i2]);
+                    int l13 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
+                    int k18 = arg2[i2];
+                    if (bka(k4, j9, l13, k18, flag))
+                        return true;
+                    i2 = (i2 + 1) % i1;
+                    if (l1 == i2)
+                        byte0 = 2;
+                }
             while (byte0 == 1)
                 if (arg1[j1] < arg3[l1])
                 {
@@ -3408,29 +3408,29 @@ namespace RSCXNALib.Game.Cameras
                 }
                 else
                     if (arg3[l1] < arg3[i2])
-                    {
-                        int j5 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[l1]);
-                        int l9 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[l1]);
-                        int k14 = arg2[l1];
-                        int j19 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg3[l1]);
-                        if (bka(j5, l9, k14, j19, flag))
-                            return true;
-                        l1 = ((l1 - 1) + i1) % i1;
-                        if (l1 == i2)
-                            byte0 = 0;
-                    }
-                    else
-                    {
-                        int k5 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[i2]);
-                        int i10 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[i2]);
-                        int l14 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
-                        int k19 = arg2[i2];
-                        if (bka(k5, i10, l14, k19, flag))
-                            return true;
-                        i2 = (i2 + 1) % i1;
-                        if (l1 == i2)
-                            byte0 = 0;
-                    }
+                {
+                    int j5 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[l1]);
+                    int l9 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[l1]);
+                    int k14 = arg2[l1];
+                    int j19 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg3[l1]);
+                    if (bka(j5, l9, k14, j19, flag))
+                        return true;
+                    l1 = ((l1 - 1) + i1) % i1;
+                    if (l1 == i2)
+                        byte0 = 0;
+                }
+                else
+                {
+                    int k5 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[i2]);
+                    int i10 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[i2]);
+                    int l14 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
+                    int k19 = arg2[i2];
+                    if (bka(k5, i10, l14, k19, flag))
+                        return true;
+                    i2 = (i2 + 1) % i1;
+                    if (l1 == i2)
+                        byte0 = 0;
+                }
             while (byte0 == 2)
                 if (arg3[l1] < arg1[j1])
                 {
@@ -3453,29 +3453,29 @@ namespace RSCXNALib.Game.Cameras
                 }
                 else
                     if (arg1[j1] < arg1[k1])
-                    {
-                        int j6 = arg0[j1];
-                        int l10 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg1[j1]);
-                        int k15 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[j1]);
-                        int i20 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[j1]);
-                        if (bka(j6, l10, k15, i20, flag))
-                            return true;
-                        j1 = ((j1 - 1) + k) % k;
-                        if (j1 == k1)
-                            byte0 = 0;
-                    }
-                    else
-                    {
-                        int k6 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg1[k1]);
-                        int i11 = arg0[k1];
-                        int l15 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[k1]);
-                        int j20 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[k1]);
-                        if (bka(k6, i11, l15, j20, flag))
-                            return true;
-                        k1 = (k1 + 1) % k;
-                        if (j1 == k1)
-                            byte0 = 0;
-                    }
+                {
+                    int j6 = arg0[j1];
+                    int l10 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg1[j1]);
+                    int k15 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[j1]);
+                    int i20 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[j1]);
+                    if (bka(j6, l10, k15, i20, flag))
+                        return true;
+                    j1 = ((j1 - 1) + k) % k;
+                    if (j1 == k1)
+                        byte0 = 0;
+                }
+                else
+                {
+                    int k6 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg1[k1]);
+                    int i11 = arg0[k1];
+                    int l15 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[k1]);
+                    int j20 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[k1]);
+                    if (bka(k6, i11, l15, j20, flag))
+                        return true;
+                    k1 = (k1 + 1) % k;
+                    if (j1 == k1)
+                        byte0 = 0;
+                }
             if (arg1[j1] < arg3[l1])
             {
                 int l6 = arg0[j1];

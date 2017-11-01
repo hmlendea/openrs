@@ -2,7 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace RSCXNALib.Net
+namespace RuneScapeSolo.Lib.Net
 {
     public class LoginDataEncryption
     {

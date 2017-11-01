@@ -9,10 +9,10 @@ using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using RSCXNALib.Data;
-using RSCXNALib.Game;
+using RuneScapeSolo.Lib.Data;
+using RuneScapeSolo.Lib.Game;
 
-namespace RSCXNALib
+namespace RuneScapeSolo.Lib
 {
     public class GameApplet// : java.applet.Applet
     {
@@ -552,13 +552,13 @@ namespace RSCXNALib
                     i = ((abyte2[0] & 0xff) << 16) + ((abyte2[1] & 0xff) << 8) + (abyte2[2] & 0xff);
                     k = ((abyte2[3] & 0xff) << 16) + ((abyte2[4] & 0xff) << 8) + (abyte2[5] & 0xff);
 
-					
+
 
                     Console.WriteLine("Loading " + fileTitle + " - 5%");
                     drawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 5%");
 #warning this could break stuff
-					// int l = 0;
-					int l = 6;
+                    // int l = 0;
+                    int l = 6;
                     abyte0 = new sbyte[k];
                     while (l < k)
                     {

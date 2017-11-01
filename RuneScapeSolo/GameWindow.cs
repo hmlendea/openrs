@@ -7,8 +7,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using RSCXNALib;
-using RSCXNA.Primitives;
+using RuneScapeSolo.Lib;
+using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo
 {
@@ -332,7 +332,7 @@ namespace RuneScapeSolo
                                 var g = bytes[1];
                                 var b = bytes[0];
 
-                                colors[j] = RSCXNALib.Game.GameImage.rgbaToUInt(r, g, b, 255);//new Color(r, g, b, 255).PackedValue;                            
+                                colors[j] = RuneScapeSolo.Lib.Game.GameImage.rgbaToUInt(r, g, b, 255);//new Color(r, g, b, 255).PackedValue;                            
                                 //colors.Add();
                             }
 

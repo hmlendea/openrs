@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using RSCXNALib.Data;
-using RSCXNALib.Game;
-using RSCXNALib.Game.Cameras;
+using RuneScapeSolo.Lib.Data;
+using RuneScapeSolo.Lib.Game;
+using RuneScapeSolo.Lib.Game.Cameras;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -14,7 +14,7 @@ using System.Drawing;
 using Color = Microsoft.Xna.Framework.Color;
 using System.ComponentModel;
 using System.Runtime.Remoting.Messaging;
-namespace RSCXNALib
+namespace RuneScapeSolo.Lib
 {
 
     public class ContentLoadedEventArgs : EventArgs
@@ -839,13 +839,13 @@ namespace RSCXNALib
             }
             else
                 if (f1.currentSprite == 9)
-                {
-                    direction2 = 5;
-                    direction = 2;
-                    flag = true;
-                    x += (5 * arg6) / 100;
-                    j1 = direction2 * 3 + combatModelArray2[(tick / 6) % 8];
-                }
+            {
+                direction2 = 5;
+                direction = 2;
+                flag = true;
+                x += (5 * arg6) / 100;
+                j1 = direction2 * 3 + combatModelArray2[(tick / 6) % 8];
+            }
             for (int k1 = 0; k1 < 12; k1++)
             {
                 int l1 = animationModelArray[direction][k1];
@@ -909,10 +909,10 @@ namespace RSCXNALib
                             i5 = appearanceHairColours[f1.hairColour];
                         else
                             if (i5 == 2)
-                                i5 = appearanceTopBottomColours[f1.topColour];
-                            else
+                            i5 = appearanceTopBottomColours[f1.topColour];
+                        else
                                 if (i5 == 3)
-                                    i5 = appearanceTopBottomColours[f1.bottomColour];
+                            i5 = appearanceTopBottomColours[f1.bottomColour];
                         gameGraphics.drawImage(x + k3, y + i4, l4, height, k4, i5, j5, arg5, flag);
                     }
                 }
@@ -944,7 +944,7 @@ namespace RSCXNALib
                         i2 -= (20 * arg6) / 100;
                     else
                         if (f1.currentSprite == 9)
-                            i2 += (20 * arg6) / 100;
+                        i2 += (20 * arg6) / 100;
                     int i3 = (f1.currentHits * 30) / f1.baseHits;
                     healthBarX[healthBarVisibleCount] = i2 + width / 2;
                     healthBarY[healthBarVisibleCount] = y;
@@ -957,7 +957,7 @@ namespace RSCXNALib
                         j2 -= (10 * arg6) / 100;
                     else
                         if (f1.currentSprite == 9)
-                            j2 += (10 * arg6) / 100;
+                        j2 += (10 * arg6) / 100;
                     gameGraphics.drawPicture((j2 + width / 2) - 12, (y + height / 2) - 12, baseInventoryPic + 11);
                     gameGraphics.drawText(f1.lastDamageCount.ToString(), (j2 + width / 2) - 1, y + height / 2 + 5, 3, 0xffffff);
                 }
@@ -969,7 +969,7 @@ namespace RSCXNALib
                     k2 -= (20 * arg6) / 100;
                 else
                     if (f1.currentSprite == 9)
-                        k2 += (20 * arg6) / 100;
+                    k2 += (20 * arg6) / 100;
                 int j3 = (16 * arg6) / 100;
                 int l3 = (16 * arg6) / 100;
                 gameGraphics.drawEntity(k2 - j3 / 2, y - l3 / 2 - (10 * arg6) / 100, j3, l3, baseInventoryPic + 13);
@@ -1181,16 +1181,16 @@ namespace RSCXNALib
                         }
                         else
                             if (Data.Data.itemIsEquippable[l2] != 0)
-                            {
-                                if ((Data.Data.itemIsEquippable[l2] & 0x18) != 0)
-                                    menuText1[menuOptionsCount] = "Wield";
-                                else
-                                    menuText1[menuOptionsCount] = "Wear";
-                                menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[l2];
-                                menuActionID[menuOptionsCount] = 630;
-                                menuActionType[menuOptionsCount] = k2;
-                                menuOptionsCount++;
-                            }
+                        {
+                            if ((Data.Data.itemIsEquippable[l2] & 0x18) != 0)
+                                menuText1[menuOptionsCount] = "Wield";
+                            else
+                                menuText1[menuOptionsCount] = "Wear";
+                            menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[l2];
+                            menuActionID[menuOptionsCount] = 630;
+                            menuActionType[menuOptionsCount] = k2;
+                            menuOptionsCount++;
+                        }
                         if (!Data.Data.itemCommand[l2].Equals(""))
                         {
                             menuText1[menuOptionsCount] = Data.Data.itemCommand[l2];
@@ -1493,7 +1493,7 @@ namespace RSCXNALib
                         groundItemCount = 0;
                         needsClear = false;
                     }
-                    for (int off = 1; off < packetLength; )
+                    for (int off = 1; off < packetLength;)
                         if (DataOperations.getByte(packetData[off]) == 255)
                         {
                             int newCount = 0;
@@ -1570,7 +1570,7 @@ namespace RSCXNALib
                 }
                 if (packetID == 27)
                 {
-                    for (int off = 1; off < packetLength; )
+                    for (int off = 1; off < packetLength;)
                         if (DataOperations.getByte(packetData[off]) == 255)
                         {
                             int newCount = 0;
@@ -1823,7 +1823,7 @@ namespace RSCXNALib
                 }
                 if (packetID == 95)
                 {
-                    for (int off = 1; off < packetLength; )
+                    for (int off = 1; off < packetLength;)
                         if (DataOperations.getByte(packetData[off]) == 255)
                         {
                             int newCount = 0;
@@ -2006,21 +2006,21 @@ namespace RSCXNALib
                         }
                         else
                             if (updateType == 2)
+                        {
+                            int lastDamageCount = DataOperations.getByte(packetData[off]);
+                            off++;
+                            int currentHits = DataOperations.getByte(packetData[off]);
+                            off++;
+                            int baseHits = DataOperations.getByte(packetData[off]);
+                            off++;
+                            if (mob != null)
                             {
-                                int lastDamageCount = DataOperations.getByte(packetData[off]);
-                                off++;
-                                int currentHits = DataOperations.getByte(packetData[off]);
-                                off++;
-                                int baseHits = DataOperations.getByte(packetData[off]);
-                                off++;
-                                if (mob != null)
-                                {
-                                    mob.lastDamageCount = lastDamageCount;
-                                    mob.currentHits = currentHits;
-                                    mob.baseHits = baseHits;
-                                    mob.combatTimer = 200;
-                                }
+                                mob.lastDamageCount = lastDamageCount;
+                                mob.currentHits = currentHits;
+                                mob.baseHits = baseHits;
+                                mob.combatTimer = 200;
                             }
+                        }
                     }
 
                     return;
@@ -3387,9 +3387,9 @@ namespace RSCXNALib
                 s1 = "earlier today";
             else
                 if (lastLoginDays == 1)
-                    s1 = "yesterday";
-                else
-                    s1 = lastLoginDays + " days ago";
+                s1 = "yesterday";
+            else
+                s1 = lastLoginDays + " days ago";
             if (!lastLoginAddress.Equals("0.0.0.0"))
             {
                 gameGraphics.drawText("You last logged in " + s1, 256, i1, 1, 0xffffff);
@@ -4179,30 +4179,30 @@ namespace RSCXNALib
             }
             else
                 if (loginScreen == 1)
+            {
+                if (loginNewUser == null) return;
+                loginNewUser.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
+                if (loginNewUser.isClicked(loginMenuOkButton))
                 {
-                    if (loginNewUser == null) return;
-                    loginNewUser.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
-                    if (loginNewUser.isClicked(loginMenuOkButton))
-                    {
-                        loginScreen = 0;
-                        return;
-                    }
+                    loginScreen = 0;
+                    return;
                 }
-                else
+            }
+            else
                     if (loginScreen == 2)
-                    {
-                        loginMenuLogin.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
-                        if (loginMenuLogin.isClicked(loginMenuCancelButton))
-                            loginScreen = 0;
-                        if (loginMenuLogin.isClicked(loginMenuUserText))
-                            loginMenuLogin.setFocus(loginMenuPasswordText);
-                        if (loginMenuLogin.isClicked(loginMenuPasswordText) || loginMenuLogin.isClicked(loginMenuOkLoginButton))
-                        {
-                            loginUsername = loginMenuLogin.getText(loginMenuUserText);
-                            loginPassword = loginMenuLogin.getText(loginMenuPasswordText);
-                            connect(loginUsername, loginPassword, false);
-                        }
-                    }
+            {
+                loginMenuLogin.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
+                if (loginMenuLogin.isClicked(loginMenuCancelButton))
+                    loginScreen = 0;
+                if (loginMenuLogin.isClicked(loginMenuUserText))
+                    loginMenuLogin.setFocus(loginMenuPasswordText);
+                if (loginMenuLogin.isClicked(loginMenuPasswordText) || loginMenuLogin.isClicked(loginMenuOkLoginButton))
+                {
+                    loginUsername = loginMenuLogin.getText(loginMenuUserText);
+                    loginPassword = loginMenuLogin.getText(loginMenuPasswordText);
+                    connect(loginUsername, loginPassword, false);
+                }
+            }
         }
 
         public bool isItemEquipped(int arg0)
@@ -4612,9 +4612,9 @@ namespace RSCXNALib
                         s1 = "@gre@";
                     else
                         if (base.friendsWorld[l1] > 0)
-                            s1 = "@yel@";
-                        else
-                            s1 = "@red@";
+                        s1 = "@yel@";
+                    else
+                        s1 = "@red@";
                     friendsMenu.addListItem(friendsMenuHandle, l1, s1 + DataOperations.hashToName(base.friendsList[l1]) + "~439~@whi@Remove         WWWWWWWWWW");
                 }
 
@@ -4635,12 +4635,12 @@ namespace RSCXNALib
                         gameGraphics.drawText("Click to remove " + DataOperations.hashToName(base.friendsList[j2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
                     else
                         if (base.friendsWorld[j2] == 99)
-                            gameGraphics.drawText("Click to message " + DataOperations.hashToName(base.friendsList[j2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
-                        else
+                        gameGraphics.drawText("Click to message " + DataOperations.hashToName(base.friendsList[j2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
+                    else
                             if (base.friendsWorld[j2] > 0)
-                                gameGraphics.drawText(DataOperations.hashToName(base.friendsList[j2]) + " is on world " + base.friendsWorld[j2], l + c1 / 2, i1 + 35, 1, 0xffffff);
-                            else
-                                gameGraphics.drawText(DataOperations.hashToName(base.friendsList[j2]) + " is offline", l + c1 / 2, i1 + 35, 1, 0xffffff);
+                        gameGraphics.drawText(DataOperations.hashToName(base.friendsList[j2]) + " is on world " + base.friendsWorld[j2], l + c1 / 2, i1 + 35, 1, 0xffffff);
+                    else
+                        gameGraphics.drawText(DataOperations.hashToName(base.friendsList[j2]) + " is offline", l + c1 / 2, i1 + 35, 1, 0xffffff);
                 }
                 else
                 {
@@ -4687,10 +4687,10 @@ namespace RSCXNALib
                     }
                     else
                         if (l > 98 && friendsIgnoreMenuSelected == 0)
-                        {
-                            friendsIgnoreMenuSelected = 1;
-                            friendsMenu.switchList(friendsMenuHandle);
-                        }
+                    {
+                        friendsIgnoreMenuSelected = 1;
+                        friendsMenu.switchList(friendsMenuHandle);
+                    }
                 if (mouseButtonClick == 1 && friendsIgnoreMenuSelected == 0)
                 {
                     int l2 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
@@ -4699,12 +4699,12 @@ namespace RSCXNALib
                             removeFriend(base.friendsList[l2]);
                         else
                             if (base.friendsWorld[l2] != 0)
-                            {
-                                showFriendsBox = 2;
-                                pmTarget = base.friendsList[l2];
-                                base.pmText = "";
-                                base.enteredPMText = "";
-                            }
+                        {
+                            showFriendsBox = 2;
+                            pmTarget = base.friendsList[l2];
+                            base.pmText = "";
+                            base.enteredPMText = "";
+                        }
                 }
                 if (mouseButtonClick == 1 && friendsIgnoreMenuSelected == 1)
                 {
@@ -4838,10 +4838,10 @@ namespace RSCXNALib
                     }
                     else
                         if (l > 98 && menuMagicPrayersSelected == 0)
-                        {
-                            menuMagicPrayersSelected = 1;
-                            spellMenu.switchList(spellMenuHandle);
-                        }
+                    {
+                        menuMagicPrayersSelected = 1;
+                        spellMenu.switchList(spellMenuHandle);
+                    }
                 if (mouseButtonClick == 1 && menuMagicPrayersSelected == 0)
                 {
                     int j2 = spellMenu.getEntryHighlighted(spellMenuHandle);
@@ -4883,24 +4883,24 @@ namespace RSCXNALib
                             displayMessage("Your prayer ability is not high enough for this prayer", 3);
                         else
                             if (playerStatCurrent[5] == 0)
-                                displayMessage("You have run out of prayer points. Return to a church to recharge", 3);
-                            else
+                            displayMessage("You have run out of prayer points. Return to a church to recharge", 3);
+                        else
                                 if (prayerOn[k2])
-                                {
-                                    base.streamClass.createPacket(248);
-                                    base.streamClass.addByte(k2);
-                                    base.streamClass.formatPacket();
-                                    prayerOn[k2] = false;
-                                    playSound("prayeroff");
-                                }
-                                else
-                                {
-                                    base.streamClass.createPacket(56);
-                                    base.streamClass.addByte(k2);
-                                    base.streamClass.formatPacket();
-                                    prayerOn[k2] = true;
-                                    playSound("prayeron");
-                                }
+                        {
+                            base.streamClass.createPacket(248);
+                            base.streamClass.addByte(k2);
+                            base.streamClass.formatPacket();
+                            prayerOn[k2] = false;
+                            playSound("prayeroff");
+                        }
+                        else
+                        {
+                            base.streamClass.createPacket(56);
+                            base.streamClass.addByte(k2);
+                            base.streamClass.formatPacket();
+                            prayerOn[k2] = true;
+                            playSound("prayeron");
+                        }
                     }
                 }
                 mouseButtonClick = 0;
@@ -5034,7 +5034,7 @@ namespace RSCXNALib
             AsyncCompletedEventArgs completedArgs = new AsyncCompletedEventArgs(null,
               false, null);
             async1.PostOperationCompleted(
-              delegate(object e) { OnMyTaskCompleted((AsyncCompletedEventArgs)e); },
+              delegate (object e) { OnMyTaskCompleted((AsyncCompletedEventArgs)e); },
               completedArgs);
         }
 
@@ -5090,11 +5090,11 @@ namespace RSCXNALib
                         }
                         else
                             if (player.currentX > player.waypointsX[targetSprite])
-                            {
-                                player.currentX -= i6;
-                                player.stepCount++;
-                                direction = 6;
-                            }
+                        {
+                            player.currentX -= i6;
+                            player.stepCount++;
+                            direction = 6;
+                        }
                         if (player.currentX - player.waypointsX[targetSprite] < i6 && player.currentX - player.waypointsX[targetSprite] > -i6)
                             player.currentX = player.waypointsX[targetSprite];
                         if (player.currentY < player.waypointsY[targetSprite])
@@ -5105,23 +5105,23 @@ namespace RSCXNALib
                                 direction = 4;
                             else
                                 if (direction == 2)
-                                    direction = 3;
-                                else
-                                    direction = 5;
+                                direction = 3;
+                            else
+                                direction = 5;
                         }
                         else
                             if (player.currentY > player.waypointsY[targetSprite])
-                            {
-                                player.currentY -= i6;
-                                player.stepCount++;
-                                if (direction == -1)
-                                    direction = 0;
-                                else
-                                    if (direction == 2)
-                                        direction = 1;
-                                    else
-                                        direction = 7;
-                            }
+                        {
+                            player.currentY -= i6;
+                            player.stepCount++;
+                            if (direction == -1)
+                                direction = 0;
+                            else
+                                if (direction == 2)
+                                direction = 1;
+                            else
+                                direction = 7;
+                        }
                         if (player.currentY - player.waypointsY[targetSprite] < i6 && player.currentY - player.waypointsY[targetSprite] > -i6)
                             player.currentY = player.waypointsY[targetSprite];
                     }
@@ -5181,11 +5181,11 @@ namespace RSCXNALib
                         }
                         else
                             if (f2.currentX > f2.waypointsX[j5])
-                            {
-                                f2.currentX -= k6;
-                                f2.stepCount++;
-                                l3 = 6;
-                            }
+                        {
+                            f2.currentX -= k6;
+                            f2.stepCount++;
+                            l3 = 6;
+                        }
                         if (f2.currentX - f2.waypointsX[j5] < k6 && f2.currentX - f2.waypointsX[j5] > -k6)
                             f2.currentX = f2.waypointsX[j5];
                         if (f2.currentY < f2.waypointsY[j5])
@@ -5196,23 +5196,23 @@ namespace RSCXNALib
                                 l3 = 4;
                             else
                                 if (l3 == 2)
-                                    l3 = 3;
-                                else
-                                    l3 = 5;
+                                l3 = 3;
+                            else
+                                l3 = 5;
                         }
                         else
                             if (f2.currentY > f2.waypointsY[j5])
-                            {
-                                f2.currentY -= k6;
-                                f2.stepCount++;
-                                if (l3 == -1)
-                                    l3 = 0;
-                                else
-                                    if (l3 == 2)
-                                        l3 = 1;
-                                    else
-                                        l3 = 7;
-                            }
+                        {
+                            f2.currentY -= k6;
+                            f2.stepCount++;
+                            if (l3 == -1)
+                                l3 = 0;
+                            else
+                                if (l3 == 2)
+                                l3 = 1;
+                            else
+                                l3 = 7;
+                        }
                         if (f2.currentY - f2.waypointsY[j5] < k6 && f2.currentY - f2.waypointsY[j5] > -k6)
                             f2.currentY = f2.waypointsY[j5];
                     }
@@ -5285,19 +5285,19 @@ namespace RSCXNALib
                         }
                         else
                             if (i4 > 0)
-                                byte0 = 1;
-                            else
+                            byte0 = 1;
+                        else
                                 if (i4 < -128)
-                                {
-                                    byte0 = 1;
-                                    i4 = 256 + i4;
-                                }
-                                else
+                        {
+                            byte0 = 1;
+                            i4 = 256 + i4;
+                        }
+                        else
                                     if (i4 < 0)
-                                    {
-                                        byte0 = -1;
-                                        i4 = -i4;
-                                    }
+                        {
+                            byte0 = -1;
+                            i4 = -i4;
+                        }
                         cameraRotation += ((cameraAutoRotationAmount * i4 + 255) / 256) * byte0;
                         cameraRotation &= 0xff;
                     }
@@ -5319,23 +5319,23 @@ namespace RSCXNALib
                         base.streamClass.closeStream();
                     else
                         if (base.enteredInputText.ToLower().Equals("::closecon"))
+                    {
+                        requestLogout();
+                    }
+                    else
+                    {
+                        base.streamClass.createPacket(200);
+                        base.streamClass.addString(base.enteredInputText);
+                        if (!sleepWordDelay)
                         {
-                            requestLogout();
+                            base.streamClass.addByte(0);
+                            sleepWordDelay = true;
                         }
-                        else
-                        {
-                            base.streamClass.createPacket(200);
-                            base.streamClass.addString(base.enteredInputText);
-                            if (!sleepWordDelay)
-                            {
-                                base.streamClass.addByte(0);
-                                sleepWordDelay = true;
-                            }
-                            base.streamClass.formatPacket();
-                            base.inputText = "";
-                            base.enteredInputText = "";
-                            sleepingStatusText = "Please wait...";
-                        }
+                        base.streamClass.formatPacket();
+                        base.inputText = "";
+                        base.enteredInputText = "";
+                        sleepingStatusText = "Please wait...";
+                    }
                 if (base.lastMouseButton == 1 && base.mouseY > 275 && base.mouseY < 310 && base.mouseX > 56 && base.mouseX < 456)
                 {
                     base.streamClass.createPacket(200);
@@ -5504,7 +5504,7 @@ namespace RSCXNALib
                 actionPictureType--;
             else
                 if (actionPictureType < 0)
-                    actionPictureType++;
+                actionPictureType++;
             gameCamera.updateLightning(17);
             modelUpdatingTimer++;
             if (modelUpdatingTimer > 5)
@@ -5693,334 +5693,334 @@ namespace RSCXNALib
                             }
                             else
                                 if (selectedItem >= 0)
+                            {
+                                menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
+                                menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
+                                menuActionID[menuOptionsCount] = 810;
+                                menuActionX[menuOptionsCount] = playerArray[index].currentX;
+                                menuActionY[menuOptionsCount] = playerArray[index].currentY;
+                                menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
+                                menuActionVar1[menuOptionsCount] = selectedItem;
+                                menuOptionsCount++;
+                            }
+                            else
+                            {
+                                if (l > 0 && (playerArray[index].currentY - 64) / gridSize + wildY + areaY < 2203)
                                 {
-                                    menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
+                                    menuText1[menuOptionsCount] = "Attack";
                                     menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
-                                    menuActionID[menuOptionsCount] = 810;
+                                    if (k4 >= 0 && k4 < 5)
+                                        menuActionID[menuOptionsCount] = 805;
+                                    else
+                                        menuActionID[menuOptionsCount] = 2805;
                                     menuActionX[menuOptionsCount] = playerArray[index].currentX;
                                     menuActionY[menuOptionsCount] = playerArray[index].currentY;
                                     menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
-                                    menuActionVar1[menuOptionsCount] = selectedItem;
                                     menuOptionsCount++;
                                 }
                                 else
+                                    if (Config.MEMBERS_FEATURES)
                                 {
-                                    if (l > 0 && (playerArray[index].currentY - 64) / gridSize + wildY + areaY < 2203)
-                                    {
-                                        menuText1[menuOptionsCount] = "Attack";
-                                        menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
-                                        if (k4 >= 0 && k4 < 5)
-                                            menuActionID[menuOptionsCount] = 805;
-                                        else
-                                            menuActionID[menuOptionsCount] = 2805;
-                                        menuActionX[menuOptionsCount] = playerArray[index].currentX;
-                                        menuActionY[menuOptionsCount] = playerArray[index].currentY;
-                                        menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
-                                        menuOptionsCount++;
-                                    }
-                                    else
-                                        if (Config.MEMBERS_FEATURES)
-                                        {
-                                            menuText1[menuOptionsCount] = "Duel with";
-                                            menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
-                                            menuActionX[menuOptionsCount] = playerArray[index].currentX;
-                                            menuActionY[menuOptionsCount] = playerArray[index].currentY;
-                                            menuActionID[menuOptionsCount] = 2806;
-                                            menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
-                                            menuOptionsCount++;
-                                        }
-                                    menuText1[menuOptionsCount] = "Trade with";
+                                    menuText1[menuOptionsCount] = "Duel with";
                                     menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
-                                    menuActionID[menuOptionsCount] = 2810;
-                                    menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
-                                    menuOptionsCount++;
-                                    menuText1[menuOptionsCount] = "Follow";
-                                    menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
-                                    menuActionID[menuOptionsCount] = 2820;
+                                    menuActionX[menuOptionsCount] = playerArray[index].currentX;
+                                    menuActionY[menuOptionsCount] = playerArray[index].currentY;
+                                    menuActionID[menuOptionsCount] = 2806;
                                     menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
                                     menuOptionsCount++;
                                 }
+                                menuText1[menuOptionsCount] = "Trade with";
+                                menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
+                                menuActionID[menuOptionsCount] = 2810;
+                                menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
+                                menuOptionsCount++;
+                                menuText1[menuOptionsCount] = "Follow";
+                                menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
+                                menuActionID[menuOptionsCount] = 2820;
+                                menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
+                                menuOptionsCount++;
+                            }
                         }
                         else
                             if (type == 2)
+                        {
+                            if (selectedSpell >= 0)
                             {
-                                if (selectedSpell >= 0)
+                                if (Data.Data.spellType[selectedSpell] == 3)
                                 {
-                                    if (Data.Data.spellType[selectedSpell] == 3)
-                                    {
-                                        menuText1[menuOptionsCount] = "Cast " + Data.Data.spellName[selectedSpell] + " on";
-                                        menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[groundItemID[index]];
-                                        menuActionID[menuOptionsCount] = 200;
-                                        menuActionX[menuOptionsCount] = groundItemX[index];
-                                        menuActionY[menuOptionsCount] = groundItemY[index];
-                                        menuActionType[menuOptionsCount] = groundItemID[index];
-                                        menuActionVar1[menuOptionsCount] = selectedSpell;
-                                        menuOptionsCount++;
-                                    }
+                                    menuText1[menuOptionsCount] = "Cast " + Data.Data.spellName[selectedSpell] + " on";
+                                    menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[groundItemID[index]];
+                                    menuActionID[menuOptionsCount] = 200;
+                                    menuActionX[menuOptionsCount] = groundItemX[index];
+                                    menuActionY[menuOptionsCount] = groundItemY[index];
+                                    menuActionType[menuOptionsCount] = groundItemID[index];
+                                    menuActionVar1[menuOptionsCount] = selectedSpell;
+                                    menuOptionsCount++;
                                 }
-                                else
-                                    if (selectedItem >= 0)
-                                    {
-                                        menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                                        menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[groundItemID[index]];
-                                        menuActionID[menuOptionsCount] = 210;
-                                        menuActionX[menuOptionsCount] = groundItemX[index];
-                                        menuActionY[menuOptionsCount] = groundItemY[index];
-                                        menuActionType[menuOptionsCount] = groundItemID[index];
-                                        menuActionVar1[menuOptionsCount] = selectedItem;
-                                        menuOptionsCount++;
-                                    }
-                                    else
-                                    {
-                                        menuText1[menuOptionsCount] = "Take";
-                                        menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[groundItemID[index]];
-                                        menuActionID[menuOptionsCount] = 220;
-                                        menuActionX[menuOptionsCount] = groundItemX[index];
-                                        menuActionY[menuOptionsCount] = groundItemY[index];
-                                        menuActionType[menuOptionsCount] = groundItemID[index];
-                                        menuOptionsCount++;
-                                        menuText1[menuOptionsCount] = "Examine";
-                                        menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[groundItemID[index]];
-                                        menuActionID[menuOptionsCount] = 3200;
-                                        menuActionType[menuOptionsCount] = groundItemID[index];
-                                        menuOptionsCount++;
-                                    }
                             }
                             else
-                                if (type == 3)
-                                {
-                                    string s2 = "";
-                                    int l4 = -1;
-                                    int id = npcArray[index].npcId;
-                                    if (Data.Data.npcAttackable[id] > 0)
-                                    {
-                                        int j5 = (Data.Data.npcAttack[id] + Data.Data.npcDefense[id] + Data.Data.npcStrength[id] + Data.Data.npcHits[id]) / 4;
-                                        int k5 = (playerStatBase[0] + playerStatBase[1] + playerStatBase[2] + playerStatBase[3] + 27) / 4;
-                                        l4 = k5 - j5;
-                                        s2 = "@yel@";
-                                        if (l4 < 0)
-                                            s2 = "@or1@";
-                                        if (l4 < -3)
-                                            s2 = "@or2@";
-                                        if (l4 < -6)
-                                            s2 = "@or3@";
-                                        if (l4 < -9)
-                                            s2 = "@red@";
-                                        if (l4 > 0)
-                                            s2 = "@gr1@";
-                                        if (l4 > 3)
-                                            s2 = "@gr2@";
-                                        if (l4 > 6)
-                                            s2 = "@gr3@";
-                                        if (l4 > 9)
-                                            s2 = "@gre@";
-                                        s2 = " " + s2 + "(level-" + j5 + ")";
-                                    }
-                                    if (selectedSpell >= 0)
-                                    {
-                                        if (Data.Data.spellType[selectedSpell] == 2)
-                                        {
-                                            menuText1[menuOptionsCount] = "Cast " + Data.Data.spellName[selectedSpell] + " on";
-                                            menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId];
-                                            menuActionID[menuOptionsCount] = 700;
-                                            menuActionX[menuOptionsCount] = npcArray[index].currentX;
-                                            menuActionY[menuOptionsCount] = npcArray[index].currentY;
-                                            menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
-                                            menuActionVar1[menuOptionsCount] = selectedSpell;
-                                            menuOptionsCount++;
-                                        }
-                                    }
-                                    else
-                                        if (selectedItem >= 0)
-                                        {
-                                            menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                                            menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId];
-                                            menuActionID[menuOptionsCount] = 710;
-                                            menuActionX[menuOptionsCount] = npcArray[index].currentX;
-                                            menuActionY[menuOptionsCount] = npcArray[index].currentY;
-                                            menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
-                                            menuActionVar1[menuOptionsCount] = selectedItem;
-                                            menuOptionsCount++;
-                                        }
-                                        else
-                                        {
-                                            if (Data.Data.npcAttackable[id] > 0)
-                                            {
-                                                menuText1[menuOptionsCount] = "Attack";
-                                                menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId] + s2;
-                                                if (l4 >= 0)
-                                                    menuActionID[menuOptionsCount] = 715;
-                                                else
-                                                    menuActionID[menuOptionsCount] = 2715;
-                                                menuActionX[menuOptionsCount] = npcArray[index].currentX;
-                                                menuActionY[menuOptionsCount] = npcArray[index].currentY;
-                                                menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
-                                                menuOptionsCount++;
-                                            }
-                                            menuText1[menuOptionsCount] = "Talk-to";
-                                            menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId];
-                                            menuActionID[menuOptionsCount] = 720;
-                                            menuActionX[menuOptionsCount] = npcArray[index].currentX;
-                                            menuActionY[menuOptionsCount] = npcArray[index].currentY;
-                                            menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
-                                            menuOptionsCount++;
-                                            if (!Data.Data.npcCommand[id].Equals(""))
-                                            {
-                                                menuText1[menuOptionsCount] = Data.Data.npcCommand[id];
-                                                menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId];
-                                                menuActionID[menuOptionsCount] = 725;
-                                                menuActionX[menuOptionsCount] = npcArray[index].currentX;
-                                                menuActionY[menuOptionsCount] = npcArray[index].currentY;
-                                                menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
-                                                menuOptionsCount++;
-                                            }
-                                            menuText1[menuOptionsCount] = "Examine";
-                                            menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId];
-                                            menuActionID[menuOptionsCount] = 3700;
-                                            menuActionType[menuOptionsCount] = npcArray[index].npcId;
-                                            menuOptionsCount++;
-                                        }
-                                }
-                    }
-                    else
-                        if (_obj != null && _obj.index >= 10000)
-                        {
-                            int j3 = _obj.index - 10000;
-                            int i4 = wallObjectID[j3];
-                            if (!wallObjectAlreadyInMenu[j3])
+                                if (selectedItem >= 0)
                             {
-                                if (selectedSpell >= 0)
-                                {
-                                    if (Data.Data.spellType[selectedSpell] == 4)
-                                    {
-                                        menuText1[menuOptionsCount] = "Cast " + Data.Data.spellName[selectedSpell] + " on";
-                                        menuText2[menuOptionsCount] = "@cya@" + Data.Data.wallObjectName[i4];
-                                        menuActionID[menuOptionsCount] = 300;
-                                        menuActionX[menuOptionsCount] = wallObjectX[j3];
-                                        menuActionY[menuOptionsCount] = wallObjectY[j3];
-                                        menuActionType[menuOptionsCount] = wallObjectDirection[j3];
-                                        menuActionVar1[menuOptionsCount] = selectedSpell;
-                                        menuOptionsCount++;
-                                    }
-                                }
-                                else
-                                    if (selectedItem >= 0)
-                                    {
-                                        menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                                        menuText2[menuOptionsCount] = "@cya@" + Data.Data.wallObjectName[i4];
-                                        menuActionID[menuOptionsCount] = 310;
-                                        menuActionX[menuOptionsCount] = wallObjectX[j3];
-                                        menuActionY[menuOptionsCount] = wallObjectY[j3];
-                                        menuActionType[menuOptionsCount] = wallObjectDirection[j3];
-                                        menuActionVar1[menuOptionsCount] = selectedItem;
-                                        menuOptionsCount++;
-                                    }
-                                    else
-                                    {
-                                        if (!Data.Data.wallObjectCommand1[i4].ToLower().Equals("WalkTo"))
-                                        {
-                                            menuText1[menuOptionsCount] = Data.Data.wallObjectCommand1[i4];
-                                            menuText2[menuOptionsCount] = "@cya@" + Data.Data.wallObjectName[i4];
-                                            menuActionID[menuOptionsCount] = 320;
-                                            menuActionX[menuOptionsCount] = wallObjectX[j3];
-                                            menuActionY[menuOptionsCount] = wallObjectY[j3];
-                                            menuActionType[menuOptionsCount] = wallObjectDirection[j3];
-                                            menuOptionsCount++;
-                                        }
-                                        if (!Data.Data.wallObjectCommand2[i4].ToLower().Equals("Examine"))
-                                        {
-                                            menuText1[menuOptionsCount] = Data.Data.wallObjectCommand2[i4];
-                                            menuText2[menuOptionsCount] = "@cya@" + Data.Data.wallObjectName[i4];
-                                            menuActionID[menuOptionsCount] = 2300;
-                                            menuActionX[menuOptionsCount] = wallObjectX[j3];
-                                            menuActionY[menuOptionsCount] = wallObjectY[j3];
-                                            menuActionType[menuOptionsCount] = wallObjectDirection[j3];
-                                            menuOptionsCount++;
-                                        }
-                                        menuText1[menuOptionsCount] = "Examine";
-                                        menuText2[menuOptionsCount] = "@cya@" + Data.Data.wallObjectName[i4];
-                                        menuActionID[menuOptionsCount] = 3300;
-                                        menuActionType[menuOptionsCount] = i4;
-                                        menuOptionsCount++;
-                                    }
-                                wallObjectAlreadyInMenu[j3] = true;
+                                menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
+                                menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[groundItemID[index]];
+                                menuActionID[menuOptionsCount] = 210;
+                                menuActionX[menuOptionsCount] = groundItemX[index];
+                                menuActionY[menuOptionsCount] = groundItemY[index];
+                                menuActionType[menuOptionsCount] = groundItemID[index];
+                                menuActionVar1[menuOptionsCount] = selectedItem;
+                                menuOptionsCount++;
+                            }
+                            else
+                            {
+                                menuText1[menuOptionsCount] = "Take";
+                                menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[groundItemID[index]];
+                                menuActionID[menuOptionsCount] = 220;
+                                menuActionX[menuOptionsCount] = groundItemX[index];
+                                menuActionY[menuOptionsCount] = groundItemY[index];
+                                menuActionType[menuOptionsCount] = groundItemID[index];
+                                menuOptionsCount++;
+                                menuText1[menuOptionsCount] = "Examine";
+                                menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[groundItemID[index]];
+                                menuActionID[menuOptionsCount] = 3200;
+                                menuActionType[menuOptionsCount] = groundItemID[index];
+                                menuOptionsCount++;
                             }
                         }
                         else
-                            if (_obj != null && _obj.index >= 0)
+                                if (type == 3)
+                        {
+                            string s2 = "";
+                            int l4 = -1;
+                            int id = npcArray[index].npcId;
+                            if (Data.Data.npcAttackable[id] > 0)
                             {
-                                int k3 = _obj.index;
-                                int j4 = objectType[k3];
-                                if (!objectAlreadyInMenu[k3])
+                                int j5 = (Data.Data.npcAttack[id] + Data.Data.npcDefense[id] + Data.Data.npcStrength[id] + Data.Data.npcHits[id]) / 4;
+                                int k5 = (playerStatBase[0] + playerStatBase[1] + playerStatBase[2] + playerStatBase[3] + 27) / 4;
+                                l4 = k5 - j5;
+                                s2 = "@yel@";
+                                if (l4 < 0)
+                                    s2 = "@or1@";
+                                if (l4 < -3)
+                                    s2 = "@or2@";
+                                if (l4 < -6)
+                                    s2 = "@or3@";
+                                if (l4 < -9)
+                                    s2 = "@red@";
+                                if (l4 > 0)
+                                    s2 = "@gr1@";
+                                if (l4 > 3)
+                                    s2 = "@gr2@";
+                                if (l4 > 6)
+                                    s2 = "@gr3@";
+                                if (l4 > 9)
+                                    s2 = "@gre@";
+                                s2 = " " + s2 + "(level-" + j5 + ")";
+                            }
+                            if (selectedSpell >= 0)
+                            {
+                                if (Data.Data.spellType[selectedSpell] == 2)
                                 {
-                                    if (selectedSpell >= 0)
-                                    {
-                                        if (Data.Data.spellType[selectedSpell] == 5)
-                                        {
-                                            menuText1[menuOptionsCount] = "Cast " + Data.Data.spellName[selectedSpell] + " on";
-                                            menuText2[menuOptionsCount] = "@cya@" + Data.Data.objectName[j4];
-                                            menuActionID[menuOptionsCount] = 400;
-                                            menuActionX[menuOptionsCount] = objectX[k3];
-                                            menuActionY[menuOptionsCount] = objectY[k3];
-                                            menuActionType[menuOptionsCount] = objectRotation[k3];
-                                            menuActionVar1[menuOptionsCount] = objectType[k3];
-                                            menuActionVar2[menuOptionsCount] = selectedSpell;
-                                            menuOptionsCount++;
-                                        }
-                                    }
-                                    else
-                                        if (selectedItem >= 0)
-                                        {
-                                            menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                                            menuText2[menuOptionsCount] = "@cya@" + Data.Data.objectName[j4];
-                                            menuActionID[menuOptionsCount] = 410;
-                                            menuActionX[menuOptionsCount] = objectX[k3];
-                                            menuActionY[menuOptionsCount] = objectY[k3];
-                                            menuActionType[menuOptionsCount] = objectRotation[k3];
-                                            menuActionVar1[menuOptionsCount] = objectType[k3];
-                                            menuActionVar2[menuOptionsCount] = selectedItem;
-                                            menuOptionsCount++;
-                                        }
-                                        else
-                                        {
-                                            if (!Data.Data.objectCommand1[j4].ToLower().Equals("WalkTo"))
-                                            {
-                                                menuText1[menuOptionsCount] = Data.Data.objectCommand1[j4];
-                                                menuText2[menuOptionsCount] = "@cya@" + Data.Data.objectName[j4];
-                                                menuActionID[menuOptionsCount] = 420;
-                                                menuActionX[menuOptionsCount] = objectX[k3];
-                                                menuActionY[menuOptionsCount] = objectY[k3];
-                                                menuActionType[menuOptionsCount] = objectRotation[k3];
-                                                menuActionVar1[menuOptionsCount] = objectType[k3];
-                                                menuOptionsCount++;
-                                            }
-                                            if (!Data.Data.objectCommand2[j4].ToLower().Equals("Examine"))
-                                            {
-                                                menuText1[menuOptionsCount] = Data.Data.objectCommand2[j4];
-                                                menuText2[menuOptionsCount] = "@cya@" + Data.Data.objectName[j4];
-                                                menuActionID[menuOptionsCount] = 2400;
-                                                menuActionX[menuOptionsCount] = objectX[k3];
-                                                menuActionY[menuOptionsCount] = objectY[k3];
-                                                menuActionType[menuOptionsCount] = objectRotation[k3];
-                                                menuActionVar1[menuOptionsCount] = objectType[k3];
-                                                menuOptionsCount++;
-                                            }
-                                            menuText1[menuOptionsCount] = "Examine";
-                                            menuText2[menuOptionsCount] = "@cya@" + Data.Data.objectName[j4];
-                                            menuActionID[menuOptionsCount] = 3400;
-                                            menuActionType[menuOptionsCount] = j4;
-                                            menuOptionsCount++;
-                                        }
-                                    objectAlreadyInMenu[k3] = true;
+                                    menuText1[menuOptionsCount] = "Cast " + Data.Data.spellName[selectedSpell] + " on";
+                                    menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId];
+                                    menuActionID[menuOptionsCount] = 700;
+                                    menuActionX[menuOptionsCount] = npcArray[index].currentX;
+                                    menuActionY[menuOptionsCount] = npcArray[index].currentY;
+                                    menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
+                                    menuActionVar1[menuOptionsCount] = selectedSpell;
+                                    menuOptionsCount++;
                                 }
                             }
                             else
+                                if (selectedItem >= 0)
                             {
-                                if (player >= 0)
-                                    player = _obj.entityType[player] - 0x30d40;
-                                if (player >= 0)
-                                    ground = player;
+                                menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
+                                menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId];
+                                menuActionID[menuOptionsCount] = 710;
+                                menuActionX[menuOptionsCount] = npcArray[index].currentX;
+                                menuActionY[menuOptionsCount] = npcArray[index].currentY;
+                                menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
+                                menuActionVar1[menuOptionsCount] = selectedItem;
+                                menuOptionsCount++;
                             }
+                            else
+                            {
+                                if (Data.Data.npcAttackable[id] > 0)
+                                {
+                                    menuText1[menuOptionsCount] = "Attack";
+                                    menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId] + s2;
+                                    if (l4 >= 0)
+                                        menuActionID[menuOptionsCount] = 715;
+                                    else
+                                        menuActionID[menuOptionsCount] = 2715;
+                                    menuActionX[menuOptionsCount] = npcArray[index].currentX;
+                                    menuActionY[menuOptionsCount] = npcArray[index].currentY;
+                                    menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
+                                    menuOptionsCount++;
+                                }
+                                menuText1[menuOptionsCount] = "Talk-to";
+                                menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId];
+                                menuActionID[menuOptionsCount] = 720;
+                                menuActionX[menuOptionsCount] = npcArray[index].currentX;
+                                menuActionY[menuOptionsCount] = npcArray[index].currentY;
+                                menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
+                                menuOptionsCount++;
+                                if (!Data.Data.npcCommand[id].Equals(""))
+                                {
+                                    menuText1[menuOptionsCount] = Data.Data.npcCommand[id];
+                                    menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId];
+                                    menuActionID[menuOptionsCount] = 725;
+                                    menuActionX[menuOptionsCount] = npcArray[index].currentX;
+                                    menuActionY[menuOptionsCount] = npcArray[index].currentY;
+                                    menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
+                                    menuOptionsCount++;
+                                }
+                                menuText1[menuOptionsCount] = "Examine";
+                                menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId];
+                                menuActionID[menuOptionsCount] = 3700;
+                                menuActionType[menuOptionsCount] = npcArray[index].npcId;
+                                menuOptionsCount++;
+                            }
+                        }
+                    }
+                    else
+                        if (_obj != null && _obj.index >= 10000)
+                    {
+                        int j3 = _obj.index - 10000;
+                        int i4 = wallObjectID[j3];
+                        if (!wallObjectAlreadyInMenu[j3])
+                        {
+                            if (selectedSpell >= 0)
+                            {
+                                if (Data.Data.spellType[selectedSpell] == 4)
+                                {
+                                    menuText1[menuOptionsCount] = "Cast " + Data.Data.spellName[selectedSpell] + " on";
+                                    menuText2[menuOptionsCount] = "@cya@" + Data.Data.wallObjectName[i4];
+                                    menuActionID[menuOptionsCount] = 300;
+                                    menuActionX[menuOptionsCount] = wallObjectX[j3];
+                                    menuActionY[menuOptionsCount] = wallObjectY[j3];
+                                    menuActionType[menuOptionsCount] = wallObjectDirection[j3];
+                                    menuActionVar1[menuOptionsCount] = selectedSpell;
+                                    menuOptionsCount++;
+                                }
+                            }
+                            else
+                                if (selectedItem >= 0)
+                            {
+                                menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
+                                menuText2[menuOptionsCount] = "@cya@" + Data.Data.wallObjectName[i4];
+                                menuActionID[menuOptionsCount] = 310;
+                                menuActionX[menuOptionsCount] = wallObjectX[j3];
+                                menuActionY[menuOptionsCount] = wallObjectY[j3];
+                                menuActionType[menuOptionsCount] = wallObjectDirection[j3];
+                                menuActionVar1[menuOptionsCount] = selectedItem;
+                                menuOptionsCount++;
+                            }
+                            else
+                            {
+                                if (!Data.Data.wallObjectCommand1[i4].ToLower().Equals("WalkTo"))
+                                {
+                                    menuText1[menuOptionsCount] = Data.Data.wallObjectCommand1[i4];
+                                    menuText2[menuOptionsCount] = "@cya@" + Data.Data.wallObjectName[i4];
+                                    menuActionID[menuOptionsCount] = 320;
+                                    menuActionX[menuOptionsCount] = wallObjectX[j3];
+                                    menuActionY[menuOptionsCount] = wallObjectY[j3];
+                                    menuActionType[menuOptionsCount] = wallObjectDirection[j3];
+                                    menuOptionsCount++;
+                                }
+                                if (!Data.Data.wallObjectCommand2[i4].ToLower().Equals("Examine"))
+                                {
+                                    menuText1[menuOptionsCount] = Data.Data.wallObjectCommand2[i4];
+                                    menuText2[menuOptionsCount] = "@cya@" + Data.Data.wallObjectName[i4];
+                                    menuActionID[menuOptionsCount] = 2300;
+                                    menuActionX[menuOptionsCount] = wallObjectX[j3];
+                                    menuActionY[menuOptionsCount] = wallObjectY[j3];
+                                    menuActionType[menuOptionsCount] = wallObjectDirection[j3];
+                                    menuOptionsCount++;
+                                }
+                                menuText1[menuOptionsCount] = "Examine";
+                                menuText2[menuOptionsCount] = "@cya@" + Data.Data.wallObjectName[i4];
+                                menuActionID[menuOptionsCount] = 3300;
+                                menuActionType[menuOptionsCount] = i4;
+                                menuOptionsCount++;
+                            }
+                            wallObjectAlreadyInMenu[j3] = true;
+                        }
+                    }
+                    else
+                            if (_obj != null && _obj.index >= 0)
+                    {
+                        int k3 = _obj.index;
+                        int j4 = objectType[k3];
+                        if (!objectAlreadyInMenu[k3])
+                        {
+                            if (selectedSpell >= 0)
+                            {
+                                if (Data.Data.spellType[selectedSpell] == 5)
+                                {
+                                    menuText1[menuOptionsCount] = "Cast " + Data.Data.spellName[selectedSpell] + " on";
+                                    menuText2[menuOptionsCount] = "@cya@" + Data.Data.objectName[j4];
+                                    menuActionID[menuOptionsCount] = 400;
+                                    menuActionX[menuOptionsCount] = objectX[k3];
+                                    menuActionY[menuOptionsCount] = objectY[k3];
+                                    menuActionType[menuOptionsCount] = objectRotation[k3];
+                                    menuActionVar1[menuOptionsCount] = objectType[k3];
+                                    menuActionVar2[menuOptionsCount] = selectedSpell;
+                                    menuOptionsCount++;
+                                }
+                            }
+                            else
+                                if (selectedItem >= 0)
+                            {
+                                menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
+                                menuText2[menuOptionsCount] = "@cya@" + Data.Data.objectName[j4];
+                                menuActionID[menuOptionsCount] = 410;
+                                menuActionX[menuOptionsCount] = objectX[k3];
+                                menuActionY[menuOptionsCount] = objectY[k3];
+                                menuActionType[menuOptionsCount] = objectRotation[k3];
+                                menuActionVar1[menuOptionsCount] = objectType[k3];
+                                menuActionVar2[menuOptionsCount] = selectedItem;
+                                menuOptionsCount++;
+                            }
+                            else
+                            {
+                                if (!Data.Data.objectCommand1[j4].ToLower().Equals("WalkTo"))
+                                {
+                                    menuText1[menuOptionsCount] = Data.Data.objectCommand1[j4];
+                                    menuText2[menuOptionsCount] = "@cya@" + Data.Data.objectName[j4];
+                                    menuActionID[menuOptionsCount] = 420;
+                                    menuActionX[menuOptionsCount] = objectX[k3];
+                                    menuActionY[menuOptionsCount] = objectY[k3];
+                                    menuActionType[menuOptionsCount] = objectRotation[k3];
+                                    menuActionVar1[menuOptionsCount] = objectType[k3];
+                                    menuOptionsCount++;
+                                }
+                                if (!Data.Data.objectCommand2[j4].ToLower().Equals("Examine"))
+                                {
+                                    menuText1[menuOptionsCount] = Data.Data.objectCommand2[j4];
+                                    menuText2[menuOptionsCount] = "@cya@" + Data.Data.objectName[j4];
+                                    menuActionID[menuOptionsCount] = 2400;
+                                    menuActionX[menuOptionsCount] = objectX[k3];
+                                    menuActionY[menuOptionsCount] = objectY[k3];
+                                    menuActionType[menuOptionsCount] = objectRotation[k3];
+                                    menuActionVar1[menuOptionsCount] = objectType[k3];
+                                    menuOptionsCount++;
+                                }
+                                menuText1[menuOptionsCount] = "Examine";
+                                menuText2[menuOptionsCount] = "@cya@" + Data.Data.objectName[j4];
+                                menuActionID[menuOptionsCount] = 3400;
+                                menuActionType[menuOptionsCount] = j4;
+                                menuOptionsCount++;
+                            }
+                            objectAlreadyInMenu[k3] = true;
+                        }
+                    }
+                    else
+                    {
+                        if (player >= 0)
+                            player = _obj.entityType[player] - 0x30d40;
+                        if (player >= 0)
+                            ground = player;
+                    }
             }
 
             if (selectedSpell >= 0 && Data.Data.spellType[selectedSpell] <= 1)
@@ -6049,14 +6049,14 @@ namespace RSCXNALib
                 }
                 else
                     if (selectedItem < 0)
-                    {
-                        menuText1[menuOptionsCount] = "Walk here";
-                        menuText2[menuOptionsCount] = "";
-                        menuActionID[menuOptionsCount] = 920;
-                        menuActionX[menuOptionsCount] = engineHandle.selectedX[ground];
-                        menuActionY[menuOptionsCount] = engineHandle.selectedY[ground];
-                        menuOptionsCount++;
-                    }
+                {
+                    menuText1[menuOptionsCount] = "Walk here";
+                    menuText2[menuOptionsCount] = "";
+                    menuActionID[menuOptionsCount] = 920;
+                    menuActionX[menuOptionsCount] = engineHandle.selectedX[ground];
+                    menuActionY[menuOptionsCount] = engineHandle.selectedY[ground];
+                    menuOptionsCount++;
+                }
             }
         }
 
@@ -6269,7 +6269,7 @@ namespace RSCXNALib
             for (int l = 0; l < menuOptionsCount; l++)
                 menuIndexes[l] = l;
 
-            for (bool flag = false; !flag; )
+            for (bool flag = false; !flag;)
             {
                 flag = true;
                 for (int i1 = 0; i1 < menuOptionsCount - 1; i1++)
@@ -6304,10 +6304,10 @@ namespace RSCXNALib
                     s1 = "Choose a target";
                 else
                     if ((selectedItem >= 0 || selectedSpell >= 0) && menuOptionsCount > 1)
-                        s1 = "@whi@" + menuText1[menuIndexes[0]] + " " + menuText2[menuIndexes[0]];
-                    else
+                    s1 = "@whi@" + menuText1[menuIndexes[0]] + " " + menuText2[menuIndexes[0]];
+                else
                         if (j1 != -1)
-                            s1 = menuText2[menuIndexes[j1]] + ": @whi@" + menuText1[menuIndexes[0]];
+                    s1 = menuText2[menuIndexes[j1]] + ": @whi@" + menuText1[menuIndexes[0]];
                 if (menuOptionsCount == 2 && s1 != null)
                     s1 = s1 + "@whi@ / 1 more option";
                 if (menuOptionsCount > 2 && s1 != null)
@@ -6417,12 +6417,12 @@ namespace RSCXNALib
                             var roof1 = engineHandle.roofObject[1][l];
                             gameCamera.addModel(roof1);
 
-                            
+
                             // draw wall object at lv 2 / third layer
                             gameCamera.addModel(engineHandle.wallObject[2][l]);
-                            
+
                             // draw roof object at lv 2 / third layer
-                            var roof2 = engineHandle.roofObject[2][l];                            
+                            var roof2 = engineHandle.roofObject[2][l];
                             gameCamera.addModel(engineHandle.roofObject[2][l]);
                         }
                     }
@@ -7008,11 +7008,11 @@ namespace RSCXNALib
                 }
                 else
                     if (mouseButtonClick != 0)
-                    {
-                        showDuelBox = false;
-                        base.streamClass.createPacket(35);
-                        base.streamClass.formatPacket();
-                    }
+                {
+                    showDuelBox = false;
+                    base.streamClass.createPacket(35);
+                    base.streamClass.formatPacket();
+                }
                 mouseButtonClick = 0;
                 mouseClickedHeldInTradeDuelBox = 0;
             }
@@ -7191,13 +7191,13 @@ namespace RSCXNALib
             }
             else
                 if (npc.currentSprite == 9)
-                {
-                    newFrameIndex = 5;
-                    frameIndex = 2;
-                    flag = true;
-                    x += (Data.Data.npcCombatSprite[npc.npcId] * unknown2) / 100;
-                    j1 = newFrameIndex * 3 + combatModelArray2[(tick / Data.Data.npcCombatModel[npc.npcId]) % 8];
-                }
+            {
+                newFrameIndex = 5;
+                frameIndex = 2;
+                flag = true;
+                x += (Data.Data.npcCombatSprite[npc.npcId] * unknown2) / 100;
+                j1 = newFrameIndex * 3 + combatModelArray2[(tick / Data.Data.npcCombatModel[npc.npcId]) % 8];
+            }
             for (int k1 = 0; k1 < 12; k1++)
             {
                 int l1 = animationModelArray[frameIndex][k1];
@@ -7225,16 +7225,16 @@ namespace RSCXNALib
                         }
                         else
                             if (j4 == 2)
-                            {
-                                j4 = Data.Data.npcTopColor[npc.npcId];
-                                k4 = Data.Data.npcSkinColor[npc.npcId];
-                            }
-                            else
+                        {
+                            j4 = Data.Data.npcTopColor[npc.npcId];
+                            k4 = Data.Data.npcSkinColor[npc.npcId];
+                        }
+                        else
                                 if (j4 == 3)
-                                {
-                                    j4 = Data.Data.npcBottomColor[npc.npcId];
-                                    k4 = Data.Data.npcSkinColor[npc.npcId];
-                                }
+                        {
+                            j4 = Data.Data.npcBottomColor[npc.npcId];
+                            k4 = Data.Data.npcSkinColor[npc.npcId];
+                        }
                         gameGraphics.drawImage(x + i3, y + j3, i4, height, l3, j4, k4, unknown1, flag);
                     }
                 }
@@ -7259,7 +7259,7 @@ namespace RSCXNALib
                         i2 -= (20 * unknown2) / 100;
                     else
                         if (npc.currentSprite == 9)
-                            i2 += (20 * unknown2) / 100;
+                        i2 += (20 * unknown2) / 100;
                     int l2 = (npc.currentHits * 30) / npc.baseHits;
                     healthBarX[healthBarVisibleCount] = i2 + width / 2;
                     healthBarY[healthBarVisibleCount] = y;
@@ -7272,7 +7272,7 @@ namespace RSCXNALib
                         j2 -= (10 * unknown2) / 100;
                     else
                         if (npc.currentSprite == 9)
-                            j2 += (10 * unknown2) / 100;
+                        j2 += (10 * unknown2) / 100;
                     gameGraphics.drawPicture((j2 + width / 2) - 12, (y + height / 2) - 12, baseInventoryPic + 12);
                     gameGraphics.drawText(npc.lastDamageCount.ToString(), (j2 + width / 2) - 1, y + height / 2 + 5, 3, 0xffffff);
                 }
@@ -7501,25 +7501,25 @@ namespace RSCXNALib
                 }
                 else
                     if (bankItemsCount > 48 && l >= 50 && l <= 115 && j1 <= 12)
-                        bankPage = 0;
-                    else
+                    bankPage = 0;
+                else
                         if (bankItemsCount > 48 && l >= 115 && l <= 180 && j1 <= 12)
-                            bankPage = 1;
-                        else
+                    bankPage = 1;
+                else
                             if (bankItemsCount > 96 && l >= 180 && l <= 245 && j1 <= 12)
-                                bankPage = 2;
-                            else
+                    bankPage = 2;
+                else
                                 if (bankItemsCount > 144 && l >= 245 && l <= 310 && j1 <= 12)
-                                {
-                                    bankPage = 3;
-                                }
-                                else
-                                {
-                                    base.streamClass.createPacket(48);
-                                    base.streamClass.formatPacket();
-                                    showBankBox = false;
-                                    return;
-                                }
+                {
+                    bankPage = 3;
+                }
+                else
+                {
+                    base.streamClass.createPacket(48);
+                    base.streamClass.formatPacket();
+                    showBankBox = false;
+                    return;
+                }
             }
             int i1 = 256 - c1 / 2;
             int k1 = 170 - c2 / 2;
@@ -7538,7 +7538,7 @@ namespace RSCXNALib
                     k3 = 0xff0000;
                 else
                     if (base.mouseX > i1 + l2 && base.mouseY >= k1 && base.mouseX < i1 + l2 + 65 && base.mouseY < k1 + 12)
-                        k3 = 0xffff00;
+                    k3 = 0xffff00;
                 gameGraphics.drawString("<page 1>", i1 + l2, k1 + 10, 1, k3);
                 l2 += 65;
                 k3 = 0xffffff;
@@ -7546,7 +7546,7 @@ namespace RSCXNALib
                     k3 = 0xff0000;
                 else
                     if (base.mouseX > i1 + l2 && base.mouseY >= k1 && base.mouseX < i1 + l2 + 65 && base.mouseY < k1 + 12)
-                        k3 = 0xffff00;
+                    k3 = 0xffff00;
                 gameGraphics.drawString("<page 2>", i1 + l2, k1 + 10, 1, k3);
                 l2 += 65;
             }
@@ -7557,7 +7557,7 @@ namespace RSCXNALib
                     l3 = 0xff0000;
                 else
                     if (base.mouseX > i1 + l2 && base.mouseY >= k1 && base.mouseX < i1 + l2 + 65 && base.mouseY < k1 + 12)
-                        l3 = 0xffff00;
+                    l3 = 0xffff00;
                 gameGraphics.drawString("<page 3>", i1 + l2, k1 + 10, 1, l3);
                 l2 += 65;
             }
@@ -7568,7 +7568,7 @@ namespace RSCXNALib
                     i4 = 0xff0000;
                 else
                     if (base.mouseX > i1 + l2 && base.mouseY >= k1 && base.mouseX < i1 + l2 + 65 && base.mouseY < k1 + 12)
-                        i4 = 0xffff00;
+                    i4 = 0xffff00;
                 gameGraphics.drawString("<page 4>", i1 + l2, k1 + 10, 1, i4);
                 l2 += 65;
             }
@@ -7874,7 +7874,7 @@ namespace RSCXNALib
                 s1 = "@gre@" + s1.Substring(0, s1.Length - 8) + " million @whi@(" + s1 + ")";
             else
                 if (s1.Length > 4)
-                    s1 = "@cya@" + s1.Substring(0, s1.Length - 4) + "K @whi@(" + s1 + ")";
+                s1 = "@cya@" + s1.Substring(0, s1.Length - 4) + "K @whi@(" + s1 + ")";
             return s1;
         }
 
@@ -8827,7 +8827,7 @@ namespace RSCXNALib
         public int[] menuActionX;
         public int[] menuActionY;
         public string[] skillNameVerb = new string[] {
-        "Attack", "Defense", "Strength", "Hits", "Ranged", "Prayer", "Magic", "Cooking", "Woodcutting", "Fletching", 
+        "Attack", "Defense", "Strength", "Hits", "Ranged", "Prayer", "Magic", "Cooking", "Woodcutting", "Fletching",
         "Fishing", "Firemaking", "Crafting", "Smithing", "Mining", "Herblaw", "Agility", "Thieving"
     };
         public int[] menuActionID;
@@ -8843,28 +8843,28 @@ namespace RSCXNALib
         public Menu appearanceMenu;
         public int[][] animationModelArray = new int[][]
         { new int[]{
-            11, 2, 9, 7, 1, 6, 10, 0, 5, 8, 
+            11, 2, 9, 7, 1, 6, 10, 0, 5, 8,
             3, 4
         }, new int[]{
-            11, 2, 9, 7, 1, 6, 10, 0, 5, 8, 
+            11, 2, 9, 7, 1, 6, 10, 0, 5, 8,
             3, 4
         }, new int[]{
-            11, 3, 2, 9, 7, 1, 6, 10, 0, 5, 
+            11, 3, 2, 9, 7, 1, 6, 10, 0, 5,
             8, 4
         }, new int[]{
-            3, 4, 2, 9, 7, 1, 6, 10, 8, 11, 
+            3, 4, 2, 9, 7, 1, 6, 10, 8, 11,
             0, 5
         }, new int[]{
-            3, 4, 2, 9, 7, 1, 6, 10, 8, 11, 
+            3, 4, 2, 9, 7, 1, 6, 10, 8, 11,
             0, 5
         }, new int[]{
-            4, 3, 2, 9, 7, 1, 6, 10, 8, 11, 
+            4, 3, 2, 9, 7, 1, 6, 10, 8, 11,
             0, 5
         }, new int[]{
-            11, 4, 2, 9, 7, 1, 6, 10, 0, 5, 
+            11, 4, 2, 9, 7, 1, 6, 10, 0, 5,
             8, 3
         }, new int[]{
-            11, 2, 9, 7, 1, 6, 10, 0, 5, 8, 
+            11, 2, 9, 7, 1, 6, 10, 0, 5, 8,
             4, 3
         }
     };
@@ -8983,7 +8983,7 @@ namespace RSCXNALib
         public int[] bankItems;
         public int[] bankItemCount;
         public string[] skillName = {
-        "Attack", "Defense", "Strength", "Hits", "Ranged", "Prayer", "Magic", "Cooking", "Woodcut", "Fletching", 
+        "Attack", "Defense", "Strength", "Hits", "Ranged", "Prayer", "Magic", "Cooking", "Woodcut", "Fletching",
         "Fishing", "Firemaking", "Crafting", "Smithing", "Mining", "Herblaw", "Agility", "Thieving"
     };
         public int npcCount;
@@ -9084,7 +9084,7 @@ namespace RSCXNALib
         public int[] messagesTimeout;
         public int projectileRange;
         public int[] appearanceTopBottomColours = {
-        0xff0000, 0xff8000, 0xffe000, 0xa0e000, 57344, 32768, 41088, 45311, 33023, 12528, 
+        0xff0000, 0xff8000, 0xffe000, 0xa0e000, 57344, 32768, 41088, 45311, 33023, 12528,
         0xe000e0, 0x303030, 0x604000, 0x805000, 0xffffff
     };
         public int showFriendsBox;

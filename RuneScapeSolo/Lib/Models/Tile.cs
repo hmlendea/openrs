@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using RSCXNALib.Extensions;
+using RuneScapeSolo.Lib.Extensions;
 
-namespace RSCXNALib.Models
+namespace RuneScapeSolo.Lib.Models
 {
     public class Tile
     {
@@ -16,11 +16,11 @@ namespace RSCXNALib.Models
         public byte verticalWall = 0;
         public int diagonalWalls = 0;
         public byte groundOverlay = 0;
-		public Tile() {}
-		public Tile(Sector sector)
-		{
-			this.Sector = sector;
-		}
+        public Tile() { }
+        public Tile(Sector sector)
+        {
+            this.Sector = sector;
+        }
         public static Tile unpack(MemoryStream indata)
         {
             if (indata.Remaining() < 10)
@@ -41,6 +41,6 @@ namespace RSCXNALib.Models
             return tile;
         }
 
-		public Sector Sector { get; set; }
-	}
+        public Sector Sector { get; set; }
+    }
 }

@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RSCXNALib.Game;
+using RuneScapeSolo.Lib.Game;
 using Microsoft.Xna.Framework.Input;
 
-namespace RSCXNALib
+namespace RuneScapeSolo.Lib
 {
     public class Menu
     {

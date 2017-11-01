@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RSCXNALib
+namespace RuneScapeSolo.Lib
 {
     public class Config
     {

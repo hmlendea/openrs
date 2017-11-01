@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace RSCXNALib.Extensions
+namespace RuneScapeSolo.Lib.Extensions
 {
     public static class MemoryStreamExtensions
     {

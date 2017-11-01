@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace RSCXNALib
+namespace RuneScapeSolo.Lib
 {
     public class link
     {
@@ -34,9 +34,9 @@ namespace RSCXNALib
 
             link.fileName[currentFile] = filename;
 
-       //     reader.Close();
+            //     reader.Close();
 
-          //  var f = Path.Combine(Config.CONF_DIR, filename);
+            //  var f = Path.Combine(Config.CONF_DIR, filename);
             //var bytes = File.ReadAllBytes(f).Select(c => (char)c); ;
             //var sbytes = bytes.Select(c=>Convert.ToSByte(c)).ToArray();//c.t(sbyte[])(Array)bytes;
             link.fileData[currentFile] = streamToSbyte(reader);
@@ -88,7 +88,7 @@ namespace RSCXNALib
 
         public static TcpClient getSocket(int port)
         {
-            for (link.port = port; link.port != 0; )
+            for (link.port = port; link.port != 0;)
                 try
                 {
                     Thread.Sleep(100);
@@ -109,7 +109,7 @@ namespace RSCXNALib
 
         public static string getAddress(string ip)
         {
-            for (iplookup = ip; iplookup != null; )
+            for (iplookup = ip; iplookup != null;)
                 try
                 {
                     Thread.Sleep(100);

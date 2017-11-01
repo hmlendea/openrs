@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using RSCXNALib.Data;
-using RSCXNALib.Game.Cameras;
-namespace RSCXNALib.Game
+using RuneScapeSolo.Lib.Data;
+using RuneScapeSolo.Lib.Game.Cameras;
+namespace RuneScapeSolo.Lib.Game
 {
 
     public class GameObject //: GameObject
@@ -201,7 +201,7 @@ namespace RSCXNALib.Game
 
             for (int l = 0; l < _vert_count; l++)
             {
-                cje[l] = new int[1];                
+                cje[l] = new int[1];
                 vert_x[l] = DataOperations.getShort2(data, offset);
                 _vertices[l] = new Vector3(vert_x[l], _vertices[l].Y, _vertices[l].Z);
                 offset += 2;
@@ -815,17 +815,17 @@ namespace RSCXNALib.Game
                         minX = worldVertX[i1];
                     else
                         if (worldVertX[i1] > maxX)
-                            maxX = worldVertX[i1];
+                        maxX = worldVertX[i1];
                     if (worldVertY[i1] < minY)
                         minY = worldVertY[i1];
                     else
                         if (worldVertY[i1] > maxY)
-                            maxY = worldVertY[i1];
+                        maxY = worldVertY[i1];
                     if (worldVertZ[i1] < minZ)
                         minZ = worldVertZ[i1];
                     else
                         if (worldVertZ[i1] > maxZ)
-                            maxZ = worldVertZ[i1];
+                        maxZ = worldVertZ[i1];
                 }
 
                 if (!noCollider)

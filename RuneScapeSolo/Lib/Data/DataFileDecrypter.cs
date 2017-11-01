@@ -1,6 +1,6 @@
 using System;
 
-namespace RSCXNALib.Data
+namespace RuneScapeSolo.Lib.Data
 {
 
     public class DataFileDecrypter

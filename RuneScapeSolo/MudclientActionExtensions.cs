@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RSCXNALib;
+using RuneScapeSolo.Lib;
 
-namespace RSCXNA
+namespace RuneScapeSolo
 {
     public static class MudclientActionExtensions
     {
@@ -27,11 +27,11 @@ namespace RSCXNA
         }
         public static void AcceptTrade(this mudclient mc, TradeAndDuelState state)
         {
-            if (state == TradeAndDuelState.Initial) 
-            { 
+            if (state == TradeAndDuelState.Initial)
+            {
             }
-            else 
-            { 
+            else
+            {
             }
         }
         public static void DeclineTrade(this mudclient mc)

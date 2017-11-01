@@ -1,4 +1,4 @@
-namespace RSCXNALib.Data
+namespace RuneScapeSolo.Lib.Data
 {
 
 	internal class BZip2BlockEntry

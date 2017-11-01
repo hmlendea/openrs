@@ -7,7 +7,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
-namespace RSCXNALib.Net
+namespace RuneScapeSolo.Lib.Net
 {
     public class StreamClass : PacketConstruction
     {

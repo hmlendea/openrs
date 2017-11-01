@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Microsoft.Xna.Framework;
-using RSCXNALib.Data;
-using RSCXNALib.Game;
-using RSCXNALib.Net;
+using RuneScapeSolo.Lib.Data;
+using RuneScapeSolo.Lib.Game;
+using RuneScapeSolo.Lib.Net;
 
-namespace RSCXNALib
+namespace RuneScapeSolo.Lib
 {
     public class GameAppletMiddleMan : GameApplet
     {
@@ -110,7 +110,7 @@ namespace RSCXNALib
             int loginCode = streamClass.read();
             Console.WriteLine("login response:" + loginCode);
 
-           // streamClass.MakeAsync();
+            // streamClass.MakeAsync();
 
             if (loginCode == 99)
             {
@@ -233,7 +233,7 @@ namespace RSCXNALib
 
         protected void gameBoxPrint(string s1, string s2)
         {
-            
+
             //Font font = new Font("Helvetica", 1, 15);
             char c = '\u0200';
             char c1 = '\u0158';

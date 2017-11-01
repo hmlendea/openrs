@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using RSCXNALib.Extensions;
+using RuneScapeSolo.Lib.Extensions;
 
-namespace RSCXNALib.Models
+namespace RuneScapeSolo.Lib.Models
 {
     public class Sector
     {
@@ -20,7 +20,7 @@ namespace RSCXNALib.Models
             for (int i = 0; i < tiles.Length; i++)
             {
                 tiles[i] = new Tile(this);
-				
+
             }
         }
 

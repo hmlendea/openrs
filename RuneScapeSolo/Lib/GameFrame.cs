@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace RSCXNALib
+namespace RuneScapeSolo.Lib
 {
     public class GameFrame
     {

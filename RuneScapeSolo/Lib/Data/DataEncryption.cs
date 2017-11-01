@@ -1,6 +1,6 @@
 using System;
 using System.Text;
-namespace RSCXNALib.Data
+namespace RuneScapeSolo.Lib.Data
 {
 
 //    public class DataEncryption

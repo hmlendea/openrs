@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RSCXNA.Primitives;
-using RSCXNALib.Game;
+using RuneScapeSolo.Primitives;
+using RuneScapeSolo.Lib.Game;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace RSCXNA
+namespace RuneScapeSolo
 {
 
 
@@ -127,9 +127,9 @@ namespace RSCXNA
             }
             else
                 if (xRot < -360F)
-                {
-                    xRot += 360F;
-                }
+            {
+                xRot += 360F;
+            }
             this.xRot = xRot;
         }
 
@@ -146,9 +146,9 @@ namespace RSCXNA
             }
             else
                 if (yRot < -360F)
-                {
-                    yRot += 360F;
-                }
+            {
+                yRot += 360F;
+            }
             this.yRot = yRot;
         }
 
@@ -165,9 +165,9 @@ namespace RSCXNA
             }
             else
                 if (zRot < -360F)
-                {
-                    zRot += 360F;
-                }
+            {
+                zRot += 360F;
+            }
             this.zRot = zRot;
         }
 
@@ -254,39 +254,39 @@ namespace RSCXNA
     {
         public OB3Model(GraphicsDevice graphicsDevice, GameObject obj)
         {
-			//if (obj != null)
-			//{
+            //if (obj != null)
+            //{
 
 
-                
-			//	var faceCount = obj.face_count;
-			//	var vertices = obj._vertices;
-			//	var faceBack = obj.texture_front;
-			//	var faceFront = obj.texture_back;
-			//	var faces = obj.face_verts;
-			//	var face_vertices_count = obj.face_vert_count;
 
-			//	for (int j = 0; j < faces.Length; j++)
-			//	{
-			//		for (int x = 0; x < faces[j].Length; x++)
-			//			base.AddIndex(faces[j][x]);
-			//	}
+            //	var faceCount = obj.face_count;
+            //	var vertices = obj._vertices;
+            //	var faceBack = obj.texture_front;
+            //	var faceFront = obj.texture_back;
+            //	var faces = obj.face_verts;
+            //	var face_vertices_count = obj.face_vert_count;
 
-			//	foreach (var vert in vertices)
-			//	{
-			//		var vert2 = new Vector3(vert.X, vert.Y, vert.Z);
-			//		vert2.Normalize();
-			//		base.AddVertex(vert, vert2);
-			//	}
-			//	//for (int j = 0; j < faces.Length; j++)
-			//	//{
-			//	//    for (int x; x < faces[j].Length; x++)
-			//	//    { 
-			//	//        base.AddVertex(
-			//	//    }
-			//	//}
-			//}
-			//InitializePrimitive(graphicsDevice);
+            //	for (int j = 0; j < faces.Length; j++)
+            //	{
+            //		for (int x = 0; x < faces[j].Length; x++)
+            //			base.AddIndex(faces[j][x]);
+            //	}
+
+            //	foreach (var vert in vertices)
+            //	{
+            //		var vert2 = new Vector3(vert.X, vert.Y, vert.Z);
+            //		vert2.Normalize();
+            //		base.AddVertex(vert, vert2);
+            //	}
+            //	//for (int j = 0; j < faces.Length; j++)
+            //	//{
+            //	//    for (int x; x < faces[j].Length; x++)
+            //	//    { 
+            //	//        base.AddVertex(
+            //	//    }
+            //	//}
+            //}
+            //InitializePrimitive(graphicsDevice);
         }
     }
 }

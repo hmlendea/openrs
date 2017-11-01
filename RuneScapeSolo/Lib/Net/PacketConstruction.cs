@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace RSCXNALib.Net
+namespace RuneScapeSolo.Lib.Net
 {
     public class PacketConstruction
     {

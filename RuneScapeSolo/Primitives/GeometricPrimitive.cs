@@ -15,7 +15,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 #endregion
 
-namespace RSCXNA.Primitives
+namespace RuneScapeSolo.Primitives
 {
 
     public struct VertexPositionNormal : IVertexType
