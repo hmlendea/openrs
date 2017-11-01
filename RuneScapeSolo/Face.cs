@@ -1,57 +1,62 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="Face.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace RuneScapeSolo
 {
     /// <summary>
-	/// TODO: Update summary.
-	/// </summary>
-	public class Face
+    /// Face.
+    /// </summary>
+    public class Face
     {
-        private int[] points;
-        private Color faceColor;
-        private int image = -1;
-        public Face(Color c, int[] points)
+        /// <summary>
+        /// Gets or sets the colour of the face.
+        /// </summary>
+        /// <value>The colour.</value>
+        public Color Colour { get; set; }
+
+        /// <summary>
+        /// Gets the image.
+        /// </summary>
+        /// <value>The image.</value>
+        public int Image { get; private set; }
+
+        /// <summary>
+        /// Gets the points.
+        /// </summary>
+        /// <value>The points.</value>
+        public int[] Points { get; private set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Face"/> class.
+        /// </summary>
+        /// <param name="colour">Colour.</param>
+        /// <param name="points">Points.</param>
+        public Face(Color colour, int[] points)
         {
-            this.points = points;
-            faceColor = c;
+            Colour = colour;
+            Image = -1;
+            Points = points;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Face"/> class.
+        /// </summary>
+        /// <param name="image">Image.</param>
+        /// <param name="points">Points.</param>
         public Face(int image, int[] points)
         {
-            this.points = points;
-            this.image = image;
+            Image = image;
+            Points = points;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Face"/> class.
+        /// </summary>
+        /// <param name="points">Points.</param>
         public Face(int[] points)
         {
-            this.points = points;
-            faceColor = Color.Red;
-        }
-
-        public int getImage()
-        {
-            return image;
-        }
-
-        public int[] getPoints()
-        {
-            return points;
-        }
-
-        public Color getFaceColor()
-        {
-            return faceColor;
-        }
-
-        public void setFaceColor(Color faceColor)
-        {
-            this.faceColor = faceColor;
+            Colour = Color.Red;
+            Image = -1;
+            Points = points;
         }
     }
 }
