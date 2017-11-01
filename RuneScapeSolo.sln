@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneScapeSolo", "RuneScapeSolo\RuneScapeSolo.csproj", "{52BAD441-8465-4574-9899-B2911249E2DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneScapeSolo.Data", "RuneScapeSolo.Data\RuneScapeSolo.Data.csproj", "{1F0B4C1F-5C31-465E-8747-54399762C50A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{52BAD441-8465-4574-9899-B2911249E2DE}.Debug|x86.ActiveCfg = Debug|x86
+		{52BAD441-8465-4574-9899-B2911249E2DE}.Debug|x86.Build.0 = Debug|x86
+		{52BAD441-8465-4574-9899-B2911249E2DE}.Release|x86.ActiveCfg = Release|x86
+		{52BAD441-8465-4574-9899-B2911249E2DE}.Release|x86.Build.0 = Release|x86
+		{1F0B4C1F-5C31-465E-8747-54399762C50A}.Debug|x86.ActiveCfg = Debug|x86
+		{1F0B4C1F-5C31-465E-8747-54399762C50A}.Debug|x86.Build.0 = Debug|x86
+		{1F0B4C1F-5C31-465E-8747-54399762C50A}.Release|x86.ActiveCfg = Release|x86
+		{1F0B4C1F-5C31-465E-8747-54399762C50A}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+EndGlobal
