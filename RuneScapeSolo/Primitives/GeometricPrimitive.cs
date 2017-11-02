@@ -1,54 +1,11 @@
 ﻿using System;
-#region File Description
-//-----------------------------------------------------------------------------
-// GeometricPrimitive.cs
-//
-// Microsoft XNA Community Game Platform
-// Copyright (C) Microsoft Corporation. All rights reserved.
-//-----------------------------------------------------------------------------
-#endregion
-
-#region Using Statements
 using System.Collections.Generic;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-#endregion
 
 namespace RuneScapeSolo.Primitives
 {
-
-    public struct VertexPositionNormal : IVertexType
-    {
-        public Vector3 Position;
-        public Vector3 Normal;
-
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public VertexPositionNormal(Vector3 position, Vector3 normal)
-        {
-            Position = position;
-            Normal = normal;
-        }
-
-        /// <summary>
-        /// A VertexDeclaration object, which contains information about the vertex
-        /// elements contained within this struct.
-        /// </summary>
-        public static readonly VertexDeclaration VertexDeclaration = new VertexDeclaration
-        (
-            new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
-            new VertexElement(12, VertexElementFormat.Vector3, VertexElementUsage.Normal, 0)
-        );
-
-        VertexDeclaration IVertexType.VertexDeclaration
-        {
-            get { return VertexPositionNormal.VertexDeclaration; }
-        }
-
-    }
-
     /// <summary>
     /// Base class for simple geometric primitive models. This provides a vertex
     /// buffer, an index buffer, plus methods for drawing the model. Classes for
@@ -56,17 +13,13 @@ namespace RuneScapeSolo.Primitives
     /// derived from this common base, and use the AddVertex and AddIndex methods
     /// to specify their geometry.
     /// </summary>
-    public abstract class GeometricPrimitive : System.IDisposable
+    public abstract class GeometricPrimitive : IDisposable
     {
-        #region Fields
-
-
         // During the process of constructing a primitive model, vertex
         // and index data is stored on the CPU in these managed lists.
         List<VertexPositionNormal> vertices = new List<VertexPositionNormal>();
         List<ushort> indices = new List<ushort>();
-
-
+        
         // Once all the geometry has been specified, the InitializePrimitive
         // method copies the vertex and index data into these buffers, which
         // store it on the GPU ready for efficient rendering.
@@ -74,11 +27,13 @@ namespace RuneScapeSolo.Primitives
         IndexBuffer indexBuffer;
         BasicEffect basicEffect;
 
-
-        #endregion
-
-        #region Initialization
-
+        /// <summary>
+        /// Finalizer.
+        /// </summary>
+        ~GeometricPrimitive()
+        {
+            Dispose(false);
+        }
 
         /// <summary>
         /// Adds a new vertex to the primitive model. This should only be called
@@ -88,8 +43,7 @@ namespace RuneScapeSolo.Primitives
         {
             vertices.Add(new VertexPositionNormal(position, normal));
         }
-
-
+        
         /// <summary>
         /// Adds a new index to the primitive model. This should only be called
         /// during the initialization process, before InitializePrimitive.
@@ -101,8 +55,7 @@ namespace RuneScapeSolo.Primitives
 
             indices.Add((ushort)index);
         }
-
-
+        
         /// <summary>
         /// Queries the index of the current vertex. This starts at
         /// zero, and increments every time AddVertex is called.
@@ -111,8 +64,7 @@ namespace RuneScapeSolo.Primitives
         {
             get { return vertices.Count; }
         }
-
-
+        
         /// <summary>
         /// Once all the geometry has been specified by calling AddVertex and AddIndex,
         /// this method copies the vertex and index data into GPU format buffers, ready
@@ -140,16 +92,7 @@ namespace RuneScapeSolo.Primitives
             basicEffect.EnableDefaultLighting();
         }
 
-
-        /// <summary>
-        /// Finalizer.
-        /// </summary>
-        ~GeometricPrimitive()
-        {
-            Dispose(false);
-        }
-
-
+        
         /// <summary>
         /// Frees resources used by this object.
         /// </summary>
@@ -158,8 +101,7 @@ namespace RuneScapeSolo.Primitives
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-
+        
         /// <summary>
         /// Frees resources used by this object.
         /// </summary>
@@ -177,13 +119,7 @@ namespace RuneScapeSolo.Primitives
                     basicEffect.Dispose();
             }
         }
-
-
-        #endregion
-
-        #region Draw
-
-
+        
         /// <summary>
         /// Draws the primitive model, using the specified effect. Unlike the other
         /// Draw overload where you just specify the world/view/projection matrices
@@ -211,8 +147,7 @@ namespace RuneScapeSolo.Primitives
 
             }
         }
-
-
+        
         /// <summary>
         /// Draws the primitive model, using a BasicEffect shader with default
         /// lighting. Unlike the other Draw overload where you specify a custom
@@ -246,8 +181,5 @@ namespace RuneScapeSolo.Primitives
             // Draw the model, using BasicEffect.
             Draw(basicEffect);
         }
-
-
-        #endregion
     }
 }

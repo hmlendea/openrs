@@ -1,3 +1,4 @@
+using RuneScapeSolo.Enumerations;
 using RuneScapeSolo.Lib;
 
 namespace RuneScapeSolo
@@ -56,10 +57,5 @@ namespace RuneScapeSolo
         }
 
         #endregion
-    }
-
-    public enum TradeAndDuelState
-    {
-        Initial, Confirm
     }
 }

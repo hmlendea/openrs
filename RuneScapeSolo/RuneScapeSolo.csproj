@@ -63,6 +63,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enumerations\TradeAndDuelState.cs" />
+    <Compile Include="Model.cs" />
+    <Compile Include="Primitives\VertexPositionNormal.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameWindow.cs" />
