@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace RuneScapeSolo.Lib.Models
+﻿namespace RuneScapeSolo.Lib.Models
 {
     class Sprite
     {

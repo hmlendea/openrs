@@ -1,7 +1,5 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
-using System.Linq;
 #if MONOMAC
 using MonoMac.AppKit;
 using MonoMac.Foundation;

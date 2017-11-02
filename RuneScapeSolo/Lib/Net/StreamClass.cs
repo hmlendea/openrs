@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Net.Sockets;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace RuneScapeSolo.Lib.Net

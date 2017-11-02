@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace RuneScapeSolo.Lib.Game.Cameras
+﻿namespace RuneScapeSolo.Lib.Game.Cameras
 {
     public class CameraModel
     {

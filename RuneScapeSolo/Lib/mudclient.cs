@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Sockets;
 using System.Text;
 using RuneScapeSolo.Lib.Data;
 using RuneScapeSolo.Lib.Game;
@@ -11,7 +10,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Drawing;
-using Color = Microsoft.Xna.Framework.Color;
 using System.ComponentModel;
 using System.Runtime.Remoting.Messaging;
 namespace RuneScapeSolo.Lib
