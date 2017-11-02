@@ -1,26 +1,33 @@
 using System;
+
 using Microsoft.Xna.Framework.Graphics;
 
 namespace RuneScapeSolo.Lib
 {
     public class GameFrame
     {
-        public GameFrame(GameApplet arg0, int width, int height, string title, bool resizable, bool translate)
+        public GameFrame(GameApplet gameApplet, int width, int height, string title, bool isResizable, bool doTranslation)
         {
-            yOffset = 28;
-            frameWidth = width;
-            frameHeight = height;
-            gameApplet = arg0;
-            if (translate)
-                yOffset = 48;
+            GameApplet = gameApplet;
+            FrameWidth = width;
+            FrameHeight = height;
+            OffsetY = 28;
+
+            if (doTranslation)
+            {
+                OffsetY = 48;
+            }
             else
-                yOffset = 28;
-            gameApplet.mouseYOffset = 0;// 24;
+            {
+                OffsetY = 28;
+            }
+
+            GameApplet.mouseYOffset = 0;// 24;
             //setTitle(title);
             //setResizable(resizable);
             //show();
             //toFront();
-            resize(frameWidth, frameHeight);
+            Resize(FrameWidth, FrameHeight);
 
             //addWindowListener(this);
         }
@@ -37,32 +44,35 @@ namespace RuneScapeSolo.Lib
         //    return g;
         //}
 
-        public void resize(int i, int j)
+        public void Resize(int i, int j)
         {
             //super.resize(i, j + yOffset);
         }
 
-        public void paint(GraphicsDevice g)
+        public void Paint(GraphicsDevice g)
         {
-            gameApplet.paint(g);
+            GameApplet.paint(g);
         }
 
-        public void windowClosed(EventArgs evt)
+        public void WindowClosed(EventArgs evt)
         {
-            if (gameApplet.runStatus != -1)
-                gameApplet.destroy();
+            if (GameApplet.runStatus != -1)
+            {
+                GameApplet.Destroy();
+            }
         }
 
-        public void windowClosing(EventArgs evt)
+        public void WindowClosing(EventArgs evt)
         {
-            if (gameApplet.runStatus != -1)
-                gameApplet.destroy();
+            if (GameApplet.runStatus != -1)
+            {
+                GameApplet.Destroy();
+            }
         }
 
-        public int frameWidth;
-        public int frameHeight;
-        public int fej;
-        public int yOffset;
-        public GameApplet gameApplet;
+        public GameApplet GameApplet { get; set; }
+        public int FrameWidth { get; set; }
+        public int FrameHeight { get; set; }
+        public int OffsetY { get; set; }
     }
 }

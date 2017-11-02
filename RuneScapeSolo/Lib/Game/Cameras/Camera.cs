@@ -538,7 +538,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     k13 = model.cfl[ai2[1]] - i9;
                     int i14 = i9 - i12 / 2;
                     int k14 = (bcm + j10) - k12;
-                    gameImage.drawVisibleEntity(i14 + bcl, k14, i12, k12, sceneObjectId[j2], k13, (256 << bcn) / j11);
+                    gameImage.DrawVisibleEntity(i14 + bcl, k14, i12, k12, sceneObjectId[j2], k13, (256 << bcn) / j11);
                     if (bcb && bce < maxHighlightedObjects)
                     {
                         i14 += (beg[j2] << bcn) / j11;

@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
 using RuneScapeSolo.Lib;
 
 namespace RuneScapeSolo
@@ -10,7 +12,7 @@ namespace RuneScapeSolo
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class GameWindow : Microsoft.Xna.Framework.Game
+    public class GameWindow : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -20,9 +22,7 @@ namespace RuneScapeSolo
         Texture2D _lastGameImageTexture = null;
 
         private Texture2D _gameLogo;
-
-
-
+        
         private SpriteFont _diagnosticFont;
         private SpriteFont _diagnosticFont2;
 
@@ -131,7 +131,7 @@ namespace RuneScapeSolo
 
             try
             {
-                _rscMudclient.destroy();
+                _rscMudclient.Destroy();
             }
             catch { }
 

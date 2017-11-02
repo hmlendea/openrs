@@ -967,7 +967,7 @@ namespace RuneScapeSolo.Lib.Game
             }
         }
 
-        public void drawEntity(int x, int y, int width, int height, int index)
+        public void DrawEntity(int x, int y, int width, int height, int index)
         {
             try
             {
@@ -1849,9 +1849,9 @@ namespace RuneScapeSolo.Lib.Game
 
         }
 
-        public virtual void drawVisibleEntity(int i, int k, int l, int i1, int j1, int k1, int l1)
+        public virtual void DrawVisibleEntity(int i, int k, int l, int i1, int j1, int k1, int l1)
         {
-            drawEntity(i, k, l, i1, j1);
+            DrawEntity(i, k, l, i1, j1);
         }
 
         public virtual void drawImage(int x, int y, int width, int height, int j1, int k1, int l1,

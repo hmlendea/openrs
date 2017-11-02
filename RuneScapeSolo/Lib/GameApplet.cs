@@ -14,6 +14,11 @@ namespace RuneScapeSolo.Lib
 {
     public class GameApplet
     {
+        public GameApplet()
+        {
+            // This is needed
+        }
+
         public void CreateWindow(int width, int height, string title, bool resizable)
         {
             Console.WriteLine("Started application");
@@ -265,7 +270,7 @@ namespace RuneScapeSolo.Lib
         }
 
 
-        public void destroy()
+        public void Destroy()
         {
             runStatus = -1;
             try

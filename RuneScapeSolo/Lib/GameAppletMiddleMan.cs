@@ -13,6 +13,17 @@ namespace RuneScapeSolo.Lib
         public static Random ran = new Random();
         static bool isConnecting = false;
         Thread connectionThread;
+        
+        public GameAppletMiddleMan()
+        {
+            username = "";
+            password = "";
+            packetData = new sbyte[10000];
+            friendsList = new long[40];
+            friendsWorld = new int[400];
+            ignoresList = new long[200];
+        }
+
         public void connect(string user, string pass, bool reconnecting)
         {
             if (isConnecting)
@@ -520,16 +531,6 @@ namespace RuneScapeSolo.Lib
 
         public virtual void displayMessage(string s1)
         {
-        }
-
-        public GameAppletMiddleMan()
-        {
-            username = "";
-            password = "";
-            packetData = new sbyte[10000];
-            friendsList = new long[40];
-            friendsWorld = new int[400];
-            ignoresList = new long[200];
         }
 
         public static int maxPacketReadCount;

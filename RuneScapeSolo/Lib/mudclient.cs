@@ -803,7 +803,7 @@ namespace RuneScapeSolo.Lib
             }
         }
 
-        public void drawPlayer(int x, int y, int width, int height, int playerIndex, int arg5, int arg6)
+        public void DrawPlayer(int x, int y, int width, int height, int playerIndex, int arg5, int arg6)
         {
             Mob f1 = playerArray[playerIndex];
             if (f1.bottomColour == 255)// TODO this checks if the player is an invisible moderator
@@ -970,7 +970,7 @@ namespace RuneScapeSolo.Lib
                     k2 += (20 * arg6) / 100;
                 int j3 = (16 * arg6) / 100;
                 int l3 = (16 * arg6) / 100;
-                gameGraphics.drawEntity(k2 - j3 / 2, y - l3 / 2 - (10 * arg6) / 100, j3, l3, baseInventoryPic + 13);
+                gameGraphics.DrawEntity(k2 - j3 / 2, y - l3 / 2 - (10 * arg6) / 100, j3, l3, baseInventoryPic + 13);
             }
         }
 
@@ -4139,7 +4139,7 @@ namespace RuneScapeSolo.Lib
             ResetTimings();
         }
 
-        public void drawTeleBubble(int x, int y, int j1, int k1, int l1, int i2, int j2)
+        public void DrawTeleBubble(int x, int y, int j1, int k1, int l1, int i2, int j2)
         {
             int type = teleBubbleType[l1];
             int time = teleBubbleTime[l1];
@@ -4467,7 +4467,7 @@ namespace RuneScapeSolo.Lib
             OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
         }
 
-        public void drawItem(int x, int y, int width, int height, int itemID, int i2, int j2)
+        public void DrawItem(int x, int y, int width, int height, int itemID, int i2, int j2)
         {
             int picture = Data.Data.itemInventoryPicture[itemID] + baseItemPicture;
             int mask = Data.Data.itemPictureMask[itemID];
@@ -4530,7 +4530,7 @@ namespace RuneScapeSolo.Lib
                 errorLoading = true;
                 return;
             }
-            Data.Data.load(abyte0);
+            Data.Data.Load(abyte0);
             sbyte[] abyte1 = unpackData("filter.jag", "Chat system", 15);
             if (abyte1 == null)
             {
@@ -7157,7 +7157,7 @@ namespace RuneScapeSolo.Lib
             }
         }
 
-        public void drawNPC(int x, int y, int width, int height, int index, int unknown1, int unknown2)
+        public void DrawNpc(int x, int y, int width, int height, int index, int unknown1, int unknown2)
         {
             Mob npc = npcArray[index];
             int frameIndex = npc.currentSprite + (cameraRotation + 16) / 32 & 7;
