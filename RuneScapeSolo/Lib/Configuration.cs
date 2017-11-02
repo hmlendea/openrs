@@ -33,7 +33,7 @@
         /// <summary>
         /// The port of the server.
         /// </summary>
-        public const int SERVER_PORT = 43595;
+        public const int SERVER_PORT = 43594;
 
         /// <summary>
         /// The cache URL.

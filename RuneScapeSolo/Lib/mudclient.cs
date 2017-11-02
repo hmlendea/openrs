@@ -286,151 +286,151 @@ namespace RuneScapeSolo.Lib
             if (actionID == 200)
             {
                 walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
-                base.streamClass.createPacket(104);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(104);
+                base.streamClass.SendInt16(actionVar1);
+                base.streamClass.SendInt16(actionX + areaX);
+                base.streamClass.SendInt16(actionY + areaY);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 210)
             {
                 walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
-                base.streamClass.createPacket(34);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.addShort(actionType);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(34);
+                base.streamClass.SendInt16(actionX + areaX);
+                base.streamClass.SendInt16(actionY + areaY);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.SendInt16(actionVar1);
+                base.streamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 220)
             {
                 walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
-                base.streamClass.createPacket(245);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.addShort(actionType);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(245);
+                base.streamClass.SendInt16(actionX + areaX);
+                base.streamClass.SendInt16(actionY + areaY);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.SendInt16(actionVar1);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 3200)
                 displayMessage(Data.Data.itemDescription[actionType], 3);
             if (actionID == 300)
             {
                 walkToWallObject(actionX, actionY, actionType);
-                base.streamClass.createPacket(67);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.addByte(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(67);
+                base.streamClass.SendInt16(actionVar1);
+                base.streamClass.SendInt16(actionX + areaX);
+                base.streamClass.SendInt16(actionY + areaY);
+                base.streamClass.AddInt8(actionType);
+                base.streamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 310)
             {
                 walkToWallObject(actionX, actionY, actionType);
-                base.streamClass.createPacket(36);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.addByte(actionType);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(36);
+                base.streamClass.SendInt16(actionX + areaX);
+                base.streamClass.SendInt16(actionY + areaY);
+                base.streamClass.AddInt8(actionType);
+                base.streamClass.SendInt16(actionVar1);
+                base.streamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 320)
             {
                 walkToWallObject(actionX, actionY, actionType);
-                base.streamClass.createPacket(126);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.addByte(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(126);
+                base.streamClass.SendInt16(actionX + areaX);
+                base.streamClass.SendInt16(actionY + areaY);
+                base.streamClass.AddInt8(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 2300)
             {
                 walkToWallObject(actionX, actionY, actionType);
-                base.streamClass.createPacket(235);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.addByte(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(235);
+                base.streamClass.SendInt16(actionX + areaX);
+                base.streamClass.SendInt16(actionY + areaY);
+                base.streamClass.AddInt8(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 3300)
                 displayMessage(Data.Data.wallObjectDescription[actionType], 3);
             if (actionID == 400)
             {
                 walkToObject(actionX, actionY, actionType, actionVar1);
-                base.streamClass.createPacket(17);
-                base.streamClass.addShort(actionVar2);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
+                base.streamClass.CreatePacket(17);
+                base.streamClass.SendInt16(actionVar2);
+                base.streamClass.SendInt16(actionX + areaX);
+                base.streamClass.SendInt16(actionY + areaY);
 
-                base.streamClass.formatPacket();
+                base.streamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 410)
             {
                 walkToObject(actionX, actionY, actionType, actionVar1);
-                base.streamClass.createPacket(94);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.addShort(actionVar2);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(94);
+                base.streamClass.SendInt16(actionX + areaX);
+                base.streamClass.SendInt16(actionY + areaY);
+                base.streamClass.SendInt16(actionVar2);
+                base.streamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 420)
             {
                 walkToObject(actionX, actionY, actionType, actionVar1);
-                base.streamClass.createPacket(51);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(51);
+                base.streamClass.SendInt16(actionX + areaX);
+                base.streamClass.SendInt16(actionY + areaY);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 2400)
             {
                 walkToObject(actionX, actionY, actionType, actionVar1);
-                base.streamClass.createPacket(40);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(40);
+                base.streamClass.SendInt16(actionX + areaX);
+                base.streamClass.SendInt16(actionY + areaY);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 3400)
                 displayMessage(Data.Data.objectDescription[actionType], 3);
             if (actionID == 600)
             {
-                base.streamClass.createPacket(49);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(49);
+                base.streamClass.SendInt16(actionVar1);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 610)
             {
-                base.streamClass.createPacket(27);
-                base.streamClass.addShort(actionType);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(27);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.SendInt16(actionVar1);
+                base.streamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 620)
             {
-                base.streamClass.createPacket(92);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(92);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 630)
             {
-                base.streamClass.createPacket(181);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(181);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 640)
             {
-                base.streamClass.createPacket(89);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(89);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 650)
             {
@@ -440,9 +440,9 @@ namespace RuneScapeSolo.Lib
             }
             if (actionID == 660)
             {
-                base.streamClass.createPacket(147);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(147);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.FormatPacket();
                 selectedItem = -1;
                 drawMenuTab = 0;
                 displayMessage("Dropping " + Data.Data.itemName[inventoryItems[actionType]], 4);
@@ -454,10 +454,10 @@ namespace RuneScapeSolo.Lib
                 int k2 = (actionX - 64) / gridSize;
                 int k4 = (actionY - 64) / gridSize;
                 walkTo1Tile(sectionX, sectionY, k2, k4, true);
-                base.streamClass.createPacket(71);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(71);
+                base.streamClass.SendInt16(actionVar1);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 710)
@@ -465,10 +465,10 @@ namespace RuneScapeSolo.Lib
                 int l2 = (actionX - 64) / gridSize;
                 int l4 = (actionY - 64) / gridSize;
                 walkTo1Tile(sectionX, sectionY, l2, l4, true);
-                base.streamClass.createPacket(142);
-                base.streamClass.addShort(actionType);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(142);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.SendInt16(actionVar1);
+                base.streamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 720)
@@ -476,27 +476,27 @@ namespace RuneScapeSolo.Lib
                 int i3 = (actionX - 64) / gridSize;
                 int i5 = (actionY - 64) / gridSize;
                 walkTo1Tile(sectionX, sectionY, i3, i5, true);
-                base.streamClass.createPacket(177);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(177);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 725)
             {
                 int j3 = (actionX - 64) / gridSize;
                 int j5 = (actionY - 64) / gridSize;
                 walkTo1Tile(sectionX, sectionY, j3, j5, true);
-                base.streamClass.createPacket(74);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(74);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 715 || actionID == 2715)
             {
                 int k3 = (actionX - 64) / gridSize;
                 int k5 = (actionY - 64) / gridSize;
                 walkTo1Tile(sectionX, sectionY, k3, k5, true);
-                base.streamClass.createPacket(73);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(73);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 3700)
                 displayMessage(Data.Data.npcDescription[actionType], 3);
@@ -505,10 +505,10 @@ namespace RuneScapeSolo.Lib
                 int l3 = (actionX - 64) / gridSize;
                 int l5 = (actionY - 64) / gridSize;
                 walkTo1Tile(sectionX, sectionY, l3, l5, true);
-                base.streamClass.createPacket(55);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(55);
+                base.streamClass.SendInt16(actionVar1);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 810)
@@ -516,10 +516,10 @@ namespace RuneScapeSolo.Lib
                 int i4 = (actionX - 64) / gridSize;
                 int i6 = (actionY - 64) / gridSize;
                 walkTo1Tile(sectionX, sectionY, i4, i6, true);
-                base.streamClass.createPacket(16);
-                base.streamClass.addShort(actionType);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(16);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.SendInt16(actionVar1);
+                base.streamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 805 || actionID == 2805)
@@ -527,36 +527,36 @@ namespace RuneScapeSolo.Lib
                 int j4 = (actionX - 64) / gridSize;
                 int j6 = (actionY - 64) / gridSize;
                 walkTo1Tile(sectionX, sectionY, j4, j6, true);
-                base.streamClass.createPacket(57);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(57);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 2806)
             {
-                base.streamClass.createPacket(222);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(222);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 2810)
             {
-                base.streamClass.createPacket(166);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(166);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 2820)
             {
-                base.streamClass.createPacket(68);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(68);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 900)
             {
                 walkTo1Tile(sectionX, sectionY, actionX, actionY, true);
-                base.streamClass.createPacket(232);
-                base.streamClass.addShort(actionType);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(232);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.SendInt16(actionX + areaX);
+                base.streamClass.SendInt16(actionY + areaY);
+                base.streamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 920)
@@ -567,9 +567,9 @@ namespace RuneScapeSolo.Lib
             }
             if (actionID == 1000)
             {
-                base.streamClass.createPacket(206);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(206);
+                base.streamClass.SendInt16(actionType);
+                base.streamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 4000)
@@ -1054,20 +1054,20 @@ namespace RuneScapeSolo.Lib
                 if (base.mouseX < byte0 || base.mouseY < byte1 || base.mouseX > byte0 + 468 || base.mouseY > byte1 + 262)
                 {
                     showDuelConfirmBox = false;
-                    base.streamClass.createPacket(35);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(35);
+                    base.streamClass.FormatPacket();
                 }
                 if (base.mouseX >= (byte0 + 118) - 35 && base.mouseX <= byte0 + 118 + 70 && base.mouseY >= byte1 + 238 && base.mouseY <= byte1 + 238 + 21)
                 {
                     duelConfirmOurAccepted = true;
-                    base.streamClass.createPacket(87);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(87);
+                    base.streamClass.FormatPacket();
                 }
                 if (base.mouseX >= (byte0 + 352) - 35 && base.mouseX <= byte0 + 353 + 70 && base.mouseY >= byte1 + 238 && base.mouseY <= byte1 + 238 + 21)
                 {
                     showDuelConfirmBox = false;
-                    base.streamClass.createPacket(35);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(35);
+                    base.streamClass.FormatPacket();
                 }
                 mouseButtonClick = 0;
             }
@@ -1463,16 +1463,16 @@ namespace RuneScapeSolo.Lib
                     }
                     if (mobCount > 0)
                     {
-                        base.streamClass.createPacket(83);
-                        base.streamClass.addShort(mobCount);
+                        base.streamClass.CreatePacket(83);
+                        base.streamClass.SendInt16(mobCount);
                         for (int k40 = 0; k40 < mobCount; k40++)
                         {
                             Mob f5 = playerBufferArray[playerBufferArrayIndexes[k40]];
-                            base.streamClass.addShort(f5.serverIndex);
-                            base.streamClass.addShort(f5.serverID);
+                            base.streamClass.SendInt16(f5.serverIndex);
+                            base.streamClass.SendInt16(f5.serverID);
                         }
 
-                        base.streamClass.formatPacket();
+                        base.streamClass.FormatPacket();
                         mobCount = 0;
                     }
                     return;
@@ -3349,16 +3349,16 @@ namespace RuneScapeSolo.Lib
                 appearanceBottomColour = (appearanceBottomColour + 1) % appearanceTopBottomColours.Length;
             if (appearanceMenu.isClicked(appearanceAcceptButton))
             {
-                base.streamClass.createPacket(218);
-                base.streamClass.addByte(appearanceHeadGender);
-                base.streamClass.addByte(appearanceHeadType);
-                base.streamClass.addByte(appearanceBodyGender);
-                base.streamClass.addByte(appearance2Colour);
-                base.streamClass.addByte(appearanceHairColour);
-                base.streamClass.addByte(appearanceTopColour);
-                base.streamClass.addByte(appearanceBottomColour);
-                base.streamClass.addByte(appearanceSkinColour);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(218);
+                base.streamClass.AddInt8(appearanceHeadGender);
+                base.streamClass.AddInt8(appearanceHeadType);
+                base.streamClass.AddInt8(appearanceBodyGender);
+                base.streamClass.AddInt8(appearance2Colour);
+                base.streamClass.AddInt8(appearanceHairColour);
+                base.streamClass.AddInt8(appearanceTopColour);
+                base.streamClass.AddInt8(appearanceBottomColour);
+                base.streamClass.AddInt8(appearanceSkinColour);
+                base.streamClass.FormatPacket();
                 gameGraphics.clearScreen();
                 showAppearanceWindow = false;
             }
@@ -3482,8 +3482,8 @@ namespace RuneScapeSolo.Lib
             }
             else
             {
-                base.streamClass.createPacket(129);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(129);
+                base.streamClass.FormatPacket();
                 logoutTimer = 1000;
 
                 base.streamClass.closeStream();
@@ -3520,22 +3520,22 @@ namespace RuneScapeSolo.Lib
             stepCount--;
 
             if (walkToACommand)
-                base.streamClass.createPacket(246);
+                base.streamClass.CreatePacket(246);
             else
-                base.streamClass.createPacket(132);
+                base.streamClass.CreatePacket(132);
 
-            base.streamClass.addShort(startX + areaX);
-            base.streamClass.addShort(startY + areaY);
+            base.streamClass.SendInt16(startX + areaX);
+            base.streamClass.SendInt16(startY + areaY);
 
             if (walkToACommand && stepCount == -1 && (startX + areaX) % 5 == 0)
                 stepCount = 0;
             for (int i1 = stepCount; i1 >= 0 && i1 > stepCount - 25; i1--)
             {
-                base.streamClass.addByte(walkArrayX[i1] - startX);
-                base.streamClass.addByte(walkArrayY[i1] - startY);
+                base.streamClass.AddInt8(walkArrayX[i1] - startX);
+                base.streamClass.AddInt8(walkArrayY[i1] - startY);
             }
 
-            base.streamClass.formatPacket();
+            base.streamClass.FormatPacket();
             //base.streamClass.flush();
 
             actionPictureType = -24;
@@ -3555,20 +3555,20 @@ namespace RuneScapeSolo.Lib
             startY = walkArrayY[stepCount];
             stepCount--;
             if (walkToACommand)
-                base.streamClass.createPacket(246);
+                base.streamClass.CreatePacket(246);
             else
-                base.streamClass.createPacket(132);
-            base.streamClass.addShort(startX + areaX);
-            base.streamClass.addShort(startY + areaY);
+                base.streamClass.CreatePacket(132);
+            base.streamClass.SendInt16(startX + areaX);
+            base.streamClass.SendInt16(startY + areaY);
             if (walkToACommand && stepCount == -1 && (startX + areaX) % 5 == 0)
                 stepCount = 0;
             for (int i1 = stepCount; i1 >= 0 && i1 > stepCount - 25; i1--)
             {
-                base.streamClass.addByte(walkArrayX[i1] - startX);
-                base.streamClass.addByte(walkArrayY[i1] - startY);
+                base.streamClass.AddInt8(walkArrayX[i1] - startX);
+                base.streamClass.AddInt8(walkArrayY[i1] - startY);
             }
 
-            base.streamClass.formatPacket();
+            base.streamClass.FormatPacket();
             actionPictureType = -24;
             walkMouseX = base.mouseX;
             walkMouseY = base.mouseY;
@@ -3678,47 +3678,47 @@ namespace RuneScapeSolo.Lib
                 if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     configCameraAutoAngle = !configCameraAutoAngle;
-                    base.streamClass.createPacket(157);
-                    base.streamClass.addByte(0);
-                    base.streamClass.addByte(configCameraAutoAngle ? 1 : 0);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(157);
+                    base.streamClass.AddInt8(0);
+                    base.streamClass.AddInt8(configCameraAutoAngle ? 1 : 0);
+                    base.streamClass.FormatPacket();
                 }
                 i2 += 15;
                 if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     configOneMouseButton = !configOneMouseButton;
-                    base.streamClass.createPacket(157);
-                    base.streamClass.addByte(2);
-                    base.streamClass.addByte(configOneMouseButton ? 1 : 0);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(157);
+                    base.streamClass.AddInt8(2);
+                    base.streamClass.AddInt8(configOneMouseButton ? 1 : 0);
+                    base.streamClass.FormatPacket();
                 }
                 i2 += 15;
                 if (Configuration.MEMBERS_FEATURES && base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     configSoundOff = !configSoundOff;
-                    base.streamClass.createPacket(157);
-                    base.streamClass.addByte(3);
-                    base.streamClass.addByte(configSoundOff ? 1 : 0);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(157);
+                    base.streamClass.AddInt8(3);
+                    base.streamClass.AddInt8(configSoundOff ? 1 : 0);
+                    base.streamClass.FormatPacket();
                 }
                 i2 += 15;
                 i2 += 15;
                 if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     showRoofs = !showRoofs;
-                    base.streamClass.createPacket(157);
-                    base.streamClass.addByte(4);
-                    base.streamClass.addByte(showRoofs ? 1 : 0);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(157);
+                    base.streamClass.AddInt8(4);
+                    base.streamClass.AddInt8(showRoofs ? 1 : 0);
+                    base.streamClass.FormatPacket();
                 }
                 i2 += 15;
                 if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     showCombatWindow = !showCombatWindow;
-                    base.streamClass.createPacket(157);
-                    base.streamClass.addByte(6);
-                    base.streamClass.addByte(showCombatWindow ? 1 : 0);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(157);
+                    base.streamClass.AddInt8(6);
+                    base.streamClass.AddInt8(showCombatWindow ? 1 : 0);
+                    base.streamClass.FormatPacket();
                 }
                 i2 += 15;
                 if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
@@ -3729,10 +3729,10 @@ namespace RuneScapeSolo.Lib
                 if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     autoScreenshot = !autoScreenshot;
-                    base.streamClass.createPacket(157);
-                    base.streamClass.addByte(5);
-                    base.streamClass.addByte(autoScreenshot ? 1 : 0);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(157);
+                    base.streamClass.AddInt8(5);
+                    base.streamClass.AddInt8(autoScreenshot ? 1 : 0);
+                    base.streamClass.FormatPacket();
                 }
                 bool flag = false;
                 i2 += 15;
@@ -3839,9 +3839,9 @@ namespace RuneScapeSolo.Lib
                         continue;
                     combatStyle = l - 1;
                     mouseButtonClick = 0;
-                    base.streamClass.createPacket(42);
-                    base.streamClass.addByte(combatStyle);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(42);
+                    base.streamClass.AddInt8(combatStyle);
+                    base.streamClass.FormatPacket();
                     break;
                 }
 
@@ -3907,14 +3907,14 @@ namespace RuneScapeSolo.Lib
                             }
                             if (ourTradeItemsChanged)
                             {
-                                base.streamClass.createPacket(70);
-                                base.streamClass.addByte(tradeItemsOurCount);
+                                base.streamClass.CreatePacket(70);
+                                base.streamClass.AddInt8(tradeItemsOurCount);
                                 for (int i = 0; i < tradeItemsOurCount; i++)
                                 {
-                                    base.streamClass.addShort(tradeItemsOur[i]);
+                                    base.streamClass.SendInt16(tradeItemsOur[i]);
                                     base.streamClass.addInt(tradeItemOurCount[i]);
                                 }
-                                base.streamClass.formatPacket();
+                                base.streamClass.FormatPacket();
                                 tradeOtherAccepted = false;
                                 tradeWeAccepted = false;
                             }
@@ -3942,14 +3942,14 @@ namespace RuneScapeSolo.Lib
                                 }
                                 break;
                             }
-                            base.streamClass.createPacket(70);
-                            base.streamClass.addByte(tradeItemsOurCount);
+                            base.streamClass.CreatePacket(70);
+                            base.streamClass.AddInt8(tradeItemsOurCount);
                             for (int i = 0; i < tradeItemsOurCount; i++)
                             {
-                                base.streamClass.addShort(tradeItemsOur[i]);
+                                base.streamClass.SendInt16(tradeItemsOur[i]);
                                 base.streamClass.addInt(tradeItemOurCount[i]);
                             }
-                            base.streamClass.formatPacket();
+                            base.streamClass.FormatPacket();
                             tradeOtherAccepted = false;
                             tradeWeAccepted = false;
                         }
@@ -3957,14 +3957,14 @@ namespace RuneScapeSolo.Lib
                     if (mx >= 217 && my >= 238 && mx <= 286 && my <= 259)
                     {
                         tradeWeAccepted = true;
-                        base.streamClass.createPacket(211);
-                        base.streamClass.formatPacket();
+                        base.streamClass.CreatePacket(211);
+                        base.streamClass.FormatPacket();
                     }
                     if (mx >= 394 && my >= 238 && mx < 463 && my < 259)
                     {
                         showTradeBox = false;
-                        base.streamClass.createPacket(216);
-                        base.streamClass.formatPacket();
+                        base.streamClass.CreatePacket(216);
+                        base.streamClass.FormatPacket();
                     }
                 }
                 else
@@ -4336,9 +4336,9 @@ namespace RuneScapeSolo.Lib
                 {
                     if (base.mouseX >= gameGraphics.textWidth(questionMenuAnswer[l], 1) || base.mouseY <= l * 12 || base.mouseY >= 12 + l * 12)
                         continue;
-                    base.streamClass.createPacket(154);
-                    base.streamClass.addByte(l);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(154);
+                    base.streamClass.AddInt8(l);
+                    base.streamClass.FormatPacket();
                     break;
                 }
 
@@ -4409,14 +4409,14 @@ namespace RuneScapeSolo.Lib
                 if (base.mouseX >= (byte0 + 118) - 35 && base.mouseX <= byte0 + 118 + 70 && base.mouseY >= byte1 + 238 && base.mouseY <= byte1 + 238 + 21)
                 {
                     tradeConfirmAccepted = true;
-                    base.streamClass.createPacket(53);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(53);
+                    base.streamClass.FormatPacket();
                 }
                 if (base.mouseX >= (byte0 + 352) - 35 && base.mouseX <= byte0 + 353 + 70 && base.mouseY >= byte1 + 238 && base.mouseY <= byte1 + 238 + 21)
                 {
                     showTradeConfirmBox = false;
-                    base.streamClass.createPacket(216);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(216);
+                    base.streamClass.FormatPacket();
                 }
                 mouseButtonClick = 0;
             }
@@ -4885,17 +4885,17 @@ namespace RuneScapeSolo.Lib
                         else
                                 if (prayerOn[k2])
                         {
-                            base.streamClass.createPacket(248);
-                            base.streamClass.addByte(k2);
-                            base.streamClass.formatPacket();
+                            base.streamClass.CreatePacket(248);
+                            base.streamClass.AddInt8(k2);
+                            base.streamClass.FormatPacket();
                             prayerOn[k2] = false;
                             playSound("prayeroff");
                         }
                         else
                         {
-                            base.streamClass.createPacket(56);
-                            base.streamClass.addByte(k2);
-                            base.streamClass.formatPacket();
+                            base.streamClass.CreatePacket(56);
+                            base.streamClass.AddInt8(k2);
+                            base.streamClass.FormatPacket();
                             prayerOn[k2] = true;
                             playSound("prayeron");
                         }
@@ -5322,28 +5322,28 @@ namespace RuneScapeSolo.Lib
                     }
                     else
                     {
-                        base.streamClass.createPacket(200);
-                        base.streamClass.addString(base.enteredInputText);
+                        base.streamClass.CreatePacket(200);
+                        base.streamClass.AddString(base.enteredInputText);
                         if (!sleepWordDelay)
                         {
-                            base.streamClass.addByte(0);
+                            base.streamClass.AddInt8(0);
                             sleepWordDelay = true;
                         }
-                        base.streamClass.formatPacket();
+                        base.streamClass.FormatPacket();
                         base.inputText = "";
                         base.enteredInputText = "";
                         sleepingStatusText = "Please wait...";
                     }
                 if (base.lastMouseButton == 1 && base.mouseY > 275 && base.mouseY < 310 && base.mouseX > 56 && base.mouseX < 456)
                 {
-                    base.streamClass.createPacket(200);
-                    base.streamClass.addString("-null-");
+                    base.streamClass.CreatePacket(200);
+                    base.streamClass.AddString("-null-");
                     if (!sleepWordDelay)
                     {
-                        base.streamClass.addByte(0);
+                        base.streamClass.AddInt8(0);
                         sleepWordDelay = true;
                     }
-                    base.streamClass.formatPacket();
+                    base.streamClass.FormatPacket();
                     base.inputText = "";
                     base.enteredInputText = "";
                     sleepingStatusText = "Please wait...";
@@ -6091,25 +6091,25 @@ namespace RuneScapeSolo.Lib
                         {
                             if (shopItemCount[selectedShopItemIndex] > 0 && l > 298 && i1 >= 204 && l < 408 && i1 <= 215)
                             {
-                                base.streamClass.createPacket(128);
-                                base.streamClass.addShort(shopItems[selectedShopItemIndex]);
+                                base.streamClass.CreatePacket(128);
+                                base.streamClass.SendInt16(shopItems[selectedShopItemIndex]);
                                 base.streamClass.addInt(shopItemBuyPrice[selectedShopItemIndex]);
-                                base.streamClass.formatPacket();
+                                base.streamClass.FormatPacket();
                             }
                             if (getInventoryItemTotalCount(i3) > 0 && l > 2 && i1 >= 229 && l < 112 && i1 <= 240)
                             {
-                                base.streamClass.createPacket(255);
-                                base.streamClass.addShort(shopItems[selectedShopItemIndex]);
+                                base.streamClass.CreatePacket(255);
+                                base.streamClass.SendInt16(shopItems[selectedShopItemIndex]);
                                 base.streamClass.addInt(shopItemSellPrice[selectedShopItemIndex]);
-                                base.streamClass.formatPacket();
+                                base.streamClass.FormatPacket();
                             }
                         }
                     }
                 }
                 else
                 {
-                    base.streamClass.createPacket(253);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(253);
+                    base.streamClass.FormatPacket();
                     showShopBox = false;
                     return;
                 }
@@ -6717,11 +6717,11 @@ namespace RuneScapeSolo.Lib
                 if (s1.Length > 0)
                 {
                     long l1 = DataOperations.nameToHash(s1);
-                    base.streamClass.createPacket(7);
-                    base.streamClass.addLong(l1);
-                    base.streamClass.addByte(reportAbuseOptionSelected);
+                    base.streamClass.CreatePacket(7);
+                    base.streamClass.AddInt64(l1);
+                    base.streamClass.AddInt8(reportAbuseOptionSelected);
                     //base.streamClass.addByte(dia ? 1 : 0);
-                    base.streamClass.formatPacket();
+                    base.streamClass.FormatPacket();
                 }
                 showAbuseBox = 0;
                 return;
@@ -6908,15 +6908,15 @@ namespace RuneScapeSolo.Lib
                             }
                             if (flag1)
                             {
-                                base.streamClass.createPacket(123);
-                                base.streamClass.addByte(duelMyItemCount);
+                                base.streamClass.CreatePacket(123);
+                                base.streamClass.AddInt8(duelMyItemCount);
                                 for (int i5 = 0; i5 < duelMyItemCount; i5++)
                                 {
-                                    base.streamClass.addShort(duelMyItems[i5]);
+                                    base.streamClass.SendInt16(duelMyItems[i5]);
                                     base.streamClass.addInt(duelMyItemsCount[i5]);
                                 }
 
-                                base.streamClass.formatPacket();
+                                base.streamClass.FormatPacket();
                                 duelOpponentAccepted = false;
                                 duelMyAccepted = false;
                             }
@@ -6946,15 +6946,15 @@ namespace RuneScapeSolo.Lib
                                 break;
                             }
 
-                            base.streamClass.createPacket(123);
-                            base.streamClass.addByte(duelMyItemCount);
+                            base.streamClass.CreatePacket(123);
+                            base.streamClass.AddInt8(duelMyItemCount);
                             for (int l3 = 0; l3 < duelMyItemCount; l3++)
                             {
-                                base.streamClass.addShort(duelMyItems[l3]);
+                                base.streamClass.SendInt16(duelMyItems[l3]);
                                 base.streamClass.addInt(duelMyItemsCount[l3]);
                             }
 
-                            base.streamClass.formatPacket();
+                            base.streamClass.FormatPacket();
                             duelOpponentAccepted = false;
                             duelMyAccepted = false;
                         }
@@ -6982,34 +6982,34 @@ namespace RuneScapeSolo.Lib
                     }
                     if (flag)
                     {
-                        base.streamClass.createPacket(225);
-                        base.streamClass.addByte(duelNoRetreating ? 1 : 0);
-                        base.streamClass.addByte(duelNoMagic ? 1 : 0);
-                        base.streamClass.addByte(duelNoPrayer ? 1 : 0);
-                        base.streamClass.addByte(duelNoWeapons ? 1 : 0);
-                        base.streamClass.formatPacket();
+                        base.streamClass.CreatePacket(225);
+                        base.streamClass.AddInt8(duelNoRetreating ? 1 : 0);
+                        base.streamClass.AddInt8(duelNoMagic ? 1 : 0);
+                        base.streamClass.AddInt8(duelNoPrayer ? 1 : 0);
+                        base.streamClass.AddInt8(duelNoWeapons ? 1 : 0);
+                        base.streamClass.FormatPacket();
                         duelOpponentAccepted = false;
                         duelMyAccepted = false;
                     }
                     if (l >= 217 && i1 >= 238 && l <= 286 && i1 <= 259)
                     {
                         duelMyAccepted = true;
-                        base.streamClass.createPacket(252);
-                        base.streamClass.formatPacket();
+                        base.streamClass.CreatePacket(252);
+                        base.streamClass.FormatPacket();
                     }
                     if (l >= 394 && i1 >= 238 && l < 463 && i1 < 259)
                     {
                         showDuelBox = false;
-                        base.streamClass.createPacket(35);
-                        base.streamClass.formatPacket();
+                        base.streamClass.CreatePacket(35);
+                        base.streamClass.FormatPacket();
                     }
                 }
                 else
                     if (mouseButtonClick != 0)
                 {
                     showDuelBox = false;
-                    base.streamClass.createPacket(35);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(35);
+                    base.streamClass.FormatPacket();
                 }
                 mouseButtonClick = 0;
                 mouseClickedHeldInTradeDuelBox = 0;
@@ -7413,87 +7413,87 @@ namespace RuneScapeSolo.Lib
                             count = 1;
                         if (count >= 1 && base.mouseX >= l + 220 && base.mouseY >= j1 + 238 && base.mouseX < l + 250 && base.mouseY <= j1 + 249)
                         {
-                            base.streamClass.createPacket(183);
-                            base.streamClass.addShort(id);
+                            base.streamClass.CreatePacket(183);
+                            base.streamClass.SendInt16(id);
                             base.streamClass.addInt(1);
-                            base.streamClass.formatPacket();
+                            base.streamClass.FormatPacket();
                         }
                         if (count >= 5 && base.mouseX >= l + 250 && base.mouseY >= j1 + 238 && base.mouseX < l + 280 && base.mouseY <= j1 + 249)
                         {
-                            base.streamClass.createPacket(183);
-                            base.streamClass.addShort(id);
+                            base.streamClass.CreatePacket(183);
+                            base.streamClass.SendInt16(id);
                             base.streamClass.addInt(5);
-                            base.streamClass.formatPacket();
+                            base.streamClass.FormatPacket();
                         }
                         if (count >= 25 && base.mouseX >= l + 280 && base.mouseY >= j1 + 238 && base.mouseX < l + 305 && base.mouseY <= j1 + 249)
                         {
-                            base.streamClass.createPacket(183);
-                            base.streamClass.addShort(id);
+                            base.streamClass.CreatePacket(183);
+                            base.streamClass.SendInt16(id);
                             base.streamClass.addInt(25);
-                            base.streamClass.formatPacket();
+                            base.streamClass.FormatPacket();
                         }
                         if (count >= 100 && base.mouseX >= l + 305 && base.mouseY >= j1 + 238 && base.mouseX < l + 335 && base.mouseY <= j1 + 249)
                         {
-                            base.streamClass.createPacket(183);
-                            base.streamClass.addShort(id);
+                            base.streamClass.CreatePacket(183);
+                            base.streamClass.SendInt16(id);
                             base.streamClass.addInt(100);
-                            base.streamClass.formatPacket();
+                            base.streamClass.FormatPacket();
                         }
                         if (count >= 500 && base.mouseX >= l + 335 && base.mouseY >= j1 + 238 && base.mouseX < l + 368 && base.mouseY <= j1 + 249)
                         {
-                            base.streamClass.createPacket(183);
-                            base.streamClass.addShort(id);
+                            base.streamClass.CreatePacket(183);
+                            base.streamClass.SendInt16(id);
                             base.streamClass.addInt(500);
-                            base.streamClass.formatPacket();
+                            base.streamClass.FormatPacket();
                         }
                         if (count >= 2500 && base.mouseX >= l + 370 && base.mouseY >= j1 + 238 && base.mouseX < l + 400 && base.mouseY <= j1 + 249)
                         {
-                            base.streamClass.createPacket(183);
-                            base.streamClass.addShort(id);
+                            base.streamClass.CreatePacket(183);
+                            base.streamClass.SendInt16(id);
                             base.streamClass.addInt(2500);
-                            base.streamClass.formatPacket();
+                            base.streamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 1 && base.mouseX >= l + 220 && base.mouseY >= j1 + 263 && base.mouseX < l + 250 && base.mouseY <= j1 + 274)
                         {
-                            base.streamClass.createPacket(198);
-                            base.streamClass.addShort(id);
+                            base.streamClass.CreatePacket(198);
+                            base.streamClass.SendInt16(id);
                             base.streamClass.addInt(1);
-                            base.streamClass.formatPacket();
+                            base.streamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 5 && base.mouseX >= l + 250 && base.mouseY >= j1 + 263 && base.mouseX < l + 280 && base.mouseY <= j1 + 274)
                         {
-                            base.streamClass.createPacket(198);
-                            base.streamClass.addShort(id);
+                            base.streamClass.CreatePacket(198);
+                            base.streamClass.SendInt16(id);
                             base.streamClass.addInt(5);
-                            base.streamClass.formatPacket();
+                            base.streamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 25 && base.mouseX >= l + 280 && base.mouseY >= j1 + 263 && base.mouseX < l + 305 && base.mouseY <= j1 + 274)
                         {
-                            base.streamClass.createPacket(198);
-                            base.streamClass.addShort(id);
+                            base.streamClass.CreatePacket(198);
+                            base.streamClass.SendInt16(id);
                             base.streamClass.addInt(25);
-                            base.streamClass.formatPacket();
+                            base.streamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 100 && base.mouseX >= l + 305 && base.mouseY >= j1 + 263 && base.mouseX < l + 335 && base.mouseY <= j1 + 274)
                         {
-                            base.streamClass.createPacket(198);
-                            base.streamClass.addShort(id);
+                            base.streamClass.CreatePacket(198);
+                            base.streamClass.SendInt16(id);
                             base.streamClass.addInt(100);
-                            base.streamClass.formatPacket();
+                            base.streamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 500 && base.mouseX >= l + 335 && base.mouseY >= j1 + 263 && base.mouseX < l + 368 && base.mouseY <= j1 + 274)
                         {
-                            base.streamClass.createPacket(198);
-                            base.streamClass.addShort(id);
+                            base.streamClass.CreatePacket(198);
+                            base.streamClass.SendInt16(id);
                             base.streamClass.addInt(500);
-                            base.streamClass.formatPacket();
+                            base.streamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 2500 && base.mouseX >= l + 370 && base.mouseY >= j1 + 263 && base.mouseX < l + 400 && base.mouseY <= j1 + 274)
                         {
-                            base.streamClass.createPacket(198);
-                            base.streamClass.addShort(id);
+                            base.streamClass.CreatePacket(198);
+                            base.streamClass.SendInt16(id);
                             base.streamClass.addInt(2500);
-                            base.streamClass.formatPacket();
+                            base.streamClass.FormatPacket();
                         }
                     }
                 }
@@ -7513,8 +7513,8 @@ namespace RuneScapeSolo.Lib
                 }
                 else
                 {
-                    base.streamClass.createPacket(48);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(48);
+                    base.streamClass.FormatPacket();
                     showBankBox = false;
                     return;
                 }
@@ -8355,7 +8355,7 @@ namespace RuneScapeSolo.Lib
                     base.enteredInputText = "";
                     showFriendsBox = 0;
                     if (s3.Length > 0 && DataOperations.nameToHash(s3) != ourPlayer.nameHash)
-                        addIgnore(s3);
+                        AddIgnore(s3);
                 }
             }
             int i1 = 0xffffff;

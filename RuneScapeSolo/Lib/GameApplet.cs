@@ -257,6 +257,14 @@ namespace RuneScapeSolo.Lib
             //startThread(this);
         }
 
+        public void StartThread(Action runnable)
+        {
+            ThreadStart threadStart = new ThreadStart(runnable);
+            Thread thread = new Thread(threadStart);
+
+            thread.Start();
+        }
+        
         public void start()
         {
             if (runStatus >= 0)
@@ -656,13 +664,16 @@ namespace RuneScapeSolo.Lib
         {
             return ""; //super.getParameter(s);
         }
-
-        public TcpClient makeSocket(string address, int port)
+        
+        protected TcpClient MakeSocket(string ip, int port)
         {
-            var socket = new TcpClient(address, port);
-            socket.SendTimeout = 30000;
-            socket.NoDelay = true;
-            return socket;
+            TcpClient client = new TcpClient();
+            client.Connect(ip, port);
+
+            client.SendTimeout = 30000;
+            client.NoDelay = true;
+
+            return client;
         }
 
         public void mouseScroll(bool begin, int arg)
