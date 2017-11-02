@@ -39,7 +39,7 @@ namespace RuneScapeSolo.Lib
             //graphics = gfx;
             mud.windowWidth = width;
             mud.windowHeight = height;
-            mud.createWindow(mud.windowWidth, mud.windowHeight + 11, title, false);
+            mud.CreateWindow(mud.windowWidth, mud.windowHeight + 11, title, false);
             mud.gameMinThreadSleepTime = 10;
             return mud;
         }
@@ -133,12 +133,12 @@ namespace RuneScapeSolo.Lib
                 //   if (timeLapse > TimeSpan.FromMilliseconds(100))                
                 if (!lastPressedKeys.Contains(k))
                 {
-                    keyDown(k, TranslateOemKeys(k));
+                    KeyDown(k, TranslateOemKeys(k));
                     timeLapse = TimeSpan.Zero;
                 }
                 else if (timeLapse > TimeSpan.FromMilliseconds(150))
                 {
-                    keyDown(k, TranslateOemKeys(k));
+                    KeyDown(k, TranslateOemKeys(k));
                     timeLapse = TimeSpan.Zero;
                 }
                 //handleKeyDown(k, c[0]);
@@ -147,7 +147,7 @@ namespace RuneScapeSolo.Lib
             {
                 if (!keysPressedDown.Contains(lk))
                 {
-                    keyUp(lk, TranslateOemKeys(lk));
+                    KeyUp(lk, TranslateOemKeys(lk));
                 }
             }
 
@@ -160,7 +160,7 @@ namespace RuneScapeSolo.Lib
             //mouseEntered(mouseState);
             if (mouseState.X != lastMouseX || mouseState.Y != lastMouseY)
             {
-                mouseMove(mouseState.X, mouseState.Y);
+                MouseMove(mouseState.X, mouseState.Y);
                 lastMouseX = mouseState.X;
                 lastMouseY = mouseState.Y;
                 //mouseButtonClick = 0;
@@ -170,7 +170,7 @@ namespace RuneScapeSolo.Lib
             {
                 lastRightDown = true;
                 mouseDown(mouseState.X, mouseState.Y, mouseState.LeftButton == ButtonState.Pressed);
-                mousePressed(mouseState);
+                MousePressed(mouseState);
             }
 
 
@@ -178,20 +178,20 @@ namespace RuneScapeSolo.Lib
             {
                 lastLeftDown = true;
                 mouseDown(mouseState.X, mouseState.Y, mouseState.LeftButton != ButtonState.Pressed);
-                mousePressed(mouseState);
+                MousePressed(mouseState);
             }
 
             if (mouseState.RightButton == ButtonState.Released && lastRightDown)
             {
                 lastRightDown = false;
                 // mousePressed(mouseState);
-                mouseUp(mouseState.X, mouseState.Y);
+                MouseUp(mouseState.X, mouseState.Y);
             }
             if (mouseState.LeftButton == ButtonState.Released && lastLeftDown)
             {
                 lastLeftDown = false;
 
-                mouseUp(mouseState.X, mouseState.Y);
+                MouseUp(mouseState.X, mouseState.Y);
             }
 
             //uglyHack = false;
@@ -1085,7 +1085,7 @@ namespace RuneScapeSolo.Lib
             npcCount = 0;
         }
 
-        public override void close()
+        public override void Close()
         {
             requestLogout();
             cleanUp();
@@ -2946,7 +2946,7 @@ namespace RuneScapeSolo.Lib
             }
         }
 
-        public override void loadGame()
+        public override void LoadGame()
         {
             int l = 0;
             for (int i1 = 0; i1 < 99; i1++)
@@ -2968,7 +2968,7 @@ namespace RuneScapeSolo.Lib
             baseTexturePic = baseProjectilePic + 50;
             subTexturePic = baseTexturePic + 10;
             graphics = getGraphics();
-            setRefreshRate(50);
+            SetRefreshRate(50);
             gameGraphics = new GameImageMiddleMan(windowWidth, windowHeight + 12, 4000);
             gameGraphics.gameReference = this;
             gameGraphics.setDimensions(0, 0, windowWidth, windowHeight + 12);
@@ -3036,7 +3036,7 @@ namespace RuneScapeSolo.Lib
         {
             loginMenuFirst = new Menu(gameGraphics, 50);
             int l = 40;
-            if (!Config.MEMBERS_FEATURES)
+            if (!Configuration.MEMBERS_FEATURES)
             {
                 loginMenuFirst.drawText(256, 200 + l, "Click on an option", 5, true);
                 loginMenuFirst.drawButton(156, 240 + l, 120, 35);
@@ -3155,7 +3155,7 @@ namespace RuneScapeSolo.Lib
 
         }
 
-        public override void checkInputs()
+        public override void CheckInputs()
         {
             if (memoryError)
                 return;
@@ -3599,7 +3599,7 @@ namespace RuneScapeSolo.Lib
             else
                 gameGraphics.drawString("Mouse buttons - @gre@Two", j1, l1, 1, 0xffffff);
             l1 += 15;
-            if (Config.MEMBERS_FEATURES)
+            if (Configuration.MEMBERS_FEATURES)
                 if (configSoundOff)
                     gameGraphics.drawString("Sound effects - @red@off", j1, l1, 1, 0xffffff);
                 else
@@ -3651,7 +3651,7 @@ namespace RuneScapeSolo.Lib
             else
                 gameGraphics.drawString("Block trade requests: @gre@<on>", l + 3, l1, 1, 0xffffff);
             l1 += 15;
-            if (Config.MEMBERS_FEATURES)
+            if (Configuration.MEMBERS_FEATURES)
                 if (base.blockDuel == 0)
                     gameGraphics.drawString("Block duel requests: @red@<off>", l + 3, l1, 1, 0xffffff);
                 else
@@ -3693,7 +3693,7 @@ namespace RuneScapeSolo.Lib
                     base.streamClass.formatPacket();
                 }
                 i2 += 15;
-                if (Config.MEMBERS_FEATURES && base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                if (Configuration.MEMBERS_FEATURES && base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     configSoundOff = !configSoundOff;
                     base.streamClass.createPacket(157);
@@ -3761,7 +3761,7 @@ namespace RuneScapeSolo.Lib
                     flag = true;
                 }
                 i2 += 15;
-                if (Config.MEMBERS_FEATURES && base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                if (Configuration.MEMBERS_FEATURES && base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     base.blockDuel = 1 - base.blockDuel;
                     flag = true;
@@ -4136,7 +4136,7 @@ namespace RuneScapeSolo.Lib
             if (loginScreen == 2 && loginMenuLogin != null)
                 loginMenuLogin.updateText(loginMenuStatusText, s1 + " " + s2);
             drawLoginScreens();
-            resetTimings();
+            ResetTimings();
         }
 
         public void drawTeleBubble(int x, int y, int j1, int k1, int l1, int i2, int j2)
@@ -4243,7 +4243,7 @@ namespace RuneScapeSolo.Lib
                 //g1.drawString("4: Try rebooting your computer", 30, l);
                 //l += 30;
                 //g1.drawString("5: Try selecting a different version of Java from the play-game menu", 30, l);
-                setRefreshRate(1);
+                SetRefreshRate(1);
                 return;
             }
             if (memoryError)
@@ -5602,7 +5602,7 @@ namespace RuneScapeSolo.Lib
             appearanceAcceptButton = appearanceMenu.createButton(l, i1, 200, 30);
         }
 
-        public override void handleKeyDown(Keys key, char c)
+        public override void HandleKeyDown(Keys key, char c)
         {
             if (key == Keys.Left || key == Keys.Right || key == Keys.Up || key == Keys.Down) return;
 
@@ -5717,7 +5717,7 @@ namespace RuneScapeSolo.Lib
                                     menuOptionsCount++;
                                 }
                                 else
-                                    if (Config.MEMBERS_FEATURES)
+                                    if (Configuration.MEMBERS_FEATURES)
                                 {
                                     menuText1[menuOptionsCount] = "Duel with";
                                     menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
@@ -8366,7 +8366,7 @@ namespace RuneScapeSolo.Lib
 
         public void playSound(string s1)
         {
-            if (audioPlayer == null || !Config.MEMBERS_FEATURES)
+            if (audioPlayer == null || !Configuration.MEMBERS_FEATURES)
                 return;
             if (!configSoundOff)
             {

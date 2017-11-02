@@ -3,32 +3,18 @@ using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
 using RuneScapeSolo.Lib.Data;
 using RuneScapeSolo.Lib.Game;
 
 namespace RuneScapeSolo.Lib
 {
-    public class GameApplet// : java.applet.Applet
+    public class GameApplet
     {
-        public GameApplet()
-        {
-        }
-
-        public virtual void loadGame()
-        {
-        }
-
-        public virtual void checkInputs()
-        {
-        }
-
-        public virtual void close()
-        {
-        }
-
-        public void createWindow(int width, int height, string title, bool resizable)
+        public void CreateWindow(int width, int height, string title, bool resizable)
         {
             Console.WriteLine("Started application");
             appletWidth = width;
@@ -43,89 +29,118 @@ namespace RuneScapeSolo.Lib
             //  gameWindowThread.setPriority(1);
         }
 
+        public virtual void LoadGame()
+        {
+        }
 
-        public void setRefreshRate(int i)
+        public virtual void CheckInputs()
+        {
+        }
+
+        public virtual void Close()
+        {
+        }
+
+        public void SetRefreshRate(int i)
         {
             refreshRate = 1000 / i;
         }
 
-        public void resetTimings()
+        public void ResetTimings()
         {
             for (int i = 0; i < 10; i++)
+            {
                 timeArray[i] = 0L;
-
+            }
         }
 
-        public void keyTyped(EventArgs e)
+        public void KeyTyped(EventArgs e)
         {
             //ignore
         }
 
-        public void mouseClicked(EventArgs e)
+        public void MouseClicked(EventArgs e)
         {
             //ignore
         }
 
-        public void keyPressed(Keys evt)
+        public void KeyPressed(Keys evt)
         {
             var c = Encoding.UTF8.GetChars(new[] { (byte)evt });
-            this.keyDown(evt, c[0]);
+            KeyDown(evt, c[0]);
         }
 
-        public void keyReleased(Keys evt)
+        public void KeyReleased(Keys evt)
         {
             var c = Encoding.UTF8.GetChars(new[] { (byte)evt });
-            this.keyUp(evt, c[0]);
+            KeyUp(evt, c[0]);
         }
 
-        public void mouseEntered(MouseState evt)
+        public void MouseEntered(MouseState evt)
         {
-            this.mouseMove(evt.X, evt.Y);
+            MouseMove(evt.X, evt.Y);
         }
 
-        public void mouseExited(MouseState evt)
+        public void MouseExited(MouseState evt)
         {
-            this.mouseMove(evt.X, evt.Y);
+            MouseMove(evt.X, evt.Y);
         }
 
-        public void mousePressed(MouseState evt)
+        public void MousePressed(MouseState evt)
         {
-            this.mouseDown(evt.X, evt.Y, evt.RightButton == ButtonState.Pressed);
+            mouseDown(evt.X, evt.Y, evt.RightButton == ButtonState.Pressed);
         }
 
-        public void mouseReleased(MouseState evt)
+        public void MouseReleased(MouseState evt)
         {
-            this.mouseUp(evt.X, evt.Y);
+            MouseUp(evt.X, evt.Y);
         }
 
-        public void mouseDragged(MouseState evt)
+        public void MouseDragged(MouseState evt)
         {
-            this.mouseDrag(evt.Y, evt.X, evt.RightButton == ButtonState.Pressed);
+            mouseDrag(evt.Y, evt.X, evt.RightButton == ButtonState.Pressed);
         }
 
-        public void mouseMoved(MouseState evt)
+        public void MouseMoved(MouseState evt)
         {
-            this.mouseMove(evt.X, evt.Y);
+            MouseMove(evt.X, evt.Y);
         }
 
-        public void keyDown(Keys key, char c)
+        public void KeyDown(Keys key, char c)
         {
-            handleKeyDown(key, c);
+            HandleKeyDown(key, c);
+
             if (key == Keys.Left)
+            {
                 keyLeftDown = true;
+            }
             if (key == Keys.Right)
+            {
                 keyRightDown = true;
+            }
             if (key == Keys.Up)
+            {
                 keyUpDown = true;
+            }
             if (key == Keys.Down)
+            {
                 keyDownDown = true;
+            }
             if (key == Keys.Space)
+            {
                 keySpaceDown = true;
+            }
             if (key == Keys.N || key == Keys.M)
+            {
                 keyNMDown = true;
+            }
             if (key == Keys.F1)
+            {
                 keyF1Toggle = !keyF1Toggle;
+            }
+
             bool flag = false;
+
             for (int i = 0; i < allowedChars.Length; i++)
             {
                 if (c != allowedChars[i] && key != Keys.Left && key != Keys.Right && key != Keys.Up && key != Keys.Down)
@@ -133,14 +148,23 @@ namespace RuneScapeSolo.Lib
                 flag = true;
                 break;
             }
+
             if (flag && inputText.Length < 20)
+            {
                 inputText += c;
+            }
             if (flag && pmText.Length < 80)
+            {
                 pmText += c;
+            }
             if (key == Keys.Back && inputText.Length > 0)
+            {
                 inputText = inputText.Substring(0, inputText.Length - 1);
+            }
             if (key == Keys.Back && pmText.Length > 0)
+            {
                 pmText = pmText.Substring(0, pmText.Length - 1);
+            }
             if (key == Keys.Enter)
             {
                 enteredInputText = inputText;
@@ -148,27 +172,39 @@ namespace RuneScapeSolo.Lib
             }
         }
 
-        public virtual void handleKeyDown(Keys key, char c)
+        public virtual void HandleKeyDown(Keys key, char c)
         {
         }
 
-        public void keyUp(Keys key, char c)
+        public void KeyUp(Keys key, char c)
         {
             if (key == Keys.Left)
+            {
                 keyLeftDown = false;
+            }
             if (key == Keys.Right)
+            {
                 keyRightDown = false;
+            }
             if (key == Keys.Up)
+            {
                 keyUpDown = false;
+            }
             if (key == Keys.Down)
+            {
                 keyDownDown = false;
+            }
             if (key == Keys.Space)
+            {
                 keySpaceDown = false;
+            }
             if (key == Keys.N || key == Keys.M)
+            {
                 keyNMDown = false;
+            }
         }
 
-        public bool mouseMove(int x, int y)
+        public bool MouseMove(int x, int y)
         {
             mouseX = x;
             mouseY = y - mouseYOffset;
@@ -176,7 +212,7 @@ namespace RuneScapeSolo.Lib
             return true;
         }
 
-        public bool mouseUp(int x, int y)
+        public bool MouseUp(int x, int y)
         {
             mouseX = x;
             mouseY = y - mouseYOffset;
@@ -255,7 +291,7 @@ namespace RuneScapeSolo.Lib
         {
             runStatus = -2;
             Console.WriteLine("Closing program");
-            close();
+            Close();
             try
             {
                 Thread.Sleep(1000);
@@ -294,7 +330,7 @@ namespace RuneScapeSolo.Lib
                 gameLoadingScreen = 2;
                 loadLoadingScreen();
                 drawLoadingScreen(0, "Loading...");
-                loadGame();
+                LoadGame();
                 gameLoadingScreen = 0;
             }
 
@@ -381,7 +417,7 @@ namespace RuneScapeSolo.Lib
             while (j1 < 256)
             {
                 var start = DateTime.Now;
-                checkInputs();
+                CheckInputs();
                 j1 += k;
                 if (++l2 > fie)
                 {

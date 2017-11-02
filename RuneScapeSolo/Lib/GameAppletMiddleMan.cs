@@ -66,7 +66,7 @@ namespace RuneScapeSolo.Lib
                 gameBoxPrint("Connection lost! Please wait...", "Attempting to re-establish");
             else
                 loginScreenPrint("Please wait...", "Connecting to server");
-            streamClass = new StreamClass(makeSocket(Config.SERVER_IP, Config.SERVER_PORT), this);
+            streamClass = new StreamClass(makeSocket(Configuration.SERVER_IP, Configuration.SERVER_PORT), this);
             streamClass.maxPacketReadCount = maxPacketReadCount;
 
 
@@ -93,7 +93,7 @@ namespace RuneScapeSolo.Lib
             sessionKeys[3] = (int)sessionId;
             var dataEnc = new LoginDataEncryption(new byte[117]);
             dataEnc.addByte(reconnecting ? 1 : 0);
-            dataEnc.addInt(Config.CLIENT_VERSION);
+            dataEnc.addInt(Configuration.CLIENT_VERSION);
             dataEnc.addInt(sessionKeys[0]);
             dataEnc.addInt(sessionKeys[1]);
             dataEnc.addInt(sessionKeys[2]);

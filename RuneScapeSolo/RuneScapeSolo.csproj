@@ -74,7 +74,7 @@
     <Compile Include="OB3Model.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="Primitives\GeometricPrimitive.cs" />
-    <Compile Include="Lib\Config.cs" />
+    <Compile Include="Lib\Configuration.cs" />
     <Compile Include="Lib\GameApplet.cs" />
     <Compile Include="Lib\GameAppletMiddleMan.cs" />
     <Compile Include="Lib\GameFrame.cs" />

@@ -56,7 +56,7 @@ namespace RuneScapeSolo.Lib
         {
             try
             {
-                var f = new FileInfo(Path.Combine(Config.CONF_DIR, fileName));
+                var f = new FileInfo(Path.Combine(Configuration.CONFIGURATION_DIRECTORY, fileName));
                 if (f.Exists)
                 {
 
