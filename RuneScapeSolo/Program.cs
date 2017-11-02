@@ -1,5 +1,4 @@
-﻿#region Using Statements
-using System;
+﻿using System;
 #if MONOMAC
 using MonoMac.AppKit;
 using MonoMac.Foundation;
@@ -7,7 +6,6 @@ using MonoMac.Foundation;
 using Foundation;
 using UIKit;
 #endif
-#endregion
 
 namespace RuneScapeSolo
 {

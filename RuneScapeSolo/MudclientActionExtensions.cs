@@ -5,7 +5,6 @@ namespace RuneScapeSolo
 {
     public static class MudclientActionExtensions
     {
-        #region displaying and drawing text
         public static void DisplayMessage(this mudclient mc, string message)
         {
             mc.displayMessage(message);
@@ -15,9 +14,7 @@ namespace RuneScapeSolo
         {
             mc.displayMessage(message, type);
         }
-        #endregion
-
-        #region Boxes, such as Bank, Trade, Duel, etc.
+        
         public static bool IsTradeWindowVisible(this mudclient mc, TradeAndDuelState state)
         {
             return state == TradeAndDuelState.Initial ? mc.showTradeBox : mc.showTradeConfirmBox;
@@ -55,7 +52,5 @@ namespace RuneScapeSolo
             mc.streamClass.createPacket(35);
             mc.streamClass.formatPacket();
         }
-
-        #endregion
     }
 }
