@@ -18,7 +18,7 @@
         /// <summary>
         /// The client version.
         /// </summary>
-        public const int CLIENT_VERSION = 40;
+        public const int CLIENT_VERSION = 3;
 
         /// <summary>
         /// Flag indicating whether the premium features are enabled.

@@ -35,6 +35,7 @@
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -63,6 +64,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enumerations\LoginCode.cs" />
     <Compile Include="Enumerations\TradeAndDuelState.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Primitives\VertexPositionNormal.cs" />
@@ -106,7 +108,7 @@
     <Compile Include="Lib\Models\Sector.cs" />
     <Compile Include="Lib\Models\Sprite.cs" />
     <Compile Include="Lib\Models\Tile.cs" />
-    <Compile Include="Lib\Net\LoginDataEncryption.cs" />
+    <Compile Include="Lib\Net\LoginEncryptor.cs" />
     <Compile Include="Lib\Net\PacketConstruction.cs" />
     <Compile Include="Lib\Net\StreamClass.cs" />
   </ItemGroup>

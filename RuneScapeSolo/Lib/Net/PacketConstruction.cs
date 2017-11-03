@@ -69,6 +69,12 @@ namespace RuneScapeSolo.Lib.Net
             packetData[packetOffset++] = (byte)i;
         }
 
+        public void AddInt16(int i)
+        {
+            packetData[packetOffset++] = (byte)(i >> 8);
+            packetData[packetOffset++] = (byte)i;
+        }
+
         public void AddString(string s)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(s);
@@ -88,7 +94,7 @@ namespace RuneScapeSolo.Lib.Net
         {
         }
 
-        public virtual void readInputStream(int i, int j, sbyte[] abyte0)
+        public virtual void ReadInputStream(int i, int j, sbyte[] abyte0)
         {
         }
 
@@ -106,7 +112,7 @@ namespace RuneScapeSolo.Lib.Net
 
         public void Read(int i, sbyte[] abyte0)
         {
-            readInputStream(i, 0, abyte0);
+            ReadInputStream(i, 0, abyte0);
         }
 
         public void addInt(int i)
@@ -181,11 +187,11 @@ namespace RuneScapeSolo.Lib.Net
             packetStart = packetOffset;
         }
 
-        public void AddBytes(byte[] data, int off, int len)
+        public void AddBytes(byte[] data, int offset, int length)
         {
-            for (int i = 0; i < len; i++)
+            for (int i = 0; i < length; i++)
             {
-                packetData[packetOffset++] = data[off + i];
+                packetData[packetOffset++] = data[offset + i];
             }
         }
 
@@ -209,7 +215,7 @@ namespace RuneScapeSolo.Lib.Net
                 if (length == 0 /*&& available() >= 2*/)
                 {
                     sbyte[] buf = new sbyte[2];
-                    readInputStream(2, 0, buf);
+                    ReadInputStream(2, 0, buf);
                     length = ((short)((buf[0] & 0xff) << 8) | (short)(buf[1] & 0xff)) + 1;
                 }
                 if (length > 0 /*&& available() >= length*/)

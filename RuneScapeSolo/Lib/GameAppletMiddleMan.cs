@@ -1,7 +1,11 @@
 using System;
 using System.IO;
+using System.Net.Sockets;
+using System.Numerics;
 using System.Text;
 using System.Threading;
+
+using RuneScapeSolo.Enumerations;
 using RuneScapeSolo.Lib.Data;
 using RuneScapeSolo.Lib.Game;
 using RuneScapeSolo.Lib.Net;
@@ -13,6 +17,9 @@ namespace RuneScapeSolo.Lib
         public static Random ran = new Random();
         static bool isConnecting = false;
         Thread connectionThread;
+
+        private static BigInteger key = BigInteger.Parse("1370158896620336158431733257575682136836100155721926632321599369132092701295540721504104229217666225601026879393318399391095704223500673696914052239029335");
+        private static BigInteger modulus = BigInteger.Parse("1549611057746979844352781944553705273443228154042066840514290174539588436243191882510185738846985723357723362764835928526260868977814405651690121789896823");
         
         public GameAppletMiddleMan()
         {
@@ -77,62 +84,76 @@ namespace RuneScapeSolo.Lib
                 gameBoxPrint("Connection lost! Please wait...", "Attempting to re-establish");
             else
                 loginScreenPrint("Please wait...", "Connecting to server");
-            streamClass = new StreamClass(MakeSocket(Configuration.SERVER_IP, Configuration.SERVER_PORT), this);
+
+            TcpClient socket = MakeSocket(Configuration.SERVER_IP, Configuration.SERVER_PORT);
+            streamClass = new StreamClass(socket, this);
             streamClass.maxPacketReadCount = maxPacketReadCount;
-
-
+            
             long l = DataOperations.nameToHash(user);
             streamClass.CreatePacket(32);
             streamClass.AddInt8((int)(l >> 16 & 31L));
-            streamClass.AddString("&%...");// TODO not used server-side
+            streamClass.AddString("&%..."); // TODO: not used server-side
             streamClass.FinalisePacket();
 
             long sessionId = streamClass.ReadInt64();
-
-
-
+            
             if (sessionId == 0L)
             {
                 //     loginScreenPrint("Login server offline.", "Please try again in a few mins");
                 //     return;
             }
-            Console.WriteLine("Verb: Session id: " + sessionId);
-            int[] sessionKeys = new int[4];
-            sessionKeys[0] = (int)(Helper.Random.NextDouble() * 99999999D);
-            sessionKeys[1] = (int)(Helper.Random.NextDouble() * 99999999D);
-            sessionKeys[2] = (int)(sessionId >> 32);
-            sessionKeys[3] = (int)sessionId;
-            var dataEnc = new LoginDataEncryption(new byte[117]);
-            dataEnc.addByte(reconnecting ? 1 : 0);
-            dataEnc.addInt(Configuration.CLIENT_VERSION);
-            dataEnc.addInt(sessionKeys[0]);
-            dataEnc.addInt(sessionKeys[1]);
-            dataEnc.addInt(sessionKeys[2]);
-            dataEnc.addInt(sessionKeys[3]);
-            dataEnc.addString(user);
-            dataEnc.addString(pass);
-            byte[] data = dataEnc.encrypt(dataEnc.packet);
-            streamClass.CreatePacket(77);
-            streamClass.AddBytes(data, 0, data.Length);
+            Console.WriteLine($"Session ID: {sessionId}");
+
+            int[] sessionRotationKeys = new int[4];
+            sessionRotationKeys[0] = (int)(Helper.Random.NextDouble() * 99999999D);
+            sessionRotationKeys[1] = (int)(Helper.Random.NextDouble() * 99999999D);
+            sessionRotationKeys[2] = (int)(sessionId >> 32);
+            sessionRotationKeys[3] = (int)sessionId;
+
+            LoginEncryptor encryptor = new LoginEncryptor(new byte[500]);
+            encryptor.AddInt32(sessionRotationKeys[0]);
+            encryptor.AddInt32(sessionRotationKeys[1]);
+            encryptor.AddInt32(sessionRotationKeys[2]);
+            encryptor.AddInt32(sessionRotationKeys[3]);
+            encryptor.AddInt32(0);
+            encryptor.AddString(user);
+            encryptor.AddString(pass);
+            encryptor.EncryptPacket(key, modulus);
+            
+            streamClass.CreatePacket(0);
+
+            if (reconnecting)
+            {
+                streamClass.AddInt8(1);
+            }
+            else
+            {
+                streamClass.AddInt8(0);
+            }
+
+            streamClass.AddInt16(Configuration.CLIENT_VERSION);
+            streamClass.AddBytes(encryptor.Packet, 0, encryptor.Offset);
             streamClass.FinalisePacket();
-            int loginCode = streamClass.ReadInputStream();
-            Console.WriteLine("login response:" + loginCode);
+
+            LoginCode loginResponse = (LoginCode)streamClass.ReadInputStream();
+            
+            Console.WriteLine($"Login response: {(int)loginResponse} ({loginResponse})");
 
             // streamClass.MakeAsync();
 
-            if (loginCode == 99)
+            if (loginResponse == LoginCode.Code99)
             {
                 reconnectTries = 0;
                 initVars();
                 return;
             }
-            if (loginCode == 0)
+            if (loginResponse == LoginCode.Code0)
             {
                 reconnectTries = 0;
                 initVars();
                 return;
             }
-            if (loginCode == 1)
+            if (loginResponse == LoginCode.Code1)
             {
                 reconnectTries = 0;
                 return;
@@ -144,47 +165,47 @@ namespace RuneScapeSolo.Lib
                 resetIntVars();
                 return;
             }
-            if (loginCode == -1)
+            if (loginResponse == LoginCode.ServerTimeOut)
             {
                 loginScreenPrint("Error unable to login.", "Server timed out");
                 return;
             }
-            if (loginCode == 2)
+            if (loginResponse == LoginCode.InvalidCredentials)
             {
                 loginScreenPrint("Invalid username or password.", "Try again, or create a new account");
                 return;
             }
-            if (loginCode == 3)
+            if (loginResponse == LoginCode.UsernameAlreadyLoggedIn)
             {
                 loginScreenPrint("That username is already logged in.", "Wait 60 seconds then retry");
                 return;
             }
-            if (loginCode == 4)
+            if (loginResponse == LoginCode.ClientUpdated)
             {
                 loginScreenPrint("The client has been updated.", "Please restart the client");
                 return;
             }
-            if (loginCode == 5)
+            if (loginResponse == LoginCode.Code5)
             {
                 loginScreenPrint("Error unable to login.", "Please retry");
                 return;
             }
-            if (loginCode == 6)
+            if (loginResponse == LoginCode.AccountBanned)
             {
                 loginScreenPrint("Account banned.", "Appeal on the forums, ASAP.");
                 return;
             }
-            if (loginCode == 7)
+            if (loginResponse == LoginCode.ProfileDecodeFailure)
             {
                 loginScreenPrint("Error - failed to decode profile.", "Contact an admin!");
                 return;
             }
-            if (loginCode == 8)
+            if (loginResponse == LoginCode.TooManyConnections)
             {
                 loginScreenPrint("Too many connections from your IP.", "Please try again later");
                 return;
             }
-            if (loginCode == 9)
+            if (loginResponse == LoginCode.AccountAlreadyLoggedIn)
             {
                 loginScreenPrint("Account already in use.", "You may only login to one character at a time");
                 return;

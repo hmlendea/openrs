@@ -106,7 +106,7 @@ namespace RuneScapeSolo.Lib.Net
         //    }
         //}
 
-        public override void readInputStream(int arg0, int arg1, sbyte[] arg2)
+        public override void ReadInputStream(int arg0, int arg1, sbyte[] arg2)
         {
             if (socketClosing)
                 return;
