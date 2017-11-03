@@ -13,6 +13,7 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Runtime.Remoting.Messaging;
 
+using RuneScapeSolo.Enumerations;
 using RuneScapeSolo.Events;
 
 namespace RuneScapeSolo.Lib
@@ -1534,12 +1535,12 @@ namespace RuneScapeSolo.Lib
             OnLoadingSectionCompleted?.Invoke(this, new EventArgs());
         }
 
-        public override void handlePacket(int packetID, int packetLength, sbyte[] packetData)
+        public override void HandlePacket(ServerCommand command, int packetLength, sbyte[] packetData)
         {
             try
             {
                 //base.handlePacket(packetID, packetLength, packetData);
-                if (packetID == 145)
+                if (command == ServerCommand.Command145)
                 {
                     if (!hasWorldInfo)
                     {
@@ -1680,25 +1681,25 @@ namespace RuneScapeSolo.Lib
                     return;
                 }
 
-                if (packetID == 173)
+                if (command == ServerCommand.PvpTournamentAnnouncement)
                 {
                     pvpTournamentTime = DataOperations.GetUnsigned2Bytes(packetData, 1) * 32;
                     return;
                 }
 
-                if (packetID == 174)
+                if (command == ServerCommand.WildernessTypeAnnouncement)
                 {
                     wildernessTime = DataOperations.GetUnsigned2Bytes(packetData, 1) * 32;
                     return;
                 }
 
-                if (packetID == 175)
+                if (command == ServerCommand.DropPartyAnnouncement)
                 {
                     dropPartyTime = DataOperations.GetUnsigned2Bytes(packetData, 1) * 32;
                     return;
                 }
 
-                if (packetID == 109)
+                if (command == ServerCommand.Command109)
                 {
                     if (needsClear)
                     {
@@ -1794,7 +1795,7 @@ namespace RuneScapeSolo.Lib
 
                     return;
                 }
-                if (packetID == 27)
+                if (command == ServerCommand.Command27)
                 {
                     for (int off = 1; off < packetLength;)
                     {
@@ -1904,7 +1905,7 @@ namespace RuneScapeSolo.Lib
 
                     return;
                 }
-                if (packetID == 114)
+                if (command == ServerCommand.Command147)
                 {
                     int off = 1;
                     inventoryItemsCount = packetData[off++] & 0xff;
@@ -1927,7 +1928,7 @@ namespace RuneScapeSolo.Lib
 
                     return;
                 }
-                if (packetID == 53)
+                if (command == ServerCommand.Command53)
                 {
                     int newMobCount = DataOperations.getShort(packetData, 1);
                     int off = 3;
@@ -2069,7 +2070,7 @@ namespace RuneScapeSolo.Lib
 
                     return;
                 }
-                if (packetID == 95)
+                if (command == ServerCommand.Command95)
                 {
                     for (int off = 1; off < packetLength;)
                     {
@@ -2151,7 +2152,7 @@ namespace RuneScapeSolo.Lib
 
                     return;
                 }
-                if (packetID == 77)
+                if (command == ServerCommand.Command77)
                 {
                     lastNpcCount = npcCount;
                     npcCount = 0;
@@ -2252,7 +2253,7 @@ namespace RuneScapeSolo.Lib
                     }
                     return;
                 }
-                if (packetID == 190)
+                if (command == ServerCommand.Command190)
                 {
                     int newCount = DataOperations.getShort(packetData, 1);
                     int off = 3;
@@ -2302,7 +2303,7 @@ namespace RuneScapeSolo.Lib
 
                     return;
                 }
-                if (packetID == 223)
+                if (command == ServerCommand.Command223)
                 {
                     showQuestionMenu = true;
                     int count = DataOperations.getByte(packetData[1]);
@@ -2318,12 +2319,12 @@ namespace RuneScapeSolo.Lib
 
                     return;
                 }
-                if (packetID == 127)
+                if (command == ServerCommand.Command127)
                 {
                     showQuestionMenu = false;
                     return;
                 }
-                if (packetID == 131)
+                if (command == ServerCommand.Command131)
                 {
                     loadArea = true;
                     serverIndex = DataOperations.getShort(packetData, 1);
@@ -2336,7 +2337,7 @@ namespace RuneScapeSolo.Lib
                     hasWorldInfo = true;
                     return;
                 }
-                if (packetID == 180)
+                if (command == ServerCommand.Command180)
                 {
                     int off = 1;
                     for (int stat = 0; stat < 18; stat++)
@@ -2356,7 +2357,7 @@ namespace RuneScapeSolo.Lib
                     }
                     return;
                 }
-                if (packetID == 177)
+                if (command == ServerCommand.Command177)
                 {
                     int off = 1;
                     for (int j3 = 0; j3 < 5; j3++)
@@ -2366,12 +2367,12 @@ namespace RuneScapeSolo.Lib
                     }
                     return;
                 }
-                if (packetID == 165)
+                if (command == ServerCommand.Command165)
                 {
                     playerAliveTimeout = 250;
                     return;
                 }
-                if (packetID == 115)
+                if (command == ServerCommand.Command115)
                 {
                     int k3 = (packetLength - 1) / 4;
                     for (int i11 = 0; i11 < k3; i11++)
@@ -2453,12 +2454,12 @@ namespace RuneScapeSolo.Lib
 
                     return;
                 }
-                if (packetID == 207)
+                if (command == ServerCommand.Command207)
                 {
                     showAppearanceWindow = true;
                     return;
                 }
-                if (packetID == 4)
+                if (command == ServerCommand.Command4)
                 {
                     int tradeOther = DataOperations.getShort(packetData, 1);
                     if (playerBufferArray[tradeOther] != null)
@@ -2473,13 +2474,13 @@ namespace RuneScapeSolo.Lib
                     tradeItemsOtherCount = 0;
                     return;
                 }
-                if (packetID == 187)
+                if (command == ServerCommand.Command187)
                 {
                     showTradeBox = false;
                     showTradeConfirmBox = false;
                     return;
                 }
-                if (packetID == 250)
+                if (command == ServerCommand.Command250)
                 {
                     tradeItemsOtherCount = packetData[1] & 0xff;
                     int i4 = 2;
@@ -2495,7 +2496,7 @@ namespace RuneScapeSolo.Lib
                     tradeWeAccepted = false;
                     return;
                 }
-                if (packetID == 92)
+                if (command == ServerCommand.Command92)
                 {
                     sbyte byte0 = packetData[1];
                     if (byte0 == 1)
@@ -2509,7 +2510,7 @@ namespace RuneScapeSolo.Lib
                         return;
                     }
                 }
-                if (packetID == 253)
+                if (command == ServerCommand.Command253)
                 {
                     showShopBox = true;
                     int off = 1;
@@ -2579,12 +2580,12 @@ namespace RuneScapeSolo.Lib
                     }
                     return;
                 }
-                if (packetID == 220)
+                if (command == ServerCommand.Command220)
                 {
                     showShopBox = false;
                     return;
                 }
-                if (packetID == 18)
+                if (command == ServerCommand.Command18)
                 {
                     sbyte byte1 = packetData[1];
                     if (byte1 == 1)
@@ -2598,7 +2599,7 @@ namespace RuneScapeSolo.Lib
                         return;
                     }
                 }
-                if (packetID == 152)
+                if (command == ServerCommand.Command152)
                 {
                     configCameraAutoAngle = DataOperations.getByte(packetData[1]) == 1;
                     configOneMouseButton = DataOperations.getByte(packetData[2]) == 1;
@@ -2608,7 +2609,7 @@ namespace RuneScapeSolo.Lib
                     showCombatWindow = DataOperations.getByte(packetData[6]) == 1;
                     return;
                 }
-                if (packetID == 209)
+                if (command == ServerCommand.Command209)
                 {
                     for (int k4 = 0; k4 < packetLength - 1; k4++)
                     {
@@ -2628,7 +2629,7 @@ namespace RuneScapeSolo.Lib
 
                     return;
                 }
-                if (packetID == 93)
+                if (command == ServerCommand.Command93)
                 {
                     showBankBox = true;
                     int off = 1;
@@ -2645,18 +2646,18 @@ namespace RuneScapeSolo.Lib
                     updateBankItems();
                     return;
                 }
-                if (packetID == 171)
+                if (command == ServerCommand.Command171)
                 {
                     showBankBox = false;
                     return;
                 }
-                if (packetID == 211)
+                if (command == ServerCommand.Command211)
                 {
                     int j5 = packetData[1] & 0xff;
                     playerStatExp[j5] = DataOperations.getInt(packetData, 2);
                     return;
                 }
-                if (packetID == 229)
+                if (command == ServerCommand.Command229)
                 {
                     int k5 = DataOperations.getShort(packetData, 1);
                     if (playerBufferArray[k5] != null)
@@ -2675,7 +2676,7 @@ namespace RuneScapeSolo.Lib
                     duelNoWeapons = false;
                     return;
                 }
-                if (packetID == 160)
+                if (command == ServerCommand.Command160)
                 {
                     showDuelBox = false;
                     showDuelConfirmBox = false;
@@ -2683,7 +2684,7 @@ namespace RuneScapeSolo.Lib
                 }
 
 #warning have not fixed the following yet....
-                if (packetID == 251)
+                if (command == ServerCommand.Command251)
                 {
                     showTradeConfirmBox = true;
                     tradeConfirmAccepted = false;
@@ -2711,7 +2712,7 @@ namespace RuneScapeSolo.Lib
 
                     return;
                 }
-                if (packetID == 63)
+                if (command == ServerCommand.Command63)
                 {
                     duelOpponentItemCount = packetData[1] & 0xff;
                     int off = 2;
@@ -2727,7 +2728,7 @@ namespace RuneScapeSolo.Lib
                     duelMyAccepted = false;
                     return;
                 }
-                if (packetID == 198)
+                if (command == ServerCommand.Command198)
                 {
                     if (packetData[1] == 1)
                     {
@@ -2769,7 +2770,7 @@ namespace RuneScapeSolo.Lib
                     duelMyAccepted = false;
                     return;
                 }
-                if (packetID == 139)
+                if (command == ServerCommand.Command139)
                 {
                     int off = 1;
                     int itemSlot = packetData[off++] & 0xff;
@@ -2799,7 +2800,7 @@ namespace RuneScapeSolo.Lib
                     updateBankItems();
                     return;
                 }
-                if (packetID == 228)
+                if (command == ServerCommand.Command228)
                 {
                     int off = 1;
                     int count = 1;
@@ -2821,7 +2822,7 @@ namespace RuneScapeSolo.Lib
 
                     return;
                 }
-                if (packetID == 191)
+                if (command == ServerCommand.Command191)
                 {
                     int l6 = packetData[1] & 0xff;
                     inventoryItemsCount--;
@@ -2834,7 +2835,7 @@ namespace RuneScapeSolo.Lib
 
                     return;
                 }
-                if (packetID == 208)
+                if (command == ServerCommand.Command208)
                 {
                     int off = 1;
                     int stat = packetData[off++] & 0xff;
@@ -2844,7 +2845,7 @@ namespace RuneScapeSolo.Lib
                     off += 4;
                     return;
                 }
-                if (packetID == 65)
+                if (command == ServerCommand.Command65)
                 {
                     sbyte byte2 = packetData[1];
                     if (byte2 == 1)
@@ -2858,7 +2859,7 @@ namespace RuneScapeSolo.Lib
                         return;
                     }
                 }
-                if (packetID == 197)
+                if (command == ServerCommand.Command197)
                 {
                     sbyte byte3 = packetData[1];
                     if (byte3 == 1)
@@ -2872,7 +2873,7 @@ namespace RuneScapeSolo.Lib
                         return;
                     }
                 }
-                if (packetID == 147)
+                if (command == ServerCommand.Command147)
                 {
                     showDuelConfirmBox = true;
                     duelConfirmOurAccepted = false;
@@ -2904,13 +2905,13 @@ namespace RuneScapeSolo.Lib
                     duelWeapons = packetData[off++] & 0xff;
                     return;
                 }
-                if (packetID == 11)
+                if (command == ServerCommand.Command11)
                 {
                     string s1 = new string(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
                     playSound(s1);
                     return;
                 }
-                if (packetID == 23)
+                if (command == ServerCommand.Command23)
                 {
                     if (teleBubbleCount < 50)
                     {
@@ -2925,7 +2926,7 @@ namespace RuneScapeSolo.Lib
                     }
                     return;
                 }
-                if (packetID == 248)
+                if (command == ServerCommand.Command248)
                 {
                     if (!loginScreenShown)
                     {
@@ -2937,26 +2938,26 @@ namespace RuneScapeSolo.Lib
                     }
                     return;
                 }
-                if (packetID == 148)
+                if (command == ServerCommand.Command148)
                 {
                     serverMessage = new string(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
                     showServerMessageBox = true;
                     serverMessageBoxTop = false;
                     return;
                 }
-                if (packetID == 64)
+                if (command == ServerCommand.Command64)
                 {
                     serverMessage = new string(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
                     showServerMessageBox = true;
                     serverMessageBoxTop = true;
                     return;
                 }
-                if (packetID == 126)
+                if (command == ServerCommand.Command126)
                 {
                     fatigue = DataOperations.getShort(packetData, 1);
                     return;
                 }
-                if (packetID == 206)
+                if (command == ServerCommand.Command206)
                 {
                     isSleeping = true;
                     inputText = "";
@@ -3005,22 +3006,22 @@ namespace RuneScapeSolo.Lib
                     sleepingStatusText = null;
                     return;
                 }
-                if (packetID == 224)
+                if (command == ServerCommand.Command224)
                 {
                     isSleeping = false;
                     return;
                 }
-                if (packetID == 225)
+                if (command == ServerCommand.Command225)
                 {
                     sleepingStatusText = "Incorrect - Please wait...";
                     return;
                 }
-                if (packetID == 172)
+                if (command == ServerCommand.Command172)
                 {
                     systemUpdate = DataOperations.getShort(packetData, 1) * 32;
                     return;
                 }
-                if (packetID == 181)
+                if (command == ServerCommand.Command181)
                 {
                     if (autoScreenshot)
                     {
@@ -3029,7 +3030,7 @@ namespace RuneScapeSolo.Lib
 
                     return;
                 }
-                if (packetID == 182)
+                if (command == ServerCommand.Command182)
                 {
                     int off = 1;
                     questPoints = DataOperations.getShort(packetData, off);
@@ -3041,7 +3042,7 @@ namespace RuneScapeSolo.Lib
 
                     return;
                 }
-                if (packetID == 233)
+                if (command == ServerCommand.Command233)
                 {
                     questPoints = DataOperations.getByte(packetData[1]);
                     int count = DataOperations.getByte(packetData[2]);
@@ -3057,17 +3058,17 @@ namespace RuneScapeSolo.Lib
                     questStage = newQuestStage;
                     return;
                 }
-                if (packetID == 129)
+                if (command == ServerCommand.Command129)
                 {
                     combatStyle = DataOperations.getByte(packetData[1]);
                     return;
                 }
-                if (packetID == 110)
+                if (command == ServerCommand.Command110)
                 {// TODO remove?
                     Console.WriteLine("RECEIVED PACKET 110 (SERVER INFO)");
                     return;
                 }
-                Console.WriteLine("UNHANDLED PACKET:" + packetID + " LEN:" + packetLength);
+                Console.WriteLine("UNHANDLED PACKET:" + command + " LEN:" + packetLength);
             }
             catch (Exception ex)
             {
@@ -3099,8 +3100,8 @@ namespace RuneScapeSolo.Lib
             loginScreenNumber = 0;
             loggedIn = 1;
 
-            resetPrivateMessages();
-            gameGraphics.clearScreen();
+            ResetPrivateMessages();
+            gameGraphics.ClearScreen();
             // gameGraphics.UpdateGameImage();
             //gameGraphics.drawImage(spriteBatch, 0, 0);
             OnDrawDone();
@@ -3844,7 +3845,7 @@ namespace RuneScapeSolo.Lib
                 streamClass.AddInt8(appearanceBottomColour);
                 streamClass.AddInt8(appearanceSkinColour);
                 streamClass.FormatPacket();
-                gameGraphics.clearScreen();
+                gameGraphics.ClearScreen();
                 showAppearanceWindow = false;
             }
         }
@@ -5162,8 +5163,8 @@ namespace RuneScapeSolo.Lib
                 return;
             }
 
-            gameGraphics.interlace = false;
-            gameGraphics.clearScreen();
+            gameGraphics.interlacingEnabled = false;
+            gameGraphics.ClearScreen();
             if (loginScreenNumber == 0 || loginScreenNumber == 1 || loginScreenNumber == 2 || loginScreenNumber == 3)
             {
                 int l = (tick * 2) % 3072;
@@ -5504,8 +5505,8 @@ namespace RuneScapeSolo.Lib
                         {
                             showFriendsBox = 2;
                             pmTarget = friendsList[l2];
-                            pmText = "";
-                            enteredPMText = "";
+                            privateMessageText = "";
+                            enteredPrivateMessageText = "";
                         }
                     }
                 }
@@ -7414,8 +7415,8 @@ namespace RuneScapeSolo.Lib
 
         public void drawAppearanceWindow()
         {
-            gameGraphics.interlace = false;
-            gameGraphics.clearScreen();
+            gameGraphics.interlacingEnabled = false;
+            gameGraphics.ClearScreen();
             appearanceMenu.drawMenu();
             int l = 140;
             int i1 = 50;
@@ -7823,9 +7824,9 @@ namespace RuneScapeSolo.Lib
                 }
             }
 
-            gameGraphics.interlace = false;
-            gameGraphics.clearScreen();
-            gameGraphics.interlace = keyF1Toggle;
+            gameGraphics.interlacingEnabled = false;
+            gameGraphics.ClearScreen();
+            gameGraphics.interlacingEnabled = keyF1Toggle;
             if (lastLayerIndex == 3)
             {
                 int l5 = 40 + (int)(Helper.Random.NextDouble() * 3D);
@@ -9765,10 +9766,10 @@ namespace RuneScapeSolo.Lib
             return wallModel;
         }
 
-        public void resetPrivateMessages()
+        public void ResetPrivateMessages()
         {
-            pmText = "";
-            enteredPMText = "";
+            privateMessageText = "";
+            enteredPrivateMessageText = "";
         }
 
         public Mob makeNPC(int index, int x, int y, int sprite, int id)
@@ -10053,12 +10054,12 @@ namespace RuneScapeSolo.Lib
                 l += 20;
                 gameGraphics.drawText("Enter message to send to " + DataOperations.hashToName(pmTarget), 256, l, 4, 0xffffff);
                 l += 20;
-                gameGraphics.drawText(pmText + "*", 256, l, 4, 0xffffff);
-                if (enteredPMText.Length > 0)
+                gameGraphics.drawText(privateMessageText + "*", 256, l, 4, 0xffffff);
+                if (enteredPrivateMessageText.Length > 0)
                 {
-                    string s2 = enteredPMText;
-                    pmText = "";
-                    enteredPMText = "";
+                    string s2 = enteredPrivateMessageText;
+                    privateMessageText = "";
+                    enteredPrivateMessageText = "";
                     showFriendsBox = 0;
                     int j1 = ChatMessage.stringToBytes(s2);
                     sendPrivateMessage(pmTarget, ChatMessage.lastChat, j1);

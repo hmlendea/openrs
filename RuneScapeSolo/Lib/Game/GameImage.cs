@@ -17,7 +17,7 @@ namespace RuneScapeSolo.Lib.Game
         public GameImage(int width, int height, int size /*, java.awt.Component destY*/)
         //  : base(_pixels, y, destX, destY)
         {
-            interlace = false;
+            interlacingEnabled = false;
             loggedIn = false;
             imageHeight = height;
             imageWidth = width;
@@ -165,29 +165,31 @@ namespace RuneScapeSolo.Lib.Game
         //    catch { }
         //}
 
-        public void clearScreen()
+        public void ClearScreen()
         {
-            int i = gameWidth * gameHeight;
-            if (!interlace)
+            int area = gameWidth * gameHeight;
+
+            if (!interlacingEnabled)
             {
-                for (int k = 0; k < i; k++)
+                for (int i = 0; i < area; i++)
                 {
-                    pixels[k] = 0;
+                    pixels[i] = 0;
                 }
 
                 return;
             }
+
             int l = 0;
-            for (int i1 = -gameHeight; i1 < 0; i1 += 2)
+
+            for (int i = -gameHeight; i < 0; i += 2)
             {
-                for (int j1 = -gameWidth; j1 < 0; j1++)
+                for (int j = -gameWidth; j < 0; j++)
                 {
                     pixels[l++] = 0;
                 }
 
                 l += gameWidth;
             }
-
         }
 
         public void drawCircle(int arg0, int arg1, int arg2, int arg3, int arg4)
@@ -209,7 +211,7 @@ namespace RuneScapeSolo.Lib.Game
             }
 
             byte byte0 = 1;
-            if (interlace)
+            if (interlacingEnabled)
             {
                 byte0 = 2;
                 if ((i2 & 1) != 0)
@@ -275,7 +277,7 @@ namespace RuneScapeSolo.Lib.Game
             int i1 = (arg4 & 0xff) * arg5;
             int i2 = gameWidth - w;
             byte byte0 = 1;
-            if (interlace)
+            if (interlacingEnabled)
             {
                 byte0 = 2;
                 i2 += gameWidth;
@@ -323,7 +325,7 @@ namespace RuneScapeSolo.Lib.Game
             int sR = startColor & 0xff;
             int l1 = gameWidth - w;
             byte byte0 = 1;
-            if (interlace)
+            if (interlacingEnabled)
             {
                 byte0 = 2;
                 l1 += gameWidth;
@@ -377,7 +379,7 @@ namespace RuneScapeSolo.Lib.Game
 
             int i = gameWidth - w;
             byte byte0 = 1;
-            if (interlace)
+            if (interlacingEnabled)
             {
                 byte0 = 2;
                 i += gameWidth;
@@ -1043,7 +1045,7 @@ namespace RuneScapeSolo.Lib.Game
             }
 
             byte byte0 = 1;
-            if (interlace)
+            if (interlacingEnabled)
             {
                 byte0 = 2;
                 i2 += gameWidth;
@@ -1128,7 +1130,7 @@ namespace RuneScapeSolo.Lib.Game
                     l3 += k4;
                 }
                 byte byte0 = 1;
-                if (interlace)
+                if (interlacingEnabled)
                 {
                     byte0 = 2;
                     l3 += gameWidth;
@@ -1197,7 +1199,7 @@ namespace RuneScapeSolo.Lib.Game
             }
 
             byte byte0 = 1;
-            if (interlace)
+            if (interlacingEnabled)
             {
                 byte0 = 2;
                 j2 += gameWidth;
@@ -1282,7 +1284,7 @@ namespace RuneScapeSolo.Lib.Game
                     i4 += l4;
                 }
                 byte byte0 = 1;
-                if (interlace)
+                if (interlacingEnabled)
                 {
                     byte0 = 2;
                     i4 += gameWidth;
@@ -1364,7 +1366,7 @@ namespace RuneScapeSolo.Lib.Game
                     i4 += l4;
                 }
                 byte byte0 = 1;
-                if (interlace)
+                if (interlacingEnabled)
                 {
                     byte0 = 2;
                     i4 += gameWidth;
@@ -2040,7 +2042,7 @@ namespace RuneScapeSolo.Lib.Game
                         k10 = imageWidth;
                     }
 
-                    if (!interlace || (i10 & 1) == 0)
+                    if (!interlacingEnabled || (i10 & 1) == 0)
                     {
                         if (!hasTransparentBackground[arg2])
                         {
@@ -2166,7 +2168,7 @@ namespace RuneScapeSolo.Lib.Game
                 }
 
                 int j5 = k4 / gameWidth & 1;
-                if (!interlace)
+                if (!interlacingEnabled)
                 {
                     j5 = 2;
                 }
@@ -3176,7 +3178,7 @@ namespace RuneScapeSolo.Lib.Game
         private int imageHeight;
         private int imageX;
         private int imageWidth;
-        public bool interlace;
+        public bool interlacingEnabled;
         static sbyte[][] gameFonts = new sbyte[50][];
         static int[] bne;
         public bool loggedIn;

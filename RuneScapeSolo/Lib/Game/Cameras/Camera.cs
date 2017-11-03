@@ -424,7 +424,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
 
         public void finishCamera()
         {
-            bgd = gameImage.interlace;
+            bgd = gameImage.interlacingEnabled;
             int k4 = bcj * zoom1 >> bcn;
             int l4 = bck * zoom1 >> bcn;
             nearX = 0;

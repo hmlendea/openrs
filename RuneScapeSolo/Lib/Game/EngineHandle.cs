@@ -397,7 +397,7 @@ namespace RuneScapeSolo.Lib.Game
 
             if (freshLoad)
             {
-                gameGraphics.clearScreen();
+                gameGraphics.ClearScreen();
                 for (int x1 = 0; x1 < 96; x1++)
                 {
                     for (int y1 = 0; y1 < 96; y1++)

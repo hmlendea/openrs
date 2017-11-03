@@ -313,30 +313,31 @@ namespace RuneScapeSolo.Lib
             int packetLength = streamClass.readPacket(packetData);
             if (packetLength > 0)
             {
-                handlePacket(packetData[0] & 0xff, packetLength);
+                int commandId = packetData[0] & 0xff;
+                handlePacket((ServerCommand)commandId, packetLength);
             }
         }
 
-        public virtual void handlePacket(int command, int length)
+        public virtual void handlePacket(ServerCommand command, int length)
         {
-            if (command == 48)
+            if (command == ServerCommand.Command48)
             {
                 var s1 = Encoding.UTF8.GetString((byte[])(Array)packetData, 1, length - 1);
                 //string s1 = new string(packetData, 1, length - 1);
                 displayMessage(s1);
                 return;
             }
-            if (command == 222)
+            if (command == ServerCommand.Command222)
             {
                 requestLogout();
                 return;
             }
-            if (command == 136)
+            if (command == ServerCommand.Command136)
             {
                 cantLogout();
                 return;
             }
-            if (command == 249)
+            if (command == ServerCommand.Command249)
             {
                 friendsCount = DataOperations.getByte(packetData[1]);
                 for (int i = 0; i < friendsCount; i++)
@@ -348,7 +349,7 @@ namespace RuneScapeSolo.Lib
                 reOrderFriendsList();
                 return;
             }
-            if (command == 25)
+            if (command == ServerCommand.Command25)
             {
                 long friend = DataOperations.getLong(packetData, 1);
                 int status = packetData[9] & 0xff;
@@ -379,7 +380,7 @@ namespace RuneScapeSolo.Lib
                 reOrderFriendsList();
                 return;
             }
-            if (command == 2)
+            if (command == ServerCommand.Command2)
             {
                 ignoresCount = DataOperations.getByte(packetData[1]);
                 for (int j = 0; j < ignoresCount; j++)
@@ -389,7 +390,7 @@ namespace RuneScapeSolo.Lib
 
                 return;
             }
-            if (command == 158)
+            if (command == ServerCommand.Command158)
             {
                 blockChat = packetData[1];
                 blockPrivate = packetData[2];
@@ -397,27 +398,27 @@ namespace RuneScapeSolo.Lib
                 blockDuel = packetData[4];
                 return;
             }
-            if (command == 170)
+            if (command == ServerCommand.Command170)
             {
                 long l1 = DataOperations.getLong(packetData, 1);
                 string s = ChatMessage.bytesToString(packetData, 9, length - 9);
                 displayMessage("@pri@" + DataOperations.hashToName(l1) + ": tells you " + s);
                 return;
             }
-            if (command == 211)
+            if (command == ServerCommand.Command211)
             {// TODO remove?
                 streamClass.CreatePacket(69);
                 streamClass.AddInt8(0);// scar.exe, etc
                 streamClass.FormatPacket();
                 return;
             }
-            if (command == 1)
+            if (command == ServerCommand.Command1)
             {// TODO remove?
                 //bluePoints
                 //redPoints
                 return;
             }
-            handlePacket(command, length, packetData);
+            HandlePacket(command, length, packetData);
         }
 
         private void reOrderFriendsList()
@@ -587,7 +588,7 @@ namespace RuneScapeSolo.Lib
         {
         }
 
-        public virtual void handlePacket(int i, int j, sbyte[] abyte0)
+        public virtual void HandlePacket(ServerCommand command, int j, sbyte[] abyte0)
         {
         }
 

@@ -161,22 +161,22 @@ namespace RuneScapeSolo.Lib
             {
                 inputText += c;
             }
-            if (flag && pmText.Length < 80)
+            if (flag && privateMessageText.Length < 80)
             {
-                pmText += c;
+                privateMessageText += c;
             }
             if (key == Keys.Back && inputText.Length > 0)
             {
                 inputText = inputText.Substring(0, inputText.Length - 1);
             }
-            if (key == Keys.Back && pmText.Length > 0)
+            if (key == Keys.Back && privateMessageText.Length > 0)
             {
-                pmText = pmText.Substring(0, pmText.Length - 1);
+                privateMessageText = privateMessageText.Substring(0, privateMessageText.Length - 1);
             }
             if (key == Keys.Enter)
             {
                 enteredInputText = inputText;
-                enteredPMText = pmText;
+                enteredPrivateMessageText = privateMessageText;
             }
         }
 
@@ -722,8 +722,8 @@ namespace RuneScapeSolo.Lib
             keyF1Toggle = false;
             inputText = "";
             enteredInputText = "";
-            pmText = "";
-            enteredPMText = "";
+            privateMessageText = "";
+            enteredPrivateMessageText = "";
         }
 
         public GameApplet(GraphicsDevice graphics, SpriteBatch spriteBatch)
@@ -770,8 +770,8 @@ namespace RuneScapeSolo.Lib
         public bool keyF1Toggle;
         public string inputText;
         public string enteredInputText;
-        public string pmText;
-        public string enteredPMText;
+        public string privateMessageText;
+        public string enteredPrivateMessageText;
 
         public static int[][] bgPixels = null;
         public static Texture2D bgImage = null;

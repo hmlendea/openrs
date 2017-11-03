@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enumerations\LoginCode.cs" />
+    <Compile Include="Enumerations\ServerCommand.cs" />
     <Compile Include="Enumerations\TradeAndDuelState.cs" />
     <Compile Include="Events\ContentLoadedEvent.cs" />
     <Compile Include="Model.cs" />
