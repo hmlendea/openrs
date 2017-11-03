@@ -12,20 +12,11 @@ using Microsoft.Xna.Framework.Input;
 using System.Drawing;
 using System.ComponentModel;
 using System.Runtime.Remoting.Messaging;
+
+using RuneScapeSolo.Events;
+
 namespace RuneScapeSolo.Lib
 {
-
-    public class ContentLoadedEventArgs : EventArgs
-    {
-        public string StatusText { get; set; }
-        public decimal Progress { get; set; }
-        public ContentLoadedEventArgs(string statusText, decimal progress)
-        {
-            StatusText = statusText;
-            Progress = progress;
-        }
-    }
-
     public class mudclient : GameAppletMiddleMan
     {
         public event EventHandler OnContentLoadedCompleted;
@@ -55,6 +46,10 @@ namespace RuneScapeSolo.Lib
         bool ctrlKeyIsDown = false;
         bool altKeyIsDown = false;
         TimeSpan timeLapse = TimeSpan.Zero;
+
+        int pvpTournamentTime;
+        int wildernessTime;
+        int dropPartyTime;
 
         public char TranslateOemKeys(Keys k)
         {
@@ -582,7 +577,12 @@ namespace RuneScapeSolo.Lib
         public override void resetIntVars()
         {
             systemUpdate = 0;
-            loginScreen = 0;
+
+            wildernessTime = 0;
+            pvpTournamentTime = 0;
+            dropPartyTime = 0;
+
+            loginScreenNumber = 0;
             loggedIn = 0;
             logoutTimer = 0;
         }
@@ -1076,7 +1076,7 @@ namespace RuneScapeSolo.Lib
         public void setLoginVars()
         {
             loggedIn = 0;
-            loginScreen = 0;
+            loginScreenNumber = 0;
             loginUsername = "";
             loginPassword = "";
             /*dja = "Please enter a username:";
@@ -1477,6 +1477,25 @@ namespace RuneScapeSolo.Lib
                     }
                     return;
                 }
+
+                if (packetID == 173)
+                {
+                    pvpTournamentTime = DataOperations.GetUnsigned2Bytes(packetData, 1) * 32;
+                    return;
+                }
+
+                if (packetID == 174)
+                {
+                    wildernessTime = DataOperations.GetUnsigned2Bytes(packetData, 1) * 32;
+                    return;
+                }
+
+                if (packetID == 175)
+                {
+                    dropPartyTime = DataOperations.GetUnsigned2Bytes(packetData, 1) * 32;
+                    return;
+                }
+
                 if (packetID == 109)
                 {
                     if (needsClear)
@@ -2753,47 +2772,54 @@ namespace RuneScapeSolo.Lib
         public override void initVars()
         {
             systemUpdate = 0;
+            pvpTournamentTime = 0;
+            dropPartyTime = 0;
+            
             combatStyle = 0;
             logoutTimer = 0;
-            loginScreen = 0;
+            loginScreenNumber = 0;
             loggedIn = 1;
+
             resetPrivateMessages();
             gameGraphics.clearScreen();
             // gameGraphics.UpdateGameImage();
             //gameGraphics.drawImage(spriteBatch, 0, 0);
             OnDrawDone();
 
-            for (int l = 0; l < objectCount; l++)
+            for (int i = 0; i < objectCount; i++)
             {
-                gameCamera.removeModel(objectArray[l]);
-                engineHandle.removeObject(objectX[l], objectY[l], objectType[l], objectRotation[l]);
+                gameCamera.removeModel(objectArray[i]);
+                engineHandle.removeObject(objectX[i], objectY[i], objectType[i], objectRotation[i]);
             }
 
-            for (int i1 = 0; i1 < wallObjectCount; i1++)
+            for (int i = 0; i < wallObjectCount; i++)
             {
-                gameCamera.removeModel(wallObjectArray[i1]);
-                engineHandle.removeWallObject(wallObjectX[i1], wallObjectY[i1], wallObjectDirection[i1], wallObjectID[i1]);
+                gameCamera.removeModel(wallObjectArray[i]);
+                engineHandle.removeWallObject(wallObjectX[i], wallObjectY[i], wallObjectDirection[i], wallObjectID[i]);
             }
 
             objectCount = 0;
             wallObjectCount = 0;
             groundItemCount = 0;
             playerCount = 0;
-            for (int j1 = 0; j1 < 4000; j1++)
-                playerBufferArray[j1] = null;
-
-            for (int k1 = 0; k1 < 500; k1++)
-                playerArray[k1] = null;
-
             npcCount = 0;
-            for (int l1 = 0; l1 < 5000; l1++)
-                npcAttackingArray[l1] = null;
 
-            for (int i2 = 0; i2 < 500; i2++)
-                npcArray[i2] = null;
+            for (int i = 0; i < 4000; i++)
+            {
+                playerBufferArray[i] = null;
+                npcAttackingArray[i] = null;
+            }
 
-            for (int j2 = 0; j2 < 50; j2++)
-                prayerOn[j2] = false;
+            for (int i = 0; i < 500; i++)
+            {
+                playerArray[i] = null;
+                npcArray[i] = null;
+            }
+
+            for (int i = 0; i < 50; i++)
+            {
+                prayerOn[i] = false;
+            }
 
             mouseButtonClick = 0;
             base.lastMouseButton = 0;
@@ -3089,6 +3115,11 @@ namespace RuneScapeSolo.Lib
         public override void lostConnection()
         {
             systemUpdate = 0;
+
+            pvpTournamentTime = 0;
+            wildernessTime = 0;
+            dropPartyTime = 0;
+
             if (logoutTimer != 0)
             {
                 resetIntVars();
@@ -4133,7 +4164,7 @@ namespace RuneScapeSolo.Lib
 
         public override void loginScreenPrint(string s1, string s2)
         {
-            if (loginScreen == 2 && loginMenuLogin != null)
+            if (loginScreenNumber == 2 && loginMenuLogin != null)
                 loginMenuLogin.updateText(loginMenuStatusText, s1 + " " + s2);
             drawLoginScreens();
             ResetTimings();
@@ -4159,15 +4190,15 @@ namespace RuneScapeSolo.Lib
         {
             if (base.socketTimeout > 0)
                 base.socketTimeout--;
-            if (loginScreen == 0)
+            if (loginScreenNumber == 0)
             {
                 if (loginMenuFirst == null) return;
                 loginMenuFirst.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
                 if (loginMenuFirst.isClicked(loginButtonNewUser))
-                    loginScreen = 1;
+                    loginScreenNumber = 1;
                 if (loginMenuFirst.isClicked(loginMenuLoginButton))
                 {
-                    loginScreen = 2;
+                    loginScreenNumber = 2;
                     loginMenuLogin.updateText(loginMenuStatusText, "Please enter your username and password");
                     loginMenuLogin.updateText(loginMenuUserText, "");
                     loginMenuLogin.updateText(loginMenuPasswordText, "");
@@ -4176,22 +4207,22 @@ namespace RuneScapeSolo.Lib
                 }
             }
             else
-                if (loginScreen == 1)
+                if (loginScreenNumber == 1)
             {
                 if (loginNewUser == null) return;
                 loginNewUser.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
                 if (loginNewUser.isClicked(loginMenuOkButton))
                 {
-                    loginScreen = 0;
+                    loginScreenNumber = 0;
                     return;
                 }
             }
             else
-                    if (loginScreen == 2)
+                    if (loginScreenNumber == 2)
             {
                 loginMenuLogin.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
                 if (loginMenuLogin.isClicked(loginMenuCancelButton))
-                    loginScreen = 0;
+                    loginScreenNumber = 0;
                 if (loginMenuLogin.isClicked(loginMenuUserText))
                     loginMenuLogin.setFocus(loginMenuPasswordText);
                 if (loginMenuLogin.isClicked(loginMenuPasswordText) || loginMenuLogin.isClicked(loginMenuOkLoginButton))
@@ -4429,7 +4460,7 @@ namespace RuneScapeSolo.Lib
                 return;
             gameGraphics.interlace = false;
             gameGraphics.clearScreen();
-            if (loginScreen == 0 || loginScreen == 1 || loginScreen == 2 || loginScreen == 3)
+            if (loginScreenNumber == 0 || loginScreenNumber == 1 || loginScreenNumber == 2 || loginScreenNumber == 3)
             {
                 int l = (tick * 2) % 3072;
                 if (l < 1024)
@@ -4452,11 +4483,11 @@ namespace RuneScapeSolo.Lib
                 }
             }
             if (loginMenuFirst == null) return;
-            if (loginScreen == 0)
+            if (loginScreenNumber == 0)
                 loginMenuFirst.drawMenu();
-            if (loginScreen == 1)
+            if (loginScreenNumber == 1)
                 loginNewUser.drawMenu();
-            if (loginScreen == 2)
+            if (loginScreenNumber == 2)
                 loginMenuLogin.drawMenu();
 
             gameGraphics.drawPicture(0, windowHeight, baseInventoryPic + 22);
@@ -5041,6 +5072,21 @@ namespace RuneScapeSolo.Lib
             if (systemUpdate > 1)
                 systemUpdate--;
 
+            if (wildernessTime >= 1)
+            {
+                wildernessTime -= 1;
+            }
+
+            if (pvpTournamentTime >= 1)
+            {
+                pvpTournamentTime -= 1;
+            }
+
+            if (dropPartyTime >= 1)
+            {
+                dropPartyTime -= 1;
+            }
+
             sendPingPacketAsync();
 
 
@@ -5608,11 +5654,11 @@ namespace RuneScapeSolo.Lib
 
             if (loggedIn == 0)
             {
-                if (loginScreen == 0 && loginMenuFirst != null)
+                if (loginScreenNumber == 0 && loginMenuFirst != null)
                     loginMenuFirst.keyPress(key, c);
-                if (loginScreen == 1 && loginNewUser != null)
+                if (loginScreenNumber == 1 && loginNewUser != null)
                     loginNewUser.keyPress(key, c);
-                if (loginScreen == 2 && loginMenuLogin != null)
+                if (loginScreenNumber == 2 && loginMenuLogin != null)
                     loginMenuLogin.keyPress(key, c);
             }
             if (loggedIn == 1)
@@ -6645,6 +6691,22 @@ namespace RuneScapeSolo.Lib
                 else
                     gameGraphics.drawText("System update in: " + minutes + ":" + seconds, 256, windowHeight - 7, 1, 0xffff00);
             }
+
+            if (wildernessTime != 0)
+            {
+                DrawWildernessTypeAnnouncement();
+            }
+
+            if (pvpTournamentTime != 0)
+            {
+                DrawPvpTournamentAnnouncement();
+            }
+
+            if (dropPartyTime != 0)
+            {
+                DrawDropPartyAnnouncement();
+            }
+
             if (!loadArea)
             {
                 int i7 = 2203 - (sectionY + wildY + areaY);
@@ -6702,6 +6764,57 @@ namespace RuneScapeSolo.Lib
 
             //gameGraphics.UpdateGameImage();
             OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
+        }
+
+        void DrawWildernessTypeAnnouncement()
+        {
+            int i6 = wildernessTime / 50;
+            int j8 = i6 / 60;
+
+            i6 %= 60;
+
+            if (i6 < 10)
+            {
+                gameGraphics.drawText($"Wilderness type will change in: {j8}:0{i6}", 256, windowHeight - 7, 1, 0xFFFF00);
+            }
+            else
+            {
+                gameGraphics.drawText($"Wilderness type will change in: {j8}:{i6}", 256, windowHeight - 7, 1, 0xFFFF00);
+            }
+        }
+
+        void DrawPvpTournamentAnnouncement()
+        {
+            int i6 = pvpTournamentTime / 50;
+            int j8 = i6 / 60;
+
+            i6 %= 60;
+
+            if (i6 < 10)
+            {
+                gameGraphics.drawText("Drop party starting in: " + j8 + ":0" + i6, 256, windowHeight - 7, 1, 0xFFFF00);
+            }
+            else
+            {
+                gameGraphics.drawText("Drop party starting in: " + j8 + ":" + i6, 256, windowHeight - 7, 1, 0xFFFF00);
+            }
+        }
+
+        void DrawDropPartyAnnouncement()
+        {
+            int i6 = dropPartyTime / 50;
+            int j8 = i6 / 60;
+
+            i6 %= 60;
+
+            if (i6 < 10)
+            {
+                gameGraphics.drawText("Drop party starting in: " + j8 + ":0" + i6, 256, windowHeight - 7, 1, 0xFFFF00);
+            }
+            else
+            {
+                gameGraphics.drawText("Drop party starting in: " + j8 + ":" + i6, 256, windowHeight - 7, 1, 0xFFFF00);
+            }
         }
 
         //	public bool DrawCustomMenus { get; set; }
@@ -8999,7 +9112,7 @@ namespace RuneScapeSolo.Lib
         public int duelWeapons;
         public bool showServerMessageBox;
         public int[] playerBufferArrayIndexes;
-        public int loginScreen;
+        public int loginScreenNumber;
         public int tradeConfigItemCount;
         public int[] tradeConfirmItems;
         public int[] tradeConfigItemsCount;

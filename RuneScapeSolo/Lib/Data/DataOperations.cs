@@ -209,6 +209,11 @@ namespace RuneScapeSolo.Lib.Data
         //    return j;
         //}
 
+        public static int GetUnsigned2Bytes(sbyte[] data, int index)
+        {
+            return ((data[index] & 0xFF) << 8) +
+                   (data[index + 1] & 0xFF);
+        }
 
         public static int getBits(sbyte[] bytes, int off, int len)
         {
