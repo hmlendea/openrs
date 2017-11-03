@@ -6,14 +6,39 @@ namespace RuneScapeSolo.Lib.Net
 {
     public class PacketConstruction
     {
+        int length;
+        int _read;
+        int packetStart;
+        int packetOffset;
+        int skipOffset;
+        byte[] packetData;
+        int PacketCount { get; set; }
 
-        public virtual void closeStream()
+        static int[] packetCommandCount = new int[256];
+        static int[] packetLengthCount = new int[256];
+
+        public int MaximumPacketCount { get; set; }
+        public int MaximumPacketReadCount { get; set; }
+
+        public string ErrorMessage { get; set; }
+        public bool HasErrors { get; set; }
+
+        public PacketConstruction()
+        {
+            packetOffset = 3;
+            skipOffset = 8;
+            MaximumPacketCount = 5000;
+            ErrorMessage = "";
+            HasErrors = false;
+        }
+
+        public virtual void CloseStream()
         {
         }
 
         public void CreatePacket(int i)
         {
-            if (packetStart > (maxPacketLength * 4) / 5)
+            if (packetStart > (MaximumPacketCount * 4) / 5)
             {
                 try
                 {
@@ -21,14 +46,14 @@ namespace RuneScapeSolo.Lib.Net
                 }
                 catch (IOException ex)
                 {
-                    error = true;
-                    errorText = ex.Message;
+                    HasErrors = true;
+                    ErrorMessage = ex.Message;
                 }
             }
 
             if (packetData == null)
             {
-                packetData = new byte[maxPacketLength];
+                packetData = new byte[MaximumPacketCount];
             }
 
             packetData[packetStart + 2] = (byte)i;
@@ -40,23 +65,23 @@ namespace RuneScapeSolo.Lib.Net
 
         public void WritePacket(int i)
         {
-            if (error)
+            if (HasErrors)
             {
                 packetStart = 0;
                 packetOffset = 3;
-                error = false;
-                throw new IOException(errorText);
+                HasErrors = false;
+                throw new IOException(ErrorMessage);
             }
 
-            packetCount++;
+            PacketCount++;
 
-            if (packetCount < i)
+            if (PacketCount < i)
             {
                 return;
             }
             if (packetStart > 0)
             {
-                packetCount = 0;
+                PacketCount = 0;
                 WriteToBuffer(packetData, 0, packetStart);
             }
 
@@ -75,6 +100,20 @@ namespace RuneScapeSolo.Lib.Net
             packetData[packetOffset++] = (byte)i;
         }
 
+        public void AddInt32(int i)
+        {
+            packetData[packetOffset++] = (byte)(i >> 24);
+            packetData[packetOffset++] = (byte)(i >> 16);
+            packetData[packetOffset++] = (byte)(i >> 8);
+            packetData[packetOffset++] = (byte)i;
+        }
+
+        public void AddInt64(long l)
+        {
+            AddInt32((int)(l >> 32));
+            AddInt32((int)(l & -1L));
+        }
+
         public void AddString(string s)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(s);
@@ -84,10 +123,12 @@ namespace RuneScapeSolo.Lib.Net
             packetOffset += bytes.Length;
         }
 
-        public void AddInt64(long l)
+        public void AddBytes(byte[] data, int offset, int length)
         {
-            addInt((int)(l >> 32));
-            addInt((int)(l & -1L));
+            for (int i = 0; i < length; i++)
+            {
+                packetData[packetOffset++] = data[offset + i];
+            }
         }
 
         public virtual void WriteToBuffer(byte[] abyte0, int i, int j)
@@ -98,16 +139,27 @@ namespace RuneScapeSolo.Lib.Net
         {
         }
 
+        public int ReadInt8()
+        {
+            return ReadInputStream();
+        }
+
         public int ReadInt16()
         {
             int i = ReadInt8();
             int j = ReadInt8();
+
             return i * 256 + j;
         }
 
-        public virtual int ReadInputStream()
+        public long ReadInt64()
         {
-            return 0;
+            long q1 = ReadInt16();
+            long q2 = ReadInt16();
+            long q3 = ReadInt16();
+            long q4 = ReadInt16();
+
+            return (q1 << 48) + (q2 << 32) + (q3 << 16) + q4;
         }
 
         public void Read(int i, sbyte[] abyte0)
@@ -115,12 +167,9 @@ namespace RuneScapeSolo.Lib.Net
             ReadInputStream(i, 0, abyte0);
         }
 
-        public void addInt(int i)
+        public virtual int ReadInputStream()
         {
-            packetData[packetOffset++] = (byte)(i >> 24);
-            packetData[packetOffset++] = (byte)(i >> 16);
-            packetData[packetOffset++] = (byte)(i >> 8);
-            packetData[packetOffset++] = (byte)i;
+            return 0;
         }
 
         public void FinalisePacket(bool format = true)
@@ -140,21 +189,6 @@ namespace RuneScapeSolo.Lib.Net
         //    return 0;
         //}
 
-        public void SendInt16(int i)
-        {
-            packetData[packetOffset++] = (byte)(i >> 8);
-            packetData[packetOffset++] = (byte)i;
-        }
-
-        public long ReadInt64()
-        {
-            long q1 = ReadInt16();
-            long q2 = ReadInt16();
-            long q3 = ReadInt16();
-            long q4 = ReadInt16();
-
-            return (q1 << 48) + (q2 << 32) + (q3 << 16) + q4;
-        }
 
         public void FormatPacket()
         {
@@ -176,7 +210,7 @@ namespace RuneScapeSolo.Lib.Net
                 packetOffset--;
                 packetData[packetStart + 1] = packetData[packetOffset];
             }
-            if (maxPacketLength <= 10000)
+            if (MaximumPacketCount <= 10000)
             {
                 int k = packetData[packetStart + 2] & 0xff;
 
@@ -185,14 +219,6 @@ namespace RuneScapeSolo.Lib.Net
             }
 
             packetStart = packetOffset;
-        }
-
-        public void AddBytes(byte[] data, int offset, int length)
-        {
-            for (int i = 0; i < length; i++)
-            {
-                packetData[packetOffset++] = data[offset + i];
-            }
         }
 
         public bool hasData()
@@ -205,11 +231,11 @@ namespace RuneScapeSolo.Lib.Net
             try
             {
                 _read++;
-                if (maxPacketReadCount > 0 && _read > maxPacketReadCount)
+                if (MaximumPacketReadCount > 0 && _read > MaximumPacketReadCount)
                 {
-                    error = true;
-                    errorText = "time-out";
-                    maxPacketReadCount += maxPacketReadCount;
+                    HasErrors = true;
+                    ErrorMessage = "time-out";
+                    MaximumPacketReadCount += MaximumPacketReadCount;
                     return 0;
                 }
                 if (length == 0 /*&& available() >= 2*/)
@@ -229,39 +255,10 @@ namespace RuneScapeSolo.Lib.Net
             }
             catch (IOException ioexception)
             {
-                error = true;
-                errorText = ioexception.ToString();//ioexception.getMessage();
+                HasErrors = true;
+                ErrorMessage = ioexception.ToString();//ioexception.getMessage();
             }
             return 0;
         }
-
-        public int ReadInt8()
-        {
-            return ReadInputStream();
-        }
-
-        public PacketConstruction()
-        {
-            packetOffset = 3;
-            skipOffset = 8;
-            maxPacketLength = 5000;
-            errorText = "";
-            error = false;
-        }
-
-        public int length;
-        public int _read;
-        public int maxPacketReadCount;
-        public int packetStart;
-        private int packetOffset;
-        private int skipOffset;
-        public byte[] packetData;
-        public static int[] packetCommandCount = new int[256];
-        public int maxPacketLength;
-        public static int[] packetLengthCount = new int[256];
-        public int packetCount;
-        public string errorText;
-        public bool error;
     }
-
 }

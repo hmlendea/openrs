@@ -323,10 +323,10 @@ namespace RuneScapeSolo.Lib
             {
                 walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
                 streamClass.CreatePacket(104);
-                streamClass.SendInt16(actionVar1);
-                streamClass.SendInt16(actionX + areaX);
-                streamClass.SendInt16(actionY + areaY);
-                streamClass.SendInt16(actionType);
+                streamClass.AddInt16(actionVar1);
+                streamClass.AddInt16(actionX + areaX);
+                streamClass.AddInt16(actionY + areaY);
+                streamClass.AddInt16(actionType);
                 streamClass.FormatPacket();
                 selectedSpell = -1;
             }
@@ -334,10 +334,10 @@ namespace RuneScapeSolo.Lib
             {
                 walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
                 streamClass.CreatePacket(34);
-                streamClass.SendInt16(actionX + areaX);
-                streamClass.SendInt16(actionY + areaY);
-                streamClass.SendInt16(actionType);
-                streamClass.SendInt16(actionVar1);
+                streamClass.AddInt16(actionX + areaX);
+                streamClass.AddInt16(actionY + areaY);
+                streamClass.AddInt16(actionType);
+                streamClass.AddInt16(actionVar1);
                 streamClass.FormatPacket();
                 selectedItem = -1;
             }
@@ -345,10 +345,10 @@ namespace RuneScapeSolo.Lib
             {
                 walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
                 streamClass.CreatePacket(245);
-                streamClass.SendInt16(actionX + areaX);
-                streamClass.SendInt16(actionY + areaY);
-                streamClass.SendInt16(actionType);
-                streamClass.SendInt16(actionVar1);
+                streamClass.AddInt16(actionX + areaX);
+                streamClass.AddInt16(actionY + areaY);
+                streamClass.AddInt16(actionType);
+                streamClass.AddInt16(actionVar1);
                 streamClass.FormatPacket();
             }
             if (actionID == 3200)
@@ -360,9 +360,9 @@ namespace RuneScapeSolo.Lib
             {
                 walkToWallObject(actionX, actionY, actionType);
                 streamClass.CreatePacket(67);
-                streamClass.SendInt16(actionVar1);
-                streamClass.SendInt16(actionX + areaX);
-                streamClass.SendInt16(actionY + areaY);
+                streamClass.AddInt16(actionVar1);
+                streamClass.AddInt16(actionX + areaX);
+                streamClass.AddInt16(actionY + areaY);
                 streamClass.AddInt8(actionType);
                 streamClass.FormatPacket();
                 selectedSpell = -1;
@@ -371,10 +371,10 @@ namespace RuneScapeSolo.Lib
             {
                 walkToWallObject(actionX, actionY, actionType);
                 streamClass.CreatePacket(36);
-                streamClass.SendInt16(actionX + areaX);
-                streamClass.SendInt16(actionY + areaY);
+                streamClass.AddInt16(actionX + areaX);
+                streamClass.AddInt16(actionY + areaY);
                 streamClass.AddInt8(actionType);
-                streamClass.SendInt16(actionVar1);
+                streamClass.AddInt16(actionVar1);
                 streamClass.FormatPacket();
                 selectedItem = -1;
             }
@@ -382,8 +382,8 @@ namespace RuneScapeSolo.Lib
             {
                 walkToWallObject(actionX, actionY, actionType);
                 streamClass.CreatePacket(126);
-                streamClass.SendInt16(actionX + areaX);
-                streamClass.SendInt16(actionY + areaY);
+                streamClass.AddInt16(actionX + areaX);
+                streamClass.AddInt16(actionY + areaY);
                 streamClass.AddInt8(actionType);
                 streamClass.FormatPacket();
             }
@@ -391,8 +391,8 @@ namespace RuneScapeSolo.Lib
             {
                 walkToWallObject(actionX, actionY, actionType);
                 streamClass.CreatePacket(235);
-                streamClass.SendInt16(actionX + areaX);
-                streamClass.SendInt16(actionY + areaY);
+                streamClass.AddInt16(actionX + areaX);
+                streamClass.AddInt16(actionY + areaY);
                 streamClass.AddInt8(actionType);
                 streamClass.FormatPacket();
             }
@@ -405,9 +405,9 @@ namespace RuneScapeSolo.Lib
             {
                 walkToObject(actionX, actionY, actionType, actionVar1);
                 streamClass.CreatePacket(17);
-                streamClass.SendInt16(actionVar2);
-                streamClass.SendInt16(actionX + areaX);
-                streamClass.SendInt16(actionY + areaY);
+                streamClass.AddInt16(actionVar2);
+                streamClass.AddInt16(actionX + areaX);
+                streamClass.AddInt16(actionY + areaY);
 
                 streamClass.FormatPacket();
                 selectedSpell = -1;
@@ -416,9 +416,9 @@ namespace RuneScapeSolo.Lib
             {
                 walkToObject(actionX, actionY, actionType, actionVar1);
                 streamClass.CreatePacket(94);
-                streamClass.SendInt16(actionX + areaX);
-                streamClass.SendInt16(actionY + areaY);
-                streamClass.SendInt16(actionVar2);
+                streamClass.AddInt16(actionX + areaX);
+                streamClass.AddInt16(actionY + areaY);
+                streamClass.AddInt16(actionVar2);
                 streamClass.FormatPacket();
                 selectedItem = -1;
             }
@@ -426,16 +426,16 @@ namespace RuneScapeSolo.Lib
             {
                 walkToObject(actionX, actionY, actionType, actionVar1);
                 streamClass.CreatePacket(51);
-                streamClass.SendInt16(actionX + areaX);
-                streamClass.SendInt16(actionY + areaY);
+                streamClass.AddInt16(actionX + areaX);
+                streamClass.AddInt16(actionY + areaY);
                 streamClass.FormatPacket();
             }
             if (actionID == 2400)
             {
                 walkToObject(actionX, actionY, actionType, actionVar1);
                 streamClass.CreatePacket(40);
-                streamClass.SendInt16(actionX + areaX);
-                streamClass.SendInt16(actionY + areaY);
+                streamClass.AddInt16(actionX + areaX);
+                streamClass.AddInt16(actionY + areaY);
                 streamClass.FormatPacket();
             }
             if (actionID == 3400)
@@ -446,35 +446,35 @@ namespace RuneScapeSolo.Lib
             if (actionID == 600)
             {
                 streamClass.CreatePacket(49);
-                streamClass.SendInt16(actionVar1);
-                streamClass.SendInt16(actionType);
+                streamClass.AddInt16(actionVar1);
+                streamClass.AddInt16(actionType);
                 streamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 610)
             {
                 streamClass.CreatePacket(27);
-                streamClass.SendInt16(actionType);
-                streamClass.SendInt16(actionVar1);
+                streamClass.AddInt16(actionType);
+                streamClass.AddInt16(actionVar1);
                 streamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 620)
             {
                 streamClass.CreatePacket(92);
-                streamClass.SendInt16(actionType);
+                streamClass.AddInt16(actionType);
                 streamClass.FormatPacket();
             }
             if (actionID == 630)
             {
                 streamClass.CreatePacket(181);
-                streamClass.SendInt16(actionType);
+                streamClass.AddInt16(actionType);
                 streamClass.FormatPacket();
             }
             if (actionID == 640)
             {
                 streamClass.CreatePacket(89);
-                streamClass.SendInt16(actionType);
+                streamClass.AddInt16(actionType);
                 streamClass.FormatPacket();
             }
             if (actionID == 650)
@@ -486,7 +486,7 @@ namespace RuneScapeSolo.Lib
             if (actionID == 660)
             {
                 streamClass.CreatePacket(147);
-                streamClass.SendInt16(actionType);
+                streamClass.AddInt16(actionType);
                 streamClass.FormatPacket();
                 selectedItem = -1;
                 drawMenuTab = 0;
@@ -503,8 +503,8 @@ namespace RuneScapeSolo.Lib
                 int k4 = (actionY - 64) / gridSize;
                 walkTo1Tile(sectionX, sectionY, k2, k4, true);
                 streamClass.CreatePacket(71);
-                streamClass.SendInt16(actionVar1);
-                streamClass.SendInt16(actionType);
+                streamClass.AddInt16(actionVar1);
+                streamClass.AddInt16(actionType);
                 streamClass.FormatPacket();
                 selectedSpell = -1;
             }
@@ -514,8 +514,8 @@ namespace RuneScapeSolo.Lib
                 int l4 = (actionY - 64) / gridSize;
                 walkTo1Tile(sectionX, sectionY, l2, l4, true);
                 streamClass.CreatePacket(142);
-                streamClass.SendInt16(actionType);
-                streamClass.SendInt16(actionVar1);
+                streamClass.AddInt16(actionType);
+                streamClass.AddInt16(actionVar1);
                 streamClass.FormatPacket();
                 selectedItem = -1;
             }
@@ -525,7 +525,7 @@ namespace RuneScapeSolo.Lib
                 int i5 = (actionY - 64) / gridSize;
                 walkTo1Tile(sectionX, sectionY, i3, i5, true);
                 streamClass.CreatePacket(177);
-                streamClass.SendInt16(actionType);
+                streamClass.AddInt16(actionType);
                 streamClass.FormatPacket();
             }
             if (actionID == 725)
@@ -534,7 +534,7 @@ namespace RuneScapeSolo.Lib
                 int j5 = (actionY - 64) / gridSize;
                 walkTo1Tile(sectionX, sectionY, j3, j5, true);
                 streamClass.CreatePacket(74);
-                streamClass.SendInt16(actionType);
+                streamClass.AddInt16(actionType);
                 streamClass.FormatPacket();
             }
             if (actionID == 715 || actionID == 2715)
@@ -543,7 +543,7 @@ namespace RuneScapeSolo.Lib
                 int k5 = (actionY - 64) / gridSize;
                 walkTo1Tile(sectionX, sectionY, k3, k5, true);
                 streamClass.CreatePacket(73);
-                streamClass.SendInt16(actionType);
+                streamClass.AddInt16(actionType);
                 streamClass.FormatPacket();
             }
             if (actionID == 3700)
@@ -557,8 +557,8 @@ namespace RuneScapeSolo.Lib
                 int l5 = (actionY - 64) / gridSize;
                 walkTo1Tile(sectionX, sectionY, l3, l5, true);
                 streamClass.CreatePacket(55);
-                streamClass.SendInt16(actionVar1);
-                streamClass.SendInt16(actionType);
+                streamClass.AddInt16(actionVar1);
+                streamClass.AddInt16(actionType);
                 streamClass.FormatPacket();
                 selectedSpell = -1;
             }
@@ -568,8 +568,8 @@ namespace RuneScapeSolo.Lib
                 int i6 = (actionY - 64) / gridSize;
                 walkTo1Tile(sectionX, sectionY, i4, i6, true);
                 streamClass.CreatePacket(16);
-                streamClass.SendInt16(actionType);
-                streamClass.SendInt16(actionVar1);
+                streamClass.AddInt16(actionType);
+                streamClass.AddInt16(actionVar1);
                 streamClass.FormatPacket();
                 selectedItem = -1;
             }
@@ -579,34 +579,34 @@ namespace RuneScapeSolo.Lib
                 int j6 = (actionY - 64) / gridSize;
                 walkTo1Tile(sectionX, sectionY, j4, j6, true);
                 streamClass.CreatePacket(57);
-                streamClass.SendInt16(actionType);
+                streamClass.AddInt16(actionType);
                 streamClass.FormatPacket();
             }
             if (actionID == 2806)
             {
                 streamClass.CreatePacket(222);
-                streamClass.SendInt16(actionType);
+                streamClass.AddInt16(actionType);
                 streamClass.FormatPacket();
             }
             if (actionID == 2810)
             {
                 streamClass.CreatePacket(166);
-                streamClass.SendInt16(actionType);
+                streamClass.AddInt16(actionType);
                 streamClass.FormatPacket();
             }
             if (actionID == 2820)
             {
                 streamClass.CreatePacket(68);
-                streamClass.SendInt16(actionType);
+                streamClass.AddInt16(actionType);
                 streamClass.FormatPacket();
             }
             if (actionID == 900)
             {
                 walkTo1Tile(sectionX, sectionY, actionX, actionY, true);
                 streamClass.CreatePacket(232);
-                streamClass.SendInt16(actionType);
-                streamClass.SendInt16(actionX + areaX);
-                streamClass.SendInt16(actionY + areaY);
+                streamClass.AddInt16(actionType);
+                streamClass.AddInt16(actionX + areaX);
+                streamClass.AddInt16(actionY + areaY);
                 streamClass.FormatPacket();
                 selectedSpell = -1;
             }
@@ -621,7 +621,7 @@ namespace RuneScapeSolo.Lib
             if (actionID == 1000)
             {
                 streamClass.CreatePacket(206);
-                streamClass.SendInt16(actionType);
+                streamClass.AddInt16(actionType);
                 streamClass.FormatPacket();
                 selectedSpell = -1;
             }
@@ -1666,12 +1666,12 @@ namespace RuneScapeSolo.Lib
                     if (mobCount > 0)
                     {
                         streamClass.CreatePacket(83);
-                        streamClass.SendInt16(mobCount);
+                        streamClass.AddInt16(mobCount);
                         for (int k40 = 0; k40 < mobCount; k40++)
                         {
                             Mob f5 = playerBufferArray[playerBufferArrayIndexes[k40]];
-                            streamClass.SendInt16(f5.serverIndex);
-                            streamClass.SendInt16(f5.serverID);
+                            streamClass.AddInt16(f5.serverIndex);
+                            streamClass.AddInt16(f5.serverID);
                         }
 
                         streamClass.FormatPacket();
@@ -4006,7 +4006,7 @@ namespace RuneScapeSolo.Lib
                 streamClass.FormatPacket();
                 logoutTimer = 1000;
 
-                streamClass.closeStream();
+                streamClass.CloseStream();
                 return;
             }
         }
@@ -4050,8 +4050,8 @@ namespace RuneScapeSolo.Lib
                 streamClass.CreatePacket(132);
             }
 
-            streamClass.SendInt16(startX + areaX);
-            streamClass.SendInt16(startY + areaY);
+            streamClass.AddInt16(startX + areaX);
+            streamClass.AddInt16(startY + areaY);
 
             if (walkToACommand && stepCount == -1 && (startX + areaX) % 5 == 0)
             {
@@ -4095,8 +4095,8 @@ namespace RuneScapeSolo.Lib
                 streamClass.CreatePacket(132);
             }
 
-            streamClass.SendInt16(startX + areaX);
-            streamClass.SendInt16(startY + areaY);
+            streamClass.AddInt16(startX + areaX);
+            streamClass.AddInt16(startY + areaY);
             if (walkToACommand && stepCount == -1 && (startX + areaX) % 5 == 0)
             {
                 stepCount = 0;
@@ -4556,8 +4556,8 @@ namespace RuneScapeSolo.Lib
                                 streamClass.AddInt8(tradeItemsOurCount);
                                 for (int i = 0; i < tradeItemsOurCount; i++)
                                 {
-                                    streamClass.SendInt16(tradeItemsOur[i]);
-                                    streamClass.addInt(tradeItemOurCount[i]);
+                                    streamClass.AddInt16(tradeItemsOur[i]);
+                                    streamClass.AddInt32(tradeItemOurCount[i]);
                                 }
                                 streamClass.FormatPacket();
                                 tradeOtherAccepted = false;
@@ -4591,8 +4591,8 @@ namespace RuneScapeSolo.Lib
                             streamClass.AddInt8(tradeItemsOurCount);
                             for (int i = 0; i < tradeItemsOurCount; i++)
                             {
-                                streamClass.SendInt16(tradeItemsOur[i]);
-                                streamClass.addInt(tradeItemOurCount[i]);
+                                streamClass.AddInt16(tradeItemsOur[i]);
+                                streamClass.AddInt32(tradeItemOurCount[i]);
                             }
                             streamClass.FormatPacket();
                             tradeOtherAccepted = false;
@@ -6300,7 +6300,7 @@ namespace RuneScapeSolo.Lib
                 {
                     if (enteredInputText.ToLower().Equals("::lostcon"))
                     {
-                        streamClass.closeStream();
+                        streamClass.CloseStream();
                     }
                     else
                         if (enteredInputText.ToLower().Equals("::closecon"))
@@ -7248,15 +7248,15 @@ namespace RuneScapeSolo.Lib
                             if (shopItemCount[selectedShopItemIndex] > 0 && l > 298 && i1 >= 204 && l < 408 && i1 <= 215)
                             {
                                 streamClass.CreatePacket(128);
-                                streamClass.SendInt16(shopItems[selectedShopItemIndex]);
-                                streamClass.addInt(shopItemBuyPrice[selectedShopItemIndex]);
+                                streamClass.AddInt16(shopItems[selectedShopItemIndex]);
+                                streamClass.AddInt32(shopItemBuyPrice[selectedShopItemIndex]);
                                 streamClass.FormatPacket();
                             }
                             if (getInventoryItemTotalCount(i3) > 0 && l > 2 && i1 >= 229 && l < 112 && i1 <= 240)
                             {
                                 streamClass.CreatePacket(255);
-                                streamClass.SendInt16(shopItems[selectedShopItemIndex]);
-                                streamClass.addInt(shopItemSellPrice[selectedShopItemIndex]);
+                                streamClass.AddInt16(shopItems[selectedShopItemIndex]);
+                                streamClass.AddInt32(shopItemSellPrice[selectedShopItemIndex]);
                                 streamClass.FormatPacket();
                             }
                         }
@@ -8355,8 +8355,8 @@ namespace RuneScapeSolo.Lib
                                 streamClass.AddInt8(duelMyItemCount);
                                 for (int i5 = 0; i5 < duelMyItemCount; i5++)
                                 {
-                                    streamClass.SendInt16(duelMyItems[i5]);
-                                    streamClass.addInt(duelMyItemsCount[i5]);
+                                    streamClass.AddInt16(duelMyItems[i5]);
+                                    streamClass.AddInt32(duelMyItemsCount[i5]);
                                 }
 
                                 streamClass.FormatPacket();
@@ -8393,8 +8393,8 @@ namespace RuneScapeSolo.Lib
                             streamClass.AddInt8(duelMyItemCount);
                             for (int l3 = 0; l3 < duelMyItemCount; l3++)
                             {
-                                streamClass.SendInt16(duelMyItems[l3]);
-                                streamClass.addInt(duelMyItemsCount[l3]);
+                                streamClass.AddInt16(duelMyItems[l3]);
+                                streamClass.AddInt32(duelMyItemsCount[l3]);
                             }
 
                             streamClass.FormatPacket();
@@ -8945,85 +8945,85 @@ namespace RuneScapeSolo.Lib
                         if (count >= 1 && mouseX >= l + 220 && mouseY >= j1 + 238 && mouseX < l + 250 && mouseY <= j1 + 249)
                         {
                             streamClass.CreatePacket(183);
-                            streamClass.SendInt16(id);
-                            streamClass.addInt(1);
+                            streamClass.AddInt16(id);
+                            streamClass.AddInt32(1);
                             streamClass.FormatPacket();
                         }
                         if (count >= 5 && mouseX >= l + 250 && mouseY >= j1 + 238 && mouseX < l + 280 && mouseY <= j1 + 249)
                         {
                             streamClass.CreatePacket(183);
-                            streamClass.SendInt16(id);
-                            streamClass.addInt(5);
+                            streamClass.AddInt16(id);
+                            streamClass.AddInt32(5);
                             streamClass.FormatPacket();
                         }
                         if (count >= 25 && mouseX >= l + 280 && mouseY >= j1 + 238 && mouseX < l + 305 && mouseY <= j1 + 249)
                         {
                             streamClass.CreatePacket(183);
-                            streamClass.SendInt16(id);
-                            streamClass.addInt(25);
+                            streamClass.AddInt16(id);
+                            streamClass.AddInt32(25);
                             streamClass.FormatPacket();
                         }
                         if (count >= 100 && mouseX >= l + 305 && mouseY >= j1 + 238 && mouseX < l + 335 && mouseY <= j1 + 249)
                         {
                             streamClass.CreatePacket(183);
-                            streamClass.SendInt16(id);
-                            streamClass.addInt(100);
+                            streamClass.AddInt16(id);
+                            streamClass.AddInt32(100);
                             streamClass.FormatPacket();
                         }
                         if (count >= 500 && mouseX >= l + 335 && mouseY >= j1 + 238 && mouseX < l + 368 && mouseY <= j1 + 249)
                         {
                             streamClass.CreatePacket(183);
-                            streamClass.SendInt16(id);
-                            streamClass.addInt(500);
+                            streamClass.AddInt16(id);
+                            streamClass.AddInt32(500);
                             streamClass.FormatPacket();
                         }
                         if (count >= 2500 && mouseX >= l + 370 && mouseY >= j1 + 238 && mouseX < l + 400 && mouseY <= j1 + 249)
                         {
                             streamClass.CreatePacket(183);
-                            streamClass.SendInt16(id);
-                            streamClass.addInt(2500);
+                            streamClass.AddInt16(id);
+                            streamClass.AddInt32(2500);
                             streamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 1 && mouseX >= l + 220 && mouseY >= j1 + 263 && mouseX < l + 250 && mouseY <= j1 + 274)
                         {
                             streamClass.CreatePacket(198);
-                            streamClass.SendInt16(id);
-                            streamClass.addInt(1);
+                            streamClass.AddInt16(id);
+                            streamClass.AddInt32(1);
                             streamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 5 && mouseX >= l + 250 && mouseY >= j1 + 263 && mouseX < l + 280 && mouseY <= j1 + 274)
                         {
                             streamClass.CreatePacket(198);
-                            streamClass.SendInt16(id);
-                            streamClass.addInt(5);
+                            streamClass.AddInt16(id);
+                            streamClass.AddInt32(5);
                             streamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 25 && mouseX >= l + 280 && mouseY >= j1 + 263 && mouseX < l + 305 && mouseY <= j1 + 274)
                         {
                             streamClass.CreatePacket(198);
-                            streamClass.SendInt16(id);
-                            streamClass.addInt(25);
+                            streamClass.AddInt16(id);
+                            streamClass.AddInt32(25);
                             streamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 100 && mouseX >= l + 305 && mouseY >= j1 + 263 && mouseX < l + 335 && mouseY <= j1 + 274)
                         {
                             streamClass.CreatePacket(198);
-                            streamClass.SendInt16(id);
-                            streamClass.addInt(100);
+                            streamClass.AddInt16(id);
+                            streamClass.AddInt32(100);
                             streamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 500 && mouseX >= l + 335 && mouseY >= j1 + 263 && mouseX < l + 368 && mouseY <= j1 + 274)
                         {
                             streamClass.CreatePacket(198);
-                            streamClass.SendInt16(id);
-                            streamClass.addInt(500);
+                            streamClass.AddInt16(id);
+                            streamClass.AddInt32(500);
                             streamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 2500 && mouseX >= l + 370 && mouseY >= j1 + 263 && mouseX < l + 400 && mouseY <= j1 + 274)
                         {
                             streamClass.CreatePacket(198);
-                            streamClass.SendInt16(id);
-                            streamClass.addInt(2500);
+                            streamClass.AddInt16(id);
+                            streamClass.AddInt32(2500);
                             streamClass.FormatPacket();
                         }
                     }
@@ -10314,7 +10314,7 @@ namespace RuneScapeSolo.Lib
                 }
                 if (cmd.Equals("closecon"))
                 {
-                    streamClass.closeStream();
+                    streamClass.CloseStream();
                     return true;
                 }
                 if (cmd.Equals("logout"))

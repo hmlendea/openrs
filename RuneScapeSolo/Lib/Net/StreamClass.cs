@@ -46,13 +46,13 @@ namespace RuneScapeSolo.Lib.Net
             catch
             {
                 // We have been disconnected :<
-                closeStream();
+                CloseStream();
             }
         }
 
-        public override void closeStream()
+        public override void CloseStream()
         {
-            base.closeStream();
+            base.CloseStream();
             socketClosing = true;
             try
             {
@@ -210,8 +210,8 @@ namespace RuneScapeSolo.Lib.Net
                 }
                 catch (IOException ioexception1)
                 {
-                    base.error = true;
-                    base.errorText = "Twriter:" + ioexception1;
+                    base.HasErrors = true;
+                    base.ErrorMessage = "Twriter:" + ioexception1;
                 }
             }
             catch { }
@@ -261,8 +261,8 @@ namespace RuneScapeSolo.Lib.Net
                     }
                     catch (IOException ioexception)
                     {
-                        base.error = true;
-                        base.errorText = "Twriter:" + ioexception;
+                        base.HasErrors = true;
+                        base.ErrorMessage = "Twriter:" + ioexception;
                     }
                     lastWriteLen = i;
 
@@ -277,8 +277,8 @@ namespace RuneScapeSolo.Lib.Net
                         }
                         catch (IOException ioexception1)
                         {
-                            base.error = true;
-                            base.errorText = "Twriter:" + ioexception1;
+                            base.HasErrors = true;
+                            base.ErrorMessage = "Twriter:" + ioexception1;
                         }
                     }
                 }

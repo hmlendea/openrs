@@ -95,7 +95,7 @@ namespace RuneScapeSolo.Lib
 
             TcpClient socket = MakeSocket(Configuration.SERVER_IP, Configuration.SERVER_PORT);
             streamClass = new StreamClass(socket, this);
-            streamClass.maxPacketReadCount = maxPacketReadCount;
+            streamClass.MaximumPacketReadCount = maxPacketReadCount;
             
             long l = DataOperations.nameToHash(user);
             streamClass.CreatePacket(32);
