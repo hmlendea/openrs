@@ -18,9 +18,11 @@ namespace RuneScapeSolo.Lib
         static bool isConnecting = false;
         Thread connectionThread;
 
+        public StreamClass StreamClass { get; set; }
+
         private static BigInteger key = BigInteger.Parse("1370158896620336158431733257575682136836100155721926632321599369132092701295540721504104229217666225601026879393318399391095704223500673696914052239029335");
         private static BigInteger modulus = BigInteger.Parse("1549611057746979844352781944553705273443228154042066840514290174539588436243191882510185738846985723357723362764835928526260868977814405651690121789896823");
-        
+
         public GameAppletMiddleMan()
         {
             username = "";
@@ -94,17 +96,17 @@ namespace RuneScapeSolo.Lib
             }
 
             TcpClient socket = MakeSocket(Configuration.SERVER_IP, Configuration.SERVER_PORT);
-            streamClass = new StreamClass(socket, this);
-            streamClass.MaximumPacketReadCount = maxPacketReadCount;
-            
-            long l = DataOperations.nameToHash(user);
-            streamClass.CreatePacket(32);
-            streamClass.AddInt8((int)(l >> 16 & 31L));
-            streamClass.AddString("&%..."); // TODO: not used server-side
-            streamClass.FinalisePacket();
+            StreamClass = new StreamClass(socket, this);
+            StreamClass.MaximumPacketReadCount = maxPacketReadCount;
 
-            long sessionId = streamClass.ReadInt64();
-            
+            long l = DataOperations.nameToHash(user);
+            StreamClass.CreatePacket(32);
+            StreamClass.AddInt8((int)(l >> 16 & 31L));
+            StreamClass.AddString("&%..."); // TODO: not used server-side
+            StreamClass.FinalisePacket();
+
+            long sessionId = StreamClass.ReadInt64();
+
             if (sessionId == 0L)
             {
                 //     loginScreenPrint("Login server offline.", "Please try again in a few mins");
@@ -127,24 +129,24 @@ namespace RuneScapeSolo.Lib
             encryptor.AddString(user);
             encryptor.AddString(pass);
             encryptor.EncryptPacket(key, modulus);
-            
-            streamClass.CreatePacket(0);
+
+            StreamClass.CreatePacket(0);
 
             if (reconnecting)
             {
-                streamClass.AddInt8(1);
+                StreamClass.AddInt8(1);
             }
             else
             {
-                streamClass.AddInt8(0);
+                StreamClass.AddInt8(0);
             }
 
-            streamClass.AddInt16(Configuration.CLIENT_VERSION);
-            streamClass.AddBytes(encryptor.Packet, 0, encryptor.Offset);
-            streamClass.FinalisePacket();
+            StreamClass.AddInt16(Configuration.CLIENT_VERSION);
+            StreamClass.AddBytes(encryptor.Packet, 0, encryptor.Offset);
+            StreamClass.FinalisePacket();
 
-            LoginCode loginResponse = (LoginCode)streamClass.ReadInputStream();
-            
+            LoginCode loginResponse = (LoginCode)StreamClass.ReadInputStream();
+
             Console.WriteLine($"Login response: {(int)loginResponse} ({loginResponse})");
 
             // streamClass.MakeAsync();
@@ -248,12 +250,12 @@ namespace RuneScapeSolo.Lib
 
         protected void requestLogout()
         {
-            if (streamClass != null)
+            if (StreamClass != null)
             {
                 try
                 {
-                    streamClass.CreatePacket(39);
-                    streamClass.FinalisePacket();
+                    StreamClass.CreatePacket(39);
+                    StreamClass.FinalisePacket();
                 }
                 catch (IOException _ex) { }
             }
@@ -290,7 +292,7 @@ namespace RuneScapeSolo.Lib
         protected void sendPingPacket()
         {
             long l = CurrentTimeMillis();
-            if (streamClass.hasData())
+            if (StreamClass.hasData())
             {
                 lastPing = l;
             }
@@ -298,19 +300,19 @@ namespace RuneScapeSolo.Lib
             if (l - lastPing > 5000L)
             {
                 lastPing = l;
-                streamClass.CreatePacket(5);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(5);
+                StreamClass.FormatPacket();
             }
             try
             {
-                streamClass.WritePacket(20);
+                StreamClass.WritePacket(20);
             }
             catch (IOException ex)
             {
                 lostConnection();
                 return;
             }
-            int packetLength = streamClass.readPacket(packetData);
+            int packetLength = StreamClass.readPacket(packetData);
             if (packetLength > 0)
             {
                 int commandId = packetData[0] & 0xff;
@@ -407,9 +409,9 @@ namespace RuneScapeSolo.Lib
             }
             if (command == ServerCommand.Command211)
             {// TODO remove?
-                streamClass.CreatePacket(69);
-                streamClass.AddInt8(0);// scar.exe, etc
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(69);
+                StreamClass.AddInt8(0);// scar.exe, etc
+                StreamClass.FormatPacket();
                 return;
             }
             if (command == ServerCommand.Command1)
@@ -445,21 +447,21 @@ namespace RuneScapeSolo.Lib
 
         protected void sendUpdatedPrivacyInfo(int blockChat, int blockPrivate, int blockTrade, int blockDuel)
         {
-            streamClass.CreatePacket(176);
-            streamClass.AddInt8(blockChat);
-            streamClass.AddInt8(blockPrivate);
-            streamClass.AddInt8(blockTrade);
-            streamClass.AddInt8(blockDuel);
-            streamClass.FormatPacket();
+            StreamClass.CreatePacket(176);
+            StreamClass.AddInt8(blockChat);
+            StreamClass.AddInt8(blockPrivate);
+            StreamClass.AddInt8(blockTrade);
+            StreamClass.AddInt8(blockDuel);
+            StreamClass.FormatPacket();
         }
 
         protected void AddIgnore(string arg0)
         {
             long l = DataOperations.nameToHash(arg0);
 
-            streamClass.CreatePacket(25);
-            streamClass.AddInt64(l);
-            streamClass.FormatPacket();
+            StreamClass.CreatePacket(25);
+            StreamClass.AddInt64(l);
+            StreamClass.FormatPacket();
 
             for (int i = 0; i < ignoresCount; i++)
             {
@@ -479,9 +481,9 @@ namespace RuneScapeSolo.Lib
 
         protected void removeIgnore(long arg0)
         {
-            streamClass.CreatePacket(108);
-            streamClass.AddInt64(arg0);
-            streamClass.FormatPacket();
+            StreamClass.CreatePacket(108);
+            StreamClass.AddInt64(arg0);
+            StreamClass.FormatPacket();
 
             for (int i = 0; i < ignoresCount; i++)
             {
@@ -500,9 +502,9 @@ namespace RuneScapeSolo.Lib
 
         protected void addFriend(string arg0)
         {
-            streamClass.CreatePacket(168);
-            streamClass.AddInt64(DataOperations.nameToHash(arg0));
-            streamClass.FormatPacket();
+            StreamClass.CreatePacket(168);
+            StreamClass.AddInt64(DataOperations.nameToHash(arg0));
+            StreamClass.FormatPacket();
             long l = DataOperations.nameToHash(arg0);
             for (int i = 0; i < friendsCount; i++)
             {
@@ -527,9 +529,9 @@ namespace RuneScapeSolo.Lib
 
         protected void removeFriend(long arg0)
         {
-            streamClass.CreatePacket(52);
-            streamClass.AddInt64(arg0);
-            streamClass.FormatPacket();
+            StreamClass.CreatePacket(52);
+            StreamClass.AddInt64(arg0);
+            StreamClass.FormatPacket();
             for (int i = 0; i < friendsCount; i++)
             {
                 if (friendsList[i] != arg0)
@@ -552,24 +554,24 @@ namespace RuneScapeSolo.Lib
 
         protected void sendPrivateMessage(long l, byte[] abyte0, int i)
         {
-            streamClass.CreatePacket(254);
-            streamClass.AddInt64(l);
-            streamClass.AddBytes(abyte0, 0, i);
-            streamClass.FormatPacket();
+            StreamClass.CreatePacket(254);
+            StreamClass.AddInt64(l);
+            StreamClass.AddBytes(abyte0, 0, i);
+            StreamClass.FormatPacket();
         }
 
         protected void sendChatMessage(byte[] abyte0, int i)
         {
-            streamClass.CreatePacket(145);
-            streamClass.AddBytes(abyte0, 0, i);
-            streamClass.FormatPacket();
+            StreamClass.CreatePacket(145);
+            StreamClass.AddBytes(abyte0, 0, i);
+            StreamClass.FormatPacket();
         }
 
         protected void sendCommand(string s1)
         {
-            streamClass.CreatePacket(90);
-            streamClass.AddString(s1);
-            streamClass.FormatPacket();
+            StreamClass.CreatePacket(90);
+            StreamClass.AddString(s1);
+            StreamClass.FormatPacket();
         }
 
         public virtual void loginScreenPrint(string s1, string s2)
@@ -599,7 +601,6 @@ namespace RuneScapeSolo.Lib
         public static int maxPacketReadCount;
         public string username;
         string password;
-        public StreamClass streamClass;
         public sbyte[] packetData;
         public int reconnectTries;
         public long lastPing;

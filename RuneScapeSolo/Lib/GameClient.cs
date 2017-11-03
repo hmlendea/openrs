@@ -13,6 +13,7 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Runtime.Remoting.Messaging;
 
+using RuneScapeSolo;
 using RuneScapeSolo.Enumerations;
 using RuneScapeSolo.Events;
 
@@ -36,6 +37,8 @@ namespace RuneScapeSolo.Lib
             return mud;
         }
 
+        readonly PacketHandler packetHandler;
+
         bool leftMouseDown = false;
         bool rightMouseDown = false;
         List<Keys> lastPressedKeys = new List<Keys>();
@@ -48,16 +51,28 @@ namespace RuneScapeSolo.Lib
         bool altKeyIsDown = false;
         TimeSpan timeLapse = TimeSpan.Zero;
 
-        int pvpTournamentTime;
-        int wildernessTime;
-        int dropPartyTime;
-
-        int tutorial;
-        int taskPoints;
-        int questPoints;
-
-        int serverStartTime;
-        string serverLocation;
+        public Mob CurrentPlayer;
+        public Mob[] Players;
+        public Mob[] PlayersBuffer;
+        public Mob[] LastPlayers;
+        public int PvpTournamentCountdown;
+        public int WildernessModeCountdown;
+        public int DropPartyCountdown;
+        public int Tutorial;
+        public int TaskPoints;
+        public int QuestPoints;
+        public int PlayerCount;
+        public int LastPlayerCount;
+        public int ServerStartTime;
+        public int SectionX;
+        public int SectionY;
+        public int AreaX;
+        public int AreaY;
+        public int GridSize;
+        public int ServerIndex;
+        public int[] PlayersBufferIndexes;
+        public bool HasWorldInfo;
+        public string ServerLocation;
 
         public char TranslateOemKeys(Keys k)
         {
@@ -267,6 +282,189 @@ namespace RuneScapeSolo.Lib
         }
         bool uglyHack = false;
 
+        public mudclient()
+        {
+            packetHandler = new PacketHandler(this);
+
+            tradeOtherName = "";
+
+            windowWidth = 512;
+            windowHeight = 334;
+
+            cameraFieldOfView = 9;
+            showQuestionMenu = false;
+            loginScreenShown = false;
+            questionMenuAnswer = new string[10];
+            appearanceBodyGender = 1;
+            appearance2Colour = 2;
+            appearanceHairColour = 2;
+            appearanceTopColour = 8;
+            appearanceBottomColour = 14;
+            appearanceHeadGender = 1;
+            menuIndexes = new int[250];
+            duelMyItems = new int[8];
+            duelMyItemsCount = new int[8];
+            Players = new Mob[500];
+            selectedShopItemIndex = -1;
+            selectedShopItemType = -2;
+            menuText1 = new string[250];
+            IsSleeping = false;
+            tradeItemsOther = new int[14];
+            tradeItemOtherCount = new int[14];
+            tradeOtherAccepted = false;
+            tradeWeAccepted = false;
+            itemAboveHeadScale = new int[50];
+            itemAboveHeadID = new int[50];
+            playerStatCurrent = new int[18];
+            menuActionX = new int[250];
+            menuActionY = new int[250];
+            menuActionID = new int[250];
+            showTradeBox = false;
+            npcArray = new Mob[500];
+            duelNoRetreating = false;
+            duelNoMagic = false;
+            duelNoPrayer = false;
+            duelNoWeapons = false;
+            PlayersBuffer = new Mob[4000];
+            serverMessage = "";
+            duelOpponentAccepted = false;
+            duelMyAccepted = false;
+            wallObjectX = new int[500];
+            wallObjectY = new int[500];
+            serverMessageBoxTop = false;
+            cameraRotationYIncrement = 2;
+            wallObjectArray = new GameObject[500];
+            messagesArray = new string[5];
+            objectAlreadyInMenu = new bool[1500];
+            objectArray = new GameObject[1500];
+            selectedSpell = -1;
+            cameraAutoAngleDebug = false;
+            CurrentPlayer = new Mob();
+            ServerIndex = -1;
+            tradeItemsOur = new int[14];
+            tradeItemOurCount = new int[14];
+            showWelcomeBox = false;
+            menuActionType = new int[250];
+            menuActionVar1 = new int[250];
+            menuActionVar2 = new int[250];
+            sleepWordDelay = true;
+            configCameraAutoAngle = true;
+            cameraRotation = 128;
+            configSoundOff = false;
+            menuShow = false;
+            duelOpponentItems = new int[8];
+            duelOpponentItemsCount = new int[8];
+            showBankBox = false;
+            playerStatBase = new int[18];
+            serverBankItems = new int[256];
+            serverBankItemCount = new int[256];
+            showShopBox = false;
+            groundItemX = new int[5000];
+            groundItemY = new int[5000];
+            groundItemID = new int[5000];
+            groundItemObjectVar = new int[5000];
+            maxBankItems = 48;
+            tradeConfirmOtherItems = new int[14];
+            tradeConfirmOtherItemsCount = new int[14];
+            layerIndex = -1;
+            walkArrayX = new int[8000];
+            walkArrayY = new int[8000];
+            cameraDistance = 550;
+            receivedMessageX = new int[50];
+            receivedMessageY = new int[50];
+            receivedMessageMidPoint = new int[50];
+            receivedMessageHeight = new int[50];
+            wallObjectAlreadyInMenu = new bool[500];
+            lastLayerIndex = -1;
+            bankItems = new int[256];
+            bankItemCount = new int[256];
+            maxInventoryItems = 30;
+            errorLoading = false;
+            itemAboveHeadX = new int[50];
+            itemAboveHeadY = new int[50];
+            showServerMessageBox = false;
+            PlayersBufferIndexes = new int[500];
+            tradeConfirmItems = new int[14];
+            tradeConfigItemsCount = new int[14];
+            selectedBankItem = -1;
+            selectedBankItemType = -2;
+            showDuelConfirmBox = false;
+            duelConfirmOurAccepted = false;
+            wallObjectDirection = new int[500];
+            wallObjectID = new int[500];
+            gameDataObjects = new GameObject[1000];
+            lastNpcArray = new Mob[500];
+            inventoryItems = new int[35];
+            inventoryItemCount = new int[35];
+            inventoryItemEquipped = new int[35];
+            selectedItem = -1;
+            selectedItemName = "";
+            LastPlayers = new Mob[500];
+            showTradeConfirmBox = false;
+            tradeConfirmAccepted = false;
+            playerStatExp = new int[18];
+            mouseTrailX = new int[8192];
+            mouseTrailY = new int[8192];
+            configOneMouseButton = false;
+            prayerOn = new bool[50];
+            shopItems = new int[256];
+            shopItemCount = new int[256];
+            shopItemBasePriceModifier = new int[256];
+            duelOpponentStakeItem = new int[8];
+            duelOutStakeItemCount = new int[8];
+            equipmentStatus = new int[5];
+            receivedMessages = new string[50];
+            cameraRotationXIncrement = 2;
+            teleBubbleTime = new int[50];
+            GridSize = 128;
+            questStage = new int[questName.Length];
+            teleBubbleType = new int[50];
+            experienceList = new int[99];
+            lastModelFireLightningSpellNumber = -1;
+            lastModelTorchNumber = -1;
+            lastModelClawSpellNumber = -1;
+            messagesTimeout = new int[5];
+            projectileRange = 40;
+            memoryError = false;
+            duelOurStakeItem = new int[8];
+            duelOurStakeItemCount = new int[8];
+            menuText2 = new string[250];
+            loginUsername = "";
+            loginPassword = "";
+            duelOpponent = "";
+            healthBarX = new int[50];
+            healthBarY = new int[50];
+            healthBarMissing = new int[50];
+            objectX = new int[1500];
+            objectY = new int[1500];
+            objectType = new int[1500];
+            objectRotation = new int[1500];
+            showDuelBox = false;
+            npcAttackingArray = new Mob[5000];
+            teleBubbleY = new int[50];
+            cameraAutoAngle = 1;
+            loadArea = false;
+            teleBubbleX = new int[50];
+            showAppearanceWindow = false;
+            cameraZoom = false;
+
+            fogOfWar = true;
+            showCombatWindow = false;
+            showRoofs = true;
+            autoScreenshot = false;
+            useChatFilter = true;
+            usedQuestName = new string[0];
+            subDaysLeft = 0;
+            shopItemSellPrice = new int[256];
+            shopItemBuyPrice = new int[256];
+            captchaPixels = new int[0][];
+            captchaWidth = 0;
+            captchaHeight = 0;
+            needsClear = false;
+            HasWorldInfo = false;
+            //ImageIO.setCacheDirectory(new File(Config.CONF_DIR));
+        }
+
         //public void Draw(GameTime gt)
         //{
         //    if (gameGraphics != null)
@@ -329,35 +527,35 @@ namespace RuneScapeSolo.Lib
             int actionID = menuActionID[l];
             if (actionID == 200)
             {
-                walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
-                streamClass.CreatePacket(104);
-                streamClass.AddInt16(actionVar1);
-                streamClass.AddInt16(actionX + areaX);
-                streamClass.AddInt16(actionY + areaY);
-                streamClass.AddInt16(actionType);
-                streamClass.FormatPacket();
+                walkToGroundItem(SectionX, SectionY, actionX, actionY, true);
+                StreamClass.CreatePacket(104);
+                StreamClass.AddInt16(actionVar1);
+                StreamClass.AddInt16(actionX + AreaX);
+                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt16(actionType);
+                StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 210)
             {
-                walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
-                streamClass.CreatePacket(34);
-                streamClass.AddInt16(actionX + areaX);
-                streamClass.AddInt16(actionY + areaY);
-                streamClass.AddInt16(actionType);
-                streamClass.AddInt16(actionVar1);
-                streamClass.FormatPacket();
+                walkToGroundItem(SectionX, SectionY, actionX, actionY, true);
+                StreamClass.CreatePacket(34);
+                StreamClass.AddInt16(actionX + AreaX);
+                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt16(actionType);
+                StreamClass.AddInt16(actionVar1);
+                StreamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 220)
             {
-                walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
-                streamClass.CreatePacket(245);
-                streamClass.AddInt16(actionX + areaX);
-                streamClass.AddInt16(actionY + areaY);
-                streamClass.AddInt16(actionType);
-                streamClass.AddInt16(actionVar1);
-                streamClass.FormatPacket();
+                walkToGroundItem(SectionX, SectionY, actionX, actionY, true);
+                StreamClass.CreatePacket(245);
+                StreamClass.AddInt16(actionX + AreaX);
+                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt16(actionType);
+                StreamClass.AddInt16(actionVar1);
+                StreamClass.FormatPacket();
             }
             if (actionID == 3200)
             {
@@ -367,42 +565,42 @@ namespace RuneScapeSolo.Lib
             if (actionID == 300)
             {
                 walkToWallObject(actionX, actionY, actionType);
-                streamClass.CreatePacket(67);
-                streamClass.AddInt16(actionVar1);
-                streamClass.AddInt16(actionX + areaX);
-                streamClass.AddInt16(actionY + areaY);
-                streamClass.AddInt8(actionType);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(67);
+                StreamClass.AddInt16(actionVar1);
+                StreamClass.AddInt16(actionX + AreaX);
+                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt8(actionType);
+                StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 310)
             {
                 walkToWallObject(actionX, actionY, actionType);
-                streamClass.CreatePacket(36);
-                streamClass.AddInt16(actionX + areaX);
-                streamClass.AddInt16(actionY + areaY);
-                streamClass.AddInt8(actionType);
-                streamClass.AddInt16(actionVar1);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(36);
+                StreamClass.AddInt16(actionX + AreaX);
+                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt8(actionType);
+                StreamClass.AddInt16(actionVar1);
+                StreamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 320)
             {
                 walkToWallObject(actionX, actionY, actionType);
-                streamClass.CreatePacket(126);
-                streamClass.AddInt16(actionX + areaX);
-                streamClass.AddInt16(actionY + areaY);
-                streamClass.AddInt8(actionType);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(126);
+                StreamClass.AddInt16(actionX + AreaX);
+                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt8(actionType);
+                StreamClass.FormatPacket();
             }
             if (actionID == 2300)
             {
                 walkToWallObject(actionX, actionY, actionType);
-                streamClass.CreatePacket(235);
-                streamClass.AddInt16(actionX + areaX);
-                streamClass.AddInt16(actionY + areaY);
-                streamClass.AddInt8(actionType);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(235);
+                StreamClass.AddInt16(actionX + AreaX);
+                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt8(actionType);
+                StreamClass.FormatPacket();
             }
             if (actionID == 3300)
             {
@@ -412,39 +610,39 @@ namespace RuneScapeSolo.Lib
             if (actionID == 400)
             {
                 walkToObject(actionX, actionY, actionType, actionVar1);
-                streamClass.CreatePacket(17);
-                streamClass.AddInt16(actionVar2);
-                streamClass.AddInt16(actionX + areaX);
-                streamClass.AddInt16(actionY + areaY);
+                StreamClass.CreatePacket(17);
+                StreamClass.AddInt16(actionVar2);
+                StreamClass.AddInt16(actionX + AreaX);
+                StreamClass.AddInt16(actionY + AreaY);
 
-                streamClass.FormatPacket();
+                StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 410)
             {
                 walkToObject(actionX, actionY, actionType, actionVar1);
-                streamClass.CreatePacket(94);
-                streamClass.AddInt16(actionX + areaX);
-                streamClass.AddInt16(actionY + areaY);
-                streamClass.AddInt16(actionVar2);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(94);
+                StreamClass.AddInt16(actionX + AreaX);
+                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt16(actionVar2);
+                StreamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 420)
             {
                 walkToObject(actionX, actionY, actionType, actionVar1);
-                streamClass.CreatePacket(51);
-                streamClass.AddInt16(actionX + areaX);
-                streamClass.AddInt16(actionY + areaY);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(51);
+                StreamClass.AddInt16(actionX + AreaX);
+                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.FormatPacket();
             }
             if (actionID == 2400)
             {
                 walkToObject(actionX, actionY, actionType, actionVar1);
-                streamClass.CreatePacket(40);
-                streamClass.AddInt16(actionX + areaX);
-                streamClass.AddInt16(actionY + areaY);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(40);
+                StreamClass.AddInt16(actionX + AreaX);
+                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.FormatPacket();
             }
             if (actionID == 3400)
             {
@@ -453,37 +651,37 @@ namespace RuneScapeSolo.Lib
 
             if (actionID == 600)
             {
-                streamClass.CreatePacket(49);
-                streamClass.AddInt16(actionVar1);
-                streamClass.AddInt16(actionType);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(49);
+                StreamClass.AddInt16(actionVar1);
+                StreamClass.AddInt16(actionType);
+                StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 610)
             {
-                streamClass.CreatePacket(27);
-                streamClass.AddInt16(actionType);
-                streamClass.AddInt16(actionVar1);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(27);
+                StreamClass.AddInt16(actionType);
+                StreamClass.AddInt16(actionVar1);
+                StreamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 620)
             {
-                streamClass.CreatePacket(92);
-                streamClass.AddInt16(actionType);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(92);
+                StreamClass.AddInt16(actionType);
+                StreamClass.FormatPacket();
             }
             if (actionID == 630)
             {
-                streamClass.CreatePacket(181);
-                streamClass.AddInt16(actionType);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(181);
+                StreamClass.AddInt16(actionType);
+                StreamClass.FormatPacket();
             }
             if (actionID == 640)
             {
-                streamClass.CreatePacket(89);
-                streamClass.AddInt16(actionType);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(89);
+                StreamClass.AddInt16(actionType);
+                StreamClass.FormatPacket();
             }
             if (actionID == 650)
             {
@@ -493,9 +691,9 @@ namespace RuneScapeSolo.Lib
             }
             if (actionID == 660)
             {
-                streamClass.CreatePacket(147);
-                streamClass.AddInt16(actionType);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(147);
+                StreamClass.AddInt16(actionType);
+                StreamClass.FormatPacket();
                 selectedItem = -1;
                 drawMenuTab = 0;
                 displayMessage("Dropping " + Data.Data.itemName[inventoryItems[actionType]], 4);
@@ -507,52 +705,52 @@ namespace RuneScapeSolo.Lib
 
             if (actionID == 700)
             {
-                int k2 = (actionX - 64) / gridSize;
-                int k4 = (actionY - 64) / gridSize;
-                walkTo1Tile(sectionX, sectionY, k2, k4, true);
-                streamClass.CreatePacket(71);
-                streamClass.AddInt16(actionVar1);
-                streamClass.AddInt16(actionType);
-                streamClass.FormatPacket();
+                int k2 = (actionX - 64) / GridSize;
+                int k4 = (actionY - 64) / GridSize;
+                walkTo1Tile(SectionX, SectionY, k2, k4, true);
+                StreamClass.CreatePacket(71);
+                StreamClass.AddInt16(actionVar1);
+                StreamClass.AddInt16(actionType);
+                StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 710)
             {
-                int l2 = (actionX - 64) / gridSize;
-                int l4 = (actionY - 64) / gridSize;
-                walkTo1Tile(sectionX, sectionY, l2, l4, true);
-                streamClass.CreatePacket(142);
-                streamClass.AddInt16(actionType);
-                streamClass.AddInt16(actionVar1);
-                streamClass.FormatPacket();
+                int l2 = (actionX - 64) / GridSize;
+                int l4 = (actionY - 64) / GridSize;
+                walkTo1Tile(SectionX, SectionY, l2, l4, true);
+                StreamClass.CreatePacket(142);
+                StreamClass.AddInt16(actionType);
+                StreamClass.AddInt16(actionVar1);
+                StreamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 720)
             {
-                int i3 = (actionX - 64) / gridSize;
-                int i5 = (actionY - 64) / gridSize;
-                walkTo1Tile(sectionX, sectionY, i3, i5, true);
-                streamClass.CreatePacket(177);
-                streamClass.AddInt16(actionType);
-                streamClass.FormatPacket();
+                int i3 = (actionX - 64) / GridSize;
+                int i5 = (actionY - 64) / GridSize;
+                walkTo1Tile(SectionX, SectionY, i3, i5, true);
+                StreamClass.CreatePacket(177);
+                StreamClass.AddInt16(actionType);
+                StreamClass.FormatPacket();
             }
             if (actionID == 725)
             {
-                int j3 = (actionX - 64) / gridSize;
-                int j5 = (actionY - 64) / gridSize;
-                walkTo1Tile(sectionX, sectionY, j3, j5, true);
-                streamClass.CreatePacket(74);
-                streamClass.AddInt16(actionType);
-                streamClass.FormatPacket();
+                int j3 = (actionX - 64) / GridSize;
+                int j5 = (actionY - 64) / GridSize;
+                walkTo1Tile(SectionX, SectionY, j3, j5, true);
+                StreamClass.CreatePacket(74);
+                StreamClass.AddInt16(actionType);
+                StreamClass.FormatPacket();
             }
             if (actionID == 715 || actionID == 2715)
             {
-                int k3 = (actionX - 64) / gridSize;
-                int k5 = (actionY - 64) / gridSize;
-                walkTo1Tile(sectionX, sectionY, k3, k5, true);
-                streamClass.CreatePacket(73);
-                streamClass.AddInt16(actionType);
-                streamClass.FormatPacket();
+                int k3 = (actionX - 64) / GridSize;
+                int k5 = (actionY - 64) / GridSize;
+                walkTo1Tile(SectionX, SectionY, k3, k5, true);
+                StreamClass.CreatePacket(73);
+                StreamClass.AddInt16(actionType);
+                StreamClass.FormatPacket();
             }
             if (actionID == 3700)
             {
@@ -561,66 +759,66 @@ namespace RuneScapeSolo.Lib
 
             if (actionID == 800)
             {
-                int l3 = (actionX - 64) / gridSize;
-                int l5 = (actionY - 64) / gridSize;
-                walkTo1Tile(sectionX, sectionY, l3, l5, true);
-                streamClass.CreatePacket(55);
-                streamClass.AddInt16(actionVar1);
-                streamClass.AddInt16(actionType);
-                streamClass.FormatPacket();
+                int l3 = (actionX - 64) / GridSize;
+                int l5 = (actionY - 64) / GridSize;
+                walkTo1Tile(SectionX, SectionY, l3, l5, true);
+                StreamClass.CreatePacket(55);
+                StreamClass.AddInt16(actionVar1);
+                StreamClass.AddInt16(actionType);
+                StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 810)
             {
-                int i4 = (actionX - 64) / gridSize;
-                int i6 = (actionY - 64) / gridSize;
-                walkTo1Tile(sectionX, sectionY, i4, i6, true);
-                streamClass.CreatePacket(16);
-                streamClass.AddInt16(actionType);
-                streamClass.AddInt16(actionVar1);
-                streamClass.FormatPacket();
+                int i4 = (actionX - 64) / GridSize;
+                int i6 = (actionY - 64) / GridSize;
+                walkTo1Tile(SectionX, SectionY, i4, i6, true);
+                StreamClass.CreatePacket(16);
+                StreamClass.AddInt16(actionType);
+                StreamClass.AddInt16(actionVar1);
+                StreamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 805 || actionID == 2805)
             {
-                int j4 = (actionX - 64) / gridSize;
-                int j6 = (actionY - 64) / gridSize;
-                walkTo1Tile(sectionX, sectionY, j4, j6, true);
-                streamClass.CreatePacket(57);
-                streamClass.AddInt16(actionType);
-                streamClass.FormatPacket();
+                int j4 = (actionX - 64) / GridSize;
+                int j6 = (actionY - 64) / GridSize;
+                walkTo1Tile(SectionX, SectionY, j4, j6, true);
+                StreamClass.CreatePacket(57);
+                StreamClass.AddInt16(actionType);
+                StreamClass.FormatPacket();
             }
             if (actionID == 2806)
             {
-                streamClass.CreatePacket(222);
-                streamClass.AddInt16(actionType);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(222);
+                StreamClass.AddInt16(actionType);
+                StreamClass.FormatPacket();
             }
             if (actionID == 2810)
             {
-                streamClass.CreatePacket(166);
-                streamClass.AddInt16(actionType);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(166);
+                StreamClass.AddInt16(actionType);
+                StreamClass.FormatPacket();
             }
             if (actionID == 2820)
             {
-                streamClass.CreatePacket(68);
-                streamClass.AddInt16(actionType);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(68);
+                StreamClass.AddInt16(actionType);
+                StreamClass.FormatPacket();
             }
             if (actionID == 900)
             {
-                walkTo1Tile(sectionX, sectionY, actionX, actionY, true);
-                streamClass.CreatePacket(232);
-                streamClass.AddInt16(actionType);
-                streamClass.AddInt16(actionX + areaX);
-                streamClass.AddInt16(actionY + areaY);
-                streamClass.FormatPacket();
+                walkTo1Tile(SectionX, SectionY, actionX, actionY, true);
+                StreamClass.CreatePacket(232);
+                StreamClass.AddInt16(actionType);
+                StreamClass.AddInt16(actionX + AreaX);
+                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 920)
             {
-                walkTo1Tile(sectionX, sectionY, actionX, actionY, false);
+                walkTo1Tile(SectionX, SectionY, actionX, actionY, false);
                 if (actionPictureType == -24)
                 {
                     actionPictureType = 24;
@@ -628,9 +826,9 @@ namespace RuneScapeSolo.Lib
             }
             if (actionID == 1000)
             {
-                streamClass.CreatePacket(206);
-                streamClass.AddInt16(actionType);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(206);
+                StreamClass.AddInt16(actionType);
+                StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 4000)
@@ -644,9 +842,9 @@ namespace RuneScapeSolo.Lib
         {
             systemUpdate = 0;
 
-            wildernessTime = 0;
-            pvpTournamentTime = 0;
-            dropPartyTime = 0;
+            WildernessModeCountdown = 0;
+            PvpTournamentCountdown = 0;
+            DropPartyCountdown = 0;
 
             loginScreenNumber = 0;
             loggedIn = 0;
@@ -860,8 +1058,8 @@ namespace RuneScapeSolo.Lib
         {
             int i1 = objectX[l];
             int j1 = objectY[l];
-            int k1 = i1 - ourPlayer.currentX / 128;
-            int l1 = j1 - ourPlayer.currentY / 128;
+            int k1 = i1 - CurrentPlayer.currentX / 128;
+            int l1 = j1 - CurrentPlayer.currentY / 128;
             byte byte0 = 7;
             if (i1 >= 0 && j1 >= 0 && i1 < 96 && j1 < 96 && k1 > -byte0 && k1 < byte0 && l1 > -byte0 && l1 < byte0)
             {
@@ -878,7 +1076,7 @@ namespace RuneScapeSolo.Lib
 
         public void DrawPlayer(int x, int y, int width, int height, int playerIndex, int arg5, int arg6)
         {
-            Mob f1 = playerArray[playerIndex];
+            Mob f1 = Players[playerIndex];
             if (f1.bottomColour == 255)// TODO this checks if the player is an invisible moderator
             {
                 return;
@@ -1087,17 +1285,17 @@ namespace RuneScapeSolo.Lib
         {
             if (direction == 0)
             {
-                walkTo(sectionX, sectionY, x, y - 1, x, y, false, true);
+                walkTo(SectionX, SectionY, x, y - 1, x, y, false, true);
                 return;
             }
             if (direction == 1)
             {
-                walkTo(sectionX, sectionY, x - 1, y, x, y, false, true);
+                walkTo(SectionX, SectionY, x - 1, y, x, y, false, true);
                 return;
             }
             else
             {
-                walkTo(sectionX, sectionY, x, y, x, y, true, true);
+                walkTo(SectionX, SectionY, x, y, x, y, true, true);
                 return;
             }
         }
@@ -1195,20 +1393,20 @@ namespace RuneScapeSolo.Lib
                 if (mouseX < byte0 || mouseY < byte1 || mouseX > byte0 + 468 || mouseY > byte1 + 262)
                 {
                     showDuelConfirmBox = false;
-                    streamClass.CreatePacket(35);
-                    streamClass.FormatPacket();
+                    StreamClass.CreatePacket(35);
+                    StreamClass.FormatPacket();
                 }
                 if (mouseX >= (byte0 + 118) - 35 && mouseX <= byte0 + 118 + 70 && mouseY >= byte1 + 238 && mouseY <= byte1 + 238 + 21)
                 {
                     duelConfirmOurAccepted = true;
-                    streamClass.CreatePacket(87);
-                    streamClass.FormatPacket();
+                    StreamClass.CreatePacket(87);
+                    StreamClass.FormatPacket();
                 }
                 if (mouseX >= (byte0 + 352) - 35 && mouseX <= byte0 + 353 + 70 && mouseY >= byte1 + 238 && mouseY <= byte1 + 238 + 21)
                 {
                     showDuelConfirmBox = false;
-                    streamClass.CreatePacket(35);
-                    streamClass.FormatPacket();
+                    StreamClass.CreatePacket(35);
+                    StreamClass.FormatPacket();
                 }
                 mouseButtonClick = 0;
             }
@@ -1222,7 +1420,7 @@ namespace RuneScapeSolo.Lib
             loginPassword = "";
             /*dja = "Please enter a username:";
             djb = "*" + loginUsername + "*";*/
-            playerCount = 0;
+            PlayerCount = 0;
             npcCount = 0;
         }
 
@@ -1544,173 +1742,14 @@ namespace RuneScapeSolo.Lib
 
         public override void HandlePacket(ServerCommand command, int packetLength, sbyte[] packetData)
         {
+            Console.WriteLine($"Received command {command}");
+
             try
             {
-                switch (command)
+                bool properlyHandled = packetHandler.HandlePacket(command, packetData, packetLength);
+
+                if (properlyHandled)
                 {
-                    case ServerCommand.Command110:
-                        int i = 1;
-
-
-                }
-
-
-                if (command == ServerCommand.Command145)
-                {
-                    if (!hasWorldInfo)
-                    {
-                        return;
-                    }
-
-                    lastPlayerCount = playerCount;
-                    for (int l = 0; l < lastPlayerCount; l++)
-                    {
-                        lastPlayerArray[l] = playerArray[l];
-                    }
-
-                    int off = 8;
-                    sectionX = DataOperations.getBits(packetData, off, 11);
-                    off += 11;
-                    sectionY = DataOperations.getBits(packetData, off, 13);
-                    off += 13;
-                    int sprite = DataOperations.getBits(packetData, off, 4);
-                    off += 4;
-                    bool sectionLoaded = loadSection(sectionX, sectionY);
-                    sectionX -= areaX;
-                    sectionY -= areaY;
-                    int mapEnterX = sectionX * gridSize + 64;
-                    int mapEnterY = sectionY * gridSize + 64;
-                    if (sectionLoaded)
-                    {
-                        ourPlayer.waypointCurrent = 0;
-                        ourPlayer.waypointsEndSprite = 0;
-                        ourPlayer.currentX = ourPlayer.waypointsX[0] = mapEnterX;
-                        ourPlayer.currentY = ourPlayer.waypointsY[0] = mapEnterY;
-                    }
-                    playerCount = 0;
-                    ourPlayer = makePlayer(serverIndex, mapEnterX, mapEnterY, sprite);
-                    int newPlayerCount = DataOperations.getBits(packetData, off, 8);
-                    off += 8;
-                    for (int currentNewPlayer = 0; currentNewPlayer < newPlayerCount; currentNewPlayer++)
-                    {
-                        //Mob mob = lastPlayerArray[currentNewPlayer + 1];
-                        Mob mob = getLastPlayer(DataOperations.getBits(packetData, off, 16));
-                        off += 16;
-                        int playerAtTile = DataOperations.getBits(packetData, off, 1);
-                        off++;
-                        if (playerAtTile != 0)
-                        {
-                            int waypointsLeft = DataOperations.getBits(packetData, off, 1);
-                            off++;
-                            if (waypointsLeft == 0)
-                            {
-                                int currentNextSprite = DataOperations.getBits(packetData, off, 3);
-                                off += 3;
-                                int currentWaypoint = mob.waypointCurrent;
-                                int newWaypointX = mob.waypointsX[currentWaypoint];
-                                int newWaypointY = mob.waypointsY[currentWaypoint];
-                                if (currentNextSprite == 2 || currentNextSprite == 1 || currentNextSprite == 3)
-                                {
-                                    newWaypointX += gridSize;
-                                }
-
-                                if (currentNextSprite == 6 || currentNextSprite == 5 || currentNextSprite == 7)
-                                {
-                                    newWaypointX -= gridSize;
-                                }
-
-                                if (currentNextSprite == 4 || currentNextSprite == 3 || currentNextSprite == 5)
-                                {
-                                    newWaypointY += gridSize;
-                                }
-
-                                if (currentNextSprite == 0 || currentNextSprite == 1 || currentNextSprite == 7)
-                                {
-                                    newWaypointY -= gridSize;
-                                }
-
-                                mob.nextSprite = currentNextSprite;
-                                mob.waypointCurrent = currentWaypoint = (currentWaypoint + 1) % 10;
-                                mob.waypointsX[currentWaypoint] = newWaypointX;
-                                mob.waypointsY[currentWaypoint] = newWaypointY;
-                            }
-                            else
-                            {
-                                int needsNextSprite = DataOperations.getBits(packetData, off, 4);
-                                off += 4;
-                                if ((needsNextSprite & 0xc) == 12)
-                                {
-                                    continue;
-                                }
-                                mob.nextSprite = needsNextSprite;
-                            }
-                        }
-                        playerArray[playerCount++] = mob;
-                    }
-
-                    int mobCount = 0;
-                    while (off + 24 < packetLength * 8)
-                    {
-                        int mobIndex = DataOperations.getBits(packetData, off, 16);
-                        off += 16;
-                        int areaMobX = DataOperations.getBits(packetData, off, 5);
-                        off += 5;
-                        if (areaMobX > 15)
-                        {
-                            areaMobX -= 32;
-                        }
-
-                        int areaMobY = DataOperations.getBits(packetData, off, 5);
-                        off += 5;
-                        if (areaMobY > 15)
-                        {
-                            areaMobY -= 32;
-                        }
-
-                        int mobSprite = DataOperations.getBits(packetData, off, 4);
-                        off += 4;
-                        int addIndex = DataOperations.getBits(packetData, off, 1);
-                        off++;
-                        int mobX = (sectionX + areaMobX) * gridSize + 64;
-                        int mobY = (sectionY + areaMobY) * gridSize + 64;
-                        makePlayer(mobIndex, mobX, mobY, mobSprite);
-                        if (addIndex == 0)
-                        {
-                            playerBufferArrayIndexes[mobCount++] = mobIndex;
-                        }
-                    }
-                    if (mobCount > 0)
-                    {
-                        streamClass.CreatePacket(83);
-                        streamClass.AddInt16(mobCount);
-                        for (int k40 = 0; k40 < mobCount; k40++)
-                        {
-                            Mob f5 = playerBufferArray[playerBufferArrayIndexes[k40]];
-                            streamClass.AddInt16(f5.serverIndex);
-                            streamClass.AddInt16(f5.serverID);
-                        }
-
-                        streamClass.FormatPacket();
-                        mobCount = 0;
-                    }
-                    return;
-                }
-
-                if (command == ServerCommand.PvpTournamentAnnouncement)
-                {
-                    pvpTournamentTime = DataOperations.GetUnsigned2Bytes(packetData, 1) * 32;
-                    return;
-                }
-
-                if (command == ServerCommand.WildernessTypeAnnouncement)
-                {
-                    wildernessTime = DataOperations.GetUnsigned2Bytes(packetData, 1) * 32;
-                    return;
-                }
-
-                if (command == ServerCommand.DropPartyAnnouncement)
-                {
-                    dropPartyTime = DataOperations.GetUnsigned2Bytes(packetData, 1) * 32;
                     return;
                 }
 
@@ -1733,8 +1772,8 @@ namespace RuneScapeSolo.Lib
                         if (DataOperations.getByte(packetData[off]) == 255)
                         {
                             int newCount = 0;
-                            int newSectionX = sectionX + packetData[off + 1] >> 3;
-                            int newSectionY = sectionY + packetData[off + 2] >> 3;
+                            int newSectionX = SectionX + packetData[off + 1] >> 3;
+                            int newSectionY = SectionY + packetData[off + 2] >> 3;
                             off += 3;
                             for (int groundItem = 0; groundItem < groundItemCount; groundItem++)
                             {
@@ -1759,8 +1798,8 @@ namespace RuneScapeSolo.Lib
                         {
                             int newID = DataOperations.getShort(packetData, off);
                             off += 2;
-                            int newX = sectionX + packetData[off++];
-                            int newY = sectionY + packetData[off++];
+                            int newX = SectionX + packetData[off++];
+                            int newY = SectionY + packetData[off++];
                             if ((newID & 0x8000) == 0)
                             {
                                 groundItemX[groundItemCount] = newX;
@@ -1817,8 +1856,8 @@ namespace RuneScapeSolo.Lib
                         if (DataOperations.getByte(packetData[off]) == 255)
                         {
                             int newCount = 0;
-                            int newSectionX = sectionX + packetData[off + 1] >> 3;
-                            int newSectionY = sectionY + packetData[off + 2] >> 3;
+                            int newSectionX = SectionX + packetData[off + 1] >> 3;
+                            int newSectionY = SectionY + packetData[off + 2] >> 3;
                             off += 3;
                             for (int _obj = 0; _obj < objectCount; _obj++)
                             {
@@ -1850,8 +1889,8 @@ namespace RuneScapeSolo.Lib
                         {
                             int index = DataOperations.getShort(packetData, off);
                             off += 2;
-                            int newSectionX = sectionX + packetData[off++];
-                            int newSectionY = sectionY + packetData[off++];
+                            int newSectionX = SectionX + packetData[off++];
+                            int newSectionY = SectionY + packetData[off++];
                             int rotation = packetData[off++];
                             int newCount = 0;
                             for (int _obj = 0; _obj < objectCount; _obj++)
@@ -1892,8 +1931,8 @@ namespace RuneScapeSolo.Lib
                                     height = Data.Data.objectWidth[index];
                                     width = Data.Data.objectHeight[index];
                                 }
-                                int l40 = ((newSectionX + newSectionX + width) * gridSize) / 2;
-                                int k42 = ((newSectionY + newSectionY + height) * gridSize) / 2;
+                                int l40 = ((newSectionX + newSectionX + width) * GridSize) / 2;
+                                int k42 = ((newSectionY + newSectionY + height) * GridSize) / 2;
                                 int model = Data.Data.objectModelNumber[index];
                                 GameObject gameObject = gameDataObjects[model].CreateParent();
 #warning object not being added to camera.
@@ -1951,12 +1990,12 @@ namespace RuneScapeSolo.Lib
                     {
                         int index = DataOperations.getShort(packetData, off);
                         off += 2;
-                        if (index < 0 || index > playerBufferArray.Length)
+                        if (index < 0 || index > PlayersBuffer.Length)
                         {
                             return;
                         }
 
-                        Mob mob = playerBufferArray[index];
+                        Mob mob = PlayersBuffer[index];
                         if (mob == null)
                         {
                             return;
@@ -2009,7 +2048,7 @@ namespace RuneScapeSolo.Lib
                             mob.currentHits = currentHits;
                             mob.baseHits = baseHits;
                             mob.combatTimer = 200;
-                            if (mob == ourPlayer)
+                            if (mob == CurrentPlayer)
                             {
                                 playerStatCurrent[3] = currentHits;
                                 playerStatBase[3] = baseHits;
@@ -2074,7 +2113,7 @@ namespace RuneScapeSolo.Lib
                             string s4 = ChatMessage.bytesToString(packetData, off, byte8);
                             mob.lastMessageTimeout = 150;
                             mob.lastMessage = s4;
-                            if (mob == ourPlayer)
+                            if (mob == CurrentPlayer)
                             {
                                 displayMessage(mob.username + ": " + mob.lastMessage, 5);
                             }
@@ -2092,8 +2131,8 @@ namespace RuneScapeSolo.Lib
                         if (DataOperations.getByte(packetData[off]) == 255)
                         {
                             int newCount = 0;
-                            int newSectionX = sectionX + packetData[off + 1] >> 3;
-                            int newSectionY = sectionY + packetData[off + 2] >> 3;
+                            int newSectionX = SectionX + packetData[off + 1] >> 3;
+                            int newSectionY = SectionY + packetData[off + 2] >> 3;
                             off += 3;
                             for (int current = 0; current < wallObjectCount; current++)
                             {
@@ -2125,8 +2164,8 @@ namespace RuneScapeSolo.Lib
                         {
                             int newID = DataOperations.getShort(packetData, off);
                             off += 2;
-                            int newSectionX = sectionX + packetData[off++];
-                            int newSectionY = sectionY + packetData[off++];
+                            int newSectionX = SectionX + packetData[off++];
+                            int newSectionY = SectionY + packetData[off++];
                             sbyte direction = packetData[off++];
                             int newCount = 0;
                             for (int current = 0; current < wallObjectCount; current++)
@@ -2198,22 +2237,22 @@ namespace RuneScapeSolo.Lib
                                 int waypointY = newNpc.waypointsY[waypointCurrent];
                                 if (nextSprite == 2 || nextSprite == 1 || nextSprite == 3)
                                 {
-                                    waypointX += gridSize;
+                                    waypointX += GridSize;
                                 }
 
                                 if (nextSprite == 6 || nextSprite == 5 || nextSprite == 7)
                                 {
-                                    waypointX -= gridSize;
+                                    waypointX -= GridSize;
                                 }
 
                                 if (nextSprite == 4 || nextSprite == 3 || nextSprite == 5)
                                 {
-                                    waypointY += gridSize;
+                                    waypointY += GridSize;
                                 }
 
                                 if (nextSprite == 0 || nextSprite == 1 || nextSprite == 7)
                                 {
-                                    waypointY -= gridSize;
+                                    waypointY -= GridSize;
                                 }
 
                                 newNpc.nextSprite = nextSprite;
@@ -2255,8 +2294,8 @@ namespace RuneScapeSolo.Lib
 
                         int mobSprite = DataOperations.getBits(packetData, off, 4);
                         off += 4;
-                        int mobX = (sectionX + areaMobX) * gridSize + 64;
-                        int mobY = (sectionY + areaMobY) * gridSize + 64;
+                        int mobX = (SectionX + areaMobX) * GridSize + 64;
+                        int mobY = (SectionY + areaMobY) * GridSize + 64;
                         int addIndex = DataOperations.getBits(packetData, off, 10);
                         off += 10;
                         if (addIndex >= Data.Data.npcCount)
@@ -2290,7 +2329,7 @@ namespace RuneScapeSolo.Lib
                                 string s5 = ChatMessage.bytesToString(packetData, off, messageLength);
                                 mob.lastMessageTimeout = 150;
                                 mob.lastMessage = s5;
-                                if (playerIndex == ourPlayer.serverIndex)
+                                if (playerIndex == CurrentPlayer.serverIndex)
                                 {
                                     displayMessage("@yel@" + Data.Data.npcName[mob.npcId] + ": " + mob.lastMessage, 5);
                                 }
@@ -2342,14 +2381,14 @@ namespace RuneScapeSolo.Lib
                 if (command == ServerCommand.Command131)
                 {
                     loadArea = true;
-                    serverIndex = DataOperations.getShort(packetData, 1);
+                    ServerIndex = DataOperations.getShort(packetData, 1);
                     wildX = DataOperations.getShort(packetData, 3);
                     wildY = DataOperations.getShort(packetData, 5);
                     layerIndex = DataOperations.getShort(packetData, 7);
                     layerModifier = DataOperations.getShort(packetData, 9);
                     wildY -= layerIndex * layerModifier;
                     needsClear = true;
-                    hasWorldInfo = true;
+                    HasWorldInfo = true;
                     return;
                 }
                 if (command == ServerCommand.Command180)
@@ -2392,8 +2431,8 @@ namespace RuneScapeSolo.Lib
                     int k3 = (packetLength - 1) / 4;
                     for (int i11 = 0; i11 < k3; i11++)
                     {
-                        int k17 = sectionX + DataOperations.getShort2(packetData, 1 + i11 * 4) >> 3;
-                        int i22 = sectionY + DataOperations.getShort2(packetData, 3 + i11 * 4) >> 3;
+                        int k17 = SectionX + DataOperations.getShort2(packetData, 1 + i11 * 4) >> 3;
+                        int i22 = SectionY + DataOperations.getShort2(packetData, 3 + i11 * 4) >> 3;
                         int j25 = 0;
                         for (int l28 = 0; l28 < groundItemCount; l28++)
                         {
@@ -2477,9 +2516,9 @@ namespace RuneScapeSolo.Lib
                 if (command == ServerCommand.Command4)
                 {
                     int tradeOther = DataOperations.getShort(packetData, 1);
-                    if (playerBufferArray[tradeOther] != null)
+                    if (PlayersBuffer[tradeOther] != null)
                     {
-                        tradeOtherName = playerBufferArray[tradeOther].username;
+                        tradeOtherName = PlayersBuffer[tradeOther].username;
                     }
 
                     showTradeBox = true;
@@ -2675,9 +2714,9 @@ namespace RuneScapeSolo.Lib
                 if (command == ServerCommand.Command229)
                 {
                     int k5 = DataOperations.getShort(packetData, 1);
-                    if (playerBufferArray[k5] != null)
+                    if (PlayersBuffer[k5] != null)
                     {
-                        duelOpponent = playerBufferArray[k5].username;
+                        duelOpponent = PlayersBuffer[k5].username;
                     }
 
                     showDuelBox = true;
@@ -2699,6 +2738,8 @@ namespace RuneScapeSolo.Lib
                 }
 
 #warning have not fixed the following yet....
+                Console.WriteLine($"Unfixed command? {command}");
+
                 if (command == ServerCommand.Command251)
                 {
                     showTradeConfirmBox = true;
@@ -2931,8 +2972,8 @@ namespace RuneScapeSolo.Lib
                     if (teleBubbleCount < 50)
                     {
                         int type = packetData[1] & 0xff;
-                        int x = packetData[2] + sectionX;
-                        int y = packetData[3] + sectionY;
+                        int x = packetData[2] + SectionX;
+                        int y = packetData[3] + SectionY;
                         teleBubbleType[teleBubbleCount] = type;
                         teleBubbleTime[teleBubbleCount] = 0;
                         teleBubbleX[teleBubbleCount] = x;
@@ -2967,29 +3008,9 @@ namespace RuneScapeSolo.Lib
                     serverMessageBoxTop = true;
                     return;
                 }
-                if (command == ServerCommand.GetFatigue)
-                {
-                    fatigue = DataOperations.getShort(packetData, 1);
-                    return;
-                }
-                if (command == ServerCommand.GetTutorial)
-                {
-                    tutorial = DataOperations.GetUnsigned2Bytes(packetData, 1);
-                    return;
-                }
-                if (command == ServerCommand.GetQuestPoints)
-                {
-                    questPoints = DataOperations.GetUnsigned2Bytes(packetData, 1);
-                    return;
-                }
-                if (command == ServerCommand.GetTaskPoints)
-                {
-                    taskPoints = DataOperations.GetUnsigned2Bytes(packetData, 1);
-                    return;
-                }
                 if (command == ServerCommand.Command206)
                 {
-                    isSleeping = true;
+                    IsSleeping = true;
                     inputText = "";
                     enteredInputText = "";
                     try
@@ -3036,11 +3057,6 @@ namespace RuneScapeSolo.Lib
                     sleepingStatusText = null;
                     return;
                 }
-                if (command == ServerCommand.Command224)
-                {
-                    isSleeping = false;
-                    return;
-                }
                 if (command == ServerCommand.Command225)
                 {
                     sleepingStatusText = "Incorrect - Please wait...";
@@ -3063,7 +3079,7 @@ namespace RuneScapeSolo.Lib
                 if (command == ServerCommand.Command182)
                 {
                     int off = 1;
-                    questPoints = DataOperations.getShort(packetData, off);
+                    QuestPoints = DataOperations.getShort(packetData, off);
                     off += 2;
                     for (int l4 = 0; l4 < questName.Length; l4++)
                     {
@@ -3074,7 +3090,7 @@ namespace RuneScapeSolo.Lib
                 }
                 if (command == ServerCommand.Command233)
                 {
-                    questPoints = DataOperations.getByte(packetData[1]);
+                    QuestPoints = DataOperations.getByte(packetData[1]);
                     int count = DataOperations.getByte(packetData[2]);
                     int off = 3;
                     string[] newQuestNames = new string[count];
@@ -3086,11 +3102,6 @@ namespace RuneScapeSolo.Lib
                     }
                     usedQuestName = newQuestNames;
                     questStage = newQuestStage;
-                    return;
-                }
-                if (command == ServerCommand.Command129)
-                {
-                    combatStyle = DataOperations.getByte(packetData[1]);
                     return;
                 }
                 Console.WriteLine("UNHANDLED PACKET:" + command + " LEN:" + packetLength);
@@ -3117,10 +3128,10 @@ namespace RuneScapeSolo.Lib
         public override void initVars()
         {
             systemUpdate = 0;
-            pvpTournamentTime = 0;
-            dropPartyTime = 0;
+            PvpTournamentCountdown = 0;
+            DropPartyCountdown = 0;
 
-            combatStyle = 0;
+            CombatStyle = 0;
             logoutTimer = 0;
             loginScreenNumber = 0;
             loggedIn = 1;
@@ -3146,18 +3157,18 @@ namespace RuneScapeSolo.Lib
             objectCount = 0;
             wallObjectCount = 0;
             groundItemCount = 0;
-            playerCount = 0;
+            PlayerCount = 0;
             npcCount = 0;
 
             for (int i = 0; i < 4000; i++)
             {
-                playerBufferArray[i] = null;
+                PlayersBuffer[i] = null;
                 npcAttackingArray[i] = null;
             }
 
             for (int i = 0; i < 500; i++)
             {
-                playerArray[i] = null;
+                Players[i] = null;
                 npcArray[i] = null;
             }
 
@@ -3171,7 +3182,7 @@ namespace RuneScapeSolo.Lib
             mouseButton = 0;
             showShopBox = false;
             showBankBox = false;
-            isSleeping = false;
+            IsSleeping = false;
             friendsCount = 0;
         }
 
@@ -3186,8 +3197,8 @@ namespace RuneScapeSolo.Lib
             gameGraphics.setDimensions(l, 36, l + c1, 36 + c3);
             int j1 = 192 + minimapRandomRotationY;
             int l1 = cameraRotation + minimapRandomRotationX & 0xff;
-            int j2 = ((ourPlayer.currentX - 6040) * 3 * j1) / 2048;
-            int l3 = ((ourPlayer.currentY - 6040) * 3 * j1) / 2048;
+            int j2 = ((CurrentPlayer.currentX - 6040) * 3 * j1) / 2048;
+            int l3 = ((CurrentPlayer.currentY - 6040) * 3 * j1) / 2048;
             int j5 = Camera.bbk[1024 - l1 * 4 & 0x3ff];
             int l5 = Camera.bbk[(1024 - l1 * 4 & 0x3ff) + 1024];
             int j6 = l3 * j5 + j2 * l5 >> 18;
@@ -3196,8 +3207,8 @@ namespace RuneScapeSolo.Lib
             gameGraphics.drawMinimapPic((l + c1 / 2) - j2, 36 + c3 / 2 + l3, baseInventoryPic - 1, l1 + 64 & 0xff, j1);
             for (int l7 = 0; l7 < objectCount; l7++)
             {
-                int k2 = (((objectX[l7] * gridSize + 64) - ourPlayer.currentX) * 3 * j1) / 2048;
-                int i4 = (((objectY[l7] * gridSize + 64) - ourPlayer.currentY) * 3 * j1) / 2048;
+                int k2 = (((objectX[l7] * GridSize + 64) - CurrentPlayer.currentX) * 3 * j1) / 2048;
+                int i4 = (((objectY[l7] * GridSize + 64) - CurrentPlayer.currentY) * 3 * j1) / 2048;
                 int k6 = i4 * j5 + k2 * l5 >> 18;
                 i4 = i4 * l5 - k2 * j5 >> 18;
                 k2 = k6;
@@ -3206,8 +3217,8 @@ namespace RuneScapeSolo.Lib
 
             for (int i8 = 0; i8 < groundItemCount; i8++)
             {
-                int l2 = (((groundItemX[i8] * gridSize + 64) - ourPlayer.currentX) * 3 * j1) / 2048;
-                int j4 = (((groundItemY[i8] * gridSize + 64) - ourPlayer.currentY) * 3 * j1) / 2048;
+                int l2 = (((groundItemX[i8] * GridSize + 64) - CurrentPlayer.currentX) * 3 * j1) / 2048;
+                int j4 = (((groundItemY[i8] * GridSize + 64) - CurrentPlayer.currentY) * 3 * j1) / 2048;
                 int l6 = j4 * j5 + l2 * l5 >> 18;
                 j4 = j4 * l5 - l2 * j5 >> 18;
                 l2 = l6;
@@ -3217,19 +3228,19 @@ namespace RuneScapeSolo.Lib
             for (int j8 = 0; j8 < npcCount; j8++)
             {
                 Mob f1 = npcArray[j8];
-                int i3 = ((f1.currentX - ourPlayer.currentX) * 3 * j1) / 2048;
-                int k4 = ((f1.currentY - ourPlayer.currentY) * 3 * j1) / 2048;
+                int i3 = ((f1.currentX - CurrentPlayer.currentX) * 3 * j1) / 2048;
+                int k4 = ((f1.currentY - CurrentPlayer.currentY) * 3 * j1) / 2048;
                 int i7 = k4 * j5 + i3 * l5 >> 18;
                 k4 = k4 * l5 - i3 * j5 >> 18;
                 i3 = i7;
                 drawMinimapObject(l + c1 / 2 + i3, (36 + c3 / 2) - k4, 0xffff00);
             }
 
-            for (int k8 = 0; k8 < playerCount; k8++)
+            for (int k8 = 0; k8 < PlayerCount; k8++)
             {
-                Mob f2 = playerArray[k8];
-                int j3 = ((f2.currentX - ourPlayer.currentX) * 3 * j1) / 2048;
-                int l4 = ((f2.currentY - ourPlayer.currentY) * 3 * j1) / 2048;
+                Mob f2 = Players[k8];
+                int j3 = ((f2.currentX - CurrentPlayer.currentX) * 3 * j1) / 2048;
+                int l4 = ((f2.currentY - CurrentPlayer.currentY) * 3 * j1) / 2048;
                 int j7 = l4 * j5 + j3 * l5 >> 18;
                 l4 = l4 * l5 - j3 * j5 >> 18;
                 j3 = j7;
@@ -3274,11 +3285,11 @@ namespace RuneScapeSolo.Lib
                 int k7 = i5 * k5 + k3 * i6 >> 15;
                 i5 = i5 * i6 - k3 * k5 >> 15;
                 k3 = k7;
-                k3 += ourPlayer.currentX;
-                i5 = ourPlayer.currentY - i5;
+                k3 += CurrentPlayer.currentX;
+                i5 = CurrentPlayer.currentY - i5;
                 if (mouseButtonClick == 1)
                 {
-                    walkTo1Tile(sectionX, sectionY, k3 / 128, i5 / 128, false);
+                    walkTo1Tile(SectionX, SectionY, k3 / 128, i5 / 128, false);
                 }
 
                 mouseButtonClick = 0;
@@ -3287,8 +3298,8 @@ namespace RuneScapeSolo.Lib
 
         public bool validCameraAngle(int arg0)
         {
-            int l = ourPlayer.currentX / 128;
-            int i1 = ourPlayer.currentY / 128;
+            int l = CurrentPlayer.currentX / 128;
+            int i1 = CurrentPlayer.currentY / 128;
             for (int j1 = 2; j1 >= 1; j1--)
             {
                 if (arg0 == 1 && ((engineHandle.tiles[l][i1 - j1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1 - j1] & 0x80) == 128))
@@ -3505,9 +3516,9 @@ namespace RuneScapeSolo.Lib
         {
             systemUpdate = 0;
 
-            pvpTournamentTime = 0;
-            wildernessTime = 0;
-            dropPartyTime = 0;
+            PvpTournamentCountdown = 0;
+            WildernessModeCountdown = 0;
+            DropPartyCountdown = 0;
 
             if (logoutTimer != 0)
             {
@@ -3860,16 +3871,16 @@ namespace RuneScapeSolo.Lib
 
             if (appearanceMenu.isClicked(appearanceAcceptButton))
             {
-                streamClass.CreatePacket(218);
-                streamClass.AddInt8(appearanceHeadGender);
-                streamClass.AddInt8(appearanceHeadType);
-                streamClass.AddInt8(appearanceBodyGender);
-                streamClass.AddInt8(appearance2Colour);
-                streamClass.AddInt8(appearanceHairColour);
-                streamClass.AddInt8(appearanceTopColour);
-                streamClass.AddInt8(appearanceBottomColour);
-                streamClass.AddInt8(appearanceSkinColour);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(218);
+                StreamClass.AddInt8(appearanceHeadGender);
+                StreamClass.AddInt8(appearanceHeadType);
+                StreamClass.AddInt8(appearanceBodyGender);
+                StreamClass.AddInt8(appearance2Colour);
+                StreamClass.AddInt8(appearanceHairColour);
+                StreamClass.AddInt8(appearanceTopColour);
+                StreamClass.AddInt8(appearanceBottomColour);
+                StreamClass.AddInt8(appearanceSkinColour);
+                StreamClass.FormatPacket();
                 gameGraphics.ClearScreen();
                 showAppearanceWindow = false;
             }
@@ -4028,11 +4039,11 @@ namespace RuneScapeSolo.Lib
             }
             else
             {
-                streamClass.CreatePacket(129);
-                streamClass.FormatPacket();
+                StreamClass.CreatePacket(129);
+                StreamClass.FormatPacket();
                 logoutTimer = 1000;
 
-                streamClass.CloseStream();
+                StreamClass.CloseStream();
                 return;
             }
         }
@@ -4069,28 +4080,28 @@ namespace RuneScapeSolo.Lib
 
             if (walkToACommand)
             {
-                streamClass.CreatePacket(246);
+                StreamClass.CreatePacket(246);
             }
             else
             {
-                streamClass.CreatePacket(132);
+                StreamClass.CreatePacket(132);
             }
 
-            streamClass.AddInt16(startX + areaX);
-            streamClass.AddInt16(startY + areaY);
+            StreamClass.AddInt16(startX + AreaX);
+            StreamClass.AddInt16(startY + AreaY);
 
-            if (walkToACommand && stepCount == -1 && (startX + areaX) % 5 == 0)
+            if (walkToACommand && stepCount == -1 && (startX + AreaX) % 5 == 0)
             {
                 stepCount = 0;
             }
 
             for (int i1 = stepCount; i1 >= 0 && i1 > stepCount - 25; i1--)
             {
-                streamClass.AddInt8(walkArrayX[i1] - startX);
-                streamClass.AddInt8(walkArrayY[i1] - startY);
+                StreamClass.AddInt8(walkArrayX[i1] - startX);
+                StreamClass.AddInt8(walkArrayY[i1] - startY);
             }
 
-            streamClass.FormatPacket();
+            StreamClass.FormatPacket();
             //base.streamClass.flush();
 
             actionPictureType = -24;
@@ -4114,27 +4125,27 @@ namespace RuneScapeSolo.Lib
             stepCount--;
             if (walkToACommand)
             {
-                streamClass.CreatePacket(246);
+                StreamClass.CreatePacket(246);
             }
             else
             {
-                streamClass.CreatePacket(132);
+                StreamClass.CreatePacket(132);
             }
 
-            streamClass.AddInt16(startX + areaX);
-            streamClass.AddInt16(startY + areaY);
-            if (walkToACommand && stepCount == -1 && (startX + areaX) % 5 == 0)
+            StreamClass.AddInt16(startX + AreaX);
+            StreamClass.AddInt16(startY + AreaY);
+            if (walkToACommand && stepCount == -1 && (startX + AreaX) % 5 == 0)
             {
                 stepCount = 0;
             }
 
             for (int i1 = stepCount; i1 >= 0 && i1 > stepCount - 25; i1--)
             {
-                streamClass.AddInt8(walkArrayX[i1] - startX);
-                streamClass.AddInt8(walkArrayY[i1] - startY);
+                StreamClass.AddInt8(walkArrayX[i1] - startX);
+                StreamClass.AddInt8(walkArrayY[i1] - startY);
             }
 
-            streamClass.FormatPacket();
+            StreamClass.FormatPacket();
             actionPictureType = -24;
             walkMouseX = mouseX;
             walkMouseY = mouseY;
@@ -4314,47 +4325,47 @@ namespace RuneScapeSolo.Lib
                 if (mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     configCameraAutoAngle = !configCameraAutoAngle;
-                    streamClass.CreatePacket(157);
-                    streamClass.AddInt8(0);
-                    streamClass.AddInt8(configCameraAutoAngle ? 1 : 0);
-                    streamClass.FormatPacket();
+                    StreamClass.CreatePacket(157);
+                    StreamClass.AddInt8(0);
+                    StreamClass.AddInt8(configCameraAutoAngle ? 1 : 0);
+                    StreamClass.FormatPacket();
                 }
                 i2 += 15;
                 if (mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     configOneMouseButton = !configOneMouseButton;
-                    streamClass.CreatePacket(157);
-                    streamClass.AddInt8(2);
-                    streamClass.AddInt8(configOneMouseButton ? 1 : 0);
-                    streamClass.FormatPacket();
+                    StreamClass.CreatePacket(157);
+                    StreamClass.AddInt8(2);
+                    StreamClass.AddInt8(configOneMouseButton ? 1 : 0);
+                    StreamClass.FormatPacket();
                 }
                 i2 += 15;
                 if (Configuration.MEMBERS_FEATURES && mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     configSoundOff = !configSoundOff;
-                    streamClass.CreatePacket(157);
-                    streamClass.AddInt8(3);
-                    streamClass.AddInt8(configSoundOff ? 1 : 0);
-                    streamClass.FormatPacket();
+                    StreamClass.CreatePacket(157);
+                    StreamClass.AddInt8(3);
+                    StreamClass.AddInt8(configSoundOff ? 1 : 0);
+                    StreamClass.FormatPacket();
                 }
                 i2 += 15;
                 i2 += 15;
                 if (mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     showRoofs = !showRoofs;
-                    streamClass.CreatePacket(157);
-                    streamClass.AddInt8(4);
-                    streamClass.AddInt8(showRoofs ? 1 : 0);
-                    streamClass.FormatPacket();
+                    StreamClass.CreatePacket(157);
+                    StreamClass.AddInt8(4);
+                    StreamClass.AddInt8(showRoofs ? 1 : 0);
+                    StreamClass.FormatPacket();
                 }
                 i2 += 15;
                 if (mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     showCombatWindow = !showCombatWindow;
-                    streamClass.CreatePacket(157);
-                    streamClass.AddInt8(6);
-                    streamClass.AddInt8(showCombatWindow ? 1 : 0);
-                    streamClass.FormatPacket();
+                    StreamClass.CreatePacket(157);
+                    StreamClass.AddInt8(6);
+                    StreamClass.AddInt8(showCombatWindow ? 1 : 0);
+                    StreamClass.FormatPacket();
                 }
                 i2 += 15;
                 if (mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
@@ -4365,10 +4376,10 @@ namespace RuneScapeSolo.Lib
                 if (mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     autoScreenshot = !autoScreenshot;
-                    streamClass.CreatePacket(157);
-                    streamClass.AddInt8(5);
-                    streamClass.AddInt8(autoScreenshot ? 1 : 0);
-                    streamClass.FormatPacket();
+                    StreamClass.CreatePacket(157);
+                    StreamClass.AddInt8(5);
+                    StreamClass.AddInt8(autoScreenshot ? 1 : 0);
+                    StreamClass.FormatPacket();
                 }
                 bool flag = false;
                 i2 += 15;
@@ -4454,12 +4465,12 @@ namespace RuneScapeSolo.Lib
                     arg1--;
                     i1++;
                 }
-                walkTo(sectionX, sectionY, arg0, arg1, (arg0 + l) - 1, (arg1 + i1) - 1, false, true);
+                walkTo(SectionX, SectionY, arg0, arg1, (arg0 + l) - 1, (arg1 + i1) - 1, false, true);
                 return;
             }
             else
             {
-                walkTo(sectionX, sectionY, arg0, arg1, (arg0 + l) - 1, (arg1 + i1) - 1, true, true);
+                walkTo(SectionX, SectionY, arg0, arg1, (arg0 + l) - 1, (arg1 + i1) - 1, true, true);
                 return;
             }
         }
@@ -4488,18 +4499,18 @@ namespace RuneScapeSolo.Lib
                         continue;
                     }
 
-                    combatStyle = l - 1;
+                    CombatStyle = l - 1;
                     mouseButtonClick = 0;
-                    streamClass.CreatePacket(42);
-                    streamClass.AddInt8(combatStyle);
-                    streamClass.FormatPacket();
+                    StreamClass.CreatePacket(42);
+                    StreamClass.AddInt8(CombatStyle);
+                    StreamClass.FormatPacket();
                     break;
                 }
 
             }
             for (int i1 = 0; i1 < 5; i1++)
             {
-                if (i1 == combatStyle + 1)
+                if (i1 == CombatStyle + 1)
                 {
                     gameGraphics.drawBoxAlpha(byte0, byte1 + i1 * 20, c1, 20, GameImage.rgbToInt(255, 0, 0), 128);
                 }
@@ -4578,14 +4589,14 @@ namespace RuneScapeSolo.Lib
                             }
                             if (ourTradeItemsChanged)
                             {
-                                streamClass.CreatePacket(70);
-                                streamClass.AddInt8(tradeItemsOurCount);
+                                StreamClass.CreatePacket(70);
+                                StreamClass.AddInt8(tradeItemsOurCount);
                                 for (int i = 0; i < tradeItemsOurCount; i++)
                                 {
-                                    streamClass.AddInt16(tradeItemsOur[i]);
-                                    streamClass.AddInt32(tradeItemOurCount[i]);
+                                    StreamClass.AddInt16(tradeItemsOur[i]);
+                                    StreamClass.AddInt32(tradeItemOurCount[i]);
                                 }
-                                streamClass.FormatPacket();
+                                StreamClass.FormatPacket();
                                 tradeOtherAccepted = false;
                                 tradeWeAccepted = false;
                             }
@@ -4613,14 +4624,14 @@ namespace RuneScapeSolo.Lib
                                 }
                                 break;
                             }
-                            streamClass.CreatePacket(70);
-                            streamClass.AddInt8(tradeItemsOurCount);
+                            StreamClass.CreatePacket(70);
+                            StreamClass.AddInt8(tradeItemsOurCount);
                             for (int i = 0; i < tradeItemsOurCount; i++)
                             {
-                                streamClass.AddInt16(tradeItemsOur[i]);
-                                streamClass.AddInt32(tradeItemOurCount[i]);
+                                StreamClass.AddInt16(tradeItemsOur[i]);
+                                StreamClass.AddInt32(tradeItemOurCount[i]);
                             }
-                            streamClass.FormatPacket();
+                            StreamClass.FormatPacket();
                             tradeOtherAccepted = false;
                             tradeWeAccepted = false;
                         }
@@ -4628,14 +4639,14 @@ namespace RuneScapeSolo.Lib
                     if (mx >= 217 && my >= 238 && mx <= 286 && my <= 259)
                     {
                         tradeWeAccepted = true;
-                        streamClass.CreatePacket(211);
-                        streamClass.FormatPacket();
+                        StreamClass.CreatePacket(211);
+                        StreamClass.FormatPacket();
                     }
                     if (mx >= 394 && my >= 238 && mx < 463 && my < 259)
                     {
                         showTradeBox = false;
-                        streamClass.CreatePacket(216);
-                        streamClass.FormatPacket();
+                        StreamClass.CreatePacket(216);
+                        StreamClass.FormatPacket();
                     }
                 }
                 else
@@ -5045,11 +5056,11 @@ namespace RuneScapeSolo.Lib
                 gameDataObjects = null;
                 objectArray = null;
                 wallObjectArray = null;
-                playerBufferArray = null;
-                playerArray = null;
+                PlayersBuffer = null;
+                Players = null;
                 npcAttackingArray = null;
                 npcArray = null;
-                ourPlayer = null;
+                CurrentPlayer = null;
                 if (engineHandle != null)
                 {
                     engineHandle.TileChunks = null;
@@ -5079,9 +5090,9 @@ namespace RuneScapeSolo.Lib
                         continue;
                     }
 
-                    streamClass.CreatePacket(154);
-                    streamClass.AddInt8(l);
-                    streamClass.FormatPacket();
+                    StreamClass.CreatePacket(154);
+                    StreamClass.AddInt8(l);
+                    StreamClass.FormatPacket();
                     break;
                 }
 
@@ -5167,14 +5178,14 @@ namespace RuneScapeSolo.Lib
                 if (mouseX >= (byte0 + 118) - 35 && mouseX <= byte0 + 118 + 70 && mouseY >= byte1 + 238 && mouseY <= byte1 + 238 + 21)
                 {
                     tradeConfirmAccepted = true;
-                    streamClass.CreatePacket(53);
-                    streamClass.FormatPacket();
+                    StreamClass.CreatePacket(53);
+                    StreamClass.FormatPacket();
                 }
                 if (mouseX >= (byte0 + 352) - 35 && mouseX <= byte0 + 353 + 70 && mouseY >= byte1 + 238 && mouseY <= byte1 + 238 + 21)
                 {
                     showTradeConfirmBox = false;
-                    streamClass.CreatePacket(216);
-                    streamClass.FormatPacket();
+                    StreamClass.CreatePacket(216);
+                    StreamClass.FormatPacket();
                 }
                 mouseButtonClick = 0;
             }
@@ -5255,17 +5266,17 @@ namespace RuneScapeSolo.Lib
 
         public Mob makePlayer(int index, int x, int y, int sprite)
         {
-            if (playerBufferArray[index] == null)
+            if (PlayersBuffer[index] == null)
             {
-                playerBufferArray[index] = new Mob();
-                playerBufferArray[index].serverIndex = index;
-                playerBufferArray[index].serverID = 0;
+                PlayersBuffer[index] = new Mob();
+                PlayersBuffer[index].serverIndex = index;
+                PlayersBuffer[index].serverID = 0;
             }
-            Mob existingPlayer = playerBufferArray[index];
+            Mob existingPlayer = PlayersBuffer[index];
             bool flag = false;
-            for (int l = 0; l < lastPlayerCount; l++)
+            for (int l = 0; l < LastPlayerCount; l++)
             {
-                if (lastPlayerArray[l].serverIndex != index)
+                if (LastPlayers[l].serverIndex != index)
                 {
                     continue;
                 }
@@ -5295,7 +5306,7 @@ namespace RuneScapeSolo.Lib
                 existingPlayer.nextSprite = existingPlayer.currentSprite = sprite;
                 existingPlayer.stepCount = 0;
             }
-            playerArray[playerCount++] = existingPlayer;
+            Players[PlayerCount++] = existingPlayer;
             return existingPlayer;
         }
 
@@ -5751,17 +5762,17 @@ namespace RuneScapeSolo.Lib
                         else
                                 if (prayerOn[k2])
                         {
-                            streamClass.CreatePacket(248);
-                            streamClass.AddInt8(k2);
-                            streamClass.FormatPacket();
+                            StreamClass.CreatePacket(248);
+                            StreamClass.AddInt8(k2);
+                            StreamClass.FormatPacket();
                             prayerOn[k2] = false;
                             playSound("prayeroff");
                         }
                         else
                         {
-                            streamClass.CreatePacket(56);
-                            streamClass.AddInt8(k2);
-                            streamClass.FormatPacket();
+                            StreamClass.CreatePacket(56);
+                            StreamClass.AddInt8(k2);
+                            StreamClass.FormatPacket();
                             prayerOn[k2] = true;
                             playSound("prayeron");
                         }
@@ -5927,19 +5938,19 @@ namespace RuneScapeSolo.Lib
                 systemUpdate--;
             }
 
-            if (wildernessTime >= 1)
+            if (WildernessModeCountdown >= 1)
             {
-                wildernessTime -= 1;
+                WildernessModeCountdown -= 1;
             }
 
-            if (pvpTournamentTime >= 1)
+            if (PvpTournamentCountdown >= 1)
             {
-                pvpTournamentTime -= 1;
+                PvpTournamentCountdown -= 1;
             }
 
-            if (dropPartyTime >= 1)
+            if (DropPartyCountdown >= 1)
             {
-                dropPartyTime -= 1;
+                DropPartyCountdown -= 1;
             }
 
             sendPingPacketAsync();
@@ -5952,7 +5963,7 @@ namespace RuneScapeSolo.Lib
                 logoutTimer--;
             }
 
-            if (ourPlayer.currentSprite == 8 || ourPlayer.currentSprite == 9)
+            if (CurrentPlayer.currentSprite == 8 || CurrentPlayer.currentSprite == 9)
             {
                 combatTimeout = 500;
             }
@@ -5967,9 +5978,9 @@ namespace RuneScapeSolo.Lib
                 updateAppearanceWindow();
                 return;
             }
-            for (int l = 0; l < playerCount; l++)
+            for (int l = 0; l < PlayerCount; l++)
             {
-                Mob player = playerArray[l];
+                Mob player = Players[l];
                 int j1 = (player.waypointCurrent + 1) % 10;
                 if (player.waypointsEndSprite != j1)
                 {
@@ -5991,7 +6002,7 @@ namespace RuneScapeSolo.Lib
                         i6 = (i5 - 1) * 4;
                     }
 
-                    if (player.waypointsX[targetSprite] - player.currentX > gridSize * 3 || player.waypointsY[targetSprite] - player.currentY > gridSize * 3 || player.waypointsX[targetSprite] - player.currentX < -gridSize * 3 || player.waypointsY[targetSprite] - player.currentY < -gridSize * 3 || i5 > 8)
+                    if (player.waypointsX[targetSprite] - player.currentX > GridSize * 3 || player.waypointsY[targetSprite] - player.currentY > GridSize * 3 || player.waypointsX[targetSprite] - player.currentX < -GridSize * 3 || player.waypointsY[targetSprite] - player.currentY < -GridSize * 3 || i5 > 8)
                     {
                         player.currentX = player.waypointsX[targetSprite];
                         player.currentY = player.waypointsY[targetSprite];
@@ -6126,7 +6137,7 @@ namespace RuneScapeSolo.Lib
                         k6 = (j6 - 1) * 4;
                     }
 
-                    if (f2.waypointsX[j5] - f2.currentX > gridSize * 3 || f2.waypointsY[j5] - f2.currentY > gridSize * 3 || f2.waypointsX[j5] - f2.currentX < -gridSize * 3 || f2.waypointsY[j5] - f2.currentY < -gridSize * 3 || j6 > 8)
+                    if (f2.waypointsX[j5] - f2.currentX > GridSize * 3 || f2.waypointsY[j5] - f2.currentY > GridSize * 3 || f2.waypointsX[j5] - f2.currentX < -GridSize * 3 || f2.waypointsY[j5] - f2.currentY < -GridSize * 3 || j6 > 8)
                     {
                         f2.currentX = f2.waypointsX[j5];
                         f2.currentY = f2.waypointsY[j5];
@@ -6242,9 +6253,9 @@ namespace RuneScapeSolo.Lib
                 GameImage.bnn = 0;
                 GameImage.caa = 0;
             }
-            for (int k1 = 0; k1 < playerCount; k1++)
+            for (int k1 = 0; k1 < PlayerCount; k1++)
             {
-                Mob f3 = playerArray[k1];
+                Mob f3 = Players[k1];
                 if (f3.projectileDistance > 0)
                 {
                     f3.projectileDistance--;
@@ -6253,27 +6264,27 @@ namespace RuneScapeSolo.Lib
 
             if (cameraAutoAngleDebug)
             {
-                if (cameraAutoRotatePlayerX - ourPlayer.currentX < -500 || cameraAutoRotatePlayerX - ourPlayer.currentX > 500 || cameraAutoRotatePlayerY - ourPlayer.currentY < -500 || cameraAutoRotatePlayerY - ourPlayer.currentY > 500)
+                if (cameraAutoRotatePlayerX - CurrentPlayer.currentX < -500 || cameraAutoRotatePlayerX - CurrentPlayer.currentX > 500 || cameraAutoRotatePlayerY - CurrentPlayer.currentY < -500 || cameraAutoRotatePlayerY - CurrentPlayer.currentY > 500)
                 {
-                    cameraAutoRotatePlayerX = ourPlayer.currentX;
-                    cameraAutoRotatePlayerY = ourPlayer.currentY;
+                    cameraAutoRotatePlayerX = CurrentPlayer.currentX;
+                    cameraAutoRotatePlayerY = CurrentPlayer.currentY;
                 }
             }
             else
             {
-                if (cameraAutoRotatePlayerX - ourPlayer.currentX < -500 || cameraAutoRotatePlayerX - ourPlayer.currentX > 500 || cameraAutoRotatePlayerY - ourPlayer.currentY < -500 || cameraAutoRotatePlayerY - ourPlayer.currentY > 500)
+                if (cameraAutoRotatePlayerX - CurrentPlayer.currentX < -500 || cameraAutoRotatePlayerX - CurrentPlayer.currentX > 500 || cameraAutoRotatePlayerY - CurrentPlayer.currentY < -500 || cameraAutoRotatePlayerY - CurrentPlayer.currentY > 500)
                 {
-                    cameraAutoRotatePlayerX = ourPlayer.currentX;
-                    cameraAutoRotatePlayerY = ourPlayer.currentY;
+                    cameraAutoRotatePlayerX = CurrentPlayer.currentX;
+                    cameraAutoRotatePlayerY = CurrentPlayer.currentY;
                 }
-                if (cameraAutoRotatePlayerX != ourPlayer.currentX)
+                if (cameraAutoRotatePlayerX != CurrentPlayer.currentX)
                 {
-                    cameraAutoRotatePlayerX += (ourPlayer.currentX - cameraAutoRotatePlayerX) / (16 + (cameraDistance - 500) / 15);
+                    cameraAutoRotatePlayerX += (CurrentPlayer.currentX - cameraAutoRotatePlayerX) / (16 + (cameraDistance - 500) / 15);
                 }
 
-                if (cameraAutoRotatePlayerY != ourPlayer.currentY)
+                if (cameraAutoRotatePlayerY != CurrentPlayer.currentY)
                 {
-                    cameraAutoRotatePlayerY += (ourPlayer.currentY - cameraAutoRotatePlayerY) / (16 + (cameraDistance - 500) / 15);
+                    cameraAutoRotatePlayerY += (CurrentPlayer.currentY - cameraAutoRotatePlayerY) / (16 + (cameraDistance - 500) / 15);
                 }
 
                 if (configCameraAutoAngle)
@@ -6320,13 +6331,13 @@ namespace RuneScapeSolo.Lib
                 sleepWordDelay = false;
                 sleepWordDelayTimer = 0;
             }
-            if (isSleeping)
+            if (IsSleeping)
             {
                 if (enteredInputText.Length > 0)
                 {
                     if (enteredInputText.ToLower().Equals("::lostcon"))
                     {
-                        streamClass.CloseStream();
+                        StreamClass.CloseStream();
                     }
                     else
                         if (enteredInputText.ToLower().Equals("::closecon"))
@@ -6335,14 +6346,14 @@ namespace RuneScapeSolo.Lib
                     }
                     else
                     {
-                        streamClass.CreatePacket(200);
-                        streamClass.AddString(enteredInputText);
+                        StreamClass.CreatePacket(200);
+                        StreamClass.AddString(enteredInputText);
                         if (!sleepWordDelay)
                         {
-                            streamClass.AddInt8(0);
+                            StreamClass.AddInt8(0);
                             sleepWordDelay = true;
                         }
-                        streamClass.FormatPacket();
+                        StreamClass.FormatPacket();
                         inputText = "";
                         enteredInputText = "";
                         sleepingStatusText = "Please wait...";
@@ -6351,14 +6362,14 @@ namespace RuneScapeSolo.Lib
 
                 if (lastMouseButton == 1 && mouseY > 275 && mouseY < 310 && mouseX > 56 && mouseX < 456)
                 {
-                    streamClass.CreatePacket(200);
-                    streamClass.AddString("-null-");
+                    StreamClass.CreatePacket(200);
+                    StreamClass.AddString("-null-");
                     if (!sleepWordDelay)
                     {
-                        streamClass.AddInt8(0);
+                        StreamClass.AddInt8(0);
                         sleepWordDelay = true;
                     }
-                    streamClass.FormatPacket();
+                    StreamClass.FormatPacket();
                     inputText = "";
                     enteredInputText = "";
                     sleepingStatusText = "Please wait...";
@@ -6422,9 +6433,9 @@ namespace RuneScapeSolo.Lib
                     input = ChatMessage.bytesToString(ChatMessage.lastChat, 0, len);
                     //if (useChatFilter)
                     //input = ChatFilter.filterChat(input);
-                    ourPlayer.lastMessageTimeout = 150;
-                    ourPlayer.lastMessage = input;
-                    displayMessage(ourPlayer.username + ": " + input, 2);
+                    CurrentPlayer.lastMessageTimeout = 150;
+                    CurrentPlayer.lastMessage = input;
+                    displayMessage(CurrentPlayer.username + ": " + input, 2);
                 }
             }
             if (messagesTab == 0)
@@ -6723,7 +6734,7 @@ namespace RuneScapeSolo.Lib
                 {
                     appearanceMenu.keyPress(key, c);
                 }
-                else if (showFriendsBox == 0 && showAbuseBox == 0 && !isSleeping && chatInputMenu != null)
+                else if (showFriendsBox == 0 && showAbuseBox == 0 && !IsSleeping && chatInputMenu != null)
                 {
                     chatInputMenu.keyPress(key, c);
                 }
@@ -6732,8 +6743,8 @@ namespace RuneScapeSolo.Lib
 
         public void generateWorldRightClickMenu()
         {
-            int l = 2203 - (sectionY + wildY + areaY);
-            if (sectionX + wildX + areaX >= 2640)
+            int l = 2203 - (SectionY + wildY + AreaY);
+            if (SectionX + wildX + AreaX >= 2640)
             {
                 l = -50;
             }
@@ -6771,9 +6782,9 @@ namespace RuneScapeSolo.Lib
                         {
                             string s1 = "";
                             int k4 = 0;
-                            if (ourPlayer.level > 0 && playerArray[index].level > 0)
+                            if (CurrentPlayer.level > 0 && Players[index].level > 0)
                             {
-                                k4 = ourPlayer.level - playerArray[index].level;
+                                k4 = CurrentPlayer.level - Players[index].level;
                             }
 
                             if (k4 < 0)
@@ -6816,17 +6827,17 @@ namespace RuneScapeSolo.Lib
                                 s1 = "@gre@";
                             }
 
-                            s1 = " " + s1 + "(level-" + playerArray[index].level + ")";
+                            s1 = " " + s1 + "(level-" + Players[index].level + ")";
                             if (selectedSpell >= 0)
                             {
                                 if (Data.Data.spellType[selectedSpell] == 1 || Data.Data.spellType[selectedSpell] == 2)
                                 {
                                     menuText1[menuOptionsCount] = "Cast " + Data.Data.spellName[selectedSpell] + " on";
-                                    menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
+                                    menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
                                     menuActionID[menuOptionsCount] = 800;
-                                    menuActionX[menuOptionsCount] = playerArray[index].currentX;
-                                    menuActionY[menuOptionsCount] = playerArray[index].currentY;
-                                    menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
+                                    menuActionX[menuOptionsCount] = Players[index].currentX;
+                                    menuActionY[menuOptionsCount] = Players[index].currentY;
+                                    menuActionType[menuOptionsCount] = Players[index].serverIndex;
                                     menuActionVar1[menuOptionsCount] = selectedSpell;
                                     menuOptionsCount++;
                                 }
@@ -6835,20 +6846,20 @@ namespace RuneScapeSolo.Lib
                                 if (selectedItem >= 0)
                             {
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                                menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
+                                menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
                                 menuActionID[menuOptionsCount] = 810;
-                                menuActionX[menuOptionsCount] = playerArray[index].currentX;
-                                menuActionY[menuOptionsCount] = playerArray[index].currentY;
-                                menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
+                                menuActionX[menuOptionsCount] = Players[index].currentX;
+                                menuActionY[menuOptionsCount] = Players[index].currentY;
+                                menuActionType[menuOptionsCount] = Players[index].serverIndex;
                                 menuActionVar1[menuOptionsCount] = selectedItem;
                                 menuOptionsCount++;
                             }
                             else
                             {
-                                if (l > 0 && (playerArray[index].currentY - 64) / gridSize + wildY + areaY < 2203)
+                                if (l > 0 && (Players[index].currentY - 64) / GridSize + wildY + AreaY < 2203)
                                 {
                                     menuText1[menuOptionsCount] = "Attack";
-                                    menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
+                                    menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
                                     if (k4 >= 0 && k4 < 5)
                                     {
                                         menuActionID[menuOptionsCount] = 805;
@@ -6858,31 +6869,31 @@ namespace RuneScapeSolo.Lib
                                         menuActionID[menuOptionsCount] = 2805;
                                     }
 
-                                    menuActionX[menuOptionsCount] = playerArray[index].currentX;
-                                    menuActionY[menuOptionsCount] = playerArray[index].currentY;
-                                    menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
+                                    menuActionX[menuOptionsCount] = Players[index].currentX;
+                                    menuActionY[menuOptionsCount] = Players[index].currentY;
+                                    menuActionType[menuOptionsCount] = Players[index].serverIndex;
                                     menuOptionsCount++;
                                 }
                                 else
                                     if (Configuration.MEMBERS_FEATURES)
                                 {
                                     menuText1[menuOptionsCount] = "Duel with";
-                                    menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
-                                    menuActionX[menuOptionsCount] = playerArray[index].currentX;
-                                    menuActionY[menuOptionsCount] = playerArray[index].currentY;
+                                    menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
+                                    menuActionX[menuOptionsCount] = Players[index].currentX;
+                                    menuActionY[menuOptionsCount] = Players[index].currentY;
                                     menuActionID[menuOptionsCount] = 2806;
-                                    menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
+                                    menuActionType[menuOptionsCount] = Players[index].serverIndex;
                                     menuOptionsCount++;
                                 }
                                 menuText1[menuOptionsCount] = "Trade with";
-                                menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
+                                menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
                                 menuActionID[menuOptionsCount] = 2810;
-                                menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
+                                menuActionType[menuOptionsCount] = Players[index].serverIndex;
                                 menuOptionsCount++;
                                 menuText1[menuOptionsCount] = "Follow";
-                                menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
+                                menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
                                 menuActionID[menuOptionsCount] = 2820;
-                                menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
+                                menuActionType[menuOptionsCount] = Players[index].serverIndex;
                                 menuOptionsCount++;
                             }
                         }
@@ -7273,25 +7284,25 @@ namespace RuneScapeSolo.Lib
                         {
                             if (shopItemCount[selectedShopItemIndex] > 0 && l > 298 && i1 >= 204 && l < 408 && i1 <= 215)
                             {
-                                streamClass.CreatePacket(128);
-                                streamClass.AddInt16(shopItems[selectedShopItemIndex]);
-                                streamClass.AddInt32(shopItemBuyPrice[selectedShopItemIndex]);
-                                streamClass.FormatPacket();
+                                StreamClass.CreatePacket(128);
+                                StreamClass.AddInt16(shopItems[selectedShopItemIndex]);
+                                StreamClass.AddInt32(shopItemBuyPrice[selectedShopItemIndex]);
+                                StreamClass.FormatPacket();
                             }
                             if (getInventoryItemTotalCount(i3) > 0 && l > 2 && i1 >= 229 && l < 112 && i1 <= 240)
                             {
-                                streamClass.CreatePacket(255);
-                                streamClass.AddInt16(shopItems[selectedShopItemIndex]);
-                                streamClass.AddInt32(shopItemSellPrice[selectedShopItemIndex]);
-                                streamClass.FormatPacket();
+                                StreamClass.CreatePacket(255);
+                                StreamClass.AddInt16(shopItems[selectedShopItemIndex]);
+                                StreamClass.AddInt32(shopItemSellPrice[selectedShopItemIndex]);
+                                StreamClass.FormatPacket();
                             }
                         }
                     }
                 }
                 else
                 {
-                    streamClass.CreatePacket(253);
-                    streamClass.FormatPacket();
+                    StreamClass.CreatePacket(253);
+                    StreamClass.FormatPacket();
                     showShopBox = false;
                     return;
                 }
@@ -7605,7 +7616,7 @@ namespace RuneScapeSolo.Lib
                 drawAppearanceWindow();
                 return;
             }
-            if (isSleeping)
+            if (IsSleeping)
             {
                 gameGraphics.screenFadeToBlack();
                 if (Helper.Random.NextDouble() < 0.14999999999999999D)
@@ -7658,7 +7669,7 @@ namespace RuneScapeSolo.Lib
                     gameCamera.removeModel(engineHandle.roofObject[2][l]);
                 }
                 cameraZoom = true;
-                if (lastLayerIndex == 0 && (engineHandle.tiles[ourPlayer.currentX / 128][ourPlayer.currentY / 128] & 0x80) == 0)
+                if (lastLayerIndex == 0 && (engineHandle.tiles[CurrentPlayer.currentX / 128][CurrentPlayer.currentY / 128] & 0x80) == 0)
                 {
                     if (showRoofs)
                     {
@@ -7746,9 +7757,9 @@ namespace RuneScapeSolo.Lib
             }
             gameCamera.removeLastUpdates(drawUpdatesPerformed);
             drawUpdatesPerformed = 0;
-            for (int l1 = 0; l1 < playerCount; l1++)
+            for (int l1 = 0; l1 < PlayerCount; l1++)
             {
-                Mob player = playerArray[l1];
+                Mob player = Players[l1];
                 if (player.bottomColour != 255)
                 {
                     int j2 = player.currentX;
@@ -7756,7 +7767,7 @@ namespace RuneScapeSolo.Lib
                     int j3 = -engineHandle.getAveragedElevation(j2, l2);
                     int k4 = gameCamera.addSpriteToScene(5000 + l1, j2, j3, l2, 145, 220, l1 + 10000);
                     drawUpdatesPerformed++;
-                    if (player == ourPlayer)
+                    if (player == CurrentPlayer)
                     {
                         gameCamera.bhe(k4);
                     }
@@ -7773,9 +7784,9 @@ namespace RuneScapeSolo.Lib
                 }
             }
 
-            for (int i2 = 0; i2 < playerCount; i2++)
+            for (int i2 = 0; i2 < PlayerCount; i2++)
             {
-                Mob player = playerArray[i2];
+                Mob player = Players[i2];
                 if (player.projectileDistance > 0)
                 {
                     Mob targetMob = null;
@@ -7785,7 +7796,7 @@ namespace RuneScapeSolo.Lib
                     }
                     else if (player.attackingPlayerIndex != -1)
                     {
-                        targetMob = playerBufferArray[player.attackingPlayerIndex];
+                        targetMob = PlayersBuffer[player.attackingPlayerIndex];
                     }
 
                     if (targetMob != null)
@@ -7826,16 +7837,16 @@ namespace RuneScapeSolo.Lib
 
             for (int i3 = 0; i3 < groundItemCount; i3++)
             {
-                int x = groundItemX[i3] * gridSize + 64;
-                int y = groundItemY[i3] * gridSize + 64;
+                int x = groundItemX[i3] * GridSize + 64;
+                int y = groundItemY[i3] * GridSize + 64;
                 gameCamera.addSpriteToScene(40000 + groundItemID[i3], x, -engineHandle.getAveragedElevation(x, y) - groundItemObjectVar[i3], y, 96, 64, i3 + 20000);
                 drawUpdatesPerformed++;
             }
 
             for (int j4 = 0; j4 < teleBubbleCount; j4++)
             {
-                int k5 = teleBubbleX[j4] * gridSize + 64;
-                int i8 = teleBubbleY[j4] * gridSize + 64;
+                int k5 = teleBubbleX[j4] * GridSize + 64;
+                int i8 = teleBubbleY[j4] * GridSize + 64;
                 int i10 = teleBubbleType[j4];
                 if (i10 == 0)
                 {
@@ -7869,8 +7880,8 @@ namespace RuneScapeSolo.Lib
                     autoRotateCamera();
                     if (cameraAutoAngle != i6)
                     {
-                        cameraAutoRotatePlayerX = ourPlayer.currentX;
-                        cameraAutoRotatePlayerY = ourPlayer.currentY;
+                        cameraAutoRotatePlayerX = CurrentPlayer.currentX;
+                        cameraAutoRotatePlayerY = CurrentPlayer.currentY;
                     }
                 }
                 if (fogOfWar)
@@ -7954,25 +7965,25 @@ namespace RuneScapeSolo.Lib
                 }
             }
 
-            if (wildernessTime != 0)
+            if (WildernessModeCountdown != 0)
             {
                 DrawWildernessTypeAnnouncement();
             }
 
-            if (pvpTournamentTime != 0)
+            if (PvpTournamentCountdown != 0)
             {
                 DrawPvpTournamentAnnouncement();
             }
 
-            if (dropPartyTime != 0)
+            if (DropPartyCountdown != 0)
             {
                 DrawDropPartyAnnouncement();
             }
 
             if (!loadArea)
             {
-                int i7 = 2203 - (sectionY + wildY + areaY);
-                if (sectionX + wildX + areaX >= 2640)
+                int i7 = 2203 - (SectionY + wildY + AreaY);
+                if (SectionX + wildX + AreaX >= 2640)
                 {
                     i7 = -50;
                 }
@@ -8034,7 +8045,7 @@ namespace RuneScapeSolo.Lib
             drawChatMessageTabs();
 
 
-            string text = "Coordinates: ( " + (sectionX + areaX) + "," + (sectionY + areaY) + " ) Section: (" + sectionX + "," + sectionY + ") Area: (" + areaX + "," + areaY + ")";
+            string text = "Coordinates: ( " + (SectionX + AreaX) + "," + (SectionY + AreaY) + " ) Section: (" + SectionX + "," + SectionY + ") Area: (" + AreaX + "," + AreaY + ")";
             // Text shadow
             gameGraphics.drawString(text, 10 + 11, 10 + 11, 1, 0x000000);
             gameGraphics.drawString(text, 10 + 10, 10 + 10, 1, 0xffffff);
@@ -8045,7 +8056,7 @@ namespace RuneScapeSolo.Lib
 
         void DrawWildernessTypeAnnouncement()
         {
-            int i6 = wildernessTime / 50;
+            int i6 = WildernessModeCountdown / 50;
             int j8 = i6 / 60;
 
             i6 %= 60;
@@ -8062,7 +8073,7 @@ namespace RuneScapeSolo.Lib
 
         void DrawPvpTournamentAnnouncement()
         {
-            int i6 = pvpTournamentTime / 50;
+            int i6 = PvpTournamentCountdown / 50;
             int j8 = i6 / 60;
 
             i6 %= 60;
@@ -8079,7 +8090,7 @@ namespace RuneScapeSolo.Lib
 
         void DrawDropPartyAnnouncement()
         {
-            int i6 = dropPartyTime / 50;
+            int i6 = DropPartyCountdown / 50;
             int j8 = i6 / 60;
 
             i6 %= 60;
@@ -8107,11 +8118,11 @@ namespace RuneScapeSolo.Lib
                 if (s1.Length > 0)
                 {
                     long l1 = DataOperations.nameToHash(s1);
-                    streamClass.CreatePacket(7);
-                    streamClass.AddInt64(l1);
-                    streamClass.AddInt8(reportAbuseOptionSelected);
+                    StreamClass.CreatePacket(7);
+                    StreamClass.AddInt64(l1);
+                    StreamClass.AddInt8(reportAbuseOptionSelected);
                     //base.streamClass.addByte(dia ? 1 : 0);
-                    streamClass.FormatPacket();
+                    StreamClass.FormatPacket();
                 }
                 showAbuseBox = 0;
                 return;
@@ -8202,7 +8213,7 @@ namespace RuneScapeSolo.Lib
                     drawQuestionMenu();
                 }
 
-                if (showCombatWindow || ourPlayer.currentSprite == 8 || ourPlayer.currentSprite == 9)
+                if (showCombatWindow || CurrentPlayer.currentSprite == 8 || CurrentPlayer.currentSprite == 9)
                 {
                     drawCombatStyleBox();
                 }
@@ -8377,15 +8388,15 @@ namespace RuneScapeSolo.Lib
                             }
                             if (flag1)
                             {
-                                streamClass.CreatePacket(123);
-                                streamClass.AddInt8(duelMyItemCount);
+                                StreamClass.CreatePacket(123);
+                                StreamClass.AddInt8(duelMyItemCount);
                                 for (int i5 = 0; i5 < duelMyItemCount; i5++)
                                 {
-                                    streamClass.AddInt16(duelMyItems[i5]);
-                                    streamClass.AddInt32(duelMyItemsCount[i5]);
+                                    StreamClass.AddInt16(duelMyItems[i5]);
+                                    StreamClass.AddInt32(duelMyItemsCount[i5]);
                                 }
 
-                                streamClass.FormatPacket();
+                                StreamClass.FormatPacket();
                                 duelOpponentAccepted = false;
                                 duelMyAccepted = false;
                             }
@@ -8415,15 +8426,15 @@ namespace RuneScapeSolo.Lib
                                 break;
                             }
 
-                            streamClass.CreatePacket(123);
-                            streamClass.AddInt8(duelMyItemCount);
+                            StreamClass.CreatePacket(123);
+                            StreamClass.AddInt8(duelMyItemCount);
                             for (int l3 = 0; l3 < duelMyItemCount; l3++)
                             {
-                                streamClass.AddInt16(duelMyItems[l3]);
-                                streamClass.AddInt32(duelMyItemsCount[l3]);
+                                StreamClass.AddInt16(duelMyItems[l3]);
+                                StreamClass.AddInt32(duelMyItemsCount[l3]);
                             }
 
-                            streamClass.FormatPacket();
+                            StreamClass.FormatPacket();
                             duelOpponentAccepted = false;
                             duelMyAccepted = false;
                         }
@@ -8451,34 +8462,34 @@ namespace RuneScapeSolo.Lib
                     }
                     if (flag)
                     {
-                        streamClass.CreatePacket(225);
-                        streamClass.AddInt8(duelNoRetreating ? 1 : 0);
-                        streamClass.AddInt8(duelNoMagic ? 1 : 0);
-                        streamClass.AddInt8(duelNoPrayer ? 1 : 0);
-                        streamClass.AddInt8(duelNoWeapons ? 1 : 0);
-                        streamClass.FormatPacket();
+                        StreamClass.CreatePacket(225);
+                        StreamClass.AddInt8(duelNoRetreating ? 1 : 0);
+                        StreamClass.AddInt8(duelNoMagic ? 1 : 0);
+                        StreamClass.AddInt8(duelNoPrayer ? 1 : 0);
+                        StreamClass.AddInt8(duelNoWeapons ? 1 : 0);
+                        StreamClass.FormatPacket();
                         duelOpponentAccepted = false;
                         duelMyAccepted = false;
                     }
                     if (l >= 217 && i1 >= 238 && l <= 286 && i1 <= 259)
                     {
                         duelMyAccepted = true;
-                        streamClass.CreatePacket(252);
-                        streamClass.FormatPacket();
+                        StreamClass.CreatePacket(252);
+                        StreamClass.FormatPacket();
                     }
                     if (l >= 394 && i1 >= 238 && l < 463 && i1 < 259)
                     {
                         showDuelBox = false;
-                        streamClass.CreatePacket(35);
-                        streamClass.FormatPacket();
+                        StreamClass.CreatePacket(35);
+                        StreamClass.FormatPacket();
                     }
                 }
                 else
                     if (mouseButtonClick != 0)
                 {
                     showDuelBox = false;
-                    streamClass.CreatePacket(35);
-                    streamClass.FormatPacket();
+                    StreamClass.CreatePacket(35);
+                    StreamClass.FormatPacket();
                 }
                 mouseButtonClick = 0;
                 mouseClickedHeldInTradeDuelBox = 0;
@@ -8970,87 +8981,87 @@ namespace RuneScapeSolo.Lib
 
                         if (count >= 1 && mouseX >= l + 220 && mouseY >= j1 + 238 && mouseX < l + 250 && mouseY <= j1 + 249)
                         {
-                            streamClass.CreatePacket(183);
-                            streamClass.AddInt16(id);
-                            streamClass.AddInt32(1);
-                            streamClass.FormatPacket();
+                            StreamClass.CreatePacket(183);
+                            StreamClass.AddInt16(id);
+                            StreamClass.AddInt32(1);
+                            StreamClass.FormatPacket();
                         }
                         if (count >= 5 && mouseX >= l + 250 && mouseY >= j1 + 238 && mouseX < l + 280 && mouseY <= j1 + 249)
                         {
-                            streamClass.CreatePacket(183);
-                            streamClass.AddInt16(id);
-                            streamClass.AddInt32(5);
-                            streamClass.FormatPacket();
+                            StreamClass.CreatePacket(183);
+                            StreamClass.AddInt16(id);
+                            StreamClass.AddInt32(5);
+                            StreamClass.FormatPacket();
                         }
                         if (count >= 25 && mouseX >= l + 280 && mouseY >= j1 + 238 && mouseX < l + 305 && mouseY <= j1 + 249)
                         {
-                            streamClass.CreatePacket(183);
-                            streamClass.AddInt16(id);
-                            streamClass.AddInt32(25);
-                            streamClass.FormatPacket();
+                            StreamClass.CreatePacket(183);
+                            StreamClass.AddInt16(id);
+                            StreamClass.AddInt32(25);
+                            StreamClass.FormatPacket();
                         }
                         if (count >= 100 && mouseX >= l + 305 && mouseY >= j1 + 238 && mouseX < l + 335 && mouseY <= j1 + 249)
                         {
-                            streamClass.CreatePacket(183);
-                            streamClass.AddInt16(id);
-                            streamClass.AddInt32(100);
-                            streamClass.FormatPacket();
+                            StreamClass.CreatePacket(183);
+                            StreamClass.AddInt16(id);
+                            StreamClass.AddInt32(100);
+                            StreamClass.FormatPacket();
                         }
                         if (count >= 500 && mouseX >= l + 335 && mouseY >= j1 + 238 && mouseX < l + 368 && mouseY <= j1 + 249)
                         {
-                            streamClass.CreatePacket(183);
-                            streamClass.AddInt16(id);
-                            streamClass.AddInt32(500);
-                            streamClass.FormatPacket();
+                            StreamClass.CreatePacket(183);
+                            StreamClass.AddInt16(id);
+                            StreamClass.AddInt32(500);
+                            StreamClass.FormatPacket();
                         }
                         if (count >= 2500 && mouseX >= l + 370 && mouseY >= j1 + 238 && mouseX < l + 400 && mouseY <= j1 + 249)
                         {
-                            streamClass.CreatePacket(183);
-                            streamClass.AddInt16(id);
-                            streamClass.AddInt32(2500);
-                            streamClass.FormatPacket();
+                            StreamClass.CreatePacket(183);
+                            StreamClass.AddInt16(id);
+                            StreamClass.AddInt32(2500);
+                            StreamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 1 && mouseX >= l + 220 && mouseY >= j1 + 263 && mouseX < l + 250 && mouseY <= j1 + 274)
                         {
-                            streamClass.CreatePacket(198);
-                            streamClass.AddInt16(id);
-                            streamClass.AddInt32(1);
-                            streamClass.FormatPacket();
+                            StreamClass.CreatePacket(198);
+                            StreamClass.AddInt16(id);
+                            StreamClass.AddInt32(1);
+                            StreamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 5 && mouseX >= l + 250 && mouseY >= j1 + 263 && mouseX < l + 280 && mouseY <= j1 + 274)
                         {
-                            streamClass.CreatePacket(198);
-                            streamClass.AddInt16(id);
-                            streamClass.AddInt32(5);
-                            streamClass.FormatPacket();
+                            StreamClass.CreatePacket(198);
+                            StreamClass.AddInt16(id);
+                            StreamClass.AddInt32(5);
+                            StreamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 25 && mouseX >= l + 280 && mouseY >= j1 + 263 && mouseX < l + 305 && mouseY <= j1 + 274)
                         {
-                            streamClass.CreatePacket(198);
-                            streamClass.AddInt16(id);
-                            streamClass.AddInt32(25);
-                            streamClass.FormatPacket();
+                            StreamClass.CreatePacket(198);
+                            StreamClass.AddInt16(id);
+                            StreamClass.AddInt32(25);
+                            StreamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 100 && mouseX >= l + 305 && mouseY >= j1 + 263 && mouseX < l + 335 && mouseY <= j1 + 274)
                         {
-                            streamClass.CreatePacket(198);
-                            streamClass.AddInt16(id);
-                            streamClass.AddInt32(100);
-                            streamClass.FormatPacket();
+                            StreamClass.CreatePacket(198);
+                            StreamClass.AddInt16(id);
+                            StreamClass.AddInt32(100);
+                            StreamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 500 && mouseX >= l + 335 && mouseY >= j1 + 263 && mouseX < l + 368 && mouseY <= j1 + 274)
                         {
-                            streamClass.CreatePacket(198);
-                            streamClass.AddInt16(id);
-                            streamClass.AddInt32(500);
-                            streamClass.FormatPacket();
+                            StreamClass.CreatePacket(198);
+                            StreamClass.AddInt16(id);
+                            StreamClass.AddInt32(500);
+                            StreamClass.FormatPacket();
                         }
                         if (getInventoryItemTotalCount(id) >= 2500 && mouseX >= l + 370 && mouseY >= j1 + 263 && mouseX < l + 400 && mouseY <= j1 + 274)
                         {
-                            streamClass.CreatePacket(198);
-                            streamClass.AddInt16(id);
-                            streamClass.AddInt32(2500);
-                            streamClass.FormatPacket();
+                            StreamClass.CreatePacket(198);
+                            StreamClass.AddInt16(id);
+                            StreamClass.AddInt32(2500);
+                            StreamClass.FormatPacket();
                         }
                     }
                 }
@@ -9076,8 +9087,8 @@ namespace RuneScapeSolo.Lib
                 }
                 else
                 {
-                    streamClass.CreatePacket(48);
-                    streamClass.FormatPacket();
+                    StreamClass.CreatePacket(48);
+                    StreamClass.FormatPacket();
                     showBankBox = false;
                     return;
                 }
@@ -9373,13 +9384,13 @@ namespace RuneScapeSolo.Lib
 
 
             //gameGraphics.drawImage(spriteBatch, 0, 0);
-            int l = areaX;
-            int i1 = areaY;
+            int l = AreaX;
+            int i1 = AreaY;
             int xBase = (x + 24) / 48;
             int yBase = (y + 24) / 48;
             lastLayerIndex = layerIndex;
-            areaX = xBase * 48 - 48;
-            areaY = yBase * 48 - 48;
+            AreaX = xBase * 48 - 48;
+            AreaY = yBase * 48 - 48;
             sectionWidth = xBase * 48 - 32;
             sectionHeight = yBase * 48 - 32;
             sectionPosX = xBase * 48 + 32;
@@ -9387,10 +9398,10 @@ namespace RuneScapeSolo.Lib
             engineHandle.loadSection(x, y, lastLayerIndex);
 
 
-            areaX -= wildX;
-            areaY -= wildY;
-            int offsetX = areaX - l;
-            int offsetY = areaY - i1;
+            AreaX -= wildX;
+            AreaY -= wildY;
+            int offsetX = AreaX - l;
+            int offsetY = AreaY - i1;
             for (int j2 = 0; j2 < objectCount; j2++)
             {
                 objectX[j2] -= offsetX;
@@ -9414,8 +9425,8 @@ namespace RuneScapeSolo.Lib
                         objHeight = Data.Data.objectWidth[objType];
                         objWidth = Data.Data.objectHeight[objType];
                     }
-                    int flatObjX = ((objX + objX + objWidth) * gridSize) / 2;
-                    int flatObjY = ((objY + objY + objHeight) * gridSize) / 2;
+                    int flatObjX = ((objX + objX + objWidth) * GridSize) / 2;
+                    int flatObjY = ((objY + objY + objHeight) * GridSize) / 2;
                     if (objX >= 0 && objY >= 0 && objX < 96 && objY < 96)
                     {
                         gameCamera.addModel(_obj);
@@ -9463,15 +9474,15 @@ namespace RuneScapeSolo.Lib
                 groundItemY[k3] -= offsetY;
             }
 
-            for (int j4 = 0; j4 < playerCount; j4++)
+            for (int j4 = 0; j4 < PlayerCount; j4++)
             {
-                Mob f1 = playerArray[j4];
-                f1.currentX -= offsetX * gridSize;
-                f1.currentY -= offsetY * gridSize;
+                Mob f1 = Players[j4];
+                f1.currentX -= offsetX * GridSize;
+                f1.currentY -= offsetY * GridSize;
                 for (int l5 = 0; l5 <= f1.waypointCurrent; l5++)
                 {
-                    f1.waypointsX[l5] -= offsetX * gridSize;
-                    f1.waypointsY[l5] -= offsetY * gridSize;
+                    f1.waypointsX[l5] -= offsetX * GridSize;
+                    f1.waypointsY[l5] -= offsetY * GridSize;
                 }
 
             }
@@ -9479,12 +9490,12 @@ namespace RuneScapeSolo.Lib
             for (int i5 = 0; i5 < npcCount; i5++)
             {
                 Mob f2 = npcArray[i5];
-                f2.currentX -= offsetX * gridSize;
-                f2.currentY -= offsetY * gridSize;
+                f2.currentX -= offsetX * GridSize;
+                f2.currentY -= offsetY * GridSize;
                 for (int k6 = 0; k6 <= f2.waypointCurrent; k6++)
                 {
-                    f2.waypointsX[k6] -= offsetX * gridSize;
-                    f2.waypointsY[k6] -= offsetY * gridSize;
+                    f2.waypointsX[k6] -= offsetX * GridSize;
+                    f2.waypointsY[k6] -= offsetY * GridSize;
                 }
 
             }
@@ -9761,10 +9772,10 @@ namespace RuneScapeSolo.Lib
                 destTileX = x + 1;
                 destTileY = y + 1;
             }
-            tileX *= gridSize;
-            tileY *= gridSize;
-            destTileX *= gridSize;
-            destTileY *= gridSize;
+            tileX *= GridSize;
+            tileY *= GridSize;
+            destTileX *= GridSize;
+            destTileY *= GridSize;
 
             // add vertex index bottomLeft
             int bLeft = wallModel.getVertexIndex(tileX, -engineHandle.getAveragedElevation(tileX, tileY), tileY);
@@ -9933,7 +9944,7 @@ namespace RuneScapeSolo.Lib
                     l1 += 13;
                 }
 
-                gameGraphics.drawString("Quest Points:@yel@" + questPoints, (l + c1 / 2) - 5, l1 - 13, 1, 0xffffff);
+                gameGraphics.drawString("Quest Points:@yel@" + QuestPoints, (l + c1 / 2) - 5, l1 - 13, 1, 0xffffff);
                 l1 += 12;
                 gameGraphics.drawString("Fatigue: @yel@" + (fatigue * 100) / 750 + "%", l + 5, l1 - 13, 1, 0xffffff);
                 l1 += 8;
@@ -9981,7 +9992,7 @@ namespace RuneScapeSolo.Lib
 
                     gameGraphics.drawString("Skill total: " + k3, l + 5, l1, 1, 0xffffff);
                     l1 += 12;
-                    gameGraphics.drawString("Combat level: " + ourPlayer.level, l + 5, l1, 1, 0xffffff);
+                    gameGraphics.drawString("Combat level: " + CurrentPlayer.level, l + 5, l1, 1, 0xffffff);
                     l1 += 12;
                 }
             }
@@ -10066,7 +10077,7 @@ namespace RuneScapeSolo.Lib
                     inputText = "";
                     enteredInputText = "";
                     showFriendsBox = 0;
-                    if (s1.Length > 0 && DataOperations.nameToHash(s1) != ourPlayer.nameHash)
+                    if (s1.Length > 0 && DataOperations.nameToHash(s1) != CurrentPlayer.nameHash)
                     {
                         addFriend(s1);
                     }
@@ -10108,7 +10119,7 @@ namespace RuneScapeSolo.Lib
                     inputText = "";
                     enteredInputText = "";
                     showFriendsBox = 0;
-                    if (s3.Length > 0 && DataOperations.nameToHash(s3) != ourPlayer.nameHash)
+                    if (s3.Length > 0 && DataOperations.nameToHash(s3) != CurrentPlayer.nameHash)
                     {
                         AddIgnore(s3);
                     }
@@ -10304,11 +10315,11 @@ namespace RuneScapeSolo.Lib
 
         public Mob getLastPlayer(int serverIndex)
         {
-            for (int i1 = 0; i1 < lastPlayerCount; i1++)
+            for (int i1 = 0; i1 < LastPlayerCount; i1++)
             {
-                if (lastPlayerArray[i1].serverIndex == serverIndex)
+                if (LastPlayers[i1].serverIndex == serverIndex)
                 {
-                    return lastPlayerArray[i1];
+                    return LastPlayers[i1];
                 }
             }
             return null;
@@ -10340,7 +10351,7 @@ namespace RuneScapeSolo.Lib
                 }
                 if (cmd.Equals("closecon"))
                 {
-                    streamClass.CloseStream();
+                    StreamClass.CloseStream();
                     return true;
                 }
                 if (cmd.Equals("logout"))
@@ -10394,189 +10405,6 @@ namespace RuneScapeSolo.Lib
             return joinString(hay, glue, 0);
         }
 
-        public mudclient()
-        {
-            tradeOtherName = "";
-
-
-            windowWidth = 512;
-            windowHeight = 334;
-
-
-            cameraFieldOfView = 9;
-            showQuestionMenu = false;
-            loginScreenShown = false;
-            questionMenuAnswer = new string[10];
-            appearanceBodyGender = 1;
-            appearance2Colour = 2;
-            appearanceHairColour = 2;
-            appearanceTopColour = 8;
-            appearanceBottomColour = 14;
-            appearanceHeadGender = 1;
-            menuIndexes = new int[250];
-            duelMyItems = new int[8];
-            duelMyItemsCount = new int[8];
-            playerArray = new Mob[500];
-            selectedShopItemIndex = -1;
-            selectedShopItemType = -2;
-            menuText1 = new string[250];
-            isSleeping = false;
-            tradeItemsOther = new int[14];
-            tradeItemOtherCount = new int[14];
-            tradeOtherAccepted = false;
-            tradeWeAccepted = false;
-            itemAboveHeadScale = new int[50];
-            itemAboveHeadID = new int[50];
-            playerStatCurrent = new int[18];
-            menuActionX = new int[250];
-            menuActionY = new int[250];
-            menuActionID = new int[250];
-            showTradeBox = false;
-            npcArray = new Mob[500];
-            duelNoRetreating = false;
-            duelNoMagic = false;
-            duelNoPrayer = false;
-            duelNoWeapons = false;
-            playerBufferArray = new Mob[4000];
-            serverMessage = "";
-            duelOpponentAccepted = false;
-            duelMyAccepted = false;
-            wallObjectX = new int[500];
-            wallObjectY = new int[500];
-            serverMessageBoxTop = false;
-            cameraRotationYIncrement = 2;
-            wallObjectArray = new GameObject[500];
-            messagesArray = new string[5];
-            objectAlreadyInMenu = new bool[1500];
-            objectArray = new GameObject[1500];
-            selectedSpell = -1;
-            cameraAutoAngleDebug = false;
-            ourPlayer = new Mob();
-            serverIndex = -1;
-            tradeItemsOur = new int[14];
-            tradeItemOurCount = new int[14];
-            showWelcomeBox = false;
-            menuActionType = new int[250];
-            menuActionVar1 = new int[250];
-            menuActionVar2 = new int[250];
-            sleepWordDelay = true;
-            configCameraAutoAngle = true;
-            cameraRotation = 128;
-            configSoundOff = false;
-            menuShow = false;
-            duelOpponentItems = new int[8];
-            duelOpponentItemsCount = new int[8];
-            showBankBox = false;
-            playerStatBase = new int[18];
-            serverBankItems = new int[256];
-            serverBankItemCount = new int[256];
-            showShopBox = false;
-            groundItemX = new int[5000];
-            groundItemY = new int[5000];
-            groundItemID = new int[5000];
-            groundItemObjectVar = new int[5000];
-            maxBankItems = 48;
-            tradeConfirmOtherItems = new int[14];
-            tradeConfirmOtherItemsCount = new int[14];
-            layerIndex = -1;
-            walkArrayX = new int[8000];
-            walkArrayY = new int[8000];
-            cameraDistance = 550;
-            receivedMessageX = new int[50];
-            receivedMessageY = new int[50];
-            receivedMessageMidPoint = new int[50];
-            receivedMessageHeight = new int[50];
-            wallObjectAlreadyInMenu = new bool[500];
-            lastLayerIndex = -1;
-            bankItems = new int[256];
-            bankItemCount = new int[256];
-            maxInventoryItems = 30;
-            errorLoading = false;
-            itemAboveHeadX = new int[50];
-            itemAboveHeadY = new int[50];
-            showServerMessageBox = false;
-            playerBufferArrayIndexes = new int[500];
-            tradeConfirmItems = new int[14];
-            tradeConfigItemsCount = new int[14];
-            selectedBankItem = -1;
-            selectedBankItemType = -2;
-            showDuelConfirmBox = false;
-            duelConfirmOurAccepted = false;
-            wallObjectDirection = new int[500];
-            wallObjectID = new int[500];
-            gameDataObjects = new GameObject[1000];
-            lastNpcArray = new Mob[500];
-            inventoryItems = new int[35];
-            inventoryItemCount = new int[35];
-            inventoryItemEquipped = new int[35];
-            selectedItem = -1;
-            selectedItemName = "";
-            lastPlayerArray = new Mob[500];
-            showTradeConfirmBox = false;
-            tradeConfirmAccepted = false;
-            playerStatExp = new int[18];
-            mouseTrailX = new int[8192];
-            mouseTrailY = new int[8192];
-            configOneMouseButton = false;
-            prayerOn = new bool[50];
-            shopItems = new int[256];
-            shopItemCount = new int[256];
-            shopItemBasePriceModifier = new int[256];
-            duelOpponentStakeItem = new int[8];
-            duelOutStakeItemCount = new int[8];
-            equipmentStatus = new int[5];
-            receivedMessages = new string[50];
-            cameraRotationXIncrement = 2;
-            teleBubbleTime = new int[50];
-            gridSize = 128;
-            questStage = new int[questName.Length];
-            teleBubbleType = new int[50];
-            experienceList = new int[99];
-            lastModelFireLightningSpellNumber = -1;
-            lastModelTorchNumber = -1;
-            lastModelClawSpellNumber = -1;
-            messagesTimeout = new int[5];
-            projectileRange = 40;
-            memoryError = false;
-            duelOurStakeItem = new int[8];
-            duelOurStakeItemCount = new int[8];
-            menuText2 = new string[250];
-            loginUsername = "";
-            loginPassword = "";
-            duelOpponent = "";
-            healthBarX = new int[50];
-            healthBarY = new int[50];
-            healthBarMissing = new int[50];
-            objectX = new int[1500];
-            objectY = new int[1500];
-            objectType = new int[1500];
-            objectRotation = new int[1500];
-            showDuelBox = false;
-            npcAttackingArray = new Mob[5000];
-            teleBubbleY = new int[50];
-            cameraAutoAngle = 1;
-            loadArea = false;
-            teleBubbleX = new int[50];
-            showAppearanceWindow = false;
-            cameraZoom = false;
-
-            fogOfWar = true;
-            showCombatWindow = false;
-            showRoofs = true;
-            autoScreenshot = false;
-            useChatFilter = true;
-            usedQuestName = new string[0];
-            subDaysLeft = 0;
-            shopItemSellPrice = new int[256];
-            shopItemBuyPrice = new int[256];
-            captchaPixels = new int[0][];
-            captchaWidth = 0;
-            captchaHeight = 0;
-            needsClear = false;
-            hasWorldInfo = false;
-            //ImageIO.setCacheDirectory(new File(Config.CONF_DIR));
-        }
-
         public string tradeOtherName;
         public int windowWidth;
         public int windowHeight;
@@ -10603,7 +10431,6 @@ namespace RuneScapeSolo.Lib
         public int[] duelMyItems;
         public int[] duelMyItemsCount;
         public int systemUpdate;
-        public Mob[] playerArray;
         public string[] questName = {// TODO really?... needs to be done better imho
             "Cook's Assistant", "Sheep Shearer", "Black knight's fortress", "Imp catcher", "Vampire slayer",
             "Romeo & Juliet", "The restless ghost", "Doric's quest", "The knight's sword", "Witch's potion",
@@ -10624,7 +10451,7 @@ namespace RuneScapeSolo.Lib
         public int selectedShopItemType;
         public string sleepingStatusText;
         public string[] menuText1;
-        public bool isSleeping;
+        public bool IsSleeping;
         public int modelFireLightningSpellNumber;
         public int modelTorchNumber;
         public int modelClawSpellNumber;
@@ -10680,10 +10507,8 @@ namespace RuneScapeSolo.Lib
             4, 3
         }
     };
-        public int playerCount;
-        public int lastPlayerCount;
+
         public int drawUpdatesPerformed;
-        public Mob[] playerBufferArray;
         public string serverMessage;
         public int groundItemCount;
         public bool duelOpponentAccepted;
@@ -10710,10 +10535,6 @@ namespace RuneScapeSolo.Lib
         public int selectedSpell;
         public bool cameraAutoAngleDebug;
         public string lastLoginAddress;
-        public Mob ourPlayer;
-        int sectionX;
-        int sectionY;
-        int serverIndex;
         public int tradeItemsOurCount;
         public int[] tradeItemsOur;
         public int[] tradeItemOurCount;
@@ -10727,7 +10548,7 @@ namespace RuneScapeSolo.Lib
         public int minimapRandomRotationY;
         public int loginMenuOkButton;
         public int cameraRotation;
-        public int combatStyle;
+        public int CombatStyle;
         public int[] appearanceSkinColours = {
         0xecded0, 0xccb366, 0xb38c40, 0x997326, 0x906020
     };
@@ -10772,8 +10593,6 @@ namespace RuneScapeSolo.Lib
         public int[] tradeConfirmOtherItemsCount;
         public int tick;
         public EngineHandle engineHandle;
-        public int areaX;
-        public int areaY;
         public int layerIndex;
         public int mouseButtonClick;
         public Menu loginNewUser;
@@ -10812,7 +10631,6 @@ namespace RuneScapeSolo.Lib
         public int duelPrayer;
         public int duelWeapons;
         public bool showServerMessageBox;
-        public int[] playerBufferArrayIndexes;
         public int loginScreenNumber;
         public int tradeConfigItemCount;
         public int[] tradeConfirmItems;
@@ -10832,7 +10650,6 @@ namespace RuneScapeSolo.Lib
         public int[] inventoryItemEquipped;
         public int selectedItem;
         string selectedItemName;
-        public Mob[] lastPlayerArray;
         public bool showTradeConfirmBox;
         public bool tradeConfirmAccepted;
         public int[] playerStatExp;
@@ -10881,7 +10698,6 @@ namespace RuneScapeSolo.Lib
     };
         public int logoutTimer;
         public int wallObjectCount;
-        public int gridSize;
         public int loggedIn;
         public int[] questStage;
         public int[] teleBubbleType;
@@ -10970,7 +10786,6 @@ namespace RuneScapeSolo.Lib
         public int captchaWidth;
         public int captchaHeight;
         public bool needsClear;
-        public bool hasWorldInfo;
 
         //public void LoadContent()
         //{

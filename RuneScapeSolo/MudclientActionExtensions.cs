@@ -42,15 +42,15 @@ namespace RuneScapeSolo
             if (state == TradeAndDuelState.Confirm)
             {
                 mc.duelConfirmOurAccepted = true;
-                mc.streamClass.CreatePacket(87);
-                mc.streamClass.FormatPacket();
+                mc.StreamClass.CreatePacket(87);
+                mc.StreamClass.FormatPacket();
             }
         }
         public static void DeclineDuel(this mudclient mc)
         {
             mc.showDuelConfirmBox = false;
-            mc.streamClass.CreatePacket(35);
-            mc.streamClass.FormatPacket();
+            mc.StreamClass.CreatePacket(35);
+            mc.StreamClass.FormatPacket();
         }
     }
 }

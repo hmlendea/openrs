@@ -86,7 +86,7 @@
     <Compile Include="Lib\Helper.cs" />
     <Compile Include="Lib\Link.cs" />
     <Compile Include="Lib\Menu.cs" />
-    <Compile Include="Lib\mudclient.cs" />
+    <Compile Include="Lib\GameClient.cs" />
     <Compile Include="Lib\Data\AudioReader.cs" />
     <Compile Include="Lib\Data\BZip2BlockEntry.cs" />
     <Compile Include="Lib\Data\BZip2Decompressor.cs" />
@@ -113,6 +113,7 @@
     <Compile Include="Lib\Net\LoginEncryptor.cs" />
     <Compile Include="Lib\Net\PacketConstruction.cs" />
     <Compile Include="Lib\Net\StreamClass.cs" />
+    <Compile Include="PacketHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuneScapeSolo.Data\RuneScapeSolo.Data.csproj">
