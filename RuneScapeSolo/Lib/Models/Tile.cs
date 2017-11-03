@@ -15,7 +15,7 @@ namespace RuneScapeSolo.Lib.Models
         public Tile() { }
         public Tile(Sector sector)
         {
-            this.Sector = sector;
+            Sector = sector;
         }
         public static Tile unpack(MemoryStream indata)
         {

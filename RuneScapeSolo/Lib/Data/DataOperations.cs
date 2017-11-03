@@ -159,13 +159,13 @@ namespace RuneScapeSolo.Lib.Data
         public static long getLong(sbyte[] abyte0, int i)
         {
             //return org.moparscape.msc.client.DataOperations.getLong(abyte0, i);
-            return (((long)getInt(abyte0, i) & 0xffffffffL) << 32) + ((long)getInt(abyte0, i + 4) & 0xffffffffL);
+            return ((getInt(abyte0, i) & 0xffffffffL) << 32) + (getInt(abyte0, i + 4) & 0xffffffffL);
         }
 
         public static long getLong(byte[] abyte0, int i)
         {
             //return org.moparscape.msc.client.DataOperations.getLong(abyte0, i);
-            return (((long)getInt(abyte0, i) & 0xffffffffL) << 32) + ((long)getInt(abyte0, i + 4) & 0xffffffffL);
+            return ((getInt(abyte0, i) & 0xffffffffL) << 32) + (getInt(abyte0, i + 4) & 0xffffffffL);
         }
 
         //public static int getShort(sbyte[] abyte0, int i)

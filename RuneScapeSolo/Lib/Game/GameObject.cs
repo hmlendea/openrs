@@ -160,10 +160,15 @@ namespace RuneScapeSolo.Lib.Game
         {
             face_count -= j;
             if (face_count < 0)
+            {
                 face_count = 0;
+            }
+
             vert_count -= k;
             if (vert_count < 0)
+            {
                 vert_count = 0;
+            }
         }
 
         public GameObject(sbyte[] data, int offset, bool arg2)
@@ -220,14 +225,18 @@ namespace RuneScapeSolo.Lib.Game
 
             vert_count = _vert_count;
             for (int k1 = 0; k1 < _face_count; k1++)
+            {
                 face_vertices_count[k1] = data[offset++] & 0xff;
+            }
 
             for (int l1 = 0; l1 < _face_count; l1++)
             {
                 texture_back[l1] = DataOperations.getShort2(data, offset);
                 offset += 2;
                 if (texture_back[l1] == 32767)
+                {
                     texture_back[l1] = shadeValue;
+                }
             }
 
             for (int i2 = 0; i2 < _face_count; i2++)
@@ -235,22 +244,29 @@ namespace RuneScapeSolo.Lib.Game
                 texture_front[i2] = DataOperations.getShort2(data, offset);
                 offset += 2;
                 if (texture_front[i2] == 32767)
+                {
                     texture_front[i2] = shadeValue;
+                }
             }
 
             for (int j2 = 0; j2 < _face_count; j2++)
             {
                 int k2 = data[offset++] & 0xff;
                 if (k2 == 0)
+                {
                     gouraud_shade[j2] = 0;
+                }
                 else
+                {
                     gouraud_shade[j2] = shadeValue;
+                }
             }
 
             for (int l2 = 0; l2 < _face_count; l2++)
             {
                 face_vertices[l2] = new int[face_vertices_count[l2]];
                 for (int i3 = 0; i3 < face_vertices_count[l2]; i3++)
+                {
                     if (_vert_count < 256)
                     {
                         face_vertices[l2][i3] = data[offset++] & 0xff;
@@ -260,7 +276,7 @@ namespace RuneScapeSolo.Lib.Game
                         face_vertices[l2][i3] = DataOperations.getShort(data, offset);
                         offset += 2;
                     }
-
+                }
             }
 
             face_count = _face_count;
@@ -295,11 +311,19 @@ namespace RuneScapeSolo.Lib.Game
                 //DataInputStream datainputstream = new DataInputStream(inputstream);
                 abyte0 = new byte[3];
                 clg = 0;
-                for (int j = 0; j < 3; j += inputstream.Read(abyte0, j, 3 - j)) ;
+                for (int j = 0; j < 3; j += inputstream.Read(abyte0, j, 3 - j))
+                {
+                    ;
+                }
+
                 int l = getShadeValue((sbyte[])(Array)abyte0);
                 abyte0 = new byte[l];
                 clg = 0;
-                for (int k = 0; k < l; k += inputstream.Read(abyte0, k, l - k)) ;
+                for (int k = 0; k < l; k += inputstream.Read(abyte0, k, l - k))
+                {
+                    ;
+                }
+
                 inputstream.Close();
             }
             catch
@@ -331,18 +355,26 @@ namespace RuneScapeSolo.Lib.Game
                 int j3 = getShadeValue((sbyte[])(Array)abyte0);
                 int[] ai = new int[j2];
                 for (int i4 = 0; i4 < j2; i4++)
+                {
                     ai[i4] = getShadeValue((sbyte[])(Array)abyte0);
+                }
 
                 int[] ai1 = new int[i3];
                 for (int j4 = 0; j4 < i3; j4++)
+                {
                     ai1[j4] = getShadeValue((sbyte[])(Array)abyte0);
+                }
 
                 int k4 = addFaceVertices(j2, ai, k2, l2);
                 cje[l3] = ai1;
                 if (j3 == 0)
+                {
                     gouraud_shade[k4] = 0;
+                }
                 else
+                {
                     gouraud_shade[k4] = shadeValue;
+                }
             }
 
             objectState = 1;
@@ -414,7 +446,10 @@ namespace RuneScapeSolo.Lib.Game
 
             InitializeObject(k, j);
             if (arg2)
+            {
                 cje = new int[j][];
+            }
+
             for (int i1 = 0; i1 < objectCount; i1++)
             {
                 GameObject j1 = childObjects[i1];
@@ -430,28 +465,34 @@ namespace RuneScapeSolo.Lib.Game
                     int[] ai = new int[j1.face_vertices_count[k1]];
                     int[] ai1 = j1.face_vertices[k1];
                     for (int l1 = 0; l1 < j1.face_vertices_count[k1]; l1++)
+                    {
                         ai[l1] = getVertexIndex(j1.vert_x[ai1[l1]], j1.vert_y[ai1[l1]], j1.vert_z[ai1[l1]]);
+                    }
 
                     int i2 = addFaceVertices(j1.face_vertices_count[k1], ai, j1.texture_back[k1], j1.texture_front[k1]);
                     gouraud_shade[i2] = j1.gouraud_shade[k1];
                     cgh[i2] = j1.cgh[k1];
                     cgg[i2] = j1.cgg[k1];
                     if (arg2)
+                    {
                         if (objectCount > 1)
                         {
                             cje[i2] = new int[j1.cje[k1].Length + 1];
                             cje[i2][0] = i1;
                             for (int j2 = 0; j2 < j1.cje[k1].Length; j2++)
+                            {
                                 cje[i2][j2 + 1] = j1.cje[k1][j2];
-
+                            }
                         }
                         else
                         {
                             cje[i2] = new int[j1.cje[k1].Length];
                             for (int k2 = 0; k2 < j1.cje[k1].Length; k2++)
+                            {
                                 cje[i2][k2] = j1.cje[k1][k2];
-
+                            }
                         }
+                    }
                 }
 
             }
@@ -462,8 +503,12 @@ namespace RuneScapeSolo.Lib.Game
         public int getVertexIndex(int x, int y, int z)
         {
             for (int j = 0; j < vert_count; j++)
+            {
                 if (vert_x[j] == x && vert_y[j] == y && vert_z[j] == z)
+                {
                     return j;
+                }
+            }
 
             if (vert_count >= totalVerticeCount)
             {
@@ -543,7 +588,10 @@ namespace RuneScapeSolo.Lib.Game
             for (int j1 = 0; j1 < objectCount; j1++)
             {
                 if (ai[j1] > maxVertCount)
+                {
                     ai[j1] = maxVertCount;
+                }
+
                 ai2[j1] = new GameObject(ai[j1], ai1[j1], true, true, true, arg7, true);
                 ai2[j1].cle = cle;
                 ai2[j1].clf = clf;
@@ -566,7 +614,9 @@ namespace RuneScapeSolo.Lib.Game
             }
 
             for (int j2 = 0; j2 < objectCount; j2++)
+            {
                 ai2[j2].clj();
+            }
 
             return ai2;
         }
@@ -583,7 +633,10 @@ namespace RuneScapeSolo.Lib.Game
 
             int l = arg0.addFaceVertices(indexCount, ai, texture_back[entityTypeIndex], texture_front[entityTypeIndex]);
             if (!arg0.cic && !cic)
+            {
                 arg0.entityType[l] = entityType[entityTypeIndex];
+            }
+
             arg0.gouraud_shade[l] = gouraud_shade[entityTypeIndex];
             arg0.cgh[l] = cgh[entityTypeIndex];
             arg0.cgg[l] = cgg[entityTypeIndex];
@@ -594,12 +647,21 @@ namespace RuneScapeSolo.Lib.Game
             clf = 256 - arg1 * 4;
             cle = (64 - arg2) * 16 + 128;
             if (dontRecieveShadows)
+            {
                 return;
+            }
+
             for (int j = 0; j < face_count; j++)
+            {
                 if (setShadeValue)
+                {
                     gouraud_shade[j] = shadeValue;
+                }
                 else
+                {
                     gouraud_shade[j] = 0;
+                }
+            }
 
             cla = x;
             clb = y;
@@ -764,17 +826,34 @@ namespace RuneScapeSolo.Lib.Game
             for (int j = 0; j < vert_count; j++)
             {
                 if (x != 0)
+                {
                     worldVertX[j] += worldVertY[j] * x >> 8;
+                }
+
                 if (z != 0)
+                {
                     worldVertZ[j] += worldVertY[j] * z >> 8;
+                }
+
                 if (x1 != 0)
+                {
                     worldVertX[j] += worldVertZ[j] * x1 >> 8;
+                }
+
                 if (y != 0)
+                {
                     worldVertY[j] += worldVertZ[j] * y >> 8;
+                }
+
                 if (z1 != 0)
+                {
                     worldVertZ[j] += worldVertX[j] * z1 >> 8;
+                }
+
                 if (y1 != 0)
+                {
                     worldVertY[j] += worldVertX[j] * y1 >> 8;
+                }
             }
 
         }
@@ -793,7 +872,7 @@ namespace RuneScapeSolo.Lib.Game
         private void calculateObjectBounds()
         {
             boundsMinX = boundsMinY = boundsMinZ = 0xf423f;
-            distVar = (int)(boundsMaxX = boundsMaxY = boundsMaxZ = -boundsMinX/*unchecked((int)0xfff0bdc1)*/);
+            distVar = boundsMaxX = boundsMaxY = boundsMaxZ = -boundsMinX/*unchecked((int)0xfff0bdc1)*/;
             for (int j = 0; j < face_count; j++)
             {
                 int[] ai = face_vertices[j];
@@ -809,20 +888,34 @@ namespace RuneScapeSolo.Lib.Game
                 {
                     int i1 = ai[k];
                     if (worldVertX[i1] < minX)
+                    {
                         minX = worldVertX[i1];
+                    }
                     else
                         if (worldVertX[i1] > maxX)
+                    {
                         maxX = worldVertX[i1];
+                    }
+
                     if (worldVertY[i1] < minY)
+                    {
                         minY = worldVertY[i1];
+                    }
                     else
                         if (worldVertY[i1] > maxY)
+                    {
                         maxY = worldVertY[i1];
+                    }
+
                     if (worldVertZ[i1] < minZ)
+                    {
                         minZ = worldVertZ[i1];
+                    }
                     else
                         if (worldVertZ[i1] > maxZ)
+                    {
                         maxZ = worldVertZ[i1];
+                    }
                 }
 
                 if (!noCollider)
@@ -836,23 +929,49 @@ namespace RuneScapeSolo.Lib.Game
                 }
 
                 if (maxX - minX > distVar)
+                {
                     distVar = (maxX - minX);
+                }
+
                 if (maxY - minY > distVar)
+                {
                     distVar = (maxY - minY);
+                }
+
                 if (maxZ - minZ > distVar)
+                {
                     distVar = (maxZ - minZ);
+                }
+
                 if (minX < boundsMinX)
+                {
                     boundsMinX = minX;
+                }
+
                 if (maxX > boundsMaxX)
+                {
                     boundsMaxX = maxX;
+                }
+
                 if (minY < boundsMinY)
+                {
                     boundsMinY = minY;
+                }
+
                 if (maxY > boundsMaxY)
+                {
                     boundsMaxY = maxY;
+                }
+
                 if (minZ < boundsMinZ)
+                {
                     boundsMinZ = minZ;
+                }
+
                 if (maxZ > boundsMaxZ)
+                {
                     boundsMaxZ = maxZ;
+                }
             }
 
         }
@@ -860,11 +979,18 @@ namespace RuneScapeSolo.Lib.Game
         public void normalize()
         {
             if (dontRecieveShadows)
+            {
                 return;
+            }
+
             int j = cle * cld >> 8;
             for (int k = 0; k < face_count; k++)
+            {
                 if (gouraud_shade[k] != shadeValue)
+                {
                     gouraud_shade[k] = (normalX[k] * cla + normalY[k] * clb + normalZ[k] * clc) / j;
+                }
+            }
 
             int[] ai = new int[vert_count];
             int[] ai1 = new int[vert_count];
@@ -879,6 +1005,7 @@ namespace RuneScapeSolo.Lib.Game
             }
 
             for (int i1 = 0; i1 < face_count; i1++)
+            {
                 if (gouraud_shade[i1] == shadeValue)
                 {
                     for (int j1 = 0; j1 < face_vertices_count[i1]; j1++)
@@ -891,17 +1018,24 @@ namespace RuneScapeSolo.Lib.Game
                     }
 
                 }
+            }
 
             for (int k1 = 0; k1 < vert_count; k1++)
+            {
                 if (ai3[k1] > 0)
+                {
                     cfn[k1] = (ai[k1] * cla + ai1[k1] * clb + ai2[k1] * clc) / (j * ai3[k1]);
-
+                }
+            }
         }
 
         public void calculateNormals()
         {
             if (dontRecieveShadows && noCollider)
+            {
                 return;
+            }
+
             for (int j = 0; j < face_count; j++)
             {
                 int[] ai = face_vertices[j];
@@ -927,7 +1061,10 @@ namespace RuneScapeSolo.Lib.Game
                 // normalize
                 int k3 = (int)(256D * Math.Sqrt(xDistance * xDistance + yDistance * yDistance + j3 * j3));
                 if (k3 <= 0)
+                {
                     k3 = 1;
+                }
+
                 normalX[j] = (xDistance * 0x10000) / k3;
                 normalY[j] = (yDistance * 0x10000) / k3;
                 normalZ[j] = (j3 * 65535) / k3;
@@ -950,8 +1087,8 @@ namespace RuneScapeSolo.Lib.Game
                 }
 
 
-                distVar = (int)(boundsMaxX = boundsMaxY = boundsMaxZ = 0x98967f);
-                boundsMinX = (int)(boundsMinY = boundsMinZ = -boundsMaxZ/*unchecked((int)0xff676981)*/);
+                distVar = boundsMaxX = boundsMaxY = boundsMaxZ = 0x98967f;
+                boundsMinX = boundsMinY = boundsMinZ = -boundsMaxZ/*unchecked((int)0xff676981)*/;
                 return;
             }
             if (objectState == 1)
@@ -965,13 +1102,25 @@ namespace RuneScapeSolo.Lib.Game
                 }
 
                 if (ckm >= 2)
+                {
                     rotate(rotationX, rotationY, rotationZ);
+                }
+
                 if (ckm >= 3)
+                {
                     scaleVertices(ckd, cke, ckf);
+                }
+
                 if (ckm >= 4)
+                {
                     scaleVertices(ckg, ckh, cki, ckj, ckk, ckl);
+                }
+
                 if (ckm >= 1)
+                {
                     OffsetWorldVertices(positionX, positionY, positionZ);
+                }
+
                 calculateObjectBounds();
                 calculateNormals();
             }
@@ -1032,13 +1181,23 @@ namespace RuneScapeSolo.Lib.Game
                     i3 = l;
                 }
                 if (j3 >= arg7)
+                {
                     cfl[k2] = (l2 << arg6) / j3;
+                }
                 else
+                {
                     cfl[k2] = l2 << arg6;
+                }
+
                 if (j3 >= arg7)
+                {
                     cfm[k2] = (i3 << arg6) / j3;
+                }
                 else
+                {
                     cfm[k2] = i3 << arg6;
+                }
+
                 cfi[k2] = l2;
                 cfj[k2] = i3;
                 cfk[k2] = j3;
@@ -1108,13 +1267,20 @@ namespace RuneScapeSolo.Lib.Game
 
         public int getShadeValue(sbyte[] arg0)
         {
-            for (; arg0[clg] == 10 || arg0[clg] == 13; clg++) ;
+            for (; arg0[clg] == 10 || arg0[clg] == 13; clg++)
+            {
+                ;
+            }
+
             int j = cih[arg0[clg++] & 0xff];
             int k = cih[arg0[clg++] & 0xff];
             int l = cih[arg0[clg++] & 0xff];
             int i1 = (j * 4096 + k * 64 + l) - 0x20000;
             if (i1 == 0x1e240)
+            {
                 i1 = shadeValue;
+            }
+
             return i1;
         }
 
@@ -1213,35 +1379,47 @@ namespace RuneScapeSolo.Lib.Game
             cih = new int[256];
             for (int j = 0; j < 256; j++)
             {
-                cie[j] = (int)(Math.Sin((double)j * 0.02454369D) * 32768D);
-                cie[j + 256] = (int)(Math.Cos((double)j * 0.02454369D) * 32768D);
+                cie[j] = (int)(Math.Sin(j * 0.02454369D) * 32768D);
+                cie[j + 256] = (int)(Math.Cos(j * 0.02454369D) * 32768D);
             }
 
             for (int k = 0; k < 1024; k++)
             {
-                cif[k] = (int)(Math.Sin((double)k * 0.00613592315D) * 32768D);
-                cif[k + 1024] = (int)(Math.Cos((double)k * 0.00613592315D) * 32768D);
+                cif[k] = (int)(Math.Sin(k * 0.00613592315D) * 32768D);
+                cif[k + 1024] = (int)(Math.Cos(k * 0.00613592315D) * 32768D);
             }
 
             for (int l = 0; l < 10; l++)
+            {
                 cig[l] = (byte)(48 + l);
+            }
 
             for (int i1 = 0; i1 < 26; i1++)
+            {
                 cig[i1 + 10] = (byte)(65 + i1);
+            }
 
             for (int j1 = 0; j1 < 26; j1++)
+            {
                 cig[j1 + 36] = (byte)(97 + j1);
+            }
 
             cig[62] = -93;
             cig[63] = 36;
             for (int k1 = 0; k1 < 10; k1++)
+            {
                 cih[48 + k1] = k1;
+            }
 
             for (int l1 = 0; l1 < 26; l1++)
+            {
                 cih[65 + l1] = l1 + 10;
+            }
 
             for (int i2 = 0; i2 < 26; i2++)
+            {
                 cih[97 + i2] = i2 + 36;
+            }
 
             cih[163] = 62;
             cih[36] = 63;

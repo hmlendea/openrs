@@ -51,7 +51,11 @@ namespace RuneScapeSolo.Lib
             }
             try
             {
-                if (isConnecting) return;
+                if (isConnecting)
+                {
+                    return;
+                }
+
                 isConnecting = true;
 
                 username = user;
@@ -81,9 +85,13 @@ namespace RuneScapeSolo.Lib
                 return;
             }
             if (reconnecting)
+            {
                 gameBoxPrint("Connection lost! Please wait...", "Attempting to re-establish");
+            }
             else
+            {
                 loginScreenPrint("Please wait...", "Connecting to server");
+            }
 
             TcpClient socket = MakeSocket(Configuration.SERVER_IP, Configuration.SERVER_PORT);
             streamClass = new StreamClass(socket, this);
@@ -241,12 +249,15 @@ namespace RuneScapeSolo.Lib
         protected void requestLogout()
         {
             if (streamClass != null)
+            {
                 try
                 {
                     streamClass.CreatePacket(39);
                     streamClass.FinalisePacket();
                 }
                 catch (IOException _ex) { }
+            }
+
             username = "";
             password = "";
             resetIntVars();
@@ -280,7 +291,10 @@ namespace RuneScapeSolo.Lib
         {
             long l = CurrentTimeMillis();
             if (streamClass.hasData())
+            {
                 lastPing = l;
+            }
+
             if (l - lastPing > 5000L)
             {
                 lastPing = l;
@@ -298,7 +312,9 @@ namespace RuneScapeSolo.Lib
             }
             int packetLength = streamClass.readPacket(packetData);
             if (packetLength > 0)
+            {
                 handlePacket(packetData[0] & 0xff, packetLength);
+            }
         }
 
         public virtual void handlePacket(int command, int length)
@@ -322,7 +338,7 @@ namespace RuneScapeSolo.Lib
             }
             if (command == 249)
             {
-                friendsCount = DataOperations.getByte((sbyte)packetData[1]);
+                friendsCount = DataOperations.getByte(packetData[1]);
                 for (int i = 0; i < friendsCount; i++)
                 {
                     friendsList[i] = DataOperations.getLong(packetData, 2 + i * 9);
@@ -337,17 +353,25 @@ namespace RuneScapeSolo.Lib
                 long friend = DataOperations.getLong(packetData, 1);
                 int status = packetData[9] & 0xff;
                 for (int j1 = 0; j1 < friendsCount; j1++)
+                {
                     if (friendsList[j1] == friend)
                     {
                         if (friendsWorld[j1] == 0 && status != 0)
+                        {
                             displayMessage("@pri@" + DataOperations.hashToName(friend) + " has logged in");
+                        }
+
                         if (friendsWorld[j1] != 0 && status == 0)
+                        {
                             displayMessage("@pri@" + DataOperations.hashToName(friend) + " has logged out");
+                        }
+
                         friendsWorld[j1] = status;
                         length = 0;
                         reOrderFriendsList();
                         return;
                     }
+                }
 
                 friendsList[friendsCount] = friend;
                 friendsWorld[friendsCount] = status;
@@ -359,7 +383,9 @@ namespace RuneScapeSolo.Lib
             {
                 ignoresCount = DataOperations.getByte(packetData[1]);
                 for (int j = 0; j < ignoresCount; j++)
+                {
                     ignoresList[j] = DataOperations.getLong(packetData, 2 + j * 8);
+                }
 
                 return;
             }
@@ -401,6 +427,7 @@ namespace RuneScapeSolo.Lib
             {
                 flag = false;
                 for (int i = 0; i < friendsCount - 1; i++)
+                {
                     if (friendsWorld[i] < friendsWorld[i + 1])
                     {
                         int j = friendsWorld[i];
@@ -411,7 +438,7 @@ namespace RuneScapeSolo.Lib
                         friendsList[i + 1] = l;
                         flag = true;
                     }
-
+                }
             }
         }
 
@@ -456,15 +483,18 @@ namespace RuneScapeSolo.Lib
             streamClass.FormatPacket();
 
             for (int i = 0; i < ignoresCount; i++)
+            {
                 if (ignoresList[i] == arg0)
                 {
                     ignoresCount--;
                     for (int j = i; j < ignoresCount; j++)
+                    {
                         ignoresList[j] = ignoresList[j + 1];
+                    }
 
                     return;
                 }
-
+            }
         }
 
         protected void addFriend(string arg0)
@@ -474,8 +504,12 @@ namespace RuneScapeSolo.Lib
             streamClass.FormatPacket();
             long l = DataOperations.nameToHash(arg0);
             for (int i = 0; i < friendsCount; i++)
+            {
                 if (friendsList[i] == l)
+                {
                     return;
+                }
+            }
 
             if (friendsCount >= friendsList.Length - 1)
             {
@@ -498,7 +532,10 @@ namespace RuneScapeSolo.Lib
             for (int i = 0; i < friendsCount; i++)
             {
                 if (friendsList[i] != arg0)
+                {
                     continue;
+                }
+
                 friendsCount--;
                 for (int j = i; j < friendsCount; j++)
                 {

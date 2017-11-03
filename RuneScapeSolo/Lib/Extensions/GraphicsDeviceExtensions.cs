@@ -11,7 +11,11 @@ namespace RuneScapeSolo.Lib
         static SpriteFont defaultFont { get; set; }
         public static void fillRect(this SpriteBatch spriteBatch, Rectangle rect, Color color)
         {
-            if (dummyTexture == null) createDummyTexture(spriteBatch);
+            if (dummyTexture == null)
+            {
+                createDummyTexture(spriteBatch);
+            }
+
             try
             {
                 //   spriteBatch.BeginSafe();
@@ -55,7 +59,11 @@ namespace RuneScapeSolo.Lib
         /// <param name="color">The draw color.</param>
         public static void drawLine(this SpriteBatch spriteBatch, Vector2 start, Vector2 end, Color color)
         {
-            if (dummyTexture == null) createDummyTexture(spriteBatch);
+            if (dummyTexture == null)
+            {
+                createDummyTexture(spriteBatch);
+            }
+
             float length = (end - start).Length();
             float rotation = (float)Math.Atan2(end.Y - start.Y, end.X - start.X);
 
@@ -70,13 +78,20 @@ namespace RuneScapeSolo.Lib
         public static void fillRect(this SpriteBatch spriteBatch, int x, int y, int w, int h, Color color)
         {
             //fillRect(spriteBatch, x, y, w, h, color);
-            if (dummyTexture == null) createDummyTexture(spriteBatch);
+            if (dummyTexture == null)
+            {
+                createDummyTexture(spriteBatch);
+            }
+
             spriteBatch.Draw(dummyTexture, new Rectangle(x, y, w, h), color);
         }
 
         public static void drawGradient(this SpriteBatch spriteBatch, int x, int y, int x2, int y2, Color color, Color color2)
         {
-            if (dummyTexture == null) createDummyTexture(spriteBatch);
+            if (dummyTexture == null)
+            {
+                createDummyTexture(spriteBatch);
+            }
 
             //  drawLine(spriteBatch)
             //int stepX = x2 - x;
@@ -127,7 +142,11 @@ namespace RuneScapeSolo.Lib
         /// <param name="color">The draw color.</param>
         public static void drawRect(this SpriteBatch spriteBatch, Rectangle rectangle, Color color)
         {
-            if (dummyTexture == null) createDummyTexture(spriteBatch);
+            if (dummyTexture == null)
+            {
+                createDummyTexture(spriteBatch);
+            }
+
             spriteBatch.Draw(dummyTexture, new Rectangle(rectangle.Left, rectangle.Top, rectangle.Width, 1), color);
             spriteBatch.Draw(dummyTexture, new Rectangle(rectangle.Left, rectangle.Bottom, rectangle.Width, 1), color);
             spriteBatch.Draw(dummyTexture, new Rectangle(rectangle.Left, rectangle.Top, 1, rectangle.Height), color);

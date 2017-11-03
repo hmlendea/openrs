@@ -19,9 +19,13 @@ namespace RuneScapeSolo.Lib.Game
                     if (j == -1)
                     {
                         if (i1 < 13)
+                        {
                             chatMessage[i++] = validChars[i1];
+                        }
                         else
+                        {
                             j = i1;
+                        }
                     }
                     else
                     {
@@ -32,9 +36,13 @@ namespace RuneScapeSolo.Lib.Game
                     if (j == -1)
                     {
                         if (i1 < 13)
+                        {
                             chatMessage[i++] = validChars[i1];
+                        }
                         else
+                        {
                             j = i1;
+                        }
                     }
                     else
                     {
@@ -48,16 +56,24 @@ namespace RuneScapeSolo.Lib.Game
                 {
                     char c = chatMessage[j1];
                     if (j1 > 4 && c == '@')
+                    {
                         chatMessage[j1] = ' ';
+                    }
+
                     if (c == '%')
+                    {
                         chatMessage[j1] = ' ';
+                    }
+
                     if (flag && c >= 'a' && c <= 'z')
                     {
                         chatMessage[j1] += '\uFFE0';
                         flag = false;
                     }
                     if (c == '.' || c == '!')
+                    {
                         flag = true;
+                    }
                 }
 
                 return new string(chatMessage, 0, i);
@@ -81,9 +97,13 @@ namespace RuneScapeSolo.Lib.Game
                     if (j == -1)
                     {
                         if (i1 < 13)
+                        {
                             chatMessage[i++] = validChars[i1];
+                        }
                         else
+                        {
                             j = i1;
+                        }
                     }
                     else
                     {
@@ -94,9 +114,13 @@ namespace RuneScapeSolo.Lib.Game
                     if (j == -1)
                     {
                         if (i1 < 13)
+                        {
                             chatMessage[i++] = validChars[i1];
+                        }
                         else
+                        {
                             j = i1;
+                        }
                     }
                     else
                     {
@@ -110,16 +134,24 @@ namespace RuneScapeSolo.Lib.Game
                 {
                     char c = chatMessage[j1];
                     if (j1 > 4 && c == '@')
+                    {
                         chatMessage[j1] = ' ';
+                    }
+
                     if (c == '%')
+                    {
                         chatMessage[j1] = ' ';
+                    }
+
                     if (flag && c >= 'a' && c <= 'z')
                     {
                         chatMessage[j1] += '\uFFE0';
                         flag = false;
                     }
                     if (c == '.' || c == '!')
+                    {
                         flag = true;
+                    }
                 }
 
                 return new string(chatMessage, 0, i);
@@ -133,7 +165,10 @@ namespace RuneScapeSolo.Lib.Game
         public static int stringToBytes(string arg0)
         {
             if (arg0.Length > 80)
+            {
                 arg0 = arg0.Substring(0, 80);
+            }
+
             arg0 = arg0.ToLower();
             int i = 0;
             int j = -1;
@@ -144,19 +179,29 @@ namespace RuneScapeSolo.Lib.Game
                 for (int i1 = 0; i1 < validChars.Length; i1++)
                 {
                     if (c != validChars[i1])
+                    {
                         continue;
+                    }
+
                     l = i1;
                     break;
                 }
 
                 if (l > 12)
+                {
                     l += 195;
+                }
+
                 if (j == -1)
                 {
                     if (l < 13)
+                    {
                         j = l;
+                    }
                     else
+                    {
                         lastChat[i++] = (byte)l;
+                    }
                 }
                 else
                 if (l < 13)
@@ -172,7 +217,10 @@ namespace RuneScapeSolo.Lib.Game
             }
 
             if (j != -1)
+            {
                 lastChat[i++] = (byte)(j << 4);
+            }
+
             return i;
         }
 

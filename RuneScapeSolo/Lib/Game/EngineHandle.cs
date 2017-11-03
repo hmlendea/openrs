@@ -16,17 +16,28 @@ namespace RuneScapeSolo.Lib.Game
             int i2 = (y - 1) / 12;
             updateTileChunk(j1, k1, x, y, i1);
             if (j1 != l1)
+            {
                 updateTileChunk(l1, k1, x, y, i1);
+            }
+
             if (k1 != i2)
+            {
                 updateTileChunk(j1, i2, x, y, i1);
+            }
+
             if (j1 != l1 && k1 != i2)
+            {
                 updateTileChunk(l1, i2, x, y, i1);
+            }
         }
 
         public int getTileGroundTextureIndex(int x, int y)
         {
             if (x < 0 || x >= 96 || y < 0 || y >= 96)
+            {
                 return 0;
+            }
+
             byte byte0 = 0;
             if (x >= 48 && y < 48)
             {
@@ -54,7 +65,10 @@ namespace RuneScapeSolo.Lib.Game
             int i1 = x & 0x7f;
             int j1 = y_or_z & 0x7f;
             if (k < 0 || l < 0 || k >= 95 || l >= 95)
+            {
                 return 0;
+            }
+
             int k1;
             int l1;
             int i2;
@@ -101,7 +115,10 @@ namespace RuneScapeSolo.Lib.Game
                 {
                     sbyte[] data = DataOperations.loadData(filename + ".hei", 0, landscapeFree);
                     if (data == null && landscapeMembers != null)
+                    {
                         data = DataOperations.loadData(filename + ".hei", 0, landscapeMembers);
+                    }
+
                     if (data != null && data.Length > 0)
                     {
                         int off = 0;
@@ -117,8 +134,9 @@ namespace RuneScapeSolo.Lib.Game
                             if (k3 >= 128)
                             {
                                 for (int k4 = 0; k4 < k3 - 128; k4++)
+                                {
                                     tileGroundElevation[sector][tile++] = (sbyte)i2;
-
+                                }
                             }
                         }
 
@@ -145,8 +163,9 @@ namespace RuneScapeSolo.Lib.Game
                             if (l5 >= 128)
                             {
                                 for (int i7 = 0; i7 < l5 - 128; i7++)
+                                {
                                     tileGroundTexture[sector][tile++] = i2;
-
+                                }
                             }
                         }
 
@@ -173,26 +192,40 @@ namespace RuneScapeSolo.Lib.Game
                     }
                     data = DataOperations.loadData(filename + ".dat", 0, mapsFree);
                     if (data == null && mapsMembers != null)
+                    {
                         data = DataOperations.loadData(filename + ".dat", 0, mapsMembers);
+                    }
+
                     if (data == null || data.Length == 0)
+                    {
                         return;//throw new IOException();
+                    }
+
                     int off2 = 0;
 
                     //#warning added & 0xff on marked, not original
                     for (int tile = 0; tile < 2304; tile++)
+                    {
                         tileVerticalWall[sector][tile] = data[off2++]; // MARKED, should not have & 0xff
+                    }
 
                     for (int tile = 0; tile < 2304; tile++)
+                    {
                         tileHorizontalWall[sector][tile] = data[off2++]; // MARKED, should not have & 0xff
+                    }
 
                     for (int tile = 0; tile < 2304; tile++)
+                    {
                         tileDiagonalWall[sector][tile] = data[off2++] & 0xff;
+                    }
 
                     for (int tile = 0; tile < 2304; tile++)
                     {
                         int j6 = data[off2++] & 0xff;
                         if (j6 > 0)
+                        {
                             tileDiagonalWall[sector][tile] = j6 + 12000;
+                        }
                     }
 
                     for (int tile = 0; tile < 2304;)
@@ -206,8 +239,9 @@ namespace RuneScapeSolo.Lib.Game
                         else
                         {
                             for (int j8 = 0; j8 < k7 - 128; j8++)
+                            {
                                 tileRoofType[sector][tile++] = 0;
-
+                            }
                         }
                     }
 
@@ -224,8 +258,9 @@ namespace RuneScapeSolo.Lib.Game
                         else
                         {
                             for (int l9 = 0; l9 < i9 - 128; l9++)
+                            {
                                 tileGroundOverlay[sector][tile++] = (sbyte)l7;
-
+                            }
                         }
                     }
 
@@ -239,8 +274,9 @@ namespace RuneScapeSolo.Lib.Game
                         else
                         {
                             for (int l10 = 0; l10 < i10 - 128; l10++)
+                            {
                                 tileObjectRotation[sector][j9++] = 0;
-
+                            }
                         }
                     }
 
@@ -253,9 +289,13 @@ namespace RuneScapeSolo.Lib.Game
 
                             int i11 = data[k1++] & 0xff;
                             if (i11 < 128)
+                            {
                                 tileDiagonalWall[sector][j10++] = i11 + 48000;
+                            }
                             else
+                            {
                                 j10 += i11 - 128;
+                            }
                         }
 
                         return;
@@ -281,10 +321,14 @@ namespace RuneScapeSolo.Lib.Game
                     }
 
                     for (int k5 = 0; k5 < 2304; k5++)
+                    {
                         tileVerticalWall[sector][k5] = abyte1[k2++];
+                    }
 
                     for (int l6 = 0; l6 < 2304; l6++)
+                    {
                         tileHorizontalWall[sector][l6] = abyte1[k2++];
+                    }
 
                     for (int i8 = 0; i8 < 2304; i8++)
                     {
@@ -293,14 +337,19 @@ namespace RuneScapeSolo.Lib.Game
                     }
 
                     for (int l8 = 0; l8 < 2304; l8++)
+                    {
                         tileRoofType[sector][l8] = (abyte1[k2++]);
+                    }
 
                     for (int k9 = 0; k9 < 2304; k9++)
+                    {
                         tileGroundOverlay[sector][k9] = (abyte1[k2++]);
+                    }
 
                     for (int k10 = 0; k10 < 2304; k10++)
+                    {
                         tileObjectRotation[sector][k10] = (abyte1[k2++]);
-
+                    }
                 }
                 return;
             }
@@ -317,9 +366,15 @@ namespace RuneScapeSolo.Lib.Game
                 tileRoofType[sector][k] = 0;
                 tileGroundOverlay[sector][k] = 0;
                 if (height == 0)
+                {
                     tileGroundOverlay[sector][k] = -6;
+                }
+
                 if (height == 3)
+                {
                     tileGroundOverlay[sector][k] = 8;
+                }
+
                 tileObjectRotation[sector][k] = 0;
             }
 
@@ -336,14 +391,19 @@ namespace RuneScapeSolo.Lib.Game
             loadSection(sectionX, sectionY, height, 3);
             stitchAreaTileColors();
             if (currentSectionObject == null)
+            {
                 currentSectionObject = new GameObject(18688, 18688, true, true, false, false, true);
+            }
+
             if (freshLoad)
             {
                 gameGraphics.clearScreen();
                 for (int x1 = 0; x1 < 96; x1++)
                 {
                     for (int y1 = 0; y1 < 96; y1++)
+                    {
                         tiles[x1][y1] = 0;
+                    }
                 }
 
                 GameObject sectionObj = currentSectionObject;
@@ -357,13 +417,25 @@ namespace RuneScapeSolo.Lib.Game
                     {
                         int i4 = -getTileElevation(j2, i3);
                         if (getTileGroundOverlayIndex(j2, i3, height) > 0 && Data.Data.tileGroundOverlayTypes[getTileGroundOverlayIndex(j2, i3, height) - 1] == 4)
+                        {
                             i4 = 0;
+                        }
+
                         if (getTileGroundOverlayIndex(j2 - 1, i3, height) > 0 && Data.Data.tileGroundOverlayTypes[getTileGroundOverlayIndex(j2 - 1, i3, height) - 1] == 4)
+                        {
                             i4 = 0;
+                        }
+
                         if (getTileGroundOverlayIndex(j2, i3 - 1, height) > 0 && Data.Data.tileGroundOverlayTypes[getTileGroundOverlayIndex(j2, i3 - 1, height) - 1] == 4)
+                        {
                             i4 = 0;
+                        }
+
                         if (getTileGroundOverlayIndex(j2 - 1, i3 - 1, height) > 0 && Data.Data.tileGroundOverlayTypes[getTileGroundOverlayIndex(j2 - 1, i3 - 1, height) - 1] == 4)
+                        {
                             i4 = 0;
+                        }
+
                         int vertexIndex = sectionObj.getVertexIndex(j2 * 128, i4, i3 * 128);
                         int color = (int)(Helper.Random.NextDouble() * 10D) - 5;
                         sectionObj.SetVertexColor(vertexIndex, color);
@@ -407,6 +479,7 @@ namespace RuneScapeSolo.Lib.Game
                             if (tileType == 5)
                             {
                                 if (getDiagonalWall(x1, y1) > 0 && getDiagonalWall(x1, y1) < 24000)
+                                {
                                     if (getTileGroundOverlayTextureOrDefault(x1 - 1, y1, height, texture2) != 0xbc614e && getTileGroundOverlayTextureOrDefault(x1, y1 - 1, height, texture2) != 0xbc614e)
                                     {
                                         texture = getTileGroundOverlayTextureOrDefault(x1 - 1, y1, height, texture2);
@@ -427,8 +500,10 @@ namespace RuneScapeSolo.Lib.Game
                                         texture = getTileGroundOverlayTextureOrDefault(x1 - 1, y1, height, texture2);
                                         l14 = 1;
                                     }
+                                }
                             }
                             else if (tileType != 2 || getDiagonalWall(x1, y1) > 0 && getDiagonalWall(x1, y1) < 24000)
+                            {
                                 if (gkd(x1 - 1, y1, height) != i19 && gkd(x1, y1 - 1, height) != i19)
                                 {
                                     texture = texture2;
@@ -449,10 +524,17 @@ namespace RuneScapeSolo.Lib.Game
                                     texture = texture2;
                                     l14 = 1;
                                 }
+                            }
+
                             if (Data.Data.aki[tileIndex - 1] != 0)
+                            {
                                 tiles[x1][y1] |= 0x40;
+                            }
+
                             if (Data.Data.tileGroundOverlayTypes[tileIndex - 1] == 2)
+                            {
                                 tiles[x1][y1] |= 0x80;
+                            }
                         }
                         drawMinimapPixel(x1, y1, l14, texture, texture1);
                         int i17 = ((getTileElevation(x1 + 1, y1 + 1) - getTileElevation(x1 + 1, y1)) + getTileElevation(x1, y1 + 1)) - getTileElevation(x1, y1);
@@ -533,6 +615,7 @@ namespace RuneScapeSolo.Lib.Game
                 for (int x1 = 1; x1 < 95; x1++)
                 {
                     for (int y1 = 1; y1 < 95; y1++)
+                    {
                         if (getTileGroundOverlayIndex(x1, y1, height) > 0 && Data.Data.tileGroundOverlayTypes[getTileGroundOverlayIndex(x1, y1, height) - 1] == 4)
                         {
                             int l7 = Data.Data.TileGroundOverlayTexture[getTileGroundOverlayIndex(x1, y1, height) - 1];
@@ -616,7 +699,7 @@ namespace RuneScapeSolo.Lib.Game
                                 drawMinimapPixel(x1, y1, 0, l8, l8);
                             }
                         }
-
+                    }
                 }
 
                 sectionObj.UpdateShading(true, 40, 48, -50, -10, -50);
@@ -624,12 +707,16 @@ namespace RuneScapeSolo.Lib.Game
 
 #warning adds all tiles
                 for (int j6 = 0; j6 < 64; j6++)
+                {
                     _camera.addModel(TileChunks[j6]);
+                }
 
                 for (int i9 = 0; i9 < 96; i9++)
                 {
                     for (int k11 = 0; k11 < 96; k11++)
+                    {
                         roofTiles[i9][k11] = getTileElevation(i9, k11);
+                    }
                 }
 
             }
@@ -647,10 +734,14 @@ namespace RuneScapeSolo.Lib.Game
                         {
                             tiles[x1][y1] |= 1;
                             if (y1 > 0)
+                            {
                                 setTileType(x1, y1 - 1, 4);
+                            }
                         }
                         if (freshLoad)
+                        {
                             gameGraphics.drawLineX(x1 * 3, y1 * 3, 3, j1);
+                        }
                     }
                     k3 = getVerticalWall(x1, y1);
                     if (k3 > 0 && (Data.Data.wallObjectUnknown[k3 - 1] == 0 || ghh))
@@ -660,17 +751,24 @@ namespace RuneScapeSolo.Lib.Game
                         {
                             tiles[x1][y1] |= 2;
                             if (x1 > 0)
+                            {
                                 setTileType(x1 - 1, y1, 8);
+                            }
                         }
                         if (freshLoad)
+                        {
                             gameGraphics.drawLineY(x1 * 3, y1 * 3, 3, j1);
+                        }
                     }
                     k3 = getDiagonalWall(x1, y1);
                     if (k3 > 0 && k3 < 12000 && (Data.Data.wallObjectUnknown[k3 - 1] == 0 || ghh))
                     {
                         makeWall(currentSectionObject, k3 - 1, x1, y1, x1 + 1, y1 + 1);
                         if (freshLoad && Data.Data.wallObjectType[k3 - 1] != 0)
+                        {
                             tiles[x1][y1] |= 0x20;
+                        }
+
                         if (freshLoad)
                         {
                             gameGraphics.drawMinimapPixel(x1 * 3, y1 * 3, j1);
@@ -682,7 +780,10 @@ namespace RuneScapeSolo.Lib.Game
                     {
                         makeWall(currentSectionObject, k3 - 12001, x1 + 1, y1, x1, y1 + 1);
                         if (freshLoad && Data.Data.wallObjectType[k3 - 12001] != 0)
+                        {
                             tiles[x1][y1] |= 0x10;
+                        }
+
                         if (freshLoad)
                         {
                             gameGraphics.drawMinimapPixel(x1 * 3 + 2, y1 * 3, j1);
@@ -695,14 +796,18 @@ namespace RuneScapeSolo.Lib.Game
             }
 
             if (freshLoad)
+            {
                 gameGraphics.fillPicture(baseInventoryPic - 1, 0, 0, 285, 285);
+            }
 
             currentSectionObject.UpdateShading(false, 60, 24, -50, -10, -50);
             wallObject[height] = currentSectionObject.getObjectsWithinArea(0, 0, 1536, 1536, 8, 64, 338, true);
 
 
             for (int l2 = 0; l2 < 64; l2++)
+            {
                 _camera.addModel(wallObject[height][l2]);
+            }
 
             for (int x1 = 0; x1 < 95; x1++)
             {
@@ -738,17 +843,26 @@ namespace RuneScapeSolo.Lib.Game
                     /* begin known problem here */
                     int wallType = getHorizontalWall(x1, y1);
                     if (wallType > 0)
+                    {
                         setRoofTile(wallType - 1, x1, y1, x1 + 1, y1);
+                    }
+
                     wallType = getVerticalWall(x1, y1);
                     if (wallType > 0)
+                    {
                         setRoofTile(wallType - 1, x1, y1, x1, y1 + 1);
-
+                    }
 
                     wallType = getDiagonalWall(x1, y1);
                     if (wallType > 0 && wallType < 12000)
+                    {
                         setRoofTile(wallType - 1, x1, y1, x1 + 1, y1 + 1);
+                    }
+
                     if (wallType > 12000 && wallType < 24000)
+                    {
                         setRoofTile(wallType - 12001, x1 + 1, y1, x1, y1 + 1);
+                    }
 
                     // argghh! :D
                     // so close, yet so far!.. Haha.. =) 
@@ -787,39 +901,85 @@ namespace RuneScapeSolo.Lib.Game
                         int j25 = roofTiles[j19][j21];
                         int l25 = roofTiles[l22][j23];
                         if (j24 > 0x13880)
+                        {
                             j24 -= 0x13880;
+                        }
+
                         if (l24 > 0x13880)
+                        {
                             l24 -= 0x13880;
+                        }
+
                         if (j25 > 0x13880)
+                        {
                             j25 -= 0x13880;
+                        }
+
                         if (l25 > 0x13880)
+                        {
                             l25 -= 0x13880;
+                        }
+
                         if (j24 > l23)
+                        {
                             l23 = j24;
+                        }
+
                         if (l24 > l23)
+                        {
                             l23 = l24;
+                        }
+
                         if (j25 > l23)
+                        {
                             l23 = j25;
+                        }
+
                         if (l25 > l23)
+                        {
                             l23 = l25;
+                        }
+
                         if (l23 >= 0x13880)
+                        {
                             l23 -= 0x13880;
+                        }
+
                         if (j24 < 0x13880)
+                        {
                             roofTiles[l11][i14] = l23;
+                        }
                         else
+                        {
                             roofTiles[l11][i14] -= 0x13880;
+                        }
+
                         if (l24 < 0x13880)
+                        {
                             roofTiles[j16][k18] = l23;
+                        }
                         else
+                        {
                             roofTiles[j16][k18] -= 0x13880;
+                        }
+
                         if (j25 < 0x13880)
+                        {
                             roofTiles[j19][j21] = l23;
+                        }
                         else
+                        {
                             roofTiles[j19][j21] -= 0x13880;
+                        }
+
                         if (l25 < 0x13880)
+                        {
                             roofTiles[l22][j23] = l23;
+                        }
                         else
+                        {
                             roofTiles[l22][j23] -= 0x13880;
+                        }
                     }
                 }
 
@@ -875,46 +1035,106 @@ namespace RuneScapeSolo.Lib.Game
                             roofTiles[k23][i24] = i28;
                         }
                         if (j27 >= 0x13880)
+                        {
                             j27 -= 0x13880;
+                        }
+
                         if (k27 >= 0x13880)
+                        {
                             k27 -= 0x13880;
+                        }
+
                         if (l27 >= 0x13880)
+                        {
                             l27 -= 0x13880;
+                        }
+
                         if (i28 >= 0x13880)
+                        {
                             i28 -= 0x13880;
+                        }
+
                         byte byte0 = 16;
                         if (!hasRoofTiles(j14 - 1, k16))
+                        {
                             k24 -= byte0;
+                        }
+
                         if (!hasRoofTiles(j14 + 1, k16))
+                        {
                             k24 += byte0;
+                        }
+
                         if (!hasRoofTiles(j14, k16 - 1))
+                        {
                             i25 -= byte0;
+                        }
+
                         if (!hasRoofTiles(j14, k16 + 1))
+                        {
                             i25 += byte0;
+                        }
+
                         if (!hasRoofTiles(l18 - 1, k19))
+                        {
                             k25 -= byte0;
+                        }
+
                         if (!hasRoofTiles(l18 + 1, k19))
+                        {
                             k25 += byte0;
+                        }
+
                         if (!hasRoofTiles(l18, k19 - 1))
+                        {
                             k26 -= byte0;
+                        }
+
                         if (!hasRoofTiles(l18, k19 + 1))
+                        {
                             k26 += byte0;
+                        }
+
                         if (!hasRoofTiles(k21 - 1, i23))
+                        {
                             l26 -= byte0;
+                        }
+
                         if (!hasRoofTiles(k21 + 1, i23))
+                        {
                             l26 += byte0;
+                        }
+
                         if (!hasRoofTiles(k21, i23 - 1))
+                        {
                             i26 -= byte0;
+                        }
+
                         if (!hasRoofTiles(k21, i23 + 1))
+                        {
                             i26 += byte0;
+                        }
+
                         if (!hasRoofTiles(k23 - 1, i24))
+                        {
                             j26 -= byte0;
+                        }
+
                         if (!hasRoofTiles(k23 + 1, i24))
+                        {
                             j26 += byte0;
+                        }
+
                         if (!hasRoofTiles(k23, i24 - 1))
+                        {
                             i27 -= byte0;
+                        }
+
                         if (!hasRoofTiles(k23, i24 + 1))
+                        {
                             i27 += byte0;
+                        }
+
                         i12 = Data.Data.aln[i12 - 1];
                         j27 = -j27;
                         k27 = -k27;
@@ -974,7 +1194,10 @@ namespace RuneScapeSolo.Lib.Game
                         {
                             var flag = !(getTileRoofType(x1 - 1, y1 - 1) > 0);
                             if (getTileRoofType(x1 + 1, y1 + 1) > 0)
+                            {
                                 flag = false;
+                            }
+
                             if (!flag)
                             {
                                 var ai14 = new int[3];
@@ -991,7 +1214,9 @@ namespace RuneScapeSolo.Lib.Game
                             else
                             {
                                 if (currentSectionObject == null)
+                                {
                                     continue;
+                                }
 #warning section object returned null, most likely not loaded properly before this function was called. was this done async or did the object get disposed?
 
                                 var ai15 = new int[3];
@@ -1016,16 +1241,24 @@ namespace RuneScapeSolo.Lib.Game
 
 #warning wth is gih?
             for (int l9 = 0; l9 < 64; l9++)
+            {
                 _camera.addModel(roofObject[height][l9]);
+            }
 
             if (roofObject[height][0] == null)
+            {
                 throw new Exception("null roof!");
+            }
+
             for (int j12 = 0; j12 < 96; j12++)
             {
                 for (int k14 = 0; k14 < 96; k14++)
+                {
                     if (roofTiles[j12][k14] >= 0x13880)
+                    {
                         roofTiles[j12][k14] -= 0x13880;
-
+                    }
+                }
             }
 
         }
@@ -1058,11 +1291,17 @@ namespace RuneScapeSolo.Lib.Game
                     if (getTileGroundOverlayIndex(x, y, 0) == 250)
                     {
                         if (x == 47 && getTileGroundOverlayIndex(x + 1, y, 0) != 250 && getTileGroundOverlayIndex(x + 1, y, 0) != 2)
+                        {
                             setTileGroundOverlayHeight(x, y, 9);
+                        }
                         else if (y == 47 && getTileGroundOverlayIndex(x, y + 1, 0) != 250 && getTileGroundOverlayIndex(x, y + 1, 0) != 2)
+                        {
                             setTileGroundOverlayHeight(x, y, 9);
+                        }
                         else
+                        {
                             setTileGroundOverlayHeight(x, y, 2);
+                        }
                     }
                 }
 
@@ -1076,8 +1315,9 @@ namespace RuneScapeSolo.Lib.Game
             for (int k = 0; k < 96; k++)
             {
                 for (int l = 0; l < 96; l++)
+                {
                     steps[k][l] = 0;
-
+                }
             }
 
             int requiredSteps = 0;
@@ -1180,7 +1420,10 @@ namespace RuneScapeSolo.Lib.Game
                 }
             }
             if (!foundPath)
+            {
                 return -1;
+            }
+
             stepCount = 0;
             pathX[stepCount] = x;
             pathY[stepCount++] = y;
@@ -1194,15 +1437,24 @@ namespace RuneScapeSolo.Lib.Game
                     pathY[stepCount++] = y;
                 }
                 if ((j2 & 2) != 0)
+                {
                     x++;
+                }
                 else
                     if ((j2 & 8) != 0)
+                {
                     x--;
+                }
+
                 if ((j2 & 1) != 0)
+                {
                     y++;
+                }
                 else
                     if ((j2 & 4) != 0)
+                {
                     y--;
+                }
             }
 
             return stepCount;
@@ -1217,23 +1469,35 @@ namespace RuneScapeSolo.Lib.Game
         {
             int k1 = getTileGroundOverlayIndex(x, y, height);
             if (k1 == 0)
+            {
                 return defaultTexture;
+            }
             else
+            {
                 return Data.Data.TileGroundOverlayTexture[k1 - 1];
+            }
         }
 
         public void gka(int x, int y, int objWidth, int objHeight)
         {
             if (x < 1 || y < 1 || x + objWidth >= 96 || y + objHeight >= 96)
+            {
                 return;
+            }
+
             for (int x1 = x; x1 <= x + objWidth; x1++)
             {
                 for (int y1 = y; y1 <= y + objHeight; y1++)
+                {
                     if ((getTile(x1, y1) & 0x63) != 0 || (getTile(x1 - 1, y1) & 0x59) != 0 || (getTile(x1, y1 - 1) & 0x56) != 0 || (getTile(x1 - 1, y1 - 1) & 0x6c) != 0)
+                    {
                         SetTileType(x1, y1, 35);
+                    }
                     else
+                    {
                         SetTileType(x1, y1, 0);
-
+                    }
+                }
             }
 
         }
@@ -1241,25 +1505,37 @@ namespace RuneScapeSolo.Lib.Game
         public void removeWallObject(int x, int y, int arg2, int index)
         {
             if (x < 0 || y < 0 || x >= 95 || y >= 95)
+            {
                 return;
+            }
+
             if (Data.Data.wallObjectType[index] == 1)
             {
                 if (arg2 == 0)
                 {
                     tiles[x][y] &= 0xfffe;
                     if (y > 0)
+                    {
                         gjm(x, y - 1, 4);
+                    }
                 }
                 else if (arg2 == 1)
                 {
                     tiles[x][y] &= 0xfffd;
                     if (x > 0)
+                    {
                         gjm(x - 1, y, 8);
+                    }
                 }
                 else if (arg2 == 2)
+                {
                     tiles[x][y] &= 0xffef;
+                }
                 else if (arg2 == 3)
+                {
                     tiles[x][y] &= 0xffdf;
+                }
+
                 gka(x, y, 1, 1);
             }
         }
@@ -1268,21 +1544,28 @@ namespace RuneScapeSolo.Lib.Game
         {
 
             if (x < 0 || y < 0 || x >= 95 || y >= 95)
+            {
                 return;
+            }
+
             if (Data.Data.wallObjectType[index] == 1)
             {
                 if (arg2 == 0)
                 {
                     tiles[x][y] |= 1;
                     if (y > 0)
+                    {
                         setTileType(x, y - 1, 4);
+                    }
                 }
                 else
                     if (arg2 == 1)
                 {
                     tiles[x][y] |= 2;
                     if (x > 0)
+                    {
                         setTileType(x - 1, y, 8);
+                    }
                 }
                 else if (arg2 == 2)
                 {
@@ -1302,7 +1585,10 @@ namespace RuneScapeSolo.Lib.Game
         {
             int j1 = getTileGroundOverlayIndex(x, y, height);
             if (j1 == 0)
+            {
                 return -1;
+            }
+
             int k1 = Data.Data.tileGroundOverlayTypes[j1 - 1];
             return k1 != 2 ? 0 : 1;
         }
@@ -1310,7 +1596,10 @@ namespace RuneScapeSolo.Lib.Game
         public int getTileRotation(int arg0, int arg1)
         {
             if (arg0 < 0 || arg0 >= 96 || arg1 < 0 || arg1 >= 96)
+            {
                 return 0;
+            }
+
             byte byte0 = 0;
             if (arg0 >= 48 && arg1 < 48)
             {
@@ -1336,14 +1625,20 @@ namespace RuneScapeSolo.Lib.Game
         public void registerObjectDir(int x, int y, int dir)
         {
             if (x < 0 || x >= 96 || y < 0 || y >= 96)
+            {
                 return;
+            }
+
             objectDirs[x][y] = dir;
         }
 
         public void removeObject(int x, int y, int objType, int objDir)
         {
             if (x < 0 || y < 0 || x >= 95 || y >= 95)
+            {
                 return;
+            }
+
             if (Data.Data.objectType[objType] == 1 || Data.Data.objectType[objType] == 2)
             {
                 //int wallObj = getTileRotation(x, arg1);
@@ -1362,33 +1657,44 @@ namespace RuneScapeSolo.Lib.Game
                 for (int j1 = x; j1 < x + objWidth; j1++)
                 {
                     for (int k1 = y; k1 < y + objHeight; k1++)
+                    {
                         if (Data.Data.objectType[objType] == 1)
+                        {
                             tiles[j1][k1] &= 0xffbf;
+                        }
                         else if (objDir == 0)
                         {
                             tiles[j1][k1] &= 0xfffd;
                             if (j1 > 0)
+                            {
                                 gjm(j1 - 1, k1, 8);
+                            }
                         }
                         else if (objDir == 2)
                         {
                             tiles[j1][k1] &= 0xfffb;
                             if (k1 < 95)
+                            {
                                 gjm(j1, k1 + 1, 1);
+                            }
                         }
                         else if (objDir == 4)
                         {
                             tiles[j1][k1] &= 0xfff7;
                             if (j1 < 95)
+                            {
                                 gjm(j1 + 1, k1, 2);
+                            }
                         }
                         else if (objDir == 6)
                         {
                             tiles[j1][k1] &= 0xfffe;
                             if (k1 > 0)
+                            {
                                 gjm(j1, k1 - 1, 4);
+                            }
                         }
-
+                    }
                 }
 
                 gka(x, y, objWidth, objHeight);
@@ -1429,15 +1735,23 @@ namespace RuneScapeSolo.Lib.Game
             // Data.wallObjectModelHeight is not the problem either, i debugged the java version and got the same values both here and there. :p
             int height = Data.Data.wallObjectModelHeight[objType];
             if (roofTiles[srcX][srcY] < 0x13880)
+            {
                 roofTiles[srcX][srcY] += 0x13880 + height;
+            }
+
             if (roofTiles[destX][destY] < 0x13880)
+            {
                 roofTiles[destX][destY] += 0x13880 + height;
+            }
         }
 
         public int getTileGroundOverlayIndex(int x, int y, int height)
         {
             if (x < 0 || x >= 96 || y < 0 || y >= 96)
+            {
                 return 0;
+            }
+
             byte byte0 = 0;
             if (x >= 48 && y < 48)
             {
@@ -1461,24 +1775,34 @@ namespace RuneScapeSolo.Lib.Game
         public int getTile(int x, int y)
         {
             if (x < 0 || y < 0 || x >= 96 || y >= 96)
+            {
                 return 0;
+            }
             else
+            {
                 return tiles[x][y];
+            }
         }
 
         public void cleanUpWorld()
         {
             if (gjb)
+            {
                 _camera.cleanUp();
+            }
+
             for (int k = 0; k < 64; k++)
             {
                 TileChunks[k] = null;
                 for (int l = 0; l < 4; l++)
+                {
                     wallObject[l][k] = null;
+                }
 
                 for (int i1 = 0; i1 < 4; i1++)
+                {
                     roofObject[i1][k] = null;
-
+                }
             }
 
             //System.gc();
@@ -1558,19 +1882,24 @@ namespace RuneScapeSolo.Lib.Game
             _camera = arg0;
             gameGraphics = arg1;
             for (int k = 0; k < 64; k++)
-                groundTexture[k] = Camera.getTextureColor(255 - k * 4, 255 - (int)((double)k * 1.75D), 255 - k * 4);
+            {
+                groundTexture[k] = Camera.getTextureColor(255 - k * 4, 255 - (int)(k * 1.75D), 255 - k * 4);
+            }
 
             for (int l = 0; l < 64; l++)
+            {
                 groundTexture[l + 64] = Camera.getTextureColor(l * 3, 144, 0);
+            }
 
             for (int i1 = 0; i1 < 64; i1++)
-                groundTexture[i1 + 128] = Camera.getTextureColor(192 - (int)((double)i1 * 1.5D), 144 - (int)((double)i1 * 1.5D), 0);
+            {
+                groundTexture[i1 + 128] = Camera.getTextureColor(192 - (int)(i1 * 1.5D), 144 - (int)(i1 * 1.5D), 0);
+            }
 
             for (int j1 = 0; j1 < 64; j1++)
-                groundTexture[j1 + 192] = Camera.getTextureColor(96 - (int)((double)j1 * 1.5D), 48 + (int)((double)j1 * 1.5D), 0);
-
-
-
+            {
+                groundTexture[j1 + 192] = Camera.getTextureColor(96 - (int)(j1 * 1.5D), 48 + (int)(j1 * 1.5D), 0);
+            }
         }
 
         public bool isRoofTile(int x, int y)
@@ -1581,7 +1910,10 @@ namespace RuneScapeSolo.Lib.Game
         public int getTileElevation(int arg0, int arg1)
         {
             if (arg0 < 0 || arg0 >= 96 || arg1 < 0 || arg1 >= 96)
+            {
                 return 0;
+            }
+
             sbyte byte0 = 0;
             if (arg0 >= 48 && arg1 < 48)
             {
@@ -1606,7 +1938,10 @@ namespace RuneScapeSolo.Lib.Game
         public void createObject(int x, int y, int index, int direction)
         {
             if (x < 0 || y < 0 || x >= 95 || y >= 95)
+            {
                 return;
+            }
+
             if (Data.Data.objectType[index] == 1 || Data.Data.objectType[index] == 2)
             {
                 //int wallObj = getTileRotation(x, arg1);
@@ -1625,33 +1960,44 @@ namespace RuneScapeSolo.Lib.Game
                 for (int x1 = x; x1 < x + objectWidth; x1++)
                 {
                     for (int y1 = y; y1 < y + objectHeight; y1++)
+                    {
                         if (Data.Data.objectType[index] == 1)
+                        {
                             tiles[x1][y1] |= 0x40;
+                        }
                         else if (direction == 0)
                         {
                             tiles[x1][y1] |= 2;
                             if (x1 > 0)
+                            {
                                 setTileType(x1 - 1, y1, 8);
+                            }
                         }
                         else if (direction == 2)
                         {
                             tiles[x1][y1] |= 4;
                             if (y1 < 95)
+                            {
                                 setTileType(x1, y1 + 1, 1);
+                            }
                         }
                         else if (direction == 4)
                         {
                             tiles[x1][y1] |= 8;
                             if (x1 < 95)
+                            {
                                 setTileType(x1 + 1, y1, 2);
+                            }
                         }
                         else if (direction == 6)
                         {
                             tiles[x1][y1] |= 1;
                             if (y1 > 0)
+                            {
                                 setTileType(x1, y1 - 1, 4);
+                            }
                         }
-
+                    }
                 }
 
                 gka(x, y, objectWidth, objectHeight);
@@ -1661,7 +2007,10 @@ namespace RuneScapeSolo.Lib.Game
         public int getTileRoofType(int arg0, int arg1)
         {
             if (arg0 < 0 || arg0 >= 96 || arg1 < 0 || arg1 >= 96)
+            {
                 return 0;
+            }
+
             byte byte0 = 0;
             if (arg0 >= 48 && arg1 < 48)
             {
@@ -1687,7 +2036,10 @@ namespace RuneScapeSolo.Lib.Game
         public void setTileGroundOverlayHeight(int x, int y, int height)
         {
             if (x < 0 || x >= 96 || y < 0 || y >= 96)
+            {
                 return;
+            }
+
             byte layer = 0;
             if (x >= 48 && y < 48)
             {
@@ -1711,7 +2063,10 @@ namespace RuneScapeSolo.Lib.Game
         public int getVerticalWall(int x, int y)
         {
             if (x < 0 || x >= 96 || y < 0 || y >= 96)
+            {
                 return 0;
+            }
+
             byte layer = 0;
             if (x >= 48 && y < 48)
             {
@@ -1738,7 +2093,10 @@ namespace RuneScapeSolo.Lib.Game
         public int getHorizontalWall(int x, int y)
         {
             if (x < 0 || x >= 96 || y < 0 || y >= 96)
+            {
                 return 0;
+            }
+
             byte layer = 0;
             if (x >= 48 && y < 48)
             {
@@ -1764,7 +2122,10 @@ namespace RuneScapeSolo.Lib.Game
         public int getDiagonalWall(int x, int y)
         {
             if (x < 0 || x >= 96 || y < 0 || y >= 96)
+            {
                 return 0;
+            }
+
             byte layer = 0;
             if (x >= 48 && y < 48)
             {
@@ -1791,6 +2152,7 @@ namespace RuneScapeSolo.Lib.Game
             for (int x = 0; x < 94; x++)
             {
                 for (int y = 0; y < 94; y++)
+                {
                     if (getDiagonalWall(x, y) > 48000 && getDiagonalWall(x, y) < 60000)
                     {
                         try
@@ -1825,6 +2187,7 @@ namespace RuneScapeSolo.Lib.Game
                                 for (int j3 = x; j3 < x + objectWidth; j3++)
                                 {
                                     for (int k3 = y; k3 < y + objectHeight; k3++)
+                                    {
                                         if ((j3 > x || k3 > y) && getDiagonalWall(j3, k3) - 48001 == objectIndex)
                                         {
                                             int k2 = j3;
@@ -1848,7 +2211,7 @@ namespace RuneScapeSolo.Lib.Game
                                             }
                                             tileDiagonalWall[byte0][k2 * 48 + i3] = 0;
                                         }
-
+                                    }
                                 }
 
                             }
@@ -1856,7 +2219,7 @@ namespace RuneScapeSolo.Lib.Game
                         catch { }
 
                     }
-
+                }
             }
 
         }
@@ -1867,11 +2230,13 @@ namespace RuneScapeSolo.Lib.Game
             if (tileChunk != null)
             {
                 for (int vertIndex = 0; vertIndex < tileChunk.vert_count; vertIndex++)
+                {
                     if (tileChunk.vert_x[vertIndex] == x * 128 && tileChunk.vert_z[vertIndex] == y * 128)
                     {
                         tileChunk.SetVertexColor(vertIndex, val);
                         return;
                     }
+                }
             }
         }
 

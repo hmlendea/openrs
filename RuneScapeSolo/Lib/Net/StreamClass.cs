@@ -19,14 +19,14 @@ namespace RuneScapeSolo.Lib.Net
             
             socketClosed = false;
 
-            applet.StartThread(this.run);
+            applet.StartThread(run);
         }
 
         public bool Connected
         {
             get
             {
-                return this.socket != null && this.socket.Connected;
+                return socket != null && socket.Connected;
             }
         }
 
@@ -42,7 +42,7 @@ namespace RuneScapeSolo.Lib.Net
                 }
             }
             catch { }
-            try { netStream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), netStream); }
+            try { netStream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), netStream); }
             catch
             {
                 // We have been disconnected :<
@@ -57,11 +57,19 @@ namespace RuneScapeSolo.Lib.Net
             try
             {
                 if (netStream != null)
+                {
                     netStream.Close();
+                }
+
                 if (netStream != null)
+                {
                     netStream.Close();
+                }
+
                 if (socket != null)
+                {
                     socket.Close();
+                }
             }
             catch (IOException _ex)
             {
@@ -109,7 +117,10 @@ namespace RuneScapeSolo.Lib.Net
         public override void ReadInputStream(int arg0, int arg1, sbyte[] arg2)
         {
             if (socketClosing)
+            {
                 return;
+            }
+
             int i = 0;
             int j;
             try
@@ -118,11 +129,19 @@ namespace RuneScapeSolo.Lib.Net
                 for (; i < arg0; i += j)
                 {
                     if (socketClosing)
+                    {
                         return;
-                    if (!socket.Connected)
-                        return;
+                    }
 
-                    if ((j = netStream.Read(org, i + arg1, arg0 - i)) <= 0) ;
+                    if (!socket.Connected)
+                    {
+                        return;
+                    }
+
+                    if ((j = netStream.Read(org, i + arg1, arg0 - i)) <= 0)
+                    {
+                        ;
+                    }
                     //throw new IOException("EOF"); 
 
                     for (int k = 0; k < arg2.Length; k++)
@@ -185,7 +204,9 @@ namespace RuneScapeSolo.Lib.Net
                 try
                 {
                     if (offset == dataWritten)
+                    {
                         netStream.Flush();
+                    }
                 }
                 catch (IOException ioexception1)
                 {
@@ -205,6 +226,7 @@ namespace RuneScapeSolo.Lib.Net
                 // lock (syncLock)
                 {
                     if (offset == dataWritten)
+                    {
                         try
                         {
                             //  wait();
@@ -212,13 +234,22 @@ namespace RuneScapeSolo.Lib.Net
                             // System.Threading.Thread.Sleep(10);
                         }
                         catch { }
+                    }
+
                     if (socketClosed)
+                    {
                         return;
+                    }
+
                     j = dataWritten;
                     if (offset >= dataWritten)
+                    {
                         i = offset - dataWritten;
+                    }
                     else
+                    {
                         i = 5000 - dataWritten;
+                    }
                 }
                 if (i > 0)
                 {
@@ -240,7 +271,9 @@ namespace RuneScapeSolo.Lib.Net
                         try
                         {
                             if (offset == dataWritten)
+                            {
                                 netStream.Flush();
+                            }
                         }
                         catch (IOException ioexception1)
                         {

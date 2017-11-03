@@ -149,7 +149,10 @@ namespace RuneScapeSolo.Lib
             for (int i = 0; i < allowedChars.Length; i++)
             {
                 if (c != allowedChars[i] && key != Keys.Left && key != Keys.Right && key != Keys.Up && key != Keys.Down)
+                {
                     continue;
+                }
+
                 flag = true;
                 break;
             }
@@ -268,13 +271,17 @@ namespace RuneScapeSolo.Lib
         public void start()
         {
             if (runStatus >= 0)
+            {
                 runStatus = 0;
+            }
         }
 
         public void stop()
         {
             if (runStatus >= 0)
+            {
                 runStatus = 4000 / refreshRate;
+            }
         }
 
 
@@ -348,10 +355,9 @@ namespace RuneScapeSolo.Lib
             }
 
             for (int k1 = 0; k1 < 10; k1++)
+            {
                 timeArray[k1] = CurrentTimeMillis();
-
-
-
+            }
 
             while (runStatus >= 0)
             {
@@ -402,15 +408,23 @@ namespace RuneScapeSolo.Lib
                 sleepTime = j2;
             }
             else if (l1 > timeArray[i])
-                k = (int)((long)(2560 * refreshRate) / (l1 - timeArray[i]));
+            {
+                k = (int)(2560 * refreshRate / (l1 - timeArray[i]));
+            }
+
             if (k < 25)
+            {
                 k = 25;
+            }
+
             if (k > 256)
             {
                 k = 256;
-                sleepTime = (int)((long)refreshRate - (l1 - timeArray[i]) / 10L);
+                sleepTime = (int)(refreshRate - (l1 - timeArray[i]) / 10L);
                 if (sleepTime < gameMinThreadSleepTime)
+                {
                     sleepTime = gameMinThreadSleepTime;
+                }
             }
             try
             {
@@ -422,9 +436,12 @@ namespace RuneScapeSolo.Lib
             if (sleepTime > 1)
             {
                 for (int k2 = 0; k2 < 10; k2++)
+                {
                     if (timeArray[k2] != 0L)
+                    {
                         timeArray[k2] += sleepTime;
-
+                    }
+                }
             }
             int l2 = 0;
             while (j1 < 256)
@@ -609,10 +626,14 @@ namespace RuneScapeSolo.Lib
                     {
                         int i1 = k - l;
                         if (i1 > 1000)
+                        {
                             i1 = 1000;
+                        }
 
                         for (int t = 0; t < i1; t++)
+                        {
                             abyte0[l + t] = inputstream.ReadSByte();
+                        }
 
                         // inputstream.Read(abyte0, l, i1);
 

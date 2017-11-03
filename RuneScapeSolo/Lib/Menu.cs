@@ -56,27 +56,44 @@ namespace RuneScapeSolo.Lib
             this.mouseY = mouseY;
             this.mouseButton = mouseButton;
             if (lastMouseButton != 0)
+            {
                 this.lastMouseButton = lastMouseButton;
+            }
+
             if (lastMouseButton == 1)
             {
                 for (int i = 0; i < menuItemsCount; i++)
                 {
                     if (componentAcceptsInput[i] && componentType[i] == 10 && this.mouseX >= componentX[i] && this.mouseY >= componentY[i] && this.mouseX <= componentX[i] + componentWidth[i] && this.mouseY <= componentY[i] + componentHeight[i])
+                    {
                         componentSkip[i] = true;
+                    }
+
                     if (componentAcceptsInput[i] && componentType[i] == 14 && this.mouseX >= componentX[i] && this.mouseY >= componentY[i] && this.mouseX <= componentX[i] + componentWidth[i] && this.mouseY <= componentY[i] + componentHeight[i])
+                    {
                         gbe[i] = 1 - gbe[i];
+                    }
                 }
 
             }
             if (mouseButton == 1)
+            {
                 gch++;
+            }
             else
+            {
                 gch = 0;
+            }
+
             if (lastMouseButton == 1 || gch > 20)
             {
                 for (int k = 0; k < menuItemsCount; k++)
+                {
                     if (componentAcceptsInput[k] && componentType[k] == 15 && this.mouseX >= componentX[k] && this.mouseY >= componentY[k] && this.mouseX <= componentX[k] + componentWidth[k] && this.mouseY <= componentY[k] + componentHeight[k])
+                    {
                         componentSkip[k] = true;
+                    }
+                }
 
                 gch -= 5;
             }
@@ -98,26 +115,40 @@ namespace RuneScapeSolo.Lib
         public void keyPress(Keys key, char c)
         {
             if (key == 0)
+            {
                 return;
+            }
+
             if (selectedComponent != -1 && componentText[selectedComponent] != null && componentAcceptsInput[selectedComponent])
             {
                 int i = componentText[selectedComponent].Length;
                 if (key == Keys.Back && i > 0)
+                {
                     componentText[selectedComponent] = componentText[selectedComponent].Substring(0, i - 1);
+                }
+
                 if ((key == Keys.Enter) && i > 0)
+                {
                     componentSkip[selectedComponent] = true;
+                }
+
                 string s = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789!\"" + (char)243 + "$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
                 if (i < copmonentInputMaxLength[selectedComponent])
                 {
                     for (int k = 0; k < s.Length; k++)
+                    {
                         if (c == s[k])
+                        {
                             componentText[selectedComponent] += c;
-
+                        }
+                    }
                 }
                 if (key == Keys.Tab)
                 {
                     do
+                    {
                         selectedComponent = (selectedComponent + 1) % menuItemsCount;
+                    }
                     while (componentType[selectedComponent] != 5 && componentType[selectedComponent] != 6);
                     return;
                 }
@@ -127,31 +158,59 @@ namespace RuneScapeSolo.Lib
         public void drawMenu()
         {
             for (int i = 0; i < menuItemsCount; i++)
+            {
                 if (componentAcceptsInput[i])
+                {
                     if (componentType[i] == 0)
+                    {
                         gef(i, componentX[i], componentY[i], componentText[i], componentTextSize[i]);
+                    }
                     else if (componentType[i] == 1)
+                    {
                         gef(i, componentX[i] - gameImage.textWidth(componentText[i], componentTextSize[i]) / 2, componentY[i], componentText[i], componentTextSize[i]);
+                    }
                     else if (componentType[i] == 2)
+                    {
                         gei(componentX[i], componentY[i], componentWidth[i], componentHeight[i]);
+                    }
                     else if (componentType[i] == 3)
+                    {
                         drawLineX(componentX[i], componentY[i], componentWidth[i]);
+                    }
                     else if (componentType[i] == 4)
+                    {
                         gem(i, componentX[i], componentY[i], componentWidth[i], componentHeight[i], componentTextSize[i], componentTextList[i], listLength[i], listShownEntries[i]);
+                    }
                     else if (componentType[i] == 5 || componentType[i] == 6)
+                    {
                         drawInputBox(i, componentX[i], componentY[i], componentWidth[i], componentHeight[i], componentText[i], componentTextSize[i]);
+                    }
                     else if (componentType[i] == 7)
+                    {
                         gfa(i, componentX[i], componentY[i], componentTextSize[i], componentTextList[i]);
+                    }
                     else if (componentType[i] == 8)
+                    {
                         gfb(i, componentX[i], componentY[i], componentTextSize[i], componentTextList[i]);
+                    }
                     else if (componentType[i] == 9)
+                    {
                         drawList(i, componentX[i], componentY[i], componentWidth[i], componentHeight[i], componentTextSize[i], componentTextList[i], listLength[i], listShownEntries[i]);
+                    }
                     else if (componentType[i] == 11)
+                    {
                         gej(componentX[i], componentY[i], componentWidth[i], componentHeight[i]);
+                    }
                     else if (componentType[i] == 12)
+                    {
                         drawPicture(componentX[i], componentY[i], componentTextSize[i]);
+                    }
                     else if (componentType[i] == 14)
+                    {
                         gee(i, componentX[i], componentY[i], componentWidth[i], componentHeight[i]);
+                    }
+                }
+            }
 
             lastMouseButton = 0;
         }
@@ -184,9 +243,14 @@ namespace RuneScapeSolo.Lib
         {
             int i;
             if (componentWhiteText[arg0])
+            {
                 i = 0xffffff;
+            }
             else
+            {
                 i = 0;
+            }
+
             gameImage.drawString(arg3, arg1, arg2, arg4, i);
         }
 
@@ -197,23 +261,32 @@ namespace RuneScapeSolo.Lib
                 int i = arg5.Length;
                 arg5 = "";
                 for (int l = 0; l < i; l++)
+                {
                     arg5 = arg5 + "X";
-
+                }
             }
             if (componentType[arg0] == 5)
             {
                 if (lastMouseButton == 1 && mouseX >= arg1 && mouseY >= arg2 - arg4 / 2 && mouseX <= arg1 + arg3 && mouseY <= arg2 + arg4 / 2)
+                {
                     selectedComponent = arg0;
+                }
             }
             else
                 if (componentType[arg0] == 6)
             {
                 if (lastMouseButton == 1 && mouseX >= arg1 - arg3 / 2 && mouseY >= arg2 - arg4 / 2 && mouseX <= arg1 + arg3 / 2 && mouseY <= arg2 + arg4 / 2)
+                {
                     selectedComponent = arg0;
+                }
+
                 arg1 -= gameImage.textWidth(arg5, arg6) / 2;
             }
             if (selectedComponent == arg0)
+            {
                 arg5 = arg5 + "*";
+            }
+
             int k = arg2 + gameImage.textHeightNumber(arg6) / 3;
             geg(arg0, arg1, k, arg5, arg6);
         }
@@ -227,8 +300,9 @@ namespace RuneScapeSolo.Lib
                 for (int i = arg0 - (arg1 & 0x3f); i < arg0 + arg2; i += 128)
                 {
                     for (int k = arg1 - (arg1 & 0x1f); k < arg1 + arg3; k += 128)
+                    {
                         gameImage.drawPicture(i, k, 6 + baseScrollPic, 128);
-
+                    }
                 }
 
             }
@@ -274,23 +348,38 @@ namespace RuneScapeSolo.Lib
         {
             int i = arg4 / gameImage.textHeightNumber(arg5);
             if (arg8 > arg7 - i)
+            {
                 arg8 = arg7 - i;
+            }
+
             if (arg8 < 0)
+            {
                 arg8 = 0;
+            }
+
             listShownEntries[arg0] = arg8;
             if (i < arg7)
             {
                 int k = (arg1 + arg3) - 12;
                 int i1 = ((arg4 - 27) * i) / arg7;
                 if (i1 < 6)
+                {
                     i1 = 6;
+                }
+
                 int k1 = ((arg4 - 27 - i1) * arg8) / (arg7 - i);
                 if (mouseButton == 1 && mouseX >= k && mouseX <= k + 12)
                 {
                     if (mouseY > arg2 && mouseY < arg2 + 12 && arg8 > 0)
+                    {
                         arg8--;
+                    }
+
                     if (mouseY > (arg2 + arg4) - 12 && mouseY < arg2 + arg4 && arg8 < arg7 - i)
+                    {
                         arg8++;
+                    }
+
                     listShownEntries[arg0] = arg8;
                 }
                 if (mouseButton == 1 && (mouseX >= k && mouseX <= k + 12 || mouseX >= k - 12 && mouseX <= k + 24 && gan[arg0]))
@@ -301,9 +390,15 @@ namespace RuneScapeSolo.Lib
                         int i2 = mouseY - arg2 - 12 - i1 / 2;
                         arg8 = (i2 * arg7) / (arg4 - 24);
                         if (arg8 > arg7 - i)
+                        {
                             arg8 = arg7 - i;
+                        }
+
                         if (arg8 < 0)
+                        {
                             arg8 = 0;
+                        }
+
                         listShownEntries[arg0] = arg8;
                     }
                 }
@@ -321,7 +416,9 @@ namespace RuneScapeSolo.Lib
                 geg(arg0, arg1 + 2, j1, arg6[l1], arg5);
                 j1 += gameImage.textHeightNumber(arg5) - chatMenuTextHeightMod;
                 if (j1 >= arg2 + arg4)
+                {
                     return;
+                }
             }
 
         }
@@ -348,7 +445,9 @@ namespace RuneScapeSolo.Lib
             {
                 i += gameImage.textWidth(arg4[l], arg3);
                 if (l < k - 1)
+                {
                     i += gameImage.textWidth("  ", arg3);
+                }
             }
 
             int i1 = arg1 - i / 2;
@@ -357,15 +456,25 @@ namespace RuneScapeSolo.Lib
             {
                 int l1;
                 if (componentWhiteText[arg0])
+                {
                     l1 = 0xffffff;
+                }
                 else
+                {
                     l1 = 0;
+                }
+
                 if (mouseX >= i1 && mouseX <= i1 + gameImage.textWidth(arg4[k1], arg3) && mouseY <= j1 && mouseY > j1 - gameImage.textHeightNumber(arg3))
                 {
                     if (componentWhiteText[arg0])
+                    {
                         l1 = 0x808080;
+                    }
                     else
+                    {
                         l1 = 0xffffff;
+                    }
+
                     if (lastMouseButton == 1)
                     {
                         gbe[arg0] = k1;
@@ -373,10 +482,17 @@ namespace RuneScapeSolo.Lib
                     }
                 }
                 if (gbe[arg0] == k1)
+                {
                     if (componentWhiteText[arg0])
+                    {
                         l1 = 0xff0000;
+                    }
                     else
+                    {
                         l1 = 0xc00000;
+                    }
+                }
+
                 gameImage.drawString(arg4[k1], i1, j1, arg3, l1);
                 i1 += gameImage.textWidth(arg4[k1] + "  ", arg3);
             }
@@ -391,16 +507,26 @@ namespace RuneScapeSolo.Lib
             {
                 int i1;
                 if (componentWhiteText[arg0])
+                {
                     i1 = 0xffffff;
+                }
                 else
+                {
                     i1 = 0;
+                }
+
                 int j1 = gameImage.textWidth(arg4[l], arg3);
                 if (mouseX >= arg1 - j1 / 2 && mouseX <= arg1 + j1 / 2 && mouseY - 2 <= k && mouseY - 2 > k - gameImage.textHeightNumber(arg3))
                 {
                     if (componentWhiteText[arg0])
+                    {
                         i1 = 0x808080;
+                    }
                     else
+                    {
                         i1 = 0xffffff;
+                    }
+
                     if (lastMouseButton == 1)
                     {
                         gbe[arg0] = l;
@@ -408,10 +534,17 @@ namespace RuneScapeSolo.Lib
                     }
                 }
                 if (gbe[arg0] == l)
+                {
                     if (componentWhiteText[arg0])
+                    {
                         i1 = 0xff0000;
+                    }
                     else
+                    {
                         i1 = 0xc00000;
+                    }
+                }
+
                 gameImage.drawString(arg4[l], arg1 - j1 / 2, k, arg3, i1);
                 k += gameImage.textHeightNumber(arg3);
             }
@@ -427,14 +560,23 @@ namespace RuneScapeSolo.Lib
                 int k = (listX + listWidth) - 12;
                 int i1 = ((listHeight - 27) * entryCount) / listLength;
                 if (i1 < 6)
+                {
                     i1 = 6;
+                }
+
                 int k1 = ((listHeight - 27 - i1) * shownEntries) / (listLength - entryCount);
                 if (mouseButton == 1 && mouseX >= k && mouseX <= k + 12)
                 {
                     if (mouseY > listY && mouseY < listY + 12 && shownEntries > 0)
+                    {
                         shownEntries--;
+                    }
+
                     if (mouseY > (listY + listHeight) - 12 && mouseY < listY + listHeight && shownEntries < listLength - entryCount)
+                    {
                         shownEntries++;
+                    }
+
                     listShownEntries[listIndex] = shownEntries;
                 }
                 if (mouseButton == 1 && (mouseX >= k && mouseX <= k + 12 || mouseX >= k - 12 && mouseX <= k + 24 && gan[listIndex]))
@@ -445,9 +587,15 @@ namespace RuneScapeSolo.Lib
                         int i2 = mouseY - listY - 12 - i1 / 2;
                         shownEntries = (i2 * listLength) / (listHeight - 24);
                         if (shownEntries < 0)
+                        {
                             shownEntries = 0;
+                        }
+
                         if (shownEntries > listLength - entryCount)
+                        {
                             shownEntries = listLength - entryCount;
+                        }
+
                         listShownEntries[listIndex] = shownEntries;
                     }
                 }
@@ -470,15 +618,25 @@ namespace RuneScapeSolo.Lib
             {
                 int j2;
                 if (componentWhiteText[listIndex])
+                {
                     j2 = 0xffffff;
+                }
                 else
+                {
                     j2 = 0;
+                }
+
                 if (mouseX >= listX + 2 && mouseX <= listX + 2 + gameImage.textWidth(listText[l1], listTextSize) && mouseY - 2 <= j1 && mouseY - 2 > j1 - gameImage.textHeightNumber(listTextSize))
                 {
                     if (componentWhiteText[listIndex])
+                    {
                         j2 = 0x808080;
+                    }
                     else
+                    {
                         j2 = 0xffffff;
+                    }
+
                     gbf[listIndex] = l1;
                     if (lastMouseButton == 1)
                     {
@@ -487,11 +645,16 @@ namespace RuneScapeSolo.Lib
                     }
                 }
                 if (gbe[listIndex] == l1 && gdg)
+                {
                     j2 = 0xff0000;
+                }
+
                 gameImage.drawString(listText[l1], listX + 2, j1, listTextSize, j2);
                 j1 += gameImage.textHeightNumber(listTextSize);
                 if (j1 >= listY + listHeight)
+                {
                     return;
+                }
             }
 
         }
@@ -649,7 +812,9 @@ namespace RuneScapeSolo.Lib
         {
             componentTextList[i][k] = s;
             if (k + 1 > listLength[i])
+            {
                 listLength[i] = k + 1;
+            }
         }
 
         public void addMessage(int arg0, string arg1, bool arg2)
@@ -660,12 +825,15 @@ namespace RuneScapeSolo.Lib
                 i--;
                 listLength[arg0]--;
                 for (int k = 0; k < i; k++)
+                {
                     componentTextList[arg0][k] = componentTextList[arg0][k + 1];
-
+                }
             }
             componentTextList[arg0][i] = arg1;
             if (arg2)
+            {
                 listShownEntries[arg0] = 0xf423f;
+            }
         }
 
         public void updateText(int i, string s)
@@ -676,9 +844,13 @@ namespace RuneScapeSolo.Lib
         public string getText(int i)
         {
             if (componentText[i] == null)
+            {
                 return "null";
+            }
             else
+            {
                 return componentText[i];
+            }
         }
 
         public void enableInput(int i)

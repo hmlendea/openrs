@@ -75,23 +75,34 @@ namespace RuneScapeSolo.Lib
         public static sbyte[] getFile(string fileName)
         {
             for (int i = 0; i < currentFile; i++)
+            {
                 if (link.fileName[i].Equals(fileName))
+                {
                     return fileData[i];
+                }
+            }
+
             if (loadFile(fileName))
+            {
                 return getFile(fileName);
+            }
             else
+            {
                 return null;
+            }
         }
 
 
         public static TcpClient getSocket(int port)
         {
             for (link.port = port; link.port != 0;)
+            {
                 try
                 {
                     Thread.Sleep(100);
                 }
                 catch (Exception _ex) { }
+            }
 
             return socket;
         }
@@ -108,11 +119,13 @@ namespace RuneScapeSolo.Lib
         public static string getAddress(string ip)
         {
             for (iplookup = ip; iplookup != null;)
+            {
                 try
                 {
                     Thread.Sleep(100);
                 }
                 catch (Exception _ex) { }
+            }
 
             return address;
         }

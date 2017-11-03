@@ -70,9 +70,15 @@ namespace RuneScapeSolo.Lib.Data
                     do
                     {
                         if (j1 == 0)
+                        {
                             goto done;
+                        }
+
                         if (i == 1)
+                        {
                             break;
+                        }
+
                         abyte0[i1] = sbyte4;
                         i--;
                         i1++;
@@ -119,7 +125,10 @@ namespace RuneScapeSolo.Lib.Data
                         goto done;
                     }
                     if (j != l1)
+                    {
                         continue;
+                    }
+
                     if (j1 == 0)
                     {
                         i = 1;
@@ -135,6 +144,7 @@ namespace RuneScapeSolo.Lib.Data
                 byte sbyte1 = (byte)(l & 0xff);
                 l >>= 8;
                 if (++j != l1)
+                {
                     if (sbyte1 != k)
                     {
                         k = sbyte1;
@@ -146,6 +156,7 @@ namespace RuneScapeSolo.Lib.Data
                         byte sbyte2 = (byte)(l & 0xff);
                         l >>= 8;
                         if (++j != l1)
+                        {
                             if (sbyte2 != k)
                             {
                                 k = sbyte2;
@@ -162,7 +173,9 @@ namespace RuneScapeSolo.Lib.Data
                                 l >>= 8;
                                 j++;
                             }
+                        }
                     }
+                }
             } while (true);
 
         done:
@@ -170,7 +183,10 @@ namespace RuneScapeSolo.Lib.Data
             int i2 = arg0.aem;
             arg0.aem += k1 - j1;
             if (arg0.aem < i2)
+            {
                 arg0.aen++;
+            }
+
             arg0.afa = sbyte4;
             arg0.afb = i;
             arg0.afl = j;
@@ -344,7 +360,7 @@ namespace RuneScapeSolo.Lib.Data
                         }
                         if (blockEntry.len[l3][l1] < minlen)
                         {
-                            minlen = (sbyte)blockEntry.len[l3][l1];
+                            minlen = blockEntry.len[l3][l1];
                         }
                     }
 

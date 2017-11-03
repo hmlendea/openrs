@@ -12,7 +12,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             bbb = new int[bba];
             bbc = new int[bba][];
 
-            for (int j = 0; j < bba; j++) bbc[j] = new int[256];
+            for (int j = 0; j < bba; j++)
+            {
+                bbc[j] = new int[256];
+            }
 
             bbf = 5;
             zoom1 = 1000;
@@ -51,7 +54,9 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             currentModelIndex = 0;
             visibleModels = new CameraModel[maxVisibleObjects];
             for (int k = 0; k < maxVisibleObjects; k++)
+            {
                 visibleModels[k] = new CameraModel();
+            }
 
             bdn = 0;
             highlightedObject = new GameObject(maxSceneObjects * 2, maxSceneObjects);
@@ -63,7 +68,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             sceneObjectZ = new int[maxSceneObjects];
             beg = new int[maxSceneObjects];
             if (bfe == null)
+            {
                 bfe = new sbyte[17691];
+            }
+
             viewX = 0;
             ViewY = 0;
             ViewZ = 0;
@@ -72,16 +80,16 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             bdg = 0;
             for (int i1 = 0; i1 < 256; i1++)
             {
-                var val = (int)(Math.Sin((double)i1 * 0.02454369D) * 32768D);
-                bbl[i1] = (int)(Math.Sin((double)i1 * 0.02454369D) * 32768D);
-                bbl[i1 + 256] = (int)(Math.Cos((double)i1 * 0.02454369D) * 32768D);
+                var val = (int)(Math.Sin(i1 * 0.02454369D) * 32768D);
+                bbl[i1] = (int)(Math.Sin(i1 * 0.02454369D) * 32768D);
+                bbl[i1 + 256] = (int)(Math.Cos(i1 * 0.02454369D) * 32768D);
             }
 
             for (int j1 = 0; j1 < 1024; j1++)
             {
-                var val = (int)(Math.Sin((double)j1 * 0.00613592315D) * 32768D);
-                bbk[j1] = (int)(Math.Sin((double)j1 * 0.00613592315D) * 32768D);
-                bbk[j1 + 1024] = (int)(Math.Cos((double)j1 * 0.00613592315D) * 32768D);
+                var val = (int)(Math.Sin(j1 * 0.00613592315D) * 32768D);
+                bbk[j1] = (int)(Math.Sin(j1 * 0.00613592315D) * 32768D);
+                bbk[j1 + 1024] = (int)(Math.Cos(j1 * 0.00613592315D) * 32768D);
             }
 
         }
@@ -89,7 +97,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         public void addModel(GameObject k)
         {
             if (k == null)
+            {
                 Console.WriteLine("Warning tried to add null object!");
+            }
+
             if (currentObjectCount < totalModelCount)
             {
                 bdk[currentObjectCount] = 0;
@@ -100,6 +111,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         public void removeModel(GameObject arg0)
         {
             for (int k = 0; k < currentObjectCount; k++)
+            {
                 if (objectCache[k] == arg0)
                 {
                     currentObjectCount--;
@@ -110,14 +122,16 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     }
 
                 }
-
+            }
         }
 
         public void cleanUp()
         {
             bhb();
             for (int k = 0; k < currentObjectCount; k++)
+            {
                 objectCache[k] = null;
+            }
 
             currentObjectCount = 0;
         }
@@ -133,7 +147,9 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             bdn -= k;
             highlightedObject.cll(k, k * 2);
             if (bdn < 0)
+            {
                 bdn = 0;
+            }
         }
 
         public int addSpriteToScene(int objectId, int x, int y, int z, int width, int height, int j2)
@@ -197,8 +213,9 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             bcn = arg5;
             bfi = new CameraVariable[arg3 + arg1];
             for (int k = 0; k < arg3 + arg1; k++)
+            {
                 bfi[k] = new CameraVariable();
-
+            }
         }
 
         private void bhl(CameraModel[] arg0, int arg1, int arg2)
@@ -215,10 +232,14 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 while (k < i1)
                 {
                     do
+                    {
                         i1--;
+                    }
                     while (arg0[i1].Scale < k1);
                     do
+                    {
                         k++;
+                    }
                     while (arg0[k].Scale > k1);
                     if (k < i1)
                     {
@@ -245,15 +266,24 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             do
             {
                 while (models[i1].bld)
+                {
                     i1++;
+                }
+
                 if (i1 == index)
+                {
                     return;
+                }
+
                 CameraModel l1 = models[i1];
                 l1.bld = true;
                 int j1 = i1;
                 int k1 = i1 + arg0;
                 if (k1 >= index)
+                {
                     k1 = index - 1;
+                }
+
                 for (int i2 = k1; i2 >= j1 + 1; i2--)
                 {
                     CameraModel l2 = models[i2];
@@ -261,7 +291,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     {
                         bhn(models, j1, i2);
                         if (models[i2] != l2)
+                        {
                             i2++;
+                        }
+
                         j1 = bgk;
                         l2.blf = l1.ble;
                     }
@@ -279,7 +312,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 {
                     CameraModel l2 = models[k];
                     if (!bjc(l2, l1))
+                    {
                         break;
+                    }
+
                     models[start] = l2;
                     models[k] = l1;
                     start = k;
@@ -296,7 +332,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 {
                     CameraModel l4 = models[i1];
                     if (!bjc(l3, l4))
+                    {
                         break;
+                    }
+
                     models[stop] = l4;
                     models[i1] = l3;
                     stop = i1;
@@ -353,17 +392,34 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 k = j4;
             }
             if (k < nearX)
+            {
                 nearX = k;
+            }
+
             if (k > farX)
+            {
                 farX = k;
+            }
+
             if (i1 < nearY)
+            {
                 nearY = i1;
+            }
+
             if (i1 > farY)
+            {
                 farY = i1;
+            }
+
             if (j1 < nearZ)
+            {
                 nearZ = j1;
+            }
+
             if (j1 > farZ)
+            {
                 farZ = j1;
+            }
         }
 
         public void finishCamera()
@@ -396,7 +452,9 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             for (int k1 = 0; k1 < currentObjectCount; k1++)
             {
                 if (objectCache[k1] != null)
+                {
                     objectCache[k1].cnh(viewX, ViewY, ViewZ, bde, bdf, bdg, bcn, bbf);
+                }
             }
 
             int msSlept = 0;
@@ -404,7 +462,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             {
                 System.Threading.Thread.Sleep(10);
                 msSlept += 10;
-                if (msSlept > 1000) return;
+                if (msSlept > 1000)
+                {
+                    return;
+                }
             }
 
             objectCache[currentObjectCount].cnh(viewX, ViewY, ViewZ, bde, bdf, bdg, bcn, bbf);
@@ -413,7 +474,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             {
                 GameObject k = objectCache[i5];
                 if (k == null)
+                {
                     continue;
+                }
+
                 if (k.visible)
                 {
                     for (int l1 = 0; l1 < k.face_count; l1++)
@@ -425,7 +489,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         {
                             int k2 = k.cfk[ai1[i6]];
                             if (k2 <= bbf || k2 >= zoom1)
+                            {
                                 continue;
+                            }
+
                             flag = true;
                             break;
                         }
@@ -437,11 +504,19 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                             {
                                 int l2 = k.cfl[ai1[j7]];
                                 if (l2 > -bcj)
+                                {
                                     j3 |= 1;
+                                }
+
                                 if (l2 < bcj)
+                                {
                                     j3 |= 2;
+                                }
+
                                 if (j3 == 3)
+                                {
                                     break;
+                                }
                             }
 
                             if (j3 == 3)
@@ -451,11 +526,19 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                                 {
                                     int i3 = k.cfm[ai1[k8]];
                                     if (i3 > -bck)
+                                    {
                                         k3 |= 1;
+                                    }
+
                                     if (i3 < bck)
+                                    {
                                         k3 |= 2;
+                                    }
+
                                     if (k3 == 3)
+                                    {
                                         break;
+                                    }
                                 }
 
                                 if (k3 == 3)
@@ -466,14 +549,21 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                                     bja(currentModelIndex);
                                     int textureIndex;
                                     if (l9.blb < 0)
+                                    {
                                         textureIndex = k.texture_back[l1];
+                                    }
                                     else
+                                    {
                                         textureIndex = k.texture_front[l1];
+                                    }
+
                                     if (textureIndex != 0xbc614e)
                                     {
                                         int l3 = 0;
                                         for (int l11 = 0; l11 < j5; l11++)
+                                        {
                                             l3 += k.cfk[ai1[l11]];
+                                        }
 
                                         l9.Scale = l3 / j5 + k.cgm;
                                         l9.currentTextureIndex = textureIndex;
@@ -515,7 +605,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
 
             }
             if (currentModelIndex == 0)
+            {
                 return;
+            }
+
             bbe = currentModelIndex;
             bhl(visibleModels, 0, currentModelIndex - 1);
             bhm(100, visibleModels, currentModelIndex);
@@ -557,10 +650,17 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     int vertCount = model.face_vertices_count[j2];
                     int[] ai3 = model.face_vertices[j2];
                     if (model.gouraud_shade[j2] != 0xbc614e)
+                    {
                         if (l6.blb < 0)
+                        {
                             j12 = model.clf - model.gouraud_shade[j2];
+                        }
                         else
+                        {
                             j12 = model.clf + model.gouraud_shade[j2];
+                        }
+                    }
+
                     for (int l13 = 0; l13 < vertCount; l13++)
                     {
                         int i4 = ai3[l13];
@@ -568,26 +668,41 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         vertY[l13] = model.cfj[i4];
                         vertZ[l13] = model.cfk[i4];
                         if (model.gouraud_shade[j2] == 0xbc614e)
+                        {
                             if (l6.blb < 0)
+                            {
                                 j12 = (model.clf - model.cfn[i4]) + model.vertexColor[i4];
+                            }
                             else
+                            {
                                 j12 = model.clf + model.cfn[i4] + model.vertexColor[i4];
+                            }
+                        }
+
                         if (model.cfk[i4] >= bbf)
                         {
                             bfl[k10] = model.cfl[i4];
                             bfm[k10] = model.cfm[i4];
                             bfn[k10] = j12;
                             if (model.cfk[i4] > zoom4)
+                            {
                                 bfn[k10] += (model.cfk[i4] - zoom4) / zoom3;
+                            }
+
                             k10++;
                         }
                         else
                         {
                             int k11;
                             if (l13 == 0)
+                            {
                                 k11 = ai3[vertCount - 1];
+                            }
                             else
+                            {
                                 k11 = ai3[l13 - 1];
+                            }
+
                             if (model.cfk[k11] >= bbf)
                             {
                                 int j9 = model.cfk[i4] - model.cfk[k11];
@@ -599,9 +714,14 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                                 k10++;
                             }
                             if (l13 == vertCount - 1)
+                            {
                                 k11 = ai3[0];
+                            }
                             else
+                            {
                                 k11 = ai3[l13 + 1];
+                            }
+
                             if (model.cfk[k11] >= bbf)
                             {
                                 int k9 = model.cfk[i4] - model.cfk[k11];
@@ -618,20 +738,33 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     for (int j14 = 0; j14 < vertCount; j14++)
                     {
                         if (bfn[j14] < 0)
+                        {
                             bfn[j14] = 0;
+                        }
                         else
                             if (bfn[j14] > 255)
+                        {
                             bfn[j14] = 255;
+                        }
+
                         if (l6.currentTextureIndex >= 0)
+                        {
                             if (bel[l6.currentTextureIndex] == 1)
+                            {
                                 bfn[j14] <<= 9;
+                            }
                             else
+                            {
                                 bfn[j14] <<= 6;
+                            }
+                        }
                     }
 
                     bic(0, 0, 0, 0, k10, bfl, bfm, bfn, model, j2);
                     if (bfk > bfj)
+                    {
                         renderModel(0, 0, vertCount, vertX, vertY, vertZ, l6.currentTextureIndex, model);
+                    }
                 }
             }
 
@@ -684,7 +817,9 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         i14 = 0;
                     }
                     if (k14 > k11)
+                    {
                         k14 = k11;
+                    }
                 }
                 int i15 = 0;
                 int k15 = 0;
@@ -717,7 +852,9 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         i17 = 0;
                     }
                     if (k17 > k11)
+                    {
                         k17 = k11;
+                    }
                 }
                 int i18 = 0;
                 int k18 = 0;
@@ -750,18 +887,32 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         i20 = 0;
                     }
                     if (k20 > k11)
+                    {
                         k20 = k11;
+                    }
                 }
                 bfj = i14;
                 if (i17 < bfj)
+                {
                     bfj = i17;
+                }
+
                 if (i20 < bfj)
+                {
                     bfj = i20;
+                }
+
                 bfk = k14;
                 if (k17 > bfk)
+                {
                     bfk = k17;
+                }
+
                 if (k20 > bfk)
+                {
                     bfk = k20;
+                }
+
                 int i21 = 0;
                 for (arg2 = bfj; arg2 < bfk; arg2++)
                 {
@@ -815,7 +966,9 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 }
 
                 if (bfj < bcm - bck)
+                {
                     bfj = bcm - bck;
+                }
             }
             else
                 if (arg4 == 4)
@@ -864,7 +1017,9 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         l15 = 0;
                     }
                     if (j16 > j13)
+                    {
                         j16 = j13;
+                    }
                 }
                 int l16 = 0;
                 int j17 = 0;
@@ -897,7 +1052,9 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         l18 = 0;
                     }
                     if (j19 > j13)
+                    {
                         j19 = j13;
+                    }
                 }
                 int l19 = 0;
                 int j20 = 0;
@@ -930,7 +1087,9 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         k21 = 0;
                     }
                     if (l21 > j13)
+                    {
                         l21 = j13;
+                    }
                 }
                 int i22 = 0;
                 int j22 = 0;
@@ -963,28 +1122,48 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         i23 = 0;
                     }
                     if (j23 > j13)
+                    {
                         j23 = j13;
+                    }
                 }
                 bfj = l15;
                 if (l18 < bfj)
+                {
                     bfj = l18;
+                }
+
                 if (k21 < bfj)
+                {
                     bfj = k21;
+                }
+
                 if (i23 < bfj)
+                {
                     bfj = i23;
-                bfk = (int)j16;
+                }
+
+                bfk = j16;
                 if (j19 > bfk)
-                    bfk = (int)j19;
+                {
+                    bfk = j19;
+                }
+
                 if (l21 > bfk)
-                    bfk = (int)l21;
+                {
+                    bfk = l21;
+                }
+
                 if (j23 > bfk)
-                    bfk = (int)j23;
+                {
+                    bfk = j23;
+                }
+
                 int k23 = 0;
                 for (arg2 = bfj; arg2 < bfk; arg2++)
                 {
                     if (arg2 >= l15 && arg2 < j16)
                     {
-                        arg0 = (int)(arg1 = l13);
+                        arg0 = arg1 = l13;
                         arg3 = k23 = l14;
                         l13 += j14;
                         l14 += j15;
@@ -1047,7 +1226,9 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 }
 
                 if (bfj < bcm - bck)
+                {
                     bfj = bcm - bck;
+                }
             }
             else
             {
@@ -1056,18 +1237,31 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 {
                     int j1;
                     if ((j1 = arg6[arg2] += bcm) < bfj)
+                    {
                         bfj = j1;
+                    }
                     else
                         if (j1 > bfk)
+                    {
                         bfk = j1;
+                    }
                 }
 
                 if (bfj < bcm - bck)
+                {
                     bfj = bcm - bck;
+                }
+
                 if (bfk >= bcm + bck)
+                {
                     bfk = (bcm + bck) - 1;
+                }
+
                 if (bfj >= bfk)
+                {
                     return;
+                }
+
                 for (arg2 = bfj; arg2 < bfk; arg2++)
                 {
                     CameraVariable m1 = bfi[arg2];
@@ -1091,7 +1285,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         j2 = 0;
                     }
                     if (j3 > bfk)
+                    {
                         j3 = bfk;
+                    }
+
                     for (arg2 = j2; arg2 <= j3; arg2++)
                     {
                         CameraVariable m3 = bfi[arg2];
@@ -1116,7 +1313,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         j3 = 0;
                     }
                     if (j2 > bfk)
+                    {
                         j2 = bfk;
+                    }
+
                     for (arg2 = j3; arg2 <= j2; arg2++)
                     {
                         CameraVariable m4 = bfi[arg2];
@@ -1145,7 +1345,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                             k2 = 0;
                         }
                         if (k3 > bfk)
+                        {
                             k3 = bfk;
+                        }
+
                         for (int i11 = k2; i11 <= k3; i11++)
                         {
                             CameraVariable m5 = bfi[i11];
@@ -1178,7 +1381,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                             k3 = 0;
                         }
                         if (k2 > bfk)
+                        {
                             k2 = bfk;
+                        }
+
                         for (int j11 = k3; j11 <= k2; j11++)
                         {
                             CameraVariable m6 = bfi[j11];
@@ -1200,7 +1406,9 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 }
 
                 if (bfj < bcm - bck)
+                {
                     bfj = bcm - bck;
+                }
             }
             if (bcb && bce < maxHighlightedObjects && bcd >= bfj && bcd < bfk)
             {
@@ -1218,11 +1426,17 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 GameObject arg7)
         {
             if (textureIndex == -2)
+            {
                 return;
+            }
+
             if (textureIndex >= 0)
             {
                 if (textureIndex >= bei)
+                {
                     textureIndex = 0;
+                }
+
                 updateTextureSmoothing(textureIndex);
                 int k = arg3[0];
                 int j1 = arg4[0];
@@ -1553,7 +1767,11 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 {
                     var val = Helper.Random.NextDouble();
                     int k1 = (int)(val /*Math.random()*/ * bba);
-                    if (k1 >= bbb.Length) k1 = k1 - 1;
+                    if (k1 >= bbb.Length)
+                    {
+                        k1 = k1 - 1;
+                    }
+
                     bbb[k1] = textureIndex;
                     textureIndex = -1 - textureIndex;
                     int j2 = (textureIndex >> 10 & 0x1f) * 8;
@@ -1689,7 +1907,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13)
         {
             if (arg10 <= 0)
+            {
                 return;
+            }
+
             int k = 0;
             int i1 = 0;
             int l1 = 0;
@@ -1699,10 +1920,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 arg3 = arg5 / arg6 << 7;
             }
             if (arg2 < 0)
+            {
                 arg2 = 0;
+            }
             else
                 if (arg2 > 16256)
+            {
                 arg2 = 16256;
+            }
+
             arg4 += arg7;
             arg5 += arg8;
             arg6 += arg9;
@@ -1712,10 +1938,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 i1 = arg5 / arg6 << 7;
             }
             if (k < 0)
+            {
                 k = 0;
+            }
             else
                 if (k > 16256)
+            {
                 k = 16256;
+            }
+
             int j1 = k - arg2 >> 4;
             int k1 = i1 - arg3 >> 4;
             for (int i2 = arg10 >> 4; i2 > 0; i2--)
@@ -1789,10 +2020,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     i1 = arg5 / arg6 << 7;
                 }
                 if (k < 0)
+                {
                     k = 0;
+                }
                 else
                     if (k > 16256)
+                {
                     k = 16256;
+                }
+
                 j1 = k - arg2 >> 4;
                 k1 = i1 - arg3 >> 4;
             }
@@ -1816,7 +2052,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13)
         {
             if (arg10 <= 0)
+            {
                 return;
+            }
+
             int k = 0;
             int i1 = 0;
             int l1 = 0;
@@ -1826,10 +2065,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 arg3 = arg5 / arg6 << 7;
             }
             if (arg2 < 0)
+            {
                 arg2 = 0;
+            }
             else
                 if (arg2 > 16256)
+            {
                 arg2 = 16256;
+            }
+
             arg4 += arg7;
             arg5 += arg8;
             arg6 += arg9;
@@ -1839,10 +2083,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 i1 = arg5 / arg6 << 7;
             }
             if (k < 0)
+            {
                 k = 0;
+            }
             else
                 if (k > 16256)
+            {
                 k = 16256;
+            }
+
             int j1 = k - arg2 >> 4;
             int k1 = i1 - arg3 >> 4;
             for (int i2 = arg10 >> 4; i2 > 0; i2--)
@@ -1916,10 +2165,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     i1 = arg5 / arg6 << 7;
                 }
                 if (k < 0)
+                {
                     k = 0;
+                }
                 else
                     if (k > 16256)
+                {
                     k = 16256;
+                }
+
                 j1 = k - arg2 >> 4;
                 k1 = i1 - arg3 >> 4;
             }
@@ -1943,7 +2197,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13, int arg14)
         {
             if (arg11 <= 0)
+            {
                 return;
+            }
+
             int k = 0;
             int i1 = 0;
             arg14 <<= 2;
@@ -1953,10 +2210,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 i1 = arg6 / arg7 << 7;
             }
             if (k < 0)
+            {
                 k = 0;
+            }
             else
                 if (k > 16256)
+            {
                 k = 16256;
+            }
+
             for (int l1 = arg11; l1 > 0; l1 -= 16)
             {
                 arg5 += arg8;
@@ -1970,10 +2232,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     i1 = arg6 / arg7 << 7;
                 }
                 if (k < 0)
+                {
                     k = 0;
+                }
                 else
                     if (k > 16256)
+                {
                     k = 16256;
+                }
+
                 int j1 = k - arg2 >> 4;
                 int k1 = i1 - arg3 >> 4;
                 int i2 = arg13 >> 23;
@@ -1984,7 +2251,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     for (int j2 = 0; j2 < l1; j2++)
                     {
                         if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                        {
                             arg0[arg12] = arg1;
+                        }
+
                         arg12++;
                         arg2 += j1;
                         arg3 += k1;
@@ -2000,45 +2270,34 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 else
                 {
                     if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    {
                         arg0[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    {
                         arg0[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    {
                         arg0[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    {
                         arg0[arg12] = arg1;
-                    arg12++;
-                    arg2 += j1;
-                    arg3 += k1;
-                    arg2 = (arg2 & 0x3fff) + (arg13 & 0x600000);
-                    i2 = arg13 >> 23;
-                    arg13 += arg14;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
-                        arg0[arg12] = arg1;
-                    arg12++;
-                    arg2 += j1;
-                    arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
-                        arg0[arg12] = arg1;
-                    arg12++;
-                    arg2 += j1;
-                    arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
-                        arg0[arg12] = arg1;
-                    arg12++;
-                    arg2 += j1;
-                    arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
-                        arg0[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
@@ -2046,22 +2305,34 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     i2 = arg13 >> 23;
                     arg13 += arg14;
                     if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    {
                         arg0[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    {
                         arg0[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    {
                         arg0[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    {
                         arg0[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
@@ -2069,22 +2340,69 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     i2 = arg13 >> 23;
                     arg13 += arg14;
                     if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    {
                         arg0[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    {
                         arg0[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    {
                         arg0[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    {
                         arg0[arg12] = arg1;
+                    }
+
+                    arg12++;
+                    arg2 += j1;
+                    arg3 += k1;
+                    arg2 = (arg2 & 0x3fff) + (arg13 & 0x600000);
+                    i2 = arg13 >> 23;
+                    arg13 += arg14;
+                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    {
+                        arg0[arg12] = arg1;
+                    }
+
+                    arg12++;
+                    arg2 += j1;
+                    arg3 += k1;
+                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    {
+                        arg0[arg12] = arg1;
+                    }
+
+                    arg12++;
+                    arg2 += j1;
+                    arg3 += k1;
+                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    {
+                        arg0[arg12] = arg1;
+                    }
+
+                    arg12++;
+                    arg2 += j1;
+                    arg3 += k1;
+                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    {
+                        arg0[arg12] = arg1;
+                    }
+
                     arg12++;
                 }
             }
@@ -2095,7 +2413,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13)
         {
             if (arg10 <= 0)
+            {
                 return;
+            }
+
             int k = 0;
             int i1 = 0;
             arg13 <<= 2;
@@ -2105,10 +2426,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 i1 = arg5 / arg6 << 6;
             }
             if (k < 0)
+            {
                 k = 0;
+            }
             else
                 if (k > 4032)
+            {
                 k = 4032;
+            }
+
             for (int l1 = arg10; l1 > 0; l1 -= 16)
             {
                 arg4 += arg7;
@@ -2122,10 +2448,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     i1 = arg5 / arg6 << 6;
                 }
                 if (k < 0)
+                {
                     k = 0;
+                }
                 else
                     if (k > 4032)
+                {
                     k = 4032;
+                }
+
                 int j1 = k - arg2 >> 4;
                 int k1 = i1 - arg3 >> 4;
                 int i2 = arg12 >> 20;
@@ -2213,20 +2544,28 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13)
         {
             if (arg10 <= 0)
+            {
                 return;
+            }
+
             int k = 0;
             int i1 = 0;
             arg13 <<= 2;
             if (arg6 != 0)
             {
-                k = (int)((arg4 / arg6) << 6);
-                i1 = (int)((arg5 / arg6) << 6);
+                k = (arg4 / arg6) << 6;
+                i1 = (arg5 / arg6) << 6;
             }
             if (k < 0)
+            {
                 k = 0;
+            }
             else
                 if (k > 4032)
+            {
                 k = 4032;
+            }
+
             for (int l1 = arg10; l1 > 0; l1 -= 16)
             {
                 arg4 += arg7;
@@ -2240,10 +2579,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     i1 = arg5 / arg6 << 6;
                 }
                 if (k < 0)
+                {
                     k = 0;
+                }
                 else
                     if (k > 4032)
+                {
                     k = 4032;
+                }
+
                 int j1 = k - arg2 >> 4;
                 int k1 = i1 - arg3 >> 4;
                 int i2 = arg12 >> 20;
@@ -2331,7 +2675,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13, int arg14)
         {
             if (arg11 <= 0)
+            {
                 return;
+            }
+
             int k = 0;
             int i1 = 0;
             arg14 <<= 2;
@@ -2341,10 +2688,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 i1 = arg6 / arg7 << 6;
             }
             if (k < 0)
+            {
                 k = 0;
+            }
             else
                 if (k > 4032)
+            {
                 k = 4032;
+            }
+
             for (int l1 = arg11; l1 > 0; l1 -= 16)
             {
                 arg5 += arg8;
@@ -2358,10 +2710,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     i1 = arg6 / arg7 << 6;
                 }
                 if (k < 0)
+                {
                     k = 0;
+                }
                 else
                     if (k > 4032)
+                {
                     k = 4032;
+                }
+
                 int j1 = k - arg2 >> 4;
                 int k1 = i1 - arg3 >> 4;
                 int i2 = arg13 >> 20;
@@ -2372,7 +2729,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     for (int j2 = 0; j2 < l1; j2++)
                     {
                         if ((arg1 = ((arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2))) != 0)
+                        {
                             pixels[arg12] = arg1;
+                        }
+
                         arg12++;
                         arg2 += j1;
                         arg3 += k1;
@@ -2388,45 +2748,34 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 else
                 {
                     if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    {
                         pixels[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    {
                         pixels[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    {
                         pixels[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    {
                         pixels[arg12] = arg1;
-                    arg12++;
-                    arg2 += j1;
-                    arg3 += k1;
-                    arg2 = (arg2 & 0xfff) + (arg13 & 0xc0000);
-                    i2 = arg13 >> 20;
-                    arg13 += arg14;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
-                        pixels[arg12] = arg1;
-                    arg12++;
-                    arg2 += j1;
-                    arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
-                        pixels[arg12] = arg1;
-                    arg12++;
-                    arg2 += j1;
-                    arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
-                        pixels[arg12] = arg1;
-                    arg12++;
-                    arg2 += j1;
-                    arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
-                        pixels[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
@@ -2434,22 +2783,34 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     i2 = arg13 >> 20;
                     arg13 += arg14;
                     if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    {
                         pixels[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    {
                         pixels[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    {
                         pixels[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    {
                         pixels[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
@@ -2457,22 +2818,69 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     i2 = arg13 >> 20;
                     arg13 += arg14;
                     if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    {
                         pixels[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    {
                         pixels[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    {
                         pixels[arg12] = arg1;
+                    }
+
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
                     if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    {
                         pixels[arg12] = arg1;
+                    }
+
+                    arg12++;
+                    arg2 += j1;
+                    arg3 += k1;
+                    arg2 = (arg2 & 0xfff) + (arg13 & 0xc0000);
+                    i2 = arg13 >> 20;
+                    arg13 += arg14;
+                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    {
+                        pixels[arg12] = arg1;
+                    }
+
+                    arg12++;
+                    arg2 += j1;
+                    arg3 += k1;
+                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    {
+                        pixels[arg12] = arg1;
+                    }
+
+                    arg12++;
+                    arg2 += j1;
+                    arg3 += k1;
+                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    {
+                        pixels[arg12] = arg1;
+                    }
+
+                    arg12++;
+                    arg2 += j1;
+                    arg3 += k1;
+                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    {
+                        pixels[arg12] = arg1;
+                    }
+
                     arg12++;
                 }
             }
@@ -2482,7 +2890,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         private static void bik(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6)
         {
             if (arg1 >= 0)
+            {
                 return;
+            }
+
             arg6 <<= 1;
             arg3 = arg4[arg5 >> 8 & 0xff];
             arg5 += arg6;
@@ -2523,7 +2934,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         private static void bil(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6)
         {
             if (arg1 >= 0)
+            {
                 return;
+            }
+
             arg6 <<= 2;
             arg3 = arg4[arg5 >> 8 & 0xff];
             arg5 += arg6;
@@ -2573,7 +2987,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         private static void bim(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6)
         {
             if (arg1 >= 0)
+            {
                 return;
+            }
+
             arg6 <<= 2;
             arg3 = arg4[arg5 >> 8 & 0xff];
             arg5 += arg6;
@@ -2690,7 +3107,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 }
 
                 k.cgh[i1] = k1;
-                k.cgg[i1] = (int)((double)bda * Math.Sqrt(xDistance * xDistance + yDistance * yDistance + zDistance * zDistance));
+                k.cgg[i1] = (int)(bda * Math.Sqrt(xDistance * xDistance + yDistance * yDistance + zDistance * zDistance));
             }
             else
             {
@@ -2712,22 +3129,36 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             {
                 int i2 = k.cfk[ai[l6]];
                 if (i2 > k5)
+                {
                     k5 = i2;
+                }
                 else
                     if (i2 < j5)
+                {
                     j5 = i2;
+                }
+
                 i2 = k.cfl[ai[l6]];
                 if (i2 > i6)
+                {
                     i6 = i2;
+                }
                 else
                     if (i2 < l5)
+                {
                     l5 = i2;
+                }
+
                 i2 = k.cfm[ai[l6]];
                 if (i2 > k6)
+                {
                     k6 = i2;
+                }
                 else
                     if (i2 < j6)
+                {
                     j6 = i2;
+                }
             }
 
             l1.bkh = j5;
@@ -2761,29 +3192,49 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             int l3 = k.cfl[faceVertices[0]];
             int i4 = l3;
             if (k.cfl[faceVertices[1]] < l3)
+            {
                 l3 = k.cfl[faceVertices[1]];
+            }
             else
+            {
                 i4 = k.cfl[faceVertices[1]];
+            }
+
             int j4 = k.cfm[faceVertices[1]];
             int k4 = k.cfm[faceVertices[0]];
             int j1 = k.cfk[faceVertices[1]];
             if (j1 > k3)
+            {
                 k3 = j1;
+            }
             else
                 if (j1 < j3)
+            {
                 j3 = j1;
+            }
+
             j1 = k.cfl[faceVertices[1]];
             if (j1 > i4)
+            {
                 i4 = j1;
+            }
             else
                 if (j1 < l3)
+            {
                 l3 = j1;
+            }
+
             j1 = k.cfm[faceVertices[1]];
             if (j1 > k4)
+            {
                 k4 = j1;
+            }
             else
                 if (j1 < j4)
+            {
                 j4 = j1;
+            }
+
             l1.bkh = j3;
             l1.bki = k3;
             l1.bkd = l3 - 20;
@@ -2795,17 +3246,35 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         private bool bjc(CameraModel arg0, CameraModel arg1)
         {
             if (arg0.bkd >= arg1.bkf)
+            {
                 return true;
+            }
+
             if (arg1.bkd >= arg0.bkf)
+            {
                 return true;
+            }
+
             if (arg0.bke >= arg1.bkg)
+            {
                 return true;
+            }
+
             if (arg1.bke >= arg0.bkg)
+            {
                 return true;
+            }
+
             if (arg0.bkh >= arg1.bki)
+            {
                 return true;
+            }
+
             if (arg1.bkh > arg0.bki)
+            {
                 return false;
+            }
+
             GameObject k = arg0.Object;
             GameObject i1 = arg1.Object;
             int j1 = arg0.faceVertCountIndex1;
@@ -2828,13 +3297,19 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 int j2 = ai[l5];
                 int j3 = (l3 - k.cfi[j2]) * k4 + (i4 - k.cfj[j2]) * l4 + (j4 - k.cfk[j2]) * i5;
                 if ((j3 >= -j5 || k5 >= 0) && (j3 <= j5 || k5 <= 0))
+                {
                     continue;
+                }
+
                 flag = true;
                 break;
             }
 
             if (!flag)
+            {
                 return true;
+            }
+
             l3 = k.cfi[ai[0]];
             i4 = k.cfj[ai[0]];
             j4 = k.cfk[ai[0]];
@@ -2849,13 +3324,19 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 int k2 = ai1[i6];
                 int k3 = (l3 - i1.cfi[k2]) * k4 + (i4 - i1.cfj[k2]) * l4 + (j4 - i1.cfk[k2]) * i5;
                 if ((k3 >= -j5 || k5 <= 0) && (k3 <= j5 || k5 >= 0))
+                {
                     continue;
+                }
+
                 flag = true;
                 break;
             }
 
             if (!flag)
+            {
                 return true;
+            }
+
             int[] ai2;
             int[] ai3;
             if (l1 == 2)
@@ -2937,13 +3418,19 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 int j2 = ai[j5];
                 int l2 = (j3 - k.cfi[j2]) * i4 + (k3 - k.cfj[j2]) * j4 + (l3 - k.cfk[j2]) * k4;
                 if ((l2 >= -l4 || i5 >= 0) && (l2 <= l4 || i5 <= 0))
+                {
                     continue;
+                }
+
                 flag = true;
                 break;
             }
 
             if (!flag)
+            {
                 return true;
+            }
+
             j3 = k.cfi[ai[0]];
             k3 = k.cfj[ai[0]];
             l3 = k.cfk[ai[0]];
@@ -2958,7 +3445,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 int k2 = ai1[k5];
                 int i3 = (j3 - i1.cfi[k2]) * i4 + (k3 - i1.cfj[k2]) * j4 + (l3 - i1.cfk[k2]) * k4;
                 if ((i3 >= -l4 || i5 <= 0) && (i3 <= l4 || i5 >= 0))
+                {
                     continue;
+                }
+
                 flag = true;
                 break;
             }
@@ -2994,13 +3484,20 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         public void updateTextureSmoothing(int arg0)
         {
             if (arg0 < 0)
+            {
                 return;
+            }
+
             bem[arg0] = bfb++;
             if (objectTexturePixels[arg0] != null)
+            {
                 return;
+            }
+
             if (bel[arg0] == 0)
             {
                 for (int k = 0; k < texturePixels.Length; k++)
+                {
                     if (texturePixels[k] == null)
                     {
                         texturePixels[k] = new int[16384];
@@ -3008,15 +3505,18 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         applyTexture(arg0);
                         return;
                     }
+                }
 
                 long l1 = 1L << 30;
                 int j1 = 0;
                 for (int i2 = 0; i2 < bei; i2++)
+                {
                     if (i2 != arg0 && bel[i2] == 0 && objectTexturePixels[i2] != null && bem[i2] < l1)
                     {
                         l1 = bem[i2];
                         j1 = i2;
                     }
+                }
 
                 objectTexturePixels[arg0] = objectTexturePixels[j1];
                 objectTexturePixels[j1] = null;
@@ -3024,6 +3524,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 return;
             }
             for (int i1 = 0; i1 < bfd.Length; i1++)
+            {
                 if (bfd[i1] == null)
                 {
                     bfd[i1] = new int[0x10000];
@@ -3031,15 +3532,18 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     applyTexture(arg0);
                     return;
                 }
+            }
 
             long l2 = 1L << 30;
             int k1 = 0;
             for (int j2 = 0; j2 < bei; j2++)
+            {
                 if (j2 != arg0 && bel[j2] == 1 && objectTexturePixels[j2] != null && bem[j2] < l2)
                 {
                     l2 = bem[j2];
                     k1 = j2;
                 }
+            }
 
             objectTexturePixels[arg0] = objectTexturePixels[k1];
             objectTexturePixels[k1] = null;
@@ -3050,9 +3554,14 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         {
             int textureSize;
             if (bel[arg0] == 0)
+            {
                 textureSize = 64;
+            }
             else
+            {
                 textureSize = 128;//'\200';
+            }
+
             int[] texture = objectTexturePixels[arg0];
             int pixelCount = 0;
             for (int x = 0; x < textureSize; x++)
@@ -3062,7 +3571,9 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     int pixel = texturePictureColorArray[arg0][texturePictureColorIndex[arg0][y + x * textureSize] & 0xff];
                     pixel &= 0xf8f8ff;
                     if (pixel == 0)
+                    {
                         pixel = 1;
+                    }
                     else if (pixel == 0xf800ff)
                     {
                         pixel = 0;
@@ -3076,9 +3587,9 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             for (int pixel = 0; pixel < pixelCount; pixel++)
             {
                 int i2 = texture[pixel];
-                texture[pixelCount + pixel] = i2 - (int)(i2 >> 3) & 0xf8f8ff;
-                texture[pixelCount * 2 + pixel] = i2 - (int)(i2 >> 2) & 0xf8f8ff;
-                texture[pixelCount * 3 + pixel] = i2 - (int)(i2 >> 2) - (int)(i2 >> 3) & 0xf8f8ff;
+                texture[pixelCount + pixel] = i2 - (i2 >> 3) & 0xf8f8ff;
+                texture[pixelCount * 2 + pixel] = i2 - (i2 >> 2) & 0xf8f8ff;
+                texture[pixelCount * 3 + pixel] = i2 - (i2 >> 2) - (i2 >> 3) & 0xf8f8ff;
             }
 
         }
@@ -3090,7 +3601,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         public void updateLightning(int arg0)
         {
             if (objectTexturePixels[arg0] == null)
+            {
                 return;
+            }
+
             int[] objLight = objectTexturePixels[arg0];
             for (int k = 0; k < 64; k++)
             {
@@ -3109,9 +3623,9 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             for (int k1 = 0; k1 < c; k1++)
             {
                 int i2 = objLight[k1];
-                objLight[c + k1] = i2 - (int)(i2 >> 3) & 0xf8f8ff;
-                objLight[c * 2 + k1] = i2 - (int)(i2 >> 2) & 0xf8f8ff;
-                objLight[c * 3 + k1] = i2 - (int)(i2 >> 2) - (int)(i2 >> 3) & 0xf8f8ff;
+                objLight[c + k1] = i2 - (i2 >> 3) & 0xf8f8ff;
+                objLight[c * 2 + k1] = i2 - (i2 >> 2) & 0xf8f8ff;
+                objLight[c * 3 + k1] = i2 - (i2 >> 2) - (i2 >> 3) & 0xf8f8ff;
             }
 
         }
@@ -3119,10 +3633,16 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         public int applyTextureSmoothing(int index)
         {
             if (index == 0xbc614e)
+            {
                 return 0;
+            }
+
             updateTextureSmoothing(index);
             if (index >= 0)
+            {
                 return objectTexturePixels[index][0];
+            }
+
             if (index < 0)
             {
                 index = -(index + 1);
@@ -3140,19 +3660,27 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         public void bjk(int arg0, int arg1, int arg2)
         {
             if (arg0 == 0 && arg1 == 0 && arg2 == 0)
+            {
                 arg0 = 32;
-            for (int k = 0; k < currentObjectCount; k++)
-                objectCache[k].cmg(arg0, arg1, arg2);
+            }
 
+            for (int k = 0; k < currentObjectCount; k++)
+            {
+                objectCache[k].cmg(arg0, arg1, arg2);
+            }
         }
 
         public void bjl(int arg0, int arg1, int x, int y, int z)
         {
             if (x == 0 && y == 0 && z == 0)
+            {
                 x = 32;
-            for (int k = 0; k < currentObjectCount; k++)
-                objectCache[k].cmf(arg0, arg1, x, y, z);
+            }
 
+            for (int k = 0; k < currentObjectCount; k++)
+            {
+                objectCache[k].cmf(arg0, arg1, x, y, z);
+            }
         }
 
         public static int getTextureColor(int r, int g, int b)
@@ -3163,9 +3691,13 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         public int bjn(int k, int i1, int j1, int k1, int l1)
         {
             if (k1 == i1)
+            {
                 return k;
+            }
             else
+            {
                 return k + ((j1 - k) * (l1 - i1)) / (k1 - i1);
+            }
         }
 
         public bool bka(int k, int i1, int j1, int k1, bool flag)
@@ -3173,21 +3705,40 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             if (flag && k <= j1 || k < j1)
             {
                 if (k > k1)
+                {
                     return true;
+                }
+
                 if (i1 > j1)
+                {
                     return true;
+                }
+
                 if (i1 > k1)
+                {
                     return true;
+                }
+
                 return !flag;
             }
             if (k < k1)
+            {
                 return true;
+            }
+
             if (i1 < j1)
+            {
                 return true;
+            }
+
             if (i1 < k1)
+            {
                 return true;
+            }
             else
+            {
                 return flag;
+            }
         }
 
         public bool bkb(int k, int i1, int j1, bool flag)
@@ -3195,13 +3746,20 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             if (flag && k <= j1 || k < j1)
             {
                 if (i1 > j1)
+                {
                     return true;
+                }
+
                 return !flag;
             }
             if (i1 < j1)
+            {
                 return true;
+            }
             else
+            {
                 return flag;
+            }
         }
 
         public bool bkc(int[] arg0, int[] arg1, int[] arg2, int[] arg3)
@@ -3216,6 +3774,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             int k21 = i21 = arg3[0];
             int l1 = 0;
             for (int l21 = 1; l21 < k; l21++)
+            {
                 if (arg1[l21] < l20)
                 {
                     l20 = arg1[l21];
@@ -3223,9 +3782,13 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 }
                 else
                     if (arg1[l21] > j21)
+                {
                     j21 = arg1[l21];
+                }
+            }
 
             for (int i22 = 1; i22 < i1; i22++)
+            {
                 if (arg3[i22] < i21)
                 {
                     i21 = arg3[i22];
@@ -3233,46 +3796,82 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 }
                 else
                     if (arg3[i22] > k21)
+                {
                     k21 = arg3[i22];
+                }
+            }
 
             if (i21 >= j21)
+            {
                 return false;
+            }
+
             if (l20 >= k21)
+            {
                 return false;
+            }
+
             int k1;
             int i2;
             bool flag;
             if (arg1[j1] < arg3[l1])
             {
-                for (k1 = j1; arg1[k1] < arg3[l1]; k1 = (k1 + 1) % k) ;
-                for (; arg1[j1] < arg3[l1]; j1 = ((j1 - 1) + k) % k) ;
+                for (k1 = j1; arg1[k1] < arg3[l1]; k1 = (k1 + 1) % k)
+                {
+                    ;
+                }
+
+                for (; arg1[j1] < arg3[l1]; j1 = ((j1 - 1) + k) % k)
+                {
+                    ;
+                }
+
                 int j2 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[l1]);
                 int j7 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[l1]);
                 int k11 = arg2[l1];
                 flag = (j2 < k11) | (j7 < k11);
                 if (bkb(j2, j7, k11, flag))
+                {
                     return true;
+                }
+
                 i2 = (l1 + 1) % i1;
                 l1 = ((l1 - 1) + i1) % i1;
                 if (j1 == k1)
+                {
                     byte0 = 1;
+                }
             }
             else
             {
-                for (i2 = l1; arg3[i2] < arg1[j1]; i2 = (i2 + 1) % i1) ;
-                for (; arg3[l1] < arg1[j1]; l1 = ((l1 - 1) + i1) % i1) ;
+                for (i2 = l1; arg3[i2] < arg1[j1]; i2 = (i2 + 1) % i1)
+                {
+                    ;
+                }
+
+                for (; arg3[l1] < arg1[j1]; l1 = ((l1 - 1) + i1) % i1)
+                {
+                    ;
+                }
+
                 int k2 = arg0[j1];
                 int l11 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[j1]);
                 int k16 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[j1]);
                 flag = (k2 < l11) | (k2 < k16);
                 if (bkb(l11, k16, k2, !flag))
+                {
                     return true;
+                }
+
                 k1 = (j1 + 1) % k;
                 j1 = ((j1 - 1) + k) % k;
                 if (l1 == i2)
+                {
                     byte0 = 2;
+                }
             }
             while (byte0 == 0)
+            {
                 if (arg1[j1] < arg1[k1])
                 {
                     if (arg1[j1] < arg3[l1])
@@ -3284,10 +3883,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                             int i12 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[j1]);
                             int l16 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[j1]);
                             if (bka(l2, k7, i12, l16, flag))
+                            {
                                 return true;
+                            }
+
                             j1 = ((j1 - 1) + k) % k;
                             if (j1 == k1)
+                            {
                                 byte0 = 1;
+                            }
                         }
                         else
                         {
@@ -3296,10 +3900,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                             int j12 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
                             int i17 = arg2[i2];
                             if (bka(i3, l7, j12, i17, flag))
+                            {
                                 return true;
+                            }
+
                             i2 = (i2 + 1) % i1;
                             if (l1 == i2)
+                            {
                                 byte0 = 2;
+                            }
                         }
                     }
                     else
@@ -3310,10 +3919,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         int k12 = arg2[l1];
                         int j17 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg3[l1]);
                         if (bka(j3, i8, k12, j17, flag))
+                        {
                             return true;
+                        }
+
                         l1 = ((l1 - 1) + i1) % i1;
                         if (l1 == i2)
+                        {
                             byte0 = 2;
+                        }
                     }
                     else
                     {
@@ -3322,10 +3936,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         int l12 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
                         int k17 = arg2[i2];
                         if (bka(k3, j8, l12, k17, flag))
+                        {
                             return true;
+                        }
+
                         i2 = (i2 + 1) % i1;
                         if (l1 == i2)
+                        {
                             byte0 = 2;
+                        }
                     }
                 }
                 else
@@ -3338,10 +3957,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         int i13 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[k1]);
                         int l17 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[k1]);
                         if (bka(l3, k8, i13, l17, flag))
+                        {
                             return true;
+                        }
+
                         k1 = (k1 + 1) % k;
                         if (j1 == k1)
+                        {
                             byte0 = 1;
+                        }
                     }
                     else
                     {
@@ -3350,10 +3974,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         int j13 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
                         int i18 = arg2[i2];
                         if (bka(i4, l8, j13, i18, flag))
+                        {
                             return true;
+                        }
+
                         i2 = (i2 + 1) % i1;
                         if (l1 == i2)
+                        {
                             byte0 = 2;
+                        }
                     }
                 }
                 else
@@ -3364,10 +3993,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     int k13 = arg2[l1];
                     int j18 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg3[l1]);
                     if (bka(j4, i9, k13, j18, flag))
+                    {
                         return true;
+                    }
+
                     l1 = ((l1 - 1) + i1) % i1;
                     if (l1 == i2)
+                    {
                         byte0 = 2;
+                    }
                 }
                 else
                 {
@@ -3376,12 +4010,20 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     int l13 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
                     int k18 = arg2[i2];
                     if (bka(k4, j9, l13, k18, flag))
+                    {
                         return true;
+                    }
+
                     i2 = (i2 + 1) % i1;
                     if (l1 == i2)
+                    {
                         byte0 = 2;
+                    }
                 }
+            }
+
             while (byte0 == 1)
+            {
                 if (arg1[j1] < arg3[l1])
                 {
                     if (arg1[j1] < arg3[i2])
@@ -3396,10 +4038,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     int j14 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
                     int i19 = arg2[i2];
                     if (bka(i5, k9, j14, i19, flag))
+                    {
                         return true;
+                    }
+
                     i2 = (i2 + 1) % i1;
                     if (l1 == i2)
+                    {
                         byte0 = 0;
+                    }
                 }
                 else
                     if (arg3[l1] < arg3[i2])
@@ -3409,10 +4056,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     int k14 = arg2[l1];
                     int j19 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg3[l1]);
                     if (bka(j5, l9, k14, j19, flag))
+                    {
                         return true;
+                    }
+
                     l1 = ((l1 - 1) + i1) % i1;
                     if (l1 == i2)
+                    {
                         byte0 = 0;
+                    }
                 }
                 else
                 {
@@ -3421,12 +4073,20 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     int l14 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
                     int k19 = arg2[i2];
                     if (bka(k5, i10, l14, k19, flag))
+                    {
                         return true;
+                    }
+
                     i2 = (i2 + 1) % i1;
                     if (l1 == i2)
+                    {
                         byte0 = 0;
+                    }
                 }
+            }
+
             while (byte0 == 2)
+            {
                 if (arg3[l1] < arg1[j1])
                 {
                     if (arg3[l1] < arg1[k1])
@@ -3441,10 +4101,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     int j15 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[k1]);
                     int l19 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[k1]);
                     if (bka(i6, k10, j15, l19, flag))
+                    {
                         return true;
+                    }
+
                     k1 = (k1 + 1) % k;
                     if (j1 == k1)
+                    {
                         byte0 = 0;
+                    }
                 }
                 else
                     if (arg1[j1] < arg1[k1])
@@ -3454,10 +4119,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     int k15 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[j1]);
                     int i20 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[j1]);
                     if (bka(j6, l10, k15, i20, flag))
+                    {
                         return true;
+                    }
+
                     j1 = ((j1 - 1) + k) % k;
                     if (j1 == k1)
+                    {
                         byte0 = 0;
+                    }
                 }
                 else
                 {
@@ -3466,11 +4136,18 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     int l15 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[k1]);
                     int j20 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[k1]);
                     if (bka(k6, i11, l15, j20, flag))
+                    {
                         return true;
+                    }
+
                     k1 = (k1 + 1) % k;
                     if (j1 == k1)
+                    {
                         byte0 = 0;
+                    }
                 }
+            }
+
             if (arg1[j1] < arg3[l1])
             {
                 int l6 = arg0[j1];

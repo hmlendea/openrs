@@ -43,7 +43,7 @@ namespace RuneScapeSolo
             graphics.SynchronizeWithVerticalRetrace = true;
             Window.Title = "RuneScape Classic";
             Content.RootDirectory = "Content";
-            this.IsMouseVisible = true;
+            IsMouseVisible = true;
         }
 
         /// <summary>
@@ -146,7 +146,9 @@ namespace RuneScapeSolo
         {
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+            {
+                Exit();
+            }
 
             if (_rscMudclient != null)
             {
@@ -270,7 +272,7 @@ namespace RuneScapeSolo
             {
                 var w = _gameLogo.Width;
                 var h = _gameLogo.Height;
-                var aspect = (float)h / (float)w;
+                var aspect = h / (float)w;
 
                 var newWidth = _rscMudclient.windowWidth / 2;
                 var newHeight = newWidth * aspect;
@@ -310,7 +312,10 @@ namespace RuneScapeSolo
                         {
 
 
-                            if (!DrawMudclient(_rscMudclient)) return;
+                            if (!DrawMudclient(_rscMudclient))
+                            {
+                                return;
+                            }
 
 
 
@@ -415,10 +420,10 @@ namespace RuneScapeSolo
 
             if (_loadingBackgroundImage != null)
             {
-                if (_loadingBackgroundImage.Width < this.graphics.PreferredBackBufferWidth)
+                if (_loadingBackgroundImage.Width < graphics.PreferredBackBufferWidth)
                 {
-                    var xs = (this.graphics.PreferredBackBufferWidth / _loadingBackgroundImage.Width) + 1;
-                    var ys = (this.graphics.PreferredBackBufferHeight / _loadingBackgroundImage.Height) + 1;
+                    var xs = (graphics.PreferredBackBufferWidth / _loadingBackgroundImage.Width) + 1;
+                    var ys = (graphics.PreferredBackBufferHeight / _loadingBackgroundImage.Height) + 1;
                     for (int y = 0; y < ys; y++)
                     {
                         for (int x = 0; x < xs; x++)

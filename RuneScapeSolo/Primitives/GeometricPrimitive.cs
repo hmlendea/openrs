@@ -51,7 +51,9 @@ namespace RuneScapeSolo.Primitives
         protected void AddIndex(int index)
         {
             if (index > ushort.MaxValue)
+            {
                 throw new ArgumentOutOfRangeException("index");
+            }
 
             indices.Add((ushort)index);
         }
@@ -110,13 +112,19 @@ namespace RuneScapeSolo.Primitives
             if (disposing)
             {
                 if (vertexBuffer != null)
+                {
                     vertexBuffer.Dispose();
+                }
 
                 if (indexBuffer != null)
+                {
                     indexBuffer.Dispose();
+                }
 
                 if (basicEffect != null)
+                {
                     basicEffect.Dispose();
+                }
             }
         }
         
