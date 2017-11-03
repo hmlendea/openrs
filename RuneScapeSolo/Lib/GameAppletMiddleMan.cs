@@ -292,6 +292,7 @@ namespace RuneScapeSolo.Lib
         protected void sendPingPacket()
         {
             long l = CurrentTimeMillis();
+
             if (StreamClass.hasData())
             {
                 lastPing = l;
@@ -303,6 +304,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.CreatePacket(5);
                 StreamClass.FormatPacket();
             }
+
             try
             {
                 StreamClass.WritePacket(20);
@@ -312,16 +314,23 @@ namespace RuneScapeSolo.Lib
                 lostConnection();
                 return;
             }
+
             int packetLength = StreamClass.readPacket(packetData);
+
             if (packetLength > 0)
             {
                 int commandId = packetData[0] & 0xff;
-                handlePacket((ServerCommand)commandId, packetLength);
+                ServerCommand command = (ServerCommand)commandId;
+
+                Console.WriteLine($"Received command {command} (length={packetLength})");
+
+                handlePacket(command, packetLength);
             }
         }
 
         public virtual void handlePacket(ServerCommand command, int length)
         {
+
             if (command == ServerCommand.Command48)
             {
                 var s1 = Encoding.UTF8.GetString((byte[])(Array)packetData, 1, length - 1);

@@ -238,6 +238,11 @@ namespace RuneScapeSolo
             client.fatigue = DataOperations.getShort(data, 1);
         }
 
+        public void HandleMoneyTask(sbyte[] data, int length)
+        {
+            client.MoneyTask = Encoding.ASCII.GetString((byte[])(Array)data, 1, length);
+        }
+
         public void HandlePvpTournamentTimer(sbyte[] data)
         {
             client.PvpTournamentCountdown = DataOperations.GetUnsigned2Bytes(data, 1) * 32;

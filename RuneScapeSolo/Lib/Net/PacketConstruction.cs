@@ -7,7 +7,7 @@ namespace RuneScapeSolo.Lib.Net
     public class PacketConstruction
     {
         int length;
-        int _read;
+        int packetReadCount;
         int packetStart;
         int packetOffset;
         int skipOffset;
@@ -135,10 +135,6 @@ namespace RuneScapeSolo.Lib.Net
         {
         }
 
-        public virtual void ReadInputStream(int i, int j, sbyte[] abyte0)
-        {
-        }
-
         public int ReadInt8()
         {
             return ReadInputStream();
@@ -172,6 +168,15 @@ namespace RuneScapeSolo.Lib.Net
             return 0;
         }
 
+        public virtual void ReadInputStream(int length, sbyte[] data)
+        {
+            ReadInputStream(length, 0, data);
+        }
+
+        public virtual void ReadInputStream(int length, int offset, sbyte[] data)
+        {
+        }
+
         public void FinalisePacket(bool format = true)
         {
             if (format)
@@ -182,13 +187,10 @@ namespace RuneScapeSolo.Lib.Net
             WritePacket(0);
         }
 
-        // bad
-        //public virtual int available()
-        //{
-        //    Console.WriteLine("packetconstruction.available WRONG");
-        //    return 0;
-        //}
-
+        public virtual int available()
+        {
+            return 0;
+        }
 
         public void FormatPacket()
         {
@@ -226,38 +228,60 @@ namespace RuneScapeSolo.Lib.Net
             return packetStart > 0;
         }
 
-        public int readPacket(sbyte[] arg0)
+        public int readPacket(sbyte[] data)
         {
             try
             {
-                _read++;
-                if (MaximumPacketReadCount > 0 && _read > MaximumPacketReadCount)
+                packetReadCount += 1;
+
+                if (MaximumPacketReadCount > 0 && packetReadCount > MaximumPacketReadCount)
                 {
                     HasErrors = true;
                     ErrorMessage = "time-out";
                     MaximumPacketReadCount += MaximumPacketReadCount;
+
                     return 0;
                 }
-                if (length == 0 /*&& available() >= 2*/)
+
+                if (length == 0)// && available() >= 2)
                 {
-                    sbyte[] buf = new sbyte[2];
-                    ReadInputStream(2, 0, buf);
-                    length = ((short)((buf[0] & 0xff) << 8) | (short)(buf[1] & 0xff)) + 1;
+                    length = ReadInputStream();
+
+                    if (length >= 160)
+                    {
+                        length = (length - 160) * 256 + ReadInputStream();
+                    }
                 }
-                if (length > 0 /*&& available() >= length*/)
+
+                if (length > 0)// && available() >= length)
                 {
-                    Read(length, arg0);
-                    int i = length;
+                    if (length >= 160)
+                    {
+                        ReadInputStream(length, data);
+                    }
+                    else
+                    {
+                        data[length - 1] = (sbyte)ReadInputStream();
+
+                        if (length > 1)
+                        {
+                            ReadInputStream(length - 1, data);
+                        }
+                    }
+
+                    int readBytes = length;
                     length = 0;
-                    _read = 0;
-                    return i;
+                    packetReadCount = 0;
+
+                    return readBytes;
                 }
             }
             catch (IOException ioexception)
             {
                 HasErrors = true;
-                ErrorMessage = ioexception.ToString();//ioexception.getMessage();
+                ErrorMessage = ioexception.Message;
             }
+
             return 0;
         }
     }

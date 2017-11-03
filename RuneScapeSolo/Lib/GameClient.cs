@@ -72,6 +72,7 @@ namespace RuneScapeSolo.Lib
         public int ServerIndex;
         public int[] PlayersBufferIndexes;
         public bool HasWorldInfo;
+        public string MoneyTask;
         public string ServerLocation;
 
         public char TranslateOemKeys(Keys k)
@@ -1742,8 +1743,6 @@ namespace RuneScapeSolo.Lib
 
         public override void HandlePacket(ServerCommand command, int packetLength, sbyte[] packetData)
         {
-            Console.WriteLine($"Received command {command}");
-
             try
             {
                 bool properlyHandled = packetHandler.HandlePacket(command, packetData, packetLength);

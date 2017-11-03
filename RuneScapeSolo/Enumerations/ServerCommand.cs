@@ -53,6 +53,7 @@
         Command197 = 197,
         Command198 = 198,
         TaskPointsChange = 202,
+        MoneyTask = 205,
         Command206 = 206,
         Command207 = 207,
         Command208 = 208,

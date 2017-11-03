@@ -9,6 +9,8 @@ namespace RuneScapeSolo.Lib.Net
     {
         NetworkStream netStream;
 
+        readonly object syncLock = new object();
+
         public StreamClass(TcpClient socket, GameApplet applet)
         {
             socketClosing = false;
@@ -16,7 +18,7 @@ namespace RuneScapeSolo.Lib.Net
             this.socket = socket;
 
             netStream = socket.GetStream();
-            
+
             socketClosed = false;
 
             applet.StartThread(run);
@@ -83,7 +85,7 @@ namespace RuneScapeSolo.Lib.Net
             //}
             //}
 
-           // connectionThread.Abort();
+            // connectionThread.Abort();
 
             buffer = null;
         }
@@ -114,7 +116,7 @@ namespace RuneScapeSolo.Lib.Net
         //    }
         //}
 
-        public override void ReadInputStream(int arg0, int arg1, sbyte[] arg2)
+        public override void ReadInputStream(int length, int offset, sbyte[] data)
         {
             if (socketClosing)
             {
@@ -123,47 +125,22 @@ namespace RuneScapeSolo.Lib.Net
 
             int i = 0;
             int j;
-            try
+
+            byte[] org = new byte[data.Length];
+
+            for (; i < length; i += j)
             {
-                byte[] org = new byte[arg2.Length];
-                for (; i < arg0; i += j)
+                if ((j = netStream.Read(org, i + offset, length - i)) <= 0)
                 {
-                    if (socketClosing)
-                    {
-                        return;
-                    }
+                    throw new IOException("EOF");
+                }
 
-                    if (!socket.Connected)
-                    {
-                        return;
-                    }
-
-                    if ((j = netStream.Read(org, i + arg1, arg0 - i)) <= 0)
-                    {
-                        ;
-                    }
-                    //throw new IOException("EOF"); 
-
-                    for (int k = 0; k < arg2.Length; k++)
-                    {
-                        arg2[k] = (sbyte)org[k];
-                    }
-
+                for (int k = 0; k < data.Length; k++)
+                {
+                    data[k] = (sbyte)org[k];
                 }
             }
-            catch
-            {
-                try
-                {
-                    //connectionThread.Suspend();
-                    //connectionThread.Abort();
-                }
-                catch { }
-            }
-
         }
-
-        private readonly object syncLock = new object();
 
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public override void WriteToBuffer(byte[] abyte0, int i, int j)
@@ -285,7 +262,7 @@ namespace RuneScapeSolo.Lib.Net
                 System.Threading.Thread.Sleep(1);
             }
         }
-        
+
         private TcpClient /*Socket*/ socket;
         private bool socketClosing;
         private byte[] buffer;
