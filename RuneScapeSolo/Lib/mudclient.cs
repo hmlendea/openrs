@@ -52,6 +52,13 @@ namespace RuneScapeSolo.Lib
         int wildernessTime;
         int dropPartyTime;
 
+        int tutorial;
+        int taskPoints;
+        int questPoints;
+
+        int serverStartTime;
+        string serverLocation;
+
         public char TranslateOemKeys(Keys k)
         {
             //   if (k == Keys.1)
@@ -1435,7 +1442,7 @@ namespace RuneScapeSolo.Lib
 
             gameGraphics.drawImage(baseLoginScreenBackgroundPic, 0, 0, _bgScreenWidth, 200);
             gameGraphics.applyImage(baseLoginScreenBackgroundPic);
-            
+
             cameraX = 9216;
             cameraY = 9216;
             cameraDistance = 1100;
@@ -1539,7 +1546,15 @@ namespace RuneScapeSolo.Lib
         {
             try
             {
-                //base.handlePacket(packetID, packetLength, packetData);
+                switch (command)
+                {
+                    case ServerCommand.Command110:
+                        int i = 1;
+
+
+                }
+
+
                 if (command == ServerCommand.Command145)
                 {
                     if (!hasWorldInfo)
@@ -2952,9 +2967,24 @@ namespace RuneScapeSolo.Lib
                     serverMessageBoxTop = true;
                     return;
                 }
-                if (command == ServerCommand.Command126)
+                if (command == ServerCommand.GetFatigue)
                 {
                     fatigue = DataOperations.getShort(packetData, 1);
+                    return;
+                }
+                if (command == ServerCommand.GetTutorial)
+                {
+                    tutorial = DataOperations.GetUnsigned2Bytes(packetData, 1);
+                    return;
+                }
+                if (command == ServerCommand.GetQuestPoints)
+                {
+                    questPoints = DataOperations.GetUnsigned2Bytes(packetData, 1);
+                    return;
+                }
+                if (command == ServerCommand.GetTaskPoints)
+                {
+                    taskPoints = DataOperations.GetUnsigned2Bytes(packetData, 1);
                     return;
                 }
                 if (command == ServerCommand.Command206)
@@ -3063,11 +3093,6 @@ namespace RuneScapeSolo.Lib
                     combatStyle = DataOperations.getByte(packetData[1]);
                     return;
                 }
-                if (command == ServerCommand.Command110)
-                {// TODO remove?
-                    Console.WriteLine("RECEIVED PACKET 110 (SERVER INFO)");
-                    return;
-                }
                 Console.WriteLine("UNHANDLED PACKET:" + command + " LEN:" + packetLength);
             }
             catch (Exception ex)
@@ -3094,7 +3119,7 @@ namespace RuneScapeSolo.Lib
             systemUpdate = 0;
             pvpTournamentTime = 0;
             dropPartyTime = 0;
-            
+
             combatStyle = 0;
             logoutTimer = 0;
             loginScreenNumber = 0;
@@ -10924,7 +10949,6 @@ namespace RuneScapeSolo.Lib
         public int[] teleBubbleX;
         public int bankItemsCount;
         public bool showAppearanceWindow;
-        public int questPoints;
         public int actionPictureType;
         int walkMouseX;
         int walkMouseY;
