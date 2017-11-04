@@ -30,6 +30,10 @@ namespace RuneScapeSolo
                     HandleAwake();
                     return true;
 
+                case ServerCommand.CookAssistant:
+                    HandleCookAssistant(data);
+                    return true;
+
                 case ServerCommand.CombatStyleChange:
                     HandleCombatStyleChange(data);
                     return true;
@@ -38,12 +42,52 @@ namespace RuneScapeSolo
                     HandleCommand145(data, length);
                     return true;
 
+                case ServerCommand.CompletedTasks:
+                    HandleCompletedTasks(data);
+                    return true;
+
+                case ServerCommand.DemonsSlayer:
+                    HandleDemonSlayer(data);
+                    return true;
+
+                case ServerCommand.DoricQuest:
+                    HandleDoricQuest(data);
+                    return true;
+
+                case ServerCommand.DruidicRitual:
+                    HandleDruidicRitual(data);
+                    return true;
+
                 case ServerCommand.DropPartyTimer:
                     HandleDropPartyTimer(data);
                     return true;
 
+                case ServerCommand.ErnestTheChicken:
+                    HandleErnestTheChicken(data);
+                    return true;
+
                 case ServerCommand.FatigueChange:
                     HandleFatigueChange(data);
+                    return true;
+
+                case ServerCommand.GuthixSpells:
+                    HandleGuthixSpells(data);
+                    return true;
+
+                case ServerCommand.ImpCatcher:
+                    HandleImpCatcher(data);
+                    return true;
+
+                case ServerCommand.KillingSpree:
+                    HandleKillingSpree(data);
+                    return true;
+
+                case ServerCommand.MoneyTask:
+                    HandleMoneyTask(data, length);
+                    return true;
+
+                case ServerCommand.PirateTreasure:
+                    HandlePirateTreasure(data);
                     return true;
 
                 case ServerCommand.PvpTournamentTimer:
@@ -54,12 +98,44 @@ namespace RuneScapeSolo
                     HandleQuestPointsChange(data);
                     return true;
 
+                case ServerCommand.RomeoAndJuliet:
+                    HandleRomeoAndJuliet(data);
+                    return true;
+
+                case ServerCommand.SheepShearer:
+                    HandleSheepShearer(data);
+                    return true;
+
+                case ServerCommand.SaradominSpells:
+                    HandleSaradominSpells(data);
+                    return true;
+
                 case ServerCommand.ServerInfo:
                     HandleServerInfo(data, length);
                     return true;
 
+                case ServerCommand.TaskCash:
+                    HandleTaskCash(data);
+                    return true;
+
+                case ServerCommand.TaskExperience:
+                    HandleTaskExperience(data);
+                    return true;
+
+                case ServerCommand.TaskItem:
+                    HandleTaskItem(data);
+                    return true;
+
                 case ServerCommand.TaskPointsChange:
                     HandleTaskPointsChange(data);
+                    return true;
+
+                case ServerCommand.TaskStatus:
+                    HandleTaskStatus(data);
+                    return true;
+
+                case ServerCommand.TheRuthlessGhost:
+                    HandleTheRestlessGhost(data);
                     return true;
 
                 case ServerCommand.TutorialChange:
@@ -70,17 +146,30 @@ namespace RuneScapeSolo
                     HandleWildernessModeTimer(data);
                     return true;
 
+                case ServerCommand.WitchPotion:
+                    HandleWitchPotion(data);
+                    return true;
+
+                case ServerCommand.ZamorakSpells:
+                    HandleZamorakSpells(data);
+                    return true;
+
                 default:
                     return false;
             }
         }
 
-        public void HandleCombatStyleChange(sbyte[] data)
+        void HandleCombatStyleChange(sbyte[] data)
         {
             client.CombatStyle = DataOperations.getByte(data[1]);
         }
 
-        public void HandleCommand145(sbyte[] data, int length)
+        void HandleCookAssistant(sbyte[] data)
+        {
+            client.Quests.CookAssistant = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleCommand145(sbyte[] data, int length)
         {
             if (!client.HasWorldInfo)
             {
@@ -228,50 +317,150 @@ namespace RuneScapeSolo
             }
         }
 
-        public void HandleDropPartyTimer(sbyte[] data)
+        void HandleCompletedTasks(sbyte[] data)
+        {
+            client.CompletedTasks = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleDemonSlayer(sbyte[] data)
+        {
+            client.Quests.DemonSlayer = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleDoricQuest(sbyte[] data)
+        {
+            client.Quests.DoricQuest = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleDropPartyTimer(sbyte[] data)
         {
             client.DropPartyCountdown = DataOperations.GetUnsigned2Bytes(data, 1) * 32;
         }
 
-        public void HandleFatigueChange(sbyte[] data)
+        void HandleDruidicRitual(sbyte[] data)
+        {
+            client.Quests.DruidicRitual = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleErnestTheChicken(sbyte[] data)
+        {
+            client.Quests.ErnestTheChicken = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleFatigueChange(sbyte[] data)
         {
             client.fatigue = DataOperations.getShort(data, 1);
         }
 
-        public void HandleMoneyTask(sbyte[] data, int length)
+        void HandleGuthixSpells(sbyte[] data)
+        {
+            client.GuthixSpells = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleImpCatcher(sbyte[] data)
+        {
+            client.Quests.ImpCatcher = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleKillingSpree(sbyte[] data)
+        {
+            client.KillingSpree = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleMoneyTask(sbyte[] data, int length)
         {
             client.MoneyTask = Encoding.ASCII.GetString((byte[])(Array)data, 1, length);
         }
 
-        public void HandlePvpTournamentTimer(sbyte[] data)
+        void HandlePirateTreasure(sbyte[] data)
+        {
+            client.Quests.PirateTreasure = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandlePvpTournamentTimer(sbyte[] data)
         {
             client.PvpTournamentCountdown = DataOperations.GetUnsigned2Bytes(data, 1) * 32;
         }
 
-        public void HandleQuestPointsChange(sbyte[] data)
+        void HandleQuestPointsChange(sbyte[] data)
         {
             client.QuestPoints = DataOperations.GetUnsigned2Bytes(data, 1);
         }
 
-        public void HandleServerInfo(sbyte[] data, int length)
+        void HandleRemaining(sbyte[] data)
+        {
+            client.Remaining = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleRomeoAndJuliet(sbyte[] data)
+        {
+            client.Quests.RomeoAndJuliet = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleSaradominSpells(sbyte[] data)
+        {
+            client.SaradominSpells = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleServerInfo(sbyte[] data, int length)
         {
             client.ServerStartTime = DataOperations.GetUnsigned2Bytes(data, 1);
             client.ServerLocation = Encoding.ASCII.GetString((byte[])(Array)data, 9, length - 9);
         }
 
-        public void HandleTaskPointsChange(sbyte[] data)
+        void HandleSheepShearer(sbyte[] data)
+        {
+            client.Quests.SheepShearer = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleTaskCash(sbyte[] data)
+        {
+            client.TaskCash = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleTaskExperience(sbyte[] data)
+        {
+            client.TaskExperience = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleTaskItem(sbyte[] data)
+        {
+            client.TaskItem = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleTaskPointsChange(sbyte[] data)
         {
             client.TaskPoints = DataOperations.GetUnsigned2Bytes(data, 1);
         }
 
-        public void HandleTutorialChange(sbyte[] data)
+        void HandleTaskStatus(sbyte[] data)
+        {
+            client.TaskCash = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleTheRestlessGhost(sbyte[] data)
+        {
+            client.Quests.TheRestlessGhost = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleTutorialChange(sbyte[] data)
         {
             client.Tutorial = DataOperations.GetUnsigned2Bytes(data, 1);
         }
 
-        public void HandleWildernessModeTimer(sbyte[] data)
+        void HandleWildernessModeTimer(sbyte[] data)
         {
             client.WildernessModeCountdown = DataOperations.GetUnsigned2Bytes(data, 1) * 32;
+        }
+
+        void HandleWitchPotion(sbyte[] data)
+        {
+            client.Quests.WitchPotion = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleZamorakSpells(sbyte[] data)
+        {
+            client.ZamorakSpells = DataOperations.GetUnsigned2Bytes(data, 1);
         }
     }
 }

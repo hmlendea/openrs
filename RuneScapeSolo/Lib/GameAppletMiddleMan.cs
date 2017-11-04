@@ -322,8 +322,6 @@ namespace RuneScapeSolo.Lib
                 int commandId = packetData[0] & 0xff;
                 ServerCommand command = (ServerCommand)commandId;
 
-                Console.WriteLine($"Received command {command} (length={packetLength})");
-
                 handlePacket(command, packetLength);
             }
         }

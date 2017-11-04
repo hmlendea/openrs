@@ -51,25 +51,36 @@ namespace RuneScapeSolo.Lib
         bool altKeyIsDown = false;
         TimeSpan timeLapse = TimeSpan.Zero;
 
+        public Quests Quests { get; set; }
         public Mob CurrentPlayer;
         public Mob[] Players;
         public Mob[] PlayersBuffer;
         public Mob[] LastPlayers;
-        public int PvpTournamentCountdown;
-        public int WildernessModeCountdown;
-        public int DropPartyCountdown;
-        public int Tutorial;
-        public int TaskPoints;
-        public int QuestPoints;
-        public int PlayerCount;
-        public int LastPlayerCount;
-        public int ServerStartTime;
-        public int SectionX;
-        public int SectionY;
         public int AreaX;
         public int AreaY;
-        public int GridSize;
+        public int CompletedTasks { get; set; }
+        public int DropPartyCountdown;
+        public int GuthixSpells { get; set; }
+        public int GridSize { get; set; }
+        public int PvpTournamentCountdown;
+        public int WildernessModeCountdown;
+        public int Tutorial;
+        public int TaskCash { get; set; }
+        public int TaskExperience { get; set; }
+        public int TaskItem { get; set; }
+        public int TaskPoints { get; set; }
+        public int TaskStatus { get; set; }
+        public int KillingSpree { get; set; }
+        public int LastPlayerCount { get; set; }
+        public int PlayerCount;
+        public int QuestPoints;
+        public int Remaining { get; set; }
+        public int SaradominSpells { get; set; }
+        public int SectionX;
+        public int SectionY;
+        public int ServerStartTime { get; set; }
         public int ServerIndex;
+        public int ZamorakSpells { get; set; }
         public int[] PlayersBufferIndexes;
         public bool HasWorldInfo;
         public string MoneyTask;
@@ -286,6 +297,8 @@ namespace RuneScapeSolo.Lib
         public mudclient()
         {
             packetHandler = new PacketHandler(this);
+
+            Quests = new Quests();
 
             tradeOtherName = "";
 
@@ -1752,6 +1765,8 @@ namespace RuneScapeSolo.Lib
                     return;
                 }
 
+                Console.WriteLine($"Command unproperly handled: {command} (length={packetLength})");
+
                 if (command == ServerCommand.Command109)
                 {
                     if (needsClear)
@@ -3005,55 +3020,6 @@ namespace RuneScapeSolo.Lib
                     serverMessage = new string(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
                     showServerMessageBox = true;
                     serverMessageBoxTop = true;
-                    return;
-                }
-                if (command == ServerCommand.Command206)
-                {
-                    IsSleeping = true;
-                    inputText = "";
-                    enteredInputText = "";
-                    try
-                    {
-                        MemoryStream mem = new MemoryStream((byte[])((Array)packetData), 1, packetLength);
-
-                        var img = (Bitmap)Bitmap.FromStream(mem);
-
-                        captchaWidth = img.Width;
-                        captchaHeight = img.Height;
-                        captchaPixels = new int[captchaWidth][];
-                        for (int j = 0; j < captchaWidth; j++)
-                        {
-                            captchaPixels[j] = new int[captchaHeight];
-                        }
-
-                        for (int y = 0; y < img.Height; y++)
-                        {
-                            for (int x = 0; x < img.Width; x++)
-                            {
-                                captchaPixels[x][y] = img.GetPixel(x, y).ToArgb();
-
-                            }
-                        }
-
-                        //Texture2D image = new Texture2D(graphics, img.Width, img.Height);
-
-                        //  BufferedImage image = ImageIO.read(new ByteArrayInputStream(packetData, 1, packetLength));
-                        //captchaWidth = image.Width;
-                        //captchaHeight = image.Height;
-                        //captchaPixels = new int[captchaWidth][];
-                        //for (int x = 0; x < captchaWidth; x++)
-                        //    captchaPixels[x] = new int[captchaHeight];
-
-                        //for (int x = 0; x < captchaWidth; x++)
-                        //    for (int y = 0; y < captchaHeight; y++)                            
-                        //        captchaPixels[x][y] = image.getRGB(x, y);
-
-                    }
-                    catch (Exception e)
-                    {
-                        //e.printStackTrace();
-                    }
-                    sleepingStatusText = null;
                     return;
                 }
                 if (command == ServerCommand.Command225)
