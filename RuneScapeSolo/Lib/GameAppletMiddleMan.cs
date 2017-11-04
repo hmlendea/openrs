@@ -263,6 +263,7 @@ namespace RuneScapeSolo.Lib
             username = "";
             password = "";
             resetIntVars();
+
             loginScreenPrint("Please enter your usename and password", "");
         }
 
@@ -322,6 +323,7 @@ namespace RuneScapeSolo.Lib
                 int commandId = data[0] & 0xff;
                 ServerCommand command = (ServerCommand)commandId;
 
+                //Console.WriteLine("PACKET:" + command + " LEN:" + length);
                 HandlePacket(command, length);
             }
         }
@@ -329,19 +331,19 @@ namespace RuneScapeSolo.Lib
         public virtual void HandlePacket(ServerCommand command, int length)
         {
 
-            if (command == ServerCommand.Command48)
+            if (command == ServerCommand.ServerAnnouncement)
             {
-                var s1 = Encoding.UTF8.GetString((byte[])(Array)data, 1, length - 1);
-                //string s1 = new string(packetData, 1, length - 1);
-                displayMessage(s1);
+                string message = Encoding.UTF8.GetString((byte[])(Array)data, 1, length);
+                displayMessage(message);
+
                 return;
             }
-            if (command == ServerCommand.Command222)
+            if (command == ServerCommand.LogoutRequest)
             {
                 requestLogout();
                 return;
             }
-            if (command == ServerCommand.Command136)
+            if (command == ServerCommand.LogoutCannot)
             {
                 cantLogout();
                 return;
@@ -349,6 +351,7 @@ namespace RuneScapeSolo.Lib
             if (command == ServerCommand.Command249)
             {
                 friendsCount = DataOperations.getByte(data[1]);
+
                 for (int i = 0; i < friendsCount; i++)
                 {
                     friendsList[i] = DataOperations.getLong(data, 2 + i * 9);
@@ -356,12 +359,14 @@ namespace RuneScapeSolo.Lib
                 }
 
                 reOrderFriendsList();
+
                 return;
             }
             if (command == ServerCommand.Command25)
             {
                 long friend = DataOperations.getLong(data, 1);
                 int status = data[9] & 0xff;
+
                 for (int j1 = 0; j1 < friendsCount; j1++)
                 {
                     if (friendsList[j1] == friend)
@@ -379,6 +384,7 @@ namespace RuneScapeSolo.Lib
                         friendsWorld[j1] = status;
                         length = 0;
                         reOrderFriendsList();
+
                         return;
                     }
                 }
@@ -386,12 +392,15 @@ namespace RuneScapeSolo.Lib
                 friendsList[friendsCount] = friend;
                 friendsWorld[friendsCount] = status;
                 friendsCount++;
+
                 reOrderFriendsList();
+
                 return;
             }
             if (command == ServerCommand.Command2)
             {
                 ignoresCount = DataOperations.getByte(data[1]);
+
                 for (int j = 0; j < ignoresCount; j++)
                 {
                     ignoresList[j] = DataOperations.getLong(data, 2 + j * 8);
@@ -405,28 +414,18 @@ namespace RuneScapeSolo.Lib
                 blockPrivate = data[2];
                 blockTrade = data[3];
                 blockDuel = data[4];
+
                 return;
             }
-            if (command == ServerCommand.Command170)
+            if (command == ServerCommand.PrivateMessage)
             {
-                long l1 = DataOperations.getLong(data, 1);
+                long user = DataOperations.getLong(data, 1);
                 string s = ChatMessage.bytesToString(data, 9, length - 9);
-                displayMessage("@pri@" + DataOperations.hashToName(l1) + ": tells you " + s);
+                displayMessage("@pri@" + DataOperations.hashToName(user) + ": tells you " + s);
+
                 return;
             }
-            if (command == ServerCommand.Command211)
-            {// TODO remove?
-                StreamClass.CreatePacket(69);
-                StreamClass.AddInt8(0);// scar.exe, etc
-                StreamClass.FormatPacket();
-                return;
-            }
-            if (command == ServerCommand.Command1)
-            {// TODO remove?
-                //bluePoints
-                //redPoints
-                return;
-            }
+
             HandlePacket(command, length, data);
         }
 

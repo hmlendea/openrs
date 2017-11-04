@@ -107,6 +107,10 @@ namespace RuneScapeSolo
                     HandleGuthixSpells(data);
                     return true;
 
+                case ServerCommand.HideDuelBox:
+                    HandleHideDuelBox();
+                    return true;
+
                 case ServerCommand.HideQuestionMenu:
                     HandleHideQuestionMenu();
                     return true;
@@ -163,16 +167,32 @@ namespace RuneScapeSolo
                     HandleRomeoAndJuliet(data);
                     return true;
 
-                case ServerCommand.SheepShearer:
-                    HandleSheepShearer(data);
-                    return true;
-
                 case ServerCommand.SaradominSpells:
                     HandleSaradominSpells(data);
                     return true;
 
                 case ServerCommand.ServerInfo:
                     HandleServerInfo(data, length);
+                    return true;
+
+                case ServerCommand.SheepShearer:
+                    HandleSheepShearer(data);
+                    return true;
+
+                case ServerCommand.ShowAppearanceWindow:
+                    HandleShowAppearanceWindow();
+                    return true;
+
+                case ServerCommand.ShowBankBox:
+                    HandleShowBankBox();
+                    return true;
+
+                case ServerCommand.ShowShopBox:
+                    HandleShowShopBox();
+                    return true;
+
+                case ServerCommand.TakeScreenshot:
+                    HandleTakeScreenshot();
                     return true;
 
                 case ServerCommand.TaskCash:
@@ -650,8 +670,10 @@ namespace RuneScapeSolo
             {
                 int mobIndex = DataOperations.GetInt(data, off, 16);
                 off += 16;
+
                 int areaMobX = DataOperations.GetInt(data, off, 5);
                 off += 5;
+
                 if (areaMobX > 15)
                 {
                     areaMobX -= 32;
@@ -659,6 +681,7 @@ namespace RuneScapeSolo
 
                 int areaMobY = DataOperations.GetInt(data, off, 5);
                 off += 5;
+
                 if (areaMobY > 15)
                 {
                     areaMobY -= 32;
@@ -666,11 +689,14 @@ namespace RuneScapeSolo
 
                 int mobSprite = DataOperations.GetInt(data, off, 4);
                 off += 4;
+
                 int addIndex = DataOperations.GetInt(data, off, 1);
                 off++;
+
                 int mobX = (client.SectionX + areaMobX) * client.GridSize + 64;
                 int mobY = (client.SectionY + areaMobY) * client.GridSize + 64;
                 client.makePlayer(mobIndex, mobX, mobY, mobSprite);
+
                 if (addIndex == 0)
                 {
                     client.PlayersBufferIndexes[mobCount++] = mobIndex;
@@ -681,6 +707,7 @@ namespace RuneScapeSolo
             {
                 client.StreamClass.CreatePacket(83);
                 client.StreamClass.AddInt16(mobCount);
+
                 for (int k40 = 0; k40 < mobCount; k40++)
                 {
                     Mob f5 = client.PlayersBuffer[client.PlayersBufferIndexes[k40]];
@@ -736,7 +763,7 @@ namespace RuneScapeSolo
 
         void HandleDropPartyTimer(sbyte[] data)
         {
-            client.DropPartyCountdown = DataOperations.GetUnsigned2Bytes(data, 1) * 32;
+            client.DropPartyTimer = DataOperations.GetUnsigned2Bytes(data, 1) * 32;
         }
 
         void HandleDruidicRitual(sbyte[] data)
@@ -778,6 +805,12 @@ namespace RuneScapeSolo
         void HandleGuthixSpells(sbyte[] data)
         {
             client.GuthixSpells = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleHideDuelBox()
+        {
+            client.ShowDuelBox = false;
+            client.ShowDuelConfirmBox = false;
         }
 
         void HandleHideQuestionMenu()
@@ -859,7 +892,7 @@ namespace RuneScapeSolo
 
         void HandlePvpTournamentTimer(sbyte[] data)
         {
-            client.PvpTournamentCountdown = DataOperations.GetUnsigned2Bytes(data, 1) * 32;
+            client.PvpTournamentTimer = DataOperations.GetUnsigned2Bytes(data, 1) * 32;
         }
 
         void HandleQuestPointsChange(sbyte[] data)
@@ -896,6 +929,31 @@ namespace RuneScapeSolo
         void HandleSheepShearer(sbyte[] data)
         {
             client.Quests.SheepShearer = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleShowAppearanceWindow()
+        {
+            client.ShowAppearanceWindow = true;
+        }
+
+        void HandleShowBankBox()
+        {
+            client.ShowBankBox = true;
+        }
+
+        void HandleShowShopBox()
+        {
+            client.ShowShopBox = true;
+        }
+
+        void HandleSystemUpdateTimer(sbyte[] data)
+        {
+            client.SystemUpdateTimer = DataOperations.GetUnsigned2Bytes(data, 1) * 32;
+        }
+
+        void HandleTakeScreenshot()
+        {
+            client.takeScreenshot(false);
         }
 
         void HandleTaskCash(sbyte[] data)
@@ -1044,7 +1102,7 @@ namespace RuneScapeSolo
 
         void HandleWildernessModeTimer(sbyte[] data)
         {
-            client.WildernessModeCountdown = DataOperations.GetUnsigned2Bytes(data, 1) * 32;
+            client.WildernessModeTimer = DataOperations.GetUnsigned2Bytes(data, 1) * 32;
         }
 
         void HandleWitchPotion(sbyte[] data)

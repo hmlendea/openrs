@@ -35,7 +35,7 @@ namespace RuneScapeSolo
 
         public static bool IsDuelWindowVisible(this mudclient mc, TradeAndDuelState state)
         {
-            return state == TradeAndDuelState.Initial ? mc.showDuelBox : mc.showDuelConfirmBox;
+            return state == TradeAndDuelState.Initial ? mc.ShowDuelBox : mc.ShowDuelConfirmBox;
         }
         public static void AcceptDuel(this mudclient mc, TradeAndDuelState state)
         {
@@ -48,7 +48,7 @@ namespace RuneScapeSolo
         }
         public static void DeclineDuel(this mudclient mc)
         {
-            mc.showDuelConfirmBox = false;
+            mc.ShowDuelConfirmBox = false;
             mc.StreamClass.CreatePacket(35);
             mc.StreamClass.FormatPacket();
         }

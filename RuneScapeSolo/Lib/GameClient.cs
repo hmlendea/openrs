@@ -64,11 +64,11 @@ namespace RuneScapeSolo.Lib
         public int AreaY;
         public int CompletedTasks { get; set; }
         public int Deaths { get; set; }
-        public int DropPartyCountdown;
+        public int DropPartyTimer;
         public int GuthixSpells { get; set; }
         public int GridSize { get; set; }
-        public int PvpTournamentCountdown;
-        public int WildernessModeCountdown;
+        public int PvpTournamentTimer;
+        public int WildernessModeTimer;
         public int Tutorial;
         public int TaskCash { get; set; }
         public int TaskExperience { get; set; }
@@ -95,6 +95,7 @@ namespace RuneScapeSolo.Lib
         public int ServerStartTime { get; set; }
         public int ServerIndex;
         public int SubscriptionDaysLeft { get; set; }
+        public int SystemUpdateTimer { get; set; }
         public int WallObjectCount { get; set; }
         public int WildX { get; set; }
         public int WildY { get; set; }
@@ -121,10 +122,15 @@ namespace RuneScapeSolo.Lib
         public bool LoadArea { get; set; } // Not in wilderness
         public bool LoginScreenShown { get; set; }
         public bool NeedsClear { get; set; }
-        public bool OneMouseButton;
-        public bool ShowCombatWindow;
+        public bool OneMouseButton { get; set; }
+        public bool ShowAppearanceWindow { get; set; }
+        public bool ShowBankBox { get; set; }
+        public bool ShowCombatWindow { get; set; }
+        public bool ShowDuelBox { get; set; }
+        public bool ShowDuelConfirmBox { get; set; }
         public bool ShowQuestionMenu { get; set; }
-        public bool ShowRoofs;
+        public bool ShowRoofs { get; set; }
+        public bool ShowShopBox { get; set; }
         public bool ShowWelcomeBox { get; set; }
         public bool SoundOff;
         public bool[] WallObjectAlreadyInMenu { get; set; }
@@ -414,11 +420,11 @@ namespace RuneScapeSolo.Lib
             menuShow = false;
             duelOpponentItems = new int[8];
             duelOpponentItemsCount = new int[8];
-            showBankBox = false;
+            ShowBankBox = false;
             PlayerStatBase = new int[18];
             serverBankItems = new int[256];
             serverBankItemCount = new int[256];
-            showShopBox = false;
+            ShowShopBox = false;
             groundItemX = new int[5000];
             groundItemY = new int[5000];
             groundItemID = new int[5000];
@@ -448,7 +454,7 @@ namespace RuneScapeSolo.Lib
             tradeConfigItemsCount = new int[14];
             selectedBankItem = -1;
             selectedBankItemType = -2;
-            showDuelConfirmBox = false;
+            ShowDuelConfirmBox = false;
             duelConfirmOurAccepted = false;
             WallObjectDirection = new int[500];
             WallObjectId = new int[500];
@@ -499,13 +505,13 @@ namespace RuneScapeSolo.Lib
             ObjectY = new int[1500];
             ObjectType = new int[1500];
             ObjectRotation = new int[1500];
-            showDuelBox = false;
+            ShowDuelBox = false;
             npcAttackingArray = new Mob[5000];
             teleBubbleY = new int[50];
             cameraAutoAngle = 1;
             LoadArea = false;
             teleBubbleX = new int[50];
-            showAppearanceWindow = false;
+            ShowAppearanceWindow = false;
             cameraZoom = false;
 
             fogOfWar = true;
@@ -900,11 +906,11 @@ namespace RuneScapeSolo.Lib
 
         public override void resetIntVars()
         {
-            systemUpdate = 0;
+            SystemUpdateTimer = 0;
 
-            WildernessModeCountdown = 0;
-            PvpTournamentCountdown = 0;
-            DropPartyCountdown = 0;
+            WildernessModeTimer = 0;
+            PvpTournamentTimer = 0;
+            DropPartyTimer = 0;
 
             loginScreenNumber = 0;
             loggedIn = 0;
@@ -1452,7 +1458,7 @@ namespace RuneScapeSolo.Lib
             {
                 if (mouseX < byte0 || mouseY < byte1 || mouseX > byte0 + 468 || mouseY > byte1 + 262)
                 {
-                    showDuelConfirmBox = false;
+                    ShowDuelConfirmBox = false;
                     StreamClass.CreatePacket(35);
                     StreamClass.FormatPacket();
                 }
@@ -1464,7 +1470,7 @@ namespace RuneScapeSolo.Lib
                 }
                 if (mouseX >= (byte0 + 352) - 35 && mouseX <= byte0 + 353 + 70 && mouseY >= byte1 + 238 && mouseY <= byte1 + 238 + 21)
                 {
-                    showDuelConfirmBox = false;
+                    ShowDuelConfirmBox = false;
                     StreamClass.CreatePacket(35);
                     StreamClass.FormatPacket();
                 }
@@ -1912,11 +1918,13 @@ namespace RuneScapeSolo.Lib
                 if (command == ServerCommand.Command53)
                 {
                     int newMobCount = DataOperations.getShort(data, 1);
-                    int off = 3;
-                    for (int current = 0; current < newMobCount; current++)
+                    int offset = 3;
+
+                    for (int currentMob = 0; currentMob < newMobCount; currentMob++)
                     {
-                        int index = DataOperations.getShort(data, off);
-                        off += 2;
+                        int index = DataOperations.getShort(data, offset);
+                        offset += 2;
+
                         if (index < 0 || index > PlayersBuffer.Length)
                         {
                             return;
@@ -1928,12 +1936,12 @@ namespace RuneScapeSolo.Lib
                             return;
                         }
 
-                        sbyte mobUpdateType = data[off];
-                        off++;
+                        sbyte mobUpdateType = data[offset];
+                        offset++;
                         if (mobUpdateType == 0)
                         {
-                            int j30 = DataOperations.getShort(data, off);
-                            off += 2;
+                            int j30 = DataOperations.getShort(data, offset);
+                            offset += 2;
 
                             mob.playerSkullTimeout = 150;
                             mob.itemAboveHeadID = j30;
@@ -1941,9 +1949,9 @@ namespace RuneScapeSolo.Lib
                         }
                         else if (mobUpdateType == 1)
                         {
-                            sbyte byte7 = data[off];
-                            off++;
-                            string s3 = ChatMessage.bytesToString(data, off, byte7);
+                            sbyte byte7 = data[offset];
+                            offset++;
+                            string s3 = ChatMessage.bytesToString(data, offset, byte7);
                             //if (useChatFilter)
                             //    s3 = ChatFilter.filterChat(s3);
                             bool ignore = false;
@@ -1961,16 +1969,16 @@ namespace RuneScapeSolo.Lib
                                 mob.lastMessage = s3;
                                 displayMessage(mob.username + ": " + mob.lastMessage, 2);
                             }
-                            off += byte7;
+                            offset += byte7;
                         }
                         else if (mobUpdateType == 2)
                         {
-                            int lastDamageCount = DataOperations.getByte(data[off]);
-                            off++;
-                            int currentHits = DataOperations.getByte(data[off]);
-                            off++;
-                            int baseHits = DataOperations.getByte(data[off]);
-                            off++;
+                            int lastDamageCount = DataOperations.getByte(data[offset]);
+                            offset++;
+                            int currentHits = DataOperations.getByte(data[offset]);
+                            offset++;
+                            int baseHits = DataOperations.getByte(data[offset]);
+                            offset++;
                             mob.lastDamageCount = lastDamageCount;
                             mob.currentHits = currentHits;
                             mob.baseHits = baseHits;
@@ -1985,10 +1993,10 @@ namespace RuneScapeSolo.Lib
                         }
                         else if (mobUpdateType == 3)
                         {
-                            int l30 = DataOperations.getShort(data, off);
-                            off += 2;
-                            int l34 = DataOperations.getShort(data, off);
-                            off += 2;
+                            int l30 = DataOperations.getShort(data, offset);
+                            offset += 2;
+                            int l34 = DataOperations.getShort(data, offset);
+                            offset += 2;
                             mob.projectileType = l30;
                             mob.attackingNpcIndex = l34;
                             mob.attackingPlayerIndex = -1;
@@ -1996,10 +2004,10 @@ namespace RuneScapeSolo.Lib
                         }
                         else if (mobUpdateType == 4)
                         {
-                            int i31 = DataOperations.getShort(data, off);
-                            off += 2;
-                            int i35 = DataOperations.getShort(data, off);
-                            off += 2;
+                            int i31 = DataOperations.getShort(data, offset);
+                            offset += 2;
+                            int i35 = DataOperations.getShort(data, offset);
+                            offset += 2;
                             mob.projectileType = i31;
                             mob.attackingPlayerIndex = i35;
                             mob.attackingNpcIndex = -1;
@@ -2007,17 +2015,17 @@ namespace RuneScapeSolo.Lib
                         }
                         else if (mobUpdateType == 5)
                         {
-                            mob.serverID = DataOperations.getShort(data, off);
-                            off += 2;
-                            mob.nameHash = DataOperations.getLong(data, off);
-                            off += 8;
+                            mob.serverID = DataOperations.getShort(data, offset);
+                            offset += 2;
+                            mob.nameHash = DataOperations.getLong(data, offset);
+                            offset += 8;
                             mob.username = DataOperations.hashToName(mob.nameHash);
-                            int appearanceCount = DataOperations.getByte(data[off]);
-                            off++;
+                            int appearanceCount = DataOperations.getByte(data[offset]);
+                            offset++;
                             for (int j35 = 0; j35 < appearanceCount; j35++)
                             {
-                                mob.appearanceItems[j35] = DataOperations.getByte(data[off]);
-                                off++;
+                                mob.appearanceItems[j35] = DataOperations.getByte(data[offset]);
+                                offset++;
                             }
 
                             for (int j38 = appearanceCount; j38 < 12; j38++)
@@ -2025,19 +2033,19 @@ namespace RuneScapeSolo.Lib
                                 mob.appearanceItems[j38] = 0;
                             }
 
-                            mob.hairColour = data[off++] & 0xff;
-                            mob.topColour = data[off++] & 0xff;
-                            mob.bottomColour = data[off++] & 0xff;
-                            mob.skinColour = data[off++] & 0xff;
-                            mob.level = data[off++] & 0xff;
-                            mob.playerSkulled = data[off++] & 0xff;
-                            off++;// TODO to skip the admin flag (should it be removed)
+                            mob.hairColour = data[offset++] & 0xff;
+                            mob.topColour = data[offset++] & 0xff;
+                            mob.bottomColour = data[offset++] & 0xff;
+                            mob.skinColour = data[offset++] & 0xff;
+                            mob.level = data[offset++] & 0xff;
+                            mob.playerSkulled = data[offset++] & 0xff;
+                            offset++;// TODO to skip the admin flag (should it be removed)
                         }
                         else if (mobUpdateType == 6)
                         {
-                            sbyte byte8 = data[off];
-                            off++;
-                            string s4 = ChatMessage.bytesToString(data, off, byte8);
+                            sbyte byte8 = data[offset];
+                            offset++;
+                            string s4 = ChatMessage.bytesToString(data, offset, byte8);
                             mob.lastMessageTimeout = 150;
                             mob.lastMessage = s4;
                             if (mob == CurrentPlayer)
@@ -2045,7 +2053,7 @@ namespace RuneScapeSolo.Lib
                                 displayMessage(mob.username + ": " + mob.lastMessage, 5);
                             }
 
-                            off += byte8;
+                            offset += byte8;
                         }
                     }
 
@@ -2115,16 +2123,6 @@ namespace RuneScapeSolo.Lib
                         off += optionLength;
                     }
 
-                    return;
-                }
-                if (command == ServerCommand.EquipmentStatus)
-                {
-                    int off = 1;
-                    for (int j3 = 0; j3 < 5; j3++)
-                    {
-                        EquipmentStatus[j3] = DataOperations.getShort2(data, off);
-                        off += 2;
-                    }
                     return;
                 }
                 if (command == ServerCommand.Command115)
@@ -2209,11 +2207,6 @@ namespace RuneScapeSolo.Lib
 
                     return;
                 }
-                if (command == ServerCommand.Command207)
-                {
-                    showAppearanceWindow = true;
-                    return;
-                }
                 if (command == ServerCommand.Command4)
                 {
                     int tradeOther = DataOperations.getShort(data, 1);
@@ -2267,7 +2260,7 @@ namespace RuneScapeSolo.Lib
                 }
                 if (command == ServerCommand.Command253)
                 {
-                    showShopBox = true;
+                    ShowShopBox = true;
                     int off = 1;
                     int newShopItemCount = data[off++] & 0xff;
                     sbyte isGeneralShop = data[off++];
@@ -2335,11 +2328,6 @@ namespace RuneScapeSolo.Lib
                     }
                     return;
                 }
-                if (command == ServerCommand.Command220)
-                {
-                    showShopBox = false;
-                    return;
-                }
                 if (command == ServerCommand.Command18)
                 {
                     sbyte byte1 = data[1];
@@ -2376,7 +2364,7 @@ namespace RuneScapeSolo.Lib
                 }
                 if (command == ServerCommand.Command93)
                 {
-                    showBankBox = true;
+                    ShowBankBox = true;
                     int off = 1;
                     serverBankItemsCount = data[off++] & 0xff;
                     maxBankItems = data[off++] & 0xff;
@@ -2389,11 +2377,6 @@ namespace RuneScapeSolo.Lib
                     }
 
                     updateBankItems();
-                    return;
-                }
-                if (command == ServerCommand.Command171)
-                {
-                    showBankBox = false;
                     return;
                 }
                 if (command == ServerCommand.Command211)
@@ -2410,7 +2393,7 @@ namespace RuneScapeSolo.Lib
                         duelOpponent = PlayersBuffer[k5].username;
                     }
 
-                    showDuelBox = true;
+                    ShowDuelBox = true;
                     duelMyItemCount = 0;
                     duelOpponentItemCount = 0;
                     duelOpponentAccepted = false;
@@ -2419,12 +2402,6 @@ namespace RuneScapeSolo.Lib
                     duelNoMagic = false;
                     duelNoPrayer = false;
                     duelNoWeapons = false;
-                    return;
-                }
-                if (command == ServerCommand.Command160)
-                {
-                    showDuelBox = false;
-                    showDuelConfirmBox = false;
                     return;
                 }
 
@@ -2590,9 +2567,9 @@ namespace RuneScapeSolo.Lib
                 }
                 if (command == ServerCommand.Command147)
                 {
-                    showDuelConfirmBox = true;
+                    ShowDuelConfirmBox = true;
                     duelConfirmOurAccepted = false;
-                    showDuelBox = false;
+                    ShowDuelBox = false;
                     int off = 1;
                     duelOpponentHash = DataOperations.getLong(data, off);
                     off += 8;
@@ -2662,16 +2639,7 @@ namespace RuneScapeSolo.Lib
                 }
                 if (command == ServerCommand.Command172)
                 {
-                    systemUpdate = DataOperations.getShort(data, 1) * 32;
-                    return;
-                }
-                if (command == ServerCommand.Command181)
-                {
-                    if (AutoScreenshot)
-                    {
-                        takeScreenshot(false);
-                    }
-
+                    SystemUpdateTimer = DataOperations.getShort(data, 1) * 32;
                     return;
                 }
                 if (command == ServerCommand.Command182)
@@ -2702,12 +2670,12 @@ namespace RuneScapeSolo.Lib
                     questStage = newQuestStage;
                     return;
                 }
+
                 Console.WriteLine("UNHANDLED PACKET:" + command + " LEN:" + length);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine(ex);
-                // ex.printStackTrace();
+                Console.WriteLine(e);
             }
         }
 
@@ -2725,9 +2693,10 @@ namespace RuneScapeSolo.Lib
 
         public override void initVars()
         {
-            systemUpdate = 0;
-            PvpTournamentCountdown = 0;
-            DropPartyCountdown = 0;
+            DropPartyTimer = 0;
+            PvpTournamentTimer = 0;
+            SystemUpdateTimer = 0;
+            WildernessModeTimer = 0;
 
             CombatStyle = 0;
             logoutTimer = 0;
@@ -2778,8 +2747,8 @@ namespace RuneScapeSolo.Lib
             mouseButtonClick = 0;
             lastMouseButton = 0;
             mouseButton = 0;
-            showShopBox = false;
-            showBankBox = false;
+            ShowShopBox = false;
+            ShowBankBox = false;
             IsSleeping = false;
             friendsCount = 0;
         }
@@ -3112,11 +3081,11 @@ namespace RuneScapeSolo.Lib
 
         public override void lostConnection()
         {
-            systemUpdate = 0;
+            SystemUpdateTimer = 0;
 
-            PvpTournamentCountdown = 0;
-            WildernessModeCountdown = 0;
-            DropPartyCountdown = 0;
+            PvpTournamentTimer = 0;
+            WildernessModeTimer = 0;
+            DropPartyTimer = 0;
 
             if (logoutTimer != 0)
             {
@@ -3480,7 +3449,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.AddInt8(appearanceSkinColour);
                 StreamClass.FormatPacket();
                 gameGraphics.ClearScreen();
-                showAppearanceWindow = false;
+                ShowAppearanceWindow = false;
             }
         }
 
@@ -5531,24 +5500,24 @@ namespace RuneScapeSolo.Lib
 
         public void checkGameInputs()
         {
-            if (systemUpdate > 1)
+            if (SystemUpdateTimer > 1)
             {
-                systemUpdate--;
+                SystemUpdateTimer--;
             }
 
-            if (WildernessModeCountdown >= 1)
+            if (WildernessModeTimer >= 1)
             {
-                WildernessModeCountdown -= 1;
+                WildernessModeTimer -= 1;
             }
 
-            if (PvpTournamentCountdown >= 1)
+            if (PvpTournamentTimer >= 1)
             {
-                PvpTournamentCountdown -= 1;
+                PvpTournamentTimer -= 1;
             }
 
-            if (DropPartyCountdown >= 1)
+            if (DropPartyTimer >= 1)
             {
-                DropPartyCountdown -= 1;
+                DropPartyTimer -= 1;
             }
 
             sendPingPacketAsync();
@@ -5571,7 +5540,7 @@ namespace RuneScapeSolo.Lib
                 combatTimeout--;
             }
 
-            if (showAppearanceWindow)
+            if (ShowAppearanceWindow)
             {
                 updateAppearanceWindow();
                 return;
@@ -6051,7 +6020,7 @@ namespace RuneScapeSolo.Lib
                 lastMouseButton = 0;
             }
 
-            if (showTradeBox || showDuelBox)
+            if (showTradeBox || ShowDuelBox)
             {
                 if (mouseButton != 0)
                 {
@@ -6328,7 +6297,7 @@ namespace RuneScapeSolo.Lib
                 {
                     takeScreenshot(true);
                 }
-                else if (showAppearanceWindow && appearanceMenu != null)
+                else if (ShowAppearanceWindow && appearanceMenu != null)
                 {
                     appearanceMenu.keyPress(key, c);
                 }
@@ -6901,7 +6870,7 @@ namespace RuneScapeSolo.Lib
                 {
                     StreamClass.CreatePacket(253);
                     StreamClass.FormatPacket();
-                    showShopBox = false;
+                    ShowShopBox = false;
                     return;
                 }
             }
@@ -7209,7 +7178,7 @@ namespace RuneScapeSolo.Lib
                 OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
                 return;
             }
-            if (showAppearanceWindow)
+            if (ShowAppearanceWindow)
             {
                 drawAppearanceWindow();
                 return;
@@ -7548,9 +7517,9 @@ namespace RuneScapeSolo.Lib
                 gameGraphics.drawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 18 + (24 + actionPictureType) / 6);
             }
 
-            if (systemUpdate != 0)
+            if (SystemUpdateTimer != 0)
             {
-                int seconds = systemUpdate / 50;
+                int seconds = SystemUpdateTimer / 50;
                 int minutes = seconds / 60;
                 seconds %= 60;
                 if (seconds < 10)
@@ -7563,17 +7532,17 @@ namespace RuneScapeSolo.Lib
                 }
             }
 
-            if (WildernessModeCountdown != 0)
+            if (WildernessModeTimer != 0)
             {
                 DrawWildernessTypeAnnouncement();
             }
 
-            if (PvpTournamentCountdown != 0)
+            if (PvpTournamentTimer != 0)
             {
                 DrawPvpTournamentAnnouncement();
             }
 
-            if (DropPartyCountdown != 0)
+            if (DropPartyTimer != 0)
             {
                 DrawDropPartyAnnouncement();
             }
@@ -7654,7 +7623,7 @@ namespace RuneScapeSolo.Lib
 
         void DrawWildernessTypeAnnouncement()
         {
-            int i6 = WildernessModeCountdown / 50;
+            int i6 = WildernessModeTimer / 50;
             int j8 = i6 / 60;
 
             i6 %= 60;
@@ -7671,7 +7640,7 @@ namespace RuneScapeSolo.Lib
 
         void DrawPvpTournamentAnnouncement()
         {
-            int i6 = PvpTournamentCountdown / 50;
+            int i6 = PvpTournamentTimer / 50;
             int j8 = i6 / 60;
 
             i6 %= 60;
@@ -7688,7 +7657,7 @@ namespace RuneScapeSolo.Lib
 
         void DrawDropPartyAnnouncement()
         {
-            int i6 = DropPartyCountdown / 50;
+            int i6 = DropPartyTimer / 50;
             int j8 = i6 / 60;
 
             i6 %= 60;
@@ -7768,11 +7737,11 @@ namespace RuneScapeSolo.Lib
             {
                 drawWildernessAlertBox();
             }
-            else if (showBankBox && combatTimeout == 0)
+            else if (ShowBankBox && combatTimeout == 0)
             {
                 drawBankBox();
             }
-            else if (showShopBox && combatTimeout == 0)
+            else if (ShowShopBox && combatTimeout == 0)
             {
                 drawShopBox();
             }
@@ -7784,11 +7753,11 @@ namespace RuneScapeSolo.Lib
             {
                 drawTradeBox();
             }
-            else if (showDuelConfirmBox)
+            else if (ShowDuelConfirmBox)
             {
                 drawDuelConfirmBox();
             }
-            else if (showDuelBox)
+            else if (ShowDuelBox)
             {
                 drawDuelBox();
             }
@@ -8077,7 +8046,7 @@ namespace RuneScapeSolo.Lib
                     }
                     if (l >= 394 && i1 >= 238 && l < 463 && i1 < 259)
                     {
-                        showDuelBox = false;
+                        ShowDuelBox = false;
                         StreamClass.CreatePacket(35);
                         StreamClass.FormatPacket();
                     }
@@ -8085,14 +8054,14 @@ namespace RuneScapeSolo.Lib
                 else
                     if (mouseButtonClick != 0)
                 {
-                    showDuelBox = false;
+                    ShowDuelBox = false;
                     StreamClass.CreatePacket(35);
                     StreamClass.FormatPacket();
                 }
                 mouseButtonClick = 0;
                 mouseClickedHeldInTradeDuelBox = 0;
             }
-            if (!showDuelBox)
+            if (!ShowDuelBox)
             {
                 return;
             }
@@ -8687,7 +8656,7 @@ namespace RuneScapeSolo.Lib
                 {
                     StreamClass.CreatePacket(48);
                     StreamClass.FormatPacket();
-                    showBankBox = false;
+                    ShowBankBox = false;
                     return;
                 }
             }
@@ -10026,7 +9995,6 @@ namespace RuneScapeSolo.Lib
         public int duelMyItemCount;
         public int[] duelMyItems;
         public int[] duelMyItemsCount;
-        public int systemUpdate;
         public string[] questName = {// TODO really?... needs to be done better imho
             "Cook's Assistant", "Sheep Shearer", "Black knight's fortress", "Imp catcher", "Vampire slayer",
             "Romeo & Juliet", "The restless ghost", "Doric's quest", "The knight's sword", "Witch's potion",
@@ -10158,7 +10126,6 @@ namespace RuneScapeSolo.Lib
         public int appearanceBottomRightArrow;
         public int appearanceAcceptButton;
         public sbyte[] soundData;
-        public bool showBankBox;
         public int shopItemSellPriceModifier;
         public int shopItemBuyPriceModifier;
         public int wildType;
@@ -10166,7 +10133,6 @@ namespace RuneScapeSolo.Lib
         public int showAbuseBox;
         public int[] serverBankItems;
         public int[] serverBankItemCount;
-        public bool showShopBox;
         public int[] groundItemX;
         public int[] groundItemY;
         public int[] groundItemID;
@@ -10215,7 +10181,6 @@ namespace RuneScapeSolo.Lib
         public int[] tradeConfigItemsCount;
         public int selectedBankItem;
         public int selectedBankItemType;
-        public bool showDuelConfirmBox;
         public bool duelConfirmOurAccepted;
         public int modelUpdatingTimer;
         public int selectedItem;
@@ -10315,7 +10280,6 @@ namespace RuneScapeSolo.Lib
         public int[] healthBarY;
         public int[] healthBarMissing;
         public int reportAbuseOptionSelected;
-        public bool showDuelBox;
         public Mob[] npcAttackingArray;
         public int serverBankItemsCount;
         public int[] teleBubbleY;
@@ -10323,7 +10287,6 @@ namespace RuneScapeSolo.Lib
         public int cameraAutoRotationAmount;
         public int[] teleBubbleX;
         public int bankItemsCount;
-        public bool showAppearanceWindow;
         public int actionPictureType;
         int walkMouseX;
         int walkMouseY;
