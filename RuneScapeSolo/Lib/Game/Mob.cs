@@ -4,8 +4,8 @@ namespace RuneScapeSolo.Lib.Game
     {
         public Mob()
         {
-            waypointsX = new int[10];
-            waypointsY = new int[10];
+            WaypointsX = new int[10];
+            WaypointsY = new int[10];
             AppearanceItems = new int[12];
             CombatLevel = -1;
         }
@@ -31,6 +31,8 @@ namespace RuneScapeSolo.Lib.Game
         public int WaypointsEndSprite { get; set; }
         public int WaypointCurrent { get; set; }
         public int[] AppearanceItems { get; set; }
+        public int[] WaypointsX { get; set; }
+        public int[] WaypointsY { get; set; }
         public long NameHash { get; set; }
         public string Clan { get; set; }
         public string Flag { get; set; }
@@ -43,8 +45,6 @@ namespace RuneScapeSolo.Lib.Game
         public int stepCount;
         public int currentSprite;
         public int nextSprite;
-        public int[] waypointsX;
-        public int[] waypointsY;
         public string lastMessage;
         public int lastMessageTimeout;
         public int combatTimer;

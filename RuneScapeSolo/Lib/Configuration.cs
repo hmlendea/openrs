@@ -23,7 +23,7 @@
         /// <summary>
         /// Flag indicating whether the premium features are enabled.
         /// </summary>
-        public const bool MEMBERS_FEATURES = true;
+        public const bool PREMIUM_FEATURES = true;
 
         /// <summary>
         /// The IP address of the server.

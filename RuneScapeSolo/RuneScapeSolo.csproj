@@ -90,7 +90,7 @@
     <Compile Include="Lib\Data\AudioReader.cs" />
     <Compile Include="Lib\Data\BZip2BlockEntry.cs" />
     <Compile Include="Lib\Data\BZip2Decompressor.cs" />
-    <Compile Include="Lib\Data\Data.cs" />
+    <Compile Include="Lib\Data\EntityHandler.cs" />
     <Compile Include="Lib\Data\DataEncryption.cs" />
     <Compile Include="Lib\Data\DataFileDecrypter.cs" />
     <Compile Include="Lib\Data\DataFileVariables.cs" />
@@ -116,6 +116,18 @@
     <Compile Include="PacketHandler.cs" />
     <Compile Include="Quests.cs" />
     <Compile Include="Lib\Data\DataConversions.cs" />
+    <Compile Include="Models\WallObject.cs" />
+    <Compile Include="Models\GameEntity.cs" />
+    <Compile Include="Models\Elevation.cs" />
+    <Compile Include="Models\GameObject.cs" />
+    <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\Npc.cs" />
+    <Compile Include="Models\Prayer.cs" />
+    <Compile Include="Models\Spell.cs" />
+    <Compile Include="Models\Tile.cs" />
+    <Compile Include="Models\Animation.cs" />
+    <Compile Include="Models\ItemDrop.cs" />
+    <Compile Include="Models\Texture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuneScapeSolo.Data\RuneScapeSolo.Data.csproj">
@@ -124,5 +136,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -43,7 +43,7 @@ namespace RuneScapeSolo
                     return true;
 
                 case ServerCommand.Command77:
-                    //HandleCommand77(data, length);
+                    HandleCommand77(data, length);
                     return true;
 
                 case ServerCommand.Command114:
@@ -357,18 +357,18 @@ namespace RuneScapeSolo
 
                         if (rotation == 0 || rotation == 4)
                         {
-                            width = Data.objectWidth[index];
-                            height = Data.objectHeight[index];
+                            width = EntityHandler.GetObject(index).Width;
+                            height = EntityHandler.GetObject(index).Height;
                         }
                         else
                         {
-                            height = Data.objectWidth[index];
-                            width = Data.objectHeight[index];
+                            height = EntityHandler.GetObject(index).Width;
+                            width = EntityHandler.GetObject(index).Height;
                         }
 
                         int l40 = ((newSectionX + newSectionX + width) * client.GridSize) / 2;
                         int k42 = ((newSectionY + newSectionY + height) * client.GridSize) / 2;
-                        int model = Data.objectModelNumber[index];
+                        int model = EntityHandler.GetObject(index).ModelId;
                         GameObject gameObject = client.GameDataObjects[model].CreateParent();
 
 #warning object not being added to camera.
@@ -608,33 +608,31 @@ namespace RuneScapeSolo
                 client.LastNpcs[lastNpcIndex] = client.Npcs[lastNpcIndex];
             }
 
-            int offset = 8;
-            int newNpcCount = DataOperations.GetInt(data, offset, 8);
-
-            offset += 8;
+            int newNpcOffset = 8;
+            int newNpcCount = DataOperations.GetInt(data, newNpcOffset, 8);
+            newNpcOffset += 8;
 
             for (int newNpcIndex = 0; newNpcIndex < newNpcCount; newNpcIndex++)
             {
-                Mob newNpc = client.getLastNpc(DataOperations.GetInt(data, offset, 16));
+                Mob newNpc = client.getLastNpc(DataOperations.GetInt(data, newNpcOffset, 16));
+                newNpcOffset += 16;
 
-                offset += 16;
-
-                int needsUpdate = DataOperations.GetInt(data, offset, 1);
-                offset++;
+                int needsUpdate = DataOperations.GetInt(data, newNpcOffset, 1);
+                newNpcOffset++;
 
                 if (needsUpdate != 0)
                 {
-                    int j32 = DataOperations.GetInt(data, offset, 1);
-                    offset++;
+                    int j32 = DataOperations.GetInt(data, newNpcOffset, 1);
+                    newNpcOffset++;
 
                     if (j32 == 0)
                     {
-                        int nextSprite = DataOperations.GetInt(data, offset, 3);
-                        offset += 3;
+                        int nextSprite = DataOperations.GetInt(data, newNpcOffset, 3);
+                        newNpcOffset += 3;
 
-                        int waypointCurrent = newNpc.waypointCurrent;
-                        int waypointX = newNpc.waypointsX[waypointCurrent];
-                        int waypointY = newNpc.waypointsY[waypointCurrent];
+                        int waypointCurrent = newNpc.WaypointCurrent;
+                        int waypointX = newNpc.WaypointsX[waypointCurrent];
+                        int waypointY = newNpc.WaypointsY[waypointCurrent];
 
                         if (nextSprite == 2 || nextSprite == 1 || nextSprite == 3)
                         {
@@ -657,58 +655,58 @@ namespace RuneScapeSolo
                         }
 
                         newNpc.nextSprite = nextSprite;
-                        newNpc.waypointCurrent = waypointCurrent = (waypointCurrent + 1) % 10;
-                        newNpc.waypointsX[waypointCurrent] = waypointX;
-                        newNpc.waypointsY[waypointCurrent] = waypointY;
+                        newNpc.WaypointCurrent = waypointCurrent = (waypointCurrent + 1) % 10;
+                        newNpc.WaypointsX[waypointCurrent] = waypointX;
+                        newNpc.WaypointsY[waypointCurrent] = waypointY;
                     }
                     else
                     {
-                        int nextSprite = DataOperations.GetInt(data, offset, 4);
-                        offset += 4;
+                        int nextSpriteOffset = DataOperations.GetInt(data, newNpcOffset, 4);
+                        newNpcOffset += 4;
 
-                        if ((nextSprite & 0xc) == 12)
+                        if ((nextSpriteOffset & 0xc) == 12)
                         {
                             continue;
                         }
 
-                        newNpc.nextSprite = nextSprite;
+                        newNpc.nextSprite = nextSpriteOffset;
                     }
                 }
 
                 client.Npcs[client.NpcCount++] = newNpc;
             }
 
-            while (offset + 34 < length * 8)
+            while (newNpcOffset + 34 < length * 8)
             {
-                int mobIndex = DataOperations.GetInt(data, offset, 16);
-                offset += 16;
+                int mobIndex = DataOperations.GetInt(data, newNpcOffset, 16);
+                newNpcOffset += 16;
 
-                int areaMobX = DataOperations.GetInt(data, offset, 5);
-                offset += 5;
+                int areaMobX = DataOperations.GetInt(data, newNpcOffset, 5);
+                newNpcOffset += 5;
 
                 if (areaMobX > 15)
                 {
                     areaMobX -= 32;
                 }
 
-                int areaMobY = DataOperations.GetInt(data, offset, 5);
-                offset += 5;
+                int areaMobY = DataOperations.GetInt(data, newNpcOffset, 5);
+                newNpcOffset += 5;
 
                 if (areaMobY > 15)
                 {
                     areaMobY -= 32;
                 }
 
-                int mobSprite = DataOperations.GetInt(data, offset, 4);
-                offset += 4;
+                int mobSprite = DataOperations.GetInt(data, newNpcOffset, 4);
+                newNpcOffset += 4;
 
                 int mobX = (client.SectionX + areaMobX) * client.GridSize + 64;
                 int mobY = (client.SectionY + areaMobY) * client.GridSize + 64;
-                int addIndex = DataOperations.GetInt(data, offset, 10);
+                int addIndex = DataOperations.GetInt(data, newNpcOffset, 10);
 
-                offset += 10;
+                newNpcOffset += 10;
 
-                if (addIndex >= Data.npcCount)
+                if (addIndex >= EntityHandler.NpcCount)
                 {
                     addIndex = 24;
                 }
@@ -730,7 +728,7 @@ namespace RuneScapeSolo
                 client.InventoryItems[item] = val & 0x7fff;
                 client.InventoryItemEquipped[item] = val / 32768;
 
-                if (Data.itemStackable[val & 0x7fff] == 0)
+                if (EntityHandler.GetItem(val & 0x7fff).IsStackable == 0)
                 {
                     client.InventoryItemCount[item] = DataOperations.getInt(data, off);
                     off += 4;
@@ -794,10 +792,10 @@ namespace RuneScapeSolo
 
             if (sectionLoaded)
             {
-                client.CurrentPlayer.waypointCurrent = 0;
-                client.CurrentPlayer.waypointsEndSprite = 0;
-                client.CurrentPlayer.currentX = client.CurrentPlayer.waypointsX[0] = mapEnterX;
-                client.CurrentPlayer.currentY = client.CurrentPlayer.waypointsY[0] = mapEnterY;
+                client.CurrentPlayer.WaypointCurrent = 0;
+                client.CurrentPlayer.WaypointsEndSprite = 0;
+                client.CurrentPlayer.currentX = client.CurrentPlayer.WaypointsX[0] = mapEnterX;
+                client.CurrentPlayer.currentY = client.CurrentPlayer.WaypointsY[0] = mapEnterY;
             }
 
             client.PlayerCount = 0;
@@ -825,9 +823,9 @@ namespace RuneScapeSolo
                         int currentNextSprite = DataOperations.GetInt(data, off, 3);
                         off += 3;
 
-                        int currentWaypoint = mob.waypointCurrent;
-                        int newWaypointX = mob.waypointsX[currentWaypoint];
-                        int newWaypointY = mob.waypointsY[currentWaypoint];
+                        int currentWaypoint = mob.WaypointCurrent;
+                        int newWaypointX = mob.WaypointsX[currentWaypoint];
+                        int newWaypointY = mob.WaypointsY[currentWaypoint];
 
                         if (currentNextSprite == 2 || currentNextSprite == 1 || currentNextSprite == 3)
                         {
@@ -850,9 +848,9 @@ namespace RuneScapeSolo
                         }
 
                         mob.nextSprite = currentNextSprite;
-                        mob.waypointCurrent = currentWaypoint = (currentWaypoint + 1) % 10;
-                        mob.waypointsX[currentWaypoint] = newWaypointX;
-                        mob.waypointsY[currentWaypoint] = newWaypointY;
+                        mob.WaypointCurrent = currentWaypoint = (currentWaypoint + 1) % 10;
+                        mob.WaypointsX[currentWaypoint] = newWaypointX;
+                        mob.WaypointsY[currentWaypoint] = newWaypointY;
                     }
                     else
                     {
@@ -1039,7 +1037,7 @@ namespace RuneScapeSolo
             int val = DataOperations.getShort(data, offset);
             offset += 2;
 
-            if (Data.itemStackable[val & 0x7fff] == 0)
+            if (EntityHandler.GetItem(val & 0x7fff).IsStackable == 0)
             {
                 count = DataOperations.getInt(data, offset);
                 offset += 4;
