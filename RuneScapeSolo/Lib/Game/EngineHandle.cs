@@ -96,7 +96,7 @@ namespace RuneScapeSolo.Lib.Game
         }
 
 
-        private int loadedSameIndex = 0;
+        int loadedSameIndex = 0;
         public void loadSection(int sectionX, int sectionY, int height, int sector)
         {
             string filename = "m" + height + sectionX / 10 + sectionX % 10 + sectionY / 10 + sectionY % 10;
@@ -353,7 +353,7 @@ namespace RuneScapeSolo.Lib.Game
                 }
                 return;
             }
-            catch (IOException _ex)
+            catch (IOException ex)
             {
             }
             for (int k = 0; k < 2304; k++)
@@ -1816,7 +1816,7 @@ namespace RuneScapeSolo.Lib.Game
             return getTileRoofType(x, y) > 0 || getTileRoofType(x - 1, y) > 0 || getTileRoofType(x - 1, y - 1) > 0 || getTileRoofType(x, y - 1) > 0;
         }
 
-        private const int SECTOR_COUNT = 4;
+        const int SECTOR_COUNT = 4;
 
         public EngineHandle(Camera arg0, GameImage arg1)
         //: base(x, arg1)

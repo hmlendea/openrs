@@ -15,24 +15,24 @@ namespace RuneScapeSolo
     /// </summary>
     public class GameWindow : Game
     {
-        GraphicsDeviceManager graphics;
+        readonly GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         mudclient _rscMudclient;
         System.Threading.Thread _gameThread;
 
         Texture2D _lastGameImageTexture = null;
 
-        private Texture2D _gameLogo;
+         Texture2D _gameLogo;
 
-        private SpriteFont _diagnosticFont;
-        private SpriteFont _diagnosticFont2;
+         SpriteFont _diagnosticFont;
+         SpriteFont _diagnosticFont2;
 
         bool _isSectionLoading = false;
         bool _isContentLoading = false;
         string _contentLoadingStatusText = "";
         decimal _contentLoadingStatusProgress = 0m;
 
-        private Texture2D _loadingBackgroundImage;
+         Texture2D _loadingBackgroundImage;
 
         public GameWindow()
         {
@@ -251,7 +251,7 @@ namespace RuneScapeSolo
             //GC.Collect();
         }
 
-        private void DrawLogo()
+         void DrawLogo()
         {
             try
             {
@@ -285,7 +285,7 @@ namespace RuneScapeSolo
             catch { }
         }
 
-        private void DrawGame(mudclient _rscMudclient)
+         void DrawGame(mudclient _rscMudclient)
         {
             if (_rscMudclient != null)
             {
@@ -370,7 +370,7 @@ namespace RuneScapeSolo
             }
         }
 
-        private static bool DrawMudclient(mudclient _rscMudclient)
+         static bool DrawMudclient(mudclient _rscMudclient)
         {
             _rscMudclient.paint(mudclient.graphics);
 
@@ -389,7 +389,7 @@ namespace RuneScapeSolo
                     return true;
                 }
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
                 _rscMudclient.cleanUp();
                 _rscMudclient.memoryError = true;
@@ -398,7 +398,7 @@ namespace RuneScapeSolo
             return true;
         }
 
-        private void DrawSectionLoading()
+         void DrawSectionLoading()
         {
             var s1 = "Loading... Please wait";
             var sSize = _diagnosticFont2.MeasureString(s1);
@@ -408,7 +408,7 @@ namespace RuneScapeSolo
             spriteBatch.DrawString(_diagnosticFont2, s1, sPos, Color.White);
         }
 
-        private void DrawContentLoading(string contentLoadingStatusText, decimal contentLoadingStatusProgress)
+         void DrawContentLoading(string contentLoadingStatusText, decimal contentLoadingStatusProgress)
         {
             GraphicsDevice.Clear(Color.Black);
 

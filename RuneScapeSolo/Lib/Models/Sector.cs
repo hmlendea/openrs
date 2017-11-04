@@ -7,7 +7,7 @@ namespace RuneScapeSolo.Lib.Models
     {
         public static short WIDTH = 48;
         public static short HEIGHT = 48;
-        private Tile[] tiles;
+        Tile[] tiles;
 
 
         public Sector()

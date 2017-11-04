@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 #if MONOMAC
 using MonoMac.AppKit;
 using MonoMac.Foundation;
@@ -16,7 +16,7 @@ namespace RuneScapeSolo
     static class Program
 #endif
     {
-        private static GameWindow game;
+        static GameWindow game;
 
         internal static void RunGame()
         {

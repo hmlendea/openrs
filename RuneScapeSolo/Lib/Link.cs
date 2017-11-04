@@ -101,7 +101,7 @@ namespace RuneScapeSolo.Lib
                 {
                     Thread.Sleep(100);
                 }
-                catch (Exception _ex) { }
+                catch (Exception ex) { }
             }
 
             return socket;
@@ -112,7 +112,7 @@ namespace RuneScapeSolo.Lib
         //        try {
         //            Thread.Sleep(100);
         //        }
-        //        catch(Exception _ex) { }
+        //        catch(Exception ex) { }
 
         //}
 
@@ -124,7 +124,7 @@ namespace RuneScapeSolo.Lib
                 {
                     Thread.Sleep(100);
                 }
-                catch (Exception _ex) { }
+                catch (Exception ex) { }
             }
 
             return address;
@@ -138,8 +138,8 @@ namespace RuneScapeSolo.Lib
         static string iplookup = null;
         static string address;
         static int currentFile;
-        private static string[] fileName = new string[50];
-        private static sbyte[][] fileData = new sbyte[50][];
+        static string[] fileName = new string[50];
+        static sbyte[][] fileData = new sbyte[50][];
 
     }
 }

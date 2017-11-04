@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
 
 using RuneScapeSolo.Enumerations;
@@ -11,7 +10,7 @@ namespace RuneScapeSolo
 {
     public class PacketHandler
     {
-        mudclient client;
+        readonly mudclient client;
 
         public PacketHandler(mudclient client)
         {
@@ -614,7 +613,7 @@ namespace RuneScapeSolo
 
             for (int newNpcIndex = 0; newNpcIndex < newNpcCount; newNpcIndex++)
             {
-                Mob newNpc = client.getLastNpc(DataOperations.GetInt(data, newNpcOffset, 16));
+                Mob newNpc = client.GetLastNpc(DataOperations.GetInt(data, newNpcOffset, 16));
                 newNpcOffset += 16;
 
                 int needsUpdate = DataOperations.GetInt(data, newNpcOffset, 1);
@@ -799,7 +798,7 @@ namespace RuneScapeSolo
             }
 
             client.PlayerCount = 0;
-            client.CurrentPlayer = client.makePlayer(client.ServerIndex, mapEnterX, mapEnterY, sprite);
+            client.CurrentPlayer = client.MakePlayer(client.ServerIndex, mapEnterX, mapEnterY, sprite);
 
             int newPlayerCount = DataOperations.GetInt(data, off, 8);
             off += 8;
@@ -807,7 +806,7 @@ namespace RuneScapeSolo
             for (int currentNewPlayer = 0; currentNewPlayer < newPlayerCount; currentNewPlayer++)
             {
                 //Mob mob = client.LastPlayers[currentNewPlayer + 1];
-                Mob mob = client.getLastPlayer(DataOperations.GetInt(data, off, 16));
+                Mob mob = client.GetLastPlayer(DataOperations.GetInt(data, off, 16));
                 off += 16;
 
                 int playerAtTile = DataOperations.GetInt(data, off, 1);
@@ -900,7 +899,7 @@ namespace RuneScapeSolo
 
                 int mobX = (client.SectionX + areaMobX) * client.GridSize + 64;
                 int mobY = (client.SectionY + areaMobY) * client.GridSize + 64;
-                client.makePlayer(mobIndex, mobX, mobY, mobSprite);
+                client.MakePlayer(mobIndex, mobX, mobY, mobSprite);
 
                 if (addIndex == 0)
                 {

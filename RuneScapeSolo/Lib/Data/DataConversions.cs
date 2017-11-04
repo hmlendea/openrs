@@ -3,7 +3,7 @@ namespace RuneScapeSolo.Lib.Data
 {
     public static class DataConversions
     {
-        static char[] characters = {
+        static readonly char[] characters = {
             ' ', 'e', 't', 'a', 'o', 'i', 'h', 'n', 's', 'r',
             'd', 'l', 'u', 'm', 'w', 'c', 'y', 'f', 'g', 'p',
             'b', 'v', 'k', 'x', 'j', 'q', 'z', '0', '1', '2',

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 namespace RuneScapeSolo.Lib.Game.Cameras
 {
 
@@ -218,7 +218,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             }
         }
 
-        private void bhl(CameraModel[] arg0, int arg1, int arg2)
+        void bhl(CameraModel[] arg0, int arg1, int arg2)
         {
             if (arg1 < arg2)
             {
@@ -771,7 +771,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             bcb = false;
         }
 
-        private void bic(int arg0, int arg1, int arg2, int arg3, int arg4, int[] arg5, int[] arg6,
+        void bic(int arg0, int arg1, int arg2, int arg3, int arg4, int[] arg5, int[] arg6,
                 int[] arg7, GameObject arg8, int arg9)
         {
             if (arg4 == 3)
@@ -1422,7 +1422,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             }
         }
 
-        private void renderModel(int arg0, int arg1, int arg2, int[] arg3, int[] arg4, int[] arg5, int textureIndex,
+        void renderModel(int arg0, int arg1, int arg2, int[] arg3, int[] arg4, int[] arg5, int textureIndex,
                 GameObject arg7)
         {
             if (textureIndex == -2)
@@ -1903,7 +1903,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
 
         }
 
-        private static void bie(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
+        static void bie(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13)
         {
             if (arg10 <= 0)
@@ -2048,7 +2048,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
 
         }
 
-        private static void bif(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
+        static void bif(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13)
         {
             if (arg10 <= 0)
@@ -2193,7 +2193,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
 
         }
 
-        private static void big(int[] arg0, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6, int arg7,
+        static void big(int[] arg0, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6, int arg7,
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13, int arg14)
         {
             if (arg11 <= 0)
@@ -2409,7 +2409,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
 
         }
 
-        private static void bih(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
+        static void bih(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13)
         {
             if (arg10 <= 0)
@@ -2540,7 +2540,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
 
         }
 
-        private static void bii(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
+        static void bii(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13)
         {
             if (arg10 <= 0)
@@ -2671,7 +2671,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
 
         }
 
-        private static void bij(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6, int arg7,
+        static void bij(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6, int arg7,
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13, int arg14)
         {
             if (arg11 <= 0)
@@ -2887,7 +2887,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
 
         }
 
-        private static void bik(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6)
+        static void bik(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6)
         {
             if (arg1 >= 0)
             {
@@ -2931,7 +2931,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
 
         }
 
-        private static void bil(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6)
+        static void bil(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6)
         {
             if (arg1 >= 0)
             {
@@ -2984,7 +2984,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
 
         }
 
-        private static void bim(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6)
+        static void bim(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6)
         {
             if (arg1 >= 0)
             {
@@ -3076,7 +3076,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             ViewZ = z - zOffset;
         }
 
-        private void bja(int arg0)
+        void bja(int arg0)
         {
             CameraModel l1 = visibleModels[arg0];
             GameObject k = l1.Object;
@@ -3169,7 +3169,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             l1.bkg = k6;
         }
 
-        private void bjb(int arg0)
+        void bjb(int arg0)
         {
             CameraModel l1 = visibleModels[arg0];
             GameObject k = l1.Object;
@@ -3243,7 +3243,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             l1.bkg = k4;
         }
 
-        private bool bjc(CameraModel arg0, CameraModel arg1)
+        bool bjc(CameraModel arg0, CameraModel arg1)
         {
             if (arg0.bkd >= arg1.bkf)
             {
@@ -3394,7 +3394,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             return !bkc(ai2, ai3, ai4, ai5);
         }
 
-        private bool bjd(CameraModel arg0, CameraModel arg1)
+        bool bjd(CameraModel arg0, CameraModel arg1)
         {
             GameObject k = arg0.Object;
             GameObject i1 = arg1.Object;
@@ -3550,7 +3550,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             applyTexture(arg0);
         }
 
-        private void applyTexture(int arg0)
+        void applyTexture(int arg0)
         {
             int textureSize;
             if (bel[arg0] == 0)
@@ -4172,44 +4172,44 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         public int zoom3;
         public int zoom4;
         public static int[] bbk = new int[2048];
-        private static int[] bbl = new int[512];
+        static int[] bbl = new int[512];
         public bool bbm;
         public double bbn;
         public int bca;
-        private bool bcb;
-        private int bcc;
-        private int bcd;
-        private int bce;
-        private int maxHighlightedObjects;
-        private GameObject[] _highlightedObjects;
-        private int[] bch;
-        private int bci;
-        private int bcj;
-        private int bck;
-        private int bcl;
-        private int bcm;
-        private int bcn;
-        private int bda;
-        private int viewX;
-        private int ViewY;
-        private int ViewZ;
-        private int bde;
-        private int bdf;
-        private int bdg;
+        bool bcb;
+        int bcc;
+        int bcd;
+        int bce;
+        int maxHighlightedObjects;
+        GameObject[] _highlightedObjects;
+        int[] bch;
+        int bci;
+        int bcj;
+        int bck;
+        int bcl;
+        int bcm;
+        int bcn;
+        int bda;
+        int viewX;
+        int ViewY;
+        int ViewZ;
+        int bde;
+        int bdf;
+        int bdg;
         public int currentObjectCount;
         public int totalModelCount;
         public GameObject[] objectCache;
-        private int[] bdk;
-        private int currentModelIndex;
-        private CameraModel[] visibleModels;
-        private int bdn;
-        private int[] sceneObjectId;
-        private int[] sceneObjectX;
-        private int[] sceneObjectY;
-        private int[] sceneObjectZ;
-        private int[] bee;
-        private int[] bef;
-        private int[] beg;
+        int[] bdk;
+        int currentModelIndex;
+        CameraModel[] visibleModels;
+        int bdn;
+        int[] sceneObjectId;
+        int[] sceneObjectX;
+        int[] sceneObjectY;
+        int[] sceneObjectZ;
+        int[] bee;
+        int[] bef;
+        int[] beg;
         public GameObject highlightedObject;
         public int bei;
         public sbyte[][] texturePictureColorIndex;
@@ -4218,10 +4218,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         public long[] bem;
         public int[][] objectTexturePixels;
         public bool[] bfa;
-        private static long bfb;
+        static long bfb;
         public int[][] texturePixels;
         public int[][] bfd;
-        private static sbyte[] bfe;
+        static sbyte[] bfe;
         public GameImage gameImage;
         public int[] bfh;
         public CameraVariable[] bfi;

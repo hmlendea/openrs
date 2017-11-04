@@ -533,7 +533,7 @@ namespace RuneScapeSolo.Lib.Game
             //return (r << 24) + (g << 16) + (b << 8) + a;
         }
 
-        private static int ClampToByte32(int value)
+        static int ClampToByte32(int value)
         {
             if (value < 0)
             {
@@ -546,7 +546,7 @@ namespace RuneScapeSolo.Lib.Game
             return value;
         }
 
-        private static int ClampToByte64(long value)
+        static int ClampToByte64(long value)
         {
             if (value < 0L)
             {
@@ -559,9 +559,9 @@ namespace RuneScapeSolo.Lib.Game
             return (int)value;
         }
 
-        public static int rgbToInt(int i, int k, int l)
+        public static int RgbToInt(int red, int green, int blue)
         {
-            return (i << 16) + (k << 8) + l;
+            return (red << 16) + (green << 8) + blue;
         }
 
         public void cleanUp()
@@ -1144,7 +1144,7 @@ namespace RuneScapeSolo.Lib.Game
                 cci(ref pixels, pictureColors[index], 0, i2, j2, j3, l3, width, height, k2, l2, k1, byte0);
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("error in sprite clipping routine");
             }
@@ -1298,7 +1298,7 @@ namespace RuneScapeSolo.Lib.Game
                 ccl(ref pixels, pictureColors[j1], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, k1);
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("error in sprite clipping routine");
             }
@@ -1380,13 +1380,13 @@ namespace RuneScapeSolo.Lib.Game
                 ccm(ref pixels, pictureColors[j1], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, k1);
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("error in sprite clipping routine");
             }
         }
 
-        private void ccg(ref int[] pixels, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
+        void ccg(ref int[] pixels, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9)
         {
             int i = -(arg5 >> 2);
@@ -1455,7 +1455,7 @@ namespace RuneScapeSolo.Lib.Game
 
         }
 
-        private void cch(ref int[] pixels, sbyte[] arg1, int[] arg2, int arg3, int arg4, int arg5, int arg6,
+        void cch(ref int[] pixels, sbyte[] arg1, int[] arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9)
         {
             int i = -(arg5 >> 2);
@@ -1524,7 +1524,7 @@ namespace RuneScapeSolo.Lib.Game
 
         }
 
-        private void cci(ref int[] pixels, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
+        void cci(ref int[] pixels, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10, int arg11, int arg12)
         {
             try
@@ -1555,13 +1555,13 @@ namespace RuneScapeSolo.Lib.Game
 
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("error in plot_scale");
             }
         }
 
-        private void ccj(ref int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
+        void ccj(ref int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10)
         {
             int i = 256 - arg10;
@@ -1587,7 +1587,7 @@ namespace RuneScapeSolo.Lib.Game
 
         }
 
-        private void cck(ref int[] arg0, sbyte[] arg1, int[] arg2, int arg3, int arg4, int arg5, int arg6,
+        void cck(ref int[] arg0, sbyte[] arg1, int[] arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10)
         {
             int i = 256 - arg10;
@@ -1614,7 +1614,7 @@ namespace RuneScapeSolo.Lib.Game
 
         }
 
-        private void ccl(ref int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
+        void ccl(ref int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int arg13)
         {
             int i = 256 - arg13;
@@ -1646,13 +1646,13 @@ namespace RuneScapeSolo.Lib.Game
 
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("error in tran_scale");
             }
         }
 
-        private void ccm(ref int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
+        void ccm(ref int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int color)
         {
             int red = color >> 16 & 0xff;
@@ -1695,7 +1695,7 @@ namespace RuneScapeSolo.Lib.Game
 
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("error in plot_scale");
             }
@@ -2060,7 +2060,7 @@ namespace RuneScapeSolo.Lib.Game
 
         }
 
-        private void cda(ref int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
+        void cda(ref int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9)
         {
             for (arg2 = arg8; arg2 < 0; arg2++)
@@ -2072,7 +2072,7 @@ namespace RuneScapeSolo.Lib.Game
 
         }
 
-        private void cdb(ref int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
+        void cdb(ref int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9)
         {
             for (int i = arg8; i < 0; i++)
@@ -2225,13 +2225,13 @@ namespace RuneScapeSolo.Lib.Game
                     return;
                 }
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("error in sprite clipping routine");
             }
         }
 
-        private void cde(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
+        void cde(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int arg13,
                 int arg14)
         {
@@ -2290,13 +2290,13 @@ namespace RuneScapeSolo.Lib.Game
 
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("error in transparent sprite plot routine");
             }
         }
 
-        private void cdf(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
+        void cdf(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int arg13,
                 int arg14, int arg15)
         {
@@ -2363,13 +2363,13 @@ namespace RuneScapeSolo.Lib.Game
 
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("error in transparent sprite plot routine");
             }
         }
 
-        private void cdg(int[] arg0, sbyte[] arg1, int[] arg2, int arg3, int arg4, int arg5, int arg6,
+        void cdg(int[] arg0, sbyte[] arg1, int[] arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int arg13,
                 int arg14, int arg15)
         {
@@ -2429,13 +2429,13 @@ namespace RuneScapeSolo.Lib.Game
 
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("error in transparent sprite plot routine");
             }
         }
 
-        private void cdh(int[] arg0, sbyte[] arg1, int[] arg2, int arg3, int arg4, int arg5, int arg6,
+        void cdh(int[] arg0, sbyte[] arg1, int[] arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int arg13,
                 int arg14, int arg15, int arg16)
         {
@@ -2503,7 +2503,7 @@ namespace RuneScapeSolo.Lib.Game
 
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("error in transparent sprite plot routine");
             }
@@ -2523,7 +2523,7 @@ namespace RuneScapeSolo.Lib.Game
         //            if (destX == 'f' || destX == 't' || destX == 'w' || destX == 'v' || destX == 'y' || destX == 'x' || destX == 'y' || destX == 'A' || destX == 'V' || destX == 'W')
         //                x++;
         //        }
-        //        catch (Exception _ex) { }
+        //        catch (Exception ex) { }
 
         //    // var ascent= _pixels.MeasureString(str)
 
@@ -2892,7 +2892,7 @@ namespace RuneScapeSolo.Lib.Game
             }
         }
 
-        private void cea(int i, int k, int l, int i1, sbyte[] abyte0, bool flag)
+        void cea(int i, int k, int l, int i1, sbyte[] abyte0, bool flag)
         {
             int j1 = k + abyte0[i + 5];
             int k1 = l - abyte0[i + 6];
@@ -2943,7 +2943,7 @@ namespace RuneScapeSolo.Lib.Game
             }
         }
 
-        private void PlotLetter(ref int[] _pixels, sbyte[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
+        void PlotLetter(ref int[] _pixels, sbyte[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8)
         {
             try
@@ -3017,7 +3017,7 @@ namespace RuneScapeSolo.Lib.Game
             }
         }
 
-        private void cec(ref int[] arg0, sbyte[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
+        void cec(ref int[] arg0, sbyte[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8)
         {
             for (int i = -arg6; i < 0; i++)
@@ -3174,10 +3174,10 @@ namespace RuneScapeSolo.Lib.Game
         public int[] pictureAssumedWidth;
         public int[] pictureAssumedHeight;
         public bool[] hasTransparentBackground;
-        private int imageY;
-        private int imageHeight;
-        private int imageX;
-        private int imageWidth;
+        int imageY;
+        int imageHeight;
+        int imageX;
+        int imageWidth;
         public bool interlacingEnabled;
         static sbyte[][] gameFonts = new sbyte[50][];
         static int[] bne;
@@ -3192,9 +3192,9 @@ namespace RuneScapeSolo.Lib.Game
         public static int bnn;
         public static int caa;
         public static int cab;
-        private static bool[] cac = new bool[12];
-        private static int cad;
-        private static sbyte[] cae = new sbyte[0x186a0];
+        static bool[] cac = new bool[12];
+        static int cad;
+        static sbyte[] cae = new sbyte[0x186a0];
         public static int caf;
         static int currentFont;
 

@@ -1,21 +1,21 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace RuneScapeSolo
 {
     public class Model
     {
-        private List<Vertex> vertices;
-        private List<Face> faces;
-        private float xRot;
-        private float yRot;
-        private float zRot;
-        private float xScale;
-        private float yScale;
-        private float zScale;
-        private float xTranslate;
-        private float yTranslate;
-        private float zTranslate;
-        private int numTextures = 0;
+        List<Vertex> vertices;
+        List<Face> faces;
+        float xRot;
+        float yRot;
+        float zRot;
+        float xScale;
+        float yScale;
+        float zScale;
+        float xTranslate;
+        float yTranslate;
+        float zTranslate;
+        int numTextures = 0;
 
         public Model(List<Vertex> vertices, List<Face> faces)
         {

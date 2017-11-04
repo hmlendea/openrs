@@ -154,12 +154,12 @@ namespace RuneScapeSolo.Lib
         }
 
 
-        private static void createDummyTexture(SpriteBatch spriteBatch)
+        static void createDummyTexture(SpriteBatch spriteBatch)
         {
             dummyTexture = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
             dummyTexture.SetData(new[] { Color.White });
         }
 
-        private static Texture2D dummyTexture;
+        static Texture2D dummyTexture;
     }
 }

@@ -20,8 +20,8 @@ namespace RuneScapeSolo.Lib
 
         public StreamClass StreamClass { get; set; }
 
-        private static BigInteger key = BigInteger.Parse("1370158896620336158431733257575682136836100155721926632321599369132092701295540721504104229217666225601026879393318399391095704223500673696914052239029335");
-        private static BigInteger modulus = BigInteger.Parse("1549611057746979844352781944553705273443228154042066840514290174539588436243191882510185738846985723357723362764835928526260868977814405651690121789896823");
+        static BigInteger key = BigInteger.Parse("1370158896620336158431733257575682136836100155721926632321599369132092701295540721504104229217666225601026879393318399391095704223500673696914052239029335");
+        static BigInteger modulus = BigInteger.Parse("1549611057746979844352781944553705273443228154042066840514290174539588436243191882510185738846985723357723362764835928526260868977814405651690121789896823");
 
         public GameAppletMiddleMan()
         {
@@ -47,7 +47,7 @@ namespace RuneScapeSolo.Lib
                 {
                     Thread.Sleep(2000);
                 }
-                catch (Exception _ex) { }
+                catch (Exception ex) { }
                 loginScreenPrint("Sorry! The server is currently full.", "Please try again later");
                 return;
             }
@@ -75,7 +75,7 @@ namespace RuneScapeSolo.Lib
 
         }
 
-        private void DoConnect()
+        void DoConnect()
         {
             //username = user;
             var user = DataOperations.formatString(username, 20);
@@ -232,7 +232,7 @@ namespace RuneScapeSolo.Lib
                 {
                     Thread.Sleep(2500);
                 }
-                catch (Exception _ex) { }
+                catch (Exception ex) { }
                 reconnectTries--;
                 connect(username, password, reconnecting);
             }
@@ -257,7 +257,7 @@ namespace RuneScapeSolo.Lib
                     StreamClass.CreatePacket(39);
                     StreamClass.FinalisePacket();
                 }
-                catch (IOException _ex) { }
+                catch (IOException ex) { }
             }
 
             username = "";
@@ -429,12 +429,14 @@ namespace RuneScapeSolo.Lib
             HandlePacket(command, length, data);
         }
 
-        private void reOrderFriendsList()
+        void reOrderFriendsList()
         {
             bool flag = true;
+
             while (flag)
             {
                 flag = false;
+
                 for (int i = 0; i < friendsCount - 1; i++)
                 {
                     if (friendsWorld[i] < friendsWorld[i + 1])
@@ -512,6 +514,7 @@ namespace RuneScapeSolo.Lib
             StreamClass.AddInt64(DataOperations.nameToHash(arg0));
             StreamClass.FormatPacket();
             long l = DataOperations.nameToHash(arg0);
+
             for (int i = 0; i < friendsCount; i++)
             {
                 if (friendsList[i] == l)
@@ -538,6 +541,7 @@ namespace RuneScapeSolo.Lib
             StreamClass.CreatePacket(52);
             StreamClass.AddInt64(arg0);
             StreamClass.FormatPacket();
+
             for (int i = 0; i < friendsCount; i++)
             {
                 if (friendsList[i] != arg0)
@@ -566,17 +570,19 @@ namespace RuneScapeSolo.Lib
             StreamClass.FormatPacket();
         }
 
-        protected void sendChatMessage(byte[] abyte0, int i)
+        protected void SendChatMessage(string message)
         {
+            byte[] bytes = Encoding.ASCII.GetBytes(message);
+
             StreamClass.CreatePacket(145);
-            StreamClass.AddBytes(abyte0, 0, i);
+            StreamClass.AddBytes(bytes);
             StreamClass.FormatPacket();
         }
 
-        protected void sendCommand(string s1)
+        protected void SendCommand(string command)
         {
             StreamClass.CreatePacket(90);
-            StreamClass.AddString(s1);
+            StreamClass.AddString(command);
             StreamClass.FormatPacket();
         }
 

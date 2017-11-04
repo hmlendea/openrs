@@ -123,6 +123,11 @@ namespace RuneScapeSolo.Lib.Net
             packetOffset += bytes.Length;
         }
 
+        public void AddBytes(byte[] data)
+        {
+            AddBytes(data, 0, data.Length);
+        }
+
         public void AddBytes(byte[] data, int offset, int length)
         {
             for (int i = 0; i < length; i++)

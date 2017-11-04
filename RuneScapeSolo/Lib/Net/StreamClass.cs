@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net.Sockets;
 using System.IO;
 using System.Threading;
@@ -33,7 +33,7 @@ namespace RuneScapeSolo.Lib.Net
         }
 
 
-        private void OnRead(IAsyncResult iar)
+        void OnRead(IAsyncResult iar)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace RuneScapeSolo.Lib.Net
                     socket.Close();
                 }
             }
-            catch (IOException _ex)
+            catch (IOException ex)
             {
                 System.Console.WriteLine("Error closing stream");
             }
@@ -263,12 +263,12 @@ namespace RuneScapeSolo.Lib.Net
             }
         }
 
-        private TcpClient /*Socket*/ socket;
-        private bool socketClosing;
-        private byte[] buffer;
-        private int dataWritten;
-        private int offset;
-        private bool socketClosed;
+        TcpClient /*Socket*/ socket;
+        bool socketClosing;
+        byte[] buffer;
+        int dataWritten;
+        int offset;
+        bool socketClosed;
 
     }
 }

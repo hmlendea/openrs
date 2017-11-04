@@ -49,7 +49,7 @@ namespace RuneScapeSolo.Lib.Data
         }
 
 
-        private static void glk(BZip2BlockEntry arg0)
+        static void glk(BZip2BlockEntry arg0)
         {
             sbyte sbyte4 = arg0.afa;
             int i = arg0.afb;
@@ -199,7 +199,7 @@ namespace RuneScapeSolo.Lib.Data
         }
 
      
-        private static void readBlock(BZip2BlockEntry blockEntry)
+        static void readBlock(BZip2BlockEntry blockEntry)
         {
             int minLens_zt = 0;
             int[] limit_zt = null;
@@ -587,17 +587,17 @@ namespace RuneScapeSolo.Lib.Data
             }
         }
 
-        private static sbyte getUByte(BZip2BlockEntry o1)
+        static sbyte getUByte(BZip2BlockEntry o1)
         {
             return (sbyte)getBits(8, o1);
         }
 
-        private static sbyte getBit(BZip2BlockEntry o1)
+        static sbyte getBit(BZip2BlockEntry o1)
         {
             return (sbyte)getBits(1, o1);
         }
 
-        private static int getBits(int arg0, BZip2BlockEntry arg1)
+        static int getBits(int arg0, BZip2BlockEntry arg1)
         {
             int i;
             do
@@ -622,7 +622,7 @@ namespace RuneScapeSolo.Lib.Data
             return i;
         }
 
-        private static void createMaps(BZip2BlockEntry arg0)
+        static void createMaps(BZip2BlockEntry arg0)
         {
             arg0.inUseOffset = 0;
             for (int i = 0; i < 256; i++)
@@ -636,7 +636,7 @@ namespace RuneScapeSolo.Lib.Data
 
         }
 
-        private static void createDecodeTables(int[] limit, int[] _base, int[] perm, sbyte[] length, int minlen, int maxlen, int alphasize)
+        static void createDecodeTables(int[] limit, int[] _base, int[] perm, sbyte[] length, int minlen, int maxlen, int alphasize)
         {
             int i = 0;
             for (int j = minlen; j <= maxlen; j++)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace RuneScapeSolo.Lib.Game
 {
@@ -78,7 +78,7 @@ namespace RuneScapeSolo.Lib.Game
 
                 return new string(chatMessage, 0, i);
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
                 return ".";
             }
@@ -156,7 +156,7 @@ namespace RuneScapeSolo.Lib.Game
 
                 return new string(chatMessage, 0, i);
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
                 return ".";
             }
@@ -226,7 +226,7 @@ namespace RuneScapeSolo.Lib.Game
 
         public static byte[] lastChat = new byte[100];
         public static char[] chatMessage = new char[100];
-        private static char[] validChars = {
+        static char[] validChars = {
         ' ', 'e', 't', 'a', 'o', 'i', 'h', 'n', 's', 'r',
         'd', 'l', 'u', 'm', 'w', 'c', 'y', 'f', 'g', 'p',
         'b', 'v', 'k', 'x', 'j', 'q', 'z', '0', '1', '2',

@@ -47,7 +47,7 @@ namespace RuneScapeSolo.Lib
 
         public int rgbToIntMod(int i, int k, int l)
         {
-            return GameImage.rgbToInt((redMod * i) / 114, (greenMod * k) / 114, (blueMod * l) / 176);
+            return GameImage.RgbToInt((redMod * i) / 114, (greenMod * k) / 114, (blueMod * l) / 176);
         }
 
         public void mouseClick(int mouseX, int mouseY, int lastMouseButton, int mouseButton)

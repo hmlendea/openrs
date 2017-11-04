@@ -2,13 +2,11 @@ using System.IO;
 using System;
 using System.Net;
 using System.Collections.Generic;
+
 namespace RuneScapeSolo.Lib.Data
 {
-
-
     public class DataOperations
     {
-
         //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
         //ORIGINAL LINE: public static java.io.InputStream openInputStream(string objName) throws java.io.IOException
         //public static InputStream openInputStream(string objName)
@@ -67,7 +65,7 @@ namespace RuneScapeSolo.Lib.Data
             return memory;
         }
 
-        static private sbyte[] streamToSbyte(BinaryReader stream, int length)
+        static sbyte[] streamToSbyte(BinaryReader stream, int length)
         {
             List<sbyte> list = new List<sbyte>();
             {
@@ -113,7 +111,7 @@ namespace RuneScapeSolo.Lib.Data
         //    {
         //        datainputstream.readFully(abyte0, 0, i);
         //    }
-        //    catch (EOFException _ex)
+        //    catch (EOFException ex)
         //    {
         //    }
         //    datainputstream.close();
@@ -461,29 +459,32 @@ namespace RuneScapeSolo.Lib.Data
 
         public static byte[] loadData(string arg0, int arg1, byte[] arg2, byte[] arg3)
         {
-
             //return org.moparscape.msc.client.DataOperations.loadData(objName, objData, arg2, arg3);
 
             int i = (arg2[0] & 0xff) * 256 + (arg2[1] & 0xff);
             int j = 0;
             arg0 = arg0.ToUpper();
+
             for (int k = 0; k < arg0.Length; k++)
             {
                 j = (j * 61 + arg0[k]) - 32;
             }
 
             int l = 2 + i * 10;
+
             for (int i1 = 0; i1 < i; i1++)
             {
                 int j1 = (arg2[i1 * 10 + 2] & 0xff) * 0x1000000 + (arg2[i1 * 10 + 3] & 0xff) * 0x10000 + (arg2[i1 * 10 + 4] & 0xff) * 256 + (arg2[i1 * 10 + 5] & 0xff);
                 int k1 = (arg2[i1 * 10 + 6] & 0xff) * 0x10000 + (arg2[i1 * 10 + 7] & 0xff) * 256 + (arg2[i1 * 10 + 8] & 0xff);
                 int l1 = (arg2[i1 * 10 + 9] & 0xff) * 0x10000 + (arg2[i1 * 10 + 10] & 0xff) * 256 + (arg2[i1 * 10 + 11] & 0xff);
+
                 if (j1 == j)
                 {
                     if (arg3 == null)
                     {
                         arg3 = new byte[k1 + arg1];
                     }
+
                     if (k1 != l1)
                     {
                         DataFileDecrypter.unpackData(arg3, k1, arg2, l1, l);
@@ -496,8 +497,10 @@ namespace RuneScapeSolo.Lib.Data
                         }
 
                     }
+
                     return arg3;
                 }
+
                 l += l1;
             }
 
@@ -511,7 +514,6 @@ namespace RuneScapeSolo.Lib.Data
 
         public static sbyte[] loadData(string arg0, int arg1, sbyte[] arg2, sbyte[] arg3)
         {
-
             //return org.moparscape.msc.client.DataOperations.loadData(objName, objData, arg2, arg3);
 
             int i = (arg2[0] & 0xff) * 256 + (arg2[1] & 0xff);
@@ -555,8 +557,8 @@ namespace RuneScapeSolo.Lib.Data
         }
 
         public static Uri codeBase = null;
-        private static int[] bitMask = { 0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383, 32767, 65535, 0x1ffff, 0x3ffff, 0x7ffff, 0xfffff, 0x1fffff, 0x3fffff, 0x7fffff, 0xffffff, 0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff, 0x1fffffff, 0x3fffffff, 0x7fffffff, -1 };
-
+        static int[] bitMask = { 0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191,
+            16383, 32767, 65535, 0x1ffff, 0x3ffff, 0x7ffff, 0xfffff, 0x1fffff, 0x3fffff, 0x7fffff,
+            0xffffff, 0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff, 0x1fffffff, 0x3fffffff, 0x7fffffff, -1 };
     }
-
 }
