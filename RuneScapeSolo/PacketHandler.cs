@@ -39,6 +39,10 @@ namespace RuneScapeSolo
                     HandleCombatStyleChange(data);
                     return true;
 
+                case ServerCommand.Command27:
+                    HandleCommand27(data, length);
+                    return true;
+
                 case ServerCommand.Command77:
                     HandleCommand77(data, length);
                     return true;
@@ -95,6 +99,10 @@ namespace RuneScapeSolo
                     HandleFatigueChange(data);
                     return true;
 
+                case ServerCommand.GameSettings:
+                    HandleGameSettings(data);
+                    return true;
+
                 case ServerCommand.GuthixSpells:
                     HandleGuthixSpells(data);
                     return true;
@@ -105,6 +113,10 @@ namespace RuneScapeSolo
 
                 case ServerCommand.ImpCatcher:
                     HandleImpCatcher(data);
+                    return true;
+
+                case ServerCommand.InventoryItems:
+                    HandleInventoryItems(data);
                     return true;
 
                 case ServerCommand.KillingSpree:
@@ -191,6 +203,10 @@ namespace RuneScapeSolo
                     HandleTutorialChange(data);
                     return true;
 
+                case ServerCommand.WallObjects:
+                    HandleWallObjects(data, length);
+                    return true;
+
                 case ServerCommand.WildernessModeTimer:
                     HandleWildernessModeTimer(data);
                     return true;
@@ -216,6 +232,143 @@ namespace RuneScapeSolo
         void HandleCookAssistant(sbyte[] data)
         {
             client.Quests.CookAssistant = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleCommand27(sbyte[] data, int length)
+        {
+            for (int offset = 1; offset < length;)
+            {
+                if (DataOperations.getByte(data[offset]) == 255)
+                {
+                    int newCount = 0;
+                    int newSectionX = client.SectionX + data[offset + 1] >> 3;
+                    int newSectionY = client.SectionY + data[offset + 2] >> 3;
+                    offset += 3;
+
+                    for (int obj = 0; obj < client.ObjectCount; obj++)
+                    {
+                        int newX = (client.ObjectX[obj] >> 3) - newSectionX;
+                        int newY = (client.ObjectY[obj] >> 3) - newSectionY;
+
+                        if (newX != 0 || newY != 0)
+                        {
+                            if (obj != newCount)
+                            {
+                                client.ObjectArray[newCount] = client.ObjectArray[obj];
+                                client.ObjectArray[newCount].index = newCount;
+
+                                client.ObjectX[newCount] = client.ObjectX[obj];
+                                client.ObjectY[newCount] = client.ObjectY[obj];
+
+                                client.ObjectType[newCount] = client.ObjectType[obj];
+                                client.ObjectRotation[newCount] = client.ObjectRotation[obj];
+                            }
+
+                            newCount++;
+                        }
+                        else
+                        {
+                            client.gameCamera.removeModel(client.ObjectArray[obj]);
+
+                            client.engineHandle.removeObject(
+                                client.ObjectX[obj],
+                                client.ObjectY[obj],
+                                client.ObjectType[obj],
+                                client.ObjectRotation[obj]);
+                        }
+                    }
+
+                    client.ObjectCount = newCount;
+                }
+                else
+                {
+                    int index = DataOperations.getShort(data, offset);
+                    offset += 2;
+
+                    int newSectionX = client.SectionX + data[offset++];
+                    int newSectionY = client.SectionY + data[offset++];
+
+                    int rotation = data[offset++];
+                    int newCount = 0;
+
+                    for (int obj = 0; obj < client.ObjectCount; obj++)
+                    {
+                        if (client.ObjectX[obj] != newSectionX ||
+                            client.ObjectY[obj] != newSectionY ||
+                            client.ObjectRotation[obj] != rotation)
+                        {
+                            if (obj != newCount)
+                            {
+                                client.ObjectArray[newCount] = client.ObjectArray[obj];
+                                client.ObjectArray[newCount].index = newCount;
+
+                                client.ObjectX[newCount] = client.ObjectX[obj];
+                                client.ObjectY[newCount] = client.ObjectY[obj];
+
+                                client.ObjectType[newCount] = client.ObjectType[obj];
+                                client.ObjectRotation[newCount] = client.ObjectRotation[obj];
+                            }
+                            newCount++;
+                        }
+                        else
+                        {
+                            client.gameCamera.removeModel(client.ObjectArray[obj]);
+
+                            client.engineHandle.removeObject(
+                                client.ObjectX[obj],
+                                client.ObjectY[obj],
+                                client.ObjectType[obj],
+                                client.ObjectRotation[obj]);
+                        }
+                    }
+
+                    client.ObjectCount = newCount;
+
+                    if (index != 60000)
+                    {
+                        client.engineHandle.registerObjectDir(newSectionX, newSectionY, rotation);
+
+                        int width;
+                        int height;
+
+                        if (rotation == 0 || rotation == 4)
+                        {
+                            width = Data.objectWidth[index];
+                            height = Data.objectHeight[index];
+                        }
+                        else
+                        {
+                            height = Data.objectWidth[index];
+                            width = Data.objectHeight[index];
+                        }
+
+                        int l40 = ((newSectionX + newSectionX + width) * client.GridSize) / 2;
+                        int k42 = ((newSectionY + newSectionY + height) * client.GridSize) / 2;
+                        int model = Data.objectModelNumber[index];
+                        GameObject gameObject = client.GameDataObjects[model].CreateParent();
+
+#warning object not being added to camera.
+                        client.gameCamera.addModel(gameObject);
+
+                        gameObject.index = client.ObjectCount;
+                        gameObject.offsetMiniPosition(0, rotation * 32, 0);
+                        gameObject.offsetPosition(l40, -client.engineHandle.getAveragedElevation(l40, k42), k42);
+                        gameObject.UpdateShading(true, 48, 48, -50, -10, -50);
+                        client.engineHandle.createObject(newSectionX, newSectionY, index, rotation);
+
+                        if (index == 74)
+                        {
+                            gameObject.offsetPosition(0, -480, 0);
+                        }
+
+                        client.ObjectX[client.ObjectCount] = newSectionX;
+                        client.ObjectY[client.ObjectCount] = newSectionY;
+                        client.ObjectType[client.ObjectCount] = index;
+                        client.ObjectRotation[client.ObjectCount] = rotation;
+                        client.ObjectArray[client.ObjectCount++] = gameObject;
+                    }
+                }
+            }
         }
 
         void HandleCommand77(sbyte[] data, int length)
@@ -612,6 +765,16 @@ namespace RuneScapeSolo
             client.fatigue = DataOperations.getShort(data, 1);
         }
 
+        void HandleGameSettings(sbyte[] data)
+        {
+            client.CameraAutoAngle = DataOperations.getByte(data[1]) == 1;
+            client.OneMouseButton = DataOperations.getByte(data[2]) == 1;
+            client.SoundOff = DataOperations.getByte(data[3]) == 1;
+            client.ShowRoofs = DataOperations.getByte(data[4]) == 1;
+            client.AutoScreenshot = DataOperations.getByte(data[5]) == 1;
+            client.ShowCombatWindow = DataOperations.getByte(data[6]) == 1;
+        }
+
         void HandleGuthixSpells(sbyte[] data)
         {
             client.GuthixSpells = DataOperations.GetUnsigned2Bytes(data, 1);
@@ -625,6 +788,31 @@ namespace RuneScapeSolo
         void HandleImpCatcher(sbyte[] data)
         {
             client.Quests.ImpCatcher = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleInventoryItems(sbyte[] data)
+        {
+            int offset = 1;
+            int count = 1;
+
+            int newCount = data[offset++] & 0xff;
+            int val = DataOperations.getShort(data, offset);
+            offset += 2;
+
+            if (Data.itemStackable[val & 0x7fff] == 0)
+            {
+                count = DataOperations.getInt(data, offset);
+                offset += 4;
+            }
+
+            client.InventoryItems[newCount] = val & 0x7fff;
+            client.InventoryItemEquipped[newCount] = val / 32768;
+            client.InventoryItemCount[newCount] = count;
+
+            if (newCount >= client.InventoryItemsCount)
+            {
+                client.InventoryItemsCount = newCount + 1;
+            }
         }
 
         void HandleKillingSpree(sbyte[] data)
@@ -643,7 +831,7 @@ namespace RuneScapeSolo
             {
                 client.LastLoginDays = DataOperations.getShort(data, 1);
                 client.SubscriptionDaysLeft = DataOperations.getShort(data, 3);
-                client.LastLoginAddress = new string(data.Select(c => (char)c).ToArray(), 5, length - 5);
+                client.LastLoginAddress = Encoding.UTF8.GetString((byte[])(Array)data, 5, length - 5); // new string(data.Select(c => (char)c).ToArray(), 5, length - 5);
                 client.ShowWelcomeBox = true;
                 client.LoginScreenShown = true;
             }
@@ -743,6 +931,115 @@ namespace RuneScapeSolo
         void HandleTutorialChange(sbyte[] data)
         {
             client.Tutorial = DataOperations.GetUnsigned2Bytes(data, 1);
+        }
+
+        void HandleWallObjects(sbyte[] data, int length)
+        {
+            for (int offset = 1; offset < length;)
+            {
+                if (DataOperations.getByte(data[offset]) == 255)
+                {
+                    int newCount = 0;
+                    int newSectionX = client.SectionX + data[offset + 1] >> 3;
+                    int newSectionY = client.SectionY + data[offset + 2] >> 3;
+
+                    offset += 3;
+
+                    for (int currentWallObject = 0; currentWallObject < client.WallObjectCount; currentWallObject++)
+                    {
+                        int newX = (client.WallObjectX[currentWallObject] >> 3) - newSectionX;
+                        int newY = (client.WallObjectY[currentWallObject] >> 3) - newSectionY;
+
+                        if (newX != 0 || newY != 0)
+                        {
+                            if (currentWallObject != newCount)
+                            {
+                                client.WallObjects[newCount] = client.WallObjects[currentWallObject];
+                                client.WallObjects[newCount].index = newCount + 10000;
+
+                                client.WallObjectX[newCount] = client.WallObjectX[currentWallObject];
+                                client.WallObjectY[newCount] = client.WallObjectY[currentWallObject];
+
+                                client.WallObjectDirection[newCount] = client.WallObjectDirection[currentWallObject];
+                                client.WallObjectId[newCount] = client.WallObjectId[currentWallObject];
+                            }
+
+                            newCount += 1;
+                        }
+                        else
+                        {
+                            client.gameCamera.removeModel(client.WallObjects[currentWallObject]);
+
+                            client.engineHandle.removeWallObject(
+                                client.WallObjectX[currentWallObject],
+                                client.WallObjectY[currentWallObject],
+                                client.WallObjectDirection[currentWallObject],
+                                client.WallObjectId[currentWallObject]);
+                        }
+                    }
+
+                    client.WallObjectCount = newCount;
+                }
+                else
+                {
+                    int newId = DataOperations.getShort(data, offset);
+                    offset += 2;
+
+                    int newSectionX = client.SectionX + data[offset++];
+                    int newSectionY = client.SectionY + data[offset++];
+
+                    sbyte direction = data[offset++];
+                    int newCount = 0;
+
+                    for (int currentWallObject = 0; currentWallObject < client.WallObjectCount; currentWallObject++)
+                    {
+                        if (client.WallObjectX[currentWallObject] != newSectionX ||
+                            client.WallObjectY[currentWallObject] != newSectionY ||
+                            client.WallObjectDirection[currentWallObject] != direction)
+                        {
+                            if (currentWallObject != newCount)
+                            {
+                                client.WallObjects[newCount] = client.WallObjects[currentWallObject];
+                                client.WallObjects[newCount].index = newCount + 10000;
+
+                                client.WallObjectX[newCount] = client.WallObjectX[currentWallObject];
+                                client.WallObjectY[newCount] = client.WallObjectY[currentWallObject];
+
+                                client.WallObjectDirection[newCount] = client.WallObjectDirection[currentWallObject];
+                                client.WallObjectId[newCount] = client.WallObjectId[currentWallObject];
+                            }
+
+                            newCount += 1;
+                        }
+                        else
+                        {
+                            client.gameCamera.removeModel(client.WallObjects[currentWallObject]);
+
+                            client.engineHandle.removeWallObject(
+                                client.WallObjectX[currentWallObject],
+                                client.WallObjectY[currentWallObject],
+                                client.WallObjectDirection[currentWallObject],
+                                client.WallObjectId[currentWallObject]);
+                        }
+                    }
+
+                    client.WallObjectCount = newCount;
+
+                    if (newId != 60000)
+                    {
+                        client.engineHandle.createWall(newSectionX, newSectionY, direction, newId);
+
+                        GameObject k35 = client.makeWallObject(newSectionX, newSectionY, direction, newId, client.WallObjectCount);
+                        client.WallObjects[client.WallObjectCount] = k35;
+
+                        client.WallObjectX[client.WallObjectCount] = newSectionX;
+                        client.WallObjectY[client.WallObjectCount] = newSectionY;
+
+                        client.WallObjectId[client.WallObjectCount] = newId;
+                        client.WallObjectDirection[client.WallObjectCount++] = direction;
+                    }
+                }
+            }
         }
 
         void HandleWildernessModeTimer(sbyte[] data)

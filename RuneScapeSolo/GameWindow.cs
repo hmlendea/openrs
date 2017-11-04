@@ -23,7 +23,7 @@ namespace RuneScapeSolo
         Texture2D _lastGameImageTexture = null;
 
         private Texture2D _gameLogo;
-        
+
         private SpriteFont _diagnosticFont;
         private SpriteFont _diagnosticFont2;
 
@@ -38,8 +38,8 @@ namespace RuneScapeSolo
         {
             graphics = new GraphicsDeviceManager(this);
 
-            graphics.PreferredBackBufferWidth = 512;//1280; // 512;
-            graphics.PreferredBackBufferHeight = 346;//720; // 346;
+            graphics.PreferredBackBufferWidth = 1280;//1280; // 512;
+            graphics.PreferredBackBufferHeight = 720;//720; // 346;
             IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = true;
             Window.Title = "RuneScape Classic";
