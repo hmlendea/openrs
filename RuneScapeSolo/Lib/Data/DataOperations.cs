@@ -95,7 +95,8 @@ namespace RuneScapeSolo.Lib.Data
             }
         }
 
-        public static void readFully(string p, byte[] abyte1, int i) {
+        public static void readFully(string p, byte[] abyte1, int i)
+        {
             using (var stream = openInputStream(p))
             {
                 stream.Read(abyte1, 0, i);
@@ -215,28 +216,31 @@ namespace RuneScapeSolo.Lib.Data
                    (data[index + 1] & 0xFF);
         }
 
-        public static int getBits(sbyte[] bytes, int off, int len)
+        public static int GetInt(sbyte[] data, int offset, int length)
         {
             //return org.moparscape.msc.client.DataOperations.getBits(bytes, off, len);
 
-            int bitOff = off >> 3;
-            int bitMod = 8 - (off & 7);
-            int k = 0;
-            for (; len > bitMod; bitMod = 8)
+            int bitOffset = offset >> 3;
+            int bitMod = 8 - (offset & 7);
+
+            int value = 0;
+
+            for (; length > bitMod; bitMod = 8)
             {
-                k += (bytes[bitOff++] & bitMask[bitMod]) << len - bitMod;
-                len -= bitMod;
+                value += (data[bitOffset++] & bitMask[bitMod]) << length - bitMod;
+                length -= bitMod;
             }
 
-            if (len == bitMod)
+            if (length == bitMod)
             {
-                k += bytes[bitOff] & bitMask[bitMod];
+                value += data[bitOffset] & bitMask[bitMod];
             }
             else
             {
-                k += bytes[bitOff] >> bitMod - len & bitMask[len];
+                value += data[bitOffset] >> bitMod - length & bitMask[length];
             }
-            return k;
+
+            return value;
         }
 
         //public static int getBits(byte[] bytes, int off, int len)
