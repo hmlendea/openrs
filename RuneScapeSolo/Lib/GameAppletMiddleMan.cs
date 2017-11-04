@@ -350,12 +350,12 @@ namespace RuneScapeSolo.Lib
             }
             if (command == ServerCommand.Command249)
             {
-                friendsCount = DataOperations.getByte(data[1]);
+                friendsCount = DataOperations.GetInt8(data[1]);
 
                 for (int i = 0; i < friendsCount; i++)
                 {
                     friendsList[i] = DataOperations.getLong(data, 2 + i * 9);
-                    friendsWorld[i] = DataOperations.getByte(data[10 + i * 9]);
+                    friendsWorld[i] = DataOperations.GetInt8(data[10 + i * 9]);
                 }
 
                 reOrderFriendsList();
@@ -373,12 +373,12 @@ namespace RuneScapeSolo.Lib
                     {
                         if (friendsWorld[j1] == 0 && status != 0)
                         {
-                            displayMessage("@pri@" + DataOperations.hashToName(friend) + " has logged in");
+                            displayMessage("@pri@" + DataOperations.LongToString(friend) + " has logged in");
                         }
 
                         if (friendsWorld[j1] != 0 && status == 0)
                         {
-                            displayMessage("@pri@" + DataOperations.hashToName(friend) + " has logged out");
+                            displayMessage("@pri@" + DataOperations.LongToString(friend) + " has logged out");
                         }
 
                         friendsWorld[j1] = status;
@@ -399,7 +399,7 @@ namespace RuneScapeSolo.Lib
             }
             if (command == ServerCommand.Command2)
             {
-                ignoresCount = DataOperations.getByte(data[1]);
+                ignoresCount = DataOperations.GetInt8(data[1]);
 
                 for (int j = 0; j < ignoresCount; j++)
                 {
@@ -421,7 +421,7 @@ namespace RuneScapeSolo.Lib
             {
                 long user = DataOperations.getLong(data, 1);
                 string s = ChatMessage.bytesToString(data, 9, length - 9);
-                displayMessage("@pri@" + DataOperations.hashToName(user) + ": tells you " + s);
+                displayMessage("@pri@" + DataOperations.LongToString(user) + ": tells you " + s);
 
                 return;
             }
@@ -555,7 +555,7 @@ namespace RuneScapeSolo.Lib
                 break;
             }
 
-            displayMessage("@pri@" + DataOperations.hashToName(arg0) + " has been removed from your friends list");
+            displayMessage("@pri@" + DataOperations.LongToString(arg0) + " has been removed from your friends list");
         }
 
         protected void sendPrivateMessage(long l, byte[] abyte0, int i)

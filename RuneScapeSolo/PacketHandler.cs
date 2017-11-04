@@ -18,11 +18,6 @@ namespace RuneScapeSolo
             this.client = client;
         }
 
-        public void HandleAwake()
-        {
-            client.IsSleeping = false;
-        }
-
         public bool HandlePacket(ServerCommand command, sbyte[] data, int length)
         {
             switch (command)
@@ -43,8 +38,12 @@ namespace RuneScapeSolo
                     HandleCommand27(data, length);
                     return true;
 
+                case ServerCommand.Command53:
+                    HandleCommand53(data);
+                    return true;
+
                 case ServerCommand.Command77:
-                    HandleCommand77(data, length);
+                    //HandleCommand77(data, length);
                     return true;
 
                 case ServerCommand.Command114:
@@ -244,9 +243,14 @@ namespace RuneScapeSolo
             }
         }
 
+        public void HandleAwake()
+        {
+            client.IsSleeping = false;
+        }
+
         void HandleCombatStyleChange(sbyte[] data)
         {
-            client.CombatStyle = DataOperations.getByte(data[1]);
+            client.CombatStyle = DataOperations.GetInt8(data[1]);
         }
 
         void HandleCookAssistant(sbyte[] data)
@@ -258,7 +262,7 @@ namespace RuneScapeSolo
         {
             for (int offset = 1; offset < length;)
             {
-                if (DataOperations.getByte(data[offset]) == 255)
+                if (DataOperations.GetInt8(data[offset]) == 255)
                 {
                     int newCount = 0;
                     int newSectionX = client.SectionX + data[offset + 1] >> 3;
@@ -387,6 +391,209 @@ namespace RuneScapeSolo
                         client.ObjectRotation[client.ObjectCount] = rotation;
                         client.ObjectArray[client.ObjectCount++] = gameObject;
                     }
+                }
+            }
+        }
+
+        void HandleCommand53(sbyte[] data)
+        {
+            int mobCount = DataOperations.GetUnsigned2Bytes(data, 1);
+            int mobUpdateOffset = 3;
+
+            for (int currentMob = 0; currentMob < mobCount; currentMob++)
+            {
+                int mobArrayIndex = DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset);
+                mobUpdateOffset += 2;
+
+                if (mobArrayIndex < 0 || mobArrayIndex > client.Mobs.Length)
+                {
+                    return;
+                }
+
+                Mob mob = client.Mobs[mobArrayIndex];
+
+                if (mob == null)
+                {
+                    return;
+                }
+
+                byte mobUpdateType = (byte)data[mobUpdateOffset++];
+
+                if (mobUpdateType == 0)
+                {
+                    int i30 = DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset);
+                    mobUpdateOffset += 2;
+
+                    if (mob != null)
+                    {
+                        mob.PlayerSkullTimeout = 150;
+                        mob.ItemAboveHeavId = i30;
+                    }
+                }
+                else if (mobUpdateType == 1)
+                {
+                    // Player talking
+                    byte byte7 = (byte)data[mobUpdateOffset++];
+
+                    if (mob != null)
+                    {
+                        string s2 = DataConversions.byteToString(data, mobUpdateOffset, byte7);
+
+                        mob.lastMessageTimeout = 150;
+                        mob.lastMessage = s2;
+
+                        if ((mob.Flag != null) && (mob.Flag != ""))
+                        {
+                            // TODO
+                            //client.displayMessage("#f" + mob.Flag + "# " + ((mob.Clan.ToLower().Equals("null")) ? "" : "[@cya@" + mob.Clan + "@yel@] ") + mob.Name + ": " + mob.lastMessage, 2, mob.Admin);
+                        }
+                        else
+                        {
+                            // TODO
+                            //client.displayMessage((mob.Clan.ToLower().Equals("null") ? "" : "[@cya@" + mob.Clan + "@yel@] ") + mob.Clan + ": " + mob.lastMessage, 2, mob.Admin);
+                        }
+                    }
+                    mobUpdateOffset += byte7;
+                }
+                else if (mobUpdateType == 2)
+                {
+                    int lastDamageCount = DataOperations.GetInt8(data[mobUpdateOffset++]);
+                    int hits = DataOperations.GetInt8(data[mobUpdateOffset++]);
+                    int hitsBase = DataOperations.GetInt8(data[mobUpdateOffset++]);
+
+                    if (mob != null)
+                    {
+                        mob.LastDamageCount = DataOperations.GetInt8(data[mobUpdateOffset++]); ;
+                        mob.CurrentHitpoints = hits;
+                        mob.BaseHitpoints = hitsBase;
+                        mob.combatTimer = 200;
+
+                        if (mob == client.CurrentPlayer)
+                        {
+                            client.PlayerStatCurrent[3] = hits;
+                            client.PlayerStatBase[3] = hitsBase;
+                            client.ShowWelcomeBox = false;
+                            // showServerMessageBox = false;
+                        }
+                    }
+                }
+                else if (mobUpdateType == 3)
+                {
+                    // Projectile an NPC.
+                    int k30 = DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset);
+                    mobUpdateOffset += 2;
+
+                    int k34 = DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset);
+                    mobUpdateOffset += 2;
+
+                    if (mob != null)
+                    {
+                        mob.ProjectileType = k30;
+                        mob.AttackingNpcIndex = k34;
+                        mob.AttackingPlayerIndex = -1;
+                        mob.ProjectileDistance = client.ProjectileRange;
+                    }
+                }
+                else if (mobUpdateType == 4)
+                {
+                    // Projectile another player.
+                    int l30 = DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset);
+                    mobUpdateOffset += 2;
+
+                    int l34 = DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset);
+                    mobUpdateOffset += 2;
+
+                    if (mob != null)
+                    {
+                        mob.ProjectileType = l30;
+                        mob.AttackingPlayerIndex = l34;
+                        mob.AttackingNpcIndex = -1;
+                        mob.ProjectileDistance = client.ProjectileRange;
+                    }
+                }
+                else if (mobUpdateType == 5)
+                {
+                    // Apperance update
+                    if (mob != null)
+                    {
+                        try
+                        {
+                            mob.ServerId = DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset);
+                            mobUpdateOffset += 2;
+
+                            mob.NameHash = DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset);
+                            mobUpdateOffset += 8;
+
+                            mob.Name = DataOperations.LongToString(mob.NameHash);
+                            mob.Clan = DataOperations.LongToString(DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset));
+                            mobUpdateOffset += 8;
+
+                            int i31 = DataOperations.GetInt8(data[mobUpdateOffset]);
+                            mobUpdateOffset++;
+
+                            for (int i35 = 0; i35 < i31; i35++)
+                            {
+                                mob.AppearanceItems[i35] = DataOperations.GetInt8(data[mobUpdateOffset]);
+                                mobUpdateOffset++;
+                            }
+
+                            for (int l37 = i31; l37 < 12; l37++)
+                            {
+                                mob.AppearanceItems[l37] = 0;
+                            }
+
+                            mob.HairColour = data[mobUpdateOffset++] & 0xff;
+                            mob.TopColour = data[mobUpdateOffset++] & 0xff;
+                            mob.BottomColour = data[mobUpdateOffset++] & 0xff;
+                            mob.SkinColour = data[mobUpdateOffset++] & 0xff;
+                            mob.CombatLevel = data[mobUpdateOffset++] & 0xff;
+                            mob.PlayerSkulled = data[mobUpdateOffset++] & 0xff;
+                            mob.Admin = data[mobUpdateOffset++] & 0xff;
+
+                            string s = DataOperations.LongToString(DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset));
+                            mobUpdateOffset += 8;
+
+                            if ((s != null) || (!s.Equals("--")))
+                            {
+                                mob.Flag = s.ToUpper();
+                            }
+                            else
+                            {
+                                mob.Flag = null;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                        }
+                    }
+                    else
+                    {
+                        mobUpdateOffset += 14;
+                        int j31 = DataOperations.GetInt8(data[mobUpdateOffset]);
+                        mobUpdateOffset += j31 + 1;
+                    }
+                }
+                else if (mobUpdateType == 6)
+                {
+                    // private player talking
+                    byte byte8 = (byte)data[mobUpdateOffset];
+                    mobUpdateOffset++;
+
+                    if (mob != null)
+                    {
+                        string s3 = DataConversions.byteToString(data, mobUpdateOffset, byte8);
+                        mob.lastMessageTimeout = 150;
+                        mob.lastMessage = s3;
+
+                        if (mob == client.CurrentPlayer)
+                        {
+                            // TODO
+                            //client.displayMessage(mob.Name + ": " + mob.lastMessage, 5, mob.Admin);
+                        }
+                    }
+
+                    mobUpdateOffset += byte8;
                 }
             }
         }
@@ -710,9 +917,9 @@ namespace RuneScapeSolo
 
                 for (int k40 = 0; k40 < mobCount; k40++)
                 {
-                    Mob f5 = client.PlayersBuffer[client.PlayersBufferIndexes[k40]];
-                    client.StreamClass.AddInt16(f5.serverIndex);
-                    client.StreamClass.AddInt16(f5.serverID);
+                    Mob dummyMob = client.Mobs[client.PlayersBufferIndexes[k40]];
+                    client.StreamClass.AddInt16(dummyMob.ServerIndex);
+                    client.StreamClass.AddInt16(dummyMob.ServerId);
                 }
 
                 client.StreamClass.FormatPacket();
@@ -726,12 +933,12 @@ namespace RuneScapeSolo
 
             for (int stat = 0; stat < 18; stat++)
             {
-                client.PlayerStatCurrent[stat] = DataOperations.getByte(data[offset++]);
+                client.PlayerStatCurrent[stat] = DataOperations.GetInt8(data[offset++]);
             }
 
             for (int stat = 0; stat < 18; stat++)
             {
-                client.PlayerStatBase[stat] = DataOperations.getByte(data[offset++]);
+                client.PlayerStatBase[stat] = DataOperations.GetInt8(data[offset++]);
             }
 
             for (int stat = 0; stat < 18; stat++)
@@ -794,12 +1001,12 @@ namespace RuneScapeSolo
 
         void HandleGameSettings(sbyte[] data)
         {
-            client.CameraAutoAngle = DataOperations.getByte(data[1]) == 1;
-            client.OneMouseButton = DataOperations.getByte(data[2]) == 1;
-            client.SoundOff = DataOperations.getByte(data[3]) == 1;
-            client.ShowRoofs = DataOperations.getByte(data[4]) == 1;
-            client.AutoScreenshot = DataOperations.getByte(data[5]) == 1;
-            client.ShowCombatWindow = DataOperations.getByte(data[6]) == 1;
+            client.CameraAutoAngle = DataOperations.GetInt8(data[1]) == 1;
+            client.OneMouseButton = DataOperations.GetInt8(data[2]) == 1;
+            client.SoundOff = DataOperations.GetInt8(data[3]) == 1;
+            client.ShowRoofs = DataOperations.GetInt8(data[4]) == 1;
+            client.AutoScreenshot = DataOperations.GetInt8(data[5]) == 1;
+            client.ShowCombatWindow = DataOperations.GetInt8(data[6]) == 1;
         }
 
         void HandleGuthixSpells(sbyte[] data)
@@ -885,8 +1092,8 @@ namespace RuneScapeSolo
             int offset = 1;
             int stat = data[offset++] & 0xff;
 
-            client.PlayerStatCurrent[stat] = DataOperations.getByte(data[offset++]);
-            client.PlayerStatBase[stat] = DataOperations.getByte(data[offset++]);
+            client.PlayerStatCurrent[stat] = DataOperations.GetInt8(data[offset++]);
+            client.PlayerStatBase[stat] = DataOperations.GetInt8(data[offset++]);
             client.PlayerStatExperience[stat] = DataOperations.getInt(data, offset);
         }
 
@@ -995,7 +1202,7 @@ namespace RuneScapeSolo
         {
             for (int offset = 1; offset < length;)
             {
-                if (DataOperations.getByte(data[offset]) == 255)
+                if (DataOperations.GetInt8(data[offset]) == 255)
                 {
                     int newCount = 0;
                     int newSectionX = client.SectionX + data[offset + 1] >> 3;

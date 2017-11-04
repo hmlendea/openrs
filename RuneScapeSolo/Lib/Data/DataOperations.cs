@@ -119,16 +119,11 @@ namespace RuneScapeSolo.Lib.Data
         //    datainputstream.close();
         //}
 
-
-        //public static int getByte(byte byte0)
-        //{
-        //    //return org.moparscape.msc.client.DataOperations.getByte(byte0);
-        //    return byte0 & 0xff;
-        //}
-        public static int getByte(sbyte byte0)
+        public static int GetInt8(sbyte value)
         {
-            return byte0 & 0xff;
+            return value & 0xff;
         }
+
         //public static int getShort(byte[] abyte0, int i)
         //{
         //    //return org.moparscape.msc.client.DataOperations.getShort(abyte0, i);
@@ -192,7 +187,7 @@ namespace RuneScapeSolo.Lib.Data
         //}
         public static int getShort2(sbyte[] abyte0, int i)
         {
-            int j = getByte(abyte0[i]) * 256 + getByte(abyte0[i + 1]);
+            int j = GetInt8(abyte0[i]) * 256 + GetInt8(abyte0[i + 1]);
             if (j > 32767)
             {
                 j -= 0x10000;
@@ -366,41 +361,45 @@ namespace RuneScapeSolo.Lib.Data
             return l;
         }
 
-        public static string hashToName(long arg0)
+        public static string LongToString(long hash)
         {
-            if (arg0 < 0L)
+            if (hash < 0L)
             {
                 return "invalid_name";
             }
-            string s = "";
-            while (arg0 != 0L)
+
+            string str = "";
+
+            while (hash != 0L)
             {
-                int i = (int)(arg0 % 37L);
-                arg0 /= 37L;
+                int i = (int)(hash % 37L);
+                hash /= 37L;
+
                 if (i == 0)
                 {
-                    s = " " + s;
+                    str = " " + str;
                 }
                 else
                 {
                     if (i < 27)
                     {
-                        if (arg0 % 37L == 0L)
+                        if (hash % 37L == 0L)
                         {
-                            s = (char)((i + 65) - 1) + s;
+                            str = (char)((i + 65) - 1) + str;
                         }
                         else
                         {
-                            s = (char)((i + 97) - 1) + s;
+                            str = (char)((i + 97) - 1) + str;
                         }
                     }
                     else
                     {
-                        s = (char)((i + 48) - 27) + s;
+                        str = (char)((i + 48) - 27) + str;
                     }
                 }
             }
-            return s;
+
+            return str;
         }
 
         public static long getObjectOffset(string objName, sbyte[] objData)

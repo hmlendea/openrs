@@ -115,6 +115,7 @@
     <Compile Include="Lib\Net\StreamClass.cs" />
     <Compile Include="PacketHandler.cs" />
     <Compile Include="Quests.cs" />
+    <Compile Include="Lib\Data\DataConversions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuneScapeSolo.Data\RuneScapeSolo.Data.csproj">

@@ -6,43 +6,47 @@ namespace RuneScapeSolo.Lib.Game
         {
             waypointsX = new int[10];
             waypointsY = new int[10];
-            appearanceItems = new int[12];
-            level = -1;
+            AppearanceItems = new int[12];
+            CombatLevel = -1;
         }
 
-        public long nameHash;
+        public int Admin { get; set; }
+        public int AttackingPlayerIndex { get; set; }
+        public int AttackingNpcIndex { get; set; }
+        public int BaseHitpoints { get; set; }
+        public int BottomColour { get; set; }
+        public int CombatLevel { get; set; }
+        public int CurrentHitpoints;
+        public int HairColour { get; set; }
+        public int ItemAboveHeavId { get; set; }
+        public int LastDamageCount { get; set; }
+        public int PlayerSkullTimeout { get; set; }
+        public int PlayerSkulled { get; set; }
+        public int ProjectileDistance { get; set; }
+        public int ProjectileType { get; set; }
+        public int ServerId { get; set; }
+        public int ServerIndex { get; set; }
+        public int SkinColour { get; set; }
+        public int TopColour { get; set; }
+        public int WaypointsEndSprite { get; set; }
+        public int WaypointCurrent { get; set; }
+        public int[] AppearanceItems { get; set; }
+        public long NameHash { get; set; }
+        public string Clan { get; set; }
+        public string Flag { get; set; }
+        public string Name { get; set; }
+
         public string username;
-        public int serverIndex;
-        public int serverID;
         public int currentX;
         public int currentY;
         public int npcId;
         public int stepCount;
         public int currentSprite;
         public int nextSprite;
-        public int waypointsEndSprite;
-        public int waypointCurrent;
         public int[] waypointsX;
         public int[] waypointsY;
-        public int[] appearanceItems;
         public string lastMessage;
         public int lastMessageTimeout;
-        public int itemAboveHeadID;
-        public int playerSkullTimeout;
-        public int lastDamageCount;
-        public int currentHits;
-        public int baseHits;
         public int combatTimer;
-        public int level;
-        public int hairColour;
-        public int topColour;
-        public int bottomColour;
-        public int skinColour;
-        public int projectileType;
-        public int attackingPlayerIndex;
-        public int attackingNpcIndex;
-        public int projectileDistance;
-        public int playerSkulled;
     }
-
 }
