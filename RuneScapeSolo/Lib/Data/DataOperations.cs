@@ -211,8 +211,6 @@ namespace RuneScapeSolo.Lib.Data
 
         public static int GetInt(sbyte[] data, int offset, int length)
         {
-            //return org.moparscape.msc.client.DataOperations.getBits(bytes, off, len);
-
             int bitOffset = offset >> 3;
             int bitMod = 8 - (offset & 7);
 

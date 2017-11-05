@@ -96,12 +96,8 @@ namespace RuneScapeSolo.Lib.Net
             {
                 return 0;
             }
-            else
-            {
-                int val = netStream.ReadByte();
 
-                return val;
-            }
+            return netStream.ReadByte();
         }
 
         // We dont like this in C#
@@ -123,22 +119,24 @@ namespace RuneScapeSolo.Lib.Net
                 return;
             }
 
-            int i = 0;
-            int j;
-
             byte[] org = new byte[data.Length];
+            int i = 0;
 
-            for (; i < length; i += j)
+            while (i < length)
             {
-                if ((j = netStream.Read(org, i + offset, length - i)) <= 0)
+                int j = netStream.Read(org, i + offset, length - i);
+
+                if (j <= 0)
                 {
                     throw new IOException("EOF");
                 }
 
-                for (int k = 0; k < data.Length; k++)
-                {
-                    data[k] = (sbyte)org[k];
-                }
+                i += j;
+            }
+
+            for (int k = 0; k < length; k++)
+            {
+                data[k] = (sbyte)org[k];
             }
         }
 

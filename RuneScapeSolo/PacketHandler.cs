@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 using RuneScapeSolo.Enumerations;
@@ -602,9 +604,9 @@ namespace RuneScapeSolo
             client.LastNpcCount = client.NpcCount;
             client.NpcCount = 0;
 
-            for (int lastNpcIndex = 0; lastNpcIndex < client.LastNpcCount; lastNpcIndex++)
+            for (int i = 0; i < client.LastNpcCount; i++)
             {
-                client.LastNpcs[lastNpcIndex] = client.Npcs[lastNpcIndex];
+                client.LastNpcs[i] = client.Npcs[i];
             }
 
             int newNpcOffset = 8;
@@ -613,7 +615,8 @@ namespace RuneScapeSolo
 
             for (int newNpcIndex = 0; newNpcIndex < newNpcCount; newNpcIndex++)
             {
-                Mob newNpc = client.GetLastNpc(DataOperations.GetInt(data, newNpcOffset, 16));
+                int serverIndex = DataOperations.GetInt(data, newNpcOffset, 16);
+                Mob newNpc = client.GetLastNpc(serverIndex);
                 newNpcOffset += 16;
 
                 int needsUpdate = DataOperations.GetInt(data, newNpcOffset, 1);
@@ -672,7 +675,8 @@ namespace RuneScapeSolo
                     }
                 }
 
-                client.Npcs[client.NpcCount++] = newNpc;
+                client.Npcs[client.NpcCount] = newNpc;
+                client.NpcCount += 1;
             }
 
             while (newNpcOffset + 34 < length * 8)
@@ -710,7 +714,7 @@ namespace RuneScapeSolo
                     addIndex = 24;
                 }
 
-                client.makeNPC(mobIndex, mobX, mobY, mobSprite, addIndex);
+                client.AddNpc(mobIndex, mobX, mobY, mobSprite, addIndex);
             }
         }
 

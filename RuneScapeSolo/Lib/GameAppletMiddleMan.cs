@@ -333,7 +333,7 @@ namespace RuneScapeSolo.Lib
 
             if (command == ServerCommand.ServerAnnouncement)
             {
-                string message = Encoding.UTF8.GetString((byte[])(Array)data, 1, length);
+                string message = Encoding.UTF8.GetString((byte[])(Array)data, 1, length - 1);
                 displayMessage(message);
 
                 return;
@@ -602,7 +602,7 @@ namespace RuneScapeSolo.Lib
         {
         }
 
-        public virtual void HandlePacket(ServerCommand command, int j, sbyte[] abyte0)
+        public virtual void HandlePacket(ServerCommand command, int length, sbyte[] data)
         {
         }
 

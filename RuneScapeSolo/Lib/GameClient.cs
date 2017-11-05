@@ -9401,51 +9401,51 @@ namespace RuneScapeSolo.Lib
             enteredPrivateMessageText = "";
         }
 
-        public Mob makeNPC(int index, int x, int y, int sprite, int id)
+        public Mob AddNpc(int serverIndex, int x, int y, int sprite, int id)
         {
-            if (npcAttackingArray[index] == null)
+            if (npcAttackingArray[serverIndex] == null)
             {
-                npcAttackingArray[index] = new Mob();
-                npcAttackingArray[index].ServerIndex = index;
-            }
-            Mob f1 = npcAttackingArray[index];
-            bool flag = false;
-            for (int l = 0; l < LastNpcCount; l++)
-            {
-                if (LastNpcs[l].ServerIndex != index)
-                {
-                    continue;
-                }
-
-                flag = true;
-                break;
+                npcAttackingArray[serverIndex] = new Mob();
+                npcAttackingArray[serverIndex].ServerIndex = serverIndex;
             }
 
-            if (flag)
+            Mob mob = npcAttackingArray[serverIndex];
+
+            bool alreadyExists = LastNpcs
+                .Take(LastNpcCount)
+                .Any(lastNpc => lastNpc.ServerIndex == serverIndex);
+
+            if (alreadyExists)
             {
-                f1.npcId = id;
-                f1.nextSprite = sprite;
-                int i1 = f1.WaypointCurrent;
-                if (x != f1.WaypointsX[i1] || y != f1.WaypointsY[i1])
+                mob.npcId = id;
+                mob.nextSprite = sprite;
+
+                int waypointCurrent = mob.WaypointCurrent;
+
+                if (x != mob.WaypointsX[waypointCurrent] ||
+                    y != mob.WaypointsY[waypointCurrent])
                 {
-                    f1.WaypointCurrent = i1 = (i1 + 1) % 10;
-                    f1.WaypointsX[i1] = x;
-                    f1.WaypointsY[i1] = y;
+                    mob.WaypointCurrent = waypointCurrent = (waypointCurrent + 1) % 10;
+                    mob.WaypointsX[waypointCurrent] = x;
+                    mob.WaypointsY[waypointCurrent] = y;
                 }
             }
             else
             {
-                f1.ServerIndex = index;
-                f1.WaypointsEndSprite = 0;
-                f1.WaypointCurrent = 0;
-                f1.WaypointsX[0] = f1.currentX = x;
-                f1.WaypointsY[0] = f1.currentY = y;
-                f1.npcId = id;
-                f1.nextSprite = f1.currentSprite = sprite;
-                f1.stepCount = 0;
+                mob.ServerIndex = serverIndex;
+                mob.npcId = id;
+                mob.nextSprite = mob.currentSprite = sprite;
+                mob.stepCount = 0;
+                mob.WaypointsEndSprite = 0;
+                mob.WaypointCurrent = 0;
+                mob.WaypointsX[0] = mob.currentX = x;
+                mob.WaypointsY[0] = mob.currentY = y;
             }
-            Npcs[NpcCount++] = f1;
-            return f1;
+
+            Npcs[NpcCount] = mob;
+            NpcCount += 1;
+
+            return mob;
         }
 
         public void updateBankItems()

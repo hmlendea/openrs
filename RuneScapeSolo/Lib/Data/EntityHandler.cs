@@ -873,16 +873,17 @@ namespace RuneScapeSolo.Lib.Data
 
         static string ReadString()
         {
-            string s;
+            string str = string.Empty;
 
-            for (s = ""; stringData[stringDataIndex] != 0; s = s + (char)stringData[stringDataIndex++])
+            while (stringData[stringDataIndex] != 0)
             {
-                ;
+                str = str + (char)stringData[stringDataIndex];
+                stringDataIndex += 1;
             }
 
             stringDataIndex++;
 
-            return s;
+            return str;
         }
     }
 }

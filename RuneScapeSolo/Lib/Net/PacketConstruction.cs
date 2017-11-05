@@ -281,10 +281,10 @@ namespace RuneScapeSolo.Lib.Net
                     return readBytes;
                 }
             }
-            catch (IOException ioexception)
+            catch (IOException ex)
             {
                 HasErrors = true;
-                ErrorMessage = ioexception.Message;
+                ErrorMessage = ex.Message;
             }
 
             return 0;
