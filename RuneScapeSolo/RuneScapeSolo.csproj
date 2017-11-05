@@ -116,18 +116,6 @@
     <Compile Include="PacketHandler.cs" />
     <Compile Include="Quests.cs" />
     <Compile Include="Lib\Data\DataConversions.cs" />
-    <Compile Include="Models\WallObject.cs" />
-    <Compile Include="Models\GameEntity.cs" />
-    <Compile Include="Models\Elevation.cs" />
-    <Compile Include="Models\GameObject.cs" />
-    <Compile Include="Models\Item.cs" />
-    <Compile Include="Models\Npc.cs" />
-    <Compile Include="Models\Prayer.cs" />
-    <Compile Include="Models\Spell.cs" />
-    <Compile Include="Models\Tile.cs" />
-    <Compile Include="Models\Animation.cs" />
-    <Compile Include="Models\ItemDrop.cs" />
-    <Compile Include="Models\Texture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuneScapeSolo.Data\RuneScapeSolo.Data.csproj">
@@ -138,10 +126,11 @@
       <Project>{FF805103-A40E-4154-8ED6-C70623AF471C}</Project>
       <Name>RuneScapeSolo.Input</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RuneScapeSolo.Models\RuneScapeSolo.Models.csproj">
+      <Project>{0FB5C790-78F3-44EA-AF6C-2D5B7C8E82BE}</Project>
+      <Name>RuneScapeSolo.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

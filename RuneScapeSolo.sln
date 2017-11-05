@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneScapeSolo.Data", "RuneS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneScapeSolo.Input", "RuneScapeSolo.Input\RuneScapeSolo.Input.csproj", "{FF805103-A40E-4154-8ED6-C70623AF471C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneScapeSolo.Models", "RuneScapeSolo.Models\RuneScapeSolo.Models.csproj", "{0FB5C790-78F3-44EA-AF6C-2D5B7C8E82BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -25,5 +27,9 @@ Global
 		{FF805103-A40E-4154-8ED6-C70623AF471C}.Debug|x86.Build.0 = Debug|Any CPU
 		{FF805103-A40E-4154-8ED6-C70623AF471C}.Release|x86.ActiveCfg = Release|Any CPU
 		{FF805103-A40E-4154-8ED6-C70623AF471C}.Release|x86.Build.0 = Release|Any CPU
+		{0FB5C790-78F3-44EA-AF6C-2D5B7C8E82BE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0FB5C790-78F3-44EA-AF6C-2D5B7C8E82BE}.Debug|x86.Build.0 = Debug|Any CPU
+		{0FB5C790-78F3-44EA-AF6C-2D5B7C8E82BE}.Release|x86.ActiveCfg = Release|Any CPU
+		{0FB5C790-78F3-44EA-AF6C-2D5B7C8E82BE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
