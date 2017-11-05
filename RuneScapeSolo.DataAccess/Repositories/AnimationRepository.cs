@@ -14,6 +14,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
     {
         readonly XmlDatabase<AnimationEntity> xmlDatabase;
         List<AnimationEntity> animationEntities;
+        bool loadedEntities;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimationRepository"/> class.
@@ -22,6 +23,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
         public AnimationRepository(string fileName)
         {
             xmlDatabase = new XmlDatabase<AnimationEntity>(fileName);
+            animationEntities = new List<AnimationEntity>();
         }
 
         public void ApplyChanges()
@@ -46,15 +48,6 @@ namespace RuneScapeSolo.DataAccess.Repositories
             LoadEntitiesIfNeeded();
 
             animationEntities.Add(animationEntity);
-
-            try
-            {
-                xmlDatabase.SaveEntities(animationEntities);
-            }
-            catch
-            {
-                throw new DuplicateEntityException(animationEntity.Id, nameof(AnimationEntity).Replace("Entity", ""));
-            }
         }
 
         /// <summary>
@@ -134,12 +127,13 @@ namespace RuneScapeSolo.DataAccess.Repositories
 
         void LoadEntitiesIfNeeded()
         {
-            if (animationEntities != null)
+            if (!loadedEntities)
             {
                 return;
             }
 
             animationEntities = xmlDatabase.LoadEntities().ToList();
+            loadedEntities = true;
         }
     }
 }

@@ -14,6 +14,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
     {
         readonly XmlDatabase<GameObjectEntity> xmlDatabase;
         List<GameObjectEntity> gameObjectEntities;
+        bool loadedEntities;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameObjectRepository"/> class.
@@ -22,6 +23,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
         public GameObjectRepository(string fileName)
         {
             xmlDatabase = new XmlDatabase<GameObjectEntity>(fileName);
+            gameObjectEntities = new List<GameObjectEntity>();
         }
 
         public void ApplyChanges()
@@ -46,15 +48,6 @@ namespace RuneScapeSolo.DataAccess.Repositories
             LoadEntitiesIfNeeded();
 
             gameObjectEntities.Add(gameObjectEntity);
-
-            try
-            {
-                xmlDatabase.SaveEntities(gameObjectEntities);
-            }
-            catch
-            {
-                throw new DuplicateEntityException(gameObjectEntity.Id, nameof(GameObjectEntity).Replace("Entity", ""));
-            }
         }
 
         /// <summary>
@@ -138,12 +131,13 @@ namespace RuneScapeSolo.DataAccess.Repositories
 
         void LoadEntitiesIfNeeded()
         {
-            if (gameObjectEntities != null)
+            if (!loadedEntities)
             {
                 return;
             }
 
             gameObjectEntities = xmlDatabase.LoadEntities().ToList();
+            loadedEntities = true;
         }
     }
 }

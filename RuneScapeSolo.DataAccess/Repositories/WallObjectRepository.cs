@@ -14,6 +14,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
     {
         readonly XmlDatabase<WallObjectEntity> xmlDatabase;
         List<WallObjectEntity> wallObjectEntities;
+        bool loadedEntities;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WallObjectRepository"/> class.
@@ -22,6 +23,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
         public WallObjectRepository(string fileName)
         {
             xmlDatabase = new XmlDatabase<WallObjectEntity>(fileName);
+            wallObjectEntities = new List<WallObjectEntity>();
         }
 
         public void ApplyChanges()
@@ -46,15 +48,6 @@ namespace RuneScapeSolo.DataAccess.Repositories
             LoadEntitiesIfNeeded();
 
             wallObjectEntities.Add(wallObjectEntity);
-
-            try
-            {
-                xmlDatabase.SaveEntities(wallObjectEntities);
-            }
-            catch
-            {
-                throw new DuplicateEntityException(wallObjectEntity.Id, nameof(WallObjectEntity).Replace("Entity", ""));
-            }
         }
 
         /// <summary>
@@ -137,12 +130,13 @@ namespace RuneScapeSolo.DataAccess.Repositories
 
         void LoadEntitiesIfNeeded()
         {
-            if (wallObjectEntities != null)
+            if (!loadedEntities)
             {
                 return;
             }
 
             wallObjectEntities = xmlDatabase.LoadEntities().ToList();
+            loadedEntities = true;
         }
     }
 }

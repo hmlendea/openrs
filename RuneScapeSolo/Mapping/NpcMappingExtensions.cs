@@ -75,7 +75,7 @@ namespace RuneScapeSolo.Mapping
                 RespawnTime = npc.RespawnTime,
                 IsAttackable = npc.IsAttackable,
                 IsAggressive = npc.IsAggressive,
-                Drops = npc.Drops.ToEntities().ToArray()
+                Drops = npc.Drops?.ToEntities().ToArray()
             };
 
             return npcEntity;

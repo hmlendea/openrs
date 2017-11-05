@@ -64,7 +64,7 @@ namespace RuneScapeSolo.Mapping
         /// <param name="itemDrops">ItemDrops.</param>
         internal static IEnumerable<ItemDropEntity> ToEntities(this IEnumerable<ItemDrop> itemDrops)
         {
-            IEnumerable<ItemDropEntity> itemDropEntities = itemDrops.Select(itemDrop => itemDrop.ToEntity());
+            IEnumerable<ItemDropEntity> itemDropEntities = itemDrops?.Select(itemDrop => itemDrop.ToEntity());
 
             return itemDropEntities;
         }

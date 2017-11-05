@@ -14,6 +14,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
     {
         readonly XmlDatabase<SpellEntity> xmlDatabase;
         List<SpellEntity> spellEntities;
+        bool loadedEntities;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpellRepository"/> class.
@@ -22,6 +23,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
         public SpellRepository(string fileName)
         {
             xmlDatabase = new XmlDatabase<SpellEntity>(fileName);
+            spellEntities = new List<SpellEntity>();
         }
 
         public void ApplyChanges()
@@ -46,15 +48,6 @@ namespace RuneScapeSolo.DataAccess.Repositories
             LoadEntitiesIfNeeded();
 
             spellEntities.Add(spellEntity);
-
-            try
-            {
-                xmlDatabase.SaveEntities(spellEntities);
-            }
-            catch
-            {
-                throw new DuplicateEntityException(spellEntity.Id, nameof(SpellEntity).Replace("Entity", ""));
-            }
         }
 
         /// <summary>
@@ -136,12 +129,13 @@ namespace RuneScapeSolo.DataAccess.Repositories
 
         void LoadEntitiesIfNeeded()
         {
-            if (spellEntities != null)
+            if (!loadedEntities)
             {
                 return;
             }
 
             spellEntities = xmlDatabase.LoadEntities().ToList();
+            loadedEntities = true;
         }
     }
 }

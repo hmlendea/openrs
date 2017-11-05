@@ -14,6 +14,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
     {
         readonly XmlDatabase<ElevationEntity> xmlDatabase;
         List<ElevationEntity> elevationEntities;
+        bool loadedEntities;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ElevationRepository"/> class.
@@ -22,6 +23,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
         public ElevationRepository(string fileName)
         {
             xmlDatabase = new XmlDatabase<ElevationEntity>(fileName);
+            elevationEntities = new List<ElevationEntity>();
         }
 
         public void ApplyChanges()
@@ -130,12 +132,13 @@ namespace RuneScapeSolo.DataAccess.Repositories
 
         void LoadEntitiesIfNeeded()
         {
-            if (elevationEntities != null)
+            if (!loadedEntities)
             {
                 return;
             }
 
             elevationEntities = xmlDatabase.LoadEntities().ToList();
+            loadedEntities = true;
         }
     }
 }

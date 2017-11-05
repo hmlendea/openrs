@@ -14,6 +14,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
     {
         readonly XmlDatabase<TextureEntity> xmlDatabase;
         List<TextureEntity> textureEntities;
+        bool loadedEntities;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TextureRepository"/> class.
@@ -22,6 +23,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
         public TextureRepository(string fileName)
         {
             xmlDatabase = new XmlDatabase<TextureEntity>(fileName);
+            textureEntities = new List<TextureEntity>();
         }
 
         public void ApplyChanges()
@@ -46,15 +48,6 @@ namespace RuneScapeSolo.DataAccess.Repositories
             LoadEntitiesIfNeeded();
 
             textureEntities.Add(textureEntity);
-
-            try
-            {
-                xmlDatabase.SaveEntities(textureEntities);
-            }
-            catch
-            {
-                throw new DuplicateEntityException(textureEntity.Id, nameof(TextureEntity).Replace("Entity", ""));
-            }
         }
 
         /// <summary>
@@ -130,12 +123,13 @@ namespace RuneScapeSolo.DataAccess.Repositories
 
         void LoadEntitiesIfNeeded()
         {
-            if (textureEntities != null)
+            if (!loadedEntities)
             {
                 return;
             }
 
             textureEntities = xmlDatabase.LoadEntities().ToList();
+            loadedEntities = true;
         }
     }
 }

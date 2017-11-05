@@ -14,6 +14,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
     {
         readonly XmlDatabase<ItemDropEntity> xmlDatabase;
         List<ItemDropEntity> itemDropEntities;
+        bool loadedEntities;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemDropRepository"/> class.
@@ -22,6 +23,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
         public ItemDropRepository(string fileName)
         {
             xmlDatabase = new XmlDatabase<ItemDropEntity>(fileName);
+            itemDropEntities = new List<ItemDropEntity>();
         }
 
         public void ApplyChanges()
@@ -46,15 +48,6 @@ namespace RuneScapeSolo.DataAccess.Repositories
             LoadEntitiesIfNeeded();
 
             itemDropEntities.Add(itemDropEntity);
-
-            try
-            {
-                xmlDatabase.SaveEntities(itemDropEntities);
-            }
-            catch
-            {
-                throw new DuplicateEntityException(itemDropEntity.Id, nameof(ItemDropEntity).Replace("Entity", ""));
-            }
         }
 
         /// <summary>
@@ -131,12 +124,13 @@ namespace RuneScapeSolo.DataAccess.Repositories
 
         void LoadEntitiesIfNeeded()
         {
-            if (itemDropEntities != null)
+            if (!loadedEntities)
             {
                 return;
             }
 
             itemDropEntities = xmlDatabase.LoadEntities().ToList();
+            loadedEntities = true;
         }
     }
 }

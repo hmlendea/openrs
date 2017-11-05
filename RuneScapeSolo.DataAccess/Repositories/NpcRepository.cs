@@ -14,6 +14,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
     {
         readonly XmlDatabase<NpcEntity> xmlDatabase;
         List<NpcEntity> npcEntities;
+        bool loadedEntities;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NpcRepository"/> class.
@@ -22,6 +23,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
         public NpcRepository(string fileName)
         {
             xmlDatabase = new XmlDatabase<NpcEntity>(fileName);
+            npcEntities = new List<NpcEntity>();
         }
 
         public void ApplyChanges()
@@ -46,15 +48,6 @@ namespace RuneScapeSolo.DataAccess.Repositories
             LoadEntitiesIfNeeded();
 
             npcEntities.Add(npcEntity);
-
-            try
-            {
-                xmlDatabase.SaveEntities(npcEntities);
-            }
-            catch
-            {
-                throw new DuplicateEntityException(npcEntity.Id, nameof(NpcEntity).Replace("Entity", ""));
-            }
         }
 
         /// <summary>
@@ -149,12 +142,13 @@ namespace RuneScapeSolo.DataAccess.Repositories
 
         void LoadEntitiesIfNeeded()
         {
-            if (npcEntities != null)
+            if (!loadedEntities)
             {
                 return;
             }
 
             npcEntities = xmlDatabase.LoadEntities().ToList();
+            loadedEntities = true;
         }
     }
 }

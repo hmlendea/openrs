@@ -14,6 +14,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
     {
         readonly XmlDatabase<PrayerEntity> xmlDatabase;
         List<PrayerEntity> prayerEntities;
+        bool loadedEntities;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PrayerRepository"/> class.
@@ -22,6 +23,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
         public PrayerRepository(string fileName)
         {
             xmlDatabase = new XmlDatabase<PrayerEntity>(fileName);
+            prayerEntities = new List<PrayerEntity>();
         }
 
         public void ApplyChanges()
@@ -46,15 +48,6 @@ namespace RuneScapeSolo.DataAccess.Repositories
             LoadEntitiesIfNeeded();
 
             prayerEntities.Add(prayerEntity);
-
-            try
-            {
-                xmlDatabase.SaveEntities(prayerEntities);
-            }
-            catch
-            {
-                throw new DuplicateEntityException(prayerEntity.Id, nameof(PrayerEntity).Replace("Entity", ""));
-            }
         }
 
         /// <summary>
@@ -132,12 +125,13 @@ namespace RuneScapeSolo.DataAccess.Repositories
 
         void LoadEntitiesIfNeeded()
         {
-            if (prayerEntities != null)
+            if (!loadedEntities)
             {
                 return;
             }
 
             prayerEntities = xmlDatabase.LoadEntities().ToList();
+            loadedEntities = true;
         }
     }
 }

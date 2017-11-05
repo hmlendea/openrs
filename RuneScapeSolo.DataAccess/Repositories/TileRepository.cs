@@ -14,6 +14,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
     {
         readonly XmlDatabase<TileEntity> xmlDatabase;
         List<TileEntity> tileEntities;
+        bool loadedEntities;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TileRepository"/> class.
@@ -22,6 +23,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
         public TileRepository(string fileName)
         {
             xmlDatabase = new XmlDatabase<TileEntity>(fileName);
+            tileEntities = new List<TileEntity>();
         }
 
         public void ApplyChanges()
@@ -46,15 +48,6 @@ namespace RuneScapeSolo.DataAccess.Repositories
             LoadEntitiesIfNeeded();
 
             tileEntities.Add(tileEntity);
-
-            try
-            {
-                xmlDatabase.SaveEntities(tileEntities);
-            }
-            catch
-            {
-                throw new DuplicateEntityException(tileEntity.Id, nameof(TileEntity).Replace("Entity", ""));
-            }
         }
 
         /// <summary>
@@ -131,12 +124,13 @@ namespace RuneScapeSolo.DataAccess.Repositories
 
         void LoadEntitiesIfNeeded()
         {
-            if (tileEntities != null)
+            if (!loadedEntities)
             {
                 return;
             }
 
             tileEntities = xmlDatabase.LoadEntities().ToList();
+            loadedEntities = true;
         }
     }
 }
