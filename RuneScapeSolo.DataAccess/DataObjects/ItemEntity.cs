@@ -1,10 +1,28 @@
-﻿namespace RuneScapeSolo.Models
+﻿namespace RuneScapeSolo.DataAccess.DataObjects
 {
     /// <summary>
-    /// Game item.
+    /// Game item entity.
     /// </summary>
-    public class Item : GameEntity
+    public class ItemEntity
     {
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
+        public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>The name.</value>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        /// <value>The description.</value>
+        public string Description { get; set; }
+
         /// <summary>
         /// Gets or sets the command.
         /// </summary>
@@ -35,37 +53,32 @@
         /// <value>The picture mask.</value>
         public int PictureMask { get; set; }
 
-        // TODO: Convert to bool
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="Item"/> is equipable.
+        /// Gets or sets a value indicating whether this <see cref="ItemEntity"/> is equipable.
         /// </summary>
         /// <value><c>true</c> if it is equipable; otherwise, <c>false</c>.</value>
         public int IsEquipable { get; set; }
 
-        // TODO: Convert to bool
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="Item"/> is premium.
+        /// Gets or sets a value indicating whether this <see cref="ItemEntity"/> is premium.
         /// </summary>
         /// <value><c>true</c> if it is premium; otherwise, <c>false</c>.</value>
         public int IsPremium { get; set; }
 
-        // TODO: Convert to bool
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="Item"/> is special.
+        /// Gets or sets a value indicating whether this <see cref="ItemEntity"/> is special.
         /// </summary>
         /// <value><c>true</c> if it is special; otherwise, <c>false</c>.</value>
         public int IsSpecial { get; set; }
 
-        // TODO: Convert to bool
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="Item"/> is stackable.
+        /// Gets or sets a value indicating whether this <see cref="ItemEntity"/> is stackable.
         /// </summary>
         /// <value><c>true</c> if it is stackable; otherwise, <c>false</c>.</value>
         public int IsStackable { get; set; }
 
-        // TODO: Convert to bool
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="Item"/> is unused.
+        /// Gets or sets a value indicating whether this <see cref="ItemEntity"/> is unused.
         /// </summary>
         /// <value><c>true</c> if is unused; otherwise, <c>false</c>.</value>
         public int IsUnused { get; set; }

@@ -116,6 +116,17 @@
     <Compile Include="PacketHandler.cs" />
     <Compile Include="Quests.cs" />
     <Compile Include="Lib\Data\DataConversions.cs" />
+    <Compile Include="Mapping\ItemMappingExtensions.cs" />
+    <Compile Include="Mapping\AnimationMappingExtensions.cs" />
+    <Compile Include="Mapping\ElevationMappingExtensions.cs" />
+    <Compile Include="Mapping\GameObjectMappingExtensions.cs" />
+    <Compile Include="Mapping\ItemDropMappingExtensions.cs" />
+    <Compile Include="Mapping\NpcMappingExtensions.cs" />
+    <Compile Include="Mapping\PrayerMappingExtensions.cs" />
+    <Compile Include="Mapping\SpellMappingExtensions.cs" />
+    <Compile Include="Mapping\TextureMappingExtensions.cs" />
+    <Compile Include="Mapping\TileMappingExtensions.cs" />
+    <Compile Include="Mapping\WallObjectMappingExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuneScapeSolo.Data\RuneScapeSolo.Data.csproj">
@@ -130,7 +141,14 @@
       <Project>{0FB5C790-78F3-44EA-AF6C-2D5B7C8E82BE}</Project>
       <Name>RuneScapeSolo.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RuneScapeSolo.DataAccess\RuneScapeSolo.DataAccess.csproj">
+      <Project>{DFA1E1E9-AFEB-4565-BA38-ECDBAFC9D47B}</Project>
+      <Name>RuneScapeSolo.DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Mapping\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
