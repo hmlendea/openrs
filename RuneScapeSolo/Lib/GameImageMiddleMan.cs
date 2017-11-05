@@ -40,6 +40,6 @@ namespace RuneScapeSolo.Lib
             }
         }
 
-        public mudclient gameReference;
+        public GameClient gameReference;
     }
 }

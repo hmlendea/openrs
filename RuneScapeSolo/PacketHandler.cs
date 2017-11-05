@@ -12,9 +12,9 @@ namespace RuneScapeSolo
 {
     public class PacketHandler
     {
-        readonly mudclient client;
+        readonly GameClient client;
 
-        public PacketHandler(mudclient client)
+        public PacketHandler(GameClient client)
         {
             this.client = client;
         }

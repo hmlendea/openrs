@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 
 using Microsoft.Xna.Framework.Graphics;
@@ -12,7 +11,7 @@ using RuneScapeSolo.Lib.Game;
 
 namespace RuneScapeSolo.Lib
 {
-    public class GameApplet
+    public class GameApplet : IDisposable
     {
         public GameApplet()
         {
@@ -62,16 +61,6 @@ namespace RuneScapeSolo.Lib
             {
                 timeArray[i] = 0L;
             }
-        }
-
-        public void KeyTyped(EventArgs e)
-        {
-            //ignore
-        }
-
-        public void MouseClicked(EventArgs e)
-        {
-            //ignore
         }
 
         public void MouseEntered(MouseState evt)
@@ -187,13 +176,15 @@ namespace RuneScapeSolo.Lib
             return true;
         }
 
-        public void init()
+        public void Initialise()
         {
             Console.WriteLine("Started applet");
+
             appletWidth = 512;
             appletHeight = 344;
             gameLoadingScreen = 1;
-            DataOperations.codeBase = getCodeBase();
+
+            DataOperations.codeBase = default(Uri);
             //startThread(this);
         }
 
@@ -205,7 +196,7 @@ namespace RuneScapeSolo.Lib
             thread.Start();
         }
 
-        public void start()
+        public void Start()
         {
             if (runStatus >= 0)
             {
@@ -213,7 +204,7 @@ namespace RuneScapeSolo.Lib
             }
         }
 
-        public void stop()
+        public void Stop()
         {
             if (runStatus >= 0)
             {
@@ -221,19 +212,18 @@ namespace RuneScapeSolo.Lib
             }
         }
 
-
-        public void Destroy()
+        public void Dispose()
         {
             runStatus = -1;
-            try
-            {
-                Thread.Sleep(2000);
-            }
-            catch (Exception _ex) { }
+
+            Thread.Sleep(2000);
+
             if (runStatus == -1)
             {
                 Console.WriteLine("2 seconds expired, forcing kill");
-                closeProgram();
+
+                CloseProgram();
+
                 if (gameWindowThread != null)
                 {
                     gameWindowThread.Abort();
@@ -242,24 +232,12 @@ namespace RuneScapeSolo.Lib
             }
         }
 
-
-
-        public void closeProgram()
+        public void CloseProgram()
         {
             runStatus = -2;
             Console.WriteLine("Closing program");
-            Close();
-            try
-            {
-                Thread.Sleep(1000);
-            }
-            catch (Exception _ex) { }
-            if (gameFrame != null)
-            {
-                //gameFrame.dispose();
-                //System.Exit(0);
 
-            }
+            Close();
         }
 
         //Component getGameComponent() {
@@ -273,7 +251,6 @@ namespace RuneScapeSolo.Lib
         {
 
         }
-
 
         public void run()
         {
@@ -303,15 +280,13 @@ namespace RuneScapeSolo.Lib
             }
             if (runStatus == -1)
             {
-                closeProgram();
+                CloseProgram();
                 gameWindowThread = null;
             }
-
-
-
-
         }
-        public bool DrawIsNecessary = false;
+
+        public bool DrawIsNecessary;
+
         public void OnDrawDone()
         {
             DrawIsNecessary = true;
@@ -329,7 +304,7 @@ namespace RuneScapeSolo.Lib
                 runStatus--;
                 if (runStatus == 0)
                 {
-                    closeProgram();
+                    CloseProgram();
                     gameWindowThread = null;
                     return;
                 }
@@ -405,7 +380,7 @@ namespace RuneScapeSolo.Lib
             // paint(graphics);
         }
 
-        public virtual void drawWindow()
+        public virtual void DrawWindow()
         {
 
         }
@@ -419,13 +394,10 @@ namespace RuneScapeSolo.Lib
             }
         }
 
-        private void loadLoadingScreen()
+        void loadLoadingScreen()
         {
-            //base.loadLoadingScreen();
-            //graphics.Clear(Color.Black);
-
-            //graphics.fillRect(0, 0, appletWidth, appletHeight);
             sbyte[] bytes = unpackData("fonts.jag", "Game fonts", 0);
+
             GameImage.addFont(DataOperations.loadData("h11p.jf", 0, bytes));
             GameImage.addFont(DataOperations.loadData("h12b.jf", 0, bytes));
             GameImage.addFont(DataOperations.loadData("h12p.jf", 0, bytes));
@@ -436,7 +408,7 @@ namespace RuneScapeSolo.Lib
             GameImage.addFont(DataOperations.loadData("h24b.jf", 0, bytes));
         }
 
-        private void drawLoadingScreen(int percentage, string fileTitle)
+        void drawLoadingScreen(int percentage, string fileTitle)
         {
             try
             {
@@ -470,14 +442,13 @@ namespace RuneScapeSolo.Lib
                 //drawString(fileTitle/*, gameLoadingFont*/, i + 138, k + 10, new Color(198, 198, 198));
 
             }
-            catch (Exception _ex) { }
+            catch (Exception ex) { }
         }
 
         public void drawLoadingBarText(int i, string s)
         {
             try
             {
-
                 int k = (appletWidth - 281) / 2;
                 int l = (appletHeight - 148) / 2;
                 k += 2;
@@ -581,8 +552,11 @@ namespace RuneScapeSolo.Lib
 
                     inputstream.Close();
                 }
-                catch (IOException _ex) { }
+                catch (Exception ex)
+                {
+                }
             }
+
             Console.WriteLine("Unpacking " + fileTitle);
             drawLoadingBarText(startPercentage, "Unpacking " + fileTitle);
             if (k != i)
@@ -608,21 +582,6 @@ namespace RuneScapeSolo.Lib
         //    return new Texture2D(this.graphics, i, k);
         //}
 
-        public Uri getCodeBase()
-        {
-            return default(Uri);//super.getCodeBase();
-        }
-
-        public Uri getDocumentBase()
-        {
-            return default(Uri);//super.getDocumentBase();
-        }
-
-        public string getParameter(string s)
-        {
-            return ""; //super.getParameter(s);
-        }
-
         protected TcpClient MakeSocket(string ip, int port)
         {
             TcpClient client = new TcpClient();
@@ -632,11 +591,6 @@ namespace RuneScapeSolo.Lib
             client.NoDelay = true;
 
             return client;
-        }
-
-        public void mouseScroll(bool begin, int arg)
-        {
-            Console.WriteLine("mouseWheel(" + begin + ", " + arg + ")");
         }
 
         public void InitGameApplet()
@@ -657,7 +611,7 @@ namespace RuneScapeSolo.Lib
             enteredPrivateMessageText = "";
         }
 
-        private static readonly DateTime Jan1st1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        static readonly DateTime Jan1st1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         public static long CurrentTimeMillis()
         {
@@ -665,12 +619,12 @@ namespace RuneScapeSolo.Lib
         }
 
         //GameApplet baseApplet;
-        private int appletWidth;
-        private int appletHeight;
+        int appletWidth;
+        int appletHeight;
         public Thread gameWindowThread;
-        private int refreshRate;
-        private int fie;
-        private long[] timeArray;
+        int refreshRate;
+        int fie;
+        long[] timeArray;
         public static GameFrame gameFrame = null;
         public int runStatus;
         public int fij;
@@ -689,6 +643,5 @@ namespace RuneScapeSolo.Lib
 
         public static int[][] bgPixels = null;
         public static Texture2D bgImage = null;
-
     }
 }

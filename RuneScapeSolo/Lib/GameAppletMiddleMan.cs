@@ -77,15 +77,15 @@ namespace RuneScapeSolo.Lib
 
         void DoConnect()
         {
-            //username = user;
-            var user = DataOperations.formatString(username, 20);
-            // password = pass;
-            var pass = DataOperations.formatString(password, 20);
+            var user = DataOperations.FormatString(username, 20);
+            var pass = DataOperations.FormatString(password, 20);
+
             if (user.Trim().Length == 0)
             {
                 loginScreenPrint("You must enter both a username", "and a password - Please try again");
                 return;
             }
+
             if (reconnecting)
             {
                 gameBoxPrint("Connection lost! Please wait...", "Attempting to re-establish");
@@ -151,78 +151,68 @@ namespace RuneScapeSolo.Lib
 
             // streamClass.MakeAsync();
 
-            if (loginResponse == LoginCode.Code99)
+            switch (loginResponse)
             {
-                reconnectTries = 0;
-                initVars();
-                return;
+                case LoginCode.Code0:
+                    reconnectTries = 0;
+                    initVars();
+                    return;
+
+                case LoginCode.Code1:
+                    reconnectTries = 0;
+                    return;
+
+                case LoginCode.Code5:
+                    loginScreenPrint("Error unable to login.", "Please try again");
+                    return;
+
+                case LoginCode.Code99:
+                    reconnectTries = 0;
+                    initVars();
+                    return;
+
+                case LoginCode.AccountBanned:
+                    loginScreenPrint("Account banned.", "Appeal on the forums, ASAP.");
+                    return;
+
+                case LoginCode.AccountAlreadyLoggedIn:
+                    loginScreenPrint("Account already in use.", "You may only login to one character at a time");
+                    return;
+
+                case LoginCode.ClientUpdated:
+                    loginScreenPrint("The client has been updated.", "Please restart the client");
+                    return;
+
+                case LoginCode.InvalidCredentials:
+                    loginScreenPrint("Invalid username or password.", "Try again, or create a new account");
+                    return;
+
+                case LoginCode.ProfileDecodeFailure:
+                    loginScreenPrint("Error - failed to decode profile.", "Contact an admin!");
+                    return;
+
+                case LoginCode.ServerTimeOut:
+                    loginScreenPrint("Error unable to login.", "Server timed out");
+                    return;
+
+                case LoginCode.TooManyConnections:
+                    loginScreenPrint("Too many connections from your IP.", "Please try again later");
+                    return;
+
+                case LoginCode.UsernameAlreadyLoggedIn:
+                    loginScreenPrint("That username is already logged in.", "Wait 60 seconds then retry");
+                    return;
+
+                default:
+                    loginScreenPrint("Error unable to login.", "Unrecognised response code");
+                    return;
             }
-            if (loginResponse == LoginCode.Code0)
-            {
-                reconnectTries = 0;
-                initVars();
-                return;
-            }
-            if (loginResponse == LoginCode.Code1)
-            {
-                reconnectTries = 0;
-                return;
-            }
+
             if (reconnecting)
             {
                 user = "";
                 pass = "";
                 resetIntVars();
-                return;
-            }
-            if (loginResponse == LoginCode.ServerTimeOut)
-            {
-                loginScreenPrint("Error unable to login.", "Server timed out");
-                return;
-            }
-            if (loginResponse == LoginCode.InvalidCredentials)
-            {
-                loginScreenPrint("Invalid username or password.", "Try again, or create a new account");
-                return;
-            }
-            if (loginResponse == LoginCode.UsernameAlreadyLoggedIn)
-            {
-                loginScreenPrint("That username is already logged in.", "Wait 60 seconds then retry");
-                return;
-            }
-            if (loginResponse == LoginCode.ClientUpdated)
-            {
-                loginScreenPrint("The client has been updated.", "Please restart the client");
-                return;
-            }
-            if (loginResponse == LoginCode.Code5)
-            {
-                loginScreenPrint("Error unable to login.", "Please retry");
-                return;
-            }
-            if (loginResponse == LoginCode.AccountBanned)
-            {
-                loginScreenPrint("Account banned.", "Appeal on the forums, ASAP.");
-                return;
-            }
-            if (loginResponse == LoginCode.ProfileDecodeFailure)
-            {
-                loginScreenPrint("Error - failed to decode profile.", "Contact an admin!");
-                return;
-            }
-            if (loginResponse == LoginCode.TooManyConnections)
-            {
-                loginScreenPrint("Too many connections from your IP.", "Please try again later");
-                return;
-            }
-            if (loginResponse == LoginCode.AccountAlreadyLoggedIn)
-            {
-                loginScreenPrint("Account already in use.", "You may only login to one character at a time");
-                return;
-            }
-            else
-            {
-                loginScreenPrint("Error unable to login.", "Unrecognised response code");
                 return;
             }
 
@@ -232,7 +222,11 @@ namespace RuneScapeSolo.Lib
                 {
                     Thread.Sleep(2500);
                 }
-                catch (Exception ex) { }
+                catch (Exception ex)
+                {
+
+                }
+
                 reconnectTries--;
                 connect(username, password, reconnecting);
             }
@@ -257,7 +251,10 @@ namespace RuneScapeSolo.Lib
                     StreamClass.CreatePacket(39);
                     StreamClass.FinalisePacket();
                 }
-                catch (IOException ex) { }
+                catch (IOException ex)
+                {
+
+                }
             }
 
             username = "";
@@ -267,10 +264,9 @@ namespace RuneScapeSolo.Lib
             loginScreenPrint("Please enter your usename and password", "");
         }
 
-        public virtual void lostConnection()
+        public virtual void LostConnection()
         {
             Console.WriteLine("Lost connection");
-            //connect(username, password, true);
             loginScreenPrint("Please enter your usename and password", "");
         }
 
@@ -290,18 +286,18 @@ namespace RuneScapeSolo.Lib
             //drawString(s2/*, font*/, c / 2, c1 / 2 + 10, Color.White);
         }
 
-        protected void sendPingPacket()
+        protected void SendPing()
         {
-            long l = CurrentTimeMillis();
+            long time = CurrentTimeMillis();
 
-            if (StreamClass.hasData())
+            if (StreamClass.HasData)
             {
-                lastPing = l;
+                lastPing = time;
             }
 
-            if (l - lastPing > 5000L)
+            if (time - lastPing > 5000L)
             {
-                lastPing = l;
+                lastPing = time;
                 StreamClass.CreatePacket(5);
                 StreamClass.FormatPacket();
             }
@@ -312,18 +308,18 @@ namespace RuneScapeSolo.Lib
             }
             catch (IOException ex)
             {
-                lostConnection();
+                LostConnection();
+
                 return;
             }
 
-            int length = StreamClass.readPacket(data);
+            int length = StreamClass.ReadPacket(data);
 
             if (length > 0)
             {
                 int commandId = data[0] & 0xff;
                 ServerCommand command = (ServerCommand)commandId;
 
-                //Console.WriteLine("PACKET:" + command + " LEN:" + length);
                 HandlePacket(command, length);
             }
         }

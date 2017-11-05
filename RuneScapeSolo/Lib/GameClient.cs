@@ -17,16 +17,16 @@ using RuneScapeSolo.Input;
 
 namespace RuneScapeSolo.Lib
 {
-    public class mudclient : GameAppletMiddleMan
+    public class GameClient : GameAppletMiddleMan
     {
         public event EventHandler OnContentLoadedCompleted;
         public event EventHandler<ContentLoadedEventArgs> OnContentLoaded;
 
-        public static mudclient CreateMudclient(string title = "RuneScape", int width = 512, int height = 346)
+        public static GameClient CreateGameClient(string title = "RuneScape Solo", int width = 512, int height = 346)
         {
             //spriteBatch = sb;
 
-            mudclient mud = new mudclient();
+            GameClient mud = new GameClient();
             //graphics = gfx;
             mud.windowWidth = width;
             mud.windowHeight = height;
@@ -264,7 +264,6 @@ namespace RuneScapeSolo.Lib
                 }
             }
 
-
             lastPressedKeys.Clear();
             lastPressedKeys.AddRange(keyboardState.GetPressedKeys());
 
@@ -302,7 +301,7 @@ namespace RuneScapeSolo.Lib
             }
         }
 
-        public mudclient()
+        public GameClient()
         {
             packetHandler = new PacketHandler(this);
 
@@ -872,7 +871,7 @@ namespace RuneScapeSolo.Lib
             DropPartyTimer = 0;
 
             loginScreenNumber = 0;
-            loggedIn = 0;
+            loggedIn = false;
             logoutTimer = 0;
         }
 
@@ -1440,7 +1439,7 @@ namespace RuneScapeSolo.Lib
 
         public void setLoginVars()
         {
-            loggedIn = 0;
+            loggedIn = false;
             loginScreenNumber = 0;
             loginUsername = "";
             loginPassword = "";
@@ -2524,7 +2523,7 @@ namespace RuneScapeSolo.Lib
             CombatStyle = 0;
             logoutTimer = 0;
             loginScreenNumber = 0;
-            loggedIn = 1;
+            loggedIn = true;
 
             ResetPrivateMessages();
             gameGraphics.ClearScreen();
@@ -2903,7 +2902,7 @@ namespace RuneScapeSolo.Lib
             loginMenuLogin.setFocus(loginMenuUserText);
         }
 
-        public override void lostConnection()
+        public override void LostConnection()
         {
             SystemUpdateTimer = 0;
 
@@ -2918,7 +2917,7 @@ namespace RuneScapeSolo.Lib
             }
             else
             {
-                base.lostConnection();
+                base.LostConnection();
                 return;
             }
         }
@@ -2999,14 +2998,16 @@ namespace RuneScapeSolo.Lib
             try
             {
                 tick++;
-                if (loggedIn == 0)
-                {
-                    checkLoginScreenInputs();
-                }
-                if (loggedIn == 1)
+
+                if (loggedIn)
                 {
                     checkGameInputs();
                 }
+                else
+                {
+                    checkLoginScreenInputs();
+                }
+
                 lastMouseButton = 0;
                 cameraRotateTime++;
                 if (cameraRotateTime > 500)
@@ -3063,7 +3064,7 @@ namespace RuneScapeSolo.Lib
                     chatTabPrivateFlash--;
                 }
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
                 cleanUp();
                 memoryError = true;
@@ -3415,7 +3416,7 @@ namespace RuneScapeSolo.Lib
 
         public void sendLogout()
         {
-            if (loggedIn == 0)
+            if (!loggedIn)
             {
                 return;
             }
@@ -4364,7 +4365,7 @@ namespace RuneScapeSolo.Lib
             return false;
         }
 
-        public override void drawWindow()
+        public override void DrawWindow()
         {
 
             paint(graphics);
@@ -4415,23 +4416,20 @@ namespace RuneScapeSolo.Lib
             }
             try
             {
-                if (loggedIn == 0)
-                {
-                    gameGraphics.loggedIn = false;
-                    drawLoginScreens();
-
-
-                }
-                if (loggedIn == 1)
+                if (loggedIn)
                 {
                     gameGraphics.loggedIn = true;
                     drawGame();
 
-
                     return;
                 }
+                else
+                {
+                    gameGraphics.loggedIn = false;
+                    drawLoginScreens();
+                }
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
                 cleanUp();
                 memoryError = true;
@@ -4474,7 +4472,7 @@ namespace RuneScapeSolo.Lib
                 System.GC.Collect();
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
                 return;
             }
@@ -5301,7 +5299,7 @@ namespace RuneScapeSolo.Lib
         public static bool sendingPing = false;
         public void sendPingPacketAsync()
         {
-            SendPingPacketDelegate worker = new SendPingPacketDelegate(sendPingPacket);
+            SendPingPacketDelegate worker = new SendPingPacketDelegate(SendPing);
             AsyncCallback completedCallback = new AsyncCallback(sendPingPacketCompletedCallback);
 
             lock (_sync)
@@ -6131,7 +6129,22 @@ namespace RuneScapeSolo.Lib
                 return;
             }
 
-            if (loggedIn == 0)
+            if (loggedIn)
+            {
+                if (key == Keys.F12)
+                {
+                    takeScreenshot(true);
+                }
+                else if (ShowAppearanceWindow && appearanceMenu != null)
+                {
+                    appearanceMenu.keyPress(key, c);
+                }
+                else if (showFriendsBox == 0 && showAbuseBox == 0 && !IsSleeping && chatInputMenu != null)
+                {
+                    chatInputMenu.keyPress(key, c);
+                }
+            }
+            else
             {
                 if (loginScreenNumber == 0 && loginMenuFirst != null)
                 {
@@ -6146,21 +6159,6 @@ namespace RuneScapeSolo.Lib
                 if (loginScreenNumber == 2 && loginMenuLogin != null)
                 {
                     loginMenuLogin.keyPress(key, c);
-                }
-            }
-            if (loggedIn == 1)
-            {
-                if (key == Keys.F12)
-                {
-                    takeScreenshot(true);
-                }
-                else if (ShowAppearanceWindow && appearanceMenu != null)
-                {
-                    appearanceMenu.keyPress(key, c);
-                }
-                else if (showFriendsBox == 0 && showAbuseBox == 0 && !IsSleeping && chatInputMenu != null)
-                {
-                    chatInputMenu.keyPress(key, c);
                 }
             }
         }
@@ -9903,7 +9901,7 @@ namespace RuneScapeSolo.Lib
                 }
                 if (cmd.Equals("lostcon"))
                 {
-                    lostConnection();
+                    LostConnection();
                     return true;
                 }
                 if (cmd.Equals("tell"))
@@ -10202,7 +10200,7 @@ namespace RuneScapeSolo.Lib
         "Armour", "WeaponAim", "WeaponPower", "Magic", "Prayer"
     };
         public int logoutTimer;
-        public int loggedIn;
+        public bool loggedIn;
         public int[] questStage;
         public int[] teleBubbleType;
         public int[] experienceList;

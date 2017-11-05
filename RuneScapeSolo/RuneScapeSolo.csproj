@@ -74,7 +74,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameWindow.cs" />
     <Compile Include="Face.cs" />
-    <Compile Include="MudclientActionExtensions.cs" />
+    <Compile Include="GameClientActionExtensions.cs" />
     <Compile Include="OB3Model.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="Primitives\GeometricPrimitive.cs" />

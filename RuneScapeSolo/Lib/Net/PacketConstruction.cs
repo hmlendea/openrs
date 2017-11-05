@@ -4,6 +4,9 @@ using System.IO;
 
 namespace RuneScapeSolo.Lib.Net
 {
+    /// <summary>
+    /// Packet construction.
+    /// </summary>
     public class PacketConstruction
     {
         int length;
@@ -17,12 +20,39 @@ namespace RuneScapeSolo.Lib.Net
         static int[] packetCommandCount = new int[256];
         static int[] packetLengthCount = new int[256];
 
+        /// <summary>
+        /// Gets or sets the maximum packet count.
+        /// </summary>
+        /// <value>The maximum packet count.</value>
         public int MaximumPacketCount { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum packet read count.
+        /// </summary>
+        /// <value>The maximum packet read count.</value>
         public int MaximumPacketReadCount { get; set; }
 
-        public string ErrorMessage { get; set; }
-        public bool HasErrors { get; set; }
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="PacketConstruction"/> has data.
+        /// </summary>
+        /// <value><c>true</c> if has data; otherwise, <c>false</c>.</value>
+        public bool HasData => packetStart > 0;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="PacketConstruction"/> has errors.
+        /// </summary>
+        /// <value><c>true</c> if has errors; otherwise, <c>false</c>.</value>
+        public bool HasErrors { get; protected set; }
+
+        /// <summary>
+        /// Gets or sets the error message.
+        /// </summary>
+        /// <value>The error message.</value>
+        public string ErrorMessage { get; protected set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PacketConstruction"/> class.
+        /// </summary>
         public PacketConstruction()
         {
             packetOffset = 3;
@@ -32,11 +62,18 @@ namespace RuneScapeSolo.Lib.Net
             HasErrors = false;
         }
 
+        /// <summary>
+        /// Closes the stream.
+        /// </summary>
         public virtual void CloseStream()
         {
         }
 
-        public void CreatePacket(int i)
+        /// <summary>
+        /// Creates the packet.
+        /// </summary>
+        /// <param name="value">Value.</param>
+        public void CreatePacket(int value)
         {
             if (packetStart > (MaximumPacketCount * 4) / 5)
             {
@@ -56,14 +93,18 @@ namespace RuneScapeSolo.Lib.Net
                 packetData = new byte[MaximumPacketCount];
             }
 
-            packetData[packetStart + 2] = (byte)i;
+            packetData[packetStart + 2] = (byte)value;
             packetData[packetStart + 3] = 0;
 
             packetOffset = packetStart + 3;
             skipOffset = 8;
         }
 
-        public void WritePacket(int i)
+        /// <summary>
+        /// Writes the packet.
+        /// </summary>
+        /// <param name="value">Value.</param>
+        public void WritePacket(int value)
         {
             if (HasErrors)
             {
@@ -75,7 +116,7 @@ namespace RuneScapeSolo.Lib.Net
 
             PacketCount++;
 
-            if (PacketCount < i)
+            if (PacketCount < value)
             {
                 return;
             }
@@ -89,62 +130,96 @@ namespace RuneScapeSolo.Lib.Net
             packetOffset = 3;
         }
 
-        public void AddInt8(int i)
+        /// <summary>
+        /// Adds an 8-bit integer.
+        /// </summary>
+        /// <param name="value">Value.</param>
+        public void AddInt8(int value)
         {
-            packetData[packetOffset++] = (byte)i;
+            packetData[packetOffset++] = (byte)value;
         }
 
-        public void AddInt16(int i)
+        /// <summary>
+        /// Adds a 16-bit integer.
+        /// </summary>
+        /// <param name="value">Value.</param>
+        public void AddInt16(int value)
         {
-            packetData[packetOffset++] = (byte)(i >> 8);
-            packetData[packetOffset++] = (byte)i;
+            packetData[packetOffset++] = (byte)(value >> 8);
+            packetData[packetOffset++] = (byte)value;
         }
 
-        public void AddInt32(int i)
+        /// <summary>
+        /// Adds an 32-bit integer.
+        /// </summary>
+        /// <param name="value">Value.</param>
+        public void AddInt32(int value)
         {
-            packetData[packetOffset++] = (byte)(i >> 24);
-            packetData[packetOffset++] = (byte)(i >> 16);
-            packetData[packetOffset++] = (byte)(i >> 8);
-            packetData[packetOffset++] = (byte)i;
+            packetData[packetOffset++] = (byte)(value >> 24);
+            packetData[packetOffset++] = (byte)(value >> 16);
+            packetData[packetOffset++] = (byte)(value >> 8);
+            packetData[packetOffset++] = (byte)value;
         }
 
-        public void AddInt64(long l)
+        /// <summary>
+        /// Adds an 64-bit integer.
+        /// </summary>
+        /// <param name="value">Value.</param>
+        public void AddInt64(long value)
         {
-            AddInt32((int)(l >> 32));
-            AddInt32((int)(l & -1L));
+            AddInt32((int)(value >> 32));
+            AddInt32((int)(value & -1L));
         }
 
-        public void AddString(string s)
+        /// <summary>
+        /// Adds a string.
+        /// </summary>
+        /// <param name="str">Text.</param>
+        public void AddString(string str)
         {
-            byte[] bytes = Encoding.UTF8.GetBytes(s);
+            byte[] bytes = Encoding.UTF8.GetBytes(str);
 
             Array.Copy(bytes, 0, packetData, packetOffset, bytes.Length);
 
             packetOffset += bytes.Length;
         }
 
+        /// <summary>
+        /// Adds the bytes.
+        /// </summary>
+        /// <param name="data">Data.</param>
         public void AddBytes(byte[] data)
         {
             AddBytes(data, 0, data.Length);
         }
 
+        /// <summary>
+        /// Adds the bytes.
+        /// </summary>
+        /// <param name="data">Data.</param>
+        /// <param name="offset">Offset.</param>
+        /// <param name="length">Length.</param>
         public void AddBytes(byte[] data, int offset, int length)
         {
-            for (int i = 0; i < length; i++)
-            {
-                packetData[packetOffset++] = data[offset + i];
-            }
+            Array.Copy(data, offset, packetData, packetOffset, length);
+            packetOffset += length;
         }
 
         public virtual void WriteToBuffer(byte[] abyte0, int i, int j)
         {
         }
 
+        /// <summary>
+        /// Reads an 8-bit integer.
+        /// </summary>
         public int ReadInt8()
         {
             return ReadInputStream();
         }
 
+        /// <summary>
+        /// Reads a 16-bit integer.
+        /// </summary>
         public int ReadInt16()
         {
             int i = ReadInt8();
@@ -153,6 +228,9 @@ namespace RuneScapeSolo.Lib.Net
             return i * 256 + j;
         }
 
+        /// <summary>
+        /// Reads a 64-bit integer.
+        /// </summary>
         public long ReadInt64()
         {
             long q1 = ReadInt16();
@@ -163,16 +241,30 @@ namespace RuneScapeSolo.Lib.Net
             return (q1 << 48) + (q2 << 32) + (q3 << 16) + q4;
         }
 
-        public void Read(int i, sbyte[] abyte0)
+        /// <summary>
+        /// Reads.
+        /// </summary>
+        /// <param name="length">The index.</param>
+        /// <param name="data">Data.</param>
+        public void Read(int length, sbyte[] data)
         {
-            ReadInputStream(i, 0, abyte0);
+            ReadInputStream(length, 0, data);
         }
 
+        /// <summary>
+        /// Reads the input stream.
+        /// </summary>
+        /// <returns>The input stream.</returns>
         public virtual int ReadInputStream()
         {
             return 0;
         }
 
+        /// <summary>
+        /// Reads the input stream.
+        /// </summary>
+        /// <param name="length">Length.</param>
+        /// <param name="data">Data.</param>
         public virtual void ReadInputStream(int length, sbyte[] data)
         {
             ReadInputStream(length, 0, data);
@@ -182,6 +274,10 @@ namespace RuneScapeSolo.Lib.Net
         {
         }
 
+        /// <summary>
+        /// Finalises the packet.
+        /// </summary>
+        /// <param name="format">If set to <c>true</c> format.</param>
         public void FinalisePacket(bool format = true)
         {
             if (format)
@@ -192,11 +288,9 @@ namespace RuneScapeSolo.Lib.Net
             WritePacket(0);
         }
 
-        public virtual int available()
-        {
-            return 0;
-        }
-
+        /// <summary>
+        /// Formats the packet.
+        /// </summary>
         public void FormatPacket()
         {
             if (skipOffset != 8)
@@ -228,12 +322,12 @@ namespace RuneScapeSolo.Lib.Net
             packetStart = packetOffset;
         }
 
-        public bool hasData()
-        {
-            return packetStart > 0;
-        }
-
-        public int readPacket(sbyte[] data)
+        /// <summary>
+        /// Reads the packet.
+        /// </summary>
+        /// <returns>The value.</returns>
+        /// <param name="data">Data.</param>
+        public int ReadPacket(sbyte[] data)
         {
             try
             {

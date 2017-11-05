@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace RuneScapeSolo.Lib.Data
 {
     public static class DataConversions

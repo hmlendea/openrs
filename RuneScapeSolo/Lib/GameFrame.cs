@@ -57,7 +57,7 @@ namespace RuneScapeSolo.Lib
         {
             if (GameApplet.runStatus != -1)
             {
-                GameApplet.Destroy();
+                GameApplet.Dispose();
             }
         }
 
@@ -65,7 +65,7 @@ namespace RuneScapeSolo.Lib
         {
             if (GameApplet.runStatus != -1)
             {
-                GameApplet.Destroy();
+                GameApplet.Dispose();
             }
         }
 

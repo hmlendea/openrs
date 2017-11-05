@@ -70,7 +70,7 @@ namespace RuneScapeSolo.Lib.Game
             InitializeObject(vertCount, polyCount);
         }
 
-        private void InitializeObject(int _vert_count, int polygonCount)
+        void InitializeObject(int _vert_count, int polygonCount)
         {
             vert_x = new int[_vert_count];
             vert_y = new int[_vert_count];
@@ -749,7 +749,7 @@ namespace RuneScapeSolo.Lib.Game
             objectState = 1;
         }
 
-        private void cmm()
+        void cmm()
         {
             if (ckg != 256 || ckh != 256 || cki != 256 || ckj != 256 || ckk != 256 || ckl != 256)
             {
@@ -778,7 +778,7 @@ namespace RuneScapeSolo.Lib.Game
             }
         }
 
-        private void OffsetWorldVertices(int x, int y, int z)
+        void OffsetWorldVertices(int x, int y, int z)
         {
             for (int j = 0; j < vert_count; j++)
             {
@@ -789,7 +789,7 @@ namespace RuneScapeSolo.Lib.Game
 
         }
 
-        private void rotate(int x, int y, int z)
+        void rotate(int x, int y, int z)
         {
             for (int k2 = 0; k2 < vert_count; k2++)
             {
@@ -821,7 +821,7 @@ namespace RuneScapeSolo.Lib.Game
 
         }
 
-        private void scaleVertices(int x, int z, int x1, int y, int z1, int y1)
+        void scaleVertices(int x, int z, int x1, int y, int z1, int y1)
         {
             for (int j = 0; j < vert_count; j++)
             {
@@ -858,7 +858,7 @@ namespace RuneScapeSolo.Lib.Game
 
         }
 
-        private void scaleVertices(int x, int y, int z)
+        void scaleVertices(int x, int y, int z)
         {
             for (int j = 0; j < vert_count; j++)
             {
@@ -869,7 +869,7 @@ namespace RuneScapeSolo.Lib.Game
 
         }
 
-        private void calculateObjectBounds()
+        void calculateObjectBounds()
         {
             boundsMinX = boundsMinY = boundsMinZ = 0xf423f;
             distVar = boundsMaxX = boundsMaxY = boundsMaxZ = -boundsMinX/*unchecked((int)0xfff0bdc1)*/;
@@ -1323,11 +1323,11 @@ namespace RuneScapeSolo.Lib.Game
         public bool dontRecieveShadows;
         public bool cic;
         public bool cid;
-        private static int[] cie;
-        private static int[] cif;
-        private static int[] cig;
-        private static int[] cih;
-        private int shadeValue;
+        static int[] cie;
+        static int[] cif;
+        static int[] cig;
+        static int[] cih;
+        int shadeValue;
         public int totalVerticeCount;
         public int[] vert_x;
         public int[] vert_y;
@@ -1338,38 +1338,38 @@ namespace RuneScapeSolo.Lib.Game
         public int[] worldVertX;
         public int[] worldVertY;
         public int[] worldVertZ;
-        private int totalFaceCount;
-        private int[][] cje;
-        private int[] faceBoundsMinX;
-        private int[] faceBoundsMaxX;
-        private int[] faceBoundsMinY;
-        private int[] faceBoundsMaxY;
-        private int[] faceBoundsMinZ;
-        private int[] faceBoundsMaxZ;
-        private int positionX;
-        private int positionY;
-        private int positionZ;
-        private int rotationX;
-        private int rotationY;
-        private int rotationZ;
-        private int ckd;
-        private int cke;
-        private int ckf;
-        private int ckg;
-        private int ckh;
-        private int cki;
-        private int ckj;
-        private int ckk;
-        private int ckl;
-        private int ckm;
-        private int distVar;
-        private int cla;
-        private int clb;
-        private int clc;
-        private int cld;
+        int totalFaceCount;
+        int[][] cje;
+        int[] faceBoundsMinX;
+        int[] faceBoundsMaxX;
+        int[] faceBoundsMinY;
+        int[] faceBoundsMaxY;
+        int[] faceBoundsMinZ;
+        int[] faceBoundsMaxZ;
+        int positionX;
+        int positionY;
+        int positionZ;
+        int rotationX;
+        int rotationY;
+        int rotationZ;
+        int ckd;
+        int cke;
+        int ckf;
+        int ckg;
+        int ckh;
+        int cki;
+        int ckj;
+        int ckk;
+        int ckl;
+        int ckm;
+        int distVar;
+        int cla;
+        int clb;
+        int clc;
+        int cld;
         public int cle;
         public int clf;
-        private int clg;
+        int clg;
 
         static GameObject()
         {

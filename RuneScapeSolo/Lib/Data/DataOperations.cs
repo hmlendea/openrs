@@ -256,49 +256,36 @@ namespace RuneScapeSolo.Lib.Data
         //    return k;
         //}
 
-        public static string formatString(string arg0, int arg1)
+        public static string FormatString(string str, int length)
         {
             string s = "";
-            for (int i = 0; i < arg1; i++)
+
+            for (int i = 0; i < length; i++)
             {
-                if (i >= arg0.Length)
+                if (i >= str.Length)
                 {
                     s = s + " ";
+                    continue;
                 }
-                else
+
+                if (!char.IsLetterOrDigit(str[i]))
                 {
-                    char c = arg0[i];
-                    if (c >= 'a' && c <= 'z')
-                    {
-                        s = s + c;
-                    }
-                    else
-                    {
-                        if (c >= 'A' && c <= 'Z')
-                        {
-                            s = s + c;
-                        }
-                        else
-                        {
-                            if (c >= '0' && c <= '9')
-                            {
-                                s = s + c;
-                            }
-                            else
-                            {
-                                s = s + '_';
-                            }
-                        }
-                    }
+                    s = s + '_';
+                    continue;
                 }
+
+                s = s + str[i];
             }
 
             return s;
         }
 
-        public static string ipToString(int i)
+        public static string IpToString(int ip)
         {
-            return (i >> 24 & 0xff) + "." + (i >> 16 & 0xff) + "." + (i >> 8 & 0xff) + "." + (i & 0xff);
+            return (ip >> 24 & 255) + "." +
+                   (ip >> 16 & 255) + "." +
+                   (ip >> 8 & 255) + "." +
+                   (ip & 255);
         }
 
         public static long nameToHash(string arg0)

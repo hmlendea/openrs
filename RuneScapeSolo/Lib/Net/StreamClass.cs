@@ -11,6 +11,14 @@ namespace RuneScapeSolo.Lib.Net
 
         readonly object syncLock = new object();
 
+        TcpClient socket;
+        bool socketClosing;
+        byte[] buffer;
+        int dataWritten;
+        int offset;
+        bool socketClosed;
+        int lastWriteLen;
+
         public StreamClass(TcpClient socket, GameApplet applet)
         {
             socketClosing = false;
@@ -24,30 +32,27 @@ namespace RuneScapeSolo.Lib.Net
             applet.StartThread(run);
         }
 
-        public bool Connected
-        {
-            get
-            {
-                return socket != null && socket.Connected;
-            }
-        }
+        public bool IsConnected => socket != null && socket.Connected;
 
-
-        void OnRead(IAsyncResult iar)
+        void OnRead(IAsyncResult result)
         {
             try
             {
-                var len = netStream.EndRead(iar);
+                var len = netStream.EndRead(result);
+
                 if (len != 0)
                 {
 
                 }
             }
             catch { }
-            try { netStream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), netStream); }
+
+            try
+            {
+                netStream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), netStream);
+            }
             catch
             {
-                // We have been disconnected :<
                 CloseStream();
             }
         }
@@ -56,36 +61,26 @@ namespace RuneScapeSolo.Lib.Net
         {
             base.CloseStream();
             socketClosing = true;
+
             try
             {
-                if (netStream != null)
-                {
-                    netStream.Close();
-                }
-
-                if (netStream != null)
-                {
-                    netStream.Close();
-                }
-
-                if (socket != null)
-                {
-                    socket.Close();
-                }
+                netStream?.Close();
+                netStream?.Close();
+                socket?.Close();
             }
             catch (IOException ex)
             {
-                System.Console.WriteLine("Error closing stream");
+                Console.WriteLine("Error closing stream");
             }
-            socketClosed = true;
-            // synchronized {
-            //lock (syncLock)
-            //{
-            //    Monitor.Pulse(syncLock);
-            //}
-            //}
 
-            // connectionThread.Abort();
+            socketClosed = true;
+
+            lock (syncLock)
+            {
+                Monitor.Pulse(syncLock);
+            }
+
+            //connection thread abort
 
             buffer = null;
         }
@@ -185,13 +180,13 @@ namespace RuneScapeSolo.Lib.Net
                 }
                 catch (IOException ioexception1)
                 {
-                    base.HasErrors = true;
-                    base.ErrorMessage = "Twriter:" + ioexception1;
+                    HasErrors = true;
+                    ErrorMessage = "Twriter:" + ioexception1;
                 }
             }
             catch { }
         }
-        int lastWriteLen = 0;
+
         public void run()
         {
             while (!socketClosed) //  && connectionThread.ThreadState != ThreadState.AbortRequested && connectionThread.ThreadState != ThreadState.Aborted
@@ -260,14 +255,6 @@ namespace RuneScapeSolo.Lib.Net
                 System.Threading.Thread.Sleep(1);
             }
         }
-
-        TcpClient /*Socket*/ socket;
-        bool socketClosing;
-        byte[] buffer;
-        int dataWritten;
-        int offset;
-        bool socketClosed;
-
     }
 }
 

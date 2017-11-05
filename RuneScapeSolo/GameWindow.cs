@@ -18,20 +18,20 @@ namespace RuneScapeSolo
     {
         readonly GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        mudclient _rscMudclient;
+        GameClient gameClient;
         System.Threading.Thread _gameThread;
 
-        Texture2D _lastGameImageTexture = null;
+        Texture2D _lastGameImageTexture;
 
         Texture2D _gameLogo;
 
         SpriteFont _diagnosticFont;
         SpriteFont _diagnosticFont2;
 
-        bool _isSectionLoading = false;
-        bool _isContentLoading = false;
+        bool _isSectionLoading;
+        bool _isContentLoading;
         string _contentLoadingStatusText = "";
-        decimal _contentLoadingStatusProgress = 0m;
+        decimal _contentLoadingStatusProgress;
 
         Texture2D _loadingBackgroundImage;
 
@@ -39,8 +39,8 @@ namespace RuneScapeSolo
         {
             graphics = new GraphicsDeviceManager(this);
 
-            graphics.PreferredBackBufferWidth = 1280;//1280; // 512;
-            graphics.PreferredBackBufferHeight = 720;//720; // 346;
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
             IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = true;
             Window.Title = "RuneScape Classic";
@@ -77,19 +77,19 @@ namespace RuneScapeSolo
 
             _gameLogo = Content.Load<Texture2D>("sprites/yuno4");
 
-            _rscMudclient = mudclient.CreateMudclient(Window.Title, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
-            _rscMudclient.DoNotDrawLogo = true;
+            gameClient = GameClient.CreateGameClient(Window.Title, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            gameClient.DoNotDrawLogo = true;
 
-            _rscMudclient.OnContentLoadedCompleted += new EventHandler(rscMudclient_OnContentLoadedCompleted);
-            _rscMudclient.OnContentLoaded += new EventHandler<ContentLoadedEventArgs>(rscMudclient_OnContentLoaded);
-            _rscMudclient.OnLoadingSection += new EventHandler(_rscMudclient_OnLoadingSection);
-            _rscMudclient.OnLoadingSectionCompleted += new EventHandler(_rscMudclient_OnLoadingSectionCompleted);
+            gameClient.OnContentLoadedCompleted += client_OnContentLoadedCompleted;
+            gameClient.OnContentLoaded += client_OnContentLoaded;
+            gameClient.OnLoadingSection += client_OnLoadingSection;
+            gameClient.OnLoadingSectionCompleted += client_OnLoadingSectionCompleted;
             //_rscMudclient.LoadContent();
 
-            _rscMudclient.gameMinThreadSleepTime = 10;
-            _rscMudclient.start();
+            gameClient.gameMinThreadSleepTime = 10;
+            gameClient.Start();
 
-            _gameThread = new System.Threading.Thread(_rscMudclient.run);
+            _gameThread = new System.Threading.Thread(gameClient.run);
             _gameThread.Start();
 
             //_rscMudclient.
@@ -97,25 +97,24 @@ namespace RuneScapeSolo
             // TODO: use this.Content to load your game content here
         }
 
-
-        void _rscMudclient_OnLoadingSectionCompleted(object sender, EventArgs e)
+        void client_OnLoadingSectionCompleted(object sender, EventArgs e)
         {
             System.Threading.Thread.Sleep(200);
             _isSectionLoading = false;
         }
 
-        void _rscMudclient_OnLoadingSection(object sender, EventArgs e)
+        void client_OnLoadingSection(object sender, EventArgs e)
         {
             _isSectionLoading = true;
         }
 
-        void rscMudclient_OnContentLoadedCompleted(object sender, EventArgs e)
+        void client_OnContentLoadedCompleted(object sender, EventArgs e)
         {
             System.Threading.Thread.Sleep(300);
             _isContentLoading = false;
         }
 
-        void rscMudclient_OnContentLoaded(object sender, ContentLoadedEventArgs e)
+        void client_OnContentLoaded(object sender, ContentLoadedEventArgs e)
         {
             _isContentLoading = true;
             _contentLoadingStatusProgress = e.Progress;
@@ -131,12 +130,7 @@ namespace RuneScapeSolo
             // TODO: Unload any non ContentManager content here
             //gameThread.Abort();
 
-            try
-            {
-                _rscMudclient.Destroy();
-            }
-            catch { }
-
+            gameClient.Dispose();
         }
 
         /// <summary>
@@ -154,12 +148,12 @@ namespace RuneScapeSolo
                 Exit();
             }
 
-            if (_rscMudclient != null)
+            if (gameClient != null)
             {
-                _rscMudclient.Update(gameTime);
+                gameClient.Update(gameTime);
                 try
                 {
-                    if (_rscMudclient != null && _rscMudclient.engineHandle != null && _rscMudclient.engineHandle._camera != null && _rscMudclient.engineHandle._camera.objectCache != null)
+                    if (gameClient != null && gameClient.engineHandle != null && gameClient.engineHandle._camera != null && gameClient.engineHandle._camera.objectCache != null)
                     {
                         //var obj = _rscMudclient.engineHandle._camera.objectCache.FirstOrDefault();
                         //if (obj != null)
@@ -213,9 +207,9 @@ namespace RuneScapeSolo
 
             if (!_isContentLoading)
             {
-                DrawGame(_rscMudclient);
+                DrawGame(gameClient);
 
-                if (_rscMudclient.loggedIn == 0 && _rscMudclient.DoNotDrawLogo) // at loginscreen.
+                if (!gameClient.loggedIn && gameClient.DoNotDrawLogo) // at loginscreen.
                 {
                     DrawLogo();
                 }
@@ -278,19 +272,19 @@ namespace RuneScapeSolo
                 var h = _gameLogo.Height;
                 var aspect = h / (float)w;
 
-                var newWidth = _rscMudclient.windowWidth / 2;
+                var newWidth = gameClient.windowWidth / 2;
                 var newHeight = newWidth * aspect;
 
-                spriteBatch.Draw(_gameLogo, new Rectangle((_rscMudclient.windowWidth / 2) - (newWidth / 2), 0, newWidth, (int)newHeight), Color.White);
+                spriteBatch.Draw(_gameLogo, new Rectangle((gameClient.windowWidth / 2) - (newWidth / 2), 0, newWidth, (int)newHeight), Color.White);
 
                 spriteBatch.End();
             }
             catch { }
         }
 
-        void DrawGame(mudclient _rscMudclient)
+        void DrawGame(GameClient client)
         {
-            if (_rscMudclient != null)
+            if (client != null)
             {
                 try
                 {
@@ -300,38 +294,28 @@ namespace RuneScapeSolo
                     }
                     catch
                     {
-                        try
-                        {
-                            spriteBatch.End();
-                            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                        }
-                        catch { }
+                        spriteBatch.End();
+                        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
                     }
                     //rscMudclient.Draw(gameTime);
 
-                    if (_rscMudclient.gameGraphics != null)
+                    if (client.gameGraphics != null)
                     {
                         // rscMudclient.gameGraphics.UpdateGameImage();
                         if (!_isSectionLoading)
                         {
-
-
-                            if (!DrawMudclient(_rscMudclient))
+                            if (!DrawGameClient(client))
                             {
                                 return;
                             }
 
-
-
-
-
                             // _rscMudclient.drawWindow();
 
                             // var colors = new List<Color>();
-                            uint[] colors = new uint[_rscMudclient.gameGraphics.pixels.Length];
-                            for (int j = 0; j < _rscMudclient.gameGraphics.pixels.Length; j++)
+                            uint[] colors = new uint[client.gameGraphics.pixels.Length];
+                            for (int j = 0; j < client.gameGraphics.pixels.Length; j++)
                             {
-                                var bytes = BitConverter.GetBytes(_rscMudclient.gameGraphics.pixels[j]);
+                                var bytes = BitConverter.GetBytes(client.gameGraphics.pixels[j]);
                                 var r = bytes[2];
                                 var g = bytes[1];
                                 var b = bytes[0];
@@ -340,17 +324,17 @@ namespace RuneScapeSolo
                                 //colors.Add();
                             }
 
-                            if (_rscMudclient.gameGraphics.pixels.Any(p => p != 0) && _rscMudclient.DrawIsNecessary)
+                            if (client.gameGraphics.pixels.Any(p => p != 0) && client.DrawIsNecessary)
                             {
 
-                                var imageTexture = new Texture2D(GraphicsDevice, _rscMudclient.gameGraphics.gameWidth, _rscMudclient.gameGraphics.gameHeight, false, SurfaceFormat.Color);
+                                var imageTexture = new Texture2D(GraphicsDevice, client.gameGraphics.gameWidth, client.gameGraphics.gameHeight, false, SurfaceFormat.Color);
                                 imageTexture.SetData(colors.ToArray());
 
                                 spriteBatch.Draw(imageTexture, Vector2.Zero, Color.White);
 
                                 _lastGameImageTexture = imageTexture;
 
-                                _rscMudclient.DrawIsNecessary = false;
+                                client.DrawIsNecessary = false;
 
                             }
                             else if (_lastGameImageTexture != null)
@@ -366,36 +350,35 @@ namespace RuneScapeSolo
                     }
 
                     spriteBatch.End();
-
-
                 }
                 catch { }
             }
         }
 
-        static bool DrawMudclient(mudclient _rscMudclient)
+        static bool DrawGameClient(GameClient client)
         {
-            _rscMudclient.paint(mudclient.graphics);
+            client.paint(GameClient.graphics);
 
             try
             {
-                if (_rscMudclient.loggedIn == 0)
+                if (!client.loggedIn)
                 {
-                    _rscMudclient.gameGraphics.loggedIn = false;
-                    _rscMudclient.drawLoginScreens();
+                    client.gameGraphics.loggedIn = false;
+                    client.drawLoginScreens();
                 }
-                if (_rscMudclient.loggedIn == 1)
+                else
                 {
-                    _rscMudclient.gameGraphics.loggedIn = true;
-                    _rscMudclient.drawGame();
+                    client.gameGraphics.loggedIn = true;
+                    client.drawGame();
 
                     return true;
                 }
             }
             catch (Exception ex)
             {
-                _rscMudclient.cleanUp();
-                _rscMudclient.memoryError = true;
+                client.cleanUp();
+                client.memoryError = true;
+
                 return false;
             }
             return true;
