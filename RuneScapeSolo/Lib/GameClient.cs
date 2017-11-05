@@ -37,16 +37,9 @@ namespace RuneScapeSolo.Lib
 
         readonly PacketHandler packetHandler;
 
-        bool leftMouseDown = false;
-        bool rightMouseDown = false;
         List<Keys> lastPressedKeys = new List<Keys>();
         int lastMouseX = 0;
         int lastMouseY = 0;
-        bool lastLeftDown = false;
-        bool lastRightDown = false;
-        bool shiftKeyIsDown = false;
-        bool ctrlKeyIsDown = false;
-        bool altKeyIsDown = false;
         TimeSpan timeLapse = TimeSpan.Zero;
 
         public GameObject[] GameDataObjects { get; set; }
@@ -145,7 +138,7 @@ namespace RuneScapeSolo.Lib
             {
                 return '.';
             }
-            else if (shiftKeyIsDown)
+            else if (InputManager.Instance.IsAnyKeyDown(Keys.LeftShift, Keys.RightShift))
             {
                 if (k == Keys.NumPad1 || k == Keys.D1)
                 {
@@ -194,7 +187,8 @@ namespace RuneScapeSolo.Lib
 
                 return (char)k;
             }
-            else if (altKeyIsDown && ctrlKeyIsDown) // alt Gr
+            else if (InputManager.Instance.IsAnyKeyDown(Keys.LeftAlt, Keys.RightAlt) &&
+                     InputManager.Instance.IsAnyKeyDown(Keys.LeftControl, Keys.RightControl))
             {
                 if (k == Keys.NumPad2 || k == Keys.D2)
                 {
@@ -246,10 +240,6 @@ namespace RuneScapeSolo.Lib
             List<Keys> keysPressedDown = new List<Keys>();
             keysPressedDown.AddRange(keyboardState.GetPressedKeys());
 
-            shiftKeyIsDown = keysPressedDown.Any(k => k == Keys.LeftShift || k == Keys.RightShift);
-            ctrlKeyIsDown = keysPressedDown.Any(k => k == Keys.LeftControl || k == Keys.RightControl);
-            altKeyIsDown = keysPressedDown.Any(k => k == Keys.LeftAlt || k == Keys.RightAlt);
-
             foreach (var k in keysPressedDown)
             {
                 //   if (timeLapse > TimeSpan.FromMilliseconds(100))                
@@ -265,6 +255,7 @@ namespace RuneScapeSolo.Lib
                 }
                 //handleKeyDown(k, c[0]);
             }
+
             foreach (var lk in lastPressedKeys)
             {
                 if (!keysPressedDown.Contains(lk))
@@ -288,62 +279,28 @@ namespace RuneScapeSolo.Lib
                 //mouseButtonClick = 0;
             }
 
-            if (mouseState.RightButton == ButtonState.Pressed && !lastRightDown)
+            if (mouseState.RightButton == ButtonState.Pressed)
             {
-                lastRightDown = true;
                 mouseDown(mouseState.X, mouseState.Y, mouseState.LeftButton == ButtonState.Pressed);
                 MousePressed(mouseState);
             }
 
-
-            if (mouseState.LeftButton == ButtonState.Pressed && !lastLeftDown)
+            if (mouseState.LeftButton == ButtonState.Pressed)
             {
-                lastLeftDown = true;
                 mouseDown(mouseState.X, mouseState.Y, mouseState.LeftButton != ButtonState.Pressed);
                 MousePressed(mouseState);
             }
 
-            if (mouseState.RightButton == ButtonState.Released && lastRightDown)
+            if (mouseState.RightButton == ButtonState.Released)
             {
-                lastRightDown = false;
-                // mousePressed(mouseState);
-                MouseUp(mouseState.X, mouseState.Y);
-            }
-            if (mouseState.LeftButton == ButtonState.Released && lastLeftDown)
-            {
-                lastLeftDown = false;
-
                 MouseUp(mouseState.X, mouseState.Y);
             }
 
-            //uglyHack = false;
-            //if ((!rightMouseDown && !leftMouseDown) && (mouseState.LeftButton == ButtonState.Pressed || mouseState.RightButton == ButtonState.Pressed))
-            //{
-            //    if (!uglyHack)
-            //    {
-            //        uglyHack = true;
-            //        leftMouseDown = mouseState.LeftButton == ButtonState.Pressed;
-            //        rightMouseDown = mouseState.RightButton == ButtonState.Pressed;
-            //        //mouseDown(  
-            //        mouseDown(mouseState.X, mouseState.Y, mouseState.LeftButton != ButtonState.Pressed);
-            //        //handleMouseDown(mouseState.X, mouseState.Y, 1);
-            //    }
-            //}
-
-            //if ((leftMouseDown || rightMouseDown) && mouseState.LeftButton == ButtonState.Released && mouseState.RightButton == ButtonState.Released && !uglyHack)
-            //{
-
-            //    leftMouseDown = false;
-            //    rightMouseDown = false;
-            //    mouseUp(mouseState.X, mouseState.Y);
-            //    mousePressed(mouseState);
-
-            //}
-
-
-
+            if (mouseState.LeftButton == ButtonState.Released)
+            {
+                MouseUp(mouseState.X, mouseState.Y);
+            }
         }
-        bool uglyHack = false;
 
         public mudclient()
         {
@@ -5980,10 +5937,10 @@ namespace RuneScapeSolo.Lib
             {
                 if (cameraAutoRotationAmount == 0 || cameraAutoAngleDebug)
                 {
-                    if (keyLeftDown)
+                    if (InputManager.Instance.IsKeyDown(Keys.Left))
                     {
                         cameraAutoAngle = cameraAutoAngle + 1 & 7;
-                        keyLeftDown = false;
+
                         if (!cameraZoom)
                         {
                             if ((cameraAutoAngle & 1) == 0)
@@ -6002,10 +5959,10 @@ namespace RuneScapeSolo.Lib
                             }
                         }
                     }
-                    if (keyRightDown)
+                    if (InputManager.Instance.IsKeyDown(Keys.Right))
                     {
                         cameraAutoAngle = cameraAutoAngle + 7 & 7;
-                        keyRightDown = false;
+
                         if (!cameraZoom)
                         {
                             if ((cameraAutoAngle & 1) == 0)
@@ -6026,20 +5983,20 @@ namespace RuneScapeSolo.Lib
                     }
                 }
             }
-            else if (keyLeftDown)
+            else if (InputManager.Instance.IsKeyDown(Keys.Left))
             {
                 cameraRotation = cameraRotation + 2 & 0xff;
             }
-            else if (keyRightDown)
+            else if (InputManager.Instance.IsKeyDown(Keys.Right))
             {
                 cameraRotation = cameraRotation - 2 & 0xff;
             }
 
-            if (keyUpDown && cameraDistance > 550)
+            if (InputManager.Instance.IsKeyDown(Keys.Up) && cameraDistance > 550)
             {
                 cameraDistance -= 4;
             }
-            else if (keyDownDown && cameraDistance < 1250)
+            else if (InputManager.Instance.IsKeyDown(Keys.Down) && cameraDistance < 1250)
             {
                 cameraDistance += 4;
             }

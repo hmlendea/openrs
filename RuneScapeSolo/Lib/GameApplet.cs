@@ -19,6 +19,11 @@ namespace RuneScapeSolo.Lib
             // This is needed
         }
 
+        public GameApplet(GraphicsDevice graphics, SpriteBatch spriteBatch)
+        {
+            InitGameApplet();
+        }
+
         public void CreateWindow(int width, int height, string title, bool resizable)
         {
             Console.WriteLine("Started application");
@@ -69,18 +74,6 @@ namespace RuneScapeSolo.Lib
             //ignore
         }
 
-        public void KeyPressed(Keys evt)
-        {
-            var c = Encoding.UTF8.GetChars(new[] { (byte)evt });
-            KeyDown(evt, c[0]);
-        }
-
-        public void KeyReleased(Keys evt)
-        {
-            var c = Encoding.UTF8.GetChars(new[] { (byte)evt });
-            KeyUp(evt, c[0]);
-        }
-
         public void MouseEntered(MouseState evt)
         {
             MouseMove(evt.X, evt.Y);
@@ -115,30 +108,6 @@ namespace RuneScapeSolo.Lib
         {
             HandleKeyDown(key, c);
 
-            if (key == Keys.Left)
-            {
-                keyLeftDown = true;
-            }
-            if (key == Keys.Right)
-            {
-                keyRightDown = true;
-            }
-            if (key == Keys.Up)
-            {
-                keyUpDown = true;
-            }
-            if (key == Keys.Down)
-            {
-                keyDownDown = true;
-            }
-            if (key == Keys.Space)
-            {
-                keySpaceDown = true;
-            }
-            if (key == Keys.N || key == Keys.M)
-            {
-                keyNMDown = true;
-            }
             if (key == Keys.F1)
             {
                 keyF1Toggle = !keyF1Toggle;
@@ -186,30 +155,6 @@ namespace RuneScapeSolo.Lib
 
         public void KeyUp(Keys key, char c)
         {
-            if (key == Keys.Left)
-            {
-                keyLeftDown = false;
-            }
-            if (key == Keys.Right)
-            {
-                keyRightDown = false;
-            }
-            if (key == Keys.Up)
-            {
-                keyUpDown = false;
-            }
-            if (key == Keys.Down)
-            {
-                keyDownDown = false;
-            }
-            if (key == Keys.Space)
-            {
-                keySpaceDown = false;
-            }
-            if (key == Keys.N || key == Keys.M)
-            {
-                keyNMDown = false;
-            }
         }
 
         public bool MouseMove(int x, int y)
@@ -704,26 +649,12 @@ namespace RuneScapeSolo.Lib
             gameLoadingScreen = 1;
             gameLoadingFileTitle = "Loading";
             //gameLoadingFont = loadingFont;//new Font("TimesRoman", 0, 15);
-            keyLeftDown = false;
-            keyRightDown = false;
-            keyUpDown = false;
-            keyDownDown = false;
-            keySpaceDown = false;
-            keyNMDown = false;
             gameMinThreadSleepTime = 1;
             keyF1Toggle = false;
             inputText = "";
             enteredInputText = "";
             privateMessageText = "";
             enteredPrivateMessageText = "";
-        }
-
-        public GameApplet(GraphicsDevice graphics, SpriteBatch spriteBatch)
-        {
-
-            // baseApplet = new org.moparscape.msc.client.GameApplet();
-
-            InitGameApplet();
         }
 
         private static readonly DateTime Jan1st1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -747,12 +678,6 @@ namespace RuneScapeSolo.Lib
         public int gameLoadingPercentage;
         public string gameLoadingFileTitle;
         public static string allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
-        public bool keyLeftDown;
-        public bool keyRightDown;
-        public bool keyUpDown;
-        public bool keyDownDown;
-        public bool keySpaceDown;
-        public bool keyNMDown;
         public int gameMinThreadSleepTime;
         public int mouseButton;
         public int lastMouseButton;
