@@ -134,6 +134,10 @@
       <Project>{1F0B4C1F-5C31-465E-8747-54399762C50A}</Project>
       <Name>RuneScapeSolo.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RuneScapeSolo.Input\RuneScapeSolo.Input.csproj">
+      <Project>{FF805103-A40E-4154-8ED6-C70623AF471C}</Project>
+      <Name>RuneScapeSolo.Input</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

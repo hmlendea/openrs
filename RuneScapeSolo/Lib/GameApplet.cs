@@ -214,24 +214,18 @@ namespace RuneScapeSolo.Lib
 
         public bool MouseMove(int x, int y)
         {
-            mouseX = x;
-            mouseY = y - mouseYOffset;
             mouseButton = 0;
             return true;
         }
 
         public bool MouseUp(int x, int y)
         {
-            mouseX = x;
-            mouseY = y - mouseYOffset;
             mouseButton = 0;
             return true;
         }
 
         public bool mouseDown(int x, int y, bool metaDown)
         {
-            mouseX = x;
-            mouseY = y - mouseYOffset;
             mouseButton = metaDown ? 2 : 1;
             lastMouseButton = mouseButton;
             handleMouseDown(mouseButton, x, y);
@@ -244,8 +238,6 @@ namespace RuneScapeSolo.Lib
 
         public bool mouseDrag(int x, int y, bool metaDown)
         {
-            mouseX = x;
-            mouseY = y - mouseYOffset;
             mouseButton = metaDown ? 2 : 1;
             return true;
         }
@@ -267,7 +259,7 @@ namespace RuneScapeSolo.Lib
 
             thread.Start();
         }
-        
+
         public void start()
         {
             if (runStatus >= 0)
@@ -685,7 +677,7 @@ namespace RuneScapeSolo.Lib
         {
             return ""; //super.getParameter(s);
         }
-        
+
         protected TcpClient MakeSocket(string ip, int port)
         {
             TcpClient client = new TcpClient();
@@ -751,7 +743,6 @@ namespace RuneScapeSolo.Lib
         public static GameFrame gameFrame = null;
         public int runStatus;
         public int fij;
-        public int mouseYOffset = 0;
         public int gameLoadingScreen;
         public int gameLoadingPercentage;
         public string gameLoadingFileTitle;
@@ -763,8 +754,6 @@ namespace RuneScapeSolo.Lib
         public bool keySpaceDown;
         public bool keyNMDown;
         public int gameMinThreadSleepTime;
-        public int mouseX;
-        public int mouseY;
         public int mouseButton;
         public int lastMouseButton;
         public bool keyF1Toggle;

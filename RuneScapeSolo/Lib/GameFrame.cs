@@ -22,7 +22,6 @@ namespace RuneScapeSolo.Lib
                 OffsetY = 28;
             }
 
-            GameApplet.mouseYOffset = 0;// 24;
             //setTitle(title);
             //setResizable(resizable);
             //show();

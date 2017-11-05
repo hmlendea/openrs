@@ -13,6 +13,7 @@ using System.Runtime.Remoting.Messaging;
 
 using RuneScapeSolo.Enumerations;
 using RuneScapeSolo.Events;
+using RuneScapeSolo.Input;
 
 namespace RuneScapeSolo.Lib
 {
@@ -925,7 +926,7 @@ namespace RuneScapeSolo.Lib
 
             for (int option = 0; option < 12; option++)
             {
-                if (mouseX > 66 && mouseX < 446 && mouseY >= yOffset - 12 && mouseY < yOffset + 3)
+                if (InputManager.Instance.MouseLocation.X > 66 && InputManager.Instance.MouseLocation.X < 446 && InputManager.Instance.MouseLocation.Y >= yOffset - 12 && InputManager.Instance.MouseLocation.Y < yOffset + 3)
                 {
                     reportAbuseOptionSelected = option + 1;
                 }
@@ -945,12 +946,12 @@ namespace RuneScapeSolo.Lib
             if (mouseButtonClick != 0)
             {
                 mouseButtonClick = 0;
-                if (mouseX < 56 || mouseY < 35 || mouseX > 456 || mouseY > 325)
+                if (InputManager.Instance.MouseLocation.X < 56 || InputManager.Instance.MouseLocation.Y < 35 || InputManager.Instance.MouseLocation.X > 456 || InputManager.Instance.MouseLocation.Y > 325)
                 {
                     showAbuseBox = 0;
                     return;
                 }
-                if (mouseX > 66 && mouseX < 446 && mouseY >= yOffset - 15 && mouseY < yOffset + 5)
+                if (InputManager.Instance.MouseLocation.X > 66 && InputManager.Instance.MouseLocation.X < 446 && InputManager.Instance.MouseLocation.Y >= yOffset - 15 && InputManager.Instance.MouseLocation.Y < yOffset + 5)
                 {
                     showAbuseBox = 0;
                     return;
@@ -1105,7 +1106,7 @@ namespace RuneScapeSolo.Lib
             yOffset += 14;
             yOffset += 15;
             j1 = 0xffffff;
-            if (mouseX > 196 && mouseX < 316 && mouseY > yOffset - 15 && mouseY < yOffset + 5)
+            if (InputManager.Instance.MouseLocation.X > 196 && InputManager.Instance.MouseLocation.X < 316 && InputManager.Instance.MouseLocation.Y > yOffset - 15 && InputManager.Instance.MouseLocation.Y < yOffset + 5)
             {
                 j1 = 0xffff00;
             }
@@ -1458,19 +1459,19 @@ namespace RuneScapeSolo.Lib
             }
             if (mouseButtonClick == 1)
             {
-                if (mouseX < byte0 || mouseY < byte1 || mouseX > byte0 + 468 || mouseY > byte1 + 262)
+                if (InputManager.Instance.MouseLocation.X < byte0 || InputManager.Instance.MouseLocation.Y < byte1 || InputManager.Instance.MouseLocation.X > byte0 + 468 || InputManager.Instance.MouseLocation.Y > byte1 + 262)
                 {
                     ShowDuelConfirmBox = false;
                     StreamClass.CreatePacket(35);
                     StreamClass.FormatPacket();
                 }
-                if (mouseX >= (byte0 + 118) - 35 && mouseX <= byte0 + 118 + 70 && mouseY >= byte1 + 238 && mouseY <= byte1 + 238 + 21)
+                if (InputManager.Instance.MouseLocation.X >= (byte0 + 118) - 35 && InputManager.Instance.MouseLocation.X <= byte0 + 118 + 70 && InputManager.Instance.MouseLocation.Y >= byte1 + 238 && InputManager.Instance.MouseLocation.Y <= byte1 + 238 + 21)
                 {
                     duelConfirmOurAccepted = true;
                     StreamClass.CreatePacket(87);
                     StreamClass.FormatPacket();
                 }
-                if (mouseX >= (byte0 + 352) - 35 && mouseX <= byte0 + 353 + 70 && mouseY >= byte1 + 238 && mouseY <= byte1 + 238 + 21)
+                if (InputManager.Instance.MouseLocation.X >= (byte0 + 352) - 35 && InputManager.Instance.MouseLocation.X <= byte0 + 353 + 70 && InputManager.Instance.MouseLocation.Y >= byte1 + 238 && InputManager.Instance.MouseLocation.Y <= byte1 + 238 + 21)
                 {
                     ShowDuelConfirmBox = false;
                     StreamClass.CreatePacket(35);
@@ -1559,8 +1560,8 @@ namespace RuneScapeSolo.Lib
                 return;
             }
 
-            l = mouseX - (gameGraphics.gameWidth - 248);
-            int j2 = mouseY - 36;
+            l = InputManager.Instance.MouseLocation.X - (gameGraphics.gameWidth - 248);
+            int j2 = InputManager.Instance.MouseLocation.Y - 36;
             if (l >= 0 && j2 >= 0 && l < 248 && j2 < (maxInventoryItems / 5) * 34)
             {
                 int k2 = l / 49 + (j2 / 34) * 5;
@@ -2700,8 +2701,8 @@ namespace RuneScapeSolo.Lib
                 return;
             }
 
-            l = mouseX - (gameGraphics.gameWidth - 199);
-            int l8 = mouseY - 36;
+            l = InputManager.Instance.MouseLocation.X - (gameGraphics.gameWidth - 199);
+            int l8 = InputManager.Instance.MouseLocation.Y - 36;
             if (l >= 40 && l8 >= 0 && l < 196 && l8 < 152)
             {
                 int c2 = 156;//'\u234';
@@ -2710,8 +2711,8 @@ namespace RuneScapeSolo.Lib
                 int i2 = cameraRotation + minimapRandomRotationX & 0xff;
                 int i1 = gameGraphics.gameWidth - 199;
                 i1 += 40;
-                int k3 = ((mouseX - (i1 + c2 / 2)) * 16384) / (3 * k1);
-                int i5 = ((mouseY - (36 + c4 / 2)) * 16384) / (3 * k1);
+                int k3 = ((InputManager.Instance.MouseLocation.X - (i1 + c2 / 2)) * 16384) / (3 * k1);
+                int i5 = ((InputManager.Instance.MouseLocation.Y - (36 + c4 / 2)) * 16384) / (3 * k1);
                 int k5 = Camera.bbk[1024 - i2 * 4 & 0x3ff];
                 int i6 = Camera.bbk[(1024 - i2 * 4 & 0x3ff) + 1024];
                 int k7 = i5 * k5 + k3 * i6 >> 15;
@@ -3231,7 +3232,7 @@ namespace RuneScapeSolo.Lib
 
         public void updateAppearanceWindow()
         {
-            appearanceMenu.mouseClick(mouseX, mouseY, lastMouseButton, mouseButton);
+            appearanceMenu.mouseClick(InputManager.Instance.MouseLocation.X, InputManager.Instance.MouseLocation.Y, lastMouseButton, mouseButton);
             if (appearanceMenu.isClicked(appearanceHeadLeftArrow))
             {
                 do
@@ -3413,7 +3414,7 @@ namespace RuneScapeSolo.Lib
                 i1 += 15;
             }*/
             int k1 = 0xffffff;
-            if (mouseY > i1 - 12 && mouseY <= i1 && mouseX > 106 && mouseX < 406)
+            if (InputManager.Instance.MouseLocation.Y > i1 - 12 && InputManager.Instance.MouseLocation.Y <= i1 && InputManager.Instance.MouseLocation.X > 106 && InputManager.Instance.MouseLocation.X < 406)
             {
                 k1 = 0xff0000;
             }
@@ -3426,7 +3427,7 @@ namespace RuneScapeSolo.Lib
                     ShowWelcomeBox = false;
                 }
 
-                if ((mouseX < 86 || mouseX > 426) && (mouseY < 167 - l / 2 || mouseY > 167 + l / 2))
+                if ((InputManager.Instance.MouseLocation.X < 86 || InputManager.Instance.MouseLocation.X > 426) && (InputManager.Instance.MouseLocation.Y < 167 - l / 2 || InputManager.Instance.MouseLocation.Y > 167 + l / 2))
                 {
                     ShowWelcomeBox = false;
                 }
@@ -3540,8 +3541,8 @@ namespace RuneScapeSolo.Lib
             //base.streamClass.flush();
 
             actionPictureType = -24;
-            walkMouseX = mouseX;
-            walkMouseY = mouseY;
+            walkMouseX = InputManager.Instance.MouseLocation.X;
+            walkMouseY = InputManager.Instance.MouseLocation.Y;
             return true;
         }
 
@@ -3582,8 +3583,8 @@ namespace RuneScapeSolo.Lib
 
             StreamClass.FormatPacket();
             actionPictureType = -24;
-            walkMouseX = mouseX;
-            walkMouseY = mouseY;
+            walkMouseX = InputManager.Instance.MouseLocation.X;
+            walkMouseY = InputManager.Instance.MouseLocation.Y;
             return true;
         }
 
@@ -3737,7 +3738,7 @@ namespace RuneScapeSolo.Lib
             gameGraphics.drawString("Always logout when you finish", j1, l1, 1, 0);
             l1 += 15;
             int j2 = 0xffffff;
-            if (mouseX > j1 && mouseX < j1 + c1 && mouseY > l1 - 12 && mouseY < l1 + 4)
+            if (InputManager.Instance.MouseLocation.X > j1 && InputManager.Instance.MouseLocation.X < j1 + c1 && InputManager.Instance.MouseLocation.Y > l1 - 12 && InputManager.Instance.MouseLocation.Y < l1 + 4)
             {
                 j2 = 0xffff00;
             }
@@ -3748,8 +3749,8 @@ namespace RuneScapeSolo.Lib
                 return;
             }
 
-            l = mouseX - (gameGraphics.gameWidth - 199);
-            i1 = mouseY - 36;
+            l = InputManager.Instance.MouseLocation.X - (gameGraphics.gameWidth - 199);
+            i1 = InputManager.Instance.MouseLocation.Y - 36;
             if (l >= 0 && i1 >= 0 && l < 196 && i1 < 280)
             {
                 int k2 = gameGraphics.gameWidth - 199;
@@ -3757,7 +3758,7 @@ namespace RuneScapeSolo.Lib
                 int c2 = 196;
                 int k1 = k2 + 3;
                 int i2 = byte0 + 30;
-                if (mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
+                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
                     CameraAutoAngle = !CameraAutoAngle;
                     StreamClass.CreatePacket(157);
@@ -3766,7 +3767,7 @@ namespace RuneScapeSolo.Lib
                     StreamClass.FormatPacket();
                 }
                 i2 += 15;
-                if (mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
+                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
                     OneMouseButton = !OneMouseButton;
                     StreamClass.CreatePacket(157);
@@ -3775,7 +3776,7 @@ namespace RuneScapeSolo.Lib
                     StreamClass.FormatPacket();
                 }
                 i2 += 15;
-                if (Configuration.PREMIUM_FEATURES && mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
+                if (Configuration.PREMIUM_FEATURES && InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
                     SoundOff = !SoundOff;
                     StreamClass.CreatePacket(157);
@@ -3785,7 +3786,7 @@ namespace RuneScapeSolo.Lib
                 }
                 i2 += 15;
                 i2 += 15;
-                if (mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
+                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
                     ShowRoofs = !ShowRoofs;
                     StreamClass.CreatePacket(157);
@@ -3794,7 +3795,7 @@ namespace RuneScapeSolo.Lib
                     StreamClass.FormatPacket();
                 }
                 i2 += 15;
-                if (mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
+                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
                     ShowCombatWindow = !ShowCombatWindow;
                     StreamClass.CreatePacket(157);
@@ -3803,12 +3804,12 @@ namespace RuneScapeSolo.Lib
                     StreamClass.FormatPacket();
                 }
                 i2 += 15;
-                if (mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
+                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
                     fogOfWar = !fogOfWar;
                 }
                 i2 += 15;
-                if (mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
+                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
                     AutoScreenshot = !AutoScreenshot;
                     StreamClass.CreatePacket(157);
@@ -3818,32 +3819,32 @@ namespace RuneScapeSolo.Lib
                 }
                 bool flag = false;
                 i2 += 15;
-                if (mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
+                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
                     useChatFilter = !useChatFilter;
                 }
                 i2 += 15;
                 i2 += 15;
                 i2 += 15;
-                if (mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
+                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
                     blockChat = 1 - blockChat;
                     flag = true;
                 }
                 i2 += 15;
-                if (mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
+                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
                     blockPrivate = 1 - blockPrivate;
                     flag = true;
                 }
                 i2 += 15;
-                if (mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
+                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
                     blockTrade = 1 - blockTrade;
                     flag = true;
                 }
                 i2 += 15;
-                if (Configuration.PREMIUM_FEATURES && mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
+                if (Configuration.PREMIUM_FEATURES && InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
                     blockDuel = 1 - blockDuel;
                     flag = true;
@@ -3855,7 +3856,7 @@ namespace RuneScapeSolo.Lib
                 }
 
                 i2 += 20;
-                if (mouseX > k1 && mouseX < k1 + c2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseButtonClick == 1)
+                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
                     sendLogout();
                 }
@@ -3934,7 +3935,7 @@ namespace RuneScapeSolo.Lib
             {
                 for (int l = 0; l < 5; l++)
                 {
-                    if (l <= 0 || mouseX <= byte0 || mouseX >= byte0 + c1 || mouseY <= byte1 + l * 20 || mouseY >= byte1 + l * 20 + 20)
+                    if (l <= 0 || InputManager.Instance.MouseLocation.X <= byte0 || InputManager.Instance.MouseLocation.X >= byte0 + c1 || InputManager.Instance.MouseLocation.Y <= byte1 + l * 20 || InputManager.Instance.MouseLocation.Y >= byte1 + l * 20 + 20)
                     {
                         continue;
                     }
@@ -3974,8 +3975,8 @@ namespace RuneScapeSolo.Lib
         {
             if (mouseButtonClick != 0)
             {
-                int mx = mouseX - 22;
-                int my = mouseY - 36;
+                int mx = InputManager.Instance.MouseLocation.X - 22;
+                int my = InputManager.Instance.MouseLocation.Y - 36;
                 if (mx >= 0 && my >= 30 && mx < 462 && my < 262)
                 {
                     if (mx > 216 && my > 30 && mx < 462 && my < 235)
@@ -4192,7 +4193,7 @@ namespace RuneScapeSolo.Lib
                     gameGraphics.drawString(tradeItemOurCount[i6].ToString(), k6 + 1, i7 + 10, 1, 0xffff00);
                 }
 
-                if (mouseX > k6 && mouseX < k6 + 48 && mouseY > i7 && mouseY < i7 + 32)
+                if (InputManager.Instance.MouseLocation.X > k6 && InputManager.Instance.MouseLocation.X < k6 + 48 && InputManager.Instance.MouseLocation.Y > i7 && InputManager.Instance.MouseLocation.Y < i7 + 32)
                 {
                     gameGraphics.drawString(EntityHandler.GetItem(tradeItemsOur[i6]).Name + ": @whi@" + EntityHandler.GetItem(tradeItemsOur[i6]).Description, byte0 + 8, byte1 + 273, 1, 0xffff00);
                 }
@@ -4208,7 +4209,7 @@ namespace RuneScapeSolo.Lib
                     gameGraphics.drawString(tradeItemOtherCount[l6].ToString(), j7 + 1, k7 + 10, 1, 0xffff00);
                 }
 
-                if (mouseX > j7 && mouseX < j7 + 48 && mouseY > k7 && mouseY < k7 + 32)
+                if (InputManager.Instance.MouseLocation.X > j7 && InputManager.Instance.MouseLocation.X < j7 + 48 && InputManager.Instance.MouseLocation.Y > k7 && InputManager.Instance.MouseLocation.Y < k7 + 32)
                 {
                     gameGraphics.drawString(EntityHandler.GetItem(tradeItemsOther[l6]).Name + ": @whi@" + EntityHandler.GetItem(tradeItemsOther[l6]).Description, byte0 + 8, byte1 + 273, 1, 0xffff00);
                 }
@@ -4339,7 +4340,7 @@ namespace RuneScapeSolo.Lib
                     return;
                 }
 
-                loginMenuFirst.mouseClick(mouseX, mouseY, lastMouseButton, mouseButton);
+                loginMenuFirst.mouseClick(InputManager.Instance.MouseLocation.X, InputManager.Instance.MouseLocation.Y, lastMouseButton, mouseButton);
                 if (loginMenuFirst.isClicked(loginButtonNewUser))
                 {
                     loginScreenNumber = 1;
@@ -4363,7 +4364,7 @@ namespace RuneScapeSolo.Lib
                     return;
                 }
 
-                loginNewUser.mouseClick(mouseX, mouseY, lastMouseButton, mouseButton);
+                loginNewUser.mouseClick(InputManager.Instance.MouseLocation.X, InputManager.Instance.MouseLocation.Y, lastMouseButton, mouseButton);
                 if (loginNewUser.isClicked(loginMenuOkButton))
                 {
                     loginScreenNumber = 0;
@@ -4373,7 +4374,7 @@ namespace RuneScapeSolo.Lib
             else
                     if (loginScreenNumber == 2)
             {
-                loginMenuLogin.mouseClick(mouseX, mouseY, lastMouseButton, mouseButton);
+                loginMenuLogin.mouseClick(InputManager.Instance.MouseLocation.X, InputManager.Instance.MouseLocation.Y, lastMouseButton, mouseButton);
                 if (loginMenuLogin.isClicked(loginMenuCancelButton))
                 {
                     loginScreenNumber = 0;
@@ -4528,7 +4529,7 @@ namespace RuneScapeSolo.Lib
             {
                 for (int l = 0; l < questionMenuCount; l++)
                 {
-                    if (mouseX >= gameGraphics.textWidth(questionMenuAnswer[l], 1) || mouseY <= l * 12 || mouseY >= 12 + l * 12)
+                    if (InputManager.Instance.MouseLocation.X >= gameGraphics.textWidth(questionMenuAnswer[l], 1) || InputManager.Instance.MouseLocation.Y <= l * 12 || InputManager.Instance.MouseLocation.Y >= 12 + l * 12)
                     {
                         continue;
                     }
@@ -4546,7 +4547,7 @@ namespace RuneScapeSolo.Lib
             for (int i1 = 0; i1 < questionMenuCount; i1++)
             {
                 int j1 = 65535;
-                if (mouseX < gameGraphics.textWidth(questionMenuAnswer[i1], 1) && mouseY > i1 * 12 && mouseY < 12 + i1 * 12)
+                if (InputManager.Instance.MouseLocation.X < gameGraphics.textWidth(questionMenuAnswer[i1], 1) && InputManager.Instance.MouseLocation.Y > i1 * 12 && InputManager.Instance.MouseLocation.Y < 12 + i1 * 12)
                 {
                     j1 = 0xff0000;
                 }
@@ -4614,19 +4615,19 @@ namespace RuneScapeSolo.Lib
             }
             if (mouseButtonClick == 1)
             {
-                if (mouseX < byte0 || mouseY < byte1 || mouseX > byte0 + 468 || mouseY > byte1 + 262)
+                if (InputManager.Instance.MouseLocation.X < byte0 || InputManager.Instance.MouseLocation.Y < byte1 || InputManager.Instance.MouseLocation.X > byte0 + 468 || InputManager.Instance.MouseLocation.Y > byte1 + 262)
                 {
                     //showTradeConfirmBox = false;
                     //base.streamClass.createPacket(216);
                     //base.streamClass.formatPacket();
                 }
-                if (mouseX >= (byte0 + 118) - 35 && mouseX <= byte0 + 118 + 70 && mouseY >= byte1 + 238 && mouseY <= byte1 + 238 + 21)
+                if (InputManager.Instance.MouseLocation.X >= (byte0 + 118) - 35 && InputManager.Instance.MouseLocation.X <= byte0 + 118 + 70 && InputManager.Instance.MouseLocation.Y >= byte1 + 238 && InputManager.Instance.MouseLocation.Y <= byte1 + 238 + 21)
                 {
                     tradeConfirmAccepted = true;
                     StreamClass.CreatePacket(53);
                     StreamClass.FormatPacket();
                 }
-                if (mouseX >= (byte0 + 352) - 35 && mouseX <= byte0 + 353 + 70 && mouseY >= byte1 + 238 && mouseY <= byte1 + 238 + 21)
+                if (InputManager.Instance.MouseLocation.X >= (byte0 + 352) - 35 && InputManager.Instance.MouseLocation.X <= byte0 + 353 + 70 && InputManager.Instance.MouseLocation.Y >= byte1 + 238 && InputManager.Instance.MouseLocation.Y <= byte1 + 238 + 21)
                 {
                     showTradeConfirmBox = false;
                     StreamClass.CreatePacket(216);
@@ -4881,9 +4882,9 @@ namespace RuneScapeSolo.Lib
             if (friendsIgnoreMenuSelected == 0)
             {
                 int j2 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
-                if (j2 >= 0 && mouseX < 489)
+                if (j2 >= 0 && InputManager.Instance.MouseLocation.X < 489)
                 {
-                    if (mouseX > 429)
+                    if (InputManager.Instance.MouseLocation.X > 429)
                     {
                         gameGraphics.drawText("Click to remove " + DataOperations.LongToString(friendsList[j2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
                     }
@@ -4907,7 +4908,7 @@ namespace RuneScapeSolo.Lib
                     gameGraphics.drawText("Click a name to send a message", l + c1 / 2, i1 + 35, 1, 0xffffff);
                 }
                 int j3;
-                if (mouseX > l && mouseX < l + c1 && mouseY > (i1 + c2) - 16 && mouseY < i1 + c2)
+                if (InputManager.Instance.MouseLocation.X > l && InputManager.Instance.MouseLocation.X < l + c1 && InputManager.Instance.MouseLocation.Y > (i1 + c2) - 16 && InputManager.Instance.MouseLocation.Y < i1 + c2)
                 {
                     j3 = 0xffff00;
                 }
@@ -4921,9 +4922,9 @@ namespace RuneScapeSolo.Lib
             if (friendsIgnoreMenuSelected == 1)
             {
                 int k2 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
-                if (k2 >= 0 && mouseX < 489 && mouseX > 429)
+                if (k2 >= 0 && InputManager.Instance.MouseLocation.X < 489 && InputManager.Instance.MouseLocation.X > 429)
                 {
-                    if (mouseX > 429)
+                    if (InputManager.Instance.MouseLocation.X > 429)
                     {
                         gameGraphics.drawText("Click to remove " + DataOperations.LongToString(ignoresList[k2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
                     }
@@ -4933,7 +4934,7 @@ namespace RuneScapeSolo.Lib
                     gameGraphics.drawText("Blocking messages from:", l + c1 / 2, i1 + 35, 1, 0xffffff);
                 }
                 int k3;
-                if (mouseX > l && mouseX < l + c1 && mouseY > (i1 + c2) - 16 && mouseY < i1 + c2)
+                if (InputManager.Instance.MouseLocation.X > l && InputManager.Instance.MouseLocation.X < l + c1 && InputManager.Instance.MouseLocation.Y > (i1 + c2) - 16 && InputManager.Instance.MouseLocation.Y < i1 + c2)
                 {
                     k3 = 0xffff00;
                 }
@@ -4949,8 +4950,8 @@ namespace RuneScapeSolo.Lib
                 return;
             }
 
-            l = mouseX - (gameGraphics.gameWidth - 199);
-            i1 = mouseY - 36;
+            l = InputManager.Instance.MouseLocation.X - (gameGraphics.gameWidth - 199);
+            i1 = InputManager.Instance.MouseLocation.Y - 36;
             if (l >= 0 && i1 >= 0 && l < 196 && i1 < 182)
             {
                 friendsMenu.mouseClick(l + (gameGraphics.gameWidth - 199), i1 + 36, lastMouseButton, mouseButton);
@@ -4973,9 +4974,9 @@ namespace RuneScapeSolo.Lib
                 {
                     int l2 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
 
-                    if (l2 >= 0 && mouseX < 489)
+                    if (l2 >= 0 && InputManager.Instance.MouseLocation.X < 489)
                     {
-                        if (mouseX > 429)
+                        if (InputManager.Instance.MouseLocation.X > 429)
                         {
                             removeFriend(friendsList[l2]);
                         }
@@ -4992,7 +4993,7 @@ namespace RuneScapeSolo.Lib
                 {
                     int i3 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
 
-                    if (i3 >= 0 && mouseX < 489 && mouseX > 429)
+                    if (i3 >= 0 && InputManager.Instance.MouseLocation.X < 489 && InputManager.Instance.MouseLocation.X > 429)
                     {
                         removeIgnore(ignoresList[i3]);
                     }
@@ -5144,8 +5145,8 @@ namespace RuneScapeSolo.Lib
                 return;
             }
 
-            l = mouseX - (gameGraphics.gameWidth - 199);
-            i1 = mouseY - 36;
+            l = InputManager.Instance.MouseLocation.X - (gameGraphics.gameWidth - 199);
+            i1 = InputManager.Instance.MouseLocation.Y - 36;
 
             if (l >= 0 && i1 >= 0 && l < 196 && i1 < 182)
             {
@@ -5823,7 +5824,7 @@ namespace RuneScapeSolo.Lib
                     }
                 }
 
-                if (lastMouseButton == 1 && mouseY > 275 && mouseY < 310 && mouseX > 56 && mouseX < 456)
+                if (lastMouseButton == 1 && InputManager.Instance.MouseLocation.Y > 275 && InputManager.Instance.MouseLocation.Y < 310 && InputManager.Instance.MouseLocation.X > 56 && InputManager.Instance.MouseLocation.X < 456)
                 {
                     StreamClass.CreatePacket(200);
                     StreamClass.AddString("-null-");
@@ -5840,29 +5841,29 @@ namespace RuneScapeSolo.Lib
                 lastMouseButton = 0;
                 return;
             }
-            if (mouseY > windowHeight - 4)
+            if (InputManager.Instance.MouseLocation.Y > windowHeight - 4)
             {
-                if (mouseX > 15 && mouseX < 96 && lastMouseButton == 1)
+                if (InputManager.Instance.MouseLocation.X > 15 && InputManager.Instance.MouseLocation.X < 96 && lastMouseButton == 1)
                 {
                     messagesTab = 0;
                 }
 
-                if (mouseX > 110 && mouseX < 194 && lastMouseButton == 1)
+                if (InputManager.Instance.MouseLocation.X > 110 && InputManager.Instance.MouseLocation.X < 194 && lastMouseButton == 1)
                 {
                     messagesTab = 1;
                     chatInputMenu.listShownEntries[messagesHandleType2] = 0xf423f;
                 }
-                if (mouseX > 215 && mouseX < 295 && lastMouseButton == 1)
+                if (InputManager.Instance.MouseLocation.X > 215 && InputManager.Instance.MouseLocation.X < 295 && lastMouseButton == 1)
                 {
                     messagesTab = 2;
                     chatInputMenu.listShownEntries[messagesHandleType5] = 0xf423f;
                 }
-                if (mouseX > 315 && mouseX < 395 && lastMouseButton == 1)
+                if (InputManager.Instance.MouseLocation.X > 315 && InputManager.Instance.MouseLocation.X < 395 && lastMouseButton == 1)
                 {
                     messagesTab = 3;
                     chatInputMenu.listShownEntries[messagesHandleType6] = 0xf423f;
                 }
-                if (mouseX > 417 && mouseX < 497 && lastMouseButton == 1)
+                if (InputManager.Instance.MouseLocation.X > 417 && InputManager.Instance.MouseLocation.X < 497 && lastMouseButton == 1)
                 {
                     showAbuseBox = 1;
                     reportAbuseOptionSelected = 0;
@@ -5872,9 +5873,9 @@ namespace RuneScapeSolo.Lib
                 lastMouseButton = 0;
                 mouseButton = 0;
             }
-            chatInputMenu.mouseClick(mouseX, mouseY, lastMouseButton, mouseButton);
+            chatInputMenu.mouseClick(InputManager.Instance.MouseLocation.X, InputManager.Instance.MouseLocation.Y, lastMouseButton, mouseButton);
 
-            if (messagesTab > 0 && mouseX >= 494 && mouseY >= windowHeight - 66)
+            if (messagesTab > 0 && InputManager.Instance.MouseLocation.X >= 494 && InputManager.Instance.MouseLocation.Y >= windowHeight - 66)
             {
                 lastMouseButton = 0;
             }
@@ -5973,7 +5974,7 @@ namespace RuneScapeSolo.Lib
                 mouseButtonClick = 2;
             }
 
-            gameCamera.setMousePosition(mouseX, mouseY);
+            gameCamera.setMousePosition(InputManager.Instance.MouseLocation.X, InputManager.Instance.MouseLocation.Y);
             lastMouseButton = 0;
             if (CameraAutoAngle)
             {
@@ -6721,8 +6722,8 @@ namespace RuneScapeSolo.Lib
             if (mouseButtonClick != 0)
             {
                 mouseButtonClick = 0;
-                int l = mouseX - 52;
-                int i1 = mouseY - 44;
+                int l = InputManager.Instance.MouseLocation.X - 52;
+                int i1 = InputManager.Instance.MouseLocation.Y - 44;
                 if (l >= 0 && i1 >= 12 && l < 408 && i1 < 246)
                 {
                     int j1 = 0;
@@ -6782,7 +6783,7 @@ namespace RuneScapeSolo.Lib
             gameGraphics.drawBoxAlpha(_offsetX, _offsetY + 199, 408, 47, k1, 160);
             gameGraphics.drawString("Buying and selling items", _offsetX + 1, _offsetY + 10, 1, 0xffffff);
             int i2 = 0xffffff;
-            if (mouseX > _offsetX + 320 && mouseY >= _offsetY && mouseX < _offsetX + 408 && mouseY < _offsetY + 12)
+            if (InputManager.Instance.MouseLocation.X > _offsetX + 320 && InputManager.Instance.MouseLocation.Y >= _offsetY && InputManager.Instance.MouseLocation.X < _offsetX + 408 && InputManager.Instance.MouseLocation.Y < _offsetY + 12)
             {
                 i2 = 0xff0000;
             }
@@ -6840,7 +6841,7 @@ namespace RuneScapeSolo.Lib
                     int i7 = (j6 * EntityHandler.GetItem(l5).BasePrice) / 100;
                     gameGraphics.drawString("Buy a new " + EntityHandler.GetItem(l5).Name + " for " + i7 + "gp", _offsetX + 2, _offsetY + 214, 1, 0xffff00);
                     int j2 = 0xffffff;
-                    if (mouseX > _offsetX + 298 && mouseY >= _offsetY + 204 && mouseX < _offsetX + 408 && mouseY <= _offsetY + 215)
+                    if (InputManager.Instance.MouseLocation.X > _offsetX + 298 && InputManager.Instance.MouseLocation.Y >= _offsetY + 204 && InputManager.Instance.MouseLocation.X < _offsetX + 408 && InputManager.Instance.MouseLocation.Y <= _offsetY + 215)
                     {
                         j2 = 0xff0000;
                     }
@@ -6862,7 +6863,7 @@ namespace RuneScapeSolo.Lib
                     int j7 = (k6 * EntityHandler.GetItem(l5).BasePrice) / 100;
                     gameGraphics.drawLabel("Sell your " + EntityHandler.GetItem(l5).Name + " for " + j7 + "gp", _offsetX + 405, _offsetY + 239, 1, 0xffff00);
                     int k2 = 0xffffff;
-                    if (mouseX > _offsetX + 2 && mouseY >= _offsetY + 229 && mouseX < _offsetX + 112 && mouseY <= _offsetY + 240)
+                    if (InputManager.Instance.MouseLocation.X > _offsetX + 2 && InputManager.Instance.MouseLocation.Y >= _offsetY + 229 && InputManager.Instance.MouseLocation.X < _offsetX + 112 && InputManager.Instance.MouseLocation.Y <= _offsetY + 240)
                     {
                         k2 = 0xff0000;
                     }
@@ -7037,8 +7038,8 @@ namespace RuneScapeSolo.Lib
                         }
                     }
 
-                    menuX = mouseX - menuWidth / 2;
-                    menuY = mouseY - 7;
+                    menuX = InputManager.Instance.MouseLocation.X - menuWidth / 2;
+                    menuY = InputManager.Instance.MouseLocation.Y - 7;
                     menuShow = true;
                     if (menuX < 0)
                     {
@@ -7570,7 +7571,7 @@ namespace RuneScapeSolo.Lib
             }
         }
 
-        //	public bool DrawCustomMenus { get; set; }
+        //  public bool DrawCustomMenus { get; set; }
         //    public event EventHandler OnDrawMenus;
 
         public void drawReportAbuseBox2()
@@ -7600,7 +7601,7 @@ namespace RuneScapeSolo.Lib
             gameGraphics.drawText("Name: " + inputText + "*", 256, l, 4, 0xffffff);
             l = 222;
             int i1 = 0xffffff;
-            if (mouseX > 196 && mouseX < 316 && mouseY > l - 13 && mouseY < l + 2)
+            if (InputManager.Instance.MouseLocation.X > 196 && InputManager.Instance.MouseLocation.X < 316 && InputManager.Instance.MouseLocation.Y > l - 13 && InputManager.Instance.MouseLocation.Y < l + 2)
             {
                 i1 = 0xffff00;
                 if (mouseButtonClick == 1)
@@ -7610,7 +7611,7 @@ namespace RuneScapeSolo.Lib
                 }
             }
             gameGraphics.drawText("Click here to cancel", 256, l, 1, i1);
-            if (mouseButtonClick == 1 && (mouseX < 56 || mouseX > 456 || mouseY < 130 || mouseY > 230))
+            if (mouseButtonClick == 1 && (InputManager.Instance.MouseLocation.X < 56 || InputManager.Instance.MouseLocation.X > 456 || InputManager.Instance.MouseLocation.Y < 130 || InputManager.Instance.MouseLocation.Y > 230))
             {
                 mouseButtonClick = 0;
                 showAbuseBox = 0;
@@ -7798,8 +7799,8 @@ namespace RuneScapeSolo.Lib
 
             if (mouseClickedHeldInTradeDuelBox > 0)
             {
-                int l = mouseX - 22;
-                int i1 = mouseY - 36;
+                int l = InputManager.Instance.MouseLocation.X - 22;
+                int i1 = InputManager.Instance.MouseLocation.Y - 36;
                 if (l >= 0 && i1 >= 0 && l < 468 && i1 < 262)
                 {
                     if (l > 216 && i1 > 30 && l < 462 && i1 < 235)
@@ -8085,7 +8086,7 @@ namespace RuneScapeSolo.Lib
                     gameGraphics.drawString(duelMyItemsCount[i6].ToString(), k6 + 1, i7 + 10, 1, 0xffff00);
                 }
 
-                if (mouseX > k6 && mouseX < k6 + 48 && mouseY > i7 && mouseY < i7 + 32)
+                if (InputManager.Instance.MouseLocation.X > k6 && InputManager.Instance.MouseLocation.X < k6 + 48 && InputManager.Instance.MouseLocation.Y > i7 && InputManager.Instance.MouseLocation.Y < i7 + 32)
                 {
                     gameGraphics.drawString(EntityHandler.GetItem(duelMyItems[i6]).Name + ": @whi@" + EntityHandler.GetItem(duelMyItems[i6]).Description, byte0 + 8, byte1 + 273, 1, 0xffff00);
                 }
@@ -8102,7 +8103,7 @@ namespace RuneScapeSolo.Lib
                     gameGraphics.drawString(duelOpponentItemsCount[l6].ToString(), j7 + 1, k7 + 10, 1, 0xffff00);
                 }
 
-                if (mouseX > j7 && mouseX < j7 + 48 && mouseY > k7 && mouseY < k7 + 32)
+                if (InputManager.Instance.MouseLocation.X > j7 && InputManager.Instance.MouseLocation.X < j7 + 48 && InputManager.Instance.MouseLocation.Y > k7 && InputManager.Instance.MouseLocation.Y < k7 + 32)
                 {
                     gameGraphics.drawString(EntityHandler.GetItem(duelMyItems[l6]).Name + ": @whi@" + EntityHandler.GetItem(duelMyItems[l6]).Description, byte0 + 8, byte1 + 273, 1, 0xffff00);
                 }
@@ -8133,7 +8134,7 @@ namespace RuneScapeSolo.Lib
             l += 22;
             int i1 = 0xffffff;
 
-            if (mouseY > l - 12 && mouseY <= l && mouseX > 181 && mouseX < 331)
+            if (InputManager.Instance.MouseLocation.Y > l - 12 && InputManager.Instance.MouseLocation.Y <= l && InputManager.Instance.MouseLocation.X > 181 && InputManager.Instance.MouseLocation.X < 331)
             {
                 i1 = 0xff0000;
             }
@@ -8142,12 +8143,12 @@ namespace RuneScapeSolo.Lib
 
             if (mouseButtonClick != 0)
             {
-                if (mouseY > l - 12 && mouseY <= l && mouseX > 181 && mouseX < 331)
+                if (InputManager.Instance.MouseLocation.Y > l - 12 && InputManager.Instance.MouseLocation.Y <= l && InputManager.Instance.MouseLocation.X > 181 && InputManager.Instance.MouseLocation.X < 331)
                 {
                     wildType = 2;
                 }
 
-                if (mouseX < 86 || mouseX > 426 || mouseY < 77 || mouseY > 257)
+                if (InputManager.Instance.MouseLocation.X < 86 || InputManager.Instance.MouseLocation.X > 426 || InputManager.Instance.MouseLocation.Y < 77 || InputManager.Instance.MouseLocation.Y > 257)
                 {
                     wildType = 2;
                 }
@@ -8409,8 +8410,8 @@ namespace RuneScapeSolo.Lib
             if (mouseButtonClick != 0)
             {
                 mouseButtonClick = 0;
-                int l = mouseX - (256 - c1 / 2);
-                int j1 = mouseY - (170 - c2 / 2);
+                int l = InputManager.Instance.MouseLocation.X - (256 - c1 / 2);
+                int j1 = InputManager.Instance.MouseLocation.Y - (170 - c2 / 2);
                 if (l >= 0 && j1 >= 12 && l < 408 && j1 < 280)
                 {
                     int l1 = bankPage * 48;
@@ -8450,84 +8451,84 @@ namespace RuneScapeSolo.Lib
                             count = 1;
                         }
 
-                        if (count >= 1 && mouseX >= l + 220 && mouseY >= j1 + 238 && mouseX < l + 250 && mouseY <= j1 + 249)
+                        if (count >= 1 && InputManager.Instance.MouseLocation.X >= l + 220 && InputManager.Instance.MouseLocation.Y >= j1 + 238 && InputManager.Instance.MouseLocation.X < l + 250 && InputManager.Instance.MouseLocation.Y <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(1);
                             StreamClass.FormatPacket();
                         }
-                        if (count >= 5 && mouseX >= l + 250 && mouseY >= j1 + 238 && mouseX < l + 280 && mouseY <= j1 + 249)
+                        if (count >= 5 && InputManager.Instance.MouseLocation.X >= l + 250 && InputManager.Instance.MouseLocation.Y >= j1 + 238 && InputManager.Instance.MouseLocation.X < l + 280 && InputManager.Instance.MouseLocation.Y <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(5);
                             StreamClass.FormatPacket();
                         }
-                        if (count >= 25 && mouseX >= l + 280 && mouseY >= j1 + 238 && mouseX < l + 305 && mouseY <= j1 + 249)
+                        if (count >= 25 && InputManager.Instance.MouseLocation.X >= l + 280 && InputManager.Instance.MouseLocation.Y >= j1 + 238 && InputManager.Instance.MouseLocation.X < l + 305 && InputManager.Instance.MouseLocation.Y <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(25);
                             StreamClass.FormatPacket();
                         }
-                        if (count >= 100 && mouseX >= l + 305 && mouseY >= j1 + 238 && mouseX < l + 335 && mouseY <= j1 + 249)
+                        if (count >= 100 && InputManager.Instance.MouseLocation.X >= l + 305 && InputManager.Instance.MouseLocation.Y >= j1 + 238 && InputManager.Instance.MouseLocation.X < l + 335 && InputManager.Instance.MouseLocation.Y <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(100);
                             StreamClass.FormatPacket();
                         }
-                        if (count >= 500 && mouseX >= l + 335 && mouseY >= j1 + 238 && mouseX < l + 368 && mouseY <= j1 + 249)
+                        if (count >= 500 && InputManager.Instance.MouseLocation.X >= l + 335 && InputManager.Instance.MouseLocation.Y >= j1 + 238 && InputManager.Instance.MouseLocation.X < l + 368 && InputManager.Instance.MouseLocation.Y <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(500);
                             StreamClass.FormatPacket();
                         }
-                        if (count >= 2500 && mouseX >= l + 370 && mouseY >= j1 + 238 && mouseX < l + 400 && mouseY <= j1 + 249)
+                        if (count >= 2500 && InputManager.Instance.MouseLocation.X >= l + 370 && InputManager.Instance.MouseLocation.Y >= j1 + 238 && InputManager.Instance.MouseLocation.X < l + 400 && InputManager.Instance.MouseLocation.Y <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(2500);
                             StreamClass.FormatPacket();
                         }
-                        if (getInventoryItemTotalCount(id) >= 1 && mouseX >= l + 220 && mouseY >= j1 + 263 && mouseX < l + 250 && mouseY <= j1 + 274)
+                        if (getInventoryItemTotalCount(id) >= 1 && InputManager.Instance.MouseLocation.X >= l + 220 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 250 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(1);
                             StreamClass.FormatPacket();
                         }
-                        if (getInventoryItemTotalCount(id) >= 5 && mouseX >= l + 250 && mouseY >= j1 + 263 && mouseX < l + 280 && mouseY <= j1 + 274)
+                        if (getInventoryItemTotalCount(id) >= 5 && InputManager.Instance.MouseLocation.X >= l + 250 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 280 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(5);
                             StreamClass.FormatPacket();
                         }
-                        if (getInventoryItemTotalCount(id) >= 25 && mouseX >= l + 280 && mouseY >= j1 + 263 && mouseX < l + 305 && mouseY <= j1 + 274)
+                        if (getInventoryItemTotalCount(id) >= 25 && InputManager.Instance.MouseLocation.X >= l + 280 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 305 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(25);
                             StreamClass.FormatPacket();
                         }
-                        if (getInventoryItemTotalCount(id) >= 100 && mouseX >= l + 305 && mouseY >= j1 + 263 && mouseX < l + 335 && mouseY <= j1 + 274)
+                        if (getInventoryItemTotalCount(id) >= 100 && InputManager.Instance.MouseLocation.X >= l + 305 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 335 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(100);
                             StreamClass.FormatPacket();
                         }
-                        if (getInventoryItemTotalCount(id) >= 500 && mouseX >= l + 335 && mouseY >= j1 + 263 && mouseX < l + 368 && mouseY <= j1 + 274)
+                        if (getInventoryItemTotalCount(id) >= 500 && InputManager.Instance.MouseLocation.X >= l + 335 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 368 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(500);
                             StreamClass.FormatPacket();
                         }
-                        if (getInventoryItemTotalCount(id) >= 2500 && mouseX >= l + 370 && mouseY >= j1 + 263 && mouseX < l + 400 && mouseY <= j1 + 274)
+                        if (getInventoryItemTotalCount(id) >= 2500 && InputManager.Instance.MouseLocation.X >= l + 370 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 400 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
@@ -8582,7 +8583,7 @@ namespace RuneScapeSolo.Lib
                     k3 = 0xff0000;
                 }
                 else
-                    if (mouseX > i1 + l2 && mouseY >= k1 && mouseX < i1 + l2 + 65 && mouseY < k1 + 12)
+                    if (InputManager.Instance.MouseLocation.X > i1 + l2 && InputManager.Instance.MouseLocation.Y >= k1 && InputManager.Instance.MouseLocation.X < i1 + l2 + 65 && InputManager.Instance.MouseLocation.Y < k1 + 12)
                 {
                     k3 = 0xffff00;
                 }
@@ -8595,7 +8596,7 @@ namespace RuneScapeSolo.Lib
                     k3 = 0xff0000;
                 }
                 else
-                    if (mouseX > i1 + l2 && mouseY >= k1 && mouseX < i1 + l2 + 65 && mouseY < k1 + 12)
+                    if (InputManager.Instance.MouseLocation.X > i1 + l2 && InputManager.Instance.MouseLocation.Y >= k1 && InputManager.Instance.MouseLocation.X < i1 + l2 + 65 && InputManager.Instance.MouseLocation.Y < k1 + 12)
                 {
                     k3 = 0xffff00;
                 }
@@ -8611,7 +8612,7 @@ namespace RuneScapeSolo.Lib
                     l3 = 0xff0000;
                 }
                 else
-                    if (mouseX > i1 + l2 && mouseY >= k1 && mouseX < i1 + l2 + 65 && mouseY < k1 + 12)
+                    if (InputManager.Instance.MouseLocation.X > i1 + l2 && InputManager.Instance.MouseLocation.Y >= k1 && InputManager.Instance.MouseLocation.X < i1 + l2 + 65 && InputManager.Instance.MouseLocation.Y < k1 + 12)
                 {
                     l3 = 0xffff00;
                 }
@@ -8627,7 +8628,7 @@ namespace RuneScapeSolo.Lib
                     i4 = 0xff0000;
                 }
                 else
-                    if (mouseX > i1 + l2 && mouseY >= k1 && mouseX < i1 + l2 + 65 && mouseY < k1 + 12)
+                    if (InputManager.Instance.MouseLocation.X > i1 + l2 && InputManager.Instance.MouseLocation.Y >= k1 && InputManager.Instance.MouseLocation.X < i1 + l2 + 65 && InputManager.Instance.MouseLocation.Y < k1 + 12)
                 {
                     i4 = 0xffff00;
                 }
@@ -8636,7 +8637,7 @@ namespace RuneScapeSolo.Lib
                 l2 += 65;
             }
             int j4 = 0xffffff;
-            if (mouseX > i1 + 320 && mouseY >= k1 && mouseX < i1 + 408 && mouseY < k1 + 12)
+            if (InputManager.Instance.MouseLocation.X > i1 + 320 && InputManager.Instance.MouseLocation.Y >= k1 && InputManager.Instance.MouseLocation.X < i1 + 408 && InputManager.Instance.MouseLocation.Y < k1 + 12)
             {
                 j4 = 0xff0000;
             }
@@ -8702,7 +8703,7 @@ namespace RuneScapeSolo.Lib
                 {
                     gameGraphics.drawString("Withdraw " + EntityHandler.GetItem(j9).Name, i1 + 2, k1 + 248, 1, 0xffffff);
                     int k4 = 0xffffff;
-                    if (mouseX >= i1 + 220 && mouseY >= k1 + 238 && mouseX < i1 + 250 && mouseY <= k1 + 249)
+                    if (InputManager.Instance.MouseLocation.X >= i1 + 220 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 250 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
                     {
                         k4 = 0xff0000;
                     }
@@ -8711,7 +8712,7 @@ namespace RuneScapeSolo.Lib
                     if (k8 >= 5)
                     {
                         int l4 = 0xffffff;
-                        if (mouseX >= i1 + 250 && mouseY >= k1 + 238 && mouseX < i1 + 280 && mouseY <= k1 + 249)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 250 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 280 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
                         {
                             l4 = 0xff0000;
                         }
@@ -8721,7 +8722,7 @@ namespace RuneScapeSolo.Lib
                     if (k8 >= 25)
                     {
                         int i5 = 0xffffff;
-                        if (mouseX >= i1 + 280 && mouseY >= k1 + 238 && mouseX < i1 + 305 && mouseY <= k1 + 249)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 280 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 305 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
                         {
                             i5 = 0xff0000;
                         }
@@ -8731,7 +8732,7 @@ namespace RuneScapeSolo.Lib
                     if (k8 >= 100)
                     {
                         int j5 = 0xffffff;
-                        if (mouseX >= i1 + 305 && mouseY >= k1 + 238 && mouseX < i1 + 335 && mouseY <= k1 + 249)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 305 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 335 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
                         {
                             j5 = 0xff0000;
                         }
@@ -8741,7 +8742,7 @@ namespace RuneScapeSolo.Lib
                     if (k8 >= 500)
                     {
                         int k5 = 0xffffff;
-                        if (mouseX >= i1 + 335 && mouseY >= k1 + 238 && mouseX < i1 + 368 && mouseY <= k1 + 249)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 335 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 368 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
                         {
                             k5 = 0xff0000;
                         }
@@ -8751,7 +8752,7 @@ namespace RuneScapeSolo.Lib
                     if (k8 >= 2500)
                     {
                         int l5 = 0xffffff;
-                        if (mouseX >= i1 + 370 && mouseY >= k1 + 238 && mouseX < i1 + 400 && mouseY <= k1 + 249)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 370 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 400 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
                         {
                             l5 = 0xff0000;
                         }
@@ -8763,7 +8764,7 @@ namespace RuneScapeSolo.Lib
                 {
                     gameGraphics.drawString("Deposit " + EntityHandler.GetItem(j9).Name, i1 + 2, k1 + 273, 1, 0xffffff);
                     int i6 = 0xffffff;
-                    if (mouseX >= i1 + 220 && mouseY >= k1 + 263 && mouseX < i1 + 250 && mouseY <= k1 + 274)
+                    if (InputManager.Instance.MouseLocation.X >= i1 + 220 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 250 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
                     {
                         i6 = 0xff0000;
                     }
@@ -8772,7 +8773,7 @@ namespace RuneScapeSolo.Lib
                     if (getInventoryItemTotalCount(j9) >= 5)
                     {
                         int j6 = 0xffffff;
-                        if (mouseX >= i1 + 250 && mouseY >= k1 + 263 && mouseX < i1 + 280 && mouseY <= k1 + 274)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 250 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 280 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
                         {
                             j6 = 0xff0000;
                         }
@@ -8782,7 +8783,7 @@ namespace RuneScapeSolo.Lib
                     if (getInventoryItemTotalCount(j9) >= 25)
                     {
                         int k6 = 0xffffff;
-                        if (mouseX >= i1 + 280 && mouseY >= k1 + 263 && mouseX < i1 + 305 && mouseY <= k1 + 274)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 280 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 305 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
                         {
                             k6 = 0xff0000;
                         }
@@ -8792,7 +8793,7 @@ namespace RuneScapeSolo.Lib
                     if (getInventoryItemTotalCount(j9) >= 100)
                     {
                         int l6 = 0xffffff;
-                        if (mouseX >= i1 + 305 && mouseY >= k1 + 263 && mouseX < i1 + 335 && mouseY <= k1 + 274)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 305 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 335 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
                         {
                             l6 = 0xff0000;
                         }
@@ -8802,7 +8803,7 @@ namespace RuneScapeSolo.Lib
                     if (getInventoryItemTotalCount(j9) >= 500)
                     {
                         int i7 = 0xffffff;
-                        if (mouseX >= i1 + 335 && mouseY >= k1 + 263 && mouseX < i1 + 368 && mouseY <= k1 + 274)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 335 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 368 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
                         {
                             i7 = 0xff0000;
                         }
@@ -8812,7 +8813,7 @@ namespace RuneScapeSolo.Lib
                     if (getInventoryItemTotalCount(j9) >= 2500)
                     {
                         int j7 = 0xffffff;
-                        if (mouseX >= i1 + 370 && mouseY >= k1 + 263 && mouseX < i1 + 400 && mouseY <= k1 + 274)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 370 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 400 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
                         {
                             j7 = 0xff0000;
                         }
@@ -9285,7 +9286,7 @@ namespace RuneScapeSolo.Lib
             gameGraphics.drawFloatingText(serverMessage, 256, (167 - c2 / 2) + 20, 1, 0xffffff, c1 - 40);
             int l = 157 + c2 / 2;
             int i1 = 0xffffff;
-            if (mouseY > l - 12 && mouseY <= l && mouseX > 106 && mouseX < 406)
+            if (InputManager.Instance.MouseLocation.Y > l - 12 && InputManager.Instance.MouseLocation.Y <= l && InputManager.Instance.MouseLocation.X > 106 && InputManager.Instance.MouseLocation.X < 406)
             {
                 i1 = 0xff0000;
             }
@@ -9298,7 +9299,7 @@ namespace RuneScapeSolo.Lib
                     showServerMessageBox = false;
                 }
 
-                if ((mouseX < 256 - c1 / 2 || mouseX > 256 + c1 / 2) && (mouseY < 167 - c2 / 2 || mouseY > 167 + c2 / 2))
+                if ((InputManager.Instance.MouseLocation.X < 256 - c1 / 2 || InputManager.Instance.MouseLocation.X > 256 + c1 / 2) && (InputManager.Instance.MouseLocation.Y < 167 - c2 / 2 || InputManager.Instance.MouseLocation.Y > 167 + c2 / 2))
                 {
                     showServerMessageBox = false;
                 }
@@ -9521,14 +9522,14 @@ namespace RuneScapeSolo.Lib
                 for (int k2 = 0; k2 < 9; k2++)
                 {
                     int l2 = 0xffffff;
-                    if (mouseX > l + 3 && mouseY >= l1 - 11 && mouseY < l1 + 2 && mouseX < l + 90)
+                    if (InputManager.Instance.MouseLocation.X > l + 3 && InputManager.Instance.MouseLocation.Y >= l1 - 11 && InputManager.Instance.MouseLocation.Y < l1 + 2 && InputManager.Instance.MouseLocation.X < l + 90)
                     {
                         l2 = 0xff0000;
                         j2 = k2;
                     }
                     gameGraphics.drawString(skillName[k2] + ":@yel@" + PlayerStatCurrent[k2] + "/" + PlayerStatBase[k2], l + 5, l1, 1, l2);
                     l2 = 0xffffff;
-                    if (mouseX >= l + 90 && mouseY >= l1 - 13 - 11 && mouseY < (l1 - 13) + 2 && mouseX < l + 196)
+                    if (InputManager.Instance.MouseLocation.X >= l + 90 && InputManager.Instance.MouseLocation.Y >= l1 - 13 - 11 && InputManager.Instance.MouseLocation.Y < (l1 - 13) + 2 && InputManager.Instance.MouseLocation.X < l + 196)
                     {
                         l2 = 0xff0000;
                         j2 = k2 + 9;
@@ -9605,8 +9606,8 @@ namespace RuneScapeSolo.Lib
                 return;
             }
 
-            l = mouseX - (gameGraphics.gameWidth - 199);
-            i1 = mouseY - 36;
+            l = InputManager.Instance.MouseLocation.X - (gameGraphics.gameWidth - 199);
+            i1 = InputManager.Instance.MouseLocation.Y - 36;
             if (l >= 0 && i1 >= 0 && l < c1 && i1 < c2)
             {
                 if (questMenuSelected == 1)
@@ -9634,22 +9635,22 @@ namespace RuneScapeSolo.Lib
             if (mouseButtonClick != 0)
             {
                 mouseButtonClick = 0;
-                if (showFriendsBox == 1 && (mouseX < 106 || mouseY < 145 || mouseX > 406 || mouseY > 215))
+                if (showFriendsBox == 1 && (InputManager.Instance.MouseLocation.X < 106 || InputManager.Instance.MouseLocation.Y < 145 || InputManager.Instance.MouseLocation.X > 406 || InputManager.Instance.MouseLocation.Y > 215))
                 {
                     showFriendsBox = 0;
                     return;
                 }
-                if (showFriendsBox == 2 && (mouseX < 6 || mouseY < 145 || mouseX > 506 || mouseY > 215))
+                if (showFriendsBox == 2 && (InputManager.Instance.MouseLocation.X < 6 || InputManager.Instance.MouseLocation.Y < 145 || InputManager.Instance.MouseLocation.X > 506 || InputManager.Instance.MouseLocation.Y > 215))
                 {
                     showFriendsBox = 0;
                     return;
                 }
-                if (showFriendsBox == 3 && (mouseX < 106 || mouseY < 145 || mouseX > 406 || mouseY > 215))
+                if (showFriendsBox == 3 && (InputManager.Instance.MouseLocation.X < 106 || InputManager.Instance.MouseLocation.Y < 145 || InputManager.Instance.MouseLocation.X > 406 || InputManager.Instance.MouseLocation.Y > 215))
                 {
                     showFriendsBox = 0;
                     return;
                 }
-                if (mouseX > 236 && mouseX < 276 && mouseY > 193 && mouseY < 213)
+                if (InputManager.Instance.MouseLocation.X > 236 && InputManager.Instance.MouseLocation.X < 276 && InputManager.Instance.MouseLocation.Y > 193 && InputManager.Instance.MouseLocation.Y < 213)
                 {
                     showFriendsBox = 0;
                     return;
@@ -9720,7 +9721,7 @@ namespace RuneScapeSolo.Lib
                 }
             }
             int i1 = 0xffffff;
-            if (mouseX > 236 && mouseX < 276 && mouseY > 193 && mouseY < 213)
+            if (InputManager.Instance.MouseLocation.X > 236 && InputManager.Instance.MouseLocation.X < 276 && InputManager.Instance.MouseLocation.Y > 193 && InputManager.Instance.MouseLocation.Y < 213)
             {
                 i1 = 0xffff00;
             }
@@ -9751,7 +9752,7 @@ namespace RuneScapeSolo.Lib
                 {
                     int j1 = menuX + 2;
                     int l1 = menuY + 27 + l * 15;
-                    if (mouseX <= j1 - 2 || mouseY <= l1 - 12 || mouseY >= l1 + 4 || mouseX >= (j1 - 3) + menuWidth)
+                    if (InputManager.Instance.MouseLocation.X <= j1 - 2 || InputManager.Instance.MouseLocation.Y <= l1 - 12 || InputManager.Instance.MouseLocation.Y >= l1 + 4 || InputManager.Instance.MouseLocation.X >= (j1 - 3) + menuWidth)
                     {
                         continue;
                     }
@@ -9764,7 +9765,7 @@ namespace RuneScapeSolo.Lib
                 menuShow = false;
                 return;
             }
-            if (mouseX < menuX - 10 || mouseY < menuY - 10 || mouseX > menuX + menuWidth + 10 || mouseY > menuY + menuHeight + 10)
+            if (InputManager.Instance.MouseLocation.X < menuX - 10 || InputManager.Instance.MouseLocation.Y < menuY - 10 || InputManager.Instance.MouseLocation.X > menuX + menuWidth + 10 || InputManager.Instance.MouseLocation.Y > menuY + menuHeight + 10)
             {
                 menuShow = false;
                 return;
@@ -9776,7 +9777,7 @@ namespace RuneScapeSolo.Lib
                 int k1 = menuX + 2;
                 int i2 = menuY + 27 + i1 * 15;
                 int j2 = 0xffffff;
-                if (mouseX > k1 - 2 && mouseY > i2 - 12 && mouseY < i2 + 4 && mouseX < (k1 - 3) + menuWidth)
+                if (InputManager.Instance.MouseLocation.X > k1 - 2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && InputManager.Instance.MouseLocation.X < (k1 - 3) + menuWidth)
                 {
                     j2 = 0xffff00;
                 }
@@ -9789,84 +9790,84 @@ namespace RuneScapeSolo.Lib
 
         public void getMenuHighlighted()
         {
-            if (drawMenuTab == 0 && mouseX >= gameGraphics.gameWidth - 35 && mouseY >= 3 && mouseX < gameGraphics.gameWidth - 3 && mouseY < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 && InputManager.Instance.MouseLocation.Y < 35)
             {
                 drawMenuTab = 1;
             }
 
-            if (drawMenuTab == 0 && mouseX >= gameGraphics.gameWidth - 35 - 33 && mouseY >= 3 && mouseX < gameGraphics.gameWidth - 3 - 33 && mouseY < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 33 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 33 && InputManager.Instance.MouseLocation.Y < 35)
             {
                 drawMenuTab = 2;
                 minimapRandomRotationX = (int)(Helper.Random.NextDouble() * 13D) - 6;
                 minimapRandomRotationY = (int)(Helper.Random.NextDouble() * 23D) - 11;
             }
-            if (drawMenuTab == 0 && mouseX >= gameGraphics.gameWidth - 35 - 66 && mouseY >= 3 && mouseX < gameGraphics.gameWidth - 3 - 66 && mouseY < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 66 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 66 && InputManager.Instance.MouseLocation.Y < 35)
             {
                 drawMenuTab = 3;
             }
 
-            if (drawMenuTab == 0 && mouseX >= gameGraphics.gameWidth - 35 - 99 && mouseY >= 3 && mouseX < gameGraphics.gameWidth - 3 - 99 && mouseY < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 99 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 99 && InputManager.Instance.MouseLocation.Y < 35)
             {
                 drawMenuTab = 4;
             }
 
-            if (drawMenuTab == 0 && mouseX >= gameGraphics.gameWidth - 35 - 132 && mouseY >= 3 && mouseX < gameGraphics.gameWidth - 3 - 132 && mouseY < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 132 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 132 && InputManager.Instance.MouseLocation.Y < 35)
             {
                 drawMenuTab = 5;
             }
 
-            if (drawMenuTab == 0 && mouseX >= gameGraphics.gameWidth - 35 - 165 && mouseY >= 3 && mouseX < gameGraphics.gameWidth - 3 - 165 && mouseY < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 165 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 165 && InputManager.Instance.MouseLocation.Y < 35)
             {
                 drawMenuTab = 6;
             }
 
-            if (drawMenuTab != 0 && mouseX >= gameGraphics.gameWidth - 35 && mouseY >= 3 && mouseX < gameGraphics.gameWidth - 3 && mouseY < 26)
+            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 && InputManager.Instance.MouseLocation.Y < 26)
             {
                 drawMenuTab = 1;
             }
 
-            if (drawMenuTab != 0 && drawMenuTab != 2 && mouseX >= gameGraphics.gameWidth - 35 - 33 && mouseY >= 3 && mouseX < gameGraphics.gameWidth - 3 - 33 && mouseY < 26)
+            if (drawMenuTab != 0 && drawMenuTab != 2 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 33 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 33 && InputManager.Instance.MouseLocation.Y < 26)
             {
                 drawMenuTab = 2;
                 minimapRandomRotationX = (int)(Helper.Random.NextDouble() * 13D) - 6;
                 minimapRandomRotationY = (int)(Helper.Random.NextDouble() * 23D) - 11;
             }
-            if (drawMenuTab != 0 && mouseX >= gameGraphics.gameWidth - 35 - 66 && mouseY >= 3 && mouseX < gameGraphics.gameWidth - 3 - 66 && mouseY < 26)
+            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 66 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 66 && InputManager.Instance.MouseLocation.Y < 26)
             {
                 drawMenuTab = 3;
             }
 
-            if (drawMenuTab != 0 && mouseX >= gameGraphics.gameWidth - 35 - 99 && mouseY >= 3 && mouseX < gameGraphics.gameWidth - 3 - 99 && mouseY < 26)
+            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 99 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 99 && InputManager.Instance.MouseLocation.Y < 26)
             {
                 drawMenuTab = 4;
             }
 
-            if (drawMenuTab != 0 && mouseX >= gameGraphics.gameWidth - 35 - 132 && mouseY >= 3 && mouseX < gameGraphics.gameWidth - 3 - 132 && mouseY < 26)
+            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 132 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 132 && InputManager.Instance.MouseLocation.Y < 26)
             {
                 drawMenuTab = 5;
             }
 
-            if (drawMenuTab != 0 && mouseX >= gameGraphics.gameWidth - 35 - 165 && mouseY >= 3 && mouseX < gameGraphics.gameWidth - 3 - 165 && mouseY < 26)
+            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 165 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 165 && InputManager.Instance.MouseLocation.Y < 26)
             {
                 drawMenuTab = 6;
             }
 
-            if (drawMenuTab == 1 && (mouseX < gameGraphics.gameWidth - 248 || mouseY > 36 + (maxInventoryItems / 5) * 34))
+            if (drawMenuTab == 1 && (InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 248 || InputManager.Instance.MouseLocation.Y > 36 + (maxInventoryItems / 5) * 34))
             {
                 drawMenuTab = 0;
             }
 
-            if (drawMenuTab == 3 && (mouseX < gameGraphics.gameWidth - 199 || mouseY > 316))
+            if (drawMenuTab == 3 && (InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 199 || InputManager.Instance.MouseLocation.Y > 316))
             {
                 drawMenuTab = 0;
             }
 
-            if ((drawMenuTab == 2 || drawMenuTab == 4 || drawMenuTab == 5) && (mouseX < gameGraphics.gameWidth - 199 || mouseY > 240))
+            if ((drawMenuTab == 2 || drawMenuTab == 4 || drawMenuTab == 5) && (InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 199 || InputManager.Instance.MouseLocation.Y > 240))
             {
                 drawMenuTab = 0;
             }
 
-            if (drawMenuTab == 6 && (mouseX < gameGraphics.gameWidth - 199 || mouseY > 326))
+            if (drawMenuTab == 6 && (InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 199 || InputManager.Instance.MouseLocation.Y > 326))
             {
                 drawMenuTab = 0;
             }
@@ -10319,11 +10320,5 @@ namespace RuneScapeSolo.Lib
         public int[][] captchaPixels;
         public int captchaWidth;
         public int captchaHeight;
-
-        //public void LoadContent()
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
-
 }

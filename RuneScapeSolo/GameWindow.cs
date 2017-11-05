@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using RuneScapeSolo.Events;
+using RuneScapeSolo.Input;
 using RuneScapeSolo.Lib;
 
 namespace RuneScapeSolo
@@ -22,17 +23,17 @@ namespace RuneScapeSolo
 
         Texture2D _lastGameImageTexture = null;
 
-         Texture2D _gameLogo;
+        Texture2D _gameLogo;
 
-         SpriteFont _diagnosticFont;
-         SpriteFont _diagnosticFont2;
+        SpriteFont _diagnosticFont;
+        SpriteFont _diagnosticFont2;
 
         bool _isSectionLoading = false;
         bool _isContentLoading = false;
         string _contentLoadingStatusText = "";
         decimal _contentLoadingStatusProgress = 0m;
 
-         Texture2D _loadingBackgroundImage;
+        Texture2D _loadingBackgroundImage;
 
         public GameWindow()
         {
@@ -145,6 +146,8 @@ namespace RuneScapeSolo
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            InputManager.Instance.Update();
+
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
             {
@@ -251,7 +254,7 @@ namespace RuneScapeSolo
             //GC.Collect();
         }
 
-         void DrawLogo()
+        void DrawLogo()
         {
             try
             {
@@ -285,7 +288,7 @@ namespace RuneScapeSolo
             catch { }
         }
 
-         void DrawGame(mudclient _rscMudclient)
+        void DrawGame(mudclient _rscMudclient)
         {
             if (_rscMudclient != null)
             {
@@ -370,7 +373,7 @@ namespace RuneScapeSolo
             }
         }
 
-         static bool DrawMudclient(mudclient _rscMudclient)
+        static bool DrawMudclient(mudclient _rscMudclient)
         {
             _rscMudclient.paint(mudclient.graphics);
 
@@ -398,7 +401,7 @@ namespace RuneScapeSolo
             return true;
         }
 
-         void DrawSectionLoading()
+        void DrawSectionLoading()
         {
             var s1 = "Loading... Please wait";
             var sSize = _diagnosticFont2.MeasureString(s1);
@@ -408,7 +411,7 @@ namespace RuneScapeSolo
             spriteBatch.DrawString(_diagnosticFont2, s1, sPos, Color.White);
         }
 
-         void DrawContentLoading(string contentLoadingStatusText, decimal contentLoadingStatusProgress)
+        void DrawContentLoading(string contentLoadingStatusText, decimal contentLoadingStatusProgress)
         {
             GraphicsDevice.Clear(Color.Black);
 
