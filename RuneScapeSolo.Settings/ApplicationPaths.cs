@@ -29,12 +29,12 @@ namespace RuneScapeSolo.Settings
         /// <summary>
         /// The data directory.
         /// </summary>
-        public static string DataDirectory => Path.Combine(ApplicationDirectory, "data");
+        public static string DataDirectory => Path.Combine(ApplicationDirectory, "Data");
 
         /// <summary>
         /// The configuration directory.
         /// </summary>
-        public static string ConfigurationDirectory => Path.Combine(ApplicationDirectory, "data");
+        public static string ConfigurationDirectory => Path.Combine(ApplicationDirectory, "Data");
 
         /// <summary>
         /// The entities directory.
