@@ -39,6 +39,6 @@ namespace RuneScapeSolo.Settings
         /// <summary>
         /// The entities directory.
         /// </summary>
-        public static string EntitiesDirectory => Path.Combine(ApplicationDirectory, "Entities");
+        public static string EntitiesDirectory => Path.Combine(DataDirectory, "Entities");
     }
 }
