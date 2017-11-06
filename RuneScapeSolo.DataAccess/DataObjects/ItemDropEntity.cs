@@ -15,7 +15,7 @@
         /// Gets or sets the item identifier.
         /// </summary>
         /// <value>The item identifier.</value>
-        public int ItemId { get; set; }
+        public string ItemId { get; set; }
 
         /// <summary>
         /// Gets or sets the amount.

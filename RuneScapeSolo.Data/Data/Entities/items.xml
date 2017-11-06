@@ -14476,7 +14476,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>potion_of_zamorak</Id>
+    <Id>potion_of_zamorak3</Id>
     <Name>Potion of Zamorak</Name>
     <Description>It looks scary</Description>
     <Command>drink</Command>
