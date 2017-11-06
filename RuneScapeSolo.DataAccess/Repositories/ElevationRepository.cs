@@ -104,8 +104,8 @@ namespace RuneScapeSolo.DataAccess.Repositories
                 throw new EntityNotFoundException(elevationEntity.Id, nameof(ElevationEntity).Replace("Entity", ""));
             }
 
-            elevationEntityToUpdate.Unknown1 = elevationEntity.Unknown1;
-            elevationEntityToUpdate.Unknown2 = elevationEntity.Unknown2;
+            elevationEntityToUpdate.Roof = elevationEntity.Roof;
+            elevationEntityToUpdate.Unknown = elevationEntity.Unknown;
 
             xmlDatabase.SaveEntities(elevationEntities);
         }

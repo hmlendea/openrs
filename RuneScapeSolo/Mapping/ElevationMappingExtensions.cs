@@ -20,8 +20,8 @@ namespace RuneScapeSolo.Mapping
         {
             Elevation elevation = new Elevation
             {
-                Unknown1 = elevationEntity.Unknown1,
-                Unknown2 = elevationEntity.Unknown2
+                Roof = elevationEntity.Roof,
+                Unknown = elevationEntity.Unknown
             };
 
             return elevation;
@@ -36,8 +36,8 @@ namespace RuneScapeSolo.Mapping
         {
             ElevationEntity elevationEntity = new ElevationEntity
             {
-                Unknown1 = elevation.Unknown1,
-                Unknown2 = elevation.Unknown2
+                Roof = elevation.Roof,
+                Unknown = elevation.Unknown
             };
 
             return elevationEntity;

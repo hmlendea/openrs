@@ -19,18 +19,8 @@ namespace RuneScapeSolo.Lib.Data
         static WallObject[] wallObjects;
 
         static List<string> models = new List<string>();
-        static int invPictureCount;
-
         // TODO: Properly handle those fields.
         public static int highestLoadedPicture;
-        public static int overlayTextureCount;
-        public static int akd;
-        public static int ani;
-        public static int[] aln;
-        public static int[] aki;
-        public static int[] roofs;
-        public static int[] TileGroundOverlayTexture;
-        public static int[] tileGroundOverlayTypes;
         public static string[] modelName = new string[5000];
         static int stringDataIndex;
         static int integerDataIndex;
@@ -48,13 +38,7 @@ namespace RuneScapeSolo.Lib.Data
         /// </summary>
         /// <value>The elevations count.</value>
         public static int ElevationCount => elevations.Length;
-
-        /// <summary>
-        /// Gets the inv picture count.
-        /// </summary>
-        /// <value>The inv picture count.</value>
-        public static int InvPictureCount => invPictureCount;
-
+        
         /// <summary>
         /// Gets the items count.
         /// </summary>
@@ -314,49 +298,8 @@ namespace RuneScapeSolo.Lib.Data
             LoadAnimations();
             LoadObjects();
             LoadWallObjects();
-
-            akd = ReadInt16();
-            roofs = new int[akd];
-            aln = new int[akd];
-            for (int i = 0; i < akd; i++)
-            {
-                roofs[i] = ReadInt8();
-            }
-
-            for (int i = 0; i < akd; i++)
-            {
-                aln[i] = ReadInt8();
-            }
-
-            /*System.out.println("akd:");
-            for(int i = 0; i < akd; i++) {
-                System.out.println(i + ": " + alm[i] + " " + aln[i]);
-            }*/
-
-            overlayTextureCount = ReadInt16();
-            TileGroundOverlayTexture = new int[overlayTextureCount];
-            tileGroundOverlayTypes = new int[overlayTextureCount];
-            aki = new int[overlayTextureCount];
-            for (int i = 0; i < overlayTextureCount; i++)
-            {
-                TileGroundOverlayTexture[i] = ReadInt32();
-            }
-
-            for (int i = 0; i < overlayTextureCount; i++)
-            {
-                tileGroundOverlayTypes[i] = ReadInt8();
-            }
-
-            for (int i = 0; i < overlayTextureCount; i++)
-            {
-                aki[i] = ReadInt8();
-            }
-
-            /*System.out.println("overlayTextureCount:");
-            for(int i = 0; i < overlayTextureCount; i++) {
-                System.out.println(i + ": " + akg[i] + " " + akh[i] + " " + aki[i]);
-            }*/
-
+            LoadElevations();
+            LoadTiles();
             LoadSpells();
             LoadPrayers();
 
@@ -730,6 +673,51 @@ namespace RuneScapeSolo.Lib.Data
             for (int i = 0; i < WallObjectCount; i++)
             {
                 wallObjects[i].Unknown = ReadInt8();
+            }
+        }
+
+        static void LoadElevations()
+        {
+            elevations = new Elevation[ReadInt16()];
+
+            for (int i = 0; i < ElevationCount; i++)
+            {
+                elevations[i] = new Elevation();
+            }
+
+            for (int i = 0; i < ElevationCount; i++)
+            {
+                elevations[i].Roof = ReadInt8();
+            }
+
+            for (int i = 0; i < ElevationCount; i++)
+            {
+                elevations[i].Unknown = ReadInt8();
+            }
+        }
+
+        static void LoadTiles()
+        {
+            tiles = new Tile[ReadInt16()];
+
+            for (int i = 0; i < TileCount; i++)
+            {
+                tiles[i] = new Tile();
+            }
+
+            for (int i = 0; i < TileCount; i++)
+            {
+                tiles[i].Colour = ReadInt32();
+            }
+
+            for (int i = 0; i < TileCount; i++)
+            {
+                tiles[i].Type = ReadInt8();
+            }
+
+            for (int i = 0; i < TileCount; i++)
+            {
+                tiles[i].Unknown = ReadInt8();
             }
         }
 
