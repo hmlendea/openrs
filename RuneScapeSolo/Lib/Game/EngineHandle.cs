@@ -359,6 +359,8 @@ namespace RuneScapeSolo.Lib.Game
             }
             catch (IOException ex)
             {
+                Console.WriteLine($"An error has occured in {nameof(EngineHandle)}.cs");
+                Console.WriteLine(ex.Message);
             }
             for (int k = 0; k < 2304; k++)
             {
@@ -2236,11 +2238,12 @@ namespace RuneScapeSolo.Lib.Game
                                         }
                                     }
                                 }
-
                             }
                         }
-                        catch { }
-
+                        catch
+                        {
+                            Console.WriteLine($"An error has occured in {nameof(EngineHandle)}.cs");
+                        }
                     }
                 }
             }

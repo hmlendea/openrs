@@ -24,7 +24,10 @@ namespace RuneScapeSolo.Lib
                         c++;
                     }
                 }
-                catch { }
+                catch
+                {
+                    Console.WriteLine($"An error has occured in {nameof(Link)}.cs");
+                }
             }
             return list.ToArray();
         }
@@ -67,9 +70,11 @@ namespace RuneScapeSolo.Lib
                 }
                 return false;
             }
-            catch (IOException ioe)
+            catch (IOException ex)
             {
-                // ioe.printStackTrace();
+                Console.WriteLine($"An error has occured in {nameof(Link)}.cs");
+                Console.WriteLine(ex.Message);
+
                 return false;
             }
         }
@@ -99,30 +104,22 @@ namespace RuneScapeSolo.Lib
         {
             for (Link.port = port; Link.port != 0;)
             {
-                try
-                {
-                    Thread.Sleep(100);
-                }
-                catch (Exception ex) { }
+                Thread.Sleep(100);
             }
 
             return socket;
         }
-        
+
         public static string getAddress(string ip)
         {
             for (iplookup = ip; iplookup != null;)
             {
-                try
-                {
-                    Thread.Sleep(100);
-                }
-                catch (Exception ex) { }
+                Thread.Sleep(100);
             }
 
             return address;
         }
-        
+
         public static int uid;
         static int port;
         static TcpClient socket;

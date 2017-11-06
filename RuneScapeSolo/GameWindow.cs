@@ -178,7 +178,10 @@ namespace RuneScapeSolo
                     }*/ // this /* ... */ was not commented in the original code
                     //  _rscMudclient.checkInputs();
                 }
-                catch { }
+                catch
+                {
+                    Console.WriteLine($"An error has occured in {nameof(GameWindow)}.cs");
+                }
             }
 
 
@@ -256,6 +259,8 @@ namespace RuneScapeSolo
             }
             catch
             {
+                Console.WriteLine($"An error has occured in {nameof(GameWindow)}.cs");
+
                 try
                 {
                     spriteBatch.End();
@@ -263,6 +268,7 @@ namespace RuneScapeSolo
                 }
                 catch
                 {
+                    Console.WriteLine($"An error has occured in {nameof(GameWindow)}.cs");
                 }
             }
 
@@ -279,7 +285,10 @@ namespace RuneScapeSolo
 
                 spriteBatch.End();
             }
-            catch { }
+            catch
+            {
+                Console.WriteLine($"An error has occured in {nameof(GameWindow)}.cs");
+            }
         }
 
         void DrawGame(GameClient client)
@@ -351,7 +360,10 @@ namespace RuneScapeSolo
 
                     spriteBatch.End();
                 }
-                catch { }
+                catch
+                {
+                    Console.WriteLine($"An error has occured in {nameof(GameWindow)}.cs");
+                }
             }
         }
 
@@ -376,6 +388,9 @@ namespace RuneScapeSolo
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"An error has occured in {nameof(GameWindow)}.cs");
+                Console.WriteLine(ex.Message);
+
                 client.cleanUp();
                 client.memoryError = true;
 

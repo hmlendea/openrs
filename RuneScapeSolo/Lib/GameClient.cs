@@ -3079,6 +3079,9 @@ namespace RuneScapeSolo.Lib
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
+                Console.WriteLine(ex.Message);
+
                 cleanUp();
                 memoryError = true;
             }
@@ -3179,7 +3182,10 @@ namespace RuneScapeSolo.Lib
                             }
                         }
                     }
-                    catch { }
+                    catch
+                    {
+                        Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
+                    }
                 }
                 EntityManager.GetAnimation(i1).Number = animationNumber;
                 animationNumber += 27;
@@ -4440,6 +4446,9 @@ namespace RuneScapeSolo.Lib
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
+                Console.WriteLine(ex);
+
                 cleanUp();
                 memoryError = true;
             }
@@ -4483,6 +4492,9 @@ namespace RuneScapeSolo.Lib
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
+                Console.WriteLine(ex.Message);
+
                 return;
             }
         }
@@ -7750,8 +7762,10 @@ namespace RuneScapeSolo.Lib
                         GameDataObjects[i1].isGiantCrystal = true;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    //Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
+                    //Console.WriteLine(ex);
                 }
             }
         }
@@ -9933,9 +9947,10 @@ namespace RuneScapeSolo.Lib
                     return true;
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                //e.printStackTrace();
+                Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
+                Console.WriteLine(ex.Message);
             }
             return false;
         }

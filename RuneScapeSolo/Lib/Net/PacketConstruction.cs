@@ -83,6 +83,9 @@ namespace RuneScapeSolo.Lib.Net
                 }
                 catch (IOException ex)
                 {
+                    Console.WriteLine($"An error has occured in {nameof(PacketConstruction)}.cs");
+                    Console.WriteLine(ex.Message);
+
                     HasErrors = true;
                     ErrorMessage = ex.Message;
                 }
@@ -377,6 +380,9 @@ namespace RuneScapeSolo.Lib.Net
             }
             catch (IOException ex)
             {
+                Console.WriteLine($"An error has occured in {nameof(Link)}.cs");
+                Console.WriteLine(ex.Message);
+
                 HasErrors = true;
                 ErrorMessage = ex.Message;
             }

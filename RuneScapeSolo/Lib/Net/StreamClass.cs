@@ -45,7 +45,11 @@ namespace RuneScapeSolo.Lib.Net
 
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error has occured in {nameof(StreamClass)}.cs");
+                Console.WriteLine(ex.Message);
+            }
 
             try
             {
@@ -53,6 +57,7 @@ namespace RuneScapeSolo.Lib.Net
             }
             catch
             {
+                Console.WriteLine($"An error has occured in {nameof(StreamClass)}.cs");
                 CloseStream();
             }
         }
@@ -70,7 +75,7 @@ namespace RuneScapeSolo.Lib.Net
             }
             catch (IOException ex)
             {
-                Console.WriteLine("Error closing stream");
+                Console.WriteLine($"Error closing stream: {ex.Message}");
             }
 
             socketClosed = true;
@@ -178,13 +183,18 @@ namespace RuneScapeSolo.Lib.Net
                         netStream.Flush();
                     }
                 }
-                catch (IOException ioexception1)
+                catch (IOException ex)
                 {
+                    Console.WriteLine($"An error has occured in {nameof(StreamClass)}.cs");
+
                     HasErrors = true;
-                    ErrorMessage = "Twriter:" + ioexception1;
+                    ErrorMessage = "Twriter:" + ex;
                 }
             }
-            catch { }
+            catch
+            {
+                Console.WriteLine($"An error has occured in {nameof(StreamClass)}.cs");
+            }
         }
 
         public void run()
@@ -229,10 +239,12 @@ namespace RuneScapeSolo.Lib.Net
 
                         netStream.Write(buffer, j, i);
                     }
-                    catch (IOException ioexception)
+                    catch (IOException ex)
                     {
-                        base.HasErrors = true;
-                        base.ErrorMessage = "Twriter:" + ioexception;
+                        Console.WriteLine($"An error has occured in {nameof(StreamClass)}.cs");
+
+                        HasErrors = true;
+                        ErrorMessage = "Twriter:" + ex;
                     }
                     lastWriteLen = i;
 
@@ -245,14 +257,17 @@ namespace RuneScapeSolo.Lib.Net
                                 netStream.Flush();
                             }
                         }
-                        catch (IOException ioexception1)
+                        catch (IOException ex)
                         {
-                            base.HasErrors = true;
-                            base.ErrorMessage = "Twriter:" + ioexception1;
+                            Console.WriteLine($"An error has occured in {nameof(StreamClass)}.cs");
+
+                            HasErrors = true;
+                            ErrorMessage = "Twriter:" + ex;
                         }
                     }
                 }
-                System.Threading.Thread.Sleep(1);
+
+                Thread.Sleep(1);
             }
         }
     }

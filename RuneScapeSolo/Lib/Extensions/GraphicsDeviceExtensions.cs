@@ -15,14 +15,6 @@ namespace RuneScapeSolo.Lib
             {
                 createDummyTexture(spriteBatch);
             }
-
-            try
-            {
-                //   spriteBatch.BeginSafe();
-                //spriteBatch.Draw(dummyTexture, rect, color);
-                //  spriteBatch.EndSafe();
-            }
-            catch { }
         }
 
         public static void setColor(this SpriteBatch spriteBatch, Color color)
@@ -102,12 +94,12 @@ namespace RuneScapeSolo.Lib
             var stepB = (color2.B - color.B) / stepY;
             var stepA = (color2.A - color.A) / stepY;
 
-          //  MathHelper.s
+            //  MathHelper.s
             MathHelper.Lerp(color2.PackedValue, color.PackedValue, 0);
 
             //if (stepY == stepX)
             {
-                int sR=0, sG=0, sB=0, sA=0;
+                int sR = 0, sG = 0, sB = 0, sA = 0;
                 for (int j = 0; j < stepY; j++)
                 {
                     var nY = y + j;
@@ -118,7 +110,7 @@ namespace RuneScapeSolo.Lib
                     sB += stepB;
                     sA += stepA;
 
-                    var nColor = new Color(sR,sG,sB,sA);
+                    var nColor = new Color(sR, sG, sB, sA);
                     spriteBatch.drawLine(new Vector2(nX, nY), new Vector2(x2, nY), nColor);
                 }
             }

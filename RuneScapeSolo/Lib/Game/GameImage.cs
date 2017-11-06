@@ -731,12 +731,10 @@ namespace RuneScapeSolo.Lib.Game
 
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                //e.printStackTrace();
-                Console.WriteLine(e.ToString());
+                Console.WriteLine(ex);
             }
-
         }
 
         public void applyImage(int arg0)
@@ -2715,7 +2713,6 @@ namespace RuneScapeSolo.Lib.Game
             catch (Exception exception)
             {
                 Console.WriteLine("centrepara: " + exception);
-                //exception.printStackTrace();
             }
         }
 
@@ -2861,7 +2858,10 @@ namespace RuneScapeSolo.Lib.Game
                         }
                     }
                 }
-                catch { }
+                catch
+                {
+                    Console.WriteLine($"An error has occured in {nameof(GameImage)}.cs");
+                }
 
                 //stringsToDraw.Add(new stringDrawDef
                 //{
@@ -2887,7 +2887,7 @@ namespace RuneScapeSolo.Lib.Game
             catch (Exception exception)
             {
                 Console.WriteLine("drawstring: " + exception);
-                // exception.printStackTrace();
+
                 return;
             }
         }
@@ -3012,7 +3012,7 @@ namespace RuneScapeSolo.Lib.Game
             catch (Exception exception)
             {
                 Console.WriteLine("plotletter: " + exception);
-                //exception.printStackTrace();
+
                 return;
             }
         }

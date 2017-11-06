@@ -44,11 +44,9 @@ namespace RuneScapeSolo.Lib
             if (socketTimeout > 0)
             {
                 loginScreenPrint("Please wait...", "Connecting to server");
-                try
-                {
-                    Thread.Sleep(2000);
-                }
-                catch (Exception ex) { }
+
+                Thread.Sleep(2000);
+
                 loginScreenPrint("Sorry! The server is currently full.", "Please try again later");
                 return;
             }
@@ -70,10 +68,8 @@ namespace RuneScapeSolo.Lib
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
-                // e.printStackTrace();
+                Console.WriteLine(e);
             }
-
         }
 
         void DoConnect()
@@ -219,14 +215,7 @@ namespace RuneScapeSolo.Lib
 
             if (reconnectTries > 0)
             {
-                try
-                {
-                    Thread.Sleep(2500);
-                }
-                catch (Exception ex)
-                {
-
-                }
+                Thread.Sleep(2500);
 
                 reconnectTries--;
                 connect(username, password, reconnecting);
@@ -254,7 +243,7 @@ namespace RuneScapeSolo.Lib
                 }
                 catch (IOException ex)
                 {
-
+                    Console.WriteLine($"An error has occured in {nameof(GameAppletMiddleMan)}.cs");
                 }
             }
 

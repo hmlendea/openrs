@@ -97,6 +97,7 @@ namespace RuneScapeSolo.Lib.Data
             }
             catch (Exception)
             {
+                Console.WriteLine($"An error has occured in {nameof(DataConversions)}.cs");
                 return ".";
             }
         }

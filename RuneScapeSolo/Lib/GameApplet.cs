@@ -338,11 +338,9 @@ namespace RuneScapeSolo.Lib
                     sleepTime = gameMinThreadSleepTime;
                 }
             }
-            try
-            {
-                Thread.Sleep(sleepTime);
-            }
-            catch (Exception _ex) { }
+
+            Thread.Sleep(sleepTime);
+
             timeArray[i] = l1;
             i = (i + 1) % 10;
             if (sleepTime > 1)
@@ -442,7 +440,11 @@ namespace RuneScapeSolo.Lib
                 //drawString(fileTitle/*, gameLoadingFont*/, i + 138, k + 10, new Color(198, 198, 198));
 
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error has occured in {nameof(GameApplet)}.cs");
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public void drawLoadingBarText(int i, string s)
@@ -467,8 +469,9 @@ namespace RuneScapeSolo.Lib
                 //drawString(graphics, s, gameLoadingFont, k + 138, l + 10, new Color(198, 198, 198));
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception ex)
             {
+                Console.WriteLine($"An error has occured in {nameof(GameApplet)}.cs");
                 return;
             }
         }
@@ -554,6 +557,7 @@ namespace RuneScapeSolo.Lib
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine($"An error has occured in {nameof(GameApplet)}.cs");
                 }
             }
 

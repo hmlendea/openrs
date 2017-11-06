@@ -83,6 +83,7 @@ namespace RuneScapeSolo.Lib.Game
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"An error has occured in {nameof(ChatMessage)}.cs");
                 return ".";
             }
         }
@@ -166,6 +167,7 @@ namespace RuneScapeSolo.Lib.Game
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"An error has occured in {nameof(ChatMessage)}.cs");
                 return ".";
             }
         }
