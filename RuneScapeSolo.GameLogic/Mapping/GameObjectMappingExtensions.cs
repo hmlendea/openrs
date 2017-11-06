@@ -20,6 +20,7 @@ namespace RuneScapeSolo.GameLogic.Mapping
         {
             GameObject gameObject = new GameObject
             {
+                Id = gameObjectEntity.Id,
                 Name = gameObjectEntity.Name,
                 Description = gameObjectEntity.Description,
                 Command1 = gameObjectEntity.Command1,
@@ -44,6 +45,7 @@ namespace RuneScapeSolo.GameLogic.Mapping
         {
             GameObjectEntity gameObjectEntity = new GameObjectEntity
             {
+                Id = gameObject.Id,
                 Name = gameObject.Name,
                 Description = gameObject.Description,
                 Command1 = gameObject.Command1,

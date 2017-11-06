@@ -2818,7 +2818,7 @@ namespace RuneScapeSolo.Lib
                 return;
             }
 
-            loadModels();
+            LoadModels();
             if (errorLoading)
             {
                 return;
@@ -2839,9 +2839,7 @@ namespace RuneScapeSolo.Lib
                 createLoginMenus();
                 createAppearanceWindow();
                 setLoginVars();
-
-                var modelNames = EntityManager.modelName;
-
+                
                 OnContentLoadedCompleted?.Invoke(this, new EventArgs());
 
                 createLoginScreenBackgrounds();
@@ -7696,7 +7694,7 @@ namespace RuneScapeSolo.Lib
             mouseButtonClick = 0;
         }
 
-        public void loadModels()
+        public void LoadModels()
         {
             EntityManager.GetModelNameIndex("torcha2");
             EntityManager.GetModelNameIndex("torcha3");
@@ -7718,32 +7716,38 @@ namespace RuneScapeSolo.Lib
             EntityManager.GetModelNameIndex("clawspell5");
             EntityManager.GetModelNameIndex("spellcharge2");
             EntityManager.GetModelNameIndex("spellcharge3");
-            sbyte[] abyte0 = unpackData("models.jag", "3d models", 60);
-            if (abyte0 == null)
+
+            sbyte[] models = unpackData("models.jag", "3d models", 60);
+
+            if (models == null)
             {
                 errorLoading = true;
                 return;
             }
+
             for (int i1 = 0; i1 < EntityManager.ModelCount; i1++)
             {
                 try
                 {
-                    long j1 = DataOperations.getObjectOffset(EntityManager.modelName[i1] + ".ob3", abyte0);
+                    long j1 = DataOperations.getObjectOffset(EntityManager.GetModelName(i1) + ".ob3", models);
+
                     if (j1 != 0)
                     {
-                        GameDataObjects[i1] = new GameObject(abyte0, (int)j1, true);
+                        GameDataObjects[i1] = new GameObject(models, (int)j1, true);
                     }
                     else
                     {
                         GameDataObjects[i1] = new GameObject(1, 1);
                     }
 
-                    if (EntityManager.modelName[i1].Equals("giantcrystal"))
+                    if (EntityManager.GetModelName(i1).Equals("giantcrystal"))
                     {
                         GameDataObjects[i1].isGiantCrystal = true;
                     }
                 }
-                catch { }
+                catch
+                {
+                }
             }
         }
 

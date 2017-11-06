@@ -22,10 +22,6 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         static Tile[] tiles;
         static WallObject[] wallObjects;
 
-        static List<string> models = new List<string>();
-        // TODO: Properly handle those fields.
-        public static string[] modelName = new string[5000];
-
         /// <summary>
         /// Gets the animations count.
         /// </summary>
@@ -54,7 +50,7 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// Gets the models count.
         /// </summary>
         /// <value>The models count.</value>
-        public static int ModelCount => models.Count;
+        public static int ModelCount => ObjectCount;
 
         /// <summary>
         /// Gets the objects count.
@@ -73,7 +69,7 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// </summary>
         /// <value>The spells count.</value>
         public static int SpellCount => spells.Length;
-        
+
         /// <summary>
         /// Gets or sets the spell projectile count.
         /// </summary>
@@ -99,7 +95,7 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         public static int WallObjectCount => wallObjects.Length;
 
         public static int HighestLoadedPicture { get; private set; }
-        
+
         public static void Load(sbyte[] data)
         {
             string animationsPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "animations.xml");
@@ -203,12 +199,17 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// <param name="id">Identifier.</param>
         public static string GetModelName(int id)
         {
-            if (id < 0 || id >= models.Count)
+            if (id < 0 || id >= ObjectCount)
             {
                 return null;
             }
 
-            return models[id];
+            return objects[id].Id;
+        }
+
+        public static int GetModelNameIndex(string id)
+        {
+            return objects.ToList().FindIndex(x => x.Id == id);
         }
 
         /// <summary>
@@ -231,14 +232,24 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// </summary>
         /// <returns>The object.</returns>
         /// <param name="id">Identifier.</param>
-        public static GameObject GetObject(int id)
+        public static GameObject GetObject(string id)
         {
-            if (id < 0 || id >= objects.Length)
+            return objects.FirstOrDefault(x => x.Id == id);
+        }
+
+        /// <summary>
+        /// Gets the object.
+        /// </summary>
+        /// <returns>The object.</returns>
+        /// <param name="index">Index.</param>
+        public static GameObject GetObject(int index)
+        {
+            if (index < 0 || index >= objects.Length)
             {
                 return null;
             }
 
-            return objects[id];
+            return objects[index];
         }
 
         /// <summary>
@@ -299,43 +310,6 @@ namespace RuneScapeSolo.GameLogic.GameManagers
             }
 
             return wallObjects[id];
-        }
-
-        public static int GetModelNameIndex(string str)
-        {
-            if (str.ToLower().Equals("na"))
-            {
-                return 0;
-            }
-
-            for (int i = 0; i < ModelCount; i++)
-            {
-                if (models[i].ToLower().Equals(str))
-                {
-                    return i;
-                }
-            }
-
-            models.Add(str);
-            return models.Count - 1;
-        }
-
-        static int StoreModel(string name)
-        {
-            if (name.ToLower().Equals("na"))
-            {
-                return 0;
-            }
-
-            int index = models.IndexOf(name);
-
-            if (index < 0)
-            {
-                models.Add(name);
-                return models.Count - 1;
-            }
-
-            return index;
         }
     }
 }

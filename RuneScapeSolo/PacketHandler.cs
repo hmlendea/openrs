@@ -288,7 +288,7 @@ namespace RuneScapeSolo
                                 client.ObjectRotation[newCount] = client.ObjectRotation[obj];
                             }
 
-                            newCount++;
+                            newCount += 1;
                         }
                         else
                         {
@@ -306,14 +306,15 @@ namespace RuneScapeSolo
                 }
                 else
                 {
-                    int index = DataOperations.getShort(data, offset);
+                    int index = DataOperations.GetUnsigned2Bytes(data, offset);
                     offset += 2;
 
                     int newSectionX = client.SectionX + data[offset++];
                     int newSectionY = client.SectionY + data[offset++];
 
-                    int rotation = data[offset++];
+                    int rotation = data[offset];
                     int newCount = 0;
+                    offset += 1;
 
                     for (int obj = 0; obj < client.ObjectCount; obj++)
                     {
@@ -332,7 +333,8 @@ namespace RuneScapeSolo
                                 client.ObjectType[newCount] = client.ObjectType[obj];
                                 client.ObjectRotation[newCount] = client.ObjectRotation[obj];
                             }
-                            newCount++;
+
+                            newCount += 1;
                         }
                         else
                         {
@@ -369,7 +371,14 @@ namespace RuneScapeSolo
                         int l40 = ((newSectionX + newSectionX + width) * client.GridSize) / 2;
                         int k42 = ((newSectionY + newSectionY + height) * client.GridSize) / 2;
                         int model = EntityManager.GetObject(index).ModelId;
-                        GameObject gameObject = client.GameDataObjects[model].CreateParent();
+                        GameObject gameObjectModel = client.GameDataObjects[model];
+
+                        if (gameObjectModel == null)
+                        {
+                            Console.WriteLine("Problem is here");
+                        }
+
+                        GameObject gameObject = gameObjectModel.CreateParent();
 
 #warning object not being added to camera.
                         client.gameCamera.addModel(gameObject);
