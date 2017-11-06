@@ -1317,17 +1317,17 @@ namespace RuneScapeSolo.Lib
         {
             if (direction == 0)
             {
-                walkTo(SectionX, SectionY, x, y - 1, x, y, false, true);
+                WalkTo(SectionX, SectionY, x, y - 1, x, y, false, true);
                 return;
             }
             if (direction == 1)
             {
-                walkTo(SectionX, SectionY, x - 1, y, x, y, false, true);
+                WalkTo(SectionX, SectionY, x - 1, y, x, y, false, true);
                 return;
             }
             else
             {
-                walkTo(SectionX, SectionY, x, y, x, y, true, true);
+                WalkTo(SectionX, SectionY, x, y, x, y, true, true);
                 return;
             }
         }
@@ -3455,17 +3455,13 @@ namespace RuneScapeSolo.Lib
             }
         }
 
-        //public Uri getCodeBase() {
-        //    if(link.gameApplet != null)
-        //        return link.gameApplet.getCodeBase();
-        //    else
-        //        return base.getCodeBase();
-        //}
 
-        public bool walkTo(int startX, int startY, int destBottomX, int destBottomY, int destTopX, int destTopY, bool checkForObjects,
-                bool walkToACommand)
+
+        public bool WalkTo(int startX, int startY, int destBottomX, int destBottomY,
+                           int destTopX, int destTopY, bool checkForObjects, bool walkToACommand)
         {
             int stepCount = engineHandle.generatePath(startX, startY, destBottomX, destBottomY, destTopX, destTopY, walkArrayX, walkArrayY, checkForObjects);
+
             if (stepCount == -1)
             {
                 if (walkToACommand)
@@ -3502,18 +3498,18 @@ namespace RuneScapeSolo.Lib
                 stepCount = 0;
             }
 
-            for (int i1 = stepCount; i1 >= 0 && i1 > stepCount - 25; i1--)
+            for (int currentStep = stepCount; currentStep >= 0 && currentStep > stepCount - 25; currentStep--)
             {
-                StreamClass.AddInt8(walkArrayX[i1] - startX);
-                StreamClass.AddInt8(walkArrayY[i1] - startY);
+                StreamClass.AddInt8(walkArrayX[currentStep] - startX);
+                StreamClass.AddInt8(walkArrayY[currentStep] - startY);
             }
 
             StreamClass.FormatPacket();
-            //base.streamClass.flush();
 
             actionPictureType = -24;
             walkMouseX = InputManager.Instance.MouseLocation.X;
             walkMouseY = InputManager.Instance.MouseLocation.Y;
+
             return true;
         }
 
@@ -3876,12 +3872,12 @@ namespace RuneScapeSolo.Lib
                     i1++;
                 }
 
-                walkTo(SectionX, SectionY, arg0, arg1, (arg0 + l) - 1, (arg1 + i1) - 1, false, true);
+                WalkTo(SectionX, SectionY, arg0, arg1, (arg0 + l) - 1, (arg1 + i1) - 1, false, true);
                 return;
             }
             else
             {
-                walkTo(SectionX, SectionY, arg0, arg1, (arg0 + l) - 1, (arg1 + i1) - 1, true, true);
+                WalkTo(SectionX, SectionY, arg0, arg1, (arg0 + l) - 1, (arg1 + i1) - 1, true, true);
                 return;
             }
         }
@@ -4265,7 +4261,7 @@ namespace RuneScapeSolo.Lib
             }
             else
             {
-                walkTo(l, i1, j1, k1, j1, k1, true, flag);
+                WalkTo(l, i1, j1, k1, j1, k1, true, flag);
                 return;
             }
         }
@@ -4723,7 +4719,7 @@ namespace RuneScapeSolo.Lib
 
         public void walkTo1Tile(int l, int i1, int j1, int k1, bool flag)
         {
-            walkTo(l, i1, j1, k1, j1, k1, false, flag);
+            WalkTo(l, i1, j1, k1, j1, k1, false, flag);
         }
 
         public void LoadConfig()
