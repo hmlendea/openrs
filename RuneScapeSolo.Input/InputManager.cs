@@ -121,6 +121,16 @@ namespace RuneScapeSolo.Input
             return keys.Any(currentKeyState.IsKeyDown);
         }
 
+        public bool IsMouseButtonDown(params MouseButton[] buttons)
+        {
+            return buttons.All(IsMouseButtonDown);
+        }
+
+        public bool IsAnyMouseButtonDown(params MouseButton[] buttons)
+        {
+            return buttons.Any(IsMouseButtonDown);
+        }
+
         void CheckKeyboardKeyPressed()
         {
             foreach (Keys key in Enum.GetValues(typeof(Keys)))
@@ -247,6 +257,24 @@ namespace RuneScapeSolo.Input
             {
                 this_OnMouseMoved(this, new MouseEventArgs(new Point(currentMouseState.Position.X, currentMouseState.Position.Y),
                                                            new Point(previousMouseState.Position.X, previousMouseState.Position.Y)));
+            }
+        }
+
+        bool IsMouseButtonDown(MouseButton button)
+        {
+            switch (button)
+            {
+                case MouseButton.LeftButton:
+                    return currentMouseState.LeftButton == ButtonState.Pressed;
+
+                case MouseButton.RightButton:
+                    return currentMouseState.RightButton == ButtonState.Pressed;
+
+                case MouseButton.MiddleButton:
+                    return currentMouseState.MiddleButton == ButtonState.Pressed;
+
+                default:
+                    return false;
             }
         }
 
