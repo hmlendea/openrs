@@ -216,7 +216,7 @@ namespace RuneScapeSolo.GameLogic.GameManagers
 
         public static int GetModelIndex(string id)
         {
-            return models.ToList().FindIndex(x => x.Id == id);
+            return models.FindIndex(x => x.Id == id);
         }
 
         /// <summary>
