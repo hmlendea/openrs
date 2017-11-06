@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 using RuneScapeSolo.DataAccess.Repositories;
 using RuneScapeSolo.GameLogic.Mapping;
 using RuneScapeSolo.Models;
+using RuneScapeSolo.Settings;
 
 namespace RuneScapeSolo.GameLogic.GameManagers
 {
@@ -97,6 +99,42 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         public static int WallObjectCount => wallObjects.Length;
 
         public static int HighestLoadedPicture { get; private set; }
+        
+        public static void Load(sbyte[] data)
+        {
+            string animationsPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "animations.xml");
+            string elevationPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "elevations.xml");
+            string itemPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "items.xml");
+            string npcPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "npcs.xml");
+            string objectPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "objects.xml");
+            string prayerPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "prayers.xml");
+            string spellPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "spells.xml");
+            string texturePath = Path.Combine(ApplicationPaths.EntitiesDirectory, "textures.xml");
+            string tilePath = Path.Combine(ApplicationPaths.EntitiesDirectory, "tiles.xml");
+            string wallObjectPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "wall_objects.xml");
+
+            AnimationRepository animationRepository = new AnimationRepository(animationsPath);
+            ElevationRepository elevationRepository = new ElevationRepository(elevationPath);
+            ItemRepository itemRepository = new ItemRepository(itemPath);
+            NpcRepository npcRepository = new NpcRepository(npcPath);
+            GameObjectRepository objectRepository = new GameObjectRepository(objectPath);
+            PrayerRepository prayerRepository = new PrayerRepository(prayerPath);
+            SpellRepository spellRepository = new SpellRepository(spellPath);
+            TextureRepository textureRepository = new TextureRepository(texturePath);
+            TileRepository tileRepository = new TileRepository(tilePath);
+            WallObjectRepository wallObjectRepository = new WallObjectRepository(wallObjectPath);
+
+            animations = animationRepository.GetAll().ToDomainModels().ToArray();
+            elevations = elevationRepository.GetAll().ToDomainModels().ToArray();
+            items = itemRepository.GetAll().ToDomainModels().ToArray();
+            npcs = npcRepository.GetAll().ToDomainModels().ToArray();
+            objects = objectRepository.GetAll().ToDomainModels().ToArray();
+            prayers = prayerRepository.GetAll().ToDomainModels().ToArray();
+            spells = spellRepository.GetAll().ToDomainModels().ToArray();
+            textures = textureRepository.GetAll().ToDomainModels().ToArray();
+            tiles = tileRepository.GetAll().ToDomainModels().ToArray();
+            wallObjects = wallObjectRepository.GetAll().ToDomainModels().ToArray();
+        }
 
         /// <summary>
         /// Gets the animation.
@@ -280,31 +318,6 @@ namespace RuneScapeSolo.GameLogic.GameManagers
 
             models.Add(str);
             return models.Count - 1;
-        }
-
-        public static void Load(sbyte[] data)
-        {
-            AnimationRepository animationRepository = new AnimationRepository("animations.xml");
-            ElevationRepository elevationRepository = new ElevationRepository("elevations.xml");
-            ItemRepository itemRepository = new ItemRepository("items.xml");
-            NpcRepository npcRepository = new NpcRepository("npcs.xml");
-            GameObjectRepository objectRepository = new GameObjectRepository("objects.xml");
-            PrayerRepository prayerRepository = new PrayerRepository("prayers.xml");
-            SpellRepository spellRepository = new SpellRepository("spells.xml");
-            TextureRepository textureRepository = new TextureRepository("textures.xml");
-            TileRepository tileRepository = new TileRepository("tiles.xml");
-            WallObjectRepository wallObjectRepository = new WallObjectRepository("wall_objects.xml");
-            
-            animations = animationRepository.GetAll().ToDomainModels().ToArray();
-            elevations = elevationRepository.GetAll().ToDomainModels().ToArray();
-            items = itemRepository.GetAll().ToDomainModels().ToArray();
-            npcs = npcRepository.GetAll().ToDomainModels().ToArray();
-            objects = objectRepository.GetAll().ToDomainModels().ToArray();
-            prayers = prayerRepository.GetAll().ToDomainModels().ToArray();
-            spells = spellRepository.GetAll().ToDomainModels().ToArray();
-            textures = textureRepository.GetAll().ToDomainModels().ToArray();
-            tiles = tileRepository.GetAll().ToDomainModels().ToArray();
-            wallObjects = wallObjectRepository.GetAll().ToDomainModels().ToArray();
         }
 
         static int StoreModel(string name)
