@@ -10,20 +10,20 @@ namespace RuneScapeSolo.DataAccess.Repositories
     /// <summary>
     /// GameObject repository implementation.
     /// </summary>
-    public class GameObjectRepository
+    public class GameModelRepository
     {
-        readonly XmlDatabase<GameObjectEntity> xmlDatabase;
-        List<GameObjectEntity> gameObjectEntities;
+        readonly XmlDatabase<GameModelEntity> xmlDatabase;
+        List<GameModelEntity> gameObjectEntities;
         bool loadedEntities;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameObjectRepository"/> class.
+        /// Initializes a new instance of the <see cref="GameModelRepository"/> class.
         /// </summary>
         /// <param name="fileName">File name.</param>
-        public GameObjectRepository(string fileName)
+        public GameModelRepository(string fileName)
         {
-            xmlDatabase = new XmlDatabase<GameObjectEntity>(fileName);
-            gameObjectEntities = new List<GameObjectEntity>();
+            xmlDatabase = new XmlDatabase<GameModelEntity>(fileName);
+            gameObjectEntities = new List<GameModelEntity>();
         }
 
         public void ApplyChanges()
@@ -43,7 +43,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
         /// Adds the specified gameObject.
         /// </summary>
         /// <param name="gameObjectEntity">GameObject.</param>
-        public void Add(GameObjectEntity gameObjectEntity)
+        public void Add(GameModelEntity gameObjectEntity)
         {
             LoadEntitiesIfNeeded();
 
@@ -55,15 +55,15 @@ namespace RuneScapeSolo.DataAccess.Repositories
         /// </summary>
         /// <returns>The gameObject.</returns>
         /// <param name="id">Identifier.</param>
-        public GameObjectEntity Get(string id)
+        public GameModelEntity Get(string id)
         {
             LoadEntitiesIfNeeded();
 
-            GameObjectEntity gameObjectEntity = gameObjectEntities.FirstOrDefault(x => x.Id == id);
+            GameModelEntity gameObjectEntity = gameObjectEntities.FirstOrDefault(x => x.Id == id);
 
             if (gameObjectEntity == null)
             {
-                throw new EntityNotFoundException(id, nameof(GameObjectEntity).Replace("Entity", ""));
+                throw new EntityNotFoundException(id, nameof(GameModelEntity).Replace("Entity", ""));
             }
 
             return gameObjectEntity;
@@ -73,7 +73,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
         /// Gets all the gameObjects.
         /// </summary>
         /// <returns>The gameObjects</returns>
-        public IEnumerable<GameObjectEntity> GetAll()
+        public IEnumerable<GameModelEntity> GetAll()
         {
             LoadEntitiesIfNeeded();
 
@@ -84,15 +84,15 @@ namespace RuneScapeSolo.DataAccess.Repositories
         /// Updates the specified gameObject.
         /// </summary>
         /// <param name="gameObjectEntity">GameObject.</param>
-        public void Update(GameObjectEntity gameObjectEntity)
+        public void Update(GameModelEntity gameObjectEntity)
         {
             LoadEntitiesIfNeeded();
 
-            GameObjectEntity gameObjectEntityToUpdate = gameObjectEntities.FirstOrDefault(x => x.Id == gameObjectEntity.Id);
+            GameModelEntity gameObjectEntityToUpdate = gameObjectEntities.FirstOrDefault(x => x.Id == gameObjectEntity.Id);
 
             if (gameObjectEntityToUpdate == null)
             {
-                throw new EntityNotFoundException(gameObjectEntity.Id, nameof(GameObjectEntity).Replace("Entity", ""));
+                throw new EntityNotFoundException(gameObjectEntity.Id, nameof(GameModelEntity).Replace("Entity", ""));
             }
 
             gameObjectEntityToUpdate.Name = gameObjectEntity.Name;
@@ -125,7 +125,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
             }
             catch
             {
-                throw new DuplicateEntityException(id, nameof(GameObjectEntity).Replace("Entity", ""));
+                throw new DuplicateEntityException(id, nameof(GameModelEntity).Replace("Entity", ""));
             }
         }
 

@@ -5,10 +5,10 @@ using RuneScapeSolo.Lib.Game.Cameras;
 namespace RuneScapeSolo.Lib.Game
 {
 
-    public class GameObject //: GameObject
+    public class ObjectModel //: Model
     {
 
-        public GameObject(int vertCount, int polygonCount)
+        public ObjectModel(int vertCount, int polygonCount)
         //: base(_vert_count, polygonCount)
         {
             objectState = 1;
@@ -40,7 +40,7 @@ namespace RuneScapeSolo.Lib.Game
 
         }
 
-        public GameObject(int vertCount, int polyCount, bool flag, bool flag1, bool flag2, bool flag3, bool flag4)
+        public ObjectModel(int vertCount, int polyCount, bool flag, bool flag1, bool flag2, bool flag3, bool flag4)
         //: base(x, y, flag, flag1, flag2, flag3, flag4)
         {
             objectState = 1;
@@ -171,7 +171,7 @@ namespace RuneScapeSolo.Lib.Game
             }
         }
 
-        public GameObject(sbyte[] data, int offset, bool arg2)
+        public ObjectModel(sbyte[] data, int offset, bool arg2)
         //: base(_vert_count, polygonCount, z)
         {
             objectState = 1;
@@ -283,7 +283,7 @@ namespace RuneScapeSolo.Lib.Game
             objectState = 1;
         }
 
-        public GameObject(string fileName)
+        public ObjectModel(string fileName)
         {
             objectState = 1;
             visible = true;
@@ -380,7 +380,7 @@ namespace RuneScapeSolo.Lib.Game
             objectState = 1;
         }
 
-        public GameObject(GameObject[] childObjects, int objectCount, bool flag, bool flag1, bool flag2, bool flag3)
+        public ObjectModel(ObjectModel[] childObjects, int objectCount, bool flag, bool flag1, bool flag2, bool flag3)
         //: base(childObjects, x, flag, flag1, flag2, flag3)
         {
             objectState = 1;
@@ -406,10 +406,10 @@ namespace RuneScapeSolo.Lib.Game
             noCollider = flag1;
             dontRecieveShadows = flag2;
             cic = flag3;
-            BuildGameObject(childObjects, objectCount, false);
+            BuildModel(childObjects, objectCount, false);
         }
 
-        public GameObject(GameObject[] childObjects, int objectCount)
+        public ObjectModel(ObjectModel[] childObjects, int objectCount)
         //: base(childObjects, x)
         {
             objectState = 1;
@@ -431,10 +431,10 @@ namespace RuneScapeSolo.Lib.Game
             cld = 256;
             cle = 512;
             clf = 32;
-            BuildGameObject(childObjects, objectCount, true);
+            BuildModel(childObjects, objectCount, true);
         }
 
-        public void BuildGameObject(GameObject[] childObjects, int objectCount, bool arg2)
+        public void BuildModel(ObjectModel[] childObjects, int objectCount, bool arg2)
         {
             int j = 0;
             int k = 0;
@@ -452,7 +452,7 @@ namespace RuneScapeSolo.Lib.Game
 
             for (int i1 = 0; i1 < objectCount; i1++)
             {
-                GameObject j1 = childObjects[i1];
+                ObjectModel j1 = childObjects[i1];
                 j1.cni();
                 clf = j1.clf;
                 cle = j1.cle;
@@ -555,7 +555,7 @@ namespace RuneScapeSolo.Lib.Game
             }
         }
 
-        public GameObject[] getObjectsWithinArea(int x, int y, int width, int height, int objectSize, int objectCount, int maxVertCount,
+        public ObjectModel[] getObjectsWithinArea(int x, int y, int width, int height, int objectSize, int objectCount, int maxVertCount,
                 bool arg7)
         {
             cni();
@@ -584,7 +584,7 @@ namespace RuneScapeSolo.Lib.Game
                 ai1[i3]++;
             }
 
-            GameObject[] ai2 = new GameObject[objectCount];
+            ObjectModel[] ai2 = new ObjectModel[objectCount];
             for (int j1 = 0; j1 < objectCount; j1++)
             {
                 if (ai[j1] > maxVertCount)
@@ -592,7 +592,7 @@ namespace RuneScapeSolo.Lib.Game
                     ai[j1] = maxVertCount;
                 }
 
-                ai2[j1] = new GameObject(ai[j1], ai1[j1], true, true, true, arg7, true);
+                ai2[j1] = new ObjectModel(ai[j1], ai1[j1], true, true, true, arg7, true);
                 ai2[j1].cle = cle;
                 ai2[j1].clf = clf;
             }
@@ -621,7 +621,7 @@ namespace RuneScapeSolo.Lib.Game
             return ai2;
         }
 
-        public void CopyModelData(GameObject arg0, int[] indices, int indexCount, int entityTypeIndex)
+        public void CopyModelData(ObjectModel arg0, int[] indices, int indexCount, int entityTypeIndex)
         {
             int[] ai = new int[indexCount];
             for (int j = 0; j < indexCount; j++)
@@ -1222,26 +1222,26 @@ namespace RuneScapeSolo.Lib.Game
             ckm = 0;
         }
 
-        public GameObject CreateParent()
+        public ObjectModel CreateParent()
         {
-            GameObject[] ai = new GameObject[1];
+            ObjectModel[] ai = new ObjectModel[1];
             ai[0] = this;
-            GameObject j = new GameObject(ai, 1);
+            ObjectModel j = new ObjectModel(ai, 1);
             j.cgm = cgm;
             j.isGiantCrystal = isGiantCrystal;
             return j;
         }
 
-        public GameObject CreateParent(bool flag, bool flag1, bool flag2, bool flag3)
+        public ObjectModel CreateParent(bool flag, bool flag1, bool flag2, bool flag3)
         {
-            GameObject[] ai = new GameObject[1];
+            ObjectModel[] ai = new ObjectModel[1];
             ai[0] = this;
-            GameObject j = new GameObject(ai, 1, flag, flag1, flag2, flag3);
+            ObjectModel j = new ObjectModel(ai, 1, flag, flag1, flag2, flag3);
             j.cgm = cgm;
             return j;
         }
 
-        public void CopyTranslation(GameObject j)
+        public void CopyTranslation(ObjectModel j)
         {
             rotationX = j.rotationX;
             rotationY = j.rotationY;
@@ -1371,7 +1371,7 @@ namespace RuneScapeSolo.Lib.Game
         public int clf;
         int clg;
 
-        static GameObject()
+        static ObjectModel()
         {
             cie = new int[512];
             cif = new int[2048];

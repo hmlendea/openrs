@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -42,28 +42,24 @@
     <Compile Include="DataObjects\PrayerEntity.cs" />
     <Compile Include="DataObjects\AnimationEntity.cs" />
     <Compile Include="DataObjects\ElevationEntity.cs" />
-    <Compile Include="DataObjects\GameObjectEntity.cs" />
+    <Compile Include="DataObjects\GameModelEntity.cs" />
     <Compile Include="DataObjects\ItemDropEntity.cs" />
     <Compile Include="DataObjects\NpcEntity.cs" />
     <Compile Include="DataObjects\SpellEntity.cs" />
-    <Compile Include="DataObjects\TextureEntity.cs" />
+    <Compile Include="DataObjects\GameTextureEntity.cs" />
     <Compile Include="DataObjects\TileEntity.cs" />
     <Compile Include="DataObjects\WallObjectEntity.cs" />
     <Compile Include="Repositories\AnimationRepository.cs" />
     <Compile Include="Repositories\ElevationRepository.cs" />
-    <Compile Include="Repositories\GameObjectRepository.cs" />
+    <Compile Include="Repositories\GameModelRepository.cs" />
     <Compile Include="Repositories\ItemDropRepository.cs" />
     <Compile Include="Repositories\NpcRepository.cs" />
     <Compile Include="Repositories\PrayerRepository.cs" />
     <Compile Include="Repositories\SpellRepository.cs" />
-    <Compile Include="Repositories\TextureRepository.cs" />
+    <Compile Include="Repositories\GameTextureRepository.cs" />
     <Compile Include="Repositories\TileRepository.cs" />
     <Compile Include="Repositories\WallObjectRepository.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-    <Folder Include="Exceptions\" />
-    <Folder Include="DataObjects\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

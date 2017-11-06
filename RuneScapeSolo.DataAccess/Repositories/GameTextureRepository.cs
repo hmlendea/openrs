@@ -10,20 +10,20 @@ namespace RuneScapeSolo.DataAccess.Repositories
     /// <summary>
     /// Texture repository implementation.
     /// </summary>
-    public class TextureRepository
+    public class GameTextureRepository
     {
-        readonly XmlDatabase<TextureEntity> xmlDatabase;
-        List<TextureEntity> textureEntities;
+        readonly XmlDatabase<GameTextureEntity> xmlDatabase;
+        List<GameTextureEntity> textureEntities;
         bool loadedEntities;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TextureRepository"/> class.
+        /// Initializes a new instance of the <see cref="GameTextureRepository"/> class.
         /// </summary>
         /// <param name="fileName">File name.</param>
-        public TextureRepository(string fileName)
+        public GameTextureRepository(string fileName)
         {
-            xmlDatabase = new XmlDatabase<TextureEntity>(fileName);
-            textureEntities = new List<TextureEntity>();
+            xmlDatabase = new XmlDatabase<GameTextureEntity>(fileName);
+            textureEntities = new List<GameTextureEntity>();
         }
 
         public void ApplyChanges()
@@ -43,7 +43,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
         /// Adds the specified texture.
         /// </summary>
         /// <param name="textureEntity">Texture.</param>
-        public void Add(TextureEntity textureEntity)
+        public void Add(GameTextureEntity textureEntity)
         {
             LoadEntitiesIfNeeded();
 
@@ -55,15 +55,15 @@ namespace RuneScapeSolo.DataAccess.Repositories
         /// </summary>
         /// <returns>The texture.</returns>
         /// <param name="id">Identifier.</param>
-        public TextureEntity Get(string id)
+        public GameTextureEntity Get(string id)
         {
             LoadEntitiesIfNeeded();
 
-            TextureEntity textureEntity = textureEntities.FirstOrDefault(x => x.Id == id);
+            GameTextureEntity textureEntity = textureEntities.FirstOrDefault(x => x.Id == id);
 
             if (textureEntity == null)
             {
-                throw new EntityNotFoundException(id, nameof(TextureEntity).Replace("Entity", ""));
+                throw new EntityNotFoundException(id, nameof(GameTextureEntity).Replace("Entity", ""));
             }
 
             return textureEntity;
@@ -73,7 +73,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
         /// Gets all the textures.
         /// </summary>
         /// <returns>The textures</returns>
-        public IEnumerable<TextureEntity> GetAll()
+        public IEnumerable<GameTextureEntity> GetAll()
         {
             LoadEntitiesIfNeeded();
 
@@ -84,15 +84,15 @@ namespace RuneScapeSolo.DataAccess.Repositories
         /// Updates the specified texture.
         /// </summary>
         /// <param name="textureEntity">Texture.</param>
-        public void Update(TextureEntity textureEntity)
+        public void Update(GameTextureEntity textureEntity)
         {
             LoadEntitiesIfNeeded();
 
-            TextureEntity textureEntityToUpdate = textureEntities.FirstOrDefault(x => x.Id == textureEntity.Id);
+            GameTextureEntity textureEntityToUpdate = textureEntities.FirstOrDefault(x => x.Id == textureEntity.Id);
 
             if (textureEntityToUpdate == null)
             {
-                throw new EntityNotFoundException(textureEntity.Id, nameof(TextureEntity).Replace("Entity", ""));
+                throw new EntityNotFoundException(textureEntity.Id, nameof(GameTextureEntity).Replace("Entity", ""));
             }
 
             textureEntityToUpdate.Name = textureEntity.Name;
@@ -117,7 +117,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
             }
             catch
             {
-                throw new DuplicateEntityException(id, nameof(TextureEntity).Replace("Entity", ""));
+                throw new DuplicateEntityException(id, nameof(GameTextureEntity).Replace("Entity", ""));
             }
         }
 

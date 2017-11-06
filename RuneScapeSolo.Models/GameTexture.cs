@@ -1,16 +1,10 @@
-﻿namespace RuneScapeSolo.DataAccess.DataObjects
+﻿namespace RuneScapeSolo.Models
 {
     /// <summary>
-    /// Texture entity.
+    /// Texture.
     /// </summary>
-    public class TextureEntity
+    public class GameTexture
     {
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>The identifier.</value>
-        public string Id { get; set; }
-
         /// <summary>
         /// Gets or sets the name.
         /// </summary>

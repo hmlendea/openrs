@@ -11,64 +11,58 @@ namespace RuneScapeSolo.GameLogic.GameManagers
 {
     public class EntityManager
     {
-        static Animation[] animations;
-        static GameObject[] objects;
-        static Elevation[] elevations;
-        static Item[] items;
-        static Npc[] npcs;
-        static Prayer[] prayers;
-        static Spell[] spells;
-        static Texture[] textures;
-        static Tile[] tiles;
-        static WallObject[] wallObjects;
+        static List<Animation> animations;
+        static List<Elevation> elevations;
+        static List<Item> items;
+        static List<GameModel> models;
+        static List<Npc> npcs;
+        static List<Prayer> prayers;
+        static List<Spell> spells;
+        static List<GameTexture> textures;
+        static List<Tile> tiles;
+        static List<WallObject> wallObjects;
 
         /// <summary>
         /// Gets the animations count.
         /// </summary>
         /// <value>The animations count.</value>
-        public static int AnimationCount => animations.Length;
+        public static int AnimationCount => animations.Count;
 
         /// <summary>
         /// Gets the elevations count.
         /// </summary>
         /// <value>The elevations count.</value>
-        public static int ElevationCount => elevations.Length;
+        public static int ElevationCount => elevations.Count;
 
         /// <summary>
         /// Gets the items count.
         /// </summary>
         /// <value>The items count.</value>
-        public static int ItemCount => items.Length;
-
-        /// <summary>
-        /// Gets the npc count.
-        /// </summary>
-        /// <value>The npc count.</value>
-        public static int NpcCount => npcs.Length;
+        public static int ItemCount => items.Count;
 
         /// <summary>
         /// Gets the models count.
         /// </summary>
         /// <value>The models count.</value>
-        public static int ModelCount => ObjectCount;
+        public static int ModelCount => models.Count;
 
         /// <summary>
-        /// Gets the objects count.
+        /// Gets the npc count.
         /// </summary>
-        /// <value>The objects count.</value>
-        public static int ObjectCount => objects.Length;
+        /// <value>The npc count.</value>
+        public static int NpcCount => npcs.Count;
 
         /// <summary>
         /// Gets the prayers count.
         /// </summary>
         /// <value>The prayers count.</value>
-        public static int PrayerCount => prayers.Length;
+        public static int PrayerCount => prayers.Count;
 
         /// <summary>
         /// Gets the spells count.
         /// </summary>
         /// <value>The spells count.</value>
-        public static int SpellCount => spells.Length;
+        public static int SpellCount => spells.Count;
 
         /// <summary>
         /// Gets or sets the spell projectile count.
@@ -80,29 +74,32 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// Gets the textures count.
         /// </summary>
         /// <value>The textures count.</value>
-        public static int TextureCount => textures.Length;
+        public static int TextureCount => textures.Count;
 
         /// <summary>
         /// Gets the tiles count.
         /// </summary>
         /// <value>The tiles count.</value>
-        public static int TileCount => tiles.Length;
+        public static int TileCount => tiles.Count;
 
         /// <summary>
         /// Gets the wall objects count.
         /// </summary>
         /// <value>The wall objects count.</value>
-        public static int WallObjectCount => wallObjects.Length;
+        public static int WallObjectCount => wallObjects.Count;
 
         public static int HighestLoadedPicture { get; private set; }
 
-        public static void Load(sbyte[] data)
+        /// <summary>
+        /// Loads the entities in memory.
+        /// </summary>
+        public static void Load()
         {
             string animationsPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "animations.xml");
             string elevationPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "elevations.xml");
             string itemPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "items.xml");
+            string modelPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "models.xml");
             string npcPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "npcs.xml");
-            string objectPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "objects.xml");
             string prayerPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "prayers.xml");
             string spellPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "spells.xml");
             string texturePath = Path.Combine(ApplicationPaths.EntitiesDirectory, "textures.xml");
@@ -112,204 +109,189 @@ namespace RuneScapeSolo.GameLogic.GameManagers
             AnimationRepository animationRepository = new AnimationRepository(animationsPath);
             ElevationRepository elevationRepository = new ElevationRepository(elevationPath);
             ItemRepository itemRepository = new ItemRepository(itemPath);
+            GameModelRepository modelRepository = new GameModelRepository(modelPath);
             NpcRepository npcRepository = new NpcRepository(npcPath);
-            GameObjectRepository objectRepository = new GameObjectRepository(objectPath);
             PrayerRepository prayerRepository = new PrayerRepository(prayerPath);
             SpellRepository spellRepository = new SpellRepository(spellPath);
-            TextureRepository textureRepository = new TextureRepository(texturePath);
+            GameTextureRepository textureRepository = new GameTextureRepository(texturePath);
             TileRepository tileRepository = new TileRepository(tilePath);
             WallObjectRepository wallObjectRepository = new WallObjectRepository(wallObjectPath);
 
-            animations = animationRepository.GetAll().ToDomainModels().ToArray();
-            elevations = elevationRepository.GetAll().ToDomainModels().ToArray();
-            items = itemRepository.GetAll().ToDomainModels().ToArray();
-            npcs = npcRepository.GetAll().ToDomainModels().ToArray();
-            objects = objectRepository.GetAll().ToDomainModels().ToArray();
-            prayers = prayerRepository.GetAll().ToDomainModels().ToArray();
-            spells = spellRepository.GetAll().ToDomainModels().ToArray();
-            textures = textureRepository.GetAll().ToDomainModels().ToArray();
-            tiles = tileRepository.GetAll().ToDomainModels().ToArray();
-            wallObjects = wallObjectRepository.GetAll().ToDomainModels().ToArray();
+            animations = animationRepository.GetAll().ToDomainModels().ToList();
+            elevations = elevationRepository.GetAll().ToDomainModels().ToList();
+            items = itemRepository.GetAll().ToDomainModels().ToList();
+            models = modelRepository.GetAll().ToDomainModels().ToList();
+            npcs = npcRepository.GetAll().ToDomainModels().ToList();
+            prayers = prayerRepository.GetAll().ToDomainModels().ToList();
+            spells = spellRepository.GetAll().ToDomainModels().ToList();
+            textures = textureRepository.GetAll().ToDomainModels().ToList();
+            tiles = tileRepository.GetAll().ToDomainModels().ToList();
+            wallObjects = wallObjectRepository.GetAll().ToDomainModels().ToList();
         }
 
         /// <summary>
         /// Gets the animation.
         /// </summary>
         /// <returns>The animation.</returns>
-        /// <param name="id">Identifier.</param>
-        public static Animation GetAnimation(int id)
+        /// <param name="index">Identifier.</param>
+        public static Animation GetAnimation(int index)
         {
-            if (id < 0 || id >= animations.Length)
+            if (index < 0 || index >= AnimationCount)
             {
                 return null;
             }
 
-            return animations[id];
+            return animations[index];
         }
 
         /// <summary>
         /// Gets the elevation.
         /// </summary>
         /// <returns>The elevation.</returns>
-        /// <param name="id">Identifier.</param>
-        public static Elevation GetElevation(int id)
+        /// <param name="index">Identifier.</param>
+        public static Elevation GetElevation(int index)
         {
-            if (id < 0 || id >= elevations.Length)
+            if (index < 0 || index >= ElevationCount)
             {
                 return null;
             }
 
-            return elevations[id];
+            return elevations[index];
         }
 
         /// <summary>
         /// Gets the item.
         /// </summary>
         /// <returns>The item.</returns>
-        /// <param name="id">Identifier.</param>
-        public static Item GetItem(int id)
+        /// <param name="index">Identifier.</param>
+        public static Item GetItem(int index)
         {
-            if (id < 0 || id >= items.Length)
+            if (index < 0 || index >= ItemCount)
             {
                 return null;
             }
 
-            return items[id];
+            return items[index];
         }
 
         /// <summary>
         /// Gets the spell.
         /// </summary>
         /// <returns>The spell.</returns>
-        /// <param name="id">Identifier.</param>
-        public static Spell GetSpell(int id)
+        /// <param name="index">Identifier.</param>
+        public static Spell GetSpell(int index)
         {
-            if (id < 0 || id >= spells.Length)
+            if (index < 0 || index >= SpellCount)
             {
                 return null;
             }
 
-            return spells[id];
+            return spells[index];
         }
 
         /// <summary>
-        /// Gets the name of the model.
+        /// Gets the model.
         /// </summary>
-        /// <returns>The model name.</returns>
+        /// <returns>The model.</returns>
         /// <param name="id">Identifier.</param>
-        public static string GetModelName(int id)
+        public static GameModel GetModel(string id)
         {
-            if (id < 0 || id >= ObjectCount)
+            return models.FirstOrDefault(x => x.Id == id);
+        }
+
+        /// <summary>
+        /// Gets the model.
+        /// </summary>
+        /// <returns>The model.</returns>
+        /// <param name="index">Index.</param>
+        public static GameModel GetModel(int index)
+        {
+            if (index < 0 || index >= ModelCount)
             {
                 return null;
             }
 
-            return objects[id].Id;
+            return models[index];
         }
 
-        public static int GetModelNameIndex(string id)
+        public static int GetModelIndex(string id)
         {
-            return objects.ToList().FindIndex(x => x.Id == id);
+            return models.ToList().FindIndex(x => x.Id == id);
         }
 
         /// <summary>
         /// Gets the npc.
         /// </summary>
         /// <returns>The npc.</returns>
-        /// <param name="id">Identifier.</param>
-        public static Npc GetNpc(int id)
+        /// <param name="index">Identifier.</param>
+        public static Npc GetNpc(int index)
         {
-            if (id < 0 || id >= npcs.Length)
+            if (index < 0 || index >= NpcCount)
             {
                 return null;
             }
 
-            return npcs[id];
-        }
-
-        /// <summary>
-        /// Gets the object.
-        /// </summary>
-        /// <returns>The object.</returns>
-        /// <param name="id">Identifier.</param>
-        public static GameObject GetObject(string id)
-        {
-            return objects.FirstOrDefault(x => x.Id == id);
-        }
-
-        /// <summary>
-        /// Gets the object.
-        /// </summary>
-        /// <returns>The object.</returns>
-        /// <param name="index">Index.</param>
-        public static GameObject GetObject(int index)
-        {
-            if (index < 0 || index >= objects.Length)
-            {
-                return null;
-            }
-
-            return objects[index];
+            return npcs[index];
         }
 
         /// <summary>
         /// Gets the prayer.
         /// </summary>
         /// <returns>The prayer.</returns>
-        /// <param name="id">Identifier.</param>
-        public static Prayer GetPrayer(int id)
+        /// <param name="index">Identifier.</param>
+        public static Prayer GetPrayer(int index)
         {
-            if (id < 0 || id >= prayers.Length)
+            if (index < 0 || index >= PrayerCount)
             {
                 return null;
             }
 
-            return prayers[id];
+            return prayers[index];
         }
 
         /// <summary>
         /// Gets the texture.
         /// </summary>
         /// <returns>The texture.</returns>
-        /// <param name="id">Identifier.</param>
-        public static Texture GetTexture(int id)
+        /// <param name="index">Identifier.</param>
+        public static GameTexture GetTexture(int index)
         {
-            if (id < 0 || id >= textures.Length)
+            if (index < 0 || index >= TextureCount)
             {
                 return null;
             }
 
-            return textures[id];
+            return textures[index];
         }
 
         /// <summary>
         /// Gets the tile.
         /// </summary>
         /// <returns>The tile.</returns>
-        /// <param name="id">Identifier.</param>
-        public static Tile GetTile(int id)
+        /// <param name="index">Identifier.</param>
+        public static Tile GetTile(int index)
         {
-            if (id < 0 || id >= tiles.Length)
+            if (index < 0 || index >= TileCount)
             {
                 return null;
             }
 
-            return tiles[id];
+            return tiles[index];
         }
 
         /// <summary>
         /// Gets the wall object.
         /// </summary>
         /// <returns>The wall object.</returns>
-        /// <param name="id">Identifier.</param>
-        public static WallObject GetWallObject(int id)
+        /// <param name="index">Identifier.</param>
+        public static WallObject GetWallObject(int index)
         {
-            if (id < 0 || id >= wallObjects.Length)
+            if (index < 0 || index >= WallObjectCount)
             {
                 return null;
             }
 
-            return wallObjects[id];
+            return wallObjects[index];
         }
     }
 }

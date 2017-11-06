@@ -42,13 +42,13 @@
     <Compile Include="GameManagers\EntityManager.cs" />
     <Compile Include="Mapping\AnimationMappingExtensions.cs" />
     <Compile Include="Mapping\ElevationMappingExtensions.cs" />
-    <Compile Include="Mapping\GameObjectMappingExtensions.cs" />
+    <Compile Include="Mapping\GameModelMappingExtensions.cs" />
     <Compile Include="Mapping\ItemDropMappingExtensions.cs" />
     <Compile Include="Mapping\ItemMappingExtensions.cs" />
     <Compile Include="Mapping\NpcMappingExtensions.cs" />
     <Compile Include="Mapping\PrayerMappingExtensions.cs" />
     <Compile Include="Mapping\SpellMappingExtensions.cs" />
-    <Compile Include="Mapping\TextureMappingExtensions.cs" />
+    <Compile Include="Mapping\GameTextureMappingExtensions.cs" />
     <Compile Include="Mapping\TileMappingExtensions.cs" />
     <Compile Include="Mapping\WallObjectMappingExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

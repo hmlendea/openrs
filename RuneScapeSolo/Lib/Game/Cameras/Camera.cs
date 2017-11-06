@@ -27,7 +27,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             bca = 1;
             bcb = false;
             maxHighlightedObjects = 100;
-            _highlightedObjects = new GameObject[maxHighlightedObjects];
+            _highlightedObjects = new ObjectModel[maxHighlightedObjects];
             bch = new int[maxHighlightedObjects];
             bci = 512;
             bcj = 256;
@@ -49,7 +49,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             bfh = arg0.pixels;
             currentObjectCount = 0;
             totalModelCount = maxObjects;
-            objectCache = new GameObject[totalModelCount];
+            objectCache = new ObjectModel[totalModelCount];
             bdk = new int[totalModelCount];
             currentModelIndex = 0;
             visibleModels = new CameraModel[maxVisibleObjects];
@@ -59,7 +59,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             }
 
             bdn = 0;
-            highlightedObject = new GameObject(maxSceneObjects * 2, maxSceneObjects);
+            highlightedObject = new ObjectModel(maxSceneObjects * 2, maxSceneObjects);
             sceneObjectId = new int[maxSceneObjects];
             bee = new int[maxSceneObjects];
             bef = new int[maxSceneObjects];
@@ -94,7 +94,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
 
         }
 
-        public void addModel(GameObject k)
+        public void addModel(ObjectModel k)
         {
             if (k == null)
             {
@@ -108,7 +108,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             }
         }
 
-        public void removeModel(GameObject arg0)
+        public void removeModel(ObjectModel arg0)
         {
             for (int k = 0; k < currentObjectCount; k++)
             {
@@ -198,7 +198,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             return bch;
         }
 
-        public GameObject[] getHighlightedObjects()
+        public ObjectModel[] getHighlightedObjects()
         {
             return _highlightedObjects;
         }
@@ -472,7 +472,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             currentModelIndex = 0;
             for (int i5 = 0; i5 < currentObjectCount; i5++)
             {
-                GameObject k = objectCache[i5];
+                ObjectModel k = objectCache[i5];
                 if (k == null)
                 {
                     continue;
@@ -577,7 +577,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 }
             }
 
-            GameObject i1 = highlightedObject;
+            ObjectModel i1 = highlightedObject;
             if (i1.visible)
             {
                 for (int i2 = 0; i2 < i1.face_count; i2++)
@@ -615,7 +615,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             for (int k5 = 0; k5 < currentModelIndex; k5++)
             {
                 CameraModel l6 = visibleModels[k5];
-                GameObject model = l6.Object;
+                ObjectModel model = l6.Object;
                 int j2 = l6.faceVertCountIndex1;
                 if (model == highlightedObject)
                 {
@@ -772,7 +772,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         }
 
         void bic(int arg0, int arg1, int arg2, int arg3, int arg4, int[] arg5, int[] arg6,
-                int[] arg7, GameObject arg8, int arg9)
+                int[] arg7, ObjectModel arg8, int arg9)
         {
             if (arg4 == 3)
             {
@@ -1423,7 +1423,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         }
 
         void renderModel(int arg0, int arg1, int arg2, int[] arg3, int[] arg4, int[] arg5, int textureIndex,
-                GameObject arg7)
+                ObjectModel arg7)
         {
             if (textureIndex == -2)
             {
@@ -3079,7 +3079,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         void bja(int arg0)
         {
             CameraModel l1 = visibleModels[arg0];
-            GameObject k = l1.Object;
+            ObjectModel k = l1.Object;
             int i1 = l1.faceVertCountIndex1;
             int[] ai = k.face_vertices[i1];
             int j1 = k.face_vertices_count[i1];
@@ -3172,7 +3172,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         void bjb(int arg0)
         {
             CameraModel l1 = visibleModels[arg0];
-            GameObject k = l1.Object;
+            ObjectModel k = l1.Object;
             int i1 = l1.faceVertCountIndex1;
             int[] faceVertices = k.face_vertices[i1];
             int k1 = 0;
@@ -3275,8 +3275,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 return false;
             }
 
-            GameObject k = arg0.Object;
-            GameObject i1 = arg1.Object;
+            ObjectModel k = arg0.Object;
+            ObjectModel i1 = arg1.Object;
             int j1 = arg0.faceVertCountIndex1;
             int k1 = arg1.faceVertCountIndex1;
             int[] ai = k.face_vertices[j1];
@@ -3396,8 +3396,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
 
         bool bjd(CameraModel arg0, CameraModel arg1)
         {
-            GameObject k = arg0.Object;
-            GameObject i1 = arg1.Object;
+            ObjectModel k = arg0.Object;
+            ObjectModel i1 = arg1.Object;
             int j1 = arg0.faceVertCountIndex1;
             int k1 = arg1.faceVertCountIndex1;
             int[] ai = k.face_vertices[j1];
@@ -4181,7 +4181,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         int bcd;
         int bce;
         int maxHighlightedObjects;
-        GameObject[] _highlightedObjects;
+        ObjectModel[] _highlightedObjects;
         int[] bch;
         int bci;
         int bcj;
@@ -4198,7 +4198,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         int bdg;
         public int currentObjectCount;
         public int totalModelCount;
-        public GameObject[] objectCache;
+        public ObjectModel[] objectCache;
         int[] bdk;
         int currentModelIndex;
         CameraModel[] visibleModels;
@@ -4210,7 +4210,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
         int[] bee;
         int[] bef;
         int[] beg;
-        public GameObject highlightedObject;
+        public ObjectModel highlightedObject;
         public int bei;
         public sbyte[][] texturePictureColorIndex;
         public int[][] texturePictureColorArray;

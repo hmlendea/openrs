@@ -396,7 +396,7 @@ namespace RuneScapeSolo.Lib.Game
             stitchAreaTileColors();
             if (currentSectionObject == null)
             {
-                currentSectionObject = new GameObject(18688, 18688, true, true, false, false, true);
+                currentSectionObject = new ObjectModel(18688, 18688, true, true, false, false, true);
             }
 
             if (freshLoad)
@@ -410,7 +410,7 @@ namespace RuneScapeSolo.Lib.Game
                     }
                 }
 
-                GameObject sectionObj = currentSectionObject;
+                ObjectModel sectionObj = currentSectionObject;
                 sectionObj.resetObjectIndexes();
 
 #warning draw tiles ? -part-1- INITIALIZE
@@ -1647,26 +1647,26 @@ namespace RuneScapeSolo.Lib.Game
                 return;
             }
 
-            if (EntityManager.GetObject(objType).Type == 1 || EntityManager.GetObject(objType).Type == 2)
+            if (EntityManager.GetModel(objType).Type == 1 || EntityManager.GetModel(objType).Type == 2)
             {
                 //int wallObj = getTileRotation(x, arg1);
                 int objWidth;
                 int objHeight;
                 if (objDir == 0 || objDir == 4)
                 {
-                    objWidth = EntityManager.GetObject(objType).Width;
-                    objHeight = EntityManager.GetObject(objType).Height;
+                    objWidth = EntityManager.GetModel(objType).Width;
+                    objHeight = EntityManager.GetModel(objType).Height;
                 }
                 else
                 {
-                    objHeight = EntityManager.GetObject(objType).Width;
-                    objWidth = EntityManager.GetObject(objType).Height;
+                    objHeight = EntityManager.GetModel(objType).Width;
+                    objWidth = EntityManager.GetModel(objType).Height;
                 }
                 for (int j1 = x; j1 < x + objWidth; j1++)
                 {
                     for (int k1 = y; k1 < y + objHeight; k1++)
                     {
-                        if (EntityManager.GetObject(objType).Type == 1)
+                        if (EntityManager.GetModel(objType).Type == 1)
                         {
                             tiles[j1][k1] &= 0xffbf;
                         }
@@ -1843,8 +1843,8 @@ namespace RuneScapeSolo.Lib.Game
             tileGroundElevation = new sbyte[SECTOR_COUNT][];
             tileRoofType = new int[SECTOR_COUNT][];
 
-            wallObject = new GameObject[SECTOR_COUNT][];
-            roofObject = new GameObject[SECTOR_COUNT][];
+            wallObject = new ObjectModel[SECTOR_COUNT][];
+            roofObject = new ObjectModel[SECTOR_COUNT][];
 
             for (int j = 0; j < 4; j++)
             {
@@ -1857,8 +1857,8 @@ namespace RuneScapeSolo.Lib.Game
                 tileGroundElevation[j] = new sbyte[o2];
                 tileRoofType[j] = new int[o2];
 
-                wallObject[j] = new GameObject[o6];
-                roofObject[j] = new GameObject[o6];
+                wallObject[j] = new ObjectModel[o6];
+                roofObject[j] = new ObjectModel[o6];
             }
 
             roofTiles = new int[o9][];
@@ -1878,7 +1878,7 @@ namespace RuneScapeSolo.Lib.Game
             ghh = false;
             selectedY = new int[18432];
             groundTexture = new int[256];
-            TileChunks = new GameObject[64];
+            TileChunks = new ObjectModel[64];
 
             playerIsAlive = false;
 
@@ -1950,26 +1950,26 @@ namespace RuneScapeSolo.Lib.Game
                 return;
             }
 
-            if (EntityManager.GetObject(index).Type == 1 || EntityManager.GetObject(index).Type == 2)
+            if (EntityManager.GetModel(index).Type == 1 || EntityManager.GetModel(index).Type == 2)
             {
                 //int wallObj = getTileRotation(x, arg1);
                 int objectWidth;
                 int objectHeight;
                 if (direction == 0 || direction == 4)
                 {
-                    objectWidth = EntityManager.GetObject(index).Width;
-                    objectHeight = EntityManager.GetObject(index).Height;
+                    objectWidth = EntityManager.GetModel(index).Width;
+                    objectHeight = EntityManager.GetModel(index).Height;
                 }
                 else
                 {
-                    objectHeight = EntityManager.GetObject(index).Width;
-                    objectWidth = EntityManager.GetObject(index).Height;
+                    objectHeight = EntityManager.GetModel(index).Width;
+                    objectWidth = EntityManager.GetModel(index).Height;
                 }
                 for (int x1 = x; x1 < x + objectWidth; x1++)
                 {
                     for (int y1 = y; y1 < y + objectHeight; y1++)
                     {
-                        if (EntityManager.GetObject(index).Type == 1)
+                        if (EntityManager.GetModel(index).Type == 1)
                         {
                             tiles[x1][y1] |= 0x40;
                         }
@@ -2155,7 +2155,7 @@ namespace RuneScapeSolo.Lib.Game
             return tileDiagonalWall[layer][x * 48 + y];
         }
 
-        public void addObjects(GameObject[] arg0)
+        public void addObjects(ObjectModel[] arg0)
         {
             for (int x = 0; x < 94; x++)
             {
@@ -2171,16 +2171,16 @@ namespace RuneScapeSolo.Lib.Game
                             int objectHeight;
                             if (objectRotation == 0 || objectRotation == 4)
                             {
-                                objectWidth = EntityManager.GetObject(objectIndex).Width;
-                                objectHeight = EntityManager.GetObject(objectIndex).Height;
+                                objectWidth = EntityManager.GetModel(objectIndex).Width;
+                                objectHeight = EntityManager.GetModel(objectIndex).Height;
                             }
                             else
                             {
-                                objectHeight = EntityManager.GetObject(objectIndex).Width;
-                                objectWidth = EntityManager.GetObject(objectIndex).Height;
+                                objectHeight = EntityManager.GetModel(objectIndex).Width;
+                                objectWidth = EntityManager.GetModel(objectIndex).Height;
                             }
                             createObject(x, y, objectIndex, objectRotation);
-                            GameObject i2 = arg0[EntityManager.GetObject(objectIndex).ModelId].CreateParent(false, true, false, false);
+                            ObjectModel i2 = arg0[EntityManager.GetModel(objectIndex).ModelId].CreateParent(false, true, false, false);
                             int j2 = ((x + x + objectWidth) * 128) / 2;
                             int l2 = ((y + y + objectHeight) * 128) / 2;
                             i2.offsetPosition(j2, -getAveragedElevation(j2, l2), l2);
@@ -2234,7 +2234,7 @@ namespace RuneScapeSolo.Lib.Game
 
         public void updateTileChunk(int objectX, int objectY, int x, int y, int val)
         {
-            GameObject tileChunk = TileChunks[objectX + objectY * 8];
+            ObjectModel tileChunk = TileChunks[objectX + objectY * 8];
             if (tileChunk != null)
             {
                 for (int vertIndex = 0; vertIndex < tileChunk.vert_count; vertIndex++)
@@ -2248,7 +2248,7 @@ namespace RuneScapeSolo.Lib.Game
             }
         }
 
-        public void makeWall(GameObject wallObj, int wallObjIndex, int x, int y, int destX, int destY)
+        public void makeWall(ObjectModel wallObj, int wallObjIndex, int x, int y, int destX, int destY)
         {
             SetTileType(x, y, 40);
             SetTileType(destX, destY, 40);
@@ -2293,20 +2293,20 @@ namespace RuneScapeSolo.Lib.Game
         public int[] selectedY;
         public int[][] tileGroundTexture;
         public int[] groundTexture;
-        public GameObject[] TileChunks;
-        public GameObject currentSectionObject;
+        public ObjectModel[] TileChunks;
+        public ObjectModel currentSectionObject;
         public int[][] roofTiles;
         public int[][] tileVerticalWall;
         public int[][] steps;
         public sbyte[] landscapeFree;
         public sbyte[] mapsFree;
         public sbyte[][] tileGroundElevation;
-        public GameObject[][] roofObject;
+        public ObjectModel[][] roofObject;
         public bool playerIsAlive;
         public int[][] tiles;
         public sbyte[] landscapeMembers;
         public sbyte[] mapsMembers;
-        public GameObject[][] wallObject;
+        public ObjectModel[][] wallObject;
         public int[] selectedX;
         public int[][] tileRoofType;
         public bool gjb;

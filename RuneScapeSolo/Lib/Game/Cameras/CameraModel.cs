@@ -15,7 +15,7 @@
         public int bkg;
         public int bkh;
         public int bki;
-        public GameObject Object;
+        public ObjectModel Object;
         public int faceVertCountIndex1;
         public int Scale;
         public int bkm;

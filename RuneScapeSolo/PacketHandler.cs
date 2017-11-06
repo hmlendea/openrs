@@ -359,26 +359,26 @@ namespace RuneScapeSolo
 
                         if (rotation == 0 || rotation == 4)
                         {
-                            width = EntityManager.GetObject(index).Width;
-                            height = EntityManager.GetObject(index).Height;
+                            width = EntityManager.GetModel(index).Width;
+                            height = EntityManager.GetModel(index).Height;
                         }
                         else
                         {
-                            height = EntityManager.GetObject(index).Width;
-                            width = EntityManager.GetObject(index).Height;
+                            height = EntityManager.GetModel(index).Width;
+                            width = EntityManager.GetModel(index).Height;
                         }
 
                         int l40 = ((newSectionX + newSectionX + width) * client.GridSize) / 2;
                         int k42 = ((newSectionY + newSectionY + height) * client.GridSize) / 2;
-                        int model = EntityManager.GetObject(index).ModelId;
-                        GameObject gameObjectModel = client.GameDataObjects[model];
+                        int model = EntityManager.GetModel(index).ModelId;
+                        ObjectModel gameObjectModel = client.GameDataObjects[model];
 
                         if (gameObjectModel == null)
                         {
                             Console.WriteLine("Problem is here");
                         }
 
-                        GameObject gameObject = gameObjectModel.CreateParent();
+                        ObjectModel gameObject = gameObjectModel.CreateParent();
 
 #warning object not being added to camera.
                         client.gameCamera.addModel(gameObject);
@@ -1303,7 +1303,7 @@ namespace RuneScapeSolo
                     {
                         client.engineHandle.createWall(newSectionX, newSectionY, direction, newId);
 
-                        GameObject k35 = client.makeWallObject(newSectionX, newSectionY, direction, newId, client.WallObjectCount);
+                        ObjectModel k35 = client.makeWallObject(newSectionX, newSectionY, direction, newId, client.WallObjectCount);
                         client.WallObjects[client.WallObjectCount] = k35;
 
                         client.WallObjectX[client.WallObjectCount] = newSectionX;

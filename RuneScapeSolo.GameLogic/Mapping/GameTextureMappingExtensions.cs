@@ -9,16 +9,16 @@ namespace RuneScapeSolo.GameLogic.Mapping
     /// <summary>
     /// Texture mapping extensions for converting between entities and domain models.
     /// </summary>
-    static class TextureMappingExtensions
+    static class GameTextureMappingExtensions
     {
         /// <summary>
         /// Converts the entity into a domain model.
         /// </summary>
         /// <returns>The domain model.</returns>
         /// <param name="textureEntity">Texture entity.</param>
-        internal static Texture ToDomainModel(this TextureEntity textureEntity)
+        internal static GameTexture ToDomainModel(this GameTextureEntity textureEntity)
         {
-            Texture texture = new Texture
+            GameTexture texture = new GameTexture
             {
                 Name = textureEntity.Name,
                 SubName = textureEntity.SubName
@@ -32,9 +32,9 @@ namespace RuneScapeSolo.GameLogic.Mapping
         /// </summary>
         /// <returns>The entity.</returns>
         /// <param name="texture">Texture.</param>
-        internal static TextureEntity ToEntity(this Texture texture)
+        internal static GameTextureEntity ToEntity(this GameTexture texture)
         {
-            TextureEntity textureEntity = new TextureEntity
+            GameTextureEntity textureEntity = new GameTextureEntity
             {
                 Name = texture.Name,
                 SubName = texture.SubName
@@ -48,9 +48,9 @@ namespace RuneScapeSolo.GameLogic.Mapping
         /// </summary>
         /// <returns>The domain models.</returns>
         /// <param name="textureEntities">Texture entities.</param>
-        internal static IEnumerable<Texture> ToDomainModels(this IEnumerable<TextureEntity> textureEntities)
+        internal static IEnumerable<GameTexture> ToDomainModels(this IEnumerable<GameTextureEntity> textureEntities)
         {
-            IEnumerable<Texture> textures = textureEntities.Select(textureEntity => textureEntity.ToDomainModel());
+            IEnumerable<GameTexture> textures = textureEntities.Select(textureEntity => textureEntity.ToDomainModel());
 
             return textures;
         }
@@ -60,9 +60,9 @@ namespace RuneScapeSolo.GameLogic.Mapping
         /// </summary>
         /// <returns>The entities.</returns>
         /// <param name="textures">Textures.</param>
-        internal static IEnumerable<TextureEntity> ToEntities(this IEnumerable<Texture> textures)
+        internal static IEnumerable<GameTextureEntity> ToEntities(this IEnumerable<GameTexture> textures)
         {
-            IEnumerable<TextureEntity> textureEntities = textures.Select(texture => texture.ToEntity());
+            IEnumerable<GameTextureEntity> textureEntities = textures.Select(texture => texture.ToEntity());
 
             return textureEntities;
         }
