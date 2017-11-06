@@ -116,19 +116,33 @@ namespace RuneScapeSolo.Input
             return keys.All(currentKeyState.IsKeyDown);
         }
 
+        public bool IsAnyKeyDown()
+        {
+            Keys[] allKeys = Enum.GetValues(typeof(Keys)).Cast<Keys>().ToArray();
+
+            return IsAnyKeyDown(allKeys);
+        }
+
         public bool IsAnyKeyDown(params Keys[] keys)
         {
             return keys.Any(currentKeyState.IsKeyDown);
         }
 
-        public bool IsMouseButtonDown(params MouseButton[] buttons)
+        public bool IsMouseButtonPressed(params MouseButton[] buttons)
         {
-            return buttons.All(IsMouseButtonDown);
+            return buttons.All(IsMouseButtonPressed);
         }
 
-        public bool IsAnyMouseButtonDown(params MouseButton[] buttons)
+        public bool IsAnyMouseButtonPressed()
         {
-            return buttons.Any(IsMouseButtonDown);
+            MouseButton[] allButtons = Enum.GetValues(typeof(MouseButton)).Cast<MouseButton>().ToArray();
+
+            return IsAnyMouseButtonPressed(allButtons);
+        }
+
+        public bool IsAnyMouseButtonPressed(params MouseButton[] buttons)
+        {
+            return buttons.Any(IsMouseButtonPressed);
         }
 
         void CheckKeyboardKeyPressed()
@@ -260,18 +274,21 @@ namespace RuneScapeSolo.Input
             }
         }
 
-        bool IsMouseButtonDown(MouseButton button)
+        bool IsMouseButtonPressed(MouseButton button)
         {
             switch (button)
             {
                 case MouseButton.LeftButton:
-                    return currentMouseState.LeftButton == ButtonState.Pressed;
+                    return currentMouseState.LeftButton == ButtonState.Pressed &&
+                           previousMouseState.LeftButton == ButtonState.Released;
 
                 case MouseButton.RightButton:
-                    return currentMouseState.RightButton == ButtonState.Pressed;
+                    return currentMouseState.RightButton == ButtonState.Pressed &&
+                           previousMouseState.LeftButton == ButtonState.Released;
 
                 case MouseButton.MiddleButton:
-                    return currentMouseState.MiddleButton == ButtonState.Pressed;
+                    return currentMouseState.MiddleButton == ButtonState.Pressed &&
+                           previousMouseState.LeftButton == ButtonState.Released;
 
                 default:
                     return false;
