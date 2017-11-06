@@ -1,14 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using RuneScapeSolo.DataAccess.DataObjects;
 using RuneScapeSolo.DataAccess.Repositories;
 using RuneScapeSolo.Mapping;
 using RuneScapeSolo.Models;
 
 namespace RuneScapeSolo.Lib.Data
 {
-    public class EntityHandler
+    public class EntityManager
     {
         static Animation[] animations;
         static GameObject[] objects;
@@ -23,12 +22,7 @@ namespace RuneScapeSolo.Lib.Data
 
         static List<string> models = new List<string>();
         // TODO: Properly handle those fields.
-        public static int highestLoadedPicture;
         public static string[] modelName = new string[5000];
-        static int stringDataIndex;
-        static int integerDataIndex;
-        static sbyte[] stringData;
-        static sbyte[] integerData;
 
         /// <summary>
         /// Gets the animations count.
@@ -77,13 +71,12 @@ namespace RuneScapeSolo.Lib.Data
         /// </summary>
         /// <value>The spells count.</value>
         public static int SpellCount => spells.Length;
-
-        // TODO: Private set?
+        
         /// <summary>
         /// Gets or sets the spell projectile count.
         /// </summary>
         /// <value>The spell projectile count.</value>
-        public static int SpellProjectileCount { get; set; }
+        public static int SpellProjectileCount { get; private set; }
 
         /// <summary>
         /// Gets the textures count.
@@ -102,6 +95,8 @@ namespace RuneScapeSolo.Lib.Data
         /// </summary>
         /// <value>The wall objects count.</value>
         public static int WallObjectCount => wallObjects.Length;
+
+        public static int HighestLoadedPicture { get; private set; }
 
         /// <summary>
         /// Gets the animation.
@@ -289,12 +284,6 @@ namespace RuneScapeSolo.Lib.Data
 
         public static void Load(sbyte[] data)
         {
-            stringData = DataOperations.loadData("string.dat", 0, data);
-            stringDataIndex = 0;
-
-            integerData = DataOperations.loadData("integer.dat", 0, data);
-            integerDataIndex = 0;
-
             AnimationRepository animationRepository = new AnimationRepository("animations.xml");
             ElevationRepository elevationRepository = new ElevationRepository("elevations.xml");
             ItemRepository itemRepository = new ItemRepository("items.xml");
@@ -316,9 +305,6 @@ namespace RuneScapeSolo.Lib.Data
             textures = textureRepository.GetAll().ToDomainModels().ToArray();
             tiles = tileRepository.GetAll().ToDomainModels().ToArray();
             wallObjects = wallObjectRepository.GetAll().ToDomainModels().ToArray();
-
-            stringData = null;
-            integerData = null;
         }
 
         static int StoreModel(string name)

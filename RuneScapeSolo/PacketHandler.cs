@@ -358,18 +358,18 @@ namespace RuneScapeSolo
 
                         if (rotation == 0 || rotation == 4)
                         {
-                            width = EntityHandler.GetObject(index).Width;
-                            height = EntityHandler.GetObject(index).Height;
+                            width = EntityManager.GetObject(index).Width;
+                            height = EntityManager.GetObject(index).Height;
                         }
                         else
                         {
-                            height = EntityHandler.GetObject(index).Width;
-                            width = EntityHandler.GetObject(index).Height;
+                            height = EntityManager.GetObject(index).Width;
+                            width = EntityManager.GetObject(index).Height;
                         }
 
                         int l40 = ((newSectionX + newSectionX + width) * client.GridSize) / 2;
                         int k42 = ((newSectionY + newSectionY + height) * client.GridSize) / 2;
-                        int model = EntityHandler.GetObject(index).ModelId;
+                        int model = EntityManager.GetObject(index).ModelId;
                         GameObject gameObject = client.GameDataObjects[model].CreateParent();
 
 #warning object not being added to camera.
@@ -709,7 +709,7 @@ namespace RuneScapeSolo
 
                 newNpcOffset += 10;
 
-                if (addIndex >= EntityHandler.NpcCount)
+                if (addIndex >= EntityManager.NpcCount)
                 {
                     addIndex = 24;
                 }
@@ -731,7 +731,7 @@ namespace RuneScapeSolo
                 client.InventoryItems[item] = val & 0x7fff;
                 client.InventoryItemEquipped[item] = val / 32768;
 
-                if (EntityHandler.GetItem(val & 0x7fff).IsStackable == 0)
+                if (EntityManager.GetItem(val & 0x7fff).IsStackable == 0)
                 {
                     client.InventoryItemCount[item] = DataOperations.getInt(data, off);
                     off += 4;
@@ -1040,7 +1040,7 @@ namespace RuneScapeSolo
             int val = DataOperations.getShort(data, offset);
             offset += 2;
 
-            if (EntityHandler.GetItem(val & 0x7fff).IsStackable == 0)
+            if (EntityManager.GetItem(val & 0x7fff).IsStackable == 0)
             {
                 count = DataOperations.getInt(data, offset);
                 offset += 4;

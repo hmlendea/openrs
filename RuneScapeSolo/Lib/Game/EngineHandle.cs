@@ -420,24 +420,24 @@ namespace RuneScapeSolo.Lib.Game
                     {
                         int i4 = -getTileElevation(j2, i3);
 
-                        Tile tile1 = EntityHandler.GetTile(getTileGroundOverlayIndex(j2, i3, height) - 1);
+                        Tile tile1 = EntityManager.GetTile(getTileGroundOverlayIndex(j2, i3, height) - 1);
 
                         if (getTileGroundOverlayIndex(j2, i3, height) > 0 && tile1.Type == 4)
                         {
                             i4 = 0;
                         }
 
-                        if (getTileGroundOverlayIndex(j2 - 1, i3, height) > 0 && EntityHandler.GetTile(getTileGroundOverlayIndex(j2 - 1, i3, height) - 1).Type == 4)
+                        if (getTileGroundOverlayIndex(j2 - 1, i3, height) > 0 && EntityManager.GetTile(getTileGroundOverlayIndex(j2 - 1, i3, height) - 1).Type == 4)
                         {
                             i4 = 0;
                         }
 
-                        if (getTileGroundOverlayIndex(j2, i3 - 1, height) > 0 && EntityHandler.GetTile(getTileGroundOverlayIndex(j2, i3 - 1, height) - 1).Type == 4)
+                        if (getTileGroundOverlayIndex(j2, i3 - 1, height) > 0 && EntityManager.GetTile(getTileGroundOverlayIndex(j2, i3 - 1, height) - 1).Type == 4)
                         {
                             i4 = 0;
                         }
 
-                        if (getTileGroundOverlayIndex(j2 - 1, i3 - 1, height) > 0 && EntityHandler.GetTile(getTileGroundOverlayIndex(j2 - 1, i3 - 1, height) - 1).Type == 4)
+                        if (getTileGroundOverlayIndex(j2 - 1, i3 - 1, height) > 0 && EntityManager.GetTile(getTileGroundOverlayIndex(j2 - 1, i3 - 1, height) - 1).Type == 4)
                         {
                             i4 = 0;
                         }
@@ -469,9 +469,9 @@ namespace RuneScapeSolo.Lib.Game
                         if (getTileGroundOverlayIndex(x1, y1, height) > 0)
                         {
                             int tileIndex = getTileGroundOverlayIndex(x1, y1, height);
-                            int tileType = EntityHandler.GetTile(tileIndex - 1).Type;
+                            int tileType = EntityManager.GetTile(tileIndex - 1).Type;
                             int i19 = gkd(x1, y1, height);
-                            texture = texture1 = EntityHandler.GetTile(tileIndex - 1).Colour;
+                            texture = texture1 = EntityManager.GetTile(tileIndex - 1).Colour;
                             if (tileType == 4)
                             {
                                 texture = 1;
@@ -532,12 +532,12 @@ namespace RuneScapeSolo.Lib.Game
                                 }
                             }
 
-                            if (EntityHandler.GetTile(tileIndex - 1).Type != 0)
+                            if (EntityManager.GetTile(tileIndex - 1).Type != 0)
                             {
                                 tiles[x1][y1] |= 0x40;
                             }
 
-                            if (EntityHandler.GetTile(tileIndex - 1).Type == 2)
+                            if (EntityManager.GetTile(tileIndex - 1).Type == 2)
                             {
                                 tiles[x1][y1] |= 0x80;
                             }
@@ -622,9 +622,9 @@ namespace RuneScapeSolo.Lib.Game
                 {
                     for (int y1 = 1; y1 < 95; y1++)
                     {
-                        if (getTileGroundOverlayIndex(x1, y1, height) > 0 && EntityHandler.GetTile(getTileGroundOverlayIndex(x1, y1, height) - 1).Type == 4)
+                        if (getTileGroundOverlayIndex(x1, y1, height) > 0 && EntityManager.GetTile(getTileGroundOverlayIndex(x1, y1, height) - 1).Type == 4)
                         {
-                            int l7 = EntityHandler.GetTile(getTileGroundOverlayIndex(x1, y1, height) - 1).Colour;
+                            int l7 = EntityManager.GetTile(getTileGroundOverlayIndex(x1, y1, height) - 1).Colour;
                             int j10 = sectionObj.getVertexIndex(x1 * 128, -getTileElevation(x1, y1), y1 * 128);
                             int l12 = sectionObj.getVertexIndex((x1 + 1) * 128, -getTileElevation(x1 + 1, y1), y1 * 128);
                             int i15 = sectionObj.getVertexIndex((x1 + 1) * 128, -getTileElevation(x1 + 1, y1 + 1), (y1 + 1) * 128);
@@ -638,11 +638,11 @@ namespace RuneScapeSolo.Lib.Game
                             sectionObj.entityType[i20] = 0x30d40 + i20;
                             drawMinimapPixel(x1, y1, 0, l7, l7);
                         }
-                        else if (getTileGroundOverlayIndex(x1, y1, height) == 0 || EntityHandler.GetTile(getTileGroundOverlayIndex(x1, y1, height) - 1).Type != 3)
+                        else if (getTileGroundOverlayIndex(x1, y1, height) == 0 || EntityManager.GetTile(getTileGroundOverlayIndex(x1, y1, height) - 1).Type != 3)
                         {
-                            if (getTileGroundOverlayIndex(x1, y1 + 1, height) > 0 && EntityHandler.GetTile(getTileGroundOverlayIndex(x1, y1 + 1, height) - 1).Type == 4)
+                            if (getTileGroundOverlayIndex(x1, y1 + 1, height) > 0 && EntityManager.GetTile(getTileGroundOverlayIndex(x1, y1 + 1, height) - 1).Type == 4)
                             {
-                                int i8 = EntityHandler.GetTile(getTileGroundOverlayIndex(x1, y1 + 1, height) - 1).Colour;
+                                int i8 = EntityManager.GetTile(getTileGroundOverlayIndex(x1, y1 + 1, height) - 1).Colour;
                                 int k10 = sectionObj.getVertexIndex(x1 * 128, -getTileElevation(x1, y1), y1 * 128);
                                 int i13 = sectionObj.getVertexIndex((x1 + 1) * 128, -getTileElevation(x1 + 1, y1), y1 * 128);
                                 int j15 = sectionObj.getVertexIndex((x1 + 1) * 128, -getTileElevation(x1 + 1, y1 + 1), (y1 + 1) * 128);
@@ -656,9 +656,9 @@ namespace RuneScapeSolo.Lib.Game
                                 sectionObj.entityType[j20] = 0x30d40 + j20;
                                 drawMinimapPixel(x1, y1, 0, i8, i8);
                             }
-                            if (getTileGroundOverlayIndex(x1, y1 - 1, height) > 0 && EntityHandler.GetTile(getTileGroundOverlayIndex(x1, y1 - 1, height) - 1).Type == 4)
+                            if (getTileGroundOverlayIndex(x1, y1 - 1, height) > 0 && EntityManager.GetTile(getTileGroundOverlayIndex(x1, y1 - 1, height) - 1).Type == 4)
                             {
-                                int j8 = EntityHandler.GetTile(getTileGroundOverlayIndex(x1, y1 - 1, height) - 1).Colour;
+                                int j8 = EntityManager.GetTile(getTileGroundOverlayIndex(x1, y1 - 1, height) - 1).Colour;
                                 int l10 = sectionObj.getVertexIndex(x1 * 128, -getTileElevation(x1, y1), y1 * 128);
                                 int j13 = sectionObj.getVertexIndex((x1 + 1) * 128, -getTileElevation(x1 + 1, y1), y1 * 128);
                                 int k15 = sectionObj.getVertexIndex((x1 + 1) * 128, -getTileElevation(x1 + 1, y1 + 1), (y1 + 1) * 128);
@@ -672,9 +672,9 @@ namespace RuneScapeSolo.Lib.Game
                                 sectionObj.entityType[k20] = 0x30d40 + k20;
                                 drawMinimapPixel(x1, y1, 0, j8, j8);
                             }
-                            if (getTileGroundOverlayIndex(x1 + 1, y1, height) > 0 && EntityHandler.GetTile(getTileGroundOverlayIndex(x1 + 1, y1, height) - 1).Type == 4)
+                            if (getTileGroundOverlayIndex(x1 + 1, y1, height) > 0 && EntityManager.GetTile(getTileGroundOverlayIndex(x1 + 1, y1, height) - 1).Type == 4)
                             {
-                                int k8 = EntityHandler.GetTile(getTileGroundOverlayIndex(x1 + 1, y1, height) - 1).Colour;
+                                int k8 = EntityManager.GetTile(getTileGroundOverlayIndex(x1 + 1, y1, height) - 1).Colour;
                                 int i11 = sectionObj.getVertexIndex(x1 * 128, -getTileElevation(x1, y1), y1 * 128);
                                 int k13 = sectionObj.getVertexIndex((x1 + 1) * 128, -getTileElevation(x1 + 1, y1), y1 * 128);
                                 int l15 = sectionObj.getVertexIndex((x1 + 1) * 128, -getTileElevation(x1 + 1, y1 + 1), (y1 + 1) * 128);
@@ -688,9 +688,9 @@ namespace RuneScapeSolo.Lib.Game
                                 sectionObj.entityType[l20] = 0x30d40 + l20;
                                 drawMinimapPixel(x1, y1, 0, k8, k8);
                             }
-                            if (getTileGroundOverlayIndex(x1 - 1, y1, height) > 0 && EntityHandler.GetTile(getTileGroundOverlayIndex(x1 - 1, y1, height) - 1).Type == 4)
+                            if (getTileGroundOverlayIndex(x1 - 1, y1, height) > 0 && EntityManager.GetTile(getTileGroundOverlayIndex(x1 - 1, y1, height) - 1).Type == 4)
                             {
-                                int l8 = EntityHandler.GetTile(getTileGroundOverlayIndex(x1 - 1, y1, height) - 1).Colour;
+                                int l8 = EntityManager.GetTile(getTileGroundOverlayIndex(x1 - 1, y1, height) - 1).Colour;
                                 int j11 = sectionObj.getVertexIndex(x1 * 128, -getTileElevation(x1, y1), y1 * 128);
                                 int l13 = sectionObj.getVertexIndex((x1 + 1) * 128, -getTileElevation(x1 + 1, y1), y1 * 128);
                                 int i16 = sectionObj.getVertexIndex((x1 + 1) * 128, -getTileElevation(x1 + 1, y1 + 1), (y1 + 1) * 128);
@@ -733,10 +733,10 @@ namespace RuneScapeSolo.Lib.Game
                 for (int y1 = 0; y1 < 95; y1++)
                 {
                     int k3 = getHorizontalWall(x1, y1);
-                    if (k3 > 0 && (EntityHandler.GetWallObject(k3 - 1).Unknown == 0 || ghh))
+                    if (k3 > 0 && (EntityManager.GetWallObject(k3 - 1).Unknown == 0 || ghh))
                     {
                         makeWall(currentSectionObject, k3 - 1, x1, y1, x1 + 1, y1);
-                        if (freshLoad && EntityHandler.GetWallObject(k3 - 1).Type != 0)
+                        if (freshLoad && EntityManager.GetWallObject(k3 - 1).Type != 0)
                         {
                             tiles[x1][y1] |= 1;
                             if (y1 > 0)
@@ -750,10 +750,10 @@ namespace RuneScapeSolo.Lib.Game
                         }
                     }
                     k3 = getVerticalWall(x1, y1);
-                    if (k3 > 0 && (EntityHandler.GetWallObject(k3 - 1).Unknown == 0 || ghh))
+                    if (k3 > 0 && (EntityManager.GetWallObject(k3 - 1).Unknown == 0 || ghh))
                     {
                         makeWall(currentSectionObject, k3 - 1, x1, y1, x1, y1 + 1);
-                        if (freshLoad && EntityHandler.GetWallObject(k3 - 1).Type != 0)
+                        if (freshLoad && EntityManager.GetWallObject(k3 - 1).Type != 0)
                         {
                             tiles[x1][y1] |= 2;
                             if (x1 > 0)
@@ -767,10 +767,10 @@ namespace RuneScapeSolo.Lib.Game
                         }
                     }
                     k3 = getDiagonalWall(x1, y1);
-                    if (k3 > 0 && k3 < 12000 && (EntityHandler.GetWallObject(k3 - 1).Unknown == 0 || ghh))
+                    if (k3 > 0 && k3 < 12000 && (EntityManager.GetWallObject(k3 - 1).Unknown == 0 || ghh))
                     {
                         makeWall(currentSectionObject, k3 - 1, x1, y1, x1 + 1, y1 + 1);
-                        if (freshLoad && EntityHandler.GetWallObject(k3 - 1).Type != 0)
+                        if (freshLoad && EntityManager.GetWallObject(k3 - 1).Type != 0)
                         {
                             tiles[x1][y1] |= 0x20;
                         }
@@ -782,10 +782,10 @@ namespace RuneScapeSolo.Lib.Game
                             gameGraphics.drawMinimapPixel(x1 * 3 + 2, y1 * 3 + 2, j1);
                         }
                     }
-                    if (k3 > 12000 && k3 < 24000 && (EntityHandler.GetWallObject(k3 - 12001).Unknown == 0 || ghh))
+                    if (k3 > 12000 && k3 < 24000 && (EntityManager.GetWallObject(k3 - 12001).Unknown == 0 || ghh))
                     {
                         makeWall(currentSectionObject, k3 - 12001, x1 + 1, y1, x1, y1 + 1);
-                        if (freshLoad && EntityHandler.GetWallObject(k3 - 12001).Type != 0)
+                        if (freshLoad && EntityManager.GetWallObject(k3 - 12001).Type != 0)
                         {
                             tiles[x1][y1] |= 0x10;
                         }
@@ -1019,7 +1019,7 @@ namespace RuneScapeSolo.Lib.Game
                         int k27 = roofTiles[l18][k19];
                         int l27 = roofTiles[k21][i23];
                         int i28 = roofTiles[k23][i24];
-                        int j28 = EntityHandler.GetElevation(i12 - 1).Roof;
+                        int j28 = EntityManager.GetElevation(i12 - 1).Roof;
                         if (isRoofTile(j14, k16) && j27 < 0x13880)
                         {
                             j27 += j28 + 0x13880;
@@ -1141,7 +1141,7 @@ namespace RuneScapeSolo.Lib.Game
                             i27 += byte0;
                         }
 
-                        i12 = EntityHandler.GetElevation(i12 - 1).Unknown;
+                        i12 = EntityManager.GetElevation(i12 - 1).Unknown;
                         j27 = -j27;
                         k27 = -k27;
                         l27 = -l27;
@@ -1481,7 +1481,7 @@ namespace RuneScapeSolo.Lib.Game
             }
             else
             {
-                return EntityHandler.GetTile(k1 - 1).Colour;
+                return EntityManager.GetTile(k1 - 1).Colour;
             }
         }
 
@@ -1516,7 +1516,7 @@ namespace RuneScapeSolo.Lib.Game
                 return;
             }
 
-            if (EntityHandler.GetWallObject(index).Type == 1)
+            if (EntityManager.GetWallObject(index).Type == 1)
             {
                 if (arg2 == 0)
                 {
@@ -1555,7 +1555,7 @@ namespace RuneScapeSolo.Lib.Game
                 return;
             }
 
-            if (EntityHandler.GetWallObject(index).Type == 1)
+            if (EntityManager.GetWallObject(index).Type == 1)
             {
                 if (arg2 == 0)
                 {
@@ -1596,7 +1596,7 @@ namespace RuneScapeSolo.Lib.Game
                 return -1;
             }
 
-            int k1 = EntityHandler.GetTile(j1 - 1).Type;
+            int k1 = EntityManager.GetTile(j1 - 1).Type;
             return k1 != 2 ? 0 : 1;
         }
 
@@ -1646,26 +1646,26 @@ namespace RuneScapeSolo.Lib.Game
                 return;
             }
 
-            if (EntityHandler.GetObject(objType).Type == 1 || EntityHandler.GetObject(objType).Type == 2)
+            if (EntityManager.GetObject(objType).Type == 1 || EntityManager.GetObject(objType).Type == 2)
             {
                 //int wallObj = getTileRotation(x, arg1);
                 int objWidth;
                 int objHeight;
                 if (objDir == 0 || objDir == 4)
                 {
-                    objWidth = EntityHandler.GetObject(objType).Width;
-                    objHeight = EntityHandler.GetObject(objType).Height;
+                    objWidth = EntityManager.GetObject(objType).Width;
+                    objHeight = EntityManager.GetObject(objType).Height;
                 }
                 else
                 {
-                    objHeight = EntityHandler.GetObject(objType).Width;
-                    objWidth = EntityHandler.GetObject(objType).Height;
+                    objHeight = EntityManager.GetObject(objType).Width;
+                    objWidth = EntityManager.GetObject(objType).Height;
                 }
                 for (int j1 = x; j1 < x + objWidth; j1++)
                 {
                     for (int k1 = y; k1 < y + objHeight; k1++)
                     {
-                        if (EntityHandler.GetObject(objType).Type == 1)
+                        if (EntityManager.GetObject(objType).Type == 1)
                         {
                             tiles[j1][k1] &= 0xffbf;
                         }
@@ -1740,7 +1740,7 @@ namespace RuneScapeSolo.Lib.Game
             // 0x13880 = 80000 decimal
             // dont think theres any problem here. 
             // Data.wallObjectModelHeight is not the problem either, i debugged the java version and got the same values both here and there. :p
-            int height = EntityHandler.GetWallObject(objType).ModelHeight;
+            int height = EntityManager.GetWallObject(objType).ModelHeight;
             if (roofTiles[srcX][srcY] < 0x13880)
             {
                 roofTiles[srcX][srcY] += 0x13880 + height;
@@ -1949,26 +1949,26 @@ namespace RuneScapeSolo.Lib.Game
                 return;
             }
 
-            if (EntityHandler.GetObject(index).Type == 1 || EntityHandler.GetObject(index).Type == 2)
+            if (EntityManager.GetObject(index).Type == 1 || EntityManager.GetObject(index).Type == 2)
             {
                 //int wallObj = getTileRotation(x, arg1);
                 int objectWidth;
                 int objectHeight;
                 if (direction == 0 || direction == 4)
                 {
-                    objectWidth = EntityHandler.GetObject(index).Width;
-                    objectHeight = EntityHandler.GetObject(index).Height;
+                    objectWidth = EntityManager.GetObject(index).Width;
+                    objectHeight = EntityManager.GetObject(index).Height;
                 }
                 else
                 {
-                    objectHeight = EntityHandler.GetObject(index).Width;
-                    objectWidth = EntityHandler.GetObject(index).Height;
+                    objectHeight = EntityManager.GetObject(index).Width;
+                    objectWidth = EntityManager.GetObject(index).Height;
                 }
                 for (int x1 = x; x1 < x + objectWidth; x1++)
                 {
                     for (int y1 = y; y1 < y + objectHeight; y1++)
                     {
-                        if (EntityHandler.GetObject(index).Type == 1)
+                        if (EntityManager.GetObject(index).Type == 1)
                         {
                             tiles[x1][y1] |= 0x40;
                         }
@@ -2170,16 +2170,16 @@ namespace RuneScapeSolo.Lib.Game
                             int objectHeight;
                             if (objectRotation == 0 || objectRotation == 4)
                             {
-                                objectWidth = EntityHandler.GetObject(objectIndex).Width;
-                                objectHeight = EntityHandler.GetObject(objectIndex).Height;
+                                objectWidth = EntityManager.GetObject(objectIndex).Width;
+                                objectHeight = EntityManager.GetObject(objectIndex).Height;
                             }
                             else
                             {
-                                objectHeight = EntityHandler.GetObject(objectIndex).Width;
-                                objectWidth = EntityHandler.GetObject(objectIndex).Height;
+                                objectHeight = EntityManager.GetObject(objectIndex).Width;
+                                objectWidth = EntityManager.GetObject(objectIndex).Height;
                             }
                             createObject(x, y, objectIndex, objectRotation);
-                            GameObject i2 = arg0[EntityHandler.GetObject(objectIndex).ModelId].CreateParent(false, true, false, false);
+                            GameObject i2 = arg0[EntityManager.GetObject(objectIndex).ModelId].CreateParent(false, true, false, false);
                             int j2 = ((x + x + objectWidth) * 128) / 2;
                             int l2 = ((y + y + objectHeight) * 128) / 2;
                             i2.offsetPosition(j2, -getAveragedElevation(j2, l2), l2);
@@ -2251,9 +2251,9 @@ namespace RuneScapeSolo.Lib.Game
         {
             SetTileType(x, y, 40);
             SetTileType(destX, destY, 40);
-            int i2 = EntityHandler.GetWallObject(wallObjIndex).ModelHeight;
-            int j2 = EntityHandler.GetWallObject(wallObjIndex).ModelFaceBack;
-            int k2 = EntityHandler.GetWallObject(wallObjIndex).ModelFaceFront;
+            int i2 = EntityManager.GetWallObject(wallObjIndex).ModelHeight;
+            int j2 = EntityManager.GetWallObject(wallObjIndex).ModelFaceBack;
+            int k2 = EntityManager.GetWallObject(wallObjIndex).ModelFaceFront;
             int l2 = x * 128;
             int i3 = y * 128;
             int j3 = destX * 128;
@@ -2262,11 +2262,11 @@ namespace RuneScapeSolo.Lib.Game
             int i4 = wallObj.getVertexIndex(l2, -roofTiles[x][y] - i2, i3);
             int j4 = wallObj.getVertexIndex(j3, -roofTiles[destX][destY] - i2, k3);
             int k4 = wallObj.getVertexIndex(j3, -roofTiles[destX][destY], k3);
-            int[] ai = {
-            l3, i4, j4, k4
-        };
+
+            int[] ai = { l3, i4, j4, k4 };
+
             int l4 = wallObj.addFaceVertices(4, ai, j2, k2);
-            if (EntityHandler.GetWallObject(wallObjIndex).Unknown == 5)
+            if (EntityManager.GetWallObject(wallObjIndex).Unknown == 5)
             {
                 wallObj.entityType[l4] = 30000 + wallObjIndex;
                 return;
