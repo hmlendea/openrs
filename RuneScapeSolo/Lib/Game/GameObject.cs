@@ -193,9 +193,9 @@ namespace RuneScapeSolo.Lib.Game
             cld = 256;
             cle = 512;
             clf = 32;
-            int _vert_count = DataOperations.getShort(data, offset);
+            int _vert_count = DataOperations.GetInt16(data, offset);
             offset += 2;
-            int _face_count = DataOperations.getShort(data, offset);
+            int _face_count = DataOperations.GetInt16(data, offset);
             offset += 2;
 
             InitializeObject(_vert_count, _face_count);
@@ -273,7 +273,7 @@ namespace RuneScapeSolo.Lib.Game
                     }
                     else
                     {
-                        face_vertices[l2][i3] = DataOperations.getShort(data, offset);
+                        face_vertices[l2][i3] = DataOperations.GetInt16(data, offset);
                         offset += 2;
                     }
                 }

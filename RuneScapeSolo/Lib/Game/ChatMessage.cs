@@ -2,20 +2,20 @@ using System;
 
 namespace RuneScapeSolo.Lib.Game
 {
-
     public class ChatMessage
     {
-
         public static string bytesToString(sbyte[] arg0, int arg1, int arg2)
         {
             try
             {
                 int i = 0;
                 int j = -1;
+
                 for (int k = 0; k < arg2; k++)
                 {
                     int l = arg0[arg1++] & 0xff;
                     int i1 = l >> 4 & 0xf;
+
                     if (j == -1)
                     {
                         if (i1 < 13)
@@ -32,7 +32,9 @@ namespace RuneScapeSolo.Lib.Game
                         chatMessage[i++] = validChars[((j << 4) + i1) - 195];
                         j = -1;
                     }
+
                     i1 = l & 0xf;
+
                     if (j == -1)
                     {
                         if (i1 < 13)
@@ -52,6 +54,7 @@ namespace RuneScapeSolo.Lib.Game
                 }
 
                 bool flag = true;
+
                 for (int j1 = 0; j1 < i; j1++)
                 {
                     char c = chatMessage[j1];
@@ -90,10 +93,12 @@ namespace RuneScapeSolo.Lib.Game
             {
                 int i = 0;
                 int j = -1;
+
                 for (int k = 0; k < arg2; k++)
                 {
                     int l = arg0[arg1++] & 0xff;
                     int i1 = l >> 4 & 0xf;
+
                     if (j == -1)
                     {
                         if (i1 < 13)
@@ -110,7 +115,9 @@ namespace RuneScapeSolo.Lib.Game
                         chatMessage[i++] = validChars[((j << 4) + i1) - 195];
                         j = -1;
                     }
+
                     i1 = l & 0xf;
+
                     if (j == -1)
                     {
                         if (i1 < 13)
@@ -130,6 +137,7 @@ namespace RuneScapeSolo.Lib.Game
                 }
 
                 bool flag = true;
+
                 for (int j1 = 0; j1 < i; j1++)
                 {
                     char c = chatMessage[j1];
@@ -170,12 +178,15 @@ namespace RuneScapeSolo.Lib.Game
             }
 
             arg0 = arg0.ToLower();
+
             int i = 0;
             int j = -1;
+
             for (int k = 0; k < arg0.Length; k++)
             {
                 char c = arg0[k];
                 int l = 0;
+
                 for (int i1 = 0; i1 < validChars.Length; i1++)
                 {
                     if (c != validChars[i1])
@@ -203,8 +214,7 @@ namespace RuneScapeSolo.Lib.Game
                         lastChat[i++] = (byte)l;
                     }
                 }
-                else
-                if (l < 13)
+                else if (l < 13)
                 {
                     lastChat[i++] = (byte)((j << 4) + l);
                     j = -1;

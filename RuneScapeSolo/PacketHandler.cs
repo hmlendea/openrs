@@ -255,7 +255,7 @@ namespace RuneScapeSolo
 
         void HandleCookAssistant(sbyte[] data)
         {
-            client.Quests.CookAssistant = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.Quests.CookAssistant = DataOperations.GetInt16(data, 1);
         }
 
         void HandleCommand27(sbyte[] data, int length)
@@ -306,7 +306,7 @@ namespace RuneScapeSolo
                 }
                 else
                 {
-                    int index = DataOperations.GetUnsigned2Bytes(data, offset);
+                    int index = DataOperations.GetInt16(data, offset);
                     offset += 2;
 
                     int newSectionX = client.SectionX + data[offset++];
@@ -406,12 +406,12 @@ namespace RuneScapeSolo
 
         void HandleCommand53(sbyte[] data)
         {
-            int mobCount = DataOperations.GetUnsigned2Bytes(data, 1);
+            int mobCount = DataOperations.GetInt16(data, 1);
             int mobUpdateOffset = 3;
 
             for (int currentMob = 0; currentMob < mobCount; currentMob++)
             {
-                int mobArrayIndex = DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset);
+                int mobArrayIndex = DataOperations.GetInt16(data, mobUpdateOffset);
                 mobUpdateOffset += 2;
 
                 if (mobArrayIndex < 0 || mobArrayIndex > client.Mobs.Length)
@@ -430,7 +430,7 @@ namespace RuneScapeSolo
 
                 if (mobUpdateType == 0)
                 {
-                    int i30 = DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset);
+                    int i30 = DataOperations.GetInt16(data, mobUpdateOffset);
                     mobUpdateOffset += 2;
 
                     if (mob != null)
@@ -489,10 +489,10 @@ namespace RuneScapeSolo
                 else if (mobUpdateType == 3)
                 {
                     // Projectile an NPC.
-                    int k30 = DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset);
+                    int k30 = DataOperations.GetInt16(data, mobUpdateOffset);
                     mobUpdateOffset += 2;
 
-                    int k34 = DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset);
+                    int k34 = DataOperations.GetInt16(data, mobUpdateOffset);
                     mobUpdateOffset += 2;
 
                     if (mob != null)
@@ -506,10 +506,10 @@ namespace RuneScapeSolo
                 else if (mobUpdateType == 4)
                 {
                     // Projectile another player.
-                    int l30 = DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset);
+                    int l30 = DataOperations.GetInt16(data, mobUpdateOffset);
                     mobUpdateOffset += 2;
 
-                    int l34 = DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset);
+                    int l34 = DataOperations.GetInt16(data, mobUpdateOffset);
                     mobUpdateOffset += 2;
 
                     if (mob != null)
@@ -527,14 +527,14 @@ namespace RuneScapeSolo
                     {
                         try
                         {
-                            mob.ServerId = DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset);
+                            mob.ServerId = DataOperations.GetInt16(data, mobUpdateOffset);
                             mobUpdateOffset += 2;
 
-                            mob.NameHash = DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset);
+                            mob.NameHash = DataOperations.GetInt16(data, mobUpdateOffset);
                             mobUpdateOffset += 8;
 
                             mob.Name = DataOperations.LongToString(mob.NameHash);
-                            mob.Clan = DataOperations.LongToString(DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset));
+                            mob.Clan = DataOperations.LongToString(DataOperations.GetInt16(data, mobUpdateOffset));
                             mobUpdateOffset += 8;
 
                             int i31 = DataOperations.GetInt8(data[mobUpdateOffset]);
@@ -559,7 +559,7 @@ namespace RuneScapeSolo
                             mob.PlayerSkulled = data[mobUpdateOffset++] & 0xff;
                             mob.Admin = data[mobUpdateOffset++] & 0xff;
 
-                            string s = DataOperations.LongToString(DataOperations.GetUnsigned2Bytes(data, mobUpdateOffset));
+                            string s = DataOperations.LongToString(DataOperations.GetInt16(data, mobUpdateOffset));
                             mobUpdateOffset += 8;
 
                             if ((s != null) || (!s.Equals("--")))
@@ -733,7 +733,7 @@ namespace RuneScapeSolo
 
             for (int item = 0; item < client.InventoryItemsCount; item++)
             {
-                int val = DataOperations.getShort(data, off);
+                int val = DataOperations.GetInt16(data, off);
 
                 off += 2;
                 client.InventoryItems[item] = val & 0x7fff;
@@ -741,7 +741,7 @@ namespace RuneScapeSolo
 
                 if (EntityManager.GetItem(val & 0x7fff).IsStackable == 0)
                 {
-                    client.InventoryItemCount[item] = DataOperations.getInt(data, off);
+                    client.InventoryItemCount[item] = DataOperations.GetInt32(data, off);
                     off += 4;
                 }
                 else
@@ -753,13 +753,13 @@ namespace RuneScapeSolo
 
         void HandleCommand131(sbyte[] data)
         {
-            client.ServerIndex = DataOperations.getShort(data, 1);
+            client.ServerIndex = DataOperations.GetInt16(data, 1);
 
-            client.WildX = DataOperations.getShort(data, 3);
-            client.WildY = DataOperations.getShort(data, 5);
+            client.WildX = DataOperations.GetInt16(data, 3);
+            client.WildY = DataOperations.GetInt16(data, 5);
 
-            client.LayerIndex = DataOperations.getShort(data, 7);
-            client.LayerModifier = DataOperations.getShort(data, 9);
+            client.LayerIndex = DataOperations.GetInt16(data, 7);
+            client.LayerModifier = DataOperations.GetInt16(data, 9);
 
             client.WildY -= client.LayerIndex * client.LayerModifier;
 
@@ -952,39 +952,39 @@ namespace RuneScapeSolo
 
             for (int stat = 0; stat < 18; stat++)
             {
-                client.PlayerStatExperience[stat] = DataOperations.getInt(data, offset);
+                client.PlayerStatExperience[stat] = DataOperations.GetInt32(data, offset);
                 offset += 4;
             }
         }
 
         void HandleCompletedTasks(sbyte[] data)
         {
-            client.CompletedTasks = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.CompletedTasks = DataOperations.GetInt16(data, 1);
         }
 
         void HandleDeaths(sbyte[] data)
         {
-            client.Deaths = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.Deaths = DataOperations.GetInt16(data, 1);
         }
 
         void HandleDemonSlayer(sbyte[] data)
         {
-            client.Quests.DemonSlayer = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.Quests.DemonSlayer = DataOperations.GetInt16(data, 1);
         }
 
         void HandleDoricQuest(sbyte[] data)
         {
-            client.Quests.DoricQuest = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.Quests.DoricQuest = DataOperations.GetInt16(data, 1);
         }
 
         void HandleDropPartyTimer(sbyte[] data)
         {
-            client.DropPartyTimer = DataOperations.GetUnsigned2Bytes(data, 1) * 32;
+            client.DropPartyTimer = DataOperations.GetInt16(data, 1) * 32;
         }
 
         void HandleDruidicRitual(sbyte[] data)
         {
-            client.Quests.DruidicRitual = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.Quests.DruidicRitual = DataOperations.GetInt16(data, 1);
         }
 
         void HandleEquipmentStatus(sbyte[] data)
@@ -1000,12 +1000,12 @@ namespace RuneScapeSolo
 
         void HandleErnestTheChicken(sbyte[] data)
         {
-            client.Quests.ErnestTheChicken = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.Quests.ErnestTheChicken = DataOperations.GetInt16(data, 1);
         }
 
         void HandleFatigueChange(sbyte[] data)
         {
-            client.fatigue = DataOperations.getShort(data, 1);
+            client.fatigue = DataOperations.GetInt16(data, 1);
         }
 
         void HandleGameSettings(sbyte[] data)
@@ -1020,7 +1020,7 @@ namespace RuneScapeSolo
 
         void HandleGuthixSpells(sbyte[] data)
         {
-            client.GuthixSpells = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.GuthixSpells = DataOperations.GetInt16(data, 1);
         }
 
         void HandleHideDuelBox()
@@ -1036,7 +1036,7 @@ namespace RuneScapeSolo
 
         void HandleImpCatcher(sbyte[] data)
         {
-            client.Quests.ImpCatcher = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.Quests.ImpCatcher = DataOperations.GetInt16(data, 1);
         }
 
         void HandleInventoryItems(sbyte[] data)
@@ -1045,12 +1045,12 @@ namespace RuneScapeSolo
             int count = 1;
 
             int newCount = data[offset++] & 0xff;
-            int val = DataOperations.getShort(data, offset);
+            int val = DataOperations.GetInt16(data, offset);
             offset += 2;
 
             if (EntityManager.GetItem(val & 0x7fff).IsStackable == 0)
             {
-                count = DataOperations.getInt(data, offset);
+                count = DataOperations.GetInt32(data, offset);
                 offset += 4;
             }
 
@@ -1066,20 +1066,20 @@ namespace RuneScapeSolo
 
         void HandleKillingSpree(sbyte[] data)
         {
-            client.KillingSpree = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.KillingSpree = DataOperations.GetInt16(data, 1);
         }
 
         void HandleKills(sbyte[] data)
         {
-            client.Kills = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.Kills = DataOperations.GetInt16(data, 1);
         }
 
         void HandleLoginScreen(sbyte[] data, int length)
         {
             if (!client.LoginScreenShown)
             {
-                client.LastLoginDays = DataOperations.getShort(data, 1);
-                client.SubscriptionDaysLeft = DataOperations.getShort(data, 3);
+                client.LastLoginDays = DataOperations.GetInt16(data, 1);
+                client.SubscriptionDaysLeft = DataOperations.GetInt16(data, 3);
                 client.LastLoginAddress = Encoding.UTF8.GetString((byte[])(Array)data, 5, length - 5); // new string(data.Select(c => (char)c).ToArray(), 5, length - 5);
                 client.ShowWelcomeBox = true;
                 client.LoginScreenShown = true;
@@ -1093,7 +1093,7 @@ namespace RuneScapeSolo
 
         void HandlePirateTreasure(sbyte[] data)
         {
-            client.Quests.PirateTreasure = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.Quests.PirateTreasure = DataOperations.GetInt16(data, 1);
         }
 
         void HandlePlayerStats(sbyte[] data, int length)
@@ -1103,22 +1103,22 @@ namespace RuneScapeSolo
 
             client.PlayerStatCurrent[stat] = DataOperations.GetInt8(data[offset++]);
             client.PlayerStatBase[stat] = DataOperations.GetInt8(data[offset++]);
-            client.PlayerStatExperience[stat] = DataOperations.getInt(data, offset);
+            client.PlayerStatExperience[stat] = DataOperations.GetInt32(data, offset);
         }
 
         void HandlePvpTournamentTimer(sbyte[] data)
         {
-            client.PvpTournamentTimer = DataOperations.GetUnsigned2Bytes(data, 1) * 32;
+            client.PvpTournamentTimer = DataOperations.GetInt16(data, 1) * 32;
         }
 
         void HandleQuestPointsChange(sbyte[] data)
         {
-            client.QuestPoints = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.QuestPoints = DataOperations.GetInt16(data, 1);
         }
 
         void HandleRemaining(sbyte[] data)
         {
-            client.Remaining = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.Remaining = DataOperations.GetInt16(data, 1);
         }
 
         void HandleResetPlayerAliveTimeout()
@@ -1128,23 +1128,23 @@ namespace RuneScapeSolo
 
         void HandleRomeoAndJuliet(sbyte[] data)
         {
-            client.Quests.RomeoAndJuliet = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.Quests.RomeoAndJuliet = DataOperations.GetInt16(data, 1);
         }
 
         void HandleSaradominSpells(sbyte[] data)
         {
-            client.SaradominSpells = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.SaradominSpells = DataOperations.GetInt16(data, 1);
         }
 
         void HandleServerInfo(sbyte[] data, int length)
         {
-            client.ServerStartTime = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.ServerStartTime = DataOperations.GetInt16(data, 1);
             client.ServerLocation = Encoding.ASCII.GetString((byte[])(Array)data, 9, length - 9);
         }
 
         void HandleSheepShearer(sbyte[] data)
         {
-            client.Quests.SheepShearer = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.Quests.SheepShearer = DataOperations.GetInt16(data, 1);
         }
 
         void HandleShowAppearanceWindow()
@@ -1164,7 +1164,7 @@ namespace RuneScapeSolo
 
         void HandleSystemUpdateTimer(sbyte[] data)
         {
-            client.SystemUpdateTimer = DataOperations.GetUnsigned2Bytes(data, 1) * 32;
+            client.SystemUpdateTimer = DataOperations.GetInt16(data, 1) * 32;
         }
 
         void HandleTakeScreenshot()
@@ -1174,37 +1174,37 @@ namespace RuneScapeSolo
 
         void HandleTaskCash(sbyte[] data)
         {
-            client.TaskCash = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.TaskCash = DataOperations.GetInt16(data, 1);
         }
 
         void HandleTaskExperience(sbyte[] data)
         {
-            client.TaskExperience = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.TaskExperience = DataOperations.GetInt16(data, 1);
         }
 
         void HandleTaskItem(sbyte[] data)
         {
-            client.TaskItem = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.TaskItem = DataOperations.GetInt16(data, 1);
         }
 
         void HandleTaskPointsChange(sbyte[] data)
         {
-            client.TaskPoints = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.TaskPoints = DataOperations.GetInt16(data, 1);
         }
 
         void HandleTaskStatus(sbyte[] data)
         {
-            client.TaskCash = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.TaskCash = DataOperations.GetInt16(data, 1);
         }
 
         void HandleTheRestlessGhost(sbyte[] data)
         {
-            client.Quests.TheRestlessGhost = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.Quests.TheRestlessGhost = DataOperations.GetInt16(data, 1);
         }
 
         void HandleTutorialChange(sbyte[] data)
         {
-            client.Tutorial = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.Tutorial = DataOperations.GetInt16(data, 1);
         }
 
         void HandleWallObjects(sbyte[] data, int length)
@@ -1256,7 +1256,7 @@ namespace RuneScapeSolo
                 }
                 else
                 {
-                    int newId = DataOperations.getShort(data, offset);
+                    int newId = DataOperations.GetInt16(data, offset);
                     offset += 2;
 
                     int newSectionX = client.SectionX + data[offset++];
@@ -1318,17 +1318,17 @@ namespace RuneScapeSolo
 
         void HandleWildernessModeTimer(sbyte[] data)
         {
-            client.WildernessModeTimer = DataOperations.GetUnsigned2Bytes(data, 1) * 32;
+            client.WildernessModeTimer = DataOperations.GetInt16(data, 1) * 32;
         }
 
         void HandleWitchPotion(sbyte[] data)
         {
-            client.Quests.WitchPotion = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.Quests.WitchPotion = DataOperations.GetInt16(data, 1);
         }
 
         void HandleZamorakSpells(sbyte[] data)
         {
-            client.ZamorakSpells = DataOperations.GetUnsigned2Bytes(data, 1);
+            client.ZamorakSpells = DataOperations.GetInt16(data, 1);
         }
     }
 }

@@ -8,7 +8,7 @@ using RuneScapeSolo.Settings;
 
 namespace RuneScapeSolo.Lib
 {
-    public class link
+    public class Link
     {
         public static sbyte[] streamToSbyte(BinaryReader stream)
         {
@@ -32,14 +32,14 @@ namespace RuneScapeSolo.Lib
         public static void addFile(string filename, BinaryReader reader)
         {
 
-            link.fileName[currentFile] = filename;
+            Link.fileName[currentFile] = filename;
 
             //     reader.Close();
 
             //  var f = Path.Combine(Config.CONF_DIR, filename);
             //var bytes = File.ReadAllBytes(f).Select(c => (char)c); ;
             //var sbytes = bytes.Select(c=>Convert.ToSByte(c)).ToArray();//c.t(sbyte[])(Array)bytes;
-            link.fileData[currentFile] = streamToSbyte(reader);
+            Link.fileData[currentFile] = streamToSbyte(reader);
 
             currentFile++;
         }
@@ -47,9 +47,9 @@ namespace RuneScapeSolo.Lib
 
         public static void addFile(string fileName, sbyte[] fileData)
         {
-            link.fileName[currentFile] = fileName;
+            Link.fileName[currentFile] = fileName;
 
-            link.fileData[currentFile] = fileData;//.Cast<byte>().ToArray();
+            Link.fileData[currentFile] = fileData;//.Cast<byte>().ToArray();
 
             currentFile++;
         }
@@ -78,7 +78,7 @@ namespace RuneScapeSolo.Lib
         {
             for (int i = 0; i < currentFile; i++)
             {
-                if (link.fileName[i].Equals(fileName))
+                if (Link.fileName[i].Equals(fileName))
                 {
                     return fileData[i];
                 }
@@ -97,7 +97,7 @@ namespace RuneScapeSolo.Lib
 
         public static TcpClient getSocket(int port)
         {
-            for (link.port = port; link.port != 0;)
+            for (Link.port = port; Link.port != 0;)
             {
                 try
                 {
@@ -108,16 +108,7 @@ namespace RuneScapeSolo.Lib
 
             return socket;
         }
-
-        //public static void thread(Runnable runnable) {
-        //    for(thread = runnable; thread != null;)
-        //        try {
-        //            Thread.Sleep(100);
-        //        }
-        //        catch(Exception ex) { }
-
-        //}
-
+        
         public static string getAddress(string ip)
         {
             for (iplookup = ip; iplookup != null;)
@@ -131,12 +122,10 @@ namespace RuneScapeSolo.Lib
 
             return address;
         }
-
-        //public static Applet gameApplet;
+        
         public static int uid;
         static int port;
         static TcpClient socket;
-        //  static Runnable thread = null;
         static string iplookup = null;
         static string address;
         static int currentFile;

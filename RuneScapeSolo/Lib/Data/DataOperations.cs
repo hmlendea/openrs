@@ -7,23 +7,6 @@ namespace RuneScapeSolo.Lib.Data
 {
     public class DataOperations
     {
-        //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-        //ORIGINAL LINE: public static java.io.InputStream openInputStream(string objName) throws java.io.IOException
-        //public static InputStream openInputStream(string objName)
-        //{
-        //    object obj;
-        //    if (codeBase == null)
-        //    {
-        //        obj = new BufferedInputStream(new FileInputStream(objName));
-        //    }
-        //    else
-        //    {
-        //        URL url = new URL(codeBase, objName);
-        //        obj = url.openStream();
-        //    }
-        //    return ((InputStream)(obj));
-        //}
-
         public static MemoryStream openInputStream(string arg0)
         {
 
@@ -100,89 +83,20 @@ namespace RuneScapeSolo.Lib.Data
                 stream.Read(abyte1, 0, i);
             }
         }
-
-        ////JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-        ////ORIGINAL LINE: public static void readFully(string s, byte abyte0[] , int i) throws java.io.IOException
-        //public static void readFully(string s, sbyte[] abyte0, int i)
-        //{
-        //    InputStream inputstream = openInputStream(s);
-        //    DataInputStream datainputstream = new DataInputStream(inputstream);
-        //    try
-        //    {
-        //        datainputstream.readFully(abyte0, 0, i);
-        //    }
-        //    catch (EOFException ex)
-        //    {
-        //    }
-        //    datainputstream.close();
-        //}
-
-        public static int GetInt8(sbyte value)
+        
+        public static long GetLong(sbyte[] data, int i)
         {
-            return value & 0xff;
+            return ((GetInt32(data, i) & 0xffffffffL) << 32) +
+                    (GetInt32(data, i + 4) & 0xffffffffL);
         }
 
-        //public static int getShort(byte[] abyte0, int i)
-        //{
-        //    //return org.moparscape.msc.client.DataOperations.getShort(abyte0, i);
-        //    var val = ((abyte0[i] & 0xff) << 8) + (abyte0[i + 1] & 0xff);
-        //    var val2 = abyte0[i];
-        //    var val3 = abyte0[i] & 0xff;
-        //    var val4 = abyte0[i] & 0xff;
-        //    var val5 = abyte0[i + 1] & 0xff;
-        //    return val;
-        //}
-
-
-        public static int getShort(sbyte[] abyte0, int i)
+        public static long GetLong(byte[] abyte0, int i)
         {
-            //return org.moparscape.msc.client.DataOperations.getShort(abyte0, i);
-            var val = ((abyte0[i] & 0xff) << 8) + (abyte0[i + 1] & 0xff);
-            var val2 = abyte0[i];
-            var val3 = abyte0[i] & 0xff;
-            var val4 = abyte0[i] & 0xff;
-            var val5 = abyte0[i + 1] & 0xff;
-            return val;
+            return ((GetInt32(abyte0, i) & 0xffffffffL) << 32) +
+                    (GetInt32(abyte0, i + 4) & 0xffffffffL);
         }
 
-        //public static int getInt(sbyte[] abyte0, int i)
-        //{
-        //    return ((abyte0[i] & 0xff) << 24) + ((abyte0[i + 1] & 0xff) << 16) + ((abyte0[i + 2] & 0xff) << 8) + (abyte0[i + 3] & 0xff);
-        //}
 
-        public static long getLong(sbyte[] abyte0, int i)
-        {
-            //return org.moparscape.msc.client.DataOperations.getLong(abyte0, i);
-            return ((getInt(abyte0, i) & 0xffffffffL) << 32) + (getInt(abyte0, i + 4) & 0xffffffffL);
-        }
-
-        public static long getLong(byte[] abyte0, int i)
-        {
-            //return org.moparscape.msc.client.DataOperations.getLong(abyte0, i);
-            return ((getInt(abyte0, i) & 0xffffffffL) << 32) + (getInt(abyte0, i + 4) & 0xffffffffL);
-        }
-
-        //public static int getShort(sbyte[] abyte0, int i)
-        //{
-        //    return ((abyte0[i] & 0xff) << 8) + (abyte0[i + 1] & 0xff);
-        //}
-
-        public static int getInt(sbyte[] abyte0, int i)
-        {
-            //return org.moparscape.msc.client.DataOperations.getInt(abyte0, i);
-            return ((abyte0[i] & 0xff) << 24) + ((abyte0[i + 1] & 0xff) << 16) + ((abyte0[i + 2] & 0xff) << 8) + (abyte0[i + 3] & 0xff);
-        }
-
-        public static int getInt(byte[] abyte0, int i)
-        {
-            //return org.moparscape.msc.client.DataOperations.getInt(abyte0, i);
-            return ((abyte0[i] & 0xff) << 24) + ((abyte0[i + 1] & 0xff) << 16) + ((abyte0[i + 2] & 0xff) << 8) + (abyte0[i + 3] & 0xff);
-        }
-
-        //public static long getLong(sbyte[] abyte0, int i)
-        //{
-        //    return (((long)getInt(abyte0, i) & 0xffffffffL) << 32) + ((long)getInt(abyte0, i + 4) & 0xffffffffL);
-        //}
         public static int getShort2(sbyte[] abyte0, int i)
         {
             int j = GetInt8(abyte0[i]) * 256 + GetInt8(abyte0[i + 1]);
@@ -193,20 +107,31 @@ namespace RuneScapeSolo.Lib.Data
             return j;
         }
 
-        //public static int getShort2(byte[] abyte0, int i)
-        //{
-        //    int j = getByte(abyte0[i]) * 256 + getByte(abyte0[i + 1]);
-        //    if (j > 32767)
-        //    {
-        //        j -= 0x10000;
-        //    }
-        //    return j;
-        //}
-
-        public static int GetUnsigned2Bytes(sbyte[] data, int index)
+        public static int GetInt8(sbyte value)
         {
-            return ((data[index] & 0xFF) << 8) +
-                   (data[index + 1] & 0xFF);
+            return value & 255;
+        }
+
+        public static int GetInt16(sbyte[] data, int index)
+        {
+            return ((data[index] & 255) << 8) +
+                    (data[index + 1] & 255);
+        }
+
+        public static int GetInt32(sbyte[] data, int index)
+        {
+            return ((data[index] & 255) << 24) +
+                   ((data[index + 1] & 255) << 16) +
+                   ((data[index + 2] & 255) << 8) +
+                    (data[index + 3] & 255);
+        }
+
+        public static int GetInt32(byte[] data, int index)
+        {
+            return ((data[index] & 255) << 24) +
+                   ((data[index + 1] & 255) << 16) +
+                   ((data[index + 2] & 255) << 8) +
+                    (data[index + 3] & 255);
         }
 
         public static int GetInt(sbyte[] data, int offset, int length)
@@ -233,29 +158,7 @@ namespace RuneScapeSolo.Lib.Data
 
             return value;
         }
-
-        //public static int getBits(byte[] bytes, int off, int len)
-        //{
-        //    int bitOff = off >> 3;
-        //    int bitMod = 8 - (off & 7);
-        //    int k = 0;
-        //    for (; len > bitMod; bitMod = 8)
-        //    {
-        //        k += (bytes[bitOff++] & bitMask[bitMod]) << len - bitMod;
-        //        len -= bitMod;
-        //    }
-
-        //    if (len == bitMod)
-        //    {
-        //        k += bytes[bitOff] & bitMask[bitMod];
-        //    }
-        //    else
-        //    {
-        //        k += bytes[bitOff] >> bitMod - len & bitMask[len];
-        //    }
-        //    return k;
-        //}
-
+        
         public static string FormatString(string str, int length)
         {
             string s = "";
@@ -389,7 +292,7 @@ namespace RuneScapeSolo.Lib.Data
         {
             //return org.moparscape.msc.client.DataOperations.getObjectOffset(objName, objData);
 
-            int i = getShort(objData, 0);
+            int i = GetInt16(objData, 0);
             int j = 0;
             objName = objName.ToUpper();
             for (int k = 0; k < objName.Length; k++)
@@ -416,7 +319,7 @@ namespace RuneScapeSolo.Lib.Data
         {
             // return org.moparscape.msc.client.DataOperations.getSoundLength(objName, objData);
 
-            int i = getShort(arg1, 0);
+            int i = GetInt16(arg1, 0);
             int j = 0;
             arg0 = arg0.ToUpper();
             for (int k = 0; k < arg0.Length; k++)

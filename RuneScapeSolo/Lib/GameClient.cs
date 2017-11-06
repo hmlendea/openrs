@@ -1459,7 +1459,7 @@ namespace RuneScapeSolo.Lib
             cleanUp();
             if (audioPlayer != null)
             {
-                audioPlayer.stop();
+                audioPlayer.Stop();
             }
         }
 
@@ -1793,9 +1793,11 @@ namespace RuneScapeSolo.Lib
                             groundItemID[i] = -1;
                             groundItemObjectVar[i] = -1;
                         }
+
                         groundItemCount = 0;
                         NeedsClear = false;
                     }
+
                     for (int off = 1; off < length;)
                     {
                         if (DataOperations.GetInt8(data[off]) == 255)
@@ -1804,10 +1806,12 @@ namespace RuneScapeSolo.Lib
                             int newSectionX = SectionX + data[off + 1] >> 3;
                             int newSectionY = SectionY + data[off + 2] >> 3;
                             off += 3;
+
                             for (int groundItem = 0; groundItem < groundItemCount; groundItem++)
                             {
                                 int newX = (groundItemX[groundItem] >> 3) - newSectionX;
                                 int newY = (groundItemY[groundItem] >> 3) - newSectionY;
+
                                 if (newX != 0 || newY != 0)
                                 {
                                     if (groundItem != newCount)
@@ -1817,7 +1821,8 @@ namespace RuneScapeSolo.Lib
                                         groundItemID[newCount] = groundItemID[groundItem];
                                         groundItemObjectVar[newCount] = groundItemObjectVar[groundItem];
                                     }
-                                    newCount++;
+
+                                    newCount += 1;
                                 }
                             }
 
@@ -1825,16 +1830,19 @@ namespace RuneScapeSolo.Lib
                         }
                         else
                         {
-                            int newID = DataOperations.getShort(data, off);
+                            int newID = DataOperations.GetInt16(data, off);
                             off += 2;
+
                             int newX = SectionX + data[off++];
                             int newY = SectionY + data[off++];
+
                             if ((newID & 0x8000) == 0)
                             {
                                 groundItemX[groundItemCount] = newX;
                                 groundItemY[groundItemCount] = newY;
                                 groundItemID[groundItemCount] = newID;
                                 groundItemObjectVar[groundItemCount] = 0;
+
                                 for (int l23 = 0; l23 < ObjectCount; l23++)
                                 {
                                     if (ObjectX[l23] != newX || ObjectY[l23] != newY)
@@ -1880,11 +1888,11 @@ namespace RuneScapeSolo.Lib
                 }
                 if (command == ServerCommand.Command190)
                 {
-                    int newCount = DataOperations.getShort(data, 1);
+                    int newCount = DataOperations.GetInt16(data, 1);
                     int off = 3;
                     for (int l16 = 0; l16 < newCount; l16++)
                     {
-                        int npcIndex = DataOperations.getShort(data, off);
+                        int npcIndex = DataOperations.GetInt16(data, off);
                         off += 2;
                         Mob mob = npcAttackingArray[npcIndex];
                         int updateType = DataOperations.GetInt8(data[off]);
@@ -1892,7 +1900,7 @@ namespace RuneScapeSolo.Lib
 
                         if (updateType == 1)
                         {
-                            int playerIndex = DataOperations.getShort(data, off);
+                            int playerIndex = DataOperations.GetInt16(data, off);
                             off += 2;
 
                             sbyte messageLength = data[off];
@@ -2035,7 +2043,7 @@ namespace RuneScapeSolo.Lib
                 }
                 if (command == ServerCommand.Command4)
                 {
-                    int tradeOther = DataOperations.getShort(data, 1);
+                    int tradeOther = DataOperations.GetInt16(data, 1);
                     if (Mobs[tradeOther] != null)
                     {
                         tradeOtherName = Mobs[tradeOther].username;
@@ -2060,9 +2068,9 @@ namespace RuneScapeSolo.Lib
                     int i4 = 2;
                     for (int j11 = 0; j11 < tradeItemsOtherCount; j11++)
                     {
-                        tradeItemsOther[j11] = DataOperations.getShort(data, i4);
+                        tradeItemsOther[j11] = DataOperations.GetInt16(data, i4);
                         i4 += 2;
-                        tradeItemOtherCount[j11] = DataOperations.getInt(data, i4);
+                        tradeItemOtherCount[j11] = DataOperations.GetInt32(data, i4);
                         i4 += 4;
                     }
 
@@ -2099,13 +2107,13 @@ namespace RuneScapeSolo.Lib
 
                     for (int item = 0; item < newShopItemCount; item++)
                     {
-                        shopItems[item] = DataOperations.getShort(data, off);
+                        shopItems[item] = DataOperations.GetInt16(data, off);
                         off += 2;
-                        shopItemCount[item] = DataOperations.getShort(data, off);
+                        shopItemCount[item] = DataOperations.GetInt16(data, off);
                         off += 2;
-                        shopItemBuyPrice[item] = DataOperations.getInt(data, off);
+                        shopItemBuyPrice[item] = DataOperations.GetInt32(data, off);
                         off += 4;
-                        shopItemSellPrice[item] = DataOperations.getInt(data, off);
+                        shopItemSellPrice[item] = DataOperations.GetInt32(data, off);
                         off += 4;
                     }
 
@@ -2196,9 +2204,9 @@ namespace RuneScapeSolo.Lib
                     maxBankItems = data[off++] & 0xff;
                     for (int l11 = 0; l11 < serverBankItemsCount; l11++)
                     {
-                        serverBankItems[l11] = DataOperations.getShort(data, off);
+                        serverBankItems[l11] = DataOperations.GetInt16(data, off);
                         off += 2;
-                        serverBankItemCount[l11] = DataOperations.getInt(data, off);
+                        serverBankItemCount[l11] = DataOperations.GetInt32(data, off);
                         off += 4;
                     }
 
@@ -2208,12 +2216,12 @@ namespace RuneScapeSolo.Lib
                 if (command == ServerCommand.Command211)
                 {
                     int j5 = data[1] & 0xff;
-                    PlayerStatExperience[j5] = DataOperations.getInt(data, 2);
+                    PlayerStatExperience[j5] = DataOperations.GetInt32(data, 2);
                     return;
                 }
                 if (command == ServerCommand.Command229)
                 {
-                    int k5 = DataOperations.getShort(data, 1);
+                    int k5 = DataOperations.GetInt16(data, 1);
                     if (Mobs[k5] != null)
                     {
                         duelOpponent = Mobs[k5].username;
@@ -2240,23 +2248,23 @@ namespace RuneScapeSolo.Lib
                     tradeConfirmAccepted = false;
                     showTradeBox = false;
                     int off = 1;
-                    tradeConfirmOtherNameLong = DataOperations.getLong(data, off);
+                    tradeConfirmOtherNameLong = DataOperations.GetLong(data, off);
                     off += 8;
                     tradeConfirmOtherItemCount = data[off++] & 0xff;
                     for (int i12 = 0; i12 < tradeConfirmOtherItemCount; i12++)
                     {
-                        tradeConfirmOtherItems[i12] = DataOperations.getShort(data, off);
+                        tradeConfirmOtherItems[i12] = DataOperations.GetInt16(data, off);
                         off += 2;
-                        tradeConfirmOtherItemsCount[i12] = DataOperations.getInt(data, off);
+                        tradeConfirmOtherItemsCount[i12] = DataOperations.GetInt32(data, off);
                         off += 4;
                     }
 
                     tradeConfigItemCount = data[off++] & 0xff;
                     for (int l17 = 0; l17 < tradeConfigItemCount; l17++)
                     {
-                        tradeConfirmItems[l17] = DataOperations.getShort(data, off);
+                        tradeConfirmItems[l17] = DataOperations.GetInt16(data, off);
                         off += 2;
-                        tradeConfigItemsCount[l17] = DataOperations.getInt(data, off);
+                        tradeConfigItemsCount[l17] = DataOperations.GetInt32(data, off);
                         off += 4;
                     }
 
@@ -2268,9 +2276,9 @@ namespace RuneScapeSolo.Lib
                     int off = 2;
                     for (int j12 = 0; j12 < duelOpponentItemCount; j12++)
                     {
-                        duelOpponentItems[j12] = DataOperations.getShort(data, off);
+                        duelOpponentItems[j12] = DataOperations.GetInt16(data, off);
                         off += 2;
-                        duelOpponentItemsCount[j12] = DataOperations.getInt(data, off);
+                        duelOpponentItemsCount[j12] = DataOperations.GetInt32(data, off);
                         off += 4;
                     }
 
@@ -2324,9 +2332,9 @@ namespace RuneScapeSolo.Lib
                 {
                     int off = 1;
                     int itemSlot = data[off++] & 0xff;
-                    int itemID = DataOperations.getShort(data, off);
+                    int itemID = DataOperations.GetInt16(data, off);
                     off += 2;
-                    int itemCount = DataOperations.getInt(data, off);
+                    int itemCount = DataOperations.GetInt32(data, off);
                     off += 4;
                     if (itemCount == 0)
                     {
@@ -2397,23 +2405,23 @@ namespace RuneScapeSolo.Lib
                     duelConfirmOurAccepted = false;
                     ShowDuelBox = false;
                     int off = 1;
-                    duelOpponentHash = DataOperations.getLong(data, off);
+                    duelOpponentHash = DataOperations.GetLong(data, off);
                     off += 8;
                     duelOpponentStakeCount = data[off++] & 0xff;
                     for (int k13 = 0; k13 < duelOpponentStakeCount; k13++)
                     {
-                        duelOpponentStakeItem[k13] = DataOperations.getShort(data, off);
+                        duelOpponentStakeItem[k13] = DataOperations.GetInt16(data, off);
                         off += 2;
-                        duelOutStakeItemCount[k13] = DataOperations.getInt(data, off);
+                        duelOutStakeItemCount[k13] = DataOperations.GetInt32(data, off);
                         off += 4;
                     }
 
                     duelOurStakeCount = data[off++] & 0xff;
                     for (int k18 = 0; k18 < duelOurStakeCount; k18++)
                     {
-                        duelOurStakeItem[k18] = DataOperations.getShort(data, off);
+                        duelOurStakeItem[k18] = DataOperations.GetInt16(data, off);
                         off += 2;
-                        duelOurStakeItemCount[k18] = DataOperations.getInt(data, off);
+                        duelOurStakeItemCount[k18] = DataOperations.GetInt32(data, off);
                         off += 4;
                     }
 
@@ -2465,13 +2473,13 @@ namespace RuneScapeSolo.Lib
                 }
                 if (command == ServerCommand.Command172)
                 {
-                    SystemUpdateTimer = DataOperations.getShort(data, 1) * 32;
+                    SystemUpdateTimer = DataOperations.GetInt16(data, 1) * 32;
                     return;
                 }
                 if (command == ServerCommand.Command182)
                 {
                     int off = 1;
-                    QuestPoints = DataOperations.getShort(data, off);
+                    QuestPoints = DataOperations.GetInt16(data, off);
                     off += 2;
                     for (int l4 = 0; l4 < questName.Length; l4++)
                     {
@@ -5195,7 +5203,7 @@ namespace RuneScapeSolo.Lib
 
         public override sbyte[] unpackData(string arg0, string arg1, int arg2)
         {
-            sbyte[] abyte0 = link.getFile(arg0);
+            sbyte[] abyte0 = Link.getFile(arg0);
 
             if (abyte0 != null)
             {
@@ -9699,7 +9707,7 @@ namespace RuneScapeSolo.Lib
             {
                 int off = (int)DataOperations.getObjectOffset(s1 + ".pcm", soundData);
                 int len = DataOperations.getSoundLength(s1 + ".pcm", soundData);
-                audioPlayer.play(soundData, off, len);
+                audioPlayer.Play(soundData, off, len);
             }
         }
 
@@ -9834,7 +9842,7 @@ namespace RuneScapeSolo.Lib
 
         protected int getUID()
         {
-            return link.uid;
+            return Link.uid;
         }
 
         public bool takeScreenshot(bool verb)

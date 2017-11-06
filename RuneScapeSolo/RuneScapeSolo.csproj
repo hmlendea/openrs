@@ -87,12 +87,10 @@
     <Compile Include="Lib\Data\BZip2Decompressor.cs" />
     <Compile Include="Lib\Data\DataEncryption.cs" />
     <Compile Include="Lib\Data\DataFileDecrypter.cs" />
-    <Compile Include="Lib\Data\DataFileVariables.cs" />
     <Compile Include="Lib\Data\DataOperations.cs" />
     <Compile Include="Lib\Data\RectangularArrays.cs" />
     <Compile Include="Lib\Extensions\GraphicsDeviceExtensions.cs" />
     <Compile Include="Lib\Extensions\MemoryStreamExtensions.cs" />
-    <Compile Include="Lib\Game\ChatFilter.cs" />
     <Compile Include="Lib\Game\ChatMessage.cs" />
     <Compile Include="Lib\Game\EngineHandle.cs" />
     <Compile Include="Lib\Game\GameImage.cs" />

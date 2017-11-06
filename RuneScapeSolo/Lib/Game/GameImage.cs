@@ -579,10 +579,10 @@ namespace RuneScapeSolo.Lib.Game
 
         public void unpackImageData(int arg0, sbyte[] arg1, sbyte[] arg2, int arg3)
         {
-            int i = DataOperations.getShort(arg1, 0);
-            int k = DataOperations.getShort(arg2, i);
+            int i = DataOperations.GetInt16(arg1, 0);
+            int k = DataOperations.GetInt16(arg2, i);
             i += 2;
-            int l = DataOperations.getShort(arg2, i);
+            int l = DataOperations.GetInt16(arg2, i);
             i += 2;
             int i1 = arg2[i++] & 0xff;
             int[] ai = new int[i1];
@@ -617,9 +617,9 @@ namespace RuneScapeSolo.Lib.Game
 
                 pictureOffsetX[l1] = arg2[i++] & 0xff;
                 pictureOffsetY[l1] = arg2[i++] & 0xff;
-                pictureWidth[l1] = DataOperations.getShort(arg2, i);
+                pictureWidth[l1] = DataOperations.GetInt16(arg2, i);
                 i += 2;
-                pictureHeight[l1] = DataOperations.getShort(arg2, i);
+                pictureHeight[l1] = DataOperations.GetInt16(arg2, i);
                 i += 2;
                 int i2 = arg2[i++] & 0xff;
                 int j2 = pictureWidth[l1] * pictureHeight[l1];

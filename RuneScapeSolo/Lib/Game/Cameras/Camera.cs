@@ -959,10 +959,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         i19 += k19;
                     }
                     CameraVariable m7 = bfi[arg2];
-                    m7.flm = arg0;
-                    m7.fln = arg1;
-                    m7.fma = arg3;
-                    m7.fmb = i21;
+                    m7.Unknown1 = arg0;
+                    m7.Unknown2 = arg1;
+                    m7.Unknown3 = arg3;
+                    m7.Unknown4 = i21;
                 }
 
                 if (bfj < bcm - bck)
@@ -1219,10 +1219,10 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         k22 += l22;
                     }
                     CameraVariable m8 = bfi[arg2];
-                    m8.flm = arg0;
-                    m8.fln = arg1;
-                    m8.fma = arg3;
-                    m8.fmb = k23;
+                    m8.Unknown1 = arg0;
+                    m8.Unknown2 = arg1;
+                    m8.Unknown3 = arg3;
+                    m8.Unknown4 = k23;
                 }
 
                 if (bfj < bcm - bck)
@@ -1265,8 +1265,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 for (arg2 = bfj; arg2 < bfk; arg2++)
                 {
                     CameraVariable m1 = bfi[arg2];
-                    m1.flm = 0xa0000;
-                    m1.fln = unchecked((int)0xfff60000);//0xfff60000;
+                    m1.Unknown1 = 0xa0000;
+                    m1.Unknown2 = unchecked((int)0xfff60000);//0xfff60000;
                 }
 
                 int k1 = arg4 - 1;
@@ -1292,8 +1292,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     for (arg2 = j2; arg2 <= j3; arg2++)
                     {
                         CameraVariable m3 = bfi[arg2];
-                        m3.flm = m3.fln = j4;
-                        m3.fma = m3.fmb = i7;
+                        m3.Unknown1 = m3.Unknown2 = j4;
+                        m3.Unknown3 = m3.Unknown4 = i7;
                         j4 += k5;
                         i7 += k8;
                     }
@@ -1320,8 +1320,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     for (arg2 = j3; arg2 <= j2; arg2++)
                     {
                         CameraVariable m4 = bfi[arg2];
-                        m4.flm = m4.fln = k4;
-                        m4.fma = m4.fmb = j7;
+                        m4.Unknown1 = m4.Unknown2 = k4;
+                        m4.Unknown3 = m4.Unknown4 = j7;
                         k4 += l5;
                         j7 += l8;
                     }
@@ -1352,15 +1352,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         for (int i11 = k2; i11 <= k3; i11++)
                         {
                             CameraVariable m5 = bfi[i11];
-                            if (i6 < m5.flm)
+                            if (i6 < m5.Unknown1)
                             {
-                                m5.flm = i6;
-                                m5.fma = i9;
+                                m5.Unknown1 = i6;
+                                m5.Unknown3 = i9;
                             }
-                            if (i6 > m5.fln)
+                            if (i6 > m5.Unknown2)
                             {
-                                m5.fln = i6;
-                                m5.fmb = i9;
+                                m5.Unknown2 = i6;
+                                m5.Unknown4 = i9;
                             }
                             i6 += k7;
                             i9 += i10;
@@ -1388,15 +1388,15 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         for (int j11 = k3; j11 <= k2; j11++)
                         {
                             CameraVariable m6 = bfi[j11];
-                            if (j6 < m6.flm)
+                            if (j6 < m6.Unknown1)
                             {
-                                m6.flm = j6;
-                                m6.fma = j9;
+                                m6.Unknown1 = j6;
+                                m6.Unknown3 = j9;
                             }
-                            if (j6 > m6.fln)
+                            if (j6 > m6.Unknown2)
                             {
-                                m6.fln = j6;
-                                m6.fmb = j9;
+                                m6.Unknown2 = j6;
+                                m6.Unknown4 = j9;
                             }
                             j6 += l7;
                             j9 += j10;
@@ -1413,7 +1413,7 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             if (bcb && bce < maxHighlightedObjects && bcd >= bfj && bcd < bfk)
             {
                 CameraVariable m2 = bfi[bcd];
-                if (bcc >= m2.flm >> 8 && bcc <= m2.fln >> 8 && m2.flm <= m2.fln && !arg8.cic && arg8.chm[arg9] == 0)
+                if (bcc >= m2.Unknown1 >> 8 && bcc <= m2.Unknown2 >> 8 && m2.Unknown1 <= m2.Unknown2 && !arg8.cic && arg8.chm[arg9] == 0)
                 {
                     _highlightedObjects[bce] = arg8;
                     bch[bce] = arg9;
@@ -1490,8 +1490,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         for (arg0 = bfj; arg0 < bfk; arg0 += byte1)
                         {
                             CameraVariable m4 = bfi[arg0];
-                            arg1 = m4.flm >> 8;
-                            int j17 = m4.fln >> 8;
+                            arg1 = m4.Unknown1 >> 8;
+                            int j17 = m4.Unknown2 >> 8;
                             int j20 = j17 - arg1;
                             if (j20 <= 0)
                             {
@@ -1502,8 +1502,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                             }
                             else
                             {
-                                int l21 = m4.fma;
-                                int j23 = (m4.fmb - l21) / j20;
+                                int l21 = m4.Unknown3;
+                                int j23 = (m4.Unknown4 - l21) / j20;
                                 if (arg1 < -bcj)
                                 {
                                     l21 += (-bcj - arg1) * j23;
@@ -1530,8 +1530,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         for (arg0 = bfj; arg0 < bfk; arg0 += byte1)
                         {
                             CameraVariable m5 = bfi[arg0];
-                            arg1 = m5.flm >> 8;
-                            int l17 = m5.fln >> 8;
+                            arg1 = m5.Unknown1 >> 8;
+                            int l17 = m5.Unknown2 >> 8;
                             int k20 = l17 - arg1;
                             if (k20 <= 0)
                             {
@@ -1542,8 +1542,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                             }
                             else
                             {
-                                int i22 = m5.fma;
-                                int k23 = (m5.fmb - i22) / k20;
+                                int i22 = m5.Unknown3;
+                                int k23 = (m5.Unknown4 - i22) / k20;
                                 if (arg1 < -bcj)
                                 {
                                     i22 += (-bcj - arg1) * k23;
@@ -1568,8 +1568,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     for (arg0 = bfj; arg0 < bfk; arg0 += byte1)
                     {
                         CameraVariable m6 = bfi[arg0];
-                        arg1 = m6.flm >> 8;
-                        int j18 = (m6.fln) >> 8;
+                        arg1 = m6.Unknown1 >> 8;
+                        int j18 = (m6.Unknown2) >> 8;
                         int l20 = j18 - arg1;
                         if (l20 <= 0)
                         {
@@ -1580,8 +1580,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         }
                         else
                         {
-                            int j22 = m6.fma;
-                            int l23 = (m6.fmb - j22) / l20;
+                            int j22 = m6.Unknown3;
+                            int l23 = (m6.Unknown4 - j22) / l20;
                             if (arg1 < -bcj)
                             {
                                 j22 += (-bcj - arg1) * l23;
@@ -1643,8 +1643,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     for (arg0 = bfj; arg0 < bfk; arg0 += byte2)
                     {
                         CameraVariable m7 = bfi[arg0];
-                        arg1 = m7.flm >> 8;
-                        int l18 = m7.fln >> 8;
+                        arg1 = m7.Unknown1 >> 8;
+                        int l18 = m7.Unknown2 >> 8;
                         int i21 = l18 - arg1;
                         if (i21 <= 0)
                         {
@@ -1655,8 +1655,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         }
                         else
                         {
-                            int k22 = m7.fma;
-                            int i24 = (m7.fmb - k22) / i21;
+                            int k22 = m7.Unknown3;
+                            int i24 = (m7.Unknown4 - k22) / i21;
                             if (arg1 < -bcj)
                             {
                                 k22 += (-bcj - arg1) * i24;
@@ -1683,8 +1683,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     for (arg0 = bfj; arg0 < bfk; arg0 += byte2)
                     {
                         CameraVariable m8 = bfi[arg0];
-                        arg1 = m8.flm >> 8;
-                        int j19 = m8.fln >> 8;
+                        arg1 = m8.Unknown1 >> 8;
+                        int j19 = m8.Unknown2 >> 8;
                         int j21 = j19 - arg1;
                         if (j21 <= 0)
                         {
@@ -1695,8 +1695,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                         }
                         else
                         {
-                            int l22 = m8.fma;
-                            int j24 = (m8.fmb - l22) / j21;
+                            int l22 = m8.Unknown3;
+                            int j24 = (m8.Unknown4 - l22) / j21;
                             if (arg1 < -bcj)
                             {
                                 l22 += (-bcj - arg1) * j24;
@@ -1721,8 +1721,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 for (arg0 = bfj; arg0 < bfk; arg0 += byte2)
                 {
                     CameraVariable m9 = bfi[arg0];
-                    arg1 = m9.flm >> 8;
-                    int l19 = m9.fln >> 8;
+                    arg1 = m9.Unknown1 >> 8;
+                    int l19 = m9.Unknown2 >> 8;
                     int k21 = l19 - arg1;
                     if (k21 <= 0)
                     {
@@ -1733,8 +1733,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     }
                     else
                     {
-                        int i23 = m9.fma;
-                        int k24 = (m9.fmb - i23) / k21;
+                        int i23 = m9.Unknown3;
+                        int k24 = (m9.Unknown4 - i23) / k21;
                         if (arg1 < -bcj)
                         {
                             i23 += (-bcj - arg1) * k24;
@@ -1808,8 +1808,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 for (arg0 = bfj; arg0 < bfk; arg0 += byte0)
                 {
                     CameraVariable m1 = bfi[arg0];
-                    arg1 = m1.flm >> 8;
-                    int j4 = m1.fln >> 8;
+                    arg1 = m1.Unknown1 >> 8;
+                    int j4 = m1.Unknown2 >> 8;
                     int j6 = j4 - arg1;
                     if (j6 <= 0)
                     {
@@ -1817,8 +1817,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     }
                     else
                     {
-                        int k7 = m1.fma;
-                        int l8 = (m1.fmb - k7) / j6;
+                        int k7 = m1.Unknown3;
+                        int l8 = (m1.Unknown4 - k7) / j6;
                         if (arg1 < -bcj)
                         {
                             k7 += (-bcj - arg1) * l8;
@@ -1842,8 +1842,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 for (arg0 = bfj; arg0 < bfk; arg0 += byte0)
                 {
                     CameraVariable m2 = bfi[arg0];
-                    arg1 = m2.flm >> 8;
-                    int l4 = m2.fln >> 8;
+                    arg1 = m2.Unknown1 >> 8;
+                    int l4 = m2.Unknown2 >> 8;
                     int k6 = l4 - arg1;
                     if (k6 <= 0)
                     {
@@ -1851,8 +1851,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                     }
                     else
                     {
-                        int l7 = m2.fma;
-                        int i9 = (m2.fmb - l7) / k6;
+                        int l7 = m2.Unknown3;
+                        int i9 = (m2.Unknown4 - l7) / k6;
                         if (arg1 < -bcj)
                         {
                             l7 += (-bcj - arg1) * i9;
@@ -1874,8 +1874,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
             for (arg0 = bfj; arg0 < bfk; arg0 += byte0)
             {
                 CameraVariable m3 = bfi[arg0];
-                arg1 = m3.flm >> 8;
-                int j5 = m3.fln >> 8;
+                arg1 = m3.Unknown1 >> 8;
+                int j5 = m3.Unknown2 >> 8;
                 int l6 = j5 - arg1;
                 if (l6 <= 0)
                 {
@@ -1883,8 +1883,8 @@ namespace RuneScapeSolo.Lib.Game.Cameras
                 }
                 else
                 {
-                    int i8 = m3.fma;
-                    int j9 = (m3.fmb - i8) / l6;
+                    int i8 = m3.Unknown3;
+                    int j9 = (m3.Unknown4 - i8) / l6;
                     if (arg1 < -bcj)
                     {
                         i8 += (-bcj - arg1) * j9;

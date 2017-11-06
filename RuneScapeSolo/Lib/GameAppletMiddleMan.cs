@@ -351,7 +351,7 @@ namespace RuneScapeSolo.Lib
 
                 for (int i = 0; i < friendsCount; i++)
                 {
-                    friendsList[i] = DataOperations.getLong(data, 2 + i * 9);
+                    friendsList[i] = DataOperations.GetLong(data, 2 + i * 9);
                     friendsWorld[i] = DataOperations.GetInt8(data[10 + i * 9]);
                 }
 
@@ -361,7 +361,7 @@ namespace RuneScapeSolo.Lib
             }
             if (command == ServerCommand.Command25)
             {
-                long friend = DataOperations.getLong(data, 1);
+                long friend = DataOperations.GetLong(data, 1);
                 int status = data[9] & 0xff;
 
                 for (int j1 = 0; j1 < friendsCount; j1++)
@@ -400,7 +400,7 @@ namespace RuneScapeSolo.Lib
 
                 for (int j = 0; j < ignoresCount; j++)
                 {
-                    ignoresList[j] = DataOperations.getLong(data, 2 + j * 8);
+                    ignoresList[j] = DataOperations.GetLong(data, 2 + j * 8);
                 }
 
                 return;
@@ -416,7 +416,7 @@ namespace RuneScapeSolo.Lib
             }
             if (command == ServerCommand.PrivateMessage)
             {
-                long user = DataOperations.getLong(data, 1);
+                long user = DataOperations.GetLong(data, 1);
                 string s = ChatMessage.bytesToString(data, 9, length - 9);
                 displayMessage("@pri@" + DataOperations.LongToString(user) + ": tells you " + s);
 
