@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 using RuneScapeSolo.Enumerations;
+using RuneScapeSolo.GameLogic.GameManagers;
 using RuneScapeSolo.Lib;
 using RuneScapeSolo.Lib.Data;
 using RuneScapeSolo.Lib.Game;

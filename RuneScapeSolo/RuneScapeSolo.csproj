@@ -90,7 +90,6 @@
     <Compile Include="Lib\Data\AudioReader.cs" />
     <Compile Include="Lib\Data\BZip2BlockEntry.cs" />
     <Compile Include="Lib\Data\BZip2Decompressor.cs" />
-    <Compile Include="Lib\Data\EntityHandler.cs" />
     <Compile Include="Lib\Data\DataEncryption.cs" />
     <Compile Include="Lib\Data\DataFileDecrypter.cs" />
     <Compile Include="Lib\Data\DataFileVariables.cs" />
@@ -116,22 +115,15 @@
     <Compile Include="PacketHandler.cs" />
     <Compile Include="Quests.cs" />
     <Compile Include="Lib\Data\DataConversions.cs" />
-    <Compile Include="Mapping\ItemMappingExtensions.cs" />
-    <Compile Include="Mapping\AnimationMappingExtensions.cs" />
-    <Compile Include="Mapping\ElevationMappingExtensions.cs" />
-    <Compile Include="Mapping\GameObjectMappingExtensions.cs" />
-    <Compile Include="Mapping\ItemDropMappingExtensions.cs" />
-    <Compile Include="Mapping\NpcMappingExtensions.cs" />
-    <Compile Include="Mapping\PrayerMappingExtensions.cs" />
-    <Compile Include="Mapping\SpellMappingExtensions.cs" />
-    <Compile Include="Mapping\TextureMappingExtensions.cs" />
-    <Compile Include="Mapping\TileMappingExtensions.cs" />
-    <Compile Include="Mapping\WallObjectMappingExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuneScapeSolo.Data\RuneScapeSolo.Data.csproj">
       <Project>{1F0B4C1F-5C31-465E-8747-54399762C50A}</Project>
       <Name>RuneScapeSolo.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RuneScapeSolo.GameLogic\RuneScapeSolo.GameLogic.csproj">
+      <Project>{24363cdb-0a6a-4fcc-ad2e-52cc98c7f49f}</Project>
+      <Name>RuneScapeSolo.GameLogic</Name>
     </ProjectReference>
     <ProjectReference Include="..\RuneScapeSolo.Input\RuneScapeSolo.Input.csproj">
       <Project>{FF805103-A40E-4154-8ED6-C70623AF471C}</Project>
@@ -147,8 +139,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Mapping\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

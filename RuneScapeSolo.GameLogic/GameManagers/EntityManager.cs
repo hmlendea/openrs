@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 using RuneScapeSolo.DataAccess.Repositories;
-using RuneScapeSolo.Mapping;
+using RuneScapeSolo.GameLogic.Mapping;
 using RuneScapeSolo.Models;
 
-namespace RuneScapeSolo.Lib.Data
+namespace RuneScapeSolo.GameLogic.GameManagers
 {
     public class EntityManager
     {

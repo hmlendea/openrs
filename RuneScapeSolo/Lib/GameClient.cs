@@ -13,6 +13,7 @@ using System.Runtime.Remoting.Messaging;
 
 using RuneScapeSolo.Enumerations;
 using RuneScapeSolo.Events;
+using RuneScapeSolo.GameLogic.GameManagers;
 using RuneScapeSolo.Input;
 
 namespace RuneScapeSolo.Lib

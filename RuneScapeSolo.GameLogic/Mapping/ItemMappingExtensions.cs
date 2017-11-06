@@ -4,7 +4,7 @@ using System.Linq;
 using RuneScapeSolo.DataAccess.DataObjects;
 using RuneScapeSolo.Models;
 
-namespace RuneScapeSolo.Mapping
+namespace RuneScapeSolo.GameLogic.Mapping
 {
     /// <summary>
     /// Item mapping extensions for converting between entities and domain models.
