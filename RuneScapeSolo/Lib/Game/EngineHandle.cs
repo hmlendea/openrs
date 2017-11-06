@@ -1316,8 +1316,7 @@ namespace RuneScapeSolo.Lib.Game
 
         }
 
-        public int generatePath(int curX, int curY, int bottomDestX, int bottomDestY, int upperDestX, int upperDestY, int[] pathX,
-                int[] pathY, bool checkForObjects)
+        public int generatePath(int curX, int curY, int bottomDestX, int bottomDestY, int upperDestX, int upperDestY, int[] pathX, int[] pathY, bool checkForObjects)
         {
             for (int k = 0; k < 96; k++)
             {
@@ -1331,11 +1330,14 @@ namespace RuneScapeSolo.Lib.Game
             int stepCount = 0;
             int x = curX;
             int y = curY;
+
             steps[curX][curY] = 99;
             pathX[requiredSteps] = curX;
             pathY[requiredSteps++] = curY;
+
             int i2 = pathX.Length;
             bool foundPath = false;
+
             while (stepCount != requiredSteps)
             {
                 x = pathX[stepCount];
@@ -1346,6 +1348,7 @@ namespace RuneScapeSolo.Lib.Game
                     foundPath = true;
                     break;
                 }
+
                 if (checkForObjects)
                 {
                     if (x > 0 && x - 1 >= bottomDestX && x - 1 <= upperDestX && y >= bottomDestY && y <= upperDestY && (tiles[x - 1][y] & 8) == 0)
@@ -1353,22 +1356,26 @@ namespace RuneScapeSolo.Lib.Game
                         foundPath = true;
                         break;
                     }
+
                     if (x < 95 && x + 1 >= bottomDestX && x + 1 <= upperDestX && y >= bottomDestY && y <= upperDestY && (tiles[x + 1][y] & 2) == 0)
                     {
                         foundPath = true;
                         break;
                     }
+
                     if (y > 0 && x >= bottomDestX && x <= upperDestX && y - 1 >= bottomDestY && y - 1 <= upperDestY && (tiles[x][y - 1] & 4) == 0)
                     {
                         foundPath = true;
                         break;
                     }
+
                     if (y < 95 && x >= bottomDestX && x <= upperDestX && y + 1 >= bottomDestY && y + 1 <= upperDestY && (tiles[x][y + 1] & 1) == 0)
                     {
                         foundPath = true;
                         break;
                     }
                 }
+
                 if (x > 0 && steps[x - 1][y] == 0 && (tiles[x - 1][y] & 0x78) == 0)
                 {
                     pathX[requiredSteps] = x - 1;
@@ -1376,6 +1383,7 @@ namespace RuneScapeSolo.Lib.Game
                     requiredSteps = (requiredSteps + 1) % i2;
                     steps[x - 1][y] = 2;
                 }
+
                 if (x < 95 && steps[x + 1][y] == 0 && (tiles[x + 1][y] & 0x72) == 0)
                 {
                     pathX[requiredSteps] = x + 1;
@@ -1383,6 +1391,7 @@ namespace RuneScapeSolo.Lib.Game
                     requiredSteps = (requiredSteps + 1) % i2;
                     steps[x + 1][y] = 8;
                 }
+
                 if (y > 0 && steps[x][y - 1] == 0 && (tiles[x][y - 1] & 0x74) == 0)
                 {
                     pathX[requiredSteps] = x;
@@ -1390,6 +1399,7 @@ namespace RuneScapeSolo.Lib.Game
                     requiredSteps = (requiredSteps + 1) % i2;
                     steps[x][y - 1] = 1;
                 }
+
                 if (y < 95 && steps[x][y + 1] == 0 && (tiles[x][y + 1] & 0x71) == 0)
                 {
                     pathX[requiredSteps] = x;
@@ -1397,6 +1407,7 @@ namespace RuneScapeSolo.Lib.Game
                     requiredSteps = (requiredSteps + 1) % i2;
                     steps[x][y + 1] = 4;
                 }
+
                 if (x > 0 && y > 0 && (tiles[x][y - 1] & 0x74) == 0 && (tiles[x - 1][y] & 0x78) == 0 && (tiles[x - 1][y - 1] & 0x7c) == 0 && steps[x - 1][y - 1] == 0)
                 {
                     pathX[requiredSteps] = x - 1;
@@ -1404,6 +1415,7 @@ namespace RuneScapeSolo.Lib.Game
                     requiredSteps = (requiredSteps + 1) % i2;
                     steps[x - 1][y - 1] = 3;
                 }
+
                 if (x < 95 && y > 0 && (tiles[x][y - 1] & 0x74) == 0 && (tiles[x + 1][y] & 0x72) == 0 && (tiles[x + 1][y - 1] & 0x76) == 0 && steps[x + 1][y - 1] == 0)
                 {
                     pathX[requiredSteps] = x + 1;
@@ -1411,6 +1423,7 @@ namespace RuneScapeSolo.Lib.Game
                     requiredSteps = (requiredSteps + 1) % i2;
                     steps[x + 1][y - 1] = 9;
                 }
+
                 if (x > 0 && y < 95 && (tiles[x][y + 1] & 0x71) == 0 && (tiles[x - 1][y] & 0x78) == 0 && (tiles[x - 1][y + 1] & 0x79) == 0 && steps[x - 1][y + 1] == 0)
                 {
                     pathX[requiredSteps] = x - 1;
@@ -1418,6 +1431,7 @@ namespace RuneScapeSolo.Lib.Game
                     requiredSteps = (requiredSteps + 1) % i2;
                     steps[x - 1][y + 1] = 6;
                 }
+
                 if (x < 95 && y < 95 && (tiles[x][y + 1] & 0x71) == 0 && (tiles[x + 1][y] & 0x72) == 0 && (tiles[x + 1][y + 1] & 0x73) == 0 && steps[x + 1][y + 1] == 0)
                 {
                     pathX[requiredSteps] = x + 1;
@@ -1434,7 +1448,9 @@ namespace RuneScapeSolo.Lib.Game
             stepCount = 0;
             pathX[stepCount] = x;
             pathY[stepCount++] = y;
+
             int k2;
+
             for (int j2 = k2 = steps[x][y]; x != curX || y != curY; j2 = steps[x][y])
             {
                 if (j2 != k2)
@@ -1443,12 +1459,12 @@ namespace RuneScapeSolo.Lib.Game
                     pathX[stepCount] = x;
                     pathY[stepCount++] = y;
                 }
+
                 if ((j2 & 2) != 0)
                 {
                     x++;
                 }
-                else
-                    if ((j2 & 8) != 0)
+                else if ((j2 & 8) != 0)
                 {
                     x--;
                 }
@@ -1457,8 +1473,7 @@ namespace RuneScapeSolo.Lib.Game
                 {
                     y++;
                 }
-                else
-                    if ((j2 & 4) != 0)
+                else if ((j2 & 4) != 0)
                 {
                     y--;
                 }

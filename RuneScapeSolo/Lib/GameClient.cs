@@ -542,15 +542,18 @@ namespace RuneScapeSolo.Lib
         //}
 
 
-        public void menuClick(int l)
+        public void menuClick(int actionId)
         {
-            int actionX = menuActionX[l];
-            int actionY = menuActionY[l];
-            int actionType = menuActionType[l];
-            int actionVar1 = menuActionVar1[l];
-            int actionVar2 = menuActionVar2[l];
-            int actionID = menuActionID[l];
-            if (actionID == 200)
+            int actionX = menuActionX[actionId];
+            int actionY = menuActionY[actionId];
+            int actionType = menuActionType[actionId];
+            int actionVar1 = menuActionVar1[actionId];
+            int actionVar2 = menuActionVar2[actionId];
+            int actionID = menuActionID[actionId];
+
+            MenuAction action = (MenuAction)actionId;
+
+            if (action == MenuAction.CastSpellOnItem)
             {
                 walkToGroundItem(SectionX, SectionY, actionX, actionY, true);
                 StreamClass.CreatePacket(104);
@@ -561,7 +564,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
-            if (actionID == 210)
+            if (action == MenuAction.UseItemWithItem)
             {
                 walkToGroundItem(SectionX, SectionY, actionX, actionY, true);
                 StreamClass.CreatePacket(34);
@@ -572,7 +575,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
                 selectedItem = -1;
             }
-            if (actionID == 220)
+            if (action == MenuAction.TakeItem)
             {
                 walkToGroundItem(SectionX, SectionY, actionX, actionY, true);
                 StreamClass.CreatePacket(245);
@@ -582,12 +585,12 @@ namespace RuneScapeSolo.Lib
                 StreamClass.AddInt16(actionVar1);
                 StreamClass.FormatPacket();
             }
-            if (actionID == 3200)
+            if (action == MenuAction.ExamineItem)
             {
                 displayMessage(EntityManager.GetItem(actionType).Description, 3);
             }
 
-            if (actionID == 300)
+            if (action == MenuAction.CastSpellOnWallObject)
             {
                 walkToWallObject(actionX, actionY, actionType);
                 StreamClass.CreatePacket(67);
@@ -598,7 +601,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
-            if (actionID == 310)
+            if (action == MenuAction.UseItemWithWallObject)
             {
                 walkToWallObject(actionX, actionY, actionType);
                 StreamClass.CreatePacket(36);
@@ -609,7 +612,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
                 selectedItem = -1;
             }
-            if (actionID == 320)
+            if (action == MenuAction.WalkToWallObject)
             {
                 walkToWallObject(actionX, actionY, actionType);
                 StreamClass.CreatePacket(126);
@@ -618,7 +621,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.AddInt8(actionType);
                 StreamClass.FormatPacket();
             }
-            if (actionID == 2300)
+            if (action == MenuAction.Command2OnWallObject)
             {
                 walkToWallObject(actionX, actionY, actionType);
                 StreamClass.CreatePacket(235);
@@ -627,12 +630,12 @@ namespace RuneScapeSolo.Lib
                 StreamClass.AddInt8(actionType);
                 StreamClass.FormatPacket();
             }
-            if (actionID == 3300)
+            if (action == MenuAction.ExamineWallObject)
             {
                 displayMessage(EntityManager.GetWallObject(actionType).Description, 3);
             }
 
-            if (actionID == 400)
+            if (action == MenuAction.CastSpellOnModel)
             {
                 walkToObject(actionX, actionY, actionType, actionVar1);
                 StreamClass.CreatePacket(17);
@@ -643,7 +646,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
-            if (actionID == 410)
+            if (action == MenuAction.UseItemWithModel)
             {
                 walkToObject(actionX, actionY, actionType, actionVar1);
                 StreamClass.CreatePacket(94);
@@ -653,7 +656,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
                 selectedItem = -1;
             }
-            if (actionID == 420)
+            if (action == MenuAction.Command1OnModel)
             {
                 walkToObject(actionX, actionY, actionType, actionVar1);
                 StreamClass.CreatePacket(51);
@@ -661,7 +664,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.AddInt16(actionY + AreaY);
                 StreamClass.FormatPacket();
             }
-            if (actionID == 2400)
+            if (action == MenuAction.Command2OnModel)
             {
                 walkToObject(actionX, actionY, actionType, actionVar1);
                 StreamClass.CreatePacket(40);
@@ -669,12 +672,12 @@ namespace RuneScapeSolo.Lib
                 StreamClass.AddInt16(actionY + AreaY);
                 StreamClass.FormatPacket();
             }
-            if (actionID == 3400)
+            if (action == MenuAction.ExamineModel)
             {
                 displayMessage(EntityManager.GetModel(actionType).Description, 3);
             }
 
-            if (actionID == 600)
+            if (action == MenuAction.Action600)
             {
                 StreamClass.CreatePacket(49);
                 StreamClass.AddInt16(actionVar1);
@@ -682,7 +685,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
-            if (actionID == 610)
+            if (action == MenuAction.Action610)
             {
                 StreamClass.CreatePacket(27);
                 StreamClass.AddInt16(actionType);
@@ -690,31 +693,31 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
                 selectedItem = -1;
             }
-            if (actionID == 620)
+            if (action == MenuAction.Action620)
             {
                 StreamClass.CreatePacket(92);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
-            if (actionID == 630)
+            if (action == MenuAction.Action630)
             {
                 StreamClass.CreatePacket(181);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
-            if (actionID == 640)
+            if (action == MenuAction.Action640)
             {
                 StreamClass.CreatePacket(89);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
-            if (actionID == 650)
+            if (action == MenuAction.Action650)
             {
                 selectedItem = actionType;
                 drawMenuTab = 0;
                 selectedItemName = EntityManager.GetItem(InventoryItems[selectedItem]).Name;
             }
-            if (actionID == 660)
+            if (action == MenuAction.Action650)
             {
                 StreamClass.CreatePacket(147);
                 StreamClass.AddInt16(actionType);
@@ -723,12 +726,12 @@ namespace RuneScapeSolo.Lib
                 drawMenuTab = 0;
                 displayMessage("Dropping " + EntityManager.GetItem(InventoryItems[actionType]).Name, 4);
             }
-            if (actionID == 3600)
+            if (action == MenuAction.Action3600)
             {
                 displayMessage(EntityManager.GetItem(actionType).Description, 3);
             }
 
-            if (actionID == 700)
+            if (action == MenuAction.CastSpellOnNpc)
             {
                 int k2 = (actionX - 64) / GridSize;
                 int k4 = (actionY - 64) / GridSize;
@@ -739,7 +742,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
-            if (actionID == 710)
+            if (action == MenuAction.UseItemWithNpc)
             {
                 int l2 = (actionX - 64) / GridSize;
                 int l4 = (actionY - 64) / GridSize;
@@ -750,7 +753,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
                 selectedItem = -1;
             }
-            if (actionID == 720)
+            if (action == MenuAction.Action720)
             {
                 int i3 = (actionX - 64) / GridSize;
                 int i5 = (actionY - 64) / GridSize;
@@ -759,7 +762,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
-            if (actionID == 725)
+            if (action == MenuAction.CommandOnNpc)
             {
                 int j3 = (actionX - 64) / GridSize;
                 int j5 = (actionY - 64) / GridSize;
@@ -768,7 +771,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
-            if (actionID == 715 || actionID == 2715)
+            if (action == MenuAction.AttackNpc || action == MenuAction.AttackNpc2)
             {
                 int k3 = (actionX - 64) / GridSize;
                 int k5 = (actionY - 64) / GridSize;
@@ -778,12 +781,12 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
             }
 
-            if (actionID == 3700)
+            if (action == MenuAction.ExamineNpc)
             {
                 displayMessage(EntityManager.GetNpc(actionType).Description, 3);
             }
 
-            if (actionID == 800)
+            if (action == MenuAction.CastSpellOnPlayer)
             {
                 int l3 = (actionX - 64) / GridSize;
                 int l5 = (actionY - 64) / GridSize;
@@ -795,7 +798,7 @@ namespace RuneScapeSolo.Lib
                 selectedSpell = -1;
             }
 
-            if (actionID == 810)
+            if (action == MenuAction.UseItemWithPlayer)
             {
                 int i4 = (actionX - 64) / GridSize;
                 int i6 = (actionY - 64) / GridSize;
@@ -807,7 +810,7 @@ namespace RuneScapeSolo.Lib
                 selectedItem = -1;
             }
 
-            if (actionID == 805 || actionID == 2805)
+            if (action == MenuAction.AttackPlayer || action == MenuAction.AttackPlayer2)
             {
                 int j4 = (actionX - 64) / GridSize;
                 int j6 = (actionY - 64) / GridSize;
@@ -816,25 +819,25 @@ namespace RuneScapeSolo.Lib
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
-            if (actionID == 2806)
+            if (action == MenuAction.DuelWithPlayer)
             {
                 StreamClass.CreatePacket(222);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
-            if (actionID == 2810)
+            if (action == MenuAction.TradeWithPlayer)
             {
                 StreamClass.CreatePacket(166);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
-            if (actionID == 2820)
+            if (action == MenuAction.FollowPlayer)
             {
                 StreamClass.CreatePacket(68);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
-            if (actionID == 900)
+            if (action == MenuAction.CastSpellOnGround)
             {
                 walkTo1Tile(SectionX, SectionY, actionX, actionY, true);
                 StreamClass.CreatePacket(232);
@@ -844,7 +847,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
-            if (actionID == 920)
+            if (action == MenuAction.WalkHere)
             {
                 walkTo1Tile(SectionX, SectionY, actionX, actionY, false);
                 if (actionPictureType == -24)
@@ -852,14 +855,14 @@ namespace RuneScapeSolo.Lib
                     actionPictureType = 24;
                 }
             }
-            if (actionID == 1000)
+            if (action == MenuAction.CastSpellOnSelf)
             {
                 StreamClass.CreatePacket(206);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
-            if (actionID == 4000)
+            if (action == MenuAction.Action4000)
             {
                 selectedItem = -1;
                 selectedSpell = -1;
@@ -2849,7 +2852,7 @@ namespace RuneScapeSolo.Lib
                 createLoginMenus();
                 createAppearanceWindow();
                 setLoginVars();
-                
+
                 OnContentLoadedCompleted?.Invoke(this, new EventArgs());
 
                 createLoginScreenBackgrounds();
@@ -4740,7 +4743,7 @@ namespace RuneScapeSolo.Lib
                 sbyte[] abyte4 = DataOperations.loadData("hostenc.txt", 0, abyte1);
                 sbyte[] abyte5 = DataOperations.loadData("tldlist.txt", 0, abyte1);
                 //ChatFilter.addFilterData(new DataEncryption(abyte2), new DataEncryption(abyte3), new DataEncryption(abyte4), new DataEncryption(abyte5));
-                
+
                 return;
             }
         }
