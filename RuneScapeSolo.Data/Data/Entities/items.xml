@@ -346,7 +346,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>flour</Id>
+    <Id>flour_heap</Id>
     <Name>Flour</Name>
     <Description>A little heap of flour</Description>
     <Command />
@@ -661,7 +661,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>holy_symbol_of_saradomin</Id>
+    <Id>unstrung_holy_symbol_of_saradomin</Id>
     <Name>Holy Symbol of saradomin</Name>
     <Description>This needs a string putting on it</Description>
     <Command />
@@ -706,7 +706,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>key</Id>
+    <Id>key_phoenix_gang</Id>
     <Name>key</Name>
     <Description>The key to get into the phoenix gang</Description>
     <Command />
@@ -721,7 +721,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>key</Id>
+    <Id>key_phoenix_gang_weapons_store</Id>
     <Name>key</Name>
     <Description>The key to the phoenix gang's weapons store</Description>
     <Command />
@@ -736,7 +736,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>scroll</Id>
+    <Id>scroll_report</Id>
     <Name>scroll</Name>
     <Description>An intelligence Report</Description>
     <Command />
@@ -751,7 +751,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>water</Id>
+    <Id>water_bucket</Id>
     <Name>Water</Name>
     <Description>It's a bucket of water</Description>
     <Command />
@@ -811,7 +811,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>broken_shield</Id>
+    <Id>broken_shield2</Id>
     <Name>Broken shield</Name>
     <Description>Half of the shield of Arrav</Description>
     <Command />
@@ -2041,7 +2041,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>flour</Id>
+    <Id>pot_flour</Id>
     <Name>flour</Name>
     <Description>There is flour in this pot</Description>
     <Command />
@@ -2116,7 +2116,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>water</Id>
+    <Id>water2</Id>
     <Name>water</Name>
     <Description>It's full of water</Description>
     <Command />
@@ -2746,7 +2746,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>cape</Id>
+    <Id>cape_red</Id>
     <Name>Cape</Name>
     <Description>A bright red cape</Description>
     <Command />
@@ -2776,7 +2776,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>wizardshat</Id>
+    <Id>wizard_hat2</Id>
     <Name>wizardshat</Name>
     <Description>A silly pointed hat</Description>
     <Command />
@@ -2866,7 +2866,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>apron</Id>
+    <Id>apron2</Id>
     <Name>Apron</Name>
     <Description>this will help keep my clothes clean</Description>
     <Command />
@@ -2911,7 +2911,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>skirt</Id>
+    <Id>skirt2</Id>
     <Name>skirt</Name>
     <Description>A ladies skirt</Description>
     <Command />
@@ -2926,7 +2926,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>skirt</Id>
+    <Id>skirt3</Id>
     <Name>skirt</Name>
     <Description>A ladies skirt</Description>
     <Command />
@@ -2986,7 +2986,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>wizardshat</Id>
+    <Id>wizard_hat</Id>
     <Name>wizardshat</Name>
     <Description>A silly pointed hat</Description>
     <Command />
@@ -3136,7 +3136,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>cape</Id>
+    <Id>cape_black</Id>
     <Name>Cape</Name>
     <Description>A warm black cape</Description>
     <Command />
@@ -3316,7 +3316,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>strength_potion</Id>
+    <Id>strength_potion_4</Id>
     <Name>Strength Potion</Name>
     <Description>4 doses of strength potion</Description>
     <Command>Drink</Command>
@@ -3331,7 +3331,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>strength_potion</Id>
+    <Id>strength_potion_3</Id>
     <Name>Strength Potion</Name>
     <Description>3 doses of strength potion</Description>
     <Command>Drink</Command>
@@ -3346,7 +3346,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>strength_potion</Id>
+    <Id>strength_potion_2</Id>
     <Name>Strength Potion</Name>
     <Description>2 doses of strength potion</Description>
     <Command>Drink</Command>
@@ -3361,7 +3361,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>strength_potion</Id>
+    <Id>strength_potion_1</Id>
     <Name>Strength Potion</Name>
     <Description>1 dose of strength potion</Description>
     <Command>Drink</Command>
@@ -3421,7 +3421,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>cabbage</Id>
+    <Id>cabbage2</Id>
     <Name>Cabbage</Name>
     <Description>Yuck I don't like cabbage</Description>
     <Command>Eat</Command>
@@ -3436,7 +3436,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>cape</Id>
+    <Id>cape_blue</Id>
     <Name>Cape</Name>
     <Description>A thick blue cape</Description>
     <Command />
@@ -3661,7 +3661,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>wig</Id>
+    <Id>wig_blonde</Id>
     <Name>wig</Name>
     <Description>A blonde wig</Description>
     <Command />
@@ -3676,7 +3676,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>wig</Id>
+    <Id>wig_wool</Id>
     <Name>wig</Name>
     <Description>A wig made from wool</Description>
     <Command />
@@ -4111,7 +4111,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>goblin_armour</Id>
+    <Id>goblin_armour2</Id>
     <Name>Goblin Armour</Name>
     <Description>Armour Designed to fit Goblins</Description>
     <Command />
@@ -4126,7 +4126,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>goblin_armour</Id>
+    <Id>goblin_armour3</Id>
     <Name>Goblin Armour</Name>
     <Description>Armour Designed to fit Goblins</Description>
     <Command />
@@ -4441,7 +4441,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gold_amulet</Id>
+    <Id>gold_amulet_unstrung</Id>
     <Name>Gold Amulet</Name>
     <Description>It needs a string so I can wear it</Description>
     <Command />
@@ -4456,7 +4456,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>sapphire_amulet</Id>
+    <Id>sapphire_amulet_unstrung</Id>
     <Name>Sapphire Amulet</Name>
     <Description>It needs a string so I can wear it</Description>
     <Command />
@@ -4471,7 +4471,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>emerald_amulet</Id>
+    <Id>emerald_amulet_unstrung</Id>
     <Name>Emerald Amulet</Name>
     <Description>It needs a string so I can wear it</Description>
     <Command />
@@ -4486,7 +4486,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>ruby_amulet</Id>
+    <Id>ruby_amulet_unstrung</Id>
     <Name>Ruby Amulet</Name>
     <Description>It needs a string so I can make wear it</Description>
     <Command />
@@ -4501,7 +4501,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>diamond_amulet</Id>
+    <Id>diamond_amulet_unstrung</Id>
     <Name>Diamond Amulet</Name>
     <Description>It needs a string so I can wear it</Description>
     <Command />
@@ -5146,7 +5146,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>incomplete_stew</Id>
+    <Id>incomplete_stew_without_meat</Id>
     <Name>Incomplete stew</Name>
     <Description>I need to add some meat too</Description>
     <Command />
@@ -5161,7 +5161,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>incomplete_stew</Id>
+    <Id>incomplete_stew_without_potato</Id>
     <Name>Incomplete stew</Name>
     <Description>I need to add some potato too</Description>
     <Command />
@@ -5401,7 +5401,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>burnt_fish</Id>
+    <Id>burnt_fish_2</Id>
     <Name>Burnt fish</Name>
     <Description>Oops!</Description>
     <Command />
@@ -5476,7 +5476,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>burnt_fish</Id>
+    <Id>burnt_fish_3</Id>
     <Name>Burnt fish</Name>
     <Description>Oops!</Description>
     <Command />
@@ -5521,7 +5521,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>burnt_fish</Id>
+    <Id>burnt_fish_4</Id>
     <Name>Burnt fish</Name>
     <Description>Oops!</Description>
     <Command />
@@ -5731,7 +5731,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>chest_key</Id>
+    <Id>chest_key_hector</Id>
     <Name>Chest key</Name>
     <Description>A key to One eyed Hector's chest</Description>
     <Command />
@@ -5836,7 +5836,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>monks_robe</Id>
+    <Id>monks_robe2</Id>
     <Name>Monks robe</Name>
     <Description>Keeps a monk's legs nice and warm</Description>
     <Command />
@@ -6181,7 +6181,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>skull</Id>
+    <Id>skull2</Id>
     <Name>skull</Name>
     <Description>A spooky looking skull</Description>
     <Command />
@@ -6256,7 +6256,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>map_piece</Id>
+    <Id>map_piece2</Id>
     <Name>Map Piece</Name>
     <Description>I need some more of the map for this to be useful</Description>
     <Command />
@@ -6271,7 +6271,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>map_piece</Id>
+    <Id>map_piece3</Id>
     <Name>Map Piece</Name>
     <Description>I need some more of the map for this to be useful</Description>
     <Command />
@@ -6526,7 +6526,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>herb</Id>
+    <Id>herb2</Id>
     <Name>Herb</Name>
     <Description>I need a closer look to identify this</Description>
     <Command>Identify</Command>
@@ -6541,7 +6541,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>herb</Id>
+    <Id>herb3</Id>
     <Name>Herb</Name>
     <Description>I need a closer look to identify this</Description>
     <Command>Identify</Command>
@@ -6556,7 +6556,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>herb</Id>
+    <Id>herb4</Id>
     <Name>Herb</Name>
     <Description>I need a closer look to identify this</Description>
     <Command>Identify</Command>
@@ -6571,7 +6571,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>herb</Id>
+    <Id>herb5</Id>
     <Name>Herb</Name>
     <Description>I need a closer look to identify this</Description>
     <Command>Identify</Command>
@@ -6586,7 +6586,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>herb</Id>
+    <Id>herb6</Id>
     <Name>Herb</Name>
     <Description>I need a closer look to identify this</Description>
     <Command>Identify</Command>
@@ -6601,7 +6601,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>herb</Id>
+    <Id>herb7</Id>
     <Name>Herb</Name>
     <Description>I need a closer look to identify this</Description>
     <Command>Identify</Command>
@@ -6616,7 +6616,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>herb</Id>
+    <Id>herb8</Id>
     <Name>Herb</Name>
     <Description>I need a closer look to identify this</Description>
     <Command>Identify</Command>
@@ -6631,7 +6631,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>herb</Id>
+    <Id>herb9</Id>
     <Name>Herb</Name>
     <Description>I need a closer look to identify this</Description>
     <Command>Identify</Command>
@@ -6646,7 +6646,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>herb</Id>
+    <Id>herb10</Id>
     <Name>Herb</Name>
     <Description>I need a closer look to identify this</Description>
     <Command>Identify</Command>
@@ -6811,7 +6811,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>unfinished_potion</Id>
+    <Id>unfinished_potion_guam</Id>
     <Name>Unfinished potion</Name>
     <Description>I need another ingredient to finish this Guam potion</Description>
     <Command />
@@ -6826,7 +6826,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>unfinished_potion</Id>
+    <Id>unfinished_potion_marrentill</Id>
     <Name>Unfinished potion</Name>
     <Description>I need another ingredient to finish this Marrentill potion</Description>
     <Command />
@@ -6841,7 +6841,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>unfinished_potion</Id>
+    <Id>unfinished_potion_tarromin</Id>
     <Name>Unfinished potion</Name>
     <Description>I need another ingredient to finish this Tarromin potion</Description>
     <Command />
@@ -6856,7 +6856,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>unfinished_potion</Id>
+    <Id>unfinished_potion_harralander</Id>
     <Name>Unfinished potion</Name>
     <Description>I need another ingredient to finish this Harralander potion</Description>
     <Command />
@@ -6871,7 +6871,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>unfinished_potion</Id>
+    <Id>unfinished_potion_ranarr</Id>
     <Name>Unfinished potion</Name>
     <Description>I need another ingredient to finish this Ranarr potion</Description>
     <Command />
@@ -6886,7 +6886,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>unfinished_potion</Id>
+    <Id>unfinished_potion_irit</Id>
     <Name>Unfinished potion</Name>
     <Description>I need another ingredient to finish this Irit potion</Description>
     <Command />
@@ -6901,7 +6901,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>unfinished_potion</Id>
+    <Id>unfinished_potion_avantoe</Id>
     <Name>Unfinished potion</Name>
     <Description>I need another ingredient to finish this Avantoe potion</Description>
     <Command />
@@ -6916,7 +6916,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>unfinished_potion</Id>
+    <Id>unfinished_potion_kwuarm</Id>
     <Name>Unfinished potion</Name>
     <Description>I need another ingredient to finish this Kwuarm potion</Description>
     <Command />
@@ -6931,7 +6931,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>unfinished_potion</Id>
+    <Id>unfinished_potion_cadantine</Id>
     <Name>Unfinished potion</Name>
     <Description>I need another ingredient to finish this Cadantine potion</Description>
     <Command />
@@ -6946,7 +6946,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>unfinished_potion</Id>
+    <Id>unfinished_potion_dwarfweed</Id>
     <Name>Unfinished potion</Name>
     <Description>I need another ingredient to finish this Dwarfweed potion</Description>
     <Command />
@@ -6961,7 +6961,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>vial</Id>
+    <Id>vial_filled</Id>
     <Name>Vial</Name>
     <Description>It's full of water</Description>
     <Command />
@@ -7111,7 +7111,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>attack_potion</Id>
+    <Id>attack_potion_3</Id>
     <Name>attack Potion</Name>
     <Description>3 doses of attack potion</Description>
     <Command>Drink</Command>
@@ -7126,7 +7126,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>attack_potion</Id>
+    <Id>attack_potion_2</Id>
     <Name>attack Potion</Name>
     <Description>2 doses of attack potion</Description>
     <Command>Drink</Command>
@@ -7141,7 +7141,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>attack_potion</Id>
+    <Id>attack_potion_1</Id>
     <Name>attack Potion</Name>
     <Description>1 dose of attack potion</Description>
     <Command>Drink</Command>
@@ -7156,7 +7156,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>stat_restoration_potion</Id>
+    <Id>stat_restoration_potion_3</Id>
     <Name>stat restoration Potion</Name>
     <Description>3 doses of stat restoration potion</Description>
     <Command>Drink</Command>
@@ -7171,7 +7171,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>stat_restoration_potion</Id>
+    <Id>stat_restoration_potion_2</Id>
     <Name>stat restoration Potion</Name>
     <Description>2 doses of stat restoration potion</Description>
     <Command>Drink</Command>
@@ -7186,7 +7186,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>stat_restoration_potion</Id>
+    <Id>stat_restoration_potion_1</Id>
     <Name>stat restoration Potion</Name>
     <Description>1 dose of stat restoration potion</Description>
     <Command>Drink</Command>
@@ -7201,7 +7201,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>defense_potion</Id>
+    <Id>defense_potion_3</Id>
     <Name>defense Potion</Name>
     <Description>3 doses of defense potion</Description>
     <Command>Drink</Command>
@@ -7216,7 +7216,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>defense_potion</Id>
+    <Id>defense_potion_2</Id>
     <Name>defense Potion</Name>
     <Description>2 doses of defense potion</Description>
     <Command>Drink</Command>
@@ -7231,7 +7231,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>defense_potion</Id>
+    <Id>defense_potion_1</Id>
     <Name>defense Potion</Name>
     <Description>1 dose of defense potion</Description>
     <Command>Drink</Command>
@@ -7246,7 +7246,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>restore_prayer_potion</Id>
+    <Id>restore_prayer_potion_3</Id>
     <Name>restore prayer Potion</Name>
     <Description>3 doses of restore prayer potion</Description>
     <Command>Drink</Command>
@@ -7261,7 +7261,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>restore_prayer_potion</Id>
+    <Id>restore_prayer_potion_2</Id>
     <Name>restore prayer Potion</Name>
     <Description>2 doses of restore prayer potion</Description>
     <Command>Drink</Command>
@@ -7276,7 +7276,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>restore_prayer_potion</Id>
+    <Id>restore_prayer_potion_1</Id>
     <Name>restore prayer Potion</Name>
     <Description>1 dose of restore prayer potion</Description>
     <Command>Drink</Command>
@@ -7291,7 +7291,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>super_attack_potion</Id>
+    <Id>super_attack_potion_3</Id>
     <Name>Super attack Potion</Name>
     <Description>3 doses of attack potion</Description>
     <Command>Drink</Command>
@@ -7306,7 +7306,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>super_attack_potion</Id>
+    <Id>super_attack_potion_2</Id>
     <Name>Super attack Potion</Name>
     <Description>2 doses of attack potion</Description>
     <Command>Drink</Command>
@@ -7321,7 +7321,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>super_attack_potion</Id>
+    <Id>super_attack_potion_1</Id>
     <Name>Super attack Potion</Name>
     <Description>1 dose of attack potion</Description>
     <Command>Drink</Command>
@@ -7336,7 +7336,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>fishing_potion</Id>
+    <Id>fishing_potion_3</Id>
     <Name>fishing Potion</Name>
     <Description>3 doses of fishing potion</Description>
     <Command>Drink</Command>
@@ -7351,7 +7351,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>fishing_potion</Id>
+    <Id>fishing_potion_2</Id>
     <Name>fishing Potion</Name>
     <Description>2 doses of fishing potion</Description>
     <Command>Drink</Command>
@@ -7366,7 +7366,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>fishing_potion</Id>
+    <Id>fishing_potion_1</Id>
     <Name>fishing Potion</Name>
     <Description>1 dose of fishing potion</Description>
     <Command>Drink</Command>
@@ -7381,7 +7381,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>super_strength_potion</Id>
+    <Id>super_strength_potion_3</Id>
     <Name>Super strength Potion</Name>
     <Description>3 doses of strength potion</Description>
     <Command>Drink</Command>
@@ -7396,7 +7396,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>super_strength_potion</Id>
+    <Id>super_strength_potion_2</Id>
     <Name>Super strength Potion</Name>
     <Description>2 doses of strength potion</Description>
     <Command>Drink</Command>
@@ -7411,7 +7411,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>super_strength_potion</Id>
+    <Id>super_strength_potion_1</Id>
     <Name>Super strength Potion</Name>
     <Description>1 dose of strength potion</Description>
     <Command>Drink</Command>
@@ -7426,7 +7426,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>super_defense_potion</Id>
+    <Id>super_defense_potion_3</Id>
     <Name>Super defense Potion</Name>
     <Description>3 doses of defense potion</Description>
     <Command>Drink</Command>
@@ -7441,7 +7441,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>super_defense_potion</Id>
+    <Id>super_defense_potion_2</Id>
     <Name>Super defense Potion</Name>
     <Description>2 doses of defense potion</Description>
     <Command>Drink</Command>
@@ -7456,7 +7456,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>super_defense_potion</Id>
+    <Id>super_defense_potion_1</Id>
     <Name>Super defense Potion</Name>
     <Description>1 dose of defense potion</Description>
     <Command>Drink</Command>
@@ -7471,7 +7471,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>ranging_potion</Id>
+    <Id>ranging_potion_3</Id>
     <Name>ranging Potion</Name>
     <Description>3 doses of ranging potion</Description>
     <Command>Drink</Command>
@@ -7486,7 +7486,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>ranging_potion</Id>
+    <Id>ranging_potion_2</Id>
     <Name>ranging Potion</Name>
     <Description>2 doses of ranging potion</Description>
     <Command>Drink</Command>
@@ -7501,7 +7501,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>ranging_potion</Id>
+    <Id>ranging_potion_1</Id>
     <Name>ranging Potion</Name>
     <Description>1 dose of ranging potion</Description>
     <Command>Drink</Command>
@@ -7666,7 +7666,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>cape</Id>
+    <Id>cape_green</Id>
     <Name>Cape</Name>
     <Description>A thick Green cape</Description>
     <Command />
@@ -7681,7 +7681,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>cape</Id>
+    <Id>cape_yellow</Id>
     <Name>Cape</Name>
     <Description>A thick yellow cape</Description>
     <Command />
@@ -7696,7 +7696,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>cape</Id>
+    <Id>cape_orange</Id>
     <Name>Cape</Name>
     <Description>A thick Orange cape</Description>
     <Command />
@@ -7711,7 +7711,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>cape</Id>
+    <Id>cape_purple</Id>
     <Name>Cape</Name>
     <Description>A thick purple cape</Description>
     <Command />
@@ -7861,7 +7861,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>dragonstone_amulet</Id>
+    <Id>unstrung_dragonstone_amulet</Id>
     <Name>Dragonstone Amulet</Name>
     <Description>It needs a string so I can wear it</Description>
     <Command />
@@ -7906,7 +7906,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>half_of_a_key</Id>
+    <Id>half_of_a_key2</Id>
     <Name>Half of a key</Name>
     <Description>A very shiny key</Description>
     <Command />
@@ -8356,7 +8356,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>firebird_feather</Id>
+    <Id>firebird_feather_hot</Id>
     <Name>Firebird Feather</Name>
     <Description>A red hot feather</Description>
     <Command />
@@ -8491,7 +8491,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>cure_poison_potion</Id>
+    <Id>cure_poison_potion_3</Id>
     <Name>Cure poison Potion</Name>
     <Description>3 doses of cure poison potion</Description>
     <Command>Drink</Command>
@@ -8506,7 +8506,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>cure_poison_potion</Id>
+    <Id>cure_poison_potion_2</Id>
     <Name>Cure poison Potion</Name>
     <Description>2 doses of cure poison potion</Description>
     <Command>Drink</Command>
@@ -8521,7 +8521,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>cure_poison_potion</Id>
+    <Id>cure_poison_potion_1</Id>
     <Name>Cure poison Potion</Name>
     <Description>1 dose of cure poison potion</Description>
     <Command>Drink</Command>
@@ -8536,7 +8536,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>poison_antidote</Id>
+    <Id>poison_antidote_3</Id>
     <Name>Poison antidote</Name>
     <Description>3 doses of anti poison potion</Description>
     <Command>Drink</Command>
@@ -8551,7 +8551,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>poison_antidote</Id>
+    <Id>poison_antidote_2</Id>
     <Name>Poison antidote</Name>
     <Description>2 doses of anti poison potion</Description>
     <Command>Drink</Command>
@@ -8566,7 +8566,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>poison_antidote</Id>
+    <Id>poison_antidote_1</Id>
     <Name>Poison antidote</Name>
     <Description>1 dose of anti poison potion</Description>
     <Command>Drink</Command>
@@ -8656,7 +8656,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>party_hat</Id>
+    <Id>party_hat2</Id>
     <Name>Party Hat</Name>
     <Description>Party!!!</Description>
     <Command />
@@ -8671,7 +8671,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>party_hat</Id>
+    <Id>party_hat3</Id>
     <Name>Party Hat</Name>
     <Description>Party!!!</Description>
     <Command />
@@ -8686,7 +8686,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>party_hat</Id>
+    <Id>party_hat4</Id>
     <Name>Party Hat</Name>
     <Description>Party!!!</Description>
     <Command />
@@ -8701,7 +8701,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>party_hat</Id>
+    <Id>party_hat5</Id>
     <Name>Party Hat</Name>
     <Description>Party!!!</Description>
     <Command />
@@ -8716,7 +8716,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>party_hat</Id>
+    <Id>party_hat6</Id>
     <Name>Party Hat</Name>
     <Description>Party!!!</Description>
     <Command />
@@ -8761,7 +8761,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>whisky</Id>
+    <Id>whisky_draynor</Id>
     <Name>Whisky</Name>
     <Description>A bottle of Draynor Malt</Description>
     <Command>drink</Command>
@@ -9016,7 +9016,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>candle</Id>
+    <Id>candle_burning</Id>
     <Name>Candle</Name>
     <Description>A small slowly burning candle</Description>
     <Command />
@@ -9031,7 +9031,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>black_candle</Id>
+    <Id>black_candle_burning</Id>
     <Name>black Candle</Name>
     <Description>A spooky candle</Description>
     <Command />
@@ -9121,7 +9121,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>druids_robe</Id>
+    <Id>druids_robe2</Id>
     <Name>Druids robe</Name>
     <Description>Keeps a druids's knees nice and warm</Description>
     <Command />
@@ -10186,7 +10186,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>scorpion_cage</Id>
+    <Id>scorpion_cage_1_a</Id>
     <Name>scorpion cage</Name>
     <Description>It has 1 scorpion in it</Description>
     <Command />
@@ -10201,7 +10201,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>scorpion_cage</Id>
+    <Id>scorpion_cage_2_a</Id>
     <Name>scorpion cage</Name>
     <Description>It has 2 scorpions in it</Description>
     <Command />
@@ -10216,7 +10216,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>scorpion_cage</Id>
+    <Id>scorpion_cage_3_a</Id>
     <Name>scorpion cage</Name>
     <Description>It has 3 scorpions in it</Description>
     <Command />
@@ -10291,7 +10291,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>scorpion_cage</Id>
+    <Id>scorpion_cage_1_b</Id>
     <Name>scorpion cage</Name>
     <Description>It has 1 scorpion in it</Description>
     <Command />
@@ -10306,7 +10306,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>scorpion_cage</Id>
+    <Id>scorpion_cage_1_c</Id>
     <Name>scorpion cage</Name>
     <Description>It has 1 scorpion in it</Description>
     <Command />
@@ -10321,7 +10321,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>scorpion_cage</Id>
+    <Id>scorpion_cage_2_b</Id>
     <Name>scorpion cage</Name>
     <Description>It has 2 scorpions in it</Description>
     <Command />
@@ -10336,7 +10336,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>scorpion_cage</Id>
+    <Id>scorpion_cage_2_c</Id>
     <Name>scorpion cage</Name>
     <Description>It has 2 scorpions in it</Description>
     <Command />
@@ -10351,7 +10351,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gold</Id>
+    <Id>gold2</Id>
     <Name>gold</Name>
     <Description>this needs refining</Description>
     <Command />
@@ -10366,7 +10366,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gold_bar</Id>
+    <Id>gold_bar2</Id>
     <Name>gold bar</Name>
     <Description>this looks valuable</Description>
     <Command />
@@ -10381,7 +10381,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>ruby_ring</Id>
+    <Id>ruby_ring2</Id>
     <Name>Ruby ring</Name>
     <Description>A valuable ring</Description>
     <Command />
@@ -10396,7 +10396,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>ruby_necklace</Id>
+    <Id>ruby_necklace2</Id>
     <Name>Ruby necklace</Name>
     <Description>I wonder if this is valuable</Description>
     <Command />
@@ -10441,7 +10441,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>crest_fragment</Id>
+    <Id>crest_fragment2</Id>
     <Name>Crest fragment</Name>
     <Description>Part of the Fitzharmon family crest</Description>
     <Command />
@@ -10456,7 +10456,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>crest_fragment</Id>
+    <Id>crest_fragment3</Id>
     <Name>Crest fragment</Name>
     <Description>Part of the Fitzharmon family crest</Description>
     <Command />
@@ -10546,7 +10546,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>robe_of_zamorak</Id>
+    <Id>robe_of_zamorak2</Id>
     <Name>robe of Zamorak</Name>
     <Description>A robe worn by worshippers of Zamorak</Description>
     <Command />
@@ -10921,7 +10921,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>large_cog</Id>
+    <Id>large_cog2</Id>
     <Name>Large cog</Name>
     <Description> A large old cog</Description>
     <Command />
@@ -10936,7 +10936,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>large_cog</Id>
+    <Id>large_cog3</Id>
     <Name>Large cog</Name>
     <Description> A large old cog</Description>
     <Command />
@@ -10951,7 +10951,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>large_cog</Id>
+    <Id>large_cog4</Id>
     <Name>Large cog</Name>
     <Description> A large old cog</Description>
     <Command />
@@ -11431,7 +11431,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>plagued_sheep_remains</Id>
+    <Id>plagued_sheep_remains2</Id>
     <Name>Plagued sheep remains</Name>
     <Description>These sheep remains are infected</Description>
     <Command />
@@ -11446,7 +11446,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>plagued_sheep_remains</Id>
+    <Id>plagued_sheep_remains3</Id>
     <Name>Plagued sheep remains</Name>
     <Description>These sheep remains are infected</Description>
     <Command />
@@ -11461,7 +11461,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>plagued_sheep_remains</Id>
+    <Id>plagued_sheep_remains4</Id>
     <Name>Plagued sheep remains</Name>
     <Description>These sheep remains are infected</Description>
     <Command />
@@ -11521,7 +11521,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>book</Id>
+    <Id>book_of_turnip_growing</Id>
     <Name>Book</Name>
     <Description>Turnip growing for beginners</Description>
     <Command>read</Command>
@@ -11596,7 +11596,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>torch</Id>
+    <Id>torch_unlit</Id>
     <Name>Torch</Name>
     <Description>A unlit home made torch</Description>
     <Command />
@@ -11731,7 +11731,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>glarial's_amulet</Id>
+    <Id>glarial_amulet</Id>
     <Name>Glarial's amulet</Name>
     <Description>A bright green gem set in a necklace</Description>
     <Command />
@@ -11866,7 +11866,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>oyster</Id>
+    <Id>oyster_empty</Id>
     <Name>oyster</Name>
     <Description>It's empty</Description>
     <Command />
@@ -11881,7 +11881,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>oyster_pearls</Id>
+    <Id>oyster_pearls2</Id>
     <Name>oyster pearls</Name>
     <Description>I could work wonders with these and a chisel</Description>
     <Command />
@@ -12046,7 +12046,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>bronze_key</Id>
+    <Id>bronze_key2</Id>
     <Name>Bronze key</Name>
     <Description>A heavy key</Description>
     <Command />
@@ -12076,7 +12076,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>glarial's_urn</Id>
+    <Id>glarials_urn</Id>
     <Name>Glarial's urn</Name>
     <Description>An urn containing glarials ashes</Description>
     <Command />
@@ -12091,7 +12091,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>glarial's_urn</Id>
+    <Id>glarials_urn2</Id>
     <Name>Glarial's urn</Name>
     <Description>An empty metal urn</Description>
     <Command />
@@ -12226,7 +12226,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>herb</Id>
+    <Id>herb11</Id>
     <Name>Herb</Name>
     <Description>I need a closer look to identify this</Description>
     <Command>Identify</Command>
@@ -12256,7 +12256,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>herb</Id>
+    <Id>herb12</Id>
     <Name>Herb</Name>
     <Description>I need a closer look to identify this</Description>
     <Command>Identify</Command>
@@ -12286,7 +12286,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>herb</Id>
+    <Id>herb13</Id>
     <Name>Herb</Name>
     <Description>I need a closer look to identify this</Description>
     <Command>Identify</Command>
@@ -12316,7 +12316,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>herb</Id>
+    <Id>herb14</Id>
     <Name>Herb</Name>
     <Description>I need a closer look to identify this</Description>
     <Command>Identify</Command>
@@ -12346,7 +12346,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>herb</Id>
+    <Id>herb15</Id>
     <Name>Herb</Name>
     <Description>I need a closer look to identify this</Description>
     <Command>Identify</Command>
@@ -12466,7 +12466,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>halloween_mask</Id>
+    <Id>halloween_mask2</Id>
     <Name>halloween mask</Name>
     <Description>aaaarrrghhh ... i'm a monster</Description>
     <Command />
@@ -12481,7 +12481,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>halloween_mask</Id>
+    <Id>halloween_mask3</Id>
     <Name>halloween mask</Name>
     <Description>aaaarrrghhh ... i'm a monster</Description>
     <Command />
@@ -12556,7 +12556,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnome_robe</Id>
+    <Id>gnome_robe2</Id>
     <Name>gnome robe</Name>
     <Description>A high fashion robe</Description>
     <Command />
@@ -12571,7 +12571,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnome_robe</Id>
+    <Id>gnome_robe3</Id>
     <Name>gnome robe</Name>
     <Description>A high fashion robe</Description>
     <Command />
@@ -12586,7 +12586,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnome_robe</Id>
+    <Id>gnome_robe4</Id>
     <Name>gnome robe</Name>
     <Description>A high fashion robe</Description>
     <Command />
@@ -12601,7 +12601,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnome_robe</Id>
+    <Id>gnome_robe5</Id>
     <Name>gnome robe</Name>
     <Description>A high fashion robe</Description>
     <Command />
@@ -12616,7 +12616,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnomeshat</Id>
+    <Id>gnome_hat</Id>
     <Name>gnomeshat</Name>
     <Description>A silly pointed hat</Description>
     <Command />
@@ -12631,7 +12631,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnomeshat</Id>
+    <Id>gnome_hat2</Id>
     <Name>gnomeshat</Name>
     <Description>A silly pointed hat</Description>
     <Command />
@@ -12646,7 +12646,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnomeshat</Id>
+    <Id>gnome_hat3</Id>
     <Name>gnomeshat</Name>
     <Description>A silly pointed hat</Description>
     <Command />
@@ -12661,7 +12661,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnomeshat</Id>
+    <Id>gnome_hat4</Id>
     <Name>gnomeshat</Name>
     <Description>A silly pointed hat</Description>
     <Command />
@@ -12676,7 +12676,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnomeshat</Id>
+    <Id>gnome_hat5</Id>
     <Name>gnomeshat</Name>
     <Description>A silly pointed hat</Description>
     <Command />
@@ -12706,7 +12706,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnome_top</Id>
+    <Id>gnome_top1</Id>
     <Name>gnome top</Name>
     <Description>rometti - the only name in gnome fashion!</Description>
     <Command />
@@ -12721,7 +12721,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnome_top</Id>
+    <Id>gnome_top2</Id>
     <Name>gnome top</Name>
     <Description>rometti - the only name in gnome fashion!</Description>
     <Command />
@@ -12736,7 +12736,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnome_top</Id>
+    <Id>gnome_top3</Id>
     <Name>gnome top</Name>
     <Description>rometti - the only name in gnome fashion!</Description>
     <Command />
@@ -12751,7 +12751,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnome_top</Id>
+    <Id>gnome_top4</Id>
     <Name>gnome top</Name>
     <Description>rometti - the only name in gnome fashion!</Description>
     <Command />
@@ -12796,7 +12796,7 @@
     <IsUnused>1</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>cocktail_glass</Id>
+    <Id>cocktail_glass2</Id>
     <Name>cocktail glass</Name>
     <Description>For sipping cocktails</Description>
     <Command>drink</Command>
@@ -12811,7 +12811,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>cocktail_glass</Id>
+    <Id>cocktail_glass3</Id>
     <Name>cocktail glass</Name>
     <Description>For sipping cocktails</Description>
     <Command>drink</Command>
@@ -13276,7 +13276,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnomebowl</Id>
+    <Id>gnome_bowl</Id>
     <Name>gnomebowl</Name>
     <Description>A baked dough bowl</Description>
     <Command>eat</Command>
@@ -13291,7 +13291,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnomebatta</Id>
+    <Id>gnome_batta_burnt</Id>
     <Name>gnomebatta</Name>
     <Description>It's burnt to a sinder</Description>
     <Command />
@@ -13306,7 +13306,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnomecrunchie</Id>
+    <Id>gnome_crunchie_burnt</Id>
     <Name>gnomecrunchie</Name>
     <Description>They're burnt to a sinder</Description>
     <Command />
@@ -13321,7 +13321,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnomebowl</Id>
+    <Id>gnome_bowl_burnt</Id>
     <Name>gnomebowl</Name>
     <Description>It's burnt to a sinder</Description>
     <Command />
@@ -13501,7 +13501,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnomecrunchie</Id>
+    <Id>gnome_crunchie</Id>
     <Name>gnomecrunchie</Name>
     <Description>yum ... smells good</Description>
     <Command>eat</Command>
@@ -13651,7 +13651,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>tangled_toads_legs</Id>
+    <Id>tangled_toad_legs</Id>
     <Name>Tangled toads legs</Name>
     <Description>actually smells quite good</Description>
     <Command>eat</Command>
@@ -13666,7 +13666,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>choc_crunchies</Id>
+    <Id>choc_crunchies2</Id>
     <Name>Choc crunchies</Name>
     <Description>yum ... smells good</Description>
     <Command>eat</Command>
@@ -13681,7 +13681,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>worm_crunchies</Id>
+    <Id>worm_crunchies2</Id>
     <Name>Worm crunchies</Name>
     <Description>actually smells quite good</Description>
     <Command>eat</Command>
@@ -13696,7 +13696,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>toad_crunchies</Id>
+    <Id>toad_crunchies2</Id>
     <Name>Toad crunchies</Name>
     <Description>actually smells quite good</Description>
     <Command>eat</Command>
@@ -13711,7 +13711,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>spice_crunchies</Id>
+    <Id>spice_crunchies2</Id>
     <Name>Spice crunchies</Name>
     <Description>yum ... smells good</Description>
     <Command>eat</Command>
@@ -13921,7 +13921,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>pebble</Id>
+    <Id>pebble2</Id>
     <Name>Pebble</Name>
     <Description>The pebble has an inscription</Description>
     <Command />
@@ -13936,7 +13936,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>pebble</Id>
+    <Id>pebble3</Id>
     <Name>Pebble</Name>
     <Description>The pebble has an inscription</Description>
     <Command />
@@ -13951,7 +13951,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>pebble</Id>
+    <Id>pebble4</Id>
     <Name>Pebble</Name>
     <Description>The pebble has an inscription</Description>
     <Command />
@@ -13996,7 +13996,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>herb</Id>
+    <Id>herb16</Id>
     <Name>Herb</Name>
     <Description>I need a closer look to identify this</Description>
     <Command>Identify</Command>
@@ -14026,7 +14026,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>unfinished_potion</Id>
+    <Id>unfinished_potion_torstol</Id>
     <Name>Unfinished potion</Name>
     <Description>I need Jangerberries to finish this Torstol potion</Description>
     <Command />
@@ -14056,7 +14056,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>fruit_blast</Id>
+    <Id>fruit_blast2</Id>
     <Name>fruit blast</Name>
     <Description>A cool refreshing fruit mix</Description>
     <Command>drink</Command>
@@ -14071,7 +14071,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>blurberry_special</Id>
+    <Id>blurberry_special2</Id>
     <Name>blurberry special</Name>
     <Description>Looks good..smells strong</Description>
     <Command>drink</Command>
@@ -14086,7 +14086,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>wizard_blizzard</Id>
+    <Id>wizard_blizzard2</Id>
     <Name>wizard blizzard</Name>
     <Description>Looks like a strange mix</Description>
     <Command>drink</Command>
@@ -14101,7 +14101,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>pineapple_punch</Id>
+    <Id>pineapple_punch2</Id>
     <Name>pineapple punch</Name>
     <Description>A fresh healthy fruit mix</Description>
     <Command>drink</Command>
@@ -14116,7 +14116,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>sgg</Id>
+    <Id>sgg2</Id>
     <Name>SGG</Name>
     <Description>A short green guy..looks good</Description>
     <Command>drink</Command>
@@ -14131,7 +14131,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>chocolate_saturday</Id>
+    <Id>chocolate_saturday2</Id>
     <Name>Chocolate saturday</Name>
     <Description>A warm creamy alcoholic beverage</Description>
     <Command>drink</Command>
@@ -14146,7 +14146,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>drunk_dragon</Id>
+    <Id>drunk_dragon2</Id>
     <Name>Drunk dragon</Name>
     <Description>A warm creamy alcoholic beverage</Description>
     <Command>drink</Command>
@@ -14161,7 +14161,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>cheese_and_tomato_batta</Id>
+    <Id>cheese_and_tomato_batta2</Id>
     <Name>cheese and tomato batta</Name>
     <Description>Smells really good</Description>
     <Command>eat</Command>
@@ -14176,7 +14176,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>toad_batta</Id>
+    <Id>toad_batta2</Id>
     <Name>toad batta</Name>
     <Description>actually smells quite good</Description>
     <Command>eat</Command>
@@ -14191,7 +14191,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gnome_batta</Id>
+    <Id>gnome_batta2</Id>
     <Name>gnome batta</Name>
     <Description>smells like pants</Description>
     <Command>eat</Command>
@@ -14206,7 +14206,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>worm_batta</Id>
+    <Id>worm_batta2</Id>
     <Name>worm batta</Name>
     <Description>actually smells quite good</Description>
     <Command>eat</Command>
@@ -14221,7 +14221,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>fruit_batta</Id>
+    <Id>fruit_batta2</Id>
     <Name>fruit batta</Name>
     <Description>actually smells quite good</Description>
     <Command>eat</Command>
@@ -14236,7 +14236,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>veg_batta</Id>
+    <Id>veg_batta2</Id>
     <Name>Veg batta</Name>
     <Description>well..it looks healthy</Description>
     <Command>eat</Command>
@@ -14251,7 +14251,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>chocolate_bomb</Id>
+    <Id>chocolate_bomb2</Id>
     <Name>Chocolate bomb</Name>
     <Description>Looks great</Description>
     <Command>eat</Command>
@@ -14266,7 +14266,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>vegball</Id>
+    <Id>vegball2</Id>
     <Name>Vegball</Name>
     <Description>Looks pretty healthy</Description>
     <Command>eat</Command>
@@ -14281,7 +14281,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>worm_hole</Id>
+    <Id>worm_hole2</Id>
     <Name>worm hole</Name>
     <Description>actually smells quite good</Description>
     <Command>eat</Command>
@@ -14296,7 +14296,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>tangled_toads_legs</Id>
+    <Id>tangled_toad_legs2</Id>
     <Name>Tangled toads legs</Name>
     <Description>actually smells quite good</Description>
     <Command>eat</Command>
@@ -14461,7 +14461,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>potion_of_zamorak</Id>
+    <Id>potion_of_zamorak2</Id>
     <Name>Potion of Zamorak</Name>
     <Description>It looks scary</Description>
     <Command>drink</Command>
@@ -14491,7 +14491,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>boots</Id>
+    <Id>boots2</Id>
     <Name>Boots</Name>
     <Description>They're soft and silky</Description>
     <Command />
@@ -14506,7 +14506,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>boots</Id>
+    <Id>boots3</Id>
     <Name>Boots</Name>
     <Description>They're soft and silky</Description>
     <Command />
@@ -14521,7 +14521,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>boots</Id>
+    <Id>boots4</Id>
     <Name>Boots</Name>
     <Description>They're soft and silky</Description>
     <Command />
@@ -14536,7 +14536,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>boots</Id>
+    <Id>boots5</Id>
     <Name>Boots</Name>
     <Description>They're soft and silky</Description>
     <Command />
@@ -14551,7 +14551,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>boots</Id>
+    <Id>boots6</Id>
     <Name>Boots</Name>
     <Description>They're soft and silky</Description>
     <Command />
@@ -14881,7 +14881,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>orb_of_light</Id>
+    <Id>orb_of_light2</Id>
     <Name>Orb of light</Name>
     <Description>The orb gives you a safe peaceful feeling</Description>
     <Command />
@@ -14896,7 +14896,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>orb_of_light</Id>
+    <Id>orb_of_light3</Id>
     <Name>Orb of light</Name>
     <Description>The orb gives you a safe peaceful feeling</Description>
     <Command />
@@ -14911,7 +14911,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>orb_of_light</Id>
+    <Id>orb_of_light4</Id>
     <Name>Orb of light</Name>
     <Description>The orb gives you a safe peaceful feeling</Description>
     <Command />
@@ -14926,7 +14926,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>railing</Id>
+    <Id>railing_broken</Id>
     <Name>Railing</Name>
     <Description>A broken metal rod</Description>
     <Command />
@@ -14956,7 +14956,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>unicorn_horn</Id>
+    <Id>unicorn_horn2</Id>
     <Name>Unicorn horn</Name>
     <Description>Poor unicorn went splat!</Description>
     <Command />
@@ -14986,7 +14986,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>coat_of_arms</Id>
+    <Id>coat_of_arms2</Id>
     <Name>Coat of Arms</Name>
     <Description>A symbol of truth and all that is good</Description>
     <Command />
@@ -15046,7 +15046,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>cat</Id>
+    <Id>cat2</Id>
     <Name>Cat</Name>
     <Description>She's sleeping..i think!</Description>
     <Command />
@@ -15406,7 +15406,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>unholy_symbol_of_zamorak</Id>
+    <Id>unstringed_unholy_symbol_of_zamorak</Id>
     <Name>Unholy Symbol of Zamorak</Name>
     <Description>this needs stringing</Description>
     <Command />
@@ -15466,7 +15466,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>staff_of_iban</Id>
+    <Id>staff_of_iban_damaged</Id>
     <Name>Staff of Iban</Name>
     <Description>The staff is damaged</Description>
     <Command>wield</Command>
@@ -15481,7 +15481,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>dwarf_cannon_base</Id>
+    <Id>dwarf_cannon_base2</Id>
     <Name>Dwarf cannon base</Name>
     <Description>bang</Description>
     <Command>set down</Command>
@@ -15496,7 +15496,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>dwarf_cannon_stand</Id>
+    <Id>dwarf_cannon_stand2</Id>
     <Name>Dwarf cannon stand</Name>
     <Description>bang</Description>
     <Command />
@@ -15511,7 +15511,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>dwarf_cannon_barrels</Id>
+    <Id>dwarf_cannon_barrels2</Id>
     <Name>Dwarf cannon barrels</Name>
     <Description>bang</Description>
     <Command />
@@ -15526,7 +15526,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>dwarf_cannon_furnace</Id>
+    <Id>dwarf_cannon_furnace2</Id>
     <Name>Dwarf cannon furnace</Name>
     <Description>bang</Description>
     <Command />
@@ -15631,7 +15631,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>railing</Id>
+    <Id>railing_replacement</Id>
     <Name>Railing</Name>
     <Description>A metal railing replacement</Description>
     <Command />
@@ -15736,7 +15736,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>ogre_relic_part</Id>
+    <Id>ogre_relic_part2</Id>
     <Name>Ogre relic part</Name>
     <Description>A piece of a statue</Description>
     <Command />
@@ -15751,7 +15751,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>ogre_relic_part</Id>
+    <Id>ogre_relic_part3</Id>
     <Name>Ogre relic part</Name>
     <Description>A piece of a statue</Description>
     <Command />
@@ -15781,7 +15781,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>unfinished_potion</Id>
+    <Id>unfinished_potion_shaman</Id>
     <Name>Unfinished potion</Name>
     <Description>I need another ingredient to finish the shaman potion</Description>
     <Command />
@@ -16681,7 +16681,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>panning_tray</Id>
+    <Id>panning_tray_filled</Id>
     <Name>Panning tray</Name>
     <Description>this tray contains gold nuggets</Description>
     <Command>take gold</Command>
@@ -16696,7 +16696,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>panning_tray</Id>
+    <Id>panning_tray_mud</Id>
     <Name>Panning tray</Name>
     <Description>this tray contains mud</Description>
     <Command>search</Command>
@@ -16786,7 +16786,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>cat</Id>
+    <Id>cat3</Id>
     <Name>cat</Name>
     <Description>looks like a healthy one</Description>
     <Command />
@@ -17221,7 +17221,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>rock_sample</Id>
+    <Id>rock_sample2</Id>
     <Name>Rock Sample</Name>
     <Description>A rock sample</Description>
     <Command />
@@ -17236,7 +17236,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>rock_sample</Id>
+    <Id>rock_sample3</Id>
     <Name>Rock Sample</Name>
     <Description>A rock sample</Description>
     <Command />
@@ -17371,7 +17371,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>damaged_armour</Id>
+    <Id>damaged_armour2</Id>
     <Name>Damaged armour</Name>
     <Description>that's been here some time</Description>
     <Command />
@@ -17551,7 +17551,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>broken_glass</Id>
+    <Id>broken_glass2</Id>
     <Name>Broken glass</Name>
     <Description>smashed glass</Description>
     <Command />
@@ -17596,7 +17596,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>scroll</Id>
+    <Id>scroll_letter</Id>
     <Name>Scroll</Name>
     <Description>A letter written by the expert</Description>
     <Command>read</Command>
@@ -17671,7 +17671,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>mixed_chemicals</Id>
+    <Id>mixed_chemicals_2</Id>
     <Name>Mixed chemicals</Name>
     <Description>A pungent mix of 2 chemicals</Description>
     <Command />
@@ -17701,7 +17701,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>mixed_chemicals</Id>
+    <Id>mixed_chemicals_3</Id>
     <Name>Mixed chemicals</Name>
     <Description>A pungent mix of 3 chemicals</Description>
     <Command />
@@ -18001,7 +18001,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>thread</Id>
+    <Id>thread_red</Id>
     <Name>Thread</Name>
     <Description>A piece of red thread discovered at the scene of the crime</Description>
     <Command />
@@ -18016,7 +18016,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>thread</Id>
+    <Id>thread_green</Id>
     <Name>Thread</Name>
     <Description>A piece of green thread discovered at the scene of the crime</Description>
     <Command />
@@ -18031,7 +18031,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>thread</Id>
+    <Id>thread_blue</Id>
     <Name>Thread</Name>
     <Description>A piece of blue thread discovered at the scene of the crime</Description>
     <Command />
@@ -18361,7 +18361,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>annas_silver_necklace</Id>
+    <Id>annas_silver_necklace_flour</Id>
     <Name>Annas Silver Necklace</Name>
     <Description>A silver necklace coated with flour</Description>
     <Command />
@@ -18376,7 +18376,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>bobs_silver_teacup</Id>
+    <Id>bobs_silver_teacup_flour</Id>
     <Name>Bobs Silver Teacup</Name>
     <Description>A silver tea cup coated with flour</Description>
     <Command />
@@ -18391,7 +18391,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>carols_silver_bottle</Id>
+    <Id>carols_silver_bottle_flour</Id>
     <Name>Carols Silver Bottle</Name>
     <Description>A little silver bottle coated with flour</Description>
     <Command />
@@ -18406,7 +18406,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>davids_silver_book</Id>
+    <Id>davids_silver_book_flour</Id>
     <Name>Davids Silver Book</Name>
     <Description>An ornamental silver book coated with flour</Description>
     <Command />
@@ -18421,7 +18421,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>elizabeths_silver_needle</Id>
+    <Id>elizabeths_silver_needle_flour</Id>
     <Name>Elizabeths Silver Needle</Name>
     <Description>An ornamental silver needle coated with flour</Description>
     <Command />
@@ -18436,7 +18436,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>franks_silver_pot</Id>
+    <Id>franks_silver_pot_flour</Id>
     <Name>Franks Silver Pot</Name>
     <Description>A small silver pot coated with flour</Description>
     <Command />
@@ -18451,7 +18451,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>a_silver_dagger</Id>
+    <Id>a_silver_dagger_flour</Id>
     <Name>A Silver Dagger</Name>
     <Description>Dagger Found at crime scene coated with flour</Description>
     <Command />
@@ -18496,7 +18496,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>radimus_scrolls</Id>
+    <Id>radimus_scrolls_completed</Id>
     <Name>Radimus Scrolls</Name>
     <Description>Mission briefing and the completed map of Karamja - Sir Radimus will be pleased...</Description>
     <Command>Read Scrolls</Command>
@@ -18556,7 +18556,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>eye_patch</Id>
+    <Id>eye_patch2</Id>
     <Name>eye patch</Name>
     <Description>It makes me look very piratical</Description>
     <Command />
@@ -19141,7 +19141,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>half_dragon_square_shield</Id>
+    <Id>half_dragon_square_shield_right</Id>
     <Name>Half Dragon Square Shield</Name>
     <Description>The Right Half of an ancient and powerful looking Dragon Square shield.</Description>
     <Command />
@@ -19156,7 +19156,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>half_dragon_square_shield</Id>
+    <Id>half_dragon_square_shield_left</Id>
     <Name>Half Dragon Square Shield</Name>
     <Description>Left Half of an ancient and powerful looking Dragon Square shield.</Description>
     <Command />
@@ -19246,7 +19246,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>plank</Id>
+    <Id>ship_plank_damaged</Id>
     <Name>Plank</Name>
     <Description>Damaged remains of the ship</Description>
     <Command />
