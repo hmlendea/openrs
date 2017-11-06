@@ -52,7 +52,7 @@ namespace RuneScapeSolo.Mapping
         /// <param name="itemDropEntities">ItemDrop entities.</param>
         internal static IEnumerable<ItemDrop> ToDomainModels(this IEnumerable<ItemDropEntity> itemDropEntities)
         {
-            IEnumerable<ItemDrop> itemDrops = itemDropEntities.Select(itemDropEntity => itemDropEntity.ToDomainModel());
+            IEnumerable<ItemDrop> itemDrops = itemDropEntities?.Select(itemDropEntity => itemDropEntity.ToDomainModel());
 
             return itemDrops;
         }

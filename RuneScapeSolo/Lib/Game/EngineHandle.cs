@@ -2,6 +2,9 @@ using System;
 using RuneScapeSolo.Lib.Game.Cameras;
 using RuneScapeSolo.Lib.Data;
 using System.IO;
+
+using RuneScapeSolo.Models;
+
 namespace RuneScapeSolo.Lib.Game
 {
     public class EngineHandle
@@ -416,7 +419,10 @@ namespace RuneScapeSolo.Lib.Game
                     for (int i3 = 0; i3 < 96; i3++)
                     {
                         int i4 = -getTileElevation(j2, i3);
-                        if (getTileGroundOverlayIndex(j2, i3, height) > 0 && EntityHandler.GetTile(getTileGroundOverlayIndex(j2, i3, height) - 1).Type == 4)
+
+                        Tile tile1 = EntityHandler.GetTile(getTileGroundOverlayIndex(j2, i3, height) - 1);
+
+                        if (getTileGroundOverlayIndex(j2, i3, height) > 0 && tile1.Type == 4)
                         {
                             i4 = 0;
                         }

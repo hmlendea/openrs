@@ -124,7 +124,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
 
         void LoadEntitiesIfNeeded()
         {
-            if (!loadedEntities)
+            if (loadedEntities)
             {
                 return;
             }

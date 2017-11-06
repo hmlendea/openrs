@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using RuneScapeSolo.DataAccess.DataObjects;
+using RuneScapeSolo.DataAccess.Repositories;
+using RuneScapeSolo.Mapping;
 using RuneScapeSolo.Models;
 
 namespace RuneScapeSolo.Lib.Data
@@ -38,7 +41,7 @@ namespace RuneScapeSolo.Lib.Data
         /// </summary>
         /// <value>The elevations count.</value>
         public static int ElevationCount => elevations.Length;
-        
+
         /// <summary>
         /// Gets the items count.
         /// </summary>
@@ -246,6 +249,7 @@ namespace RuneScapeSolo.Lib.Data
             {
                 return null;
             }
+
             return tiles[id];
         }
 
@@ -291,525 +295,30 @@ namespace RuneScapeSolo.Lib.Data
             integerData = DataOperations.loadData("integer.dat", 0, data);
             integerDataIndex = 0;
 
-            // The order of the loading is important
-            LoadItems();
-            LoadNpcs();
-            LoadTextures();
-            LoadAnimations();
-            LoadObjects();
-            LoadWallObjects();
-            LoadElevations();
-            LoadTiles();
-            LoadSpells();
-            LoadPrayers();
+            AnimationRepository animationRepository = new AnimationRepository("animations.xml");
+            ElevationRepository elevationRepository = new ElevationRepository("elevations.xml");
+            ItemRepository itemRepository = new ItemRepository("items.xml");
+            NpcRepository npcRepository = new NpcRepository("npcs.xml");
+            GameObjectRepository objectRepository = new GameObjectRepository("objects.xml");
+            PrayerRepository prayerRepository = new PrayerRepository("prayers.xml");
+            SpellRepository spellRepository = new SpellRepository("spells.xml");
+            TextureRepository textureRepository = new TextureRepository("textures.xml");
+            TileRepository tileRepository = new TileRepository("tiles.xml");
+            WallObjectRepository wallObjectRepository = new WallObjectRepository("wall_objects.xml");
+            
+            animations = animationRepository.GetAll().ToDomainModels().ToArray();
+            elevations = elevationRepository.GetAll().ToDomainModels().ToArray();
+            items = itemRepository.GetAll().ToDomainModels().ToArray();
+            npcs = npcRepository.GetAll().ToDomainModels().ToArray();
+            objects = objectRepository.GetAll().ToDomainModels().ToArray();
+            prayers = prayerRepository.GetAll().ToDomainModels().ToArray();
+            spells = spellRepository.GetAll().ToDomainModels().ToArray();
+            textures = textureRepository.GetAll().ToDomainModels().ToArray();
+            tiles = tileRepository.GetAll().ToDomainModels().ToArray();
+            wallObjects = wallObjectRepository.GetAll().ToDomainModels().ToArray();
 
             stringData = null;
             integerData = null;
-        }
-
-        static void LoadItems()
-        {
-            items = new Item[ReadInt16()];
-
-            for (int i = 0; i < ItemCount; i++)
-            {
-                items[i] = new Item();
-            }
-
-            for (int i = 0; i < ItemCount; i++)
-            {
-                items[i].Name = ReadString();
-            }
-
-            for (int i = 0; i < ItemCount; i++)
-            {
-                items[i].Description = ReadString();
-            }
-
-            for (int i = 0; i < ItemCount; i++)
-            {
-                items[i].Command = ReadString();
-            }
-
-            for (int i = 0; i < ItemCount; i++)
-            {
-                items[i].InventoryPicture = ReadInt16();
-
-                if (items[i].InventoryPicture + 1 > highestLoadedPicture)
-                {
-                    highestLoadedPicture = items[i].InventoryPicture + 1;
-                }
-            }
-
-            for (int i = 0; i < ItemCount; i++)
-            {
-                items[i].BasePrice = ReadInt32();
-            }
-
-            for (int i = 0; i < ItemCount; i++)
-            {
-                items[i].IsStackable = ReadInt8();
-            }
-
-            for (int i = 0; i < ItemCount; i++)
-            {
-                items[i].IsUnused = ReadInt8();
-            }
-
-            for (int i = 0; i < ItemCount; i++)
-            {
-                items[i].IsEquipable = ReadInt16();
-            }
-
-            for (int i = 0; i < ItemCount; i++)
-            {
-                items[i].PictureMask = ReadInt32();
-            }
-
-            for (int i = 0; i < ItemCount; i++)
-            {
-                items[i].IsSpecial = ReadInt8();
-            }
-
-            for (int i = 0; i < ItemCount; i++)
-            {
-                items[i].IsPremium = ReadInt8();
-            }
-
-            for (int i = 0; i < ItemCount; i++)
-            {
-                if (!Configuration.PREMIUM_FEATURES && items[i].IsPremium == 0)
-                {
-                    items[i].Name = "Members object";
-                    items[i].Description = "You need to be a premium user to use this object";
-                    items[i].BasePrice = 0;
-                    items[i].Command = "";
-                    items[i].IsUnused = 0;
-                    items[i].IsEquipable = 0;
-                    items[i].IsSpecial = 1;
-                }
-            }
-        }
-
-        static void LoadNpcs()
-        {
-            npcs = new Npc[ReadInt16()];
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i] = new Npc();
-            }
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i].Name = ReadString();
-            }
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i].Description = ReadString();
-            }
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i].AttackLevel = ReadInt8();
-            }
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i].StrengthLevel = ReadInt8();
-            }
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i].HealthLevel = ReadInt8();
-            }
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i].DefenceLevel = ReadInt8();
-            }
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i].IsAttackable = ReadInt8();
-            }
-
-            for (int l4 = 0; l4 < NpcCount; l4++)
-            {
-                for (int i5 = 0; i5 < 12; i5++)
-                {
-                    int sprite = ReadInt8();
-
-                    npcs[l4].Sprites[i5] = sprite;
-
-                    if (sprite == 255)
-                    {
-                        npcs[l4].Sprites[i5] = -1;
-                    }
-                    else
-                    {
-                        npcs[l4].Sprites[i5] = sprite;
-                    }
-                }
-
-            }
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i].HairColour = ReadInt32();
-            }
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i].TopColour = ReadInt32();
-            }
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i].BottomColour = ReadInt32();
-            }
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i].SkinColour = ReadInt32();
-            }
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i].Camera1 = ReadInt16();
-            }
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i].Camera2 = ReadInt16();
-            }
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i].WalkModel = ReadInt8();
-            }
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i].CombatModel = ReadInt8();
-            }
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i].CombatSprite = ReadInt8();
-            }
-
-            for (int i = 0; i < NpcCount; i++)
-            {
-                npcs[i].Command = ReadString();
-            }
-        }
-
-        static void LoadTextures()
-        {
-            textures = new Texture[ReadInt16()];
-
-            for (int i = 0; i < TextureCount; i++)
-            {
-                textures[i] = new Texture();
-            }
-
-            for (int i = 0; i < TextureCount; i++)
-            {
-                textures[i].Name = ReadString();
-            }
-
-            for (int i = 0; i < TextureCount; i++)
-            {
-                textures[i].SubName = ReadString();
-            }
-        }
-
-        static void LoadAnimations()
-        {
-            animations = new Animation[ReadInt16()];
-
-            for (int i = 0; i < AnimationCount; i++)
-            {
-                animations[i] = new Animation();
-            }
-
-            for (int i = 0; i < AnimationCount; i++)
-            {
-                animations[i].Name = ReadString();
-            }
-
-            for (int i = 0; i < AnimationCount; i++)
-            {
-                animations[i].CharacterColour = ReadInt32();
-            }
-
-            for (int i = 0; i < AnimationCount; i++)
-            {
-                animations[i].GenderModel = ReadInt8();
-            }
-
-            for (int i = 0; i < AnimationCount; i++)
-            {
-                animations[i].HasA = ReadInt8();
-            }
-
-            for (int i = 0; i < AnimationCount; i++)
-            {
-                animations[i].HasF = ReadInt8();
-            }
-
-            for (int i = 0; i < AnimationCount; i++)
-            {
-                animations[i].Number = ReadInt8();
-            }
-        }
-
-        static void LoadObjects()
-        {
-            objects = new GameObject[ReadInt16()];
-
-            for (int i = 0; i < ObjectCount; i++)
-            {
-                objects[i] = new GameObject();
-            }
-
-            for (int i = 0; i < ObjectCount; i++)
-            {
-                objects[i].Name = ReadString();
-            }
-
-            for (int i = 0; i < ObjectCount; i++)
-            {
-                objects[i].Description = ReadString();
-            }
-
-            for (int i = 0; i < ObjectCount; i++)
-            {
-                objects[i].Command1 = ReadString();
-            }
-
-            for (int i = 0; i < ObjectCount; i++)
-            {
-                objects[i].Command2 = ReadString();
-            }
-
-            for (int i = 0; i < ObjectCount; i++)
-            {
-                objects[i].ModelId = GetModelNameIndex(ReadString());
-            }
-
-            for (int i = 0; i < ObjectCount; i++)
-            {
-                objects[i].Width = ReadInt8();
-            }
-
-            for (int i = 0; i < ObjectCount; i++)
-            {
-                objects[i].Height = ReadInt8();
-            }
-
-            for (int i = 0; i < ObjectCount; i++)
-            {
-                objects[i].Type = ReadInt8();
-            }
-
-            for (int i = 0; i < ObjectCount; i++)
-            {
-                objects[i].GroundItemVar = ReadInt8();
-            }
-        }
-
-        static void LoadWallObjects()
-        {
-            wallObjects = new WallObject[ReadInt16()];
-
-            for (int i = 0; i < WallObjectCount; i++)
-            {
-                wallObjects[i] = new WallObject();
-            }
-
-            for (int i = 0; i < WallObjectCount; i++)
-            {
-                wallObjects[i].Name = ReadString();
-            }
-
-            for (int i = 0; i < WallObjectCount; i++)
-            {
-                wallObjects[i].Description = ReadString();
-            }
-
-            for (int i = 0; i < WallObjectCount; i++)
-            {
-                wallObjects[i].Command1 = ReadString();
-            }
-
-            for (int i = 0; i < WallObjectCount; i++)
-            {
-                wallObjects[i].Command2 = ReadString();
-            }
-
-            for (int i = 0; i < WallObjectCount; i++)
-            {
-                wallObjects[i].ModelHeight = ReadInt16();
-            }
-
-            for (int i = 0; i < WallObjectCount; i++)
-            {
-                wallObjects[i].ModelFaceBack = ReadInt32();
-            }
-
-            for (int i = 0; i < WallObjectCount; i++)
-            {
-                wallObjects[i].ModelFaceFront = ReadInt32();
-            }
-
-            for (int i = 0; i < WallObjectCount; i++)
-            {
-                wallObjects[i].Type = ReadInt8();
-            }
-
-            for (int i = 0; i < WallObjectCount; i++)
-            {
-                wallObjects[i].Unknown = ReadInt8();
-            }
-        }
-
-        static void LoadElevations()
-        {
-            elevations = new Elevation[ReadInt16()];
-
-            for (int i = 0; i < ElevationCount; i++)
-            {
-                elevations[i] = new Elevation();
-            }
-
-            for (int i = 0; i < ElevationCount; i++)
-            {
-                elevations[i].Roof = ReadInt8();
-            }
-
-            for (int i = 0; i < ElevationCount; i++)
-            {
-                elevations[i].Unknown = ReadInt8();
-            }
-        }
-
-        static void LoadTiles()
-        {
-            tiles = new Tile[ReadInt16()];
-
-            for (int i = 0; i < TileCount; i++)
-            {
-                tiles[i] = new Tile();
-            }
-
-            for (int i = 0; i < TileCount; i++)
-            {
-                tiles[i].Colour = ReadInt32();
-            }
-
-            for (int i = 0; i < TileCount; i++)
-            {
-                tiles[i].Type = ReadInt8();
-            }
-
-            for (int i = 0; i < TileCount; i++)
-            {
-                tiles[i].Unknown = ReadInt8();
-            }
-        }
-
-        static void LoadSpells()
-        {
-            SpellProjectileCount = ReadInt16();
-
-            spells = new Spell[ReadInt16()];
-
-            for (int i = 0; i < SpellCount; i++)
-            {
-                spells[i] = new Spell();
-            }
-
-            for (int i = 0; i < SpellCount; i++)
-            {
-                spells[i].Name = ReadString();
-            }
-
-            for (int i = 0; i < SpellCount; i++)
-            {
-                spells[i].Description = ReadString();
-            }
-
-            for (int i = 0; i < SpellCount; i++)
-            {
-                spells[i].RequiredLevel = ReadInt8();
-            }
-
-            for (int i = 0; i < SpellCount; i++)
-            {
-                spells[i].RuneCount = ReadInt8();
-            }
-
-            for (int i = 0; i < SpellCount; i++)
-            {
-                spells[i].Type = ReadInt8();
-            }
-
-            for (int i = 0; i < SpellCount; i++)
-            {
-                int runeTypesCount = ReadInt8();
-
-                spells[i].RequiredRunesIds = new int[runeTypesCount];
-
-                for (int j = 0; j < runeTypesCount; j++)
-                {
-                    spells[i].RequiredRunesIds[j] = ReadInt16();
-                }
-            }
-
-            for (int i = 0; i < SpellCount; i++)
-            {
-                int runeTypesCount = ReadInt8();
-
-                spells[i].RequiredRunesCounts = new int[runeTypesCount];
-
-                for (int j = 0; j < runeTypesCount; j++)
-                {
-                    spells[i].RequiredRunesCounts[j] = ReadInt8();
-                }
-            }
-        }
-
-        static void LoadPrayers()
-        {
-            prayers = new Prayer[ReadInt16()];
-
-            for (int i = 0; i < PrayerCount; i++)
-            {
-                prayers[i] = new Prayer();
-            }
-
-            for (int i = 0; i < PrayerCount; i++)
-            {
-                prayers[i].Name = ReadString();
-            }
-
-            for (int i = 0; i < PrayerCount; i++)
-            {
-                prayers[i].Description = ReadString();
-            }
-
-            for (int i = 0; i < PrayerCount; i++)
-            {
-                prayers[i].RequiredLevel = ReadInt8();
-            }
-
-            for (int i = 0; i < PrayerCount; i++)
-            {
-                prayers[i].DrainRate = ReadInt8();
-            }
         }
 
         static int StoreModel(string name)
@@ -828,50 +337,6 @@ namespace RuneScapeSolo.Lib.Data
             }
 
             return index;
-        }
-
-        static int ReadInt8()
-        {
-            int i = integerData[integerDataIndex] & 0xff;
-            integerDataIndex++;
-
-            return i;
-        }
-
-        static int ReadInt16()
-        {
-            int i = DataOperations.getShort(integerData, integerDataIndex);
-            integerDataIndex += 2;
-
-            return i;
-        }
-
-        static int ReadInt32()
-        {
-            int i = DataOperations.getInt(integerData, integerDataIndex);
-            integerDataIndex += 4;
-
-            if (i > 0x5f5e0ff)
-            {
-                i = 0x5f5e0ff - i;
-            }
-
-            return i;
-        }
-
-        static string ReadString()
-        {
-            string str = string.Empty;
-
-            while (stringData[stringDataIndex] != 0)
-            {
-                str = str + (char)stringData[stringDataIndex];
-                stringDataIndex += 1;
-            }
-
-            stringDataIndex++;
-
-            return str;
         }
     }
 }

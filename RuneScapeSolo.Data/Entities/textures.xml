@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfTextureEntity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TextureEntity>
+    <Id>0</Id>
+    <Name>wall</Name>
+    <SubName>door</SubName>
+  </TextureEntity>
+  <TextureEntity>
+    <Id>1</Id>
+    <Name>water</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>2</Id>
+    <Name>wall</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>3</Id>
+    <Name>planks</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>4</Id>
+    <Name>wall</Name>
+    <SubName>doorway</SubName>
+  </TextureEntity>
+  <TextureEntity>
+    <Id>5</Id>
+    <Name>wall</Name>
+    <SubName>window</SubName>
+  </TextureEntity>
+  <TextureEntity>
+    <Id>6</Id>
+    <Name>roof</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>7</Id>
+    <Name>wall</Name>
+    <SubName>arrowslit</SubName>
+  </TextureEntity>
+  <TextureEntity>
+    <Id>8</Id>
+    <Name>leafytree</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>9</Id>
+    <Name>treestump</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>10</Id>
+    <Name>fence</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>11</Id>
+    <Name>mossy</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>12</Id>
+    <Name>railings</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>13</Id>
+    <Name>painting1</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>14</Id>
+    <Name>painting2</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>15</Id>
+    <Name>marble</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>16</Id>
+    <Name>deadtree</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>17</Id>
+    <Name>fountain</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>18</Id>
+    <Name>wall</Name>
+    <SubName>stainedglass</SubName>
+  </TextureEntity>
+  <TextureEntity>
+    <Id>19</Id>
+    <Name>target</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>20</Id>
+    <Name>books</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>21</Id>
+    <Name>timbered</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>22</Id>
+    <Name>timbered</Name>
+    <SubName>timberwindow</SubName>
+  </TextureEntity>
+  <TextureEntity>
+    <Id>23</Id>
+    <Name>mossybricks</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>24</Id>
+    <Name>growingwheat</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>25</Id>
+    <Name>gungywater</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>26</Id>
+    <Name>web</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>27</Id>
+    <Name>wall</Name>
+    <SubName>desertwindow</SubName>
+  </TextureEntity>
+  <TextureEntity>
+    <Id>28</Id>
+    <Name>wall</Name>
+    <SubName>crumbled</SubName>
+  </TextureEntity>
+  <TextureEntity>
+    <Id>29</Id>
+    <Name>cavern</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>30</Id>
+    <Name>cavern2</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>31</Id>
+    <Name>lava</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>32</Id>
+    <Name>pentagram</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>33</Id>
+    <Name>mapletree</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>34</Id>
+    <Name>yewtree</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>35</Id>
+    <Name>helmet</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>36</Id>
+    <Name>canvas</Name>
+    <SubName>tentbottom</SubName>
+  </TextureEntity>
+  <TextureEntity>
+    <Id>37</Id>
+    <Name>Chainmail2</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>38</Id>
+    <Name>mummy</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>39</Id>
+    <Name>jungleleaf</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>40</Id>
+    <Name>jungleleaf3</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>41</Id>
+    <Name>jungleleaf4</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>42</Id>
+    <Name>jungleleaf5</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>43</Id>
+    <Name>jungleleaf6</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>44</Id>
+    <Name>mossybricks</Name>
+    <SubName>arrowslit</SubName>
+  </TextureEntity>
+  <TextureEntity>
+    <Id>45</Id>
+    <Name>planks</Name>
+    <SubName>window</SubName>
+  </TextureEntity>
+  <TextureEntity>
+    <Id>46</Id>
+    <Name>planks</Name>
+    <SubName>junglewindow</SubName>
+  </TextureEntity>
+  <TextureEntity>
+    <Id>47</Id>
+    <Name>cargonet</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>48</Id>
+    <Name>bark</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>49</Id>
+    <Name>canvas</Name>
+    <SubName />
+  </TextureEntity>
+  <TextureEntity>
+    <Id>50</Id>
+    <Name>canvas</Name>
+    <SubName>tentdoor</SubName>
+  </TextureEntity>
+  <TextureEntity>
+    <Id>51</Id>
+    <Name>wall</Name>
+    <SubName>lowcrumbled</SubName>
+  </TextureEntity>
+  <TextureEntity>
+    <Id>52</Id>
+    <Name>cavern</Name>
+    <SubName>crumbled</SubName>
+  </TextureEntity>
+  <TextureEntity>
+    <Id>53</Id>
+    <Name>cavern2</Name>
+    <SubName>crumbled</SubName>
+  </TextureEntity>
+  <TextureEntity>
+    <Id>54</Id>
+    <Name>lava</Name>
+    <SubName>flames</SubName>
+  </TextureEntity>
+</ArrayOfTextureEntity>
