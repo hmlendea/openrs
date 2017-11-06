@@ -1,20 +1,10 @@
-﻿namespace RuneScapeSolo.Lib
+﻿namespace RuneScapeSolo.Settings
 {
     /// <summary>
     /// Configuration constants class.
     /// </summary>
-    public static class Configuration
+    public static class GameDefines
     {
-        /// <summary>
-        /// The configuration directory.
-        /// </summary>
-        public const string CONFIGURATION_DIRECTORY = "data";
-        
-        /// <summary>
-        /// The media directory.
-        /// </summary>
-        public const string MEDIA_DIRECTORY = "data";
-
         /// <summary>
         /// The client version.
         /// </summary>

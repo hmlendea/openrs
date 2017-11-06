@@ -15,6 +15,7 @@ using RuneScapeSolo.Enumerations;
 using RuneScapeSolo.Events;
 using RuneScapeSolo.GameLogic.GameManagers;
 using RuneScapeSolo.Input;
+using RuneScapeSolo.Settings;
 
 namespace RuneScapeSolo.Lib
 {
@@ -2853,7 +2854,7 @@ namespace RuneScapeSolo.Lib
             loginMenuFirst = new Menu(gameGraphics, 50);
 
             int l = 40;
-            if (!Configuration.PREMIUM_FEATURES)
+            if (!GameDefines.PREMIUM_FEATURES)
             {
                 loginMenuFirst.drawText(256, 200 + l, "Click on an option", 5, true);
                 loginMenuFirst.drawButton(156, 240 + l, 120, 35);
@@ -3581,7 +3582,7 @@ namespace RuneScapeSolo.Lib
             }
 
             l1 += 15;
-            if (Configuration.PREMIUM_FEATURES)
+            if (GameDefines.PREMIUM_FEATURES)
             {
                 if (SoundOff)
                 {
@@ -3680,7 +3681,7 @@ namespace RuneScapeSolo.Lib
             }
 
             l1 += 15;
-            if (Configuration.PREMIUM_FEATURES)
+            if (GameDefines.PREMIUM_FEATURES)
             {
                 if (blockDuel == 0)
                 {
@@ -3735,7 +3736,7 @@ namespace RuneScapeSolo.Lib
                     StreamClass.FormatPacket();
                 }
                 i2 += 15;
-                if (Configuration.PREMIUM_FEATURES && InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
+                if (GameDefines.PREMIUM_FEATURES && InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
                     SoundOff = !SoundOff;
                     StreamClass.CreatePacket(157);
@@ -3803,7 +3804,7 @@ namespace RuneScapeSolo.Lib
                     flag = true;
                 }
                 i2 += 15;
-                if (Configuration.PREMIUM_FEATURES && InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
+                if (GameDefines.PREMIUM_FEATURES && InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
                     blockDuel = 1 - blockDuel;
                     flag = true;
@@ -6297,8 +6298,7 @@ namespace RuneScapeSolo.Lib
                                     menuActionType[menuOptionsCount] = Players[index].ServerIndex;
                                     menuOptionsCount++;
                                 }
-                                else
-                                    if (Configuration.PREMIUM_FEATURES)
+                                else if (GameDefines.PREMIUM_FEATURES)
                                 {
                                     menuText1[menuOptionsCount] = "Duel with";
                                     menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
@@ -6308,6 +6308,7 @@ namespace RuneScapeSolo.Lib
                                     menuActionType[menuOptionsCount] = Players[index].ServerIndex;
                                     menuOptionsCount++;
                                 }
+
                                 menuText1[menuOptionsCount] = "Trade with";
                                 menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
                                 menuActionID[menuOptionsCount] = 2810;
@@ -9687,7 +9688,7 @@ namespace RuneScapeSolo.Lib
 
         public void playSound(string s1)
         {
-            if (audioPlayer == null || !Configuration.PREMIUM_FEATURES)
+            if (audioPlayer == null || !GameDefines.PREMIUM_FEATURES)
             {
                 return;
             }

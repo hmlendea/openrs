@@ -4,6 +4,8 @@ using System.IO;
 using System.Net.Sockets;
 using System.Threading;
 
+using RuneScapeSolo.Settings;
+
 namespace RuneScapeSolo.Lib
 {
     public class link
@@ -56,7 +58,7 @@ namespace RuneScapeSolo.Lib
         {
             try
             {
-                var f = new FileInfo(Path.Combine(Configuration.CONFIGURATION_DIRECTORY, fileName));
+                var f = new FileInfo(Path.Combine(ApplicationPaths.ConfigurationDirectory, fileName));
                 if (f.Exists)
                 {
 
@@ -140,6 +142,5 @@ namespace RuneScapeSolo.Lib
         static int currentFile;
         static string[] fileName = new string[50];
         static sbyte[][] fileData = new sbyte[50][];
-
     }
 }

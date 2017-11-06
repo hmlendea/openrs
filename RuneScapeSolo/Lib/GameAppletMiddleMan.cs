@@ -9,6 +9,7 @@ using RuneScapeSolo.Enumerations;
 using RuneScapeSolo.Lib.Data;
 using RuneScapeSolo.Lib.Game;
 using RuneScapeSolo.Lib.Net;
+using RuneScapeSolo.Settings;
 
 namespace RuneScapeSolo.Lib
 {
@@ -95,7 +96,7 @@ namespace RuneScapeSolo.Lib
                 loginScreenPrint("Please wait...", "Connecting to server");
             }
 
-            TcpClient socket = MakeSocket(Configuration.SERVER_IP, Configuration.SERVER_PORT);
+            TcpClient socket = MakeSocket(GameDefines.SERVER_IP, GameDefines.SERVER_PORT);
             StreamClass = new StreamClass(socket, this);
             StreamClass.MaximumPacketReadCount = maxPacketReadCount;
 
@@ -141,7 +142,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.AddInt8(0);
             }
 
-            StreamClass.AddInt16(Configuration.CLIENT_VERSION);
+            StreamClass.AddInt16(GameDefines.CLIENT_VERSION);
             StreamClass.AddBytes(encryptor.Packet, 0, encryptor.Offset);
             StreamClass.FinalisePacket();
 

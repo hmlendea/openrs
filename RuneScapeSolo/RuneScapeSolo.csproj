@@ -78,7 +78,6 @@
     <Compile Include="OB3Model.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="Primitives\GeometricPrimitive.cs" />
-    <Compile Include="Lib\Configuration.cs" />
     <Compile Include="Lib\GameApplet.cs" />
     <Compile Include="Lib\GameAppletMiddleMan.cs" />
     <Compile Include="Lib\GameFrame.cs" />
@@ -136,6 +135,10 @@
     <ProjectReference Include="..\RuneScapeSolo.DataAccess\RuneScapeSolo.DataAccess.csproj">
       <Project>{DFA1E1E9-AFEB-4565-BA38-ECDBAFC9D47B}</Project>
       <Name>RuneScapeSolo.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RuneScapeSolo.Settings\RuneScapeSolo.Settings.csproj">
+      <Project>{f863eb40-1193-4067-8eef-405caf9f2fc9}</Project>
+      <Name>RuneScapeSolo.Settings</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
