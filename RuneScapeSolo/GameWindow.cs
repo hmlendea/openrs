@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using RuneScapeSolo.Events;
 using RuneScapeSolo.Input;
 using RuneScapeSolo.Lib;
+using RuneScapeSolo.Settings;
 
 namespace RuneScapeSolo
 {
@@ -39,8 +40,6 @@ namespace RuneScapeSolo
         {
             graphics = new GraphicsDeviceManager(this);
 
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
             IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = true;
             Window.Title = "RuneScape Classic";
@@ -67,6 +66,12 @@ namespace RuneScapeSolo
         /// </summary>
         protected override void LoadContent()
         {
+            SettingsManager.Instance.LoadContent();
+
+            graphics.PreferredBackBufferWidth = SettingsManager.Instance.GraphicsSettings.Resolution.Width;
+            graphics.PreferredBackBufferHeight = SettingsManager.Instance.GraphicsSettings.Resolution.Height;
+            graphics.ApplyChanges(); // TODO: Apply changes in SettingsManager.cs:Update()
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 

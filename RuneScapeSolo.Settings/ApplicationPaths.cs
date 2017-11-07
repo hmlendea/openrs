@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 
 namespace RuneScapeSolo.Settings
@@ -9,6 +10,7 @@ namespace RuneScapeSolo.Settings
     public static class ApplicationPaths
     {
         static string rootDirectory;
+        static string localAppData;
 
         /// <summary>
         /// The application directory.
@@ -27,9 +29,21 @@ namespace RuneScapeSolo.Settings
         }
 
         /// <summary>
-        /// The data directory.
+        /// Gets the user data directory.
         /// </summary>
-        public static string DataDirectory => Path.Combine(ApplicationDirectory, "Data");
+        /// <value>The user data directory.</value>
+        public static string UserDataDirectory
+        {
+            get
+            {
+                if (localAppData == null)
+                {
+                    localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                }
+
+                return Path.Combine(localAppData, "RuneScapeSolo");
+            }
+        }
 
         /// <summary>
         /// The configuration directory.
@@ -37,8 +51,19 @@ namespace RuneScapeSolo.Settings
         public static string ConfigurationDirectory => Path.Combine(ApplicationDirectory, "Data");
 
         /// <summary>
+        /// The data directory.
+        /// </summary>
+        public static string DataDirectory => Path.Combine(ApplicationDirectory, "Data");
+
+        /// <summary>
         /// The entities directory.
         /// </summary>
         public static string EntitiesDirectory => Path.Combine(DataDirectory, "Entities");
+
+        /// <summary>
+        /// Gets the options file.
+        /// </summary>
+        /// <value>The options file.</value>
+        public static string SettingsFile => Path.Combine(UserDataDirectory, "Settings.xml");
     }
 }
