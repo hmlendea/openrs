@@ -328,6 +328,8 @@ namespace RuneScapeSolo.Lib.Game
             }
             catch
             {
+                Console.WriteLine($"An error has occured in {nameof(ObjectModel)}.cs");
+
                 vert_count = 0;
                 face_count = 0;
                 return;

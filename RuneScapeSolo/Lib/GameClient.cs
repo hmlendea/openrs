@@ -7767,8 +7767,8 @@ namespace RuneScapeSolo.Lib
                 }
                 catch (Exception ex)
                 {
-                    //Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
-                    //Console.WriteLine(ex);
+                    Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
+                    Console.WriteLine(ex);
                 }
             }
         }

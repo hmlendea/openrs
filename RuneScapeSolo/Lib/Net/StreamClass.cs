@@ -204,7 +204,7 @@ namespace RuneScapeSolo.Lib.Net
                 int i;
                 int j;
                 // lock (syncLock)
-                {
+                {/*
                     if (offset == dataWritten)
                     {
                         try
@@ -215,7 +215,7 @@ namespace RuneScapeSolo.Lib.Net
                         }
                         catch { }
                     }
-
+                    */
                     if (socketClosed)
                     {
                         return;
