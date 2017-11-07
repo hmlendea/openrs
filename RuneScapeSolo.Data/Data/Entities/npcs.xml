@@ -395,7 +395,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>cow</Id>
-    <Name>cow</Name>
+    <Name>Cow</Name>
     <Description>It's a multi purpose cow</Description>
     <Command />
     <Sprites>
@@ -448,7 +448,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>cook</Id>
-    <Name>cook</Name>
+    <Name>Cook</Name>
     <Description>The head cook of Lumbridge castle</Description>
     <Command />
     <Sprites>
@@ -1220,7 +1220,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>mugger</Id>
-    <Name>mugger</Name>
+    <Name>Mugger</Name>
     <Description>He jumps out and attacks people</Description>
     <Command />
     <Sprites>
@@ -1932,7 +1932,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>spider</Id>
-    <Name>spider</Name>
+    <Name>Spider</Name>
     <Description>Incey wincey</Description>
     <Command />
     <Sprites>
@@ -2183,7 +2183,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>skeleton</Id>
-    <Name>skeleton</Name>
+    <Name>Skeleton</Name>
     <Description>It rattles as it walks</Description>
     <Command />
     <Sprites>
@@ -2266,7 +2266,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>zombie</Id>
-    <Name>zombie</Name>
+    <Name>Zombie</Name>
     <Description>The living dead</Description>
     <Command />
     <Sprites>
@@ -2389,7 +2389,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>king</Id>
-    <Name>king</Name>
+    <Name>King</Name>
     <Description>King Roald the VIII</Description>
     <Command />
     <Sprites>
@@ -2518,7 +2518,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>skeleton2</Id>
-    <Name>skeleton</Name>
+    <Name>Skeleton</Name>
     <Description>It rattles as it walks</Description>
     <Command />
     <Sprites>
@@ -2641,7 +2641,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>skeleton3</Id>
-    <Name>skeleton</Name>
+    <Name>Skeleton</Name>
     <Description>It rattles as it walks</Description>
     <Command />
     <Sprites>
@@ -2765,7 +2765,7 @@
   <NpcEntity>
     <Id>big_rat2</Id>
     <Name>Rat</Name>
-    <Description>overgrown vermin</Description>
+    <Description>Overgrown vermin</Description>
     <Command />
     <Sprites>
       <int>123</int>
@@ -2898,7 +2898,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>skeleton4</Id>
-    <Name>skeleton</Name>
+    <Name>Skeleton</Name>
     <Description>It rattles when it walks</Description>
     <Command />
     <Sprites>
@@ -3064,7 +3064,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>zombie2</Id>
-    <Name>zombie</Name>
+    <Name>Zombie</Name>
     <Description>The living dead</Description>
     <Command />
     <Sprites>
@@ -3391,7 +3391,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shop_keeper_male_swords</Id>
-    <Name>shopkeeper</Name>
+    <Name>Shopkeeper</Name>
     <Description>I can buy swords off him</Description>
     <Command />
     <Sprites>
@@ -3552,7 +3552,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>lowe</Id>
-    <Name>lowe</Name>
+    <Name>Lowe</Name>
     <Description>The owner of the archery store</Description>
     <Command />
     <Sprites>
@@ -3922,7 +3922,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>farmer</Id>
-    <Name>farmer</Name>
+    <Name>Farmer</Name>
     <Description>He grows the crops in this area</Description>
     <Command>pickpocket</Command>
     <Sprites>
@@ -4382,7 +4382,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>zombie3</Id>
-    <Name>zombie</Name>
+    <Name>Zombie</Name>
     <Description>The living dead</Description>
     <Command />
     <Sprites>
@@ -4584,7 +4584,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>silk_trader</Id>
-    <Name>silk trader</Name>
+    <Name>Silk trader</Name>
     <Description>He sells silk</Description>
     <Command />
     <Sprites>
@@ -6655,7 +6655,7 @@
   <NpcEntity>
     <Id>moss_giant</Id>
     <Name>Moss Giant</Name>
-    <Description>his beard seems to have a life of its own</Description>
+    <Description>His beard seems to have a life of its own</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -7365,7 +7365,7 @@
   <NpcEntity>
     <Id>hassan</Id>
     <Name>Hassan</Name>
-    <Description>the Chancellor to the emir</Description>
+    <Description>The Chancellor to the emir</Description>
     <Command />
     <Sprites>
       <int>7</int>
@@ -7837,7 +7837,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shop_assistant_male_swords</Id>
-    <Name>shop assistant</Name>
+    <Name>Shop assistant</Name>
     <Description>I can buy swords off him</Description>
     <Command />
     <Sprites>
@@ -7923,7 +7923,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>squire</Id>
-    <Name>squire</Name>
+    <Name>Squire</Name>
     <Description>A young squire</Description>
     <Command />
     <Sprites>
@@ -8462,7 +8462,7 @@
   <NpcEntity>
     <Id>barmaid</Id>
     <Name>Barmaid</Name>
-    <Description>a pretty barmaid</Description>
+    <Description>A pretty barmaid</Description>
     <Command />
     <Sprites>
       <int>3</int>
@@ -9424,7 +9424,7 @@
   <NpcEntity>
     <Id>border_guard</Id>
     <Name>Border Guard</Name>
-    <Description>a guard from Al Kharid</Description>
+    <Description>A guard from Al Kharid</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -9467,7 +9467,7 @@
   <NpcEntity>
     <Id>border_guard2</Id>
     <Name>Border Guard</Name>
-    <Description>a guard from Al Kharid</Description>
+    <Description>A guard from Al Kharid</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -10069,7 +10069,7 @@
   <NpcEntity>
     <Id>brother_jered</Id>
     <Name>Brother Jered</Name>
-    <Description>human</Description>
+    <Description>Human</Description>
     <Command />
     <Sprites>
       <int>7</int>
@@ -10277,8 +10277,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>skeleton5</Id>
-    <Name>skeleton</Name>
-    <Description>it rattles when it walks</Description>
+    <Name>Skeleton</Name>
+    <Description>It rattles when it walks</Description>
     <Command />
     <Sprites>
       <int>134</int>
@@ -10400,8 +10400,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>zombie4</Id>
-    <Name>zombie</Name>
-    <Description>the living dead</Description>
+    <Name>Zombie</Name>
+    <Description>The living dead</Description>
     <Command />
     <Sprites>
       <int>136</int>
@@ -10718,7 +10718,7 @@
   <NpcEntity>
     <Id>greater_demon</Id>
     <Name>Greater Demon</Name>
-    <Description>big red and incredibly evil</Description>
+    <Description>Big red and incredibly evil</Description>
     <Command />
     <Sprites>
       <int>124</int>
@@ -11040,8 +11040,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>chaos_dwarf</Id>
-    <Name>chaos Dwarf</Name>
-    <Description>a dwarf gone bad</Description>
+    <Name>Chaos Dwarf</Name>
+    <Description>A dwarf gone bad</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -11168,7 +11168,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>dwarf_mining_guild</Id>
-    <Name>dwarf</Name>
+    <Name>Dwarf</Name>
     <Description>A dwarf who looks after the mining guild</Description>
     <Command />
     <Sprites>
@@ -11340,7 +11340,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>tall_skeleton</Id>
-    <Name>skeleton</Name>
+    <Name>Skeleton</Name>
     <Description>A Taller than normal skeleton</Description>
     <Command />
     <Sprites>
@@ -12427,7 +12427,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>zombie5</Id>
-    <Name>zombie</Name>
+    <Name>Zombie</Name>
     <Description>The living dead</Description>
     <Command />
     <Sprites>
@@ -12593,7 +12593,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>tree_spirit</Id>
-    <Name>tree spirit</Name>
+    <Name>Tree spirit</Name>
     <Description>Ooh spooky</Description>
     <Command />
     <Sprites>
@@ -12636,7 +12636,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>dairy_cow</Id>
-    <Name>cow</Name>
+    <Name>Cow</Name>
     <Description>It's a dairy cow</Description>
     <Command />
     <Sprites>
@@ -13110,7 +13110,7 @@
   <NpcEntity>
     <Id>gaius</Id>
     <Name>Gaius</Name>
-    <Description>he sells very big swords</Description>
+    <Description>He sells very big swords</Description>
     <Command />
     <Sprites>
       <int>3</int>
@@ -13802,7 +13802,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shapeshifter</Id>
-    <Name>shapeshifter</Name>
+    <Name>Shapeshifter</Name>
     <Description>I've not seen anyone like this before</Description>
     <Command />
     <Sprites>
@@ -13845,7 +13845,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shapeshifter_spider</Id>
-    <Name>shapeshifter</Name>
+    <Name>Shapeshifter</Name>
     <Description>I think this spider has been genetically modified</Description>
     <Command />
     <Sprites>
@@ -13881,7 +13881,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shapeshifter_bear</Id>
-    <Name>shapeshifter</Name>
+    <Name>Shapeshifter</Name>
     <Description>Eek! A bear!</Description>
     <Command />
     <Sprites>
@@ -13917,7 +13917,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shapeshifter_wolf</Id>
-    <Name>shapeshifter</Name>
+    <Name>Shapeshifter</Name>
     <Description>A sinister looking wolf</Description>
     <Command />
     <Sprites>
@@ -14428,7 +14428,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>pirate_guard</Id>
-    <Name>guard</Name>
+    <Name>Guard</Name>
     <Description>A vicious pirate</Description>
     <Command />
     <Sprites>
@@ -15192,7 +15192,7 @@
   <NpcEntity>
     <Id>velrak_the_explorer</Id>
     <Name>Velrak the explorer</Name>
-    <Description>he looks cold and hungry</Description>
+    <Description>He looks cold and hungry</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -15664,7 +15664,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>lady</Id>
-    <Name>lady</Name>
+    <Name>Lady</Name>
     <Description>She has a hint of magic about her</Description>
     <Command />
     <Sprites>
@@ -15707,7 +15707,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>lady2</Id>
-    <Name>lady</Name>
+    <Name>Lady</Name>
     <Description>She has a hint of magic about her</Description>
     <Command />
     <Sprites>
@@ -15750,7 +15750,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>lady3</Id>
-    <Name>lady</Name>
+    <Name>Lady</Name>
     <Description>She has a hint of magic about her</Description>
     <Command />
     <Sprites>
@@ -16179,7 +16179,7 @@
   <NpcEntity>
     <Id>animated_axe</Id>
     <Name>Animated axe</Name>
-    <Description>a magic axe with a mind of it's own</Description>
+    <Description>A magic axe with a mind of it's own</Description>
     <Command />
     <Sprites>
       <int>-1</int>
@@ -16550,7 +16550,7 @@
   <NpcEntity>
     <Id>kharid_scorpion</Id>
     <Name>Kharid Scorpion</Name>
-    <Description>a smaller less dangerous scorpion</Description>
+    <Description>A smaller less dangerous scorpion</Description>
     <Command />
     <Sprites>
       <int>143</int>
@@ -16586,7 +16586,7 @@
   <NpcEntity>
     <Id>kharid_scorpion2</Id>
     <Name>Kharid Scorpion</Name>
-    <Description>a smaller less dangerous scorpion</Description>
+    <Description>A smaller less dangerous scorpion</Description>
     <Command />
     <Sprites>
       <int>143</int>
@@ -16622,7 +16622,7 @@
   <NpcEntity>
     <Id>kharid_scorpion3</Id>
     <Name>Kharid Scorpion</Name>
-    <Description>a smaller less dangerous scorpion</Description>
+    <Description>A smaller less dangerous scorpion</Description>
     <Command />
     <Sprites>
       <int>143</int>
@@ -16743,7 +16743,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>man_noble</Id>
-    <Name>man</Name>
+    <Name>Man</Name>
     <Description>A well dressed nobleman</Description>
     <Command />
     <Sprites>
@@ -16786,7 +16786,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>gem_trader</Id>
-    <Name>gem trader</Name>
+    <Name>Gem trader</Name>
     <Description>He sells gems</Description>
     <Command />
     <Sprites>
@@ -16872,7 +16872,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>chef</Id>
-    <Name>chef</Name>
+    <Name>Chef</Name>
     <Description>A busy looking chef</Description>
     <Command />
     <Sprites>
@@ -17579,7 +17579,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>farmer2</Id>
-    <Name>farmer</Name>
+    <Name>Farmer</Name>
     <Description>An humble peasant</Description>
     <Command>pickpocket</Command>
     <Sprites>
@@ -18140,7 +18140,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>silk_merchant</Id>
-    <Name>silk merchant</Name>
+    <Name>Silk merchant</Name>
     <Description>He buys silk</Description>
     <Command />
     <Sprites>
@@ -18226,7 +18226,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>silver_merchant</Id>
-    <Name>silver merchant</Name>
+    <Name>Silver merchant</Name>
     <Description>He deals in silver</Description>
     <Command />
     <Sprites>
@@ -18269,7 +18269,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>spice_merchant</Id>
-    <Name>spice merchant</Name>
+    <Name>Spice merchant</Name>
     <Description>He sells exotic spices</Description>
     <Command />
     <Sprites>
@@ -18312,7 +18312,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>gem_merchant</Id>
-    <Name>gem merchant</Name>
+    <Name>Gem merchant</Name>
     <Description>He sells gems</Description>
     <Command />
     <Sprites>
@@ -18656,7 +18656,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>zoo_keeper</Id>
-    <Name>zoo keeper</Name>
+    <Name>Zoo keeper</Name>
     <Description>He looks after Ardougne city zoo</Description>
     <Command />
     <Sprites>
@@ -18785,7 +18785,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>chuck</Id>
-    <Name>chuck</Name>
+    <Name>Chuck</Name>
     <Description>A wood merchant</Description>
     <Command />
     <Sprites>
@@ -19054,7 +19054,7 @@
   <NpcEntity>
     <Id>sinister_stranger</Id>
     <Name>Sinister stranger</Name>
-    <Description>not your average fisherman</Description>
+    <Description>Not your average fisherman</Description>
     <Command />
     <Sprites>
       <int>0</int>
@@ -19612,7 +19612,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>zombie6</Id>
-    <Name>zombie</Name>
+    <Name>Zombie</Name>
     <Description>The living dead</Description>
     <Command />
     <Sprites>
@@ -19821,7 +19821,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>guardian_of_armadyl</Id>
-    <Name>guardian of Armadyl</Name>
+    <Name>Guardian of Armadyl</Name>
     <Description>A worshipper of Armadyl</Description>
     <Command />
     <Sprites>
@@ -19864,7 +19864,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>guardian_of_armadyl2</Id>
-    <Name>guardian of Armadyl</Name>
+    <Name>Guardian of Armadyl</Name>
     <Description>A worshipper of Armadyl</Description>
     <Command />
     <Sprites>
@@ -19950,7 +19950,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>winelda</Id>
-    <Name>winelda</Name>
+    <Name>Winelda</Name>
     <Description>A witch</Description>
     <Command />
     <Sprites>
@@ -20797,7 +20797,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>fightslave_joe</Id>
-    <Name>fightslave joe</Name>
+    <Name>Fightslave joe</Name>
     <Description>He look's mistreated and weak</Description>
     <Command />
     <Sprites>
@@ -20840,7 +20840,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>fightslave_kelvin</Id>
-    <Name>fightslave kelvin</Name>
+    <Name>Fightslave kelvin</Name>
     <Description>He look's mistreated and weak</Description>
     <Command />
     <Sprites>
@@ -20883,7 +20883,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>local</Id>
-    <Name>local</Name>
+    <Name>Local</Name>
     <Description>A scruffy looking chap</Description>
     <Command />
     <Sprites>
@@ -21214,7 +21214,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>hengrad</Id>
-    <Name>hengrad</Name>
+    <Name>Hengrad</Name>
     <Description>He look's mistreated and weak</Description>
     <Command />
     <Sprites>
@@ -21601,7 +21601,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>elkoy</Id>
-    <Name>elkoy</Name>
+    <Name>Elkoy</Name>
     <Description>It's a tree gnome</Description>
     <Command />
     <Sprites>
@@ -21644,7 +21644,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>remsai</Id>
-    <Name>remsai</Name>
+    <Name>Remsai</Name>
     <Description>It's a tree gnome</Description>
     <Command />
     <Sprites>
@@ -21687,7 +21687,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>bolkoy</Id>
-    <Name>bolkoy</Name>
+    <Name>Bolkoy</Name>
     <Description>It's a tree gnome</Description>
     <Command />
     <Sprites>
@@ -21730,7 +21730,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>local_gnome</Id>
-    <Name>local gnome</Name>
+    <Name>Local gnome</Name>
     <Description>It's a young tree gnome</Description>
     <Command />
     <Sprites>
@@ -21773,7 +21773,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>bolren</Id>
-    <Name>bolren</Name>
+    <Name>Bolren</Name>
     <Description>It's a gnome he look's important</Description>
     <Command />
     <Sprites>
@@ -21859,8 +21859,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>kalron</Id>
-    <Name>kalron</Name>
-    <Description>he look's lost</Description>
+    <Name>Kalron</Name>
+    <Description>He look's lost</Description>
     <Command />
     <Sprites>
       <int>0</int>
@@ -21902,7 +21902,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>brother_galahad</Id>
-    <Name>brother Galahad</Name>
+    <Name>Brother Galahad</Name>
     <Description>A Peaceful monk</Description>
     <Command />
     <Sprites>
@@ -21945,7 +21945,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>tracker_1</Id>
-    <Name>tracker 1</Name>
+    <Name>Tracker 1</Name>
     <Description>It's a tree gnome</Description>
     <Command />
     <Sprites>
@@ -21988,7 +21988,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>tracker_2</Id>
-    <Name>tracker 2</Name>
+    <Name>Tracker 2</Name>
     <Description>It's a tree gnome</Description>
     <Command />
     <Sprites>
@@ -22031,7 +22031,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>tracker_3</Id>
-    <Name>tracker 3</Name>
+    <Name>Tracker 3</Name>
     <Description>It's a tree gnome</Description>
     <Command />
     <Sprites>
@@ -22157,7 +22157,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>commander_montai</Id>
-    <Name>commander montai</Name>
+    <Name>Commander montai</Name>
     <Description>It's a tree gnome</Description>
     <Command />
     <Sprites>
@@ -22200,7 +22200,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>gnome_troop</Id>
-    <Name>gnome troop</Name>
+    <Name>Gnome troop</Name>
     <Description>It's a tree gnome trooper</Description>
     <Command />
     <Sprites>
@@ -22323,7 +22323,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>khazard_warlord</Id>
-    <Name>khazard warlord</Name>
+    <Name>Khazard warlord</Name>
     <Description>He look's real nasty</Description>
     <Command />
     <Sprites>
@@ -22410,7 +22410,7 @@
   <NpcEntity>
     <Id>fisher_king</Id>
     <Name>Fisher king</Name>
-    <Description>an old king</Description>
+    <Description>An old king</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -22452,7 +22452,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>maiden</Id>
-    <Name>maiden</Name>
+    <Name>Maiden</Name>
     <Description>She has a far away look in her eyes</Description>
     <Command />
     <Sprites>
@@ -22496,7 +22496,7 @@
   <NpcEntity>
     <Id>fisherman</Id>
     <Name>Fisherman</Name>
-    <Description>an old fisherman</Description>
+    <Description>An old fisherman</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -22581,7 +22581,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>unhappy_peasant</Id>
-    <Name>unhappy peasant</Name>
+    <Name>Unhappy peasant</Name>
     <Description>He looks tired and hungry</Description>
     <Command />
     <Sprites>
@@ -22624,7 +22624,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>happy_peasant</Id>
-    <Name>happy peasant</Name>
+    <Name>Happy peasant</Name>
     <Description>He looks well fed and full of energy</Description>
     <Command />
     <Sprites>
@@ -22667,7 +22667,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>ceril</Id>
-    <Name>ceril</Name>
+    <Name>Ceril</Name>
     <Description>It's Sir ceril carnillean a local noblemen</Description>
     <Command />
     <Sprites>
@@ -22710,7 +22710,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>butler</Id>
-    <Name>butler</Name>
+    <Name>Butler</Name>
     <Description>It's the carnillean family butler</Description>
     <Command />
     <Sprites>
@@ -22753,7 +22753,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>carnillean_guard</Id>
-    <Name>carnillean guard</Name>
+    <Name>Carnillean guard</Name>
     <Description>It's a carnillean family guard</Description>
     <Command />
     <Sprites>
@@ -22839,7 +22839,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>henryeta</Id>
-    <Name>henryeta</Name>
+    <Name>Henryeta</Name>
     <Description>It's a wealthy looking woman</Description>
     <Command />
     <Sprites>
@@ -22882,7 +22882,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>philipe</Id>
-    <Name>philipe</Name>
+    <Name>Philipe</Name>
     <Description>It's a young well dressed boy</Description>
     <Command />
     <Sprites>
@@ -22925,8 +22925,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>clivet</Id>
-    <Name>clivet</Name>
-    <Description>A strange looking man in black </Description>
+    <Name>Clivet</Name>
+    <Description>A strange looking man in black</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -22968,8 +22968,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>cult_member</Id>
-    <Name>cult member</Name>
-    <Description>An suspicous looking man in black </Description>
+    <Name>Cult member</Name>
+    <Description>An suspicous looking man in black</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -23054,8 +23054,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>alomone</Id>
-    <Name>alomone</Name>
-    <Description>A musculer looking man in black </Description>
+    <Name>Alomone</Name>
+    <Description>A musculer looking man in black</Description>
     <Command />
     <Sprites>
       <int>5</int>
@@ -23140,8 +23140,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>claus</Id>
-    <Name>claus</Name>
-    <Description>the carnillean family cook</Description>
+    <Name>Claus</Name>
+    <Description>The carnillean family cook</Description>
     <Command />
     <Sprites>
       <int>0</int>
@@ -24430,8 +24430,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>kent</Id>
-    <Name>kent</Name>
-    <Description>caroline's husband</Description>
+    <Name>Kent</Name>
+    <Description>Caroline's husband</Description>
     <Command />
     <Sprites>
       <int>0</int>
@@ -24473,8 +24473,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>bailey</Id>
-    <Name>bailey</Name>
-    <Description>the fishing platform cook</Description>
+    <Name>Bailey</Name>
+    <Description>The fishing platform cook</Description>
     <Command />
     <Sprites>
       <int>0</int>
@@ -24516,7 +24516,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>kennith</Id>
-    <Name>kennith</Name>
+    <Name>Kennith</Name>
     <Description>A young scared looking boy</Description>
     <Command />
     <Sprites>
@@ -24560,7 +24560,7 @@
   <NpcEntity>
     <Id>platform_fisherman</Id>
     <Name>Platform Fisherman</Name>
-    <Description>an emotionless fisherman</Description>
+    <Description>An emotionless fisherman</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -24603,7 +24603,7 @@
   <NpcEntity>
     <Id>platform_fisherman2</Id>
     <Name>Platform Fisherman</Name>
-    <Description>an emotionless fisherman</Description>
+    <Description>An emotionless fisherman</Description>
     <Command />
     <Sprites>
       <int>5</int>
@@ -24646,7 +24646,7 @@
   <NpcEntity>
     <Id>platform_fisherman3</Id>
     <Name>Platform Fisherman</Name>
-    <Description>an emotionless fisherman</Description>
+    <Description>An emotionless fisherman</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -24731,7 +24731,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>jinno</Id>
-    <Name>jinno</Name>
+    <Name>Jinno</Name>
     <Description>He doesn't seem to mind his lack of legs</Description>
     <Command />
     <Sprites>
@@ -24946,7 +24946,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>hudon</Id>
-    <Name>hudon</Name>
+    <Name>Hudon</Name>
     <Description>A young boisterous looking lad</Description>
     <Command />
     <Sprites>
@@ -24989,7 +24989,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>hadley</Id>
-    <Name>hadley</Name>
+    <Name>Hadley</Name>
     <Description>A happy looking fellow</Description>
     <Command />
     <Sprites>
@@ -25123,7 +25123,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>golrie</Id>
-    <Name>golrie</Name>
+    <Name>Golrie</Name>
     <Description>It's a tree gnome</Description>
     <Command />
     <Sprites>
@@ -25252,7 +25252,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>cooking_instructor</Id>
-    <Name>cooking instructor</Name>
+    <Name>Cooking instructor</Name>
     <Description>Talk to him to learn about runescape food</Description>
     <Command />
     <Sprites>
@@ -25295,7 +25295,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>fishing_instructor</Id>
-    <Name>fishing instructor</Name>
+    <Name>Fishing instructor</Name>
     <Description>He smells of fish</Description>
     <Command />
     <Sprites>
@@ -25338,7 +25338,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>financial_advisor</Id>
-    <Name>financial advisor</Name>
+    <Name>Financial advisor</Name>
     <Description>He knows about money</Description>
     <Command />
     <Sprites>
@@ -25381,7 +25381,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>gerald</Id>
-    <Name>gerald</Name>
+    <Name>Gerald</Name>
     <Description>An old fisherman</Description>
     <Command />
     <Sprites>
@@ -25424,7 +25424,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>mining_instructor</Id>
-    <Name>mining instructor</Name>
+    <Name>Mining instructor</Name>
     <Description>A short angry guy</Description>
     <Command />
     <Sprites>
@@ -25768,8 +25768,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>chemist</Id>
-    <Name>chemist</Name>
-    <Description>human</Description>
+    <Name>Chemist</Name>
+    <Description>Human</Description>
     <Command />
     <Sprites>
       <int>7</int>
@@ -26069,7 +26069,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>boatman</Id>
-    <Name>boatman</Name>
+    <Name>Boatman</Name>
     <Description>An old sailor</Description>
     <Command />
     <Sprites>
@@ -26112,7 +26112,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>skeleton_mage</Id>
-    <Name>skeleton mage</Name>
+    <Name>Skeleton mage</Name>
     <Description>It rattles as it walks</Description>
     <Command />
     <Sprites>
@@ -26235,7 +26235,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>controls_guide</Id>
-    <Name>controls guide</Name>
+    <Name>Controls guide</Name>
     <Description>He's ready for a fight</Description>
     <Command />
     <Sprites>
@@ -26278,7 +26278,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>nurse_sarah</Id>
-    <Name>nurse sarah</Name>
+    <Name>Nurse sarah</Name>
     <Description>She's quite a looker</Description>
     <Command />
     <Sprites>
@@ -26874,7 +26874,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>king_lathas</Id>
-    <Name>king Lathas</Name>
+    <Name>King Lathas</Name>
     <Description>King Lanthas of east ardounge</Description>
     <Command />
     <Sprites>
@@ -27046,7 +27046,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>target_practice_zombie</Id>
-    <Name>target practice zombie</Name>
+    <Name>Target practice zombie</Name>
     <Description>The living dead</Description>
     <Command />
     <Sprites>
@@ -27925,8 +27925,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shop_keeper</Id>
-    <Name>shop keeper</Name>
-    <Description>he sells weapons</Description>
+    <Name>Shop keeper</Name>
+    <Description>He sells weapons</Description>
     <Command />
     <Sprites>
       <int>0</int>
@@ -28012,7 +28012,7 @@
   <NpcEntity>
     <Id>frenita</Id>
     <Name>Frenita</Name>
-    <Description>runs a cookery shop</Description>
+    <Description>Runs a cookery shop</Description>
     <Command />
     <Sprites>
       <int>3</int>
@@ -28097,7 +28097,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>rometti</Id>
-    <Name>rometti</Name>
+    <Name>Rometti</Name>
     <Description>It's a well dressed tree gnome</Description>
     <Command />
     <Sprites>
@@ -28356,7 +28356,7 @@
   <NpcEntity>
     <Id>irena</Id>
     <Name>Irena</Name>
-    <Description>human</Description>
+    <Description>Human</Description>
     <Command />
     <Sprites>
       <int>3</int>
@@ -28571,7 +28571,7 @@
   <NpcEntity>
     <Id>drucas</Id>
     <Name>Drucas</Name>
-    <Description>engraver</Description>
+    <Description>Engraver</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -28613,8 +28613,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>tourist</Id>
-    <Name>tourist</Name>
-    <Description>human</Description>
+    <Name>Tourist</Name>
+    <Description>Human</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -28829,7 +28829,7 @@
   <NpcEntity>
     <Id>shantay</Id>
     <Name>Shantay</Name>
-    <Description>human</Description>
+    <Description>Human</Description>
     <Command />
     <Sprites>
       <int>0</int>
@@ -28871,7 +28871,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>charlie</Id>
-    <Name>charlie</Name>
+    <Name>Charlie</Name>
     <Description>Poor guy?</Description>
     <Command />
     <Sprites>
@@ -29001,7 +29001,7 @@
   <NpcEntity>
     <Id>mehman</Id>
     <Name>Mehman</Name>
-    <Description>local</Description>
+    <Description>Local</Description>
     <Command>805030</Command>
     <Sprites>
       <int>7</int>
@@ -30396,7 +30396,7 @@
   <NpcEntity>
     <Id>gnome_child</Id>
     <Name>Gnome child</Name>
-    <Description>that's a little gnome</Description>
+    <Description>That's a little gnome</Description>
     <Command>pickpocket</Command>
     <Sprites>
       <int>0</int>
@@ -30525,7 +30525,7 @@
   <NpcEntity>
     <Id>gnome_child3</Id>
     <Name>Gnome child</Name>
-    <Description>hello little gnome</Description>
+    <Description>Hello little gnome</Description>
     <Command>pickpocket</Command>
     <Sprites>
       <int>0</int>
@@ -30862,7 +30862,7 @@
   <NpcEntity>
     <Id>moss_giant2</Id>
     <Name>Moss Giant</Name>
-    <Description>his beard seems to have a life of its own</Description>
+    <Description>His beard seems to have a life of its own</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -32762,7 +32762,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>slave</Id>
-    <Name>slave</Name>
+    <Name>Slave</Name>
     <Description>He seems possessed</Description>
     <Command />
     <Sprites>
@@ -32805,7 +32805,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>slave2</Id>
-    <Name>slave</Name>
+    <Name>Slave</Name>
     <Description>He seems possessed</Description>
     <Command />
     <Sprites>
@@ -32848,7 +32848,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>slave3</Id>
-    <Name>slave</Name>
+    <Name>Slave</Name>
     <Description>He seems to have been here a while</Description>
     <Command />
     <Sprites>
@@ -32891,7 +32891,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>slave4</Id>
-    <Name>slave</Name>
+    <Name>Slave</Name>
     <Description>He seems possessed</Description>
     <Command />
     <Sprites>
@@ -32934,7 +32934,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>slave5</Id>
-    <Name>slave</Name>
+    <Name>Slave</Name>
     <Description>He seems to have been here a while</Description>
     <Command />
     <Sprites>
@@ -32977,7 +32977,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>slave6</Id>
-    <Name>slave</Name>
+    <Name>Slave</Name>
     <Description>He seems possessed</Description>
     <Command />
     <Sprites>
@@ -33020,7 +33020,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>slave7</Id>
-    <Name>slave</Name>
+    <Name>Slave</Name>
     <Description>He seems to have been here a while</Description>
     <Command />
     <Sprites>
@@ -33236,7 +33236,7 @@
   <NpcEntity>
     <Id>othainian</Id>
     <Name>Othainian</Name>
-    <Description>big red and incredibly evil</Description>
+    <Description>Big red and incredibly evil</Description>
     <Command />
     <Sprites>
       <int>124</int>
@@ -33322,7 +33322,7 @@
   <NpcEntity>
     <Id>holthion</Id>
     <Name>Holthion</Name>
-    <Description>big red and incredibly evil</Description>
+    <Description>Big red and incredibly evil</Description>
     <Command />
     <Sprites>
       <int>124</int>
@@ -33666,7 +33666,7 @@
   <NpcEntity>
     <Id>souless_zamorak</Id>
     <Name>Souless</Name>
-    <Description>A servent to zamorak</Description>
+    <Description>A servent to Zamorak</Description>
     <Command />
     <Sprites>
       <int>210</int>
@@ -34071,7 +34071,7 @@
   <NpcEntity>
     <Id>ghost_victim_of_zamorak</Id>
     <Name>Ghost</Name>
-    <Description>A doomed victim of zamorak</Description>
+    <Description>A doomed victim of Zamorak</Description>
     <Command />
     <Sprites>
       <int>137</int>
@@ -34999,7 +34999,7 @@
   <NpcEntity>
     <Id>ogre_guard4</Id>
     <Name>Ogre guard</Name>
-    <Description>this creature looks very tough</Description>
+    <Description>This creature looks very tough</Description>
     <Command />
     <Sprites>
       <int>7</int>
@@ -35300,7 +35300,7 @@
   <NpcEntity>
     <Id>city_guard</Id>
     <Name>City Guard</Name>
-    <Description>high ranking ogre guards</Description>
+    <Description>High ranking ogre guards</Description>
     <Command />
     <Sprites>
       <int>7</int>
@@ -35546,7 +35546,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>lollk</Id>
-    <Name>lollk</Name>
+    <Name>Lollk</Name>
     <Description>He looks scared</Description>
     <Command />
     <Sprites>
@@ -36402,7 +36402,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>kolodion</Id>
-    <Name>kolodion</Name>
+    <Name>Kolodion</Name>
     <Description>He runs the mage arena</Description>
     <Command />
     <Sprites>
@@ -36445,7 +36445,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>kolodion2</Id>
-    <Name>kolodion</Name>
+    <Name>Kolodion</Name>
     <Description>He runs the mage arena</Description>
     <Command />
     <Sprites>
@@ -37133,7 +37133,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>civillian_male</Id>
-    <Name>civillian</Name>
+    <Name>Civillian</Name>
     <Description>He looks aggitated!</Description>
     <Command />
     <Sprites>
@@ -37176,7 +37176,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>civillian_female</Id>
-    <Name>civillian</Name>
+    <Name>Civillian</Name>
     <Description>She looks aggitated!</Description>
     <Command />
     <Sprites>
@@ -37219,7 +37219,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>civillian_female2</Id>
-    <Name>civillian</Name>
+    <Name>Civillian</Name>
     <Description>She looks aggitated!</Description>
     <Command />
     <Sprites>
@@ -37262,7 +37262,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>civillian_male2</Id>
-    <Name>civillian</Name>
+    <Name>Civillian</Name>
     <Description>He looks aggitated!</Description>
     <Command>pickpocket</Command>
     <Sprites>
@@ -38417,7 +38417,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>kolodion3</Id>
-    <Name>kolodion</Name>
+    <Name>Kolodion</Name>
     <Description>He's a shape shifter</Description>
     <Command />
     <Sprites>
@@ -38460,7 +38460,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>kolodion4</Id>
-    <Name>kolodion</Name>
+    <Name>Kolodion</Name>
     <Description>He's a shape shifter</Description>
     <Command />
     <Sprites>
@@ -38503,7 +38503,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>kolodion5</Id>
-    <Name>kolodion</Name>
+    <Name>Kolodion</Name>
     <Description>He's a shape shifter</Description>
     <Command />
     <Sprites>
@@ -38546,7 +38546,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>kolodion6</Id>
-    <Name>kolodion</Name>
+    <Name>Kolodion</Name>
     <Description>He's a shape shifter</Description>
     <Command />
     <Sprites>
@@ -39578,7 +39578,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>chamber_guardian</Id>
-    <Name>chamber guardian</Name>
+    <Name>Chamber guardian</Name>
     <Description>He hasn't seen much sun latley</Description>
     <Command />
     <Sprites>
@@ -39787,7 +39787,7 @@
   <NpcEntity>
     <Id>battle_mage_guthix</Id>
     <Name>Battle mage</Name>
-    <Description>He kills in the name of guthix</Description>
+    <Description>He kills in the name of Guthix</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -39830,7 +39830,7 @@
   <NpcEntity>
     <Id>battle_mage_zamorak</Id>
     <Name>Battle mage</Name>
-    <Description>He kills in the name of zamarok</Description>
+    <Description>He kills in the name of Zamorak</Description>
     <Command />
     <Sprites>
       <int>6</int>

@@ -407,7 +407,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>skull</Id>
-    <Name>skull</Name>
+    <Name>Skull</Name>
     <Description>A spooky looking skull</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -437,7 +437,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>grain</Id>
-    <Name>grain</Name>
+    <Name>Grain</Name>
     <Description>Some wheat heads</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -453,7 +453,7 @@
   <ItemEntity>
     <Id>book</Id>
     <Name>Book</Name>
-    <Description />
+    <Description>Materialised knowledge</Description>
     <Command>read</Command>
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -662,7 +662,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>unstrung_holy_symbol_of_saradomin</Id>
-    <Name>Holy Symbol of saradomin</Name>
+    <Name>Holy Symbol of Saradomin</Name>
     <Description>This needs a string putting on it</Description>
     <Command />
     <BasePrice>200</BasePrice>
@@ -707,7 +707,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>key_phoenix_gang</Id>
-    <Name>key</Name>
+    <Name>Key</Name>
     <Description>The key to get into the phoenix gang</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -722,7 +722,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>key_phoenix_gang_weapons_store</Id>
-    <Name>key</Name>
+    <Name>Key</Name>
     <Description>The key to the phoenix gang's weapons store</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -737,7 +737,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>scroll_report</Id>
-    <Name>scroll</Name>
+    <Name>Scroll</Name>
     <Description>An intelligence Report</Description>
     <Command />
     <BasePrice>5</BasePrice>
@@ -842,7 +842,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>message</Id>
-    <Name>message</Name>
+    <Name>Message</Name>
     <Description>A message from Juliet to Romeo</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -872,8 +872,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>potion</Id>
-    <Name>potion</Name>
-    <Description>this is meant to be good for spots</Description>
+    <Name>Potion</Name>
+    <Description>This is meant to be good for spots</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -932,7 +932,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>bronze_dagger</Id>
-    <Name>bronze dagger</Name>
+    <Name>Bronze dagger</Name>
     <Description>Short but pointy</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -1217,7 +1217,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>rune_2-handed_sword</Id>
-    <Name>rune 2-handed Sword</Name>
+    <Name>Rune 2-handed Sword</Name>
     <Description>A very large sword</Description>
     <Command />
     <BasePrice>64000</BasePrice>
@@ -1307,7 +1307,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>bronze_axe</Id>
-    <Name>bronze Axe</Name>
+    <Name>Bronze Axe</Name>
     <Description>A woodcutters axe</Description>
     <Command />
     <BasePrice>16</BasePrice>
@@ -1502,7 +1502,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>staff</Id>
-    <Name>staff</Name>
+    <Name>Staff</Name>
     <Description>It's a slightly magical stick</Description>
     <Command />
     <BasePrice>15</BasePrice>
@@ -1982,7 +1982,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>cookedmeat</Id>
-    <Name>cookedmeat</Name>
+    <Name>Cookedmeat</Name>
     <Description>Mmm this looks tasty</Description>
     <Command>Eat</Command>
     <BasePrice>4</BasePrice>
@@ -1997,7 +1997,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>raw_chicken</Id>
-    <Name>raw chicken</Name>
+    <Name>Raw chicken</Name>
     <Description>I need to cook this first</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -2012,7 +2012,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>burntmeat</Id>
-    <Name>burntmeat</Name>
+    <Name>Burntmeat</Name>
     <Description>Oh dear</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -2027,7 +2027,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>pot</Id>
-    <Name>pot</Name>
+    <Name>Pot</Name>
     <Description>This pot is empty</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -2042,7 +2042,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>pot_flour</Id>
-    <Name>flour</Name>
+    <Name>Flour</Name>
     <Description>There is flour in this pot</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -2057,7 +2057,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>bread_dough</Id>
-    <Name>bread dough</Name>
+    <Name>Bread dough</Name>
     <Description>Some uncooked dough</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -2072,7 +2072,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>bread</Id>
-    <Name>bread</Name>
+    <Name>Bread</Name>
     <Description>Nice crispy bread</Description>
     <Command>Eat</Command>
     <BasePrice>12</BasePrice>
@@ -2086,8 +2086,8 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>burntbread</Id>
-    <Name>burntbread</Name>
+    <Id>burnt_bread</Id>
+    <Name>Burnt Bread</Name>
     <Description>This bread is ruined!</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -2102,7 +2102,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>jug</Id>
-    <Name>jug</Name>
+    <Name>Jug</Name>
     <Description>This jug is empty</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -2117,7 +2117,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>water2</Id>
-    <Name>water</Name>
+    <Name>Water</Name>
     <Description>It's full of water</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -2132,7 +2132,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>wine</Id>
-    <Name>wine</Name>
+    <Name>Wine</Name>
     <Description>It's full of wine</Description>
     <Command>Drink</Command>
     <BasePrice>1</BasePrice>
@@ -2147,7 +2147,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>grapes</Id>
-    <Name>grapes</Name>
+    <Name>Grapes</Name>
     <Description>Good grapes for wine making</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -2162,7 +2162,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>shears</Id>
-    <Name>shears</Name>
+    <Name>Shears</Name>
     <Description>For shearing sheep</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -2177,7 +2177,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>wool</Id>
-    <Name>wool</Name>
+    <Name>Wool</Name>
     <Description>I think this came from a sheep</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -2192,7 +2192,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>fur</Id>
-    <Name>fur</Name>
+    <Name>Fur</Name>
     <Description>This would make warm clothing</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -2207,7 +2207,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>cow_hide</Id>
-    <Name>cow hide</Name>
+    <Name>Cow hide</Name>
     <Description>I should take this to the tannery</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -2222,7 +2222,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>leather</Id>
-    <Name>leather</Name>
+    <Name>Leather</Name>
     <Description>It's a piece of leather</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -2237,7 +2237,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>clay</Id>
-    <Name>clay</Name>
+    <Name>Clay</Name>
     <Description>Some hard dry clay</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -2252,8 +2252,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>copper_ore</Id>
-    <Name>copper ore</Name>
-    <Description>this needs refining</Description>
+    <Name>Copper ore</Name>
+    <Description>This needs refining</Description>
     <Command />
     <BasePrice>3</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2267,8 +2267,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>iron_ore</Id>
-    <Name>iron ore</Name>
-    <Description>this needs refining</Description>
+    <Name>Iron ore</Name>
+    <Description>This needs refining</Description>
     <Command />
     <BasePrice>17</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2282,8 +2282,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gold</Id>
-    <Name>gold</Name>
-    <Description>this needs refining</Description>
+    <Name>Gold</Name>
+    <Description>This needs refining</Description>
     <Command />
     <BasePrice>150</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2297,8 +2297,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>mithril_ore</Id>
-    <Name>mithril ore</Name>
-    <Description>this needs refining</Description>
+    <Name>Mithril ore</Name>
+    <Description>This needs refining</Description>
     <Command />
     <BasePrice>162</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2312,8 +2312,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>adamantite_ore</Id>
-    <Name>adamantite ore</Name>
-    <Description>this needs refining</Description>
+    <Name>Adamantite ore</Name>
+    <Description>This needs refining</Description>
     <Command />
     <BasePrice>400</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2327,8 +2327,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>coal</Id>
-    <Name>coal</Name>
-    <Description>hmm a non-renewable energy source!</Description>
+    <Name>Coal</Name>
+    <Description>Hmm a non-renewable energy source!</Description>
     <Command />
     <BasePrice>45</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2357,8 +2357,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>uncut_diamond</Id>
-    <Name>uncut diamond</Name>
-    <Description>this would be worth more cut</Description>
+    <Name>Uncut diamond</Name>
+    <Description>This would be worth more cut</Description>
     <Command />
     <BasePrice>200</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2372,8 +2372,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>uncut_ruby</Id>
-    <Name>uncut ruby</Name>
-    <Description>this would be worth more cut</Description>
+    <Name>Uncut ruby</Name>
+    <Description>This would be worth more cut</Description>
     <Command />
     <BasePrice>100</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2387,8 +2387,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>uncut_emerald</Id>
-    <Name>uncut emerald</Name>
-    <Description>this would be worth more cut</Description>
+    <Name>Uncut emerald</Name>
+    <Description>This would be worth more cut</Description>
     <Command />
     <BasePrice>50</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2402,8 +2402,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>uncut_sapphire</Id>
-    <Name>uncut sapphire</Name>
-    <Description>this would be worth more cut</Description>
+    <Name>Uncut sapphire</Name>
+    <Description>This would be worth more cut</Description>
     <Command />
     <BasePrice>25</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2417,8 +2417,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>diamond</Id>
-    <Name>diamond</Name>
-    <Description>this looks valuable</Description>
+    <Name>Diamond</Name>
+    <Description>This looks valuable</Description>
     <Command />
     <BasePrice>2000</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2432,8 +2432,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>ruby</Id>
-    <Name>ruby</Name>
-    <Description>this looks valuable</Description>
+    <Name>Ruby</Name>
+    <Description>This looks valuable</Description>
     <Command />
     <BasePrice>1000</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2447,8 +2447,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>emerald</Id>
-    <Name>emerald</Name>
-    <Description>this looks valuable</Description>
+    <Name>Emerald</Name>
+    <Description>This looks valuable</Description>
     <Command />
     <BasePrice>500</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2462,8 +2462,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>sapphire</Id>
-    <Name>sapphire</Name>
-    <Description>this looks valuable</Description>
+    <Name>Sapphire</Name>
+    <Description>This looks valuable</Description>
     <Command />
     <BasePrice>250</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2492,8 +2492,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>tinderbox</Id>
-    <Name>tinderbox</Name>
-    <Description>useful for lighting a fire</Description>
+    <Name>Tinderbox</Name>
+    <Description>Useful for lighting a fire</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2507,8 +2507,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>chisel</Id>
-    <Name>chisel</Name>
-    <Description>good for detailed crafting</Description>
+    <Name>Chisel</Name>
+    <Description>Good for detailed crafting</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2522,8 +2522,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>hammer</Id>
-    <Name>hammer</Name>
-    <Description>good for hitting things!</Description>
+    <Name>Hammer</Name>
+    <Description>Good for hitting things!</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2537,8 +2537,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>bronze_bar</Id>
-    <Name>bronze bar</Name>
-    <Description>it's a bar of bronze</Description>
+    <Name>Bronze bar</Name>
+    <Description>It's a bar of bronze</Description>
     <Command />
     <BasePrice>8</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2552,8 +2552,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>iron_bar</Id>
-    <Name>iron bar</Name>
-    <Description>it's a bar of iron</Description>
+    <Name>Iron bar</Name>
+    <Description>It's a bar of iron</Description>
     <Command />
     <BasePrice>28</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2567,8 +2567,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>steel_bar</Id>
-    <Name>steel bar</Name>
-    <Description>it's a bar of steel</Description>
+    <Name>Steel bar</Name>
+    <Description>It's a bar of steel</Description>
     <Command />
     <BasePrice>100</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2582,8 +2582,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gold_bar</Id>
-    <Name>gold bar</Name>
-    <Description>this looks valuable</Description>
+    <Name>Gold bar</Name>
+    <Description>This looks valuable</Description>
     <Command />
     <BasePrice>300</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2597,8 +2597,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>mithril_bar</Id>
-    <Name>mithril bar</Name>
-    <Description>it's a bar of mithril</Description>
+    <Name>Mithril bar</Name>
+    <Description>It's a bar of mithril</Description>
     <Command />
     <BasePrice>300</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2612,8 +2612,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>adamantite_bar</Id>
-    <Name>adamantite bar</Name>
-    <Description>it's a bar of adamantite</Description>
+    <Name>Adamantite bar</Name>
+    <Description>It's a bar of adamantite</Description>
     <Command />
     <BasePrice>640</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2643,7 +2643,7 @@
   <ItemEntity>
     <Id>fish_food</Id>
     <Name>Fish Food</Name>
-    <Description>Keeps  your pet fish strong and healthy</Description>
+    <Description>Keeps your pet fish strong and healthy</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2687,7 +2687,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>spinach_roll</Id>
-    <Name>spinach roll</Name>
+    <Name>Spinach roll</Name>
     <Description>A home made spinach thing</Description>
     <Command>Eat</Command>
     <BasePrice>1</BasePrice>
@@ -2777,7 +2777,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>wizard_hat2</Id>
-    <Name>wizardshat</Name>
+    <Name>Wizardshat</Name>
     <Description>A silly pointed hat</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -2807,7 +2807,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>skirt</Id>
-    <Name>skirt</Name>
+    <Name>Skirt</Name>
     <Description>A ladies skirt</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -2868,7 +2868,7 @@
   <ItemEntity>
     <Id>apron2</Id>
     <Name>Apron</Name>
-    <Description>this will help keep my clothes clean</Description>
+    <Description>This will help keep my clothes clean</Description>
     <Command />
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -2912,7 +2912,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>skirt2</Id>
-    <Name>skirt</Name>
+    <Name>Skirt</Name>
     <Description>A ladies skirt</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -2927,7 +2927,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>skirt3</Id>
-    <Name>skirt</Name>
+    <Name>Skirt</Name>
     <Description>A ladies skirt</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -2987,7 +2987,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>wizard_hat</Id>
-    <Name>wizardshat</Name>
+    <Name>Wizardshat</Name>
     <Description>A silly pointed hat</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -3002,7 +3002,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>silk</Id>
-    <Name>silk</Name>
+    <Name>Silk</Name>
     <Description>It's a sheet of silk</Description>
     <Command />
     <BasePrice>30</BasePrice>
@@ -3017,7 +3017,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>flier</Id>
-    <Name>flier</Name>
+    <Name>Flier</Name>
     <Description>Get your axes from Bob's axes</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -3032,8 +3032,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>tin_ore</Id>
-    <Name>tin ore</Name>
-    <Description>this needs refining</Description>
+    <Name>Tin ore</Name>
+    <Description>This needs refining</Description>
     <Command />
     <BasePrice>3</BasePrice>
     <SpriteId>0</SpriteId>
@@ -3077,7 +3077,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>bronze_battle_axe</Id>
-    <Name>bronze battle Axe</Name>
+    <Name>Bronze battle Axe</Name>
     <Description>A vicious looking axe</Description>
     <Command />
     <BasePrice>52</BasePrice>
@@ -3197,7 +3197,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>rubber_tube</Id>
-    <Name>rubber tube</Name>
+    <Name>Rubber tube</Name>
     <Description>Its slightly charred</Description>
     <Command />
     <BasePrice>3</BasePrice>
@@ -3257,7 +3257,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>stake</Id>
-    <Name>stake</Name>
+    <Name>Stake</Name>
     <Description>A very pointy stick</Description>
     <Command />
     <BasePrice>8</BasePrice>
@@ -3288,7 +3288,7 @@
   <ItemEntity>
     <Id>red_spiders_eggs</Id>
     <Name>Red spiders eggs</Name>
-    <Description>eewww</Description>
+    <Description>Eewww</Description>
     <Command />
     <BasePrice>7</BasePrice>
     <SpriteId>0</SpriteId>
@@ -3303,7 +3303,7 @@
   <ItemEntity>
     <Id>limpwurt_root</Id>
     <Name>Limpwurt root</Name>
-    <Description>the root of a limpwurt plant</Description>
+    <Description>The root of a limpwurt plant</Description>
     <Command />
     <BasePrice>7</BasePrice>
     <SpriteId>0</SpriteId>
@@ -3378,7 +3378,7 @@
   <ItemEntity>
     <Id>steel_plated_skirt</Id>
     <Name>Steel Plated skirt</Name>
-    <Description>designer leg protection</Description>
+    <Description>Designer leg protection</Description>
     <Command />
     <BasePrice>1000</BasePrice>
     <SpriteId>0</SpriteId>
@@ -3662,7 +3662,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>wig_blonde</Id>
-    <Name>wig</Name>
+    <Name>Wig</Name>
     <Description>A blonde wig</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -3677,7 +3677,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>wig_wool</Id>
-    <Name>wig</Name>
+    <Name>Wig</Name>
     <Description>A wig made from wool</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -3737,7 +3737,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>banana</Id>
-    <Name>banana</Name>
+    <Name>Banana</Name>
     <Description>Mmm this looks tasty</Description>
     <Command>Eat</Command>
     <BasePrice>2</BasePrice>
@@ -3752,7 +3752,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>pastry_dough</Id>
-    <Name>pastry dough</Name>
+    <Name>Pastry dough</Name>
     <Description>Some uncooked dough</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -3782,7 +3782,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>cooking_apple</Id>
-    <Name>cooking apple</Name>
+    <Name>Cooking apple</Name>
     <Description>I wonder what i can make with this</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -3797,7 +3797,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>pie_shell</Id>
-    <Name>pie shell</Name>
+    <Name>Pie shell</Name>
     <Description>I need to find a filling for this pie</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -3857,7 +3857,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>apple_pie</Id>
-    <Name>apple pie</Name>
+    <Name>Apple pie</Name>
     <Description>Mmm Apple pie</Description>
     <Command>eat</Command>
     <BasePrice>30</BasePrice>
@@ -3887,7 +3887,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>meat_pie</Id>
-    <Name>meat pie</Name>
+    <Name>Meat pie</Name>
     <Description>Mighty and meaty</Description>
     <Command>eat</Command>
     <BasePrice>15</BasePrice>
@@ -3902,7 +3902,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>burntpie</Id>
-    <Name>burntpie</Name>
+    <Name>Burntpie</Name>
     <Description>Oops</Description>
     <Command>empty dish</Command>
     <BasePrice>1</BasePrice>
@@ -3992,7 +3992,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>blurite_ore</Id>
-    <Name>blurite ore</Name>
+    <Name>Blurite ore</Name>
     <Description>What Strange stuff</Description>
     <Command />
     <BasePrice>3</BasePrice>
@@ -4142,7 +4142,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>unstrung_longbow</Id>
-    <Name>unstrung Longbow</Name>
+    <Name>Unstrung Longbow</Name>
     <Description>I need to find a string for this</Description>
     <Command />
     <BasePrice>60</BasePrice>
@@ -4157,7 +4157,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>unstrung_shortbow</Id>
-    <Name>unstrung shortbow</Name>
+    <Name>Unstrung shortbow</Name>
     <Description>I need to find a string for this</Description>
     <Command />
     <BasePrice>23</BasePrice>
@@ -4187,7 +4187,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>unfired_pot</Id>
-    <Name>unfired pot</Name>
+    <Name>Unfired pot</Name>
     <Description>I need to put this in a pottery oven</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -4202,7 +4202,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>arrow_shafts</Id>
-    <Name>arrow shafts</Name>
+    <Name>Arrow shafts</Name>
     <Description>I need to attach feathers to these</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -4218,7 +4218,7 @@
   <ItemEntity>
     <Id>woad_leaf</Id>
     <Name>Woad Leaf</Name>
-    <Description>slightly bluish leaves</Description>
+    <Description>Slightly bluish leaves</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -4397,7 +4397,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>ring_mould</Id>
-    <Name>ring mould</Name>
+    <Name>Ring mould</Name>
     <Description>Used to make gold rings</Description>
     <Command />
     <BasePrice>5</BasePrice>
@@ -4591,8 +4591,8 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>superchisel</Id>
-    <Name>superchisel</Name>
+    <Id>super_chisel</Id>
+    <Name>Super Chisel</Name>
     <Description>I wonder if I can get this enchanted</Description>
     <Command>twiddle</Command>
     <BasePrice>3525</BasePrice>
@@ -5748,7 +5748,7 @@
   <ItemEntity>
     <Id>silver</Id>
     <Name>Silver</Name>
-    <Description>this needs refining</Description>
+    <Description>This needs refining</Description>
     <Command />
     <BasePrice>75</BasePrice>
     <SpriteId>0</SpriteId>
@@ -5762,8 +5762,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>silver_bar</Id>
-    <Name>silver bar</Name>
-    <Description>this looks valuable</Description>
+    <Name>Silver bar</Name>
+    <Description>This looks valuable</Description>
     <Command />
     <BasePrice>150</BasePrice>
     <SpriteId>0</SpriteId>
@@ -5777,7 +5777,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>holy_symbol_of_saradomin</Id>
-    <Name>Holy Symbol of saradomin</Name>
+    <Name>Holy Symbol of Saradomin</Name>
     <Description>This improves my prayer</Description>
     <Command />
     <BasePrice>300</BasePrice>
@@ -5882,7 +5882,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>yellow_key</Id>
-    <Name>yellow key</Name>
+    <Name>Yellow key</Name>
     <Description>A painted key</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -5927,7 +5927,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>black_key</Id>
-    <Name>black key</Name>
+    <Name>Black key</Name>
     <Description>A painted key</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -5942,7 +5942,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>rune_dagger</Id>
-    <Name>rune dagger</Name>
+    <Name>Rune dagger</Name>
     <Description>Short but pointy</Description>
     <Command />
     <BasePrice>8000</BasePrice>
@@ -5972,7 +5972,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>rune_scimitar</Id>
-    <Name>rune Scimitar</Name>
+    <Name>Rune Scimitar</Name>
     <Description>A vicious curved sword</Description>
     <Command />
     <BasePrice>25600</BasePrice>
@@ -6077,7 +6077,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>rune_axe</Id>
-    <Name>rune Axe</Name>
+    <Name>Rune Axe</Name>
     <Description>A powerful axe</Description>
     <Command />
     <BasePrice>12800</BasePrice>
@@ -6123,7 +6123,7 @@
   <ItemEntity>
     <Id>runite_bar</Id>
     <Name>Runite bar</Name>
-    <Description>it's a bar of runite</Description>
+    <Description>It's a bar of runite</Description>
     <Command />
     <BasePrice>5000</BasePrice>
     <SpriteId>0</SpriteId>
@@ -6137,8 +6137,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>runite_ore</Id>
-    <Name>runite ore</Name>
-    <Description>this needs refining</Description>
+    <Name>Runite ore</Name>
+    <Description>This needs refining</Description>
     <Command />
     <BasePrice>3200</BasePrice>
     <SpriteId>0</SpriteId>
@@ -6182,7 +6182,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>skull2</Id>
-    <Name>skull</Name>
+    <Name>Skull</Name>
     <Description>A spooky looking skull</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -6513,7 +6513,7 @@
   <ItemEntity>
     <Id>black_plated_skirt</Id>
     <Name>Black Plated skirt</Name>
-    <Description>designer leg protection</Description>
+    <Description>Designer leg protection</Description>
     <Command />
     <BasePrice>1920</BasePrice>
     <SpriteId>0</SpriteId>
@@ -7112,7 +7112,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>attack_potion_3</Id>
-    <Name>attack Potion</Name>
+    <Name>Attack Potion</Name>
     <Description>3 doses of attack potion</Description>
     <Command>Drink</Command>
     <BasePrice>12</BasePrice>
@@ -7127,7 +7127,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>attack_potion_2</Id>
-    <Name>attack Potion</Name>
+    <Name>Attack Potion</Name>
     <Description>2 doses of attack potion</Description>
     <Command>Drink</Command>
     <BasePrice>9</BasePrice>
@@ -7142,7 +7142,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>attack_potion_1</Id>
-    <Name>attack Potion</Name>
+    <Name>Attack Potion</Name>
     <Description>1 dose of attack potion</Description>
     <Command>Drink</Command>
     <BasePrice>6</BasePrice>
@@ -7157,7 +7157,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>stat_restoration_potion_3</Id>
-    <Name>stat restoration Potion</Name>
+    <Name>Stat restoration Potion</Name>
     <Description>3 doses of stat restoration potion</Description>
     <Command>Drink</Command>
     <BasePrice>88</BasePrice>
@@ -7172,7 +7172,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>stat_restoration_potion_2</Id>
-    <Name>stat restoration Potion</Name>
+    <Name>Stat restoration Potion</Name>
     <Description>2 doses of stat restoration potion</Description>
     <Command>Drink</Command>
     <BasePrice>66</BasePrice>
@@ -7187,7 +7187,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>stat_restoration_potion_1</Id>
-    <Name>stat restoration Potion</Name>
+    <Name>Stat restoration Potion</Name>
     <Description>1 dose of stat restoration potion</Description>
     <Command>Drink</Command>
     <BasePrice>44</BasePrice>
@@ -7202,7 +7202,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>defense_potion_3</Id>
-    <Name>defense Potion</Name>
+    <Name>Defense Potion</Name>
     <Description>3 doses of defense potion</Description>
     <Command>Drink</Command>
     <BasePrice>120</BasePrice>
@@ -7217,7 +7217,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>defense_potion_2</Id>
-    <Name>defense Potion</Name>
+    <Name>Defense Potion</Name>
     <Description>2 doses of defense potion</Description>
     <Command>Drink</Command>
     <BasePrice>90</BasePrice>
@@ -7232,7 +7232,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>defense_potion_1</Id>
-    <Name>defense Potion</Name>
+    <Name>Defense Potion</Name>
     <Description>1 dose of defense potion</Description>
     <Command>Drink</Command>
     <BasePrice>60</BasePrice>
@@ -7247,7 +7247,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>restore_prayer_potion_3</Id>
-    <Name>restore prayer Potion</Name>
+    <Name>Restore prayer Potion</Name>
     <Description>3 doses of restore prayer potion</Description>
     <Command>Drink</Command>
     <BasePrice>152</BasePrice>
@@ -7262,7 +7262,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>restore_prayer_potion_2</Id>
-    <Name>restore prayer Potion</Name>
+    <Name>Restore prayer Potion</Name>
     <Description>2 doses of restore prayer potion</Description>
     <Command>Drink</Command>
     <BasePrice>114</BasePrice>
@@ -7277,7 +7277,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>restore_prayer_potion_1</Id>
-    <Name>restore prayer Potion</Name>
+    <Name>Restore prayer Potion</Name>
     <Description>1 dose of restore prayer potion</Description>
     <Command>Drink</Command>
     <BasePrice>76</BasePrice>
@@ -7337,7 +7337,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>fishing_potion_3</Id>
-    <Name>fishing Potion</Name>
+    <Name>Fishing Potion</Name>
     <Description>3 doses of fishing potion</Description>
     <Command>Drink</Command>
     <BasePrice>200</BasePrice>
@@ -7352,7 +7352,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>fishing_potion_2</Id>
-    <Name>fishing Potion</Name>
+    <Name>Fishing Potion</Name>
     <Description>2 doses of fishing potion</Description>
     <Command>Drink</Command>
     <BasePrice>150</BasePrice>
@@ -7367,7 +7367,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>fishing_potion_1</Id>
-    <Name>fishing Potion</Name>
+    <Name>Fishing Potion</Name>
     <Description>1 dose of fishing potion</Description>
     <Command>Drink</Command>
     <BasePrice>100</BasePrice>
@@ -7472,7 +7472,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>ranging_potion_3</Id>
-    <Name>ranging Potion</Name>
+    <Name>Ranging Potion</Name>
     <Description>3 doses of ranging potion</Description>
     <Command>Drink</Command>
     <BasePrice>288</BasePrice>
@@ -7487,7 +7487,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>ranging_potion_2</Id>
-    <Name>ranging Potion</Name>
+    <Name>Ranging Potion</Name>
     <Description>2 doses of ranging potion</Description>
     <Command>Drink</Command>
     <BasePrice>216</BasePrice>
@@ -7502,7 +7502,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>ranging_potion_1</Id>
-    <Name>ranging Potion</Name>
+    <Name>Ranging Potion</Name>
     <Description>1 dose of ranging potion</Description>
     <Command>Drink</Command>
     <BasePrice>144</BasePrice>
@@ -7517,7 +7517,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>wine_of_zamorak</Id>
-    <Name>wine of Zamorak</Name>
+    <Name>Wine of Zamorak</Name>
     <Description>It's full of wine</Description>
     <Command>Drink</Command>
     <BasePrice>1</BasePrice>
@@ -7532,7 +7532,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>raw_bear_meat</Id>
-    <Name>raw bear meat</Name>
+    <Name>Raw bear meat</Name>
     <Description>I need to cook this first</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -7547,7 +7547,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>raw_rat_meat</Id>
-    <Name>raw rat meat</Name>
+    <Name>Raw rat meat</Name>
     <Description>I need to cook this first</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -7562,7 +7562,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>raw_beef</Id>
-    <Name>raw beef</Name>
+    <Name>Raw beef</Name>
     <Description>I need to cook this first</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -7577,7 +7577,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>enchanted_bear_meat</Id>
-    <Name>enchanted bear meat</Name>
+    <Name>Enchanted bear meat</Name>
     <Description>I don't fancy eating this now</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -7592,7 +7592,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>enchanted_rat_meat</Id>
-    <Name>enchanted rat meat</Name>
+    <Name>Enchanted rat meat</Name>
     <Description>I don't fancy eating this now</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -7607,7 +7607,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>enchanted_beef</Id>
-    <Name>enchanted beef</Name>
+    <Name>Enchanted beef</Name>
     <Description>I don't fancy eating this now</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -7622,7 +7622,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>enchanted_chicken_meat</Id>
-    <Name>enchanted chicken meat</Name>
+    <Name>Enchanted chicken meat</Name>
     <Description>I don't fancy eating this now</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -7802,7 +7802,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>silver_certificate</Id>
-    <Name>silver certificate</Name>
+    <Name>Silver certificate</Name>
     <Description>Each certificate exchangable at draynor market for 5 silver nuggets</Description>
     <Command />
     <BasePrice>15</BasePrice>
@@ -7937,7 +7937,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>steel_bar_certificate</Id>
-    <Name>steel bar certificate</Name>
+    <Name>Steel bar certificate</Name>
     <Description>Each certificate exchangable at draynor market for 5 steel bars</Description>
     <Command />
     <BasePrice>20</BasePrice>
@@ -7967,7 +7967,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>silver_bar_certificate</Id>
-    <Name>silver bar certificate</Name>
+    <Name>Silver bar certificate</Name>
     <Description>Each certificate exchangable at draynor market for 5 silver bars</Description>
     <Command />
     <BasePrice>15</BasePrice>
@@ -8102,7 +8102,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>magnet</Id>
-    <Name>magnet</Name>
+    <Name>Magnet</Name>
     <Description>A very attractive magnet</Description>
     <Command />
     <BasePrice>3</BasePrice>
@@ -8132,8 +8132,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>uncut_dragonstone</Id>
-    <Name>uncut dragonstone</Name>
-    <Description>this would be worth more cut</Description>
+    <Name>Uncut dragonstone</Name>
+    <Description>This would be worth more cut</Description>
     <Command />
     <BasePrice>1000</BasePrice>
     <SpriteId>0</SpriteId>
@@ -8582,7 +8582,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>weapon_poison</Id>
-    <Name>weapon poison</Name>
+    <Name>Weapon poison</Name>
     <Description>For use on daggers and arrows</Description>
     <Command />
     <BasePrice>144</BasePrice>
@@ -8823,7 +8823,7 @@
   <ItemEntity>
     <Id>blamish_oil</Id>
     <Name>Blamish oil</Name>
-    <Description>made from the finest snail slime</Description>
+    <Description>Made from the finest snail slime</Description>
     <Command />
     <BasePrice>10</BasePrice>
     <SpriteId>0</SpriteId>
@@ -8852,7 +8852,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>lava_eel</Id>
-    <Name>lava eel</Name>
+    <Name>Lava eel</Name>
     <Description>Strange it looks cooler now it's been cooked</Description>
     <Command>eat</Command>
     <BasePrice>150</BasePrice>
@@ -9002,7 +9002,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>black_candle</Id>
-    <Name>black Candle</Name>
+    <Name>Black Candle</Name>
     <Description>A spooky but unlit candle</Description>
     <Command />
     <BasePrice>3</BasePrice>
@@ -9032,7 +9032,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>black_candle_burning</Id>
-    <Name>black Candle</Name>
+    <Name>Black Candle</Name>
     <Description>A spooky candle</Description>
     <Command />
     <BasePrice>3</BasePrice>
@@ -9047,7 +9047,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>insect_repellant</Id>
-    <Name>insect repellant</Name>
+    <Name>Insect repellant</Name>
     <Description>Drives away all known 6 legged creatures</Description>
     <Command />
     <BasePrice>3</BasePrice>
@@ -9077,7 +9077,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>wax_bucket</Id>
-    <Name>wax Bucket</Name>
+    <Name>Wax Bucket</Name>
     <Description>It's a wooden bucket</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -9317,7 +9317,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>glassblowing_pipe</Id>
-    <Name>glassblowing pipe</Name>
+    <Name>Glassblowing pipe</Name>
     <Description>Use on molten glass to make things</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -9332,8 +9332,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>seaweed</Id>
-    <Name>seaweed</Name>
-    <Description>slightly damp seaweed</Description>
+    <Name>Seaweed</Name>
+    <Description>Slightly damp seaweed</Description>
     <Command />
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -9347,8 +9347,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>molten_glass</Id>
-    <Name>molten glass</Name>
-    <Description>hot glass ready to be blown</Description>
+    <Name>Molten glass</Name>
+    <Description>Hot glass ready to be blown</Description>
     <Command />
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -9362,8 +9362,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>soda_ash</Id>
-    <Name>soda ash</Name>
-    <Description>one of the ingredients for making glass</Description>
+    <Name>Soda ash</Name>
+    <Description>One of the ingredients for making glass</Description>
     <Command />
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -9377,8 +9377,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>sand</Id>
-    <Name>sand</Name>
-    <Description>one of the ingredients for making glass</Description>
+    <Name>Sand</Name>
+    <Description>One of the ingredients for making glass</Description>
     <Command />
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -9392,7 +9392,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>air_orb</Id>
-    <Name>air orb</Name>
+    <Name>Air orb</Name>
     <Description>A magic glowing orb</Description>
     <Command />
     <BasePrice>300</BasePrice>
@@ -9407,7 +9407,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>earth_orb</Id>
-    <Name>earth orb</Name>
+    <Name>Earth orb</Name>
     <Description>A magic glowing orb</Description>
     <Command />
     <BasePrice>300</BasePrice>
@@ -9422,7 +9422,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>bass_certificate</Id>
-    <Name>bass certificate</Name>
+    <Name>Bass certificate</Name>
     <Description>Each certificate exchangable at Catherby for 5 bass</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -9452,7 +9452,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>shark_certificate</Id>
-    <Name>shark certificate</Name>
+    <Name>Shark certificate</Name>
     <Description>Each certificate exchangable at Catherby for 5 shark</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -9872,7 +9872,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>unstrung_oak_longbow</Id>
-    <Name>unstrung Oak Longbow</Name>
+    <Name>Unstrung Oak Longbow</Name>
     <Description>I need to find a string for this</Description>
     <Command />
     <BasePrice>80</BasePrice>
@@ -9887,7 +9887,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>unstrung_oak_shortbow</Id>
-    <Name>unstrung Oak Shortbow</Name>
+    <Name>Unstrung Oak Shortbow</Name>
     <Description>I need to find a string for this</Description>
     <Command />
     <BasePrice>50</BasePrice>
@@ -9902,7 +9902,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>unstrung_willow_longbow</Id>
-    <Name>unstrung Willow Longbow</Name>
+    <Name>Unstrung Willow Longbow</Name>
     <Description>I need to find a string for this</Description>
     <Command />
     <BasePrice>160</BasePrice>
@@ -9917,7 +9917,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>unstrung_willow_shortbow</Id>
-    <Name>unstrung Willow Shortbow</Name>
+    <Name>Unstrung Willow Shortbow</Name>
     <Description>I need to find a string for this</Description>
     <Command />
     <BasePrice>100</BasePrice>
@@ -9932,7 +9932,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>unstrung_maple_longbow</Id>
-    <Name>unstrung Maple Longbow</Name>
+    <Name>Unstrung Maple Longbow</Name>
     <Description>I need to find a string for this</Description>
     <Command />
     <BasePrice>320</BasePrice>
@@ -9947,7 +9947,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>unstrung_maple_shortbow</Id>
-    <Name>unstrung Maple Shortbow</Name>
+    <Name>Unstrung Maple Shortbow</Name>
     <Description>I need to find a string for this</Description>
     <Command />
     <BasePrice>200</BasePrice>
@@ -9962,7 +9962,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>unstrung_yew_longbow</Id>
-    <Name>unstrung Yew Longbow</Name>
+    <Name>Unstrung Yew Longbow</Name>
     <Description>I need to find a string for this</Description>
     <Command />
     <BasePrice>640</BasePrice>
@@ -9977,7 +9977,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>unstrung_yew_shortbow</Id>
-    <Name>unstrung Yew Shortbow</Name>
+    <Name>Unstrung Yew Shortbow</Name>
     <Description>I need to find a string for this</Description>
     <Command />
     <BasePrice>400</BasePrice>
@@ -9992,7 +9992,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>unstrung_magic_longbow</Id>
-    <Name>unstrung Magic Longbow</Name>
+    <Name>Unstrung Magic Longbow</Name>
     <Description>I need to find a string for this</Description>
     <Command />
     <BasePrice>1280</BasePrice>
@@ -10007,7 +10007,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>unstrung_magic_shortbow</Id>
-    <Name>unstrung Magic Shortbow</Name>
+    <Name>Unstrung Magic Shortbow</Name>
     <Description>I need to find a string for this</Description>
     <Command />
     <BasePrice>800</BasePrice>
@@ -10022,7 +10022,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>barcrawl_card</Id>
-    <Name>barcrawl card</Name>
+    <Name>Barcrawl card</Name>
     <Description>The official Alfred Grimhand barcrawl</Description>
     <Command>read</Command>
     <BasePrice>10</BasePrice>
@@ -10037,7 +10037,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>bronze_arrow_heads</Id>
-    <Name>bronze arrow heads</Name>
+    <Name>Bronze arrow heads</Name>
     <Description>Not much use without the rest of the arrow!</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -10052,7 +10052,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>iron_arrow_heads</Id>
-    <Name>iron arrow heads</Name>
+    <Name>Iron arrow heads</Name>
     <Description>Not much use without the rest of the arrow!</Description>
     <Command />
     <BasePrice>3</BasePrice>
@@ -10067,7 +10067,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>steel_arrow_heads</Id>
-    <Name>steel arrow heads</Name>
+    <Name>Steel arrow heads</Name>
     <Description>Not much use without the rest of the arrow!</Description>
     <Command />
     <BasePrice>12</BasePrice>
@@ -10082,7 +10082,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>mithril_arrow_heads</Id>
-    <Name>mithril arrow heads</Name>
+    <Name>Mithril arrow heads</Name>
     <Description>Not much use without the rest of the arrow!</Description>
     <Command />
     <BasePrice>32</BasePrice>
@@ -10097,7 +10097,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>adamantite_arrow_heads</Id>
-    <Name>adamantite arrow heads</Name>
+    <Name>Adamantite arrow heads</Name>
     <Description>Not much use without the rest of the arrow!</Description>
     <Command />
     <BasePrice>80</BasePrice>
@@ -10112,7 +10112,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>rune_arrow_heads</Id>
-    <Name>rune arrow heads</Name>
+    <Name>Rune arrow heads</Name>
     <Description>Not much use without the rest of the arrow!</Description>
     <Command />
     <BasePrice>400</BasePrice>
@@ -10127,7 +10127,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>flax</Id>
-    <Name>flax</Name>
+    <Name>Flax</Name>
     <Description>I should use this with a spinning wheel</Description>
     <Command />
     <BasePrice>5</BasePrice>
@@ -10142,7 +10142,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>bow_string</Id>
-    <Name>bow string</Name>
+    <Name>Bow string</Name>
     <Description>I need a bow handle to attach this too</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -10172,7 +10172,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>scorpion_cage</Id>
-    <Name>scorpion cage</Name>
+    <Name>Scorpion cage</Name>
     <Description>I need to catch some scorpions in this</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -10187,7 +10187,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>scorpion_cage_1_a</Id>
-    <Name>scorpion cage</Name>
+    <Name>Scorpion cage</Name>
     <Description>It has 1 scorpion in it</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -10202,7 +10202,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>scorpion_cage_2_a</Id>
-    <Name>scorpion cage</Name>
+    <Name>Scorpion cage</Name>
     <Description>It has 2 scorpions in it</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -10217,7 +10217,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>scorpion_cage_3_a</Id>
-    <Name>scorpion cage</Name>
+    <Name>Scorpion cage</Name>
     <Description>It has 3 scorpions in it</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -10292,7 +10292,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>scorpion_cage_1_b</Id>
-    <Name>scorpion cage</Name>
+    <Name>Scorpion cage</Name>
     <Description>It has 1 scorpion in it</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -10307,7 +10307,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>scorpion_cage_1_c</Id>
-    <Name>scorpion cage</Name>
+    <Name>Scorpion cage</Name>
     <Description>It has 1 scorpion in it</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -10322,7 +10322,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>scorpion_cage_2_b</Id>
-    <Name>scorpion cage</Name>
+    <Name>Scorpion cage</Name>
     <Description>It has 2 scorpions in it</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -10337,7 +10337,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>scorpion_cage_2_c</Id>
-    <Name>scorpion cage</Name>
+    <Name>Scorpion cage</Name>
     <Description>It has 2 scorpions in it</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -10352,8 +10352,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gold2</Id>
-    <Name>gold</Name>
-    <Description>this needs refining</Description>
+    <Name>Gold</Name>
+    <Description>This needs refining</Description>
     <Command />
     <BasePrice>150</BasePrice>
     <SpriteId>0</SpriteId>
@@ -10367,8 +10367,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gold_bar2</Id>
-    <Name>gold bar</Name>
-    <Description>this looks valuable</Description>
+    <Name>Gold bar</Name>
+    <Description>This looks valuable</Description>
     <Command />
     <BasePrice>300</BasePrice>
     <SpriteId>0</SpriteId>
@@ -10487,8 +10487,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gauntlets_of_goldsmithing</Id>
-    <Name>gauntlets of goldsmithing</Name>
-    <Description>metal gloves for gold making</Description>
+    <Name>Gauntlets of goldsmithing</Name>
+    <Description>Metal gloves for gold making</Description>
     <Command />
     <BasePrice>6</BasePrice>
     <SpriteId>0</SpriteId>
@@ -10502,7 +10502,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gauntlets_of_cooking</Id>
-    <Name>gauntlets of cooking</Name>
+    <Name>Gauntlets of cooking</Name>
     <Description>Used for cooking fish</Description>
     <Command />
     <BasePrice>6</BasePrice>
@@ -10517,8 +10517,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gauntlets_of_chaos</Id>
-    <Name>gauntlets of chaos</Name>
-    <Description>improves bolt spells</Description>
+    <Name>Gauntlets of chaos</Name>
+    <Description>Improves bolt spells</Description>
     <Command />
     <BasePrice>6</BasePrice>
     <SpriteId>0</SpriteId>
@@ -10532,7 +10532,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>robe_of_zamorak</Id>
-    <Name>robe of Zamorak</Name>
+    <Name>Robe of Zamorak</Name>
     <Description>A robe worn by worshippers of Zamorak</Description>
     <Command />
     <BasePrice>40</BasePrice>
@@ -10547,7 +10547,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>robe_of_zamorak2</Id>
-    <Name>robe of Zamorak</Name>
+    <Name>Robe of Zamorak</Name>
     <Description>A robe worn by worshippers of Zamorak</Description>
     <Command />
     <BasePrice>30</BasePrice>
@@ -10592,7 +10592,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>tourist_guide</Id>
-    <Name>tourist guide</Name>
+    <Name>Tourist guide</Name>
     <Description>Your definitive guide to Ardougne</Description>
     <Command>read</Command>
     <BasePrice>1</BasePrice>
@@ -10607,7 +10607,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>spice</Id>
-    <Name>spice</Name>
+    <Name>Spice</Name>
     <Description>Put it in uncooked stew to make curry</Description>
     <Command />
     <BasePrice>230</BasePrice>
@@ -10637,7 +10637,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>curry</Id>
-    <Name>curry</Name>
+    <Name>Curry</Name>
     <Description>It's a spicey hot curry</Description>
     <Command>Eat</Command>
     <BasePrice>20</BasePrice>
@@ -10667,7 +10667,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>yew_logs_certificate</Id>
-    <Name>yew logs certificate</Name>
+    <Name>Yew logs certificate</Name>
     <Description>Each certificate exchangable at Ardougne for 5 yew logs</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -10682,7 +10682,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>maple_logs_certificate</Id>
-    <Name>maple logs certificate</Name>
+    <Name>Maple logs certificate</Name>
     <Description>Each certificate exchangable at Ardougne for 5 maple logs</Description>
     <Command />
     <BasePrice>20</BasePrice>
@@ -10697,7 +10697,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>willow_logs_certificate</Id>
-    <Name>willow logs certificate</Name>
+    <Name>Willow logs certificate</Name>
     <Description>Each certificate exchangable at Ardougne for 5 willow logs</Description>
     <Command />
     <BasePrice>30</BasePrice>
@@ -10712,7 +10712,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>lockpick</Id>
-    <Name>lockpick</Name>
+    <Name>Lockpick</Name>
     <Description>It makes picking some locks easier</Description>
     <Command />
     <BasePrice>20</BasePrice>
@@ -10772,7 +10772,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>giant_carp</Id>
-    <Name>giant Carp</Name>
+    <Name>Giant Carp</Name>
     <Description>Some nicely cooked fish</Description>
     <Command>Eat</Command>
     <BasePrice>50</BasePrice>
@@ -10908,7 +10908,7 @@
   <ItemEntity>
     <Id>large_cog</Id>
     <Name>Large cog</Name>
-    <Description> A large old cog</Description>
+    <Description>A large old cog</Description>
     <Command />
     <BasePrice>10</BasePrice>
     <SpriteId>0</SpriteId>
@@ -10923,7 +10923,7 @@
   <ItemEntity>
     <Id>large_cog2</Id>
     <Name>Large cog</Name>
-    <Description> A large old cog</Description>
+    <Description>A large old cog</Description>
     <Command />
     <BasePrice>10</BasePrice>
     <SpriteId>0</SpriteId>
@@ -10938,7 +10938,7 @@
   <ItemEntity>
     <Id>large_cog3</Id>
     <Name>Large cog</Name>
-    <Description> A large old cog</Description>
+    <Description>A large old cog</Description>
     <Command />
     <BasePrice>10</BasePrice>
     <SpriteId>0</SpriteId>
@@ -10953,7 +10953,7 @@
   <ItemEntity>
     <Id>large_cog4</Id>
     <Name>Large cog</Name>
-    <Description> A large old cog</Description>
+    <Description>A large old cog</Description>
     <Command />
     <BasePrice>10</BasePrice>
     <SpriteId>0</SpriteId>
@@ -10982,7 +10982,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>shiny_key</Id>
-    <Name>shiny Key</Name>
+    <Name>Shiny Key</Name>
     <Description>Quite a small key</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -10997,7 +10997,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>khazard_helmet</Id>
-    <Name>khazard Helmet</Name>
+    <Name>Khazard Helmet</Name>
     <Description>A medium sized helmet</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -11012,7 +11012,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>khazard_chainmail</Id>
-    <Name>khazard chainmail</Name>
+    <Name>Khazard chainmail</Name>
     <Description>A series of connected metal rings</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -11027,7 +11027,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>khali_brew</Id>
-    <Name>khali brew</Name>
+    <Name>Khali brew</Name>
     <Description>A bottle of khazard's worst brew</Description>
     <Command>drink</Command>
     <BasePrice>5</BasePrice>
@@ -11042,7 +11042,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>khazard_cell_keys</Id>
-    <Name>khazard cell keys</Name>
+    <Name>Khazard cell keys</Name>
     <Description>Keys for General Khazard's cells</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -11072,7 +11072,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>magic_whistle</Id>
-    <Name>magic whistle</Name>
+    <Name>Magic whistle</Name>
     <Description>A small tin whistle</Description>
     <Command>blow</Command>
     <BasePrice>10</BasePrice>
@@ -11102,8 +11102,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>orb_of_protection</Id>
-    <Name>orb of protection</Name>
-    <Description>a strange glowing green orb</Description>
+    <Name>Orb of protection</Name>
+    <Description>A strange glowing green orb</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -11117,8 +11117,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>orbs_of_protection</Id>
-    <Name>orbs of protection</Name>
-    <Description>two strange glowing green orbs</Description>
+    <Name>Orbs of protection</Name>
+    <Description>Two strange glowing green orbs</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -11133,7 +11133,7 @@
   <ItemEntity>
     <Id>holy_table_napkin</Id>
     <Name>Holy table napkin</Name>
-    <Description>a cloth given to me by sir Galahad</Description>
+    <Description>A cloth given to me by sir Galahad</Description>
     <Command />
     <BasePrice>10</BasePrice>
     <SpriteId>0</SpriteId>
@@ -11147,7 +11147,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>bell</Id>
-    <Name>bell</Name>
+    <Name>Bell</Name>
     <Description>I wonder what happens when i ring it</Description>
     <Command>ring</Command>
     <BasePrice>1</BasePrice>
@@ -11177,7 +11177,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>magic_golden_feather</Id>
-    <Name>magic golden feather</Name>
+    <Name>Magic golden feather</Name>
     <Description>It will point the way for me</Description>
     <Command>blow on</Command>
     <BasePrice>2</BasePrice>
@@ -11312,7 +11312,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>bloody_axe_of_zamorak</Id>
-    <Name>bloody axe of zamorak</Name>
+    <Name>Bloody axe of Zamorak</Name>
     <Description>A vicious looking axe</Description>
     <Command />
     <BasePrice>5000</BasePrice>
@@ -11327,8 +11327,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>carnillean_armour</Id>
-    <Name>carnillean armour</Name>
-    <Description>the carnillean family armour</Description>
+    <Name>Carnillean armour</Name>
+    <Description>The carnillean family armour</Description>
     <Command />
     <BasePrice>65</BasePrice>
     <SpriteId>0</SpriteId>
@@ -11477,8 +11477,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>dwellberries</Id>
-    <Name>dwellberries</Name>
-    <Description>some rather pretty blue berries</Description>
+    <Name>Dwellberries</Name>
+    <Description>Some rather pretty blue berries</Description>
     <Command>eat</Command>
     <BasePrice>4</BasePrice>
     <SpriteId>0</SpriteId>
@@ -11507,7 +11507,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>picture</Id>
-    <Name>picture</Name>
+    <Name>Picture</Name>
     <Description>A picture of a lady called Elena</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -11538,7 +11538,7 @@
   <ItemEntity>
     <Id>seaslug</Id>
     <Name>Seaslug</Name>
-    <Description>a rather nasty looking crustacean</Description>
+    <Description>A rather nasty looking crustacean</Description>
     <Command />
     <BasePrice>4</BasePrice>
     <SpriteId>0</SpriteId>
@@ -11552,7 +11552,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>chocolaty_milk</Id>
-    <Name>chocolaty milk</Name>
+    <Name>Chocolaty milk</Name>
     <Description>Milk with chocolate in it</Description>
     <Command>drink</Command>
     <BasePrice>2</BasePrice>
@@ -11627,7 +11627,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>warrant</Id>
-    <Name>warrant</Name>
+    <Name>Warrant</Name>
     <Description>A search warrant for a house in Ardougne</Description>
     <Command />
     <BasePrice>5</BasePrice>
@@ -11687,7 +11687,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>oyster_pearls</Id>
-    <Name>oyster pearls</Name>
+    <Name>Oyster pearls</Name>
     <Description>I could work wonders with these and a chisel</Description>
     <Command />
     <BasePrice>1400</BasePrice>
@@ -11702,7 +11702,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>little_key</Id>
-    <Name>little key</Name>
+    <Name>Little key</Name>
     <Description>Quite a small key</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -11822,7 +11822,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>book_on_baxtorian</Id>
-    <Name>book on baxtorian</Name>
+    <Name>Book on baxtorian</Name>
     <Description>A book on elven history in north runescape</Description>
     <Command>read</Command>
     <BasePrice>2</BasePrice>
@@ -11837,7 +11837,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>large_key</Id>
-    <Name>large key</Name>
+    <Name>Large key</Name>
     <Description>I wonder what this is the key to</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -11867,7 +11867,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>oyster_empty</Id>
-    <Name>oyster</Name>
+    <Name>Oyster</Name>
     <Description>It's empty</Description>
     <Command />
     <BasePrice>5</BasePrice>
@@ -11882,7 +11882,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>oyster_pearls2</Id>
-    <Name>oyster pearls</Name>
+    <Name>Oyster pearls</Name>
     <Description>I could work wonders with these and a chisel</Description>
     <Command />
     <BasePrice>112</BasePrice>
@@ -11897,7 +11897,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>oyster</Id>
-    <Name>oyster</Name>
+    <Name>Oyster</Name>
     <Description>It's a rare oyster</Description>
     <Command>open</Command>
     <BasePrice>200</BasePrice>
@@ -11972,7 +11972,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>pigeon_cage</Id>
-    <Name>pigeon cage</Name>
+    <Name>Pigeon cage</Name>
     <Description>It's for holding pigeons</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -11988,7 +11988,7 @@
   <ItemEntity>
     <Id>messenger_pigeons</Id>
     <Name>Messenger pigeons</Name>
-    <Description>some very plump birds</Description>
+    <Description>Some very plump birds</Description>
     <Command>release</Command>
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -12108,7 +12108,7 @@
   <ItemEntity>
     <Id>priest_robe</Id>
     <Name>Priest robe</Name>
-    <Description>I feel closer to saradomin in this</Description>
+    <Description>I feel closer to Saradomin in this</Description>
     <Command />
     <BasePrice>5</BasePrice>
     <SpriteId>0</SpriteId>
@@ -12123,7 +12123,7 @@
   <ItemEntity>
     <Id>priest_gown</Id>
     <Name>Priest gown</Name>
-    <Description>I feel closer to saradomin in this</Description>
+    <Description>I feel closer to Saradomin in this</Description>
     <Command />
     <BasePrice>5</BasePrice>
     <SpriteId>0</SpriteId>
@@ -12168,7 +12168,7 @@
   <ItemEntity>
     <Id>sulphuric_broline</Id>
     <Name>Sulphuric Broline</Name>
-    <Description>it's highly poisonous</Description>
+    <Description>It's highly poisonous</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -12363,7 +12363,7 @@
   <ItemEntity>
     <Id>rogues_purse</Id>
     <Name>Rogues Purse</Name>
-    <Description> A rare species of jungle herb</Description>
+    <Description>A rare species of jungle herb</Description>
     <Command />
     <BasePrice>5</BasePrice>
     <SpriteId>0</SpriteId>
@@ -12392,7 +12392,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>king_lathas_amulet</Id>
-    <Name>king lathas Amulet</Name>
+    <Name>King lathas Amulet</Name>
     <Description>The amulet is red</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -12422,8 +12422,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>halloween_mask</Id>
-    <Name>halloween mask</Name>
-    <Description>aaaarrrghhh ... i'm a monster</Description>
+    <Name>Halloween mask</Name>
+    <Description>Aaaarrrghhh ... I'm a monster</Description>
     <Command />
     <BasePrice>15</BasePrice>
     <SpriteId>0</SpriteId>
@@ -12467,8 +12467,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>halloween_mask2</Id>
-    <Name>halloween mask</Name>
-    <Description>aaaarrrghhh ... i'm a monster</Description>
+    <Name>Halloween mask</Name>
+    <Description>Aaaarrrghhh ... I'm a monster</Description>
     <Command />
     <BasePrice>15</BasePrice>
     <SpriteId>0</SpriteId>
@@ -12482,8 +12482,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>halloween_mask3</Id>
-    <Name>halloween mask</Name>
-    <Description>aaaarrrghhh ... i'm a monster</Description>
+    <Name>Halloween mask</Name>
+    <Description>Aaaarrrghhh ... I'm a monster</Description>
     <Command />
     <BasePrice>15</BasePrice>
     <SpriteId>0</SpriteId>
@@ -12497,7 +12497,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>cocktail_glass</Id>
-    <Name>cocktail glass</Name>
+    <Name>Cocktail glass</Name>
     <Description>For sipping cocktails</Description>
     <Command />
     <BasePrice>0</BasePrice>
@@ -12512,7 +12512,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>cocktail_shaker</Id>
-    <Name>cocktail shaker</Name>
+    <Name>Cocktail shaker</Name>
     <Description>For mixing cocktails</Description>
     <Command>pour</Command>
     <BasePrice>2</BasePrice>
@@ -12542,7 +12542,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_robe</Id>
-    <Name>gnome robe</Name>
+    <Name>Gnome robe</Name>
     <Description>A high fashion robe</Description>
     <Command />
     <BasePrice>180</BasePrice>
@@ -12557,7 +12557,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_robe2</Id>
-    <Name>gnome robe</Name>
+    <Name>Gnome robe</Name>
     <Description>A high fashion robe</Description>
     <Command />
     <BasePrice>180</BasePrice>
@@ -12572,7 +12572,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_robe3</Id>
-    <Name>gnome robe</Name>
+    <Name>Gnome robe</Name>
     <Description>A high fashion robe</Description>
     <Command />
     <BasePrice>180</BasePrice>
@@ -12587,7 +12587,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_robe4</Id>
-    <Name>gnome robe</Name>
+    <Name>Gnome robe</Name>
     <Description>A high fashion robe</Description>
     <Command />
     <BasePrice>180</BasePrice>
@@ -12602,7 +12602,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_robe5</Id>
-    <Name>gnome robe</Name>
+    <Name>Gnome robe</Name>
     <Description>A high fashion robe</Description>
     <Command />
     <BasePrice>180</BasePrice>
@@ -12617,7 +12617,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_hat</Id>
-    <Name>gnomeshat</Name>
+    <Name>Gnomeshat</Name>
     <Description>A silly pointed hat</Description>
     <Command />
     <BasePrice>160</BasePrice>
@@ -12632,7 +12632,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_hat2</Id>
-    <Name>gnomeshat</Name>
+    <Name>Gnomeshat</Name>
     <Description>A silly pointed hat</Description>
     <Command />
     <BasePrice>160</BasePrice>
@@ -12647,7 +12647,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_hat3</Id>
-    <Name>gnomeshat</Name>
+    <Name>Gnomeshat</Name>
     <Description>A silly pointed hat</Description>
     <Command />
     <BasePrice>160</BasePrice>
@@ -12662,7 +12662,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_hat4</Id>
-    <Name>gnomeshat</Name>
+    <Name>Gnomeshat</Name>
     <Description>A silly pointed hat</Description>
     <Command />
     <BasePrice>160</BasePrice>
@@ -12677,7 +12677,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_hat5</Id>
-    <Name>gnomeshat</Name>
+    <Name>Gnomeshat</Name>
     <Description>A silly pointed hat</Description>
     <Command />
     <BasePrice>160</BasePrice>
@@ -12692,8 +12692,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_top</Id>
-    <Name>gnome top</Name>
-    <Description>rometti - the ultimate in gnome design</Description>
+    <Name>Gnome top</Name>
+    <Description>Rometti - the ultimate in gnome design</Description>
     <Command />
     <BasePrice>180</BasePrice>
     <SpriteId>0</SpriteId>
@@ -12707,8 +12707,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_top1</Id>
-    <Name>gnome top</Name>
-    <Description>rometti - the only name in gnome fashion!</Description>
+    <Name>Gnome top</Name>
+    <Description>Rometti - the only name in gnome fashion!</Description>
     <Command />
     <BasePrice>180</BasePrice>
     <SpriteId>0</SpriteId>
@@ -12722,8 +12722,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_top2</Id>
-    <Name>gnome top</Name>
-    <Description>rometti - the only name in gnome fashion!</Description>
+    <Name>Gnome top</Name>
+    <Description>Rometti - the only name in gnome fashion!</Description>
     <Command />
     <BasePrice>180</BasePrice>
     <SpriteId>0</SpriteId>
@@ -12737,8 +12737,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_top3</Id>
-    <Name>gnome top</Name>
-    <Description>rometti - the only name in gnome fashion!</Description>
+    <Name>Gnome top</Name>
+    <Description>Rometti - the only name in gnome fashion!</Description>
     <Command />
     <BasePrice>180</BasePrice>
     <SpriteId>0</SpriteId>
@@ -12752,8 +12752,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_top4</Id>
-    <Name>gnome top</Name>
-    <Description>rometti - the only name in gnome fashion!</Description>
+    <Name>Gnome top</Name>
+    <Description>Rometti - the only name in gnome fashion!</Description>
     <Command />
     <BasePrice>180</BasePrice>
     <SpriteId>0</SpriteId>
@@ -12767,7 +12767,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_cocktail_guide</Id>
-    <Name>gnome cocktail guide</Name>
+    <Name>Gnome cocktail guide</Name>
     <Description>A book on tree gnome cocktails</Description>
     <Command>read</Command>
     <BasePrice>2</BasePrice>
@@ -12797,7 +12797,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>cocktail_glass2</Id>
-    <Name>cocktail glass</Name>
+    <Name>Cocktail glass</Name>
     <Description>For sipping cocktails</Description>
     <Command>drink</Command>
     <BasePrice>2</BasePrice>
@@ -12812,7 +12812,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>cocktail_glass3</Id>
-    <Name>cocktail glass</Name>
+    <Name>Cocktail glass</Name>
     <Description>For sipping cocktails</Description>
     <Command>drink</Command>
     <BasePrice>2</BasePrice>
@@ -12827,7 +12827,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>lemon</Id>
-    <Name>lemon</Name>
+    <Name>Lemon</Name>
     <Description>It's very fresh</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
@@ -12842,7 +12842,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>lemon_slices</Id>
-    <Name>lemon slices</Name>
+    <Name>Lemon slices</Name>
     <Description>It's very fresh</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
@@ -12857,7 +12857,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>orange</Id>
-    <Name>orange</Name>
+    <Name>Orange</Name>
     <Description>It's very fresh</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
@@ -12872,7 +12872,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>orange_slices</Id>
-    <Name>orange slices</Name>
+    <Name>Orange slices</Name>
     <Description>It's very fresh</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
@@ -12947,7 +12947,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>lime</Id>
-    <Name>lime</Name>
+    <Name>Lime</Name>
     <Description>It's very fresh</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
@@ -12962,7 +12962,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>lime_chunks</Id>
-    <Name>lime chunks</Name>
+    <Name>Lime chunks</Name>
     <Description>Fresh chunks of lime</Description>
     <Command>eat</Command>
     <BasePrice>1</BasePrice>
@@ -12977,7 +12977,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>lime_slices</Id>
-    <Name>lime slices</Name>
+    <Name>Lime slices</Name>
     <Description>It's very fresh</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
@@ -12992,7 +12992,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>fruit_blast</Id>
-    <Name>fruit blast</Name>
+    <Name>Fruit blast</Name>
     <Description>A cool refreshing fruit mix</Description>
     <Command>drink</Command>
     <BasePrice>2</BasePrice>
@@ -13007,7 +13007,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>odd_looking_cocktail</Id>
-    <Name>odd looking cocktail</Name>
+    <Name>Odd looking cocktail</Name>
     <Description>A cool refreshing mix</Description>
     <Command>drink</Command>
     <BasePrice>2</BasePrice>
@@ -13037,7 +13037,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>vodka</Id>
-    <Name>vodka</Name>
+    <Name>Vodka</Name>
     <Description>A strong spirit</Description>
     <Command>drink</Command>
     <BasePrice>5</BasePrice>
@@ -13052,7 +13052,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gin</Id>
-    <Name>gin</Name>
+    <Name>Gin</Name>
     <Description>A strong spirit</Description>
     <Command>drink</Command>
     <BasePrice>5</BasePrice>
@@ -13067,7 +13067,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>cream</Id>
-    <Name>cream</Name>
+    <Name>Cream</Name>
     <Description>Fresh cream</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
@@ -13142,7 +13142,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>brandy</Id>
-    <Name>brandy</Name>
+    <Name>Brandy</Name>
     <Description>A strong spirit</Description>
     <Command>drink</Command>
     <BasePrice>5</BasePrice>
@@ -13157,7 +13157,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>blurberry_special</Id>
-    <Name>blurberry special</Name>
+    <Name>Blurberry special</Name>
     <Description>Looks good..smells strong</Description>
     <Command>drink</Command>
     <BasePrice>2</BasePrice>
@@ -13172,7 +13172,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>wizard_blizzard</Id>
-    <Name>wizard blizzard</Name>
+    <Name>Wizard blizzard</Name>
     <Description>Looks like a strange mix</Description>
     <Command>drink</Command>
     <BasePrice>2</BasePrice>
@@ -13187,7 +13187,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>pineapple_punch</Id>
-    <Name>pineapple punch</Name>
+    <Name>Pineapple punch</Name>
     <Description>A fresh healthy fruit mix</Description>
     <Command>drink</Command>
     <BasePrice>2</BasePrice>
@@ -13202,7 +13202,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnomebatta_dough</Id>
-    <Name>gnomebatta dough</Name>
+    <Name>Gnomebatta dough</Name>
     <Description>Dough formed into a base</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -13217,7 +13217,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gianne_dough</Id>
-    <Name>gianne dough</Name>
+    <Name>Gianne dough</Name>
     <Description>It's made from a secret recipe</Description>
     <Command>mould</Command>
     <BasePrice>2</BasePrice>
@@ -13232,7 +13232,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnomebowl_dough</Id>
-    <Name>gnomebowl dough</Name>
+    <Name>Gnomebowl dough</Name>
     <Description>Dough formed into a bowl shape</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -13247,7 +13247,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnomecrunchie_dough</Id>
-    <Name>gnomecrunchie dough</Name>
+    <Name>Gnomecrunchie dough</Name>
     <Description>Dough formed into cookie shapes</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -13262,7 +13262,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnomebatta</Id>
-    <Name>gnomebatta</Name>
+    <Name>Gnomebatta</Name>
     <Description>A baked dough base</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -13277,7 +13277,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_bowl</Id>
-    <Name>gnomebowl</Name>
+    <Name>Gnomebowl</Name>
     <Description>A baked dough bowl</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
@@ -13292,7 +13292,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_batta_burnt</Id>
-    <Name>gnomebatta</Name>
+    <Name>Gnomebatta</Name>
     <Description>It's burnt to a sinder</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -13307,7 +13307,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_crunchie_burnt</Id>
-    <Name>gnomecrunchie</Name>
+    <Name>Gnomecrunchie</Name>
     <Description>They're burnt to a sinder</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -13322,7 +13322,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_bowl_burnt</Id>
-    <Name>gnomebowl</Name>
+    <Name>Gnomebowl</Name>
     <Description>It's burnt to a sinder</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -13487,7 +13487,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gianne_cook_book</Id>
-    <Name>gianne cook book</Name>
+    <Name>Gianne cook book</Name>
     <Description>Aluft Giannes favorite dishes</Description>
     <Command>read</Command>
     <BasePrice>2</BasePrice>
@@ -13502,8 +13502,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_crunchie</Id>
-    <Name>gnomecrunchie</Name>
-    <Description>yum ... smells good</Description>
+    <Name>Gnomecrunchie</Name>
+    <Description>Yum ... smells good</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -13517,7 +13517,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>cheese_and_tomato_batta</Id>
-    <Name>cheese and tomato batta</Name>
+    <Name>Cheese and tomato batta</Name>
     <Description>Smells really good</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
@@ -13532,8 +13532,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>toad_batta</Id>
-    <Name>toad batta</Name>
-    <Description>actually smells quite good</Description>
+    <Name>Toad batta</Name>
+    <Description>Actually smells quite good</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -13547,8 +13547,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_batta</Id>
-    <Name>gnome batta</Name>
-    <Description>smells like pants</Description>
+    <Name>Gnome batta</Name>
+    <Description>Smells like pants</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -13562,8 +13562,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>worm_batta</Id>
-    <Name>worm batta</Name>
-    <Description>actually smells quite good</Description>
+    <Name>Worm batta</Name>
+    <Description>Actually smells quite good</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -13577,8 +13577,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>fruit_batta</Id>
-    <Name>fruit batta</Name>
-    <Description>actually smells quite good</Description>
+    <Name>Fruit batta</Name>
+    <Description>Actually smells quite good</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -13593,7 +13593,7 @@
   <ItemEntity>
     <Id>veg_batta</Id>
     <Name>Veg batta</Name>
-    <Description>well..it looks healthy</Description>
+    <Description>Well..it looks healthy</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -13637,8 +13637,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>worm_hole</Id>
-    <Name>worm hole</Name>
-    <Description>actually smells quite good</Description>
+    <Name>Worm hole</Name>
+    <Description>Actually smells quite good</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -13653,7 +13653,7 @@
   <ItemEntity>
     <Id>tangled_toad_legs</Id>
     <Name>Tangled toads legs</Name>
-    <Description>actually smells quite good</Description>
+    <Description>Actually smells quite good</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -13668,7 +13668,7 @@
   <ItemEntity>
     <Id>choc_crunchies2</Id>
     <Name>Choc crunchies</Name>
-    <Description>yum ... smells good</Description>
+    <Description>Yum ... smells good</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -13683,7 +13683,7 @@
   <ItemEntity>
     <Id>worm_crunchies2</Id>
     <Name>Worm crunchies</Name>
-    <Description>actually smells quite good</Description>
+    <Description>Actually smells quite good</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -13698,7 +13698,7 @@
   <ItemEntity>
     <Id>toad_crunchies2</Id>
     <Name>Toad crunchies</Name>
-    <Description>actually smells quite good</Description>
+    <Description>Actually smells quite good</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -13713,7 +13713,7 @@
   <ItemEntity>
     <Id>spice_crunchies2</Id>
     <Name>Spice crunchies</Name>
-    <Description>yum ... smells good</Description>
+    <Description>Yum ... smells good</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -13743,7 +13743,7 @@
   <ItemEntity>
     <Id>blurberry_badge</Id>
     <Name>Blurberry badge</Name>
-    <Description>an official cocktail maker</Description>
+    <Description>An official cocktail maker</Description>
     <Command />
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -13758,7 +13758,7 @@
   <ItemEntity>
     <Id>gianne_badge</Id>
     <Name>Gianne badge</Name>
-    <Description>an official gianne chef</Description>
+    <Description>An official gianne chef</Description>
     <Command />
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -13772,7 +13772,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>tree_gnome_translation</Id>
-    <Name>tree gnome translation</Name>
+    <Name>Tree gnome translation</Name>
     <Description>Translate the old gnome tounge</Description>
     <Command>read</Command>
     <BasePrice>2</BasePrice>
@@ -13817,7 +13817,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>journal_glough</Id>
-    <Name>gloughs journal</Name>
+    <Name>Gloughs journal</Name>
     <Description>Glough's private notes</Description>
     <Command>read</Command>
     <BasePrice>2</BasePrice>
@@ -13832,7 +13832,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>invoice</Id>
-    <Name>invoice</Name>
+    <Name>Invoice</Name>
     <Description>A note with foreman's timber order</Description>
     <Command>read</Command>
     <BasePrice>2</BasePrice>
@@ -13862,7 +13862,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>special_curry</Id>
-    <Name>special curry</Name>
+    <Name>Special curry</Name>
     <Description>It's a spicy hot curry</Description>
     <Command>Eat</Command>
     <BasePrice>20</BasePrice>
@@ -13876,8 +13876,8 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>glough's_key</Id>
-    <Name>glough's key</Name>
+    <Id>key_glough</Id>
+    <Name>Glough's key</Name>
     <Description>Glough left this at anita's</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -13891,8 +13891,8 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>glough's_notes</Id>
-    <Name>glough's notes</Name>
+    <Id>notes_glough</Id>
+    <Name>Glough's notes</Name>
     <Description>Scribbled notes and diagrams</Description>
     <Command>read</Command>
     <BasePrice>2</BasePrice>
@@ -14057,7 +14057,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>fruit_blast2</Id>
-    <Name>fruit blast</Name>
+    <Name>Fruit blast</Name>
     <Description>A cool refreshing fruit mix</Description>
     <Command>drink</Command>
     <BasePrice>30</BasePrice>
@@ -14072,7 +14072,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>blurberry_special2</Id>
-    <Name>blurberry special</Name>
+    <Name>Blurberry special</Name>
     <Description>Looks good..smells strong</Description>
     <Command>drink</Command>
     <BasePrice>30</BasePrice>
@@ -14087,7 +14087,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>wizard_blizzard2</Id>
-    <Name>wizard blizzard</Name>
+    <Name>Wizard blizzard</Name>
     <Description>Looks like a strange mix</Description>
     <Command>drink</Command>
     <BasePrice>30</BasePrice>
@@ -14102,7 +14102,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>pineapple_punch2</Id>
-    <Name>pineapple punch</Name>
+    <Name>Pineapple punch</Name>
     <Description>A fresh healthy fruit mix</Description>
     <Command>drink</Command>
     <BasePrice>30</BasePrice>
@@ -14162,7 +14162,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>cheese_and_tomato_batta2</Id>
-    <Name>cheese and tomato batta</Name>
+    <Name>Cheese and tomato batta</Name>
     <Description>Smells really good</Description>
     <Command>eat</Command>
     <BasePrice>120</BasePrice>
@@ -14177,8 +14177,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>toad_batta2</Id>
-    <Name>toad batta</Name>
-    <Description>actually smells quite good</Description>
+    <Name>Toad batta</Name>
+    <Description>Actually smells quite good</Description>
     <Command>eat</Command>
     <BasePrice>120</BasePrice>
     <SpriteId>0</SpriteId>
@@ -14192,8 +14192,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gnome_batta2</Id>
-    <Name>gnome batta</Name>
-    <Description>smells like pants</Description>
+    <Name>Gnome batta</Name>
+    <Description>Smells like pants</Description>
     <Command>eat</Command>
     <BasePrice>120</BasePrice>
     <SpriteId>0</SpriteId>
@@ -14207,8 +14207,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>worm_batta2</Id>
-    <Name>worm batta</Name>
-    <Description>actually smells quite good</Description>
+    <Name>Worm batta</Name>
+    <Description>Actually smells quite good</Description>
     <Command>eat</Command>
     <BasePrice>120</BasePrice>
     <SpriteId>0</SpriteId>
@@ -14222,8 +14222,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>fruit_batta2</Id>
-    <Name>fruit batta</Name>
-    <Description>actually smells quite good</Description>
+    <Name>Fruit batta</Name>
+    <Description>Actually smells quite good</Description>
     <Command>eat</Command>
     <BasePrice>120</BasePrice>
     <SpriteId>0</SpriteId>
@@ -14238,7 +14238,7 @@
   <ItemEntity>
     <Id>veg_batta2</Id>
     <Name>Veg batta</Name>
-    <Description>well..it looks healthy</Description>
+    <Description>Well..it looks healthy</Description>
     <Command>eat</Command>
     <BasePrice>120</BasePrice>
     <SpriteId>0</SpriteId>
@@ -14282,8 +14282,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>worm_hole2</Id>
-    <Name>worm hole</Name>
-    <Description>actually smells quite good</Description>
+    <Name>Worm hole</Name>
+    <Description>Actually smells quite good</Description>
     <Command>eat</Command>
     <BasePrice>150</BasePrice>
     <SpriteId>0</SpriteId>
@@ -14298,7 +14298,7 @@
   <ItemEntity>
     <Id>tangled_toad_legs2</Id>
     <Name>Tangled toads legs</Name>
-    <Description>actually smells quite good</Description>
+    <Description>Actually smells quite good</Description>
     <Command>eat</Command>
     <BasePrice>160</BasePrice>
     <SpriteId>0</SpriteId>
@@ -14313,7 +14313,7 @@
   <ItemEntity>
     <Id>choc_crunchies</Id>
     <Name>Choc crunchies</Name>
-    <Description>yum ... smells good</Description>
+    <Description>Yum ... smells good</Description>
     <Command>eat</Command>
     <BasePrice>85</BasePrice>
     <SpriteId>0</SpriteId>
@@ -14328,7 +14328,7 @@
   <ItemEntity>
     <Id>worm_crunchies</Id>
     <Name>Worm crunchies</Name>
-    <Description>actually smells quite good</Description>
+    <Description>Actually smells quite good</Description>
     <Command>eat</Command>
     <BasePrice>85</BasePrice>
     <SpriteId>0</SpriteId>
@@ -14343,7 +14343,7 @@
   <ItemEntity>
     <Id>toad_crunchies</Id>
     <Name>Toad crunchies</Name>
-    <Description>actually smells quite good</Description>
+    <Description>Actually smells quite good</Description>
     <Command>eat</Command>
     <BasePrice>85</BasePrice>
     <SpriteId>0</SpriteId>
@@ -14358,7 +14358,7 @@
   <ItemEntity>
     <Id>spice_crunchies</Id>
     <Name>Spice crunchies</Name>
-    <Description>yum ... smells good</Description>
+    <Description>Yum ... smells good</Description>
     <Command>eat</Command>
     <BasePrice>85</BasePrice>
     <SpriteId>0</SpriteId>
@@ -14748,7 +14748,7 @@
   <ItemEntity>
     <Id>a_lump_of_charcoal</Id>
     <Name>A lump of Charcoal</Name>
-    <Description>a lump of cooked coal good for making marks.</Description>
+    <Description>A lump of cooked coal good for making marks.</Description>
     <Command />
     <BasePrice>45</BasePrice>
     <SpriteId>0</SpriteId>
@@ -14763,7 +14763,7 @@
   <ItemEntity>
     <Id>arrow</Id>
     <Name>Arrow</Name>
-    <Description>linen wrapped around an arrow head</Description>
+    <Description>Linen wrapped around an arrow head</Description>
     <Command />
     <BasePrice>10</BasePrice>
     <SpriteId>0</SpriteId>
@@ -15182,7 +15182,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>keep_key</Id>
-    <Name>keep key</Name>
+    <Name>Keep key</Name>
     <Description>A small prison key</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -15393,7 +15393,7 @@
   <ItemEntity>
     <Id>unholy_symbol_mould</Id>
     <Name>Unholy Symbol mould</Name>
-    <Description>use this with silver in a furnace</Description>
+    <Description>Use this with silver in a furnace</Description>
     <Command />
     <BasePrice>200</BasePrice>
     <SpriteId>0</SpriteId>
@@ -15408,7 +15408,7 @@
   <ItemEntity>
     <Id>unstringed_unholy_symbol_of_zamorak</Id>
     <Name>Unholy Symbol of Zamorak</Name>
-    <Description>this needs stringing</Description>
+    <Description>This needs stringing</Description>
     <Command />
     <BasePrice>200</BasePrice>
     <SpriteId>0</SpriteId>
@@ -15423,7 +15423,7 @@
   <ItemEntity>
     <Id>unblessed_unholy_symbol_of_zamorak</Id>
     <Name>Unblessed Unholy Symbol of Zamorak</Name>
-    <Description>this needs blessing</Description>
+    <Description>This needs blessing</Description>
     <Command />
     <BasePrice>200</BasePrice>
     <SpriteId>0</SpriteId>
@@ -15438,7 +15438,7 @@
   <ItemEntity>
     <Id>unholy_symbol_of_zamorak</Id>
     <Name>Unholy Symbol of Zamorak</Name>
-    <Description>a symbol indicating allegiance to Zamorak</Description>
+    <Description>A symbol indicating allegiance to Zamorak</Description>
     <Command />
     <BasePrice>200</BasePrice>
     <SpriteId>0</SpriteId>
@@ -15483,7 +15483,7 @@
   <ItemEntity>
     <Id>dwarf_cannon_base2</Id>
     <Name>Dwarf cannon base</Name>
-    <Description>bang</Description>
+    <Description>Bang</Description>
     <Command>set down</Command>
     <BasePrice>200000</BasePrice>
     <SpriteId>0</SpriteId>
@@ -15498,7 +15498,7 @@
   <ItemEntity>
     <Id>dwarf_cannon_stand2</Id>
     <Name>Dwarf cannon stand</Name>
-    <Description>bang</Description>
+    <Description>Bang</Description>
     <Command />
     <BasePrice>200000</BasePrice>
     <SpriteId>0</SpriteId>
@@ -15513,7 +15513,7 @@
   <ItemEntity>
     <Id>dwarf_cannon_barrels2</Id>
     <Name>Dwarf cannon barrels</Name>
-    <Description>bang</Description>
+    <Description>Bang</Description>
     <Command />
     <BasePrice>200000</BasePrice>
     <SpriteId>0</SpriteId>
@@ -15528,7 +15528,7 @@
   <ItemEntity>
     <Id>dwarf_cannon_furnace2</Id>
     <Name>Dwarf cannon furnace</Name>
-    <Description>bang</Description>
+    <Description>Bang</Description>
     <Command />
     <BasePrice>200000</BasePrice>
     <SpriteId>0</SpriteId>
@@ -15617,7 +15617,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>multi_cannon_ball</Id>
-    <Name>multi cannon ball</Name>
+    <Name>Multi cannon ball</Name>
     <Description>A heavy metal spiked ball</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -15648,7 +15648,7 @@
   <ItemEntity>
     <Id>ogre_tooth</Id>
     <Name>Ogre tooth</Name>
-    <Description>big sharp and nasty</Description>
+    <Description>Big sharp and nasty</Description>
     <Command />
     <BasePrice>0</BasePrice>
     <SpriteId>0</SpriteId>
@@ -15692,7 +15692,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>dwarf_remains</Id>
-    <Name>dwarf remains</Name>
+    <Name>Dwarf remains</Name>
     <Description>The remains of a dwarf savaged by goblins</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -15857,7 +15857,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>cannon_ammo_mould</Id>
-    <Name>cannon ammo mould</Name>
+    <Name>Cannon ammo mould</Name>
     <Description>Used to make cannon ammo</Description>
     <Command />
     <BasePrice>5</BasePrice>
@@ -16082,8 +16082,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>info_document</Id>
-    <Name>info document</Name>
-    <Description>read to access variable choices</Description>
+    <Name>Info document</Name>
+    <Description>Read to access variable choices</Description>
     <Command>read</Command>
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -16292,7 +16292,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>nightshade</Id>
-    <Name>nightshade</Name>
+    <Name>Nightshade</Name>
     <Description>Deadly!</Description>
     <Command>eat</Command>
     <BasePrice>30</BasePrice>
@@ -16398,7 +16398,7 @@
   <ItemEntity>
     <Id>cat</Id>
     <Name>Cat</Name>
-    <Description>it's fluffs</Description>
+    <Description>It's fluffs</Description>
     <Command>Stroke</Command>
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -16428,7 +16428,7 @@
   <ItemEntity>
     <Id>kittens</Id>
     <Name>Kittens</Name>
-    <Description>purrr</Description>
+    <Description>Purrr</Description>
     <Command />
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -16443,7 +16443,7 @@
   <ItemEntity>
     <Id>kitten</Id>
     <Name>Kitten</Name>
-    <Description>purrr</Description>
+    <Description>Purrr</Description>
     <Command>stroke</Command>
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -16668,7 +16668,7 @@
   <ItemEntity>
     <Id>panning_tray</Id>
     <Name>Panning tray</Name>
-    <Description>used for panning gold</Description>
+    <Description>Used for panning gold</Description>
     <Command>search</Command>
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -16683,7 +16683,7 @@
   <ItemEntity>
     <Id>panning_tray_filled</Id>
     <Name>Panning tray</Name>
-    <Description>this tray contains gold nuggets</Description>
+    <Description>This tray contains gold nuggets</Description>
     <Command>take gold</Command>
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -16698,7 +16698,7 @@
   <ItemEntity>
     <Id>panning_tray_mud</Id>
     <Name>Panning tray</Name>
-    <Description>this tray contains mud</Description>
+    <Description>This tray contains mud</Description>
     <Command>search</Command>
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -16713,7 +16713,7 @@
   <ItemEntity>
     <Id>rock_pick</Id>
     <Name>Rock pick</Name>
-    <Description>a sharp pick for cracking rocks</Description>
+    <Description>A sharp pick for cracking rocks</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -16728,7 +16728,7 @@
   <ItemEntity>
     <Id>specimen_brush</Id>
     <Name>Specimen brush</Name>
-    <Description>stiff brush for cleaning specimens</Description>
+    <Description>Stiff brush for cleaning specimens</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -16743,7 +16743,7 @@
   <ItemEntity>
     <Id>specimen_jar</Id>
     <Name>Specimen jar</Name>
-    <Description>a jar for holding soil samples</Description>
+    <Description>A jar for holding soil samples</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -16772,7 +16772,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>gold_nuggets</Id>
-    <Name>gold Nuggets</Name>
+    <Name>Gold Nuggets</Name>
     <Description>Real gold pieces!</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -16787,8 +16787,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>cat3</Id>
-    <Name>cat</Name>
-    <Description>looks like a healthy one</Description>
+    <Name>Cat</Name>
+    <Description>Looks like a healthy one</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17028,7 +17028,7 @@
   <ItemEntity>
     <Id>poisoned_bronze_spear</Id>
     <Name>Poisoned Bronze Spear</Name>
-    <Description>A bronze tipped spear with added venom </Description>
+    <Description>A bronze tipped spear with added venom</Description>
     <Command />
     <BasePrice>4</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17268,7 +17268,7 @@
   <ItemEntity>
     <Id>belt_buckle</Id>
     <Name>Belt buckle</Name>
-    <Description>been here some time</Description>
+    <Description>Been here some time</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17328,7 +17328,7 @@
   <ItemEntity>
     <Id>old_boot</Id>
     <Name>Old boot</Name>
-    <Description>that's been here some time</Description>
+    <Description>That's been here some time</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17358,7 +17358,7 @@
   <ItemEntity>
     <Id>damaged_armour</Id>
     <Name>Damaged armour</Name>
-    <Description>that's been here some time</Description>
+    <Description>That's been here some time</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17373,7 +17373,7 @@
   <ItemEntity>
     <Id>damaged_armour2</Id>
     <Name>Damaged armour</Name>
-    <Description>that's been here some time</Description>
+    <Description>That's been here some time</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17388,7 +17388,7 @@
   <ItemEntity>
     <Id>rusty_sword</Id>
     <Name>Rusty sword</Name>
-    <Description>that's been here some time</Description>
+    <Description>That's been here some time</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17433,7 +17433,7 @@
   <ItemEntity>
     <Id>old_tooth</Id>
     <Name>Old tooth</Name>
-    <Description>a large single tooth</Description>
+    <Description>A large single tooth</Description>
     <Command />
     <BasePrice>0</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17462,7 +17462,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>chest_key</Id>
-    <Name>chest key</Name>
+    <Name>Chest key</Name>
     <Description>A small key for a chest</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -17477,8 +17477,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>broken_arrow</Id>
-    <Name>broken arrow</Name>
-    <Description>that's been here some time</Description>
+    <Name>Broken arrow</Name>
+    <Description>That's been here some time</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17492,8 +17492,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>buttons</Id>
-    <Name>buttons</Name>
-    <Description>they've been here some time</Description>
+    <Name>Buttons</Name>
+    <Description>They've been here some time</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17507,8 +17507,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>broken_staff</Id>
-    <Name>broken staff</Name>
-    <Description>that's been here some time</Description>
+    <Name>Broken staff</Name>
+    <Description>That's been here some time</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17522,7 +17522,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>vase</Id>
-    <Name>vase</Name>
+    <Name>Vase</Name>
     <Description>An old vase</Description>
     <Command />
     <BasePrice>1</BasePrice>
@@ -17537,8 +17537,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>ceramic_remains</Id>
-    <Name>ceramic remains</Name>
-    <Description>some ancient pottery</Description>
+    <Name>Ceramic remains</Name>
+    <Description>Some ancient pottery</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17553,7 +17553,7 @@
   <ItemEntity>
     <Id>broken_glass2</Id>
     <Name>Broken glass</Name>
-    <Description>smashed glass</Description>
+    <Description>Smashed glass</Description>
     <Command />
     <BasePrice>0</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17568,7 +17568,7 @@
   <ItemEntity>
     <Id>unidentified_powder</Id>
     <Name>Unidentified powder</Name>
-    <Description>who knows what this is for?</Description>
+    <Description>Who knows what this is for?</Description>
     <Command />
     <BasePrice>20</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17612,8 +17612,8 @@
   </ItemEntity>
   <ItemEntity>
     <Id>stone_tablet</Id>
-    <Name>stone tablet</Name>
-    <Description>some ancient script is engraved on here</Description>
+    <Name>Stone tablet</Name>
+    <Description>Some ancient script is engraved on here</Description>
     <Command>read</Command>
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17628,7 +17628,7 @@
   <ItemEntity>
     <Id>talisman_of_zaros</Id>
     <Name>Talisman of Zaros</Name>
-    <Description>an ancient item</Description>
+    <Description>An ancient item</Description>
     <Command />
     <BasePrice>1</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17763,7 +17763,7 @@
   <ItemEntity>
     <Id>dwarf_cannon_base</Id>
     <Name>Dwarf cannon base</Name>
-    <Description>bang</Description>
+    <Description>Bang</Description>
     <Command>set down</Command>
     <BasePrice>200000</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17778,7 +17778,7 @@
   <ItemEntity>
     <Id>dwarf_cannon_stand</Id>
     <Name>Dwarf cannon stand</Name>
-    <Description>bang</Description>
+    <Description>Bang</Description>
     <Command />
     <BasePrice>200000</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17793,7 +17793,7 @@
   <ItemEntity>
     <Id>dwarf_cannon_barrels</Id>
     <Name>Dwarf cannon barrels</Name>
-    <Description>bang</Description>
+    <Description>Bang</Description>
     <Command />
     <BasePrice>200000</BasePrice>
     <SpriteId>0</SpriteId>
@@ -17808,7 +17808,7 @@
   <ItemEntity>
     <Id>dwarf_cannon_furnace</Id>
     <Name>Dwarf cannon furnace</Name>
-    <Description>bang</Description>
+    <Description>Bang</Description>
     <Command />
     <BasePrice>150000</BasePrice>
     <SpriteId>0</SpriteId>
@@ -18198,7 +18198,7 @@
   <ItemEntity>
     <Id>zamorak_cape</Id>
     <Name>Zamorak Cape</Name>
-    <Description>A cape from the almighty zamorak</Description>
+    <Description>A cape from the almighty Zamorak</Description>
     <Command />
     <BasePrice>100</BasePrice>
     <SpriteId>0</SpriteId>
@@ -18213,7 +18213,7 @@
   <ItemEntity>
     <Id>saradomin_cape</Id>
     <Name>Saradomin Cape</Name>
-    <Description>A cape from the almighty saradomin</Description>
+    <Description>A cape from the almighty Saradomin</Description>
     <Command />
     <BasePrice>100</BasePrice>
     <SpriteId>0</SpriteId>
@@ -18228,7 +18228,7 @@
   <ItemEntity>
     <Id>guthix_cape</Id>
     <Name>Guthix Cape</Name>
-    <Description>A cape from the almighty guthix</Description>
+    <Description>A cape from the almighty Guthix</Description>
     <Command />
     <BasePrice>100</BasePrice>
     <SpriteId>0</SpriteId>
@@ -18242,7 +18242,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>staff_of_zamorak</Id>
-    <Name>Staff of zamorak</Name>
+    <Name>Staff of Zamorak</Name>
     <Description>It's a stick of the gods</Description>
     <Command />
     <BasePrice>80000</BasePrice>
@@ -18257,7 +18257,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>staff_of_guthix</Id>
-    <Name>Staff of guthix</Name>
+    <Name>Staff of Guthix</Name>
     <Description>It's a stick of the gods</Description>
     <Command />
     <BasePrice>80000</BasePrice>
@@ -18333,7 +18333,7 @@
   <ItemEntity>
     <Id>a_red_crystal</Id>
     <Name>A red crystal</Name>
-    <Description>A heart shaped red crystal </Description>
+    <Description>A heart shaped red crystal</Description>
     <Command>Inspect</Command>
     <BasePrice>2000</BasePrice>
     <SpriteId>0</SpriteId>
@@ -18557,7 +18557,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>eye_patch2</Id>
-    <Name>eye patch</Name>
+    <Name>Eye patch</Name>
     <Description>It makes me look very piratical</Description>
     <Command />
     <BasePrice>2</BasePrice>
@@ -18678,7 +18678,7 @@
   <ItemEntity>
     <Id>edible_seaweed</Id>
     <Name>Edible seaweed</Name>
-    <Description>slightly damp seaweed</Description>
+    <Description>Slightly damp seaweed</Description>
     <Command>eat</Command>
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
@@ -18708,7 +18708,7 @@
   <ItemEntity>
     <Id>burnt_manta_ray</Id>
     <Name>Burnt Manta ray</Name>
-    <Description>oops!</Description>
+    <Description>Oops!</Description>
     <Command />
     <BasePrice>500</BasePrice>
     <SpriteId>0</SpriteId>
@@ -18723,7 +18723,7 @@
   <ItemEntity>
     <Id>burnt_sea_turtle</Id>
     <Name>Burnt Sea turtle</Name>
-    <Description>oops!</Description>
+    <Description>Oops!</Description>
     <Command />
     <BasePrice>500</BasePrice>
     <SpriteId>0</SpriteId>
@@ -19263,7 +19263,7 @@
   <ItemEntity>
     <Id>arcenia_root</Id>
     <Name>Arcenia root</Name>
-    <Description>the root of an arcenia plant</Description>
+    <Description>The root of an arcenia plant</Description>
     <Command />
     <BasePrice>7</BasePrice>
     <SpriteId>0</SpriteId>
@@ -19277,7 +19277,7 @@
   </ItemEntity>
   <ItemEntity>
     <Id>display_tea</Id>
-    <Name>display tea</Name>
+    <Name>Display tea</Name>
     <Description>A nice cup of tea - for display only</Description>
     <Command />
     <BasePrice>10</BasePrice>
@@ -19323,7 +19323,7 @@
   <ItemEntity>
     <Id>cape_of_legends</Id>
     <Name>Cape of legends</Name>
-    <Description>Shows I am a member of the legends guild</Description>
+    <Description>Shows I am a member of the Legends Guild</Description>
     <Command />
     <BasePrice>450</BasePrice>
     <SpriteId>0</SpriteId>
