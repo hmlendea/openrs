@@ -1664,26 +1664,26 @@ namespace RuneScapeSolo.Lib.Game
                 return;
             }
 
-            if (EntityManager.GetModel(objType).Type == 1 || EntityManager.GetModel(objType).Type == 2)
+            if (EntityManager.GetWorldObject(objType).Type == 1 || EntityManager.GetWorldObject(objType).Type == 2)
             {
                 //int wallObj = getTileRotation(x, arg1);
                 int objWidth;
                 int objHeight;
                 if (objDir == 0 || objDir == 4)
                 {
-                    objWidth = EntityManager.GetModel(objType).Width;
-                    objHeight = EntityManager.GetModel(objType).Height;
+                    objWidth = EntityManager.GetWorldObject(objType).Width;
+                    objHeight = EntityManager.GetWorldObject(objType).Height;
                 }
                 else
                 {
-                    objHeight = EntityManager.GetModel(objType).Width;
-                    objWidth = EntityManager.GetModel(objType).Height;
+                    objHeight = EntityManager.GetWorldObject(objType).Width;
+                    objWidth = EntityManager.GetWorldObject(objType).Height;
                 }
                 for (int j1 = x; j1 < x + objWidth; j1++)
                 {
                     for (int k1 = y; k1 < y + objHeight; k1++)
                     {
-                        if (EntityManager.GetModel(objType).Type == 1)
+                        if (EntityManager.GetWorldObject(objType).Type == 1)
                         {
                             tiles[j1][k1] &= 0xffbf;
                         }
@@ -1967,26 +1967,26 @@ namespace RuneScapeSolo.Lib.Game
                 return;
             }
 
-            if (EntityManager.GetModel(index).Type == 1 || EntityManager.GetModel(index).Type == 2)
+            if (EntityManager.GetWorldObject(index).Type == 1 || EntityManager.GetWorldObject(index).Type == 2)
             {
                 //int wallObj = getTileRotation(x, arg1);
                 int objectWidth;
                 int objectHeight;
                 if (direction == 0 || direction == 4)
                 {
-                    objectWidth = EntityManager.GetModel(index).Width;
-                    objectHeight = EntityManager.GetModel(index).Height;
+                    objectWidth = EntityManager.GetWorldObject(index).Width;
+                    objectHeight = EntityManager.GetWorldObject(index).Height;
                 }
                 else
                 {
-                    objectHeight = EntityManager.GetModel(index).Width;
-                    objectWidth = EntityManager.GetModel(index).Height;
+                    objectHeight = EntityManager.GetWorldObject(index).Width;
+                    objectWidth = EntityManager.GetWorldObject(index).Height;
                 }
                 for (int x1 = x; x1 < x + objectWidth; x1++)
                 {
                     for (int y1 = y; y1 < y + objectHeight; y1++)
                     {
-                        if (EntityManager.GetModel(index).Type == 1)
+                        if (EntityManager.GetWorldObject(index).Type == 1)
                         {
                             tiles[x1][y1] |= 0x40;
                         }
@@ -2188,16 +2188,16 @@ namespace RuneScapeSolo.Lib.Game
                             int objectHeight;
                             if (objectRotation == 0 || objectRotation == 4)
                             {
-                                objectWidth = EntityManager.GetModel(objectIndex).Width;
-                                objectHeight = EntityManager.GetModel(objectIndex).Height;
+                                objectWidth = EntityManager.GetWorldObject(objectIndex).Width;
+                                objectHeight = EntityManager.GetWorldObject(objectIndex).Height;
                             }
                             else
                             {
-                                objectHeight = EntityManager.GetModel(objectIndex).Width;
-                                objectWidth = EntityManager.GetModel(objectIndex).Height;
+                                objectHeight = EntityManager.GetWorldObject(objectIndex).Width;
+                                objectWidth = EntityManager.GetWorldObject(objectIndex).Height;
                             }
                             createObject(x, y, objectIndex, objectRotation);
-                            ObjectModel i2 = arg0[EntityManager.GetModel(objectIndex).ModelId].CreateParent(false, true, false, false);
+                            ObjectModel i2 = arg0[EntityManager.GetWorldObject(objectIndex).ModelId].CreateParent(false, true, false, false);
                             int j2 = ((x + x + objectWidth) * 128) / 2;
                             int l2 = ((y + y + objectHeight) * 128) / 2;
                             i2.offsetPosition(j2, -getAveragedElevation(j2, l2), l2);

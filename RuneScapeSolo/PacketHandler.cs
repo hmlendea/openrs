@@ -359,18 +359,18 @@ namespace RuneScapeSolo
 
                         if (rotation == 0 || rotation == 4)
                         {
-                            width = EntityManager.GetModel(index).Width;
-                            height = EntityManager.GetModel(index).Height;
+                            width = EntityManager.GetWorldObject(index).Width;
+                            height = EntityManager.GetWorldObject(index).Height;
                         }
                         else
                         {
-                            height = EntityManager.GetModel(index).Width;
-                            width = EntityManager.GetModel(index).Height;
+                            height = EntityManager.GetWorldObject(index).Width;
+                            width = EntityManager.GetWorldObject(index).Height;
                         }
 
                         int l40 = ((newSectionX + newSectionX + width) * client.GridSize) / 2;
                         int k42 = ((newSectionY + newSectionY + height) * client.GridSize) / 2;
-                        int model = EntityManager.GetModel(index).ModelId;
+                        int model = EntityManager.GetWorldObject(index).ModelId;
                         ObjectModel gameObjectModel = client.GameDataObjects[model];
 
                         if (gameObjectModel == null)

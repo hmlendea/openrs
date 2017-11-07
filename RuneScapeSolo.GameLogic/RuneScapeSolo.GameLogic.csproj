@@ -40,7 +40,7 @@
   <ItemGroup>
     <Compile Include="Mapping\AnimationMappingExtensions.cs" />
     <Compile Include="Mapping\ElevationMappingExtensions.cs" />
-    <Compile Include="Mapping\GameModelMappingExtensions.cs" />
+    <Compile Include="Mapping\WorldObjectMappingExtensions.cs" />
     <Compile Include="Mapping\ItemDropMappingExtensions.cs" />
     <Compile Include="Mapping\ItemMappingExtensions.cs" />
     <Compile Include="Mapping\NpcMappingExtensions.cs" />
@@ -69,8 +69,6 @@
       <Name>RuneScapeSolo.Settings</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GameManagers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

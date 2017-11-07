@@ -673,7 +673,7 @@ namespace RuneScapeSolo.Lib
             }
             if (action == MenuAction.ExamineModel)
             {
-                displayMessage(EntityManager.GetModel(actionType).Description, 3);
+                displayMessage(EntityManager.GetWorldObject(actionType).Description, 3);
             }
 
             if (action == MenuAction.CastSpellOnItem)
@@ -1852,7 +1852,7 @@ namespace RuneScapeSolo.Lib
                                         continue;
                                     }
 
-                                    groundItemObjectVar[groundItemCount] = EntityManager.GetModel(ObjectType[l23]).GroundItemVar;
+                                    groundItemObjectVar[groundItemCount] = EntityManager.GetWorldObject(ObjectType[l23]).GroundItemVar;
                                     break;
                                 }
 
@@ -3844,16 +3844,16 @@ namespace RuneScapeSolo.Lib
 
             if (arg2 == 0 || arg2 == 4)
             {
-                l = EntityManager.GetModel(arg3).Width;
-                i1 = EntityManager.GetModel(arg3).Height;
+                l = EntityManager.GetWorldObject(arg3).Width;
+                i1 = EntityManager.GetWorldObject(arg3).Height;
             }
             else
             {
-                i1 = EntityManager.GetModel(arg3).Width;
-                l = EntityManager.GetModel(arg3).Height;
+                i1 = EntityManager.GetWorldObject(arg3).Width;
+                l = EntityManager.GetWorldObject(arg3).Height;
             }
 
-            if (EntityManager.GetModel(arg3).Type == 2 || EntityManager.GetModel(arg3).Type == 3)
+            if (EntityManager.GetWorldObject(arg3).Type == 2 || EntityManager.GetWorldObject(arg3).Type == 3)
             {
                 if (arg2 == 0)
                 {
@@ -6581,7 +6581,7 @@ namespace RuneScapeSolo.Lib
                                 if (EntityManager.GetSpell(selectedSpell).Type == 5)
                                 {
                                     menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on";
-                                    menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetModel(j4).Name;
+                                    menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWorldObject(j4).Name;
                                     menuActions[menuOptionsCount] = MenuAction.CastSpellOnModel;
                                     menuActionX[menuOptionsCount] = ObjectX[k3];
                                     menuActionY[menuOptionsCount] = ObjectY[k3];
@@ -6595,7 +6595,7 @@ namespace RuneScapeSolo.Lib
                                 if (selectedItem >= 0)
                             {
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                                menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetModel(j4).Name;
+                                menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWorldObject(j4).Name;
                                 menuActions[menuOptionsCount] = MenuAction.UseItemWithModel;
                                 menuActionX[menuOptionsCount] = ObjectX[k3];
                                 menuActionY[menuOptionsCount] = ObjectY[k3];
@@ -6606,10 +6606,10 @@ namespace RuneScapeSolo.Lib
                             }
                             else
                             {
-                                if (!EntityManager.GetModel(j4).Command1.ToLower().Equals("WalkTo"))
+                                if (!EntityManager.GetWorldObject(j4).Command1.ToLower().Equals("WalkTo"))
                                 {
-                                    menuText1[menuOptionsCount] = EntityManager.GetModel(j4).Command1;
-                                    menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetModel(j4).Name;
+                                    menuText1[menuOptionsCount] = EntityManager.GetWorldObject(j4).Command1;
+                                    menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWorldObject(j4).Name;
                                     menuActions[menuOptionsCount] = MenuAction.Command1OnModel;
                                     menuActionX[menuOptionsCount] = ObjectX[k3];
                                     menuActionY[menuOptionsCount] = ObjectY[k3];
@@ -6617,10 +6617,10 @@ namespace RuneScapeSolo.Lib
                                     menuActionVar1[menuOptionsCount] = ObjectType[k3];
                                     menuOptionsCount++;
                                 }
-                                if (!EntityManager.GetModel(j4).Command2.ToLower().Equals("Examine"))
+                                if (!EntityManager.GetWorldObject(j4).Command2.ToLower().Equals("Examine"))
                                 {
-                                    menuText1[menuOptionsCount] = EntityManager.GetModel(j4).Command2;
-                                    menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetModel(j4).Name;
+                                    menuText1[menuOptionsCount] = EntityManager.GetWorldObject(j4).Command2;
+                                    menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWorldObject(j4).Name;
                                     menuActions[menuOptionsCount] = MenuAction.Command2OnModel;
                                     menuActionX[menuOptionsCount] = ObjectX[k3];
                                     menuActionY[menuOptionsCount] = ObjectY[k3];
@@ -6629,7 +6629,7 @@ namespace RuneScapeSolo.Lib
                                     menuOptionsCount++;
                                 }
                                 menuText1[menuOptionsCount] = "Examine";
-                                menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetModel(j4).Name;
+                                menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWorldObject(j4).Name;
                                 menuActions[menuOptionsCount] = MenuAction.ExamineModel;
                                 menuActionType[menuOptionsCount] = j4;
                                 menuOptionsCount++;
@@ -7745,11 +7745,11 @@ namespace RuneScapeSolo.Lib
                 return;
             }
 
-            for (int i1 = 0; i1 < EntityManager.ModelCount; i1++)
+            for (int i1 = 0; i1 < EntityManager.WorldObjectCount; i1++)
             {
                 try
                 {
-                    long j1 = DataOperations.getObjectOffset(EntityManager.GetModel(i1).Id + ".ob3", models);
+                    long j1 = DataOperations.getObjectOffset(EntityManager.GetWorldObject(i1).Id + ".ob3", models);
 
                     if (j1 != 0)
                     {
@@ -7760,7 +7760,7 @@ namespace RuneScapeSolo.Lib
                         GameDataObjects[i1] = new ObjectModel(1, 1);
                     }
 
-                    if (EntityManager.GetModel(i1).Id.Equals("giantcrystal"))
+                    if (EntityManager.GetWorldObject(i1).Id.Equals("giantcrystal"))
                     {
                         GameDataObjects[i1].isGiantCrystal = true;
                     }
@@ -8873,13 +8873,13 @@ namespace RuneScapeSolo.Lib
                     int objHeight;
                     if (objDir == 0 || objDir == 4)
                     {
-                        objWidth = EntityManager.GetModel(objType).Width;
-                        objHeight = EntityManager.GetModel(objType).Height;
+                        objWidth = EntityManager.GetWorldObject(objType).Width;
+                        objHeight = EntityManager.GetWorldObject(objType).Height;
                     }
                     else
                     {
-                        objHeight = EntityManager.GetModel(objType).Width;
-                        objWidth = EntityManager.GetModel(objType).Height;
+                        objHeight = EntityManager.GetWorldObject(objType).Width;
+                        objWidth = EntityManager.GetWorldObject(objType).Height;
                     }
                     int flatObjX = ((objX + objX + objWidth) * GridSize) / 2;
                     int flatObjY = ((objY + objY + objHeight) * GridSize) / 2;

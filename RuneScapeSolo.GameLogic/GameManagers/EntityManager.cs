@@ -14,13 +14,13 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         static List<Animation> animations;
         static List<Elevation> elevations;
         static List<Item> items;
-        static List<GameModel> models;
         static List<Npc> npcs;
         static List<Prayer> prayers;
         static List<Spell> spells;
         static List<GameTexture> textures;
         static List<Tile> tiles;
         static List<WallObject> wallObjects;
+        static List<WorldObject> worldObjects;
 
         /// <summary>
         /// Gets the animations count.
@@ -39,12 +39,6 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// </summary>
         /// <value>The items count.</value>
         public static int ItemCount => items.Count;
-
-        /// <summary>
-        /// Gets the models count.
-        /// </summary>
-        /// <value>The models count.</value>
-        public static int ModelCount => models.Count;
 
         /// <summary>
         /// Gets the npc count.
@@ -88,6 +82,12 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// <value>The wall objects count.</value>
         public static int WallObjectCount => wallObjects.Count;
 
+        /// <summary>
+        /// Gets the world objects count.
+        /// </summary>
+        /// <value>The world objects count.</value>
+        public static int WorldObjectCount => worldObjects.Count;
+
         public static int HighestLoadedPicture { get; private set; }
 
         /// <summary>
@@ -98,35 +98,35 @@ namespace RuneScapeSolo.GameLogic.GameManagers
             string animationsPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "animations.xml");
             string elevationPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "elevations.xml");
             string itemPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "items.xml");
-            string modelPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "models.xml");
             string npcPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "npcs.xml");
             string prayerPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "prayers.xml");
             string spellPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "spells.xml");
             string texturePath = Path.Combine(ApplicationPaths.EntitiesDirectory, "textures.xml");
             string tilePath = Path.Combine(ApplicationPaths.EntitiesDirectory, "tiles.xml");
             string wallObjectPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "wall_objects.xml");
+            string worldObjectPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "world_objects.xml");
 
             AnimationRepository animationRepository = new AnimationRepository(animationsPath);
             ElevationRepository elevationRepository = new ElevationRepository(elevationPath);
             ItemRepository itemRepository = new ItemRepository(itemPath);
-            GameModelRepository modelRepository = new GameModelRepository(modelPath);
             NpcRepository npcRepository = new NpcRepository(npcPath);
             PrayerRepository prayerRepository = new PrayerRepository(prayerPath);
             SpellRepository spellRepository = new SpellRepository(spellPath);
             GameTextureRepository textureRepository = new GameTextureRepository(texturePath);
             TileRepository tileRepository = new TileRepository(tilePath);
             WallObjectRepository wallObjectRepository = new WallObjectRepository(wallObjectPath);
+            WorldObjectRepository worldObjectRepository = new WorldObjectRepository(worldObjectPath);
 
             animations = animationRepository.GetAll().ToDomainModels().ToList();
             elevations = elevationRepository.GetAll().ToDomainModels().ToList();
             items = itemRepository.GetAll().ToDomainModels().ToList();
-            models = modelRepository.GetAll().ToDomainModels().ToList();
             npcs = npcRepository.GetAll().ToDomainModels().ToList();
             prayers = prayerRepository.GetAll().ToDomainModels().ToList();
             spells = spellRepository.GetAll().ToDomainModels().ToList();
             textures = textureRepository.GetAll().ToDomainModels().ToList();
             tiles = tileRepository.GetAll().ToDomainModels().ToList();
             wallObjects = wallObjectRepository.GetAll().ToDomainModels().ToList();
+            worldObjects = worldObjectRepository.GetAll().ToDomainModels().ToList();
         }
 
         /// <summary>
@@ -174,49 +174,9 @@ namespace RuneScapeSolo.GameLogic.GameManagers
             return items[index];
         }
 
-        /// <summary>
-        /// Gets the spell.
-        /// </summary>
-        /// <returns>The spell.</returns>
-        /// <param name="index">Identifier.</param>
-        public static Spell GetSpell(int index)
-        {
-            if (index < 0 || index >= SpellCount)
-            {
-                return null;
-            }
-
-            return spells[index];
-        }
-
-        /// <summary>
-        /// Gets the model.
-        /// </summary>
-        /// <returns>The model.</returns>
-        /// <param name="id">Identifier.</param>
-        public static GameModel GetModel(string id)
-        {
-            return models.FirstOrDefault(x => x.Id == id);
-        }
-
-        /// <summary>
-        /// Gets the model.
-        /// </summary>
-        /// <returns>The model.</returns>
-        /// <param name="index">Index.</param>
-        public static GameModel GetModel(int index)
-        {
-            if (index < 0 || index >= ModelCount)
-            {
-                return null;
-            }
-
-            return models[index];
-        }
-
         public static int GetModelIndex(string id)
         {
-            return models.FindIndex(x => x.Id == id);
+            return worldObjects.FindIndex(x => x.Id == id);
         }
 
         /// <summary>
@@ -247,6 +207,21 @@ namespace RuneScapeSolo.GameLogic.GameManagers
             }
 
             return prayers[index];
+        }
+
+        /// <summary>
+        /// Gets the spell.
+        /// </summary>
+        /// <returns>The spell.</returns>
+        /// <param name="index">Identifier.</param>
+        public static Spell GetSpell(int index)
+        {
+            if (index < 0 || index >= SpellCount)
+            {
+                return null;
+            }
+
+            return spells[index];
         }
 
         /// <summary>
@@ -292,6 +267,31 @@ namespace RuneScapeSolo.GameLogic.GameManagers
             }
 
             return wallObjects[index];
+        }
+
+        /// <summary>
+        /// Gets the world object.
+        /// </summary>
+        /// <returns>The world object.</returns>
+        /// <param name="index">Index.</param>
+        public static WorldObject GetWorldObject(int index)
+        {
+            if (index < 0 || index >= WorldObjectCount)
+            {
+                return null;
+            }
+
+            return worldObjects[index];
+        }
+
+        /// <summary>
+        /// Gets the world object.
+        /// </summary>
+        /// <returns>The world object.</returns>
+        /// <param name="id">Identifier.</param>
+        public static WorldObject GetWorldObject(string id)
+        {
+            return worldObjects.FirstOrDefault(x => x.Id == id);
         }
     }
 }

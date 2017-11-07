@@ -101,7 +101,7 @@
     <Content Include="Data\Entities\npcs.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Entities\models.xml">
+    <Content Include="Data\Entities\world_objects.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Entities\prayers.xml">

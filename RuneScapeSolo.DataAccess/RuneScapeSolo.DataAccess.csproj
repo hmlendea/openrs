@@ -43,7 +43,7 @@
     <Compile Include="DataObjects\PrayerEntity.cs" />
     <Compile Include="DataObjects\AnimationEntity.cs" />
     <Compile Include="DataObjects\ElevationEntity.cs" />
-    <Compile Include="DataObjects\GameModelEntity.cs" />
+    <Compile Include="DataObjects\WorldObjectEntity.cs" />
     <Compile Include="DataObjects\ItemDropEntity.cs" />
     <Compile Include="DataObjects\NpcEntity.cs" />
     <Compile Include="DataObjects\SpellEntity.cs" />
@@ -52,7 +52,7 @@
     <Compile Include="DataObjects\WallObjectEntity.cs" />
     <Compile Include="Repositories\AnimationRepository.cs" />
     <Compile Include="Repositories\ElevationRepository.cs" />
-    <Compile Include="Repositories\GameModelRepository.cs" />
+    <Compile Include="Repositories\WorldObjectRepository.cs" />
     <Compile Include="Repositories\ItemDropRepository.cs" />
     <Compile Include="Repositories\NpcRepository.cs" />
     <Compile Include="Repositories\PrayerRepository.cs" />
