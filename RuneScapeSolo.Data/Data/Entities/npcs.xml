@@ -234,7 +234,7 @@
         <Weight>30</Weight>
       </ItemDropEntity>
       <ItemDropEntity>
-        <ItemId>chef's_hat</ItemId>
+        <ItemId>chef_hat</ItemId>
         <Amount>1</Amount>
         <Weight>1</Weight>
       </ItemDropEntity>
@@ -3899,7 +3899,7 @@
         <Weight>30</Weight>
       </ItemDropEntity>
       <ItemDropEntity>
-        <ItemId>chef's_hat</ItemId>
+        <ItemId>chef_hat</ItemId>
         <Amount>1</Amount>
         <Weight>1</Weight>
       </ItemDropEntity>
@@ -5447,7 +5447,7 @@
         <Weight>25</Weight>
       </ItemDropEntity>
       <ItemDropEntity>
-        <ItemId>wizard's_mind_bomb</ItemId>
+        <ItemId>wizard_mind_bomb</ItemId>
         <Amount>2</Amount>
         <Weight>150</Weight>
       </ItemDropEntity>
@@ -8216,7 +8216,7 @@
         <Weight>0</Weight>
       </ItemDropEntity>
       <ItemDropEntity>
-        <ItemId>chef's_hat</ItemId>
+        <ItemId>chef_hat</ItemId>
         <Amount>1</Amount>
         <Weight>5</Weight>
       </ItemDropEntity>
@@ -8979,7 +8979,7 @@
         <Weight>30</Weight>
       </ItemDropEntity>
       <ItemDropEntity>
-        <ItemId>chef's_hat</ItemId>
+        <ItemId>chef_hat</ItemId>
         <Amount>1</Amount>
         <Weight>1</Weight>
       </ItemDropEntity>
@@ -9047,7 +9047,7 @@
         <Weight>30</Weight>
       </ItemDropEntity>
       <ItemDropEntity>
-        <ItemId>chef's_hat</ItemId>
+        <ItemId>chef_hat</ItemId>
         <Amount>1</Amount>
         <Weight>1</Weight>
       </ItemDropEntity>
@@ -11160,7 +11160,7 @@
         <Weight>20</Weight>
       </ItemDropEntity>
       <ItemDropEntity>
-        <ItemId>klank's_gauntlets</ItemId>
+        <ItemId>gauntlets_klank</ItemId>
         <Amount>1</Amount>
         <Weight>1</Weight>
       </ItemDropEntity>
@@ -14719,7 +14719,7 @@
         <Weight>0</Weight>
       </ItemDropEntity>
       <ItemDropEntity>
-        <ItemId>chef's_hat</ItemId>
+        <ItemId>chef_hat</ItemId>
         <Amount>1</Amount>
         <Weight>5</Weight>
       </ItemDropEntity>
@@ -17309,7 +17309,7 @@
         <Weight>25</Weight>
       </ItemDropEntity>
       <ItemDropEntity>
-        <ItemId>wizard's_mind_bomb</ItemId>
+        <ItemId>wizard_mind_bomb</ItemId>
         <Amount>2</Amount>
         <Weight>150</Weight>
       </ItemDropEntity>
@@ -33918,7 +33918,7 @@
         <Weight>30</Weight>
       </ItemDropEntity>
       <ItemDropEntity>
-        <ItemId>chef's_hat</ItemId>
+        <ItemId>chef_hat</ItemId>
         <Amount>1</Amount>
         <Weight>1</Weight>
       </ItemDropEntity>

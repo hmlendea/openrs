@@ -2881,7 +2881,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>chef's_hat</Id>
+    <Id>chef_hat</Id>
     <Name>Chef's hat</Name>
     <Description>What a silly hat</Description>
     <Command />
@@ -3976,7 +3976,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>faladian_knight's_sword</Id>
+    <Id>faladian_knight_sword</Id>
     <Name>Faladian Knight's sword</Name>
     <Description>A razor sharp sword</Description>
     <Command />
@@ -4021,7 +4021,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>wizard's_mind_bomb</Id>
+    <Id>wizard_mind_bomb</Id>
     <Name>Wizard's Mind Bomb</Name>
     <Description>It's got strange bubbles in it</Description>
     <Command>drink</Command>
@@ -4066,7 +4066,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>rat's_tail</Id>
+    <Id>rat_tail</Id>
     <Name>Rat's tail</Name>
     <Description>A bit of rat</Description>
     <Command />
@@ -13816,7 +13816,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>gloughs_journal</Id>
+    <Id>journal_glough</Id>
     <Name>gloughs journal</Name>
     <Description>Glough's private notes</Description>
     <Command>read</Command>
@@ -14566,7 +14566,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>santa's_hat</Id>
+    <Id>santa_hat</Id>
     <Name>Santa's hat</Name>
     <Description>It's a santa claus' hat</Description>
     <Command />
@@ -14941,7 +14941,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>randas's_journal</Id>
+    <Id>journal_randas</Id>
     <Name>Randas's journal</Name>
     <Description>An old journal with several pages missing</Description>
     <Command>read</Command>
@@ -15091,7 +15091,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>klank's_gauntlets</Id>
+    <Id>gauntlets_klank</Id>
     <Name>Klank's gauntlets</Name>
     <Description>Heavy hand protection</Description>
     <Command />
@@ -15106,7 +15106,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>iban's_shadow</Id>
+    <Id>iban_shadow</Id>
     <Name>Iban's shadow</Name>
     <Description>A dark mystical liquid</Description>
     <Command />
@@ -15121,7 +15121,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>iban's_conscience</Id>
+    <Id>iban_conscience</Id>
     <Name>Iban's conscience</Name>
     <Description>The remains of a dove that died long ago</Description>
     <Command />
@@ -15841,7 +15841,7 @@
     <IsUnused>0</IsUnused>
   </ItemEntity>
   <ItemEntity>
-    <Id>nulodion's_notes</Id>
+    <Id>notes_nulodion</Id>
     <Name>Nulodion's notes</Name>
     <Description>Construction notes for dwarf cannon ammo</Description>
     <Command>read</Command>
