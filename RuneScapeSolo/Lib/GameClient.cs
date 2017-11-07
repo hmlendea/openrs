@@ -7745,11 +7745,11 @@ namespace RuneScapeSolo.Lib
                 return;
             }
 
-            for (int i1 = 0; i1 < EntityManager.WorldObjectCount; i1++)
+            for (int i1 = 0; i1 < EntityManager.ObjectModelCount; i1++)
             {
                 try
                 {
-                    long j1 = DataOperations.getObjectOffset(EntityManager.GetWorldObject(i1).Id + ".ob3", models);
+                    long j1 = DataOperations.getObjectOffset(EntityManager.GetObjectModelName(i1) + ".ob3", models);
 
                     if (j1 != 0)
                     {
@@ -7760,7 +7760,7 @@ namespace RuneScapeSolo.Lib
                         GameDataObjects[i1] = new ObjectModel(1, 1);
                     }
 
-                    if (EntityManager.GetWorldObject(i1).Id.Equals("giantcrystal"))
+                    if (EntityManager.GetObjectModelName(i1).Equals("giantcrystal"))
                     {
                         GameDataObjects[i1].isGiantCrystal = true;
                     }

@@ -22,6 +22,8 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         static List<WallObject> wallObjects;
         static List<WorldObject> worldObjects;
 
+        static string[] modelName = new string[5000];
+
         /// <summary>
         /// Gets the animations count.
         /// </summary>
@@ -45,6 +47,12 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// </summary>
         /// <value>The npc count.</value>
         public static int NpcCount => npcs.Count;
+
+        /// <summary>
+        /// Gets the object models count.
+        /// </summary>
+        /// <value>The object models count.</value>
+        public static int ObjectModelCount { get; private set; }
 
         /// <summary>
         /// Gets the prayers count.
@@ -127,6 +135,11 @@ namespace RuneScapeSolo.GameLogic.GameManagers
             tiles = tileRepository.GetAll().ToDomainModels().ToList();
             wallObjects = wallObjectRepository.GetAll().ToDomainModels().ToList();
             worldObjects = worldObjectRepository.GetAll().ToDomainModels().ToList();
+
+            foreach (WorldObject worldObject in worldObjects)
+            {
+                worldObject.ModelId = GetModelIndex(worldObject.ObjectModel);
+            }
         }
 
         /// <summary>
@@ -174,9 +187,25 @@ namespace RuneScapeSolo.GameLogic.GameManagers
             return items[index];
         }
 
-        public static int GetModelIndex(string id)
+        public static int GetModelIndex(string model)
         {
-            return worldObjects.FindIndex(x => x.Id == id);
+            if (model.ToLower().Equals("na"))
+            {
+                return 0;
+            }
+
+            for (int i = 0; i < ObjectModelCount; i++)
+            {
+                if (modelName[i].ToLower().Equals(model))
+                {
+                    return i;
+                }
+            }
+
+            modelName[ObjectModelCount] = model;
+            ObjectModelCount += 1;
+
+            return ObjectModelCount - 1;
         }
 
         /// <summary>
@@ -192,6 +221,11 @@ namespace RuneScapeSolo.GameLogic.GameManagers
             }
 
             return npcs[index];
+        }
+
+        public static string GetObjectModelName(int index)
+        {
+            return modelName[index];
         }
 
         /// <summary>
