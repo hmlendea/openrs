@@ -6,6 +6,12 @@
     public class Npc : GameEntity
     {
         /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
+        public string Id { get; set; }
+
+        /// <summary>
         /// Gets or sets the command.
         /// </summary>
         /// <value>The command.</value>

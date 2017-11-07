@@ -20,6 +20,7 @@ namespace RuneScapeSolo.GameLogic.Mapping
         {
             Npc npc = new Npc
             {
+                Id = npcEntity.Id,
                 Name = npcEntity.Name,
                 Description = npcEntity.Description,
                 Command = npcEntity.Command,
@@ -55,6 +56,7 @@ namespace RuneScapeSolo.GameLogic.Mapping
         {
             NpcEntity npcEntity = new NpcEntity
             {
+                Id = npc.Id,
                 Name = npc.Name,
                 Description = npc.Description,
                 Command = npc.Command,
