@@ -2,28 +2,27 @@
 {
     public enum MenuAction
     {
-        CastSpellOnItem = 200,
-        UseItemWithItem = 210,
+        CastSpellOnGroundItem = 200,
+        UseItemWithGroundItem = 210,
         TakeItem = 220,
         CastSpellOnWallObject = 300,
         UseItemWithWallObject = 310,
-        WalkToWallObject = 320,
+        Command1OnWallObject = 320,
         CastSpellOnModel = 400,
         UseItemWithModel = 410,
         Command1OnModel = 420,
-        Action600 = 600, // TODO: Find meaning
-        Action610 = 610, // TODO: Find meaning
-        Action620 = 620, // TODO: Find meaning
-        Action630 = 630, // TODO: Find meaning
-        Action640 = 640, // TODO: Find meaning
-        Action650 = 650, // TODO: Find meaning
-        Action660 = 660, // TODO: Find meaning
+        CastSpellOnItem = 600,
+        UseItemWithItem = 610,
+        RemoveItem = 620,
+        EquipItem = 630,
+        CommandOnItem = 640,
+        UseItem = 650,
+        DropItem = 660,
         CastSpellOnNpc = 700,
         UseItemWithNpc = 710,
-        Action720 = 720, // TODO: Find meaning
-        CommandOnNpc = 725,
         AttackNpc = 715, // TODO: Find the difference between this and the other
         TalkToNpc = 720,
+        CommandOnNpc = 725,
         CastSpellOnPlayer = 800,
         AttackPlayer = 805, // TODO: Find the difference between this and the other
         UseItemWithPlayer = 810,
@@ -38,12 +37,12 @@
         TradeWithPlayer = 2810,
         FollowPlayer = 2820,
         AddFriend = 2830,
-        ExamineItem = 3200,
+        ExamineGroundItem = 3200,
         ExamineWallObject = 3300,
         ExamineModel = 3400,
-        Action3600 = 3600, // TODO: Find meaning
+        ExamineItem = 3600,
         ExamineNpc = 3700,
-        Action4000 = 4000, // TODO: Find meaning
+        Cancel = 4000,
         SummonPlayer = 9901,
         TeleportHere = 9902,
         KickPlayer = 9903

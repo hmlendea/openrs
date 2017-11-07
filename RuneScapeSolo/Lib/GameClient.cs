@@ -343,7 +343,7 @@ namespace RuneScapeSolo.Lib
             PlayerStatCurrent = new int[18];
             menuActionX = new int[250];
             menuActionY = new int[250];
-            menuActionID = new int[250];
+            menuActions = new MenuAction[250];
             showTradeBox = false;
             Npcs = new Mob[500];
             duelNoRetreating = false;
@@ -549,11 +549,10 @@ namespace RuneScapeSolo.Lib
             int actionType = menuActionType[actionId];
             int actionVar1 = menuActionVar1[actionId];
             int actionVar2 = menuActionVar2[actionId];
-            int actionID = menuActionID[actionId];
 
             MenuAction action = (MenuAction)actionId;
 
-            if (action == MenuAction.CastSpellOnItem)
+            if (action == MenuAction.CastSpellOnGroundItem)
             {
                 walkToGroundItem(SectionX, SectionY, actionX, actionY, true);
                 StreamClass.CreatePacket(104);
@@ -564,7 +563,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
-            if (action == MenuAction.UseItemWithItem)
+            if (action == MenuAction.UseItemWithGroundItem)
             {
                 walkToGroundItem(SectionX, SectionY, actionX, actionY, true);
                 StreamClass.CreatePacket(34);
@@ -585,7 +584,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.AddInt16(actionVar1);
                 StreamClass.FormatPacket();
             }
-            if (action == MenuAction.ExamineItem)
+            if (action == MenuAction.ExamineGroundItem)
             {
                 displayMessage(EntityManager.GetItem(actionType).Description, 3);
             }
@@ -612,7 +611,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
                 selectedItem = -1;
             }
-            if (action == MenuAction.WalkToWallObject)
+            if (action == MenuAction.Command1OnWallObject)
             {
                 walkToWallObject(actionX, actionY, actionType);
                 StreamClass.CreatePacket(126);
@@ -677,7 +676,7 @@ namespace RuneScapeSolo.Lib
                 displayMessage(EntityManager.GetModel(actionType).Description, 3);
             }
 
-            if (action == MenuAction.Action600)
+            if (action == MenuAction.CastSpellOnItem)
             {
                 StreamClass.CreatePacket(49);
                 StreamClass.AddInt16(actionVar1);
@@ -685,7 +684,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
-            if (action == MenuAction.Action610)
+            if (action == MenuAction.UseItemWithItem)
             {
                 StreamClass.CreatePacket(27);
                 StreamClass.AddInt16(actionType);
@@ -693,31 +692,31 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
                 selectedItem = -1;
             }
-            if (action == MenuAction.Action620)
+            if (action == MenuAction.RemoveItem)
             {
                 StreamClass.CreatePacket(92);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
-            if (action == MenuAction.Action630)
+            if (action == MenuAction.EquipItem)
             {
                 StreamClass.CreatePacket(181);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
-            if (action == MenuAction.Action640)
+            if (action == MenuAction.CommandOnItem)
             {
                 StreamClass.CreatePacket(89);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
-            if (action == MenuAction.Action650)
+            if (action == MenuAction.UseItem)
             {
                 selectedItem = actionType;
                 drawMenuTab = 0;
                 selectedItemName = EntityManager.GetItem(InventoryItems[selectedItem]).Name;
             }
-            if (action == MenuAction.Action650)
+            if (action == MenuAction.UseItem)
             {
                 StreamClass.CreatePacket(147);
                 StreamClass.AddInt16(actionType);
@@ -726,7 +725,7 @@ namespace RuneScapeSolo.Lib
                 drawMenuTab = 0;
                 displayMessage("Dropping " + EntityManager.GetItem(InventoryItems[actionType]).Name, 4);
             }
-            if (action == MenuAction.Action3600)
+            if (action == MenuAction.ExamineItem)
             {
                 displayMessage(EntityManager.GetItem(actionType).Description, 3);
             }
@@ -753,7 +752,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
                 selectedItem = -1;
             }
-            if (action == MenuAction.Action720)
+            if (action == MenuAction.TalkToNpc)
             {
                 int i3 = (actionX - 64) / GridSize;
                 int i5 = (actionY - 64) / GridSize;
@@ -862,7 +861,7 @@ namespace RuneScapeSolo.Lib
                 StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
-            if (action == MenuAction.Action4000)
+            if (action == MenuAction.Cancel)
             {
                 selectedItem = -1;
                 selectedSpell = -1;
@@ -1537,7 +1536,7 @@ namespace RuneScapeSolo.Lib
                         {
                             menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on";
                             menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(l2).Name;
-                            menuActionID[menuOptionsCount] = 600;
+                            menuActions[menuOptionsCount] = MenuAction.CastSpellOnItem;
                             menuActionType[menuOptionsCount] = k2;
                             menuActionVar1[menuOptionsCount] = selectedSpell;
                             menuOptionsCount++;
@@ -1550,7 +1549,7 @@ namespace RuneScapeSolo.Lib
                         {
                             menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
                             menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(l2).Name;
-                            menuActionID[menuOptionsCount] = 610;
+                            menuActions[menuOptionsCount] = MenuAction.UseItemWithItem;
                             menuActionType[menuOptionsCount] = k2;
                             menuActionVar1[menuOptionsCount] = selectedItem;
                             menuOptionsCount++;
@@ -1560,7 +1559,7 @@ namespace RuneScapeSolo.Lib
                         {
                             menuText1[menuOptionsCount] = "Remove";
                             menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(l2).Name;
-                            menuActionID[menuOptionsCount] = 620;
+                            menuActions[menuOptionsCount] = MenuAction.RemoveItem;
                             menuActionType[menuOptionsCount] = k2;
                             menuOptionsCount++;
                         }
@@ -1577,7 +1576,7 @@ namespace RuneScapeSolo.Lib
                             }
 
                             menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(l2).Name;
-                            menuActionID[menuOptionsCount] = 630;
+                            menuActions[menuOptionsCount] = MenuAction.EquipItem;
                             menuActionType[menuOptionsCount] = k2;
                             menuOptionsCount++;
                         }
@@ -1585,23 +1584,23 @@ namespace RuneScapeSolo.Lib
                         {
                             menuText1[menuOptionsCount] = EntityManager.GetItem(l2).Command;
                             menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(l2).Name;
-                            menuActionID[menuOptionsCount] = 640;
+                            menuActions[menuOptionsCount] = MenuAction.CommandOnItem;
                             menuActionType[menuOptionsCount] = k2;
                             menuOptionsCount++;
                         }
                         menuText1[menuOptionsCount] = "Use";
                         menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(l2).Name;
-                        menuActionID[menuOptionsCount] = 650;
+                        menuActions[menuOptionsCount] = MenuAction.UseItem;
                         menuActionType[menuOptionsCount] = k2;
                         menuOptionsCount++;
                         menuText1[menuOptionsCount] = "Drop";
                         menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(l2).Name;
-                        menuActionID[menuOptionsCount] = 660;
+                        menuActions[menuOptionsCount] = MenuAction.DropItem;
                         menuActionType[menuOptionsCount] = k2;
                         menuOptionsCount++;
                         menuText1[menuOptionsCount] = "Examine";
                         menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(l2).Name;
-                        menuActionID[menuOptionsCount] = 3600;
+                        menuActions[menuOptionsCount] = MenuAction.ExamineItem;
                         menuActionType[menuOptionsCount] = l2;
                         menuOptionsCount++;
                     }
@@ -6273,7 +6272,7 @@ namespace RuneScapeSolo.Lib
                                 {
                                     menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on";
                                     menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
-                                    menuActionID[menuOptionsCount] = 800;
+                                    menuActions[menuOptionsCount] = MenuAction.CastSpellOnPlayer;
                                     menuActionX[menuOptionsCount] = Players[index].currentX;
                                     menuActionY[menuOptionsCount] = Players[index].currentY;
                                     menuActionType[menuOptionsCount] = Players[index].ServerIndex;
@@ -6286,7 +6285,7 @@ namespace RuneScapeSolo.Lib
                             {
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
                                 menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
-                                menuActionID[menuOptionsCount] = 810;
+                                menuActions[menuOptionsCount] = MenuAction.UseItemWithPlayer;
                                 menuActionX[menuOptionsCount] = Players[index].currentX;
                                 menuActionY[menuOptionsCount] = Players[index].currentY;
                                 menuActionType[menuOptionsCount] = Players[index].ServerIndex;
@@ -6301,11 +6300,11 @@ namespace RuneScapeSolo.Lib
                                     menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
                                     if (k4 >= 0 && k4 < 5)
                                     {
-                                        menuActionID[menuOptionsCount] = 805;
+                                        menuActions[menuOptionsCount] = MenuAction.AttackPlayer;
                                     }
                                     else
                                     {
-                                        menuActionID[menuOptionsCount] = 2805;
+                                        menuActions[menuOptionsCount] = MenuAction.AttackPlayer2;
                                     }
 
                                     menuActionX[menuOptionsCount] = Players[index].currentX;
@@ -6319,19 +6318,19 @@ namespace RuneScapeSolo.Lib
                                     menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
                                     menuActionX[menuOptionsCount] = Players[index].currentX;
                                     menuActionY[menuOptionsCount] = Players[index].currentY;
-                                    menuActionID[menuOptionsCount] = 2806;
+                                    menuActions[menuOptionsCount] = MenuAction.DuelWithPlayer;
                                     menuActionType[menuOptionsCount] = Players[index].ServerIndex;
                                     menuOptionsCount++;
                                 }
 
                                 menuText1[menuOptionsCount] = "Trade with";
                                 menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
-                                menuActionID[menuOptionsCount] = 2810;
+                                menuActions[menuOptionsCount] = MenuAction.TradeWithPlayer;
                                 menuActionType[menuOptionsCount] = Players[index].ServerIndex;
                                 menuOptionsCount++;
                                 menuText1[menuOptionsCount] = "Follow";
                                 menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
-                                menuActionID[menuOptionsCount] = 2820;
+                                menuActions[menuOptionsCount] = MenuAction.FollowPlayer;
                                 menuActionType[menuOptionsCount] = Players[index].ServerIndex;
                                 menuOptionsCount++;
                             }
@@ -6345,7 +6344,7 @@ namespace RuneScapeSolo.Lib
                                 {
                                     menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on";
                                     menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(groundItemID[index]).Name;
-                                    menuActionID[menuOptionsCount] = 200;
+                                    menuActions[menuOptionsCount] = MenuAction.CastSpellOnGroundItem;
                                     menuActionX[menuOptionsCount] = groundItemX[index];
                                     menuActionY[menuOptionsCount] = groundItemY[index];
                                     menuActionType[menuOptionsCount] = groundItemID[index];
@@ -6358,7 +6357,7 @@ namespace RuneScapeSolo.Lib
                             {
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
                                 menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(groundItemID[index]).Name;
-                                menuActionID[menuOptionsCount] = 210;
+                                menuActions[menuOptionsCount] = MenuAction.UseItemWithGroundItem;
                                 menuActionX[menuOptionsCount] = groundItemX[index];
                                 menuActionY[menuOptionsCount] = groundItemY[index];
                                 menuActionType[menuOptionsCount] = groundItemID[index];
@@ -6369,14 +6368,14 @@ namespace RuneScapeSolo.Lib
                             {
                                 menuText1[menuOptionsCount] = "Take";
                                 menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(groundItemID[index]).Name;
-                                menuActionID[menuOptionsCount] = 220;
+                                menuActions[menuOptionsCount] = MenuAction.TakeItem;
                                 menuActionX[menuOptionsCount] = groundItemX[index];
                                 menuActionY[menuOptionsCount] = groundItemY[index];
                                 menuActionType[menuOptionsCount] = groundItemID[index];
                                 menuOptionsCount++;
                                 menuText1[menuOptionsCount] = "Examine";
                                 menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(groundItemID[index]).Name;
-                                menuActionID[menuOptionsCount] = 3200;
+                                menuActions[menuOptionsCount] = MenuAction.ExamineGroundItem;
                                 menuActionType[menuOptionsCount] = groundItemID[index];
                                 menuOptionsCount++;
                             }
@@ -6441,7 +6440,7 @@ namespace RuneScapeSolo.Lib
                                 {
                                     menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on";
                                     menuText2[menuOptionsCount] = "@yel@" + EntityManager.GetNpc(Npcs[index].npcId).Name;
-                                    menuActionID[menuOptionsCount] = 700;
+                                    menuActions[menuOptionsCount] = MenuAction.CastSpellOnNpc;
                                     menuActionX[menuOptionsCount] = Npcs[index].currentX;
                                     menuActionY[menuOptionsCount] = Npcs[index].currentY;
                                     menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
@@ -6454,7 +6453,7 @@ namespace RuneScapeSolo.Lib
                             {
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
                                 menuText2[menuOptionsCount] = "@yel@" + EntityManager.GetNpc(Npcs[index].npcId).Name;
-                                menuActionID[menuOptionsCount] = 710;
+                                menuActions[menuOptionsCount] = MenuAction.UseItemWithNpc;
                                 menuActionX[menuOptionsCount] = Npcs[index].currentX;
                                 menuActionY[menuOptionsCount] = Npcs[index].currentY;
                                 menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
@@ -6469,11 +6468,11 @@ namespace RuneScapeSolo.Lib
                                     menuText2[menuOptionsCount] = "@yel@" + EntityManager.GetNpc(Npcs[index].npcId).Name + s2;
                                     if (l4 >= 0)
                                     {
-                                        menuActionID[menuOptionsCount] = 715;
+                                        menuActions[menuOptionsCount] = MenuAction.AttackNpc;
                                     }
                                     else
                                     {
-                                        menuActionID[menuOptionsCount] = 2715;
+                                        menuActions[menuOptionsCount] = MenuAction.AttackNpc2;
                                     }
 
                                     menuActionX[menuOptionsCount] = Npcs[index].currentX;
@@ -6483,7 +6482,7 @@ namespace RuneScapeSolo.Lib
                                 }
                                 menuText1[menuOptionsCount] = "Talk-to";
                                 menuText2[menuOptionsCount] = "@yel@" + EntityManager.GetNpc(Npcs[index].npcId).Name;
-                                menuActionID[menuOptionsCount] = 720;
+                                menuActions[menuOptionsCount] = MenuAction.TalkToNpc;
                                 menuActionX[menuOptionsCount] = Npcs[index].currentX;
                                 menuActionY[menuOptionsCount] = Npcs[index].currentY;
                                 menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
@@ -6492,7 +6491,7 @@ namespace RuneScapeSolo.Lib
                                 {
                                     menuText1[menuOptionsCount] = EntityManager.GetNpc(id).Command;
                                     menuText2[menuOptionsCount] = "@yel@" + EntityManager.GetNpc(Npcs[index].npcId).Name;
-                                    menuActionID[menuOptionsCount] = 725;
+                                    menuActions[menuOptionsCount] = MenuAction.CommandOnNpc;
                                     menuActionX[menuOptionsCount] = Npcs[index].currentX;
                                     menuActionY[menuOptionsCount] = Npcs[index].currentY;
                                     menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
@@ -6500,7 +6499,7 @@ namespace RuneScapeSolo.Lib
                                 }
                                 menuText1[menuOptionsCount] = "Examine";
                                 menuText2[menuOptionsCount] = "@yel@" + EntityManager.GetNpc(Npcs[index].npcId).Name;
-                                menuActionID[menuOptionsCount] = 3700;
+                                menuActions[menuOptionsCount] = MenuAction.ExamineNpc;
                                 menuActionType[menuOptionsCount] = Npcs[index].npcId;
                                 menuOptionsCount++;
                             }
@@ -6519,7 +6518,7 @@ namespace RuneScapeSolo.Lib
                                 {
                                     menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on";
                                     menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWallObject(i4).Name;
-                                    menuActionID[menuOptionsCount] = 300;
+                                    menuActions[menuOptionsCount] = MenuAction.CastSpellOnWallObject;
                                     menuActionX[menuOptionsCount] = WallObjectX[j3];
                                     menuActionY[menuOptionsCount] = WallObjectY[j3];
                                     menuActionType[menuOptionsCount] = WallObjectDirection[j3];
@@ -6531,7 +6530,7 @@ namespace RuneScapeSolo.Lib
                             {
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
                                 menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWallObject(i4).Name;
-                                menuActionID[menuOptionsCount] = 310;
+                                menuActions[menuOptionsCount] = MenuAction.UseItemWithWallObject;
                                 menuActionX[menuOptionsCount] = WallObjectX[j3];
                                 menuActionY[menuOptionsCount] = WallObjectY[j3];
                                 menuActionType[menuOptionsCount] = WallObjectDirection[j3];
@@ -6544,7 +6543,7 @@ namespace RuneScapeSolo.Lib
                                 {
                                     menuText1[menuOptionsCount] = EntityManager.GetWallObject(i4).Command1;
                                     menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWallObject(i4).Name;
-                                    menuActionID[menuOptionsCount] = 320;
+                                    menuActions[menuOptionsCount] = MenuAction.Command1OnWallObject;
                                     menuActionX[menuOptionsCount] = WallObjectX[j3];
                                     menuActionY[menuOptionsCount] = WallObjectY[j3];
                                     menuActionType[menuOptionsCount] = WallObjectDirection[j3];
@@ -6554,15 +6553,16 @@ namespace RuneScapeSolo.Lib
                                 {
                                     menuText1[menuOptionsCount] = EntityManager.GetWallObject(i4).Command2;
                                     menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWallObject(i4).Name;
-                                    menuActionID[menuOptionsCount] = 2300;
+                                    menuActions[menuOptionsCount] = MenuAction.Command2OnWallObject;
                                     menuActionX[menuOptionsCount] = WallObjectX[j3];
                                     menuActionY[menuOptionsCount] = WallObjectY[j3];
                                     menuActionType[menuOptionsCount] = WallObjectDirection[j3];
                                     menuOptionsCount++;
                                 }
+
                                 menuText1[menuOptionsCount] = "Examine";
                                 menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWallObject(i4).Name;
-                                menuActionID[menuOptionsCount] = 3300;
+                                menuActions[menuOptionsCount] = MenuAction.ExamineWallObject;
                                 menuActionType[menuOptionsCount] = i4;
                                 menuOptionsCount++;
                             }
@@ -6582,7 +6582,7 @@ namespace RuneScapeSolo.Lib
                                 {
                                     menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on";
                                     menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetModel(j4).Name;
-                                    menuActionID[menuOptionsCount] = 400;
+                                    menuActions[menuOptionsCount] = MenuAction.CastSpellOnModel;
                                     menuActionX[menuOptionsCount] = ObjectX[k3];
                                     menuActionY[menuOptionsCount] = ObjectY[k3];
                                     menuActionType[menuOptionsCount] = ObjectRotation[k3];
@@ -6596,7 +6596,7 @@ namespace RuneScapeSolo.Lib
                             {
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
                                 menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetModel(j4).Name;
-                                menuActionID[menuOptionsCount] = 410;
+                                menuActions[menuOptionsCount] = MenuAction.UseItemWithModel;
                                 menuActionX[menuOptionsCount] = ObjectX[k3];
                                 menuActionY[menuOptionsCount] = ObjectY[k3];
                                 menuActionType[menuOptionsCount] = ObjectRotation[k3];
@@ -6610,7 +6610,7 @@ namespace RuneScapeSolo.Lib
                                 {
                                     menuText1[menuOptionsCount] = EntityManager.GetModel(j4).Command1;
                                     menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetModel(j4).Name;
-                                    menuActionID[menuOptionsCount] = 420;
+                                    menuActions[menuOptionsCount] = MenuAction.Command1OnModel;
                                     menuActionX[menuOptionsCount] = ObjectX[k3];
                                     menuActionY[menuOptionsCount] = ObjectY[k3];
                                     menuActionType[menuOptionsCount] = ObjectRotation[k3];
@@ -6621,7 +6621,7 @@ namespace RuneScapeSolo.Lib
                                 {
                                     menuText1[menuOptionsCount] = EntityManager.GetModel(j4).Command2;
                                     menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetModel(j4).Name;
-                                    menuActionID[menuOptionsCount] = 2400;
+                                    menuActions[menuOptionsCount] = MenuAction.Command2OnModel;
                                     menuActionX[menuOptionsCount] = ObjectX[k3];
                                     menuActionY[menuOptionsCount] = ObjectY[k3];
                                     menuActionType[menuOptionsCount] = ObjectRotation[k3];
@@ -6630,7 +6630,7 @@ namespace RuneScapeSolo.Lib
                                 }
                                 menuText1[menuOptionsCount] = "Examine";
                                 menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetModel(j4).Name;
-                                menuActionID[menuOptionsCount] = 3400;
+                                menuActions[menuOptionsCount] = MenuAction.ExamineModel;
                                 menuActionType[menuOptionsCount] = j4;
                                 menuOptionsCount++;
                             }
@@ -6656,7 +6656,7 @@ namespace RuneScapeSolo.Lib
             {
                 menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on self";
                 menuText2[menuOptionsCount] = "";
-                menuActionID[menuOptionsCount] = 1000;
+                menuActions[menuOptionsCount] = MenuAction.CastSpellOnSelf;
                 menuActionType[menuOptionsCount] = selectedSpell;
                 menuOptionsCount++;
             }
@@ -6668,7 +6668,7 @@ namespace RuneScapeSolo.Lib
                     {
                         menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on ground";
                         menuText2[menuOptionsCount] = "";
-                        menuActionID[menuOptionsCount] = 900;
+                        menuActions[menuOptionsCount] = MenuAction.CastSpellOnGround;
                         menuActionX[menuOptionsCount] = engineHandle.selectedX[ground];
                         menuActionY[menuOptionsCount] = engineHandle.selectedY[ground];
                         menuActionType[menuOptionsCount] = selectedSpell;
@@ -6681,7 +6681,7 @@ namespace RuneScapeSolo.Lib
                 {
                     menuText1[menuOptionsCount] = "Walk here";
                     menuText2[menuOptionsCount] = "";
-                    menuActionID[menuOptionsCount] = 920;
+                    menuActions[menuOptionsCount] = MenuAction.WalkHere;
                     menuActionX[menuOptionsCount] = engineHandle.selectedX[ground];
                     menuActionY[menuOptionsCount] = engineHandle.selectedY[ground];
                     menuOptionsCount++;
@@ -6916,7 +6916,7 @@ namespace RuneScapeSolo.Lib
             {
                 menuText1[menuOptionsCount] = "Cancel";
                 menuText2[menuOptionsCount] = "";
-                menuActionID[menuOptionsCount] = 4000;
+                menuActions[menuOptionsCount] = MenuAction.Cancel; ;
                 menuOptionsCount++;
             }
             for (int l = 0; l < menuOptionsCount; l++)
@@ -6931,7 +6931,7 @@ namespace RuneScapeSolo.Lib
                 {
                     int k1 = menuIndexes[i1];
                     int i2 = menuIndexes[i1 + 1];
-                    if (menuActionID[k1] > menuActionID[i2])
+                    if (menuActions[k1] > menuActions[i2])
                     {
                         menuIndexes[i1] = i2;
                         menuIndexes[i1 + 1] = k1;
@@ -10031,7 +10031,7 @@ namespace RuneScapeSolo.Lib
         "Attack", "Defense", "Strength", "Hits", "Ranged", "Prayer", "Magic", "Cooking", "Woodcutting", "Fletching",
         "Fishing", "Firemaking", "Crafting", "Smithing", "Mining", "Herblaw", "Agility", "Thieving"
     };
-        public int[] menuActionID;
+        public MenuAction[] menuActions;
         public int cameraAutoRotatePlayerX;
         public int cameraAutoRotatePlayerY;
         public bool showTradeBox;
