@@ -147,7 +147,14 @@ namespace RuneScapeSolo
         {
             SettingsManager.Instance.Update();
 
-            InputManager.Instance.Update();
+            if (IsActive)
+            {
+                InputManager.Instance.Update();
+            }
+            else
+            {
+                InputManager.Instance.ResetInputStates();
+            }
 
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
