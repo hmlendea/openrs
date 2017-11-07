@@ -97,11 +97,6 @@ namespace RuneScapeSolo.Lib
         {
             HandleKeyDown(key, c);
 
-            if (key == Keys.F1)
-            {
-                keyF1Toggle = !keyF1Toggle;
-            }
-
             bool flag = false;
 
             for (int i = 0; i < allowedChars.Length; i++)
@@ -366,7 +361,6 @@ namespace RuneScapeSolo.Lib
                     if (fij > 25)
                     {
                         fij = 0;
-                        keyF1Toggle = true;
                     }
                     break;
                 }
@@ -608,7 +602,6 @@ namespace RuneScapeSolo.Lib
             gameLoadingFileTitle = "Loading";
             //gameLoadingFont = loadingFont;//new Font("TimesRoman", 0, 15);
             gameMinThreadSleepTime = 1;
-            keyF1Toggle = false;
             inputText = "";
             enteredInputText = "";
             privateMessageText = "";
@@ -639,7 +632,6 @@ namespace RuneScapeSolo.Lib
         public int gameMinThreadSleepTime;
         public int mouseButton;
         public int lastMouseButton;
-        public bool keyF1Toggle;
         public string inputText;
         public string enteredInputText;
         public string privateMessageText;

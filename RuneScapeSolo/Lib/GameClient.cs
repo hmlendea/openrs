@@ -7300,16 +7300,19 @@ namespace RuneScapeSolo.Lib
 
             gameGraphics.interlacingEnabled = false;
             gameGraphics.ClearScreen();
-            gameGraphics.interlacingEnabled = keyF1Toggle;
+            gameGraphics.interlacingEnabled = SettingsManager.Instance.GraphicsSettings.Interlacing;
+
             if (lastLayerIndex == 3)
             {
                 int l5 = 40 + (int)(Helper.Random.NextDouble() * 3D);
                 int j8 = 40 + (int)(Helper.Random.NextDouble() * 7D);
                 gameCamera.bjl(l5, j8, -50, -10, -50);
             }
+
             itemsAboveHeadCount = 0;
             receivedMessagesCount = 0;
             healthBarVisibleCount = 0;
+
             if (cameraAutoAngleDebug)
             {
                 if (CameraAutoAngle && !cameraZoom)
@@ -7350,7 +7353,7 @@ namespace RuneScapeSolo.Lib
 
                 if (fogOfWar)
                 {
-                    if (!keyF1Toggle)
+                    if (!SettingsManager.Instance.GraphicsSettings.Interlacing)
                     {
                         gameCamera.zoom1 = 2400;
                         gameCamera.zoom2 = 2400;

@@ -11,10 +11,16 @@ namespace RuneScapeSolo.Settings
         public Size Resolution { get; set; }
 
         /// <summary>
-        /// Gets or sets the fullscreen mode.
+        /// Gets or sets the fullscreen mode toggle.
         /// </summary>
         /// <value>The fullscreen mode.</value>
         public bool Fullscreen { get; set; }
+
+        /// <summary>
+        /// Gets or sets the interlacing mode toggle.
+        /// </summary>
+        /// <value>The interlacing mode. </value>
+        public bool Interlacing { get; set; }
 
         public GraphicsSettings()
         {
