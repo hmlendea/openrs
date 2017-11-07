@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfGameModelEntity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ArrayOfGameModelEntity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <GameModelEntity>
     <Id>tree_pointy</Id>
     <Name>Tree</Name>
@@ -68,7 +68,7 @@
   <GameModelEntity>
     <Id>ladder_up</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading upwards</Description>
+    <Description>It's a ladder leading upwards</Description>
     <Command1>Climb-Up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -81,7 +81,7 @@
   <GameModelEntity>
     <Id>ladder_down</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading downwards</Description>
+    <Description>It's a ladder leading downwards</Description>
     <Command1>Climb-Down</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -106,7 +106,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>logs</Id>
-    <Name>logs</Name>
+    <Name>Logs</Name>
     <Description>A pile of logs</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -210,7 +210,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>bar</Id>
-    <Name>bar</Name>
+    <Name>Bar</Name>
     <Description>Mmm beer</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -288,7 +288,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>barrel_empty</Id>
-    <Name>barrel</Name>
+    <Name>Barrel</Name>
     <Description>Its empty</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -327,7 +327,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>candles</Id>
-    <Name>candles</Name>
+    <Name>Candles</Name>
     <Description>Candles on a fancy candlestick</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -340,7 +340,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fountain</Id>
-    <Name>fountain</Name>
+    <Name>Fountain</Name>
     <Description>The water looks fairly clean</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -353,7 +353,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>landscape</Id>
-    <Name>landscape</Name>
+    <Name>Landscape</Name>
     <Description>An oil painting</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -535,7 +535,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>wooden_stairs_up</Id>
-    <Name>stairs</Name>
+    <Name>Stairs</Name>
     <Description>These lead upstairs</Description>
     <Command1>Go up</Command1>
     <Command2>Examine</Command2>
@@ -548,7 +548,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>wooden_stairs_down</Id>
-    <Name>stairs</Name>
+    <Name>Stairs</Name>
     <Description>These lead downstairs</Description>
     <Command1>Go down</Command1>
     <Command2>Examine</Command2>
@@ -561,7 +561,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stone_stairs_up</Id>
-    <Name>stairs</Name>
+    <Name>Stairs</Name>
     <Description>These lead upstairs</Description>
     <Command1>Go up</Command1>
     <Command2>Examine</Command2>
@@ -574,7 +574,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stone_stairs_down</Id>
-    <Name>stairs</Name>
+    <Name>Stairs</Name>
     <Description>These lead downstairs</Description>
     <Command1>Go down</Command1>
     <Command2>Examine</Command2>
@@ -587,8 +587,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>railing</Id>
-    <Name>railing</Name>
-    <Description>nice safety measure</Description>
+    <Name>Railing</Name>
+    <Description>Nice safety measure</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -600,7 +600,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>pillar</Id>
-    <Name>pillar</Name>
+    <Name>Pillar</Name>
     <Description>An ornate pillar</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -652,8 +652,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>anvil</Id>
-    <Name>anvil</Name>
-    <Description>heavy metal</Description>
+    <Name>Anvil</Name>
+    <Description>Heavy metal</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -678,7 +678,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>hopper</Id>
-    <Name>hopper</Name>
+    <Name>Hopper</Name>
     <Description>You put grain in here</Description>
     <Command1>operate</Command1>
     <Command2>Examine</Command2>
@@ -691,7 +691,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>chute</Id>
-    <Name>chute</Name>
+    <Name>Chute</Name>
     <Description>Flour comes out here</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -704,7 +704,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cart</Id>
-    <Name>cart</Name>
+    <Name>Cart</Name>
     <Description>A farm cart</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -717,7 +717,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sacks</Id>
-    <Name>sacks</Name>
+    <Name>Sacks</Name>
     <Description>Yep they're sacks</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -730,7 +730,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_closed</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>The cupboard is shut</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -756,7 +756,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_open</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is open</Description>
     <Command1>WalkTo</Command1>
     <Command2>close</Command2>
@@ -769,7 +769,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_open2</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is open</Description>
     <Command1>WalkTo</Command1>
     <Command2>close</Command2>
@@ -782,7 +782,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_closed2</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is closed</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -795,7 +795,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost_varrock</Id>
-    <Name>signpost</Name>
+    <Name>Signpost</Name>
     <Description>To Varrock</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -808,7 +808,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost_wizard_tower</Id>
-    <Name>signpost</Name>
+    <Name>Signpost</Name>
     <Description>To the tower of wizards</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -821,7 +821,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>double_door_open</Id>
-    <Name>doors</Name>
+    <Name>Doors</Name>
     <Description>The doors are open</Description>
     <Command1>WalkTo</Command1>
     <Command2>Close</Command2>
@@ -834,7 +834,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>double_door_closed</Id>
-    <Name>doors</Name>
+    <Name>Doors</Name>
     <Description>The doors are shut</Description>
     <Command1>Open</Command1>
     <Command2>Examine</Command2>
@@ -847,7 +847,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost_player_home</Id>
-    <Name>signpost</Name>
+    <Name>Signpost</Name>
     <Description>To player owned houses</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -860,7 +860,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost_lumbridge</Id>
-    <Name>signpost</Name>
+    <Name>Signpost</Name>
     <Description>To Lumbridge Castle</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -873,7 +873,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>bookcase2</Id>
-    <Name>bookcase</Name>
+    <Name>Bookcase</Name>
     <Description>It's a bookcase</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -886,8 +886,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>henge</Id>
-    <Name>henge</Name>
-    <Description>these look impressive</Description>
+    <Name>Henge</Name>
+    <Description>These look impressive</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -925,7 +925,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_open</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>Perhaps I should search it</Description>
     <Command1>Search</Command1>
     <Command2>close</Command2>
@@ -939,7 +939,7 @@
   <GameModelEntity>
     <Id>wheat</Id>
     <Name>Wheat</Name>
-    <Description>nice ripe looking wheat</Description>
+    <Description>Nice ripe looking wheat</Description>
     <Command1>WalkTo</Command1>
     <Command2>pick</Command2>
     <Type>0</Type>
@@ -951,7 +951,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_blue_moon_inn</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>The blue moon inn</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -964,7 +964,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sails</Id>
-    <Name>sails</Name>
+    <Name>Sails</Name>
     <Description>The windmill's sails</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -977,8 +977,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_estate_agent</Id>
-    <Name>sign</Name>
-    <Description>estate agent</Description>
+    <Name>Sign</Name>
+    <Description>Estate agent</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -990,7 +990,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_jolly_boar</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>The Jolly boar inn</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -1016,7 +1016,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>manhole_closed</Id>
-    <Name>manhole</Name>
+    <Name>Manhole</Name>
     <Description>A manhole cover</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -1029,7 +1029,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>manhole_open</Id>
-    <Name>manhole</Name>
+    <Name>Manhole</Name>
     <Description>How dangerous - this manhole has been left open</Description>
     <Command1>climb down</Command1>
     <Command2>close</Command2>
@@ -1042,8 +1042,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>wall_pipe</Id>
-    <Name>pipe</Name>
-    <Description>a dirty sewer pipe</Description>
+    <Name>Pipe</Name>
+    <Description>A dirty sewer pipe</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -1081,7 +1081,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>barrel_newt_eyes</Id>
-    <Name>barrel</Name>
+    <Name>Barrel</Name>
     <Description>It seems to be full of newt's eyes</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -1094,7 +1094,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_closed2</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>The cupboard is shut</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -1107,7 +1107,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_open2</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>Perhaps I should search it</Description>
     <Command1>Search</Command1>
     <Command2>close</Command2>
@@ -1120,7 +1120,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fountain2</Id>
-    <Name>fountain</Name>
+    <Name>Fountain</Name>
     <Description>I think I see something in the fountain</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -1133,7 +1133,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost_draynor</Id>
-    <Name>signpost</Name>
+    <Name>Signpost</Name>
     <Description>To Draynor Manor</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -1159,7 +1159,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_general_store</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>General Store</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -1172,7 +1172,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_archery_shop_lowe</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>Lowe's Archery store</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -1185,7 +1185,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_clothes_shop</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>The Clothes Shop</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -1198,7 +1198,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_swords_shop_varrock</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>Varrock Swords</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -1211,7 +1211,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_members</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>You can pass through this on the members server</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -1224,7 +1224,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_members12</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>You can pass through this on the members server</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -1237,7 +1237,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_axes_shop_bob</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>Bob's axes</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -1250,7 +1250,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_staff_shop</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>The staff shop</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -1263,7 +1263,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fire</Id>
-    <Name>fire</Name>
+    <Name>Fire</Name>
     <Description>A strongly burning fire</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -1510,7 +1510,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cobweb_ceiling</Id>
-    <Name>web</Name>
+    <Name>Web</Name>
     <Description>A spider's web</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -1523,7 +1523,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cobweb_floor</Id>
-    <Name>web</Name>
+    <Name>Web</Name>
     <Description>A spider's web</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -1536,7 +1536,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>furnace</Id>
-    <Name>furnace</Name>
+    <Name>Furnace</Name>
     <Description>A red hot furnace</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -1693,7 +1693,7 @@
   <GameModelEntity>
     <Id>ladder_up2</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading upwards</Description>
+    <Description>It's a ladder leading upwards</Description>
     <Command1>Climb-Up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -1705,7 +1705,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost_forge</Id>
-    <Name>signpost</Name>
+    <Name>Signpost</Name>
     <Description>To the forge</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -1718,8 +1718,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost_barbarian_village</Id>
-    <Name>signpost</Name>
-    <Description>To the Barbarian's  Village</Description>
+    <Name>Signpost</Name>
+    <Description>To the Barbarian's Village</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -1731,7 +1731,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost_al_kharid</Id>
-    <Name>signpost</Name>
+    <Name>Signpost</Name>
     <Description>To Al Kharid</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -1783,7 +1783,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_members13</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>You can pass through this on the members server</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -1796,7 +1796,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_members4</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>You can pass through this on the members server</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -1809,7 +1809,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_bank_of_runescape</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>The Bank of runescape</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -1822,7 +1822,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_closed3</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>The cupboard is shut</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -1835,7 +1835,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_open3</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>Perhaps I should search it</Description>
     <Command1>Search</Command1>
     <Command2>close</Command2>
@@ -1848,7 +1848,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>double_door_closed2</Id>
-    <Name>doors</Name>
+    <Name>Doors</Name>
     <Description>The doors are shut</Description>
     <Command1>Open</Command1>
     <Command2>Examine</Command2>
@@ -1861,7 +1861,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>skull_torch</Id>
-    <Name>torch</Name>
+    <Name>Torch</Name>
     <Description>A scary torch</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -1901,7 +1901,7 @@
   <GameModelEntity>
     <Id>ventilation_grill</Id>
     <Name>Grill</Name>
-    <Description>some sort of ventilation</Description>
+    <Description>Some sort of ventilation</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -1927,7 +1927,7 @@
   <GameModelEntity>
     <Id>ventilation_grill2</Id>
     <Name>Grill</Name>
-    <Description>some sort of ventilation</Description>
+    <Description>Some sort of ventilation</Description>
     <Command1>Listen</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -2017,7 +2017,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_front</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A ship to Karamja</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -2030,7 +2030,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_middle</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A ship to Karamja</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -2043,7 +2043,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_back</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A ship to Karamja</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -2057,7 +2057,7 @@
   <GameModelEntity>
     <Id>emergency_escape_ladder</Id>
     <Name>Emergency escape ladder</Name>
-    <Description>it's a ladder leading downwards</Description>
+    <Description>It's a ladder leading downwards</Description>
     <Command1>Climb-Down</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -2069,7 +2069,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_grocery_store_wydin</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>Wydin's grocery</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -2082,7 +2082,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_rusty_anchor</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>The Rusty Anchor</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -2095,7 +2095,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_front2</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A ship to Port Sarim</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -2108,7 +2108,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_middle2</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A ship to Port Sarim</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -2121,7 +2121,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_back2</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A ship to Port Sarim</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -2251,7 +2251,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>hopper2</Id>
-    <Name>hopper</Name>
+    <Name>Hopper</Name>
     <Description>You put grain in here</Description>
     <Command1>operate</Command1>
     <Command2>Examine</Command2>
@@ -2264,7 +2264,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_closed4</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>The cupboard is shut</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -2277,7 +2277,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_open4</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>Perhaps I should search it</Description>
     <Command1>Search</Command1>
     <Command2>close</Command2>
@@ -2316,7 +2316,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>pottery_oven</Id>
-    <Name>pottery oven</Name>
+    <Name>Pottery oven</Name>
     <Description>I can fire clay pots in this</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -2329,7 +2329,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>potters_wheel</Id>
-    <Name>potter's wheel</Name>
+    <Name>Potter's wheel</Name>
     <Description>I can make clay pots using this</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -2342,7 +2342,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_lumbridge</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>A gate from Lumbridge to Al Kharid</Description>
     <Command1>Open</Command1>
     <Command2>Examine</Command2>
@@ -2355,7 +2355,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_open3</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>This gate is open</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -2368,7 +2368,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate_bananas</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>A crate used for storing bananas</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -2407,7 +2407,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate_bananas2</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>A crate used for storing bananas</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -2459,7 +2459,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_fishing_store</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>Fishing Supplies</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -2472,7 +2472,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_jewelry_store</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>Jewellers</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -2498,7 +2498,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fish_lure</Id>
-    <Name>fish</Name>
+    <Name>Fish</Name>
     <Description>I can see fish swimming in the water</Description>
     <Command1>Lure</Command1>
     <Command2>Bait</Command2>
@@ -2511,7 +2511,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fish_bait</Id>
-    <Name>fish</Name>
+    <Name>Fish</Name>
     <Description>I can see fish swimming in the water</Description>
     <Command1>Net</Command1>
     <Command2>Bait</Command2>
@@ -2524,7 +2524,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fish_harpoon</Id>
-    <Name>fish</Name>
+    <Name>Fish</Name>
     <Description>I can see fish swimming in the water</Description>
     <Command1>Harpoon</Command1>
     <Command2>Cage</Command2>
@@ -2577,7 +2577,7 @@
   <GameModelEntity>
     <Id>ladder_up3</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading upwards</Description>
+    <Description>It's a ladder leading upwards</Description>
     <Command1>Climb-Up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -2590,7 +2590,7 @@
   <GameModelEntity>
     <Id>ladder_down2</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading downwards</Description>
+    <Description>It's a ladder leading downwards</Description>
     <Command1>Climb-Down</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -2616,7 +2616,7 @@
   <GameModelEntity>
     <Id>ladder_down3</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading downwards</Description>
+    <Description>It's a ladder leading downwards</Description>
     <Command1>Climb-Down</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -2784,7 +2784,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>bone_curved</Id>
-    <Name>bone</Name>
+    <Name>Bone</Name>
     <Description>Eep!</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -2797,7 +2797,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>bone_large</Id>
-    <Name>bone</Name>
+    <Name>Bone</Name>
     <Description>This would feed a dog for a month</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -2810,7 +2810,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>carcass</Id>
-    <Name>carcass</Name>
+    <Name>Carcass</Name>
     <Description>I think it's dead</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -2823,7 +2823,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>animalskull</Id>
-    <Name>animalskull</Name>
+    <Name>Animalskull</Name>
     <Description>I wouldn't like to meet a live one</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -2902,7 +2902,7 @@
   <GameModelEntity>
     <Id>ladder_down4</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading downwards</Description>
+    <Description>It's a ladder leading downwards</Description>
     <Command1>Climb-Down</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -2914,7 +2914,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_front3</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>The Lumbridge Lady</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -2927,7 +2927,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_back3</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>The Lumbridge Lady</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -2940,7 +2940,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_hole</Id>
-    <Name>hole</Name>
+    <Name>Hole</Name>
     <Description>This ship isn't much use with that there</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -2954,7 +2954,7 @@
   <GameModelEntity>
     <Id>ladder_up4</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading upwards</Description>
+    <Description>It's a ladder leading upwards</Description>
     <Command1>Climb-Up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -3018,7 +3018,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_hole2</Id>
-    <Name>hole</Name>
+    <Name>Hole</Name>
     <Description>This ship isn't much use with that there</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3031,7 +3031,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_front4</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>The Lumbridge Lady</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -3044,7 +3044,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_back4</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>The Lumbridge Lady</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -3096,7 +3096,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_front5</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A ship to Entrana</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -3109,7 +3109,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_middle3</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A ship to Entrana</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -3122,7 +3122,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_back5</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A ship to Entrana</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -3135,7 +3135,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_front6</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A ship to Port Sarim</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -3148,7 +3148,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_middle4</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A ship to Port Sarim</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -3161,7 +3161,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_back6</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A ship to Port Sarim</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -3175,7 +3175,7 @@
   <GameModelEntity>
     <Id>ladder_down5</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading downwards</Description>
+    <Description>It's a ladder leading downwards</Description>
     <Command1>Climb-Down</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -3200,7 +3200,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>hopper3</Id>
-    <Name>hopper</Name>
+    <Name>Hopper</Name>
     <Description>You put grain in here</Description>
     <Command1>operate</Command1>
     <Command2>Examine</Command2>
@@ -3240,7 +3240,7 @@
   <GameModelEntity>
     <Id>ladder_up5</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading upwards</Description>
+    <Description>It's a ladder leading upwards</Description>
     <Command1>Climb-Up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -3252,7 +3252,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_swords2h_store</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>2-handed swords sold here</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3265,8 +3265,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_ye_olde_herbalist</Id>
-    <Name>sign</Name>
-    <Description>ye olde herbalist</Description>
+    <Name>Sign</Name>
+    <Description>Ye olde herbalist</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -3278,7 +3278,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_members2</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>You can pass through this on the members server</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -3291,7 +3291,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_members3</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>You can pass through this on the members server</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -3304,7 +3304,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_members11</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>You can pass through this on the members server</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -3330,7 +3330,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_closed3</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is closed</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -3356,7 +3356,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_closed5</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>The cupboard is shut</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -3369,7 +3369,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_open5</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>Perhaps I should search it</Description>
     <Command1>Search</Command1>
     <Command2>close</Command2>
@@ -3382,7 +3382,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_bank_vault</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The bank vault gate</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -3395,7 +3395,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fish_harpoon2</Id>
-    <Name>fish</Name>
+    <Name>Fish</Name>
     <Description>I can see fish swimming in the water</Description>
     <Command1>Net</Command1>
     <Command2>Harpoon</Command2>
@@ -3408,7 +3408,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_fishing_shack_harry</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>Harry's fishing shack</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3421,7 +3421,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_closed6</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>The cupboard is shut</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -3434,7 +3434,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_open6</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>Perhaps I should search it</Description>
     <Command1>Search</Command1>
     <Command2>close</Command2>
@@ -3473,7 +3473,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_shrimp_and_parrot</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>The shrimp and parrot</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3486,7 +3486,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost_palm_street</Id>
-    <Name>signpost</Name>
+    <Name>Signpost</Name>
     <Description>Palm Street</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3513,7 +3513,7 @@
   <GameModelEntity>
     <Id>ladder_up6</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading upwards</Description>
+    <Description>It's a ladder leading upwards</Description>
     <Command1>Climb-Up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -3525,7 +3525,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fish_bait2</Id>
-    <Name>fish</Name>
+    <Name>Fish</Name>
     <Description>I can see fish swimming in the lava!</Description>
     <Command1>Bait</Command1>
     <Command2>Examine</Command2>
@@ -3538,7 +3538,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>barrel_ale</Id>
-    <Name>barrel</Name>
+    <Name>Barrel</Name>
     <Description>Its got ale in it</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3551,7 +3551,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>table2</Id>
-    <Name>table</Name>
+    <Name>Table</Name>
     <Description>It's a sturdy table</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3642,7 +3642,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>table3</Id>
-    <Name>table</Name>
+    <Name>Table</Name>
     <Description>A round table ideal for knights</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3655,7 +3655,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>table4</Id>
-    <Name>table</Name>
+    <Name>Table</Name>
     <Description>A handy little table</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3668,7 +3668,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fountain_of_heros</Id>
-    <Name>fountain of heros</Name>
+    <Name>Fountain of heros</Name>
     <Description>Use a dragonstone gem here to increase it's abilties</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3681,7 +3681,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>bush</Id>
-    <Name>bush</Name>
+    <Name>Bush</Name>
     <Description>A leafy bush</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3694,7 +3694,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>hedge</Id>
-    <Name>hedge</Name>
+    <Name>Hedge</Name>
     <Description>A carefully trimmed hedge</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3707,7 +3707,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>flower_blue</Id>
-    <Name>flower</Name>
+    <Name>Flower</Name>
     <Description>A nice colourful flower</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3720,7 +3720,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>plant_smallfern</Id>
-    <Name>plant</Name>
+    <Name>Plant</Name>
     <Description>Hmm leafy</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3746,7 +3746,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_dead_man_chest</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>The dead man's chest</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3759,7 +3759,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_rising_sun</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>The rising sun</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3772,7 +3772,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>A large wooden storage box</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -3785,7 +3785,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate2</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>A large wooden storage box</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -3798,7 +3798,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_front7</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A merchant ship</Description>
     <Command1>stow away</Command1>
     <Command2>Examine</Command2>
@@ -3811,7 +3811,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_back7</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A merchant ship</Description>
     <Command1>stow away</Command1>
     <Command2>Examine</Command2>
@@ -3824,7 +3824,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>beehive</Id>
-    <Name>beehive</Name>
+    <Name>Beehive</Name>
     <Description>It's guarded by angry looking bees</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3838,7 +3838,7 @@
   <GameModelEntity>
     <Id>ladder_up7</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading upwards</Description>
+    <Description>It's a ladder leading upwards</Description>
     <Command1>Climb-Up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -3863,7 +3863,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_archery_shop_hickton</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>Hickton's Archery store</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3876,7 +3876,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost_camelot</Id>
-    <Name>signpost</Name>
+    <Name>Signpost</Name>
     <Description>To Camelot</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -3928,7 +3928,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sand_pit</Id>
-    <Name>sand pit</Name>
+    <Name>Sand pit</Name>
     <Description>I can use a bucket to get sand from here</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -3967,7 +3967,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_members5</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>You can pass through this on the members server</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -4045,7 +4045,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_barbarian_guarded</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>A gate guarded by a fierce barbarian</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -4058,7 +4058,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_forester_arms</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>The forester's arms</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -4071,7 +4071,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>flax</Id>
-    <Name>flax</Name>
+    <Name>Flax</Name>
     <Description>A flax plant</Description>
     <Command1>WalkTo</Command1>
     <Command2>pick</Command2>
@@ -4149,7 +4149,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_members6</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>You can pass through this on the members server</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -4162,7 +4162,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_front8</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A ship bound for Ardougne</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -4175,7 +4175,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_back9</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A ship bound for Ardougne</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -4253,7 +4253,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gems_stall</Id>
-    <Name>gems Stall</Name>
+    <Name>Gems Stall</Name>
     <Description>A market stall</Description>
     <Command1>WalkTo</Command1>
     <Command2>steal from</Command2>
@@ -4266,7 +4266,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate_large_sealed</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>A large heavy sealed crate</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -4279,7 +4279,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate_large_sealed2</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>A large heavy sealed crate</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -4292,7 +4292,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_rpdt_depot</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>RPDT depot</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -4305,7 +4305,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stone_stairs_up2</Id>
-    <Name>stairs</Name>
+    <Name>Stairs</Name>
     <Description>These lead upstairs</Description>
     <Command1>Go up</Command1>
     <Command2>Search for traps</Command2>
@@ -4410,7 +4410,7 @@
   <GameModelEntity>
     <Id>chest_open11</Id>
     <Name>Chest</Name>
-    <Description>someone is stealing something from it</Description>
+    <Description>Someone is stealing something from it</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -4435,7 +4435,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>empty_stall</Id>
-    <Name>empty stall</Name>
+    <Name>Empty stall</Name>
     <Description>A market stall</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -4448,7 +4448,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stone_stairs_up3</Id>
-    <Name>stairs</Name>
+    <Name>Stairs</Name>
     <Description>These lead upstairs</Description>
     <Command1>Go up</Command1>
     <Command2>Examine</Command2>
@@ -4461,7 +4461,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>hopper4</Id>
-    <Name>hopper</Name>
+    <Name>Hopper</Name>
     <Description>You put grain in here</Description>
     <Command1>operate</Command1>
     <Command2>Examine</Command2>
@@ -4474,7 +4474,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost_ardougne</Id>
-    <Name>signpost</Name>
+    <Name>Signpost</Name>
     <Description>Ardougne city zoo</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -4487,7 +4487,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_flying_horse</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>The flying horse</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -4500,7 +4500,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_members7</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>You can pass through this on the members server</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -4513,7 +4513,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_members8</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>You can pass through this on the members server</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -4552,8 +4552,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>wall_pipe2</Id>
-    <Name>pipe</Name>
-    <Description>a dirty sewer pipe</Description>
+    <Name>Pipe</Name>
+    <Description>A dirty sewer pipe</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -4565,7 +4565,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fish_bait3</Id>
-    <Name>fish</Name>
+    <Name>Fish</Name>
     <Description>I can see fish swimming in the water</Description>
     <Command1>Bait</Command1>
     <Command2>Examine</Command2>
@@ -4578,7 +4578,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fish_bait4</Id>
-    <Name>fish</Name>
+    <Name>Fish</Name>
     <Description>I can see fish swimming in the water</Description>
     <Command1>Bait</Command1>
     <Command2>Examine</Command2>
@@ -4591,7 +4591,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fish_bait5</Id>
-    <Name>fish</Name>
+    <Name>Fish</Name>
     <Description>I can see fish swimming in the water</Description>
     <Command1>Bait</Command1>
     <Command2>Examine</Command2>
@@ -4604,7 +4604,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fish_bait6</Id>
-    <Name>fish</Name>
+    <Name>Fish</Name>
     <Description>I can see fish swimming in the water</Description>
     <Command1>Bait</Command1>
     <Command2>Examine</Command2>
@@ -4630,7 +4630,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_mcgrubor</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The main entrance to McGrubor's wood</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -4643,7 +4643,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_open4</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is open</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -4656,7 +4656,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_closed4</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is closed</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -4669,7 +4669,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stone_stairs_down2</Id>
-    <Name>stairs</Name>
+    <Name>Stairs</Name>
     <Description>These lead downstairs</Description>
     <Command1>Go down</Command1>
     <Command2>Examine</Command2>
@@ -4682,7 +4682,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>broken_cart</Id>
-    <Name>broken cart</Name>
+    <Name>Broken cart</Name>
     <Description>A farm cart</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -4708,7 +4708,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>clock_pole_blue</Id>
-    <Name>clock pole blue</Name>
+    <Name>Clock pole blue</Name>
     <Description>A pole - a pole to put cog's on</Description>
     <Command1>inspect</Command1>
     <Command2>Examine</Command2>
@@ -4721,7 +4721,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>clock_pole_red</Id>
-    <Name>clock pole red</Name>
+    <Name>Clock pole red</Name>
     <Description>A pole - a pole to put cog's on</Description>
     <Command1>inspect</Command1>
     <Command2>Examine</Command2>
@@ -4734,7 +4734,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>clock_pole_purple</Id>
-    <Name>clock pole purple</Name>
+    <Name>Clock pole purple</Name>
     <Description>A pole - a pole to put cog's on</Description>
     <Command1>inspect</Command1>
     <Command2>Examine</Command2>
@@ -4747,7 +4747,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>clock_pole_black</Id>
-    <Name>clock pole black</Name>
+    <Name>Clock pole black</Name>
     <Description>A pole - a pole to put cog's on</Description>
     <Command1>inspect</Command1>
     <Command2>Examine</Command2>
@@ -4760,7 +4760,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>wallclockface</Id>
-    <Name>wallclockface</Name>
+    <Name>Wallclockface</Name>
     <Description>It's a large clock face</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -4799,7 +4799,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>wooden_stairs_up2</Id>
-    <Name>stairs</Name>
+    <Name>Stairs</Name>
     <Description>These lead upstairs</Description>
     <Command1>Go up</Command1>
     <Command2>Examine</Command2>
@@ -4812,7 +4812,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>wooden_stairs_down2</Id>
-    <Name>stairs</Name>
+    <Name>Stairs</Name>
     <Description>These lead downstairs</Description>
     <Command1>Go down</Command1>
     <Command2>Examine</Command2>
@@ -4825,7 +4825,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_closed5</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is closed</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -4838,7 +4838,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_open5</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is open</Description>
     <Command1>close</Command1>
     <Command2>Examine</Command2>
@@ -4890,7 +4890,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fish_harpoon3</Id>
-    <Name>fish</Name>
+    <Name>Fish</Name>
     <Description>I can see fish swimming in the water</Description>
     <Command1>cage</Command1>
     <Command2>harpoon</Command2>
@@ -4903,7 +4903,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>spearwall</Id>
-    <Name>spearwall</Name>
+    <Name>Spearwall</Name>
     <Description>It's a defensive battlement</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -4916,7 +4916,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>hornedskull</Id>
-    <Name>hornedskull</Name>
+    <Name>Hornedskull</Name>
     <Description>A horned dragon skull</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -4955,7 +4955,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>guard_cuboard_closed</Id>
-    <Name>guardscupboard</Name>
+    <Name>Guardscupboard</Name>
     <Description>The cupboard is shut</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -4968,7 +4968,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>guard_cupboard_open</Id>
-    <Name>guardscupboard</Name>
+    <Name>Guardscupboard</Name>
     <Description>Perhaps I should search it</Description>
     <Command1>Search</Command1>
     <Command2>close</Command2>
@@ -4994,7 +4994,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_front10</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A ship to Port Birmhaven</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -5007,7 +5007,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_middle5</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A ship to Port Birmhaven</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -5020,7 +5020,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_back10</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A ship to Port Birmhaven</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -5060,7 +5060,7 @@
   <GameModelEntity>
     <Id>largespear</Id>
     <Name>largespear</Name>
-    <Description />
+    <Description>A very large and very pointy spear</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -5072,7 +5072,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>spirit_tree</Id>
-    <Name>spirit tree</Name>
+    <Name>Spirit tree</Name>
     <Description>A grand old spirit tree</Description>
     <Command1>talk to</Command1>
     <Command2>Examine</Command2>
@@ -5085,7 +5085,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>young_spirit_tree</Id>
-    <Name>young spirit Tree</Name>
+    <Name>Young spirit Tree</Name>
     <Description>Ancestor of the spirit tree</Description>
     <Command1>talk to</Command1>
     <Command2>Examine</Command2>
@@ -5098,7 +5098,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_closed6</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is closed</Description>
     <Command1>talk through</Command1>
     <Command2>Examine</Command2>
@@ -5111,7 +5111,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>wall_damaged</Id>
-    <Name>wall</Name>
+    <Name>Wall</Name>
     <Description>A damaged wall</Description>
     <Command1>climb</Command1>
     <Command2>Examine</Command2>
@@ -5124,7 +5124,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>jungle_tree</Id>
-    <Name>tree</Name>
+    <Name>Tree</Name>
     <Description>An exotic looking tree</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -5137,7 +5137,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>jungle_tree2</Id>
-    <Name>tree</Name>
+    <Name>Tree</Name>
     <Description>An exotic looking tree</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -5202,7 +5202,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fly_trap</Id>
-    <Name>fly trap</Name>
+    <Name>Fly trap</Name>
     <Description>A small carnivourous plant</Description>
     <Command1>approach</Command1>
     <Command2>Search</Command2>
@@ -5241,7 +5241,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>plant_jungle_strange</Id>
-    <Name>plant</Name>
+    <Name>Plant</Name>
     <Description>What an unusual plant</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -5254,7 +5254,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>plant_jungle_strange2</Id>
-    <Name>plant</Name>
+    <Name>Plant</Name>
     <Description>An odd looking plant</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -5267,8 +5267,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>plant_jungle_medium</Id>
-    <Name>plant</Name>
-    <Description>some nice jungle foliage</Description>
+    <Name>Plant</Name>
+    <Description>Some nice jungle foliage</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -5280,7 +5280,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stone_head</Id>
-    <Name>stone head</Name>
+    <Name>Stone head</Name>
     <Description>It looks like it's been here some time</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -5293,7 +5293,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>dead_tree_rotting</Id>
-    <Name>dead Tree</Name>
+    <Name>Dead Tree</Name>
     <Description>A rotting tree</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -5306,7 +5306,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sacks2</Id>
-    <Name>sacks</Name>
+    <Name>Sacks</Name>
     <Description>Yep they're sacks</Description>
     <Command1>WalkTo</Command1>
     <Command2>prod</Command2>
@@ -5319,7 +5319,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>khazard_open_chest</Id>
-    <Name>khazard open Chest</Name>
+    <Name>Khazard open Chest</Name>
     <Description>Perhaps I should search it</Description>
     <Command1>Search</Command1>
     <Command2>Close</Command2>
@@ -5332,7 +5332,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>khazard_shut_chest</Id>
-    <Name>khazard shut Chest</Name>
+    <Name>Khazard shut Chest</Name>
     <Description>I wonder what is inside...</Description>
     <Command1>Open</Command1>
     <Command2>Examine</Command2>
@@ -5345,7 +5345,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>doorframe</Id>
-    <Name>doorframe</Name>
+    <Name>Doorframe</Name>
     <Description>It's a stone doorframe</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -5462,7 +5462,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>tree_platform_high</Id>
-    <Name>tree platform</Name>
+    <Name>Tree platform</Name>
     <Description>A tree gnome construction</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -5475,7 +5475,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>tree_platform_low</Id>
-    <Name>tree platform</Name>
+    <Name>Tree platform</Name>
     <Description>A tree gnome construction</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -5488,7 +5488,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_open6</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is open</Description>
     <Command1>close</Command1>
     <Command2>Examine</Command2>
@@ -5501,7 +5501,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>tree_platform_low_large</Id>
-    <Name>tree platform</Name>
+    <Name>Tree platform</Name>
     <Description>A tree gnome construction</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -5514,7 +5514,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>tree_platform_high_large</Id>
-    <Name>tree platform</Name>
+    <Name>Tree platform</Name>
     <Description>A tree gnome construction</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -5553,7 +5553,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>tree_platform_low2</Id>
-    <Name>tree platform</Name>
+    <Name>Tree platform</Name>
     <Description>A tree gnome construction</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -5566,7 +5566,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>tree_platform_high2</Id>
-    <Name>tree platform</Name>
+    <Name>Tree platform</Name>
     <Description>A tree gnome construction</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -5618,7 +5618,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>log_raft</Id>
-    <Name>log raft</Name>
+    <Name>Log raft</Name>
     <Description>A mighty fine raft</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -5631,7 +5631,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>log_raft2</Id>
-    <Name>log raft</Name>
+    <Name>Log raft</Name>
     <Description>A mighty fine raft</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -5657,7 +5657,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>range2</Id>
-    <Name>range</Name>
+    <Name>Range</Name>
     <Description>A pot of soup slowly cooking</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -5709,7 +5709,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate_food</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>A crate used for storing food</Description>
     <Command1>Search</Command1>
     <Command2>Examine</Command2>
@@ -5748,7 +5748,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_open7</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is open</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -5761,7 +5761,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_closed7</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is closed</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -5839,8 +5839,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>large_sewer_pipe</Id>
-    <Name>large Sewer pipe</Name>
-    <Description>a dirty sewer pipe</Description>
+    <Name>Large Sewer pipe</Name>
+    <Description>A dirty sewer pipe</Description>
     <Command1>enter</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -5865,7 +5865,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_close7</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>The cupboard is shut</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -5878,7 +5878,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_open7</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>The cupboard is open</Description>
     <Command1>Search</Command1>
     <Command2>close</Command2>
@@ -5930,7 +5930,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>barrel</Id>
-    <Name>barrel</Name>
+    <Name>Barrel</Name>
     <Description>I wonder what's inside</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -5943,7 +5943,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_closed8</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is closed</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -5957,7 +5957,7 @@
   <GameModelEntity>
     <Id>ladder_up8</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading upwards</Description>
+    <Description>It's a ladder leading upwards</Description>
     <Command1>Climb-Up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -5996,7 +5996,7 @@
   <GameModelEntity>
     <Id>waterfall</Id>
     <Name>Waterfall</Name>
-    <Description>it's a waterfall</Description>
+    <Description>It's a waterfall</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>2</Type>
@@ -6008,7 +6008,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>leafless_tree</Id>
-    <Name>leaflessTree</Name>
+    <Name>LeaflessTree</Name>
     <Description>A pointy tree</Description>
     <Command1>jump off</Command1>
     <Command2>jump to next</Command2>
@@ -6021,7 +6021,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>leafless_tree2</Id>
-    <Name>leaflessTree</Name>
+    <Name>LeaflessTree</Name>
     <Description>A pointy tree</Description>
     <Command1>jump off</Command1>
     <Command2>jump to next</Command2>
@@ -6034,7 +6034,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>log_raft3</Id>
-    <Name>log raft</Name>
+    <Name>Log raft</Name>
     <Description>A mighty fine raft</Description>
     <Command1>board</Command1>
     <Command2>Examine</Command2>
@@ -6047,7 +6047,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>double_door_closed3</Id>
-    <Name>doors</Name>
+    <Name>Doors</Name>
     <Description>The doors are shut</Description>
     <Command1>Open</Command1>
     <Command2>Examine</Command2>
@@ -6087,7 +6087,7 @@
   <GameModelEntity>
     <Id>waterfall_l1</Id>
     <Name>Waterfall</Name>
-    <Description>it's a fast flowing waterfall</Description>
+    <Description>It's a fast flowing waterfall</Description>
     <Command1>jump off</Command1>
     <Command2>Examine</Command2>
     <Type>2</Type>
@@ -6100,7 +6100,7 @@
   <GameModelEntity>
     <Id>waterfall_l2</Id>
     <Name>Waterfall</Name>
-    <Description>it's a fast flowing waterfall</Description>
+    <Description>It's a fast flowing waterfall</Description>
     <Command1>jump off</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -6125,7 +6125,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>double_door_closed4</Id>
-    <Name>doors</Name>
+    <Name>Doors</Name>
     <Description>The doors are shut</Description>
     <Command1>Open</Command1>
     <Command2>Examine</Command2>
@@ -6138,7 +6138,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>double_door_closed5</Id>
-    <Name>doors</Name>
+    <Name>Doors</Name>
     <Description>The doors are shut</Description>
     <Command1>Open</Command1>
     <Command2>Examine</Command2>
@@ -6242,7 +6242,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_closed9</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is closed</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -6255,7 +6255,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate3</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>It's a crate</Description>
     <Command1>Search</Command1>
     <Command2>Examine</Command2>
@@ -6268,7 +6268,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>leafless_tree3</Id>
-    <Name>leaflessTree</Name>
+    <Name>LeaflessTree</Name>
     <Description>A pointy tree</Description>
     <Command1>jump off</Command1>
     <Command2>Examine</Command2>
@@ -6320,7 +6320,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>double_door_closed6</Id>
-    <Name>doors</Name>
+    <Name>Doors</Name>
     <Description>The doors are shut</Description>
     <Command1>Open</Command1>
     <Command2>Examine</Command2>
@@ -6359,8 +6359,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>log_raft_remains</Id>
-    <Name>log raft remains</Name>
-    <Description>oops!</Description>
+    <Name>Log raft remains</Name>
+    <Description>Oops!</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -6385,7 +6385,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>_range</Id>
-    <Name> Range</Name>
+    <Name>Range</Name>
     <Description>A hot well stoked range</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -6398,7 +6398,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate4</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>It's an old crate</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -6411,7 +6411,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fish_net</Id>
-    <Name>fish</Name>
+    <Name>Fish</Name>
     <Description>I can see fish swimming in the water</Description>
     <Command1>Net</Command1>
     <Command2>Examine</Command2>
@@ -6437,7 +6437,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost</Id>
-    <Name>signpost</Name>
+    <Name>Signpost</Name>
     <Description>Tourist infomation</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -6463,7 +6463,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>double_door_open2</Id>
-    <Name>doors</Name>
+    <Name>Doors</Name>
     <Description>The doors are open</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -6489,7 +6489,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_closed9</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>The cupboard is shut</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -6502,7 +6502,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_open9</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>Perhaps I should search it</Description>
     <Command1>Search</Command1>
     <Command2>close</Command2>
@@ -6529,7 +6529,7 @@
   <GameModelEntity>
     <Id>cooking_pot</Id>
     <Name>Cooking pot</Name>
-    <Description>the mourners are busy enjoying this stew</Description>
+    <Description>The mourners are busy enjoying this stew</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -6554,7 +6554,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_closed10</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is closed</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -6567,7 +6567,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate_confiscated_goods</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>A crate used for storing confiscated goods</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -6580,7 +6580,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_closed10</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>The cupboard is shut</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -6593,7 +6593,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_open10</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>Perhaps I should search it</Description>
     <Command1>Search</Command1>
     <Command2>close</Command2>
@@ -6606,7 +6606,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_members9</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>You can pass through this on the members server</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -6619,7 +6619,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_closed11</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>The cupboard is shut</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -6632,7 +6632,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_open11</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>Perhaps I should search it</Description>
     <Command1>Search</Command1>
     <Command2>close</Command2>
@@ -6645,7 +6645,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_fancy_dress</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>Tailors fancy dress</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -6658,8 +6658,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>grand_tree_l0</Id>
-    <Name>grand tree</Name>
-    <Description>the grand tree</Description>
+    <Name>Grand tree</Name>
+    <Description>The grand tree</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -6671,7 +6671,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_closed11</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is closed</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -6684,7 +6684,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_open8</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is open</Description>
     <Command1>WalkTo</Command1>
     <Command2>close</Command2>
@@ -6853,7 +6853,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>climbing_rocks</Id>
-    <Name>climbing rocks</Name>
+    <Name>Climbing rocks</Name>
     <Description>I wonder if I can climb up these</Description>
     <Command1>climb</Command1>
     <Command2>Examine</Command2>
@@ -6892,7 +6892,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>log</Id>
-    <Name>log</Name>
+    <Name>Log</Name>
     <Description>It looks slippery</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -6905,7 +6905,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>log2</Id>
-    <Name>log</Name>
+    <Name>Log</Name>
     <Description>It looks slippery</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -7230,7 +7230,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_dancing_donkey</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>The dancing donkey inn</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -7243,7 +7243,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fish</Id>
-    <Name>fish</Name>
+    <Name>Fish</Name>
     <Description>I can see fish swimming in the water</Description>
     <Command1>harpoon</Command1>
     <Command2>cage</Command2>
@@ -7308,7 +7308,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fight_dummy</Id>
-    <Name>fight Dummy</Name>
+    <Name>Fight Dummy</Name>
     <Description>I can practice my fighting here</Description>
     <Command1>hit</Command1>
     <Command2>Examine</Command2>
@@ -7321,7 +7321,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_closed12</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is closed</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -7347,8 +7347,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>statue_tribal</Id>
-    <Name>statue</Name>
-    <Description>hand carved</Description>
+    <Name>Statue</Name>
+    <Description>Hand carved</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -7360,7 +7360,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_ye_olde_dragon</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>Ye Olde Dragon Inn</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -7373,8 +7373,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>grand_tree_l0_inside</Id>
-    <Name>grand tree</Name>
-    <Description>the grand tree</Description>
+    <Name>Grand tree</Name>
+    <Description>The grand tree</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -7386,8 +7386,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>grand_tree_l1_inside</Id>
-    <Name>grand tree</Name>
-    <Description>the grand tree</Description>
+    <Name>Grand tree</Name>
+    <Description>The grand tree</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -7399,8 +7399,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>grand_tree_l2_inside</Id>
-    <Name>grand tree</Name>
-    <Description>the grand tree</Description>
+    <Name>Grand tree</Name>
+    <Description>The grand tree</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -7412,8 +7412,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>grand_tree_l1</Id>
-    <Name>grand tree</Name>
-    <Description>the grand tree</Description>
+    <Name>Grand tree</Name>
+    <Description>The grand tree</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -7425,8 +7425,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>grand_tree_l2</Id>
-    <Name>grand tree</Name>
-    <Description>the grand tree</Description>
+    <Name>Grand tree</Name>
+    <Description>The grand tree</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -7451,7 +7451,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>jungle_tree_medium</Id>
-    <Name>tree</Name>
+    <Name>Tree</Name>
     <Description>A large exotic looking tree</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -7594,8 +7594,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>grand_tree</Id>
-    <Name>grand tree</Name>
-    <Description>the grand tree</Description>
+    <Name>Grand tree</Name>
+    <Description>The grand tree</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -7608,7 +7608,7 @@
   <GameModelEntity>
     <Id>tree_ladder_up</Id>
     <Name>Tree Ladder</Name>
-    <Description>it's a ladder leading upwards</Description>
+    <Description>It's a ladder leading upwards</Description>
     <Command1>Climb-Up</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -7621,7 +7621,7 @@
   <GameModelEntity>
     <Id>tree_ladder_down</Id>
     <Name>Tree Ladder</Name>
-    <Description>it's a ladder leading downwards</Description>
+    <Description>It's a ladder leading downwards</Description>
     <Command1>Climb-down</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -7633,8 +7633,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>blurberrys_cocktail_bar</Id>
-    <Name>blurberrys cocktail bar</Name>
-    <Description>the gnome social hot spot</Description>
+    <Name>Blurberrys cocktail bar</Name>
+    <Description>The gnome social hot spot</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -7672,7 +7672,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ropeswing</Id>
-    <Name>ropeswing</Name>
+    <Name>Ropeswing</Name>
     <Description>A good place to train agility</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -7685,7 +7685,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>obstacle_net</Id>
-    <Name>net</Name>
+    <Name>Net</Name>
     <Description>A good place to train agility</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -7738,7 +7738,7 @@
   <GameModelEntity>
     <Id>tree_vines</Id>
     <Name>Tree</Name>
-    <Description>they look fun to swing on</Description>
+    <Description>They look fun to swing on</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -7750,7 +7750,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cart2</Id>
-    <Name>cart</Name>
+    <Name>Cart</Name>
     <Description>A farm cart</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -7763,8 +7763,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fence</Id>
-    <Name>fence</Name>
-    <Description>it doesn't look too strong</Description>
+    <Name>Fence</Name>
+    <Description>It doesn't look too strong</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -7776,7 +7776,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>beam</Id>
-    <Name>beam</Name>
+    <Name>Beam</Name>
     <Description>A plank of wood</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -7790,7 +7790,7 @@
   <GameModelEntity>
     <Id>sign</Id>
     <Name>Sign</Name>
-    <Description>read me</Description>
+    <Description>Read me</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -8011,7 +8011,7 @@
   <GameModelEntity>
     <Id>ladder_up9</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading upwards</Description>
+    <Description>It's a ladder leading upwards</Description>
     <Command1>Climb-Up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -8023,8 +8023,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cage</Id>
-    <Name>cage</Name>
-    <Description>i don't like the look of that</Description>
+    <Name>Cage</Name>
+    <Description>I don't like the look of that</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -8036,8 +8036,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>glider</Id>
-    <Name>glider</Name>
-    <Description>i wonder if it flys</Description>
+    <Name>Glider</Name>
+    <Description>I wonder if it flys</Description>
     <Command1>fly</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -8049,7 +8049,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_closed12</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>The cupboard is shut</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -8062,7 +8062,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_open12</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>Perhaps I should search it</Description>
     <Command1>Search</Command1>
     <Command2>close</Command2>
@@ -8075,7 +8075,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>wooden_stairs_up3</Id>
-    <Name>stairs</Name>
+    <Name>Stairs</Name>
     <Description>These lead upstairs</Description>
     <Command1>Go up</Command1>
     <Command2>Examine</Command2>
@@ -8088,8 +8088,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>glider2</Id>
-    <Name>glider</Name>
-    <Description>i wonder if it flys</Description>
+    <Name>Glider</Name>
+    <Description>I wonder if it flys</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -8101,7 +8101,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_open9</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is open</Description>
     <Command1>WalkTo</Command1>
     <Command2>close</Command2>
@@ -8114,7 +8114,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_closed13</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is closed</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -8127,7 +8127,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>chaos_altar</Id>
-    <Name>chaos altar</Name>
+    <Name>Chaos altar</Name>
     <Description>An altar to the evil God Zamorak</Description>
     <Command1>Recharge at</Command1>
     <Command2>Examine</Command2>
@@ -8153,7 +8153,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ropeswing2</Id>
-    <Name>ropeswing</Name>
+    <Name>Ropeswing</Name>
     <Description>A good place to train agility</Description>
     <Command1>Swing</Command1>
     <Command2>Examine</Command2>
@@ -8166,7 +8166,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ropeswing3</Id>
-    <Name>ropeswing</Name>
+    <Name>Ropeswing</Name>
     <Description>A good place to train agility</Description>
     <Command1>Swing</Command1>
     <Command2>Examine</Command2>
@@ -8179,7 +8179,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>wooden_stairs_up4</Id>
-    <Name>stairs</Name>
+    <Name>Stairs</Name>
     <Description>These lead upstairs</Description>
     <Command1>Go up</Command1>
     <Command2>Examine</Command2>
@@ -8192,7 +8192,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>wooden_stairs_down3</Id>
-    <Name>stairs</Name>
+    <Name>Stairs</Name>
     <Description>These lead downstairs</Description>
     <Command1>Go down</Command1>
     <Command2>Examine</Command2>
@@ -8361,7 +8361,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stone_tile</Id>
-    <Name>stone tile</Name>
+    <Name>Stone tile</Name>
     <Description>It looks as if it might move</Description>
     <Command1>twist</Command1>
     <Command2>Examine</Command2>
@@ -8413,7 +8413,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>obstacle_net2</Id>
-    <Name>net</Name>
+    <Name>Net</Name>
     <Description>A good place to train agility</Description>
     <Command1>climb</Command1>
     <Command2>Examine</Command2>
@@ -8452,7 +8452,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ropeswing4</Id>
-    <Name>ropeswing</Name>
+    <Name>Ropeswing</Name>
     <Description>A good place to train agility</Description>
     <Command1>grab hold of</Command1>
     <Command2>Examine</Command2>
@@ -8478,8 +8478,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>obstical_pipe</Id>
-    <Name>pipe</Name>
-    <Description>a dirty sewer pipe</Description>
+    <Name>Pipe</Name>
+    <Description>A dirty sewer pipe</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -8491,7 +8491,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>obstacle_net3</Id>
-    <Name>net</Name>
+    <Name>Net</Name>
     <Description>A good place to train agility</Description>
     <Command1>climb</Command1>
     <Command2>Examine</Command2>
@@ -8504,8 +8504,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>obstical_pipe2</Id>
-    <Name>pipe</Name>
-    <Description>a dirty sewer pipe</Description>
+    <Name>Pipe</Name>
+    <Description>A dirty sewer pipe</Description>
     <Command1>enter</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -8517,7 +8517,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>log3</Id>
-    <Name>log</Name>
+    <Name>Log</Name>
     <Description>It looks slippery</Description>
     <Command1>balance on</Command1>
     <Command2>Examine</Command2>
@@ -8530,8 +8530,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>obstical_pipe3</Id>
-    <Name>pipe</Name>
-    <Description>a dirty sewer pipe</Description>
+    <Name>Pipe</Name>
+    <Description>A dirty sewer pipe</Description>
     <Command1>enter</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -8543,8 +8543,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>obstical_pipe4</Id>
-    <Name>pipe</Name>
-    <Description>a dirty sewer pipe</Description>
+    <Name>Pipe</Name>
+    <Description>A dirty sewer pipe</Description>
     <Command1>enter</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -8570,7 +8570,7 @@
   <GameModelEntity>
     <Id>ladder_up10</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading upwards</Description>
+    <Description>It's a ladder leading upwards</Description>
     <Command1>Climb-Up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -8582,7 +8582,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_closed14</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is closed</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -8595,7 +8595,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stronghold_spirit_tree</Id>
-    <Name>stronghold spirit Tree</Name>
+    <Name>Stronghold spirit Tree</Name>
     <Description>Ancestor of the spirit tree</Description>
     <Command1>talk to</Command1>
     <Command2>Examine</Command2>
@@ -8686,7 +8686,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stone_pebble</Id>
-    <Name>stone pebble</Name>
+    <Name>Stone pebble</Name>
     <Description>Looks like a stone</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -8725,7 +8725,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>obstical_pipe5</Id>
-    <Name>pipe</Name>
+    <Name>Pipe</Name>
     <Description>I might be able to fit through this</Description>
     <Command1>enter</Command1>
     <Command2>Examine</Command2>
@@ -8738,7 +8738,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>obstical_pipe6</Id>
-    <Name>pipe</Name>
+    <Name>Pipe</Name>
     <Description>2</Description>
     <Command1>enter</Command1>
     <Command2>Examine</Command2>
@@ -8777,7 +8777,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ropeswing5</Id>
-    <Name>ropeswing</Name>
+    <Name>Ropeswing</Name>
     <Description>A good place to train agility</Description>
     <Command1>Swing</Command1>
     <Command2>Examine</Command2>
@@ -8790,7 +8790,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>log4</Id>
-    <Name>log</Name>
+    <Name>Log</Name>
     <Description>It looks slippery</Description>
     <Command1>balance on</Command1>
     <Command2>Examine</Command2>
@@ -8803,7 +8803,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>net</Id>
-    <Name>net</Name>
+    <Name>Net</Name>
     <Description>A good place to train agility</Description>
     <Command1>Climb Up</Command1>
     <Command2>Examine</Command2>
@@ -8842,7 +8842,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>log5</Id>
-    <Name>log</Name>
+    <Name>Log</Name>
     <Description>It looks slippery</Description>
     <Command1>balance on</Command1>
     <Command2>Examine</Command2>
@@ -8855,7 +8855,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>log6</Id>
-    <Name>log</Name>
+    <Name>Log</Name>
     <Description>It looks slippery</Description>
     <Command1>balance on</Command1>
     <Command2>Examine</Command2>
@@ -8894,7 +8894,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ropeswing6</Id>
-    <Name>ropeswing</Name>
+    <Name>Ropeswing</Name>
     <Description>I wonder what's over here</Description>
     <Command1>Swing</Command1>
     <Command2>Examine</Command2>
@@ -8907,7 +8907,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ropeswing7</Id>
-    <Name>ropeswing</Name>
+    <Name>Ropeswing</Name>
     <Description>I wonder what's over here</Description>
     <Command1>Swing</Command1>
     <Command2>Examine</Command2>
@@ -8920,7 +8920,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ocks</Id>
-    <Name>ocks</Name>
+    <Name>Ocks</Name>
     <Description>A moss covered rock</Description>
     <Command1>balance</Command1>
     <Command2>Examine</Command2>
@@ -9025,7 +9025,7 @@
   <GameModelEntity>
     <Id>tree_vines2</Id>
     <Name>Tree</Name>
-    <Description>they look fun to swing on</Description>
+    <Description>They look fun to swing on</Description>
     <Command1>Swing on</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -9038,7 +9038,7 @@
   <GameModelEntity>
     <Id>tree_vines3</Id>
     <Name>Tree</Name>
-    <Description>they look fun to swing on</Description>
+    <Description>They look fun to swing on</Description>
     <Command1>Swing on</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -9102,7 +9102,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>statue_taie_bwo_wannai</Id>
-    <Name>statue</Name>
+    <Name>Statue</Name>
     <Description>A statue to mark Taie Bwo Wannai sacred grounds</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -9128,7 +9128,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_closed15</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>The gate is closed</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -9141,7 +9141,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_agility_area</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>Enter to balance into an agility area</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -9154,7 +9154,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_agility_area2</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>Enter to balance into an agility area</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -9167,7 +9167,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>pipe</Id>
-    <Name>pipe</Name>
+    <Name>Pipe</Name>
     <Description>It looks a tight squeeze</Description>
     <Command1>enter</Command1>
     <Command2>Examine</Command2>
@@ -9180,7 +9180,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ropeswing8</Id>
-    <Name>ropeswing</Name>
+    <Name>Ropeswing</Name>
     <Description>A good place to train agility</Description>
     <Command1>Swing</Command1>
     <Command2>Examine</Command2>
@@ -9336,8 +9336,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fence2</Id>
-    <Name>fence</Name>
-    <Description>it doesn't look too strong</Description>
+    <Name>Fence</Name>
+    <Description>It doesn't look too strong</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -9467,7 +9467,7 @@
   <GameModelEntity>
     <Id>crumbled_rock</Id>
     <Name>Crumbled rock</Name>
-    <Description>climb up to above ground</Description>
+    <Description>Climb up to above ground</Description>
     <Command1>climb</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -9479,7 +9479,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stalagmite_large</Id>
-    <Name>stalagmite</Name>
+    <Name>Stalagmite</Name>
     <Description>Formed over thousands of years</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -9492,7 +9492,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stalagmite_small</Id>
-    <Name>stalagmite</Name>
+    <Name>Stalagmite</Name>
     <Description>Formed over thousands of years</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -9544,7 +9544,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stalactite_large</Id>
-    <Name>stalactite</Name>
+    <Name>Stalactite</Name>
     <Description>Formed over thousands of years</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -9557,7 +9557,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stalactite_small</Id>
-    <Name>stalactite</Name>
+    <Name>Stalactite</Name>
     <Description>Formed over thousands of years</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -9570,7 +9570,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stalactite_extralarge</Id>
-    <Name>stalactite</Name>
+    <Name>Stalactite</Name>
     <Description>Formed over thousands of years</Description>
     <Command1>climb</Command1>
     <Command2>Examine</Command2>
@@ -10025,7 +10025,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stalactite_large2</Id>
-    <Name>stalactite</Name>
+    <Name>Stalactite</Name>
     <Description>Formed over thousands of years</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -10077,7 +10077,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sign_paramaya_hostel</Id>
-    <Name>sign</Name>
+    <Name>Sign</Name>
     <Description>The Paramaya Hostel</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -10129,7 +10129,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost_furnace2</Id>
-    <Name>signpost</Name>
+    <Name>Signpost</Name>
     <Description>To the Furnace</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -10181,7 +10181,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sacks3</Id>
-    <Name>sacks</Name>
+    <Name>Sacks</Name>
     <Description>Yep they're sacks</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -10376,7 +10376,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stalactite_extralarge2</Id>
-    <Name>stalactite</Name>
+    <Name>Stalactite</Name>
     <Description>Formed over thousands of years</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -10389,7 +10389,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stalactite_extralarge3</Id>
-    <Name>stalactite</Name>
+    <Name>Stalactite</Name>
     <Description>Formed over thousands of years</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -10429,7 +10429,7 @@
   <GameModelEntity>
     <Id>cage_mechanical</Id>
     <Name>Cage</Name>
-    <Description>Seems to be mechanical </Description>
+    <Description>Seems to be mechanical</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -10442,7 +10442,7 @@
   <GameModelEntity>
     <Id>cage_mechanical2</Id>
     <Name>Cage</Name>
-    <Description>Seems to be mechanical </Description>
+    <Description>Seems to be mechanical</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -10636,7 +10636,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stalagmite_large2</Id>
-    <Name>stalagmite</Name>
+    <Name>Stalagmite</Name>
     <Description>Formed over thousands of years</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -10740,8 +10740,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>snap_trap</Id>
-    <Name>snap trap</Name>
-    <Description>aaaarghh</Description>
+    <Name>Snap trap</Name>
+    <Description>Aaaarghh</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -10792,7 +10792,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>flames_of_zamorak</Id>
-    <Name>Flames of zamorak</Name>
+    <Name>Flames of Zamorak</Name>
     <Description>Careful</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -10870,7 +10870,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>wall_grill</Id>
-    <Name>wall grill</Name>
+    <Name>Wall grill</Name>
     <Description>It seems to filter the rotten air through the caverns</Description>
     <Command1>climb up</Command1>
     <Command2>Examine</Command2>
@@ -10896,7 +10896,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>wall_grill2</Id>
-    <Name>wall grill</Name>
+    <Name>Wall grill</Name>
     <Description>It seems to filter the rotten air through the caverns</Description>
     <Command1>climb up</Command1>
     <Command2>Examine</Command2>
@@ -10948,7 +10948,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>stalagmite_small2</Id>
-    <Name>stalagmite</Name>
+    <Name>Stalagmite</Name>
     <Description>Formed over thousands of years</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -11286,7 +11286,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate5</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>Someone or something has been here before us</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -11430,7 +11430,7 @@
   <GameModelEntity>
     <Id>claws_of_iban</Id>
     <Name>Claws of Iban</Name>
-    <Description>claws of iban</Description>
+    <Description>Claws of iban</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -11442,7 +11442,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>barrel_alcohol</Id>
-    <Name>barrel</Name>
+    <Name>Barrel</Name>
     <Description>Its stinks of alcohol</Description>
     <Command1>empty</Command1>
     <Command2>Examine</Command2>
@@ -11533,7 +11533,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cage2</Id>
-    <Name>cage</Name>
+    <Name>Cage</Name>
     <Description>That's no way to live</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -11546,7 +11546,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cage3</Id>
-    <Name>cage</Name>
+    <Name>Cage</Name>
     <Description>That's no way to live</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -11897,7 +11897,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost_observatory</Id>
-    <Name>signpost</Name>
+    <Name>Signpost</Name>
     <Description>Observatory reception</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -11963,7 +11963,7 @@
   <GameModelEntity>
     <Id>ladder_up11</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading upwards</Description>
+    <Description>It's a ladder leading upwards</Description>
     <Command1>Climb-Up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -12053,7 +12053,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sacks4</Id>
-    <Name>sacks</Name>
+    <Name>Sacks</Name>
     <Description>These sacks feels lumpy!</Description>
     <Command1>Search</Command1>
     <Command2>Examine</Command2>
@@ -12067,7 +12067,7 @@
   <GameModelEntity>
     <Id>ladder_down_dark</Id>
     <Name>Ladder</Name>
-    <Description>the ladder goes down into a dark area</Description>
+    <Description>The ladder goes down into a dark area</Description>
     <Command1>Climb-Down</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -12132,7 +12132,7 @@
   <GameModelEntity>
     <Id>ladder_down_cavern</Id>
     <Name>Ladder</Name>
-    <Description>the ladder down to the cavern</Description>
+    <Description>The ladder down to the cavern</Description>
     <Command1>Climb-Down</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -12222,7 +12222,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>column</Id>
-    <Name>column</Name>
+    <Name>Column</Name>
     <Description>Formed over thousands of years</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -12236,7 +12236,7 @@
   <GameModelEntity>
     <Id>grave_of_scorpius</Id>
     <Name>Grave of Scorpius</Name>
-    <Description>Here lies Scorpius: dread follower of zamorak</Description>
+    <Description>Here lies Scorpius: dread follower of Zamorak</Description>
     <Command1>Read</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -12261,8 +12261,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>dwarf_multicannon</Id>
-    <Name>dwarf multicannon</Name>
-    <Description>fires metal balls</Description>
+    <Name>Dwarf multicannon</Name>
+    <Description>Fires metal balls</Description>
     <Command1>fire</Command1>
     <Command2>pick up</Command2>
     <Type>0</Type>
@@ -12300,8 +12300,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>dwarf_multicannon_base</Id>
-    <Name>dwarf multicannon base</Name>
-    <Description>bang</Description>
+    <Name>Dwarf multicannon base</Name>
+    <Description>Bang</Description>
     <Command1>pick up</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -12313,8 +12313,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>dwarf_multicannon_stand</Id>
-    <Name>dwarf multicannon stand</Name>
-    <Description>bang</Description>
+    <Name>Dwarf multicannon stand</Name>
+    <Description>Bang</Description>
     <Command1>pick up</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -12326,8 +12326,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>dwarf_multicannon_barrels</Id>
-    <Name>dwarf multicannon barrels</Name>
-    <Description>bang</Description>
+    <Name>Dwarf multicannon barrels</Name>
+    <Description>Bang</Description>
     <Command1>pick up</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -12365,7 +12365,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fence3</Id>
-    <Name>fence</Name>
+    <Name>Fence</Name>
     <Description>These bridges seem hastily put up</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -12378,8 +12378,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost2</Id>
-    <Name>signpost</Name>
-    <Description>a signpost</Description>
+    <Name>Signpost</Name>
+    <Description>A signpost</Description>
     <Command1>read</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -12470,7 +12470,7 @@
   <GameModelEntity>
     <Id>pedestal</Id>
     <Name>Pedestal</Name>
-    <Description>something fits on here</Description>
+    <Description>Something fits on here</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -12482,7 +12482,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>bush2</Id>
-    <Name>bush</Name>
+    <Name>Bush</Name>
     <Description>A leafy bush</Description>
     <Command1>Search</Command1>
     <Command2>Examine</Command2>
@@ -12495,7 +12495,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>bush3</Id>
-    <Name>bush</Name>
+    <Name>Bush</Name>
     <Description>A leafy bush</Description>
     <Command1>Search</Command1>
     <Command2>Examine</Command2>
@@ -12756,7 +12756,7 @@
   <GameModelEntity>
     <Id>ladder_up12</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading upwards</Description>
+    <Description>It's a ladder leading upwards</Description>
     <Command1>Climb-Up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -12808,7 +12808,7 @@
   <GameModelEntity>
     <Id>ladder_down6</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading downwards</Description>
+    <Description>It's a ladder leading downwards</Description>
     <Command1>Climb-Down</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -12820,7 +12820,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate6</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>A crate</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -12833,7 +12833,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate7</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>A crate</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -12872,7 +12872,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>bush4</Id>
-    <Name>bush</Name>
+    <Name>Bush</Name>
     <Description>A leafy bush</Description>
     <Command1>Search</Command1>
     <Command2>Examine</Command2>
@@ -12885,7 +12885,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>bush5</Id>
-    <Name>bush</Name>
+    <Name>Bush</Name>
     <Description>A leafy bush</Description>
     <Command1>Search</Command1>
     <Command2>Examine</Command2>
@@ -12898,7 +12898,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>bush6</Id>
-    <Name>bush</Name>
+    <Name>Bush</Name>
     <Description>A leafy bush</Description>
     <Command1>Search</Command1>
     <Command2>Examine</Command2>
@@ -12911,7 +12911,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>bush7</Id>
-    <Name>bush</Name>
+    <Name>Bush</Name>
     <Description>A leafy bush</Description>
     <Command1>Search</Command1>
     <Command2>Examine</Command2>
@@ -12924,8 +12924,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>multicannon</Id>
-    <Name>multicannon</Name>
-    <Description>fires metal balls</Description>
+    <Name>Multicannon</Name>
+    <Description>Fires metal balls</Description>
     <Command1>inspect</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -12964,7 +12964,7 @@
   <GameModelEntity>
     <Id>ladder_down7</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading downwards</Description>
+    <Description>It's a ladder leading downwards</Description>
     <Command1>Climb-down</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -13224,7 +13224,7 @@
   <GameModelEntity>
     <Id>ladder_down8</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading downwards</Description>
+    <Description>It's a ladder leading downwards</Description>
     <Command1>Climb-Down</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -13276,7 +13276,7 @@
   <GameModelEntity>
     <Id>ladder_up14</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading upwards</Description>
+    <Description>It's a ladder leading upwards</Description>
     <Command1>Climb-Up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -13288,8 +13288,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>shock</Id>
-    <Name>shock</Name>
-    <Description>cosmic energy</Description>
+    <Name>Shock</Name>
+    <Description>Cosmic energy</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -13353,7 +13353,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>entrance</Id>
-    <Name>entrance</Name>
+    <Name>Entrance</Name>
     <Description>Created by ancient mages</Description>
     <Command1>walk through</Command1>
     <Command2>Examine</Command2>
@@ -13379,7 +13379,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>climbing_rocks2</Id>
-    <Name>climbing rocks</Name>
+    <Name>Climbing rocks</Name>
     <Description>I wonder if I can climb up these</Description>
     <Command1>climb</Command1>
     <Command2>Examine</Command2>
@@ -13405,8 +13405,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>lightning</Id>
-    <Name>lightning</Name>
-    <Description>blimey!</Description>
+    <Name>Lightning</Name>
+    <Description>Blimey!</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -13470,8 +13470,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>flames</Id>
-    <Name>flames</Name>
-    <Description>looks hot!</Description>
+    <Name>Flames</Name>
+    <Description>Looks hot!</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -13509,7 +13509,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate8</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>A crate used for storing materials</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -13522,7 +13522,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate9</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>A crate used for storing materials</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -13535,7 +13535,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>barrel_closed</Id>
-    <Name>barrel</Name>
+    <Name>Barrel</Name>
     <Description>Its shut</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -13627,7 +13627,7 @@
   <GameModelEntity>
     <Id>barrier</Id>
     <Name>Barrier</Name>
-    <Description>this section is roped off</Description>
+    <Description>This section is roped off</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -13639,7 +13639,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>buried_skeleton</Id>
-    <Name>buried skeleton</Name>
+    <Name>Buried skeleton</Name>
     <Description>I hope I don't meet any of these</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -13691,7 +13691,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>lift_winch</Id>
-    <Name>winch</Name>
+    <Name>Winch</Name>
     <Description>This winches earth from the dig hole</Description>
     <Command1>Operate</Command1>
     <Command2>Examine</Command2>
@@ -13704,7 +13704,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate10</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>A crate</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -13717,7 +13717,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate11</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>A crate</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -13743,7 +13743,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>buried_skeleton2</Id>
-    <Name>buried skeleton</Name>
+    <Name>Buried skeleton</Name>
     <Description>I'm glad this isn't around now</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -13756,8 +13756,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>panning_point</Id>
-    <Name>panning point</Name>
-    <Description>a shallow where I can pan for gold</Description>
+    <Name>Panning point</Name>
+    <Description>A shallow where I can pan for gold</Description>
     <Command1>look</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -13782,8 +13782,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost3</Id>
-    <Name>signpost</Name>
-    <Description>a signpost</Description>
+    <Name>Signpost</Name>
+    <Description>A signpost</Description>
     <Command1>read</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -13795,8 +13795,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost4</Id>
-    <Name>signpost</Name>
-    <Description>a signpost</Description>
+    <Name>Signpost</Name>
+    <Description>A signpost</Description>
     <Command1>read</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -13808,8 +13808,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost5</Id>
-    <Name>signpost</Name>
-    <Description>a signpost</Description>
+    <Name>Signpost</Name>
+    <Description>A signpost</Description>
     <Command1>read</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -13821,8 +13821,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost6</Id>
-    <Name>signpost</Name>
-    <Description>a signpost</Description>
+    <Name>Signpost</Name>
+    <Description>A signpost</Description>
     <Command1>read</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -13834,7 +13834,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost_digsite_educational_centre</Id>
-    <Name>signpost</Name>
+    <Name>Signpost</Name>
     <Description>Digsite educational centre</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -13847,8 +13847,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>soil</Id>
-    <Name>soil</Name>
-    <Description>soil</Description>
+    <Name>Soil</Name>
+    <Description>Soil</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -13860,8 +13860,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>soil2</Id>
-    <Name>soil</Name>
-    <Description>soil</Description>
+    <Name>Soil</Name>
+    <Description>Soil</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -13873,8 +13873,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>soil3</Id>
-    <Name>soil</Name>
-    <Description>soil</Description>
+    <Name>Soil</Name>
+    <Description>Soil</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
     <Type>0</Type>
@@ -13899,7 +13899,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_sinking_front</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>The ship is sinking</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -13912,7 +13912,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>barrel_sinking</Id>
-    <Name>barrel</Name>
+    <Name>Barrel</Name>
     <Description>The ship is sinking</Description>
     <Command1>climb on</Command1>
     <Command2>Examine</Command2>
@@ -13938,7 +13938,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>bush8</Id>
-    <Name>bush</Name>
+    <Name>Bush</Name>
     <Description>A leafy bush</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -13951,7 +13951,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>bush9</Id>
-    <Name>bush</Name>
+    <Name>Bush</Name>
     <Description>A leafy bush</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -13964,7 +13964,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_closed13</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>The cupboard is shut</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -13977,7 +13977,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sacks5</Id>
-    <Name>sacks</Name>
+    <Name>Sacks</Name>
     <Description>Yep they're sacks</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -13990,7 +13990,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sacks6</Id>
-    <Name>sacks</Name>
+    <Name>Sacks</Name>
     <Description>Yep they're sacks</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -14016,7 +14016,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_open13</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>The cupboard is shut</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -14068,7 +14068,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>barrel_redcross_closed</Id>
-    <Name>barrel</Name>
+    <Name>Barrel</Name>
     <Description>It has a lid on it - I need something to lever it off</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -14081,7 +14081,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>barrel_redcross</Id>
-    <Name>barrel</Name>
+    <Name>Barrel</Name>
     <Description>I wonder what is inside...</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -14146,7 +14146,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>signpost_digsite</Id>
-    <Name>signpost</Name>
+    <Name>Signpost</Name>
     <Description>To the digsite</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -14159,7 +14159,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate_members10</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>You can pass through this on the members server</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -14237,7 +14237,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>lift_winch2</Id>
-    <Name>winch</Name>
+    <Name>Winch</Name>
     <Description>This winches earth from the dig hole</Description>
     <Command1>Operate</Command1>
     <Command2>Examine</Command2>
@@ -14264,7 +14264,7 @@
   <GameModelEntity>
     <Id>rope_up</Id>
     <Name>Rope</Name>
-    <Description>it's a rope leading upwards</Description>
+    <Description>It's a rope leading upwards</Description>
     <Command1>Climb-Up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -14277,7 +14277,7 @@
   <GameModelEntity>
     <Id>rope_up2</Id>
     <Name>Rope</Name>
-    <Description>it's a rope leading upwards</Description>
+    <Description>It's a rope leading upwards</Description>
     <Command1>Climb-Up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -14485,7 +14485,7 @@
   <GameModelEntity>
     <Id>rock_hewn_stairs</Id>
     <Name>Rock Hewn Stairs</Name>
-    <Description>steps cut out of the living rock</Description>
+    <Description>Steps cut out of the living rock</Description>
     <Command1>Climb</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -14536,8 +14536,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>dwarf_multicannon2</Id>
-    <Name>dwarf multicannon</Name>
-    <Description>fires metal balls</Description>
+    <Name>Dwarf multicannon</Name>
+    <Description>Fires metal balls</Description>
     <Command1>fire</Command1>
     <Command2>pick up</Command2>
     <Type>1</Type>
@@ -14549,8 +14549,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>dwarf_multicannon_base2</Id>
-    <Name>dwarf multicannon base</Name>
-    <Description>bang</Description>
+    <Name>Dwarf multicannon base</Name>
+    <Description>Bang</Description>
     <Command1>pick up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -14562,8 +14562,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>dwarf_multicannon_stand2</Id>
-    <Name>dwarf multicannon stand</Name>
-    <Description>bang</Description>
+    <Name>Dwarf multicannon stand</Name>
+    <Description>Bang</Description>
     <Command1>pick up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -14575,8 +14575,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>dwarf_multicannon_barrels2</Id>
-    <Name>dwarf multicannon barrels</Name>
-    <Description>bang</Description>
+    <Name>Dwarf multicannon barrels</Name>
+    <Description>Bang</Description>
     <Command1>pick up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -14588,7 +14588,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>rock4</Id>
-    <Name>rock</Name>
+    <Name>Rock</Name>
     <Description>A rocky outcrop</Description>
     <Command1>climb over</Command1>
     <Command2>Examine</Command2>
@@ -14602,7 +14602,7 @@
   <GameModelEntity>
     <Id>rock_hewn_stairs2</Id>
     <Name>Rock Hewn Stairs</Name>
-    <Description>steps cut out of the living rock</Description>
+    <Description>Steps cut out of the living rock</Description>
     <Command1>Climb</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -14615,7 +14615,7 @@
   <GameModelEntity>
     <Id>rock_hewn_stairs3</Id>
     <Name>Rock Hewn Stairs</Name>
-    <Description>steps cut out of the living rock</Description>
+    <Description>Steps cut out of the living rock</Description>
     <Command1>Climb</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -14628,7 +14628,7 @@
   <GameModelEntity>
     <Id>rock_hewn_stairs4</Id>
     <Name>Rock Hewn Stairs</Name>
-    <Description>steps cut out of the living rock</Description>
+    <Description>Steps cut out of the living rock</Description>
     <Command1>Climb</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -14653,7 +14653,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>beehive_old</Id>
-    <Name>beehive</Name>
+    <Name>Beehive</Name>
     <Description>An old looking beehive</Description>
     <Command1>WalkTo</Command1>
     <Command2>Investigate</Command2>
@@ -14679,7 +14679,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cobweb_floor2</Id>
-    <Name>web</Name>
+    <Name>Web</Name>
     <Description>An old thick spider's web</Description>
     <Command1>WalkTo</Command1>
     <Command2>Investigate</Command2>
@@ -14692,7 +14692,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>fountain3</Id>
-    <Name>fountain</Name>
+    <Name>Fountain</Name>
     <Description>There seems to be a lot of insects here</Description>
     <Command1>WalkTo</Command1>
     <Command2>Investigate</Command2>
@@ -14718,7 +14718,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>barrel_anna</Id>
-    <Name>barrel</Name>
+    <Name>Barrel</Name>
     <Description>Annas stuff - There seems to be something shiny at the bottom</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -14731,7 +14731,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>barrel_bob</Id>
-    <Name>barrel</Name>
+    <Name>Barrel</Name>
     <Description>Bobs things - There seems to be something shiny at the bottom</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -14744,7 +14744,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>barrel_carol</Id>
-    <Name>barrel</Name>
+    <Name>Barrel</Name>
     <Description>Carols belongings - there seems to be something shiny at the bottom</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -14757,7 +14757,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>barrel_david</Id>
-    <Name>barrel</Name>
+    <Name>Barrel</Name>
     <Description>Davids equipment - there seems to be something shiny at the bottom</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -14770,7 +14770,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>barrel_elizabeth</Id>
-    <Name>barrel</Name>
+    <Name>Barrel</Name>
     <Description>Elizabeths clothes - theres something shiny at the bottom</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -14783,7 +14783,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>barrel_frank</Id>
-    <Name>barrel</Name>
+    <Name>Barrel</Name>
     <Description>Franks barrel seems to have something shiny at the bottom</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -14809,7 +14809,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sacks_gardening_tools</Id>
-    <Name>sacks</Name>
+    <Name>Sacks</Name>
     <Description>Full of various gardening tools</Description>
     <Command1>WalkTo</Command1>
     <Command2>investigate</Command2>
@@ -14822,7 +14822,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>gate</Id>
-    <Name>gate</Name>
+    <Name>Gate</Name>
     <Description>A sturdy and secure wooden gate</Description>
     <Command1>WalkTo</Command1>
     <Command2>Investigate</Command2>
@@ -14848,8 +14848,8 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>clawspell</Id>
-    <Name>clawspell</Name>
-    <Description>forces of guthix</Description>
+    <Name>Clawspell</Name>
+    <Description>Forces of Guthix</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -14874,7 +14874,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>crate12</Id>
-    <Name>crate</Name>
+    <Name>Crate</Name>
     <Description>A crate of some kind</Description>
     <Command1>WalkTo</Command1>
     <Command2>Search</Command2>
@@ -14914,7 +14914,7 @@
   <GameModelEntity>
     <Id>spellcharge</Id>
     <Name>Spellcharge</Name>
-    <Description>forces of guthix</Description>
+    <Description>Forces of Guthix</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -14939,7 +14939,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>cupboard_closed14</Id>
-    <Name>cupboard</Name>
+    <Name>Cupboard</Name>
     <Description>The cupboard is shut</Description>
     <Command1>open</Command1>
     <Command2>Examine</Command2>
@@ -14952,7 +14952,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>sacks7</Id>
-    <Name>sacks</Name>
+    <Name>Sacks</Name>
     <Description>Yep they're sacks</Description>
     <Command1>search</Command1>
     <Command2>Examine</Command2>
@@ -15329,7 +15329,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_front12</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A sturdy sailing ship</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -15342,7 +15342,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_middle6</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A sturdy sailing ship</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -15355,7 +15355,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>ship_back12</Id>
-    <Name>ship</Name>
+    <Name>Ship</Name>
     <Description>A sturdy sailing ship</Description>
     <Command1>WalkTo</Command1>
     <Command2>Examine</Command2>
@@ -15368,7 +15368,7 @@
   </GameModelEntity>
   <GameModelEntity>
     <Id>digsite_bed</Id>
-    <Name>digsite bed</Name>
+    <Name>Digsite bed</Name>
     <Description>Not comfortable but useful nonetheless</Description>
     <Command1>sleep</Command1>
     <Command2>Examine</Command2>
@@ -15434,7 +15434,7 @@
   <GameModelEntity>
     <Id>ladder_up13</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading upwards</Description>
+    <Description>It's a ladder leading upwards</Description>
     <Command1>Climb-Up</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
@@ -15447,7 +15447,7 @@
   <GameModelEntity>
     <Id>ladder_down9</Id>
     <Name>Ladder</Name>
-    <Description>it's a ladder leading downwards</Description>
+    <Description>It's a ladder leading downwards</Description>
     <Command1>Climb-Down</Command1>
     <Command2>Examine</Command2>
     <Type>1</Type>
