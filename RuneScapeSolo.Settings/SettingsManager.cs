@@ -1,6 +1,7 @@
 ﻿using System.IO;
 
 using RuneScapeSolo.DataAccess.IO;
+using RuneScapeSolo.Graphics;
 
 namespace RuneScapeSolo.Settings
 {
@@ -85,7 +86,28 @@ namespace RuneScapeSolo.Settings
         /// </summary>
         public void Update()
         {
-            // TODO: Apply changes
+            bool graphicsChanged = false;
+
+            if (GraphicsManager.Instance.Graphics.IsFullScreen != GraphicsSettings.Fullscreen)
+            {
+                GraphicsManager.Instance.Graphics.IsFullScreen = GraphicsSettings.Fullscreen;
+
+                graphicsChanged = true;
+            }
+
+            if (GraphicsManager.Instance.Graphics.PreferredBackBufferWidth != GraphicsSettings.Resolution.Width ||
+                GraphicsManager.Instance.Graphics.PreferredBackBufferHeight != GraphicsSettings.Resolution.Height)
+            {
+                GraphicsManager.Instance.Graphics.PreferredBackBufferWidth = GraphicsSettings.Resolution.Width;
+                GraphicsManager.Instance.Graphics.PreferredBackBufferHeight = GraphicsSettings.Resolution.Height;
+
+                graphicsChanged = true;
+            }
+
+            if (graphicsChanged)
+            {
+                GraphicsManager.Instance.Graphics.ApplyChanges();
+            }
         }
     }
 }

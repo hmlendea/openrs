@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using RuneScapeSolo.Events;
+using RuneScapeSolo.Graphics;
 using RuneScapeSolo.Input;
 using RuneScapeSolo.Lib;
 using RuneScapeSolo.Settings;
@@ -68,9 +69,8 @@ namespace RuneScapeSolo
         {
             SettingsManager.Instance.LoadContent();
 
-            graphics.PreferredBackBufferWidth = SettingsManager.Instance.GraphicsSettings.Resolution.Width;
-            graphics.PreferredBackBufferHeight = SettingsManager.Instance.GraphicsSettings.Resolution.Height;
-            graphics.ApplyChanges(); // TODO: Apply changes in SettingsManager.cs:Update()
+            GraphicsManager.Instance.SpriteBatch = spriteBatch;
+            GraphicsManager.Instance.Graphics = graphics;
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -145,6 +145,8 @@ namespace RuneScapeSolo
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            SettingsManager.Instance.Update();
+
             InputManager.Instance.Update();
 
             // Allows the game to exit
