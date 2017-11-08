@@ -1545,8 +1545,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>jonny_the_beard</Id>
-    <Name>Jonny the beard</Name>
-    <Description>I can see why he's called the beard</Description>
+    <Name>Jonny the Beard</Name>
+    <Description>I can see why he's called "the Beard"</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -2055,7 +2055,7 @@
   <NpcEntity>
     <Id>weaponsmaster</Id>
     <Name>Weaponsmaster</Name>
-    <Description>The phoenix gang quartermaster</Description>
+    <Description>The Phoenix Gang quartermaster</Description>
     <Command />
     <Sprites>
       <int>0</int>
@@ -2389,7 +2389,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>king</Id>
-    <Name>King</Name>
+    <Name>King Roald</Name>
     <Description>King Roald the VIII</Description>
     <Command />
     <Sprites>
@@ -2432,7 +2432,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>giant_bat</Id>
-    <Name>Giant bat</Name>
+    <Name>Giant Bat</Name>
     <Description>An angry flying rodent</Description>
     <Command />
     <Sprites>
@@ -3021,7 +3021,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shop_keeper_male_junk</Id>
-    <Name>Shopkeeper</Name>
+    <Name>Shop Keeper</Name>
     <Description>Maybe he'd like to buy some of my junk</Description>
     <Command />
     <Sprites>
@@ -3348,7 +3348,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shop_keeper_male</Id>
-    <Name>Shopkeeper</Name>
+    <Name>Shop Keeper</Name>
     <Description>I wonder what he's got for sale</Description>
     <Command />
     <Sprites>
@@ -3391,7 +3391,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shop_keeper_male_swords</Id>
-    <Name>Shopkeeper</Name>
+    <Name>Shop Keeper</Name>
     <Description>I can buy swords off him</Description>
     <Command />
     <Sprites>
@@ -4584,7 +4584,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>silk_trader</Id>
-    <Name>Silk trader</Name>
+    <Name>Silk Trader</Name>
     <Description>He sells silk</Description>
     <Command />
     <Sprites>
@@ -4628,7 +4628,7 @@
   <NpcEntity>
     <Id>man2</Id>
     <Name>Man</Name>
-    <Description>One of Runescapes many citizens</Description>
+    <Description>One of RuneScape's many citizens</Description>
     <Command>pickpocket</Command>
     <Sprites>
       <int>0</int>
@@ -5005,7 +5005,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>fred_the_farmer</Id>
-    <Name>Fred the farmer</Name>
+    <Name>Fred the Farmer</Name>
     <Description>An old farmer</Description>
     <Command />
     <Sprites>
@@ -5710,7 +5710,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shop_keeper_male2</Id>
-    <Name>Shopkeeper</Name>
+    <Name>Shop Keeper</Name>
     <Description>I wonder what he's got for sale</Description>
     <Command />
     <Sprites>
@@ -6258,7 +6258,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>dr_harlow</Id>
-    <Name>Dr Harlow</Name>
+    <Name>Dr. Harlow</Name>
     <Description>His nose is very red</Description>
     <Command />
     <Sprites>
@@ -6336,7 +6336,7 @@
     <IsAggressive>1</IsAggressive>
   </NpcEntity>
   <NpcEntity>
-    <Id>guard_fortress</Id>
+    <Id>fortress_guard</Id>
     <Name>Guard</Name>
     <Description>He's here to guard this fortress</Description>
     <Command>pickpocket</Command>
@@ -6697,7 +6697,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shop_keeper_male3</Id>
-    <Name>Shopkeeper</Name>
+    <Name>Shop Keeper</Name>
     <Description>I wonder what he's got for sale</Description>
     <Command />
     <Sprites>
@@ -7019,8 +7019,8 @@
     </Drops>
   </NpcEntity>
   <NpcEntity>
-    <Id>guildmaster</Id>
-    <Name>Guildmaster</Name>
+    <Id>guild_master</Id>
+    <Name>Guild Master</Name>
     <Description>He's in charge of this place</Description>
     <Command />
     <Sprites>
@@ -7235,7 +7235,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>wyson_the_gardener</Id>
-    <Name>Wyson the gardener</Name>
+    <Name>Wyson the Gardener</Name>
     <Description>An old gardener</Description>
     <Command />
     <Sprites>
@@ -7837,7 +7837,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shop_assistant_male_swords</Id>
-    <Name>Shop assistant</Name>
+    <Name>Shop Assistant</Name>
     <Description>I can buy swords off him</Description>
     <Command />
     <Sprites>
@@ -7966,7 +7966,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>head_chef</Id>
-    <Name>Head chef</Name>
+    <Name>Head Chef</Name>
     <Description>He looks after the chef's guild</Description>
     <Command />
     <Sprites>
@@ -8503,8 +8503,8 @@
     </Drops>
   </NpcEntity>
   <NpcEntity>
-    <Id>dwarven_shopkeeper</Id>
-    <Name>Dwarven shopkeeper</Name>
+    <Id>shop_keeper_dwarf</Id>
+    <Name>Dwarven Shop Keeper</Name>
     <Description>I wonder if he wants to buy any of my junk</Description>
     <Command />
     <Sprites>
@@ -8590,7 +8590,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shop_keeper_male4</Id>
-    <Name>Shopkeeper</Name>
+    <Name>Shop Keeper</Name>
     <Description>I wonder what he's got for sale</Description>
     <Command />
     <Sprites>
@@ -8848,7 +8848,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>general_wartface</Id>
-    <Name>General wartface</Name>
+    <Name>General Wartface</Name>
     <Description>An ugly green creature</Description>
     <Command />
     <Sprites>
@@ -9199,7 +9199,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>ice_warrior</Id>
-    <Name>Ice warrior</Name>
+    <Name>Ice Warrior</Name>
     <Description>A strange inhuman warrior</Description>
     <Command />
     <Sprites>
@@ -9724,7 +9724,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shop_keeper_male5</Id>
-    <Name>Shopkeeper</Name>
+    <Name>Shop Keeper</Name>
     <Description>I wonder what he's got for sale</Description>
     <Command />
     <Sprites>
@@ -10631,7 +10631,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>melzar_the_mad</Id>
-    <Name>Melzar the mad</Name>
+    <Name>Melzar the Mad</Name>
     <Description>He looks totally insane</Description>
     <Command />
     <Sprites>
@@ -10760,7 +10760,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shop_keeper_male6</Id>
-    <Name>Shopkeeper</Name>
+    <Name>Shop Keeper</Name>
     <Description>I wonder what he's got for sale</Description>
     <Command />
     <Sprites>
@@ -12341,8 +12341,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>monk_of_entrana</Id>
-    <Name>Monk of entrana</Name>
-    <Description>A Peaceful monk</Description>
+    <Name>Monk of Entrana</Name>
+    <Description>A peaceful monk</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -12384,8 +12384,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>monk_of_entrana2</Id>
-    <Name>Monk of entrana</Name>
-    <Description>A Peaceful monk</Description>
+    <Name>Monk of Entrana</Name>
+    <Description>A peaceful monk</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -12550,8 +12550,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>monk_of_entrana3</Id>
-    <Name>Monk of entrana</Name>
-    <Description>A Peaceful monk</Description>
+    <Name>Monk of Entrana</Name>
+    <Description>A peaceful monk</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -12593,7 +12593,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>tree_spirit</Id>
-    <Name>Tree spirit</Name>
+    <Name>Tree Spirit</Name>
     <Description>Ooh spooky</Description>
     <Command />
     <Sprites>
@@ -12850,8 +12850,8 @@
     </Drops>
   </NpcEntity>
   <NpcEntity>
-    <Id>fairy_shopkeeper</Id>
-    <Name>Fairy Shopkeeper</Name>
+    <Id>shop_keeper_fairy</Id>
+    <Name>Fairy Shop Keeper</Name>
     <Description>I wonder what he's got for sale</Description>
     <Command />
     <Sprites>
@@ -12937,7 +12937,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>fairy_banker</Id>
-    <Name>Fairy banker</Name>
+    <Name>Fairy Banker</Name>
     <Description>He can look after my money</Description>
     <Command />
     <Sprites>
@@ -13152,7 +13152,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>fairy_ladder_attendant</Id>
-    <Name>Fairy Ladder attendant</Name>
+    <Name>Fairy Ladder Attendant</Name>
     <Description>A worker in the faerie market</Description>
     <Command />
     <Sprites>
@@ -13453,7 +13453,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>donny_the_lad</Id>
-    <Name>Donny the lad</Name>
+    <Name>Donny the Lad</Name>
     <Description>A bandit leader</Description>
     <Command />
     <Sprites>
@@ -13581,8 +13581,8 @@
     </Drops>
   </NpcEntity>
   <NpcEntity>
-    <Id>white_wolf_sentry</Id>
-    <Name>White wolf sentry</Name>
+    <Id>wolf_white_sentry</Id>
+    <Name>White Wolf Sentry</Name>
     <Description>A vicious mountain wolf</Description>
     <Command />
     <Sprites>
@@ -13758,8 +13758,8 @@
     </Drops>
   </NpcEntity>
   <NpcEntity>
-    <Id>grey_wolf</Id>
-    <Name>Grey wolf</Name>
+    <Id>wolf_grey</Id>
+    <Name>Grey Wolf</Name>
     <Description>A sinister looking wolf</Description>
     <Command />
     <Sprites>
@@ -13952,8 +13952,8 @@
     <IsAggressive>0</IsAggressive>
   </NpcEntity>
   <NpcEntity>
-    <Id>white_wolf</Id>
-    <Name>White wolf</Name>
+    <Id>wolf_white</Id>
+    <Name>White Wolf</Name>
     <Description>A vicious mountain wolf</Description>
     <Command />
     <Sprites>
@@ -13995,8 +13995,8 @@
     </Drops>
   </NpcEntity>
   <NpcEntity>
-    <Id>pack_leader</Id>
-    <Name>Pack leader</Name>
+    <Id>wolf_pack_leader</Id>
+    <Name>Pack Leader</Name>
     <Description>A vicious mountain wolf</Description>
     <Command />
     <Sprites>
@@ -20213,7 +20213,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shop_keeper_male_fish</Id>
-    <Name>Shopkeeper</Name>
+    <Name>Shop Keeper</Name>
     <Description>He smells of fish</Description>
     <Command />
     <Sprites>
@@ -21386,7 +21386,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shop_keeper_male_junk2</Id>
-    <Name>Shopkeeper</Name>
+    <Name>Shop Keeper</Name>
     <Description>Maybe he'd like to buy some of my junk</Description>
     <Command />
     <Sprites>
@@ -21429,7 +21429,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>fairy_queen</Id>
-    <Name>Fairy queen</Name>
+    <Name>Fairy Queen</Name>
     <Description>A very little queen</Description>
     <Command />
     <Sprites>
@@ -21558,8 +21558,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>high_priest_of_entrana</Id>
-    <Name>High priest of entrana</Name>
-    <Description>A Peaceful monk</Description>
+    <Name>High Priest of Entrana</Name>
+    <Description>A peaceful monk</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -37090,7 +37090,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>archaeological_expert</Id>
-    <Name>Archaeological expert</Name>
+    <Name>Archaeological Expert</Name>
     <Description>An expert on archaeology!</Description>
     <Command />
     <Sprites>
@@ -37821,7 +37821,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>mary_the_maid</Id>
-    <Name>Mary The Maid</Name>
+    <Name>Mary the Maid</Name>
     <Description>The family maid</Description>
     <Command />
     <Sprites>
@@ -37864,7 +37864,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>stanford_the_gardener</Id>
-    <Name>Stanford The Gardener</Name>
+    <Name>Stanford the Gardener</Name>
     <Description>It's the family Gardener</Description>
     <Command />
     <Sprites>
@@ -38976,7 +38976,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>dwarf_cannon_engineer</Id>
-    <Name>Dwarf Cannon engineer</Name>
+    <Name>Dwarf Cannon Engineer</Name>
     <Description>He's the head of black guard weapon development</Description>
     <Command />
     <Sprites>
@@ -39019,7 +39019,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>dwarf_commander</Id>
-    <Name>Dwarf commander</Name>
+    <Name>Dwarf Commander</Name>
     <Description>He guards the mines</Description>
     <Command />
     <Sprites>
@@ -39148,7 +39148,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>fatigue_expert</Id>
-    <Name>Fatigue expert</Name>
+    <Name>Fatigue Expert</Name>
     <Description>He looks wide awake</Description>
     <Command />
     <Sprites>
@@ -39235,7 +39235,7 @@
   <NpcEntity>
     <Id>jungle_savage</Id>
     <Name>Jungle Savage</Name>
-    <Description>A savage and fearless Jungle warrior</Description>
+    <Description>A savage and fearless jungle warrior</Description>
     <Command />
     <Sprites>
       <int>5</int>
@@ -39406,7 +39406,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>tea_seller</Id>
-    <Name>Tea seller</Name>
+    <Name>Tea Seller</Name>
     <Description>He has delicious tea to buy</Description>
     <Command />
     <Sprites>
@@ -39493,7 +39493,7 @@
   <NpcEntity>
     <Id>philop</Id>
     <Name>Philop</Name>
-    <Description>Gertrudes youngest</Description>
+    <Description>Gertrude's youngest</Description>
     <Command />
     <Sprites>
       <int>0</int>
@@ -39536,7 +39536,7 @@
   <NpcEntity>
     <Id>kanel</Id>
     <Name>Kanel</Name>
-    <Description>Gertrudes youngest's twin brother</Description>
+    <Description>Gertrude's youngest's twin brother</Description>
     <Command />
     <Sprites>
       <int>0</int>
@@ -39578,7 +39578,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>chamber_guardian</Id>
-    <Name>Chamber guardian</Name>
+    <Name>Chamber Guardian</Name>
     <Description>He hasn't seen much sun latley</Description>
     <Command />
     <Sprites>
@@ -39701,7 +39701,7 @@
   <NpcEntity>
     <Id>shadow_warrior</Id>
     <Name>Shadow Warrior</Name>
-    <Description>A sinsistar shadowy figure</Description>
+    <Description>A sinister shadowy figure</Description>
     <Command />
     <Sprites>
       <int>3</int>
@@ -39786,7 +39786,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>battle_mage_guthix</Id>
-    <Name>Battle mage</Name>
+    <Name>Battle Mage</Name>
     <Description>He kills in the name of Guthix</Description>
     <Command />
     <Sprites>
@@ -39829,7 +39829,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>battle_mage_zamorak</Id>
-    <Name>Battle mage</Name>
+    <Name>Battle Mage</Name>
     <Description>He kills in the name of Zamorak</Description>
     <Command />
     <Sprites>
@@ -39872,7 +39872,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>battle_mage_saradomin</Id>
-    <Name>Battle mage</Name>
+    <Name>Battle Mage</Name>
     <Description>He kills in the name of Saradomin</Description>
     <Command />
     <Sprites>
