@@ -1043,7 +1043,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>traiborn_the_wizard</Id>
-    <Name>Traiborn the wizard</Name>
+    <Name>Traiborn the Wizard</Name>
     <Description>An old wizard</Description>
     <Command />
     <Sprites>
@@ -3434,7 +3434,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>dark_wizard</Id>
-    <Name>Darkwizard</Name>
+    <Name>Dark Wizard</Name>
     <Description>He works evil magic</Description>
     <Command />
     <Sprites>
@@ -3638,7 +3638,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>dark_wizard2</Id>
-    <Name>Darkwizard</Name>
+    <Name>Dark Wizard</Name>
     <Description>He works evil magic</Description>
     <Command />
     <Sprites>
@@ -6301,7 +6301,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>deadly_red_spider</Id>
-    <Name>Deadly Red spider</Name>
+    <Name>Deadly Red Spider</Name>
     <Description>I think this spider has been genetically modified</Description>
     <Command />
     <Sprites>
@@ -7707,8 +7707,8 @@
     </Drops>
   </NpcEntity>
   <NpcEntity>
-    <Id>jailguard</Id>
-    <Name>Jailguard</Name>
+    <Id>jail_guard</Id>
+    <Name>Jail Guard</Name>
     <Description>I wonder what he's guarding</Description>
     <Command />
     <Sprites>
@@ -14643,7 +14643,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>ice_spider</Id>
-    <Name>Ice spider</Name>
+    <Name>Ice Spider</Name>
     <Description>I think this spider has been genetically modified</Description>
     <Command />
     <Sprites>
@@ -18871,7 +18871,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shadow_spider</Id>
-    <Name>Shadow spider</Name>
+    <Name>Shadow Spider</Name>
     <Description>Is it a spider or is it a shadow</Description>
     <Command />
     <Sprites>
@@ -22200,7 +22200,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>gnome_troop</Id>
-    <Name>Gnome troop</Name>
+    <Name>Gnome Troop</Name>
     <Description>It's a tree gnome trooper</Description>
     <Command />
     <Sprites>
@@ -25338,7 +25338,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>financial_advisor</Id>
-    <Name>Financial advisor</Name>
+    <Name>Financial Advisor</Name>
     <Description>He knows about money</Description>
     <Command />
     <Sprites>
@@ -26917,8 +26917,8 @@
   </NpcEntity>
   <NpcEntity>
     <Id>head_wizard</Id>
-    <Name>Head wizard</Name>
-    <Description>He runs the wizards guild</Description>
+    <Name>Head Wizard</Name>
+    <Description>He runs the Wizards Guild</Description>
     <Command />
     <Sprites>
       <int>6</int>
@@ -28957,7 +28957,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>gnome_pilot</Id>
-    <Name>Gnome pilot</Name>
+    <Name>Gnome Pilot</Name>
     <Description>He can fly the glider</Description>
     <Command />
     <Sprites>
@@ -29234,7 +29234,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>gnome_pilot2</Id>
-    <Name>Gnome pilot</Name>
+    <Name>Gnome Pilot</Name>
     <Description>He can fly the glider</Description>
     <Command />
     <Sprites>
@@ -29406,7 +29406,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shipyard_foreman</Id>
-    <Name>Shipyard foreman</Name>
+    <Name>Shipyard Foreman</Name>
     <Description>He look's busy</Description>
     <Command />
     <Sprites>
@@ -29449,7 +29449,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>shipyard_foreman2</Id>
-    <Name>Shipyard foreman</Name>
+    <Name>Shipyard Foreman</Name>
     <Description>He look's busy</Description>
     <Command />
     <Sprites>
@@ -29793,7 +29793,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>gnome_pilot3</Id>
-    <Name>Gnome pilot</Name>
+    <Name>Gnome Pilot</Name>
     <Description>He can fly the glider</Description>
     <Command />
     <Sprites>
@@ -29836,7 +29836,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>gnome_pilot4</Id>
-    <Name>Gnome pilot</Name>
+    <Name>Gnome Pilot</Name>
     <Description>He can fly the glider</Description>
     <Command />
     <Sprites>
@@ -29879,7 +29879,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>gnome_pilot5</Id>
-    <Name>Gnome pilot</Name>
+    <Name>Gnome Pilot</Name>
     <Description>He can fly the glider</Description>
     <Command />
     <Sprites>
@@ -29922,7 +29922,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>gnome_pilot6</Id>
-    <Name>Gnome pilot</Name>
+    <Name>Gnome Pilot</Name>
     <Description>He can fly the glider</Description>
     <Command />
     <Sprites>
@@ -33708,7 +33708,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>dungeon_spider</Id>
-    <Name>Dungeon spider</Name>
+    <Name>Dungeon Spider</Name>
     <Description>A nasty poisonous arachnid</Description>
     <Command />
     <Sprites>
@@ -37778,7 +37778,7 @@
   </NpcEntity>
   <NpcEntity>
     <Id>louisa_the_cook</Id>
-    <Name>Louisa The Cook</Name>
+    <Name>Louisa the Cook</Name>
     <Description>It's the family cook</Description>
     <Command />
     <Sprites>
