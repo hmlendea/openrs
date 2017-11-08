@@ -6,6 +6,7 @@ using RuneScapeSolo.GameLogic.GameManagers;
 using RuneScapeSolo.Lib;
 using RuneScapeSolo.Lib.Data;
 using RuneScapeSolo.Lib.Game;
+using RuneScapeSolo.Models;
 
 namespace RuneScapeSolo
 {
@@ -62,6 +63,10 @@ namespace RuneScapeSolo
                     HandleCommand180(data);
                     return true;
 
+                case ServerCommand.Command190:
+                    HandleCommand190(data);
+                    return false;
+
                 case ServerCommand.CompletedTasks:
                     HandleCompletedTasks(data);
                     return true;
@@ -100,6 +105,10 @@ namespace RuneScapeSolo
 
                 case ServerCommand.GameSettings:
                     HandleGameSettings(data);
+                    return true;
+
+                case ServerCommand.GroundItems:
+                    HandleGroundItems(data, length);
                     return true;
 
                 case ServerCommand.GuthixSpells:
@@ -152,6 +161,10 @@ namespace RuneScapeSolo
 
                 case ServerCommand.QuestPointsChange:
                     HandleQuestPointsChange(data);
+                    return true;
+
+                case ServerCommand.QuestionMenu:
+                    HandleQuestionMenu(data);
                     return true;
 
                 case ServerCommand.Remaining:
@@ -354,30 +367,26 @@ namespace RuneScapeSolo
                     {
                         client.engineHandle.registerObjectDir(newSectionX, newSectionY, rotation);
 
-                        int width;
-                        int height;
+                        int width = 0;
+                        int height = 0;
+
+#warning this sometimes returns null (index = WorldObjectCount)
+                        WorldObject worldObject = EntityManager.GetWorldObject(index);
 
                         if (rotation == 0 || rotation == 4)
                         {
-                            width = EntityManager.GetWorldObject(index).Width;
-                            height = EntityManager.GetWorldObject(index).Height;
+                            width = worldObject.Width;
+                            height = worldObject.Height;
                         }
                         else
                         {
-                            height = EntityManager.GetWorldObject(index).Width;
-                            width = EntityManager.GetWorldObject(index).Height;
+                            height = worldObject.Width;
+                            width = worldObject.Height;
                         }
-
+                    
                         int l40 = ((newSectionX + newSectionX + width) * client.GridSize) / 2;
                         int k42 = ((newSectionY + newSectionY + height) * client.GridSize) / 2;
-                        int model = EntityManager.GetWorldObject(index).ModelId;
-                        ObjectModel gameObjectModel = client.GameDataObjects[model];
-
-                        if (gameObjectModel == null)
-                        {
-                            Console.WriteLine("Problem is here");
-                        }
-
+                        ObjectModel gameObjectModel = client.GameDataObjects[worldObject.ModelId];
                         ObjectModel gameObject = gameObjectModel.CreateParent();
 
 #warning object not being added to camera.
@@ -957,6 +966,65 @@ namespace RuneScapeSolo
             }
         }
 
+        void HandleCommand190(sbyte[] data)
+        {
+            int newCount = DataOperations.GetInt16(data, 1);
+            int offset = 3;
+
+            for (int i = 0; i < newCount; i++)
+            {
+                int npcIndex = DataOperations.GetInt16(data, offset);
+                offset += 2;
+
+                Mob mob = client.NpcAttackingArray[npcIndex];
+                int updateType = DataOperations.GetInt8(data[offset]);
+                offset++;
+
+                if (updateType == 1)
+                {
+                    int playerIndex = DataOperations.GetInt16(data, offset);
+                    offset += 2;
+
+                    sbyte messageLength = data[offset];
+                    offset++;
+
+                    if (mob != null)
+                    {
+                        string str = ChatMessage.bytesToString(data, offset, messageLength);
+                        mob.lastMessageTimeout = 150;
+                        mob.lastMessage = str;
+
+                        if (playerIndex == client.CurrentPlayer.ServerIndex)
+                        {
+                            // TODO: Is this retrieving the name correctly?
+                            client.displayMessage("@yel@" + EntityManager.GetNpc(mob.npcId).Name + ": " + mob.lastMessage, 5);
+                        }
+                    }
+
+                    offset += messageLength;
+                }
+                else if (updateType == 2)
+                {
+                    int lastDamageCount = DataOperations.GetInt8(data[offset]);
+                    offset++;
+
+                    int currentHits = DataOperations.GetInt8(data[offset]);
+                    offset++;
+
+                    int baseHits = DataOperations.GetInt8(data[offset]);
+                    offset++;
+
+                    if (mob != null)
+                    {
+                        mob.LastDamageCount = lastDamageCount;
+                        mob.CurrentHitpoints = currentHits;
+                        mob.BaseHitpoints = baseHits;
+                        mob.combatTimer = 200;
+                    }
+                }
+            }
+        }
+
         void HandleCompletedTasks(sbyte[] data)
         {
             client.CompletedTasks = DataOperations.GetInt16(data, 1);
@@ -1016,6 +1084,116 @@ namespace RuneScapeSolo
             client.ShowRoofs = DataOperations.GetInt8(data[4]) == 1;
             client.AutoScreenshot = DataOperations.GetInt8(data[5]) == 1;
             client.ShowCombatWindow = DataOperations.GetInt8(data[6]) == 1;
+        }
+
+        void HandleGroundItems(sbyte[] data, int length)
+        {
+            /*
+            if (client.NeedsClear)
+            {
+                for (int i = 0; i < client.GroundItemId.Length; i++)
+                {
+                    client.GroundItemX[i] = -1;
+                    client.GroundItemY[i] = -1;
+                    client.GroundItemId[i] = -1;
+                    client.GroundItemObjectVar[i] = -1;
+                }
+
+                client.GroundItemCount = 0;
+                client.NeedsClear = false;
+            }
+            */
+
+            for (int offset = 1; offset < length;)
+            {
+                if (DataOperations.GetInt8(data[offset]) == 255)
+                {
+                    int newCount = 0;
+                    int newSectionX = client.SectionX + data[offset + 1] >> 3;
+                    int newSectionY = client.SectionY + data[offset + 2] >> 3;
+                    offset += 3;
+
+                    for (int groundItem = 0; groundItem < client.GroundItemCount; groundItem++)
+                    {
+                        int newX = (client.GroundItemX[groundItem] >> 3) - newSectionX;
+                        int newY = (client.GroundItemY[groundItem] >> 3) - newSectionY;
+
+                        if (newX != 0 || newY != 0)
+                        {
+                            if (groundItem != newCount)
+                            {
+                                client.GroundItemX[newCount] = client.GroundItemX[groundItem];
+                                client.GroundItemY[newCount] = client.GroundItemY[groundItem];
+                                client.GroundItemId[newCount] = client.GroundItemId[groundItem];
+                                client.GroundItemObjectVar[newCount] = client.GroundItemObjectVar[groundItem];
+                            }
+
+                            newCount += 1;
+                        }
+                    }
+
+                    client.GroundItemCount = newCount;
+                }
+                else
+                {
+                    int newId = DataOperations.GetInt16(data, offset);
+                    offset += 2;
+
+                    int newX = client.SectionX + data[offset++];
+                    int newY = client.SectionY + data[offset++];
+
+                    // True if it is new, False if it is known;
+                    bool itemIsNew = (newId & 0x8000) == 0;
+
+                    if (itemIsNew)
+                    {
+                        client.GroundItemX[client.GroundItemCount] = newX;
+                        client.GroundItemY[client.GroundItemCount] = newY;
+                        client.GroundItemId[client.GroundItemCount] = newId;
+                        client.GroundItemObjectVar[client.GroundItemCount] = 0;
+
+                        for (int i = 0; i < client.ObjectCount; i++)
+                        {
+                            if (client.ObjectX[i] != newX || client.ObjectY[i] != newY)
+                            {
+                                continue;
+                            }
+
+                            client.GroundItemObjectVar[client.GroundItemCount] = EntityManager.GetWorldObject(client.ObjectType[i]).GroundItemVar;
+                            break;
+                        }
+
+                        client.GroundItemCount++;
+                    }
+                    else
+                    {
+                        newId &= 0x7fff;
+                        int updateIndex = 0;
+
+                        for (int i = 0; i < client.GroundItemCount; i++)
+                        {
+                            if (client.GroundItemX[i] != newX || client.GroundItemY[i] != newY || client.GroundItemId[i] != newId)
+                            {
+                                if (i != updateIndex)
+                                {
+                                    client.GroundItemX[updateIndex] = client.GroundItemX[i];
+                                    client.GroundItemY[updateIndex] = client.GroundItemY[i];
+                                    client.GroundItemId[updateIndex] = client.GroundItemId[i];
+                                    client.GroundItemObjectVar[updateIndex] = client.GroundItemObjectVar[i];
+                                }
+
+                                updateIndex += 1;
+                            }
+                            else
+                            {
+                                newId = -123;
+                            }
+                        }
+
+                        client.GroundItemCount = updateIndex;
+                    }
+                }
+            }
         }
 
         void HandleGuthixSpells(sbyte[] data)
@@ -1114,6 +1292,22 @@ namespace RuneScapeSolo
         void HandleQuestPointsChange(sbyte[] data)
         {
             client.QuestPoints = DataOperations.GetInt16(data, 1);
+        }
+
+        void HandleQuestionMenu(sbyte[] data)
+        {
+            client.ShowQuestionMenu = true;
+            client.QuestionMenuCount = DataOperations.GetInt8(data[1]);
+
+            int offset = 2;
+            for (int index = 0; index < client.QuestionMenuCount; index++)
+            {
+                int answerLength = DataOperations.GetInt8(data[offset]);
+                offset++;
+
+                client.questionMenuAnswer[index] = Encoding.ASCII.GetString((byte[])(Array)data, offset, answerLength);
+                offset += answerLength;
+            }
         }
 
         void HandleRemaining(sbyte[] data)

@@ -49,19 +49,21 @@ namespace RuneScapeSolo.Lib
         public ObjectModel[] GameDataObjects { get; set; }
         public ObjectModel[] WallObjects { get; set; }
         public Mob CurrentPlayer { get; set; }
-        public Mob[] Npcs { get; set; }
-        public Mob[] Players { get; set; }
-        public Mob[] Mobs { get; set; }
         public Mob[] LastNpcs { get; set; }
         public Mob[] LastPlayers { get; set; }
+        public Mob[] Mobs { get; set; }
+        public Mob[] Npcs { get; set; }
+        public Mob[] NpcAttackingArray { get; set; }
+        public Mob[] Players { get; set; }
         public Quests Quests { get; set; }
         public int AreaX { get; set; }
         public int AreaY { get; set; }
         public int CompletedTasks { get; set; }
         public int Deaths { get; set; }
         public int DropPartyTimer;
-        public int GuthixSpells { get; set; }
         public int GridSize { get; set; }
+        public int GroundItemCount { get; set; }
+        public int GuthixSpells { get; set; }
         public int PvpTournamentTimer;
         public int WildernessModeTimer;
         public int Tutorial { get; set; }
@@ -84,6 +86,7 @@ namespace RuneScapeSolo.Lib
         public int PlayerCount { get; set; }
         public int ProjectileRange { get; set; }
         public int QuestPoints { get; set; }
+        public int QuestionMenuCount { get; set; }
         public int Remaining { get; set; }
         public int SaradominSpells { get; set; }
         public int SectionX { get; set; }
@@ -97,6 +100,10 @@ namespace RuneScapeSolo.Lib
         public int WildY { get; set; }
         public int ZamorakSpells { get; set; }
         public int[] EquipmentStatus { get; set; }
+        public int[] GroundItemId { get; set; }
+        public int[] GroundItemObjectVar { get; set; }
+        public int[] GroundItemX { get; set; }
+        public int[] GroundItemY { get; set; }
         public int[] InventoryItems { get; set; }
         public int[] InventoryItemCount { get; set; }
         public int[] InventoryItemEquipped { get; set; }
@@ -133,7 +140,7 @@ namespace RuneScapeSolo.Lib
         public string LastLoginAddress { get; set; }
         public string MoneyTask { get; set; }
         public string ServerLocation { get; set; }
-
+        
         public char TranslateOemKeys(Keys k)
         {
             //   if (k == Keys.1)
@@ -384,10 +391,10 @@ namespace RuneScapeSolo.Lib
             serverBankItems = new int[256];
             serverBankItemCount = new int[256];
             ShowShopBox = false;
-            groundItemX = new int[5000];
-            groundItemY = new int[5000];
-            groundItemID = new int[5000];
-            groundItemObjectVar = new int[5000];
+            GroundItemX = new int[5000];
+            GroundItemY = new int[5000];
+            GroundItemId = new int[5000];
+            GroundItemObjectVar = new int[5000];
             maxBankItems = 48;
             tradeConfirmOtherItems = new int[14];
             tradeConfirmOtherItemsCount = new int[14];
@@ -465,7 +472,7 @@ namespace RuneScapeSolo.Lib
             ObjectType = new int[1500];
             ObjectRotation = new int[1500];
             ShowDuelBox = false;
-            npcAttackingArray = new Mob[5000];
+            NpcAttackingArray = new Mob[5000];
             teleBubbleY = new int[50];
             cameraAutoAngle = 1;
             LoadArea = false;
@@ -1775,6 +1782,7 @@ namespace RuneScapeSolo.Lib
         {
             try
             {
+                // TODO: Remove this check after all commands are properly handled
                 bool properlyHandled = packetHandler.HandlePacket(command, data, length);
 
                 if (properlyHandled)
@@ -1783,184 +1791,7 @@ namespace RuneScapeSolo.Lib
                 }
 
                 Console.WriteLine($"Command unproperly handled: {command} (length={length})");
-
-                if (command == ServerCommand.Command109)
-                {
-                    if (NeedsClear)
-                    {
-                        for (int i = 0; i < groundItemID.Length; i++)
-                        {
-                            groundItemX[i] = -1;
-                            groundItemY[i] = -1;
-                            groundItemID[i] = -1;
-                            groundItemObjectVar[i] = -1;
-                        }
-
-                        groundItemCount = 0;
-                        NeedsClear = false;
-                    }
-
-                    for (int off = 1; off < length;)
-                    {
-                        if (DataOperations.GetInt8(data[off]) == 255)
-                        {
-                            int newCount = 0;
-                            int newSectionX = SectionX + data[off + 1] >> 3;
-                            int newSectionY = SectionY + data[off + 2] >> 3;
-                            off += 3;
-
-                            for (int groundItem = 0; groundItem < groundItemCount; groundItem++)
-                            {
-                                int newX = (groundItemX[groundItem] >> 3) - newSectionX;
-                                int newY = (groundItemY[groundItem] >> 3) - newSectionY;
-
-                                if (newX != 0 || newY != 0)
-                                {
-                                    if (groundItem != newCount)
-                                    {
-                                        groundItemX[newCount] = groundItemX[groundItem];
-                                        groundItemY[newCount] = groundItemY[groundItem];
-                                        groundItemID[newCount] = groundItemID[groundItem];
-                                        groundItemObjectVar[newCount] = groundItemObjectVar[groundItem];
-                                    }
-
-                                    newCount += 1;
-                                }
-                            }
-
-                            groundItemCount = newCount;
-                        }
-                        else
-                        {
-                            int newID = DataOperations.GetInt16(data, off);
-                            off += 2;
-
-                            int newX = SectionX + data[off++];
-                            int newY = SectionY + data[off++];
-
-                            if ((newID & 0x8000) == 0)
-                            {
-                                groundItemX[groundItemCount] = newX;
-                                groundItemY[groundItemCount] = newY;
-                                groundItemID[groundItemCount] = newID;
-                                groundItemObjectVar[groundItemCount] = 0;
-
-                                for (int l23 = 0; l23 < ObjectCount; l23++)
-                                {
-                                    if (ObjectX[l23] != newX || ObjectY[l23] != newY)
-                                    {
-                                        continue;
-                                    }
-
-                                    groundItemObjectVar[groundItemCount] = EntityManager.GetWorldObject(ObjectType[l23]).GroundItemVar;
-                                    break;
-                                }
-
-                                groundItemCount++;
-                            }
-                            else
-                            {
-                                newID &= 0x7fff;
-                                int updateIndex = 0;
-                                for (int currentItemIndex = 0; currentItemIndex < groundItemCount; currentItemIndex++)
-                                {
-                                    if (groundItemX[currentItemIndex] != newX || groundItemY[currentItemIndex] != newY || groundItemID[currentItemIndex] != newID)
-                                    {
-                                        if (currentItemIndex != updateIndex)
-                                        {
-                                            groundItemX[updateIndex] = groundItemX[currentItemIndex];
-                                            groundItemY[updateIndex] = groundItemY[currentItemIndex];
-                                            groundItemID[updateIndex] = groundItemID[currentItemIndex];
-                                            groundItemObjectVar[updateIndex] = groundItemObjectVar[currentItemIndex];
-                                        }
-                                        updateIndex++;
-                                    }
-                                    else
-                                    {
-                                        newID = -123;
-                                    }
-                                }
-
-                                groundItemCount = updateIndex;
-                            }
-                        }
-                    }
-
-                    return;
-                }
-                if (command == ServerCommand.Command190)
-                {
-                    int newCount = DataOperations.GetInt16(data, 1);
-                    int off = 3;
-                    for (int l16 = 0; l16 < newCount; l16++)
-                    {
-                        int npcIndex = DataOperations.GetInt16(data, off);
-                        off += 2;
-                        Mob mob = npcAttackingArray[npcIndex];
-                        int updateType = DataOperations.GetInt8(data[off]);
-                        off++;
-
-                        if (updateType == 1)
-                        {
-                            int playerIndex = DataOperations.GetInt16(data, off);
-                            off += 2;
-
-                            sbyte messageLength = data[off];
-                            off++;
-
-                            if (mob != null)
-                            {
-                                string s5 = ChatMessage.bytesToString(data, off, messageLength);
-                                mob.lastMessageTimeout = 150;
-                                mob.lastMessage = s5;
-
-                                if (playerIndex == CurrentPlayer.ServerIndex)
-                                {
-                                    displayMessage("@yel@" + EntityManager.GetNpc(mob.npcId).Name + ": " + mob.lastMessage, 5);
-                                }
-                            }
-
-                            off += messageLength;
-                        }
-                        else if (updateType == 2)
-                        {
-                            int lastDamageCount = DataOperations.GetInt8(data[off]);
-                            off++;
-
-                            int currentHits = DataOperations.GetInt8(data[off]);
-                            off++;
-
-                            int baseHits = DataOperations.GetInt8(data[off]);
-                            off++;
-
-                            if (mob != null)
-                            {
-                                mob.LastDamageCount = lastDamageCount;
-                                mob.CurrentHitpoints = currentHits;
-                                mob.BaseHitpoints = baseHits;
-                                mob.combatTimer = 200;
-                            }
-                        }
-                    }
-
-                    return;
-                }
-                if (command == ServerCommand.Command223)
-                {
-                    ShowQuestionMenu = true;
-                    int count = DataOperations.GetInt8(data[1]);
-                    questionMenuCount = count;
-                    int off = 2;
-                    for (int index = 0; index < count; index++)
-                    {
-                        int optionLength = DataOperations.GetInt8(data[off]);
-                        off++;
-                        questionMenuAnswer[index] = new string(data.Select(c => (char)c).ToArray(), off, optionLength);
-                        off += optionLength;
-                    }
-
-                    return;
-                }
+                
                 if (command == ServerCommand.Command115)
                 {
                     int k3 = (length - 1) / 4;
@@ -1969,24 +1800,24 @@ namespace RuneScapeSolo.Lib
                         int k17 = SectionX + DataOperations.getShort2(data, 1 + i11 * 4) >> 3;
                         int i22 = SectionY + DataOperations.getShort2(data, 3 + i11 * 4) >> 3;
                         int j25 = 0;
-                        for (int l28 = 0; l28 < groundItemCount; l28++)
+                        for (int l28 = 0; l28 < GroundItemCount; l28++)
                         {
-                            int j33 = (groundItemX[l28] >> 3) - k17;
-                            int l36 = (groundItemY[l28] >> 3) - i22;
+                            int j33 = (GroundItemX[l28] >> 3) - k17;
+                            int l36 = (GroundItemY[l28] >> 3) - i22;
                             if (j33 != 0 || l36 != 0)
                             {
                                 if (l28 != j25)
                                 {
-                                    groundItemX[j25] = groundItemX[l28];
-                                    groundItemY[j25] = groundItemY[l28];
-                                    groundItemID[j25] = groundItemID[l28];
-                                    groundItemObjectVar[j25] = groundItemObjectVar[l28];
+                                    GroundItemX[j25] = GroundItemX[l28];
+                                    GroundItemY[j25] = GroundItemY[l28];
+                                    GroundItemId[j25] = GroundItemId[l28];
+                                    GroundItemObjectVar[j25] = GroundItemObjectVar[l28];
                                 }
                                 j25++;
                             }
                         }
 
-                        groundItemCount = j25;
+                        GroundItemCount = j25;
                         j25 = 0;
                         for (int k33 = 0; k33 < ObjectCount; k33++)
                         {
@@ -2043,7 +1874,7 @@ namespace RuneScapeSolo.Lib
 
                     return;
                 }
-                if (command == ServerCommand.Command4)
+                if (command == ServerCommand.TradeBegins)
                 {
                     int tradeOther = DataOperations.GetInt16(data, 1);
                     if (Mobs[tradeOther] != null)
@@ -2058,7 +1889,7 @@ namespace RuneScapeSolo.Lib
                     tradeItemsOtherCount = 0;
                     return;
                 }
-                if (command == ServerCommand.Command187)
+                if (command == ServerCommand.TradeEnds)
                 {
                     showTradeBox = false;
                     showTradeConfirmBox = false;
@@ -2559,14 +2390,14 @@ namespace RuneScapeSolo.Lib
 
             ObjectCount = 0;
             WallObjectCount = 0;
-            groundItemCount = 0;
+            GroundItemCount = 0;
             PlayerCount = 0;
             NpcCount = 0;
 
             for (int i = 0; i < 4000; i++)
             {
                 Mobs[i] = null;
-                npcAttackingArray[i] = null;
+                NpcAttackingArray[i] = null;
             }
 
             for (int i = 0; i < 500; i++)
@@ -2618,10 +2449,10 @@ namespace RuneScapeSolo.Lib
                 drawMinimapObject(l + c1 / 2 + k2, (36 + c3 / 2) - i4, 65535);
             }
 
-            for (int i8 = 0; i8 < groundItemCount; i8++)
+            for (int i8 = 0; i8 < GroundItemCount; i8++)
             {
-                int l2 = (((groundItemX[i8] * GridSize + 64) - CurrentPlayer.currentX) * 3 * j1) / 2048;
-                int j4 = (((groundItemY[i8] * GridSize + 64) - CurrentPlayer.currentY) * 3 * j1) / 2048;
+                int l2 = (((GroundItemX[i8] * GridSize + 64) - CurrentPlayer.currentX) * 3 * j1) / 2048;
+                int j4 = (((GroundItemY[i8] * GridSize + 64) - CurrentPlayer.currentY) * 3 * j1) / 2048;
                 int l6 = j4 * j5 + l2 * l5 >> 18;
                 j4 = j4 * l5 - l2 * j5 >> 18;
                 l2 = l6;
@@ -4474,7 +4305,7 @@ namespace RuneScapeSolo.Lib
                 WallObjects = null;
                 Mobs = null;
                 Players = null;
-                npcAttackingArray = null;
+                NpcAttackingArray = null;
                 Npcs = null;
                 CurrentPlayer = null;
                 if (engineHandle != null)
@@ -4502,7 +4333,7 @@ namespace RuneScapeSolo.Lib
         {
             if (mouseButtonClick != 0)
             {
-                for (int l = 0; l < questionMenuCount; l++)
+                for (int l = 0; l < QuestionMenuCount; l++)
                 {
                     if (InputManager.Instance.MouseLocation.X >= gameGraphics.textWidth(questionMenuAnswer[l], 1) || InputManager.Instance.MouseLocation.Y <= l * 12 || InputManager.Instance.MouseLocation.Y >= 12 + l * 12)
                     {
@@ -4519,7 +4350,7 @@ namespace RuneScapeSolo.Lib
                 ShowQuestionMenu = false;
                 return;
             }
-            for (int i1 = 0; i1 < questionMenuCount; i1++)
+            for (int i1 = 0; i1 < QuestionMenuCount; i1++)
             {
                 int j1 = 65535;
                 if (InputManager.Instance.MouseLocation.X < gameGraphics.textWidth(questionMenuAnswer[i1], 1) && InputManager.Instance.MouseLocation.Y > i1 * 12 && InputManager.Instance.MouseLocation.Y < 12 + i1 * 12)
@@ -6343,11 +6174,11 @@ namespace RuneScapeSolo.Lib
                                 if (EntityManager.GetSpell(selectedSpell).Type == 3)
                                 {
                                     menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on";
-                                    menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(groundItemID[index]).Name;
+                                    menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(GroundItemId[index]).Name;
                                     menuActions[menuOptionsCount] = MenuAction.CastSpellOnGroundItem;
-                                    menuActionX[menuOptionsCount] = groundItemX[index];
-                                    menuActionY[menuOptionsCount] = groundItemY[index];
-                                    menuActionType[menuOptionsCount] = groundItemID[index];
+                                    menuActionX[menuOptionsCount] = GroundItemX[index];
+                                    menuActionY[menuOptionsCount] = GroundItemY[index];
+                                    menuActionType[menuOptionsCount] = GroundItemId[index];
                                     menuActionVar1[menuOptionsCount] = selectedSpell;
                                     menuOptionsCount++;
                                 }
@@ -6356,27 +6187,27 @@ namespace RuneScapeSolo.Lib
                                 if (selectedItem >= 0)
                             {
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                                menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(groundItemID[index]).Name;
+                                menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(GroundItemId[index]).Name;
                                 menuActions[menuOptionsCount] = MenuAction.UseItemWithGroundItem;
-                                menuActionX[menuOptionsCount] = groundItemX[index];
-                                menuActionY[menuOptionsCount] = groundItemY[index];
-                                menuActionType[menuOptionsCount] = groundItemID[index];
+                                menuActionX[menuOptionsCount] = GroundItemX[index];
+                                menuActionY[menuOptionsCount] = GroundItemY[index];
+                                menuActionType[menuOptionsCount] = GroundItemId[index];
                                 menuActionVar1[menuOptionsCount] = selectedItem;
                                 menuOptionsCount++;
                             }
                             else
                             {
                                 menuText1[menuOptionsCount] = "Take";
-                                menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(groundItemID[index]).Name;
+                                menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(GroundItemId[index]).Name;
                                 menuActions[menuOptionsCount] = MenuAction.TakeItem;
-                                menuActionX[menuOptionsCount] = groundItemX[index];
-                                menuActionY[menuOptionsCount] = groundItemY[index];
-                                menuActionType[menuOptionsCount] = groundItemID[index];
+                                menuActionX[menuOptionsCount] = GroundItemX[index];
+                                menuActionY[menuOptionsCount] = GroundItemY[index];
+                                menuActionType[menuOptionsCount] = GroundItemId[index];
                                 menuOptionsCount++;
                                 menuText1[menuOptionsCount] = "Examine";
-                                menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(groundItemID[index]).Name;
+                                menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(GroundItemId[index]).Name;
                                 menuActions[menuOptionsCount] = MenuAction.ExamineGroundItem;
-                                menuActionType[menuOptionsCount] = groundItemID[index];
+                                menuActionType[menuOptionsCount] = GroundItemId[index];
                                 menuOptionsCount++;
                             }
                         }
@@ -7230,7 +7061,7 @@ namespace RuneScapeSolo.Lib
                     Mob targetMob = null;
                     if (player.AttackingNpcIndex != -1)
                     {
-                        targetMob = npcAttackingArray[player.AttackingNpcIndex];
+                        targetMob = NpcAttackingArray[player.AttackingNpcIndex];
                     }
                     else if (player.AttackingPlayerIndex != -1)
                     {
@@ -7273,11 +7104,11 @@ namespace RuneScapeSolo.Lib
                 }
             }
 
-            for (int i3 = 0; i3 < groundItemCount; i3++)
+            for (int i3 = 0; i3 < GroundItemCount; i3++)
             {
-                int x = groundItemX[i3] * GridSize + 64;
-                int y = groundItemY[i3] * GridSize + 64;
-                gameCamera.addSpriteToScene(40000 + groundItemID[i3], x, -engineHandle.getAveragedElevation(x, y) - groundItemObjectVar[i3], y, 96, 64, i3 + 20000);
+                int x = GroundItemX[i3] * GridSize + 64;
+                int y = GroundItemY[i3] * GridSize + 64;
+                gameCamera.addSpriteToScene(40000 + GroundItemId[i3], x, -engineHandle.getAveragedElevation(x, y) - GroundItemObjectVar[i3], y, 96, 64, i3 + 20000);
                 drawUpdatesPerformed++;
             }
 
@@ -8924,10 +8755,10 @@ namespace RuneScapeSolo.Lib
                 }
             }
 
-            for (int k3 = 0; k3 < groundItemCount; k3++)
+            for (int k3 = 0; k3 < GroundItemCount; k3++)
             {
-                groundItemX[k3] -= offsetX;
-                groundItemY[k3] -= offsetY;
+                GroundItemX[k3] -= offsetX;
+                GroundItemY[k3] -= offsetY;
             }
 
             for (int j4 = 0; j4 < PlayerCount; j4++)
@@ -9387,13 +9218,13 @@ namespace RuneScapeSolo.Lib
 
         public Mob AddNpc(int serverIndex, int x, int y, int sprite, int id)
         {
-            if (npcAttackingArray[serverIndex] == null)
+            if (NpcAttackingArray[serverIndex] == null)
             {
-                npcAttackingArray[serverIndex] = new Mob();
-                npcAttackingArray[serverIndex].ServerIndex = serverIndex;
+                NpcAttackingArray[serverIndex] = new Mob();
+                NpcAttackingArray[serverIndex].ServerIndex = serverIndex;
             }
 
-            Mob mob = npcAttackingArray[serverIndex];
+            Mob mob = NpcAttackingArray[serverIndex];
 
             bool alreadyExists = LastNpcs
                 .Take(LastNpcCount)
@@ -10073,7 +9904,6 @@ namespace RuneScapeSolo.Lib
 
         public int drawUpdatesPerformed;
         public string serverMessage;
-        public int groundItemCount;
         public bool duelOpponentAccepted;
         public bool duelMyAccepted;
         public bool serverMessageBoxTop;
@@ -10135,10 +9965,6 @@ namespace RuneScapeSolo.Lib
         public int showAbuseBox;
         public int[] serverBankItems;
         public int[] serverBankItemCount;
-        public int[] groundItemX;
-        public int[] groundItemY;
-        public int[] groundItemID;
-        public int[] groundItemObjectVar;
         public GameImageMiddleMan gameGraphics;
         public int maxBankItems;
         public int tradeConfirmOtherItemCount;
@@ -10221,7 +10047,6 @@ namespace RuneScapeSolo.Lib
         public int receivedMessagesCount;
         string[] receivedMessages;
         public int cameraRotateTime;
-        public int questionMenuCount;
         public int cameraRotationXAmount;
         public int cameraRotationXIncrement;
         public int[] teleBubbleTime;
@@ -10281,7 +10106,6 @@ namespace RuneScapeSolo.Lib
         public int[] healthBarY;
         public int[] healthBarMissing;
         public int reportAbuseOptionSelected;
-        public Mob[] npcAttackingArray;
         public int serverBankItemsCount;
         public int[] teleBubbleY;
         public int cameraAutoAngle;
