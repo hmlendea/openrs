@@ -1911,7 +1911,7 @@ namespace RuneScapeSolo.Lib
                     tradeWeAccepted = false;
                     return;
                 }
-                if (command == ServerCommand.Command92)
+                if (command == ServerCommand.TradeAcceptedByOther)
                 {
                     sbyte byte0 = data[1];
                     if (byte0 == 1)
@@ -1995,7 +1995,7 @@ namespace RuneScapeSolo.Lib
                     }
                     return;
                 }
-                if (command == ServerCommand.Command18)
+                if (command == ServerCommand.TradeAcceptedBySelf)
                 {
                     sbyte byte1 = data[1];
                     if (byte1 == 1)
@@ -2046,7 +2046,7 @@ namespace RuneScapeSolo.Lib
                     updateBankItems();
                     return;
                 }
-                if (command == ServerCommand.Command211)
+                if (command == ServerCommand.SkillExperience)
                 {
                     int j5 = data[1] & 0xff;
                     PlayerStatExperience[j5] = DataOperations.GetInt32(data, 2);
@@ -2204,7 +2204,7 @@ namespace RuneScapeSolo.Lib
 
                     return;
                 }
-                if (command == ServerCommand.Command65)
+                if (command == ServerCommand.DuelAcceptedByOther)
                 {
                     sbyte byte2 = data[1];
                     if (byte2 == 1)
@@ -2218,7 +2218,7 @@ namespace RuneScapeSolo.Lib
                         return;
                     }
                 }
-                if (command == ServerCommand.Command197)
+                if (command == ServerCommand.DuelAcceptedBySelf)
                 {
                     sbyte byte3 = data[1];
                     if (byte3 == 1)
@@ -2264,7 +2264,7 @@ namespace RuneScapeSolo.Lib
                     duelWeapons = data[off++] & 0xff;
                     return;
                 }
-                if (command == ServerCommand.Command11)
+                if (command == ServerCommand.PlaySound)
                 {
                     string s1 = new string(data.Select(c => (char)c).ToArray(), 1, length - 1);
                     playSound(s1);
@@ -2338,7 +2338,7 @@ namespace RuneScapeSolo.Lib
                     return;
                 }
 
-                Console.WriteLine("UNHANDLED PACKET:" + command + " LEN:" + length);
+                Console.WriteLine("UNHANDLED PACKET:" + command + " LEN:" + length + " @#!#@#!#@#!#@#!#@#!#@");
             }
             catch (Exception e)
             {
