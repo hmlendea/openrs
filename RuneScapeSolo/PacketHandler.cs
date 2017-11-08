@@ -65,7 +65,7 @@ namespace RuneScapeSolo
 
                 case ServerCommand.Command190:
                     HandleCommand190(data);
-                    return false;
+                    return true;
 
                 case ServerCommand.CompletedTasks:
                     HandleCompletedTasks(data);
