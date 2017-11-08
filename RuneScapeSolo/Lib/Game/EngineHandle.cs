@@ -535,7 +535,7 @@ namespace RuneScapeSolo.Lib.Game
                                 }
                             }
 
-                            if (EntityManager.GetTile(tileIndex - 1).Type != 0)
+                            if (EntityManager.GetTile(tileIndex - 1).Unknown != 0)
                             {
                                 tiles[x1][y1] |= 0x40;
                             }

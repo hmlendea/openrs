@@ -550,7 +550,7 @@ namespace RuneScapeSolo.Lib
             int actionVar1 = menuActionVar1[actionId];
             int actionVar2 = menuActionVar2[actionId];
 
-            MenuAction action = (MenuAction)actionId;
+            MenuAction action = menuActions[actionId];
 
             if (action == MenuAction.CastSpellOnGroundItem)
             {

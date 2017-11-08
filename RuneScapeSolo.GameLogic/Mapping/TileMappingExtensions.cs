@@ -21,7 +21,7 @@ namespace RuneScapeSolo.GameLogic.Mapping
             Tile tile = new Tile
             {
                 Colour = tileEntity.Colour,
-                Unknown = tileEntity.Colour,
+                Unknown = tileEntity.Unknown,
                 Type = tileEntity.Type
             };
 
