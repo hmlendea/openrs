@@ -5,8 +5,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using RuneScapeSolo.DataAccess.Resources;
 using RuneScapeSolo.Events;
 using RuneScapeSolo.Graphics;
+using RuneScapeSolo.Gui;
 using RuneScapeSolo.Input;
 using RuneScapeSolo.Lib;
 using RuneScapeSolo.Settings;
@@ -20,6 +22,10 @@ namespace RuneScapeSolo
     {
         readonly GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        readonly FpsIndicator fpsIndicator;
+        readonly Cursor cursor;
+
         GameClient gameClient;
         System.Threading.Thread _gameThread;
 
@@ -40,6 +46,10 @@ namespace RuneScapeSolo
         public GameWindow()
         {
             graphics = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "Content";
+
+            fpsIndicator = new FpsIndicator();
+            cursor = new Cursor();
 
             IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = true;
@@ -56,7 +66,7 @@ namespace RuneScapeSolo
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            IsMouseVisible = false;
 
             base.Initialize();
         }
@@ -67,16 +77,19 @@ namespace RuneScapeSolo
         /// </summary>
         protected override void LoadContent()
         {
-            SettingsManager.Instance.LoadContent();
+            spriteBatch = new SpriteBatch(GraphicsDevice);
 
             GraphicsManager.Instance.SpriteBatch = spriteBatch;
             GraphicsManager.Instance.Graphics = graphics;
 
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            ResourceManager.Instance.LoadContent(Content, GraphicsDevice);
+            SettingsManager.Instance.LoadContent();
 
-            _diagnosticFont = Content.Load<SpriteFont>("fonts/gameFont12");
-            _diagnosticFont2 = Content.Load<SpriteFont>("fonts/gameFont16");
+            fpsIndicator.LoadContent();
+            cursor.LoadContent();
+
+            _diagnosticFont = Content.Load<SpriteFont>("Fonts/gameFont12");
+            _diagnosticFont2 = Content.Load<SpriteFont>("Fonts/gameFont16");
 
             _loadingBackgroundImage = Content.Load<Texture2D>("sprites/pattern_40");
 
@@ -132,8 +145,8 @@ namespace RuneScapeSolo
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
-            //gameThread.Abort();
+            fpsIndicator.UnloadContent();
+            cursor.UnloadContent();
 
             gameClient.Dispose();
         }
@@ -155,6 +168,9 @@ namespace RuneScapeSolo
             {
                 InputManager.Instance.ResetInputStates();
             }
+
+            fpsIndicator.Update(gameTime);
+            cursor.Update(gameTime);
 
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
@@ -220,7 +236,7 @@ namespace RuneScapeSolo
             //    spriteBatch.Draw(GameTexture, Vector2.Zero, Color.White);
             //    spriteBatch.End();
             //}
-            GraphicsDevice.Clear(Color.Black);
+            graphics.GraphicsDevice.Clear(Color.Black);
 
             if (!_isContentLoading)
             {
@@ -236,6 +252,13 @@ namespace RuneScapeSolo
             {
                 DrawContentLoading(_contentLoadingStatusText, _contentLoadingStatusProgress);
             }
+
+            spriteBatch.Begin();
+
+            fpsIndicator.Draw(spriteBatch);
+            cursor.Draw(spriteBatch);
+
+            spriteBatch.End();
 
             // TODO: Add your drawing code here
 

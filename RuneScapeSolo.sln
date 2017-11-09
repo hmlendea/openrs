@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneScapeSolo.Settings", "R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneScapeSolo.Graphics", "RuneScapeSolo.Graphics\RuneScapeSolo.Graphics.csproj", "{512EAC2F-FD40-4143-B52A-C250FBA51E4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuneScapeSolo.Gui", "RuneScapeSolo.Gui\RuneScapeSolo.Gui.csproj", "{D7F47FA0-D9BC-4702-9A21-40697DFF128A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,14 @@ Global
 		{512EAC2F-FD40-4143-B52A-C250FBA51E4F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{512EAC2F-FD40-4143-B52A-C250FBA51E4F}.Release|x86.ActiveCfg = Release|Any CPU
 		{512EAC2F-FD40-4143-B52A-C250FBA51E4F}.Release|x86.Build.0 = Release|Any CPU
+		{D7F47FA0-D9BC-4702-9A21-40697DFF128A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7F47FA0-D9BC-4702-9A21-40697DFF128A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7F47FA0-D9BC-4702-9A21-40697DFF128A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D7F47FA0-D9BC-4702-9A21-40697DFF128A}.Debug|x86.Build.0 = Debug|Any CPU
+		{D7F47FA0-D9BC-4702-9A21-40697DFF128A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7F47FA0-D9BC-4702-9A21-40697DFF128A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7F47FA0-D9BC-4702-9A21-40697DFF128A}.Release|x86.ActiveCfg = Release|Any CPU
+		{D7F47FA0-D9BC-4702-9A21-40697DFF128A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
