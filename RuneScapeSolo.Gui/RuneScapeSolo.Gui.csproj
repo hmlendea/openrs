@@ -51,6 +51,9 @@
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
     <Compile Include="Screens\SplashScreen.cs" />
+    <Compile Include="GuiElements\GuiImage.cs" />
+    <Compile Include="GuiElements\GuiButton.cs" />
+    <Compile Include="GuiElements\GuiText.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuneScapeSolo.DataAccess\RuneScapeSolo.DataAccess.csproj">

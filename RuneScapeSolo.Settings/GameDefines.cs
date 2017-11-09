@@ -7,6 +7,8 @@
     {
         public static string ApplicationName => $"RuneScape Solo v{CLIENT_VERSION}";
 
+        public const int GUI_TILE_SIZE = 32;
+
         /// <summary>
         /// The client version.
         /// </summary>
