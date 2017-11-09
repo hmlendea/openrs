@@ -35,10 +35,39 @@
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enumerations\HorizontalAlignment.cs" />
+    <Compile Include="Enumerations\TextureLayout.cs" />
+    <Compile Include="Enumerations\VerticalAlignment.cs" />
+    <Compile Include="Helpers\StringUtils.cs" />
+    <Compile Include="Primitives\Colour.cs" />
+    <Compile Include="Primitives\Mapping\ColourMappingExtensions.cs" />
+    <Compile Include="Primitives\Mapping\ColourTranslator.cs" />
+    <Compile Include="Primitives\Mapping\PointMappingExtensions.cs" />
+    <Compile Include="Primitives\Mapping\RectangleMappingExtensions.cs" />
+    <Compile Include="Primitives\Mapping\ScaleMappingExtensions.cs" />
+    <Compile Include="Primitives\Mapping\SizeMappingExtensions.cs" />
+    <Compile Include="Primitives\Point2D.cs" />
+    <Compile Include="Primitives\Rectangle2D.cs" />
+    <Compile Include="Primitives\Scale2D.cs" />
+    <Compile Include="Primitives\Size2D.cs" />
     <Compile Include="GraphicsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sprite.cs" />
+    <Compile Include="SpriteEffect\AnimationEffect.cs" />
+    <Compile Include="SpriteEffect\CustomSpriteEffect.cs" />
+    <Compile Include="SpriteEffect\FadeEffect.cs" />
+    <Compile Include="SpriteEffect\RotationEffect.cs" />
+    <Compile Include="SpriteEffect\ZoomEffect.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RuneScapeSolo.DataAccess\RuneScapeSolo.DataAccess.csproj">
+      <Project>{dfa1e1e9-afeb-4565-ba38-ecdbafc9d47b}</Project>
+      <Name>RuneScapeSolo.DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
