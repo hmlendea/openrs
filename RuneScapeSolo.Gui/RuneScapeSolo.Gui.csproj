@@ -43,6 +43,7 @@
     <Compile Include="FpsIndicator.cs" />
     <Compile Include="GuiElements\GuiElement.cs" />
     <Compile Include="GuiElements\GuiGame.cs" />
+    <Compile Include="GuiElements\GuiMinimap.cs" />
     <Compile Include="GuiManager.cs" />
     <Compile Include="Helpers\FramerateCounter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

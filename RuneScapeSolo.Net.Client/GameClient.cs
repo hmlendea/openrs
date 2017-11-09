@@ -2440,6 +2440,8 @@ namespace RuneScapeSolo.Net.Client
             l3 = l3 * l5 - j2 * j5 >> 18;
             j2 = j6;
             gameGraphics.drawMinimapPic((l + c1 / 2) - j2, 36 + c3 / 2 + l3, baseInventoryPic - 1, l1 + 64 & 0xff, j1);
+
+            /*
             for (int l7 = 0; l7 < ObjectCount; l7++)
             {
                 int k2 = (((ObjectX[l7] * GridSize + 64) - CurrentPlayer.currentX) * 3 * j1) / 2048;
@@ -2449,6 +2451,7 @@ namespace RuneScapeSolo.Net.Client
                 k2 = k6;
                 drawMinimapObject(l + c1 / 2 + k2, (36 + c3 / 2) - i4, 65535);
             }
+            */
 
             for (int i8 = 0; i8 < GroundItemCount; i8++)
             {

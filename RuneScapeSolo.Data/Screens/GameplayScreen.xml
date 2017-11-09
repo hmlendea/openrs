@@ -10,4 +10,14 @@
       <Height>768</Height>
     </Size>
   </GameClient>
+  <Minimap>
+    <Location>
+      <X>1088</X>
+      <Y>0</Y>
+    </Location>
+    <Size>
+      <Width>192</Width>
+      <Height>192</Height>
+    </Size>
+  </Minimap>
 </GameplayScreen>

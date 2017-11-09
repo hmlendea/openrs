@@ -84,6 +84,7 @@ namespace RuneScapeSolo.Graphics.Primitives
         public static Colour Red => new Colour(255, 0, 0, 255);
         public static Colour Vermilion => new Colour(206, 17, 38, 255);
         public static Colour White => new Colour(255, 255, 255, 255);
+        public static Colour Yellow => new Colour(255, 255, 0, 255);
 
         /// <summary>
         /// Creates a colour from an ARGB integer.

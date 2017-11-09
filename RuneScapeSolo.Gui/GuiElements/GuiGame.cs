@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using System.Xml.Serialization;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,7 +19,8 @@ namespace RuneScapeSolo.Gui.GuiElements
 {
     public class GuiGame : GuiElement
     {
-        GameClient gameClient;
+        [XmlIgnore]
+        public GameClient gameClient; // TODO: Remove the public modifier and the XmlIgnore decoration
         Thread _gameThread;
 
         SpriteBatch spriteBatch;
