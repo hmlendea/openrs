@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<GameplayScreen>
+  <GameClient>
+    <Location>
+      <X>0</X>
+      <Y>0</Y>
+    </Location>
+    <Size>
+      <Width>1280</Width>
+      <Height>768</Height>
+    </Size>
+  </GameClient>
+</GameplayScreen>

@@ -5,6 +5,8 @@
     /// </summary>
     public static class GameDefines
     {
+        public static string ApplicationName => $"RuneScape Solo v{CLIENT_VERSION}";
+
         /// <summary>
         /// The client version.
         /// </summary>
