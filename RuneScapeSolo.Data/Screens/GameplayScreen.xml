@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <GameplayScreen>
-  <GameClient>
-    <Location>
-      <X>0</X>
-      <Y>0</Y>
-    </Location>
-    <Size>
-      <Width>1088</Width>
-      <Height>768</Height>
-    </Size>
-  </GameClient>
-  <Minimap>
-    <Location>
-      <X>1088</X>
-      <Y>0</Y>
-    </Location>
-    <Size>
-      <Width>192</Width>
-      <Height>192</Height>
-    </Size>
-  </Minimap>
+	<GameClient>
+		<Location>
+			<X>0</X>
+			<Y>0</Y>
+		</Location>
+		<Size>
+			<Width>1056</Width>
+			<Height>768</Height>
+		</Size>
+	</GameClient>
+	<Minimap>
+		<Location>
+			<X>1088</X>
+			<Y>8</Y>
+		</Location>
+		<Size>
+			<Width>160</Width>
+			<Height>160</Height>
+		</Size>
+	</Minimap>
 </GameplayScreen>
