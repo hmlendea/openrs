@@ -6,12 +6,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using RuneScapeSolo.DataAccess.Resources;
-using RuneScapeSolo.Events;
 using RuneScapeSolo.Graphics;
 using RuneScapeSolo.Gui;
 using RuneScapeSolo.Gui.Screens;
 using RuneScapeSolo.Input;
-using RuneScapeSolo.Lib;
+using RuneScapeSolo.Net.Client;
+using RuneScapeSolo.Net.Client.Events;
+using RuneScapeSolo.Net.Client.Extensions;
 using RuneScapeSolo.Settings;
 
 namespace RuneScapeSolo
@@ -377,7 +378,7 @@ namespace RuneScapeSolo
                                 var g = bytes[1];
                                 var b = bytes[0];
 
-                                colors[j] = RuneScapeSolo.Lib.Game.GameImage.rgbaToUInt(r, g, b, 255);//new Color(r, g, b, 255).PackedValue;                            
+                                colors[j] = RuneScapeSolo.Net.Client.Game.GameImage.rgbaToUInt(r, g, b, 255);//new Color(r, g, b, 255).PackedValue;                            
                                 //colors.Add();
                             }
 
