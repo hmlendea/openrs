@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using RuneScapeSolo.Graphics.Primitives;
 
 namespace RuneScapeSolo.Settings
 {
@@ -8,7 +8,7 @@ namespace RuneScapeSolo.Settings
         /// Gets or sets the resolution.
         /// </summary>
         /// <value>The resolution.</value>
-        public Size Resolution { get; set; }
+        public Size2D Resolution { get; set; }
 
         /// <summary>
         /// Gets or sets the fullscreen mode toggle.
@@ -24,7 +24,7 @@ namespace RuneScapeSolo.Settings
 
         public GraphicsSettings()
         {
-            Resolution = new Size(1280, 720);
+            Resolution = new Size2D(1280, 720);
         }
     }
 }

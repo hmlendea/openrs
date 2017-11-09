@@ -9,6 +9,7 @@ using RuneScapeSolo.DataAccess.Resources;
 using RuneScapeSolo.Events;
 using RuneScapeSolo.Graphics;
 using RuneScapeSolo.Gui;
+using RuneScapeSolo.Gui.Screens;
 using RuneScapeSolo.Input;
 using RuneScapeSolo.Lib;
 using RuneScapeSolo.Settings;
@@ -85,6 +86,9 @@ namespace RuneScapeSolo
             ResourceManager.Instance.LoadContent(Content, GraphicsDevice);
             SettingsManager.Instance.LoadContent();
 
+            //ScreenManager.Instance.SpriteBatch = spriteBatch;
+            //ScreenManager.Instance.LoadContent();
+
             fpsIndicator.LoadContent();
             cursor.LoadContent();
 
@@ -145,6 +149,8 @@ namespace RuneScapeSolo
         /// </summary>
         protected override void UnloadContent()
         {
+            //ScreenManager.Instance.UnloadContent();
+
             fpsIndicator.UnloadContent();
             cursor.UnloadContent();
 
@@ -159,6 +165,7 @@ namespace RuneScapeSolo
         protected override void Update(GameTime gameTime)
         {
             SettingsManager.Instance.Update();
+            //ScreenManager.Instance.Update(gameTime);
 
             if (IsActive)
             {
@@ -238,6 +245,7 @@ namespace RuneScapeSolo
             //}
             graphics.GraphicsDevice.Clear(Color.Black);
 
+            
             if (!_isContentLoading)
             {
                 DrawGame(gameClient);
@@ -252,8 +260,11 @@ namespace RuneScapeSolo
             {
                 DrawContentLoading(_contentLoadingStatusText, _contentLoadingStatusProgress);
             }
+            
 
             spriteBatch.Begin();
+
+            //ScreenManager.Instance.Draw(spriteBatch);
 
             fpsIndicator.Draw(spriteBatch);
             cursor.Draw(spriteBatch);
