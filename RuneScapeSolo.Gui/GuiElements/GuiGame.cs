@@ -47,7 +47,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             _loadingBackgroundImage = ResourceManager.Instance.LoadTexture2D("sprites/pattern_40");
             _gameLogo = ResourceManager.Instance.LoadTexture2D("sprites/yuno4");
 
-            gameClient = GameClient.CreateGameClient(GameDefines.ApplicationName, ScreenManager.Instance.Size.Width, ScreenManager.Instance.Size.Height);
+            gameClient = GameClient.CreateGameClient(GameDefines.ApplicationName, Size.Width, Size.Height);
             gameClient.DoNotDrawLogo = true;
 
             gameClient.OnContentLoadedCompleted += client_OnContentLoadedCompleted;
@@ -293,8 +293,7 @@ namespace RuneScapeSolo.Gui.GuiElements
         {
             var s1 = "Loading... Please wait";
             var sSize = _diagnosticFont2.MeasureString(s1);
-            var sPos = new Vector2(ScreenManager.Instance.Size.Width / 2 - (sSize.X / 2),
-                                   ScreenManager.Instance.Size.Height / 2 - (sSize.Y / 2));
+            var sPos = new Vector2(Size.Width / 2 - (sSize.X / 2), Size.Height / 2 - (sSize.Y / 2));
 
             spriteBatch.DrawString(_diagnosticFont2, s1, sPos, Color.White);
         }
@@ -305,17 +304,17 @@ namespace RuneScapeSolo.Gui.GuiElements
 
             var s1 = contentLoadingStatusText + " - " + contentLoadingStatusProgress + "%";
             var sSize = _diagnosticFont.MeasureString(s1);
-            var sPos = new Vector2(ScreenManager.Instance.Size.Width / 2 - (sSize.X / 2),
-                                   ScreenManager.Instance.Size.Height / 2 - (sSize.Y / 2));
+            var sPos = new Vector2(Size.Width / 2 - (sSize.X / 2), Size.Height / 2 - (sSize.Y / 2));
             //spriteBatch.Begin();
 
 
             if (_loadingBackgroundImage != null)
             {
-                if (_loadingBackgroundImage.Width < ScreenManager.Instance.Size.Width)
+                if (_loadingBackgroundImage.Width < Size.Width)
                 {
-                    var xs = (ScreenManager.Instance.Size.Width / _loadingBackgroundImage.Width) + 1;
-                    var ys = (ScreenManager.Instance.Size.Height / _loadingBackgroundImage.Height) + 1;
+                    var xs = (Size.Width / _loadingBackgroundImage.Width) + 1;
+                    var ys = (Size.Height / _loadingBackgroundImage.Height) + 1;
+
                     for (int y = 0; y < ys; y++)
                     {
                         for (int x = 0; x < xs; x++)
@@ -338,9 +337,9 @@ namespace RuneScapeSolo.Gui.GuiElements
             /* Draw Background Image if any. */
 
 
-            spriteBatch.fillRect((ScreenManager.Instance.Size.Width / 4) - 12, (int)sPos.Y - 12, (ScreenManager.Instance.Size.Width / 2) + 24, (int)sSize.Y + 24, Color.FromNonPremultiplied(0, 0, 0, 150));
-            spriteBatch.drawRect((ScreenManager.Instance.Size.Width / 4) - 12, (int)sPos.Y - 12, (ScreenManager.Instance.Size.Width / 2) + 24, (int)sSize.Y + 24, Color.DarkGray);
-            spriteBatch.fillRect((ScreenManager.Instance.Size.Width / 4) - 10, (int)sPos.Y - 10, (int)(((float)contentLoadingStatusProgress / 100f) * ((ScreenManager.Instance.Size.Width / 2) + 20)), (int)sSize.Y + 21, Color.DarkGray);
+            spriteBatch.fillRect((Size.Width / 4) - 12, (int)sPos.Y - 12, (Size.Width / 2) + 24, (int)sSize.Y + 24, Color.FromNonPremultiplied(0, 0, 0, 150));
+            spriteBatch.drawRect((Size.Width / 4) - 12, (int)sPos.Y - 12, (Size.Width / 2) + 24, (int)sSize.Y + 24, Color.DarkGray);
+            spriteBatch.fillRect((Size.Width / 4) - 10, (int)sPos.Y - 10, (int)(((float)contentLoadingStatusProgress / 100f) * ((Size.Width / 2) + 20)), (int)sSize.Y + 21, Color.DarkGray);
             spriteBatch.DrawString(_diagnosticFont, s1, sPos, Color.White);
             //spriteBatch.End();
 
