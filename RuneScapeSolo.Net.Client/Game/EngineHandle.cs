@@ -618,7 +618,6 @@ namespace RuneScapeSolo.Net.Client.Game
 
                 }
 
-
 #warning draw tiles ? -part-3- ?????
 
                 for (int x1 = 1; x1 < 95; x1++)

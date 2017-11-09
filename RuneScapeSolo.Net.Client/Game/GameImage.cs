@@ -411,31 +411,31 @@ namespace RuneScapeSolo.Net.Client.Game
             drawLineY((x + w) - 1, y, h, color);
         }
 
-        public void drawLineX(int arg0, int arg1, int arg2, int arg3)
+        public void drawLineX(int x, int y, int length, int colour)
         {
-            if (arg1 < imageY || arg1 >= imageHeight)
+            if (y < imageY || y >= imageHeight)
             {
                 return;
             }
 
-            if (arg0 < imageX)
+            if (x < imageX)
             {
-                arg2 -= imageX - arg0;
-                arg0 = imageX;
+                length -= imageX - x;
+                x = imageX;
             }
-            if (arg0 + arg2 > imageWidth)
+            if (x + length > imageWidth)
             {
-                arg2 = imageWidth - arg0;
+                length = imageWidth - x;
             }
 
-            int i = arg0 + arg1 * gameWidth;
-            for (int k = 0; k < arg2; k++)
+            int i = x + y * gameWidth;
+            for (int k = 0; k < length; k++)
             {
-                pixels[i + k] = arg3;
+                pixels[i + k] = colour;
             }
         }
 
-        public void drawLineY(int x, int y, int arg2, int arg3)
+        public void drawLineY(int x, int y, int length, int colour)
         {
             if (x < imageX || x >= imageWidth)
             {
@@ -444,18 +444,18 @@ namespace RuneScapeSolo.Net.Client.Game
 
             if (y < imageY)
             {
-                arg2 -= imageY - y;
+                length -= imageY - y;
                 y = imageY;
             }
-            if (y + arg2 > imageWidth)
+            if (y + length > imageWidth)
             {
-                arg2 = imageHeight - y;
+                length = imageHeight - y;
             }
 
             int i = x + y * gameWidth;
-            for (int k = 0; k < arg2; k++)
+            for (int k = 0; k < length; k++)
             {
-                pixels[i + k * gameWidth] = arg3;
+                pixels[i + k * gameWidth] = colour;
             }
         }
 

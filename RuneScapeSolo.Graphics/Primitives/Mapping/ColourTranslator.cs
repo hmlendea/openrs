@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace RuneScapeSolo.Graphics.Primitives.Mapping
 {
@@ -70,8 +71,7 @@ namespace RuneScapeSolo.Graphics.Primitives.Mapping
         /// <param name="argb">ARGB integer.</param>
         public static Colour FromArgb(int argb)
         {
-            // TODO: Implement this (Colour.FromArgb)
-            throw new NotImplementedException();
+            return Color.FromArgb(argb).ToColour();
         }
 
         /// <summary>

@@ -1,10 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using RuneScapeSolo.GameLogic.GameManagers;
 using RuneScapeSolo.Graphics;
 using RuneScapeSolo.Graphics.Primitives;
+using RuneScapeSolo.Graphics.Primitives.Mapping;
 using RuneScapeSolo.Net.Client;
 using RuneScapeSolo.Net.Client.Game;
 using RuneScapeSolo.Net.Client.Game.Cameras;
@@ -16,7 +19,8 @@ namespace RuneScapeSolo.Gui.GuiElements
         GameClient client;
 
         Sprite mobDot;
-        
+        Sprite pixel;
+
         public bool IsClickable { get; set; }
 
         public GuiMinimap()
@@ -30,8 +34,13 @@ namespace RuneScapeSolo.Gui.GuiElements
             {
                 ContentFile = "Interface/Minimap/entity_dot"
             };
+            pixel = new Sprite
+            {
+                ContentFile = "ScreenManager/FillImage"
+            };
 
             mobDot.LoadContent();
+            pixel.LoadContent();
 
             base.LoadContent();
         }
@@ -39,6 +48,7 @@ namespace RuneScapeSolo.Gui.GuiElements
         public override void Update(GameTime gameTime)
         {
             mobDot.Update(gameTime);
+            pixel.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -57,18 +67,20 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         public void DrawMinimapMenu(SpriteBatch spriteBatch)
         {
-            if (client.gameGraphics == null)
+            if (client.gameGraphics == null || !client.loggedIn)
             {
                 return; // TODO: Remove this ugly fix
             }
 
             int c1 = 156;//'æ';//(char)234;//'\u234';
             int c3 = 152;// '~';//(char)230;//'\u230';
-            
+
             int j1 = 192 + client.minimapRandomRotationY;
             int l1 = client.cameraRotation + client.minimapRandomRotationX & 0xff;
             int j5 = Camera.bbk[1024 - l1 * 4 & 0x3ff];
             int l5 = Camera.bbk[(1024 - l1 * 4 & 0x3ff) + 1024];
+
+            DrawMinimapTiles(spriteBatch);
 
             for (int i = 0; i < client.GroundItemCount; i++)
             {
@@ -83,9 +95,9 @@ namespace RuneScapeSolo.Gui.GuiElements
 
                 DrawMinimapObject(spriteBatch, groundItemMapX, groundItemMapY, Colour.Red);
             }
-            
 
-            foreach(Mob npc in client.Npcs.Where(x => x!= null))
+
+            foreach (Mob npc in client.Npcs.Where(x => x != null))
             {
                 int npcPosX = ((npc.currentX - client.CurrentPlayer.currentX) * 3 * j1) / 2048;
                 int npcPosY = ((npc.currentY - client.CurrentPlayer.currentY) * 3 * j1) / 2048;
@@ -100,7 +112,7 @@ namespace RuneScapeSolo.Gui.GuiElements
                 DrawMinimapObject(spriteBatch, dotX, dotY, Colour.Yellow);
             }
 
-            foreach(Mob player in client.Players.Where(x => x != null))
+            foreach (Mob player in client.Players.Where(x => x != null))
             {
                 int playerPosX = ((player.currentX - client.CurrentPlayer.currentX) * 3 * j1) / 2048;
                 int playerPosY = ((player.currentY - client.CurrentPlayer.currentY) * 3 * j1) / 2048;
@@ -123,8 +135,23 @@ namespace RuneScapeSolo.Gui.GuiElements
 
                 int dotX = Location.X + c1 / 2 + playerPosX;
                 int dotY = Location.Y + (36 + c3 / 2) - playerPosY;
-                
+
                 DrawMinimapObject(spriteBatch, dotX, dotY, dotColour);
+            }
+        }
+
+        void DrawMinimapTiles(SpriteBatch spriteBatch)
+        {
+            for (int y = 0; y < Size.Height; y++)
+            {
+                for (int x = 0; x < Size.Width; x++)
+                {
+                    var a = client.engineHandle.tiles;
+
+                    pixel.Location = new Point2D(Location.X + x, Location.Y + y);
+                    pixel.Tint = Colour.Green;
+                    pixel.Draw(spriteBatch);
+                }
             }
         }
 
