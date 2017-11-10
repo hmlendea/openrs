@@ -5,10 +5,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using RuneScapeSolo.DataAccess.Resources;
-using RuneScapeSolo.GameLogic.GameManagers;
 using RuneScapeSolo.Graphics;
 using RuneScapeSolo.Graphics.Primitives;
 using RuneScapeSolo.Graphics.Primitives.Mapping;
+using RuneScapeSolo.Input.Events;
 using RuneScapeSolo.Net.Client;
 using RuneScapeSolo.Net.Client.Game;
 using RuneScapeSolo.Net.Client.Game.Cameras;
@@ -89,7 +89,16 @@ namespace RuneScapeSolo.Gui.GuiElements
             Children.Add(staminaIndicator);
             Children.Add(prayerIndicator);
 
+            LinkEvents();
+
             base.LoadContent();
+        }
+
+        public override void UnloadContent()
+        {
+            UnlinkEvents();
+
+            base.UnloadContent();
         }
 
         public override void Update(GameTime gameTime)
@@ -131,6 +140,16 @@ namespace RuneScapeSolo.Gui.GuiElements
             healthIndicator.Location = new Point2D(Location.X + 17, Location.Y + 36);
             staminaIndicator.Location = new Point2D(Location.X + 162, Location.Y + 146);
             prayerIndicator.Location = new Point2D(Location.X + 10, Location.Y + 72);
+        }
+
+        void LinkEvents()
+        {
+            compassIndicator.Clicked += CompassIndicator_Clicked;
+        }
+
+        void UnlinkEvents()
+        {
+            compassIndicator.Clicked -= CompassIndicator_Clicked;
         }
 
         void UpdateIndicators()
@@ -257,6 +276,11 @@ namespace RuneScapeSolo.Gui.GuiElements
                 y - mobDot.SpriteSize.Height / 2);
 
             mobDot.Draw(spriteBatch);
+        }
+
+        void CompassIndicator_Clicked(object sender, MouseButtonEventArgs e)
+        {
+            client.cameraRotation = 128;
         }
     }
 }
