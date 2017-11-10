@@ -28,7 +28,7 @@ namespace RuneScapeSolo.Gui.GuiElements
                 ContentFile = "Interface/Backgrounds/sidebar",
                 TextureLayout = TextureLayout.Tile
             };
-            minimap = new GuiMinimap { Size = new Size2D(192, 192) };
+            minimap = new GuiMinimap { Size = new Size2D(224, 176) };
 
             combatButton = new GuiButton
             {
@@ -99,7 +99,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             background.Location = Location;
             background.Size = Size;
 
-            minimap.Location = new Point2D(Location.X + (Size.Width - minimap.Size.Width) / 2, Location.Y + 8); // TODO: Replace magic number 8 with spacing const
+            minimap.Location = new Point2D(Location.X, Location.Y);
 
             combatButton.Location = new Point2D(Location.X, ClientRectangle.Bottom - GameDefines.GUI_TILE_SIZE * 8);
             skillsButton.Location = new Point2D(combatButton.ClientRectangle.Right, ClientRectangle.Bottom - GameDefines.GUI_TILE_SIZE * 8);

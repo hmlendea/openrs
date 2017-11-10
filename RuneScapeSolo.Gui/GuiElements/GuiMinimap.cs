@@ -19,7 +19,7 @@ namespace RuneScapeSolo.Gui.GuiElements
     {
         GameClient client;
 
-        Color[] mask;
+        byte[,] alphaMask;
 
         Sprite mobDot;
         Sprite pixel;
@@ -39,8 +39,20 @@ namespace RuneScapeSolo.Gui.GuiElements
             frame = new Sprite { ContentFile = "Interface/Minimap/frame" };
 
             Texture2D maskTexture = ResourceManager.Instance.LoadTexture2D("Interface/Minimap/mask");
-            mask = new Color[maskTexture.Width * maskTexture.Height];
-            maskTexture.GetData(mask, 0, mask.Length);
+            Color[] maskBits = new Color[maskTexture.Width * maskTexture.Height];
+            maskTexture.GetData(maskBits, 0, maskBits.Length);
+
+            alphaMask = new byte[Size.Width, Size.Height];
+
+            for (int y = 0; y < Size.Height; y++)
+            {
+                for (int x = 0; x < Size.Width; x++)
+                {
+                    int i = x + y * Size.Width;
+
+                    alphaMask[x, y] = maskBits[i].R;
+                }
+            }
 
             mobDot.LoadContent();
             pixel.LoadContent();
@@ -159,14 +171,11 @@ namespace RuneScapeSolo.Gui.GuiElements
             {
                 for (int x = 0; x < Size.Width; x++)
                 {
-                    Colour tileColour = Colour.Green;
+                    Colour tileColour = Colour.Black;
+                    int alpha = tileColour.A - 255 + alphaMask[x, y];
 
                     pixel.Location = new Point2D(Location.X + x, Location.Y + y);
-                    pixel.Tint = Color.FromNonPremultiplied(
-                        tileColour.R,
-                        tileColour.G,
-                        tileColour.B,
-                        tileColour.A - 255 + mask[x + y * Size.Width].R).ToColour();
+                    pixel.Tint = Color.FromNonPremultiplied(tileColour.R, tileColour.G, tileColour.B, alpha).ToColour();
 
                     pixel.Draw(spriteBatch);
                 }
@@ -175,14 +184,14 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         void DrawMinimapObject(SpriteBatch spriteBatch, int x, int y, Colour colour)
         {
-            if (x < ClientRectangle.Left || x > ClientRectangle.Right ||
-                y < ClientRectangle.Top || y > ClientRectangle.Bottom)
+            if (x < ClientRectangle.Left || x >= ClientRectangle.Right ||
+                y < ClientRectangle.Top || y >= ClientRectangle.Bottom)
             {
                 return;
             }
 
             mobDot.Tint = colour;
-            mobDot.Opacity = (mask[x + y * Size.Width].R / 255);
+            mobDot.Opacity = alphaMask[x - Location.X, y - Location.Y];
             mobDot.Location = new Point2D(
                 x - mobDot.SpriteSize.Width / 2,
                 y - mobDot.SpriteSize.Height / 2);
