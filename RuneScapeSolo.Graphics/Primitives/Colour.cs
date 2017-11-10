@@ -73,14 +73,18 @@ namespace RuneScapeSolo.Graphics.Primitives
 
         public static Colour Transparent => new Colour(0, 0, 0, 0);
 
+        public static Colour Bisque => new Colour(255, 228, 196, 25);
         public static Colour Black => new Colour(0, 0, 0, 255);
         public static Colour Blue => new Colour(0, 0, 255, 255);
         public static Colour ChromeYellow => new Colour(252, 209, 22, 255);
         public static Colour CobaltBlue => new Colour(0, 43, 127, 255);
+        public static Colour CornflowerBlue => new Colour(100, 149, 237, 255);
         public static Colour DarkRed => new Colour(139, 0, 0, 255);
         public static Colour DodgerBlue => new Colour(30, 144, 255, 255);
         public static Colour Gold => new Colour(255, 215, 0, 255);
         public static Colour Green => new Colour(0, 255, 0, 255);
+        public static Colour OliveDrab => new Colour(107, 142, 45, 255);
+        public static Colour PersianRed => new Colour(200, 29, 17, 255);
         public static Colour Red => new Colour(255, 0, 0, 255);
         public static Colour Vermilion => new Colour(206, 17, 38, 255);
         public static Colour White => new Colour(255, 255, 255, 255);

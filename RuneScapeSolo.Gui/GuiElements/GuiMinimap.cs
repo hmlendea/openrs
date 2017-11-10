@@ -19,6 +19,11 @@ namespace RuneScapeSolo.Gui.GuiElements
     {
         GameClient client;
 
+        GuiMinimapIndicator compassIndicator;
+        GuiMinimapIndicator healthIndicator;
+        GuiMinimapIndicator staminaIndicator;
+        GuiMinimapIndicator prayerIndicator;
+
         byte[,] alphaMask;
 
         Sprite mobDot;
@@ -37,6 +42,11 @@ namespace RuneScapeSolo.Gui.GuiElements
             mobDot = new Sprite { ContentFile = "Interface/Minimap/entity_dot" };
             pixel = new Sprite { ContentFile = "ScreenManager/FillImage" };
             frame = new Sprite { ContentFile = "Interface/Minimap/frame" };
+
+            compassIndicator = new GuiMinimapIndicator { BackgroundColour = Colour.Bisque };
+            healthIndicator = new GuiMinimapIndicator { BackgroundColour = Colour.PersianRed };
+            staminaIndicator = new GuiMinimapIndicator { BackgroundColour = Colour.OliveDrab };
+            prayerIndicator = new GuiMinimapIndicator { BackgroundColour = Colour.CornflowerBlue };
 
             Texture2D maskTexture = ResourceManager.Instance.LoadTexture2D("Interface/Minimap/mask");
             Color[] maskBits = new Color[maskTexture.Width * maskTexture.Height];
@@ -57,6 +67,11 @@ namespace RuneScapeSolo.Gui.GuiElements
             mobDot.LoadContent();
             pixel.LoadContent();
             frame.LoadContent();
+
+            Children.Add(compassIndicator);
+            Children.Add(healthIndicator);
+            Children.Add(staminaIndicator);
+            Children.Add(prayerIndicator);
 
             base.LoadContent();
         }
@@ -88,6 +103,11 @@ namespace RuneScapeSolo.Gui.GuiElements
             base.SetChildrenProperties();
 
             frame.Location = Location;
+
+            compassIndicator.Location = new Point2D(Location.X + 40, Location.Y + 9);
+            healthIndicator.Location = new Point2D(Location.X + 17, Location.Y + 36);
+            staminaIndicator.Location = new Point2D(Location.X + 162, Location.Y + 146);
+            prayerIndicator.Location = new Point2D(Location.X + 10, Location.Y + 72);
         }
 
         void DrawMinimapMenu(SpriteBatch spriteBatch)

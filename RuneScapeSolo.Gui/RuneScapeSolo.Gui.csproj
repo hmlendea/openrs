@@ -55,6 +55,8 @@
     <Compile Include="GuiElements\GuiButton.cs" />
     <Compile Include="GuiElements\GuiText.cs" />
     <Compile Include="GuiElements\GuiSideBar.cs" />
+    <Compile Include="GuiElements\GuiMinimapIndicator.cs" />
+    <Compile Include="GuiElements\Enumerations\MinimapIndicator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuneScapeSolo.DataAccess\RuneScapeSolo.DataAccess.csproj">
@@ -87,5 +89,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="GuiElements\Enumerations\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
