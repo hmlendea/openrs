@@ -25,7 +25,7 @@ namespace RuneScapeSolo.Gui.GuiElements
         {
             background = new GuiImage
             {
-                ContentFile = "Interface/Backgrounds/stone-bricks",
+                ContentFile = "Interface/Backgrounds/sidebar",
                 TextureLayout = TextureLayout.Tile
             };
             minimap = new GuiMinimap { Size = new Size2D(160, 160) };
