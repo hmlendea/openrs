@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using RuneScapeSolo.DataAccess.Resources;
 using RuneScapeSolo.Graphics;
-using RuneScapeSolo.Gui.Screens;
 using RuneScapeSolo.Net.Client;
 using RuneScapeSolo.Net.Client.Events;
 using RuneScapeSolo.Net.Client.Extensions;
@@ -29,8 +28,6 @@ namespace RuneScapeSolo.Gui.GuiElements
         SpriteFont _diagnosticFont2;
 
         Texture2D _lastGameImageTexture;
-        Texture2D _gameLogo;
-        Texture2D _loadingBackgroundImage;
 
         bool _isSectionLoading;
         bool _isContentLoading;
@@ -45,9 +42,6 @@ namespace RuneScapeSolo.Gui.GuiElements
 
             _diagnosticFont = ResourceManager.Instance.LoadSpriteFont("Fonts/gameFont12");
             _diagnosticFont2 = ResourceManager.Instance.LoadSpriteFont("Fonts/gameFont16");
-
-            _loadingBackgroundImage = ResourceManager.Instance.LoadTexture2D("sprites/pattern_40");
-            _gameLogo = ResourceManager.Instance.LoadTexture2D("sprites/yuno4");
 
             gameClient = GameClient.CreateGameClient(GameDefines.ApplicationName, Size.Width, Size.Height);
             gameClient.DoNotDrawLogo = true;
@@ -120,11 +114,6 @@ namespace RuneScapeSolo.Gui.GuiElements
             if (!_isContentLoading)
             {
                 DrawGame(gameClient);
-
-                if (!gameClient.loggedIn && gameClient.DoNotDrawLogo) // at loginscreen.
-                {
-                    DrawLogo();
-                }
             }
 
             if (_isContentLoading)
@@ -134,67 +123,12 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         }
 
-        void DrawLogo()
-        {
-            /*
-            try
-            {
-                //spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
-            }
-            catch
-            {
-                Console.WriteLine($"An error has occured in {nameof(GuiGame)}.cs");
-
-                try
-                {
-                    spriteBatch.End();
-                    spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
-                }
-                catch
-                {
-                    Console.WriteLine($"An error has occured in {nameof(GuiGame)}.cs");
-                }
-            }
-            */
-
-            try
-            {
-                var w = _gameLogo.Width;
-                var h = _gameLogo.Height;
-                var aspect = h / (float)w;
-
-                var newWidth = gameClient.windowWidth / 2;
-                var newHeight = newWidth * aspect;
-
-                spriteBatch.Draw(_gameLogo, new Rectangle((gameClient.windowWidth / 2) - (newWidth / 2), 0, newWidth, (int)newHeight), Color.White);
-
-                //spriteBatch.End();
-            }
-            catch
-            {
-                Console.WriteLine($"An error has occured in {nameof(GameWindow)}.cs");
-            }
-        }
-
         void DrawGame(GameClient client)
         {
             if (client != null)
             {
                 try
                 {
-                    /*
-                    try
-                    {
-                        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                    }
-                    catch
-                    {
-                        spriteBatch.End();
-                        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                    }
-                    //rscMudclient.Draw(gameTime);
-                    */
-
                     if (client.gameGraphics != null)
                     {
                         // rscMudclient.gameGraphics.UpdateGameImage();
@@ -249,8 +183,6 @@ namespace RuneScapeSolo.Gui.GuiElements
                             DrawSectionLoading();
                         }
                     }
-
-                    //spriteBatch.End();
                 }
                 catch
                 {
@@ -288,6 +220,7 @@ namespace RuneScapeSolo.Gui.GuiElements
 
                 return false;
             }
+
             return true;
         }
 
@@ -307,47 +240,15 @@ namespace RuneScapeSolo.Gui.GuiElements
             var s1 = contentLoadingStatusText + " - " + contentLoadingStatusProgress + "%";
             var sSize = _diagnosticFont.MeasureString(s1);
             var sPos = new Vector2(Size.Width / 2 - (sSize.X / 2), Size.Height / 2 - (sSize.Y / 2));
-            //spriteBatch.Begin();
-
-
-            if (_loadingBackgroundImage != null)
-            {
-                if (_loadingBackgroundImage.Width < Size.Width)
-                {
-                    var xs = (Size.Width / _loadingBackgroundImage.Width) + 1;
-                    var ys = (Size.Height / _loadingBackgroundImage.Height) + 1;
-
-                    for (int y = 0; y < ys; y++)
-                    {
-                        for (int x = 0; x < xs; x++)
-                        {
-                            spriteBatch.Draw(_loadingBackgroundImage, new Vector2(x * _loadingBackgroundImage.Width,
-                                y * _loadingBackgroundImage.Height), Color.White);
-                        }
-                    }
-
-                    spriteBatch.drawGradient(20, 20, 20, 90, Color.FromNonPremultiplied(255, 255, 255, 255),
-                                             Color.FromNonPremultiplied(255, 255, 255, 100));
-                }
-                else
-                {
-                    spriteBatch.Draw(_loadingBackgroundImage, Vector2.Zero, Color.White);
-                }
-
-            }
-
-            /* Draw Background Image if any. */
-
 
             spriteBatch.fillRect((Size.Width / 4) - 12, (int)sPos.Y - 12, (Size.Width / 2) + 24, (int)sSize.Y + 24, Color.FromNonPremultiplied(0, 0, 0, 150));
             spriteBatch.drawRect((Size.Width / 4) - 12, (int)sPos.Y - 12, (Size.Width / 2) + 24, (int)sSize.Y + 24, Color.DarkGray);
             spriteBatch.fillRect((Size.Width / 4) - 10, (int)sPos.Y - 10, (int)(((float)contentLoadingStatusProgress / 100f) * ((Size.Width / 2) + 20)), (int)sSize.Y + 21, Color.DarkGray);
             spriteBatch.DrawString(_diagnosticFont, s1, sPos, Color.White);
-            //spriteBatch.End();
 
             // Thread.Sleep(1000);
         }
-        
+
         void client_OnLoadingSectionCompleted(object sender, EventArgs e)
         {
             Thread.Sleep(200);
