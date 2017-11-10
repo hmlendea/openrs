@@ -43,10 +43,26 @@ namespace RuneScapeSolo.Gui.GuiElements
             pixel = new Sprite { ContentFile = "ScreenManager/FillImage" };
             frame = new Sprite { ContentFile = "Interface/Minimap/frame" };
 
-            compassIndicator = new GuiMinimapIndicator { BackgroundColour = Colour.Bisque };
-            healthIndicator = new GuiMinimapIndicator { BackgroundColour = Colour.PersianRed };
-            staminaIndicator = new GuiMinimapIndicator { BackgroundColour = Colour.OliveDrab };
-            prayerIndicator = new GuiMinimapIndicator { BackgroundColour = Colour.CornflowerBlue };
+            compassIndicator = new GuiMinimapIndicator
+            {
+                BackgroundColour = Colour.Bisque,
+                Icon = "Interface/Minimap/icon_compass"
+            };
+            healthIndicator = new GuiMinimapIndicator
+            {
+                BackgroundColour = Colour.PersianRed,
+                Icon = "Interface/Minimap/icon_health"
+            };
+            staminaIndicator = new GuiMinimapIndicator
+            {
+                BackgroundColour = Colour.OliveDrab,
+                Icon = "Interface/Minimap/icon_stamina"
+            };
+            prayerIndicator = new GuiMinimapIndicator
+            {
+                BackgroundColour = Colour.CornflowerBlue,
+                Icon = "Interface/Minimap/icon_prayer"
+            };
 
             Texture2D maskTexture = ResourceManager.Instance.LoadTexture2D("Interface/Minimap/mask");
             Color[] maskBits = new Color[maskTexture.Width * maskTexture.Height];
@@ -81,6 +97,8 @@ namespace RuneScapeSolo.Gui.GuiElements
             mobDot.Update(gameTime);
             pixel.Update(gameTime);
             frame.Update(gameTime);
+
+            compassIndicator.IconRotation = 1;
 
             if (client.loggedIn)
             {
@@ -117,6 +135,11 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         void UpdateIndicators()
         {
+            // The cameraRotation is expressed in a non-standard manner. 64 = -90 degrees, 32 = -45 degrees, etc...
+            // so we have to convert it to degrees by multiplying it with 1.4025, add 180 degrees (flip),
+            // and then convert that to radians in order to use them to rotate the image
+            compassIndicator.IconRotation = (float)(Math.PI / 180) * (client.cameraRotation * 1.4025f + 180);
+
             healthIndicator.BaseValue = client.PlayerHealthBase;
             healthIndicator.CurrentValue = client.PlayerHealthCurrent;
 

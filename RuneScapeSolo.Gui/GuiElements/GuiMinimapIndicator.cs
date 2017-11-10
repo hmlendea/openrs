@@ -1,22 +1,22 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using RuneScapeSolo.Graphics.Primitives;
-using RuneScapeSolo.Gui.GuiElements.Enumerations;
 
 namespace RuneScapeSolo.Gui.GuiElements
 {
     public class GuiMinimapIndicator : GuiElement
     {
         GuiImage indicator;
-
-        public MinimapIndicator Type { get; set; }
+        GuiImage icon;
 
         public int CurrentValue { get; set; }
 
         public int BaseValue { get; set; }
+
+        public string Icon { get; set; }
+
+        public float IconRotation { get; set; }
 
         public float FillLevel
         {
@@ -40,8 +40,10 @@ namespace RuneScapeSolo.Gui.GuiElements
         public override void LoadContent()
         {
             indicator = new GuiImage { ContentFile = "Interface/Minimap/indicator_bg" };
+            icon = new GuiImage { ContentFile = Icon };
 
             indicator.LoadContent();
+            icon.LoadContent();
 
             base.LoadContent();
         }
@@ -49,6 +51,7 @@ namespace RuneScapeSolo.Gui.GuiElements
         public override void UnloadContent()
         {
             indicator.UnloadContent();
+            icon.UnloadContent();
 
             base.UnloadContent();
         }
@@ -56,6 +59,7 @@ namespace RuneScapeSolo.Gui.GuiElements
         public override void Update(GameTime gameTime)
         {
             indicator.Update(gameTime);
+            icon.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -63,6 +67,7 @@ namespace RuneScapeSolo.Gui.GuiElements
         public override void Draw(SpriteBatch spriteBatch)
         {
             indicator.Draw(spriteBatch);
+            icon.Draw(spriteBatch);
 
             base.Draw(spriteBatch);
         }
@@ -76,6 +81,9 @@ namespace RuneScapeSolo.Gui.GuiElements
             indicator.Size = new Size2D(Size.Width, (int)(Size.Height * FillLevel));
             indicator.SourceRectangle = new Rectangle2D(0, Size.Height - indicator.Size.Height, Size.Width, indicator.Size.Height);
             indicator.Location = new Point2D(Location.X, Location.Y + Size.Height - indicator.Size.Height);
+
+            icon.Location = Location;
+            icon.Rotation = IconRotation;
         }
     }
 }

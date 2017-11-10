@@ -49,6 +49,8 @@ namespace RuneScapeSolo.Gui.GuiElements
         /// <value>The fade effect.</value>
         public FadeEffect FadeEffect { get; set; }
 
+        public float Rotation { get; set; }
+
         /// <summary>
         /// Gets or sets a value indicating whether the effects are active.
         /// </summary>
@@ -140,6 +142,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             sprite.FadeEffect = FadeEffect;
             sprite.Location = Location;
             sprite.SourceRectangle = SourceRectangle;
+            sprite.Rotation = Rotation;
             sprite.TextureLayout = TextureLayout;
             sprite.Tint = TintColour;
 
