@@ -1072,7 +1072,7 @@ namespace RuneScapeSolo.Net.Client
 
         void HandleFatigueChange(sbyte[] data)
         {
-            client.fatigue = DataOperations.GetInt16(data, 1);
+            client.PlayerFatigue = DataOperations.GetInt16(data, 1);
         }
 
         void HandleGameSettings(sbyte[] data)

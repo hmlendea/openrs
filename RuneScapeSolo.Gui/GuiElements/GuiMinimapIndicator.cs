@@ -14,13 +14,27 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         public MinimapIndicator Type { get; set; }
 
-        public float FillLevel { get; set; }
+        public int CurrentValue { get; set; }
+
+        public int BaseValue { get; set; }
+
+        public float FillLevel
+        {
+            get
+            {
+                if (CurrentValue == BaseValue)
+                {
+                    return 1.0f;
+                }
+
+                return (float)CurrentValue / BaseValue;
+            }
+        }
 
         public GuiMinimapIndicator()
         {
             Size = new Size2D(22, 22);
             BackgroundColour = Colour.White;
-            FillLevel = 1.0f;
         }
 
         public override void LoadContent()

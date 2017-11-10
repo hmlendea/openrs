@@ -85,6 +85,11 @@ namespace RuneScapeSolo.Net.Client
         public int ObjectCount { get; set; }
         public int PlayerAliveTimeout { get; set; }
         public int PlayerCount { get; set; }
+        public int PlayerFatigue { get; set; }
+        public int PlayerHealthBase => PlayerStatBase[3];
+        public int PlayerHealthCurrent => PlayerStatCurrent[3];
+        public int PlayerPrayerBase => PlayerStatBase[5];
+        public int PlayerPrayerCurrent => PlayerStatCurrent[5];
         public int ProjectileRange { get; set; }
         public int QuestPoints { get; set; }
         public int QuestionMenuCount { get; set; }
@@ -141,7 +146,7 @@ namespace RuneScapeSolo.Net.Client
         public string LastLoginAddress { get; set; }
         public string MoneyTask { get; set; }
         public string ServerLocation { get; set; }
-        
+
         public char TranslateOemKeys(Keys k)
         {
             //   if (k == Keys.1)
@@ -1792,7 +1797,7 @@ namespace RuneScapeSolo.Net.Client
                 }
 
                 Console.WriteLine($"Command unproperly handled: {command} (length={length})");
-                
+
                 if (command == ServerCommand.Command115)
                 {
                     int k3 = (length - 1) / 4;
@@ -6904,7 +6909,7 @@ namespace RuneScapeSolo.Net.Client
 
                 gameGraphics.drawBox(windowWidth / 2 - 100, 160, 200, 40, 0);
                 gameGraphics.drawText("You are sleeping", windowWidth / 2, 50, 7, 0xffff00);
-                gameGraphics.drawText("Fatigue: " + (fatigue * 100) / 750 + "%", windowWidth / 2, 90, 7, 0xffff00);
+                gameGraphics.drawText("Fatigue: " + (PlayerFatigue * 100) / 750 + "%", windowWidth / 2, 90, 7, 0xffff00);
                 gameGraphics.drawText("When you want to wake up just use your", windowWidth / 2, 140, 5, 0xffffff);
                 gameGraphics.drawText("keyboard to type the word in the box below", windowWidth / 2, 160, 5, 0xffffff);
                 gameGraphics.drawText(inputText + "*", windowWidth / 2, 180, 5, 65535);
@@ -9358,7 +9363,7 @@ namespace RuneScapeSolo.Net.Client
 
                 gameGraphics.drawString("Quest Points:@yel@" + QuestPoints, (l + c1 / 2) - 5, l1 - 13, 1, 0xffffff);
                 l1 += 12;
-                gameGraphics.drawString("Fatigue: @yel@" + (fatigue * 100) / 750 + "%", l + 5, l1 - 13, 1, 0xffffff);
+                gameGraphics.drawString("Fatigue: @yel@" + (PlayerFatigue * 100) / 750 + "%", l + 5, l1 - 13, 1, 0xffffff);
                 l1 += 8;
                 gameGraphics.drawString("Equipment Status", l + 5, l1, 3, 0xffff00);
                 l1 += 12;
@@ -9911,7 +9916,6 @@ namespace RuneScapeSolo.Net.Client
         public bool duelOpponentAccepted;
         public bool duelMyAccepted;
         public bool serverMessageBoxTop;
-        public int fatigue;
         public int cameraRotationYAmount;
         public int cameraRotationYIncrement;
         public int[] walkModel = {
@@ -9995,6 +9999,7 @@ namespace RuneScapeSolo.Net.Client
         "Attack", "Defense", "Strength", "Hits", "Ranged", "Prayer", "Magic", "Cooking", "Woodcut", "Fletching",
         "Fishing", "Firemaking", "Crafting", "Smithing", "Mining", "Herblaw", "Agility", "Thieving"
     };
+
         public int combatTimeout;
         public int maxInventoryItems;
         public static GraphicsDevice graphics;

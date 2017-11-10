@@ -82,6 +82,11 @@ namespace RuneScapeSolo.Gui.GuiElements
             pixel.Update(gameTime);
             frame.Update(gameTime);
 
+            if (client.loggedIn)
+            {
+                UpdateIndicators();
+            }
+
             base.Update(gameTime);
         }
 
@@ -108,6 +113,18 @@ namespace RuneScapeSolo.Gui.GuiElements
             healthIndicator.Location = new Point2D(Location.X + 17, Location.Y + 36);
             staminaIndicator.Location = new Point2D(Location.X + 162, Location.Y + 146);
             prayerIndicator.Location = new Point2D(Location.X + 10, Location.Y + 72);
+        }
+
+        void UpdateIndicators()
+        {
+            healthIndicator.BaseValue = client.PlayerHealthBase;
+            healthIndicator.CurrentValue = client.PlayerHealthCurrent;
+
+            staminaIndicator.BaseValue = 100;
+            staminaIndicator.CurrentValue = staminaIndicator.BaseValue - client.PlayerFatigue;
+
+            prayerIndicator.BaseValue = client.PlayerPrayerBase;
+            prayerIndicator.CurrentValue = client.PlayerPrayerCurrent;
         }
 
         void DrawMinimapMenu(SpriteBatch spriteBatch)
