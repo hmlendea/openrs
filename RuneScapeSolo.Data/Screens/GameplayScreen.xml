@@ -7,17 +7,17 @@
 		</Location>
 		<Size>
 			<Width>1056</Width>
-			<Height>768</Height>
+			<Height>720</Height>
 		</Size>
 	</GameClient>
-	<Minimap>
+	<SideBar>
 		<Location>
-			<X>1088</X>
-			<Y>8</Y>
+			<X>1056</X>
+			<Y>0</Y>
 		</Location>
 		<Size>
-			<Width>160</Width>
-			<Height>160</Height>
+			<Width>224</Width>
+			<Height>720</Height>
 		</Size>
-	</Minimap>
+	</SideBar>
 </GameplayScreen>

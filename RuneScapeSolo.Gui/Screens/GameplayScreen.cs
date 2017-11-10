@@ -20,19 +20,19 @@ namespace RuneScapeSolo.Gui.Screens
         /// Gets or sets the minimap.
         /// </summary>
         /// <value>The minimap.</value>
-        public GuiMinimap Minimap { get; set; }
-        
+        public GuiSideBar SideBar { get; set; }
+
         /// <summary>
         /// Loads the content.
         /// </summary>
         public override void LoadContent()
         {
             GuiManager.Instance.GuiElements.Add(GameClient);
-            GuiManager.Instance.GuiElements.Add(Minimap);
+            GuiManager.Instance.GuiElements.Add(SideBar);
 
             base.LoadContent();
 
-            Minimap.AssociateGameClient(ref GameClient.gameClient);
+            SideBar.AssociateGameClient(ref GameClient.gameClient);
         }
 
         /// <summary>
@@ -53,8 +53,6 @@ namespace RuneScapeSolo.Gui.Screens
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-
-            Minimap.Draw(spriteBatch);
         }
     }
 }

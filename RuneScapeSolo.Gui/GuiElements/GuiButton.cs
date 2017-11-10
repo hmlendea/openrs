@@ -128,7 +128,7 @@ namespace RuneScapeSolo.Gui.GuiElements
                 sx += 4;
             }
 
-            return new Rectangle2D(sx * GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE,
+            return new Rectangle2D(sx * GameDefines.GUI_TILE_SIZE, 0,
                                    GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE);
         }
     }
