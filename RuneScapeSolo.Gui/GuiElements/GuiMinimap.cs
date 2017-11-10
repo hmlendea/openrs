@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using RuneScapeSolo.DataAccess.Resources;
 using RuneScapeSolo.GameLogic.GameManagers;
 using RuneScapeSolo.Graphics;
 using RuneScapeSolo.Graphics.Primitives;
@@ -18,8 +19,11 @@ namespace RuneScapeSolo.Gui.GuiElements
     {
         GameClient client;
 
+        Color[] mask;
+
         Sprite mobDot;
         Sprite pixel;
+        Sprite frame;
 
         public bool IsClickable { get; set; }
 
@@ -30,17 +34,17 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         public override void LoadContent()
         {
-            mobDot = new Sprite
-            {
-                ContentFile = "Interface/Minimap/entity_dot"
-            };
-            pixel = new Sprite
-            {
-                ContentFile = "ScreenManager/FillImage"
-            };
+            mobDot = new Sprite { ContentFile = "Interface/Minimap/entity_dot" };
+            pixel = new Sprite { ContentFile = "ScreenManager/FillImage" };
+            frame = new Sprite { ContentFile = "Interface/Minimap/frame" };
+
+            Texture2D maskTexture = ResourceManager.Instance.LoadTexture2D("Interface/Minimap/mask");
+            mask = new Color[maskTexture.Width * maskTexture.Height];
+            maskTexture.GetData(mask, 0, mask.Length);
 
             mobDot.LoadContent();
             pixel.LoadContent();
+            frame.LoadContent();
 
             base.LoadContent();
         }
@@ -49,6 +53,7 @@ namespace RuneScapeSolo.Gui.GuiElements
         {
             mobDot.Update(gameTime);
             pixel.Update(gameTime);
+            frame.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -56,6 +61,7 @@ namespace RuneScapeSolo.Gui.GuiElements
         public override void Draw(SpriteBatch spriteBatch)
         {
             DrawMinimapMenu(spriteBatch);
+            frame.Draw(spriteBatch);
 
             base.Draw(spriteBatch);
         }
@@ -65,7 +71,14 @@ namespace RuneScapeSolo.Gui.GuiElements
             this.client = client;
         }
 
-        public void DrawMinimapMenu(SpriteBatch spriteBatch)
+        protected override void SetChildrenProperties()
+        {
+            base.SetChildrenProperties();
+
+            frame.Location = Location;
+        }
+
+        void DrawMinimapMenu(SpriteBatch spriteBatch)
         {
             if (client.gameGraphics == null || !client.loggedIn)
             {
@@ -146,10 +159,15 @@ namespace RuneScapeSolo.Gui.GuiElements
             {
                 for (int x = 0; x < Size.Width; x++)
                 {
-                    var a = client.engineHandle.tiles;
+                    Colour tileColour = Colour.Green;
 
                     pixel.Location = new Point2D(Location.X + x, Location.Y + y);
-                    pixel.Tint = Colour.Green;
+                    pixel.Tint = Color.FromNonPremultiplied(
+                        tileColour.R,
+                        tileColour.G,
+                        tileColour.B,
+                        tileColour.A - 255 + mask[x + y * Size.Width].R).ToColour();
+
                     pixel.Draw(spriteBatch);
                 }
             }
@@ -164,6 +182,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             }
 
             mobDot.Tint = colour;
+            mobDot.Opacity = (mask[x + y * Size.Width].R / 255);
             mobDot.Location = new Point2D(
                 x - mobDot.SpriteSize.Width / 2,
                 y - mobDot.SpriteSize.Height / 2);

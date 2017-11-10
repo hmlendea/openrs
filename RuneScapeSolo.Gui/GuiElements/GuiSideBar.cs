@@ -28,7 +28,7 @@ namespace RuneScapeSolo.Gui.GuiElements
                 ContentFile = "Interface/Backgrounds/sidebar",
                 TextureLayout = TextureLayout.Tile
             };
-            minimap = new GuiMinimap { Size = new Size2D(160, 160) };
+            minimap = new GuiMinimap { Size = new Size2D(192, 192) };
 
             combatButton = new GuiButton
             {
