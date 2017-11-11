@@ -382,7 +382,7 @@ namespace RuneScapeSolo.Net.Client
                             height = worldObject.Width;
                             width = worldObject.Height;
                         }
-                    
+
                         int l40 = ((newSectionX + newSectionX + width) * client.GridSize) / 2;
                         int k42 = ((newSectionY + newSectionY + height) * client.GridSize) / 2;
                         ObjectModel gameObjectModel = client.GameDataObjects[worldObject.ModelId];
@@ -487,8 +487,8 @@ namespace RuneScapeSolo.Net.Client
 
                         if (mob == client.CurrentPlayer)
                         {
-                            client.PlayerStatCurrent[3] = hits;
-                            client.PlayerStatBase[3] = hitsBase;
+                            client.Skills[3].CurrentLevel = hits;
+                            client.Skills[3].BaseLevel = hitsBase;
                             client.ShowWelcomeBox = false;
                             // showServerMessageBox = false;
                         }
@@ -950,17 +950,17 @@ namespace RuneScapeSolo.Net.Client
 
             for (int stat = 0; stat < 18; stat++)
             {
-                client.PlayerStatCurrent[stat] = DataOperations.GetInt8(data[offset++]);
+                client.Skills[stat].CurrentLevel = DataOperations.GetInt8(data[offset++]);
+            }
+
+            for (int skillId = 0; skillId < 18; skillId++)
+            {
+                client.Skills[skillId].BaseLevel = DataOperations.GetInt8(data[offset++]);
             }
 
             for (int stat = 0; stat < 18; stat++)
             {
-                client.PlayerStatBase[stat] = DataOperations.GetInt8(data[offset++]);
-            }
-
-            for (int stat = 0; stat < 18; stat++)
-            {
-                client.PlayerStatExperience[stat] = DataOperations.GetInt32(data, offset);
+                client.Skills[stat].Experience = DataOperations.GetInt32(data, offset);
                 offset += 4;
             }
         }
@@ -1276,11 +1276,11 @@ namespace RuneScapeSolo.Net.Client
         void HandlePlayerStats(sbyte[] data, int length)
         {
             int offset = 1;
-            int stat = data[offset++] & 0xff;
+            int skillId = data[offset++] & 0xff;
 
-            client.PlayerStatCurrent[stat] = DataOperations.GetInt8(data[offset++]);
-            client.PlayerStatBase[stat] = DataOperations.GetInt8(data[offset++]);
-            client.PlayerStatExperience[stat] = DataOperations.GetInt32(data, offset);
+            client.Skills[skillId].CurrentLevel = DataOperations.GetInt8(data[offset++]);
+            client.Skills[skillId].BaseLevel = DataOperations.GetInt8(data[offset++]);
+            client.Skills[skillId].Experience = DataOperations.GetInt32(data, offset);
         }
 
         void HandlePvpTournamentTimer(sbyte[] data)

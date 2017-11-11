@@ -159,14 +159,14 @@ namespace RuneScapeSolo.Gui.GuiElements
             // and then convert that to radians in order to use them to rotate the image
             compassIndicator.IconRotation = (float)(Math.PI / 180) * (client.cameraRotation * 1.4025f + 180);
 
-            healthIndicator.BaseValue = client.PlayerHealthBase;
-            healthIndicator.CurrentValue = client.PlayerHealthCurrent;
+            healthIndicator.BaseValue = client.Skills[3].BaseLevel;
+            healthIndicator.CurrentValue = client.Skills[3].CurrentLevel;
 
             staminaIndicator.BaseValue = 100;
             staminaIndicator.CurrentValue = staminaIndicator.BaseValue - client.PlayerFatigue;
 
-            prayerIndicator.BaseValue = client.PlayerPrayerBase;
-            prayerIndicator.CurrentValue = client.PlayerPrayerCurrent;
+            prayerIndicator.BaseValue = client.Skills[5].BaseLevel;
+            prayerIndicator.CurrentValue = client.Skills[5].CurrentLevel;
         }
 
         void DrawMinimapMenu(SpriteBatch spriteBatch)

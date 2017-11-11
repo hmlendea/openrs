@@ -57,6 +57,7 @@ namespace RuneScapeSolo.Net.Client
         public Mob[] NpcAttackingArray { get; set; }
         public Mob[] Players { get; set; }
         public Quests Quests { get; set; }
+        public Skill[] Skills { get; set; }
         public int AreaX { get; set; }
         public int AreaY { get; set; }
         public int CompletedTasks { get; set; }
@@ -86,10 +87,6 @@ namespace RuneScapeSolo.Net.Client
         public int PlayerAliveTimeout { get; set; }
         public int PlayerCount { get; set; }
         public int PlayerFatigue { get; set; }
-        public int PlayerHealthBase => PlayerStatBase[3];
-        public int PlayerHealthCurrent => PlayerStatCurrent[3];
-        public int PlayerPrayerBase => PlayerStatBase[5];
-        public int PlayerPrayerCurrent => PlayerStatCurrent[5];
         public int ProjectileRange { get; set; }
         public int QuestPoints { get; set; }
         public int QuestionMenuCount { get; set; }
@@ -117,9 +114,6 @@ namespace RuneScapeSolo.Net.Client
         public int[] ObjectType { get; set; }
         public int[] ObjectX { get; set; }
         public int[] ObjectY { get; set; }
-        public int[] PlayerStatBase { get; set; }
-        public int[] PlayerStatCurrent { get; set; }
-        public int[] PlayerStatExperience { get; set; }
         public int[] PlayersBufferIndexes { get; set; }
         public int[] WallObjectDirection { get; set; }
         public int[] WallObjectId { get; set; }
@@ -329,6 +323,27 @@ namespace RuneScapeSolo.Net.Client
             windowWidth = 512;
             windowHeight = 334;
 
+            Skills = new Skill[18];
+
+            Skills[0] = new Skill { Name = "Attack" };
+            Skills[1] = new Skill { Name = "Defence" };
+            Skills[2] = new Skill { Name = "Strength" };
+            Skills[3] = new Skill { Name = "Health" };
+            Skills[4] = new Skill { Name = "Ranged" };
+            Skills[5] = new Skill { Name = "Prayer" };
+            Skills[6] = new Skill { Name = "Magic" };
+            Skills[7] = new Skill { Name = "Cooking" };
+            Skills[8] = new Skill { Name = "Woodcutting" };
+            Skills[9] = new Skill { Name = "Fletching" };
+            Skills[10] = new Skill { Name = "Fishing" };
+            Skills[11] = new Skill { Name = "Firemaking" };
+            Skills[12] = new Skill { Name = "Crafting" };
+            Skills[13] = new Skill { Name = "Smithing" };
+            Skills[14] = new Skill { Name = "Mining" };
+            Skills[15] = new Skill { Name = "Herblore" };
+            Skills[16] = new Skill { Name = "Agility" };
+            Skills[17] = new Skill { Name = "Thieving" };
+
             cameraFieldOfView = 9;
             ShowQuestionMenu = false;
             LoginScreenShown = false;
@@ -353,7 +368,6 @@ namespace RuneScapeSolo.Net.Client
             tradeWeAccepted = false;
             itemAboveHeadScale = new int[50];
             itemAboveHeadID = new int[50];
-            PlayerStatCurrent = new int[18];
             menuActionX = new int[250];
             menuActionY = new int[250];
             menuActions = new MenuAction[250];
@@ -393,7 +407,6 @@ namespace RuneScapeSolo.Net.Client
             duelOpponentItems = new int[8];
             duelOpponentItemsCount = new int[8];
             ShowBankBox = false;
-            PlayerStatBase = new int[18];
             serverBankItems = new int[256];
             serverBankItemCount = new int[256];
             ShowShopBox = false;
@@ -440,7 +453,6 @@ namespace RuneScapeSolo.Net.Client
             LastPlayers = new Mob[500];
             showTradeConfirmBox = false;
             tradeConfirmAccepted = false;
-            PlayerStatExperience = new int[18];
             mouseTrailX = new int[8192];
             mouseTrailY = new int[8192];
             OneMouseButton = false;
@@ -2055,7 +2067,7 @@ namespace RuneScapeSolo.Net.Client
                 if (command == ServerCommand.SkillExperience)
                 {
                     int j5 = data[1] & 0xff;
-                    PlayerStatExperience[j5] = DataOperations.GetInt32(data, 2);
+                    Skills[j5].Experience = DataOperations.GetInt32(data, 2);
                     return;
                 }
                 if (command == ServerCommand.Command229)
@@ -4875,7 +4887,7 @@ namespace RuneScapeSolo.Net.Client
                         break;
                     }
 
-                    int k5 = PlayerStatCurrent[6];
+                    int k5 = Skills[6].CurrentLevel;
 
                     if (EntityManager.GetSpell(l2).RequiredLevel > k5)
                     {
@@ -4923,7 +4935,7 @@ namespace RuneScapeSolo.Net.Client
                 for (int i3 = 0; i3 < EntityManager.PrayerCount; i3++)
                 {
                     string s2 = "@whi@";
-                    if (EntityManager.GetPrayer(i3).RequiredLevel > PlayerStatBase[5])
+                    if (EntityManager.GetPrayer(i3).RequiredLevel > Skills[5].BaseLevel)
                     {
                         s2 = "@bla@";
                     }
@@ -4982,8 +4994,9 @@ namespace RuneScapeSolo.Net.Client
                     int j2 = spellMenu.getEntryHighlighted(spellMenuHandle);
                     if (j2 != -1)
                     {
-                        int j3 = PlayerStatCurrent[6];
-                        if (EntityManager.GetSpell(j2).RequiredLevel > j3)
+                        int magicLevel = Skills[6].CurrentLevel;
+
+                        if (EntityManager.GetSpell(j2).RequiredLevel > magicLevel)
                         {
                             displayMessage("Your magic ability is not high enough for this spell", 3);
                         }
@@ -5018,13 +5031,13 @@ namespace RuneScapeSolo.Net.Client
 
                     if (k2 != -1)
                     {
-                        int k3 = PlayerStatBase[5];
+                        int prayerLevel = Skills[5].BaseLevel;
 
-                        if (EntityManager.GetPrayer(k2).RequiredLevel > k3)
+                        if (EntityManager.GetPrayer(k2).RequiredLevel > prayerLevel)
                         {
                             displayMessage("Your prayer ability is not high enough for this prayer", 3);
                         }
-                        else if (PlayerStatCurrent[5] == 0)
+                        else if (Skills[5].CurrentLevel == 0)
                         {
                             displayMessage("You have run out of prayer points. Return to a church to recharge", 3);
                         }
@@ -6229,7 +6242,7 @@ namespace RuneScapeSolo.Net.Client
                             if (EntityManager.GetNpc(id).IsAttackable > 0)
                             {
                                 int j5 = (EntityManager.GetNpc(id).AttackLevel + EntityManager.GetNpc(id).DefenceLevel + EntityManager.GetNpc(id).StrengthLevel + EntityManager.GetNpc(id).HealthLevel) / 4;
-                                int k5 = (PlayerStatBase[0] + PlayerStatBase[1] + PlayerStatBase[2] + PlayerStatBase[3] + 27) / 4;
+                                int k5 = (Skills[0].BaseLevel + Skills[1].BaseLevel + Skills[2].BaseLevel + Skills[3].BaseLevel + 27) / 4;
                                 l4 = k5 - j5;
                                 s2 = "@yel@";
                                 if (l4 < 0)
@@ -9350,14 +9363,14 @@ namespace RuneScapeSolo.Net.Client
                         l2 = 0xff0000;
                         j2 = k2;
                     }
-                    gameGraphics.drawString(skillName[k2] + ":@yel@" + PlayerStatCurrent[k2] + "/" + PlayerStatBase[k2], l + 5, l1, 1, l2);
+                    gameGraphics.drawString(Skills[k2].Name + ":@yel@" + Skills[k2].CurrentLevel + "/" + Skills[k2].BaseLevel, l + 5, l1, 1, l2);
                     l2 = 0xffffff;
                     if (InputManager.Instance.MouseLocation.X >= l + 90 && InputManager.Instance.MouseLocation.Y >= l1 - 13 - 11 && InputManager.Instance.MouseLocation.Y < (l1 - 13) + 2 && InputManager.Instance.MouseLocation.X < l + 196)
                     {
                         l2 = 0xff0000;
                         j2 = k2 + 9;
                     }
-                    gameGraphics.drawString(skillName[k2 + 9] + ":@yel@" + PlayerStatCurrent[k2 + 9] + "/" + PlayerStatBase[k2 + 9], (l + c1 / 2) - 5, l1 - 13, 1, l2);
+                    gameGraphics.drawString(Skills[k2 + 9].Name + ":@yel@" + Skills[k2 + 9].CurrentLevel + "/" + Skills[k2 + 9].BaseLevel, (l + c1 / 2) - 5, l1 - 13, 1, l2);
                     l1 += 13;
                 }
 
@@ -9382,18 +9395,18 @@ namespace RuneScapeSolo.Net.Client
                 gameGraphics.drawLineX(l, l1 - 15, c1, 0);
                 if (j2 != -1)
                 {
-                    gameGraphics.drawString(skillNameVerb[j2] + " skill", l + 5, l1, 1, 0xffff00);
+                    gameGraphics.drawString(Skills[j2].Name + " skill", l + 5, l1, 1, 0xffff00);
                     l1 += 12;
                     int j3 = experienceList[0];
                     for (int l3 = 0; l3 < 98; l3++)
                     {
-                        if (PlayerStatExperience[j2] >= experienceList[l3])
+                        if (Skills[j2].Experience >= experienceList[l3])
                         {
                             j3 = experienceList[l3 + 1];
                         }
                     }
 
-                    gameGraphics.drawString("Total xp: " + PlayerStatExperience[j2], l + 5, l1, 1, 0xffffff);
+                    gameGraphics.drawString("Total xp: " + Skills[j2].Experience, l + 5, l1, 1, 0xffffff);
                     l1 += 12;
                     gameGraphics.drawString("Next level at: " + j3, l + 5, l1, 1, 0xffffff);
                 }
@@ -9404,7 +9417,7 @@ namespace RuneScapeSolo.Net.Client
                     int k3 = 0;
                     for (int i4 = 0; i4 < 18; i4++)
                     {
-                        k3 += PlayerStatBase[i4];
+                        k3 += Skills[i4].BaseLevel;
                     }
 
                     gameGraphics.drawString("Skill total: " + k3, l + 5, l1, 1, 0xffffff);
@@ -9870,10 +9883,6 @@ namespace RuneScapeSolo.Net.Client
         public int[] itemAboveHeadID;
         public int[] menuActionX;
         public int[] menuActionY;
-        public string[] skillNameVerb = new string[] {
-        "Attack", "Defense", "Strength", "Hits", "Ranged", "Prayer", "Magic", "Cooking", "Woodcutting", "Fletching",
-        "Fishing", "Firemaking", "Crafting", "Smithing", "Mining", "Herblaw", "Agility", "Thieving"
-    };
         public MenuAction[] menuActions;
         public int cameraAutoRotatePlayerX;
         public int cameraAutoRotatePlayerY;
@@ -9995,10 +10004,6 @@ namespace RuneScapeSolo.Net.Client
         public int lastLayerIndex;
         public int[] bankItems;
         public int[] bankItemCount;
-        public string[] skillName = {
-        "Attack", "Defense", "Strength", "Hits", "Ranged", "Prayer", "Magic", "Cooking", "Woodcut", "Fletching",
-        "Fishing", "Firemaking", "Crafting", "Smithing", "Mining", "Herblaw", "Agility", "Thieving"
-    };
 
         public int combatTimeout;
         public int maxInventoryItems;
