@@ -24,7 +24,10 @@ namespace RuneScapeSolo.Gui.GuiElements
         /// <value>The text.</value>
         public string Text { get; set; }
 
+        public string Icon { get; set; }
+
         List<GuiImage> images;
+        GuiImage icon;
         GuiText text;
 
         /// <summary>
@@ -40,6 +43,7 @@ namespace RuneScapeSolo.Gui.GuiElements
         /// </summary>
         public override void LoadContent()
         {
+            icon = new GuiImage { ContentFile = Icon };
             images = new List<GuiImage>();
             text = new GuiText();
 
@@ -56,6 +60,11 @@ namespace RuneScapeSolo.Gui.GuiElements
 
             Children.AddRange(images);
             Children.Add(text);
+
+            if (!string.IsNullOrWhiteSpace(Icon))
+            {
+                Children.Add(icon);
+            }
 
             base.LoadContent();
         }
@@ -75,6 +84,10 @@ namespace RuneScapeSolo.Gui.GuiElements
             text.FontName = FontName;
             text.Location = Location;
             text.Size = Size;
+
+            icon.Location = new Point2D(
+                Location.X + (Size.Width - icon.Size.Width) / 2,
+                Location.Y + (Size.Height - icon.Size.Height) / 2);
         }
 
         /// <summary>

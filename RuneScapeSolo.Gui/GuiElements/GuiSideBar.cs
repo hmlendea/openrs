@@ -32,42 +32,42 @@ namespace RuneScapeSolo.Gui.GuiElements
 
             combatButton = new GuiButton
             {
-                Text = "C",
+                Icon = "Interface/SideBar/combat_button_icon",
                 Size = new Size2D(GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE)
             };
             skillsButton = new GuiButton
             {
-                Text = "S",
+                Icon = "Interface/SideBar/skills_button_icon",
                 Size = new Size2D(GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE)
             };
             questsButton = new GuiButton
             {
-                Text = "Q",
+                Icon = "Interface/SideBar/quests_button_icon",
                 Size = new Size2D(GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE)
             };
             inventoryButton = new GuiButton
             {
-                Text = "I",
+                Icon = "Interface/SideBar/inventory_button_icon",
                 Size = new Size2D(GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE)
             };
             equipmentButton = new GuiButton
             {
-                Text = "E",
+                Icon = "Interface/SideBar/equipment_button_icon",
                 Size = new Size2D(GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE)
             };
             prayerButton = new GuiButton
             {
-                Text = "P",
+                Icon = "Interface/SideBar/prayer_button_icon",
                 Size = new Size2D(GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE)
             };
             spellsButton = new GuiButton
             {
-                Text = "M",
+                Icon = "Interface/SideBar/spells_button_icon",
                 Size = new Size2D(GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE)
             };
             exitButton = new GuiButton
             {
-                Text = "Exit",
+                Icon = "Interface/SideBar/exit_button_icon",
                 Size = new Size2D(GameDefines.GUI_TILE_SIZE * 7, GameDefines.GUI_TILE_SIZE)
             };
 
