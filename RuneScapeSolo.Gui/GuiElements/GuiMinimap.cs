@@ -186,6 +186,11 @@ namespace RuneScapeSolo.Gui.GuiElements
 
             DrawMinimapTiles(spriteBatch);
 
+            foreach (ObjectModel obj in client.GameDataObjects.Where(x => x != null))
+            {
+
+            }
+
             for (int i = 0; i < client.GroundItemCount; i++)
             {
                 int groundItemX = (((client.GroundItemX[i] * client.GridSize + 64) - client.CurrentPlayer.currentX) * 3 * j1) / 2048;

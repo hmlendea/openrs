@@ -26,6 +26,8 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         public string Icon { get; set; }
 
+        public bool IsToggled { get; set; }
+
         List<GuiImage> images;
         GuiImage icon;
         GuiText text;
@@ -77,6 +79,15 @@ namespace RuneScapeSolo.Gui.GuiElements
             {
                 images[i].Location = new Point2D(Location.X + i * GameDefines.GUI_TILE_SIZE, Location.Y);
                 images[i].SourceRectangle = CalculateSourceRectangle(i);
+
+                if (IsToggled)
+                {
+                    images[i].TintColour = Colour.DarkRed;
+                }
+                else
+                {
+                    images[i].TintColour = Colour.White;
+                }
             }
 
             text.Text = Text;
@@ -136,7 +147,7 @@ namespace RuneScapeSolo.Gui.GuiElements
                 sx = 2;
             }
 
-            if (Hovered)
+            if (Hovered || IsToggled)
             {
                 sx += 4;
             }
