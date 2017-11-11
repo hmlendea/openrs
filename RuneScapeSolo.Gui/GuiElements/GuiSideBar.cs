@@ -11,6 +11,7 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         GuiImage background;
         GuiMinimap minimap;
+        GuiSideBarPanel panel;
 
         GuiButton combatButton;
         GuiButton skillsButton;
@@ -29,6 +30,7 @@ namespace RuneScapeSolo.Gui.GuiElements
                 TextureLayout = TextureLayout.Tile
             };
             minimap = new GuiMinimap { Size = new Size2D(224, 176) };
+            panel = new GuiSideBarPanel { Size = new Size2D(240, 262) };
 
             combatButton = new GuiButton
             {
@@ -74,6 +76,7 @@ namespace RuneScapeSolo.Gui.GuiElements
 
             Children.Add(background);
             Children.Add(minimap);
+            Children.Add(panel);
             Children.Add(combatButton);
             Children.Add(skillsButton);
             Children.Add(questsButton);
@@ -113,30 +116,35 @@ namespace RuneScapeSolo.Gui.GuiElements
                 Location.X + (Size.Width - minimap.Size.Width) / 2,
                 Location.Y + (Size.Width - minimap.Size.Width) / 2);
 
-            combatButton.Location = new Point2D(
-                Location.X + (Size.Width - GameDefines.GUI_TILE_SIZE * 7) / 2,
-                ClientRectangle.Bottom - GameDefines.GUI_TILE_SIZE * 8);
-            skillsButton.Location = new Point2D(
-                combatButton.ClientRectangle.Right,
-                ClientRectangle.Bottom - GameDefines.GUI_TILE_SIZE * 8);
-            questsButton.Location = new Point2D(
-                skillsButton.ClientRectangle.Right,
-                ClientRectangle.Bottom - GameDefines.GUI_TILE_SIZE * 8);
-            inventoryButton.Location = new Point2D(
-                questsButton.ClientRectangle.Right,
-                ClientRectangle.Bottom - GameDefines.GUI_TILE_SIZE * 8);
-            equipmentButton.Location = new Point2D(
-                inventoryButton.ClientRectangle.Right,
-                ClientRectangle.Bottom - GameDefines.GUI_TILE_SIZE * 8);
-            prayerButton.Location = new Point2D(
-                equipmentButton.ClientRectangle.Right,
-                ClientRectangle.Bottom - GameDefines.GUI_TILE_SIZE * 8);
-            spellsButton.Location = new Point2D(
-                prayerButton.ClientRectangle.Right,
-                ClientRectangle.Bottom - GameDefines.GUI_TILE_SIZE * 8);
             exitButton.Location = new Point2D(
                 Location.X + (Size.Width - exitButton.Size.Width) / 2,
                 ClientRectangle.Bottom - GameDefines.GUI_TILE_SIZE);
+
+            panel.Location = new Point2D(
+                Location.X + (Size.Width - panel.Size.Width) / 2,
+                exitButton.Location.Y - panel.Size.Height);
+
+            combatButton.Location = new Point2D(
+                Location.X + (Size.Width - GameDefines.GUI_TILE_SIZE * 7) / 2,
+                panel.Location.Y - combatButton.Size.Height);
+            skillsButton.Location = new Point2D(
+                combatButton.ClientRectangle.Right,
+                combatButton.Location.Y);
+            questsButton.Location = new Point2D(
+                skillsButton.ClientRectangle.Right,
+                skillsButton.Location.Y);
+            inventoryButton.Location = new Point2D(
+                questsButton.ClientRectangle.Right,
+                questsButton.Location.Y);
+            equipmentButton.Location = new Point2D(
+                inventoryButton.ClientRectangle.Right,
+                inventoryButton.Location.Y);
+            prayerButton.Location = new Point2D(
+                equipmentButton.ClientRectangle.Right,
+                equipmentButton.Location.Y);
+            spellsButton.Location = new Point2D(
+                prayerButton.ClientRectangle.Right,
+                prayerButton.Location.Y);
         }
 
         void LinkEvents()

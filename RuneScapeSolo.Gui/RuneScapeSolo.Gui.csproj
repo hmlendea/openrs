@@ -57,6 +57,7 @@
     <Compile Include="GuiElements\GuiSideBar.cs" />
     <Compile Include="GuiElements\GuiMinimapIndicator.cs" />
     <Compile Include="GuiElements\GuiSkillCard.cs" />
+    <Compile Include="GuiElements\GuiSideBarPanel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuneScapeSolo.DataAccess\RuneScapeSolo.DataAccess.csproj">
