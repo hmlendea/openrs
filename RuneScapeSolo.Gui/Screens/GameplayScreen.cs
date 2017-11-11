@@ -27,6 +27,9 @@ namespace RuneScapeSolo.Gui.Screens
         /// </summary>
         public override void LoadContent()
         {
+            SideBar.Enabled = false;
+            SideBar.Visible = false;
+
             GuiManager.Instance.GuiElements.Add(GameClient);
             GuiManager.Instance.GuiElements.Add(SideBar);
 
@@ -43,6 +46,17 @@ namespace RuneScapeSolo.Gui.Screens
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            if (GameClient.gameClient.loggedIn)
+            {
+                SideBar.Enabled = true;
+                SideBar.Visible = true;
+            }
+            else
+            {
+                SideBar.Enabled = false;
+                SideBar.Visible = false;
+            }
         }
 
         /// <summary>

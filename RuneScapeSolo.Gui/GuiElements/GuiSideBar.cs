@@ -13,6 +13,8 @@ namespace RuneScapeSolo.Gui.GuiElements
         GuiMinimap minimap;
         GuiSideBarPanel panel;
 
+        GuiSkillsPanel skillsPanel;
+
         GuiButton combatButton;
         GuiButton skillsButton;
         GuiButton questsButton;
@@ -32,6 +34,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             };
             minimap = new GuiMinimap { Size = new Size2D(224, 176) };
             panel = new GuiSideBarPanel { Size = new Size2D(240, 262) };
+            skillsPanel = new GuiSkillsPanel { Size = new Size2D(180, 252) };
 
             combatButton = new GuiButton
             {
@@ -66,8 +69,7 @@ namespace RuneScapeSolo.Gui.GuiElements
                 Texture = "Interface/SideBar/button",
                 ButtonTileSize = new Size2D(30, 36),
                 Icon = "Interface/SideBar/inventory_button_icon",
-                Size = new Size2D(30, 36),
-                IsToggled = true
+                Size = new Size2D(30, 36)
             };
             equipmentButton = new GuiButton
             {
@@ -100,7 +102,10 @@ namespace RuneScapeSolo.Gui.GuiElements
 
             Children.Add(background);
             Children.Add(minimap);
+
             Children.Add(panel);
+            Children.Add(skillsPanel);
+
             Children.Add(combatButton);
             Children.Add(skillsButton);
             Children.Add(questsButton);
@@ -112,6 +117,8 @@ namespace RuneScapeSolo.Gui.GuiElements
             Children.Add(exitButton);
 
             LinkEvents();
+
+            InventoryButton_Clicked(this, null);
 
             base.LoadContent();
         }
@@ -128,6 +135,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             this.client = client;
 
             minimap.AssociateGameClient(ref client);
+            skillsPanel.AssociateGameClient(ref client);
         }
 
         protected override void SetChildrenProperties()
@@ -148,6 +156,9 @@ namespace RuneScapeSolo.Gui.GuiElements
             panel.Location = new Point2D(
                 Location.X + (Size.Width - panel.Size.Width) / 2,
                 exitButton.Location.Y - panel.Size.Height);
+            skillsPanel.Location = new Point2D(
+                panel.Location.X + 30,
+                panel.Location.Y + 5);
 
             combatButton.Location = new Point2D(
                 panel.Location.X,
@@ -212,6 +223,8 @@ namespace RuneScapeSolo.Gui.GuiElements
             prayerButton.IsToggled = false;
             spellsButton.IsToggled = false;
             exitButton.IsToggled = false;
+
+            skillsPanel.Visible = false;
         }
 
         void SkillsButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
@@ -225,6 +238,8 @@ namespace RuneScapeSolo.Gui.GuiElements
             prayerButton.IsToggled = false;
             spellsButton.IsToggled = false;
             exitButton.IsToggled = false;
+
+            skillsPanel.Visible = true;
         }
 
         void QuestsButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
@@ -238,6 +253,8 @@ namespace RuneScapeSolo.Gui.GuiElements
             prayerButton.IsToggled = false;
             spellsButton.IsToggled = false;
             exitButton.IsToggled = false;
+
+            skillsPanel.Visible = false;
         }
 
         void TasksButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
@@ -251,6 +268,8 @@ namespace RuneScapeSolo.Gui.GuiElements
             prayerButton.IsToggled = false;
             spellsButton.IsToggled = false;
             exitButton.IsToggled = false;
+
+            skillsPanel.Visible = false;
         }
 
         void InventoryButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
@@ -264,6 +283,8 @@ namespace RuneScapeSolo.Gui.GuiElements
             prayerButton.IsToggled = false;
             spellsButton.IsToggled = false;
             exitButton.IsToggled = false;
+
+            skillsPanel.Visible = false;
         }
 
         void EquipmentButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
@@ -277,6 +298,8 @@ namespace RuneScapeSolo.Gui.GuiElements
             prayerButton.IsToggled = false;
             spellsButton.IsToggled = false;
             exitButton.IsToggled = false;
+
+            skillsPanel.Visible = false;
         }
 
         void PrayerButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
@@ -290,6 +313,8 @@ namespace RuneScapeSolo.Gui.GuiElements
             prayerButton.IsToggled = true;
             spellsButton.IsToggled = false;
             exitButton.IsToggled = false;
+
+            skillsPanel.Visible = false;
         }
 
         void SpellsButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
@@ -303,6 +328,8 @@ namespace RuneScapeSolo.Gui.GuiElements
             prayerButton.IsToggled = false;
             spellsButton.IsToggled = true;
             exitButton.IsToggled = false;
+
+            skillsPanel.Visible = false;
         }
 
         void ExitButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
@@ -316,6 +343,8 @@ namespace RuneScapeSolo.Gui.GuiElements
             prayerButton.IsToggled = false;
             spellsButton.IsToggled = false;
             exitButton.IsToggled = true;
+
+            skillsPanel.Visible = false;
         }
     }
 }
