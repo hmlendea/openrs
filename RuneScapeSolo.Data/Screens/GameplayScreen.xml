@@ -6,18 +6,18 @@
 			<Y>0</Y>
 		</Location>
 		<Size>
-			<Width>1024</Width>
-			<Height>720</Height>
+			<Width>784</Width>
+			<Height>544</Height>
 		</Size>
 	</GameClient>
 	<SideBar>
 		<Location>
-			<X>1024</X>
+			<X>784</X>
 			<Y>0</Y>
 		</Location>
 		<Size>
-			<Width>256</Width>
-			<Height>720</Height>
+			<Width>240</Width>
+			<Height>544</Height>
 		</Size>
 	</SideBar>
 </GameplayScreen>

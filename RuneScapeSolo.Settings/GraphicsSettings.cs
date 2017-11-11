@@ -24,7 +24,7 @@ namespace RuneScapeSolo.Settings
 
         public GraphicsSettings()
         {
-            Resolution = new Size2D(1280, 720);
+            Resolution = new Size2D(1024, 544);
         }
     }
 }
