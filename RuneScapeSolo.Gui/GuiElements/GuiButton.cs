@@ -12,11 +12,15 @@ namespace RuneScapeSolo.Gui.GuiElements
     /// </summary>
     public class GuiButton : GuiElement
     {
+        public Size2D ButtonTileSize { get; set; }
+
         /// <summary>
         /// Gets or sets the size of the button.
         /// </summary>
         /// <value>The size of the button.</value>
-        public int ButtonSize => Size.Width / GameDefines.GUI_TILE_SIZE;
+        public Size2D ButtonSize => new Size2D(
+            Size.Width / ButtonTileSize.Width,
+            Size.Height / ButtonTileSize.Height);
 
         /// <summary>
         /// Gets or sets the text.
@@ -25,6 +29,8 @@ namespace RuneScapeSolo.Gui.GuiElements
         public string Text { get; set; }
 
         public string Icon { get; set; }
+
+        public string Texture { get; set; }
 
         public bool IsToggled { get; set; }
 
@@ -37,7 +43,9 @@ namespace RuneScapeSolo.Gui.GuiElements
         /// </summary>
         public GuiButton()
         {
+            Texture = "Interface/button";
             FontName = "ButtonFont";
+            ButtonTileSize = new Size2D(GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE);
         }
 
         /// <summary>
@@ -45,17 +53,13 @@ namespace RuneScapeSolo.Gui.GuiElements
         /// </summary>
         public override void LoadContent()
         {
-            icon = new GuiImage { ContentFile = Icon };
+            icon = new GuiImage();
             images = new List<GuiImage>();
             text = new GuiText();
 
-            for (int x = 0; x < ButtonSize; x++)
+            for (int x = 0; x < ButtonSize.Width; x++)
             {
-                GuiImage image = new GuiImage
-                {
-                    ContentFile = "Interface/button",
-                    SourceRectangle = CalculateSourceRectangle(x)
-                };
+                GuiImage image = new GuiImage { SourceRectangle = CalculateSourceRectangle(x) };
 
                 images.Add(image);
             }
@@ -77,7 +81,8 @@ namespace RuneScapeSolo.Gui.GuiElements
 
             for (int i = 0; i < images.Count; i++)
             {
-                images[i].Location = new Point2D(Location.X + i * GameDefines.GUI_TILE_SIZE, Location.Y);
+                images[i].ContentFile = Texture;
+                images[i].Location = new Point2D(Location.X + i * ButtonTileSize.Width, Location.Y);
                 images[i].SourceRectangle = CalculateSourceRectangle(i);
 
                 if (IsToggled)
@@ -96,6 +101,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             text.Location = Location;
             text.Size = Size;
 
+            icon.ContentFile = Icon;
             icon.Location = new Point2D(
                 Location.X + (Size.Width - icon.Size.Width) / 2,
                 Location.Y + (Size.Height - icon.Size.Height) / 2);
@@ -134,7 +140,7 @@ namespace RuneScapeSolo.Gui.GuiElements
         {
             int sx = 1;
 
-            if (ButtonSize == 1)
+            if (ButtonSize.Width == 1)
             {
                 sx = 3;
             }
@@ -142,7 +148,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             {
                 sx = 0;
             }
-            else if (x == ButtonSize - 1)
+            else if (x == ButtonSize.Width - 1)
             {
                 sx = 2;
             }
@@ -152,8 +158,8 @@ namespace RuneScapeSolo.Gui.GuiElements
                 sx += 4;
             }
 
-            return new Rectangle2D(sx * GameDefines.GUI_TILE_SIZE, 0,
-                                   GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE);
+            return new Rectangle2D(sx * ButtonTileSize.Width, 0,
+                                   ButtonTileSize.Width, ButtonTileSize.Height);
         }
     }
 }

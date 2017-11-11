@@ -16,6 +16,7 @@ namespace RuneScapeSolo.Gui.GuiElements
         GuiButton combatButton;
         GuiButton skillsButton;
         GuiButton questsButton;
+        GuiButton tasksButton;
         GuiButton inventoryButton;
         GuiButton equipmentButton;
         GuiButton prayerButton;
@@ -34,44 +35,67 @@ namespace RuneScapeSolo.Gui.GuiElements
 
             combatButton = new GuiButton
             {
+                Texture = "Interface/SideBar/button",
+                ButtonTileSize = new Size2D(30, 36),
                 Icon = "Interface/SideBar/combat_button_icon",
-                Size = new Size2D(GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE)
+                Size = new Size2D(30, 36)
             };
             skillsButton = new GuiButton
             {
+                Texture = "Interface/SideBar/button",
+                ButtonTileSize = new Size2D(30, 36),
                 Icon = "Interface/SideBar/skills_button_icon",
-                Size = new Size2D(GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE)
+                Size = new Size2D(30, 36)
             };
             questsButton = new GuiButton
             {
+                Texture = "Interface/SideBar/button",
+                ButtonTileSize = new Size2D(30, 36),
                 Icon = "Interface/SideBar/quests_button_icon",
-                Size = new Size2D(GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE)
+                Size = new Size2D(30, 36)
+            };
+            tasksButton = new GuiButton
+            {
+                Texture = "Interface/SideBar/button",
+                ButtonTileSize = new Size2D(30, 36),
+                Icon = "Interface/SideBar/tasks_button_icon",
+                Size = new Size2D(30, 36)
             };
             inventoryButton = new GuiButton
             {
+                Texture = "Interface/SideBar/button",
+                ButtonTileSize = new Size2D(30, 36),
                 Icon = "Interface/SideBar/inventory_button_icon",
-                Size = new Size2D(GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE),
+                Size = new Size2D(30, 36),
                 IsToggled = true
             };
             equipmentButton = new GuiButton
             {
+                Texture = "Interface/SideBar/button",
+                ButtonTileSize = new Size2D(30, 36),
                 Icon = "Interface/SideBar/equipment_button_icon",
-                Size = new Size2D(GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE)
+                Size = new Size2D(30, 36)
             };
             prayerButton = new GuiButton
             {
+                Texture = "Interface/SideBar/button",
+                ButtonTileSize = new Size2D(30, 36),
                 Icon = "Interface/SideBar/prayer_button_icon",
-                Size = new Size2D(GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE)
+                Size = new Size2D(30, 36)
             };
             spellsButton = new GuiButton
             {
+                Texture = "Interface/SideBar/button",
+                ButtonTileSize = new Size2D(30, 36),
                 Icon = "Interface/SideBar/spells_button_icon",
-                Size = new Size2D(GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE)
+                Size = new Size2D(30, 36)
             };
             exitButton = new GuiButton
             {
+                Texture = "Interface/SideBar/button",
+                ButtonTileSize = new Size2D(30, 36),
                 Icon = "Interface/SideBar/exit_button_icon",
-                Size = new Size2D(GameDefines.GUI_TILE_SIZE * 7, GameDefines.GUI_TILE_SIZE)
+                Size = new Size2D(240, 36)
             };
 
             Children.Add(background);
@@ -80,6 +104,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             Children.Add(combatButton);
             Children.Add(skillsButton);
             Children.Add(questsButton);
+            Children.Add(tasksButton);
             Children.Add(inventoryButton);
             Children.Add(equipmentButton);
             Children.Add(prayerButton);
@@ -125,7 +150,7 @@ namespace RuneScapeSolo.Gui.GuiElements
                 exitButton.Location.Y - panel.Size.Height);
 
             combatButton.Location = new Point2D(
-                Location.X + (Size.Width - GameDefines.GUI_TILE_SIZE * 7) / 2,
+                panel.Location.X,
                 panel.Location.Y - combatButton.Size.Height);
             skillsButton.Location = new Point2D(
                 combatButton.ClientRectangle.Right,
@@ -133,9 +158,12 @@ namespace RuneScapeSolo.Gui.GuiElements
             questsButton.Location = new Point2D(
                 skillsButton.ClientRectangle.Right,
                 skillsButton.Location.Y);
-            inventoryButton.Location = new Point2D(
+            tasksButton.Location = new Point2D(
                 questsButton.ClientRectangle.Right,
                 questsButton.Location.Y);
+            inventoryButton.Location = new Point2D(
+                tasksButton.ClientRectangle.Right,
+                tasksButton.Location.Y);
             equipmentButton.Location = new Point2D(
                 inventoryButton.ClientRectangle.Right,
                 inventoryButton.Location.Y);
@@ -152,6 +180,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             combatButton.Clicked += CombatButton_Clicked;
             skillsButton.Clicked += SkillsButton_Clicked;
             questsButton.Clicked += QuestsButton_Clicked;
+            tasksButton.Clicked += TasksButton_Clicked;
             inventoryButton.Clicked += InventoryButton_Clicked;
             equipmentButton.Clicked += EquipmentButton_Clicked;
             prayerButton.Clicked += PrayerButton_Clicked;
@@ -164,6 +193,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             combatButton.Clicked -= CombatButton_Clicked;
             skillsButton.Clicked -= SkillsButton_Clicked;
             questsButton.Clicked -= QuestsButton_Clicked;
+            tasksButton.Clicked -= TasksButton_Clicked;
             inventoryButton.Clicked -= InventoryButton_Clicked;
             equipmentButton.Clicked -= EquipmentButton_Clicked;
             prayerButton.Clicked -= PrayerButton_Clicked;
@@ -176,6 +206,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             combatButton.IsToggled = true;
             skillsButton.IsToggled = false;
             questsButton.IsToggled = false;
+            tasksButton.IsToggled = false;
             inventoryButton.IsToggled = false;
             equipmentButton.IsToggled = false;
             prayerButton.IsToggled = false;
@@ -188,6 +219,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             combatButton.IsToggled = false;
             skillsButton.IsToggled = true;
             questsButton.IsToggled = false;
+            tasksButton.IsToggled = false;
             inventoryButton.IsToggled = false;
             equipmentButton.IsToggled = false;
             prayerButton.IsToggled = false;
@@ -200,6 +232,20 @@ namespace RuneScapeSolo.Gui.GuiElements
             combatButton.IsToggled = false;
             skillsButton.IsToggled = false;
             questsButton.IsToggled = true;
+            tasksButton.IsToggled = false;
+            inventoryButton.IsToggled = false;
+            equipmentButton.IsToggled = false;
+            prayerButton.IsToggled = false;
+            spellsButton.IsToggled = false;
+            exitButton.IsToggled = false;
+        }
+
+        void TasksButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
+        {
+            combatButton.IsToggled = false;
+            skillsButton.IsToggled = false;
+            questsButton.IsToggled = false;
+            tasksButton.IsToggled = true;
             inventoryButton.IsToggled = false;
             equipmentButton.IsToggled = false;
             prayerButton.IsToggled = false;
@@ -212,6 +258,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             combatButton.IsToggled = false;
             skillsButton.IsToggled = false;
             questsButton.IsToggled = false;
+            tasksButton.IsToggled = false;
             inventoryButton.IsToggled = true;
             equipmentButton.IsToggled = false;
             prayerButton.IsToggled = false;
@@ -224,6 +271,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             combatButton.IsToggled = false;
             skillsButton.IsToggled = false;
             questsButton.IsToggled = false;
+            tasksButton.IsToggled = false;
             inventoryButton.IsToggled = false;
             equipmentButton.IsToggled = true;
             prayerButton.IsToggled = false;
@@ -236,6 +284,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             combatButton.IsToggled = false;
             skillsButton.IsToggled = false;
             questsButton.IsToggled = false;
+            tasksButton.IsToggled = false;
             inventoryButton.IsToggled = false;
             equipmentButton.IsToggled = false;
             prayerButton.IsToggled = true;
@@ -248,6 +297,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             combatButton.IsToggled = false;
             skillsButton.IsToggled = false;
             questsButton.IsToggled = false;
+            tasksButton.IsToggled = false;
             inventoryButton.IsToggled = false;
             equipmentButton.IsToggled = false;
             prayerButton.IsToggled = false;
@@ -260,6 +310,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             combatButton.IsToggled = false;
             skillsButton.IsToggled = false;
             questsButton.IsToggled = false;
+            tasksButton.IsToggled = false;
             inventoryButton.IsToggled = false;
             equipmentButton.IsToggled = false;
             prayerButton.IsToggled = false;
