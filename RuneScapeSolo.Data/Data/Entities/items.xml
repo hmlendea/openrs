@@ -2272,7 +2272,7 @@
     <Command />
     <BasePrice>17</BasePrice>
     <SpriteId>0</SpriteId>
-    <InventoryPicture>70</InventoryPicture>
+    <InventoryPicture>1021</InventoryPicture>
     <PictureMask>11704729</PictureMask>
     <IsEquipable>0</IsEquipable>
     <IsPremium>0</IsPremium>
@@ -2302,7 +2302,7 @@
     <Command />
     <BasePrice>162</BasePrice>
     <SpriteId>0</SpriteId>
-    <InventoryPicture>70</InventoryPicture>
+    <InventoryPicture>1022</InventoryPicture>
     <PictureMask>10072780</PictureMask>
     <IsEquipable>0</IsEquipable>
     <IsPremium>0</IsPremium>
@@ -2317,7 +2317,7 @@
     <Command />
     <BasePrice>400</BasePrice>
     <SpriteId>0</SpriteId>
-    <InventoryPicture>70</InventoryPicture>
+    <InventoryPicture>1023</InventoryPicture>
     <PictureMask>11717785</PictureMask>
     <IsEquipable>0</IsEquipable>
     <IsPremium>0</IsPremium>
