@@ -77,7 +77,7 @@ namespace RuneScapeSolo.Graphics
         /// Gets or sets a value indicating whether the text of the <see cref="Sprite"/> will be outlined.
         /// </summary>
         /// <value><c>true</c> if the text is outlined; otherwise, <c>false</c>.</value>
-        public bool TextOutline { get; set; }
+        public FontOutline FontOutline { get; set; }
 
         /// <summary>
         /// Gets or sets the text horizontal alignment.
@@ -482,7 +482,7 @@ namespace RuneScapeSolo.Graphics
                 textOrigin = new Vector2((int)Math.Round(textOrigin.X),
                                          (int)Math.Round(textOrigin.Y));
 
-                if (TextOutline)
+                if (FontOutline == FontOutline.Around)
                 {
                     for (int dx = -1; dx <= 1; dx++)
                     {
@@ -495,6 +495,14 @@ namespace RuneScapeSolo.Graphics
                             spriteBatch.DrawString(spriteFont, line, pos, Color.Black);
                         }
                     }
+                }
+                else if (FontOutline == FontOutline.BottomRight)
+                {
+                    Vector2 pos = new Vector2(Location.X + 1 + textOrigin.X,
+                                              Location.Y + 1 + textOrigin.Y);
+
+                    // TODO: Do not hardcode the outline colour
+                    spriteBatch.DrawString(spriteFont, line, pos, Color.Black);
                 }
 
                 spriteBatch.DrawString(spriteFont, line, new Vector2(Location.X, Location.Y) + textOrigin, colour);

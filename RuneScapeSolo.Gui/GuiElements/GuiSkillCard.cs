@@ -1,4 +1,5 @@
-﻿using RuneScapeSolo.Graphics.Primitives;
+﻿using RuneScapeSolo.Graphics.Enumerations;
+using RuneScapeSolo.Graphics.Primitives;
 
 namespace RuneScapeSolo.Gui.GuiElements
 {
@@ -36,12 +37,14 @@ namespace RuneScapeSolo.Gui.GuiElements
             currentLevelText = new GuiText
             {
                 FontName = "SkillCardFont",
+                FontOutline = FontOutline.BottomRight,
                 Size = new Size2D(12, 10),
                 ForegroundColour = Colour.Yellow
             };
             baseLevelText = new GuiText
             {
                 FontName = "SkillCardFont",
+                FontOutline = FontOutline.BottomRight,
                 Size = new Size2D(12, 10),
                 ForegroundColour = Colour.Yellow
             };

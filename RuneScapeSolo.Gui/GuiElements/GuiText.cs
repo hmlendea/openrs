@@ -19,7 +19,7 @@ namespace RuneScapeSolo.Gui.GuiElements
         /// <value>The text.</value>
         public string Text { get; set; }
 
-        public bool TextOutline { get; set; }
+        public FontOutline FontOutline { get; set; }
 
         /// <summary>
         /// Gets or sets the vertical alignment of the text.
@@ -139,10 +139,10 @@ namespace RuneScapeSolo.Gui.GuiElements
 
             textSprite.Text = Text;
             textSprite.FontName = FontName;
+            textSprite.FontOutline = FontOutline;
             textSprite.Tint = ForegroundColour;
             textSprite.TextVerticalAlignment = VerticalAlignment;
             textSprite.TextHorizontalAlignment = HorizontalAlignment;
-            textSprite.TextOutline = TextOutline;
             textSprite.Location = new Point2D(Location.X + Margins,
                                               Location.Y + Margins);
             textSprite.SpriteSize = new Size2D(Size.Width - Margins * 2,

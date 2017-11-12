@@ -33,6 +33,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             {
                 Size = new Size2D(Size.Width, 10),
                 FontName = "ItemCardFont",
+                FontOutline = FontOutline.BottomRight,
                 HorizontalAlignment = HorizontalAlignment.Top,
                 VerticalAlignment = VerticalAlignment.Left
             };

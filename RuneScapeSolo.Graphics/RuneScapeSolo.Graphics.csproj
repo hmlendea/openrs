@@ -62,6 +62,7 @@
     <Compile Include="SpriteEffect\FadeEffect.cs" />
     <Compile Include="SpriteEffect\RotationEffect.cs" />
     <Compile Include="SpriteEffect\ZoomEffect.cs" />
+    <Compile Include="Enumerations\FontOutline.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuneScapeSolo.DataAccess\RuneScapeSolo.DataAccess.csproj">
