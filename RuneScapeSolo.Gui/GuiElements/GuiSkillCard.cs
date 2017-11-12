@@ -16,6 +16,11 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         public int BaseLevel { get; set; }
 
+        public GuiSkillCard()
+        {
+            Size = new Size2D(60, 32);
+        }
+
         public override void LoadContent()
         {
             background = new GuiImage
@@ -58,10 +63,10 @@ namespace RuneScapeSolo.Gui.GuiElements
             skillIcon.ContentFile = SkillIcon;
 
             currentLevelText.Text = CurrentLevel.ToString();
-            currentLevelText.Location = new Point2D(Location.X + 36, Location.Y + 4);
+            currentLevelText.Location = new Point2D(Location.X + 32, Location.Y + 4);
 
             baseLevelText.Text = BaseLevel.ToString();
-            baseLevelText.Location = new Point2D(Location.X + 48, Location.Y + 16);
+            baseLevelText.Location = new Point2D(Location.X + 44, Location.Y + 16);
 
             base.SetChildrenProperties();
         }

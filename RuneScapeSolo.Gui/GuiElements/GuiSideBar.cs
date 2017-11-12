@@ -34,7 +34,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             };
             minimap = new GuiMinimap { Size = new Size2D(224, 176) };
             panel = new GuiSideBarPanel { Size = new Size2D(240, 262) };
-            skillsPanel = new GuiSkillsPanel { Size = new Size2D(180, 252) };
+            skillsPanel = new GuiSkillsPanel { Size = new Size2D(190, 262) };
 
             combatButton = new GuiButton
             {
@@ -157,8 +157,8 @@ namespace RuneScapeSolo.Gui.GuiElements
                 Location.X + (Size.Width - panel.Size.Width) / 2,
                 exitButton.Location.Y - panel.Size.Height);
             skillsPanel.Location = new Point2D(
-                panel.Location.X + 30,
-                panel.Location.Y + 5);
+                panel.Location.X + 25,
+                panel.Location.Y);
 
             combatButton.Location = new Point2D(
                 panel.Location.X,

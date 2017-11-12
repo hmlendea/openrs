@@ -30,96 +30,24 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         public override void LoadContent()
         {
-            attackCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/attack"
-            };
-            healthCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/health"
-            };
-            miningCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/mining"
-            };
-            strengthCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/strength"
-            };
-            agilityCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/agility"
-            };
-            smithingCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/smithing"
-            };
-            defenceCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/defence"
-            };
-            herbloreCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/herblore"
-            };
-            fishingCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/fishing"
-            };
-            rangedCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/ranged"
-            };
-            thievingCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/thieving"
-            };
-            cookingCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/cooking"
-            };
-            prayerCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/prayer"
-            };
-            craftingCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/crafting"
-            };
-            firemakingCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/firemaking"
-            };
-            magicCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/magic"
-            };
-            fletchingCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/fletching"
-            };
-            woodcuttingCard = new GuiSkillCard
-            {
-                Size = new Size2D(64, 32),
-                SkillIcon = "Icons/Skills/woodcutting"
-            };
+            attackCard = new GuiSkillCard { SkillIcon = "Icons/Skills/attack" };
+            healthCard = new GuiSkillCard { SkillIcon = "Icons/Skills/health" };
+            miningCard = new GuiSkillCard { SkillIcon = "Icons/Skills/mining" };
+            strengthCard = new GuiSkillCard { SkillIcon = "Icons/Skills/strength" };
+            agilityCard = new GuiSkillCard { SkillIcon = "Icons/Skills/agility" };
+            smithingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/smithing" };
+            defenceCard = new GuiSkillCard { SkillIcon = "Icons/Skills/defence" };
+            herbloreCard = new GuiSkillCard { SkillIcon = "Icons/Skills/herblore" };
+            fishingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/fishing" };
+            rangedCard = new GuiSkillCard { SkillIcon = "Icons/Skills/ranged" };
+            thievingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/thieving" };
+            cookingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/cooking" };
+            prayerCard = new GuiSkillCard { SkillIcon = "Icons/Skills/prayer" };
+            craftingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/crafting" };
+            firemakingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/firemaking" };
+            magicCard = new GuiSkillCard { SkillIcon = "Icons/Skills/magic" };
+            fletchingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/fletching" };
+            woodcuttingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/woodcutting" };
 
             Children.Add(attackCard);
             Children.Add(healthCard);
@@ -211,12 +139,12 @@ namespace RuneScapeSolo.Gui.GuiElements
         {
             base.SetChildrenProperties();
 
-            int spacingX = (Size.Width - 3 * attackCard.Size.Width) / 4;
-            int spacingY = (Size.Height - 6 * attackCard.Size.Height) / 7;
+            int spacingX = 1;
+            int spacingY = 1;
 
             attackCard.Location = new Point2D(
-                Location.X + spacingX,
-                Location.Y + spacingY);
+                Location.X + (Size.Width - 3 * attackCard.Size.Width - 2 * spacingX) / 2,
+                Location.Y + (Size.Width - 3 * attackCard.Size.Width - 2 * spacingX) / 2);
             healthCard.Location = new Point2D(
                 attackCard.ClientRectangle.Right + spacingX,
                 attackCard.ClientRectangle.Top);
