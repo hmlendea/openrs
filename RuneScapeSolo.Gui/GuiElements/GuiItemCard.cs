@@ -7,6 +7,9 @@ namespace RuneScapeSolo.Gui.GuiElements
 {
     public class GuiItemCard : GuiElement
     {
+        const int SpriteRows = 32;
+        const int SpriteColumns = 32;
+
         GuiImage icon;
         GuiText quantity;
 
@@ -16,7 +19,7 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         public GuiItemCard()
         {
-            Size = new Size2D(40, 40);
+            Size = new Size2D(36, 36);
         }
 
         public override void LoadContent()
@@ -42,14 +45,8 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         public override void Update(GameTime gameTime)
         {
-            if (Quantity == 1)
-            {
-                quantity.Visible = false;
-            }
-            else
-            {
-                quantity.Visible = true;
-            }
+            icon.Visible = Quantity > 0;
+            quantity.Visible = Quantity > 1;
 
             base.Update(gameTime);
         }
@@ -69,8 +66,11 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         Rectangle2D CalculateIconSourceRectangle(int id)
         {
-            return new Rectangle2D(id / 32 * icon.Size.Width,
-                                   id % 32 * icon.Size.Height,
+            int x = id % SpriteColumns;
+            int y = id / SpriteRows;
+
+            return new Rectangle2D(x * icon.Size.Width,
+                                   y * icon.Size.Height,
                                    icon.Size.Width,
                                    icon.Size.Height);
         }

@@ -2291,7 +2291,7 @@ namespace RuneScapeSolo.Net.Client.Game
             }
             catch (Exception ex)
             {
-                Console.WriteLine("error in transparent sprite plot routine");
+                //Console.WriteLine("error in transparent sprite plot routine");
             }
         }
 
@@ -2364,7 +2364,7 @@ namespace RuneScapeSolo.Net.Client.Game
             }
             catch (Exception ex)
             {
-                Console.WriteLine("error in transparent sprite plot routine");
+                //Console.WriteLine("error in transparent sprite plot routine");
             }
         }
 
@@ -2430,7 +2430,7 @@ namespace RuneScapeSolo.Net.Client.Game
             }
             catch (Exception ex)
             {
-                Console.WriteLine("error in transparent sprite plot routine");
+                //Console.WriteLine("error in transparent sprite plot routine");
             }
         }
 
@@ -2504,7 +2504,7 @@ namespace RuneScapeSolo.Net.Client.Game
             }
             catch (Exception ex)
             {
-                Console.WriteLine("error in transparent sprite plot routine");
+                //Console.WriteLine("error in transparent sprite plot routine");
             }
         }
 

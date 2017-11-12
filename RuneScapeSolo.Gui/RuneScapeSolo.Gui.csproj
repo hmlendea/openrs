@@ -60,6 +60,7 @@
     <Compile Include="GuiElements\GuiSideBarPanel.cs" />
     <Compile Include="GuiElements\GuiSkillsPanel.cs" />
     <Compile Include="GuiElements\GuiItemCard.cs" />
+    <Compile Include="GuiElements\GuiInventoryPanel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuneScapeSolo.DataAccess\RuneScapeSolo.DataAccess.csproj">

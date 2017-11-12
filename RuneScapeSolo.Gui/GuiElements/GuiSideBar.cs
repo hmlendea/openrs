@@ -11,8 +11,9 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         GuiImage background;
         GuiMinimap minimap;
-        GuiSideBarPanel panel;
 
+        GuiSideBarPanel panel;
+        GuiInventoryPanel inventoryPanel;
         GuiSkillsPanel skillsPanel;
 
         GuiButton combatButton;
@@ -35,6 +36,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             minimap = new GuiMinimap { Size = new Size2D(224, 176) };
             panel = new GuiSideBarPanel { Size = new Size2D(240, 262) };
             skillsPanel = new GuiSkillsPanel { Size = new Size2D(190, 262) };
+            inventoryPanel = new GuiInventoryPanel { Size = new Size2D(190, 262) };
 
             combatButton = new GuiButton
             {
@@ -105,6 +107,7 @@ namespace RuneScapeSolo.Gui.GuiElements
 
             Children.Add(panel);
             Children.Add(skillsPanel);
+            Children.Add(inventoryPanel);
 
             Children.Add(combatButton);
             Children.Add(skillsButton);
@@ -136,6 +139,7 @@ namespace RuneScapeSolo.Gui.GuiElements
 
             minimap.AssociateGameClient(ref client);
             skillsPanel.AssociateGameClient(ref client);
+            inventoryPanel.AssociateGameClient(ref client);
         }
 
         protected override void SetChildrenProperties()
@@ -159,6 +163,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             skillsPanel.Location = new Point2D(
                 panel.Location.X + 25,
                 panel.Location.Y);
+            inventoryPanel.Location = skillsPanel.Location;
 
             combatButton.Location = new Point2D(
                 panel.Location.X,
@@ -225,6 +230,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             exitButton.IsToggled = false;
 
             skillsPanel.Visible = false;
+            inventoryPanel.Visible = false;
         }
 
         void SkillsButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
@@ -240,6 +246,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             exitButton.IsToggled = false;
 
             skillsPanel.Visible = true;
+            inventoryPanel.Visible = false;
         }
 
         void QuestsButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
@@ -255,6 +262,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             exitButton.IsToggled = false;
 
             skillsPanel.Visible = false;
+            inventoryPanel.Visible = false;
         }
 
         void TasksButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
@@ -270,6 +278,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             exitButton.IsToggled = false;
 
             skillsPanel.Visible = false;
+            inventoryPanel.Visible = false;
         }
 
         void InventoryButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
@@ -285,6 +294,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             exitButton.IsToggled = false;
 
             skillsPanel.Visible = false;
+            inventoryPanel.Visible = true;
         }
 
         void EquipmentButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
@@ -300,6 +310,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             exitButton.IsToggled = false;
 
             skillsPanel.Visible = false;
+            inventoryPanel.Visible = false;
         }
 
         void PrayerButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
@@ -315,6 +326,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             exitButton.IsToggled = false;
 
             skillsPanel.Visible = false;
+            inventoryPanel.Visible = false;
         }
 
         void SpellsButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
@@ -330,6 +342,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             exitButton.IsToggled = false;
 
             skillsPanel.Visible = false;
+            inventoryPanel.Visible = false;
         }
 
         void ExitButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
@@ -345,6 +358,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             exitButton.IsToggled = true;
 
             skillsPanel.Visible = false;
+            inventoryPanel.Visible = false;
         }
     }
 }
