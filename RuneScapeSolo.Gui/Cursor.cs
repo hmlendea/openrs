@@ -21,37 +21,43 @@ namespace RuneScapeSolo.Gui
 
         public MouseButtonState State { get; private set; }
 
+        public int Frames { get; set; }
+
         Sprite idleSprite;
         Sprite clickSprite;
+
+        public Cursor()
+        {
+            Frames = 1;
+        }
 
         /// <summary>
         /// Loads the content.
         /// </summary>
         public void LoadContent()
         {
-            idleSprite = new Sprite
-            {
-                Effects = nameof(AnimationEffect),
-                ContentFile = "Cursors/idle",
-                Active = true
-            };
-            clickSprite = new Sprite
-            {
-                Effects = nameof(AnimationEffect),
-                ContentFile = "Cursors/click",
-                Active = true
-            };
+            idleSprite = new Sprite { ContentFile = "Cursors/idle" };
+            clickSprite = new Sprite { ContentFile = "Cursors/click" };
 
-            idleSprite.AnimationEffect = new AnimationEffect
+            if (Frames > 1)
             {
-                FrameAmount = new Point2D(8, 1).ToXnaPoint(),
-                SwitchFrame = 150
-            };
-            clickSprite.AnimationEffect = new AnimationEffect
-            {
-                FrameAmount = new Point2D(8, 1).ToXnaPoint(),
-                SwitchFrame = 150
-            };
+                idleSprite.Active = true;
+                idleSprite.Effects = nameof(AnimationEffect);
+
+                clickSprite.Active = true;
+                clickSprite.Effects = nameof(AnimationEffect);
+
+                idleSprite.AnimationEffect = new AnimationEffect
+                {
+                    FrameAmount = new Point2D(Frames, 1).ToXnaPoint(),
+                    SwitchFrame = 300
+                };
+                clickSprite.AnimationEffect = new AnimationEffect
+                {
+                    FrameAmount = new Point2D(Frames, 1).ToXnaPoint(),
+                    SwitchFrame = 300
+                };
+            }
 
             SetChildrenProperites();
 
