@@ -352,7 +352,7 @@
     <Command />
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
-    <InventoryPicture>23</InventoryPicture>
+    <InventoryPicture>991</InventoryPicture>
     <PictureMask>0</PictureMask>
     <IsEquipable>0</IsEquipable>
     <IsPremium>0</IsPremium>
@@ -11587,7 +11587,7 @@
     <Command />
     <BasePrice>2</BasePrice>
     <SpriteId>0</SpriteId>
-    <InventoryPicture>23</InventoryPicture>
+    <InventoryPicture>990</InventoryPicture>
     <PictureMask>9461792</PictureMask>
     <IsEquipable>0</IsEquipable>
     <IsPremium>1</IsPremium>
