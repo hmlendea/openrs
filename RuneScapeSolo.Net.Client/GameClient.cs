@@ -135,7 +135,6 @@ namespace RuneScapeSolo.Net.Client
         public bool ShowRoofs { get; set; }
         public bool ShowShopBox { get; set; }
         public bool ShowWelcomeBox { get; set; }
-        public bool SoundOff { get; set; }
         public bool[] WallObjectAlreadyInMenu { get; set; }
         public string LastLoginAddress { get; set; }
         public string MoneyTask { get; set; }
@@ -400,7 +399,6 @@ namespace RuneScapeSolo.Net.Client
             sleepWordDelay = true;
             CameraAutoAngle = true;
             cameraRotation = 128;
-            SoundOff = false;
             menuShow = false;
             duelOpponentItems = new int[8];
             duelOpponentItemsCount = new int[8];
@@ -1835,15 +1833,6 @@ namespace RuneScapeSolo.Net.Client
                     for (int k4 = 0; k4 < length - 1; k4++)
                     {
                         bool flag = data[k4 + 1] == 1;
-                        if (!prayerOn[k4] && flag)
-                        {
-                            playSound("prayeron");
-                        }
-
-                        if (prayerOn[k4] && !flag)
-                        {
-                            playSound("prayeroff");
-                        }
 
                         prayerOn[k4] = flag;
                     }
@@ -2083,12 +2072,6 @@ namespace RuneScapeSolo.Net.Client
                     duelMagic = data[off++] & 0xff;
                     duelPrayer = data[off++] & 0xff;
                     duelWeapons = data[off++] & 0xff;
-                    return;
-                }
-                if (command == ServerCommand.PlaySound)
-                {
-                    string s1 = new string(data.Select(c => (char)c).ToArray(), 1, length - 1);
-                    playSound(s1);
                     return;
                 }
                 if (command == ServerCommand.Command23)
@@ -2345,21 +2328,7 @@ namespace RuneScapeSolo.Net.Client
 
             return true;
         }
-
-        public void loadSounds()
-        {
-            try
-            {
-                soundData = unpackData("sounds.mem", "Sound effects", 90);
-                audioPlayer = new AudioReader();
-                return;
-            }
-            catch (Exception throwable)
-            {
-                Console.WriteLine("Unable to init sounds:" + throwable);
-            }
-        }
-
+        
         public override void LoadGame()
         {
             int l = 0;
@@ -2436,8 +2405,7 @@ namespace RuneScapeSolo.Net.Client
             {
                 return;
             }
-
-            loadSounds();
+            
             if (!errorLoading)
             {
                 OnContentLoaded?.Invoke(this, new ContentLoadedEventArgs("Starting game...", 100));
@@ -3168,18 +3136,6 @@ namespace RuneScapeSolo.Net.Client
             }
 
             l1 += 15;
-            if (GameDefines.PREMIUM_FEATURES)
-            {
-                if (SoundOff)
-                {
-                    gameGraphics.drawString("Sound effects - @red@off", j1, l1, 1, 0xffffff);
-                }
-                else
-                {
-                    gameGraphics.drawString("Sound effects - @gre@on", j1, l1, 1, 0xffffff);
-                }
-            }
-
             l1 += 15;
             gameGraphics.drawString("Client assists - click to toggle", j1, l1, 1, 0);
             l1 += 15;
@@ -3265,14 +3221,6 @@ namespace RuneScapeSolo.Net.Client
                     StreamClass.FormatPacket();
                 }
                 i2 += 15;
-                if (GameDefines.PREMIUM_FEATURES && InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
-                {
-                    SoundOff = !SoundOff;
-                    StreamClass.CreatePacket(157);
-                    StreamClass.AddInt8(3);
-                    StreamClass.AddInt8(SoundOff ? 1 : 0);
-                    StreamClass.FormatPacket();
-                }
                 i2 += 15;
                 i2 += 15;
                 if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
@@ -4477,7 +4425,6 @@ namespace RuneScapeSolo.Net.Client
                             StreamClass.AddInt8(k2);
                             StreamClass.FormatPacket();
                             prayerOn[k2] = false;
-                            playSound("prayeroff");
                         }
                         else
                         {
@@ -4485,7 +4432,6 @@ namespace RuneScapeSolo.Net.Client
                             StreamClass.AddInt8(k2);
                             StreamClass.FormatPacket();
                             prayerOn[k2] = true;
-                            playSound("prayeron");
                         }
                     }
                 }
@@ -8348,21 +8294,6 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        public void playSound(string s1)
-        {
-            if (audioPlayer == null || !GameDefines.PREMIUM_FEATURES)
-            {
-                return;
-            }
-
-            if (!SoundOff)
-            {
-                int off = (int)DataOperations.getObjectOffset(s1 + ".pcm", soundData);
-                int len = DataOperations.getSoundLength(s1 + ".pcm", soundData);
-                audioPlayer.Play(soundData, off, len);
-            }
-        }
-
         public void drawRightClickMenu()
         {
             if (mouseButtonClick != 0)
@@ -8699,7 +8630,6 @@ namespace RuneScapeSolo.Net.Client
         public int appearanceBottomLeftArrow;
         public int appearanceBottomRightArrow;
         public int appearanceAcceptButton;
-        public sbyte[] soundData;
         public int shopItemSellPriceModifier;
         public int shopItemBuyPriceModifier;
         public int wildType;

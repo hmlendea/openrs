@@ -1079,7 +1079,7 @@ namespace RuneScapeSolo.Net.Client
         {
             client.CameraAutoAngle = DataOperations.GetInt8(data[1]) == 1;
             client.OneMouseButton = DataOperations.GetInt8(data[2]) == 1;
-            client.SoundOff = DataOperations.GetInt8(data[3]) == 1;
+            DataOperations.GetInt8(data[3]); // Dummy for the sound toggle
             client.ShowRoofs = DataOperations.GetInt8(data[4]) == 1;
             client.AutoScreenshot = DataOperations.GetInt8(data[5]) == 1;
             client.ShowCombatWindow = DataOperations.GetInt8(data[6]) == 1;

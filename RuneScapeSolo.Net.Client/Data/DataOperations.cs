@@ -314,32 +314,7 @@ namespace RuneScapeSolo.Net.Client.Data
 
             return 0;
         }
-
-        public static int getSoundLength(string arg0, sbyte[] arg1)
-        {
-            // return org.moparscape.msc.client.DataOperations.getSoundLength(objName, objData);
-
-            int i = GetInt16(arg1, 0);
-            int j = 0;
-            arg0 = arg0.ToUpper();
-            for (int k = 0; k < arg0.Length; k++)
-            {
-                j = (j * 61 + arg0[k]) - 32;
-            }
-
-            for (int i1 = 0; i1 < i; i1++)
-            {
-                int j1 = (arg1[i1 * 10 + 2] & 0xff) * 0x1000000 + (arg1[i1 * 10 + 3] & 0xff) * 0x10000 + (arg1[i1 * 10 + 4] & 0xff) * 256 + (arg1[i1 * 10 + 5] & 0xff);
-                int k1 = (arg1[i1 * 10 + 6] & 0xff) * 0x10000 + (arg1[i1 * 10 + 7] & 0xff) * 256 + (arg1[i1 * 10 + 8] & 0xff);
-                if (j1 == j)
-                {
-                    return k1;
-                }
-            }
-
-            return 0;
-        }
-
+        
         public static byte[] loadData(string s, int i, byte[] abyte0)
         {
             return loadData(s, i, abyte0, null);

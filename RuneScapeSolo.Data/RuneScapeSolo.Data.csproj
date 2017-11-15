@@ -75,9 +75,6 @@
     <None Include="Data\models.jag">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Data\sounds.mem">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Data\textures.jag">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
