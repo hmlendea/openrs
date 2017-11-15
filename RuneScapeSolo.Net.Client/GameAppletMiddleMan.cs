@@ -313,57 +313,6 @@ namespace RuneScapeSolo.Net.Client
 
         public virtual void HandlePacket(ServerCommand command, int length)
         {
-
-            if (command == ServerCommand.ServerAnnouncement)
-            {
-                string message = Encoding.UTF8.GetString((byte[])(Array)data, 1, length - 1);
-                DisplayMessage(message);
-
-                return;
-            }
-            if (command == ServerCommand.LogoutRequest)
-            {
-                requestLogout();
-                return;
-            }
-            if (command == ServerCommand.LogoutCannot)
-            {
-                cantLogout();
-                return;
-            }
-            if (command == ServerCommand.Command249)
-            {
-                Console.WriteLine("Won't implement this command!");
-
-                return;
-            }
-            if (command == ServerCommand.Command25)
-            {
-                Console.WriteLine("Won't implement this command!");
-
-                return;
-            }
-            if (command == ServerCommand.Command2)
-            {
-                Console.WriteLine("Won't implement this command!");
-
-                return;
-            }
-            if (command == ServerCommand.Command158)
-            {
-                Console.WriteLine("Won't implement this command!");
-
-                return;
-            }
-            if (command == ServerCommand.PrivateMessage)
-            {
-                long user = DataOperations.GetLong(data, 1);
-                string s = ChatMessage.bytesToString(data, 9, length - 9);
-                DisplayMessage("@pri@" + DataOperations.LongToString(user) + ": tells you " + s);
-
-                return;
-            }
-
             HandlePacket(command, length, data);
         }
 
@@ -376,7 +325,7 @@ namespace RuneScapeSolo.Net.Client
             StreamClass.AddInt8(blockDuel);
             StreamClass.FormatPacket();
         }
-        
+
         protected void SendCommand(string command)
         {
             StreamClass.CreatePacket(90);
@@ -404,7 +353,7 @@ namespace RuneScapeSolo.Net.Client
         {
         }
 
-        public virtual void DisplayMessage(string s1)
+        public virtual void DisplayMessage(string message)
         {
         }
 

@@ -62,12 +62,9 @@ namespace RuneScapeSolo.Net.Client
         public int AreaY { get; set; }
         public int CompletedTasks { get; set; }
         public int Deaths { get; set; }
-        public int DropPartyTimer;
         public int GridSize { get; set; }
         public int GroundItemCount { get; set; }
         public int GuthixSpells { get; set; }
-        public int PvpTournamentTimer;
-        public int WildernessModeTimer;
         public int Tutorial { get; set; }
         public int TaskCash { get; set; }
         public int TaskExperience { get; set; }
@@ -97,7 +94,6 @@ namespace RuneScapeSolo.Net.Client
         public int ServerStartTime { get; set; }
         public int ServerIndex { get; set; }
         public int SubscriptionDaysLeft { get; set; }
-        public int SystemUpdateTimer { get; set; }
         public int WallObjectCount { get; set; }
         public int WildX { get; set; }
         public int WildY { get; set; }
@@ -124,7 +120,6 @@ namespace RuneScapeSolo.Net.Client
         public bool LoadArea { get; set; } // Not in wilderness
         public bool LoginScreenShown { get; set; }
         public bool NeedsClear { get; set; }
-        public bool OneMouseButton { get; set; }
         public bool ShowAppearanceWindow { get; set; }
         public bool ShowBankBox { get; set; }
         public bool ShowCombatWindow { get; set; }
@@ -403,7 +398,6 @@ namespace RuneScapeSolo.Net.Client
             errorLoading = false;
             itemAboveHeadX = new int[50];
             itemAboveHeadY = new int[50];
-            showServerMessageBox = false;
             PlayersBufferIndexes = new int[500];
             selectedBankItem = -1;
             selectedBankItemType = -2;
@@ -419,7 +413,6 @@ namespace RuneScapeSolo.Net.Client
             LastPlayers = new Mob[500];
             mouseTrailX = new int[8192];
             mouseTrailY = new int[8192];
-            OneMouseButton = false;
             prayerOn = new bool[50];
             shopItems = new int[256];
             shopItemCount = new int[256];
@@ -747,15 +740,8 @@ namespace RuneScapeSolo.Net.Client
 
         public override void resetIntVars()
         {
-            SystemUpdateTimer = 0;
-
-            WildernessModeTimer = 0;
-            PvpTournamentTimer = 0;
-            DropPartyTimer = 0;
-
             loginScreenNumber = 0;
             loggedIn = false;
-            logoutTimer = 0;
         }
 
         public void loadMap()
@@ -1027,7 +1013,6 @@ namespace RuneScapeSolo.Net.Client
 
         public override void Close()
         {
-            requestLogout();
             cleanUp();
         }
 
@@ -1568,28 +1553,9 @@ namespace RuneScapeSolo.Net.Client
                     }
                     return;
                 }
-                if (command == ServerCommand.Command148)
-                {
-                    serverMessage = new string(data.Select(c => (char)c).ToArray(), 1, length - 1);
-                    showServerMessageBox = true;
-                    serverMessageBoxTop = false;
-                    return;
-                }
-                if (command == ServerCommand.Command64)
-                {
-                    serverMessage = new string(data.Select(c => (char)c).ToArray(), 1, length - 1);
-                    showServerMessageBox = true;
-                    serverMessageBoxTop = true;
-                    return;
-                }
                 if (command == ServerCommand.Command225)
                 {
                     sleepingStatusText = "Incorrect - Please wait...";
-                    return;
-                }
-                if (command == ServerCommand.Command172)
-                {
-                    SystemUpdateTimer = DataOperations.GetInt16(data, 1) * 32;
                     return;
                 }
                 if (command == ServerCommand.Command182)
@@ -1643,13 +1609,7 @@ namespace RuneScapeSolo.Net.Client
 
         public override void initVars()
         {
-            DropPartyTimer = 0;
-            PvpTournamentTimer = 0;
-            SystemUpdateTimer = 0;
-            WildernessModeTimer = 0;
-
             CombatStyle = 0;
-            logoutTimer = 0;
             loginScreenNumber = 0;
             loggedIn = true;
 
@@ -1936,26 +1896,6 @@ namespace RuneScapeSolo.Net.Client
             loginMenuCancelButton = loginMenuLogin.createButton(410, l, 120, 25);
             l += 30;
             loginMenuLogin.setFocus(loginMenuUserText);
-        }
-
-        public override void LostConnection()
-        {
-            SystemUpdateTimer = 0;
-
-            PvpTournamentTimer = 0;
-            WildernessModeTimer = 0;
-            DropPartyTimer = 0;
-
-            if (logoutTimer != 0)
-            {
-                resetIntVars();
-                return;
-            }
-            else
-            {
-                base.LostConnection();
-                return;
-            }
         }
 
         public void loadMedia()
@@ -2323,36 +2263,6 @@ namespace RuneScapeSolo.Net.Client
             return l;
         }
 
-        public void sendLogout()
-        {
-            if (!loggedIn)
-            {
-                return;
-            }
-
-            if (combatTimeout > 450)
-            {
-                DisplayMessage("@cya@You can't logout during combat!");
-                return;
-            }
-            if (combatTimeout > 0)
-            {
-                DisplayMessage("@cya@You can't logout for 10 seconds after combat");
-                return;
-            }
-            else
-            {
-                StreamClass.CreatePacket(129);
-                StreamClass.FormatPacket();
-                logoutTimer = 1000;
-
-                StreamClass.CloseStream();
-                return;
-            }
-        }
-
-
-
         public bool WalkTo(int startX, int startY, int destBottomX, int destBottomY,
                            int destTopX, int destTopY, bool checkForObjects, bool walkToACommand)
         {
@@ -2475,15 +2385,6 @@ namespace RuneScapeSolo.Net.Client
             }
 
             l1 += 15;
-            if (OneMouseButton)
-            {
-                gameGraphics.drawString("Mouse buttons - @red@One", j1, l1, 1, 0xffffff);
-            }
-            else
-            {
-                gameGraphics.drawString("Mouse buttons - @gre@Two", j1, l1, 1, 0xffffff);
-            }
-
             l1 += 15;
             l1 += 15;
             gameGraphics.drawString("Client assists - click to toggle", j1, l1, 1, 0);
@@ -2520,15 +2421,14 @@ namespace RuneScapeSolo.Net.Client
             l1 += 15;
             l1 += 15;
             l1 += 5;
-            gameGraphics.drawString("Always logout when you finish", j1, l1, 1, 0);
             l1 += 15;
             int j2 = 0xffffff;
+
             if (InputManager.Instance.MouseLocation.X > j1 && InputManager.Instance.MouseLocation.X < j1 + c1 && InputManager.Instance.MouseLocation.Y > l1 - 12 && InputManager.Instance.MouseLocation.Y < l1 + 4)
             {
                 j2 = 0xffff00;
             }
 
-            gameGraphics.drawString("Click here to logout", l + 3, l1, 1, j2);
             if (!canClick)
             {
                 return;
@@ -2552,14 +2452,6 @@ namespace RuneScapeSolo.Net.Client
                     StreamClass.FormatPacket();
                 }
                 i2 += 15;
-                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
-                {
-                    OneMouseButton = !OneMouseButton;
-                    StreamClass.CreatePacket(157);
-                    StreamClass.AddInt8(2);
-                    StreamClass.AddInt8(OneMouseButton ? 1 : 0);
-                    StreamClass.FormatPacket();
-                }
                 i2 += 15;
                 i2 += 15;
                 i2 += 15;
@@ -2584,17 +2476,6 @@ namespace RuneScapeSolo.Net.Client
                 if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
                     fogOfWar = !fogOfWar;
-                }
-                i2 += 15;
-                i2 += 15;
-                i2 += 15;
-                i2 += 15;
-                i2 += 15;
-
-                i2 += 20;
-                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
-                {
-                    sendLogout();
                 }
 
                 mouseButtonClick = 0;
@@ -2737,33 +2618,12 @@ namespace RuneScapeSolo.Net.Client
                 if (validCameraAngle(cameraAutoAngle + 1 & 7))
                 {
                     cameraAutoAngle = cameraAutoAngle + 1 & 7;
-                    return;
                 }
-                if (validCameraAngle(cameraAutoAngle + 7 & 7))
+                else if (validCameraAngle(cameraAutoAngle + 7 & 7))
                 {
                     cameraAutoAngle = cameraAutoAngle + 7 & 7;
                 }
-
-                return;
             }
-            else
-            {
-                return;
-            }
-        }
-
-        //public string getParameter(string s1) {
-        //    if(link.gameApplet != null)
-        //        return link.gameApplet.getParameter(s1);
-        //    else
-        //        return base.getParameter(s1);
-        //}
-
-        public void drawLogoutBox()
-        {
-            gameGraphics.drawBox(126, 137, 260, 60, 0);
-            gameGraphics.drawBoxEdge(126, 137, 260, 60, 0xffffff);
-            gameGraphics.drawText("Logging out...", 256, 173, 5, 0xffffff);
         }
 
         public void walkToGroundItem(int l, int i1, int j1, int k1, bool flag)
@@ -2772,11 +2632,8 @@ namespace RuneScapeSolo.Net.Client
             {
                 return;
             }
-            else
-            {
-                WalkTo(l, i1, j1, k1, j1, k1, true, flag);
-                return;
-            }
+
+            WalkTo(l, i1, j1, k1, j1, k1, true, flag);
         }
 
         public override void loginScreenPrint(string s1, string s2)
@@ -2794,11 +2651,13 @@ namespace RuneScapeSolo.Net.Client
         {
             int type = teleBubbleType[l1];
             int time = teleBubbleTime[l1];
+
             if (type == 0)
             {
                 int i3 = 255 + time * 5 * 256;
                 gameGraphics.drawCircle(x + j1 / 2, y + k1 / 2, 20 + time * 2, i3, 255 - time * 5);
             }
+
             if (type == 1)
             {
                 int j3 = 0xff0000 + time * 5 * 256;
@@ -2836,8 +2695,7 @@ namespace RuneScapeSolo.Net.Client
                     return;
                 }
             }
-            else
-                if (loginScreenNumber == 1)
+            else if (loginScreenNumber == 1)
             {
                 if (loginNewUser == null)
                 {
@@ -2851,8 +2709,7 @@ namespace RuneScapeSolo.Net.Client
                     return;
                 }
             }
-            else
-                    if (loginScreenNumber == 2)
+            else if (loginScreenNumber == 2)
             {
                 loginMenuLogin.mouseClick(InputManager.Instance.MouseLocation.X, InputManager.Instance.MouseLocation.Y, lastMouseButton, mouseButton);
                 if (loginMenuLogin.isClicked(loginMenuCancelButton))
@@ -2874,11 +2731,11 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        public bool isItemEquipped(int arg0)
+        public bool isItemEquipped(int itemIndex)
         {
             for (int l = 0; l < InventoryItemsCount; l++)
             {
-                if (InventoryItems[l] == arg0 && InventoryItemEquipped[l] == 1)
+                if (InventoryItems[l] == itemIndex && InventoryItemEquipped[l] == 1)
                 {
                     return true;
                 }
@@ -2889,53 +2746,19 @@ namespace RuneScapeSolo.Net.Client
 
         public override void DrawWindow()
         {
-
             paint();
 
             if (errorLoading)
             {
-#warning add error loading event
-                //var g1 = spriteBatch;//getGraphics();
-                ////g1.setColor();
-                //// g1.fillRect(0, 0, 512, 356, Color.Black);
-
-                //// g1.setFont(gameFont16);
-                //g1.setColor(Color.Yellow);
-                //int l = 35;
-                //g1.drawString("Sorry, an error has occured whilst loading", 30, l);
-                //l += 50;
-                //g1.setColor(Color.White);
-                //g1.drawString("To fix this try the following (in order):", 30, l);
-                //l += 50;
-                //g1.setColor(Color.White);
-                ////g1.setFont(gameFont12);
-                //g1.drawString("1: Try closing ALL open web-browser windows, and reloading", 30, l);
-                //l += 30;
-                //g1.drawString("2: Try clearing your web-browsers cache from tools->internet options", 30, l);
-                //l += 30;
-                //g1.drawString("3: Try using a different game-world", 30, l);
-                //l += 30;
-                //g1.drawString("4: Try rebooting your computer", 30, l);
-                //l += 30;
-                //g1.drawString("5: Try selecting a different version of Java from the play-game menu", 30, l);
                 SetRefreshRate(1);
                 return;
             }
+
             if (memoryError)
             {
-#warning add memory exception event
-                //var g3 = spriteBatch;//getGraphics();
-                ////g3.setColor(Color.Black);
-                ////g3.fillRect(0, 0, 512, 356, Color.Black);
-                ////g3.setFont(gameFont20);
-                //g3.setColor(Color.White);
-                //g3.drawString("Error - out of memory!", 50, 50);
-                //g3.drawString("Close ALL unnecessary programs", 50, 100);
-                //g3.drawString("and windows before loading the game", 50, 150);
-                //g3.drawString("this game needs about 48meg of spare RAM", 50, 200);
-                //setRefreshRate(1);
                 return;
             }
+
             try
             {
                 if (loggedIn)
@@ -2945,11 +2768,9 @@ namespace RuneScapeSolo.Net.Client
 
                     return;
                 }
-                else
-                {
-                    gameGraphics.loggedIn = false;
-                    drawLoginScreens();
-                }
+
+                gameGraphics.loggedIn = false;
+                drawLoginScreens();
             }
             catch (Exception ex)
             {
@@ -2961,7 +2782,6 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-
         public void cleanUp()
         {
             try
@@ -2972,11 +2792,13 @@ namespace RuneScapeSolo.Net.Client
                     gameGraphics.pixels = null;
                     gameGraphics = null;
                 }
+
                 if (gameCamera != null)
                 {
                     gameCamera.cleanUp();
                     gameCamera = null;
                 }
+
                 GameDataObjects = null;
                 ObjectArray = null;
                 WallObjects = null;
@@ -2985,6 +2807,7 @@ namespace RuneScapeSolo.Net.Client
                 NpcAttackingArray = null;
                 Npcs = null;
                 CurrentPlayer = null;
+
                 if (engineHandle != null)
                 {
                     engineHandle.TileChunks = null;
@@ -2993,8 +2816,9 @@ namespace RuneScapeSolo.Net.Client
                     engineHandle.currentSectionObject = null;
                     engineHandle = null;
                 }
-                //System.gc();
-                System.GC.Collect();
+
+                GC.Collect();
+
                 return;
             }
             catch (Exception ex)
@@ -3110,6 +2934,7 @@ namespace RuneScapeSolo.Net.Client
         {
             int picture = EntityManager.GetItem(itemID).InventoryPicture + baseItemPicture;
             int mask = EntityManager.GetItem(itemID).PictureMask;
+
             gameGraphics.drawImage(x, y, width, height, picture, mask, 0, 0, false);
         }
 
@@ -3171,15 +2996,13 @@ namespace RuneScapeSolo.Net.Client
                 errorLoading = true;
                 return;
             }
-            else
-            {
-                sbyte[] abyte2 = DataOperations.loadData("fragmentsenc.txt", 0, abyte1);
-                sbyte[] abyte3 = DataOperations.loadData("badenc.txt", 0, abyte1);
-                sbyte[] abyte4 = DataOperations.loadData("hostenc.txt", 0, abyte1);
-                sbyte[] abyte5 = DataOperations.loadData("tldlist.txt", 0, abyte1);
 
-                return;
-            }
+            sbyte[] abyte2 = DataOperations.loadData("fragmentsenc.txt", 0, abyte1);
+            sbyte[] abyte3 = DataOperations.loadData("badenc.txt", 0, abyte1);
+            sbyte[] abyte4 = DataOperations.loadData("hostenc.txt", 0, abyte1);
+            sbyte[] abyte5 = DataOperations.loadData("tldlist.txt", 0, abyte1);
+
+            return;
         }
 
         public override void handleMouseDown(int arg0, int arg1, int arg2)
@@ -3206,14 +3029,7 @@ namespace RuneScapeSolo.Net.Client
                         {
                             break;
                         }
-
-                        if (j1 == l - 1 && flag && combatTimeout == 0 && logoutTimer == 0)
-                        {
-                            sendLogout();
-                            return;
-                        }
                     }
-
                 }
             }
 
@@ -3468,22 +3284,18 @@ namespace RuneScapeSolo.Net.Client
                     OnContentLoaded?.Invoke(this, new ContentLoadedEventArgs("Unpacking " + arg1, arg2));
                     return abyte2;
                 }
-                else
-                {
-                    OnContentLoaded?.Invoke(this, new ContentLoadedEventArgs("Unpacking " + arg1, arg2));
-                    return abyte1;
-                }
-            }
-            else
-            {
+
                 OnContentLoaded?.Invoke(this, new ContentLoadedEventArgs("Unpacking " + arg1, arg2));
-                return base.unpackData(arg0, arg1, arg2);
+                return abyte1;
             }
+
+            OnContentLoaded?.Invoke(this, new ContentLoadedEventArgs("Unpacking " + arg1, arg2));
+            return base.unpackData(arg0, arg1, arg2);
         }
 
         delegate void SendPingPacketDelegate();
         readonly object _sync = new object();
-        public static bool sendingPing = false;
+        public static bool sendingPing;
         public void sendPingPacketAsync()
         {
             SendPingPacketDelegate worker = new SendPingPacketDelegate(SendPing);
@@ -3493,7 +3305,7 @@ namespace RuneScapeSolo.Net.Client
             {
                 if (sendingPing)
                 {
-                    return;//throw new InvalidOperationException("The control is currently busy.");
+                    return;
                 }
 
                 AsyncOperation async1 = AsyncOperationManager.CreateOperation(null);
@@ -3508,7 +3320,6 @@ namespace RuneScapeSolo.Net.Client
         {
             MyTaskCompleted?.Invoke(this, e);
         }
-
 
         void sendPingPacketCompletedCallback(IAsyncResult ar)
         {
@@ -3536,51 +3347,14 @@ namespace RuneScapeSolo.Net.Client
 
         public void checkGameInputs()
         {
-            if (SystemUpdateTimer > 1)
-            {
-                SystemUpdateTimer--;
-            }
-
-            if (WildernessModeTimer >= 1)
-            {
-                WildernessModeTimer -= 1;
-            }
-
-            if (PvpTournamentTimer >= 1)
-            {
-                PvpTournamentTimer -= 1;
-            }
-
-            if (DropPartyTimer >= 1)
-            {
-                DropPartyTimer -= 1;
-            }
-
             sendPingPacketAsync();
-
-
-
-
-            if (logoutTimer > 0)
-            {
-                logoutTimer--;
-            }
-
-            if (CurrentPlayer.currentSprite == 8 || CurrentPlayer.currentSprite == 9)
-            {
-                combatTimeout = 500;
-            }
-
-            if (combatTimeout > 0)
-            {
-                combatTimeout--;
-            }
 
             if (ShowAppearanceWindow)
             {
                 updateAppearanceWindow();
                 return;
             }
+
             for (int l = 0; l < PlayerCount; l++)
             {
                 Mob player = Players[l];
@@ -4890,13 +4664,13 @@ namespace RuneScapeSolo.Net.Client
                     gameGraphics.drawString(s1, 6, 14, 1, 0xffff00);
                 }
 
-                if (!OneMouseButton && mouseButtonClick == 1 || OneMouseButton && mouseButtonClick == 1 && menuOptionsCount == 1)
+                if (mouseButtonClick == 1)
                 {
                     menuClick(menuIndexes[0]);
                     mouseButtonClick = 0;
                     return;
                 }
-                if (!OneMouseButton && mouseButtonClick == 2 || OneMouseButton && mouseButtonClick == 1)
+                if (mouseButtonClick == 2)
                 {
                     menuHeight = (menuOptionsCount + 1) * 15;
                     menuWidth = gameGraphics.textWidth("Choose option", 1) + 5;
@@ -4943,8 +4717,8 @@ namespace RuneScapeSolo.Net.Client
             {
                 gameGraphics.screenFadeToBlack();
                 gameGraphics.drawText("Oh dear! You are dead...", windowWidth / 2, windowHeight / 2, 7, 0xff0000);
-                //gameGraphics.UpdateGameImage();
-                OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
+
+                OnDrawDone();
                 return;
             }
             if (ShowAppearanceWindow)
@@ -5287,21 +5061,6 @@ namespace RuneScapeSolo.Net.Client
                 gameGraphics.drawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 18 + (24 + actionPictureType) / 6);
             }
 
-            if (SystemUpdateTimer != 0)
-            {
-                int seconds = SystemUpdateTimer / 50;
-                int minutes = seconds / 60;
-                seconds %= 60;
-                if (seconds < 10)
-                {
-                    gameGraphics.drawText("System update in: " + minutes + ":0" + seconds, 256, windowHeight - 7, 1, 0xffff00);
-                }
-                else
-                {
-                    gameGraphics.drawText("System update in: " + minutes + ":" + seconds, 256, windowHeight - 7, 1, 0xffff00);
-                }
-            }
-
             gameGraphics.drawPicture(gameGraphics.gameWidth - 3 - 197, 3, baseInventoryPic, 128);
 
             drawMenus();
@@ -5320,19 +5079,11 @@ namespace RuneScapeSolo.Net.Client
 
         public void drawMenus()
         {
-            if (logoutTimer != 0)
-            {
-                drawLogoutBox();
-            }
-            else if (showServerMessageBox)
-            {
-                drawServerMessageBox();
-            }
-            else if (ShowBankBox && combatTimeout == 0)
+            if (ShowBankBox)
             {
                 drawBankBox();
             }
-            else if (ShowShopBox && combatTimeout == 0)
+            else if (ShowShopBox)
             {
                 drawShopBox();
             }
@@ -6174,11 +5925,10 @@ namespace RuneScapeSolo.Net.Client
                         }
                     }
                 }
-                catch (Exception runtimeexception)
+                catch (Exception ex)
                 {
-                    Console.WriteLine("Loc Error: " + runtimeexception.ToString());
+                    Console.WriteLine("Loc Error: " + ex);
                     Console.WriteLine("x:" + j2 + " obj:" + _obj);
-                    //runtimeexception.printStackTrace();
                 }
             }
 
@@ -6187,20 +5937,21 @@ namespace RuneScapeSolo.Net.Client
             {
                 WallObjectX[wallIndex] -= offsetX;
                 WallObjectY[wallIndex] -= offsetY;
+
                 int wallX = WallObjectX[wallIndex];
                 int wallY = WallObjectY[wallIndex];
                 int wallId = WallObjectId[wallIndex];
                 int wallDir = WallObjectDirection[wallIndex];
+
                 try
                 {
                     engineHandle.createWall(wallX, wallY, wallDir, wallId);
                     ObjectModel wallObject = makeWallObject(wallX, wallY, wallDir, wallId, wallIndex);
                     WallObjects[wallIndex] = wallObject;
                 }
-                catch (Exception runtimeexception1)
+                catch (Exception ex)
                 {
-                    Console.WriteLine("Bound Error: " + runtimeexception1.ToString());
-                    //runtimeexception1.printStackTrace();
+                    Console.WriteLine("Bound Error: " + ex);
                 }
             }
 
@@ -6210,61 +5961,37 @@ namespace RuneScapeSolo.Net.Client
                 GroundItemY[k3] -= offsetY;
             }
 
-            for (int j4 = 0; j4 < PlayerCount; j4++)
+            for (int playerIndex = 0; playerIndex < PlayerCount; playerIndex++)
             {
-                Mob f1 = Players[j4];
-                f1.currentX -= offsetX * GridSize;
-                f1.currentY -= offsetY * GridSize;
-                for (int l5 = 0; l5 <= f1.WaypointCurrent; l5++)
-                {
-                    f1.WaypointsX[l5] -= offsetX * GridSize;
-                    f1.WaypointsY[l5] -= offsetY * GridSize;
-                }
+                Mob player = Players[playerIndex];
+                player.currentX -= offsetX * GridSize;
+                player.currentY -= offsetY * GridSize;
 
+                for (int l5 = 0; l5 <= player.WaypointCurrent; l5++)
+                {
+                    player.WaypointsX[l5] -= offsetX * GridSize;
+                    player.WaypointsY[l5] -= offsetY * GridSize;
+                }
             }
 
-            for (int i5 = 0; i5 < NpcCount; i5++)
+            for (int npcIndex = 0; npcIndex < NpcCount; npcIndex++)
             {
-                Mob f2 = Npcs[i5];
-                f2.currentX -= offsetX * GridSize;
-                f2.currentY -= offsetY * GridSize;
-                for (int k6 = 0; k6 <= f2.WaypointCurrent; k6++)
-                {
-                    f2.WaypointsX[k6] -= offsetX * GridSize;
-                    f2.WaypointsY[k6] -= offsetY * GridSize;
-                }
+                Mob npc = Npcs[npcIndex];
+                npc.currentX -= offsetX * GridSize;
+                npc.currentY -= offsetY * GridSize;
 
+                for (int k6 = 0; k6 <= npc.WaypointCurrent; k6++)
+                {
+                    npc.WaypointsX[k6] -= offsetX * GridSize;
+                    npc.WaypointsY[k6] -= offsetY * GridSize;
+                }
             }
 
             engineHandle.playerIsAlive = true;
             OnLoadingSectionCompleted?.Invoke(this, new EventArgs());
-
-
             OnDrawDone();
 
-
             return true;
-        }
-
-        public static string formatItemCount(int arg0)
-        {
-            string s1 = arg0.ToString();
-            for (int l = s1.Length - 3; l > 0; l -= 3)
-            {
-                s1 = s1.Substring(0, l) + "," + s1.Substring(l);
-            }
-
-            if (s1.Length > 8)
-            {
-                s1 = "@gre@" + s1.Substring(0, s1.Length - 8) + " million @whi@(" + s1 + ")";
-            }
-            else
-                if (s1.Length > 4)
-            {
-                s1 = "@cya@" + s1.Substring(0, s1.Length - 4) + "K @whi@(" + s1 + ")";
-            }
-
-            return s1;
         }
 
         public bool hasRequiredRunes(int l, int i1)
@@ -6290,41 +6017,6 @@ namespace RuneScapeSolo.Net.Client
             }
 
             return getInventoryItemTotalCount(l) >= i1;
-        }
-
-        public void drawServerMessageBox()
-        {
-            char c1 = '\u0190';
-            char c2 = 'd';
-            if (serverMessageBoxTop)
-            {
-                c2 = '\u01C2';
-                c2 = '\u012C';
-            }
-            gameGraphics.drawBox(256 - c1 / 2, 167 - c2 / 2, c1, c2, 0);
-            gameGraphics.drawBoxEdge(256 - c1 / 2, 167 - c2 / 2, c1, c2, 0xffffff);
-            gameGraphics.drawFloatingText(serverMessage, 256, (167 - c2 / 2) + 20, 1, 0xffffff, c1 - 40);
-            int l = 157 + c2 / 2;
-            int i1 = 0xffffff;
-            if (InputManager.Instance.MouseLocation.Y > l - 12 && InputManager.Instance.MouseLocation.Y <= l && InputManager.Instance.MouseLocation.X > 106 && InputManager.Instance.MouseLocation.X < 406)
-            {
-                i1 = 0xff0000;
-            }
-
-            gameGraphics.drawText("Click here to close window", 256, l, 1, i1);
-            if (mouseButtonClick == 1)
-            {
-                if (i1 == 0xff0000)
-                {
-                    showServerMessageBox = false;
-                }
-
-                if ((InputManager.Instance.MouseLocation.X < 256 - c1 / 2 || InputManager.Instance.MouseLocation.X > 256 + c1 / 2) && (InputManager.Instance.MouseLocation.Y < 167 - c2 / 2 || InputManager.Instance.MouseLocation.Y > 167 + c2 / 2))
-                {
-                    showServerMessageBox = false;
-                }
-            }
-            mouseButtonClick = 0;
         }
 
         public ObjectModel makeWallObject(int x, int y, int dir, int type, int totalCount)
@@ -6762,11 +6454,6 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        protected int getUID()
-        {
-            return Link.uid;
-        }
-
         public Mob GetLastPlayer(int serverIndex)
         {
             return LastPlayers
@@ -6938,14 +6625,11 @@ namespace RuneScapeSolo.Net.Client
         public int lastLayerIndex;
         public int[] bankItems;
         public int[] bankItemCount;
-
-        public int combatTimeout;
         public int maxInventoryItems;
         public bool errorLoading;
         public int animationNumber;
         public int[] itemAboveHeadX;
         public int[] itemAboveHeadY;
-        public bool showServerMessageBox;
         public int loginScreenNumber;
         public int tradeConfigItemCount;
         public int selectedBankItem;
@@ -6988,7 +6672,6 @@ namespace RuneScapeSolo.Net.Client
         public string[] gearStats = {
         "Armour", "WeaponAim", "WeaponPower", "Magic", "Prayer"
     };
-        public int logoutTimer;
         public bool loggedIn;
         public int[] questStage;
         public int[] teleBubbleType;

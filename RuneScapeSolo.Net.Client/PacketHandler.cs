@@ -86,10 +86,6 @@ namespace RuneScapeSolo.Net.Client
                     HandleDruidicRitual(data);
                     return true;
 
-                case ServerCommand.DropPartyTimer:
-                    HandleDropPartyTimer(data);
-                    return true;
-
                 case ServerCommand.EquipmentStatus:
                     HandleEquipmentStatus(data);
                     return true;
@@ -144,10 +140,6 @@ namespace RuneScapeSolo.Net.Client
 
                 case ServerCommand.PlayerStats:
                     HandlePlayerStats(data, length);
-                    return true;
-
-                case ServerCommand.PvpTournamentTimer:
-                    HandlePvpTournamentTimer(data);
                     return true;
 
                 case ServerCommand.QuestPointsChange:
@@ -224,10 +216,6 @@ namespace RuneScapeSolo.Net.Client
 
                 case ServerCommand.WallObjects:
                     HandleWallObjects(data, length);
-                    return true;
-
-                case ServerCommand.WildernessModeTimer:
-                    HandleWildernessModeTimer(data);
                     return true;
 
                 case ServerCommand.WitchPotion:
@@ -1031,11 +1019,6 @@ namespace RuneScapeSolo.Net.Client
             client.Quests.DoricQuest = DataOperations.GetInt16(data, 1);
         }
 
-        void HandleDropPartyTimer(sbyte[] data)
-        {
-            client.DropPartyTimer = DataOperations.GetInt16(data, 1) * 32;
-        }
-
         void HandleDruidicRitual(sbyte[] data)
         {
             client.Quests.DruidicRitual = DataOperations.GetInt16(data, 1);
@@ -1065,7 +1048,7 @@ namespace RuneScapeSolo.Net.Client
         void HandleGameSettings(sbyte[] data)
         {
             client.CameraAutoAngle = DataOperations.GetInt8(data[1]) == 1;
-            client.OneMouseButton = DataOperations.GetInt8(data[2]) == 1;
+            DataOperations.GetInt8(data[2]); // Dummy for the one mouse button
             DataOperations.GetInt8(data[3]); // Dummy for the sound toggle
             client.ShowRoofs = DataOperations.GetInt8(data[4]) == 1;
             DataOperations.GetInt8(data[5]); // Dummy for the auto screenshot
@@ -1252,11 +1235,6 @@ namespace RuneScapeSolo.Net.Client
             client.Skills[skillId].Experience = DataOperations.GetInt32(data, offset);
         }
 
-        void HandlePvpTournamentTimer(sbyte[] data)
-        {
-            client.PvpTournamentTimer = DataOperations.GetInt16(data, 1) * 32;
-        }
-
         void HandleQuestPointsChange(sbyte[] data)
         {
             client.QuestPoints = DataOperations.GetInt16(data, 1);
@@ -1322,11 +1300,6 @@ namespace RuneScapeSolo.Net.Client
         void HandleShowShopBox()
         {
             client.ShowShopBox = true;
-        }
-
-        void HandleSystemUpdateTimer(sbyte[] data)
-        {
-            client.SystemUpdateTimer = DataOperations.GetInt16(data, 1) * 32;
         }
 
         void HandleTaskCash(sbyte[] data)
@@ -1471,11 +1444,6 @@ namespace RuneScapeSolo.Net.Client
                     }
                 }
             }
-        }
-
-        void HandleWildernessModeTimer(sbyte[] data)
-        {
-            client.WildernessModeTimer = DataOperations.GetInt16(data, 1) * 32;
         }
 
         void HandleWitchPotion(sbyte[] data)
