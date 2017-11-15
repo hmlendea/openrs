@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using RuneScapeSolo.Graphics.Primitives;
 using RuneScapeSolo.Gui.GuiElements;
+using RuneScapeSolo.Net.Client.Events;
 
 namespace RuneScapeSolo.Gui.Screens
 {
@@ -43,6 +44,15 @@ namespace RuneScapeSolo.Gui.Screens
             base.LoadContent();
 
             SideBar.AssociateGameClient(ref GameClient.gameClient);
+
+            LinkEvents();
+        }
+
+        public override void UnloadContent()
+        {
+            base.UnloadContent();
+
+            UnlinkEvents();
         }
 
         /// <summary>
@@ -91,6 +101,21 @@ namespace RuneScapeSolo.Gui.Screens
                 ScreenManager.Instance.Size.Width - SideBar.Size.Width,
                 ScreenManager.Instance.Size.Height - GameClient.Size.Height);
             ChatPanel.Location = new Point2D(0, ScreenManager.Instance.Size.Height - ChatPanel.Size.Height);
+        }
+
+        void LinkEvents()
+        {
+            GameClient.gameClient.OnChatMessageReceived += GameClient_OnChatMessageReceived;
+        }
+
+        void UnlinkEvents()
+        {
+            GameClient.gameClient.OnChatMessageReceived -= GameClient_OnChatMessageReceived;
+        }
+
+        void GameClient_OnChatMessageReceived(object sender, ChatMessageEventArgs e)
+        {
+            ChatPanel.AddMessage(e.Message);
         }
     }
 }

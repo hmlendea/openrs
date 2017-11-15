@@ -27,6 +27,8 @@ namespace RuneScapeSolo.Net.Client
         public event EventHandler OnContentLoadedCompleted;
         public event EventHandler<ContentLoadedEventArgs> OnContentLoaded;
 
+        public event ChatMessageEventHandler OnChatMessageReceived;
+
         public static GameClient CreateGameClient(string title = "RuneScape Solo", int width = 512, int height = 346)
         {
             //spriteBatch = sb;
@@ -611,7 +613,7 @@ namespace RuneScapeSolo.Net.Client
             }
             if (action == MenuAction.ExamineGroundItem)
             {
-                displayMessage(EntityManager.GetItem(actionType).Description, 3);
+                DisplayMessage(EntityManager.GetItem(actionType).Description, 3);
             }
 
             if (action == MenuAction.CastSpellOnWallObject)
@@ -656,7 +658,7 @@ namespace RuneScapeSolo.Net.Client
             }
             if (action == MenuAction.ExamineWallObject)
             {
-                displayMessage(EntityManager.GetWallObject(actionType).Description, 3);
+                DisplayMessage(EntityManager.GetWallObject(actionType).Description, 3);
             }
 
             if (action == MenuAction.CastSpellOnModel)
@@ -698,7 +700,7 @@ namespace RuneScapeSolo.Net.Client
             }
             if (action == MenuAction.ExamineModel)
             {
-                displayMessage(EntityManager.GetWorldObject(actionType).Description, 3);
+                DisplayMessage(EntityManager.GetWorldObject(actionType).Description, 3);
             }
 
             if (action == MenuAction.CastSpellOnItem)
@@ -748,11 +750,11 @@ namespace RuneScapeSolo.Net.Client
                 StreamClass.FormatPacket();
                 selectedItem = -1;
                 drawMenuTab = 0;
-                displayMessage("Dropping " + EntityManager.GetItem(InventoryItems[actionType]).Name, 4);
+                DisplayMessage("Dropping " + EntityManager.GetItem(InventoryItems[actionType]).Name, 4);
             }
             if (action == MenuAction.ExamineItem)
             {
-                displayMessage(EntityManager.GetItem(actionType).Description, 3);
+                DisplayMessage(EntityManager.GetItem(actionType).Description, 3);
             }
 
             if (action == MenuAction.CastSpellOnNpc)
@@ -807,7 +809,7 @@ namespace RuneScapeSolo.Net.Client
 
             if (action == MenuAction.ExamineNpc)
             {
-                displayMessage(EntityManager.GetNpc(actionType).Description, 3);
+                DisplayMessage(EntityManager.GetNpc(actionType).Description, 3);
             }
 
             if (action == MenuAction.CastSpellOnPlayer)
@@ -3293,12 +3295,12 @@ namespace RuneScapeSolo.Net.Client
 
             if (combatTimeout > 450)
             {
-                displayMessage("@cya@You can't logout during combat!", 3);
+                DisplayMessage("@cya@You can't logout during combat!", 3);
                 return;
             }
             if (combatTimeout > 0)
             {
-                displayMessage("@cya@You can't logout for 10 seconds after combat", 3);
+                DisplayMessage("@cya@You can't logout for 10 seconds after combat", 3);
                 return;
             }
             else
@@ -3842,7 +3844,7 @@ namespace RuneScapeSolo.Net.Client
 
                             if (EntityManager.GetItem(item).IsSpecial == 1)
                             {
-                                displayMessage("This object cannot be traded with other players", 3);
+                                DisplayMessage("This object cannot be traded with other players", 3);
                                 ourTradeItemsChanged = true;
                             }
 
@@ -4998,7 +5000,7 @@ namespace RuneScapeSolo.Net.Client
 
                         if (EntityManager.GetSpell(j2).RequiredLevel > magicLevel)
                         {
-                            displayMessage("Your magic ability is not high enough for this spell", 3);
+                            DisplayMessage("Your magic ability is not high enough for this spell", 3);
                         }
                         else
                         {
@@ -5011,7 +5013,7 @@ namespace RuneScapeSolo.Net.Client
                                     continue;
                                 }
 
-                                displayMessage("You don't have all the reagents you need for this spell", 3);
+                                DisplayMessage("You don't have all the reagents you need for this spell", 3);
                                 j4 = -1;
                                 break;
                             }
@@ -5035,11 +5037,11 @@ namespace RuneScapeSolo.Net.Client
 
                         if (EntityManager.GetPrayer(k2).RequiredLevel > prayerLevel)
                         {
-                            displayMessage("Your prayer ability is not high enough for this prayer", 3);
+                            DisplayMessage("Your prayer ability is not high enough for this prayer", 3);
                         }
                         else if (Skills[5].CurrentLevel == 0)
                         {
-                            displayMessage("You have run out of prayer points. Return to a church to recharge", 3);
+                            DisplayMessage("You have run out of prayer points. Return to a church to recharge", 3);
                         }
                         else if (prayerOn[k2])
                         {
@@ -5388,12 +5390,12 @@ namespace RuneScapeSolo.Net.Client
                     PlayerAliveTimeout--;
                     if (PlayerAliveTimeout == 0)
                     {
-                        displayMessage("You have been granted another life. Be more careful this time!", 3);
+                        DisplayMessage("You have been granted another life. Be more careful this time!", 3);
                     }
 
                     if (PlayerAliveTimeout == 0)
                     {
-                        displayMessage("You retain your skills. Your objects land where you died", 3);
+                        DisplayMessage("You retain your skills. Your objects land where you died", 3);
                     }
                 }
             }
@@ -5726,7 +5728,7 @@ namespace RuneScapeSolo.Net.Client
                     //input = ChatFilter.filterChat(input);
                     CurrentPlayer.lastMessageTimeout = 150;
                     CurrentPlayer.lastMessage = input;
-                    displayMessage(CurrentPlayer.username + ": " + input, 2);
+                    DisplayMessage(CurrentPlayer.username + ": " + input, 2);
                 }
             }
             if (messagesTab == 0)
@@ -7678,7 +7680,7 @@ namespace RuneScapeSolo.Net.Client
 
                             if (EntityManager.GetItem(j3).IsSpecial == 1)
                             {
-                                displayMessage("This object cannot be added to a duel offer", 3);
+                                DisplayMessage("This object cannot be added to a duel offer", 3);
                                 flag1 = true;
                             }
                             if (!flag1 && duelMyItemCount < 8)
@@ -8136,22 +8138,22 @@ namespace RuneScapeSolo.Net.Client
         {
             if (s1.StartsWith("@bor@"))
             {
-                displayMessage(s1, 4);
+                DisplayMessage(s1, 4);
                 return;
             }
             if (s1.StartsWith("@que@"))
             {
-                displayMessage("@whi@" + s1, 5);
+                DisplayMessage("@whi@" + s1, 5);
                 return;
             }
             if (s1.StartsWith("@pri@"))
             {
-                displayMessage(s1, 6);
+                DisplayMessage(s1, 6);
                 return;
             }
             else
             {
-                displayMessage(s1, 3);
+                DisplayMessage(s1, 3);
                 return;
             }
         }
@@ -8211,7 +8213,7 @@ namespace RuneScapeSolo.Net.Client
         public override void cantLogout()
         {
             logoutTimer = 0;
-            displayMessage("@cya@Sorry, you can't logout at the moment", 3);
+            DisplayMessage("@cya@Sorry, you can't logout at the moment", 3);
         }
 
         public void drawBankBox()
@@ -8865,239 +8867,10 @@ namespace RuneScapeSolo.Net.Client
             return getInventoryItemTotalCount(l) >= i1;
         }
 
-        public void displayMessage(string message, int type)
+        public void DisplayMessage(string message, int type)
         {
-            if (type == 2 || type == 4 || type == 6)
-            {
-                for (; message.Length > 5 && message[0] == '@' && message[4] == '@'; message = message.Substring(5))
-                {
-                    ;
-                }
-
-                int l = message.IndexOf(":");
-                if (l != -1)
-                {
-                    string s1 = message.Substring(0, l);
-                    long l1 = DataOperations.nameToHash(s1);
-                    for (int j1 = 0; j1 < ignoresCount; j1++)
-                    {
-                        if (ignoresList[j1] == l1)
-                        {
-                            return;
-                        }
-                    }
-                }
-            }
-            if (type == 2)
-            {
-                message = "@yel@" + message;
-            }
-
-            if (type == 3 || type == 4)
-            {
-                message = "@whi@" + message;
-            }
-
-            if (type == 6)
-            {
-                message = "@cya@" + message;
-            }
-
-            if (messagesTab != 0)
-            {
-                if (type == 4 || type == 3)
-                {
-                    chatTabAllMsgFlash = 200;
-                }
-
-                if (type == 2 && messagesTab != 1)
-                {
-                    chatTabHistoryFlash = 200;
-                }
-
-                if (type == 5 && messagesTab != 2)
-                {
-                    chatTabQuestFlash = 200;
-                }
-
-                if (type == 6 && messagesTab != 3)
-                {
-                    chatTabPrivateFlash = 200;
-                }
-
-                if (type == 3 && messagesTab != 0)
-                {
-                    messagesTab = 0;
-                }
-
-                if (type == 6 && messagesTab != 3 && messagesTab != 0)
-                {
-                    messagesTab = 0;
-                }
-            }
-            for (int i1 = 4; i1 > 0; i1--)
-            {
-                messagesArray[i1] = messagesArray[i1 - 1];
-                messagesTimeout[i1] = messagesTimeout[i1 - 1];
-            }
-
-            messagesArray[0] = message;
-            messagesTimeout[0] = 300;
-            if (type == 2)
-            {
-                if (chatInputMenu.listShownEntries[messagesHandleType2] == chatInputMenu.listLength[messagesHandleType2] - 4)
-                {
-                    chatInputMenu.addMessage(messagesHandleType2, message, true);
-                }
-                else
-                {
-                    chatInputMenu.addMessage(messagesHandleType2, message, false);
-                }
-            }
-
-            if (type == 5)
-            {
-                if (chatInputMenu.listShownEntries[messagesHandleType5] == chatInputMenu.listLength[messagesHandleType5] - 4)
-                {
-                    chatInputMenu.addMessage(messagesHandleType5, message, true);
-                }
-                else
-                {
-                    chatInputMenu.addMessage(messagesHandleType5, message, false);
-                }
-            }
-
-            if (type == 6)
-            {
-                if (chatInputMenu.listShownEntries[messagesHandleType6] == chatInputMenu.listLength[messagesHandleType6] - 4)
-                {
-                    chatInputMenu.addMessage(messagesHandleType6, message, true);
-                    return;
-                }
-                chatInputMenu.addMessage(messagesHandleType6, message, false);
-            }
+            OnChatMessageReceived?.Invoke(this, new ChatMessageEventArgs(message));
         }
-
-        /*
-        void displayMessage(String message, int type, int status)
-        {
-            if (type == 2 || type == 4 || type == 6)
-            {
-                for (; message.Length > 5 && message[0] == '@' && message[4] == '@'; message = message.Substring(5))
-                    ;
-            }
-
-            message = message.Replace("\\#pmd\\#", "");
-            message = message.Replace("\\#mod\\#", "");
-            message = message.Replace("\\#adm\\#", "");
-            message = message.Replace("\\#evt\\#", "");
-            message = message.Replace("\\#dev\\#", "");
-            message = message.Replace("\\#orn\\#", "");
-
-            switch (type)
-            {
-                case 2:
-                    message = "@yel@" + message;
-                    break;
-
-                case 3:
-                case 4:
-                    message = "@whi@" + message;
-                    break;
-
-                case 6:
-                    message = "@cya@" + message;
-                    break;
-
-                case 7:
-                    message = "@whi@" + message;
-                    break;
-            }
-
-            switch (status)
-            {
-                case 1:
-                    message = "#pmd#" + message;
-                    break;
-
-                case 2:
-                    message = "#mod#" + message;
-                    break;
-
-                case 3:
-                    message = "#adm#" + message;
-                    break;
-
-                case 4:
-                    message = "#evt#" + message;
-                    break;
-
-                case 5:
-                    message = "#dev#" + message;
-                    break;
-            }
-
-            //if (status == 6)
-            //    message = "[ #orn#] " + message; // Clan Leader
-
-            if (message.Substring(0, 8).Equals("@whi@%r-"))
-            {
-                killQueue.addKill(new KillThing("@whi@" + message.substring(8)));
-                return;
-            }
-
-            if (messagesTab != 0)
-            {
-                if (type == 4 || type == 3)
-                    anInt952 = 200;
-                if (type == 2 && messagesTab != 1)
-                    anInt953 = 200;
-                if (type == 5 && messagesTab != 2)
-                    anInt954 = 200;
-                if (type == 6 && messagesTab != 3)
-                    anInt955 = 200;
-                if (type == 7 && messagesTab != 4)
-                    anInt956 = 200;
-                if (type == 3 && messagesTab != 0)
-                    messagesTab = 0;
-                if (type == 6 && messagesTab != 4 && messagesTab != 3 && messagesTab != 0)
-                    messagesTab = 0;
-            }
-            for (int k = 4; k > 0; k--)
-            {
-                messagesArray[k] = messagesArray[k - 1];
-                messagesTimeout[k] = messagesTimeout[k - 1];
-            }
-
-            messagesArray[0] = message;
-            messagesTimeout[0] = 300;
-
-            if (type == 2)
-                if (gameMenu.anIntArray187[messagesHandleType2] == gameMenu.menuListTextCount[messagesHandleType2] - 4)
-                    gameMenu.addString(messagesHandleType2, message, true);
-                else
-                    gameMenu.addString(messagesHandleType2, message, false);
-            if (type == 5)
-                if (gameMenu.anIntArray187[messagesHandleType5] == gameMenu.menuListTextCount[messagesHandleType5] - 4)
-                    gameMenu.addString(messagesHandleType5, message, true);
-                else
-                    gameMenu.addString(messagesHandleType5, message, false);
-            if (type == 7)
-                if (gameMenu.anIntArray187[messagesHandleType7] == gameMenu.menuListTextCount[messagesHandleType7] - 4)
-                    gameMenu.addString(messagesHandleType7, message, true);
-                else
-                    gameMenu.addString(messagesHandleType7, message, false);
-            if (type == 6)
-            {
-                if (gameMenu.anIntArray187[messagesHandleType6] == gameMenu.menuListTextCount[messagesHandleType6] - 4)
-                {
-                    gameMenu.addString(messagesHandleType6, message, true);
-                    return;
-                }
-                gameMenu.addString(messagesHandleType6, message, false);
-            }
-        }
-        */
 
         public void drawMinimapObject(int x, int y, int color)
         {

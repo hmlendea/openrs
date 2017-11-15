@@ -996,7 +996,7 @@ namespace RuneScapeSolo.Net.Client
                         if (playerIndex == client.CurrentPlayer.ServerIndex)
                         {
                             // TODO: Is this retrieving the name correctly?
-                            client.displayMessage("@yel@" + EntityManager.GetNpc(mob.npcId).Name + ": " + mob.lastMessage, 5);
+                            client.DisplayMessage("@yel@" + EntityManager.GetNpc(mob.npcId).Name + ": " + mob.lastMessage, 5);
                         }
                     }
 
