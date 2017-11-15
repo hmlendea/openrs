@@ -114,10 +114,6 @@ namespace RuneScapeSolo.Net.Client
                     HandleGuthixSpells(data);
                     return true;
 
-                case ServerCommand.HideDuelBox:
-                    HandleHideDuelBox();
-                    return true;
-
                 case ServerCommand.HideQuestionMenu:
                     HandleHideQuestionMenu();
                     return true;
@@ -136,10 +132,6 @@ namespace RuneScapeSolo.Net.Client
 
                 case ServerCommand.Kills:
                     HandleKills(data);
-                    return true;
-
-                case ServerCommand.LoginScreen:
-                    HandleLoginScreen(data, length);
                     return true;
 
                 case ServerCommand.MoneyTask:
@@ -489,7 +481,6 @@ namespace RuneScapeSolo.Net.Client
                         {
                             client.Skills[3].CurrentLevel = hits;
                             client.Skills[3].BaseLevel = hitsBase;
-                            client.ShowWelcomeBox = false;
                             // showServerMessageBox = false;
                         }
                     }
@@ -1200,12 +1191,6 @@ namespace RuneScapeSolo.Net.Client
             client.GuthixSpells = DataOperations.GetInt16(data, 1);
         }
 
-        void HandleHideDuelBox()
-        {
-            client.ShowDuelBox = false;
-            client.ShowDuelConfirmBox = false;
-        }
-
         void HandleHideQuestionMenu()
         {
             client.ShowQuestionMenu = false;
@@ -1249,18 +1234,6 @@ namespace RuneScapeSolo.Net.Client
         void HandleKills(sbyte[] data)
         {
             client.Kills = DataOperations.GetInt16(data, 1);
-        }
-
-        void HandleLoginScreen(sbyte[] data, int length)
-        {
-            if (!client.LoginScreenShown)
-            {
-                client.LastLoginDays = DataOperations.GetInt16(data, 1);
-                client.SubscriptionDaysLeft = DataOperations.GetInt16(data, 3);
-                client.LastLoginAddress = Encoding.UTF8.GetString((byte[])(Array)data, 5, length - 5); // new string(data.Select(c => (char)c).ToArray(), 5, length - 5);
-                client.ShowWelcomeBox = true;
-                client.LoginScreenShown = true;
-            }
         }
 
         void HandleMoneyTask(sbyte[] data, int length)

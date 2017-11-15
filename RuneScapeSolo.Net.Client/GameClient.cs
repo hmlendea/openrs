@@ -129,12 +129,9 @@ namespace RuneScapeSolo.Net.Client
         public bool ShowAppearanceWindow { get; set; }
         public bool ShowBankBox { get; set; }
         public bool ShowCombatWindow { get; set; }
-        public bool ShowDuelBox { get; set; }
-        public bool ShowDuelConfirmBox { get; set; }
         public bool ShowQuestionMenu { get; set; }
         public bool ShowRoofs { get; set; }
         public bool ShowShopBox { get; set; }
-        public bool ShowWelcomeBox { get; set; }
         public bool[] WallObjectAlreadyInMenu { get; set; }
         public string LastLoginAddress { get; set; }
         public string MoneyTask { get; set; }
@@ -315,8 +312,6 @@ namespace RuneScapeSolo.Net.Client
 
             Quests = new Quests();
 
-            tradeOtherName = "";
-
             windowWidth = 512;
             windowHeight = 334;
 
@@ -352,32 +347,19 @@ namespace RuneScapeSolo.Net.Client
             appearanceBottomColour = 14;
             appearanceHeadGender = 1;
             menuIndexes = new int[250];
-            duelMyItems = new int[8];
-            duelMyItemsCount = new int[8];
             Players = new Mob[500];
             selectedShopItemIndex = -1;
             selectedShopItemType = -2;
             menuText1 = new string[250];
             IsSleeping = false;
-            tradeItemsOther = new int[14];
-            tradeItemOtherCount = new int[14];
-            tradeOtherAccepted = false;
-            tradeWeAccepted = false;
             itemAboveHeadScale = new int[50];
             itemAboveHeadID = new int[50];
             menuActionX = new int[250];
             menuActionY = new int[250];
             menuActions = new MenuAction[250];
-            showTradeBox = false;
             Npcs = new Mob[500];
-            duelNoRetreating = false;
-            duelNoMagic = false;
-            duelNoPrayer = false;
-            duelNoWeapons = false;
             Mobs = new Mob[4000];
             serverMessage = "";
-            duelOpponentAccepted = false;
-            duelMyAccepted = false;
             WallObjectX = new int[500];
             WallObjectY = new int[500];
             serverMessageBoxTop = false;
@@ -390,9 +372,6 @@ namespace RuneScapeSolo.Net.Client
             cameraAutoAngleDebug = false;
             CurrentPlayer = new Mob();
             ServerIndex = -1;
-            tradeItemsOur = new int[14];
-            tradeItemOurCount = new int[14];
-            ShowWelcomeBox = false;
             menuActionType = new int[250];
             menuActionVar1 = new int[250];
             menuActionVar2 = new int[250];
@@ -400,8 +379,6 @@ namespace RuneScapeSolo.Net.Client
             CameraAutoAngle = true;
             cameraRotation = 128;
             menuShow = false;
-            duelOpponentItems = new int[8];
-            duelOpponentItemsCount = new int[8];
             ShowBankBox = false;
             serverBankItems = new int[256];
             serverBankItemCount = new int[256];
@@ -411,8 +388,6 @@ namespace RuneScapeSolo.Net.Client
             GroundItemId = new int[5000];
             GroundItemObjectVar = new int[5000];
             maxBankItems = 48;
-            tradeConfirmOtherItems = new int[14];
-            tradeConfirmOtherItemsCount = new int[14];
             LayerIndex = -1;
             walkArrayX = new int[8000];
             walkArrayY = new int[8000];
@@ -431,12 +406,8 @@ namespace RuneScapeSolo.Net.Client
             itemAboveHeadY = new int[50];
             showServerMessageBox = false;
             PlayersBufferIndexes = new int[500];
-            tradeConfirmItems = new int[14];
-            tradeConfigItemsCount = new int[14];
             selectedBankItem = -1;
             selectedBankItemType = -2;
-            ShowDuelConfirmBox = false;
-            duelConfirmOurAccepted = false;
             WallObjectDirection = new int[500];
             WallObjectId = new int[500];
             GameDataObjects = new ObjectModel[1000];
@@ -447,8 +418,6 @@ namespace RuneScapeSolo.Net.Client
             selectedItem = -1;
             selectedItemName = "";
             LastPlayers = new Mob[500];
-            showTradeConfirmBox = false;
-            tradeConfirmAccepted = false;
             mouseTrailX = new int[8192];
             mouseTrailY = new int[8192];
             OneMouseButton = false;
@@ -456,8 +425,6 @@ namespace RuneScapeSolo.Net.Client
             shopItems = new int[256];
             shopItemCount = new int[256];
             shopItemBasePriceModifier = new int[256];
-            duelOpponentStakeItem = new int[8];
-            duelOutStakeItemCount = new int[8];
             EquipmentStatus = new int[5];
             receivedMessages = new string[50];
             cameraRotationXIncrement = 2;
@@ -472,12 +439,9 @@ namespace RuneScapeSolo.Net.Client
             messagesTimeout = new int[5];
             ProjectileRange = 40;
             memoryError = false;
-            duelOurStakeItem = new int[8];
-            duelOurStakeItemCount = new int[8];
             menuText2 = new string[250];
             loginUsername = "";
             loginPassword = "";
-            duelOpponent = "";
             healthBarX = new int[50];
             healthBarY = new int[50];
             healthBarMissing = new int[50];
@@ -485,7 +449,6 @@ namespace RuneScapeSolo.Net.Client
             ObjectY = new int[1500];
             ObjectType = new int[1500];
             ObjectRotation = new int[1500];
-            ShowDuelBox = false;
             NpcAttackingArray = new Mob[5000];
             teleBubbleY = new int[50];
             cameraAutoAngle = 1;
@@ -509,58 +472,6 @@ namespace RuneScapeSolo.Net.Client
             HasWorldInfo = false;
             //ImageIO.setCacheDirectory(new File(Config.CONF_DIR));
         }
-
-        //public void Draw(GameTime gt)
-        //{
-        //    if (gameGraphics != null)
-        //    {
-        //        try
-        //        {
-        //            //   gameGraphics.UpdateGameImage();
-
-        //            //  drawWindow();
-
-        //            gameGraphics.drawImage(spriteBatch, 0, 0);
-
-        //            //    //mudclient.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
-        //            //    foreach (var str in GameImage.stringsToDraw)
-        //            //    {
-
-        //            //        //mudclient.gameFont12
-        //            //        if (!mudclient.spriteBatch.BeginIsActive()) return;
-        //            //        //var color = new Color(startColor >> 0x0000ff, startColor >> 0x00ff00, startColor >> 0xff0000, 255);
-
-        //            //        Color clr = str.forecolor;
-        //            //        SpriteFont font = mudclient.gameFont12;
-
-        //            //        //if (clr.A == 0 || clr.A < 255)
-        //            //        //    clr = new Color(255, 255, 255, 255);
-
-        //            //        if (str.font != null)
-        //            //        {
-        //            //            font = str.font;
-        //            //        }
-        //            //        var textToRender = str.text;
-        //            //        //textToRender = textToRender.Replace("@gre@", "");
-        //            //        //textToRender = textToRender.Replace("@yel@", "");
-        //            //        //textToRender = textToRender.Replace("@whi@", "");
-        //            //        //textToRender = textToRender.Replace("@bla@", "");
-        //            //        //textToRender = textToRender.Replace("@ran@", "");
-        //            //        //textToRender = textToRender.Replace("@red@", "");
-
-        //            //        mudclient.spriteBatch.DrawString(font, textToRender, str.pos - new Vector2(0f, (float)gameFrame.yOffset / 2.5f), clr);
-
-
-        //            //    }
-        //        }
-        //        catch { }
-
-        //        ////mudclient.spriteBatch.End();
-
-        //        //GameImage.stringsToDraw.Clear();
-        //    }
-        //}
-
 
         public void menuClick(int actionId)
         {
@@ -1157,118 +1068,6 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        public void drawDuelConfirmBox()
-        {
-            sbyte byte0 = 22;
-            sbyte byte1 = 36;
-            gameGraphics.drawBox(byte0, byte1, 468, 16, 192);
-            int l = 0x989898;
-            gameGraphics.drawBoxAlpha(byte0, byte1 + 16, 468, 246, l, 160);
-            gameGraphics.drawText("Please confirm your duel with @yel@" + DataOperations.LongToString(duelOpponentHash), byte0 + 234, byte1 + 12, 1, 0xffffff);
-            gameGraphics.drawText("Your stake:", byte0 + 117, byte1 + 30, 1, 0xffff00);
-            for (int i1 = 0; i1 < duelOurStakeCount; i1++)
-            {
-                string s1 = EntityManager.GetItem(duelOurStakeItem[i1]).Name;
-                if (EntityManager.GetItem(duelOurStakeItem[i1]).IsStackable == 0)
-                {
-                    s1 = s1 + " x " + formatItemCount(duelOurStakeItemCount[i1]);
-                }
-
-                gameGraphics.drawText(s1, byte0 + 117, byte1 + 42 + i1 * 12, 1, 0xffffff);
-            }
-
-            if (duelOurStakeCount == 0)
-            {
-                gameGraphics.drawText("Nothing!", byte0 + 117, byte1 + 42, 1, 0xffffff);
-            }
-
-            gameGraphics.drawText("Your opponent's stake:", byte0 + 351, byte1 + 30, 1, 0xffff00);
-            for (int j1 = 0; j1 < duelOpponentStakeCount; j1++)
-            {
-                string s2 = EntityManager.GetItem(duelOpponentStakeItem[j1]).Name;
-                if (EntityManager.GetItem(duelOpponentStakeItem[j1]).IsStackable == 0)
-                {
-                    s2 = s2 + " x " + formatItemCount(duelOutStakeItemCount[j1]);
-                }
-
-                gameGraphics.drawText(s2, byte0 + 351, byte1 + 42 + j1 * 12, 1, 0xffffff);
-            }
-
-            if (duelOpponentStakeCount == 0)
-            {
-                gameGraphics.drawText("Nothing!", byte0 + 351, byte1 + 42, 1, 0xffffff);
-            }
-
-            if (duelRetreat == 0)
-            {
-                gameGraphics.drawText("You can retreat from this duel", byte0 + 234, byte1 + 180, 1, 65280);
-            }
-            else
-            {
-                gameGraphics.drawText("No retreat is possible!", byte0 + 234, byte1 + 180, 1, 0xff0000);
-            }
-
-            if (duelMagic == 0)
-            {
-                gameGraphics.drawText("Magic may be used", byte0 + 234, byte1 + 192, 1, 65280);
-            }
-            else
-            {
-                gameGraphics.drawText("Magic cannot be used", byte0 + 234, byte1 + 192, 1, 0xff0000);
-            }
-
-            if (duelPrayer == 0)
-            {
-                gameGraphics.drawText("Prayer may be used", byte0 + 234, byte1 + 204, 1, 65280);
-            }
-            else
-            {
-                gameGraphics.drawText("Prayer cannot be used", byte0 + 234, byte1 + 204, 1, 0xff0000);
-            }
-
-            if (duelWeapons == 0)
-            {
-                gameGraphics.drawText("Weapons may be used", byte0 + 234, byte1 + 216, 1, 65280);
-            }
-            else
-            {
-                gameGraphics.drawText("Weapons cannot be used", byte0 + 234, byte1 + 216, 1, 0xff0000);
-            }
-
-            gameGraphics.drawText("If you are sure click 'Accept' to begin the duel", byte0 + 234, byte1 + 230, 1, 0xffffff);
-            if (!duelConfirmOurAccepted)
-            {
-                gameGraphics.drawPicture((byte0 + 118) - 35, byte1 + 238, baseInventoryPic + 25);
-                gameGraphics.drawPicture((byte0 + 352) - 35, byte1 + 238, baseInventoryPic + 26);
-            }
-            else
-            {
-                gameGraphics.drawText("Waiting for other player...", byte0 + 234, byte1 + 250, 1, 0xffff00);
-            }
-            if (mouseButtonClick == 1)
-            {
-                if (InputManager.Instance.MouseLocation.X < byte0 || InputManager.Instance.MouseLocation.Y < byte1 || InputManager.Instance.MouseLocation.X > byte0 + 468 || InputManager.Instance.MouseLocation.Y > byte1 + 262)
-                {
-                    ShowDuelConfirmBox = false;
-                    StreamClass.CreatePacket(35);
-                    StreamClass.FormatPacket();
-                }
-                if (InputManager.Instance.MouseLocation.X >= (byte0 + 118) - 35 && InputManager.Instance.MouseLocation.X <= byte0 + 118 + 70 && InputManager.Instance.MouseLocation.Y >= byte1 + 238 && InputManager.Instance.MouseLocation.Y <= byte1 + 238 + 21)
-                {
-                    duelConfirmOurAccepted = true;
-                    StreamClass.CreatePacket(87);
-                    StreamClass.FormatPacket();
-                }
-                if (InputManager.Instance.MouseLocation.X >= (byte0 + 352) - 35 && InputManager.Instance.MouseLocation.X <= byte0 + 353 + 70 && InputManager.Instance.MouseLocation.Y >= byte1 + 238 && InputManager.Instance.MouseLocation.Y <= byte1 + 238 + 21)
-                {
-                    ShowDuelConfirmBox = false;
-                    StreamClass.CreatePacket(35);
-                    StreamClass.FormatPacket();
-                }
-                mouseButtonClick = 0;
-            }
-        }
-
         public void setLoginVars()
         {
             loggedIn = false;
@@ -1285,10 +1084,6 @@ namespace RuneScapeSolo.Net.Client
         {
             requestLogout();
             cleanUp();
-            if (audioPlayer != null)
-            {
-                audioPlayer.Stop();
-            }
         }
 
         //protected TcpClient makeSocket(string address, int port) {
@@ -1693,57 +1488,6 @@ namespace RuneScapeSolo.Net.Client
 
                     return;
                 }
-                if (command == ServerCommand.TradeBegins)
-                {
-                    int tradeOther = DataOperations.GetInt16(data, 1);
-                    if (Mobs[tradeOther] != null)
-                    {
-                        tradeOtherName = Mobs[tradeOther].username;
-                    }
-
-                    showTradeBox = true;
-                    tradeOtherAccepted = false;
-                    tradeWeAccepted = false;
-                    tradeItemsOurCount = 0;
-                    tradeItemsOtherCount = 0;
-                    return;
-                }
-                if (command == ServerCommand.TradeEnds)
-                {
-                    showTradeBox = false;
-                    showTradeConfirmBox = false;
-                    return;
-                }
-                if (command == ServerCommand.Command250)
-                {
-                    tradeItemsOtherCount = data[1] & 0xff;
-                    int i4 = 2;
-                    for (int j11 = 0; j11 < tradeItemsOtherCount; j11++)
-                    {
-                        tradeItemsOther[j11] = DataOperations.GetInt16(data, i4);
-                        i4 += 2;
-                        tradeItemOtherCount[j11] = DataOperations.GetInt32(data, i4);
-                        i4 += 4;
-                    }
-
-                    tradeOtherAccepted = false;
-                    tradeWeAccepted = false;
-                    return;
-                }
-                if (command == ServerCommand.TradeAcceptedByOther)
-                {
-                    sbyte byte0 = data[1];
-                    if (byte0 == 1)
-                    {
-                        tradeOtherAccepted = true;
-                        return;
-                    }
-                    else
-                    {
-                        tradeOtherAccepted = false;
-                        return;
-                    }
-                }
                 if (command == ServerCommand.Command253)
                 {
                     ShowShopBox = true;
@@ -1814,20 +1558,6 @@ namespace RuneScapeSolo.Net.Client
                     }
                     return;
                 }
-                if (command == ServerCommand.TradeAcceptedBySelf)
-                {
-                    sbyte byte1 = data[1];
-                    if (byte1 == 1)
-                    {
-                        tradeWeAccepted = true;
-                        return;
-                    }
-                    else
-                    {
-                        tradeWeAccepted = false;
-                        return;
-                    }
-                }
                 if (command == ServerCommand.Command209)
                 {
                     for (int k4 = 0; k4 < length - 1; k4++)
@@ -1862,115 +1592,10 @@ namespace RuneScapeSolo.Net.Client
                     Skills[j5].Experience = DataOperations.GetInt32(data, 2);
                     return;
                 }
-                if (command == ServerCommand.Command229)
-                {
-                    int k5 = DataOperations.GetInt16(data, 1);
-                    if (Mobs[k5] != null)
-                    {
-                        duelOpponent = Mobs[k5].username;
-                    }
-
-                    ShowDuelBox = true;
-                    duelMyItemCount = 0;
-                    duelOpponentItemCount = 0;
-                    duelOpponentAccepted = false;
-                    duelMyAccepted = false;
-                    duelNoRetreating = false;
-                    duelNoMagic = false;
-                    duelNoPrayer = false;
-                    duelNoWeapons = false;
-                    return;
-                }
 
 #warning have not fixed the following yet....
                 Console.WriteLine($"Unfixed command? {command}");
 
-                if (command == ServerCommand.Command251)
-                {
-                    showTradeConfirmBox = true;
-                    tradeConfirmAccepted = false;
-                    showTradeBox = false;
-                    int off = 1;
-                    tradeConfirmOtherNameLong = DataOperations.GetLong(data, off);
-                    off += 8;
-                    tradeConfirmOtherItemCount = data[off++] & 0xff;
-                    for (int i12 = 0; i12 < tradeConfirmOtherItemCount; i12++)
-                    {
-                        tradeConfirmOtherItems[i12] = DataOperations.GetInt16(data, off);
-                        off += 2;
-                        tradeConfirmOtherItemsCount[i12] = DataOperations.GetInt32(data, off);
-                        off += 4;
-                    }
-
-                    tradeConfigItemCount = data[off++] & 0xff;
-                    for (int l17 = 0; l17 < tradeConfigItemCount; l17++)
-                    {
-                        tradeConfirmItems[l17] = DataOperations.GetInt16(data, off);
-                        off += 2;
-                        tradeConfigItemsCount[l17] = DataOperations.GetInt32(data, off);
-                        off += 4;
-                    }
-
-                    return;
-                }
-                if (command == ServerCommand.Command63)
-                {
-                    duelOpponentItemCount = data[1] & 0xff;
-                    int off = 2;
-                    for (int j12 = 0; j12 < duelOpponentItemCount; j12++)
-                    {
-                        duelOpponentItems[j12] = DataOperations.GetInt16(data, off);
-                        off += 2;
-                        duelOpponentItemsCount[j12] = DataOperations.GetInt32(data, off);
-                        off += 4;
-                    }
-
-                    duelOpponentAccepted = false;
-                    duelMyAccepted = false;
-                    return;
-                }
-                if (command == ServerCommand.Command198)
-                {
-                    if (data[1] == 1)
-                    {
-                        duelNoRetreating = true;
-                    }
-                    else
-                    {
-                        duelNoRetreating = false;
-                    }
-
-                    if (data[2] == 1)
-                    {
-                        duelNoMagic = true;
-                    }
-                    else
-                    {
-                        duelNoMagic = false;
-                    }
-
-                    if (data[3] == 1)
-                    {
-                        duelNoPrayer = true;
-                    }
-                    else
-                    {
-                        duelNoPrayer = false;
-                    }
-
-                    if (data[4] == 1)
-                    {
-                        duelNoWeapons = true;
-                    }
-                    else
-                    {
-                        duelNoWeapons = false;
-                    }
-
-                    duelOpponentAccepted = false;
-                    duelMyAccepted = false;
-                    return;
-                }
                 if (command == ServerCommand.Command139)
                 {
                     int off = 1;
@@ -2012,66 +1637,6 @@ namespace RuneScapeSolo.Net.Client
                         InventoryItemEquipped[i13] = InventoryItemEquipped[i13 + 1];
                     }
 
-                    return;
-                }
-                if (command == ServerCommand.DuelAcceptedByOther)
-                {
-                    sbyte byte2 = data[1];
-                    if (byte2 == 1)
-                    {
-                        duelOpponentAccepted = true;
-                        return;
-                    }
-                    else
-                    {
-                        duelOpponentAccepted = false;
-                        return;
-                    }
-                }
-                if (command == ServerCommand.DuelAcceptedBySelf)
-                {
-                    sbyte byte3 = data[1];
-                    if (byte3 == 1)
-                    {
-                        duelMyAccepted = true;
-                        return;
-                    }
-                    else
-                    {
-                        duelMyAccepted = false;
-                        return;
-                    }
-                }
-                if (command == ServerCommand.Command147)
-                {
-                    ShowDuelConfirmBox = true;
-                    duelConfirmOurAccepted = false;
-                    ShowDuelBox = false;
-                    int off = 1;
-                    duelOpponentHash = DataOperations.GetLong(data, off);
-                    off += 8;
-                    duelOpponentStakeCount = data[off++] & 0xff;
-                    for (int k13 = 0; k13 < duelOpponentStakeCount; k13++)
-                    {
-                        duelOpponentStakeItem[k13] = DataOperations.GetInt16(data, off);
-                        off += 2;
-                        duelOutStakeItemCount[k13] = DataOperations.GetInt32(data, off);
-                        off += 4;
-                    }
-
-                    duelOurStakeCount = data[off++] & 0xff;
-                    for (int k18 = 0; k18 < duelOurStakeCount; k18++)
-                    {
-                        duelOurStakeItem[k18] = DataOperations.GetInt16(data, off);
-                        off += 2;
-                        duelOurStakeItemCount[k18] = DataOperations.GetInt32(data, off);
-                        off += 4;
-                    }
-
-                    duelRetreat = data[off++] & 0xff;
-                    duelMagic = data[off++] & 0xff;
-                    duelPrayer = data[off++] & 0xff;
-                    duelWeapons = data[off++] & 0xff;
                     return;
                 }
                 if (command == ServerCommand.Command23)
@@ -2173,7 +1738,7 @@ namespace RuneScapeSolo.Net.Client
             logoutTimer = 0;
             loginScreenNumber = 0;
             loggedIn = true;
-            
+
             gameGraphics.ClearScreen();
             // gameGraphics.UpdateGameImage();
             //gameGraphics.drawImage(spriteBatch, 0, 0);
@@ -2227,10 +1792,10 @@ namespace RuneScapeSolo.Net.Client
             int l = gameGraphics.gameWidth - 199;
             int c1 = 156;//'æ';//(char)234;//'\u234';
             int c3 = 152;// '~';//(char)230;//'\u230';
-            gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 2);
+
             l += 40;
-            gameGraphics.drawBox(l, 36, c1, c3, 0);
             gameGraphics.setDimensions(l, 36, l + c1, 36 + c3);
+
             int j1 = 192 + minimapRandomRotationY;
             int l1 = cameraRotation + minimapRandomRotationX & 0xff;
             int j2 = ((CurrentPlayer.currentX - 6040) * 3 * j1) / 2048;
@@ -2239,13 +1804,10 @@ namespace RuneScapeSolo.Net.Client
             int l5 = Camera.bbk[(1024 - l1 * 4 & 0x3ff) + 1024];
             int j6 = l3 * j5 + j2 * l5 >> 18;
             l3 = l3 * l5 - j2 * j5 >> 18;
-            j2 = j6;
-            gameGraphics.drawMinimapPic((l + c1 / 2) - j2, 36 + c3 / 2 + l3, baseInventoryPic - 1, l1 + 64 & 0xff, j1);
-            
-            // compass
-            gameGraphics.drawCircle(l + c1 / 2, 36 + c3 / 2, 2, 0xffffff, 255);
-            gameGraphics.drawMinimapPic(l + 19, 55, baseInventoryPic + 24, cameraRotation + 128 & 0xff, 128);
+
+            gameGraphics.drawMinimapPic((l + c1 / 2) - j6, 36 + c3 / 2 + l3, baseInventoryPic - 1, l1 + 64 & 0xff, j1);
             gameGraphics.setDimensions(0, 0, windowWidth, windowHeight + 12);
+
             if (!canClick)
             {
                 return;
@@ -2328,7 +1890,7 @@ namespace RuneScapeSolo.Net.Client
 
             return true;
         }
-        
+
         public override void LoadGame()
         {
             int l = 0;
@@ -2405,7 +1967,7 @@ namespace RuneScapeSolo.Net.Client
             {
                 return;
             }
-            
+
             if (!errorLoading)
             {
                 OnContentLoaded?.Invoke(this, new ContentLoadedEventArgs("Starting game...", 100));
@@ -2840,119 +2402,6 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        public void drawWelcomeBox()
-        {
-            int l = 65;
-            if (!LastLoginAddress.Equals("0.0.0.0"))
-            {
-                l += 30;
-            }
-
-            if (SubscriptionDaysLeft > 0)
-            {
-                l += 15;
-            }
-
-            if (LastLoginDays >= 0)
-            {
-                l += 15;
-            }
-
-            int i1 = 167 - l / 2;
-            gameGraphics.drawBox(56, 167 - l / 2, 400, l, 0);
-            gameGraphics.drawBoxEdge(56, 167 - l / 2, 400, l, 0xffffff);
-            i1 += 20;
-            gameGraphics.drawText("Welcome to RuneScape " + loginUsername, 256, i1, 4, 0xffff00);
-            i1 += 30;
-            string s1;
-            // lastLoginDays    subDaysLeft    lastLoginAddress
-            if (LastLoginDays == 0)
-            {
-                s1 = "earlier today";
-            }
-            else
-                if (LastLoginDays == 1)
-            {
-                s1 = "yesterday";
-            }
-            else
-            {
-                s1 = LastLoginDays + " days ago";
-            }
-
-            if (!LastLoginAddress.Equals("0.0.0.0"))
-            {
-                gameGraphics.drawText("You last logged in " + s1, 256, i1, 1, 0xffffff);
-                i1 += 15;
-                gameGraphics.drawText("from: " + LastLoginAddress, 256, i1, 1, 0xffffff);
-                i1 += 15;
-            }
-            if (SubscriptionDaysLeft > 0)
-            {
-                gameGraphics.drawText("Subscription left: " + SubscriptionDaysLeft + " days", 256, i1, 1, 0xffffff);
-                i1 += 15;
-            }
-            /*if(unreadMessages > 0) {
-                int j1 = 0xffffff;
-                gameGraphics.drawText("Jagex staff will NEVER email you. We use the", 256, i1, 1, j1);
-                i1 += 15;
-                gameGraphics.drawText("message-centre on this website instead.", 256, i1, 1, j1);
-                i1 += 15;
-                if(unreadMessages == 1)
-                    gameGraphics.drawText("You have @yel@0@whi@ unread messages in your message-centre", 256, i1, 1, 0xffffff);
-                else
-                    gameGraphics.drawText("You have @gre@" + (unreadMessages - 1) + " unread messages @whi@in your message-centre", 256, i1, 1, 0xffffff);
-                i1 += 15;
-                i1 += 15;
-            }
-            if(lastChangedRecoveryDays != 201) {
-                if(lastChangedRecoveryDays == 200) {
-                    gameGraphics.drawText("You have not yet set any password recovery questions.", 256, i1, 1, 0xff8000);
-                    i1 += 15;
-                    gameGraphics.drawText("We strongly recommend you do so now to secure your account.", 256, i1, 1, 0xff8000);
-                    i1 += 15;
-                    gameGraphics.drawText("Do this from the 'account management' area on our front webpage", 256, i1, 1, 0xff8000);
-                    i1 += 15;
-                } else {
-                    string s2;
-                    if(lastChangedRecoveryDays == 0)
-                        s2 = "Earlier today";
-                    else
-                    if(lastChangedRecoveryDays == 1)
-                        s2 = "Yesterday";
-                    else
-                        s2 = lastChangedRecoveryDays + " days ago";
-                    gameGraphics.drawText(s2 + " you changed your recovery questions", 256, i1, 1, 0xff8000);
-                    i1 += 15;
-                    gameGraphics.drawText("If you do not remember making this change then cancel it immediately", 256, i1, 1, 0xff8000);
-                    i1 += 15;
-                    gameGraphics.drawText("Do this from the 'account management' area on our front webpage", 256, i1, 1, 0xff8000);
-                    i1 += 15;
-                }
-                i1 += 15;
-            }*/
-            int k1 = 0xffffff;
-            if (InputManager.Instance.MouseLocation.Y > i1 - 12 && InputManager.Instance.MouseLocation.Y <= i1 && InputManager.Instance.MouseLocation.X > 106 && InputManager.Instance.MouseLocation.X < 406)
-            {
-                k1 = 0xff0000;
-            }
-
-            gameGraphics.drawText("Click here to close window", 256, i1, 1, k1);
-            if (mouseButtonClick == 1)
-            {
-                if (k1 == 0xff0000)
-                {
-                    ShowWelcomeBox = false;
-                }
-
-                if ((InputManager.Instance.MouseLocation.X < 86 || InputManager.Instance.MouseLocation.X > 426) && (InputManager.Instance.MouseLocation.Y < 167 - l / 2 || InputManager.Instance.MouseLocation.Y > 167 + l / 2))
-                {
-                    ShowWelcomeBox = false;
-                }
-            }
-            mouseButtonClick = 0;
-        }
-
         public int getInventoryItemTotalCount(int arg0)
         {
             int l = 0;
@@ -3177,7 +2626,7 @@ namespace RuneScapeSolo.Net.Client
             {
                 gameGraphics.drawString("Automatic screenshots - @red@off", j1, l1, 1, 0xffffff);
             }
-           
+
             l1 += 15;
             l1 += 5;
             gameGraphics.drawString("Always logout when you finish", j1, l1, 1, 0);
@@ -3259,7 +2708,7 @@ namespace RuneScapeSolo.Net.Client
                 i2 += 15;
                 i2 += 15;
                 i2 += 15;
-                
+
                 i2 += 20;
                 if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
@@ -3364,252 +2813,6 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.drawText("Aggressive (+3 strength)", byte0 + c1 / 2, byte1 + 56, 3, 0);
             gameGraphics.drawText("Accurate   (+3 attack)", byte0 + c1 / 2, byte1 + 76, 3, 0);
             gameGraphics.drawText("Defensive  (+3 defense)", byte0 + c1 / 2, byte1 + 96, 3, 0);
-        }
-
-        public void drawTradeBox()
-        {
-            if (mouseButtonClick != 0)
-            {
-                int mx = InputManager.Instance.MouseLocation.X - 22;
-                int my = InputManager.Instance.MouseLocation.Y - 36;
-                if (mx >= 0 && my >= 30 && mx < 462 && my < 262)
-                {
-                    if (mx > 216 && my > 30 && mx < 462 && my < 235)
-                    {
-                        int curItem = (mx - 217) / 49 + ((my - 31) / 34) * 5;
-                        if (curItem >= 0 && curItem < InventoryItemsCount)
-                        {
-                            int item = InventoryItems[curItem];
-                            mouseClickedHeldInTradeDuelBox = 1;
-                            bool ourTradeItemsChanged = false;
-                            int someInt = 0;
-                            for (int tradeItem = 0; tradeItem < tradeItemsOurCount; tradeItem++)
-                            {
-                                if (tradeItemsOur[tradeItem] == item)
-                                {
-                                    if (EntityManager.GetItem(item).IsStackable == 0)
-                                    {
-                                        for (int i = 0; i < mouseClickedHeldInTradeDuelBox; i++)
-                                        {
-                                            if (tradeItemOurCount[tradeItem] < InventoryItemCount[curItem])
-                                            {
-                                                tradeItemOurCount[tradeItem]++;
-                                            }
-
-                                            ourTradeItemsChanged = true;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        someInt++;
-                                    }
-                                }
-                            }
-
-                            if (getInventoryItemTotalCount(item) <= someInt)
-                            {
-                                ourTradeItemsChanged = true;
-                            }
-
-                            if (EntityManager.GetItem(item).IsSpecial == 1)
-                            {
-                                DisplayMessage("This object cannot be traded with other players");
-                                ourTradeItemsChanged = true;
-                            }
-
-                            if (!ourTradeItemsChanged && tradeItemsOurCount < 12)
-                            {
-                                tradeItemsOur[tradeItemsOurCount] = item;
-                                tradeItemOurCount[tradeItemsOurCount] = 1;
-                                tradeItemsOurCount++;
-                                ourTradeItemsChanged = true;
-                            }
-
-                            if (ourTradeItemsChanged)
-                            {
-                                StreamClass.CreatePacket(70);
-                                StreamClass.AddInt8(tradeItemsOurCount);
-                                for (int i = 0; i < tradeItemsOurCount; i++)
-                                {
-                                    StreamClass.AddInt16(tradeItemsOur[i]);
-                                    StreamClass.AddInt32(tradeItemOurCount[i]);
-                                }
-                                StreamClass.FormatPacket();
-                                tradeOtherAccepted = false;
-                                tradeWeAccepted = false;
-                            }
-                        }
-                    }
-                    else if (mx > 8 && my > 30 && mx < 205 && my < 133)
-                    {
-                        int curItem = (mx - 9) / 49 + ((my - 31) / 34) * 4;
-                        if (curItem >= 0 && curItem < tradeItemsOurCount)
-                        {
-                            int item = tradeItemsOur[curItem];
-                            for (int i = 0; i < mouseClickedHeldInTradeDuelBox; i++)
-                            {
-                                if (EntityManager.GetItem(item).IsStackable == 0 && tradeItemOurCount[curItem] > 1)
-                                {
-                                    tradeItemOurCount[curItem]--;
-                                    continue;
-                                }
-                                tradeItemsOurCount--;
-                                mouseButtonHeldTime = 0;
-                                for (int j = curItem; j < tradeItemsOurCount; j++)
-                                {
-                                    tradeItemsOur[j] = tradeItemsOur[j + 1];
-                                    tradeItemOurCount[j] = tradeItemOurCount[j + 1];
-                                }
-                                break;
-                            }
-                            StreamClass.CreatePacket(70);
-                            StreamClass.AddInt8(tradeItemsOurCount);
-                            for (int i = 0; i < tradeItemsOurCount; i++)
-                            {
-                                StreamClass.AddInt16(tradeItemsOur[i]);
-                                StreamClass.AddInt32(tradeItemOurCount[i]);
-                            }
-                            StreamClass.FormatPacket();
-                            tradeOtherAccepted = false;
-                            tradeWeAccepted = false;
-                        }
-                    }
-                    if (mx >= 217 && my >= 238 && mx <= 286 && my <= 259)
-                    {
-                        tradeWeAccepted = true;
-                        StreamClass.CreatePacket(211);
-                        StreamClass.FormatPacket();
-                    }
-                    if (mx >= 394 && my >= 238 && mx < 463 && my < 259)
-                    {
-                        showTradeBox = false;
-                        StreamClass.CreatePacket(216);
-                        StreamClass.FormatPacket();
-                    }
-                }
-                else
-                {
-                    //showTradeBox = false;
-                    //base.streamClass.createPacket(216);
-                    //base.streamClass.formatPacket();
-                }
-                mouseButtonClick = 0;
-                mouseClickedHeldInTradeDuelBox = 0;
-            }
-            if (!showTradeBox)
-            {
-                return;
-            }
-
-            sbyte byte0 = 22;
-            sbyte byte1 = 36;
-            gameGraphics.drawBox(byte0, byte1, 468, 12, 192);
-            int l1 = 0x989898;
-            gameGraphics.drawBoxAlpha(byte0, byte1 + 12, 468, 18, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0, byte1 + 30, 8, 248, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 205, byte1 + 30, 11, 248, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 462, byte1 + 30, 6, 248, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 133, 197, 22, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 258, 197, 20, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 216, byte1 + 235, 246, 43, l1, 160);
-            int j2 = 0xd0d0d0;
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 30, 197, 103, j2, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 155, 197, 103, j2, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 216, byte1 + 30, 246, 205, j2, 160);
-            for (int i3 = 0; i3 < 4; i3++)
-            {
-                gameGraphics.drawLineX(byte0 + 8, byte1 + 30 + i3 * 34, 197, 0);
-            }
-
-            for (int i4 = 0; i4 < 4; i4++)
-            {
-                gameGraphics.drawLineX(byte0 + 8, byte1 + 155 + i4 * 34, 197, 0);
-            }
-
-            for (int k4 = 0; k4 < 7; k4++)
-            {
-                gameGraphics.drawLineX(byte0 + 216, byte1 + 30 + k4 * 34, 246, 0);
-            }
-
-            for (int j5 = 0; j5 < 6; j5++)
-            {
-                if (j5 < 5)
-                {
-                    gameGraphics.drawLineY(byte0 + 8 + j5 * 49, byte1 + 30, 103, 0);
-                }
-
-                if (j5 < 5)
-                {
-                    gameGraphics.drawLineY(byte0 + 8 + j5 * 49, byte1 + 155, 103, 0);
-                }
-
-                gameGraphics.drawLineY(byte0 + 216 + j5 * 49, byte1 + 30, 205, 0);
-            }
-
-            gameGraphics.drawString("Trading with: " + tradeOtherName, byte0 + 1, byte1 + 10, 1, 0xffffff);
-            gameGraphics.drawString("Your Offer", byte0 + 9, byte1 + 27, 4, 0xffffff);
-            gameGraphics.drawString("Opponent's Offer", byte0 + 9, byte1 + 152, 4, 0xffffff);
-            gameGraphics.drawString("Your Inventory", byte0 + 216, byte1 + 27, 4, 0xffffff);
-            if (!tradeWeAccepted)
-            {
-                gameGraphics.drawPicture(byte0 + 217, byte1 + 238, baseInventoryPic + 25);
-            }
-
-            gameGraphics.drawPicture(byte0 + 394, byte1 + 238, baseInventoryPic + 26);
-            if (tradeOtherAccepted)
-            {
-                gameGraphics.drawText("Other player", byte0 + 341, byte1 + 246, 1, 0xffffff);
-                gameGraphics.drawText("has accepted", byte0 + 341, byte1 + 256, 1, 0xffffff);
-            }
-            if (tradeWeAccepted)
-            {
-                gameGraphics.drawText("Waiting for", byte0 + 217 + 35, byte1 + 246, 1, 0xffffff);
-                gameGraphics.drawText("other player", byte0 + 217 + 35, byte1 + 256, 1, 0xffffff);
-            }
-            for (int k5 = 0; k5 < InventoryItemsCount; k5++)
-            {
-                int l5 = 217 + byte0 + (k5 % 5) * 49;
-                int j6 = 31 + byte1 + (k5 / 5) * 34;
-                gameGraphics.drawImage(l5, j6, 48, 32, baseItemPicture + EntityManager.GetItem(InventoryItems[k5]).InventoryPicture, EntityManager.GetItem(InventoryItems[k5]).PictureMask, 0, 0, false);
-
-                if (EntityManager.GetItem(InventoryItems[k5]).IsStackable == 0)
-                {
-                    gameGraphics.drawString(InventoryItemCount[k5].ToString(), l5 + 1, j6 + 10, 1, 0xffff00);
-                }
-            }
-
-            for (int i6 = 0; i6 < tradeItemsOurCount; i6++)
-            {
-                int k6 = 9 + byte0 + (i6 % 4) * 49;
-                int i7 = 31 + byte1 + (i6 / 4) * 34;
-                gameGraphics.drawImage(k6, i7, 48, 32, baseItemPicture + EntityManager.GetItem(tradeItemsOur[i6]).InventoryPicture, EntityManager.GetItem(tradeItemsOur[i6]).PictureMask, 0, 0, false);
-                if (EntityManager.GetItem(tradeItemsOur[i6]).IsStackable == 0)
-                {
-                    gameGraphics.drawString(tradeItemOurCount[i6].ToString(), k6 + 1, i7 + 10, 1, 0xffff00);
-                }
-
-                if (InputManager.Instance.MouseLocation.X > k6 && InputManager.Instance.MouseLocation.X < k6 + 48 && InputManager.Instance.MouseLocation.Y > i7 && InputManager.Instance.MouseLocation.Y < i7 + 32)
-                {
-                    gameGraphics.drawString(EntityManager.GetItem(tradeItemsOur[i6]).Name + ": @whi@" + EntityManager.GetItem(tradeItemsOur[i6]).Description, byte0 + 8, byte1 + 273, 1, 0xffff00);
-                }
-            }
-
-            for (int l6 = 0; l6 < tradeItemsOtherCount; l6++)
-            {
-                int j7 = 9 + byte0 + (l6 % 4) * 49;
-                int k7 = 156 + byte1 + (l6 / 4) * 34;
-                gameGraphics.drawImage(j7, k7, 48, 32, baseItemPicture + EntityManager.GetItem(tradeItemsOther[l6]).InventoryPicture, EntityManager.GetItem(tradeItemsOther[l6]).PictureMask, 0, 0, false);
-                if (EntityManager.GetItem(tradeItemsOther[l6]).IsStackable == 0)
-                {
-                    gameGraphics.drawString(tradeItemOtherCount[l6].ToString(), j7 + 1, k7 + 10, 1, 0xffff00);
-                }
-
-                if (InputManager.Instance.MouseLocation.X > j7 && InputManager.Instance.MouseLocation.X < j7 + 48 && InputManager.Instance.MouseLocation.Y > k7 && InputManager.Instance.MouseLocation.Y < k7 + 32)
-                {
-                    gameGraphics.drawString(EntityManager.GetItem(tradeItemsOther[l6]).Name + ": @whi@" + EntityManager.GetItem(tradeItemsOther[l6]).Description, byte0 + 8, byte1 + 273, 1, 0xffff00);
-                }
-            }
-
         }
 
         public void autoRotateCamera()
@@ -3953,86 +3156,6 @@ namespace RuneScapeSolo.Net.Client
                 gameGraphics.drawString(questionMenuAnswer[i1], 6, 12 + i1 * 12, 1, j1);
             }
 
-        }
-
-        public void drawTradeConfirmBox()
-        {
-            sbyte byte0 = 22;
-            sbyte byte1 = 36;
-            gameGraphics.drawBox(byte0, byte1, 468, 16, 192);
-            int l = 0x989898;
-            gameGraphics.drawBoxAlpha(byte0, byte1 + 16, 468, 246, l, 160);
-            gameGraphics.drawText("Please confirm your trade with @yel@" + DataOperations.LongToString(tradeConfirmOtherNameLong), byte0 + 234, byte1 + 12, 1, 0xffffff);
-            gameGraphics.drawText("You are about to give:", byte0 + 117, byte1 + 30, 1, 0xffff00);
-            for (int i1 = 0; i1 < tradeConfigItemCount; i1++)
-            {
-                string s1 = EntityManager.GetItem(tradeConfirmItems[i1]).Name;
-                if (EntityManager.GetItem(tradeConfirmItems[i1]).IsStackable == 0)
-                {
-                    s1 = s1 + " x " + formatItemCount(tradeConfigItemsCount[i1]);
-                }
-
-                gameGraphics.drawText(s1, byte0 + 117, byte1 + 42 + i1 * 12, 1, 0xffffff);
-            }
-
-            if (tradeConfigItemCount == 0)
-            {
-                gameGraphics.drawText("Nothing!", byte0 + 117, byte1 + 42, 1, 0xffffff);
-            }
-
-            gameGraphics.drawText("In return you will receive:", byte0 + 351, byte1 + 30, 1, 0xffff00);
-            for (int j1 = 0; j1 < tradeConfirmOtherItemCount; j1++)
-            {
-                string s2 = EntityManager.GetItem(tradeConfirmOtherItems[j1]).Name;
-
-                if (EntityManager.GetItem(tradeConfirmOtherItems[j1]).IsStackable == 0)
-                {
-                    s2 = s2 + " x " + formatItemCount(tradeConfirmOtherItemsCount[j1]);
-                }
-
-                gameGraphics.drawText(s2, byte0 + 351, byte1 + 42 + j1 * 12, 1, 0xffffff);
-            }
-
-            if (tradeConfirmOtherItemCount == 0)
-            {
-                gameGraphics.drawText("Nothing!", byte0 + 351, byte1 + 42, 1, 0xffffff);
-            }
-
-            gameGraphics.drawText("Are you sure you want to do this?", byte0 + 234, byte1 + 200, 4, 65535);
-            gameGraphics.drawText("There is NO WAY to reverse a trade if you change your mind.", byte0 + 234, byte1 + 215, 1, 0xffffff);
-            gameGraphics.drawText("Remember that not all players are trustworthy", byte0 + 234, byte1 + 230, 1, 0xffffff);
-
-            if (!tradeConfirmAccepted)
-            {
-                gameGraphics.drawPicture((byte0 + 118) - 35, byte1 + 238, baseInventoryPic + 25);
-                gameGraphics.drawPicture((byte0 + 352) - 35, byte1 + 238, baseInventoryPic + 26);
-            }
-            else
-            {
-                gameGraphics.drawText("Waiting for other player...", byte0 + 234, byte1 + 250, 1, 0xffff00);
-            }
-            if (mouseButtonClick == 1)
-            {
-                if (InputManager.Instance.MouseLocation.X < byte0 || InputManager.Instance.MouseLocation.Y < byte1 || InputManager.Instance.MouseLocation.X > byte0 + 468 || InputManager.Instance.MouseLocation.Y > byte1 + 262)
-                {
-                    //showTradeConfirmBox = false;
-                    //base.streamClass.createPacket(216);
-                    //base.streamClass.formatPacket();
-                }
-                if (InputManager.Instance.MouseLocation.X >= (byte0 + 118) - 35 && InputManager.Instance.MouseLocation.X <= byte0 + 118 + 70 && InputManager.Instance.MouseLocation.Y >= byte1 + 238 && InputManager.Instance.MouseLocation.Y <= byte1 + 238 + 21)
-                {
-                    tradeConfirmAccepted = true;
-                    StreamClass.CreatePacket(53);
-                    StreamClass.FormatPacket();
-                }
-                if (InputManager.Instance.MouseLocation.X >= (byte0 + 352) - 35 && InputManager.Instance.MouseLocation.X <= byte0 + 353 + 70 && InputManager.Instance.MouseLocation.Y >= byte1 + 238 && InputManager.Instance.MouseLocation.Y <= byte1 + 238 + 21)
-                {
-                    showTradeConfirmBox = false;
-                    StreamClass.CreatePacket(216);
-                    StreamClass.FormatPacket();
-                }
-                mouseButtonClick = 0;
-            }
         }
 
         public virtual void drawLoginScreens()
@@ -4476,7 +3599,7 @@ namespace RuneScapeSolo.Net.Client
                 return base.unpackData(arg0, arg1, arg2);
             }
         }
-        
+
         delegate void SendPingPacketDelegate();
         readonly object _sync = new object();
         public static bool sendingPing = false;
@@ -4951,57 +4074,14 @@ namespace RuneScapeSolo.Net.Client
                 lastMouseButton = 0;
                 return;
             }
-            
+
             if (PlayerAliveTimeout != 0)
             {
                 lastMouseButton = 0;
             }
 
-            if (showTradeBox || ShowDuelBox)
-            {
-                if (mouseButton != 0)
-                {
-                    mouseButtonHeldTime++;
-                }
-                else
-                {
-                    mouseButtonHeldTime = 0;
-                }
+            mouseButtonHeldTime = 0; ;
 
-                if (mouseButtonHeldTime > 500)
-                {
-                    mouseClickedHeldInTradeDuelBox += 100000;
-                }
-                else if (mouseButtonHeldTime > 350)
-                {
-                    mouseClickedHeldInTradeDuelBox += 10000;
-                }
-                else if (mouseButtonHeldTime > 250)
-                {
-                    mouseClickedHeldInTradeDuelBox += 1000;
-                }
-                else if (mouseButtonHeldTime > 150)
-                {
-                    mouseClickedHeldInTradeDuelBox += 100;
-                }
-                else if (mouseButtonHeldTime > 100)
-                {
-                    mouseClickedHeldInTradeDuelBox += 10;
-                }
-                else if (mouseButtonHeldTime > 50)
-                {
-                    mouseClickedHeldInTradeDuelBox++;
-                }
-                else if (mouseButtonHeldTime > 20 && (mouseButtonHeldTime & 5) == 0)
-                {
-                    mouseClickedHeldInTradeDuelBox++;
-                }
-            }
-            else
-            {
-                mouseButtonHeldTime = 0;
-                mouseClickedHeldInTradeDuelBox = 0;
-            }
             if (lastMouseButton == 1)
             {
                 mouseButtonClick = 1;
@@ -6465,46 +5545,6 @@ namespace RuneScapeSolo.Net.Client
                 }
             }
 
-            if (WildernessModeTimer != 0)
-            {
-                DrawWildernessTypeAnnouncement();
-            }
-
-            if (PvpTournamentTimer != 0)
-            {
-                DrawPvpTournamentAnnouncement();
-            }
-
-            if (DropPartyTimer != 0)
-            {
-                DrawDropPartyAnnouncement();
-            }
-
-            if (!LoadArea)
-            {
-                int i7 = 2203 - (SectionY + WildY + AreaY);
-                if (SectionX + WildX + AreaX >= 2640)
-                {
-                    i7 = -50;
-                }
-
-                if (i7 > 0)
-                {
-                    int j9 = 1 + i7 / 6;
-                    gameGraphics.drawPicture(453, windowHeight - 56, baseInventoryPic + 13);
-                    gameGraphics.drawText("Wilderness", 465, windowHeight - 20, 1, 0xffff00);
-                    gameGraphics.drawText("Level: " + j9, 465, windowHeight - 7, 1, 0xffff00);
-                    if (wildType == 0)
-                    {
-                        wildType = 2;
-                    }
-                }
-                if (wildType == 0 && i7 > -10 && i7 <= 0)
-                {
-                    wildType = 1;
-                }
-            }
-            
             gameGraphics.drawPicture(gameGraphics.gameWidth - 3 - 197, 3, baseInventoryPic, 128);
 
             drawMenus();
@@ -6521,74 +5561,15 @@ namespace RuneScapeSolo.Net.Client
             OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
         }
 
-        void DrawWildernessTypeAnnouncement()
-        {
-            int i6 = WildernessModeTimer / 50;
-            int j8 = i6 / 60;
-
-            i6 %= 60;
-
-            if (i6 < 10)
-            {
-                gameGraphics.drawText($"Wilderness type will change in: {j8}:0{i6}", 256, windowHeight - 7, 1, 0xFFFF00);
-            }
-            else
-            {
-                gameGraphics.drawText($"Wilderness type will change in: {j8}:{i6}", 256, windowHeight - 7, 1, 0xFFFF00);
-            }
-        }
-
-        void DrawPvpTournamentAnnouncement()
-        {
-            int i6 = PvpTournamentTimer / 50;
-            int j8 = i6 / 60;
-
-            i6 %= 60;
-
-            if (i6 < 10)
-            {
-                gameGraphics.drawText("Drop party starting in: " + j8 + ":0" + i6, 256, windowHeight - 7, 1, 0xFFFF00);
-            }
-            else
-            {
-                gameGraphics.drawText("Drop party starting in: " + j8 + ":" + i6, 256, windowHeight - 7, 1, 0xFFFF00);
-            }
-        }
-
-        void DrawDropPartyAnnouncement()
-        {
-            int i6 = DropPartyTimer / 50;
-            int j8 = i6 / 60;
-
-            i6 %= 60;
-
-            if (i6 < 10)
-            {
-                gameGraphics.drawText("Drop party starting in: " + j8 + ":0" + i6, 256, windowHeight - 7, 1, 0xFFFF00);
-            }
-            else
-            {
-                gameGraphics.drawText("Drop party starting in: " + j8 + ":" + i6, 256, windowHeight - 7, 1, 0xFFFF00);
-            }
-        }
-        
         public void drawMenus()
         {
             if (logoutTimer != 0)
             {
                 drawLogoutBox();
             }
-            else if (ShowWelcomeBox)
-            {
-                drawWelcomeBox();
-            }
             else if (showServerMessageBox)
             {
                 drawServerMessageBox();
-            }
-            else if (wildType == 1)
-            {
-                drawWildernessAlertBox();
             }
             else if (ShowBankBox && combatTimeout == 0)
             {
@@ -6597,22 +5578,6 @@ namespace RuneScapeSolo.Net.Client
             else if (ShowShopBox && combatTimeout == 0)
             {
                 drawShopBox();
-            }
-            else if (showTradeConfirmBox)
-            {
-                drawTradeConfirmBox();
-            }
-            else if (showTradeBox)
-            {
-                drawTradeBox();
-            }
-            else if (ShowDuelConfirmBox)
-            {
-                drawDuelConfirmBox();
-            }
-            else if (ShowDuelBox)
-            {
-                drawDuelBox();
             }
             else
             {
@@ -6657,7 +5622,7 @@ namespace RuneScapeSolo.Net.Client
                 {
                     drawPrayerMagicMenu(flag);
                 }
-                
+
                 if (drawMenuTab == 6)
                 {
                     drawOptionsMenu(flag);
@@ -6732,373 +5697,6 @@ namespace RuneScapeSolo.Net.Client
                     Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
                     Console.WriteLine(ex);
                 }
-            }
-        }
-
-        public void drawDuelBox()
-        {
-            if (mouseButtonClick != 0 && mouseClickedHeldInTradeDuelBox == 0)
-            {
-                mouseClickedHeldInTradeDuelBox = 1;
-            }
-
-            if (mouseClickedHeldInTradeDuelBox > 0)
-            {
-                int l = InputManager.Instance.MouseLocation.X - 22;
-                int i1 = InputManager.Instance.MouseLocation.Y - 36;
-                if (l >= 0 && i1 >= 0 && l < 468 && i1 < 262)
-                {
-                    if (l > 216 && i1 > 30 && l < 462 && i1 < 235)
-                    {
-                        int j1 = (l - 217) / 49 + ((i1 - 31) / 34) * 5;
-                        if (j1 >= 0 && j1 < InventoryItemsCount)
-                        {
-                            bool flag1 = false;
-                            int k2 = 0;
-                            int j3 = InventoryItems[j1];
-                            for (int j4 = 0; j4 < duelMyItemCount; j4++)
-                            {
-                                if (duelMyItems[j4] == j3)
-                                {
-                                    if (EntityManager.GetItem(j3).IsStackable == 0)
-                                    {
-                                        for (int l4 = 0; l4 < mouseClickedHeldInTradeDuelBox; l4++)
-                                        {
-                                            if (duelMyItemsCount[j4] < InventoryItemCount[j1])
-                                            {
-                                                duelMyItemsCount[j4]++;
-                                            }
-
-                                            flag1 = true;
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        k2++;
-                                    }
-                                }
-                            }
-
-                            if (getInventoryItemTotalCount(j3) <= k2)
-                            {
-                                flag1 = true;
-                            }
-
-                            if (EntityManager.GetItem(j3).IsSpecial == 1)
-                            {
-                                DisplayMessage("This object cannot be added to a duel offer");
-                                flag1 = true;
-                            }
-                            if (!flag1 && duelMyItemCount < 8)
-                            {
-                                duelMyItems[duelMyItemCount] = j3;
-                                duelMyItemsCount[duelMyItemCount] = 1;
-                                duelMyItemCount++;
-                                flag1 = true;
-                            }
-                            if (flag1)
-                            {
-                                StreamClass.CreatePacket(123);
-                                StreamClass.AddInt8(duelMyItemCount);
-                                for (int i5 = 0; i5 < duelMyItemCount; i5++)
-                                {
-                                    StreamClass.AddInt16(duelMyItems[i5]);
-                                    StreamClass.AddInt32(duelMyItemsCount[i5]);
-                                }
-
-                                StreamClass.FormatPacket();
-                                duelOpponentAccepted = false;
-                                duelMyAccepted = false;
-                            }
-                        }
-                    }
-                    if (l > 8 && i1 > 30 && l < 205 && i1 < 129)
-                    {
-                        int k1 = (l - 9) / 49 + ((i1 - 31) / 34) * 4;
-                        if (k1 >= 0 && k1 < duelMyItemCount)
-                        {
-                            int i2 = duelMyItems[k1];
-                            for (int l2 = 0; l2 < mouseClickedHeldInTradeDuelBox; l2++)
-                            {
-                                if (EntityManager.GetItem(i2).IsStackable == 0 && duelMyItemsCount[k1] > 1)
-                                {
-                                    duelMyItemsCount[k1]--;
-                                    continue;
-                                }
-                                duelMyItemCount--;
-                                mouseButtonHeldTime = 0;
-                                for (int k3 = k1; k3 < duelMyItemCount; k3++)
-                                {
-                                    duelMyItems[k3] = duelMyItems[k3 + 1];
-                                    duelMyItemsCount[k3] = duelMyItemsCount[k3 + 1];
-                                }
-
-                                break;
-                            }
-
-                            StreamClass.CreatePacket(123);
-                            StreamClass.AddInt8(duelMyItemCount);
-                            for (int l3 = 0; l3 < duelMyItemCount; l3++)
-                            {
-                                StreamClass.AddInt16(duelMyItems[l3]);
-                                StreamClass.AddInt32(duelMyItemsCount[l3]);
-                            }
-
-                            StreamClass.FormatPacket();
-                            duelOpponentAccepted = false;
-                            duelMyAccepted = false;
-                        }
-                    }
-                    bool flag = false;
-                    if (l >= 93 && i1 >= 221 && l <= 104 && i1 <= 232)
-                    {
-                        duelNoRetreating = !duelNoRetreating;
-                        flag = true;
-                    }
-                    if (l >= 93 && i1 >= 240 && l <= 104 && i1 <= 251)
-                    {
-                        duelNoMagic = !duelNoMagic;
-                        flag = true;
-                    }
-                    if (l >= 191 && i1 >= 221 && l <= 202 && i1 <= 232)
-                    {
-                        duelNoPrayer = !duelNoPrayer;
-                        flag = true;
-                    }
-                    if (l >= 191 && i1 >= 240 && l <= 202 && i1 <= 251)
-                    {
-                        duelNoWeapons = !duelNoWeapons;
-                        flag = true;
-                    }
-                    if (flag)
-                    {
-                        StreamClass.CreatePacket(225);
-                        StreamClass.AddInt8(duelNoRetreating ? 1 : 0);
-                        StreamClass.AddInt8(duelNoMagic ? 1 : 0);
-                        StreamClass.AddInt8(duelNoPrayer ? 1 : 0);
-                        StreamClass.AddInt8(duelNoWeapons ? 1 : 0);
-                        StreamClass.FormatPacket();
-                        duelOpponentAccepted = false;
-                        duelMyAccepted = false;
-                    }
-                    if (l >= 217 && i1 >= 238 && l <= 286 && i1 <= 259)
-                    {
-                        duelMyAccepted = true;
-                        StreamClass.CreatePacket(252);
-                        StreamClass.FormatPacket();
-                    }
-                    if (l >= 394 && i1 >= 238 && l < 463 && i1 < 259)
-                    {
-                        ShowDuelBox = false;
-                        StreamClass.CreatePacket(35);
-                        StreamClass.FormatPacket();
-                    }
-                }
-                else
-                    if (mouseButtonClick != 0)
-                {
-                    ShowDuelBox = false;
-                    StreamClass.CreatePacket(35);
-                    StreamClass.FormatPacket();
-                }
-                mouseButtonClick = 0;
-                mouseClickedHeldInTradeDuelBox = 0;
-            }
-            if (!ShowDuelBox)
-            {
-                return;
-            }
-
-            sbyte byte0 = 22;
-            sbyte byte1 = 36;
-            gameGraphics.drawBox(byte0, byte1, 468, 12, 0xc90b1d);
-            int l1 = 0x989898;
-            gameGraphics.drawBoxAlpha(byte0, byte1 + 12, 468, 18, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0, byte1 + 30, 8, 248, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 205, byte1 + 30, 11, 248, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 462, byte1 + 30, 6, 248, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 99, 197, 24, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 192, 197, 23, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 258, 197, 20, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 216, byte1 + 235, 246, 43, l1, 160);
-            int j2 = 0xd0d0d0;
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 30, 197, 69, j2, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 123, 197, 69, j2, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 215, 197, 43, j2, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 216, byte1 + 30, 246, 205, j2, 160);
-            for (int i3 = 0; i3 < 3; i3++)
-            {
-                gameGraphics.drawLineX(byte0 + 8, byte1 + 30 + i3 * 34, 197, 0);
-            }
-
-            for (int i4 = 0; i4 < 3; i4++)
-            {
-                gameGraphics.drawLineX(byte0 + 8, byte1 + 123 + i4 * 34, 197, 0);
-            }
-
-            for (int k4 = 0; k4 < 7; k4++)
-            {
-                gameGraphics.drawLineX(byte0 + 216, byte1 + 30 + k4 * 34, 246, 0);
-            }
-
-            for (int j5 = 0; j5 < 6; j5++)
-            {
-                if (j5 < 5)
-                {
-                    gameGraphics.drawLineY(byte0 + 8 + j5 * 49, byte1 + 30, 69, 0);
-                }
-
-                if (j5 < 5)
-                {
-                    gameGraphics.drawLineY(byte0 + 8 + j5 * 49, byte1 + 123, 69, 0);
-                }
-
-                gameGraphics.drawLineY(byte0 + 216 + j5 * 49, byte1 + 30, 205, 0);
-            }
-
-            gameGraphics.drawLineX(byte0 + 8, byte1 + 215, 197, 0);
-            gameGraphics.drawLineX(byte0 + 8, byte1 + 257, 197, 0);
-            gameGraphics.drawLineY(byte0 + 8, byte1 + 215, 43, 0);
-            gameGraphics.drawLineY(byte0 + 204, byte1 + 215, 43, 0);
-            gameGraphics.drawString("Preparing to duel with: " + duelOpponent, byte0 + 1, byte1 + 10, 1, 0xffffff);
-            gameGraphics.drawString("Your Stake", byte0 + 9, byte1 + 27, 4, 0xffffff);
-            gameGraphics.drawString("Opponent's Stake", byte0 + 9, byte1 + 120, 4, 0xffffff);
-            gameGraphics.drawString("Duel Options", byte0 + 9, byte1 + 212, 4, 0xffffff);
-            gameGraphics.drawString("Your Inventory", byte0 + 216, byte1 + 27, 4, 0xffffff);
-            gameGraphics.drawString("No retreating", byte0 + 8 + 1, byte1 + 215 + 16, 3, 0xffff00);
-            gameGraphics.drawString("No magic", byte0 + 8 + 1, byte1 + 215 + 35, 3, 0xffff00);
-            gameGraphics.drawString("No prayer", byte0 + 8 + 102, byte1 + 215 + 16, 3, 0xffff00);
-            gameGraphics.drawString("No weapons", byte0 + 8 + 102, byte1 + 215 + 35, 3, 0xffff00);
-            gameGraphics.drawBoxEdge(byte0 + 93, byte1 + 215 + 6, 11, 11, 0xffff00);
-            if (duelNoRetreating)
-            {
-                gameGraphics.drawBox(byte0 + 95, byte1 + 215 + 8, 7, 7, 0xffff00);
-            }
-
-            gameGraphics.drawBoxEdge(byte0 + 93, byte1 + 215 + 25, 11, 11, 0xffff00);
-            if (duelNoMagic)
-            {
-                gameGraphics.drawBox(byte0 + 95, byte1 + 215 + 27, 7, 7, 0xffff00);
-            }
-
-            gameGraphics.drawBoxEdge(byte0 + 191, byte1 + 215 + 6, 11, 11, 0xffff00);
-            if (duelNoPrayer)
-            {
-                gameGraphics.drawBox(byte0 + 193, byte1 + 215 + 8, 7, 7, 0xffff00);
-            }
-
-            gameGraphics.drawBoxEdge(byte0 + 191, byte1 + 215 + 25, 11, 11, 0xffff00);
-            if (duelNoWeapons)
-            {
-                gameGraphics.drawBox(byte0 + 193, byte1 + 215 + 27, 7, 7, 0xffff00);
-            }
-
-            if (!duelMyAccepted)
-            {
-                gameGraphics.drawPicture(byte0 + 217, byte1 + 238, baseInventoryPic + 25);
-            }
-
-            gameGraphics.drawPicture(byte0 + 394, byte1 + 238, baseInventoryPic + 26);
-            if (duelOpponentAccepted)
-            {
-                gameGraphics.drawText("Other player", byte0 + 341, byte1 + 246, 1, 0xffffff);
-                gameGraphics.drawText("has accepted", byte0 + 341, byte1 + 256, 1, 0xffffff);
-            }
-            if (duelMyAccepted)
-            {
-                gameGraphics.drawText("Waiting for", byte0 + 217 + 35, byte1 + 246, 1, 0xffffff);
-                gameGraphics.drawText("other player", byte0 + 217 + 35, byte1 + 256, 1, 0xffffff);
-            }
-            for (int k5 = 0; k5 < InventoryItemsCount; k5++)
-            {
-                int l5 = 217 + byte0 + (k5 % 5) * 49;
-                int j6 = 31 + byte1 + (k5 / 5) * 34;
-                gameGraphics.drawImage(l5, j6, 48, 32, baseItemPicture + EntityManager.GetItem(InventoryItems[k5]).InventoryPicture, EntityManager.GetItem(InventoryItems[k5]).PictureMask, 0, 0, false);
-                if (EntityManager.GetItem(InventoryItems[k5]).IsStackable == 0)
-                {
-                    gameGraphics.drawString(InventoryItemCount[k5].ToString(), l5 + 1, j6 + 10, 1, 0xffff00);
-                }
-            }
-
-            for (int i6 = 0; i6 < duelMyItemCount; i6++)
-            {
-                int k6 = 9 + byte0 + (i6 % 4) * 49;
-                int i7 = 31 + byte1 + (i6 / 4) * 34;
-                gameGraphics.drawImage(k6, i7, 48, 32, baseItemPicture + EntityManager.GetItem(duelMyItems[i6]).InventoryPicture, EntityManager.GetItem(duelMyItems[i6]).PictureMask, 0, 0, false);
-                if (EntityManager.GetItem(duelMyItems[i6]).IsStackable == 0)
-                {
-                    gameGraphics.drawString(duelMyItemsCount[i6].ToString(), k6 + 1, i7 + 10, 1, 0xffff00);
-                }
-
-                if (InputManager.Instance.MouseLocation.X > k6 && InputManager.Instance.MouseLocation.X < k6 + 48 && InputManager.Instance.MouseLocation.Y > i7 && InputManager.Instance.MouseLocation.Y < i7 + 32)
-                {
-                    gameGraphics.drawString(EntityManager.GetItem(duelMyItems[i6]).Name + ": @whi@" + EntityManager.GetItem(duelMyItems[i6]).Description, byte0 + 8, byte1 + 273, 1, 0xffff00);
-                }
-            }
-
-            for (int l6 = 0; l6 < duelOpponentItemCount; l6++)
-            {
-                int j7 = 9 + byte0 + (l6 % 4) * 49;
-                int k7 = 124 + byte1 + (l6 / 4) * 34;
-                gameGraphics.drawImage(j7, k7, 48, 32, baseItemPicture + EntityManager.GetItem(duelMyItems[l6]).InventoryPicture, EntityManager.GetItem(duelMyItems[l6]).PictureMask, 0, 0, false);
-
-                if (EntityManager.GetItem(duelMyItems[l6]).IsStackable == 0)
-                {
-                    gameGraphics.drawString(duelOpponentItemsCount[l6].ToString(), j7 + 1, k7 + 10, 1, 0xffff00);
-                }
-
-                if (InputManager.Instance.MouseLocation.X > j7 && InputManager.Instance.MouseLocation.X < j7 + 48 && InputManager.Instance.MouseLocation.Y > k7 && InputManager.Instance.MouseLocation.Y < k7 + 32)
-                {
-                    gameGraphics.drawString(EntityManager.GetItem(duelMyItems[l6]).Name + ": @whi@" + EntityManager.GetItem(duelMyItems[l6]).Description, byte0 + 8, byte1 + 273, 1, 0xffff00);
-                }
-            }
-
-        }
-
-        public void drawWildernessAlertBox()
-        {
-            int l = 97;
-            gameGraphics.drawBox(86, 77, 340, 180, 0);
-            gameGraphics.drawBoxEdge(86, 77, 340, 180, 0xffffff);
-            gameGraphics.drawText("Warning! Proceed with caution", 256, l, 4, 0xff0000);
-            l += 26;
-            gameGraphics.drawText("If you go much further north you will enter the", 256, l, 1, 0xffffff);
-            l += 13;
-            gameGraphics.drawText("wilderness. This a very dangerous area where", 256, l, 1, 0xffffff);
-            l += 13;
-            gameGraphics.drawText("other players can attack you!", 256, l, 1, 0xffffff);
-            l += 22;
-            gameGraphics.drawText("The further north you go the more dangerous it", 256, l, 1, 0xffffff);
-            l += 13;
-            gameGraphics.drawText("becomes, but the more treasure you will find.", 256, l, 1, 0xffffff);
-            l += 22;
-            gameGraphics.drawText("In the wilderness an indicator at the bottom-right", 256, l, 1, 0xffffff);
-            l += 13;
-            gameGraphics.drawText("of the screen will show the current level of danger", 256, l, 1, 0xffffff);
-            l += 22;
-            int i1 = 0xffffff;
-
-            if (InputManager.Instance.MouseLocation.Y > l - 12 && InputManager.Instance.MouseLocation.Y <= l && InputManager.Instance.MouseLocation.X > 181 && InputManager.Instance.MouseLocation.X < 331)
-            {
-                i1 = 0xff0000;
-            }
-
-            gameGraphics.drawText("Click here to close window", 256, l, 1, i1);
-
-            if (mouseButtonClick != 0)
-            {
-                if (InputManager.Instance.MouseLocation.Y > l - 12 && InputManager.Instance.MouseLocation.Y <= l && InputManager.Instance.MouseLocation.X > 181 && InputManager.Instance.MouseLocation.X < 331)
-                {
-                    wildType = 2;
-                }
-
-                if (InputManager.Instance.MouseLocation.X < 86 || InputManager.Instance.MouseLocation.X > 426 || InputManager.Instance.MouseLocation.Y < 77 || InputManager.Instance.MouseLocation.Y > 257)
-                {
-                    wildType = 2;
-                }
-
-                mouseButtonClick = 0;
             }
         }
 
@@ -7779,7 +6377,7 @@ namespace RuneScapeSolo.Net.Client
             }
             OnLoadingSection?.Invoke(this, new EventArgs());
             gameGraphics.drawText("Loading... Please wait", 256, 192, 1, 0xffffff);
-            
+
             //gameGraphics.drawImage(spriteBatch, 0, 0);
             int l = AreaX;
             int i1 = AreaY;
@@ -8471,7 +7069,7 @@ namespace RuneScapeSolo.Net.Client
                 .Where(x => x != null) // TODO: Remove this check once it is safe
                 .FirstOrDefault(x => x.ServerIndex == serverIndex);
         }
-        
+
         public string joinString(string[] hay, string glue, int start)
         {
             string ret = "";
@@ -8488,7 +7086,6 @@ namespace RuneScapeSolo.Net.Client
             return joinString(hay, glue, 0);
         }
 
-        public string tradeOtherName;
         public int windowWidth;
         public int windowHeight;
         public int cameraFieldOfView;
@@ -8503,9 +7100,6 @@ namespace RuneScapeSolo.Net.Client
         public int appearanceHeadGender;
 
         public int[] menuIndexes;
-        public int duelMyItemCount;
-        public int[] duelMyItems;
-        public int[] duelMyItemsCount;
         public string[] questName = {// TODO really?... needs to be done better imho
             "Cook's Assistant", "Sheep Shearer", "Black knight's fortress", "Imp catcher", "Vampire slayer",
             "Romeo & Juliet", "The restless ghost", "Doric's quest", "The knight's sword", "Witch's potion",
@@ -8530,11 +7124,6 @@ namespace RuneScapeSolo.Net.Client
         public int modelFireLightningSpellNumber;
         public int modelTorchNumber;
         public int modelClawSpellNumber;
-        public int tradeItemsOtherCount;
-        public int[] tradeItemsOther;
-        public int[] tradeItemOtherCount;
-        public bool tradeOtherAccepted;
-        public bool tradeWeAccepted;
         public int[] itemAboveHeadScale;
         public int[] itemAboveHeadID;
         public int[] menuActionX;
@@ -8542,11 +7131,6 @@ namespace RuneScapeSolo.Net.Client
         public MenuAction[] menuActions;
         public int cameraAutoRotatePlayerX;
         public int cameraAutoRotatePlayerY;
-        public bool showTradeBox;
-        public bool duelNoRetreating;
-        public bool duelNoMagic;
-        public bool duelNoPrayer;
-        public bool duelNoWeapons;
         public Menu appearanceMenu;
         public int[][] animationModelArray = new int[][]
         { new int[]{
@@ -8578,8 +7162,6 @@ namespace RuneScapeSolo.Net.Client
 
         public int drawUpdatesPerformed;
         public string serverMessage;
-        public bool duelOpponentAccepted;
-        public bool duelMyAccepted;
         public bool serverMessageBoxTop;
         public int cameraRotationYAmount;
         public int cameraRotationYIncrement;
@@ -8587,9 +7169,7 @@ namespace RuneScapeSolo.Net.Client
         0, 1, 2, 1
     };
         public int itemsAboveHeadCount;
-        public AudioReader audioPlayer;
         public string[] messagesArray;
-        public long duelOpponentHash;
         public Menu questMenu;
         int questMenuHandle;
         int questMenuSelected;
@@ -8597,9 +7177,6 @@ namespace RuneScapeSolo.Net.Client
         public ObjectModel[] ObjectArray;
         public int selectedSpell;
         public bool cameraAutoAngleDebug;
-        public int tradeItemsOurCount;
-        public int[] tradeItemsOur;
-        public int[] tradeItemOurCount;
         public int[] menuActionType;
         public int[] menuActionVar1;
         public int[] menuActionVar2;
@@ -8613,9 +7190,6 @@ namespace RuneScapeSolo.Net.Client
         0xecded0, 0xccb366, 0xb38c40, 0x997326, 0x906020
     };
         public bool menuShow;
-        public int duelOpponentItemCount;
-        public int[] duelOpponentItems;
-        public int[] duelOpponentItemsCount;
         public Menu loginMenuLogin;
         public int appearanceHeadLeftArrow;
         public int appearanceHeadRightArrow;
@@ -8632,15 +7206,10 @@ namespace RuneScapeSolo.Net.Client
         public int appearanceAcceptButton;
         public int shopItemSellPriceModifier;
         public int shopItemBuyPriceModifier;
-        public int wildType;
-        public long tradeConfirmOtherNameLong;
         public int[] serverBankItems;
         public int[] serverBankItemCount;
         public GameImageMiddleMan gameGraphics;
         public int maxBankItems;
-        public int tradeConfirmOtherItemCount;
-        public int[] tradeConfirmOtherItems;
-        public int[] tradeConfirmOtherItemsCount;
         public int tick;
         public EngineHandle engineHandle;
         public int mouseButtonClick;
@@ -8666,23 +7235,14 @@ namespace RuneScapeSolo.Net.Client
         public int animationNumber;
         public int[] itemAboveHeadX;
         public int[] itemAboveHeadY;
-        public int duelRetreat;
-        public int duelMagic;
-        public int duelPrayer;
-        public int duelWeapons;
         public bool showServerMessageBox;
         public int loginScreenNumber;
         public int tradeConfigItemCount;
-        public int[] tradeConfirmItems;
-        public int[] tradeConfigItemsCount;
         public int selectedBankItem;
         public int selectedBankItemType;
-        public bool duelConfirmOurAccepted;
         public int modelUpdatingTimer;
         public int selectedItem;
         string selectedItemName;
-        public bool showTradeConfirmBox;
-        public bool tradeConfirmAccepted;
         public int loginButtonNewUser;
         public int loginMenuLoginButton;
         public int mouseTrailIndex;
@@ -8697,9 +7257,6 @@ namespace RuneScapeSolo.Net.Client
         public int[] shopItems;
         public int[] shopItemCount;
         public int[] shopItemBasePriceModifier;
-        public int duelOpponentStakeCount;
-        public int[] duelOpponentStakeItem;
-        public int[] duelOutStakeItemCount;
         public int baseInventoryPic;
         public int baseScrollPic;
         public int baseItemPicture;
@@ -8742,24 +7299,18 @@ namespace RuneScapeSolo.Net.Client
         public Menu spellMenu;
         int spellMenuHandle;
         int menuMagicPrayersSelected;
-        public int duelOurStakeCount;
-        public int[] duelOurStakeItem;
-        public int[] duelOurStakeItemCount;
         public int menuX;
         public int menuY;
         public int menuWidth;
         public int menuHeight;
         public int menuOptionsCount;
         public Camera gameCamera;
-        long pmTarget;
         public int healthBarVisibleCount;
         public string[] menuText2;
         public int sleepWordDelayTimer;
         public int mouseButtonHeldTime;
-        public int mouseClickedHeldInTradeDuelBox;
         public string loginUsername;
         public string loginPassword;
-        public string duelOpponent;
         public int bankPage;
         public Menu loginMenuFirst;
         public int[] healthBarX;
