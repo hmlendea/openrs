@@ -1,5 +1,6 @@
 ﻿using RuneScapeSolo.Graphics.Primitives;
 using RuneScapeSolo.Net.Client;
+using RuneScapeSolo.Net.Client.Enumerations;
 
 namespace RuneScapeSolo.Gui.GuiElements
 {
@@ -109,19 +110,19 @@ namespace RuneScapeSolo.Gui.GuiElements
 
                 switch (client.CombatStyle)
                 {
-                    case 0:
+                    case CombatStyle.Controlled:
                         controlledStyleCard.IsToggled = true;
                         break;
 
-                    case 1:
+                    case CombatStyle.Aggressive:
                         aggressiveStyleCard.IsToggled = true;
                         break;
 
-                    case 2:
+                    case CombatStyle.Accurate:
                         accurateStyleCard.IsToggled = true;
                         break;
 
-                    case 3:
+                    case CombatStyle.Defensive:
                         defensiveStyleCard.IsToggled = true;
                         break;
                 }
@@ -146,22 +147,22 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         void ControlledStyleCard_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
         {
-            client.SetCombatStyle(0);
+            client.SetCombatStyle(CombatStyle.Controlled);
         }
 
         void AggressiveStyleCard_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
         {
-            client.SetCombatStyle(1);
+            client.SetCombatStyle(CombatStyle.Aggressive);
         }
 
         void AccurateStyleCard_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
         {
-            client.SetCombatStyle(2);
+            client.SetCombatStyle(CombatStyle.Accurate);
         }
 
         void DefensiveStyleCard_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
         {
-            client.SetCombatStyle(3);
+            client.SetCombatStyle(CombatStyle.Defensive);
         }
     }
 }

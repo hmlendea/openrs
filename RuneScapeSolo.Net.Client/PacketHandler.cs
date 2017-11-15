@@ -238,7 +238,7 @@ namespace RuneScapeSolo.Net.Client
 
         void HandleCombatStyleChange(sbyte[] data)
         {
-            client.CombatStyle = DataOperations.GetInt8(data[1]);
+            client.CombatStyle = (CombatStyle)DataOperations.GetInt8(data[1]);
         }
 
         void HandleCookAssistant(sbyte[] data)

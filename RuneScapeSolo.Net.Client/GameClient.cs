@@ -57,9 +57,9 @@ namespace RuneScapeSolo.Net.Client
         public Mob[] Players { get; set; }
         public Quests Quests { get; set; }
         public Skill[] Skills { get; set; }
+        public CombatStyle CombatStyle { get; set; }
         public int AreaX { get; set; }
         public int AreaY { get; set; }
-        public int CombatStyle { get; set; }
         public int CompletedTasks { get; set; }
         public int Deaths { get; set; }
         public int GridSize { get; set; }
@@ -2463,7 +2463,7 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        public void SetCombatStyle(int style)
+        public void SetCombatStyle(CombatStyle style)
         {
             if (CombatStyle == style)
             {
@@ -2472,7 +2472,7 @@ namespace RuneScapeSolo.Net.Client
 
             CombatStyle = style;
             StreamClass.CreatePacket(42);
-            StreamClass.AddInt8(CombatStyle);
+            StreamClass.AddInt8((int)CombatStyle);
             StreamClass.FormatPacket();
         }
 
