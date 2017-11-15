@@ -31,10 +31,8 @@ namespace RuneScapeSolo.Net.Client
 
         public static GameClient CreateGameClient(string title = "RuneScape Solo", int width = 512, int height = 346)
         {
-            //spriteBatch = sb;
-
             GameClient mud = new GameClient();
-            //graphics = gfx;
+
             mud.windowWidth = width;
             mud.windowHeight = height;
             mud.CreateWindow(mud.windowWidth, mud.windowHeight + 11, title, false);
@@ -145,8 +143,6 @@ namespace RuneScapeSolo.Net.Client
 
         public char TranslateOemKeys(Keys k)
         {
-            //   if (k == Keys.1)
-            //  { }
             if (k == Keys.OemPeriod)
             {
                 return '.';
@@ -504,7 +500,6 @@ namespace RuneScapeSolo.Net.Client
             ShowCombatWindow = false;
             ShowRoofs = true;
             AutoScreenshot = false;
-            useChatFilter = true;
             usedQuestName = new string[0];
             SubscriptionDaysLeft = 0;
             shopItemSellPrice = new int[256];
@@ -613,7 +608,7 @@ namespace RuneScapeSolo.Net.Client
             }
             if (action == MenuAction.ExamineGroundItem)
             {
-                DisplayMessage(EntityManager.GetItem(actionType).Description, 3);
+                DisplayMessage(EntityManager.GetItem(actionType).Description);
             }
 
             if (action == MenuAction.CastSpellOnWallObject)
@@ -656,9 +651,10 @@ namespace RuneScapeSolo.Net.Client
                 StreamClass.AddInt8(actionType);
                 StreamClass.FormatPacket();
             }
+
             if (action == MenuAction.ExamineWallObject)
             {
-                DisplayMessage(EntityManager.GetWallObject(actionType).Description, 3);
+                DisplayMessage(EntityManager.GetWallObject(actionType).Description);
             }
 
             if (action == MenuAction.CastSpellOnModel)
@@ -700,7 +696,7 @@ namespace RuneScapeSolo.Net.Client
             }
             if (action == MenuAction.ExamineModel)
             {
-                DisplayMessage(EntityManager.GetWorldObject(actionType).Description, 3);
+                DisplayMessage(EntityManager.GetWorldObject(actionType).Description);
             }
 
             if (action == MenuAction.CastSpellOnItem)
@@ -750,11 +746,11 @@ namespace RuneScapeSolo.Net.Client
                 StreamClass.FormatPacket();
                 selectedItem = -1;
                 drawMenuTab = 0;
-                DisplayMessage("Dropping " + EntityManager.GetItem(InventoryItems[actionType]).Name, 4);
+                DisplayMessage("Dropping " + EntityManager.GetItem(InventoryItems[actionType]).Name);
             }
             if (action == MenuAction.ExamineItem)
             {
-                DisplayMessage(EntityManager.GetItem(actionType).Description, 3);
+                DisplayMessage(EntityManager.GetItem(actionType).Description);
             }
 
             if (action == MenuAction.CastSpellOnNpc)
@@ -809,7 +805,7 @@ namespace RuneScapeSolo.Net.Client
 
             if (action == MenuAction.ExamineNpc)
             {
-                DisplayMessage(EntityManager.GetNpc(actionType).Description, 3);
+                DisplayMessage(EntityManager.GetNpc(actionType).Description);
             }
 
             if (action == MenuAction.CastSpellOnPlayer)
@@ -906,201 +902,6 @@ namespace RuneScapeSolo.Net.Client
             loginScreenNumber = 0;
             loggedIn = false;
             logoutTimer = 0;
-        }
-
-        public void drawReportAbuseBox1()
-        {
-            reportAbuseOptionSelected = 0;
-            int yOffset = 135;
-
-            for (int option = 0; option < 12; option++)
-            {
-                if (InputManager.Instance.MouseLocation.X > 66 && InputManager.Instance.MouseLocation.X < 446 && InputManager.Instance.MouseLocation.Y >= yOffset - 12 && InputManager.Instance.MouseLocation.Y < yOffset + 3)
-                {
-                    reportAbuseOptionSelected = option + 1;
-                }
-
-                yOffset += 14;
-            }
-
-            if (mouseButtonClick != 0 && reportAbuseOptionSelected != 0)
-            {
-                mouseButtonClick = 0;
-                showAbuseBox = 2;
-                inputText = "";
-                enteredInputText = "";
-                return;
-            }
-            yOffset += 15;
-            if (mouseButtonClick != 0)
-            {
-                mouseButtonClick = 0;
-                if (InputManager.Instance.MouseLocation.X < 56 || InputManager.Instance.MouseLocation.Y < 35 || InputManager.Instance.MouseLocation.X > 456 || InputManager.Instance.MouseLocation.Y > 325)
-                {
-                    showAbuseBox = 0;
-                    return;
-                }
-                if (InputManager.Instance.MouseLocation.X > 66 && InputManager.Instance.MouseLocation.X < 446 && InputManager.Instance.MouseLocation.Y >= yOffset - 15 && InputManager.Instance.MouseLocation.Y < yOffset + 5)
-                {
-                    showAbuseBox = 0;
-                    return;
-                }
-            }
-            gameGraphics.drawBox(56, 35, 400, 290, 0);
-            gameGraphics.drawBoxEdge(56, 35, 400, 290, 0xffffff);
-            yOffset = 50;
-            gameGraphics.drawText("This form is for reporting players who are breaking our rules", 256, yOffset, 1, 0xffffff);
-            yOffset += 15;
-            gameGraphics.drawText("Using it sends a snapshot of the last 60 secs of activity to us", 256, yOffset, 1, 0xffffff);
-            yOffset += 15;
-            gameGraphics.drawText("If you misuse this form, you will be banned.", 256, yOffset, 1, 0xff8000);
-            yOffset += 15;
-            yOffset += 10;
-            gameGraphics.drawText("First indicate which of our 12 rules is being broken. For a detailed", 256, yOffset, 1, 0xffff00);
-            yOffset += 15;
-            gameGraphics.drawText("explanation of each rule please read the manual on our website.", 256, yOffset, 1, 0xffff00);
-            yOffset += 15;
-            int j1;
-            if (reportAbuseOptionSelected == 1)
-            {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
-                j1 = 0xff8000;
-            }
-            else
-            {
-                j1 = 0xffffff;
-            }
-            gameGraphics.drawText("1: Offensive language", 256, yOffset, 1, j1);
-            yOffset += 14;
-            if (reportAbuseOptionSelected == 2)
-            {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
-                j1 = 0xff8000;
-            }
-            else
-            {
-                j1 = 0xffffff;
-            }
-            gameGraphics.drawText("2: Item scamming", 256, yOffset, 1, j1);
-            yOffset += 14;
-            if (reportAbuseOptionSelected == 3)
-            {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
-                j1 = 0xff8000;
-            }
-            else
-            {
-                j1 = 0xffffff;
-            }
-            gameGraphics.drawText("3: Password scamming", 256, yOffset, 1, j1);
-            yOffset += 14;
-            if (reportAbuseOptionSelected == 4)
-            {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
-                j1 = 0xff8000;
-            }
-            else
-            {
-                j1 = 0xffffff;
-            }
-            gameGraphics.drawText("4: Bug abuse", 256, yOffset, 1, j1);
-            yOffset += 14;
-            if (reportAbuseOptionSelected == 5)
-            {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
-                j1 = 0xff8000;
-            }
-            else
-            {
-                j1 = 0xffffff;
-            }
-            gameGraphics.drawText("5: Jagex Staff impersonation", 256, yOffset, 1, j1);
-            yOffset += 14;
-            if (reportAbuseOptionSelected == 6)
-            {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
-                j1 = 0xff8000;
-            }
-            else
-            {
-                j1 = 0xffffff;
-            }
-            gameGraphics.drawText("6: Account sharing/trading", 256, yOffset, 1, j1);
-            yOffset += 14;
-            if (reportAbuseOptionSelected == 7)
-            {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
-                j1 = 0xff8000;
-            }
-            else
-            {
-                j1 = 0xffffff;
-            }
-            gameGraphics.drawText("7: Macroing", 256, yOffset, 1, j1);
-            yOffset += 14;
-            if (reportAbuseOptionSelected == 8)
-            {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
-                j1 = 0xff8000;
-            }
-            else
-            {
-                j1 = 0xffffff;
-            }
-            gameGraphics.drawText("8: Mutiple logging in", 256, yOffset, 1, j1);
-            yOffset += 14;
-            if (reportAbuseOptionSelected == 9)
-            {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
-                j1 = 0xff8000;
-            }
-            else
-            {
-                j1 = 0xffffff;
-            }
-            gameGraphics.drawText("9: Encouraging others to break rules", 256, yOffset, 1, j1);
-            yOffset += 14;
-            if (reportAbuseOptionSelected == 10)
-            {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
-                j1 = 0xff8000;
-            }
-            else
-            {
-                j1 = 0xffffff;
-            }
-            gameGraphics.drawText("10: Misuse of customer support", 256, yOffset, 1, j1);
-            yOffset += 14;
-            if (reportAbuseOptionSelected == 11)
-            {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
-                j1 = 0xff8000;
-            }
-            else
-            {
-                j1 = 0xffffff;
-            }
-            gameGraphics.drawText("11: Advertising / website", 256, yOffset, 1, j1);
-            yOffset += 14;
-            if (reportAbuseOptionSelected == 12)
-            {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
-                j1 = 0xff8000;
-            }
-            else
-            {
-                j1 = 0xffffff;
-            }
-            gameGraphics.drawText("12: Real world item trading", 256, yOffset, 1, j1);
-            yOffset += 14;
-            yOffset += 15;
-            j1 = 0xffffff;
-            if (InputManager.Instance.MouseLocation.X > 196 && InputManager.Instance.MouseLocation.X < 316 && InputManager.Instance.MouseLocation.Y > yOffset - 15 && InputManager.Instance.MouseLocation.Y < yOffset + 5)
-            {
-                j1 = 0xffff00;
-            }
-
-            gameGraphics.drawText("Click here to cancel", 256, yOffset, 1, j1);
         }
 
         public void loadMap()
@@ -2389,8 +2190,7 @@ namespace RuneScapeSolo.Net.Client
             logoutTimer = 0;
             loginScreenNumber = 0;
             loggedIn = true;
-
-            ResetPrivateMessages();
+            
             gameGraphics.ClearScreen();
             // gameGraphics.UpdateGameImage();
             //gameGraphics.drawImage(spriteBatch, 0, 0);
@@ -2437,7 +2237,6 @@ namespace RuneScapeSolo.Net.Client
             ShowShopBox = false;
             ShowBankBox = false;
             IsSleeping = false;
-            friendsCount = 0;
         }
 
         public void drawMinimapMenu(bool canClick)
@@ -2459,63 +2258,7 @@ namespace RuneScapeSolo.Net.Client
             l3 = l3 * l5 - j2 * j5 >> 18;
             j2 = j6;
             gameGraphics.drawMinimapPic((l + c1 / 2) - j2, 36 + c3 / 2 + l3, baseInventoryPic - 1, l1 + 64 & 0xff, j1);
-
-            /*
-            for (int l7 = 0; l7 < ObjectCount; l7++)
-            {
-                int k2 = (((ObjectX[l7] * GridSize + 64) - CurrentPlayer.currentX) * 3 * j1) / 2048;
-                int i4 = (((ObjectY[l7] * GridSize + 64) - CurrentPlayer.currentY) * 3 * j1) / 2048;
-                int k6 = i4 * j5 + k2 * l5 >> 18;
-                i4 = i4 * l5 - k2 * j5 >> 18;
-                k2 = k6;
-                drawMinimapObject(l + c1 / 2 + k2, (36 + c3 / 2) - i4, 65535);
-            }
-            */
-
-            for (int i8 = 0; i8 < GroundItemCount; i8++)
-            {
-                int l2 = (((GroundItemX[i8] * GridSize + 64) - CurrentPlayer.currentX) * 3 * j1) / 2048;
-                int j4 = (((GroundItemY[i8] * GridSize + 64) - CurrentPlayer.currentY) * 3 * j1) / 2048;
-                int l6 = j4 * j5 + l2 * l5 >> 18;
-                j4 = j4 * l5 - l2 * j5 >> 18;
-                l2 = l6;
-                drawMinimapObject(l + c1 / 2 + l2, (36 + c3 / 2) - j4, 0xff0000);
-            }
-
-            for (int j8 = 0; j8 < NpcCount; j8++)
-            {
-                Mob f1 = Npcs[j8];
-                int i3 = ((f1.currentX - CurrentPlayer.currentX) * 3 * j1) / 2048;
-                int k4 = ((f1.currentY - CurrentPlayer.currentY) * 3 * j1) / 2048;
-                int i7 = k4 * j5 + i3 * l5 >> 18;
-                k4 = k4 * l5 - i3 * j5 >> 18;
-                i3 = i7;
-                drawMinimapObject(l + c1 / 2 + i3, (36 + c3 / 2) - k4, 0xffff00);
-            }
-
-            for (int k8 = 0; k8 < PlayerCount; k8++)
-            {
-                Mob f2 = Players[k8];
-                int j3 = ((f2.currentX - CurrentPlayer.currentX) * 3 * j1) / 2048;
-                int l4 = ((f2.currentY - CurrentPlayer.currentY) * 3 * j1) / 2048;
-                int j7 = l4 * j5 + j3 * l5 >> 18;
-                l4 = l4 * l5 - j3 * j5 >> 18;
-                j3 = j7;
-                int i9 = 0xffffff;
-                for (int j9 = 0; j9 < friendsCount; j9++)
-                {
-                    if (f2.NameHash != friendsList[j9] || friendsWorld[j9] != 99)
-                    {
-                        continue;
-                    }
-
-                    i9 = 65280;
-                    break;
-                }
-
-                drawMinimapObject(l + c1 / 2 + j3, (36 + c3 / 2) - l4, i9);
-            }
-
+            
             // compass
             gameGraphics.drawCircle(l + c1 / 2, 36 + c3 / 2, 2, 0xffffff, 255);
             gameGraphics.drawMinimapPic(l + 19, 55, baseInventoryPic + 24, cameraRotation + 128 & 0xff, 128);
@@ -2652,8 +2395,6 @@ namespace RuneScapeSolo.Net.Client
             int k1 = gameGraphics.gameWidth - 199;
             sbyte byte0 = 36;
             spellMenuHandle = spellMenu.createList(k1, byte0 + 24, 196, 90, 1, 500, true);
-            friendsMenu = new Menu(gameGraphics, 5);
-            friendsMenuHandle = friendsMenu.createList(k1, byte0 + 40, 196, 126, 1, 500, true);
             questMenu = new Menu(gameGraphics, 5);
             questMenuHandle = questMenu.createList(k1, byte0 + 24, 196, 251, 1, 500, true);
             loadMedia();
@@ -2701,7 +2442,6 @@ namespace RuneScapeSolo.Net.Client
             {
                 OnContentLoaded?.Invoke(this, new ContentLoadedEventArgs("Starting game...", 100));
                 drawLoadingBarText(100, "Starting game...");
-                createChatInputMenu();
                 createLoginMenus();
                 createAppearanceWindow();
                 setLoginVars();
@@ -2908,26 +2648,6 @@ namespace RuneScapeSolo.Net.Client
                 if (cameraRotationYAmount > 50)
                 {
                     cameraRotationYIncrement = -2;
-                }
-
-                if (chatTabAllMsgFlash > 0)
-                {
-                    chatTabAllMsgFlash--;
-                }
-
-                if (chatTabHistoryFlash > 0)
-                {
-                    chatTabHistoryFlash--;
-                }
-
-                if (chatTabQuestFlash > 0)
-                {
-                    chatTabQuestFlash--;
-                }
-
-                if (chatTabPrivateFlash > 0)
-                {
-                    chatTabPrivateFlash--;
                 }
             }
             catch (Exception ex)
@@ -3295,12 +3015,12 @@ namespace RuneScapeSolo.Net.Client
 
             if (combatTimeout > 450)
             {
-                DisplayMessage("@cya@You can't logout during combat!", 3);
+                DisplayMessage("@cya@You can't logout during combat!");
                 return;
             }
             if (combatTimeout > 0)
             {
-                DisplayMessage("@cya@You can't logout for 10 seconds after combat", 3);
+                DisplayMessage("@cya@You can't logout for 10 seconds after combat");
                 return;
             }
             else
@@ -3501,64 +3221,7 @@ namespace RuneScapeSolo.Net.Client
             {
                 gameGraphics.drawString("Automatic screenshots - @red@off", j1, l1, 1, 0xffffff);
             }
-
-            l1 += 15;
-            if (useChatFilter)
-            {
-                gameGraphics.drawString("Chat filter: @gre@<on>", l + 3, l1, 1, 0xffffff);
-            }
-            else
-            {
-                gameGraphics.drawString("Chat filter: @red@<off>", l + 3, l1, 1, 0xffffff);
-            }
-
-            l1 += 15;
-            gameGraphics.drawString("Privacy settings. Will be applied to", j1, l1, 1, 0);
-            l1 += 15;
-            gameGraphics.drawString("all people not on your friends list", j1, l1, 1, 0);
-            l1 += 15;
-            if (blockChat == 0)
-            {
-                gameGraphics.drawString("Block chat messages: @red@<off>", l + 3, l1, 1, 0xffffff);
-            }
-            else
-            {
-                gameGraphics.drawString("Block chat messages: @gre@<on>", l + 3, l1, 1, 0xffffff);
-            }
-
-            l1 += 15;
-            if (blockPrivate == 0)
-            {
-                gameGraphics.drawString("Block public messages: @red@<off>", l + 3, l1, 1, 0xffffff);
-            }
-            else
-            {
-                gameGraphics.drawString("Block public messages: @gre@<on>", l + 3, l1, 1, 0xffffff);
-            }
-
-            l1 += 15;
-            if (blockTrade == 0)
-            {
-                gameGraphics.drawString("Block trade requests: @red@<off>", l + 3, l1, 1, 0xffffff);
-            }
-            else
-            {
-                gameGraphics.drawString("Block trade requests: @gre@<on>", l + 3, l1, 1, 0xffffff);
-            }
-
-            l1 += 15;
-            if (GameDefines.PREMIUM_FEATURES)
-            {
-                if (blockDuel == 0)
-                {
-                    gameGraphics.drawString("Block duel requests: @red@<off>", l + 3, l1, 1, 0xffffff);
-                }
-                else
-                {
-                    gameGraphics.drawString("Block duel requests: @gre@<on>", l + 3, l1, 1, 0xffffff);
-                }
-            }
-
+           
             l1 += 15;
             l1 += 5;
             gameGraphics.drawString("Always logout when you finish", j1, l1, 1, 0);
@@ -3643,44 +3306,12 @@ namespace RuneScapeSolo.Net.Client
                     StreamClass.AddInt8(AutoScreenshot ? 1 : 0);
                     StreamClass.FormatPacket();
                 }
-                bool flag = false;
-                i2 += 15;
-                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
-                {
-                    useChatFilter = !useChatFilter;
-                }
-                i2 += 15;
-                i2 += 15;
-                i2 += 15;
-                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
-                {
-                    blockChat = 1 - blockChat;
-                    flag = true;
-                }
-                i2 += 15;
-                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
-                {
-                    blockPrivate = 1 - blockPrivate;
-                    flag = true;
-                }
-                i2 += 15;
-                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
-                {
-                    blockTrade = 1 - blockTrade;
-                    flag = true;
-                }
-                i2 += 15;
-                if (GameDefines.PREMIUM_FEATURES && InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
-                {
-                    blockDuel = 1 - blockDuel;
-                    flag = true;
-                }
-                i2 += 15;
-                if (flag)
-                {
-                    sendUpdatedPrivacyInfo(blockChat, blockPrivate, blockTrade, blockDuel);
-                }
 
+                i2 += 15;
+                i2 += 15;
+                i2 += 15;
+                i2 += 15;
+                
                 i2 += 20;
                 if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
@@ -3739,16 +3370,6 @@ namespace RuneScapeSolo.Net.Client
                 WalkTo(SectionX, SectionY, arg0, arg1, (arg0 + l) - 1, (arg1 + i1) - 1, true, true);
                 return;
             }
-        }
-
-        public void createChatInputMenu()
-        {
-            chatInputMenu = new Menu(gameGraphics, 10);
-            messagesHandleType2 = chatInputMenu.gfh(5, 269, 502, 56, 1, 20, true);
-            chatInputBox = chatInputMenu.gfi(7, 324, 498, 14, 1, 80, false, true);
-            messagesHandleType5 = chatInputMenu.gfh(5, 269, 502, 56, 1, 20, true);
-            messagesHandleType6 = chatInputMenu.gfh(5, 269, 502, 56, 1, 20, true);
-            chatInputMenu.setFocus(chatInputBox);
         }
 
         public void drawCombatStyleBox()
@@ -3844,7 +3465,7 @@ namespace RuneScapeSolo.Net.Client
 
                             if (EntityManager.GetItem(item).IsSpecial == 1)
                             {
-                                DisplayMessage("This object cannot be traded with other players", 3);
+                                DisplayMessage("This object cannot be traded with other players");
                                 ourTradeItemsChanged = true;
                             }
 
@@ -4646,199 +4267,6 @@ namespace RuneScapeSolo.Net.Client
 
         }
 
-        public void drawFriendsMenu(bool canClick)
-        {
-            int l = gameGraphics.gameWidth - 199;
-            int i1 = 36;
-            gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 5);
-            int c1 = 196;//(char)304;//'\u304';
-            int c2 = 182;//(char)266;//'\u266';
-            int k1;
-            int j1 = k1 = GameImage.RgbToInt(160, 160, 160);
-            if (friendsIgnoreMenuSelected == 0)
-            {
-                j1 = GameImage.RgbToInt(220, 220, 220);
-            }
-            else
-            {
-                k1 = GameImage.RgbToInt(220, 220, 220);
-            }
-
-            gameGraphics.drawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
-            gameGraphics.drawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
-            gameGraphics.drawBoxAlpha(l, i1 + 24, c1, c2 - 24, GameImage.RgbToInt(220, 220, 220), 128);
-            gameGraphics.drawLineX(l, i1 + 24, c1, 0);
-            gameGraphics.drawLineY(l + c1 / 2, i1, 24, 0);
-            gameGraphics.drawLineX(l, (i1 + c2) - 16, c1, 0);
-            gameGraphics.drawText("Friends", l + c1 / 4, i1 + 16, 4, 0);
-            gameGraphics.drawText("Ignore", l + c1 / 4 + c1 / 2, i1 + 16, 4, 0);
-            friendsMenu.clearList(friendsMenuHandle);
-            if (friendsIgnoreMenuSelected == 0)
-            {
-                for (int l1 = 0; l1 < friendsCount; l1++)
-                {
-                    string s1;
-                    if (friendsWorld[l1] == 99)
-                    {
-                        s1 = "@gre@";
-                    }
-                    else
-                        if (friendsWorld[l1] > 0)
-                    {
-                        s1 = "@yel@";
-                    }
-                    else
-                    {
-                        s1 = "@red@";
-                    }
-
-                    friendsMenu.addListItem(friendsMenuHandle, l1, s1 + DataOperations.LongToString(friendsList[l1]) + "~439~@whi@Remove         WWWWWWWWWW");
-                }
-
-            }
-            if (friendsIgnoreMenuSelected == 1)
-            {
-                for (int i2 = 0; i2 < ignoresCount; i2++)
-                {
-                    friendsMenu.addListItem(friendsMenuHandle, i2, "@yel@" + DataOperations.LongToString(ignoresList[i2]) + "~439~@whi@Remove         WWWWWWWWWW");
-                }
-            }
-            friendsMenu.drawMenu();
-            if (friendsIgnoreMenuSelected == 0)
-            {
-                int j2 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
-                if (j2 >= 0 && InputManager.Instance.MouseLocation.X < 489)
-                {
-                    if (InputManager.Instance.MouseLocation.X > 429)
-                    {
-                        gameGraphics.drawText("Click to remove " + DataOperations.LongToString(friendsList[j2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
-                    }
-                    else
-                        if (friendsWorld[j2] == 99)
-                    {
-                        gameGraphics.drawText("Click to message " + DataOperations.LongToString(friendsList[j2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
-                    }
-                    else
-                            if (friendsWorld[j2] > 0)
-                    {
-                        gameGraphics.drawText(DataOperations.LongToString(friendsList[j2]) + " is on world " + friendsWorld[j2], l + c1 / 2, i1 + 35, 1, 0xffffff);
-                    }
-                    else
-                    {
-                        gameGraphics.drawText(DataOperations.LongToString(friendsList[j2]) + " is offline", l + c1 / 2, i1 + 35, 1, 0xffffff);
-                    }
-                }
-                else
-                {
-                    gameGraphics.drawText("Click a name to send a message", l + c1 / 2, i1 + 35, 1, 0xffffff);
-                }
-                int j3;
-                if (InputManager.Instance.MouseLocation.X > l && InputManager.Instance.MouseLocation.X < l + c1 && InputManager.Instance.MouseLocation.Y > (i1 + c2) - 16 && InputManager.Instance.MouseLocation.Y < i1 + c2)
-                {
-                    j3 = 0xffff00;
-                }
-                else
-                {
-                    j3 = 0xffffff;
-                }
-
-                gameGraphics.drawText("Click here to add a friend", l + c1 / 2, (i1 + c2) - 3, 1, j3);
-            }
-            if (friendsIgnoreMenuSelected == 1)
-            {
-                int k2 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
-                if (k2 >= 0 && InputManager.Instance.MouseLocation.X < 489 && InputManager.Instance.MouseLocation.X > 429)
-                {
-                    if (InputManager.Instance.MouseLocation.X > 429)
-                    {
-                        gameGraphics.drawText("Click to remove " + DataOperations.LongToString(ignoresList[k2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
-                    }
-                }
-                else
-                {
-                    gameGraphics.drawText("Blocking messages from:", l + c1 / 2, i1 + 35, 1, 0xffffff);
-                }
-                int k3;
-                if (InputManager.Instance.MouseLocation.X > l && InputManager.Instance.MouseLocation.X < l + c1 && InputManager.Instance.MouseLocation.Y > (i1 + c2) - 16 && InputManager.Instance.MouseLocation.Y < i1 + c2)
-                {
-                    k3 = 0xffff00;
-                }
-                else
-                {
-                    k3 = 0xffffff;
-                }
-
-                gameGraphics.drawText("Click here to add a name", l + c1 / 2, (i1 + c2) - 3, 1, k3);
-            }
-            if (!canClick)
-            {
-                return;
-            }
-
-            l = InputManager.Instance.MouseLocation.X - (gameGraphics.gameWidth - 199);
-            i1 = InputManager.Instance.MouseLocation.Y - 36;
-            if (l >= 0 && i1 >= 0 && l < 196 && i1 < 182)
-            {
-                friendsMenu.mouseClick(l + (gameGraphics.gameWidth - 199), i1 + 36, lastMouseButton, mouseButton);
-                if (i1 <= 24 && mouseButtonClick == 1)
-                {
-                    if (l < 98 && friendsIgnoreMenuSelected == 1)
-                    {
-                        friendsIgnoreMenuSelected = 0;
-                        friendsMenu.switchList(friendsMenuHandle);
-                    }
-                    else
-                        if (l > 98 && friendsIgnoreMenuSelected == 0)
-                    {
-                        friendsIgnoreMenuSelected = 1;
-                        friendsMenu.switchList(friendsMenuHandle);
-                    }
-                }
-
-                if (mouseButtonClick == 1 && friendsIgnoreMenuSelected == 0)
-                {
-                    int l2 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
-
-                    if (l2 >= 0 && InputManager.Instance.MouseLocation.X < 489)
-                    {
-                        if (InputManager.Instance.MouseLocation.X > 429)
-                        {
-                            removeFriend(friendsList[l2]);
-                        }
-                        else if (friendsWorld[l2] != 0)
-                        {
-                            showFriendsBox = 2;
-                            pmTarget = friendsList[l2];
-                            privateMessageText = "";
-                            enteredPrivateMessageText = "";
-                        }
-                    }
-                }
-                if (mouseButtonClick == 1 && friendsIgnoreMenuSelected == 1)
-                {
-                    int i3 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
-
-                    if (i3 >= 0 && InputManager.Instance.MouseLocation.X < 489 && InputManager.Instance.MouseLocation.X > 429)
-                    {
-                        removeIgnore(ignoresList[i3]);
-                    }
-                }
-                if (i1 > 166 && mouseButtonClick == 1 && friendsIgnoreMenuSelected == 0)
-                {
-                    showFriendsBox = 1;
-                    inputText = "";
-                    enteredInputText = "";
-                }
-                if (i1 > 166 && mouseButtonClick == 1 && friendsIgnoreMenuSelected == 1)
-                {
-                    showFriendsBox = 3;
-                    inputText = "";
-                    enteredInputText = "";
-                }
-                mouseButtonClick = 0;
-            }
-        }
-
         public void drawPrayerMagicMenu(bool canClick)
         {
             int l = gameGraphics.gameWidth - 199;
@@ -5000,7 +4428,7 @@ namespace RuneScapeSolo.Net.Client
 
                         if (EntityManager.GetSpell(j2).RequiredLevel > magicLevel)
                         {
-                            DisplayMessage("Your magic ability is not high enough for this spell", 3);
+                            DisplayMessage("Your magic ability is not high enough for this spell");
                         }
                         else
                         {
@@ -5013,7 +4441,7 @@ namespace RuneScapeSolo.Net.Client
                                     continue;
                                 }
 
-                                DisplayMessage("You don't have all the reagents you need for this spell", 3);
+                                DisplayMessage("You don't have all the reagents you need for this spell");
                                 j4 = -1;
                                 break;
                             }
@@ -5037,11 +4465,11 @@ namespace RuneScapeSolo.Net.Client
 
                         if (EntityManager.GetPrayer(k2).RequiredLevel > prayerLevel)
                         {
-                            DisplayMessage("Your prayer ability is not high enough for this prayer", 3);
+                            DisplayMessage("Your prayer ability is not high enough for this prayer");
                         }
                         else if (Skills[5].CurrentLevel == 0)
                         {
-                            DisplayMessage("You have run out of prayer points. Return to a church to recharge", 3);
+                            DisplayMessage("You have run out of prayer points. Return to a church to recharge");
                         }
                         else if (prayerOn[k2])
                         {
@@ -5102,69 +4530,7 @@ namespace RuneScapeSolo.Net.Client
                 return base.unpackData(arg0, arg1, arg2);
             }
         }
-
-        public void drawChatMessageTabs()
-        {
-            gameGraphics.drawPicture(0, windowHeight - 4, baseInventoryPic + 23);
-            int l = GameImage.RgbToInt(200, 200, 255);
-
-            if (messagesTab == 0)
-            {
-                l = GameImage.RgbToInt(255, 200, 50);
-            }
-
-            if (chatTabAllMsgFlash % 30 > 15)
-            {
-                l = GameImage.RgbToInt(255, 50, 50);
-            }
-
-            gameGraphics.drawText("All messages", 54, windowHeight + 6, 0, l);
-            l = GameImage.RgbToInt(200, 200, 255);
-            if (messagesTab == 1)
-            {
-                l = GameImage.RgbToInt(255, 200, 50);
-            }
-
-            if (chatTabHistoryFlash % 30 > 15)
-            {
-                l = GameImage.RgbToInt(255, 50, 50);
-            }
-
-            gameGraphics.drawText("Chat history", 155, windowHeight + 6, 0, l);
-            l = GameImage.RgbToInt(200, 200, 255);
-            if (messagesTab == 2)
-            {
-                l = GameImage.RgbToInt(255, 200, 50);
-            }
-
-            if (chatTabQuestFlash % 30 > 15)
-            {
-                l = GameImage.RgbToInt(255, 50, 50);
-            }
-
-            gameGraphics.drawText("Quest history", 255, windowHeight + 6, 0, l);
-            l = GameImage.RgbToInt(200, 200, 255);
-            if (messagesTab == 3)
-            {
-                l = GameImage.RgbToInt(255, 200, 50);
-            }
-
-            if (chatTabPrivateFlash % 30 > 15)
-            {
-                l = GameImage.RgbToInt(255, 50, 50);
-            }
-
-            gameGraphics.drawText("Private history", 355, windowHeight + 6, 0, l);
-            gameGraphics.drawText("Report abuse", 457, windowHeight + 6, 0, 0xffffff);
-        }
-
-        //public URL getDocumentBase() {
-        //    if(link.gameApplet != null)
-        //        return link.gameApplet.getDocumentBase();
-        //    else
-        //        return base.getDocumentBase();
-        //}
-
+        
         delegate void SendPingPacketDelegate();
         readonly object _sync = new object();
         public static bool sendingPing = false;
@@ -5388,14 +4754,15 @@ namespace RuneScapeSolo.Net.Client
                 if (PlayerAliveTimeout > 0)
                 {
                     PlayerAliveTimeout--;
+
                     if (PlayerAliveTimeout == 0)
                     {
-                        DisplayMessage("You have been granted another life. Be more careful this time!", 3);
+                        DisplayMessage("You have been granted another life. Be more careful this time!");
                     }
 
                     if (PlayerAliveTimeout == 0)
                     {
-                        DisplayMessage("You retain your skills. Your objects land where you died", 3);
+                        DisplayMessage("You retain your skills. Your objects land where you died");
                     }
                 }
             }
@@ -5623,33 +4990,6 @@ namespace RuneScapeSolo.Net.Client
             }
             if (IsSleeping)
             {
-                if (enteredInputText.Length > 0)
-                {
-                    if (enteredInputText.ToLower().Equals("::lostcon"))
-                    {
-                        StreamClass.CloseStream();
-                    }
-                    else
-                        if (enteredInputText.ToLower().Equals("::closecon"))
-                    {
-                        requestLogout();
-                    }
-                    else
-                    {
-                        StreamClass.CreatePacket(200);
-                        StreamClass.AddString(enteredInputText);
-                        if (!sleepWordDelay)
-                        {
-                            StreamClass.AddInt8(0);
-                            sleepWordDelay = true;
-                        }
-                        StreamClass.FormatPacket();
-                        inputText = "";
-                        enteredInputText = "";
-                        sleepingStatusText = "Please wait...";
-                    }
-                }
-
                 if (lastMouseButton == 1 && InputManager.Instance.MouseLocation.Y > 275 && InputManager.Instance.MouseLocation.Y < 310 && InputManager.Instance.MouseLocation.X > 56 && InputManager.Instance.MouseLocation.X < 456)
                 {
                     StreamClass.CreatePacket(200);
@@ -5660,87 +5000,12 @@ namespace RuneScapeSolo.Net.Client
                         sleepWordDelay = true;
                     }
                     StreamClass.FormatPacket();
-                    inputText = "";
-                    enteredInputText = "";
                     sleepingStatusText = "Please wait...";
                 }
                 lastMouseButton = 0;
                 return;
             }
-            if (InputManager.Instance.MouseLocation.Y > windowHeight - 4)
-            {
-                if (InputManager.Instance.MouseLocation.X > 15 && InputManager.Instance.MouseLocation.X < 96 && lastMouseButton == 1)
-                {
-                    messagesTab = 0;
-                }
-
-                if (InputManager.Instance.MouseLocation.X > 110 && InputManager.Instance.MouseLocation.X < 194 && lastMouseButton == 1)
-                {
-                    messagesTab = 1;
-                    chatInputMenu.listShownEntries[messagesHandleType2] = 0xf423f;
-                }
-                if (InputManager.Instance.MouseLocation.X > 215 && InputManager.Instance.MouseLocation.X < 295 && lastMouseButton == 1)
-                {
-                    messagesTab = 2;
-                    chatInputMenu.listShownEntries[messagesHandleType5] = 0xf423f;
-                }
-                if (InputManager.Instance.MouseLocation.X > 315 && InputManager.Instance.MouseLocation.X < 395 && lastMouseButton == 1)
-                {
-                    messagesTab = 3;
-                    chatInputMenu.listShownEntries[messagesHandleType6] = 0xf423f;
-                }
-                if (InputManager.Instance.MouseLocation.X > 417 && InputManager.Instance.MouseLocation.X < 497 && lastMouseButton == 1)
-                {
-                    showAbuseBox = 1;
-                    reportAbuseOptionSelected = 0;
-                    inputText = "";
-                    enteredInputText = "";
-                }
-                lastMouseButton = 0;
-                mouseButton = 0;
-            }
-            chatInputMenu.mouseClick(InputManager.Instance.MouseLocation.X, InputManager.Instance.MouseLocation.Y, lastMouseButton, mouseButton);
-
-            if (messagesTab > 0 && InputManager.Instance.MouseLocation.X >= 494 && InputManager.Instance.MouseLocation.Y >= windowHeight - 66)
-            {
-                lastMouseButton = 0;
-            }
-
-            if (chatInputMenu.isClicked(chatInputBox))
-            {
-                string input = chatInputMenu.getText(chatInputBox);
-                chatInputMenu.updateText(chatInputBox, "");
-
-                if (input.StartsWith("::"))
-                {
-                    if (!handleCommand(input.Substring(2)))
-                    {
-                        SendCommand(input.Substring(2));
-                    }
-                }
-                else
-                {
-                    int len = ChatMessage.stringToBytes(input);
-                    input = ChatMessage.bytesToString(ChatMessage.lastChat, 0, len);
-                    //SendChatMessage(ChatMessage.lastChat, len);
-                    SendChatMessage(input);
-                    //if (useChatFilter)
-                    //input = ChatFilter.filterChat(input);
-                    CurrentPlayer.lastMessageTimeout = 150;
-                    CurrentPlayer.lastMessage = input;
-                    DisplayMessage(CurrentPlayer.username + ": " + input, 2);
-                }
-            }
-            if (messagesTab == 0)
-            {
-                for (int k2 = 0; k2 < 5; k2++)
-                {
-                    if (messagesTimeout[k2] > 0)
-                    {
-                        messagesTimeout[k2]--;
-                    }
-                }
-            }
+            
             if (PlayerAliveTimeout != 0)
             {
                 lastMouseButton = 0;
@@ -6009,10 +5274,6 @@ namespace RuneScapeSolo.Net.Client
                 else if (ShowAppearanceWindow && appearanceMenu != null)
                 {
                     appearanceMenu.keyPress(key, c);
-                }
-                else if (showFriendsBox == 0 && showAbuseBox == 0 && !IsSleeping && chatInputMenu != null)
-                {
-                    chatInputMenu.keyPress(key, c);
                 }
             }
             else
@@ -6899,7 +6160,6 @@ namespace RuneScapeSolo.Net.Client
             {
                 gameGraphics.screenFadeToBlack();
                 gameGraphics.drawText("Oh dear! You are dead...", windowWidth / 2, windowHeight / 2, 7, 0xff0000);
-                drawChatMessageTabs();
                 //gameGraphics.UpdateGameImage();
                 OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
                 return;
@@ -6927,7 +6187,6 @@ namespace RuneScapeSolo.Net.Client
                 gameGraphics.drawText("Fatigue: " + (PlayerFatigue * 100) / 750 + "%", windowWidth / 2, 90, 7, 0xffff00);
                 gameGraphics.drawText("When you want to wake up just use your", windowWidth / 2, 140, 5, 0xffffff);
                 gameGraphics.drawText("keyboard to type the word in the box below", windowWidth / 2, 160, 5, 0xffffff);
-                gameGraphics.drawText(inputText + "*", windowWidth / 2, 180, 5, 65535);
                 if (sleepingStatusText == null)
                 {
                     gameGraphics.drawPixels(captchaPixels, windowWidth / 2 - 127, 230, captchaWidth, captchaHeight);
@@ -6938,7 +6197,6 @@ namespace RuneScapeSolo.Net.Client
                 }
 
                 gameGraphics.drawBoxEdge(windowWidth / 2 - 128, 229, 257, 42, 0xffffff);
-                drawChatMessageTabs();
                 gameGraphics.drawText("If you can't read the word", windowWidth / 2, 290, 1, 0xffffff);
                 gameGraphics.drawText("@yel@click here@whi@ to get a different one", windowWidth / 2, 305, 1, 0xffffff);
 
@@ -7300,45 +6558,12 @@ namespace RuneScapeSolo.Net.Client
                     wildType = 1;
                 }
             }
-            if (messagesTab == 0)
-            {
-                for (int j7 = 0; j7 < 5; j7++)
-                {
-                    if (messagesTimeout[j7] > 0)
-                    {
-                        string s1 = messagesArray[j7];
-                        gameGraphics.drawString(s1, 7, windowHeight - 18 - j7 * 12, 1, 0xffff00);
-                    }
-                }
-            }
-            chatInputMenu.disableInput(messagesHandleType2);
-            chatInputMenu.disableInput(messagesHandleType5);
-            chatInputMenu.disableInput(messagesHandleType6);
-            if (messagesTab == 1)
-            {
-                chatInputMenu.enableInput(messagesHandleType2);
-            }
-            else if (messagesTab == 2)
-            {
-                chatInputMenu.enableInput(messagesHandleType5);
-            }
-            else if (messagesTab == 3)
-            {
-                chatInputMenu.enableInput(messagesHandleType6);
-            }
-
-            Menu.chatMenuTextHeightMod = 2;
-            chatInputMenu.drawMenu();
-            Menu.chatMenuTextHeightMod = 0;
+            
             gameGraphics.drawPicture(gameGraphics.gameWidth - 3 - 197, 3, baseInventoryPic, 128);
-
-#warning play with this! Create a new menu of choice :)
-
 
             drawMenus();
 
             gameGraphics.loggedIn = false;
-            drawChatMessageTabs();
 
 
             string text = "Coordinates: ( " + (SectionX + AreaX) + "," + (SectionY + AreaY) + " ) Section: (" + SectionX + "," + SectionY + ") Area: (" + AreaX + "," + AreaY + ")";
@@ -7400,54 +6625,7 @@ namespace RuneScapeSolo.Net.Client
                 gameGraphics.drawText("Drop party starting in: " + j8 + ":" + i6, 256, windowHeight - 7, 1, 0xFFFF00);
             }
         }
-
-        //  public bool DrawCustomMenus { get; set; }
-        //    public event EventHandler OnDrawMenus;
-
-        public void drawReportAbuseBox2()
-        {
-            if (enteredInputText.Length > 0)
-            {
-                string s1 = enteredInputText.Trim();
-                inputText = "";
-                enteredInputText = "";
-                if (s1.Length > 0)
-                {
-                    long l1 = DataOperations.nameToHash(s1);
-                    StreamClass.CreatePacket(7);
-                    StreamClass.AddInt64(l1);
-                    StreamClass.AddInt8(reportAbuseOptionSelected);
-                    //base.streamClass.addByte(dia ? 1 : 0);
-                    StreamClass.FormatPacket();
-                }
-                showAbuseBox = 0;
-                return;
-            }
-            gameGraphics.drawBox(56, 130, 400, 100, 0);
-            gameGraphics.drawBoxEdge(56, 130, 400, 100, 0xffffff);
-            int l = 160;
-            gameGraphics.drawText("Now type the name of the offending player, and press enter", 256, l, 1, 0xffff00);
-            l += 18;
-            gameGraphics.drawText("Name: " + inputText + "*", 256, l, 4, 0xffffff);
-            l = 222;
-            int i1 = 0xffffff;
-            if (InputManager.Instance.MouseLocation.X > 196 && InputManager.Instance.MouseLocation.X < 316 && InputManager.Instance.MouseLocation.Y > l - 13 && InputManager.Instance.MouseLocation.Y < l + 2)
-            {
-                i1 = 0xffff00;
-                if (mouseButtonClick == 1)
-                {
-                    mouseButtonClick = 0;
-                    showAbuseBox = 0;
-                }
-            }
-            gameGraphics.drawText("Click here to cancel", 256, l, 1, i1);
-            if (mouseButtonClick == 1 && (InputManager.Instance.MouseLocation.X < 56 || InputManager.Instance.MouseLocation.X > 456 || InputManager.Instance.MouseLocation.Y < 130 || InputManager.Instance.MouseLocation.Y > 230))
-            {
-                mouseButtonClick = 0;
-                showAbuseBox = 0;
-            }
-        }
-
+        
         public void drawMenus()
         {
             if (logoutTimer != 0)
@@ -7489,18 +6667,6 @@ namespace RuneScapeSolo.Net.Client
             else if (ShowDuelBox)
             {
                 drawDuelBox();
-            }
-            else if (showAbuseBox == 1)
-            {
-                drawReportAbuseBox1();
-            }
-            else if (showAbuseBox == 2)
-            {
-                drawReportAbuseBox2();
-            }
-            else if (showFriendsBox != 0)
-            {
-                drawFriendsBox();
             }
             else
             {
@@ -7545,12 +6711,7 @@ namespace RuneScapeSolo.Net.Client
                 {
                     drawPrayerMagicMenu(flag);
                 }
-
-                if (drawMenuTab == 5)
-                {
-                    drawFriendsMenu(flag);
-                }
-
+                
                 if (drawMenuTab == 6)
                 {
                     drawOptionsMenu(flag);
@@ -7680,7 +6841,7 @@ namespace RuneScapeSolo.Net.Client
 
                             if (EntityManager.GetItem(j3).IsSpecial == 1)
                             {
-                                DisplayMessage("This object cannot be added to a duel offer", 3);
+                                DisplayMessage("This object cannot be added to a duel offer");
                                 flag1 = true;
                             }
                             if (!flag1 && duelMyItemCount < 8)
@@ -8134,28 +7295,9 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        public override void displayMessage(string s1)
+        public override void DisplayMessage(string message)
         {
-            if (s1.StartsWith("@bor@"))
-            {
-                DisplayMessage(s1, 4);
-                return;
-            }
-            if (s1.StartsWith("@que@"))
-            {
-                DisplayMessage("@whi@" + s1, 5);
-                return;
-            }
-            if (s1.StartsWith("@pri@"))
-            {
-                DisplayMessage(s1, 6);
-                return;
-            }
-            else
-            {
-                DisplayMessage(s1, 3);
-                return;
-            }
+            OnChatMessageReceived?.Invoke(this, new ChatMessageEventArgs(message));
         }
 
         public void drawAboveHeadThings()
@@ -8213,7 +7355,7 @@ namespace RuneScapeSolo.Net.Client
         public override void cantLogout()
         {
             logoutTimer = 0;
-            DisplayMessage("@cya@Sorry, you can't logout at the moment", 3);
+            DisplayMessage("@cya@Sorry, you can't logout at the moment");
         }
 
         public void drawBankBox()
@@ -8691,9 +7833,7 @@ namespace RuneScapeSolo.Net.Client
             }
             OnLoadingSection?.Invoke(this, new EventArgs());
             gameGraphics.drawText("Loading... Please wait", 256, 192, 1, 0xffffff);
-            drawChatMessageTabs();
-
-
+            
             //gameGraphics.drawImage(spriteBatch, 0, 0);
             int l = AreaX;
             int i1 = AreaY;
@@ -8867,20 +8007,6 @@ namespace RuneScapeSolo.Net.Client
             return getInventoryItemTotalCount(l) >= i1;
         }
 
-        public void DisplayMessage(string message, int type)
-        {
-            OnChatMessageReceived?.Invoke(this, new ChatMessageEventArgs(message));
-        }
-
-        public void drawMinimapObject(int x, int y, int color)
-        {
-            gameGraphics.drawMinimapPixel(x, y, color);
-            gameGraphics.drawMinimapPixel(x - 1, y, color);
-            gameGraphics.drawMinimapPixel(x + 1, y, color);
-            gameGraphics.drawMinimapPixel(x, y - 1, color);
-            gameGraphics.drawMinimapPixel(x, y + 1, color);
-        }
-
         public void drawServerMessageBox()
         {
             char c1 = '\u0190';
@@ -8916,19 +8042,8 @@ namespace RuneScapeSolo.Net.Client
             mouseButtonClick = 0;
         }
 
-        //public Texture2D createImage(int l, int i1)
-        //{
-        //    //if(GameApplet.gameFrame != null)
-        //    //    return GameApplet.gameFrame.createImage(l, i1);
-        //    //if(link.gameApplet != null)
-        //    //    return link.gameApplet.createImage(l, i1);
-        //    //else
-        //    return base.createImage(l, i1);
-        //}
-
         public ObjectModel makeWallObject(int x, int y, int dir, int type, int totalCount)
         {
-
             int tileX = x;
             int tileY = y;
             int destTileX = x;
@@ -9003,12 +8118,6 @@ namespace RuneScapeSolo.Net.Client
 
             wallModel.index = totalCount + 10000;
             return wallModel;
-        }
-
-        public void ResetPrivateMessages()
-        {
-            privateMessageText = "";
-            enteredPrivateMessageText = "";
         }
 
         public Mob AddNpc(int serverIndex, int x, int y, int sprite, int id)
@@ -9239,105 +8348,6 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        public void drawFriendsBox()
-        {
-            if (mouseButtonClick != 0)
-            {
-                mouseButtonClick = 0;
-                if (showFriendsBox == 1 && (InputManager.Instance.MouseLocation.X < 106 || InputManager.Instance.MouseLocation.Y < 145 || InputManager.Instance.MouseLocation.X > 406 || InputManager.Instance.MouseLocation.Y > 215))
-                {
-                    showFriendsBox = 0;
-                    return;
-                }
-                if (showFriendsBox == 2 && (InputManager.Instance.MouseLocation.X < 6 || InputManager.Instance.MouseLocation.Y < 145 || InputManager.Instance.MouseLocation.X > 506 || InputManager.Instance.MouseLocation.Y > 215))
-                {
-                    showFriendsBox = 0;
-                    return;
-                }
-                if (showFriendsBox == 3 && (InputManager.Instance.MouseLocation.X < 106 || InputManager.Instance.MouseLocation.Y < 145 || InputManager.Instance.MouseLocation.X > 406 || InputManager.Instance.MouseLocation.Y > 215))
-                {
-                    showFriendsBox = 0;
-                    return;
-                }
-                if (InputManager.Instance.MouseLocation.X > 236 && InputManager.Instance.MouseLocation.X < 276 && InputManager.Instance.MouseLocation.Y > 193 && InputManager.Instance.MouseLocation.Y < 213)
-                {
-                    showFriendsBox = 0;
-                    return;
-                }
-            }
-            int l = 145;
-            if (showFriendsBox == 1)
-            {
-                gameGraphics.drawBox(106, l, 300, 70, 0);
-                gameGraphics.drawBoxEdge(106, l, 300, 70, 0xffffff);
-                l += 20;
-                gameGraphics.drawText("Enter name to add to friends list", 256, l, 4, 0xffffff);
-                l += 20;
-                gameGraphics.drawText(inputText + "*", 256, l, 4, 0xffffff);
-                if (enteredInputText.Length > 0)
-                {
-                    string s1 = enteredInputText.Trim();
-                    inputText = "";
-                    enteredInputText = "";
-                    showFriendsBox = 0;
-                    if (s1.Length > 0 && DataOperations.nameToHash(s1) != CurrentPlayer.NameHash)
-                    {
-                        addFriend(s1);
-                    }
-                }
-            }
-            if (showFriendsBox == 2)
-            {
-                gameGraphics.drawBox(6, l, 500, 70, 0);
-                gameGraphics.drawBoxEdge(6, l, 500, 70, 0xffffff);
-                l += 20;
-                gameGraphics.drawText("Enter message to send to " + DataOperations.LongToString(pmTarget), 256, l, 4, 0xffffff);
-                l += 20;
-                gameGraphics.drawText(privateMessageText + "*", 256, l, 4, 0xffffff);
-
-                if (enteredPrivateMessageText.Length > 0)
-                {
-                    string s2 = enteredPrivateMessageText;
-                    privateMessageText = "";
-                    enteredPrivateMessageText = "";
-                    showFriendsBox = 0;
-                    int j1 = ChatMessage.stringToBytes(s2);
-                    sendPrivateMessage(pmTarget, ChatMessage.lastChat, j1);
-                    s2 = ChatMessage.bytesToString(ChatMessage.lastChat, 0, j1);
-                    //if (useChatFilter)
-                    // s2 = ChatFilter.filterChat(s2);
-                    displayMessage("@pri@You tell " + DataOperations.LongToString(pmTarget) + ": " + s2);
-                }
-            }
-            if (showFriendsBox == 3)
-            {
-                gameGraphics.drawBox(106, l, 300, 70, 0);
-                gameGraphics.drawBoxEdge(106, l, 300, 70, 0xffffff);
-                l += 20;
-                gameGraphics.drawText("Enter name to add to ignore list", 256, l, 4, 0xffffff);
-                l += 20;
-                gameGraphics.drawText(inputText + "*", 256, l, 4, 0xffffff);
-                if (enteredInputText.Length > 0)
-                {
-                    string s3 = enteredInputText.Trim();
-                    inputText = "";
-                    enteredInputText = "";
-                    showFriendsBox = 0;
-                    if (s3.Length > 0 && DataOperations.nameToHash(s3) != CurrentPlayer.NameHash)
-                    {
-                        AddIgnore(s3);
-                    }
-                }
-            }
-            int i1 = 0xffffff;
-            if (InputManager.Instance.MouseLocation.X > 236 && InputManager.Instance.MouseLocation.X < 276 && InputManager.Instance.MouseLocation.Y > 193 && InputManager.Instance.MouseLocation.Y < 213)
-            {
-                i1 = 0xffff00;
-            }
-
-            gameGraphics.drawText("Cancel", 256, 208, 1, i1);
-        }
-
         public void playSound(string s1)
         {
             if (audioPlayer == null || !GameDefines.PREMIUM_FEATURES)
@@ -9530,60 +8540,7 @@ namespace RuneScapeSolo.Net.Client
                 .Where(x => x != null) // TODO: Remove this check once it is safe
                 .FirstOrDefault(x => x.ServerIndex == serverIndex);
         }
-
-        public bool handleCommand(string command)
-        {
-            try
-            {
-                int firstSpace = command.IndexOf(' ');
-                string cmd = command;
-                string[] args = new string[0];
-                if (firstSpace != -1)
-                {
-                    cmd = command.Substring(0, firstSpace).Trim();
-                    args = command.Substring(firstSpace).Trim().Split(' ');
-                }
-                if (cmd.Equals("closecon"))
-                {
-                    StreamClass.CloseStream();
-                    return true;
-                }
-                if (cmd.Equals("logout"))
-                {
-                    sendLogout();
-                    return true;
-                }
-                if (cmd.Equals("lostcon"))
-                {
-                    LostConnection();
-                    return true;
-                }
-                if (cmd.Equals("tell"))
-                {
-                    long recipient = DataOperations.nameToHash(args[0]);
-                    string message = joinString(args, " ", 1).Trim();
-                    if (message.Equals(""))
-                    {
-                        return true;
-                    }
-
-                    int len = ChatMessage.stringToBytes(message);
-                    sendPrivateMessage(recipient, ChatMessage.lastChat, len);
-                    message = ChatMessage.bytesToString(ChatMessage.lastChat, 0, len);
-                    //  if (useChatFilter)
-                    //      message = ChatFilter.filterChat(message);
-                    displayMessage("@pri@You tell " + DataOperations.LongToString(recipient) + ": " + message);
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
-                Console.WriteLine(ex.Message);
-            }
-            return false;
-        }
-
+        
         public string joinString(string[] hay, string glue, int start)
         {
             string ret = "";
@@ -9613,12 +8570,7 @@ namespace RuneScapeSolo.Net.Client
         public int appearanceBottomColour;
         public int appearanceSkinColour;
         public int appearanceHeadGender;
-        public Menu chatInputMenu;
-        int messagesHandleType2;
-        int chatInputBox;
-        int messagesHandleType5;
-        int messagesHandleType6;
-        int messagesTab;
+
         public int[] menuIndexes;
         public int duelMyItemCount;
         public int[] duelMyItems;
@@ -9752,7 +8704,6 @@ namespace RuneScapeSolo.Net.Client
         public int shopItemBuyPriceModifier;
         public int wildType;
         public long tradeConfirmOtherNameLong;
-        public int showAbuseBox;
         public int[] serverBankItems;
         public int[] serverBankItemCount;
         public GameImageMiddleMan gameGraphics;
@@ -9848,16 +8799,11 @@ namespace RuneScapeSolo.Net.Client
         public int lastModelFireLightningSpellNumber;
         public int lastModelTorchNumber;
         public int lastModelClawSpellNumber;
-        public int chatTabAllMsgFlash;
-        public int chatTabHistoryFlash;
-        public int chatTabQuestFlash;
-        public int chatTabPrivateFlash;
         public int[] messagesTimeout;
         public int[] appearanceTopBottomColours = {
         0xff0000, 0xff8000, 0xffe000, 0xa0e000, 57344, 32768, 41088, 45311, 33023, 12528,
         0xe000e0, 0x303030, 0x604000, 0x805000, 0xffffff
     };
-        public int showFriendsBox;
         public int teleBubbleCount;
         public bool memoryError;
         public int[] appearanceHairColours = {
@@ -9875,9 +8821,6 @@ namespace RuneScapeSolo.Net.Client
         public int menuHeight;
         public int menuOptionsCount;
         public Camera gameCamera;
-        public Menu friendsMenu;
-        int friendsMenuHandle;
-        int friendsIgnoreMenuSelected;
         long pmTarget;
         public int healthBarVisibleCount;
         public string[] menuText2;
@@ -9892,7 +8835,6 @@ namespace RuneScapeSolo.Net.Client
         public int[] healthBarX;
         public int[] healthBarY;
         public int[] healthBarMissing;
-        public int reportAbuseOptionSelected;
         public int serverBankItemsCount;
         public int[] teleBubbleY;
         public int cameraAutoAngle;
@@ -9908,7 +8850,6 @@ namespace RuneScapeSolo.Net.Client
         public bool cameraZoom;
 
         public bool fogOfWar;
-        public bool useChatFilter;
         public string[] usedQuestName;
         public int[] shopItemSellPrice;
         public int[] shopItemBuyPrice;

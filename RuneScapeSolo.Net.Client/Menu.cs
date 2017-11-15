@@ -414,7 +414,7 @@ namespace RuneScapeSolo.Net.Client
             for (int l1 = arg8; l1 < arg7; l1++)
             {
                 geg(arg0, arg1 + 2, j1, arg6[l1], arg5);
-                j1 += gameImage.textHeightNumber(arg5) - chatMenuTextHeightMod;
+                j1 += gameImage.textHeightNumber(arg5);
                 if (j1 >= arg2 + arg4)
                 {
                     return;
@@ -920,6 +920,5 @@ namespace RuneScapeSolo.Net.Client
         public static int redMod = 114;
         public static int greenMod = 114;
         public static int blueMod = 176;
-        public static int chatMenuTextHeightMod;
     }
 }

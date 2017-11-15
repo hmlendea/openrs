@@ -109,28 +109,6 @@ namespace RuneScapeSolo.Net.Client
                 flag = true;
                 break;
             }
-
-            if (flag && inputText.Length < 20)
-            {
-                inputText += c;
-            }
-            if (flag && privateMessageText.Length < 80)
-            {
-                privateMessageText += c;
-            }
-            if (key == Keys.Back && inputText.Length > 0)
-            {
-                inputText = inputText.Substring(0, inputText.Length - 1);
-            }
-            if (key == Keys.Back && privateMessageText.Length > 0)
-            {
-                privateMessageText = privateMessageText.Substring(0, privateMessageText.Length - 1);
-            }
-            if (key == Keys.Enter)
-            {
-                enteredInputText = inputText;
-                enteredPrivateMessageText = privateMessageText;
-            }
         }
 
         public virtual void HandleKeyDown(Keys key, char c)
@@ -602,10 +580,6 @@ namespace RuneScapeSolo.Net.Client
             gameLoadingFileTitle = "Loading";
             //gameLoadingFont = loadingFont;//new Font("TimesRoman", 0, 15);
             gameMinThreadSleepTime = 1;
-            inputText = "";
-            enteredInputText = "";
-            privateMessageText = "";
-            enteredPrivateMessageText = "";
         }
 
         static readonly DateTime Jan1st1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -632,10 +606,6 @@ namespace RuneScapeSolo.Net.Client
         public int gameMinThreadSleepTime;
         public int mouseButton;
         public int lastMouseButton;
-        public string inputText;
-        public string enteredInputText;
-        public string privateMessageText;
-        public string enteredPrivateMessageText;
 
         public static int[][] bgPixels = null;
         public static Texture2D bgImage = null;

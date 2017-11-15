@@ -29,9 +29,6 @@ namespace RuneScapeSolo.Net.Client
             username = "";
             password = "";
             data = new sbyte[10000];
-            friendsList = new long[40];
-            friendsWorld = new int[400];
-            ignoresList = new long[200];
         }
 
         public void connect(string user, string pass, bool reconnecting)
@@ -320,7 +317,7 @@ namespace RuneScapeSolo.Net.Client
             if (command == ServerCommand.ServerAnnouncement)
             {
                 string message = Encoding.UTF8.GetString((byte[])(Array)data, 1, length - 1);
-                displayMessage(message);
+                DisplayMessage(message);
 
                 return;
             }
@@ -336,70 +333,25 @@ namespace RuneScapeSolo.Net.Client
             }
             if (command == ServerCommand.Command249)
             {
-                friendsCount = DataOperations.GetInt8(data[1]);
-
-                for (int i = 0; i < friendsCount; i++)
-                {
-                    friendsList[i] = DataOperations.GetLong(data, 2 + i * 9);
-                    friendsWorld[i] = DataOperations.GetInt8(data[10 + i * 9]);
-                }
-
-                reOrderFriendsList();
+                Console.WriteLine("Won't implement this command!");
 
                 return;
             }
             if (command == ServerCommand.Command25)
             {
-                long friend = DataOperations.GetLong(data, 1);
-                int status = data[9] & 0xff;
-
-                for (int j1 = 0; j1 < friendsCount; j1++)
-                {
-                    if (friendsList[j1] == friend)
-                    {
-                        if (friendsWorld[j1] == 0 && status != 0)
-                        {
-                            displayMessage("@pri@" + DataOperations.LongToString(friend) + " has logged in");
-                        }
-
-                        if (friendsWorld[j1] != 0 && status == 0)
-                        {
-                            displayMessage("@pri@" + DataOperations.LongToString(friend) + " has logged out");
-                        }
-
-                        friendsWorld[j1] = status;
-                        length = 0;
-                        reOrderFriendsList();
-
-                        return;
-                    }
-                }
-
-                friendsList[friendsCount] = friend;
-                friendsWorld[friendsCount] = status;
-                friendsCount++;
-
-                reOrderFriendsList();
+                Console.WriteLine("Won't implement this command!");
 
                 return;
             }
             if (command == ServerCommand.Command2)
             {
-                ignoresCount = DataOperations.GetInt8(data[1]);
-
-                for (int j = 0; j < ignoresCount; j++)
-                {
-                    ignoresList[j] = DataOperations.GetLong(data, 2 + j * 8);
-                }
+                Console.WriteLine("Won't implement this command!");
 
                 return;
             }
             if (command == ServerCommand.Command158)
             {
-                blockChat = data[1];
-                blockPrivate = data[2];
-                blockTrade = data[3];
-                blockDuel = data[4];
+                Console.WriteLine("Won't implement this command!");
 
                 return;
             }
@@ -407,36 +359,12 @@ namespace RuneScapeSolo.Net.Client
             {
                 long user = DataOperations.GetLong(data, 1);
                 string s = ChatMessage.bytesToString(data, 9, length - 9);
-                displayMessage("@pri@" + DataOperations.LongToString(user) + ": tells you " + s);
+                DisplayMessage("@pri@" + DataOperations.LongToString(user) + ": tells you " + s);
 
                 return;
             }
 
             HandlePacket(command, length, data);
-        }
-
-        void reOrderFriendsList()
-        {
-            bool flag = true;
-
-            while (flag)
-            {
-                flag = false;
-
-                for (int i = 0; i < friendsCount - 1; i++)
-                {
-                    if (friendsWorld[i] < friendsWorld[i + 1])
-                    {
-                        int j = friendsWorld[i];
-                        friendsWorld[i] = friendsWorld[i + 1];
-                        friendsWorld[i + 1] = j;
-                        long l = friendsList[i];
-                        friendsList[i] = friendsList[i + 1];
-                        friendsList[i + 1] = l;
-                        flag = true;
-                    }
-                }
-            }
         }
 
         protected void sendUpdatedPrivacyInfo(int blockChat, int blockPrivate, int blockTrade, int blockDuel)
@@ -448,123 +376,7 @@ namespace RuneScapeSolo.Net.Client
             StreamClass.AddInt8(blockDuel);
             StreamClass.FormatPacket();
         }
-
-        protected void AddIgnore(string arg0)
-        {
-            long l = DataOperations.nameToHash(arg0);
-
-            StreamClass.CreatePacket(25);
-            StreamClass.AddInt64(l);
-            StreamClass.FormatPacket();
-
-            for (int i = 0; i < ignoresCount; i++)
-            {
-                if (ignoresList[i] == l)
-                {
-                    return;
-                }
-            }
-
-            if (ignoresCount >= ignoresList.Length - 1)
-            {
-                return;
-            }
-
-            ignoresList[ignoresCount++] = l;
-        }
-
-        protected void removeIgnore(long arg0)
-        {
-            StreamClass.CreatePacket(108);
-            StreamClass.AddInt64(arg0);
-            StreamClass.FormatPacket();
-
-            for (int i = 0; i < ignoresCount; i++)
-            {
-                if (ignoresList[i] == arg0)
-                {
-                    ignoresCount--;
-                    for (int j = i; j < ignoresCount; j++)
-                    {
-                        ignoresList[j] = ignoresList[j + 1];
-                    }
-
-                    return;
-                }
-            }
-        }
-
-        protected void addFriend(string arg0)
-        {
-            StreamClass.CreatePacket(168);
-            StreamClass.AddInt64(DataOperations.nameToHash(arg0));
-            StreamClass.FormatPacket();
-            long l = DataOperations.nameToHash(arg0);
-
-            for (int i = 0; i < friendsCount; i++)
-            {
-                if (friendsList[i] == l)
-                {
-                    return;
-                }
-            }
-
-            if (friendsCount >= friendsList.Length - 1)
-            {
-                return;
-            }
-            else
-            {
-                friendsList[friendsCount] = l;
-                friendsWorld[friendsCount] = 0;
-                friendsCount++;
-                return;
-            }
-        }
-
-        protected void removeFriend(long arg0)
-        {
-            StreamClass.CreatePacket(52);
-            StreamClass.AddInt64(arg0);
-            StreamClass.FormatPacket();
-
-            for (int i = 0; i < friendsCount; i++)
-            {
-                if (friendsList[i] != arg0)
-                {
-                    continue;
-                }
-
-                friendsCount--;
-                for (int j = i; j < friendsCount; j++)
-                {
-                    friendsList[j] = friendsList[j + 1];
-                    friendsWorld[j] = friendsWorld[j + 1];
-                }
-
-                break;
-            }
-
-            displayMessage("@pri@" + DataOperations.LongToString(arg0) + " has been removed from your friends list");
-        }
-
-        protected void sendPrivateMessage(long l, byte[] abyte0, int i)
-        {
-            StreamClass.CreatePacket(254);
-            StreamClass.AddInt64(l);
-            StreamClass.AddBytes(abyte0, 0, i);
-            StreamClass.FormatPacket();
-        }
-
-        protected void SendChatMessage(string message)
-        {
-            byte[] bytes = Encoding.ASCII.GetBytes(message);
-
-            StreamClass.CreatePacket(145);
-            StreamClass.AddBytes(bytes);
-            StreamClass.FormatPacket();
-        }
-
+        
         protected void SendCommand(string command)
         {
             StreamClass.CreatePacket(90);
@@ -592,7 +404,7 @@ namespace RuneScapeSolo.Net.Client
         {
         }
 
-        public virtual void displayMessage(string s1)
+        public virtual void DisplayMessage(string s1)
         {
         }
 
@@ -602,15 +414,6 @@ namespace RuneScapeSolo.Net.Client
         public sbyte[] data;
         public int reconnectTries;
         public long lastPing;
-        public int friendsCount;
-        public long[] friendsList;
-        public int[] friendsWorld;
-        public int ignoresCount;
-        public long[] ignoresList;
-        public int blockChat;
-        public int blockPrivate;
-        public int blockTrade;
-        public int blockDuel;
         public long sessionId;
         public int socketTimeout;
 

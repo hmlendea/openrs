@@ -229,23 +229,11 @@ namespace RuneScapeSolo.Gui.GuiElements
                 int j7 = playerPosY * j5 + playerPosX * l5 >> 18;
                 playerPosY = playerPosY * l5 - playerPosX * j5 >> 18;
                 playerPosX = j7;
-
-                Colour dotColour = Colour.White;
-                for (int j = 0; j < client.friendsCount; j++)
-                {
-                    if (player.NameHash != client.friendsList[j] || client.friendsWorld[j] != 99)
-                    {
-                        continue;
-                    }
-
-                    dotColour = Colour.Red;
-                    break;
-                }
-
+                
                 int dotX = Location.X + c1 / 2 + playerPosX;
                 int dotY = Location.Y + (36 + c3 / 2) - playerPosY;
 
-                DrawMinimapObject(spriteBatch, dotX, dotY, dotColour);
+                DrawMinimapObject(spriteBatch, dotX, dotY, Colour.White);
             }
         }
 
