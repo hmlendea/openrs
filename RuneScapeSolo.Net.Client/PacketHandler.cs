@@ -194,10 +194,6 @@ namespace RuneScapeSolo.Net.Client
                     HandleShowShopBox();
                     return true;
 
-                case ServerCommand.TakeScreenshot:
-                    HandleTakeScreenshot();
-                    return true;
-
                 case ServerCommand.TaskCash:
                     HandleTaskCash(data);
                     return true;
@@ -1072,7 +1068,7 @@ namespace RuneScapeSolo.Net.Client
             client.OneMouseButton = DataOperations.GetInt8(data[2]) == 1;
             DataOperations.GetInt8(data[3]); // Dummy for the sound toggle
             client.ShowRoofs = DataOperations.GetInt8(data[4]) == 1;
-            client.AutoScreenshot = DataOperations.GetInt8(data[5]) == 1;
+            DataOperations.GetInt8(data[5]); // Dummy for the auto screenshot
             client.ShowCombatWindow = DataOperations.GetInt8(data[6]) == 1;
         }
 
@@ -1331,11 +1327,6 @@ namespace RuneScapeSolo.Net.Client
         void HandleSystemUpdateTimer(sbyte[] data)
         {
             client.SystemUpdateTimer = DataOperations.GetInt16(data, 1) * 32;
-        }
-
-        void HandleTakeScreenshot()
-        {
-            client.takeScreenshot(false);
         }
 
         void HandleTaskCash(sbyte[] data)

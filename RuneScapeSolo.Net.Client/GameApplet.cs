@@ -23,12 +23,12 @@ namespace RuneScapeSolo.Net.Client
             InitGameApplet();
         }
 
-        public void CreateWindow(int width, int height, string title, bool resizable)
+        public void CreateWindow(int width, int height)
         {
             Console.WriteLine("Started application");
             appletWidth = width;
             appletHeight = height;
-            gameFrame = new GameFrame(this, width, height, title, resizable, false);
+            gameFrame = new GameFrame(this, width, height, false);
             gameLoadingScreen = 1;
 
             InitGameApplet();
@@ -355,7 +355,7 @@ namespace RuneScapeSolo.Net.Client
 
         }
 
-        public void paint(GraphicsDevice g1)
+        public void paint()
         {
             if (gameLoadingScreen == 2)
             {

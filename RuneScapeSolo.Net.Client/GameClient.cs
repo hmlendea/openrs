@@ -29,13 +29,13 @@ namespace RuneScapeSolo.Net.Client
 
         public event ChatMessageEventHandler OnChatMessageReceived;
 
-        public static GameClient CreateGameClient(string title = "RuneScape Solo", int width = 512, int height = 346)
+        public static GameClient CreateGameClient(int width = 512, int height = 346)
         {
             GameClient mud = new GameClient();
 
             mud.windowWidth = width;
             mud.windowHeight = height;
-            mud.CreateWindow(mud.windowWidth, mud.windowHeight + 11, title, false);
+            mud.CreateWindow(mud.windowWidth, mud.windowHeight + 11);
             mud.gameMinThreadSleepTime = 10;
             return mud;
         }
@@ -43,8 +43,8 @@ namespace RuneScapeSolo.Net.Client
         readonly PacketHandler packetHandler;
 
         List<Keys> lastPressedKeys = new List<Keys>();
-        int lastMouseX = 0;
-        int lastMouseY = 0;
+        int lastMouseX;
+        int lastMouseY;
         TimeSpan timeLapse = TimeSpan.Zero;
 
         public ObjectModel[] GameDataObjects { get; set; }
@@ -119,7 +119,6 @@ namespace RuneScapeSolo.Net.Client
         public int[] WallObjectId { get; set; }
         public int[] WallObjectX { get; set; }
         public int[] WallObjectY { get; set; }
-        public bool AutoScreenshot { get; set; }
         public bool CameraAutoAngle { get; set; }
         public bool HasWorldInfo { get; set; }
         public bool LoadArea { get; set; } // Not in wilderness
@@ -460,7 +459,6 @@ namespace RuneScapeSolo.Net.Client
             fogOfWar = true;
             ShowCombatWindow = false;
             ShowRoofs = true;
-            AutoScreenshot = false;
             usedQuestName = new string[0];
             SubscriptionDaysLeft = 0;
             shopItemSellPrice = new int[256];
@@ -711,62 +709,9 @@ namespace RuneScapeSolo.Net.Client
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
-
             if (action == MenuAction.ExamineNpc)
             {
                 DisplayMessage(EntityManager.GetNpc(actionType).Description);
-            }
-
-            if (action == MenuAction.CastSpellOnPlayer)
-            {
-                int l3 = (actionX - 64) / GridSize;
-                int l5 = (actionY - 64) / GridSize;
-                walkTo1Tile(SectionX, SectionY, l3, l5, true);
-                StreamClass.CreatePacket(55);
-                StreamClass.AddInt16(actionVar1);
-                StreamClass.AddInt16(actionType);
-                StreamClass.FormatPacket();
-                selectedSpell = -1;
-            }
-
-            if (action == MenuAction.UseItemWithPlayer)
-            {
-                int i4 = (actionX - 64) / GridSize;
-                int i6 = (actionY - 64) / GridSize;
-                walkTo1Tile(SectionX, SectionY, i4, i6, true);
-                StreamClass.CreatePacket(16);
-                StreamClass.AddInt16(actionType);
-                StreamClass.AddInt16(actionVar1);
-                StreamClass.FormatPacket();
-                selectedItem = -1;
-            }
-
-            if (action == MenuAction.AttackPlayer || action == MenuAction.AttackPlayer2)
-            {
-                int j4 = (actionX - 64) / GridSize;
-                int j6 = (actionY - 64) / GridSize;
-                walkTo1Tile(SectionX, SectionY, j4, j6, true);
-                StreamClass.CreatePacket(57);
-                StreamClass.AddInt16(actionType);
-                StreamClass.FormatPacket();
-            }
-            if (action == MenuAction.DuelWithPlayer)
-            {
-                StreamClass.CreatePacket(222);
-                StreamClass.AddInt16(actionType);
-                StreamClass.FormatPacket();
-            }
-            if (action == MenuAction.TradeWithPlayer)
-            {
-                StreamClass.CreatePacket(166);
-                StreamClass.AddInt16(actionType);
-                StreamClass.FormatPacket();
-            }
-            if (action == MenuAction.FollowPlayer)
-            {
-                StreamClass.CreatePacket(68);
-                StreamClass.AddInt16(actionType);
-                StreamClass.FormatPacket();
             }
             if (action == MenuAction.CastSpellOnGround)
             {
@@ -1086,21 +1031,6 @@ namespace RuneScapeSolo.Net.Client
             cleanUp();
         }
 
-        //protected TcpClient makeSocket(string address, int port) {
-
-        //    if(link.gameApplet != null) {
-        //        Socket socket = link.getSocket(port);
-        //        if(socket == null)
-        //            throw new IOException();
-        //        else
-        //            return socket;
-        //    }
-        //    Socket socket1 = new Socket(InetAddress.getByName(address), port);
-        //    socket1.setSoTimeout(30000);
-        //    socket1.setTcpNoDelay(true);
-        //    return socket1;
-        //}
-
         public void drawInventoryMenu(bool canRightClick)
         {
             int l = gameGraphics.gameWidth - 248;
@@ -1273,22 +1203,6 @@ namespace RuneScapeSolo.Net.Client
             {
                 gameGraphics.drawTransparentLine(0, j1, 0, 194 - j1, _bgScreenWidth, 8);
             }
-
-
-#warning draws logo
-
-            if (!DoNotDrawLogo)
-            {
-                if (bgPixels == null)
-                {
-                    gameGraphics.drawPicture(15, 15, baseInventoryPic + 10);
-                }
-                else
-                {
-                    gameGraphics.drawPixels(bgPixels, 0, 0, bgPixels.Length, bgPixels[0].Length);
-                }
-            }
-
 
             gameGraphics.drawImage(baseLoginScreenBackgroundPic, 0, 0, _bgScreenWidth, 200);
             gameGraphics.applyImage(baseLoginScreenBackgroundPic);
@@ -1915,7 +1829,6 @@ namespace RuneScapeSolo.Net.Client
             baseProjectilePic = baseLoginScreenBackgroundPic + 10;
             baseTexturePic = baseProjectilePic + 50;
             subTexturePic = baseTexturePic + 10;
-            graphics = getGraphics();
             SetRefreshRate(50);
             gameGraphics = new GameImageMiddleMan(windowWidth, windowHeight + 12, 4000);
             gameGraphics.gameReference = this;
@@ -1988,24 +1901,11 @@ namespace RuneScapeSolo.Net.Client
             loginMenuFirst = new Menu(gameGraphics, 50);
 
             int l = 40;
-            if (!GameDefines.PREMIUM_FEATURES)
-            {
-                loginMenuFirst.drawText(256, 200 + l, "Click on an option", 5, true);
-                loginMenuFirst.drawButton(156, 240 + l, 120, 35);
-                loginMenuFirst.drawButton(356, 240 + l, 120, 35);
-                loginMenuFirst.drawText(156, 240 + l, "New User", 5, false);
-                loginMenuFirst.drawText(356, 240 + l, "Existing User", 5, false);
-                loginButtonNewUser = loginMenuFirst.createButton(156, 240 + l, 120, 35);
-                loginMenuLoginButton = loginMenuFirst.createButton(356, 240 + l, 120, 35);
-            }
-            else
-            {
-                loginMenuFirst.drawText(256, 200 + l, "Welcome to RuneScape", 4, true);
-                loginMenuFirst.drawText(256, 215 + l, "You need a member account to use this server", 4, true);
-                loginMenuFirst.drawButton(256, 250 + l, 200, 35);
-                loginMenuFirst.drawText(256, 250 + l, "Click here to login", 5, false);
-                loginMenuLoginButton = loginMenuFirst.createButton(256, 250 + l, 200, 35);
-            }
+            loginMenuFirst.drawText(256, 200 + l, "Welcome to RuneScape", 4, true);
+            loginMenuFirst.drawText(256, 215 + l, "You need a member account to use this server", 4, true);
+            loginMenuFirst.drawButton(256, 250 + l, 200, 35);
+            loginMenuFirst.drawText(256, 250 + l, "Click here to login", 5, false);
+            loginMenuLoginButton = loginMenuFirst.createButton(256, 250 + l, 200, 35);
             loginNewUser = new Menu(gameGraphics, 50);
             l = 230;
             loginNewUser.drawText(256, l + 8, "To create an account please go back to the", 4, true);
@@ -2618,15 +2518,6 @@ namespace RuneScapeSolo.Net.Client
             }
 
             l1 += 15;
-            if (AutoScreenshot)
-            {
-                gameGraphics.drawString("Automatic screenshots - @gre@on", j1, l1, 1, 0xffffff);
-            }
-            else
-            {
-                gameGraphics.drawString("Automatic screenshots - @red@off", j1, l1, 1, 0xffffff);
-            }
-
             l1 += 15;
             l1 += 5;
             gameGraphics.drawString("Always logout when you finish", j1, l1, 1, 0);
@@ -2695,15 +2586,6 @@ namespace RuneScapeSolo.Net.Client
                     fogOfWar = !fogOfWar;
                 }
                 i2 += 15;
-                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
-                {
-                    AutoScreenshot = !AutoScreenshot;
-                    StreamClass.CreatePacket(157);
-                    StreamClass.AddInt8(5);
-                    StreamClass.AddInt8(AutoScreenshot ? 1 : 0);
-                    StreamClass.FormatPacket();
-                }
-
                 i2 += 15;
                 i2 += 15;
                 i2 += 15;
@@ -3008,7 +2890,7 @@ namespace RuneScapeSolo.Net.Client
         public override void DrawWindow()
         {
 
-            paint(graphics);
+            paint();
 
             if (errorLoading)
             {
@@ -3295,7 +3177,6 @@ namespace RuneScapeSolo.Net.Client
                 sbyte[] abyte3 = DataOperations.loadData("badenc.txt", 0, abyte1);
                 sbyte[] abyte4 = DataOperations.loadData("hostenc.txt", 0, abyte1);
                 sbyte[] abyte5 = DataOperations.loadData("tldlist.txt", 0, abyte1);
-                //ChatFilter.addFilterData(new DataEncryption(abyte2), new DataEncryption(abyte3), new DataEncryption(abyte4), new DataEncryption(abyte5));
 
                 return;
             }
@@ -4293,11 +4174,7 @@ namespace RuneScapeSolo.Net.Client
 
             if (loggedIn)
             {
-                if (key == Keys.F12)
-                {
-                    takeScreenshot(true);
-                }
-                else if (ShowAppearanceWindow && appearanceMenu != null)
+                if (ShowAppearanceWindow && appearanceMenu != null)
                 {
                     appearanceMenu.keyPress(key, c);
                 }
@@ -4358,127 +4235,8 @@ namespace RuneScapeSolo.Net.Client
                     {
                         int index = _obj.entityType[player] % 10000;
                         int type = _obj.entityType[player] / 10000;
-                        if (type == 1)
-                        {
-                            string s1 = "";
-                            int k4 = 0;
-                            if (CurrentPlayer.CombatLevel > 0 && Players[index].CombatLevel > 0)
-                            {
-                                k4 = CurrentPlayer.CombatLevel - Players[index].CombatLevel;
-                            }
 
-                            if (k4 < 0)
-                            {
-                                s1 = "@or1@";
-                            }
-
-                            if (k4 < -3)
-                            {
-                                s1 = "@or2@";
-                            }
-
-                            if (k4 < -6)
-                            {
-                                s1 = "@or3@";
-                            }
-
-                            if (k4 < -9)
-                            {
-                                s1 = "@red@";
-                            }
-
-                            if (k4 > 0)
-                            {
-                                s1 = "@gr1@";
-                            }
-
-                            if (k4 > 3)
-                            {
-                                s1 = "@gr2@";
-                            }
-
-                            if (k4 > 6)
-                            {
-                                s1 = "@gr3@";
-                            }
-
-                            if (k4 > 9)
-                            {
-                                s1 = "@gre@";
-                            }
-
-                            s1 = " " + s1 + "(level-" + Players[index].CombatLevel + ")";
-                            if (selectedSpell >= 0)
-                            {
-                                if (EntityManager.GetSpell(selectedSpell).Type == 1 || EntityManager.GetSpell(selectedSpell).Type == 2)
-                                {
-                                    menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on";
-                                    menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
-                                    menuActions[menuOptionsCount] = MenuAction.CastSpellOnPlayer;
-                                    menuActionX[menuOptionsCount] = Players[index].currentX;
-                                    menuActionY[menuOptionsCount] = Players[index].currentY;
-                                    menuActionType[menuOptionsCount] = Players[index].ServerIndex;
-                                    menuActionVar1[menuOptionsCount] = selectedSpell;
-                                    menuOptionsCount++;
-                                }
-                            }
-                            else
-                                if (selectedItem >= 0)
-                            {
-                                menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                                menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
-                                menuActions[menuOptionsCount] = MenuAction.UseItemWithPlayer;
-                                menuActionX[menuOptionsCount] = Players[index].currentX;
-                                menuActionY[menuOptionsCount] = Players[index].currentY;
-                                menuActionType[menuOptionsCount] = Players[index].ServerIndex;
-                                menuActionVar1[menuOptionsCount] = selectedItem;
-                                menuOptionsCount++;
-                            }
-                            else
-                            {
-                                if (l > 0 && (Players[index].currentY - 64) / GridSize + WildY + AreaY < 2203)
-                                {
-                                    menuText1[menuOptionsCount] = "Attack";
-                                    menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
-                                    if (k4 >= 0 && k4 < 5)
-                                    {
-                                        menuActions[menuOptionsCount] = MenuAction.AttackPlayer;
-                                    }
-                                    else
-                                    {
-                                        menuActions[menuOptionsCount] = MenuAction.AttackPlayer2;
-                                    }
-
-                                    menuActionX[menuOptionsCount] = Players[index].currentX;
-                                    menuActionY[menuOptionsCount] = Players[index].currentY;
-                                    menuActionType[menuOptionsCount] = Players[index].ServerIndex;
-                                    menuOptionsCount++;
-                                }
-                                else if (GameDefines.PREMIUM_FEATURES)
-                                {
-                                    menuText1[menuOptionsCount] = "Duel with";
-                                    menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
-                                    menuActionX[menuOptionsCount] = Players[index].currentX;
-                                    menuActionY[menuOptionsCount] = Players[index].currentY;
-                                    menuActions[menuOptionsCount] = MenuAction.DuelWithPlayer;
-                                    menuActionType[menuOptionsCount] = Players[index].ServerIndex;
-                                    menuOptionsCount++;
-                                }
-
-                                menuText1[menuOptionsCount] = "Trade with";
-                                menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
-                                menuActions[menuOptionsCount] = MenuAction.TradeWithPlayer;
-                                menuActionType[menuOptionsCount] = Players[index].ServerIndex;
-                                menuOptionsCount++;
-                                menuText1[menuOptionsCount] = "Follow";
-                                menuText2[menuOptionsCount] = "@whi@" + Players[index].username + s1;
-                                menuActions[menuOptionsCount] = MenuAction.FollowPlayer;
-                                menuActionType[menuOptionsCount] = Players[index].ServerIndex;
-                                menuOptionsCount++;
-                            }
-                        }
-                        else
-                            if (type == 2)
+                        if (type == 2)
                         {
                             if (selectedSpell >= 0)
                             {
@@ -4522,8 +4280,7 @@ namespace RuneScapeSolo.Net.Client
                                 menuOptionsCount++;
                             }
                         }
-                        else
-                                if (type == 3)
+                        else if (type == 3)
                         {
                             string s2 = "";
                             int l4 = -1;
@@ -5896,12 +5653,6 @@ namespace RuneScapeSolo.Net.Client
 
         }
 
-        public override void cantLogout()
-        {
-            logoutTimer = 0;
-            DisplayMessage("@cya@Sorry, you can't logout at the moment");
-        }
-
         public void drawBankBox()
         {
             char c1 = '\u0198';
@@ -6348,16 +6099,6 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        public GraphicsDevice getGraphics()
-        {
-            //if(GameApplet.gameFrame != null)
-            //    return GameApplet.gameFrame.getGraphics();
-            //if(link.gameApplet != null)
-            //    return link.gameApplet.getGraphics();
-            //else
-            //    return base.getGraphics();
-            return graphics;
-        }
         public event EventHandler OnLoadingSection;
         public event EventHandler OnLoadingSectionCompleted;
         public bool loadSection(int x, int y)
@@ -7026,36 +6767,6 @@ namespace RuneScapeSolo.Net.Client
             return Link.uid;
         }
 
-        public bool takeScreenshot(bool verb)
-        {
-            //try
-            //{
-            //    string charName = DataOperations.hashToName(DataOperations.nameToHash(username));
-            //    File dir = new File(Config.MEDIA_DIR + "/" + charName);
-            //    if (!dir.exists() || !dir.isDirectory())
-            //        dir.mkdir();
-            //    string folder = dir.getPath() + "/";
-            //    File file = null;
-            //    for (int count = 0; file == null || file.exists(); count++)
-            //        file = new File(folder + "screenshot" + count + ".png");
-            //    BufferedImage bi = new BufferedImage(windowWidth, windowHeight + 11, BufferedImage.TYPE_INT_RGB);
-            //    Graphics2D g2d = bi.createGraphics();
-            //    g2d.drawImage(gameGraphics.image, 0, 0, this);
-            //    g2d.dispose();
-            //    ImageIO.write(bi, "png", file);
-            //    if (verb)
-            //        displayMessage("Screenshot saved as " + file.getName());
-            //    return true;
-            //}
-            //catch (IOException ioe)
-            //{
-            //    if (verb)
-            //        displayMessage("Error saving screenshot");
-            //    return false;
-            //}
-            return true;
-        }
-
         public Mob GetLastPlayer(int serverIndex)
         {
             return LastPlayers
@@ -7230,7 +6941,6 @@ namespace RuneScapeSolo.Net.Client
 
         public int combatTimeout;
         public int maxInventoryItems;
-        public static GraphicsDevice graphics;
         public bool errorLoading;
         public int animationNumber;
         public int[] itemAboveHeadX;

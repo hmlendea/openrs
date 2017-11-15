@@ -23,19 +23,12 @@
         AttackNpc = 715, // TODO: Find the difference between this and the other
         TalkToNpc = 720,
         CommandOnNpc = 725,
-        CastSpellOnPlayer = 800,
-        AttackPlayer = 805, // TODO: Find the difference between this and the other
-        UseItemWithPlayer = 810,
         CastSpellOnGround = 900,
         WalkHere = 920,
         CastSpellOnSelf = 1000,
         Command2OnWallObject = 2300,
         Command2OnModel = 2400,
         AttackNpc2 = 2715, // TODO: Find the difference between this and the other
-        AttackPlayer2 = 2805, // TODO: Find the difference between this and the other
-        DuelWithPlayer = 2806,
-        TradeWithPlayer = 2810,
-        FollowPlayer = 2820,
         AddFriend = 2830,
         ExamineGroundItem = 3200,
         ExamineWallObject = 3300,
@@ -43,8 +36,6 @@
         ExamineItem = 3600,
         ExamineNpc = 3700,
         Cancel = 4000,
-        SummonPlayer = 9901,
         TeleportHere = 9902,
-        KickPlayer = 9903
     }
 }

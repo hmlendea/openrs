@@ -43,14 +43,12 @@ namespace RuneScapeSolo.Gui.GuiElements
             _diagnosticFont = ResourceManager.Instance.LoadSpriteFont("Fonts/gameFont12");
             _diagnosticFont2 = ResourceManager.Instance.LoadSpriteFont("Fonts/gameFont16");
 
-            gameClient = GameClient.CreateGameClient(GameDefines.ApplicationName, Size.Width, Size.Height);
-            gameClient.DoNotDrawLogo = true;
+            gameClient = GameClient.CreateGameClient(Size.Width, Size.Height);
 
             gameClient.OnContentLoadedCompleted += client_OnContentLoadedCompleted;
             gameClient.OnContentLoaded += client_OnContentLoaded;
             gameClient.OnLoadingSection += client_OnLoadingSection;
             gameClient.OnLoadingSectionCompleted += client_OnLoadingSectionCompleted;
-            //_rscMudclient.LoadContent();
 
             gameClient.gameMinThreadSleepTime = 10;
             gameClient.Start();
@@ -193,7 +191,7 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         static bool DrawGameClient(GameClient client)
         {
-            client.paint(GameClient.graphics);
+            client.paint();
 
             try
             {
@@ -241,12 +239,10 @@ namespace RuneScapeSolo.Gui.GuiElements
             var sSize = _diagnosticFont.MeasureString(s1);
             var sPos = new Vector2(Size.Width / 2 - (sSize.X / 2), Size.Height / 2 - (sSize.Y / 2));
 
-            spriteBatch.fillRect((Size.Width / 4) - 12, (int)sPos.Y - 12, (Size.Width / 2) + 24, (int)sSize.Y + 24, Color.FromNonPremultiplied(0, 0, 0, 150));
-            spriteBatch.drawRect((Size.Width / 4) - 12, (int)sPos.Y - 12, (Size.Width / 2) + 24, (int)sSize.Y + 24, Color.DarkGray);
-            spriteBatch.fillRect((Size.Width / 4) - 10, (int)sPos.Y - 10, (int)(((float)contentLoadingStatusProgress / 100f) * ((Size.Width / 2) + 20)), (int)sSize.Y + 21, Color.DarkGray);
+            spriteBatch.fillRect((Size.Width / 4) - 12, (int)sPos.Y - 12, (Size.Width / 2) + 24, (int)sSize.Y + 24, Color.Black);
+            spriteBatch.drawRect((Size.Width / 4) - 12, (int)sPos.Y - 12, (Size.Width / 2) + 24, (int)sSize.Y + 24, Color.DarkRed);
+            spriteBatch.fillRect((Size.Width / 4) - 10, (int)sPos.Y - 10, (int)(((float)contentLoadingStatusProgress / 100f) * ((Size.Width / 2) + 20)), (int)sSize.Y + 21, Color.DarkRed);
             spriteBatch.DrawString(_diagnosticFont, s1, sPos, Color.White);
-
-            // Thread.Sleep(1000);
         }
 
         void client_OnLoadingSectionCompleted(object sender, EventArgs e)

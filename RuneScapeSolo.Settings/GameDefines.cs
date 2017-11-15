@@ -15,11 +15,6 @@
         public const int CLIENT_VERSION = 3;
 
         /// <summary>
-        /// Flag indicating whether the premium features are enabled.
-        /// </summary>
-        public const bool PREMIUM_FEATURES = true;
-
-        /// <summary>
         /// The IP address of the server.
         /// </summary>
         public const string SERVER_IP = "127.0.0.1";
