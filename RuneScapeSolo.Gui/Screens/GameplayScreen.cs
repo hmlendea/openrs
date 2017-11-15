@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using RuneScapeSolo.Graphics.Primitives;
 using RuneScapeSolo.Gui.GuiElements;
 
 namespace RuneScapeSolo.Gui.Screens
@@ -22,17 +23,23 @@ namespace RuneScapeSolo.Gui.Screens
         /// <value>The minimap.</value>
         public GuiSideBar SideBar { get; set; }
 
+        public GuiChatPanel ChatPanel { get; set; }
+
         /// <summary>
         /// Loads the content.
         /// </summary>
         public override void LoadContent()
         {
+            ChatPanel = new GuiChatPanel();
+
             SideBar.Enabled = false;
             SideBar.Visible = false;
 
             GuiManager.Instance.GuiElements.Add(GameClient);
             GuiManager.Instance.GuiElements.Add(SideBar);
+            GuiManager.Instance.GuiElements.Add(ChatPanel);
 
+            SetChildrenProperties();
             base.LoadContent();
 
             SideBar.AssociateGameClient(ref GameClient.gameClient);
@@ -57,6 +64,8 @@ namespace RuneScapeSolo.Gui.Screens
                 SideBar.Enabled = false;
                 SideBar.Visible = false;
             }
+
+            SetChildrenProperties();
         }
 
         /// <summary>
@@ -67,6 +76,21 @@ namespace RuneScapeSolo.Gui.Screens
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
+        }
+
+        protected void SetChildrenProperties()
+        {
+            GameClient.Size = new Size2D(
+                ScreenManager.Instance.Size.Width - SideBar.Size.Width,
+                (int)(ScreenManager.Instance.Size.Height * 0.8));
+
+            SideBar.Size = new Size2D(SideBar.Size.Width, ScreenManager.Instance.Size.Height);
+            SideBar.Location = new Point2D(ScreenManager.Instance.Size.Width - SideBar.Size.Width, 0);
+
+            ChatPanel.Size = new Size2D(
+                ScreenManager.Instance.Size.Width - SideBar.Size.Width,
+                ScreenManager.Instance.Size.Height - GameClient.Size.Height);
+            ChatPanel.Location = new Point2D(0, ScreenManager.Instance.Size.Height - ChatPanel.Size.Height);
         }
     }
 }

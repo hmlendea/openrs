@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Cursor.cs" />
     <Compile Include="FpsIndicator.cs" />
+    <Compile Include="GuiElements\GuiChatPanel.cs" />
     <Compile Include="GuiElements\GuiElement.cs" />
     <Compile Include="GuiElements\GuiGame.cs" />
     <Compile Include="GuiElements\GuiMinimap.cs" />
