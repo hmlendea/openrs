@@ -22,11 +22,13 @@ namespace RuneScapeSolo.Gui.GuiElements
             nameText = new GuiText
             {
                 FontName = "SkillCardFont",
-                FontOutline = FontOutline.BottomRight
+                FontOutline = FontOutline.BottomRight,
+                HorizontalAlignment = HorizontalAlignment.Top
             };
 
             Children.Add(background);
             Children.Add(icon);
+            Children.Add(nameText);
 
             base.LoadContent();
         }
@@ -51,7 +53,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             icon.Location = Location;
             icon.ContentFile = Icon;
 
-            nameText.Size = new Size2D(Size.Width, 12);
+            nameText.Size = new Size2D(Size.Width, 14);
             nameText.Location = new Point2D(ClientRectangle.Left, ClientRectangle.Bottom - nameText.Size.Height);
             nameText.Text = CombatStyleName;
             nameText.ForegroundColour = ForegroundColour;

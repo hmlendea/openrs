@@ -13,8 +13,9 @@ namespace RuneScapeSolo.Gui.GuiElements
         GuiMinimap minimap;
 
         GuiSideBarPanel panel;
-        GuiInventoryPanel inventoryPanel;
+        GuiCombatPanel combatPanel;
         GuiSkillsPanel skillsPanel;
+        GuiInventoryPanel inventoryPanel;
 
         GuiButton combatButton;
         GuiButton skillsButton;
@@ -35,6 +36,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             };
             minimap = new GuiMinimap { Size = new Size2D(224, 176) };
             panel = new GuiSideBarPanel { Size = new Size2D(240, 262) };
+            combatPanel = new GuiCombatPanel { Size = new Size2D(190, 262) };
             skillsPanel = new GuiSkillsPanel { Size = new Size2D(190, 262) };
             inventoryPanel = new GuiInventoryPanel { Size = new Size2D(190, 262) };
 
@@ -106,6 +108,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             Children.Add(minimap);
 
             Children.Add(panel);
+            Children.Add(combatPanel);
             Children.Add(skillsPanel);
             Children.Add(inventoryPanel);
 
@@ -138,6 +141,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             this.client = client;
 
             minimap.AssociateGameClient(ref client);
+            combatPanel.AssociateGameClient(ref client);
             skillsPanel.AssociateGameClient(ref client);
             inventoryPanel.AssociateGameClient(ref client);
         }
@@ -160,9 +164,10 @@ namespace RuneScapeSolo.Gui.GuiElements
             panel.Location = new Point2D(
                 Location.X + (Size.Width - panel.Size.Width) / 2,
                 exitButton.Location.Y - panel.Size.Height);
-            skillsPanel.Location = new Point2D(
+            combatPanel.Location = new Point2D(
                 panel.Location.X + 25,
                 panel.Location.Y);
+            skillsPanel.Location = combatPanel.Location;
             inventoryPanel.Location = skillsPanel.Location;
 
             combatButton.Location = new Point2D(
@@ -229,6 +234,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             spellsButton.IsToggled = false;
             exitButton.IsToggled = false;
 
+            combatPanel.Show();
             skillsPanel.Visible = false;
             inventoryPanel.Visible = false;
         }
@@ -245,6 +251,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             spellsButton.IsToggled = false;
             exitButton.IsToggled = false;
 
+            combatPanel.Hide();
             skillsPanel.Visible = true;
             inventoryPanel.Visible = false;
         }
@@ -261,6 +268,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             spellsButton.IsToggled = false;
             exitButton.IsToggled = false;
 
+            combatPanel.Hide();
             skillsPanel.Visible = false;
             inventoryPanel.Visible = false;
         }
@@ -277,6 +285,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             spellsButton.IsToggled = false;
             exitButton.IsToggled = false;
 
+            combatPanel.Hide();
             skillsPanel.Visible = false;
             inventoryPanel.Visible = false;
         }
@@ -293,6 +302,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             spellsButton.IsToggled = false;
             exitButton.IsToggled = false;
 
+            combatPanel.Hide();
             skillsPanel.Visible = false;
             inventoryPanel.Visible = true;
         }
@@ -309,6 +319,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             spellsButton.IsToggled = false;
             exitButton.IsToggled = false;
 
+            combatPanel.Hide();
             skillsPanel.Visible = false;
             inventoryPanel.Visible = false;
         }
@@ -325,6 +336,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             spellsButton.IsToggled = false;
             exitButton.IsToggled = false;
 
+            combatPanel.Hide();
             skillsPanel.Visible = false;
             inventoryPanel.Visible = false;
         }
@@ -341,6 +353,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             spellsButton.IsToggled = true;
             exitButton.IsToggled = false;
 
+            combatPanel.Hide();
             skillsPanel.Visible = false;
             inventoryPanel.Visible = false;
         }
@@ -357,6 +370,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             spellsButton.IsToggled = false;
             exitButton.IsToggled = true;
 
+            combatPanel.Hide();
             skillsPanel.Visible = false;
             inventoryPanel.Visible = false;
         }

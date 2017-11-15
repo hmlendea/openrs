@@ -119,4 +119,3 @@ namespace RuneScapeSolo.Gui.Screens
         }
     }
 }
-
