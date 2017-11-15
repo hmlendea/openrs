@@ -1052,7 +1052,7 @@ namespace RuneScapeSolo.Net.Client
             DataOperations.GetInt8(data[3]); // Dummy for the sound toggle
             client.ShowRoofs = DataOperations.GetInt8(data[4]) == 1;
             DataOperations.GetInt8(data[5]); // Dummy for the auto screenshot
-            client.ShowCombatWindow = DataOperations.GetInt8(data[6]) == 1;
+            DataOperations.GetInt8(data[6]); // Dummy for the combat box
         }
 
         void HandleGroundItems(sbyte[] data, int length)

@@ -6,7 +6,6 @@ using System.Runtime.Remoting.Messaging;
 using System.Text;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using RuneScapeSolo.GameLogic.GameManagers;
@@ -60,6 +59,7 @@ namespace RuneScapeSolo.Net.Client
         public Skill[] Skills { get; set; }
         public int AreaX { get; set; }
         public int AreaY { get; set; }
+        public int CombatStyle { get; set; }
         public int CompletedTasks { get; set; }
         public int Deaths { get; set; }
         public int GridSize { get; set; }
@@ -122,7 +122,6 @@ namespace RuneScapeSolo.Net.Client
         public bool NeedsClear { get; set; }
         public bool ShowAppearanceWindow { get; set; }
         public bool ShowBankBox { get; set; }
-        public bool ShowCombatWindow { get; set; }
         public bool ShowQuestionMenu { get; set; }
         public bool ShowRoofs { get; set; }
         public bool ShowShopBox { get; set; }
@@ -450,7 +449,6 @@ namespace RuneScapeSolo.Net.Client
             cameraZoom = false;
 
             fogOfWar = true;
-            ShowCombatWindow = false;
             ShowRoofs = true;
             usedQuestName = new string[0];
             SubscriptionDaysLeft = 0;
@@ -2399,15 +2397,6 @@ namespace RuneScapeSolo.Net.Client
             }
 
             l1 += 15;
-            if (ShowCombatWindow)
-            {
-                gameGraphics.drawString("Fight mode window - @gre@show", j1, l1, 1, 0xffffff);
-            }
-            else
-            {
-                gameGraphics.drawString("Fight mode window - @red@hide", j1, l1, 1, 0xffffff);
-            }
-
             l1 += 15;
             if (fogOfWar)
             {
@@ -2464,14 +2453,6 @@ namespace RuneScapeSolo.Net.Client
                     StreamClass.FormatPacket();
                 }
                 i2 += 15;
-                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
-                {
-                    ShowCombatWindow = !ShowCombatWindow;
-                    StreamClass.CreatePacket(157);
-                    StreamClass.AddInt8(6);
-                    StreamClass.AddInt8(ShowCombatWindow ? 1 : 0);
-                    StreamClass.FormatPacket();
-                }
                 i2 += 15;
                 if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
                 {
@@ -2480,6 +2461,19 @@ namespace RuneScapeSolo.Net.Client
 
                 mouseButtonClick = 0;
             }
+        }
+
+        public void SetCombatStyle(int style)
+        {
+            if (CombatStyle == style)
+            {
+                return;
+            }
+
+            CombatStyle = style;
+            StreamClass.CreatePacket(42);
+            StreamClass.AddInt8(CombatStyle);
+            StreamClass.FormatPacket();
         }
 
         public void walkToObject(int arg0, int arg1, int arg2, int arg3)
@@ -2530,52 +2524,6 @@ namespace RuneScapeSolo.Net.Client
                 WalkTo(SectionX, SectionY, arg0, arg1, (arg0 + l) - 1, (arg1 + i1) - 1, true, true);
                 return;
             }
-        }
-
-        public void drawCombatStyleBox()
-        {
-            sbyte byte0 = 7;
-            sbyte byte1 = 15;
-            int c1 = 175; ;//'\u257';
-
-            if (mouseButtonClick != 0)
-            {
-                for (int l = 0; l < 5; l++)
-                {
-                    if (l <= 0 || InputManager.Instance.MouseLocation.X <= byte0 || InputManager.Instance.MouseLocation.X >= byte0 + c1 || InputManager.Instance.MouseLocation.Y <= byte1 + l * 20 || InputManager.Instance.MouseLocation.Y >= byte1 + l * 20 + 20)
-                    {
-                        continue;
-                    }
-
-                    CombatStyle = l - 1;
-                    mouseButtonClick = 0;
-                    StreamClass.CreatePacket(42);
-                    StreamClass.AddInt8(CombatStyle);
-                    StreamClass.FormatPacket();
-                    break;
-                }
-            }
-
-            for (int i1 = 0; i1 < 5; i1++)
-            {
-                if (i1 == CombatStyle + 1)
-                {
-                    gameGraphics.drawBoxAlpha(byte0, byte1 + i1 * 20, c1, 20, GameImage.RgbToInt(255, 0, 0), 128);
-                }
-                else
-                {
-                    gameGraphics.drawBoxAlpha(byte0, byte1 + i1 * 20, c1, 20, GameImage.RgbToInt(190, 190, 190), 128);
-                }
-
-                gameGraphics.drawLineX(byte0, byte1 + i1 * 20, c1, 0);
-                gameGraphics.drawLineX(byte0, byte1 + i1 * 20 + 20, c1, 0);
-            }
-
-            gameGraphics.drawText("Select combat style", byte0 + c1 / 2, byte1 + 16, 3, 0xffffff);
-            gameGraphics.drawText("Controlled (+1 of each)", byte0 + c1 / 2, byte1 + 36, 3, 0);
-            gameGraphics.drawText("Aggressive (+3 strength)", byte0 + c1 / 2, byte1 + 56, 3, 0);
-            gameGraphics.drawText("Accurate   (+3 attack)", byte0 + c1 / 2, byte1 + 76, 3, 0);
-            gameGraphics.drawText("Defensive  (+3 defense)", byte0 + c1 / 2, byte1 + 96, 3, 0);
         }
 
         public void autoRotateCamera()
@@ -5094,11 +5042,6 @@ namespace RuneScapeSolo.Net.Client
                     drawQuestionMenu();
                 }
 
-                if (ShowCombatWindow || CurrentPlayer.currentSprite == 8 || CurrentPlayer.currentSprite == 9)
-                {
-                    drawCombatStyleBox();
-                }
-
                 getMenuHighlighted();
                 bool flag = !ShowQuestionMenu && !menuShow;
                 if (flag)
@@ -6583,7 +6526,6 @@ namespace RuneScapeSolo.Net.Client
         public int minimapRandomRotationY;
         public int loginMenuOkButton;
         public int cameraRotation;
-        public int CombatStyle;
         public int[] appearanceSkinColours = {
         0xecded0, 0xccb366, 0xb38c40, 0x997326, 0x906020
     };

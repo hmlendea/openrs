@@ -186,11 +186,6 @@ namespace RuneScapeSolo.Gui.GuiElements
 
             DrawMinimapTiles(spriteBatch);
 
-            foreach (ObjectModel obj in client.GameDataObjects.Where(x => x != null))
-            {
-
-            }
-
             for (int i = 0; i < client.GroundItemCount; i++)
             {
                 int groundItemX = (((client.GroundItemX[i] * client.GridSize + 64) - client.CurrentPlayer.currentX) * 3 * j1) / 2048;
@@ -204,7 +199,6 @@ namespace RuneScapeSolo.Gui.GuiElements
 
                 DrawMinimapObject(spriteBatch, groundItemMapX, groundItemMapY, Colour.Red);
             }
-
 
             foreach (Mob npc in client.Npcs.Where(x => x != null))
             {
@@ -229,7 +223,7 @@ namespace RuneScapeSolo.Gui.GuiElements
                 int j7 = playerPosY * j5 + playerPosX * l5 >> 18;
                 playerPosY = playerPosY * l5 - playerPosX * j5 >> 18;
                 playerPosX = j7;
-                
+
                 int dotX = Location.X + c1 / 2 + playerPosX;
                 int dotY = Location.Y + (36 + c3 / 2) - playerPosY;
 

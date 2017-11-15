@@ -146,22 +146,22 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         void ControlledStyleCard_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
         {
-            client.CombatStyle = 0;
+            client.SetCombatStyle(0);
         }
 
         void AggressiveStyleCard_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
         {
-            client.CombatStyle = 1;
+            client.SetCombatStyle(1);
         }
 
         void AccurateStyleCard_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
         {
-            client.CombatStyle = 2;
+            client.SetCombatStyle(2);
         }
 
         void DefensiveStyleCard_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
         {
-            client.CombatStyle = 3;
+            client.SetCombatStyle(3);
         }
     }
 }
