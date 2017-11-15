@@ -9,13 +9,13 @@ namespace RuneScapeSolo.Gui.GuiElements
 {
     public class GuiSkillCard : GuiElement
     {
-        GuiImage background;
+        GuiImage regularBackground;
+        GuiImage detailsBackground;
         GuiImage skillIcon;
 
         GuiText currentLevelText;
         GuiText baseLevelText;
-
-        GuiTooltip tooltip;
+        GuiText detailsText;
 
         public string SkillIcon { get; set; }
 
@@ -25,6 +25,8 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         public int Experience { get; set; }
 
+        public string SkillDetails { get; set; }
+
         public GuiSkillCard()
         {
             Size = new Size2D(60, 32);
@@ -32,15 +34,9 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         public override void LoadContent()
         {
-            background = new GuiImage
-            {
-                Size = Size,
-                ContentFile = "Interface/skillcard"
-            };
-            skillIcon = new GuiImage
-            {
-                ContentFile = SkillIcon
-            };
+            regularBackground = new GuiImage { ContentFile = "Interface/skillcard" };
+            detailsBackground = new GuiImage { ContentFile = "Interface/skillcard_details" };
+            skillIcon = new GuiImage { ContentFile = SkillIcon };
 
             currentLevelText = new GuiText
             {
@@ -56,22 +52,25 @@ namespace RuneScapeSolo.Gui.GuiElements
                 Size = new Size2D(12, 10),
                 ForegroundColour = Colour.Yellow
             };
-
-            tooltip = new GuiTooltip
+            detailsText = new GuiText
             {
                 FontName = "SkillCardFont",
-                Size = new Size2D(100, 26),
-                BackgroundColour = Colour.Black,
+                Size = new Size2D(12, 10),
                 ForegroundColour = Colour.Yellow
             };
 
-            Children.Add(background);
+            Children.Add(regularBackground);
+            Children.Add(detailsBackground);
             Children.Add(skillIcon);
+
             Children.Add(currentLevelText);
             Children.Add(baseLevelText);
-            Children.Add(tooltip);
+            Children.Add(detailsText);
 
             LinkEvents();
+
+            detailsBackground.Visible = false;
+            detailsText.Visible = false;
 
             base.LoadContent();
         }
@@ -85,8 +84,11 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         protected override void SetChildrenProperties()
         {
-            background.Location = Location;
-            background.Size = Size;
+            regularBackground.Location = Location;
+            regularBackground.Size = Size;
+
+            detailsBackground.Location = Location;
+            detailsBackground.Size = Size;
 
             skillIcon.Location = new Point2D(Location.X + 5, Location.Y + 5);
             skillIcon.ContentFile = SkillIcon;
@@ -97,11 +99,9 @@ namespace RuneScapeSolo.Gui.GuiElements
             baseLevelText.Text = BaseLevel.ToString();
             baseLevelText.Location = new Point2D(Location.X + 44, Location.Y + 16);
 
-            if (tooltip.Visible)
-            {
-                tooltip.Location = InputManager.Instance.MouseLocation.ToPoint2D();
-                tooltip.Text = $"XP: {Experience}{Environment.NewLine}Next Level at: ";
-            }
+            detailsText.Location = Location;
+            detailsText.Size = Size;
+            detailsText.Text = $"Xp:{Environment.NewLine}{Experience}";
 
             base.SetChildrenProperties();
         }
@@ -120,12 +120,24 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         void GuiSkillCard_MouseEntered(object sender, Input.Events.MouseEventArgs e)
         {
-            tooltip.Show();
+            regularBackground.Hide();
+            skillIcon.Hide();
+            currentLevelText.Hide();
+            baseLevelText.Hide();
+
+            detailsBackground.Show();
+            detailsText.Show();
         }
 
         void GuiSkillCard_MouseLeft(object sender, Input.Events.MouseEventArgs e)
         {
-            tooltip.Hide();
+            regularBackground.Show();
+            skillIcon.Show();
+            currentLevelText.Show();
+            baseLevelText.Show();
+
+            detailsBackground.Hide();
+            detailsText.Hide();
         }
     }
 }
