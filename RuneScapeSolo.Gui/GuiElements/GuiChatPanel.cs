@@ -12,7 +12,7 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         GuiImage background;
 
-        List<GuiText> messages;
+        List<GuiText> messageRows;
 
         public GuiChatPanel()
         {
@@ -22,7 +22,7 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         public override void LoadContent()
         {
-            messages = new List<GuiText>();
+            messageRows = new List<GuiText>();
 
             background = new GuiImage
             {
@@ -37,26 +37,12 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         public void AddMessage(string message)
         {
-            GuiText messageText = new GuiText {
-                FontName = "ChatFont",
-                Text = message,
-                ForegroundColour = ForegroundColour,
-                Size = new Size2D(Size.Width, MessageHeight),
-                VerticalAlignment = VerticalAlignment.Left
-            };
-
-            messageText.LoadContent();
-
-            Children.Add(messageText);
-            messages.Add(messageText);
-
-            if (Size.Height < messages.Sum(x => x.Size.Height))
+            for (int i = 0; i < messageRows.Count - 1; i++)
             {
-                GuiText messageToRemove = messages[0];
-
-                Children.Remove(messageToRemove);
-                messages.Remove(messageToRemove);
+                messageRows[i].Text = messageRows[i + 1].Text;
             }
+
+            messageRows[messageRows.Count - 1].Text = message;
         }
 
         protected override void SetChildrenProperties()
@@ -64,16 +50,39 @@ namespace RuneScapeSolo.Gui.GuiElements
             background.Size = Size;
             background.Location = Location;
             background.TintColour = BackgroundColour;
-
-            int y = ClientRectangle.Bottom - MessageHeight;
-            for (int i = messages.Count - 1; i >= 0; i--)
+            
+            // Add additional rows if there is enough room (the chat panel was expanded)
+            while (Size.Height - (messageRows.Count * MessageHeight) >= MessageHeight)
             {
-                GuiText message = messages[i];
+                GuiText newRow = new GuiText
+                {
+                    FontName = "ChatFont",
+                    VerticalAlignment = VerticalAlignment.Left
+                };
 
-                message.Size = new Size2D(Size.Width, message.Size.Height);
+                newRow.LoadContent();
+                Children.Add(newRow);
+
+                messageRows.Insert(0, newRow);
+            }
+
+            // Remove extra rows if there is not enough room (the chat panel was shrunk)
+            while (Size.Height < MessageHeight * messageRows.Count)
+            {
+                messageRows.RemoveAt(0);
+            }
+
+            // Update the properties of 
+            int y = ClientRectangle.Bottom - MessageHeight;
+            for (int i = messageRows.Count - 1; i >= 0; i--)
+            {
+                GuiText message = messageRows[i];
+
+                message.Size = new Size2D(Size.Width, MessageHeight);
+                message.ForegroundColour = ForegroundColour;
                 message.Location = new Point2D(Location.X, y);
 
-                y -= MessageHeight;
+                y -= message.Size.Height;
             }
 
             base.SetChildrenProperties();

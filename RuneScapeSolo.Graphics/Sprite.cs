@@ -258,10 +258,15 @@ namespace RuneScapeSolo.Graphics
                     size.Width = texture.Width;
                     size.Height = texture.Height;
                 }
-                else
+                else if (Text != string.Empty)
                 {
                     size.Width = (int)font.MeasureString(Text).X;
                     size.Height = (int)font.MeasureString(Text).Y;
+                }
+                else
+                {
+                    size.Width = 1;
+                    size.Height = 1;
                 }
 
                 SpriteSize = size;
