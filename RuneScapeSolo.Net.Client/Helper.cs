@@ -2,7 +2,7 @@
 
 namespace RuneScapeSolo.Net.Client
 {
-    public class Helper
+    public static class Helper
     {
         static Random rnd;
 

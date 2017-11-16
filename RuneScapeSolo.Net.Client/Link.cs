@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Sockets;
-using System.Threading;
 
 using RuneScapeSolo.Settings;
 
@@ -10,64 +8,54 @@ namespace RuneScapeSolo.Net.Client
 {
     public class Link
     {
+        public static int uid;
+        static string iplookup;
+        static int currentFile;
+        static string[] fileName = new string[50];
+        static sbyte[][] fileData = new sbyte[50][];
+
         public static sbyte[] streamToSbyte(BinaryReader stream)
         {
             List<sbyte> list = new List<sbyte>();
+
+            try
             {
-                // int ch;
                 int c = 0;
-                try
+
+                while (c < stream.BaseStream.Length)
                 {
-                    while (c < stream.BaseStream.Length)
-                    {
-                        list.Add(stream.ReadSByte());
-                        c++;
-                    }
-                }
-                catch
-                {
-                    Console.WriteLine($"An error has occured in {nameof(Link)}.cs");
+                    list.Add(stream.ReadSByte());
+                    c++;
                 }
             }
+            catch
+            {
+                Console.WriteLine($"An error has occured in {nameof(Link)}.cs");
+            }
+
             return list.ToArray();
         }
 
-        public static void addFile(string filename, BinaryReader reader)
+        /// <summary>
+        /// Loads the file.
+        /// </summary>
+        /// <returns><c>true</c>, if file was loaded, <c>false</c> otherwise.</returns>
+        /// <param name="fileName">File name.</param>
+        public static bool LoadFile(string fileName)
         {
+            string path = Path.Combine(ApplicationPaths.ConfigurationDirectory, fileName);
 
-            Link.fileName[currentFile] = filename;
-
-            //     reader.Close();
-
-            //  var f = Path.Combine(Config.CONF_DIR, filename);
-            //var bytes = File.ReadAllBytes(f).Select(c => (char)c); ;
-            //var sbytes = bytes.Select(c=>Convert.ToSByte(c)).ToArray();//c.t(sbyte[])(Array)bytes;
-            Link.fileData[currentFile] = streamToSbyte(reader);
-
-            currentFile++;
-        }
-
-
-        public static void addFile(string fileName, sbyte[] fileData)
-        {
-            Link.fileName[currentFile] = fileName;
-
-            Link.fileData[currentFile] = fileData;//.Cast<byte>().ToArray();
-
-            currentFile++;
-        }
-
-        public static bool loadFile(string fileName)
-        {
             try
             {
-                var f = new FileInfo(Path.Combine(ApplicationPaths.ConfigurationDirectory, fileName));
+                FileInfo f = new FileInfo(path);
+
                 if (f.Exists)
                 {
+                    AddFile(fileName, new BinaryReader(f.OpenRead()));
 
-                    addFile(fileName, new BinaryReader(f.OpenRead()));
                     return true;
                 }
+
                 return false;
             }
             catch (IOException ex)
@@ -79,7 +67,7 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        public static sbyte[] getFile(string fileName)
+        public static sbyte[] GetFile(string fileName)
         {
             for (int i = 0; i < currentFile; i++)
             {
@@ -89,44 +77,20 @@ namespace RuneScapeSolo.Net.Client
                 }
             }
 
-            if (loadFile(fileName))
+            if (LoadFile(fileName))
             {
-                return getFile(fileName);
+                return GetFile(fileName);
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
-
-        public static TcpClient getSocket(int port)
+        static void AddFile(string filename, BinaryReader reader)
         {
-            for (Link.port = port; Link.port != 0;)
-            {
-                Thread.Sleep(100);
-            }
+            fileName[currentFile] = filename;
+            fileData[currentFile] = streamToSbyte(reader);
 
-            return socket;
+            currentFile += 1;
         }
-
-        public static string getAddress(string ip)
-        {
-            for (iplookup = ip; iplookup != null;)
-            {
-                Thread.Sleep(100);
-            }
-
-            return address;
-        }
-
-        public static int uid;
-        static int port;
-        static TcpClient socket;
-        static string iplookup = null;
-        static string address;
-        static int currentFile;
-        static string[] fileName = new string[50];
-        static sbyte[][] fileData = new sbyte[50][];
     }
 }

@@ -478,7 +478,7 @@ namespace RuneScapeSolo.Net.Client
             Console.WriteLine("Using default load");
             int i = 0;
             int k = 0;
-            sbyte[] abyte0 = Link.getFile(filename);
+            sbyte[] abyte0 = Link.GetFile(filename);
             if (abyte0 == null)
             {
                 try

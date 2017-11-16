@@ -1,12 +1,12 @@
-using RuneScapeSolo.Net.Client.Game;
 using Microsoft.Xna.Framework.Input;
+
+using RuneScapeSolo.Net.Client.Game;
+using RuneScapeSolo.Primitives.Mapping;
 
 namespace RuneScapeSolo.Net.Client
 {
     public class Menu
     {
-
-
         public Menu(GameImage j1, int i)
         {
             selectedComponent = -1;
@@ -45,9 +45,9 @@ namespace RuneScapeSolo.Net.Client
             gdf = rgbToIntMod(84, 93, 120);
         }
 
-        public int rgbToIntMod(int i, int k, int l)
+        int rgbToIntMod(int i, int k, int l)
         {
-            return GameImage.RgbToInt((redMod * i) / 114, (greenMod * k) / 114, (blueMod * l) / 176);
+            return ColourTranslator.ToArgb((redMod * i) / 114, (greenMod * k) / 114, (blueMod * l) / 176);
         }
 
         public void mouseClick(int mouseX, int mouseY, int lastMouseButton, int mouseButton)
@@ -106,10 +106,8 @@ namespace RuneScapeSolo.Net.Client
                 componentSkip[i] = false;
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         public void keyPress(Keys key, char c)
@@ -215,21 +213,21 @@ namespace RuneScapeSolo.Net.Client
             lastMouseButton = 0;
         }
 
-        protected void gee(int arg0, int x, int y, int w, int h)
+        protected void gee(int arg0, int x, int y, int width, int height)
         {
-            gameImage.DrawBox(x, y, w, h, 0xffffff);
-            gameImage.DrawHorizontalLine(x, y, w, gdc);
-            gameImage.DrawVerticalLine(x, y, h, gdc);
-            gameImage.DrawHorizontalLine(x, (y + h) - 1, w, gdf);
-            gameImage.DrawVerticalLine((x + w) - 1, y, h, gdf);
+            gameImage.DrawBox(x, y, width, height, 0xffffff);
+            gameImage.DrawHorizontalLine(x, y, width, gdc);
+            gameImage.DrawVerticalLine(x, y, height, gdc);
+            gameImage.DrawHorizontalLine(x, (y + height) - 1, width, gdf);
+            gameImage.DrawVerticalLine((x + width) - 1, y, height, gdf);
+
             if (gbe[arg0] == 1)
             {
-                for (int i = 0; i < h; i++)
+                for (int i = 0; i < height; i++)
                 {
                     gameImage.DrawHorizontalLine(x + i, y + i, 1, 0);
-                    gameImage.DrawHorizontalLine((x + w) - 1 - i, y + i, 1, 0);
+                    gameImage.DrawHorizontalLine((x + width) - 1 - i, y + i, 1, 0);
                 }
-
             }
         }
 
@@ -242,6 +240,7 @@ namespace RuneScapeSolo.Net.Client
         protected void geg(int arg0, int arg1, int arg2, string arg3, int arg4)
         {
             int i;
+
             if (componentWhiteText[arg0])
             {
                 i = 0xffffff;
@@ -265,6 +264,7 @@ namespace RuneScapeSolo.Net.Client
                     arg5 = arg5 + "X";
                 }
             }
+
             if (componentType[arg0] == 5)
             {
                 if (lastMouseButton == 1 && mouseX >= arg1 && mouseY >= arg2 - arg4 / 2 && mouseX <= arg1 + arg3 && mouseY <= arg2 + arg4 / 2)
@@ -272,8 +272,7 @@ namespace RuneScapeSolo.Net.Client
                     selectedComponent = arg0;
                 }
             }
-            else
-                if (componentType[arg0] == 6)
+            else if (componentType[arg0] == 6)
             {
                 if (lastMouseButton == 1 && mouseX >= arg1 - arg3 / 2 && mouseY >= arg2 - arg4 / 2 && mouseX <= arg1 + arg3 / 2 && mouseY <= arg2 + arg4 / 2)
                 {
@@ -282,6 +281,7 @@ namespace RuneScapeSolo.Net.Client
 
                 arg1 -= gameImage.textWidth(arg5, arg6) / 2;
             }
+
             if (selectedComponent == arg0)
             {
                 arg5 = arg5 + "*";
@@ -295,6 +295,7 @@ namespace RuneScapeSolo.Net.Client
         {
             gameImage.SetDimensions(arg0, arg1, arg0 + arg2, arg1 + arg3);
             gameImage.DrawGradientBox(arg0, arg1, arg2, arg3, gdf, gdc);
+
             if (gdh)
             {
                 for (int i = arg0 - (arg1 & 0x3f); i < arg0 + arg2; i += 128)
@@ -306,6 +307,7 @@ namespace RuneScapeSolo.Net.Client
                 }
 
             }
+
             gameImage.DrawHorizontalLine(arg0, arg1, arg2, gdc);
             gameImage.DrawHorizontalLine(arg0 + 1, arg1 + 1, arg2 - 2, gdc);
             gameImage.DrawHorizontalLine(arg0 + 2, arg1 + 2, arg2 - 4, gdd);

@@ -16,6 +16,7 @@ using RuneScapeSolo.Net.Client.Events;
 using RuneScapeSolo.Net.Client.Game;
 using RuneScapeSolo.Net.Client.Game.Cameras;
 using RuneScapeSolo.Primitives;
+using RuneScapeSolo.Primitives.Mapping;
 using RuneScapeSolo.Settings;
 
 using ObjectModel = RuneScapeSolo.Net.Client.Game.ObjectModel;
@@ -1028,7 +1029,9 @@ namespace RuneScapeSolo.Net.Client
                 }
                 else
                 {
-                    gameGraphics.drawBoxAlpha(j1, l1, 49, 34, GameImage.RgbToInt(181, 181, 181), 128);
+                    int argb = ColourTranslator.ToArgb(181, 181, 181);
+
+                    gameGraphics.drawBoxAlpha(j1, l1, 49, 34, argb, 128);
                 }
 
                 if (i1 < InventoryItemsCount)
@@ -2365,10 +2368,10 @@ namespace RuneScapeSolo.Net.Client
             int i1 = 36;
             gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 6);
             int c1 = 196;
-            gameGraphics.drawBoxAlpha(l, 36, c1, 62, GameImage.RgbToInt(181, 181, 181), 160);
-            gameGraphics.drawBoxAlpha(l, 98, c1, 92, GameImage.RgbToInt(201, 201, 201), 160);
-            gameGraphics.drawBoxAlpha(l, 190, c1, 90, GameImage.RgbToInt(181, 181, 181), 160);
-            gameGraphics.drawBoxAlpha(l, 280, c1, 40, GameImage.RgbToInt(201, 201, 201), 160);
+            gameGraphics.drawBoxAlpha(l, 36, c1, 62, ColourTranslator.ToArgb(181, 181, 181), 160);
+            gameGraphics.drawBoxAlpha(l, 98, c1, 92, ColourTranslator.ToArgb(201, 201, 201), 160);
+            gameGraphics.drawBoxAlpha(l, 190, c1, 90, ColourTranslator.ToArgb(181, 181, 181), 160);
+            gameGraphics.drawBoxAlpha(l, 280, c1, 40, ColourTranslator.ToArgb(201, 201, 201), 160);
             int j1 = l + 3;
             int l1 = i1 + 15;
             gameGraphics.drawString("Game options - click to toggle", j1, l1, 1, 0);
@@ -2990,21 +2993,21 @@ namespace RuneScapeSolo.Net.Client
             int c1 = 196;//'\u304';
             int c2 = 182;//'\u266';
             int k1;
-            int j1 = k1 = GameImage.RgbToInt(160, 160, 160);
+            int j1 = k1 = ColourTranslator.ToArgb(160, 160, 160);
 
             if (menuMagicPrayersSelected == 0)
             {
-                j1 = GameImage.RgbToInt(220, 220, 220);
+                j1 = ColourTranslator.ToArgb(220, 220, 220);
             }
             else
             {
-                k1 = GameImage.RgbToInt(220, 220, 220);
+                k1 = ColourTranslator.ToArgb(220, 220, 220);
             }
 
             gameGraphics.drawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
             gameGraphics.drawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
-            gameGraphics.drawBoxAlpha(l, i1 + 24, c1, 90, GameImage.RgbToInt(220, 220, 220), 128);
-            gameGraphics.drawBoxAlpha(l, i1 + 24 + 90, c1, c2 - 90 - 24, GameImage.RgbToInt(160, 160, 160), 128);
+            gameGraphics.drawBoxAlpha(l, i1 + 24, c1, 90, ColourTranslator.ToArgb(220, 220, 220), 128);
+            gameGraphics.drawBoxAlpha(l, i1 + 24 + 90, c1, c2 - 90 - 24, ColourTranslator.ToArgb(160, 160, 160), 128);
             gameGraphics.DrawHorizontalLine(l, i1 + 24, c1, 0);
             gameGraphics.DrawVerticalLine(l + c1 / 2, i1, 24, 0);
             gameGraphics.DrawHorizontalLine(l, i1 + 113, c1, 0);
@@ -3209,7 +3212,7 @@ namespace RuneScapeSolo.Net.Client
 
         public override sbyte[] unpackData(string arg0, string arg1, int arg2)
         {
-            sbyte[] abyte0 = Link.getFile(arg0);
+            sbyte[] abyte0 = Link.GetFile(arg0);
 
             if (abyte0 != null)
             {

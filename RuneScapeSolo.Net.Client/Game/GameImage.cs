@@ -134,7 +134,7 @@ namespace RuneScapeSolo.Net.Client.Game
 
         }
 
-        public void drawBoxAlpha(int x, int y, int w, int h, int arg4, int arg5)
+        public void drawBoxAlpha(int x, int y, int w, int h, int colour, int arg5)
         {
             if (x < imageRectangle.X)
             {
@@ -157,9 +157,9 @@ namespace RuneScapeSolo.Net.Client.Game
             }
 
             int i = 256 - arg5;
-            int k = (arg4 >> 16 & 0xff) * arg5;
-            int l = (arg4 >> 8 & 0xff) * arg5;
-            int i1 = (arg4 & 0xff) * arg5;
+            int k = (colour >> 16 & 0xff) * arg5;
+            int l = (colour >> 8 & 0xff) * arg5;
+            int i1 = (colour & 0xff) * arg5;
             int i2 = GameSize.Width - w;
             byte byte0 = 1;
 
@@ -440,11 +440,6 @@ namespace RuneScapeSolo.Net.Client.Game
             return (int)value;
         }
 
-        public static int RgbToInt(int red, int green, int blue)
-        {
-            return (red << 16) + (green << 8) + blue;
-        }
-
         public void cleanUp()
         {
             for (int i = 0; i < pictureColors.Length; i++)
@@ -538,60 +533,6 @@ namespace RuneScapeSolo.Net.Client.Game
                     }
 
                 }
-            }
-        }
-
-        public void setSleepSprite(int pictureIndex, sbyte[] spriteData)
-        {
-            int[] colors = pictureColors[pictureIndex] = new int[10200];
-            pictureWidth[pictureIndex] = 255;
-            pictureHeight[pictureIndex] = 40;
-            pictureOffsetX[pictureIndex] = 0;
-            pictureOffsetY[pictureIndex] = 0;
-            pictureAssumedWidth[pictureIndex] = 255;
-            pictureAssumedHeight[pictureIndex] = 40;
-            hasTransparentBackground[pictureIndex] = false;
-            int color = 0;
-            int off = 1;
-            int x;
-            try
-            {
-                for (x = 0; x < 255;)
-                {
-                    int i1 = spriteData[off++] & 0xff;
-                    for (int k1 = 0; k1 < i1; k1++)
-                    {
-                        colors[x++] = color;
-                    }
-
-                    color = 0xffffff - color;
-                }
-
-                for (int y = 1; y < 40; y++)
-                {
-                    for (int l1 = 0; l1 < 255;)
-                    {
-                        int i2 = spriteData[off++] & 0xff;
-                        for (int j2 = 0; j2 < i2; j2++)
-                        {
-                            colors[x] = colors[x - 255];
-                            x++;
-                            l1++;
-                        }
-
-                        if (l1 < 255)
-                        {
-                            colors[x] = 0xffffff - colors[x - 255];
-                            x++;
-                            l1++;
-                        }
-                    }
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
             }
         }
 
@@ -1016,36 +957,37 @@ namespace RuneScapeSolo.Net.Client.Game
             }
         }
 
-        public void drawCharacterLegs(int i, int k, int l, int i1, int j1, int k1)
+        public void drawCharacterLegs(int i, int k, int l, int i1, int animationNumber, int colour)
         {
             try
             {
-                int l1 = pictureWidth[j1];
-                int i2 = pictureHeight[j1];
+                int l1 = pictureWidth[animationNumber];
+                int i2 = pictureHeight[animationNumber];
                 int j2 = 0;
                 int k2 = 0;
                 int l2 = (l1 << 16) / l;
                 int i3 = (i2 << 16) / i1;
-                if (hasTransparentBackground[j1])
+
+                if (hasTransparentBackground[animationNumber])
                 {
-                    int j3 = pictureAssumedWidth[j1];
-                    int l3 = pictureAssumedHeight[j1];
+                    int j3 = pictureAssumedWidth[animationNumber];
+                    int l3 = pictureAssumedHeight[animationNumber];
                     l2 = (j3 << 16) / l;
                     i3 = (l3 << 16) / i1;
-                    i += ((pictureOffsetX[j1] * l + j3) - 1) / j3;
-                    k += ((pictureOffsetY[j1] * i1 + l3) - 1) / l3;
-                    if ((pictureOffsetX[j1] * l) % j3 != 0)
+                    i += ((pictureOffsetX[animationNumber] * l + j3) - 1) / j3;
+                    k += ((pictureOffsetY[animationNumber] * i1 + l3) - 1) / l3;
+                    if ((pictureOffsetX[animationNumber] * l) % j3 != 0)
                     {
-                        j2 = (j3 - (pictureOffsetX[j1] * l) % j3 << 16) / l;
+                        j2 = (j3 - (pictureOffsetX[animationNumber] * l) % j3 << 16) / l;
                     }
 
-                    if ((pictureOffsetY[j1] * i1) % l3 != 0)
+                    if ((pictureOffsetY[animationNumber] * i1) % l3 != 0)
                     {
-                        k2 = (l3 - (pictureOffsetY[j1] * i1) % l3 << 16) / i1;
+                        k2 = (l3 - (pictureOffsetY[animationNumber] * i1) % l3 << 16) / i1;
                     }
 
-                    l = (l * (pictureWidth[j1] - (j2 >> 16))) / j3;
-                    i1 = (i1 * (pictureHeight[j1] - (k2 >> 16))) / l3;
+                    l = (l * (pictureWidth[animationNumber] - (j2 >> 16))) / j3;
+                    i1 = (i1 * (pictureHeight[animationNumber] - (k2 >> 16))) / l3;
                 }
                 int k3 = i + k * GameSize.Width;
                 int i4 = GameSize.Width - l;
@@ -1079,7 +1021,7 @@ namespace RuneScapeSolo.Net.Client.Game
                 }
                 byte byte0 = 1;
 
-                ccm(ref pixels, pictureColors[j1], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, k1);
+                ccm(ref pixels, pictureColors[animationNumber], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, colour);
                 return;
             }
             catch (Exception ex)
@@ -1790,13 +1732,12 @@ namespace RuneScapeSolo.Net.Client.Game
 
         }
 
-        public virtual void DrawVisibleEntity(int i, int k, int l, int i1, int j1, int k1, int l1)
+        public virtual void DrawVisibleEntity(int x, int y, int width, int height, int objectId, int unknownParam1, int unknownParam2)
         {
-            DrawEntity(i, k, l, i1, j1);
+            DrawEntity(x, y, width, height, objectId);
         }
 
-        public virtual void drawImage(int x, int y, int width, int height, int j1, int k1, int l1,
-                int i2, bool flag)
+        public virtual void drawImage(int x, int y, int width, int height, int j1, int k1, int l1, int i2, bool flag)
         {
             try
             {

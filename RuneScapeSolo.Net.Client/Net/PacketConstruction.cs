@@ -380,7 +380,7 @@ namespace RuneScapeSolo.Net.Client.Net
             }
             catch (IOException ex)
             {
-                Console.WriteLine($"An error has occured in {nameof(Link)}.cs");
+                Console.WriteLine($"An error has occured in {nameof(PacketConstruction)}.cs");
                 Console.WriteLine(ex.Message);
 
                 HasErrors = true;

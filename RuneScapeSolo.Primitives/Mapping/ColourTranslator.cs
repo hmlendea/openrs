@@ -54,15 +54,54 @@ namespace RuneScapeSolo.Primitives.Mapping
         /// Converts the colour to a 32 bit integer.
         /// </summary>
         /// <returns>The ARGB integer value.</returns>
-        public static int ToArgb(Colour colour)
+        /// <param name="colour">Colour.</param>
+        public static int ToArgb(Colour colour) => ToArgb(colour.R, colour.G, colour.B, colour.A);
+
+        /// <summary>
+        /// Converts the RGB components to a 32 bit integer.
+        /// </summary>
+        /// <returns>The ARGB integer value.</returns>
+        /// <param name="r">The red component.</param>
+        /// <param name="g">The green component.</param>
+        /// <param name="b">The blue component.</param>
+        public static int ToArgb(byte r, byte g, byte b) => ToArgb(r, g, b, (byte)255);
+
+        /// <summary>
+        /// Converts the RGB components to a 32 bit integer.
+        /// </summary>
+        /// <returns>The ARGB integer value.</returns>
+        /// <param name="r">The red component.</param>
+        /// <param name="g">The green component.</param>
+        /// <param name="b">The blue component.</param>
+        public static int ToArgb(int r, int g, int b) => ToArgb((byte)r, (byte)g, (byte)b, (byte)255);
+
+        /// <summary>
+        /// Converts the ARGB components to a 32 bit integer.
+        /// </summary>
+        /// <returns>The ARGB integer value.</returns>
+        /// <param name="r">The red component.</param>
+        /// <param name="g">The green component.</param>
+        /// <param name="b">The blue component.</param>
+        /// <param name="a">The alpha component.</param>
+        public static int ToArgb(byte r, byte g, byte b, byte a)
         {
-            int argb = (colour.A << 24) |
-                       (colour.R << 16) |
-                       (colour.G << 8) |
-                       colour.B;
+            int argb = (a << 24) |
+                       (r << 16) |
+                       (g << 8) |
+                       b;
 
             return argb;
         }
+
+        /// <summary>
+        /// Converts the ARGB components to a 32 bit integer.
+        /// </summary>
+        /// <returns>The ARGB integer value.</returns>
+        /// <param name="r">The red component.</param>
+        /// <param name="g">The green component.</param>
+        /// <param name="b">The blue component.</param>
+        /// <param name="a">The alpha component.</param>
+        public static int ToArgb(int r, int g, int b, int a) => ToArgb((byte)r, (byte)g, (byte)b, (byte)a);
 
         /// <summary>
         /// Creates a colour from an ARGB integer.
