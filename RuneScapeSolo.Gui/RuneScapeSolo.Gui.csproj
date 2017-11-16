@@ -52,7 +52,6 @@
     <Compile Include="Screens\GameplayScreen.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
-    <Compile Include="Screens\SplashScreen.cs" />
     <Compile Include="GuiElements\GuiImage.cs" />
     <Compile Include="GuiElements\GuiButton.cs" />
     <Compile Include="GuiElements\GuiText.cs" />
@@ -65,6 +64,7 @@
     <Compile Include="GuiElements\GuiInventoryPanel.cs" />
     <Compile Include="GuiElements\GuiCombatStyleCard.cs" />
     <Compile Include="GuiElements\GuiCombatPanel.cs" />
+    <Compile Include="Screens\SplashScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuneScapeSolo.DataAccess\RuneScapeSolo.DataAccess.csproj">

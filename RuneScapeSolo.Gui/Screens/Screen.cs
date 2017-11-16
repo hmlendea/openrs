@@ -84,6 +84,8 @@ namespace RuneScapeSolo.Gui.Screens
         /// </summary>
         public virtual void LoadContent()
         {
+            SetChildrenProperties();
+
             GraphicsManager.Instance.Graphics.GraphicsDevice.Clear(BackgroundColour.ToXnaColor());
 
             GuiManager.Instance.LoadContent();
@@ -107,6 +109,8 @@ namespace RuneScapeSolo.Gui.Screens
         /// <param name="gameTime">Game time.</param>
         public virtual void Update(GameTime gameTime)
         {
+            SetChildrenProperties();
+
             GuiManager.Instance.Update(gameTime);
         }
 
@@ -118,6 +122,11 @@ namespace RuneScapeSolo.Gui.Screens
         {
             GraphicsManager.Instance.Graphics.GraphicsDevice.Clear(BackgroundColour.ToXnaColor());
             GuiManager.Instance.Draw(spriteBatch);
+        }
+
+        protected virtual void SetChildrenProperties()
+        {
+
         }
         
         protected virtual void RegisterEvents()

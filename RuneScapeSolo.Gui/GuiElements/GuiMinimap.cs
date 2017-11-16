@@ -89,16 +89,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             Children.Add(staminaIndicator);
             Children.Add(prayerIndicator);
 
-            LinkEvents();
-
             base.LoadContent();
-        }
-
-        public override void UnloadContent()
-        {
-            UnlinkEvents();
-
-            base.UnloadContent();
         }
 
         public override void Update(GameTime gameTime)
@@ -108,11 +99,6 @@ namespace RuneScapeSolo.Gui.GuiElements
             frame.Update(gameTime);
 
             compassIndicator.IconRotation = 1;
-
-            if (client.loggedIn)
-            {
-                UpdateIndicators();
-            }
 
             base.Update(gameTime);
         }
@@ -140,20 +126,12 @@ namespace RuneScapeSolo.Gui.GuiElements
             healthIndicator.Location = new Point2D(Location.X + 17, Location.Y + 36);
             staminaIndicator.Location = new Point2D(Location.X + 162, Location.Y + 146);
             prayerIndicator.Location = new Point2D(Location.X + 10, Location.Y + 72);
-        }
 
-        void LinkEvents()
-        {
-            compassIndicator.Clicked += CompassIndicator_Clicked;
-        }
+            if (client == null || !client.loggedIn)
+            {
+                return; // TODO: Ugly fix
+            }
 
-        void UnlinkEvents()
-        {
-            compassIndicator.Clicked -= CompassIndicator_Clicked;
-        }
-
-        void UpdateIndicators()
-        {
             // The cameraRotation is expressed in a non-standard manner. 64 = -90 degrees, 32 = -45 degrees, etc...
             // so we have to convert it to degrees by multiplying it with 1.4025, add 180 degrees (flip),
             // and then convert that to radians in order to use them to rotate the image
@@ -167,6 +145,16 @@ namespace RuneScapeSolo.Gui.GuiElements
 
             prayerIndicator.BaseValue = client.Skills[5].BaseLevel;
             prayerIndicator.CurrentValue = client.Skills[5].CurrentLevel;
+        }
+
+        protected override void RegisterEvents()
+        {
+            compassIndicator.Clicked += CompassIndicator_Clicked;
+        }
+
+        protected override void UnregisterEvents()
+        {
+            compassIndicator.Clicked -= CompassIndicator_Clicked;
         }
 
         void DrawMinimapMenu(SpriteBatch spriteBatch)

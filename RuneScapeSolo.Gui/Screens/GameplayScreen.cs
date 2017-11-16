@@ -13,12 +13,6 @@ namespace RuneScapeSolo.Gui.Screens
     public class GameplayScreen : Screen
     {
         /// <summary>
-        /// Gets or sets the game client.
-        /// </summary>
-        /// <value>The game client.</value>
-        public GuiGame GameClient { get; set; }
-
-        /// <summary>
         /// Gets or sets the minimap.
         /// </summary>
         /// <value>The minimap.</value>
@@ -27,11 +21,19 @@ namespace RuneScapeSolo.Gui.Screens
         public GuiChatPanel ChatPanel { get; set; }
 
         /// <summary>
+        /// Gets or sets the game client.
+        /// </summary>
+        /// <value>The game client.</value>
+        public GuiGame GameClient { get; set; }
+
+        /// <summary>
         /// Loads the content.
         /// </summary>
         public override void LoadContent()
         {
+            SideBar = new GuiSideBar();
             ChatPanel = new GuiChatPanel();
+            GameClient = new GuiGame();
 
             SideBar.Enabled = false;
             SideBar.Visible = false;
@@ -39,20 +41,10 @@ namespace RuneScapeSolo.Gui.Screens
             GuiManager.Instance.GuiElements.Add(GameClient);
             GuiManager.Instance.GuiElements.Add(SideBar);
             GuiManager.Instance.GuiElements.Add(ChatPanel);
-
-            SetChildrenProperties();
+            
             base.LoadContent();
 
             SideBar.AssociateGameClient(ref GameClient.gameClient);
-
-            LinkEvents();
-        }
-
-        public override void UnloadContent()
-        {
-            base.UnloadContent();
-
-            UnlinkEvents();
         }
 
         /// <summary>
@@ -74,8 +66,6 @@ namespace RuneScapeSolo.Gui.Screens
                 SideBar.Enabled = false;
                 SideBar.Visible = false;
             }
-
-            SetChildrenProperties();
         }
 
         /// <summary>
@@ -88,27 +78,27 @@ namespace RuneScapeSolo.Gui.Screens
             base.Draw(spriteBatch);
         }
 
-        protected void SetChildrenProperties()
+        protected override void SetChildrenProperties()
         {
-            GameClient.Size = new Size2D(
-                ScreenManager.Instance.Size.Width - SideBar.Size.Width,
-                (int)(ScreenManager.Instance.Size.Height * 0.8));
-
-            SideBar.Size = new Size2D(SideBar.Size.Width, ScreenManager.Instance.Size.Height);
+            SideBar.Size = new Size2D(240, ScreenManager.Instance.Size.Height);
             SideBar.Location = new Point2D(ScreenManager.Instance.Size.Width - SideBar.Size.Width, 0);
 
             ChatPanel.Size = new Size2D(
                 ScreenManager.Instance.Size.Width - SideBar.Size.Width,
-                ScreenManager.Instance.Size.Height - GameClient.Size.Height);
+                (int)(ScreenManager.Instance.Size.Height * 0.25));
             ChatPanel.Location = new Point2D(0, ScreenManager.Instance.Size.Height - ChatPanel.Size.Height);
+
+            GameClient.Size = new Size2D(
+                ScreenManager.Instance.Size.Width - SideBar.Size.Width,
+                ScreenManager.Instance.Size.Height - ChatPanel.Size.Height);
         }
 
-        void LinkEvents()
+        protected override void RegisterEvents()
         {
             GameClient.gameClient.OnChatMessageReceived += GameClient_OnChatMessageReceived;
         }
 
-        void UnlinkEvents()
+        protected override void UnregisterEvents()
         {
             GameClient.gameClient.OnChatMessageReceived -= GameClient_OnChatMessageReceived;
         }

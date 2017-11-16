@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using RuneScapeSolo.Graphics;
+using RuneScapeSolo.Graphics.CustomSpriteEffects;
 using RuneScapeSolo.Graphics.Primitives;
 using RuneScapeSolo.Input.Events;
 
@@ -43,7 +44,8 @@ namespace RuneScapeSolo.Gui.Screens
         /// </summary>
         public SplashScreen()
         {
-            BackgroundColour = Colour.DodgerBlue;
+            Delay = 3;
+            BackgroundColour = Colour.FromArgb(88, 109, 157);
         }
 
         /// <summary>
@@ -51,13 +53,30 @@ namespace RuneScapeSolo.Gui.Screens
         /// </summary>
         public override void LoadContent()
         {
+            BackgroundImage = new Sprite
+            {
+                ContentFile = "SplashScreen/Background",
+                RotationEffect = new RotationEffect
+                {
+                    Speed = 0.1f,
+                    MaximumRotation = 0.2f
+                },
+                ZoomEffect = new ZoomEffect
+                {
+                    Speed = 0.1f,
+                    MinimumZoom = 1.25f,
+                    MaximumZoom = 2.00f
+                }
+            };
+            OverlayImage = new Sprite { ContentFile = "SplashScreen/Overlay" };
+            LogoImage = new Sprite { ContentFile = "SplashScreen/Logo" };
+
             base.LoadContent();
 
             BackgroundImage.LoadContent();
             OverlayImage.LoadContent();
             LogoImage.LoadContent();
-
-            AlignItems();
+            
             BackgroundImage.ActivateEffect("RotationEffect");
             BackgroundImage.ActivateEffect("ZoomEffect");
         }
@@ -86,8 +105,6 @@ namespace RuneScapeSolo.Gui.Screens
             LogoImage.Update(gameTime);
 
             Delay -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            AlignItems();
         }
 
         /// <summary>
@@ -103,7 +120,7 @@ namespace RuneScapeSolo.Gui.Screens
             LogoImage.Draw(spriteBatch);
         }
 
-        void AlignItems()
+        protected override void SetChildrenProperties()
         {
             float bgScale = (float)Math.Max(ScreenManager.Instance.Size.Width, ScreenManager.Instance.Size.Height) /
                             Math.Max(BackgroundImage.SpriteSize.Width, BackgroundImage.SpriteSize.Height);

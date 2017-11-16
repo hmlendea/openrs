@@ -24,9 +24,7 @@ namespace RuneScapeSolo.Gui.Screens
         static object syncRoot = new object();
 
         Screen currentScreen, newScreen;
-
-        readonly XmlManager<Screen> xmlScreenManager;
-
+        
         /// <summary>
         /// Gets the instance.
         /// </summary>
@@ -41,8 +39,7 @@ namespace RuneScapeSolo.Gui.Screens
                     {
                         if (instance == null)
                         {
-                            XmlManager<ScreenManager> xmlManager = new XmlManager<ScreenManager>();
-                            instance = xmlManager.Read(Path.Combine("Screens", $"{nameof(ScreenManager)}.xml"));
+                            instance = new ScreenManager();
                         }
                     }
                 }
@@ -85,13 +82,13 @@ namespace RuneScapeSolo.Gui.Screens
         {
             Size = SettingsManager.Instance.GraphicsSettings.Resolution;
             currentScreen = new SplashScreen();
-
-            xmlScreenManager = new XmlManager<Screen>()
+            
+            TransitionImage = new Sprite
             {
-                Type = currentScreen.Type
+                ContentFile = "ScreenManager/FillImage",
+                Tint = Colour.Black,
+                FadeEffect = new FadeEffect { Speed = 3 }
             };
-
-            currentScreen = xmlScreenManager.Read(currentScreen.XmlPath);
         }
 
         /// <summary>
@@ -163,14 +160,7 @@ namespace RuneScapeSolo.Gui.Screens
         public void ChangeScreens(string screenName, string[] screenArgs)
         {
             newScreen = (Screen)Activator.CreateInstance(Type.GetType($"{typeof(Screen).Namespace}.{screenName}"));
-
-            xmlScreenManager.Type = newScreen.Type;
-
-            if (File.Exists(currentScreen.XmlPath))
-            {
-                newScreen = xmlScreenManager.Read(newScreen.XmlPath);
-            }
-
+            
             newScreen.ScreenArgs = screenArgs;
 
             TransitionImage.ActivateEffect(nameof(FadeEffect));

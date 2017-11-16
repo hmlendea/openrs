@@ -67,19 +67,10 @@ namespace RuneScapeSolo.Gui.GuiElements
             Children.Add(baseLevelText);
             Children.Add(detailsText);
 
-            LinkEvents();
-
             detailsBackground.Visible = false;
             detailsText.Visible = false;
 
             base.LoadContent();
-        }
-
-        public override void UnloadContent()
-        {
-            UnlinkEvents();
-
-            base.UnloadContent();
         }
 
         protected override void SetChildrenProperties()
@@ -106,13 +97,13 @@ namespace RuneScapeSolo.Gui.GuiElements
             base.SetChildrenProperties();
         }
 
-        void LinkEvents()
+        protected override void RegisterEvents()
         {
             MouseEntered += GuiSkillCard_MouseEntered;
             MouseLeft += GuiSkillCard_MouseLeft;
         }
 
-        void UnlinkEvents()
+        protected override void UnregisterEvents()
         {
             MouseEntered -= GuiSkillCard_MouseEntered;
             MouseLeft -= GuiSkillCard_MouseLeft;

@@ -122,18 +122,9 @@ namespace RuneScapeSolo.Gui.GuiElements
             Children.Add(spellsButton);
             Children.Add(exitButton);
 
-            LinkEvents();
-
             InventoryButton_Clicked(this, null);
 
             base.LoadContent();
-        }
-
-        public override void UnloadContent()
-        {
-            UnlinkEvents();
-
-            base.UnloadContent();
         }
 
         public void AssociateGameClient(ref GameClient client)
@@ -196,7 +187,7 @@ namespace RuneScapeSolo.Gui.GuiElements
                 prayerButton.Location.Y);
         }
 
-        void LinkEvents()
+        protected override void RegisterEvents()
         {
             combatButton.Clicked += CombatButton_Clicked;
             skillsButton.Clicked += SkillsButton_Clicked;
@@ -209,7 +200,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             exitButton.Clicked += ExitButton_Clicked;
         }
 
-        void UnlinkEvents()
+        protected override void UnregisterEvents()
         {
             combatButton.Clicked -= CombatButton_Clicked;
             skillsButton.Clicked -= SkillsButton_Clicked;

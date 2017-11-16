@@ -57,15 +57,6 @@ namespace RuneScapeSolo.Gui.GuiElements
             Children.Add(defensiveStyleCard);
 
             base.LoadContent();
-
-            LinkEvents();
-        }
-
-        public override void UnloadContent()
-        {
-            base.UnloadContent();
-
-            UnlinkEvents();
         }
 
         public void AssociateGameClient(ref GameClient client)
@@ -129,7 +120,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             }
         }
 
-        void LinkEvents()
+        protected override void RegisterEvents()
         {
             controlledStyleCard.Clicked += ControlledStyleCard_Clicked;
             aggressiveStyleCard.Clicked += AggressiveStyleCard_Clicked;
@@ -137,7 +128,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             defensiveStyleCard.Clicked += DefensiveStyleCard_Clicked;
         }
 
-        void UnlinkEvents()
+        protected override void UnregisterEvents()
         {
             controlledStyleCard.Clicked -= ControlledStyleCard_Clicked;
             aggressiveStyleCard.Clicked -= AggressiveStyleCard_Clicked;
