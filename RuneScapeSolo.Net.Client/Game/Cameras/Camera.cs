@@ -42,7 +42,6 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             vertX = new int[40];
             vertY = new int[40];
             vertZ = new int[40];
-            bgd = false;
             gameImage = gameimage;
             bcj = gameimage.GameSize.Width / 2;
             bck = gameimage.GameSize.Height / 2;
@@ -424,7 +423,6 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
 
         public void finishCamera()
         {
-            bgd = gameImage.interlacingEnabled;
             int k4 = bcj * zoom1 >> bcn;
             int l4 = bck * zoom1 >> bcn;
             nearX = 0;
@@ -1469,22 +1467,6 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                     k9 += l10 * l15;
                     j11 += j12 * l15;
                     l12 += l13 * l15;
-                    if (bgd)
-                    {
-                        if ((bfj & 1) == 1)
-                        {
-                            bfj++;
-                            k9 += l10;
-                            j11 += j12;
-                            l12 += l13;
-                            l16 += j16;
-                        }
-                        l10 <<= 1;
-                        j12 <<= 1;
-                        l13 <<= 1;
-                        j16 <<= 1;
-                        byte1 = 2;
-                    }
                     if (arg7.chi)
                     {
                         for (arg0 = bfj; arg0 < bfk; arg0 += byte1)
@@ -1622,22 +1604,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                 l9 += i11 * i16;
                 k11 += k12 * i16;
                 i13 += i14 * i16;
-                if (bgd)
-                {
-                    if ((bfj & 1) == 1)
-                    {
-                        bfj++;
-                        l9 += i11;
-                        k11 += k12;
-                        i13 += i14;
-                        i17 += k16;
-                    }
-                    i11 <<= 1;
-                    k12 <<= 1;
-                    i14 <<= 1;
-                    k16 <<= 1;
-                    byte2 = 2;
-                }
+
                 if (arg7.chi)
                 {
                     for (arg0 = bfj; arg0 < bfk; arg0 += byte2)
@@ -1793,16 +1760,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             int l1 = bci;
             int k2 = bcl + bfj * l1;
             byte byte0 = 1;
-            if (bgd)
-            {
-                if ((bfj & 1) == 1)
-                {
-                    bfj++;
-                    k2 += l1;
-                }
-                l1 <<= 1;
-                byte0 = 2;
-            }
+
             if (arg7.isGiantCrystal)
             {
                 for (arg0 = bfj; arg0 < bfk; arg0 += byte0)
@@ -4233,7 +4191,6 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
         public int[] vertX;
         public int[] vertY;
         public int[] vertZ;
-        public bool bgd;
         public static int nearX;
         public static int farX;
         public static int nearY;

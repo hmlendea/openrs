@@ -20,7 +20,6 @@ namespace RuneScapeSolo.Net.Client.Game
 
             imageRectangle = new Rectangle2D(0, 0, width, height);
 
-            interlacingEnabled = false;
             loggedIn = false;
             pixels = new int[width * height];
             pictureColors = new int[size][];
@@ -81,28 +80,9 @@ namespace RuneScapeSolo.Net.Client.Game
 
         public void ClearScreen()
         {
-            int area = GameSize.Width * GameSize.Height;
-
-            if (!interlacingEnabled)
+            for (int i = 0; i < GameSize.Area; i++)
             {
-                for (int i = 0; i < area; i++)
-                {
-                    pixels[i] = 0;
-                }
-
-                return;
-            }
-
-            int l = 0;
-
-            for (int i = -GameSize.Height; i < 0; i += 2)
-            {
-                for (int j = -GameSize.Width; j < 0; j++)
-                {
-                    pixels[l++] = 0;
-                }
-
-                l += GameSize.Width;
+                pixels[i] = 0;
             }
         }
 
@@ -125,14 +105,7 @@ namespace RuneScapeSolo.Net.Client.Game
             }
 
             byte byte0 = 1;
-            if (interlacingEnabled)
-            {
-                byte0 = 2;
-                if ((i2 & 1) != 0)
-                {
-                    i2++;
-                }
-            }
+
             for (int k2 = i2; k2 <= j2; k2 += byte0)
             {
                 int l2 = k2 - arg1;
@@ -191,16 +164,7 @@ namespace RuneScapeSolo.Net.Client.Game
             int i1 = (arg4 & 0xff) * arg5;
             int i2 = GameSize.Width - w;
             byte byte0 = 1;
-            if (interlacingEnabled)
-            {
-                byte0 = 2;
-                i2 += GameSize.Width;
-                if ((y & 1) != 0)
-                {
-                    y++;
-                    h--;
-                }
-            }
+
             int j2 = x + y * GameSize.Width;
             for (int k2 = 0; k2 < h; k2 += byte0)
             {
@@ -242,18 +206,6 @@ namespace RuneScapeSolo.Net.Client.Game
 
             int l1 = GameSize.Width - width;
             byte byte0 = 1;
-
-            if (interlacingEnabled)
-            {
-                byte0 = 2;
-                l1 += GameSize.Width;
-
-                if ((y & 1) != 0)
-                {
-                    y++;
-                    height--;
-                }
-            }
 
             int i2 = x + y * GameSize.Width;
 
@@ -306,17 +258,6 @@ namespace RuneScapeSolo.Net.Client.Game
 
             int i = GameSize.Width - width;
             byte byte0 = 1;
-
-            if (interlacingEnabled)
-            {
-                byte0 = 2;
-                i += GameSize.Width;
-                if ((y & 1) != 0)
-                {
-                    y++;
-                    height--;
-                }
-            }
 
             int k = x + y * GameSize.Width;
 
@@ -864,17 +805,7 @@ namespace RuneScapeSolo.Net.Client.Game
             }
 
             byte byte0 = 1;
-            if (interlacingEnabled)
-            {
-                byte0 = 2;
-                i2 += GameSize.Width;
-                j2 += pictureWidth[pictureIndex];
-                if ((y & 1) != 0)
-                {
-                    i1 += GameSize.Width;
-                    k1--;
-                }
-            }
+
             if (pictureColors[pictureIndex] == null)
             {
                 cch(ref pixels, pictureColorIndexes[pictureIndex], pictureColor[pictureIndex], j1, i1, l1, k1, i2, j2, byte0);
@@ -946,17 +877,7 @@ namespace RuneScapeSolo.Net.Client.Game
                     l3 += k4;
                 }
                 byte byte0 = 1;
-                if (interlacingEnabled)
-                {
-                    byte0 = 2;
-                    l3 += GameSize.Width;
-                    l2 += l2;
-                    if ((y & 1) != 0)
-                    {
-                        j3 += GameSize.Width;
-                        height--;
-                    }
-                }
+
                 cci(ref pixels, pictureColors[index], 0, i2, j2, j3, l3, width, height, k2, l2, k1, byte0);
                 return;
             }
@@ -1015,17 +936,7 @@ namespace RuneScapeSolo.Net.Client.Game
             }
 
             byte byte0 = 1;
-            if (interlacingEnabled)
-            {
-                byte0 = 2;
-                j2 += GameSize.Width;
-                k2 += pictureWidth[index];
-                if ((y & 1) != 0)
-                {
-                    j1 += GameSize.Width;
-                    l1--;
-                }
-            }
+
             if (pictureColors[index] == null)
             {
                 cck(ref pixels, pictureColorIndexes[index], pictureColor[index], k1, j1, i2, l1, j2, k2, byte0, i1);
@@ -1097,17 +1008,7 @@ namespace RuneScapeSolo.Net.Client.Game
                     i4 += l4;
                 }
                 byte byte0 = 1;
-                if (interlacingEnabled)
-                {
-                    byte0 = 2;
-                    i4 += GameSize.Width;
-                    i3 += i3;
-                    if ((k & 1) != 0)
-                    {
-                        k3 += GameSize.Width;
-                        i1--;
-                    }
-                }
+
                 ccl(ref pixels, pictureColors[j1], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, k1);
                 return;
             }
@@ -1179,17 +1080,7 @@ namespace RuneScapeSolo.Net.Client.Game
                     i4 += l4;
                 }
                 byte byte0 = 1;
-                if (interlacingEnabled)
-                {
-                    byte0 = 2;
-                    i4 += GameSize.Width;
-                    i3 += i3;
-                    if ((k & 1) != 0)
-                    {
-                        k3 += GameSize.Width;
-                        i1--;
-                    }
-                }
+
                 ccm(ref pixels, pictureColors[j1], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, k1);
                 return;
             }
@@ -1853,16 +1744,13 @@ namespace RuneScapeSolo.Net.Client.Game
                         k10 = imageRectangle.Width;
                     }
 
-                    if (!interlacingEnabled || (i10 & 1) == 0)
+                    if (!hasTransparentBackground[arg2])
                     {
-                        if (!hasTransparentBackground[arg2])
-                        {
-                            cda(ref pixels, ai, 0, l9 + j10, l10, j11, i11, k11, j10 - k10, j8);
-                        }
-                        else
-                        {
-                            cdb(ref pixels, ai, 0, l9 + j10, l10, j11, i11, k11, j10 - k10, j8);
-                        }
+                        cda(ref pixels, ai, 0, l9 + j10, l10, j11, i11, k11, j10 - k10, j8);
+                    }
+                    else
+                    {
+                        cdb(ref pixels, ai, 0, l9 + j10, l10, j11, i11, k11, j10 - k10, j8);
                     }
 
                     l9 += GameSize.Width;
@@ -1978,11 +1866,7 @@ namespace RuneScapeSolo.Net.Client.Game
                     height -= ((y + height) - imageRectangle.Height) + 1;
                 }
 
-                int j5 = k4 / GameSize.Width & 1;
-                if (!interlacingEnabled)
-                {
-                    j5 = 2;
-                }
+                int j5 = 2;
 
                 if (l1 == 0xffffff)
                 {
@@ -2822,7 +2706,6 @@ namespace RuneScapeSolo.Net.Client.Game
         public int[] pictureAssumedWidth;
         public int[] pictureAssumedHeight;
         public bool[] hasTransparentBackground;
-        public bool interlacingEnabled;
         static sbyte[][] gameFonts = new sbyte[50][];
         static int[] bne;
         public bool loggedIn;

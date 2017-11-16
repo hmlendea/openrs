@@ -2820,7 +2820,6 @@ namespace RuneScapeSolo.Net.Client
                 return;
             }
 
-            gameGraphics.interlacingEnabled = false;
             gameGraphics.ClearScreen();
             if (loginScreenNumber == 0 || loginScreenNumber == 1 || loginScreenNumber == 2 || loginScreenNumber == 3)
             {
@@ -4510,7 +4509,6 @@ namespace RuneScapeSolo.Net.Client
 
         public void drawAppearanceWindow()
         {
-            gameGraphics.interlacingEnabled = false;
             gameGraphics.ClearScreen();
             appearanceMenu.drawMenu();
             int l = 140;
@@ -4527,8 +4525,8 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.drawImage((l - 32) + 55, i1, 64, 102, EntityManager.GetAnimation(appearanceBodyGender).Number + 12, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
             gameGraphics.drawImage((l - 32) + 55, i1, 64, 102, EntityManager.GetAnimation(appearanceHeadType).Number + 12, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
             gameGraphics.drawPicture(0, windowHeight, baseInventoryPic + 22);
-            //gameGraphics.UpdateGameImage();
-            OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
+
+            OnDrawDone();
         }
 
         public void checkMouseStatus()
@@ -4916,9 +4914,7 @@ namespace RuneScapeSolo.Net.Client
                 }
             }
 
-            gameGraphics.interlacingEnabled = false;
             gameGraphics.ClearScreen();
-            gameGraphics.interlacingEnabled = SettingsManager.Instance.GraphicsSettings.Interlacing;
 
             if (lastLayerIndex == 3)
             {
@@ -4971,20 +4967,10 @@ namespace RuneScapeSolo.Net.Client
 
                 if (fogOfWar)
                 {
-                    if (!SettingsManager.Instance.GraphicsSettings.Interlacing)
-                    {
-                        gameCamera.zoom1 = 2400;
-                        gameCamera.zoom2 = 2400;
-                        gameCamera.zoom3 = 1;
-                        gameCamera.zoom4 = 2300;
-                    }
-                    else
-                    {
-                        gameCamera.zoom1 = 2200;
-                        gameCamera.zoom2 = 2200;
-                        gameCamera.zoom3 = 1;
-                        gameCamera.zoom4 = 2100;
-                    }
+                    gameCamera.zoom1 = 2400;
+                    gameCamera.zoom2 = 2400;
+                    gameCamera.zoom3 = 1;
+                    gameCamera.zoom4 = 2300;
                 }
                 else
                 {
