@@ -1,6 +1,8 @@
 ﻿using System;
 
 using RuneScapeSolo.Graphics.Enumerations;
+using RuneScapeSolo.Input;
+using RuneScapeSolo.Input.Events;
 using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Gui.GuiElements
@@ -95,20 +97,10 @@ namespace RuneScapeSolo.Gui.GuiElements
             base.SetChildrenProperties();
         }
 
-        protected override void RegisterEvents()
+        protected override void OnMouseEntered(object sender, MouseEventArgs e)
         {
-            MouseEntered += GuiSkillCard_MouseEntered;
-            MouseLeft += GuiSkillCard_MouseLeft;
-        }
+            base.OnMouseEntered(sender, e);
 
-        protected override void UnregisterEvents()
-        {
-            MouseEntered -= GuiSkillCard_MouseEntered;
-            MouseLeft -= GuiSkillCard_MouseLeft;
-        }
-
-        void GuiSkillCard_MouseEntered(object sender, Input.Events.MouseEventArgs e)
-        {
             regularBackground.Hide();
             skillIcon.Hide();
             currentLevelText.Hide();
@@ -118,8 +110,10 @@ namespace RuneScapeSolo.Gui.GuiElements
             detailsText.Show();
         }
 
-        void GuiSkillCard_MouseLeft(object sender, Input.Events.MouseEventArgs e)
+        protected override void OnMouseLeft(object sender, MouseEventArgs e)
         {
+            base.OnMouseLeft(sender, e);
+
             regularBackground.Show();
             skillIcon.Show();
             currentLevelText.Show();

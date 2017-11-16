@@ -218,7 +218,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             UnselectEverything();
 
             combatButton.Toggled = true;
-            combatButton.Show();
+            combatPanel.Show();
         }
 
         void SkillsButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)

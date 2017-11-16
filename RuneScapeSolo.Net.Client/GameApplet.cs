@@ -158,7 +158,6 @@ namespace RuneScapeSolo.Net.Client
             gameLoadingScreen = 1;
 
             DataOperations.codeBase = default(Uri);
-            //startThread(this);
         }
 
         public void StartThread(Action runnable)

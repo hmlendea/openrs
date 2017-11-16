@@ -52,7 +52,6 @@
     <Compile Include="Enumerations\TradeAndDuelState.cs" />
     <Compile Include="Events\ChatMessageEvent.cs" />
     <Compile Include="Events\ContentLoadedEvent.cs" />
-    <Compile Include="Extensions\GraphicsDeviceExtensions.cs" />
     <Compile Include="GameApplet.cs" />
     <Compile Include="GameAppletMiddleMan.cs" />
     <Compile Include="GameClient.cs" />
