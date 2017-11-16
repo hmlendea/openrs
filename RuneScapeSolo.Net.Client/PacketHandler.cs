@@ -46,11 +46,11 @@ namespace RuneScapeSolo.Net.Client
                     HandleCommand77(data, length);
                     return true;
 
-                case ServerCommand.Command114:
+                case ServerCommand.Inventory:
                     HandleCommand114(data);
                     return true;
 
-                case ServerCommand.Command131:
+                case ServerCommand.WorldInfo:
                     HandleCommand131(data);
                     return true;
 
@@ -58,7 +58,7 @@ namespace RuneScapeSolo.Net.Client
                     HandleCommand145(data, length);
                     return true;
 
-                case ServerCommand.Command180:
+                case ServerCommand.UserStats:
                     HandleCommand180(data);
                     return true;
 
@@ -86,7 +86,7 @@ namespace RuneScapeSolo.Net.Client
                     HandleDruidicRitual(data);
                     return true;
 
-                case ServerCommand.EquipmentStatus:
+                case ServerCommand.EquipmentStats:
                     HandleEquipmentStatus(data);
                     return true;
 
@@ -110,7 +110,7 @@ namespace RuneScapeSolo.Net.Client
                     HandleGuthixSpells(data);
                     return true;
 
-                case ServerCommand.HideQuestionMenu:
+                case ServerCommand.CloseQuestionMenu:
                     HandleHideQuestionMenu();
                     return true;
 
@@ -118,7 +118,7 @@ namespace RuneScapeSolo.Net.Client
                     HandleImpCatcher(data);
                     return true;
 
-                case ServerCommand.InventoryItems:
+                case ServerCommand.UpdateItem:
                     HandleInventoryItems(data);
                     return true;
 
@@ -138,7 +138,7 @@ namespace RuneScapeSolo.Net.Client
                     HandlePirateTreasure(data);
                     return true;
 
-                case ServerCommand.PlayerStats:
+                case ServerCommand.Stat:
                     HandlePlayerStats(data, length);
                     return true;
 
@@ -146,7 +146,7 @@ namespace RuneScapeSolo.Net.Client
                     HandleQuestPointsChange(data);
                     return true;
 
-                case ServerCommand.QuestionMenu:
+                case ServerCommand.OpenQuestionMenu:
                     HandleQuestionMenu(data);
                     return true;
 
@@ -154,7 +154,7 @@ namespace RuneScapeSolo.Net.Client
                     HandleRemaining(data);
                     return true;
 
-                case ServerCommand.ResetPlayerAliveTimeout:
+                case ServerCommand.PlayerDied:
                     HandleResetPlayerAliveTimeout();
                     return true;
 
@@ -178,11 +178,11 @@ namespace RuneScapeSolo.Net.Client
                     HandleShowAppearanceWindow();
                     return true;
 
-                case ServerCommand.ShowBankBox:
+                case ServerCommand.CloseBankWindow:
                     HandleShowBankBox();
                     return true;
 
-                case ServerCommand.ShowShopBox:
+                case ServerCommand.CloseShopWindow:
                     HandleShowShopBox();
                     return true;
 

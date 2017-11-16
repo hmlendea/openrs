@@ -1385,7 +1385,7 @@ namespace RuneScapeSolo.Net.Client
 
                     return;
                 }
-                if (command == ServerCommand.Command253)
+                if (command == ServerCommand.OpenShopWindow)
                 {
                     ShowShopBox = true;
                     int off = 1;
@@ -1455,7 +1455,7 @@ namespace RuneScapeSolo.Net.Client
                     }
                     return;
                 }
-                if (command == ServerCommand.Command209)
+                if (command == ServerCommand.Prayers)
                 {
                     for (int k4 = 0; k4 < length - 1; k4++)
                     {
@@ -1466,7 +1466,7 @@ namespace RuneScapeSolo.Net.Client
 
                     return;
                 }
-                if (command == ServerCommand.Command93)
+                if (command == ServerCommand.OpenBankWindow)
                 {
                     ShowBankBox = true;
                     int off = 1;
@@ -1493,7 +1493,7 @@ namespace RuneScapeSolo.Net.Client
 #warning have not fixed the following yet....
                 Console.WriteLine($"Unfixed command? {command}");
 
-                if (command == ServerCommand.Command139)
+                if (command == ServerCommand.BankItem)
                 {
                     int off = 1;
                     int itemSlot = data[off++] & 0xff;
@@ -1523,7 +1523,7 @@ namespace RuneScapeSolo.Net.Client
                     updateBankItems();
                     return;
                 }
-                if (command == ServerCommand.Command191)
+                if (command == ServerCommand.RemoveItem)
                 {
                     int l6 = data[1] & 0xff;
                     InventoryItemsCount--;
@@ -1536,7 +1536,7 @@ namespace RuneScapeSolo.Net.Client
 
                     return;
                 }
-                if (command == ServerCommand.Command23)
+                if (command == ServerCommand.TeleBubble)
                 {
                     if (teleBubbleCount < 50)
                     {
