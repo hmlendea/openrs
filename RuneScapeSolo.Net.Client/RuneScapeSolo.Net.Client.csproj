@@ -81,6 +81,7 @@
     <Compile Include="Quests.cs" />
     <Compile Include="Skill.cs" />
     <Compile Include="Enumerations\CombatStyle.cs" />
+    <Compile Include="Game\StringDrawDef.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -99,6 +100,10 @@
     <ProjectReference Include="..\RuneScapeSolo.Settings\RuneScapeSolo.Settings.csproj">
       <Project>{f863eb40-1193-4067-8eef-405caf9f2fc9}</Project>
       <Name>RuneScapeSolo.Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RuneScapeSolo.Primitives\RuneScapeSolo.Primitives.csproj">
+      <Project>{395F7F7F-F89E-43F4-96F0-6A6E20016B81}</Project>
+      <Name>RuneScapeSolo.Primitives</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -5,7 +5,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
     public class Camera // : org.moparscape.msc.client.Camera
     {
 
-        public Camera(GameImage arg0, int maxObjects, int maxVisibleObjects, int maxSceneObjects)
+        public Camera(GameImage gameimage, int maxObjects, int maxVisibleObjects, int maxSceneObjects)
         //: base(models, start, x, x)
         {
             bba = 50;
@@ -43,10 +43,10 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             vertY = new int[40];
             vertZ = new int[40];
             bgd = false;
-            gameImage = arg0;
-            bcj = arg0.gameWidth / 2;
-            bck = arg0.gameHeight / 2;
-            bfh = arg0.pixels;
+            gameImage = gameimage;
+            bcj = gameimage.GameSize.Width / 2;
+            bck = gameimage.GameSize.Height / 2;
+            bfh = gameimage.pixels;
             currentObjectCount = 0;
             totalModelCount = maxObjects;
             objectCache = new ObjectModel[totalModelCount];

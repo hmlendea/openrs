@@ -81,10 +81,16 @@ namespace RuneScapeSolo.Primitives.Mapping
         /// <param name="r">Red value.</param>
         /// <param name="g">Green value.</param>
         /// <param name="b">Blue value.</param>
-        public static Colour FromArgb(byte r, byte g, byte b)
-        {
-            return new Colour(r, g, b);
-        }
+        public static Colour FromArgb(byte r, byte g, byte b) => new Colour(r, g, b);
+
+        /// <summary>
+        /// Creates a colour from RGB values.
+        /// </summary>
+        /// <returns>The colour.</returns>
+        /// <param name="r">Red value.</param>
+        /// <param name="g">Green value.</param>
+        /// <param name="b">Blue value.</param>
+        public static Colour FromArgb(int r, int g, int b) => new Colour(r, g, b);
 
         /// <summary>
         /// Creates a colour from ARGB values.
@@ -94,9 +100,16 @@ namespace RuneScapeSolo.Primitives.Mapping
         /// <param name="r">Red value.</param>
         /// <param name="g">Green value.</param>
         /// <param name="b">Blue value.</param>
-        public static Colour FromArgb(byte a, byte r, byte g, byte b)
-        {
-            return new Colour(r, g, b, a);
-        }
+        public static Colour FromArgb(byte a, byte r, byte g, byte b) => new Colour(r, g, b, a);
+
+        /// <summary>
+        /// Creates a colour from ARGB values.
+        /// </summary>
+        /// <returns>The colour.</returns>
+        /// <param name="a">Alpha value.</param>
+        /// <param name="r">Red value.</param>
+        /// <param name="g">Green value.</param>
+        /// <param name="b">Blue value.</param>
+        public static Colour FromArgb(int a, int r, int g, int b) => new Colour(r, g, b, a);
     }
 }

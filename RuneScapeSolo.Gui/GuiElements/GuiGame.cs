@@ -155,8 +155,8 @@ namespace RuneScapeSolo.Gui.GuiElements
                             {
                                 Texture2D imageTexture = new Texture2D(
                                     GraphicsManager.Instance.Graphics.GraphicsDevice,
-                                    client.gameGraphics.gameWidth,
-                                    client.gameGraphics.gameHeight,
+                                    client.gameGraphics.GameSize.Width,
+                                    client.gameGraphics.GameSize.Height,
                                     false,
                                     SurfaceFormat.Color);
 

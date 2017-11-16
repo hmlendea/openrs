@@ -20,6 +20,12 @@ namespace RuneScapeSolo.Primitives
         public int Height { get; set; }
 
         /// <summary>
+        /// Gets the area.
+        /// </summary>
+        /// <value>The area.</value>
+        public double Area => Width * Height;
+
+        /// <summary>
         /// Gets a value indicating whether this <see cref="Size2D"/> is zero.
         /// </summary>
         /// <value><c>true</c> if is empty; otherwise, <c>false</c>.</value>

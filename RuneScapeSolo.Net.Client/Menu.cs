@@ -217,17 +217,17 @@ namespace RuneScapeSolo.Net.Client
 
         protected void gee(int arg0, int x, int y, int w, int h)
         {
-            gameImage.drawBox(x, y, w, h, 0xffffff);
-            gameImage.drawLineX(x, y, w, gdc);
-            gameImage.drawLineY(x, y, h, gdc);
-            gameImage.drawLineX(x, (y + h) - 1, w, gdf);
-            gameImage.drawLineY((x + w) - 1, y, h, gdf);
+            gameImage.DrawBox(x, y, w, h, 0xffffff);
+            gameImage.DrawHorizontalLine(x, y, w, gdc);
+            gameImage.DrawVerticalLine(x, y, h, gdc);
+            gameImage.DrawHorizontalLine(x, (y + h) - 1, w, gdf);
+            gameImage.DrawVerticalLine((x + w) - 1, y, h, gdf);
             if (gbe[arg0] == 1)
             {
                 for (int i = 0; i < h; i++)
                 {
-                    gameImage.drawLineX(x + i, y + i, 1, 0);
-                    gameImage.drawLineX((x + w) - 1 - i, y + i, 1, 0);
+                    gameImage.DrawHorizontalLine(x + i, y + i, 1, 0);
+                    gameImage.DrawHorizontalLine((x + w) - 1 - i, y + i, 1, 0);
                 }
 
             }
@@ -293,8 +293,8 @@ namespace RuneScapeSolo.Net.Client
 
         public void gei(int arg0, int arg1, int arg2, int arg3)
         {
-            gameImage.setDimensions(arg0, arg1, arg0 + arg2, arg1 + arg3);
-            gameImage.drawGradientBox(arg0, arg1, arg2, arg3, gdf, gdc);
+            gameImage.SetDimensions(arg0, arg1, arg0 + arg2, arg1 + arg3);
+            gameImage.DrawGradientBox(arg0, arg1, arg2, arg3, gdf, gdc);
             if (gdh)
             {
                 for (int i = arg0 - (arg1 & 0x3f); i < arg0 + arg2; i += 128)
@@ -306,27 +306,27 @@ namespace RuneScapeSolo.Net.Client
                 }
 
             }
-            gameImage.drawLineX(arg0, arg1, arg2, gdc);
-            gameImage.drawLineX(arg0 + 1, arg1 + 1, arg2 - 2, gdc);
-            gameImage.drawLineX(arg0 + 2, arg1 + 2, arg2 - 4, gdd);
-            gameImage.drawLineY(arg0, arg1, arg3, gdc);
-            gameImage.drawLineY(arg0 + 1, arg1 + 1, arg3 - 2, gdc);
-            gameImage.drawLineY(arg0 + 2, arg1 + 2, arg3 - 4, gdd);
-            gameImage.drawLineX(arg0, (arg1 + arg3) - 1, arg2, gdf);
-            gameImage.drawLineX(arg0 + 1, (arg1 + arg3) - 2, arg2 - 2, gdf);
-            gameImage.drawLineX(arg0 + 2, (arg1 + arg3) - 3, arg2 - 4, gde);
-            gameImage.drawLineY((arg0 + arg2) - 1, arg1, arg3, gdf);
-            gameImage.drawLineY((arg0 + arg2) - 2, arg1 + 1, arg3 - 2, gdf);
-            gameImage.drawLineY((arg0 + arg2) - 3, arg1 + 2, arg3 - 4, gde);
-            gameImage.resetDimensions();
+            gameImage.DrawHorizontalLine(arg0, arg1, arg2, gdc);
+            gameImage.DrawHorizontalLine(arg0 + 1, arg1 + 1, arg2 - 2, gdc);
+            gameImage.DrawHorizontalLine(arg0 + 2, arg1 + 2, arg2 - 4, gdd);
+            gameImage.DrawVerticalLine(arg0, arg1, arg3, gdc);
+            gameImage.DrawVerticalLine(arg0 + 1, arg1 + 1, arg3 - 2, gdc);
+            gameImage.DrawVerticalLine(arg0 + 2, arg1 + 2, arg3 - 4, gdd);
+            gameImage.DrawHorizontalLine(arg0, (arg1 + arg3) - 1, arg2, gdf);
+            gameImage.DrawHorizontalLine(arg0 + 1, (arg1 + arg3) - 2, arg2 - 2, gdf);
+            gameImage.DrawHorizontalLine(arg0 + 2, (arg1 + arg3) - 3, arg2 - 4, gde);
+            gameImage.DrawVerticalLine((arg0 + arg2) - 1, arg1, arg3, gdf);
+            gameImage.DrawVerticalLine((arg0 + arg2) - 2, arg1 + 1, arg3 - 2, gdf);
+            gameImage.DrawVerticalLine((arg0 + arg2) - 3, arg1 + 2, arg3 - 4, gde);
+            gameImage.ResetDimensions();
         }
 
         public void gej(int i, int k, int l, int i1)
         {
-            gameImage.drawBox(i, k, l, i1, 0);
-            gameImage.drawBoxEdge(i, k, l, i1, gcn);
-            gameImage.drawBoxEdge(i + 1, k + 1, l - 2, i1 - 2, gda);
-            gameImage.drawBoxEdge(i + 2, k + 2, l - 4, i1 - 4, gdb);
+            gameImage.DrawBox(i, k, l, i1, 0);
+            gameImage.DrawBoxEdge(i, k, l, i1, gcn);
+            gameImage.DrawBoxEdge(i + 1, k + 1, l - 2, i1 - 2, gda);
+            gameImage.DrawBoxEdge(i + 2, k + 2, l - 4, i1 - 4, gdb);
             gameImage.drawPicture(i, k, 2 + baseScrollPic);
             gameImage.drawPicture((i + l) - 7, k, 3 + baseScrollPic);
             gameImage.drawPicture(i, (k + i1) - 7, 4 + baseScrollPic);
@@ -340,7 +340,7 @@ namespace RuneScapeSolo.Net.Client
 
         protected void drawLineX(int i, int k, int l)
         {
-            gameImage.drawLineX(i, k, l, 0);
+            gameImage.DrawHorizontalLine(i, k, l, 0);
         }
 
         protected void gem(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, string[] arg6,
@@ -426,15 +426,15 @@ namespace RuneScapeSolo.Net.Client
         protected void drawScrollbar(int i, int k, int l, int i1, int j1, int k1)
         {
             int l1 = (i + l) - 12;
-            gameImage.drawBoxEdge(l1, k, 12, i1, 0);// border
+            gameImage.DrawBoxEdge(l1, k, 12, i1, 0);// border
             gameImage.drawPicture(l1 + 1, k + 1, baseScrollPic);// up arrow
             gameImage.drawPicture(l1 + 1, (k + i1) - 12, 1 + baseScrollPic);// down arrow
-            gameImage.drawLineX(l1, k + 13, 12, 0);// up arrow border
-            gameImage.drawLineX(l1, (k + i1) - 13, 12, 0);// down arrow border
-            gameImage.drawGradientBox(l1 + 1, k + 14, 11, i1 - 27, scrollBarGradientColorTop, scrollBarGradientColorBottom);// background gradient
-            gameImage.drawBox(l1 + 3, j1 + k + 14, 7, k1, scrollBarDraggingBarColor);// dragging bar
-            gameImage.drawLineY(l1 + 2, j1 + k + 14, k1, scrollBarDraggingBarLine1Color);// dragging bar
-            gameImage.drawLineY(l1 + 2 + 8, j1 + k + 14, k1, scrollBarDraggingBarLine2Color);// drawgging bar
+            gameImage.DrawHorizontalLine(l1, k + 13, 12, 0);// up arrow border
+            gameImage.DrawHorizontalLine(l1, (k + i1) - 13, 12, 0);// down arrow border
+            gameImage.DrawGradientBox(l1 + 1, k + 14, 11, i1 - 27, scrollBarGradientColorTop, scrollBarGradientColorBottom);// background gradient
+            gameImage.DrawBox(l1 + 3, j1 + k + 14, 7, k1, scrollBarDraggingBarColor);// dragging bar
+            gameImage.DrawVerticalLine(l1 + 2, j1 + k + 14, k1, scrollBarDraggingBarLine1Color);// dragging bar
+            gameImage.DrawVerticalLine(l1 + 2 + 8, j1 + k + 14, k1, scrollBarDraggingBarLine2Color);// drawgging bar
         }
 
         protected void gfa(int arg0, int arg1, int arg2, int arg3, string[] arg4)

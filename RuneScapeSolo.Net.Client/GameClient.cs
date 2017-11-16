@@ -1016,7 +1016,7 @@ namespace RuneScapeSolo.Net.Client
 
         public void drawInventoryMenu(bool canRightClick)
         {
-            int l = gameGraphics.gameWidth - 248;
+            int l = gameGraphics.GameSize.Width - 248;
             gameGraphics.drawPicture(l, 3, baseInventoryPic + 1);
             for (int i1 = 0; i1 < maxInventoryItems; i1++)
             {
@@ -1043,12 +1043,12 @@ namespace RuneScapeSolo.Net.Client
 
             for (int k1 = 1; k1 <= 4; k1++)
             {
-                gameGraphics.drawLineY(l + k1 * 49, 36, (maxInventoryItems / 5) * 34, 0);
+                gameGraphics.DrawVerticalLine(l + k1 * 49, 36, (maxInventoryItems / 5) * 34, 0);
             }
 
             for (int i2 = 1; i2 <= maxInventoryItems / 5 - 1; i2++)
             {
-                gameGraphics.drawLineX(l, 36 + i2 * 34, 245, 0);
+                gameGraphics.DrawHorizontalLine(l, 36 + i2 * 34, 245, 0);
             }
 
             if (!canRightClick)
@@ -1056,7 +1056,7 @@ namespace RuneScapeSolo.Net.Client
                 return;
             }
 
-            l = InputManager.Instance.MouseLocation.X - (gameGraphics.gameWidth - 248);
+            l = InputManager.Instance.MouseLocation.X - (gameGraphics.GameSize.Width - 248);
             int j2 = InputManager.Instance.MouseLocation.Y - 36;
             if (l >= 0 && j2 >= 0 && l < 248 && j2 < (maxInventoryItems / 5) * 34)
             {
@@ -1169,18 +1169,18 @@ namespace RuneScapeSolo.Net.Client
             gameCamera.zoom4 = 4000;
             gameCamera.SetCameraTransform(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY, 912, cameraRotation, 0, cameraDistance * 2);
             gameCamera.finishCamera();
-            gameGraphics.screenFadeToBlack();
-            gameGraphics.screenFadeToBlack();
+            gameGraphics.FadeScreenToBlack();
+            gameGraphics.FadeScreenToBlack();
 
 
 
-            gameGraphics.drawBox(0, 0, _bgScreenWidth, 6, 0x000000); //_bgScreenWidth=512
+            gameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0x000000); //_bgScreenWidth=512
             for (int i1 = 6; i1 >= 1; i1--)
             {
                 gameGraphics.drawTransparentLine(0, i1, 0, i1, _bgScreenWidth, 8);
             }
 
-            gameGraphics.drawBox(0, 194, _bgScreenWidth, 20, 0x000000);
+            gameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0x000000);
 
             for (int j1 = 6; j1 >= 1; j1--)
             {
@@ -1200,18 +1200,18 @@ namespace RuneScapeSolo.Net.Client
             gameCamera.zoom4 = 4000;
             gameCamera.SetCameraTransform(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY, 912, cameraRotation, 0, cameraDistance * 2);
             gameCamera.finishCamera();
-            gameGraphics.screenFadeToBlack();
-            gameGraphics.screenFadeToBlack();
+            gameGraphics.FadeScreenToBlack();
+            gameGraphics.FadeScreenToBlack();
 
 
 
-            gameGraphics.drawBox(0, 0, _bgScreenWidth, 6, 0);
+            gameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0);
             for (int k1 = 6; k1 >= 1; k1--)
             {
                 gameGraphics.drawTransparentLine(0, k1, 0, k1, _bgScreenWidth, 8);
             }
 
-            gameGraphics.drawBox(0, 194, _bgScreenWidth, 20, 0);
+            gameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0);
             for (int l1 = 6; l1 >= 1; l1--)
             {
                 gameGraphics.drawTransparentLine(0, l1, 0, 194 - l1, _bgScreenWidth, 8);
@@ -1254,18 +1254,18 @@ namespace RuneScapeSolo.Net.Client
             gameCamera.zoom4 = 4000;
             gameCamera.SetCameraTransform(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY, 912, cameraRotation, 0, cameraDistance * 2);
             gameCamera.finishCamera();
-            gameGraphics.screenFadeToBlack();
-            gameGraphics.screenFadeToBlack();
+            gameGraphics.FadeScreenToBlack();
+            gameGraphics.FadeScreenToBlack();
 
 
 
-            gameGraphics.drawBox(0, 0, _bgScreenWidth, 6, 0);
+            gameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0);
             for (int j2 = 6; j2 >= 1; j2--)
             {
                 gameGraphics.drawTransparentLine(0, j2, 0, j2, _bgScreenWidth, 8);
             }
 
-            gameGraphics.drawBox(0, 194, _bgScreenWidth, 20, 0);
+            gameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0);
             for (int k2 = 6; k2 >= 1; k2--)
             {
                 gameGraphics.drawTransparentLine(0, k2, 0, 194, _bgScreenWidth, 8);
@@ -1661,12 +1661,12 @@ namespace RuneScapeSolo.Net.Client
 
         public void drawMinimapMenu(bool canClick)
         {
-            int l = gameGraphics.gameWidth - 199;
+            int l = gameGraphics.GameSize.Width - 199;
             int c1 = 156;//'æ';//(char)234;//'\u234';
             int c3 = 152;// '~';//(char)230;//'\u230';
 
             l += 40;
-            gameGraphics.setDimensions(l, 36, l + c1, 36 + c3);
+            gameGraphics.SetDimensions(l, 36, l + c1, 36 + c3);
 
             int j1 = 192 + minimapRandomRotationY;
             int l1 = cameraRotation + minimapRandomRotationX & 0xff;
@@ -1678,14 +1678,14 @@ namespace RuneScapeSolo.Net.Client
             l3 = l3 * l5 - j2 * j5 >> 18;
 
             gameGraphics.drawMinimapPic((l + c1 / 2) - j6, 36 + c3 / 2 + l3, baseInventoryPic - 1, l1 + 64 & 0xff, j1);
-            gameGraphics.setDimensions(0, 0, windowWidth, windowHeight + 12);
+            gameGraphics.SetDimensions(0, 0, windowWidth, windowHeight + 12);
 
             if (!canClick)
             {
                 return;
             }
 
-            l = InputManager.Instance.MouseLocation.X - (gameGraphics.gameWidth - 199);
+            l = InputManager.Instance.MouseLocation.X - (gameGraphics.GameSize.Width - 199);
             int l8 = InputManager.Instance.MouseLocation.Y - 36;
             if (l >= 40 && l8 >= 0 && l < 196 && l8 < 152)
             {
@@ -1693,7 +1693,7 @@ namespace RuneScapeSolo.Net.Client
                 int c4 = 152;//'\u230';
                 int k1 = 192 + minimapRandomRotationY;
                 int i2 = cameraRotation + minimapRandomRotationX & 0xff;
-                int i1 = gameGraphics.gameWidth - 199;
+                int i1 = gameGraphics.GameSize.Width - 199;
                 i1 += 40;
                 int k3 = ((InputManager.Instance.MouseLocation.X - (i1 + c2 / 2)) * 16384) / (3 * k1);
                 int i5 = ((InputManager.Instance.MouseLocation.Y - (36 + c4 / 2)) * 16384) / (3 * k1);
@@ -1790,11 +1790,11 @@ namespace RuneScapeSolo.Net.Client
             SetRefreshRate(50);
             gameGraphics = new GameImageMiddleMan(windowWidth, windowHeight + 12, 4000);
             gameGraphics.gameReference = this;
-            gameGraphics.setDimensions(0, 0, windowWidth, windowHeight + 12);
+            gameGraphics.SetDimensions(0, 0, windowWidth, windowHeight + 12);
             Menu.gdh = false;
             Menu.baseScrollPic = baseScrollPic;
             spellMenu = new Menu(gameGraphics, 5);
-            int k1 = gameGraphics.gameWidth - 199;
+            int k1 = gameGraphics.GameSize.Width - 199;
             sbyte byte0 = 36;
             spellMenuHandle = spellMenu.createList(k1, byte0 + 24, 196, 90, 1, 500, true);
             questMenu = new Menu(gameGraphics, 5);
@@ -2361,7 +2361,7 @@ namespace RuneScapeSolo.Net.Client
 
         public void drawOptionsMenu(bool canClick)
         {
-            int l = gameGraphics.gameWidth - 199;
+            int l = gameGraphics.GameSize.Width - 199;
             int i1 = 36;
             gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 6);
             int c1 = 196;
@@ -2423,11 +2423,11 @@ namespace RuneScapeSolo.Net.Client
                 return;
             }
 
-            l = InputManager.Instance.MouseLocation.X - (gameGraphics.gameWidth - 199);
+            l = InputManager.Instance.MouseLocation.X - (gameGraphics.GameSize.Width - 199);
             i1 = InputManager.Instance.MouseLocation.Y - 36;
             if (l >= 0 && i1 >= 0 && l < 196 && i1 < 280)
             {
-                int k2 = gameGraphics.gameWidth - 199;
+                int k2 = gameGraphics.GameSize.Width - 199;
                 sbyte byte0 = 36;
                 int c2 = 196;
                 int k1 = k2 + 3;
@@ -2985,7 +2985,7 @@ namespace RuneScapeSolo.Net.Client
 
         public void drawPrayerMagicMenu(bool canClick)
         {
-            int l = gameGraphics.gameWidth - 199;
+            int l = gameGraphics.GameSize.Width - 199;
             int i1 = 36;
             gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 4);
             int c1 = 196;//'\u304';
@@ -3006,9 +3006,9 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.drawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
             gameGraphics.drawBoxAlpha(l, i1 + 24, c1, 90, GameImage.RgbToInt(220, 220, 220), 128);
             gameGraphics.drawBoxAlpha(l, i1 + 24 + 90, c1, c2 - 90 - 24, GameImage.RgbToInt(160, 160, 160), 128);
-            gameGraphics.drawLineX(l, i1 + 24, c1, 0);
-            gameGraphics.drawLineY(l + c1 / 2, i1, 24, 0);
-            gameGraphics.drawLineX(l, i1 + 113, c1, 0);
+            gameGraphics.DrawHorizontalLine(l, i1 + 24, c1, 0);
+            gameGraphics.DrawVerticalLine(l + c1 / 2, i1, 24, 0);
+            gameGraphics.DrawHorizontalLine(l, i1 + 113, c1, 0);
             gameGraphics.drawText("Magic", l + c1 / 4, i1 + 16, 4, 0);
             gameGraphics.drawText("Prayers", l + c1 / 4 + c1 / 2, i1 + 16, 4, 0);
 
@@ -3114,12 +3114,12 @@ namespace RuneScapeSolo.Net.Client
                 return;
             }
 
-            l = InputManager.Instance.MouseLocation.X - (gameGraphics.gameWidth - 199);
+            l = InputManager.Instance.MouseLocation.X - (gameGraphics.GameSize.Width - 199);
             i1 = InputManager.Instance.MouseLocation.Y - 36;
 
             if (l >= 0 && i1 >= 0 && l < 196 && i1 < 182)
             {
-                spellMenu.mouseClick(l + (gameGraphics.gameWidth - 199), i1 + 36, lastMouseButton, mouseButton);
+                spellMenu.mouseClick(l + (gameGraphics.GameSize.Width - 199), i1 + 36, lastMouseButton, mouseButton);
                 if (i1 <= 24 && mouseButtonClick == 1)
                 {
                     if (l < 98 && menuMagicPrayersSelected == 1)
@@ -4368,7 +4368,7 @@ namespace RuneScapeSolo.Net.Client
             }
             sbyte _offsetX = 52;
             sbyte _offsetY = 44;
-            gameGraphics.drawBox(_offsetX, _offsetY, 408, 12, 192);
+            gameGraphics.DrawBox(_offsetX, _offsetY, 408, 12, 192);
             int k1 = 0x989898;
             gameGraphics.drawBoxAlpha(_offsetX, _offsetY + 12, 408, 17, k1, 160);
             gameGraphics.drawBoxAlpha(_offsetX, _offsetY + 29, 8, 170, k1, 160);
@@ -4402,7 +4402,7 @@ namespace RuneScapeSolo.Net.Client
                         gameGraphics.drawBoxAlpha(i6, l6, 49, 34, j3, 160);
                     }
 
-                    gameGraphics.drawBoxEdge(i6, l6, 50, 35, 0);
+                    gameGraphics.DrawBoxEdge(i6, l6, 50, 35, 0);
                     if (shopItems[j4] != -1)
                     {
                         gameGraphics.drawImage(i6, l6, 48, 32, baseItemPicture + EntityManager.GetItem(shopItems[j4]).InventoryPicture, EntityManager.GetItem(shopItems[j4]).PictureMask, 0, 0, false);
@@ -4414,7 +4414,7 @@ namespace RuneScapeSolo.Net.Client
 
             }
 
-            gameGraphics.drawLineX(_offsetX + 5, _offsetY + 222, 398, 0);
+            gameGraphics.DrawHorizontalLine(_offsetX + 5, _offsetY + 222, 398, 0);
             if (selectedShopItemIndex == -1)
             {
                 gameGraphics.drawText("Select an object to buy or sell", _offsetX + 204, _offsetY + 214, 3, 0xffff00);
@@ -4483,7 +4483,7 @@ namespace RuneScapeSolo.Net.Client
                 string s1 = EntityManager.GetTexture(l).Name;
                 sbyte[] abyte2 = DataOperations.loadData(s1 + ".dat", 0, abyte0);
                 gameGraphics.unpackImageData(baseTexturePic, abyte2, abyte1, 1);
-                gameGraphics.drawBox(0, 0, 128, 128, 0xff00ff);
+                gameGraphics.DrawBox(0, 0, 128, 128, 0xff00ff);
                 gameGraphics.drawPicture(0, 0, baseTexturePic);
                 int i1 = gameGraphics.pictureAssumedWidth[baseTexturePic];
                 string s2 = EntityManager.GetTexture(l).SubName;
@@ -4663,7 +4663,7 @@ namespace RuneScapeSolo.Net.Client
         {
             if (PlayerAliveTimeout != 0)
             {
-                gameGraphics.screenFadeToBlack();
+                gameGraphics.FadeScreenToBlack();
                 gameGraphics.drawText("Oh dear! You are dead...", windowWidth / 2, windowHeight / 2, 7, 0xff0000);
 
                 OnDrawDone();
@@ -4676,7 +4676,7 @@ namespace RuneScapeSolo.Net.Client
             }
             if (IsSleeping)
             {
-                gameGraphics.screenFadeToBlack();
+                gameGraphics.FadeScreenToBlack();
                 if (Helper.Random.NextDouble() < 0.14999999999999999D)
                 {
                     gameGraphics.drawText("ZZZ", (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
@@ -4687,7 +4687,7 @@ namespace RuneScapeSolo.Net.Client
                     gameGraphics.drawText("ZZZ", 512 - (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
                 }
 
-                gameGraphics.drawBox(windowWidth / 2 - 100, 160, 200, 40, 0);
+                gameGraphics.DrawBox(windowWidth / 2 - 100, 160, 200, 40, 0);
                 gameGraphics.drawText("You are sleeping", windowWidth / 2, 50, 7, 0xffff00);
                 gameGraphics.drawText("Fatigue: " + (PlayerFatigue * 100) / 750 + "%", windowWidth / 2, 90, 7, 0xffff00);
                 gameGraphics.drawText("When you want to wake up just use your", windowWidth / 2, 140, 5, 0xffffff);
@@ -4701,7 +4701,7 @@ namespace RuneScapeSolo.Net.Client
                     gameGraphics.drawText(sleepingStatusText, windowWidth / 2, 260, 5, 0xff0000);
                 }
 
-                gameGraphics.drawBoxEdge(windowWidth / 2 - 128, 229, 257, 42, 0xffffff);
+                gameGraphics.DrawBoxEdge(windowWidth / 2 - 128, 229, 257, 42, 0xffffff);
                 gameGraphics.drawText("If you can't read the word", windowWidth / 2, 290, 1, 0xffffff);
                 gameGraphics.drawText("@yel@click here@whi@ to get a different one", windowWidth / 2, 305, 1, 0xffffff);
 
@@ -5009,7 +5009,7 @@ namespace RuneScapeSolo.Net.Client
                 gameGraphics.drawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 18 + (24 + actionPictureType) / 6);
             }
 
-            gameGraphics.drawPicture(gameGraphics.gameWidth - 3 - 197, 3, baseInventoryPic, 128);
+            gameGraphics.drawPicture(gameGraphics.GameSize.Width - 3 - 197, 3, baseInventoryPic, 128);
 
             drawMenus();
 
@@ -5536,7 +5536,7 @@ namespace RuneScapeSolo.Net.Client
             }
             int i1 = 256 - c1 / 2;
             int k1 = 170 - c2 / 2;
-            gameGraphics.drawBox(i1, k1, 408, 12, 192);
+            gameGraphics.DrawBox(i1, k1, 408, 12, 192);
             int j2 = 0x989898;
             gameGraphics.drawBoxAlpha(i1, k1 + 12, 408, 17, j2, 160);
             gameGraphics.drawBoxAlpha(i1, k1 + 29, 8, 204, j2, 160);
@@ -5631,7 +5631,7 @@ namespace RuneScapeSolo.Net.Client
                         gameGraphics.drawBoxAlpha(k9, l9, 49, 34, l7, 160);
                     }
 
-                    gameGraphics.drawBoxEdge(k9, l9, 50, 35, 0);
+                    gameGraphics.DrawBoxEdge(k9, l9, 50, 35, 0);
                     if (j8 < bankItemsCount && bankItems[j8] != -1)
                     {
                         gameGraphics.drawImage(k9, l9, 48, 32, baseItemPicture + EntityManager.GetItem(bankItems[j8]).InventoryPicture, EntityManager.GetItem(bankItems[j8]).PictureMask, 0, 0, false);
@@ -5643,7 +5643,7 @@ namespace RuneScapeSolo.Net.Client
 
             }
 
-            gameGraphics.drawLineX(i1 + 5, k1 + 256, 398, 0);
+            gameGraphics.DrawHorizontalLine(i1 + 5, k1 + 256, 398, 0);
             if (selectedBankItem == -1)
             {
                 gameGraphics.drawText("Select an object to withdraw or deposit", i1 + 204, k1 + 248, 3, 0xffff00);
@@ -6128,7 +6128,7 @@ namespace RuneScapeSolo.Net.Client
 
         public void drawStatsQuestsMenu(bool canClick)
         {
-            int l = gameGraphics.gameWidth - 199; //199
+            int l = gameGraphics.GameSize.Width - 199; //199
             int i1 = 36;
             gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 3);
             int c1 = 196;//'\u304';
@@ -6147,8 +6147,8 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.drawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
             gameGraphics.drawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
             gameGraphics.drawBoxAlpha(l, i1 + 24, c1, c2 - 24, GameImage.RgbToInt(220, 220, 220), 128);
-            gameGraphics.drawLineX(l, i1 + 24, c1, 0);
-            gameGraphics.drawLineY(l + c1 / 2, i1, 24, 0);
+            gameGraphics.DrawHorizontalLine(l, i1 + 24, c1, 0);
+            gameGraphics.DrawVerticalLine(l + c1 / 2, i1, 24, 0);
             gameGraphics.drawText("Stats", l + c1 / 4, i1 + 16, 4, 0);
             gameGraphics.drawText("Quests", l + c1 / 4 + c1 / 2, i1 + 16, 4, 0);
             if (questMenuSelected == 0)
@@ -6194,7 +6194,7 @@ namespace RuneScapeSolo.Net.Client
                 }
 
                 l1 += 6;
-                gameGraphics.drawLineX(l, l1 - 15, c1, 0);
+                gameGraphics.DrawHorizontalLine(l, l1 - 15, c1, 0);
                 if (j2 != -1)
                 {
                     gameGraphics.drawString(Skills[j2].Name + " skill", l + 5, l1, 1, 0xffff00);
@@ -6244,13 +6244,13 @@ namespace RuneScapeSolo.Net.Client
                 return;
             }
 
-            l = InputManager.Instance.MouseLocation.X - (gameGraphics.gameWidth - 199);
+            l = InputManager.Instance.MouseLocation.X - (gameGraphics.GameSize.Width - 199);
             i1 = InputManager.Instance.MouseLocation.Y - 36;
             if (l >= 0 && i1 >= 0 && l < c1 && i1 < c2)
             {
                 if (questMenuSelected == 1)
                 {
-                    questMenu.mouseClick(l + (gameGraphics.gameWidth - 199), i1 + 36, lastMouseButton, mouseButton);
+                    questMenu.mouseClick(l + (gameGraphics.GameSize.Width - 199), i1 + 36, lastMouseButton, mouseButton);
                 }
 
                 if (i1 <= 24 && mouseButtonClick == 1)
@@ -6314,84 +6314,84 @@ namespace RuneScapeSolo.Net.Client
 
         public void getMenuHighlighted()
         {
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 && InputManager.Instance.MouseLocation.Y < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 && InputManager.Instance.MouseLocation.Y < 35)
             {
                 drawMenuTab = 1;
             }
 
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 33 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 33 && InputManager.Instance.MouseLocation.Y < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 33 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 33 && InputManager.Instance.MouseLocation.Y < 35)
             {
                 drawMenuTab = 2;
                 minimapRandomRotationX = (int)(Helper.Random.NextDouble() * 13D) - 6;
                 minimapRandomRotationY = (int)(Helper.Random.NextDouble() * 23D) - 11;
             }
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 66 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 66 && InputManager.Instance.MouseLocation.Y < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 66 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 66 && InputManager.Instance.MouseLocation.Y < 35)
             {
                 drawMenuTab = 3;
             }
 
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 99 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 99 && InputManager.Instance.MouseLocation.Y < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 99 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 99 && InputManager.Instance.MouseLocation.Y < 35)
             {
                 drawMenuTab = 4;
             }
 
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 132 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 132 && InputManager.Instance.MouseLocation.Y < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 132 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 132 && InputManager.Instance.MouseLocation.Y < 35)
             {
                 drawMenuTab = 5;
             }
 
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 165 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 165 && InputManager.Instance.MouseLocation.Y < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 165 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 165 && InputManager.Instance.MouseLocation.Y < 35)
             {
                 drawMenuTab = 6;
             }
 
-            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 && InputManager.Instance.MouseLocation.Y < 26)
+            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 && InputManager.Instance.MouseLocation.Y < 26)
             {
                 drawMenuTab = 1;
             }
 
-            if (drawMenuTab != 0 && drawMenuTab != 2 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 33 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 33 && InputManager.Instance.MouseLocation.Y < 26)
+            if (drawMenuTab != 0 && drawMenuTab != 2 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 33 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 33 && InputManager.Instance.MouseLocation.Y < 26)
             {
                 drawMenuTab = 2;
                 minimapRandomRotationX = (int)(Helper.Random.NextDouble() * 13D) - 6;
                 minimapRandomRotationY = (int)(Helper.Random.NextDouble() * 23D) - 11;
             }
-            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 66 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 66 && InputManager.Instance.MouseLocation.Y < 26)
+            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 66 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 66 && InputManager.Instance.MouseLocation.Y < 26)
             {
                 drawMenuTab = 3;
             }
 
-            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 99 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 99 && InputManager.Instance.MouseLocation.Y < 26)
+            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 99 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 99 && InputManager.Instance.MouseLocation.Y < 26)
             {
                 drawMenuTab = 4;
             }
 
-            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 132 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 132 && InputManager.Instance.MouseLocation.Y < 26)
+            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 132 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 132 && InputManager.Instance.MouseLocation.Y < 26)
             {
                 drawMenuTab = 5;
             }
 
-            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.gameWidth - 35 - 165 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 3 - 165 && InputManager.Instance.MouseLocation.Y < 26)
+            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 165 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 165 && InputManager.Instance.MouseLocation.Y < 26)
             {
                 drawMenuTab = 6;
             }
 
-            if (drawMenuTab == 1 && (InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 248 || InputManager.Instance.MouseLocation.Y > 36 + (maxInventoryItems / 5) * 34))
+            if (drawMenuTab == 1 && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 248 || InputManager.Instance.MouseLocation.Y > 36 + (maxInventoryItems / 5) * 34))
             {
                 drawMenuTab = 0;
             }
 
-            if (drawMenuTab == 3 && (InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 199 || InputManager.Instance.MouseLocation.Y > 316))
+            if (drawMenuTab == 3 && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 199 || InputManager.Instance.MouseLocation.Y > 316))
             {
                 drawMenuTab = 0;
             }
 
-            if ((drawMenuTab == 2 || drawMenuTab == 4 || drawMenuTab == 5) && (InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 199 || InputManager.Instance.MouseLocation.Y > 240))
+            if ((drawMenuTab == 2 || drawMenuTab == 4 || drawMenuTab == 5) && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 199 || InputManager.Instance.MouseLocation.Y > 240))
             {
                 drawMenuTab = 0;
             }
 
-            if (drawMenuTab == 6 && (InputManager.Instance.MouseLocation.X < gameGraphics.gameWidth - 199 || InputManager.Instance.MouseLocation.Y > 326))
+            if (drawMenuTab == 6 && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 199 || InputManager.Instance.MouseLocation.Y > 326))
             {
                 drawMenuTab = 0;
             }

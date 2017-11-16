@@ -748,7 +748,7 @@ namespace RuneScapeSolo.Net.Client.Game
                         }
                         if (freshLoad)
                         {
-                            gameGraphics.drawLineX(x1 * 3, y1 * 3, 3, j1);
+                            gameGraphics.DrawHorizontalLine(x1 * 3, y1 * 3, 3, j1);
                         }
                     }
                     k3 = getVerticalWall(x1, y1);
@@ -765,7 +765,7 @@ namespace RuneScapeSolo.Net.Client.Game
                         }
                         if (freshLoad)
                         {
-                            gameGraphics.drawLineY(x1 * 3, y1 * 3, 3, j1);
+                            gameGraphics.DrawVerticalLine(x1 * 3, y1 * 3, 3, j1);
                         }
                     }
                     k3 = getDiagonalWall(x1, y1);
@@ -779,9 +779,9 @@ namespace RuneScapeSolo.Net.Client.Game
 
                         if (freshLoad)
                         {
-                            gameGraphics.drawMinimapPixel(x1 * 3, y1 * 3, j1);
-                            gameGraphics.drawMinimapPixel(x1 * 3 + 1, y1 * 3 + 1, j1);
-                            gameGraphics.drawMinimapPixel(x1 * 3 + 2, y1 * 3 + 2, j1);
+                            gameGraphics.DrawMinimapPixel(x1 * 3, y1 * 3, j1);
+                            gameGraphics.DrawMinimapPixel(x1 * 3 + 1, y1 * 3 + 1, j1);
+                            gameGraphics.DrawMinimapPixel(x1 * 3 + 2, y1 * 3 + 2, j1);
                         }
                     }
                     if (k3 > 12000 && k3 < 24000 && (EntityManager.GetWallObject(k3 - 12001).Unknown == 0 || ghh))
@@ -794,9 +794,9 @@ namespace RuneScapeSolo.Net.Client.Game
 
                         if (freshLoad)
                         {
-                            gameGraphics.drawMinimapPixel(x1 * 3 + 2, y1 * 3, j1);
-                            gameGraphics.drawMinimapPixel(x1 * 3 + 1, y1 * 3 + 1, j1);
-                            gameGraphics.drawMinimapPixel(x1 * 3, y1 * 3 + 2, j1);
+                            gameGraphics.DrawMinimapPixel(x1 * 3 + 2, y1 * 3, j1);
+                            gameGraphics.DrawMinimapPixel(x1 * 3 + 1, y1 * 3 + 1, j1);
+                            gameGraphics.DrawMinimapPixel(x1 * 3, y1 * 3 + 2, j1);
                         }
                     }
                 }
@@ -1735,20 +1735,20 @@ namespace RuneScapeSolo.Net.Client.Game
             texture2 = texture2 >> 1 & 0x7f7f7f;
             if (drawOrder == 0)
             {
-                gameGraphics.drawLineX(destX, destY, 3, texture1);
-                gameGraphics.drawLineX(destX, destY + 1, 2, texture1);
-                gameGraphics.drawLineX(destX, destY + 2, 1, texture1);
-                gameGraphics.drawLineX(destX + 2, destY + 1, 1, texture2);
-                gameGraphics.drawLineX(destX + 1, destY + 2, 2, texture2);
+                gameGraphics.DrawHorizontalLine(destX, destY, 3, texture1);
+                gameGraphics.DrawHorizontalLine(destX, destY + 1, 2, texture1);
+                gameGraphics.DrawHorizontalLine(destX, destY + 2, 1, texture1);
+                gameGraphics.DrawHorizontalLine(destX + 2, destY + 1, 1, texture2);
+                gameGraphics.DrawHorizontalLine(destX + 1, destY + 2, 2, texture2);
                 return;
             }
             if (drawOrder == 1)
             {
-                gameGraphics.drawLineX(destX, destY, 3, texture2);
-                gameGraphics.drawLineX(destX + 1, destY + 1, 2, texture2);
-                gameGraphics.drawLineX(destX + 2, destY + 2, 1, texture2);
-                gameGraphics.drawLineX(destX, destY + 1, 1, texture1);
-                gameGraphics.drawLineX(destX, destY + 2, 2, texture1);
+                gameGraphics.DrawHorizontalLine(destX, destY, 3, texture2);
+                gameGraphics.DrawHorizontalLine(destX + 1, destY + 1, 2, texture2);
+                gameGraphics.DrawHorizontalLine(destX + 2, destY + 2, 1, texture2);
+                gameGraphics.DrawHorizontalLine(destX, destY + 1, 1, texture1);
+                gameGraphics.DrawHorizontalLine(destX, destY + 2, 2, texture1);
             }
         }
 

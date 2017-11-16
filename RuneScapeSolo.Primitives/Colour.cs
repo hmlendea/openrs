@@ -64,11 +64,38 @@ namespace RuneScapeSolo.Primitives
         /// <param name="r">The red component.</param>
         /// <param name="g">The green component.</param>
         /// <param name="b">The blue component.</param>
+        public Colour(int r, int g, int b)
+            : this()
+        {
+            R = (byte)r;
+            G = (byte)g;
+            B = (byte)b;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Colour"/> class.
+        /// </summary>
+        /// <param name="r">The red component.</param>
+        /// <param name="g">The green component.</param>
+        /// <param name="b">The blue component.</param>
         /// <param name="a">The alpha component.</param>
         public Colour(byte r, byte g, byte b, byte a)
             : this(r, g, b)
         {
             A = a;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Colour"/> class.
+        /// </summary>
+        /// <param name="r">The red component.</param>
+        /// <param name="g">The green component.</param>
+        /// <param name="b">The blue component.</param>
+        /// <param name="a">The alpha component.</param>
+        public Colour(int r, int g, int b, int a)
+            : this(r, g, b)
+        {
+            A = (byte)a;
         }
 
         public static Colour Transparent => new Colour(0, 0, 0, 0);
@@ -107,6 +134,15 @@ namespace RuneScapeSolo.Primitives
         public static Colour FromArgb(byte r, byte g, byte b) => ColourTranslator.FromArgb(r, g, b);
 
         /// <summary>
+        /// Creates a colour from RGB values.
+        /// </summary>
+        /// <returns>The colour.</returns>
+        /// <param name="r">Red value.</param>
+        /// <param name="g">Green value.</param>
+        /// <param name="b">Blue value.</param>
+        public static Colour FromArgb(int r, int g, int b) => ColourTranslator.FromArgb(r, g, b);
+
+        /// <summary>
         /// Creates a colour from ARGB values.
         /// </summary>
         /// <returns>The colour.</returns>
@@ -115,6 +151,16 @@ namespace RuneScapeSolo.Primitives
         /// <param name="g">Green value.</param>
         /// <param name="b">Blue value.</param>
         public static Colour FromArgb(byte a, byte r, byte g, byte b) => ColourTranslator.FromArgb(a, r, g, b);
+
+        /// <summary>
+        /// Creates a colour from ARGB values.
+        /// </summary>
+        /// <returns>The colour.</returns>
+        /// <param name="a">Alpha value.</param>
+        /// <param name="r">Red value.</param>
+        /// <param name="g">Green value.</param>
+        /// <param name="b">Blue value.</param>
+        public static Colour FromArgb(int a, int r, int g, int b) => ColourTranslator.FromArgb(a, r, g, b);
 
         /// <summary>
         /// Creates a colour from a hexadecimal code.

@@ -1,30 +1,27 @@
 using System;
 using System.Collections.Generic;
 
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using RuneScapeSolo.Net.Client.Data;
+using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Net.Client.Game
 {
-    public class GameImage  //: org.moparscape.msc.client.GameImage
-                            /* implements ImageProducer, ImageObserver */
+    public class GameImage
     {
-        // public static Texture2D[] UnpackedImages = new Texture2D[5000];
+        public Size2D GameSize { get; set; }
 
+        Rectangle2D imageRectangle;
 
-
-        public GameImage(int width, int height, int size /*, java.awt.Component destY*/)
-        //  : base(_pixels, y, destX, destY)
+        public GameImage(int width, int height, int size)
         {
+            GameSize = new Size2D(width, height);
+
+            imageRectangle = new Rectangle2D(0, 0, width, height);
+
             interlacingEnabled = false;
             loggedIn = false;
-            imageHeight = height;
-            imageWidth = width;
-            width = gameWidth = width;
-            height = gameHeight = height;
-            area = width * height;
             pixels = new int[width * height];
             pictureColors = new int[size][];
             hasTransparentBackground = new bool[size];
@@ -36,139 +33,55 @@ namespace RuneScapeSolo.Net.Client.Game
             pictureAssumedHeight = new int[size];
             pictureOffsetX = new int[size];
             pictureOffsetY = new int[size];
-            if (width > 1 && height > 1 /*&& destY != null*/)
+
+            if (width > 1 && height > 1)
             {
-                // colorModel = new DirectColorModel(32, 0xff0000, 65280, 255);
-                int i = gameWidth * gameHeight;
+                int i = GameSize.Width * GameSize.Height;
+
                 for (int k = 0; k < i; k++)
                 {
                     pixels[k] = 0;
                 }
-
-                //  image = destY.createImage(this);
-                //imageTexture = new Texture2D(graphics, gameWidth, gameHeight);
-                //UpdateGameImage();
-                //  destY.prepareImage(image, destY);
-                // cag();
-                //  destY.prepareImage(image, destY);
-                // cag();
-                //  destY.prepareImage(image, destY);
             }
         }
 
-        //[MethodImpl(MethodImplOptions.Synchronized)]
-        //public void addConsumer(ImageConsumer imageconsumer)
-        //{
-        //    imageConsumer = imageconsumer;
-        //    imageconsumer.setDimensions(gameWidth, gameHeight);
-        //    imageconsumer.setProperties(null);
-        //    imageconsumer.setColorModel(colorModel);
-        //    imageconsumer.setHints(14);
-        //}
-
-        //[MethodImpl(MethodImplOptions.Synchronized)]
-        //public bool isConsumer(ImageConsumer imageconsumer)
-        //{
-        //    return imageConsumer == imageconsumer;
-        //}
-
-        //[MethodImpl(MethodImplOptions.Synchronized)]
-        //public void removeConsumer(ImageConsumer imageconsumer)
-        //{
-        //    if (imageConsumer == imageconsumer)
-        //        imageConsumer = null;
-        //}
-
-        //public void startProduction(ImageConsumer imageconsumer)
-        //{
-        //    addConsumer(imageconsumer);
-        //}
-
-        //public void requestTopDownLeftRightResend(ImageConsumer imageconsumer)
-        //{
-        //    Console.WriteLine("TDLR");
-        //}
-
-        //public void cag()
-        //{
-        //    //base.cag();
-
-        //    if (graphics == null)
-        //        graphics = mudclient.graphics;
-
-
-        //    if (mudclient.spriteBatch.BeginIsActive()) return;
-
-        //    if (imageTexture != null)
-        //    {
-        //        mudclient.graphics.Textures[0] = null;
-        //        this.imageTexture.Dispose();
-        //    }
-        //    List<Color> clrs = new List<Color>();
-        //    foreach (var c in this.pixels)
-        //    {
-        //        var bytes = BitConverter.GetBytes(c);
-        //        var r = bytes[2];
-        //        var g = bytes[1];
-        //        var b = bytes[0];
-        //        clrs.Add(new Color(r, g, b, 255));
-        //    }
-        //    this.imageTexture = new Texture2D(mudclient.graphics, gameWidth, gameHeight, false, SurfaceFormat.Color);
-        //    this.imageTexture.SetData(clrs.ToArray());
-        //}
-
-        public void setDimensions(int x, int y, int _w, int _h)
+        static GameImage()
         {
-            if (x < 0)
-            {
-                x = 0;
-            }
+            string s = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
+            bne = new int[256];
 
-            if (y < 0)
+            for (int i = 0; i < 256; i++)
             {
-                y = 0;
-            }
+                int charIndex = s.IndexOf((char)i);
 
-            if (_w > gameWidth)
-            {
-                _w = gameWidth;
-            }
+                if (charIndex == -1)
+                {
+                    charIndex = 74;
+                }
 
-            if (_h > gameHeight)
-            {
-                _h = gameHeight;
+                bne[i] = charIndex * 9;
             }
-
-            imageX = x;
-            imageY = y;
-            imageWidth = _w;
-            imageHeight = _h;
         }
 
-        public void resetDimensions()
+        public void SetDimensions(int x, int y, int width, int height)
         {
-            imageX = 0;
-            imageY = 0;
-            imageWidth = gameWidth;
-            imageHeight = gameHeight;
+            x = x < 0 ? 0 : x;
+            y = y < 0 ? 0 : y;
+
+            width = width > GameSize.Width ? GameSize.Width : width;
+            height = height > GameSize.Height ? GameSize.Height : height;
+
+            imageRectangle = new Rectangle2D(x, y, width, height);
         }
 
-        //public void drawImage(SpriteBatch g, int x, int y)
-        //{
-        //    //UpdateGameImage();
-        //    try
-        //    {
-        //        //  g.BeginSafe();
-        //        //  if (g.BeginIsActive())
-        //        // g.Draw(imageTexture, new Vector2(x, y), Color.White); // drawImage(image, x, y, this);
-        //        //  g.EndSafe();
-        //    }
-        //    catch { }
-        //}
+        public void ResetDimensions()
+        {
+            imageRectangle = new Rectangle2D(0, 0, GameSize.Width, GameSize.Height);
+        }
 
         public void ClearScreen()
         {
-            int area = gameWidth * gameHeight;
+            int area = GameSize.Width * GameSize.Height;
 
             if (!interlacingEnabled)
             {
@@ -182,14 +95,14 @@ namespace RuneScapeSolo.Net.Client.Game
 
             int l = 0;
 
-            for (int i = -gameHeight; i < 0; i += 2)
+            for (int i = -GameSize.Height; i < 0; i += 2)
             {
-                for (int j = -gameWidth; j < 0; j++)
+                for (int j = -GameSize.Width; j < 0; j++)
                 {
                     pixels[l++] = 0;
                 }
 
-                l += gameWidth;
+                l += GameSize.Width;
             }
         }
 
@@ -206,9 +119,9 @@ namespace RuneScapeSolo.Net.Client.Game
             }
 
             int j2 = arg1 + arg2;
-            if (j2 >= gameHeight)
+            if (j2 >= GameSize.Height)
             {
-                j2 = gameHeight - 1;
+                j2 = GameSize.Height - 1;
             }
 
             byte byte0 = 1;
@@ -231,12 +144,12 @@ namespace RuneScapeSolo.Net.Client.Game
                 }
 
                 int k3 = arg0 + i3;
-                if (k3 >= gameWidth)
+                if (k3 >= GameSize.Width)
                 {
-                    k3 = gameWidth - 1;
+                    k3 = GameSize.Width - 1;
                 }
 
-                int l3 = j3 + k2 * gameWidth;
+                int l3 = j3 + k2 * GameSize.Width;
                 for (int i4 = j3; i4 <= k3; i4++)
                 {
                     int j1 = (pixels[l3] >> 16 & 0xff) * i;
@@ -252,43 +165,43 @@ namespace RuneScapeSolo.Net.Client.Game
 
         public void drawBoxAlpha(int x, int y, int w, int h, int arg4, int arg5)
         {
-            if (x < imageX)
+            if (x < imageRectangle.X)
             {
-                w -= imageX - x;
-                x = imageX;
+                w -= imageRectangle.X - x;
+                x = imageRectangle.X;
             }
-            if (y < imageY)
+            if (y < imageRectangle.Y)
             {
-                h -= imageY - y;
-                y = imageY;
+                h -= imageRectangle.Y - y;
+                y = imageRectangle.Y;
             }
-            if (x + w > imageWidth)
+            if (x + w > imageRectangle.Width)
             {
-                w = imageWidth - x;
+                w = imageRectangle.Width - x;
             }
 
-            if (y + h > imageHeight)
+            if (y + h > imageRectangle.Height)
             {
-                h = imageHeight - y;
+                h = imageRectangle.Height - y;
             }
 
             int i = 256 - arg5;
             int k = (arg4 >> 16 & 0xff) * arg5;
             int l = (arg4 >> 8 & 0xff) * arg5;
             int i1 = (arg4 & 0xff) * arg5;
-            int i2 = gameWidth - w;
+            int i2 = GameSize.Width - w;
             byte byte0 = 1;
             if (interlacingEnabled)
             {
                 byte0 = 2;
-                i2 += gameWidth;
+                i2 += GameSize.Width;
                 if ((y & 1) != 0)
                 {
                     y++;
                     h--;
                 }
             }
-            int j2 = x + y * gameWidth;
+            int j2 = x + y * GameSize.Width;
             for (int k2 = 0; k2 < h; k2 += byte0)
             {
                 for (int l2 = -w; l2 < 0; l2++)
@@ -305,44 +218,55 @@ namespace RuneScapeSolo.Net.Client.Game
 
         }
 
-        public void drawGradientBox(int x, int y, int w, int h, int startColor, int endColor)
+        public void DrawGradientBox(int x, int y, int width, int height, int startColourArgb, int endColourArgb)
         {
-            if (x < imageX)
+            if (x < imageRectangle.X)
             {
-                w -= imageX - x;
-                x = imageX;
-            }
-            if (x + w > imageWidth)
-            {
-                w = imageWidth - x;
+                width -= imageRectangle.X - x;
+                x = imageRectangle.X;
             }
 
-            int eB = endColor >> 16 & 0xff;
-            int eG = endColor >> 8 & 0xff;
-            int eR = endColor & 0xff;
+            if (x + width > imageRectangle.Width)
+            {
+                width = imageRectangle.Width - x;
+            }
 
-            int sB = startColor >> 16 & 0xff;
-            int sG = startColor >> 8 & 0xff;
-            int sR = startColor & 0xff;
-            int l1 = gameWidth - w;
+            Colour startColour = Colour.FromArgb(
+                startColourArgb & 0xff,
+                startColourArgb >> 8 & 0xff,
+                startColourArgb >> 16 & 0xff);
+            Colour endColour = Colour.FromArgb(
+                endColourArgb & 0xff,
+                endColourArgb >> 8 & 0xff,
+                endColourArgb >> 16 & 0xff);
+
+            int l1 = GameSize.Width - width;
             byte byte0 = 1;
+
             if (interlacingEnabled)
             {
                 byte0 = 2;
-                l1 += gameWidth;
+                l1 += GameSize.Width;
+
                 if ((y & 1) != 0)
                 {
                     y++;
-                    h--;
+                    height--;
                 }
             }
-            int i2 = x + y * gameWidth;
-            for (int j2 = 0; j2 < h; j2 += byte0)
+
+            int i2 = x + y * GameSize.Width;
+
+            for (int j = 0; j < height; j += byte0)
             {
-                if (j2 + y >= imageY && j2 + y < imageHeight)
+                if (j + y >= imageRectangle.Y && j + y < imageRectangle.Height)
                 {
-                    int k2 = ((eB * j2 + sB * (h - j2)) / h << 16) + ((eG * j2 + sG * (h - j2)) / h << 8) + (eR * j2 + sR * (h - j2)) / h;
-                    for (int l2 = -w; l2 < 0; l2++)
+                    int k2 =
+                        ((endColour.B * j + startColour.B * (height - j)) / height << 16) +
+                        ((endColour.G * j + startColour.G * (height - j)) / height << 8) +
+                        (endColour.R * j + startColour.R * (height - j)) / height;
+
+                    for (int i = -width; i < 0; i++)
                     {
                         pixels[i2++] = k2;
                     }
@@ -351,51 +275,56 @@ namespace RuneScapeSolo.Net.Client.Game
                 }
                 else
                 {
-                    i2 += gameWidth;
+                    i2 += GameSize.Width;
                 }
             }
         }
 
-        public void drawBox(int x, int y, int w, int h, int color)
+        public void DrawBox(int x, int y, int width, int height, int colour)
         {
-            if (x < imageX)
+            if (x < imageRectangle.X)
             {
-                w -= imageX - x;
-                x = imageX;
-            }
-            if (y < imageY)
-            {
-                h -= imageY - y;
-                y = imageY;
-            }
-            if (x + w > imageWidth)
-            {
-                w = imageWidth - x;
+                width -= imageRectangle.X - x;
+                x = imageRectangle.X;
             }
 
-            if (y + h > imageHeight)
+            if (y < imageRectangle.Y)
             {
-                h = imageHeight - y;
+                height -= imageRectangle.Y - y;
+                y = imageRectangle.Y;
             }
 
-            int i = gameWidth - w;
+            if (x + width > imageRectangle.Width)
+            {
+                width = imageRectangle.Width - x;
+            }
+
+            if (y + height > imageRectangle.Height)
+            {
+                height = imageRectangle.Height - y;
+            }
+
+            int i = GameSize.Width - width;
             byte byte0 = 1;
+
             if (interlacingEnabled)
             {
                 byte0 = 2;
-                i += gameWidth;
+                i += GameSize.Width;
                 if ((y & 1) != 0)
                 {
                     y++;
-                    h--;
+                    height--;
                 }
             }
-            int k = x + y * gameWidth;
-            for (int l = -h; l < 0; l += byte0)
+
+            int k = x + y * GameSize.Width;
+
+            for (int l = -height; l < 0; l += byte0)
             {
-                for (int i1 = -w; i1 < 0; i1++)
+                for (int i1 = -width; i1 < 0; i1++)
                 {
-                    pixels[k++] = color;
+                    pixels[k++] = colour;
                 }
 
                 k += i;
@@ -403,84 +332,89 @@ namespace RuneScapeSolo.Net.Client.Game
 
         }
 
-        public void drawBoxEdge(int x, int y, int w, int h, int color)
+        public void DrawBoxEdge(int x, int y, int width, int height, int colour)
         {
-            drawLineX(x, y, w, color);
-            drawLineX(x, (y + h) - 1, w, color);
-            drawLineY(x, y, h, color);
-            drawLineY((x + w) - 1, y, h, color);
+            DrawHorizontalLine(x, y, width, colour);
+            DrawHorizontalLine(x, (y + height) - 1, width, colour);
+            DrawVerticalLine(x, y, height, colour);
+            DrawVerticalLine((x + width) - 1, y, height, colour);
         }
 
-        public void drawLineX(int x, int y, int length, int colour)
+        public void DrawHorizontalLine(int x, int y, int length, int colour)
         {
-            if (y < imageY || y >= imageHeight)
+            if (y < imageRectangle.Y || y >= imageRectangle.Height)
             {
                 return;
             }
 
-            if (x < imageX)
+            if (x < imageRectangle.X)
             {
-                length -= imageX - x;
-                x = imageX;
-            }
-            if (x + length > imageWidth)
-            {
-                length = imageWidth - x;
+                length -= imageRectangle.X - x;
+                x = imageRectangle.X;
             }
 
-            int i = x + y * gameWidth;
+            if (x + length > imageRectangle.Width)
+            {
+                length = imageRectangle.Width - x;
+            }
+
+            int i = x + y * GameSize.Width;
+
             for (int k = 0; k < length; k++)
             {
                 pixels[i + k] = colour;
             }
         }
 
-        public void drawLineY(int x, int y, int length, int colour)
+        public void DrawVerticalLine(int x, int y, int length, int colour)
         {
-            if (x < imageX || x >= imageWidth)
+            if (x < imageRectangle.X || x >= imageRectangle.Width)
             {
                 return;
             }
 
-            if (y < imageY)
+            if (y < imageRectangle.Y)
             {
-                length -= imageY - y;
-                y = imageY;
-            }
-            if (y + length > imageWidth)
-            {
-                length = imageHeight - y;
+                length -= imageRectangle.Y - y;
+                y = imageRectangle.Y;
             }
 
-            int i = x + y * gameWidth;
+            if (y + length > imageRectangle.Width)
+            {
+                length = imageRectangle.Height - y;
+            }
+
+            int i = x + y * GameSize.Width;
+
             for (int k = 0; k < length; k++)
             {
-                pixels[i + k * gameWidth] = colour;
+                pixels[i + k * GameSize.Width] = colour;
             }
         }
 
-        public void drawMinimapPixel(int x, int y, int color)
+        public void DrawMinimapPixel(int x, int y, int color)
         {
-            if (x < imageX || y < imageY || x >= imageWidth || y >= imageHeight)
+            if (!imageRectangle.Contains(x, y))
             {
                 return;
             }
-            else
-            {
-                pixels[x + y * gameWidth] = color;
-                return;
-            }
+
+
+            pixels[x + y * GameSize.Width] = color;
         }
 
-        public void screenFadeToBlack()
+        public void FadeScreenToBlack()
         {
-            int l = gameWidth * gameHeight;
-            for (int k = 0; k < l; k++)
+            for (int i = 0; i < GameSize.Area; i++)
             {
-                int i = pixels[k] & 0xffffff;
-                pixels[k] = (int)(((uint)i >> 1 & 0x7f7f7f) + ((uint)i >> 2 & 0x3f3f3f) + ((uint)i >> 3 & 0x1f1f1f) + ((uint)i >> 4 & 0xf0f0f));
-            }
+                int pixel = pixels[i] & 0xffffff;
 
+                pixels[i] = (int)(
+                    ((uint)pixel >> 1 & 0x7f7f7f) +
+                    ((uint)pixel >> 2 & 0x3f3f3f) +
+                    ((uint)pixel >> 3 & 0x1f1f1f) +
+                    ((uint)pixel >> 4 & 0xf0f0f));
+            }
         }
 
         public void drawTransparentLine(int x, int y, int destX, int destY, int length, int color)
@@ -493,29 +427,32 @@ namespace RuneScapeSolo.Net.Client.Game
                     int i1 = 0;
                     int j1 = 0;
                     int k1 = 0;
+
                     for (int l1 = i - x; l1 <= i + x; l1++)
                     {
-                        if (l1 >= 0 && l1 < gameWidth)
+                        if (l1 < 0 || l1 >= GameSize.Width)
                         {
-                            for (int i2 = k - y; i2 <= k + y; i2++)
+                            continue;
+                        }
+
+                        for (int i2 = k - y; i2 <= k + y; i2++)
+                        {
+                            if (i2 < 0 || i2 >= GameSize.Height)
                             {
-                                if (i2 >= 0 && i2 < gameHeight)
-                                {
-                                    int j2 = pixels[l1 + gameWidth * i2];
-                                    l += j2 >> 16 & 0xff;
-                                    i1 += j2 >> 8 & 0xff;
-                                    j1 += j2 & 0xff;
-                                    k1++;
-                                }
+                                continue;
                             }
+
+                            int j2 = pixels[l1 + GameSize.Width * i2];
+                            l += j2 >> 16 & 0xff;
+                            i1 += j2 >> 8 & 0xff;
+                            j1 += j2 & 0xff;
+                            k1++;
                         }
                     }
 
-                    pixels[i + gameWidth * k] = (l / k1 << 16) + (i1 / k1 << 8) + j1 / k1;
+                    pixels[i + GameSize.Width * k] = (l / k1 << 16) + (i1 / k1 << 8) + j1 / k1;
                 }
-
             }
-
         }
 
         public static uint rgbaToUInt(int r, int g, int b, int a)
@@ -540,10 +477,12 @@ namespace RuneScapeSolo.Net.Client.Game
             {
                 return 0;
             }
-            if (value > 0xff)
+
+            if (value > 255)
             {
-                return 0xff;
+                return 255;
             }
+
             return value;
         }
 
@@ -553,10 +492,12 @@ namespace RuneScapeSolo.Net.Client.Game
             {
                 return 0;
             }
+
             if (value > 0xffL)
             {
                 return 0xff;
             }
+
             return (int)value;
         }
 
@@ -575,7 +516,6 @@ namespace RuneScapeSolo.Net.Client.Game
                 pictureColorIndexes[i] = null;
                 pictureColor[i] = null;
             }
-
         }
 
         public void unpackImageData(int arg0, sbyte[] arg1, sbyte[] arg2, int arg3)
@@ -601,12 +541,6 @@ namespace RuneScapeSolo.Net.Client.Game
                 ai[j1 + 1] = ((arg2[i] & 0xff) << 16) + ((arg2[i + 1] & 0xff) << 8) + (arg2[i + 2] & 0xff);
                 i += 3;
             }
-
-
-
-            // UnpackedImages[_pixels] = new Texture2D(graphics, y, _w);
-            // UnpackedImages[_pixels].SetData(ai);
-
 
             int k1 = 2;
             for (int l1 = arg0; l1 < arg0 + arg3; l1++)
@@ -665,23 +599,7 @@ namespace RuneScapeSolo.Net.Client.Game
                     }
 
                 }
-
-
-
-                //using (var stream = System.IO.File.OpenWrite("c:/jpg/" + _pixels + ".jpg"))
-                //{
-
-                //    var size = pictureWidth[width] * pictureHeight[width];
-                //    Color[] colorz = new Color[size];
-                //    Array.Copy(clr.ToArray(), colorz, clr.Count);
-
-                //    UnpackedImages[width] = new Texture2D(graphics, pictureWidth[width], pictureHeight[width], false, SurfaceFormat.Color);
-                //    //UnpackedImages[_pixels].
-                //    UnpackedImages[width].SetData(colorz);
-                //    UnpackedImages[width].SaveAsJpeg(stream, UnpackedImages[_pixels].Width, UnpackedImages[width].Height);
-                //}
             }
-
         }
 
         public void setSleepSprite(int pictureIndex, sbyte[] spriteData)
@@ -815,14 +733,6 @@ namespace RuneScapeSolo.Net.Client.Game
                 abyte0[l1] = (sbyte)l2;
             }
 
-            //using (var stream = System.IO.File.OpenWrite("c:/jpg/" + _pixels + ".jpg"))
-            //{
-            //    UnpackedImages[_pixels] = new Texture2D(graphics, pictureWidth[_pixels], pictureHeight[_pixels]);
-            //    UnpackedImages[_pixels].SetData(colors);
-            //    UnpackedImages[_pixels].SaveAsJpeg(stream, UnpackedImages[_pixels].Width, UnpackedImages[_pixels].Height);
-            //}
-
-
             pictureColorIndexes[arg0] = abyte0;
             pictureColor[arg0] = ai2;
             pictureColors[arg0] = null;
@@ -854,32 +764,8 @@ namespace RuneScapeSolo.Net.Client.Game
 
                 ai1[k] = l;
             }
-            //Color[] clrs = new Color[pictureWidth[_pixels] * pictureHeight[_pixels]];
-            //var p = 0;
-            //List<Color> colors = new List<Color>();
-            //for (int j = 0; j + 3 < ai1.Length; j += 3)
-            //{
-            //    var r = ai1[j + 2] & 0xff;
-            //    var g = ai1[j + 1] & 0xff;
-            //    var b = ai1[j + 0] & 0xff;
-            //    colors.Add(new Color(r, g, b, 255));
-            //    clrs[p++] = colors.Last();
-            //}
-            //using (var stream = System.IO.File.OpenWrite("c:/jpg/" + _pixels + ".jpg"))
-            //{
-            //    try
-            //    {
-            //        UnpackedImages[_pixels] = new Texture2D(graphics, pictureWidth[_pixels], pictureHeight[_pixels]);
-            //        UnpackedImages[_pixels].SetData(clrs);
-            //        UnpackedImages[_pixels].SaveAsJpeg(stream, UnpackedImages[_pixels].Width, UnpackedImages[_pixels].Height);
-            //    }
-            //    catch { }
-            //}
 
             pictureColors[arg0] = ai1;
-
-
-
             pictureColorIndexes[arg0] = null;
             pictureColor[arg0] = null;
         }
@@ -897,44 +783,13 @@ namespace RuneScapeSolo.Net.Client.Game
             int k = 0;
             pictureColors[pictureIndex] = new int[i];
 
-            //***********************            
-            //** Lets see if we can output this image aswell!            
-            //***********************
-            //var p = 0;
-            //var pix = new int[pictureWidth[_pixels] * pictureHeight[_pixels]];
-            //List<Color> colors = new List<Color>();
-            //Color[] clrs = new Color[pictureWidth[_pixels] * pictureHeight[_pixels]];
-
-
             for (int x1 = x; x1 < x + width; x1++)
             {
                 for (int y1 = y; y1 < y + height; y1++)
                 {
-                    //try
-                    //{
-                    //    pix[y] = pixels[_w + _h * gameWidth];
-                    //    var bytes = BitConverter.GetBytes(pix[y]);
-                    //    var r = bytes[2];
-                    //    var g = bytes[1];
-                    //    var b = bytes[0];
-                    //    colors.Add(Color.FromNonPremultiplied(r, g, b, 255));
-                    //    clrs[p++] = colors.Last();
-                    //}
-                    //catch { }
-                    pictureColors[pictureIndex][k++] = pixels[x1 + y1 * gameWidth];
+                    pictureColors[pictureIndex][k++] = pixels[x1 + y1 * GameSize.Width];
                 }
             }
-
-            //using (var stream = System.IO.File.OpenWrite("c:/jpg/" + _pixels + ".jpg"))
-            //{
-            //    try
-            //    {
-            //        UnpackedImages[_pixels] = new Texture2D(graphics, pictureWidth[_pixels], pictureHeight[_pixels]);
-            //        UnpackedImages[_pixels].SetData(clrs);
-            //        UnpackedImages[_pixels].SaveAsJpeg(stream, UnpackedImages[_pixels].Width, UnpackedImages[_pixels].Height);
-            //    }
-            //    catch { }
-            //}
         }
 
         public void drawImage(int arg0, int arg1, int arg2, int width, int height)
@@ -950,49 +805,14 @@ namespace RuneScapeSolo.Net.Client.Game
             int k = 0;
             pictureColors[arg0] = new int[i];
 
-            //***********************            
-            //** Lets see if we can output this image aswell!            
-            //***********************
-            //var p = 0;
-            //var pix = new int[pictureWidth[_pixels] * pictureHeight[_pixels]];
-            //List<Color> colors = new List<Color>();
-            //Color[] clrs = new Color[pictureWidth[_pixels] * pictureHeight[_pixels]];
-
-
-
             for (int l = arg2; l < arg2 + height; l++)
             {
                 for (int i1 = arg1; i1 < arg1 + width; i1++)
                 {
-                    //try
-                    //{
-                    //    pix[y] = pixels[_w + _h * gameWidth];
-                    //    var bytes = BitConverter.GetBytes(pix[y]);
-                    //    var r = bytes[2];
-                    //    var g = bytes[1];
-                    //    var b = bytes[0];
-                    //    colors.Add(Color.FromNonPremultiplied(r, g, b, 255));
-                    //    clrs[p++] = colors.Last();
-                    //}
-                    //catch { }
-
-                    pictureColors[arg0][k++] = pixels[i1 + l * gameWidth];
+                    pictureColors[arg0][k++] = pixels[i1 + l * GameSize.Width];
 
                 }
-
-
             }
-
-            //using (var stream = System.IO.File.OpenWrite("c:/jpg/" + _pixels + ".jpg"))
-            //{
-            //    try
-            //    {
-            //        UnpackedImages[_pixels] = new Texture2D(graphics, pictureWidth[_pixels], pictureHeight[_pixels]);
-            //        UnpackedImages[_pixels].SetData(clrs);
-            //        UnpackedImages[_pixels].SaveAsJpeg(stream, UnpackedImages[_pixels].Width, UnpackedImages[_pixels].Height);
-            //    }
-            //    catch { }
-            //}
         }
 
         public void drawPicture(int x, int y, int pictureIndex)
@@ -1002,38 +822,38 @@ namespace RuneScapeSolo.Net.Client.Game
                 x += pictureOffsetX[pictureIndex];
                 y += pictureOffsetY[pictureIndex];
             }
-            int i1 = x + y * gameWidth;
+            int i1 = x + y * GameSize.Width;
             int j1 = 0;
             int k1 = pictureHeight[pictureIndex];
             int l1 = pictureWidth[pictureIndex];
-            int i2 = gameWidth - l1;
+            int i2 = GameSize.Width - l1;
             int j2 = 0;
-            if (y < imageY)
+            if (y < imageRectangle.Y)
             {
-                int k2 = imageY - y;
+                int k2 = imageRectangle.Y - y;
                 k1 -= k2;
-                y = imageY;
+                y = imageRectangle.Y;
                 j1 += k2 * l1;
-                i1 += k2 * gameWidth;
+                i1 += k2 * GameSize.Width;
             }
-            if (y + k1 >= imageHeight)
+            if (y + k1 >= imageRectangle.Height)
             {
-                k1 -= ((y + k1) - imageHeight) + 1;
+                k1 -= ((y + k1) - imageRectangle.Height) + 1;
             }
 
-            if (x < imageX)
+            if (x < imageRectangle.X)
             {
-                int l2 = imageX - x;
+                int l2 = imageRectangle.X - x;
                 l1 -= l2;
-                x = imageX;
+                x = imageRectangle.X;
                 j1 += l2;
                 i1 += l2;
                 j2 += l2;
                 i2 += l2;
             }
-            if (x + l1 >= imageWidth)
+            if (x + l1 >= imageRectangle.Width)
             {
-                int i3 = ((x + l1) - imageWidth) + 1;
+                int i3 = ((x + l1) - imageRectangle.Width) + 1;
                 l1 -= i3;
                 j2 += i3;
                 i2 += i3;
@@ -1047,11 +867,11 @@ namespace RuneScapeSolo.Net.Client.Game
             if (interlacingEnabled)
             {
                 byte0 = 2;
-                i2 += gameWidth;
+                i2 += GameSize.Width;
                 j2 += pictureWidth[pictureIndex];
                 if ((y & 1) != 0)
                 {
-                    i1 += gameWidth;
+                    i1 += GameSize.Width;
                     k1--;
                 }
             }
@@ -1060,11 +880,8 @@ namespace RuneScapeSolo.Net.Client.Game
                 cch(ref pixels, pictureColorIndexes[pictureIndex], pictureColor[pictureIndex], j1, i1, l1, k1, i2, j2, byte0);
                 return;
             }
-            else
-            {
-                ccg(ref pixels, pictureColors[pictureIndex], 0, j1, i1, l1, k1, i2, j2, byte0);
-                return;
-            }
+            ccg(ref pixels, pictureColors[pictureIndex], 0, j1, i1, l1, k1, i2, j2, byte0);
+            return;
         }
 
         public void DrawEntity(int x, int y, int width, int height, int index)
@@ -1098,33 +915,33 @@ namespace RuneScapeSolo.Net.Client.Game
                     width = (width * (pictureWidth[index] - (i2 >> 16))) / i3;
                     height = (height * (pictureHeight[index] - (j2 >> 16))) / k3;
                 }
-                int j3 = x + y * gameWidth;
-                int l3 = gameWidth - width;
-                if (y < imageY)
+                int j3 = x + y * GameSize.Width;
+                int l3 = GameSize.Width - width;
+                if (y < imageRectangle.Y)
                 {
-                    int i4 = imageY - y;
+                    int i4 = imageRectangle.Y - y;
                     height -= i4;
                     y = 0;
-                    j3 += i4 * gameWidth;
+                    j3 += i4 * GameSize.Width;
                     j2 += l2 * i4;
                 }
-                if (y + height >= imageHeight)
+                if (y + height >= imageRectangle.Height)
                 {
-                    height -= ((y + height) - imageHeight) + 1;
+                    height -= ((y + height) - imageRectangle.Height) + 1;
                 }
 
-                if (x < imageX)
+                if (x < imageRectangle.X)
                 {
-                    int j4 = imageX - x;
+                    int j4 = imageRectangle.X - x;
                     width -= j4;
                     x = 0;
                     j3 += j4;
                     i2 += k2 * j4;
                     l3 += j4;
                 }
-                if (x + width >= imageWidth)
+                if (x + width >= imageRectangle.Width)
                 {
-                    int k4 = ((x + width) - imageWidth) + 1;
+                    int k4 = ((x + width) - imageRectangle.Width) + 1;
                     width -= k4;
                     l3 += k4;
                 }
@@ -1132,11 +949,11 @@ namespace RuneScapeSolo.Net.Client.Game
                 if (interlacingEnabled)
                 {
                     byte0 = 2;
-                    l3 += gameWidth;
+                    l3 += GameSize.Width;
                     l2 += l2;
                     if ((y & 1) != 0)
                     {
-                        j3 += gameWidth;
+                        j3 += GameSize.Width;
                         height--;
                     }
                 }
@@ -1156,38 +973,38 @@ namespace RuneScapeSolo.Net.Client.Game
                 x += pictureOffsetX[index];
                 y += pictureOffsetY[index];
             }
-            int j1 = x + y * gameWidth;
+            int j1 = x + y * GameSize.Width;
             int k1 = 0;
             int l1 = pictureHeight[index];
             int i2 = pictureWidth[index];
-            int j2 = gameWidth - i2;
+            int j2 = GameSize.Width - i2;
             int k2 = 0;
-            if (y < imageY)
+            if (y < imageRectangle.Y)
             {
-                int l2 = imageY - y;
+                int l2 = imageRectangle.Y - y;
                 l1 -= l2;
-                y = imageY;
+                y = imageRectangle.Y;
                 k1 += l2 * i2;
-                j1 += l2 * gameWidth;
+                j1 += l2 * GameSize.Width;
             }
-            if (y + l1 >= imageHeight)
+            if (y + l1 >= imageRectangle.Height)
             {
-                l1 -= ((y + l1) - imageHeight) + 1;
+                l1 -= ((y + l1) - imageRectangle.Height) + 1;
             }
 
-            if (x < imageX)
+            if (x < imageRectangle.X)
             {
-                int i3 = imageX - x;
+                int i3 = imageRectangle.X - x;
                 i2 -= i3;
-                x = imageX;
+                x = imageRectangle.X;
                 k1 += i3;
                 j1 += i3;
                 k2 += i3;
                 j2 += i3;
             }
-            if (x + i2 >= imageWidth)
+            if (x + i2 >= imageRectangle.Width)
             {
-                int j3 = ((x + i2) - imageWidth) + 1;
+                int j3 = ((x + i2) - imageRectangle.Width) + 1;
                 i2 -= j3;
                 k2 += j3;
                 j2 += j3;
@@ -1201,11 +1018,11 @@ namespace RuneScapeSolo.Net.Client.Game
             if (interlacingEnabled)
             {
                 byte0 = 2;
-                j2 += gameWidth;
+                j2 += GameSize.Width;
                 k2 += pictureWidth[index];
                 if ((y & 1) != 0)
                 {
-                    j1 += gameWidth;
+                    j1 += GameSize.Width;
                     l1--;
                 }
             }
@@ -1214,11 +1031,8 @@ namespace RuneScapeSolo.Net.Client.Game
                 cck(ref pixels, pictureColorIndexes[index], pictureColor[index], k1, j1, i2, l1, j2, k2, byte0, i1);
                 return;
             }
-            else
-            {
-                ccj(ref pixels, pictureColors[index], 0, k1, j1, i2, l1, j2, k2, byte0, i1);
-                return;
-            }
+            ccj(ref pixels, pictureColors[index], 0, k1, j1, i2, l1, j2, k2, byte0, i1);
+            return;
         }
 
         public void drawTransparentImage(int i, int k, int l, int i1, int j1, int k1)
@@ -1252,33 +1066,33 @@ namespace RuneScapeSolo.Net.Client.Game
                     l = (l * (pictureWidth[j1] - (j2 >> 16))) / j3;
                     i1 = (i1 * (pictureHeight[j1] - (k2 >> 16))) / l3;
                 }
-                int k3 = i + k * gameWidth;
-                int i4 = gameWidth - l;
-                if (k < imageY)
+                int k3 = i + k * GameSize.Width;
+                int i4 = GameSize.Width - l;
+                if (k < imageRectangle.Y)
                 {
-                    int j4 = imageY - k;
+                    int j4 = imageRectangle.Y - k;
                     i1 -= j4;
                     k = 0;
-                    k3 += j4 * gameWidth;
+                    k3 += j4 * GameSize.Width;
                     k2 += i3 * j4;
                 }
-                if (k + i1 >= imageHeight)
+                if (k + i1 >= imageRectangle.Height)
                 {
-                    i1 -= ((k + i1) - imageHeight) + 1;
+                    i1 -= ((k + i1) - imageRectangle.Height) + 1;
                 }
 
-                if (i < imageX)
+                if (i < imageRectangle.X)
                 {
-                    int k4 = imageX - i;
+                    int k4 = imageRectangle.X - i;
                     l -= k4;
                     i = 0;
                     k3 += k4;
                     j2 += l2 * k4;
                     i4 += k4;
                 }
-                if (i + l >= imageWidth)
+                if (i + l >= imageRectangle.Width)
                 {
-                    int l4 = ((i + l) - imageWidth) + 1;
+                    int l4 = ((i + l) - imageRectangle.Width) + 1;
                     l -= l4;
                     i4 += l4;
                 }
@@ -1286,11 +1100,11 @@ namespace RuneScapeSolo.Net.Client.Game
                 if (interlacingEnabled)
                 {
                     byte0 = 2;
-                    i4 += gameWidth;
+                    i4 += GameSize.Width;
                     i3 += i3;
                     if ((k & 1) != 0)
                     {
-                        k3 += gameWidth;
+                        k3 += GameSize.Width;
                         i1--;
                     }
                 }
@@ -1334,33 +1148,33 @@ namespace RuneScapeSolo.Net.Client.Game
                     l = (l * (pictureWidth[j1] - (j2 >> 16))) / j3;
                     i1 = (i1 * (pictureHeight[j1] - (k2 >> 16))) / l3;
                 }
-                int k3 = i + k * gameWidth;
-                int i4 = gameWidth - l;
-                if (k < imageY)
+                int k3 = i + k * GameSize.Width;
+                int i4 = GameSize.Width - l;
+                if (k < imageRectangle.Y)
                 {
-                    int j4 = imageY - k;
+                    int j4 = imageRectangle.Y - k;
                     i1 -= j4;
                     k = 0;
-                    k3 += j4 * gameWidth;
+                    k3 += j4 * GameSize.Width;
                     k2 += i3 * j4;
                 }
-                if (k + i1 >= imageHeight)
+                if (k + i1 >= imageRectangle.Height)
                 {
-                    i1 -= ((k + i1) - imageHeight) + 1;
+                    i1 -= ((k + i1) - imageRectangle.Height) + 1;
                 }
 
-                if (i < imageX)
+                if (i < imageRectangle.X)
                 {
-                    int k4 = imageX - i;
+                    int k4 = imageRectangle.X - i;
                     l -= k4;
                     i = 0;
                     k3 += k4;
                     j2 += l2 * k4;
                     i4 += k4;
                 }
-                if (i + l >= imageWidth)
+                if (i + l >= imageRectangle.Width)
                 {
-                    int l4 = ((i + l) - imageWidth) + 1;
+                    int l4 = ((i + l) - imageRectangle.Width) + 1;
                     l -= l4;
                     i4 += l4;
                 }
@@ -1368,11 +1182,11 @@ namespace RuneScapeSolo.Net.Client.Game
                 if (interlacingEnabled)
                 {
                     byte0 = 2;
-                    i4 += gameWidth;
+                    i4 += GameSize.Width;
                     i3 += i3;
                     if ((k & 1) != 0)
                     {
-                        k3 += gameWidth;
+                        k3 += GameSize.Width;
                         i1--;
                     }
                 }
@@ -1702,8 +1516,6 @@ namespace RuneScapeSolo.Net.Client.Game
 
         public void drawMinimapPic(int arg0, int arg1, int arg2, int arg3, int arg4)
         {
-            int i = gameWidth;
-            int k = gameHeight;
             if (bng == null)
             {
                 bng = new int[512];
@@ -1784,24 +1596,24 @@ namespace RuneScapeSolo.Net.Client.Game
                 l5 = j5;
             }
 
-            if (k5 < imageY)
+            if (k5 < imageRectangle.Y)
             {
-                k5 = imageY;
+                k5 = imageRectangle.Y;
             }
 
-            if (l5 > imageHeight)
+            if (l5 > imageRectangle.Height)
             {
-                l5 = imageHeight;
+                l5 = imageRectangle.Height;
             }
 
-            if (bnh == null || bnh.Length != k + 1)
+            if (bnh == null || bnh.Length != GameSize.Height + 1)
             {
-                bnh = new int[k + 1];
-                bni = new int[k + 1];
-                bnj = new int[k + 1];
-                bnk = new int[k + 1];
-                bnl = new int[k + 1];
-                bnm = new int[k + 1];
+                bnh = new int[GameSize.Height + 1];
+                bni = new int[GameSize.Height + 1];
+                bnj = new int[GameSize.Height + 1];
+                bnk = new int[GameSize.Height + 1];
+                bnl = new int[GameSize.Height + 1];
+                bnm = new int[GameSize.Height + 1];
             }
             for (int i6 = k5; i6 <= l5; i6++)
             {
@@ -1851,9 +1663,9 @@ namespace RuneScapeSolo.Net.Client.Game
                 l7 -= i8 * j6;
                 j6 = 0;
             }
-            if (k6 > k - 1)
+            if (k6 > GameSize.Height - 1)
             {
-                k6 = k - 1;
+                k6 = GameSize.Height - 1;
             }
 
             for (int l8 = j6; l8 <= k6; l8++)
@@ -1891,9 +1703,9 @@ namespace RuneScapeSolo.Net.Client.Game
                 j7 -= k7 * j6;
                 j6 = 0;
             }
-            if (k6 > k - 1)
+            if (k6 > GameSize.Height - 1)
             {
-                k6 = k - 1;
+                k6 = GameSize.Height - 1;
             }
 
             for (int i9 = j6; i9 <= k6; i9++)
@@ -1941,9 +1753,9 @@ namespace RuneScapeSolo.Net.Client.Game
                 l7 -= i8 * j6;
                 j6 = 0;
             }
-            if (k6 > k - 1)
+            if (k6 > GameSize.Height - 1)
             {
-                k6 = k - 1;
+                k6 = GameSize.Height - 1;
             }
 
             for (int j9 = j6; j9 <= k6; j9++)
@@ -1991,9 +1803,9 @@ namespace RuneScapeSolo.Net.Client.Game
                 j7 -= k7 * j6;
                 j6 = 0;
             }
-            if (k6 > k - 1)
+            if (k6 > GameSize.Height - 1)
             {
-                k6 = k - 1;
+                k6 = GameSize.Height - 1;
             }
 
             for (int k9 = j6; k9 <= k6; k9++)
@@ -2014,7 +1826,7 @@ namespace RuneScapeSolo.Net.Client.Game
                 j7 += k7;
             }
 
-            int l9 = k5 * i;
+            int l9 = k5 * GameSize.Width;
             int[] ai = pictureColors[arg2];
             for (int i10 = k5; i10 < l5; i10++)
             {
@@ -2022,7 +1834,7 @@ namespace RuneScapeSolo.Net.Client.Game
                 int k10 = bni[i10] >> 8;
                 if (k10 - j10 <= 0)
                 {
-                    l9 += i;
+                    l9 += GameSize.Width;
                 }
                 else
                 {
@@ -2030,15 +1842,15 @@ namespace RuneScapeSolo.Net.Client.Game
                     int i11 = ((bnk[i10] << 9) - l10) / (k10 - j10);
                     int j11 = bnl[i10] << 9;
                     int k11 = ((bnm[i10] << 9) - j11) / (k10 - j10);
-                    if (j10 < imageX)
+                    if (j10 < imageRectangle.X)
                     {
-                        l10 += (imageX - j10) * i11;
-                        j11 += (imageX - j10) * k11;
-                        j10 = imageX;
+                        l10 += (imageRectangle.X - j10) * i11;
+                        j11 += (imageRectangle.X - j10) * k11;
+                        j10 = imageRectangle.X;
                     }
-                    if (k10 > imageWidth)
+                    if (k10 > imageRectangle.Width)
                     {
-                        k10 = imageWidth;
+                        k10 = imageRectangle.Width;
                     }
 
                     if (!interlacingEnabled || (i10 & 1) == 0)
@@ -2053,7 +1865,7 @@ namespace RuneScapeSolo.Net.Client.Game
                         }
                     }
 
-                    l9 += i;
+                    l9 += GameSize.Width;
                 }
             }
 
@@ -2150,23 +1962,23 @@ namespace RuneScapeSolo.Net.Client.Game
                     width = ((((pictureWidth[j1] << 16) - l2) + k3) - 1) / k3;
                     height = ((((pictureHeight[j1] << 16) - i3) + l3) - 1) / l3;
                 }
-                int k4 = y * gameWidth;
+                int k4 = y * GameSize.Width;
                 j3 += x << 16;
-                if (y < imageY)
+                if (y < imageRectangle.Y)
                 {
-                    int i5 = imageY - y;
+                    int i5 = imageRectangle.Y - y;
                     height -= i5;
-                    y = imageY;
-                    k4 += i5 * gameWidth;
+                    y = imageRectangle.Y;
+                    k4 += i5 * GameSize.Width;
                     i3 += l3 * i5;
                     j3 += i4 * i5;
                 }
-                if (y + height >= imageHeight)
+                if (y + height >= imageRectangle.Height)
                 {
-                    height -= ((y + height) - imageHeight) + 1;
+                    height -= ((y + height) - imageRectangle.Height) + 1;
                 }
 
-                int j5 = k4 / gameWidth & 1;
+                int j5 = k4 / GameSize.Width & 1;
                 if (!interlacingEnabled)
                 {
                     j5 = 2;
@@ -2181,11 +1993,9 @@ namespace RuneScapeSolo.Net.Client.Game
                             cde(pixels, pictureColors[j1], 0, l2, i3, k4, width, height, k3, l3, j2, k1, j3, i4, j5);
                             return;
                         }
-                        else
-                        {
-                            cde(pixels, pictureColors[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, j3, i4, j5);
-                            return;
-                        }
+
+                        cde(pixels, pictureColors[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, j3, i4, j5);
+                        return;
                     }
 
                     if (!flag)
@@ -2193,11 +2003,9 @@ namespace RuneScapeSolo.Net.Client.Game
                         cdg(pixels, pictureColorIndexes[j1], pictureColor[j1], 0, l2, i3, k4, width, height, k3, l3, j2, k1, j3, i4, j5);
                         return;
                     }
-                    else
-                    {
-                        cdg(pixels, pictureColorIndexes[j1], pictureColor[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, j3, i4, j5);
-                        return;
-                    }
+
+                    cdg(pixels, pictureColorIndexes[j1], pictureColor[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, j3, i4, j5);
+                    return;
                 }
                 if (pictureColors[j1] != null)
                 {
@@ -2206,11 +2014,8 @@ namespace RuneScapeSolo.Net.Client.Game
                         cdf(pixels, pictureColors[j1], 0, l2, i3, k4, width, height, k3, l3, j2, k1, l1, j3, i4, j5);
                         return;
                     }
-                    else
-                    {
-                        cdf(pixels, pictureColors[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, l1, j3, i4, j5);
-                        return;
-                    }
+                    cdf(pixels, pictureColors[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, l1, j3, i4, j5);
+                    return;
                 }
 
                 if (!flag)
@@ -2218,11 +2023,8 @@ namespace RuneScapeSolo.Net.Client.Game
                     cdh(pixels, pictureColorIndexes[j1], pictureColor[j1], 0, l2, i3, k4, width, height, k3, l3, j2, k1, l1, j3, i4, j5);
                     return;
                 }
-                else
-                {
-                    cdh(pixels, pictureColorIndexes[j1], pictureColor[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, l1, j3, i4, j5);
-                    return;
-                }
+                cdh(pixels, pictureColorIndexes[j1], pictureColor[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, l1, j3, i4, j5);
+                return;
             }
             catch (Exception ex)
             {
@@ -2245,16 +2047,16 @@ namespace RuneScapeSolo.Net.Client.Game
                     int j2 = (arg4 >> 16) * arg10;
                     int k2 = arg12 >> 16;
                     int l2 = arg6;
-                    if (k2 < imageX)
+                    if (k2 < imageRectangle.X)
                     {
-                        int i3 = imageX - k2;
+                        int i3 = imageRectangle.X - k2;
                         l2 -= i3;
-                        k2 = imageX;
+                        k2 = imageRectangle.X;
                         arg3 += arg8 * i3;
                     }
-                    if (k2 + l2 >= imageWidth)
+                    if (k2 + l2 >= imageRectangle.Width)
                     {
-                        int j3 = (k2 + l2) - imageWidth;
+                        int j3 = (k2 + l2) - imageRectangle.Width;
                         l2 -= j3;
                     }
                     arg14 = 1 - arg14;
@@ -2283,7 +2085,7 @@ namespace RuneScapeSolo.Net.Client.Game
                     }
                     arg4 += arg9;
                     arg3 = l1;
-                    arg5 += gameWidth;
+                    arg5 += GameSize.Width;
                     arg12 += arg13;
                 }
 
@@ -2313,16 +2115,16 @@ namespace RuneScapeSolo.Net.Client.Game
                     int i3 = (arg4 >> 16) * arg10;
                     int j3 = arg13 >> 16;
                     int k3 = arg6;
-                    if (j3 < imageX)
+                    if (j3 < imageRectangle.X)
                     {
-                        int l3 = imageX - j3;
+                        int l3 = imageRectangle.X - j3;
                         k3 -= l3;
-                        j3 = imageX;
+                        j3 = imageRectangle.X;
                         arg3 += arg8 * l3;
                     }
-                    if (j3 + k3 >= imageWidth)
+                    if (j3 + k3 >= imageRectangle.Width)
                     {
-                        int i4 = (j3 + k3) - imageWidth;
+                        int i4 = (j3 + k3) - imageRectangle.Width;
                         k3 -= i4;
                     }
                     arg15 = 1 - arg15;
@@ -2356,7 +2158,7 @@ namespace RuneScapeSolo.Net.Client.Game
                     }
                     arg4 += arg9;
                     arg3 = k2;
-                    arg5 += gameWidth;
+                    arg5 += GameSize.Width;
                     arg13 += arg14;
                 }
 
@@ -2383,16 +2185,16 @@ namespace RuneScapeSolo.Net.Client.Game
                     int j2 = (arg5 >> 16) * arg11;
                     int k2 = arg13 >> 16;
                     int l2 = arg7;
-                    if (k2 < imageX)
+                    if (k2 < imageRectangle.X)
                     {
-                        int i3 = imageX - k2;
+                        int i3 = imageRectangle.X - k2;
                         l2 -= i3;
-                        k2 = imageX;
+                        k2 = imageRectangle.X;
                         arg4 += arg9 * i3;
                     }
-                    if (k2 + l2 >= imageWidth)
+                    if (k2 + l2 >= imageRectangle.Width)
                     {
-                        int j3 = (k2 + l2) - imageWidth;
+                        int j3 = (k2 + l2) - imageRectangle.Width;
                         l2 -= j3;
                     }
                     arg15 = 1 - arg15;
@@ -2422,7 +2224,7 @@ namespace RuneScapeSolo.Net.Client.Game
                     }
                     arg5 += arg10;
                     arg4 = l1;
-                    arg6 += gameWidth;
+                    arg6 += GameSize.Width;
                     arg13 += arg14;
                 }
 
@@ -2452,16 +2254,16 @@ namespace RuneScapeSolo.Net.Client.Game
                     int i3 = (arg5 >> 16) * arg11;
                     int j3 = arg14 >> 16;
                     int k3 = arg7;
-                    if (j3 < imageX)
+                    if (j3 < imageRectangle.X)
                     {
-                        int l3 = imageX - j3;
+                        int l3 = imageRectangle.X - j3;
                         k3 -= l3;
-                        j3 = imageX;
+                        j3 = imageRectangle.X;
                         arg4 += arg9 * l3;
                     }
-                    if (j3 + k3 >= imageWidth)
+                    if (j3 + k3 >= imageRectangle.Width)
                     {
-                        int i4 = (j3 + k3) - imageWidth;
+                        int i4 = (j3 + k3) - imageRectangle.Width;
                         k3 -= i4;
                     }
                     arg16 = 1 - arg16;
@@ -2496,7 +2298,7 @@ namespace RuneScapeSolo.Net.Client.Game
                     }
                     arg5 += arg10;
                     arg4 = k2;
-                    arg6 += gameWidth;
+                    arg6 += GameSize.Width;
                     arg14 += arg15;
                 }
 
@@ -2508,140 +2310,6 @@ namespace RuneScapeSolo.Net.Client.Game
             }
         }
 
-        //// GameApplet should be xna Game later.
-        //public static void cdj(SpriteFont _pixels, /*FontMetrics y,*/ char destX, int destY, GameApplet startColor, int endColor, bool arg6)
-        //{
-
-        //    int x = (int)_pixels.MeasureString(destX.ToString()).X;// y.charWidth(destX);
-        //    int y = x;
-        //    if (arg6)
-        //        try
-        //        {
-        //            if (destX == '/')
-        //                arg6 = false;
-        //            if (destX == 'f' || destX == 't' || destX == 'w' || destX == 'v' || destX == 'y' || destX == 'x' || destX == 'y' || destX == 'A' || destX == 'V' || destX == 'W')
-        //                x++;
-        //        }
-        //        catch (Exception ex) { }
-
-        //    // var ascent= _pixels.MeasureString(str)
-
-        //    int _w = y.getMaxAscent();
-        //    // int _w = ascent.X;
-        //    int _h = y.getMaxAscent() + y.getMaxDescent();
-        //    // il = ascent.X + ascent.Y
-        //    int j1 = y.getHeight();
-
-        //    // int j1 = ascent.Y;
-
-        //    var image = startColor.createImage(x, _h);
-        //    var g = image.getGraphics();
-        //    g.setColor(Color.Black);
-        //    g.fillRect(0, 0, x, _h);
-        //    g.setColor(Color.White);
-        //    g.setFont(_pixels);
-        //    g.drawString(destX.ToString(), 0, _w);
-        //    if (arg6)
-        //        g.drawString(destX.ToString(), 1, _w);
-        //    int[] ai = new int[x * _h];
-        //    PixelGrabber pixelgrabber = new PixelGrabber(image, 0, 0, x, _h, ai, 0, x);
-        //    try
-        //    {
-        //        pixelgrabber.grabPixels();
-        //    }
-        //    catch
-        //    {
-        //        return;
-        //    }
-        //    image.flush();
-        //    image = null;
-        //    int k1 = 0;
-        //    int width = 0;
-        //    int i2 = x;
-        //    int j2 = _h;
-        //label0:
-        //    for (int k2 = 0; k2 < _h; k2++)
-        //    {
-        //        for (int l2 = 0; l2 < x; l2++)
-        //        {
-        //            int j3 = ai[l2 + k2 * x];
-        //            if ((j3 & 0xffffff) == 0)
-        //                continue;
-        //            width = k2;
-        //            goto label1;
-        //            // break label0;
-        //        }
-
-        //    }
-
-        //label1:
-        //    for (int i3 = 0; i3 < x; i3++)
-        //    {
-        //        for (int k3 = 0; k3 < _h; k3++)
-        //        {
-        //            int i4 = ai[i3 + k3 * x];
-        //            if ((i4 & 0xffffff) == 0)
-        //                continue;
-        //            k1 = i3;
-        //            goto label2;
-        //            // break label1;
-        //        }
-
-        //    }
-
-        //label2:
-        //    for (int l3 = _h - 1; l3 >= 0; l3--)
-        //    {
-        //        for (int j4 = 0; j4 < x; j4++)
-        //        {
-        //            int l4 = ai[j4 + l3 * x];
-        //            if ((l4 & 0xffffff) == 0)
-        //                continue;
-        //            j2 = l3 + 1;
-        //            goto label3;
-        //            // break label2;
-        //        }
-
-        //    }
-
-        //label3:
-        //    for (int k4 = x - 1; k4 >= 0; k4--)
-        //    {
-        //        for (int i5 = 0; i5 < _h; i5++)
-        //        {
-        //            int k5 = ai[k4 + i5 * x];
-        //            if ((k5 & 0xffffff) == 0)
-        //                continue;
-        //            i2 = k4 + 1;
-        //            goto label4;
-        //            // break label3;
-        //        }
-
-        //    }
-        //label4:
-        //    cae[destY * 9] = (byte)(cad / 16384);
-        //    cae[destY * 9 + 1] = (byte)(cad / 128 & 0x7f);
-        //    cae[destY * 9 + 2] = (byte)(cad & 0x7f);
-        //    cae[destY * 9 + 3] = (byte)(i2 - k1);
-        //    cae[destY * 9 + 4] = (byte)(j2 - width);
-        //    cae[destY * 9 + 5] = (byte)k1;
-        //    cae[destY * 9 + 6] = (byte)(_w - width);
-        //    cae[destY * 9 + 7] = (byte)y;
-        //    cae[destY * 9 + 8] = (byte)j1;
-        //    for (int j5 = width; j5 < j2; j5++)
-        //    {
-        //        for (int l5 = k1; l5 < i2; l5++)
-        //        {
-        //            int i6 = ai[l5 + j5 * x] & 0xff;
-        //            if (i6 > 30 && i6 < 230)
-        //                cac[endColor] = true;
-        //            cae[cad++] = (byte)i6;
-        //        }
-
-        //    }
-
-        //}
-
         public void drawLabel(string s, int i, int k, int l, int i1)
         {
             drawString(s, i - textWidth(s, l), k, l, i1);
@@ -2651,11 +2319,6 @@ namespace RuneScapeSolo.Net.Client.Game
         {
             drawString(s, i - textWidth(s, l) / 2, k, l, i1);
         }
-
-        //public int textWidth(string s, int _w)
-        //{
-        //    return (int)mudclient.gameFont12.MeasureString(s).X;
-        //}
 
         public void drawFloatingText(string arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
         {
@@ -2718,7 +2381,7 @@ namespace RuneScapeSolo.Net.Client.Game
         }
 
 
-        public static List<stringDrawDef> stringsToDraw = new List<stringDrawDef>();
+        public static List<StringDraw> stringsToDraw = new List<StringDraw>();
 
         public void drawString(string arg0, int arg1, int arg2, int arg3, int arg4)
         {
@@ -2829,7 +2492,7 @@ namespace RuneScapeSolo.Net.Client.Game
                             i += 3;
                             continue;
                         }
-                        else if (arg0[i] == '~' && i + 4 < arg0.Length && arg0[i + 4] == '~')
+                        if (arg0[i] == '~' && i + 4 < arg0.Length && arg0[i + 4] == '~')
                         {
                             char c = arg0[i + 1];
                             char c1 = arg0[i + 2];
@@ -2900,35 +2563,35 @@ namespace RuneScapeSolo.Net.Client.Game
             int l1 = abyte0[i + 3];
             int i2 = abyte0[i + 4];
             int j2 = abyte0[i] * 16384 + abyte0[i + 1] * 128 + abyte0[i + 2];
-            int k2 = j1 + k1 * gameWidth;
-            int l2 = gameWidth - l1;
+            int k2 = j1 + k1 * GameSize.Width;
+            int l2 = GameSize.Width - l1;
             int i3 = 0;
-            if (k1 < imageY)
+            if (k1 < imageRectangle.Y)
             {
-                int j3 = imageY - k1;
+                int j3 = imageRectangle.Y - k1;
                 i2 -= j3;
-                k1 = imageY;
+                k1 = imageRectangle.Y;
                 j2 += j3 * l1;
-                k2 += j3 * gameWidth;
+                k2 += j3 * GameSize.Width;
             }
-            if (k1 + i2 >= imageHeight)
+            if (k1 + i2 >= imageRectangle.Height)
             {
-                i2 -= ((k1 + i2) - imageHeight) + 1;
+                i2 -= ((k1 + i2) - imageRectangle.Height) + 1;
             }
 
-            if (j1 < imageX)
+            if (j1 < imageRectangle.X)
             {
-                int k3 = imageX - j1;
+                int k3 = imageRectangle.X - j1;
                 l1 -= k3;
-                j1 = imageX;
+                j1 = imageRectangle.X;
                 j2 += k3;
                 k2 += k3;
                 i3 += k3;
                 l2 += k3;
             }
-            if (j1 + l1 >= imageWidth)
+            if (j1 + l1 >= imageRectangle.Width)
             {
-                int l3 = ((j1 + l1) - imageWidth) + 1;
+                int l3 = ((j1 + l1) - imageRectangle.Width) + 1;
                 l1 -= l3;
                 i3 += l3;
                 l2 += l3;
@@ -3093,10 +2756,8 @@ namespace RuneScapeSolo.Net.Client.Game
             {
                 return 29;
             }
-            else
-            {
-                return cee(i);
-            }
+
+            return cee(i);
         }
 
         public int cee(int i)
@@ -3105,10 +2766,7 @@ namespace RuneScapeSolo.Net.Client.Game
             {
                 return gameFonts[i][8] - 2;
             }
-            else
-            {
-                return gameFonts[i][8] - 1;
-            }
+            return gameFonts[i][8] - 1;
         }
 
         public int textWidth(string arg0, int arg1)
@@ -3133,19 +2791,15 @@ namespace RuneScapeSolo.Net.Client.Game
             }
 
             return i;
-
-
         }
 
-
-        public void drawPixels(int[][] pixels, int drawx, int drawy, int width, int height)
+        public void drawPixels(int[][] pixels, int drawX, int drawY, int width, int height)
         {
-
-            for (int x = drawx; x < drawx + width; x++)
+            for (int x = drawX; x < drawX + width; x++)
             {
-                for (int y = drawy; y < drawy + height; y++)
+                for (int y = drawY; y < drawY + height; y++)
                 {
-                    this.pixels[x + y * gameWidth] = pixels[x - drawx][y - drawy];
+                    this.pixels[x + y * GameSize.Width] = pixels[x - drawX][y - drawY];
                 }
             }
         }
@@ -3156,14 +2810,7 @@ namespace RuneScapeSolo.Net.Client.Game
             return currentFont++;
         }
 
-        public int gameWidth;
-        public int gameHeight;
-        public int area;
-        public int width;
-        public int height;
-        //ColorModel colorModel;
         public int[] pixels;
-        //ImageConsumer imageConsumer;
         public Texture2D imageTexture;
         public int[][] pictureColors;
         public sbyte[][] pictureColorIndexes;
@@ -3175,10 +2822,6 @@ namespace RuneScapeSolo.Net.Client.Game
         public int[] pictureAssumedWidth;
         public int[] pictureAssumedHeight;
         public bool[] hasTransparentBackground;
-        int imageY;
-        int imageHeight;
-        int imageX;
-        int imageWidth;
         public bool interlacingEnabled;
         static sbyte[][] gameFonts = new sbyte[50][];
         static int[] bne;
@@ -3194,39 +2837,8 @@ namespace RuneScapeSolo.Net.Client.Game
         public static int caa;
         public static int cab;
         static bool[] cac = new bool[12];
-        static int cad;
         static sbyte[] cae = new sbyte[0x186a0];
         public static int caf;
         static int currentFont;
-
-        static GameImage()
-        {
-            string s = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
-            bne = new int[256];
-            for (int i = 0; i < 256; i++)
-            {
-                int k = s.IndexOf((char)i);
-                if (k == -1)
-                {
-                    k = 74;
-                }
-
-                bne[i] = k * 9;
-            }
-
-        }
-
-        public GraphicsDevice graphics { get; set; }
-    }
-
-
-    public class stringDrawDef
-    {
-        public string text { get; set; }
-        public Vector2 pos { get; set; }
-
-        public Color forecolor = new Color(255, 0, 0, 255);
-
-        public SpriteFont font { get; set; }
     }
 }
