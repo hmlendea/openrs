@@ -32,9 +32,7 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         public string Texture { get; set; }
 
-        public bool IsToggled { get; set; }
-
-        List<GuiImage> images;
+        protected List<GuiImage> images;
         GuiImage icon;
         GuiText text;
 
@@ -84,15 +82,6 @@ namespace RuneScapeSolo.Gui.GuiElements
                 images[i].ContentFile = Texture;
                 images[i].Location = new Point2D(Location.X + i * ButtonTileSize.Width, Location.Y);
                 images[i].SourceRectangle = CalculateSourceRectangle(i);
-
-                if (IsToggled)
-                {
-                    images[i].TintColour = Colour.DarkRed;
-                }
-                else
-                {
-                    images[i].TintColour = Colour.White;
-                }
             }
 
             text.Text = Text;
@@ -136,7 +125,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             //AudioManager.Instance.PlaySound("Interface/select");
         }
 
-        Rectangle2D CalculateSourceRectangle(int x)
+        protected virtual Rectangle2D CalculateSourceRectangle(int x)
         {
             int sx = 1;
 
@@ -153,7 +142,7 @@ namespace RuneScapeSolo.Gui.GuiElements
                 sx = 2;
             }
 
-            if (Hovered || IsToggled)
+            if (Hovered)
             {
                 sx += 4;
             }

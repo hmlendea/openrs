@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 using RuneScapeSolo.Graphics.Enumerations;
 using RuneScapeSolo.Graphics.Primitives;

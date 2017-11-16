@@ -1,15 +1,11 @@
 ﻿using System;
-using System.IO;
 using System.Xml.Serialization;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using RuneScapeSolo.DataAccess.IO;
 using RuneScapeSolo.Graphics;
 using RuneScapeSolo.Graphics.CustomSpriteEffects;
 using RuneScapeSolo.Graphics.Primitives;
-using RuneScapeSolo.Graphics.Primitives.Mapping;
 using RuneScapeSolo.Graphics.Enumerations;
 using RuneScapeSolo.Settings;
 

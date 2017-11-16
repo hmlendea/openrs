@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using RuneScapeSolo.Graphics;
 using RuneScapeSolo.Graphics.CustomSpriteEffects;
 using RuneScapeSolo.Graphics.Primitives;
+using RuneScapeSolo.Gui.GuiElements;
 using RuneScapeSolo.Input.Events;
 
 namespace RuneScapeSolo.Gui.Screens
@@ -31,13 +32,13 @@ namespace RuneScapeSolo.Gui.Screens
         /// Gets or sets the overlay.
         /// </summary>
         /// <value>The overlay.</value>
-        public Sprite OverlayImage { get; set; }
+        public GuiImage OverlayImage { get; set; }
 
         /// <summary>
         /// Gets or sets the logo.
         /// </summary>
         /// <value>The logo.</value>
-        public Sprite LogoImage { get; set; }
+        public GuiImage LogoImage { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SplashScreen"/> class.
@@ -68,8 +69,8 @@ namespace RuneScapeSolo.Gui.Screens
                     MaximumZoom = 2.00f
                 }
             };
-            OverlayImage = new Sprite { ContentFile = "SplashScreen/Overlay" };
-            LogoImage = new Sprite { ContentFile = "SplashScreen/Logo" };
+            OverlayImage = new GuiImage { ContentFile = "SplashScreen/Overlay" };
+            LogoImage = new GuiImage { ContentFile = "SplashScreen/Logo" };
 
             base.LoadContent();
 
@@ -125,14 +126,14 @@ namespace RuneScapeSolo.Gui.Screens
             float bgScale = (float)Math.Max(ScreenManager.Instance.Size.Width, ScreenManager.Instance.Size.Height) /
                             Math.Max(BackgroundImage.SpriteSize.Width, BackgroundImage.SpriteSize.Height);
 
+
             BackgroundImage.Scale = new Scale2D(bgScale, bgScale);
-            OverlayImage.Scale = new Scale2D(ScreenManager.Instance.Size.Width / OverlayImage.SpriteSize.Width,
-                                             ScreenManager.Instance.Size.Height / OverlayImage.SpriteSize.Height);
+            OverlayImage.Size = ScreenManager.Instance.Size;
 
             BackgroundImage.Location = new Point2D((ScreenManager.Instance.Size.Width - BackgroundImage.ClientRectangle.Width) / 2,
                                                    (ScreenManager.Instance.Size.Height - BackgroundImage.ClientRectangle.Height) / 2);
-            LogoImage.Location = new Point2D((ScreenManager.Instance.Size.Width - LogoImage.SpriteSize.Width) / 2,
-                                             (ScreenManager.Instance.Size.Height - LogoImage.SpriteSize.Height) / 2);
+            LogoImage.Location = new Point2D((ScreenManager.Instance.Size.Width - LogoImage.Size.Width) / 2,
+                                             (ScreenManager.Instance.Size.Height - LogoImage.Size.Height) / 2);
         }
 
         protected override void OnKeyPressed(object sender, KeyboardKeyEventArgs e)

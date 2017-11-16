@@ -2,12 +2,10 @@ using System;
 using System.IO;
 using System.Net.Sockets;
 using System.Numerics;
-using System.Text;
 using System.Threading;
 
 using RuneScapeSolo.Net.Client.Data;
 using RuneScapeSolo.Net.Client.Enumerations;
-using RuneScapeSolo.Net.Client.Game;
 using RuneScapeSolo.Net.Client.Net;
 using RuneScapeSolo.Settings;
 

@@ -12,7 +12,6 @@ using RuneScapeSolo.Net.Client;
 using RuneScapeSolo.Net.Client.Events;
 using RuneScapeSolo.Net.Client.Extensions;
 using RuneScapeSolo.Net.Client.Game;
-using RuneScapeSolo.Settings;
 
 namespace RuneScapeSolo.Gui.GuiElements
 {

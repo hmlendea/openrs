@@ -45,6 +45,7 @@
     <Compile Include="GuiElements\GuiElement.cs" />
     <Compile Include="GuiElements\GuiGame.cs" />
     <Compile Include="GuiElements\GuiMinimap.cs" />
+    <Compile Include="GuiElements\GuiToggleButton.cs" />
     <Compile Include="GuiElements\GuiToolTip.cs" />
     <Compile Include="GuiManager.cs" />
     <Compile Include="Helpers\FramerateCounter.cs" />

@@ -17,15 +17,15 @@ namespace RuneScapeSolo.Gui.GuiElements
         GuiSkillsPanel skillsPanel;
         GuiInventoryPanel inventoryPanel;
 
-        GuiButton combatButton;
-        GuiButton skillsButton;
-        GuiButton questsButton;
-        GuiButton tasksButton;
-        GuiButton inventoryButton;
-        GuiButton equipmentButton;
-        GuiButton prayerButton;
-        GuiButton spellsButton;
-        GuiButton exitButton;
+        GuiToggleButton combatButton;
+        GuiToggleButton skillsButton;
+        GuiToggleButton questsButton;
+        GuiToggleButton tasksButton;
+        GuiToggleButton inventoryButton;
+        GuiToggleButton equipmentButton;
+        GuiToggleButton prayerButton;
+        GuiToggleButton spellsButton;
+        GuiToggleButton exitButton;
 
         public override void LoadContent()
         {
@@ -40,63 +40,63 @@ namespace RuneScapeSolo.Gui.GuiElements
             skillsPanel = new GuiSkillsPanel { Size = new Size2D(190, 262) };
             inventoryPanel = new GuiInventoryPanel { Size = new Size2D(190, 262) };
 
-            combatButton = new GuiButton
+            combatButton = new GuiToggleButton
             {
                 Texture = "Interface/SideBar/button",
                 ButtonTileSize = new Size2D(30, 36),
                 Icon = "Interface/SideBar/combat_button_icon",
                 Size = new Size2D(30, 36)
             };
-            skillsButton = new GuiButton
+            skillsButton = new GuiToggleButton
             {
                 Texture = "Interface/SideBar/button",
                 ButtonTileSize = new Size2D(30, 36),
                 Icon = "Interface/SideBar/skills_button_icon",
                 Size = new Size2D(30, 36)
             };
-            questsButton = new GuiButton
+            questsButton = new GuiToggleButton
             {
                 Texture = "Interface/SideBar/button",
                 ButtonTileSize = new Size2D(30, 36),
                 Icon = "Interface/SideBar/quests_button_icon",
                 Size = new Size2D(30, 36)
             };
-            tasksButton = new GuiButton
+            tasksButton = new GuiToggleButton
             {
                 Texture = "Interface/SideBar/button",
                 ButtonTileSize = new Size2D(30, 36),
                 Icon = "Interface/SideBar/tasks_button_icon",
                 Size = new Size2D(30, 36)
             };
-            inventoryButton = new GuiButton
+            inventoryButton = new GuiToggleButton
             {
                 Texture = "Interface/SideBar/button",
                 ButtonTileSize = new Size2D(30, 36),
                 Icon = "Interface/SideBar/inventory_button_icon",
                 Size = new Size2D(30, 36)
             };
-            equipmentButton = new GuiButton
+            equipmentButton = new GuiToggleButton
             {
                 Texture = "Interface/SideBar/button",
                 ButtonTileSize = new Size2D(30, 36),
                 Icon = "Interface/SideBar/equipment_button_icon",
                 Size = new Size2D(30, 36)
             };
-            prayerButton = new GuiButton
+            prayerButton = new GuiToggleButton
             {
                 Texture = "Interface/SideBar/button",
                 ButtonTileSize = new Size2D(30, 36),
                 Icon = "Interface/SideBar/prayer_button_icon",
                 Size = new Size2D(30, 36)
             };
-            spellsButton = new GuiButton
+            spellsButton = new GuiToggleButton
             {
                 Texture = "Interface/SideBar/button",
                 ButtonTileSize = new Size2D(30, 36),
                 Icon = "Interface/SideBar/spells_button_icon",
                 Size = new Size2D(30, 36)
             };
-            exitButton = new GuiButton
+            exitButton = new GuiToggleButton
             {
                 Texture = "Interface/SideBar/button",
                 ButtonTileSize = new Size2D(30, 36),
@@ -215,155 +215,85 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         void CombatButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
         {
-            combatButton.IsToggled = true;
-            skillsButton.IsToggled = false;
-            questsButton.IsToggled = false;
-            tasksButton.IsToggled = false;
-            inventoryButton.IsToggled = false;
-            equipmentButton.IsToggled = false;
-            prayerButton.IsToggled = false;
-            spellsButton.IsToggled = false;
-            exitButton.IsToggled = false;
+            UnselectEverything();
 
-            combatPanel.Show();
-            skillsPanel.Visible = false;
-            inventoryPanel.Visible = false;
+            combatButton.Toggled = true;
+            combatButton.Show();
         }
 
         void SkillsButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
         {
-            combatButton.IsToggled = false;
-            skillsButton.IsToggled = true;
-            questsButton.IsToggled = false;
-            tasksButton.IsToggled = false;
-            inventoryButton.IsToggled = false;
-            equipmentButton.IsToggled = false;
-            prayerButton.IsToggled = false;
-            spellsButton.IsToggled = false;
-            exitButton.IsToggled = false;
+            UnselectEverything();
 
-            combatPanel.Hide();
-            skillsPanel.Visible = true;
-            inventoryPanel.Visible = false;
+            skillsButton.Toggled = true;
+            skillsPanel.Show();
         }
 
         void QuestsButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
         {
-            combatButton.IsToggled = false;
-            skillsButton.IsToggled = false;
-            questsButton.IsToggled = true;
-            tasksButton.IsToggled = false;
-            inventoryButton.IsToggled = false;
-            equipmentButton.IsToggled = false;
-            prayerButton.IsToggled = false;
-            spellsButton.IsToggled = false;
-            exitButton.IsToggled = false;
+            UnselectEverything();
 
-            combatPanel.Hide();
-            skillsPanel.Visible = false;
-            inventoryPanel.Visible = false;
+            questsButton.Toggled = true;
         }
 
         void TasksButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
         {
-            combatButton.IsToggled = false;
-            skillsButton.IsToggled = false;
-            questsButton.IsToggled = false;
-            tasksButton.IsToggled = true;
-            inventoryButton.IsToggled = false;
-            equipmentButton.IsToggled = false;
-            prayerButton.IsToggled = false;
-            spellsButton.IsToggled = false;
-            exitButton.IsToggled = false;
+            UnselectEverything();
 
-            combatPanel.Hide();
-            skillsPanel.Visible = false;
-            inventoryPanel.Visible = false;
+            tasksButton.Toggled = true;
         }
 
         void InventoryButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
         {
-            combatButton.IsToggled = false;
-            skillsButton.IsToggled = false;
-            questsButton.IsToggled = false;
-            tasksButton.IsToggled = false;
-            inventoryButton.IsToggled = true;
-            equipmentButton.IsToggled = false;
-            prayerButton.IsToggled = false;
-            spellsButton.IsToggled = false;
-            exitButton.IsToggled = false;
+            UnselectEverything();
 
-            combatPanel.Hide();
-            skillsPanel.Visible = false;
-            inventoryPanel.Visible = true;
+            inventoryButton.Toggled = true;
+            inventoryPanel.Show();
         }
 
         void EquipmentButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
         {
-            combatButton.IsToggled = false;
-            skillsButton.IsToggled = false;
-            questsButton.IsToggled = false;
-            tasksButton.IsToggled = false;
-            inventoryButton.IsToggled = false;
-            equipmentButton.IsToggled = true;
-            prayerButton.IsToggled = false;
-            spellsButton.IsToggled = false;
-            exitButton.IsToggled = false;
+            UnselectEverything();
 
-            combatPanel.Hide();
-            skillsPanel.Visible = false;
-            inventoryPanel.Visible = false;
+            equipmentButton.Toggled = true;
         }
 
         void PrayerButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
         {
-            combatButton.IsToggled = false;
-            skillsButton.IsToggled = false;
-            questsButton.IsToggled = false;
-            tasksButton.IsToggled = false;
-            inventoryButton.IsToggled = false;
-            equipmentButton.IsToggled = false;
-            prayerButton.IsToggled = true;
-            spellsButton.IsToggled = false;
-            exitButton.IsToggled = false;
+            UnselectEverything();
 
-            combatPanel.Hide();
-            skillsPanel.Visible = false;
-            inventoryPanel.Visible = false;
+            prayerButton.Toggled = true;
         }
 
         void SpellsButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
         {
-            combatButton.IsToggled = false;
-            skillsButton.IsToggled = false;
-            questsButton.IsToggled = false;
-            tasksButton.IsToggled = false;
-            inventoryButton.IsToggled = false;
-            equipmentButton.IsToggled = false;
-            prayerButton.IsToggled = false;
-            spellsButton.IsToggled = true;
-            exitButton.IsToggled = false;
+            UnselectEverything();
 
-            combatPanel.Hide();
-            skillsPanel.Visible = false;
-            inventoryPanel.Visible = false;
+            spellsButton.Toggled = true;
         }
 
         void ExitButton_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
         {
-            combatButton.IsToggled = false;
-            skillsButton.IsToggled = false;
-            questsButton.IsToggled = false;
-            tasksButton.IsToggled = false;
-            inventoryButton.IsToggled = false;
-            equipmentButton.IsToggled = false;
-            prayerButton.IsToggled = false;
-            spellsButton.IsToggled = false;
-            exitButton.IsToggled = true;
+            UnselectEverything();
+
+            exitButton.Toggled = true;
+        }
+
+        void UnselectEverything()
+        {
+            combatButton.Toggled = false;
+            skillsButton.Toggled = false;
+            questsButton.Toggled = false;
+            tasksButton.Toggled = false;
+            inventoryButton.Toggled = false;
+            equipmentButton.Toggled = false;
+            prayerButton.Toggled = false;
+            spellsButton.Toggled = false;
+            exitButton.Toggled = false;
 
             combatPanel.Hide();
-            skillsPanel.Visible = false;
-            inventoryPanel.Visible = false;
+            skillsPanel.Hide();
+            inventoryPanel.Hide();
         }
     }
 }

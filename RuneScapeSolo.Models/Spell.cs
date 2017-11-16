@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace RuneScapeSolo.Models
+﻿namespace RuneScapeSolo.Models
 {
     /// <summary>
     /// Spell.

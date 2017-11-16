@@ -6,8 +6,6 @@ using System.Xml.Serialization;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using RuneScapeSolo.Graphics;
 using RuneScapeSolo.Graphics.Primitives;
 using RuneScapeSolo.Graphics.Primitives.Mapping;
 using RuneScapeSolo.Input;

@@ -2,8 +2,6 @@
 
 using RuneScapeSolo.Graphics.Enumerations;
 using RuneScapeSolo.Graphics.Primitives;
-using RuneScapeSolo.Graphics.Primitives.Mapping;
-using RuneScapeSolo.Input;
 
 namespace RuneScapeSolo.Gui.GuiElements
 {

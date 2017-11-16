@@ -1,7 +1,5 @@
 using System;
 
-using RuneScapeSolo.Net.Client.Game;
-
 namespace RuneScapeSolo.Net.Client.Game.Cameras
 {
     public class Camera // : org.moparscape.msc.client.Camera
