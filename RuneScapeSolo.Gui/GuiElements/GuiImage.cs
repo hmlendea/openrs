@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using RuneScapeSolo.Graphics;
 using RuneScapeSolo.Graphics.CustomSpriteEffects;
 using RuneScapeSolo.Graphics.Enumerations;
-using RuneScapeSolo.Graphics.Primitives;
+using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Gui.GuiElements
 {

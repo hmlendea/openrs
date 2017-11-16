@@ -3,7 +3,7 @@
 using SystemColor = System.Drawing.Color;
 using XnaColor = Microsoft.Xna.Framework.Color;
 
-namespace RuneScapeSolo.Graphics.Primitives.Mapping
+namespace RuneScapeSolo.Primitives.Mapping
 {
     /// <summary>
     /// Colour mapping extensions.

@@ -96,6 +96,10 @@
       <Project>{0FB5C790-78F3-44EA-AF6C-2D5B7C8E82BE}</Project>
       <Name>RuneScapeSolo.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RuneScapeSolo.Primitives\RuneScapeSolo.Primitives.csproj">
+      <Project>{395F7F7F-F89E-43F4-96F0-6A6E20016B81}</Project>
+      <Name>RuneScapeSolo.Primitives</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

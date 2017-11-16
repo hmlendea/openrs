@@ -1,7 +1,7 @@
 ﻿using SystemRectangle = System.Drawing.Rectangle;
 using XnaRectangle = Microsoft.Xna.Framework.Rectangle;
 
-namespace RuneScapeSolo.Graphics.Primitives.Mapping
+namespace RuneScapeSolo.Primitives.Mapping
 {
     public static class RectangleMappingExtensions
     {

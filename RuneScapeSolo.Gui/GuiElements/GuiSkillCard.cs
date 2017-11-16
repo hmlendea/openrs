@@ -1,7 +1,7 @@
 ﻿using System;
 
 using RuneScapeSolo.Graphics.Enumerations;
-using RuneScapeSolo.Graphics.Primitives;
+using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Gui.GuiElements
 {

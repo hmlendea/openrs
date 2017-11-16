@@ -1,7 +1,7 @@
 ﻿using SystemSize = System.Drawing.Size;
 using XnaPoint = Microsoft.Xna.Framework.Point;
 
-namespace RuneScapeSolo.Graphics.Primitives.Mapping
+namespace RuneScapeSolo.Primitives.Mapping
 {
     public static class SizeMappingExtensions
     {

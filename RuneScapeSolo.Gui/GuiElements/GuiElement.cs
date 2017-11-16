@@ -6,11 +6,12 @@ using System.Xml.Serialization;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using RuneScapeSolo.Graphics.Primitives;
-using RuneScapeSolo.Graphics.Primitives.Mapping;
+
 using RuneScapeSolo.Input;
 using RuneScapeSolo.Input.Enumerations;
 using RuneScapeSolo.Input.Events;
+using RuneScapeSolo.Primitives;
+using RuneScapeSolo.Primitives.Mapping;
 
 namespace RuneScapeSolo.Gui.GuiElements
 {

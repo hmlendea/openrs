@@ -1,6 +1,6 @@
 ﻿using XnaVector2 = Microsoft.Xna.Framework.Vector2;
 
-namespace RuneScapeSolo.Graphics.Primitives.Mapping
+namespace RuneScapeSolo.Primitives.Mapping
 {
     public static class ScaleMappingExtensions
     {

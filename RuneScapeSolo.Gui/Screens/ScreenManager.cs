@@ -5,8 +5,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RuneScapeSolo.Graphics;
 using RuneScapeSolo.Graphics.CustomSpriteEffects;
-using RuneScapeSolo.Graphics.Primitives;
 using RuneScapeSolo.Graphics.Enumerations;
+using RuneScapeSolo.Primitives;
 using RuneScapeSolo.Settings;
 
 namespace RuneScapeSolo.Gui.Screens
@@ -20,7 +20,7 @@ namespace RuneScapeSolo.Gui.Screens
         static object syncRoot = new object();
 
         Screen currentScreen, newScreen;
-        
+
         /// <summary>
         /// Gets the instance.
         /// </summary>
@@ -78,7 +78,7 @@ namespace RuneScapeSolo.Gui.Screens
         {
             Size = SettingsManager.Instance.GraphicsSettings.Resolution;
             currentScreen = new SplashScreen();
-            
+
             TransitionImage = new Sprite
             {
                 ContentFile = "ScreenManager/FillImage",
@@ -156,7 +156,7 @@ namespace RuneScapeSolo.Gui.Screens
         public void ChangeScreens(string screenName, string[] screenArgs)
         {
             newScreen = (Screen)Activator.CreateInstance(Type.GetType($"{typeof(Screen).Namespace}.{screenName}"));
-            
+
             newScreen.ScreenArgs = screenArgs;
 
             TransitionImage.ActivateEffect(nameof(FadeEffect));

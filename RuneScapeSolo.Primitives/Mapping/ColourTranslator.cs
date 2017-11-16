@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace RuneScapeSolo.Graphics.Primitives.Mapping
+namespace RuneScapeSolo.Primitives.Mapping
 {
     public static class ColourTranslator
     {

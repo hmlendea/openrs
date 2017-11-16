@@ -6,10 +6,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using RuneScapeSolo.Graphics;
-using RuneScapeSolo.Graphics.Primitives;
-using RuneScapeSolo.Graphics.Primitives.Mapping;
 using RuneScapeSolo.Input;
 using RuneScapeSolo.Input.Events;
+using RuneScapeSolo.Primitives;
+using RuneScapeSolo.Primitives.Mapping;
 
 namespace RuneScapeSolo.Gui.Screens
 {
@@ -128,7 +128,7 @@ namespace RuneScapeSolo.Gui.Screens
         {
 
         }
-        
+
         protected virtual void RegisterEvents()
         {
             InputManager.Instance.KeyboardKeyPressed += OnKeyPressed;

@@ -2,7 +2,7 @@
 
 using Microsoft.Xna.Framework;
 
-using RuneScapeSolo.Graphics.Primitives;
+using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Graphics.CustomSpriteEffects
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RuneScapeSolo.Graphics.Primitives
+namespace RuneScapeSolo.Primitives
 {
     /// <summary>
     /// 2D rectangle structure

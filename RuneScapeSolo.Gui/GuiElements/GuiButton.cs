@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-using RuneScapeSolo.Graphics.Primitives;
 using RuneScapeSolo.Input.Enumerations;
 using RuneScapeSolo.Input.Events;
+using RuneScapeSolo.Primitives;
 using RuneScapeSolo.Settings;
 
 namespace RuneScapeSolo.Gui.GuiElements

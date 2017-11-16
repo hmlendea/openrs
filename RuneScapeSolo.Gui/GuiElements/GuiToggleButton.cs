@@ -1,4 +1,4 @@
-﻿using RuneScapeSolo.Graphics.Primitives;
+﻿using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Gui.GuiElements
 {
@@ -16,7 +16,7 @@ namespace RuneScapeSolo.Gui.GuiElements
         protected override void SetChildrenProperties()
         {
             base.SetChildrenProperties();
-            
+
             for (int i = 0; i < images.Count; i++)
             {
                 if (Toggled)

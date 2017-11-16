@@ -5,9 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 using RuneScapeSolo.Graphics;
 using RuneScapeSolo.Graphics.CustomSpriteEffects;
-using RuneScapeSolo.Graphics.Primitives;
 using RuneScapeSolo.Gui.GuiElements;
 using RuneScapeSolo.Input.Events;
+using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Gui.Screens
 {
@@ -77,7 +77,7 @@ namespace RuneScapeSolo.Gui.Screens
             BackgroundImage.LoadContent();
             OverlayImage.LoadContent();
             LogoImage.LoadContent();
-            
+
             BackgroundImage.ActivateEffect("RotationEffect");
             BackgroundImage.ActivateEffect("ZoomEffect");
         }

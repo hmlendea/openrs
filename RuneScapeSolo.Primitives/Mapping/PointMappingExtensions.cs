@@ -1,7 +1,7 @@
 ﻿using SystemPoint = System.Drawing.Point;
 using XnaPoint = Microsoft.Xna.Framework.Point;
 
-namespace RuneScapeSolo.Graphics.Primitives.Mapping
+namespace RuneScapeSolo.Primitives.Mapping
 {
     public static class PointMappingExtensions
     {

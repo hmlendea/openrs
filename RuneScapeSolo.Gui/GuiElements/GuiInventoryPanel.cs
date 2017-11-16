@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 
 using RuneScapeSolo.GameLogic.GameManagers;
-using RuneScapeSolo.Graphics.Primitives;
 using RuneScapeSolo.Net.Client;
+using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Gui.GuiElements
 {

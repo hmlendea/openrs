@@ -138,7 +138,7 @@ namespace RuneScapeSolo.Net.Client
                     HandlePirateTreasure(data);
                     return true;
 
-                case ServerCommand.Stat:
+                case ServerCommand.UserStat:
                     HandlePlayerStats(data, length);
                     return true;
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using RuneScapeSolo.Graphics.Primitives;
+using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Gui.GuiElements
 {

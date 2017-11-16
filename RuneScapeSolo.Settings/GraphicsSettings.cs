@@ -1,4 +1,4 @@
-﻿using RuneScapeSolo.Graphics.Primitives;
+﻿using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Settings
 {

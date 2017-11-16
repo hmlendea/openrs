@@ -6,12 +6,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 using RuneScapeSolo.DataAccess.Resources;
 using RuneScapeSolo.Graphics;
-using RuneScapeSolo.Graphics.Primitives;
-using RuneScapeSolo.Graphics.Primitives.Mapping;
 using RuneScapeSolo.Input.Events;
 using RuneScapeSolo.Net.Client;
 using RuneScapeSolo.Net.Client.Game;
 using RuneScapeSolo.Net.Client.Game.Cameras;
+using RuneScapeSolo.Primitives;
+using RuneScapeSolo.Primitives.Mapping;
 
 namespace RuneScapeSolo.Gui.GuiElements
 {

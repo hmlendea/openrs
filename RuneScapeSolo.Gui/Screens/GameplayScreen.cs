@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using RuneScapeSolo.Graphics.Primitives;
 using RuneScapeSolo.Gui.GuiElements;
 using RuneScapeSolo.Net.Client.Events;
+using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Gui.Screens
 {
@@ -41,7 +41,7 @@ namespace RuneScapeSolo.Gui.Screens
             GuiManager.Instance.GuiElements.Add(GameClient);
             GuiManager.Instance.GuiElements.Add(SideBar);
             GuiManager.Instance.GuiElements.Add(ChatPanel);
-            
+
             base.LoadContent();
 
             SideBar.AssociateGameClient(ref GameClient.gameClient);

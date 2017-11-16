@@ -1,8 +1,8 @@
 ﻿using System;
 
-using RuneScapeSolo.Graphics.Primitives.Mapping;
+using RuneScapeSolo.Primitives.Mapping;
 
-namespace RuneScapeSolo.Graphics.Primitives
+namespace RuneScapeSolo.Primitives
 {
     /// <summary>
     /// Colour.

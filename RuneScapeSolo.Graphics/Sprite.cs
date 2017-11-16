@@ -10,9 +10,9 @@ using Microsoft.Xna.Framework.Graphics;
 using RuneScapeSolo.DataAccess.Resources;
 using RuneScapeSolo.Graphics.CustomSpriteEffects;
 using RuneScapeSolo.Graphics.Enumerations;
-using RuneScapeSolo.Graphics.Primitives;
-using RuneScapeSolo.Graphics.Primitives.Mapping;
 using RuneScapeSolo.Graphics.Helpers;
+using RuneScapeSolo.Primitives;
+using RuneScapeSolo.Primitives.Mapping;
 
 namespace RuneScapeSolo.Graphics
 {

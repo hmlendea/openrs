@@ -1,6 +1,6 @@
-﻿using RuneScapeSolo.Graphics.Primitives;
-using RuneScapeSolo.Net.Client;
+﻿using RuneScapeSolo.Net.Client;
 using RuneScapeSolo.Net.Client.Enumerations;
+using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Gui.GuiElements
 {

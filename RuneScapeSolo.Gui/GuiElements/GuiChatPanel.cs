@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using RuneScapeSolo.Graphics.Enumerations;
-using RuneScapeSolo.Graphics.Primitives;
+using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Gui.GuiElements
 {
@@ -49,7 +49,7 @@ namespace RuneScapeSolo.Gui.GuiElements
             background.Size = Size;
             background.Location = Location;
             background.TintColour = BackgroundColour;
-            
+
             // Add additional rows if there is enough room (the chat panel was expanded)
             while (Size.Height - (messageRows.Count * MessageHeight) >= MessageHeight)
             {
