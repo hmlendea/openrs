@@ -35,7 +35,7 @@ namespace RuneScapeSolo.Settings
                 return instance;
             }
         }
-        
+
         public GraphicsSettings GraphicsSettings { get; set; }
 
         /// <summary>
@@ -43,6 +43,8 @@ namespace RuneScapeSolo.Settings
         /// </summary>
         /// <value>The debug mode.</value>
         public bool DebugMode { get; set; }
+
+        public bool CameraAutoAngle { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsManager"/> class.

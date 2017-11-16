@@ -117,7 +117,6 @@ namespace RuneScapeSolo.Net.Client
         public int[] WallObjectId { get; set; }
         public int[] WallObjectX { get; set; }
         public int[] WallObjectY { get; set; }
-        public bool CameraAutoAngle { get; set; }
         public bool HasWorldInfo { get; set; }
         public bool LoadArea { get; set; } // Not in wilderness
         public bool LoginScreenShown { get; set; }
@@ -125,7 +124,6 @@ namespace RuneScapeSolo.Net.Client
         public bool ShowAppearanceWindow { get; set; }
         public bool ShowBankBox { get; set; }
         public bool ShowQuestionMenu { get; set; }
-        public bool ShowRoofs { get; set; }
         public bool ShowShopBox { get; set; }
         public bool[] WallObjectAlreadyInMenu { get; set; }
         public string LastLoginAddress { get; set; }
@@ -370,7 +368,6 @@ namespace RuneScapeSolo.Net.Client
             menuActionVar1 = new int[250];
             menuActionVar2 = new int[250];
             sleepWordDelay = true;
-            CameraAutoAngle = true;
             cameraRotation = 128;
             menuShow = false;
             ShowBankBox = false;
@@ -449,8 +446,6 @@ namespace RuneScapeSolo.Net.Client
             ShowAppearanceWindow = false;
             cameraZoom = false;
 
-            fogOfWar = true;
-            ShowRoofs = true;
             usedQuestName = new string[0];
             SubscriptionDaysLeft = 0;
             shopItemSellPrice = new int[256];
@@ -2362,110 +2357,6 @@ namespace RuneScapeSolo.Net.Client
             return true;
         }
 
-        public void drawOptionsMenu(bool canClick)
-        {
-            int l = gameGraphics.GameSize.Width - 199;
-            int i1 = 36;
-            gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 6);
-            int c1 = 196;
-            gameGraphics.drawBoxAlpha(l, 36, c1, 62, ColourTranslator.ToArgb(181, 181, 181), 160);
-            gameGraphics.drawBoxAlpha(l, 98, c1, 92, ColourTranslator.ToArgb(201, 201, 201), 160);
-            gameGraphics.drawBoxAlpha(l, 190, c1, 90, ColourTranslator.ToArgb(181, 181, 181), 160);
-            gameGraphics.drawBoxAlpha(l, 280, c1, 40, ColourTranslator.ToArgb(201, 201, 201), 160);
-            int j1 = l + 3;
-            int l1 = i1 + 15;
-            gameGraphics.drawString("Game options - click to toggle", j1, l1, 1, 0);
-            l1 += 15;
-            if (CameraAutoAngle)
-            {
-                gameGraphics.drawString("Camera angle mode - @gre@Auto", j1, l1, 1, 0xffffff);
-            }
-            else
-            {
-                gameGraphics.drawString("Camera angle mode - @red@Manual", j1, l1, 1, 0xffffff);
-            }
-
-            l1 += 15;
-            l1 += 15;
-            l1 += 15;
-            gameGraphics.drawString("Client assists - click to toggle", j1, l1, 1, 0);
-            l1 += 15;
-            if (ShowRoofs)
-            {
-                gameGraphics.drawString("Roofs - @gre@show", j1, l1, 1, 0xffffff);
-            }
-            else
-            {
-                gameGraphics.drawString("Roofs - @red@hide", j1, l1, 1, 0xffffff);
-            }
-
-            l1 += 15;
-            l1 += 15;
-            if (fogOfWar)
-            {
-                gameGraphics.drawString("Fog of war - @gre@show", j1, l1, 1, 0xffffff);
-            }
-            else
-            {
-                gameGraphics.drawString("Fog of war - @red@hide", j1, l1, 1, 0xffffff);
-            }
-
-            l1 += 15;
-            l1 += 15;
-            l1 += 5;
-            l1 += 15;
-            int j2 = 0xffffff;
-
-            if (InputManager.Instance.MouseLocation.X > j1 && InputManager.Instance.MouseLocation.X < j1 + c1 && InputManager.Instance.MouseLocation.Y > l1 - 12 && InputManager.Instance.MouseLocation.Y < l1 + 4)
-            {
-                j2 = 0xffff00;
-            }
-
-            if (!canClick)
-            {
-                return;
-            }
-
-            l = InputManager.Instance.MouseLocation.X - (gameGraphics.GameSize.Width - 199);
-            i1 = InputManager.Instance.MouseLocation.Y - 36;
-            if (l >= 0 && i1 >= 0 && l < 196 && i1 < 280)
-            {
-                int k2 = gameGraphics.GameSize.Width - 199;
-                sbyte byte0 = 36;
-                int c2 = 196;
-                int k1 = k2 + 3;
-                int i2 = byte0 + 30;
-                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
-                {
-                    CameraAutoAngle = !CameraAutoAngle;
-                    StreamClass.CreatePacket(157);
-                    StreamClass.AddInt8(0);
-                    StreamClass.AddInt8(CameraAutoAngle ? 1 : 0);
-                    StreamClass.FormatPacket();
-                }
-                i2 += 15;
-                i2 += 15;
-                i2 += 15;
-                i2 += 15;
-                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
-                {
-                    ShowRoofs = !ShowRoofs;
-                    StreamClass.CreatePacket(157);
-                    StreamClass.AddInt8(4);
-                    StreamClass.AddInt8(ShowRoofs ? 1 : 0);
-                    StreamClass.FormatPacket();
-                }
-                i2 += 15;
-                i2 += 15;
-                if (InputManager.Instance.MouseLocation.X > k1 && InputManager.Instance.MouseLocation.X < k1 + c2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && mouseButtonClick == 1)
-                {
-                    fogOfWar = !fogOfWar;
-                }
-
-                mouseButtonClick = 0;
-            }
-        }
-
         public void SetCombatStyle(CombatStyle style)
         {
             if (CombatStyle == style)
@@ -3618,7 +3509,7 @@ namespace RuneScapeSolo.Net.Client
                     cameraAutoRotatePlayerY += (CurrentPlayer.currentY - cameraAutoRotatePlayerY) / (16 + (cameraDistance - 500) / 15);
                 }
 
-                if (CameraAutoAngle)
+                if (SettingsManager.Instance.CameraAutoAngle)
                 {
                     int j2 = cameraAutoAngle * 32;
                     int i4 = j2 - cameraRotation;
@@ -3698,7 +3589,8 @@ namespace RuneScapeSolo.Net.Client
 
             gameCamera.setMousePosition(InputManager.Instance.MouseLocation.X, InputManager.Instance.MouseLocation.Y);
             lastMouseButton = 0;
-            if (CameraAutoAngle)
+
+            if (SettingsManager.Instance.CameraAutoAngle)
             {
                 if (cameraAutoRotationAmount == 0 || cameraAutoAngleDebug)
                 {
@@ -3766,7 +3658,7 @@ namespace RuneScapeSolo.Net.Client
                 cameraDistance += 4;
             }
 
-            if (fogOfWar)
+            if (SettingsManager.Instance.GraphicsSettings.FogOfWar)
             {
                 if ((cameraZoom && cameraDistance > 550) || cameraDistance > 750)
                 {
@@ -4725,10 +4617,12 @@ namespace RuneScapeSolo.Net.Client
                     gameCamera.removeModel(engineHandle.wallObject[2][l]);
                     gameCamera.removeModel(engineHandle.roofObject[2][l]);
                 }
+
                 cameraZoom = true;
+
                 if (lastLayerIndex == 0 && (engineHandle.tiles[CurrentPlayer.currentX / 128][CurrentPlayer.currentY / 128] & 0x80) == 0)
                 {
-                    if (ShowRoofs)
+                    if (SettingsManager.Instance.GraphicsSettings.ShowRoofs)
                     {
                         gameCamera.addModel(engineHandle.roofObject[lastLayerIndex][l]);
                         if (lastLayerIndex == 0)
@@ -4932,7 +4826,7 @@ namespace RuneScapeSolo.Net.Client
 
             if (cameraAutoAngleDebug)
             {
-                if (CameraAutoAngle && !cameraZoom)
+                if (SettingsManager.Instance.CameraAutoAngle && !cameraZoom)
                 {
                     int i6 = cameraAutoAngle;
                     autoRotateCamera();
@@ -4942,7 +4836,8 @@ namespace RuneScapeSolo.Net.Client
                         cameraAutoRotatePlayerY = CurrentPlayer.currentY;
                     }
                 }
-                if (fogOfWar)
+
+                if (SettingsManager.Instance.GraphicsSettings.FogOfWar)
                 {
                     gameCamera.zoom1 = 3000;
                     gameCamera.zoom2 = 3000;
@@ -4956,19 +4851,21 @@ namespace RuneScapeSolo.Net.Client
                     gameCamera.zoom3 = 40000;
                     gameCamera.zoom4 = 40000;
                 }
-                cameraRotation = cameraAutoAngle * 32;
+
                 int newCameraPosX = cameraAutoRotatePlayerX + cameraRotationXAmount;
                 int newCameraPosY = cameraAutoRotatePlayerY + cameraRotationYAmount;
+
+                cameraRotation = cameraAutoAngle * 32;
                 gameCamera.SetCameraTransform(newCameraPosX, -engineHandle.getAveragedElevation(newCameraPosX, newCameraPosY), newCameraPosY, 912, cameraRotation * 4, 0, 2000);
             }
             else
             {
-                if (CameraAutoAngle && !cameraZoom)
+                if (SettingsManager.Instance.CameraAutoAngle && !cameraZoom)
                 {
                     autoRotateCamera();
                 }
 
-                if (fogOfWar)
+                if (SettingsManager.Instance.GraphicsSettings.FogOfWar)
                 {
                     gameCamera.zoom1 = 2400;
                     gameCamera.zoom2 = 2400;
@@ -5057,11 +4954,6 @@ namespace RuneScapeSolo.Net.Client
                 if (drawMenuTab == 4)
                 {
                     drawPrayerMagicMenu(flag);
-                }
-
-                if (drawMenuTab == 6)
-                {
-                    drawOptionsMenu(flag);
                 }
 
                 if (!menuShow && !ShowQuestionMenu)
@@ -6506,7 +6398,6 @@ namespace RuneScapeSolo.Net.Client
     };
         public bool cameraZoom;
 
-        public bool fogOfWar;
         public string[] usedQuestName;
         public int[] shopItemSellPrice;
         public int[] shopItemBuyPrice;

@@ -98,10 +98,6 @@ namespace RuneScapeSolo.Net.Client
                     HandleFatigueChange(data);
                     return true;
 
-                case ServerCommand.GameSettings:
-                    HandleGameSettings(data);
-                    return true;
-
                 case ServerCommand.GroundItems:
                     HandleGroundItems(data, length);
                     return true;
@@ -1043,16 +1039,6 @@ namespace RuneScapeSolo.Net.Client
         void HandleFatigueChange(sbyte[] data)
         {
             client.PlayerFatigue = DataOperations.GetInt16(data, 1);
-        }
-
-        void HandleGameSettings(sbyte[] data)
-        {
-            client.CameraAutoAngle = DataOperations.GetInt8(data[1]) == 1;
-            DataOperations.GetInt8(data[2]); // Dummy for the one mouse button
-            DataOperations.GetInt8(data[3]); // Dummy for the sound toggle
-            client.ShowRoofs = DataOperations.GetInt8(data[4]) == 1;
-            DataOperations.GetInt8(data[5]); // Dummy for the auto screenshot
-            DataOperations.GetInt8(data[6]); // Dummy for the combat box
         }
 
         void HandleGroundItems(sbyte[] data, int length)
