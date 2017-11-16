@@ -15,6 +15,7 @@ using RuneScapeSolo.Net.Client.Enumerations;
 using RuneScapeSolo.Net.Client.Events;
 using RuneScapeSolo.Net.Client.Game;
 using RuneScapeSolo.Net.Client.Game.Cameras;
+using RuneScapeSolo.Primitives;
 using RuneScapeSolo.Settings;
 
 using ObjectModel = RuneScapeSolo.Net.Client.Game.ObjectModel;
@@ -30,13 +31,12 @@ namespace RuneScapeSolo.Net.Client
 
         public static GameClient CreateGameClient(int width = 512, int height = 346)
         {
-            GameClient mud = new GameClient();
+            GameClient client = new GameClient();
 
-            mud.windowWidth = width;
-            mud.windowHeight = height;
-            mud.CreateWindow(mud.windowWidth, mud.windowHeight + 11);
-            mud.gameMinThreadSleepTime = 10;
-            return mud;
+            client.WindowSize = new Size2D(width, height);
+            client.CreateWindow(client.WindowSize.Width, client.WindowSize.Height + 11);
+            client.gameMinThreadSleepTime = 10;
+            return client;
         }
 
         readonly PacketHandler packetHandler;
@@ -56,6 +56,7 @@ namespace RuneScapeSolo.Net.Client
         public Mob[] NpcAttackingArray { get; set; }
         public Mob[] Players { get; set; }
         public Quests Quests { get; set; }
+        public Size2D WindowSize { get; set; }
         public Skill[] Skills { get; set; }
         public CombatStyle CombatStyle { get; set; }
         public int AreaX { get; set; }
@@ -305,8 +306,7 @@ namespace RuneScapeSolo.Net.Client
 
             Quests = new Quests();
 
-            windowWidth = 512;
-            windowHeight = 334;
+            WindowSize = new Size2D(512, 334);
 
             Skills = new Skill[18];
 
@@ -920,7 +920,7 @@ namespace RuneScapeSolo.Net.Client
                 itemAboveHeadX[itemsAboveHeadCount] = x + width / 2;
                 itemAboveHeadY[itemsAboveHeadCount] = y;
                 itemAboveHeadScale[itemsAboveHeadCount] = arg6;
-                itemAboveHeadID[itemsAboveHeadCount++] = f1.ItemAboveHeavId;
+                itemAboveHeadID[itemsAboveHeadCount++] = f1.ItemAboveHeadId;
             }
             if (f1.currentSprite == 8 || f1.currentSprite == 9 || f1.combatTimer != 0)
             {
@@ -1144,7 +1144,7 @@ namespace RuneScapeSolo.Net.Client
         public bool DoNotDrawLogo { get; set; }
         public void createLoginScreenBackgrounds()
         {
-            int _bgScreenWidth = windowWidth;
+            int _bgScreenWidth = WindowSize.Width;
             OnLoadingSection?.Invoke(this, new EventArgs());
             int l = 0;
             sbyte byte0 = 50;
@@ -1678,7 +1678,7 @@ namespace RuneScapeSolo.Net.Client
             l3 = l3 * l5 - j2 * j5 >> 18;
 
             gameGraphics.drawMinimapPic((l + c1 / 2) - j6, 36 + c3 / 2 + l3, baseInventoryPic - 1, l1 + 64 & 0xff, j1);
-            gameGraphics.SetDimensions(0, 0, windowWidth, windowHeight + 12);
+            gameGraphics.SetDimensions(0, 0, WindowSize.Width, WindowSize.Height + 12);
 
             if (!canClick)
             {
@@ -1788,9 +1788,9 @@ namespace RuneScapeSolo.Net.Client
             baseTexturePic = baseProjectilePic + 50;
             subTexturePic = baseTexturePic + 10;
             SetRefreshRate(50);
-            gameGraphics = new GameImageMiddleMan(windowWidth, windowHeight + 12, 4000);
+            gameGraphics = new GameImageMiddleMan(WindowSize.Width, WindowSize.Height + 12, 4000);
             gameGraphics.gameReference = this;
-            gameGraphics.SetDimensions(0, 0, windowWidth, windowHeight + 12);
+            gameGraphics.SetDimensions(0, 0, WindowSize.Width, WindowSize.Height + 12);
             Menu.gdh = false;
             Menu.baseScrollPic = baseScrollPic;
             spellMenu = new Menu(gameGraphics, 5);
@@ -1813,7 +1813,7 @@ namespace RuneScapeSolo.Net.Client
 
             gameCamera = new Camera(gameGraphics, 15000, 15000, 1000);
 
-            gameCamera.setCameraSize(windowWidth / 2, windowHeight / 2, windowWidth / 2, windowHeight / 2, windowWidth, cameraFieldOfView);
+            gameCamera.setCameraSize(WindowSize.Width / 2, WindowSize.Height / 2, WindowSize.Width / 2, WindowSize.Height / 2, WindowSize.Width, cameraFieldOfView);
             gameCamera.zoom1 = 2400;
             gameCamera.zoom2 = 2400;
             gameCamera.zoom3 = 1;
@@ -2711,13 +2711,13 @@ namespace RuneScapeSolo.Net.Client
             {
                 if (loggedIn)
                 {
-                    gameGraphics.loggedIn = true;
+                    gameGraphics.IsLoggedIn = true;
                     drawGame();
 
                     return;
                 }
 
-                gameGraphics.loggedIn = false;
+                gameGraphics.IsLoggedIn = false;
                 drawLoginScreens();
             }
             catch (Exception ex)
@@ -2869,7 +2869,7 @@ namespace RuneScapeSolo.Net.Client
                 loginMenuLogin.drawMenu();
             }
 
-            gameGraphics.drawPicture(0, windowHeight, baseInventoryPic + 22);
+            gameGraphics.drawPicture(0, WindowSize.Height, baseInventoryPic + 22);
 
 
 
@@ -4524,7 +4524,7 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.drawCharacterLegs((l - 32) + 55, i1, 64, 102, EntityManager.GetAnimation(appearance2Colour).Number + 12, appearanceTopBottomColours[appearanceBottomColour]);
             gameGraphics.drawImage((l - 32) + 55, i1, 64, 102, EntityManager.GetAnimation(appearanceBodyGender).Number + 12, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
             gameGraphics.drawImage((l - 32) + 55, i1, 64, 102, EntityManager.GetAnimation(appearanceHeadType).Number + 12, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.drawPicture(0, windowHeight, baseInventoryPic + 22);
+            gameGraphics.drawPicture(0, WindowSize.Height, baseInventoryPic + 22);
 
             OnDrawDone();
         }
@@ -4662,7 +4662,7 @@ namespace RuneScapeSolo.Net.Client
             if (PlayerAliveTimeout != 0)
             {
                 gameGraphics.FadeScreenToBlack();
-                gameGraphics.drawText("Oh dear! You are dead...", windowWidth / 2, windowHeight / 2, 7, 0xff0000);
+                gameGraphics.drawText("Oh dear! You are dead...", WindowSize.Width / 2, WindowSize.Height / 2, 7, 0xff0000);
 
                 OnDrawDone();
                 return;
@@ -4685,23 +4685,23 @@ namespace RuneScapeSolo.Net.Client
                     gameGraphics.drawText("ZZZ", 512 - (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
                 }
 
-                gameGraphics.DrawBox(windowWidth / 2 - 100, 160, 200, 40, 0);
-                gameGraphics.drawText("You are sleeping", windowWidth / 2, 50, 7, 0xffff00);
-                gameGraphics.drawText("Fatigue: " + (PlayerFatigue * 100) / 750 + "%", windowWidth / 2, 90, 7, 0xffff00);
-                gameGraphics.drawText("When you want to wake up just use your", windowWidth / 2, 140, 5, 0xffffff);
-                gameGraphics.drawText("keyboard to type the word in the box below", windowWidth / 2, 160, 5, 0xffffff);
+                gameGraphics.DrawBox(WindowSize.Width / 2 - 100, 160, 200, 40, 0);
+                gameGraphics.drawText("You are sleeping", WindowSize.Width / 2, 50, 7, 0xffff00);
+                gameGraphics.drawText("Fatigue: " + (PlayerFatigue * 100) / 750 + "%", WindowSize.Width / 2, 90, 7, 0xffff00);
+                gameGraphics.drawText("When you want to wake up just use your", WindowSize.Width / 2, 140, 5, 0xffffff);
+                gameGraphics.drawText("keyboard to type the word in the box below", WindowSize.Width / 2, 160, 5, 0xffffff);
                 if (sleepingStatusText == null)
                 {
-                    gameGraphics.drawPixels(captchaPixels, windowWidth / 2 - 127, 230, captchaWidth, captchaHeight);
+                    gameGraphics.drawPixels(captchaPixels, WindowSize.Width / 2 - 127, 230, captchaWidth, captchaHeight);
                 }
                 else
                 {
-                    gameGraphics.drawText(sleepingStatusText, windowWidth / 2, 260, 5, 0xff0000);
+                    gameGraphics.drawText(sleepingStatusText, WindowSize.Width / 2, 260, 5, 0xff0000);
                 }
 
-                gameGraphics.DrawBoxEdge(windowWidth / 2 - 128, 229, 257, 42, 0xffffff);
-                gameGraphics.drawText("If you can't read the word", windowWidth / 2, 290, 1, 0xffffff);
-                gameGraphics.drawText("@yel@click here@whi@ to get a different one", windowWidth / 2, 305, 1, 0xffffff);
+                gameGraphics.DrawBoxEdge(WindowSize.Width / 2 - 128, 229, 257, 42, 0xffffff);
+                gameGraphics.drawText("If you can't read the word", WindowSize.Width / 2, 290, 1, 0xffffff);
+                gameGraphics.drawText("@yel@click here@whi@ to get a different one", WindowSize.Width / 2, 305, 1, 0xffffff);
 
                 //gameGraphics.UpdateGameImage();
                 OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
@@ -4979,6 +4979,7 @@ namespace RuneScapeSolo.Net.Client
                     gameCamera.zoom3 = 40000;
                     gameCamera.zoom4 = 40000;
                 }
+
                 int k6 = cameraAutoRotatePlayerX + cameraRotationXAmount;
                 int l8 = cameraAutoRotatePlayerY + cameraRotationYAmount;
                 gameCamera.SetCameraTransform(k6, -engineHandle.getAveragedElevation(k6, l8), l8, 912, cameraRotation * 4, 0, cameraDistance * 2);
@@ -4999,7 +5000,7 @@ namespace RuneScapeSolo.Net.Client
 
             drawMenus();
 
-            gameGraphics.loggedIn = false;
+            gameGraphics.IsLoggedIn = false;
 
 
             string text = "Coordinates: ( " + (SectionX + AreaX) + "," + (SectionY + AreaY) + " ) Section: (" + SectionX + "," + SectionY + ") Area: (" + AreaX + "," + AreaY + ")";
@@ -6413,8 +6414,6 @@ namespace RuneScapeSolo.Net.Client
             return joinString(hay, glue, 0);
         }
 
-        public int windowWidth;
-        public int windowHeight;
         public int cameraFieldOfView;
         public string[] questionMenuAnswer;
         public int appearanceHeadType;

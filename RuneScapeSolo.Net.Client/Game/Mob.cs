@@ -18,7 +18,7 @@ namespace RuneScapeSolo.Net.Client.Game
         public int CombatLevel { get; set; }
         public int CurrentHitpoints;
         public int HairColour { get; set; }
-        public int ItemAboveHeavId { get; set; }
+        public int ItemAboveHeadId { get; set; }
         public int LastDamageCount { get; set; }
         public int PlayerSkullTimeout { get; set; }
         public int PlayerSkulled { get; set; }
@@ -34,7 +34,6 @@ namespace RuneScapeSolo.Net.Client.Game
         public int[] WaypointsX { get; set; }
         public int[] WaypointsY { get; set; }
         public long NameHash { get; set; }
-        public string Clan { get; set; }
         public string Flag { get; set; }
         public string Name { get; set; }
 

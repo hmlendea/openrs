@@ -53,7 +53,6 @@
     <Compile Include="Events\ChatMessageEvent.cs" />
     <Compile Include="Events\ContentLoadedEvent.cs" />
     <Compile Include="Extensions\GraphicsDeviceExtensions.cs" />
-    <Compile Include="Extensions\MemoryStreamExtensions.cs" />
     <Compile Include="GameApplet.cs" />
     <Compile Include="GameAppletMiddleMan.cs" />
     <Compile Include="GameClient.cs" />
@@ -70,9 +69,6 @@
     <Compile Include="Helper.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="Menu.cs" />
-    <Compile Include="Models\Sector.cs" />
-    <Compile Include="Models\Sprite.cs" />
-    <Compile Include="Models\Tile.cs" />
     <Compile Include="Net\LoginEncryptor.cs" />
     <Compile Include="Net\PacketConstruction.cs" />
     <Compile Include="Net\StreamClass.cs" />

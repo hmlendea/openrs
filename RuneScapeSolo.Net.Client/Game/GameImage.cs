@@ -20,7 +20,7 @@ namespace RuneScapeSolo.Net.Client.Game
 
             imageRectangle = new Rectangle2D(0, 0, width, height);
 
-            loggedIn = false;
+            IsLoggedIn = false;
             pixels = new int[width * height];
             pictureColors = new int[size][];
             hasTransparentBackground = new bool[size];
@@ -35,9 +35,7 @@ namespace RuneScapeSolo.Net.Client.Game
 
             if (width > 1 && height > 1)
             {
-                int i = GameSize.Width * GameSize.Height;
-
-                for (int k = 0; k < i; k++)
+                for (int k = 0; k < GameSize.Area; k++)
                 {
                     pixels[k] = 0;
                 }
@@ -2391,12 +2389,12 @@ namespace RuneScapeSolo.Net.Client.Game
                         else if (arg0[i] != '@' && arg0[i] != '~')
                         {
                             int k = bne[arg0[i]];
-                            if (loggedIn && !cac[arg3] && arg4 != 0)
+                            if (IsLoggedIn && !cac[arg3] && arg4 != 0)
                             {
                                 cea(k, arg1 + 1, arg2, 0, abyte0, cac[arg3]);
                             }
 
-                            if (loggedIn && !cac[arg3] && arg4 != 0)
+                            if (IsLoggedIn && !cac[arg3] && arg4 != 0)
                             {
                                 cea(k, arg1, arg2 + 1, 0, abyte0, cac[arg3]);
                             }
@@ -2708,7 +2706,7 @@ namespace RuneScapeSolo.Net.Client.Game
         public bool[] hasTransparentBackground;
         static sbyte[][] gameFonts = new sbyte[50][];
         static int[] bne;
-        public bool loggedIn;
+        public bool IsLoggedIn;
         public int[] bng;
         public int[] bnh;
         public int[] bni;

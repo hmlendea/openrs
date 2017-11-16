@@ -196,12 +196,12 @@ namespace RuneScapeSolo.Gui.GuiElements
             {
                 if (!client.loggedIn)
                 {
-                    client.gameGraphics.loggedIn = false;
+                    client.gameGraphics.IsLoggedIn = false;
                     client.drawLoginScreens();
                 }
                 else
                 {
-                    client.gameGraphics.loggedIn = true;
+                    client.gameGraphics.IsLoggedIn = true;
                     client.drawGame();
 
                     return true;

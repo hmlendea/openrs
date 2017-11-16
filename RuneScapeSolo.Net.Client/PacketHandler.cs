@@ -420,7 +420,7 @@ namespace RuneScapeSolo.Net.Client
                     if (mob != null)
                     {
                         mob.PlayerSkullTimeout = 150;
-                        mob.ItemAboveHeavId = i30;
+                        mob.ItemAboveHeadId = i30;
                     }
                 }
                 else if (mobUpdateType == 1)
@@ -517,7 +517,7 @@ namespace RuneScapeSolo.Net.Client
                             mobUpdateOffset += 8;
 
                             mob.Name = DataOperations.LongToString(mob.NameHash);
-                            mob.Clan = DataOperations.LongToString(DataOperations.GetInt16(data, mobUpdateOffset));
+                            DataOperations.LongToString(DataOperations.GetInt16(data, mobUpdateOffset)); // Dummy for clan
                             mobUpdateOffset += 8;
 
                             int i31 = DataOperations.GetInt8(data[mobUpdateOffset]);

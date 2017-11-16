@@ -10,7 +10,6 @@ namespace RuneScapeSolo.Net.Client.Game
     public class ObjectModel //: Model
     {
         public ObjectModel(int vertCount, int polygonCount)
-        //: base(_vert_count, polygonCount)
         {
             objectState = 1;
             visible = true;
@@ -789,7 +788,6 @@ namespace RuneScapeSolo.Net.Client.Game
                 worldVertY[j] += y;
                 worldVertZ[j] += z;
             }
-
         }
 
         void rotate(int x, int y, int z)
@@ -858,18 +856,22 @@ namespace RuneScapeSolo.Net.Client.Game
                     worldVertY[j] += worldVertX[j] * y1 >> 8;
                 }
             }
-
         }
 
-        void scaleVertices(int x, int y, int z)
+        /// <summary>
+        /// Scales the vertices.
+        /// </summary>
+        /// <param name="x">The X coordinate.</param>
+        /// <param name="y">The Y coordinate.</param>
+        /// <param name="z">The Z coordinate.</param>
+        void ScaleVertices(int x, int y, int z)
         {
-            for (int j = 0; j < vert_count; j++)
+            for (int i = 0; i < vert_count; i++)
             {
-                worldVertX[j] = worldVertX[j] * x >> 8;
-                worldVertY[j] = worldVertY[j] * y >> 8;
-                worldVertZ[j] = worldVertZ[j] * z >> 8;
+                worldVertX[i] = worldVertX[i] * x >> 8;
+                worldVertY[i] = worldVertY[i] * y >> 8;
+                worldVertZ[i] = worldVertZ[i] * z >> 8;
             }
-
         }
 
         void calculateObjectBounds()
@@ -1111,7 +1113,7 @@ namespace RuneScapeSolo.Net.Client.Game
 
                 if (ckm >= 3)
                 {
-                    scaleVertices(ckd, cke, ckf);
+                    ScaleVertices(ckd, cke, ckf);
                 }
 
                 if (ckm >= 4)
@@ -1256,18 +1258,6 @@ namespace RuneScapeSolo.Net.Client.Game
             objectState = 1;
         }
 
-        //public int getShadeValue(sbyte[] _vert_count)
-        //{
-        //    for (; _vert_count[clg] == 10 || _vert_count[clg] == 13; clg++) ;
-        //    int x = cih[_vert_count[clg++]];
-        //    int y = cih[_vert_count[clg++]];
-        //    int z = cih[_vert_count[clg++]];
-        //    int y = (x * 4096 + y * 64 + z) - 0x20000;
-        //    if (y == 0x1e240)
-        //        y = shadeValue;
-        //    return y;
-        //}
-
         public int getShadeValue(sbyte[] arg0)
         {
             for (; arg0[clg] == 10 || arg0[clg] == 13; clg++)
@@ -1321,7 +1311,7 @@ namespace RuneScapeSolo.Net.Client.Game
         public int index;
         public int[] entityType;
         public int[] chm;
-        private bool chn;
+        bool chn;
         public bool noCollider;
         public bool dontRecieveShadows;
         public bool cic;

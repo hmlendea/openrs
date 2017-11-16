@@ -4,7 +4,6 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
 {
     public class Camera // : org.moparscape.msc.client.Camera
     {
-
         public Camera(GameImage gameimage, int maxObjects, int maxVisibleObjects, int maxSceneObjects)
         //: base(models, start, x, x)
         {
@@ -4199,7 +4198,5 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
         public static int farZ;
         public int bgk;
         public int bgl;
-
     }
-
 }
