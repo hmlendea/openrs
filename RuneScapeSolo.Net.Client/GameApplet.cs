@@ -46,7 +46,7 @@ namespace RuneScapeSolo.Net.Client
         {
         }
 
-        public virtual void Close()
+        public virtual void UnloadContent()
         {
         }
 
@@ -209,7 +209,7 @@ namespace RuneScapeSolo.Net.Client
             runStatus = -2;
             Console.WriteLine("Closing program");
 
-            Close();
+            UnloadContent();
         }
 
         //Component getGameComponent() {
