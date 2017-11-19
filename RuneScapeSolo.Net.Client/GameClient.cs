@@ -1494,17 +1494,6 @@ namespace RuneScapeSolo.Net.Client
                     }
                     return;
                 }
-                if (command == ServerCommand.Prayers)
-                {
-                    for (int k4 = 0; k4 < length - 1; k4++)
-                    {
-                        bool flag = data[k4 + 1] == 1;
-
-                        prayerOn[k4] = flag;
-                    }
-
-                    return;
-                }
                 if (command == ServerCommand.OpenBankWindow)
                 {
                     ShowBankBox = true;
@@ -1532,23 +1521,6 @@ namespace RuneScapeSolo.Net.Client
 #warning have not fixed the following yet....
                 Console.WriteLine($"Unfixed command? {command}");
 
-                if (command == ServerCommand.BankItem)
-                {
-                    int off = 1;
-                    int itemSlot = data[off++] & 0xff;
-                    int itemId = DataOperations.GetInt16(data, off);
-                    off += 2;
-                    int itemCount = DataOperations.GetInt32(data, off);
-                    off += 4;
-
-                    InventoryManager.BankItem(itemId, itemSlot, itemCount);
-                    return;
-                }
-                if (command == ServerCommand.RemoveItem)
-                {
-
-                    return;
-                }
                 if (command == ServerCommand.TeleBubble)
                 {
                     if (teleBubbleCount < 50)

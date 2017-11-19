@@ -27,6 +27,10 @@ namespace RuneScapeSolo.Net.Client
                     HandleAwake();
                     return true;
 
+                case ServerCommand.BankItem:
+                    HandleBankItem(data);
+                    return true;
+
                 case ServerCommand.CookAssistant:
                     HandleCookAssistant(data);
                     return true;
@@ -135,8 +139,12 @@ namespace RuneScapeSolo.Net.Client
                     HandlePirateTreasure(data);
                     return true;
 
-                case ServerCommand.UserStat:
-                    HandlePlayerStats(data);
+                case ServerCommand.PlayerDied:
+                    HandleResetPlayerAliveTimeout();
+                    return true;
+
+                case ServerCommand.Prayers:
+                    HandlePrayers(data, length);
                     return true;
 
                 case ServerCommand.QuestPointsChange:
@@ -153,10 +161,6 @@ namespace RuneScapeSolo.Net.Client
 
                 case ServerCommand.RemoveItem:
                     HandleRemoveItem(data);
-                    return true;
-
-                case ServerCommand.PlayerDied:
-                    HandleResetPlayerAliveTimeout();
                     return true;
 
                 case ServerCommand.RomeoAndJuliet:
@@ -215,6 +219,10 @@ namespace RuneScapeSolo.Net.Client
                     HandleTutorialChange(data);
                     return true;
 
+                case ServerCommand.UserStat:
+                    HandlePlayerStats(data);
+                    return true;
+
                 case ServerCommand.WallObjects:
                     HandleWallObjects(data, length);
                     return true;
@@ -232,9 +240,21 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        public void HandleAwake()
+        void HandleAwake()
         {
             client.IsSleeping = false;
+        }
+
+        void HandleBankItem(sbyte[] data)
+        {
+            int off = 1;
+            int itemSlot = data[off++] & 0xff;
+            int itemId = DataOperations.GetInt16(data, off);
+            off += 2;
+            int itemCount = DataOperations.GetInt32(data, off);
+            off += 4;
+
+            client.InventoryManager.BankItem(itemId, itemSlot, itemCount);
         }
 
         void HandleCombatStyleChange(sbyte[] data)
@@ -1224,6 +1244,14 @@ namespace RuneScapeSolo.Net.Client
             client.Skills[skillId].CurrentLevel = DataOperations.GetInt8(data[offset++]);
             client.Skills[skillId].BaseLevel = DataOperations.GetInt8(data[offset++]);
             client.Skills[skillId].Experience = DataOperations.GetInt32(data, offset);
+        }
+
+        void HandlePrayers(sbyte[] data, int length)
+        {
+            for (int i = 0; i < length - 1; i++)
+            {
+                client.prayerOn[i] = data[i + 1] == 1;
+            }
         }
 
         void HandleQuestPointsChange(sbyte[] data)
