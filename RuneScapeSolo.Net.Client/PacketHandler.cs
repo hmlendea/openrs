@@ -13,10 +13,14 @@ namespace RuneScapeSolo.Net.Client
     public class PacketHandler
     {
         readonly GameClient client;
+        readonly QuestManager questManager;
 
-        public PacketHandler(GameClient client)
+        public PacketHandler(
+            GameClient client,
+            QuestManager questManager)
         {
             this.client = client;
+            this.questManager = questManager;
         }
 
         public bool HandlePacket(ServerCommand command, sbyte[] data, int length)
@@ -264,7 +268,10 @@ namespace RuneScapeSolo.Net.Client
 
         void HandleCookAssistant(sbyte[] data)
         {
-            client.Quests.CookAssistant = DataOperations.GetInt16(data, 1);
+            int stage = DataOperations.GetInt16(data, 1);
+
+            // TODO: Ditch numerical identifiers
+            questManager.SetStage("0", stage);
         }
 
         void HandleCommand27(sbyte[] data, int length)
@@ -1032,17 +1039,23 @@ namespace RuneScapeSolo.Net.Client
 
         void HandleDemonSlayer(sbyte[] data)
         {
-            client.Quests.DemonSlayer = DataOperations.GetInt16(data, 1);
+            int stage = DataOperations.GetInt16(data, 1);
+
+            // TODO: Ditch numerical identifiers
+            questManager.SetStage("12", stage);
         }
 
         void HandleDoricQuest(sbyte[] data)
         {
-            client.Quests.DoricQuest = DataOperations.GetInt16(data, 1);
+            int stage = DataOperations.GetInt16(data, 1);
+
+            // TODO: Ditch numerical identifiers
+            questManager.SetStage("7", stage);
         }
 
         void HandleDruidicRitual(sbyte[] data)
         {
-            client.Quests.DruidicRitual = DataOperations.GetInt16(data, 1);
+            throw new NotImplementedException();
         }
 
         void HandleEquipmentStatus(sbyte[] data)
@@ -1058,7 +1071,10 @@ namespace RuneScapeSolo.Net.Client
 
         void HandleErnestTheChicken(sbyte[] data)
         {
-            client.Quests.ErnestTheChicken = DataOperations.GetInt16(data, 1);
+            int stage = DataOperations.GetInt16(data, 1);
+
+            // TODO: Ditch numerical identifiers
+            questManager.SetStage("11", stage);
         }
 
         void HandleFatigueChange(sbyte[] data)
@@ -1188,7 +1204,10 @@ namespace RuneScapeSolo.Net.Client
 
         void HandleImpCatcher(sbyte[] data)
         {
-            client.Quests.ImpCatcher = DataOperations.GetInt16(data, 1);
+            int stage = DataOperations.GetInt16(data, 1);
+
+            // TODO: Ditch numerical identifiers
+            questManager.SetStage("3", stage);
         }
 
         void HandleInventoryItems(sbyte[] data)
@@ -1233,7 +1252,10 @@ namespace RuneScapeSolo.Net.Client
 
         void HandlePirateTreasure(sbyte[] data)
         {
-            client.Quests.PirateTreasure = DataOperations.GetInt16(data, 1);
+            int stage = DataOperations.GetInt16(data, 1);
+
+            // TODO: Ditch numerical identifiers
+            questManager.SetStage("13", stage);
         }
 
         void HandlePlayerStats(sbyte[] data)
@@ -1256,7 +1278,7 @@ namespace RuneScapeSolo.Net.Client
 
         void HandleQuestPointsChange(sbyte[] data)
         {
-            client.QuestPoints = DataOperations.GetInt16(data, 1);
+            questManager.QuestPoints = DataOperations.GetInt16(data, 1);
         }
 
         void HandleQuestionMenu(sbyte[] data)
@@ -1294,7 +1316,10 @@ namespace RuneScapeSolo.Net.Client
 
         void HandleRomeoAndJuliet(sbyte[] data)
         {
-            client.Quests.RomeoAndJuliet = DataOperations.GetInt16(data, 1);
+            int stage = DataOperations.GetInt16(data, 1);
+
+            // TODO: Ditch numerical identifiers
+            questManager.SetStage("5", stage);
         }
 
         void HandleSaradominSpells(sbyte[] data)
@@ -1310,7 +1335,10 @@ namespace RuneScapeSolo.Net.Client
 
         void HandleSheepShearer(sbyte[] data)
         {
-            client.Quests.SheepShearer = DataOperations.GetInt16(data, 1);
+            int stage = DataOperations.GetInt16(data, 1);
+
+            // TODO: Ditch numerical identifiers
+            questManager.SetStage("1", stage);
         }
 
         void HandleShowAppearanceWindow()
@@ -1355,7 +1383,10 @@ namespace RuneScapeSolo.Net.Client
 
         void HandleTheRestlessGhost(sbyte[] data)
         {
-            client.Quests.TheRestlessGhost = DataOperations.GetInt16(data, 1);
+            int stage = DataOperations.GetInt16(data, 1);
+
+            // TODO: Ditch numerical identifiers
+            questManager.SetStage("6", stage);
         }
 
         void HandleTutorialChange(sbyte[] data)
@@ -1474,7 +1505,10 @@ namespace RuneScapeSolo.Net.Client
 
         void HandleWitchPotion(sbyte[] data)
         {
-            client.Quests.WitchPotion = DataOperations.GetInt16(data, 1);
+            int stage = DataOperations.GetInt16(data, 1);
+
+            // TODO: Ditch numerical identifiers
+            questManager.SetStage("9", stage);
         }
 
         void HandleZamorakSpells(sbyte[] data)

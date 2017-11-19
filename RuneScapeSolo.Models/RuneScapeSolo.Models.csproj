@@ -48,6 +48,7 @@
     <Compile Include="Enumerations\Gender.cs" />
     <Compile Include="Appearance.cs" />
     <Compile Include="Skill.cs" />
+    <Compile Include="Quest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

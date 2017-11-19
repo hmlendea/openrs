@@ -66,6 +66,8 @@
     <Compile Include="Repositories\GameTextureRepository.cs" />
     <Compile Include="Repositories\TileRepository.cs" />
     <Compile Include="Repositories\WallObjectRepository.cs" />
+    <Compile Include="DataObjects\QuestEntity.cs" />
+    <Compile Include="Repositories\QuestRepository.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

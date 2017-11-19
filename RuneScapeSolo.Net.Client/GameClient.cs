@@ -49,8 +49,9 @@ namespace RuneScapeSolo.Net.Client
         int lastMouseY;
         TimeSpan timeLapse = TimeSpan.Zero;
 
-        public InventoryManager InventoryManager { get; set; }
         public CombatManager CombatManager { get; set; }
+        public InventoryManager InventoryManager { get; set; }
+        QuestManager questManager { get; set; }
 
         public ObjectModel[] GameDataObjects { get; set; }
         public ObjectModel[] WallObjects { get; set; }
@@ -61,9 +62,6 @@ namespace RuneScapeSolo.Net.Client
         public Mob[] Npcs { get; set; }
         public Mob[] NpcAttackingArray { get; set; }
         public Mob[] Players { get; set; }
-        public Quests Quests { get; set; }
-        public string[] usedQuestName;
-        public int[] questStage;
         public Size2D WindowSize { get; set; }
         public Skill[] Skills { get; set; }
         public CombatStyle CombatStyle { get; set; }
@@ -93,7 +91,6 @@ namespace RuneScapeSolo.Net.Client
         public int PlayerCount { get; set; }
         public int PlayerFatigue { get; set; }
         public int ProjectileRange { get; set; }
-        public int QuestPoints { get; set; }
         public int QuestionMenuCount { get; set; }
         public int Remaining { get; set; }
         public int SaradominSpells { get; set; }
@@ -235,10 +232,9 @@ namespace RuneScapeSolo.Net.Client
         {
             InventoryManager = new InventoryManager();
             CombatManager = new CombatManager(InventoryManager);
+            questManager = new QuestManager();
 
-            packetHandler = new PacketHandler(this);
-
-            Quests = new Quests();
+            packetHandler = new PacketHandler(this, questManager);
 
             WindowSize = new Size2D(512, 334);
 
@@ -345,7 +341,6 @@ namespace RuneScapeSolo.Net.Client
             cameraRotationXIncrement = 2;
             teleBubbleTime = new int[50];
             GridSize = 128;
-            questStage = new int[questName.Length];
             teleBubbleType = new int[50];
             experienceList = new int[99];
             lastModelFireLightningSpellNumber = -1;
@@ -372,7 +367,6 @@ namespace RuneScapeSolo.Net.Client
             ShowAppearanceWindow = false;
             cameraZoom = false;
 
-            usedQuestName = new string[0];
             SubscriptionDaysLeft = 0;
             shopItemSellPrice = new int[256];
             shopItemBuyPrice = new int[256];
@@ -1512,37 +1506,45 @@ namespace RuneScapeSolo.Net.Client
                     }
                     return;
                 }
+
                 if (command == ServerCommand.Command225)
                 {
                     sleepingStatusText = "Incorrect - Please wait...";
                     return;
                 }
+
                 if (command == ServerCommand.Command182)
                 {
                     int off = 1;
-                    QuestPoints = DataOperations.GetInt16(data, off);
+                    questManager.QuestPoints = DataOperations.GetInt16(data, off);
                     off += 2;
-                    for (int l4 = 0; l4 < questName.Length; l4++)
+
+                    for (int i = 0; i < questManager.QuestsCount; i++)
                     {
-                        questStage[l4] = data[l4 + 1];
+                        // TODO: Ditch numerical identifiers
+                        questManager.SetStage(i.ToString(), data[i + 1]);
                     }
 
                     return;
                 }
+
                 if (command == ServerCommand.Command233)
                 {
-                    QuestPoints = DataOperations.GetInt8(data[1]);
+                    questManager.QuestPoints = DataOperations.GetInt8(data[1]);
                     int count = DataOperations.GetInt8(data[2]);
                     int off = 3;
                     string[] newQuestNames = new string[count];
                     int[] newQuestStage = new int[count];
+
                     for (int i = 0; i < count; i++)
                     {
-                        newQuestNames[i] = questName[DataOperations.GetInt8(data[off++])];
-                        newQuestStage[i] = DataOperations.GetInt8(data[off++]);
+                        // TODO: Ditch numerical identifiers
+                        int id = DataOperations.GetInt8(data[off++]);
+                        int newStage = DataOperations.GetInt8(data[off++]);
+
+                        questManager.SetStage(id.ToString(), newStage);
                     }
-                    usedQuestName = newQuestNames;
-                    questStage = newQuestStage;
+
                     return;
                 }
 
@@ -5989,12 +5991,6 @@ namespace RuneScapeSolo.Net.Client
         public int appearanceHeadGender;
 
         public int[] menuIndexes;
-        public string[] questName = {// TODO really?... needs to be done better imho
-            "Cook's Assistant", "Sheep Shearer", "Black knight's fortress", "Imp catcher", "Vampire slayer",
-            "Romeo & Juliet", "The restless ghost", "Doric's quest", "The knight's sword", "Witch's potion",
-            "Goblin diplomacy", "Ernest the chicken", "Demon Slayer", "Pirate's treasure", "Prince Ali Rescue",
-            "Shield of Arrav", "Dragon Slayer"
-    };
         public int selectedShopItemIndex;
         public int selectedShopItemType;
         public string sleepingStatusText;

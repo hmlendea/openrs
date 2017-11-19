@@ -53,6 +53,8 @@
     <Compile Include="GameManagers\EntityManager.cs" />
     <Compile Include="GameManagers\InventoryManager.cs" />
     <Compile Include="GameManagers\CombatManager.cs" />
+    <Compile Include="Mapping\QuestMappingExtensions.cs" />
+    <Compile Include="GameManagers\QuestManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
