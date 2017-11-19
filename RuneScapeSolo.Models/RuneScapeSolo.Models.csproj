@@ -43,6 +43,11 @@
     <Compile Include="GameTexture.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="WallObject.cs" />
+    <Compile Include="Enumerations\Action.cs" />
+    <Compile Include="Enumerations\CombatStyle.cs" />
+    <Compile Include="Enumerations\Gender.cs" />
+    <Compile Include="Appearance.cs" />
+    <Compile Include="Skill.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

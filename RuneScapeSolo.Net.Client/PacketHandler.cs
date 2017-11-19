@@ -2,10 +2,11 @@
 using System.Text;
 
 using RuneScapeSolo.GameLogic.GameManagers;
+using RuneScapeSolo.Models;
+using RuneScapeSolo.Models.Enumerations;
 using RuneScapeSolo.Net.Client.Data;
 using RuneScapeSolo.Net.Client.Enumerations;
 using RuneScapeSolo.Net.Client.Game;
-using RuneScapeSolo.Models;
 
 namespace RuneScapeSolo.Net.Client
 {
@@ -530,10 +531,10 @@ namespace RuneScapeSolo.Net.Client
                                 mob.AppearanceItems[l37] = 0;
                             }
 
-                            mob.HairColour = data[mobUpdateOffset++] & 0xff;
-                            mob.TopColour = data[mobUpdateOffset++] & 0xff;
-                            mob.BottomColour = data[mobUpdateOffset++] & 0xff;
-                            mob.SkinColour = data[mobUpdateOffset++] & 0xff;
+                            mob.Appearance.HairColour = data[mobUpdateOffset++] & 0xff;
+                            mob.Appearance.TopColour = data[mobUpdateOffset++] & 0xff;
+                            mob.Appearance.TrousersColour = data[mobUpdateOffset++] & 0xff;
+                            mob.Appearance.SkinColour = data[mobUpdateOffset++] & 0xff;
                             mob.CombatLevel = data[mobUpdateOffset++] & 0xff;
                             mob.PlayerSkulled = data[mobUpdateOffset++] & 0xff;
                             mob.Admin = data[mobUpdateOffset++] & 0xff;

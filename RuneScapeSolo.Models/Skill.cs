@@ -1,4 +1,4 @@
-﻿namespace RuneScapeSolo.Net.Client
+﻿namespace RuneScapeSolo.Models
 {
     public class Skill
     {

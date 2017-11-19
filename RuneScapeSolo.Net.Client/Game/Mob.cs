@@ -1,23 +1,25 @@
+using RuneScapeSolo.Models;
+
 namespace RuneScapeSolo.Net.Client.Game
 {
     public class Mob
     {
         public Mob()
         {
+            Appearance = new Appearance();
             WaypointsX = new int[10];
             WaypointsY = new int[10];
             AppearanceItems = new int[12];
             CombatLevel = -1;
         }
 
+        public Appearance Appearance { get; set; }
         public int Admin { get; set; }
         public int AttackingPlayerIndex { get; set; }
         public int AttackingNpcIndex { get; set; }
         public int BaseHitpoints { get; set; }
-        public int BottomColour { get; set; }
         public int CombatLevel { get; set; }
         public int CurrentHitpoints;
-        public int HairColour { get; set; }
         public int ItemAboveHeadId { get; set; }
         public int LastDamageCount { get; set; }
         public int PlayerSkullTimeout { get; set; }
@@ -26,8 +28,6 @@ namespace RuneScapeSolo.Net.Client.Game
         public int ProjectileType { get; set; }
         public int ServerId { get; set; }
         public int ServerIndex { get; set; }
-        public int SkinColour { get; set; }
-        public int TopColour { get; set; }
         public int WaypointsEndSprite { get; set; }
         public int WaypointCurrent { get; set; }
         public int[] AppearanceItems { get; set; }

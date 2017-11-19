@@ -1,4 +1,5 @@
-﻿using RuneScapeSolo.Net.Client;
+﻿using RuneScapeSolo.Models.Enumerations;
+using RuneScapeSolo.Net.Client;
 using RuneScapeSolo.Net.Client.Enumerations;
 using RuneScapeSolo.Primitives;
 

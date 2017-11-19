@@ -101,7 +101,7 @@ namespace RuneScapeSolo.DataAccess.Repositories
             npcEntityToUpdate.Sprites = npcEntity.Sprites;
             npcEntityToUpdate.HairColour = npcEntity.HairColour;
             npcEntityToUpdate.TopColour = npcEntity.TopColour;
-            npcEntityToUpdate.BottomColour = npcEntity.BottomColour;
+            npcEntityToUpdate.TrousersColour = npcEntity.TrousersColour;
             npcEntityToUpdate.SkinColour = npcEntity.SkinColour;
             npcEntityToUpdate.Camera1 = npcEntity.Camera1;
             npcEntityToUpdate.Camera2 = npcEntity.Camera2;

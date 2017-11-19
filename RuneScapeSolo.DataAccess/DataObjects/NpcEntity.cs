@@ -51,7 +51,7 @@
         /// Gets or sets the bottom colour.
         /// </summary>
         /// <value>The bottom colour.</value>
-        public int BottomColour { get; set; }
+        public int TrousersColour { get; set; }
 
         /// <summary>
         /// Gets or sets the skin colour.

@@ -1,4 +1,4 @@
-﻿namespace RuneScapeSolo.Net.Client.Enumerations
+﻿namespace RuneScapeSolo.Models.Enumerations
 {
     public enum CombatStyle
     {

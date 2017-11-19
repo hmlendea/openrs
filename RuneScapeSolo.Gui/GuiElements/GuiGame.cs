@@ -160,7 +160,7 @@ namespace RuneScapeSolo.Gui.GuiElements
                 Console.WriteLine($"An error has occured in {nameof(GameWindow)}.cs");
                 Console.WriteLine(ex.Message);
 
-                client.cleanUp();
+                client.UnloadContent();
                 client.memoryError = true;
 
                 return false;

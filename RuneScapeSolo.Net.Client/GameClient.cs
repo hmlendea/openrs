@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Input;
 
 using RuneScapeSolo.GameLogic.GameManagers;
 using RuneScapeSolo.Input;
+using RuneScapeSolo.Models;
+using RuneScapeSolo.Models.Enumerations;
 using RuneScapeSolo.Net.Client.Data;
 using RuneScapeSolo.Net.Client.Enumerations;
 using RuneScapeSolo.Net.Client.Events;
@@ -822,7 +824,7 @@ namespace RuneScapeSolo.Net.Client
         {
             Mob f1 = Players[playerIndex];
 
-            if (f1.BottomColour == 255) // TODO this checks if the player is an invisible moderator
+            if (f1.Appearance.TrousersColour == 255)// TODO this checks if the player is an invisible moderator
             {
                 return;
             }
@@ -929,21 +931,21 @@ namespace RuneScapeSolo.Net.Client
                         int l4 = (width * gameGraphics.pictureAssumedWidth[k4]) / gameGraphics.pictureAssumedWidth[EntityManager.GetAnimation(l2).Number];
                         k3 -= (l4 - width) / 2;
                         int i5 = EntityManager.GetAnimation(l2).CharacterColour;
-                        int j5 = appearanceSkinColours[f1.SkinColour];
+                        int j5 = appearanceSkinColours[f1.Appearance.SkinColour];
 
                         if (i5 == 1)
                         {
-                            i5 = appearanceHairColours[f1.HairColour];
+                            i5 = appearanceHairColours[f1.Appearance.HairColour];
                         }
                         else
                             if (i5 == 2)
                         {
-                            i5 = appearanceTopBottomColours[f1.TopColour];
+                            i5 = appearanceTopBottomColours[f1.Appearance.TopColour];
                         }
                         else
                                 if (i5 == 3)
                         {
-                            i5 = appearanceTopBottomColours[f1.BottomColour];
+                            i5 = appearanceTopBottomColours[f1.Appearance.TrousersColour];
                         }
 
                         gameGraphics.drawImage(x + k3, y + i4, l4, height, k4, i5, j5, arg5, flag);
@@ -4682,7 +4684,7 @@ namespace RuneScapeSolo.Net.Client
             for (int l1 = 0; l1 < PlayerCount; l1++)
             {
                 Mob player = Players[l1];
-                if (player.BottomColour != 255)
+                if (player.Appearance.TrousersColour != 255)
                 {
                     int j2 = player.currentX;
                     int l2 = player.currentY;
@@ -5111,18 +5113,18 @@ namespace RuneScapeSolo.Net.Client
 
                         if (j4 == 1)
                         {
-                            j4 = EntityManager.GetNpc(npc.npcId).HairColour;
-                            k4 = EntityManager.GetNpc(npc.npcId).SkinColour;
+                            j4 = EntityManager.GetNpc(npc.npcId).Appearance.HairColour;
+                            k4 = EntityManager.GetNpc(npc.npcId).Appearance.SkinColour;
                         }
                         else if (j4 == 2)
                         {
-                            j4 = EntityManager.GetNpc(npc.npcId).TopColour;
-                            k4 = EntityManager.GetNpc(npc.npcId).SkinColour;
+                            j4 = EntityManager.GetNpc(npc.npcId).Appearance.TopColour;
+                            k4 = EntityManager.GetNpc(npc.npcId).Appearance.SkinColour;
                         }
                         else if (j4 == 3)
                         {
-                            j4 = EntityManager.GetNpc(npc.npcId).BottomColour;
-                            k4 = EntityManager.GetNpc(npc.npcId).SkinColour;
+                            j4 = EntityManager.GetNpc(npc.npcId).Appearance.TrousersColour;
+                            k4 = EntityManager.GetNpc(npc.npcId).Appearance.SkinColour;
                         }
 
                         gameGraphics.drawImage(x + i3, y + j3, i4, height, l3, j4, k4, unknown1, flag);

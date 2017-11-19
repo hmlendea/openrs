@@ -23,29 +23,7 @@
         /// <value>The sprites.</value>
         public int[] Sprites { get; set; }
 
-        /// <summary>
-        /// Gets or sets the hair colour.
-        /// </summary>
-        /// <value>The hair colour.</value>
-        public int HairColour { get; set; }
-
-        /// <summary>
-        /// Gets or sets the top colour.
-        /// </summary>
-        /// <value>The top colour.</value>
-        public int TopColour { get; set; }
-
-        /// <summary>
-        /// Gets or sets the bottom colour.
-        /// </summary>
-        /// <value>The bottom colour.</value>
-        public int BottomColour { get; set; }
-
-        /// <summary>
-        /// Gets or sets the skin colour.
-        /// </summary>
-        /// <value>The skin colour.</value>
-        public int SkinColour { get; set; }
+        public Appearance Appearance { get; set; }
 
         public int Camera1 { get; set; }
 
@@ -124,6 +102,7 @@
         /// </summary>
         public Npc()
         {
+            Appearance = new Appearance();
             Sprites = new int[12];
         }
     }
