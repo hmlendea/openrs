@@ -9,7 +9,7 @@ using RuneScapeSolo.Settings;
 
 namespace RuneScapeSolo.GameLogic.GameManagers
 {
-    public class EntityManager
+    public static class EntityManager
     {
         static List<Animation> animations;
         static List<Elevation> elevations;

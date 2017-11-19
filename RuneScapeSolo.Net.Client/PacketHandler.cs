@@ -136,7 +136,7 @@ namespace RuneScapeSolo.Net.Client
                     return true;
 
                 case ServerCommand.UserStat:
-                    HandlePlayerStats(data, length);
+                    HandlePlayerStats(data);
                     return true;
 
                 case ServerCommand.QuestPointsChange:
@@ -149,6 +149,10 @@ namespace RuneScapeSolo.Net.Client
 
                 case ServerCommand.Remaining:
                     HandleRemaining(data);
+                    return true;
+
+                case ServerCommand.RemoveItem:
+                    HandleRemoveItem(data);
                     return true;
 
                 case ServerCommand.PlayerDied:
@@ -709,24 +713,24 @@ namespace RuneScapeSolo.Net.Client
         void HandleCommand114(sbyte[] data)
         {
             int off = 1;
-            client.InventoryItemsCount = data[off++] & 0xff;
+            client.InventoryManager.InventoryItemsCount = data[off++] & 0xff;
 
-            for (int item = 0; item < client.InventoryItemsCount; item++)
+            for (int item = 0; item < client.InventoryManager.InventoryItemsCount; item++)
             {
                 int val = DataOperations.GetInt16(data, off);
 
                 off += 2;
-                client.InventoryItems[item] = val & 0x7fff;
-                client.InventoryItemEquipped[item] = val / 32768;
+                client.InventoryManager.InventoryItems[item] = val & 0x7fff;
+                client.InventoryManager.InventoryItemEquipped[item] = val / 32768;
 
                 if (EntityManager.GetItem(val & 0x7fff).IsStackable == 0)
                 {
-                    client.InventoryItemCount[item] = DataOperations.GetInt32(data, off);
+                    client.InventoryManager.InventoryItemCount[item] = DataOperations.GetInt32(data, off);
                     off += 4;
                 }
                 else
                 {
-                    client.InventoryItemCount[item] = 1;
+                    client.InventoryManager.InventoryItemCount[item] = 1;
                 }
             }
         }
@@ -1182,13 +1186,13 @@ namespace RuneScapeSolo.Net.Client
                 offset += 4;
             }
 
-            client.InventoryItems[newCount] = val & 0x7fff;
-            client.InventoryItemEquipped[newCount] = val / 32768;
-            client.InventoryItemCount[newCount] = count;
+            client.InventoryManager.InventoryItems[newCount] = val & 0x7fff;
+            client.InventoryManager.InventoryItemEquipped[newCount] = val / 32768;
+            client.InventoryManager.InventoryItemCount[newCount] = count;
 
-            if (newCount >= client.InventoryItemsCount)
+            if (newCount >= client.InventoryManager.InventoryItemsCount)
             {
-                client.InventoryItemsCount = newCount + 1;
+                client.InventoryManager.InventoryItemsCount = newCount + 1;
             }
         }
 
@@ -1212,7 +1216,7 @@ namespace RuneScapeSolo.Net.Client
             client.Quests.PirateTreasure = DataOperations.GetInt16(data, 1);
         }
 
-        void HandlePlayerStats(sbyte[] data, int length)
+        void HandlePlayerStats(sbyte[] data)
         {
             int offset = 1;
             int skillId = data[offset++] & 0xff;
@@ -1246,6 +1250,13 @@ namespace RuneScapeSolo.Net.Client
         void HandleRemaining(sbyte[] data)
         {
             client.Remaining = DataOperations.GetInt16(data, 1);
+        }
+
+        void HandleRemoveItem(sbyte[] data)
+        {
+            int itemSlot = data[1] & 0xff;
+
+            client.InventoryManager.RemoveItem(itemSlot);
         }
 
         void HandleResetPlayerAliveTimeout()
