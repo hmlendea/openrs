@@ -7,7 +7,7 @@ namespace RuneScapeSolo.Net.Client
 {
     public class Menu
     {
-        public Menu(GameImage j1, int i)
+        public Menu(GraphicsEngine j1, int i)
         {
             selectedComponent = -1;
             gdg = true;
@@ -31,8 +31,7 @@ namespace RuneScapeSolo.Net.Client
             componentTextSize = new int[i];
             componentText = new string[i];
             componentTextList = new string[i][];
-            scrollBarGradientColorTop = rgbToIntMod(114, 114, 176);
-            scrollBarGradientColorBottom = rgbToIntMod(14, 14, 62);
+            scrollBarColour = rgbToIntMod(114, 114, 176);
             scrollBarDraggingBarLine1Color = rgbToIntMod(200, 208, 232);
             scrollBarDraggingBarColor = rgbToIntMod(96, 129, 184);
             scrollBarDraggingBarLine2Color = rgbToIntMod(53, 95, 115);
@@ -45,9 +44,9 @@ namespace RuneScapeSolo.Net.Client
             gdf = rgbToIntMod(84, 93, 120);
         }
 
-        int rgbToIntMod(int i, int k, int l)
+        int rgbToIntMod(int r, int g, int b)
         {
-            return ColourTranslator.ToArgb((redMod * i) / 114, (greenMod * k) / 114, (blueMod * l) / 176);
+            return ColourTranslator.ToArgb((redMod * r) / 114, (greenMod * g) / 114, (blueMod * b) / 176);
         }
 
         public void mouseClick(int mouseX, int mouseY, int lastMouseButton, int mouseButton)
@@ -294,7 +293,7 @@ namespace RuneScapeSolo.Net.Client
         public void gei(int arg0, int arg1, int arg2, int arg3)
         {
             gameImage.SetDimensions(arg0, arg1, arg0 + arg2, arg1 + arg3);
-            gameImage.DrawGradientBox(arg0, arg1, arg2, arg3, gdf, gdc);
+            gameImage.DrawBox(arg0, arg1, arg2, arg3, gdf);
 
             if (gdh)
             {
@@ -433,7 +432,7 @@ namespace RuneScapeSolo.Net.Client
             gameImage.drawPicture(l1 + 1, (k + i1) - 12, 1 + baseScrollPic);// down arrow
             gameImage.DrawHorizontalLine(l1, k + 13, 12, 0);// up arrow border
             gameImage.DrawHorizontalLine(l1, (k + i1) - 13, 12, 0);// down arrow border
-            gameImage.DrawGradientBox(l1 + 1, k + 14, 11, i1 - 27, scrollBarGradientColorTop, scrollBarGradientColorBottom);// background gradient
+            gameImage.DrawBox(l1 + 1, k + 14, 11, i1 - 27, scrollBarColour);
             gameImage.DrawBox(l1 + 3, j1 + k + 14, 7, k1, scrollBarDraggingBarColor);// dragging bar
             gameImage.DrawVerticalLine(l1 + 2, j1 + k + 14, k1, scrollBarDraggingBarLine1Color);// dragging bar
             gameImage.DrawVerticalLine(l1 + 2 + 8, j1 + k + 14, k1, scrollBarDraggingBarLine2Color);// drawgging bar
@@ -877,7 +876,7 @@ namespace RuneScapeSolo.Net.Client
         }
 
 
-        protected GameImage gameImage;
+        protected GraphicsEngine gameImage;
         int menuItemsCount;
         int gal;
         public bool[] componentAcceptsInput;
@@ -904,8 +903,7 @@ namespace RuneScapeSolo.Net.Client
         int mouseButton;
         int selectedComponent;
         int gch;
-        int scrollBarGradientColorTop;
-        int scrollBarGradientColorBottom;
+        int scrollBarColour;
         int scrollBarDraggingBarLine1Color;
         int scrollBarDraggingBarColor;
         int scrollBarDraggingBarLine2Color;

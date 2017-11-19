@@ -1842,7 +1842,7 @@ namespace RuneScapeSolo.Net.Client.Game
 
         const int SECTOR_COUNT = 4;
 
-        public EngineHandle(Camera arg0, GameImage arg1)
+        public EngineHandle(Camera arg0, GraphicsEngine arg1)
         //: base(x, arg1)
         {
             //new org.moparscape.msc.client.EngineHandle
@@ -2305,7 +2305,7 @@ namespace RuneScapeSolo.Net.Client.Game
         public int[][] tileGroundOverlay;
         public int[][] tileObjectRotation;
         public bool ghh;
-        public GameImage gameGraphics;
+        public GraphicsEngine gameGraphics;
         public Camera _camera;
         public int[] selectedY;
         public int[][] tileGroundTexture;

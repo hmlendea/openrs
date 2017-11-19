@@ -58,7 +58,7 @@
     <Compile Include="Game\Cameras\CameraVariable.cs" />
     <Compile Include="Game\ChatMessage.cs" />
     <Compile Include="Game\EngineHandle.cs" />
-    <Compile Include="Game\GameImage.cs" />
+    <Compile Include="Game\GraphicsEngine.cs" />
     <Compile Include="Game\GameObject.cs" />
     <Compile Include="Game\Mob.cs" />
     <Compile Include="Helper.cs" />

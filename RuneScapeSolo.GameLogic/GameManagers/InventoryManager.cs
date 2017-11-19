@@ -122,5 +122,29 @@
             }
 
         }
+
+        public int GetItemTotalCount(int itemId)
+        {
+            int count = 0;
+
+            for (int i = 0; i < InventoryItemsCount; i++)
+            {
+                if (InventoryItems[i] != itemId)
+                {
+                    continue;
+                }
+
+                if (EntityManager.GetItem(itemId).IsStackable == 1)
+                {
+                    count += 1;
+                }
+                else
+                {
+                    count += InventoryItemCount[i];
+                }
+            }
+
+            return count;
+        }
     }
 }

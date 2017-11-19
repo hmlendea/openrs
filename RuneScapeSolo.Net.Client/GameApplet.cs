@@ -367,14 +367,14 @@ namespace RuneScapeSolo.Net.Client
         {
             sbyte[] bytes = unpackData("fonts.jag", "Game fonts", 0);
 
-            GameImage.addFont(DataOperations.loadData("h11p.jf", 0, bytes));
-            GameImage.addFont(DataOperations.loadData("h12b.jf", 0, bytes));
-            GameImage.addFont(DataOperations.loadData("h12p.jf", 0, bytes));
-            GameImage.addFont(DataOperations.loadData("h13b.jf", 0, bytes));
-            GameImage.addFont(DataOperations.loadData("h14b.jf", 0, bytes));
-            GameImage.addFont(DataOperations.loadData("h16b.jf", 0, bytes));
-            GameImage.addFont(DataOperations.loadData("h20b.jf", 0, bytes));
-            GameImage.addFont(DataOperations.loadData("h24b.jf", 0, bytes));
+            GraphicsEngine.addFont(DataOperations.loadData("h11p.jf", 0, bytes));
+            GraphicsEngine.addFont(DataOperations.loadData("h12b.jf", 0, bytes));
+            GraphicsEngine.addFont(DataOperations.loadData("h12p.jf", 0, bytes));
+            GraphicsEngine.addFont(DataOperations.loadData("h13b.jf", 0, bytes));
+            GraphicsEngine.addFont(DataOperations.loadData("h14b.jf", 0, bytes));
+            GraphicsEngine.addFont(DataOperations.loadData("h16b.jf", 0, bytes));
+            GraphicsEngine.addFont(DataOperations.loadData("h20b.jf", 0, bytes));
+            GraphicsEngine.addFont(DataOperations.loadData("h24b.jf", 0, bytes));
         }
 
         void drawLoadingScreen(int percentage, string fileTitle)

@@ -99,7 +99,7 @@ namespace RuneScapeSolo.Gui.GuiElements
                         var g = bytes[1];
                         var b = bytes[0];
 
-                        colors[j] = GameImage.rgbaToUInt(r, g, b, 255);
+                        colors[j] = GraphicsEngine.rgbaToUInt(r, g, b, 255);
                     }
 
                     if (client.gameGraphics.pixels.Any(p => p != 0) && client.DrawIsNecessary)

@@ -2,7 +2,7 @@ using RuneScapeSolo.Net.Client.Game;
 
 namespace RuneScapeSolo.Net.Client
 {
-    public class GameImageMiddleMan : GameImage
+    public class GameImageMiddleMan : GraphicsEngine
     {
 
         public GameImageMiddleMan(int width, int height, int size)
@@ -20,7 +20,7 @@ namespace RuneScapeSolo.Net.Client
             }
             if (objectId >= 40000)
             {
-                gameReference.DrawItem(x, y, width, height, objectId - 40000, unknownParam1, unknownParam2);
+                gameReference.DrawItem(x, y, width, height, objectId - 40000);
                 return;
             }
             if (objectId >= 20000)

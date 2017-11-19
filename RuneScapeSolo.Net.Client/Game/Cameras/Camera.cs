@@ -4,7 +4,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
 {
     public class Camera // : org.moparscape.msc.client.Camera
     {
-        public Camera(GameImage gameimage, int maxObjects, int maxVisibleObjects, int maxSceneObjects)
+        public Camera(GraphicsEngine gameimage, int maxObjects, int maxVisibleObjects, int maxSceneObjects)
         //: base(models, start, x, x)
         {
             bba = 50;
@@ -4179,7 +4179,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
         public int[][] texturePixels;
         public int[][] bfd;
         static sbyte[] bfe;
-        public GameImage gameImage;
+        public GraphicsEngine gameImage;
         public int[] bfh;
         public CameraVariable[] bfi;
         public int bfj;

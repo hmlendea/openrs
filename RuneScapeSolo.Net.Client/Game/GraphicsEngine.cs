@@ -8,13 +8,13 @@ using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Net.Client.Game
 {
-    public class GameImage
+    public class GraphicsEngine
     {
         public Size2D GameSize { get; set; }
 
         Rectangle2D imageRectangle;
 
-        public GameImage(int width, int height, int size)
+        public GraphicsEngine(int width, int height, int size)
         {
             GameSize = new Size2D(width, height);
 
@@ -42,7 +42,7 @@ namespace RuneScapeSolo.Net.Client.Game
             }
         }
 
-        static GameImage()
+        static GraphicsEngine()
         {
             string s = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
             bne = new int[256];
@@ -178,56 +178,6 @@ namespace RuneScapeSolo.Net.Client.Game
                 j2 += i2;
             }
 
-        }
-
-        public void DrawGradientBox(int x, int y, int width, int height, int startColourArgb, int endColourArgb)
-        {
-            if (x < imageRectangle.X)
-            {
-                width -= imageRectangle.X - x;
-                x = imageRectangle.X;
-            }
-
-            if (x + width > imageRectangle.Width)
-            {
-                width = imageRectangle.Width - x;
-            }
-
-            Colour startColour = Colour.FromArgb(
-                startColourArgb & 0xff,
-                startColourArgb >> 8 & 0xff,
-                startColourArgb >> 16 & 0xff);
-            Colour endColour = Colour.FromArgb(
-                endColourArgb & 0xff,
-                endColourArgb >> 8 & 0xff,
-                endColourArgb >> 16 & 0xff);
-
-            int l1 = GameSize.Width - width;
-            byte byte0 = 1;
-
-            int i2 = x + y * GameSize.Width;
-
-            for (int j = 0; j < height; j += byte0)
-            {
-                if (j + y >= imageRectangle.Y && j + y < imageRectangle.Height)
-                {
-                    int k2 =
-                        ((endColour.B * j + startColour.B * (height - j)) / height << 16) +
-                        ((endColour.G * j + startColour.G * (height - j)) / height << 8) +
-                        (endColour.R * j + startColour.R * (height - j)) / height;
-
-                    for (int i = -width; i < 0; i++)
-                    {
-                        pixels[i2++] = k2;
-                    }
-
-                    i2 += l1;
-                }
-                else
-                {
-                    i2 += GameSize.Width;
-                }
-            }
         }
 
         public void DrawBox(int x, int y, int width, int height, int colour)
@@ -2347,7 +2297,7 @@ namespace RuneScapeSolo.Net.Client.Game
                 }
                 catch
                 {
-                    Console.WriteLine($"An error has occured in {nameof(GameImage)}.cs");
+                    Console.WriteLine($"An error has occured in {nameof(GraphicsEngine)}.cs");
                 }
 
                 //stringsToDraw.Add(new stringDrawDef
