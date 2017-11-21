@@ -383,7 +383,7 @@ namespace RuneScapeSolo.Net.Client
             {
                 if (gameGraphics != null)
                 {
-                    gameGraphics.cleanUp();
+                    gameGraphics.UnloadContent();
                     gameGraphics.pixels = null;
                     gameGraphics = null;
                 }
@@ -935,7 +935,7 @@ namespace RuneScapeSolo.Net.Client
                             i5 = appearanceTopBottomColours[player.Appearance.TrousersColour];
                         }
 
-                        gameGraphics.drawImage(x + k3, y + i4, l4, height, k4, i5, j5, arg5, flag);
+                        gameGraphics.DrawImage(x + k3, y + i4, l4, height, k4, i5, j5, arg5, flag);
                     }
                 }
             }
@@ -995,8 +995,8 @@ namespace RuneScapeSolo.Net.Client
                         j2 += (10 * arg6) / 100;
                     }
 
-                    gameGraphics.drawPicture((j2 + width / 2) - 12, (y + height / 2) - 12, baseInventoryPic + 11);
-                    gameGraphics.drawText(player.LastDamageCount.ToString(), (j2 + width / 2) - 1, y + height / 2 + 5, 3, 0xffffff);
+                    gameGraphics.DrawPicture((j2 + width / 2) - 12, (y + height / 2) - 12, baseInventoryPic + 11);
+                    gameGraphics.DrawText(player.LastDamageCount.ToString(), (j2 + width / 2) - 1, y + height / 2 + 5, 3, 0xffffff);
                 }
             }
 
@@ -1051,7 +1051,7 @@ namespace RuneScapeSolo.Net.Client
         public void drawInventoryMenu(bool canRightClick)
         {
             int l = gameGraphics.GameSize.Width - 248;
-            gameGraphics.drawPicture(l, 3, baseInventoryPic + 1);
+            gameGraphics.DrawPicture(l, 3, baseInventoryPic + 1);
             for (int i1 = 0; i1 < InventoryManager.maxInventoryItems; i1++)
             {
                 int j1 = l + (i1 % 5) * 49;
@@ -1070,11 +1070,11 @@ namespace RuneScapeSolo.Net.Client
 
                 if (i1 < InventoryManager.InventoryItemsCount)
                 {
-                    gameGraphics.drawImage(j1, l1, 48, 32, baseItemPicture + EntityManager.GetItem(InventoryManager.InventoryItems[i1]).InventoryPicture, EntityManager.GetItem(InventoryManager.InventoryItems[i1]).PictureMask, 0, 0, false);
+                    gameGraphics.DrawImage(j1, l1, 48, 32, baseItemPicture + EntityManager.GetItem(InventoryManager.InventoryItems[i1]).InventoryPicture, EntityManager.GetItem(InventoryManager.InventoryItems[i1]).PictureMask, 0, 0, false);
 
                     if (EntityManager.GetItem(InventoryManager.InventoryItems[i1]).IsStackable == 0)
                     {
-                        gameGraphics.drawString(InventoryManager.InventoryItemCount[i1].ToString(), j1 + 1, l1 + 10, 1, 0xffff00);
+                        gameGraphics.DrawString(InventoryManager.InventoryItemCount[i1].ToString(), j1 + 1, l1 + 10, 1, 0xffff00);
                     }
                 }
             }
@@ -1212,17 +1212,17 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0x000000); //_bgScreenWidth=512
             for (int i1 = 6; i1 >= 1; i1--)
             {
-                gameGraphics.drawTransparentLine(0, i1, 0, i1, _bgScreenWidth, 8);
+                gameGraphics.DrawTransparentLine(0, i1, 0, i1, _bgScreenWidth, 8);
             }
 
             gameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0x000000);
 
             for (int j1 = 6; j1 >= 1; j1--)
             {
-                gameGraphics.drawTransparentLine(0, j1, 0, 194 - j1, _bgScreenWidth, 8);
+                gameGraphics.DrawTransparentLine(0, j1, 0, 194 - j1, _bgScreenWidth, 8);
             }
 
-            gameGraphics.drawImage(baseLoginScreenBackgroundPic, 0, 0, _bgScreenWidth, 200);
+            gameGraphics.DrawImage(baseLoginScreenBackgroundPic, 0, 0, _bgScreenWidth, 200);
             gameGraphics.applyImage(baseLoginScreenBackgroundPic);
 
             cameraX = 9216;
@@ -1241,16 +1241,16 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0);
             for (int k1 = 6; k1 >= 1; k1--)
             {
-                gameGraphics.drawTransparentLine(0, k1, 0, k1, _bgScreenWidth, 8);
+                gameGraphics.DrawTransparentLine(0, k1, 0, k1, _bgScreenWidth, 8);
             }
 
             gameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0);
             for (int l1 = 6; l1 >= 1; l1--)
             {
-                gameGraphics.drawTransparentLine(0, l1, 0, 194 - l1, _bgScreenWidth, 8);
+                gameGraphics.DrawTransparentLine(0, l1, 0, 194 - l1, _bgScreenWidth, 8);
             }
 
-            gameGraphics.drawImage(baseLoginScreenBackgroundPic + 1, 0, 0, _bgScreenWidth, 200);
+            gameGraphics.DrawImage(baseLoginScreenBackgroundPic + 1, 0, 0, _bgScreenWidth, 200);
             gameGraphics.applyImage(baseLoginScreenBackgroundPic + 1);
 
             // Remove buildings
@@ -1282,16 +1282,16 @@ namespace RuneScapeSolo.Net.Client
 
             for (int j2 = 6; j2 >= 1; j2--)
             {
-                gameGraphics.drawTransparentLine(0, j2, 0, j2, _bgScreenWidth, 8);
+                gameGraphics.DrawTransparentLine(0, j2, 0, j2, _bgScreenWidth, 8);
             }
 
             gameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0);
             for (int k2 = 6; k2 >= 1; k2--)
             {
-                gameGraphics.drawTransparentLine(0, k2, 0, 194, _bgScreenWidth, 8);
+                gameGraphics.DrawTransparentLine(0, k2, 0, 194, _bgScreenWidth, 8);
             }
 
-            gameGraphics.drawImage(baseInventoryPic + 10, 0, 0, _bgScreenWidth, 200);
+            gameGraphics.DrawImage(baseInventoryPic + 10, 0, 0, _bgScreenWidth, 200);
             gameGraphics.applyImage(baseInventoryPic + 10);
 
             OnLoadingSectionCompleted?.Invoke(this, new EventArgs());
@@ -2433,13 +2433,13 @@ namespace RuneScapeSolo.Net.Client
             if (type == 0)
             {
                 int i3 = 255 + time * 5 * 256;
-                gameGraphics.drawCircle(x + j1 / 2, y + k1 / 2, 20 + time * 2, i3, 255 - time * 5);
+                gameGraphics.DrawCircle(x + j1 / 2, y + k1 / 2, 20 + time * 2, i3, 255 - time * 5);
             }
 
             if (type == 1)
             {
                 int j3 = 0xff0000 + time * 5 * 256;
-                gameGraphics.drawCircle(x + j1 / 2, y + k1 / 2, 10 + time, j3, 255 - time * 5);
+                gameGraphics.DrawCircle(x + j1 / 2, y + k1 / 2, 10 + time, j3, 255 - time * 5);
             }
         }
 
@@ -2577,7 +2577,7 @@ namespace RuneScapeSolo.Net.Client
                     j1 = 0xff0000;
                 }
 
-                gameGraphics.drawString(questionMenuAnswer[i1], 6, 12 + i1 * 12, 1, j1);
+                gameGraphics.DrawString(questionMenuAnswer[i1], 6, 12 + i1 * 12, 1, j1);
             }
         }
 
@@ -2596,26 +2596,26 @@ namespace RuneScapeSolo.Net.Client
                 int l = (tick * 2) % 3072;
                 if (l < 1024)
                 {
-                    gameGraphics.drawPicture(0, 10, baseLoginScreenBackgroundPic);
+                    gameGraphics.DrawPicture(0, 10, baseLoginScreenBackgroundPic);
                     if (l > 768)
                     {
-                        gameGraphics.drawPicture(0, 10, baseLoginScreenBackgroundPic + 1, l - 768);
+                        gameGraphics.DrawPicture(0, 10, baseLoginScreenBackgroundPic + 1, l - 768);
                     }
                 }
                 else if (l < 2048)
                 {
-                    gameGraphics.drawPicture(0, 10, baseLoginScreenBackgroundPic + 1);
+                    gameGraphics.DrawPicture(0, 10, baseLoginScreenBackgroundPic + 1);
                     if (l > 1792)
                     {
-                        gameGraphics.drawPicture(0, 10, baseInventoryPic + 10, l - 1792);
+                        gameGraphics.DrawPicture(0, 10, baseInventoryPic + 10, l - 1792);
                     }
                 }
                 else
                 {
-                    gameGraphics.drawPicture(0, 10, baseInventoryPic + 10);
+                    gameGraphics.DrawPicture(0, 10, baseInventoryPic + 10);
                     if (l > 2816)
                     {
-                        gameGraphics.drawPicture(0, 10, baseLoginScreenBackgroundPic, l - 2816);
+                        gameGraphics.DrawPicture(0, 10, baseLoginScreenBackgroundPic, l - 2816);
                     }
                 }
             }
@@ -2639,7 +2639,7 @@ namespace RuneScapeSolo.Net.Client
                 loginMenuLogin.drawMenu();
             }
 
-            gameGraphics.drawPicture(0, WindowSize.Height, baseInventoryPic + 22);
+            gameGraphics.DrawPicture(0, WindowSize.Height, baseInventoryPic + 22);
 
 
             OnDrawDone();
@@ -2650,7 +2650,7 @@ namespace RuneScapeSolo.Net.Client
             int picture = EntityManager.GetItem(itemID).InventoryPicture + baseItemPicture;
             int mask = EntityManager.GetItem(itemID).PictureMask;
 
-            gameGraphics.drawImage(x, y, width, height, picture, mask, 0, 0, false);
+            gameGraphics.DrawImage(x, y, width, height, picture, mask, 0, 0, false);
         }
 
         public Mob MakePlayer(int serverIndex, int x, int y, int sprite)
@@ -2754,7 +2754,7 @@ namespace RuneScapeSolo.Net.Client
         {
             int l = gameGraphics.GameSize.Width - 199;
             int i1 = 36;
-            gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 4);
+            gameGraphics.DrawPicture(l - 49, 3, baseInventoryPic + 4);
             int c1 = 196;//'\u304';
             int c2 = 182;//'\u266';
             int k1;
@@ -2776,8 +2776,8 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.DrawHorizontalLine(l, i1 + 24, c1, 0);
             gameGraphics.DrawVerticalLine(l + c1 / 2, i1, 24, 0);
             gameGraphics.DrawHorizontalLine(l, i1 + 113, c1, 0);
-            gameGraphics.drawText("Magic", l + c1 / 4, i1 + 16, 4, 0);
-            gameGraphics.drawText("Prayers", l + c1 / 4 + c1 / 2, i1 + 16, 4, 0);
+            gameGraphics.DrawText("Magic", l + c1 / 4, i1 + 16, 4, 0);
+            gameGraphics.DrawText("Prayers", l + c1 / 4 + c1 / 2, i1 + 16, 4, 0);
 
             if (menuMagicPrayersSelected == 0)
             {
@@ -2817,13 +2817,13 @@ namespace RuneScapeSolo.Net.Client
 
                 if (l3 != -1)
                 {
-                    gameGraphics.drawString("Level " + EntityManager.GetSpell(l3).RequiredLevel + ": " + EntityManager.GetSpell(l3).Name, l + 2, i1 + 124, 1, 0xffff00);
-                    gameGraphics.drawString(EntityManager.GetSpell(l3).Description, l + 2, i1 + 136, 0, 0xffffff);
+                    gameGraphics.DrawString("Level " + EntityManager.GetSpell(l3).RequiredLevel + ": " + EntityManager.GetSpell(l3).Name, l + 2, i1 + 124, 1, 0xffff00);
+                    gameGraphics.DrawString(EntityManager.GetSpell(l3).Description, l + 2, i1 + 136, 0, 0xffffff);
 
                     for (int l4 = 0; l4 < EntityManager.GetSpell(l3).RuneCount; l4++)
                     {
                         int runeItemId = EntityManager.GetSpell(l3).RequiredRunesIds[l4];
-                        gameGraphics.drawPicture(l + 2 + l4 * 44, i1 + 150, baseItemPicture + EntityManager.GetItem(runeItemId).InventoryPicture);
+                        gameGraphics.DrawPicture(l + 2 + l4 * 44, i1 + 150, baseItemPicture + EntityManager.GetItem(runeItemId).InventoryPicture);
                         int i6 = InventoryManager.GetItemTotalCount(runeItemId);
                         int runeCount = EntityManager.GetSpell(l3).RequiredRunesCounts[l4];
                         string s3 = "@red@";
@@ -2833,13 +2833,13 @@ namespace RuneScapeSolo.Net.Client
                             s3 = "@gre@";
                         }
 
-                        gameGraphics.drawString(s3 + i6 + "/" + runeCount, l + 2 + l4 * 44, i1 + 150, 1, 0xffffff);
+                        gameGraphics.DrawString(s3 + i6 + "/" + runeCount, l + 2 + l4 * 44, i1 + 150, 1, 0xffffff);
                     }
 
                 }
                 else
                 {
-                    gameGraphics.drawString("Point at a spell for a description", l + 2, i1 + 124, 1, 0);
+                    gameGraphics.DrawString("Point at a spell for a description", l + 2, i1 + 124, 1, 0);
                 }
             }
             if (menuMagicPrayersSelected == 1)
@@ -2874,13 +2874,13 @@ namespace RuneScapeSolo.Net.Client
                 {
                     Prayer prayer = EntityManager.GetPrayer(prayerIndex);
 
-                    gameGraphics.drawText("Level " + prayer.RequiredLevel + ": " + prayer.Name, l + c1 / 2, i1 + 130, 1, 0xffff00);
-                    gameGraphics.drawText(prayer.Description, l + c1 / 2, i1 + 145, 0, 0xffffff);
-                    gameGraphics.drawText("Drain rate: " + prayer.DrainRate, l + c1 / 2, i1 + 160, 1, 0);
+                    gameGraphics.DrawText("Level " + prayer.RequiredLevel + ": " + prayer.Name, l + c1 / 2, i1 + 130, 1, 0xffff00);
+                    gameGraphics.DrawText(prayer.Description, l + c1 / 2, i1 + 145, 0, 0xffffff);
+                    gameGraphics.DrawText("Drain rate: " + prayer.DrainRate, l + c1 / 2, i1 + 160, 1, 0);
                 }
                 else
                 {
-                    gameGraphics.drawString("Point at a prayer for a description", l + 2, i1 + 124, 1, 0);
+                    gameGraphics.DrawString("Point at a prayer for a description", l + 2, i1 + 124, 1, 0);
                 }
             }
 
@@ -4151,17 +4151,17 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.drawBoxAlpha(_offsetX, _offsetY + 29, 8, 170, k1, 160);
             gameGraphics.drawBoxAlpha(_offsetX + 399, _offsetY + 29, 9, 170, k1, 160);
             gameGraphics.drawBoxAlpha(_offsetX, _offsetY + 199, 408, 47, k1, 160);
-            gameGraphics.drawString("Buying and selling items", _offsetX + 1, _offsetY + 10, 1, 0xffffff);
+            gameGraphics.DrawString("Buying and selling items", _offsetX + 1, _offsetY + 10, 1, 0xffffff);
             int i2 = 0xffffff;
             if (InputManager.Instance.MouseLocation.X > _offsetX + 320 && InputManager.Instance.MouseLocation.Y >= _offsetY && InputManager.Instance.MouseLocation.X < _offsetX + 408 && InputManager.Instance.MouseLocation.Y < _offsetY + 12)
             {
                 i2 = 0xff0000;
             }
 
-            gameGraphics.drawLabel("Close window", _offsetX + 406, _offsetY + 10, 1, i2);
-            gameGraphics.drawString("Shops stock in green", _offsetX + 2, _offsetY + 24, 1, 65280);
-            gameGraphics.drawString("Number you own in blue", _offsetX + 135, _offsetY + 24, 1, 65535);
-            gameGraphics.drawString("Your money: " + InventoryManager.GetItemTotalCount(10) + "gp", _offsetX + 280, _offsetY + 24, 1, 0xffff00);
+            gameGraphics.DrawLabel("Close window", _offsetX + 406, _offsetY + 10, 1, i2);
+            gameGraphics.DrawString("Shops stock in green", _offsetX + 2, _offsetY + 24, 1, 65280);
+            gameGraphics.DrawString("Number you own in blue", _offsetX + 135, _offsetY + 24, 1, 65535);
+            gameGraphics.DrawString("Your money: " + InventoryManager.GetItemTotalCount(10) + "gp", _offsetX + 280, _offsetY + 24, 1, 0xffff00);
             int j3 = 0xd0d0d0;
             int j4 = 0;
             for (int boxRow = 0; boxRow < 5; boxRow++)
@@ -4182,9 +4182,9 @@ namespace RuneScapeSolo.Net.Client
                     gameGraphics.DrawBoxEdge(i6, l6, 50, 35, 0);
                     if (shopItems[j4] != -1)
                     {
-                        gameGraphics.drawImage(i6, l6, 48, 32, baseItemPicture + EntityManager.GetItem(shopItems[j4]).InventoryPicture, EntityManager.GetItem(shopItems[j4]).PictureMask, 0, 0, false);
-                        gameGraphics.drawString(shopItemCount[j4].ToString(), i6 + 1, l6 + 10, 1, 65280);
-                        gameGraphics.drawLabel(InventoryManager.GetItemTotalCount(shopItems[j4]).ToString(), i6 + 47, l6 + 10, 1, 65535);
+                        gameGraphics.DrawImage(i6, l6, 48, 32, baseItemPicture + EntityManager.GetItem(shopItems[j4]).InventoryPicture, EntityManager.GetItem(shopItems[j4]).PictureMask, 0, 0, false);
+                        gameGraphics.DrawString(shopItemCount[j4].ToString(), i6 + 1, l6 + 10, 1, 65280);
+                        gameGraphics.DrawLabel(InventoryManager.GetItemTotalCount(shopItems[j4]).ToString(), i6 + 47, l6 + 10, 1, 65535);
                     }
                     j4++;
                 }
@@ -4194,7 +4194,7 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.DrawHorizontalLine(_offsetX + 5, _offsetY + 222, 398, 0);
             if (selectedShopItemIndex == -1)
             {
-                gameGraphics.drawText("Select an object to buy or sell", _offsetX + 204, _offsetY + 214, 3, 0xffff00);
+                gameGraphics.DrawText("Select an object to buy or sell", _offsetX + 204, _offsetY + 214, 3, 0xffff00);
                 return;
             }
             int itemId = shopItems[selectedShopItemIndex];
@@ -4209,18 +4209,18 @@ namespace RuneScapeSolo.Net.Client
                     }
 
                     int i7 = (j6 * EntityManager.GetItem(itemId).BasePrice) / 100;
-                    gameGraphics.drawString("Buy a new " + EntityManager.GetItem(itemId).Name + " for " + i7 + "gp", _offsetX + 2, _offsetY + 214, 1, 0xffff00);
+                    gameGraphics.DrawString("Buy a new " + EntityManager.GetItem(itemId).Name + " for " + i7 + "gp", _offsetX + 2, _offsetY + 214, 1, 0xffff00);
                     int j2 = 0xffffff;
                     if (InputManager.Instance.MouseLocation.X > _offsetX + 298 && InputManager.Instance.MouseLocation.Y >= _offsetY + 204 && InputManager.Instance.MouseLocation.X < _offsetX + 408 && InputManager.Instance.MouseLocation.Y <= _offsetY + 215)
                     {
                         j2 = 0xff0000;
                     }
 
-                    gameGraphics.drawLabel("Click here to buy", _offsetX + 405, _offsetY + 214, 3, j2);
+                    gameGraphics.DrawLabel("Click here to buy", _offsetX + 405, _offsetY + 214, 3, j2);
                 }
                 else
                 {
-                    gameGraphics.drawText("This item is not currently available to buy", _offsetX + 204, _offsetY + 214, 3, 0xffff00);
+                    gameGraphics.DrawText("This item is not currently available to buy", _offsetX + 204, _offsetY + 214, 3, 0xffff00);
                 }
 
                 if (InventoryManager.GetItemTotalCount(itemId) > 0)
@@ -4232,17 +4232,17 @@ namespace RuneScapeSolo.Net.Client
                     }
 
                     int j7 = (k6 * EntityManager.GetItem(itemId).BasePrice) / 100;
-                    gameGraphics.drawLabel("Sell your " + EntityManager.GetItem(itemId).Name + " for " + j7 + "gp", _offsetX + 405, _offsetY + 239, 1, 0xffff00);
+                    gameGraphics.DrawLabel("Sell your " + EntityManager.GetItem(itemId).Name + " for " + j7 + "gp", _offsetX + 405, _offsetY + 239, 1, 0xffff00);
                     int k2 = 0xffffff;
                     if (InputManager.Instance.MouseLocation.X > _offsetX + 2 && InputManager.Instance.MouseLocation.Y >= _offsetY + 229 && InputManager.Instance.MouseLocation.X < _offsetX + 112 && InputManager.Instance.MouseLocation.Y <= _offsetY + 240)
                     {
                         k2 = 0xff0000;
                     }
 
-                    gameGraphics.drawString("Click here to sell", _offsetX + 2, _offsetY + 239, 3, k2);
+                    gameGraphics.DrawString("Click here to sell", _offsetX + 2, _offsetY + 239, 3, k2);
                     return;
                 }
-                gameGraphics.drawText("You do not have any of this item to sell", _offsetX + 204, _offsetY + 239, 3, 0xffff00);
+                gameGraphics.DrawText("You do not have any of this item to sell", _offsetX + 204, _offsetY + 239, 3, 0xffff00);
             }
         }
 
@@ -4262,16 +4262,16 @@ namespace RuneScapeSolo.Net.Client
                 sbyte[] abyte2 = DataOperations.loadData(s1 + ".dat", 0, abyte0);
                 gameGraphics.unpackImageData(baseTexturePic, abyte2, abyte1, 1);
                 gameGraphics.DrawBox(0, 0, 128, 128, 0xff00ff);
-                gameGraphics.drawPicture(0, 0, baseTexturePic);
+                gameGraphics.DrawPicture(0, 0, baseTexturePic);
                 int i1 = gameGraphics.pictureAssumedWidth[baseTexturePic];
                 string s2 = EntityManager.GetTexture(l).SubName;
                 if (s2 != null && s2.Length > 0)
                 {
                     sbyte[] abyte3 = DataOperations.loadData(s2 + ".dat", 0, abyte0);
                     gameGraphics.unpackImageData(baseTexturePic, abyte3, abyte1, 1);
-                    gameGraphics.drawPicture(0, 0, baseTexturePic);
+                    gameGraphics.DrawPicture(0, 0, baseTexturePic);
                 }
-                gameGraphics.drawImage(subTexturePic + l, 0, 0, i1, i1);
+                gameGraphics.DrawImage(subTexturePic + l, 0, 0, i1, i1);
                 int j1 = i1 * i1;
                 for (int k1 = 0; k1 < j1; k1++)
                 {
@@ -4295,15 +4295,15 @@ namespace RuneScapeSolo.Net.Client
             l += 116;
             i1 -= 25;
             gameGraphics.drawCharacterLegs(l - 32 - 55, i1, 64, 102, EntityManager.GetAnimation(appearance2Colour).Number, appearanceTopBottomColours[appearanceBottomColour]);
-            gameGraphics.drawImage(l - 32 - 55, i1, 64, 102, EntityManager.GetAnimation(appearanceBodyGender).Number, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.drawImage(l - 32 - 55, i1, 64, 102, EntityManager.GetAnimation(appearanceHeadType).Number, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.DrawImage(l - 32 - 55, i1, 64, 102, EntityManager.GetAnimation(appearanceBodyGender).Number, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.DrawImage(l - 32 - 55, i1, 64, 102, EntityManager.GetAnimation(appearanceHeadType).Number, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
             gameGraphics.drawCharacterLegs(l - 32, i1, 64, 102, EntityManager.GetAnimation(appearance2Colour).Number + 6, appearanceTopBottomColours[appearanceBottomColour]);
-            gameGraphics.drawImage(l - 32, i1, 64, 102, EntityManager.GetAnimation(appearanceBodyGender).Number + 6, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.drawImage(l - 32, i1, 64, 102, EntityManager.GetAnimation(appearanceHeadType).Number + 6, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.DrawImage(l - 32, i1, 64, 102, EntityManager.GetAnimation(appearanceBodyGender).Number + 6, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.DrawImage(l - 32, i1, 64, 102, EntityManager.GetAnimation(appearanceHeadType).Number + 6, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
             gameGraphics.drawCharacterLegs((l - 32) + 55, i1, 64, 102, EntityManager.GetAnimation(appearance2Colour).Number + 12, appearanceTopBottomColours[appearanceBottomColour]);
-            gameGraphics.drawImage((l - 32) + 55, i1, 64, 102, EntityManager.GetAnimation(appearanceBodyGender).Number + 12, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.drawImage((l - 32) + 55, i1, 64, 102, EntityManager.GetAnimation(appearanceHeadType).Number + 12, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.drawPicture(0, WindowSize.Height, baseInventoryPic + 22);
+            gameGraphics.DrawImage((l - 32) + 55, i1, 64, 102, EntityManager.GetAnimation(appearanceBodyGender).Number + 12, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.DrawImage((l - 32) + 55, i1, 64, 102, EntityManager.GetAnimation(appearanceHeadType).Number + 12, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.DrawPicture(0, WindowSize.Height, baseInventoryPic + 22);
 
             OnDrawDone();
         }
@@ -4386,7 +4386,7 @@ namespace RuneScapeSolo.Net.Client
 
                 if (s1 != null)
                 {
-                    gameGraphics.drawString(s1, 6, 14, 1, 0xffff00);
+                    gameGraphics.DrawString(s1, 6, 14, 1, 0xffff00);
                 }
 
                 if (mouseButtonClick == 1)
@@ -4736,15 +4736,15 @@ namespace RuneScapeSolo.Net.Client
             drawAboveHeadThings();
             if (actionPictureType > 0)
             {
-                gameGraphics.drawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 14 + (24 - actionPictureType) / 6);
+                gameGraphics.DrawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 14 + (24 - actionPictureType) / 6);
             }
 
             if (actionPictureType < 0)
             {
-                gameGraphics.drawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 18 + (24 + actionPictureType) / 6);
+                gameGraphics.DrawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 18 + (24 + actionPictureType) / 6);
             }
 
-            gameGraphics.drawPicture(gameGraphics.GameSize.Width - 3 - 197, 3, baseInventoryPic, 128);
+            gameGraphics.DrawPicture(gameGraphics.GameSize.Width - 3 - 197, 3, baseInventoryPic, 128);
 
             drawMenus();
 
@@ -4753,8 +4753,8 @@ namespace RuneScapeSolo.Net.Client
 
             string text = "Coordinates: ( " + (SectionX + AreaX) + "," + (SectionY + AreaY) + " ) Section: (" + SectionX + "," + SectionY + ") Area: (" + AreaX + "," + AreaY + ")";
             // Text shadow
-            gameGraphics.drawString(text, 10 + 11, 10 + 11, 1, 0x000000);
-            gameGraphics.drawString(text, 10 + 10, 10 + 10, 1, 0xffffff);
+            gameGraphics.DrawString(text, 10 + 11, 10 + 11, 1, 0x000000);
+            gameGraphics.DrawString(text, 10 + 10, 10 + 10, 1, 0xffffff);
 
             //gameGraphics.UpdateGameImage();
             OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
@@ -4763,7 +4763,7 @@ namespace RuneScapeSolo.Net.Client
         void DrawDead()
         {
             gameGraphics.FadeScreenToBlack();
-            gameGraphics.drawText("Oh dear! You are dead...", WindowSize.Width / 2, WindowSize.Height / 2, 7, 0xff0000);
+            gameGraphics.DrawText("Oh dear! You are dead...", WindowSize.Width / 2, WindowSize.Height / 2, 7, 0xff0000);
 
             OnDrawDone();
         }
@@ -4774,19 +4774,19 @@ namespace RuneScapeSolo.Net.Client
 
             if (Helper.Random.NextDouble() < 0.14999999999999999D)
             {
-                gameGraphics.drawText("ZZZ", (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
+                gameGraphics.DrawText("ZZZ", (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
             }
 
             if (Helper.Random.NextDouble() < 0.14999999999999999D)
             {
-                gameGraphics.drawText("ZZZ", 512 - (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
+                gameGraphics.DrawText("ZZZ", 512 - (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
             }
 
             gameGraphics.DrawBox(WindowSize.Width / 2 - 100, 160, 200, 40, 0);
-            gameGraphics.drawText("You are sleeping", WindowSize.Width / 2, 50, 7, 0xffff00);
-            gameGraphics.drawText("Fatigue: " + (PlayerFatigue * 100) / 750 + "%", WindowSize.Width / 2, 90, 7, 0xffff00);
-            gameGraphics.drawText("When you want to wake up just use your", WindowSize.Width / 2, 140, 5, 0xffffff);
-            gameGraphics.drawText("keyboard to type the word in the box below", WindowSize.Width / 2, 160, 5, 0xffffff);
+            gameGraphics.DrawText("You are sleeping", WindowSize.Width / 2, 50, 7, 0xffff00);
+            gameGraphics.DrawText("Fatigue: " + (PlayerFatigue * 100) / 750 + "%", WindowSize.Width / 2, 90, 7, 0xffff00);
+            gameGraphics.DrawText("When you want to wake up just use your", WindowSize.Width / 2, 140, 5, 0xffffff);
+            gameGraphics.DrawText("keyboard to type the word in the box below", WindowSize.Width / 2, 160, 5, 0xffffff);
 
             if (sleepingStatusText == null)
             {
@@ -4794,12 +4794,12 @@ namespace RuneScapeSolo.Net.Client
             }
             else
             {
-                gameGraphics.drawText(sleepingStatusText, WindowSize.Width / 2, 260, 5, 0xff0000);
+                gameGraphics.DrawText(sleepingStatusText, WindowSize.Width / 2, 260, 5, 0xff0000);
             }
 
             gameGraphics.DrawBoxEdge(WindowSize.Width / 2 - 128, 229, 257, 42, 0xffffff);
-            gameGraphics.drawText("If you can't read the word", WindowSize.Width / 2, 290, 1, 0xffffff);
-            gameGraphics.drawText("@yel@click here@whi@ to get a different one", WindowSize.Width / 2, 305, 1, 0xffffff);
+            gameGraphics.DrawText("If you can't read the word", WindowSize.Width / 2, 290, 1, 0xffffff);
+            gameGraphics.DrawText("@yel@click here@whi@ to get a different one", WindowSize.Width / 2, 305, 1, 0xffffff);
 
             OnDrawDone();
         }
@@ -5002,7 +5002,7 @@ namespace RuneScapeSolo.Net.Client
                             k4 = EntityManager.GetNpc(npc.npcId).Appearance.SkinColour;
                         }
 
-                        gameGraphics.drawImage(x + i3, y + j3, i4, height, l3, j4, k4, unknown1, flag);
+                        gameGraphics.DrawImage(x + i3, y + j3, i4, height, l3, j4, k4, unknown1, flag);
                     }
                 }
             }
@@ -5053,8 +5053,8 @@ namespace RuneScapeSolo.Net.Client
                         j2 += (10 * unknown2) / 100;
                     }
 
-                    gameGraphics.drawPicture((j2 + width / 2) - 12, (y + height / 2) - 12, baseInventoryPic + 12);
-                    gameGraphics.drawText(npc.LastDamageCount.ToString(), (j2 + width / 2) - 1, y + height / 2 + 5, 3, 0xffffff);
+                    gameGraphics.DrawPicture((j2 + width / 2) - 12, (y + height / 2) - 12, baseInventoryPic + 12);
+                    gameGraphics.DrawText(npc.LastDamageCount.ToString(), (j2 + width / 2) - 1, y + height / 2 + 5, 3, 0xffffff);
                 }
             }
         }
@@ -5087,7 +5087,7 @@ namespace RuneScapeSolo.Net.Client
                     }
                 }
                 receivedMessageY[l] = y;
-                gameGraphics.drawFloatingText(receivedMessages[l], x, y, 1, 0xffff00, 300);
+                gameGraphics.DrawFloatingText(receivedMessages[l], x, y, 1, 0xffff00, 300);
             }
 
             for (int j1 = 0; j1 < itemsAboveHeadCount; j1++)
@@ -5099,10 +5099,10 @@ namespace RuneScapeSolo.Net.Client
                 int width = (39 * scale) / 100;
                 int height = (27 * scale) / 100;
                 int j5 = y - height;
-                gameGraphics.drawTransparentImage(x - width / 2, j5, width, height, baseInventoryPic + 9, 85);
+                gameGraphics.DrawImageTransparent(x - width / 2, j5, width, height, baseInventoryPic + 9, 85);
                 int k5 = (36 * scale) / 100;
                 int l5 = (24 * scale) / 100;
-                gameGraphics.drawImage(x - k5 / 2, (j5 + height / 2) - l5 / 2, k5, l5, EntityManager.GetItem(id).InventoryPicture + baseItemPicture, EntityManager.GetItem(id).PictureMask, 0, 0, false);
+                gameGraphics.DrawImage(x - k5 / 2, (j5 + height / 2) - l5 / 2, k5, l5, EntityManager.GetItem(id).InventoryPicture + baseItemPicture, EntityManager.GetItem(id).PictureMask, 0, 0, false);
             }
 
             for (int i2 = 0; i2 < healthBarVisibleCount; i2++)
@@ -5307,7 +5307,7 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.drawBoxAlpha(i1, k1 + 29, 8, 204, j2, 160);
             gameGraphics.drawBoxAlpha(i1 + 399, k1 + 29, 9, 204, j2, 160);
             gameGraphics.drawBoxAlpha(i1, k1 + 233, 408, 47, j2, 160);
-            gameGraphics.drawString("Bank", i1 + 1, k1 + 10, 1, 0xffffff);
+            gameGraphics.DrawString("Bank", i1 + 1, k1 + 10, 1, 0xffffff);
             int l2 = 50;
 
             if (InventoryManager.bankItemsCount > 48)
@@ -5323,7 +5323,7 @@ namespace RuneScapeSolo.Net.Client
                     k3 = 0xffff00;
                 }
 
-                gameGraphics.drawString("<page 1>", i1 + l2, k1 + 10, 1, k3);
+                gameGraphics.DrawString("<page 1>", i1 + l2, k1 + 10, 1, k3);
                 l2 += 65;
                 k3 = 0xffffff;
                 if (bankPage == 1)
@@ -5336,7 +5336,7 @@ namespace RuneScapeSolo.Net.Client
                     k3 = 0xffff00;
                 }
 
-                gameGraphics.drawString("<page 2>", i1 + l2, k1 + 10, 1, k3);
+                gameGraphics.DrawString("<page 2>", i1 + l2, k1 + 10, 1, k3);
                 l2 += 65;
             }
 
@@ -5353,7 +5353,7 @@ namespace RuneScapeSolo.Net.Client
                     l3 = 0xffff00;
                 }
 
-                gameGraphics.drawString("<page 3>", i1 + l2, k1 + 10, 1, l3);
+                gameGraphics.DrawString("<page 3>", i1 + l2, k1 + 10, 1, l3);
                 l2 += 65;
             }
 
@@ -5370,7 +5370,7 @@ namespace RuneScapeSolo.Net.Client
                     i4 = 0xffff00;
                 }
 
-                gameGraphics.drawString("<page 4>", i1 + l2, k1 + 10, 1, i4);
+                gameGraphics.DrawString("<page 4>", i1 + l2, k1 + 10, 1, i4);
                 l2 += 65;
             }
 
@@ -5381,9 +5381,9 @@ namespace RuneScapeSolo.Net.Client
                 j4 = 0xff0000;
             }
 
-            gameGraphics.drawLabel("Close window", i1 + 406, k1 + 10, 1, j4);
-            gameGraphics.drawString("Number in bank in green", i1 + 7, k1 + 24, 1, 65280);
-            gameGraphics.drawString("Number held in blue", i1 + 289, k1 + 24, 1, 65535);
+            gameGraphics.DrawLabel("Close window", i1 + 406, k1 + 10, 1, j4);
+            gameGraphics.DrawString("Number in bank in green", i1 + 7, k1 + 24, 1, 65280);
+            gameGraphics.DrawString("Number held in blue", i1 + 289, k1 + 24, 1, 65535);
             int l7 = 0xd0d0d0;
             int j8 = bankPage * 48;
             for (int l8 = 0; l8 < 6; l8++)
@@ -5404,9 +5404,9 @@ namespace RuneScapeSolo.Net.Client
                     gameGraphics.DrawBoxEdge(k9, l9, 50, 35, 0);
                     if (j8 < InventoryManager.bankItemsCount && InventoryManager.bankItems[j8] != -1)
                     {
-                        gameGraphics.drawImage(k9, l9, 48, 32, baseItemPicture + EntityManager.GetItem(InventoryManager.bankItems[j8]).InventoryPicture, EntityManager.GetItem(InventoryManager.bankItems[j8]).PictureMask, 0, 0, false);
-                        gameGraphics.drawString(InventoryManager.bankItemCount[j8].ToString(), k9 + 1, l9 + 10, 1, 65280);
-                        gameGraphics.drawLabel(InventoryManager.GetItemTotalCount(InventoryManager.bankItems[j8]).ToString(), k9 + 47, l9 + 29, 1, 65535);
+                        gameGraphics.DrawImage(k9, l9, 48, 32, baseItemPicture + EntityManager.GetItem(InventoryManager.bankItems[j8]).InventoryPicture, EntityManager.GetItem(InventoryManager.bankItems[j8]).PictureMask, 0, 0, false);
+                        gameGraphics.DrawString(InventoryManager.bankItemCount[j8].ToString(), k9 + 1, l9 + 10, 1, 65280);
+                        gameGraphics.DrawLabel(InventoryManager.GetItemTotalCount(InventoryManager.bankItems[j8]).ToString(), k9 + 47, l9 + 29, 1, 65535);
                     }
                     j8++;
                 }
@@ -5416,7 +5416,7 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.DrawHorizontalLine(i1 + 5, k1 + 256, 398, 0);
             if (selectedBankItem == -1)
             {
-                gameGraphics.drawText("Select an object to withdraw or deposit", i1 + 204, k1 + 248, 3, 0xffff00);
+                gameGraphics.DrawText("Select an object to withdraw or deposit", i1 + 204, k1 + 248, 3, 0xffff00);
                 return;
             }
             int itemId;
@@ -5440,14 +5440,14 @@ namespace RuneScapeSolo.Net.Client
 
                 if (k8 > 0)
                 {
-                    gameGraphics.drawString("Withdraw " + EntityManager.GetItem(itemId).Name, i1 + 2, k1 + 248, 1, 0xffffff);
+                    gameGraphics.DrawString("Withdraw " + EntityManager.GetItem(itemId).Name, i1 + 2, k1 + 248, 1, 0xffffff);
                     int k4 = 0xffffff;
                     if (InputManager.Instance.MouseLocation.X >= i1 + 220 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 250 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
                     {
                         k4 = 0xff0000;
                     }
 
-                    gameGraphics.drawString("One", i1 + 222, k1 + 248, 1, k4);
+                    gameGraphics.DrawString("One", i1 + 222, k1 + 248, 1, k4);
                     if (k8 >= 5)
                     {
                         int l4 = 0xffffff;
@@ -5456,7 +5456,7 @@ namespace RuneScapeSolo.Net.Client
                             l4 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("Five", i1 + 252, k1 + 248, 1, l4);
+                        gameGraphics.DrawString("Five", i1 + 252, k1 + 248, 1, l4);
                     }
                     if (k8 >= 25)
                     {
@@ -5466,7 +5466,7 @@ namespace RuneScapeSolo.Net.Client
                             i5 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("25", i1 + 282, k1 + 248, 1, i5);
+                        gameGraphics.DrawString("25", i1 + 282, k1 + 248, 1, i5);
                     }
                     if (k8 >= 100)
                     {
@@ -5476,7 +5476,7 @@ namespace RuneScapeSolo.Net.Client
                             j5 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("100", i1 + 307, k1 + 248, 1, j5);
+                        gameGraphics.DrawString("100", i1 + 307, k1 + 248, 1, j5);
                     }
                     if (k8 >= 500)
                     {
@@ -5486,7 +5486,7 @@ namespace RuneScapeSolo.Net.Client
                             k5 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("500", i1 + 337, k1 + 248, 1, k5);
+                        gameGraphics.DrawString("500", i1 + 337, k1 + 248, 1, k5);
                     }
                     if (k8 >= 2500)
                     {
@@ -5496,19 +5496,19 @@ namespace RuneScapeSolo.Net.Client
                             l5 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("2500", i1 + 370, k1 + 248, 1, l5);
+                        gameGraphics.DrawString("2500", i1 + 370, k1 + 248, 1, l5);
                     }
                 }
                 if (InventoryManager.GetItemTotalCount(itemId) > 0)
                 {
-                    gameGraphics.drawString("Deposit " + EntityManager.GetItem(itemId).Name, i1 + 2, k1 + 273, 1, 0xffffff);
+                    gameGraphics.DrawString("Deposit " + EntityManager.GetItem(itemId).Name, i1 + 2, k1 + 273, 1, 0xffffff);
                     int i6 = 0xffffff;
                     if (InputManager.Instance.MouseLocation.X >= i1 + 220 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 250 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
                     {
                         i6 = 0xff0000;
                     }
 
-                    gameGraphics.drawString("One", i1 + 222, k1 + 273, 1, i6);
+                    gameGraphics.DrawString("One", i1 + 222, k1 + 273, 1, i6);
                     if (InventoryManager.GetItemTotalCount(itemId) >= 5)
                     {
                         int j6 = 0xffffff;
@@ -5517,7 +5517,7 @@ namespace RuneScapeSolo.Net.Client
                             j6 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("Five", i1 + 252, k1 + 273, 1, j6);
+                        gameGraphics.DrawString("Five", i1 + 252, k1 + 273, 1, j6);
                     }
                     if (InventoryManager.GetItemTotalCount(itemId) >= 25)
                     {
@@ -5527,7 +5527,7 @@ namespace RuneScapeSolo.Net.Client
                             k6 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("25", i1 + 282, k1 + 273, 1, k6);
+                        gameGraphics.DrawString("25", i1 + 282, k1 + 273, 1, k6);
                     }
                     if (InventoryManager.GetItemTotalCount(itemId) >= 100)
                     {
@@ -5537,7 +5537,7 @@ namespace RuneScapeSolo.Net.Client
                             l6 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("100", i1 + 307, k1 + 273, 1, l6);
+                        gameGraphics.DrawString("100", i1 + 307, k1 + 273, 1, l6);
                     }
                     if (InventoryManager.GetItemTotalCount(itemId) >= 500)
                     {
@@ -5547,7 +5547,7 @@ namespace RuneScapeSolo.Net.Client
                             i7 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("500", i1 + 337, k1 + 273, 1, i7);
+                        gameGraphics.DrawString("500", i1 + 337, k1 + 273, 1, i7);
                     }
                     if (InventoryManager.GetItemTotalCount(itemId) >= 2500)
                     {
@@ -5557,7 +5557,7 @@ namespace RuneScapeSolo.Net.Client
                             j7 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("2500", i1 + 370, k1 + 273, 1, j7);
+                        gameGraphics.DrawString("2500", i1 + 370, k1 + 273, 1, j7);
                     }
                 }
             }
@@ -5581,7 +5581,7 @@ namespace RuneScapeSolo.Net.Client
                 return false;
             }
             OnLoadingSection?.Invoke(this, new EventArgs());
-            gameGraphics.drawText("Loading... Please wait", 256, 192, 1, 0xffffff);
+            gameGraphics.DrawText("Loading... Please wait", 256, 192, 1, 0xffffff);
 
             //gameGraphics.drawImage(spriteBatch, 0, 0);
             int l = AreaX;
@@ -5847,7 +5847,7 @@ namespace RuneScapeSolo.Net.Client
                 return;
             }
             gameGraphics.drawBoxAlpha(menuX, menuY, menuWidth, menuHeight, 0xd0d0d0, 160);
-            gameGraphics.drawString("Choose option", menuX + 2, menuY + 12, 1, 65535);
+            gameGraphics.DrawString("Choose option", menuX + 2, menuY + 12, 1, 65535);
             for (int i1 = 0; i1 < menuOptionsCount; i1++)
             {
                 int k1 = menuX + 2;
@@ -5859,7 +5859,7 @@ namespace RuneScapeSolo.Net.Client
                 }
 
                 var t2 = menuText2[menuIndexes[i1]];
-                gameGraphics.drawString(menuText1[menuIndexes[i1]] + " " + menuText2[menuIndexes[i1]], k1, i2, 1, j2);
+                gameGraphics.DrawString(menuText1[menuIndexes[i1]] + " " + menuText2[menuIndexes[i1]], k1, i2, 1, j2);
             }
 
         }

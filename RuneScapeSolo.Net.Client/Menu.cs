@@ -230,13 +230,13 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        protected void gef(int i, int k, int l, string s, int i1)
+        protected void gef(int i, int x, int y, string text, int i1)
         {
-            int j1 = l + gameImage.textHeightNumber(i1) / 3;
-            geg(i, k, j1, s, i1);
+            int j1 = y + gameImage.textHeightNumber(i1) / 3;
+            geg(i, x, j1, text, i1);
         }
 
-        protected void geg(int arg0, int arg1, int arg2, string arg3, int arg4)
+        protected void geg(int arg0, int x, int y, string text, int arg4)
         {
             int i;
 
@@ -249,105 +249,105 @@ namespace RuneScapeSolo.Net.Client
                 i = 0;
             }
 
-            gameImage.drawString(arg3, arg1, arg2, arg4, i);
+            gameImage.DrawString(text, x, y, arg4, i);
         }
 
-        protected void drawInputBox(int arg0, int arg1, int arg2, int arg3, int arg4, string arg5, int arg6)
+        protected void drawInputBox(int arg0, int x, int y, int width, int height, string text, int fontIndex)
         {
             if (componentIsPasswordField[arg0])
             {
-                int i = arg5.Length;
-                arg5 = "";
+                int i = text.Length;
+                text = "";
                 for (int l = 0; l < i; l++)
                 {
-                    arg5 = arg5 + "X";
+                    text = text + "X";
                 }
             }
 
             if (componentType[arg0] == 5)
             {
-                if (lastMouseButton == 1 && mouseX >= arg1 && mouseY >= arg2 - arg4 / 2 && mouseX <= arg1 + arg3 && mouseY <= arg2 + arg4 / 2)
+                if (lastMouseButton == 1 && mouseX >= x && mouseY >= y - height / 2 && mouseX <= x + width && mouseY <= y + height / 2)
                 {
                     selectedComponent = arg0;
                 }
             }
             else if (componentType[arg0] == 6)
             {
-                if (lastMouseButton == 1 && mouseX >= arg1 - arg3 / 2 && mouseY >= arg2 - arg4 / 2 && mouseX <= arg1 + arg3 / 2 && mouseY <= arg2 + arg4 / 2)
+                if (lastMouseButton == 1 && mouseX >= x - width / 2 && mouseY >= y - height / 2 && mouseX <= x + width / 2 && mouseY <= y + height / 2)
                 {
                     selectedComponent = arg0;
                 }
 
-                arg1 -= gameImage.textWidth(arg5, arg6) / 2;
+                x -= gameImage.textWidth(text, fontIndex) / 2;
             }
 
             if (selectedComponent == arg0)
             {
-                arg5 = arg5 + "*";
+                text = text + "*";
             }
 
-            int k = arg2 + gameImage.textHeightNumber(arg6) / 3;
-            geg(arg0, arg1, k, arg5, arg6);
+            int k = y + gameImage.textHeightNumber(fontIndex) / 3;
+            geg(arg0, x, k, text, fontIndex);
         }
 
-        public void gei(int arg0, int arg1, int arg2, int arg3)
+        public void gei(int x, int y, int width, int height)
         {
-            gameImage.SetDimensions(arg0, arg1, arg0 + arg2, arg1 + arg3);
-            gameImage.DrawBox(arg0, arg1, arg2, arg3, gdf);
+            gameImage.SetDimensions(x, y, x + width, y + height);
+            gameImage.DrawBox(x, y, width, height, gdf);
 
             if (gdh)
             {
-                for (int i = arg0 - (arg1 & 0x3f); i < arg0 + arg2; i += 128)
+                for (int i = x - (y & 0x3f); i < x + width; i += 128)
                 {
-                    for (int k = arg1 - (arg1 & 0x1f); k < arg1 + arg3; k += 128)
+                    for (int k = y - (y & 0x1f); k < y + height; k += 128)
                     {
-                        gameImage.drawPicture(i, k, 6 + baseScrollPic, 128);
+                        gameImage.DrawPicture(i, k, 6 + baseScrollPic, 128);
                     }
                 }
 
             }
 
-            gameImage.DrawHorizontalLine(arg0, arg1, arg2, gdc);
-            gameImage.DrawHorizontalLine(arg0 + 1, arg1 + 1, arg2 - 2, gdc);
-            gameImage.DrawHorizontalLine(arg0 + 2, arg1 + 2, arg2 - 4, gdd);
-            gameImage.DrawVerticalLine(arg0, arg1, arg3, gdc);
-            gameImage.DrawVerticalLine(arg0 + 1, arg1 + 1, arg3 - 2, gdc);
-            gameImage.DrawVerticalLine(arg0 + 2, arg1 + 2, arg3 - 4, gdd);
-            gameImage.DrawHorizontalLine(arg0, (arg1 + arg3) - 1, arg2, gdf);
-            gameImage.DrawHorizontalLine(arg0 + 1, (arg1 + arg3) - 2, arg2 - 2, gdf);
-            gameImage.DrawHorizontalLine(arg0 + 2, (arg1 + arg3) - 3, arg2 - 4, gde);
-            gameImage.DrawVerticalLine((arg0 + arg2) - 1, arg1, arg3, gdf);
-            gameImage.DrawVerticalLine((arg0 + arg2) - 2, arg1 + 1, arg3 - 2, gdf);
-            gameImage.DrawVerticalLine((arg0 + arg2) - 3, arg1 + 2, arg3 - 4, gde);
+            gameImage.DrawHorizontalLine(x, y, width, gdc);
+            gameImage.DrawHorizontalLine(x + 1, y + 1, width - 2, gdc);
+            gameImage.DrawHorizontalLine(x + 2, y + 2, width - 4, gdd);
+            gameImage.DrawVerticalLine(x, y, height, gdc);
+            gameImage.DrawVerticalLine(x + 1, y + 1, height - 2, gdc);
+            gameImage.DrawVerticalLine(x + 2, y + 2, height - 4, gdd);
+            gameImage.DrawHorizontalLine(x, (y + height) - 1, width, gdf);
+            gameImage.DrawHorizontalLine(x + 1, (y + height) - 2, width - 2, gdf);
+            gameImage.DrawHorizontalLine(x + 2, (y + height) - 3, width - 4, gde);
+            gameImage.DrawVerticalLine((x + width) - 1, y, height, gdf);
+            gameImage.DrawVerticalLine((x + width) - 2, y + 1, height - 2, gdf);
+            gameImage.DrawVerticalLine((x + width) - 3, y + 2, height - 4, gde);
             gameImage.ResetDimensions();
         }
 
-        public void gej(int i, int k, int l, int i1)
+        public void gej(int x, int y, int width, int height)
         {
-            gameImage.DrawBox(i, k, l, i1, 0);
-            gameImage.DrawBoxEdge(i, k, l, i1, gcn);
-            gameImage.DrawBoxEdge(i + 1, k + 1, l - 2, i1 - 2, gda);
-            gameImage.DrawBoxEdge(i + 2, k + 2, l - 4, i1 - 4, gdb);
-            gameImage.drawPicture(i, k, 2 + baseScrollPic);
-            gameImage.drawPicture((i + l) - 7, k, 3 + baseScrollPic);
-            gameImage.drawPicture(i, (k + i1) - 7, 4 + baseScrollPic);
-            gameImage.drawPicture((i + l) - 7, (k + i1) - 7, 5 + baseScrollPic);
+            gameImage.DrawBox(x, y, width, height, 0);
+            gameImage.DrawBoxEdge(x, y, width, height, gcn);
+            gameImage.DrawBoxEdge(x + 1, y + 1, width - 2, height - 2, gda);
+            gameImage.DrawBoxEdge(x + 2, y + 2, width - 4, height - 4, gdb);
+            gameImage.DrawPicture(x, y, 2 + baseScrollPic);
+            gameImage.DrawPicture((x + width) - 7, y, 3 + baseScrollPic);
+            gameImage.DrawPicture(x, (y + height) - 7, 4 + baseScrollPic);
+            gameImage.DrawPicture((x + width) - 7, (y + height) - 7, 5 + baseScrollPic);
         }
 
-        protected void drawPicture(int i, int k, int l)
+        protected void drawPicture(int x, int y, int size)
         {
-            gameImage.drawPicture(i, k, l);
+            gameImage.DrawPicture(x, y, size);
         }
 
-        protected void drawLineX(int i, int k, int l)
+        protected void drawLineX(int x, int y, int width)
         {
-            gameImage.DrawHorizontalLine(i, k, l, 0);
+            gameImage.DrawHorizontalLine(x, y, width, 0);
         }
 
-        protected void gem(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, string[] arg6,
+        protected void gem(int arg0, int x, int y, int width, int height, int textSize, string[] texts,
                 int arg7, int arg8)
         {
-            int i = arg4 / gameImage.textHeightNumber(arg5);
+            int i = height / gameImage.textHeightNumber(textSize);
             if (arg8 > arg7 - i)
             {
                 arg8 = arg7 - i;
@@ -361,22 +361,22 @@ namespace RuneScapeSolo.Net.Client
             listShownEntries[arg0] = arg8;
             if (i < arg7)
             {
-                int k = (arg1 + arg3) - 12;
-                int i1 = ((arg4 - 27) * i) / arg7;
+                int k = (x + width) - 12;
+                int i1 = ((height - 27) * i) / arg7;
                 if (i1 < 6)
                 {
                     i1 = 6;
                 }
 
-                int k1 = ((arg4 - 27 - i1) * arg8) / (arg7 - i);
+                int k1 = ((height - 27 - i1) * arg8) / (arg7 - i);
                 if (mouseButton == 1 && mouseX >= k && mouseX <= k + 12)
                 {
-                    if (mouseY > arg2 && mouseY < arg2 + 12 && arg8 > 0)
+                    if (mouseY > y && mouseY < y + 12 && arg8 > 0)
                     {
                         arg8--;
                     }
 
-                    if (mouseY > (arg2 + arg4) - 12 && mouseY < arg2 + arg4 && arg8 < arg7 - i)
+                    if (mouseY > (y + height) - 12 && mouseY < y + height && arg8 < arg7 - i)
                     {
                         arg8++;
                     }
@@ -385,11 +385,11 @@ namespace RuneScapeSolo.Net.Client
                 }
                 if (mouseButton == 1 && (mouseX >= k && mouseX <= k + 12 || mouseX >= k - 12 && mouseX <= k + 24 && gan[arg0]))
                 {
-                    if (mouseY > arg2 + 12 && mouseY < (arg2 + arg4) - 12)
+                    if (mouseY > y + 12 && mouseY < (y + height) - 12)
                     {
                         gan[arg0] = true;
-                        int i2 = mouseY - arg2 - 12 - i1 / 2;
-                        arg8 = (i2 * arg7) / (arg4 - 24);
+                        int i2 = mouseY - y - 12 - i1 / 2;
+                        arg8 = (i2 * arg7) / (height - 24);
                         if (arg8 > arg7 - i)
                         {
                             arg8 = arg7 - i;
@@ -407,16 +407,16 @@ namespace RuneScapeSolo.Net.Client
                 {
                     gan[arg0] = false;
                 }
-                k1 = ((arg4 - 27 - i1) * arg8) / (arg7 - i);
-                drawScrollbar(arg1, arg2, arg3, arg4, k1, i1);
+                k1 = ((height - 27 - i1) * arg8) / (arg7 - i);
+                drawScrollbar(x, y, width, height, k1, i1);
             }
-            int l = arg4 - i * gameImage.textHeightNumber(arg5);
-            int j1 = arg2 + (gameImage.textHeightNumber(arg5) * 5) / 6 + l / 2;
+            int l = height - i * gameImage.textHeightNumber(textSize);
+            int j1 = y + (gameImage.textHeightNumber(textSize) * 5) / 6 + l / 2;
             for (int l1 = arg8; l1 < arg7; l1++)
             {
-                geg(arg0, arg1 + 2, j1, arg6[l1], arg5);
-                j1 += gameImage.textHeightNumber(arg5);
-                if (j1 >= arg2 + arg4)
+                geg(arg0, x + 2, j1, texts[l1], textSize);
+                j1 += gameImage.textHeightNumber(textSize);
+                if (j1 >= y + height)
                 {
                     return;
                 }
@@ -424,35 +424,35 @@ namespace RuneScapeSolo.Net.Client
 
         }
 
-        protected void drawScrollbar(int i, int k, int l, int i1, int j1, int k1)
+        protected void drawScrollbar(int x, int y, int width, int height, int j1, int k1)
         {
-            int l1 = (i + l) - 12;
-            gameImage.DrawBoxEdge(l1, k, 12, i1, 0);// border
-            gameImage.drawPicture(l1 + 1, k + 1, baseScrollPic);// up arrow
-            gameImage.drawPicture(l1 + 1, (k + i1) - 12, 1 + baseScrollPic);// down arrow
-            gameImage.DrawHorizontalLine(l1, k + 13, 12, 0);// up arrow border
-            gameImage.DrawHorizontalLine(l1, (k + i1) - 13, 12, 0);// down arrow border
-            gameImage.DrawBox(l1 + 1, k + 14, 11, i1 - 27, scrollBarColour);
-            gameImage.DrawBox(l1 + 3, j1 + k + 14, 7, k1, scrollBarDraggingBarColor);// dragging bar
-            gameImage.DrawVerticalLine(l1 + 2, j1 + k + 14, k1, scrollBarDraggingBarLine1Color);// dragging bar
-            gameImage.DrawVerticalLine(l1 + 2 + 8, j1 + k + 14, k1, scrollBarDraggingBarLine2Color);// drawgging bar
+            int l1 = (x + width) - 12;
+            gameImage.DrawBoxEdge(l1, y, 12, height, 0);// border
+            gameImage.DrawPicture(l1 + 1, y + 1, baseScrollPic);// up arrow
+            gameImage.DrawPicture(l1 + 1, (y + height) - 12, 1 + baseScrollPic);// down arrow
+            gameImage.DrawHorizontalLine(l1, y + 13, 12, 0);// up arrow border
+            gameImage.DrawHorizontalLine(l1, (y + height) - 13, 12, 0);// down arrow border
+            gameImage.DrawBox(l1 + 1, y + 14, 11, height - 27, scrollBarColour);
+            gameImage.DrawBox(l1 + 3, j1 + y + 14, 7, k1, scrollBarDraggingBarColor);// dragging bar
+            gameImage.DrawVerticalLine(l1 + 2, j1 + y + 14, k1, scrollBarDraggingBarLine1Color);// dragging bar
+            gameImage.DrawVerticalLine(l1 + 2 + 8, j1 + y + 14, k1, scrollBarDraggingBarLine2Color);// drawgging bar
         }
 
-        protected void gfa(int arg0, int arg1, int arg2, int arg3, string[] arg4)
+        protected void gfa(int arg0, int x, int y, int fontIndex, string[] texts)
         {
             int i = 0;
-            int k = arg4.Length;
+            int k = texts.Length;
             for (int l = 0; l < k; l++)
             {
-                i += gameImage.textWidth(arg4[l], arg3);
+                i += gameImage.textWidth(texts[l], fontIndex);
                 if (l < k - 1)
                 {
-                    i += gameImage.textWidth("  ", arg3);
+                    i += gameImage.textWidth("  ", fontIndex);
                 }
             }
 
-            int i1 = arg1 - i / 2;
-            int j1 = arg2 + gameImage.textHeightNumber(arg3) / 3;
+            int i1 = x - i / 2;
+            int j1 = y + gameImage.textHeightNumber(fontIndex) / 3;
             for (int k1 = 0; k1 < k; k1++)
             {
                 int l1;
@@ -465,7 +465,7 @@ namespace RuneScapeSolo.Net.Client
                     l1 = 0;
                 }
 
-                if (mouseX >= i1 && mouseX <= i1 + gameImage.textWidth(arg4[k1], arg3) && mouseY <= j1 && mouseY > j1 - gameImage.textHeightNumber(arg3))
+                if (mouseX >= i1 && mouseX <= i1 + gameImage.textWidth(texts[k1], fontIndex) && mouseY <= j1 && mouseY > j1 - gameImage.textHeightNumber(fontIndex))
                 {
                     if (componentWhiteText[arg0])
                     {
@@ -494,19 +494,20 @@ namespace RuneScapeSolo.Net.Client
                     }
                 }
 
-                gameImage.drawString(arg4[k1], i1, j1, arg3, l1);
-                i1 += gameImage.textWidth(arg4[k1] + "  ", arg3);
+                gameImage.DrawString(texts[k1], i1, j1, fontIndex, l1);
+                i1 += gameImage.textWidth(texts[k1] + "  ", fontIndex);
             }
 
         }
 
-        protected void gfb(int arg0, int arg1, int arg2, int arg3, string[] arg4)
+        protected void gfb(int arg0, int x, int y, int fontIndex, string[] texts)
         {
-            int i = arg4.Length;
-            int k = arg2 - (gameImage.textHeightNumber(arg3) * (i - 1)) / 2;
-            for (int l = 0; l < i; l++)
+            int k = y - (gameImage.textHeightNumber(fontIndex) * (texts.Length - 1)) / 2;
+
+            for (int l = 0; l < texts.Length; l++)
             {
                 int i1;
+
                 if (componentWhiteText[arg0])
                 {
                     i1 = 0xffffff;
@@ -516,8 +517,9 @@ namespace RuneScapeSolo.Net.Client
                     i1 = 0;
                 }
 
-                int j1 = gameImage.textWidth(arg4[l], arg3);
-                if (mouseX >= arg1 - j1 / 2 && mouseX <= arg1 + j1 / 2 && mouseY - 2 <= k && mouseY - 2 > k - gameImage.textHeightNumber(arg3))
+                int j1 = gameImage.textWidth(texts[l], fontIndex);
+
+                if (mouseX >= x - j1 / 2 && mouseX <= x + j1 / 2 && mouseY - 2 <= k && mouseY - 2 > k - gameImage.textHeightNumber(fontIndex))
                 {
                     if (componentWhiteText[arg0])
                     {
@@ -534,6 +536,7 @@ namespace RuneScapeSolo.Net.Client
                         componentSkip[arg0] = true;
                     }
                 }
+
                 if (gbe[arg0] == l)
                 {
                     if (componentWhiteText[arg0])
@@ -546,10 +549,9 @@ namespace RuneScapeSolo.Net.Client
                     }
                 }
 
-                gameImage.drawString(arg4[l], arg1 - j1 / 2, k, arg3, i1);
-                k += gameImage.textHeightNumber(arg3);
+                gameImage.DrawString(texts[l], x - j1 / 2, k, fontIndex, i1);
+                k += gameImage.textHeightNumber(fontIndex);
             }
-
         }
         // drawList(x, componentX[x], componentY[x], componentWidth[x], componentHeight[x], componentTextSize[x], componentTextList[x], listLength[x], gbc[x]);
         protected void drawList(int listIndex, int listX, int listY, int listWidth, int listHeight, int listTextSize, string[] listText,
@@ -650,7 +652,7 @@ namespace RuneScapeSolo.Net.Client
                     j2 = 0xff0000;
                 }
 
-                gameImage.drawString(listText[l1], listX + 2, j1, listTextSize, j2);
+                gameImage.DrawString(listText[l1], listX + 2, j1, listTextSize, j2);
                 j1 += gameImage.textHeightNumber(listTextSize);
                 if (j1 >= listY + listHeight)
                 {
