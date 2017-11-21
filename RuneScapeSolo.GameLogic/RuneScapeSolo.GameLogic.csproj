@@ -40,6 +40,8 @@
   <ItemGroup>
     <Compile Include="Mapping\AnimationMappingExtensions.cs" />
     <Compile Include="Mapping\ElevationMappingExtensions.cs" />
+    <Compile Include="Mapping\ItemLocationMappingExtensions.cs" />
+    <Compile Include="Mapping\NpcLocationMappingExtensions.cs" />
     <Compile Include="Mapping\WorldObjectMappingExtensions.cs" />
     <Compile Include="Mapping\ItemDropMappingExtensions.cs" />
     <Compile Include="Mapping\ItemMappingExtensions.cs" />
@@ -67,6 +69,10 @@
     <ProjectReference Include="..\RuneScapeSolo.Models\RuneScapeSolo.Models.csproj">
       <Project>{0fb5c790-78f3-44ea-af6c-2d5b7c8e82be}</Project>
       <Name>RuneScapeSolo.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RuneScapeSolo.Primitives\RuneScapeSolo.Primitives.csproj">
+      <Project>{395f7f7f-f89e-43f4-96f0-6a6e20016b81}</Project>
+      <Name>RuneScapeSolo.Primitives</Name>
     </ProjectReference>
     <ProjectReference Include="..\RuneScapeSolo.Settings\RuneScapeSolo.Settings.csproj">
       <Project>{f863eb40-1193-4067-8eef-405caf9f2fc9}</Project>
