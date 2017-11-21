@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mapping\AnimationMappingExtensions.cs" />
+    <Compile Include="Mapping\GameObjectLocationMappingExtensions.cs" />
     <Compile Include="Mapping\ElevationMappingExtensions.cs" />
     <Compile Include="Mapping\ItemLocationMappingExtensions.cs" />
     <Compile Include="Mapping\NpcLocationMappingExtensions.cs" />

@@ -30,6 +30,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enumerations\GameObjectType.cs" />
+    <Compile Include="GameObjectLocation.cs" />
     <Compile Include="ItemLocation.cs" />
     <Compile Include="NpcLocation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
