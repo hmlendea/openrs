@@ -49,19 +49,20 @@ namespace RuneScapeSolo.Net.Client
         int lastMouseY;
         TimeSpan timeLapse = TimeSpan.Zero;
 
-        public CombatManager CombatManager { get; set; }
-        public InventoryManager InventoryManager { get; set; }
-        QuestManager questManager { get; set; }
+        readonly CombatManager combatManager;
+        public readonly EntityManager entityManager; // TODO: Shouldn't be public
+        public readonly InventoryManager inventoryManager; // TODO: Shouldn't be public
+        readonly QuestManager questManager;
 
         public ObjectModel[] GameDataObjects { get; set; }
         public ObjectModel[] WallObjects { get; set; }
-        public Mob CurrentPlayer { get; set; }
-        public Mob[] LastNpcs { get; set; }
-        public Mob[] LastPlayers { get; set; }
-        public Mob[] Mobs { get; set; }
-        public Mob[] Npcs { get; set; }
-        public Mob[] NpcAttackingArray { get; set; }
-        public Mob[] Players { get; set; }
+        public ClientMob CurrentPlayer { get; set; }
+        public ClientMob[] LastNpcs { get; set; }
+        public ClientMob[] LastPlayers { get; set; }
+        public ClientMob[] Mobs { get; set; }
+        public ClientMob[] Npcs { get; set; }
+        public ClientMob[] NpcAttackingArray { get; set; }
+        public ClientMob[] Players { get; set; }
         public Size2D WindowSize { get; set; }
         public Skill[] Skills { get; set; }
         public CombatStyle CombatStyle { get; set; }
@@ -230,11 +231,12 @@ namespace RuneScapeSolo.Net.Client
 
         public GameClient()
         {
-            InventoryManager = new InventoryManager();
-            CombatManager = new CombatManager(InventoryManager);
+            entityManager = new EntityManager();
+            inventoryManager = new InventoryManager(entityManager);
+            combatManager = new CombatManager(inventoryManager);
             questManager = new QuestManager();
 
-            packetHandler = new PacketHandler(this, questManager);
+            packetHandler = new PacketHandler(this, entityManager, inventoryManager, questManager);
 
             WindowSize = new Size2D(512, 334);
 
@@ -270,7 +272,7 @@ namespace RuneScapeSolo.Net.Client
             appearanceBottomColour = 14;
             appearanceHeadGender = 1;
             menuIndexes = new int[250];
-            Players = new Mob[500];
+            Players = new ClientMob[500];
             selectedShopItemIndex = -1;
             selectedShopItemType = -2;
             menuText1 = new string[250];
@@ -280,8 +282,8 @@ namespace RuneScapeSolo.Net.Client
             menuActionX = new int[250];
             menuActionY = new int[250];
             menuActions = new MenuAction[250];
-            Npcs = new Mob[500];
-            Mobs = new Mob[4000];
+            Npcs = new ClientMob[500];
+            Mobs = new ClientMob[4000];
             serverMessage = "";
             WallObjectX = new int[500];
             WallObjectY = new int[500];
@@ -293,7 +295,7 @@ namespace RuneScapeSolo.Net.Client
             ObjectArray = new ObjectModel[1500];
             selectedSpell = -1;
             cameraAutoAngleDebug = false;
-            CurrentPlayer = new Mob();
+            CurrentPlayer = new ClientMob();
             ServerIndex = -1;
             menuActionType = new int[250];
             menuActionVar1 = new int[250];
@@ -326,10 +328,10 @@ namespace RuneScapeSolo.Net.Client
             WallObjectDirection = new int[500];
             WallObjectId = new int[500];
             GameDataObjects = new ObjectModel[1000];
-            LastNpcs = new Mob[500];
+            LastNpcs = new ClientMob[500];
             selectedItem = -1;
             selectedItemName = "";
-            LastPlayers = new Mob[500];
+            LastPlayers = new ClientMob[500];
             mouseTrailX = new int[8192];
             mouseTrailY = new int[8192];
             prayerOn = new bool[50];
@@ -359,7 +361,7 @@ namespace RuneScapeSolo.Net.Client
             ObjectY = new int[1500];
             ObjectType = new int[1500];
             ObjectRotation = new int[1500];
-            NpcAttackingArray = new Mob[5000];
+            NpcAttackingArray = new ClientMob[5000];
             teleBubbleY = new int[50];
             cameraAutoAngle = 1;
             LoadArea = false;
@@ -375,6 +377,14 @@ namespace RuneScapeSolo.Net.Client
             captchaHeight = 0;
             NeedsClear = false;
             HasWorldInfo = false;
+
+            LoadContent(); // TODO: Call this from outside
+        }
+
+        public void LoadContent()
+        {
+            entityManager.LoadContent();
+            inventoryManager.LoadContent();
         }
 
         public override void UnloadContent()
@@ -536,7 +546,7 @@ namespace RuneScapeSolo.Net.Client
             }
             if (action == MenuAction.ExamineGroundItem)
             {
-                DisplayMessage(EntityManager.GetItem(actionType).Description);
+                DisplayMessage(entityManager.GetItem(actionType).Description);
             }
 
             if (action == MenuAction.CastSpellOnWallObject)
@@ -582,7 +592,7 @@ namespace RuneScapeSolo.Net.Client
 
             if (action == MenuAction.ExamineWallObject)
             {
-                DisplayMessage(EntityManager.GetWallObject(actionType).Description);
+                DisplayMessage(entityManager.GetWallObject(actionType).Description);
             }
 
             if (action == MenuAction.CastSpellOnModel)
@@ -624,7 +634,7 @@ namespace RuneScapeSolo.Net.Client
             }
             if (action == MenuAction.ExamineModel)
             {
-                DisplayMessage(EntityManager.GetWorldObject(actionType).Description);
+                DisplayMessage(entityManager.GetWorldObject(actionType).Description);
             }
 
             if (action == MenuAction.CastSpellOnItem)
@@ -665,7 +675,7 @@ namespace RuneScapeSolo.Net.Client
             {
                 selectedItem = actionType;
                 drawMenuTab = 0;
-                selectedItemName = EntityManager.GetItem(InventoryManager.InventoryItems[selectedItem]).Name;
+                selectedItemName = entityManager.GetItem(inventoryManager.InventoryItems[selectedItem]).Name;
             }
             if (action == MenuAction.UseItem)
             {
@@ -674,11 +684,11 @@ namespace RuneScapeSolo.Net.Client
                 StreamClass.FormatPacket();
                 selectedItem = -1;
                 drawMenuTab = 0;
-                DisplayMessage("Dropping " + EntityManager.GetItem(InventoryManager.InventoryItems[actionType]).Name);
+                DisplayMessage("Dropping " + entityManager.GetItem(inventoryManager.InventoryItems[actionType]).Name);
             }
             if (action == MenuAction.ExamineItem)
             {
-                DisplayMessage(EntityManager.GetItem(actionType).Description);
+                DisplayMessage(entityManager.GetItem(actionType).Description);
             }
 
             if (action == MenuAction.CastSpellOnNpc)
@@ -732,7 +742,7 @@ namespace RuneScapeSolo.Net.Client
             }
             if (action == MenuAction.ExamineNpc)
             {
-                DisplayMessage(EntityManager.GetNpc(actionType).Description);
+                DisplayMessage(entityManager.GetNpc(actionType).Description);
             }
             if (action == MenuAction.CastSpellOnGround)
             {
@@ -793,7 +803,7 @@ namespace RuneScapeSolo.Net.Client
             {
                 gameCamera.removeModel(ObjectArray[objectIndex]);
 
-                int i2 = EntityManager.GetModelIndex(modelName);
+                int i2 = entityManager.GetModelIndex(modelName);
                 ObjectModel j2 = GameDataObjects[i2].CreateParent();
 
                 gameCamera.addModel(j2);
@@ -806,7 +816,7 @@ namespace RuneScapeSolo.Net.Client
 
         public void DrawPlayer(int x, int y, int width, int height, int playerIndex, int arg5, int arg6)
         {
-            Mob player = Players[playerIndex];
+            ClientMob player = Players[playerIndex];
 
             if (player.Appearance.TrousersColour == 255)// TODO this checks if the player is an invisible moderator
             {
@@ -856,7 +866,7 @@ namespace RuneScapeSolo.Net.Client
             {
                 int l1 = animationModelArray[direction][k1];
                 int l2 = player.AppearanceItems[l1] - 1;
-                if (l2 > EntityManager.AnimationCount - 1)
+                if (l2 > entityManager.AnimationCount - 1)
                 {
                     continue;
                 }
@@ -868,7 +878,7 @@ namespace RuneScapeSolo.Net.Client
                     int j4 = j1;
                     if (flag && direction2 >= 1 && direction2 <= 3)
                     {
-                        if (EntityManager.GetAnimation(l2).HasF == 1)
+                        if (entityManager.GetAnimation(l2).HasF == 1)
                         {
                             j4 += 15;
                         }
@@ -910,14 +920,14 @@ namespace RuneScapeSolo.Net.Client
                         }
                     }
 
-                    if (direction2 != 5 || EntityManager.GetAnimation(l2).HasA == 1)
+                    if (direction2 != 5 || entityManager.GetAnimation(l2).HasA == 1)
                     {
-                        int k4 = j4 + EntityManager.GetAnimation(l2).Number;
+                        int k4 = j4 + entityManager.GetAnimation(l2).Number;
                         k3 = (k3 * width) / gameGraphics.pictureAssumedWidth[k4];
                         i4 = (i4 * height) / gameGraphics.pictureAssumedHeight[k4];
-                        int l4 = (width * gameGraphics.pictureAssumedWidth[k4]) / gameGraphics.pictureAssumedWidth[EntityManager.GetAnimation(l2).Number];
+                        int l4 = (width * gameGraphics.pictureAssumedWidth[k4]) / gameGraphics.pictureAssumedWidth[entityManager.GetAnimation(l2).Number];
                         k3 -= (l4 - width) / 2;
-                        int i5 = EntityManager.GetAnimation(l2).CharacterColour;
+                        int i5 = entityManager.GetAnimation(l2).CharacterColour;
                         int j5 = appearanceSkinColours[player.Appearance.SkinColour];
 
                         if (i5 == 1)
@@ -1052,12 +1062,12 @@ namespace RuneScapeSolo.Net.Client
         {
             int l = gameGraphics.GameSize.Width - 248;
             gameGraphics.DrawPicture(l, 3, baseInventoryPic + 1);
-            for (int i1 = 0; i1 < InventoryManager.maxInventoryItems; i1++)
+            for (int i1 = 0; i1 < InventoryManager.MaximumInventorySize; i1++)
             {
                 int j1 = l + (i1 % 5) * 49;
                 int l1 = 36 + (i1 / 5) * 34;
-                if (i1 < InventoryManager.InventoryItemsCount &&
-                    InventoryManager.InventoryItemEquipped[i1] == 1)
+                if (i1 < inventoryManager.InventoryItemsCount &&
+                    inventoryManager.InventoryItemEquipped[i1] == 1)
                 {
                     gameGraphics.drawBoxAlpha(j1, l1, 49, 34, 0xff0000, 128);
                 }
@@ -1068,23 +1078,23 @@ namespace RuneScapeSolo.Net.Client
                     gameGraphics.drawBoxAlpha(j1, l1, 49, 34, argb, 128);
                 }
 
-                if (i1 < InventoryManager.InventoryItemsCount)
+                if (i1 < inventoryManager.InventoryItemsCount)
                 {
-                    gameGraphics.DrawImage(j1, l1, 48, 32, baseItemPicture + EntityManager.GetItem(InventoryManager.InventoryItems[i1]).InventoryPicture, EntityManager.GetItem(InventoryManager.InventoryItems[i1]).PictureMask, 0, 0, false);
+                    gameGraphics.DrawImage(j1, l1, 48, 32, baseItemPicture + entityManager.GetItem(inventoryManager.InventoryItems[i1]).InventoryPicture, entityManager.GetItem(inventoryManager.InventoryItems[i1]).PictureMask, 0, 0, false);
 
-                    if (EntityManager.GetItem(InventoryManager.InventoryItems[i1]).IsStackable == 0)
+                    if (entityManager.GetItem(inventoryManager.InventoryItems[i1]).IsStackable == 0)
                     {
-                        gameGraphics.DrawString(InventoryManager.InventoryItemCount[i1].ToString(), j1 + 1, l1 + 10, 1, 0xffff00);
+                        gameGraphics.DrawString(inventoryManager.InventoryItemCount[i1].ToString(), j1 + 1, l1 + 10, 1, 0xffff00);
                     }
                 }
             }
 
             for (int k1 = 1; k1 <= 4; k1++)
             {
-                gameGraphics.DrawVerticalLine(l + k1 * 49, 36, (InventoryManager.maxInventoryItems / 5) * 34, 0);
+                gameGraphics.DrawVerticalLine(l + k1 * 49, 36, (InventoryManager.MaximumInventorySize / 5) * 34, 0);
             }
 
-            for (int i2 = 1; i2 <= InventoryManager.maxInventoryItems / 5 - 1; i2++)
+            for (int i2 = 1; i2 <= InventoryManager.MaximumInventorySize / 5 - 1; i2++)
             {
                 gameGraphics.DrawHorizontalLine(l, 36 + i2 * 34, 245, 0);
             }
@@ -1096,18 +1106,18 @@ namespace RuneScapeSolo.Net.Client
 
             l = InputManager.Instance.MouseLocation.X - (gameGraphics.GameSize.Width - 248);
             int j2 = InputManager.Instance.MouseLocation.Y - 36;
-            if (l >= 0 && j2 >= 0 && l < 248 && j2 < (InventoryManager.maxInventoryItems / 5) * 34)
+            if (l >= 0 && j2 >= 0 && l < 248 && j2 < (InventoryManager.MaximumInventorySize / 5) * 34)
             {
                 int k2 = l / 49 + (j2 / 34) * 5;
-                if (k2 < InventoryManager.InventoryItemsCount)
+                if (k2 < inventoryManager.InventoryItemsCount)
                 {
-                    int itemIndex = InventoryManager.InventoryItems[k2];
+                    int itemIndex = inventoryManager.InventoryItems[k2];
                     if (selectedSpell >= 0)
                     {
-                        if (EntityManager.GetSpell(selectedSpell).Type == 3)
+                        if (entityManager.GetSpell(selectedSpell).Type == 3)
                         {
-                            menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on";
-                            menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(itemIndex).Name;
+                            menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on";
+                            menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(itemIndex).Name;
                             menuActions[menuOptionsCount] = MenuAction.CastSpellOnItem;
                             menuActionType[menuOptionsCount] = k2;
                             menuActionVar1[menuOptionsCount] = selectedSpell;
@@ -1120,24 +1130,24 @@ namespace RuneScapeSolo.Net.Client
                         if (selectedItem >= 0)
                         {
                             menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                            menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(itemIndex).Name;
+                            menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(itemIndex).Name;
                             menuActions[menuOptionsCount] = MenuAction.UseItemWithItem;
                             menuActionType[menuOptionsCount] = k2;
                             menuActionVar1[menuOptionsCount] = selectedItem;
                             menuOptionsCount++;
                             return;
                         }
-                        if (InventoryManager.InventoryItemEquipped[k2] == 1)
+                        if (inventoryManager.InventoryItemEquipped[k2] == 1)
                         {
                             menuText1[menuOptionsCount] = "Remove";
-                            menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(itemIndex).Name;
+                            menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(itemIndex).Name;
                             menuActions[menuOptionsCount] = MenuAction.RemoveItem;
                             menuActionType[menuOptionsCount] = k2;
                             menuOptionsCount++;
                         }
-                        else if (EntityManager.GetItem(itemIndex).IsEquipable != 0)
+                        else if (entityManager.GetItem(itemIndex).IsEquipable != 0)
                         {
-                            if ((EntityManager.GetItem(itemIndex).IsEquipable & 0x18) != 0)
+                            if ((entityManager.GetItem(itemIndex).IsEquipable & 0x18) != 0)
                             {
                                 menuText1[menuOptionsCount] = "Wield";
                             }
@@ -1146,31 +1156,31 @@ namespace RuneScapeSolo.Net.Client
                                 menuText1[menuOptionsCount] = "Wear";
                             }
 
-                            menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(itemIndex).Name;
+                            menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(itemIndex).Name;
                             menuActions[menuOptionsCount] = MenuAction.EquipItem;
                             menuActionType[menuOptionsCount] = k2;
                             menuOptionsCount++;
                         }
-                        if (!EntityManager.GetItem(itemIndex).Command.Equals(""))
+                        if (!entityManager.GetItem(itemIndex).Command.Equals(""))
                         {
-                            menuText1[menuOptionsCount] = EntityManager.GetItem(itemIndex).Command;
-                            menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(itemIndex).Name;
+                            menuText1[menuOptionsCount] = entityManager.GetItem(itemIndex).Command;
+                            menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(itemIndex).Name;
                             menuActions[menuOptionsCount] = MenuAction.CommandOnItem;
                             menuActionType[menuOptionsCount] = k2;
                             menuOptionsCount++;
                         }
                         menuText1[menuOptionsCount] = "Use";
-                        menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(itemIndex).Name;
+                        menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(itemIndex).Name;
                         menuActions[menuOptionsCount] = MenuAction.UseItem;
                         menuActionType[menuOptionsCount] = k2;
                         menuOptionsCount++;
                         menuText1[menuOptionsCount] = "Drop";
-                        menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(itemIndex).Name;
+                        menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(itemIndex).Name;
                         menuActions[menuOptionsCount] = MenuAction.DropItem;
                         menuActionType[menuOptionsCount] = k2;
                         menuOptionsCount++;
                         menuText1[menuOptionsCount] = "Examine";
-                        menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(itemIndex).Name;
+                        menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(itemIndex).Name;
                         menuActions[menuOptionsCount] = MenuAction.ExamineItem;
                         menuActionType[menuOptionsCount] = itemIndex;
                         menuOptionsCount++;
@@ -1421,7 +1431,7 @@ namespace RuneScapeSolo.Net.Client
                     if (isGeneralShop == 1)
                     {
                         int i29 = 39;
-                        for (int l33 = 0; l33 < InventoryManager.InventoryItemsCount; l33++)
+                        for (int l33 = 0; l33 < inventoryManager.InventoryItemsCount; l33++)
                         {
                             if (i29 < newShopItemCount)
                             {
@@ -1431,7 +1441,7 @@ namespace RuneScapeSolo.Net.Client
                             bool flag2 = false;
                             for (int l39 = 0; l39 < 40; l39++)
                             {
-                                if (shopItems[l39] != InventoryManager.InventoryItems[l33])
+                                if (shopItems[l39] != inventoryManager.InventoryItems[l33])
                                 {
                                     continue;
                                 }
@@ -1440,16 +1450,16 @@ namespace RuneScapeSolo.Net.Client
                                 break;
                             }
 
-                            if (InventoryManager.InventoryItems[l33] == 10)
+                            if (inventoryManager.InventoryItems[l33] == 10)
                             {
                                 flag2 = true;
                             }
 
                             if (!flag2)
                             {
-                                shopItems[i29] = InventoryManager.InventoryItems[l33] & 0x7fff;
+                                shopItems[i29] = inventoryManager.InventoryItems[l33] & 0x7fff;
                                 shopItemCount[i29] = 0;
-                                shopItemSellPrice[i29] = EntityManager.GetItem(shopItems[i29]).BasePrice - (int)(EntityManager.GetItem(shopItems[i29]).BasePrice / 2.5);
+                                shopItemSellPrice[i29] = entityManager.GetItem(shopItems[i29]).BasePrice - (int)(entityManager.GetItem(shopItems[i29]).BasePrice / 2.5);
                                 shopItemSellPrice[i29] -= (int)(shopItemSellPrice[i29] * 0.10);
                                 i29--;
                             }
@@ -1467,17 +1477,17 @@ namespace RuneScapeSolo.Net.Client
                 {
                     ShowBankBox = true;
                     int off = 1;
-                    InventoryManager.serverBankItemsCount = data[off++] & 0xff;
-                    InventoryManager.maxBankItems = data[off++] & 0xff;
-                    for (int l11 = 0; l11 < InventoryManager.serverBankItemsCount; l11++)
+                    inventoryManager.serverBankItemsCount = data[off++] & 0xff;
+                    InventoryManager.MaximumBankSize = data[off++] & 0xff;
+                    for (int l11 = 0; l11 < inventoryManager.serverBankItemsCount; l11++)
                     {
-                        InventoryManager.serverBankItems[l11] = DataOperations.GetInt16(data, off);
+                        inventoryManager.serverBankItems[l11] = DataOperations.GetInt16(data, off);
                         off += 2;
-                        InventoryManager.serverBankItemCount[l11] = DataOperations.GetInt32(data, off);
+                        inventoryManager.serverBankItemCount[l11] = DataOperations.GetInt32(data, off);
                         off += 4;
                     }
 
-                    InventoryManager.UpdateBankItems();
+                    inventoryManager.UpdateBankItems();
                     return;
                 }
                 if (command == ServerCommand.SkillExperience)
@@ -1770,7 +1780,7 @@ namespace RuneScapeSolo.Net.Client
             gameCamera.zoom3 = 1;
             gameCamera.zoom4 = 2300;
             gameCamera.bjk(-50, -10, -50);
-            engineHandle = new EngineHandle(gameCamera, gameGraphics);
+            engineHandle = new EngineHandle(entityManager, gameCamera, gameGraphics);
             engineHandle.baseInventoryPic = baseInventoryPic;
             loadTextures();
 
@@ -1872,8 +1882,8 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.unpackImageData(baseScrollPic, DataOperations.loadData("scrollbar.dat", 0, media), abyte1, 2);
             gameGraphics.unpackImageData(baseScrollPic + 2, DataOperations.loadData("corners.dat", 0, media), abyte1, 4);
             gameGraphics.unpackImageData(baseScrollPic + 6, DataOperations.loadData("arrows.dat", 0, media), abyte1, 2);
-            gameGraphics.unpackImageData(baseProjectilePic, DataOperations.loadData("projectile.dat", 0, media), abyte1, EntityManager.SpellProjectileCount);
-            int l = EntityManager.HighestLoadedPicture;
+            gameGraphics.unpackImageData(baseProjectilePic, DataOperations.loadData("projectile.dat", 0, media), abyte1, entityManager.SpellProjectileCount);
+            int l = entityManager.HighestLoadedPicture;
             for (int i1 = 1; l > 0; i1++)
             {
                 int j1 = l;
@@ -1893,12 +1903,12 @@ namespace RuneScapeSolo.Net.Client
                 gameGraphics.loadImage(baseInventoryPic + k1);
             }
 
-            for (int l1 = 0; l1 < EntityManager.SpellProjectileCount; l1++)
+            for (int l1 = 0; l1 < entityManager.SpellProjectileCount; l1++)
             {
                 gameGraphics.loadImage(baseProjectilePic + l1);
             }
 
-            for (int i2 = 0; i2 < EntityManager.HighestLoadedPicture; i2++)
+            for (int i2 = 0; i2 < entityManager.HighestLoadedPicture; i2++)
             {
                 gameGraphics.loadImage(baseProjectilePic + i2);
                 //var w = ((GameImage)(gameGraphics)).pictureWidth[baseProjectilePic + i2];
@@ -2006,19 +2016,19 @@ namespace RuneScapeSolo.Net.Client
             int l = 0;
             animationNumber = 0;
             //label0:
-            for (int i1 = 0; i1 < EntityManager.AnimationCount; i1++)
+            for (int i1 = 0; i1 < entityManager.AnimationCount; i1++)
             {
                 //   label4:
                 bool breakThis = false;
-                string s1 = EntityManager.GetAnimation(i1).Name;
+                string s1 = entityManager.GetAnimation(i1).Name;
                 for (int j1 = 0; j1 < i1; j1++)
                 {
-                    if (!EntityManager.GetAnimation(j1).Name.ToLower().Equals(s1))
+                    if (!entityManager.GetAnimation(j1).Name.ToLower().Equals(s1))
                     {
                         continue;
                     }
 
-                    EntityManager.GetAnimation(i1).Number = EntityManager.GetAnimation(j1).Number;
+                    entityManager.GetAnimation(i1).Number = entityManager.GetAnimation(j1).Number;
 
                     // i1++;
                     // goto label0;
@@ -2045,7 +2055,7 @@ namespace RuneScapeSolo.Net.Client
                     {
                         gameGraphics.unpackImageData(animationNumber, abyte7, abyte4, 15);
                         l += 15;
-                        if (EntityManager.GetAnimation(i1).HasA == 1)
+                        if (entityManager.GetAnimation(i1).HasA == 1)
                         {
                             sbyte[] abyte8 = DataOperations.loadData(s1 + "a.dat", 0, abyte0);
                             sbyte[] abyte5 = abyte1;
@@ -2057,7 +2067,7 @@ namespace RuneScapeSolo.Net.Client
                             gameGraphics.unpackImageData(animationNumber + 15, abyte8, abyte5, 3);
                             l += 3;
                         }
-                        if (EntityManager.GetAnimation(i1).HasF == 1)
+                        if (entityManager.GetAnimation(i1).HasF == 1)
                         {
                             sbyte[] abyte9 = DataOperations.loadData(s1 + "f.dat", 0, abyte0);
                             sbyte[] abyte6 = abyte1;
@@ -2069,7 +2079,7 @@ namespace RuneScapeSolo.Net.Client
                             gameGraphics.unpackImageData(animationNumber + 18, abyte9, abyte6, 9);
                             l += 9;
                         }
-                        if (EntityManager.GetAnimation(i1).GenderModel != 0)
+                        if (entityManager.GetAnimation(i1).GenderModel != 0)
                         {
                             for (int k1 = animationNumber; k1 < animationNumber + 27; k1++)
                             {
@@ -2082,7 +2092,7 @@ namespace RuneScapeSolo.Net.Client
                         Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
                     }
                 }
-                EntityManager.GetAnimation(i1).Number = animationNumber;
+                entityManager.GetAnimation(i1).Number = animationNumber;
                 animationNumber += 27;
 
 
@@ -2109,20 +2119,20 @@ namespace RuneScapeSolo.Net.Client
             {
                 do
                 {
-                    appearanceHeadType = ((appearanceHeadType - 1) + EntityManager.AnimationCount) % EntityManager.AnimationCount;
+                    appearanceHeadType = ((appearanceHeadType - 1) + entityManager.AnimationCount) % entityManager.AnimationCount;
                 }
-                while ((EntityManager.GetAnimation(appearanceHeadType).GenderModel & 3) != 1 ||
-                       (EntityManager.GetAnimation(appearanceHeadType).GenderModel & 4 * appearanceHeadGender) == 0);
+                while ((entityManager.GetAnimation(appearanceHeadType).GenderModel & 3) != 1 ||
+                       (entityManager.GetAnimation(appearanceHeadType).GenderModel & 4 * appearanceHeadGender) == 0);
             }
 
             if (appearanceMenu.isClicked(appearanceHeadRightArrow))
             {
                 do
                 {
-                    appearanceHeadType = (appearanceHeadType + 1) % EntityManager.AnimationCount;
+                    appearanceHeadType = (appearanceHeadType + 1) % entityManager.AnimationCount;
                 }
-                while ((EntityManager.GetAnimation(appearanceHeadType).GenderModel & 3) != 1 ||
-                       (EntityManager.GetAnimation(appearanceHeadType).GenderModel & 4 * appearanceHeadGender) == 0);
+                while ((entityManager.GetAnimation(appearanceHeadType).GenderModel & 3) != 1 ||
+                       (entityManager.GetAnimation(appearanceHeadType).GenderModel & 4 * appearanceHeadGender) == 0);
             }
 
             if (appearanceMenu.isClicked(appearanceHairLeftArrow))
@@ -2137,12 +2147,12 @@ namespace RuneScapeSolo.Net.Client
 
             if (appearanceMenu.isClicked(appearanceGenderLeftArrow) || appearanceMenu.isClicked(appearanceGenderRightArrow))
             {
-                for (appearanceHeadGender = 3 - appearanceHeadGender; (EntityManager.GetAnimation(appearanceHeadType).GenderModel & 3) != 1 || (EntityManager.GetAnimation(appearanceHeadType).GenderModel & 4 * appearanceHeadGender) == 0; appearanceHeadType = (appearanceHeadType + 1) % EntityManager.AnimationCount)
+                for (appearanceHeadGender = 3 - appearanceHeadGender; (entityManager.GetAnimation(appearanceHeadType).GenderModel & 3) != 1 || (entityManager.GetAnimation(appearanceHeadType).GenderModel & 4 * appearanceHeadGender) == 0; appearanceHeadType = (appearanceHeadType + 1) % entityManager.AnimationCount)
                 {
                     ;
                 }
 
-                for (; (EntityManager.GetAnimation(appearanceBodyGender).GenderModel & 3) != 2 || (EntityManager.GetAnimation(appearanceBodyGender).GenderModel & 4 * appearanceHeadGender) == 0; appearanceBodyGender = (appearanceBodyGender + 1) % EntityManager.AnimationCount)
+                for (; (entityManager.GetAnimation(appearanceBodyGender).GenderModel & 3) != 2 || (entityManager.GetAnimation(appearanceBodyGender).GenderModel & 4 * appearanceHeadGender) == 0; appearanceBodyGender = (appearanceBodyGender + 1) % entityManager.AnimationCount)
                 {
                     ;
                 }
@@ -2313,16 +2323,16 @@ namespace RuneScapeSolo.Net.Client
 
             if (arg2 == 0 || arg2 == 4)
             {
-                l = EntityManager.GetWorldObject(arg3).Width;
-                i1 = EntityManager.GetWorldObject(arg3).Height;
+                l = entityManager.GetWorldObject(arg3).Width;
+                i1 = entityManager.GetWorldObject(arg3).Height;
             }
             else
             {
-                i1 = EntityManager.GetWorldObject(arg3).Width;
-                l = EntityManager.GetWorldObject(arg3).Height;
+                i1 = entityManager.GetWorldObject(arg3).Width;
+                l = entityManager.GetWorldObject(arg3).Height;
             }
 
-            if (EntityManager.GetWorldObject(arg3).Type == 2 || EntityManager.GetWorldObject(arg3).Type == 3)
+            if (entityManager.GetWorldObject(arg3).Type == 2 || entityManager.GetWorldObject(arg3).Type == 3)
             {
                 if (arg2 == 0)
                 {
@@ -2647,22 +2657,22 @@ namespace RuneScapeSolo.Net.Client
 
         public void DrawItem(int x, int y, int width, int height, int itemID)
         {
-            int picture = EntityManager.GetItem(itemID).InventoryPicture + baseItemPicture;
-            int mask = EntityManager.GetItem(itemID).PictureMask;
+            int picture = entityManager.GetItem(itemID).InventoryPicture + baseItemPicture;
+            int mask = entityManager.GetItem(itemID).PictureMask;
 
             gameGraphics.DrawImage(x, y, width, height, picture, mask, 0, 0, false);
         }
 
-        public Mob MakePlayer(int serverIndex, int x, int y, int sprite)
+        public ClientMob MakePlayer(int serverIndex, int x, int y, int sprite)
         {
             if (Mobs[serverIndex] == null)
             {
-                Mobs[serverIndex] = new Mob();
+                Mobs[serverIndex] = new ClientMob();
                 Mobs[serverIndex].ServerIndex = serverIndex;
                 Mobs[serverIndex].ServerId = 0;
             }
 
-            Mob existingPlayer = Mobs[serverIndex];
+            ClientMob existingPlayer = Mobs[serverIndex];
 
             bool flag = LastPlayers
                 .Where(player => player != null) // TODO: Remove this check once it is safe
@@ -2703,7 +2713,7 @@ namespace RuneScapeSolo.Net.Client
 
         public void LoadConfig()
         {
-            EntityManager.Load();
+            entityManager.LoadContent();
 
             sbyte[] abyte1 = unpackData("filter.jag", "Chat system", 15);
             if (abyte1 == null)
@@ -2784,16 +2794,16 @@ namespace RuneScapeSolo.Net.Client
                 spellMenu.clearList(spellMenuHandle);
                 int l1 = 0;
 
-                for (int l2 = 0; l2 < EntityManager.SpellCount; l2++)
+                for (int l2 = 0; l2 < entityManager.SpellCount; l2++)
                 {
                     string s1 = "@yel@";
 
-                    for (int k4 = 0; k4 < EntityManager.GetSpell(l2).RuneCount; k4++)
+                    for (int k4 = 0; k4 < entityManager.GetSpell(l2).RuneCount; k4++)
                     {
-                        int runeItemId = EntityManager.GetSpell(l2).RequiredRunesIds[k4];
-                        int runeCount = EntityManager.GetSpell(l2).RequiredRunesCounts[k4];
+                        int runeItemId = entityManager.GetSpell(l2).RequiredRunesIds[k4];
+                        int runeCount = entityManager.GetSpell(l2).RequiredRunesCounts[k4];
 
-                        if (CombatManager.HasRequiredRunes(runeItemId, runeCount))
+                        if (combatManager.HasRequiredRunes(runeItemId, runeCount))
                         {
                             continue;
                         }
@@ -2804,12 +2814,12 @@ namespace RuneScapeSolo.Net.Client
 
                     int k5 = Skills[6].CurrentLevel;
 
-                    if (EntityManager.GetSpell(l2).RequiredLevel > k5)
+                    if (entityManager.GetSpell(l2).RequiredLevel > k5)
                     {
                         s1 = "@bla@";
                     }
 
-                    spellMenu.addListItem(spellMenuHandle, l1++, s1 + "Level " + EntityManager.GetSpell(l2).RequiredLevel + ": " + EntityManager.GetSpell(l2).Name);
+                    spellMenu.addListItem(spellMenuHandle, l1++, s1 + "Level " + entityManager.GetSpell(l2).RequiredLevel + ": " + entityManager.GetSpell(l2).Name);
                 }
 
                 spellMenu.drawMenu();
@@ -2817,18 +2827,18 @@ namespace RuneScapeSolo.Net.Client
 
                 if (l3 != -1)
                 {
-                    gameGraphics.DrawString("Level " + EntityManager.GetSpell(l3).RequiredLevel + ": " + EntityManager.GetSpell(l3).Name, l + 2, i1 + 124, 1, 0xffff00);
-                    gameGraphics.DrawString(EntityManager.GetSpell(l3).Description, l + 2, i1 + 136, 0, 0xffffff);
+                    gameGraphics.DrawString("Level " + entityManager.GetSpell(l3).RequiredLevel + ": " + entityManager.GetSpell(l3).Name, l + 2, i1 + 124, 1, 0xffff00);
+                    gameGraphics.DrawString(entityManager.GetSpell(l3).Description, l + 2, i1 + 136, 0, 0xffffff);
 
-                    for (int l4 = 0; l4 < EntityManager.GetSpell(l3).RuneCount; l4++)
+                    for (int l4 = 0; l4 < entityManager.GetSpell(l3).RuneCount; l4++)
                     {
-                        int runeItemId = EntityManager.GetSpell(l3).RequiredRunesIds[l4];
-                        gameGraphics.DrawPicture(l + 2 + l4 * 44, i1 + 150, baseItemPicture + EntityManager.GetItem(runeItemId).InventoryPicture);
-                        int i6 = InventoryManager.GetItemTotalCount(runeItemId);
-                        int runeCount = EntityManager.GetSpell(l3).RequiredRunesCounts[l4];
+                        int runeItemId = entityManager.GetSpell(l3).RequiredRunesIds[l4];
+                        gameGraphics.DrawPicture(l + 2 + l4 * 44, i1 + 150, baseItemPicture + entityManager.GetItem(runeItemId).InventoryPicture);
+                        int i6 = inventoryManager.GetItemTotalCount(runeItemId);
+                        int runeCount = entityManager.GetSpell(l3).RequiredRunesCounts[l4];
                         string s3 = "@red@";
 
-                        if (CombatManager.HasRequiredRunes(runeItemId, runeCount))
+                        if (combatManager.HasRequiredRunes(runeItemId, runeCount))
                         {
                             s3 = "@gre@";
                         }
@@ -2849,10 +2859,10 @@ namespace RuneScapeSolo.Net.Client
 
                 int prayerIndex = 0;
 
-                for (prayerIndex = 0; prayerIndex < EntityManager.PrayerCount; prayerIndex++)
+                for (prayerIndex = 0; prayerIndex < entityManager.PrayerCount; prayerIndex++)
                 {
                     string s2 = "@whi@";
-                    if (EntityManager.GetPrayer(prayerIndex).RequiredLevel > Skills[5].BaseLevel)
+                    if (entityManager.GetPrayer(prayerIndex).RequiredLevel > Skills[5].BaseLevel)
                     {
                         s2 = "@bla@";
                     }
@@ -2862,7 +2872,7 @@ namespace RuneScapeSolo.Net.Client
                         s2 = "@gre@";
                     }
 
-                    Prayer prayer = EntityManager.GetPrayer(prayerIndex);
+                    Prayer prayer = entityManager.GetPrayer(prayerIndex);
 
                     spellMenu.addListItem(spellMenuHandle, i2++, s2 + "Level " + prayer.RequiredLevel + ": " + prayer.Name);
                 }
@@ -2872,7 +2882,7 @@ namespace RuneScapeSolo.Net.Client
 
                 if (prayerIndex != -1)
                 {
-                    Prayer prayer = EntityManager.GetPrayer(prayerIndex);
+                    Prayer prayer = entityManager.GetPrayer(prayerIndex);
 
                     gameGraphics.DrawText("Level " + prayer.RequiredLevel + ": " + prayer.Name, l + c1 / 2, i1 + 130, 1, 0xffff00);
                     gameGraphics.DrawText(prayer.Description, l + c1 / 2, i1 + 145, 0, 0xffffff);
@@ -2917,19 +2927,19 @@ namespace RuneScapeSolo.Net.Client
                     {
                         int magicLevel = Skills[6].CurrentLevel;
 
-                        if (EntityManager.GetSpell(j2).RequiredLevel > magicLevel)
+                        if (entityManager.GetSpell(j2).RequiredLevel > magicLevel)
                         {
                             DisplayMessage("Your magic ability is not high enough for this spell");
                         }
                         else
                         {
                             int j4;
-                            for (j4 = 0; j4 < EntityManager.GetSpell(j2).RuneCount; j4++)
+                            for (j4 = 0; j4 < entityManager.GetSpell(j2).RuneCount; j4++)
                             {
-                                int runeItemId = EntityManager.GetSpell(j2).RequiredRunesIds[j4];
-                                int runeCount = EntityManager.GetSpell(j2).RequiredRunesCounts[j4];
+                                int runeItemId = entityManager.GetSpell(j2).RequiredRunesIds[j4];
+                                int runeCount = entityManager.GetSpell(j2).RequiredRunesCounts[j4];
 
-                                if (CombatManager.HasRequiredRunes(runeItemId, runeCount))
+                                if (combatManager.HasRequiredRunes(runeItemId, runeCount))
                                 {
                                     continue;
                                 }
@@ -2939,7 +2949,7 @@ namespace RuneScapeSolo.Net.Client
                                 break;
                             }
 
-                            if (j4 == EntityManager.GetSpell(j2).RuneCount)
+                            if (j4 == entityManager.GetSpell(j2).RuneCount)
                             {
                                 selectedSpell = j2;
                                 selectedItem = -1;
@@ -2956,7 +2966,7 @@ namespace RuneScapeSolo.Net.Client
                     {
                         int prayerLevel = Skills[5].BaseLevel;
 
-                        if (EntityManager.GetPrayer(k2).RequiredLevel > prayerLevel)
+                        if (entityManager.GetPrayer(k2).RequiredLevel > prayerLevel)
                         {
                             DisplayMessage("Your prayer ability is not high enough for this prayer");
                         }
@@ -3083,7 +3093,7 @@ namespace RuneScapeSolo.Net.Client
 
             for (int l = 0; l < PlayerCount; l++)
             {
-                Mob player = Players[l];
+                ClientMob player = Players[l];
                 int j1 = (player.WaypointCurrent + 1) % 10;
                 if (player.WaypointsEndSprite != j1)
                 {
@@ -3219,7 +3229,7 @@ namespace RuneScapeSolo.Net.Client
 
             for (int i1 = 0; i1 < NpcCount; i1++)
             {
-                Mob f2 = Npcs[i1];
+                ClientMob f2 = Npcs[i1];
                 int i2 = (f2.WaypointCurrent + 1) % 10;
                 if (f2.WaypointsEndSprite != i2)
                 {
@@ -3362,7 +3372,7 @@ namespace RuneScapeSolo.Net.Client
             }
             for (int k1 = 0; k1 < PlayerCount; k1++)
             {
-                Mob f3 = Players[k1];
+                ClientMob f3 = Players[k1];
                 if (f3.ProjectileDistance > 0)
                 {
                     f3.ProjectileDistance--;
@@ -3739,10 +3749,10 @@ namespace RuneScapeSolo.Net.Client
                         {
                             if (selectedSpell >= 0)
                             {
-                                if (EntityManager.GetSpell(selectedSpell).Type == 3)
+                                if (entityManager.GetSpell(selectedSpell).Type == 3)
                                 {
-                                    menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on";
-                                    menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(GroundItemId[index]).Name;
+                                    menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on";
+                                    menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(GroundItemId[index]).Name;
                                     menuActions[menuOptionsCount] = MenuAction.CastSpellOnGroundItem;
                                     menuActionX[menuOptionsCount] = GroundItemX[index];
                                     menuActionY[menuOptionsCount] = GroundItemY[index];
@@ -3755,7 +3765,7 @@ namespace RuneScapeSolo.Net.Client
                                 if (selectedItem >= 0)
                             {
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                                menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(GroundItemId[index]).Name;
+                                menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(GroundItemId[index]).Name;
                                 menuActions[menuOptionsCount] = MenuAction.UseItemWithGroundItem;
                                 menuActionX[menuOptionsCount] = GroundItemX[index];
                                 menuActionY[menuOptionsCount] = GroundItemY[index];
@@ -3766,14 +3776,14 @@ namespace RuneScapeSolo.Net.Client
                             else
                             {
                                 menuText1[menuOptionsCount] = "Take";
-                                menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(GroundItemId[index]).Name;
+                                menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(GroundItemId[index]).Name;
                                 menuActions[menuOptionsCount] = MenuAction.TakeItem;
                                 menuActionX[menuOptionsCount] = GroundItemX[index];
                                 menuActionY[menuOptionsCount] = GroundItemY[index];
                                 menuActionType[menuOptionsCount] = GroundItemId[index];
                                 menuOptionsCount++;
                                 menuText1[menuOptionsCount] = "Examine";
-                                menuText2[menuOptionsCount] = "@lre@" + EntityManager.GetItem(GroundItemId[index]).Name;
+                                menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(GroundItemId[index]).Name;
                                 menuActions[menuOptionsCount] = MenuAction.ExamineGroundItem;
                                 menuActionType[menuOptionsCount] = GroundItemId[index];
                                 menuOptionsCount++;
@@ -3784,9 +3794,9 @@ namespace RuneScapeSolo.Net.Client
                             string s2 = "";
                             int l4 = -1;
                             int id = Npcs[index].npcId;
-                            if (EntityManager.GetNpc(id).IsAttackable > 0)
+                            if (entityManager.GetNpc(id).IsAttackable > 0)
                             {
-                                int j5 = (EntityManager.GetNpc(id).AttackLevel + EntityManager.GetNpc(id).DefenceLevel + EntityManager.GetNpc(id).StrengthLevel + EntityManager.GetNpc(id).HealthLevel) / 4;
+                                int j5 = (entityManager.GetNpc(id).AttackLevel + entityManager.GetNpc(id).DefenceLevel + entityManager.GetNpc(id).StrengthLevel + entityManager.GetNpc(id).HealthLevel) / 4;
                                 int k5 = (Skills[0].BaseLevel + Skills[1].BaseLevel + Skills[2].BaseLevel + Skills[3].BaseLevel + 27) / 4;
                                 l4 = k5 - j5;
                                 s2 = "@yel@";
@@ -3834,10 +3844,10 @@ namespace RuneScapeSolo.Net.Client
                             }
                             if (selectedSpell >= 0)
                             {
-                                if (EntityManager.GetSpell(selectedSpell).Type == 2)
+                                if (entityManager.GetSpell(selectedSpell).Type == 2)
                                 {
-                                    menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on";
-                                    menuText2[menuOptionsCount] = "@yel@" + EntityManager.GetNpc(Npcs[index].npcId).Name;
+                                    menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on";
+                                    menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
                                     menuActions[menuOptionsCount] = MenuAction.CastSpellOnNpc;
                                     menuActionX[menuOptionsCount] = Npcs[index].currentX;
                                     menuActionY[menuOptionsCount] = Npcs[index].currentY;
@@ -3850,7 +3860,7 @@ namespace RuneScapeSolo.Net.Client
                                 if (selectedItem >= 0)
                             {
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                                menuText2[menuOptionsCount] = "@yel@" + EntityManager.GetNpc(Npcs[index].npcId).Name;
+                                menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
                                 menuActions[menuOptionsCount] = MenuAction.UseItemWithNpc;
                                 menuActionX[menuOptionsCount] = Npcs[index].currentX;
                                 menuActionY[menuOptionsCount] = Npcs[index].currentY;
@@ -3860,10 +3870,10 @@ namespace RuneScapeSolo.Net.Client
                             }
                             else
                             {
-                                if (EntityManager.GetNpc(id).IsAttackable > 0)
+                                if (entityManager.GetNpc(id).IsAttackable > 0)
                                 {
                                     menuText1[menuOptionsCount] = "Attack";
-                                    menuText2[menuOptionsCount] = "@yel@" + EntityManager.GetNpc(Npcs[index].npcId).Name + s2;
+                                    menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name + s2;
                                     if (l4 >= 0)
                                     {
                                         menuActions[menuOptionsCount] = MenuAction.AttackNpc;
@@ -3879,16 +3889,16 @@ namespace RuneScapeSolo.Net.Client
                                     menuOptionsCount++;
                                 }
                                 menuText1[menuOptionsCount] = "Talk-to";
-                                menuText2[menuOptionsCount] = "@yel@" + EntityManager.GetNpc(Npcs[index].npcId).Name;
+                                menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
                                 menuActions[menuOptionsCount] = MenuAction.TalkToNpc;
                                 menuActionX[menuOptionsCount] = Npcs[index].currentX;
                                 menuActionY[menuOptionsCount] = Npcs[index].currentY;
                                 menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
                                 menuOptionsCount++;
-                                if (!EntityManager.GetNpc(id).Command.Equals(""))
+                                if (!entityManager.GetNpc(id).Command.Equals(""))
                                 {
-                                    menuText1[menuOptionsCount] = EntityManager.GetNpc(id).Command;
-                                    menuText2[menuOptionsCount] = "@yel@" + EntityManager.GetNpc(Npcs[index].npcId).Name;
+                                    menuText1[menuOptionsCount] = entityManager.GetNpc(id).Command;
+                                    menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
                                     menuActions[menuOptionsCount] = MenuAction.CommandOnNpc;
                                     menuActionX[menuOptionsCount] = Npcs[index].currentX;
                                     menuActionY[menuOptionsCount] = Npcs[index].currentY;
@@ -3896,7 +3906,7 @@ namespace RuneScapeSolo.Net.Client
                                     menuOptionsCount++;
                                 }
                                 menuText1[menuOptionsCount] = "Examine";
-                                menuText2[menuOptionsCount] = "@yel@" + EntityManager.GetNpc(Npcs[index].npcId).Name;
+                                menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
                                 menuActions[menuOptionsCount] = MenuAction.ExamineNpc;
                                 menuActionType[menuOptionsCount] = Npcs[index].npcId;
                                 menuOptionsCount++;
@@ -3912,10 +3922,10 @@ namespace RuneScapeSolo.Net.Client
                         {
                             if (selectedSpell >= 0)
                             {
-                                if (EntityManager.GetSpell(selectedSpell).Type == 4)
+                                if (entityManager.GetSpell(selectedSpell).Type == 4)
                                 {
-                                    menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on";
-                                    menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWallObject(i4).Name;
+                                    menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on";
+                                    menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWallObject(i4).Name;
                                     menuActions[menuOptionsCount] = MenuAction.CastSpellOnWallObject;
                                     menuActionX[menuOptionsCount] = WallObjectX[j3];
                                     menuActionY[menuOptionsCount] = WallObjectY[j3];
@@ -3927,7 +3937,7 @@ namespace RuneScapeSolo.Net.Client
                             else if (selectedItem >= 0)
                             {
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                                menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWallObject(i4).Name;
+                                menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWallObject(i4).Name;
                                 menuActions[menuOptionsCount] = MenuAction.UseItemWithWallObject;
                                 menuActionX[menuOptionsCount] = WallObjectX[j3];
                                 menuActionY[menuOptionsCount] = WallObjectY[j3];
@@ -3937,20 +3947,20 @@ namespace RuneScapeSolo.Net.Client
                             }
                             else
                             {
-                                if (!EntityManager.GetWallObject(i4).Command1.ToLower().Equals("WalkTo"))
+                                if (!entityManager.GetWallObject(i4).Command1.ToLower().Equals("WalkTo"))
                                 {
-                                    menuText1[menuOptionsCount] = EntityManager.GetWallObject(i4).Command1;
-                                    menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWallObject(i4).Name;
+                                    menuText1[menuOptionsCount] = entityManager.GetWallObject(i4).Command1;
+                                    menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWallObject(i4).Name;
                                     menuActions[menuOptionsCount] = MenuAction.Command1OnWallObject;
                                     menuActionX[menuOptionsCount] = WallObjectX[j3];
                                     menuActionY[menuOptionsCount] = WallObjectY[j3];
                                     menuActionType[menuOptionsCount] = WallObjectDirection[j3];
                                     menuOptionsCount++;
                                 }
-                                if (!EntityManager.GetWallObject(i4).Command2.ToLower().Equals("Examine"))
+                                if (!entityManager.GetWallObject(i4).Command2.ToLower().Equals("Examine"))
                                 {
-                                    menuText1[menuOptionsCount] = EntityManager.GetWallObject(i4).Command2;
-                                    menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWallObject(i4).Name;
+                                    menuText1[menuOptionsCount] = entityManager.GetWallObject(i4).Command2;
+                                    menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWallObject(i4).Name;
                                     menuActions[menuOptionsCount] = MenuAction.Command2OnWallObject;
                                     menuActionX[menuOptionsCount] = WallObjectX[j3];
                                     menuActionY[menuOptionsCount] = WallObjectY[j3];
@@ -3959,7 +3969,7 @@ namespace RuneScapeSolo.Net.Client
                                 }
 
                                 menuText1[menuOptionsCount] = "Examine";
-                                menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWallObject(i4).Name;
+                                menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWallObject(i4).Name;
                                 menuActions[menuOptionsCount] = MenuAction.ExamineWallObject;
                                 menuActionType[menuOptionsCount] = i4;
                                 menuOptionsCount++;
@@ -3976,10 +3986,10 @@ namespace RuneScapeSolo.Net.Client
                         {
                             if (selectedSpell >= 0)
                             {
-                                if (EntityManager.GetSpell(selectedSpell).Type == 5)
+                                if (entityManager.GetSpell(selectedSpell).Type == 5)
                                 {
-                                    menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on";
-                                    menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWorldObject(j4).Name;
+                                    menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on";
+                                    menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWorldObject(j4).Name;
                                     menuActions[menuOptionsCount] = MenuAction.CastSpellOnModel;
                                     menuActionX[menuOptionsCount] = ObjectX[k3];
                                     menuActionY[menuOptionsCount] = ObjectY[k3];
@@ -3993,7 +4003,7 @@ namespace RuneScapeSolo.Net.Client
                                 if (selectedItem >= 0)
                             {
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                                menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWorldObject(j4).Name;
+                                menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWorldObject(j4).Name;
                                 menuActions[menuOptionsCount] = MenuAction.UseItemWithModel;
                                 menuActionX[menuOptionsCount] = ObjectX[k3];
                                 menuActionY[menuOptionsCount] = ObjectY[k3];
@@ -4004,10 +4014,10 @@ namespace RuneScapeSolo.Net.Client
                             }
                             else
                             {
-                                if (!EntityManager.GetWorldObject(j4).Command1.ToLower().Equals("WalkTo"))
+                                if (!entityManager.GetWorldObject(j4).Command1.ToLower().Equals("WalkTo"))
                                 {
-                                    menuText1[menuOptionsCount] = EntityManager.GetWorldObject(j4).Command1;
-                                    menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWorldObject(j4).Name;
+                                    menuText1[menuOptionsCount] = entityManager.GetWorldObject(j4).Command1;
+                                    menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWorldObject(j4).Name;
                                     menuActions[menuOptionsCount] = MenuAction.Command1OnModel;
                                     menuActionX[menuOptionsCount] = ObjectX[k3];
                                     menuActionY[menuOptionsCount] = ObjectY[k3];
@@ -4015,10 +4025,10 @@ namespace RuneScapeSolo.Net.Client
                                     menuActionVar1[menuOptionsCount] = ObjectType[k3];
                                     menuOptionsCount++;
                                 }
-                                if (!EntityManager.GetWorldObject(j4).Command2.ToLower().Equals("Examine"))
+                                if (!entityManager.GetWorldObject(j4).Command2.ToLower().Equals("Examine"))
                                 {
-                                    menuText1[menuOptionsCount] = EntityManager.GetWorldObject(j4).Command2;
-                                    menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWorldObject(j4).Name;
+                                    menuText1[menuOptionsCount] = entityManager.GetWorldObject(j4).Command2;
+                                    menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWorldObject(j4).Name;
                                     menuActions[menuOptionsCount] = MenuAction.Command2OnModel;
                                     menuActionX[menuOptionsCount] = ObjectX[k3];
                                     menuActionY[menuOptionsCount] = ObjectY[k3];
@@ -4027,7 +4037,7 @@ namespace RuneScapeSolo.Net.Client
                                     menuOptionsCount++;
                                 }
                                 menuText1[menuOptionsCount] = "Examine";
-                                menuText2[menuOptionsCount] = "@cya@" + EntityManager.GetWorldObject(j4).Name;
+                                menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWorldObject(j4).Name;
                                 menuActions[menuOptionsCount] = MenuAction.ExamineModel;
                                 menuActionType[menuOptionsCount] = j4;
                                 menuOptionsCount++;
@@ -4050,9 +4060,9 @@ namespace RuneScapeSolo.Net.Client
                 }
             }
 
-            if (selectedSpell >= 0 && EntityManager.GetSpell(selectedSpell).Type <= 1)
+            if (selectedSpell >= 0 && entityManager.GetSpell(selectedSpell).Type <= 1)
             {
-                menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on self";
+                menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on self";
                 menuText2[menuOptionsCount] = "";
                 menuActions[menuOptionsCount] = MenuAction.CastSpellOnSelf;
                 menuActionType[menuOptionsCount] = selectedSpell;
@@ -4062,9 +4072,9 @@ namespace RuneScapeSolo.Net.Client
             {
                 if (selectedSpell >= 0)
                 {
-                    if (EntityManager.GetSpell(selectedSpell).Type == 6)
+                    if (entityManager.GetSpell(selectedSpell).Type == 6)
                     {
-                        menuText1[menuOptionsCount] = "Cast " + EntityManager.GetSpell(selectedSpell).Name + " on ground";
+                        menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on ground";
                         menuText2[menuOptionsCount] = "";
                         menuActions[menuOptionsCount] = MenuAction.CastSpellOnGround;
                         menuActionX[menuOptionsCount] = engineHandle.selectedX[ground];
@@ -4125,7 +4135,7 @@ namespace RuneScapeSolo.Net.Client
                                 StreamClass.AddInt32(shopItemBuyPrice[selectedShopItemIndex]);
                                 StreamClass.FormatPacket();
                             }
-                            if (InventoryManager.GetItemTotalCount(itemIde) > 0 && l > 2 && i1 >= 229 && l < 112 && i1 <= 240)
+                            if (inventoryManager.GetItemTotalCount(itemIde) > 0 && l > 2 && i1 >= 229 && l < 112 && i1 <= 240)
                             {
                                 StreamClass.CreatePacket(255);
                                 StreamClass.AddInt16(shopItems[selectedShopItemIndex]);
@@ -4161,7 +4171,7 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.DrawLabel("Close window", _offsetX + 406, _offsetY + 10, 1, i2);
             gameGraphics.DrawString("Shops stock in green", _offsetX + 2, _offsetY + 24, 1, 65280);
             gameGraphics.DrawString("Number you own in blue", _offsetX + 135, _offsetY + 24, 1, 65535);
-            gameGraphics.DrawString("Your money: " + InventoryManager.GetItemTotalCount(10) + "gp", _offsetX + 280, _offsetY + 24, 1, 0xffff00);
+            gameGraphics.DrawString("Your money: " + inventoryManager.GetItemTotalCount(10) + "gp", _offsetX + 280, _offsetY + 24, 1, 0xffff00);
             int j3 = 0xd0d0d0;
             int j4 = 0;
             for (int boxRow = 0; boxRow < 5; boxRow++)
@@ -4182,9 +4192,9 @@ namespace RuneScapeSolo.Net.Client
                     gameGraphics.DrawBoxEdge(i6, l6, 50, 35, 0);
                     if (shopItems[j4] != -1)
                     {
-                        gameGraphics.DrawImage(i6, l6, 48, 32, baseItemPicture + EntityManager.GetItem(shopItems[j4]).InventoryPicture, EntityManager.GetItem(shopItems[j4]).PictureMask, 0, 0, false);
+                        gameGraphics.DrawImage(i6, l6, 48, 32, baseItemPicture + entityManager.GetItem(shopItems[j4]).InventoryPicture, entityManager.GetItem(shopItems[j4]).PictureMask, 0, 0, false);
                         gameGraphics.DrawString(shopItemCount[j4].ToString(), i6 + 1, l6 + 10, 1, 65280);
-                        gameGraphics.DrawLabel(InventoryManager.GetItemTotalCount(shopItems[j4]).ToString(), i6 + 47, l6 + 10, 1, 65535);
+                        gameGraphics.DrawLabel(inventoryManager.GetItemTotalCount(shopItems[j4]).ToString(), i6 + 47, l6 + 10, 1, 65535);
                     }
                     j4++;
                 }
@@ -4208,8 +4218,8 @@ namespace RuneScapeSolo.Net.Client
                         j6 = 10;
                     }
 
-                    int i7 = (j6 * EntityManager.GetItem(itemId).BasePrice) / 100;
-                    gameGraphics.DrawString("Buy a new " + EntityManager.GetItem(itemId).Name + " for " + i7 + "gp", _offsetX + 2, _offsetY + 214, 1, 0xffff00);
+                    int i7 = (j6 * entityManager.GetItem(itemId).BasePrice) / 100;
+                    gameGraphics.DrawString("Buy a new " + entityManager.GetItem(itemId).Name + " for " + i7 + "gp", _offsetX + 2, _offsetY + 214, 1, 0xffff00);
                     int j2 = 0xffffff;
                     if (InputManager.Instance.MouseLocation.X > _offsetX + 298 && InputManager.Instance.MouseLocation.Y >= _offsetY + 204 && InputManager.Instance.MouseLocation.X < _offsetX + 408 && InputManager.Instance.MouseLocation.Y <= _offsetY + 215)
                     {
@@ -4223,7 +4233,7 @@ namespace RuneScapeSolo.Net.Client
                     gameGraphics.DrawText("This item is not currently available to buy", _offsetX + 204, _offsetY + 214, 3, 0xffff00);
                 }
 
-                if (InventoryManager.GetItemTotalCount(itemId) > 0)
+                if (inventoryManager.GetItemTotalCount(itemId) > 0)
                 {
                     int k6 = shopItemSellPriceModifier + shopItemBasePriceModifier[selectedShopItemIndex];
                     if (k6 < 10)
@@ -4231,8 +4241,8 @@ namespace RuneScapeSolo.Net.Client
                         k6 = 10;
                     }
 
-                    int j7 = (k6 * EntityManager.GetItem(itemId).BasePrice) / 100;
-                    gameGraphics.DrawLabel("Sell your " + EntityManager.GetItem(itemId).Name + " for " + j7 + "gp", _offsetX + 405, _offsetY + 239, 1, 0xffff00);
+                    int j7 = (k6 * entityManager.GetItem(itemId).BasePrice) / 100;
+                    gameGraphics.DrawLabel("Sell your " + entityManager.GetItem(itemId).Name + " for " + j7 + "gp", _offsetX + 405, _offsetY + 239, 1, 0xffff00);
                     int k2 = 0xffffff;
                     if (InputManager.Instance.MouseLocation.X > _offsetX + 2 && InputManager.Instance.MouseLocation.Y >= _offsetY + 229 && InputManager.Instance.MouseLocation.X < _offsetX + 112 && InputManager.Instance.MouseLocation.Y <= _offsetY + 240)
                     {
@@ -4255,16 +4265,16 @@ namespace RuneScapeSolo.Net.Client
                 return;
             }
             sbyte[] abyte1 = DataOperations.loadData("index.dat", 0, abyte0);
-            gameCamera.createTexture(EntityManager.TextureCount, 7, 11);
-            for (int l = 0; l < EntityManager.TextureCount; l++)
+            gameCamera.createTexture(entityManager.TextureCount, 7, 11);
+            for (int l = 0; l < entityManager.TextureCount; l++)
             {
-                string s1 = EntityManager.GetTexture(l).Name;
+                string s1 = entityManager.GetTexture(l).Name;
                 sbyte[] abyte2 = DataOperations.loadData(s1 + ".dat", 0, abyte0);
                 gameGraphics.unpackImageData(baseTexturePic, abyte2, abyte1, 1);
                 gameGraphics.DrawBox(0, 0, 128, 128, 0xff00ff);
                 gameGraphics.DrawPicture(0, 0, baseTexturePic);
                 int i1 = gameGraphics.pictureAssumedWidth[baseTexturePic];
-                string s2 = EntityManager.GetTexture(l).SubName;
+                string s2 = entityManager.GetTexture(l).SubName;
                 if (s2 != null && s2.Length > 0)
                 {
                     sbyte[] abyte3 = DataOperations.loadData(s2 + ".dat", 0, abyte0);
@@ -4294,15 +4304,15 @@ namespace RuneScapeSolo.Net.Client
             int i1 = 50;
             l += 116;
             i1 -= 25;
-            gameGraphics.drawCharacterLegs(l - 32 - 55, i1, 64, 102, EntityManager.GetAnimation(appearance2Colour).Number, appearanceTopBottomColours[appearanceBottomColour]);
-            gameGraphics.DrawImage(l - 32 - 55, i1, 64, 102, EntityManager.GetAnimation(appearanceBodyGender).Number, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.DrawImage(l - 32 - 55, i1, 64, 102, EntityManager.GetAnimation(appearanceHeadType).Number, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.drawCharacterLegs(l - 32, i1, 64, 102, EntityManager.GetAnimation(appearance2Colour).Number + 6, appearanceTopBottomColours[appearanceBottomColour]);
-            gameGraphics.DrawImage(l - 32, i1, 64, 102, EntityManager.GetAnimation(appearanceBodyGender).Number + 6, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.DrawImage(l - 32, i1, 64, 102, EntityManager.GetAnimation(appearanceHeadType).Number + 6, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.drawCharacterLegs((l - 32) + 55, i1, 64, 102, EntityManager.GetAnimation(appearance2Colour).Number + 12, appearanceTopBottomColours[appearanceBottomColour]);
-            gameGraphics.DrawImage((l - 32) + 55, i1, 64, 102, EntityManager.GetAnimation(appearanceBodyGender).Number + 12, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.DrawImage((l - 32) + 55, i1, 64, 102, EntityManager.GetAnimation(appearanceHeadType).Number + 12, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.drawCharacterLegs(l - 32 - 55, i1, 64, 102, entityManager.GetAnimation(appearance2Colour).Number, appearanceTopBottomColours[appearanceBottomColour]);
+            gameGraphics.DrawImage(l - 32 - 55, i1, 64, 102, entityManager.GetAnimation(appearanceBodyGender).Number, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.DrawImage(l - 32 - 55, i1, 64, 102, entityManager.GetAnimation(appearanceHeadType).Number, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.drawCharacterLegs(l - 32, i1, 64, 102, entityManager.GetAnimation(appearance2Colour).Number + 6, appearanceTopBottomColours[appearanceBottomColour]);
+            gameGraphics.DrawImage(l - 32, i1, 64, 102, entityManager.GetAnimation(appearanceBodyGender).Number + 6, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.DrawImage(l - 32, i1, 64, 102, entityManager.GetAnimation(appearanceHeadType).Number + 6, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.drawCharacterLegs((l - 32) + 55, i1, 64, 102, entityManager.GetAnimation(appearance2Colour).Number + 12, appearanceTopBottomColours[appearanceBottomColour]);
+            gameGraphics.DrawImage((l - 32) + 55, i1, 64, 102, entityManager.GetAnimation(appearanceBodyGender).Number + 12, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.DrawImage((l - 32) + 55, i1, 64, 102, entityManager.GetAnimation(appearanceHeadType).Number + 12, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
             gameGraphics.DrawPicture(0, WindowSize.Height, baseInventoryPic + 22);
 
             OnDrawDone();
@@ -4558,7 +4568,7 @@ namespace RuneScapeSolo.Net.Client
             drawUpdatesPerformed = 0;
             for (int l1 = 0; l1 < PlayerCount; l1++)
             {
-                Mob player = Players[l1];
+                ClientMob player = Players[l1];
                 if (player.Appearance.TrousersColour != 255)
                 {
                     int j2 = player.currentX;
@@ -4585,10 +4595,10 @@ namespace RuneScapeSolo.Net.Client
 
             for (int i2 = 0; i2 < PlayerCount; i2++)
             {
-                Mob player = Players[i2];
+                ClientMob player = Players[i2];
                 if (player.ProjectileDistance > 0)
                 {
-                    Mob targetMob = null;
+                    ClientMob targetMob = null;
                     if (player.AttackingNpcIndex != -1)
                     {
                         targetMob = NpcAttackingArray[player.AttackingNpcIndex];
@@ -4605,7 +4615,7 @@ namespace RuneScapeSolo.Net.Client
                         int k7 = -engineHandle.getAveragedElevation(k3, l4) - 110;
                         int k9 = targetMob.currentX;
                         int j10 = targetMob.currentY;
-                        int k10 = -engineHandle.getAveragedElevation(k9, j10) - EntityManager.GetNpc(targetMob.npcId).Camera2 / 2;
+                        int k10 = -engineHandle.getAveragedElevation(k9, j10) - entityManager.GetNpc(targetMob.npcId).Camera2 / 2;
                         int l10 = (k3 * player.ProjectileDistance + k9 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
                         int i11 = (k7 * player.ProjectileDistance + k10 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
                         int j11 = (l4 * player.ProjectileDistance + j10 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
@@ -4617,11 +4627,11 @@ namespace RuneScapeSolo.Net.Client
 
             for (int k2 = 0; k2 < NpcCount; k2++)
             {
-                Mob npc = Npcs[k2];
+                ClientMob npc = Npcs[k2];
                 int x1 = npc.currentX;
                 int z1 = npc.currentY;
                 int y1 = -engineHandle.getAveragedElevation(x1, z1);
-                int l9 = gameCamera.addSpriteToScene(20000 + k2, x1, y1, z1, EntityManager.GetNpc(npc.npcId).Camera1, EntityManager.GetNpc(npc.npcId).Camera2, k2 + 30000);
+                int l9 = gameCamera.addSpriteToScene(20000 + k2, x1, y1, z1, entityManager.GetNpc(npc.npcId).Camera1, entityManager.GetNpc(npc.npcId).Camera2, k2 + 30000);
                 drawUpdatesPerformed++;
                 if (npc.currentSprite == 8)
                 {
@@ -4863,26 +4873,26 @@ namespace RuneScapeSolo.Net.Client
 
         public void LoadModels()
         {
-            EntityManager.GetModelIndex("torcha2");
-            EntityManager.GetModelIndex("torcha3");
-            EntityManager.GetModelIndex("torcha4");
-            EntityManager.GetModelIndex("skulltorcha2");
-            EntityManager.GetModelIndex("skulltorcha3");
-            EntityManager.GetModelIndex("skulltorcha4");
-            EntityManager.GetModelIndex("firea2");
-            EntityManager.GetModelIndex("firea3");
-            EntityManager.GetModelIndex("fireplacea2");
-            EntityManager.GetModelIndex("fireplacea3");
-            EntityManager.GetModelIndex("firespell2");
-            EntityManager.GetModelIndex("firespell3");
-            EntityManager.GetModelIndex("lightning2");
-            EntityManager.GetModelIndex("lightning3");
-            EntityManager.GetModelIndex("clawspell2");
-            EntityManager.GetModelIndex("clawspell3");
-            EntityManager.GetModelIndex("clawspell4");
-            EntityManager.GetModelIndex("clawspell5");
-            EntityManager.GetModelIndex("spellcharge2");
-            EntityManager.GetModelIndex("spellcharge3");
+            entityManager.GetModelIndex("torcha2");
+            entityManager.GetModelIndex("torcha3");
+            entityManager.GetModelIndex("torcha4");
+            entityManager.GetModelIndex("skulltorcha2");
+            entityManager.GetModelIndex("skulltorcha3");
+            entityManager.GetModelIndex("skulltorcha4");
+            entityManager.GetModelIndex("firea2");
+            entityManager.GetModelIndex("firea3");
+            entityManager.GetModelIndex("fireplacea2");
+            entityManager.GetModelIndex("fireplacea3");
+            entityManager.GetModelIndex("firespell2");
+            entityManager.GetModelIndex("firespell3");
+            entityManager.GetModelIndex("lightning2");
+            entityManager.GetModelIndex("lightning3");
+            entityManager.GetModelIndex("clawspell2");
+            entityManager.GetModelIndex("clawspell3");
+            entityManager.GetModelIndex("clawspell4");
+            entityManager.GetModelIndex("clawspell5");
+            entityManager.GetModelIndex("spellcharge2");
+            entityManager.GetModelIndex("spellcharge3");
 
             sbyte[] models = unpackData("models.jag", "3d models", 60);
 
@@ -4892,11 +4902,11 @@ namespace RuneScapeSolo.Net.Client
                 return;
             }
 
-            for (int i = 0; i < EntityManager.ObjectModelCount; i++)
+            for (int i = 0; i < entityManager.ObjectModelCount; i++)
             {
                 try
                 {
-                    long objectOffset = DataOperations.getObjectOffset(EntityManager.GetObjectModelName(i) + ".ob3", models);
+                    long objectOffset = DataOperations.getObjectOffset(entityManager.GetObjectModelName(i) + ".ob3", models);
 
                     if (objectOffset != 0)
                     {
@@ -4907,7 +4917,7 @@ namespace RuneScapeSolo.Net.Client
                         GameDataObjects[i] = new ObjectModel(1, 1);
                     }
 
-                    if (EntityManager.GetObjectModelName(i).Equals("giantcrystal"))
+                    if (entityManager.GetObjectModelName(i).Equals("giantcrystal"))
                     {
                         GameDataObjects[i].isGiantCrystal = true;
                     }
@@ -4922,7 +4932,7 @@ namespace RuneScapeSolo.Net.Client
 
         public void DrawNpc(int x, int y, int width, int height, int index, int unknown1, int unknown2)
         {
-            Mob npc = Npcs[index];
+            ClientMob npc = Npcs[index];
             int frameIndex = npc.currentSprite + (cameraRotation + 16) / 32 & 7;
             bool flag = false;
             int newFrameIndex = frameIndex;
@@ -4941,14 +4951,14 @@ namespace RuneScapeSolo.Net.Client
                 newFrameIndex = 1;
                 flag = true;
             }
-            int j1 = newFrameIndex * 3 + walkModel[(npc.stepCount / EntityManager.GetNpc(npc.npcId).WalkModel) % 4];
+            int j1 = newFrameIndex * 3 + walkModel[(npc.stepCount / entityManager.GetNpc(npc.npcId).WalkModel) % 4];
             if (npc.currentSprite == 8)
             {
                 newFrameIndex = 5;
                 frameIndex = 2;
                 flag = false;
-                x -= (EntityManager.GetNpc(npc.npcId).CombatSprite * unknown2) / 100;
-                j1 = newFrameIndex * 3 + combatModelArray1[(tick / (EntityManager.GetNpc(npc.npcId).CombatModel - 1)) % 8];
+                x -= (entityManager.GetNpc(npc.npcId).CombatSprite * unknown2) / 100;
+                j1 = newFrameIndex * 3 + combatModelArray1[(tick / (entityManager.GetNpc(npc.npcId).CombatModel - 1)) % 8];
             }
             else
                 if (npc.currentSprite == 9)
@@ -4956,14 +4966,14 @@ namespace RuneScapeSolo.Net.Client
                 newFrameIndex = 5;
                 frameIndex = 2;
                 flag = true;
-                x += (EntityManager.GetNpc(npc.npcId).CombatSprite * unknown2) / 100;
-                j1 = newFrameIndex * 3 + combatModelArray2[(tick / EntityManager.GetNpc(npc.npcId).CombatModel) % 8];
+                x += (entityManager.GetNpc(npc.npcId).CombatSprite * unknown2) / 100;
+                j1 = newFrameIndex * 3 + combatModelArray2[(tick / entityManager.GetNpc(npc.npcId).CombatModel) % 8];
             }
 
             for (int k1 = 0; k1 < 12; k1++)
             {
                 int l1 = animationModelArray[frameIndex][k1];
-                int k2 = EntityManager.GetNpc(npc.npcId).Sprites[l1];
+                int k2 = entityManager.GetNpc(npc.npcId).Sprites[l1];
 
                 if (k2 >= 0)
                 {
@@ -4971,35 +4981,35 @@ namespace RuneScapeSolo.Net.Client
                     int j3 = 0;
                     int k3 = j1;
 
-                    if (flag && newFrameIndex >= 1 && newFrameIndex <= 3 && EntityManager.GetAnimation(k2).HasF == 1)
+                    if (flag && newFrameIndex >= 1 && newFrameIndex <= 3 && entityManager.GetAnimation(k2).HasF == 1)
                     {
                         k3 += 15;
                     }
 
-                    if (newFrameIndex != 5 || EntityManager.GetAnimation(k2).HasA == 1)
+                    if (newFrameIndex != 5 || entityManager.GetAnimation(k2).HasA == 1)
                     {
-                        int l3 = k3 + EntityManager.GetAnimation(k2).Number;
+                        int l3 = k3 + entityManager.GetAnimation(k2).Number;
                         i3 = (i3 * width) / gameGraphics.pictureAssumedWidth[l3];
                         j3 = (j3 * height) / gameGraphics.pictureAssumedHeight[l3];
-                        int i4 = (width * gameGraphics.pictureAssumedWidth[l3]) / gameGraphics.pictureAssumedWidth[EntityManager.GetAnimation(k2).Number];
+                        int i4 = (width * gameGraphics.pictureAssumedWidth[l3]) / gameGraphics.pictureAssumedWidth[entityManager.GetAnimation(k2).Number];
                         i3 -= (i4 - width) / 2;
-                        int j4 = EntityManager.GetAnimation(k2).CharacterColour;
+                        int j4 = entityManager.GetAnimation(k2).CharacterColour;
                         int k4 = 0;
 
                         if (j4 == 1)
                         {
-                            j4 = EntityManager.GetNpc(npc.npcId).Appearance.HairColour;
-                            k4 = EntityManager.GetNpc(npc.npcId).Appearance.SkinColour;
+                            j4 = entityManager.GetNpc(npc.npcId).Appearance.HairColour;
+                            k4 = entityManager.GetNpc(npc.npcId).Appearance.SkinColour;
                         }
                         else if (j4 == 2)
                         {
-                            j4 = EntityManager.GetNpc(npc.npcId).Appearance.TopColour;
-                            k4 = EntityManager.GetNpc(npc.npcId).Appearance.SkinColour;
+                            j4 = entityManager.GetNpc(npc.npcId).Appearance.TopColour;
+                            k4 = entityManager.GetNpc(npc.npcId).Appearance.SkinColour;
                         }
                         else if (j4 == 3)
                         {
-                            j4 = EntityManager.GetNpc(npc.npcId).Appearance.TrousersColour;
-                            k4 = EntityManager.GetNpc(npc.npcId).Appearance.SkinColour;
+                            j4 = entityManager.GetNpc(npc.npcId).Appearance.TrousersColour;
+                            k4 = entityManager.GetNpc(npc.npcId).Appearance.SkinColour;
                         }
 
                         gameGraphics.DrawImage(x + i3, y + j3, i4, height, l3, j4, k4, unknown1, flag);
@@ -5102,7 +5112,7 @@ namespace RuneScapeSolo.Net.Client
                 gameGraphics.DrawImageTransparent(x - width / 2, j5, width, height, baseInventoryPic + 9, 85);
                 int k5 = (36 * scale) / 100;
                 int l5 = (24 * scale) / 100;
-                gameGraphics.DrawImage(x - k5 / 2, (j5 + height / 2) - l5 / 2, k5, l5, EntityManager.GetItem(id).InventoryPicture + baseItemPicture, EntityManager.GetItem(id).PictureMask, 0, 0, false);
+                gameGraphics.DrawImage(x - k5 / 2, (j5 + height / 2) - l5 / 2, k5, l5, entityManager.GetItem(id).InventoryPicture + baseItemPicture, entityManager.GetItem(id).PictureMask, 0, 0, false);
             }
 
             for (int i2 = 0; i2 < healthBarVisibleCount; i2++)
@@ -5120,27 +5130,27 @@ namespace RuneScapeSolo.Net.Client
         {
             char c1 = '\u0198';
             char c2 = '\u014E';
-            if (bankPage > 0 && InventoryManager.bankItemsCount <= 48)
+            if (bankPage > 0 && inventoryManager.bankItemsCount <= 48)
             {
                 bankPage = 0;
             }
 
-            if (bankPage > 1 && InventoryManager.bankItemsCount <= 96)
+            if (bankPage > 1 && inventoryManager.bankItemsCount <= 96)
             {
                 bankPage = 1;
             }
 
-            if (bankPage > 2 && InventoryManager.bankItemsCount <= 144)
+            if (bankPage > 2 && inventoryManager.bankItemsCount <= 144)
             {
                 bankPage = 2;
             }
 
-            if (selectedBankItem >= InventoryManager.bankItemsCount || selectedBankItem < 0)
+            if (selectedBankItem >= inventoryManager.bankItemsCount || selectedBankItem < 0)
             {
                 selectedBankItem = -1;
             }
 
-            if (selectedBankItem != -1 && InventoryManager.bankItems[selectedBankItem] != selectedBankItemType)
+            if (selectedBankItem != -1 && inventoryManager.bankItems[selectedBankItem] != selectedBankItemType)
             {
                 selectedBankItem = -1;
                 selectedBankItemType = -2;
@@ -5159,9 +5169,9 @@ namespace RuneScapeSolo.Net.Client
                         {
                             int k7 = 7 + i3 * 49;
                             int i8 = 28 + k2 * 34;
-                            if (l > k7 && l < k7 + 49 && j1 > i8 && j1 < i8 + 34 && l1 < InventoryManager.bankItemsCount && InventoryManager.bankItems[l1] != -1)
+                            if (l > k7 && l < k7 + 49 && j1 > i8 && j1 < i8 + 34 && l1 < inventoryManager.bankItemsCount && inventoryManager.bankItems[l1] != -1)
                             {
-                                selectedBankItemType = InventoryManager.bankItems[l1];
+                                selectedBankItemType = inventoryManager.bankItems[l1];
                                 selectedBankItem = l1;
                             }
                             l1++;
@@ -5178,13 +5188,13 @@ namespace RuneScapeSolo.Net.Client
                     }
                     else
                     {
-                        id = InventoryManager.bankItems[selectedBankItem];
+                        id = inventoryManager.bankItems[selectedBankItem];
                     }
 
                     if (id != -1)
                     {
-                        int count = InventoryManager.bankItemCount[selectedBankItem];
-                        if (EntityManager.GetItem(id).IsStackable == 1 && count > 1)
+                        int count = inventoryManager.bankItemCount[selectedBankItem];
+                        if (entityManager.GetItem(id).IsStackable == 1 && count > 1)
                         {
                             count = 1;
                         }
@@ -5231,42 +5241,42 @@ namespace RuneScapeSolo.Net.Client
                             StreamClass.AddInt32(2500);
                             StreamClass.FormatPacket();
                         }
-                        if (InventoryManager.GetItemTotalCount(id) >= 1 && InputManager.Instance.MouseLocation.X >= l + 220 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 250 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
+                        if (inventoryManager.GetItemTotalCount(id) >= 1 && InputManager.Instance.MouseLocation.X >= l + 220 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 250 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(1);
                             StreamClass.FormatPacket();
                         }
-                        if (InventoryManager.GetItemTotalCount(id) >= 5 && InputManager.Instance.MouseLocation.X >= l + 250 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 280 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
+                        if (inventoryManager.GetItemTotalCount(id) >= 5 && InputManager.Instance.MouseLocation.X >= l + 250 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 280 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(5);
                             StreamClass.FormatPacket();
                         }
-                        if (InventoryManager.GetItemTotalCount(id) >= 25 && InputManager.Instance.MouseLocation.X >= l + 280 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 305 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
+                        if (inventoryManager.GetItemTotalCount(id) >= 25 && InputManager.Instance.MouseLocation.X >= l + 280 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 305 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(25);
                             StreamClass.FormatPacket();
                         }
-                        if (InventoryManager.GetItemTotalCount(id) >= 100 && InputManager.Instance.MouseLocation.X >= l + 305 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 335 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
+                        if (inventoryManager.GetItemTotalCount(id) >= 100 && InputManager.Instance.MouseLocation.X >= l + 305 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 335 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(100);
                             StreamClass.FormatPacket();
                         }
-                        if (InventoryManager.GetItemTotalCount(id) >= 500 && InputManager.Instance.MouseLocation.X >= l + 335 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 368 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
+                        if (inventoryManager.GetItemTotalCount(id) >= 500 && InputManager.Instance.MouseLocation.X >= l + 335 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 368 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(500);
                             StreamClass.FormatPacket();
                         }
-                        if (InventoryManager.GetItemTotalCount(id) >= 2500 && InputManager.Instance.MouseLocation.X >= l + 370 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 400 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
+                        if (inventoryManager.GetItemTotalCount(id) >= 2500 && InputManager.Instance.MouseLocation.X >= l + 370 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 400 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
@@ -5275,19 +5285,19 @@ namespace RuneScapeSolo.Net.Client
                         }
                     }
                 }
-                else if (InventoryManager.bankItemsCount > 48 && l >= 50 && l <= 115 && j1 <= 12)
+                else if (inventoryManager.bankItemsCount > 48 && l >= 50 && l <= 115 && j1 <= 12)
                 {
                     bankPage = 0;
                 }
-                else if (InventoryManager.bankItemsCount > 48 && l >= 115 && l <= 180 && j1 <= 12)
+                else if (inventoryManager.bankItemsCount > 48 && l >= 115 && l <= 180 && j1 <= 12)
                 {
                     bankPage = 1;
                 }
-                else if (InventoryManager.bankItemsCount > 96 && l >= 180 && l <= 245 && j1 <= 12)
+                else if (inventoryManager.bankItemsCount > 96 && l >= 180 && l <= 245 && j1 <= 12)
                 {
                     bankPage = 2;
                 }
-                else if (InventoryManager.bankItemsCount > 144 && l >= 245 && l <= 310 && j1 <= 12)
+                else if (inventoryManager.bankItemsCount > 144 && l >= 245 && l <= 310 && j1 <= 12)
                 {
                     bankPage = 3;
                 }
@@ -5310,7 +5320,7 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.DrawString("Bank", i1 + 1, k1 + 10, 1, 0xffffff);
             int l2 = 50;
 
-            if (InventoryManager.bankItemsCount > 48)
+            if (inventoryManager.bankItemsCount > 48)
             {
                 int k3 = 0xffffff;
                 if (bankPage == 0)
@@ -5340,7 +5350,7 @@ namespace RuneScapeSolo.Net.Client
                 l2 += 65;
             }
 
-            if (InventoryManager.bankItemsCount > 96)
+            if (inventoryManager.bankItemsCount > 96)
             {
                 int l3 = 0xffffff;
                 if (bankPage == 2)
@@ -5357,7 +5367,7 @@ namespace RuneScapeSolo.Net.Client
                 l2 += 65;
             }
 
-            if (InventoryManager.bankItemsCount > 144)
+            if (inventoryManager.bankItemsCount > 144)
             {
                 int i4 = 0xffffff;
                 if (bankPage == 3)
@@ -5402,11 +5412,11 @@ namespace RuneScapeSolo.Net.Client
                     }
 
                     gameGraphics.DrawBoxEdge(k9, l9, 50, 35, 0);
-                    if (j8 < InventoryManager.bankItemsCount && InventoryManager.bankItems[j8] != -1)
+                    if (j8 < inventoryManager.bankItemsCount && inventoryManager.bankItems[j8] != -1)
                     {
-                        gameGraphics.DrawImage(k9, l9, 48, 32, baseItemPicture + EntityManager.GetItem(InventoryManager.bankItems[j8]).InventoryPicture, EntityManager.GetItem(InventoryManager.bankItems[j8]).PictureMask, 0, 0, false);
-                        gameGraphics.DrawString(InventoryManager.bankItemCount[j8].ToString(), k9 + 1, l9 + 10, 1, 65280);
-                        gameGraphics.DrawLabel(InventoryManager.GetItemTotalCount(InventoryManager.bankItems[j8]).ToString(), k9 + 47, l9 + 29, 1, 65535);
+                        gameGraphics.DrawImage(k9, l9, 48, 32, baseItemPicture + entityManager.GetItem(inventoryManager.bankItems[j8]).InventoryPicture, entityManager.GetItem(inventoryManager.bankItems[j8]).PictureMask, 0, 0, false);
+                        gameGraphics.DrawString(inventoryManager.bankItemCount[j8].ToString(), k9 + 1, l9 + 10, 1, 65280);
+                        gameGraphics.DrawLabel(inventoryManager.GetItemTotalCount(inventoryManager.bankItems[j8]).ToString(), k9 + 47, l9 + 29, 1, 65535);
                     }
                     j8++;
                 }
@@ -5426,21 +5436,21 @@ namespace RuneScapeSolo.Net.Client
             }
             else
             {
-                itemId = InventoryManager.bankItems[selectedBankItem];
+                itemId = inventoryManager.bankItems[selectedBankItem];
             }
 
             if (itemId != -1)
             {
-                int k8 = InventoryManager.bankItemCount[selectedBankItem];
+                int k8 = inventoryManager.bankItemCount[selectedBankItem];
 
-                if (EntityManager.GetItem(itemId).IsStackable == 1 && k8 > 1)
+                if (entityManager.GetItem(itemId).IsStackable == 1 && k8 > 1)
                 {
                     k8 = 1;
                 }
 
                 if (k8 > 0)
                 {
-                    gameGraphics.DrawString("Withdraw " + EntityManager.GetItem(itemId).Name, i1 + 2, k1 + 248, 1, 0xffffff);
+                    gameGraphics.DrawString("Withdraw " + entityManager.GetItem(itemId).Name, i1 + 2, k1 + 248, 1, 0xffffff);
                     int k4 = 0xffffff;
                     if (InputManager.Instance.MouseLocation.X >= i1 + 220 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 250 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
                     {
@@ -5499,9 +5509,9 @@ namespace RuneScapeSolo.Net.Client
                         gameGraphics.DrawString("2500", i1 + 370, k1 + 248, 1, l5);
                     }
                 }
-                if (InventoryManager.GetItemTotalCount(itemId) > 0)
+                if (inventoryManager.GetItemTotalCount(itemId) > 0)
                 {
-                    gameGraphics.DrawString("Deposit " + EntityManager.GetItem(itemId).Name, i1 + 2, k1 + 273, 1, 0xffffff);
+                    gameGraphics.DrawString("Deposit " + entityManager.GetItem(itemId).Name, i1 + 2, k1 + 273, 1, 0xffffff);
                     int i6 = 0xffffff;
                     if (InputManager.Instance.MouseLocation.X >= i1 + 220 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 250 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
                     {
@@ -5509,7 +5519,7 @@ namespace RuneScapeSolo.Net.Client
                     }
 
                     gameGraphics.DrawString("One", i1 + 222, k1 + 273, 1, i6);
-                    if (InventoryManager.GetItemTotalCount(itemId) >= 5)
+                    if (inventoryManager.GetItemTotalCount(itemId) >= 5)
                     {
                         int j6 = 0xffffff;
                         if (InputManager.Instance.MouseLocation.X >= i1 + 250 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 280 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
@@ -5519,7 +5529,7 @@ namespace RuneScapeSolo.Net.Client
 
                         gameGraphics.DrawString("Five", i1 + 252, k1 + 273, 1, j6);
                     }
-                    if (InventoryManager.GetItemTotalCount(itemId) >= 25)
+                    if (inventoryManager.GetItemTotalCount(itemId) >= 25)
                     {
                         int k6 = 0xffffff;
                         if (InputManager.Instance.MouseLocation.X >= i1 + 280 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 305 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
@@ -5529,7 +5539,7 @@ namespace RuneScapeSolo.Net.Client
 
                         gameGraphics.DrawString("25", i1 + 282, k1 + 273, 1, k6);
                     }
-                    if (InventoryManager.GetItemTotalCount(itemId) >= 100)
+                    if (inventoryManager.GetItemTotalCount(itemId) >= 100)
                     {
                         int l6 = 0xffffff;
                         if (InputManager.Instance.MouseLocation.X >= i1 + 305 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 335 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
@@ -5539,7 +5549,7 @@ namespace RuneScapeSolo.Net.Client
 
                         gameGraphics.DrawString("100", i1 + 307, k1 + 273, 1, l6);
                     }
-                    if (InventoryManager.GetItemTotalCount(itemId) >= 500)
+                    if (inventoryManager.GetItemTotalCount(itemId) >= 500)
                     {
                         int i7 = 0xffffff;
                         if (InputManager.Instance.MouseLocation.X >= i1 + 335 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 368 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
@@ -5549,7 +5559,7 @@ namespace RuneScapeSolo.Net.Client
 
                         gameGraphics.DrawString("500", i1 + 337, k1 + 273, 1, i7);
                     }
-                    if (InventoryManager.GetItemTotalCount(itemId) >= 2500)
+                    if (inventoryManager.GetItemTotalCount(itemId) >= 2500)
                     {
                         int j7 = 0xffffff;
                         if (InputManager.Instance.MouseLocation.X >= i1 + 370 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 400 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
@@ -5617,13 +5627,13 @@ namespace RuneScapeSolo.Net.Client
                     int objHeight;
                     if (objDir == 0 || objDir == 4)
                     {
-                        objWidth = EntityManager.GetWorldObject(objType).Width;
-                        objHeight = EntityManager.GetWorldObject(objType).Height;
+                        objWidth = entityManager.GetWorldObject(objType).Width;
+                        objHeight = entityManager.GetWorldObject(objType).Height;
                     }
                     else
                     {
-                        objHeight = EntityManager.GetWorldObject(objType).Width;
-                        objWidth = EntityManager.GetWorldObject(objType).Height;
+                        objHeight = entityManager.GetWorldObject(objType).Width;
+                        objWidth = entityManager.GetWorldObject(objType).Height;
                     }
                     int flatObjX = ((objX + objX + objWidth) * GridSize) / 2;
                     int flatObjY = ((objY + objY + objHeight) * GridSize) / 2;
@@ -5676,7 +5686,7 @@ namespace RuneScapeSolo.Net.Client
 
             for (int playerIndex = 0; playerIndex < PlayerCount; playerIndex++)
             {
-                Mob player = Players[playerIndex];
+                ClientMob player = Players[playerIndex];
                 player.currentX -= offsetX * GridSize;
                 player.currentY -= offsetY * GridSize;
 
@@ -5689,7 +5699,7 @@ namespace RuneScapeSolo.Net.Client
 
             for (int npcIndex = 0; npcIndex < NpcCount; npcIndex++)
             {
-                Mob npc = Npcs[npcIndex];
+                ClientMob npc = Npcs[npcIndex];
                 npc.currentX -= offsetX * GridSize;
                 npc.currentY -= offsetY * GridSize;
 
@@ -5713,9 +5723,9 @@ namespace RuneScapeSolo.Net.Client
             int tileY = y;
             int destTileX = x;
             int destTileY = y;
-            int textureBack = EntityManager.GetWallObject(type).ModelFaceBack;
-            int textureFront = EntityManager.GetWallObject(type).ModelFaceFront;
-            int wallHeight = EntityManager.GetWallObject(type).ModelHeight;
+            int textureBack = entityManager.GetWallObject(type).ModelFaceBack;
+            int textureFront = entityManager.GetWallObject(type).ModelFaceFront;
+            int wallHeight = entityManager.GetWallObject(type).ModelHeight;
             ObjectModel wallModel = new ObjectModel(4, 1);
 
             // -
@@ -5773,15 +5783,15 @@ namespace RuneScapeSolo.Net.Client
             return wallModel;
         }
 
-        public Mob AddNpc(int serverIndex, int x, int y, int sprite, int id)
+        public ClientMob AddNpc(int serverIndex, int x, int y, int sprite, int id)
         {
             if (NpcAttackingArray[serverIndex] == null)
             {
-                NpcAttackingArray[serverIndex] = new Mob();
+                NpcAttackingArray[serverIndex] = new ClientMob();
                 NpcAttackingArray[serverIndex].ServerIndex = serverIndex;
             }
 
-            Mob mob = NpcAttackingArray[serverIndex];
+            ClientMob mob = NpcAttackingArray[serverIndex];
 
             bool alreadyExists = LastNpcs
                 .Take(LastNpcCount)
@@ -5928,7 +5938,7 @@ namespace RuneScapeSolo.Net.Client
                 drawMenuTab = 6;
             }
 
-            if (drawMenuTab == 1 && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 248 || InputManager.Instance.MouseLocation.Y > 36 + (InventoryManager.maxInventoryItems / 5) * 34))
+            if (drawMenuTab == 1 && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 248 || InputManager.Instance.MouseLocation.Y > 36 + (InventoryManager.MaximumInventorySize / 5) * 34))
             {
                 drawMenuTab = 0;
             }
@@ -5949,14 +5959,14 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        public Mob GetLastPlayer(int serverIndex)
+        public ClientMob GetLastPlayer(int serverIndex)
         {
             return LastPlayers
                 .Where(x => x != null) // TODO: Remove this check once it is safe
                 .FirstOrDefault(x => x.ServerIndex == serverIndex);
         }
 
-        public Mob GetLastNpc(int serverIndex)
+        public ClientMob GetLastNpc(int serverIndex)
         {
             return LastNpcs
                 .Where(x => x != null) // TODO: Remove this check once it is safe

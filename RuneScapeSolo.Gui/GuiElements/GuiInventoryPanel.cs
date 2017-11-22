@@ -63,10 +63,10 @@ namespace RuneScapeSolo.Gui.GuiElements
         {
             for (int i = 0; i < Rows * Columns; i++)
             {
-                var c = EntityManager.GetItem(client.InventoryManager.InventoryItems[i]);
+                var c = client.entityManager.GetItem(client.inventoryManager.InventoryItems[i]);
 
                 itemCards[i].ItemPictureId = c.InventoryPicture;
-                itemCards[i].Quantity = client.InventoryManager.InventoryItemCount[i];
+                itemCards[i].Quantity = client.inventoryManager.InventoryItemCount[i];
             }
         }
     }

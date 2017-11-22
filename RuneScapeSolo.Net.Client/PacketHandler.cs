@@ -13,13 +13,19 @@ namespace RuneScapeSolo.Net.Client
     public class PacketHandler
     {
         readonly GameClient client;
+        readonly EntityManager entityManager;
+        readonly InventoryManager inventoryManager;
         readonly QuestManager questManager;
 
         public PacketHandler(
             GameClient client,
+            EntityManager entityManager,
+            InventoryManager inventoryManager,
             QuestManager questManager)
         {
             this.client = client;
+            this.entityManager = entityManager;
+            this.inventoryManager = inventoryManager;
             this.questManager = questManager;
         }
 
@@ -258,7 +264,7 @@ namespace RuneScapeSolo.Net.Client
             int itemCount = DataOperations.GetInt32(data, off);
             off += 4;
 
-            client.InventoryManager.BankItem(itemId, itemSlot, itemCount);
+            inventoryManager.BankItem(itemId, itemSlot, itemCount);
         }
 
         void HandleCombatStyleChange(sbyte[] data)
@@ -374,7 +380,7 @@ namespace RuneScapeSolo.Net.Client
                         int height = 0;
 
 #warning this sometimes returns null (index = WorldObjectCount)
-                        WorldObject worldObject = EntityManager.GetWorldObject(index);
+                        WorldObject worldObject = entityManager.GetWorldObject(index);
 
                         if (rotation == 0 || rotation == 4)
                         {
@@ -431,7 +437,7 @@ namespace RuneScapeSolo.Net.Client
                     return;
                 }
 
-                Mob mob = client.Mobs[mobArrayIndex];
+                ClientMob mob = client.Mobs[mobArrayIndex];
 
                 if (mob == null)
                 {
@@ -635,7 +641,7 @@ namespace RuneScapeSolo.Net.Client
             for (int newNpcIndex = 0; newNpcIndex < newNpcCount; newNpcIndex++)
             {
                 int serverIndex = DataOperations.GetInt(data, newNpcOffset, 16);
-                Mob newNpc = client.GetLastNpc(serverIndex);
+                ClientMob newNpc = client.GetLastNpc(serverIndex);
                 newNpcOffset += 16;
 
                 int needsUpdate = DataOperations.GetInt(data, newNpcOffset, 1);
@@ -728,7 +734,7 @@ namespace RuneScapeSolo.Net.Client
 
                 newNpcOffset += 10;
 
-                if (addIndex >= EntityManager.NpcCount)
+                if (addIndex >= entityManager.NpcCount)
                 {
                     addIndex = 24;
                 }
@@ -740,24 +746,24 @@ namespace RuneScapeSolo.Net.Client
         void HandleCommand114(sbyte[] data)
         {
             int off = 1;
-            client.InventoryManager.InventoryItemsCount = data[off++] & 0xff;
+            inventoryManager.InventoryItemsCount = data[off++] & 0xff;
 
-            for (int item = 0; item < client.InventoryManager.InventoryItemsCount; item++)
+            for (int item = 0; item < inventoryManager.InventoryItemsCount; item++)
             {
                 int val = DataOperations.GetInt16(data, off);
 
                 off += 2;
-                client.InventoryManager.InventoryItems[item] = val & 0x7fff;
-                client.InventoryManager.InventoryItemEquipped[item] = val / 32768;
+                inventoryManager.InventoryItems[item] = val & 0x7fff;
+                inventoryManager.InventoryItemEquipped[item] = val / 32768;
 
-                if (EntityManager.GetItem(val & 0x7fff).IsStackable == 0)
+                if (entityManager.GetItem(val & 0x7fff).IsStackable == 0)
                 {
-                    client.InventoryManager.InventoryItemCount[item] = DataOperations.GetInt32(data, off);
+                    inventoryManager.InventoryItemCount[item] = DataOperations.GetInt32(data, off);
                     off += 4;
                 }
                 else
                 {
-                    client.InventoryManager.InventoryItemCount[item] = 1;
+                    inventoryManager.InventoryItemCount[item] = 1;
                 }
             }
         }
@@ -829,7 +835,7 @@ namespace RuneScapeSolo.Net.Client
             for (int currentNewPlayer = 0; currentNewPlayer < newPlayerCount; currentNewPlayer++)
             {
                 //Mob mob = client.LastPlayers[currentNewPlayer + 1];
-                Mob mob = client.GetLastPlayer(DataOperations.GetInt(data, off, 16));
+                ClientMob mob = client.GetLastPlayer(DataOperations.GetInt(data, off, 16));
                 off += 16;
 
                 int playerAtTile = DataOperations.GetInt(data, off, 1);
@@ -937,7 +943,7 @@ namespace RuneScapeSolo.Net.Client
 
                 for (int k40 = 0; k40 < mobCount; k40++)
                 {
-                    Mob dummyMob = client.Mobs[client.PlayersBufferIndexes[k40]];
+                    ClientMob dummyMob = client.Mobs[client.PlayersBufferIndexes[k40]];
                     client.StreamClass.AddInt16(dummyMob.ServerIndex);
                     client.StreamClass.AddInt16(dummyMob.ServerId);
                 }
@@ -978,7 +984,7 @@ namespace RuneScapeSolo.Net.Client
                 int npcIndex = DataOperations.GetInt16(data, offset);
                 offset += 2;
 
-                Mob mob = client.NpcAttackingArray[npcIndex];
+                ClientMob mob = client.NpcAttackingArray[npcIndex];
                 int updateType = DataOperations.GetInt8(data[offset]);
                 offset++;
 
@@ -999,7 +1005,7 @@ namespace RuneScapeSolo.Net.Client
                         if (playerIndex == client.CurrentPlayer.ServerIndex)
                         {
                             // TODO: Is this retrieving the name correctly?
-                            client.DisplayMessage(EntityManager.GetNpc(mob.npcId).Name + ": " + mob.lastMessage);
+                            client.DisplayMessage(entityManager.GetNpc(mob.npcId).Name + ": " + mob.lastMessage);
                         }
                     }
 
@@ -1155,7 +1161,7 @@ namespace RuneScapeSolo.Net.Client
                                 continue;
                             }
 
-                            client.GroundItemObjectVar[client.GroundItemCount] = EntityManager.GetWorldObject(client.ObjectType[i]).GroundItemVar;
+                            client.GroundItemObjectVar[client.GroundItemCount] = entityManager.GetWorldObject(client.ObjectType[i]).GroundItemVar;
                             break;
                         }
 
@@ -1219,19 +1225,19 @@ namespace RuneScapeSolo.Net.Client
             int val = DataOperations.GetInt16(data, offset);
             offset += 2;
 
-            if (EntityManager.GetItem(val & 0x7fff).IsStackable == 0)
+            if (entityManager.GetItem(val & 0x7fff).IsStackable == 0)
             {
                 count = DataOperations.GetInt32(data, offset);
                 offset += 4;
             }
 
-            client.InventoryManager.InventoryItems[newCount] = val & 0x7fff;
-            client.InventoryManager.InventoryItemEquipped[newCount] = val / 32768;
-            client.InventoryManager.InventoryItemCount[newCount] = count;
+            inventoryManager.InventoryItems[newCount] = val & 0x7fff;
+            inventoryManager.InventoryItemEquipped[newCount] = val / 32768;
+            inventoryManager.InventoryItemCount[newCount] = count;
 
-            if (newCount >= client.InventoryManager.InventoryItemsCount)
+            if (newCount >= inventoryManager.InventoryItemsCount)
             {
-                client.InventoryManager.InventoryItemsCount = newCount + 1;
+                inventoryManager.InventoryItemsCount = newCount + 1;
             }
         }
 
@@ -1306,7 +1312,7 @@ namespace RuneScapeSolo.Net.Client
         {
             int itemSlot = data[1] & 0xff;
 
-            client.InventoryManager.RemoveItem(itemSlot);
+            inventoryManager.RemoveItem(itemSlot);
         }
 
         void HandleResetPlayerAliveTimeout()

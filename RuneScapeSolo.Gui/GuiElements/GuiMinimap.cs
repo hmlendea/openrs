@@ -188,7 +188,7 @@ namespace RuneScapeSolo.Gui.GuiElements
                 DrawMinimapObject(spriteBatch, groundItemMapX, groundItemMapY, Colour.Red);
             }
 
-            foreach (Mob npc in client.Npcs.Where(x => x != null))
+            foreach (ClientMob npc in client.Npcs.Where(x => x != null))
             {
                 int npcPosX = ((npc.currentX - client.CurrentPlayer.currentX) * 3 * j1) / 2048;
                 int npcPosY = ((npc.currentY - client.CurrentPlayer.currentY) * 3 * j1) / 2048;
@@ -203,7 +203,7 @@ namespace RuneScapeSolo.Gui.GuiElements
                 DrawMinimapObject(spriteBatch, dotX, dotY, Colour.Yellow);
             }
 
-            foreach (Mob player in client.Players.Where(x => x != null))
+            foreach (ClientMob player in client.Players.Where(x => x != null))
             {
                 int playerPosX = ((player.currentX - client.CurrentPlayer.currentX) * 3 * j1) / 2048;
                 int playerPosY = ((player.currentY - client.CurrentPlayer.currentY) * 3 * j1) / 2048;

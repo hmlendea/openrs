@@ -60,7 +60,7 @@
     <Compile Include="Game\EngineHandle.cs" />
     <Compile Include="Game\GraphicsEngine.cs" />
     <Compile Include="Game\GameObject.cs" />
-    <Compile Include="Game\Mob.cs" />
+    <Compile Include="Game\ClientMob.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="Menu.cs" />

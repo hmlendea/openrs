@@ -2,8 +2,8 @@
 {
     public class InventoryManager
     {
-        public int maxInventoryItems;
-        public int maxBankItems;
+        public static int MaximumInventorySize = 30;
+        public static int MaximumBankSize = 48;
 
         public int[] serverBankItems;
         public int[] serverBankItemCount;
@@ -17,7 +17,14 @@
         public int[] InventoryItemCount { get; set; }
         public int[] InventoryItemEquipped { get; set; }
 
-        public InventoryManager()
+        readonly EntityManager entityManager;
+
+        public InventoryManager(EntityManager entityManager)
+        {
+            this.entityManager = entityManager;
+        }
+
+        public void LoadContent()
         {
             bankItems = new int[256];
             bankItemCount = new int[256];
@@ -27,9 +34,6 @@
             InventoryItems = new int[35];
             InventoryItemCount = new int[35];
             InventoryItemEquipped = new int[35];
-
-            maxInventoryItems = 30;
-            maxBankItems = 48;
         }
 
         public bool IsItemEquipped(int itemIndex)
@@ -95,7 +99,7 @@
 
             for (int i1 = 0; i1 < InventoryItemsCount; i1++)
             {
-                if (bankItemsCount >= maxBankItems)
+                if (bankItemsCount >= MaximumBankSize)
                 {
                     break;
                 }
@@ -134,7 +138,7 @@
                     continue;
                 }
 
-                if (EntityManager.GetItem(itemId).IsStackable == 1)
+                if (entityManager.GetItem(itemId).IsStackable == 1)
                 {
                     count += 1;
                 }

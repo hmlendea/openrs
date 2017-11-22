@@ -2,9 +2,9 @@ using RuneScapeSolo.Models;
 
 namespace RuneScapeSolo.Net.Client.Game
 {
-    public class Mob
+    public class ClientMob
     {
-        public Mob()
+        public ClientMob()
         {
             Appearance = new Appearance();
             WaypointsX = new int[10];

@@ -9,99 +9,99 @@ using RuneScapeSolo.Settings;
 
 namespace RuneScapeSolo.GameLogic.GameManagers
 {
-    public static class EntityManager
+    public class EntityManager
     {
-        static List<Animation> animations;
-        static List<Elevation> elevations;
-        static List<Item> items;
-        static List<Npc> npcs;
-        static List<Prayer> prayers;
-        static List<Spell> spells;
-        static List<GameTexture> textures;
-        static List<Tile> tiles;
-        static List<WallObject> wallObjects;
-        static List<WorldObject> worldObjects;
+        List<Animation> animations;
+        List<Elevation> elevations;
+        List<Item> items;
+        List<Npc> npcs;
+        List<Prayer> prayers;
+        List<Spell> spells;
+        List<GameTexture> textures;
+        List<Tile> tiles;
+        List<WallObject> wallObjects;
+        List<WorldObject> worldObjects;
 
-        static string[] modelName = new string[5000];
+        string[] modelName = new string[5000];
 
         /// <summary>
         /// Gets the animations count.
         /// </summary>
         /// <value>The animations count.</value>
-        public static int AnimationCount => animations.Count;
+        public int AnimationCount => animations.Count;
 
         /// <summary>
         /// Gets the elevations count.
         /// </summary>
         /// <value>The elevations count.</value>
-        public static int ElevationCount => elevations.Count;
+        public int ElevationCount => elevations.Count;
 
         /// <summary>
         /// Gets the items count.
         /// </summary>
         /// <value>The items count.</value>
-        public static int ItemCount => items.Count;
+        public int ItemCount => items.Count;
 
         /// <summary>
         /// Gets the npc count.
         /// </summary>
         /// <value>The npc count.</value>
-        public static int NpcCount => npcs.Count;
+        public int NpcCount => npcs.Count;
 
         /// <summary>
         /// Gets the object models count.
         /// </summary>
         /// <value>The object models count.</value>
-        public static int ObjectModelCount { get; private set; }
+        public int ObjectModelCount { get; private set; }
 
         /// <summary>
         /// Gets the prayers count.
         /// </summary>
         /// <value>The prayers count.</value>
-        public static int PrayerCount => prayers.Count;
+        public int PrayerCount => prayers.Count;
 
         /// <summary>
         /// Gets the spells count.
         /// </summary>
         /// <value>The spells count.</value>
-        public static int SpellCount => spells.Count;
+        public int SpellCount => spells.Count;
 
         /// <summary>
         /// Gets or sets the spell projectile count.
         /// </summary>
         /// <value>The spell projectile count.</value>
-        public static int SpellProjectileCount { get; private set; }
+        public int SpellProjectileCount { get; private set; }
 
         /// <summary>
         /// Gets the textures count.
         /// </summary>
         /// <value>The textures count.</value>
-        public static int TextureCount => textures.Count;
+        public int TextureCount => textures.Count;
 
         /// <summary>
         /// Gets the tiles count.
         /// </summary>
         /// <value>The tiles count.</value>
-        public static int TileCount => tiles.Count;
+        public int TileCount => tiles.Count;
 
         /// <summary>
         /// Gets the wall objects count.
         /// </summary>
         /// <value>The wall objects count.</value>
-        public static int WallObjectCount => wallObjects.Count;
+        public int WallObjectCount => wallObjects.Count;
 
         /// <summary>
         /// Gets the world objects count.
         /// </summary>
         /// <value>The world objects count.</value>
-        public static int WorldObjectCount => worldObjects.Count;
+        public int WorldObjectCount => worldObjects.Count;
 
-        public static int HighestLoadedPicture { get; private set; }
+        public int HighestLoadedPicture { get; private set; }
 
         /// <summary>
         /// Loads the entities in memory.
         /// </summary>
-        public static void Load()
+        public void LoadContent()
         {
             string animationsPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "animations.xml");
             string elevationPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "elevations.xml");
@@ -147,7 +147,7 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// </summary>
         /// <returns>The animation.</returns>
         /// <param name="index">Identifier.</param>
-        public static Animation GetAnimation(int index)
+        public Animation GetAnimation(int index)
         {
             if (index < 0 || index >= AnimationCount)
             {
@@ -162,7 +162,7 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// </summary>
         /// <returns>The elevation.</returns>
         /// <param name="index">Identifier.</param>
-        public static Elevation GetElevation(int index)
+        public Elevation GetElevation(int index)
         {
             if (index < 0 || index >= ElevationCount)
             {
@@ -177,7 +177,7 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// </summary>
         /// <returns>The item.</returns>
         /// <param name="index">Identifier.</param>
-        public static Item GetItem(int index)
+        public Item GetItem(int index)
         {
             if (index < 0 || index >= ItemCount)
             {
@@ -187,7 +187,7 @@ namespace RuneScapeSolo.GameLogic.GameManagers
             return items[index];
         }
 
-        public static int GetModelIndex(string model)
+        public int GetModelIndex(string model)
         {
             if (model.ToLower().Equals("na"))
             {
@@ -213,7 +213,7 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// </summary>
         /// <returns>The npc.</returns>
         /// <param name="index">Identifier.</param>
-        public static Npc GetNpc(int index)
+        public Npc GetNpc(int index)
         {
             if (index < 0 || index >= NpcCount)
             {
@@ -223,7 +223,7 @@ namespace RuneScapeSolo.GameLogic.GameManagers
             return npcs[index];
         }
 
-        public static string GetObjectModelName(int index)
+        public string GetObjectModelName(int index)
         {
             return modelName[index];
         }
@@ -233,7 +233,7 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// </summary>
         /// <returns>The prayer.</returns>
         /// <param name="index">Identifier.</param>
-        public static Prayer GetPrayer(int index)
+        public Prayer GetPrayer(int index)
         {
             if (index < 0 || index >= PrayerCount)
             {
@@ -248,7 +248,7 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// </summary>
         /// <returns>The spell.</returns>
         /// <param name="index">Identifier.</param>
-        public static Spell GetSpell(int index)
+        public Spell GetSpell(int index)
         {
             if (index < 0 || index >= SpellCount)
             {
@@ -263,7 +263,7 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// </summary>
         /// <returns>The texture.</returns>
         /// <param name="index">Identifier.</param>
-        public static GameTexture GetTexture(int index)
+        public GameTexture GetTexture(int index)
         {
             if (index < 0 || index >= TextureCount)
             {
@@ -278,7 +278,7 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// </summary>
         /// <returns>The tile.</returns>
         /// <param name="index">Identifier.</param>
-        public static Tile GetTile(int index)
+        public Tile GetTile(int index)
         {
             if (index < 0 || index >= TileCount)
             {
@@ -293,7 +293,7 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// </summary>
         /// <returns>The wall object.</returns>
         /// <param name="index">Identifier.</param>
-        public static WallObject GetWallObject(int index)
+        public WallObject GetWallObject(int index)
         {
             if (index < 0 || index >= WallObjectCount)
             {
@@ -308,7 +308,7 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// </summary>
         /// <returns>The world object.</returns>
         /// <param name="index">Index.</param>
-        public static WorldObject GetWorldObject(int index)
+        public WorldObject GetWorldObject(int index)
         {
             if (index < 0 || index >= WorldObjectCount)
             {
@@ -323,7 +323,7 @@ namespace RuneScapeSolo.GameLogic.GameManagers
         /// </summary>
         /// <returns>The world object.</returns>
         /// <param name="id">Identifier.</param>
-        public static WorldObject GetWorldObject(string id)
+        public WorldObject GetWorldObject(string id)
         {
             return worldObjects.FirstOrDefault(x => x.Id == id);
         }
