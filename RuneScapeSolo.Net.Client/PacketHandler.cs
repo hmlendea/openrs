@@ -753,17 +753,18 @@ namespace RuneScapeSolo.Net.Client
                 int val = DataOperations.GetInt16(data, off);
 
                 off += 2;
-                inventoryManager.InventoryItems[item] = val & 0x7fff;
-                inventoryManager.InventoryItemEquipped[item] = val / 32768;
+                inventoryManager.SetItem(item, val & 0x7fff);
+                inventoryManager.SetItemEquippedStatus(item, val / 32768 == 1);
 
                 if (entityManager.GetItem(val & 0x7fff).IsStackable == 0)
                 {
-                    inventoryManager.InventoryItemCount[item] = DataOperations.GetInt32(data, off);
+                    int count = DataOperations.GetInt32(data, off);
+                    inventoryManager.SetItemCount(item, count);
                     off += 4;
                 }
                 else
                 {
-                    inventoryManager.InventoryItemCount[item] = 1;
+                    inventoryManager.SetItemCount(item, 1);
                 }
             }
         }
@@ -1231,9 +1232,9 @@ namespace RuneScapeSolo.Net.Client
                 offset += 4;
             }
 
-            inventoryManager.InventoryItems[newCount] = val & 0x7fff;
-            inventoryManager.InventoryItemEquipped[newCount] = val / 32768;
-            inventoryManager.InventoryItemCount[newCount] = count;
+            inventoryManager.SetItem(newCount, val & 0x7fff);
+            inventoryManager.SetItemCount(newCount, count);
+            inventoryManager.SetItemEquippedStatus(newCount, val / 32768 == 1);
 
             if (newCount >= inventoryManager.InventoryItemsCount)
             {

@@ -1,21 +1,21 @@
-﻿namespace RuneScapeSolo.GameLogic.GameManagers
+﻿using System;
+
+using RuneScapeSolo.Models;
+
+namespace RuneScapeSolo.GameLogic.GameManagers
 {
     public class InventoryManager
     {
         public static int MaximumInventorySize = 30;
         public static int MaximumBankSize = 48;
-
-        public int[] serverBankItems;
-        public int[] serverBankItemCount;
-        public int serverBankItemsCount;
-        public int bankItemsCount;
-        public int[] bankItems;
-        public int[] bankItemCount;
-
+        
         public int InventoryItemsCount { get; set; }
-        public int[] InventoryItems { get; set; }
-        public int[] InventoryItemCount { get; set; }
-        public int[] InventoryItemEquipped { get; set; }
+        public int BankItemsCount { get; set; }
+        public int ServerBankItemsCount { get; set; }
+
+        InventoryItem[] inventoryItems;
+        InventoryItem[] bankItems;
+        InventoryItem[] serverBankItems;
 
         readonly EntityManager entityManager;
 
@@ -26,22 +26,28 @@
 
         public void LoadContent()
         {
-            bankItems = new int[256];
-            bankItemCount = new int[256];
-            serverBankItems = new int[256];
-            serverBankItemCount = new int[256];
+            inventoryItems = new InventoryItem[35];
+            bankItems = new InventoryItem[256];
+            serverBankItems = new InventoryItem[256];
 
-            InventoryItems = new int[35];
-            InventoryItemCount = new int[35];
-            InventoryItemEquipped = new int[35];
+            for (int i = 0; i < inventoryItems.Length; i++)
+            {
+                inventoryItems[i] = new InventoryItem();
+            }
+
+            for (int i = 0; i < bankItems.Length; i++)
+            {
+                bankItems[i] = new InventoryItem();
+                serverBankItems[i] = new InventoryItem();
+            }
         }
 
         public bool IsItemEquipped(int itemIndex)
         {
             for (int i = 0; i < InventoryItemsCount; i++)
             {
-                if (InventoryItems[i] == itemIndex &&
-                    InventoryItemEquipped[i] == 1)
+                if (inventoryItems[i].Index == itemIndex &&
+                    inventoryItems[i].IsEquipped)
                 {
                     return true;
                 }
@@ -50,30 +56,60 @@
             return false;
         }
 
-        public void BankItem(int itemId, int itemSlot, int itemCount)
+        public void BankItem(int itemId, int itemSlot, int quantity)
         {
-            if (itemCount == 0)
+            if (quantity == 0)
             {
-                serverBankItemsCount -= 1;
+                ServerBankItemsCount -= 1;
 
-                for (int i = itemSlot; i < serverBankItemsCount; i++)
+                for (int i = itemSlot; i < ServerBankItemsCount; i++)
                 {
-                    serverBankItems[i] = serverBankItems[i + 1];
-                    serverBankItemCount[i] = serverBankItemCount[i + 1];
+                    serverBankItems[i].Index = serverBankItems[i + 1].Index;
+                    serverBankItems[i].Quantity = serverBankItems[i + 1].Quantity;
                 }
             }
             else
             {
-                serverBankItems[itemSlot] = itemId;
-                serverBankItemCount[itemSlot] = itemCount;
+                serverBankItems[itemSlot].Index = itemId;
+                serverBankItems[itemSlot].Quantity = quantity;
 
-                if (itemSlot >= serverBankItemsCount)
+                if (itemSlot >= ServerBankItemsCount)
                 {
-                    serverBankItemsCount = itemSlot + 1;
+                    ServerBankItemsCount = itemSlot + 1;
                 }
             }
 
             UpdateBankItems();
+        }
+
+        public InventoryItem GetItem(int slot)
+        {
+            return inventoryItems[slot];
+        }
+
+        public InventoryItem GetBankItem(int slot)
+        {
+            return bankItems[slot];
+        }
+
+        public InventoryItem GetServerBankItem(int slot)
+        {
+            return serverBankItems[slot];
+        }
+
+        public void SetItem(int itemSlot, int numericalId)
+        {
+            inventoryItems[itemSlot].Index = numericalId;
+        }
+
+        public void SetItemCount(int itemSlot, int quantity)
+        {
+            inventoryItems[itemSlot].Quantity = quantity;
+        }
+
+        public void SetItemEquippedStatus(int itemSlot, bool isEquipped)
+        {
+            inventoryItems[itemSlot].IsEquipped = isEquipped;
         }
 
         public void RemoveItem(int itemSlot)
@@ -82,33 +118,34 @@
 
             for (int i = itemSlot; i < InventoryItemsCount; i++)
             {
-                InventoryItems[i] = InventoryItems[i + 1];
-                InventoryItemCount[i] = InventoryItemCount[i + 1];
-                InventoryItemEquipped[i] = InventoryItemEquipped[i + 1];
+                inventoryItems[i].Index = inventoryItems[i + 1].Index;
+                inventoryItems[i].Quantity = inventoryItems[i + 1].Quantity;
+                inventoryItems[i].IsEquipped = inventoryItems[i + 1].IsEquipped;
             }
         }
 
         public void UpdateBankItems()
         {
-            bankItemsCount = serverBankItemsCount;
-            for (int l = 0; l < serverBankItemsCount; l++)
+            BankItemsCount = ServerBankItemsCount;
+            for (int l = 0; l < ServerBankItemsCount; l++)
             {
-                bankItems[l] = serverBankItems[l];
-                bankItemCount[l] = serverBankItemCount[l];
+                bankItems[l].Index = serverBankItems[l].Index;
+                bankItems[l].Quantity = serverBankItems[l].Quantity;
             }
 
-            for (int i1 = 0; i1 < InventoryItemsCount; i1++)
+            for (int itemSlot = 0; itemSlot < InventoryItemsCount; itemSlot++)
             {
-                if (bankItemsCount >= MaximumBankSize)
+                if (BankItemsCount >= MaximumBankSize)
                 {
                     break;
                 }
 
-                int j1 = InventoryItems[i1];
+                int itemIndex = inventoryItems[itemSlot].Index;
                 bool flag = false;
-                for (int k1 = 0; k1 < bankItemsCount; k1++)
+
+                for (int bankSlot = 0; bankSlot < BankItemsCount; bankSlot++)
                 {
-                    if (bankItems[k1] != j1)
+                    if (bankItems[bankSlot].Index != itemIndex)
                     {
                         continue;
                     }
@@ -119,36 +156,38 @@
 
                 if (!flag)
                 {
-                    bankItems[bankItemsCount] = j1;
-                    bankItemCount[bankItemsCount] = 0;
-                    bankItemsCount++;
+                    bankItems[BankItemsCount].Index = itemIndex;
+                    bankItems[BankItemsCount].Quantity = 0;
+                    bankItems[BankItemsCount].IsEquipped = false;
+
+                    BankItemsCount++;
                 }
             }
 
         }
 
-        public int GetItemTotalCount(int itemId)
+        public int GetItemTotalCount(int itemIndex)
         {
-            int count = 0;
+            int quantity = 0;
 
             for (int i = 0; i < InventoryItemsCount; i++)
             {
-                if (InventoryItems[i] != itemId)
+                if (inventoryItems[i].Index != itemIndex)
                 {
                     continue;
                 }
 
-                if (entityManager.GetItem(itemId).IsStackable == 1)
+                if (entityManager.GetItem(itemIndex).IsStackable == 1)
                 {
-                    count += 1;
+                    quantity += 1;
                 }
                 else
                 {
-                    count += InventoryItemCount[i];
+                    quantity += inventoryItems[i].Quantity;
                 }
             }
 
-            return count;
+            return quantity;
         }
     }
 }

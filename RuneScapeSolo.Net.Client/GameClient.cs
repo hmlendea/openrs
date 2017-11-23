@@ -675,7 +675,9 @@ namespace RuneScapeSolo.Net.Client
             {
                 selectedItem = actionType;
                 drawMenuTab = 0;
-                selectedItemName = entityManager.GetItem(inventoryManager.InventoryItems[selectedItem]).Name;
+
+                int itemId = inventoryManager.GetItem(selectedItem).Index;
+                selectedItemName = entityManager.GetItem(itemId).Name;
             }
             if (action == MenuAction.UseItem)
             {
@@ -684,7 +686,10 @@ namespace RuneScapeSolo.Net.Client
                 StreamClass.FormatPacket();
                 selectedItem = -1;
                 drawMenuTab = 0;
-                DisplayMessage("Dropping " + entityManager.GetItem(inventoryManager.InventoryItems[actionType]).Name);
+
+                int itemIndex = inventoryManager.GetItem(actionType).Index;
+
+                DisplayMessage("Dropping " + entityManager.GetItem(itemIndex).Name);
             }
             if (action == MenuAction.ExamineItem)
             {
@@ -1062,12 +1067,14 @@ namespace RuneScapeSolo.Net.Client
         {
             int l = gameGraphics.GameSize.Width - 248;
             gameGraphics.DrawPicture(l, 3, baseInventoryPic + 1);
-            for (int i1 = 0; i1 < InventoryManager.MaximumInventorySize; i1++)
+            for (int itemSlot = 0; itemSlot < InventoryManager.MaximumInventorySize; itemSlot++)
             {
-                int j1 = l + (i1 % 5) * 49;
-                int l1 = 36 + (i1 / 5) * 34;
-                if (i1 < inventoryManager.InventoryItemsCount &&
-                    inventoryManager.InventoryItemEquipped[i1] == 1)
+                int j1 = l + (itemSlot % 5) * 49;
+                int l1 = 36 + (itemSlot / 5) * 34;
+
+
+                if (itemSlot < inventoryManager.InventoryItemsCount &&
+                    inventoryManager.GetItem(itemSlot).IsEquipped)
                 {
                     gameGraphics.drawBoxAlpha(j1, l1, 49, 34, 0xff0000, 128);
                 }
@@ -1078,13 +1085,19 @@ namespace RuneScapeSolo.Net.Client
                     gameGraphics.drawBoxAlpha(j1, l1, 49, 34, argb, 128);
                 }
 
-                if (i1 < inventoryManager.InventoryItemsCount)
+                if (itemSlot < inventoryManager.InventoryItemsCount)
                 {
-                    gameGraphics.DrawImage(j1, l1, 48, 32, baseItemPicture + entityManager.GetItem(inventoryManager.InventoryItems[i1]).InventoryPicture, entityManager.GetItem(inventoryManager.InventoryItems[i1]).PictureMask, 0, 0, false);
+                    InventoryItem inventoryItem = inventoryManager.GetItem(itemSlot);
+                    Item item = entityManager.GetItem(inventoryItem.Index);
 
-                    if (entityManager.GetItem(inventoryManager.InventoryItems[i1]).IsStackable == 0)
+                    int pic = item.InventoryPicture;
+                    int picMask = item.PictureMask;
+
+                    gameGraphics.DrawImage(j1, l1, 48, 32, baseItemPicture + pic, picMask, 0, 0, false);
+
+                    if (item.IsStackable == 0)
                     {
-                        gameGraphics.DrawString(inventoryManager.InventoryItemCount[i1].ToString(), j1 + 1, l1 + 10, 1, 0xffff00);
+                        gameGraphics.DrawString(inventoryItem.Quantity.ToString(), j1 + 1, l1 + 10, 1, 0xffff00);
                     }
                 }
             }
@@ -1108,18 +1121,21 @@ namespace RuneScapeSolo.Net.Client
             int j2 = InputManager.Instance.MouseLocation.Y - 36;
             if (l >= 0 && j2 >= 0 && l < 248 && j2 < (InventoryManager.MaximumInventorySize / 5) * 34)
             {
-                int k2 = l / 49 + (j2 / 34) * 5;
-                if (k2 < inventoryManager.InventoryItemsCount)
+                int itemSlot = l / 49 + (j2 / 34) * 5;
+
+                if (itemSlot < inventoryManager.InventoryItemsCount)
                 {
-                    int itemIndex = inventoryManager.InventoryItems[k2];
+                    InventoryItem inventoryItem = inventoryManager.GetItem(itemSlot);
+                    Item item = entityManager.GetItem(inventoryItem.Index);
+
                     if (selectedSpell >= 0)
                     {
                         if (entityManager.GetSpell(selectedSpell).Type == 3)
                         {
                             menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on";
-                            menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(itemIndex).Name;
+                            menuText2[menuOptionsCount] = "@lre@" + item.Name;
                             menuActions[menuOptionsCount] = MenuAction.CastSpellOnItem;
-                            menuActionType[menuOptionsCount] = k2;
+                            menuActionType[menuOptionsCount] = itemSlot;
                             menuActionVar1[menuOptionsCount] = selectedSpell;
                             menuOptionsCount++;
                             return;
@@ -1130,24 +1146,25 @@ namespace RuneScapeSolo.Net.Client
                         if (selectedItem >= 0)
                         {
                             menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                            menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(itemIndex).Name;
+                            menuText2[menuOptionsCount] = "@lre@" + item.Name;
                             menuActions[menuOptionsCount] = MenuAction.UseItemWithItem;
-                            menuActionType[menuOptionsCount] = k2;
+                            menuActionType[menuOptionsCount] = itemSlot;
                             menuActionVar1[menuOptionsCount] = selectedItem;
                             menuOptionsCount++;
                             return;
                         }
-                        if (inventoryManager.InventoryItemEquipped[k2] == 1)
+
+                        if (inventoryItem.IsEquipped)
                         {
                             menuText1[menuOptionsCount] = "Remove";
-                            menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(itemIndex).Name;
+                            menuText2[menuOptionsCount] = "@lre@" + item.Name;
                             menuActions[menuOptionsCount] = MenuAction.RemoveItem;
-                            menuActionType[menuOptionsCount] = k2;
+                            menuActionType[menuOptionsCount] = itemSlot;
                             menuOptionsCount++;
                         }
-                        else if (entityManager.GetItem(itemIndex).IsEquipable != 0)
+                        else if (item.IsEquipable != 0)
                         {
-                            if ((entityManager.GetItem(itemIndex).IsEquipable & 0x18) != 0)
+                            if ((item.IsEquipable & 0x18) != 0)
                             {
                                 menuText1[menuOptionsCount] = "Wield";
                             }
@@ -1156,33 +1173,37 @@ namespace RuneScapeSolo.Net.Client
                                 menuText1[menuOptionsCount] = "Wear";
                             }
 
-                            menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(itemIndex).Name;
+                            menuText2[menuOptionsCount] = "@lre@" + item.Name;
                             menuActions[menuOptionsCount] = MenuAction.EquipItem;
-                            menuActionType[menuOptionsCount] = k2;
+                            menuActionType[menuOptionsCount] = itemSlot;
                             menuOptionsCount++;
                         }
-                        if (!entityManager.GetItem(itemIndex).Command.Equals(""))
+
+                        if (!item.Command.Equals(""))
                         {
-                            menuText1[menuOptionsCount] = entityManager.GetItem(itemIndex).Command;
-                            menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(itemIndex).Name;
+                            menuText1[menuOptionsCount] = item.Command;
+                            menuText2[menuOptionsCount] = "@lre@" + item.Name;
                             menuActions[menuOptionsCount] = MenuAction.CommandOnItem;
-                            menuActionType[menuOptionsCount] = k2;
+                            menuActionType[menuOptionsCount] = itemSlot;
                             menuOptionsCount++;
                         }
+
                         menuText1[menuOptionsCount] = "Use";
-                        menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(itemIndex).Name;
+                        menuText2[menuOptionsCount] = "@lre@" + item.Name;
                         menuActions[menuOptionsCount] = MenuAction.UseItem;
-                        menuActionType[menuOptionsCount] = k2;
+                        menuActionType[menuOptionsCount] = itemSlot;
                         menuOptionsCount++;
+
                         menuText1[menuOptionsCount] = "Drop";
-                        menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(itemIndex).Name;
+                        menuText2[menuOptionsCount] = "@lre@" + item.Name;
                         menuActions[menuOptionsCount] = MenuAction.DropItem;
-                        menuActionType[menuOptionsCount] = k2;
+                        menuActionType[menuOptionsCount] = itemSlot;
                         menuOptionsCount++;
+
                         menuText1[menuOptionsCount] = "Examine";
-                        menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(itemIndex).Name;
+                        menuText2[menuOptionsCount] = "@lre@" + item.Name;
                         menuActions[menuOptionsCount] = MenuAction.ExamineItem;
-                        menuActionType[menuOptionsCount] = itemIndex;
+                        menuActionType[menuOptionsCount] = inventoryItem.Index;
                         menuOptionsCount++;
                     }
                 }
@@ -1431,8 +1452,10 @@ namespace RuneScapeSolo.Net.Client
                     if (isGeneralShop == 1)
                     {
                         int i29 = 39;
-                        for (int l33 = 0; l33 < inventoryManager.InventoryItemsCount; l33++)
+                        for (int itemSlot = 0; itemSlot < inventoryManager.InventoryItemsCount; itemSlot++)
                         {
+                            InventoryItem inventoryItem = inventoryManager.GetItem(itemSlot);
+
                             if (i29 < newShopItemCount)
                             {
                                 break;
@@ -1441,7 +1464,7 @@ namespace RuneScapeSolo.Net.Client
                             bool flag2 = false;
                             for (int l39 = 0; l39 < 40; l39++)
                             {
-                                if (shopItems[l39] != inventoryManager.InventoryItems[l33])
+                                if (shopItems[l39] != inventoryItem.Index)
                                 {
                                     continue;
                                 }
@@ -1450,14 +1473,14 @@ namespace RuneScapeSolo.Net.Client
                                 break;
                             }
 
-                            if (inventoryManager.InventoryItems[l33] == 10)
+                            if (inventoryItem.Index == 10)
                             {
                                 flag2 = true;
                             }
 
                             if (!flag2)
                             {
-                                shopItems[i29] = inventoryManager.InventoryItems[l33] & 0x7fff;
+                                shopItems[i29] = inventoryItem.Index & 0x7fff;
                                 shopItemCount[i29] = 0;
                                 shopItemSellPrice[i29] = entityManager.GetItem(shopItems[i29]).BasePrice - (int)(entityManager.GetItem(shopItems[i29]).BasePrice / 2.5);
                                 shopItemSellPrice[i29] -= (int)(shopItemSellPrice[i29] * 0.10);
@@ -1473,23 +1496,32 @@ namespace RuneScapeSolo.Net.Client
                     }
                     return;
                 }
+
                 if (command == ServerCommand.OpenBankWindow)
                 {
                     ShowBankBox = true;
                     int off = 1;
-                    inventoryManager.serverBankItemsCount = data[off++] & 0xff;
+
+                    inventoryManager.ServerBankItemsCount = data[off++] & 0xff;
                     InventoryManager.MaximumBankSize = data[off++] & 0xff;
-                    for (int l11 = 0; l11 < inventoryManager.serverBankItemsCount; l11++)
+
+                    for (int bankSlot = 0; bankSlot < inventoryManager.ServerBankItemsCount; bankSlot++)
                     {
-                        inventoryManager.serverBankItems[l11] = DataOperations.GetInt16(data, off);
+                        InventoryItem serverBankItem = inventoryManager.GetServerBankItem(bankSlot);
+                        
+                        // TODO: Does the value update persist?
+                        serverBankItem.Index = DataOperations.GetInt16(data, off);
                         off += 2;
-                        inventoryManager.serverBankItemCount[l11] = DataOperations.GetInt32(data, off);
+
+                        // TODO: Does the value update persist?
+                        serverBankItem.Quantity = DataOperations.GetInt32(data, off);
                         off += 4;
                     }
 
                     inventoryManager.UpdateBankItems();
                     return;
                 }
+
                 if (command == ServerCommand.SkillExperience)
                 {
                     int j5 = data[1] & 0xff;
@@ -5130,153 +5162,221 @@ namespace RuneScapeSolo.Net.Client
         {
             char c1 = '\u0198';
             char c2 = '\u014E';
-            if (bankPage > 0 && inventoryManager.bankItemsCount <= 48)
+
+            InventoryItem bankItem = inventoryManager.GetBankItem(selectedBankItem);
+
+            if (bankPage > 0 && inventoryManager.BankItemsCount <= 48)
             {
                 bankPage = 0;
             }
 
-            if (bankPage > 1 && inventoryManager.bankItemsCount <= 96)
+            if (bankPage > 1 && inventoryManager.BankItemsCount <= 96)
             {
                 bankPage = 1;
             }
 
-            if (bankPage > 2 && inventoryManager.bankItemsCount <= 144)
+            if (bankPage > 2 && inventoryManager.BankItemsCount <= 144)
             {
                 bankPage = 2;
             }
 
-            if (selectedBankItem >= inventoryManager.bankItemsCount || selectedBankItem < 0)
+            if (selectedBankItem >= inventoryManager.BankItemsCount || selectedBankItem < 0)
             {
                 selectedBankItem = -1;
             }
 
-            if (selectedBankItem != -1 && inventoryManager.bankItems[selectedBankItem] != selectedBankItemType)
+            if (selectedBankItem != -1 && bankItem.Index != selectedBankItemType)
             {
                 selectedBankItem = -1;
                 selectedBankItemType = -2;
             }
+
             if (mouseButtonClick != 0)
             {
                 mouseButtonClick = 0;
                 int l = InputManager.Instance.MouseLocation.X - (256 - c1 / 2);
                 int j1 = InputManager.Instance.MouseLocation.Y - (170 - c2 / 2);
+
                 if (l >= 0 && j1 >= 12 && l < 408 && j1 < 280)
                 {
-                    int l1 = bankPage * 48;
+                    int slot = bankPage * 48;
+
                     for (int k2 = 0; k2 < 6; k2++)
                     {
                         for (int i3 = 0; i3 < 8; i3++)
                         {
                             int k7 = 7 + i3 * 49;
                             int i8 = 28 + k2 * 34;
-                            if (l > k7 && l < k7 + 49 && j1 > i8 && j1 < i8 + 34 && l1 < inventoryManager.bankItemsCount && inventoryManager.bankItems[l1] != -1)
-                            {
-                                selectedBankItemType = inventoryManager.bankItems[l1];
-                                selectedBankItem = l1;
-                            }
-                            l1++;
-                        }
 
+                            if (l > k7 && l < k7 + 49 && j1 > i8 && j1 < i8 + 34 && slot < inventoryManager.BankItemsCount && inventoryManager.GetItem(slot).Index != -1)
+                            {
+                                selectedBankItemType = bankItem.Index;
+                                selectedBankItem = slot;
+                            }
+
+                            slot++;
+                        }
                     }
 
                     l = 256 - c1 / 2;
                     j1 = 170 - c2 / 2;
                     int id;
+
                     if (selectedBankItem < 0)
                     {
                         id = -1;
                     }
                     else
                     {
-                        id = inventoryManager.bankItems[selectedBankItem];
+                        id = bankItem.Index;
                     }
 
                     if (id != -1)
                     {
-                        int count = inventoryManager.bankItemCount[selectedBankItem];
+                        int count = bankItem.Quantity;
+
                         if (entityManager.GetItem(id).IsStackable == 1 && count > 1)
                         {
                             count = 1;
                         }
 
-                        if (count >= 1 && InputManager.Instance.MouseLocation.X >= l + 220 && InputManager.Instance.MouseLocation.Y >= j1 + 238 && InputManager.Instance.MouseLocation.X < l + 250 && InputManager.Instance.MouseLocation.Y <= j1 + 249)
+                        if (count >= 1 &&
+                            InputManager.Instance.MouseLocation.X >= l + 220 &&
+                            InputManager.Instance.MouseLocation.Y >= j1 + 238 &&
+                            InputManager.Instance.MouseLocation.X < l + 250 &&
+                            InputManager.Instance.MouseLocation.Y <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(1);
                             StreamClass.FormatPacket();
                         }
-                        if (count >= 5 && InputManager.Instance.MouseLocation.X >= l + 250 && InputManager.Instance.MouseLocation.Y >= j1 + 238 && InputManager.Instance.MouseLocation.X < l + 280 && InputManager.Instance.MouseLocation.Y <= j1 + 249)
+
+                        if (count >= 5 &&
+                            InputManager.Instance.MouseLocation.X >= l + 250 &&
+                            InputManager.Instance.MouseLocation.Y >= j1 + 238 &&
+                            InputManager.Instance.MouseLocation.X < l + 280 &&
+                            InputManager.Instance.MouseLocation.Y <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(5);
                             StreamClass.FormatPacket();
                         }
-                        if (count >= 25 && InputManager.Instance.MouseLocation.X >= l + 280 && InputManager.Instance.MouseLocation.Y >= j1 + 238 && InputManager.Instance.MouseLocation.X < l + 305 && InputManager.Instance.MouseLocation.Y <= j1 + 249)
+
+                        if (count >= 25 &&
+                            InputManager.Instance.MouseLocation.X >= l + 280 &&
+                            InputManager.Instance.MouseLocation.Y >= j1 + 238 &&
+                            InputManager.Instance.MouseLocation.X < l + 305 &&
+                            InputManager.Instance.MouseLocation.Y <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(25);
                             StreamClass.FormatPacket();
                         }
-                        if (count >= 100 && InputManager.Instance.MouseLocation.X >= l + 305 && InputManager.Instance.MouseLocation.Y >= j1 + 238 && InputManager.Instance.MouseLocation.X < l + 335 && InputManager.Instance.MouseLocation.Y <= j1 + 249)
+
+                        if (count >= 100 &&
+                            InputManager.Instance.MouseLocation.X >= l + 305 &&
+                            InputManager.Instance.MouseLocation.Y >= j1 + 238 &&
+                            InputManager.Instance.MouseLocation.X < l + 335 &&
+                            InputManager.Instance.MouseLocation.Y <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(100);
                             StreamClass.FormatPacket();
                         }
-                        if (count >= 500 && InputManager.Instance.MouseLocation.X >= l + 335 && InputManager.Instance.MouseLocation.Y >= j1 + 238 && InputManager.Instance.MouseLocation.X < l + 368 && InputManager.Instance.MouseLocation.Y <= j1 + 249)
+
+                        if (count >= 500 &&
+                            InputManager.Instance.MouseLocation.X >= l + 335 &&
+                            InputManager.Instance.MouseLocation.Y >= j1 + 238 &&
+                            InputManager.Instance.MouseLocation.X < l + 368 &&
+                            InputManager.Instance.MouseLocation.Y <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(500);
                             StreamClass.FormatPacket();
                         }
-                        if (count >= 2500 && InputManager.Instance.MouseLocation.X >= l + 370 && InputManager.Instance.MouseLocation.Y >= j1 + 238 && InputManager.Instance.MouseLocation.X < l + 400 && InputManager.Instance.MouseLocation.Y <= j1 + 249)
+
+                        if (count >= 2500 &&
+                            InputManager.Instance.MouseLocation.X >= l + 370 &&
+                            InputManager.Instance.MouseLocation.Y >= j1 + 238 &&
+                            InputManager.Instance.MouseLocation.X < l + 400 &&
+                            InputManager.Instance.MouseLocation.Y <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(2500);
                             StreamClass.FormatPacket();
                         }
-                        if (inventoryManager.GetItemTotalCount(id) >= 1 && InputManager.Instance.MouseLocation.X >= l + 220 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 250 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
+
+                        if (inventoryManager.GetItemTotalCount(id) >= 1 &&
+                            InputManager.Instance.MouseLocation.X >= l + 220 &&
+                            InputManager.Instance.MouseLocation.Y >= j1 + 263 &&
+                            InputManager.Instance.MouseLocation.X < l + 250 &&
+                            InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(1);
                             StreamClass.FormatPacket();
                         }
-                        if (inventoryManager.GetItemTotalCount(id) >= 5 && InputManager.Instance.MouseLocation.X >= l + 250 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 280 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
+
+                        if (inventoryManager.GetItemTotalCount(id) >= 5 &&
+                            InputManager.Instance.MouseLocation.X >= l + 250 &&
+                            InputManager.Instance.MouseLocation.Y >= j1 + 263 &&
+                            InputManager.Instance.MouseLocation.X < l + 280 &&
+                            InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(5);
                             StreamClass.FormatPacket();
                         }
-                        if (inventoryManager.GetItemTotalCount(id) >= 25 && InputManager.Instance.MouseLocation.X >= l + 280 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 305 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
+
+                        if (inventoryManager.GetItemTotalCount(id) >= 25 &&
+                            InputManager.Instance.MouseLocation.X >= l + 280 &&
+                            InputManager.Instance.MouseLocation.Y >= j1 + 263 &&
+                            InputManager.Instance.MouseLocation.X < l + 305 &&
+                            InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(25);
                             StreamClass.FormatPacket();
                         }
-                        if (inventoryManager.GetItemTotalCount(id) >= 100 && InputManager.Instance.MouseLocation.X >= l + 305 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 335 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
+
+                        if (inventoryManager.GetItemTotalCount(id) >= 100 &&
+                            InputManager.Instance.MouseLocation.X >= l + 305 &&
+                            InputManager.Instance.MouseLocation.Y >= j1 + 263 &&
+                            InputManager.Instance.MouseLocation.X < l + 335 &&
+                            InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(100);
                             StreamClass.FormatPacket();
                         }
-                        if (inventoryManager.GetItemTotalCount(id) >= 500 && InputManager.Instance.MouseLocation.X >= l + 335 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 368 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
+
+                        if (inventoryManager.GetItemTotalCount(id) >= 500 &&
+                            InputManager.Instance.MouseLocation.X >= l + 335 &&
+                            InputManager.Instance.MouseLocation.Y >= j1 + 263 &&
+                            InputManager.Instance.MouseLocation.X < l + 368 &&
+                            InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
                             StreamClass.AddInt32(500);
                             StreamClass.FormatPacket();
                         }
-                        if (inventoryManager.GetItemTotalCount(id) >= 2500 && InputManager.Instance.MouseLocation.X >= l + 370 && InputManager.Instance.MouseLocation.Y >= j1 + 263 && InputManager.Instance.MouseLocation.X < l + 400 && InputManager.Instance.MouseLocation.Y <= j1 + 274)
+
+                        if (inventoryManager.GetItemTotalCount(id) >= 2500 &&
+                            InputManager.Instance.MouseLocation.X >= l + 370 &&
+                            InputManager.Instance.MouseLocation.Y >= j1 + 263 &&
+                            InputManager.Instance.MouseLocation.X < l + 400 &&
+                            InputManager.Instance.MouseLocation.Y <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
@@ -5285,19 +5385,19 @@ namespace RuneScapeSolo.Net.Client
                         }
                     }
                 }
-                else if (inventoryManager.bankItemsCount > 48 && l >= 50 && l <= 115 && j1 <= 12)
+                else if (inventoryManager.BankItemsCount > 48 && l >= 50 && l <= 115 && j1 <= 12)
                 {
                     bankPage = 0;
                 }
-                else if (inventoryManager.bankItemsCount > 48 && l >= 115 && l <= 180 && j1 <= 12)
+                else if (inventoryManager.BankItemsCount > 48 && l >= 115 && l <= 180 && j1 <= 12)
                 {
                     bankPage = 1;
                 }
-                else if (inventoryManager.bankItemsCount > 96 && l >= 180 && l <= 245 && j1 <= 12)
+                else if (inventoryManager.BankItemsCount > 96 && l >= 180 && l <= 245 && j1 <= 12)
                 {
                     bankPage = 2;
                 }
-                else if (inventoryManager.bankItemsCount > 144 && l >= 245 && l <= 310 && j1 <= 12)
+                else if (inventoryManager.BankItemsCount > 144 && l >= 245 && l <= 310 && j1 <= 12)
                 {
                     bankPage = 3;
                 }
@@ -5309,6 +5409,7 @@ namespace RuneScapeSolo.Net.Client
                     return;
                 }
             }
+
             int i1 = 256 - c1 / 2;
             int k1 = 170 - c2 / 2;
             gameGraphics.DrawBox(i1, k1, 408, 12, 192);
@@ -5320,15 +5421,17 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.DrawString("Bank", i1 + 1, k1 + 10, 1, 0xffffff);
             int l2 = 50;
 
-            if (inventoryManager.bankItemsCount > 48)
+            if (inventoryManager.BankItemsCount > 48)
             {
                 int k3 = 0xffffff;
                 if (bankPage == 0)
                 {
                     k3 = 0xff0000;
                 }
-                else
-                    if (InputManager.Instance.MouseLocation.X > i1 + l2 && InputManager.Instance.MouseLocation.Y >= k1 && InputManager.Instance.MouseLocation.X < i1 + l2 + 65 && InputManager.Instance.MouseLocation.Y < k1 + 12)
+                else if (InputManager.Instance.MouseLocation.X > i1 + l2 &&
+                         InputManager.Instance.MouseLocation.Y >= k1 &&
+                         InputManager.Instance.MouseLocation.X < i1 + l2 + 65 &&
+                         InputManager.Instance.MouseLocation.Y < k1 + 12)
                 {
                     k3 = 0xffff00;
                 }
@@ -5340,8 +5443,10 @@ namespace RuneScapeSolo.Net.Client
                 {
                     k3 = 0xff0000;
                 }
-                else
-                    if (InputManager.Instance.MouseLocation.X > i1 + l2 && InputManager.Instance.MouseLocation.Y >= k1 && InputManager.Instance.MouseLocation.X < i1 + l2 + 65 && InputManager.Instance.MouseLocation.Y < k1 + 12)
+                else if (InputManager.Instance.MouseLocation.X > i1 + l2 &&
+                         InputManager.Instance.MouseLocation.Y >= k1 &&
+                         InputManager.Instance.MouseLocation.X < i1 + l2 + 65 &&
+                         InputManager.Instance.MouseLocation.Y < k1 + 12)
                 {
                     k3 = 0xffff00;
                 }
@@ -5350,15 +5455,17 @@ namespace RuneScapeSolo.Net.Client
                 l2 += 65;
             }
 
-            if (inventoryManager.bankItemsCount > 96)
+            if (inventoryManager.BankItemsCount > 96)
             {
                 int l3 = 0xffffff;
                 if (bankPage == 2)
                 {
                     l3 = 0xff0000;
                 }
-                else
-                    if (InputManager.Instance.MouseLocation.X > i1 + l2 && InputManager.Instance.MouseLocation.Y >= k1 && InputManager.Instance.MouseLocation.X < i1 + l2 + 65 && InputManager.Instance.MouseLocation.Y < k1 + 12)
+                else if (InputManager.Instance.MouseLocation.X > i1 + l2 &&
+                         InputManager.Instance.MouseLocation.Y >= k1 &&
+                         InputManager.Instance.MouseLocation.X < i1 + l2 + 65 &&
+                         InputManager.Instance.MouseLocation.Y < k1 + 12)
                 {
                     l3 = 0xffff00;
                 }
@@ -5367,15 +5474,17 @@ namespace RuneScapeSolo.Net.Client
                 l2 += 65;
             }
 
-            if (inventoryManager.bankItemsCount > 144)
+            if (inventoryManager.BankItemsCount > 144)
             {
                 int i4 = 0xffffff;
                 if (bankPage == 3)
                 {
                     i4 = 0xff0000;
                 }
-                else
-                    if (InputManager.Instance.MouseLocation.X > i1 + l2 && InputManager.Instance.MouseLocation.Y >= k1 && InputManager.Instance.MouseLocation.X < i1 + l2 + 65 && InputManager.Instance.MouseLocation.Y < k1 + 12)
+                else if (InputManager.Instance.MouseLocation.X > i1 + l2 &&
+                         InputManager.Instance.MouseLocation.Y >= k1 &&
+                         InputManager.Instance.MouseLocation.X < i1 + l2 + 65 &&
+                         InputManager.Instance.MouseLocation.Y < k1 + 12)
                 {
                     i4 = 0xffff00;
                 }
@@ -5386,7 +5495,10 @@ namespace RuneScapeSolo.Net.Client
 
             int j4 = 0xffffff;
 
-            if (InputManager.Instance.MouseLocation.X > i1 + 320 && InputManager.Instance.MouseLocation.Y >= k1 && InputManager.Instance.MouseLocation.X < i1 + 408 && InputManager.Instance.MouseLocation.Y < k1 + 12)
+            if (InputManager.Instance.MouseLocation.X > i1 + 320 &&
+                InputManager.Instance.MouseLocation.Y >= k1 &&
+                InputManager.Instance.MouseLocation.X < i1 + 408 &&
+                InputManager.Instance.MouseLocation.Y < k1 + 12)
             {
                 j4 = 0xff0000;
             }
@@ -5394,15 +5506,21 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.DrawLabel("Close window", i1 + 406, k1 + 10, 1, j4);
             gameGraphics.DrawString("Number in bank in green", i1 + 7, k1 + 24, 1, 65280);
             gameGraphics.DrawString("Number held in blue", i1 + 289, k1 + 24, 1, 65535);
+
             int l7 = 0xd0d0d0;
-            int j8 = bankPage * 48;
+            int bankSlot = bankPage * 48;
+
             for (int l8 = 0; l8 < 6; l8++)
             {
                 for (int i9 = 0; i9 < 8; i9++)
                 {
                     int k9 = i1 + 7 + i9 * 49;
                     int l9 = k1 + 28 + l8 * 34;
-                    if (selectedBankItem == j8)
+
+                    InventoryItem bankItem2 = inventoryManager.GetBankItem(bankSlot);
+                    Item item = entityManager.GetItem(bankItem2.Index);
+
+                    if (selectedBankItem == bankSlot)
                     {
                         gameGraphics.drawBoxAlpha(k9, l9, 49, 34, 0xff0000, 160);
                     }
@@ -5412,13 +5530,14 @@ namespace RuneScapeSolo.Net.Client
                     }
 
                     gameGraphics.DrawBoxEdge(k9, l9, 50, 35, 0);
-                    if (j8 < inventoryManager.bankItemsCount && inventoryManager.bankItems[j8] != -1)
+
+                    if (bankSlot < inventoryManager.BankItemsCount && bankItem2.Index != -1)
                     {
-                        gameGraphics.DrawImage(k9, l9, 48, 32, baseItemPicture + entityManager.GetItem(inventoryManager.bankItems[j8]).InventoryPicture, entityManager.GetItem(inventoryManager.bankItems[j8]).PictureMask, 0, 0, false);
-                        gameGraphics.DrawString(inventoryManager.bankItemCount[j8].ToString(), k9 + 1, l9 + 10, 1, 65280);
-                        gameGraphics.DrawLabel(inventoryManager.GetItemTotalCount(inventoryManager.bankItems[j8]).ToString(), k9 + 47, l9 + 29, 1, 65535);
+                        gameGraphics.DrawImage(k9, l9, 48, 32, baseItemPicture + item.InventoryPicture, item.PictureMask, 0, 0, false);
+                        gameGraphics.DrawString(bankItem2.Quantity.ToString(), k9 + 1, l9 + 10, 1, 65280);
+                        gameGraphics.DrawLabel(inventoryManager.GetItemTotalCount(bankItem2.Quantity).ToString(), k9 + 47, l9 + 29, 1, 65535);
                     }
-                    j8++;
+                    bankSlot++;
                 }
 
             }
@@ -5429,26 +5548,28 @@ namespace RuneScapeSolo.Net.Client
                 gameGraphics.DrawText("Select an object to withdraw or deposit", i1 + 204, k1 + 248, 3, 0xffff00);
                 return;
             }
+
             int itemId;
+
             if (selectedBankItem < 0)
             {
                 itemId = -1;
             }
             else
             {
-                itemId = inventoryManager.bankItems[selectedBankItem];
+                itemId = inventoryManager.GetBankItem(selectedBankItem).Index;
             }
 
             if (itemId != -1)
             {
-                int k8 = inventoryManager.bankItemCount[selectedBankItem];
+                int quantity = inventoryManager.GetBankItem(selectedBankItem).Quantity;
 
-                if (entityManager.GetItem(itemId).IsStackable == 1 && k8 > 1)
+                if (entityManager.GetItem(itemId).IsStackable == 1 && quantity > 1)
                 {
-                    k8 = 1;
+                    quantity = 1;
                 }
 
-                if (k8 > 0)
+                if (quantity > 0)
                 {
                     gameGraphics.DrawString("Withdraw " + entityManager.GetItem(itemId).Name, i1 + 2, k1 + 248, 1, 0xffffff);
                     int k4 = 0xffffff;
@@ -5458,7 +5579,7 @@ namespace RuneScapeSolo.Net.Client
                     }
 
                     gameGraphics.DrawString("One", i1 + 222, k1 + 248, 1, k4);
-                    if (k8 >= 5)
+                    if (quantity >= 5)
                     {
                         int l4 = 0xffffff;
                         if (InputManager.Instance.MouseLocation.X >= i1 + 250 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 280 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
@@ -5468,7 +5589,7 @@ namespace RuneScapeSolo.Net.Client
 
                         gameGraphics.DrawString("Five", i1 + 252, k1 + 248, 1, l4);
                     }
-                    if (k8 >= 25)
+                    if (quantity >= 25)
                     {
                         int i5 = 0xffffff;
                         if (InputManager.Instance.MouseLocation.X >= i1 + 280 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 305 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
@@ -5478,7 +5599,7 @@ namespace RuneScapeSolo.Net.Client
 
                         gameGraphics.DrawString("25", i1 + 282, k1 + 248, 1, i5);
                     }
-                    if (k8 >= 100)
+                    if (quantity >= 100)
                     {
                         int j5 = 0xffffff;
                         if (InputManager.Instance.MouseLocation.X >= i1 + 305 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 335 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
@@ -5488,7 +5609,7 @@ namespace RuneScapeSolo.Net.Client
 
                         gameGraphics.DrawString("100", i1 + 307, k1 + 248, 1, j5);
                     }
-                    if (k8 >= 500)
+                    if (quantity >= 500)
                     {
                         int k5 = 0xffffff;
                         if (InputManager.Instance.MouseLocation.X >= i1 + 335 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 368 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
@@ -5498,7 +5619,7 @@ namespace RuneScapeSolo.Net.Client
 
                         gameGraphics.DrawString("500", i1 + 337, k1 + 248, 1, k5);
                     }
-                    if (k8 >= 2500)
+                    if (quantity >= 2500)
                     {
                         int l5 = 0xffffff;
                         if (InputManager.Instance.MouseLocation.X >= i1 + 370 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 400 && InputManager.Instance.MouseLocation.Y <= k1 + 249)

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 
-using RuneScapeSolo.GameLogic.GameManagers;
 using RuneScapeSolo.Net.Client;
+using RuneScapeSolo.Models;
 using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Gui.GuiElements
@@ -61,12 +61,13 @@ namespace RuneScapeSolo.Gui.GuiElements
 
         void SetItems()
         {
-            for (int i = 0; i < Rows * Columns; i++)
+            for (int itemSlot = 0; itemSlot < Rows * Columns; itemSlot++)
             {
-                var c = client.entityManager.GetItem(client.inventoryManager.InventoryItems[i]);
+                InventoryItem inventoryItem = client.inventoryManager.GetItem(itemSlot);
+                Item item = client.entityManager.GetItem(inventoryItem.Index);
 
-                itemCards[i].ItemPictureId = c.InventoryPicture;
-                itemCards[i].Quantity = client.inventoryManager.InventoryItemCount[i];
+                itemCards[itemSlot].ItemPictureId = item.InventoryPicture;
+                itemCards[itemSlot].Quantity = inventoryItem.Quantity;
             }
         }
     }
