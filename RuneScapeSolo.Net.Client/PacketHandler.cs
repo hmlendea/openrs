@@ -7,6 +7,7 @@ using RuneScapeSolo.Models.Enumerations;
 using RuneScapeSolo.Net.Client.Data;
 using RuneScapeSolo.Net.Client.Enumerations;
 using RuneScapeSolo.Net.Client.Game;
+using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Net.Client
 {
@@ -287,40 +288,39 @@ namespace RuneScapeSolo.Net.Client
                 if (DataOperations.GetInt8(data[offset]) == 255)
                 {
                     int newCount = 0;
-                    int newSectionX = client.SectionX + data[offset + 1] >> 3;
-                    int newSectionY = client.SectionY + data[offset + 2] >> 3;
+                    Point2D newSectionLocation = new Point2D(
+                        client.SectionLocation.X + data[offset + 1] >> 3,
+                        client.SectionLocation.Y + data[offset + 2] >> 3);
+
                     offset += 3;
 
-                    for (int obj = 0; obj < client.ObjectCount; obj++)
+                    for (int objectIndex = 0; objectIndex < client.ObjectCount; objectIndex++)
                     {
-                        int newX = (client.ObjectX[obj] >> 3) - newSectionX;
-                        int newY = (client.ObjectY[obj] >> 3) - newSectionY;
+                        Point2D newLocation = new Point2D(
+                            (client.ObjectLocations[objectIndex].X >> 3) - newSectionLocation.X,
+                            (client.ObjectLocations[objectIndex].Y >> 3) - newSectionLocation.Y);
 
-                        if (newX != 0 || newY != 0)
+                        if (newLocation != Point2D.Empty)
                         {
-                            if (obj != newCount)
+                            if (objectIndex != newCount)
                             {
-                                client.ObjectArray[newCount] = client.ObjectArray[obj];
+                                client.ObjectArray[newCount] = client.ObjectArray[objectIndex];
                                 client.ObjectArray[newCount].index = newCount;
-
-                                client.ObjectX[newCount] = client.ObjectX[obj];
-                                client.ObjectY[newCount] = client.ObjectY[obj];
-
-                                client.ObjectType[newCount] = client.ObjectType[obj];
-                                client.ObjectRotation[newCount] = client.ObjectRotation[obj];
+                                client.ObjectLocations[newCount] = client.ObjectLocations[objectIndex];
+                                client.ObjectType[newCount] = client.ObjectType[objectIndex];
+                                client.ObjectRotation[newCount] = client.ObjectRotation[objectIndex];
                             }
 
                             newCount += 1;
                         }
                         else
                         {
-                            client.gameCamera.removeModel(client.ObjectArray[obj]);
+                            client.gameCamera.removeModel(client.ObjectArray[objectIndex]);
 
                             client.engineHandle.removeObject(
-                                client.ObjectX[obj],
-                                client.ObjectY[obj],
-                                client.ObjectType[obj],
-                                client.ObjectRotation[obj]);
+                                client.ObjectLocations[objectIndex],
+                                client.ObjectType[objectIndex],
+                                client.ObjectRotation[objectIndex]);
                         }
                     }
 
@@ -331,42 +331,39 @@ namespace RuneScapeSolo.Net.Client
                     int index = DataOperations.GetInt16(data, offset);
                     offset += 2;
 
-                    int newSectionX = client.SectionX + data[offset++];
-                    int newSectionY = client.SectionY + data[offset++];
+                    Point2D newSectionLocation = new Point2D(
+                        client.SectionLocation.X + data[offset++],
+                        client.SectionLocation.Y + data[offset++]);
 
                     int rotation = data[offset];
                     int newCount = 0;
                     offset += 1;
 
-                    for (int obj = 0; obj < client.ObjectCount; obj++)
+                    for (int objectIndex = 0; objectIndex < client.ObjectCount; objectIndex++)
                     {
-                        if (client.ObjectX[obj] != newSectionX ||
-                            client.ObjectY[obj] != newSectionY ||
-                            client.ObjectRotation[obj] != rotation)
+                        if (client.ObjectLocations[objectIndex].X != newSectionLocation.X ||
+                            client.ObjectLocations[objectIndex].Y != newSectionLocation.Y ||
+                            client.ObjectRotation[objectIndex] != rotation)
                         {
-                            if (obj != newCount)
+                            if (objectIndex != newCount)
                             {
-                                client.ObjectArray[newCount] = client.ObjectArray[obj];
+                                client.ObjectArray[newCount] = client.ObjectArray[objectIndex];
                                 client.ObjectArray[newCount].index = newCount;
-
-                                client.ObjectX[newCount] = client.ObjectX[obj];
-                                client.ObjectY[newCount] = client.ObjectY[obj];
-
-                                client.ObjectType[newCount] = client.ObjectType[obj];
-                                client.ObjectRotation[newCount] = client.ObjectRotation[obj];
+                                client.ObjectLocations[newCount] = client.ObjectLocations[objectIndex];
+                                client.ObjectType[newCount] = client.ObjectType[objectIndex];
+                                client.ObjectRotation[newCount] = client.ObjectRotation[objectIndex];
                             }
 
                             newCount += 1;
                         }
                         else
                         {
-                            client.gameCamera.removeModel(client.ObjectArray[obj]);
+                            client.gameCamera.removeModel(client.ObjectArray[objectIndex]);
 
                             client.engineHandle.removeObject(
-                                client.ObjectX[obj],
-                                client.ObjectY[obj],
-                                client.ObjectType[obj],
-                                client.ObjectRotation[obj]);
+                                client.ObjectLocations[objectIndex],
+                                client.ObjectType[objectIndex],
+                                client.ObjectRotation[objectIndex]);
                         }
                     }
 
@@ -374,7 +371,7 @@ namespace RuneScapeSolo.Net.Client
 
                     if (index != 60000)
                     {
-                        client.engineHandle.registerObjectDir(newSectionX, newSectionY, rotation);
+                        client.engineHandle.registerObjectDir(newSectionLocation.X, newSectionLocation.Y, rotation);
 
                         int width = 0;
                         int height = 0;
@@ -393,8 +390,8 @@ namespace RuneScapeSolo.Net.Client
                             width = worldObject.Height;
                         }
 
-                        int l40 = ((newSectionX + newSectionX + width) * client.GridSize) / 2;
-                        int k42 = ((newSectionY + newSectionY + height) * client.GridSize) / 2;
+                        int l40 = ((newSectionLocation.X * 2 + width) * client.GridSize) / 2;
+                        int k42 = ((newSectionLocation.Y * 2 + height) * client.GridSize) / 2;
                         ObjectModel gameObjectModel = client.GameDataObjects[worldObject.ModelId];
                         ObjectModel gameObject = gameObjectModel.CreateParent();
 
@@ -405,15 +402,14 @@ namespace RuneScapeSolo.Net.Client
                         gameObject.offsetMiniPosition(0, rotation * 32, 0);
                         gameObject.offsetPosition(l40, -client.engineHandle.getAveragedElevation(l40, k42), k42);
                         gameObject.UpdateShading(true, 48, 48, -50, -10, -50);
-                        client.engineHandle.createObject(newSectionX, newSectionY, index, rotation);
+                        client.engineHandle.createObject(newSectionLocation.X, newSectionLocation.Y, index, rotation);
 
                         if (index == 74)
                         {
                             gameObject.offsetPosition(0, -480, 0);
                         }
 
-                        client.ObjectX[client.ObjectCount] = newSectionX;
-                        client.ObjectY[client.ObjectCount] = newSectionY;
+                        client.ObjectLocations[client.ObjectCount] = newSectionLocation;
                         client.ObjectType[client.ObjectCount] = index;
                         client.ObjectRotation[client.ObjectCount] = rotation;
                         client.ObjectArray[client.ObjectCount++] = gameObject;
@@ -728,8 +724,8 @@ namespace RuneScapeSolo.Net.Client
                 int mobSprite = DataOperations.GetInt(data, newNpcOffset, 4);
                 newNpcOffset += 4;
 
-                int mobX = (client.SectionX + areaMobX) * client.GridSize + 64;
-                int mobY = (client.SectionY + areaMobY) * client.GridSize + 64;
+                int mobX = (client.SectionLocation.X + areaMobX) * client.GridSize + 64;
+                int mobY = (client.SectionLocation.Y + areaMobY) * client.GridSize + 64;
                 int addIndex = DataOperations.GetInt(data, newNpcOffset, 10);
 
                 newNpcOffset += 10;
@@ -773,13 +769,16 @@ namespace RuneScapeSolo.Net.Client
         {
             client.ServerIndex = DataOperations.GetInt16(data, 1);
 
-            client.WildX = DataOperations.GetInt16(data, 3);
-            client.WildY = DataOperations.GetInt16(data, 5);
+            client.WildLocation = new Point2D(
+                DataOperations.GetInt16(data, 3),
+                DataOperations.GetInt16(data, 5));
 
             client.LayerIndex = DataOperations.GetInt16(data, 7);
             client.LayerModifier = DataOperations.GetInt16(data, 9);
-
-            client.WildY -= client.LayerIndex * client.LayerModifier;
+            
+            client.WildLocation = new Point2D(
+                client.WildLocation.X,
+                client.WildLocation.Y - client.LayerIndex * client.LayerModifier);
 
             client.LoadArea = true;
             client.NeedsClear = true;
@@ -802,22 +801,22 @@ namespace RuneScapeSolo.Net.Client
 
             int off = 8;
 
-            client.SectionX = DataOperations.GetInt(data, off, 11);
-            off += 11;
-
-            client.SectionY = DataOperations.GetInt(data, off, 13);
-            off += 13;
+            client.SectionLocation = new Point2D(
+                DataOperations.GetInt(data, off, 11),
+                DataOperations.GetInt(data, off + 11, 13));
+            off += 24;
 
             int sprite = DataOperations.GetInt(data, off, 4);
             off += 4;
 
-            bool sectionLoaded = client.loadSection(client.SectionX, client.SectionY);
+            bool sectionLoaded = client.loadSection(client.SectionLocation.X, client.SectionLocation.Y);
 
-            client.SectionX -= client.AreaX;
-            client.SectionY -= client.AreaY;
+            client.SectionLocation = new Point2D(
+                client.SectionLocation.X - client.AreaLocation.X,
+                client.SectionLocation.Y - client.AreaLocation.Y);
 
-            int mapEnterX = client.SectionX * client.GridSize + 64;
-            int mapEnterY = client.SectionY * client.GridSize + 64;
+            int mapEnterX = client.SectionLocation.X * client.GridSize + 64;
+            int mapEnterY = client.SectionLocation.Y * client.GridSize + 64;
 
             if (sectionLoaded)
             {
@@ -927,8 +926,8 @@ namespace RuneScapeSolo.Net.Client
                 int addIndex = DataOperations.GetInt(data, off, 1);
                 off++;
 
-                int mobX = (client.SectionX + areaMobX) * client.GridSize + 64;
-                int mobY = (client.SectionY + areaMobY) * client.GridSize + 64;
+                int mobX = (client.SectionLocation.X + areaMobX) * client.GridSize + 64;
+                int mobY = (client.SectionLocation.Y + areaMobY) * client.GridSize + 64;
                 client.MakePlayer(mobIndex, mobX, mobY, mobSprite);
 
                 if (addIndex == 0)
@@ -1112,21 +1111,20 @@ namespace RuneScapeSolo.Net.Client
                 if (DataOperations.GetInt8(data[offset]) == 255)
                 {
                     int newCount = 0;
-                    int newSectionX = client.SectionX + data[offset + 1] >> 3;
-                    int newSectionY = client.SectionY + data[offset + 2] >> 3;
+                    int newSectionX = client.SectionLocation.X + data[offset + 1] >> 3;
+                    int newSectionY = client.SectionLocation.Y + data[offset + 2] >> 3;
                     offset += 3;
 
                     for (int groundItem = 0; groundItem < client.GroundItemCount; groundItem++)
                     {
-                        int newX = (client.GroundItemX[groundItem] >> 3) - newSectionX;
-                        int newY = (client.GroundItemY[groundItem] >> 3) - newSectionY;
+                        int newX = (client.GroundItemLocations[groundItem].X >> 3) - newSectionX;
+                        int newY = (client.GroundItemLocations[groundItem].Y >> 3) - newSectionY;
 
                         if (newX != 0 || newY != 0)
                         {
                             if (groundItem != newCount)
                             {
-                                client.GroundItemX[newCount] = client.GroundItemX[groundItem];
-                                client.GroundItemY[newCount] = client.GroundItemY[groundItem];
+                                client.GroundItemLocations[newCount] = client.GroundItemLocations[groundItem];
                                 client.GroundItemId[newCount] = client.GroundItemId[groundItem];
                                 client.GroundItemObjectVar[newCount] = client.GroundItemObjectVar[groundItem];
                             }
@@ -1142,27 +1140,27 @@ namespace RuneScapeSolo.Net.Client
                     int newId = DataOperations.GetInt16(data, offset);
                     offset += 2;
 
-                    int newX = client.SectionX + data[offset++];
-                    int newY = client.SectionY + data[offset++];
+                    int newX = client.SectionLocation.X + data[offset++];
+                    int newY = client.SectionLocation.Y + data[offset++];
 
                     // True if it is new, False if it is known;
                     bool itemIsNew = (newId & 0x8000) == 0;
 
                     if (itemIsNew)
                     {
-                        client.GroundItemX[client.GroundItemCount] = newX;
-                        client.GroundItemY[client.GroundItemCount] = newY;
+                        client.GroundItemLocations[client.GroundItemCount] = new Point2D(newX, newY);
                         client.GroundItemId[client.GroundItemCount] = newId;
                         client.GroundItemObjectVar[client.GroundItemCount] = 0;
 
-                        for (int i = 0; i < client.ObjectCount; i++)
+                        for (int objectIndex = 0; objectIndex < client.ObjectCount; objectIndex++)
                         {
-                            if (client.ObjectX[i] != newX || client.ObjectY[i] != newY)
+                            if (client.ObjectLocations[objectIndex].X != newX ||
+                                client.ObjectLocations[objectIndex].Y != newY)
                             {
                                 continue;
                             }
 
-                            client.GroundItemObjectVar[client.GroundItemCount] = entityManager.GetWorldObject(client.ObjectType[i]).GroundItemVar;
+                            client.GroundItemObjectVar[client.GroundItemCount] = entityManager.GetWorldObject(client.ObjectType[objectIndex]).GroundItemVar;
                             break;
                         }
 
@@ -1173,16 +1171,17 @@ namespace RuneScapeSolo.Net.Client
                         newId &= 0x7fff;
                         int updateIndex = 0;
 
-                        for (int i = 0; i < client.GroundItemCount; i++)
+                        for (int groundItemIndex = 0; groundItemIndex < client.GroundItemCount; groundItemIndex++)
                         {
-                            if (client.GroundItemX[i] != newX || client.GroundItemY[i] != newY || client.GroundItemId[i] != newId)
+                            if (client.GroundItemLocations[groundItemIndex].X != newX ||
+                                client.GroundItemLocations[groundItemIndex].Y != newY ||
+                                client.GroundItemId[groundItemIndex] != newId)
                             {
-                                if (i != updateIndex)
+                                if (groundItemIndex != updateIndex)
                                 {
-                                    client.GroundItemX[updateIndex] = client.GroundItemX[i];
-                                    client.GroundItemY[updateIndex] = client.GroundItemY[i];
-                                    client.GroundItemId[updateIndex] = client.GroundItemId[i];
-                                    client.GroundItemObjectVar[updateIndex] = client.GroundItemObjectVar[i];
+                                    client.GroundItemLocations[updateIndex] = client.GroundItemLocations[groundItemIndex];
+                                    client.GroundItemId[updateIndex] = client.GroundItemId[groundItemIndex];
+                                    client.GroundItemObjectVar[updateIndex] = client.GroundItemObjectVar[groundItemIndex];
                                 }
 
                                 updateIndex += 1;
@@ -1408,15 +1407,16 @@ namespace RuneScapeSolo.Net.Client
                 if (DataOperations.GetInt8(data[offset]) == 255)
                 {
                     int newCount = 0;
-                    int newSectionX = client.SectionX + data[offset + 1] >> 3;
-                    int newSectionY = client.SectionY + data[offset + 2] >> 3;
+                    Point2D newSectionLocation = new Point2D(
+                        client.SectionLocation.X + data[offset + 1] >> 3,
+                        client.SectionLocation.Y + data[offset + 2] >> 3);
 
                     offset += 3;
 
                     for (int currentWallObject = 0; currentWallObject < client.WallObjectCount; currentWallObject++)
                     {
-                        int newX = (client.WallObjectX[currentWallObject] >> 3) - newSectionX;
-                        int newY = (client.WallObjectY[currentWallObject] >> 3) - newSectionY;
+                        int newX = (client.WallObjectLocations[currentWallObject].X >> 3) - newSectionLocation.X;
+                        int newY = (client.WallObjectLocations[currentWallObject].Y >> 3) - newSectionLocation.Y;
 
                         if (newX != 0 || newY != 0)
                         {
@@ -1424,10 +1424,7 @@ namespace RuneScapeSolo.Net.Client
                             {
                                 client.WallObjects[newCount] = client.WallObjects[currentWallObject];
                                 client.WallObjects[newCount].index = newCount + 10000;
-
-                                client.WallObjectX[newCount] = client.WallObjectX[currentWallObject];
-                                client.WallObjectY[newCount] = client.WallObjectY[currentWallObject];
-
+                                client.WallObjectLocations[newCount] = client.WallObjectLocations[currentWallObject];
                                 client.WallObjectDirection[newCount] = client.WallObjectDirection[currentWallObject];
                                 client.WallObjectId[newCount] = client.WallObjectId[currentWallObject];
                             }
@@ -1439,8 +1436,7 @@ namespace RuneScapeSolo.Net.Client
                             client.gameCamera.removeModel(client.WallObjects[currentWallObject]);
 
                             client.engineHandle.removeWallObject(
-                                client.WallObjectX[currentWallObject],
-                                client.WallObjectY[currentWallObject],
+                                client.WallObjectLocations[currentWallObject],
                                 client.WallObjectDirection[currentWallObject],
                                 client.WallObjectId[currentWallObject]);
                         }
@@ -1453,26 +1449,23 @@ namespace RuneScapeSolo.Net.Client
                     int newId = DataOperations.GetInt16(data, offset);
                     offset += 2;
 
-                    int newSectionX = client.SectionX + data[offset++];
-                    int newSectionY = client.SectionY + data[offset++];
-
+                    Point2D newSectionLocation = new Point2D(
+                        client.SectionLocation.X + data[offset++],
+                        client.SectionLocation.Y + data[offset++]);
+                
                     sbyte direction = data[offset++];
                     int newCount = 0;
 
                     for (int currentWallObject = 0; currentWallObject < client.WallObjectCount; currentWallObject++)
                     {
-                        if (client.WallObjectX[currentWallObject] != newSectionX ||
-                            client.WallObjectY[currentWallObject] != newSectionY ||
+                        if (client.WallObjectLocations[currentWallObject] != newSectionLocation ||
                             client.WallObjectDirection[currentWallObject] != direction)
                         {
                             if (currentWallObject != newCount)
                             {
                                 client.WallObjects[newCount] = client.WallObjects[currentWallObject];
                                 client.WallObjects[newCount].index = newCount + 10000;
-
-                                client.WallObjectX[newCount] = client.WallObjectX[currentWallObject];
-                                client.WallObjectY[newCount] = client.WallObjectY[currentWallObject];
-
+                                client.WallObjectLocations[newCount] = client.WallObjectLocations[currentWallObject];
                                 client.WallObjectDirection[newCount] = client.WallObjectDirection[currentWallObject];
                                 client.WallObjectId[newCount] = client.WallObjectId[currentWallObject];
                             }
@@ -1484,8 +1477,7 @@ namespace RuneScapeSolo.Net.Client
                             client.gameCamera.removeModel(client.WallObjects[currentWallObject]);
 
                             client.engineHandle.removeWallObject(
-                                client.WallObjectX[currentWallObject],
-                                client.WallObjectY[currentWallObject],
+                                client.WallObjectLocations[currentWallObject],
                                 client.WallObjectDirection[currentWallObject],
                                 client.WallObjectId[currentWallObject]);
                         }
@@ -1495,14 +1487,11 @@ namespace RuneScapeSolo.Net.Client
 
                     if (newId != 60000)
                     {
-                        client.engineHandle.createWall(newSectionX, newSectionY, direction, newId);
+                        client.engineHandle.createWall(newSectionLocation, direction, newId);
 
-                        ObjectModel k35 = client.makeWallObject(newSectionX, newSectionY, direction, newId, client.WallObjectCount);
+                        ObjectModel k35 = client.makeWallObject(newSectionLocation, direction, newId, client.WallObjectCount);
                         client.WallObjects[client.WallObjectCount] = k35;
-
-                        client.WallObjectX[client.WallObjectCount] = newSectionX;
-                        client.WallObjectY[client.WallObjectCount] = newSectionY;
-
+                        client.WallObjectLocations[client.WallObjectCount] = newSectionLocation;
                         client.WallObjectId[client.WallObjectCount] = newId;
                         client.WallObjectDirection[client.WallObjectCount++] = direction;
                     }

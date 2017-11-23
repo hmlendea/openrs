@@ -63,11 +63,17 @@ namespace RuneScapeSolo.Net.Client
         public ClientMob[] Npcs { get; set; }
         public ClientMob[] NpcAttackingArray { get; set; }
         public ClientMob[] Players { get; set; }
+        public Point2D AreaLocation { get; set; }
+        public Point2D SectionLocation { get; set; }
+        public Point2D WildLocation { get; set; }
+        public Point2D[] GroundItemLocations { get; set; }
+        public Point2D[] MenuActionLocations { get; set; }
+        public Point2D[] ObjectLocations { get; set; }
+        public Point2D[] WalkArrayLocations { get; set; }
+        public Point2D[] WallObjectLocations { get; set; }
         public Size2D WindowSize { get; set; }
         public Skill[] Skills { get; set; }
         public CombatStyle CombatStyle { get; set; }
-        public int AreaX { get; set; }
-        public int AreaY { get; set; }
         public int CompletedTasks { get; set; }
         public int Deaths { get; set; }
         public int GridSize { get; set; }
@@ -95,29 +101,19 @@ namespace RuneScapeSolo.Net.Client
         public int QuestionMenuCount { get; set; }
         public int Remaining { get; set; }
         public int SaradominSpells { get; set; }
-        public int SectionX { get; set; }
-        public int SectionY { get; set; }
         public int ServerStartTime { get; set; }
         public int ServerIndex { get; set; }
         public int SubscriptionDaysLeft { get; set; }
         public int WallObjectCount { get; set; }
-        public int WildX { get; set; }
-        public int WildY { get; set; }
         public int ZamorakSpells { get; set; }
         public int[] EquipmentStatus { get; set; }
         public int[] GroundItemId { get; set; }
         public int[] GroundItemObjectVar { get; set; }
-        public int[] GroundItemX { get; set; }
-        public int[] GroundItemY { get; set; }
         public int[] ObjectRotation { get; set; }
         public int[] ObjectType { get; set; }
-        public int[] ObjectX { get; set; }
-        public int[] ObjectY { get; set; }
         public int[] PlayersBufferIndexes { get; set; }
         public int[] WallObjectDirection { get; set; }
         public int[] WallObjectId { get; set; }
-        public int[] WallObjectX { get; set; }
-        public int[] WallObjectY { get; set; }
         public bool HasWorldInfo { get; set; }
         public bool LoadArea { get; set; } // Not in wilderness
         public bool LoginScreenShown { get; set; }
@@ -261,6 +257,12 @@ namespace RuneScapeSolo.Net.Client
             Skills[16] = new Skill { Name = "Agility" };
             Skills[17] = new Skill { Name = "Thieving" };
 
+            MenuActionLocations = new Point2D[250];
+            GroundItemLocations = new Point2D[5000];
+            ObjectLocations = new Point2D[1500];
+            WalkArrayLocations = new Point2D[8000];
+            WallObjectLocations = new Point2D[500];
+
             cameraFieldOfView = 9;
             ShowQuestionMenu = false;
             LoginScreenShown = false;
@@ -279,14 +281,10 @@ namespace RuneScapeSolo.Net.Client
             IsSleeping = false;
             itemAboveHeadScale = new int[50];
             itemAboveHeadID = new int[50];
-            menuActionX = new int[250];
-            menuActionY = new int[250];
             menuActions = new MenuAction[250];
             Npcs = new ClientMob[500];
             Mobs = new ClientMob[4000];
             serverMessage = "";
-            WallObjectX = new int[500];
-            WallObjectY = new int[500];
             serverMessageBoxTop = false;
             cameraRotationYIncrement = 2;
             WallObjects = new ObjectModel[500];
@@ -305,13 +303,9 @@ namespace RuneScapeSolo.Net.Client
             menuShow = false;
             ShowBankBox = false;
             ShowShopBox = false;
-            GroundItemX = new int[5000];
-            GroundItemY = new int[5000];
             GroundItemId = new int[5000];
             GroundItemObjectVar = new int[5000];
             LayerIndex = -1;
-            walkArrayX = new int[8000];
-            walkArrayY = new int[8000];
             cameraDistance = 550;
             receivedMessageX = new int[50];
             receivedMessageY = new int[50];
@@ -357,8 +351,6 @@ namespace RuneScapeSolo.Net.Client
             healthBarX = new int[50];
             healthBarY = new int[50];
             healthBarMissing = new int[50];
-            ObjectX = new int[1500];
-            ObjectY = new int[1500];
             ObjectType = new int[1500];
             ObjectRotation = new int[1500];
             NpcAttackingArray = new ClientMob[5000];
@@ -504,8 +496,6 @@ namespace RuneScapeSolo.Net.Client
 
         public void menuClick(int actionId)
         {
-            int actionX = menuActionX[actionId];
-            int actionY = menuActionY[actionId];
             int actionType = menuActionType[actionId];
             int actionVar1 = menuActionVar1[actionId];
             int actionVar2 = menuActionVar2[actionId];
@@ -514,36 +504,39 @@ namespace RuneScapeSolo.Net.Client
 
             if (action == MenuAction.CastSpellOnGroundItem)
             {
-                walkToGroundItem(SectionX, SectionY, actionX, actionY, true);
+                walkToGroundItem(SectionLocation, MenuActionLocations[actionId], true);
                 StreamClass.CreatePacket(104);
                 StreamClass.AddInt16(actionVar1);
-                StreamClass.AddInt16(actionX + AreaX);
-                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
+                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
+
             if (action == MenuAction.UseItemWithGroundItem)
             {
-                walkToGroundItem(SectionX, SectionY, actionX, actionY, true);
+                walkToGroundItem(SectionLocation, MenuActionLocations[actionId], true);
                 StreamClass.CreatePacket(34);
-                StreamClass.AddInt16(actionX + AreaX);
-                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
+                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
                 StreamClass.AddInt16(actionType);
                 StreamClass.AddInt16(actionVar1);
                 StreamClass.FormatPacket();
                 selectedItem = -1;
             }
+
             if (action == MenuAction.TakeItem)
             {
-                walkToGroundItem(SectionX, SectionY, actionX, actionY, true);
+                walkToGroundItem(SectionLocation, MenuActionLocations[actionId], true);
                 StreamClass.CreatePacket(245);
-                StreamClass.AddInt16(actionX + AreaX);
-                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
+                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
                 StreamClass.AddInt16(actionType);
                 StreamClass.AddInt16(actionVar1);
                 StreamClass.FormatPacket();
             }
+
             if (action == MenuAction.ExamineGroundItem)
             {
                 DisplayMessage(entityManager.GetItem(actionType).Description);
@@ -551,41 +544,44 @@ namespace RuneScapeSolo.Net.Client
 
             if (action == MenuAction.CastSpellOnWallObject)
             {
-                walkToWallObject(actionX, actionY, actionType);
+                walkToWallObject(MenuActionLocations[actionId], actionType);
                 StreamClass.CreatePacket(67);
                 StreamClass.AddInt16(actionVar1);
-                StreamClass.AddInt16(actionX + AreaX);
-                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
+                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
                 StreamClass.AddInt8(actionType);
                 StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
+
             if (action == MenuAction.UseItemWithWallObject)
             {
-                walkToWallObject(actionX, actionY, actionType);
+                walkToWallObject(MenuActionLocations[actionId], actionType);
                 StreamClass.CreatePacket(36);
-                StreamClass.AddInt16(actionX + AreaX);
-                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
+                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
                 StreamClass.AddInt8(actionType);
                 StreamClass.AddInt16(actionVar1);
                 StreamClass.FormatPacket();
                 selectedItem = -1;
             }
+
             if (action == MenuAction.Command1OnWallObject)
             {
-                walkToWallObject(actionX, actionY, actionType);
+                walkToWallObject(MenuActionLocations[actionId], actionType);
                 StreamClass.CreatePacket(126);
-                StreamClass.AddInt16(actionX + AreaX);
-                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
+                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
                 StreamClass.AddInt8(actionType);
                 StreamClass.FormatPacket();
             }
+
             if (action == MenuAction.Command2OnWallObject)
             {
-                walkToWallObject(actionX, actionY, actionType);
+                walkToWallObject(MenuActionLocations[actionId], actionType);
                 StreamClass.CreatePacket(235);
-                StreamClass.AddInt16(actionX + AreaX);
-                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
+                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
                 StreamClass.AddInt8(actionType);
                 StreamClass.FormatPacket();
             }
@@ -597,41 +593,45 @@ namespace RuneScapeSolo.Net.Client
 
             if (action == MenuAction.CastSpellOnModel)
             {
-                walkToObject(actionX, actionY, actionType, actionVar1);
+                walkToObject(MenuActionLocations[actionId], actionType, actionVar1);
                 StreamClass.CreatePacket(17);
                 StreamClass.AddInt16(actionVar2);
-                StreamClass.AddInt16(actionX + AreaX);
-                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
+                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
 
                 StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
+
             if (action == MenuAction.UseItemWithModel)
             {
-                walkToObject(actionX, actionY, actionType, actionVar1);
+                walkToObject(MenuActionLocations[actionId], actionType, actionVar1);
                 StreamClass.CreatePacket(94);
-                StreamClass.AddInt16(actionX + AreaX);
-                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
+                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
                 StreamClass.AddInt16(actionVar2);
                 StreamClass.FormatPacket();
                 selectedItem = -1;
             }
+
             if (action == MenuAction.Command1OnModel)
             {
-                walkToObject(actionX, actionY, actionType, actionVar1);
+                walkToObject(MenuActionLocations[actionId], actionType, actionVar1);
                 StreamClass.CreatePacket(51);
-                StreamClass.AddInt16(actionX + AreaX);
-                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
+                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
                 StreamClass.FormatPacket();
             }
+
             if (action == MenuAction.Command2OnModel)
             {
-                walkToObject(actionX, actionY, actionType, actionVar1);
+                walkToObject(MenuActionLocations[actionId], actionType, actionVar1);
                 StreamClass.CreatePacket(40);
-                StreamClass.AddInt16(actionX + AreaX);
-                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
+                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
                 StreamClass.FormatPacket();
             }
+
             if (action == MenuAction.ExamineModel)
             {
                 DisplayMessage(entityManager.GetWorldObject(actionType).Description);
@@ -645,6 +645,7 @@ namespace RuneScapeSolo.Net.Client
                 StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
+
             if (action == MenuAction.UseItemWithItem)
             {
                 StreamClass.CreatePacket(27);
@@ -653,24 +654,28 @@ namespace RuneScapeSolo.Net.Client
                 StreamClass.FormatPacket();
                 selectedItem = -1;
             }
+
             if (action == MenuAction.RemoveItem)
             {
                 StreamClass.CreatePacket(92);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
+
             if (action == MenuAction.EquipItem)
             {
                 StreamClass.CreatePacket(181);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
+
             if (action == MenuAction.CommandOnItem)
             {
                 StreamClass.CreatePacket(89);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
+
             if (action == MenuAction.UseItem)
             {
                 selectedItem = actionType;
@@ -679,6 +684,7 @@ namespace RuneScapeSolo.Net.Client
                 int itemId = inventoryManager.GetItem(selectedItem).Index;
                 selectedItemName = entityManager.GetItem(itemId).Name;
             }
+
             if (action == MenuAction.UseItem)
             {
                 StreamClass.CreatePacket(147);
@@ -691,6 +697,7 @@ namespace RuneScapeSolo.Net.Client
 
                 DisplayMessage("Dropping " + entityManager.GetItem(itemIndex).Name);
             }
+
             if (action == MenuAction.ExamineItem)
             {
                 DisplayMessage(entityManager.GetItem(actionType).Description);
@@ -698,75 +705,94 @@ namespace RuneScapeSolo.Net.Client
 
             if (action == MenuAction.CastSpellOnNpc)
             {
-                int k2 = (actionX - 64) / GridSize;
-                int k4 = (actionY - 64) / GridSize;
-                walkTo1Tile(SectionX, SectionY, k2, k4, true);
+                Point2D destination = new Point2D(
+                    (MenuActionLocations[actionId].X - 64) / GridSize,
+                    (MenuActionLocations[actionId].Y - 64) / GridSize);
+
+                walkTo1Tile(SectionLocation, destination, true);
                 StreamClass.CreatePacket(71);
                 StreamClass.AddInt16(actionVar1);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
+
             if (action == MenuAction.UseItemWithNpc)
             {
-                int l2 = (actionX - 64) / GridSize;
-                int l4 = (actionY - 64) / GridSize;
-                walkTo1Tile(SectionX, SectionY, l2, l4, true);
+                Point2D destination = new Point2D(
+                    (MenuActionLocations[actionId].X - 64) / GridSize,
+                    (MenuActionLocations[actionId].Y - 64) / GridSize);
+
+                walkTo1Tile(SectionLocation, destination, true);
                 StreamClass.CreatePacket(142);
                 StreamClass.AddInt16(actionType);
                 StreamClass.AddInt16(actionVar1);
                 StreamClass.FormatPacket();
                 selectedItem = -1;
             }
+
             if (action == MenuAction.TalkToNpc)
             {
-                int i3 = (actionX - 64) / GridSize;
-                int i5 = (actionY - 64) / GridSize;
-                walkTo1Tile(SectionX, SectionY, i3, i5, true);
+                Point2D destination = new Point2D(
+                    (MenuActionLocations[actionId].X - 64) / GridSize,
+                    (MenuActionLocations[actionId].Y - 64) / GridSize);
+
+                walkTo1Tile(SectionLocation, destination, true);
                 StreamClass.CreatePacket(177);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
+
             if (action == MenuAction.CommandOnNpc)
             {
-                int j3 = (actionX - 64) / GridSize;
-                int j5 = (actionY - 64) / GridSize;
-                walkTo1Tile(SectionX, SectionY, j3, j5, true);
+                Point2D destination = new Point2D(
+                    (MenuActionLocations[actionId].X - 64) / GridSize,
+                    (MenuActionLocations[actionId].Y - 64) / GridSize);
+
+                walkTo1Tile(SectionLocation, destination, true);
                 StreamClass.CreatePacket(74);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
+
             if (action == MenuAction.AttackNpc || action == MenuAction.AttackNpc2)
             {
-                int k3 = (actionX - 64) / GridSize;
-                int k5 = (actionY - 64) / GridSize;
-                walkTo1Tile(SectionX, SectionY, k3, k5, true);
+                Point2D destination = new Point2D(
+                    (MenuActionLocations[actionId].X - 64) / GridSize,
+                    (MenuActionLocations[actionId].Y - 64) / GridSize);
+
+                walkTo1Tile(SectionLocation, destination, true);
                 StreamClass.CreatePacket(73);
                 StreamClass.AddInt16(actionType);
                 StreamClass.FormatPacket();
             }
+
             if (action == MenuAction.ExamineNpc)
             {
                 DisplayMessage(entityManager.GetNpc(actionType).Description);
             }
+
             if (action == MenuAction.CastSpellOnGround)
             {
-                walkTo1Tile(SectionX, SectionY, actionX, actionY, true);
+                walkTo1Tile(SectionLocation, MenuActionLocations[actionId], true);
                 StreamClass.CreatePacket(232);
                 StreamClass.AddInt16(actionType);
-                StreamClass.AddInt16(actionX + AreaX);
-                StreamClass.AddInt16(actionY + AreaY);
+                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
+                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
                 StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
+
             if (action == MenuAction.WalkHere)
             {
-                walkTo1Tile(SectionX, SectionY, actionX, actionY, false);
+                walkTo1Tile(SectionLocation, MenuActionLocations[actionId], false);
+
                 if (actionPictureType == -24)
                 {
                     actionPictureType = 24;
                 }
             }
+
             if (action == MenuAction.CastSpellOnSelf)
             {
                 StreamClass.CreatePacket(206);
@@ -774,6 +800,7 @@ namespace RuneScapeSolo.Net.Client
                 StreamClass.FormatPacket();
                 selectedSpell = -1;
             }
+
             if (action == MenuAction.Cancel)
             {
                 selectedItem = -1;
@@ -797,14 +824,19 @@ namespace RuneScapeSolo.Net.Client
 
         public void drawModel(int objectIndex, string modelName)
         {
-            int i1 = ObjectX[objectIndex];
-            int j1 = ObjectY[objectIndex];
-            int k1 = i1 - CurrentPlayer.currentX / 128;
-            int l1 = j1 - CurrentPlayer.currentY / 128;
+            int k1 = ObjectLocations[objectIndex].X - CurrentPlayer.currentX / 128;
+            int l1 = ObjectLocations[objectIndex].Y - CurrentPlayer.currentY / 128;
 
             byte byte0 = 7;
 
-            if (i1 >= 0 && j1 >= 0 && i1 < 96 && j1 < 96 && k1 > -byte0 && k1 < byte0 && l1 > -byte0 && l1 < byte0)
+            if (ObjectLocations[objectIndex].X >= 0 &&
+                ObjectLocations[objectIndex].Y >= 0 &&
+                ObjectLocations[objectIndex].X < 96 &&
+                ObjectLocations[objectIndex].Y < 96 &&
+                k1 > -byte0 &&
+                k1 < byte0 &&
+                l1 > -byte0 &&
+                l1 < byte0)
             {
                 gameCamera.removeModel(ObjectArray[objectIndex]);
 
@@ -1034,20 +1066,23 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        public void walkToWallObject(int x, int y, int direction)
+        public void walkToWallObject(Point2D location, int direction)
         {
             if (direction == 0)
             {
-                WalkTo(SectionX, SectionY, x, y - 1, x, y, false, true);
-                return;
-            }
-            if (direction == 1)
-            {
-                WalkTo(SectionX, SectionY, x - 1, y, x, y, false, true);
+                Point2D locationBottom = new Point2D(location.X, location.Y - 1);
+                WalkTo(SectionLocation, locationBottom, location, false, true);
                 return;
             }
 
-            WalkTo(SectionX, SectionY, x, y, x, y, true, true);
+            if (direction == 1)
+            {
+                Point2D locationBottom = new Point2D(location.X - 1, location.Y);
+                WalkTo(SectionLocation, locationBottom, location, false, true);
+                return;
+            }
+
+            WalkTo(SectionLocation, location, location, true, true);
             return;
         }
 
@@ -1067,6 +1102,7 @@ namespace RuneScapeSolo.Net.Client
         {
             int l = gameGraphics.GameSize.Width - 248;
             gameGraphics.DrawPicture(l, 3, baseInventoryPic + 1);
+
             for (int itemSlot = 0; itemSlot < InventoryManager.MaximumInventorySize; itemSlot++)
             {
                 int j1 = l + (itemSlot % 5) * 49;
@@ -1345,77 +1381,83 @@ namespace RuneScapeSolo.Net.Client
                 if (command == ServerCommand.Command115)
                 {
                     int k3 = (length - 1) / 4;
+
                     for (int i11 = 0; i11 < k3; i11++)
                     {
-                        int k17 = SectionX + DataOperations.getShort2(data, 1 + i11 * 4) >> 3;
-                        int i22 = SectionY + DataOperations.getShort2(data, 3 + i11 * 4) >> 3;
+                        int k17 = SectionLocation.X + DataOperations.getShort2(data, 1 + i11 * 4) >> 3;
+                        int i22 = SectionLocation.Y + DataOperations.getShort2(data, 3 + i11 * 4) >> 3;
                         int j25 = 0;
-                        for (int l28 = 0; l28 < GroundItemCount; l28++)
+
+                        for (int groundItemIndex = 0; groundItemIndex < GroundItemCount; groundItemIndex++)
                         {
-                            int j33 = (GroundItemX[l28] >> 3) - k17;
-                            int l36 = (GroundItemY[l28] >> 3) - i22;
+                            int j33 = (GroundItemLocations[groundItemIndex].X >> 3) - k17;
+                            int l36 = (GroundItemLocations[groundItemIndex].Y >> 3) - i22;
+
                             if (j33 != 0 || l36 != 0)
                             {
-                                if (l28 != j25)
+                                if (groundItemIndex != j25)
                                 {
-                                    GroundItemX[j25] = GroundItemX[l28];
-                                    GroundItemY[j25] = GroundItemY[l28];
-                                    GroundItemId[j25] = GroundItemId[l28];
-                                    GroundItemObjectVar[j25] = GroundItemObjectVar[l28];
+                                    GroundItemLocations[j25] = GroundItemLocations[groundItemIndex];
+                                    GroundItemId[j25] = GroundItemId[groundItemIndex];
+                                    GroundItemObjectVar[j25] = GroundItemObjectVar[groundItemIndex];
                                 }
+
                                 j25++;
                             }
                         }
 
                         GroundItemCount = j25;
                         j25 = 0;
-                        for (int k33 = 0; k33 < ObjectCount; k33++)
+
+                        for (int objectIndex = 0; objectIndex < ObjectCount; objectIndex++)
                         {
-                            int i37 = (ObjectX[k33] >> 3) - k17;
-                            int j39 = (ObjectY[k33] >> 3) - i22;
+                            int i37 = (ObjectLocations[objectIndex].X >> 3) - k17;
+                            int j39 = (ObjectLocations[objectIndex].Y >> 3) - i22;
+
                             if (i37 != 0 || j39 != 0)
                             {
-                                if (k33 != j25)
+                                if (objectIndex != j25)
                                 {
-                                    ObjectArray[j25] = ObjectArray[k33];
+                                    ObjectArray[j25] = ObjectArray[objectIndex];
                                     ObjectArray[j25].index = j25;
-                                    ObjectX[j25] = ObjectX[k33];
-                                    ObjectY[j25] = ObjectY[k33];
-                                    ObjectType[j25] = ObjectType[k33];
-                                    ObjectRotation[j25] = ObjectRotation[k33];
+                                    ObjectLocations[j25] = ObjectLocations[objectIndex];
+                                    ObjectType[j25] = ObjectType[objectIndex];
+                                    ObjectRotation[j25] = ObjectRotation[objectIndex];
                                 }
                                 j25++;
                             }
                             else
                             {
-                                gameCamera.removeModel(ObjectArray[k33]);
-                                engineHandle.removeObject(ObjectX[k33], ObjectY[k33], ObjectType[k33], ObjectRotation[k33]);
+                                gameCamera.removeModel(ObjectArray[objectIndex]);
+                                engineHandle.removeObject(ObjectLocations[objectIndex], ObjectType[objectIndex], ObjectRotation[objectIndex]);
                             }
                         }
 
                         ObjectCount = j25;
                         j25 = 0;
-                        for (int j37 = 0; j37 < WallObjectCount; j37++)
+
+                        for (int wallObjectIndex = 0; wallObjectIndex < WallObjectCount; wallObjectIndex++)
                         {
-                            int k39 = (WallObjectX[j37] >> 3) - k17;
-                            int l41 = (WallObjectY[j37] >> 3) - i22;
+                            int k39 = (WallObjectLocations[wallObjectIndex].X >> 3) - k17;
+                            int l41 = (WallObjectLocations[wallObjectIndex].Y >> 3) - i22;
+
                             if (k39 != 0 || l41 != 0)
                             {
-                                if (j37 != j25)
+                                if (wallObjectIndex != j25)
                                 {
-                                    WallObjects[j25] = WallObjects[j37];
+                                    WallObjects[j25] = WallObjects[wallObjectIndex];
                                     WallObjects[j25].index = j25 + 10000;
-                                    WallObjectX[j25] = WallObjectX[j37];
-                                    WallObjectY[j25] = WallObjectY[j37];
-                                    WallObjectDirection[j25] = WallObjectDirection[j37];
-                                    WallObjectId[j25] = WallObjectId[j37];
+                                    WallObjectLocations[j25] = WallObjectLocations[wallObjectIndex];
+                                    WallObjectDirection[j25] = WallObjectDirection[wallObjectIndex];
+                                    WallObjectId[j25] = WallObjectId[wallObjectIndex];
                                 }
+
                                 j25++;
                             }
                             else
                             {
-                                gameCamera.removeModel(WallObjects[j37]);
-                                engineHandle.removeWallObject(WallObjectX[j37], WallObjectY[j37], WallObjectDirection[j37], WallObjectId[j37]);
+                                gameCamera.removeModel(WallObjects[wallObjectIndex]);
+                                engineHandle.removeWallObject(WallObjectLocations[wallObjectIndex], WallObjectDirection[wallObjectIndex], WallObjectId[wallObjectIndex]);
                             }
                         }
 
@@ -1424,6 +1466,7 @@ namespace RuneScapeSolo.Net.Client
 
                     return;
                 }
+
                 if (command == ServerCommand.OpenShopWindow)
                 {
                     ShowShopBox = true;
@@ -1432,6 +1475,7 @@ namespace RuneScapeSolo.Net.Client
                     sbyte isGeneralShop = data[off++];
                     shopItemSellPriceModifier = data[off++] & 0xff;
                     shopItemBuyPriceModifier = data[off++] & 0xff;
+
                     for (int j22 = 0; j22 < 40; j22++)
                     {
                         shopItems[j22] = -1;
@@ -1537,8 +1581,8 @@ namespace RuneScapeSolo.Net.Client
                     if (teleBubbleCount < 50)
                     {
                         int type = data[1] & 0xff;
-                        int x = data[2] + SectionX;
-                        int y = data[3] + SectionY;
+                        int x = data[2] + SectionLocation.X;
+                        int y = data[3] + SectionLocation.Y;
 
                         teleBubbleType[teleBubbleCount] = type;
                         teleBubbleTime[teleBubbleCount] = 0;
@@ -1607,16 +1651,16 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.ClearScreen();
             OnDrawDone();
 
-            for (int i = 0; i < ObjectCount; i++)
+            for (int objectIndex = 0; objectIndex < ObjectCount; objectIndex++)
             {
-                gameCamera.removeModel(ObjectArray[i]);
-                engineHandle.removeObject(ObjectX[i], ObjectY[i], ObjectType[i], ObjectRotation[i]);
+                gameCamera.removeModel(ObjectArray[objectIndex]);
+                engineHandle.removeObject(ObjectLocations[objectIndex], ObjectType[objectIndex], ObjectRotation[objectIndex]);
             }
 
-            for (int i = 0; i < WallObjectCount; i++)
+            for (int wallObjectIndex = 0; wallObjectIndex < WallObjectCount; wallObjectIndex++)
             {
-                gameCamera.removeModel(WallObjects[i]);
-                engineHandle.removeWallObject(WallObjectX[i], WallObjectY[i], WallObjectDirection[i], WallObjectId[i]);
+                gameCamera.removeModel(WallObjects[wallObjectIndex]);
+                engineHandle.removeWallObject(WallObjectLocations[wallObjectIndex], WallObjectDirection[wallObjectIndex], WallObjectId[wallObjectIndex]);
             }
 
             ObjectCount = 0;
@@ -1695,9 +1739,12 @@ namespace RuneScapeSolo.Net.Client
                 k3 = k7;
                 k3 += CurrentPlayer.currentX;
                 i5 = CurrentPlayer.currentY - i5;
+
+                Point2D destination = new Point2D(k3 / 128, i5 / 128);
+
                 if (mouseButtonClick == 1)
                 {
-                    walkTo1Tile(SectionX, SectionY, k3 / 128, i5 / 128, false);
+                    walkTo1Tile(SectionLocation, destination, false);
                 }
 
                 mouseButtonClick = 0;
@@ -1943,11 +1990,6 @@ namespace RuneScapeSolo.Net.Client
             for (int i2 = 0; i2 < entityManager.HighestLoadedPicture; i2++)
             {
                 gameGraphics.loadImage(baseProjectilePic + i2);
-                //var w = ((GameImage)(gameGraphics)).pictureWidth[baseProjectilePic + i2];
-                //var h = ((GameImage)(gameGraphics)).pictureHeight[baseProjectilePic + i2];
-                //var texture = GameImage.UnpackedImages[baseProjectilePic + i2];
-                //if (texture != null)
-                //    texture.SaveAsJpeg(System.IO.File.OpenWrite("c:/jpg/" + baseProjectilePic + i2 + ".jpg"), w, h);
             }
 
 
@@ -2189,6 +2231,7 @@ namespace RuneScapeSolo.Net.Client
                     ;
                 }
             }
+
             if (appearanceMenu.isClicked(appearanceTopLeftArrow))
             {
                 appearanceTopColour = ((appearanceTopColour - 1) + appearanceTopBottomColours.Length) % appearanceTopBottomColours.Length;
@@ -2236,18 +2279,16 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        public bool WalkTo(int startX, int startY, int destBottomX, int destBottomY,
-                           int destTopX, int destTopY, bool checkForObjects, bool walkToACommand)
+        public bool WalkTo(Point2D startLocation, Point2D destinationBottom, Point2D destinationTop, bool checkForObjects, bool walkToACommand)
         {
-            int stepCount = engineHandle.generatePath(startX, startY, destBottomX, destBottomY, destTopX, destTopY, walkArrayX, walkArrayY, checkForObjects);
+            int stepCount = engineHandle.generatePath(startLocation, destinationBottom, destinationTop, WalkArrayLocations, checkForObjects);
 
             if (stepCount == -1)
             {
                 if (walkToACommand)
                 {
                     stepCount = 1;
-                    walkArrayX[0] = destBottomX;
-                    walkArrayY[0] = destBottomY;
+                    WalkArrayLocations[0] = destinationBottom;
                 }
                 else
                 {
@@ -2256,8 +2297,7 @@ namespace RuneScapeSolo.Net.Client
             }
 
             stepCount--;
-            startX = walkArrayX[stepCount];
-            startY = walkArrayY[stepCount];
+            startLocation = WalkArrayLocations[stepCount];
             stepCount--;
 
             if (walkToACommand)
@@ -2269,18 +2309,18 @@ namespace RuneScapeSolo.Net.Client
                 StreamClass.CreatePacket(132);
             }
 
-            StreamClass.AddInt16(startX + AreaX);
-            StreamClass.AddInt16(startY + AreaY);
+            StreamClass.AddInt16(startLocation.X + AreaLocation.X);
+            StreamClass.AddInt16(startLocation.Y + AreaLocation.Y);
 
-            if (walkToACommand && stepCount == -1 && (startX + AreaX) % 5 == 0)
+            if (walkToACommand && stepCount == -1 && (startLocation.X + AreaLocation.X) % 5 == 0)
             {
                 stepCount = 0;
             }
 
             for (int currentStep = stepCount; currentStep >= 0 && currentStep > stepCount - 25; currentStep--)
             {
-                StreamClass.AddInt8(walkArrayX[currentStep] - startX);
-                StreamClass.AddInt8(walkArrayY[currentStep] - startY);
+                StreamClass.AddInt8(WalkArrayLocations[currentStep].X - startLocation.X);
+                StreamClass.AddInt8(WalkArrayLocations[currentStep].Y - startLocation.Y);
             }
 
             StreamClass.FormatPacket();
@@ -2292,18 +2332,17 @@ namespace RuneScapeSolo.Net.Client
             return true;
         }
 
-        public bool walkTo2(int startX, int startY, int destBottomX, int destBottomY, int destTopX, int destTopY, bool unknownDifferent,
-                bool walkToACommand)
+        public bool walkTo2(Point2D startLocation, Point2D destinationBottom, Point2D destinationTop, bool unknownDifferent, bool walkToACommand)
         {
-            int stepCount = engineHandle.generatePath(startX, startY, destBottomX, destBottomY, destTopX, destTopY, walkArrayX, walkArrayY, unknownDifferent);
+            int stepCount = engineHandle.generatePath(startLocation, destinationBottom, destinationTop, WalkArrayLocations, unknownDifferent);
+
             if (stepCount == -1)
             {
                 return false;
             }
 
             stepCount--;
-            startX = walkArrayX[stepCount];
-            startY = walkArrayY[stepCount];
+            startLocation = WalkArrayLocations[stepCount];
             stepCount--;
 
             if (walkToACommand)
@@ -2315,23 +2354,25 @@ namespace RuneScapeSolo.Net.Client
                 StreamClass.CreatePacket(132);
             }
 
-            StreamClass.AddInt16(startX + AreaX);
-            StreamClass.AddInt16(startY + AreaY);
-            if (walkToACommand && stepCount == -1 && (startX + AreaX) % 5 == 0)
+            StreamClass.AddInt16(startLocation.X + AreaLocation.X);
+            StreamClass.AddInt16(startLocation.Y + AreaLocation.Y);
+
+            if (walkToACommand && stepCount == -1 && (startLocation.X + AreaLocation.X) % 5 == 0)
             {
                 stepCount = 0;
             }
 
-            for (int i1 = stepCount; i1 >= 0 && i1 > stepCount - 25; i1--)
+            for (int step = stepCount; step >= 0 && step > stepCount - 25; step--)
             {
-                StreamClass.AddInt8(walkArrayX[i1] - startX);
-                StreamClass.AddInt8(walkArrayY[i1] - startY);
+                StreamClass.AddInt8(WalkArrayLocations[step].X - startLocation.X);
+                StreamClass.AddInt8(WalkArrayLocations[step].Y - startLocation.Y);
             }
 
             StreamClass.FormatPacket();
             actionPictureType = -24;
             walkMouseX = InputManager.Instance.MouseLocation.X;
             walkMouseY = InputManager.Instance.MouseLocation.Y;
+
             return true;
         }
 
@@ -2348,7 +2389,7 @@ namespace RuneScapeSolo.Net.Client
             StreamClass.FormatPacket();
         }
 
-        public void walkToObject(int arg0, int arg1, int arg2, int arg3)
+        public void walkToObject(Point2D location, int arg2, int arg3)
         {
             int l;
             int i1;
@@ -2364,11 +2405,13 @@ namespace RuneScapeSolo.Net.Client
                 l = entityManager.GetWorldObject(arg3).Height;
             }
 
+            Point2D loc = new Point2D(location.X + l - 1, location.Y + i1 - 1);
+
             if (entityManager.GetWorldObject(arg3).Type == 2 || entityManager.GetWorldObject(arg3).Type == 3)
             {
                 if (arg2 == 0)
                 {
-                    arg0--;
+                    location = new Point2D(location.X - 1, location.Y);
                     l++;
                 }
 
@@ -2384,16 +2427,16 @@ namespace RuneScapeSolo.Net.Client
 
                 if (arg2 == 6)
                 {
-                    arg1--;
+                    location = new Point2D(location.X, location.Y - 1);
                     i1++;
                 }
-
-                WalkTo(SectionX, SectionY, arg0, arg1, (arg0 + l) - 1, (arg1 + i1) - 1, false, true);
+                
+                WalkTo(SectionLocation, location, loc, false, true);
                 return;
             }
             else
             {
-                WalkTo(SectionX, SectionY, arg0, arg1, (arg0 + l) - 1, (arg1 + i1) - 1, true, true);
+                WalkTo(SectionLocation, location, loc, true, true);
                 return;
             }
         }
@@ -2446,14 +2489,14 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        public void walkToGroundItem(int l, int i1, int j1, int k1, bool flag)
+        public void walkToGroundItem(Point2D location, Point2D destination, bool flag)
         {
-            if (walkTo2(l, i1, j1, k1, j1, k1, false, flag))
+            if (walkTo2(location, destination, destination, false, flag))
             {
                 return;
             }
 
-            WalkTo(l, i1, j1, k1, j1, k1, true, flag);
+            WalkTo(location, destination, destination, true, flag);
         }
 
         public override void loginScreenPrint(string s1, string s2)
@@ -2738,9 +2781,9 @@ namespace RuneScapeSolo.Net.Client
             return existingPlayer;
         }
 
-        public void walkTo1Tile(int l, int i1, int j1, int k1, bool flag)
+        public void walkTo1Tile(Point2D location, Point2D destination, bool flag)
         {
-            WalkTo(l, i1, j1, k1, j1, k1, false, flag);
+            WalkTo(location, destination, destination, false, flag);
         }
 
         public void LoadConfig()
@@ -3597,18 +3640,19 @@ namespace RuneScapeSolo.Net.Client
                     cameraDistance += 4;
                 }
             }
+
             if (actionPictureType > 0)
             {
                 actionPictureType--;
             }
-            else
-                if (actionPictureType < 0)
+            else if (actionPictureType < 0)
             {
                 actionPictureType++;
             }
 
             gameCamera.updateLightning(17);
             modelUpdatingTimer++;
+
             if (modelUpdatingTimer > 5)
             {
                 modelUpdatingTimer = 0;
@@ -3616,23 +3660,28 @@ namespace RuneScapeSolo.Net.Client
                 modelTorchNumber = (modelTorchNumber + 1) % 4;
                 modelClawSpellNumber = (modelClawSpellNumber + 1) % 5;
             }
-            for (int j3 = 0; j3 < ObjectCount; j3++)
+
+            for (int objectIndex = 0; objectIndex < ObjectCount; objectIndex++)
             {
-                int k4 = ObjectX[j3];
-                int k5 = ObjectY[j3];
-                if (k4 >= 0 && k5 >= 0 && k4 < 96 && k5 < 96 && ObjectType[j3] == 74)
+                if (ObjectLocations[objectIndex].X >= 0 &&
+                    ObjectLocations[objectIndex].Y >= 0 &&
+                    ObjectLocations[objectIndex].X < 96 &&
+                    ObjectLocations[objectIndex].Y < 96 &&
+                    ObjectType[objectIndex] == 74)
                 {
-                    ObjectArray[j3].offsetMiniPosition(1, 0, 0);
+                    ObjectArray[objectIndex].offsetMiniPosition(1, 0, 0);
                 }
             }
 
-            for (int l4 = 0; l4 < teleBubbleCount; l4++)
+            for (int teleBubbleIndex = 0; teleBubbleIndex < teleBubbleCount; teleBubbleIndex++)
             {
-                teleBubbleTime[l4]++;
-                if (teleBubbleTime[l4] > 50)
+                teleBubbleTime[teleBubbleIndex]++;
+
+                if (teleBubbleTime[teleBubbleIndex] > 50)
                 {
                     teleBubbleCount--;
-                    for (int l5 = l4; l5 < teleBubbleCount; l5++)
+
+                    for (int l5 = teleBubbleIndex; l5 < teleBubbleCount; l5++)
                     {
                         teleBubbleX[l5] = teleBubbleX[l5 + 1];
                         teleBubbleY[l5] = teleBubbleY[l5 + 1];
@@ -3741,8 +3790,8 @@ namespace RuneScapeSolo.Net.Client
 
         public void generateWorldRightClickMenu()
         {
-            int l = 2203 - (SectionY + WildY + AreaY);
-            if (SectionX + WildX + AreaX >= 2640)
+            int l = 2203 - (SectionLocation.Y + WildLocation.Y + AreaLocation.Y);
+            if (SectionLocation.X + WildLocation.X + AreaLocation.X >= 2640)
             {
                 l = -50;
             }
@@ -3770,6 +3819,7 @@ namespace RuneScapeSolo.Net.Client
 
                 int player = players[i2];
                 ObjectModel _obj = objects[i2];
+
                 if (_obj.entityType[player] <= 65535 || _obj.entityType[player] >= 0x30d40 && _obj.entityType[player] <= 0x493e0)
                 {
                     if (_obj == gameCamera.highlightedObject)
@@ -3786,8 +3836,7 @@ namespace RuneScapeSolo.Net.Client
                                     menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on";
                                     menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(GroundItemId[index]).Name;
                                     menuActions[menuOptionsCount] = MenuAction.CastSpellOnGroundItem;
-                                    menuActionX[menuOptionsCount] = GroundItemX[index];
-                                    menuActionY[menuOptionsCount] = GroundItemY[index];
+                                    MenuActionLocations[menuOptionsCount] = GroundItemLocations[index];
                                     menuActionType[menuOptionsCount] = GroundItemId[index];
                                     menuActionVar1[menuOptionsCount] = selectedSpell;
                                     menuOptionsCount++;
@@ -3799,8 +3848,7 @@ namespace RuneScapeSolo.Net.Client
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
                                 menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(GroundItemId[index]).Name;
                                 menuActions[menuOptionsCount] = MenuAction.UseItemWithGroundItem;
-                                menuActionX[menuOptionsCount] = GroundItemX[index];
-                                menuActionY[menuOptionsCount] = GroundItemY[index];
+                                MenuActionLocations[menuOptionsCount] = GroundItemLocations[index];
                                 menuActionType[menuOptionsCount] = GroundItemId[index];
                                 menuActionVar1[menuOptionsCount] = selectedItem;
                                 menuOptionsCount++;
@@ -3810,8 +3858,7 @@ namespace RuneScapeSolo.Net.Client
                                 menuText1[menuOptionsCount] = "Take";
                                 menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(GroundItemId[index]).Name;
                                 menuActions[menuOptionsCount] = MenuAction.TakeItem;
-                                menuActionX[menuOptionsCount] = GroundItemX[index];
-                                menuActionY[menuOptionsCount] = GroundItemY[index];
+                                MenuActionLocations[menuOptionsCount] = GroundItemLocations[index];
                                 menuActionType[menuOptionsCount] = GroundItemId[index];
                                 menuOptionsCount++;
                                 menuText1[menuOptionsCount] = "Examine";
@@ -3874,6 +3921,7 @@ namespace RuneScapeSolo.Net.Client
 
                                 s2 = " " + s2 + "(level-" + j5 + ")";
                             }
+
                             if (selectedSpell >= 0)
                             {
                                 if (entityManager.GetSpell(selectedSpell).Type == 2)
@@ -3881,21 +3929,18 @@ namespace RuneScapeSolo.Net.Client
                                     menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on";
                                     menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
                                     menuActions[menuOptionsCount] = MenuAction.CastSpellOnNpc;
-                                    menuActionX[menuOptionsCount] = Npcs[index].currentX;
-                                    menuActionY[menuOptionsCount] = Npcs[index].currentY;
+                                    MenuActionLocations[menuOptionsCount] = new Point2D(Npcs[index].currentX, Npcs[index].currentY);
                                     menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
                                     menuActionVar1[menuOptionsCount] = selectedSpell;
                                     menuOptionsCount++;
                                 }
                             }
-                            else
-                                if (selectedItem >= 0)
+                            else if (selectedItem >= 0)
                             {
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
                                 menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
                                 menuActions[menuOptionsCount] = MenuAction.UseItemWithNpc;
-                                menuActionX[menuOptionsCount] = Npcs[index].currentX;
-                                menuActionY[menuOptionsCount] = Npcs[index].currentY;
+                                MenuActionLocations[menuOptionsCount] = new Point2D(Npcs[index].currentX, Npcs[index].currentY);
                                 menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
                                 menuActionVar1[menuOptionsCount] = selectedItem;
                                 menuOptionsCount++;
@@ -3915,28 +3960,28 @@ namespace RuneScapeSolo.Net.Client
                                         menuActions[menuOptionsCount] = MenuAction.AttackNpc2;
                                     }
 
-                                    menuActionX[menuOptionsCount] = Npcs[index].currentX;
-                                    menuActionY[menuOptionsCount] = Npcs[index].currentY;
+                                    MenuActionLocations[menuOptionsCount] = new Point2D(Npcs[index].currentX, Npcs[index].currentY);
                                     menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
                                     menuOptionsCount++;
                                 }
+
                                 menuText1[menuOptionsCount] = "Talk-to";
                                 menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
                                 menuActions[menuOptionsCount] = MenuAction.TalkToNpc;
-                                menuActionX[menuOptionsCount] = Npcs[index].currentX;
-                                menuActionY[menuOptionsCount] = Npcs[index].currentY;
+                                MenuActionLocations[menuOptionsCount] = new Point2D(Npcs[index].currentX, Npcs[index].currentY);
                                 menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
                                 menuOptionsCount++;
+
                                 if (!entityManager.GetNpc(id).Command.Equals(""))
                                 {
                                     menuText1[menuOptionsCount] = entityManager.GetNpc(id).Command;
                                     menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
                                     menuActions[menuOptionsCount] = MenuAction.CommandOnNpc;
-                                    menuActionX[menuOptionsCount] = Npcs[index].currentX;
-                                    menuActionY[menuOptionsCount] = Npcs[index].currentY;
+                                    MenuActionLocations[menuOptionsCount] = new Point2D(Npcs[index].currentX, Npcs[index].currentY);
                                     menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
                                     menuOptionsCount++;
                                 }
+
                                 menuText1[menuOptionsCount] = "Examine";
                                 menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
                                 menuActions[menuOptionsCount] = MenuAction.ExamineNpc;
@@ -3947,10 +3992,10 @@ namespace RuneScapeSolo.Net.Client
                     }
                     else if (_obj != null && _obj.index >= 10000)
                     {
-                        int j3 = _obj.index - 10000;
-                        int i4 = WallObjectId[j3];
+                        int wallObjectIndex = _obj.index - 10000;
+                        int i4 = WallObjectId[wallObjectIndex];
 
-                        if (!WallObjectAlreadyInMenu[j3])
+                        if (!WallObjectAlreadyInMenu[wallObjectIndex])
                         {
                             if (selectedSpell >= 0)
                             {
@@ -3959,9 +4004,8 @@ namespace RuneScapeSolo.Net.Client
                                     menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on";
                                     menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWallObject(i4).Name;
                                     menuActions[menuOptionsCount] = MenuAction.CastSpellOnWallObject;
-                                    menuActionX[menuOptionsCount] = WallObjectX[j3];
-                                    menuActionY[menuOptionsCount] = WallObjectY[j3];
-                                    menuActionType[menuOptionsCount] = WallObjectDirection[j3];
+                                    MenuActionLocations[menuOptionsCount] = WallObjectLocations[wallObjectIndex];
+                                    menuActionType[menuOptionsCount] = WallObjectDirection[wallObjectIndex];
                                     menuActionVar1[menuOptionsCount] = selectedSpell;
                                     menuOptionsCount++;
                                 }
@@ -3971,9 +4015,8 @@ namespace RuneScapeSolo.Net.Client
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
                                 menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWallObject(i4).Name;
                                 menuActions[menuOptionsCount] = MenuAction.UseItemWithWallObject;
-                                menuActionX[menuOptionsCount] = WallObjectX[j3];
-                                menuActionY[menuOptionsCount] = WallObjectY[j3];
-                                menuActionType[menuOptionsCount] = WallObjectDirection[j3];
+                                MenuActionLocations[menuOptionsCount] = WallObjectLocations[wallObjectIndex];
+                                menuActionType[menuOptionsCount] = WallObjectDirection[wallObjectIndex];
                                 menuActionVar1[menuOptionsCount] = selectedItem;
                                 menuOptionsCount++;
                             }
@@ -3984,19 +4027,18 @@ namespace RuneScapeSolo.Net.Client
                                     menuText1[menuOptionsCount] = entityManager.GetWallObject(i4).Command1;
                                     menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWallObject(i4).Name;
                                     menuActions[menuOptionsCount] = MenuAction.Command1OnWallObject;
-                                    menuActionX[menuOptionsCount] = WallObjectX[j3];
-                                    menuActionY[menuOptionsCount] = WallObjectY[j3];
-                                    menuActionType[menuOptionsCount] = WallObjectDirection[j3];
+                                    MenuActionLocations[menuOptionsCount] = WallObjectLocations[wallObjectIndex];
+                                    menuActionType[menuOptionsCount] = WallObjectDirection[wallObjectIndex];
                                     menuOptionsCount++;
                                 }
+
                                 if (!entityManager.GetWallObject(i4).Command2.ToLower().Equals("Examine"))
                                 {
                                     menuText1[menuOptionsCount] = entityManager.GetWallObject(i4).Command2;
                                     menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWallObject(i4).Name;
                                     menuActions[menuOptionsCount] = MenuAction.Command2OnWallObject;
-                                    menuActionX[menuOptionsCount] = WallObjectX[j3];
-                                    menuActionY[menuOptionsCount] = WallObjectY[j3];
-                                    menuActionType[menuOptionsCount] = WallObjectDirection[j3];
+                                    MenuActionLocations[menuOptionsCount] = WallObjectLocations[wallObjectIndex];
+                                    menuActionType[menuOptionsCount] = WallObjectDirection[wallObjectIndex];
                                     menuOptionsCount++;
                                 }
 
@@ -4006,15 +4048,15 @@ namespace RuneScapeSolo.Net.Client
                                 menuActionType[menuOptionsCount] = i4;
                                 menuOptionsCount++;
                             }
-                            WallObjectAlreadyInMenu[j3] = true;
+                            WallObjectAlreadyInMenu[wallObjectIndex] = true;
                         }
                     }
                     else if (_obj != null && _obj.index >= 0)
                     {
-                        int k3 = _obj.index;
-                        int j4 = ObjectType[k3];
+                        int objectLocation = _obj.index;
+                        int j4 = ObjectType[objectLocation];
 
-                        if (!objectAlreadyInMenu[k3])
+                        if (!objectAlreadyInMenu[objectLocation])
                         {
                             if (selectedSpell >= 0)
                             {
@@ -4023,24 +4065,21 @@ namespace RuneScapeSolo.Net.Client
                                     menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on";
                                     menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWorldObject(j4).Name;
                                     menuActions[menuOptionsCount] = MenuAction.CastSpellOnModel;
-                                    menuActionX[menuOptionsCount] = ObjectX[k3];
-                                    menuActionY[menuOptionsCount] = ObjectY[k3];
-                                    menuActionType[menuOptionsCount] = ObjectRotation[k3];
-                                    menuActionVar1[menuOptionsCount] = ObjectType[k3];
+                                    MenuActionLocations[menuOptionsCount] = ObjectLocations[objectLocation];
+                                    menuActionType[menuOptionsCount] = ObjectRotation[objectLocation];
+                                    menuActionVar1[menuOptionsCount] = ObjectType[objectLocation];
                                     menuActionVar2[menuOptionsCount] = selectedSpell;
                                     menuOptionsCount++;
                                 }
                             }
-                            else
-                                if (selectedItem >= 0)
+                            else if (selectedItem >= 0)
                             {
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
                                 menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWorldObject(j4).Name;
                                 menuActions[menuOptionsCount] = MenuAction.UseItemWithModel;
-                                menuActionX[menuOptionsCount] = ObjectX[k3];
-                                menuActionY[menuOptionsCount] = ObjectY[k3];
-                                menuActionType[menuOptionsCount] = ObjectRotation[k3];
-                                menuActionVar1[menuOptionsCount] = ObjectType[k3];
+                                MenuActionLocations[menuOptionsCount] = ObjectLocations[objectLocation];
+                                menuActionType[menuOptionsCount] = ObjectRotation[objectLocation];
+                                menuActionVar1[menuOptionsCount] = ObjectType[objectLocation];
                                 menuActionVar2[menuOptionsCount] = selectedItem;
                                 menuOptionsCount++;
                             }
@@ -4051,30 +4090,31 @@ namespace RuneScapeSolo.Net.Client
                                     menuText1[menuOptionsCount] = entityManager.GetWorldObject(j4).Command1;
                                     menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWorldObject(j4).Name;
                                     menuActions[menuOptionsCount] = MenuAction.Command1OnModel;
-                                    menuActionX[menuOptionsCount] = ObjectX[k3];
-                                    menuActionY[menuOptionsCount] = ObjectY[k3];
-                                    menuActionType[menuOptionsCount] = ObjectRotation[k3];
-                                    menuActionVar1[menuOptionsCount] = ObjectType[k3];
+                                    MenuActionLocations[menuOptionsCount] = ObjectLocations[objectLocation];
+                                    menuActionType[menuOptionsCount] = ObjectRotation[objectLocation];
+                                    menuActionVar1[menuOptionsCount] = ObjectType[objectLocation];
                                     menuOptionsCount++;
                                 }
+
                                 if (!entityManager.GetWorldObject(j4).Command2.ToLower().Equals("Examine"))
                                 {
                                     menuText1[menuOptionsCount] = entityManager.GetWorldObject(j4).Command2;
                                     menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWorldObject(j4).Name;
                                     menuActions[menuOptionsCount] = MenuAction.Command2OnModel;
-                                    menuActionX[menuOptionsCount] = ObjectX[k3];
-                                    menuActionY[menuOptionsCount] = ObjectY[k3];
-                                    menuActionType[menuOptionsCount] = ObjectRotation[k3];
-                                    menuActionVar1[menuOptionsCount] = ObjectType[k3];
+                                    MenuActionLocations[menuOptionsCount] = ObjectLocations[objectLocation];
+                                    menuActionType[menuOptionsCount] = ObjectRotation[objectLocation];
+                                    menuActionVar1[menuOptionsCount] = ObjectType[objectLocation];
                                     menuOptionsCount++;
                                 }
+
                                 menuText1[menuOptionsCount] = "Examine";
                                 menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWorldObject(j4).Name;
                                 menuActions[menuOptionsCount] = MenuAction.ExamineModel;
                                 menuActionType[menuOptionsCount] = j4;
                                 menuOptionsCount++;
                             }
-                            objectAlreadyInMenu[k3] = true;
+
+                            objectAlreadyInMenu[objectLocation] = true;
                         }
                     }
                     else
@@ -4100,6 +4140,7 @@ namespace RuneScapeSolo.Net.Client
                 menuActionType[menuOptionsCount] = selectedSpell;
                 menuOptionsCount++;
             }
+
             if (ground != -1)
             {
                 if (selectedSpell >= 0)
@@ -4109,21 +4150,18 @@ namespace RuneScapeSolo.Net.Client
                         menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on ground";
                         menuText2[menuOptionsCount] = "";
                         menuActions[menuOptionsCount] = MenuAction.CastSpellOnGround;
-                        menuActionX[menuOptionsCount] = engineHandle.selectedX[ground];
-                        menuActionY[menuOptionsCount] = engineHandle.selectedY[ground];
+                        MenuActionLocations[menuOptionsCount] = new Point2D(engineHandle.selectedX[ground], engineHandle.selectedY[ground]);
                         menuActionType[menuOptionsCount] = selectedSpell;
                         menuOptionsCount++;
                         return;
                     }
                 }
-                else
-                    if (selectedItem < 0)
+                else if (selectedItem < 0)
                 {
                     menuText1[menuOptionsCount] = "Walk here";
                     menuText2[menuOptionsCount] = "";
                     menuActions[menuOptionsCount] = MenuAction.WalkHere;
-                    menuActionX[menuOptionsCount] = engineHandle.selectedX[ground];
-                    menuActionY[menuOptionsCount] = engineHandle.selectedY[ground];
+                    MenuActionLocations[menuOptionsCount] = new Point2D(engineHandle.selectedX[ground], engineHandle.selectedY[ground]);
                     menuOptionsCount++;
                 }
             }
@@ -4676,27 +4714,28 @@ namespace RuneScapeSolo.Net.Client
                 }
             }
 
-            for (int i3 = 0; i3 < GroundItemCount; i3++)
+            for (int groundITemIndex = 0; groundITemIndex < GroundItemCount; groundITemIndex++)
             {
-                int x = GroundItemX[i3] * GridSize + 64;
-                int y = GroundItemY[i3] * GridSize + 64;
-                gameCamera.addSpriteToScene(40000 + GroundItemId[i3], x, -engineHandle.getAveragedElevation(x, y) - GroundItemObjectVar[i3], y, 96, 64, i3 + 20000);
+                int x = GroundItemLocations[groundITemIndex].X * GridSize + 64;
+                int y = GroundItemLocations[groundITemIndex].Y * GridSize + 64;
+
+                gameCamera.addSpriteToScene(40000 + GroundItemId[groundITemIndex], x, -engineHandle.getAveragedElevation(x, y) - GroundItemObjectVar[groundITemIndex], y, 96, 64, groundITemIndex + 20000);
                 drawUpdatesPerformed++;
             }
 
-            for (int j4 = 0; j4 < teleBubbleCount; j4++)
+            for (int teleBubbleIndex = 0; teleBubbleIndex < teleBubbleCount; teleBubbleIndex++)
             {
-                int k5 = teleBubbleX[j4] * GridSize + 64;
-                int i8 = teleBubbleY[j4] * GridSize + 64;
-                int i10 = teleBubbleType[j4];
+                int k5 = teleBubbleX[teleBubbleIndex] * GridSize + 64;
+                int i8 = teleBubbleY[teleBubbleIndex] * GridSize + 64;
+                int i10 = teleBubbleType[teleBubbleIndex];
                 if (i10 == 0)
                 {
-                    gameCamera.addSpriteToScene(50000 + j4, k5, -engineHandle.getAveragedElevation(k5, i8), i8, 128, 256, j4 + 50000);
+                    gameCamera.addSpriteToScene(50000 + teleBubbleIndex, k5, -engineHandle.getAveragedElevation(k5, i8), i8, 128, 256, teleBubbleIndex + 50000);
                     drawUpdatesPerformed++;
                 }
                 if (i10 == 1)
                 {
-                    gameCamera.addSpriteToScene(50000 + j4, k5, -engineHandle.getAveragedElevation(k5, i8), i8, 128, 64, j4 + 50000);
+                    gameCamera.addSpriteToScene(50000 + teleBubbleIndex, k5, -engineHandle.getAveragedElevation(k5, i8), i8, 128, 64, teleBubbleIndex + 50000);
                     drawUpdatesPerformed++;
                 }
             }
@@ -4793,7 +4832,11 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.IsLoggedIn = false;
 
 
-            string text = "Coordinates: ( " + (SectionX + AreaX) + "," + (SectionY + AreaY) + " ) Section: (" + SectionX + "," + SectionY + ") Area: (" + AreaX + "," + AreaY + ")";
+            string text =
+                "Coordinates: ( " + (SectionLocation.X + AreaLocation.X) + "," + (SectionLocation.Y + AreaLocation.Y) + " ) " +
+                "Section: (" + SectionLocation.X + "," + SectionLocation.Y + ") " +
+                "Area: (" + AreaLocation.X + "," + AreaLocation.Y + ")";
+
             // Text shadow
             gameGraphics.DrawString(text, 10 + 11, 10 + 11, 1, 0x000000);
             gameGraphics.DrawString(text, 10 + 10, 10 + 10, 1, 0xffffff);
@@ -5704,8 +5747,8 @@ namespace RuneScapeSolo.Net.Client
                 return false;
             }
             LoadArea = false;
-            x += WildX;
-            y += WildY;
+            x += WildLocation.X;
+            y += WildLocation.Y;
             if (lastLayerIndex == LayerIndex && x > sectionWidth && x < sectionPosX && y > sectionHeight && y < sectionPosY)
             {
                 engineHandle.playerIsAlive = true;
@@ -5715,37 +5758,40 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.DrawText("Loading... Please wait", 256, 192, 1, 0xffffff);
 
             //gameGraphics.drawImage(spriteBatch, 0, 0);
-            int l = AreaX;
-            int i1 = AreaY;
+            int l = AreaLocation.X;
+            int i1 = AreaLocation.Y;
             int xBase = (x + 24) / 48;
             int yBase = (y + 24) / 48;
             lastLayerIndex = LayerIndex;
-            AreaX = xBase * 48 - 48;
-            AreaY = yBase * 48 - 48;
+            AreaLocation = new Point2D(xBase * 48 - 48, yBase * 48 - 48);
             sectionWidth = xBase * 48 - 32;
             sectionHeight = yBase * 48 - 32;
             sectionPosX = xBase * 48 + 32;
             sectionPosY = yBase * 48 + 32;
             engineHandle.loadSection(x, y, lastLayerIndex);
 
+            AreaLocation = new Point2D(AreaLocation.X - WildLocation.X, AreaLocation.Y - WildLocation.Y);
 
-            AreaX -= WildX;
-            AreaY -= WildY;
-            int offsetX = AreaX - l;
-            int offsetY = AreaY - i1;
-            for (int j2 = 0; j2 < ObjectCount; j2++)
+            int offsetX = AreaLocation.X - l;
+            int offsetY = AreaLocation.Y - i1;
+
+            for (int objectIndex = 0; objectIndex < ObjectCount; objectIndex++)
             {
-                ObjectX[j2] -= offsetX;
-                ObjectY[j2] -= offsetY;
-                int objX = ObjectX[j2];
-                int objY = ObjectY[j2];
-                int objType = ObjectType[j2];
-                ObjectModel _obj = ObjectArray[j2];
+                ObjectLocations[objectIndex] = new Point2D(
+                    ObjectLocations[objectIndex].X - offsetX,
+                    ObjectLocations[objectIndex].Y - offsetY);
+
+                int objX = ObjectLocations[objectIndex].X;
+                int objY = ObjectLocations[objectIndex].Y;
+                int objType = ObjectType[objectIndex];
+                ObjectModel _obj = ObjectArray[objectIndex];
+
                 try
                 {
-                    int objDir = ObjectRotation[j2];
+                    int objDir = ObjectRotation[objectIndex];
                     int objWidth;
                     int objHeight;
+
                     if (objDir == 0 || objDir == 4)
                     {
                         objWidth = entityManager.GetWorldObject(objType).Width;
@@ -5756,13 +5802,16 @@ namespace RuneScapeSolo.Net.Client
                         objHeight = entityManager.GetWorldObject(objType).Width;
                         objWidth = entityManager.GetWorldObject(objType).Height;
                     }
+
                     int flatObjX = ((objX + objX + objWidth) * GridSize) / 2;
                     int flatObjY = ((objY + objY + objHeight) * GridSize) / 2;
+
                     if (objX >= 0 && objY >= 0 && objX < 96 && objY < 96)
                     {
                         gameCamera.addModel(_obj);
                         _obj.setPosition(flatObjX, -engineHandle.getAveragedElevation(flatObjX, flatObjY), flatObjY);
                         engineHandle.createObject(objX, objY, objType, objDir);
+
                         if (objType == 74)
                         {
                             _obj.offsetPosition(0, -480, 0);
@@ -5772,25 +5821,24 @@ namespace RuneScapeSolo.Net.Client
                 catch (Exception ex)
                 {
                     Console.WriteLine("Loc Error: " + ex);
-                    Console.WriteLine("x:" + j2 + " obj:" + _obj);
+                    Console.WriteLine("x:" + objectIndex + " obj:" + _obj);
                 }
             }
 
 
             for (int wallIndex = 0; wallIndex < WallObjectCount; wallIndex++)
             {
-                WallObjectX[wallIndex] -= offsetX;
-                WallObjectY[wallIndex] -= offsetY;
-
-                int wallX = WallObjectX[wallIndex];
-                int wallY = WallObjectY[wallIndex];
+                WallObjectLocations[wallIndex] = new Point2D(
+                    WallObjectLocations[wallIndex].X - offsetX,
+                    WallObjectLocations[wallIndex].Y - offsetY);
+                
                 int wallId = WallObjectId[wallIndex];
                 int wallDir = WallObjectDirection[wallIndex];
 
                 try
                 {
-                    engineHandle.createWall(wallX, wallY, wallDir, wallId);
-                    ObjectModel wallObject = makeWallObject(wallX, wallY, wallDir, wallId, wallIndex);
+                    engineHandle.createWall(WallObjectLocations[wallIndex], wallDir, wallId);
+                    ObjectModel wallObject = makeWallObject(WallObjectLocations[wallIndex], wallDir, wallId, wallIndex);
                     WallObjects[wallIndex] = wallObject;
                 }
                 catch (Exception ex)
@@ -5799,10 +5847,11 @@ namespace RuneScapeSolo.Net.Client
                 }
             }
 
-            for (int k3 = 0; k3 < GroundItemCount; k3++)
+            for (int groundItemIndex = 0; groundItemIndex < GroundItemCount; groundItemIndex++)
             {
-                GroundItemX[k3] -= offsetX;
-                GroundItemY[k3] -= offsetY;
+                GroundItemLocations[groundItemIndex] = new Point2D(
+                    GroundItemLocations[groundItemIndex].X - offsetX,
+                    GroundItemLocations[groundItemIndex].Y - offsetY);
             }
 
             for (int playerIndex = 0; playerIndex < PlayerCount; playerIndex++)
@@ -5838,12 +5887,12 @@ namespace RuneScapeSolo.Net.Client
             return true;
         }
 
-        public ObjectModel makeWallObject(int x, int y, int dir, int type, int totalCount)
+        public ObjectModel makeWallObject(Point2D location, int dir, int type, int totalCount)
         {
-            int tileX = x;
-            int tileY = y;
-            int destTileX = x;
-            int destTileY = y;
+            int tileX = location.X;
+            int tileY = location.Y;
+            int destTileX = location.X;
+            int destTileY = location.Y;
             int textureBack = entityManager.GetWallObject(type).ModelFaceBack;
             int textureFront = entityManager.GetWallObject(type).ModelFaceFront;
             int wallHeight = entityManager.GetWallObject(type).ModelHeight;
@@ -5852,28 +5901,29 @@ namespace RuneScapeSolo.Net.Client
             // -
             if (dir == 0)
             {
-                destTileX = x + 1;
+                destTileX = location.X + 1;
             }
 
             // |
             if (dir == 1)
             {
-                destTileY = y + 1;
+                destTileY = location.Y + 1;
             }
 
             // /
             if (dir == 2)
             {
-                tileX = x + 1;
-                destTileY = y + 1;
+                tileX = location.X + 1;
+                destTileY = location.Y + 1;
             }
 
             // \
             if (dir == 3)
             {
-                destTileX = x + 1;
-                destTileY = y + 1;
+                destTileX = location.X + 1;
+                destTileY = location.Y + 1;
             }
+
             tileX *= GridSize;
             tileY *= GridSize;
             destTileX *= GridSize;
@@ -5890,17 +5940,21 @@ namespace RuneScapeSolo.Net.Client
 
             // vertex index bottomRight
             int bRight = wallModel.getVertexIndex(destTileX, -engineHandle.getAveragedElevation(destTileX, destTileY), destTileY);
-            int[] faceVertices = {
-            bLeft, tLeft, tRight, bRight
-        };
+            int[] faceVertices = { bLeft, tLeft, tRight, bRight };
+
             wallModel.addFaceVertices(4, faceVertices, textureBack, textureFront);
             wallModel.UpdateShading(false, 60, 24, -50, -10, -50);
-            if (x >= 0 && y >= 0 && x < 96 && y < 96)
+
+            if (location.X >= 0 &&
+                location.Y >= 0 &&
+                location.X < 96 &&
+                location.Y < 96)
             {
                 gameCamera.addModel(wallModel);
             }
 
             wallModel.index = totalCount + 10000;
+
             return wallModel;
         }
 
@@ -6132,8 +6186,6 @@ namespace RuneScapeSolo.Net.Client
         public int modelClawSpellNumber;
         public int[] itemAboveHeadScale;
         public int[] itemAboveHeadID;
-        public int[] menuActionX;
-        public int[] menuActionY;
         public MenuAction[] menuActions;
         public int cameraAutoRotatePlayerX;
         public int cameraAutoRotatePlayerY;
@@ -6216,8 +6268,6 @@ namespace RuneScapeSolo.Net.Client
         public EngineHandle engineHandle;
         public int mouseButtonClick;
         public Menu loginNewUser;
-        public int[] walkArrayX;
-        public int[] walkArrayY;
         public int[] combatModelArray2 = {
         0, 0, 0, 0, 0, 1, 2, 1
     };

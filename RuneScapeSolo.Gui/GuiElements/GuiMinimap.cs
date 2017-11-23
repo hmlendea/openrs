@@ -174,10 +174,10 @@ namespace RuneScapeSolo.Gui.GuiElements
 
             DrawMinimapTiles(spriteBatch);
 
-            for (int i = 0; i < client.GroundItemCount; i++)
+            for (int groundItemIndex = 0; groundItemIndex < client.GroundItemCount; groundItemIndex++)
             {
-                int groundItemX = (((client.GroundItemX[i] * client.GridSize + 64) - client.CurrentPlayer.currentX) * 3 * j1) / 2048;
-                int groundItemY = (((client.GroundItemY[i] * client.GridSize + 64) - client.CurrentPlayer.currentY) * 3 * j1) / 2048;
+                int groundItemX = (((client.GroundItemLocations[groundItemIndex].X * client.GridSize + 64) - client.CurrentPlayer.currentX) * 3 * j1) / 2048;
+                int groundItemY = (((client.GroundItemLocations[groundItemIndex].Y * client.GridSize + 64) - client.CurrentPlayer.currentY) * 3 * j1) / 2048;
                 int l6 = groundItemY * j5 + groundItemX * l5 >> 18;
                 groundItemY = groundItemY * l5 - groundItemX * j5 >> 18;
                 groundItemX = l6;

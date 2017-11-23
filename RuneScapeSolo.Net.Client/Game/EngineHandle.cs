@@ -5,6 +5,7 @@ using RuneScapeSolo.GameLogic.GameManagers;
 using RuneScapeSolo.Models;
 using RuneScapeSolo.Net.Client.Game.Cameras;
 using RuneScapeSolo.Net.Client.Data;
+using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Net.Client.Game
 {
@@ -185,12 +186,11 @@ namespace RuneScapeSolo.Net.Client.Game
             return j2;
         }
 
-        public void setTileType(int x, int y, int type)
+        public void setTileType(Point2D location, int type)
         {
-            tiles[x][y] |= type;
+            tiles[location.X][location.Y] |= type;
         }
-        
-        int loadedSameIndex = 0;
+
         public void loadSection(int sectionX, int sectionY, int height, int sector)
         {
             string filename = "m" + height + sectionX / 10 + sectionX % 10 + sectionY / 10 + sectionY % 10;
@@ -819,6 +819,7 @@ namespace RuneScapeSolo.Net.Client.Game
             }
             currentSectionObject.resetObjectIndexes();
             int j1 = 0x606060;
+
             for (int x1 = 0; x1 < 95; x1++)
             {
                 for (int y1 = 0; y1 < 95; y1++)
@@ -830,9 +831,11 @@ namespace RuneScapeSolo.Net.Client.Game
                         if (freshLoad && entityManager.GetWallObject(k3 - 1).Type != 0)
                         {
                             tiles[x1][y1] |= 1;
+
                             if (y1 > 0)
                             {
-                                setTileType(x1, y1 - 1, 4);
+                                Point2D loc = new Point2D(x1, y1 - 1);
+                                setTileType(loc, 4);
                             }
                         }
                         if (freshLoad)
@@ -847,9 +850,11 @@ namespace RuneScapeSolo.Net.Client.Game
                         if (freshLoad && entityManager.GetWallObject(k3 - 1).Type != 0)
                         {
                             tiles[x1][y1] |= 2;
+
                             if (x1 > 0)
                             {
-                                setTileType(x1 - 1, y1, 8);
+                                Point2D loc = new Point2D(x1 - 1, y1);
+                                setTileType(loc, 8);
                             }
                         }
                         if (freshLoad)
@@ -1406,7 +1411,7 @@ namespace RuneScapeSolo.Net.Client.Game
 
         }
 
-        public int generatePath(int curX, int curY, int bottomDestX, int bottomDestY, int upperDestX, int upperDestY, int[] pathX, int[] pathY, bool checkForObjects)
+        public int generatePath(Point2D startLocation, Point2D destinationBottom, Point2D destinationTop, Point2D[] path, bool checkForObjects)
         {
             for (int k = 0; k < 96; k++)
             {
@@ -1418,22 +1423,26 @@ namespace RuneScapeSolo.Net.Client.Game
 
             int requiredSteps = 0;
             int stepCount = 0;
-            int x = curX;
-            int y = curY;
+            int x = startLocation.X;
+            int y = startLocation.Y;
 
-            steps[curX][curY] = 99;
-            pathX[requiredSteps] = curX;
-            pathY[requiredSteps++] = curY;
+            steps[startLocation.X][startLocation.Y] = 99;
+            path[requiredSteps] = new Point2D(startLocation.X, startLocation.Y);
+            requiredSteps += 1;
 
-            int i2 = pathX.Length;
+            int i2 = path.Length;
             bool foundPath = false;
 
             while (stepCount != requiredSteps)
             {
-                x = pathX[stepCount];
-                y = pathY[stepCount];
+                x = path[stepCount].X;
+                y = path[stepCount].Y;
+
                 stepCount = (stepCount + 1) % i2;
-                if (x >= bottomDestX && x <= upperDestX && y >= bottomDestY && y <= upperDestY)
+                if (x >= destinationBottom.X &&
+                    x <= destinationTop.X &&
+                    y >= destinationBottom.Y &&
+                    y <= destinationTop.Y)
                 {
                     foundPath = true;
                     break;
@@ -1441,25 +1450,45 @@ namespace RuneScapeSolo.Net.Client.Game
 
                 if (checkForObjects)
                 {
-                    if (x > 0 && x - 1 >= bottomDestX && x - 1 <= upperDestX && y >= bottomDestY && y <= upperDestY && (tiles[x - 1][y] & 8) == 0)
+                    if (x > 0 &&
+                        x - 1 >= destinationBottom.X &&
+                        x - 1 <= destinationTop.X &&
+                        y >= destinationBottom.Y &&
+                        y <= destinationTop.Y &&
+                        (tiles[x - 1][y] & 8) == 0)
                     {
                         foundPath = true;
                         break;
                     }
 
-                    if (x < 95 && x + 1 >= bottomDestX && x + 1 <= upperDestX && y >= bottomDestY && y <= upperDestY && (tiles[x + 1][y] & 2) == 0)
+                    if (x < 95 &&
+                        x + 1 >= destinationBottom.X &&
+                        x + 1 <= destinationTop.X &&
+                        y >= destinationBottom.Y &&
+                        y <= destinationTop.Y &&
+                        (tiles[x + 1][y] & 2) == 0)
                     {
                         foundPath = true;
                         break;
                     }
 
-                    if (y > 0 && x >= bottomDestX && x <= upperDestX && y - 1 >= bottomDestY && y - 1 <= upperDestY && (tiles[x][y - 1] & 4) == 0)
+                    if (y > 0 &&
+                        x >= destinationBottom.X &&
+                        x <= destinationTop.X &&
+                        y - 1 >= destinationBottom.Y &&
+                        y - 1 <= destinationTop.Y &&
+                        (tiles[x][y - 1] & 4) == 0)
                     {
                         foundPath = true;
                         break;
                     }
 
-                    if (y < 95 && x >= bottomDestX && x <= upperDestX && y + 1 >= bottomDestY && y + 1 <= upperDestY && (tiles[x][y + 1] & 1) == 0)
+                    if (y < 95 &&
+                        x >= destinationBottom.X &&
+                        x <= destinationTop.X &&
+                        y + 1 >= destinationBottom.Y &&
+                        y + 1 <= destinationTop.Y &&
+                        (tiles[x][y + 1] & 1) == 0)
                     {
                         foundPath = true;
                         break;
@@ -1468,64 +1497,56 @@ namespace RuneScapeSolo.Net.Client.Game
 
                 if (x > 0 && steps[x - 1][y] == 0 && (tiles[x - 1][y] & 0x78) == 0)
                 {
-                    pathX[requiredSteps] = x - 1;
-                    pathY[requiredSteps] = y;
+                    path[requiredSteps] = new Point2D(x - 1, y);
                     requiredSteps = (requiredSteps + 1) % i2;
                     steps[x - 1][y] = 2;
                 }
 
                 if (x < 95 && steps[x + 1][y] == 0 && (tiles[x + 1][y] & 0x72) == 0)
                 {
-                    pathX[requiredSteps] = x + 1;
-                    pathY[requiredSteps] = y;
+                    path[requiredSteps] = new Point2D(x + 1, y);
                     requiredSteps = (requiredSteps + 1) % i2;
                     steps[x + 1][y] = 8;
                 }
 
                 if (y > 0 && steps[x][y - 1] == 0 && (tiles[x][y - 1] & 0x74) == 0)
                 {
-                    pathX[requiredSteps] = x;
-                    pathY[requiredSteps] = y - 1;
+                    path[requiredSteps] = new Point2D(x, y - 1);
                     requiredSteps = (requiredSteps + 1) % i2;
                     steps[x][y - 1] = 1;
                 }
 
                 if (y < 95 && steps[x][y + 1] == 0 && (tiles[x][y + 1] & 0x71) == 0)
                 {
-                    pathX[requiredSteps] = x;
-                    pathY[requiredSteps] = y + 1;
+                    path[requiredSteps] = new Point2D(x, y + 1);
                     requiredSteps = (requiredSteps + 1) % i2;
                     steps[x][y + 1] = 4;
                 }
 
                 if (x > 0 && y > 0 && (tiles[x][y - 1] & 0x74) == 0 && (tiles[x - 1][y] & 0x78) == 0 && (tiles[x - 1][y - 1] & 0x7c) == 0 && steps[x - 1][y - 1] == 0)
                 {
-                    pathX[requiredSteps] = x - 1;
-                    pathY[requiredSteps] = y - 1;
+                    path[requiredSteps] = new Point2D(x - 1, y - 1);
                     requiredSteps = (requiredSteps + 1) % i2;
                     steps[x - 1][y - 1] = 3;
                 }
 
                 if (x < 95 && y > 0 && (tiles[x][y - 1] & 0x74) == 0 && (tiles[x + 1][y] & 0x72) == 0 && (tiles[x + 1][y - 1] & 0x76) == 0 && steps[x + 1][y - 1] == 0)
                 {
-                    pathX[requiredSteps] = x + 1;
-                    pathY[requiredSteps] = y - 1;
+                    path[requiredSteps] = new Point2D(x + 1, y - 1);
                     requiredSteps = (requiredSteps + 1) % i2;
                     steps[x + 1][y - 1] = 9;
                 }
 
                 if (x > 0 && y < 95 && (tiles[x][y + 1] & 0x71) == 0 && (tiles[x - 1][y] & 0x78) == 0 && (tiles[x - 1][y + 1] & 0x79) == 0 && steps[x - 1][y + 1] == 0)
                 {
-                    pathX[requiredSteps] = x - 1;
-                    pathY[requiredSteps] = y + 1;
+                    path[requiredSteps] = new Point2D(x - 1, y + 1);
                     requiredSteps = (requiredSteps + 1) % i2;
                     steps[x - 1][y + 1] = 6;
                 }
 
                 if (x < 95 && y < 95 && (tiles[x][y + 1] & 0x71) == 0 && (tiles[x + 1][y] & 0x72) == 0 && (tiles[x + 1][y + 1] & 0x73) == 0 && steps[x + 1][y + 1] == 0)
                 {
-                    pathX[requiredSteps] = x + 1;
-                    pathY[requiredSteps] = y + 1;
+                    path[requiredSteps] = new Point2D(x + 1, y + 1);
                     requiredSteps = (requiredSteps + 1) % i2;
                     steps[x + 1][y + 1] = 12;
                 }
@@ -1536,18 +1557,18 @@ namespace RuneScapeSolo.Net.Client.Game
             }
 
             stepCount = 0;
-            pathX[stepCount] = x;
-            pathY[stepCount++] = y;
+            path[stepCount] = new Point2D(x, y);
+            stepCount += 1;
 
             int k2;
 
-            for (int j2 = k2 = steps[x][y]; x != curX || y != curY; j2 = steps[x][y])
+            for (int j2 = k2 = steps[x][y]; x != startLocation.X || y != startLocation.Y; j2 = steps[x][y])
             {
                 if (j2 != k2)
                 {
                     k2 = j2;
-                    pathX[stepCount] = x;
-                    pathY[stepCount++] = y;
+                    path[stepCount] = new Point2D(x, y);
+                    stepCount += 1;
                 }
 
                 if ((j2 & 2) != 0)
@@ -1572,9 +1593,9 @@ namespace RuneScapeSolo.Net.Client.Game
             return stepCount;
         }
 
-        public void gjm(int k, int l, int i1)
+        public void gjm(Point2D location, int i1)
         {
-            tiles[k][l] &= 65535 - i1;
+            tiles[location.X][location.Y] &= 65535 - i1;
         }
 
         public int getTileGroundOverlayTextureOrDefault(int x, int y, int height, int defaultTexture)
@@ -1591,72 +1612,86 @@ namespace RuneScapeSolo.Net.Client.Game
             }
         }
 
-        public void gka(int x, int y, int objWidth, int objHeight)
+        public void gka(Point2D location, int objWidth, int objHeight)
         {
-            if (x < 1 || y < 1 || x + objWidth >= 96 || y + objHeight >= 96)
+            if (location.X < 1 ||
+                location.Y < 1 ||
+                location.X + objWidth >= 96 ||
+                location.Y + objHeight >= 96)
             {
                 return;
             }
 
-            for (int x1 = x; x1 <= x + objWidth; x1++)
+            for (int x = location.X; x <= location.X + objWidth; x++)
             {
-                for (int y1 = y; y1 <= y + objHeight; y1++)
+                for (int y = location.Y; y <= location.Y + objHeight; y++)
                 {
-                    if ((getTile(x1, y1) & 0x63) != 0 || (getTile(x1 - 1, y1) & 0x59) != 0 || (getTile(x1, y1 - 1) & 0x56) != 0 || (getTile(x1 - 1, y1 - 1) & 0x6c) != 0)
+                    if ((getTile(x, y) & 0x63) != 0 ||
+                        (getTile(x - 1, y) & 0x59) != 0 ||
+                        (getTile(x, y - 1) & 0x56) != 0 ||
+                        (getTile(x - 1, y - 1) & 0x6c) != 0)
                     {
-                        SetTileType(x1, y1, 35);
+                        SetTileType(x, y, 35);
                     }
                     else
                     {
-                        SetTileType(x1, y1, 0);
+                        SetTileType(x, y, 0);
                     }
                 }
             }
-
         }
 
-        public void removeWallObject(int x, int y, int arg2, int index)
+        public void removeWallObject(Point2D location, int arg2, int index)
         {
-            if (x < 0 || y < 0 || x >= 95 || y >= 95)
+            if (location.X < 0 ||
+                location.Y < 0 ||
+                location.X >= 95 ||
+                location.Y >= 95)
             {
                 return;
             }
+
+            Point2D l = new Point2D(location.X - 1, location.Y);
 
             if (entityManager.GetWallObject(index).Type == 1)
             {
                 if (arg2 == 0)
                 {
-                    tiles[x][y] &= 0xfffe;
-                    if (y > 0)
+                    tiles[location.X][location.Y] &= 0xfffe;
+
+                    if (location.Y > 0)
                     {
-                        gjm(x, y - 1, 4);
+                        gjm(l, 4);
                     }
                 }
                 else if (arg2 == 1)
                 {
-                    tiles[x][y] &= 0xfffd;
-                    if (x > 0)
+                    tiles[location.X][location.Y] &= 0xfffd;
+
+                    if (location.X > 0)
                     {
-                        gjm(x - 1, y, 8);
+                        gjm(l, 8);
                     }
                 }
                 else if (arg2 == 2)
                 {
-                    tiles[x][y] &= 0xffef;
+                    tiles[location.X][location.Y] &= 0xffef;
                 }
                 else if (arg2 == 3)
                 {
-                    tiles[x][y] &= 0xffdf;
+                    tiles[location.X][location.Y] &= 0xffdf;
                 }
 
-                gka(x, y, 1, 1);
+                gka(location, 1, 1);
             }
         }
 
-        public void createWall(int x, int y, int arg2, int index)
+        public void createWall(Point2D location, int arg2, int index)
         {
-
-            if (x < 0 || y < 0 || x >= 95 || y >= 95)
+            if (location.X < 0 ||
+                location.Y < 0 ||
+                location.X >= 95 ||
+                location.Y >= 95)
             {
                 return;
             }
@@ -1665,32 +1700,36 @@ namespace RuneScapeSolo.Net.Client.Game
             {
                 if (arg2 == 0)
                 {
-                    tiles[x][y] |= 1;
-                    if (y > 0)
+                    tiles[location.X][location.Y] |= 1;
+
+                    if (location.Y > 0)
                     {
-                        setTileType(x, y - 1, 4);
+                        Point2D loc = new Point2D(location.X, location.Y - 1);
+                        setTileType(loc, 4);
                     }
                 }
-                else
-                    if (arg2 == 1)
+                else if (arg2 == 1)
                 {
-                    tiles[x][y] |= 2;
-                    if (x > 0)
+                    tiles[location.X][location.Y] |= 2;
+
+                    if (location.X > 0)
                     {
-                        setTileType(x - 1, y, 8);
+                        Point2D l = new Point2D(location.X - 1, location.Y);
+                        setTileType(l, 8);
                     }
                 }
                 else if (arg2 == 2)
                 {
-                    var val = tiles[x][y] | 0x10;
-                    tiles[x][y] |= 0x10;
+                    var val = tiles[location.X][location.Y] | 0x10;
+                    tiles[location.X][location.Y] |= 0x10;
                 }
                 else if (arg2 == 3)
                 {
-                    var val = tiles[x][y] | 0x20;
-                    tiles[x][y] |= 0x20;
+                    var val = tiles[location.X][location.Y] | 0x20;
+                    tiles[location.X][location.Y] |= 0x20;
                 }
-                gka(x, y, 1, 1);
+
+                gka(location, 1, 1);
             }
         }
 
@@ -1745,9 +1784,12 @@ namespace RuneScapeSolo.Net.Client.Game
             objectDirs[x][y] = dir;
         }
 
-        public void removeObject(int x, int y, int objType, int objDir)
+        public void removeObject(Point2D location, int objType, int objDir)
         {
-            if (x < 0 || y < 0 || x >= 95 || y >= 95)
+            if (location.X < 0 ||
+                location.Y < 0 ||
+                location.X >= 95 ||
+                location.Y >= 95)
             {
                 return;
             }
@@ -1757,6 +1799,7 @@ namespace RuneScapeSolo.Net.Client.Game
                 //int wallObj = getTileRotation(x, arg1);
                 int objWidth;
                 int objHeight;
+
                 if (objDir == 0 || objDir == 4)
                 {
                     objWidth = entityManager.GetWorldObject(objType).Width;
@@ -1767,9 +1810,10 @@ namespace RuneScapeSolo.Net.Client.Game
                     objHeight = entityManager.GetWorldObject(objType).Width;
                     objWidth = entityManager.GetWorldObject(objType).Height;
                 }
-                for (int j1 = x; j1 < x + objWidth; j1++)
+
+                for (int j1 = location.X; j1 < location.X + objWidth; j1++)
                 {
-                    for (int k1 = y; k1 < y + objHeight; k1++)
+                    for (int k1 = location.Y; k1 < location.Y + objHeight; k1++)
                     {
                         if (entityManager.GetWorldObject(objType).Type == 1)
                         {
@@ -1778,39 +1822,47 @@ namespace RuneScapeSolo.Net.Client.Game
                         else if (objDir == 0)
                         {
                             tiles[j1][k1] &= 0xfffd;
+
                             if (j1 > 0)
                             {
-                                gjm(j1 - 1, k1, 8);
+                                Point2D loc = new Point2D(j1 - 1, k1);
+                                gjm(loc, 8);
                             }
                         }
                         else if (objDir == 2)
                         {
                             tiles[j1][k1] &= 0xfffb;
+
                             if (k1 < 95)
                             {
-                                gjm(j1, k1 + 1, 1);
+                                Point2D loc = new Point2D(j1, k1 + 1);
+                                gjm(loc, 1);
                             }
                         }
                         else if (objDir == 4)
                         {
                             tiles[j1][k1] &= 0xfff7;
+
                             if (j1 < 95)
                             {
-                                gjm(j1 + 1, k1, 2);
+                                Point2D loc = new Point2D(j1 + 1, k1);
+                                gjm(loc, 2);
                             }
                         }
                         else if (objDir == 6)
                         {
                             tiles[j1][k1] &= 0xfffe;
+
                             if (k1 > 0)
                             {
-                                gjm(j1, k1 - 1, 4);
+                                Point2D loc = new Point2D(j1, k1 - 1);
+                                gjm(loc, 4);
                             }
                         }
                     }
                 }
 
-                gka(x, y, objWidth, objHeight);
+                gka(location, objWidth, objHeight);
             }
         }
 
@@ -1820,8 +1872,10 @@ namespace RuneScapeSolo.Net.Client.Game
             int destY = y * 3;
             int texture1 = camera.applyTextureSmoothing(textureIndex1);
             int texture2 = camera.applyTextureSmoothing(textureIndex2);
+
             texture1 = texture1 >> 1 & 0x7f7f7f;
             texture2 = texture2 >> 1 & 0x7f7f7f;
+
             if (drawOrder == 0)
             {
                 graphics.DrawHorizontalLine(destX, destY, 3, texture1);
@@ -1831,6 +1885,7 @@ namespace RuneScapeSolo.Net.Client.Game
                 graphics.DrawHorizontalLine(destX + 1, destY + 2, 2, texture2);
                 return;
             }
+
             if (drawOrder == 1)
             {
                 graphics.DrawHorizontalLine(destX, destY, 3, texture2);
@@ -1847,6 +1902,7 @@ namespace RuneScapeSolo.Net.Client.Game
             // dont think theres any problem here. 
             // Data.wallObjectModelHeight is not the problem either, i debugged the java version and got the same values both here and there. :p
             int height = entityManager.GetWallObject(objType).ModelHeight;
+
             if (roofTiles[srcX][srcY] < 0x13880)
             {
                 roofTiles[srcX][srcY] += 0x13880 + height;
@@ -1997,39 +2053,49 @@ namespace RuneScapeSolo.Net.Client.Game
                         else if (direction == 0)
                         {
                             tiles[x1][y1] |= 2;
+
                             if (x1 > 0)
                             {
-                                setTileType(x1 - 1, y1, 8);
+                                Point2D loc = new Point2D(x1 - 1, y1);
+                                setTileType(loc, 8);
                             }
                         }
                         else if (direction == 2)
                         {
                             tiles[x1][y1] |= 4;
+
                             if (y1 < 95)
                             {
-                                setTileType(x1, y1 + 1, 1);
+                                Point2D loc = new Point2D(x1, y1 + 1);
+                                setTileType(loc, 1);
                             }
                         }
                         else if (direction == 4)
                         {
                             tiles[x1][y1] |= 8;
+
                             if (x1 < 95)
                             {
-                                setTileType(x1 + 1, y1, 2);
+                                Point2D loc = new Point2D(x1 + 1, y1);
+                                setTileType(loc, 2);
                             }
                         }
                         else if (direction == 6)
                         {
                             tiles[x1][y1] |= 1;
+
                             if (y1 > 0)
                             {
-                                setTileType(x1, y1 - 1, 4);
+                                Point2D loc = new Point2D(x1, y1 - 1);
+                                setTileType(loc, 4);
                             }
                         }
                     }
                 }
 
-                gka(x, y, objectWidth, objectHeight);
+                Point2D location = new Point2D(x, y);
+
+                gka(location, objectWidth, objectHeight);
             }
         }
 
