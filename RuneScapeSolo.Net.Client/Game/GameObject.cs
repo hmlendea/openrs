@@ -172,7 +172,7 @@ namespace RuneScapeSolo.Net.Client.Game
             }
         }
 
-        public ObjectModel(sbyte[] data, int offset, bool arg2)
+        public ObjectModel(sbyte[] data, int offset)
         //: base(_vert_count, polygonCount, z)
         {
             objectState = 1;

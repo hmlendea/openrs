@@ -78,11 +78,7 @@ namespace RuneScapeSolo.Net.Client
                 return;
             }
 
-            if (reconnecting)
-            {
-                gameBoxPrint("Connection lost! Please wait...", "Attempting to re-establish");
-            }
-            else
+            if (!reconnecting)
             {
                 loginScreenPrint("Please wait...", "Connecting to server");
             }
@@ -253,22 +249,6 @@ namespace RuneScapeSolo.Net.Client
         {
             Console.WriteLine("Lost connection");
             loginScreenPrint("Please enter your usename and password", "");
-        }
-
-        protected void gameBoxPrint(string s1, string s2)
-        {
-
-            //Font font = new Font("Helvetica", 1, 15);
-            char c = '\u0200';
-            char c1 = '\u0158';
-            // g.setColor(Color.Black);
-
-            //g.fillRect(c / 2 - 140, c1 / 2 - 25, 280, 50, Color.Black);
-
-            //g.setColor(Color.White);
-            //g.drawRect(c / 2 - 140, c1 / 2 - 25, 280, 50, Color.White);
-            //drawString(s1/*, font*/, c / 2, c1 / 2 - 10, Color.White);
-            //drawString(s2/*, font*/, c / 2, c1 / 2 + 10, Color.White);
         }
 
         protected void SendPing()

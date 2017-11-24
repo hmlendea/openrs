@@ -13,16 +13,6 @@ namespace RuneScapeSolo.Net.Client
 {
     public class GameApplet : IDisposable
     {
-        public GameApplet()
-        {
-            // This is needed
-        }
-
-        public GameApplet(GraphicsDevice graphics, SpriteBatch spriteBatch)
-        {
-            InitGameApplet();
-        }
-
         public void CreateWindow(int width, int height)
         {
             Console.WriteLine("Started application");
@@ -63,14 +53,14 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        public void MouseEntered(MouseState evt)
+        public void MouseEntered()
         {
-            MouseMove(evt.X, evt.Y);
+            MouseMove();
         }
 
-        public void MouseExited(MouseState evt)
+        public void MouseExited()
         {
-            MouseMove(evt.X, evt.Y);
+            MouseMove();
         }
 
         public void MousePressed(MouseState evt)
@@ -78,26 +68,24 @@ namespace RuneScapeSolo.Net.Client
             mouseDown(evt.X, evt.Y, evt.RightButton == ButtonState.Pressed);
         }
 
-        public void MouseReleased(MouseState evt)
+        public void MouseReleased()
         {
-            MouseUp(evt.X, evt.Y);
+            MouseUp();
         }
 
         public void MouseDragged(MouseState evt)
         {
-            mouseDrag(evt.Y, evt.X, evt.RightButton == ButtonState.Pressed);
+            mouseDrag(evt.RightButton == ButtonState.Pressed);
         }
 
-        public void MouseMoved(MouseState evt)
+        public void MouseMoved()
         {
-            MouseMove(evt.X, evt.Y);
+            MouseMove();
         }
 
         public void KeyDown(Keys key, char c)
         {
             HandleKeyDown(key, c);
-
-            bool flag = false;
 
             for (int i = 0; i < allowedChars.Length; i++)
             {
@@ -106,7 +94,6 @@ namespace RuneScapeSolo.Net.Client
                     continue;
                 }
 
-                flag = true;
                 break;
             }
         }
@@ -115,17 +102,13 @@ namespace RuneScapeSolo.Net.Client
         {
         }
 
-        public void KeyUp(Keys key, char c)
-        {
-        }
-
-        public bool MouseMove(int x, int y)
+        public bool MouseMove()
         {
             mouseButton = 0;
             return true;
         }
 
-        public bool MouseUp(int x, int y)
+        public bool MouseUp()
         {
             mouseButton = 0;
             return true;
@@ -136,6 +119,7 @@ namespace RuneScapeSolo.Net.Client
             mouseButton = metaDown ? 2 : 1;
             lastMouseButton = mouseButton;
             handleMouseDown(mouseButton, x, y);
+
             return true;
         }
 
@@ -143,7 +127,7 @@ namespace RuneScapeSolo.Net.Client
         {
         }
 
-        public bool mouseDrag(int x, int y, bool metaDown)
+        public bool mouseDrag(bool metaDown)
         {
             mouseButton = metaDown ? 2 : 1;
             return true;

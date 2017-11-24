@@ -290,7 +290,7 @@ namespace RuneScapeSolo.Net.Client.Game
             {
                 return;
             }
-            
+
             pixels[x + y * GameSize.Width] = color;
         }
 
@@ -1037,7 +1037,7 @@ namespace RuneScapeSolo.Net.Client.Game
                 Console.WriteLine("error in sprite clipping routine");
             }
         }
-        
+
         public void drawCharacterLegs(int i, int k, int l, int i1, int animationNumber, int colour)
         {
             try
@@ -1431,20 +1431,23 @@ namespace RuneScapeSolo.Net.Client.Game
             if (bng == null)
             {
                 bng = new int[512];
+
                 for (int l = 0; l < 256; l++)
                 {
                     bng[l] = (int)(Math.Sin(l * 0.02454369D) * 32768D);
                     bng[l + 256] = (int)(Math.Cos(l * 0.02454369D) * 32768D);
                 }
-
             }
+
             int i1 = -pictureAssumedWidth[arg2] / 2;
             int j1 = -pictureAssumedHeight[arg2] / 2;
+
             if (hasTransparentBackground[arg2])
             {
                 i1 += pictureOffsetX[arg2];
                 j1 += pictureOffsetY[arg2];
             }
+
             int k1 = i1 + pictureWidth[arg2];
             int l1 = j1 + pictureHeight[arg2];
             int i2 = k1;
@@ -1462,12 +1465,12 @@ namespace RuneScapeSolo.Net.Client.Game
             int l4 = arg1 + (l1 * j3 - k1 * i3 >> 22);
             int i5 = arg0 + (l2 * i3 + k2 * j3 >> 22);
             int j5 = arg1 + (l2 * j3 - k2 * i3 >> 22);
+
             if (arg4 == 192 && (arg3 & 0x3f) == (cab & 0x3f))
             {
                 bnn++;
             }
-            else
-                if (arg4 == 128)
+            else if (arg4 == 128)
             {
                 cab = arg3;
             }
@@ -1478,12 +1481,12 @@ namespace RuneScapeSolo.Net.Client.Game
 
             int k5 = l3;
             int l5 = l3;
+
             if (j4 < k5)
             {
                 k5 = j4;
             }
-            else
-                if (j4 > l5)
+            else if (j4 > l5)
             {
                 l5 = j4;
             }
@@ -1492,8 +1495,7 @@ namespace RuneScapeSolo.Net.Client.Game
             {
                 k5 = l4;
             }
-            else
-                if (l4 > l5)
+            else if (l4 > l5)
             {
                 l5 = l4;
             }
@@ -1502,8 +1504,7 @@ namespace RuneScapeSolo.Net.Client.Game
             {
                 k5 = j5;
             }
-            else
-                if (j5 > l5)
+            else if (j5 > l5)
             {
                 l5 = j5;
             }
@@ -1527,6 +1528,7 @@ namespace RuneScapeSolo.Net.Client.Game
                 bnl = new int[GameSize.Height + 1];
                 bnm = new int[GameSize.Height + 1];
             }
+
             for (int i6 = k5; i6 <= l5; i6++)
             {
                 bnh[i6] = 0x5f5e0ff;
@@ -1538,6 +1540,7 @@ namespace RuneScapeSolo.Net.Client.Game
             int i8 = 0;
             int j8 = pictureWidth[arg2];
             int k8 = pictureHeight[arg2];
+
             i1 = 0;
             j1 = 0;
             i2 = j8 - 1;
@@ -1546,15 +1549,18 @@ namespace RuneScapeSolo.Net.Client.Game
             l1 = k8 - 1;
             k2 = 0;
             l2 = k8 - 1;
+
             if (j5 != l3)
             {
                 i7 = (i5 - k3 << 8) / (j5 - l3);
                 i8 = (l2 - j1 << 8) / (j5 - l3);
             }
+
             int j6;
             int k6;
             int l6;
             int l7;
+
             if (l3 > j5)
             {
                 l6 = i5 << 8;
@@ -1569,12 +1575,14 @@ namespace RuneScapeSolo.Net.Client.Game
                 j6 = l3;
                 k6 = j5;
             }
+
             if (j6 < 0)
             {
                 l6 -= i7 * j6;
                 l7 -= i8 * j6;
                 j6 = 0;
             }
+
             if (k6 > GameSize.Height - 1)
             {
                 k6 = GameSize.Height - 1;
@@ -1594,7 +1602,9 @@ namespace RuneScapeSolo.Net.Client.Game
                 i7 = (i4 - k3 << 8) / (j4 - l3);
                 k7 = (i2 - i1 << 8) / (j4 - l3);
             }
+
             int j7;
+
             if (l3 > j4)
             {
                 l6 = i4 << 8;
@@ -1609,12 +1619,14 @@ namespace RuneScapeSolo.Net.Client.Game
                 j6 = l3;
                 k6 = j4;
             }
+
             if (j6 < 0)
             {
                 l6 -= i7 * j6;
                 j7 -= k7 * j6;
                 j6 = 0;
             }
+
             if (k6 > GameSize.Height - 1)
             {
                 k6 = GameSize.Height - 1;
@@ -1628,12 +1640,14 @@ namespace RuneScapeSolo.Net.Client.Game
                     bnj[i9] = j7;
                     bnl[i9] = 0;
                 }
+
                 if (l6 > bni[i9])
                 {
                     bni[i9] = l6;
                     bnk[i9] = j7;
                     bnm[i9] = 0;
                 }
+
                 l6 += i7;
                 j7 += k7;
             }
@@ -1643,6 +1657,7 @@ namespace RuneScapeSolo.Net.Client.Game
                 i7 = (k4 - i4 << 8) / (l4 - j4);
                 i8 = (l1 - j2 << 8) / (l4 - j4);
             }
+
             if (j4 > l4)
             {
                 l6 = k4 << 8;
@@ -1659,12 +1674,14 @@ namespace RuneScapeSolo.Net.Client.Game
                 j6 = j4;
                 k6 = l4;
             }
+
             if (j6 < 0)
             {
                 l6 -= i7 * j6;
                 l7 -= i8 * j6;
                 j6 = 0;
             }
+
             if (k6 > GameSize.Height - 1)
             {
                 k6 = GameSize.Height - 1;
@@ -1678,12 +1695,14 @@ namespace RuneScapeSolo.Net.Client.Game
                     bnj[j9] = j7;
                     bnl[j9] = l7;
                 }
+
                 if (l6 > bni[j9])
                 {
                     bni[j9] = l6;
                     bnk[j9] = j7;
                     bnm[j9] = l7;
                 }
+
                 l6 += i7;
                 l7 += i8;
             }
@@ -1693,6 +1712,7 @@ namespace RuneScapeSolo.Net.Client.Game
                 i7 = (i5 - k4 << 8) / (j5 - l4);
                 k7 = (k2 - k1 << 8) / (j5 - l4);
             }
+
             if (l4 > j5)
             {
                 l6 = i5 << 8;
@@ -1709,12 +1729,14 @@ namespace RuneScapeSolo.Net.Client.Game
                 j6 = l4;
                 k6 = j5;
             }
+
             if (j6 < 0)
             {
                 l6 -= i7 * j6;
                 j7 -= k7 * j6;
                 j6 = 0;
             }
+
             if (k6 > GameSize.Height - 1)
             {
                 k6 = GameSize.Height - 1;
@@ -1728,22 +1750,26 @@ namespace RuneScapeSolo.Net.Client.Game
                     bnj[k9] = j7;
                     bnl[k9] = l7;
                 }
+
                 if (l6 > bni[k9])
                 {
                     bni[k9] = l6;
                     bnk[k9] = j7;
                     bnm[k9] = l7;
                 }
+
                 l6 += i7;
                 j7 += k7;
             }
 
             int l9 = k5 * GameSize.Width;
             int[] ai = pictureColors[arg2];
+
             for (int i10 = k5; i10 < l5; i10++)
             {
                 int j10 = bnh[i10] >> 8;
                 int k10 = bni[i10] >> 8;
+
                 if (k10 - j10 <= 0)
                 {
                     l9 += GameSize.Width;
@@ -1767,32 +1793,30 @@ namespace RuneScapeSolo.Net.Client.Game
 
                     if (!hasTransparentBackground[arg2])
                     {
-                        cda(ref pixels, ai, 0, l9 + j10, l10, j11, i11, k11, j10 - k10, j8);
+                        cda(ai, 0, l9 + j10, l10, j11, i11, k11, j10 - k10, j8);
                     }
                     else
                     {
-                        cdb(ref pixels, ai, 0, l9 + j10, l10, j11, i11, k11, j10 - k10, j8);
+                        cdb(ai, 0, l9 + j10, l10, j11, i11, k11, j10 - k10, j8);
                     }
 
                     l9 += GameSize.Width;
                 }
             }
-
         }
 
-        void cda(ref int[] pixels, int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7, int arg8, int arg9)
+        void cda(int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9)
         {
             for (arg2 = arg8; arg2 < 0; arg2++)
             {
-                this.pixels[arg3++] = colours[(arg4 >> 17) + (arg5 >> 17) * arg9];
+                pixels[arg3++] = colours[(arg4 >> 17) + (arg5 >> 17) * arg9];
 
                 arg4 += arg6;
                 arg5 += arg7;
             }
         }
 
-        void cdb(ref int[] pixels, int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
+        void cdb(int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9)
         {
             for (int i = arg8; i < 0; i++)
@@ -2165,7 +2189,7 @@ namespace RuneScapeSolo.Net.Client.Game
                 Console.WriteLine("centrepara: " + exception);
             }
         }
-        
+
         public static List<StringDraw> stringsToDraw = new List<StringDraw>();
 
         public void DrawString(string text, int x, int y, int arg3, int colour)

@@ -451,14 +451,6 @@ namespace RuneScapeSolo.Net.Client
                 }
             }
 
-            foreach (var lk in lastPressedKeys)
-            {
-                if (!keysPressedDown.Contains(lk))
-                {
-                    KeyUp(lk, TranslateOemKeys(lk));
-                }
-            }
-
             lastPressedKeys.Clear();
             lastPressedKeys.AddRange(keyboardState.GetPressedKeys());
 
@@ -466,7 +458,8 @@ namespace RuneScapeSolo.Net.Client
 
             if (mouseState.X != lastMouseX || mouseState.Y != lastMouseY)
             {
-                MouseMove(mouseState.X, mouseState.Y);
+                MouseMove();
+
                 lastMouseX = mouseState.X;
                 lastMouseY = mouseState.Y;
             }
@@ -485,12 +478,12 @@ namespace RuneScapeSolo.Net.Client
 
             if (mouseState.RightButton == ButtonState.Released)
             {
-                MouseUp(mouseState.X, mouseState.Y);
+                MouseUp();
             }
 
             if (mouseState.LeftButton == ButtonState.Released)
             {
-                MouseUp(mouseState.X, mouseState.Y);
+                MouseUp();
             }
         }
 
@@ -1155,6 +1148,7 @@ namespace RuneScapeSolo.Net.Client
 
             l = InputManager.Instance.MouseLocation.X - (gameGraphics.GameSize.Width - 248);
             int j2 = InputManager.Instance.MouseLocation.Y - 36;
+
             if (l >= 0 && j2 >= 0 && l < 248 && j2 < (InventoryManager.MaximumInventorySize / 5) * 34)
             {
                 int itemSlot = l / 49 + (j2 / 34) * 5;
@@ -1256,11 +1250,6 @@ namespace RuneScapeSolo.Net.Client
 
             engineHandle.loadSection(byte0 * 48 + 23, byte1 * 48 + 23, l);
             engineHandle.addObjects(GameDataObjects);
-
-            //char c1 = '\u2600';
-            //char c2 = '\u1900';
-            //char c3 = '\u044C';
-            //char c4 = '\u0378';
 
             int cameraX = 9728;
             int cameraY = 6400;
@@ -1476,9 +1465,9 @@ namespace RuneScapeSolo.Net.Client
                     shopItemSellPriceModifier = data[off++] & 0xff;
                     shopItemBuyPriceModifier = data[off++] & 0xff;
 
-                    for (int j22 = 0; j22 < 40; j22++)
+                    for (int shopItemIndex = 0; shopItemIndex < 40; shopItemIndex++)
                     {
-                        shopItems[j22] = -1;
+                        shopItems[shopItemIndex] = -1;
                     }
 
                     for (int item = 0; item < newShopItemCount; item++)
@@ -1552,7 +1541,7 @@ namespace RuneScapeSolo.Net.Client
                     for (int bankSlot = 0; bankSlot < inventoryManager.ServerBankItemsCount; bankSlot++)
                     {
                         InventoryItem serverBankItem = inventoryManager.GetServerBankItem(bankSlot);
-                        
+
                         // TODO: Does the value update persist?
                         serverBankItem.Index = DataOperations.GetInt16(data, off);
                         off += 2;
@@ -2430,7 +2419,7 @@ namespace RuneScapeSolo.Net.Client
                     location = new Point2D(location.X, location.Y - 1);
                     i1++;
                 }
-                
+
                 WalkTo(SectionLocation, location, loc, false, true);
                 return;
             }
@@ -2510,7 +2499,7 @@ namespace RuneScapeSolo.Net.Client
             ResetTimings();
         }
 
-        public void DrawTeleBubble(int x, int y, int j1, int k1, int l1, int i2, int j2)
+        public void DrawTeleBubble(int x, int y, int j1, int k1, int l1)
         {
             int type = teleBubbleType[l1];
             int time = teleBubbleTime[l1];
@@ -5038,24 +5027,24 @@ namespace RuneScapeSolo.Net.Client
                 return;
             }
 
-            for (int i = 0; i < entityManager.ObjectModelCount; i++)
+            for (int objectModelIndex = 0; objectModelIndex < entityManager.ObjectModelCount; objectModelIndex++)
             {
                 try
                 {
-                    long objectOffset = DataOperations.getObjectOffset(entityManager.GetObjectModelName(i) + ".ob3", models);
+                    long objectOffset = DataOperations.getObjectOffset(entityManager.GetObjectModelName(objectModelIndex) + ".ob3", models);
 
                     if (objectOffset != 0)
                     {
-                        GameDataObjects[i] = new ObjectModel(models, (int)objectOffset, true);
+                        GameDataObjects[objectModelIndex] = new ObjectModel(models, (int)objectOffset);
                     }
                     else
                     {
-                        GameDataObjects[i] = new ObjectModel(1, 1);
+                        GameDataObjects[objectModelIndex] = new ObjectModel(1, 1);
                     }
 
-                    if (entityManager.GetObjectModelName(i).Equals("giantcrystal"))
+                    if (entityManager.GetObjectModelName(objectModelIndex).Equals("giantcrystal"))
                     {
-                        GameDataObjects[i].isGiantCrystal = true;
+                        GameDataObjects[objectModelIndex].isGiantCrystal = true;
                     }
                 }
                 catch (Exception ex)
@@ -5171,12 +5160,12 @@ namespace RuneScapeSolo.Net.Client
                 if (npc.combatTimer > 0)
                 {
                     int i2 = x;
+
                     if (npc.currentSprite == 8)
                     {
                         i2 -= (20 * unknown2) / 100;
                     }
-                    else
-                        if (npc.currentSprite == 9)
+                    else if (npc.currentSprite == 9)
                     {
                         i2 += (20 * unknown2) / 100;
                     }
@@ -5892,7 +5881,7 @@ namespace RuneScapeSolo.Net.Client
                 WallObjectLocations[wallIndex] = new Point2D(
                     WallObjectLocations[wallIndex].X - offsetX,
                     WallObjectLocations[wallIndex].Y - offsetY);
-                
+
                 int wallId = WallObjectId[wallIndex];
                 int wallDir = WallObjectDirection[wallIndex];
 

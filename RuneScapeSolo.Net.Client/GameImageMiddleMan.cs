@@ -15,19 +15,22 @@ namespace RuneScapeSolo.Net.Client
         {
             if (objectId >= 50000)
             {
-                gameReference.DrawTeleBubble(x, y, width, height, objectId - 50000, unknownParam1, unknownParam2);
+                gameReference.DrawTeleBubble(x, y, width, height, objectId - 50000);
                 return;
             }
+
             if (objectId >= 40000)
             {
                 gameReference.DrawItem(x, y, width, height, objectId - 40000);
                 return;
             }
+
             if (objectId >= 20000)
             {
                 gameReference.DrawNpc(x, y, width, height, objectId - 20000, unknownParam1, unknownParam2);
                 return;
             }
+
             if (objectId >= 5000)
             {
                 gameReference.DrawPlayer(x, y, width, height, objectId - 5000, unknownParam1, unknownParam2);
