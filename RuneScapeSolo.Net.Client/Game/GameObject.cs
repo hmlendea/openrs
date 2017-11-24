@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 
 using RuneScapeSolo.Net.Client.Data;
 using RuneScapeSolo.Net.Client.Game.Cameras;
+using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Net.Client.Game
 {
@@ -92,9 +93,9 @@ namespace RuneScapeSolo.Net.Client.Game
             cgg = new int[polygonCount];
             if (!cid)
             {
-                cfi = new int[_vert_count];
-                cfj = new int[_vert_count];
-                cfk = new int[_vert_count];
+                vertX = new int[_vert_count];
+                vertY = new int[_vert_count];
+                vertZ = new int[_vert_count];
                 cfl = new int[_vert_count];
                 cfm = new int[_vert_count];
             }
@@ -143,9 +144,9 @@ namespace RuneScapeSolo.Net.Client.Game
 
         public void clj()
         {
-            cfi = new int[vert_count];
-            cfj = new int[vert_count];
-            cfk = new int[vert_count];
+            vertX = new int[vert_count];
+            vertY = new int[vert_count];
+            vertZ = new int[vert_count];
             cfl = new int[vert_count];
             cfm = new int[vert_count];
         }
@@ -525,7 +526,7 @@ namespace RuneScapeSolo.Net.Client.Game
             }
         }
 
-        public int addVertex(int x, int y, int z)
+        public int addVertex(Point3D location)
         {
             if (vert_count >= totalVerticeCount)
             {
@@ -533,9 +534,10 @@ namespace RuneScapeSolo.Net.Client.Game
             }
             else
             {
-                vert_x[vert_count] = x;
-                vert_y[vert_count] = y;
-                vert_z[vert_count] = z;
+                vert_x[vert_count] = location.X;
+                vert_y[vert_count] = location.Y;
+                vert_z[vert_count] = location.Z;
+
                 return vert_count++;
             }
         }
@@ -673,21 +675,24 @@ namespace RuneScapeSolo.Net.Client.Game
             normalize();
         }
 
-        public void cmf(int j, int k, int x, int y, int z)
+        public void cmf(int j, int k, Point3D location)
         {
             clf = 256 - j * 4;
             cle = (64 - k) * 16 + 128;
+
             if (dontRecieveShadows)
             {
                 return;
             }
             else
             {
-                cla = x;
-                clb = y;
-                clc = z;
-                cld = (int)Math.Sqrt(x * x + y * y + z * z);
+                cla = location.X;
+                clb = location.Y;
+                clc = location.Z;
+
+                cld = (int)Math.Sqrt(location.X ^ 2 + location.Y ^ 2 + location.Z ^ 2);
                 normalize();
+
                 return;
             }
         }
@@ -1131,15 +1136,21 @@ namespace RuneScapeSolo.Net.Client.Game
             }
         }
 
-        public void cnh(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7)
+        public void cnh(Point3D loc, int arg3, int arg4, int arg5, int arg6, int arg7)
         {
             UpdateWorldTransformation();
-            if (boundsMinZ > Camera.farZ || boundsMaxZ < Camera.nearZ || boundsMinX > Camera.farX || boundsMaxX < Camera.nearX || boundsMinY > Camera.farY || boundsMaxY < Camera.nearY)
+
+            if (boundsMinX > Camera.FarLocation.X ||
+                boundsMaxX < Camera.NearLocation.X ||
+                boundsMinY > Camera.FarLocation.Y ||
+                boundsMaxY < Camera.NearLocation.Y ||
+                boundsMinZ > Camera.FarLocation.Z ||
+                boundsMaxZ < Camera.NearLocation.Z)
             {
                 visible = false;
                 return;
             }
+
             visible = true;
             int i1 = 0;
             int j1 = 0;
@@ -1164,9 +1175,10 @@ namespace RuneScapeSolo.Net.Client.Game
             }
             for (int k2 = 0; k2 < vert_count; k2++)
             {
-                int l2 = worldVertX[k2] - arg0;
-                int i3 = worldVertY[k2] - arg1;
-                int j3 = worldVertZ[k2] - arg2;
+                int l2 = worldVertX[k2] - loc.X;
+                int i3 = worldVertY[k2] - loc.Y;
+                int j3 = worldVertZ[k2] - loc.Z;
+
                 if (arg5 != 0)
                 {
                     int j = i3 * i1 + l2 * j1 >> 15;
@@ -1203,11 +1215,10 @@ namespace RuneScapeSolo.Net.Client.Game
                     cfm[k2] = i3 << arg6;
                 }
 
-                cfi[k2] = l2;
-                cfj[k2] = i3;
-                cfk[k2] = j3;
+                vertX[k2] = l2;
+                vertY[k2] = i3;
+                vertZ[k2] = j3;
             }
-
         }
 
         public void cni()
@@ -1278,9 +1289,9 @@ namespace RuneScapeSolo.Net.Client.Game
         }
 
         public int vert_count;
-        public int[] cfi;
-        public int[] cfj;
-        public int[] cfk;
+        public int[] vertX;
+        public int[] vertY;
+        public int[] vertZ;
         public int[] cfl;
         public int[] cfm;
         public int[] cfn;

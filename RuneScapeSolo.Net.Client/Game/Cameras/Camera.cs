@@ -1,12 +1,30 @@
 using System;
 
+using RuneScapeSolo.Primitives;
+
 namespace RuneScapeSolo.Net.Client.Game.Cameras
 {
     public class Camera // : org.moparscape.msc.client.Camera
     {
+        public static Point3D NearLocation { get; set; }
+        public static Point3D FarLocation { get; set; }
+
+        public Point3D[] VertLocations { get; set; }
+
+        Point3D viewLocation;
+        Point3D[] sceneObjectLocations;
+        
         public Camera(GraphicsEngine gameimage, int maxObjects, int maxVisibleObjects, int maxSceneObjects)
         //: base(models, start, x, x)
         {
+            NearLocation = new Point3D();
+            FarLocation = new Point3D();
+
+            VertLocations = new Point3D[40];
+
+            viewLocation = Point3D.Empty;
+            sceneObjectLocations = new Point3D[maxSceneObjects];
+            
             bba = 50;
             bbb = new int[bba];
             bbc = new int[bba][];
@@ -38,9 +56,6 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             bfl = new int[40];
             bfm = new int[40];
             bfn = new int[40];
-            vertX = new int[40];
-            vertY = new int[40];
-            vertZ = new int[40];
             gameImage = gameimage;
             bcj = gameimage.GameSize.Width / 2;
             bck = gameimage.GameSize.Height / 2;
@@ -61,18 +76,12 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             sceneObjectId = new int[maxSceneObjects];
             bee = new int[maxSceneObjects];
             bef = new int[maxSceneObjects];
-            sceneObjectX = new int[maxSceneObjects];
-            sceneObjectY = new int[maxSceneObjects];
-            sceneObjectZ = new int[maxSceneObjects];
             beg = new int[maxSceneObjects];
             if (bfe == null)
             {
                 bfe = new sbyte[17691];
             }
 
-            viewX = 0;
-            ViewY = 0;
-            ViewZ = 0;
             bde = 0;
             bdf = 0;
             bdg = 0;
@@ -150,21 +159,22 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             }
         }
 
-        public int addSpriteToScene(int objectId, int x, int y, int z, int width, int height, int j2)
+        public int addSpriteToScene(int objectId, Point3D location, int width, int height, int j2)
         {
             sceneObjectId[bdn] = objectId;
-            sceneObjectX[bdn] = x;
-            sceneObjectY[bdn] = y;
-            sceneObjectZ[bdn] = z;
+            sceneObjectLocations[bdn] = location;
             bee[bdn] = width;
             bef[bdn] = height;
             beg[bdn] = 0;
-            int k2 = highlightedObject.addVertex(x, y, z);
-            int l2 = highlightedObject.addVertex(x, y - height, z);
+
+            int k2 = highlightedObject.addVertex(location);
+            int l2 = highlightedObject.addVertex(new Point3D(location.X, location.Y - height, location.Z));
             int[] ai = { k2, l2 };
+
             highlightedObject.addFaceVertices(2, ai, 0, 0);
             highlightedObject.entityType[bdn] = j2;
             highlightedObject.chm[bdn++] = 0;
+
             return bdn - 1;
         }
 
@@ -389,34 +399,34 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                 j1 = j1 * k3 - k * l2 >> 15;
                 k = j4;
             }
-            if (k < nearX)
+            if (k < NearLocation.X)
             {
-                nearX = k;
+                NearLocation = new Point3D(k, NearLocation.Y, NearLocation.Z);
             }
 
-            if (k > farX)
+            if (k > FarLocation.X)
             {
-                farX = k;
+                FarLocation = new Point3D(k, FarLocation.Y, FarLocation.Z);
             }
 
-            if (i1 < nearY)
+            if (i1 < NearLocation.Y)
             {
-                nearY = i1;
+                NearLocation = new Point3D(NearLocation.X, i1, NearLocation.Z);
             }
 
-            if (i1 > farY)
+            if (i1 > FarLocation.Y)
             {
-                farY = i1;
+                FarLocation = new Point3D(FarLocation.X, i1, FarLocation.Z);
             }
 
-            if (j1 < nearZ)
+            if (j1 < NearLocation.Z)
             {
-                nearZ = j1;
+                NearLocation = new Point3D(NearLocation.X, NearLocation.Y, j1);
             }
 
-            if (j1 > farZ)
+            if (j1 > FarLocation.Z)
             {
-                farZ = j1;
+                FarLocation = new Point3D(FarLocation.X, FarLocation.Y, j1);
             }
         }
 
@@ -424,12 +434,10 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
         {
             int k4 = bcj * zoom1 >> bcn;
             int l4 = bck * zoom1 >> bcn;
-            nearX = 0;
-            farX = 0;
-            nearY = 0;
-            farY = 0;
-            nearZ = 0;
-            farZ = 0;
+
+            NearLocation = Point3D.Empty;
+            FarLocation = Point3D.Empty;
+
             bia(-k4, -l4, zoom1);
             bia(-k4, l4, zoom1);
             bia(k4, -l4, zoom1);
@@ -438,19 +446,25 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             bia(-bcj, bck, 0);
             bia(bcj, -bck, 0);
             bia(bcj, bck, 0);
-            nearX += viewX;
-            farX += viewX;
-            nearY += ViewY;
-            farY += ViewY;
-            nearZ += ViewZ;
-            farZ += ViewZ;
+
+            NearLocation = new Point3D(
+                NearLocation.X + viewLocation.X,
+                NearLocation.Y + viewLocation.Y,
+                NearLocation.Z + viewLocation.Z);
+
+            FarLocation = new Point3D(
+                FarLocation.X + viewLocation.X,
+                FarLocation.Y + viewLocation.Y,
+                FarLocation.Z + viewLocation.Z);
+
             objectCache[currentObjectCount] = highlightedObject;
             highlightedObject.objectState = 2;
+
             for (int k1 = 0; k1 < currentObjectCount; k1++)
             {
                 if (objectCache[k1] != null)
                 {
-                    objectCache[k1].cnh(viewX, ViewY, ViewZ, bde, bdf, bdg, bcn, bbf);
+                    objectCache[k1].cnh(viewLocation, bde, bdf, bdg, bcn, bbf);
                 }
             }
 
@@ -465,7 +479,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                 }
             }
 
-            objectCache[currentObjectCount].cnh(viewX, ViewY, ViewZ, bde, bdf, bdg, bcn, bbf);
+            objectCache[currentObjectCount].cnh(viewLocation, bde, bdf, bdg, bcn, bbf);
             currentModelIndex = 0;
             for (int i5 = 0; i5 < currentObjectCount; i5++)
             {
@@ -484,7 +498,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                         bool flag = false;
                         for (int i6 = 0; i6 < j5; i6++)
                         {
-                            int k2 = k.cfk[ai1[i6]];
+                            int k2 = k.vertZ[ai1[i6]];
                             if (k2 <= bbf || k2 >= zoom1)
                             {
                                 continue;
@@ -559,7 +573,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                                         int l3 = 0;
                                         for (int l11 = 0; l11 < j5; l11++)
                                         {
-                                            l3 += k.cfk[ai1[l11]];
+                                            l3 += k.vertZ[ai1[l11]];
                                         }
 
                                         l9.Scale = l3 / j5 + k.cgm;
@@ -583,7 +597,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                     int l5 = ai[0];
                     int j6 = i1.cfl[l5];
                     int k7 = i1.cfm[l5];
-                    int l8 = i1.cfk[l5];
+                    int l8 = i1.vertZ[l5];
                     if (l8 > bbf && l8 < zoom2)
                     {
                         int i10 = (bee[i2] << bcn) / l8;
@@ -594,7 +608,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                             l12.Object = i1;
                             l12.faceVertCountIndex1 = i2;
                             bjb(currentModelIndex);
-                            l12.Scale = (l8 + i1.cfk[ai[1]]) / 2;
+                            l12.Scale = (l8 + i1.vertZ[ai[1]]) / 2;
                             currentModelIndex++;
                         }
                     }
@@ -620,7 +634,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                     int l7 = ai2[0];
                     int i9 = model.cfl[l7];
                     int j10 = model.cfm[l7];
-                    int j11 = model.cfk[l7];
+                    int j11 = model.vertZ[l7];
                     int i12 = (bee[j2] << bcn) / j11;
                     int k12 = (bef[j2] << bcn) / j11;
                     int j13 = j10 - model.cfm[ai2[1]];
@@ -661,9 +675,12 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                     for (int l13 = 0; l13 < vertCount; l13++)
                     {
                         int i4 = ai3[l13];
-                        vertX[l13] = model.cfi[i4];
-                        vertY[l13] = model.cfj[i4];
-                        vertZ[l13] = model.cfk[i4];
+
+                        VertLocations[l13] = new Point3D(
+                            model.vertX[i4],
+                            model.vertY[i4],
+                            model.vertZ[i4]);
+
                         if (model.gouraud_shade[j2] == 0xbc614e)
                         {
                             if (l6.blb < 0)
@@ -676,14 +693,14 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                             }
                         }
 
-                        if (model.cfk[i4] >= bbf)
+                        if (model.vertZ[i4] >= bbf)
                         {
                             bfl[k10] = model.cfl[i4];
                             bfm[k10] = model.cfm[i4];
                             bfn[k10] = j12;
-                            if (model.cfk[i4] > zoom4)
+                            if (model.vertZ[i4] > zoom4)
                             {
-                                bfn[k10] += (model.cfk[i4] - zoom4) / zoom3;
+                                bfn[k10] += (model.vertZ[i4] - zoom4) / zoom3;
                             }
 
                             k10++;
@@ -700,11 +717,11 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                                 k11 = ai3[l13 - 1];
                             }
 
-                            if (model.cfk[k11] >= bbf)
+                            if (model.vertZ[k11] >= bbf)
                             {
-                                int j9 = model.cfk[i4] - model.cfk[k11];
-                                int k6 = model.cfi[i4] - ((model.cfi[i4] - model.cfi[k11]) * (model.cfk[i4] - bbf)) / j9;
-                                int i8 = model.cfj[i4] - ((model.cfj[i4] - model.cfj[k11]) * (model.cfk[i4] - bbf)) / j9;
+                                int j9 = model.vertZ[i4] - model.vertZ[k11];
+                                int k6 = model.vertX[i4] - ((model.vertX[i4] - model.vertX[k11]) * (model.vertZ[i4] - bbf)) / j9;
+                                int i8 = model.vertY[i4] - ((model.vertY[i4] - model.vertY[k11]) * (model.vertZ[i4] - bbf)) / j9;
                                 bfl[k10] = (k6 << bcn) / bbf;
                                 bfm[k10] = (i8 << bcn) / bbf;
                                 bfn[k10] = j12;
@@ -719,11 +736,11 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                                 k11 = ai3[l13 + 1];
                             }
 
-                            if (model.cfk[k11] >= bbf)
+                            if (model.vertZ[k11] >= bbf)
                             {
-                                int k9 = model.cfk[i4] - model.cfk[k11];
-                                int i7 = model.cfi[i4] - ((model.cfi[i4] - model.cfi[k11]) * (model.cfk[i4] - bbf)) / k9;
-                                int j8 = model.cfj[i4] - ((model.cfj[i4] - model.cfj[k11]) * (model.cfk[i4] - bbf)) / k9;
+                                int k9 = model.vertZ[i4] - model.vertZ[k11];
+                                int i7 = model.vertX[i4] - ((model.vertX[i4] - model.vertX[k11]) * (model.vertZ[i4] - bbf)) / k9;
+                                int j8 = model.vertY[i4] - ((model.vertY[i4] - model.vertY[k11]) * (model.vertZ[i4] - bbf)) / k9;
                                 bfl[k10] = (i7 << bcn) / bbf;
                                 bfm[k10] = (j8 << bcn) / bbf;
                                 bfn[k10] = j12;
@@ -760,7 +777,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                     bic(0, 0, 0, 0, k10, bfl, bfm, bfn, model, j2);
                     if (bfk > bfj)
                     {
-                        renderModel(0, 0, vertCount, vertX, vertY, vertZ, l6.currentTextureIndex, model);
+                        renderModel(0, 0, vertCount, VertLocations, l6.currentTextureIndex, model);
                     }
                 }
             }
@@ -1419,7 +1436,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             }
         }
 
-        void renderModel(int arg0, int arg1, int arg2, int[] arg3, int[] arg4, int[] arg5, int textureIndex,
+        void renderModel(int arg0, int arg1, int arg2, Point3D[] vertLocations, int textureIndex,
                 ObjectModel arg7)
         {
             if (textureIndex == -2)
@@ -1435,16 +1452,17 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                 }
 
                 updateTextureSmoothing(textureIndex);
-                int k = arg3[0];
-                int j1 = arg4[0];
-                int i2 = arg5[0];
-                int l2 = k - arg3[1];
-                int j3 = j1 - arg4[1];
-                int l3 = i2 - arg5[1];
+                int k = vertLocations[0].X;
+                int j1 = vertLocations[0].Y;
+                int i2 = vertLocations[0].Z;
+                int l2 = k - vertLocations[1].X;
+                int j3 = j1 - vertLocations[1].Y;
+                int l3 = i2 - vertLocations[1].Z;
                 arg2--;
-                int l5 = arg3[arg2] - k;
-                int i7 = arg4[arg2] - j1;
-                int j8 = arg5[arg2] - i2;
+                int l5 = vertLocations[arg2].X - k;
+                int i7 = vertLocations[arg2].Y - j1;
+                int j8 = vertLocations[arg2].Z - i2;
+
                 if (bel[textureIndex] == 1)
                 {
                     int k9 = l5 * j1 - i7 * k << 12;
@@ -1466,6 +1484,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                     k9 += l10 * l15;
                     j11 += j12 * l15;
                     l12 += l13 * l15;
+
                     if (arg7.chi)
                     {
                         for (arg0 = bfj; arg0 < bfk; arg0 += byte1)
@@ -2993,7 +3012,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
 
         }
 
-        public void SetCameraTransform(int x, int y, int z, int k1, int rotation, int i2, int distance)
+        public void SetCameraTransform(Point3D location, int k1, int rotation, int i2, int distance)
         {
             k1 &= 0x3ff;
             rotation &= 0x3ff;
@@ -3001,9 +3020,11 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             bde = 1024 - k1 & 0x3ff;
             bdf = 1024 - rotation & 0x3ff;
             bdg = 1024 - i2 & 0x3ff;
+
             int xOffset = 0;
             int yOffset = 0;
             int zOffset = distance;
+
             if (k1 != 0)
             {
                 int j3 = bbk[k1];
@@ -3028,9 +3049,11 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                 yOffset = yOffset * k4 - xOffset * l3 >> 15;
                 xOffset = j5;
             }
-            viewX = x - xOffset;
-            ViewY = y - yOffset;
-            ViewZ = z - zOffset;
+            
+            viewLocation = new Point3D(
+                location.X - xOffset,
+                location.Y - yOffset,
+                location.Z - zOffset);
         }
 
         void bja(int arg0)
@@ -3041,15 +3064,15 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             int[] ai = k.face_vertices[i1];
             int j1 = k.face_vertices_count[i1];
             int k1 = k.cgh[i1];
-            int j2 = k.cfi[ai[0]];
-            int k2 = k.cfj[ai[0]];
-            int l2 = k.cfk[ai[0]];
-            int i3 = k.cfi[ai[1]] - j2;
-            int j3 = k.cfj[ai[1]] - k2;
-            int k3 = k.cfk[ai[1]] - l2;
-            int l3 = k.cfi[ai[2]] - j2;
-            int i4 = k.cfj[ai[2]] - k2;
-            int j4 = k.cfk[ai[2]] - l2;
+            int j2 = k.vertX[ai[0]];
+            int k2 = k.vertY[ai[0]];
+            int l2 = k.vertZ[ai[0]];
+            int i3 = k.vertX[ai[1]] - j2;
+            int j3 = k.vertY[ai[1]] - k2;
+            int k3 = k.vertZ[ai[1]] - l2;
+            int l3 = k.vertX[ai[2]] - j2;
+            int i4 = k.vertY[ai[2]] - k2;
+            int j4 = k.vertZ[ai[2]] - l2;
             int xDistance = j3 * j4 - i4 * k3;
             int yDistance = k3 * l3 - j4 * i3;
             int zDistance = i3 * i4 - l3 * j3;
@@ -3076,7 +3099,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             l1.bkm = xDistance;
             l1.bkn = yDistance;
             l1.bla = zDistance;
-            int j5 = k.cfk[ai[0]];
+            int j5 = k.vertZ[ai[0]];
             int k5 = j5;
             int l5 = k.cfl[ai[0]];
             int i6 = l5;
@@ -3084,7 +3107,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             int k6 = j6;
             for (int l6 = 1; l6 < j1; l6++)
             {
-                int i2 = k.cfk[ai[l6]];
+                int i2 = k.vertZ[ai[l6]];
                 if (i2 > k5)
                 {
                     k5 = i2;
@@ -3135,16 +3158,16 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             int k1 = 0;
             int i2 = 0;
             int j2 = 1;
-            int k2 = k.cfi[faceVertices[0]];
-            int l2 = k.cfj[faceVertices[0]];
-            int i3 = k.cfk[faceVertices[0]];
+            int k2 = k.vertX[faceVertices[0]];
+            int l2 = k.vertY[faceVertices[0]];
+            int i3 = k.vertZ[faceVertices[0]];
             k.cgg[i1] = 1;
             k.cgh[i1] = 0;
             l1.blb = k2 * k1 + l2 * i2 + i3 * j2;
             l1.bkm = k1;
             l1.bkn = i2;
             l1.bla = j2;
-            int j3 = k.cfk[faceVertices[0]];
+            int j3 = k.vertZ[faceVertices[0]];
             int k3 = j3;
             int l3 = k.cfl[faceVertices[0]];
             int i4 = l3;
@@ -3159,7 +3182,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
 
             int j4 = k.cfm[faceVertices[1]];
             int k4 = k.cfm[faceVertices[0]];
-            int j1 = k.cfk[faceVertices[1]];
+            int j1 = k.vertZ[faceVertices[1]];
             if (j1 > k3)
             {
                 k3 = j1;
@@ -3240,9 +3263,9 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             int[] ai1 = i1.face_vertices[k1];
             int l1 = k.face_vertices_count[j1];
             int i2 = i1.face_vertices_count[k1];
-            int l3 = i1.cfi[ai1[0]];
-            int i4 = i1.cfj[ai1[0]];
-            int j4 = i1.cfk[ai1[0]];
+            int l3 = i1.vertX[ai1[0]];
+            int i4 = i1.vertY[ai1[0]];
+            int j4 = i1.vertZ[ai1[0]];
             int k4 = arg1.bkm;
             int l4 = arg1.bkn;
             int i5 = arg1.bla;
@@ -3252,7 +3275,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             for (int l5 = 0; l5 < l1; l5++)
             {
                 int j2 = ai[l5];
-                int j3 = (l3 - k.cfi[j2]) * k4 + (i4 - k.cfj[j2]) * l4 + (j4 - k.cfk[j2]) * i5;
+                int j3 = (l3 - k.vertX[j2]) * k4 + (i4 - k.vertY[j2]) * l4 + (j4 - k.vertZ[j2]) * i5;
                 if ((j3 >= -j5 || k5 >= 0) && (j3 <= j5 || k5 <= 0))
                 {
                     continue;
@@ -3267,9 +3290,9 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                 return true;
             }
 
-            l3 = k.cfi[ai[0]];
-            i4 = k.cfj[ai[0]];
-            j4 = k.cfk[ai[0]];
+            l3 = k.vertX[ai[0]];
+            i4 = k.vertY[ai[0]];
+            j4 = k.vertZ[ai[0]];
             k4 = arg0.bkm;
             l4 = arg0.bkn;
             i5 = arg0.bla;
@@ -3279,7 +3302,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             for (int i6 = 0; i6 < i2; i6++)
             {
                 int k2 = ai1[i6];
-                int k3 = (l3 - i1.cfi[k2]) * k4 + (i4 - i1.cfj[k2]) * l4 + (j4 - i1.cfk[k2]) * i5;
+                int k3 = (l3 - i1.vertX[k2]) * k4 + (i4 - i1.vertY[k2]) * l4 + (j4 - i1.vertZ[k2]) * i5;
                 if ((k3 >= -j5 || k5 <= 0) && (k3 <= j5 || k5 >= 0))
                 {
                     continue;
@@ -3361,9 +3384,9 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             int[] ai1 = i1.face_vertices[k1];
             int l1 = k.face_vertices_count[j1];
             int i2 = i1.face_vertices_count[k1];
-            int j3 = i1.cfi[ai1[0]];
-            int k3 = i1.cfj[ai1[0]];
-            int l3 = i1.cfk[ai1[0]];
+            int j3 = i1.vertX[ai1[0]];
+            int k3 = i1.vertY[ai1[0]];
+            int l3 = i1.vertZ[ai1[0]];
             int i4 = arg1.bkm;
             int j4 = arg1.bkn;
             int k4 = arg1.bla;
@@ -3373,7 +3396,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             for (int j5 = 0; j5 < l1; j5++)
             {
                 int j2 = ai[j5];
-                int l2 = (j3 - k.cfi[j2]) * i4 + (k3 - k.cfj[j2]) * j4 + (l3 - k.cfk[j2]) * k4;
+                int l2 = (j3 - k.vertX[j2]) * i4 + (k3 - k.vertY[j2]) * j4 + (l3 - k.vertZ[j2]) * k4;
                 if ((l2 >= -l4 || i5 >= 0) && (l2 <= l4 || i5 <= 0))
                 {
                     continue;
@@ -3388,9 +3411,9 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                 return true;
             }
 
-            j3 = k.cfi[ai[0]];
-            k3 = k.cfj[ai[0]];
-            l3 = k.cfk[ai[0]];
+            j3 = k.vertX[ai[0]];
+            k3 = k.vertY[ai[0]];
+            l3 = k.vertZ[ai[0]];
             i4 = arg0.bkm;
             j4 = arg0.bkn;
             k4 = arg0.bla;
@@ -3400,7 +3423,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             for (int k5 = 0; k5 < i2; k5++)
             {
                 int k2 = ai1[k5];
-                int i3 = (j3 - i1.cfi[k2]) * i4 + (k3 - i1.cfj[k2]) * j4 + (l3 - i1.cfk[k2]) * k4;
+                int i3 = (j3 - i1.vertX[k2]) * i4 + (k3 - i1.vertY[k2]) * j4 + (l3 - i1.vertZ[k2]) * k4;
                 if ((i3 >= -l4 || i5 <= 0) && (i3 <= l4 || i5 >= 0))
                 {
                     continue;
@@ -3627,16 +3650,16 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             }
         }
 
-        public void bjl(int arg0, int arg1, int x, int y, int z)
+        public void bjl(int arg0, int arg1, Point3D location)
         {
-            if (x == 0 && y == 0 && z == 0)
+            if (location == Point3D.Empty)
             {
-                x = 32;
+                location.X = 32;
             }
 
-            for (int k = 0; k < currentObjectCount; k++)
+            for (int objectCacheIndex = 0; objectCacheIndex < currentObjectCount; objectCacheIndex++)
             {
-                objectCache[k].cmf(arg0, arg1, x, y, z);
+                objectCache[objectCacheIndex].cmf(arg0, arg1, location);
             }
         }
 
@@ -4147,9 +4170,6 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
         int bcm;
         int bcn;
         int bda;
-        int viewX;
-        int ViewY;
-        int ViewZ;
         int bde;
         int bdf;
         int bdg;
@@ -4161,9 +4181,6 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
         CameraModel[] visibleModels;
         int bdn;
         int[] sceneObjectId;
-        int[] sceneObjectX;
-        int[] sceneObjectY;
-        int[] sceneObjectZ;
         int[] bee;
         int[] bef;
         int[] beg;
@@ -4187,15 +4204,6 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
         public int[] bfl;
         public int[] bfm;
         public int[] bfn;
-        public int[] vertX;
-        public int[] vertY;
-        public int[] vertZ;
-        public static int nearX;
-        public static int farX;
-        public static int nearY;
-        public static int farY;
-        public static int nearZ;
-        public static int farZ;
         public int bgk;
         public int bgl;
     }

@@ -1271,7 +1271,7 @@ namespace RuneScapeSolo.Net.Client
             gameCamera.zoom2 = 4100;
             gameCamera.zoom3 = 1;
             gameCamera.zoom4 = 4000;
-            gameCamera.SetCameraTransform(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY, 912, cameraRotation, 0, cameraDistance * 2);
+            gameCamera.SetCameraTransform(new Point3D(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY), 912, cameraRotation, 0, cameraDistance * 2);
             gameCamera.finishCamera();
             gameGraphics.FadeScreenToBlack();
             gameGraphics.FadeScreenToBlack();
@@ -1300,7 +1300,7 @@ namespace RuneScapeSolo.Net.Client
             gameCamera.zoom2 = 4100;
             gameCamera.zoom3 = 1;
             gameCamera.zoom4 = 4000;
-            gameCamera.SetCameraTransform(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY, 912, cameraRotation, 0, cameraDistance * 2);
+            gameCamera.SetCameraTransform(new Point3D(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY), 912, cameraRotation, 0, cameraDistance * 2);
             gameCamera.finishCamera();
             gameGraphics.FadeScreenToBlack();
             gameGraphics.FadeScreenToBlack();
@@ -1340,7 +1340,7 @@ namespace RuneScapeSolo.Net.Client
             gameCamera.zoom2 = 4100;
             gameCamera.zoom3 = 1;
             gameCamera.zoom4 = 4000;
-            gameCamera.SetCameraTransform(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY, 912, cameraRotation, 0, cameraDistance * 2);
+            gameCamera.SetCameraTransform(new Point3D(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY), 912, cameraRotation, 0, cameraDistance * 2);
             gameCamera.finishCamera();
             gameGraphics.FadeScreenToBlack();
             gameGraphics.FadeScreenToBlack();
@@ -4569,6 +4569,7 @@ namespace RuneScapeSolo.Net.Client
             for (int l = 0; l < 64; l++)
             {
                 gameCamera.removeModel(engineHandle.roofObject[lastLayerIndex][l]);
+
                 if (lastLayerIndex == 0)
                 {
                     gameCamera.removeModel(engineHandle.wallObject[1][l]);
@@ -4608,75 +4609,83 @@ namespace RuneScapeSolo.Net.Client
             if (modelFireLightningSpellNumber != lastModelFireLightningSpellNumber)
             {
                 lastModelFireLightningSpellNumber = modelFireLightningSpellNumber;
-                for (int i1 = 0; i1 < ObjectCount; i1++)
+
+                for (int objectIndex = 0; objectIndex < ObjectCount; objectIndex++)
                 {
-                    if (ObjectType[i1] == 97)
+                    if (ObjectType[objectIndex] == 97)
                     {
-                        drawModel(i1, "firea" + (modelFireLightningSpellNumber + 1));
+                        drawModel(objectIndex, "firea" + (modelFireLightningSpellNumber + 1));
                     }
 
-                    if (ObjectType[i1] == 274)
+                    if (ObjectType[objectIndex] == 274)
                     {
-                        drawModel(i1, "fireplacea" + (modelFireLightningSpellNumber + 1));
+                        drawModel(objectIndex, "fireplacea" + (modelFireLightningSpellNumber + 1));
                     }
 
-                    if (ObjectType[i1] == 1031)
+                    if (ObjectType[objectIndex] == 1031)
                     {
-                        drawModel(i1, "lightning" + (modelFireLightningSpellNumber + 1));
+                        drawModel(objectIndex, "lightning" + (modelFireLightningSpellNumber + 1));
                     }
 
-                    if (ObjectType[i1] == 1036)
+                    if (ObjectType[objectIndex] == 1036)
                     {
-                        drawModel(i1, "firespell" + (modelFireLightningSpellNumber + 1));
+                        drawModel(objectIndex, "firespell" + (modelFireLightningSpellNumber + 1));
                     }
 
-                    if (ObjectType[i1] == 1147)
+                    if (ObjectType[objectIndex] == 1147)
                     {
-                        drawModel(i1, "spellcharge" + (modelFireLightningSpellNumber + 1));
+                        drawModel(objectIndex, "spellcharge" + (modelFireLightningSpellNumber + 1));
                     }
                 }
 
             }
+
             if (modelTorchNumber != lastModelTorchNumber)
             {
                 lastModelTorchNumber = modelTorchNumber;
-                for (int j1 = 0; j1 < ObjectCount; j1++)
+
+                for (int objectIndex = 0; objectIndex < ObjectCount; objectIndex++)
                 {
-                    if (ObjectType[j1] == 51)
+                    if (ObjectType[objectIndex] == 51)
                     {
-                        drawModel(j1, "torcha" + (modelTorchNumber + 1));
+                        drawModel(objectIndex, "torcha" + (modelTorchNumber + 1));
                     }
 
-                    if (ObjectType[j1] == 143)
+                    if (ObjectType[objectIndex] == 143)
                     {
-                        drawModel(j1, "skulltorcha" + (modelTorchNumber + 1));
+                        drawModel(objectIndex, "skulltorcha" + (modelTorchNumber + 1));
                     }
                 }
 
             }
+
             if (modelClawSpellNumber != lastModelClawSpellNumber)
             {
                 lastModelClawSpellNumber = modelClawSpellNumber;
-                for (int k1 = 0; k1 < ObjectCount; k1++)
+
+                for (int objectIndex = 0; objectIndex < ObjectCount; objectIndex++)
                 {
-                    if (ObjectType[k1] == 1142)
+                    if (ObjectType[objectIndex] == 1142)
                     {
-                        drawModel(k1, "clawspell" + (modelClawSpellNumber + 1));
+                        drawModel(objectIndex, "clawspell" + (modelClawSpellNumber + 1));
                     }
                 }
             }
             gameCamera.removeLastUpdates(drawUpdatesPerformed);
             drawUpdatesPerformed = 0;
 
-            for (int l1 = 0; l1 < PlayerCount; l1++)
+            for (int playerIndex = 0; playerIndex < PlayerCount; playerIndex++)
             {
-                ClientMob player = Players[l1];
+                ClientMob player = Players[playerIndex];
+
                 if (player.Appearance.TrousersColour != 255)
                 {
                     int j2 = player.Location.X;
                     int l2 = player.Location.Y;
                     int j3 = -engineHandle.getAveragedElevation(j2, l2);
-                    int k4 = gameCamera.addSpriteToScene(5000 + l1, j2, j3, l2, 145, 220, l1 + 10000);
+
+                    Point3D loc = new Point3D(j2, j3, l2);
+                    int k4 = gameCamera.addSpriteToScene(5000 + playerIndex, loc, 145, 220, playerIndex + 10000);
 
                     drawUpdatesPerformed++;
 
@@ -4697,9 +4706,10 @@ namespace RuneScapeSolo.Net.Client
                 }
             }
 
-            for (int i2 = 0; i2 < PlayerCount; i2++)
+            for (int playerIndex = 0; playerIndex < PlayerCount; playerIndex++)
             {
-                ClientMob player = Players[i2];
+                ClientMob player = Players[playerIndex];
+
                 if (player.ProjectileDistance > 0)
                 {
                     ClientMob targetMob = null;
@@ -4724,19 +4734,23 @@ namespace RuneScapeSolo.Net.Client
                         int i11 = (k7 * player.ProjectileDistance + k10 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
                         int j11 = (l4 * player.ProjectileDistance + j10 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
 
-                        gameCamera.addSpriteToScene(baseProjectilePic + player.ProjectileType, l10, i11, j11, 32, 32, 0);
+                        Point3D loc = new Point3D(l10, i11, j11);
+                        gameCamera.addSpriteToScene(baseProjectilePic + player.ProjectileType, loc, 32, 32, 0);
                         drawUpdatesPerformed++;
                     }
                 }
             }
 
-            for (int k2 = 0; k2 < NpcCount; k2++)
+            for (int npcIndex = 0; npcIndex < NpcCount; npcIndex++)
             {
-                ClientMob npc = Npcs[k2];
+                ClientMob npc = Npcs[npcIndex];
+
                 int x1 = npc.Location.X;
                 int z1 = npc.Location.Y;
                 int y1 = -engineHandle.getAveragedElevation(x1, z1);
-                int l9 = gameCamera.addSpriteToScene(20000 + k2, x1, y1, z1, entityManager.GetNpc(npc.npcId).Camera1, entityManager.GetNpc(npc.npcId).Camera2, k2 + 30000);
+
+                Point3D loc = new Point3D(x1, y1, z1);
+                int l9 = gameCamera.addSpriteToScene(20000 + npcIndex, loc, entityManager.GetNpc(npc.npcId).Camera1, entityManager.GetNpc(npc.npcId).Camera2, npcIndex + 30000);
 
                 drawUpdatesPerformed++;
 
@@ -4756,7 +4770,8 @@ namespace RuneScapeSolo.Net.Client
                 int x = GroundItemLocations[groundITemIndex].X * GridSize + 64;
                 int y = GroundItemLocations[groundITemIndex].Y * GridSize + 64;
 
-                gameCamera.addSpriteToScene(40000 + GroundItemId[groundITemIndex], x, -engineHandle.getAveragedElevation(x, y) - GroundItemObjectVar[groundITemIndex], y, 96, 64, groundITemIndex + 20000);
+                Point3D loc = new Point3D(x, -engineHandle.getAveragedElevation(x, y) - GroundItemObjectVar[groundITemIndex], y);
+                gameCamera.addSpriteToScene(40000 + GroundItemId[groundITemIndex], loc, 96, 64, groundITemIndex + 20000);
                 drawUpdatesPerformed++;
             }
 
@@ -4765,14 +4780,18 @@ namespace RuneScapeSolo.Net.Client
                 int k5 = teleBubbleX[teleBubbleIndex] * GridSize + 64;
                 int i8 = teleBubbleY[teleBubbleIndex] * GridSize + 64;
                 int i10 = teleBubbleType[teleBubbleIndex];
+
                 if (i10 == 0)
                 {
-                    gameCamera.addSpriteToScene(50000 + teleBubbleIndex, k5, -engineHandle.getAveragedElevation(k5, i8), i8, 128, 256, teleBubbleIndex + 50000);
+                    Point3D loc = new Point3D(k5, -engineHandle.getAveragedElevation(k5, i8), i8);
+                    gameCamera.addSpriteToScene(50000 + teleBubbleIndex, loc, 128, 256, teleBubbleIndex + 50000);
                     drawUpdatesPerformed++;
                 }
+
                 if (i10 == 1)
                 {
-                    gameCamera.addSpriteToScene(50000 + teleBubbleIndex, k5, -engineHandle.getAveragedElevation(k5, i8), i8, 128, 64, teleBubbleIndex + 50000);
+                    Point3D loc = new Point3D(k5, -engineHandle.getAveragedElevation(k5, i8), i8);
+                    gameCamera.addSpriteToScene(50000 + teleBubbleIndex, loc, 128, 64, teleBubbleIndex + 50000);
                     drawUpdatesPerformed++;
                 }
             }
@@ -4783,7 +4802,9 @@ namespace RuneScapeSolo.Net.Client
             {
                 int l5 = 40 + (int)(Helper.Random.NextDouble() * 3D);
                 int j8 = 40 + (int)(Helper.Random.NextDouble() * 7D);
-                gameCamera.bjl(l5, j8, -50, -10, -50);
+
+                Point3D loc = new Point3D(-50, -10, -50);
+                gameCamera.bjl(l5, j8, loc);
             }
 
             itemsAboveHeadCount = 0;
@@ -4796,6 +4817,7 @@ namespace RuneScapeSolo.Net.Client
                 {
                     int i6 = cameraAutoAngle;
                     autoRotateCamera();
+
                     if (cameraAutoAngle != i6)
                     {
                         cameraAutoRotatePlayerX = CurrentPlayer.Location.X;
@@ -4822,7 +4844,8 @@ namespace RuneScapeSolo.Net.Client
                 int newCameraPosY = cameraAutoRotatePlayerY + cameraRotationYAmount;
 
                 cameraRotation = cameraAutoAngle * 32;
-                gameCamera.SetCameraTransform(newCameraPosX, -engineHandle.getAveragedElevation(newCameraPosX, newCameraPosY), newCameraPosY, 912, cameraRotation * 4, 0, 2000);
+                Point3D loc = new Point3D(newCameraPosX, -engineHandle.getAveragedElevation(newCameraPosX, newCameraPosY), newCameraPosY);
+                gameCamera.SetCameraTransform(loc, 912, cameraRotation * 4, 0, 2000);
             }
             else
             {
@@ -4848,7 +4871,8 @@ namespace RuneScapeSolo.Net.Client
 
                 int k6 = cameraAutoRotatePlayerX + cameraRotationXAmount;
                 int l8 = cameraAutoRotatePlayerY + cameraRotationYAmount;
-                gameCamera.SetCameraTransform(k6, -engineHandle.getAveragedElevation(k6, l8), l8, 912, cameraRotation * 4, 0, cameraDistance * 2);
+                Point3D loc = new Point3D(k6, -engineHandle.getAveragedElevation(k6, l8), l8);
+                gameCamera.SetCameraTransform(loc, 912, cameraRotation * 4, 0, cameraDistance * 2);
             }
             gameCamera.finishCamera();
             drawAboveHeadThings();

@@ -2276,7 +2276,8 @@ namespace RuneScapeSolo.Net.Client.Game
 
                             camera.addModel(i2);
 
-                            i2.cmf(48, 48, -50, -10, -50);
+                            Point3D loc = new Point3D(-50, -10, -50);
+                            i2.cmf(48, 48, loc);
                             if (objectWidth > 1 || objectHeight > 1)
                             {
                                 for (int j3 = x; j3 < x + objectWidth; j3++)
