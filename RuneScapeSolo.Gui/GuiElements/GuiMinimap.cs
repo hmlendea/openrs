@@ -176,44 +176,48 @@ namespace RuneScapeSolo.Gui.GuiElements
 
             for (int groundItemIndex = 0; groundItemIndex < client.GroundItemCount; groundItemIndex++)
             {
-                int groundItemX = (((client.GroundItemLocations[groundItemIndex].X * client.GridSize + 64) - client.CurrentPlayer.currentX) * 3 * j1) / 2048;
-                int groundItemY = (((client.GroundItemLocations[groundItemIndex].Y * client.GridSize + 64) - client.CurrentPlayer.currentY) * 3 * j1) / 2048;
-                int l6 = groundItemY * j5 + groundItemX * l5 >> 18;
-                groundItemY = groundItemY * l5 - groundItemX * j5 >> 18;
-                groundItemX = l6;
+                Point2D groundItemLocation = new Point2D(
+                    (((client.GroundItemLocations[groundItemIndex].X * client.GridSize + 64) - client.CurrentPlayer.Location.X) * 3 * j1) / 2048,
+                    (((client.GroundItemLocations[groundItemIndex].Y * client.GridSize + 64) - client.CurrentPlayer.Location.Y) * 3 * j1) / 2048);
 
-                int groundItemMapX = Location.X + c1 / 2 + groundItemX;
-                int groundItemMapY = Location.Y + (36 + c3 / 2) - groundItemY;
+                int l6 = groundItemLocation.Y * j5 + groundItemLocation.X * l5 >> 18;
+                groundItemLocation.Y = groundItemLocation.Y * l5 - groundItemLocation.X * j5 >> 18;
+                groundItemLocation.X = l6;
+
+                int groundItemMapX = Location.X + c1 / 2 + groundItemLocation.X;
+                int groundItemMapY = Location.Y + (36 + c3 / 2) - groundItemLocation.Y;
 
                 DrawMinimapObject(spriteBatch, groundItemMapX, groundItemMapY, Colour.Red);
             }
 
             foreach (ClientMob npc in client.Npcs.Where(x => x != null))
             {
-                int npcPosX = ((npc.currentX - client.CurrentPlayer.currentX) * 3 * j1) / 2048;
-                int npcPosY = ((npc.currentY - client.CurrentPlayer.currentY) * 3 * j1) / 2048;
+                Point2D npcLocaiton = new Point2D(
+                    ((npc.Location.X - client.CurrentPlayer.Location.X) * 3 * j1) / 2048,
+                    ((npc.Location.Y - client.CurrentPlayer.Location.Y) * 3 * j1) / 2048);
 
-                int i7 = npcPosY * j5 + npcPosX * l5 >> 18;
-                npcPosY = npcPosY * l5 - npcPosX * j5 >> 18;
-                npcPosX = i7;
+                int i7 = npcLocaiton.Y * j5 + npcLocaiton.X * l5 >> 18;
+                npcLocaiton.Y = npcLocaiton.Y * l5 - npcLocaiton.X * j5 >> 18;
+                npcLocaiton.X = i7;
 
-                int dotX = Location.X + c1 / 2 + npcPosX;
-                int dotY = Location.Y + (36 + c3 / 2) - npcPosY;
+                int dotX = Location.X + c1 / 2 + npcLocaiton.X;
+                int dotY = Location.Y + (36 + c3 / 2) - npcLocaiton.Y;
 
                 DrawMinimapObject(spriteBatch, dotX, dotY, Colour.Yellow);
             }
 
             foreach (ClientMob player in client.Players.Where(x => x != null))
             {
-                int playerPosX = ((player.currentX - client.CurrentPlayer.currentX) * 3 * j1) / 2048;
-                int playerPosY = ((player.currentY - client.CurrentPlayer.currentY) * 3 * j1) / 2048;
+                Point2D playerLocaiton = new Point2D(
+                    ((player.Location.X - client.CurrentPlayer.Location.X) * 3 * j1) / 2048,
+                    ((player.Location.Y - client.CurrentPlayer.Location.Y) * 3 * j1) / 2048);
 
-                int j7 = playerPosY * j5 + playerPosX * l5 >> 18;
-                playerPosY = playerPosY * l5 - playerPosX * j5 >> 18;
-                playerPosX = j7;
+                int j7 = playerLocaiton.Y * j5 + playerLocaiton.X * l5 >> 18;
+                playerLocaiton.Y = playerLocaiton.Y * l5 - playerLocaiton.X * j5 >> 18;
+                playerLocaiton.X = j7;
 
-                int dotX = Location.X + c1 / 2 + playerPosX;
-                int dotY = Location.Y + (36 + c3 / 2) - playerPosY;
+                int dotX = Location.X + c1 / 2 + playerLocaiton.X;
+                int dotY = Location.Y + (36 + c3 / 2) - playerLocaiton.Y;
 
                 DrawMinimapObject(spriteBatch, dotX, dotY, Colour.White);
             }

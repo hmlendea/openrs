@@ -654,33 +654,33 @@ namespace RuneScapeSolo.Net.Client
                         newNpcOffset += 3;
 
                         int waypointCurrent = newNpc.WaypointCurrent;
-                        int waypointX = newNpc.WaypointsX[waypointCurrent];
-                        int waypointY = newNpc.WaypointsY[waypointCurrent];
+                        Point2D waypoint = new Point2D(
+                            newNpc.Waypoints[waypointCurrent].X,
+                            newNpc.Waypoints[waypointCurrent].Y);
 
                         if (nextSprite == 2 || nextSprite == 1 || nextSprite == 3)
                         {
-                            waypointX += client.GridSize;
+                            waypoint.X += client.GridSize;
                         }
 
                         if (nextSprite == 6 || nextSprite == 5 || nextSprite == 7)
                         {
-                            waypointX -= client.GridSize;
+                            waypoint.X -= client.GridSize;
                         }
 
                         if (nextSprite == 4 || nextSprite == 3 || nextSprite == 5)
                         {
-                            waypointY += client.GridSize;
+                            waypoint.Y += client.GridSize;
                         }
 
                         if (nextSprite == 0 || nextSprite == 1 || nextSprite == 7)
                         {
-                            waypointY -= client.GridSize;
+                            waypoint.Y -= client.GridSize;
                         }
 
                         newNpc.nextSprite = nextSprite;
                         newNpc.WaypointCurrent = waypointCurrent = (waypointCurrent + 1) % 10;
-                        newNpc.WaypointsX[waypointCurrent] = waypointX;
-                        newNpc.WaypointsY[waypointCurrent] = waypointY;
+                        newNpc.Waypoints[waypointCurrent] = waypoint;
                     }
                     else
                     {
@@ -822,8 +822,8 @@ namespace RuneScapeSolo.Net.Client
             {
                 client.CurrentPlayer.WaypointCurrent = 0;
                 client.CurrentPlayer.WaypointsEndSprite = 0;
-                client.CurrentPlayer.currentX = client.CurrentPlayer.WaypointsX[0] = mapEnterX;
-                client.CurrentPlayer.currentY = client.CurrentPlayer.WaypointsY[0] = mapEnterY;
+                client.CurrentPlayer.Location = new Point2D(mapEnterX, mapEnterY);
+                client.CurrentPlayer.Waypoints[0] = client.CurrentPlayer.Location;
             }
 
             client.PlayerCount = 0;
@@ -852,33 +852,33 @@ namespace RuneScapeSolo.Net.Client
                         off += 3;
 
                         int currentWaypoint = mob.WaypointCurrent;
-                        int newWaypointX = mob.WaypointsX[currentWaypoint];
-                        int newWaypointY = mob.WaypointsY[currentWaypoint];
+                        Point2D newWaypoint = new Point2D(
+                            mob.Waypoints[currentWaypoint].X,
+                            mob.Waypoints[currentWaypoint].Y);
 
                         if (currentNextSprite == 2 || currentNextSprite == 1 || currentNextSprite == 3)
                         {
-                            newWaypointX += client.GridSize;
+                            newWaypoint.X += client.GridSize;
                         }
 
                         if (currentNextSprite == 6 || currentNextSprite == 5 || currentNextSprite == 7)
                         {
-                            newWaypointX -= client.GridSize;
+                            newWaypoint.X -= client.GridSize;
                         }
 
                         if (currentNextSprite == 4 || currentNextSprite == 3 || currentNextSprite == 5)
                         {
-                            newWaypointY += client.GridSize;
+                            newWaypoint.Y += client.GridSize;
                         }
 
                         if (currentNextSprite == 0 || currentNextSprite == 1 || currentNextSprite == 7)
                         {
-                            newWaypointY -= client.GridSize;
+                            newWaypoint.Y -= client.GridSize;
                         }
 
                         mob.nextSprite = currentNextSprite;
                         mob.WaypointCurrent = currentWaypoint = (currentWaypoint + 1) % 10;
-                        mob.WaypointsX[currentWaypoint] = newWaypointX;
-                        mob.WaypointsY[currentWaypoint] = newWaypointY;
+                        mob.Waypoints[currentWaypoint] = newWaypoint;
                     }
                     else
                     {

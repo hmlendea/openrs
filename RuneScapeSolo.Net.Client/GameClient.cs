@@ -824,8 +824,8 @@ namespace RuneScapeSolo.Net.Client
 
         public void drawModel(int objectIndex, string modelName)
         {
-            int k1 = ObjectLocations[objectIndex].X - CurrentPlayer.currentX / 128;
-            int l1 = ObjectLocations[objectIndex].Y - CurrentPlayer.currentY / 128;
+            int k1 = ObjectLocations[objectIndex].X - CurrentPlayer.Location.X / 128;
+            int l1 = ObjectLocations[objectIndex].Y - CurrentPlayer.Location.Y / 128;
 
             byte byte0 = 7;
 
@@ -1705,8 +1705,8 @@ namespace RuneScapeSolo.Net.Client
 
             int j1 = 192 + minimapRandomRotationY;
             int l1 = cameraRotation + minimapRandomRotationX & 0xff;
-            int j2 = ((CurrentPlayer.currentX - 6040) * 3 * j1) / 2048;
-            int l3 = ((CurrentPlayer.currentY - 6040) * 3 * j1) / 2048;
+            int j2 = ((CurrentPlayer.Location.X - 6040) * 3 * j1) / 2048;
+            int l3 = ((CurrentPlayer.Location.Y - 6040) * 3 * j1) / 2048;
             int j5 = Camera.bbk[1024 - l1 * 4 & 0x3ff];
             int l5 = Camera.bbk[(1024 - l1 * 4 & 0x3ff) + 1024];
             int j6 = l3 * j5 + j2 * l5 >> 18;
@@ -1737,8 +1737,8 @@ namespace RuneScapeSolo.Net.Client
                 int k7 = i5 * k5 + k3 * i6 >> 15;
                 i5 = i5 * i6 - k3 * k5 >> 15;
                 k3 = k7;
-                k3 += CurrentPlayer.currentX;
-                i5 = CurrentPlayer.currentY - i5;
+                k3 += CurrentPlayer.Location.X;
+                i5 = CurrentPlayer.Location.Y - i5;
 
                 Point2D destination = new Point2D(k3 / 128, i5 / 128);
 
@@ -1753,8 +1753,8 @@ namespace RuneScapeSolo.Net.Client
 
         public bool validCameraAngle(int arg0)
         {
-            int l = CurrentPlayer.currentX / 128;
-            int i1 = CurrentPlayer.currentY / 128;
+            int l = CurrentPlayer.Location.X / 128;
+            int i1 = CurrentPlayer.Location.Y / 128;
             for (int j1 = 2; j1 >= 1; j1--)
             {
                 if (arg0 == 1 && ((engineHandle.tiles[l][i1 - j1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1 - j1] & 0x80) == 128))
@@ -2757,12 +2757,13 @@ namespace RuneScapeSolo.Net.Client
             {
                 existingPlayer.nextSprite = sprite;
 
-                int i1 = existingPlayer.WaypointCurrent;
-                if (x != existingPlayer.WaypointsX[i1] || y != existingPlayer.WaypointsY[i1])
+                int waypointIndex = existingPlayer.WaypointCurrent;
+
+                if (x != existingPlayer.Waypoints[waypointIndex].X || y != existingPlayer.Waypoints[waypointIndex].Y)
                 {
-                    existingPlayer.WaypointCurrent = i1 = (i1 + 1) % 10;
-                    existingPlayer.WaypointsX[i1] = x;
-                    existingPlayer.WaypointsY[i1] = y;
+                    existingPlayer.WaypointCurrent = waypointIndex = (waypointIndex + 1) % 10;
+                    existingPlayer.Waypoints[waypointIndex].X = x;
+                    existingPlayer.Waypoints[waypointIndex].Y = y;
                 }
             }
             else
@@ -2770,8 +2771,9 @@ namespace RuneScapeSolo.Net.Client
                 existingPlayer.ServerIndex = serverIndex;
                 existingPlayer.WaypointsEndSprite = 0;
                 existingPlayer.WaypointCurrent = 0;
-                existingPlayer.WaypointsX[0] = existingPlayer.currentX = x;
-                existingPlayer.WaypointsY[0] = existingPlayer.currentY = y;
+                existingPlayer.Location = new Point2D(x, y);
+                existingPlayer.Waypoints[0].X = x;
+                existingPlayer.Waypoints[0].Y = y;
                 existingPlayer.nextSprite = existingPlayer.currentSprite = sprite;
                 existingPlayer.stepCount = 0;
             }
@@ -3166,15 +3168,17 @@ namespace RuneScapeSolo.Net.Client
                 return;
             }
 
-            for (int l = 0; l < PlayerCount; l++)
+            for (int playerIndex = 0; playerIndex < PlayerCount; playerIndex++)
             {
-                ClientMob player = Players[l];
+                ClientMob player = Players[playerIndex];
                 int j1 = (player.WaypointCurrent + 1) % 10;
+
                 if (player.WaypointsEndSprite != j1)
                 {
                     int direction = -1;
                     int targetSprite = player.WaypointsEndSprite;
                     int i5;
+
                     if (targetSprite < j1)
                     {
                         i5 = j1 - targetSprite;
@@ -3190,41 +3194,47 @@ namespace RuneScapeSolo.Net.Client
                         i6 = (i5 - 1) * 4;
                     }
 
-                    if (player.WaypointsX[targetSprite] - player.currentX > GridSize * 3 || player.WaypointsY[targetSprite] - player.currentY > GridSize * 3 || player.WaypointsX[targetSprite] - player.currentX < -GridSize * 3 || player.WaypointsY[targetSprite] - player.currentY < -GridSize * 3 || i5 > 8)
+                    if (player.Waypoints[targetSprite].X - player.Location.X > GridSize * 3 ||
+                        player.Waypoints[targetSprite].Y - player.Location.Y > GridSize * 3 ||
+                        player.Waypoints[targetSprite].X - player.Location.X < -GridSize * 3 ||
+                        player.Waypoints[targetSprite].Y - player.Location.Y < -GridSize * 3 ||
+                        i5 > 8)
                     {
-                        player.currentX = player.WaypointsX[targetSprite];
-                        player.currentY = player.WaypointsY[targetSprite];
+                        player.Location = new Point2D(
+                            player.Waypoints[targetSprite].X,
+                            player.Waypoints[targetSprite].Y);
                     }
                     else
                     {
-                        if (player.currentX < player.WaypointsX[targetSprite])
+                        if (player.Location.X < player.Waypoints[targetSprite].X)
                         {
-                            player.currentX += i6;
+                            player.Location = new Point2D(player.Location.X + i6, player.Location.Y);
                             player.stepCount++;
                             direction = 2;
                         }
-                        else
-                            if (player.currentX > player.WaypointsX[targetSprite])
+                        else if (player.Location.X > player.Waypoints[targetSprite].X)
                         {
-                            player.currentX -= i6;
+                            player.Location = new Point2D(player.Location.X - i6, player.Location.Y);
                             player.stepCount++;
                             direction = 6;
                         }
-                        if (player.currentX - player.WaypointsX[targetSprite] < i6 && player.currentX - player.WaypointsX[targetSprite] > -i6)
+
+                        if (player.Location.X - player.Waypoints[targetSprite].X < i6 &&
+                            player.Location.X - player.Waypoints[targetSprite].X > -i6)
                         {
-                            player.currentX = player.WaypointsX[targetSprite];
+                            player.Location = new Point2D(player.Waypoints[targetSprite].X, player.Location.Y);
                         }
 
-                        if (player.currentY < player.WaypointsY[targetSprite])
+                        if (player.Location.Y < player.Waypoints[targetSprite].Y)
                         {
-                            player.currentY += i6;
+                            player.Location = new Point2D(player.Location.X, player.Location.Y + i6);
                             player.stepCount++;
+
                             if (direction == -1)
                             {
                                 direction = 4;
                             }
-                            else
-                                if (direction == 2)
+                            else if (direction == 2)
                             {
                                 direction = 3;
                             }
@@ -3233,17 +3243,16 @@ namespace RuneScapeSolo.Net.Client
                                 direction = 5;
                             }
                         }
-                        else
-                            if (player.currentY > player.WaypointsY[targetSprite])
+                        else if (player.Location.Y > player.Waypoints[targetSprite].Y)
                         {
-                            player.currentY -= i6;
+                            player.Location = new Point2D(player.Location.X, player.Location.Y - i6);
                             player.stepCount++;
+
                             if (direction == -1)
                             {
                                 direction = 0;
                             }
-                            else
-                                if (direction == 2)
+                            else if (direction == 2)
                             {
                                 direction = 1;
                             }
@@ -3252,17 +3261,20 @@ namespace RuneScapeSolo.Net.Client
                                 direction = 7;
                             }
                         }
-                        if (player.currentY - player.WaypointsY[targetSprite] < i6 && player.currentY - player.WaypointsY[targetSprite] > -i6)
+                        if (player.Location.Y - player.Waypoints[targetSprite].Y < i6 &&
+                            player.Location.Y - player.Waypoints[targetSprite].Y > -i6)
                         {
-                            player.currentY = player.WaypointsY[targetSprite];
+                            player.Location = new Point2D(player.Location.X, player.Waypoints[targetSprite].Y);
                         }
                     }
+
                     if (direction != -1)
                     {
                         player.currentSprite = direction;
                     }
 
-                    if (player.currentX == player.WaypointsX[targetSprite] && player.currentY == player.WaypointsY[targetSprite])
+                    if (player.Location.X == player.Waypoints[targetSprite].X &&
+                        player.Location.Y == player.Waypoints[targetSprite].Y)
                     {
                         player.WaypointsEndSprite = (targetSprite + 1) % 10;
                     }
@@ -3271,6 +3283,7 @@ namespace RuneScapeSolo.Net.Client
                 {
                     player.currentSprite = player.nextSprite;
                 }
+
                 if (player.lastMessageTimeout > 0)
                 {
                     player.lastMessageTimeout--;
@@ -3302,68 +3315,73 @@ namespace RuneScapeSolo.Net.Client
                 }
             }
 
-            for (int i1 = 0; i1 < NpcCount; i1++)
+            for (int npcIndex = 0; npcIndex < NpcCount; npcIndex++)
             {
-                ClientMob f2 = Npcs[i1];
-                int i2 = (f2.WaypointCurrent + 1) % 10;
-                if (f2.WaypointsEndSprite != i2)
+                ClientMob npc = Npcs[npcIndex];
+                int i2 = (npc.WaypointCurrent + 1) % 10;
+
+                if (npc.WaypointsEndSprite != i2)
                 {
                     int l3 = -1;
-                    int j5 = f2.WaypointsEndSprite;
+                    int waypointIndex = npc.WaypointsEndSprite;
                     int j6;
-                    if (j5 < i2)
+
+                    if (waypointIndex < i2)
                     {
-                        j6 = i2 - j5;
+                        j6 = i2 - waypointIndex;
                     }
                     else
                     {
-                        j6 = (10 + i2) - j5;
+                        j6 = (10 + i2) - waypointIndex;
                     }
 
                     int k6 = 4;
+
                     if (j6 > 2)
                     {
                         k6 = (j6 - 1) * 4;
                     }
 
-                    if (f2.WaypointsX[j5] - f2.currentX > GridSize * 3 ||
-                        f2.WaypointsY[j5] - f2.currentY > GridSize * 3 ||
-                        f2.WaypointsX[j5] - f2.currentX < -GridSize * 3 ||
-                        f2.WaypointsY[j5] - f2.currentY < -GridSize * 3 || j6 > 8)
+                    if (npc.Waypoints[waypointIndex].X - npc.Location.X > GridSize * 3 ||
+                        npc.Waypoints[waypointIndex].Y - npc.Location.Y > GridSize * 3 ||
+                        npc.Waypoints[waypointIndex].X - npc.Location.X < -GridSize * 3 ||
+                        npc.Waypoints[waypointIndex].Y - npc.Location.Y < -GridSize * 3 || j6 > 8)
                     {
-                        f2.currentX = f2.WaypointsX[j5];
-                        f2.currentY = f2.WaypointsY[j5];
+                        npc.Location = new Point2D(
+                            npc.Waypoints[waypointIndex].X,
+                            npc.Waypoints[waypointIndex].Y);
                     }
                     else
                     {
-                        if (f2.currentX < f2.WaypointsX[j5])
+                        if (npc.Location.X < npc.Waypoints[waypointIndex].X)
                         {
-                            f2.currentX += k6;
-                            f2.stepCount++;
+                            npc.Location = new Point2D(npc.Location.X + k6, npc.Location.Y);
+                            npc.stepCount++;
                             l3 = 2;
                         }
-                        else
-                            if (f2.currentX > f2.WaypointsX[j5])
+                        else if (npc.Location.X > npc.Waypoints[waypointIndex].X)
                         {
-                            f2.currentX -= k6;
-                            f2.stepCount++;
+                            npc.Location = new Point2D(npc.Location.X - k6, npc.Location.Y);
+                            npc.stepCount++;
                             l3 = 6;
                         }
-                        if (f2.currentX - f2.WaypointsX[j5] < k6 && f2.currentX - f2.WaypointsX[j5] > -k6)
+
+                        if (npc.Location.X - npc.Waypoints[waypointIndex].X < k6 &&
+                            npc.Location.X - npc.Waypoints[waypointIndex].X > -k6)
                         {
-                            f2.currentX = f2.WaypointsX[j5];
+                            npc.Location = new Point2D(npc.Waypoints[waypointIndex].X, npc.Location.Y);
                         }
 
-                        if (f2.currentY < f2.WaypointsY[j5])
+                        if (npc.Location.Y < npc.Waypoints[waypointIndex].Y)
                         {
-                            f2.currentY += k6;
-                            f2.stepCount++;
+                            npc.Location = new Point2D(npc.Location.X, npc.Location.Y + k6);
+                            npc.stepCount++;
+
                             if (l3 == -1)
                             {
                                 l3 = 4;
                             }
-                            else
-                                if (l3 == 2)
+                            else if (l3 == 2)
                             {
                                 l3 = 3;
                             }
@@ -3372,17 +3390,16 @@ namespace RuneScapeSolo.Net.Client
                                 l3 = 5;
                             }
                         }
-                        else
-                            if (f2.currentY > f2.WaypointsY[j5])
+                        else if (npc.Location.Y > npc.Waypoints[waypointIndex].Y)
                         {
-                            f2.currentY -= k6;
-                            f2.stepCount++;
+                            npc.Location = new Point2D(npc.Location.X, npc.Location.Y - k6);
+                            npc.stepCount++;
+
                             if (l3 == -1)
                             {
                                 l3 = 0;
                             }
-                            else
-                                if (l3 == 2)
+                            else if (l3 == 2)
                             {
                                 l3 = 1;
                             }
@@ -3391,42 +3408,45 @@ namespace RuneScapeSolo.Net.Client
                                 l3 = 7;
                             }
                         }
-                        if (f2.currentY - f2.WaypointsY[j5] < k6 && f2.currentY - f2.WaypointsY[j5] > -k6)
+
+                        if (npc.Location.Y - npc.Waypoints[waypointIndex].Y < k6 &&
+                            npc.Location.Y - npc.Waypoints[waypointIndex].Y > -k6)
                         {
-                            f2.currentY = f2.WaypointsY[j5];
+                            npc.Location = new Point2D(npc.Location.X, npc.Waypoints[waypointIndex].Y);
                         }
                     }
                     if (l3 != -1)
                     {
-                        f2.currentSprite = l3;
+                        npc.currentSprite = l3;
                     }
 
-                    if (f2.currentX == f2.WaypointsX[j5] && f2.currentY == f2.WaypointsY[j5])
+                    if (npc.Location.X == npc.Waypoints[waypointIndex].X &&
+                        npc.Location.Y == npc.Waypoints[waypointIndex].Y)
                     {
-                        f2.WaypointsEndSprite = (j5 + 1) % 10;
+                        npc.WaypointsEndSprite = (waypointIndex + 1) % 10;
                     }
                 }
                 else
                 {
-                    f2.currentSprite = f2.nextSprite;
-                    if (f2.npcId == 43)
+                    npc.currentSprite = npc.nextSprite;
+                    if (npc.npcId == 43)
                     {
-                        f2.stepCount++;
+                        npc.stepCount++;
                     }
                 }
-                if (f2.lastMessageTimeout > 0)
+                if (npc.lastMessageTimeout > 0)
                 {
-                    f2.lastMessageTimeout--;
+                    npc.lastMessageTimeout--;
                 }
 
-                if (f2.PlayerSkullTimeout > 0)
+                if (npc.PlayerSkullTimeout > 0)
                 {
-                    f2.PlayerSkullTimeout--;
+                    npc.PlayerSkullTimeout--;
                 }
 
-                if (f2.combatTimer > 0)
+                if (npc.combatTimer > 0)
                 {
-                    f2.combatTimer--;
+                    npc.combatTimer--;
                 }
             }
 
@@ -3456,27 +3476,34 @@ namespace RuneScapeSolo.Net.Client
 
             if (cameraAutoAngleDebug)
             {
-                if (cameraAutoRotatePlayerX - CurrentPlayer.currentX < -500 || cameraAutoRotatePlayerX - CurrentPlayer.currentX > 500 || cameraAutoRotatePlayerY - CurrentPlayer.currentY < -500 || cameraAutoRotatePlayerY - CurrentPlayer.currentY > 500)
+                if (cameraAutoRotatePlayerX - CurrentPlayer.Location.X < -500 ||
+                    cameraAutoRotatePlayerX - CurrentPlayer.Location.X > 500 ||
+                    cameraAutoRotatePlayerY - CurrentPlayer.Location.Y < -500 ||
+                    cameraAutoRotatePlayerY - CurrentPlayer.Location.Y > 500)
                 {
-                    cameraAutoRotatePlayerX = CurrentPlayer.currentX;
-                    cameraAutoRotatePlayerY = CurrentPlayer.currentY;
+                    cameraAutoRotatePlayerX = CurrentPlayer.Location.X;
+                    cameraAutoRotatePlayerY = CurrentPlayer.Location.Y;
                 }
             }
             else
             {
-                if (cameraAutoRotatePlayerX - CurrentPlayer.currentX < -500 || cameraAutoRotatePlayerX - CurrentPlayer.currentX > 500 || cameraAutoRotatePlayerY - CurrentPlayer.currentY < -500 || cameraAutoRotatePlayerY - CurrentPlayer.currentY > 500)
+                if (cameraAutoRotatePlayerX - CurrentPlayer.Location.X < -500 ||
+                    cameraAutoRotatePlayerX - CurrentPlayer.Location.X > 500 ||
+                    cameraAutoRotatePlayerY - CurrentPlayer.Location.Y < -500 ||
+                    cameraAutoRotatePlayerY - CurrentPlayer.Location.Y > 500)
                 {
-                    cameraAutoRotatePlayerX = CurrentPlayer.currentX;
-                    cameraAutoRotatePlayerY = CurrentPlayer.currentY;
-                }
-                if (cameraAutoRotatePlayerX != CurrentPlayer.currentX)
-                {
-                    cameraAutoRotatePlayerX += (CurrentPlayer.currentX - cameraAutoRotatePlayerX) / (16 + (cameraDistance - 500) / 15);
+                    cameraAutoRotatePlayerX = CurrentPlayer.Location.X;
+                    cameraAutoRotatePlayerY = CurrentPlayer.Location.Y;
                 }
 
-                if (cameraAutoRotatePlayerY != CurrentPlayer.currentY)
+                if (cameraAutoRotatePlayerX != CurrentPlayer.Location.X)
                 {
-                    cameraAutoRotatePlayerY += (CurrentPlayer.currentY - cameraAutoRotatePlayerY) / (16 + (cameraDistance - 500) / 15);
+                    cameraAutoRotatePlayerX += (CurrentPlayer.Location.X - cameraAutoRotatePlayerX) / (16 + (cameraDistance - 500) / 15);
+                }
+
+                if (cameraAutoRotatePlayerY != CurrentPlayer.Location.Y)
+                {
+                    cameraAutoRotatePlayerY += (CurrentPlayer.Location.Y - cameraAutoRotatePlayerY) / (16 + (cameraDistance - 500) / 15);
                 }
 
                 if (SettingsManager.Instance.CameraAutoAngle)
@@ -3484,6 +3511,7 @@ namespace RuneScapeSolo.Net.Client
                     int j2 = cameraAutoAngle * 32;
                     int i4 = j2 - cameraRotation;
                     int byte0 = 1;
+
                     if (i4 != 0)
                     {
                         cameraAutoRotationAmount++;
@@ -3492,23 +3520,21 @@ namespace RuneScapeSolo.Net.Client
                             byte0 = -1;
                             i4 = 256 - i4;
                         }
-                        else
-                            if (i4 > 0)
+                        else if (i4 > 0)
                         {
                             byte0 = 1;
                         }
-                        else
-                                if (i4 < -128)
+                        else if (i4 < -128)
                         {
                             byte0 = 1;
                             i4 = 256 + i4;
                         }
-                        else
-                                    if (i4 < 0)
+                        else if (i4 < 0)
                         {
                             byte0 = -1;
                             i4 = -i4;
                         }
+
                         cameraRotation += ((cameraAutoRotationAmount * i4 + 255) / 256) * byte0;
                         cameraRotation &= 0xff;
                     }
@@ -3518,25 +3544,30 @@ namespace RuneScapeSolo.Net.Client
                     }
                 }
             }
+
             if (sleepWordDelayTimer > 20)
             {
                 sleepWordDelay = false;
                 sleepWordDelayTimer = 0;
             }
+
             if (IsSleeping)
             {
                 if (lastMouseButton == 1 && InputManager.Instance.MouseLocation.Y > 275 && InputManager.Instance.MouseLocation.Y < 310 && InputManager.Instance.MouseLocation.X > 56 && InputManager.Instance.MouseLocation.X < 456)
                 {
                     StreamClass.CreatePacket(200);
                     StreamClass.AddString("-null-");
+
                     if (!sleepWordDelay)
                     {
                         StreamClass.AddInt8(0);
                         sleepWordDelay = true;
                     }
+
                     StreamClass.FormatPacket();
                     sleepingStatusText = "Please wait...";
                 }
+
                 lastMouseButton = 0;
                 return;
             }
@@ -3929,7 +3960,7 @@ namespace RuneScapeSolo.Net.Client
                                     menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on";
                                     menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
                                     menuActions[menuOptionsCount] = MenuAction.CastSpellOnNpc;
-                                    MenuActionLocations[menuOptionsCount] = new Point2D(Npcs[index].currentX, Npcs[index].currentY);
+                                    MenuActionLocations[menuOptionsCount] = Npcs[index].Location;
                                     menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
                                     menuActionVar1[menuOptionsCount] = selectedSpell;
                                     menuOptionsCount++;
@@ -3940,7 +3971,7 @@ namespace RuneScapeSolo.Net.Client
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
                                 menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
                                 menuActions[menuOptionsCount] = MenuAction.UseItemWithNpc;
-                                MenuActionLocations[menuOptionsCount] = new Point2D(Npcs[index].currentX, Npcs[index].currentY);
+                                MenuActionLocations[menuOptionsCount] = Npcs[index].Location;
                                 menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
                                 menuActionVar1[menuOptionsCount] = selectedItem;
                                 menuOptionsCount++;
@@ -3960,7 +3991,7 @@ namespace RuneScapeSolo.Net.Client
                                         menuActions[menuOptionsCount] = MenuAction.AttackNpc2;
                                     }
 
-                                    MenuActionLocations[menuOptionsCount] = new Point2D(Npcs[index].currentX, Npcs[index].currentY);
+                                    MenuActionLocations[menuOptionsCount] = Npcs[index].Location;
                                     menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
                                     menuOptionsCount++;
                                 }
@@ -3968,7 +3999,7 @@ namespace RuneScapeSolo.Net.Client
                                 menuText1[menuOptionsCount] = "Talk-to";
                                 menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
                                 menuActions[menuOptionsCount] = MenuAction.TalkToNpc;
-                                MenuActionLocations[menuOptionsCount] = new Point2D(Npcs[index].currentX, Npcs[index].currentY);
+                                MenuActionLocations[menuOptionsCount] = Npcs[index].Location;
                                 menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
                                 menuOptionsCount++;
 
@@ -3977,7 +4008,7 @@ namespace RuneScapeSolo.Net.Client
                                     menuText1[menuOptionsCount] = entityManager.GetNpc(id).Command;
                                     menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
                                     menuActions[menuOptionsCount] = MenuAction.CommandOnNpc;
-                                    MenuActionLocations[menuOptionsCount] = new Point2D(Npcs[index].currentX, Npcs[index].currentY);
+                                    MenuActionLocations[menuOptionsCount] = Npcs[index].Location;
                                     menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
                                     menuOptionsCount++;
                                 }
@@ -4548,7 +4579,7 @@ namespace RuneScapeSolo.Net.Client
 
                 cameraZoom = true;
 
-                if (lastLayerIndex == 0 && (engineHandle.tiles[CurrentPlayer.currentX / 128][CurrentPlayer.currentY / 128] & 0x80) == 0)
+                if (lastLayerIndex == 0 && (engineHandle.tiles[CurrentPlayer.Location.X / 128][CurrentPlayer.Location.Y / 128] & 0x80) == 0)
                 {
                     if (SettingsManager.Instance.GraphicsSettings.ShowRoofs)
                     {
@@ -4636,16 +4667,19 @@ namespace RuneScapeSolo.Net.Client
             }
             gameCamera.removeLastUpdates(drawUpdatesPerformed);
             drawUpdatesPerformed = 0;
+
             for (int l1 = 0; l1 < PlayerCount; l1++)
             {
                 ClientMob player = Players[l1];
                 if (player.Appearance.TrousersColour != 255)
                 {
-                    int j2 = player.currentX;
-                    int l2 = player.currentY;
+                    int j2 = player.Location.X;
+                    int l2 = player.Location.Y;
                     int j3 = -engineHandle.getAveragedElevation(j2, l2);
                     int k4 = gameCamera.addSpriteToScene(5000 + l1, j2, j3, l2, 145, 220, l1 + 10000);
+
                     drawUpdatesPerformed++;
+
                     if (player == CurrentPlayer)
                     {
                         gameCamera.bhe(k4);
@@ -4680,15 +4714,16 @@ namespace RuneScapeSolo.Net.Client
 
                     if (targetMob != null)
                     {
-                        int k3 = player.currentX;
-                        int l4 = player.currentY;
+                        int k3 = player.Location.X;
+                        int l4 = player.Location.Y;
                         int k7 = -engineHandle.getAveragedElevation(k3, l4) - 110;
-                        int k9 = targetMob.currentX;
-                        int j10 = targetMob.currentY;
+                        int k9 = targetMob.Location.X;
+                        int j10 = targetMob.Location.Y;
                         int k10 = -engineHandle.getAveragedElevation(k9, j10) - entityManager.GetNpc(targetMob.npcId).Camera2 / 2;
                         int l10 = (k3 * player.ProjectileDistance + k9 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
                         int i11 = (k7 * player.ProjectileDistance + k10 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
                         int j11 = (l4 * player.ProjectileDistance + j10 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
+
                         gameCamera.addSpriteToScene(baseProjectilePic + player.ProjectileType, l10, i11, j11, 32, 32, 0);
                         drawUpdatesPerformed++;
                     }
@@ -4698,11 +4733,13 @@ namespace RuneScapeSolo.Net.Client
             for (int k2 = 0; k2 < NpcCount; k2++)
             {
                 ClientMob npc = Npcs[k2];
-                int x1 = npc.currentX;
-                int z1 = npc.currentY;
+                int x1 = npc.Location.X;
+                int z1 = npc.Location.Y;
                 int y1 = -engineHandle.getAveragedElevation(x1, z1);
                 int l9 = gameCamera.addSpriteToScene(20000 + k2, x1, y1, z1, entityManager.GetNpc(npc.npcId).Camera1, entityManager.GetNpc(npc.npcId).Camera2, k2 + 30000);
+
                 drawUpdatesPerformed++;
+
                 if (npc.currentSprite == 8)
                 {
                     gameCamera.bhf(l9, -30);
@@ -4761,8 +4798,8 @@ namespace RuneScapeSolo.Net.Client
                     autoRotateCamera();
                     if (cameraAutoAngle != i6)
                     {
-                        cameraAutoRotatePlayerX = CurrentPlayer.currentX;
-                        cameraAutoRotatePlayerY = CurrentPlayer.currentY;
+                        cameraAutoRotatePlayerX = CurrentPlayer.Location.X;
+                        cameraAutoRotatePlayerY = CurrentPlayer.Location.Y;
                     }
                 }
 
@@ -5857,26 +5894,30 @@ namespace RuneScapeSolo.Net.Client
             for (int playerIndex = 0; playerIndex < PlayerCount; playerIndex++)
             {
                 ClientMob player = Players[playerIndex];
-                player.currentX -= offsetX * GridSize;
-                player.currentY -= offsetY * GridSize;
+                player.Location = new Point2D(
+                    player.Location.X - offsetX * GridSize,
+                    player.Location.Y - offsetY * GridSize);
 
-                for (int l5 = 0; l5 <= player.WaypointCurrent; l5++)
+                for (int waypointIndex = 0; waypointIndex <= player.WaypointCurrent; waypointIndex++)
                 {
-                    player.WaypointsX[l5] -= offsetX * GridSize;
-                    player.WaypointsY[l5] -= offsetY * GridSize;
+                    player.Waypoints[waypointIndex] = new Point2D(
+                        player.Waypoints[waypointIndex].X - offsetX * GridSize,
+                        player.Waypoints[waypointIndex].Y - offsetY * GridSize);
                 }
             }
 
             for (int npcIndex = 0; npcIndex < NpcCount; npcIndex++)
             {
                 ClientMob npc = Npcs[npcIndex];
-                npc.currentX -= offsetX * GridSize;
-                npc.currentY -= offsetY * GridSize;
+                npc.Location = new Point2D(
+                    npc.Location.X - offsetX * GridSize,
+                    npc.Location.Y - offsetY * GridSize);
 
-                for (int k6 = 0; k6 <= npc.WaypointCurrent; k6++)
+                for (int waypointIndex = 0; waypointIndex <= npc.WaypointCurrent; waypointIndex++)
                 {
-                    npc.WaypointsX[k6] -= offsetX * GridSize;
-                    npc.WaypointsY[k6] -= offsetY * GridSize;
+                    npc.Waypoints[waypointIndex] = new Point2D(
+                        npc.Waypoints[waypointIndex].X - offsetX * GridSize,
+                        npc.Waypoints[waypointIndex].Y - offsetY * GridSize);
                 }
             }
 
@@ -5979,12 +6020,11 @@ namespace RuneScapeSolo.Net.Client
 
                 int waypointCurrent = mob.WaypointCurrent;
 
-                if (x != mob.WaypointsX[waypointCurrent] ||
-                    y != mob.WaypointsY[waypointCurrent])
+                if (x != mob.Waypoints[waypointCurrent].X ||
+                    y != mob.Waypoints[waypointCurrent].Y)
                 {
                     mob.WaypointCurrent = waypointCurrent = (waypointCurrent + 1) % 10;
-                    mob.WaypointsX[waypointCurrent] = x;
-                    mob.WaypointsY[waypointCurrent] = y;
+                    mob.Waypoints[waypointCurrent] = new Point2D(x, y);
                 }
             }
             else
@@ -5995,8 +6035,8 @@ namespace RuneScapeSolo.Net.Client
                 mob.stepCount = 0;
                 mob.WaypointsEndSprite = 0;
                 mob.WaypointCurrent = 0;
-                mob.WaypointsX[0] = mob.currentX = x;
-                mob.WaypointsY[0] = mob.currentY = y;
+                mob.Location = new Point2D(x, y);
+                mob.Waypoints[0] = mob.Location;
             }
 
             Npcs[NpcCount] = mob;
