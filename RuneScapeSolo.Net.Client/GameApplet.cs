@@ -22,10 +22,6 @@ namespace RuneScapeSolo.Net.Client
             gameLoadingScreen = 1;
 
             InitGameApplet();
-
-            // gameWindowThread = new Thread(this);
-            //  gameWindowThread.start();
-            //  gameWindowThread.setPriority(1);
         }
 
         public virtual void LoadGame()
@@ -196,25 +192,8 @@ namespace RuneScapeSolo.Net.Client
             UnloadContent();
         }
 
-        //Component getGameComponent() {
-        //    if(gameFrame != null)
-        //        return gameFrame;
-        //    else
-        //        return this;
-        //}
-
-        public void LoadApp()
-        {
-
-        }
-
         public void run()
         {
-            //getGameComponent().addKeyListener(this);
-            //getGameComponent().addMouseListener(this);
-            //getGameComponent().addMouseMotionListener(this);
-
-
             if (gameLoadingScreen == 1)
             {
                 gameLoadingScreen = 2;
@@ -248,10 +227,10 @@ namespace RuneScapeSolo.Net.Client
             DrawIsNecessary = true;
         }
 
-        public int gameVar_i = 0;
+        public int gameVar_i;
         public int gameVar_k = 256;
         public int gameVar_sleepTime = 1;
-        public int gameVar_j1 = 0;
+        public int gameVar_j1;
 
         public void UpdateGame(int i, int k, int sleepTime, int j1)
         {
@@ -265,11 +244,12 @@ namespace RuneScapeSolo.Net.Client
                     return;
                 }
             }
+
             int i2 = k;
             int j2 = sleepTime;
             k = 300;
             sleepTime = 1;
-            long l1 = CurrentTimeMillis();//System.currentTimeMillis();
+            long l1 = CurrentTimeMillis();
             if (timeArray[i] == 0L)
             {
                 k = i2;
@@ -310,11 +290,14 @@ namespace RuneScapeSolo.Net.Client
                 }
             }
             int l2 = 0;
+
             while (j1 < 256)
             {
                 var start = DateTime.Now;
+
                 CheckInputs();
                 j1 += k;
+
                 if (++l2 > fie)
                 {
                     j1 = 0;
@@ -325,12 +308,12 @@ namespace RuneScapeSolo.Net.Client
                     }
                     break;
                 }
+
                 var end = DateTime.Now - start;
             }
+
             fij--;
             j1 &= 0xff;
-            //drawWindow();
-            // paint(graphics);
         }
 
         public virtual void DrawWindow()
@@ -367,33 +350,12 @@ namespace RuneScapeSolo.Net.Client
             {
                 int i = (appletWidth - 281) / 2;
                 int k = (appletHeight - 148) / 2;
-                //graphics.setColor(Color.Black);
-                //graphics.fillRect(0, 0, appletWidth, appletHeight);
-                //graphics.Clear(Color.Black);
 
                 i += 2;
                 k += 90;
 
-
-
-                //if (bgImage != null)
-                //{
-                //    // spriteBatch.BeginSafe();
-                //    spriteBatch.Draw(bgImage, Vector2.Zero, Color.White);
-                //    // spriteBatch.EndSafe();
-                //}
-                //  graphics.drawImage(bgImage, 0, 0, null);
                 gameLoadingPercentage = percentage;
                 gameLoadingFileTitle = fileTitle;
-                //graphics.setColor();
-
-                //spriteBatch.drawRect(new Rectangle(i - 2, k - 2, 280, 23), new Color(132, 132, 132));
-                //spriteBatch.fillRect(new Rectangle(i, k, (277 * percentage) / 100, 20), new Color(132, 132, 132));
-
-
-                //graphics.setColor(new Color(198, 198, 198));
-                //drawString(fileTitle/*, gameLoadingFont*/, i + 138, k + 10, new Color(198, 198, 198));
-
             }
             catch (Exception ex)
             {
@@ -413,15 +375,7 @@ namespace RuneScapeSolo.Net.Client
                 gameLoadingPercentage = i;
                 gameLoadingFileTitle = s;
                 int i1 = (277 * i) / 100;
-                // spriteBatch.fillRect(new Rectangle(k, l, i1, 20), new Color(132, 132, 132));
-                //  graphics.setColor(new Color(132, 132, 132));
-                //  graphics.fillRect(k, l, i1, 20);
-                //  graphics.setColor(Color.black);
-                //  spriteBatch.fillRect(new Rectangle(k + i1, l, 277 - i1, 20), Color.Black);
-                //graphics.fillRect(k + i1, l, 277 - i1, 20);
-                //graphics.setColor(new Color(198, 198, 198));
 
-                //drawString(graphics, s, gameLoadingFont, k + 138, l + 10, new Color(198, 198, 198));
                 return;
             }
             catch (Exception ex)
@@ -431,34 +385,8 @@ namespace RuneScapeSolo.Net.Client
             }
         }
 
-        //public void drawString(string arg1, int arg3, int arg4, Color color)
-        //{
-        //    //Object obj;
-        //    //if (gameFrame == null)
-        //    //    obj = this;
-        //    //else
-        //    //    obj = gameFrame;
-        //    //var fontmetrics = arg2.MeasureString(arg1);//((Component)(obj)).getFontMetrics(arg2);
-        //    //fontmetrics.stringWidth(arg1);
-        //    //arg0.setFont(arg2);
-        //    //arg0.drawString(arg1, arg3 - fontmetrics.stringWidth(arg1) / 2, arg4 + fontmetrics.getHeight() / 4);
-
-        //    //GameImage.stringsToDraw.Add(new stringDrawDef
-        //    //{
-        //    //    font = arg2,
-        //    //    text = arg1,
-        //    //    pos = new Vector2(arg3 - fontmetrics.X / 2, arg4 + fontmetrics.Y / 4),
-        //    //    forecolor = color
-        //    //});
-
-        //    //spriteBatch.BeginSafe();
-        //    //spriteBatch.DrawString(arg2, arg1, new Vector2(fontmetrics.X / 2, arg4 + fontmetrics.Y / 4), color);
-        //    //spriteBatch.EndSafe();
-        //}
-
         public virtual sbyte[] unpackData(string filename, string fileTitle, int startPercentage)
         {
-
             Console.WriteLine("Using default load");
             int i = 0;
             int k = 0;
@@ -470,22 +398,17 @@ namespace RuneScapeSolo.Net.Client
                     Console.WriteLine("Loading " + fileTitle + " - 0%");
                     drawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 0%");
                     var inputstream = new BinaryReader(DataOperations.openInputStream(filename));
-                    //DataInputStream datainputstream = new DataInputStream(inputstream);
                     sbyte[] abyte2 = new sbyte[6] {
                         inputstream.ReadSByte(),inputstream.ReadSByte(),inputstream.ReadSByte(),
                         inputstream.ReadSByte(),inputstream.ReadSByte(),inputstream.ReadSByte()
                     };
 
-                    //inputstream.Read(abyte2, 0, 6);
                     i = ((abyte2[0] & 0xff) << 16) + ((abyte2[1] & 0xff) << 8) + (abyte2[2] & 0xff);
                     k = ((abyte2[3] & 0xff) << 16) + ((abyte2[4] & 0xff) << 8) + (abyte2[5] & 0xff);
-
-
 
                     Console.WriteLine("Loading " + fileTitle + " - 5%");
                     drawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 5%");
 #warning this could break stuff
-                    // int l = 0;
                     int l = 6;
                     abyte0 = new sbyte[k];
                     while (l < k)
@@ -500,8 +423,6 @@ namespace RuneScapeSolo.Net.Client
                         {
                             abyte0[l + t] = inputstream.ReadSByte();
                         }
-
-                        // inputstream.Read(abyte0, l, i1);
 
                         l += i1;
                         Console.WriteLine("Loading " + fileTitle + " - " + (5 + (l * 95) / k) + "%");
@@ -524,22 +445,9 @@ namespace RuneScapeSolo.Net.Client
                 DataFileDecrypter.unpackData(abyte1, i, abyte0, k, 0);
                 return abyte1;
             }
-            else
-            {
-                //  return unpackData(filename, fileTitle, startPercentage); // abyte0;
-                return abyte0;
-            }
+
+            return abyte0;
         }
-
-        //public Texture2D createImage(int i, int k)
-        //{
-        //    //if (gameFrame != null)
-        //    //    return gameFrame.createImage(i, k);
-        //    //else
-        //    //    return super.createImage(i, k);
-
-        //    return new Texture2D(this.graphics, i, k);
-        //}
 
         protected TcpClient MakeSocket(string ip, int port)
         {
@@ -561,7 +469,6 @@ namespace RuneScapeSolo.Net.Client
             timeArray = new long[10];
             gameLoadingScreen = 1;
             gameLoadingFileTitle = "Loading";
-            //gameLoadingFont = loadingFont;//new Font("TimesRoman", 0, 15);
             gameMinThreadSleepTime = 1;
         }
 
@@ -572,14 +479,13 @@ namespace RuneScapeSolo.Net.Client
             return (long)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds;
         }
 
-        //GameApplet baseApplet;
         int appletWidth;
         int appletHeight;
         public Thread gameWindowThread;
         int refreshRate;
         int fie;
         long[] timeArray;
-        public static GameFrame gameFrame = null;
+        public static GameFrame gameFrame;
         public int runStatus;
         public int fij;
         public int gameLoadingScreen;
@@ -590,7 +496,7 @@ namespace RuneScapeSolo.Net.Client
         public int mouseButton;
         public int lastMouseButton;
 
-        public static int[][] bgPixels = null;
-        public static Texture2D bgImage = null;
+        public static int[][] bgPixels;
+        public static Texture2D bgImage;
     }
 }

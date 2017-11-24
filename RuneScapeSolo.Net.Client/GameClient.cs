@@ -4512,6 +4512,7 @@ namespace RuneScapeSolo.Net.Client
                     menuX = InputManager.Instance.MouseLocation.X - menuWidth / 2;
                     menuY = InputManager.Instance.MouseLocation.Y - 7;
                     menuShow = true;
+
                     if (menuX < 0)
                     {
                         menuX = 0;
@@ -4627,7 +4628,6 @@ namespace RuneScapeSolo.Net.Client
                         drawModel(objectIndex, "spellcharge" + (modelFireLightningSpellNumber + 1));
                     }
                 }
-
             }
 
             if (modelTorchNumber != lastModelTorchNumber)
@@ -4864,8 +4864,10 @@ namespace RuneScapeSolo.Net.Client
                 Point3D loc = new Point3D(k6, -engineHandle.getAveragedElevation(k6, l8), l8);
                 gameCamera.SetCameraTransform(loc, 912, cameraRotation * 4, 0, cameraDistance * 2);
             }
+
             gameCamera.finishCamera();
             drawAboveHeadThings();
+
             if (actionPictureType > 0)
             {
                 gameGraphics.DrawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 14 + (24 - actionPictureType) / 6);
@@ -4892,8 +4894,7 @@ namespace RuneScapeSolo.Net.Client
             gameGraphics.DrawString(text, 10 + 11, 10 + 11, 1, 0x000000);
             gameGraphics.DrawString(text, 10 + 10, 10 + 10, 1, 0xffffff);
 
-            //gameGraphics.UpdateGameImage();
-            OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
+            OnDrawDone();
         }
 
         void DrawDead()
@@ -5176,6 +5177,7 @@ namespace RuneScapeSolo.Net.Client
                     healthBarY[healthBarVisibleCount] = y;
                     healthBarMissing[healthBarVisibleCount++] = l2;
                 }
+
                 if (npc.combatTimer > 150)
                 {
                     int j2 = x;
@@ -5533,6 +5535,7 @@ namespace RuneScapeSolo.Net.Client
                 gameGraphics.DrawString("<page 1>", i1 + l2, k1 + 10, 1, k3);
                 l2 += 65;
                 k3 = 0xffffff;
+
                 if (bankPage == 1)
                 {
                     k3 = 0xff0000;
@@ -5552,6 +5555,7 @@ namespace RuneScapeSolo.Net.Client
             if (inventoryManager.BankItemsCount > 96)
             {
                 int l3 = 0xffffff;
+
                 if (bankPage == 2)
                 {
                     l3 = 0xff0000;
@@ -5631,12 +5635,13 @@ namespace RuneScapeSolo.Net.Client
                         gameGraphics.DrawString(bankItem2.Quantity.ToString(), k9 + 1, l9 + 10, 1, 65280);
                         gameGraphics.DrawLabel(inventoryManager.GetItemTotalCount(bankItem2.Quantity).ToString(), k9 + 47, l9 + 29, 1, 65535);
                     }
+
                     bankSlot++;
                 }
-
             }
 
             gameGraphics.DrawHorizontalLine(i1 + 5, k1 + 256, 398, 0);
+
             if (selectedBankItem == -1)
             {
                 gameGraphics.DrawText("Select an object to withdraw or deposit", i1 + 204, k1 + 248, 3, 0xffff00);
@@ -5666,16 +5671,20 @@ namespace RuneScapeSolo.Net.Client
                 if (quantity > 0)
                 {
                     gameGraphics.DrawString("Withdraw " + entityManager.GetItem(itemId).Name, i1 + 2, k1 + 248, 1, 0xffffff);
+
                     int k4 = 0xffffff;
+
                     if (InputManager.Instance.MouseLocation.X >= i1 + 220 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 250 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
                     {
                         k4 = 0xff0000;
                     }
 
                     gameGraphics.DrawString("One", i1 + 222, k1 + 248, 1, k4);
+
                     if (quantity >= 5)
                     {
                         int l4 = 0xffffff;
+
                         if (InputManager.Instance.MouseLocation.X >= i1 + 250 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 280 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
                         {
                             l4 = 0xff0000;
@@ -5683,9 +5692,11 @@ namespace RuneScapeSolo.Net.Client
 
                         gameGraphics.DrawString("Five", i1 + 252, k1 + 248, 1, l4);
                     }
+
                     if (quantity >= 25)
                     {
                         int i5 = 0xffffff;
+
                         if (InputManager.Instance.MouseLocation.X >= i1 + 280 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 305 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
                         {
                             i5 = 0xff0000;
@@ -5693,9 +5704,11 @@ namespace RuneScapeSolo.Net.Client
 
                         gameGraphics.DrawString("25", i1 + 282, k1 + 248, 1, i5);
                     }
+
                     if (quantity >= 100)
                     {
                         int j5 = 0xffffff;
+
                         if (InputManager.Instance.MouseLocation.X >= i1 + 305 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 335 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
                         {
                             j5 = 0xff0000;
@@ -5703,9 +5716,11 @@ namespace RuneScapeSolo.Net.Client
 
                         gameGraphics.DrawString("100", i1 + 307, k1 + 248, 1, j5);
                     }
+
                     if (quantity >= 500)
                     {
                         int k5 = 0xffffff;
+
                         if (InputManager.Instance.MouseLocation.X >= i1 + 335 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 368 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
                         {
                             k5 = 0xff0000;
@@ -5713,9 +5728,11 @@ namespace RuneScapeSolo.Net.Client
 
                         gameGraphics.DrawString("500", i1 + 337, k1 + 248, 1, k5);
                     }
+
                     if (quantity >= 2500)
                     {
                         int l5 = 0xffffff;
+
                         if (InputManager.Instance.MouseLocation.X >= i1 + 370 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 400 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
                         {
                             l5 = 0xff0000;
@@ -5724,19 +5741,24 @@ namespace RuneScapeSolo.Net.Client
                         gameGraphics.DrawString("2500", i1 + 370, k1 + 248, 1, l5);
                     }
                 }
+
                 if (inventoryManager.GetItemTotalCount(itemId) > 0)
                 {
                     gameGraphics.DrawString("Deposit " + entityManager.GetItem(itemId).Name, i1 + 2, k1 + 273, 1, 0xffffff);
+
                     int i6 = 0xffffff;
+
                     if (InputManager.Instance.MouseLocation.X >= i1 + 220 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 250 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
                     {
                         i6 = 0xff0000;
                     }
 
                     gameGraphics.DrawString("One", i1 + 222, k1 + 273, 1, i6);
+
                     if (inventoryManager.GetItemTotalCount(itemId) >= 5)
                     {
                         int j6 = 0xffffff;
+
                         if (InputManager.Instance.MouseLocation.X >= i1 + 250 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 280 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
                         {
                             j6 = 0xff0000;
@@ -5744,9 +5766,11 @@ namespace RuneScapeSolo.Net.Client
 
                         gameGraphics.DrawString("Five", i1 + 252, k1 + 273, 1, j6);
                     }
+
                     if (inventoryManager.GetItemTotalCount(itemId) >= 25)
                     {
                         int k6 = 0xffffff;
+
                         if (InputManager.Instance.MouseLocation.X >= i1 + 280 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 305 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
                         {
                             k6 = 0xff0000;
@@ -5754,9 +5778,11 @@ namespace RuneScapeSolo.Net.Client
 
                         gameGraphics.DrawString("25", i1 + 282, k1 + 273, 1, k6);
                     }
+
                     if (inventoryManager.GetItemTotalCount(itemId) >= 100)
                     {
                         int l6 = 0xffffff;
+
                         if (InputManager.Instance.MouseLocation.X >= i1 + 305 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 335 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
                         {
                             l6 = 0xff0000;
@@ -5764,9 +5790,11 @@ namespace RuneScapeSolo.Net.Client
 
                         gameGraphics.DrawString("100", i1 + 307, k1 + 273, 1, l6);
                     }
+
                     if (inventoryManager.GetItemTotalCount(itemId) >= 500)
                     {
                         int i7 = 0xffffff;
+
                         if (InputManager.Instance.MouseLocation.X >= i1 + 335 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 368 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
                         {
                             i7 = 0xff0000;
@@ -5774,9 +5802,11 @@ namespace RuneScapeSolo.Net.Client
 
                         gameGraphics.DrawString("500", i1 + 337, k1 + 273, 1, i7);
                     }
+
                     if (inventoryManager.GetItemTotalCount(itemId) >= 2500)
                     {
                         int j7 = 0xffffff;
+
                         if (InputManager.Instance.MouseLocation.X >= i1 + 370 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 400 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
                         {
                             j7 = 0xff0000;
@@ -5790,6 +5820,7 @@ namespace RuneScapeSolo.Net.Client
 
         public event EventHandler OnLoadingSection;
         public event EventHandler OnLoadingSectionCompleted;
+
         public bool loadSection(int x, int y)
         {
             if (PlayerAliveTimeout != 0)
@@ -5800,15 +5831,16 @@ namespace RuneScapeSolo.Net.Client
             LoadArea = false;
             x += WildLocation.X;
             y += WildLocation.Y;
+
             if (lastLayerIndex == LayerIndex && x > sectionWidth && x < sectionPosX && y > sectionHeight && y < sectionPosY)
             {
                 engineHandle.playerIsAlive = true;
                 return false;
             }
+
             OnLoadingSection?.Invoke(this, new EventArgs());
             gameGraphics.DrawText("Loading... Please wait", 256, 192, 1, 0xffffff);
 
-            //gameGraphics.drawImage(spriteBatch, 0, 0);
             int l = AreaLocation.X;
             int i1 = AreaLocation.Y;
             int xBase = (x + 24) / 48;
