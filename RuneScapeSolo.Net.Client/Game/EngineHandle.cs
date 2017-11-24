@@ -537,7 +537,8 @@ namespace RuneScapeSolo.Net.Client.Game
                             i4 = 0;
                         }
 
-                        int vertexIndex = sectionObj.getVertexIndex(j2 * 128, i4, i3 * 128);
+                        Point3D vertLoc = new Point3D(j2 * 128, i4, i3 * 128);
+                        int vertexIndex = sectionObj.getVertexIndex(vertLoc);
                         int color = (int)(Helper.Random.NextDouble() * 10D) - 5;
                         sectionObj.SetVertexColor(vertexIndex, color);
                     }
@@ -2287,7 +2288,7 @@ namespace RuneScapeSolo.Net.Client.Game
                             ObjectModel i2 = arg0[entityManager.GetWorldObject(objectIndex).ModelId].CreateParent(false, true, false, false);
                             int j2 = ((x + x + objectWidth) * 128) / 2;
                             int l2 = ((y + y + objectHeight) * 128) / 2;
-                            i2.offsetPosition(j2, -getAveragedElevation(j2, l2), l2);
+                            i2.offsetLocation(j2, -getAveragedElevation(j2, l2), l2);
                             i2.setRotation(0, getTileRotation(x, y) * 32, 0);
                             i2.setRotation(0, objectRotation * 32, 0);
 
@@ -2345,7 +2346,8 @@ namespace RuneScapeSolo.Net.Client.Game
             {
                 for (int vertIndex = 0; vertIndex < tileChunk.vert_count; vertIndex++)
                 {
-                    if (tileChunk.vert_x[vertIndex] == x * 128 && tileChunk.vert_z[vertIndex] == y * 128)
+                    if (tileChunk.verticeLocations[vertIndex].X == x * 128 &&
+                        tileChunk.verticeLocations[vertIndex].Y == y * 128)
                     {
                         tileChunk.SetVertexColor(vertIndex, val);
                         return;

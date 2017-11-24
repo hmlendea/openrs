@@ -3689,7 +3689,8 @@ namespace RuneScapeSolo.Net.Client
                     ObjectLocations[objectIndex].Y < 96 &&
                     ObjectType[objectIndex] == 74)
                 {
-                    ObjectArray[objectIndex].offsetMiniPosition(1, 0, 0);
+                    Point3D off = new Point3D(1, 0, 0);
+                    ObjectArray[objectIndex].offsetMiniPosition(off);
                 }
             }
 
@@ -5859,12 +5860,16 @@ namespace RuneScapeSolo.Net.Client
                     if (objX >= 0 && objY >= 0 && objX < 96 && objY < 96)
                     {
                         gameCamera.addModel(_obj);
-                        _obj.setPosition(flatObjX, -engineHandle.getAveragedElevation(flatObjX, flatObjY), flatObjY);
+
+                        Point3D location = new Point3D(flatObjX, -engineHandle.getAveragedElevation(flatObjX, flatObjY), flatObjY);
+
+                        _obj.setLocation(location);
                         engineHandle.createObject(objX, objY, objType, objDir);
 
                         if (objType == 74)
                         {
-                            _obj.offsetPosition(0, -480, 0);
+                            location = new Point3D(0, -480, 0);
+                            _obj.setLocation(location);
                         }
                     }
                 }
@@ -5874,7 +5879,6 @@ namespace RuneScapeSolo.Net.Client
                     Console.WriteLine("x:" + objectIndex + " obj:" + _obj);
                 }
             }
-
 
             for (int wallIndex = 0; wallIndex < WallObjectCount; wallIndex++)
             {

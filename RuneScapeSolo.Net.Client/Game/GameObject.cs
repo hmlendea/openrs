@@ -10,6 +10,70 @@ namespace RuneScapeSolo.Net.Client.Game
 {
     public class ObjectModel //: Model
     {
+        public Point3D[] WorldVerticeLocations;
+        public Point3D[] verticeLocations;
+        Point3D[] minimumFaceBounds;
+        Point3D[] maximumFaceBounds;
+        Point3D[] normalLocations;
+        Point3D location;
+        Point3D rotation;
+        Point3D minimumBounds;
+        Point3D maximumBounds;
+
+        static ObjectModel()
+        {
+            cie = new int[512];
+            cif = new int[2048];
+            cig = new int[64];
+            cih = new int[256];
+            for (int j = 0; j < 256; j++)
+            {
+                cie[j] = (int)(Math.Sin(j * 0.02454369D) * 32768D);
+                cie[j + 256] = (int)(Math.Cos(j * 0.02454369D) * 32768D);
+            }
+
+            for (int k = 0; k < 1024; k++)
+            {
+                cif[k] = (int)(Math.Sin(k * 0.00613592315D) * 32768D);
+                cif[k + 1024] = (int)(Math.Cos(k * 0.00613592315D) * 32768D);
+            }
+
+            for (int l = 0; l < 10; l++)
+            {
+                cig[l] = (byte)(48 + l);
+            }
+
+            for (int i1 = 0; i1 < 26; i1++)
+            {
+                cig[i1 + 10] = (byte)(65 + i1);
+            }
+
+            for (int j1 = 0; j1 < 26; j1++)
+            {
+                cig[j1 + 36] = (byte)(97 + j1);
+            }
+
+            cig[62] = -93;
+            cig[63] = 36;
+            for (int k1 = 0; k1 < 10; k1++)
+            {
+                cih[48 + k1] = k1;
+            }
+
+            for (int l1 = 0; l1 < 26; l1++)
+            {
+                cih[65 + l1] = l1 + 10;
+            }
+
+            for (int i2 = 0; i2 < 26; i2++)
+            {
+                cih[97 + i2] = i2 + 36;
+            }
+
+            cih[163] = 62;
+            cih[36] = 63;
+        }
+
         public ObjectModel(int vertCount, int polygonCount)
         {
             objectState = 1;
@@ -33,16 +97,15 @@ namespace RuneScapeSolo.Net.Client.Game
             clf = 32;
             InitializeObject(vertCount, polygonCount);
             cje = new int[polygonCount][];
+
             for (int j = 0; j < polygonCount; j++)
             {
                 cje[j] = new int[1];
                 cje[j][0] = j;
             }
-
         }
 
         public ObjectModel(int vertCount, int polyCount, bool flag, bool flag1, bool flag2, bool flag3, bool flag4)
-        //: base(x, y, flag, flag1, flag2, flag3, flag4)
         {
             objectState = 1;
             visible = true;
@@ -71,11 +134,33 @@ namespace RuneScapeSolo.Net.Client.Game
             InitializeObject(vertCount, polyCount);
         }
 
+        // TODO: REMOVE ASAP
+        public int getVertexIndex(int x, int y, int z)
+        {
+            Point3D point = new Point3D(x, y, z);
+
+            return getVertexIndex(point);
+        }
+
+        // TODO: REMOVE ASAP
+        public void offsetLocation(int x, int y, int z)
+        {
+            Point3D point = new Point3D(x, y, z);
+
+            offsetLocation(point);
+        }
+
+        // TODO: REMOVE ASAP
+        public void setRotation(int x, int y, int z)
+        {
+            Point3D point = new Point3D(x, y, z);
+
+            setRotation(point);
+        }
+
         void InitializeObject(int _vert_count, int polygonCount)
         {
-            vert_x = new int[_vert_count];
-            vert_y = new int[_vert_count];
-            vert_z = new int[_vert_count];
+            verticeLocations = new Point3D[_vert_count];
 
             _vertices = new Vector3[_vert_count];
 
@@ -99,44 +184,39 @@ namespace RuneScapeSolo.Net.Client.Game
                 cfl = new int[_vert_count];
                 cfm = new int[_vert_count];
             }
+
             if (!cic)
             {
                 chm = new int[polygonCount];
                 entityType = new int[polygonCount];
             }
+
             if (chn)
             {
-                worldVertX = vert_x;
-                worldVertY = vert_y;
-                worldVertZ = vert_z;
+                WorldVerticeLocations = verticeLocations;
             }
             else
             {
-                worldVertX = new int[_vert_count];
-                worldVertY = new int[_vert_count];
-                worldVertZ = new int[_vert_count];
+                WorldVerticeLocations = new Point3D[_vert_count];
             }
+
             if (!dontRecieveShadows || !noCollider)
             {
-                normalX = new int[polygonCount];
-                normalY = new int[polygonCount];
-                normalZ = new int[polygonCount];
+                normalLocations = new Point3D[polygonCount];
             }
+
             if (!noCollider)
             {
-                faceBoundsMinX = new int[polygonCount];
-                faceBoundsMaxX = new int[polygonCount];
-                faceBoundsMinY = new int[polygonCount];
-                faceBoundsMaxY = new int[polygonCount];
-                faceBoundsMinZ = new int[polygonCount];
-                faceBoundsMaxZ = new int[polygonCount];
+                minimumFaceBounds = new Point3D[polygonCount];
+                maximumFaceBounds = new Point3D[polygonCount];
             }
+
             face_count = 0;
             vert_count = 0;
             totalVerticeCount = _vert_count;
             totalFaceCount = polygonCount;
-            positionX = positionY = positionZ = 0;
-            rotationX = rotationY = rotationZ = 0;
+            location = Point3D.Empty;
+            rotation = Point3D.Empty;
             ckd = cke = ckf = 256;
             ckg = ckh = cki = ckj = ckk = ckl = 256;
             ckm = 0;
@@ -200,27 +280,27 @@ namespace RuneScapeSolo.Net.Client.Game
             offset += 2;
 
             InitializeObject(_vert_count, _face_count);
-            cje = new int[vert_x.Length][];
+            cje = new int[verticeLocations.Length][];
 
-            for (int l = 0; l < _vert_count; l++)
+            for (int verticeIndex = 0; verticeIndex < _vert_count; verticeIndex++)
             {
-                cje[l] = new int[1];
-                vert_x[l] = DataOperations.getShort2(data, offset);
-                _vertices[l] = new Vector3(vert_x[l], _vertices[l].Y, _vertices[l].Z);
+                cje[verticeIndex] = new int[1];
+                verticeLocations[verticeIndex].X = DataOperations.getShort2(data, offset);
+                _vertices[verticeIndex] = new Vector3(verticeLocations[verticeIndex].X, _vertices[verticeIndex].Y, _vertices[verticeIndex].Z);
                 offset += 2;
             }
 
-            for (int i1 = 0; i1 < _vert_count; i1++)
+            for (int verticeIndex = 0; verticeIndex < _vert_count; verticeIndex++)
             {
-                vert_y[i1] = DataOperations.getShort2(data, offset);
-                _vertices[i1] = new Vector3(_vertices[i1].X, vert_y[i1], _vertices[i1].Z);
+                verticeLocations[verticeIndex].Y = DataOperations.getShort2(data, offset);
+                _vertices[verticeIndex] = new Vector3(_vertices[verticeIndex].X, verticeLocations[verticeIndex].Y, _vertices[verticeIndex].Z);
                 offset += 2;
             }
 
-            for (int j1 = 0; j1 < _vert_count; j1++)
+            for (int verticeIndex = 0; verticeIndex < _vert_count; verticeIndex++)
             {
-                vert_z[j1] = DataOperations.getShort2(data, offset);
-                _vertices[j1] = new Vector3(_vertices[j1].X, _vertices[j1].Y, vert_z[j1]);
+                verticeLocations[verticeIndex].Z = DataOperations.getShort2(data, offset);
+                _vertices[verticeIndex] = new Vector3(_vertices[verticeIndex].X, _vertices[verticeIndex].Y, verticeLocations[verticeIndex].Z);
                 offset += 2;
             }
 
@@ -339,12 +419,15 @@ namespace RuneScapeSolo.Net.Client.Game
             int j1 = getShadeValue((sbyte[])(Array)abyte0);
             InitializeObject(i1, j1);
             cje = new int[j1][];
+
             for (int k3 = 0; k3 < i1; k3++)
             {
-                int k1 = getShadeValue((sbyte[])(Array)abyte0);
-                int l1 = getShadeValue((sbyte[])(Array)abyte0);
-                int i2 = getShadeValue((sbyte[])(Array)abyte0);
-                getVertexIndex(k1, l1, i2);
+                Point3D point = new Point3D(
+                    getShadeValue((sbyte[])(Array)abyte0),
+                    getShadeValue((sbyte[])(Array)abyte0),
+                    getShadeValue((sbyte[])(Array)abyte0));
+
+                getVertexIndex(point);
             }
 
             for (int l3 = 0; l3 < j1; l3++)
@@ -467,9 +550,10 @@ namespace RuneScapeSolo.Net.Client.Game
                 {
                     int[] ai = new int[j1.face_vertices_count[k1]];
                     int[] ai1 = j1.face_vertices[k1];
-                    for (int l1 = 0; l1 < j1.face_vertices_count[k1]; l1++)
+
+                    for (int faceVerticeIndex = 0; faceVerticeIndex < j1.face_vertices_count[k1]; faceVerticeIndex++)
                     {
-                        ai[l1] = getVertexIndex(j1.vert_x[ai1[l1]], j1.vert_y[ai1[l1]], j1.vert_z[ai1[l1]]);
+                        ai[faceVerticeIndex] = getVertexIndex(j1.verticeLocations[ai1[faceVerticeIndex]]);
                     }
 
                     int i2 = addFaceVertices(j1.face_vertices_count[k1], ai, j1.texture_back[k1], j1.texture_front[k1]);
@@ -497,19 +581,18 @@ namespace RuneScapeSolo.Net.Client.Game
                         }
                     }
                 }
-
             }
 
             objectState = 1;
         }
 
-        public int getVertexIndex(int x, int y, int z)
+        public int getVertexIndex(Point3D location)
         {
-            for (int j = 0; j < vert_count; j++)
+            for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
             {
-                if (vert_x[j] == x && vert_y[j] == y && vert_z[j] == z)
+                if (verticeLocations[verticeIndex] == location)
                 {
-                    return j;
+                    return verticeIndex;
                 }
             }
 
@@ -517,13 +600,10 @@ namespace RuneScapeSolo.Net.Client.Game
             {
                 return -1;
             }
-            else
-            {
-                vert_x[vert_count] = x;
-                vert_y[vert_count] = y;
-                vert_z[vert_count] = z;
-                return vert_count++;
-            }
+
+            verticeLocations[vert_count] = location;
+
+            return vert_count++;
         }
 
         public int addVertex(Point3D location)
@@ -532,14 +612,10 @@ namespace RuneScapeSolo.Net.Client.Game
             {
                 return -1;
             }
-            else
-            {
-                vert_x[vert_count] = location.X;
-                vert_y[vert_count] = location.Y;
-                vert_z[vert_count] = location.Z;
 
-                return vert_count++;
-            }
+            verticeLocations[vert_count] = location;
+
+            return vert_count++;
         }
 
         public int addFaceVertices(int vertexCount, int[] _faceVertices, int _faceBack, int _faceFront)
@@ -577,10 +653,11 @@ namespace RuneScapeSolo.Net.Client.Game
                 int i1 = 0;
                 int k1 = face_vertices_count[k];
                 int[] ai3 = face_vertices[k];
+
                 for (int k2 = 0; k2 < k1; k2++)
                 {
-                    l += vert_x[ai3[k2]];
-                    i1 += vert_z[ai3[k2]];
+                    l += verticeLocations[ai3[k2]].X;
+                    i1 += verticeLocations[ai3[k2]].Z;
                 }
 
                 int i3 = l / (k1 * width) + (i1 / (k1 * height)) * objectSize;
@@ -607,10 +684,11 @@ namespace RuneScapeSolo.Net.Client.Game
                 int l2 = 0;
                 int j3 = face_vertices_count[l1];
                 int[] ai4 = face_vertices[l1];
+
                 for (int k3 = 0; k3 < j3; k3++)
                 {
-                    i2 += vert_x[ai4[k3]];
-                    l2 += vert_z[ai4[k3]];
+                    i2 += verticeLocations[ai4[k3]].X;
+                    l2 += verticeLocations[ai4[k3]].Z;
                 }
 
                 int l3 = i2 / (j3 * width) + (l2 / (j3 * height)) * objectSize;
@@ -628,9 +706,11 @@ namespace RuneScapeSolo.Net.Client.Game
         public void CopyModelData(ObjectModel arg0, int[] indices, int indexCount, int entityTypeIndex)
         {
             int[] ai = new int[indexCount];
+
             for (int j = 0; j < indexCount; j++)
             {
-                int k = ai[j] = arg0.getVertexIndex(vert_x[indices[j]], vert_y[indices[j]], vert_z[indices[j]]);
+                int k = ai[j] = arg0.getVertexIndex(verticeLocations[indices[j]]);
+
                 arg0.cfn[k] = cfn[indices[j]];
                 arg0.vertexColor[k] = vertexColor[indices[j]];
             }
@@ -720,38 +800,38 @@ namespace RuneScapeSolo.Net.Client.Game
             vertexColor[vertIndex] = value;
         }
 
-        public void offsetMiniPosition(int x, int y, int z)
+        public void offsetMiniPosition(Point3D point)
         {
-            rotationX = rotationX + x & 0xff;
-            rotationY = rotationY + y & 0xff;
-            rotationZ = rotationZ + z & 0xff;
+            rotation.X += point.X & 0xFF;
+            rotation.Y += point.Y & 0xFF;
+            rotation.Z += point.Z & 0xFF;
+
             cmm();
             objectState = 1;
         }
 
-        public void setRotation(int x, int y, int z)
+        public void setRotation(Point3D point)
         {
-            rotationX = x & 0xff;
-            rotationY = y & 0xff;
-            rotationZ = z & 0xff;
+            rotation.X = point.X & 0xFF;
+            rotation.Y = point.Y & 0xFF;
+            rotation.Z = point.Z & 0xFF;
+
             cmm();
             objectState = 1;
         }
 
-        public void offsetPosition(int xOffset, int yOffset, int zOffset)
+        public void offsetLocation(Point3D offset)
         {
-            positionX += xOffset;
-            positionY += yOffset;
-            positionZ += zOffset;
+            location += offset;
+
             cmm();
             objectState = 1;
         }
 
-        public void setPosition(int x, int y, int z)
+        public void setLocation(Point3D location)
         {
-            positionX = x;
-            positionY = y;
-            positionZ = z;
+            this.location = location;
+
             cmm();
             objectState = 1;
         }
@@ -768,60 +848,70 @@ namespace RuneScapeSolo.Net.Client.Game
                 ckm = 3;
                 return;
             }
-            if (rotationX != 0 || rotationY != 0 || rotationZ != 0)
+            if (rotation.X != 0 || rotation.Y != 0 || rotation.Z != 0)
             {
                 ckm = 2;
                 return;
             }
-            if (positionX != 0 || positionY != 0 || positionZ != 0)
+            if (location.X != 0 || location.Y != 0 || location.Z != 0)
             {
                 ckm = 1;
                 return;
             }
-            else
-            {
-                ckm = 0;
-                return;
-            }
+
+            ckm = 0;
         }
 
-        void OffsetWorldVertices(int x, int y, int z)
+        void OffsetWorldVertices(Point3D offset)
         {
-            for (int j = 0; j < vert_count; j++)
+            for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
             {
-                worldVertX[j] += x;
-                worldVertY[j] += y;
-                worldVertZ[j] += z;
+                WorldVerticeLocations[verticeIndex] += offset;
             }
         }
 
         void rotate(int x, int y, int z)
         {
-            for (int k2 = 0; k2 < vert_count; k2++)
+            for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
             {
                 if (z != 0)
                 {
                     int j = cie[z];
                     int i1 = cie[z + 256];
-                    int l1 = worldVertY[k2] * j + worldVertX[k2] * i1 >> 15;
-                    worldVertY[k2] = worldVertY[k2] * i1 - worldVertX[k2] * j >> 15;
-                    worldVertX[k2] = l1;
+                    int l1 = WorldVerticeLocations[verticeIndex].Y * j + WorldVerticeLocations[verticeIndex].X * i1 >> 15;
+
+                    WorldVerticeLocations[verticeIndex].Y =
+                        WorldVerticeLocations[verticeIndex].Y * i1 -
+                        WorldVerticeLocations[verticeIndex].X * j >> 15;
+                    WorldVerticeLocations[verticeIndex].X = l1;
                 }
+
                 if (x != 0)
                 {
                     int k = cie[x];
                     int j1 = cie[x + 256];
-                    int i2 = worldVertY[k2] * j1 - worldVertZ[k2] * k >> 15;
-                    worldVertZ[k2] = worldVertY[k2] * k + worldVertZ[k2] * j1 >> 15;
-                    worldVertY[k2] = i2;
+                    int i2 =
+                        WorldVerticeLocations[verticeIndex].Y * j1 -
+                        WorldVerticeLocations[verticeIndex].Z * k >> 15;
+
+                    WorldVerticeLocations[verticeIndex].Z =
+                        WorldVerticeLocations[verticeIndex].Y * k +
+                        WorldVerticeLocations[verticeIndex].Z * j1 >> 15;
+                    WorldVerticeLocations[verticeIndex].Y = i2;
                 }
+
                 if (y != 0)
                 {
                     int l = cie[y];
                     int k1 = cie[y + 256];
-                    int j2 = worldVertZ[k2] * l + worldVertX[k2] * k1 >> 15;
-                    worldVertZ[k2] = worldVertZ[k2] * k1 - worldVertX[k2] * l >> 15;
-                    worldVertX[k2] = j2;
+                    int j2 =
+                        WorldVerticeLocations[verticeIndex].Z * l +
+                        WorldVerticeLocations[verticeIndex].X * k1 >> 15;
+
+                    WorldVerticeLocations[verticeIndex].Z =
+                        WorldVerticeLocations[verticeIndex].Z * k1 -
+                        WorldVerticeLocations[verticeIndex].X * l >> 15;
+                    WorldVerticeLocations[verticeIndex].X = j2;
                 }
             }
 
@@ -829,113 +919,104 @@ namespace RuneScapeSolo.Net.Client.Game
 
         void scaleVertices(int x, int z, int x1, int y, int z1, int y1)
         {
-            for (int j = 0; j < vert_count; j++)
+            for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
             {
                 if (x != 0)
                 {
-                    worldVertX[j] += worldVertY[j] * x >> 8;
+                    WorldVerticeLocations[verticeIndex].X += WorldVerticeLocations[verticeIndex].Y * x >> 8;
                 }
 
                 if (z != 0)
                 {
-                    worldVertZ[j] += worldVertY[j] * z >> 8;
+                    WorldVerticeLocations[verticeIndex].Z += WorldVerticeLocations[verticeIndex].Y * z >> 8;
                 }
 
                 if (x1 != 0)
                 {
-                    worldVertX[j] += worldVertZ[j] * x1 >> 8;
+                    WorldVerticeLocations[verticeIndex].X += WorldVerticeLocations[verticeIndex].Z * x1 >> 8;
                 }
 
                 if (y != 0)
                 {
-                    worldVertY[j] += worldVertZ[j] * y >> 8;
+                    WorldVerticeLocations[verticeIndex].Y += WorldVerticeLocations[verticeIndex].Z * y >> 8;
                 }
 
                 if (z1 != 0)
                 {
-                    worldVertZ[j] += worldVertX[j] * z1 >> 8;
+                    WorldVerticeLocations[verticeIndex].Z += WorldVerticeLocations[verticeIndex].X * z1 >> 8;
                 }
 
                 if (y1 != 0)
                 {
-                    worldVertY[j] += worldVertX[j] * y1 >> 8;
+                    WorldVerticeLocations[verticeIndex].Y += WorldVerticeLocations[verticeIndex].X * y1 >> 8;
                 }
             }
         }
 
-        /// <summary>
-        /// Scales the vertices.
-        /// </summary>
-        /// <param name="x">The X coordinate.</param>
-        /// <param name="y">The Y coordinate.</param>
-        /// <param name="z">The Z coordinate.</param>
-        void ScaleVertices(int x, int y, int z)
+        void ScaleVertices(Point3D scale)
         {
-            for (int i = 0; i < vert_count; i++)
+            for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
             {
-                worldVertX[i] = worldVertX[i] * x >> 8;
-                worldVertY[i] = worldVertY[i] * y >> 8;
-                worldVertZ[i] = worldVertZ[i] * z >> 8;
+                WorldVerticeLocations[verticeIndex].X = WorldVerticeLocations[verticeIndex].X * scale.X >> 8;
+                WorldVerticeLocations[verticeIndex].Y = WorldVerticeLocations[verticeIndex].Y * scale.Y >> 8;
+                WorldVerticeLocations[verticeIndex].Z = WorldVerticeLocations[verticeIndex].Z * scale.Z >> 8;
             }
         }
 
         void calculateObjectBounds()
         {
-            boundsMinX = boundsMinY = boundsMinZ = 0xf423f;
-            distVar = boundsMaxX = boundsMaxY = boundsMaxZ = -boundsMinX/*unchecked((int)0xfff0bdc1)*/;
-            for (int j = 0; j < face_count; j++)
+            minimumBounds = new Point3D(0xf423f, 0xf423f, 0xf423f);
+            distVar = -minimumBounds.X;
+            maximumBounds = new Point3D(distVar, distVar, distVar);
+
+            for (int faceIndex = 0; faceIndex < face_count; faceIndex++)
             {
-                int[] ai = face_vertices[j];
+                int[] ai = face_vertices[faceIndex];
                 int l = ai[0];
-                int j1 = face_vertices_count[j];
+                int j1 = face_vertices_count[faceIndex];
                 int minX;
-                int maxX = minX = worldVertX[l];
+                int maxX = minX = WorldVerticeLocations[l].X;
                 int minY;
-                int maxY = minY = worldVertY[l];
+                int maxY = minY = WorldVerticeLocations[l].Y;
                 int minZ;
-                int maxZ = minZ = worldVertZ[l];
+                int maxZ = minZ = WorldVerticeLocations[l].Z;
+
                 for (int k = 0; k < j1; k++)
                 {
                     int i1 = ai[k];
-                    if (worldVertX[i1] < minX)
+
+                    if (WorldVerticeLocations[i1].X < minX)
                     {
-                        minX = worldVertX[i1];
+                        minX = WorldVerticeLocations[i1].X;
                     }
-                    else
-                        if (worldVertX[i1] > maxX)
+                    else if (WorldVerticeLocations[i1].X > maxX)
                     {
-                        maxX = worldVertX[i1];
+                        maxX = WorldVerticeLocations[i1].X;
                     }
 
-                    if (worldVertY[i1] < minY)
+                    if (WorldVerticeLocations[i1].Y < minY)
                     {
-                        minY = worldVertY[i1];
+                        minY = WorldVerticeLocations[i1].Y;
                     }
-                    else
-                        if (worldVertY[i1] > maxY)
+                    else if (WorldVerticeLocations[i1].Y > maxY)
                     {
-                        maxY = worldVertY[i1];
+                        maxY = WorldVerticeLocations[i1].Y;
                     }
 
-                    if (worldVertZ[i1] < minZ)
+                    if (WorldVerticeLocations[i1].Z < minZ)
                     {
-                        minZ = worldVertZ[i1];
+                        minZ = WorldVerticeLocations[i1].Z;
                     }
-                    else
-                        if (worldVertZ[i1] > maxZ)
+                    else if (WorldVerticeLocations[i1].Z > maxZ)
                     {
-                        maxZ = worldVertZ[i1];
+                        maxZ = WorldVerticeLocations[i1].Z;
                     }
                 }
 
                 if (!noCollider)
                 {
-                    faceBoundsMinX[j] = minX;
-                    faceBoundsMaxX[j] = maxX;
-                    faceBoundsMinY[j] = minY;
-                    faceBoundsMaxY[j] = maxY;
-                    faceBoundsMinZ[j] = minZ;
-                    faceBoundsMaxZ[j] = maxZ;
+                    minimumFaceBounds[faceIndex] = new Point3D(minX, minY, minZ);
+                    maximumFaceBounds[faceIndex] = new Point3D(maxX, maxY, maxZ);
                 }
 
                 if (maxX - minX > distVar)
@@ -953,34 +1034,34 @@ namespace RuneScapeSolo.Net.Client.Game
                     distVar = (maxZ - minZ);
                 }
 
-                if (minX < boundsMinX)
+                if (minX < minimumBounds.X)
                 {
-                    boundsMinX = minX;
+                    minimumBounds.X = minX;
                 }
 
-                if (maxX > boundsMaxX)
+                if (maxX > maximumBounds.X)
                 {
-                    boundsMaxX = maxX;
+                    maximumBounds.X = maxX;
                 }
 
-                if (minY < boundsMinY)
+                if (minY < minimumBounds.Y)
                 {
-                    boundsMinY = minY;
+                    minimumBounds.Y = minY;
                 }
 
-                if (maxY > boundsMaxY)
+                if (maxY > maximumBounds.Y)
                 {
-                    boundsMaxY = maxY;
+                    maximumBounds.Y = maxY;
                 }
 
-                if (minZ < boundsMinZ)
+                if (minZ < minimumBounds.Z)
                 {
-                    boundsMinZ = minZ;
+                    minimumBounds.Z = minZ;
                 }
 
-                if (maxZ > boundsMaxZ)
+                if (maxZ > maximumBounds.Z)
                 {
-                    boundsMaxZ = maxZ;
+                    maximumBounds.Z = maxZ;
                 }
             }
 
@@ -994,11 +1075,15 @@ namespace RuneScapeSolo.Net.Client.Game
             }
 
             int j = cle * cld >> 8;
-            for (int k = 0; k < face_count; k++)
+
+            for (int faceIndex = 0; faceIndex < face_count; faceIndex++)
             {
-                if (gouraud_shade[k] != shadeValue)
+                if (gouraud_shade[faceIndex] != shadeValue)
                 {
-                    gouraud_shade[k] = (normalX[k] * cla + normalY[k] * clb + normalZ[k] * clc) / j;
+                    gouraud_shade[faceIndex] =
+                        (normalLocations[faceIndex].X * cla +
+                         normalLocations[faceIndex].Y * clb +
+                         normalLocations[faceIndex].Z * clc) / j;
                 }
             }
 
@@ -1014,27 +1099,29 @@ namespace RuneScapeSolo.Net.Client.Game
                 ai3[l] = 0;
             }
 
-            for (int i1 = 0; i1 < face_count; i1++)
+            for (int faceIndex = 0; faceIndex < face_count; faceIndex++)
             {
-                if (gouraud_shade[i1] == shadeValue)
+                if (gouraud_shade[faceIndex] == shadeValue)
                 {
-                    for (int j1 = 0; j1 < face_vertices_count[i1]; j1++)
+                    for (int faceVerticeIndex = 0; faceVerticeIndex < face_vertices_count[faceIndex]; faceVerticeIndex++)
                     {
-                        int l1 = face_vertices[i1][j1];
-                        ai[l1] += normalX[i1];
-                        ai1[l1] += normalY[i1];
-                        ai2[l1] += normalZ[i1];
+                        int l1 = face_vertices[faceIndex][faceVerticeIndex];
+                        ai[l1] += normalLocations[faceIndex].X;
+                        ai1[l1] += normalLocations[faceIndex].Y;
+                        ai2[l1] += normalLocations[faceIndex].Z;
                         ai3[l1]++;
                     }
 
                 }
             }
 
-            for (int k1 = 0; k1 < vert_count; k1++)
+            for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
             {
-                if (ai3[k1] > 0)
+                if (ai3[verticeIndex] > 0)
                 {
-                    cfn[k1] = (ai[k1] * cla + ai1[k1] * clb + ai2[k1] * clc) / (j * ai3[k1]);
+                    cfn[verticeIndex] =
+                        (ai[verticeIndex] * cla + ai1[verticeIndex] * clb + ai2[verticeIndex] * clc) /
+                        (j * ai3[verticeIndex]);
                 }
             }
         }
@@ -1049,15 +1136,15 @@ namespace RuneScapeSolo.Net.Client.Game
             for (int j = 0; j < face_count; j++)
             {
                 int[] ai = face_vertices[j];
-                int k = worldVertX[ai[0]];
-                int l = worldVertY[ai[0]];
-                int i1 = worldVertZ[ai[0]];
-                int j1 = worldVertX[ai[1]] - k;
-                int k1 = worldVertY[ai[1]] - l;
-                int l1 = worldVertZ[ai[1]] - i1;
-                int i2 = worldVertX[ai[2]] - k;
-                int j2 = worldVertY[ai[2]] - l;
-                int k2 = worldVertZ[ai[2]] - i1;
+                int k = WorldVerticeLocations[ai[0]].X;
+                int l = WorldVerticeLocations[ai[0]].Y;
+                int i1 = WorldVerticeLocations[ai[0]].Z;
+                int j1 = WorldVerticeLocations[ai[1]].X - k;
+                int k1 = WorldVerticeLocations[ai[1]].Y - l;
+                int l1 = WorldVerticeLocations[ai[1]].Z - i1;
+                int i2 = WorldVerticeLocations[ai[2]].X - k;
+                int j2 = WorldVerticeLocations[ai[2]].Y - l;
+                int k2 = WorldVerticeLocations[ai[2]].Z - i1;
 
                 int xDistance = k1 * k2 - j2 * l1;
                 int yDistance = l1 * i2 - k2 * j1;
@@ -1075,9 +1162,11 @@ namespace RuneScapeSolo.Net.Client.Game
                     k3 = 1;
                 }
 
-                normalX[j] = (xDistance * 0x10000) / k3;
-                normalY[j] = (yDistance * 0x10000) / k3;
-                normalZ[j] = (j3 * 65535) / k3;
+                normalLocations[j] = new Point3D(
+                    (xDistance * 0x10000) / k3,
+                    (yDistance * 0x10000) / k3,
+                    (j3 * 65535) / k3);
+
                 cgh[j] = -1;
             }
 
@@ -1089,36 +1178,36 @@ namespace RuneScapeSolo.Net.Client.Game
             if (objectState == 2)
             {
                 objectState = 0;
-                for (int j = 0; j < vert_count; j++)
+
+                for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
                 {
-                    worldVertX[j] = vert_x[j];
-                    worldVertY[j] = vert_y[j];
-                    worldVertZ[j] = vert_z[j];
+                    WorldVerticeLocations[verticeIndex] = verticeLocations[verticeIndex];
                 }
 
 
-                distVar = boundsMaxX = boundsMaxY = boundsMaxZ = 0x98967f;
-                boundsMinX = boundsMinY = boundsMinZ = -boundsMaxZ/*unchecked((int)0xff676981)*/;
+                distVar = maximumBounds.X = maximumBounds.Y = maximumBounds.Z = 0x98967f;
+                minimumBounds.X = minimumBounds.Y = minimumBounds.Z = -maximumBounds.Z/*unchecked((int)0xff676981)*/;
                 return;
             }
+
             if (objectState == 1)
             {
                 objectState = 0;
-                for (int k = 0; k < vert_count; k++)
+
+                for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
                 {
-                    worldVertX[k] = vert_x[k];
-                    worldVertY[k] = vert_y[k];
-                    worldVertZ[k] = vert_z[k];
+                    WorldVerticeLocations[verticeIndex] = verticeLocations[verticeIndex];
                 }
 
                 if (ckm >= 2)
                 {
-                    rotate(rotationX, rotationY, rotationZ);
+                    rotate(rotation.X, rotation.Y, rotation.Z);
                 }
 
                 if (ckm >= 3)
                 {
-                    ScaleVertices(ckd, cke, ckf);
+                    Point3D scale = new Point3D(ckd, cke, ckf);
+                    ScaleVertices(scale);
                 }
 
                 if (ckm >= 4)
@@ -1128,7 +1217,7 @@ namespace RuneScapeSolo.Net.Client.Game
 
                 if (ckm >= 1)
                 {
-                    OffsetWorldVertices(positionX, positionY, positionZ);
+                    OffsetWorldVertices(location);
                 }
 
                 calculateObjectBounds();
@@ -1140,12 +1229,12 @@ namespace RuneScapeSolo.Net.Client.Game
         {
             UpdateWorldTransformation();
 
-            if (boundsMinX > Camera.FarLocation.X ||
-                boundsMaxX < Camera.NearLocation.X ||
-                boundsMinY > Camera.FarLocation.Y ||
-                boundsMaxY < Camera.NearLocation.Y ||
-                boundsMinZ > Camera.FarLocation.Z ||
-                boundsMaxZ < Camera.NearLocation.Z)
+            if (minimumBounds.X > Camera.FarLocation.X ||
+                maximumBounds.X < Camera.NearLocation.X ||
+                minimumBounds.Y > Camera.FarLocation.Y ||
+                maximumBounds.Y < Camera.NearLocation.Y ||
+                minimumBounds.Z > Camera.FarLocation.Z ||
+                maximumBounds.Z < Camera.NearLocation.Z)
             {
                 visible = false;
                 return;
@@ -1158,26 +1247,30 @@ namespace RuneScapeSolo.Net.Client.Game
             int l1 = 0;
             int i2 = 0;
             int j2 = 0;
+
             if (arg5 != 0)
             {
                 i1 = cif[arg5];
                 j1 = cif[arg5 + 1024];
             }
+
             if (arg4 != 0)
             {
                 i2 = cif[arg4];
                 j2 = cif[arg4 + 1024];
             }
+
             if (arg3 != 0)
             {
                 k1 = cif[arg3];
                 l1 = cif[arg3 + 1024];
             }
-            for (int k2 = 0; k2 < vert_count; k2++)
+
+            for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
             {
-                int l2 = worldVertX[k2] - loc.X;
-                int i3 = worldVertY[k2] - loc.Y;
-                int j3 = worldVertZ[k2] - loc.Z;
+                int l2 = WorldVerticeLocations[verticeIndex].X - loc.X;
+                int i3 = WorldVerticeLocations[verticeIndex].Y - loc.Y;
+                int j3 = WorldVerticeLocations[verticeIndex].Z - loc.Z;
 
                 if (arg5 != 0)
                 {
@@ -1199,40 +1292,39 @@ namespace RuneScapeSolo.Net.Client.Game
                 }
                 if (j3 >= arg7)
                 {
-                    cfl[k2] = (l2 << arg6) / j3;
+                    cfl[verticeIndex] = (l2 << arg6) / j3;
                 }
                 else
                 {
-                    cfl[k2] = l2 << arg6;
+                    cfl[verticeIndex] = l2 << arg6;
                 }
 
                 if (j3 >= arg7)
                 {
-                    cfm[k2] = (i3 << arg6) / j3;
+                    cfm[verticeIndex] = (i3 << arg6) / j3;
                 }
                 else
                 {
-                    cfm[k2] = i3 << arg6;
+                    cfm[verticeIndex] = i3 << arg6;
                 }
 
-                vertX[k2] = l2;
-                vertY[k2] = i3;
-                vertZ[k2] = j3;
+                vertX[verticeIndex] = l2;
+                vertY[verticeIndex] = i3;
+                vertZ[verticeIndex] = j3;
             }
         }
 
         public void cni()
         {
             UpdateWorldTransformation();
-            for (int j = 0; j < vert_count; j++)
+
+            for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
             {
-                vert_x[j] = worldVertX[j];
-                vert_y[j] = worldVertY[j];
-                vert_z[j] = worldVertZ[j];
+                verticeLocations[verticeIndex] = WorldVerticeLocations[verticeIndex];
             }
 
-            positionX = positionY = positionZ = 0;
-            rotationX = rotationY = rotationZ = 0;
+            location.X = location.Y = location.Z = 0;
+            rotation.X = rotation.Y = rotation.Z = 0;
             ckd = cke = ckf = 256;
             ckg = ckh = cki = ckj = ckk = ckl = 256;
             ckm = 0;
@@ -1259,12 +1351,9 @@ namespace RuneScapeSolo.Net.Client.Game
 
         public void CopyTranslation(ObjectModel j)
         {
-            rotationX = j.rotationX;
-            rotationY = j.rotationY;
-            rotationZ = j.rotationZ;
-            positionX = j.positionX;
-            positionY = j.positionY;
-            positionZ = j.positionZ;
+            rotation = j.rotation;
+            location = j.location;
+
             cmm();
             objectState = 1;
         }
@@ -1304,18 +1393,9 @@ namespace RuneScapeSolo.Net.Client.Game
         public int[] cgg;
         public int[] cgh;
         public int[] gouraud_shade;
-        public int[] normalX;
-        public int[] normalY;
-        public int[] normalZ;
         public int cgm;
         public int objectState;
         public bool visible;
-        public int boundsMinX;
-        public int boundsMaxX;
-        public int boundsMinY;
-        public int boundsMaxY;
-        public int boundsMinZ;
-        public int boundsMaxZ;
         public bool chh;
         public bool chi;
         public bool isGiantCrystal;
@@ -1333,29 +1413,11 @@ namespace RuneScapeSolo.Net.Client.Game
         static int[] cih;
         int shadeValue;
         public int totalVerticeCount;
-        public int[] vert_x;
-        public int[] vert_y;
-        public int[] vert_z;
 
         public Vector3[] _vertices;
 
-        public int[] worldVertX;
-        public int[] worldVertY;
-        public int[] worldVertZ;
         int totalFaceCount;
         int[][] cje;
-        int[] faceBoundsMinX;
-        int[] faceBoundsMaxX;
-        int[] faceBoundsMinY;
-        int[] faceBoundsMaxY;
-        int[] faceBoundsMinZ;
-        int[] faceBoundsMaxZ;
-        int positionX;
-        int positionY;
-        int positionZ;
-        int rotationX;
-        int rotationY;
-        int rotationZ;
         int ckd;
         int cke;
         int ckf;
@@ -1374,59 +1436,5 @@ namespace RuneScapeSolo.Net.Client.Game
         public int cle;
         public int clf;
         int clg;
-
-        static ObjectModel()
-        {
-            cie = new int[512];
-            cif = new int[2048];
-            cig = new int[64];
-            cih = new int[256];
-            for (int j = 0; j < 256; j++)
-            {
-                cie[j] = (int)(Math.Sin(j * 0.02454369D) * 32768D);
-                cie[j + 256] = (int)(Math.Cos(j * 0.02454369D) * 32768D);
-            }
-
-            for (int k = 0; k < 1024; k++)
-            {
-                cif[k] = (int)(Math.Sin(k * 0.00613592315D) * 32768D);
-                cif[k + 1024] = (int)(Math.Cos(k * 0.00613592315D) * 32768D);
-            }
-
-            for (int l = 0; l < 10; l++)
-            {
-                cig[l] = (byte)(48 + l);
-            }
-
-            for (int i1 = 0; i1 < 26; i1++)
-            {
-                cig[i1 + 10] = (byte)(65 + i1);
-            }
-
-            for (int j1 = 0; j1 < 26; j1++)
-            {
-                cig[j1 + 36] = (byte)(97 + j1);
-            }
-
-            cig[62] = -93;
-            cig[63] = 36;
-            for (int k1 = 0; k1 < 10; k1++)
-            {
-                cih[48 + k1] = k1;
-            }
-
-            for (int l1 = 0; l1 < 26; l1++)
-            {
-                cih[65 + l1] = l1 + 10;
-            }
-
-            for (int i2 = 0; i2 < 26; i2++)
-            {
-                cih[97 + i2] = i2 + 36;
-            }
-
-            cih[163] = 62;
-            cih[36] = 63;
-        }
     }
 }

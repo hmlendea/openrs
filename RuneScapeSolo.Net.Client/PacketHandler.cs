@@ -398,15 +398,18 @@ namespace RuneScapeSolo.Net.Client
 #warning object not being added to camera.
                         client.gameCamera.addModel(gameObject);
 
+                        Point3D off = new Point3D(0, rotation * 32, 0);
                         gameObject.index = client.ObjectCount;
-                        gameObject.offsetMiniPosition(0, rotation * 32, 0);
-                        gameObject.offsetPosition(l40, -client.engineHandle.getAveragedElevation(l40, k42), k42);
+                        gameObject.offsetMiniPosition(off);
+                        off = new Point3D(l40, -client.engineHandle.getAveragedElevation(l40, k42), k42);
+                        gameObject.offsetLocation(off);
                         gameObject.UpdateShading(true, 48, 48, -50, -10, -50);
                         client.engineHandle.createObject(newSectionLocation.X, newSectionLocation.Y, index, rotation);
 
                         if (index == 74)
                         {
-                            gameObject.offsetPosition(0, -480, 0);
+                            off = new Point3D(0, -480, 0);
+                            gameObject.offsetLocation(off);
                         }
 
                         client.ObjectLocations[client.ObjectCount] = newSectionLocation;
@@ -775,7 +778,7 @@ namespace RuneScapeSolo.Net.Client
 
             client.LayerIndex = DataOperations.GetInt16(data, 7);
             client.LayerModifier = DataOperations.GetInt16(data, 9);
-            
+
             client.WildLocation = new Point2D(
                 client.WildLocation.X,
                 client.WildLocation.Y - client.LayerIndex * client.LayerModifier);
@@ -1452,7 +1455,7 @@ namespace RuneScapeSolo.Net.Client
                     Point2D newSectionLocation = new Point2D(
                         client.SectionLocation.X + data[offset++],
                         client.SectionLocation.Y + data[offset++]);
-                
+
                     sbyte direction = data[offset++];
                     int newCount = 0;
 
