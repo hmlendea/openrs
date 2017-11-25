@@ -20,6 +20,7 @@ namespace RuneScapeSolo.GameLogic.Mapping
         {
             Prayer prayer = new Prayer
             {
+                Id = prayerEntity.Id,
                 Name = prayerEntity.Name,
                 Description = prayerEntity.Description,
                 RequiredLevel = prayerEntity.RequiredLevel,
@@ -38,6 +39,7 @@ namespace RuneScapeSolo.GameLogic.Mapping
         {
             PrayerEntity prayerEntity = new PrayerEntity
             {
+                Id = prayer.Id,
                 Name = prayer.Name,
                 Description = prayer.Description,
                 RequiredLevel = prayer.RequiredLevel,

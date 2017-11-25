@@ -20,6 +20,7 @@ namespace RuneScapeSolo.GameLogic.Mapping
         {
             Spell spell = new Spell
             {
+                Id = spellEntity.Id,
                 Name = spellEntity.Name,
                 Description = spellEntity.Description,
                 RequiredLevel = spellEntity.RequiredLevel,
@@ -42,6 +43,7 @@ namespace RuneScapeSolo.GameLogic.Mapping
         {
             SpellEntity spellEntity = new SpellEntity
             {
+                Id = spell.Id,
                 Name = spell.Name,
                 Description = spell.Description,
                 RequiredLevel = spell.RequiredLevel,
