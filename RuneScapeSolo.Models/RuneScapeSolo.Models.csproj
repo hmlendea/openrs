@@ -56,6 +56,7 @@
     <Compile Include="Skill.cs" />
     <Compile Include="Quest.cs" />
     <Compile Include="WorldTile.cs" />
+    <Compile Include="WalkPath.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuneScapeSolo.Primitives\RuneScapeSolo.Primitives.csproj">
