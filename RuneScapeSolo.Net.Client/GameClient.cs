@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 using RuneScapeSolo.GameLogic.GameManagers;
+using RuneScapeSolo.Infrastructure;
 using RuneScapeSolo.Input;
 using RuneScapeSolo.Models;
 using RuneScapeSolo.Models.Enumerations;

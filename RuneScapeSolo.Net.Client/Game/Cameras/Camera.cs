@@ -1,5 +1,6 @@
 using System;
 
+using RuneScapeSolo.Infrastructure;
 using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Net.Client.Game.Cameras

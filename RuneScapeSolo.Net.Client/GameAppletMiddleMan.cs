@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Numerics;
 using System.Threading;
 
+using RuneScapeSolo.Infrastructure;
 using RuneScapeSolo.Net.Client.Data;
 using RuneScapeSolo.Net.Client.Net;
 using RuneScapeSolo.Net.Enumerations;
@@ -253,7 +254,7 @@ namespace RuneScapeSolo.Net.Client
 
         protected void SendPing()
         {
-            long time = CurrentTimeMillis();
+            long time = Helper.CurrentTimeMillis();
 
             if (StreamClass.HasData)
             {

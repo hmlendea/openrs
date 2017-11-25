@@ -1,9 +1,11 @@
 ﻿using System;
 
-namespace RuneScapeSolo.Net.Client
+namespace RuneScapeSolo.Infrastructure
 {
     public static class Helper
     {
+        static readonly DateTime Jan1st1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
         static Random rnd;
 
         public static Random Random
@@ -17,6 +19,11 @@ namespace RuneScapeSolo.Net.Client
 
                 return rnd;
             }
+        }
+
+        public static long CurrentTimeMillis()
+        {
+            return (long)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds;
         }
     }
 }

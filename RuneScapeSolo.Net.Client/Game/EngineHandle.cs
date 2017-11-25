@@ -2,6 +2,7 @@ using System;
 using System.IO;
 
 using RuneScapeSolo.GameLogic.GameManagers;
+using RuneScapeSolo.Infrastructure;
 using RuneScapeSolo.Models;
 using RuneScapeSolo.Net.Client.Game.Cameras;
 using RuneScapeSolo.Net.Client.Data;

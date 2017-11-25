@@ -6,6 +6,7 @@ using System.Threading;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using RuneScapeSolo.Infrastructure;
 using RuneScapeSolo.Net.Client.Data;
 using RuneScapeSolo.Net.Client.Game;
 
@@ -205,7 +206,7 @@ namespace RuneScapeSolo.Net.Client
 
             for (int k1 = 0; k1 < 10; k1++)
             {
-                timeArray[k1] = CurrentTimeMillis();
+                timeArray[k1] = Helper.CurrentTimeMillis();
             }
 
             while (runStatus >= 0)
@@ -213,6 +214,7 @@ namespace RuneScapeSolo.Net.Client
                 UpdateGame(gameVar_i, gameVar_k, gameVar_sleepTime, gameVar_j1);
                 OnDrawDone();
             }
+
             if (runStatus == -1)
             {
                 CloseProgram();
@@ -249,7 +251,7 @@ namespace RuneScapeSolo.Net.Client
             int j2 = sleepTime;
             k = 300;
             sleepTime = 1;
-            long l1 = CurrentTimeMillis();
+            long l1 = Helper.CurrentTimeMillis();
             if (timeArray[i] == 0L)
             {
                 k = i2;
@@ -470,13 +472,6 @@ namespace RuneScapeSolo.Net.Client
             gameLoadingScreen = 1;
             gameLoadingFileTitle = "Loading";
             gameMinThreadSleepTime = 1;
-        }
-
-        static readonly DateTime Jan1st1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
-        public static long CurrentTimeMillis()
-        {
-            return (long)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds;
         }
 
         int appletWidth;

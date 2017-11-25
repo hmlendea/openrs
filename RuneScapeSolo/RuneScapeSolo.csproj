@@ -113,6 +113,10 @@
       <Project>{15ADC7F5-15E0-44C6-BCA4-407DF4815A95}</Project>
       <Name>RuneScapeSolo.Net</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RuneScapeSolo.Infrastructure\RuneScapeSolo.Infrastructure.csproj">
+      <Project>{A498B100-9B60-48F7-A2FB-2E6D214E520C}</Project>
+      <Name>RuneScapeSolo.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
