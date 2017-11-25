@@ -4,7 +4,7 @@ using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Net.Client.Game.Cameras
 {
-    public class Camera // : org.moparscape.msc.client.Camera
+    public class Camera
     {
         public static Point3D NearLocation { get; set; }
         public static Point3D FarLocation { get; set; }
@@ -13,9 +13,8 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
 
         Point3D viewLocation;
         Point3D[] sceneObjectLocations;
-        
+
         public Camera(GraphicsEngine gameimage, int maxObjects, int maxVisibleObjects, int maxSceneObjects)
-        //: base(models, start, x, x)
         {
             NearLocation = new Point3D();
             FarLocation = new Point3D();
@@ -24,7 +23,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
 
             viewLocation = Point3D.Empty;
             sceneObjectLocations = new Point3D[maxSceneObjects];
-            
+
             bba = 50;
             bbb = new int[bba];
             bbc = new int[bba][];
@@ -3049,7 +3048,7 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
                 yOffset = yOffset * k4 - xOffset * l3 >> 15;
                 xOffset = j5;
             }
-            
+
             viewLocation = new Point3D(
                 location.X - xOffset,
                 location.Y - yOffset,
@@ -3637,16 +3636,16 @@ namespace RuneScapeSolo.Net.Client.Game.Cameras
             }
         }
 
-        public void bjk(int arg0, int arg1, int arg2)
+        public void bjk(Point3D point)
         {
-            if (arg0 == 0 && arg1 == 0 && arg2 == 0)
+            if (point == Point3D.Empty)
             {
-                arg0 = 32;
+                point.X = 32;
             }
 
-            for (int k = 0; k < currentObjectCount; k++)
+            for (int objectIndex = 0; objectIndex < currentObjectCount; objectIndex++)
             {
-                objectCache[k].cmg(arg0, arg1, arg2);
+                objectCache[objectIndex].cmg(point);
             }
         }
 

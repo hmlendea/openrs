@@ -19,6 +19,7 @@ namespace RuneScapeSolo.Net.Client.Game
         Point3D rotation;
         Point3D minimumBounds;
         Point3D maximumBounds;
+        Point3D shadingUnknown;
 
         static ObjectModel()
         {
@@ -89,9 +90,7 @@ namespace RuneScapeSolo.Net.Client.Game
             cid = false;
             shadeValue = 0xbc614e;
             distVar = 0xbc614e;
-            cla = 180;
-            clb = 155;
-            clc = 95;
+            shadingUnknown = new Point3D(180, 155, 95);
             cld = 256;
             cle = 512;
             clf = 32;
@@ -120,9 +119,7 @@ namespace RuneScapeSolo.Net.Client.Game
             cid = false;
             shadeValue = 0xbc614e;
             distVar = 0xbc614e;
-            cla = 180;
-            clb = 155;
-            clc = 95;
+            shadingUnknown = new Point3D(180, 155, 95);
             cld = 256;
             cle = 512;
             clf = 32;
@@ -268,9 +265,7 @@ namespace RuneScapeSolo.Net.Client.Game
             cid = false;
             shadeValue = 0xbc614e;
             distVar = 0xbc614e;
-            cla = 180;
-            clb = 155;
-            clc = 95;
+            shadingUnknown = new Point3D(180, 155, 95);
             cld = 256;
             cle = 512;
             clf = 32;
@@ -379,9 +374,7 @@ namespace RuneScapeSolo.Net.Client.Game
             cid = false;
             shadeValue = 0xbc614e;
             distVar = 0xbc614e;
-            cla = 180;
-            clb = 155;
-            clc = 95;
+            shadingUnknown = new Point3D(180, 155, 95);
             cld = 256;
             cle = 512;
             clf = 32;
@@ -482,9 +475,7 @@ namespace RuneScapeSolo.Net.Client.Game
             cid = false;
             shadeValue = 0xbc614e;
             distVar = 0xbc614e;
-            cla = 180;
-            clb = 155;
-            clc = 95;
+            shadingUnknown = new Point3D(180, 155, 95);
             cld = 256;
             cle = 512;
             clf = 32;
@@ -511,9 +502,7 @@ namespace RuneScapeSolo.Net.Client.Game
             cid = false;
             shadeValue = 0xbc614e;
             distVar = 0xbc614e;
-            cla = 180;
-            clb = 155;
-            clc = 95;
+            shadingUnknown = new Point3D(180, 155, 95);
             cld = 256;
             cle = 512;
             clf = 32;
@@ -542,9 +531,7 @@ namespace RuneScapeSolo.Net.Client.Game
                 j1.cni();
                 clf = j1.clf;
                 cle = j1.cle;
-                cla = j1.cla;
-                clb = j1.clb;
-                clc = j1.clc;
+                shadingUnknown = j1.shadingUnknown;
                 cld = j1.cld;
                 for (int k1 = 0; k1 < j1.face_count; k1++)
                 {
@@ -726,10 +713,11 @@ namespace RuneScapeSolo.Net.Client.Game
             arg0.cgg[l] = cgg[entityTypeIndex];
         }
 
-        public void UpdateShading(bool setShadeValue, int arg1, int arg2, int x, int y, int z)
+        public void UpdateShading(bool setShadeValue, int arg1, int arg2, Point3D point)
         {
             clf = 256 - arg1 * 4;
             cle = (64 - arg2) * 16 + 128;
+
             if (dontRecieveShadows)
             {
                 return;
@@ -747,15 +735,14 @@ namespace RuneScapeSolo.Net.Client.Game
                 }
             }
 
-            cla = x;
-            clb = y;
-            clc = z;
+            shadingUnknown = point;
+
             // Calculate magnitude (length) of input vector
-            cld = (int)Math.Sqrt(x * x + y * y + z * z);
+            cld = (int)Math.Sqrt(point.X * point.X + point.Y * point.Y + point.Z * point.Z);
             normalize();
         }
 
-        public void cmf(int j, int k, Point3D location)
+        public void cmf(int j, int k, Point3D point)
         {
             clf = 256 - j * 4;
             cle = (64 - k) * 16 + 128;
@@ -764,35 +751,28 @@ namespace RuneScapeSolo.Net.Client.Game
             {
                 return;
             }
-            else
-            {
-                cla = location.X;
-                clb = location.Y;
-                clc = location.Z;
 
-                cld = (int)Math.Sqrt(location.X ^ 2 + location.Y ^ 2 + location.Z ^ 2);
-                normalize();
+            shadingUnknown = point;
 
-                return;
-            }
+            cld = (int)Math.Sqrt(point.X * point.X + point.Y * point.Y + point.Z * point.Z);
+            normalize();
+
+            return;
         }
 
-        public void cmg(int x, int y, int z)
+        public void cmg(Point3D point)
         {
             if (dontRecieveShadows)
             {
                 return;
             }
-            else
-            {
-                cla = x;
-                clb = y;
-                clc = z;
-                // normalized value?
-                cld = (int)Math.Sqrt(x * x + y * y + z * z);
-                normalize();
-                return;
-            }
+
+            shadingUnknown = point;
+
+            // normalized value?
+            cld = (int)Math.Sqrt(point.X * point.X + point.Y * point.Y + point.Z * point.Z);
+            normalize();
+            return;
         }
 
         public void SetVertexColor(int vertIndex, int value)
@@ -870,14 +850,14 @@ namespace RuneScapeSolo.Net.Client.Game
             }
         }
 
-        void rotate(int x, int y, int z)
+        void rotate(Point3D rotationPoint)
         {
             for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
             {
-                if (z != 0)
+                if (rotationPoint.Z != 0)
                 {
-                    int j = cie[z];
-                    int i1 = cie[z + 256];
+                    int j = cie[rotationPoint.Z];
+                    int i1 = cie[rotationPoint.Z + 256];
                     int l1 = WorldVerticeLocations[verticeIndex].Y * j + WorldVerticeLocations[verticeIndex].X * i1 >> 15;
 
                     WorldVerticeLocations[verticeIndex].Y =
@@ -886,10 +866,10 @@ namespace RuneScapeSolo.Net.Client.Game
                     WorldVerticeLocations[verticeIndex].X = l1;
                 }
 
-                if (x != 0)
+                if (rotationPoint.X != 0)
                 {
-                    int k = cie[x];
-                    int j1 = cie[x + 256];
+                    int k = cie[rotationPoint.X];
+                    int j1 = cie[rotationPoint.X + 256];
                     int i2 =
                         WorldVerticeLocations[verticeIndex].Y * j1 -
                         WorldVerticeLocations[verticeIndex].Z * k >> 15;
@@ -900,10 +880,10 @@ namespace RuneScapeSolo.Net.Client.Game
                     WorldVerticeLocations[verticeIndex].Y = i2;
                 }
 
-                if (y != 0)
+                if (rotationPoint.Y != 0)
                 {
-                    int l = cie[y];
-                    int k1 = cie[y + 256];
+                    int l = cie[rotationPoint.Y];
+                    int k1 = cie[rotationPoint.Y + 256];
                     int j2 =
                         WorldVerticeLocations[verticeIndex].Z * l +
                         WorldVerticeLocations[verticeIndex].X * k1 >> 15;
@@ -914,7 +894,6 @@ namespace RuneScapeSolo.Net.Client.Game
                     WorldVerticeLocations[verticeIndex].X = j2;
                 }
             }
-
         }
 
         void scaleVertices(int x, int z, int x1, int y, int z1, int y1)
@@ -1081,37 +1060,34 @@ namespace RuneScapeSolo.Net.Client.Game
                 if (gouraud_shade[faceIndex] != shadeValue)
                 {
                     gouraud_shade[faceIndex] =
-                        (normalLocations[faceIndex].X * cla +
-                         normalLocations[faceIndex].Y * clb +
-                         normalLocations[faceIndex].Z * clc) / j;
+                        (normalLocations[faceIndex].X * shadingUnknown.X +
+                         normalLocations[faceIndex].Y * shadingUnknown.Y +
+                         normalLocations[faceIndex].Z * shadingUnknown.Z) / j;
                 }
             }
 
-            int[] ai = new int[vert_count];
-            int[] ai1 = new int[vert_count];
-            int[] ai2 = new int[vert_count];
+            Point3D[] unknownPoint = new Point3D[vert_count];
             int[] ai3 = new int[vert_count];
-            for (int l = 0; l < vert_count; l++)
+
+            for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
             {
-                ai[l] = 0;
-                ai1[l] = 0;
-                ai2[l] = 0;
-                ai3[l] = 0;
+                unknownPoint[verticeIndex] = Point3D.Empty;
+                ai3[verticeIndex] = 0;
             }
 
             for (int faceIndex = 0; faceIndex < face_count; faceIndex++)
             {
-                if (gouraud_shade[faceIndex] == shadeValue)
+                if (gouraud_shade[faceIndex] != shadeValue)
                 {
-                    for (int faceVerticeIndex = 0; faceVerticeIndex < face_vertices_count[faceIndex]; faceVerticeIndex++)
-                    {
-                        int l1 = face_vertices[faceIndex][faceVerticeIndex];
-                        ai[l1] += normalLocations[faceIndex].X;
-                        ai1[l1] += normalLocations[faceIndex].Y;
-                        ai2[l1] += normalLocations[faceIndex].Z;
-                        ai3[l1]++;
-                    }
+                    continue;
+                }
 
+                for (int faceVerticeIndex = 0; faceVerticeIndex < face_vertices_count[faceIndex]; faceVerticeIndex++)
+                {
+                    int l1 = face_vertices[faceIndex][faceVerticeIndex];
+
+                    unknownPoint[l1] += normalLocations[faceIndex];
+                    ai3[l1]++;
                 }
             }
 
@@ -1119,9 +1095,12 @@ namespace RuneScapeSolo.Net.Client.Game
             {
                 if (ai3[verticeIndex] > 0)
                 {
-                    cfn[verticeIndex] =
-                        (ai[verticeIndex] * cla + ai1[verticeIndex] * clb + ai2[verticeIndex] * clc) /
-                        (j * ai3[verticeIndex]);
+                    int a = (unknownPoint[verticeIndex].X * shadingUnknown.X +
+                             unknownPoint[verticeIndex].Y * shadingUnknown.Y +
+                             unknownPoint[verticeIndex].Z * shadingUnknown.Z);
+                    int b = j * ai3[verticeIndex];
+
+                    cfn[verticeIndex] = a / b;
                 }
             }
         }
@@ -1201,7 +1180,7 @@ namespace RuneScapeSolo.Net.Client.Game
 
                 if (ckm >= 2)
                 {
-                    rotate(rotation.X, rotation.Y, rotation.Z);
+                    rotate(rotation);
                 }
 
                 if (ckm >= 3)
@@ -1429,9 +1408,6 @@ namespace RuneScapeSolo.Net.Client.Game
         int ckl;
         int ckm;
         int distVar;
-        int cla;
-        int clb;
-        int clc;
         int cld;
         public int cle;
         public int clf;

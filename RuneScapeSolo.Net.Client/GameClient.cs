@@ -835,9 +835,10 @@ namespace RuneScapeSolo.Net.Client
 
                 int i2 = entityManager.GetModelIndex(modelName);
                 ObjectModel j2 = GameDataObjects[i2].CreateParent();
+                Point3D shadingPoint = new Point3D(-50, -10, -50);
 
                 gameCamera.addModel(j2);
-                j2.UpdateShading(true, 48, 48, -50, -10, -50);
+                j2.UpdateShading(true, 48, 48, shadingPoint);
                 j2.CopyTranslation(ObjectArray[objectIndex]);
                 j2.index = objectIndex;
                 ObjectArray[objectIndex] = j2;
@@ -1841,13 +1842,14 @@ namespace RuneScapeSolo.Net.Client
             }
 
             gameCamera = new Camera(gameGraphics, 15000, 15000, 1000);
+            Point3D shadingPoint = new Point3D(-50, -10, -50);
 
             gameCamera.setCameraSize(WindowSize.Width / 2, WindowSize.Height / 2, WindowSize.Width / 2, WindowSize.Height / 2, WindowSize.Width, cameraFieldOfView);
             gameCamera.zoom1 = 2400;
             gameCamera.zoom2 = 2400;
             gameCamera.zoom3 = 1;
             gameCamera.zoom4 = 2300;
-            gameCamera.bjk(-50, -10, -50);
+            gameCamera.bjk(shadingPoint);
             engineHandle = new EngineHandle(entityManager, gameCamera, gameGraphics);
             engineHandle.baseInventoryPic = baseInventoryPic;
             loadTextures();
@@ -6031,9 +6033,10 @@ namespace RuneScapeSolo.Net.Client
             // vertex index bottomRight
             int bRight = wallModel.getVertexIndex(destTileX, -engineHandle.getAveragedElevation(destTileX, destTileY), destTileY);
             int[] faceVertices = { bLeft, tLeft, tRight, bRight };
+            Point3D shadingPoint = new Point3D(-50, -10, -50);
 
             wallModel.addFaceVertices(4, faceVertices, textureBack, textureFront);
-            wallModel.UpdateShading(false, 60, 24, -50, -10, -50);
+            wallModel.UpdateShading(false, 60, 24, shadingPoint);
 
             if (location.X >= 0 &&
                 location.Y >= 0 &&

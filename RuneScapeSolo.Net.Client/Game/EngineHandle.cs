@@ -478,6 +478,7 @@ namespace RuneScapeSolo.Net.Client.Game
 
         public void loadSection(int x, int y, int height, bool freshLoad)
         {
+            Point3D shadingPoint = new Point3D(-50, -10, -50);
             int sectionX = (x + 24) / 48;
             int sectionY = (y + 24) / 48;
             loadSection(sectionX - 1, sectionY - 1, height, 0);
@@ -485,6 +486,7 @@ namespace RuneScapeSolo.Net.Client.Game
             loadSection(sectionX - 1, sectionY, height, 2);
             loadSection(sectionX, sectionY, height, 3);
             stitchAreaTileColors();
+
             if (currentSectionObject == null)
             {
                 currentSectionObject = new ObjectModel(18688, 18688, true, true, false, false, true);
@@ -818,7 +820,7 @@ namespace RuneScapeSolo.Net.Client.Game
                     }
                 }
 
-                sectionObj.UpdateShading(true, 40, 48, -50, -10, -50);
+                sectionObj.UpdateShading(true, 40, 48, shadingPoint);
                 TileChunks = currentSectionObject.getObjectsWithinArea(0, 0, 1536, 1536, 8, 64, 233, false);
 
 #warning adds all tiles
@@ -921,7 +923,7 @@ namespace RuneScapeSolo.Net.Client.Game
                 graphics.fillPicture(baseInventoryPic - 1, 0, 0, 285, 285);
             }
 
-            currentSectionObject.UpdateShading(false, 60, 24, -50, -10, -50);
+            currentSectionObject.UpdateShading(false, 60, 24, shadingPoint);
             wallObject[height] = currentSectionObject.getObjectsWithinArea(0, 0, 1536, 1536, 8, 64, 338, true);
 
 
@@ -1354,10 +1356,9 @@ namespace RuneScapeSolo.Net.Client.Game
                         }
                     }
                 }
-
             }
 
-            currentSectionObject.UpdateShading(true, 50, 50, -50, -10, -50);
+            currentSectionObject.UpdateShading(true, 50, 50, shadingPoint);
             roofObject[height] = currentSectionObject.getObjectsWithinArea(0, 0, 1536, 1536, 8, 64, 169, true);
 
 #warning wth is gih?

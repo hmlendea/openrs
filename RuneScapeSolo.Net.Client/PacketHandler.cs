@@ -403,7 +403,8 @@ namespace RuneScapeSolo.Net.Client
                         gameObject.offsetMiniPosition(off);
                         off = new Point3D(l40, -client.engineHandle.getAveragedElevation(l40, k42), k42);
                         gameObject.offsetLocation(off);
-                        gameObject.UpdateShading(true, 48, 48, -50, -10, -50);
+                        Point3D shadingPoint = new Point3D(-50, -10, -50);
+                        gameObject.UpdateShading(true, 48, 48, shadingPoint);
                         client.engineHandle.createObject(newSectionLocation.X, newSectionLocation.Y, index, rotation);
 
                         if (index == 74)
