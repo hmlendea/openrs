@@ -43,9 +43,6 @@
     <Compile Include="Data\DataFileDecrypter.cs" />
     <Compile Include="Data\DataOperations.cs" />
     <Compile Include="Data\RectangularArrays.cs" />
-    <Compile Include="Enumerations\LoginCode.cs" />
-    <Compile Include="Enumerations\MenuAction.cs" />
-    <Compile Include="Enumerations\ServerCommand.cs" />
     <Compile Include="Events\ChatMessageEvent.cs" />
     <Compile Include="Events\ContentLoadedEvent.cs" />
     <Compile Include="GameApplet.cs" />
@@ -92,6 +89,10 @@
     <ProjectReference Include="..\RuneScapeSolo.Primitives\RuneScapeSolo.Primitives.csproj">
       <Project>{395F7F7F-F89E-43F4-96F0-6A6E20016B81}</Project>
       <Name>RuneScapeSolo.Primitives</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RuneScapeSolo.Net\RuneScapeSolo.Net.csproj">
+      <Project>{15ADC7F5-15E0-44C6-BCA4-407DF4815A95}</Project>
+      <Name>RuneScapeSolo.Net</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

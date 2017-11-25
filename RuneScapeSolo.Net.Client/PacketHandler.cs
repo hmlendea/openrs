@@ -5,8 +5,8 @@ using RuneScapeSolo.GameLogic.GameManagers;
 using RuneScapeSolo.Models;
 using RuneScapeSolo.Models.Enumerations;
 using RuneScapeSolo.Net.Client.Data;
-using RuneScapeSolo.Net.Client.Enumerations;
 using RuneScapeSolo.Net.Client.Game;
+using RuneScapeSolo.Net.Enumerations;
 using RuneScapeSolo.Primitives;
 
 namespace RuneScapeSolo.Net.Client

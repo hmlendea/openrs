@@ -1,4 +1,4 @@
-﻿namespace RuneScapeSolo.Net.Client.Enumerations
+﻿namespace RuneScapeSolo.Net.Enumerations
 {
     public enum ServerCommand
     {

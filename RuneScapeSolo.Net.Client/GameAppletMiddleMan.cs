@@ -5,8 +5,8 @@ using System.Numerics;
 using System.Threading;
 
 using RuneScapeSolo.Net.Client.Data;
-using RuneScapeSolo.Net.Client.Enumerations;
 using RuneScapeSolo.Net.Client.Net;
+using RuneScapeSolo.Net.Enumerations;
 using RuneScapeSolo.Settings;
 
 namespace RuneScapeSolo.Net.Client
