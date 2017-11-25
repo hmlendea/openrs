@@ -60,6 +60,8 @@
     <Compile Include="Enumerations\CombatState.cs" />
     <Compile Include="Enumerations\AttackType.cs" />
     <Compile Include="GameEntityInstance.cs" />
+    <Compile Include="PathHandler.cs" />
+    <Compile Include="TileValue.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuneScapeSolo.Primitives\RuneScapeSolo.Primitives.csproj">

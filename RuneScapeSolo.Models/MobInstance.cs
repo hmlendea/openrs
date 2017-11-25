@@ -13,7 +13,7 @@ namespace RuneScapeSolo.Models
         int mobSprite;
         int[][] mobSprites;
         bool[] activatedPrayers;
-        // pathHandler
+        PathHandler pathHandler;
         // viewArea
 
         protected Dictionary<long, int> totalDamageTable;
@@ -62,14 +62,6 @@ namespace RuneScapeSolo.Models
 
         public bool HasAppearanceChanged { get; private set; }
 
-        public bool HasFinishedPath
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public bool HasMoved { get; set; }
 
         public bool HasSpriteChanged { get; set; }
@@ -102,6 +94,8 @@ namespace RuneScapeSolo.Models
             LastMovementTime = Helper.CurrentTimeMillis();
             activatedPrayers = new bool[14];
             LastCombatState = CombatState.Waiting;
+
+            pathHandler = new PathHandler(this);
 
             totalDamageTable = new Dictionary<long, int>();
             meleeDamageTable = new Dictionary<long, int>();
@@ -150,6 +144,11 @@ namespace RuneScapeSolo.Models
             throw new NotImplementedException();
         }
 
+        public void ResetPath()
+        {
+            pathHandler.ResetPath();
+        }
+
         public bool IsAtObject()
         {
             throw new NotImplementedException();
@@ -180,7 +179,7 @@ namespace RuneScapeSolo.Models
 
         public void UpdateLocation()
         {
-            throw new NotImplementedException();
+            pathHandler.UpdateLocation();
         }
 
         public void UpdateMovementTime()
@@ -206,9 +205,14 @@ namespace RuneScapeSolo.Models
             base.SetLocation(location);
         }
 
+        public bool FinishedPath()
+        {
+            return pathHandler.FinishedPath();
+        }
+
         public void SetPath(WalkPath path)
         {
-            throw new NotImplementedException();
+            pathHandler.SetPath(path);
         }
 
         protected void UpdateSprite(Point2D newLocation)
