@@ -56,11 +56,19 @@
     <Compile Include="Quest.cs" />
     <Compile Include="WorldTile.cs" />
     <Compile Include="WalkPath.cs" />
+    <Compile Include="MobInstance.cs" />
+    <Compile Include="Enumerations\CombatState.cs" />
+    <Compile Include="Enumerations\AttackType.cs" />
+    <Compile Include="GameEntityInstance.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RuneScapeSolo.Primitives\RuneScapeSolo.Primitives.csproj">
       <Project>{395f7f7f-f89e-43f4-96f0-6a6e20016b81}</Project>
       <Name>RuneScapeSolo.Primitives</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RuneScapeSolo.Infrastructure\RuneScapeSolo.Infrastructure.csproj">
+      <Project>{A498B100-9B60-48F7-A2FB-2E6D214E520C}</Project>
+      <Name>RuneScapeSolo.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

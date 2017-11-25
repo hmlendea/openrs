@@ -34,7 +34,6 @@
     <Compile Include="Enumerations\LoginCode.cs" />
     <Compile Include="Enumerations\MenuAction.cs" />
     <Compile Include="Enumerations\ServerCommand.cs" />
-    <Compile Include="Enumerations\CombatState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Enumerations\" />
