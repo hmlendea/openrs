@@ -105,26 +105,32 @@ namespace RuneScapeSolo.Net.Client.Game
             }
         }
 
-        public void SetTileType(int x, int y, int i1)
+        public void SetTileType(Point2D location, int i1)
         {
-            int j1 = x / 12;
-            int k1 = y / 12;
-            int l1 = (x - 1) / 12;
-            int i2 = (y - 1) / 12;
-            updateTileChunk(j1, k1, x, y, i1);
+            int j1 = location.X / 12;
+            int k1 = location.Y / 12;
+            int l1 = (location.X - 1) / 12;
+            int i2 = (location.Y - 1) / 12;
+
+            Point2D objectLocation = new Point2D(l1, k1);
+            updateTileChunk(objectLocation, location, i1);
+
             if (j1 != l1)
             {
-                updateTileChunk(l1, k1, x, y, i1);
+                objectLocation = new Point2D(l1, k1);
+                updateTileChunk(objectLocation, location, i1);
             }
 
             if (k1 != i2)
             {
-                updateTileChunk(j1, i2, x, y, i1);
+                objectLocation = new Point2D(j1, i2);
+                updateTileChunk(objectLocation, location, i1);
             }
 
             if (j1 != l1 && k1 != i2)
             {
-                updateTileChunk(l1, i2, x, y, i1);
+                objectLocation = new Point2D(l1, i2);
+                updateTileChunk(objectLocation, location, i1);
             }
         }
 
@@ -846,77 +852,96 @@ namespace RuneScapeSolo.Net.Client.Game
             {
                 for (int y1 = 0; y1 < 95; y1++)
                 {
-                    int k3 = getHorizontalWall(x1, y1);
+                    Point2D location = new Point2D(x1, y1);
+                    Point2D destination;
+
+                    int k3 = getHorizontalWall(location.X, location.Y);
+
                     if (k3 > 0 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || ghh))
                     {
-                        makeWall(currentSectionObject, k3 - 1, x1, y1, x1 + 1, y1);
+                        destination = new Point2D(location.X + 1, location.Y);
+                        makeWall(currentSectionObject, k3 - 1, location, destination);
+
                         if (freshLoad && entityManager.GetWallObject(k3 - 1).Type != 0)
                         {
-                            tiles[x1][y1] |= 1;
+                            tiles[location.X][location.Y] |= 1;
 
-                            if (y1 > 0)
+                            if (location.Y > 0)
                             {
-                                Point2D loc = new Point2D(x1, y1 - 1);
+                                Point2D loc = new Point2D(location.X, location.Y - 1);
                                 setTileType(loc, 4);
                             }
                         }
+
                         if (freshLoad)
                         {
-                            graphics.DrawHorizontalLine(x1 * 3, y1 * 3, 3, j1);
+                            graphics.DrawHorizontalLine(location.X * 3, location.Y * 3, 3, j1);
                         }
                     }
-                    k3 = getVerticalWall(x1, y1);
+
+                    k3 = getVerticalWall(location.X, location.Y);
+
                     if (k3 > 0 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || ghh))
                     {
-                        makeWall(currentSectionObject, k3 - 1, x1, y1, x1, y1 + 1);
+                        destination = new Point2D(location.X, location.Y + 1);
+                        makeWall(currentSectionObject, k3 - 1, location, destination);
+
                         if (freshLoad && entityManager.GetWallObject(k3 - 1).Type != 0)
                         {
-                            tiles[x1][y1] |= 2;
+                            tiles[location.X][location.Y] |= 2;
 
-                            if (x1 > 0)
+                            if (location.X > 0)
                             {
-                                Point2D loc = new Point2D(x1 - 1, y1);
+                                Point2D loc = new Point2D(location.X - 1, location.Y);
                                 setTileType(loc, 8);
                             }
                         }
+
                         if (freshLoad)
                         {
-                            graphics.DrawVerticalLine(x1 * 3, y1 * 3, 3, j1);
+                            graphics.DrawVerticalLine(location.X * 3, location.Y * 3, 3, j1);
                         }
                     }
-                    k3 = getDiagonalWall(x1, y1);
+
+                    k3 = getDiagonalWall(location.X, location.Y);
+
                     if (k3 > 0 && k3 < 12000 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || ghh))
                     {
-                        makeWall(currentSectionObject, k3 - 1, x1, y1, x1 + 1, y1 + 1);
+                        destination = new Point2D(location.X + 1, location.Y + 1);
+                        makeWall(currentSectionObject, k3 - 1, location, destination);
+
                         if (freshLoad && entityManager.GetWallObject(k3 - 1).Type != 0)
                         {
-                            tiles[x1][y1] |= 0x20;
+                            tiles[location.X][location.Y] |= 0x20;
                         }
 
                         if (freshLoad)
                         {
-                            graphics.DrawMinimapPixel(x1 * 3, y1 * 3, j1);
-                            graphics.DrawMinimapPixel(x1 * 3 + 1, y1 * 3 + 1, j1);
-                            graphics.DrawMinimapPixel(x1 * 3 + 2, y1 * 3 + 2, j1);
+                            graphics.DrawMinimapPixel(location.X * 3, location.Y * 3, j1);
+                            graphics.DrawMinimapPixel(location.X * 3 + 1, location.Y * 3 + 1, j1);
+                            graphics.DrawMinimapPixel(location.X * 3 + 2, location.Y * 3 + 2, j1);
                         }
                     }
+
                     if (k3 > 12000 && k3 < 24000 && (entityManager.GetWallObject(k3 - 12001).Unknown == 0 || ghh))
                     {
-                        makeWall(currentSectionObject, k3 - 12001, x1 + 1, y1, x1, y1 + 1);
+                        Point2D loc = new Point2D(location.X + 1, location.Y);
+                        destination = new Point2D(location.X, location.Y + 1);
+                        makeWall(currentSectionObject, k3 - 12001, loc, destination);
+
                         if (freshLoad && entityManager.GetWallObject(k3 - 12001).Type != 0)
                         {
-                            tiles[x1][y1] |= 0x10;
+                            tiles[location.X][location.Y] |= 0x10;
                         }
 
                         if (freshLoad)
                         {
-                            graphics.DrawMinimapPixel(x1 * 3 + 2, y1 * 3, j1);
-                            graphics.DrawMinimapPixel(x1 * 3 + 1, y1 * 3 + 1, j1);
-                            graphics.DrawMinimapPixel(x1 * 3, y1 * 3 + 2, j1);
+                            graphics.DrawMinimapPixel(location.X * 3 + 2, location.Y * 3, j1);
+                            graphics.DrawMinimapPixel(location.X * 3 + 1, location.Y * 3 + 1, j1);
+                            graphics.DrawMinimapPixel(location.X * 3, location.Y * 3 + 2, j1);
                         }
                     }
                 }
-
             }
 
             if (freshLoad)
@@ -1645,16 +1670,18 @@ namespace RuneScapeSolo.Net.Client.Game
             {
                 for (int y = location.Y; y <= location.Y + objHeight; y++)
                 {
+                    Point2D tileLocation = new Point2D(x, y);
+
                     if ((getTile(x, y) & 0x63) != 0 ||
                         (getTile(x - 1, y) & 0x59) != 0 ||
                         (getTile(x, y - 1) & 0x56) != 0 ||
                         (getTile(x - 1, y - 1) & 0x6c) != 0)
                     {
-                        SetTileType(x, y, 35);
+                        SetTileType(tileLocation, 35);
                     }
                     else
                     {
-                        SetTileType(x, y, 0);
+                        SetTileType(tileLocation, 0);
                     }
                 }
             }
@@ -2341,15 +2368,15 @@ namespace RuneScapeSolo.Net.Client.Game
 
         }
 
-        public void updateTileChunk(int objectX, int objectY, int x, int y, int val)
+        public void updateTileChunk(Point2D objectLocation, Point2D location, int val)
         {
-            ObjectModel tileChunk = TileChunks[objectX + objectY * 8];
+            ObjectModel tileChunk = TileChunks[objectLocation.X + objectLocation.Y * 8];
             if (tileChunk != null)
             {
                 for (int vertIndex = 0; vertIndex < tileChunk.vert_count; vertIndex++)
                 {
-                    if (tileChunk.verticeLocations[vertIndex].X == x * 128 &&
-                        tileChunk.verticeLocations[vertIndex].Y == y * 128)
+                    if (tileChunk.verticeLocations[vertIndex].X == objectLocation.X * 128 &&
+                        tileChunk.verticeLocations[vertIndex].Y == objectLocation.Y * 128)
                     {
                         tileChunk.SetVertexColor(vertIndex, val);
                         return;
@@ -2358,21 +2385,21 @@ namespace RuneScapeSolo.Net.Client.Game
             }
         }
 
-        public void makeWall(ObjectModel wallObj, int wallObjIndex, int x, int y, int destX, int destY)
+        public void makeWall(ObjectModel wallObj, int wallObjIndex, Point2D location, Point2D destination)
         {
-            SetTileType(x, y, 40);
-            SetTileType(destX, destY, 40);
+            SetTileType(location, 40);
+            SetTileType(destination, 40);
             int i2 = entityManager.GetWallObject(wallObjIndex).ModelHeight;
             int j2 = entityManager.GetWallObject(wallObjIndex).ModelFaceBack;
             int k2 = entityManager.GetWallObject(wallObjIndex).ModelFaceFront;
-            int l2 = x * 128;
-            int i3 = y * 128;
-            int j3 = destX * 128;
-            int k3 = destY * 128;
-            int l3 = wallObj.getVertexIndex(l2, -roofTiles[x][y], i3);
-            int i4 = wallObj.getVertexIndex(l2, -roofTiles[x][y] - i2, i3);
-            int j4 = wallObj.getVertexIndex(j3, -roofTiles[destX][destY] - i2, k3);
-            int k4 = wallObj.getVertexIndex(j3, -roofTiles[destX][destY], k3);
+            int l2 = location.X * 128;
+            int i3 = location.Y * 128;
+            int j3 = destination.X * 128;
+            int k3 = destination.Y * 128;
+            int l3 = wallObj.getVertexIndex(l2, -roofTiles[location.X][location.Y], i3);
+            int i4 = wallObj.getVertexIndex(l2, -roofTiles[location.X][location.Y] - i2, i3);
+            int j4 = wallObj.getVertexIndex(j3, -roofTiles[destination.X][destination.Y] - i2, k3);
+            int k4 = wallObj.getVertexIndex(j3, -roofTiles[destination.X][destination.Y], k3);
 
             int[] ai = { l3, i4, j4, k4 };
 
