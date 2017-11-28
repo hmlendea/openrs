@@ -72,7 +72,7 @@ namespace RuneScapeSolo.Net.Client.Game
                 objectDirs[j] = new int[o9];
             }
 
-            ghh = false;
+            unknownBool1 = false;
             selectedY = new int[18432];
             groundTexture = new int[256];
             TileChunks = new ObjectModel[64];
@@ -81,7 +81,7 @@ namespace RuneScapeSolo.Net.Client.Game
 
             selectedX = new int[18432];
 
-            gjb = true;
+            unknownBool2 = true;
             baseInventoryPic = 750;
 
             for (int k = 0; k < 64; k++)
@@ -857,7 +857,7 @@ namespace RuneScapeSolo.Net.Client.Game
 
                     int k3 = getHorizontalWall(location.X, location.Y);
 
-                    if (k3 > 0 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || ghh))
+                    if (k3 > 0 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || unknownBool1))
                     {
                         destination = new Point2D(location.X + 1, location.Y);
                         makeWall(currentSectionObject, k3 - 1, location, destination);
@@ -881,7 +881,7 @@ namespace RuneScapeSolo.Net.Client.Game
 
                     k3 = getVerticalWall(location.X, location.Y);
 
-                    if (k3 > 0 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || ghh))
+                    if (k3 > 0 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || unknownBool1))
                     {
                         destination = new Point2D(location.X, location.Y + 1);
                         makeWall(currentSectionObject, k3 - 1, location, destination);
@@ -905,7 +905,7 @@ namespace RuneScapeSolo.Net.Client.Game
 
                     k3 = getDiagonalWall(location.X, location.Y);
 
-                    if (k3 > 0 && k3 < 12000 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || ghh))
+                    if (k3 > 0 && k3 < 12000 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || unknownBool1))
                     {
                         destination = new Point2D(location.X + 1, location.Y + 1);
                         makeWall(currentSectionObject, k3 - 1, location, destination);
@@ -923,7 +923,7 @@ namespace RuneScapeSolo.Net.Client.Game
                         }
                     }
 
-                    if (k3 > 12000 && k3 < 24000 && (entityManager.GetWallObject(k3 - 12001).Unknown == 0 || ghh))
+                    if (k3 > 12000 && k3 < 24000 && (entityManager.GetWallObject(k3 - 12001).Unknown == 0 || unknownBool1))
                     {
                         Point2D loc = new Point2D(location.X + 1, location.Y);
                         destination = new Point2D(location.X, location.Y + 1);
@@ -2005,7 +2005,7 @@ namespace RuneScapeSolo.Net.Client.Game
 
         public void cleanUpWorld()
         {
-            if (gjb)
+            if (unknownBool2)
             {
                 camera.cleanUp();
             }
@@ -2365,12 +2365,12 @@ namespace RuneScapeSolo.Net.Client.Game
                     }
                 }
             }
-
         }
 
         public void updateTileChunk(Point2D objectLocation, Point2D location, int val)
         {
             ObjectModel tileChunk = TileChunks[objectLocation.X + objectLocation.Y * 8];
+
             if (tileChunk != null)
             {
                 for (int vertIndex = 0; vertIndex < tileChunk.vert_count; vertIndex++)
@@ -2389,6 +2389,7 @@ namespace RuneScapeSolo.Net.Client.Game
         {
             SetTileType(location, 40);
             SetTileType(destination, 40);
+
             int i2 = entityManager.GetWallObject(wallObjIndex).ModelHeight;
             int j2 = entityManager.GetWallObject(wallObjIndex).ModelFaceBack;
             int k2 = entityManager.GetWallObject(wallObjIndex).ModelFaceFront;
@@ -2416,15 +2417,17 @@ namespace RuneScapeSolo.Net.Client.Game
             }
         }
 
-        public int ggn = 96;
-        public int gha = 96;
+        public int unknownInt1 = 96;
+        public int unknownInt2 = 96;
+        public int unknownInt3 = 0xbc614e;
+        public int unknownInt4 = 128;
+        public bool unknownBool1;
+        public bool unknownBool2;
+
         public int[][] tileHorizontalWall;
-        public int ghc = 0xbc614e;
-        public int ghd = 128;
         public int[][] tileDiagonalWall;
         public int[][] tileGroundOverlay;
         public int[][] tileObjectRotation;
-        public bool ghh;
         public GraphicsEngine graphics;
         public Camera camera;
         public int[] selectedY;
@@ -2446,7 +2449,6 @@ namespace RuneScapeSolo.Net.Client.Game
         public ObjectModel[][] wallObject;
         public int[] selectedX;
         public int[][] tileRoofType;
-        public bool gjb;
         public int baseInventoryPic;
 
         int[][] objectDirs;
