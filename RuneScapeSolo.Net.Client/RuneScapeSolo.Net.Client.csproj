@@ -1,102 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E4912FD7-D2AF-4457-B80B-0E05D68AE16C}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>RuneScapeSolo.Net.Client</RootNamespace>
-    <AssemblyName>RuneScapeSolo.Net.Client</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <Authors>Horațiu Mlendea</Authors>
+    <Copyright>Copyright 2019 © Horațiu Mlendea</Copyright>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="MonoGame.Framework">
-      <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Numerics" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL.Core" Version="3.7.0.7" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Data\BZip2BlockEntry.cs" />
-    <Compile Include="Data\DataConversions.cs" />
-    <Compile Include="Data\DataFileDecrypter.cs" />
-    <Compile Include="Data\DataOperations.cs" />
-    <Compile Include="Data\RectangularArrays.cs" />
-    <Compile Include="Events\ChatMessageEvent.cs" />
-    <Compile Include="Events\ContentLoadedEvent.cs" />
-    <Compile Include="GameApplet.cs" />
-    <Compile Include="GameAppletMiddleMan.cs" />
-    <Compile Include="GameClient.cs" />
-    <Compile Include="GameFrame.cs" />
-    <Compile Include="GameImageMiddleMan.cs" />
-    <Compile Include="Game\Cameras\Camera.cs" />
-    <Compile Include="Game\Cameras\CameraModel.cs" />
-    <Compile Include="Game\Cameras\CameraVariable.cs" />
-    <Compile Include="Game\ChatMessage.cs" />
-    <Compile Include="Game\EngineHandle.cs" />
-    <Compile Include="Game\GraphicsEngine.cs" />
-    <Compile Include="Game\GameObject.cs" />
-    <Compile Include="Game\ClientMob.cs" />
-    <Compile Include="Link.cs" />
-    <Compile Include="Menu.cs" />
-    <Compile Include="Net\LoginEncryptor.cs" />
-    <Compile Include="Net\PacketConstruction.cs" />
-    <Compile Include="Net\StreamClass.cs" />
-    <Compile Include="PacketHandler.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Game\StringDrawDef.cs" />
+    <ProjectReference Include="..\RuneScapeSolo.GameLogic\RuneScapeSolo.GameLogic.csproj" />
+    <ProjectReference Include="..\RuneScapeSolo.Infrastructure\RuneScapeSolo.Infrastructure.csproj" />
+    <ProjectReference Include="..\RuneScapeSolo.Input\RuneScapeSolo.Input.csproj" />
+    <ProjectReference Include="..\RuneScapeSolo.Models\RuneScapeSolo.Models.csproj" />
+    <ProjectReference Include="..\RuneScapeSolo.Net\RuneScapeSolo.Net.csproj" />
+    <ProjectReference Include="..\RuneScapeSolo.Settings\RuneScapeSolo.Settings.csproj" />
   </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\RuneScapeSolo.GameLogic\RuneScapeSolo.GameLogic.csproj">
-      <Project>{24363cdb-0a6a-4fcc-ad2e-52cc98c7f49f}</Project>
-      <Name>RuneScapeSolo.GameLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RuneScapeSolo.Input\RuneScapeSolo.Input.csproj">
-      <Project>{ff805103-a40e-4154-8ed6-c70623af471c}</Project>
-      <Name>RuneScapeSolo.Input</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RuneScapeSolo.Models\RuneScapeSolo.Models.csproj">
-      <Project>{0fb5c790-78f3-44ea-af6c-2d5b7c8e82be}</Project>
-      <Name>RuneScapeSolo.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RuneScapeSolo.Settings\RuneScapeSolo.Settings.csproj">
-      <Project>{f863eb40-1193-4067-8eef-405caf9f2fc9}</Project>
-      <Name>RuneScapeSolo.Settings</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RuneScapeSolo.Primitives\RuneScapeSolo.Primitives.csproj">
-      <Project>{395F7F7F-F89E-43F4-96F0-6A6E20016B81}</Project>
-      <Name>RuneScapeSolo.Primitives</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RuneScapeSolo.Net\RuneScapeSolo.Net.csproj">
-      <Project>{15ADC7F5-15E0-44C6-BCA4-407DF4815A95}</Project>
-      <Name>RuneScapeSolo.Net</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RuneScapeSolo.Infrastructure\RuneScapeSolo.Infrastructure.csproj">
-      <Project>{A498B100-9B60-48F7-A2FB-2E6D214E520C}</Project>
-      <Name>RuneScapeSolo.Infrastructure</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

@@ -1,124 +1,134 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{52BAD441-8465-4574-9899-B2911249E2DE}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <RootNamespace>RuneScapeSolo</RootNamespace>
-    <AssemblyName>RuneScapeSolo</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <Authors>Horațiu Mlendea</Authors>
+    <Copyright>Copyright 2019 © Horațiu Mlendea</Copyright>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ExternalConsole>true</ExternalConsole>
-    <PlatformTarget>x86</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ExternalConsole>true</ExternalConsole>
-    <PlatformTarget>x86</PlatformTarget>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="MonoGame.Framework">
-      <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Numerics" />
+    <MonoGameContentReference Include="**\*.mgcb" />
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="Icon.png">
+    <PackageReference Include="MonoGame.Content.Builder" Version="3.7.0.4" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL.Core" Version="3.7.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Content\obj\DesktopGL\Content\.mgcontent" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RuneScapeSolo.DataAccess\RuneScapeSolo.DataAccess.csproj" />
+    <ProjectReference Include="..\RuneScapeSolo.Graphics\RuneScapeSolo.Graphics.csproj" />
+    <ProjectReference Include="..\RuneScapeSolo.Gui\RuneScapeSolo.Gui.csproj" />
+    <ProjectReference Include="..\RuneScapeSolo.Input\RuneScapeSolo.Input.csproj" />
+    <ProjectReference Include="..\RuneScapeSolo.Settings\RuneScapeSolo.Settings.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Data\config.jag">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Entities\animations.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Entities\elevations.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Entities\items.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Entities\npcs.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Entities\prayers.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Entities\quests.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Entities\spells.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Entities\textures.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Entities\tiles.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Entities\wall_objects.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Entities\world_objects.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\entity.jag">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\entity.mem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\filter.jag">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\fonts.jag">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\land.jag">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\land.mem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\maps.jag">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\maps.mem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\media.jag">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\models.jag">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\textures.jag">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="libopenal.1.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="libSDL2-2.0.0.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="x64\libopenal.so.1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="x64\libSDL2-2.0.so.0">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="x64\SDL2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="x64\soft_oal.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="x86\libopenal.so.1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="x86\libSDL2-2.0.so.0">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="x86\SDL2.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="x86\soft_oal.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="MonoGame.Framework.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GameWindow.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RuneScapeSolo.Data\RuneScapeSolo.Data.csproj">
-      <Project>{1F0B4C1F-5C31-465E-8747-54399762C50A}</Project>
-      <Name>RuneScapeSolo.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RuneScapeSolo.GameLogic\RuneScapeSolo.GameLogic.csproj">
-      <Project>{24363cdb-0a6a-4fcc-ad2e-52cc98c7f49f}</Project>
-      <Name>RuneScapeSolo.GameLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RuneScapeSolo.Graphics\RuneScapeSolo.Graphics.csproj">
-      <Project>{512eac2f-fd40-4143-b52a-c250fba51e4f}</Project>
-      <Name>RuneScapeSolo.Graphics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RuneScapeSolo.Gui\RuneScapeSolo.Gui.csproj">
-      <Project>{d7f47fa0-d9bc-4702-9a21-40697dff128a}</Project>
-      <Name>RuneScapeSolo.Gui</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RuneScapeSolo.Input\RuneScapeSolo.Input.csproj">
-      <Project>{FF805103-A40E-4154-8ED6-C70623AF471C}</Project>
-      <Name>RuneScapeSolo.Input</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RuneScapeSolo.Models\RuneScapeSolo.Models.csproj">
-      <Project>{0FB5C790-78F3-44EA-AF6C-2D5B7C8E82BE}</Project>
-      <Name>RuneScapeSolo.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RuneScapeSolo.DataAccess\RuneScapeSolo.DataAccess.csproj">
-      <Project>{DFA1E1E9-AFEB-4565-BA38-ECDBAFC9D47B}</Project>
-      <Name>RuneScapeSolo.DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RuneScapeSolo.Net.Client\RuneScapeSolo.Net.Client.csproj">
-      <Project>{e4912fd7-d2af-4457-b80b-0e05d68ae16c}</Project>
-      <Name>RuneScapeSolo.Net.Client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RuneScapeSolo.Settings\RuneScapeSolo.Settings.csproj">
-      <Project>{f863eb40-1193-4067-8eef-405caf9f2fc9}</Project>
-      <Name>RuneScapeSolo.Settings</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RuneScapeSolo.Primitives\RuneScapeSolo.Primitives.csproj">
-      <Project>{395F7F7F-F89E-43F4-96F0-6A6E20016B81}</Project>
-      <Name>RuneScapeSolo.Primitives</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RuneScapeSolo.Net\RuneScapeSolo.Net.csproj">
-      <Project>{15ADC7F5-15E0-44C6-BCA4-407DF4815A95}</Project>
-      <Name>RuneScapeSolo.Net</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RuneScapeSolo.Infrastructure\RuneScapeSolo.Infrastructure.csproj">
-      <Project>{A498B100-9B60-48F7-A2FB-2E6D214E520C}</Project>
-      <Name>RuneScapeSolo.Infrastructure</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup />
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  
 </Project>

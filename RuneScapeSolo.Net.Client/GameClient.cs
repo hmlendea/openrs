@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
+//using System.Runtime.Remoting.Messaging;
 using System.Text;
 
 using Microsoft.Xna.Framework;
@@ -3129,12 +3129,13 @@ namespace RuneScapeSolo.Net.Client
         void sendPingPacketCompletedCallback(IAsyncResult ar)
         {
             // get the original worker delegate and the AsyncOperation instance
-            SendPingPacketDelegate worker =
-              (SendPingPacketDelegate)((AsyncResult)ar).AsyncDelegate;
+            // TODO: Send the ping
+            //SendPingPacketDelegate worker =
+            //  (SendPingPacketDelegate)((AsyncResult)ar).AsyncDelegate; // (AsyncResult)ar
             AsyncOperation async1 = (AsyncOperation)ar.AsyncState;
 
             // finish the asynchronous operation
-            worker.EndInvoke(ar);
+            //worker.EndInvoke(ar);
 
             // clear the running task flag
             lock (_sync)
