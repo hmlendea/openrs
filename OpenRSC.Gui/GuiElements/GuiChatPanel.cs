@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 
+using NuciXNA.Primitives;
+
 using OpenRSC.Graphics.Enumerations;
-using OpenRSC.Primitives;
 
 namespace OpenRSC.Gui.GuiElements
 {

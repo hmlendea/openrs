@@ -1,7 +1,8 @@
-﻿using OpenRSC.Models.Enumerations;
+﻿using NuciXNA.Primitives;
+
+using OpenRSC.Models.Enumerations;
 using OpenRSC.Net.Client;
 using OpenRSC.Net.Enumerations;
-using OpenRSC.Primitives;
 
 namespace OpenRSC.Gui.GuiElements
 {

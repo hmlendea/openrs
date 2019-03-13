@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using NuciXNA.Primitives;
+
 using OpenRSC.Infrastructure;
 using OpenRSC.Models.Enumerations;
-using OpenRSC.Primitives;
 
 namespace OpenRSC.Models
 {

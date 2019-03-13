@@ -2,9 +2,10 @@ using System;
 
 using Microsoft.Xna.Framework;
 
+using NuciXNA.Primitives;
+
 using OpenRSC.Net.Client.Data;
 using OpenRSC.Net.Client.Game.Cameras;
-using OpenRSC.Primitives;
 
 namespace OpenRSC.Net.Client.Game
 {

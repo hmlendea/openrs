@@ -1,4 +1,4 @@
-﻿using OpenRSC.Primitives;
+﻿using NuciXNA.Primitives;
 
 namespace OpenRSC.Gui.GuiElements
 {

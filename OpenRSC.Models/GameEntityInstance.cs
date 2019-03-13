@@ -1,6 +1,6 @@
 ﻿using System;
 
-using OpenRSC.Primitives;
+using NuciXNA.Primitives;
 
 namespace OpenRSC.Models
 {

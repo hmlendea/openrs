@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using NuciXNA.Primitives;
+
 using OpenRSC.DataAccess.DataObjects;
 using OpenRSC.Models;
-using OpenRSC.Primitives;
 
 namespace OpenRSC.GameLogic.Mapping
 {

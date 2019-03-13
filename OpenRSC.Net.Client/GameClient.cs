@@ -8,6 +8,9 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+using NuciXNA.Primitives;
+using NuciXNA.Primitives.Mapping;
+
 using OpenRSC.GameLogic.GameManagers;
 using OpenRSC.Infrastructure;
 using OpenRSC.Input;
@@ -18,8 +21,6 @@ using OpenRSC.Net.Client.Events;
 using OpenRSC.Net.Client.Game;
 using OpenRSC.Net.Client.Game.Cameras;
 using OpenRSC.Net.Enumerations;
-using OpenRSC.Primitives;
-using OpenRSC.Primitives.Mapping;
 using OpenRSC.Settings;
 
 using ObjectModel = OpenRSC.Net.Client.Game.ObjectModel;

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.Primitives;
+
 using OpenRSC.Net.Client.Data;
-using OpenRSC.Primitives;
 
 namespace OpenRSC.Net.Client.Game
 {

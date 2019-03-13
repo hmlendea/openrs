@@ -2,7 +2,7 @@
 
 using Microsoft.Xna.Framework;
 
-using OpenRSC.Primitives;
+using NuciXNA.Primitives;
 
 namespace OpenRSC.Graphics.CustomSpriteEffects
 {

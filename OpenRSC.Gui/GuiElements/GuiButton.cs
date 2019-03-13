@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 
+using NuciXNA.Primitives;
+
 using OpenRSC.Input.Enumerations;
 using OpenRSC.Input.Events;
-using OpenRSC.Primitives;
 using OpenRSC.Settings;
 
 namespace OpenRSC.Gui.GuiElements

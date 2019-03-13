@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.Primitives;
+
 using OpenRSC.Graphics;
 using OpenRSC.Graphics.CustomSpriteEffects;
 using OpenRSC.Graphics.Enumerations;
-using OpenRSC.Primitives;
 
 namespace OpenRSC.Gui.GuiElements
 {

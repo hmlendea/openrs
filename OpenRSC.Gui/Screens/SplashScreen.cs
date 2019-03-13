@@ -3,11 +3,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.Primitives;
+
 using OpenRSC.Graphics;
 using OpenRSC.Graphics.CustomSpriteEffects;
 using OpenRSC.Gui.GuiElements;
 using OpenRSC.Input.Events;
-using OpenRSC.Primitives;
 
 namespace OpenRSC.Gui.Screens
 {

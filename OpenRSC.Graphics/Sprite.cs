@@ -7,12 +7,13 @@ using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.Primitives;
+using NuciXNA.Primitives.Mapping;
+
 using OpenRSC.DataAccess.Resources;
 using OpenRSC.Graphics.CustomSpriteEffects;
 using OpenRSC.Graphics.Enumerations;
 using OpenRSC.Graphics.Helpers;
-using OpenRSC.Primitives;
-using OpenRSC.Primitives.Mapping;
 
 namespace OpenRSC.Graphics
 {

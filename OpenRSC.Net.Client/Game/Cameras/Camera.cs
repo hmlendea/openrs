@@ -1,7 +1,8 @@
 using System;
 
+using NuciXNA.Primitives;
+
 using OpenRSC.Infrastructure;
-using OpenRSC.Primitives;
 
 namespace OpenRSC.Net.Client.Game.Cameras
 {

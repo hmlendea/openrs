@@ -1,5 +1,6 @@
-﻿using OpenRSC.Models.Enumerations;
-using OpenRSC.Primitives;
+﻿using NuciXNA.Primitives;
+
+using OpenRSC.Models.Enumerations;
 
 namespace OpenRSC.Models
 {

@@ -1,5 +1,6 @@
-﻿using OpenRSC.Graphics.Enumerations;
-using OpenRSC.Primitives;
+﻿using NuciXNA.Primitives;
+
+using OpenRSC.Graphics.Enumerations;
 
 namespace OpenRSC.Gui.GuiElements
 {

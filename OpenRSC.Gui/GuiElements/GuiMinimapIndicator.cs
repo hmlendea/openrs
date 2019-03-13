@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using OpenRSC.Primitives;
+using NuciXNA.Primitives;
 
 namespace OpenRSC.Gui.GuiElements
 {

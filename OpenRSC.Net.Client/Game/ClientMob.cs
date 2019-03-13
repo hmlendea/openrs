@@ -1,5 +1,6 @@
+using NuciXNA.Primitives;
+
 using OpenRSC.Models;
-using OpenRSC.Primitives;
 
 namespace OpenRSC.Net.Client.Game
 {

@@ -1,4 +1,4 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -19,8 +19,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenRSC.Gui", "OpenRSC.Gui\OpenRSC.Gui.csproj", "{D7F47FA0-D9BC-4702-9A21-40697DFF128A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenRSC.Net.Client", "OpenRSC.Net.Client\OpenRSC.Net.Client.csproj", "{E4912FD7-D2AF-4457-B80B-0E05D68AE16C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenRSC.Primitives", "OpenRSC.Primitives\OpenRSC.Primitives.csproj", "{395F7F7F-F89E-43F4-96F0-6A6E20016B81}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenRSC.Net", "OpenRSC.Net\OpenRSC.Net.csproj", "{15ADC7F5-15E0-44C6-BCA4-407DF4815A95}"
 EndProject
@@ -106,14 +104,6 @@ Global
 		{E4912FD7-D2AF-4457-B80B-0E05D68AE16C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E4912FD7-D2AF-4457-B80B-0E05D68AE16C}.Release|x86.ActiveCfg = Release|Any CPU
 		{E4912FD7-D2AF-4457-B80B-0E05D68AE16C}.Release|x86.Build.0 = Release|Any CPU
-		{395F7F7F-F89E-43F4-96F0-6A6E20016B81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{395F7F7F-F89E-43F4-96F0-6A6E20016B81}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{395F7F7F-F89E-43F4-96F0-6A6E20016B81}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{395F7F7F-F89E-43F4-96F0-6A6E20016B81}.Debug|x86.Build.0 = Debug|Any CPU
-		{395F7F7F-F89E-43F4-96F0-6A6E20016B81}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{395F7F7F-F89E-43F4-96F0-6A6E20016B81}.Release|Any CPU.Build.0 = Release|Any CPU
-		{395F7F7F-F89E-43F4-96F0-6A6E20016B81}.Release|x86.ActiveCfg = Release|Any CPU
-		{395F7F7F-F89E-43F4-96F0-6A6E20016B81}.Release|x86.Build.0 = Release|Any CPU
 		{15ADC7F5-15E0-44C6-BCA4-407DF4815A95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{15ADC7F5-15E0-44C6-BCA4-407DF4815A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15ADC7F5-15E0-44C6-BCA4-407DF4815A95}.Debug|x86.ActiveCfg = Debug|Any CPU

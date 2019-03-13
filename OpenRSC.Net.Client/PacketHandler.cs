@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Text;
 
+using NuciXNA.Primitives;
+
 using OpenRSC.GameLogic.GameManagers;
 using OpenRSC.Models;
 using OpenRSC.Models.Enumerations;
 using OpenRSC.Net.Client.Data;
 using OpenRSC.Net.Client.Game;
 using OpenRSC.Net.Enumerations;
-using OpenRSC.Primitives;
 
 namespace OpenRSC.Net.Client
 {

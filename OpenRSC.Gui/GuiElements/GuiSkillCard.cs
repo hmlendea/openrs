@@ -1,9 +1,10 @@
 ﻿using System;
 
+using NuciXNA.Primitives;
+
 using OpenRSC.Graphics.Enumerations;
 using OpenRSC.Input;
 using OpenRSC.Input.Events;
-using OpenRSC.Primitives;
 
 namespace OpenRSC.Gui.GuiElements
 {

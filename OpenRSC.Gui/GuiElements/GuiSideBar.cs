@@ -1,6 +1,7 @@
-﻿using OpenRSC.Graphics.Enumerations;
+﻿using NuciXNA.Primitives;
+
+using OpenRSC.Graphics.Enumerations;
 using OpenRSC.Net.Client;
-using OpenRSC.Primitives;
 using OpenRSC.Settings;
 
 namespace OpenRSC.Gui.GuiElements

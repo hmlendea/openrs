@@ -1,7 +1,9 @@
 using Microsoft.Xna.Framework.Input;
 
+using NuciXNA.Primitives;
+using NuciXNA.Primitives.Mapping;
+
 using OpenRSC.Net.Client.Game;
-using OpenRSC.Primitives.Mapping;
 
 namespace OpenRSC.Net.Client
 {

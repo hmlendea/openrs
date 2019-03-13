@@ -1,12 +1,13 @@
 using System;
 using System.IO;
 
+using NuciXNA.Primitives;
+
 using OpenRSC.GameLogic.GameManagers;
 using OpenRSC.Infrastructure;
 using OpenRSC.Models;
 using OpenRSC.Net.Client.Game.Cameras;
 using OpenRSC.Net.Client.Data;
-using OpenRSC.Primitives;
 
 namespace OpenRSC.Net.Client.Game
 {

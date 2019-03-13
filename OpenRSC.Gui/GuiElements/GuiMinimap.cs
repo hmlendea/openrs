@@ -4,14 +4,15 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.Primitives;
+using NuciXNA.Primitives.Mapping;
+
 using OpenRSC.DataAccess.Resources;
 using OpenRSC.Graphics;
 using OpenRSC.Input.Events;
 using OpenRSC.Net.Client;
 using OpenRSC.Net.Client.Game;
 using OpenRSC.Net.Client.Game.Cameras;
-using OpenRSC.Primitives;
-using OpenRSC.Primitives.Mapping;
 
 namespace OpenRSC.Gui.GuiElements
 {

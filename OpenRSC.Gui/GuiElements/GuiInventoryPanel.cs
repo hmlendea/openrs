@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 
+using NuciXNA.Primitives;
+
 using OpenRSC.Net.Client;
 using OpenRSC.Models;
-using OpenRSC.Primitives;
 
 namespace OpenRSC.Gui.GuiElements
 {

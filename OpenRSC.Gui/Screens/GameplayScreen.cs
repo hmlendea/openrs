@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.Primitives;
+
 using OpenRSC.Gui.GuiElements;
 using OpenRSC.Net.Client.Events;
-using OpenRSC.Primitives;
 
 namespace OpenRSC.Gui.Screens
 {
