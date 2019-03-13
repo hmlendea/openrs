@@ -1,4 +1,5 @@
-﻿using NuciXNA.Primitives;
+﻿using NuciXNA.Input;
+using NuciXNA.Primitives;
 
 using OpenRSC.Models.Enumerations;
 using OpenRSC.Net.Client;
@@ -138,22 +139,22 @@ namespace OpenRSC.Gui.GuiElements
             defensiveStyleCard.Clicked -= DefensiveStyleCard_Clicked;
         }
 
-        void ControlledStyleCard_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
+        void ControlledStyleCard_Clicked(object sender, MouseButtonEventArgs e)
         {
             client.SetCombatStyle(CombatStyle.Controlled);
         }
 
-        void AggressiveStyleCard_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
+        void AggressiveStyleCard_Clicked(object sender, MouseButtonEventArgs e)
         {
             client.SetCombatStyle(CombatStyle.Aggressive);
         }
 
-        void AccurateStyleCard_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
+        void AccurateStyleCard_Clicked(object sender, MouseButtonEventArgs e)
         {
             client.SetCombatStyle(CombatStyle.Accurate);
         }
 
-        void DefensiveStyleCard_Clicked(object sender, Input.Events.MouseButtonEventArgs e)
+        void DefensiveStyleCard_Clicked(object sender, MouseButtonEventArgs e)
         {
             client.SetCombatStyle(CombatStyle.Defensive);
         }

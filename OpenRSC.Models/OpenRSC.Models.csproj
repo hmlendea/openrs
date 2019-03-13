@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OpenRSC.Infrastructure\OpenRSC.Infrastructure.csproj" />
-    <ProjectReference Include="..\OpenRSC.Primitives\OpenRSC.Primitives.csproj" />
   </ItemGroup>
 
 </Project>

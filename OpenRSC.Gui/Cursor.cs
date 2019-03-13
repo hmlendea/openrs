@@ -1,14 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.Input;
 using NuciXNA.Primitives;
 using NuciXNA.Primitives.Mapping;
 
 using OpenRSC.Graphics;
 using OpenRSC.Graphics.CustomSpriteEffects;
-using OpenRSC.Input;
-using OpenRSC.Input.Enumerations;
-using OpenRSC.Input.Events;
 
 namespace OpenRSC.Gui
 {
@@ -20,7 +18,7 @@ namespace OpenRSC.Gui
         /// <value>The location.</value>
         public Point2D Location { get; set; }
 
-        public MouseButtonState State { get; private set; }
+        public ButtonState State { get; private set; }
 
         public int Frames { get; set; }
 
@@ -101,7 +99,7 @@ namespace OpenRSC.Gui
         /// <param name="spriteBatch">Sprite batch.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (State == MouseButtonState.Pressed)
+            if (State == ButtonState.Pressed)
             {
                 clickSprite.Draw(spriteBatch);
             }
@@ -119,23 +117,23 @@ namespace OpenRSC.Gui
 
         void InputManager_OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            if (e.Button == MouseButton.LeftButton)
+            if (e.Button == MouseButton.Left)
             {
-                State = MouseButtonState.Pressed;
+                State = ButtonState.Pressed;
             }
         }
 
         void InputManager_OnMouseButtonReleased(object sender, MouseButtonEventArgs e)
         {
-            if (e.Button == MouseButton.LeftButton)
+            if (e.Button == MouseButton.Left)
             {
-                State = MouseButtonState.Released;
+                State = ButtonState.Released;
             }
         }
 
         void InputManager_OnMouseMoved(object sender, MouseEventArgs e)
         {
-            Location = e.Location.ToPoint2D();
+            Location = e.Location;
         }
     }
 }

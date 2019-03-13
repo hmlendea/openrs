@@ -6,14 +6,13 @@ using System.Linq;
 using System.Text;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 
+using NuciXNA.Input;
 using NuciXNA.Primitives;
 using NuciXNA.Primitives.Mapping;
 
 using OpenRSC.GameLogic.GameManagers;
 using OpenRSC.Infrastructure;
-using OpenRSC.Input;
 using OpenRSC.Models;
 using OpenRSC.Models.Enumerations;
 using OpenRSC.Net.Client.Data;
@@ -24,6 +23,10 @@ using OpenRSC.Net.Enumerations;
 using OpenRSC.Settings;
 
 using ObjectModel = OpenRSC.Net.Client.Game.ObjectModel;
+using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
+using Keyboard = Microsoft.Xna.Framework.Input.Keyboard;
+using Keys = Microsoft.Xna.Framework.Input.Keys;
+using Mouse = Microsoft.Xna.Framework.Input.Mouse;
 
 namespace OpenRSC.Net.Client
 {

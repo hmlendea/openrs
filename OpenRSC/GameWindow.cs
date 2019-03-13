@@ -1,11 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.Input;
+
 using OpenRSC.DataAccess.Resources;
 using OpenRSC.Graphics;
 using OpenRSC.Gui;
 using OpenRSC.Gui.Screens;
-using OpenRSC.Input;
 using OpenRSC.Settings;
 
 namespace OpenRSC

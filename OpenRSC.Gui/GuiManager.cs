@@ -4,8 +4,9 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.Input;
+
 using OpenRSC.Gui.GuiElements;
-using OpenRSC.Input;
 
 namespace OpenRSC.Gui
 {

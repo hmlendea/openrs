@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 
+using NuciXNA.Input;
 using NuciXNA.Primitives;
 
-using OpenRSC.Input.Enumerations;
-using OpenRSC.Input.Events;
 using OpenRSC.Settings;
 
 namespace OpenRSC.Gui.GuiElements
@@ -106,7 +105,7 @@ namespace OpenRSC.Gui.GuiElements
         {
             base.OnClicked(sender, e);
 
-            if (e.Button != MouseButton.LeftButton)
+            if (e.Button != MouseButton.Left)
             {
                 return;
             }

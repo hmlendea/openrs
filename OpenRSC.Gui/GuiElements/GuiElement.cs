@@ -7,12 +7,9 @@ using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.Input;
 using NuciXNA.Primitives;
 using NuciXNA.Primitives.Mapping;
-
-using OpenRSC.Input;
-using OpenRSC.Input.Enumerations;
-using OpenRSC.Input.Events;
 
 namespace OpenRSC.Gui.GuiElements
 {
@@ -362,7 +359,7 @@ namespace OpenRSC.Gui.GuiElements
 
         protected virtual void RegisterEvents()
         {
-            InputManager.Instance.KeyboardKeyDown += OnInputManagerKeyboardKeyDown;
+            InputManager.Instance.KeyboardKeyHeldDown += OnInputManagerKeyboardKeyDown;
             InputManager.Instance.KeyboardKeyPressed += OnInputManagerKeyboardKeyPressed;
             InputManager.Instance.KeyboardKeyReleased += OnInputManagerKeyboardKeyReleased;
 
@@ -372,7 +369,7 @@ namespace OpenRSC.Gui.GuiElements
 
         protected virtual void UnregisterEvents()
         {
-            InputManager.Instance.KeyboardKeyDown -= OnInputManagerKeyboardKeyDown;
+            InputManager.Instance.KeyboardKeyHeldDown -= OnInputManagerKeyboardKeyDown;
             InputManager.Instance.KeyboardKeyPressed -= OnInputManagerKeyboardKeyPressed;
             InputManager.Instance.KeyboardKeyReleased -= OnInputManagerKeyboardKeyReleased;
 
@@ -442,12 +439,12 @@ namespace OpenRSC.Gui.GuiElements
         /// </summary>
         public void HandleInput()
         {
-            if (Enabled && Visible && ClientRectangle.Contains(InputManager.Instance.MouseLocation.ToPoint2D()) &&
+            if (Enabled && Visible && ClientRectangle.Contains(InputManager.Instance.MouseLocation) &&
                 !InputManager.Instance.MouseButtonInputHandled &&
                 InputManager.Instance.IsLeftMouseButtonClicked())
             {
-                MouseButtonEventArgs e = new MouseButtonEventArgs(MouseButton.LeftButton,
-                                                                  MouseButtonState.Pressed,
+                MouseButtonEventArgs e = new MouseButtonEventArgs(MouseButton.Left,
+                                                                  ButtonState.Pressed,
                                                                   InputManager.Instance.MouseLocation);
 
                 GuiManager.Instance.FocusElement(this);
@@ -639,14 +636,14 @@ namespace OpenRSC.Gui.GuiElements
                 return;
             }
 
-            if (!ClientRectangle.Contains(e.Location.ToPoint2D()))
+            if (!ClientRectangle.Contains(e.Location))
             {
                 return;
             }
 
             OnMouseButtonPressed(sender, e);
 
-            if (e.Button == MouseButton.LeftButton)
+            if (e.Button == MouseButton.Left)
             {
                 OnClicked(sender, e);
             }
@@ -664,22 +661,22 @@ namespace OpenRSC.Gui.GuiElements
                 return;
             }
 
-            if (!ClientRectangle.Contains(e.Location.ToPoint2D()) &&
-                !ClientRectangle.Contains(e.PreviousLocation.ToPoint2D()))
+            if (!ClientRectangle.Contains(e.Location) &&
+                !ClientRectangle.Contains(e.PreviousLocation))
             {
                 return;
             }
 
             OnMouseMoved(sender, e);
 
-            if (ClientRectangle.Contains(e.Location.ToPoint2D()) &&
-                !ClientRectangle.Contains(e.PreviousLocation.ToPoint2D()))
+            if (ClientRectangle.Contains(e.Location) &&
+                !ClientRectangle.Contains(e.PreviousLocation))
             {
                 OnMouseEntered(sender, e);
             }
 
-            if (!ClientRectangle.Contains(e.Location.ToPoint2D()) &&
-                ClientRectangle.Contains(e.PreviousLocation.ToPoint2D()))
+            if (!ClientRectangle.Contains(e.Location) &&
+                ClientRectangle.Contains(e.PreviousLocation))
             {
                 OnMouseLeft(sender, e);
             }
