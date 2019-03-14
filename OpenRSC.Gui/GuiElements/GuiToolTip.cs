@@ -1,4 +1,6 @@
-﻿namespace OpenRSC.Gui.GuiElements
+﻿using NuciXNA.Gui.GuiElements;
+
+namespace OpenRSC.Gui.GuiElements
 {
     /// <summary>
     /// Tool tip GUI element.
@@ -32,7 +34,7 @@
                 Margins = 2
             };
 
-            Children.Add(text);
+            AddChild(text);
 
             base.LoadContent();
         }

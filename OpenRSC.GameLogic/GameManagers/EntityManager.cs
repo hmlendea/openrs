@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+using NuciXNA.DataAccess.Repositories;
+
 using OpenRSC.DataAccess.Repositories;
 using OpenRSC.GameLogic.Mapping;
 using OpenRSC.Models;

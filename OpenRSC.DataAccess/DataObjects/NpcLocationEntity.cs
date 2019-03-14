@@ -1,9 +1,9 @@
-﻿namespace OpenRSC.DataAccess.DataObjects
-{
-    public class NpcLocationEntity
-    {
-        public string Id { get; set; }
+﻿using NuciXNA.DataAccess.DataObjects;
 
+namespace OpenRSC.DataAccess.DataObjects
+{
+    public class NpcLocationEntity : EntityBase
+    {
         public int InitialX { get; set; }
 
         public int InitialY { get; set; }

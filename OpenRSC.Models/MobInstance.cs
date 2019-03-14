@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using NuciExtensions;
 using NuciXNA.Primitives;
 
-using OpenRSC.Infrastructure;
 using OpenRSC.Models.Enumerations;
 
 namespace OpenRSC.Models
@@ -92,7 +92,7 @@ namespace OpenRSC.Models
             combatLevel = 3;
             HasAppearanceChanged = true;
             AppearanceId = 0;
-            LastMovementTime = Helper.CurrentTimeMillis();
+            LastMovementTime = DateTime.Now.GetCurrentTimeMilliseconds();
             activatedPrayers = new bool[14];
             LastCombatState = CombatState.Waiting;
 
@@ -175,7 +175,7 @@ namespace OpenRSC.Models
 
         public void UpdateCombatTime()
         {
-            CombatTime = Helper.CurrentTimeMillis();
+            CombatTime = DateTime.Now.GetCurrentTimeMilliseconds();
         }
 
         public void UpdateLocation()
@@ -185,7 +185,7 @@ namespace OpenRSC.Models
 
         public void UpdateMovementTime()
         {
-            LastMovementTime = Helper.CurrentTimeMillis();
+            LastMovementTime = DateTime.Now.GetCurrentTimeMilliseconds();
         }
 
         public override void SetLocation(Point2D location)

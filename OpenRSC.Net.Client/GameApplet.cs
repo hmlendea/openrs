@@ -6,7 +6,8 @@ using System.Threading;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using OpenRSC.Infrastructure;
+using NuciExtensions;
+
 using OpenRSC.Net.Client.Data;
 using OpenRSC.Net.Client.Game;
 
@@ -206,7 +207,7 @@ namespace OpenRSC.Net.Client
 
             for (int k1 = 0; k1 < 10; k1++)
             {
-                timeArray[k1] = Helper.CurrentTimeMillis();
+                timeArray[k1] = DateTime.Now.GetCurrentTimeMilliseconds();
             }
 
             while (runStatus >= 0)
@@ -251,7 +252,7 @@ namespace OpenRSC.Net.Client
             int j2 = sleepTime;
             k = 300;
             sleepTime = 1;
-            long l1 = Helper.CurrentTimeMillis();
+            long l1 = DateTime.Now.GetCurrentTimeMilliseconds();
             if (timeArray[i] == 0L)
             {
                 k = i2;

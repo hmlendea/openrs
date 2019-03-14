@@ -12,15 +12,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenRSC.GameLogic", "OpenRS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenRSC.Settings", "OpenRSC.Settings\OpenRSC.Settings.csproj", "{F863EB40-1193-4067-8EEF-405CAF9F2FC9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenRSC.Graphics", "OpenRSC.Graphics\OpenRSC.Graphics.csproj", "{512EAC2F-FD40-4143-B52A-C250FBA51E4F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenRSC.Gui", "OpenRSC.Gui\OpenRSC.Gui.csproj", "{D7F47FA0-D9BC-4702-9A21-40697DFF128A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenRSC.Net.Client", "OpenRSC.Net.Client\OpenRSC.Net.Client.csproj", "{E4912FD7-D2AF-4457-B80B-0E05D68AE16C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenRSC.Net", "OpenRSC.Net\OpenRSC.Net.csproj", "{15ADC7F5-15E0-44C6-BCA4-407DF4815A95}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenRSC.Infrastructure", "OpenRSC.Infrastructure\OpenRSC.Infrastructure.csproj", "{A498B100-9B60-48F7-A2FB-2E6D214E520C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,14 +66,6 @@ Global
 		{F863EB40-1193-4067-8EEF-405CAF9F2FC9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F863EB40-1193-4067-8EEF-405CAF9F2FC9}.Release|x86.ActiveCfg = Release|Any CPU
 		{F863EB40-1193-4067-8EEF-405CAF9F2FC9}.Release|x86.Build.0 = Release|Any CPU
-		{512EAC2F-FD40-4143-B52A-C250FBA51E4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{512EAC2F-FD40-4143-B52A-C250FBA51E4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{512EAC2F-FD40-4143-B52A-C250FBA51E4F}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{512EAC2F-FD40-4143-B52A-C250FBA51E4F}.Debug|x86.Build.0 = Debug|Any CPU
-		{512EAC2F-FD40-4143-B52A-C250FBA51E4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{512EAC2F-FD40-4143-B52A-C250FBA51E4F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{512EAC2F-FD40-4143-B52A-C250FBA51E4F}.Release|x86.ActiveCfg = Release|Any CPU
-		{512EAC2F-FD40-4143-B52A-C250FBA51E4F}.Release|x86.Build.0 = Release|Any CPU
 		{D7F47FA0-D9BC-4702-9A21-40697DFF128A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D7F47FA0-D9BC-4702-9A21-40697DFF128A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7F47FA0-D9BC-4702-9A21-40697DFF128A}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -102,14 +90,6 @@ Global
 		{15ADC7F5-15E0-44C6-BCA4-407DF4815A95}.Release|Any CPU.Build.0 = Release|Any CPU
 		{15ADC7F5-15E0-44C6-BCA4-407DF4815A95}.Release|x86.ActiveCfg = Release|Any CPU
 		{15ADC7F5-15E0-44C6-BCA4-407DF4815A95}.Release|x86.Build.0 = Release|Any CPU
-		{A498B100-9B60-48F7-A2FB-2E6D214E520C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A498B100-9B60-48F7-A2FB-2E6D214E520C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A498B100-9B60-48F7-A2FB-2E6D214E520C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A498B100-9B60-48F7-A2FB-2E6D214E520C}.Debug|x86.Build.0 = Debug|Any CPU
-		{A498B100-9B60-48F7-A2FB-2E6D214E520C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A498B100-9B60-48F7-A2FB-2E6D214E520C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A498B100-9B60-48F7-A2FB-2E6D214E520C}.Release|x86.ActiveCfg = Release|Any CPU
-		{A498B100-9B60-48F7-A2FB-2E6D214E520C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

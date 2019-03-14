@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfWallObjectEntity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <WallObjectEntity>
-    <Id>wall</Id>
+    <Id>wall_df6d4229-4a02-4b02-9bd2-00cd8c7d8b4e</Id>
     <Name>Wall</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -13,7 +13,7 @@
     <ModelFaceFront>2</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>doorframe</Id>
+    <Id>doorframe_96ab2138-695f-4cbd-bbc9-0983146a931e</Id>
     <Name>Doorframe</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -25,7 +25,7 @@
     <ModelFaceFront>4</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_927009ee-3d1d-46d4-aa13-8612845d3ef3</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -37,7 +37,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>window</Id>
+    <Id>window_f82b23ce-4a40-4487-81c2-61513e0b5327</Id>
     <Name>Window</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -61,7 +61,7 @@
     <ModelFaceFront>10</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>railings</Id>
+    <Id>railings_c5be5860-17cb-4de8-a11c-b8e13627053b</Id>
     <Name>railings</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -97,7 +97,7 @@
     <ModelFaceFront>2</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_b5cdb3bf-1388-41bd-8f93-3d84d1a20718</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -109,7 +109,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>doorframe</Id>
+    <Id>doorframe_a22f5df9-375c-43e2-8643-526ffc01a45e</Id>
     <Name>Doorframe</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -133,7 +133,7 @@
     <ModelFaceFront>2</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>doorframe</Id>
+    <Id>doorframe_bafe5f6f-5366-40c3-b92a-a8de7f10414b</Id>
     <Name>Doorframe</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -157,7 +157,7 @@
     <ModelFaceFront>-31711</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>arrowslit</Id>
+    <Id>arrowslit_00ef6736-36b5-4f39-ba02-53e49eb764c9</Id>
     <Name>arrowslit</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -229,7 +229,7 @@
     <ModelFaceFront>23</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_43dcab84-552c-417b-aae9-e3b6edf16ad9</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -241,7 +241,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_69cbd13d-24de-4a21-89cc-4536b9b9cb8c</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -253,7 +253,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_4dffa7de-2f33-4936-92db-34f26fbc8587</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -277,7 +277,7 @@
     <ModelFaceFront>2</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_23db475c-3c04-4fc0-81d4-ac49dc14c095</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -301,7 +301,7 @@
     <ModelFaceFront>26</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_3b065a2f-8292-4699-a751-2df31b985c10</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -313,7 +313,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_616e449f-59ea-4663-8c0b-4ce1901a3c49</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -325,7 +325,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_45954309-6104-4f82-8279-8b6be139dfe8</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -337,7 +337,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door96311630-40c7-4221-8019-db52dc14f46e</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -349,7 +349,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_c0d3a5b8-d3ed-4299-bc6d-cb1e71968e64</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -361,7 +361,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_7210bd8c-0e8d-45b8-935b-2277bc6e3b5d</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -373,7 +373,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_95ab3b13-f527-4e81-bf4a-75cddb2b0063</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -385,7 +385,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_0506ec43-9b6e-49b6-a3f3-4bce095435de</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -397,7 +397,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_24ce1f08-98b0-4ce4-8cc6-26a4a1bf661a</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -409,7 +409,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>window</Id>
+    <Id>window_2cc44ba3-15ae-4695-b8cd-58252b76c288</Id>
     <Name>Window</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -421,7 +421,7 @@
     <ModelFaceFront>27</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_b5fba308-71ad-4cd4-9cd1-b5bfc3896b60</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -433,7 +433,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_3ae7bd37-ea4b-4918-96f0-856ae7cd3a19</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -445,7 +445,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_934576dc-d785-4958-ba84-04d453c83567</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -457,7 +457,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_46eedfbf-fa69-47ac-a43c-0b3da75e028e</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -469,7 +469,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_dd842d60-688f-4154-bd0c-0c50edf337e5</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -481,7 +481,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_b9724932-e077-4a0d-8416-978d078c163c</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -517,7 +517,7 @@
     <ModelFaceFront>29</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_e89a81bd-2812-40c4-8e44-9890aa75f753</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -529,7 +529,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_a1782332-a09b-4bb0-9d8d-00c03a4b05a8</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -541,7 +541,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_ac9ae0cb-bc36-4e4d-9935-fa766c5f0423</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -565,7 +565,7 @@
     <ModelFaceFront>30</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_b03aeb6d-22ab-410e-808d-94b30b14a788</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -577,7 +577,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_85880011-2b15-4c0e-b5f3-72fc8b20ee08</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -589,7 +589,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_eab5a8e8-a867-4b2a-a359-8700f064a7ff</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -601,7 +601,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_ae104ac3-eb34-4da3-9139-ab26ed616702</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -613,7 +613,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_a16109c9-7efe-44a6-9fb2-6a8ce68b4081</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -625,7 +625,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_95edcaa8-1982-4894-bcd0-4aec28b07f67</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -637,7 +637,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_9baa9230-aa00-42ce-8d3d-0fbe93ed0cfd</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -649,7 +649,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_0a9662cc-3a16-47a2-ac09-7d5f6ad74414</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -661,7 +661,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_9f867242-d64f-4f2f-8540-7a9d8aeaa588</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -673,7 +673,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>wall</Id>
+    <Id>wall_430ed2e7-db91-4899-a91d-122f3346552f</Id>
     <Name>Wall</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -685,7 +685,7 @@
     <ModelFaceFront>3</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_2b6e9acb-e79b-4618-9d5c-0327a283e6ab</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -709,7 +709,7 @@
     <ModelFaceFront>29</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_08916ec4-c460-4c49-9cbb-99d3808396f4</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -721,7 +721,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_580de2bd-ca7b-4d29-829c-dc1a2916e4d5</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -733,7 +733,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_ba925f43-5dbb-463e-a4a4-7307d96accb0</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -757,7 +757,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_c61d61cb-407b-42d9-863c-cb9316df9a2d</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -769,7 +769,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_669f26be-6c56-4eec-9e2b-c53d4c6ab082</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -793,7 +793,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_84697a0b-13f6-41cb-bdb0-ae6e1fef130c</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -805,7 +805,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_2d670f0c-ca10-465d-a17d-5ccb2acf6dcc</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -817,7 +817,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_d58d80c6-faa2-49e5-aad2-2f7ad2f19867</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -829,7 +829,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_81b8e786-7938-4ec8-8a08-b211ee820e23</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -841,7 +841,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_b5633423-f36d-4de9-80a8-042b49457bf1</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -853,7 +853,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_5a067828-0fc5-4717-ac8f-6a2eda569ca1</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -865,7 +865,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_f2cb21b9-c7f6-4491-9947-f134033e94d3</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -877,7 +877,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_80ad0d81-32bc-4bb3-b81f-d187913d3e3b</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -889,7 +889,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_80fdcb41-df36-4ffe-8a60-73928f67dcf8</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -901,7 +901,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_d5945529-2096-4507-9367-7b7d0bc88b53</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -913,7 +913,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_ef57e97c-221c-4267-b943-e2d351d5d84f</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -925,7 +925,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_4245f7f1-f51d-4fa5-81b4-584cb1a8a8b1</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -937,7 +937,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_01d5d978-8ced-483e-9ba4-5b87334f8775</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -961,7 +961,7 @@
     <ModelFaceFront>21</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_88ec18ad-103a-4b4f-8b70-e00d8bda023f</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -973,7 +973,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_5cef319b-6207-415a-9180-4f4a5c1d9b22</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -985,7 +985,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_5da64852-f84f-49b1-811b-03f17e9665bd</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -997,7 +997,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_9be8bd05-26a4-4b64-ab8b-22fd94dde337</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1009,7 +1009,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_450827ed-dc34-4dc6-a119-a4b8eb776005</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1021,7 +1021,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_f7a01544-bbb1-46bb-ba1d-ccf7a1953168</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1057,7 +1057,7 @@
     <ModelFaceFront>2</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_a9c528b2-4196-4586-b88d-4371671d13f9</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1069,7 +1069,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_48b40165-0a2d-4146-bb89-d6fa889166cd</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1081,7 +1081,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_9c187851-5533-4ae7-8db6-410bafff9372</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1093,7 +1093,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_a58da8a4-0406-438c-8979-07c7de736dc3</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1105,7 +1105,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_0a0e39ce-0963-4732-9e25-4117534089da</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1117,7 +1117,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_f6c4e0b0-e32a-47b2-b39f-74afcbe7d4d2</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1129,7 +1129,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_1e316656-3f03-4a3a-af4f-05758c272587</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1141,7 +1141,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_e91e0a45-d96a-4b2b-a5c4-0663d20307e2</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1153,7 +1153,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_8e038490-b400-44ff-b925-2c0da98329b0</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1165,7 +1165,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_ea77074c-1359-448f-8e74-e8ac812b512b</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1177,7 +1177,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_adb3bb6c-1a97-497a-a025-a94d442bf18f</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1189,7 +1189,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_725e9a75-6f12-4843-894b-ceb26f408fbd</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1201,7 +1201,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_e6ad0a3c-bec1-449e-82fd-d3dfa2244c48</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1225,7 +1225,7 @@
     <ModelFaceFront>10</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_17ea4ee8-bd8f-45ee-8818-e3eaeeb728da</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1237,7 +1237,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_ca2c0dde-f8d3-4866-9e38-085b0d5d00bf</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1249,7 +1249,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_ccfb2613-b057-40d8-8e69-df4b6e109061</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1261,7 +1261,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_88a4f814-b9b7-407d-b2bd-250564698668</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1273,7 +1273,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_39613a3f-6a66-43ac-a273-663a330f61e1</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1285,7 +1285,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_faf5c8fa-322d-4700-aa16-047f43fd6e3a</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1297,7 +1297,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_abeac397-b51e-4249-a6f1-d90091816d90</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1309,7 +1309,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_c8ace8b5-dee5-4dc0-80ac-ccbaef82f768</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1321,7 +1321,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_69880b42-195c-443a-9747-d6b26b73ea15</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1345,7 +1345,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_f8d5983f-25aa-46de-8efc-e367f72992e6</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1357,7 +1357,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_4a2501ce-891b-4d1c-aee1-61a73a4bf826</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1369,7 +1369,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_59368f37-1ac6-4800-b133-36a7fcbe89e8</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1381,7 +1381,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_657a9fa8-69f8-46b9-99c2-1ae9cfd1ea71</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1393,7 +1393,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_c7de7401-d8bb-4beb-9ce3-4c0e59725077</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1405,7 +1405,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_3685e249-8351-49a8-be5b-36d7f3d553ad</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1417,7 +1417,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>arrowslit</Id>
+    <Id>arrowslit_32fb4bf8-d37f-4d91-8d84-42c0c976b8c1</Id>
     <Name>arrowslit</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -1441,7 +1441,7 @@
     <ModelFaceFront>12345678</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_a8158d39-231c-4884-bdde-de5430d2a3ae</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1453,7 +1453,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_8f6b1ad5-5fb9-4303-b805-798165a3f67f</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1465,7 +1465,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_462ba1e9-8823-46df-80dd-953cd155fd51</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1477,7 +1477,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_041c744c-6926-4232-8d20-156eeca56240</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1501,7 +1501,7 @@
     <ModelFaceFront>3</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_6911d327-b044-4040-9001-ceb481e186b5</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1525,7 +1525,7 @@
     <ModelFaceFront>45</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>low_fence</Id>
+    <Id>low_fence_382c89f9-62b5-4985-b6b7-f16f034432ca</Id>
     <Name>Low Fence</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -1537,7 +1537,7 @@
     <ModelFaceFront>10</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_57eb8527-544d-4730-9d70-8d95a5825fae</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1549,7 +1549,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_33401774-3b57-415f-81e6-028240983e54</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1561,7 +1561,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_1d411506-3ea6-4b1f-9b4b-6812ac2bec62</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1573,7 +1573,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_ebf19672-a3bf-45bd-b850-7d3f3baeef52</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1585,7 +1585,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_7332dcdd-5350-45b9-9582-3a5e4345cd20</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1597,7 +1597,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_3282659f-81bb-441b-8670-d449a2f2a194</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1609,7 +1609,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_b4a78045-0afa-4176-bf41-c42169f0f8fa</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1621,7 +1621,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_297525ba-d33c-4bdf-a878-b0180999b732</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1633,7 +1633,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_d5768f57-2b7b-4330-ba32-7b3a54e57310</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1657,7 +1657,7 @@
     <ModelFaceFront>10</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_c73676cf-dea6-4663-b55b-482fa0037845</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1669,7 +1669,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_4c99abe5-8a4d-4351-8119-8942801750c3</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1681,7 +1681,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_6f40f4d3-256b-4753-8271-c2f6b07e3381</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1693,7 +1693,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_a3dd2d19-130a-44d6-8e77-f863dc7ed569</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1705,7 +1705,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_4128daac-bf25-4dae-abd4-da2a6973deeb</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1717,7 +1717,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_bc773874-2c92-4e16-a926-8c0b20b8b341</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1741,7 +1741,7 @@
     <ModelFaceFront>46</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_1a790610-fb83-4618-b104-e94d0f024136</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1753,7 +1753,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_cecba3bf-ab2c-4b2a-aa6f-a3afe5e8ed0c</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1765,7 +1765,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>magic_portal</Id>
+    <Id>magic_portal_0178296e-8bc4-40d1-ae64-664d299449f4</Id>
     <Name>magic portal</Name>
     <Description />
     <Command1>enter</Command1>
@@ -1777,7 +1777,7 @@
     <ModelFaceFront>17</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>magic_portal</Id>
+    <Id>magic_portal_5f57e95f-cb84-415b-b3e4-d6aa7291002a</Id>
     <Name>magic portal</Name>
     <Description />
     <Command1>enter</Command1>
@@ -1789,7 +1789,7 @@
     <ModelFaceFront>17</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>magic_portal</Id>
+    <Id>magic_portal_5f6b9a90-603a-4e52-af60-491afa8dcf4c</Id>
     <Name>magic portal</Name>
     <Description />
     <Command1>enter</Command1>
@@ -1801,7 +1801,7 @@
     <ModelFaceFront>17</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_6246891e-ff50-4cb8-8485-3365ae882b3c</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1825,7 +1825,7 @@
     <ModelFaceFront>29</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_dfa94141-647b-4545-a2ed-2ed4cfc549d4</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1837,7 +1837,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_b2fa316a-311f-4692-99ec-eed65ddfdcdb</Id>
     <Name>Door</Name>
     <Description>the door is shut</Description>
     <Command1>walk through</Command1>
@@ -1849,7 +1849,7 @@
     <ModelFaceFront>3</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_2856e6a8-aeb7-44a5-8dc8-a2e703b87731</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>walk through</Command1>
@@ -1861,7 +1861,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_4683f15e-e502-46aa-80f6-faa0c4551ddd</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>walk through</Command1>
@@ -1873,7 +1873,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_ca9dfdc9-dedd-47db-a5cd-7dffac3ae7f5</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>walk through</Command1>
@@ -1885,7 +1885,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_efa730f4-348d-48ea-b6b7-cae7bcd612bb</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>walk through</Command1>
@@ -1897,7 +1897,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_eeb20d32-29e2-4942-9362-06270b58867c</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>walk through</Command1>
@@ -1909,7 +1909,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_9916c2a3-6ac4-4df7-aa61-453f120c1ae4</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>walk through</Command1>
@@ -1921,7 +1921,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_e7687900-4dcc-49f1-b506-e2d7b9f1169a</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>walk through</Command1>
@@ -1933,7 +1933,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_adf4a030-f044-4742-9806-847de5030db5</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1945,7 +1945,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_c8ea9078-67bb-4e41-9703-20548d018a0b</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -1957,7 +1957,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>low_wall</Id>
+    <Id>low_wall_bd87cf93-c51a-4c27-aee9-33df18827462</Id>
     <Name>Low wall</Name>
     <Description />
     <Command1>jump</Command1>
@@ -1969,7 +1969,7 @@
     <ModelFaceFront>2</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>low_wall</Id>
+    <Id>low_wall_109d265f-c2f9-452a-a8a8-33f132aea6db</Id>
     <Name>Low wall</Name>
     <Description />
     <Command1>jump</Command1>
@@ -1993,7 +1993,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>railings</Id>
+    <Id>railings_70a3c14b-e6c6-4af8-afe1-41f663fead43</Id>
     <Name>railings</Name>
     <Description />
     <Command1>pick lock</Command1>
@@ -2005,7 +2005,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>railings</Id>
+    <Id>railings_111e426e-a17d-46a0-8455-bbb2a536a385</Id>
     <Name>railings</Name>
     <Description />
     <Command1>pick lock</Command1>
@@ -2017,7 +2017,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>railings</Id>
+    <Id>railings_9f54ffc8-a63c-49a3-8db3-8a4723515758</Id>
     <Name>railings</Name>
     <Description />
     <Command1>pick lock</Command1>
@@ -2029,7 +2029,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>railings</Id>
+    <Id>railings_e9363bbf-6c1b-484c-9426-7d3ae3ad9c0a</Id>
     <Name>railings</Name>
     <Description />
     <Command1>pick lock</Command1>
@@ -2041,7 +2041,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>railings</Id>
+    <Id>railings_57a3af6d-435f-4704-8817-4d9c36eb05a5</Id>
     <Name>railings</Name>
     <Description />
     <Command1>pick lock</Command1>
@@ -2053,7 +2053,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>railings</Id>
+    <Id>railings_39992be4-5497-4441-b41c-186580cb08dd</Id>
     <Name>railings</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -2065,7 +2065,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>railings</Id>
+    <Id>railings_b7d9d641-0df3-4c29-b03b-7c72b0ede837</Id>
     <Name>railings</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -2077,7 +2077,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_2f77af92-9fe6-45e4-87b2-3c4e5db098c9</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -2089,7 +2089,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>doorframe</Id>
+    <Id>doorframe_f212b691-16b9-4a49-881b-42afa973ace3</Id>
     <Name>Doorframe</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -2113,7 +2113,7 @@
     <ModelFaceFront>36</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>jail_door</Id>
+    <Id>jail_door_2a8cb003-bf34-42e4-ba8e-5097b17f5aae</Id>
     <Name>Jail Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -2125,7 +2125,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>jail_door</Id>
+    <Id>jail_door_80ef5629-777b-4027-aff2-605e1a50ebb0</Id>
     <Name>Jail Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -2137,7 +2137,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>window</Id>
+    <Id>window_0b2af0ac-8e94-41f6-b7ca-8e450b432fdf</Id>
     <Name>Window</Name>
     <Description>A barred window</Description>
     <Command1>WalkTo</Command1>
@@ -2149,7 +2149,7 @@
     <ModelFaceFront>27</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>magic_portal</Id>
+    <Id>magic_portal_9a65e312-e2ff-4190-a82c-3031f66163bc</Id>
     <Name>magic portal</Name>
     <Description>A magical barrier shimmers with power</Description>
     <Command1>WalkTo</Command1>
@@ -2161,7 +2161,7 @@
     <ModelFaceFront>17</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>jail_door</Id>
+    <Id>jail_door_7bce8557-6b67-4fcf-bdca-8d883bce97bb</Id>
     <Name>Jail Door</Name>
     <Description>A solid iron gate</Description>
     <Command1>Open</Command1>
@@ -2173,7 +2173,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>railings</Id>
+    <Id>railings_de09c445-1b54-4eed-901d-2f6cf454dba8</Id>
     <Name>railings</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -2185,7 +2185,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>railings</Id>
+    <Id>railings_817b6ec3-cf76-4a21-9586-6efa2624fd6c</Id>
     <Name>railings</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -2197,7 +2197,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>railings</Id>
+    <Id>railings_07761cae-b7b2-46a6-8a87-ef4a8054761d</Id>
     <Name>railings</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -2209,7 +2209,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>railings</Id>
+    <Id>railings_85ab6694-7448-49f1-942e-440ffc16bcb0</Id>
     <Name>railings</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -2221,7 +2221,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>railings</Id>
+    <Id>railings_9fcf3c8d-2314-4a4e-bdc2-f0465af8d1b8</Id>
     <Name>railings</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -2233,7 +2233,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>railings</Id>
+    <Id>railings_f73c19ec-7073-426f-8676-14584445401f</Id>
     <Name>railings</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -2245,7 +2245,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>cave_exit</Id>
+    <Id>cave_exit_2523c547-0c8a-4163-b79f-bf5566472584</Id>
     <Name>Cave exit</Name>
     <Description>The way out</Description>
     <Command1>Leave</Command1>
@@ -2257,7 +2257,7 @@
     <ModelFaceFront>26</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>cave_exit</Id>
+    <Id>cave_exit_3623cc31-8552-4ecb-ac05-b6288b517bd6</Id>
     <Name>Cave exit</Name>
     <Description>The way out</Description>
     <Command1>Leave</Command1>
@@ -2269,7 +2269,7 @@
     <ModelFaceFront>26</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>cave_exit</Id>
+    <Id>cave_exit_8ab0df58-1fa9-4b34-b1d3-496eda8da1d9</Id>
     <Name>Cave exit</Name>
     <Description>The way out</Description>
     <Command1>Leave</Command1>
@@ -2281,7 +2281,7 @@
     <ModelFaceFront>26</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>cave_exit</Id>
+    <Id>cave_exit_c443f4b8-b53a-45ac-9044-31717a660cf2</Id>
     <Name>Cave exit</Name>
     <Description>The way out</Description>
     <Command1>Leave</Command1>
@@ -2293,7 +2293,7 @@
     <ModelFaceFront>26</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>cave_exit</Id>
+    <Id>cave_exit_c4bd751b-511a-49d6-8802-c47f7df5b2b8</Id>
     <Name>Cave exit</Name>
     <Description>The way out</Description>
     <Command1>Leave</Command1>
@@ -2305,7 +2305,7 @@
     <ModelFaceFront>26</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>cave_exit</Id>
+    <Id>cave_exit_73e0de2b-9a50-4743-92b5-4f06d640b69a</Id>
     <Name>Cave exit</Name>
     <Description>The way out</Description>
     <Command1>Leave</Command1>
@@ -2317,7 +2317,7 @@
     <ModelFaceFront>26</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>railings</Id>
+    <Id>railings_f9b7ef16-a195-4dba-a812-0cb1bcb07088</Id>
     <Name>railings</Name>
     <Description />
     <Command1>WalkTo</Command1>
@@ -2329,7 +2329,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_b3249633-6d79-4675-a374-dfddff5a504e</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -2341,7 +2341,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>battlement</Id>
+    <Id>battlement_0cd4a11d-e2a1-40b3-8015-769992087dfb</Id>
     <Name>battlement</Name>
     <Description>This is blocking your path</Description>
     <Command1>Climb-over</Command1>
@@ -2353,7 +2353,7 @@
     <ModelFaceFront>2</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>tent_door</Id>
+    <Id>tent_door_1a4f9898-83d9-43b1-bb37-4314ab124b38</Id>
     <Name>Tent Door</Name>
     <Description>An entrance into the tent</Description>
     <Command1>Go through</Command1>
@@ -2365,7 +2365,7 @@
     <ModelFaceFront>50</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_3d68ab57-e2c5-475c-888d-c94e742c7ac0</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>
@@ -2377,7 +2377,7 @@
     <ModelFaceFront>0</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>tent_door</Id>
+    <Id>tent_door_8a16bdbc-9dc3-48ae-b1dd-1f95e63f35e0</Id>
     <Name>Tent Door</Name>
     <Description>An entrance into the tent</Description>
     <Command1>Go through</Command1>
@@ -2389,7 +2389,7 @@
     <ModelFaceFront>50</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>low_fence</Id>
+    <Id>low_fence_f67d3bef-39f5-4501-b5f7-074032c4d3f5</Id>
     <Name>Low Fence</Name>
     <Description>A damaged wooden fence</Description>
     <Command1>search</Command1>
@@ -2413,7 +2413,7 @@
     <ModelFaceFront>12</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>battlement</Id>
+    <Id>battlement_0c864c61-3f47-4b31-9083-6a5b00b71a9c</Id>
     <Name>battlement</Name>
     <Description>this low wall blocks your path</Description>
     <Command1>climb over</Command1>
@@ -2461,7 +2461,7 @@
     <ModelFaceFront>8</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>window</Id>
+    <Id>window_06b7b35c-c7c3-4294-bcdb-d3652d852d7d</Id>
     <Name>Window</Name>
     <Description>you can see a vicious looking guard dog right outside</Description>
     <Command1>Investigate</Command1>
@@ -2557,7 +2557,7 @@
     <ModelFaceFront>2</ModelFaceFront>
   </WallObjectEntity>
   <WallObjectEntity>
-    <Id>door</Id>
+    <Id>door_be72ce17-8cc6-4f42-b22d-d52842c3dc55</Id>
     <Name>Door</Name>
     <Description>The door is shut</Description>
     <Command1>Open</Command1>

@@ -1,6 +1,8 @@
 ﻿using NuciXNA.Input;
 using NuciXNA.Primitives;
 
+using NuciXNA.Gui.GuiElements;
+
 using OpenRSC.Models.Enumerations;
 using OpenRSC.Net.Client;
 using OpenRSC.Net.Enumerations;
@@ -53,11 +55,11 @@ namespace OpenRSC.Gui.GuiElements
                 Icon = "Icons/CombatStyles/defensive"
             };
 
-            Children.Add(combatLevelText);
-            Children.Add(controlledStyleCard);
-            Children.Add(aggressiveStyleCard);
-            Children.Add(accurateStyleCard);
-            Children.Add(defensiveStyleCard);
+            AddChild(combatLevelText);
+            AddChild(controlledStyleCard);
+            AddChild(aggressiveStyleCard);
+            AddChild(accurateStyleCard);
+            AddChild(defensiveStyleCard);
 
             base.LoadContent();
         }

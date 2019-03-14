@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
+using NuciXNA.Gui.GuiElements;
 using NuciXNA.Primitives;
 
 using OpenRSC.Net.Client;
@@ -24,7 +25,7 @@ namespace OpenRSC.Gui.GuiElements
             {
                 itemCards[i] = new GuiItemCard();
 
-                Children.Add(itemCards[i]);
+                AddChild(itemCards[i]);
             }
 
             base.LoadContent();

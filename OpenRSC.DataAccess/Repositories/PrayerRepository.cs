@@ -2,136 +2,48 @@
 using System.IO;
 using System.Linq;
 
+using NuciXNA.DataAccess.Repositories;
+
 using OpenRSC.DataAccess.DataObjects;
-using OpenRSC.DataAccess.Exceptions;
 
 namespace OpenRSC.DataAccess.Repositories
 {
     /// <summary>
     /// Prayer repository implementation.
     /// </summary>
-    public class PrayerRepository
+    public class PrayerRepository : XmlRepository<PrayerEntity>
     {
-        readonly XmlDatabase<PrayerEntity> xmlDatabase;
-        List<PrayerEntity> prayerEntities;
-        bool loadedEntities;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PrayerRepository"/> class.
         /// </summary>
         /// <param name="fileName">File name.</param>
         public PrayerRepository(string fileName)
+            : base(fileName)
         {
-            xmlDatabase = new XmlDatabase<PrayerEntity>(fileName);
-            prayerEntities = new List<PrayerEntity>();
-        }
-
-        public void ApplyChanges()
-        {
-            try
-            {
-                xmlDatabase.SaveEntities(prayerEntities);
-            }
-            catch
-            {
-                // TODO: Better exception message
-                throw new IOException("Cannot save the changes");
-            }
-        }
-
-        /// <summary>
-        /// Adds the specified prayer.
-        /// </summary>
-        /// <param name="prayerEntity">Prayer.</param>
-        public void Add(PrayerEntity prayerEntity)
-        {
-            LoadEntitiesIfNeeded();
-
-            prayerEntities.Add(prayerEntity);
-        }
-
-        /// <summary>
-        /// Get the prayer with the specified identifier.
-        /// </summary>
-        /// <returns>The prayer.</returns>
-        /// <param name="id">Identifier.</param>
-        public PrayerEntity Get(string id)
-        {
-            LoadEntitiesIfNeeded();
-
-            PrayerEntity prayerEntity = prayerEntities.FirstOrDefault(x => x.Id == id);
-
-            if (prayerEntity == null)
-            {
-                throw new EntityNotFoundException(id, nameof(PrayerEntity).Replace("Entity", ""));
-            }
-
-            return prayerEntity;
-        }
-
-        /// <summary>
-        /// Gets all the prayers.
-        /// </summary>
-        /// <returns>The prayers</returns>
-        public IEnumerable<PrayerEntity> GetAll()
-        {
-            LoadEntitiesIfNeeded();
-
-            return prayerEntities;
+            
         }
 
         /// <summary>
         /// Updates the specified prayer.
         /// </summary>
-        /// <param name="prayerEntity">Prayer.</param>
-        public void Update(PrayerEntity prayerEntity)
+        /// <param name="entity">Prayer.</param>
+        public override void Update(PrayerEntity entity)
         {
             LoadEntitiesIfNeeded();
 
-            PrayerEntity prayerEntityToUpdate = prayerEntities.FirstOrDefault(x => x.Id == prayerEntity.Id);
+            PrayerEntity entityToUpdate = Get(entity.Id);
 
-            if (prayerEntityToUpdate == null)
+            if (entityToUpdate == null)
             {
-                throw new EntityNotFoundException(prayerEntity.Id, nameof(PrayerEntity).Replace("Entity", ""));
+                throw new EntityNotFoundException(entity.Id, nameof(PrayerEntity));
             }
 
-            prayerEntityToUpdate.Name = prayerEntity.Name;
-            prayerEntityToUpdate.Description = prayerEntity.Description;
-            prayerEntityToUpdate.RequiredLevel = prayerEntity.RequiredLevel;
-            prayerEntityToUpdate.DrainRate = prayerEntity.DrainRate;
+            entityToUpdate.Name = entity.Name;
+            entityToUpdate.Description = entity.Description;
+            entityToUpdate.RequiredLevel = entity.RequiredLevel;
+            entityToUpdate.DrainRate = entity.DrainRate;
 
-            xmlDatabase.SaveEntities(prayerEntities);
-        }
-
-        /// <summary>
-        /// Removes the prayer with the specified identifier.
-        /// </summary>
-        /// <param name="id">Identifier.</param>
-        public void Remove(string id)
-        {
-            LoadEntitiesIfNeeded();
-
-            prayerEntities.RemoveAll(x => x.Id == id);
-
-            try
-            {
-                xmlDatabase.SaveEntities(prayerEntities);
-            }
-            catch
-            {
-                throw new DuplicateEntityException(id, nameof(PrayerEntity).Replace("Entity", ""));
-            }
-        }
-
-        void LoadEntitiesIfNeeded()
-        {
-            if (loadedEntities)
-            {
-                return;
-            }
-
-            prayerEntities = xmlDatabase.LoadEntities().ToList();
-            loadedEntities = true;
+            XmlFile.SaveEntities(Entities.Values);
         }
     }
 }

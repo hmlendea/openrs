@@ -2,142 +2,54 @@
 using System.IO;
 using System.Linq;
 
+using NuciXNA.DataAccess.Repositories;
+
 using OpenRSC.DataAccess.DataObjects;
-using OpenRSC.DataAccess.Exceptions;
 
 namespace OpenRSC.DataAccess.Repositories
 {
     /// <summary>
     /// worldObject repository implementation.
     /// </summary>
-    public class WorldObjectRepository
+    public class WorldObjectRepository : XmlRepository<WorldObjectEntity>
     {
-        readonly XmlDatabase<WorldObjectEntity> xmlDatabase;
-        List<WorldObjectEntity> worldObjectEntities;
-        bool loadedEntities;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="WorldObjectRepository"/> class.
         /// </summary>
         /// <param name="fileName">File name.</param>
         public WorldObjectRepository(string fileName)
+            : base(fileName)
         {
-            xmlDatabase = new XmlDatabase<WorldObjectEntity>(fileName);
-            worldObjectEntities = new List<WorldObjectEntity>();
-        }
 
-        public void ApplyChanges()
-        {
-            try
-            {
-                xmlDatabase.SaveEntities(worldObjectEntities);
-            }
-            catch
-            {
-                // TODO: Better exception message
-                throw new IOException("Cannot save the changes");
-            }
-        }
-
-        /// <summary>
-        /// Adds the specified world object.
-        /// </summary>
-        /// <param name="worldObjectEntity">World object.</param>
-        public void Add(WorldObjectEntity worldObjectEntity)
-        {
-            LoadEntitiesIfNeeded();
-
-            worldObjectEntities.Add(worldObjectEntity);
-        }
-
-        /// <summary>
-        /// Get the world object with the specified identifier.
-        /// </summary>
-        /// <returns>The world object.</returns>
-        /// <param name="id">Identifier.</param>
-        public WorldObjectEntity Get(string id)
-        {
-            LoadEntitiesIfNeeded();
-
-            WorldObjectEntity worldObjectEntity = worldObjectEntities.FirstOrDefault(x => x.Id == id);
-
-            if (worldObjectEntity == null)
-            {
-                throw new EntityNotFoundException(id, nameof(WorldObjectEntity).Replace("Entity", ""));
-            }
-
-            return worldObjectEntity;
-        }
-
-        /// <summary>
-        /// Gets all the world objects.
-        /// </summary>
-        /// <returns>The world objects</returns>
-        public IEnumerable<WorldObjectEntity> GetAll()
-        {
-            LoadEntitiesIfNeeded();
-
-            return worldObjectEntities;
         }
 
         /// <summary>
         /// Updates the specified world object.
         /// </summary>
-        /// <param name="worldObjectEntity">World object.</param>
-        public void Update(WorldObjectEntity worldObjectEntity)
+        /// <param name="entity">World object.</param>
+        public override void Update(WorldObjectEntity entity)
         {
             LoadEntitiesIfNeeded();
 
-            WorldObjectEntity worldObjectEntityToUpdate = worldObjectEntities.FirstOrDefault(x => x.Id == worldObjectEntity.Id);
+            WorldObjectEntity entityToUpdate = Get(entity.Id);
 
-            if (worldObjectEntityToUpdate == null)
+            if (entityToUpdate == null)
             {
-                throw new EntityNotFoundException(worldObjectEntity.Id, nameof(WorldObjectEntity).Replace("Entity", ""));
+                throw new EntityNotFoundException(entity.Id, nameof(WorldObjectEntity));
             }
 
-            worldObjectEntityToUpdate.Name = worldObjectEntity.Name;
-            worldObjectEntityToUpdate.Description = worldObjectEntity.Description;
-            worldObjectEntityToUpdate.Command1 = worldObjectEntity.Command1;
-            worldObjectEntityToUpdate.Command2 = worldObjectEntity.Command2;
-            worldObjectEntityToUpdate.Type = worldObjectEntity.Type;
-            worldObjectEntityToUpdate.Width = worldObjectEntity.Width;
-            worldObjectEntityToUpdate.Height = worldObjectEntity.Height;
-            worldObjectEntityToUpdate.GroundItemVar = worldObjectEntity.GroundItemVar;
-            worldObjectEntityToUpdate.ObjectModel = worldObjectEntity.ObjectModel;
-            worldObjectEntityToUpdate.ModelId = worldObjectEntity.ModelId;
-
-            xmlDatabase.SaveEntities(worldObjectEntities);
-        }
-
-        /// <summary>
-        /// Removes the world object with the specified identifier.
-        /// </summary>
-        /// <param name="id">Identifier.</param>
-        public void Remove(string id)
-        {
-            LoadEntitiesIfNeeded();
-
-            worldObjectEntities.RemoveAll(x => x.Id == id);
-
-            try
-            {
-                xmlDatabase.SaveEntities(worldObjectEntities);
-            }
-            catch
-            {
-                throw new DuplicateEntityException(id, nameof(WorldObjectEntity).Replace("Entity", ""));
-            }
-        }
-
-        void LoadEntitiesIfNeeded()
-        {
-            if (loadedEntities)
-            {
-                return;
-            }
-
-            worldObjectEntities = xmlDatabase.LoadEntities().ToList();
-            loadedEntities = true;
+            entityToUpdate.Name = entity.Name;
+            entityToUpdate.Description = entity.Description;
+            entityToUpdate.Command1 = entity.Command1;
+            entityToUpdate.Command2 = entity.Command2;
+            entityToUpdate.Type = entity.Type;
+            entityToUpdate.Width = entity.Width;
+            entityToUpdate.Height = entity.Height;
+            entityToUpdate.GroundItemVar = entity.GroundItemVar;
+            entityToUpdate.ObjectModel = entity.ObjectModel;
+            entityToUpdate.ModelId = entity.ModelId;
+            
+            XmlFile.SaveEntities(Entities.Values);
         }
     }
 }

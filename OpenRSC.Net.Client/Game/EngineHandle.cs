@@ -4,7 +4,6 @@ using System.IO;
 using NuciXNA.Primitives;
 
 using OpenRSC.GameLogic.GameManagers;
-using OpenRSC.Infrastructure;
 using OpenRSC.Models;
 using OpenRSC.Net.Client.Game.Cameras;
 using OpenRSC.Net.Client.Data;
@@ -549,7 +548,7 @@ namespace OpenRSC.Net.Client.Game
 
                         Point3D vertLoc = new Point3D(j2 * 128, i4, i3 * 128);
                         int vertexIndex = sectionObj.getVertexIndex(vertLoc);
-                        int color = (int)(Helper.Random.NextDouble() * 10D) - 5;
+                        int color = (int)(ran.NextDouble() * 10D) - 5;
                         sectionObj.SetVertexColor(vertexIndex, color);
                     }
                 }

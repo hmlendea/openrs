@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
+using NuciXNA.Gui.GuiElements;
 using NuciXNA.Primitives;
 
 using OpenRSC.Net.Client;
@@ -50,24 +51,24 @@ namespace OpenRSC.Gui.GuiElements
             fletchingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/fletching" };
             woodcuttingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/woodcutting" };
 
-            Children.Add(attackCard);
-            Children.Add(healthCard);
-            Children.Add(miningCard);
-            Children.Add(strengthCard);
-            Children.Add(agilityCard);
-            Children.Add(smithingCard);
-            Children.Add(defenceCard);
-            Children.Add(herbloreCard);
-            Children.Add(fishingCard);
-            Children.Add(rangedCard);
-            Children.Add(thievingCard);
-            Children.Add(cookingCard);
-            Children.Add(prayerCard);
-            Children.Add(craftingCard);
-            Children.Add(firemakingCard);
-            Children.Add(magicCard);
-            Children.Add(fletchingCard);
-            Children.Add(woodcuttingCard);
+            AddChild(attackCard);
+            AddChild(healthCard);
+            AddChild(miningCard);
+            AddChild(strengthCard);
+            AddChild(agilityCard);
+            AddChild(smithingCard);
+            AddChild(defenceCard);
+            AddChild(herbloreCard);
+            AddChild(fishingCard);
+            AddChild(rangedCard);
+            AddChild(thievingCard);
+            AddChild(cookingCard);
+            AddChild(prayerCard);
+            AddChild(craftingCard);
+            AddChild(firemakingCard);
+            AddChild(magicCard);
+            AddChild(fletchingCard);
+            AddChild(woodcuttingCard);
 
             base.LoadContent();
         }

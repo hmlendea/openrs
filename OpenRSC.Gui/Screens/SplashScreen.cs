@@ -1,14 +1,11 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
 
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
+using NuciXNA.Gui;
+using NuciXNA.Gui.GuiElements;
+using NuciXNA.Gui.Screens;
+using NuciXNA.Graphics.SpriteEffects;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
-
-using OpenRSC.Graphics;
-using OpenRSC.Graphics.CustomSpriteEffects;
-using OpenRSC.Gui.GuiElements;
 
 namespace OpenRSC.Gui.Screens
 {
@@ -27,7 +24,7 @@ namespace OpenRSC.Gui.Screens
         /// Gets or sets the background.
         /// </summary>
         /// <value>The background.</value>
-        public Sprite BackgroundImage { get; set; }
+        public GuiImage BackgroundImage { get; set; }
 
         /// <summary>
         /// Gets or sets the overlay.
@@ -47,7 +44,7 @@ namespace OpenRSC.Gui.Screens
         public SplashScreen()
         {
             Delay = 3;
-            BackgroundColour = Colour.FromArgb(88, 109, 157);
+            BackgroundColour = Colour.DodgerBlue;
         }
 
         /// <summary>
@@ -55,44 +52,33 @@ namespace OpenRSC.Gui.Screens
         /// </summary>
         public override void LoadContent()
         {
-            BackgroundImage = new Sprite
+            BackgroundImage = new GuiImage
             {
                 ContentFile = "SplashScreen/Background",
-                RotationEffect = new RotationEffect
+                RotationEffect = new OscilationEffect
                 {
-                    Speed = 0.1f,
-                    MaximumRotation = 0.2f
+                    Speed = 0.25f,
+                    MinimumMultiplier = 0.5f,
+                    MaximumMultiplier = 1.5f
                 },
-                ZoomEffect = new ZoomEffect
+                ScaleEffect = new ZoomEffect
                 {
-                    Speed = 0.1f,
-                    MinimumZoom = 1.25f,
-                    MaximumZoom = 2.00f
-                }
+                    MinimumMultiplier = 0.5f,
+                    MaximumMultiplier = 1.5f
+                },
+                EffectsActive = true
             };
             OverlayImage = new GuiImage { ContentFile = "SplashScreen/Overlay" };
             LogoImage = new GuiImage { ContentFile = "SplashScreen/Logo" };
 
+            GuiManager.Instance.GuiElements.Add(BackgroundImage);
+            GuiManager.Instance.GuiElements.Add(OverlayImage);
+            GuiManager.Instance.GuiElements.Add(LogoImage);
+
             base.LoadContent();
 
-            BackgroundImage.LoadContent();
-            OverlayImage.LoadContent();
-            LogoImage.LoadContent();
-
-            BackgroundImage.ActivateEffect("RotationEffect");
-            BackgroundImage.ActivateEffect("ZoomEffect");
-        }
-
-        /// <summary>
-        /// Unloads the content.
-        /// </summary>
-        public override void UnloadContent()
-        {
-            base.UnloadContent();
-
-            BackgroundImage.UnloadContent();
-            OverlayImage.UnloadContent();
-            LogoImage.UnloadContent();
+            BackgroundImage.RotationEffect.Activate();
+            BackgroundImage.ScaleEffect.Activate();
         }
 
         /// <summary>
@@ -102,53 +88,45 @@ namespace OpenRSC.Gui.Screens
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            BackgroundImage.Update(gameTime);
-            OverlayImage.Update(gameTime);
-            LogoImage.Update(gameTime);
+
+            if (Delay <= 0 && !ScreenManager.Instance.Transitioning)
+            {
+                ChangeScreens();
+            }
 
             Delay -= (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
 
-        /// <summary>
-        /// Draws the content on the specified spriteBatch.
-        /// </summary>
-        /// <param name="spriteBatch">Sprite batch.</param>
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            base.Draw(spriteBatch);
-
-            BackgroundImage.Draw(spriteBatch);
-            OverlayImage.Draw(spriteBatch);
-            LogoImage.Draw(spriteBatch);
-        }
-
         protected override void SetChildrenProperties()
         {
-            float bgScale = (float)Math.Max(ScreenManager.Instance.Size.Width, ScreenManager.Instance.Size.Height) /
-                            Math.Max(BackgroundImage.SpriteSize.Width, BackgroundImage.SpriteSize.Height);
-
-
-            BackgroundImage.Scale = new Scale2D(bgScale, bgScale);
             OverlayImage.Size = ScreenManager.Instance.Size;
 
-            BackgroundImage.Location = new Point2D((ScreenManager.Instance.Size.Width - BackgroundImage.ClientRectangle.Width) / 2,
-                                                   (ScreenManager.Instance.Size.Height - BackgroundImage.ClientRectangle.Height) / 2);
-            LogoImage.Location = new Point2D((ScreenManager.Instance.Size.Width - LogoImage.Size.Width) / 2,
-                                             (ScreenManager.Instance.Size.Height - LogoImage.Size.Height) / 2);
+            BackgroundImage.Location = new Point2D(
+                (ScreenManager.Instance.Size.Width - BackgroundImage.ClientRectangle.Width) / 2,
+                (ScreenManager.Instance.Size.Height - BackgroundImage.ClientRectangle.Height) / 2);
+
+            LogoImage.Location = new Point2D(
+                (ScreenManager.Instance.Size.Width - LogoImage.Size.Width) / 2,
+                (ScreenManager.Instance.Size.Height - LogoImage.Size.Height) / 2);
         }
 
         protected override void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
         {
             base.OnKeyPressed(sender, e);
 
-            ScreenManager.Instance.ChangeScreens("GameplayScreen");
+            ChangeScreens();
         }
 
         protected override void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
             base.OnMouseButtonPressed(sender, e);
 
-            ScreenManager.Instance.ChangeScreens("GameplayScreen");
+            ChangeScreens();
+        }
+
+        void ChangeScreens()
+        {
+            ScreenManager.Instance.ChangeScreens<GameplayScreen>();
         }
     }
 }

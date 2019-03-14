@@ -1,9 +1,9 @@
-﻿namespace OpenRSC.DataAccess.DataObjects
-{
-    public class GameObjectLocationEntity
-    {
-        public string Id { get; set; }
+﻿using NuciXNA.DataAccess.DataObjects;
 
+namespace OpenRSC.DataAccess.DataObjects
+{
+    public class GameObjectLocationEntity : EntityBase
+    {
         public int X { get; set; }
 
         public int Y { get; set; }

@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OpenRSC.DataAccess\OpenRSC.DataAccess.csproj" />
-    <ProjectReference Include="..\OpenRSC.Graphics\OpenRSC.Graphics.csproj" />
     <ProjectReference Include="..\OpenRSC.Gui\OpenRSC.Gui.csproj" />
     <ProjectReference Include="..\OpenRSC.Settings\OpenRSC.Settings.csproj" />
   </ItemGroup>

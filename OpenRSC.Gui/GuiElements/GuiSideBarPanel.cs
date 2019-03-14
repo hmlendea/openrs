@@ -1,4 +1,6 @@
-﻿namespace OpenRSC.Gui.GuiElements
+﻿using NuciXNA.Gui.GuiElements;
+
+namespace OpenRSC.Gui.GuiElements
 {
     public class GuiSideBarPanel : GuiElement
     {
@@ -11,7 +13,7 @@
                 ContentFile = "Interface/SideBar/panel"
             };
 
-            Children.Add(background);
+            AddChild(background);
 
             base.LoadContent();
         }

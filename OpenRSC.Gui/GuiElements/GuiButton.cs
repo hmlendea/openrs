@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using NuciXNA.Gui.GuiElements;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
 
@@ -62,12 +63,12 @@ namespace OpenRSC.Gui.GuiElements
                 images.Add(image);
             }
 
-            Children.AddRange(images);
-            Children.Add(text);
+            images.ForEach(x => AddChild(x));
+            AddChild(text);
 
             if (!string.IsNullOrWhiteSpace(Icon))
             {
-                Children.Add(icon);
+                AddChild(icon);
             }
 
             base.LoadContent();

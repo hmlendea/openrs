@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.Gui;
+using NuciXNA.Gui.Screens;
 using NuciXNA.Primitives;
 
 using OpenRSC.Gui.GuiElements;

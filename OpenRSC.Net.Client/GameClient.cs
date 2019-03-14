@@ -12,7 +12,6 @@ using NuciXNA.Primitives;
 using NuciXNA.Primitives.Mapping;
 
 using OpenRSC.GameLogic.GameManagers;
-using OpenRSC.Infrastructure;
 using OpenRSC.Models;
 using OpenRSC.Models.Enumerations;
 using OpenRSC.Net.Client.Data;
@@ -48,6 +47,7 @@ namespace OpenRSC.Net.Client
         }
 
         readonly PacketHandler packetHandler;
+        readonly Random random = new Random();
 
         List<Keys> lastPressedKeys = new List<Keys>();
         int lastMouseX;
@@ -2021,7 +2021,7 @@ namespace OpenRSC.Net.Client
                 if (cameraRotateTime > 500)
                 {
                     cameraRotateTime = 0;
-                    int l = (int)(Helper.Random.NextDouble() * 4D);
+                    int l = (int)(random.NextDouble() * 4D);
                     if ((l & 1) == 1)
                     {
                         cameraRotationXAmount += cameraRotationXIncrement;
@@ -4798,8 +4798,8 @@ namespace OpenRSC.Net.Client
 
             if (lastLayerIndex == 3)
             {
-                int l5 = 40 + (int)(Helper.Random.NextDouble() * 3D);
-                int j8 = 40 + (int)(Helper.Random.NextDouble() * 7D);
+                int l5 = 40 + (int)(random.NextDouble() * 3D);
+                int j8 = 40 + (int)(random.NextDouble() * 7D);
 
                 Point3D loc = new Point3D(-50, -10, -50);
                 gameCamera.bjl(l5, j8, loc);
@@ -4917,14 +4917,14 @@ namespace OpenRSC.Net.Client
         {
             gameGraphics.FadeScreenToBlack();
 
-            if (Helper.Random.NextDouble() < 0.14999999999999999D)
+            if (random.NextDouble() < 0.14999999999999999D)
             {
-                gameGraphics.DrawText("ZZZ", (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
+                gameGraphics.DrawText("ZZZ", (int)(random.NextDouble() * 80D), (int)(random.NextDouble() * 334D), 5, (int)(random.NextDouble() * 16777215D));
             }
 
-            if (Helper.Random.NextDouble() < 0.14999999999999999D)
+            if (random.NextDouble() < 0.14999999999999999D)
             {
-                gameGraphics.DrawText("ZZZ", 512 - (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
+                gameGraphics.DrawText("ZZZ", 512 - (int)(random.NextDouble() * 80D), (int)(random.NextDouble() * 334D), 5, (int)(random.NextDouble() * 16777215D));
             }
 
             gameGraphics.DrawBox(WindowSize.Width / 2 - 100, 160, 200, 40, 0);
@@ -6157,8 +6157,8 @@ namespace OpenRSC.Net.Client
             if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 33 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 33 && InputManager.Instance.MouseLocation.Y < 35)
             {
                 drawMenuTab = 2;
-                minimapRandomRotationX = (int)(Helper.Random.NextDouble() * 13D) - 6;
-                minimapRandomRotationY = (int)(Helper.Random.NextDouble() * 23D) - 11;
+                minimapRandomRotationX = (int)(random.NextDouble() * 13D) - 6;
+                minimapRandomRotationY = (int)(random.NextDouble() * 23D) - 11;
             }
             if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 66 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 66 && InputManager.Instance.MouseLocation.Y < 35)
             {
@@ -6188,8 +6188,8 @@ namespace OpenRSC.Net.Client
             if (drawMenuTab != 0 && drawMenuTab != 2 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 33 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 33 && InputManager.Instance.MouseLocation.Y < 26)
             {
                 drawMenuTab = 2;
-                minimapRandomRotationX = (int)(Helper.Random.NextDouble() * 13D) - 6;
-                minimapRandomRotationY = (int)(Helper.Random.NextDouble() * 23D) - 11;
+                minimapRandomRotationX = (int)(random.NextDouble() * 13D) - 6;
+                minimapRandomRotationY = (int)(random.NextDouble() * 23D) - 11;
             }
             if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 66 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 66 && InputManager.Instance.MouseLocation.Y < 26)
             {

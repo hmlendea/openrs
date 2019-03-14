@@ -1,7 +1,9 @@
 ﻿using NuciXNA.Input;
 using NuciXNA.Primitives;
 
-using OpenRSC.Graphics.Enumerations;
+using NuciXNA.Graphics.Drawing;
+using NuciXNA.Gui.GuiElements;
+
 using OpenRSC.Net.Client;
 using OpenRSC.Settings;
 
@@ -106,23 +108,23 @@ namespace OpenRSC.Gui.GuiElements
                 Size = new Size2D(240, 36)
             };
 
-            Children.Add(background);
-            Children.Add(minimap);
+            AddChild(background);
+            AddChild(minimap);
 
-            Children.Add(panel);
-            Children.Add(combatPanel);
-            Children.Add(skillsPanel);
-            Children.Add(inventoryPanel);
+            AddChild(panel);
+            AddChild(combatPanel);
+            AddChild(skillsPanel);
+            AddChild(inventoryPanel);
 
-            Children.Add(combatButton);
-            Children.Add(skillsButton);
-            Children.Add(questsButton);
-            Children.Add(tasksButton);
-            Children.Add(inventoryButton);
-            Children.Add(equipmentButton);
-            Children.Add(prayerButton);
-            Children.Add(spellsButton);
-            Children.Add(exitButton);
+            AddChild(combatButton);
+            AddChild(skillsButton);
+            AddChild(questsButton);
+            AddChild(tasksButton);
+            AddChild(inventoryButton);
+            AddChild(equipmentButton);
+            AddChild(prayerButton);
+            AddChild(spellsButton);
+            AddChild(exitButton);
 
             InventoryButton_Clicked(this, null);
 

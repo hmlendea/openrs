@@ -2,134 +2,46 @@
 using System.IO;
 using System.Linq;
 
+using NuciXNA.DataAccess.Repositories;
+
 using OpenRSC.DataAccess.DataObjects;
-using OpenRSC.DataAccess.Exceptions;
 
 namespace OpenRSC.DataAccess.Repositories
 {
     /// <summary>
     /// Texture repository implementation.
     /// </summary>
-    public class GameTextureRepository
+    public class GameTextureRepository : XmlRepository<GameTextureEntity>
     {
-        readonly XmlDatabase<GameTextureEntity> xmlDatabase;
-        List<GameTextureEntity> textureEntities;
-        bool loadedEntities;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GameTextureRepository"/> class.
         /// </summary>
         /// <param name="fileName">File name.</param>
         public GameTextureRepository(string fileName)
+            : base(fileName)
         {
-            xmlDatabase = new XmlDatabase<GameTextureEntity>(fileName);
-            textureEntities = new List<GameTextureEntity>();
-        }
 
-        public void ApplyChanges()
-        {
-            try
-            {
-                xmlDatabase.SaveEntities(textureEntities);
-            }
-            catch
-            {
-                // TODO: Better exception message
-                throw new IOException("Cannot save the changes");
-            }
-        }
-
-        /// <summary>
-        /// Adds the specified texture.
-        /// </summary>
-        /// <param name="textureEntity">Texture.</param>
-        public void Add(GameTextureEntity textureEntity)
-        {
-            LoadEntitiesIfNeeded();
-
-            textureEntities.Add(textureEntity);
-        }
-
-        /// <summary>
-        /// Get the texture with the specified identifier.
-        /// </summary>
-        /// <returns>The texture.</returns>
-        /// <param name="id">Identifier.</param>
-        public GameTextureEntity Get(string id)
-        {
-            LoadEntitiesIfNeeded();
-
-            GameTextureEntity textureEntity = textureEntities.FirstOrDefault(x => x.Id == id);
-
-            if (textureEntity == null)
-            {
-                throw new EntityNotFoundException(id, nameof(GameTextureEntity).Replace("Entity", ""));
-            }
-
-            return textureEntity;
-        }
-
-        /// <summary>
-        /// Gets all the textures.
-        /// </summary>
-        /// <returns>The textures</returns>
-        public IEnumerable<GameTextureEntity> GetAll()
-        {
-            LoadEntitiesIfNeeded();
-
-            return textureEntities;
         }
 
         /// <summary>
         /// Updates the specified texture.
         /// </summary>
-        /// <param name="textureEntity">Texture.</param>
-        public void Update(GameTextureEntity textureEntity)
+        /// <param name="entity">Texture.</param>
+        public override void Update(GameTextureEntity entity)
         {
             LoadEntitiesIfNeeded();
 
-            GameTextureEntity textureEntityToUpdate = textureEntities.FirstOrDefault(x => x.Id == textureEntity.Id);
+            GameTextureEntity textureEntityToUpdate = Get(entity.Id);
 
             if (textureEntityToUpdate == null)
             {
-                throw new EntityNotFoundException(textureEntity.Id, nameof(GameTextureEntity).Replace("Entity", ""));
+                throw new EntityNotFoundException(entity.Id, nameof(GameTextureEntity));
             }
 
-            textureEntityToUpdate.Name = textureEntity.Name;
-            textureEntityToUpdate.SubName = textureEntity.SubName;
-
-            xmlDatabase.SaveEntities(textureEntities);
-        }
-
-        /// <summary>
-        /// Removes the texture with the specified identifier.
-        /// </summary>
-        /// <param name="id">Identifier.</param>
-        public void Remove(string id)
-        {
-            LoadEntitiesIfNeeded();
-
-            textureEntities.RemoveAll(x => x.Id == id);
-
-            try
-            {
-                xmlDatabase.SaveEntities(textureEntities);
-            }
-            catch
-            {
-                throw new DuplicateEntityException(id, nameof(GameTextureEntity).Replace("Entity", ""));
-            }
-        }
-
-        void LoadEntitiesIfNeeded()
-        {
-            if (loadedEntities)
-            {
-                return;
-            }
-
-            textureEntities = xmlDatabase.LoadEntities().ToList();
-            loadedEntities = true;
+            textureEntityToUpdate.Name = entity.Name;
+            textureEntityToUpdate.SubName = entity.SubName;
+            
+            XmlFile.SaveEntities(Entities.Values);
         }
     }
 }

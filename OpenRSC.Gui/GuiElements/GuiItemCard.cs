@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 
+using NuciXNA.Graphics.Drawing;
+using NuciXNA.Gui.GuiElements;
 using NuciXNA.Primitives;
-
-using OpenRSC.Graphics.Enumerations;
 
 namespace OpenRSC.Gui.GuiElements
 {
@@ -35,12 +35,12 @@ namespace OpenRSC.Gui.GuiElements
                 Size = new Size2D(Size.Width, 10),
                 FontName = "ItemCardFont",
                 FontOutline = FontOutline.BottomRight,
-                HorizontalAlignment = HorizontalAlignment.Top,
-                VerticalAlignment = VerticalAlignment.Left
+                VerticalAlignment = VerticalAlignment.Top,
+                HorizontalAlignment = HorizontalAlignment.Left
             };
 
-            Children.Add(icon);
-            Children.Add(quantity);
+            AddChild(icon);
+            AddChild(quantity);
 
             base.LoadContent();
         }

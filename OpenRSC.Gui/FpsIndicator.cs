@@ -3,7 +3,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using OpenRSC.DataAccess.Resources;
+using NuciXNA.DataAccess.Resources;
+
 using OpenRSC.Gui.Helpers;
 using OpenRSC.Settings;
 

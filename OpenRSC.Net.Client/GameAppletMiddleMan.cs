@@ -4,7 +4,8 @@ using System.Net.Sockets;
 using System.Numerics;
 using System.Threading;
 
-using OpenRSC.Infrastructure;
+using NuciExtensions;
+
 using OpenRSC.Net.Client.Data;
 using OpenRSC.Net.Client.Net;
 using OpenRSC.Net.Enumerations;
@@ -104,8 +105,8 @@ namespace OpenRSC.Net.Client
             Console.WriteLine($"Session ID: {sessionId}");
 
             int[] sessionRotationKeys = new int[4];
-            sessionRotationKeys[0] = (int)(Helper.Random.NextDouble() * 99999999D);
-            sessionRotationKeys[1] = (int)(Helper.Random.NextDouble() * 99999999D);
+            sessionRotationKeys[0] = (int)(ran.NextDouble() * 99999999D);
+            sessionRotationKeys[1] = (int)(ran.NextDouble() * 99999999D);
             sessionRotationKeys[2] = (int)(sessionId >> 32);
             sessionRotationKeys[3] = (int)sessionId;
 
@@ -254,7 +255,7 @@ namespace OpenRSC.Net.Client
 
         protected void SendPing()
         {
-            long time = Helper.CurrentTimeMillis();
+            long time = DateTime.Now.GetCurrentTimeMilliseconds();
 
             if (StreamClass.HasData)
             {

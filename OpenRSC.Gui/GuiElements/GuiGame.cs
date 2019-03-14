@@ -6,8 +6,9 @@ using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using OpenRSC.DataAccess.Resources;
-using OpenRSC.Graphics;
+using NuciXNA.Graphics;
+using NuciXNA.Gui.GuiElements;
+
 using OpenRSC.Net.Client;
 using OpenRSC.Net.Client.Events;
 using OpenRSC.Net.Client.Game;

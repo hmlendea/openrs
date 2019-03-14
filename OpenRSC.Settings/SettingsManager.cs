@@ -1,7 +1,9 @@
 ﻿using System.IO;
 
+using NuciXNA.DataAccess.IO;
+using NuciXNA.Graphics;
+
 using OpenRSC.DataAccess.IO;
-using OpenRSC.Graphics;
 
 namespace OpenRSC.Settings
 {
@@ -68,7 +70,7 @@ namespace OpenRSC.Settings
                 return;
             }
 
-            XmlManager<SettingsManager> xmlManager = new XmlManager<SettingsManager>();
+            XmlFileObject<SettingsManager> xmlManager = new XmlFileObject<SettingsManager>();
             SettingsManager storedSettings = xmlManager.Read(ApplicationPaths.SettingsFile);
 
             instance = storedSettings;
@@ -79,7 +81,7 @@ namespace OpenRSC.Settings
         /// </summary>
         public void SaveContent()
         {
-            XmlManager<SettingsManager> xmlManager = new XmlManager<SettingsManager>();
+            XmlFileObject<SettingsManager> xmlManager = new XmlFileObject<SettingsManager>();
             xmlManager.Write(ApplicationPaths.SettingsFile, this);
         }
 

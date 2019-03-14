@@ -1,16 +1,12 @@
-﻿namespace OpenRSC.DataAccess.DataObjects
+﻿using NuciXNA.DataAccess.DataObjects;
+
+namespace OpenRSC.DataAccess.DataObjects
 {
     /// <summary>
     /// Texture entity.
     /// </summary>
-    public class GameTextureEntity
+    public class GameTextureEntity : EntityBase
     {
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>The identifier.</value>
-        public string Id { get; set; }
-
         /// <summary>
         /// Gets or sets the name.
         /// </summary>

@@ -2,143 +2,45 @@
 using System.IO;
 using System.Linq;
 
+using NuciXNA.DataAccess.Repositories;
+
 using OpenRSC.DataAccess.DataObjects;
-using OpenRSC.DataAccess.Exceptions;
 
 namespace OpenRSC.DataAccess.Repositories
 {
     /// <summary>
     /// Elevation repository implementation.
     /// </summary>
-    public class ElevationRepository
+    public class ElevationRepository : XmlRepository<ElevationEntity>
     {
-        readonly XmlDatabase<ElevationEntity> xmlDatabase;
-        List<ElevationEntity> elevationEntities;
-        bool loadedEntities;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ElevationRepository"/> class.
         /// </summary>
         /// <param name="fileName">File name.</param>
         public ElevationRepository(string fileName)
+            : base(fileName)
         {
-            xmlDatabase = new XmlDatabase<ElevationEntity>(fileName);
-            elevationEntities = new List<ElevationEntity>();
-        }
-
-        public void ApplyChanges()
-        {
-            try
-            {
-                xmlDatabase.SaveEntities(elevationEntities);
-            }
-            catch
-            {
-                // TODO: Better exception message
-                throw new IOException("Cannot save the changes");
-            }
-        }
-
-        /// <summary>
-        /// Adds the specified elevation.
-        /// </summary>
-        /// <param name="elevationEntity">Elevation.</param>
-        public void Add(ElevationEntity elevationEntity)
-        {
-            LoadEntitiesIfNeeded();
-
-            elevationEntities.Add(elevationEntity);
-
-            try
-            {
-                xmlDatabase.SaveEntities(elevationEntities);
-            }
-            catch
-            {
-                throw new DuplicateEntityException(elevationEntity.Id, nameof(ElevationEntity).Replace("Entity", ""));
-            }
-        }
-
-        /// <summary>
-        /// Get the elevation with the specified identifier.
-        /// </summary>
-        /// <returns>The elevation.</returns>
-        /// <param name="id">Identifier.</param>
-        public ElevationEntity Get(string id)
-        {
-            LoadEntitiesIfNeeded();
-
-            ElevationEntity elevationEntity = elevationEntities.FirstOrDefault(x => x.Id == id);
-
-            if (elevationEntity == null)
-            {
-                throw new EntityNotFoundException(id, nameof(ElevationEntity).Replace("Entity", ""));
-            }
-
-            return elevationEntity;
-        }
-
-        /// <summary>
-        /// Gets all the elevations.
-        /// </summary>
-        /// <returns>The elevations</returns>
-        public IEnumerable<ElevationEntity> GetAll()
-        {
-            LoadEntitiesIfNeeded();
-
-            return elevationEntities;
         }
 
         /// <summary>
         /// Updates the specified elevation.
         /// </summary>
-        /// <param name="elevationEntity">Elevation.</param>
-        public void Update(ElevationEntity elevationEntity)
+        /// <param name="entity">Elevation.</param>
+        public override void Update(ElevationEntity entity)
         {
             LoadEntitiesIfNeeded();
 
-            ElevationEntity elevationEntityToUpdate = elevationEntities.FirstOrDefault(x => x.Id == elevationEntity.Id);
+            ElevationEntity entityToUpdate = Get(entity.Id);
 
-            if (elevationEntityToUpdate == null)
+            if (entityToUpdate == null)
             {
-                throw new EntityNotFoundException(elevationEntity.Id, nameof(ElevationEntity).Replace("Entity", ""));
+                throw new EntityNotFoundException(entity.Id, nameof(ElevationEntity));
             }
 
-            elevationEntityToUpdate.Roof = elevationEntity.Roof;
-            elevationEntityToUpdate.Unknown = elevationEntity.Unknown;
+            entityToUpdate.Roof = entity.Roof;
+            entityToUpdate.Unknown = entity.Unknown;
 
-            xmlDatabase.SaveEntities(elevationEntities);
-        }
-
-        /// <summary>
-        /// Removes the elevation with the specified identifier.
-        /// </summary>
-        /// <param name="id">Identifier.</param>
-        public void Remove(string id)
-        {
-            LoadEntitiesIfNeeded();
-
-            elevationEntities.RemoveAll(x => x.Id == id);
-
-            try
-            {
-                xmlDatabase.SaveEntities(elevationEntities);
-            }
-            catch
-            {
-                throw new DuplicateEntityException(id, nameof(ElevationEntity).Replace("Entity", ""));
-            }
-        }
-
-        void LoadEntitiesIfNeeded()
-        {
-            if (loadedEntities)
-            {
-                return;
-            }
-
-            elevationEntities = xmlDatabase.LoadEntities().ToList();
-            loadedEntities = true;
+            XmlFile.SaveEntities(Entities.Values);
         }
     }
 }

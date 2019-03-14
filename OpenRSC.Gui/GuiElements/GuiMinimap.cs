@@ -4,12 +4,13 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.DataAccess.Resources;
+using NuciXNA.Graphics.Drawing;
+using NuciXNA.Gui.GuiElements;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
 using NuciXNA.Primitives.Mapping;
 
-using OpenRSC.DataAccess.Resources;
-using OpenRSC.Graphics;
 using OpenRSC.Net.Client;
 using OpenRSC.Net.Client.Game;
 using OpenRSC.Net.Client.Game.Cameras;
@@ -27,9 +28,9 @@ namespace OpenRSC.Gui.GuiElements
 
         byte[,] alphaMask;
 
-        Sprite mobDot;
-        Sprite pixel;
-        Sprite frame;
+        TextureSprite mobDot;
+        TextureSprite pixel;
+        TextureSprite frame;
 
         public bool IsClickable { get; set; }
 
@@ -40,9 +41,17 @@ namespace OpenRSC.Gui.GuiElements
 
         public override void LoadContent()
         {
-            mobDot = new Sprite { ContentFile = "Interface/Minimap/entity_dot" };
-            pixel = new Sprite { ContentFile = "ScreenManager/FillImage" };
-            frame = new Sprite { ContentFile = "Interface/Minimap/frame" };
+            mobDot = new TextureSprite
+            {
+                ContentFile = "Interface/Minimap/entity_dot"
+            };
+            pixel = new TextureSprite
+            {
+                ContentFile = "ScreenManager/FillImage"
+            };
+            frame = new TextureSprite {
+                ContentFile = "Interface/Minimap/frame"
+            };
 
             compassIndicator = new GuiMinimapIndicator
             {
@@ -85,10 +94,10 @@ namespace OpenRSC.Gui.GuiElements
             pixel.LoadContent();
             frame.LoadContent();
 
-            Children.Add(compassIndicator);
-            Children.Add(healthIndicator);
-            Children.Add(staminaIndicator);
-            Children.Add(prayerIndicator);
+            AddChild(compassIndicator);
+            AddChild(healthIndicator);
+            AddChild(staminaIndicator);
+            AddChild(prayerIndicator);
 
             base.LoadContent();
         }

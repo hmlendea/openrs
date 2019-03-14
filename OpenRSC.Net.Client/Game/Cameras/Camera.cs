@@ -1,8 +1,7 @@
 using System;
 
+using NuciExtensions;
 using NuciXNA.Primitives;
-
-using OpenRSC.Infrastructure;
 
 namespace OpenRSC.Net.Client.Game.Cameras
 {
@@ -12,6 +11,8 @@ namespace OpenRSC.Net.Client.Game.Cameras
         public static Point3D FarLocation { get; set; }
 
         public Point3D[] VertLocations { get; set; }
+
+        static readonly Random Random = new Random();
 
         Point3D viewLocation;
         Point3D[] sceneObjectLocations;
@@ -1751,7 +1752,7 @@ namespace OpenRSC.Net.Client.Game.Cameras
                 }
                 if (i1 == bba - 1)
                 {
-                    var val = Helper.Random.NextDouble();
+                    var val = Random.NextDouble();
                     int k1 = (int)(val /*Math.random()*/ * bba);
                     if (k1 >= bbb.Length)
                     {

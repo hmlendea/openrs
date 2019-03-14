@@ -1,6 +1,7 @@
 ﻿using NuciXNA.Primitives;
 
-using OpenRSC.Graphics.Enumerations;
+using NuciXNA.Graphics.Drawing;
+using NuciXNA.Gui.GuiElements;
 
 namespace OpenRSC.Gui.GuiElements
 {
@@ -24,12 +25,12 @@ namespace OpenRSC.Gui.GuiElements
             {
                 FontName = "SkillCardFont",
                 FontOutline = FontOutline.BottomRight,
-                HorizontalAlignment = HorizontalAlignment.Top
+                VerticalAlignment = VerticalAlignment.Top
             };
 
-            Children.Add(background);
-            Children.Add(icon);
-            Children.Add(nameText);
+            AddChild(background);
+            AddChild(icon);
+            AddChild(nameText);
 
             base.LoadContent();
         }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
+using NuciXNA.Graphics.Drawing;
+using NuciXNA.Gui.GuiElements;
 using NuciXNA.Primitives;
-
-using OpenRSC.Graphics.Enumerations;
 
 namespace OpenRSC.Gui.GuiElements
 {
@@ -29,8 +29,8 @@ namespace OpenRSC.Gui.GuiElements
                 ContentFile = "ScreenManager/FillImage",
                 TextureLayout = TextureLayout.Tile
             };
-
-            Children.Add(background);
+            
+            AddChild(background);
 
             base.LoadContent();
         }
@@ -57,11 +57,11 @@ namespace OpenRSC.Gui.GuiElements
                 GuiText newRow = new GuiText
                 {
                     FontName = "ChatFont",
-                    VerticalAlignment = VerticalAlignment.Left
+                    HorizontalAlignment = HorizontalAlignment.Left
                 };
 
                 newRow.LoadContent();
-                Children.Add(newRow);
+                AddChild(newRow);
 
                 messageRows.Insert(0, newRow);
             }
