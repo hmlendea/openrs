@@ -844,3 +844,10 @@
 /processorParam:TextureFormat=Color
 /build:Icons/Settings/roofs.png
 
+#begin Fonts/DefaultFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/DefaultFont.spritefont
+

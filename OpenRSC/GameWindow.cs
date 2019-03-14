@@ -1,10 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.DataAccess.Resources;
+using NuciXNA.Graphics;
+using NuciXNA.Gui;
+using NuciXNA.Gui.Screens;
 using NuciXNA.Input;
 
-using OpenRSC.DataAccess.Resources;
-using OpenRSC.Graphics;
 using OpenRSC.Gui;
 using OpenRSC.Gui.Screens;
 using OpenRSC.Settings;
@@ -24,7 +26,10 @@ namespace OpenRSC
 
         public GameWindow()
         {
-            graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this)
+            {
+                PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8
+            };
             Content.RootDirectory = "Content";
 
             fpsIndicator = new FpsIndicator();
@@ -32,9 +37,7 @@ namespace OpenRSC
 
             IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = true;
-            Window.Title = "RuneScape Classic";
-            Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            Window.Title = "OpenRSC";
         }
 
         /// <summary>
@@ -45,8 +48,6 @@ namespace OpenRSC
         /// </summary>
         protected override void Initialize()
         {
-            IsMouseVisible = false;
-
             base.Initialize();
         }
 
@@ -65,6 +66,7 @@ namespace OpenRSC
             SettingsManager.Instance.LoadContent();
 
             ScreenManager.Instance.SpriteBatch = spriteBatch;
+            ScreenManager.Instance.StartingScreenType = typeof(SplashScreen);
             ScreenManager.Instance.LoadContent();
 
             fpsIndicator.LoadContent();
