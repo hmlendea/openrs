@@ -43,8 +43,8 @@ namespace OpenRSC.Gui.Screens
         /// </summary>
         public SplashScreen()
         {
-            Delay = 3;
-            BackgroundColour = Colour.DodgerBlue;
+            Delay = 113;
+            BackgroundColour = new Colour(27, 41, 78);
         }
 
         /// <summary>
@@ -57,14 +57,15 @@ namespace OpenRSC.Gui.Screens
                 ContentFile = "SplashScreen/Background",
                 RotationEffect = new OscilationEffect
                 {
-                    Speed = 0.25f,
-                    MinimumMultiplier = 0.5f,
-                    MaximumMultiplier = 1.5f
+                    Speed = 0.05f,
+                    MinimumMultiplier = -0.20f,
+                    MaximumMultiplier = +0.20f
                 },
                 ScaleEffect = new ZoomEffect
                 {
-                    MinimumMultiplier = 0.5f,
-                    MaximumMultiplier = 1.5f
+                    Speed = 0.05f,
+                    MinimumMultiplier = 1.00f,
+                    MaximumMultiplier = 1.10f
                 },
                 EffectsActive = true
             };
