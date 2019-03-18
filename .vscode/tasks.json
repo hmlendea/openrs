@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/OpenRSC/OpenRSC.csproj"
+                "${workspaceFolder}/OpenRS/OpenRS.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
