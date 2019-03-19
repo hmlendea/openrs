@@ -131,9 +131,10 @@ namespace OpenRS.Gui.GuiElements
                     spriteBatch.Draw(_lastGameImageTexture, Vector2.Zero, Color.White);
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 Console.WriteLine($"An error has occured in {nameof(GameWindow)}.cs");
+                Console.WriteLine(ex);
             }
         }
 
@@ -159,7 +160,7 @@ namespace OpenRS.Gui.GuiElements
             catch (Exception ex)
             {
                 Console.WriteLine($"An error has occured in {nameof(GameWindow)}.cs");
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex);
 
                 client.UnloadContent();
                 client.memoryError = true;

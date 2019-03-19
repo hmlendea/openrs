@@ -61,7 +61,7 @@ namespace OpenRS.Net.Client
             catch (IOException ex)
             {
                 Console.WriteLine($"An error has occured in {nameof(Link)}.cs");
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex);
 
                 return false;
             }

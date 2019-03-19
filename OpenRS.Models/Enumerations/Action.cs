@@ -3,7 +3,7 @@
     /// <summary>
     /// Player actions.
     /// </summary>
-    public enum Action
+    public enum GameAction
     {
         /// <summary>
         /// Idle or walking.

@@ -48,7 +48,7 @@ namespace OpenRS.Net.Client.Net
             catch (Exception ex)
             {
                 Console.WriteLine($"An error has occured in {nameof(StreamClass)}.cs");
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex);
             }
 
             try
@@ -75,7 +75,7 @@ namespace OpenRS.Net.Client.Net
             }
             catch (IOException ex)
             {
-                Console.WriteLine($"Error closing stream: {ex.Message}");
+                Console.WriteLine($"Error closing stream: {ex}");
             }
 
             socketClosed = true;

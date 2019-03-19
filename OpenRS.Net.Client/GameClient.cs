@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 //using System.Runtime.Remoting.Messaging;
 using System.Text;
+using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 
@@ -426,7 +427,7 @@ namespace OpenRS.Net.Client
             catch (Exception ex)
             {
                 Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex);
 
                 return;
             }
@@ -2055,7 +2056,7 @@ namespace OpenRS.Net.Client
             catch (Exception ex)
             {
                 Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex);
 
                 UnloadContent();
                 memoryError = true;
@@ -3107,6 +3108,8 @@ namespace OpenRS.Net.Client
 
         public void sendPingPacketAsync()
         {
+            // TODO: Ping
+            /*
             SendPingPacketDelegate worker = new SendPingPacketDelegate(SendPing);
             AsyncCallback completedCallback = new AsyncCallback(sendPingPacketCompletedCallback);
 
@@ -3117,10 +3120,18 @@ namespace OpenRS.Net.Client
                     return;
                 }
 
-                AsyncOperation async1 = AsyncOperationManager.CreateOperation(null);
-                worker.BeginInvoke(completedCallback, async1);
+                // TODO: Ping
+                //AsyncOperation async1 = AsyncOperationManager.CreateOperation(null);
+                //worker.BeginInvoke(completedCallback, async1);
                 sendingPing = true;
-            }
+            } */
+
+            SendPing();
+
+            //await Task.Run(() => SendPing());
+
+            //Action action = SendPing;
+            //action.BeginInvoke(ar => action.EndInvoke(ar), null);
         }
 
         public event AsyncCompletedEventHandler MyTaskCompleted;

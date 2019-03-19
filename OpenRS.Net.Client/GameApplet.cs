@@ -363,7 +363,7 @@ namespace OpenRS.Net.Client
             catch (Exception ex)
             {
                 Console.WriteLine($"An error has occured in {nameof(GameApplet)}.cs");
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex);
             }
         }
 

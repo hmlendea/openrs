@@ -84,7 +84,7 @@ namespace OpenRS.Net.Client.Net
                 catch (IOException ex)
                 {
                     Console.WriteLine($"An error has occured in {nameof(PacketConstruction)}.cs");
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex);
 
                     HasErrors = true;
                     ErrorMessage = ex.Message;
@@ -381,7 +381,7 @@ namespace OpenRS.Net.Client.Net
             catch (IOException ex)
             {
                 Console.WriteLine($"An error has occured in {nameof(PacketConstruction)}.cs");
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex);
 
                 HasErrors = true;
                 ErrorMessage = ex.Message;

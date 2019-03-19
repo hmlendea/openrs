@@ -5,7 +5,7 @@
     /// </summary>
     public static class GameDefines
     {
-        public static string ApplicationName => $"RuneScape Solo v{CLIENT_VERSION}";
+        public static string ApplicationName => $"OpenRS v{CLIENT_VERSION}";
 
         public const int GUI_TILE_SIZE = 32;
 

@@ -457,7 +457,7 @@ namespace OpenRS.Net.Client.Game
             catch (IOException ex)
             {
                 Console.WriteLine($"An error has occured in {nameof(EngineHandle)}.cs");
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex);
             }
             for (int k = 0; k < 2304; k++)
             {
