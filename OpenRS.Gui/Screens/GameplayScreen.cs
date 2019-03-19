@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Threading;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using NuciXNA.Gui;
@@ -6,6 +8,7 @@ using NuciXNA.Gui.Screens;
 using NuciXNA.Primitives;
 
 using OpenRS.Gui.GuiElements;
+using OpenRS.Net.Client;
 using OpenRS.Net.Client.Events;
 
 namespace OpenRS.Gui.Screens
@@ -15,6 +18,9 @@ namespace OpenRS.Gui.Screens
     /// </summary>
     public class GameplayScreen : Screen
     {
+        GameClient gameClient;
+        Thread gameThread;
+
         /// <summary>
         /// Gets or sets the minimap.
         /// </summary>
@@ -23,11 +29,20 @@ namespace OpenRS.Gui.Screens
 
         public GuiChatPanel ChatPanel { get; set; }
 
+        readonly string username;
+        readonly string password;
+
         /// <summary>
         /// Gets or sets the game client.
         /// </summary>
         /// <value>The game client.</value>
-        public GuiGame GameClient { get; set; }
+        public GuiGame GuiGame { get; set; }
+
+        public GameplayScreen(string username, string password)
+        {
+            this.username = username;
+            this.password = password;
+        }
 
         /// <summary>
         /// Loads the content.
@@ -36,18 +51,26 @@ namespace OpenRS.Gui.Screens
         {
             SideBar = new GuiSideBar();
             ChatPanel = new GuiChatPanel();
-            GameClient = new GuiGame();
+            GuiGame = new GuiGame();
 
             SideBar.Enabled = false;
             SideBar.Visible = false;
 
-            GuiManager.Instance.GuiElements.Add(GameClient);
+            GuiManager.Instance.GuiElements.Add(GuiGame);
             GuiManager.Instance.GuiElements.Add(SideBar);
             GuiManager.Instance.GuiElements.Add(ChatPanel);
 
+            gameClient = GameClient.CreateGameClient(username, password, 640, 480);
+            gameClient.gameMinThreadSleepTime = 10;
+            gameClient.Start();
+            gameThread = new Thread(gameClient.run);
+            gameThread.Start();
+
+            GuiGame.AssociateGameClient(ref gameClient);
+
             base.LoadContent();
 
-            SideBar.AssociateGameClient(ref GameClient.gameClient);
+            SideBar.AssociateGameClient(ref gameClient);
         }
 
         /// <summary>
@@ -59,7 +82,7 @@ namespace OpenRS.Gui.Screens
         {
             base.Update(gameTime);
 
-            if (GameClient.gameClient.loggedIn)
+            if (gameClient.loggedIn)
             {
                 SideBar.Enabled = true;
                 SideBar.Visible = true;
@@ -91,19 +114,19 @@ namespace OpenRS.Gui.Screens
                 (int)(ScreenManager.Instance.Size.Height * 0.25));
             ChatPanel.Location = new Point2D(0, ScreenManager.Instance.Size.Height - ChatPanel.Size.Height);
 
-            GameClient.Size = new Size2D(
+            GuiGame.Size = new Size2D(
                 ScreenManager.Instance.Size.Width - SideBar.Size.Width,
                 ScreenManager.Instance.Size.Height - ChatPanel.Size.Height);
         }
 
         protected override void RegisterEvents()
         {
-            GameClient.gameClient.OnChatMessageReceived += GameClient_OnChatMessageReceived;
+            gameClient.OnChatMessageReceived += GameClient_OnChatMessageReceived;
         }
 
         protected override void UnregisterEvents()
         {
-            GameClient.gameClient.OnChatMessageReceived -= GameClient_OnChatMessageReceived;
+            gameClient.OnChatMessageReceived -= GameClient_OnChatMessageReceived;
         }
 
         void GameClient_OnChatMessageReceived(object sender, ChatMessageEventArgs e)

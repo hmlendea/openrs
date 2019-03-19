@@ -17,9 +17,7 @@ namespace OpenRS.Gui.GuiElements
 {
     public class GuiGame : GuiElement
     {
-        [XmlIgnore]
-        public GameClient gameClient; // TODO: Remove the public modifier and the XmlIgnore decoration
-        Thread gameThread;
+        GameClient gameClient;
 
         SpriteBatch spriteBatch;
 
@@ -33,19 +31,6 @@ namespace OpenRS.Gui.GuiElements
             base.LoadContent();
 
             spriteBatch = GraphicsManager.Instance.SpriteBatch;
-
-            gameClient = GameClient.CreateGameClient(Size.Width, Size.Height);
-
-            gameClient.OnContentLoadedCompleted += client_OnContentLoadedCompleted;
-            gameClient.OnContentLoaded += client_OnContentLoaded;
-            gameClient.OnLoadingSection += client_OnLoadingSection;
-            gameClient.OnLoadingSectionCompleted += client_OnLoadingSectionCompleted;
-
-            gameClient.gameMinThreadSleepTime = 10;
-            gameClient.Start();
-
-            gameThread = new Thread(gameClient.run);
-            gameThread.Start();
         }
 
         public override void UnloadContent()
@@ -73,6 +58,31 @@ namespace OpenRS.Gui.GuiElements
             {
                 DrawGame(gameClient);
             }
+        }
+
+        public void AssociateGameClient(ref GameClient client)
+        {
+            this.gameClient = client;
+        }
+
+        protected override void RegisterEvents()
+        {
+            base.RegisterEvents();
+
+            gameClient.OnContentLoadedCompleted += client_OnContentLoadedCompleted;
+            gameClient.OnContentLoaded += client_OnContentLoaded;
+            gameClient.OnLoadingSection += client_OnLoadingSection;
+            gameClient.OnLoadingSectionCompleted += client_OnLoadingSectionCompleted;
+        }
+
+        protected override void UnregisterEvents()
+        {
+            base.UnregisterEvents();
+
+            gameClient.OnContentLoadedCompleted -= client_OnContentLoadedCompleted;
+            gameClient.OnContentLoaded -= client_OnContentLoaded;
+            gameClient.OnLoadingSection -= client_OnLoadingSection;
+            gameClient.OnLoadingSectionCompleted -= client_OnLoadingSectionCompleted; 
         }
 
         void DrawGame(GameClient client)

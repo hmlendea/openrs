@@ -40,12 +40,9 @@ namespace OpenRS.Net.Client
 
             if (socketTimeout > 0)
             {
-                loginScreenPrint("Please wait...", "Connecting to server");
-
                 Thread.Sleep(2000);
 
-                loginScreenPrint("Sorry! The server is currently full.", "Please try again later");
-                return;
+                throw new LoginException("The server is currently full");
             }
             try
             {
@@ -76,13 +73,7 @@ namespace OpenRS.Net.Client
 
             if (user.Trim().Length == 0)
             {
-                loginScreenPrint("You must enter both a username", "and a password - Please try again");
                 return;
-            }
-
-            if (!reconnecting)
-            {
-                loginScreenPrint("Please wait...", "Connecting to server");
             }
 
             TcpClient socket = MakeSocket(GameDefines.SERVER_IP, GameDefines.SERVER_PORT);
@@ -99,9 +90,9 @@ namespace OpenRS.Net.Client
 
             if (sessionId == 0L)
             {
-                //     loginScreenPrint("Login server offline.", "Please try again in a few mins");
-                //     return;
+                throw new LoginException("Login server offline");
             }
+
             Console.WriteLine($"Session ID: {sessionId}");
 
             int[] sessionRotationKeys = new int[4];
@@ -153,8 +144,7 @@ namespace OpenRS.Net.Client
                     return;
 
                 case LoginCode.Code5:
-                    loginScreenPrint("Error unable to login.", "Please try again");
-                    return;
+                    throw new LoginException("CODE 5");
 
                 case LoginCode.Code99:
                     reconnectTries = 0;
@@ -162,40 +152,31 @@ namespace OpenRS.Net.Client
                     return;
 
                 case LoginCode.AccountBanned:
-                    loginScreenPrint("Account banned.", "Appeal on the forums, ASAP.");
-                    return;
+                    throw new LoginException("Account banned");
 
                 case LoginCode.AccountAlreadyLoggedIn:
-                    loginScreenPrint("Account already in use.", "You may only login to one character at a time");
-                    return;
+                    throw new LoginException("Account already in use");
 
                 case LoginCode.ClientUpdated:
-                    loginScreenPrint("The client has been updated.", "Please restart the client");
-                    return;
+                    throw new LoginException("The client has been updated");
 
                 case LoginCode.InvalidCredentials:
-                    loginScreenPrint("Invalid username or password.", "Try again, or create a new account");
-                    return;
+                    throw new LoginException("Invalid credentials");
 
                 case LoginCode.ProfileDecodeFailure:
-                    loginScreenPrint("Error - failed to decode profile.", "Contact an admin!");
-                    return;
+                    throw new LoginException("Failed to decode the profile");
 
                 case LoginCode.ServerTimeOut:
-                    loginScreenPrint("Error unable to login.", "Server timed out");
-                    return;
+                    throw new LoginException("Server timed out");
 
                 case LoginCode.TooManyConnections:
-                    loginScreenPrint("Too many connections from your IP.", "Please try again later");
-                    return;
+                    throw new LoginException("Too many connections from the same IP");
 
                 case LoginCode.UsernameAlreadyLoggedIn:
-                    loginScreenPrint("That username is already logged in.", "Wait 60 seconds then retry");
-                    return;
+                    throw new LoginException("Already logged in");
 
                 default:
-                    loginScreenPrint("Error unable to login.", "Unrecognised response code");
-                    return;
+                    throw new LoginException();
             }
 
             if (reconnecting)
@@ -221,7 +202,7 @@ namespace OpenRS.Net.Client
             }
             else
             {
-                loginScreenPrint("Sorry! Unable to connect.", "Check internet settings or try another world");
+                throw new LoginException("Unable to connect");
             }
         }
 
@@ -243,14 +224,11 @@ namespace OpenRS.Net.Client
             username = "";
             password = "";
             resetIntVars();
-
-            loginScreenPrint("Please enter your usename and password", "");
         }
 
         public virtual void LostConnection()
         {
             Console.WriteLine("Lost connection");
-            loginScreenPrint("Please enter your usename and password", "");
         }
 
         protected void SendPing()
@@ -311,10 +289,6 @@ namespace OpenRS.Net.Client
             StreamClass.CreatePacket(90);
             StreamClass.AddString(command);
             StreamClass.FormatPacket();
-        }
-
-        public virtual void loginScreenPrint(string s1, string s2)
-        {
         }
 
         public virtual void initVars()

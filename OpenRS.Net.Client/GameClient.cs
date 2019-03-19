@@ -32,14 +32,17 @@ namespace OpenRS.Net.Client
 {
     public class GameClient : GameAppletMiddleMan
     {
+        string user;
+        string pass;
+
         public event EventHandler OnContentLoadedCompleted;
         public event EventHandler<ContentLoadedEventArgs> OnContentLoaded;
 
         public event ChatMessageEventHandler OnChatMessageReceived;
 
-        public static GameClient CreateGameClient(int width = 512, int height = 346)
+        public static GameClient CreateGameClient(string username, string password, int width = 512, int height = 346)
         {
-            GameClient client = new GameClient();
+            GameClient client = new GameClient(username, password);
 
             client.WindowSize = new Size2D(width, height);
             client.CreateWindow(client.WindowSize.Width, client.WindowSize.Height + 11);
@@ -231,8 +234,11 @@ namespace OpenRS.Net.Client
             return (char)k;
         }
 
-        public GameClient()
+        public GameClient(string username, string password)
         {
+            this.user = username;
+            this.pass = password;
+
             entityManager = new EntityManager();
             inventoryManager = new InventoryManager(entityManager);
             combatManager = new CombatManager(inventoryManager);
@@ -809,7 +815,6 @@ namespace OpenRS.Net.Client
 
         public override void resetIntVars()
         {
-            loginScreenNumber = 0;
             loggedIn = false;
         }
 
@@ -1089,7 +1094,6 @@ namespace OpenRS.Net.Client
         public void InitialiseLoginVars()
         {
             loggedIn = false;
-            loginScreenNumber = 0;
 
             loginUsername = string.Empty;
             loginPassword = string.Empty;
@@ -1245,119 +1249,6 @@ namespace OpenRS.Net.Client
                     }
                 }
             }
-        }
-
-        public void createLoginScreenBackgrounds()
-        {
-            int _bgScreenWidth = WindowSize.Width;
-            OnLoadingSection?.Invoke(this, new EventArgs());
-            int l = 0;
-            sbyte byte0 = 50;
-            sbyte byte1 = 50;
-
-            engineHandle.loadSection(byte0 * 48 + 23, byte1 * 48 + 23, l);
-            engineHandle.addObjects(GameDataObjects);
-
-            int cameraX = 9728;
-            int cameraY = 6400;
-            int cameraDistance = 1100;
-            int cameraRotation = 888;
-
-            gameCamera.zoom1 = 4100;
-            gameCamera.zoom2 = 4100;
-            gameCamera.zoom3 = 1;
-            gameCamera.zoom4 = 4000;
-            gameCamera.SetCameraTransform(new Point3D(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY), 912, cameraRotation, 0, cameraDistance * 2);
-            gameCamera.finishCamera();
-            gameGraphics.FadeScreenToBlack();
-            gameGraphics.FadeScreenToBlack();
-
-            gameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0x000000); //_bgScreenWidth=512
-            for (int i1 = 6; i1 >= 1; i1--)
-            {
-                gameGraphics.DrawTransparentLine(0, i1, 0, i1, _bgScreenWidth, 8);
-            }
-
-            gameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0x000000);
-
-            for (int j1 = 6; j1 >= 1; j1--)
-            {
-                gameGraphics.DrawTransparentLine(0, j1, 0, 194 - j1, _bgScreenWidth, 8);
-            }
-
-            gameGraphics.DrawImage(baseLoginScreenBackgroundPic, 0, 0, _bgScreenWidth, 200);
-            gameGraphics.applyImage(baseLoginScreenBackgroundPic);
-
-            cameraX = 9216;
-            cameraY = 9216;
-            cameraDistance = 1100;
-            cameraRotation = 888;
-            gameCamera.zoom1 = 4100;
-            gameCamera.zoom2 = 4100;
-            gameCamera.zoom3 = 1;
-            gameCamera.zoom4 = 4000;
-            gameCamera.SetCameraTransform(new Point3D(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY), 912, cameraRotation, 0, cameraDistance * 2);
-            gameCamera.finishCamera();
-            gameGraphics.FadeScreenToBlack();
-            gameGraphics.FadeScreenToBlack();
-
-            gameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0);
-            for (int k1 = 6; k1 >= 1; k1--)
-            {
-                gameGraphics.DrawTransparentLine(0, k1, 0, k1, _bgScreenWidth, 8);
-            }
-
-            gameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0);
-            for (int l1 = 6; l1 >= 1; l1--)
-            {
-                gameGraphics.DrawTransparentLine(0, l1, 0, 194 - l1, _bgScreenWidth, 8);
-            }
-
-            gameGraphics.DrawImage(baseLoginScreenBackgroundPic + 1, 0, 0, _bgScreenWidth, 200);
-            gameGraphics.applyImage(baseLoginScreenBackgroundPic + 1);
-
-            // Remove buildings
-            for (int i2 = 0; i2 < 64; i2++)
-            {
-
-                gameCamera.removeModel(engineHandle.roofObject[0][i2]);
-                gameCamera.removeModel(engineHandle.wallObject[0][i2]);
-                gameCamera.removeModel(engineHandle.wallObject[1][i2]);
-                gameCamera.removeModel(engineHandle.roofObject[1][i2]);
-                gameCamera.removeModel(engineHandle.wallObject[2][i2]);
-                gameCamera.removeModel(engineHandle.roofObject[2][i2]);
-            }
-
-            cameraX = 11136;//'\u2B80';
-            cameraY = 10368;//'\u2880';
-            cameraDistance = 500;//'\u01F4';
-            cameraRotation = 376;//'\u0178';
-            gameCamera.zoom1 = 4100;
-            gameCamera.zoom2 = 4100;
-            gameCamera.zoom3 = 1;
-            gameCamera.zoom4 = 4000;
-            gameCamera.SetCameraTransform(new Point3D(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY), 912, cameraRotation, 0, cameraDistance * 2);
-            gameCamera.finishCamera();
-            gameGraphics.FadeScreenToBlack();
-            gameGraphics.FadeScreenToBlack();
-
-            gameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0);
-
-            for (int j2 = 6; j2 >= 1; j2--)
-            {
-                gameGraphics.DrawTransparentLine(0, j2, 0, j2, _bgScreenWidth, 8);
-            }
-
-            gameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0);
-            for (int k2 = 6; k2 >= 1; k2--)
-            {
-                gameGraphics.DrawTransparentLine(0, k2, 0, 194, _bgScreenWidth, 8);
-            }
-
-            gameGraphics.DrawImage(baseInventoryPic + 10, 0, 0, _bgScreenWidth, 200);
-            gameGraphics.applyImage(baseInventoryPic + 10);
-
-            OnLoadingSectionCompleted?.Invoke(this, new EventArgs());
         }
 
         public override void HandlePacket(ServerCommand command, int length, sbyte[] data)
@@ -1641,7 +1532,6 @@ namespace OpenRS.Net.Client
         public override void initVars()
         {
             CombatStyle = 0;
-            loginScreenNumber = 0;
             loggedIn = true;
 
             gameGraphics.ClearScreen();
@@ -1883,57 +1773,12 @@ namespace OpenRS.Net.Client
             {
                 OnContentLoaded?.Invoke(this, new ContentLoadedEventArgs("Starting game...", 100));
                 drawLoadingBarText(100, "Starting game...");
-                createLoginMenus();
                 createAppearanceWindow();
                 InitialiseLoginVars();
 
                 OnContentLoadedCompleted?.Invoke(this, new EventArgs());
-
-                //createLoginScreenBackgrounds();
                 return;
             }
-        }
-
-        public void createLoginMenus()
-        {
-            loginMenuFirst = new Menu(gameGraphics, 50);
-
-            int l = 40;
-            loginMenuFirst.drawText(256, 200 + l, "Welcome to RuneScape", 4, true);
-            loginMenuFirst.drawText(256, 215 + l, "You need a member account to use this server", 4, true);
-            loginMenuFirst.drawButton(256, 250 + l, 200, 35);
-            loginMenuFirst.drawText(256, 250 + l, "Click here to login", 5, false);
-            loginMenuLoginButton = loginMenuFirst.createButton(256, 250 + l, 200, 35);
-            loginNewUser = new Menu(gameGraphics, 50);
-            l = 230;
-            loginNewUser.drawText(256, l + 8, "To create an account please go back to the", 4, true);
-            l += 20;
-            loginNewUser.drawText(256, l + 8, "www.runescape.com front page, and choose 'create account'", 4, true);
-            l += 30;
-            loginNewUser.drawButton(256, l + 17, 150, 34);
-            loginNewUser.drawText(256, l + 17, "Ok", 5, false);
-            loginMenuOkButton = loginNewUser.createButton(256, l + 17, 150, 34);
-            loginMenuLogin = new Menu(gameGraphics, 50);
-            l = 230;
-            loginMenuStatusText = loginMenuLogin.drawText(256, l - 10, "Please enter your username and password", 4, true);
-            l += 28;
-            loginMenuLogin.drawButton(140, l, 200, 40);
-            loginMenuLogin.drawText(140, l - 10, "Username:", 4, false);
-            loginMenuUserText = loginMenuLogin.createInput(140, l + 10, 200, 40, 4, 12, false, false);
-            l += 47;
-            loginMenuLogin.drawButton(190, l, 200, 40);
-            loginMenuLogin.drawText(190, l - 10, "Password:", 4, false);
-            loginMenuPasswordText = loginMenuLogin.createInput(190, l + 10, 200, 40, 4, 20, true, false);
-            l -= 55;
-            loginMenuLogin.drawButton(410, l, 120, 25);
-            loginMenuLogin.drawText(410, l, "Ok", 4, false);
-            loginMenuOkLoginButton = loginMenuLogin.createButton(410, l, 120, 25);
-            l += 30;
-            loginMenuLogin.drawButton(410, l, 120, 25);
-            loginMenuLogin.drawText(410, l, "Cancel", 4, false);
-            loginMenuCancelButton = loginMenuLogin.createButton(410, l, 120, 25);
-            l += 30;
-            loginMenuLogin.setFocus(loginMenuUserText);
         }
 
         public void loadMedia()
@@ -2014,7 +1859,7 @@ namespace OpenRS.Net.Client
                 }
                 else
                 {
-                    checkLoginScreenInputs();
+                    connect(user, pass, false);
                 }
 
                 lastMouseButton = 0;
@@ -2496,17 +2341,6 @@ namespace OpenRS.Net.Client
             WalkTo(location, destination, destination, true, flag);
         }
 
-        public override void loginScreenPrint(string s1, string s2)
-        {
-            if (loginScreenNumber == 2 && loginMenuLogin != null)
-            {
-                loginMenuLogin.updateText(loginMenuStatusText, s1 + " " + s2);
-            }
-
-            drawLoginScreens();
-            ResetTimings();
-        }
-
         public void DrawTeleBubble(int x, int y, int j1, int k1, int l1)
         {
             int type = teleBubbleType[l1];
@@ -2522,72 +2356,6 @@ namespace OpenRS.Net.Client
             {
                 int j3 = 0xff0000 + time * 5 * 256;
                 gameGraphics.DrawCircle(x + j1 / 2, y + k1 / 2, 10 + time, j3, 255 - time * 5);
-            }
-        }
-
-        public void checkLoginScreenInputs()
-        {
-            if (socketTimeout > 0)
-            {
-                socketTimeout--;
-            }
-
-            if (loginScreenNumber == 0)
-            {
-                if (loginMenuFirst == null)
-                {
-                    return;
-                }
-
-                loginMenuFirst.mouseClick(InputManager.Instance.MouseLocation.X, InputManager.Instance.MouseLocation.Y, lastMouseButton, mouseButton);
-                if (loginMenuFirst.isClicked(loginButtonNewUser))
-                {
-                    loginScreenNumber = 1;
-                }
-
-                if (loginMenuFirst.isClicked(loginMenuLoginButton))
-                {
-                    loginScreenNumber = 2;
-                    loginMenuLogin.updateText(loginMenuStatusText, "Please enter your username and password");
-                    loginMenuLogin.updateText(loginMenuUserText, "");
-                    loginMenuLogin.updateText(loginMenuPasswordText, "");
-                    loginMenuLogin.setFocus(loginMenuUserText);
-                    return;
-                }
-            }
-            else if (loginScreenNumber == 1)
-            {
-                if (loginNewUser == null)
-                {
-                    return;
-                }
-
-                loginNewUser.mouseClick(InputManager.Instance.MouseLocation.X, InputManager.Instance.MouseLocation.Y, lastMouseButton, mouseButton);
-                if (loginNewUser.isClicked(loginMenuOkButton))
-                {
-                    loginScreenNumber = 0;
-                    return;
-                }
-            }
-            else if (loginScreenNumber == 2)
-            {
-                loginMenuLogin.mouseClick(InputManager.Instance.MouseLocation.X, InputManager.Instance.MouseLocation.Y, lastMouseButton, mouseButton);
-                if (loginMenuLogin.isClicked(loginMenuCancelButton))
-                {
-                    loginScreenNumber = 0;
-                }
-
-                if (loginMenuLogin.isClicked(loginMenuUserText))
-                {
-                    loginMenuLogin.setFocus(loginMenuPasswordText);
-                }
-
-                if (loginMenuLogin.isClicked(loginMenuPasswordText) || loginMenuLogin.isClicked(loginMenuOkLoginButton))
-                {
-                    loginUsername = loginMenuLogin.getText(loginMenuUserText);
-                    loginPassword = loginMenuLogin.getText(loginMenuPasswordText);
-                    connect(loginUsername, loginPassword, false);
-                }
             }
         }
 
@@ -2673,8 +2441,7 @@ namespace OpenRS.Net.Client
             }
 
             gameGraphics.ClearScreen();
-            if (loginScreenNumber == 0 || loginScreenNumber == 1 || loginScreenNumber == 2 || loginScreenNumber == 3)
-            {
+            
                 int l = (tick * 2) % 3072;
                 if (l < 1024)
                 {
@@ -2700,25 +2467,10 @@ namespace OpenRS.Net.Client
                         gameGraphics.DrawPicture(0, 10, baseLoginScreenBackgroundPic, l - 2816);
                     }
                 }
-            }
+
             if (loginMenuFirst == null)
             {
                 return;
-            }
-
-            if (loginScreenNumber == 0)
-            {
-                loginMenuFirst.drawMenu();
-            }
-
-            if (loginScreenNumber == 1)
-            {
-                loginNewUser.drawMenu();
-            }
-
-            if (loginScreenNumber == 2)
-            {
-                loginMenuLogin.drawMenu();
             }
 
             gameGraphics.DrawPicture(0, WindowSize.Height, baseInventoryPic + 22);
@@ -3807,23 +3559,6 @@ namespace OpenRS.Net.Client
                 if (ShowAppearanceWindow && appearanceMenu != null)
                 {
                     appearanceMenu.keyPress(key, c);
-                }
-            }
-            else
-            {
-                if (loginScreenNumber == 0 && loginMenuFirst != null)
-                {
-                    loginMenuFirst.keyPress(key, c);
-                }
-
-                if (loginScreenNumber == 1 && loginNewUser != null)
-                {
-                    loginNewUser.keyPress(key, c);
-                }
-
-                if (loginScreenNumber == 2 && loginMenuLogin != null)
-                {
-                    loginMenuLogin.keyPress(key, c);
                 }
             }
         }
@@ -6390,7 +6125,6 @@ namespace OpenRS.Net.Client
         public int animationNumber;
         public int[] itemAboveHeadX;
         public int[] itemAboveHeadY;
-        public int loginScreenNumber;
         public int tradeConfigItemCount;
         public int selectedBankItem;
         public int selectedBankItemType;

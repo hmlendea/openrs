@@ -127,7 +127,7 @@ namespace OpenRS.Gui.Screens
 
         void ChangeScreens()
         {
-            ScreenManager.Instance.ChangeScreens<GameplayScreen>();
+            ScreenManager.Instance.ChangeScreens<TitleScreen>();
         }
     }
 }
