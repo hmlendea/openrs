@@ -12,6 +12,7 @@ namespace OpenRS.Gui.Screens
     public class TitleScreen : MenuScreen
     {
         GuiMenuLink newGameLink;
+        GuiMenuLink settingsLink;
         GuiMenuAction extiAction;
 
         /// <summary>
@@ -27,6 +28,13 @@ namespace OpenRS.Gui.Screens
                 Parameters = new object[] { "test", "test" }
             };
 
+            settingsLink = new GuiMenuLink
+            {
+                Id = "settings",
+                Text = "Settings",
+                TargetScreen = typeof(SettingsScreen)
+            };
+
             extiAction = new GuiMenuAction
             {
                 Id = "exit",
@@ -35,6 +43,7 @@ namespace OpenRS.Gui.Screens
             };
 
             Items.Add(newGameLink);
+            Items.Add(settingsLink);
             Items.Add(extiAction);
 
             base.LoadContent();
