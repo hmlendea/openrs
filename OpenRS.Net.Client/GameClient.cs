@@ -125,7 +125,6 @@ namespace OpenRS.Net.Client
         public int[] WallObjectId { get; set; }
         public bool HasWorldInfo { get; set; }
         public bool LoadArea { get; set; } // Not in wilderness
-        public bool LoginScreenShown { get; set; }
         public bool NeedsClear { get; set; }
         public bool ShowAppearanceWindow { get; set; }
         public bool ShowBankBox { get; set; }
@@ -135,104 +134,6 @@ namespace OpenRS.Net.Client
         public string LastLoginAddress { get; set; }
         public string MoneyTask { get; set; }
         public string ServerLocation { get; set; }
-
-        public char TranslateOemKeys(Keys k)
-        {
-            if (k == Keys.OemPeriod)
-            {
-                return '.';
-            }
-            else if (InputManager.Instance.IsAnyKeyDown(Keys.LeftShift, Keys.RightShift))
-            {
-                if (k == Keys.NumPad1 || k == Keys.D1)
-                {
-                    return '!';
-                }
-                else if (k == Keys.NumPad2 || k == Keys.D2)
-                {
-                    return '"';
-                }
-                else if (k == Keys.NumPad3 || k == Keys.D3)
-                {
-                    return '#';
-                }
-                else if (k == Keys.NumPad4 || k == Keys.D4)
-                {
-                    return '¤';
-                }
-                else if (k == Keys.NumPad5 || k == Keys.D5)
-                {
-                    return '%';
-                }
-                else if (k == Keys.NumPad6 || k == Keys.D6)
-                {
-                    return '&';
-                }
-                else if (k == Keys.NumPad7 || k == Keys.D7)
-                {
-                    return '/';
-                }
-                else if (k == Keys.NumPad8 || k == Keys.D8)
-                {
-                    return '(';
-                }
-                else if (k == Keys.NumPad9 || k == Keys.D9)
-                {
-                    return ')';
-                }
-                else if (k == Keys.NumPad0 || k == Keys.D0)
-                {
-                    return '=';
-                }
-                else if (k == Keys.OemPlus)
-                {
-                    return '?';
-                }
-
-                return (char)k;
-            }
-            else if (InputManager.Instance.IsAnyKeyDown(Keys.LeftAlt, Keys.RightAlt) &&
-                     InputManager.Instance.IsAnyKeyDown(Keys.LeftControl, Keys.RightControl))
-            {
-                if (k == Keys.NumPad2 || k == Keys.D2)
-                {
-                    return '@';
-                }
-                else if (k == Keys.NumPad3 || k == Keys.D3)
-                {
-                    return '£';
-                }
-                else if (k == Keys.NumPad4 || k == Keys.D4)
-                {
-                    return '$';
-                }
-                else if (k == Keys.NumPad7 || k == Keys.D7)
-                {
-                    return '{';
-                }
-                else if (k == Keys.NumPad8 || k == Keys.D8)
-                {
-                    return '[';
-                }
-                else if (k == Keys.NumPad9 || k == Keys.D9)
-                {
-                    return ']';
-                }
-                else if (k == Keys.NumPad0 || k == Keys.D0)
-                {
-                    return '}';
-                }
-                else if (k == Keys.OemPlus)
-                {
-                    return '\\';
-                }
-            }
-            else
-            {
-                return ((char)k + "").ToLower()[0];
-            }
-            return (char)k;
-        }
 
         public GameClient(string username, string password)
         {
@@ -277,7 +178,6 @@ namespace OpenRS.Net.Client
 
             cameraFieldOfView = 9;
             ShowQuestionMenu = false;
-            LoginScreenShown = false;
             questionMenuAnswer = new string[10];
             appearanceBodyGender = 1;
             appearance2Colour = 2;
@@ -358,8 +258,6 @@ namespace OpenRS.Net.Client
             ProjectileRange = 40;
             memoryError = false;
             menuText2 = new string[250];
-            loginUsername = "";
-            loginPassword = "";
             healthBarX = new int[50];
             healthBarY = new int[50];
             healthBarMissing = new int[50];
@@ -453,12 +351,12 @@ namespace OpenRS.Net.Client
             {
                 if (!lastPressedKeys.Contains(k))
                 {
-                    KeyDown(k, TranslateOemKeys(k));
+                    KeyDown(k, KeyTranslator.TranslateOemKeys(k));
                     timeLapse = TimeSpan.Zero;
                 }
                 else if (timeLapse > TimeSpan.FromMilliseconds(150))
                 {
-                    KeyDown(k, TranslateOemKeys(k));
+                    KeyDown(k, KeyTranslator.TranslateOemKeys(k));
                     timeLapse = TimeSpan.Zero;
                 }
             }
@@ -1094,9 +992,6 @@ namespace OpenRS.Net.Client
         public void InitialiseLoginVars()
         {
             loggedIn = false;
-
-            loginUsername = string.Empty;
-            loginPassword = string.Empty;
 
             PlayerCount = 0;
             NpcCount = 0;
@@ -2433,48 +2328,13 @@ namespace OpenRS.Net.Client
 
         public virtual void drawLoginScreens()
         {
-            LoginScreenShown = false;
-
             if (gameGraphics == null)
             {
                 return;
             }
 
             gameGraphics.ClearScreen();
-            
-                int l = (tick * 2) % 3072;
-                if (l < 1024)
-                {
-                    gameGraphics.DrawPicture(0, 10, baseLoginScreenBackgroundPic);
-                    if (l > 768)
-                    {
-                        gameGraphics.DrawPicture(0, 10, baseLoginScreenBackgroundPic + 1, l - 768);
-                    }
-                }
-                else if (l < 2048)
-                {
-                    gameGraphics.DrawPicture(0, 10, baseLoginScreenBackgroundPic + 1);
-                    if (l > 1792)
-                    {
-                        gameGraphics.DrawPicture(0, 10, baseInventoryPic + 10, l - 1792);
-                    }
-                }
-                else
-                {
-                    gameGraphics.DrawPicture(0, 10, baseInventoryPic + 10);
-                    if (l > 2816)
-                    {
-                        gameGraphics.DrawPicture(0, 10, baseLoginScreenBackgroundPic, l - 2816);
-                    }
-                }
-
-            if (loginMenuFirst == null)
-            {
-                return;
-            }
-
             gameGraphics.DrawPicture(0, WindowSize.Height, baseInventoryPic + 22);
-
 
             OnDrawDone();
         }
@@ -2561,20 +2421,17 @@ namespace OpenRS.Net.Client
             mouseTrailX[mouseTrailIndex] = arg1;
             mouseTrailY[mouseTrailIndex] = arg2;
             mouseTrailIndex = mouseTrailIndex + 1 & 0x1fff;
+
             for (int l = 10; l < 4000; l++)
             {
                 int lastMouseTrailIndex = mouseTrailIndex - l & 0x1fff;
+
                 if (mouseTrailX[lastMouseTrailIndex] == arg1 && mouseTrailY[lastMouseTrailIndex] == arg2)
                 {
-                    bool flag = false;
                     for (int j1 = 1; j1 < l; j1++)
                     {
                         int mouseNew = mouseTrailIndex - j1 & 0x1fff;
                         int mouseOld = lastMouseTrailIndex - j1 & 0x1fff;
-                        if (mouseTrailX[mouseOld] != arg1 || mouseTrailY[mouseOld] != arg2)
-                        {
-                            flag = true;
-                        }
 
                         if (mouseTrailX[mouseNew] != mouseTrailX[mouseOld] || mouseTrailY[mouseNew] != mouseTrailY[mouseOld])
                         {
@@ -2583,7 +2440,6 @@ namespace OpenRS.Net.Client
                     }
                 }
             }
-
         }
 
         public void drawPrayerMagicMenu(bool canClick)
@@ -6074,7 +5930,6 @@ namespace OpenRS.Net.Client
         public string[] messagesArray;
         public Menu questMenu;
         int questMenuHandle;
-        int questMenuSelected;
         public bool[] objectAlreadyInMenu;
         public ObjectModel[] ObjectArray;
         public int selectedSpell;
@@ -6091,7 +5946,6 @@ namespace OpenRS.Net.Client
         0xecded0, 0xccb366, 0xb38c40, 0x997326, 0x906020
     };
         public bool menuShow;
-        public Menu loginMenuLogin;
         public int appearanceHeadLeftArrow;
         public int appearanceHeadRightArrow;
         public int appearanceHairLeftArrow;
@@ -6111,7 +5965,6 @@ namespace OpenRS.Net.Client
         public int tick;
         public EngineHandle engineHandle;
         public int mouseButtonClick;
-        public Menu loginNewUser;
         public int[] combatModelArray2 = {
         0, 0, 0, 0, 0, 1, 2, 1
     };
@@ -6198,7 +6051,6 @@ namespace OpenRS.Net.Client
         public string loginUsername;
         public string loginPassword;
         public int bankPage;
-        public Menu loginMenuFirst;
         public int[] healthBarX;
         public int[] healthBarY;
         public int[] healthBarMissing;
