@@ -231,8 +231,22 @@ namespace OpenRS.Net.Client
             Console.WriteLine("Lost connection");
         }
 
+        readonly object _sync = new object();
+        protected static bool sendingPing;
+
         protected void SendPing()
         {
+            lock (_sync)
+            {
+                if (sendingPing)
+                {
+                    return;
+                }
+            }
+
+            Console.WriteLine($"Sending PING @ {DateTime.Now}");
+            sendingPing = true;
+
             long time = DateTime.Now.GetCurrentTimeMilliseconds();
 
             if (StreamClass.HasData)
@@ -267,6 +281,8 @@ namespace OpenRS.Net.Client
 
                 HandlePacket(command, length);
             }
+            
+            sendingPing = false;
         }
 
         public virtual void HandlePacket(ServerCommand command, int length)

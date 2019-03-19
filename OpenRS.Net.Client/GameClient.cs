@@ -2710,11 +2710,7 @@ namespace OpenRS.Net.Client
             return base.unpackData(arg0, arg1, arg2);
         }
 
-        delegate void SendPingPacketDelegate();
-        readonly object _sync = new object();
-        public static bool sendingPing;
-
-        public void sendPingPacketAsync()
+        public async Task sendPingPacketAsync()
         {
             // TODO: Ping
             /*
@@ -2734,44 +2730,7 @@ namespace OpenRS.Net.Client
                 sendingPing = true;
             } */
 
-            SendPing();
-
-            //await Task.Run(() => SendPing());
-
-            //Action action = SendPing;
-            //action.BeginInvoke(ar => action.EndInvoke(ar), null);
-        }
-
-        public event AsyncCompletedEventHandler MyTaskCompleted;
-
-        protected virtual void OnMyTaskCompleted(AsyncCompletedEventArgs e)
-        {
-            MyTaskCompleted?.Invoke(this, e);
-        }
-
-        void sendPingPacketCompletedCallback(IAsyncResult ar)
-        {
-            // get the original worker delegate and the AsyncOperation instance
-            // TODO: Send the ping
-            //SendPingPacketDelegate worker =
-            //  (SendPingPacketDelegate)((AsyncResult)ar).AsyncDelegate; // (AsyncResult)ar
-            AsyncOperation async1 = (AsyncOperation)ar.AsyncState;
-
-            // finish the asynchronous operation
-            //worker.EndInvoke(ar);
-
-            // clear the running task flag
-            lock (_sync)
-            {
-                sendingPing = false;
-            }
-
-            // raise the completed event
-            AsyncCompletedEventArgs completedArgs = new AsyncCompletedEventArgs(null,
-              false, null);
-            async1.PostOperationCompleted(
-              delegate (object e) { OnMyTaskCompleted((AsyncCompletedEventArgs)e); },
-              completedArgs);
+            await Task.Run(() => SendPing());
         }
 
         public void checkGameInputs()
