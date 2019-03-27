@@ -1,13 +1,16 @@
 ﻿using System;
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 using NuciXNA.Graphics.Drawing;
-using NuciXNA.Gui.GuiElements;
+using NuciXNA.Gui.Controls;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
 
-namespace OpenRS.Gui.GuiElements
+namespace OpenRS.Gui.Controls
 {
-    public class GuiSkillCard : GuiElement
+    public class GuiSkillCard : GuiControl
     {
         GuiImage regularBackground;
         GuiImage detailsBackground;
@@ -32,7 +35,10 @@ namespace OpenRS.Gui.GuiElements
             Size = new Size2D(60, 32);
         }
 
-        public override void LoadContent()
+        /// <summary>
+        /// Loads the content.
+        /// </summary>
+        protected override void DoLoadContent()
         {
             regularBackground = new GuiImage { ContentFile = "Interface/skillcard" };
             detailsBackground = new GuiImage { ContentFile = "Interface/skillcard_details" };
@@ -59,21 +65,57 @@ namespace OpenRS.Gui.GuiElements
                 ForegroundColour = Colour.Yellow
             };
 
-            AddChild(regularBackground);
-            AddChild(detailsBackground);
-            AddChild(skillIcon);
-
-            AddChild(currentLevelText);
-            AddChild(baseLevelText);
-            AddChild(detailsText);
-
-            detailsBackground.Visible = false;
-            detailsText.Visible = false;
-
-            base.LoadContent();
+            RegisterChildren(regularBackground, detailsBackground, skillIcon);
+            RegisterChildren(currentLevelText, baseLevelText, detailsText);
+            RegisterEvents();
+            SetChildrenProperties();
         }
 
-        protected override void SetChildrenProperties()
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
+        {
+            UnregisterEvents();
+        }
+
+        /// <summary>
+        /// Update the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected override void DoUpdate(GameTime gameTime)
+        {
+            SetChildrenProperties();
+        }
+
+        /// <summary>
+        /// Draw the content on the specified <see cref="SpriteBatch"/>.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        protected override void DoDraw(SpriteBatch spriteBatch)
+        {
+
+        }
+
+        /// <summary>
+        /// Registers the events.
+        /// </summary>
+        void RegisterEvents()
+        {
+            MouseEntered += OnMouseEntered;
+            MouseLeft += OnMouseLeft;
+        }
+
+        /// <summary>
+        /// Unregisters the events.
+        /// </summary>
+        void UnregisterEvents()
+        {
+            MouseEntered -= OnMouseEntered;
+            MouseLeft -= OnMouseLeft;
+        }
+
+        void SetChildrenProperties()
         {
             regularBackground.Location = Location;
             regularBackground.Size = Size;
@@ -93,14 +135,16 @@ namespace OpenRS.Gui.GuiElements
             detailsText.Location = Location;
             detailsText.Size = Size;
             detailsText.Text = $"Xp:{Environment.NewLine}{Experience}";
-
-            base.SetChildrenProperties();
         }
 
-        protected override void OnMouseEntered(object sender, MouseEventArgs e)
+        void OnContentLoaded(object sender, MouseEventArgs e)
         {
-            base.OnMouseEntered(sender, e);
+            detailsBackground.Hide();
+            detailsText.Hide();
+        }
 
+        void OnMouseEntered(object sender, MouseEventArgs e)
+        {
             regularBackground.Hide();
             skillIcon.Hide();
             currentLevelText.Hide();
@@ -110,10 +154,8 @@ namespace OpenRS.Gui.GuiElements
             detailsText.Show();
         }
 
-        protected override void OnMouseLeft(object sender, MouseEventArgs e)
+        void OnMouseLeft(object sender, MouseEventArgs e)
         {
-            base.OnMouseLeft(sender, e);
-
             regularBackground.Show();
             skillIcon.Show();
             currentLevelText.Show();

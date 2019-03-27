@@ -1,8 +1,10 @@
 
+using System;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using NuciXNA.Gui.GuiElements;
+using NuciXNA.Gui.Controls;
 using NuciXNA.Gui.Screens;
 
 using OpenRS.Settings;
@@ -22,29 +24,26 @@ namespace OpenRS.Gui.Screens
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public override void LoadContent()
+        protected override void DoLoadContent()
         {
             debugModeToggle = new GuiMenuToggle
             {
-                Id = "debugToggle",
-                Text = "Toggle debug mode",
-                Property = "DebugMode"
+                Id = nameof(debugModeToggle),
+                Text = "Toggle debug mode"
             };
             fowToggle = new GuiMenuToggle
             {
-                Id = "fowToggle",
-                Text = "Toggle fog",
-                Property = "FogOfWar"
+                Id = nameof(fowToggle),
+                Text = "Toggle fog"
             };
             roofsToggle = new GuiMenuToggle
             {
-                Id = "roofsToggle",
-                Text = "Toggle roofs",
-                Property = "ShowRoofs"
+                Id = nameof(roofsToggle),
+                Text = "Toggle roofs"
             };
             backLink = new GuiMenuLink
             {
-                Id = "back",
+                Id = nameof(backLink),
                 Text = "Back",
                 TargetScreen = typeof(TitleScreen)
             };
@@ -53,43 +52,65 @@ namespace OpenRS.Gui.Screens
             Items.Add(fowToggle);
             Items.Add(roofsToggle);
             Items.Add(backLink);
-            
-            debugModeToggle.ToggleState = SettingsManager.Instance.DebugMode;
-            fowToggle.ToggleState = SettingsManager.Instance.GraphicsSettings.FogOfWar;
-            roofsToggle.ToggleState = SettingsManager.Instance.GraphicsSettings.ShowRoofs;
 
-            base.LoadContent();
+            RegisterEvents();
+            SetChildrenProperties();
+
+            base.DoLoadContent();
         }
 
         /// <summary>
         /// Unloads the content.
         /// </summary>
-        public override void UnloadContent()
+        protected override void DoUnloadContent()
         {
             SettingsManager.Instance.SaveContent();
-            base.UnloadContent();
+
+            UnregisterEvents();
+
+            base.DoUnloadContent();
         }
 
         /// <summary>
-        /// Updates the content.
+        /// Registers the events.
         /// </summary>
-        /// <param name="gameTime">Game time.</param>
-        public override void Update(GameTime gameTime)
+        void RegisterEvents()
         {
-            base.Update(gameTime);
-
-            SettingsManager.Instance.DebugMode = debugModeToggle.ToggleState;
-            SettingsManager.Instance.GraphicsSettings.FogOfWar = fowToggle.ToggleState;
-            SettingsManager.Instance.GraphicsSettings.ShowRoofs = roofsToggle.ToggleState;
+            debugModeToggle.Triggered += OnDebugModeToggleTriggered;
+            fowToggle.Triggered += OnFowToggleTriggered;
+            roofsToggle.Triggered += OnRoofsToggleTriggered;
         }
 
         /// <summary>
-        /// Draws the content on the specified spriteBatch.
+        /// Unregisters the events.
         /// </summary>
-        /// <param name="spriteBatch">Sprite batch.</param>
-        public override void Draw(SpriteBatch spriteBatch)
+        void UnregisterEvents()
         {
-            base.Draw(spriteBatch);
+            debugModeToggle.Triggered -= OnDebugModeToggleTriggered;
+            fowToggle.Triggered -= OnFowToggleTriggered;
+            roofsToggle.Triggered -= OnRoofsToggleTriggered;
+        }
+
+        void SetChildrenProperties()
+        {
+            debugModeToggle.SetState(SettingsManager.Instance.DebugMode);
+            fowToggle.SetState(SettingsManager.Instance.GraphicsSettings.FogOfWar);
+            roofsToggle.SetState(SettingsManager.Instance.GraphicsSettings.ShowRoofs);
+        }
+
+        void OnDebugModeToggleTriggered(object sender, EventArgs e)
+        {
+            SettingsManager.Instance.DebugMode = debugModeToggle.IsOn;
+        }
+
+        void OnFowToggleTriggered(object sender, EventArgs e)
+        {
+            SettingsManager.Instance.GraphicsSettings.FogOfWar = fowToggle.IsOn;
+        }
+
+        void OnRoofsToggleTriggered(object sender, EventArgs e)
+        {
+            SettingsManager.Instance.GraphicsSettings.ShowRoofs = roofsToggle.IsOn;
         }
     }
 }

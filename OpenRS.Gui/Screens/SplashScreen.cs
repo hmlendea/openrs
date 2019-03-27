@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using NuciXNA.Gui;
-using NuciXNA.Gui.GuiElements;
+using NuciXNA.Gui.Controls;
 using NuciXNA.Gui.Screens;
 using NuciXNA.Graphics.SpriteEffects;
 using NuciXNA.Input;
@@ -20,75 +21,79 @@ namespace OpenRS.Gui.Screens
         /// <value>The delay.</value>
         public float Delay { get; set; }
 
-        /// <summary>
-        /// Gets or sets the background.
-        /// </summary>
-        /// <value>The background.</value>
-        public GuiImage BackgroundImage { get; set; }
-
-        /// <summary>
-        /// Gets or sets the overlay.
-        /// </summary>
-        /// <value>The overlay.</value>
-        public GuiImage OverlayImage { get; set; }
-
-        /// <summary>
-        /// Gets or sets the logo.
-        /// </summary>
-        /// <value>The logo.</value>
-        public GuiImage LogoImage { get; set; }
+        GuiImage backgroundImage;
+        GuiImage overlayImage;
+        GuiImage logoImage;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SplashScreen"/> class.
         /// </summary>
         public SplashScreen()
         {
-            Delay = 113;
-            BackgroundColour = new Colour(27, 41, 78);
+            Delay = 3;
+            BackgroundColour = Colour.DodgerBlue;
         }
 
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public override void LoadContent()
+        protected override void DoLoadContent()
         {
-            BackgroundImage = new GuiImage
+            backgroundImage = new GuiImage
             {
+                Id = nameof(backgroundImage),
                 ContentFile = "SplashScreen/Background",
                 RotationEffect = new OscilationEffect
                 {
-                    Speed = 0.05f,
-                    MinimumMultiplier = -0.20f,
-                    MaximumMultiplier = +0.20f
+                    Speed = 0.25f,
+                    MinimumMultiplier = 0.5f,
+                    MaximumMultiplier = 1.5f
                 },
                 ScaleEffect = new ZoomEffect
                 {
-                    Speed = 0.05f,
-                    MinimumMultiplier = 1.00f,
-                    MaximumMultiplier = 1.10f
+                    MinimumMultiplier = 0.5f,
+                    MaximumMultiplier = 1.5f
                 },
-                EffectsActive = true
+                AreEffectsActive = true
             };
-            OverlayImage = new GuiImage { ContentFile = "SplashScreen/Overlay" };
-            LogoImage = new GuiImage { ContentFile = "SplashScreen/Logo" };
+            overlayImage = new GuiImage
+            {
+                Id = nameof(overlayImage),
+                ContentFile = "SplashScreen/Overlay"
+            };
+            logoImage = new GuiImage
+            {
+                Id = nameof(logoImage),
+                ContentFile = "SplashScreen/Logo"
+            };
 
-            GuiManager.Instance.GuiElements.Add(BackgroundImage);
-            GuiManager.Instance.GuiElements.Add(OverlayImage);
-            GuiManager.Instance.GuiElements.Add(LogoImage);
-
-            base.LoadContent();
-
-            BackgroundImage.RotationEffect.Activate();
-            BackgroundImage.ScaleEffect.Activate();
+            GuiManager.Instance.RegisterControls(backgroundImage, overlayImage, logoImage);
+            
+            RegisterEvents();
+            SetChildrenProperties();
+        }
+        
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
+        {
+            UnregisterEvents();
         }
 
         /// <summary>
         /// Updates the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        public override void Update(GameTime gameTime)
+        protected override void DoUpdate(GameTime gameTime)
         {
-            base.Update(gameTime);
+            SetChildrenProperties();
+            
+            if (!backgroundImage.RotationEffect.IsActive)
+            {
+                backgroundImage.RotationEffect.Activate();
+                backgroundImage.ScaleEffect.Activate();
+            }
 
             if (Delay <= 0 && !ScreenManager.Instance.Transitioning)
             {
@@ -97,37 +102,60 @@ namespace OpenRS.Gui.Screens
 
             Delay -= (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
-
-        protected override void SetChildrenProperties()
+        
+        /// <summary>
+        /// Update the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected override void DoDraw(SpriteBatch spriteBatch)
         {
-            OverlayImage.Size = ScreenManager.Instance.Size;
 
-            BackgroundImage.Location = new Point2D(
-                (ScreenManager.Instance.Size.Width - BackgroundImage.ClientRectangle.Width) / 2,
-                (ScreenManager.Instance.Size.Height - BackgroundImage.ClientRectangle.Height) / 2);
-
-            LogoImage.Location = new Point2D(
-                (ScreenManager.Instance.Size.Width - LogoImage.Size.Width) / 2,
-                (ScreenManager.Instance.Size.Height - LogoImage.Size.Height) / 2);
         }
 
-        protected override void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
+        /// <summary>
+        /// Registers the events.
+        /// </summary>
+        void RegisterEvents()
         {
-            base.OnKeyPressed(sender, e);
+            KeyPressed += OnKeyPressed;
+            MouseButtonPressed += OnMouseButtonPressed;
+        }
 
+        /// <summary>
+        /// Unregisters the events.
+        /// </summary>
+        void UnregisterEvents()
+        {
+            KeyPressed -= OnKeyPressed;
+            MouseButtonPressed -= OnMouseButtonPressed;
+        }
+
+        void SetChildrenProperties()
+        {
+            overlayImage.Size = ScreenManager.Instance.Size;
+
+            backgroundImage.Location = new Point2D(
+                (ScreenManager.Instance.Size.Width - backgroundImage.ClientRectangle.Width) / 2,
+                (ScreenManager.Instance.Size.Height - backgroundImage.ClientRectangle.Height) / 2);
+
+            logoImage.Location = new Point2D(
+                (ScreenManager.Instance.Size.Width - logoImage.Size.Width) / 2,
+                (ScreenManager.Instance.Size.Height - logoImage.Size.Height) / 2);
+        }
+
+        void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
+        {
             ChangeScreens();
         }
 
-        protected override void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
+        void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            base.OnMouseButtonPressed(sender, e);
-
             ChangeScreens();
         }
 
         void ChangeScreens()
         {
-            ScreenManager.Instance.ChangeScreens<TitleScreen>();
+            ScreenManager.Instance.ChangeScreens(typeof(TitleScreen));
         }
     }
 }

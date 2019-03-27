@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using NuciXNA.Gui.GuiElements;
+using NuciXNA.Gui.Controls;
 using NuciXNA.Gui.Screens;
 
 namespace OpenRS.Gui.Screens
@@ -13,16 +13,16 @@ namespace OpenRS.Gui.Screens
     {
         GuiMenuLink newGameLink;
         GuiMenuLink settingsLink;
-        GuiMenuAction extiAction;
+        GuiMenuItem extiAction;
 
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public override void LoadContent()
+        protected override void DoLoadContent()
         {
             newGameLink = new GuiMenuLink
             {
-                Id = "newGame",
+                Id = nameof(newGameLink),
                 Text = "Login as 'test'",
                 TargetScreen = typeof(GameplayScreen),
                 Parameters = new object[] { "test", "test" }
@@ -30,23 +30,22 @@ namespace OpenRS.Gui.Screens
 
             settingsLink = new GuiMenuLink
             {
-                Id = "settings",
+                Id = nameof(settingsLink),
                 Text = "Settings",
                 TargetScreen = typeof(SettingsScreen)
             };
 
-            extiAction = new GuiMenuAction
+            extiAction = new GuiMenuItem
             {
-                Id = "exit",
-                Text = "Exit",
-                ActionId = "Exit"
+                Id = nameof(extiAction),
+                Text = "Exit"
             };
 
             Items.Add(newGameLink);
             Items.Add(settingsLink);
             Items.Add(extiAction);
-
-            base.LoadContent();
+            
+            base.DoLoadContent();
         }
     }
 }

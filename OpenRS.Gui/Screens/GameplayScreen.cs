@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,7 +8,7 @@ using NuciXNA.Gui;
 using NuciXNA.Gui.Screens;
 using NuciXNA.Primitives;
 
-using OpenRS.Gui.GuiElements;
+using OpenRS.Gui.Controls;
 using OpenRS.Net.Client;
 using OpenRS.Net.Client.Events;
 
@@ -47,50 +48,52 @@ namespace OpenRS.Gui.Screens
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public override void LoadContent()
+        protected override void DoLoadContent()
         {
-            SideBar = new GuiSideBar();
-            ChatPanel = new GuiChatPanel();
-            GuiGame = new GuiGame();
-
-            SideBar.Enabled = false;
-            SideBar.Visible = false;
-
-            GuiManager.Instance.GuiElements.Add(GuiGame);
-            GuiManager.Instance.GuiElements.Add(SideBar);
-            GuiManager.Instance.GuiElements.Add(ChatPanel);
-
             gameClient = GameClient.CreateGameClient(username, password, 640, 480);
             gameClient.gameMinThreadSleepTime = 10;
             gameClient.Start();
             gameThread = new Thread(gameClient.run);
             gameThread.Start();
 
-            GuiGame.AssociateGameClient(ref gameClient);
+            SideBar = new GuiSideBar(gameClient);
+            ChatPanel = new GuiChatPanel();
+            GuiGame = new GuiGame(gameClient);
 
-            base.LoadContent();
+            GuiManager.Instance.RegisterControls(GuiGame, SideBar, ChatPanel);
 
-            SideBar.AssociateGameClient(ref gameClient);
+            RegisterEvents();
+            SetChildrenProperties();
+        }
+
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
+        {
+            UnregisterEvents();
         }
 
         /// <summary>
         /// Update the content.
         /// </summary>
-        /// <returns>The update.</returns>
         /// <param name="gameTime">Game time.</param>
-        public override void Update(GameTime gameTime)
+        protected override void DoUpdate(GameTime gameTime)
         {
-            base.Update(gameTime);
-
             if (gameClient.loggedIn)
             {
-                SideBar.Enabled = true;
-                SideBar.Visible = true;
+                if (!SideBar.IsEnabled)
+                {
+                    SideBar.Enable();
+                    SideBar.Show();
+                }
+
+                SetChildrenProperties();
             }
             else
             {
-                SideBar.Enabled = false;
-                SideBar.Visible = false;
+                SideBar.Disable();
+                SideBar.Hide();
             }
         }
 
@@ -99,12 +102,30 @@ namespace OpenRS.Gui.Screens
         /// </summary>
         /// <returns>The draw.</returns>
         /// <param name="spriteBatch">Sprite batch.</param>
-        public override void Draw(SpriteBatch spriteBatch)
+        protected override void DoDraw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
+
+        }
+        
+        /// <summary>
+        /// Registers the events.
+        /// </summary>
+        void RegisterEvents()
+        {
+            ContentLoaded += OnContentLoaded;
+            gameClient.OnChatMessageReceived += OnGameClientChatMessageReceived;
         }
 
-        protected override void SetChildrenProperties()
+        /// <summary>
+        /// Unregisters the events.
+        /// </summary>
+        void UnregisterEvents()
+        {
+            ContentLoaded -= OnContentLoaded;
+            gameClient.OnChatMessageReceived -= OnGameClientChatMessageReceived;
+        }
+
+        void SetChildrenProperties()
         {
             SideBar.Size = new Size2D(240, ScreenManager.Instance.Size.Height);
             SideBar.Location = new Point2D(ScreenManager.Instance.Size.Width - SideBar.Size.Width, 0);
@@ -119,17 +140,13 @@ namespace OpenRS.Gui.Screens
                 ScreenManager.Instance.Size.Height - ChatPanel.Size.Height);
         }
 
-        protected override void RegisterEvents()
+        void OnContentLoaded(object sender, EventArgs e)
         {
-            gameClient.OnChatMessageReceived += GameClient_OnChatMessageReceived;
+            SideBar.Disable();
+            SideBar.Hide();
         }
 
-        protected override void UnregisterEvents()
-        {
-            gameClient.OnChatMessageReceived -= GameClient_OnChatMessageReceived;
-        }
-
-        void GameClient_OnChatMessageReceived(object sender, ChatMessageEventArgs e)
+        void OnGameClientChatMessageReceived(object sender, ChatMessageEventArgs e)
         {
             ChatPanel.AddMessage(e.Message);
         }

@@ -1,11 +1,13 @@
-﻿using NuciXNA.Primitives;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.Primitives;
 using NuciXNA.Graphics.Drawing;
-using NuciXNA.Gui.GuiElements;
+using NuciXNA.Gui.Controls;
 
-namespace OpenRS.Gui.GuiElements
+namespace OpenRS.Gui.Controls
 {
-    public class GuiCombatStyleCard : GuiElement
+    public class GuiCombatStyleCard : GuiControl
     {
         GuiImage background;
         GuiImage icon;
@@ -17,7 +19,10 @@ namespace OpenRS.Gui.GuiElements
 
         public string CombatStyleName { get; set; }
 
-        public override void LoadContent()
+        /// <summary>
+        /// Loads the content.
+        /// </summary>
+        protected override void DoLoadContent()
         {
             background = new GuiImage { ContentFile = "Interface/combatcard" };
             icon = new GuiImage();
@@ -25,20 +30,41 @@ namespace OpenRS.Gui.GuiElements
             {
                 FontName = "SkillCardFont",
                 FontOutline = FontOutline.BottomRight,
-                VerticalAlignment = VerticalAlignment.Top
+                VerticalAlignment = Alignment.Beginning
             };
 
-            AddChild(background);
-            AddChild(icon);
-            AddChild(nameText);
-
-            base.LoadContent();
+            RegisterChildren(background, icon, nameText);
+            SetChildrenProperties();
         }
 
-        protected override void SetChildrenProperties()
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
         {
-            base.SetChildrenProperties();
 
+        }
+
+        /// <summary>
+        /// Update the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected override void DoUpdate(GameTime gameTime)
+        {
+            SetChildrenProperties();
+        }
+
+        /// <summary>
+        /// Draw the content on the specified <see cref="SpriteBatch"/>.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        protected override void DoDraw(SpriteBatch spriteBatch)
+        {
+
+        }
+
+        void SetChildrenProperties()
+        {
             background.Size = Size;
             background.Location = Location;
 

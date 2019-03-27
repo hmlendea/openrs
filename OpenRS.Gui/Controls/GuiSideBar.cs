@@ -1,17 +1,21 @@
-﻿using NuciXNA.Input;
-using NuciXNA.Primitives;
+﻿using System;
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+using NuciXNA.Input;
+using NuciXNA.Primitives;
 using NuciXNA.Graphics.Drawing;
-using NuciXNA.Gui.GuiElements;
+using NuciXNA.Gui.Controls;
 
 using OpenRS.Net.Client;
 using OpenRS.Settings;
 
-namespace OpenRS.Gui.GuiElements
+namespace OpenRS.Gui.Controls
 {
-    public class GuiSideBar : GuiElement
+    public class GuiSideBar : GuiControl
     {
-        GameClient client;
+        readonly GameClient client;
 
         GuiImage background;
         GuiMinimap minimap;
@@ -31,18 +35,39 @@ namespace OpenRS.Gui.GuiElements
         GuiToggleButton spellsButton;
         GuiToggleButton exitButton;
 
-        public override void LoadContent()
+        public GuiSideBar(GameClient client)
+        {
+            this.client = client;
+        }
+
+        /// <summary>
+        /// Loads the content.
+        /// </summary>
+        protected override void DoLoadContent()
         {
             background = new GuiImage
             {
                 ContentFile = "Interface/Backgrounds/sidebar",
                 TextureLayout = TextureLayout.Tile
             };
-            minimap = new GuiMinimap { Size = new Size2D(224, 176) };
-            panel = new GuiSideBarPanel { Size = new Size2D(240, 262) };
-            combatPanel = new GuiCombatPanel { Size = new Size2D(190, 262) };
-            skillsPanel = new GuiSkillsPanel { Size = new Size2D(190, 262) };
-            inventoryPanel = new GuiInventoryPanel { Size = new Size2D(190, 262) };
+            minimap = new GuiMinimap(client)
+            {
+                Size = new Size2D(224, 176)
+            };
+            panel = new GuiSideBarPanel
+            {
+                Size = new Size2D(240, 262)
+            };
+            combatPanel = new GuiCombatPanel(client)
+            {
+                Size = new Size2D(190, 262)
+            };
+            skillsPanel = new GuiSkillsPanel(client) {
+                Size = new Size2D(190, 262)
+            };
+            inventoryPanel = new GuiInventoryPanel(client) {
+                Size = new Size2D(190, 262)
+            };
 
             combatButton = new GuiToggleButton
             {
@@ -108,56 +133,97 @@ namespace OpenRS.Gui.GuiElements
                 Size = new Size2D(240, 36)
             };
 
-            AddChild(background);
-            AddChild(minimap);
-
-            AddChild(panel);
-            AddChild(combatPanel);
-            AddChild(skillsPanel);
-            AddChild(inventoryPanel);
-
-            AddChild(combatButton);
-            AddChild(skillsButton);
-            AddChild(questsButton);
-            AddChild(tasksButton);
-            AddChild(inventoryButton);
-            AddChild(equipmentButton);
-            AddChild(prayerButton);
-            AddChild(spellsButton);
-            AddChild(exitButton);
-
-            InventoryButton_Clicked(this, null);
-
-            base.LoadContent();
+            RegisterChildren(background, minimap);
+            RegisterChildren(panel, combatPanel, skillsPanel, inventoryPanel);
+            RegisterChildren(
+                combatButton,
+                skillsButton,
+                questsButton,
+                tasksButton,
+                inventoryButton,
+                equipmentButton,
+                prayerButton,
+                spellsButton,
+                exitButton);
+            
+            RegisterEvents();
+            SetChildrenProperties();
         }
 
-        public void AssociateGameClient(ref GameClient client)
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
         {
-            this.client = client;
-
-            minimap.AssociateGameClient(ref client);
-            combatPanel.AssociateGameClient(ref client);
-            skillsPanel.AssociateGameClient(ref client);
-            inventoryPanel.AssociateGameClient(ref client);
+            UnregisterEvents();
         }
 
-        protected override void SetChildrenProperties()
+        /// <summary>
+        /// Update the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected override void DoUpdate(GameTime gameTime)
         {
-            base.SetChildrenProperties();
+            SetChildrenProperties();
+        }
 
-            background.Location = Location;
-            background.Size = Size;
+        /// <summary>
+        /// Draw the content on the specified <see cref="SpriteBatch"/>.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        protected override void DoDraw(SpriteBatch spriteBatch)
+        {
 
+        }
+
+        /// <summary>
+        /// Registers the events.
+        /// </summary>
+        void RegisterEvents()
+        {
+            ContentLoaded += OnContentLoaded;
+
+            combatButton.Clicked += OnCombatButtonClicked;
+            skillsButton.Clicked += OnSkillsButtonClicked;
+            questsButton.Clicked += OnQuestsButtonClicked;
+            tasksButton.Clicked += OnTasksButtonClicked;
+            inventoryButton.Clicked += OnInventoryButtonClicked;
+            equipmentButton.Clicked += OnEquipmentButtonClicked;
+            prayerButton.Clicked += OnPrayerButtonClicked;
+            spellsButton.Clicked += OnSpellsButtonClicked;
+            exitButton.Clicked += OnExitButtonClicked;
+        }
+
+        /// <summary>
+        /// Unregisters the events.
+        /// </summary>
+        void UnregisterEvents()
+        {
+            ContentLoaded -= OnContentLoaded;
+
+            combatButton.Clicked -= OnCombatButtonClicked;
+            skillsButton.Clicked -= OnSkillsButtonClicked;
+            questsButton.Clicked -= OnQuestsButtonClicked;
+            tasksButton.Clicked -= OnTasksButtonClicked;
+            inventoryButton.Clicked -= OnInventoryButtonClicked;
+            equipmentButton.Clicked -= OnEquipmentButtonClicked;
+            prayerButton.Clicked -= OnPrayerButtonClicked;
+            spellsButton.Clicked -= OnSpellsButtonClicked;
+            exitButton.Clicked -= OnExitButtonClicked;
+        }
+
+        void SetChildrenProperties()
+        {
             minimap.Location = new Point2D(
-                Location.X + (Size.Width - minimap.Size.Width) / 2,
-                Location.Y + (Size.Width - minimap.Size.Width) / 2);
+                (Size.Width - minimap.Size.Width) / 2,
+                (Size.Width - minimap.Size.Width) / 2);
 
             exitButton.Location = new Point2D(
-                Location.X + (Size.Width - exitButton.Size.Width) / 2,
-                ClientRectangle.Bottom - GameDefines.GUI_TILE_SIZE);
+                (Size.Width - exitButton.Size.Width) / 2,
+                Size.Height - GameDefines.GUI_TILE_SIZE);
 
             panel.Location = new Point2D(
-                Location.X + (Size.Width - panel.Size.Width) / 2,
+                (Size.Width - panel.Size.Width) / 2,
                 exitButton.Location.Y - panel.Size.Height);
             combatPanel.Location = new Point2D(
                 panel.Location.X + 25,
@@ -191,109 +257,90 @@ namespace OpenRS.Gui.GuiElements
                 prayerButton.Location.Y);
         }
 
-        protected override void RegisterEvents()
-        {
-            combatButton.Clicked += CombatButton_Clicked;
-            skillsButton.Clicked += SkillsButton_Clicked;
-            questsButton.Clicked += QuestsButton_Clicked;
-            tasksButton.Clicked += TasksButton_Clicked;
-            inventoryButton.Clicked += InventoryButton_Clicked;
-            equipmentButton.Clicked += EquipmentButton_Clicked;
-            prayerButton.Clicked += PrayerButton_Clicked;
-            spellsButton.Clicked += SpellsButton_Clicked;
-            exitButton.Clicked += ExitButton_Clicked;
-        }
-
-        protected override void UnregisterEvents()
-        {
-            combatButton.Clicked -= CombatButton_Clicked;
-            skillsButton.Clicked -= SkillsButton_Clicked;
-            questsButton.Clicked -= QuestsButton_Clicked;
-            tasksButton.Clicked -= TasksButton_Clicked;
-            inventoryButton.Clicked -= InventoryButton_Clicked;
-            equipmentButton.Clicked -= EquipmentButton_Clicked;
-            prayerButton.Clicked -= PrayerButton_Clicked;
-            spellsButton.Clicked -= SpellsButton_Clicked;
-            exitButton.Clicked -= ExitButton_Clicked;
-        }
-
-        void CombatButton_Clicked(object sender, MouseButtonEventArgs e)
+        void OnContentLoaded(object sender, EventArgs e)
         {
             UnselectEverything();
-
-            combatButton.Toggled = true;
-            combatPanel.Show();
-        }
-
-        void SkillsButton_Clicked(object sender, MouseButtonEventArgs e)
-        {
-            UnselectEverything();
-
-            skillsButton.Toggled = true;
-            skillsPanel.Show();
-        }
-
-        void QuestsButton_Clicked(object sender, MouseButtonEventArgs e)
-        {
-            UnselectEverything();
-
-            questsButton.Toggled = true;
-        }
-
-        void TasksButton_Clicked(object sender, MouseButtonEventArgs e)
-        {
-            UnselectEverything();
-
-            tasksButton.Toggled = true;
-        }
-
-        void InventoryButton_Clicked(object sender, MouseButtonEventArgs e)
-        {
-            UnselectEverything();
-
-            inventoryButton.Toggled = true;
+            inventoryButton.IsToggled = true;
             inventoryPanel.Show();
         }
 
-        void EquipmentButton_Clicked(object sender, MouseButtonEventArgs e)
+        void OnCombatButtonClicked(object sender, MouseButtonEventArgs e)
         {
             UnselectEverything();
 
-            equipmentButton.Toggled = true;
+            combatButton.IsToggled = true;
+            combatPanel.Show();
         }
 
-        void PrayerButton_Clicked(object sender, MouseButtonEventArgs e)
+        void OnSkillsButtonClicked(object sender, MouseButtonEventArgs e)
         {
             UnselectEverything();
 
-            prayerButton.Toggled = true;
+            skillsButton.IsToggled = true;
+            skillsPanel.Show();
         }
 
-        void SpellsButton_Clicked(object sender, MouseButtonEventArgs e)
+        void OnQuestsButtonClicked(object sender, MouseButtonEventArgs e)
         {
             UnselectEverything();
 
-            spellsButton.Toggled = true;
+            questsButton.IsToggled = true;
         }
 
-        void ExitButton_Clicked(object sender, MouseButtonEventArgs e)
+        void OnTasksButtonClicked(object sender, MouseButtonEventArgs e)
         {
             UnselectEverything();
 
-            exitButton.Toggled = true;
+            tasksButton.IsToggled = true;
+        }
+
+        void OnInventoryButtonClicked(object sender, MouseButtonEventArgs e)
+        {
+            UnselectEverything();
+
+            inventoryButton.IsToggled = true;
+            inventoryPanel.Show();
+        }
+
+        void OnEquipmentButtonClicked(object sender, MouseButtonEventArgs e)
+        {
+            UnselectEverything();
+
+            equipmentButton.IsToggled = true;
+        }
+
+        void OnPrayerButtonClicked(object sender, MouseButtonEventArgs e)
+        {
+            UnselectEverything();
+
+            prayerButton.IsToggled = true;
+        }
+
+        void OnSpellsButtonClicked(object sender, MouseButtonEventArgs e)
+        {
+            UnselectEverything();
+
+            spellsButton.IsToggled = true;
+        }
+
+        void OnExitButtonClicked(object sender, MouseButtonEventArgs e)
+        {
+            UnselectEverything();
+
+            exitButton.IsToggled = true;
         }
 
         void UnselectEverything()
         {
-            combatButton.Toggled = false;
-            skillsButton.Toggled = false;
-            questsButton.Toggled = false;
-            tasksButton.Toggled = false;
-            inventoryButton.Toggled = false;
-            equipmentButton.Toggled = false;
-            prayerButton.Toggled = false;
-            spellsButton.Toggled = false;
-            exitButton.Toggled = false;
+            combatButton.IsToggled = false;
+            skillsButton.IsToggled = false;
+            questsButton.IsToggled = false;
+            tasksButton.IsToggled = false;
+            inventoryButton.IsToggled = false;
+            equipmentButton.IsToggled = false;
+            prayerButton.IsToggled = false;
+            spellsButton.IsToggled = false;
+            exitButton.IsToggled = false;
 
             combatPanel.Hide();
             skillsPanel.Hide();

@@ -7,17 +7,17 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using NuciXNA.Graphics;
-using NuciXNA.Gui.GuiElements;
+using NuciXNA.Gui.Controls;
 
 using OpenRS.Net.Client;
 using OpenRS.Net.Client.Events;
 using OpenRS.Net.Client.Game;
 
-namespace OpenRS.Gui.GuiElements
+namespace OpenRS.Gui.Controls
 {
-    public class GuiGame : GuiElement
+    public class GuiGame : GuiControl
     {
-        GameClient gameClient;
+        readonly GameClient gameClient;
 
         SpriteBatch spriteBatch;
 
@@ -26,59 +26,69 @@ namespace OpenRS.Gui.GuiElements
         bool isSectionLoading;
         bool isContentLoading;
 
-        public override void LoadContent()
+        public GuiGame(GameClient client)
         {
-            base.LoadContent();
-
-            spriteBatch = GraphicsManager.Instance.SpriteBatch;
+            this.gameClient = client;
         }
 
-        public override void UnloadContent()
+        /// <summary>
+        /// Loads the content.
+        /// </summary>
+        protected override void DoLoadContent()
+        {
+            spriteBatch = GraphicsManager.Instance.SpriteBatch;
+            RegisterEvents();
+        }
+
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
         {
             gameClient.Dispose();
-
-            base.UnloadContent();
+            UnregisterEvents();
         }
 
-        public override void Update(GameTime gameTime)
+        /// <summary>
+        /// Update the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected override void DoUpdate(GameTime gameTime)
         {
-            if (gameClient != null)
+            if (gameClient != null) // TODO: Ugly null check
             {
                 gameClient.Update(gameTime);
             }
-
-            base.Update(gameTime);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        /// <summary>
+        /// Draw the content on the specified <see cref="SpriteBatch"/>.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        protected override void DoDraw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
-
-            if (!isContentLoading)
+            if (!isContentLoading) // TODO: Ugly check here
             {
                 DrawGame(gameClient);
             }
         }
 
-        public void AssociateGameClient(ref GameClient client)
+        /// <summary>
+        /// Registers the events.
+        /// </summary>
+        void RegisterEvents()
         {
-            this.gameClient = client;
-        }
-
-        protected override void RegisterEvents()
-        {
-            base.RegisterEvents();
-
             gameClient.OnContentLoadedCompleted += client_OnContentLoadedCompleted;
             gameClient.OnContentLoaded += client_OnContentLoaded;
             gameClient.OnLoadingSection += client_OnLoadingSection;
             gameClient.OnLoadingSectionCompleted += client_OnLoadingSectionCompleted;
         }
 
-        protected override void UnregisterEvents()
+        /// <summary>
+        /// Unregisters the events.
+        /// </summary>
+        void UnregisterEvents()
         {
-            base.UnregisterEvents();
-
             gameClient.OnContentLoadedCompleted -= client_OnContentLoadedCompleted;
             gameClient.OnContentLoaded -= client_OnContentLoaded;
             gameClient.OnLoadingSection -= client_OnLoadingSection;

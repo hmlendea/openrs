@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 using NuciXNA.Graphics.Drawing;
-using NuciXNA.Gui.GuiElements;
+using NuciXNA.Gui.Controls;
 using NuciXNA.Primitives;
 
-namespace OpenRS.Gui.GuiElements
+namespace OpenRS.Gui.Controls
 {
-    public sealed class GuiChatPanel : GuiElement
+    public sealed class GuiChatPanel : GuiControl
     {
         const int MessageHeight = 24;
 
@@ -20,7 +23,10 @@ namespace OpenRS.Gui.GuiElements
             ForegroundColour = Colour.Yellow;
         }
 
-        public override void LoadContent()
+        /// <summary>
+        /// Loads the content.
+        /// </summary>
+        protected override void DoLoadContent()
         {
             messageRows = new List<GuiText>();
 
@@ -30,9 +36,34 @@ namespace OpenRS.Gui.GuiElements
                 TextureLayout = TextureLayout.Tile
             };
             
-            AddChild(background);
+            RegisterChild(background);
+            SetChildrenProperties();
+        }
 
-            base.LoadContent();
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
+        {
+
+        }
+
+        /// <summary>
+        /// Update the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected override void DoUpdate(GameTime gameTime)
+        {
+            SetChildrenProperties();
+        }
+
+        /// <summary>
+        /// Draw the content on the specified <see cref="SpriteBatch"/>.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        protected override void DoDraw(SpriteBatch spriteBatch)
+        {
+
         }
 
         public void AddMessage(string message)
@@ -45,7 +76,7 @@ namespace OpenRS.Gui.GuiElements
             messageRows[messageRows.Count - 1].Text = message;
         }
 
-        protected override void SetChildrenProperties()
+        void SetChildrenProperties()
         {
             background.Size = Size;
             background.Location = Location;
@@ -57,11 +88,10 @@ namespace OpenRS.Gui.GuiElements
                 GuiText newRow = new GuiText
                 {
                     FontName = "ChatFont",
-                    HorizontalAlignment = HorizontalAlignment.Left
+                    HorizontalAlignment = Alignment.Beginning
                 };
 
-                newRow.LoadContent();
-                AddChild(newRow);
+                RegisterChild(newRow);
 
                 messageRows.Insert(0, newRow);
             }
@@ -84,8 +114,6 @@ namespace OpenRS.Gui.GuiElements
 
                 y -= message.Size.Height;
             }
-
-            base.SetChildrenProperties();
         }
     }
 }

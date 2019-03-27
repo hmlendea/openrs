@@ -4,9 +4,9 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using NuciXNA.DataAccess.Resources;
+using NuciXNA.DataAccess.Content;
 using NuciXNA.Graphics.Drawing;
-using NuciXNA.Gui.GuiElements;
+using NuciXNA.Gui.Controls;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
 using NuciXNA.Primitives.Mapping;
@@ -15,11 +15,11 @@ using OpenRS.Net.Client;
 using OpenRS.Net.Client.Game;
 using OpenRS.Net.Client.Game.Cameras;
 
-namespace OpenRS.Gui.GuiElements
+namespace OpenRS.Gui.Controls
 {
-    public class GuiMinimap : GuiElement
+    public class GuiMinimap : GuiControl
     {
-        GameClient client;
+        readonly GameClient client;
 
         GuiMinimapIndicator compassIndicator;
         GuiMinimapIndicator healthIndicator;
@@ -36,13 +36,18 @@ namespace OpenRS.Gui.GuiElements
 
         public int ZoomLevel { get; set; }
 
-        public GuiMinimap()
+        public GuiMinimap(GameClient client)
         {
+            this.client = client;
+
             IsClickable = true;
             ZoomLevel = 2;
         }
 
-        public override void LoadContent()
+        /// <summary>
+        /// Loads the content.
+        /// </summary>
+        protected override void DoLoadContent()
         {
             dot = new TextureSprite
             {
@@ -59,25 +64,29 @@ namespace OpenRS.Gui.GuiElements
             compassIndicator = new GuiMinimapIndicator
             {
                 BackgroundColour = Colour.Bisque,
+                Location = new Point2D(40, 9),
                 Icon = "Interface/Minimap/icon_compass"
             };
             healthIndicator = new GuiMinimapIndicator
             {
                 BackgroundColour = Colour.PersianRed,
+                Location = new Point2D(17, 36),
                 Icon = "Interface/Minimap/icon_health"
             };
             staminaIndicator = new GuiMinimapIndicator
             {
                 BackgroundColour = Colour.OliveDrab,
+                Location = new Point2D(162, 146),
                 Icon = "Interface/Minimap/icon_stamina"
             };
             prayerIndicator = new GuiMinimapIndicator
             {
                 BackgroundColour = Colour.CornflowerBlue,
+                Location = new Point2D(10, 72),
                 Icon = "Interface/Minimap/icon_prayer"
             };
 
-            Texture2D maskTexture = ResourceManager.Instance.LoadTexture2D("Interface/Minimap/mask");
+            Texture2D maskTexture = NuciContentManager.Instance.LoadTexture2D("Interface/Minimap/mask");
             Color[] maskBits = new Color[maskTexture.Width * maskTexture.Height];
             maskTexture.GetData(maskBits, 0, maskBits.Length);
 
@@ -97,48 +106,57 @@ namespace OpenRS.Gui.GuiElements
             pixel.LoadContent();
             frame.LoadContent();
 
-            AddChild(compassIndicator);
-            AddChild(healthIndicator);
-            AddChild(staminaIndicator);
-            AddChild(prayerIndicator);
-
-            base.LoadContent();
+            RegisterChildren(compassIndicator, healthIndicator, staminaIndicator, prayerIndicator);
+            RegisterEvents();
+            SetChildrenProperties();
         }
 
-        public override void Update(GameTime gameTime)
+        /// <summary>
+        /// /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
         {
+            UnregisterEvents();
+        }
+
+        /// <summary>
+        /// Update the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected override void DoUpdate(GameTime gameTime)
+        {
+            SetChildrenProperties();
+
             dot.Update(gameTime);
             pixel.Update(gameTime);
             frame.Update(gameTime);
 
             compassIndicator.IconRotation = 1;
-
-            base.Update(gameTime);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        /// <summary>
+        /// Draw the content on the specified <see cref="SpriteBatch"/>.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        protected override void DoDraw(SpriteBatch spriteBatch)
         {
             DrawMinimapMenu(spriteBatch);
             frame.Draw(spriteBatch);
-
-            base.Draw(spriteBatch);
         }
 
-        public void AssociateGameClient(ref GameClient client)
+        void RegisterEvents()
         {
-            this.client = client;
+            compassIndicator.Clicked += OnCompassIndicatorClicked;
         }
 
-        protected override void SetChildrenProperties()
+        void UnregisterEvents()
         {
-            base.SetChildrenProperties();
+            compassIndicator.Clicked -= OnCompassIndicatorClicked;
+        }
 
+        void SetChildrenProperties()
+        {
             frame.Location = Location;
-
-            compassIndicator.Location = new Point2D(Location.X + 40, Location.Y + 9);
-            healthIndicator.Location = new Point2D(Location.X + 17, Location.Y + 36);
-            staminaIndicator.Location = new Point2D(Location.X + 162, Location.Y + 146);
-            prayerIndicator.Location = new Point2D(Location.X + 10, Location.Y + 72);
 
             if (client == null || !client.loggedIn)
             {
@@ -158,16 +176,6 @@ namespace OpenRS.Gui.GuiElements
 
             prayerIndicator.BaseValue = client.Skills[5].BaseLevel;
             prayerIndicator.CurrentValue = client.Skills[5].CurrentLevel;
-        }
-
-        protected override void RegisterEvents()
-        {
-            compassIndicator.Clicked += OnCompassIndicatorClicked;
-        }
-
-        protected override void UnregisterEvents()
-        {
-            compassIndicator.Clicked -= OnCompassIndicatorClicked;
         }
 
         void DrawMinimapMenu(SpriteBatch spriteBatch)

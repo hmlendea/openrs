@@ -1,17 +1,20 @@
 ﻿using System.Collections.Generic;
 
-using NuciXNA.Gui.GuiElements;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+using NuciXNA.Gui.Controls;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
 
 using OpenRS.Settings;
 
-namespace OpenRS.Gui.GuiElements
+namespace OpenRS.Gui.Controls
 {
     /// <summary>
     /// Button GUI element.
     /// </summary>
-    public class GuiButton : GuiElement
+    public class GuiButton : GuiControl
     {
         public Size2D ButtonTileSize { get; set; }
 
@@ -50,7 +53,7 @@ namespace OpenRS.Gui.GuiElements
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public override void LoadContent()
+        protected override void DoLoadContent()
         {
             icon = new GuiImage();
             images = new List<GuiImage>();
@@ -63,21 +66,64 @@ namespace OpenRS.Gui.GuiElements
                 images.Add(image);
             }
 
-            images.ForEach(x => AddChild(x));
-            AddChild(text);
+            RegisterChildren(images);
+            RegisterChild(text);
 
             if (!string.IsNullOrWhiteSpace(Icon))
             {
-                AddChild(icon);
+                RegisterChild(icon);
             }
-
-            base.LoadContent();
+            
+            RegisterEvents();
+            SetChildrenProperties();
         }
 
-        protected override void SetChildrenProperties()
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
         {
-            base.SetChildrenProperties();
+            UnregisterEvents();
+        }
 
+        /// <summary>
+        /// Update the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected override void DoUpdate(GameTime gameTime)
+        {
+            SetChildrenProperties();
+        }
+
+        /// <summary>
+        /// Draw the content on the specified <see cref="SpriteBatch"/>.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        protected override void DoDraw(SpriteBatch spriteBatch)
+        {
+
+        }
+
+        /// <summary>
+        /// Registers the events.
+        /// </summary>
+        void RegisterEvents()
+        {
+            Clicked += OnClicked;
+            MouseEntered += OnMouseEntered;
+        }
+
+        /// <summary>
+        /// Unregisters the events.
+        /// </summary>
+        void UnregisterEvents()
+        {
+            Clicked -= OnClicked;
+            MouseEntered -= OnMouseEntered;
+        }
+
+        void SetChildrenProperties()
+        {
             for (int i = 0; i < images.Count; i++)
             {
                 images[i].ContentFile = Texture;
@@ -102,10 +148,8 @@ namespace OpenRS.Gui.GuiElements
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        protected override void OnClicked(object sender, MouseButtonEventArgs e)
+        void OnClicked(object sender, MouseButtonEventArgs e)
         {
-            base.OnClicked(sender, e);
-
             if (e.Button != MouseButton.Left)
             {
                 return;
@@ -119,10 +163,8 @@ namespace OpenRS.Gui.GuiElements
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        protected override void OnMouseEntered(object sender, MouseEventArgs e)
+        void OnMouseEntered(object sender, MouseEventArgs e)
         {
-            base.OnMouseMoved(sender, e);
-
             //AudioManager.Instance.PlaySound("Interface/select");
         }
 
@@ -143,13 +185,14 @@ namespace OpenRS.Gui.GuiElements
                 sx = 2;
             }
 
-            if (Hovered)
+            if (IsHovered)
             {
                 sx += 4;
             }
 
-            return new Rectangle2D(sx * ButtonTileSize.Width, 0,
-                                   ButtonTileSize.Width, ButtonTileSize.Height);
+            return new Rectangle2D(
+                sx * ButtonTileSize.Width, 0,
+                ButtonTileSize.Width, ButtonTileSize.Height);
         }
     }
 }

@@ -1,19 +1,21 @@
-﻿using NuciXNA.Input;
-using NuciXNA.Primitives;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
-using NuciXNA.Gui.GuiElements;
+using NuciXNA.Input;
+using NuciXNA.Primitives;
+using NuciXNA.Gui.Controls;
 
 using OpenRS.Models.Enumerations;
 using OpenRS.Net.Client;
 using OpenRS.Net.Enumerations;
 
-namespace OpenRS.Gui.GuiElements
+namespace OpenRS.Gui.Controls
 {
-    public class GuiCombatPanel : GuiElement
+    public class GuiCombatPanel : GuiControl
     {
         const int Spacing = 12;
 
-        GameClient client;
+        readonly GameClient client;
 
         GuiText combatLevelText;
 
@@ -22,12 +24,17 @@ namespace OpenRS.Gui.GuiElements
         GuiCombatStyleCard accurateStyleCard;
         GuiCombatStyleCard defensiveStyleCard;
 
-        public GuiCombatPanel()
+        public GuiCombatPanel(GameClient client)
         {
+            this.client = client;
+
             ForegroundColour = Colour.Gold;
         }
 
-        public override void LoadContent()
+        /// <summary>
+        /// Loads the content.
+        /// </summary>
+        protected override void DoLoadContent()
         {
             combatLevelText = new GuiText { Size = new Size2D(Size.Width, 24) };
             controlledStyleCard = new GuiCombatStyleCard
@@ -55,24 +62,60 @@ namespace OpenRS.Gui.GuiElements
                 Icon = "Icons/CombatStyles/defensive"
             };
 
-            AddChild(combatLevelText);
-            AddChild(controlledStyleCard);
-            AddChild(aggressiveStyleCard);
-            AddChild(accurateStyleCard);
-            AddChild(defensiveStyleCard);
-
-            base.LoadContent();
+            RegisterChildren(
+                combatLevelText,
+                controlledStyleCard,
+                aggressiveStyleCard,
+                accurateStyleCard,
+                defensiveStyleCard);
+            RegisterEvents();
+            SetChildrenProperties();
         }
 
-        public void AssociateGameClient(ref GameClient client)
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
         {
-            this.client = client;
+            UnregisterEvents();
         }
 
-        protected override void SetChildrenProperties()
+        /// <summary>
+        /// Update the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected override void DoUpdate(GameTime gameTime)
         {
-            base.SetChildrenProperties();
+            SetChildrenProperties();
+        }
 
+        /// <summary>
+        /// Draw the content on the specified <see cref="SpriteBatch"/>.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        protected override void DoDraw(SpriteBatch spriteBatch)
+        {
+
+        }
+
+        void RegisterEvents()
+        {
+            controlledStyleCard.Clicked += ControlledStyleCard_Clicked;
+            aggressiveStyleCard.Clicked += AggressiveStyleCard_Clicked;
+            accurateStyleCard.Clicked += AccurateStyleCard_Clicked;
+            defensiveStyleCard.Clicked += DefensiveStyleCard_Clicked;
+        }
+
+        void UnregisterEvents()
+        {
+            controlledStyleCard.Clicked -= ControlledStyleCard_Clicked;
+            aggressiveStyleCard.Clicked -= AggressiveStyleCard_Clicked;
+            accurateStyleCard.Clicked -= AccurateStyleCard_Clicked;
+            defensiveStyleCard.Clicked -= DefensiveStyleCard_Clicked;
+        }
+
+        void SetChildrenProperties()
+        {
             combatLevelText.Size = new Size2D(Size.Width, combatLevelText.Size.Height);
             combatLevelText.Location = new Point2D(Location.X, Location.Y + Spacing);
             combatLevelText.ForegroundColour = ForegroundColour;
@@ -123,22 +166,6 @@ namespace OpenRS.Gui.GuiElements
                         break;
                 }
             }
-        }
-
-        protected override void RegisterEvents()
-        {
-            controlledStyleCard.Clicked += ControlledStyleCard_Clicked;
-            aggressiveStyleCard.Clicked += AggressiveStyleCard_Clicked;
-            accurateStyleCard.Clicked += AccurateStyleCard_Clicked;
-            defensiveStyleCard.Clicked += DefensiveStyleCard_Clicked;
-        }
-
-        protected override void UnregisterEvents()
-        {
-            controlledStyleCard.Clicked -= ControlledStyleCard_Clicked;
-            aggressiveStyleCard.Clicked -= AggressiveStyleCard_Clicked;
-            accurateStyleCard.Clicked -= AccurateStyleCard_Clicked;
-            defensiveStyleCard.Clicked -= DefensiveStyleCard_Clicked;
         }
 
         void ControlledStyleCard_Clicked(object sender, MouseButtonEventArgs e)

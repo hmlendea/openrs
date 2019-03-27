@@ -1,15 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
-using NuciXNA.Gui.GuiElements;
+using NuciXNA.Gui.Controls;
 using NuciXNA.Primitives;
 
 using OpenRS.Net.Client;
 
-namespace OpenRS.Gui.GuiElements
+namespace OpenRS.Gui.Controls
 {
-    public class GuiSkillsPanel : GuiElement
+    public class GuiSkillsPanel : GuiControl
     {
-        GameClient client;
+        readonly GameClient client;
 
         GuiSkillCard attackCard;
         GuiSkillCard healthCard;
@@ -30,7 +31,15 @@ namespace OpenRS.Gui.GuiElements
         GuiSkillCard fletchingCard;
         GuiSkillCard woodcuttingCard;
 
-        public override void LoadContent()
+        public GuiSkillsPanel(GameClient client)
+        {
+            this.client = client;
+        }
+
+        /// <summary>
+        /// Loads the content.
+        /// </summary>
+        protected override void DoLoadContent()
         {
             attackCard = new GuiSkillCard { SkillIcon = "Icons/Skills/attack" };
             healthCard = new GuiSkillCard { SkillIcon = "Icons/Skills/health" };
@@ -51,29 +60,133 @@ namespace OpenRS.Gui.GuiElements
             fletchingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/fletching" };
             woodcuttingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/woodcutting" };
 
-            AddChild(attackCard);
-            AddChild(healthCard);
-            AddChild(miningCard);
-            AddChild(strengthCard);
-            AddChild(agilityCard);
-            AddChild(smithingCard);
-            AddChild(defenceCard);
-            AddChild(herbloreCard);
-            AddChild(fishingCard);
-            AddChild(rangedCard);
-            AddChild(thievingCard);
-            AddChild(cookingCard);
-            AddChild(prayerCard);
-            AddChild(craftingCard);
-            AddChild(firemakingCard);
-            AddChild(magicCard);
-            AddChild(fletchingCard);
-            AddChild(woodcuttingCard);
-
-            base.LoadContent();
+            RegisterChildren(
+                attackCard,
+                healthCard,
+                miningCard,
+                strengthCard,
+                agilityCard,
+                smithingCard,
+                defenceCard,
+                herbloreCard,
+                fishingCard,
+                rangedCard,
+                thievingCard,
+                cookingCard,
+                prayerCard,
+                craftingCard,
+                firemakingCard,
+                magicCard,
+                woodcuttingCard);
+            SetChildrenLocations();
         }
 
-        public override void Update(GameTime gameTime)
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
+        {
+
+        }
+
+        /// <summary>
+        /// Update the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected override void DoUpdate(GameTime gameTime)
+        {
+            SetChildrenLocations();
+            UpdateLevels();
+        }
+
+        /// <summary>
+        /// Draw the content on the specified <see cref="SpriteBatch"/>.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        protected override void DoDraw(SpriteBatch spriteBatch)
+        {
+
+        }
+
+        void SetChildrenLocations()
+        {
+            int spacingX = 1;
+            int spacingY = 1;
+
+            attackCard.Location = new Point2D(
+                Location.X + (Size.Width - 3 * attackCard.Size.Width - 2 * spacingX) / 2,
+                Location.Y + (Size.Width - 3 * attackCard.Size.Width - 2 * spacingX) / 2);
+
+            healthCard.Location = new Point2D(
+                attackCard.ClientRectangle.Right + spacingX,
+                attackCard.ClientRectangle.Top);
+
+            miningCard.Location = new Point2D(
+                healthCard.ClientRectangle.Right + spacingX,
+                healthCard.ClientRectangle.Top);
+
+            strengthCard.Location = new Point2D(
+                attackCard.ClientRectangle.Left,
+                attackCard.ClientRectangle.Bottom + spacingY);
+
+            agilityCard.Location = new Point2D(
+                strengthCard.ClientRectangle.Right + spacingX,
+                strengthCard.ClientRectangle.Top);
+
+            smithingCard.Location = new Point2D(
+                agilityCard.ClientRectangle.Right + spacingX,
+                agilityCard.ClientRectangle.Top);
+
+            defenceCard.Location = new Point2D(
+                strengthCard.ClientRectangle.Left,
+                strengthCard.ClientRectangle.Bottom + spacingY);
+
+            herbloreCard.Location = new Point2D(
+                defenceCard.ClientRectangle.Right + spacingX,
+                defenceCard.ClientRectangle.Top);
+
+            fishingCard.Location = new Point2D(
+                herbloreCard.ClientRectangle.Right + spacingX,
+                herbloreCard.ClientRectangle.Top);
+
+            rangedCard.Location = new Point2D(
+                defenceCard.ClientRectangle.Left,
+                defenceCard.ClientRectangle.Bottom + spacingY);
+
+            thievingCard.Location = new Point2D(
+                rangedCard.ClientRectangle.Right + spacingX,
+                rangedCard.ClientRectangle.Top);
+
+            cookingCard.Location = new Point2D(
+                thievingCard.ClientRectangle.Right + spacingX,
+                thievingCard.ClientRectangle.Top);
+
+            prayerCard.Location = new Point2D(
+                rangedCard.ClientRectangle.Left,
+                rangedCard.ClientRectangle.Bottom + spacingY);
+
+            craftingCard.Location = new Point2D(
+                prayerCard.ClientRectangle.Right + spacingX,
+                prayerCard.ClientRectangle.Top);
+
+            firemakingCard.Location = new Point2D(
+                craftingCard.ClientRectangle.Right + spacingX,
+                prayerCard.ClientRectangle.Top);
+
+            magicCard.Location = new Point2D(
+                prayerCard.ClientRectangle.Left,
+                prayerCard.ClientRectangle.Bottom + spacingY);
+
+            fletchingCard.Location = new Point2D(
+                magicCard.ClientRectangle.Right + spacingX,
+                magicCard.ClientRectangle.Top);
+
+            woodcuttingCard.Location = new Point2D(
+                fletchingCard.ClientRectangle.Right + spacingX,
+                fletchingCard.ClientRectangle.Top);
+        }
+
+        void UpdateLevels()
         {
             attackCard.BaseLevel = client.Skills[0].BaseLevel;
             attackCard.CurrentLevel = client.Skills[0].CurrentLevel;
@@ -146,76 +259,6 @@ namespace OpenRS.Gui.GuiElements
             woodcuttingCard.BaseLevel = client.Skills[8].BaseLevel;
             woodcuttingCard.CurrentLevel = client.Skills[8].CurrentLevel;
             woodcuttingCard.Experience = client.Skills[8].Experience;
-
-            base.Update(gameTime);
-        }
-
-        public void AssociateGameClient(ref GameClient client)
-        {
-            this.client = client;
-        }
-
-        protected override void SetChildrenProperties()
-        {
-            base.SetChildrenProperties();
-
-            int spacingX = 1;
-            int spacingY = 1;
-
-            attackCard.Location = new Point2D(
-                Location.X + (Size.Width - 3 * attackCard.Size.Width - 2 * spacingX) / 2,
-                Location.Y + (Size.Width - 3 * attackCard.Size.Width - 2 * spacingX) / 2);
-            healthCard.Location = new Point2D(
-                attackCard.ClientRectangle.Right + spacingX,
-                attackCard.ClientRectangle.Top);
-            miningCard.Location = new Point2D(
-                healthCard.ClientRectangle.Right + spacingX,
-                healthCard.ClientRectangle.Top);
-            strengthCard.Location = new Point2D(
-                attackCard.ClientRectangle.Left,
-                attackCard.ClientRectangle.Bottom + spacingY);
-            agilityCard.Location = new Point2D(
-                strengthCard.ClientRectangle.Right + spacingX,
-                strengthCard.ClientRectangle.Top);
-            smithingCard.Location = new Point2D(
-                agilityCard.ClientRectangle.Right + spacingX,
-                agilityCard.ClientRectangle.Top);
-            defenceCard.Location = new Point2D(
-                strengthCard.ClientRectangle.Left,
-                strengthCard.ClientRectangle.Bottom + spacingY);
-            herbloreCard.Location = new Point2D(
-                defenceCard.ClientRectangle.Right + spacingX,
-                defenceCard.ClientRectangle.Top);
-            fishingCard.Location = new Point2D(
-                herbloreCard.ClientRectangle.Right + spacingX,
-                herbloreCard.ClientRectangle.Top);
-            rangedCard.Location = new Point2D(
-                defenceCard.ClientRectangle.Left,
-                defenceCard.ClientRectangle.Bottom + spacingY);
-            thievingCard.Location = new Point2D(
-                rangedCard.ClientRectangle.Right + spacingX,
-                rangedCard.ClientRectangle.Top);
-            cookingCard.Location = new Point2D(
-                thievingCard.ClientRectangle.Right + spacingX,
-                thievingCard.ClientRectangle.Top);
-            prayerCard.Location = new Point2D(
-                rangedCard.ClientRectangle.Left,
-                rangedCard.ClientRectangle.Bottom + spacingY);
-            craftingCard.Location = new Point2D(
-                prayerCard.ClientRectangle.Right + spacingX,
-                prayerCard.ClientRectangle.Top);
-            firemakingCard.Location = new Point2D(
-                craftingCard.ClientRectangle.Right + spacingX,
-                prayerCard.ClientRectangle.Top);
-            magicCard.Location = new Point2D(
-                prayerCard.ClientRectangle.Left,
-                prayerCard.ClientRectangle.Bottom + spacingY);
-            fletchingCard.Location = new Point2D(
-                magicCard.ClientRectangle.Right + spacingX,
-                magicCard.ClientRectangle.Top);
-            woodcuttingCard.Location = new Point2D(
-                fletchingCard.ClientRectangle.Right + spacingX,
-                fletchingCard.ClientRectangle.Top);
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using NuciXNA.Gui.GuiElements;
+using NuciXNA.Gui.Controls;
 using NuciXNA.Primitives;
 
-namespace OpenRS.Gui.GuiElements
+namespace OpenRS.Gui.Controls
 {
-    public class GuiMinimapIndicator : GuiElement
+    public class GuiMinimapIndicator : GuiControl
     {
         GuiImage indicator;
         GuiImage icon;
@@ -38,45 +38,46 @@ namespace OpenRS.Gui.GuiElements
             BackgroundColour = Colour.White;
         }
 
-        public override void LoadContent()
+        /// <summary>
+        /// Loads the content.
+        /// </summary>
+        protected override void DoLoadContent()
         {
             indicator = new GuiImage { ContentFile = "Interface/Minimap/indicator_bg" };
             icon = new GuiImage { ContentFile = Icon };
-
-            indicator.LoadContent();
-            icon.LoadContent();
-
-            base.LoadContent();
+            
+            RegisterChildren(indicator, icon);
+            SetChildrenProperties();
         }
 
-        public override void UnloadContent()
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
         {
-            indicator.UnloadContent();
-            icon.UnloadContent();
 
-            base.UnloadContent();
         }
 
-        public override void Update(GameTime gameTime)
+        /// <summary>
+        /// Update the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected override void DoUpdate(GameTime gameTime)
         {
-            indicator.Update(gameTime);
-            icon.Update(gameTime);
-
-            base.Update(gameTime);
+            SetChildrenProperties();
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        /// <summary>
+        /// Draw the content on the specified <see cref="SpriteBatch"/>.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        protected override void DoDraw(SpriteBatch spriteBatch)
         {
-            indicator.Draw(spriteBatch);
-            icon.Draw(spriteBatch);
 
-            base.Draw(spriteBatch);
         }
 
-        protected override void SetChildrenProperties()
+        void SetChildrenProperties()
         {
-            base.SetChildrenProperties();
-
             indicator.Location = Location;
             indicator.TintColour = BackgroundColour;
             indicator.Size = new Size2D(Size.Width, (int)(Size.Height * FillLevel));

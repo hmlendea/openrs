@@ -3,7 +3,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using NuciXNA.DataAccess.Resources;
+using NuciXNA.DataAccess.Content;
 
 using OpenRS.Gui.Helpers;
 using OpenRS.Settings;
@@ -39,7 +39,7 @@ namespace OpenRS.Gui
         /// </summary>
         public void LoadContent()
         {
-            fpsFont = ResourceManager.Instance.LoadSpriteFont("Fonts/FrameCounterFont");
+            fpsFont = NuciContentManager.Instance.LoadSpriteFont("Fonts/FrameCounterFont");
         }
 
         /// <summary>

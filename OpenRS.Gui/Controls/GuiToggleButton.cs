@@ -1,10 +1,12 @@
-﻿using NuciXNA.Primitives;
+﻿using Microsoft.Xna.Framework;
 
-namespace OpenRS.Gui.GuiElements
+using NuciXNA.Primitives;
+
+namespace OpenRS.Gui.Controls
 {
     public class GuiToggleButton : GuiButton
     {
-        public bool Toggled { get; set; }
+        public bool IsToggled { get; set; }
 
         public Colour ToggleColour { get; set; }
 
@@ -13,13 +15,32 @@ namespace OpenRS.Gui.GuiElements
             ToggleColour = Colour.DarkRed;
         }
 
-        protected override void SetChildrenProperties()
+        /// <summary>
+        /// Loads the content.
+        /// </summary>
+        protected override void DoLoadContent()
         {
-            base.SetChildrenProperties();
+            base.DoLoadContent();
 
+            SetChildrenProperties();
+        }
+
+        /// <summary>
+        /// Update the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected override void DoUpdate(GameTime gameTime)
+        {
+            base.DoUpdate(gameTime);
+
+            SetChildrenProperties();
+        }
+
+        void SetChildrenProperties()
+        {
             for (int i = 0; i < images.Count; i++)
             {
-                if (Toggled)
+                if (IsToggled)
                 {
                     images[i].TintColour = ToggleColour;
                 }
@@ -34,7 +55,7 @@ namespace OpenRS.Gui.GuiElements
         {
             Rectangle2D rect = base.CalculateSourceRectangle(x);
 
-            if (Toggled && !Hovered)
+            if (IsToggled && !IsHovered)
             {
                 return new Rectangle2D(rect.X + 4 * ButtonTileSize.Width, rect.Y, rect.Width, rect.Height);
             }

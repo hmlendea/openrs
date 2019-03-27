@@ -1,52 +1,73 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
-using NuciXNA.Gui.GuiElements;
+using NuciXNA.Gui.Controls;
 using NuciXNA.Primitives;
 
 using OpenRS.Net.Client;
 using OpenRS.Models;
 
-namespace OpenRS.Gui.GuiElements
+namespace OpenRS.Gui.Controls
 {
-    public class GuiInventoryPanel : GuiElement
+    public class GuiInventoryPanel : GuiControl
     {
-        GameClient client;
+        readonly GameClient client;
 
         GuiItemCard[] itemCards;
 
         const int Rows = 8;
         const int Columns = 4;
 
-        public override void LoadContent()
+        public GuiInventoryPanel(GameClient client)
+        {
+            this.client = client;
+        }
+
+        /// <summary>
+        /// Loads the content.
+        /// </summary>
+        protected override void DoLoadContent()
         {
             itemCards = new GuiItemCard[Rows * Columns];
 
             for (int i = 0; i < Rows * Columns; i++)
             {
                 itemCards[i] = new GuiItemCard();
-
-                AddChild(itemCards[i]);
             }
 
-            base.LoadContent();
+            RegisterChildren(itemCards);
+            SetChildrenProperties();
         }
 
-        public override void Update(GameTime gameTime)
+        /// <summary>
+        /// Unloads the content.
+        /// </summary>
+        protected override void DoUnloadContent()
         {
-            base.Update(gameTime);
 
+        }
+
+        /// <summary>
+        /// Update the content.
+        /// </summary>
+        /// <param name="gameTime">Game time.</param>
+        protected override void DoUpdate(GameTime gameTime)
+        {
+            SetChildrenProperties();
             SetItems();
         }
 
-        public void AssociateGameClient(ref GameClient client)
+        /// <summary>
+        /// Draw the content on the specified <see cref="SpriteBatch"/>.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        protected override void DoDraw(SpriteBatch spriteBatch)
         {
-            this.client = client;
+
         }
 
-        protected override void SetChildrenProperties()
+        void SetChildrenProperties()
         {
-            base.SetChildrenProperties();
-
             int spacingX = (Size.Width - Columns * itemCards[0].Size.Width) / (Columns + 1);
             int spacingY = (Size.Height - Rows * itemCards[0].Size.Height) / (Rows + 1);
 
