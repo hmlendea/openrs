@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-using NuciXNA.DataAccess.Repositories;
+using NuciDAL.Repositories;
 
 using OpenRS.DataAccess.DataObjects;
 
@@ -20,7 +20,7 @@ namespace OpenRS.DataAccess.Repositories
         public WallObjectRepository(string fileName)
             : base(fileName)
         {
-            
+
         }
 
         /// <summary>
@@ -29,26 +29,8 @@ namespace OpenRS.DataAccess.Repositories
         /// <param name="entity">WallObject.</param>
         public override void Update(WallObjectEntity entity)
         {
-            LoadEntitiesIfNeeded();
-
-            WallObjectEntity entityToUpdate = Get(entity.Id);
-
-            if (entityToUpdate == null)
-            {
-                throw new EntityNotFoundException(entity.Id, nameof(WallObjectEntity));
-            }
-
-            entityToUpdate.Name = entity.Name;
-            entityToUpdate.Description = entity.Description;
-            entityToUpdate.Command1 = entity.Command1;
-            entityToUpdate.Command2 = entity.Command2;
-            entityToUpdate.Type = entity.Type;
-            entityToUpdate.Unknown = entity.Unknown;
-            entityToUpdate.ModelHeight = entity.ModelHeight;
-            entityToUpdate.ModelFaceBack = entity.ModelFaceBack;
-            entityToUpdate.ModelFaceFront = entity.ModelFaceFront;
-            
-            XmlFile.SaveEntities(Entities.Values);
+            base.Update(entity);
+            SaveChanges();
         }
     }
 }

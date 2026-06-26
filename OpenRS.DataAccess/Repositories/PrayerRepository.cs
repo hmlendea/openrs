@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-using NuciXNA.DataAccess.Repositories;
+using NuciDAL.Repositories;
 
 using OpenRS.DataAccess.DataObjects;
 
@@ -20,7 +20,7 @@ namespace OpenRS.DataAccess.Repositories
         public PrayerRepository(string fileName)
             : base(fileName)
         {
-            
+
         }
 
         /// <summary>
@@ -29,21 +29,8 @@ namespace OpenRS.DataAccess.Repositories
         /// <param name="entity">Prayer.</param>
         public override void Update(PrayerEntity entity)
         {
-            LoadEntitiesIfNeeded();
-
-            PrayerEntity entityToUpdate = Get(entity.Id);
-
-            if (entityToUpdate == null)
-            {
-                throw new EntityNotFoundException(entity.Id, nameof(PrayerEntity));
-            }
-
-            entityToUpdate.Name = entity.Name;
-            entityToUpdate.Description = entity.Description;
-            entityToUpdate.RequiredLevel = entity.RequiredLevel;
-            entityToUpdate.DrainRate = entity.DrainRate;
-
-            XmlFile.SaveEntities(Entities.Values);
+            base.Update(entity);
+            SaveChanges();
         }
     }
 }

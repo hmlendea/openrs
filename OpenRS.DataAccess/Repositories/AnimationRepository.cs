@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-using NuciXNA.DataAccess.Repositories;
+using NuciDAL.Repositories;
 
 using OpenRS.DataAccess.DataObjects;
 
@@ -28,23 +28,8 @@ namespace OpenRS.DataAccess.Repositories
         /// <param name="entity">Animation.</param>
         public override void Update(AnimationEntity entity)
         {
-            LoadEntitiesIfNeeded();
-
-            AnimationEntity entityToUpdate = Get(entity.Id);
-
-            if (entityToUpdate == null)
-            {
-                throw new EntityNotFoundException(entity.Id, nameof(AnimationEntity));
-            }
-
-            entityToUpdate.Name = entity.Name;
-            entityToUpdate.CharacterColour = entity.CharacterColour;
-            entityToUpdate.GenderModel = entity.GenderModel;
-            entityToUpdate.HasA = entity.HasA;
-            entityToUpdate.HasF = entity.HasF;
-            entityToUpdate.Number = entity.Number;
-
-            XmlFile.SaveEntities(Entities.Values);
+            base.Update(entity);
+            SaveChanges();
         }
     }
 }

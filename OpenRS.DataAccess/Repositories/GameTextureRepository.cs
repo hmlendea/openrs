@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-using NuciXNA.DataAccess.Repositories;
+using NuciDAL.Repositories;
 
 using OpenRS.DataAccess.DataObjects;
 
@@ -29,19 +29,8 @@ namespace OpenRS.DataAccess.Repositories
         /// <param name="entity">Texture.</param>
         public override void Update(GameTextureEntity entity)
         {
-            LoadEntitiesIfNeeded();
-
-            GameTextureEntity textureEntityToUpdate = Get(entity.Id);
-
-            if (textureEntityToUpdate == null)
-            {
-                throw new EntityNotFoundException(entity.Id, nameof(GameTextureEntity));
-            }
-
-            textureEntityToUpdate.Name = entity.Name;
-            textureEntityToUpdate.SubName = entity.SubName;
-            
-            XmlFile.SaveEntities(Entities.Values);
+            base.Update(entity);
+            SaveChanges();
         }
     }
 }

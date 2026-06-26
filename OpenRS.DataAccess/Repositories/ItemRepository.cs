@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-using NuciXNA.DataAccess.Repositories;
+using NuciDAL.Repositories;
 
 using OpenRS.DataAccess.DataObjects;
 
@@ -29,28 +29,8 @@ namespace OpenRS.DataAccess.Repositories
         /// <param name="entity">Item.</param>
         public override void Update(ItemEntity entity)
         {
-            LoadEntitiesIfNeeded();
-
-            ItemEntity entityToUpdate = Get(entity.Id);
-
-            if (entityToUpdate == null)
-            {
-                throw new EntityNotFoundException(entity.Id, nameof(ItemEntity));
-            }
-
-            entityToUpdate.Description = entity.Description;
-            entityToUpdate.Command = entity.Command;
-            entityToUpdate.BasePrice = entity.BasePrice;
-            entityToUpdate.SpriteId = entity.SpriteId;
-            entityToUpdate.InventoryPicture = entity.InventoryPicture;
-            entityToUpdate.PictureMask = entity.PictureMask;
-            entityToUpdate.IsEquipable = entity.IsEquipable;
-            entityToUpdate.IsPremium = entity.IsPremium;
-            entityToUpdate.IsSpecial = entity.IsSpecial;
-            entityToUpdate.IsStackable = entity.IsStackable;
-            entityToUpdate.IsUnused = entity.IsUnused;
-
-            XmlFile.SaveEntities(Entities.Values);
+            base.Update(entity);
+            SaveChanges();
         }
     }
 }

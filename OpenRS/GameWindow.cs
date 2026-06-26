@@ -97,7 +97,7 @@ namespace OpenRS
 
             if (IsActive)
             {
-                InputManager.Instance.Update();
+                InputManager.Instance.Update(Window);
             }
             else
             {
@@ -106,7 +106,7 @@ namespace OpenRS
 
             fpsIndicator.Update(gameTime);
             cursor.Update(gameTime);
-            
+
             base.Update(gameTime);
         }
 
@@ -117,7 +117,7 @@ namespace OpenRS
         protected override void Draw(GameTime gameTime)
         {
             graphics.GraphicsDevice.Clear(Color.Black);
-            
+
             spriteBatch.Begin();
 
             ScreenManager.Instance.Draw(spriteBatch);
@@ -126,7 +126,7 @@ namespace OpenRS
             cursor.Draw(spriteBatch);
 
             spriteBatch.End();
-            
+
             base.Draw(gameTime);
         }
     }

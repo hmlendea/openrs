@@ -1,4 +1,4 @@
-﻿using NuciXNA.DataAccess.DataObjects;
+﻿using NuciDAL.DataObjects;
 
 namespace OpenRS.DataAccess.DataObjects
 {
@@ -60,7 +60,7 @@ namespace OpenRS.DataAccess.DataObjects
         /// </summary>
         /// <value>The object model.</value>
         public string ObjectModel { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the model identifier.
         /// </summary>
