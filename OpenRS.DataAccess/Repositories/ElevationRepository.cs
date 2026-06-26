@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-using NuciXNA.DataAccess.Repositories;
+using NuciDAL.Repositories;
 
 using OpenRS.DataAccess.DataObjects;
 
@@ -28,19 +28,8 @@ namespace OpenRS.DataAccess.Repositories
         /// <param name="entity">Elevation.</param>
         public override void Update(ElevationEntity entity)
         {
-            LoadEntitiesIfNeeded();
-
-            ElevationEntity entityToUpdate = Get(entity.Id);
-
-            if (entityToUpdate == null)
-            {
-                throw new EntityNotFoundException(entity.Id, nameof(ElevationEntity));
-            }
-
-            entityToUpdate.Roof = entity.Roof;
-            entityToUpdate.Unknown = entity.Unknown;
-
-            XmlFile.SaveEntities(Entities.Values);
+            base.Update(entity);
+            SaveChanges();
         }
     }
 }

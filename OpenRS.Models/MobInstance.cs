@@ -92,7 +92,7 @@ namespace OpenRS.Models
             combatLevel = 3;
             HasAppearanceChanged = true;
             AppearanceId = 0;
-            LastMovementTime = DateTime.Now.GetCurrentTimeMilliseconds();
+            LastMovementTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             activatedPrayers = new bool[14];
             LastCombatState = CombatState.Waiting;
 
@@ -175,7 +175,7 @@ namespace OpenRS.Models
 
         public void UpdateCombatTime()
         {
-            CombatTime = DateTime.Now.GetCurrentTimeMilliseconds();
+            CombatTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
 
         public void UpdateLocation()
@@ -185,7 +185,7 @@ namespace OpenRS.Models
 
         public void UpdateMovementTime()
         {
-            LastMovementTime = DateTime.Now.GetCurrentTimeMilliseconds();
+            LastMovementTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
 
         public override void SetLocation(Point2D location)

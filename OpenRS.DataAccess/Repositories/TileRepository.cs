@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-using NuciXNA.DataAccess.Repositories;
+using NuciDAL.Repositories;
 
 using OpenRS.DataAccess.DataObjects;
 
@@ -20,7 +20,7 @@ namespace OpenRS.DataAccess.Repositories
         public TileRepository(string fileName)
             : base(fileName)
         {
-            
+
         }
 
         /// <summary>
@@ -29,20 +29,8 @@ namespace OpenRS.DataAccess.Repositories
         /// <param name="tileEntity">Tile.</param>
         public override void Update(TileEntity tileEntity)
         {
-            LoadEntitiesIfNeeded();
-
-            TileEntity tileEntityToUpdate = Get(tileEntity.Id);
-
-            if (tileEntityToUpdate == null)
-            {
-                throw new EntityNotFoundException(tileEntity.Id, nameof(TileEntity).Replace("Entity", ""));
-            }
-
-            tileEntityToUpdate.Colour = tileEntity.Colour;
-            tileEntityToUpdate.Unknown = tileEntity.Unknown;
-            tileEntityToUpdate.Type = tileEntity.Type;
-            
-            XmlFile.SaveEntities(Entities.Values);
+            base.Update(tileEntity);
+            SaveChanges();
         }
     }
 }

@@ -247,7 +247,7 @@ namespace OpenRS.Net.Client
             Console.WriteLine($"Sending PING @ {DateTime.Now}");
             sendingPing = true;
 
-            long time = DateTime.Now.GetCurrentTimeMilliseconds();
+            long time = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
             if (StreamClass.HasData)
             {
@@ -281,7 +281,7 @@ namespace OpenRS.Net.Client
 
                 HandlePacket(command, length);
             }
-            
+
             sendingPing = false;
         }
 

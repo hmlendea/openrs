@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-using NuciXNA.DataAccess.Repositories;
+using NuciDAL.Repositories;
 
 using OpenRS.DataAccess.DataObjects;
 
@@ -20,27 +20,17 @@ namespace OpenRS.DataAccess.Repositories
         public QuestRepository(string fileName)
             : base(fileName)
         {
-            
+
         }
-        
+
         /// <summary>
         /// Updates the specified quest.
         /// </summary>
         /// <param name="entity">Quest.</param>
         public override void Update(QuestEntity entity)
         {
-            LoadEntitiesIfNeeded();
-
-            QuestEntity entityToUpdate = Get(entity.Id);
-
-            if (entityToUpdate == null)
-            {
-                throw new EntityNotFoundException(entity.Id, nameof(QuestEntity));
-            }
-
-            entityToUpdate.Name = entity.Name;
-
-            XmlFile.SaveEntities(Entities.Values);
+            base.Update(entity);
+            SaveChanges();
         }
     }
 }

@@ -207,7 +207,7 @@ namespace OpenRS.Net.Client
 
             for (int k1 = 0; k1 < 10; k1++)
             {
-                timeArray[k1] = DateTime.Now.GetCurrentTimeMilliseconds();
+                timeArray[k1] = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             }
 
             while (runStatus >= 0)
@@ -252,7 +252,7 @@ namespace OpenRS.Net.Client
             int j2 = sleepTime;
             k = 300;
             sleepTime = 1;
-            long l1 = DateTime.Now.GetCurrentTimeMilliseconds();
+            long l1 = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             if (timeArray[i] == 0L)
             {
                 k = i2;

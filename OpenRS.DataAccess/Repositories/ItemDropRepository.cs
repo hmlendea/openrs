@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-using NuciXNA.DataAccess.Repositories;
+using NuciDAL.Repositories;
 
 using OpenRS.DataAccess.DataObjects;
 
@@ -20,7 +20,7 @@ namespace OpenRS.DataAccess.Repositories
         public ItemDropRepository(string fileName)
             : base(fileName)
         {
-            
+
         }
 
         /// <summary>
@@ -29,20 +29,8 @@ namespace OpenRS.DataAccess.Repositories
         /// <param name="entity">ItemDrop.</param>
         public override void Update(ItemDropEntity entity)
         {
-            LoadEntitiesIfNeeded();
-
-            ItemDropEntity itemDropEntityToUpdate = Get(entity.Id);
-
-            if (itemDropEntityToUpdate == null)
-            {
-                throw new EntityNotFoundException(entity.Id, nameof(ItemDropEntity));
-            }
-
-            itemDropEntityToUpdate.ItemId = entity.ItemId;
-            itemDropEntityToUpdate.Amount = entity.Amount;
-            itemDropEntityToUpdate.Weight = entity.Weight;
-            
-            XmlFile.SaveEntities(Entities.Values);
+            base.Update(entity);
+            SaveChanges();
         }
     }
 }
