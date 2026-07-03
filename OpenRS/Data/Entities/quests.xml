@@ -68,4 +68,8 @@
     <Id>16</Id>
     <Name>Dragon Slayer</Name>
   </QuestEntity>
+  <QuestEntity>
+    <Id>17</Id>
+    <Name>Druidic Ritual</Name>
+  </QuestEntity>
 </ArrayOfQuestEntity>

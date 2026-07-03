@@ -1066,7 +1066,10 @@ namespace OpenRS.Net.Client
 
         void HandleDruidicRitual(sbyte[] data)
         {
-            throw new NotImplementedException();
+            int stage = DataOperations.GetInt16(data, 1);
+
+            // TODO: Ditch numerical identifiers
+            questManager.SetStage("17", stage);
         }
 
         void HandleEquipmentStatus(sbyte[] data)

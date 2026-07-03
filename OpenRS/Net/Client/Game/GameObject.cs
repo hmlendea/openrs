@@ -276,11 +276,10 @@ namespace OpenRS.Net.Client.Game
             offset += 2;
 
             InitializeObject(_vert_count, _face_count);
-            cje = new int[verticeLocations.Length][];
+            cje = new int[_face_count][];
 
             for (int verticeIndex = 0; verticeIndex < _vert_count; verticeIndex++)
             {
-                cje[verticeIndex] = new int[1];
                 verticeLocations[verticeIndex].X = DataOperations.getShort2(data, offset);
                 _vertices[verticeIndex] = new Vector3(verticeLocations[verticeIndex].X, _vertices[verticeIndex].Y, _vertices[verticeIndex].Z);
                 offset += 2;
@@ -357,6 +356,12 @@ namespace OpenRS.Net.Client.Game
             }
 
             face_count = _face_count;
+
+            for (int faceIndex = 0; faceIndex < _face_count; faceIndex++)
+            {
+                cje[faceIndex] = new int[0];
+            }
+
             objectState = 1;
         }
 
@@ -539,9 +544,23 @@ namespace OpenRS.Net.Client.Game
                     int[] ai = new int[j1.face_vertices_count[k1]];
                     int[] ai1 = j1.face_vertices[k1];
 
+                    bool validFace = true;
                     for (int faceVerticeIndex = 0; faceVerticeIndex < j1.face_vertices_count[k1]; faceVerticeIndex++)
                     {
-                        ai[faceVerticeIndex] = getVertexIndex(j1.verticeLocations[ai1[faceVerticeIndex]]);
+                        int vertIdx = getVertexIndex(j1.verticeLocations[ai1[faceVerticeIndex]]);
+
+                        if (vertIdx == -1)
+                        {
+                            validFace = false;
+                            break;
+                        }
+
+                        ai[faceVerticeIndex] = vertIdx;
+                    }
+
+                    if (!validFace)
+                    {
+                        continue;
                     }
 
                     int i2 = addFaceVertices(j1.face_vertices_count[k1], ai, j1.texture_back[k1], j1.texture_front[k1]);
@@ -550,7 +569,11 @@ namespace OpenRS.Net.Client.Game
                     cgg[i2] = j1.cgg[k1];
                     if (arg2)
                     {
-                        if (objectCount > 1)
+                        if (j1.cje == null || k1 >= j1.cje.Length || j1.cje[k1] == null)
+                        {
+                            cje[i2] = new int[0];
+                        }
+                        else if (objectCount > 1)
                         {
                             cje[i2] = new int[j1.cje[k1].Length + 1];
                             cje[i2][0] = i1;
@@ -697,13 +720,25 @@ namespace OpenRS.Net.Client.Game
 
             for (int j = 0; j < indexCount; j++)
             {
-                int k = ai[j] = arg0.getVertexIndex(verticeLocations[indices[j]]);
+                int k = arg0.getVertexIndex(verticeLocations[indices[j]]);
 
+                if (k == -1)
+                {
+                    return;
+                }
+
+                ai[j] = k;
                 arg0.cfn[k] = cfn[indices[j]];
                 arg0.vertexColor[k] = vertexColor[indices[j]];
             }
 
             int l = arg0.addFaceVertices(indexCount, ai, texture_back[entityTypeIndex], texture_front[entityTypeIndex]);
+
+            if (l == -1)
+            {
+                return;
+            }
+
             if (!arg0.cic && !cic)
             {
                 arg0.entityType[l] = entityType[entityTypeIndex];
