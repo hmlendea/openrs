@@ -10,7 +10,7 @@ namespace OpenRS.Net.Client.Data
         public static MemoryStream openInputStream(string arg0)
         {
             Stream obj;
-            if (codeBase == null)
+            if (codeBase is null)
             {
                 obj = File.OpenRead(arg0);
             }

@@ -91,7 +91,7 @@ namespace OpenRS.Gui.Controls
 
         void DrawGame(GameClient client)
         {
-            if (client == null || client.gameGraphics == null)
+            if (client is null || client.gameGraphics is null)
             {
                 return;
             }

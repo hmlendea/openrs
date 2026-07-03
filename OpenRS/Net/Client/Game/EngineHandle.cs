@@ -212,7 +212,7 @@ namespace OpenRS.Net.Client.Game
                 if (landscapeFree != null)
                 {
                     sbyte[] data = DataOperations.loadData(filename + ".hei", 0, landscapeFree);
-                    if (data == null && landscapeMembers != null)
+                    if (data is null && landscapeMembers != null)
                     {
                         data = DataOperations.loadData(filename + ".hei", 0, landscapeMembers);
                     }
@@ -289,12 +289,12 @@ namespace OpenRS.Net.Client.Game
 
                     }
                     data = DataOperations.loadData(filename + ".dat", 0, mapsFree);
-                    if (data == null && mapsMembers != null)
+                    if (data is null && mapsMembers != null)
                     {
                         data = DataOperations.loadData(filename + ".dat", 0, mapsMembers);
                     }
 
-                    if (data == null || data.Length == 0)
+                    if (data is null || data.Length == 0)
                     {
                         for (int tile = 0; tile < 2304; tile++)
                         {
@@ -1374,7 +1374,7 @@ namespace OpenRS.Net.Client.Game
                             }
                             else
                             {
-                                if (currentSectionObject == null)
+                                if (currentSectionObject is null)
                                 {
                                     continue;
                                 }
@@ -1405,7 +1405,7 @@ namespace OpenRS.Net.Client.Game
                 camera.addModel(roofObject[height][l9]);
             }
 
-            if (roofObject[height][0] == null)
+            if (roofObject[height][0] is null)
             {
                 throw new Exception("null roof!");
             }

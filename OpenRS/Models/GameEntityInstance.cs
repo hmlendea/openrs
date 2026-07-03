@@ -162,7 +162,7 @@ namespace OpenRS.Models
             {
                 currentLocation = NextStep((Point2D)currentLocation, other);
 
-                if (currentLocation == null)
+                if (currentLocation is null)
                 {
                     return false;
                 }

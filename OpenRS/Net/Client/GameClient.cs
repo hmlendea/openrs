@@ -1681,7 +1681,7 @@ namespace OpenRS.Net.Client
         public void loadMedia()
         {
             sbyte[] media = unpackData("media.jag", "2d graphics", 20);
-            if (media == null)
+            if (media is null)
             {
                 errorLoading = true;
                 return;
@@ -1811,7 +1811,7 @@ namespace OpenRS.Net.Client
             sbyte[] abyte0 = null;
             sbyte[] abyte1 = null;
             abyte0 = unpackData("entity.jag", "people and monsters", 30);
-            if (abyte0 == null)
+            if (abyte0 is null)
             {
                 errorLoading = true;
                 return;
@@ -1820,7 +1820,7 @@ namespace OpenRS.Net.Client
             sbyte[] abyte2 = null;
             sbyte[] abyte3 = null;
             abyte2 = unpackData("entity.mem", "member graphics", 45);
-            if (abyte2 == null)
+            if (abyte2 is null)
             {
                 errorLoading = true;
                 return;
@@ -1857,7 +1857,7 @@ namespace OpenRS.Net.Client
                 //label4:
                 sbyte[] abyte7 = DataOperations.loadData(s1 + ".dat", 0, abyte0);
                 sbyte[] abyte4 = abyte1;
-                if (abyte7 == null)
+                if (abyte7 is null)
                 {
                     abyte7 = DataOperations.loadData(s1 + ".dat", 0, abyte2);
                     abyte4 = abyte3;
@@ -1872,7 +1872,7 @@ namespace OpenRS.Net.Client
                         {
                             sbyte[] abyte8 = DataOperations.loadData(s1 + "a.dat", 0, abyte0);
                             sbyte[] abyte5 = abyte1;
-                            if (abyte8 == null)
+                            if (abyte8 is null)
                             {
                                 abyte8 = DataOperations.loadData(s1 + "a.dat", 0, abyte2);
                                 abyte5 = abyte3;
@@ -1884,7 +1884,7 @@ namespace OpenRS.Net.Client
                         {
                             sbyte[] abyte9 = DataOperations.loadData(s1 + "f.dat", 0, abyte0);
                             sbyte[] abyte6 = abyte1;
-                            if (abyte9 == null)
+                            if (abyte9 is null)
                             {
                                 abyte9 = DataOperations.loadData(s1 + "f.dat", 0, abyte2);
                                 abyte6 = abyte3;
@@ -2330,7 +2330,7 @@ namespace OpenRS.Net.Client
 
         public virtual void drawLoginScreens()
         {
-            if (gameGraphics == null)
+            if (gameGraphics is null)
             {
                 return;
             }
@@ -2351,7 +2351,7 @@ namespace OpenRS.Net.Client
 
         public ClientMob MakePlayer(int serverIndex, int x, int y, int sprite)
         {
-            if (Mobs[serverIndex] == null)
+            if (Mobs[serverIndex] is null)
             {
                 Mobs[serverIndex] = new ClientMob
                 {
@@ -2403,7 +2403,7 @@ namespace OpenRS.Net.Client
             entityManager.LoadContent();
 
             sbyte[] abyte1 = unpackData("filter.jag", "Chat system", 15);
-            if (abyte1 == null)
+            if (abyte1 is null)
             {
                 errorLoading = true;
                 return;
@@ -3918,7 +3918,7 @@ namespace OpenRS.Net.Client
         public void loadTextures()
         {
             sbyte[] abyte0 = unpackData("textures.jag", "Textures", 50);
-            if (abyte0 == null)
+            if (abyte0 is null)
             {
                 errorLoading = true;
                 return;
@@ -4018,7 +4018,7 @@ namespace OpenRS.Net.Client
                 int j1 = -1;
                 for (int l1 = 0; l1 < menuOptionsCount; l1++)
                 {
-                    if (menuText2[menuIndexes[l1]] == null || menuText2[menuIndexes[l1]].Length <= 0)
+                    if (menuText2[menuIndexes[l1]] is null || menuText2[menuIndexes[l1]].Length <= 0)
                     {
                         continue;
                     }
@@ -4493,7 +4493,7 @@ namespace OpenRS.Net.Client
             gameGraphics.DrawText("When you want to wake up just use your", WindowSize.Width / 2, 140, 5, 0xffffff);
             gameGraphics.DrawText("keyboard to type the word in the box below", WindowSize.Width / 2, 160, 5, 0xffffff);
 
-            if (sleepingStatusText == null)
+            if (sleepingStatusText is null)
             {
                 gameGraphics.drawPixels(captchaPixels, WindowSize.Width / 2 - 127, 230, captchaWidth, captchaHeight);
             }
@@ -4591,7 +4591,7 @@ namespace OpenRS.Net.Client
 
             sbyte[] models = unpackData("models.jag", "3d models", 60);
 
-            if (models == null)
+            if (models is null)
             {
                 errorLoading = true;
                 return;
@@ -5616,7 +5616,7 @@ namespace OpenRS.Net.Client
 
         public ClientMob AddNpc(int serverIndex, int x, int y, int sprite, int id)
         {
-            if (NpcAttackingArray[serverIndex] == null)
+            if (NpcAttackingArray[serverIndex] is null)
             {
                 NpcAttackingArray[serverIndex] = new ClientMob
                 {

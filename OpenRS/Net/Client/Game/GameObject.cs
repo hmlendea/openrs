@@ -569,7 +569,7 @@ namespace OpenRS.Net.Client.Game
                     cgg[i2] = j1.cgg[k1];
                     if (arg2)
                     {
-                        if (j1.cje == null || k1 >= j1.cje.Length || j1.cje[k1] == null)
+                        if (j1.cje is null || k1 >= j1.cje.Length || j1.cje[k1] is null)
                         {
                             cje[i2] = [];
                         }
@@ -988,7 +988,7 @@ namespace OpenRS.Net.Client.Game
                 int[] ai = face_vertices[faceIndex];
                 int j1 = face_vertices_count[faceIndex];
 
-                if (j1 <= 0 || ai == null || ai.Length == 0)
+                if (j1 <= 0 || ai is null || ai.Length == 0)
                 {
                     continue;
                 }
@@ -1173,7 +1173,7 @@ namespace OpenRS.Net.Client.Game
             {
                 int[] ai = face_vertices[j];
 
-                if (ai == null || ai.Length < 3 || face_vertices_count[j] < 3)
+                if (ai is null || ai.Length < 3 || face_vertices_count[j] < 3)
                 {
                     continue;
                 }

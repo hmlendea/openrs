@@ -141,7 +141,7 @@ namespace OpenRS.Gui.Controls
         {
             frame.Location = Location;
 
-            if (client == null || !client.loggedIn)
+            if (client is null || !client.loggedIn)
             {
                 return; // TODO: Ugly fix
             }
@@ -163,7 +163,7 @@ namespace OpenRS.Gui.Controls
 
         void DrawMinimapMenu(SpriteBatch spriteBatch)
         {
-            if (client.gameGraphics == null || !client.loggedIn)
+            if (client.gameGraphics is null || !client.loggedIn)
             {
                 return; // TODO: Remove this ugly fix
             }

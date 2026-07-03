@@ -100,7 +100,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         public void addModel(ObjectModel k)
         {
-            if (k == null)
+            if (k is null)
             {
                 Console.WriteLine("Warning tried to add null object!");
             }
@@ -451,7 +451,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             }
 
             int msSlept = 0;
-            while (objectCache[currentObjectCount] == null)
+            while (objectCache[currentObjectCount] is null)
             {
                 System.Threading.Thread.Sleep(10);
                 msSlept += 10;
@@ -466,7 +466,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             for (int i5 = 0; i5 < currentObjectCount; i5++)
             {
                 ObjectModel k = objectCache[i5];
-                if (k == null)
+                if (k is null)
                 {
                     continue;
                 }
@@ -3460,7 +3460,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             {
                 for (int k = 0; k < texturePixels.Length; k++)
                 {
-                    if (texturePixels[k] == null)
+                    if (texturePixels[k] is null)
                     {
                         texturePixels[k] = new int[16384];
                         objectTexturePixels[arg0] = texturePixels[k];
@@ -3487,7 +3487,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             }
             for (int i1 = 0; i1 < bfd.Length; i1++)
             {
-                if (bfd[i1] == null)
+                if (bfd[i1] is null)
                 {
                     bfd[i1] = new int[0x10000];
                     objectTexturePixels[arg0] = bfd[i1];
@@ -3562,7 +3562,7 @@ namespace OpenRS.Net.Client.Game.Cameras
         /// <param name="arg0"></param>
         public void updateLightning(int arg0)
         {
-            if (objectTexturePixels[arg0] == null)
+            if (objectTexturePixels[arg0] is null)
             {
                 return;
             }

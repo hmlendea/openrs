@@ -831,7 +831,7 @@ namespace OpenRS.Net.Client
 
         public string getText(int i)
         {
-            if (componentText[i] == null)
+            if (componentText[i] is null)
             {
                 return "null";
             }

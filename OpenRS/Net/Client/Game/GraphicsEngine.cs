@@ -570,7 +570,7 @@ namespace OpenRS.Net.Client.Game
 
         public void loadImage(int arg0)
         {
-            if (pictureColorIndexes[arg0] == null)
+            if (pictureColorIndexes[arg0] is null)
             {
                 return;
             }
@@ -885,7 +885,7 @@ namespace OpenRS.Net.Client.Game
 
             byte byte0 = 1;
 
-            if (pictureColors[pictureIndex] == null)
+            if (pictureColors[pictureIndex] is null)
             {
                 cch(ref pixels, pictureColorIndexes[pictureIndex], pictureColor[pictureIndex], j1, i1, l1, k1, i2, j2, byte0);
                 return;
@@ -945,7 +945,7 @@ namespace OpenRS.Net.Client.Game
 
             byte byte0 = 1;
 
-            if (pictureColors[index] == null)
+            if (pictureColors[index] is null)
             {
                 cck(ref pixels, pictureColorIndexes[index], pictureColor[index], k1, j1, i2, l1, j2, k2, byte0, i1);
                 return;
@@ -1426,7 +1426,7 @@ namespace OpenRS.Net.Client.Game
 
         public void drawMinimapPic(int arg0, int arg1, int arg2, int arg3, int arg4)
         {
-            if (bng == null)
+            if (bng is null)
             {
                 bng = new int[512];
 
@@ -1517,7 +1517,7 @@ namespace OpenRS.Net.Client.Game
                 l5 = imageRectangle.Height;
             }
 
-            if (bnh == null || bnh.Length != GameSize.Height + 1)
+            if (bnh is null || bnh.Length != GameSize.Height + 1)
             {
                 bnh = new int[GameSize.Height + 1];
                 bni = new int[GameSize.Height + 1];

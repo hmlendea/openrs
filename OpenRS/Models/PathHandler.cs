@@ -40,7 +40,7 @@ namespace OpenRS.Models
 
         public bool FinishedPath()
         {
-            if (Path == null)
+            if (Path is null)
             {
                 return true;
             }

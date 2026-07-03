@@ -21,7 +21,7 @@ namespace OpenRS.Gui.Helpers
         {
             get
             {
-                if (instance == null)
+                if (instance is null)
                 {
                     lock (syncRoot)
                     {

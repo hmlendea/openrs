@@ -368,7 +368,7 @@ namespace OpenRS.Net.Client
             int i = 0;
             int k = 0;
             sbyte[] abyte0 = Link.GetFile(filename);
-            if (abyte0 == null)
+            if (abyte0 is null)
             {
                 try
                 {

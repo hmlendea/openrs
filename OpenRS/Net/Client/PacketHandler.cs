@@ -478,7 +478,7 @@ namespace OpenRS.Net.Client
 
                 ClientMob mob = client.Mobs[mobArrayIndex];
 
-                if (mob == null)
+                if (mob is null)
                 {
                     return;
                 }
