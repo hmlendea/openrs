@@ -72,10 +72,7 @@ namespace OpenRS.Net.Client.Game
             imageRectangle = new Rectangle2D(x, y, width, height);
         }
 
-        public void ResetDimensions()
-        {
-            imageRectangle = new Rectangle2D(0, 0, GameSize.Width, GameSize.Height);
-        }
+        public void ResetDimensions() => imageRectangle = new Rectangle2D(0, 0, GameSize.Width, GameSize.Height);
 
         public void ClearScreen()
         {
@@ -228,9 +225,9 @@ namespace OpenRS.Net.Client.Game
         public void DrawBoxEdge(int x, int y, int width, int height, int colour)
         {
             DrawHorizontalLine(x, y, width, colour);
-            DrawHorizontalLine(x, (y + height) - 1, width, colour);
+            DrawHorizontalLine(x, y + height - 1, width, colour);
             DrawVerticalLine(x, y, height, colour);
-            DrawVerticalLine((x + width) - 1, y, height, colour);
+            DrawVerticalLine(x + width - 1, y, height, colour);
         }
 
         public void DrawHorizontalLine(int x, int y, int length, int colour)
@@ -349,7 +346,7 @@ namespace OpenRS.Net.Client.Game
 
         public static uint rgbaToUInt(int r, int g, int b, int a)
         {
-            if (((((r | g) | b) | a) & -256) != 0)
+            if (((r | g | b | a) & -256) != 0)
             {
                 r = ClampToByte32(r);
                 g = ClampToByte32(g);
@@ -359,7 +356,7 @@ namespace OpenRS.Net.Client.Game
             g = g << 8;
             b = b << 0x10;
             a = a << 0x18;
-            return (uint)(((r | g) | b) | a);
+            return (uint)(r | g | b | a);
             //return (r << 24) + (g << 16) + (b << 8) + a;
         }
 
@@ -683,22 +680,22 @@ namespace OpenRS.Net.Client.Game
                         k5 = j4 - pictureWidth[j1] - k5;
                     }
 
-                    x += ((k5 * width + j4) - 1) / j4;
-                    int i6 = ((l5 * height + l4) - 1) / l4;
+                    x += (k5 * width + j4 - 1) / j4;
+                    int i6 = (l5 * height + l4 - 1) / l4;
                     y += i6;
                     j3 += i6 * i4;
-                    if ((k5 * width) % j4 != 0)
+                    if (k5 * width % j4 != 0)
                     {
-                        l2 = (j4 - (k5 * width) % j4 << 16) / width;
+                        l2 = (j4 - k5 * width % j4 << 16) / width;
                     }
 
-                    if ((l5 * height) % l4 != 0)
+                    if (l5 * height % l4 != 0)
                     {
-                        i3 = (l4 - (l5 * height) % l4 << 16) / height;
+                        i3 = (l4 - l5 * height % l4 << 16) / height;
                     }
 
-                    width = ((((pictureWidth[j1] << 16) - l2) + k3) - 1) / k3;
-                    height = ((((pictureHeight[j1] << 16) - i3) + l3) - 1) / l3;
+                    width = ((pictureWidth[j1] << 16) - l2 + k3 - 1) / k3;
+                    height = ((pictureHeight[j1] << 16) - i3 + l3 - 1) / l3;
                 }
                 int k4 = y * GameSize.Width;
                 j3 += x << 16;
@@ -713,7 +710,7 @@ namespace OpenRS.Net.Client.Game
                 }
                 if (y + height >= imageRectangle.Height)
                 {
-                    height -= ((y + height) - imageRectangle.Height) + 1;
+                    height -= y + height - imageRectangle.Height + 1;
                 }
 
                 int j5 = 2;
@@ -760,7 +757,7 @@ namespace OpenRS.Net.Client.Game
                 cdh(pixels, pictureColorIndexes[j1], pictureColor[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, l1, j3, i4, j5);
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine("error in sprite clipping routine");
             }
@@ -782,20 +779,20 @@ namespace OpenRS.Net.Client.Game
                     int l3 = pictureAssumedHeight[j1];
                     l2 = (j3 << 16) / l;
                     i3 = (l3 << 16) / i1;
-                    i += ((pictureOffsetX[j1] * l + j3) - 1) / j3;
-                    k += ((pictureOffsetY[j1] * i1 + l3) - 1) / l3;
-                    if ((pictureOffsetX[j1] * l) % j3 != 0)
+                    i += (pictureOffsetX[j1] * l + j3 - 1) / j3;
+                    k += (pictureOffsetY[j1] * i1 + l3 - 1) / l3;
+                    if (pictureOffsetX[j1] * l % j3 != 0)
                     {
-                        j2 = (j3 - (pictureOffsetX[j1] * l) % j3 << 16) / l;
+                        j2 = (j3 - pictureOffsetX[j1] * l % j3 << 16) / l;
                     }
 
-                    if ((pictureOffsetY[j1] * i1) % l3 != 0)
+                    if (pictureOffsetY[j1] * i1 % l3 != 0)
                     {
-                        k2 = (l3 - (pictureOffsetY[j1] * i1) % l3 << 16) / i1;
+                        k2 = (l3 - pictureOffsetY[j1] * i1 % l3 << 16) / i1;
                     }
 
-                    l = (l * (pictureWidth[j1] - (j2 >> 16))) / j3;
-                    i1 = (i1 * (pictureHeight[j1] - (k2 >> 16))) / l3;
+                    l = l * (pictureWidth[j1] - (j2 >> 16)) / j3;
+                    i1 = i1 * (pictureHeight[j1] - (k2 >> 16)) / l3;
                 }
                 int k3 = i + k * GameSize.Width;
                 int i4 = GameSize.Width - l;
@@ -809,7 +806,7 @@ namespace OpenRS.Net.Client.Game
                 }
                 if (k + i1 >= imageRectangle.Height)
                 {
-                    i1 -= ((k + i1) - imageRectangle.Height) + 1;
+                    i1 -= k + i1 - imageRectangle.Height + 1;
                 }
 
                 if (i < imageRectangle.X)
@@ -823,7 +820,7 @@ namespace OpenRS.Net.Client.Game
                 }
                 if (i + l >= imageRectangle.Width)
                 {
-                    int l4 = ((i + l) - imageRectangle.Width) + 1;
+                    int l4 = i + l - imageRectangle.Width + 1;
                     l -= l4;
                     i4 += l4;
                 }
@@ -832,7 +829,7 @@ namespace OpenRS.Net.Client.Game
                 ccl(ref pixels, pictureColors[j1], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, k1);
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine("error in sprite clipping routine");
             }
@@ -861,7 +858,7 @@ namespace OpenRS.Net.Client.Game
             }
             if (y + k1 >= imageRectangle.Height)
             {
-                k1 -= ((y + k1) - imageRectangle.Height) + 1;
+                k1 -= y + k1 - imageRectangle.Height + 1;
             }
 
             if (x < imageRectangle.X)
@@ -876,7 +873,7 @@ namespace OpenRS.Net.Client.Game
             }
             if (x + l1 >= imageRectangle.Width)
             {
-                int i3 = ((x + l1) - imageRectangle.Width) + 1;
+                int i3 = x + l1 - imageRectangle.Width + 1;
                 l1 -= i3;
                 j2 += i3;
                 i2 += i3;
@@ -921,7 +918,7 @@ namespace OpenRS.Net.Client.Game
             }
             if (y + l1 >= imageRectangle.Height)
             {
-                l1 -= ((y + l1) - imageRectangle.Height) + 1;
+                l1 -= y + l1 - imageRectangle.Height + 1;
             }
 
             if (x < imageRectangle.X)
@@ -936,7 +933,7 @@ namespace OpenRS.Net.Client.Game
             }
             if (x + i2 >= imageRectangle.Width)
             {
-                int j3 = ((x + i2) - imageRectangle.Width) + 1;
+                int j3 = x + i2 - imageRectangle.Width + 1;
                 i2 -= j3;
                 k2 += j3;
                 j2 += j3;
@@ -975,21 +972,21 @@ namespace OpenRS.Net.Client.Game
 
                     k2 = (i3 << 16) / width;
                     l2 = (k3 << 16) / height;
-                    x += ((pictureOffsetX[index] * width + i3) - 1) / i3;
-                    y += ((pictureOffsetY[index] * height + k3) - 1) / k3;
+                    x += (pictureOffsetX[index] * width + i3 - 1) / i3;
+                    y += (pictureOffsetY[index] * height + k3 - 1) / k3;
 
-                    if ((pictureOffsetX[index] * width) % i3 != 0)
+                    if (pictureOffsetX[index] * width % i3 != 0)
                     {
-                        i2 = (i3 - (pictureOffsetX[index] * width) % i3 << 16) / width;
+                        i2 = (i3 - pictureOffsetX[index] * width % i3 << 16) / width;
                     }
 
-                    if ((pictureOffsetY[index] * height) % k3 != 0)
+                    if (pictureOffsetY[index] * height % k3 != 0)
                     {
-                        j2 = (k3 - (pictureOffsetY[index] * height) % k3 << 16) / height;
+                        j2 = (k3 - pictureOffsetY[index] * height % k3 << 16) / height;
                     }
 
-                    width = (width * (pictureWidth[index] - (i2 >> 16))) / i3;
-                    height = (height * (pictureHeight[index] - (j2 >> 16))) / k3;
+                    width = width * (pictureWidth[index] - (i2 >> 16)) / i3;
+                    height = height * (pictureHeight[index] - (j2 >> 16)) / k3;
                 }
 
                 int j3 = x + y * GameSize.Width;
@@ -1007,7 +1004,7 @@ namespace OpenRS.Net.Client.Game
 
                 if (y + height >= imageRectangle.Height)
                 {
-                    height -= ((y + height) - imageRectangle.Height) + 1;
+                    height -= y + height - imageRectangle.Height + 1;
                 }
 
                 if (x < imageRectangle.X)
@@ -1022,7 +1019,7 @@ namespace OpenRS.Net.Client.Game
 
                 if (x + width >= imageRectangle.Width)
                 {
-                    int k4 = ((x + width) - imageRectangle.Width) + 1;
+                    int k4 = x + width - imageRectangle.Width + 1;
 
                     width -= k4;
                     l3 += k4;
@@ -1033,7 +1030,7 @@ namespace OpenRS.Net.Client.Game
                 cci(ref pixels, pictureColors[index], 0, i2, j2, j3, l3, width, height, k2, l2, k1, byte0);
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine("error in sprite clipping routine");
             }
@@ -1056,20 +1053,20 @@ namespace OpenRS.Net.Client.Game
                     int l3 = pictureAssumedHeight[animationNumber];
                     l2 = (j3 << 16) / l;
                     i3 = (l3 << 16) / i1;
-                    i += ((pictureOffsetX[animationNumber] * l + j3) - 1) / j3;
-                    k += ((pictureOffsetY[animationNumber] * i1 + l3) - 1) / l3;
-                    if ((pictureOffsetX[animationNumber] * l) % j3 != 0)
+                    i += (pictureOffsetX[animationNumber] * l + j3 - 1) / j3;
+                    k += (pictureOffsetY[animationNumber] * i1 + l3 - 1) / l3;
+                    if (pictureOffsetX[animationNumber] * l % j3 != 0)
                     {
-                        j2 = (j3 - (pictureOffsetX[animationNumber] * l) % j3 << 16) / l;
+                        j2 = (j3 - pictureOffsetX[animationNumber] * l % j3 << 16) / l;
                     }
 
-                    if ((pictureOffsetY[animationNumber] * i1) % l3 != 0)
+                    if (pictureOffsetY[animationNumber] * i1 % l3 != 0)
                     {
-                        k2 = (l3 - (pictureOffsetY[animationNumber] * i1) % l3 << 16) / i1;
+                        k2 = (l3 - pictureOffsetY[animationNumber] * i1 % l3 << 16) / i1;
                     }
 
-                    l = (l * (pictureWidth[animationNumber] - (j2 >> 16))) / j3;
-                    i1 = (i1 * (pictureHeight[animationNumber] - (k2 >> 16))) / l3;
+                    l = l * (pictureWidth[animationNumber] - (j2 >> 16)) / j3;
+                    i1 = i1 * (pictureHeight[animationNumber] - (k2 >> 16)) / l3;
                 }
                 int k3 = i + k * GameSize.Width;
                 int i4 = GameSize.Width - l;
@@ -1083,7 +1080,7 @@ namespace OpenRS.Net.Client.Game
                 }
                 if (k + i1 >= imageRectangle.Height)
                 {
-                    i1 -= ((k + i1) - imageRectangle.Height) + 1;
+                    i1 -= k + i1 - imageRectangle.Height + 1;
                 }
 
                 if (i < imageRectangle.X)
@@ -1097,7 +1094,7 @@ namespace OpenRS.Net.Client.Game
                 }
                 if (i + l >= imageRectangle.Width)
                 {
-                    int l4 = ((i + l) - imageRectangle.Width) + 1;
+                    int l4 = i + l - imageRectangle.Width + 1;
                     l -= l4;
                     i4 += l4;
                 }
@@ -1106,7 +1103,7 @@ namespace OpenRS.Net.Client.Game
                 ccm(ref pixels, pictureColors[animationNumber], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, colour);
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine("error in sprite clipping routine");
             }
@@ -1281,7 +1278,7 @@ namespace OpenRS.Net.Client.Game
 
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine("error in plot_scale");
             }
@@ -1372,7 +1369,7 @@ namespace OpenRS.Net.Client.Game
 
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine("error in tran_scale");
             }
@@ -1421,7 +1418,7 @@ namespace OpenRS.Net.Client.Game
 
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine("error in plot_scale");
             }
@@ -1591,7 +1588,7 @@ namespace OpenRS.Net.Client.Game
 
             for (int l8 = j6; l8 <= k6; l8++)
             {
-                bnh[l8] = (bni[l8] = l6);
+                bnh[l8] = bni[l8] = l6;
                 l6 += i7;
                 bnj[l8] = bnk[l8] = 0;
                 bnl[l8] = bnm[l8] = l7;
@@ -1838,10 +1835,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public virtual void DrawVisibleEntity(int x, int y, int width, int height, int objectId, int unknownParam1, int unknownParam2)
-        {
-            DrawEntity(x, y, width, height, objectId);
-        }
+        public virtual void DrawVisibleEntity(int x, int y, int width, int height, int objectId, int unknownParam1, int unknownParam2) => DrawEntity(x, y, width, height, objectId);
 
         void cde(int[] pixels, int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int arg13,
@@ -1867,7 +1861,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     if (k2 + l2 >= imageRectangle.Width)
                     {
-                        int j3 = (k2 + l2) - imageRectangle.Width;
+                        int j3 = k2 + l2 - imageRectangle.Width;
                         l2 -= j3;
                     }
                     arg14 = 1 - arg14;
@@ -1902,7 +1896,7 @@ namespace OpenRS.Net.Client.Game
 
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Console.WriteLine("error in transparent sprite plot routine");
             }
@@ -1935,7 +1929,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     if (j3 + k3 >= imageRectangle.Width)
                     {
-                        int i4 = (j3 + k3) - imageRectangle.Width;
+                        int i4 = j3 + k3 - imageRectangle.Width;
                         k3 -= i4;
                     }
                     arg15 = 1 - arg15;
@@ -1975,7 +1969,7 @@ namespace OpenRS.Net.Client.Game
 
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Console.WriteLine("error in transparent sprite plot routine");
             }
@@ -2005,7 +1999,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     if (k2 + l2 >= imageRectangle.Width)
                     {
-                        int j3 = (k2 + l2) - imageRectangle.Width;
+                        int j3 = k2 + l2 - imageRectangle.Width;
                         l2 -= j3;
                     }
                     arg15 = 1 - arg15;
@@ -2041,7 +2035,7 @@ namespace OpenRS.Net.Client.Game
 
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Console.WriteLine("error in transparent sprite plot routine");
             }
@@ -2074,7 +2068,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     if (j3 + k3 >= imageRectangle.Width)
                     {
-                        int i4 = (j3 + k3) - imageRectangle.Width;
+                        int i4 = j3 + k3 - imageRectangle.Width;
                         k3 -= i4;
                     }
                     arg16 = 1 - arg16;
@@ -2115,21 +2109,15 @@ namespace OpenRS.Net.Client.Game
 
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Console.WriteLine("error in transparent sprite plot routine");
             }
         }
 
-        public void DrawLabel(string text, int x, int y, int fontIndex, int colour)
-        {
-            DrawString(text, x - textWidth(text, fontIndex), y, fontIndex, colour);
-        }
+        public void DrawLabel(string text, int x, int y, int fontIndex, int colour) => DrawString(text, x - textWidth(text, fontIndex), y, fontIndex, colour);
 
-        public void DrawText(string text, int x, int y, int fontIndex, int colour)
-        {
-            DrawString(text, x - textWidth(text, fontIndex) / 2, y, fontIndex, colour);
-        }
+        public void DrawText(string text, int x, int y, int fontIndex, int colour) => DrawString(text, x - textWidth(text, fontIndex) / 2, y, fontIndex, colour);
 
         public void DrawFloatingText(string text, int x, int y, int arg3, int colour, int arg5)
         {
@@ -2181,7 +2169,7 @@ namespace OpenRS.Net.Client.Game
 
                 if (i > 0)
                 {
-                    DrawText(text.Substring(k), x, y, arg3, colour);
+                    DrawText(text[k..], x, y, arg3, colour);
                     return;
                 }
             }
@@ -2191,7 +2179,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public static List<StringDraw> stringsToDraw = new List<StringDraw>();
+        public static List<StringDraw> stringsToDraw = [];
 
         public void DrawString(string text, int x, int y, int arg3, int colour)
         {
@@ -2209,10 +2197,10 @@ namespace OpenRS.Net.Client.Game
 
                         if (text[i] == '@' && s1 < s2)
                         {
-                            var s3 = text[(i + 4)];
+                            var s3 = text[i + 4];
                             var val = text.Substring(i + 1, 3).ToLower();
                         }
-                        if (text[i] == '@' && i + 4 < text.Length && text[(i + 4)] == '@')
+                        if (text[i] == '@' && i + 4 < text.Length && text[i + 4] == '@')
                         {
                             if (text.Substring(i + 1, 3).ToLower().Equals("red"))
                             {
@@ -2374,7 +2362,7 @@ namespace OpenRS.Net.Client.Game
             }
             if (k1 + i2 >= imageRectangle.Height)
             {
-                i2 -= ((k1 + i2) - imageRectangle.Height) + 1;
+                i2 -= k1 + i2 - imageRectangle.Height + 1;
             }
 
             if (j1 < imageRectangle.X)
@@ -2389,7 +2377,7 @@ namespace OpenRS.Net.Client.Game
             }
             if (j1 + l1 >= imageRectangle.Width)
             {
-                int l3 = ((j1 + l1) - imageRectangle.Width) + 1;
+                int l3 = j1 + l1 - imageRectangle.Width + 1;
                 l1 -= l3;
                 i3 += l3;
                 l2 += l3;
@@ -2622,8 +2610,8 @@ namespace OpenRS.Net.Client.Game
         public int[] pictureAssumedWidth;
         public int[] pictureAssumedHeight;
         public bool[] hasTransparentBackground;
-        static sbyte[][] gameFonts = new sbyte[50][];
-        static int[] bne;
+        static readonly sbyte[][] gameFonts = new sbyte[50][];
+        static readonly int[] bne;
         public bool IsLoggedIn;
         public int[] bng;
         public int[] bnh;
@@ -2635,8 +2623,8 @@ namespace OpenRS.Net.Client.Game
         public static int bnn;
         public static int caa;
         public static int cab;
-        static bool[] cac = new bool[12];
-        static sbyte[] cae = new sbyte[0x186a0];
+        static readonly bool[] cac = new bool[12];
+        static readonly sbyte[] cae = new sbyte[0x186a0];
         public static int caf;
         static int currentFont;
     }

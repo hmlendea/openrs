@@ -17,7 +17,6 @@ namespace OpenRS.Gui
     {
         GameTime gameTime;
         SpriteFont fpsFont;
-        Vector2 fpsCounterSize;
         string fpsString;
 
         /// <summary>
@@ -37,10 +36,7 @@ namespace OpenRS.Gui
         /// <summary>
         /// Loads the content.
         /// </summary>
-        public void LoadContent()
-        {
-            fpsFont = NuciContentManager.Instance.LoadSpriteFont("Fonts/FrameCounterFont");
-        }
+        public void LoadContent() => fpsFont = NuciContentManager.Instance.LoadSpriteFont("Fonts/FrameCounterFont");
 
         /// <summary>
         /// Unloads the content.
@@ -59,7 +55,6 @@ namespace OpenRS.Gui
             this.gameTime = gameTime;
 
             fpsString = $"FPS: {Math.Round(FramerateCounter.Instance.AverageFramesPerSecond)}";
-            fpsCounterSize = fpsFont.MeasureString(fpsString);
         }
 
         /// <summary>

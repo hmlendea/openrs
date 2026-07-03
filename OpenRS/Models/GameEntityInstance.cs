@@ -24,14 +24,11 @@ namespace OpenRS.Models
             Location = location;
         }
 
-        public bool IsWithinRange(GameEntityInstance other, int radius)
-        {
-            return IsWithinRange(other.Location, radius);
-        }
+        public bool IsWithinRange(GameEntityInstance other, int radius) => IsWithinRange(other.Location, radius);
 
         public bool IsWithinRange(Point2D location, int radius)
         {
-            Point2D difference = new Point2D(
+            Point2D difference = new(
                 Math.Abs(Location.X - location.X),
                 Math.Abs(Location.Y - location.Y));
 
@@ -126,10 +123,7 @@ namespace OpenRS.Models
             return newLocation;
         }
 
-        bool IsBlocking(GameEntityInstance other, Point2D location, int bit)
-        {
-            return IsMapBlocking(other, location, (byte)bit);
-        }
+        bool IsBlocking(GameEntityInstance other, Point2D location, int bit) => IsMapBlocking(other, location, (byte)bit);
 
         bool IsMapBlocking(GameEntityInstance other, Point2D location, byte bit)
         {
@@ -158,10 +152,7 @@ namespace OpenRS.Models
             return false;
         }
 
-        bool IsObjectBlocking(GameEntityInstance other, Point2D location, byte bit)
-        {
-            throw new NotImplementedException();
-        }
+        bool IsObjectBlocking(GameEntityInstance other, Point2D location, byte bit) => throw new NotImplementedException();
 
         bool IsNextTo(GameEntityInstance other)
         {

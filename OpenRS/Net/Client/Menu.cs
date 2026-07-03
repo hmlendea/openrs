@@ -1,6 +1,4 @@
 using Microsoft.Xna.Framework.Input;
-
-using NuciXNA.Primitives;
 using NuciXNA.Primitives.Mapping;
 
 using OpenRS.Net.Client.Game;
@@ -46,10 +44,7 @@ namespace OpenRS.Net.Client
             gdf = rgbToIntMod(84, 93, 120);
         }
 
-        int rgbToIntMod(int r, int g, int b)
-        {
-            return ColourTranslator.ToArgb((redMod * r) / 114, (greenMod * g) / 114, (blueMod * b) / 176);
-        }
+        int rgbToIntMod(int r, int g, int b) => ColourTranslator.ToArgb(redMod * r / 114, greenMod * g / 114, blueMod * b / 176);
 
         public void mouseClick(int mouseX, int mouseY, int lastMouseButton, int mouseButton)
         {
@@ -123,7 +118,7 @@ namespace OpenRS.Net.Client
                 int i = componentText[selectedComponent].Length;
                 if (key == Keys.Back && i > 0)
                 {
-                    componentText[selectedComponent] = componentText[selectedComponent].Substring(0, i - 1);
+                    componentText[selectedComponent] = componentText[selectedComponent][..(i - 1)];
                 }
 
                 if ((key == Keys.Enter) && i > 0)
@@ -219,15 +214,15 @@ namespace OpenRS.Net.Client
             gameImage.DrawBox(x, y, width, height, 0xffffff);
             gameImage.DrawHorizontalLine(x, y, width, gdc);
             gameImage.DrawVerticalLine(x, y, height, gdc);
-            gameImage.DrawHorizontalLine(x, (y + height) - 1, width, gdf);
-            gameImage.DrawVerticalLine((x + width) - 1, y, height, gdf);
+            gameImage.DrawHorizontalLine(x, y + height - 1, width, gdf);
+            gameImage.DrawVerticalLine(x + width - 1, y, height, gdf);
 
             if (gbe[arg0] == 1)
             {
                 for (int i = 0; i < height; i++)
                 {
                     gameImage.DrawHorizontalLine(x + i, y + i, 1, 0);
-                    gameImage.DrawHorizontalLine((x + width) - 1 - i, y + i, 1, 0);
+                    gameImage.DrawHorizontalLine(x + width - 1 - i, y + i, 1, 0);
                 }
             }
         }
@@ -315,12 +310,12 @@ namespace OpenRS.Net.Client
             gameImage.DrawVerticalLine(x, y, height, gdc);
             gameImage.DrawVerticalLine(x + 1, y + 1, height - 2, gdc);
             gameImage.DrawVerticalLine(x + 2, y + 2, height - 4, gdd);
-            gameImage.DrawHorizontalLine(x, (y + height) - 1, width, gdf);
-            gameImage.DrawHorizontalLine(x + 1, (y + height) - 2, width - 2, gdf);
-            gameImage.DrawHorizontalLine(x + 2, (y + height) - 3, width - 4, gde);
-            gameImage.DrawVerticalLine((x + width) - 1, y, height, gdf);
-            gameImage.DrawVerticalLine((x + width) - 2, y + 1, height - 2, gdf);
-            gameImage.DrawVerticalLine((x + width) - 3, y + 2, height - 4, gde);
+            gameImage.DrawHorizontalLine(x, y + height - 1, width, gdf);
+            gameImage.DrawHorizontalLine(x + 1, y + height - 2, width - 2, gdf);
+            gameImage.DrawHorizontalLine(x + 2, y + height - 3, width - 4, gde);
+            gameImage.DrawVerticalLine(x + width - 1, y, height, gdf);
+            gameImage.DrawVerticalLine(x + width - 2, y + 1, height - 2, gdf);
+            gameImage.DrawVerticalLine(x + width - 3, y + 2, height - 4, gde);
             gameImage.ResetDimensions();
         }
 
@@ -331,20 +326,14 @@ namespace OpenRS.Net.Client
             gameImage.DrawBoxEdge(x + 1, y + 1, width - 2, height - 2, gda);
             gameImage.DrawBoxEdge(x + 2, y + 2, width - 4, height - 4, gdb);
             gameImage.DrawPicture(x, y, 2 + baseScrollPic);
-            gameImage.DrawPicture((x + width) - 7, y, 3 + baseScrollPic);
-            gameImage.DrawPicture(x, (y + height) - 7, 4 + baseScrollPic);
-            gameImage.DrawPicture((x + width) - 7, (y + height) - 7, 5 + baseScrollPic);
+            gameImage.DrawPicture(x + width - 7, y, 3 + baseScrollPic);
+            gameImage.DrawPicture(x, y + height - 7, 4 + baseScrollPic);
+            gameImage.DrawPicture(x + width - 7, y + height - 7, 5 + baseScrollPic);
         }
 
-        protected void drawPicture(int x, int y, int size)
-        {
-            gameImage.DrawPicture(x, y, size);
-        }
+        protected void drawPicture(int x, int y, int size) => gameImage.DrawPicture(x, y, size);
 
-        protected void drawLineX(int x, int y, int width)
-        {
-            gameImage.DrawHorizontalLine(x, y, width, 0);
-        }
+        protected void drawLineX(int x, int y, int width) => gameImage.DrawHorizontalLine(x, y, width, 0);
 
         protected void gem(int arg0, int x, int y, int width, int height, int textSize, string[] texts,
                 int arg7, int arg8)
@@ -363,14 +352,14 @@ namespace OpenRS.Net.Client
             listShownEntries[arg0] = arg8;
             if (i < arg7)
             {
-                int k = (x + width) - 12;
-                int i1 = ((height - 27) * i) / arg7;
+                int k = x + width - 12;
+                int i1 = (height - 27) * i / arg7;
                 if (i1 < 6)
                 {
                     i1 = 6;
                 }
 
-                int k1 = ((height - 27 - i1) * arg8) / (arg7 - i);
+                int k1 = (height - 27 - i1) * arg8 / (arg7 - i);
                 if (mouseButton == 1 && mouseX >= k && mouseX <= k + 12)
                 {
                     if (mouseY > y && mouseY < y + 12 && arg8 > 0)
@@ -378,7 +367,7 @@ namespace OpenRS.Net.Client
                         arg8--;
                     }
 
-                    if (mouseY > (y + height) - 12 && mouseY < y + height && arg8 < arg7 - i)
+                    if (mouseY > y + height - 12 && mouseY < y + height && arg8 < arg7 - i)
                     {
                         arg8++;
                     }
@@ -387,11 +376,11 @@ namespace OpenRS.Net.Client
                 }
                 if (mouseButton == 1 && (mouseX >= k && mouseX <= k + 12 || mouseX >= k - 12 && mouseX <= k + 24 && gan[arg0]))
                 {
-                    if (mouseY > y + 12 && mouseY < (y + height) - 12)
+                    if (mouseY > y + 12 && mouseY < y + height - 12)
                     {
                         gan[arg0] = true;
                         int i2 = mouseY - y - 12 - i1 / 2;
-                        arg8 = (i2 * arg7) / (height - 24);
+                        arg8 = i2 * arg7 / (height - 24);
                         if (arg8 > arg7 - i)
                         {
                             arg8 = arg7 - i;
@@ -409,11 +398,11 @@ namespace OpenRS.Net.Client
                 {
                     gan[arg0] = false;
                 }
-                k1 = ((height - 27 - i1) * arg8) / (arg7 - i);
+                k1 = (height - 27 - i1) * arg8 / (arg7 - i);
                 drawScrollbar(x, y, width, height, k1, i1);
             }
             int l = height - i * gameImage.textHeightNumber(textSize);
-            int j1 = y + (gameImage.textHeightNumber(textSize) * 5) / 6 + l / 2;
+            int j1 = y + gameImage.textHeightNumber(textSize) * 5 / 6 + l / 2;
             for (int l1 = arg8; l1 < arg7; l1++)
             {
                 geg(arg0, x + 2, j1, texts[l1], textSize);
@@ -428,12 +417,12 @@ namespace OpenRS.Net.Client
 
         protected void drawScrollbar(int x, int y, int width, int height, int j1, int k1)
         {
-            int l1 = (x + width) - 12;
+            int l1 = x + width - 12;
             gameImage.DrawBoxEdge(l1, y, 12, height, 0);// border
             gameImage.DrawPicture(l1 + 1, y + 1, baseScrollPic);// up arrow
-            gameImage.DrawPicture(l1 + 1, (y + height) - 12, 1 + baseScrollPic);// down arrow
+            gameImage.DrawPicture(l1 + 1, y + height - 12, 1 + baseScrollPic);// down arrow
             gameImage.DrawHorizontalLine(l1, y + 13, 12, 0);// up arrow border
-            gameImage.DrawHorizontalLine(l1, (y + height) - 13, 12, 0);// down arrow border
+            gameImage.DrawHorizontalLine(l1, y + height - 13, 12, 0);// down arrow border
             gameImage.DrawBox(l1 + 1, y + 14, 11, height - 27, scrollBarColour);
             gameImage.DrawBox(l1 + 3, j1 + y + 14, 7, k1, scrollBarDraggingBarColor);// dragging bar
             gameImage.DrawVerticalLine(l1 + 2, j1 + y + 14, k1, scrollBarDraggingBarLine1Color);// dragging bar
@@ -504,7 +493,7 @@ namespace OpenRS.Net.Client
 
         protected void gfb(int arg0, int x, int y, int fontIndex, string[] texts)
         {
-            int k = y - (gameImage.textHeightNumber(fontIndex) * (texts.Length - 1)) / 2;
+            int k = y - gameImage.textHeightNumber(fontIndex) * (texts.Length - 1) / 2;
 
             for (int l = 0; l < texts.Length; l++)
             {
@@ -562,14 +551,14 @@ namespace OpenRS.Net.Client
             int entryCount = listHeight / gameImage.textHeightNumber(listTextSize);
             if (entryCount < listLength)
             {
-                int k = (listX + listWidth) - 12;
-                int i1 = ((listHeight - 27) * entryCount) / listLength;
+                int k = listX + listWidth - 12;
+                int i1 = (listHeight - 27) * entryCount / listLength;
                 if (i1 < 6)
                 {
                     i1 = 6;
                 }
 
-                int k1 = ((listHeight - 27 - i1) * shownEntries) / (listLength - entryCount);
+                int k1 = (listHeight - 27 - i1) * shownEntries / (listLength - entryCount);
                 if (mouseButton == 1 && mouseX >= k && mouseX <= k + 12)
                 {
                     if (mouseY > listY && mouseY < listY + 12 && shownEntries > 0)
@@ -577,7 +566,7 @@ namespace OpenRS.Net.Client
                         shownEntries--;
                     }
 
-                    if (mouseY > (listY + listHeight) - 12 && mouseY < listY + listHeight && shownEntries < listLength - entryCount)
+                    if (mouseY > listY + listHeight - 12 && mouseY < listY + listHeight && shownEntries < listLength - entryCount)
                     {
                         shownEntries++;
                     }
@@ -586,11 +575,11 @@ namespace OpenRS.Net.Client
                 }
                 if (mouseButton == 1 && (mouseX >= k && mouseX <= k + 12 || mouseX >= k - 12 && mouseX <= k + 24 && gan[listIndex]))
                 {
-                    if (mouseY > listY + 12 && mouseY < (listY + listHeight) - 12)
+                    if (mouseY > listY + 12 && mouseY < listY + listHeight - 12)
                     {
                         gan[listIndex] = true;
                         int i2 = mouseY - listY - 12 - i1 / 2;
-                        shownEntries = (i2 * listLength) / (listHeight - 24);
+                        shownEntries = i2 * listLength / (listHeight - 24);
                         if (shownEntries < 0)
                         {
                             shownEntries = 0;
@@ -608,7 +597,7 @@ namespace OpenRS.Net.Client
                 {
                     gan[listIndex] = false;
                 }
-                k1 = ((listHeight - 27 - i1) * shownEntries) / (listLength - entryCount);
+                k1 = (listHeight - 27 - i1) * shownEntries / (listLength - entryCount);
                 drawScrollbar(listX, listY, listWidth, listHeight, k1, i1);
             }
             else
@@ -618,7 +607,7 @@ namespace OpenRS.Net.Client
             }
             gbf[listIndex] = -1;
             int l = listHeight - entryCount * gameImage.textHeightNumber(listTextSize);
-            int j1 = listY + (gameImage.textHeightNumber(listTextSize) * 5) / 6 + l / 2;
+            int j1 = listY + gameImage.textHeightNumber(listTextSize) * 5 / 6 + l / 2;
             for (int l1 = shownEntries; l1 < listLength; l1++)
             {
                 int j2;
@@ -802,10 +791,7 @@ namespace OpenRS.Net.Client
             return menuItemsCount++;
         }
 
-        public void clearList(int i)
-        {
-            listLength[i] = 0;
-        }
+        public void clearList(int i) => listLength[i] = 0;
 
         public void switchList(int i)
         {
@@ -841,10 +827,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void updateText(int i, string s)
-        {
-            componentText[i] = s;
-        }
+        public void updateText(int i, string s) => componentText[i] = s;
 
         public string getText(int i)
         {
@@ -858,20 +841,11 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void enableInput(int i)
-        {
-            componentAcceptsInput[i] = true;
-        }
+        public void enableInput(int i) => componentAcceptsInput[i] = true;
 
-        public void disableInput(int i)
-        {
-            componentAcceptsInput[i] = false;
-        }
+        public void disableInput(int i) => componentAcceptsInput[i] = false;
 
-        public void setFocus(int i)
-        {
-            selectedComponent = i;
-        }
+        public void setFocus(int i) => selectedComponent = i;
 
         public int getEntryHighlighted(int i)
         {
@@ -882,7 +856,7 @@ namespace OpenRS.Net.Client
 
         protected GraphicsEngine gameImage;
         int menuItemsCount;
-        int gal;
+        readonly int gal;
         public bool[] componentAcceptsInput;
         public bool[] gan;
         public bool[] componentIsPasswordField;
@@ -891,33 +865,33 @@ namespace OpenRS.Net.Client
         public int[] listLength;
         public int[] gbe;
         public int[] gbf;
-        bool[] componentWhiteText;
-        int[] componentX;
-        int[] componentY;
-        int[] componentType;
-        int[] componentWidth;
-        int[] componentHeight;
-        int[] copmonentInputMaxLength;
-        int[] componentTextSize;
-        string[] componentText;
-        string[][] componentTextList;
+        readonly bool[] componentWhiteText;
+        readonly int[] componentX;
+        readonly int[] componentY;
+        readonly int[] componentType;
+        readonly int[] componentWidth;
+        readonly int[] componentHeight;
+        readonly int[] copmonentInputMaxLength;
+        readonly int[] componentTextSize;
+        readonly string[] componentText;
+        readonly string[][] componentTextList;
         int mouseX;
         int mouseY;
         int lastMouseButton;
         int mouseButton;
         int selectedComponent;
         int gch;
-        int scrollBarColour;
-        int scrollBarDraggingBarLine1Color;
-        int scrollBarDraggingBarColor;
-        int scrollBarDraggingBarLine2Color;
-        int gcn;
-        int gda;
-        int gdb;
-        int gdc;
-        int gdd;
-        int gde;
-        int gdf;
+        readonly int scrollBarColour;
+        readonly int scrollBarDraggingBarLine1Color;
+        readonly int scrollBarDraggingBarColor;
+        readonly int scrollBarDraggingBarLine2Color;
+        readonly int gcn;
+        readonly int gda;
+        readonly int gdb;
+        readonly int gdc;
+        readonly int gdd;
+        readonly int gde;
+        readonly int gdf;
         public bool gdg;
         public static bool gdh = true;
         public static int baseScrollPic;

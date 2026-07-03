@@ -18,7 +18,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="wallObjectEntity">WallObject entity.</param>
         internal static WallObject ToDomainModel(this WallObjectEntity wallObjectEntity)
         {
-            WallObject wallObject = new WallObject
+            WallObject wallObject = new()
             {
                 Name = wallObjectEntity.Name,
                 Description = wallObjectEntity.Description,
@@ -41,7 +41,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="wallObject">WallObject.</param>
         internal static WallObjectEntity ToEntity(this WallObject wallObject)
         {
-            WallObjectEntity wallObjectEntity = new WallObjectEntity
+            WallObjectEntity wallObjectEntity = new()
             {
                 Name = wallObject.Name,
                 Description = wallObject.Description,

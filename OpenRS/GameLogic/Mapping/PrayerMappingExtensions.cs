@@ -18,7 +18,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="prayerEntity">Prayer entity.</param>
         internal static Prayer ToDomainModel(this PrayerEntity prayerEntity)
         {
-            Prayer prayer = new Prayer
+            Prayer prayer = new()
             {
                 Id = prayerEntity.Id,
                 Name = prayerEntity.Name,
@@ -37,7 +37,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="prayer">Prayer.</param>
         internal static PrayerEntity ToEntity(this Prayer prayer)
         {
-            PrayerEntity prayerEntity = new PrayerEntity
+            PrayerEntity prayerEntity = new()
             {
                 Id = prayer.Id,
                 Name = prayer.Name,

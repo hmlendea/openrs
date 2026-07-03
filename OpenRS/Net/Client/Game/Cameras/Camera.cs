@@ -1,6 +1,4 @@
 using System;
-
-using NuciExtensions;
 using NuciXNA.Primitives;
 
 namespace OpenRS.Net.Client.Game.Cameras
@@ -12,10 +10,10 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         public Point3D[] VertLocations { get; set; }
 
-        static readonly Random Random = new Random();
+        static readonly Random Random = new();
 
         Point3D viewLocation;
-        Point3D[] sceneObjectLocations;
+        readonly Point3D[] sceneObjectLocations;
 
         public Camera(GraphicsEngine gameimage, int maxObjects, int maxVisibleObjects, int maxSceneObjects)
         {
@@ -79,10 +77,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             bee = new int[maxSceneObjects];
             bef = new int[maxSceneObjects];
             beg = new int[maxSceneObjects];
-            if (bfe == null)
-            {
-                bfe = new sbyte[17691];
-            }
+            bfe ??= new sbyte[17691];
 
             bde = 0;
             bdf = 0;
@@ -171,7 +166,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
             int k2 = highlightedObject.addVertex(location);
             int l2 = highlightedObject.addVertex(new Point3D(location.X, location.Y - height, location.Z));
-            int[] ai = { k2, l2 };
+            int[] ai = [k2, l2];
 
             highlightedObject.addFaceVertices(2, ai, 0, 0);
             highlightedObject.entityType[bdn] = j2;
@@ -180,15 +175,9 @@ namespace OpenRS.Net.Client.Game.Cameras
             return bdn - 1;
         }
 
-        public void bhe(int k)
-        {
-            highlightedObject.chm[k] = 1;
-        }
+        public void bhe(int k) => highlightedObject.chm[k] = 1;
 
-        public void bhf(int k, int i1)
-        {
-            beg[k] = i1;
-        }
+        public void bhf(int k, int i1) => beg[k] = i1;
 
         public void setMousePosition(int k, int i1)
         {
@@ -198,20 +187,11 @@ namespace OpenRS.Net.Client.Game.Cameras
             bcb = true;
         }
 
-        public int getOptionCount()
-        {
-            return bce;
-        }
+        public int getOptionCount() => bce;
 
-        public int[] getHighlightedPlayers()
-        {
-            return bch;
-        }
+        public int[] getHighlightedPlayers() => bch;
 
-        public ObjectModel[] getHighlightedObjects()
-        {
-            return _highlightedObjects;
-        }
+        public ObjectModel[] getHighlightedObjects() => _highlightedObjects;
 
         public void setCameraSize(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
         {
@@ -640,10 +620,10 @@ namespace OpenRS.Net.Client.Game.Cameras
                     int i12 = (bee[j2] << bcn) / j11;
                     int k12 = (bef[j2] << bcn) / j11;
                     int j13 = j10 - model.cfm[ai2[1]];
-                    int k13 = ((model.cfl[ai2[1]] - i9) * j13) / k12;
+                    int k13 = (model.cfl[ai2[1]] - i9) * j13 / k12;
                     k13 = model.cfl[ai2[1]] - i9;
                     int i14 = i9 - i12 / 2;
-                    int k14 = (bcm + j10) - k12;
+                    int k14 = bcm + j10 - k12;
                     gameImage.DrawVisibleEntity(i14 + bcl, k14, i12, k12, sceneObjectId[j2], k13, (256 << bcn) / j11);
                     if (bcb && bce < maxHighlightedObjects)
                     {
@@ -687,7 +667,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                         {
                             if (l6.blb < 0)
                             {
-                                j12 = (model.clf - model.cfn[i4]) + model.vertexColor[i4];
+                                j12 = model.clf - model.cfn[i4] + model.vertexColor[i4];
                             }
                             else
                             {
@@ -722,8 +702,8 @@ namespace OpenRS.Net.Client.Game.Cameras
                             if (model.vertZ[k11] >= bbf)
                             {
                                 int j9 = model.vertZ[i4] - model.vertZ[k11];
-                                int k6 = model.vertX[i4] - ((model.vertX[i4] - model.vertX[k11]) * (model.vertZ[i4] - bbf)) / j9;
-                                int i8 = model.vertY[i4] - ((model.vertY[i4] - model.vertY[k11]) * (model.vertZ[i4] - bbf)) / j9;
+                                int k6 = model.vertX[i4] - (model.vertX[i4] - model.vertX[k11]) * (model.vertZ[i4] - bbf) / j9;
+                                int i8 = model.vertY[i4] - (model.vertY[i4] - model.vertY[k11]) * (model.vertZ[i4] - bbf) / j9;
                                 bfl[k10] = (k6 << bcn) / bbf;
                                 bfm[k10] = (i8 << bcn) / bbf;
                                 bfn[k10] = j12;
@@ -741,8 +721,8 @@ namespace OpenRS.Net.Client.Game.Cameras
                             if (model.vertZ[k11] >= bbf)
                             {
                                 int k9 = model.vertZ[i4] - model.vertZ[k11];
-                                int i7 = model.vertX[i4] - ((model.vertX[i4] - model.vertX[k11]) * (model.vertZ[i4] - bbf)) / k9;
-                                int j8 = model.vertY[i4] - ((model.vertY[i4] - model.vertY[k11]) * (model.vertZ[i4] - bbf)) / k9;
+                                int i7 = model.vertX[i4] - (model.vertX[i4] - model.vertX[k11]) * (model.vertZ[i4] - bbf) / k9;
+                                int j8 = model.vertY[i4] - (model.vertY[i4] - model.vertY[k11]) * (model.vertZ[i4] - bbf) / k9;
                                 bfl[k10] = (i7 << bcn) / bbf;
                                 bfm[k10] = (j8 << bcn) / bbf;
                                 bfn[k10] = j12;
@@ -801,7 +781,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 int i8 = arg7[0];
                 int k9 = arg7[1];
                 int k10 = arg7[2];
-                int k11 = (bcm + bck) - 1;
+                int k11 = bcm + bck - 1;
                 int i12 = 0;
                 int k12 = 0;
                 int i13 = 0;
@@ -934,7 +914,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 {
                     if (arg2 >= i14 && arg2 < k14)
                     {
-                        arg0 = (arg1 = i12);
+                        arg0 = arg1 = i12;
                         arg3 = i21 = i13;
                         i12 += k12;
                         i13 += k13;
@@ -1001,7 +981,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 int l11 = arg7[1];
                 int j12 = arg7[2];
                 int l12 = arg7[3];
-                int j13 = (bcm + bck) - 1;
+                int j13 = bcm + bck - 1;
                 int l13 = 0;
                 int j14 = 0;
                 int l14 = 0;
@@ -1270,7 +1250,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
                 if (bfk >= bcm + bck)
                 {
-                    bfk = (bcm + bck) - 1;
+                    bfk = bcm + bck - 1;
                 }
 
                 if (bfj >= bfk)
@@ -1290,9 +1270,9 @@ namespace OpenRS.Net.Client.Game.Cameras
                 int j3 = arg6[k1];
                 if (j2 < j3)
                 {
-                    int j4 = (arg5[0] << 8);
+                    int j4 = arg5[0] << 8;
                     int k5 = ((arg5[k1] - arg5[0]) << 8) / (j3 - j2);
-                    int i7 = (arg7[0] << 8);
+                    int i7 = arg7[0] << 8;
                     int k8 = ((arg7[k1] - arg7[0]) << 8) / (j3 - j2);
                     if (j2 < 0)
                     {
@@ -1468,13 +1448,13 @@ namespace OpenRS.Net.Client.Game.Cameras
                 if (bel[textureIndex] == 1)
                 {
                     int k9 = l5 * j1 - i7 * k << 12;
-                    int j10 = i7 * i2 - j8 * j1 << (5 - bcn) + 7 + 4;
-                    int l10 = j8 * k - l5 * i2 << (5 - bcn) + 7;
+                    int j10 = i7 * i2 - j8 * j1 << 5 - bcn + 7 + 4;
+                    int l10 = j8 * k - l5 * i2 << 5 - bcn + 7;
                     int j11 = l2 * j1 - j3 * k << 12;
-                    int l11 = j3 * i2 - l3 * j1 << (5 - bcn) + 7 + 4;
-                    int j12 = l3 * k - l2 * i2 << (5 - bcn) + 7;
+                    int l11 = j3 * i2 - l3 * j1 << 5 - bcn + 7 + 4;
+                    int j12 = l3 * k - l2 * i2 << 5 - bcn + 7;
                     int l12 = j3 * l5 - l2 * i7 << 5;
-                    int j13 = l3 * i7 - j3 * j8 << (5 - bcn) + 4;
+                    int j13 = l3 * i7 - j3 * j8 << 5 - bcn + 4;
                     int l13 = l2 * j8 - l3 * l5 >> bcn - 5;
                     int j14 = j10 >> 4;
                     int l14 = l11 >> 4;
@@ -1571,7 +1551,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     {
                         CameraVariable m6 = bfi[arg0];
                         arg1 = m6.Unknown1 >> 8;
-                        int j18 = (m6.Unknown2) >> 8;
+                        int j18 = m6.Unknown2 >> 8;
                         int l20 = j18 - arg1;
                         if (l20 <= 0)
                         {
@@ -1605,18 +1585,18 @@ namespace OpenRS.Net.Client.Game.Cameras
 
                     return;
                 }
-                int l9 = ((l5 * j1 - i7 * k) << 11);
-                int k10 = ((i7 * i2 - j8 * j1) << (5 - bcn) + 6 + 4);
-                int i11 = ((j8 * k - l5 * i2) << (5 - bcn) + 6);
-                int k11 = ((l2 * j1 - j3 * k) << 11);
-                int i12 = ((j3 * i2 - l3 * j1) << (5 - bcn) + 6 + 4);
-                int k12 = ((l3 * k - l2 * i2) << (5 - bcn) + 6);
-                int i13 = ((j3 * l5 - l2 * i7) << 5);
-                int k13 = ((l3 * i7 - j3 * j8) << (5 - bcn) + 4);
-                int i14 = ((l2 * j8 - l3 * l5) >> (bcn - 5));
-                int k14 = (k10 >> 4);
-                int i15 = (i12 >> 4);
-                int k15 = (k13 >> 4);
+                int l9 = (l5 * j1 - i7 * k) << 11;
+                int k10 = (i7 * i2 - j8 * j1) << 5 - bcn + 6 + 4;
+                int i11 = (j8 * k - l5 * i2) << 5 - bcn + 6;
+                int k11 = (l2 * j1 - j3 * k) << 11;
+                int i12 = (j3 * i2 - l3 * j1) << 5 - bcn + 6 + 4;
+                int k12 = (l3 * k - l2 * i2) << 5 - bcn + 6;
+                int i13 = (j3 * l5 - l2 * i7) << 5;
+                int k13 = (l3 * i7 - j3 * j8) << 5 - bcn + 4;
+                int i14 = (l2 * j8 - l3 * l5) >> (bcn - 5);
+                int k14 = k10 >> 4;
+                int i15 = i12 >> 4;
+                int k15 = k13 >> 4;
                 int i16 = bfj - bcm;
                 int k16 = bci;
                 int i17 = bcl + bfj * k16;
@@ -1767,9 +1747,9 @@ namespace OpenRS.Net.Client.Game.Cameras
                     for (int i4 = 0; i4 < 256; i4++)
                     {
                         int i6 = i4 * i4;
-                        int j7 = (j2 * i6) / 0x10000;
-                        int k8 = (i3 * i6) / 0x10000;
-                        int i10 = (k3 * i6) / 0x10000;
+                        int j7 = j2 * i6 / 0x10000;
+                        int k8 = i3 * i6 / 0x10000;
+                        int i10 = k3 * i6 / 0x10000;
                         bbc[k1][255 - i4] = (j7 << 16) + (k8 << 8) + i10;
                     }
 
@@ -1932,61 +1912,61 @@ namespace OpenRS.Net.Client.Game.Cameras
                 arg2 += arg12 & 0x600000;
                 l1 = arg12 >> 23;
                 arg12 += arg13;
-                arg0[arg11++] = ((arg1[(arg3 & 0x3f80) + (arg2 >> 7)]) >> l1);
+                arg0[arg11++] = arg1[(arg3 & 0x3f80) + (arg2 >> 7)] >> l1;
                 arg2 += j1;
                 arg3 += k1;
-                arg0[arg11++] = ((arg1[(arg3 & 0x3f80) + (arg2 >> 7)]) >> l1);
+                arg0[arg11++] = arg1[(arg3 & 0x3f80) + (arg2 >> 7)] >> l1;
                 arg2 += j1;
                 arg3 += k1;
-                arg0[arg11++] = ((arg1[(arg3 & 0x3f80) + (arg2 >> 7)]) >> l1);
+                arg0[arg11++] = arg1[(arg3 & 0x3f80) + (arg2 >> 7)] >> l1;
                 arg2 += j1;
                 arg3 += k1;
-                arg0[arg11++] = ((arg1[(arg3 & 0x3f80) + (arg2 >> 7)]) >> l1);
-                arg2 += j1;
-                arg3 += k1;
-                arg2 = (arg2 & 0x3fff) + (arg12 & 0x600000);
-                l1 = arg12 >> 23;
-                arg12 += arg13;
-                arg0[arg11++] = ((arg1[(arg3 & 0x3f80) + (arg2 >> 7)]) >> l1);
-                arg2 += j1;
-                arg3 += k1;
-                arg0[arg11++] = ((arg1[(arg3 & 0x3f80) + (arg2 >> 7)]) >> l1);
-                arg2 += j1;
-                arg3 += k1;
-                arg0[arg11++] = ((arg1[(arg3 & 0x3f80) + (arg2 >> 7)]) >> l1);
-                arg2 += j1;
-                arg3 += k1;
-                arg0[arg11++] = ((arg1[(arg3 & 0x3f80) + (arg2 >> 7)]) >> l1);
+                arg0[arg11++] = arg1[(arg3 & 0x3f80) + (arg2 >> 7)] >> l1;
                 arg2 += j1;
                 arg3 += k1;
                 arg2 = (arg2 & 0x3fff) + (arg12 & 0x600000);
                 l1 = arg12 >> 23;
                 arg12 += arg13;
-                arg0[arg11++] = ((arg1[(arg3 & 0x3f80) + (arg2 >> 7)]) >> l1);
+                arg0[arg11++] = arg1[(arg3 & 0x3f80) + (arg2 >> 7)] >> l1;
                 arg2 += j1;
                 arg3 += k1;
-                arg0[arg11++] = ((arg1[(arg3 & 0x3f80) + (arg2 >> 7)]) >> l1);
+                arg0[arg11++] = arg1[(arg3 & 0x3f80) + (arg2 >> 7)] >> l1;
                 arg2 += j1;
                 arg3 += k1;
-                arg0[arg11++] = ((arg1[(arg3 & 0x3f80) + (arg2 >> 7)]) >> l1);
+                arg0[arg11++] = arg1[(arg3 & 0x3f80) + (arg2 >> 7)] >> l1;
                 arg2 += j1;
                 arg3 += k1;
-                arg0[arg11++] = ((arg1[(arg3 & 0x3f80) + (arg2 >> 7)]) >> l1);
+                arg0[arg11++] = arg1[(arg3 & 0x3f80) + (arg2 >> 7)] >> l1;
                 arg2 += j1;
                 arg3 += k1;
                 arg2 = (arg2 & 0x3fff) + (arg12 & 0x600000);
                 l1 = arg12 >> 23;
                 arg12 += arg13;
-                arg0[arg11++] = ((arg1[(arg3 & 0x3f80) + (arg2 >> 7)]) >> l1);
+                arg0[arg11++] = arg1[(arg3 & 0x3f80) + (arg2 >> 7)] >> l1;
                 arg2 += j1;
                 arg3 += k1;
-                arg0[arg11++] = ((arg1[(arg3 & 0x3f80) + (arg2 >> 7)]) >> l1);
+                arg0[arg11++] = arg1[(arg3 & 0x3f80) + (arg2 >> 7)] >> l1;
                 arg2 += j1;
                 arg3 += k1;
-                arg0[arg11++] = ((arg1[(arg3 & 0x3f80) + (arg2 >> 7)]) >> l1);
+                arg0[arg11++] = arg1[(arg3 & 0x3f80) + (arg2 >> 7)] >> l1;
                 arg2 += j1;
                 arg3 += k1;
-                arg0[arg11++] = ((arg1[(arg3 & 0x3f80) + (arg2 >> 7)]) >> l1);
+                arg0[arg11++] = arg1[(arg3 & 0x3f80) + (arg2 >> 7)] >> l1;
+                arg2 += j1;
+                arg3 += k1;
+                arg2 = (arg2 & 0x3fff) + (arg12 & 0x600000);
+                l1 = arg12 >> 23;
+                arg12 += arg13;
+                arg0[arg11++] = arg1[(arg3 & 0x3f80) + (arg2 >> 7)] >> l1;
+                arg2 += j1;
+                arg3 += k1;
+                arg0[arg11++] = arg1[(arg3 & 0x3f80) + (arg2 >> 7)] >> l1;
+                arg2 += j1;
+                arg3 += k1;
+                arg0[arg11++] = arg1[(arg3 & 0x3f80) + (arg2 >> 7)] >> l1;
+                arg2 += j1;
+                arg3 += k1;
+                arg0[arg11++] = arg1[(arg3 & 0x3f80) + (arg2 >> 7)] >> l1;
                 arg2 = k;
                 arg3 = i1;
                 arg4 += arg7;
@@ -2019,7 +1999,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     l1 = arg12 >> 23;
                     arg12 += arg13;
                 }
-                arg0[arg11++] = (arg1[(arg3 & 0x3f80) + (arg2 >> 7)]) >> l1;
+                arg0[arg11++] = arg1[(arg3 & 0x3f80) + (arg2 >> 7)] >> l1;
                 arg2 += j1;
                 arg3 += k1;
             }
@@ -2228,7 +2208,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 {
                     for (int j2 = 0; j2 < l1; j2++)
                     {
-                        if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                        if ((arg1 = arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2) != 0)
                         {
                             arg0[arg12] = arg1;
                         }
@@ -2247,7 +2227,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 }
                 else
                 {
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    if ((arg1 = arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2) != 0)
                     {
                         arg0[arg12] = arg1;
                     }
@@ -2255,7 +2235,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    if ((arg1 = arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2) != 0)
                     {
                         arg0[arg12] = arg1;
                     }
@@ -2263,7 +2243,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    if ((arg1 = arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2) != 0)
                     {
                         arg0[arg12] = arg1;
                     }
@@ -2271,42 +2251,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
-                    {
-                        arg0[arg12] = arg1;
-                    }
-
-                    arg12++;
-                    arg2 += j1;
-                    arg3 += k1;
-                    arg2 = (arg2 & 0x3fff) + (arg13 & 0x600000);
-                    i2 = arg13 >> 23;
-                    arg13 += arg14;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
-                    {
-                        arg0[arg12] = arg1;
-                    }
-
-                    arg12++;
-                    arg2 += j1;
-                    arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
-                    {
-                        arg0[arg12] = arg1;
-                    }
-
-                    arg12++;
-                    arg2 += j1;
-                    arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
-                    {
-                        arg0[arg12] = arg1;
-                    }
-
-                    arg12++;
-                    arg2 += j1;
-                    arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    if ((arg1 = arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2) != 0)
                     {
                         arg0[arg12] = arg1;
                     }
@@ -2317,7 +2262,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg2 = (arg2 & 0x3fff) + (arg13 & 0x600000);
                     i2 = arg13 >> 23;
                     arg13 += arg14;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    if ((arg1 = arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2) != 0)
                     {
                         arg0[arg12] = arg1;
                     }
@@ -2325,7 +2270,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    if ((arg1 = arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2) != 0)
                     {
                         arg0[arg12] = arg1;
                     }
@@ -2333,7 +2278,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    if ((arg1 = arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2) != 0)
                     {
                         arg0[arg12] = arg1;
                     }
@@ -2341,7 +2286,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    if ((arg1 = arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2) != 0)
                     {
                         arg0[arg12] = arg1;
                     }
@@ -2352,7 +2297,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg2 = (arg2 & 0x3fff) + (arg13 & 0x600000);
                     i2 = arg13 >> 23;
                     arg13 += arg14;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    if ((arg1 = arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2) != 0)
                     {
                         arg0[arg12] = arg1;
                     }
@@ -2360,7 +2305,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    if ((arg1 = arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2) != 0)
                     {
                         arg0[arg12] = arg1;
                     }
@@ -2368,7 +2313,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    if ((arg1 = arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2) != 0)
                     {
                         arg0[arg12] = arg1;
                     }
@@ -2376,7 +2321,42 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2)) != 0)
+                    if ((arg1 = arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2) != 0)
+                    {
+                        arg0[arg12] = arg1;
+                    }
+
+                    arg12++;
+                    arg2 += j1;
+                    arg3 += k1;
+                    arg2 = (arg2 & 0x3fff) + (arg13 & 0x600000);
+                    i2 = arg13 >> 23;
+                    arg13 += arg14;
+                    if ((arg1 = arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2) != 0)
+                    {
+                        arg0[arg12] = arg1;
+                    }
+
+                    arg12++;
+                    arg2 += j1;
+                    arg3 += k1;
+                    if ((arg1 = arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2) != 0)
+                    {
+                        arg0[arg12] = arg1;
+                    }
+
+                    arg12++;
+                    arg2 += j1;
+                    arg3 += k1;
+                    if ((arg1 = arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2) != 0)
+                    {
+                        arg0[arg12] = arg1;
+                    }
+
+                    arg12++;
+                    arg2 += j1;
+                    arg3 += k1;
+                    if ((arg1 = arg4[(arg3 & 0x3f80) + (arg2 >> 7)] >> i2) != 0)
                     {
                         arg0[arg12] = arg1;
                     }
@@ -2444,7 +2424,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 {
                     for (int j2 = 0; j2 < l1; j2++)
                     {
-                        arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2);
+                        arg0[arg11++] = arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2;
                         arg2 += j1;
                         arg3 += k1;
                         if ((j2 & 3) == 3)
@@ -2458,61 +2438,61 @@ namespace OpenRS.Net.Client.Game.Cameras
                 }
                 else
                 {
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2);
+                    arg0[arg11++] = arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2;
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2);
+                    arg0[arg11++] = arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2;
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2);
+                    arg0[arg11++] = arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2;
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2);
-                    arg2 += j1;
-                    arg3 += k1;
-                    arg2 = (arg2 & 0xfff) + (arg12 & 0xc0000);
-                    i2 = arg12 >> 20;
-                    arg12 += arg13;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2);
-                    arg2 += j1;
-                    arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2);
-                    arg2 += j1;
-                    arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2);
-                    arg2 += j1;
-                    arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2);
+                    arg0[arg11++] = arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2;
                     arg2 += j1;
                     arg3 += k1;
                     arg2 = (arg2 & 0xfff) + (arg12 & 0xc0000);
                     i2 = arg12 >> 20;
                     arg12 += arg13;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2);
+                    arg0[arg11++] = arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2;
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2);
+                    arg0[arg11++] = arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2;
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2);
+                    arg0[arg11++] = arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2;
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2);
+                    arg0[arg11++] = arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2;
                     arg2 += j1;
                     arg3 += k1;
                     arg2 = (arg2 & 0xfff) + (arg12 & 0xc0000);
                     i2 = arg12 >> 20;
                     arg12 += arg13;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2);
+                    arg0[arg11++] = arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2;
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2);
+                    arg0[arg11++] = arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2;
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2);
+                    arg0[arg11++] = arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2;
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2);
+                    arg0[arg11++] = arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2;
+                    arg2 += j1;
+                    arg3 += k1;
+                    arg2 = (arg2 & 0xfff) + (arg12 & 0xc0000);
+                    i2 = arg12 >> 20;
+                    arg12 += arg13;
+                    arg0[arg11++] = arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2;
+                    arg2 += j1;
+                    arg3 += k1;
+                    arg0[arg11++] = arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2;
+                    arg2 += j1;
+                    arg3 += k1;
+                    arg0[arg11++] = arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2;
+                    arg2 += j1;
+                    arg3 += k1;
+                    arg0[arg11++] = arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2;
                 }
             }
 
@@ -2575,7 +2555,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 {
                     for (int j2 = 0; j2 < l1; j2++)
                     {
-                        arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
+                        arg0[arg11++] = (arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
                         arg2 += j1;
                         arg3 += k1;
                         if ((j2 & 3) == 3)
@@ -2589,61 +2569,61 @@ namespace OpenRS.Net.Client.Game.Cameras
                 }
                 else
                 {
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
+                    arg0[arg11++] = (arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
+                    arg0[arg11++] = (arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
+                    arg0[arg11++] = (arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
-                    arg2 += j1;
-                    arg3 += k1;
-                    arg2 = (arg2 & 0xfff) + (arg12 & 0xc0000);
-                    i2 = arg12 >> 20;
-                    arg12 += arg13;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
-                    arg2 += j1;
-                    arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
-                    arg2 += j1;
-                    arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
-                    arg2 += j1;
-                    arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
+                    arg0[arg11++] = (arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
                     arg2 += j1;
                     arg3 += k1;
                     arg2 = (arg2 & 0xfff) + (arg12 & 0xc0000);
                     i2 = arg12 >> 20;
                     arg12 += arg13;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
+                    arg0[arg11++] = (arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
+                    arg0[arg11++] = (arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
+                    arg0[arg11++] = (arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
+                    arg0[arg11++] = (arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
                     arg2 += j1;
                     arg3 += k1;
                     arg2 = (arg2 & 0xfff) + (arg12 & 0xc0000);
                     i2 = arg12 >> 20;
                     arg12 += arg13;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
+                    arg0[arg11++] = (arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
+                    arg0[arg11++] = (arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
+                    arg0[arg11++] = (arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
                     arg2 += j1;
                     arg3 += k1;
-                    arg0[arg11++] = ((arg1[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
+                    arg0[arg11++] = (arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
+                    arg2 += j1;
+                    arg3 += k1;
+                    arg2 = (arg2 & 0xfff) + (arg12 & 0xc0000);
+                    i2 = arg12 >> 20;
+                    arg12 += arg13;
+                    arg0[arg11++] = (arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
+                    arg2 += j1;
+                    arg3 += k1;
+                    arg0[arg11++] = (arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
+                    arg2 += j1;
+                    arg3 += k1;
+                    arg0[arg11++] = (arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
+                    arg2 += j1;
+                    arg3 += k1;
+                    arg0[arg11++] = (arg1[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) + (arg0[arg11] >> 1 & 0x7f7f7f);
                 }
             }
 
@@ -2706,7 +2686,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 {
                     for (int j2 = 0; j2 < l1; j2++)
                     {
-                        if ((arg1 = ((arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2))) != 0)
+                        if ((arg1 = arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) != 0)
                         {
                             pixels[arg12] = arg1;
                         }
@@ -2725,7 +2705,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 }
                 else
                 {
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    if ((arg1 = arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = arg1;
                     }
@@ -2733,7 +2713,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    if ((arg1 = arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = arg1;
                     }
@@ -2741,7 +2721,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    if ((arg1 = arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = arg1;
                     }
@@ -2749,42 +2729,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
-                    {
-                        pixels[arg12] = arg1;
-                    }
-
-                    arg12++;
-                    arg2 += j1;
-                    arg3 += k1;
-                    arg2 = (arg2 & 0xfff) + (arg13 & 0xc0000);
-                    i2 = arg13 >> 20;
-                    arg13 += arg14;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
-                    {
-                        pixels[arg12] = arg1;
-                    }
-
-                    arg12++;
-                    arg2 += j1;
-                    arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
-                    {
-                        pixels[arg12] = arg1;
-                    }
-
-                    arg12++;
-                    arg2 += j1;
-                    arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
-                    {
-                        pixels[arg12] = arg1;
-                    }
-
-                    arg12++;
-                    arg2 += j1;
-                    arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    if ((arg1 = arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = arg1;
                     }
@@ -2795,7 +2740,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg2 = (arg2 & 0xfff) + (arg13 & 0xc0000);
                     i2 = arg13 >> 20;
                     arg13 += arg14;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    if ((arg1 = arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = arg1;
                     }
@@ -2803,7 +2748,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    if ((arg1 = arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = arg1;
                     }
@@ -2811,7 +2756,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    if ((arg1 = arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = arg1;
                     }
@@ -2819,7 +2764,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    if ((arg1 = arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = arg1;
                     }
@@ -2830,7 +2775,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg2 = (arg2 & 0xfff) + (arg13 & 0xc0000);
                     i2 = arg13 >> 20;
                     arg13 += arg14;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    if ((arg1 = arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = arg1;
                     }
@@ -2838,7 +2783,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    if ((arg1 = arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = arg1;
                     }
@@ -2846,7 +2791,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    if ((arg1 = arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = arg1;
                     }
@@ -2854,7 +2799,42 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12++;
                     arg2 += j1;
                     arg3 += k1;
-                    if ((arg1 = (arg4[(arg3 & 0xfc0) + (arg2 >> 6)]) >> i2) != 0)
+                    if ((arg1 = arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) != 0)
+                    {
+                        pixels[arg12] = arg1;
+                    }
+
+                    arg12++;
+                    arg2 += j1;
+                    arg3 += k1;
+                    arg2 = (arg2 & 0xfff) + (arg13 & 0xc0000);
+                    i2 = arg13 >> 20;
+                    arg13 += arg14;
+                    if ((arg1 = arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) != 0)
+                    {
+                        pixels[arg12] = arg1;
+                    }
+
+                    arg12++;
+                    arg2 += j1;
+                    arg3 += k1;
+                    if ((arg1 = arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) != 0)
+                    {
+                        pixels[arg12] = arg1;
+                    }
+
+                    arg12++;
+                    arg2 += j1;
+                    arg3 += k1;
+                    if ((arg1 = arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) != 0)
+                    {
+                        pixels[arg12] = arg1;
+                    }
+
+                    arg12++;
+                    arg2 += j1;
+                    arg3 += k1;
+                    if ((arg1 = arg4[(arg3 & 0xfc0) + (arg2 >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = arg1;
                     }
@@ -3001,7 +2981,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 arg5 += arg6;
             }
 
-            k = (-(arg1 % 16));
+            k = -(arg1 % 16);
             for (int j1 = 0; j1 < k; j1++)
             {
                 pixels[arg2++] = arg3;
@@ -3665,10 +3645,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             }
         }
 
-        public static int getTextureColor(int r, int g, int b)
-        {
-            return -1 - (r / 8) * 1024 - (g / 8) * 32 - b / 8;
-        }
+        public static int getTextureColor(int r, int g, int b) => -1 - r / 8 * 1024 - g / 8 * 32 - b / 8;
 
         public int bjn(int k, int i1, int j1, int k1, int l1)
         {
@@ -3678,7 +3655,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             }
             else
             {
-                return k + ((j1 - k) * (l1 - i1)) / (k1 - i1);
+                return k + (j1 - k) * (l1 - i1) / (k1 - i1);
             }
         }
 
@@ -3803,13 +3780,13 @@ namespace OpenRS.Net.Client.Game.Cameras
                     ;
                 }
 
-                for (; arg1[j1] < arg3[l1]; j1 = ((j1 - 1) + k) % k)
+                for (; arg1[j1] < arg3[l1]; j1 = (j1 - 1 + k) % k)
                 {
                     ;
                 }
 
                 int j2 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[l1]);
-                int j7 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[l1]);
+                int j7 = bjn(arg0[(k1 - 1 + k) % k], arg1[(k1 - 1 + k) % k], arg0[k1], arg1[k1], arg3[l1]);
                 int k11 = arg2[l1];
                 flag = (j2 < k11) | (j7 < k11);
                 if (bkb(j2, j7, k11, flag))
@@ -3818,7 +3795,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 }
 
                 i2 = (l1 + 1) % i1;
-                l1 = ((l1 - 1) + i1) % i1;
+                l1 = (l1 - 1 + i1) % i1;
                 if (j1 == k1)
                 {
                     byte0 = 1;
@@ -3831,14 +3808,14 @@ namespace OpenRS.Net.Client.Game.Cameras
                     ;
                 }
 
-                for (; arg3[l1] < arg1[j1]; l1 = ((l1 - 1) + i1) % i1)
+                for (; arg3[l1] < arg1[j1]; l1 = (l1 - 1 + i1) % i1)
                 {
                     ;
                 }
 
                 int k2 = arg0[j1];
                 int l11 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[j1]);
-                int k16 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[j1]);
+                int k16 = bjn(arg2[(i2 - 1 + i1) % i1], arg3[(i2 - 1 + i1) % i1], arg2[i2], arg3[i2], arg1[j1]);
                 flag = (k2 < l11) | (k2 < k16);
                 if (bkb(l11, k16, k2, !flag))
                 {
@@ -3846,7 +3823,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 }
 
                 k1 = (j1 + 1) % k;
-                j1 = ((j1 - 1) + k) % k;
+                j1 = (j1 - 1 + k) % k;
                 if (l1 == i2)
                 {
                     byte0 = 2;
@@ -3861,15 +3838,15 @@ namespace OpenRS.Net.Client.Game.Cameras
                         if (arg1[j1] < arg3[i2])
                         {
                             int l2 = arg0[j1];
-                            int k7 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg1[j1]);
+                            int k7 = bjn(arg0[(k1 - 1 + k) % k], arg1[(k1 - 1 + k) % k], arg0[k1], arg1[k1], arg1[j1]);
                             int i12 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[j1]);
-                            int l16 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[j1]);
+                            int l16 = bjn(arg2[(i2 - 1 + i1) % i1], arg3[(i2 - 1 + i1) % i1], arg2[i2], arg3[i2], arg1[j1]);
                             if (bka(l2, k7, i12, l16, flag))
                             {
                                 return true;
                             }
 
-                            j1 = ((j1 - 1) + k) % k;
+                            j1 = (j1 - 1 + k) % k;
                             if (j1 == k1)
                             {
                                 byte0 = 1;
@@ -3878,7 +3855,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                         else
                         {
                             int i3 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[i2]);
-                            int l7 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[i2]);
+                            int l7 = bjn(arg0[(k1 - 1 + k) % k], arg1[(k1 - 1 + k) % k], arg0[k1], arg1[k1], arg3[i2]);
                             int j12 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
                             int i17 = arg2[i2];
                             if (bka(i3, l7, j12, i17, flag))
@@ -3897,15 +3874,15 @@ namespace OpenRS.Net.Client.Game.Cameras
                         if (arg3[l1] < arg3[i2])
                     {
                         int j3 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[l1]);
-                        int i8 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[l1]);
+                        int i8 = bjn(arg0[(k1 - 1 + k) % k], arg1[(k1 - 1 + k) % k], arg0[k1], arg1[k1], arg3[l1]);
                         int k12 = arg2[l1];
-                        int j17 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg3[l1]);
+                        int j17 = bjn(arg2[(i2 - 1 + i1) % i1], arg3[(i2 - 1 + i1) % i1], arg2[i2], arg3[i2], arg3[l1]);
                         if (bka(j3, i8, k12, j17, flag))
                         {
                             return true;
                         }
 
-                        l1 = ((l1 - 1) + i1) % i1;
+                        l1 = (l1 - 1 + i1) % i1;
                         if (l1 == i2)
                         {
                             byte0 = 2;
@@ -3914,7 +3891,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     else
                     {
                         int k3 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[i2]);
-                        int j8 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[i2]);
+                        int j8 = bjn(arg0[(k1 - 1 + k) % k], arg1[(k1 - 1 + k) % k], arg0[k1], arg1[k1], arg3[i2]);
                         int l12 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
                         int k17 = arg2[i2];
                         if (bka(k3, j8, l12, k17, flag))
@@ -3937,7 +3914,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                         int l3 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg1[k1]);
                         int k8 = arg0[k1];
                         int i13 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[k1]);
-                        int l17 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[k1]);
+                        int l17 = bjn(arg2[(i2 - 1 + i1) % i1], arg3[(i2 - 1 + i1) % i1], arg2[i2], arg3[i2], arg1[k1]);
                         if (bka(l3, k8, i13, l17, flag))
                         {
                             return true;
@@ -3952,7 +3929,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     else
                     {
                         int i4 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[i2]);
-                        int l8 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[i2]);
+                        int l8 = bjn(arg0[(k1 - 1 + k) % k], arg1[(k1 - 1 + k) % k], arg0[k1], arg1[k1], arg3[i2]);
                         int j13 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
                         int i18 = arg2[i2];
                         if (bka(i4, l8, j13, i18, flag))
@@ -3971,15 +3948,15 @@ namespace OpenRS.Net.Client.Game.Cameras
                         if (arg3[l1] < arg3[i2])
                 {
                     int j4 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[l1]);
-                    int i9 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[l1]);
+                    int i9 = bjn(arg0[(k1 - 1 + k) % k], arg1[(k1 - 1 + k) % k], arg0[k1], arg1[k1], arg3[l1]);
                     int k13 = arg2[l1];
-                    int j18 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg3[l1]);
+                    int j18 = bjn(arg2[(i2 - 1 + i1) % i1], arg3[(i2 - 1 + i1) % i1], arg2[i2], arg3[i2], arg3[l1]);
                     if (bka(j4, i9, k13, j18, flag))
                     {
                         return true;
                     }
 
-                    l1 = ((l1 - 1) + i1) % i1;
+                    l1 = (l1 - 1 + i1) % i1;
                     if (l1 == i2)
                     {
                         byte0 = 2;
@@ -3988,7 +3965,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 else
                 {
                     int k4 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[i2]);
-                    int j9 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[i2]);
+                    int j9 = bjn(arg0[(k1 - 1 + k) % k], arg1[(k1 - 1 + k) % k], arg0[k1], arg1[k1], arg3[i2]);
                     int l13 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
                     int k18 = arg2[i2];
                     if (bka(k4, j9, l13, k18, flag))
@@ -4012,11 +3989,11 @@ namespace OpenRS.Net.Client.Game.Cameras
                     {
                         int l4 = arg0[j1];
                         int i14 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[j1]);
-                        int l18 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[j1]);
+                        int l18 = bjn(arg2[(i2 - 1 + i1) % i1], arg3[(i2 - 1 + i1) % i1], arg2[i2], arg3[i2], arg1[j1]);
                         return bkb(i14, l18, l4, !flag);
                     }
                     int i5 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[i2]);
-                    int k9 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[i2]);
+                    int k9 = bjn(arg0[(k1 - 1 + k) % k], arg1[(k1 - 1 + k) % k], arg0[k1], arg1[k1], arg3[i2]);
                     int j14 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
                     int i19 = arg2[i2];
                     if (bka(i5, k9, j14, i19, flag))
@@ -4034,15 +4011,15 @@ namespace OpenRS.Net.Client.Game.Cameras
                     if (arg3[l1] < arg3[i2])
                 {
                     int j5 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[l1]);
-                    int l9 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[l1]);
+                    int l9 = bjn(arg0[(k1 - 1 + k) % k], arg1[(k1 - 1 + k) % k], arg0[k1], arg1[k1], arg3[l1]);
                     int k14 = arg2[l1];
-                    int j19 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg3[l1]);
+                    int j19 = bjn(arg2[(i2 - 1 + i1) % i1], arg3[(i2 - 1 + i1) % i1], arg2[i2], arg3[i2], arg3[l1]);
                     if (bka(j5, l9, k14, j19, flag))
                     {
                         return true;
                     }
 
-                    l1 = ((l1 - 1) + i1) % i1;
+                    l1 = (l1 - 1 + i1) % i1;
                     if (l1 == i2)
                     {
                         byte0 = 0;
@@ -4051,7 +4028,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 else
                 {
                     int k5 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[i2]);
-                    int i10 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[i2]);
+                    int i10 = bjn(arg0[(k1 - 1 + k) % k], arg1[(k1 - 1 + k) % k], arg0[k1], arg1[k1], arg3[i2]);
                     int l14 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg3[i2]);
                     int k19 = arg2[i2];
                     if (bka(k5, i10, l14, k19, flag))
@@ -4074,14 +4051,14 @@ namespace OpenRS.Net.Client.Game.Cameras
                     if (arg3[l1] < arg1[k1])
                     {
                         int l5 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[l1]);
-                        int j10 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[l1]);
+                        int j10 = bjn(arg0[(k1 - 1 + k) % k], arg1[(k1 - 1 + k) % k], arg0[k1], arg1[k1], arg3[l1]);
                         int i15 = arg2[l1];
                         return bkb(l5, j10, i15, flag);
                     }
                     int i6 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg1[k1]);
                     int k10 = arg0[k1];
                     int j15 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[k1]);
-                    int l19 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[k1]);
+                    int l19 = bjn(arg2[(i2 - 1 + i1) % i1], arg3[(i2 - 1 + i1) % i1], arg2[i2], arg3[i2], arg1[k1]);
                     if (bka(i6, k10, j15, l19, flag))
                     {
                         return true;
@@ -4097,15 +4074,15 @@ namespace OpenRS.Net.Client.Game.Cameras
                     if (arg1[j1] < arg1[k1])
                 {
                     int j6 = arg0[j1];
-                    int l10 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg1[j1]);
+                    int l10 = bjn(arg0[(k1 - 1 + k) % k], arg1[(k1 - 1 + k) % k], arg0[k1], arg1[k1], arg1[j1]);
                     int k15 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[j1]);
-                    int i20 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[j1]);
+                    int i20 = bjn(arg2[(i2 - 1 + i1) % i1], arg3[(i2 - 1 + i1) % i1], arg2[i2], arg3[i2], arg1[j1]);
                     if (bka(j6, l10, k15, i20, flag))
                     {
                         return true;
                     }
 
-                    j1 = ((j1 - 1) + k) % k;
+                    j1 = (j1 - 1 + k) % k;
                     if (j1 == k1)
                     {
                         byte0 = 0;
@@ -4116,7 +4093,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     int k6 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg1[k1]);
                     int i11 = arg0[k1];
                     int l15 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[k1]);
-                    int j20 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[k1]);
+                    int j20 = bjn(arg2[(i2 - 1 + i1) % i1], arg3[(i2 - 1 + i1) % i1], arg2[i2], arg3[i2], arg1[k1]);
                     if (bka(k6, i11, l15, j20, flag))
                     {
                         return true;
@@ -4134,11 +4111,11 @@ namespace OpenRS.Net.Client.Game.Cameras
             {
                 int l6 = arg0[j1];
                 int i16 = bjn(arg2[(l1 + 1) % i1], arg3[(l1 + 1) % i1], arg2[l1], arg3[l1], arg1[j1]);
-                int k20 = bjn(arg2[((i2 - 1) + i1) % i1], arg3[((i2 - 1) + i1) % i1], arg2[i2], arg3[i2], arg1[j1]);
+                int k20 = bjn(arg2[(i2 - 1 + i1) % i1], arg3[(i2 - 1 + i1) % i1], arg2[i2], arg3[i2], arg1[j1]);
                 return bkb(i16, k20, l6, !flag);
             }
             int i7 = bjn(arg0[(j1 + 1) % k], arg1[(j1 + 1) % k], arg0[j1], arg1[j1], arg3[l1]);
-            int j11 = bjn(arg0[((k1 - 1) + k) % k], arg1[((k1 - 1) + k) % k], arg0[k1], arg1[k1], arg3[l1]);
+            int j11 = bjn(arg0[(k1 - 1 + k) % k], arg1[(k1 - 1 + k) % k], arg0[k1], arg1[k1], arg3[l1]);
             int j16 = arg2[l1];
             return bkb(i7, j11, j16, flag);
         }
@@ -4154,7 +4131,7 @@ namespace OpenRS.Net.Client.Game.Cameras
         public int zoom3;
         public int zoom4;
         public static int[] bbk = new int[2048];
-        static int[] bbl = new int[512];
+        static readonly int[] bbl = new int[512];
         public bool bbm;
         public double bbn;
         public int bca;
@@ -4162,30 +4139,30 @@ namespace OpenRS.Net.Client.Game.Cameras
         int bcc;
         int bcd;
         int bce;
-        int maxHighlightedObjects;
-        ObjectModel[] _highlightedObjects;
-        int[] bch;
+        readonly int maxHighlightedObjects;
+        readonly ObjectModel[] _highlightedObjects;
+        readonly int[] bch;
         int bci;
         int bcj;
         int bck;
         int bcl;
         int bcm;
         int bcn;
-        int bda;
+        readonly int bda;
         int bde;
         int bdf;
         int bdg;
         public int currentObjectCount;
         public int totalModelCount;
         public ObjectModel[] objectCache;
-        int[] bdk;
+        readonly int[] bdk;
         int currentModelIndex;
-        CameraModel[] visibleModels;
+        readonly CameraModel[] visibleModels;
         int bdn;
-        int[] sceneObjectId;
-        int[] bee;
-        int[] bef;
-        int[] beg;
+        readonly int[] sceneObjectId;
+        readonly int[] bee;
+        readonly int[] bef;
+        readonly int[] beg;
         public ObjectModel highlightedObject;
         public int bei;
         public sbyte[][] texturePictureColorIndex;

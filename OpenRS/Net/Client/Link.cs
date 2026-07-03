@@ -9,14 +9,13 @@ namespace OpenRS.Net.Client
     public class Link
     {
         public static int uid;
-        static string iplookup;
         static int currentFile;
-        static string[] fileName = new string[50];
-        static sbyte[][] fileData = new sbyte[50][];
+        static readonly string[] fileName = new string[50];
+        static readonly sbyte[][] fileData = new sbyte[50][];
 
         public static sbyte[] streamToSbyte(BinaryReader stream)
         {
-            List<sbyte> list = new List<sbyte>();
+            List<sbyte> list = [];
 
             try
             {
@@ -33,7 +32,7 @@ namespace OpenRS.Net.Client
                 Console.WriteLine($"An error has occured in {nameof(Link)}.cs");
             }
 
-            return list.ToArray();
+            return [.. list];
         }
 
         /// <summary>
@@ -47,7 +46,7 @@ namespace OpenRS.Net.Client
 
             try
             {
-                FileInfo f = new FileInfo(path);
+                FileInfo f = new(path);
 
                 if (f.Exists)
                 {

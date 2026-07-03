@@ -1,6 +1,3 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
 using NuciXNA.Gui.Controls;
 using NuciXNA.Gui.Screens;
 
@@ -25,7 +22,7 @@ namespace OpenRS.Gui.Screens
                 Id = nameof(newGameLink),
                 Text = "Login as 'test'",
                 TargetScreen = typeof(GameplayScreen),
-                Parameters = new object[] { "test", "test" }
+                Parameters = ["test", "test"]
             };
 
             settingsLink = new GuiMenuLink
@@ -44,7 +41,7 @@ namespace OpenRS.Gui.Screens
             Items.Add(newGameLink);
             Items.Add(settingsLink);
             Items.Add(extiAction);
-            
+
             base.DoLoadContent();
         }
     }

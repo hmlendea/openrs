@@ -37,7 +37,7 @@ namespace OpenRS.Models
         public WalkPath(Point2D location, Point2D destination)
         {
             StartLocation = destination;
-            waypointOffsets = new Point2D[0];
+            waypointOffsets = [];
         }
 
         /// <summary>
@@ -45,10 +45,7 @@ namespace OpenRS.Models
         /// </summary>
         /// <returns>The waypoint.</returns>
         /// <param name="waypointIndex">Waypoint index.</param>
-        public Point2D GetWaypoint(int waypointIndex)
-        {
-            return StartLocation + waypointOffsets[waypointIndex];
-        }
+        public Point2D GetWaypoint(int waypointIndex) => StartLocation + waypointOffsets[waypointIndex];
 
         /// <summary>
         /// Gets the waypoint offset.

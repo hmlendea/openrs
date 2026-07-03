@@ -18,7 +18,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="itemDropEntity">ItemDrop entity.</param>
         internal static ItemDrop ToDomainModel(this ItemDropEntity itemDropEntity)
         {
-            ItemDrop itemDrop = new ItemDrop
+            ItemDrop itemDrop = new()
             {
                 ItemId = itemDropEntity.ItemId,
                 Amount = itemDropEntity.Amount,
@@ -35,7 +35,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="itemDrop">ItemDrop.</param>
         internal static ItemDropEntity ToEntity(this ItemDrop itemDrop)
         {
-            ItemDropEntity itemDropEntity = new ItemDropEntity
+            ItemDropEntity itemDropEntity = new()
             {
                 ItemId = itemDrop.ItemId,
                 Amount = itemDrop.Amount,

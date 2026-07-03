@@ -1,13 +1,8 @@
 ﻿namespace OpenRS.GameLogic.GameManagers
 {
-    public class CombatManager
+    public class CombatManager(InventoryManager inventoryManager)
     {
-        readonly InventoryManager inventoryManager;
-
-        public CombatManager(InventoryManager inventoryManager)
-        {
-            this.inventoryManager = inventoryManager;
-        }
+        readonly InventoryManager inventoryManager = inventoryManager;
 
         public bool HasRequiredRunes(int itemId, int count)
         {

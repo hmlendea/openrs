@@ -3,8 +3,6 @@
 using NuciDAL.IO;
 using NuciXNA.Graphics;
 
-using OpenRS.DataAccess.IO;
-
 namespace OpenRS.Settings
 {
     /// <summary>
@@ -13,7 +11,7 @@ namespace OpenRS.Settings
     public class SettingsManager
     {
         static volatile SettingsManager instance;
-        static object syncRoot = new object();
+        static readonly object syncRoot = new();
 
         /// <summary>
         /// Gets the instance.
@@ -27,10 +25,7 @@ namespace OpenRS.Settings
                 {
                     lock (syncRoot)
                     {
-                        if (instance == null)
-                        {
-                            instance = new SettingsManager();
-                        }
+                        instance ??= new SettingsManager();
                     }
                 }
 
@@ -70,7 +65,7 @@ namespace OpenRS.Settings
                 return;
             }
 
-            XmlFileObject<SettingsManager> xmlManager = new XmlFileObject<SettingsManager>();
+            XmlFileObject<SettingsManager> xmlManager = new();
             SettingsManager storedSettings = xmlManager.Read(ApplicationPaths.SettingsFile);
 
             instance = storedSettings;
@@ -81,7 +76,7 @@ namespace OpenRS.Settings
         /// </summary>
         public void SaveContent()
         {
-            XmlFileObject<SettingsManager> xmlManager = new XmlFileObject<SettingsManager>();
+            XmlFileObject<SettingsManager> xmlManager = new();
             xmlManager.Write(ApplicationPaths.SettingsFile, this);
         }
 

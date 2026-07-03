@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-using NuciDAL.Repositories;
+﻿using NuciDAL.Repositories;
 
 using OpenRS.DataAccess.DataObjects;
 
@@ -11,18 +7,12 @@ namespace OpenRS.DataAccess.Repositories
     /// <summary>
     /// NpcLocation repository implementation.
     /// </summary>
-    public class NpcLocationRepository : XmlRepository<NpcLocationEntity>
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="NpcLocationRepository"/> class.
+    /// </remarks>
+    /// <param name="fileName">File name.</param>
+    public class NpcLocationRepository(string fileName) : XmlRepository<NpcLocationEntity>(fileName)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NpcLocationRepository"/> class.
-        /// </summary>
-        /// <param name="fileName">File name.</param>
-        public NpcLocationRepository(string fileName)
-            : base(fileName)
-        {
-
-        }
-
         /// <summary>
         /// Updates the specified npcLocation.
         /// </summary>

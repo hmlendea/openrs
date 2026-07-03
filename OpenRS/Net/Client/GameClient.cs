@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 //using System.Runtime.Remoting.Messaging;
 using System.Text;
@@ -32,8 +31,8 @@ namespace OpenRS.Net.Client
 {
     public class GameClient : GameAppletMiddleMan
     {
-        string user;
-        string pass;
+        readonly string username;
+        readonly string password;
 
         public event EventHandler OnContentLoadedCompleted;
         public event EventHandler<ContentLoadedEventArgs> OnContentLoaded;
@@ -42,18 +41,21 @@ namespace OpenRS.Net.Client
 
         public static GameClient CreateGameClient(string username, string password, int width = 512, int height = 346)
         {
-            GameClient client = new GameClient(username, password);
+            GameClient client = new(username, password)
+            {
+                WindowSize = new Size2D(width, height)
+            };
 
-            client.WindowSize = new Size2D(width, height);
             client.CreateWindow(client.WindowSize.Width, client.WindowSize.Height + 11);
             client.gameMinThreadSleepTime = 10;
+
             return client;
         }
 
         readonly PacketHandler packetHandler;
-        readonly Random random = new Random();
+        readonly Random random = new();
 
-        List<Keys> lastPressedKeys = new List<Keys>();
+        readonly List<Keys> lastPressedKeys = [];
         int lastMouseX;
         int lastMouseY;
         TimeSpan timeLapse = TimeSpan.Zero;
@@ -137,8 +139,8 @@ namespace OpenRS.Net.Client
 
         public GameClient(string username, string password)
         {
-            this.user = username;
-            this.pass = password;
+            this.username = username;
+            this.password = password;
 
             entityManager = new EntityManager();
             inventoryManager = new InventoryManager(entityManager);
@@ -274,7 +276,7 @@ namespace OpenRS.Net.Client
             SubscriptionDaysLeft = 0;
             shopItemSellPrice = new int[256];
             shopItemBuyPrice = new int[256];
-            captchaPixels = new int[0][];
+            captchaPixels = [];
             captchaWidth = 0;
             captchaHeight = 0;
             NeedsClear = false;
@@ -344,8 +346,7 @@ namespace OpenRS.Net.Client
             var keyboardState = Keyboard.GetState();
 
             var mouseState = Mouse.GetState();
-            List<Keys> keysPressedDown = new List<Keys>();
-            keysPressedDown.AddRange(keyboardState.GetPressedKeys());
+            List<Keys> keysPressedDown = [.. keyboardState.GetPressedKeys()];
 
             foreach (var k in keysPressedDown)
             {
@@ -608,7 +609,7 @@ namespace OpenRS.Net.Client
 
             if (action == MenuAction.CastSpellOnNpc)
             {
-                Point2D destination = new Point2D(
+                Point2D destination = new(
                     (MenuActionLocations[actionId].X - 64) / GridSize,
                     (MenuActionLocations[actionId].Y - 64) / GridSize);
 
@@ -622,7 +623,7 @@ namespace OpenRS.Net.Client
 
             if (action == MenuAction.UseItemWithNpc)
             {
-                Point2D destination = new Point2D(
+                Point2D destination = new(
                     (MenuActionLocations[actionId].X - 64) / GridSize,
                     (MenuActionLocations[actionId].Y - 64) / GridSize);
 
@@ -636,7 +637,7 @@ namespace OpenRS.Net.Client
 
             if (action == MenuAction.TalkToNpc)
             {
-                Point2D destination = new Point2D(
+                Point2D destination = new(
                     (MenuActionLocations[actionId].X - 64) / GridSize,
                     (MenuActionLocations[actionId].Y - 64) / GridSize);
 
@@ -648,7 +649,7 @@ namespace OpenRS.Net.Client
 
             if (action == MenuAction.CommandOnNpc)
             {
-                Point2D destination = new Point2D(
+                Point2D destination = new(
                     (MenuActionLocations[actionId].X - 64) / GridSize,
                     (MenuActionLocations[actionId].Y - 64) / GridSize);
 
@@ -660,7 +661,7 @@ namespace OpenRS.Net.Client
 
             if (action == MenuAction.AttackNpc || action == MenuAction.AttackNpc2)
             {
-                Point2D destination = new Point2D(
+                Point2D destination = new(
                     (MenuActionLocations[actionId].X - 64) / GridSize,
                     (MenuActionLocations[actionId].Y - 64) / GridSize);
 
@@ -711,10 +712,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public override void resetIntVars()
-        {
-            loggedIn = false;
-        }
+        public override void resetIntVars() => loggedIn = false;
 
         public void LoadMap()
         {
@@ -724,7 +722,7 @@ namespace OpenRS.Net.Client
             engineHandle.landscapeMembers = unpackData("land.mem", "members landscape", 85);
         }
 
-        public void drawModel(int objectIndex, string modelName)
+        public void DrawModel(int objectIndex, string modelName)
         {
             int k1 = ObjectLocations[objectIndex].X - CurrentPlayer.Location.X / 128;
             int l1 = ObjectLocations[objectIndex].Y - CurrentPlayer.Location.Y / 128;
@@ -744,7 +742,7 @@ namespace OpenRS.Net.Client
 
                 int i2 = entityManager.GetModelIndex(modelName);
                 ObjectModel j2 = GameDataObjects[i2].CreateParent();
-                Point3D shadingPoint = new Point3D(-50, -10, -50);
+                Point3D shadingPoint = new(-50, -10, -50);
 
                 gameCamera.addModel(j2);
                 j2.UpdateShading(true, 48, 48, shadingPoint);
@@ -783,23 +781,23 @@ namespace OpenRS.Net.Client
                 flag = true;
             }
 
-            int j1 = direction2 * 3 + walkModel[(player.stepCount / 6) % 4];
+            int j1 = direction2 * 3 + walkModel[player.stepCount / 6 % 4];
 
             if (player.currentSprite == 8)
             {
                 direction2 = 5;
                 direction = 2;
                 flag = false;
-                x -= (5 * arg6) / 100;
-                j1 = direction2 * 3 + combatModelArray1[(tick / 5) % 8];
+                x -= 5 * arg6 / 100;
+                j1 = direction2 * 3 + combatModelArray1[tick / 5 % 8];
             }
             else if (player.currentSprite == 9)
             {
                 direction2 = 5;
                 direction = 2;
                 flag = true;
-                x += (5 * arg6) / 100;
-                j1 = direction2 * 3 + combatModelArray2[(tick / 6) % 8];
+                x += 5 * arg6 / 100;
+                j1 = direction2 * 3 + combatModelArray2[tick / 6 % 8];
             }
 
             for (int k1 = 0; k1 < 12; k1++)
@@ -863,9 +861,9 @@ namespace OpenRS.Net.Client
                     if (direction2 != 5 || entityManager.GetAnimation(l2).HasA == 1)
                     {
                         int k4 = j4 + entityManager.GetAnimation(l2).Number;
-                        k3 = (k3 * width) / gameGraphics.pictureAssumedWidth[k4];
-                        i4 = (i4 * height) / gameGraphics.pictureAssumedHeight[k4];
-                        int l4 = (width * gameGraphics.pictureAssumedWidth[k4]) / gameGraphics.pictureAssumedWidth[entityManager.GetAnimation(l2).Number];
+                        k3 = k3 * width / gameGraphics.pictureAssumedWidth[k4];
+                        i4 = i4 * height / gameGraphics.pictureAssumedHeight[k4];
+                        int l4 = width * gameGraphics.pictureAssumedWidth[k4] / gameGraphics.pictureAssumedWidth[entityManager.GetAnimation(l2).Number];
                         k3 -= (l4 - width) / 2;
                         int i5 = entityManager.GetAnimation(l2).CharacterColour;
                         int j5 = appearanceSkinColours[player.Appearance.SkinColour];
@@ -898,7 +896,7 @@ namespace OpenRS.Net.Client
                     receivedMessageMidPoint[receivedMessagesCount] = 150;
                 }
 
-                receivedMessageHeight[receivedMessagesCount] = (gameGraphics.textWidth(player.lastMessage, 1) / 300) * gameGraphics.textHeightNumber(1);
+                receivedMessageHeight[receivedMessagesCount] = gameGraphics.textWidth(player.lastMessage, 1) / 300 * gameGraphics.textHeightNumber(1);
                 receivedMessageX[receivedMessagesCount] = x + width / 2;
                 receivedMessageY[receivedMessagesCount] = y;
                 receivedMessages[receivedMessagesCount++] = player.lastMessage;
@@ -919,15 +917,15 @@ namespace OpenRS.Net.Client
                     int i2 = x;
                     if (player.currentSprite == 8)
                     {
-                        i2 -= (20 * arg6) / 100;
+                        i2 -= 20 * arg6 / 100;
                     }
                     else
                         if (player.currentSprite == 9)
                     {
-                        i2 += (20 * arg6) / 100;
+                        i2 += 20 * arg6 / 100;
                     }
 
-                    int i3 = (player.CurrentHitpoints * 30) / player.BaseHitpoints;
+                    int i3 = player.CurrentHitpoints * 30 / player.BaseHitpoints;
                     healthBarX[healthBarVisibleCount] = i2 + width / 2;
                     healthBarY[healthBarVisibleCount] = y;
                     healthBarMissing[healthBarVisibleCount++] = i3;
@@ -937,16 +935,16 @@ namespace OpenRS.Net.Client
                     int j2 = x;
                     if (player.currentSprite == 8)
                     {
-                        j2 -= (10 * arg6) / 100;
+                        j2 -= 10 * arg6 / 100;
                     }
                     else
                         if (player.currentSprite == 9)
                     {
-                        j2 += (10 * arg6) / 100;
+                        j2 += 10 * arg6 / 100;
                     }
 
-                    gameGraphics.DrawPicture((j2 + width / 2) - 12, (y + height / 2) - 12, baseInventoryPic + 11);
-                    gameGraphics.DrawText(player.LastDamageCount.ToString(), (j2 + width / 2) - 1, y + height / 2 + 5, 3, 0xffffff);
+                    gameGraphics.DrawPicture(j2 + width / 2 - 12, y + height / 2 - 12, baseInventoryPic + 11);
+                    gameGraphics.DrawText(player.LastDamageCount.ToString(), j2 + width / 2 - 1, y + height / 2 + 5, 3, 0xffffff);
                 }
             }
 
@@ -955,17 +953,17 @@ namespace OpenRS.Net.Client
                 int k2 = arg5 + x + width / 2;
                 if (player.currentSprite == 8)
                 {
-                    k2 -= (20 * arg6) / 100;
+                    k2 -= 20 * arg6 / 100;
                 }
                 else
                     if (player.currentSprite == 9)
                 {
-                    k2 += (20 * arg6) / 100;
+                    k2 += 20 * arg6 / 100;
                 }
 
-                int j3 = (16 * arg6) / 100;
-                int l3 = (16 * arg6) / 100;
-                gameGraphics.DrawEntity(k2 - j3 / 2, y - l3 / 2 - (10 * arg6) / 100, j3, l3, baseInventoryPic + 13);
+                int j3 = 16 * arg6 / 100;
+                int l3 = 16 * arg6 / 100;
+                gameGraphics.DrawEntity(k2 - j3 / 2, y - l3 / 2 - 10 * arg6 / 100, j3, l3, baseInventoryPic + 13);
             }
         }
 
@@ -973,14 +971,14 @@ namespace OpenRS.Net.Client
         {
             if (direction == 0)
             {
-                Point2D locationBottom = new Point2D(location.X, location.Y - 1);
+                Point2D locationBottom = new(location.X, location.Y - 1);
                 WalkTo(SectionLocation, locationBottom, location, false, true);
                 return;
             }
 
             if (direction == 1)
             {
-                Point2D locationBottom = new Point2D(location.X - 1, location.Y);
+                Point2D locationBottom = new(location.X - 1, location.Y);
                 WalkTo(SectionLocation, locationBottom, location, false, true);
                 return;
             }
@@ -1004,8 +1002,8 @@ namespace OpenRS.Net.Client
 
             for (int itemSlot = 0; itemSlot < InventoryManager.MaximumInventorySize; itemSlot++)
             {
-                int j1 = l + (itemSlot % 5) * 49;
-                int l1 = 36 + (itemSlot / 5) * 34;
+                int j1 = l + itemSlot % 5 * 49;
+                int l1 = 36 + itemSlot / 5 * 34;
 
 
                 if (itemSlot < inventoryManager.InventoryItemsCount &&
@@ -1039,7 +1037,7 @@ namespace OpenRS.Net.Client
 
             for (int k1 = 1; k1 <= 4; k1++)
             {
-                gameGraphics.DrawVerticalLine(l + k1 * 49, 36, (InventoryManager.MaximumInventorySize / 5) * 34, 0);
+                gameGraphics.DrawVerticalLine(l + k1 * 49, 36, InventoryManager.MaximumInventorySize / 5 * 34, 0);
             }
 
             for (int i2 = 1; i2 <= InventoryManager.MaximumInventorySize / 5 - 1; i2++)
@@ -1055,9 +1053,9 @@ namespace OpenRS.Net.Client
             l = InputManager.Instance.MouseLocation.X - (gameGraphics.GameSize.Width - 248);
             int j2 = InputManager.Instance.MouseLocation.Y - 36;
 
-            if (l >= 0 && j2 >= 0 && l < 248 && j2 < (InventoryManager.MaximumInventorySize / 5) * 34)
+            if (l >= 0 && j2 >= 0 && l < 248 && j2 < InventoryManager.MaximumInventorySize / 5 * 34)
             {
-                int itemSlot = l / 49 + (j2 / 34) * 5;
+                int itemSlot = l / 49 + j2 / 34 * 5;
 
                 if (itemSlot < inventoryManager.InventoryItemsCount)
                 {
@@ -1486,14 +1484,14 @@ namespace OpenRS.Net.Client
 
             int j1 = 192 + minimapRandomRotationY;
             int l1 = cameraRotation + minimapRandomRotationX & 0xff;
-            int j2 = ((CurrentPlayer.Location.X - 6040) * 3 * j1) / 2048;
-            int l3 = ((CurrentPlayer.Location.Y - 6040) * 3 * j1) / 2048;
+            int j2 = (CurrentPlayer.Location.X - 6040) * 3 * j1 / 2048;
+            int l3 = (CurrentPlayer.Location.Y - 6040) * 3 * j1 / 2048;
             int j5 = Camera.bbk[1024 - l1 * 4 & 0x3ff];
             int l5 = Camera.bbk[(1024 - l1 * 4 & 0x3ff) + 1024];
             int j6 = l3 * j5 + j2 * l5 >> 18;
             l3 = l3 * l5 - j2 * j5 >> 18;
 
-            gameGraphics.drawMinimapPic((l + c1 / 2) - j6, 36 + c3 / 2 + l3, baseInventoryPic - 1, l1 + 64 & 0xff, j1);
+            gameGraphics.drawMinimapPic(l + c1 / 2 - j6, 36 + c3 / 2 + l3, baseInventoryPic - 1, l1 + 64 & 0xff, j1);
             gameGraphics.SetDimensions(0, 0, WindowSize.Width, WindowSize.Height + 12);
 
             if (!canClick)
@@ -1511,8 +1509,8 @@ namespace OpenRS.Net.Client
                 int i2 = cameraRotation + minimapRandomRotationX & 0xff;
                 int i1 = gameGraphics.GameSize.Width - 199;
                 i1 += 40;
-                int k3 = ((InputManager.Instance.MouseLocation.X - (i1 + c2 / 2)) * 16384) / (3 * k1);
-                int i5 = ((InputManager.Instance.MouseLocation.Y - (36 + c4 / 2)) * 16384) / (3 * k1);
+                int k3 = (InputManager.Instance.MouseLocation.X - (i1 + c2 / 2)) * 16384 / (3 * k1);
+                int i5 = (InputManager.Instance.MouseLocation.Y - (36 + c4 / 2)) * 16384 / (3 * k1);
                 int k5 = Camera.bbk[1024 - i2 * 4 & 0x3ff];
                 int i6 = Camera.bbk[(1024 - i2 * 4 & 0x3ff) + 1024];
                 int k7 = i5 * k5 + k3 * i6 >> 15;
@@ -1521,7 +1519,7 @@ namespace OpenRS.Net.Client
                 k3 += CurrentPlayer.Location.X;
                 i5 = CurrentPlayer.Location.Y - i5;
 
-                Point2D destination = new Point2D(k3 / 128, i5 / 128);
+                Point2D destination = new(k3 / 128, i5 / 128);
 
                 if (mouseButtonClick == 1)
                 {
@@ -1607,8 +1605,10 @@ namespace OpenRS.Net.Client
             baseTexturePic = baseProjectilePic + 50;
             subTexturePic = baseTexturePic + 10;
             SetRefreshRate(50);
-            gameGraphics = new GameImageMiddleMan(WindowSize.Width, WindowSize.Height + 12, 4000);
-            gameGraphics.gameReference = this;
+            gameGraphics = new GameImageMiddleMan(WindowSize.Width, WindowSize.Height + 12, 4000)
+            {
+                gameReference = this
+            };
             gameGraphics.SetDimensions(0, 0, WindowSize.Width, WindowSize.Height + 12);
             Menu.gdh = false;
             Menu.baseScrollPic = baseScrollPic;
@@ -1633,7 +1633,7 @@ namespace OpenRS.Net.Client
             }
 
             gameCamera = new Camera(gameGraphics, 15000, 15000, 1000);
-            Point3D shadingPoint = new Point3D(-50, -10, -50);
+            Point3D shadingPoint = new(-50, -10, -50);
 
             gameCamera.setCameraSize(WindowSize.Width / 2, WindowSize.Height / 2, WindowSize.Width / 2, WindowSize.Height / 2, WindowSize.Width, cameraFieldOfView);
             gameCamera.zoom1 = 2400;
@@ -1641,8 +1641,10 @@ namespace OpenRS.Net.Client
             gameCamera.zoom3 = 1;
             gameCamera.zoom4 = 2300;
             gameCamera.bjk(shadingPoint);
-            engineHandle = new EngineHandle(entityManager, gameCamera, gameGraphics);
-            engineHandle.baseInventoryPic = baseInventoryPic;
+            engineHandle = new EngineHandle(entityManager, gameCamera, gameGraphics)
+            {
+                baseInventoryPic = baseInventoryPic
+            };
             loadTextures();
 
             if (errorLoading)
@@ -1754,7 +1756,7 @@ namespace OpenRS.Net.Client
                 }
                 else
                 {
-                    connect(user, pass, false);
+                    connect(username, password, false);
                 }
 
                 lastMouseButton = 0;
@@ -1805,7 +1807,7 @@ namespace OpenRS.Net.Client
 
         public void loadAnimations()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             sbyte[] abyte0 = null;
             sbyte[] abyte1 = null;
             abyte0 = unpackData("entity.jag", "people and monsters", 30);
@@ -1930,7 +1932,7 @@ namespace OpenRS.Net.Client
             {
                 do
                 {
-                    appearanceHeadType = ((appearanceHeadType - 1) + entityManager.AnimationCount) % entityManager.AnimationCount;
+                    appearanceHeadType = (appearanceHeadType - 1 + entityManager.AnimationCount) % entityManager.AnimationCount;
                 }
                 while ((entityManager.GetAnimation(appearanceHeadType).GenderModel & 3) != 1 ||
                        (entityManager.GetAnimation(appearanceHeadType).GenderModel & 4 * appearanceHeadGender) == 0);
@@ -1948,7 +1950,7 @@ namespace OpenRS.Net.Client
 
             if (appearanceMenu.isClicked(appearanceHairLeftArrow))
             {
-                appearanceHairColour = ((appearanceHairColour - 1) + appearanceHairColours.Length) % appearanceHairColours.Length;
+                appearanceHairColour = (appearanceHairColour - 1 + appearanceHairColours.Length) % appearanceHairColours.Length;
             }
 
             if (appearanceMenu.isClicked(appearanceHairRightArrow))
@@ -1971,7 +1973,7 @@ namespace OpenRS.Net.Client
 
             if (appearanceMenu.isClicked(appearanceTopLeftArrow))
             {
-                appearanceTopColour = ((appearanceTopColour - 1) + appearanceTopBottomColours.Length) % appearanceTopBottomColours.Length;
+                appearanceTopColour = (appearanceTopColour - 1 + appearanceTopBottomColours.Length) % appearanceTopBottomColours.Length;
             }
 
             if (appearanceMenu.isClicked(appearanceTopRightArrow))
@@ -1981,7 +1983,7 @@ namespace OpenRS.Net.Client
 
             if (appearanceMenu.isClicked(appearanceSkinLeftArrow))
             {
-                appearanceSkinColour = ((appearanceSkinColour - 1) + appearanceSkinColours.Length) % appearanceSkinColours.Length;
+                appearanceSkinColour = (appearanceSkinColour - 1 + appearanceSkinColours.Length) % appearanceSkinColours.Length;
             }
 
             if (appearanceMenu.isClicked(appearanceSkingRightArrow))
@@ -1991,7 +1993,7 @@ namespace OpenRS.Net.Client
 
             if (appearanceMenu.isClicked(appearanceBottomLeftArrow))
             {
-                appearanceBottomColour = ((appearanceBottomColour - 1) + appearanceTopBottomColours.Length) % appearanceTopBottomColours.Length;
+                appearanceBottomColour = (appearanceBottomColour - 1 + appearanceTopBottomColours.Length) % appearanceTopBottomColours.Length;
             }
 
             if (appearanceMenu.isClicked(appearanceBottomRightArrow))
@@ -2142,7 +2144,7 @@ namespace OpenRS.Net.Client
                 l = entityManager.GetWorldObject(arg3).Height;
             }
 
-            Point2D loc = new Point2D(location.X + l - 1, location.Y + i1 - 1);
+            Point2D loc = new(location.X + l - 1, location.Y + i1 - 1);
 
             if (entityManager.GetWorldObject(arg3).Type == 2 || entityManager.GetWorldObject(arg3).Type == 3)
             {
@@ -2199,9 +2201,9 @@ namespace OpenRS.Net.Client
 
                 return;
             }
-            int[] ai = {
+            int[] ai = [
             1, -1, 2, -2, 3, -3, 4
-        };
+        ];
             for (int l = 0; l < 7; l++)
             {
                 if (!validCameraAngle(cameraAutoAngle + ai[l] + 8 & 7))
@@ -2351,9 +2353,11 @@ namespace OpenRS.Net.Client
         {
             if (Mobs[serverIndex] == null)
             {
-                Mobs[serverIndex] = new ClientMob();
-                Mobs[serverIndex].ServerIndex = serverIndex;
-                Mobs[serverIndex].ServerId = 0;
+                Mobs[serverIndex] = new ClientMob
+                {
+                    ServerIndex = serverIndex,
+                    ServerId = 0
+                };
             }
 
             ClientMob existingPlayer = Mobs[serverIndex];
@@ -2392,10 +2396,7 @@ namespace OpenRS.Net.Client
             return existingPlayer;
         }
 
-        public void walkTo1Tile(Point2D location, Point2D destination, bool flag)
-        {
-            WalkTo(location, destination, destination, false, flag);
-        }
+        public void walkTo1Tile(Point2D location, Point2D destination, bool flag) => WalkTo(location, destination, destination, false, flag);
 
         public void LoadConfig()
         {
@@ -2697,7 +2698,7 @@ namespace OpenRS.Net.Client
                 if (i1 != l)
                 {
                     sbyte[] abyte2 = new sbyte[l];
-                    DataFileDecrypter.unpackData(abyte2, l, abyte1, i1, 0);
+                    DataFileDecrypter.UnpackData(abyte2, l, abyte1, i1, 0);
                     OnContentLoaded?.Invoke(this, new ContentLoadedEventArgs("Unpacking " + arg1, arg2));
                     return abyte2;
                 }
@@ -2710,8 +2711,7 @@ namespace OpenRS.Net.Client
             return base.unpackData(arg0, arg1, arg2);
         }
 
-        public async Task sendPingPacketAsync()
-        {
+        public async Task sendPingPacketAsync() =>
             // TODO: Ping
             /*
             SendPingPacketDelegate worker = new SendPingPacketDelegate(SendPing);
@@ -2731,7 +2731,6 @@ namespace OpenRS.Net.Client
             } */
 
             await Task.Run(() => SendPing());
-        }
 
         public void checkGameInputs()
         {
@@ -2760,7 +2759,7 @@ namespace OpenRS.Net.Client
                     }
                     else
                     {
-                        i5 = (10 + j1) - targetSprite;
+                        i5 = 10 + j1 - targetSprite;
                     }
 
                     int i6 = 4;
@@ -2907,7 +2906,7 @@ namespace OpenRS.Net.Client
                     }
                     else
                     {
-                        j6 = (10 + i2) - waypointIndex;
+                        j6 = 10 + i2 - waypointIndex;
                     }
 
                     int k6 = 4;
@@ -3110,7 +3109,7 @@ namespace OpenRS.Net.Client
                             i4 = -i4;
                         }
 
-                        cameraRotation += ((cameraAutoRotationAmount * i4 + 255) / 256) * byte0;
+                        cameraRotation += (cameraAutoRotationAmount * i4 + 255) / 256 * byte0;
                         cameraRotation &= 0xff;
                     }
                     else
@@ -3275,7 +3274,7 @@ namespace OpenRS.Net.Client
                     ObjectLocations[objectIndex].Y < 96 &&
                     ObjectType[objectIndex] == 74)
                 {
-                    Point3D off = new Point3D(1, 0, 0);
+                    Point3D off = new(1, 0, 0);
                     ObjectArray[objectIndex].offsetMiniPosition(off);
                 }
             }
@@ -3317,13 +3316,13 @@ namespace OpenRS.Net.Client
             appearanceMenu.drawText(l - byte0, i1 + 8, "Type", 1, true);
             appearanceMenu.drawArrow(l - byte0 - 40, i1, Menu.baseScrollPic + 7);
             appearanceHeadLeftArrow = appearanceMenu.createButton(l - byte0 - 40, i1, 20, 20);
-            appearanceMenu.drawArrow((l - byte0) + 40, i1, Menu.baseScrollPic + 6);
-            appearanceHeadRightArrow = appearanceMenu.createButton((l - byte0) + 40, i1, 20, 20);
+            appearanceMenu.drawArrow(l - byte0 + 40, i1, Menu.baseScrollPic + 6);
+            appearanceHeadRightArrow = appearanceMenu.createButton(l - byte0 + 40, i1, 20, 20);
             appearanceMenu.drawCurvedBox(l + byte0, i1, 53, 41);
             appearanceMenu.drawText(l + byte0, i1 - 8, "Hair", 1, true);
             appearanceMenu.drawText(l + byte0, i1 + 8, "Color", 1, true);
-            appearanceMenu.drawArrow((l + byte0) - 40, i1, Menu.baseScrollPic + 7);
-            appearanceHairLeftArrow = appearanceMenu.createButton((l + byte0) - 40, i1, 20, 20);
+            appearanceMenu.drawArrow(l + byte0 - 40, i1, Menu.baseScrollPic + 7);
+            appearanceHairLeftArrow = appearanceMenu.createButton(l + byte0 - 40, i1, 20, 20);
             appearanceMenu.drawArrow(l + byte0 + 40, i1, Menu.baseScrollPic + 6);
             appearanceHairRightArrow = appearanceMenu.createButton(l + byte0 + 40, i1, 20, 20);
             i1 += 50;
@@ -3331,13 +3330,13 @@ namespace OpenRS.Net.Client
             appearanceMenu.drawText(l - byte0, i1, "Gender", 1, true);
             appearanceMenu.drawArrow(l - byte0 - 40, i1, Menu.baseScrollPic + 7);
             appearanceGenderLeftArrow = appearanceMenu.createButton(l - byte0 - 40, i1, 20, 20);
-            appearanceMenu.drawArrow((l - byte0) + 40, i1, Menu.baseScrollPic + 6);
-            appearanceGenderRightArrow = appearanceMenu.createButton((l - byte0) + 40, i1, 20, 20);
+            appearanceMenu.drawArrow(l - byte0 + 40, i1, Menu.baseScrollPic + 6);
+            appearanceGenderRightArrow = appearanceMenu.createButton(l - byte0 + 40, i1, 20, 20);
             appearanceMenu.drawCurvedBox(l + byte0, i1, 53, 41);
             appearanceMenu.drawText(l + byte0, i1 - 8, "Top", 1, true);
             appearanceMenu.drawText(l + byte0, i1 + 8, "Color", 1, true);
-            appearanceMenu.drawArrow((l + byte0) - 40, i1, Menu.baseScrollPic + 7);
-            appearanceTopLeftArrow = appearanceMenu.createButton((l + byte0) - 40, i1, 20, 20);
+            appearanceMenu.drawArrow(l + byte0 - 40, i1, Menu.baseScrollPic + 7);
+            appearanceTopLeftArrow = appearanceMenu.createButton(l + byte0 - 40, i1, 20, 20);
             appearanceMenu.drawArrow(l + byte0 + 40, i1, Menu.baseScrollPic + 6);
             appearanceTopRightArrow = appearanceMenu.createButton(l + byte0 + 40, i1, 20, 20);
             i1 += 50;
@@ -3346,13 +3345,13 @@ namespace OpenRS.Net.Client
             appearanceMenu.drawText(l - byte0, i1 + 8, "Color", 1, true);
             appearanceMenu.drawArrow(l - byte0 - 40, i1, Menu.baseScrollPic + 7);
             appearanceSkinLeftArrow = appearanceMenu.createButton(l - byte0 - 40, i1, 20, 20);
-            appearanceMenu.drawArrow((l - byte0) + 40, i1, Menu.baseScrollPic + 6);
-            appearanceSkingRightArrow = appearanceMenu.createButton((l - byte0) + 40, i1, 20, 20);
+            appearanceMenu.drawArrow(l - byte0 + 40, i1, Menu.baseScrollPic + 6);
+            appearanceSkingRightArrow = appearanceMenu.createButton(l - byte0 + 40, i1, 20, 20);
             appearanceMenu.drawCurvedBox(l + byte0, i1, 53, 41);
             appearanceMenu.drawText(l + byte0, i1 - 8, "Bottom", 1, true);
             appearanceMenu.drawText(l + byte0, i1 + 8, "Color", 1, true);
-            appearanceMenu.drawArrow((l + byte0) - 40, i1, Menu.baseScrollPic + 7);
-            appearanceBottomLeftArrow = appearanceMenu.createButton((l + byte0) - 40, i1, 20, 20);
+            appearanceMenu.drawArrow(l + byte0 - 40, i1, Menu.baseScrollPic + 7);
+            appearanceBottomLeftArrow = appearanceMenu.createButton(l + byte0 - 40, i1, 20, 20);
             appearanceMenu.drawArrow(l + byte0 + 40, i1, Menu.baseScrollPic + 6);
             appearanceBottomRightArrow = appearanceMenu.createButton(l + byte0 + 40, i1, 20, 20);
             i1 += 82;
@@ -3878,7 +3877,7 @@ namespace OpenRS.Net.Client
                         j6 = 10;
                     }
 
-                    int i7 = (j6 * entityManager.GetItem(itemId).BasePrice) / 100;
+                    int i7 = j6 * entityManager.GetItem(itemId).BasePrice / 100;
                     gameGraphics.DrawString("Buy a new " + entityManager.GetItem(itemId).Name + " for " + i7 + "gp", _offsetX + 2, _offsetY + 214, 1, 0xffff00);
                     int j2 = 0xffffff;
                     if (InputManager.Instance.MouseLocation.X > _offsetX + 298 && InputManager.Instance.MouseLocation.Y >= _offsetY + 204 && InputManager.Instance.MouseLocation.X < _offsetX + 408 && InputManager.Instance.MouseLocation.Y <= _offsetY + 215)
@@ -3901,7 +3900,7 @@ namespace OpenRS.Net.Client
                         k6 = 10;
                     }
 
-                    int j7 = (k6 * entityManager.GetItem(itemId).BasePrice) / 100;
+                    int j7 = k6 * entityManager.GetItem(itemId).BasePrice / 100;
                     gameGraphics.DrawLabel("Sell your " + entityManager.GetItem(itemId).Name + " for " + j7 + "gp", _offsetX + 405, _offsetY + 239, 1, 0xffff00);
                     int k2 = 0xffffff;
                     if (InputManager.Instance.MouseLocation.X > _offsetX + 2 && InputManager.Instance.MouseLocation.Y >= _offsetY + 229 && InputManager.Instance.MouseLocation.X < _offsetX + 112 && InputManager.Instance.MouseLocation.Y <= _offsetY + 240)
@@ -3970,9 +3969,9 @@ namespace OpenRS.Net.Client
             gameGraphics.drawCharacterLegs(l - 32, i1, 64, 102, entityManager.GetAnimation(appearance2Colour).Number + 6, appearanceTopBottomColours[appearanceBottomColour]);
             gameGraphics.DrawImage(l - 32, i1, 64, 102, entityManager.GetAnimation(appearanceBodyGender).Number + 6, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
             gameGraphics.DrawImage(l - 32, i1, 64, 102, entityManager.GetAnimation(appearanceHeadType).Number + 6, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.drawCharacterLegs((l - 32) + 55, i1, 64, 102, entityManager.GetAnimation(appearance2Colour).Number + 12, appearanceTopBottomColours[appearanceBottomColour]);
-            gameGraphics.DrawImage((l - 32) + 55, i1, 64, 102, entityManager.GetAnimation(appearanceBodyGender).Number + 12, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.DrawImage((l - 32) + 55, i1, 64, 102, entityManager.GetAnimation(appearanceHeadType).Number + 12, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.drawCharacterLegs(l - 32 + 55, i1, 64, 102, entityManager.GetAnimation(appearance2Colour).Number + 12, appearanceTopBottomColours[appearanceBottomColour]);
+            gameGraphics.DrawImage(l - 32 + 55, i1, 64, 102, entityManager.GetAnimation(appearanceBodyGender).Number + 12, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.DrawImage(l - 32 + 55, i1, 64, 102, entityManager.GetAnimation(appearanceHeadType).Number + 12, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
             gameGraphics.DrawPicture(0, WindowSize.Height, baseInventoryPic + 22);
 
             OnDrawDone();
@@ -4174,27 +4173,27 @@ namespace OpenRS.Net.Client
                 {
                     if (ObjectType[objectIndex] == 97)
                     {
-                        drawModel(objectIndex, "firea" + (modelFireLightningSpellNumber + 1));
+                        DrawModel(objectIndex, "firea" + (modelFireLightningSpellNumber + 1));
                     }
 
                     if (ObjectType[objectIndex] == 274)
                     {
-                        drawModel(objectIndex, "fireplacea" + (modelFireLightningSpellNumber + 1));
+                        DrawModel(objectIndex, "fireplacea" + (modelFireLightningSpellNumber + 1));
                     }
 
                     if (ObjectType[objectIndex] == 1031)
                     {
-                        drawModel(objectIndex, "lightning" + (modelFireLightningSpellNumber + 1));
+                        DrawModel(objectIndex, "lightning" + (modelFireLightningSpellNumber + 1));
                     }
 
                     if (ObjectType[objectIndex] == 1036)
                     {
-                        drawModel(objectIndex, "firespell" + (modelFireLightningSpellNumber + 1));
+                        DrawModel(objectIndex, "firespell" + (modelFireLightningSpellNumber + 1));
                     }
 
                     if (ObjectType[objectIndex] == 1147)
                     {
-                        drawModel(objectIndex, "spellcharge" + (modelFireLightningSpellNumber + 1));
+                        DrawModel(objectIndex, "spellcharge" + (modelFireLightningSpellNumber + 1));
                     }
                 }
             }
@@ -4207,12 +4206,12 @@ namespace OpenRS.Net.Client
                 {
                     if (ObjectType[objectIndex] == 51)
                     {
-                        drawModel(objectIndex, "torcha" + (modelTorchNumber + 1));
+                        DrawModel(objectIndex, "torcha" + (modelTorchNumber + 1));
                     }
 
                     if (ObjectType[objectIndex] == 143)
                     {
-                        drawModel(objectIndex, "skulltorcha" + (modelTorchNumber + 1));
+                        DrawModel(objectIndex, "skulltorcha" + (modelTorchNumber + 1));
                     }
                 }
 
@@ -4226,7 +4225,7 @@ namespace OpenRS.Net.Client
                 {
                     if (ObjectType[objectIndex] == 1142)
                     {
-                        drawModel(objectIndex, "clawspell" + (modelClawSpellNumber + 1));
+                        DrawModel(objectIndex, "clawspell" + (modelClawSpellNumber + 1));
                     }
                 }
             }
@@ -4243,7 +4242,7 @@ namespace OpenRS.Net.Client
                     int l2 = player.Location.Y;
                     int j3 = -engineHandle.getAveragedElevation(j2, l2);
 
-                    Point3D loc = new Point3D(j2, j3, l2);
+                    Point3D loc = new(j2, j3, l2);
                     int k4 = gameCamera.addSpriteToScene(5000 + playerIndex, loc, 145, 220, playerIndex + 10000);
 
                     drawUpdatesPerformed++;
@@ -4293,7 +4292,7 @@ namespace OpenRS.Net.Client
                         int i11 = (k7 * player.ProjectileDistance + k10 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
                         int j11 = (l4 * player.ProjectileDistance + j10 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
 
-                        Point3D loc = new Point3D(l10, i11, j11);
+                        Point3D loc = new(l10, i11, j11);
                         gameCamera.addSpriteToScene(baseProjectilePic + player.ProjectileType, loc, 32, 32, 0);
                         drawUpdatesPerformed++;
                     }
@@ -4308,7 +4307,7 @@ namespace OpenRS.Net.Client
                 int z1 = npc.Location.Y;
                 int y1 = -engineHandle.getAveragedElevation(x1, z1);
 
-                Point3D loc = new Point3D(x1, y1, z1);
+                Point3D loc = new(x1, y1, z1);
                 int l9 = gameCamera.addSpriteToScene(20000 + npcIndex, loc, entityManager.GetNpc(npc.npcId).Camera1, entityManager.GetNpc(npc.npcId).Camera2, npcIndex + 30000);
 
                 drawUpdatesPerformed++;
@@ -4329,7 +4328,7 @@ namespace OpenRS.Net.Client
                 int x = GroundItemLocations[groundITemIndex].X * GridSize + 64;
                 int y = GroundItemLocations[groundITemIndex].Y * GridSize + 64;
 
-                Point3D loc = new Point3D(x, -engineHandle.getAveragedElevation(x, y) - GroundItemObjectVar[groundITemIndex], y);
+                Point3D loc = new(x, -engineHandle.getAveragedElevation(x, y) - GroundItemObjectVar[groundITemIndex], y);
                 gameCamera.addSpriteToScene(40000 + GroundItemId[groundITemIndex], loc, 96, 64, groundITemIndex + 20000);
                 drawUpdatesPerformed++;
             }
@@ -4342,14 +4341,14 @@ namespace OpenRS.Net.Client
 
                 if (i10 == 0)
                 {
-                    Point3D loc = new Point3D(k5, -engineHandle.getAveragedElevation(k5, i8), i8);
+                    Point3D loc = new(k5, -engineHandle.getAveragedElevation(k5, i8), i8);
                     gameCamera.addSpriteToScene(50000 + teleBubbleIndex, loc, 128, 256, teleBubbleIndex + 50000);
                     drawUpdatesPerformed++;
                 }
 
                 if (i10 == 1)
                 {
-                    Point3D loc = new Point3D(k5, -engineHandle.getAveragedElevation(k5, i8), i8);
+                    Point3D loc = new(k5, -engineHandle.getAveragedElevation(k5, i8), i8);
                     gameCamera.addSpriteToScene(50000 + teleBubbleIndex, loc, 128, 64, teleBubbleIndex + 50000);
                     drawUpdatesPerformed++;
                 }
@@ -4362,7 +4361,7 @@ namespace OpenRS.Net.Client
                 int l5 = 40 + (int)(random.NextDouble() * 3D);
                 int j8 = 40 + (int)(random.NextDouble() * 7D);
 
-                Point3D loc = new Point3D(-50, -10, -50);
+                Point3D loc = new(-50, -10, -50);
                 gameCamera.bjl(l5, j8, loc);
             }
 
@@ -4403,7 +4402,7 @@ namespace OpenRS.Net.Client
                 int newCameraPosY = cameraAutoRotatePlayerY + cameraRotationYAmount;
 
                 cameraRotation = cameraAutoAngle * 32;
-                Point3D loc = new Point3D(newCameraPosX, -engineHandle.getAveragedElevation(newCameraPosX, newCameraPosY), newCameraPosY);
+                Point3D loc = new(newCameraPosX, -engineHandle.getAveragedElevation(newCameraPosX, newCameraPosY), newCameraPosY);
                 gameCamera.SetCameraTransform(loc, 912, cameraRotation * 4, 0, 2000);
             }
             else
@@ -4430,7 +4429,7 @@ namespace OpenRS.Net.Client
 
                 int k6 = cameraAutoRotatePlayerX + cameraRotationXAmount;
                 int l8 = cameraAutoRotatePlayerY + cameraRotationYAmount;
-                Point3D loc = new Point3D(k6, -engineHandle.getAveragedElevation(k6, l8), l8);
+                Point3D loc = new(k6, -engineHandle.getAveragedElevation(k6, l8), l8);
                 gameCamera.SetCameraTransform(loc, 912, cameraRotation * 4, 0, cameraDistance * 2);
             }
 
@@ -4490,7 +4489,7 @@ namespace OpenRS.Net.Client
 
             gameGraphics.DrawBox(WindowSize.Width / 2 - 100, 160, 200, 40, 0);
             gameGraphics.DrawText("You are sleeping", WindowSize.Width / 2, 50, 7, 0xffff00);
-            gameGraphics.DrawText("Fatigue: " + (PlayerFatigue * 100) / 750 + "%", WindowSize.Width / 2, 90, 7, 0xffff00);
+            gameGraphics.DrawText("Fatigue: " + PlayerFatigue * 100 / 750 + "%", WindowSize.Width / 2, 90, 7, 0xffff00);
             gameGraphics.DrawText("When you want to wake up just use your", WindowSize.Width / 2, 140, 5, 0xffffff);
             gameGraphics.DrawText("keyboard to type the word in the box below", WindowSize.Width / 2, 160, 5, 0xffffff);
 
@@ -4647,14 +4646,14 @@ namespace OpenRS.Net.Client
                 newFrameIndex = 1;
                 flag = true;
             }
-            int j1 = newFrameIndex * 3 + walkModel[(npc.stepCount / entityManager.GetNpc(npc.npcId).WalkModel) % 4];
+            int j1 = newFrameIndex * 3 + walkModel[npc.stepCount / entityManager.GetNpc(npc.npcId).WalkModel % 4];
             if (npc.currentSprite == 8)
             {
                 newFrameIndex = 5;
                 frameIndex = 2;
                 flag = false;
-                x -= (entityManager.GetNpc(npc.npcId).CombatSprite * unknown2) / 100;
-                j1 = newFrameIndex * 3 + combatModelArray1[(tick / (entityManager.GetNpc(npc.npcId).CombatModel - 1)) % 8];
+                x -= entityManager.GetNpc(npc.npcId).CombatSprite * unknown2 / 100;
+                j1 = newFrameIndex * 3 + combatModelArray1[tick / (entityManager.GetNpc(npc.npcId).CombatModel - 1) % 8];
             }
             else
                 if (npc.currentSprite == 9)
@@ -4662,8 +4661,8 @@ namespace OpenRS.Net.Client
                 newFrameIndex = 5;
                 frameIndex = 2;
                 flag = true;
-                x += (entityManager.GetNpc(npc.npcId).CombatSprite * unknown2) / 100;
-                j1 = newFrameIndex * 3 + combatModelArray2[(tick / entityManager.GetNpc(npc.npcId).CombatModel) % 8];
+                x += entityManager.GetNpc(npc.npcId).CombatSprite * unknown2 / 100;
+                j1 = newFrameIndex * 3 + combatModelArray2[tick / entityManager.GetNpc(npc.npcId).CombatModel % 8];
             }
 
             for (int k1 = 0; k1 < 12; k1++)
@@ -4685,9 +4684,9 @@ namespace OpenRS.Net.Client
                     if (newFrameIndex != 5 || entityManager.GetAnimation(k2).HasA == 1)
                     {
                         int l3 = k3 + entityManager.GetAnimation(k2).Number;
-                        i3 = (i3 * width) / gameGraphics.pictureAssumedWidth[l3];
-                        j3 = (j3 * height) / gameGraphics.pictureAssumedHeight[l3];
-                        int i4 = (width * gameGraphics.pictureAssumedWidth[l3]) / gameGraphics.pictureAssumedWidth[entityManager.GetAnimation(k2).Number];
+                        i3 = i3 * width / gameGraphics.pictureAssumedWidth[l3];
+                        j3 = j3 * height / gameGraphics.pictureAssumedHeight[l3];
+                        int i4 = width * gameGraphics.pictureAssumedWidth[l3] / gameGraphics.pictureAssumedWidth[entityManager.GetAnimation(k2).Number];
                         i3 -= (i4 - width) / 2;
                         int j4 = entityManager.GetAnimation(k2).CharacterColour;
                         int k4 = 0;
@@ -4721,7 +4720,7 @@ namespace OpenRS.Net.Client
                     receivedMessageMidPoint[receivedMessagesCount] = 150;
                 }
 
-                receivedMessageHeight[receivedMessagesCount] = (gameGraphics.textWidth(npc.lastMessage, 1) / 300) * gameGraphics.textHeightNumber(1);
+                receivedMessageHeight[receivedMessagesCount] = gameGraphics.textWidth(npc.lastMessage, 1) / 300 * gameGraphics.textHeightNumber(1);
                 receivedMessageX[receivedMessagesCount] = x + width / 2;
                 receivedMessageY[receivedMessagesCount] = y;
                 receivedMessages[receivedMessagesCount++] = npc.lastMessage;
@@ -4734,14 +4733,14 @@ namespace OpenRS.Net.Client
 
                     if (npc.currentSprite == 8)
                     {
-                        i2 -= (20 * unknown2) / 100;
+                        i2 -= 20 * unknown2 / 100;
                     }
                     else if (npc.currentSprite == 9)
                     {
-                        i2 += (20 * unknown2) / 100;
+                        i2 += 20 * unknown2 / 100;
                     }
 
-                    int l2 = (npc.CurrentHitpoints * 30) / npc.BaseHitpoints;
+                    int l2 = npc.CurrentHitpoints * 30 / npc.BaseHitpoints;
                     healthBarX[healthBarVisibleCount] = i2 + width / 2;
                     healthBarY[healthBarVisibleCount] = y;
                     healthBarMissing[healthBarVisibleCount++] = l2;
@@ -4752,24 +4751,21 @@ namespace OpenRS.Net.Client
                     int j2 = x;
                     if (npc.currentSprite == 8)
                     {
-                        j2 -= (10 * unknown2) / 100;
+                        j2 -= 10 * unknown2 / 100;
                     }
                     else
                         if (npc.currentSprite == 9)
                     {
-                        j2 += (10 * unknown2) / 100;
+                        j2 += 10 * unknown2 / 100;
                     }
 
-                    gameGraphics.DrawPicture((j2 + width / 2) - 12, (y + height / 2) - 12, baseInventoryPic + 12);
-                    gameGraphics.DrawText(npc.LastDamageCount.ToString(), (j2 + width / 2) - 1, y + height / 2 + 5, 3, 0xffffff);
+                    gameGraphics.DrawPicture(j2 + width / 2 - 12, y + height / 2 - 12, baseInventoryPic + 12);
+                    gameGraphics.DrawText(npc.LastDamageCount.ToString(), j2 + width / 2 - 1, y + height / 2 + 5, 3, 0xffffff);
                 }
             }
         }
 
-        public override void DisplayMessage(string message)
-        {
-            OnChatMessageReceived?.Invoke(this, new ChatMessageEventArgs(message));
-        }
+        public override void DisplayMessage(string message) => OnChatMessageReceived?.Invoke(this, new ChatMessageEventArgs(message));
 
         public void drawAboveHeadThings()
         {
@@ -4803,13 +4799,13 @@ namespace OpenRS.Net.Client
                 int y = itemAboveHeadY[j1];
                 int scale = itemAboveHeadScale[j1];
                 int id = itemAboveHeadID[j1];
-                int width = (39 * scale) / 100;
-                int height = (27 * scale) / 100;
+                int width = 39 * scale / 100;
+                int height = 27 * scale / 100;
                 int j5 = y - height;
                 gameGraphics.DrawImageTransparent(x - width / 2, j5, width, height, baseInventoryPic + 9, 85);
-                int k5 = (36 * scale) / 100;
-                int l5 = (24 * scale) / 100;
-                gameGraphics.DrawImage(x - k5 / 2, (j5 + height / 2) - l5 / 2, k5, l5, entityManager.GetItem(id).InventoryPicture + baseItemPicture, entityManager.GetItem(id).PictureMask, 0, 0, false);
+                int k5 = 36 * scale / 100;
+                int l5 = 24 * scale / 100;
+                gameGraphics.DrawImage(x - k5 / 2, j5 + height / 2 - l5 / 2, k5, l5, entityManager.GetItem(id).InventoryPicture + baseItemPicture, entityManager.GetItem(id).PictureMask, 0, 0, false);
             }
 
             for (int i2 = 0; i2 < healthBarVisibleCount; i2++)
@@ -4818,7 +4814,7 @@ namespace OpenRS.Net.Client
                 int y = healthBarY[i2];
                 int missing = healthBarMissing[i2];
                 gameGraphics.drawBoxAlpha(x - 15, y - 3, missing, 5, 65280, 192);
-                gameGraphics.drawBoxAlpha((x - 15) + missing, y - 3, 30 - missing, 5, 0xff0000, 192);
+                gameGraphics.drawBoxAlpha(x - 15 + missing, y - 3, 30 - missing, 5, 0xff0000, 192);
             }
 
         }
@@ -5390,7 +5386,7 @@ namespace OpenRS.Net.Client
         public event EventHandler OnLoadingSection;
         public event EventHandler OnLoadingSectionCompleted;
 
-        public bool loadSection(int x, int y)
+        public bool LoadSection(int x, int y)
         {
             if (PlayerAliveTimeout != 0)
             {
@@ -5455,14 +5451,14 @@ namespace OpenRS.Net.Client
                         objWidth = entityManager.GetWorldObject(objType).Height;
                     }
 
-                    int flatObjX = ((objX + objX + objWidth) * GridSize) / 2;
-                    int flatObjY = ((objY + objY + objHeight) * GridSize) / 2;
+                    int flatObjX = (objX + objX + objWidth) * GridSize / 2;
+                    int flatObjY = (objY + objY + objHeight) * GridSize / 2;
 
                     if (objX >= 0 && objY >= 0 && objX < 96 && objY < 96)
                     {
                         gameCamera.addModel(_obj);
 
-                        Point3D location = new Point3D(flatObjX, -engineHandle.getAveragedElevation(flatObjX, flatObjY), flatObjY);
+                        Point3D location = new(flatObjX, -engineHandle.getAveragedElevation(flatObjX, flatObjY), flatObjY);
 
                         _obj.setLocation(location);
                         engineHandle.createObject(objX, objY, objType, objDir);
@@ -5555,7 +5551,7 @@ namespace OpenRS.Net.Client
             int textureBack = entityManager.GetWallObject(type).ModelFaceBack;
             int textureFront = entityManager.GetWallObject(type).ModelFaceFront;
             int wallHeight = entityManager.GetWallObject(type).ModelHeight;
-            ObjectModel wallModel = new ObjectModel(4, 1);
+            ObjectModel wallModel = new(4, 1);
 
             // -
             if (dir == 0)
@@ -5599,8 +5595,8 @@ namespace OpenRS.Net.Client
 
             // vertex index bottomRight
             int bRight = wallModel.getVertexIndex(destTileX, -engineHandle.getAveragedElevation(destTileX, destTileY), destTileY);
-            int[] faceVertices = { bLeft, tLeft, tRight, bRight };
-            Point3D shadingPoint = new Point3D(-50, -10, -50);
+            int[] faceVertices = [bLeft, tLeft, tRight, bRight];
+            Point3D shadingPoint = new(-50, -10, -50);
 
             wallModel.addFaceVertices(4, faceVertices, textureBack, textureFront);
             wallModel.UpdateShading(false, 60, 24, shadingPoint);
@@ -5622,8 +5618,10 @@ namespace OpenRS.Net.Client
         {
             if (NpcAttackingArray[serverIndex] == null)
             {
-                NpcAttackingArray[serverIndex] = new ClientMob();
-                NpcAttackingArray[serverIndex].ServerIndex = serverIndex;
+                NpcAttackingArray[serverIndex] = new ClientMob
+                {
+                    ServerIndex = serverIndex
+                };
             }
 
             ClientMob mob = NpcAttackingArray[serverIndex];
@@ -5672,7 +5670,7 @@ namespace OpenRS.Net.Client
                 {
                     int j1 = menuX + 2;
                     int l1 = menuY + 27 + l * 15;
-                    if (InputManager.Instance.MouseLocation.X <= j1 - 2 || InputManager.Instance.MouseLocation.Y <= l1 - 12 || InputManager.Instance.MouseLocation.Y >= l1 + 4 || InputManager.Instance.MouseLocation.X >= (j1 - 3) + menuWidth)
+                    if (InputManager.Instance.MouseLocation.X <= j1 - 2 || InputManager.Instance.MouseLocation.Y <= l1 - 12 || InputManager.Instance.MouseLocation.Y >= l1 + 4 || InputManager.Instance.MouseLocation.X >= j1 - 3 + menuWidth)
                     {
                         continue;
                     }
@@ -5697,7 +5695,7 @@ namespace OpenRS.Net.Client
                 int k1 = menuX + 2;
                 int i2 = menuY + 27 + i1 * 15;
                 int j2 = 0xffffff;
-                if (InputManager.Instance.MouseLocation.X > k1 - 2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && InputManager.Instance.MouseLocation.X < (k1 - 3) + menuWidth)
+                if (InputManager.Instance.MouseLocation.X > k1 - 2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && InputManager.Instance.MouseLocation.X < k1 - 3 + menuWidth)
                 {
                     j2 = 0xffff00;
                 }
@@ -5772,7 +5770,7 @@ namespace OpenRS.Net.Client
                 drawMenuTab = 6;
             }
 
-            if (drawMenuTab == 1 && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 248 || InputManager.Instance.MouseLocation.Y > 36 + (InventoryManager.MaximumInventorySize / 5) * 34))
+            if (drawMenuTab == 1 && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 248 || InputManager.Instance.MouseLocation.Y > 36 + InventoryManager.MaximumInventorySize / 5 * 34))
             {
                 drawMenuTab = 0;
             }
@@ -5793,19 +5791,13 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public ClientMob GetLastPlayer(int serverIndex)
-        {
-            return LastPlayers
+        public ClientMob GetLastPlayer(int serverIndex) => LastPlayers
                 .Where(x => x != null) // TODO: Remove this check once it is safe
                 .FirstOrDefault(x => x.ServerIndex == serverIndex);
-        }
 
-        public ClientMob GetLastNpc(int serverIndex)
-        {
-            return LastNpcs
+        public ClientMob GetLastNpc(int serverIndex) => LastNpcs
                 .Where(x => x != null) // TODO: Remove this check once it is safe
                 .FirstOrDefault(x => x.ServerIndex == serverIndex);
-        }
 
         public string joinString(string[] hay, string glue, int start)
         {
@@ -5818,10 +5810,7 @@ namespace OpenRS.Net.Client
             return ret;
         }
 
-        public string joinString(string[] hay, string glue)
-        {
-            return joinString(hay, glue, 0);
-        }
+        public string joinString(string[] hay, string glue) => joinString(hay, glue, 0);
 
         public int cameraFieldOfView;
         public string[] questionMenuAnswer;
@@ -5849,42 +5838,42 @@ namespace OpenRS.Net.Client
         public int cameraAutoRotatePlayerX;
         public int cameraAutoRotatePlayerY;
         public Menu appearanceMenu;
-        public int[][] animationModelArray = new int[][]
-        { new int[]{
+        public int[][] animationModelArray =
+        [ [
             11, 2, 9, 7, 1, 6, 10, 0, 5, 8,
             3, 4
-        }, new int[]{
+        ], [
             11, 2, 9, 7, 1, 6, 10, 0, 5, 8,
             3, 4
-        }, new int[]{
+        ], [
             11, 3, 2, 9, 7, 1, 6, 10, 0, 5,
             8, 4
-        }, new int[]{
+        ], [
             3, 4, 2, 9, 7, 1, 6, 10, 8, 11,
             0, 5
-        }, new int[]{
+        ], [
             3, 4, 2, 9, 7, 1, 6, 10, 8, 11,
             0, 5
-        }, new int[]{
+        ], [
             4, 3, 2, 9, 7, 1, 6, 10, 8, 11,
             0, 5
-        }, new int[]{
+        ], [
             11, 4, 2, 9, 7, 1, 6, 10, 0, 5,
             8, 3
-        }, new int[]{
+        ], [
             11, 2, 9, 7, 1, 6, 10, 0, 5, 8,
             4, 3
-        }
-    };
+        ]
+    ];
 
         public int drawUpdatesPerformed;
         public string serverMessage;
         public bool serverMessageBoxTop;
         public int cameraRotationYAmount;
         public int cameraRotationYIncrement;
-        public int[] walkModel = {
+        public int[] walkModel = [
         0, 1, 2, 1
-    };
+    ];
         public int itemsAboveHeadCount;
         public string[] messagesArray;
         public Menu questMenu;
@@ -5901,9 +5890,9 @@ namespace OpenRS.Net.Client
         public int minimapRandomRotationY;
         public int loginMenuOkButton;
         public int cameraRotation;
-        public int[] appearanceSkinColours = {
+        public int[] appearanceSkinColours = [
         0xecded0, 0xccb366, 0xb38c40, 0x997326, 0x906020
-    };
+    ];
         public bool menuShow;
         public int appearanceHeadLeftArrow;
         public int appearanceHeadRightArrow;
@@ -5924,9 +5913,9 @@ namespace OpenRS.Net.Client
         public int tick;
         public EngineHandle engineHandle;
         public int mouseButtonClick;
-        public int[] combatModelArray2 = {
+        public int[] combatModelArray2 = [
         0, 0, 0, 0, 0, 1, 2, 1
-    };
+    ];
         public int cameraDistance;
         public int[] receivedMessageX;
         public int[] receivedMessageY;
@@ -5946,8 +5935,8 @@ namespace OpenRS.Net.Client
         public int loginButtonNewUser;
         public int loginMenuLoginButton;
         public int mouseTrailIndex;
-        int[] mouseTrailX;
-        int[] mouseTrailY;
+        readonly int[] mouseTrailX;
+        readonly int[] mouseTrailY;
         public bool[] prayerOn;
         public int loginMenuStatusText;
         public int loginMenuUserText;
@@ -5970,14 +5959,14 @@ namespace OpenRS.Net.Client
         public int sectionPosY;
         public int drawMenuTab;
         public int receivedMessagesCount;
-        string[] receivedMessages;
+        readonly string[] receivedMessages;
         public int cameraRotateTime;
         public int cameraRotationXAmount;
         public int cameraRotationXIncrement;
         public int[] teleBubbleTime;
-        public string[] gearStats = {
+        public string[] gearStats = [
         "Armour", "WeaponAim", "WeaponPower", "Magic", "Prayer"
-    };
+    ];
         public bool loggedIn;
         public int[] teleBubbleType;
         public int[] experienceList;
@@ -5985,15 +5974,15 @@ namespace OpenRS.Net.Client
         public int lastModelTorchNumber;
         public int lastModelClawSpellNumber;
         public int[] messagesTimeout;
-        public int[] appearanceTopBottomColours = {
+        public int[] appearanceTopBottomColours = [
         0xff0000, 0xff8000, 0xffe000, 0xa0e000, 57344, 32768, 41088, 45311, 33023, 12528,
         0xe000e0, 0x303030, 0x604000, 0x805000, 0xffffff
-    };
+    ];
         public int teleBubbleCount;
         public bool memoryError;
-        public int[] appearanceHairColours = {
+        public int[] appearanceHairColours = [
         0xffc030, 0xffa040, 0x805030, 0x604020, 0x303030, 0xff6020, 0xff4000, 0xffffff, 65280, 65535
-    };
+    ];
         public Menu spellMenu;
         int spellMenuHandle;
         int menuMagicPrayersSelected;
@@ -6020,9 +6009,9 @@ namespace OpenRS.Net.Client
         public int actionPictureType;
         int walkMouseX;
         int walkMouseY;
-        public int[] combatModelArray1 = {
+        public int[] combatModelArray1 = [
         0, 1, 2, 1, 0, 0, 0, 0
-    };
+    ];
         public bool cameraZoom;
 
         public int[] shopItemSellPrice;

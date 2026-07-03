@@ -18,7 +18,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="tileEntity">Tile entity.</param>
         internal static Tile ToDomainModel(this TileEntity tileEntity)
         {
-            Tile tile = new Tile
+            Tile tile = new()
             {
                 Colour = tileEntity.Colour,
                 Unknown = tileEntity.Unknown,
@@ -35,7 +35,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="tile">Tile.</param>
         internal static TileEntity ToEntity(this Tile tile)
         {
-            TileEntity tileEntity = new TileEntity
+            TileEntity tileEntity = new()
             {
                 Colour = tile.Colour,
                 Unknown = tile.Unknown,

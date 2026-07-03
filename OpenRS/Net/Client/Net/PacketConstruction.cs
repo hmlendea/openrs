@@ -17,8 +17,8 @@ namespace OpenRS.Net.Client.Net
         byte[] packetData;
         int PacketCount { get; set; }
 
-        static int[] packetCommandCount = new int[256];
-        static int[] packetLengthCount = new int[256];
+        static readonly int[] packetCommandCount = new int[256];
+        static readonly int[] packetLengthCount = new int[256];
 
         /// <summary>
         /// Gets or sets the maximum packet count.
@@ -75,7 +75,7 @@ namespace OpenRS.Net.Client.Net
         /// <param name="value">Value.</param>
         public void CreatePacket(int value)
         {
-            if (packetStart > (MaximumPacketCount * 4) / 5)
+            if (packetStart > MaximumPacketCount * 4 / 5)
             {
                 try
                 {
@@ -91,10 +91,7 @@ namespace OpenRS.Net.Client.Net
                 }
             }
 
-            if (packetData == null)
-            {
-                packetData = new byte[MaximumPacketCount];
-            }
+            packetData ??= new byte[MaximumPacketCount];
 
             packetData[packetStart + 2] = (byte)value;
             packetData[packetStart + 3] = 0;
@@ -137,10 +134,7 @@ namespace OpenRS.Net.Client.Net
         /// Adds an 8-bit integer.
         /// </summary>
         /// <param name="value">Value.</param>
-        public void AddInt8(int value)
-        {
-            packetData[packetOffset++] = (byte)value;
-        }
+        public void AddInt8(int value) => packetData[packetOffset++] = (byte)value;
 
         /// <summary>
         /// Adds a 16-bit integer.
@@ -191,10 +185,7 @@ namespace OpenRS.Net.Client.Net
         /// Adds the bytes.
         /// </summary>
         /// <param name="data">Data.</param>
-        public void AddBytes(byte[] data)
-        {
-            AddBytes(data, 0, data.Length);
-        }
+        public void AddBytes(byte[] data) => AddBytes(data, 0, data.Length);
 
         /// <summary>
         /// Adds the bytes.
@@ -215,10 +206,7 @@ namespace OpenRS.Net.Client.Net
         /// <summary>
         /// Reads an 8-bit integer.
         /// </summary>
-        public int ReadInt8()
-        {
-            return ReadInputStream();
-        }
+        public int ReadInt8() => ReadInputStream();
 
         /// <summary>
         /// Reads a 16-bit integer.
@@ -249,29 +237,20 @@ namespace OpenRS.Net.Client.Net
         /// </summary>
         /// <param name="length">The index.</param>
         /// <param name="data">Data.</param>
-        public void Read(int length, sbyte[] data)
-        {
-            ReadInputStream(length, 0, data);
-        }
+        public void Read(int length, sbyte[] data) => ReadInputStream(length, 0, data);
 
         /// <summary>
         /// Reads the input stream.
         /// </summary>
         /// <returns>The input stream.</returns>
-        public virtual int ReadInputStream()
-        {
-            return 0;
-        }
+        public virtual int ReadInputStream() => 0;
 
         /// <summary>
         /// Reads the input stream.
         /// </summary>
         /// <param name="length">Length.</param>
         /// <param name="data">Data.</param>
-        public virtual void ReadInputStream(int length, sbyte[] data)
-        {
-            ReadInputStream(length, 0, data);
-        }
+        public virtual void ReadInputStream(int length, sbyte[] data) => ReadInputStream(length, 0, data);
 
         public virtual void ReadInputStream(int length, int offset, sbyte[] data)
         {

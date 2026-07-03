@@ -1,9 +1,6 @@
 
 using System;
 
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
 using NuciXNA.Gui.Controls;
 using NuciXNA.Gui.Screens;
 
@@ -47,7 +44,7 @@ namespace OpenRS.Gui.Screens
                 Text = "Back",
                 TargetScreen = typeof(TitleScreen)
             };
-            
+
             Items.Add(debugModeToggle);
             Items.Add(fowToggle);
             Items.Add(roofsToggle);
@@ -98,19 +95,10 @@ namespace OpenRS.Gui.Screens
             roofsToggle.SetState(SettingsManager.Instance.GraphicsSettings.ShowRoofs);
         }
 
-        void OnDebugModeToggleTriggered(object sender, EventArgs e)
-        {
-            SettingsManager.Instance.DebugMode = debugModeToggle.IsOn;
-        }
+        void OnDebugModeToggleTriggered(object sender, EventArgs e) => SettingsManager.Instance.DebugMode = debugModeToggle.IsOn;
 
-        void OnFowToggleTriggered(object sender, EventArgs e)
-        {
-            SettingsManager.Instance.GraphicsSettings.FogOfWar = fowToggle.IsOn;
-        }
+        void OnFowToggleTriggered(object sender, EventArgs e) => SettingsManager.Instance.GraphicsSettings.FogOfWar = fowToggle.IsOn;
 
-        void OnRoofsToggleTriggered(object sender, EventArgs e)
-        {
-            SettingsManager.Instance.GraphicsSettings.ShowRoofs = roofsToggle.IsOn;
-        }
+        void OnRoofsToggleTriggered(object sender, EventArgs e) => SettingsManager.Instance.GraphicsSettings.ShowRoofs = roofsToggle.IsOn;
     }
 }

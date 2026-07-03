@@ -18,7 +18,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="spellEntity">Spell entity.</param>
         internal static Spell ToDomainModel(this SpellEntity spellEntity)
         {
-            Spell spell = new Spell
+            Spell spell = new()
             {
                 Id = spellEntity.Id,
                 Name = spellEntity.Name,
@@ -41,7 +41,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="spell">Spell.</param>
         internal static SpellEntity ToEntity(this Spell spell)
         {
-            SpellEntity spellEntity = new SpellEntity
+            SpellEntity spellEntity = new()
             {
                 Id = spell.Id,
                 Name = spell.Name,

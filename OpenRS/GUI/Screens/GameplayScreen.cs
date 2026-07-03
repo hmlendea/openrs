@@ -17,7 +17,7 @@ namespace OpenRS.Gui.Screens
     /// <summary>
     /// Gameplay screen.
     /// </summary>
-    public class GameplayScreen : Screen
+    public class GameplayScreen(string username, string password) : Screen
     {
         GameClient gameClient;
         Thread gameThread;
@@ -30,20 +30,14 @@ namespace OpenRS.Gui.Screens
 
         public GuiChatPanel ChatPanel { get; set; }
 
-        readonly string username;
-        readonly string password;
+        readonly string username = username;
+        readonly string password = password;
 
         /// <summary>
         /// Gets or sets the game client.
         /// </summary>
         /// <value>The game client.</value>
         public GuiGame GuiGame { get; set; }
-
-        public GameplayScreen(string username, string password)
-        {
-            this.username = username;
-            this.password = password;
-        }
 
         /// <summary>
         /// Loads the content.
@@ -69,10 +63,7 @@ namespace OpenRS.Gui.Screens
         /// <summary>
         /// Unloads the content.
         /// </summary>
-        protected override void DoUnloadContent()
-        {
-            UnregisterEvents();
-        }
+        protected override void DoUnloadContent() => UnregisterEvents();
 
         /// <summary>
         /// Update the content.
@@ -106,7 +97,7 @@ namespace OpenRS.Gui.Screens
         {
 
         }
-        
+
         /// <summary>
         /// Registers the events.
         /// </summary>
@@ -146,9 +137,6 @@ namespace OpenRS.Gui.Screens
             SideBar.Hide();
         }
 
-        void OnGameClientChatMessageReceived(object sender, ChatMessageEventArgs e)
-        {
-            ChatPanel.AddMessage(e.Message);
-        }
+        void OnGameClientChatMessageReceived(object sender, ChatMessageEventArgs e) => ChatPanel.AddMessage(e.Message);
     }
 }

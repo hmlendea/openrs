@@ -68,18 +68,15 @@ namespace OpenRS.Gui.Screens
             };
 
             GuiManager.Instance.RegisterControls(backgroundImage, overlayImage, logoImage);
-            
+
             RegisterEvents();
             SetChildrenProperties();
         }
-        
+
         /// <summary>
         /// Unloads the content.
         /// </summary>
-        protected override void DoUnloadContent()
-        {
-            UnregisterEvents();
-        }
+        protected override void DoUnloadContent() => UnregisterEvents();
 
         /// <summary>
         /// Updates the content.
@@ -88,7 +85,7 @@ namespace OpenRS.Gui.Screens
         protected override void DoUpdate(GameTime gameTime)
         {
             SetChildrenProperties();
-            
+
             if (!backgroundImage.RotationEffect.IsActive)
             {
                 backgroundImage.RotationEffect.Activate();
@@ -102,7 +99,7 @@ namespace OpenRS.Gui.Screens
 
             Delay -= (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
-        
+
         /// <summary>
         /// Update the content.
         /// </summary>
@@ -143,19 +140,10 @@ namespace OpenRS.Gui.Screens
                 (ScreenManager.Instance.Size.Height - logoImage.Size.Height) / 2);
         }
 
-        void OnKeyPressed(object sender, KeyboardKeyEventArgs e)
-        {
-            ChangeScreens();
-        }
+        void OnKeyPressed(object sender, KeyboardKeyEventArgs e) => ChangeScreens();
 
-        void OnMouseButtonPressed(object sender, MouseButtonEventArgs e)
-        {
-            ChangeScreens();
-        }
+        void OnMouseButtonPressed(object sender, MouseButtonEventArgs e) => ChangeScreens();
 
-        void ChangeScreens()
-        {
-            ScreenManager.Instance.ChangeScreens(typeof(TitleScreen));
-        }
+        void ChangeScreens() => ScreenManager.Instance.ChangeScreens(typeof(TitleScreen));
     }
 }

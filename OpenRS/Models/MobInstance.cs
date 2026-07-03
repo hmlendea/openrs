@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
-using NuciExtensions;
 using NuciXNA.Primitives;
 
 using OpenRS.Models.Enumerations;
@@ -12,9 +10,9 @@ namespace OpenRS.Models
     {
         int combatLevel;
         int mobSprite;
-        int[][] mobSprites;
-        bool[] activatedPrayers;
-        PathHandler pathHandler;
+        readonly int[][] mobSprites;
+        readonly bool[] activatedPrayers;
+        readonly PathHandler pathHandler;
         // viewArea
 
         protected Dictionary<long, int> totalDamageTable;
@@ -83,11 +81,11 @@ namespace OpenRS.Models
 
         public MobInstance()
         {
-            mobSprites = new int[][] {
-                new int[] { 3, 2, 1 },
-                new int[] { 4, -1, 0 },
-                new int[] { 5, 6, 7 }
-            };
+            mobSprites = [
+                [3, 2, 1],
+                [4, -1, 0],
+                [5, 6, 7]
+            ];
             mobSprite = 1;
             combatLevel = 3;
             HasAppearanceChanged = true;
@@ -98,9 +96,9 @@ namespace OpenRS.Models
 
             pathHandler = new PathHandler(this);
 
-            totalDamageTable = new Dictionary<long, int>();
-            meleeDamageTable = new Dictionary<long, int>();
-            rangeDamageTable = new Dictionary<long, int>();
+            totalDamageTable = [];
+            meleeDamageTable = [];
+            rangeDamageTable = [];
         }
 
         public void UpdateKillStealing(long index, int damage, AttackType attackType)
@@ -140,30 +138,15 @@ namespace OpenRS.Models
 
         public abstract void Remove();
 
-        public void ResetCombat()
-        {
-            throw new NotImplementedException();
-        }
+        public void ResetCombat() => throw new NotImplementedException();
 
-        public void ResetPath()
-        {
-            pathHandler.ResetPath();
-        }
+        public void ResetPath() => pathHandler.ResetPath();
 
-        public bool IsAtObject()
-        {
-            throw new NotImplementedException();
-        }
+        public bool IsAtObject() => throw new NotImplementedException();
 
-        public bool IsPrayerActivated(int prayerIndex)
-        {
-            return activatedPrayers[prayerIndex];
-        }
+        public bool IsPrayerActivated(int prayerIndex) => activatedPrayers[prayerIndex];
 
-        public void TogglePrayer(int prayerIndex, bool toggleStatus)
-        {
-            activatedPrayers[prayerIndex] = toggleStatus;
-        }
+        public void TogglePrayer(int prayerIndex, bool toggleStatus) => activatedPrayers[prayerIndex] = toggleStatus;
 
         public void UpdateAppearanceId()
         {
@@ -173,25 +156,13 @@ namespace OpenRS.Models
             }
         }
 
-        public void UpdateCombatTime()
-        {
-            CombatTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        }
+        public void UpdateCombatTime() => CombatTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
-        public void UpdateLocation()
-        {
-            pathHandler.UpdateLocation();
-        }
+        public void UpdateLocation() => pathHandler.UpdateLocation();
 
-        public void UpdateMovementTime()
-        {
-            LastMovementTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        }
+        public void UpdateMovementTime() => LastMovementTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
-        public override void SetLocation(Point2D location)
-        {
-            SetLocation(location, false);
-        }
+        public override void SetLocation(Point2D location) => SetLocation(location, false);
 
         public void SetLocation(Point2D location, bool teleported)
         {
@@ -206,21 +177,15 @@ namespace OpenRS.Models
             base.SetLocation(location);
         }
 
-        public bool FinishedPath()
-        {
-            return pathHandler.FinishedPath();
-        }
+        public bool FinishedPath() => pathHandler.FinishedPath();
 
-        public void SetPath(WalkPath path)
-        {
-            pathHandler.SetPath(path);
-        }
+        public void SetPath(WalkPath path) => pathHandler.SetPath(path);
 
         protected void UpdateSprite(Point2D newLocation)
         {
             try
             {
-                Point2D index = new Point2D(
+                Point2D index = new(
                     Location.X - newLocation.X + 1,
                     Location.Y - newLocation.Y + 1);
 

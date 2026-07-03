@@ -4,8 +4,6 @@ using System.Net.Sockets;
 using System.Numerics;
 using System.Threading;
 
-using NuciExtensions;
-
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Net;
 using OpenRS.Net.Enumerations;
@@ -15,14 +13,14 @@ namespace OpenRS.Net.Client
 {
     public class GameAppletMiddleMan : GameApplet
     {
-        public static Random ran = new Random();
+        public static Random ran = new();
         static bool isConnecting = false;
         Thread connectionThread;
 
         public StreamClass StreamClass { get; set; }
 
-        static BigInteger key = BigInteger.Parse("1370158896620336158431733257575682136836100155721926632321599369132092701295540721504104229217666225601026879393318399391095704223500673696914052239029335");
-        static BigInteger modulus = BigInteger.Parse("1549611057746979844352781944553705273443228154042066840514290174539588436243191882510185738846985723357723362764835928526260868977814405651690121789896823");
+        static readonly BigInteger key = BigInteger.Parse("1370158896620336158431733257575682136836100155721926632321599369132092701295540721504104229217666225601026879393318399391095704223500673696914052239029335");
+        static readonly BigInteger modulus = BigInteger.Parse("1549611057746979844352781944553705273443228154042066840514290174539588436243191882510185738846985723357723362764835928526260868977814405651690121789896823");
 
         public GameAppletMiddleMan()
         {
@@ -77,8 +75,10 @@ namespace OpenRS.Net.Client
             }
 
             TcpClient socket = MakeSocket(GameDefines.SERVER_IP, GameDefines.SERVER_PORT);
-            StreamClass = new StreamClass(socket, this);
-            StreamClass.MaximumPacketReadCount = maxPacketReadCount;
+            StreamClass = new StreamClass(socket, this)
+            {
+                MaximumPacketReadCount = maxPacketReadCount
+            };
 
             long l = DataOperations.nameToHash(user);
             StreamClass.CreatePacket(32);
@@ -95,13 +95,14 @@ namespace OpenRS.Net.Client
 
             Console.WriteLine($"Session ID: {sessionId}");
 
-            int[] sessionRotationKeys = new int[4];
-            sessionRotationKeys[0] = (int)(ran.NextDouble() * 99999999D);
-            sessionRotationKeys[1] = (int)(ran.NextDouble() * 99999999D);
-            sessionRotationKeys[2] = (int)(sessionId >> 32);
-            sessionRotationKeys[3] = (int)sessionId;
-
-            LoginEncryptor encryptor = new LoginEncryptor(new byte[500]);
+            int[] sessionRotationKeys =
+            [
+                (int)(ran.NextDouble() * 99999999D),
+                (int)(ran.NextDouble() * 99999999D),
+                (int)(sessionId >> 32),
+                (int)sessionId,
+            ];
+            LoginEncryptor encryptor = new(new byte[500]);
             encryptor.AddInt32(sessionRotationKeys[0]);
             encryptor.AddInt32(sessionRotationKeys[1]);
             encryptor.AddInt32(sessionRotationKeys[2]);
@@ -215,7 +216,7 @@ namespace OpenRS.Net.Client
                     StreamClass.CreatePacket(39);
                     StreamClass.FinalisePacket();
                 }
-                catch (IOException ex)
+                catch (IOException)
                 {
                     Console.WriteLine($"An error has occured in {nameof(GameAppletMiddleMan)}.cs");
                 }
@@ -226,12 +227,9 @@ namespace OpenRS.Net.Client
             resetIntVars();
         }
 
-        public virtual void LostConnection()
-        {
-            Console.WriteLine("Lost connection");
-        }
+        public virtual void LostConnection() => Console.WriteLine("Lost connection");
 
-        readonly object _sync = new object();
+        readonly object _sync = new();
         protected static bool sendingPing;
 
         protected void SendPing()
@@ -265,7 +263,7 @@ namespace OpenRS.Net.Client
             {
                 StreamClass.WritePacket(20);
             }
-            catch (IOException ex)
+            catch (IOException)
             {
                 LostConnection();
 
@@ -285,10 +283,7 @@ namespace OpenRS.Net.Client
             sendingPing = false;
         }
 
-        public virtual void HandlePacket(ServerCommand command, int length)
-        {
-            HandlePacket(command, length, data);
-        }
+        public virtual void HandlePacket(ServerCommand command, int length) => HandlePacket(command, length, data);
 
         protected void sendUpdatedPrivacyInfo(int blockChat, int blockPrivate, int blockTrade, int blockDuel)
         {

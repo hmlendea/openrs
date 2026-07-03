@@ -16,27 +16,14 @@
 
         public bool IsValid => true; // TODO: Implement this
 
-        public int GetSprite(int position)
+        public int GetSprite(int position) => position switch
         {
-            switch (position)
-            {
-                case 0:
-                    return Head;
+            0 => Head,
+            1 => Body,
+            2 => 3,
+            _ => 0,
+        };
 
-                case 1:
-                    return Body;
-
-                case 2:
-                    return 3;
-
-                default:
-                    return 0;
-            }
-        }
-
-        public int[] GetSprites()
-        {
-            return new int[] { Head, Body, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        }
+        public int[] GetSprites() => [Head, Body, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     }
 }

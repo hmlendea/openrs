@@ -1,14 +1,12 @@
-﻿using System;
-
-using OpenRS.Models;
+﻿using OpenRS.Models;
 
 namespace OpenRS.GameLogic.GameManagers
 {
-    public class InventoryManager
+    public class InventoryManager(EntityManager entityManager)
     {
         public static int MaximumInventorySize = 30;
         public static int MaximumBankSize = 48;
-        
+
         public int InventoryItemsCount { get; set; }
         public int BankItemsCount { get; set; }
         public int ServerBankItemsCount { get; set; }
@@ -17,12 +15,7 @@ namespace OpenRS.GameLogic.GameManagers
         InventoryItem[] bankItems;
         InventoryItem[] serverBankItems;
 
-        readonly EntityManager entityManager;
-
-        public InventoryManager(EntityManager entityManager)
-        {
-            this.entityManager = entityManager;
-        }
+        readonly EntityManager entityManager = entityManager;
 
         public void LoadContent()
         {
@@ -82,35 +75,17 @@ namespace OpenRS.GameLogic.GameManagers
             UpdateBankItems();
         }
 
-        public InventoryItem GetItem(int slot)
-        {
-            return inventoryItems[slot];
-        }
+        public InventoryItem GetItem(int slot) => inventoryItems[slot];
 
-        public InventoryItem GetBankItem(int slot)
-        {
-            return bankItems[slot];
-        }
+        public InventoryItem GetBankItem(int slot) => bankItems[slot];
 
-        public InventoryItem GetServerBankItem(int slot)
-        {
-            return serverBankItems[slot];
-        }
+        public InventoryItem GetServerBankItem(int slot) => serverBankItems[slot];
 
-        public void SetItem(int itemSlot, int numericalId)
-        {
-            inventoryItems[itemSlot].Index = numericalId;
-        }
+        public void SetItem(int itemSlot, int numericalId) => inventoryItems[itemSlot].Index = numericalId;
 
-        public void SetItemCount(int itemSlot, int quantity)
-        {
-            inventoryItems[itemSlot].Quantity = quantity;
-        }
+        public void SetItemCount(int itemSlot, int quantity) => inventoryItems[itemSlot].Quantity = quantity;
 
-        public void SetItemEquippedStatus(int itemSlot, bool isEquipped)
-        {
-            inventoryItems[itemSlot].IsEquipped = isEquipped;
-        }
+        public void SetItemEquippedStatus(int itemSlot, bool isEquipped) => inventoryItems[itemSlot].IsEquipped = isEquipped;
 
         public void RemoveItem(int itemSlot)
         {

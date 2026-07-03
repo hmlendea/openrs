@@ -9,7 +9,7 @@ namespace OpenRS.Models
         public WalkPath Path { get; private set; }
 
         int currentWaypoint;
-        MobInstance mob;
+        readonly MobInstance mob;
         // world
 
         public PathHandler(MobInstance mob)
@@ -20,7 +20,7 @@ namespace OpenRS.Models
 
         public void SetPath(Point2D startLocation, Point2D waypointOffsets)
         {
-            WalkPath path = new WalkPath(startLocation, waypointOffsets);
+            WalkPath path = new(startLocation, waypointOffsets);
             SetPath(path);
         }
 
@@ -59,16 +59,10 @@ namespace OpenRS.Models
             currentWaypoint = -1;
         }
 
-        protected bool AtStart()
-        {
-            return Path.StartLocation == mob.Location;
-        }
+        protected bool AtStart() => Path.StartLocation == mob.Location;
 
-        protected bool AtWaypoint(int waypoint)
-        {
-            return Path.GetWaypoint(waypoint).X == mob.Location.X &&
+        protected bool AtWaypoint(int waypoint) => Path.GetWaypoint(waypoint).X == mob.Location.X &&
                    Path.GetWaypoint(waypoint).Y == mob.Location.Y;
-        }
 
         protected Point2D GetNextPosition(Point2D start, Point2D destination)
         {
@@ -166,7 +160,7 @@ namespace OpenRS.Models
 
         protected void SetNextPosition()
         {
-            Point2D newLocation = new Point2D(-1, -1);
+            Point2D newLocation = new(-1, -1);
 
             if (currentWaypoint == -1)
             {
@@ -207,7 +201,7 @@ namespace OpenRS.Models
         {
             ResetPath();
 
-            Point2D location = new Point2D(-1, -1);
+            Point2D location = new(-1, -1);
 
             return location;
         }

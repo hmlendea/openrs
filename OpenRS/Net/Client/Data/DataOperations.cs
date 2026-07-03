@@ -9,9 +9,6 @@ namespace OpenRS.Net.Client.Data
     {
         public static MemoryStream openInputStream(string arg0)
         {
-
-            //return org.moparscape.msc.client.DataOperations.getByte(byte0);
-
             Stream obj;
             if (codeBase == null)
             {
@@ -19,14 +16,14 @@ namespace OpenRS.Net.Client.Data
             }
             else
             {
-                Uri url = new Uri(codeBase, arg0);
+                Uri url = new(codeBase, arg0);
 
                 var req = HttpWebRequest.Create(url.ToString());
 
                 obj = req.GetResponse().GetResponseStream();
             }
 
-            MemoryStream memory = new MemoryStream();
+            MemoryStream memory = new();
             int j = 0;
             byte[] buffer = new byte[2048];
 
@@ -50,7 +47,7 @@ namespace OpenRS.Net.Client.Data
 
         static sbyte[] streamToSbyte(BinaryReader stream, int length)
         {
-            List<sbyte> list = new List<sbyte>();
+            List<sbyte> list = [];
             {
                 sbyte ch;
                 var i = 0;
@@ -60,41 +57,31 @@ namespace OpenRS.Net.Client.Data
                     i++;
                 }
             }
-            return list.ToArray();
+            return [.. list];
         }
 
         public static void readFully(string p, sbyte[] abyte1, int i)
         {
             //org.moparscape.msc.client.DataOperations.readFully(p, abyte1, i);
-            using (var stream = openInputStream(p))
-            {
-                abyte1 = streamToSbyte(new BinaryReader(stream), i);
-                //for (int j = 0; j < i; j++) { 
-                //    abyte1[j] = 
-                //}
-                //stream.Read(abyte1, 0, i);
-            }
+            using var stream = openInputStream(p);
+            abyte1 = streamToSbyte(new BinaryReader(stream), i);
+            //for (int j = 0; j < i; j++) {
+            //    abyte1[j] =
+            //}
+            //stream.Read(abyte1, 0, i);
         }
 
         public static void readFully(string p, byte[] abyte1, int i)
         {
-            using (var stream = openInputStream(p))
-            {
-                stream.Read(abyte1, 0, i);
-            }
-        }
-        
-        public static long GetLong(sbyte[] data, int i)
-        {
-            return ((GetInt32(data, i) & 0xffffffffL) << 32) +
-                    (GetInt32(data, i + 4) & 0xffffffffL);
+            using var stream = openInputStream(p);
+            stream.Read(abyte1, 0, i);
         }
 
-        public static long GetLong(byte[] abyte0, int i)
-        {
-            return ((GetInt32(abyte0, i) & 0xffffffffL) << 32) +
+        public static long GetLong(sbyte[] data, int i) => ((GetInt32(data, i) & 0xffffffffL) << 32) +
+                    (GetInt32(data, i + 4) & 0xffffffffL);
+
+        public static long GetLong(byte[] abyte0, int i) => ((GetInt32(abyte0, i) & 0xffffffffL) << 32) +
                     (GetInt32(abyte0, i + 4) & 0xffffffffL);
-        }
 
 
         public static int getShort2(sbyte[] abyte0, int i)
@@ -107,32 +94,20 @@ namespace OpenRS.Net.Client.Data
             return j;
         }
 
-        public static int GetInt8(sbyte value)
-        {
-            return value & 255;
-        }
+        public static int GetInt8(sbyte value) => value & 255;
 
-        public static int GetInt16(sbyte[] data, int index)
-        {
-            return ((data[index] & 255) << 8) +
+        public static int GetInt16(sbyte[] data, int index) => ((data[index] & 255) << 8) +
                     (data[index + 1] & 255);
-        }
 
-        public static int GetInt32(sbyte[] data, int index)
-        {
-            return ((data[index] & 255) << 24) +
+        public static int GetInt32(sbyte[] data, int index) => ((data[index] & 255) << 24) +
                    ((data[index + 1] & 255) << 16) +
                    ((data[index + 2] & 255) << 8) +
                     (data[index + 3] & 255);
-        }
 
-        public static int GetInt32(byte[] data, int index)
-        {
-            return ((data[index] & 255) << 24) +
+        public static int GetInt32(byte[] data, int index) => ((data[index] & 255) << 24) +
                    ((data[index + 1] & 255) << 16) +
                    ((data[index + 2] & 255) << 8) +
                     (data[index + 3] & 255);
-        }
 
         public static int GetInt(sbyte[] data, int offset, int length)
         {
@@ -158,7 +133,7 @@ namespace OpenRS.Net.Client.Data
 
             return value;
         }
-        
+
         public static string FormatString(string str, int length)
         {
             string s = "";
@@ -183,13 +158,10 @@ namespace OpenRS.Net.Client.Data
             return s;
         }
 
-        public static string IpToString(int ip)
-        {
-            return (ip >> 24 & 255) + "." +
+        public static string IpToString(int ip) => (ip >> 24 & 255) + "." +
                    (ip >> 16 & 255) + "." +
                    (ip >> 8 & 255) + "." +
                    (ip & 255);
-        }
 
         public static long nameToHash(string arg0)
         {
@@ -205,7 +177,7 @@ namespace OpenRS.Net.Client.Data
                 {
                     if (c >= 'A' && c <= 'Z')
                     {
-                        s = s + (char)((c + 97) - 65);
+                        s = s + (char)(c + 97 - 65);
                     }
                     else
                     {
@@ -224,7 +196,7 @@ namespace OpenRS.Net.Client.Data
             s = s.Trim();
             if (s.Length > 12)
             {
-                s = s.Substring(0, 12);
+                s = s[..12];
             }
             long l = 0L;
             for (int j = 0; j < s.Length; j++)
@@ -233,13 +205,13 @@ namespace OpenRS.Net.Client.Data
                 l *= 37L;
                 if (c1 >= 'a' && c1 <= 'z')
                 {
-                    l += (1 + c1) - 97;
+                    l += 1 + c1 - 97;
                 }
                 else
                 {
                     if (c1 >= '0' && c1 <= '9')
                     {
-                        l += (27 + c1) - 48;
+                        l += 27 + c1 - 48;
                     }
                 }
             }
@@ -271,16 +243,16 @@ namespace OpenRS.Net.Client.Data
                     {
                         if (hash % 37L == 0L)
                         {
-                            str = (char)((i + 65) - 1) + str;
+                            str = (char)(i + 65 - 1) + str;
                         }
                         else
                         {
-                            str = (char)((i + 97) - 1) + str;
+                            str = (char)(i + 97 - 1) + str;
                         }
                     }
                     else
                     {
-                        str = (char)((i + 48) - 27) + str;
+                        str = (char)(i + 48 - 27) + str;
                     }
                 }
             }
@@ -297,7 +269,7 @@ namespace OpenRS.Net.Client.Data
             objName = objName.ToUpper();
             for (int k = 0; k < objName.Length; k++)
             {
-                j = (j * 61 + objName[k]) - 32;
+                j = j * 61 + objName[k] - 32;
             }
 
             long l = 2 + i * 10;
@@ -314,11 +286,8 @@ namespace OpenRS.Net.Client.Data
 
             return 0;
         }
-        
-        public static byte[] loadData(string s, int i, byte[] abyte0)
-        {
-            return loadData(s, i, abyte0, null);
-        }
+
+        public static byte[] loadData(string s, int i, byte[] abyte0) => loadData(s, i, abyte0, null);
 
         public static byte[] loadData(string arg0, int arg1, byte[] arg2, byte[] arg3)
         {
@@ -330,7 +299,7 @@ namespace OpenRS.Net.Client.Data
 
             for (int k = 0; k < arg0.Length; k++)
             {
-                j = (j * 61 + arg0[k]) - 32;
+                j = j * 61 + arg0[k] - 32;
             }
 
             int l = 2 + i * 10;
@@ -343,10 +312,7 @@ namespace OpenRS.Net.Client.Data
 
                 if (j1 == j)
                 {
-                    if (arg3 == null)
-                    {
-                        arg3 = new byte[k1 + arg1];
-                    }
+                    arg3 ??= new byte[k1 + arg1];
 
                     if (k1 != l1)
                     {
@@ -370,10 +336,7 @@ namespace OpenRS.Net.Client.Data
             return null;
         }
 
-        public static sbyte[] loadData(string s, int i, sbyte[] abyte0)
-        {
-            return loadData(s, i, abyte0, null);
-        }
+        public static sbyte[] loadData(string s, int i, sbyte[] abyte0) => loadData(s, i, abyte0, null);
 
         public static sbyte[] loadData(string arg0, int arg1, sbyte[] arg2, sbyte[] arg3)
         {
@@ -384,7 +347,7 @@ namespace OpenRS.Net.Client.Data
             arg0 = arg0.ToUpper();
             for (int k = 0; k < arg0.Length; k++)
             {
-                j = (j * 61 + arg0[k]) - 32;
+                j = j * 61 + arg0[k] - 32;
             }
 
             int l = 2 + i * 10;
@@ -395,13 +358,10 @@ namespace OpenRS.Net.Client.Data
                 int l1 = (arg2[i1 * 10 + 9] & 0xff) * 0x10000 + (arg2[i1 * 10 + 10] & 0xff) * 256 + (arg2[i1 * 10 + 11] & 0xff);
                 if (j1 == j)
                 {
-                    if (arg3 == null)
-                    {
-                        arg3 = new sbyte[k1 + arg1];
-                    }
+                    arg3 ??= new sbyte[k1 + arg1];
                     if (k1 != l1)
                     {
-                        DataFileDecrypter.unpackData(arg3, k1, arg2, l1, l);
+                        DataFileDecrypter.UnpackData(arg3, k1, arg2, l1, l);
                     }
                     else
                     {
@@ -420,8 +380,8 @@ namespace OpenRS.Net.Client.Data
         }
 
         public static Uri codeBase = null;
-        static int[] bitMask = { 0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191,
+        static readonly int[] bitMask = [ 0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191,
             16383, 32767, 65535, 0x1ffff, 0x3ffff, 0x7ffff, 0xfffff, 0x1fffff, 0x3fffff, 0x7fffff,
-            0xffffff, 0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff, 0x1fffffff, 0x3fffffff, 0x7fffffff, -1 };
+            0xffffff, 0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff, 0x1fffffff, 0x3fffffff, 0x7fffffff, -1 ];
     }
 }

@@ -12,24 +12,16 @@ using OpenRS.Net.Enumerations;
 
 namespace OpenRS.Net.Client
 {
-    public class PacketHandler
+    public class PacketHandler(
+        GameClient client,
+        EntityManager entityManager,
+        InventoryManager inventoryManager,
+        QuestManager questManager)
     {
-        readonly GameClient client;
-        readonly EntityManager entityManager;
-        readonly InventoryManager inventoryManager;
-        readonly QuestManager questManager;
-
-        public PacketHandler(
-            GameClient client,
-            EntityManager entityManager,
-            InventoryManager inventoryManager,
-            QuestManager questManager)
-        {
-            this.client = client;
-            this.entityManager = entityManager;
-            this.inventoryManager = inventoryManager;
-            this.questManager = questManager;
-        }
+        readonly GameClient client = client;
+        readonly EntityManager entityManager = entityManager;
+        readonly InventoryManager inventoryManager = inventoryManager;
+        readonly QuestManager questManager = questManager;
 
         public bool HandlePacket(ServerCommand command, sbyte[] data, int length)
         {
@@ -274,10 +266,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleAwake()
-        {
-            client.IsSleeping = false;
-        }
+        void HandleAwake() => client.IsSleeping = false;
 
         void HandleServerAnnouncement(sbyte[] data, int length)
         {
@@ -321,10 +310,7 @@ namespace OpenRS.Net.Client
             inventoryManager.BankItem(itemId, itemSlot, itemCount);
         }
 
-        void HandleCombatStyleChange(sbyte[] data)
-        {
-            client.CombatStyle = (CombatStyle)DataOperations.GetInt8(data[1]);
-        }
+        void HandleCombatStyleChange(sbyte[] data) => client.CombatStyle = (CombatStyle)DataOperations.GetInt8(data[1]);
 
         void HandleCookAssistant(sbyte[] data)
         {
@@ -341,7 +327,7 @@ namespace OpenRS.Net.Client
                 if (DataOperations.GetInt8(data[offset]) == 255)
                 {
                     int newCount = 0;
-                    Point2D newSectionLocation = new Point2D(
+                    Point2D newSectionLocation = new(
                         client.SectionLocation.X + data[offset + 1] >> 3,
                         client.SectionLocation.Y + data[offset + 2] >> 3);
 
@@ -349,7 +335,7 @@ namespace OpenRS.Net.Client
 
                     for (int objectIndex = 0; objectIndex < client.ObjectCount; objectIndex++)
                     {
-                        Point2D newLocation = new Point2D(
+                        Point2D newLocation = new(
                             (client.ObjectLocations[objectIndex].X >> 3) - newSectionLocation.X,
                             (client.ObjectLocations[objectIndex].Y >> 3) - newSectionLocation.Y);
 
@@ -384,7 +370,7 @@ namespace OpenRS.Net.Client
                     int index = DataOperations.GetInt16(data, offset);
                     offset += 2;
 
-                    Point2D newSectionLocation = new Point2D(
+                    Point2D newSectionLocation = new(
                         client.SectionLocation.X + data[offset++],
                         client.SectionLocation.Y + data[offset++]);
 
@@ -443,20 +429,20 @@ namespace OpenRS.Net.Client
                             width = worldObject.Height;
                         }
 
-                        int l40 = ((newSectionLocation.X * 2 + width) * client.GridSize) / 2;
-                        int k42 = ((newSectionLocation.Y * 2 + height) * client.GridSize) / 2;
+                        int l40 = (newSectionLocation.X * 2 + width) * client.GridSize / 2;
+                        int k42 = (newSectionLocation.Y * 2 + height) * client.GridSize / 2;
                         ObjectModel gameObjectModel = client.GameDataObjects[worldObject.ModelId];
                         ObjectModel gameObject = gameObjectModel.CreateParent();
 
 #warning object not being added to camera.
                         client.gameCamera.addModel(gameObject);
 
-                        Point3D off = new Point3D(0, rotation * 32, 0);
+                        Point3D off = new(0, rotation * 32, 0);
                         gameObject.index = client.ObjectCount;
                         gameObject.offsetMiniPosition(off);
                         off = new Point3D(l40, -client.engineHandle.getAveragedElevation(l40, k42), k42);
                         gameObject.offsetLocation(off);
-                        Point3D shadingPoint = new Point3D(-50, -10, -50);
+                        Point3D shadingPoint = new(-50, -10, -50);
                         gameObject.UpdateShading(true, 48, 48, shadingPoint);
                         client.engineHandle.createObject(newSectionLocation.X, newSectionLocation.Y, index, rotation);
 
@@ -517,7 +503,7 @@ namespace OpenRS.Net.Client
 
                     if (mob != null)
                     {
-                        string s2 = DataConversions.byteToString(data, mobUpdateOffset, byte7);
+                        string s2 = DataConversions.ByteToString(data, mobUpdateOffset, byte7);
 
                         mob.lastMessageTimeout = 150;
                         mob.lastMessage = s2;
@@ -661,7 +647,7 @@ namespace OpenRS.Net.Client
 
                     if (mob != null)
                     {
-                        string s3 = DataConversions.byteToString(data, mobUpdateOffset, byte8);
+                        string s3 = DataConversions.ByteToString(data, mobUpdateOffset, byte8);
                         mob.lastMessageTimeout = 150;
                         mob.lastMessage = s3;
 
@@ -711,7 +697,7 @@ namespace OpenRS.Net.Client
                         newNpcOffset += 3;
 
                         int waypointCurrent = newNpc.WaypointCurrent;
-                        Point2D waypoint = new Point2D(
+                        Point2D waypoint = new(
                             newNpc.Waypoints[waypointCurrent].X,
                             newNpc.Waypoints[waypointCurrent].Y);
 
@@ -866,7 +852,7 @@ namespace OpenRS.Net.Client
             int sprite = DataOperations.GetInt(data, off, 4);
             off += 4;
 
-            bool sectionLoaded = client.loadSection(client.SectionLocation.X, client.SectionLocation.Y);
+            bool sectionLoaded = client.LoadSection(client.SectionLocation.X, client.SectionLocation.Y);
 
             client.SectionLocation = new Point2D(
                 client.SectionLocation.X - client.AreaLocation.X,
@@ -909,7 +895,7 @@ namespace OpenRS.Net.Client
                         off += 3;
 
                         int currentWaypoint = mob.WaypointCurrent;
-                        Point2D newWaypoint = new Point2D(
+                        Point2D newWaypoint = new(
                             mob.Waypoints[currentWaypoint].X,
                             mob.Waypoints[currentWaypoint].Y);
 
@@ -1055,7 +1041,7 @@ namespace OpenRS.Net.Client
 
                     if (mob != null)
                     {
-                        string str = ChatMessage.bytesToString(data, offset, messageLength);
+                        string str = ChatMessage.BytesToString(data, offset, messageLength);
                         mob.lastMessageTimeout = 150;
                         mob.lastMessage = str;
 
@@ -1090,15 +1076,9 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleCompletedTasks(sbyte[] data)
-        {
-            client.CompletedTasks = DataOperations.GetInt16(data, 1);
-        }
+        void HandleCompletedTasks(sbyte[] data) => client.CompletedTasks = DataOperations.GetInt16(data, 1);
 
-        void HandleDeaths(sbyte[] data)
-        {
-            client.Deaths = DataOperations.GetInt16(data, 1);
-        }
+        void HandleDeaths(sbyte[] data) => client.Deaths = DataOperations.GetInt16(data, 1);
 
         void HandleDemonSlayer(sbyte[] data)
         {
@@ -1143,10 +1123,7 @@ namespace OpenRS.Net.Client
             questManager.SetStage("11", stage);
         }
 
-        void HandleFatigueChange(sbyte[] data)
-        {
-            client.PlayerFatigue = DataOperations.GetInt16(data, 1);
-        }
+        void HandleFatigueChange(sbyte[] data) => client.PlayerFatigue = DataOperations.GetInt16(data, 1);
 
         void HandleGroundItems(sbyte[] data, int length)
         {
@@ -1258,15 +1235,9 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleGuthixSpells(sbyte[] data)
-        {
-            client.GuthixSpells = DataOperations.GetInt16(data, 1);
-        }
+        void HandleGuthixSpells(sbyte[] data) => client.GuthixSpells = DataOperations.GetInt16(data, 1);
 
-        void HandleHideQuestionMenu()
-        {
-            client.ShowQuestionMenu = false;
-        }
+        void HandleHideQuestionMenu() => client.ShowQuestionMenu = false;
 
         void HandleImpCatcher(sbyte[] data)
         {
@@ -1301,20 +1272,11 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleKillingSpree(sbyte[] data)
-        {
-            client.KillingSpree = DataOperations.GetInt16(data, 1);
-        }
+        void HandleKillingSpree(sbyte[] data) => client.KillingSpree = DataOperations.GetInt16(data, 1);
 
-        void HandleKills(sbyte[] data)
-        {
-            client.Kills = DataOperations.GetInt16(data, 1);
-        }
+        void HandleKills(sbyte[] data) => client.Kills = DataOperations.GetInt16(data, 1);
 
-        void HandleMoneyTask(sbyte[] data, int length)
-        {
-            client.MoneyTask = Encoding.ASCII.GetString((byte[])(Array)data, 1, length);
-        }
+        void HandleMoneyTask(sbyte[] data, int length) => client.MoneyTask = Encoding.ASCII.GetString((byte[])(Array)data, 1, length);
 
         void HandlePirateTreasure(sbyte[] data)
         {
@@ -1342,10 +1304,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleQuestPointsChange(sbyte[] data)
-        {
-            questManager.QuestPoints = DataOperations.GetInt16(data, 1);
-        }
+        void HandleQuestPointsChange(sbyte[] data) => questManager.QuestPoints = DataOperations.GetInt16(data, 1);
 
         void HandleQuestionMenu(sbyte[] data)
         {
@@ -1363,10 +1322,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleRemaining(sbyte[] data)
-        {
-            client.Remaining = DataOperations.GetInt16(data, 1);
-        }
+        void HandleRemaining(sbyte[] data) => client.Remaining = DataOperations.GetInt16(data, 1);
 
         void HandleRemoveItem(sbyte[] data)
         {
@@ -1375,10 +1331,7 @@ namespace OpenRS.Net.Client
             inventoryManager.RemoveItem(itemSlot);
         }
 
-        void HandleResetPlayerAliveTimeout()
-        {
-            client.PlayerAliveTimeout = 250;
-        }
+        void HandleResetPlayerAliveTimeout() => client.PlayerAliveTimeout = 250;
 
         void HandleRomeoAndJuliet(sbyte[] data)
         {
@@ -1388,10 +1341,7 @@ namespace OpenRS.Net.Client
             questManager.SetStage("5", stage);
         }
 
-        void HandleSaradominSpells(sbyte[] data)
-        {
-            client.SaradominSpells = DataOperations.GetInt16(data, 1);
-        }
+        void HandleSaradominSpells(sbyte[] data) => client.SaradominSpells = DataOperations.GetInt16(data, 1);
 
         void HandleServerInfo(sbyte[] data, int length)
         {
@@ -1407,45 +1357,21 @@ namespace OpenRS.Net.Client
             questManager.SetStage("1", stage);
         }
 
-        void HandleShowAppearanceWindow()
-        {
-            client.ShowAppearanceWindow = true;
-        }
+        void HandleShowAppearanceWindow() => client.ShowAppearanceWindow = true;
 
-        void HandleShowBankBox()
-        {
-            client.ShowBankBox = true;
-        }
+        void HandleShowBankBox() => client.ShowBankBox = true;
 
-        void HandleShowShopBox()
-        {
-            client.ShowShopBox = true;
-        }
+        void HandleShowShopBox() => client.ShowShopBox = true;
 
-        void HandleTaskCash(sbyte[] data)
-        {
-            client.TaskCash = DataOperations.GetInt16(data, 1);
-        }
+        void HandleTaskCash(sbyte[] data) => client.TaskCash = DataOperations.GetInt16(data, 1);
 
-        void HandleTaskExperience(sbyte[] data)
-        {
-            client.TaskExperience = DataOperations.GetInt16(data, 1);
-        }
+        void HandleTaskExperience(sbyte[] data) => client.TaskExperience = DataOperations.GetInt16(data, 1);
 
-        void HandleTaskItem(sbyte[] data)
-        {
-            client.TaskItem = DataOperations.GetInt16(data, 1);
-        }
+        void HandleTaskItem(sbyte[] data) => client.TaskItem = DataOperations.GetInt16(data, 1);
 
-        void HandleTaskPointsChange(sbyte[] data)
-        {
-            client.TaskPoints = DataOperations.GetInt16(data, 1);
-        }
+        void HandleTaskPointsChange(sbyte[] data) => client.TaskPoints = DataOperations.GetInt16(data, 1);
 
-        void HandleTaskStatus(sbyte[] data)
-        {
-            client.TaskCash = DataOperations.GetInt16(data, 1);
-        }
+        void HandleTaskStatus(sbyte[] data) => client.TaskCash = DataOperations.GetInt16(data, 1);
 
         void HandleTheRestlessGhost(sbyte[] data)
         {
@@ -1455,10 +1381,7 @@ namespace OpenRS.Net.Client
             questManager.SetStage("6", stage);
         }
 
-        void HandleTutorialChange(sbyte[] data)
-        {
-            client.Tutorial = DataOperations.GetInt16(data, 1);
-        }
+        void HandleTutorialChange(sbyte[] data) => client.Tutorial = DataOperations.GetInt16(data, 1);
 
         void HandleWallObjects(sbyte[] data, int length)
         {
@@ -1467,7 +1390,7 @@ namespace OpenRS.Net.Client
                 if (DataOperations.GetInt8(data[offset]) == 255)
                 {
                     int newCount = 0;
-                    Point2D newSectionLocation = new Point2D(
+                    Point2D newSectionLocation = new(
                         client.SectionLocation.X + data[offset + 1] >> 3,
                         client.SectionLocation.Y + data[offset + 2] >> 3);
 
@@ -1509,7 +1432,7 @@ namespace OpenRS.Net.Client
                     int newId = DataOperations.GetInt16(data, offset);
                     offset += 2;
 
-                    Point2D newSectionLocation = new Point2D(
+                    Point2D newSectionLocation = new(
                         client.SectionLocation.X + data[offset++],
                         client.SectionLocation.Y + data[offset++]);
 
@@ -1567,9 +1490,6 @@ namespace OpenRS.Net.Client
             questManager.SetStage("9", stage);
         }
 
-        void HandleZamorakSpells(sbyte[] data)
-        {
-            client.ZamorakSpells = DataOperations.GetInt16(data, 1);
-        }
+        void HandleZamorakSpells(sbyte[] data) => client.ZamorakSpells = DataOperations.GetInt16(data, 1);
     }
 }

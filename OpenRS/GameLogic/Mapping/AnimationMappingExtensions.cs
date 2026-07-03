@@ -18,7 +18,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="animationEntity">Animation entity.</param>
         internal static Animation ToDomainModel(this AnimationEntity animationEntity)
         {
-            Animation animation = new Animation
+            Animation animation = new()
             {
                 Name = animationEntity.Name,
                 CharacterColour = animationEntity.CharacterColour,
@@ -38,7 +38,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="animation">Animation.</param>
         internal static AnimationEntity ToEntity(this Animation animation)
         {
-            AnimationEntity animationEntity = new AnimationEntity
+            AnimationEntity animationEntity = new()
             {
                 Name = animation.Name,
                 CharacterColour = animation.CharacterColour,

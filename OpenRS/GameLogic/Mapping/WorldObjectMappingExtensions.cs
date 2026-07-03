@@ -18,7 +18,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="worldObjectEntity">Model entity.</param>
         internal static WorldObject ToDomainModel(this WorldObjectEntity worldObjectEntity)
         {
-            WorldObject worldObject = new WorldObject
+            WorldObject worldObject = new()
             {
                 Id = worldObjectEntity.Id,
                 Name = worldObjectEntity.Name,
@@ -43,7 +43,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="worldObject">Model.</param>
         internal static WorldObjectEntity ToEntity(this WorldObject worldObject)
         {
-            WorldObjectEntity worldObjectEntity = new WorldObjectEntity
+            WorldObjectEntity worldObjectEntity = new()
             {
                 Id = worldObject.Id,
                 Name = worldObject.Name,

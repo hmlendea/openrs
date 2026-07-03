@@ -18,7 +18,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="itemEntity">Item entity.</param>
         internal static Item ToDomainModel(this ItemEntity itemEntity)
         {
-            Item item = new Item
+            Item item = new()
             {
                 Id = itemEntity.Id,
                 Name = itemEntity.Name,
@@ -45,7 +45,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="item">Item.</param>
         internal static ItemEntity ToEntity(this Item item)
         {
-            ItemEntity itemEntity = new ItemEntity
+            ItemEntity itemEntity = new()
             {
                 Id = item.Id,
                 Name = item.Name,

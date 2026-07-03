@@ -20,7 +20,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="itemLocationEntity">ItemLocation entity.</param>
         internal static ItemLocation ToDomainModel(this ItemLocationEntity itemLocationEntity)
         {
-            ItemLocation itemLocation = new ItemLocation
+            ItemLocation itemLocation = new()
             {
                 Coordinates = new Point2D(itemLocationEntity.X, itemLocationEntity.Y),
                 Amount = itemLocationEntity.Amount,
@@ -37,7 +37,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="itemLocation">ItemLocation.</param>
         internal static ItemLocationEntity ToEntity(this ItemLocation itemLocation)
         {
-            ItemLocationEntity itemLocationEntity = new ItemLocationEntity
+            ItemLocationEntity itemLocationEntity = new()
             {
                 X = itemLocation.Coordinates.X,
                 Y = itemLocation.Coordinates.Y,

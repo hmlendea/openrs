@@ -8,9 +8,9 @@ using OpenRS.Net.Client;
 
 namespace OpenRS.Gui.Controls
 {
-    public class GuiSkillsPanel : GuiControl
+    public class GuiSkillsPanel(GameClient client) : GuiControl
     {
-        readonly GameClient client;
+        readonly GameClient client = client;
 
         GuiSkillCard attackCard;
         GuiSkillCard healthCard;
@@ -30,11 +30,6 @@ namespace OpenRS.Gui.Controls
         GuiSkillCard magicCard;
         GuiSkillCard fletchingCard;
         GuiSkillCard woodcuttingCard;
-
-        public GuiSkillsPanel(GameClient client)
-        {
-            this.client = client;
-        }
 
         /// <summary>
         /// Loads the content.

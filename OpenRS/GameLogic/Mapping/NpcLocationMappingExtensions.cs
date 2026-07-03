@@ -20,7 +20,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="npcLocationEntity">NpcLocation entity.</param>
         internal static NpcLocation ToDomainModel(this NpcLocationEntity npcLocationEntity)
         {
-            NpcLocation npcLocation = new NpcLocation
+            NpcLocation npcLocation = new()
             {
                 InitialCoordinates = new Point2D(npcLocationEntity.InitialX, npcLocationEntity.InitialY),
                 MinimumCoordinates = new Point2D(npcLocationEntity.MinX, npcLocationEntity.MinY),
@@ -37,7 +37,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="npcLocation">NpcLocation.</param>
         internal static NpcLocationEntity ToEntity(this NpcLocation npcLocation)
         {
-            NpcLocationEntity npcLocationEntity = new NpcLocationEntity
+            NpcLocationEntity npcLocationEntity = new()
             {
                 InitialX = npcLocation.InitialCoordinates.X,
                 InitialY = npcLocation.InitialCoordinates.Y,

@@ -24,9 +24,6 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void Paint()
-        {
-            GameApplet.paint();
-        }
+        public void Paint() => GameApplet.paint();
     }
 }

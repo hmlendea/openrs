@@ -21,7 +21,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="gameObjectLocationEntity">Model entity.</param>
         internal static GameObjectLocation ToDomainModel(this GameObjectLocationEntity gameObjectLocationEntity)
         {
-            GameObjectLocation gameObjectLocation = new GameObjectLocation
+            GameObjectLocation gameObjectLocation = new()
             {
                 Location = new Point2D(gameObjectLocationEntity.X, gameObjectLocationEntity.Y),
                 Direction = gameObjectLocationEntity.Direction,
@@ -38,7 +38,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="gameObjectLocation">Model.</param>
         internal static GameObjectLocationEntity ToEntity(this GameObjectLocation gameObjectLocation)
         {
-            GameObjectLocationEntity gameObjectLocationEntity = new GameObjectLocationEntity
+            GameObjectLocationEntity gameObjectLocationEntity = new()
             {
                 X = gameObjectLocation.Location.X,
                 Y = gameObjectLocation.Location.Y,

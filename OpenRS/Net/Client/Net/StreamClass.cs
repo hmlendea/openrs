@@ -7,11 +7,11 @@ namespace OpenRS.Net.Client.Net
 {
     public class StreamClass : PacketConstruction
     {
-        NetworkStream netStream;
+        readonly NetworkStream netStream;
 
-        readonly object syncLock = new object();
+        readonly object syncLock = new();
 
-        TcpClient socket;
+        readonly TcpClient socket;
         bool socketClosing;
         byte[] buffer;
         int dataWritten;
@@ -148,10 +148,7 @@ namespace OpenRS.Net.Client.Net
                 return;
             }
 
-            if (buffer == null)
-            {
-                buffer = new byte[5000];
-            }
+            buffer ??= new byte[5000];
 
             lock (syncLock) // WARNING: synchronized(this)
             {
@@ -272,4 +269,3 @@ namespace OpenRS.Net.Client.Net
         }
     }
 }
-

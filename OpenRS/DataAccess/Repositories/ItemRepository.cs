@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-using NuciDAL.Repositories;
+﻿using NuciDAL.Repositories;
 
 using OpenRS.DataAccess.DataObjects;
 
@@ -11,18 +7,12 @@ namespace OpenRS.DataAccess.Repositories
     /// <summary>
     /// Item repository implementation.
     /// </summary>
-    public class ItemRepository : XmlRepository<ItemEntity>
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="ItemRepository"/> class.
+    /// </remarks>
+    /// <param name="fileName">File name.</param>
+    public class ItemRepository(string fileName) : XmlRepository<ItemEntity>(fileName)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ItemRepository"/> class.
-        /// </summary>
-        /// <param name="fileName">File name.</param>
-        public ItemRepository(string fileName)
-            : base(fileName)
-        {
-
-        }
-
         /// <summary>
         /// Updates the specified item.
         /// </summary>

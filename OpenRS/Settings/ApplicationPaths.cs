@@ -19,10 +19,7 @@ namespace OpenRS.Settings
         {
             get
             {
-                if (rootDirectory == null)
-                {
-                    rootDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                }
+                rootDirectory ??= Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
                 return rootDirectory;
             }
@@ -36,10 +33,7 @@ namespace OpenRS.Settings
         {
             get
             {
-                if (localAppData == null)
-                {
-                    localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                }
+                localAppData ??= Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
                 return Path.Combine(localAppData, "OpenRS");
             }

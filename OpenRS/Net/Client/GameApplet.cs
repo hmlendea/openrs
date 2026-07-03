@@ -6,8 +6,6 @@ using System.Threading;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using NuciExtensions;
-
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 
@@ -38,10 +36,7 @@ namespace OpenRS.Net.Client
         {
         }
 
-        public void SetRefreshRate(int i)
-        {
-            refreshRate = 1000 / i;
-        }
+        public void SetRefreshRate(int i) => refreshRate = 1000 / i;
 
         public void ResetTimings()
         {
@@ -51,35 +46,17 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void MouseEntered()
-        {
-            MouseMove();
-        }
+        public void MouseEntered() => MouseMove();
 
-        public void MouseExited()
-        {
-            MouseMove();
-        }
+        public void MouseExited() => MouseMove();
 
-        public void MousePressed(MouseState evt)
-        {
-            mouseDown(evt.X, evt.Y, evt.RightButton == ButtonState.Pressed);
-        }
+        public void MousePressed(MouseState evt) => mouseDown(evt.X, evt.Y, evt.RightButton == ButtonState.Pressed);
 
-        public void MouseReleased()
-        {
-            MouseUp();
-        }
+        public void MouseReleased() => MouseUp();
 
-        public void MouseDragged(MouseState evt)
-        {
-            mouseDrag(evt.RightButton == ButtonState.Pressed);
-        }
+        public void MouseDragged(MouseState evt) => mouseDrag(evt.RightButton == ButtonState.Pressed);
 
-        public void MouseMoved()
-        {
-            MouseMove();
-        }
+        public void MouseMoved() => MouseMove();
 
         public void KeyDown(Keys key, char c)
         {
@@ -144,8 +121,8 @@ namespace OpenRS.Net.Client
 
         public void StartThread(Action runnable)
         {
-            ThreadStart threadStart = new ThreadStart(runnable);
-            Thread thread = new Thread(threadStart);
+            ThreadStart threadStart = new(runnable);
+            Thread thread = new(threadStart);
 
             thread.Start();
         }
@@ -225,10 +202,7 @@ namespace OpenRS.Net.Client
 
         public bool DrawIsNecessary;
 
-        public void OnDrawDone()
-        {
-            DrawIsNecessary = true;
-        }
+        public void OnDrawDone() => DrawIsNecessary = true;
 
         public int gameVar_i;
         public int gameVar_k = 256;
@@ -377,11 +351,11 @@ namespace OpenRS.Net.Client
                 l += 90;
                 gameLoadingPercentage = i;
                 gameLoadingFileTitle = s;
-                int i1 = (277 * i) / 100;
+                int i1 = 277 * i / 100;
 
                 return;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine($"An error has occured in {nameof(GameApplet)}.cs");
                 return;
@@ -401,10 +375,10 @@ namespace OpenRS.Net.Client
                     Console.WriteLine("Loading " + fileTitle + " - 0%");
                     drawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 0%");
                     var inputstream = new BinaryReader(DataOperations.openInputStream(filename));
-                    sbyte[] abyte2 = new sbyte[6] {
+                    sbyte[] abyte2 = [
                         inputstream.ReadSByte(),inputstream.ReadSByte(),inputstream.ReadSByte(),
                         inputstream.ReadSByte(),inputstream.ReadSByte(),inputstream.ReadSByte()
-                    };
+                    ];
 
                     i = ((abyte2[0] & 0xff) << 16) + ((abyte2[1] & 0xff) << 8) + (abyte2[2] & 0xff);
                     k = ((abyte2[3] & 0xff) << 16) + ((abyte2[4] & 0xff) << 8) + (abyte2[5] & 0xff);
@@ -428,13 +402,13 @@ namespace OpenRS.Net.Client
                         }
 
                         l += i1;
-                        Console.WriteLine("Loading " + fileTitle + " - " + (5 + (l * 95) / k) + "%");
-                        drawLoadingBarText(startPercentage, "Loading " + fileTitle + " - " + (5 + (l * 95) / k) + "%");
+                        Console.WriteLine("Loading " + fileTitle + " - " + (5 + l * 95 / k) + "%");
+                        drawLoadingBarText(startPercentage, "Loading " + fileTitle + " - " + (5 + l * 95 / k) + "%");
                     }
 
                     inputstream.Close();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     Console.WriteLine($"An error has occured in {nameof(GameApplet)}.cs");
                 }
@@ -445,7 +419,7 @@ namespace OpenRS.Net.Client
             if (k != i)
             {
                 sbyte[] abyte1 = new sbyte[i];
-                DataFileDecrypter.unpackData(abyte1, i, abyte0, k, 0);
+                DataFileDecrypter.UnpackData(abyte1, i, abyte0, k, 0);
                 return abyte1;
             }
 
@@ -454,7 +428,7 @@ namespace OpenRS.Net.Client
 
         protected TcpClient MakeSocket(string ip, int port)
         {
-            TcpClient client = new TcpClient();
+            TcpClient client = new();
             client.Connect(ip, port);
 
             client.SendTimeout = 30000;

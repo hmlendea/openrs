@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using System.Xml.Serialization;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,9 +14,9 @@ using OpenRS.Net.Client.Game;
 
 namespace OpenRS.Gui.Controls
 {
-    public class GuiGame : GuiControl
+    public class GuiGame(GameClient client) : GuiControl
     {
-        readonly GameClient gameClient;
+        readonly GameClient gameClient = client;
 
         SpriteBatch spriteBatch;
 
@@ -25,11 +24,6 @@ namespace OpenRS.Gui.Controls
 
         bool isSectionLoading;
         bool isContentLoading;
-
-        public GuiGame(GameClient client)
-        {
-            this.gameClient = client;
-        }
 
         /// <summary>
         /// Loads the content.
@@ -92,7 +86,7 @@ namespace OpenRS.Gui.Controls
             gameClient.OnContentLoadedCompleted -= client_OnContentLoadedCompleted;
             gameClient.OnContentLoaded -= client_OnContentLoaded;
             gameClient.OnLoadingSection -= client_OnLoadingSection;
-            gameClient.OnLoadingSectionCompleted -= client_OnLoadingSectionCompleted; 
+            gameClient.OnLoadingSectionCompleted -= client_OnLoadingSectionCompleted;
         }
 
         void DrawGame(GameClient client)
@@ -125,7 +119,7 @@ namespace OpenRS.Gui.Controls
 
                     if (client.gameGraphics.pixels.Any(p => p != 0) && client.DrawIsNecessary)
                     {
-                        Texture2D imageTexture = new Texture2D(
+                        Texture2D imageTexture = new(
                             GraphicsManager.Instance.Graphics.GraphicsDevice,
                             client.gameGraphics.GameSize.Width,
                             client.gameGraphics.GameSize.Height,
@@ -198,10 +192,7 @@ namespace OpenRS.Gui.Controls
             isSectionLoading = false;
         }
 
-        void client_OnLoadingSection(object sender, EventArgs e)
-        {
-            isSectionLoading = true;
-        }
+        void client_OnLoadingSection(object sender, EventArgs e) => isSectionLoading = true;
 
         void client_OnContentLoadedCompleted(object sender, EventArgs e)
         {
@@ -210,9 +201,6 @@ namespace OpenRS.Gui.Controls
             isContentLoading = false;
         }
 
-        void client_OnContentLoaded(object sender, ContentLoadedEventArgs e)
-        {
-            isContentLoading = true;
-        }
+        void client_OnContentLoaded(object sender, ContentLoadedEventArgs e) => isContentLoading = true;
     }
 }

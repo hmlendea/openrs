@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-using NuciDAL.Repositories;
+﻿using NuciDAL.Repositories;
 
 using OpenRS.DataAccess.DataObjects;
 
@@ -11,17 +7,12 @@ namespace OpenRS.DataAccess.Repositories
     /// <summary>
     /// Elevation repository implementation.
     /// </summary>
-    public class ElevationRepository : XmlRepository<ElevationEntity>
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="ElevationRepository"/> class.
+    /// </remarks>
+    /// <param name="fileName">File name.</param>
+    public class ElevationRepository(string fileName) : XmlRepository<ElevationEntity>(fileName)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ElevationRepository"/> class.
-        /// </summary>
-        /// <param name="fileName">File name.</param>
-        public ElevationRepository(string fileName)
-            : base(fileName)
-        {
-        }
-
         /// <summary>
         /// Updates the specified elevation.
         /// </summary>

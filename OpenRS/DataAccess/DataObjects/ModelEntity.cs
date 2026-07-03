@@ -1,6 +1,4 @@
-﻿using NuciDAL.DataObjects;
-
-namespace OpenRS.DataAccess.DataObjects
+﻿namespace OpenRS.DataAccess.DataObjects
 {
     public class ModelEntity
     {

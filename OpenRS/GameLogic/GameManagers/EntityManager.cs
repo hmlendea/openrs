@@ -22,7 +22,7 @@ namespace OpenRS.GameLogic.GameManagers
         List<WallObject> wallObjects;
         List<WorldObject> worldObjects;
 
-        string[] modelName = new string[5000];
+        readonly string[] modelName = new string[5000];
 
         /// <summary>
         /// Gets the animations count.
@@ -114,27 +114,27 @@ namespace OpenRS.GameLogic.GameManagers
             string wallObjectPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "wall_objects.xml");
             string worldObjectPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "world_objects.xml");
 
-            AnimationRepository animationRepository = new AnimationRepository(animationsPath);
-            ElevationRepository elevationRepository = new ElevationRepository(elevationPath);
-            ItemRepository itemRepository = new ItemRepository(itemPath);
-            NpcRepository npcRepository = new NpcRepository(npcPath);
-            PrayerRepository prayerRepository = new PrayerRepository(prayerPath);
-            SpellRepository spellRepository = new SpellRepository(spellPath);
-            GameTextureRepository textureRepository = new GameTextureRepository(texturePath);
-            TileRepository tileRepository = new TileRepository(tilePath);
-            WallObjectRepository wallObjectRepository = new WallObjectRepository(wallObjectPath);
-            WorldObjectRepository worldObjectRepository = new WorldObjectRepository(worldObjectPath);
+            AnimationRepository animationRepository = new(animationsPath);
+            ElevationRepository elevationRepository = new(elevationPath);
+            ItemRepository itemRepository = new(itemPath);
+            NpcRepository npcRepository = new(npcPath);
+            PrayerRepository prayerRepository = new(prayerPath);
+            SpellRepository spellRepository = new(spellPath);
+            GameTextureRepository textureRepository = new(texturePath);
+            TileRepository tileRepository = new(tilePath);
+            WallObjectRepository wallObjectRepository = new(wallObjectPath);
+            WorldObjectRepository worldObjectRepository = new(worldObjectPath);
 
-            animations = animationRepository.GetAll().ToDomainModels().ToList();
-            elevations = elevationRepository.GetAll().ToDomainModels().ToList();
-            items = itemRepository.GetAll().ToDomainModels().ToList();
-            npcs = npcRepository.GetAll().ToDomainModels().ToList();
-            prayers = prayerRepository.GetAll().ToDomainModels().ToList();
-            spells = spellRepository.GetAll().ToDomainModels().ToList();
-            textures = textureRepository.GetAll().ToDomainModels().ToList();
-            tiles = tileRepository.GetAll().ToDomainModels().ToList();
-            wallObjects = wallObjectRepository.GetAll().ToDomainModels().ToList();
-            worldObjects = worldObjectRepository.GetAll().ToDomainModels().ToList();
+            animations = [.. animationRepository.GetAll().ToDomainModels()];
+            elevations = [.. elevationRepository.GetAll().ToDomainModels()];
+            items = [.. itemRepository.GetAll().ToDomainModels()];
+            npcs = [.. npcRepository.GetAll().ToDomainModels()];
+            prayers = [.. prayerRepository.GetAll().ToDomainModels()];
+            spells = [.. spellRepository.GetAll().ToDomainModels()];
+            textures = [.. textureRepository.GetAll().ToDomainModels()];
+            tiles = [.. tileRepository.GetAll().ToDomainModels()];
+            wallObjects = [.. wallObjectRepository.GetAll().ToDomainModels()];
+            worldObjects = [.. worldObjectRepository.GetAll().ToDomainModels()];
 
             foreach (WorldObject worldObject in worldObjects)
             {
@@ -223,10 +223,7 @@ namespace OpenRS.GameLogic.GameManagers
             return npcs[index];
         }
 
-        public string GetObjectModelName(int index)
-        {
-            return modelName[index];
-        }
+        public string GetObjectModelName(int index) => modelName[index];
 
         /// <summary>
         /// Gets the prayer.
@@ -323,9 +320,6 @@ namespace OpenRS.GameLogic.GameManagers
         /// </summary>
         /// <returns>The world object.</returns>
         /// <param name="id">Identifier.</param>
-        public WorldObject GetWorldObject(string id)
-        {
-            return worldObjects.FirstOrDefault(x => x.Id == id);
-        }
+        public WorldObject GetWorldObject(string id) => worldObjects.FirstOrDefault(x => x.Id == id);
     }
 }

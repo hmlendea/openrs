@@ -18,7 +18,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="questEntity">Quest entity.</param>
         internal static Quest ToDomainModel(this QuestEntity questEntity)
         {
-            Quest quest = new Quest
+            Quest quest = new()
             {
                 Id = questEntity.Id,
                 Name = questEntity.Name,
@@ -34,7 +34,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="quest">Quest.</param>
         internal static QuestEntity ToEntity(this Quest quest)
         {
-            QuestEntity questEntity = new QuestEntity
+            QuestEntity questEntity = new()
             {
                 Id = quest.Id,
                 Name = quest.Name

@@ -4,21 +4,12 @@ using System.Text;
 
 namespace OpenRS.Net.Client.Net
 {
-    public class LoginEncryptor
+    public class LoginEncryptor(byte[] packet)
     {
-        public byte[] Packet { get; private set; }
-        public int Offset { get; private set; }
+        public byte[] Packet { get; private set; } = packet;
+        public int Offset { get; private set; } = 0;
 
-        public LoginEncryptor(byte[] packet)
-        {
-            Packet = packet;
-            Offset = 0;
-        }
-
-        public void AddInt8(int value)
-        {
-            Packet[Offset++] = (byte)value;
-        }
+        public void AddInt8(int value) => Packet[Offset++] = (byte)value;
 
         public void AddInt32(int value)
         {
@@ -47,10 +38,7 @@ namespace OpenRS.Net.Client.Net
             }
         }
 
-        public int GetInt8()
-        {
-            return Packet[Offset++] & 0xFF;
-        }
+        public int GetInt8() => Packet[Offset++] & 0xFF;
 
         public int GetInt16()
         {
@@ -89,7 +77,7 @@ namespace OpenRS.Net.Client.Net
 
             Array.Reverse(dummyPacket);
 
-            BigInteger bigInt3 = new BigInteger(dummyPacket);
+            BigInteger bigInt3 = new(dummyPacket);
             bigInt3 = BigInteger.ModPow(bigInt3, bigInt, bigInt2);
 
             byte[] encryptedPacket = bigInt3.ToByteArray();

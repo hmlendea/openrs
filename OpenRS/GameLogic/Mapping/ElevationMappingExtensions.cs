@@ -18,7 +18,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="elevationEntity">Elevation entity.</param>
         internal static Elevation ToDomainModel(this ElevationEntity elevationEntity)
         {
-            Elevation elevation = new Elevation
+            Elevation elevation = new()
             {
                 Roof = elevationEntity.Roof,
                 Unknown = elevationEntity.Unknown
@@ -34,7 +34,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="elevation">Elevation.</param>
         internal static ElevationEntity ToEntity(this Elevation elevation)
         {
-            ElevationEntity elevationEntity = new ElevationEntity
+            ElevationEntity elevationEntity = new()
             {
                 Roof = elevation.Roof,
                 Unknown = elevation.Unknown

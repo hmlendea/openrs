@@ -9,19 +9,14 @@ using OpenRS.Models;
 
 namespace OpenRS.Gui.Controls
 {
-    public class GuiInventoryPanel : GuiControl
+    public class GuiInventoryPanel(GameClient client) : GuiControl
     {
-        readonly GameClient client;
+        readonly GameClient client = client;
 
         GuiItemCard[] itemCards;
 
         const int Rows = 8;
         const int Columns = 4;
-
-        public GuiInventoryPanel(GameClient client)
-        {
-            this.client = client;
-        }
 
         /// <summary>
         /// Loads the content.

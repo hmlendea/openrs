@@ -18,7 +18,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="npcEntity">Npc entity.</param>
         internal static Npc ToDomainModel(this NpcEntity npcEntity)
         {
-            Npc npc = new Npc
+            Npc npc = new()
             {
                 Id = npcEntity.Id,
                 Name = npcEntity.Name,
@@ -57,7 +57,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="npc">Npc.</param>
         internal static NpcEntity ToEntity(this Npc npc)
         {
-            NpcEntity npcEntity = new NpcEntity
+            NpcEntity npcEntity = new()
             {
                 Id = npc.Id,
                 Name = npc.Name,

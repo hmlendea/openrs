@@ -18,7 +18,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="textureEntity">Texture entity.</param>
         internal static GameTexture ToDomainModel(this GameTextureEntity textureEntity)
         {
-            GameTexture texture = new GameTexture
+            GameTexture texture = new()
             {
                 Name = textureEntity.Name,
                 SubName = textureEntity.SubName
@@ -34,7 +34,7 @@ namespace OpenRS.GameLogic.Mapping
         /// <param name="texture">Texture.</param>
         internal static GameTextureEntity ToEntity(this GameTexture texture)
         {
-            GameTextureEntity textureEntity = new GameTextureEntity
+            GameTextureEntity textureEntity = new()
             {
                 Name = texture.Name,
                 SubName = texture.SubName

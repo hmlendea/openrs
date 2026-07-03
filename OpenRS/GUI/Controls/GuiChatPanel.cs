@@ -28,14 +28,14 @@ namespace OpenRS.Gui.Controls
         /// </summary>
         protected override void DoLoadContent()
         {
-            messageRows = new List<GuiText>();
+            messageRows = [];
 
             background = new GuiImage
             {
                 ContentFile = "ScreenManager/FillImage",
                 TextureLayout = TextureLayout.Tile
             };
-            
+
             RegisterChild(background);
             SetChildrenProperties();
         }
@@ -52,10 +52,7 @@ namespace OpenRS.Gui.Controls
         /// Update the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        protected override void DoUpdate(GameTime gameTime)
-        {
-            SetChildrenProperties();
-        }
+        protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
 
         /// <summary>
         /// Draw the content on the specified <see cref="SpriteBatch"/>.
@@ -85,7 +82,7 @@ namespace OpenRS.Gui.Controls
             // Add additional rows if there is enough room (the chat panel was expanded)
             while (Size.Height - (messageRows.Count * MessageHeight) >= MessageHeight)
             {
-                GuiText newRow = new GuiText
+                GuiText newRow = new()
                 {
                     FontName = "ChatFont",
                     HorizontalAlignment = Alignment.Beginning
@@ -102,7 +99,7 @@ namespace OpenRS.Gui.Controls
                 messageRows.RemoveAt(0);
             }
 
-            // Update the properties of 
+            // Update the properties of
             int y = ClientRectangle.Bottom - MessageHeight;
             for (int i = messageRows.Count - 1; i >= 0; i--)
             {

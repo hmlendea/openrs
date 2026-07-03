@@ -2,26 +2,26 @@ using System;
 
 namespace OpenRS.Net.Client.Data
 {
-
     public class DataFileDecrypter
     {
-
-        public static long unpackData(sbyte[] abyte0, int decompressedSize, sbyte[] abyte1, int j, int k)
+        public static long UnpackData(sbyte[] abyte0, int decompressedSize, sbyte[] abyte1, int j, int k)
         {
-            BZip2BlockEntry blockEntry = new BZip2BlockEntry();
-            blockEntry.inputBuffer = abyte1;
-            blockEntry.offset = k;
-            blockEntry.outputBuffer = abyte0;
-            blockEntry.aek = 0;
-            blockEntry.compressedSize = j;
-            blockEntry.decompressedSize = decompressedSize;
-            blockEntry.afe = 0;
-            blockEntry.afd = 0;
-            blockEntry.aeh = 0;
-            blockEntry.aei = 0;
-            blockEntry.aem = 0;
-            blockEntry.aen = 0;
-            blockEntry.afg = 0;
+            BZip2BlockEntry blockEntry = new()
+            {
+                inputBuffer = abyte1,
+                offset = k,
+                outputBuffer = abyte0,
+                aek = 0,
+                compressedSize = j,
+                decompressedSize = decompressedSize,
+                afe = 0,
+                afd = 0,
+                aeh = 0,
+                aei = 0,
+                aem = 0,
+                aen = 0,
+                afg = 0
+            };
             readBlock(blockEntry);
             decompressedSize -= blockEntry.decompressedSize;
             return decompressedSize;
@@ -29,20 +29,22 @@ namespace OpenRS.Net.Client.Data
 
         public static long unpackData(byte[] abyte0, int decompressedSize, byte[] abyte1, int j, int k)
         {
-            BZip2BlockEntry blockEntry = new BZip2BlockEntry();
-            blockEntry.inputBuffer = (sbyte[])(Array)abyte1;
-            blockEntry.offset = k;
-            blockEntry.outputBuffer = (sbyte[])(Array)abyte0;
-            blockEntry.aek = 0;
-            blockEntry.compressedSize = j;
-            blockEntry.decompressedSize = decompressedSize;
-            blockEntry.afe = 0;
-            blockEntry.afd = 0;
-            blockEntry.aeh = 0;
-            blockEntry.aei = 0;
-            blockEntry.aem = 0;
-            blockEntry.aen = 0;
-            blockEntry.afg = 0;
+            BZip2BlockEntry blockEntry = new()
+            {
+                inputBuffer = (sbyte[])(Array)abyte1,
+                offset = k,
+                outputBuffer = (sbyte[])(Array)abyte0,
+                aek = 0,
+                compressedSize = j,
+                decompressedSize = decompressedSize,
+                afe = 0,
+                afd = 0,
+                aeh = 0,
+                aei = 0,
+                aem = 0,
+                aen = 0,
+                afg = 0
+            };
             readBlock(blockEntry);
             decompressedSize -= blockEntry.decompressedSize;
             return decompressedSize;
@@ -169,7 +171,7 @@ namespace OpenRS.Net.Client.Data
                                 j++;
                                 i = (sbyte3 & 0xff) + 4;
                                 l = ai[l];
-                                k = (l & 0xff);
+                                k = l & 0xff;
                                 l >>= 8;
                                 j++;
                             }
@@ -198,7 +200,7 @@ namespace OpenRS.Net.Client.Data
             arg0.decompressedSize = j1;
         }
 
-     
+
         static void readBlock(BZip2BlockEntry blockEntry)
         {
             int minLens_zt = 0;
@@ -206,10 +208,7 @@ namespace OpenRS.Net.Client.Data
             int[] base_zt = null;
             int[] perm_zt = null;
             blockEntry.blockSize100k = 1;
-            if (BZip2BlockEntry.aga == null)
-            {
-                BZip2BlockEntry.aga = new int[blockEntry.blockSize100k * 0x186a0];
-            }
+            BZip2BlockEntry.aga ??= new int[blockEntry.blockSize100k * 0x186a0];
             bool flag19 = true;
             while (flag19)
             {
@@ -480,7 +479,7 @@ namespace OpenRS.Net.Client.Data
 
                             for (; j11 > 0; j11--)
                             {
-                                blockEntry.yy[j10 + j11] = blockEntry.yy[(j10 + j11) - 1];
+                                blockEntry.yy[j10 + j11] = blockEntry.yy[j10 + j11 - 1];
                             }
 
                             blockEntry.yy[j10] = sbyte6;
@@ -500,7 +499,7 @@ namespace OpenRS.Net.Client.Data
                             for (; l10 > 0; l10--)
                             {
                                 blockEntry.agg[l10]--;
-                                blockEntry.yy[blockEntry.agg[l10]] = blockEntry.yy[(blockEntry.agg[l10 - 1] + 16) - 1];
+                                blockEntry.yy[blockEntry.agg[l10]] = blockEntry.yy[blockEntry.agg[l10 - 1] + 16 - 1];
                             }
 
                             blockEntry.agg[0]--;
@@ -563,7 +562,7 @@ namespace OpenRS.Net.Client.Data
 
                 for (int l2 = 0; l2 < i6; l2++)
                 {
-                    int sbyte7 = ((BZip2BlockEntry.aga[l2]) & 0xff);
+                    int sbyte7 = BZip2BlockEntry.aga[l2] & 0xff;
                     BZip2BlockEntry.aga[blockEntry.afm[sbyte7 & 0xff]] |= l2 << 8;
                     blockEntry.afm[sbyte7 & 0xff]++;
                 }
@@ -571,7 +570,7 @@ namespace OpenRS.Net.Client.Data
                 blockEntry.afi = BZip2BlockEntry.aga[blockEntry.origPtr] >> 8;
                 blockEntry.afl = 0;
                 blockEntry.afi = BZip2BlockEntry.aga[blockEntry.afi];
-                blockEntry.afj = (blockEntry.afi & 0xff);
+                blockEntry.afj = blockEntry.afi & 0xff;
                 blockEntry.afi >>= 8;
                 blockEntry.afl++;
                 blockEntry.aha = i6;
@@ -587,15 +586,9 @@ namespace OpenRS.Net.Client.Data
             }
         }
 
-        static sbyte getUByte(BZip2BlockEntry o1)
-        {
-            return (sbyte)getBits(8, o1);
-        }
+        static sbyte getUByte(BZip2BlockEntry o1) => (sbyte)getBits(8, o1);
 
-        static sbyte getBit(BZip2BlockEntry o1)
-        {
-            return (sbyte)getBits(1, o1);
-        }
+        static sbyte getBit(BZip2BlockEntry o1) => (sbyte)getBits(1, o1);
 
         static int getBits(int arg0, BZip2BlockEntry arg1)
         {

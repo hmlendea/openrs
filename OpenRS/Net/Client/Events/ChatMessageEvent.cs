@@ -1,14 +1,9 @@
 ﻿namespace OpenRS.Net.Client.Events
 {
     public delegate void ChatMessageEventHandler(object sender, ChatMessageEventArgs e);
-    
-    public class ChatMessageEventArgs
+
+    public class ChatMessageEventArgs(string message)
     {
-        public string Message { get; set; }
-        
-        public ChatMessageEventArgs(string message)
-        {
-            Message = message;
-        }
+        public string Message { get; set; } = message;
     }
 }

@@ -46,10 +46,7 @@ namespace OpenRS
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
-        protected override void Initialize()
-        {
-            base.Initialize();
-        }
+        protected override void Initialize() => base.Initialize();
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load

@@ -17,9 +17,9 @@ using OpenRS.Net.Client.Game.Cameras;
 
 namespace OpenRS.Gui.Controls
 {
-    public class GuiMinimap : GuiControl
+    public class GuiMinimap(GameClient client) : GuiControl
     {
-        readonly GameClient client;
+        readonly GameClient client = client;
 
         GuiMinimapIndicator compassIndicator;
         GuiMinimapIndicator healthIndicator;
@@ -32,17 +32,9 @@ namespace OpenRS.Gui.Controls
         TextureSprite pixel;
         TextureSprite frame;
 
-        public bool IsClickable { get; set; }
+        public bool IsClickable { get; set; } = true;
 
-        public int ZoomLevel { get; set; }
-
-        public GuiMinimap(GameClient client)
-        {
-            this.client = client;
-
-            IsClickable = true;
-            ZoomLevel = 2;
-        }
+        public int ZoomLevel { get; set; } = 2;
 
         /// <summary>
         /// Loads the content.
@@ -114,10 +106,7 @@ namespace OpenRS.Gui.Controls
         /// <summary>
         /// /// Unloads the content.
         /// </summary>
-        protected override void DoUnloadContent()
-        {
-            UnregisterEvents();
-        }
+        protected override void DoUnloadContent() => UnregisterEvents();
 
         /// <summary>
         /// Update the content.
@@ -144,15 +133,9 @@ namespace OpenRS.Gui.Controls
             frame.Draw(spriteBatch);
         }
 
-        void RegisterEvents()
-        {
-            compassIndicator.Clicked += OnCompassIndicatorClicked;
-        }
+        void RegisterEvents() => compassIndicator.Clicked += OnCompassIndicatorClicked;
 
-        void UnregisterEvents()
-        {
-            compassIndicator.Clicked -= OnCompassIndicatorClicked;
-        }
+        void UnregisterEvents() => compassIndicator.Clicked -= OnCompassIndicatorClicked;
 
         void SetChildrenProperties()
         {
@@ -196,56 +179,56 @@ namespace OpenRS.Gui.Controls
             DrawNpcDots(spriteBatch, j1, l1, j5, l5);
             DrawPlayerDots(spriteBatch, j1, l1, j5, l5);
         }
-        
+
         void DrawGroundItemDots(SpriteBatch spriteBatch, int j1, int l1, int j5, int l5)
         {
             for (int groundItemIndex = 0; groundItemIndex < client.GroundItemCount; groundItemIndex++)
             {
-                Point2D groundItemLocation = new Point2D(
-                    (((client.GroundItemLocations[groundItemIndex].X * client.GridSize + 64) - client.CurrentPlayer.Location.X) * 3 * j1) / 2048,
-                    (((client.GroundItemLocations[groundItemIndex].Y * client.GridSize + 64) - client.CurrentPlayer.Location.Y) * 3 * j1) / 2048);
+                Point2D groundItemLocation = new(
+                    (client.GroundItemLocations[groundItemIndex].X * client.GridSize + 64 - client.CurrentPlayer.Location.X) * 3 * j1 / 2048,
+                    (client.GroundItemLocations[groundItemIndex].Y * client.GridSize + 64 - client.CurrentPlayer.Location.Y) * 3 * j1 / 2048);
 
                 int l6 = groundItemLocation.Y * j5 + groundItemLocation.X * l5 >> 18;
                 groundItemLocation.Y = groundItemLocation.Y * l5 - groundItemLocation.X * j5 >> 18;
                 groundItemLocation.X = l6;
 
-                Point2D dotLocation = new Point2D(groundItemLocation.X, -groundItemLocation.Y);
+                Point2D dotLocation = new(groundItemLocation.X, -groundItemLocation.Y);
 
                 DrawMinimapDot(spriteBatch, dotLocation, Colour.Yellow);
             }
         }
-        
+
         void DrawNpcDots(SpriteBatch spriteBatch, int j1, int l1, int j5, int l5)
         {
             foreach (ClientMob npc in client.Npcs.Where(x => x != null))
             {
-                Point2D npcLocaiton = new Point2D(
-                    ((npc.Location.X - client.CurrentPlayer.Location.X) * 3 * j1) / 2048,
-                    ((npc.Location.Y - client.CurrentPlayer.Location.Y) * 3 * j1) / 2048);
+                Point2D npcLocaiton = new(
+                    (npc.Location.X - client.CurrentPlayer.Location.X) * 3 * j1 / 2048,
+                    (npc.Location.Y - client.CurrentPlayer.Location.Y) * 3 * j1 / 2048);
 
                 int i7 = npcLocaiton.Y * j5 + npcLocaiton.X * l5 >> 18;
                 npcLocaiton.Y = npcLocaiton.Y * l5 - npcLocaiton.X * j5 >> 18;
                 npcLocaiton.X = i7;
 
-                Point2D dotLocation = new Point2D(npcLocaiton.X, -npcLocaiton.Y);
+                Point2D dotLocation = new(npcLocaiton.X, -npcLocaiton.Y);
 
                 DrawMinimapDot(spriteBatch, dotLocation, Colour.ChromeYellow);
             }
         }
-        
+
         void DrawPlayerDots(SpriteBatch spriteBatch, int j1, int l1, int j5, int l5)
         {
             foreach (ClientMob player in client.Players.Where(x => x != null))
             {
-                Point2D playerLocaiton = new Point2D(
-                    ((player.Location.X - client.CurrentPlayer.Location.X) * 3 * j1) / 2048,
-                    ((player.Location.Y - client.CurrentPlayer.Location.Y) * 3 * j1) / 2048);
+                Point2D playerLocaiton = new(
+                    (player.Location.X - client.CurrentPlayer.Location.X) * 3 * j1 / 2048,
+                    (player.Location.Y - client.CurrentPlayer.Location.Y) * 3 * j1 / 2048);
 
                 int j7 = playerLocaiton.Y * j5 + playerLocaiton.X * l5 >> 18;
                 playerLocaiton.Y = playerLocaiton.Y * l5 - playerLocaiton.X * j5 >> 18;
                 playerLocaiton.X = j7;
 
-                Point2D dotLocation = new Point2D(playerLocaiton.X, -playerLocaiton.Y);
+                Point2D dotLocation = new(playerLocaiton.X, -playerLocaiton.Y);
 
                 DrawMinimapDot(spriteBatch, dotLocation, Colour.White);
             }
@@ -270,7 +253,7 @@ namespace OpenRS.Gui.Controls
 
         void DrawMinimapDot(SpriteBatch spriteBatch, Point2D location, Colour colour)
         {
-            Point2D dotOffset = new Point2D(156 / 2, 36 + 152 / 2);
+            Point2D dotOffset = new(156 / 2, 36 + 152 / 2);
             Point2D minimapLocation = location + dotOffset;
             Point2D screenLocation = new Point2D(dot.SpriteSize / 2) + Location + minimapLocation;
 
@@ -292,9 +275,6 @@ namespace OpenRS.Gui.Controls
             dot.Draw(spriteBatch);
         }
 
-        void OnCompassIndicatorClicked(object sender, MouseButtonEventArgs e)
-        {
-            client.cameraRotation = 128;
-        }
+        void OnCompassIndicatorClicked(object sender, MouseButtonEventArgs e) => client.cameraRotation = 128;
     }
 }

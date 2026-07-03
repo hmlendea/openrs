@@ -7,7 +7,6 @@ using NuciXNA.Gui.Controls;
 
 using OpenRS.Models.Enumerations;
 using OpenRS.Net.Client;
-using OpenRS.Net.Enumerations;
 
 namespace OpenRS.Gui.Controls
 {
@@ -75,19 +74,13 @@ namespace OpenRS.Gui.Controls
         /// <summary>
         /// Unloads the content.
         /// </summary>
-        protected override void DoUnloadContent()
-        {
-            UnregisterEvents();
-        }
+        protected override void DoUnloadContent() => UnregisterEvents();
 
         /// <summary>
         /// Update the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        protected override void DoUpdate(GameTime gameTime)
-        {
-            SetChildrenProperties();
-        }
+        protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
 
         /// <summary>
         /// Draw the content on the specified <see cref="SpriteBatch"/>.
@@ -168,24 +161,12 @@ namespace OpenRS.Gui.Controls
             }
         }
 
-        void ControlledStyleCard_Clicked(object sender, MouseButtonEventArgs e)
-        {
-            client.SetCombatStyle(CombatStyle.Controlled);
-        }
+        void ControlledStyleCard_Clicked(object sender, MouseButtonEventArgs e) => client.SetCombatStyle(CombatStyle.Controlled);
 
-        void AggressiveStyleCard_Clicked(object sender, MouseButtonEventArgs e)
-        {
-            client.SetCombatStyle(CombatStyle.Aggressive);
-        }
+        void AggressiveStyleCard_Clicked(object sender, MouseButtonEventArgs e) => client.SetCombatStyle(CombatStyle.Aggressive);
 
-        void AccurateStyleCard_Clicked(object sender, MouseButtonEventArgs e)
-        {
-            client.SetCombatStyle(CombatStyle.Accurate);
-        }
+        void AccurateStyleCard_Clicked(object sender, MouseButtonEventArgs e) => client.SetCombatStyle(CombatStyle.Accurate);
 
-        void DefensiveStyleCard_Clicked(object sender, MouseButtonEventArgs e)
-        {
-            client.SetCombatStyle(CombatStyle.Defensive);
-        }
+        void DefensiveStyleCard_Clicked(object sender, MouseButtonEventArgs e) => client.SetCombatStyle(CombatStyle.Defensive);
     }
 }

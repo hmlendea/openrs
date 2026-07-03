@@ -4,7 +4,7 @@ namespace OpenRS.Net.Client.Game
 {
     public class ChatMessage
     {
-        public static string bytesToString(sbyte[] arg0, int arg1, int arg2)
+        public static string BytesToString(sbyte[] arg0, int arg1, int arg2)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        chatMessage[i++] = validChars[((j << 4) + i1) - 195];
+                        chatMessage[i++] = validChars[(j << 4) + i1 - 195];
                         j = -1;
                     }
 
@@ -48,7 +48,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        chatMessage[i++] = validChars[((j << 4) + i1) - 195];
+                        chatMessage[i++] = validChars[(j << 4) + i1 - 195];
                         j = -1;
                     }
                 }
@@ -81,14 +81,14 @@ namespace OpenRS.Net.Client.Game
 
                 return new string(chatMessage, 0, i);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine($"An error has occured in {nameof(ChatMessage)}.cs");
                 return ".";
             }
         }
 
-        public static string bytesToString(byte[] arg0, int arg1, int arg2)
+        public static string BytesToString(byte[] arg0, int arg1, int arg2)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        chatMessage[i++] = validChars[((j << 4) + i1) - 195];
+                        chatMessage[i++] = validChars[(j << 4) + i1 - 195];
                         j = -1;
                     }
 
@@ -132,7 +132,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        chatMessage[i++] = validChars[((j << 4) + i1) - 195];
+                        chatMessage[i++] = validChars[(j << 4) + i1 - 195];
                         j = -1;
                     }
                 }
@@ -165,18 +165,18 @@ namespace OpenRS.Net.Client.Game
 
                 return new string(chatMessage, 0, i);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine($"An error has occured in {nameof(ChatMessage)}.cs");
                 return ".";
             }
         }
 
-        public static int stringToBytes(string arg0)
+        public static int StringToBytes(string arg0)
         {
             if (arg0.Length > 80)
             {
-                arg0 = arg0.Substring(0, 80);
+                arg0 = arg0[..80];
             }
 
             arg0 = arg0.ToLower();
@@ -239,7 +239,7 @@ namespace OpenRS.Net.Client.Game
         public static byte[] lastChat = new byte[100];
         public static char[] chatMessage = new char[100];
 
-        static char[] validChars = {
+        static readonly char[] validChars = [
             ' ', 'e', 't', 'a', 'o', 'i', 'h', 'n', 's', 'r',
             'd', 'l', 'u', 'm', 'w', 'c', 'y', 'f', 'g', 'p',
             'b', 'v', 'k', 'x', 'j', 'q', 'z', '0', '1', '2',
@@ -247,6 +247,6 @@ namespace OpenRS.Net.Client.Game
             '.', ',', ':', ';', '(', ')', '-', '&', '*', '\\',
             '\'', '@', '#', '+', '=', '§', '$', '%', '"', '[',
             ']'
-        };
+        ];
     }
 }

@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-using NuciDAL.Repositories;
+﻿using NuciDAL.Repositories;
 
 using OpenRS.DataAccess.DataObjects;
 
@@ -11,18 +7,12 @@ namespace OpenRS.DataAccess.Repositories
     /// <summary>
     /// Quest repository implementation.
     /// </summary>
-    public class QuestRepository : XmlRepository<QuestEntity>
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="QuestRepository"/> class.
+    /// </remarks>
+    /// <param name="fileName">File name.</param>
+    public class QuestRepository(string fileName) : XmlRepository<QuestEntity>(fileName)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="QuestRepository"/> class.
-        /// </summary>
-        /// <param name="fileName">File name.</param>
-        public QuestRepository(string fileName)
-            : base(fileName)
-        {
-
-        }
-
         /// <summary>
         /// Updates the specified quest.
         /// </summary>

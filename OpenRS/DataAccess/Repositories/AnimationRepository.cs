@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-using NuciDAL.Repositories;
+﻿using NuciDAL.Repositories;
 
 using OpenRS.DataAccess.DataObjects;
 
@@ -11,17 +7,12 @@ namespace OpenRS.DataAccess.Repositories
     /// <summary>
     /// Animation repository implementation.
     /// </summary>
-    public class AnimationRepository : XmlRepository<AnimationEntity>
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="AnimationRepository"/> class.
+    /// </remarks>
+    /// <param name="fileName">File name.</param>
+    public class AnimationRepository(string fileName) : XmlRepository<AnimationEntity>(fileName)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AnimationRepository"/> class.
-        /// </summary>
-        /// <param name="fileName">File name.</param>
-        public AnimationRepository(string fileName)
-            : base(fileName)
-        {
-        }
-
         /// <summary>
         /// Updates the specified animation.
         /// </summary>

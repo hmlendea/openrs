@@ -45,7 +45,7 @@ namespace OpenRS.Gui.Controls
         {
             indicator = new GuiImage { ContentFile = "Interface/Minimap/indicator_bg" };
             icon = new GuiImage { ContentFile = Icon };
-            
+
             RegisterChildren(indicator, icon);
             SetChildrenProperties();
         }
@@ -62,10 +62,7 @@ namespace OpenRS.Gui.Controls
         /// Update the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        protected override void DoUpdate(GameTime gameTime)
-        {
-            SetChildrenProperties();
-        }
+        protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
 
         /// <summary>
         /// Draw the content on the specified <see cref="SpriteBatch"/>.

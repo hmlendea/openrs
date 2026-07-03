@@ -135,7 +135,7 @@ namespace OpenRS.Net.Client.Game
         // TODO: REMOVE ASAP
         public int getVertexIndex(int x, int y, int z)
         {
-            Point3D point = new Point3D(x, y, z);
+            Point3D point = new(x, y, z);
 
             return getVertexIndex(point);
         }
@@ -143,7 +143,7 @@ namespace OpenRS.Net.Client.Game
         // TODO: REMOVE ASAP
         public void offsetLocation(int x, int y, int z)
         {
-            Point3D point = new Point3D(x, y, z);
+            Point3D point = new(x, y, z);
 
             offsetLocation(point);
         }
@@ -151,7 +151,7 @@ namespace OpenRS.Net.Client.Game
         // TODO: REMOVE ASAP
         public void setRotation(int x, int y, int z)
         {
-            Point3D point = new Point3D(x, y, z);
+            Point3D point = new(x, y, z);
 
             setRotation(point);
         }
@@ -359,7 +359,7 @@ namespace OpenRS.Net.Client.Game
 
             for (int faceIndex = 0; faceIndex < _face_count; faceIndex++)
             {
-                cje[faceIndex] = new int[0];
+                cje[faceIndex] = [];
             }
 
             objectState = 1;
@@ -421,7 +421,7 @@ namespace OpenRS.Net.Client.Game
 
             for (int k3 = 0; k3 < i1; k3++)
             {
-                Point3D point = new Point3D(
+                Point3D point = new(
                     getShadeValue((sbyte[])(Array)abyte0),
                     getShadeValue((sbyte[])(Array)abyte0),
                     getShadeValue((sbyte[])(Array)abyte0));
@@ -571,7 +571,7 @@ namespace OpenRS.Net.Client.Game
                     {
                         if (j1.cje == null || k1 >= j1.cje.Length || j1.cje[k1] == null)
                         {
-                            cje[i2] = new int[0];
+                            cje[i2] = [];
                         }
                         else if (objectCount > 1)
                         {
@@ -671,7 +671,7 @@ namespace OpenRS.Net.Client.Game
                     i1 += verticeLocations[ai3[k2]].Z;
                 }
 
-                int i3 = l / (k1 * width) + (i1 / (k1 * height)) * objectSize;
+                int i3 = l / (k1 * width) + i1 / (k1 * height) * objectSize;
                 ai[i3] += k1;
                 ai1[i3]++;
             }
@@ -684,9 +684,11 @@ namespace OpenRS.Net.Client.Game
                     ai[j1] = maxVertCount;
                 }
 
-                ai2[j1] = new ObjectModel(ai[j1], ai1[j1], true, true, true, arg7, true);
-                ai2[j1].cle = cle;
-                ai2[j1].clf = clf;
+                ai2[j1] = new ObjectModel(ai[j1], ai1[j1], true, true, true, arg7, true)
+                {
+                    cle = cle,
+                    clf = clf
+                };
             }
 
             for (int l1 = 0; l1 < face_count; l1++)
@@ -702,7 +704,7 @@ namespace OpenRS.Net.Client.Game
                     l2 += verticeLocations[ai4[k3]].Z;
                 }
 
-                int l3 = i2 / (j3 * width) + (l2 / (j3 * height)) * objectSize;
+                int l3 = i2 / (j3 * width) + l2 / (j3 * height) * objectSize;
                 CopyModelData(ai2[l3], ai4, j3, l1);
             }
 
@@ -811,10 +813,7 @@ namespace OpenRS.Net.Client.Game
             return;
         }
 
-        public void SetVertexColor(int vertIndex, int value)
-        {
-            vertexColor[vertIndex] = value;
-        }
+        public void SetVertexColor(int vertIndex, int value) => vertexColor[vertIndex] = value;
 
         public void offsetMiniPosition(Point3D point)
         {
@@ -1053,17 +1052,17 @@ namespace OpenRS.Net.Client.Game
 
                 if (maxX - minX > distVar)
                 {
-                    distVar = (maxX - minX);
+                    distVar = maxX - minX;
                 }
 
                 if (maxY - minY > distVar)
                 {
-                    distVar = (maxY - minY);
+                    distVar = maxY - minY;
                 }
 
                 if (maxZ - minZ > distVar)
                 {
-                    distVar = (maxZ - minZ);
+                    distVar = maxZ - minZ;
                 }
 
                 if (minX < minimumBounds.X)
@@ -1153,9 +1152,9 @@ namespace OpenRS.Net.Client.Game
             {
                 if (ai3[verticeIndex] > 0)
                 {
-                    int a = (unknownPoint[verticeIndex].X * shadingUnknown.X +
+                    int a = unknownPoint[verticeIndex].X * shadingUnknown.X +
                              unknownPoint[verticeIndex].Y * shadingUnknown.Y +
-                             unknownPoint[verticeIndex].Z * shadingUnknown.Z);
+                             unknownPoint[verticeIndex].Z * shadingUnknown.Z;
                     int b = j * ai3[verticeIndex];
 
                     cfn[verticeIndex] = a / b;
@@ -1214,9 +1213,9 @@ namespace OpenRS.Net.Client.Game
                 }
 
                 normalLocations[j] = new Point3D(
-                    (xDistance * 0x10000) / k3,
-                    (yDistance * 0x10000) / k3,
-                    (j3 * 65535) / k3);
+                    xDistance * 0x10000 / k3,
+                    yDistance * 0x10000 / k3,
+                    j3 * 65535 / k3);
 
                 cgh[j] = -1;
             }
@@ -1257,7 +1256,7 @@ namespace OpenRS.Net.Client.Game
 
                 if (ckm >= 3)
                 {
-                    Point3D scale = new Point3D(ckd, cke, ckf);
+                    Point3D scale = new(ckd, cke, ckf);
                     ScaleVertices(scale);
                 }
 
@@ -1383,20 +1382,22 @@ namespace OpenRS.Net.Client.Game
 
         public ObjectModel CreateParent()
         {
-            ObjectModel[] ai = new ObjectModel[1];
-            ai[0] = this;
-            ObjectModel j = new ObjectModel(ai, 1);
-            j.cgm = cgm;
-            j.isGiantCrystal = isGiantCrystal;
+            ObjectModel[] ai = [this];
+            ObjectModel j = new(ai, 1)
+            {
+                cgm = cgm,
+                isGiantCrystal = isGiantCrystal
+            };
             return j;
         }
 
         public ObjectModel CreateParent(bool flag, bool flag1, bool flag2, bool flag3)
         {
-            ObjectModel[] ai = new ObjectModel[1];
-            ai[0] = this;
-            ObjectModel j = new ObjectModel(ai, 1, flag, flag1, flag2, flag3);
-            j.cgm = cgm;
+            ObjectModel[] ai = [this];
+            ObjectModel j = new(ai, 1, flag, flag1, flag2, flag3)
+            {
+                cgm = cgm
+            };
             return j;
         }
 
@@ -1419,7 +1420,7 @@ namespace OpenRS.Net.Client.Game
             int j = cih[arg0[clg++] & 0xff];
             int k = cih[arg0[clg++] & 0xff];
             int l = cih[arg0[clg++] & 0xff];
-            int i1 = (j * 4096 + k * 64 + l) - 0x20000;
+            int i1 = j * 4096 + k * 64 + l - 0x20000;
             if (i1 == 0x1e240)
             {
                 i1 = shadeValue;
@@ -1453,16 +1454,16 @@ namespace OpenRS.Net.Client.Game
         public int index;
         public int[] entityType;
         public int[] chm;
-        bool chn;
+        readonly bool chn;
         public bool noCollider;
         public bool dontRecieveShadows;
         public bool cic;
         public bool cid;
-        static int[] cie;
-        static int[] cif;
-        static int[] cig;
-        static int[] cih;
-        int shadeValue;
+        static readonly int[] cie;
+        static readonly int[] cif;
+        static readonly int[] cig;
+        static readonly int[] cih;
+        readonly int shadeValue;
         public int totalVerticeCount;
 
         public Vector3[] _vertices;

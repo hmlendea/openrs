@@ -4,7 +4,7 @@ namespace OpenRS.Net.Client.Data
 {
     public static class DataConversions
     {
-        static readonly char[] characters = {
+        static readonly char[] characters = [
             ' ', 'e', 't', 'a', 'o', 'i', 'h', 'n', 's', 'r',
             'd', 'l', 'u', 'm', 'w', 'c', 'y', 'f', 'g', 'p',
             'b', 'v', 'k', 'x', 'j', 'q', 'z', '0', '1', '2',
@@ -12,9 +12,9 @@ namespace OpenRS.Net.Client.Data
             '.', ',', ':', ';', '(', ')', '-', '&', '*', '\\',
             '\'', '@', '#', '+', '=', 'ó', '$', '%', '"', '[',
             ']'
-        };
+        ];
 
-        public static string byteToString(sbyte[] data, int offset, int length)
+        public static string ByteToString(sbyte[] data, int offset, int length)
         {
             char[] buffer = new char[100];
 
@@ -41,7 +41,7 @@ namespace OpenRS.Net.Client.Data
                     }
                     else
                     {
-                        buffer[k++] = characters[((l << 4) + k1) - 195];
+                        buffer[k++] = characters[(l << 4) + k1 - 195];
                         l = -1;
                     }
 
@@ -60,7 +60,7 @@ namespace OpenRS.Net.Client.Data
                     }
                     else
                     {
-                        buffer[k++] = characters[((l << 4) + k1) - 195];
+                        buffer[k++] = characters[(l << 4) + k1 - 195];
                         l = -1;
                     }
                 }

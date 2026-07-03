@@ -13,9 +13,9 @@ using OpenRS.Settings;
 
 namespace OpenRS.Gui.Controls
 {
-    public class GuiSideBar : GuiControl
+    public class GuiSideBar(GameClient client) : GuiControl
     {
-        readonly GameClient client;
+        readonly GameClient client = client;
 
         GuiImage background;
         GuiMinimap minimap;
@@ -34,11 +34,6 @@ namespace OpenRS.Gui.Controls
         GuiToggleButton prayerButton;
         GuiToggleButton spellsButton;
         GuiToggleButton exitButton;
-
-        public GuiSideBar(GameClient client)
-        {
-            this.client = client;
-        }
 
         /// <summary>
         /// Loads the content.
@@ -145,7 +140,7 @@ namespace OpenRS.Gui.Controls
                 prayerButton,
                 spellsButton,
                 exitButton);
-            
+
             RegisterEvents();
             SetChildrenProperties();
         }
@@ -153,19 +148,13 @@ namespace OpenRS.Gui.Controls
         /// <summary>
         /// Unloads the content.
         /// </summary>
-        protected override void DoUnloadContent()
-        {
-            UnregisterEvents();
-        }
+        protected override void DoUnloadContent() => UnregisterEvents();
 
         /// <summary>
         /// Update the content.
         /// </summary>
         /// <param name="gameTime">Game time.</param>
-        protected override void DoUpdate(GameTime gameTime)
-        {
-            SetChildrenProperties();
-        }
+        protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
 
         /// <summary>
         /// Draw the content on the specified <see cref="SpriteBatch"/>.
