@@ -299,7 +299,16 @@ namespace OpenRS.Net.Client.Game
 
                     if (data == null || data.Length == 0)
                     {
-                        return;//throw new IOException();
+                        for (int tile = 0; tile < 2304; tile++)
+                        {
+                            tileVerticalWall[sector][tile] = 0;
+                            tileHorizontalWall[sector][tile] = 0;
+                            tileDiagonalWall[sector][tile] = 0;
+                            tileRoofType[sector][tile] = 0;
+                            tileGroundOverlay[sector][tile] = 0;
+                            tileObjectRotation[sector][tile] = 0;
+                        }
+                        return;
                     }
 
                     int off2 = 0;
@@ -620,7 +629,7 @@ namespace OpenRS.Net.Client.Game
                             }
                             else if (tileType != 2 || getDiagonalWall(x1, y1) > 0 && getDiagonalWall(x1, y1) < 24000)
                             {
-                                if (gkd(x1 - 1, y) != i19 && gkd(x1, y1 - 1) != i19)
+                                if (gkd(x1 - 1, y1) != i19 && gkd(x1, y1 - 1) != i19)
                                 {
                                     texture = texture2;
                                     l14 = 0;
@@ -845,6 +854,7 @@ namespace OpenRS.Net.Client.Game
                 }
 
             }
+
             currentSectionObject.resetObjectIndexes();
             int j1 = 0x606060;
 

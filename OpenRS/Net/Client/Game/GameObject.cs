@@ -987,8 +987,20 @@ namespace OpenRS.Net.Client.Game
             for (int faceIndex = 0; faceIndex < face_count; faceIndex++)
             {
                 int[] ai = face_vertices[faceIndex];
-                int l = ai[0];
                 int j1 = face_vertices_count[faceIndex];
+
+                if (j1 <= 0 || ai == null || ai.Length == 0)
+                {
+                    continue;
+                }
+
+                int l = ai[0];
+
+                if (l < 0 || l >= WorldVerticeLocations.Length)
+                {
+                    continue;
+                }
+
                 int minX;
                 int maxX = minX = WorldVerticeLocations[l].X;
                 int minY;
@@ -999,6 +1011,11 @@ namespace OpenRS.Net.Client.Game
                 for (int k = 0; k < j1; k++)
                 {
                     int i1 = ai[k];
+
+                    if (i1 < 0 || i1 >= WorldVerticeLocations.Length)
+                    {
+                        continue;
+                    }
 
                     if (WorldVerticeLocations[i1].X < minX)
                     {
@@ -1122,6 +1139,11 @@ namespace OpenRS.Net.Client.Game
                 {
                     int l1 = face_vertices[faceIndex][faceVerticeIndex];
 
+                    if (l1 < 0 || l1 >= vert_count)
+                    {
+                        continue;
+                    }
+
                     unknownPoint[l1] += normalLocations[faceIndex];
                     ai3[l1]++;
                 }
@@ -1151,6 +1173,20 @@ namespace OpenRS.Net.Client.Game
             for (int j = 0; j < face_count; j++)
             {
                 int[] ai = face_vertices[j];
+
+                if (ai == null || ai.Length < 3 || face_vertices_count[j] < 3)
+                {
+                    continue;
+                }
+
+                if (ai[0] < 0 || ai[1] < 0 || ai[2] < 0 ||
+                    ai[0] >= WorldVerticeLocations.Length ||
+                    ai[1] >= WorldVerticeLocations.Length ||
+                    ai[2] >= WorldVerticeLocations.Length)
+                {
+                    continue;
+                }
+
                 int k = WorldVerticeLocations[ai[0]].X;
                 int l = WorldVerticeLocations[ai[0]].Y;
                 int i1 = WorldVerticeLocations[ai[0]].Z;

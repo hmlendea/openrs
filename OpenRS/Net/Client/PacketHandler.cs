@@ -247,6 +247,28 @@ namespace OpenRS.Net.Client
                     HandleZamorakSpells(data);
                     return true;
 
+                case ServerCommand.ServerAnnouncement:
+                    HandleServerAnnouncement(data, length);
+                    return true;
+
+                case ServerCommand.GameSettings:
+                    HandleGameSettings(data, length);
+                    return true;
+
+                case ServerCommand.FriendList:
+                    HandleFriendList(data, length);
+                    return true;
+
+                case ServerCommand.IgnoreList:
+                    HandleIgnoreList(data, length);
+                    return true;
+
+                case ServerCommand.LoginScreen:
+                    return true;
+
+                case ServerCommand.WontImplement158:
+                    return true;
+
                 default:
                     return false;
             }
@@ -255,6 +277,36 @@ namespace OpenRS.Net.Client
         void HandleAwake()
         {
             client.IsSleeping = false;
+        }
+
+        void HandleServerAnnouncement(sbyte[] data, int length)
+        {
+            if (length <= 1)
+            {
+                return;
+            }
+
+            string message = Encoding.ASCII.GetString((byte[])(Array)data, 1, length - 1).TrimEnd('\0');
+
+            if (!string.IsNullOrWhiteSpace(message))
+            {
+                client.DisplayMessage("@yel@" + message);
+            }
+        }
+
+        void HandleGameSettings(sbyte[] data, int length)
+        {
+            // Game settings are managed client-side; acknowledge without applying
+        }
+
+        void HandleFriendList(sbyte[] data, int length)
+        {
+            // Friend list handling not yet implemented
+        }
+
+        void HandleIgnoreList(sbyte[] data, int length)
+        {
+            // Ignore list handling not yet implemented
         }
 
         void HandleBankItem(sbyte[] data)
