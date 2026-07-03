@@ -57,7 +57,11 @@ namespace OpenRS.Gui.Controls
 
             if (IsToggled && !IsHovered)
             {
-                return new Rectangle2D(rect.X + 4 * ButtonTileSize.Width, rect.Y, rect.Width, rect.Height);
+                return new Rectangle2D(
+                    rect.X + 4 * ButtonTileSize.Width,
+                    rect.Y,
+                    rect.Width,
+                    rect.Height);
             }
             else
             {

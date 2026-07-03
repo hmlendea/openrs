@@ -257,7 +257,7 @@ namespace OpenRS.Gui.Controls
             Point2D minimapLocation = location + dotOffset;
             Point2D screenLocation = new Point2D(dot.SpriteSize / 2) + ScreenLocation + minimapLocation;
 
-            if (!ClientRectangle.Contains(screenLocation))
+            if (!DisplayRectangle.Contains(screenLocation))
             {
                 return;
             }

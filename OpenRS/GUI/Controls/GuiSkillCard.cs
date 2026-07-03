@@ -42,7 +42,11 @@ namespace OpenRS.Gui.Controls
         {
             regularBackground = new GuiImage { ContentFile = "Interface/skillcard" };
             detailsBackground = new GuiImage { ContentFile = "Interface/skillcard_details" };
-            skillIcon = new GuiImage { ContentFile = SkillIcon };
+            skillIcon = new GuiImage
+            {
+                ContentFile = SkillIcon,
+                Size = new Size2D(26, 26)
+            };
 
             currentLevelText = new GuiText
             {
@@ -117,7 +121,9 @@ namespace OpenRS.Gui.Controls
             detailsBackground.Location = new Point2D(0, 0);
             detailsBackground.Size = Size;
 
-            skillIcon.Location = new Point2D(5, 5);
+            skillIcon.Location = new Point2D(
+                (30 - skillIcon.Size.Width) / 2,
+                (Size.Height - skillIcon.Size.Height) / 2);
             skillIcon.ContentFile = SkillIcon;
 
             currentLevelText.Text = CurrentLevel.ToString();

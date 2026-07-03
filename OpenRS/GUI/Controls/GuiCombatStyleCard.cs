@@ -74,9 +74,10 @@ namespace OpenRS.Gui.Controls
                 background.TintColour = Colour.White;
             }
 
-            icon.Size = Size;
-            icon.Location = new Point2D(0, 0);
             icon.ContentFile = Icon;
+            icon.Location = new Point2D(
+                (Size.Width - icon.Size.Width) / 2,
+                (Size.Height - nameText.Size.Height - icon.Size.Height) / 2);
 
             nameText.Size = new Size2D(Size.Width, 14);
             nameText.Location = new Point2D(0, Size.Height - nameText.Size.Height);

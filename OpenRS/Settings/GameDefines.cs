@@ -22,7 +22,7 @@
         /// <summary>
         /// The port of the server.
         /// </summary>
-        public const int SERVER_PORT = 43595; // proxy
+        public const int SERVER_PORT = 43596; // proxy
 
         /// <summary>
         /// The cache URL.

@@ -81,7 +81,9 @@ namespace OpenRS.Gui.Controls
             indicator.SourceRectangle = new Rectangle2D(0, Size.Height - indicator.Size.Height, Size.Width, indicator.Size.Height);
             indicator.Location = new Point2D(0, Size.Height - indicator.Size.Height);
 
-            icon.Location = new Point2D(0, 0);
+            icon.Location = new Point2D(
+                (Size.Width - icon.Size.Width) / 2,
+                (Size.Height - icon.Size.Height) / 2);
             icon.Rotation = IconRotation;
         }
     }
