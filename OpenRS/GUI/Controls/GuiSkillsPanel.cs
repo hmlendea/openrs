@@ -109,8 +109,8 @@ namespace OpenRS.Gui.Controls
             int spacingY = 1;
 
             attackCard.Location = new Point2D(
-                Location.X + (Size.Width - 3 * attackCard.Size.Width - 2 * spacingX) / 2,
-                Location.Y + (Size.Width - 3 * attackCard.Size.Width - 2 * spacingX) / 2);
+                (Size.Width - 3 * attackCard.Size.Width - 2 * spacingX) / 2,
+                (Size.Width - 3 * attackCard.Size.Width - 2 * spacingX) / 2);
 
             healthCard.Location = new Point2D(
                 attackCard.ClientRectangle.Right + spacingX,

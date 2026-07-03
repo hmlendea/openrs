@@ -44,7 +44,12 @@ namespace OpenRS.Gui.Screens
         /// </summary>
         protected override void DoLoadContent()
         {
-            gameClient = GameClient.CreateGameClient(username, password, 640, 480);
+            int sideBarWidth = 240;
+            int chatPanelHeight = (int)(ScreenManager.Instance.Size.Height * 0.25);
+            int gameViewWidth = ScreenManager.Instance.Size.Width - sideBarWidth;
+            int gameViewHeight = ScreenManager.Instance.Size.Height - chatPanelHeight;
+            int oldRscSidebarWidth = 248;
+            gameClient = GameClient.CreateGameClient(username, password, gameViewWidth + oldRscSidebarWidth, gameViewHeight - 12);
             gameClient.gameMinThreadSleepTime = 10;
             gameClient.Start();
             gameThread = new Thread(gameClient.run);

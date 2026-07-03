@@ -75,13 +75,13 @@ namespace OpenRS.Gui.Controls
 
         void SetChildrenProperties()
         {
-            indicator.Location = Location;
+            indicator.Location = new Point2D(0, 0);
             indicator.TintColour = BackgroundColour;
             indicator.Size = new Size2D(Size.Width, (int)(Size.Height * FillLevel));
             indicator.SourceRectangle = new Rectangle2D(0, Size.Height - indicator.Size.Height, Size.Width, indicator.Size.Height);
-            indicator.Location = new Point2D(Location.X, Location.Y + Size.Height - indicator.Size.Height);
+            indicator.Location = new Point2D(0, Size.Height - indicator.Size.Height);
 
-            icon.Location = Location;
+            icon.Location = new Point2D(0, 0);
             icon.Rotation = IconRotation;
         }
     }

@@ -121,20 +121,20 @@ namespace OpenRS.Gui.Controls
             for (int i = 0; i < images.Count; i++)
             {
                 images[i].ContentFile = Texture;
-                images[i].Location = new Point2D(Location.X + i * ButtonTileSize.Width, Location.Y);
+                images[i].Location = new Point2D(i * ButtonTileSize.Width, 0);
                 images[i].SourceRectangle = CalculateSourceRectangle(i);
             }
 
             text.Text = Text;
             text.ForegroundColour = ForegroundColour;
             text.FontName = FontName;
-            text.Location = Location;
+            text.Location = new Point2D(0, 0);
             text.Size = Size;
 
             icon.ContentFile = Icon;
             icon.Location = new Point2D(
-                Location.X + (Size.Width - icon.Size.Width) / 2,
-                Location.Y + (Size.Height - icon.Size.Height) / 2);
+                (Size.Width - icon.Size.Width) / 2,
+                (Size.Height - icon.Size.Height) / 2);
         }
 
         /// <summary>

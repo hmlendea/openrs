@@ -139,7 +139,7 @@ namespace OpenRS.Gui.Controls
 
         void SetChildrenProperties()
         {
-            frame.Location = Location;
+            frame.Location = ScreenLocation;
 
             if (client is null || !client.loggedIn)
             {
@@ -243,7 +243,7 @@ namespace OpenRS.Gui.Controls
                     Colour tileColour = Colour.Black;
                     int alpha = tileColour.A - 255 + alphaMask[x, y];
 
-                    pixel.Location = new Point2D(Location.X + x, Location.Y + y);
+                    pixel.Location = new Point2D(ScreenLocation.X + x, ScreenLocation.Y + y);
                     pixel.Tint = Color.FromNonPremultiplied(tileColour.R, tileColour.G, tileColour.B, alpha).ToColour();
 
                     pixel.Draw(spriteBatch);
@@ -255,7 +255,7 @@ namespace OpenRS.Gui.Controls
         {
             Point2D dotOffset = new(156 / 2, 36 + 152 / 2);
             Point2D minimapLocation = location + dotOffset;
-            Point2D screenLocation = new Point2D(dot.SpriteSize / 2) + Location + minimapLocation;
+            Point2D screenLocation = new Point2D(dot.SpriteSize / 2) + ScreenLocation + minimapLocation;
 
             if (!ClientRectangle.Contains(screenLocation))
             {

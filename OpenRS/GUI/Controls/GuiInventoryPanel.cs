@@ -72,8 +72,8 @@ namespace OpenRS.Gui.Controls
                 int y = i / Columns;
 
                 itemCards[i].Location = new Point2D(
-                    Location.X + spacingX * (x + 1) + itemCards[i].Size.Width * x,
-                    Location.Y + spacingY * (y + 1) + itemCards[i].Size.Height * y);
+                    spacingX * (x + 1) + itemCards[i].Size.Width * x,
+                    spacingY * (y + 1) + itemCards[i].Size.Height * y);
             }
         }
 

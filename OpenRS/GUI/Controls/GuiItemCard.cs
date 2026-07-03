@@ -76,8 +76,8 @@ namespace OpenRS.Gui.Controls
             {
                 icon.SourceRectangle = CalculateIconSourceRectangle(ItemPictureId);
                 icon.Location = new Point2D(
-                    Location.X + (Size.Width - icon.Size.Width) / 2,
-                    Location.Y + (Size.Height - icon.Size.Height) / 2);
+                    (Size.Width - icon.Size.Width) / 2,
+                    (Size.Height - icon.Size.Height) / 2);
 
                 if (!icon.IsVisible)
                 {
@@ -91,7 +91,7 @@ namespace OpenRS.Gui.Controls
 
             if (Quantity > 1)
             {
-                quantity.Location = Location;
+                quantity.Location = new Point2D(0, 0);
                 quantity.Text = Quantity.ToString();
 
                 if (!quantity.IsVisible)

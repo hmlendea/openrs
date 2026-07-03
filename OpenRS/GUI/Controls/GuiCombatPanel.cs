@@ -110,11 +110,11 @@ namespace OpenRS.Gui.Controls
         void SetChildrenProperties()
         {
             combatLevelText.Size = new Size2D(Size.Width, combatLevelText.Size.Height);
-            combatLevelText.Location = new Point2D(Location.X, Location.Y + Spacing);
+            combatLevelText.Location = new Point2D(0, Spacing);
             combatLevelText.ForegroundColour = ForegroundColour;
 
             controlledStyleCard.Location = new Point2D(
-                Location.X + (Size.Width - controlledStyleCard.Size.Width * 2 - Spacing) / 2,
+                (Size.Width - controlledStyleCard.Size.Width * 2 - Spacing) / 2,
                 combatLevelText.ClientRectangle.Bottom + Spacing);
             aggressiveStyleCard.Location = new Point2D(
                 controlledStyleCard.ClientRectangle.Right + Spacing,

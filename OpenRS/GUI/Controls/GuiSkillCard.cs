@@ -111,22 +111,22 @@ namespace OpenRS.Gui.Controls
 
         void SetChildrenProperties()
         {
-            regularBackground.Location = Location;
+            regularBackground.Location = new Point2D(0, 0);
             regularBackground.Size = Size;
 
-            detailsBackground.Location = Location;
+            detailsBackground.Location = new Point2D(0, 0);
             detailsBackground.Size = Size;
 
-            skillIcon.Location = new Point2D(Location.X + 5, Location.Y + 5);
+            skillIcon.Location = new Point2D(5, 5);
             skillIcon.ContentFile = SkillIcon;
 
             currentLevelText.Text = CurrentLevel.ToString();
-            currentLevelText.Location = new Point2D(Location.X + 32, Location.Y + 4);
+            currentLevelText.Location = new Point2D(32, 4);
 
             baseLevelText.Text = BaseLevel.ToString();
-            baseLevelText.Location = new Point2D(Location.X + 44, Location.Y + 16);
+            baseLevelText.Location = new Point2D(44, 16);
 
-            detailsText.Location = Location;
+            detailsText.Location = new Point2D(0, 0);
             detailsText.Size = Size;
             detailsText.Text = $"Xp:{Environment.NewLine}{Experience}";
         }

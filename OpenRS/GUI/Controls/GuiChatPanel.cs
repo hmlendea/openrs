@@ -76,7 +76,7 @@ namespace OpenRS.Gui.Controls
         void SetChildrenProperties()
         {
             background.Size = Size;
-            background.Location = Location;
+            background.Location = new Point2D(0, 0);
             background.TintColour = BackgroundColour;
 
             // Add additional rows if there is enough room (the chat panel was expanded)
@@ -100,14 +100,14 @@ namespace OpenRS.Gui.Controls
             }
 
             // Update the properties of
-            int y = ClientRectangle.Bottom - MessageHeight;
+            int y = Size.Height - MessageHeight;
             for (int i = messageRows.Count - 1; i >= 0; i--)
             {
                 GuiText message = messageRows[i];
 
                 message.Size = new Size2D(Size.Width, MessageHeight);
                 message.ForegroundColour = ForegroundColour;
-                message.Location = new Point2D(Location.X, y);
+                message.Location = new Point2D(0, y);
 
                 y -= message.Size.Height;
             }

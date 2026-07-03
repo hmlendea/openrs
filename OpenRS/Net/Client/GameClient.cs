@@ -1635,7 +1635,10 @@ namespace OpenRS.Net.Client
             gameCamera = new Camera(gameGraphics, 15000, 15000, 1000);
             Point3D shadingPoint = new(-50, -10, -50);
 
-            gameCamera.setCameraSize(WindowSize.Width / 2, WindowSize.Height / 2, WindowSize.Width / 2, WindowSize.Height / 2, WindowSize.Width, cameraFieldOfView);
+            int viewportWidth = WindowSize.Width - 248;
+            int viewportHalfWidth = viewportWidth / 2;
+            int viewportHalfHeight = WindowSize.Height / 2;
+            gameCamera.setCameraSize(viewportHalfWidth, viewportHalfHeight, viewportHalfWidth, viewportHalfHeight, WindowSize.Width, cameraFieldOfView);
             gameCamera.zoom1 = 2400;
             gameCamera.zoom2 = 2400;
             gameCamera.zoom3 = 1;

@@ -128,7 +128,8 @@ namespace OpenRS.Gui.Controls
 
                         imageTexture.SetData(colors.ToArray());
 
-                        spriteBatch.Draw(imageTexture, Vector2.Zero, Color.White);
+                        Rectangle srcRect = new Rectangle(0, 0, Size.Width, Size.Height);
+                        spriteBatch.Draw(imageTexture, Vector2.Zero, srcRect, Color.White);
 
                         _lastGameImageTexture = imageTexture;
 
@@ -137,12 +138,14 @@ namespace OpenRS.Gui.Controls
                     }
                     else if (_lastGameImageTexture != null)
                     {
-                        spriteBatch.Draw(_lastGameImageTexture, Vector2.Zero, Color.White);
+                        Rectangle srcRect = new Rectangle(0, 0, Size.Width, Size.Height);
+                        spriteBatch.Draw(_lastGameImageTexture, Vector2.Zero, srcRect, Color.White);
                     }
                 }
                 else if (_lastGameImageTexture != null)
                 {
-                    spriteBatch.Draw(_lastGameImageTexture, Vector2.Zero, Color.White);
+                    Rectangle srcRect = new Rectangle(0, 0, Size.Width, Size.Height);
+                    spriteBatch.Draw(_lastGameImageTexture, Vector2.Zero, srcRect, Color.White);
                 }
             }
             catch (Exception ex)

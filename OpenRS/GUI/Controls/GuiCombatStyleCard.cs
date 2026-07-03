@@ -63,7 +63,7 @@ namespace OpenRS.Gui.Controls
         void SetChildrenProperties()
         {
             background.Size = Size;
-            background.Location = Location;
+            background.Location = new Point2D(0, 0);
 
             if (IsToggled)
             {
@@ -75,11 +75,11 @@ namespace OpenRS.Gui.Controls
             }
 
             icon.Size = Size;
-            icon.Location = Location;
+            icon.Location = new Point2D(0, 0);
             icon.ContentFile = Icon;
 
             nameText.Size = new Size2D(Size.Width, 14);
-            nameText.Location = new Point2D(ClientRectangle.Left, ClientRectangle.Bottom - nameText.Size.Height);
+            nameText.Location = new Point2D(0, Size.Height - nameText.Size.Height);
             nameText.Text = CombatStyleName;
             nameText.ForegroundColour = ForegroundColour;
         }
