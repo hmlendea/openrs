@@ -5598,7 +5598,7 @@ namespace OpenRS.Net.Client
             int[] faceVertices = [bLeft, tLeft, tRight, bRight];
             Point3D shadingPoint = new(-50, -10, -50);
 
-            wallModel.addFaceVertices(4, faceVertices, textureBack, textureFront);
+            wallModel.AddFaceVertices(4, faceVertices, textureBack, textureFront);
             wallModel.UpdateShading(false, 60, 24, shadingPoint);
 
             if (location.X >= 0 &&

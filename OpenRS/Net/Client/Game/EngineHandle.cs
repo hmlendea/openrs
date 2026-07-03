@@ -514,7 +514,7 @@ namespace OpenRS.Net.Client.Game
                 }
 
                 ObjectModel sectionObj = currentSectionObject;
-                sectionObj.resetObjectIndexes();
+                sectionObj.ResetObjectIndexes();
 
 #warning draw tiles ? -part-1- INITIALIZE
 
@@ -550,7 +550,7 @@ namespace OpenRS.Net.Client.Game
                         }
 
                         Point3D vertLoc = new(j2 * 128, i4, i3 * 128);
-                        int vertexIndex = sectionObj.getVertexIndex(vertLoc);
+                        int vertexIndex = sectionObj.GetVertexIndex(vertLoc);
                         int color = (int)(ran.NextDouble() * 10D) - 5;
                         sectionObj.SetVertexColor(vertexIndex, color);
                     }
@@ -669,7 +669,7 @@ namespace OpenRS.Net.Client.Game
                                     textCoords1[1] = y1 + x1 * 96;
                                     textCoords1[2] = y1 + x1 * 96 + 1;
 
-                                    int objIndex = sectionObj.addFaceVertices(3, textCoords1, 0xbc614e, texture);
+                                    int objIndex = sectionObj.AddFaceVertices(3, textCoords1, 0xbc614e, texture);
                                     selectedX[objIndex] = x1;
                                     selectedY[objIndex] = y1;
                                     sectionObj.entityType[objIndex] = 0x30d40 + objIndex;
@@ -680,7 +680,7 @@ namespace OpenRS.Net.Client.Game
                                     textCoords2[1] = y1 + x1 * 96 + 96 + 1;
                                     textCoords2[2] = y1 + x1 * 96 + 96;
 
-                                    int objIndex = sectionObj.addFaceVertices(3, textCoords2, 0xbc614e, texture1);
+                                    int objIndex = sectionObj.AddFaceVertices(3, textCoords2, 0xbc614e, texture1);
                                     selectedX[objIndex] = x1;
                                     selectedY[objIndex] = y1;
                                     sectionObj.entityType[objIndex] = 0x30d40 + objIndex;
@@ -694,7 +694,7 @@ namespace OpenRS.Net.Client.Game
                                     textCoords1[1] = y1 + x1 * 96 + 96 + 1;
                                     textCoords1[2] = y1 + x1 * 96;
 
-                                    int objIndex = sectionObj.addFaceVertices(3, textCoords1, 0xbc614e, texture);
+                                    int objIndex = sectionObj.AddFaceVertices(3, textCoords1, 0xbc614e, texture);
                                     selectedX[objIndex] = x1;
                                     selectedY[objIndex] = y1;
                                     sectionObj.entityType[objIndex] = 0x30d40 + objIndex;
@@ -705,7 +705,7 @@ namespace OpenRS.Net.Client.Game
                                     textCoords2[1] = y1 + x1 * 96;
                                     textCoords2[2] = y1 + x1 * 96 + 96 + 1;
 
-                                    int objIndex = sectionObj.addFaceVertices(3, textCoords2, 0xbc614e, texture1);
+                                    int objIndex = sectionObj.AddFaceVertices(3, textCoords2, 0xbc614e, texture1);
                                     selectedX[objIndex] = x1;
                                     selectedY[objIndex] = y1;
                                     sectionObj.entityType[objIndex] = 0x30d40 + objIndex;
@@ -721,7 +721,7 @@ namespace OpenRS.Net.Client.Game
                                 y1 + x1 * 96 + 1,
                                 y1 + x1 * 96 + 96 + 1,
                             ];
-                            int objIndex = sectionObj.addFaceVertices(4, textCoords, 0xbc614e, texture);
+                            int objIndex = sectionObj.AddFaceVertices(4, textCoords, 0xbc614e, texture);
                             selectedX[objIndex] = x1;
                             selectedY[objIndex] = y1;
                             sectionObj.entityType[objIndex] = 0x30d40 + objIndex;
@@ -747,7 +747,7 @@ namespace OpenRS.Net.Client.Game
                             int[] ai2 = [
                                     j10, l12, i15, j17
                                 ];
-                            int i20 = sectionObj.addFaceVertices(4, ai2, l7, 0xbc614e);
+                            int i20 = sectionObj.AddFaceVertices(4, ai2, l7, 0xbc614e);
 
                             selectedX[i20] = x1;
                             selectedY[i20] = y1;
@@ -768,7 +768,7 @@ namespace OpenRS.Net.Client.Game
                                 int[] ai3 = [
                                         k10, i13, j15, k17
                                     ];
-                                int j20 = sectionObj.addFaceVertices(4, ai3, i8, 0xbc614e);
+                                int j20 = sectionObj.AddFaceVertices(4, ai3, i8, 0xbc614e);
 
                                 selectedX[j20] = x1;
                                 selectedY[j20] = y1;
@@ -785,7 +785,7 @@ namespace OpenRS.Net.Client.Game
                                 int k15 = sectionObj.getVertexIndex((x1 + 1) * 128, -getTileElevation(x1 + 1, y1 + 1), (y1 + 1) * 128);
                                 int l17 = sectionObj.getVertexIndex(x1 * 128, -getTileElevation(x1, y1 + 1), (y1 + 1) * 128);
                                 int[] ai4 = [l10, j13, k15, l17];
-                                int k20 = sectionObj.addFaceVertices(4, ai4, j8, 0xbc614e);
+                                int k20 = sectionObj.AddFaceVertices(4, ai4, j8, 0xbc614e);
 
                                 selectedX[k20] = x1;
                                 selectedY[k20] = y1;
@@ -804,7 +804,7 @@ namespace OpenRS.Net.Client.Game
                                 var ai5 = new int[]{
                                         i11, k13, l15, i18
                                     };
-                                int l20 = sectionObj.addFaceVertices(4, ai5, k8, 0xbc614e);
+                                int l20 = sectionObj.AddFaceVertices(4, ai5, k8, 0xbc614e);
 
                                 selectedX[l20] = x1;
                                 selectedY[l20] = y1;
@@ -821,7 +821,7 @@ namespace OpenRS.Net.Client.Game
                                 int i16 = sectionObj.getVertexIndex((x1 + 1) * 128, -getTileElevation(x1 + 1, y1 + 1), (y1 + 1) * 128);
                                 int j18 = sectionObj.getVertexIndex(x1 * 128, -getTileElevation(x1, y1 + 1), (y1 + 1) * 128);
                                 int[] ai6 = [j11, l13, i16, j18];
-                                int i21 = sectionObj.addFaceVertices(4, ai6, l8, 0xbc614e);
+                                int i21 = sectionObj.AddFaceVertices(4, ai6, l8, 0xbc614e);
 
                                 selectedX[i21] = x1;
                                 selectedY[i21] = y1;
@@ -851,7 +851,7 @@ namespace OpenRS.Net.Client.Game
 
             }
 
-            currentSectionObject.resetObjectIndexes();
+            currentSectionObject.ResetObjectIndexes();
             int j1 = 0x606060;
 
             for (int x1 = 0; x1 < 95; x1++)
@@ -1140,7 +1140,7 @@ namespace OpenRS.Net.Client.Game
 
             }
 
-            currentSectionObject.resetObjectIndexes();
+            currentSectionObject.ResetObjectIndexes();
             for (int x1 = 1; x1 < 95; x1++)
             {
                 for (int y1 = 1; y1 < 95; y1++)
@@ -1303,7 +1303,7 @@ namespace OpenRS.Net.Client.Game
                                 currentSectionObject.getVertexIndex(j26, i28, i27),
                                 currentSectionObject.getVertexIndex(k25, k27, k26),
                             ];
-                            currentSectionObject.addFaceVertices(3, ai8, i12, 0xbc614e);
+                            currentSectionObject.AddFaceVertices(3, ai8, i12, 0xbc614e);
                         }
                         else if (getDiagonalWall(x1, y1) > 12000 && getDiagonalWall(x1, y1) < 24000 && getTileRoofType(x1 + 1, y1 + 1) == 0)
                         {
@@ -1313,7 +1313,7 @@ namespace OpenRS.Net.Client.Game
                                 currentSectionObject.getVertexIndex(k25, k27, k26),
                                 currentSectionObject.getVertexIndex(j26, i28, i27),
                             ];
-                            currentSectionObject.addFaceVertices(3, ai9, i12, 0xbc614e);
+                            currentSectionObject.AddFaceVertices(3, ai9, i12, 0xbc614e);
                         }
                         else if (getDiagonalWall(x1, y1) > 0 && getDiagonalWall(x1, y1) < 12000 && getTileRoofType(x1 + 1, y1 - 1) == 0)
                         {
@@ -1323,7 +1323,7 @@ namespace OpenRS.Net.Client.Game
                                 currentSectionObject.getVertexIndex(k24, j27, i25),
                                 currentSectionObject.getVertexIndex(l26, l27, i26),
                             ];
-                            currentSectionObject.addFaceVertices(3, ai10, i12, 0xbc614e);
+                            currentSectionObject.AddFaceVertices(3, ai10, i12, 0xbc614e);
                         }
                         else if (getDiagonalWall(x1, y1) > 0 && getDiagonalWall(x1, y1) < 12000 && getTileRoofType(x1 - 1, y1 + 1) == 0)
                         {
@@ -1331,7 +1331,7 @@ namespace OpenRS.Net.Client.Game
                             ai11[0] = currentSectionObject.getVertexIndex(k25, k27, k26);
                             ai11[1] = currentSectionObject.getVertexIndex(l26, l27, i26);
                             ai11[2] = currentSectionObject.getVertexIndex(k24, j27, i25);
-                            currentSectionObject.addFaceVertices(3, ai11, i12, 0xbc614e);
+                            currentSectionObject.AddFaceVertices(3, ai11, i12, 0xbc614e);
                         }
                         else if (j27 == k27 && l27 == i28)
                         {
@@ -1340,7 +1340,7 @@ namespace OpenRS.Net.Client.Game
                             ai12[1] = currentSectionObject.getVertexIndex(k25, k27, k26);
                             ai12[2] = currentSectionObject.getVertexIndex(l26, l27, i26);
                             ai12[3] = currentSectionObject.getVertexIndex(j26, i28, i27);
-                            currentSectionObject.addFaceVertices(4, ai12, i12, 0xbc614e);
+                            currentSectionObject.AddFaceVertices(4, ai12, i12, 0xbc614e);
                         }
                         else if (j27 == i28 && k27 == l27)
                         {
@@ -1349,7 +1349,7 @@ namespace OpenRS.Net.Client.Game
                             ai13[1] = currentSectionObject.getVertexIndex(k24, j27, i25);
                             ai13[2] = currentSectionObject.getVertexIndex(k25, k27, k26);
                             ai13[3] = currentSectionObject.getVertexIndex(l26, l27, i26);
-                            currentSectionObject.addFaceVertices(4, ai13, i12, 0xbc614e);
+                            currentSectionObject.AddFaceVertices(4, ai13, i12, 0xbc614e);
                         }
                         else
                         {
@@ -1365,12 +1365,12 @@ namespace OpenRS.Net.Client.Game
                                 ai14[0] = currentSectionObject.getVertexIndex(k25, k27, k26);
                                 ai14[1] = currentSectionObject.getVertexIndex(l26, l27, i26);
                                 ai14[2] = currentSectionObject.getVertexIndex(k24, j27, i25);
-                                currentSectionObject.addFaceVertices(3, ai14, i12, 0xbc614e);
+                                currentSectionObject.AddFaceVertices(3, ai14, i12, 0xbc614e);
                                 var ai16 = new int[3];
                                 ai16[0] = currentSectionObject.getVertexIndex(j26, i28, i27);
                                 ai16[1] = currentSectionObject.getVertexIndex(k24, j27, i25);
                                 ai16[2] = currentSectionObject.getVertexIndex(l26, l27, i26);
-                                currentSectionObject.addFaceVertices(3, ai16, i12, 0xbc614e);
+                                currentSectionObject.AddFaceVertices(3, ai16, i12, 0xbc614e);
                             }
                             else
                             {
@@ -1384,12 +1384,12 @@ namespace OpenRS.Net.Client.Game
                                 ai15[0] = currentSectionObject.getVertexIndex(k24, j27, i25);
                                 ai15[1] = currentSectionObject.getVertexIndex(k25, k27, k26);
                                 ai15[2] = currentSectionObject.getVertexIndex(j26, i28, i27);
-                                currentSectionObject.addFaceVertices(3, ai15, i12, 0xbc614e);
+                                currentSectionObject.AddFaceVertices(3, ai15, i12, 0xbc614e);
                                 var ai17 = new int[3];
                                 ai17[0] = currentSectionObject.getVertexIndex(l26, l27, i26);
                                 ai17[1] = currentSectionObject.getVertexIndex(j26, i28, i27);
                                 ai17[2] = currentSectionObject.getVertexIndex(k25, k27, k26);
-                                currentSectionObject.addFaceVertices(3, ai17, i12, 0xbc614e);
+                                currentSectionObject.AddFaceVertices(3, ai17, i12, 0xbc614e);
                             }
                         }
                     }
@@ -2327,7 +2327,7 @@ namespace OpenRS.Net.Client.Game
                             camera.addModel(i2);
 
                             Point3D loc = new(-50, -10, -50);
-                            i2.cmf(48, 48, loc);
+                            i2.Cmf(48, 48, loc);
                             if (objectWidth > 1 || objectHeight > 1)
                             {
                                 for (int j3 = x; j3 < x + objectWidth; j3++)
@@ -2407,7 +2407,7 @@ namespace OpenRS.Net.Client.Game
 
             int[] ai = [l3, i4, j4, k4];
 
-            int l4 = wallObj.addFaceVertices(4, ai, j2, k2);
+            int l4 = wallObj.AddFaceVertices(4, ai, j2, k2);
             if (entityManager.GetWallObject(wallObjIndex).Unknown == 5)
             {
                 wallObj.entityType[l4] = 30000 + wallObjIndex;

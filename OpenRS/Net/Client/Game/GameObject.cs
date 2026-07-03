@@ -137,7 +137,7 @@ namespace OpenRS.Net.Client.Game
         {
             Point3D point = new(x, y, z);
 
-            return getVertexIndex(point);
+            return GetVertexIndex(point);
         }
 
         // TODO: REMOVE ASAP
@@ -220,7 +220,7 @@ namespace OpenRS.Net.Client.Game
             ckm = 0;
         }
 
-        public void clj()
+        public void Clj()
         {
             vertX = new int[vert_count];
             vertY = new int[vert_count];
@@ -229,13 +229,13 @@ namespace OpenRS.Net.Client.Game
             cfm = new int[vert_count];
         }
 
-        public void resetObjectIndexes()
+        public void ResetObjectIndexes()
         {
             face_count = 0;
             vert_count = 0;
         }
 
-        public void cll(int j, int k)
+        public void Cll(int j, int k)
         {
             face_count -= j;
             if (face_count < 0)
@@ -426,7 +426,7 @@ namespace OpenRS.Net.Client.Game
                     getShadeValue((sbyte[])(Array)abyte0),
                     getShadeValue((sbyte[])(Array)abyte0));
 
-                getVertexIndex(point);
+                GetVertexIndex(point);
             }
 
             for (int l3 = 0; l3 < j1; l3++)
@@ -450,7 +450,7 @@ namespace OpenRS.Net.Client.Game
                     ai1[j4] = getShadeValue((sbyte[])(Array)abyte0);
                 }
 
-                int k4 = addFaceVertices(j2, ai, k2, l2);
+                int k4 = AddFaceVertices(j2, ai, k2, l2);
                 cje[l3] = ai1;
                 if (j3 == 0)
                 {
@@ -547,7 +547,7 @@ namespace OpenRS.Net.Client.Game
                     bool validFace = true;
                     for (int faceVerticeIndex = 0; faceVerticeIndex < j1.face_vertices_count[k1]; faceVerticeIndex++)
                     {
-                        int vertIdx = getVertexIndex(j1.verticeLocations[ai1[faceVerticeIndex]]);
+                        int vertIdx = GetVertexIndex(j1.verticeLocations[ai1[faceVerticeIndex]]);
 
                         if (vertIdx == -1)
                         {
@@ -563,7 +563,7 @@ namespace OpenRS.Net.Client.Game
                         continue;
                     }
 
-                    int i2 = addFaceVertices(j1.face_vertices_count[k1], ai, j1.texture_back[k1], j1.texture_front[k1]);
+                    int i2 = AddFaceVertices(j1.face_vertices_count[k1], ai, j1.texture_back[k1], j1.texture_front[k1]);
                     gouraud_shade[i2] = j1.gouraud_shade[k1];
                     cgh[i2] = j1.cgh[k1];
                     cgg[i2] = j1.cgg[k1];
@@ -597,7 +597,7 @@ namespace OpenRS.Net.Client.Game
             objectState = 1;
         }
 
-        public int getVertexIndex(Point3D location)
+        public int GetVertexIndex(Point3D location)
         {
             for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
             {
@@ -617,7 +617,7 @@ namespace OpenRS.Net.Client.Game
             return vert_count++;
         }
 
-        public int addVertex(Point3D location)
+        public int AddVertex(Point3D location)
         {
             if (vert_count >= totalVerticeCount)
             {
@@ -629,7 +629,7 @@ namespace OpenRS.Net.Client.Game
             return vert_count++;
         }
 
-        public int addFaceVertices(int vertexCount, int[] _faceVertices, int _faceBack, int _faceFront)
+        public int AddFaceVertices(int vertexCount, int[] _faceVertices, int _faceBack, int _faceFront)
         {
             if (face_count >= totalFaceCount)
             {
@@ -710,7 +710,7 @@ namespace OpenRS.Net.Client.Game
 
             for (int j2 = 0; j2 < objectCount; j2++)
             {
-                ai2[j2].clj();
+                ai2[j2].Clj();
             }
 
             return ai2;
@@ -722,7 +722,7 @@ namespace OpenRS.Net.Client.Game
 
             for (int j = 0; j < indexCount; j++)
             {
-                int k = arg0.getVertexIndex(verticeLocations[indices[j]]);
+                int k = arg0.GetVertexIndex(verticeLocations[indices[j]]);
 
                 if (k == -1)
                 {
@@ -734,7 +734,7 @@ namespace OpenRS.Net.Client.Game
                 arg0.vertexColor[k] = vertexColor[indices[j]];
             }
 
-            int l = arg0.addFaceVertices(indexCount, ai, texture_back[entityTypeIndex], texture_front[entityTypeIndex]);
+            int l = arg0.AddFaceVertices(indexCount, ai, texture_back[entityTypeIndex], texture_front[entityTypeIndex]);
 
             if (l == -1)
             {
@@ -777,10 +777,10 @@ namespace OpenRS.Net.Client.Game
 
             // Calculate magnitude (length) of input vector
             cld = (int)Math.Sqrt(point.X * point.X + point.Y * point.Y + point.Z * point.Z);
-            normalize();
+            Normalize();
         }
 
-        public void cmf(int j, int k, Point3D point)
+        public void Cmf(int j, int k, Point3D point)
         {
             clf = 256 - j * 4;
             cle = (64 - k) * 16 + 128;
@@ -793,12 +793,12 @@ namespace OpenRS.Net.Client.Game
             shadingUnknown = point;
 
             cld = (int)Math.Sqrt(point.X * point.X + point.Y * point.Y + point.Z * point.Z);
-            normalize();
+            Normalize();
 
             return;
         }
 
-        public void cmg(Point3D point)
+        public void Cmg(Point3D point)
         {
             if (dontRecieveShadows)
             {
@@ -809,7 +809,7 @@ namespace OpenRS.Net.Client.Game
 
             // normalized value?
             cld = (int)Math.Sqrt(point.X * point.X + point.Y * point.Y + point.Z * point.Z);
-            normalize();
+            Normalize();
             return;
         }
 
@@ -821,7 +821,7 @@ namespace OpenRS.Net.Client.Game
             rotation.Y += point.Y & 0xFF;
             rotation.Z += point.Z & 0xFF;
 
-            cmm();
+            Cmm();
             objectState = 1;
         }
 
@@ -831,7 +831,7 @@ namespace OpenRS.Net.Client.Game
             rotation.Y = point.Y & 0xFF;
             rotation.Z = point.Z & 0xFF;
 
-            cmm();
+            Cmm();
             objectState = 1;
         }
 
@@ -839,7 +839,7 @@ namespace OpenRS.Net.Client.Game
         {
             location += offset;
 
-            cmm();
+            Cmm();
             objectState = 1;
         }
 
@@ -847,11 +847,11 @@ namespace OpenRS.Net.Client.Game
         {
             this.location = location;
 
-            cmm();
+            Cmm();
             objectState = 1;
         }
 
-        void cmm()
+        void Cmm()
         {
             if (ckg != 256 || ckh != 256 || cki != 256 || ckj != 256 || ckk != 256 || ckl != 256)
             {
@@ -885,7 +885,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void rotate(Point3D rotationPoint)
+        void Rotate(Point3D rotationPoint)
         {
             for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
             {
@@ -931,7 +931,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void scaleVertices(int x, int z, int x1, int y, int z1, int y1)
+        void ScaleVertices(int x, int z, int x1, int y, int z1, int y1)
         {
             for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
             {
@@ -977,7 +977,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void calculateObjectBounds()
+        void CalculateObjectBounds()
         {
             minimumBounds = new Point3D(0xf423f, 0xf423f, 0xf423f);
             distVar = -minimumBounds.X;
@@ -1098,7 +1098,7 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        public void normalize()
+        public void Normalize()
         {
             if (dontRecieveShadows)
             {
@@ -1220,7 +1220,7 @@ namespace OpenRS.Net.Client.Game
                 cgh[j] = -1;
             }
 
-            normalize();
+            Normalize();
         }
 
         public void UpdateWorldTransformation()
@@ -1251,7 +1251,7 @@ namespace OpenRS.Net.Client.Game
 
                 if (ckm >= 2)
                 {
-                    rotate(rotation);
+                    Rotate(rotation);
                 }
 
                 if (ckm >= 3)
@@ -1262,7 +1262,7 @@ namespace OpenRS.Net.Client.Game
 
                 if (ckm >= 4)
                 {
-                    scaleVertices(ckg, ckh, cki, ckj, ckk, ckl);
+                    ScaleVertices(ckg, ckh, cki, ckj, ckk, ckl);
                 }
 
                 if (ckm >= 1)
@@ -1270,7 +1270,7 @@ namespace OpenRS.Net.Client.Game
                     OffsetWorldVertices(location);
                 }
 
-                calculateObjectBounds();
+                CalculateObjectBounds();
                 calculateNormals();
             }
         }
@@ -1406,7 +1406,7 @@ namespace OpenRS.Net.Client.Game
             rotation = j.rotation;
             location = j.location;
 
-            cmm();
+            Cmm();
             objectState = 1;
         }
 

@@ -143,13 +143,13 @@ namespace OpenRS.Net.Client.Game.Cameras
         public void bhb()
         {
             bdn = 0;
-            highlightedObject.resetObjectIndexes();
+            highlightedObject.ResetObjectIndexes();
         }
 
         public void removeLastUpdates(int k)
         {
             bdn -= k;
-            highlightedObject.cll(k, k * 2);
+            highlightedObject.Cll(k, k * 2);
             if (bdn < 0)
             {
                 bdn = 0;
@@ -164,11 +164,11 @@ namespace OpenRS.Net.Client.Game.Cameras
             bef[bdn] = height;
             beg[bdn] = 0;
 
-            int k2 = highlightedObject.addVertex(location);
-            int l2 = highlightedObject.addVertex(new Point3D(location.X, location.Y - height, location.Z));
+            int k2 = highlightedObject.AddVertex(location);
+            int l2 = highlightedObject.AddVertex(new Point3D(location.X, location.Y - height, location.Z));
             int[] ai = [k2, l2];
 
-            highlightedObject.addFaceVertices(2, ai, 0, 0);
+            highlightedObject.AddFaceVertices(2, ai, 0, 0);
             highlightedObject.entityType[bdn] = j2;
             highlightedObject.chm[bdn++] = 0;
 
@@ -3628,7 +3628,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
             for (int objectIndex = 0; objectIndex < currentObjectCount; objectIndex++)
             {
-                objectCache[objectIndex].cmg(point);
+                objectCache[objectIndex].Cmg(point);
             }
         }
 
@@ -3641,7 +3641,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
             for (int objectCacheIndex = 0; objectCacheIndex < currentObjectCount; objectCacheIndex++)
             {
-                objectCache[objectCacheIndex].cmf(arg0, arg1, location);
+                objectCache[objectCacheIndex].Cmf(arg0, arg1, location);
             }
         }
 
