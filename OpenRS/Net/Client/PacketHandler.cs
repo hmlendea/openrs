@@ -440,7 +440,7 @@ namespace OpenRS.Net.Client
                         Point3D off = new(0, rotation * 32, 0);
                         gameObject.index = client.ObjectCount;
                         gameObject.offsetMiniPosition(off);
-                        off = new Point3D(l40, -client.engineHandle.getAveragedElevation(l40, k42), k42);
+                        off = new Point3D(l40, -client.engineHandle.GetAveragedElevation(l40, k42), k42);
                         gameObject.offsetLocation(off);
                         Point3D shadingPoint = new(-50, -10, -50);
                         gameObject.UpdateShading(true, 48, 48, shadingPoint);
@@ -1418,7 +1418,7 @@ namespace OpenRS.Net.Client
                         {
                             client.gameCamera.removeModel(client.WallObjects[currentWallObject]);
 
-                            client.engineHandle.removeWallObject(
+                            client.engineHandle.RemoveWallObject(
                                 client.WallObjectLocations[currentWallObject],
                                 client.WallObjectDirection[currentWallObject],
                                 client.WallObjectId[currentWallObject]);
@@ -1459,7 +1459,7 @@ namespace OpenRS.Net.Client
                         {
                             client.gameCamera.removeModel(client.WallObjects[currentWallObject]);
 
-                            client.engineHandle.removeWallObject(
+                            client.engineHandle.RemoveWallObject(
                                 client.WallObjectLocations[currentWallObject],
                                 client.WallObjectDirection[currentWallObject],
                                 client.WallObjectId[currentWallObject]);

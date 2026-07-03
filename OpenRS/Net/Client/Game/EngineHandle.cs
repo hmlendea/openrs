@@ -113,28 +113,28 @@ namespace OpenRS.Net.Client.Game
             int i2 = (location.Y - 1) / 12;
 
             Point2D objectLocation = new(l1, k1);
-            updateTileChunk(objectLocation, location, i1);
+            UpdateTileChunk(objectLocation, location, i1);
 
             if (j1 != l1)
             {
                 objectLocation = new Point2D(l1, k1);
-                updateTileChunk(objectLocation, location, i1);
+                UpdateTileChunk(objectLocation, location, i1);
             }
 
             if (k1 != i2)
             {
                 objectLocation = new Point2D(j1, i2);
-                updateTileChunk(objectLocation, location, i1);
+                UpdateTileChunk(objectLocation, location, i1);
             }
 
             if (j1 != l1 && k1 != i2)
             {
                 objectLocation = new Point2D(l1, i2);
-                updateTileChunk(objectLocation, location, i1);
+                UpdateTileChunk(objectLocation, location, i1);
             }
         }
 
-        public int getTileGroundTextureIndex(int x, int y)
+        public int GetTileGroundTextureIndex(int x, int y)
         {
             if (x < 0 || x >= 96 || y < 0 || y >= 96)
             {
@@ -161,7 +161,7 @@ namespace OpenRS.Net.Client.Game
             return tileGroundTexture[byte0][x * 48 + y] & 0xff;
         }
 
-        public int getAveragedElevation(int x, int y_or_z)
+        public int GetAveragedElevation(int x, int y_or_z)
         {
             int k = x >> 7;
             int l = y_or_z >> 7;
@@ -195,7 +195,7 @@ namespace OpenRS.Net.Client.Game
 
         public void setTileType(Point2D location, int type) => tiles[location.X][location.Y] |= type;
 
-        public void loadSection(int sectionX, int sectionY, int height, int sector)
+        public void LoadSection(int sectionX, int sectionY, int height, int sector)
         {
             string filename = "m" + height + sectionX / 10 + sectionX % 10 + sectionY / 10 + sectionY % 10;
             //if(filename=="m05049")
@@ -489,16 +489,16 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        public void loadSection(int x, int y, int height, bool freshLoad)
+        public void LoadSection(int x, int y, int height, bool freshLoad)
         {
             Point3D shadingPoint = new(-50, -10, -50);
             int sectionX = (x + 24) / 48;
             int sectionY = (y + 24) / 48;
-            loadSection(sectionX - 1, sectionY - 1, height, 0);
-            loadSection(sectionX, sectionY - 1, height, 1);
-            loadSection(sectionX - 1, sectionY, height, 2);
-            loadSection(sectionX, sectionY, height, 3);
-            stitchAreaTileColors();
+            LoadSection(sectionX - 1, sectionY - 1, height, 0);
+            LoadSection(sectionX, sectionY - 1, height, 1);
+            LoadSection(sectionX - 1, sectionY, height, 2);
+            LoadSection(sectionX, sectionY, height, 3);
+            StitchAreaTileColors();
 
             currentSectionObject ??= new ObjectModel(18688, 18688, true, true, false, false, true);
 
@@ -562,7 +562,7 @@ namespace OpenRS.Net.Client.Game
                 {
                     for (int y1 = 0; y1 < 95; y1++)
                     {
-                        int tileTextureIndex = getTileGroundTextureIndex(x1, y1);
+                        int tileTextureIndex = GetTileGroundTextureIndex(x1, y1);
                         int texture = groundTexture[tileTextureIndex];
                         int texture1 = texture;
                         int texture2 = texture;
@@ -599,24 +599,24 @@ namespace OpenRS.Net.Client.Game
                             {
                                 if (getDiagonalWall(x1, y1) > 0 && getDiagonalWall(x1, y1) < 24000)
                                 {
-                                    if (getTileGroundOverlayTextureOrDefault(x1 - 1, y1, height, texture2) != 0xbc614e && getTileGroundOverlayTextureOrDefault(x1, y1 - 1, height, texture2) != 0xbc614e)
+                                    if (GetTileGroundOverlayTextureOrDefault(x1 - 1, y1, height, texture2) != 0xbc614e && GetTileGroundOverlayTextureOrDefault(x1, y1 - 1, height, texture2) != 0xbc614e)
                                     {
-                                        texture = getTileGroundOverlayTextureOrDefault(x1 - 1, y1, height, texture2);
+                                        texture = GetTileGroundOverlayTextureOrDefault(x1 - 1, y1, height, texture2);
                                         l14 = 0;
                                     }
-                                    else if (getTileGroundOverlayTextureOrDefault(x1 + 1, y1, height, texture2) != 0xbc614e && getTileGroundOverlayTextureOrDefault(x1, y1 + 1, height, texture2) != 0xbc614e)
+                                    else if (GetTileGroundOverlayTextureOrDefault(x1 + 1, y1, height, texture2) != 0xbc614e && GetTileGroundOverlayTextureOrDefault(x1, y1 + 1, height, texture2) != 0xbc614e)
                                     {
-                                        texture1 = getTileGroundOverlayTextureOrDefault(x1 + 1, y1, height, texture2);
+                                        texture1 = GetTileGroundOverlayTextureOrDefault(x1 + 1, y1, height, texture2);
                                         l14 = 0;
                                     }
-                                    else if (getTileGroundOverlayTextureOrDefault(x1 + 1, y1, height, texture2) != 0xbc614e && getTileGroundOverlayTextureOrDefault(x1, y1 - 1, height, texture2) != 0xbc614e)
+                                    else if (GetTileGroundOverlayTextureOrDefault(x1 + 1, y1, height, texture2) != 0xbc614e && GetTileGroundOverlayTextureOrDefault(x1, y1 - 1, height, texture2) != 0xbc614e)
                                     {
-                                        texture1 = getTileGroundOverlayTextureOrDefault(x1 + 1, y1, height, texture2);
+                                        texture1 = GetTileGroundOverlayTextureOrDefault(x1 + 1, y1, height, texture2);
                                         l14 = 1;
                                     }
-                                    else if (getTileGroundOverlayTextureOrDefault(x1 - 1, y1, height, texture2) != 0xbc614e && getTileGroundOverlayTextureOrDefault(x1, y1 + 1, height, texture2) != 0xbc614e)
+                                    else if (GetTileGroundOverlayTextureOrDefault(x1 - 1, y1, height, texture2) != 0xbc614e && GetTileGroundOverlayTextureOrDefault(x1, y1 + 1, height, texture2) != 0xbc614e)
                                     {
-                                        texture = getTileGroundOverlayTextureOrDefault(x1 - 1, y1, height, texture2);
+                                        texture = GetTileGroundOverlayTextureOrDefault(x1 - 1, y1, height, texture2);
                                         l14 = 1;
                                     }
                                 }
@@ -866,7 +866,7 @@ namespace OpenRS.Net.Client.Game
                     if (k3 > 0 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || unknownBool1))
                     {
                         destination = new Point2D(location.X + 1, location.Y);
-                        makeWall(currentSectionObject, k3 - 1, location, destination);
+                        MakeWall(currentSectionObject, k3 - 1, location, destination);
 
                         if (freshLoad && entityManager.GetWallObject(k3 - 1).Type != 0)
                         {
@@ -890,7 +890,7 @@ namespace OpenRS.Net.Client.Game
                     if (k3 > 0 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || unknownBool1))
                     {
                         destination = new Point2D(location.X, location.Y + 1);
-                        makeWall(currentSectionObject, k3 - 1, location, destination);
+                        MakeWall(currentSectionObject, k3 - 1, location, destination);
 
                         if (freshLoad && entityManager.GetWallObject(k3 - 1).Type != 0)
                         {
@@ -914,7 +914,7 @@ namespace OpenRS.Net.Client.Game
                     if (k3 > 0 && k3 < 12000 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || unknownBool1))
                     {
                         destination = new Point2D(location.X + 1, location.Y + 1);
-                        makeWall(currentSectionObject, k3 - 1, location, destination);
+                        MakeWall(currentSectionObject, k3 - 1, location, destination);
 
                         if (freshLoad && entityManager.GetWallObject(k3 - 1).Type != 0)
                         {
@@ -933,7 +933,7 @@ namespace OpenRS.Net.Client.Game
                     {
                         Point2D loc = new(location.X + 1, location.Y);
                         destination = new Point2D(location.X, location.Y + 1);
-                        makeWall(currentSectionObject, k3 - 12001, loc, destination);
+                        MakeWall(currentSectionObject, k3 - 12001, loc, destination);
 
                         if (freshLoad && entityManager.GetWallObject(k3 - 12001).Type != 0)
                         {
@@ -1423,26 +1423,26 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        public void loadSection(int x, int y, int height)
+        public void LoadSection(int x, int y, int height)
         {
             cleanUpWorld();
             int sectionX = (x + 24) / 48;
             int sectionY = (y + 24) / 48;
-            loadSection(x, y, height, true);
+            LoadSection(x, y, height, true);
             if (height == 0)
             {
 #warning loadsection been modified.
-                loadSection(x, y, 1, false);
-                loadSection(x, y, 2, false);
-                loadSection(sectionX - 1, sectionY - 1, height, 0);
-                loadSection(sectionX, sectionY - 1, height, 1);
-                loadSection(sectionX - 1, sectionY, height, 2);
-                loadSection(sectionX, sectionY, height, 3);
-                stitchAreaTileColors();
+                LoadSection(x, y, 1, false);
+                LoadSection(x, y, 2, false);
+                LoadSection(sectionX - 1, sectionY - 1, height, 0);
+                LoadSection(sectionX, sectionY - 1, height, 1);
+                LoadSection(sectionX - 1, sectionY, height, 2);
+                LoadSection(sectionX, sectionY, height, 3);
+                StitchAreaTileColors();
             }
         }
 
-        public void stitchAreaTileColors()
+        public void StitchAreaTileColors()
         {
             for (int x = 0; x < 96; x++)
             {
@@ -1469,7 +1469,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public int generatePath(Point2D startLocation, Point2D destinationBottom, Point2D destinationTop, Point2D[] path, bool checkForObjects)
+        public int GeneratePath(Point2D startLocation, Point2D destinationBottom, Point2D destinationTop, Point2D[] path, bool checkForObjects)
         {
             for (int k = 0; k < 96; k++)
             {
@@ -1651,9 +1651,9 @@ namespace OpenRS.Net.Client.Game
             return stepCount;
         }
 
-        public void gjm(Point2D location, int i1) => tiles[location.X][location.Y] &= 65535 - i1;
+        public void Gjm(Point2D location, int i1) => tiles[location.X][location.Y] &= 65535 - i1;
 
-        public int getTileGroundOverlayTextureOrDefault(int x, int y, int height, int defaultTexture)
+        public int GetTileGroundOverlayTextureOrDefault(int x, int y, int height, int defaultTexture)
         {
             int k1 = getTileGroundOverlayIndex(x, y);
 
@@ -1665,7 +1665,7 @@ namespace OpenRS.Net.Client.Game
             return entityManager.GetTile(k1 - 1).Colour;
         }
 
-        public void gka(Point2D location, int objWidth, int objHeight)
+        public void Gka(Point2D location, int objWidth, int objHeight)
         {
             if (location.X < 1 ||
                 location.Y < 1 ||
@@ -1696,7 +1696,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public void removeWallObject(Point2D location, int arg2, int index)
+        public void RemoveWallObject(Point2D location, int arg2, int index)
         {
             if (location.X < 0 ||
                 location.Y < 0 ||
@@ -1716,7 +1716,7 @@ namespace OpenRS.Net.Client.Game
 
                     if (location.Y > 0)
                     {
-                        gjm(l, 4);
+                        Gjm(l, 4);
                     }
                 }
                 else if (arg2 == 1)
@@ -1725,7 +1725,7 @@ namespace OpenRS.Net.Client.Game
 
                     if (location.X > 0)
                     {
-                        gjm(l, 8);
+                        Gjm(l, 8);
                     }
                 }
                 else if (arg2 == 2)
@@ -1737,7 +1737,7 @@ namespace OpenRS.Net.Client.Game
                     tiles[location.X][location.Y] &= 0xffdf;
                 }
 
-                gka(location, 1, 1);
+                Gka(location, 1, 1);
             }
         }
 
@@ -1784,7 +1784,7 @@ namespace OpenRS.Net.Client.Game
                     tiles[location.X][location.Y] |= 0x20;
                 }
 
-                gka(location, 1, 1);
+                Gka(location, 1, 1);
             }
         }
 
@@ -1883,7 +1883,7 @@ namespace OpenRS.Net.Client.Game
                             if (j1 > 0)
                             {
                                 Point2D loc = new(j1 - 1, k1);
-                                gjm(loc, 8);
+                                Gjm(loc, 8);
                             }
                         }
                         else if (objDir == 2)
@@ -1893,7 +1893,7 @@ namespace OpenRS.Net.Client.Game
                             if (k1 < 95)
                             {
                                 Point2D loc = new(j1, k1 + 1);
-                                gjm(loc, 1);
+                                Gjm(loc, 1);
                             }
                         }
                         else if (objDir == 4)
@@ -1903,7 +1903,7 @@ namespace OpenRS.Net.Client.Game
                             if (j1 < 95)
                             {
                                 Point2D loc = new(j1 + 1, k1);
-                                gjm(loc, 2);
+                                Gjm(loc, 2);
                             }
                         }
                         else if (objDir == 6)
@@ -1913,13 +1913,13 @@ namespace OpenRS.Net.Client.Game
                             if (k1 > 0)
                             {
                                 Point2D loc = new(j1, k1 - 1);
-                                gjm(loc, 4);
+                                Gjm(loc, 4);
                             }
                         }
                     }
                 }
 
-                gka(location, objWidth, objHeight);
+                Gka(location, objWidth, objHeight);
             }
         }
 
@@ -2145,7 +2145,7 @@ namespace OpenRS.Net.Client.Game
 
                 Point2D location = new(x, y);
 
-                gka(location, objectWidth, objectHeight);
+                Gka(location, objectWidth, objectHeight);
             }
         }
 
@@ -2292,7 +2292,7 @@ namespace OpenRS.Net.Client.Game
             return tileDiagonalWall[layer][x * 48 + y];
         }
 
-        public void addObjects(ObjectModel[] arg0)
+        public void AddObjects(ObjectModel[] arg0)
         {
             for (int x = 0; x < 94; x++)
             {
@@ -2320,7 +2320,7 @@ namespace OpenRS.Net.Client.Game
                             ObjectModel i2 = arg0[entityManager.GetWorldObject(objectIndex).ModelId].CreateParent(false, true, false, false);
                             int j2 = (x + x + objectWidth) * 128 / 2;
                             int l2 = (y + y + objectHeight) * 128 / 2;
-                            i2.offsetLocation(j2, -getAveragedElevation(j2, l2), l2);
+                            i2.offsetLocation(j2, -GetAveragedElevation(j2, l2), l2);
                             i2.setRotation(0, getTileRotation(x, y) * 32, 0);
                             i2.setRotation(0, objectRotation * 32, 0);
 
@@ -2370,7 +2370,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public void updateTileChunk(Point2D objectLocation, Point2D location, int val)
+        public void UpdateTileChunk(Point2D objectLocation, Point2D location, int val)
         {
             ObjectModel tileChunk = TileChunks[objectLocation.X + objectLocation.Y * 8];
 
@@ -2388,7 +2388,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public void makeWall(ObjectModel wallObj, int wallObjIndex, Point2D location, Point2D destination)
+        public void MakeWall(ObjectModel wallObj, int wallObjIndex, Point2D location, Point2D destination)
         {
             SetTileType(location, 40);
             SetTileType(destination, 40);

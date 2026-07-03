@@ -1237,7 +1237,7 @@ namespace OpenRS.Net.Client
                             else
                             {
                                 gameCamera.removeModel(WallObjects[wallObjectIndex]);
-                                engineHandle.removeWallObject(WallObjectLocations[wallObjectIndex], WallObjectDirection[wallObjectIndex], WallObjectId[wallObjectIndex]);
+                                engineHandle.RemoveWallObject(WallObjectLocations[wallObjectIndex], WallObjectDirection[wallObjectIndex], WallObjectId[wallObjectIndex]);
                             }
                         }
 
@@ -1439,7 +1439,7 @@ namespace OpenRS.Net.Client
             for (int wallObjectIndex = 0; wallObjectIndex < WallObjectCount; wallObjectIndex++)
             {
                 gameCamera.removeModel(WallObjects[wallObjectIndex]);
-                engineHandle.removeWallObject(WallObjectLocations[wallObjectIndex], WallObjectDirection[wallObjectIndex], WallObjectId[wallObjectIndex]);
+                engineHandle.RemoveWallObject(WallObjectLocations[wallObjectIndex], WallObjectDirection[wallObjectIndex], WallObjectId[wallObjectIndex]);
             }
 
             ObjectCount = 0;
@@ -2020,7 +2020,7 @@ namespace OpenRS.Net.Client
 
         public bool WalkTo(Point2D startLocation, Point2D destinationBottom, Point2D destinationTop, bool checkForObjects, bool walkToACommand)
         {
-            int stepCount = engineHandle.generatePath(startLocation, destinationBottom, destinationTop, WalkArrayLocations, checkForObjects);
+            int stepCount = engineHandle.GeneratePath(startLocation, destinationBottom, destinationTop, WalkArrayLocations, checkForObjects);
 
             if (stepCount == -1)
             {
@@ -2073,7 +2073,7 @@ namespace OpenRS.Net.Client
 
         public bool walkTo2(Point2D startLocation, Point2D destinationBottom, Point2D destinationTop, bool unknownDifferent, bool walkToACommand)
         {
-            int stepCount = engineHandle.generatePath(startLocation, destinationBottom, destinationTop, WalkArrayLocations, unknownDifferent);
+            int stepCount = engineHandle.GeneratePath(startLocation, destinationBottom, destinationTop, WalkArrayLocations, unknownDifferent);
 
             if (stepCount == -1)
             {
@@ -4240,7 +4240,7 @@ namespace OpenRS.Net.Client
                 {
                     int j2 = player.Location.X;
                     int l2 = player.Location.Y;
-                    int j3 = -engineHandle.getAveragedElevation(j2, l2);
+                    int j3 = -engineHandle.GetAveragedElevation(j2, l2);
 
                     Point3D loc = new(j2, j3, l2);
                     int k4 = gameCamera.addSpriteToScene(5000 + playerIndex, loc, 145, 220, playerIndex + 10000);
@@ -4284,10 +4284,10 @@ namespace OpenRS.Net.Client
                     {
                         int k3 = player.Location.X;
                         int l4 = player.Location.Y;
-                        int k7 = -engineHandle.getAveragedElevation(k3, l4) - 110;
+                        int k7 = -engineHandle.GetAveragedElevation(k3, l4) - 110;
                         int k9 = targetMob.Location.X;
                         int j10 = targetMob.Location.Y;
-                        int k10 = -engineHandle.getAveragedElevation(k9, j10) - entityManager.GetNpc(targetMob.npcId).Camera2 / 2;
+                        int k10 = -engineHandle.GetAveragedElevation(k9, j10) - entityManager.GetNpc(targetMob.npcId).Camera2 / 2;
                         int l10 = (k3 * player.ProjectileDistance + k9 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
                         int i11 = (k7 * player.ProjectileDistance + k10 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
                         int j11 = (l4 * player.ProjectileDistance + j10 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
@@ -4305,7 +4305,7 @@ namespace OpenRS.Net.Client
 
                 int x1 = npc.Location.X;
                 int z1 = npc.Location.Y;
-                int y1 = -engineHandle.getAveragedElevation(x1, z1);
+                int y1 = -engineHandle.GetAveragedElevation(x1, z1);
 
                 Point3D loc = new(x1, y1, z1);
                 int l9 = gameCamera.addSpriteToScene(20000 + npcIndex, loc, entityManager.GetNpc(npc.npcId).Camera1, entityManager.GetNpc(npc.npcId).Camera2, npcIndex + 30000);
@@ -4328,7 +4328,7 @@ namespace OpenRS.Net.Client
                 int x = GroundItemLocations[groundITemIndex].X * GridSize + 64;
                 int y = GroundItemLocations[groundITemIndex].Y * GridSize + 64;
 
-                Point3D loc = new(x, -engineHandle.getAveragedElevation(x, y) - GroundItemObjectVar[groundITemIndex], y);
+                Point3D loc = new(x, -engineHandle.GetAveragedElevation(x, y) - GroundItemObjectVar[groundITemIndex], y);
                 gameCamera.addSpriteToScene(40000 + GroundItemId[groundITemIndex], loc, 96, 64, groundITemIndex + 20000);
                 drawUpdatesPerformed++;
             }
@@ -4341,14 +4341,14 @@ namespace OpenRS.Net.Client
 
                 if (i10 == 0)
                 {
-                    Point3D loc = new(k5, -engineHandle.getAveragedElevation(k5, i8), i8);
+                    Point3D loc = new(k5, -engineHandle.GetAveragedElevation(k5, i8), i8);
                     gameCamera.addSpriteToScene(50000 + teleBubbleIndex, loc, 128, 256, teleBubbleIndex + 50000);
                     drawUpdatesPerformed++;
                 }
 
                 if (i10 == 1)
                 {
-                    Point3D loc = new(k5, -engineHandle.getAveragedElevation(k5, i8), i8);
+                    Point3D loc = new(k5, -engineHandle.GetAveragedElevation(k5, i8), i8);
                     gameCamera.addSpriteToScene(50000 + teleBubbleIndex, loc, 128, 64, teleBubbleIndex + 50000);
                     drawUpdatesPerformed++;
                 }
@@ -4402,7 +4402,7 @@ namespace OpenRS.Net.Client
                 int newCameraPosY = cameraAutoRotatePlayerY + cameraRotationYAmount;
 
                 cameraRotation = cameraAutoAngle * 32;
-                Point3D loc = new(newCameraPosX, -engineHandle.getAveragedElevation(newCameraPosX, newCameraPosY), newCameraPosY);
+                Point3D loc = new(newCameraPosX, -engineHandle.GetAveragedElevation(newCameraPosX, newCameraPosY), newCameraPosY);
                 gameCamera.SetCameraTransform(loc, 912, cameraRotation * 4, 0, 2000);
             }
             else
@@ -4429,7 +4429,7 @@ namespace OpenRS.Net.Client
 
                 int k6 = cameraAutoRotatePlayerX + cameraRotationXAmount;
                 int l8 = cameraAutoRotatePlayerY + cameraRotationYAmount;
-                Point3D loc = new(k6, -engineHandle.getAveragedElevation(k6, l8), l8);
+                Point3D loc = new(k6, -engineHandle.GetAveragedElevation(k6, l8), l8);
                 gameCamera.SetCameraTransform(loc, 912, cameraRotation * 4, 0, cameraDistance * 2);
             }
 
@@ -5416,7 +5416,7 @@ namespace OpenRS.Net.Client
             sectionHeight = yBase * 48 - 32;
             sectionPosX = xBase * 48 + 32;
             sectionPosY = yBase * 48 + 32;
-            engineHandle.loadSection(x, y, lastLayerIndex);
+            engineHandle.LoadSection(x, y, lastLayerIndex);
 
             AreaLocation = new Point2D(AreaLocation.X - WildLocation.X, AreaLocation.Y - WildLocation.Y);
 
@@ -5458,7 +5458,7 @@ namespace OpenRS.Net.Client
                     {
                         gameCamera.addModel(_obj);
 
-                        Point3D location = new(flatObjX, -engineHandle.getAveragedElevation(flatObjX, flatObjY), flatObjY);
+                        Point3D location = new(flatObjX, -engineHandle.GetAveragedElevation(flatObjX, flatObjY), flatObjY);
 
                         _obj.setLocation(location);
                         engineHandle.createObject(objX, objY, objType, objDir);
@@ -5585,16 +5585,16 @@ namespace OpenRS.Net.Client
             destTileY *= GridSize;
 
             // add vertex index bottomLeft
-            int bLeft = wallModel.getVertexIndex(tileX, -engineHandle.getAveragedElevation(tileX, tileY), tileY);
+            int bLeft = wallModel.getVertexIndex(tileX, -engineHandle.GetAveragedElevation(tileX, tileY), tileY);
 
             // add vertex index topLeft
-            int tLeft = wallModel.getVertexIndex(tileX, -engineHandle.getAveragedElevation(tileX, tileY) - wallHeight, tileY);
+            int tLeft = wallModel.getVertexIndex(tileX, -engineHandle.GetAveragedElevation(tileX, tileY) - wallHeight, tileY);
 
             // add vertex index topRight
-            int tRight = wallModel.getVertexIndex(destTileX, -engineHandle.getAveragedElevation(destTileX, destTileY) - wallHeight, destTileY);
+            int tRight = wallModel.getVertexIndex(destTileX, -engineHandle.GetAveragedElevation(destTileX, destTileY) - wallHeight, destTileY);
 
             // vertex index bottomRight
-            int bRight = wallModel.getVertexIndex(destTileX, -engineHandle.getAveragedElevation(destTileX, destTileY), destTileY);
+            int bRight = wallModel.getVertexIndex(destTileX, -engineHandle.GetAveragedElevation(destTileX, destTileY), destTileY);
             int[] faceVertices = [bLeft, tLeft, tRight, bRight];
             Point3D shadingPoint = new(-50, -10, -50);
 
