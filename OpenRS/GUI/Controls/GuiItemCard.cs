@@ -9,11 +9,11 @@ namespace OpenRS.Gui.Controls
 {
     public class GuiItemCard : GuiControl
     {
-        const int SpriteRows = 32;
-        const int SpriteColumns = 32;
+        private const int SpriteRows = 32;
+        private const int SpriteColumns = 32;
 
-        GuiImage icon;
-        GuiText quantity;
+        private GuiImage icon;
+        private GuiText quantity;
 
         public int ItemPictureId { get; set; }
 
@@ -70,7 +70,7 @@ namespace OpenRS.Gui.Controls
 
         }
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             if (Quantity > 0)
             {
@@ -105,7 +105,7 @@ namespace OpenRS.Gui.Controls
             }
         }
 
-        Rectangle2D CalculateIconSourceRectangle(int id)
+        private Rectangle2D CalculateIconSourceRectangle(int id)
         {
             int x = id % SpriteColumns;
             int y = id / SpriteRows;

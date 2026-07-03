@@ -45,7 +45,7 @@ namespace OpenRS.Net.Client.Data
             return memory;
         }
 
-        static sbyte[] streamToSbyte(BinaryReader stream, int length)
+        private static sbyte[] streamToSbyte(BinaryReader stream, int length)
         {
             List<sbyte> list = [];
             {
@@ -142,17 +142,17 @@ namespace OpenRS.Net.Client.Data
             {
                 if (i >= str.Length)
                 {
-                    s = s + " ";
+                    s += " ";
                     continue;
                 }
 
                 if (!char.IsLetterOrDigit(str[i]))
                 {
-                    s = s + '_';
+                    s += '_';
                     continue;
                 }
 
-                s = s + str[i];
+                s += str[i];
             }
 
             return s;
@@ -171,23 +171,23 @@ namespace OpenRS.Net.Client.Data
                 char c = arg0[i];
                 if (c >= 'a' && c <= 'z')
                 {
-                    s = s + c;
+                    s += c;
                 }
                 else
                 {
                     if (c >= 'A' && c <= 'Z')
                     {
-                        s = s + (char)(c + 97 - 65);
+                        s += (char)(c + 97 - 65);
                     }
                     else
                     {
                         if (c >= '0' && c <= '9')
                         {
-                            s = s + c;
+                            s += c;
                         }
                         else
                         {
-                            s = s + ' ';
+                            s += ' ';
                         }
                     }
                 }
@@ -380,7 +380,7 @@ namespace OpenRS.Net.Client.Data
         }
 
         public static Uri codeBase = null;
-        static readonly int[] bitMask = [ 0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191,
+        private static readonly int[] bitMask = [ 0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191,
             16383, 32767, 65535, 0x1ffff, 0x3ffff, 0x7ffff, 0xfffff, 0x1fffff, 0x3fffff, 0x7fffff,
             0xffffff, 0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff, 0x1fffffff, 0x3fffffff, 0x7fffffff, -1 ];
     }

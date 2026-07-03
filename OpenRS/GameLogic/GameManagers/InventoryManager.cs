@@ -11,11 +11,11 @@ namespace OpenRS.GameLogic.GameManagers
         public int BankItemsCount { get; set; }
         public int ServerBankItemsCount { get; set; }
 
-        InventoryItem[] inventoryItems;
-        InventoryItem[] bankItems;
-        InventoryItem[] serverBankItems;
+        private InventoryItem[] inventoryItems;
+        private InventoryItem[] bankItems;
+        private InventoryItem[] serverBankItems;
 
-        readonly EntityManager entityManager = entityManager;
+        private readonly EntityManager entityManager = entityManager;
 
         public void LoadContent()
         {

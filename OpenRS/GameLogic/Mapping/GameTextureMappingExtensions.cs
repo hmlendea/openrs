@@ -9,7 +9,7 @@ namespace OpenRS.GameLogic.Mapping
     /// <summary>
     /// Texture mapping extensions for converting between entities and domain models.
     /// </summary>
-    static class GameTextureMappingExtensions
+    internal static class GameTextureMappingExtensions
     {
         /// <summary>
         /// Converts the entity into a domain model.

@@ -31,8 +31,8 @@ namespace OpenRS.Net.Client
 {
     public class GameClient : GameAppletMiddleMan
     {
-        readonly string username;
-        readonly string password;
+        private readonly string username;
+        private readonly string password;
 
         public event EventHandler OnContentLoadedCompleted;
         public event EventHandler<ContentLoadedEventArgs> OnContentLoaded;
@@ -52,18 +52,18 @@ namespace OpenRS.Net.Client
             return client;
         }
 
-        readonly PacketHandler packetHandler;
-        readonly Random random = new();
+        private readonly PacketHandler packetHandler;
+        private readonly Random random = new();
 
-        readonly List<Keys> lastPressedKeys = [];
-        int lastMouseX;
-        int lastMouseY;
-        TimeSpan timeLapse = TimeSpan.Zero;
+        private readonly List<Keys> lastPressedKeys = [];
+        private int lastMouseX;
+        private int lastMouseY;
+        private TimeSpan timeLapse = TimeSpan.Zero;
 
-        readonly CombatManager combatManager;
+        private readonly CombatManager combatManager;
         public readonly EntityManager entityManager; // TODO: Shouldn't be public
         public readonly InventoryManager inventoryManager; // TODO: Shouldn't be public
-        readonly QuestManager questManager;
+        private readonly QuestManager questManager;
 
         public ObjectModel[] GameDataObjects { get; set; }
         public ObjectModel[] WallObjects { get; set; }
@@ -1009,13 +1009,13 @@ namespace OpenRS.Net.Client
                 if (itemSlot < inventoryManager.InventoryItemsCount &&
                     inventoryManager.GetItem(itemSlot).IsEquipped)
                 {
-                    gameGraphics.drawBoxAlpha(j1, l1, 49, 34, 0xff0000, 128);
+                    gameGraphics.DrawBoxAlpha(j1, l1, 49, 34, 0xff0000, 128);
                 }
                 else
                 {
                     int argb = ColourTranslator.ToArgb(181, 181, 181);
 
-                    gameGraphics.drawBoxAlpha(j1, l1, 49, 34, argb, 128);
+                    gameGraphics.DrawBoxAlpha(j1, l1, 49, 34, argb, 128);
                 }
 
                 if (itemSlot < inventoryManager.InventoryItemsCount)
@@ -1491,7 +1491,7 @@ namespace OpenRS.Net.Client
             int j6 = l3 * j5 + j2 * l5 >> 18;
             l3 = l3 * l5 - j2 * j5 >> 18;
 
-            gameGraphics.drawMinimapPic(l + c1 / 2 - j6, 36 + c3 / 2 + l3, baseInventoryPic - 1, l1 + 64 & 0xff, j1);
+            gameGraphics.DrawMinimapPic(l + c1 / 2 - j6, 36 + c3 / 2 + l3, baseInventoryPic - 1, l1 + 64 & 0xff, j1);
             gameGraphics.SetDimensions(0, 0, WindowSize.Width, WindowSize.Height + 12);
 
             if (!canClick)
@@ -1717,21 +1717,21 @@ namespace OpenRS.Net.Client
                 gameGraphics.unpackImageData(baseItemPicture + (i1 - 1) * 30, DataOperations.loadData("objects" + i1 + ".dat", 0, media), abyte1, j1);
             }
             //gameGraphics.UpdateGameImage();
-            gameGraphics.loadImage(baseInventoryPic);
-            gameGraphics.loadImage(baseInventoryPic + 9);
+            gameGraphics.LoadImage(baseInventoryPic);
+            gameGraphics.LoadImage(baseInventoryPic + 9);
             for (int k1 = 11; k1 <= 26; k1++)
             {
-                gameGraphics.loadImage(baseInventoryPic + k1);
+                gameGraphics.LoadImage(baseInventoryPic + k1);
             }
 
             for (int l1 = 0; l1 < entityManager.SpellProjectileCount; l1++)
             {
-                gameGraphics.loadImage(baseProjectilePic + l1);
+                gameGraphics.LoadImage(baseProjectilePic + l1);
             }
 
             for (int i2 = 0; i2 < entityManager.HighestLoadedPicture; i2++)
             {
-                gameGraphics.loadImage(baseProjectilePic + i2);
+                gameGraphics.LoadImage(baseProjectilePic + i2);
             }
 
 
@@ -1899,7 +1899,7 @@ namespace OpenRS.Net.Client
                         {
                             for (int k1 = animationNumber; k1 < animationNumber + 27; k1++)
                             {
-                                gameGraphics.loadImage(k1);
+                                gameGraphics.LoadImage(k1);
                             }
                         }
                     }
@@ -2465,10 +2465,10 @@ namespace OpenRS.Net.Client
                 k1 = ColourTranslator.ToArgb(220, 220, 220);
             }
 
-            gameGraphics.drawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
-            gameGraphics.drawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
-            gameGraphics.drawBoxAlpha(l, i1 + 24, c1, 90, ColourTranslator.ToArgb(220, 220, 220), 128);
-            gameGraphics.drawBoxAlpha(l, i1 + 24 + 90, c1, c2 - 90 - 24, ColourTranslator.ToArgb(160, 160, 160), 128);
+            gameGraphics.DrawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
+            gameGraphics.DrawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
+            gameGraphics.DrawBoxAlpha(l, i1 + 24, c1, 90, ColourTranslator.ToArgb(220, 220, 220), 128);
+            gameGraphics.DrawBoxAlpha(l, i1 + 24 + 90, c1, c2 - 90 - 24, ColourTranslator.ToArgb(160, 160, 160), 128);
             gameGraphics.DrawHorizontalLine(l, i1 + 24, c1, 0);
             gameGraphics.DrawVerticalLine(l + c1 / 2, i1, 24, 0);
             gameGraphics.DrawHorizontalLine(l, i1 + 113, c1, 0);
@@ -3278,7 +3278,7 @@ namespace OpenRS.Net.Client
                     ObjectType[objectIndex] == 74)
                 {
                     Point3D off = new(1, 0, 0);
-                    ObjectArray[objectIndex].offsetMiniPosition(off);
+                    ObjectArray[objectIndex].OffsetMiniPosition(off);
                 }
             }
 
@@ -3819,10 +3819,10 @@ namespace OpenRS.Net.Client
             sbyte _offsetY = 44;
             gameGraphics.DrawBox(_offsetX, _offsetY, 408, 12, 192);
             int k1 = 0x989898;
-            gameGraphics.drawBoxAlpha(_offsetX, _offsetY + 12, 408, 17, k1, 160);
-            gameGraphics.drawBoxAlpha(_offsetX, _offsetY + 29, 8, 170, k1, 160);
-            gameGraphics.drawBoxAlpha(_offsetX + 399, _offsetY + 29, 9, 170, k1, 160);
-            gameGraphics.drawBoxAlpha(_offsetX, _offsetY + 199, 408, 47, k1, 160);
+            gameGraphics.DrawBoxAlpha(_offsetX, _offsetY + 12, 408, 17, k1, 160);
+            gameGraphics.DrawBoxAlpha(_offsetX, _offsetY + 29, 8, 170, k1, 160);
+            gameGraphics.DrawBoxAlpha(_offsetX + 399, _offsetY + 29, 9, 170, k1, 160);
+            gameGraphics.DrawBoxAlpha(_offsetX, _offsetY + 199, 408, 47, k1, 160);
             gameGraphics.DrawString("Buying and selling items", _offsetX + 1, _offsetY + 10, 1, 0xffffff);
             int i2 = 0xffffff;
             if (InputManager.Instance.MouseLocation.X > _offsetX + 320 && InputManager.Instance.MouseLocation.Y >= _offsetY && InputManager.Instance.MouseLocation.X < _offsetX + 408 && InputManager.Instance.MouseLocation.Y < _offsetY + 12)
@@ -3844,11 +3844,11 @@ namespace OpenRS.Net.Client
                     int l6 = _offsetY + 28 + boxRow * 34;
                     if (selectedShopItemIndex == j4)
                     {
-                        gameGraphics.drawBoxAlpha(i6, l6, 49, 34, 0xff0000, 160);
+                        gameGraphics.DrawBoxAlpha(i6, l6, 49, 34, 0xff0000, 160);
                     }
                     else
                     {
-                        gameGraphics.drawBoxAlpha(i6, l6, 49, 34, j3, 160);
+                        gameGraphics.DrawBoxAlpha(i6, l6, 49, 34, j3, 160);
                     }
 
                     gameGraphics.DrawBoxEdge(i6, l6, 50, 35, 0);
@@ -3953,7 +3953,7 @@ namespace OpenRS.Net.Client
                     }
                 }
 
-                gameGraphics.applyImage(subTexturePic + l);
+                gameGraphics.ApplyImage(subTexturePic + l);
                 gameCamera.setTexture(l, gameGraphics.pictureColorIndexes[subTexturePic + l], gameGraphics.pictureColor[subTexturePic + l], i1 / 64 - 1);
             }
         }
@@ -3966,13 +3966,13 @@ namespace OpenRS.Net.Client
             int i1 = 50;
             l += 116;
             i1 -= 25;
-            gameGraphics.drawCharacterLegs(l - 32 - 55, i1, 64, 102, entityManager.GetAnimation(appearance2Colour).Number, appearanceTopBottomColours[appearanceBottomColour]);
+            gameGraphics.DrawCharacterLegs(l - 32 - 55, i1, 64, 102, entityManager.GetAnimation(appearance2Colour).Number, appearanceTopBottomColours[appearanceBottomColour]);
             gameGraphics.DrawImage(l - 32 - 55, i1, 64, 102, entityManager.GetAnimation(appearanceBodyGender).Number, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
             gameGraphics.DrawImage(l - 32 - 55, i1, 64, 102, entityManager.GetAnimation(appearanceHeadType).Number, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.drawCharacterLegs(l - 32, i1, 64, 102, entityManager.GetAnimation(appearance2Colour).Number + 6, appearanceTopBottomColours[appearanceBottomColour]);
+            gameGraphics.DrawCharacterLegs(l - 32, i1, 64, 102, entityManager.GetAnimation(appearance2Colour).Number + 6, appearanceTopBottomColours[appearanceBottomColour]);
             gameGraphics.DrawImage(l - 32, i1, 64, 102, entityManager.GetAnimation(appearanceBodyGender).Number + 6, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
             gameGraphics.DrawImage(l - 32, i1, 64, 102, entityManager.GetAnimation(appearanceHeadType).Number + 6, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.drawCharacterLegs(l - 32 + 55, i1, 64, 102, entityManager.GetAnimation(appearance2Colour).Number + 12, appearanceTopBottomColours[appearanceBottomColour]);
+            gameGraphics.DrawCharacterLegs(l - 32 + 55, i1, 64, 102, entityManager.GetAnimation(appearance2Colour).Number + 12, appearanceTopBottomColours[appearanceBottomColour]);
             gameGraphics.DrawImage(l - 32 + 55, i1, 64, 102, entityManager.GetAnimation(appearanceBodyGender).Number + 12, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
             gameGraphics.DrawImage(l - 32 + 55, i1, 64, 102, entityManager.GetAnimation(appearanceHeadType).Number + 12, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
             gameGraphics.DrawPicture(0, WindowSize.Height, baseInventoryPic + 22);
@@ -4048,7 +4048,7 @@ namespace OpenRS.Net.Client
 
                 if (menuOptionsCount == 2 && s1 != null)
                 {
-                    s1 = s1 + "@whi@ / 1 more option";
+                    s1 += "@whi@ / 1 more option";
                 }
 
                 if (menuOptionsCount > 2 && s1 != null)
@@ -4468,7 +4468,7 @@ namespace OpenRS.Net.Client
             OnDrawDone();
         }
 
-        void DrawDead()
+        private void DrawDead()
         {
             gameGraphics.FadeScreenToBlack();
             gameGraphics.DrawText("Oh dear! You are dead...", WindowSize.Width / 2, WindowSize.Height / 2, 7, 0xff0000);
@@ -4476,7 +4476,7 @@ namespace OpenRS.Net.Client
             OnDrawDone();
         }
 
-        void DrawSleeping()
+        private void DrawSleeping()
         {
             gameGraphics.FadeScreenToBlack();
 
@@ -4816,8 +4816,8 @@ namespace OpenRS.Net.Client
                 int x = healthBarX[i2];
                 int y = healthBarY[i2];
                 int missing = healthBarMissing[i2];
-                gameGraphics.drawBoxAlpha(x - 15, y - 3, missing, 5, 65280, 192);
-                gameGraphics.drawBoxAlpha(x - 15 + missing, y - 3, 30 - missing, 5, 0xff0000, 192);
+                gameGraphics.DrawBoxAlpha(x - 15, y - 3, missing, 5, 65280, 192);
+                gameGraphics.DrawBoxAlpha(x - 15 + missing, y - 3, 30 - missing, 5, 0xff0000, 192);
             }
 
         }
@@ -5078,10 +5078,10 @@ namespace OpenRS.Net.Client
             int k1 = 170 - c2 / 2;
             gameGraphics.DrawBox(i1, k1, 408, 12, 192);
             int j2 = 0x989898;
-            gameGraphics.drawBoxAlpha(i1, k1 + 12, 408, 17, j2, 160);
-            gameGraphics.drawBoxAlpha(i1, k1 + 29, 8, 204, j2, 160);
-            gameGraphics.drawBoxAlpha(i1 + 399, k1 + 29, 9, 204, j2, 160);
-            gameGraphics.drawBoxAlpha(i1, k1 + 233, 408, 47, j2, 160);
+            gameGraphics.DrawBoxAlpha(i1, k1 + 12, 408, 17, j2, 160);
+            gameGraphics.DrawBoxAlpha(i1, k1 + 29, 8, 204, j2, 160);
+            gameGraphics.DrawBoxAlpha(i1 + 399, k1 + 29, 9, 204, j2, 160);
+            gameGraphics.DrawBoxAlpha(i1, k1 + 233, 408, 47, j2, 160);
             gameGraphics.DrawString("Bank", i1 + 1, k1 + 10, 1, 0xffffff);
             int l2 = 50;
 
@@ -5188,11 +5188,11 @@ namespace OpenRS.Net.Client
 
                     if (selectedBankItem == bankSlot)
                     {
-                        gameGraphics.drawBoxAlpha(k9, l9, 49, 34, 0xff0000, 160);
+                        gameGraphics.DrawBoxAlpha(k9, l9, 49, 34, 0xff0000, 160);
                     }
                     else
                     {
-                        gameGraphics.drawBoxAlpha(k9, l9, 49, 34, l7, 160);
+                        gameGraphics.DrawBoxAlpha(k9, l9, 49, 34, l7, 160);
                     }
 
                     gameGraphics.DrawBoxEdge(k9, l9, 50, 35, 0);
@@ -5463,13 +5463,13 @@ namespace OpenRS.Net.Client
 
                         Point3D location = new(flatObjX, -engineHandle.GetAveragedElevation(flatObjX, flatObjY), flatObjY);
 
-                        _obj.setLocation(location);
+                        _obj.SetLocation(location);
                         engineHandle.createObject(objX, objY, objType, objDir);
 
                         if (objType == 74)
                         {
                             location = new Point3D(0, -480, 0);
-                            _obj.setLocation(location);
+                            _obj.SetLocation(location);
                         }
                     }
                 }
@@ -5691,7 +5691,7 @@ namespace OpenRS.Net.Client
                 menuShow = false;
                 return;
             }
-            gameGraphics.drawBoxAlpha(menuX, menuY, menuWidth, menuHeight, 0xd0d0d0, 160);
+            gameGraphics.DrawBoxAlpha(menuX, menuY, menuWidth, menuHeight, 0xd0d0d0, 160);
             gameGraphics.DrawString("Choose option", menuX + 2, menuY + 12, 1, 65535);
             for (int i1 = 0; i1 < menuOptionsCount; i1++)
             {
@@ -5880,7 +5880,7 @@ namespace OpenRS.Net.Client
         public int itemsAboveHeadCount;
         public string[] messagesArray;
         public Menu questMenu;
-        int questMenuHandle;
+        private int questMenuHandle;
         public bool[] objectAlreadyInMenu;
         public ObjectModel[] ObjectArray;
         public int selectedSpell;
@@ -5934,12 +5934,12 @@ namespace OpenRS.Net.Client
         public int selectedBankItemType;
         public int modelUpdatingTimer;
         public int selectedItem;
-        string selectedItemName;
+        private string selectedItemName;
         public int loginButtonNewUser;
         public int loginMenuLoginButton;
         public int mouseTrailIndex;
-        readonly int[] mouseTrailX;
-        readonly int[] mouseTrailY;
+        private readonly int[] mouseTrailX;
+        private readonly int[] mouseTrailY;
         public bool[] prayerOn;
         public int loginMenuStatusText;
         public int loginMenuUserText;
@@ -5962,7 +5962,7 @@ namespace OpenRS.Net.Client
         public int sectionPosY;
         public int drawMenuTab;
         public int receivedMessagesCount;
-        readonly string[] receivedMessages;
+        private readonly string[] receivedMessages;
         public int cameraRotateTime;
         public int cameraRotationXAmount;
         public int cameraRotationXIncrement;
@@ -5987,8 +5987,8 @@ namespace OpenRS.Net.Client
         0xffc030, 0xffa040, 0x805030, 0x604020, 0x303030, 0xff6020, 0xff4000, 0xffffff, 65280, 65535
     ];
         public Menu spellMenu;
-        int spellMenuHandle;
-        int menuMagicPrayersSelected;
+        private int spellMenuHandle;
+        private int menuMagicPrayersSelected;
         public int menuX;
         public int menuY;
         public int menuWidth;
@@ -6010,8 +6010,8 @@ namespace OpenRS.Net.Client
         public int cameraAutoRotationAmount;
         public int[] teleBubbleX;
         public int actionPictureType;
-        int walkMouseX;
-        int walkMouseY;
+        private int walkMouseX;
+        private int walkMouseY;
         public int[] combatModelArray1 = [
         0, 1, 2, 1, 0, 0, 0, 0
     ];

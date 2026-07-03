@@ -36,7 +36,7 @@ namespace OpenRS.Gui.Controls
             SetChildrenProperties();
         }
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             for (int i = 0; i < images.Count; i++)
             {

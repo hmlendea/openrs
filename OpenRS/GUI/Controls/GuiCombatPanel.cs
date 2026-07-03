@@ -12,16 +12,16 @@ namespace OpenRS.Gui.Controls
 {
     public class GuiCombatPanel : GuiControl
     {
-        const int Spacing = 12;
+        private const int Spacing = 12;
 
-        readonly GameClient client;
+        private readonly GameClient client;
 
-        GuiText combatLevelText;
+        private GuiText combatLevelText;
 
-        GuiCombatStyleCard controlledStyleCard;
-        GuiCombatStyleCard aggressiveStyleCard;
-        GuiCombatStyleCard accurateStyleCard;
-        GuiCombatStyleCard defensiveStyleCard;
+        private GuiCombatStyleCard controlledStyleCard;
+        private GuiCombatStyleCard aggressiveStyleCard;
+        private GuiCombatStyleCard accurateStyleCard;
+        private GuiCombatStyleCard defensiveStyleCard;
 
         public GuiCombatPanel(GameClient client)
         {
@@ -91,7 +91,7 @@ namespace OpenRS.Gui.Controls
 
         }
 
-        void RegisterEvents()
+        private void RegisterEvents()
         {
             controlledStyleCard.Clicked += ControlledStyleCard_Clicked;
             aggressiveStyleCard.Clicked += AggressiveStyleCard_Clicked;
@@ -99,7 +99,7 @@ namespace OpenRS.Gui.Controls
             defensiveStyleCard.Clicked += DefensiveStyleCard_Clicked;
         }
 
-        void UnregisterEvents()
+        private void UnregisterEvents()
         {
             controlledStyleCard.Clicked -= ControlledStyleCard_Clicked;
             aggressiveStyleCard.Clicked -= AggressiveStyleCard_Clicked;
@@ -107,7 +107,7 @@ namespace OpenRS.Gui.Controls
             defensiveStyleCard.Clicked -= DefensiveStyleCard_Clicked;
         }
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             combatLevelText.Size = new Size2D(Size.Width, combatLevelText.Size.Height);
             combatLevelText.Location = new Point2D(0, Spacing);
@@ -161,12 +161,12 @@ namespace OpenRS.Gui.Controls
             }
         }
 
-        void ControlledStyleCard_Clicked(object sender, MouseButtonEventArgs e) => client.SetCombatStyle(CombatStyle.Controlled);
+        private void ControlledStyleCard_Clicked(object sender, MouseButtonEventArgs e) => client.SetCombatStyle(CombatStyle.Controlled);
 
-        void AggressiveStyleCard_Clicked(object sender, MouseButtonEventArgs e) => client.SetCombatStyle(CombatStyle.Aggressive);
+        private void AggressiveStyleCard_Clicked(object sender, MouseButtonEventArgs e) => client.SetCombatStyle(CombatStyle.Aggressive);
 
-        void AccurateStyleCard_Clicked(object sender, MouseButtonEventArgs e) => client.SetCombatStyle(CombatStyle.Accurate);
+        private void AccurateStyleCard_Clicked(object sender, MouseButtonEventArgs e) => client.SetCombatStyle(CombatStyle.Accurate);
 
-        void DefensiveStyleCard_Clicked(object sender, MouseButtonEventArgs e) => client.SetCombatStyle(CombatStyle.Defensive);
+        private void DefensiveStyleCard_Clicked(object sender, MouseButtonEventArgs e) => client.SetCombatStyle(CombatStyle.Defensive);
     }
 }

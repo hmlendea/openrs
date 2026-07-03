@@ -11,7 +11,7 @@ namespace OpenRS.GameLogic.Mapping
     /// <summary>
     /// NpcLocation mapping extensions for converting between entities and domain models.
     /// </summary>
-    static class NpcLocationMappingExtensions
+    internal static class NpcLocationMappingExtensions
     {
         /// <summary>
         /// Converts the entity into a domain model.

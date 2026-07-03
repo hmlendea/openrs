@@ -9,16 +9,16 @@ namespace OpenRS.Net.Client.Net
     /// </summary>
     public class PacketConstruction
     {
-        int length;
-        int packetReadCount;
-        int packetStart;
-        int packetOffset;
-        int skipOffset;
-        byte[] packetData;
-        int PacketCount { get; set; }
+        private int length;
+        private int packetReadCount;
+        private int packetStart;
+        private int packetOffset;
+        private int skipOffset;
+        private byte[] packetData;
+        private int PacketCount { get; set; }
 
-        static readonly int[] packetCommandCount = new int[256];
-        static readonly int[] packetLengthCount = new int[256];
+        private static readonly int[] packetCommandCount = new int[256];
+        private static readonly int[] packetLengthCount = new int[256];
 
         /// <summary>
         /// Gets or sets the maximum packet count.

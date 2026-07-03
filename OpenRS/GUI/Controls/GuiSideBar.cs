@@ -15,25 +15,25 @@ namespace OpenRS.Gui.Controls
 {
     public class GuiSideBar(GameClient client) : GuiControl
     {
-        readonly GameClient client = client;
+        private readonly GameClient client = client;
 
-        GuiImage background;
-        GuiMinimap minimap;
+        private GuiImage background;
+        private GuiMinimap minimap;
 
-        GuiSideBarPanel panel;
-        GuiCombatPanel combatPanel;
-        GuiSkillsPanel skillsPanel;
-        GuiInventoryPanel inventoryPanel;
+        private GuiSideBarPanel panel;
+        private GuiCombatPanel combatPanel;
+        private GuiSkillsPanel skillsPanel;
+        private GuiInventoryPanel inventoryPanel;
 
-        GuiToggleButton combatButton;
-        GuiToggleButton skillsButton;
-        GuiToggleButton questsButton;
-        GuiToggleButton tasksButton;
-        GuiToggleButton inventoryButton;
-        GuiToggleButton equipmentButton;
-        GuiToggleButton prayerButton;
-        GuiToggleButton spellsButton;
-        GuiToggleButton exitButton;
+        private GuiToggleButton combatButton;
+        private GuiToggleButton skillsButton;
+        private GuiToggleButton questsButton;
+        private GuiToggleButton tasksButton;
+        private GuiToggleButton inventoryButton;
+        private GuiToggleButton equipmentButton;
+        private GuiToggleButton prayerButton;
+        private GuiToggleButton spellsButton;
+        private GuiToggleButton exitButton;
 
         /// <summary>
         /// Loads the content.
@@ -168,7 +168,7 @@ namespace OpenRS.Gui.Controls
         /// <summary>
         /// Registers the events.
         /// </summary>
-        void RegisterEvents()
+        private void RegisterEvents()
         {
             ContentLoaded += OnContentLoaded;
 
@@ -186,7 +186,7 @@ namespace OpenRS.Gui.Controls
         /// <summary>
         /// Unregisters the events.
         /// </summary>
-        void UnregisterEvents()
+        private void UnregisterEvents()
         {
             ContentLoaded -= OnContentLoaded;
 
@@ -201,7 +201,7 @@ namespace OpenRS.Gui.Controls
             exitButton.Clicked -= OnExitButtonClicked;
         }
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             minimap.Location = new Point2D(
                 (Size.Width - minimap.Size.Width) / 2,
@@ -246,14 +246,14 @@ namespace OpenRS.Gui.Controls
                 prayerButton.Location.Y);
         }
 
-        void OnContentLoaded(object sender, EventArgs e)
+        private void OnContentLoaded(object sender, EventArgs e)
         {
             UnselectEverything();
             inventoryButton.IsToggled = true;
             inventoryPanel.Show();
         }
 
-        void OnCombatButtonClicked(object sender, MouseButtonEventArgs e)
+        private void OnCombatButtonClicked(object sender, MouseButtonEventArgs e)
         {
             UnselectEverything();
 
@@ -261,7 +261,7 @@ namespace OpenRS.Gui.Controls
             combatPanel.Show();
         }
 
-        void OnSkillsButtonClicked(object sender, MouseButtonEventArgs e)
+        private void OnSkillsButtonClicked(object sender, MouseButtonEventArgs e)
         {
             UnselectEverything();
 
@@ -269,21 +269,21 @@ namespace OpenRS.Gui.Controls
             skillsPanel.Show();
         }
 
-        void OnQuestsButtonClicked(object sender, MouseButtonEventArgs e)
+        private void OnQuestsButtonClicked(object sender, MouseButtonEventArgs e)
         {
             UnselectEverything();
 
             questsButton.IsToggled = true;
         }
 
-        void OnTasksButtonClicked(object sender, MouseButtonEventArgs e)
+        private void OnTasksButtonClicked(object sender, MouseButtonEventArgs e)
         {
             UnselectEverything();
 
             tasksButton.IsToggled = true;
         }
 
-        void OnInventoryButtonClicked(object sender, MouseButtonEventArgs e)
+        private void OnInventoryButtonClicked(object sender, MouseButtonEventArgs e)
         {
             UnselectEverything();
 
@@ -291,35 +291,35 @@ namespace OpenRS.Gui.Controls
             inventoryPanel.Show();
         }
 
-        void OnEquipmentButtonClicked(object sender, MouseButtonEventArgs e)
+        private void OnEquipmentButtonClicked(object sender, MouseButtonEventArgs e)
         {
             UnselectEverything();
 
             equipmentButton.IsToggled = true;
         }
 
-        void OnPrayerButtonClicked(object sender, MouseButtonEventArgs e)
+        private void OnPrayerButtonClicked(object sender, MouseButtonEventArgs e)
         {
             UnselectEverything();
 
             prayerButton.IsToggled = true;
         }
 
-        void OnSpellsButtonClicked(object sender, MouseButtonEventArgs e)
+        private void OnSpellsButtonClicked(object sender, MouseButtonEventArgs e)
         {
             UnselectEverything();
 
             spellsButton.IsToggled = true;
         }
 
-        void OnExitButtonClicked(object sender, MouseButtonEventArgs e)
+        private void OnExitButtonClicked(object sender, MouseButtonEventArgs e)
         {
             UnselectEverything();
 
             exitButton.IsToggled = true;
         }
 
-        void UnselectEverything()
+        private void UnselectEverything()
         {
             combatButton.IsToggled = false;
             skillsButton.IsToggled = false;

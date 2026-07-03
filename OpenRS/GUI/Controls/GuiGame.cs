@@ -16,14 +16,14 @@ namespace OpenRS.Gui.Controls
 {
     public class GuiGame(GameClient client) : GuiControl
     {
-        readonly GameClient gameClient = client;
+        private readonly GameClient gameClient = client;
 
-        SpriteBatch spriteBatch;
+        private SpriteBatch spriteBatch;
 
-        Texture2D _lastGameImageTexture;
+        private Texture2D _lastGameImageTexture;
 
-        bool isSectionLoading;
-        bool isContentLoading;
+        private bool isSectionLoading;
+        private bool isContentLoading;
 
         /// <summary>
         /// Loads the content.
@@ -70,7 +70,7 @@ namespace OpenRS.Gui.Controls
         /// <summary>
         /// Registers the events.
         /// </summary>
-        void RegisterEvents()
+        private void RegisterEvents()
         {
             gameClient.OnContentLoadedCompleted += client_OnContentLoadedCompleted;
             gameClient.OnContentLoaded += client_OnContentLoaded;
@@ -81,7 +81,7 @@ namespace OpenRS.Gui.Controls
         /// <summary>
         /// Unregisters the events.
         /// </summary>
-        void UnregisterEvents()
+        private void UnregisterEvents()
         {
             gameClient.OnContentLoadedCompleted -= client_OnContentLoadedCompleted;
             gameClient.OnContentLoaded -= client_OnContentLoaded;
@@ -89,7 +89,7 @@ namespace OpenRS.Gui.Controls
             gameClient.OnLoadingSectionCompleted -= client_OnLoadingSectionCompleted;
         }
 
-        void DrawGame(GameClient client)
+        private void DrawGame(GameClient client)
         {
             if (client is null || client.gameGraphics is null)
             {
@@ -114,7 +114,7 @@ namespace OpenRS.Gui.Controls
                         var g = bytes[1];
                         var b = bytes[0];
 
-                        colors[j] = GraphicsEngine.rgbaToUInt(r, g, b, 255);
+                        colors[j] = GraphicsEngine.RgbaToUInt(r, g, b, 255);
                     }
 
                     if (client.gameGraphics.pixels.Any(p => p != 0) && client.DrawIsNecessary)
@@ -155,7 +155,7 @@ namespace OpenRS.Gui.Controls
             }
         }
 
-        static bool DrawGameClient(GameClient client)
+        private static bool DrawGameClient(GameClient client)
         {
             client.paint();
 
@@ -188,22 +188,22 @@ namespace OpenRS.Gui.Controls
             return true;
         }
 
-        void client_OnLoadingSectionCompleted(object sender, EventArgs e)
+        private void client_OnLoadingSectionCompleted(object sender, EventArgs e)
         {
             Thread.Sleep(200);
 
             isSectionLoading = false;
         }
 
-        void client_OnLoadingSection(object sender, EventArgs e) => isSectionLoading = true;
+        private void client_OnLoadingSection(object sender, EventArgs e) => isSectionLoading = true;
 
-        void client_OnContentLoadedCompleted(object sender, EventArgs e)
+        private void client_OnContentLoadedCompleted(object sender, EventArgs e)
         {
             Thread.Sleep(300);
 
             isContentLoading = false;
         }
 
-        void client_OnContentLoaded(object sender, ContentLoadedEventArgs e) => isContentLoading = true;
+        private void client_OnContentLoaded(object sender, ContentLoadedEventArgs e) => isContentLoading = true;
     }
 }

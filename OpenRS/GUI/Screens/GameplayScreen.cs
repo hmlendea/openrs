@@ -19,8 +19,8 @@ namespace OpenRS.Gui.Screens
     /// </summary>
     public class GameplayScreen(string username, string password) : Screen
     {
-        GameClient gameClient;
-        Thread gameThread;
+        private GameClient gameClient;
+        private Thread gameThread;
 
         /// <summary>
         /// Gets or sets the minimap.
@@ -30,8 +30,8 @@ namespace OpenRS.Gui.Screens
 
         public GuiChatPanel ChatPanel { get; set; }
 
-        readonly string username = username;
-        readonly string password = password;
+        private readonly string username = username;
+        private readonly string password = password;
 
         /// <summary>
         /// Gets or sets the game client.
@@ -106,7 +106,7 @@ namespace OpenRS.Gui.Screens
         /// <summary>
         /// Registers the events.
         /// </summary>
-        void RegisterEvents()
+        private void RegisterEvents()
         {
             ContentLoaded += OnContentLoaded;
             gameClient.OnChatMessageReceived += OnGameClientChatMessageReceived;
@@ -115,13 +115,13 @@ namespace OpenRS.Gui.Screens
         /// <summary>
         /// Unregisters the events.
         /// </summary>
-        void UnregisterEvents()
+        private void UnregisterEvents()
         {
             ContentLoaded -= OnContentLoaded;
             gameClient.OnChatMessageReceived -= OnGameClientChatMessageReceived;
         }
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             SideBar.Size = new Size2D(240, ScreenManager.Instance.Size.Height);
             SideBar.Location = new Point2D(ScreenManager.Instance.Size.Width - SideBar.Size.Width, 0);
@@ -136,12 +136,12 @@ namespace OpenRS.Gui.Screens
                 ScreenManager.Instance.Size.Height - ChatPanel.Size.Height);
         }
 
-        void OnContentLoaded(object sender, EventArgs e)
+        private void OnContentLoaded(object sender, EventArgs e)
         {
             SideBar.Disable();
             SideBar.Hide();
         }
 
-        void OnGameClientChatMessageReceived(object sender, ChatMessageEventArgs e) => ChatPanel.AddMessage(e.Message);
+        private void OnGameClientChatMessageReceived(object sender, ChatMessageEventArgs e) => ChatPanel.AddMessage(e.Message);
     }
 }

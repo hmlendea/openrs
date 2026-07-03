@@ -14,13 +14,13 @@ namespace OpenRS.Net.Client
     public class GameAppletMiddleMan : GameApplet
     {
         public static Random ran = new();
-        static bool isConnecting = false;
-        Thread connectionThread;
+        private static bool isConnecting = false;
+        private Thread connectionThread;
 
         public StreamClass StreamClass { get; set; }
 
-        static readonly BigInteger key = BigInteger.Parse("1370158896620336158431733257575682136836100155721926632321599369132092701295540721504104229217666225601026879393318399391095704223500673696914052239029335");
-        static readonly BigInteger modulus = BigInteger.Parse("1549611057746979844352781944553705273443228154042066840514290174539588436243191882510185738846985723357723362764835928526260868977814405651690121789896823");
+        private static readonly BigInteger key = BigInteger.Parse("1370158896620336158431733257575682136836100155721926632321599369132092701295540721504104229217666225601026879393318399391095704223500673696914052239029335");
+        private static readonly BigInteger modulus = BigInteger.Parse("1549611057746979844352781944553705273443228154042066840514290174539588436243191882510185738846985723357723362764835928526260868977814405651690121789896823");
 
         public GameAppletMiddleMan()
         {
@@ -64,7 +64,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void DoConnect()
+        private void DoConnect()
         {
             var user = DataOperations.FormatString(username, 20);
             var pass = DataOperations.FormatString(password, 20);
@@ -229,7 +229,7 @@ namespace OpenRS.Net.Client
 
         public virtual void LostConnection() => Console.WriteLine("Lost connection");
 
-        readonly object _sync = new();
+        private readonly object _sync = new();
         protected static bool sendingPing;
 
         protected void SendPing()
@@ -324,7 +324,7 @@ namespace OpenRS.Net.Client
 
         public static int maxPacketReadCount;
         public string username;
-        string password;
+        private string password;
         public sbyte[] data;
         public int reconnectTries;
         public long lastPing;

@@ -12,7 +12,7 @@ namespace OpenRS.GameLogic.Mapping
     /// <summary>
     /// Model mapping extensions for converting between entities and domain models.
     /// </summary>
-    static class GameObjectLocationMappingExtensions
+    internal static class GameObjectLocationMappingExtensions
     {
         /// <summary>
         /// Converts the entity into a domain model.

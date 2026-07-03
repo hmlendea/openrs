@@ -7,7 +7,7 @@ namespace OpenRS.Gui.Controls
 {
     public class GuiSideBarPanel : GuiControl
     {
-        GuiImage background;
+        private GuiImage background;
 
         protected override void DoLoadContent()
         {
@@ -24,7 +24,7 @@ namespace OpenRS.Gui.Controls
         /// </summary>
         protected override void DoUnloadContent()
         {
-            
+
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace OpenRS.Gui.Controls
         /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime)
         {
-            
+
         }
 
         /// <summary>

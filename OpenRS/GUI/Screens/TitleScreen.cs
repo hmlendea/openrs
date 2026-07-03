@@ -8,9 +8,9 @@ namespace OpenRS.Gui.Screens
     /// </summary>
     public class TitleScreen : MenuScreen
     {
-        GuiMenuLink newGameLink;
-        GuiMenuLink settingsLink;
-        GuiMenuItem extiAction;
+        private GuiMenuLink newGameLink;
+        private GuiMenuLink settingsLink;
+        private GuiMenuItem extiAction;
 
         /// <summary>
         /// Loads the content.

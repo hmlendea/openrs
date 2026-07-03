@@ -14,7 +14,7 @@ namespace OpenRS.GameLogic.GameManagers
     /// </summary>
     public class QuestManager
     {
-        List<Quest> quests;
+        private List<Quest> quests;
 
         /// <summary>
         /// Gets the quests count.
@@ -51,7 +51,7 @@ namespace OpenRS.GameLogic.GameManagers
             quest.Stage = stage;
         }
 
-        void LoadQuests()
+        private void LoadQuests()
         {
             string questRepositoryPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "quests.xml");
             QuestRepository questRepository = new(questRepositoryPath);

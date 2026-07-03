@@ -18,11 +18,11 @@ namespace OpenRS
     /// </summary>
     public class GameWindow : Game
     {
-        readonly GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        private readonly GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
 
-        readonly FpsIndicator fpsIndicator;
-        readonly Cursor cursor;
+        private readonly FpsIndicator fpsIndicator;
+        private readonly Cursor cursor;
 
         public GameWindow()
         {

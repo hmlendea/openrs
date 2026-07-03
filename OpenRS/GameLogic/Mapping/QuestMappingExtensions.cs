@@ -9,7 +9,7 @@ namespace OpenRS.GameLogic.Mapping
     /// <summary>
     /// Quest mapping extensions for converting between entities and domain models.
     /// </summary>
-    static class QuestMappingExtensions
+    internal static class QuestMappingExtensions
     {
         /// <summary>
         /// Converts the entity into a domain model.

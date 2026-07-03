@@ -13,7 +13,7 @@ namespace OpenRS.Net.Client.Game
     {
         public Size2D GameSize { get; set; }
 
-        Rectangle2D imageRectangle;
+        private Rectangle2D imageRectangle;
 
         public GraphicsEngine(int width, int height, int size)
         {
@@ -135,7 +135,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public void drawBoxAlpha(int x, int y, int w, int h, int colour, int arg5)
+        public void DrawBoxAlpha(int x, int y, int w, int h, int colour, int arg5)
         {
             if (x < imageRectangle.X)
             {
@@ -344,7 +344,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public static uint rgbaToUInt(int r, int g, int b, int a)
+        public static uint RgbaToUInt(int r, int g, int b, int a)
         {
             if (((r | g | b | a) & -256) != 0)
             {
@@ -353,14 +353,14 @@ namespace OpenRS.Net.Client.Game
                 b = ClampToByte32(b);
                 a = ClampToByte32(a);
             }
-            g = g << 8;
-            b = b << 0x10;
-            a = a << 0x18;
+            g <<= 8;
+            b <<= 0x10;
+            a <<= 0x18;
             return (uint)(r | g | b | a);
             //return (r << 24) + (g << 16) + (b << 8) + a;
         }
 
-        static int ClampToByte32(int value)
+        private static int ClampToByte32(int value)
         {
             if (value < 0)
             {
@@ -373,21 +373,6 @@ namespace OpenRS.Net.Client.Game
             }
 
             return value;
-        }
-
-        static int ClampToByte64(long value)
-        {
-            if (value < 0L)
-            {
-                return 0;
-            }
-
-            if (value > 0xffL)
-            {
-                return 0xff;
-            }
-
-            return (int)value;
         }
 
         public void UnloadContent()
@@ -486,7 +471,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public void applyImage(int arg0)
+        public void ApplyImage(int arg0)
         {
             int i = pictureWidth[arg0] * pictureHeight[arg0];
             int[] ai = pictureColors[arg0];
@@ -568,7 +553,7 @@ namespace OpenRS.Net.Client.Game
             pictureColors[arg0] = null;
         }
 
-        public void loadImage(int arg0)
+        public void LoadImage(int arg0)
         {
             if (pictureColorIndexes[arg0] is null)
             {
@@ -600,7 +585,7 @@ namespace OpenRS.Net.Client.Game
             pictureColor[arg0] = null;
         }
 
-        public void fillPicture(int pictureIndex, int x, int y, int width, int height)
+        public void FillPicture(int pictureIndex, int x, int y, int width, int height)
         {
             pictureWidth[pictureIndex] = width;
             pictureHeight[pictureIndex] = height;
@@ -721,11 +706,11 @@ namespace OpenRS.Net.Client.Game
                     {
                         if (!flag)
                         {
-                            cde(pixels, pictureColors[j1], 0, l2, i3, k4, width, height, k3, l3, j2, k1, j3, i4, j5);
+                            Cde(pixels, pictureColors[j1], 0, l2, i3, k4, width, height, k3, l3, j2, k1, j3, i4, j5);
                             return;
                         }
 
-                        cde(pixels, pictureColors[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, j3, i4, j5);
+                        Cde(pixels, pictureColors[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, j3, i4, j5);
                         return;
                     }
 
@@ -773,6 +758,7 @@ namespace OpenRS.Net.Client.Game
                 int k2 = 0;
                 int l2 = (l1 << 16) / l;
                 int i3 = (i2 << 16) / i1;
+
                 if (hasTransparentBackground[j1])
                 {
                     int j3 = pictureAssumedWidth[j1];
@@ -781,6 +767,7 @@ namespace OpenRS.Net.Client.Game
                     i3 = (l3 << 16) / i1;
                     i += (pictureOffsetX[j1] * l + j3 - 1) / j3;
                     k += (pictureOffsetY[j1] * i1 + l3 - 1) / l3;
+
                     if (pictureOffsetX[j1] * l % j3 != 0)
                     {
                         j2 = (j3 - pictureOffsetX[j1] * l % j3 << 16) / l;
@@ -794,8 +781,10 @@ namespace OpenRS.Net.Client.Game
                     l = l * (pictureWidth[j1] - (j2 >> 16)) / j3;
                     i1 = i1 * (pictureHeight[j1] - (k2 >> 16)) / l3;
                 }
+
                 int k3 = i + k * GameSize.Width;
                 int i4 = GameSize.Width - l;
+
                 if (k < imageRectangle.Y)
                 {
                     int j4 = imageRectangle.Y - k;
@@ -804,6 +793,7 @@ namespace OpenRS.Net.Client.Game
                     k3 += j4 * GameSize.Width;
                     k2 += i3 * j4;
                 }
+
                 if (k + i1 >= imageRectangle.Height)
                 {
                     i1 -= k + i1 - imageRectangle.Height + 1;
@@ -818,15 +808,17 @@ namespace OpenRS.Net.Client.Game
                     j2 += l2 * k4;
                     i4 += k4;
                 }
+
                 if (i + l >= imageRectangle.Width)
                 {
                     int l4 = i + l - imageRectangle.Width + 1;
                     l -= l4;
                     i4 += l4;
                 }
+
                 byte byte0 = 1;
 
-                ccl(ref pixels, pictureColors[j1], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, k1);
+                Ccl(ref pixels, pictureColors[j1], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, k1);
                 return;
             }
             catch (Exception)
@@ -848,6 +840,7 @@ namespace OpenRS.Net.Client.Game
             int l1 = pictureWidth[pictureIndex];
             int i2 = GameSize.Width - l1;
             int j2 = 0;
+
             if (y < imageRectangle.Y)
             {
                 int k2 = imageRectangle.Y - y;
@@ -887,10 +880,10 @@ namespace OpenRS.Net.Client.Game
 
             if (pictureColors[pictureIndex] is null)
             {
-                cch(ref pixels, pictureColorIndexes[pictureIndex], pictureColor[pictureIndex], j1, i1, l1, k1, i2, j2, byte0);
+                Cch(ref pixels, pictureColorIndexes[pictureIndex], pictureColor[pictureIndex], j1, i1, l1, k1, i2, j2, byte0);
                 return;
             }
-            ccg(ref pixels, pictureColors[pictureIndex], 0, j1, i1, l1, k1, i2, j2, byte0);
+            Ccg(ref pixels, pictureColors[pictureIndex], 0, j1, i1, l1, k1, i2, j2, byte0);
             return;
         }
 
@@ -908,6 +901,7 @@ namespace OpenRS.Net.Client.Game
             int i2 = pictureWidth[index];
             int j2 = GameSize.Width - i2;
             int k2 = 0;
+
             if (y < imageRectangle.Y)
             {
                 int l2 = imageRectangle.Y - y;
@@ -947,10 +941,10 @@ namespace OpenRS.Net.Client.Game
 
             if (pictureColors[index] is null)
             {
-                cck(ref pixels, pictureColorIndexes[index], pictureColor[index], k1, j1, i2, l1, j2, k2, byte0, i1);
+                Cck(ref pixels, pictureColorIndexes[index], pictureColor[index], k1, j1, i2, l1, j2, k2, byte0, i1);
                 return;
             }
-            ccj(ref pixels, pictureColors[index], 0, k1, j1, i2, l1, j2, k2, byte0, i1);
+            Ccj(ref pixels, pictureColors[index], 0, k1, j1, i2, l1, j2, k2, byte0, i1);
             return;
         }
 
@@ -1027,7 +1021,7 @@ namespace OpenRS.Net.Client.Game
 
                 byte byte0 = 1;
 
-                cci(ref pixels, pictureColors[index], 0, i2, j2, j3, l3, width, height, k2, l2, k1, byte0);
+                Cci(ref pixels, pictureColors[index], 0, i2, j2, j3, l3, width, height, k2, l2, k1, byte0);
                 return;
             }
             catch (Exception)
@@ -1036,7 +1030,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public void drawCharacterLegs(int i, int k, int l, int i1, int animationNumber, int colour)
+        public void DrawCharacterLegs(int i, int k, int l, int i1, int animationNumber, int colour)
         {
             try
             {
@@ -1100,7 +1094,7 @@ namespace OpenRS.Net.Client.Game
                 }
                 byte byte0 = 1;
 
-                ccm(ref pixels, pictureColors[animationNumber], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, colour);
+                Ccm(ref pixels, pictureColors[animationNumber], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, colour);
                 return;
             }
             catch (Exception)
@@ -1109,7 +1103,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void ccg(ref int[] pixels, int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
+        private void Ccg(ref int[] pixels, int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9)
         {
             int i = -(arg5 >> 2);
@@ -1178,7 +1172,7 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        void cch(ref int[] pixels, sbyte[] colourIndexes, int[] arg2, int arg3, int arg4, int arg5, int arg6,
+        private void Cch(ref int[] pixels, sbyte[] colourIndexes, int[] arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9)
         {
             int i = -(arg5 >> 2);
@@ -1247,7 +1241,7 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        void cci(ref int[] pixels, int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
+        private void Cci(ref int[] pixels, int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10, int arg11, int arg12)
         {
             try
@@ -1284,7 +1278,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void ccj(ref int[] pixels, int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
+        private void Ccj(ref int[] pixels, int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10)
         {
             int i = 256 - arg10;
@@ -1310,7 +1304,7 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        void cck(ref int[] pixels, sbyte[] colourIndexes, int[] arg2, int arg3, int arg4, int arg5, int arg6,
+        private void Cck(ref int[] pixels, sbyte[] colourIndexes, int[] arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10)
         {
             int i = 256 - arg10;
@@ -1337,7 +1331,7 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        void ccl(ref int[] pixels, int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
+        private void Ccl(ref int[] pixels, int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int arg13)
         {
             int i = 256 - arg13;
@@ -1375,12 +1369,13 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void ccm(ref int[] pixels, int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
+        private void Ccm(ref int[] pixels, int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int color)
         {
             int red = color >> 16 & 0xff;
             int green = color >> 8 & 0xff;
             int blue = color & 0xff;
+
             try
             {
                 int i1 = arg3;
@@ -1424,7 +1419,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public void drawMinimapPic(int arg0, int arg1, int arg2, int arg3, int arg4)
+        public void DrawMinimapPic(int arg0, int arg1, int arg2, int arg3, int arg4)
         {
             if (bng is null)
             {
@@ -1791,11 +1786,11 @@ namespace OpenRS.Net.Client.Game
 
                     if (!hasTransparentBackground[arg2])
                     {
-                        cda(ai, 0, l9 + j10, l10, j11, i11, k11, j10 - k10, j8);
+                        Cda(ai, 0, l9 + j10, l10, j11, i11, k11, j10 - k10, j8);
                     }
                     else
                     {
-                        cdb(ai, 0, l9 + j10, l10, j11, i11, k11, j10 - k10, j8);
+                        Cdb(ai, 0, l9 + j10, l10, j11, i11, k11, j10 - k10, j8);
                     }
 
                     l9 += GameSize.Width;
@@ -1803,7 +1798,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void cda(int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9)
+        private void Cda(int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9)
         {
             for (arg2 = arg8; arg2 < 0; arg2++)
             {
@@ -1814,7 +1809,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void cdb(int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
+        private void Cdb(int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9)
         {
             for (int i = arg8; i < 0; i++)
@@ -1835,9 +1830,17 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public virtual void DrawVisibleEntity(int x, int y, int width, int height, int objectId, int unknownParam1, int unknownParam2) => DrawEntity(x, y, width, height, objectId);
+        public virtual void DrawVisibleEntity(
+            int x,
+            int y,
+            int width,
+            int height,
+            int objectId,
+            int unknownParam1,
+            int unknownParam2)
+            => DrawEntity(x, y, width, height, objectId);
 
-        void cde(int[] pixels, int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
+        private void Cde(int[] pixels, int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int arg13,
                 int arg14)
         {
@@ -1859,11 +1862,13 @@ namespace OpenRS.Net.Client.Game
                         k2 = imageRectangle.X;
                         arg3 += arg8 * i3;
                     }
+
                     if (k2 + l2 >= imageRectangle.Width)
                     {
                         int j3 = k2 + l2 - imageRectangle.Width;
                         l2 -= j3;
                     }
+
                     arg14 = 1 - arg14;
                     if (arg14 != 0)
                     {
@@ -1902,7 +1907,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void cdf(int[] pixels, int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
+        private void cdf(int[] pixels, int[] colours, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int arg13,
                 int arg14, int arg15)
         {
@@ -1975,7 +1980,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void cdg(int[] pixels, sbyte[] colours, int[] arg2, int arg3, int arg4, int arg5, int arg6,
+        private void cdg(int[] pixels, sbyte[] colours, int[] arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int arg13,
                 int arg14, int arg15)
         {
@@ -2041,7 +2046,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void cdh(int[] pixels, sbyte[] colours, int[] arg2, int arg3, int arg4, int arg5, int arg6,
+        private void cdh(int[] pixels, sbyte[] colours, int[] arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int arg13,
                 int arg14, int arg15, int arg16)
         {
@@ -2342,7 +2347,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void cea(int k, int x, int y, int i1, sbyte[] abyte0, bool flag)
+        private void cea(int k, int x, int y, int i1, sbyte[] abyte0, bool flag)
         {
             int j1 = x + abyte0[k + 5];
             int k1 = y - abyte0[k + 6];
@@ -2393,7 +2398,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void PlotLetter(ref int[] _pixels, sbyte[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
+        private void PlotLetter(ref int[] _pixels, sbyte[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8)
         {
             try
@@ -2467,7 +2472,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void cec(ref int[] pixels, sbyte[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
+        private void cec(ref int[] pixels, sbyte[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
                 int arg7, int arg8)
         {
             for (int i = -arg6; i < 0; i++)
@@ -2610,8 +2615,8 @@ namespace OpenRS.Net.Client.Game
         public int[] pictureAssumedWidth;
         public int[] pictureAssumedHeight;
         public bool[] hasTransparentBackground;
-        static readonly sbyte[][] gameFonts = new sbyte[50][];
-        static readonly int[] bne;
+        private static readonly sbyte[][] gameFonts = new sbyte[50][];
+        private static readonly int[] bne;
         public bool IsLoggedIn;
         public int[] bng;
         public int[] bnh;
@@ -2623,9 +2628,9 @@ namespace OpenRS.Net.Client.Game
         public static int bnn;
         public static int caa;
         public static int cab;
-        static readonly bool[] cac = new bool[12];
-        static readonly sbyte[] cae = new sbyte[0x186a0];
+        private static readonly bool[] cac = new bool[12];
+        private static readonly sbyte[] cae = new sbyte[0x186a0];
         public static int caf;
-        static int currentFont;
+        private static int currentFont;
     }
 }

@@ -9,7 +9,7 @@ namespace OpenRS.GameLogic.Mapping
     /// <summary>
     /// Spell mapping extensions for converting between entities and domain models.
     /// </summary>
-    static class SpellMappingExtensions
+    internal static class SpellMappingExtensions
     {
         /// <summary>
         /// Converts the entity into a domain model.

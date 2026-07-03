@@ -12,13 +12,13 @@ namespace OpenRS.Gui.Controls
 {
     public class GuiSkillCard : GuiControl
     {
-        GuiImage regularBackground;
-        GuiImage detailsBackground;
-        GuiImage skillIcon;
+        private GuiImage regularBackground;
+        private GuiImage detailsBackground;
+        private GuiImage skillIcon;
 
-        GuiText currentLevelText;
-        GuiText baseLevelText;
-        GuiText detailsText;
+        private GuiText currentLevelText;
+        private GuiText baseLevelText;
+        private GuiText detailsText;
 
         public string SkillIcon { get; set; }
 
@@ -98,7 +98,7 @@ namespace OpenRS.Gui.Controls
         /// <summary>
         /// Registers the events.
         /// </summary>
-        void RegisterEvents()
+        private void RegisterEvents()
         {
             MouseEntered += OnMouseEntered;
             MouseLeft += OnMouseLeft;
@@ -107,13 +107,13 @@ namespace OpenRS.Gui.Controls
         /// <summary>
         /// Unregisters the events.
         /// </summary>
-        void UnregisterEvents()
+        private void UnregisterEvents()
         {
             MouseEntered -= OnMouseEntered;
             MouseLeft -= OnMouseLeft;
         }
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             regularBackground.Location = new Point2D(0, 0);
             regularBackground.Size = Size;
@@ -137,13 +137,7 @@ namespace OpenRS.Gui.Controls
             detailsText.Text = $"Xp:{Environment.NewLine}{Experience}";
         }
 
-        void OnContentLoaded(object sender, MouseEventArgs e)
-        {
-            detailsBackground.Hide();
-            detailsText.Hide();
-        }
-
-        void OnMouseEntered(object sender, MouseEventArgs e)
+        private void OnMouseEntered(object sender, MouseEventArgs e)
         {
             regularBackground.Hide();
             skillIcon.Hide();
@@ -154,7 +148,7 @@ namespace OpenRS.Gui.Controls
             detailsText.Show();
         }
 
-        void OnMouseLeft(object sender, MouseEventArgs e)
+        private void OnMouseLeft(object sender, MouseEventArgs e)
         {
             regularBackground.Show();
             skillIcon.Show();

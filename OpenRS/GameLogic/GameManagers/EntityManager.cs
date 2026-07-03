@@ -11,18 +11,18 @@ namespace OpenRS.GameLogic.GameManagers
 {
     public class EntityManager
     {
-        List<Animation> animations;
-        List<Elevation> elevations;
-        List<Item> items;
-        List<Npc> npcs;
-        List<Prayer> prayers;
-        List<Spell> spells;
-        List<GameTexture> textures;
-        List<Tile> tiles;
-        List<WallObject> wallObjects;
-        List<WorldObject> worldObjects;
+        private List<Animation> animations;
+        private List<Elevation> elevations;
+        private List<Item> items;
+        private List<Npc> npcs;
+        private List<Prayer> prayers;
+        private List<Spell> spells;
+        private List<GameTexture> textures;
+        private List<Tile> tiles;
+        private List<WallObject> wallObjects;
+        private List<WorldObject> worldObjects;
 
-        readonly string[] modelName = new string[5000];
+        private readonly string[] modelName = new string[5000];
 
         /// <summary>
         /// Gets the animations count.

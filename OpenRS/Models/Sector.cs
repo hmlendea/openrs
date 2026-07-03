@@ -6,7 +6,7 @@ namespace OpenRS.Models
     {
         public static readonly Size2D Size = new(48, 48);
 
-        readonly WorldTile[] tiles;
+        private readonly WorldTile[] tiles;
 
         public Sector()
         {

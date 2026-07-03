@@ -8,10 +8,10 @@ namespace OpenRS.Gui.Helpers
     /// </summary>
     public class FramerateCounter
     {
-        static volatile FramerateCounter instance;
-        static readonly object syncRoot = new();
+        private static volatile FramerateCounter instance;
+        private static readonly object syncRoot = new();
 
-        readonly Queue<float> sampleBuffer;
+        private readonly Queue<float> sampleBuffer;
 
         /// <summary>
         /// Gets the instance of the FramerateCounter.

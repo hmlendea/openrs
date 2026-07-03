@@ -9,7 +9,7 @@ namespace OpenRS.GameLogic.Mapping
     /// <summary>
     /// Prayer mapping extensions for converting between entities and domain models.
     /// </summary>
-    static class PrayerMappingExtensions
+    internal static class PrayerMappingExtensions
     {
         /// <summary>
         /// Converts the entity into a domain model.

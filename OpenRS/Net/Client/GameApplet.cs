@@ -307,7 +307,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void loadLoadingScreen()
+        private void loadLoadingScreen()
         {
             sbyte[] bytes = unpackData("fonts.jag", "Game fonts", 0);
 
@@ -321,7 +321,7 @@ namespace OpenRS.Net.Client
             GraphicsEngine.addFont(DataOperations.loadData("h24b.jf", 0, bytes));
         }
 
-        void drawLoadingScreen(int percentage, string fileTitle)
+        private void drawLoadingScreen(int percentage, string fileTitle)
         {
             try
             {
@@ -449,12 +449,12 @@ namespace OpenRS.Net.Client
             gameMinThreadSleepTime = 1;
         }
 
-        int appletWidth;
-        int appletHeight;
+        private int appletWidth;
+        private int appletHeight;
         public Thread gameWindowThread;
-        int refreshRate;
-        int fie;
-        long[] timeArray;
+        private int refreshRate;
+        private int fie;
+        private long[] timeArray;
         public static GameFrame gameFrame;
         public int runStatus;
         public int fij;

@@ -10,26 +10,26 @@ namespace OpenRS.Gui.Controls
 {
     public class GuiSkillsPanel(GameClient client) : GuiControl
     {
-        readonly GameClient client = client;
+        private readonly GameClient client = client;
 
-        GuiSkillCard attackCard;
-        GuiSkillCard healthCard;
-        GuiSkillCard miningCard;
-        GuiSkillCard strengthCard;
-        GuiSkillCard agilityCard;
-        GuiSkillCard smithingCard;
-        GuiSkillCard defenceCard;
-        GuiSkillCard herbloreCard;
-        GuiSkillCard fishingCard;
-        GuiSkillCard rangedCard;
-        GuiSkillCard thievingCard;
-        GuiSkillCard cookingCard;
-        GuiSkillCard prayerCard;
-        GuiSkillCard craftingCard;
-        GuiSkillCard firemakingCard;
-        GuiSkillCard magicCard;
-        GuiSkillCard fletchingCard;
-        GuiSkillCard woodcuttingCard;
+        private GuiSkillCard attackCard;
+        private GuiSkillCard healthCard;
+        private GuiSkillCard miningCard;
+        private GuiSkillCard strengthCard;
+        private GuiSkillCard agilityCard;
+        private GuiSkillCard smithingCard;
+        private GuiSkillCard defenceCard;
+        private GuiSkillCard herbloreCard;
+        private GuiSkillCard fishingCard;
+        private GuiSkillCard rangedCard;
+        private GuiSkillCard thievingCard;
+        private GuiSkillCard cookingCard;
+        private GuiSkillCard prayerCard;
+        private GuiSkillCard craftingCard;
+        private GuiSkillCard firemakingCard;
+        private GuiSkillCard magicCard;
+        private GuiSkillCard fletchingCard;
+        private GuiSkillCard woodcuttingCard;
 
         /// <summary>
         /// Loads the content.
@@ -103,7 +103,7 @@ namespace OpenRS.Gui.Controls
 
         }
 
-        void SetChildrenLocations()
+        private void SetChildrenLocations()
         {
             int spacingX = 1;
             int spacingY = 1;
@@ -181,7 +181,7 @@ namespace OpenRS.Gui.Controls
                 fletchingCard.ClientRectangle.Top);
         }
 
-        void UpdateLevels()
+        private void UpdateLevels()
         {
             attackCard.BaseLevel = client.Skills[0].BaseLevel;
             attackCard.CurrentLevel = client.Skills[0].CurrentLevel;

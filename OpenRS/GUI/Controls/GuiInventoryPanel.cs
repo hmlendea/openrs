@@ -11,12 +11,12 @@ namespace OpenRS.Gui.Controls
 {
     public class GuiInventoryPanel(GameClient client) : GuiControl
     {
-        readonly GameClient client = client;
+        private readonly GameClient client = client;
 
-        GuiItemCard[] itemCards;
+        private GuiItemCard[] itemCards;
 
-        const int Rows = 8;
-        const int Columns = 4;
+        private const int Rows = 8;
+        private const int Columns = 4;
 
         /// <summary>
         /// Loads the content.
@@ -61,7 +61,7 @@ namespace OpenRS.Gui.Controls
 
         }
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             int spacingX = (Size.Width - Columns * itemCards[0].Size.Width) / (Columns + 1);
             int spacingY = (Size.Height - Rows * itemCards[0].Size.Height) / (Rows + 1);
@@ -77,7 +77,7 @@ namespace OpenRS.Gui.Controls
             }
         }
 
-        void SetItems()
+        private void SetItems()
         {
             for (int itemSlot = 0; itemSlot < Rows * Columns; itemSlot++)
             {

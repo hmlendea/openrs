@@ -13,10 +13,10 @@ namespace OpenRS.Gui.Screens
     /// </summary>
     public class SettingsScreen : MenuScreen
     {
-        GuiMenuToggle debugModeToggle;
-        GuiMenuToggle fowToggle;
-        GuiMenuToggle roofsToggle;
-        GuiMenuLink backLink;
+        private GuiMenuToggle debugModeToggle;
+        private GuiMenuToggle fowToggle;
+        private GuiMenuToggle roofsToggle;
+        private GuiMenuLink backLink;
 
         /// <summary>
         /// Loads the content.
@@ -71,7 +71,7 @@ namespace OpenRS.Gui.Screens
         /// <summary>
         /// Registers the events.
         /// </summary>
-        void RegisterEvents()
+        private void RegisterEvents()
         {
             debugModeToggle.Triggered += OnDebugModeToggleTriggered;
             fowToggle.Triggered += OnFowToggleTriggered;
@@ -81,24 +81,24 @@ namespace OpenRS.Gui.Screens
         /// <summary>
         /// Unregisters the events.
         /// </summary>
-        void UnregisterEvents()
+        private void UnregisterEvents()
         {
             debugModeToggle.Triggered -= OnDebugModeToggleTriggered;
             fowToggle.Triggered -= OnFowToggleTriggered;
             roofsToggle.Triggered -= OnRoofsToggleTriggered;
         }
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             debugModeToggle.SetState(SettingsManager.Instance.DebugMode);
             fowToggle.SetState(SettingsManager.Instance.GraphicsSettings.FogOfWar);
             roofsToggle.SetState(SettingsManager.Instance.GraphicsSettings.ShowRoofs);
         }
 
-        void OnDebugModeToggleTriggered(object sender, EventArgs e) => SettingsManager.Instance.DebugMode = debugModeToggle.IsOn;
+        private void OnDebugModeToggleTriggered(object sender, EventArgs e) => SettingsManager.Instance.DebugMode = debugModeToggle.IsOn;
 
-        void OnFowToggleTriggered(object sender, EventArgs e) => SettingsManager.Instance.GraphicsSettings.FogOfWar = fowToggle.IsOn;
+        private void OnFowToggleTriggered(object sender, EventArgs e) => SettingsManager.Instance.GraphicsSettings.FogOfWar = fowToggle.IsOn;
 
-        void OnRoofsToggleTriggered(object sender, EventArgs e) => SettingsManager.Instance.GraphicsSettings.ShowRoofs = roofsToggle.IsOn;
+        private void OnRoofsToggleTriggered(object sender, EventArgs e) => SettingsManager.Instance.GraphicsSettings.ShowRoofs = roofsToggle.IsOn;
     }
 }

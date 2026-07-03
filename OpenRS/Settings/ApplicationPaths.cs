@@ -9,8 +9,8 @@ namespace OpenRS.Settings
     /// </summary>
     public static class ApplicationPaths
     {
-        static string rootDirectory;
-        static string localAppData;
+        private static string rootDirectory;
+        private static string localAppData;
 
         /// <summary>
         /// The application directory.

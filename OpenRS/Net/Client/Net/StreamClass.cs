@@ -7,17 +7,17 @@ namespace OpenRS.Net.Client.Net
 {
     public class StreamClass : PacketConstruction
     {
-        readonly NetworkStream netStream;
+        private readonly NetworkStream netStream;
 
-        readonly object syncLock = new();
+        private readonly object syncLock = new();
 
-        readonly TcpClient socket;
-        bool socketClosing;
-        byte[] buffer;
-        int dataWritten;
-        int offset;
-        bool socketClosed;
-        int lastWriteLen;
+        private readonly TcpClient socket;
+        private bool socketClosing;
+        private byte[] buffer;
+        private int dataWritten;
+        private int offset;
+        private bool socketClosed;
+        private int lastWriteLen;
 
         public StreamClass(TcpClient socket, GameApplet applet)
         {
@@ -34,7 +34,7 @@ namespace OpenRS.Net.Client.Net
 
         public bool IsConnected => socket != null && socket.Connected;
 
-        void OnRead(IAsyncResult result)
+        private void OnRead(IAsyncResult result)
         {
             try
             {
@@ -164,33 +164,6 @@ namespace OpenRS.Net.Client.Net
                 }
 
                 Monitor.Pulse(syncLock); // WARNING: notify();
-            }
-        }
-
-        void OnWrite(IAsyncResult iar)
-        {
-            try
-            {
-                netStream.EndWrite(iar);
-                dataWritten = (dataWritten + lastWriteLen) % 5000;
-                try
-                {
-                    if (offset == dataWritten)
-                    {
-                        netStream.Flush();
-                    }
-                }
-                catch (IOException ex)
-                {
-                    Console.WriteLine($"An error has occured in {nameof(StreamClass)}.cs");
-
-                    HasErrors = true;
-                    ErrorMessage = "Twriter:" + ex;
-                }
-            }
-            catch
-            {
-                Console.WriteLine($"An error has occured in {nameof(StreamClass)}.cs");
             }
         }
 

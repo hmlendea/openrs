@@ -10,10 +10,10 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         public Point3D[] VertLocations { get; set; }
 
-        static readonly Random Random = new();
+        private static readonly Random Random = new();
 
-        Point3D viewLocation;
-        readonly Point3D[] sceneObjectLocations;
+        private Point3D viewLocation;
+        private readonly Point3D[] sceneObjectLocations;
 
         public Camera(GraphicsEngine gameimage, int maxObjects, int maxVisibleObjects, int maxSceneObjects)
         {
@@ -208,7 +208,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             }
         }
 
-        void bhl(CameraModel[] arg0, int arg1, int arg2)
+        private void bhl(CameraModel[] arg0, int arg1, int arg2)
         {
             if (arg1 < arg2)
             {
@@ -446,7 +446,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             {
                 if (objectCache[k1] != null)
                 {
-                    objectCache[k1].cnh(viewLocation, bde, bdf, bdg, bcn, bbf);
+                    objectCache[k1].Cnh(viewLocation, bde, bdf, bdg, bcn, bbf);
                 }
             }
 
@@ -461,7 +461,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 }
             }
 
-            objectCache[currentObjectCount].cnh(viewLocation, bde, bdf, bdg, bcn, bbf);
+            objectCache[currentObjectCount].Cnh(viewLocation, bde, bdf, bdg, bcn, bbf);
             currentModelIndex = 0;
             for (int i5 = 0; i5 < currentObjectCount; i5++)
             {
@@ -767,7 +767,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             bcb = false;
         }
 
-        void bic(int arg0, int arg1, int arg2, int arg3, int arg4, int[] arg5, int[] arg6,
+        private void bic(int arg0, int arg1, int arg2, int arg3, int arg4, int[] arg5, int[] arg6,
                 int[] arg7, ObjectModel arg8, int arg9)
         {
             if (arg4 == 3)
@@ -1418,7 +1418,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             }
         }
 
-        void renderModel(int arg0, int arg1, int arg2, Point3D[] vertLocations, int textureIndex,
+        private void renderModel(int arg0, int arg1, int arg2, Point3D[] vertLocations, int textureIndex,
                 ObjectModel arg7)
         {
             if (textureIndex == -2)
@@ -1736,7 +1736,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     int k1 = (int)(val /*Math.random()*/ * bba);
                     if (k1 >= bbb.Length)
                     {
-                        k1 = k1 - 1;
+                        k1--;
                     }
 
                     bbb[k1] = textureIndex;
@@ -1861,7 +1861,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         }
 
-        static void bie(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
+        private static void bie(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13)
         {
             if (arg10 <= 0)
@@ -2006,7 +2006,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         }
 
-        static void bif(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
+        private static void bif(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13)
         {
             if (arg10 <= 0)
@@ -2151,7 +2151,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         }
 
-        static void big(int[] arg0, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6, int arg7,
+        private static void big(int[] arg0, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6, int arg7,
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13, int arg14)
         {
             if (arg11 <= 0)
@@ -2367,7 +2367,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         }
 
-        static void bih(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
+        private static void bih(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13)
         {
             if (arg10 <= 0)
@@ -2498,7 +2498,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         }
 
-        static void bii(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
+        private static void bii(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7,
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13)
         {
             if (arg10 <= 0)
@@ -2629,7 +2629,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         }
 
-        static void bij(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6, int arg7,
+        private static void bij(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6, int arg7,
                 int arg8, int arg9, int arg10, int arg11, int arg12, int arg13, int arg14)
         {
             if (arg11 <= 0)
@@ -2845,7 +2845,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         }
 
-        static void bik(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6)
+        private static void bik(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6)
         {
             if (arg1 >= 0)
             {
@@ -2889,7 +2889,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         }
 
-        static void bil(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6)
+        private static void bil(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6)
         {
             if (arg1 >= 0)
             {
@@ -2942,7 +2942,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         }
 
-        static void bim(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6)
+        private static void bim(int[] pixels, int arg1, int arg2, int arg3, int[] arg4, int arg5, int arg6)
         {
             if (arg1 >= 0)
             {
@@ -3038,7 +3038,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 location.Z - zOffset);
         }
 
-        void bja(int arg0)
+        private void bja(int arg0)
         {
             CameraModel l1 = visibleModels[arg0];
             ObjectModel k = l1.Object;
@@ -3131,7 +3131,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             l1.bkg = k6;
         }
 
-        void bjb(int arg0)
+        private void bjb(int arg0)
         {
             CameraModel l1 = visibleModels[arg0];
             ObjectModel k = l1.Object;
@@ -3205,7 +3205,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             l1.bkg = k4;
         }
 
-        bool bjc(CameraModel arg0, CameraModel arg1)
+        private bool bjc(CameraModel arg0, CameraModel arg1)
         {
             if (arg0.bkd >= arg1.bkf)
             {
@@ -3356,7 +3356,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             return !bkc(ai2, ai3, ai4, ai5);
         }
 
-        bool bjd(CameraModel arg0, CameraModel arg1)
+        private bool bjd(CameraModel arg0, CameraModel arg1)
         {
             ObjectModel k = arg0.Object;
             ObjectModel i1 = arg1.Object;
@@ -3512,7 +3512,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             applyTexture(arg0);
         }
 
-        void applyTexture(int arg0)
+        private void applyTexture(int arg0)
         {
             int textureSize;
             if (bel[arg0] == 0)
@@ -4131,38 +4131,38 @@ namespace OpenRS.Net.Client.Game.Cameras
         public int zoom3;
         public int zoom4;
         public static int[] bbk = new int[2048];
-        static readonly int[] bbl = new int[512];
+        private static readonly int[] bbl = new int[512];
         public bool bbm;
         public double bbn;
         public int bca;
-        bool bcb;
-        int bcc;
-        int bcd;
-        int bce;
-        readonly int maxHighlightedObjects;
-        readonly ObjectModel[] _highlightedObjects;
-        readonly int[] bch;
-        int bci;
-        int bcj;
-        int bck;
-        int bcl;
-        int bcm;
-        int bcn;
-        readonly int bda;
-        int bde;
-        int bdf;
-        int bdg;
+        private bool bcb;
+        private int bcc;
+        private int bcd;
+        private int bce;
+        private readonly int maxHighlightedObjects;
+        private readonly ObjectModel[] _highlightedObjects;
+        private readonly int[] bch;
+        private int bci;
+        private int bcj;
+        private int bck;
+        private int bcl;
+        private int bcm;
+        private int bcn;
+        private readonly int bda;
+        private int bde;
+        private int bdf;
+        private int bdg;
         public int currentObjectCount;
         public int totalModelCount;
         public ObjectModel[] objectCache;
-        readonly int[] bdk;
-        int currentModelIndex;
-        readonly CameraModel[] visibleModels;
-        int bdn;
-        readonly int[] sceneObjectId;
-        readonly int[] bee;
-        readonly int[] bef;
-        readonly int[] beg;
+        private readonly int[] bdk;
+        private int currentModelIndex;
+        private readonly CameraModel[] visibleModels;
+        private int bdn;
+        private readonly int[] sceneObjectId;
+        private readonly int[] bee;
+        private readonly int[] bef;
+        private readonly int[] beg;
         public ObjectModel highlightedObject;
         public int bei;
         public sbyte[][] texturePictureColorIndex;
@@ -4171,10 +4171,10 @@ namespace OpenRS.Net.Client.Game.Cameras
         public long[] bem;
         public int[][] objectTexturePixels;
         public bool[] bfa;
-        static long bfb;
+        private static long bfb;
         public int[][] texturePixels;
         public int[][] bfd;
-        static sbyte[] bfe;
+        private static sbyte[] bfe;
         public GraphicsEngine gameImage;
         public int[] bfh;
         public CameraVariable[] bfi;

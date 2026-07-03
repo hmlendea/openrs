@@ -44,7 +44,7 @@ namespace OpenRS.Net.Client
             gdf = rgbToIntMod(84, 93, 120);
         }
 
-        int rgbToIntMod(int r, int g, int b) => ColourTranslator.ToArgb(redMod * r / 114, greenMod * g / 114, blueMod * b / 176);
+        private int rgbToIntMod(int r, int g, int b) => ColourTranslator.ToArgb(redMod * r / 114, greenMod * g / 114, blueMod * b / 176);
 
         public void mouseClick(int mouseX, int mouseY, int lastMouseButton, int mouseButton)
         {
@@ -257,7 +257,7 @@ namespace OpenRS.Net.Client
                 text = "";
                 for (int l = 0; l < i; l++)
                 {
-                    text = text + "X";
+                    text += "X";
                 }
             }
 
@@ -280,7 +280,7 @@ namespace OpenRS.Net.Client
 
             if (selectedComponent == arg0)
             {
-                text = text + "*";
+                text += "*";
             }
 
             int k = y + gameImage.textHeightNumber(fontIndex) / 3;
@@ -855,8 +855,8 @@ namespace OpenRS.Net.Client
 
 
         protected GraphicsEngine gameImage;
-        int menuItemsCount;
-        readonly int gal;
+        private int menuItemsCount;
+        private readonly int gal;
         public bool[] componentAcceptsInput;
         public bool[] gan;
         public bool[] componentIsPasswordField;
@@ -865,33 +865,33 @@ namespace OpenRS.Net.Client
         public int[] listLength;
         public int[] gbe;
         public int[] gbf;
-        readonly bool[] componentWhiteText;
-        readonly int[] componentX;
-        readonly int[] componentY;
-        readonly int[] componentType;
-        readonly int[] componentWidth;
-        readonly int[] componentHeight;
-        readonly int[] copmonentInputMaxLength;
-        readonly int[] componentTextSize;
-        readonly string[] componentText;
-        readonly string[][] componentTextList;
-        int mouseX;
-        int mouseY;
-        int lastMouseButton;
-        int mouseButton;
-        int selectedComponent;
-        int gch;
-        readonly int scrollBarColour;
-        readonly int scrollBarDraggingBarLine1Color;
-        readonly int scrollBarDraggingBarColor;
-        readonly int scrollBarDraggingBarLine2Color;
-        readonly int gcn;
-        readonly int gda;
-        readonly int gdb;
-        readonly int gdc;
-        readonly int gdd;
-        readonly int gde;
-        readonly int gdf;
+        private readonly bool[] componentWhiteText;
+        private readonly int[] componentX;
+        private readonly int[] componentY;
+        private readonly int[] componentType;
+        private readonly int[] componentWidth;
+        private readonly int[] componentHeight;
+        private readonly int[] copmonentInputMaxLength;
+        private readonly int[] componentTextSize;
+        private readonly string[] componentText;
+        private readonly string[][] componentTextList;
+        private int mouseX;
+        private int mouseY;
+        private int lastMouseButton;
+        private int mouseButton;
+        private int selectedComponent;
+        private int gch;
+        private readonly int scrollBarColour;
+        private readonly int scrollBarDraggingBarLine1Color;
+        private readonly int scrollBarDraggingBarColor;
+        private readonly int scrollBarDraggingBarLine2Color;
+        private readonly int gcn;
+        private readonly int gda;
+        private readonly int gdb;
+        private readonly int gdc;
+        private readonly int gdd;
+        private readonly int gde;
+        private readonly int gdf;
         public bool gdg;
         public static bool gdh = true;
         public static int baseScrollPic;

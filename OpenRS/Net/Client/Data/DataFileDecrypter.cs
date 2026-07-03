@@ -51,7 +51,7 @@ namespace OpenRS.Net.Client.Data
         }
 
 
-        static void glk(BZip2BlockEntry arg0)
+        private static void glk(BZip2BlockEntry arg0)
         {
             sbyte sbyte4 = arg0.afa;
             int i = arg0.afb;
@@ -201,7 +201,7 @@ namespace OpenRS.Net.Client.Data
         }
 
 
-        static void readBlock(BZip2BlockEntry blockEntry)
+        private static void readBlock(BZip2BlockEntry blockEntry)
         {
             int minLens_zt = 0;
             int[] limit_zt = null;
@@ -586,11 +586,11 @@ namespace OpenRS.Net.Client.Data
             }
         }
 
-        static sbyte getUByte(BZip2BlockEntry o1) => (sbyte)getBits(8, o1);
+        private static sbyte getUByte(BZip2BlockEntry o1) => (sbyte)getBits(8, o1);
 
-        static sbyte getBit(BZip2BlockEntry o1) => (sbyte)getBits(1, o1);
+        private static sbyte getBit(BZip2BlockEntry o1) => (sbyte)getBits(1, o1);
 
-        static int getBits(int arg0, BZip2BlockEntry arg1)
+        private static int getBits(int arg0, BZip2BlockEntry arg1)
         {
             int i;
             do
@@ -615,7 +615,7 @@ namespace OpenRS.Net.Client.Data
             return i;
         }
 
-        static void createMaps(BZip2BlockEntry arg0)
+        private static void createMaps(BZip2BlockEntry arg0)
         {
             arg0.inUseOffset = 0;
             for (int i = 0; i < 256; i++)
@@ -629,7 +629,7 @@ namespace OpenRS.Net.Client.Data
 
         }
 
-        static void createDecodeTables(int[] limit, int[] _base, int[] perm, sbyte[] length, int minlen, int maxlen, int alphasize)
+        private static void createDecodeTables(int[] limit, int[] _base, int[] perm, sbyte[] length, int minlen, int maxlen, int alphasize)
         {
             int i = 0;
             for (int j = minlen; j <= maxlen; j++)

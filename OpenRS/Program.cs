@@ -13,10 +13,10 @@ namespace OpenRS
     [Register("AppDelegate")]
     class Program : UIApplicationDelegate
 #else
-    static class Program
+    internal static class Program
 #endif
     {
-        static GameWindow game;
+        private static GameWindow game;
 
         internal static void RunGame()
         {
@@ -32,6 +32,7 @@ namespace OpenRS
         /// </summary>
 #if !MONOMAC && !__IOS__ && !__TVOS__
         [STAThread]
+        private
 #endif
         static void Main(string[] args)
         {
@@ -75,6 +76,6 @@ namespace OpenRS
         {
             return true;
         }
-    }  
+    }
 #endif
 }

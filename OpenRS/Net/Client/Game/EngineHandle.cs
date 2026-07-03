@@ -14,7 +14,7 @@ namespace OpenRS.Net.Client.Game
     {
         public static Random ran = new();
 
-        readonly EntityManager entityManager;
+        private readonly EntityManager entityManager;
 
         public EngineHandle(EntityManager entityManager, Camera camera, GraphicsEngine graphics)
         {
@@ -952,7 +952,7 @@ namespace OpenRS.Net.Client.Game
 
             if (freshLoad)
             {
-                graphics.fillPicture(baseInventoryPic - 1, 0, 0, 285, 285);
+                graphics.FillPicture(baseInventoryPic - 1, 0, 0, 285, 285);
             }
 
             currentSectionObject.UpdateShading(false, 60, 24, shadingPoint);
@@ -2038,7 +2038,7 @@ namespace OpenRS.Net.Client.Game
 
         public bool hasRoofTiles(int x, int y) => getTileRoofType(x, y) > 0 || getTileRoofType(x - 1, y) > 0 || getTileRoofType(x - 1, y - 1) > 0 || getTileRoofType(x, y - 1) > 0;
 
-        const int SECTOR_COUNT = 4;
+        private const int SECTOR_COUNT = 4;
 
         public bool isRoofTile(int x, int y) => getTileRoofType(x, y) > 0 && getTileRoofType(x - 1, y) > 0 && getTileRoofType(x - 1, y - 1) > 0 && getTileRoofType(x, y - 1) > 0;
 
@@ -2321,8 +2321,8 @@ namespace OpenRS.Net.Client.Game
                             int j2 = (x + x + objectWidth) * 128 / 2;
                             int l2 = (y + y + objectHeight) * 128 / 2;
                             i2.offsetLocation(j2, -GetAveragedElevation(j2, l2), l2);
-                            i2.setRotation(0, getTileRotation(x, y) * 32, 0);
-                            i2.setRotation(0, objectRotation * 32, 0);
+                            i2.SetRotation(0, getTileRotation(x, y) * 32, 0);
+                            i2.SetRotation(0, objectRotation * 32, 0);
 
                             camera.addModel(i2);
 
@@ -2454,6 +2454,6 @@ namespace OpenRS.Net.Client.Game
         public int[][] tileRoofType;
         public int baseInventoryPic;
 
-        int[][] objectDirs;
+        private int[][] objectDirs;
     }
 }

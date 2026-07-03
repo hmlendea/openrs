@@ -10,8 +10,8 @@ namespace OpenRS.Settings
     /// </summary>
     public class SettingsManager
     {
-        static volatile SettingsManager instance;
-        static readonly object syncRoot = new();
+        private static volatile SettingsManager instance;
+        private static readonly object syncRoot = new();
 
         /// <summary>
         /// Gets the instance.

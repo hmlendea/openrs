@@ -4,7 +4,7 @@ namespace OpenRS.Models
 {
     public class WalkPath
     {
-        readonly Point2D[] waypointOffsets;
+        private readonly Point2D[] waypointOffsets;
 
         /// <summary>
         /// Gets or sets the start location.

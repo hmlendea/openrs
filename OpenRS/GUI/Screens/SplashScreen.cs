@@ -21,9 +21,9 @@ namespace OpenRS.Gui.Screens
         /// <value>The delay.</value>
         public float Delay { get; set; }
 
-        GuiImage backgroundImage;
-        GuiImage overlayImage;
-        GuiImage logoImage;
+        private GuiImage backgroundImage;
+        private GuiImage overlayImage;
+        private GuiImage logoImage;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SplashScreen"/> class.
@@ -112,7 +112,7 @@ namespace OpenRS.Gui.Screens
         /// <summary>
         /// Registers the events.
         /// </summary>
-        void RegisterEvents()
+        private void RegisterEvents()
         {
             KeyPressed += OnKeyPressed;
             MouseButtonPressed += OnMouseButtonPressed;
@@ -121,13 +121,13 @@ namespace OpenRS.Gui.Screens
         /// <summary>
         /// Unregisters the events.
         /// </summary>
-        void UnregisterEvents()
+        private void UnregisterEvents()
         {
             KeyPressed -= OnKeyPressed;
             MouseButtonPressed -= OnMouseButtonPressed;
         }
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             overlayImage.Size = ScreenManager.Instance.Size;
 
@@ -140,10 +140,10 @@ namespace OpenRS.Gui.Screens
                 (ScreenManager.Instance.Size.Height - logoImage.Size.Height) / 2);
         }
 
-        void OnKeyPressed(object sender, KeyboardKeyEventArgs e) => ChangeScreens();
+        private void OnKeyPressed(object sender, KeyboardKeyEventArgs e) => ChangeScreens();
 
-        void OnMouseButtonPressed(object sender, MouseButtonEventArgs e) => ChangeScreens();
+        private void OnMouseButtonPressed(object sender, MouseButtonEventArgs e) => ChangeScreens();
 
-        void ChangeScreens() => ScreenManager.Instance.ChangeScreens(typeof(TitleScreen));
+        private void ChangeScreens() => ScreenManager.Instance.ChangeScreens(typeof(TitleScreen));
     }
 }

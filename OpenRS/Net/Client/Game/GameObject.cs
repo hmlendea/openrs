@@ -13,14 +13,14 @@ namespace OpenRS.Net.Client.Game
     {
         public Point3D[] WorldVerticeLocations;
         public Point3D[] verticeLocations;
-        Point3D[] minimumFaceBounds;
-        Point3D[] maximumFaceBounds;
-        Point3D[] normalLocations;
-        Point3D location;
-        Point3D rotation;
-        Point3D minimumBounds;
-        Point3D maximumBounds;
-        Point3D shadingUnknown;
+        private Point3D[] minimumFaceBounds;
+        private Point3D[] maximumFaceBounds;
+        private Point3D[] normalLocations;
+        private Point3D location;
+        private Point3D rotation;
+        private Point3D minimumBounds;
+        private Point3D maximumBounds;
+        private Point3D shadingUnknown;
 
         static ObjectModel()
         {
@@ -145,18 +145,18 @@ namespace OpenRS.Net.Client.Game
         {
             Point3D point = new(x, y, z);
 
-            offsetLocation(point);
+            OffsetLocation(point);
         }
 
         // TODO: REMOVE ASAP
-        public void setRotation(int x, int y, int z)
+        public void SetRotation(int x, int y, int z)
         {
             Point3D point = new(x, y, z);
 
-            setRotation(point);
+            SetRotation(point);
         }
 
-        void InitializeObject(int _vert_count, int polygonCount)
+        private void InitializeObject(int _vert_count, int polygonCount)
         {
             verticeLocations = new Point3D[_vert_count];
 
@@ -396,7 +396,7 @@ namespace OpenRS.Net.Client.Game
                     ;
                 }
 
-                int l = getShadeValue((sbyte[])(Array)abyte0);
+                int l = GetShadeValue((sbyte[])(Array)abyte0);
                 abyte0 = new byte[l];
                 clg = 0;
                 for (int k = 0; k < l; k += inputstream.Read(abyte0, k, l - k))
@@ -414,40 +414,40 @@ namespace OpenRS.Net.Client.Game
                 face_count = 0;
                 return;
             }
-            int i1 = getShadeValue((sbyte[])(Array)abyte0);
-            int j1 = getShadeValue((sbyte[])(Array)abyte0);
+            int i1 = GetShadeValue((sbyte[])(Array)abyte0);
+            int j1 = GetShadeValue((sbyte[])(Array)abyte0);
             InitializeObject(i1, j1);
             cje = new int[j1][];
 
             for (int k3 = 0; k3 < i1; k3++)
             {
                 Point3D point = new(
-                    getShadeValue((sbyte[])(Array)abyte0),
-                    getShadeValue((sbyte[])(Array)abyte0),
-                    getShadeValue((sbyte[])(Array)abyte0));
+                    GetShadeValue((sbyte[])(Array)abyte0),
+                    GetShadeValue((sbyte[])(Array)abyte0),
+                    GetShadeValue((sbyte[])(Array)abyte0));
 
                 GetVertexIndex(point);
             }
 
             for (int l3 = 0; l3 < j1; l3++)
             {
-                int j2 = getShadeValue((sbyte[])(Array)abyte0);
-                int k2 = getShadeValue((sbyte[])(Array)abyte0);
-                int l2 = getShadeValue((sbyte[])(Array)abyte0);
-                int i3 = getShadeValue((sbyte[])(Array)abyte0);
-                cle = getShadeValue((sbyte[])(Array)abyte0);
-                clf = getShadeValue((sbyte[])(Array)abyte0);
-                int j3 = getShadeValue((sbyte[])(Array)abyte0);
+                int j2 = GetShadeValue((sbyte[])(Array)abyte0);
+                int k2 = GetShadeValue((sbyte[])(Array)abyte0);
+                int l2 = GetShadeValue((sbyte[])(Array)abyte0);
+                int i3 = GetShadeValue((sbyte[])(Array)abyte0);
+                cle = GetShadeValue((sbyte[])(Array)abyte0);
+                clf = GetShadeValue((sbyte[])(Array)abyte0);
+                int j3 = GetShadeValue((sbyte[])(Array)abyte0);
                 int[] ai = new int[j2];
                 for (int i4 = 0; i4 < j2; i4++)
                 {
-                    ai[i4] = getShadeValue((sbyte[])(Array)abyte0);
+                    ai[i4] = GetShadeValue((sbyte[])(Array)abyte0);
                 }
 
                 int[] ai1 = new int[i3];
                 for (int j4 = 0; j4 < i3; j4++)
                 {
-                    ai1[j4] = getShadeValue((sbyte[])(Array)abyte0);
+                    ai1[j4] = GetShadeValue((sbyte[])(Array)abyte0);
                 }
 
                 int k4 = AddFaceVertices(j2, ai, k2, l2);
@@ -534,7 +534,7 @@ namespace OpenRS.Net.Client.Game
             for (int i1 = 0; i1 < objectCount; i1++)
             {
                 ObjectModel j1 = childObjects[i1];
-                j1.cni();
+                j1.Cni();
                 clf = j1.clf;
                 cle = j1.cle;
                 shadingUnknown = j1.shadingUnknown;
@@ -649,7 +649,7 @@ namespace OpenRS.Net.Client.Game
         public ObjectModel[] getObjectsWithinArea(int x, int y, int width, int height, int objectSize, int objectCount, int maxVertCount,
                 bool arg7)
         {
-            cni();
+            Cni();
             int[] ai = new int[objectCount];
             int[] ai1 = new int[objectCount];
             for (int j = 0; j < objectCount; j++)
@@ -815,7 +815,7 @@ namespace OpenRS.Net.Client.Game
 
         public void SetVertexColor(int vertIndex, int value) => vertexColor[vertIndex] = value;
 
-        public void offsetMiniPosition(Point3D point)
+        public void OffsetMiniPosition(Point3D point)
         {
             rotation.X += point.X & 0xFF;
             rotation.Y += point.Y & 0xFF;
@@ -825,7 +825,7 @@ namespace OpenRS.Net.Client.Game
             objectState = 1;
         }
 
-        public void setRotation(Point3D point)
+        public void SetRotation(Point3D point)
         {
             rotation.X = point.X & 0xFF;
             rotation.Y = point.Y & 0xFF;
@@ -835,7 +835,7 @@ namespace OpenRS.Net.Client.Game
             objectState = 1;
         }
 
-        public void offsetLocation(Point3D offset)
+        public void OffsetLocation(Point3D offset)
         {
             location += offset;
 
@@ -843,7 +843,7 @@ namespace OpenRS.Net.Client.Game
             objectState = 1;
         }
 
-        public void setLocation(Point3D location)
+        public void SetLocation(Point3D location)
         {
             this.location = location;
 
@@ -851,7 +851,7 @@ namespace OpenRS.Net.Client.Game
             objectState = 1;
         }
 
-        void Cmm()
+        private void Cmm()
         {
             if (ckg != 256 || ckh != 256 || cki != 256 || ckj != 256 || ckk != 256 || ckl != 256)
             {
@@ -877,7 +877,7 @@ namespace OpenRS.Net.Client.Game
             ckm = 0;
         }
 
-        void OffsetWorldVertices(Point3D offset)
+        private void OffsetWorldVertices(Point3D offset)
         {
             for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
             {
@@ -885,7 +885,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void Rotate(Point3D rotationPoint)
+        private void Rotate(Point3D rotationPoint)
         {
             for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
             {
@@ -931,7 +931,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void ScaleVertices(int x, int z, int x1, int y, int z1, int y1)
+        private void ScaleVertices(int x, int z, int x1, int y, int z1, int y1)
         {
             for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
             {
@@ -967,7 +967,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void ScaleVertices(Point3D scale)
+        private void ScaleVertices(Point3D scale)
         {
             for (int verticeIndex = 0; verticeIndex < vert_count; verticeIndex++)
             {
@@ -977,7 +977,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        void CalculateObjectBounds()
+        private void CalculateObjectBounds()
         {
             minimumBounds = new Point3D(0xf423f, 0xf423f, 0xf423f);
             distVar = -minimumBounds.X;
@@ -1162,7 +1162,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public void calculateNormals()
+        public void CalculateNormals()
         {
             if (dontRecieveShadows && noCollider)
             {
@@ -1271,11 +1271,11 @@ namespace OpenRS.Net.Client.Game
                 }
 
                 CalculateObjectBounds();
-                calculateNormals();
+                CalculateNormals();
             }
         }
 
-        public void cnh(Point3D loc, int arg3, int arg4, int arg5, int arg6, int arg7)
+        public void Cnh(Point3D loc, int arg3, int arg4, int arg5, int arg6, int arg7)
         {
             UpdateWorldTransformation();
 
@@ -1364,7 +1364,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public void cni()
+        public void Cni()
         {
             UpdateWorldTransformation();
 
@@ -1410,7 +1410,7 @@ namespace OpenRS.Net.Client.Game
             objectState = 1;
         }
 
-        public int getShadeValue(sbyte[] arg0)
+        public int GetShadeValue(sbyte[] arg0)
         {
             for (; arg0[clg] == 10 || arg0[clg] == 13; clg++)
             {
@@ -1454,36 +1454,36 @@ namespace OpenRS.Net.Client.Game
         public int index;
         public int[] entityType;
         public int[] chm;
-        readonly bool chn;
+        private readonly bool chn;
         public bool noCollider;
         public bool dontRecieveShadows;
         public bool cic;
         public bool cid;
-        static readonly int[] cie;
-        static readonly int[] cif;
-        static readonly int[] cig;
-        static readonly int[] cih;
-        readonly int shadeValue;
+        private static readonly int[] cie;
+        private static readonly int[] cif;
+        private static readonly int[] cig;
+        private static readonly int[] cih;
+        private readonly int shadeValue;
         public int totalVerticeCount;
 
         public Vector3[] _vertices;
 
-        int totalFaceCount;
-        int[][] cje;
-        int ckd;
-        int cke;
-        int ckf;
-        int ckg;
-        int ckh;
-        int cki;
-        int ckj;
-        int ckk;
-        int ckl;
-        int ckm;
-        int distVar;
-        int cld;
+        private int totalFaceCount;
+        private int[][] cje;
+        private int ckd;
+        private int cke;
+        private int ckf;
+        private int ckg;
+        private int ckh;
+        private int cki;
+        private int ckj;
+        private int ckk;
+        private int ckl;
+        private int ckm;
+        private int distVar;
+        private int cld;
         public int cle;
         public int clf;
-        int clg;
+        private int clg;
     }
 }

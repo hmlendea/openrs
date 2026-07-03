@@ -19,18 +19,18 @@ namespace OpenRS.Gui.Controls
 {
     public class GuiMinimap(GameClient client) : GuiControl
     {
-        readonly GameClient client = client;
+        private readonly GameClient client = client;
 
-        GuiMinimapIndicator compassIndicator;
-        GuiMinimapIndicator healthIndicator;
-        GuiMinimapIndicator staminaIndicator;
-        GuiMinimapIndicator prayerIndicator;
+        private GuiMinimapIndicator compassIndicator;
+        private GuiMinimapIndicator healthIndicator;
+        private GuiMinimapIndicator staminaIndicator;
+        private GuiMinimapIndicator prayerIndicator;
 
-        byte[,] alphaMask;
+        private byte[,] alphaMask;
 
-        TextureSprite dot;
-        TextureSprite pixel;
-        TextureSprite frame;
+        private TextureSprite dot;
+        private TextureSprite pixel;
+        private TextureSprite frame;
 
         public bool IsClickable { get; set; } = true;
 
@@ -133,11 +133,11 @@ namespace OpenRS.Gui.Controls
             frame.Draw(spriteBatch);
         }
 
-        void RegisterEvents() => compassIndicator.Clicked += OnCompassIndicatorClicked;
+        private void RegisterEvents() => compassIndicator.Clicked += OnCompassIndicatorClicked;
 
-        void UnregisterEvents() => compassIndicator.Clicked -= OnCompassIndicatorClicked;
+        private void UnregisterEvents() => compassIndicator.Clicked -= OnCompassIndicatorClicked;
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             frame.Location = ScreenLocation;
 
@@ -161,7 +161,7 @@ namespace OpenRS.Gui.Controls
             prayerIndicator.CurrentValue = client.Skills[5].CurrentLevel;
         }
 
-        void DrawMinimapMenu(SpriteBatch spriteBatch)
+        private void DrawMinimapMenu(SpriteBatch spriteBatch)
         {
             if (client.gameGraphics is null || !client.loggedIn)
             {
@@ -180,7 +180,7 @@ namespace OpenRS.Gui.Controls
             DrawPlayerDots(spriteBatch, j1, l1, j5, l5);
         }
 
-        void DrawGroundItemDots(SpriteBatch spriteBatch, int j1, int l1, int j5, int l5)
+        private void DrawGroundItemDots(SpriteBatch spriteBatch, int j1, int l1, int j5, int l5)
         {
             for (int groundItemIndex = 0; groundItemIndex < client.GroundItemCount; groundItemIndex++)
             {
@@ -198,7 +198,7 @@ namespace OpenRS.Gui.Controls
             }
         }
 
-        void DrawNpcDots(SpriteBatch spriteBatch, int j1, int l1, int j5, int l5)
+        private void DrawNpcDots(SpriteBatch spriteBatch, int j1, int l1, int j5, int l5)
         {
             foreach (ClientMob npc in client.Npcs.Where(x => x != null))
             {
@@ -216,7 +216,7 @@ namespace OpenRS.Gui.Controls
             }
         }
 
-        void DrawPlayerDots(SpriteBatch spriteBatch, int j1, int l1, int j5, int l5)
+        private void DrawPlayerDots(SpriteBatch spriteBatch, int j1, int l1, int j5, int l5)
         {
             foreach (ClientMob player in client.Players.Where(x => x != null))
             {
@@ -234,7 +234,7 @@ namespace OpenRS.Gui.Controls
             }
         }
 
-        void DrawMinimapTiles(SpriteBatch spriteBatch)
+        private void DrawMinimapTiles(SpriteBatch spriteBatch)
         {
             for (int y = 0; y < Size.Height; y++)
             {
@@ -251,7 +251,7 @@ namespace OpenRS.Gui.Controls
             }
         }
 
-        void DrawMinimapDot(SpriteBatch spriteBatch, Point2D location, Colour colour)
+        private void DrawMinimapDot(SpriteBatch spriteBatch, Point2D location, Colour colour)
         {
             Point2D dotOffset = new(156 / 2, 36 + 152 / 2);
             Point2D minimapLocation = location + dotOffset;
@@ -275,6 +275,6 @@ namespace OpenRS.Gui.Controls
             dot.Draw(spriteBatch);
         }
 
-        void OnCompassIndicatorClicked(object sender, MouseButtonEventArgs e) => client.cameraRotation = 128;
+        private void OnCompassIndicatorClicked(object sender, MouseButtonEventArgs e) => client.cameraRotation = 128;
     }
 }

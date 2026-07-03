@@ -37,8 +37,8 @@ namespace OpenRS.Gui.Controls
         public string Texture { get; set; }
 
         protected List<GuiImage> images;
-        GuiImage icon;
-        GuiText text;
+        private GuiImage icon;
+        private GuiText text;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GuiButton"/> class.
@@ -101,7 +101,7 @@ namespace OpenRS.Gui.Controls
         /// <summary>
         /// Registers the events.
         /// </summary>
-        void RegisterEvents()
+        private void RegisterEvents()
         {
             Clicked += OnClicked;
             MouseEntered += OnMouseEntered;
@@ -110,13 +110,13 @@ namespace OpenRS.Gui.Controls
         /// <summary>
         /// Unregisters the events.
         /// </summary>
-        void UnregisterEvents()
+        private void UnregisterEvents()
         {
             Clicked -= OnClicked;
             MouseEntered -= OnMouseEntered;
         }
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             for (int i = 0; i < images.Count; i++)
             {
@@ -142,7 +142,7 @@ namespace OpenRS.Gui.Controls
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        void OnClicked(object sender, MouseButtonEventArgs e)
+        private void OnClicked(object sender, MouseButtonEventArgs e)
         {
             if (e.Button != MouseButton.Left)
             {
@@ -157,7 +157,7 @@ namespace OpenRS.Gui.Controls
         /// </summary>
         /// <param name="sender">Sender object.</param>
         /// <param name="e">Event arguments.</param>
-        void OnMouseEntered(object sender, MouseEventArgs e)
+        private void OnMouseEntered(object sender, MouseEventArgs e)
         {
             //AudioManager.Instance.PlaySound("Interface/select");
         }

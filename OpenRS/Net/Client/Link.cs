@@ -9,9 +9,9 @@ namespace OpenRS.Net.Client
     public class Link
     {
         public static int uid;
-        static int currentFile;
-        static readonly string[] fileName = new string[50];
-        static readonly sbyte[][] fileData = new sbyte[50][];
+        private static int currentFile;
+        private static readonly string[] fileName = new string[50];
+        private static readonly sbyte[][] fileData = new sbyte[50][];
 
         public static sbyte[] streamToSbyte(BinaryReader stream)
         {
@@ -84,7 +84,7 @@ namespace OpenRS.Net.Client
             return null;
         }
 
-        static void AddFile(string filename, BinaryReader reader)
+        private static void AddFile(string filename, BinaryReader reader)
         {
             fileName[currentFile] = filename;
             fileData[currentFile] = streamToSbyte(reader);

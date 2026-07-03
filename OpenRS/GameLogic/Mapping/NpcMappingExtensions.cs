@@ -9,7 +9,7 @@ namespace OpenRS.GameLogic.Mapping
     /// <summary>
     /// Npc mapping extensions for converting between entities and domain models.
     /// </summary>
-    static class NpcMappingExtensions
+    internal static class NpcMappingExtensions
     {
         /// <summary>
         /// Converts the entity into a domain model.
@@ -80,7 +80,7 @@ namespace OpenRS.GameLogic.Mapping
                 RespawnTime = npc.RespawnTime,
                 IsAttackable = npc.IsAttackable,
                 IsAggressive = npc.IsAggressive,
-                Drops = npc.Drops?.ToEntities().ToArray()
+                Drops = npc.Drops?.ToDataObjects().ToArray()
             };
 
             return npcEntity;

@@ -8,18 +8,18 @@ namespace OpenRS.Models
 {
     public abstract class MobInstance : GameEntityInstance
     {
-        int combatLevel;
-        int mobSprite;
-        readonly int[][] mobSprites;
-        readonly bool[] activatedPrayers;
-        readonly PathHandler pathHandler;
+        private int combatLevel;
+        private int mobSprite;
+        private readonly int[][] mobSprites;
+        private readonly bool[] activatedPrayers;
+        private readonly PathHandler pathHandler;
         // viewArea
 
         protected Dictionary<long, int> totalDamageTable;
         protected Dictionary<long, int> meleeDamageTable;
         protected Dictionary<long, int> rangeDamageTable;
 
-        MobInstance CombatOpponent { get; set; }
+        private MobInstance CombatOpponent { get; set; }
 
         public CombatState LastCombatState { get; private set; }
 

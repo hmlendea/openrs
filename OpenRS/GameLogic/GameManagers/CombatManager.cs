@@ -2,7 +2,7 @@
 {
     public class CombatManager(InventoryManager inventoryManager)
     {
-        readonly InventoryManager inventoryManager = inventoryManager;
+        private readonly InventoryManager inventoryManager = inventoryManager;
 
         public bool HasRequiredRunes(int itemId, int count)
         {

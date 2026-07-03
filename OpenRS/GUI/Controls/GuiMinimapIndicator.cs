@@ -8,8 +8,8 @@ namespace OpenRS.Gui.Controls
 {
     public class GuiMinimapIndicator : GuiControl
     {
-        GuiImage indicator;
-        GuiImage icon;
+        private GuiImage indicator;
+        private GuiImage icon;
 
         public int CurrentValue { get; set; }
 
@@ -73,7 +73,7 @@ namespace OpenRS.Gui.Controls
 
         }
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             indicator.Location = new Point2D(0, 0);
             indicator.TintColour = BackgroundColour;

@@ -123,9 +123,9 @@ namespace OpenRS.Models
             return newLocation;
         }
 
-        bool IsBlocking(GameEntityInstance other, Point2D location, int bit) => IsMapBlocking(other, location, (byte)bit);
+        private bool IsBlocking(GameEntityInstance other, Point2D location, int bit) => IsMapBlocking(other, location, (byte)bit);
 
-        bool IsMapBlocking(GameEntityInstance other, Point2D location, byte bit)
+        private bool IsMapBlocking(GameEntityInstance other, Point2D location, byte bit)
         {
             throw new NotImplementedException();
 
@@ -150,25 +150,6 @@ namespace OpenRS.Models
             throw new NotImplementedException();
 
             return false;
-        }
-
-        bool IsObjectBlocking(GameEntityInstance other, Point2D location, byte bit) => throw new NotImplementedException();
-
-        bool IsNextTo(GameEntityInstance other)
-        {
-            Point2D? currentLocation = Location;
-
-            while (currentLocation != other.Location)
-            {
-                currentLocation = NextStep((Point2D)currentLocation, other);
-
-                if (currentLocation is null)
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
     }
 }

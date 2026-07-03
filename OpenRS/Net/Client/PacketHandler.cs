@@ -18,10 +18,10 @@ namespace OpenRS.Net.Client
         InventoryManager inventoryManager,
         QuestManager questManager)
     {
-        readonly GameClient client = client;
-        readonly EntityManager entityManager = entityManager;
-        readonly InventoryManager inventoryManager = inventoryManager;
-        readonly QuestManager questManager = questManager;
+        private readonly GameClient client = client;
+        private readonly EntityManager entityManager = entityManager;
+        private readonly InventoryManager inventoryManager = inventoryManager;
+        private readonly QuestManager questManager = questManager;
 
         public bool HandlePacket(ServerCommand command, sbyte[] data, int length)
         {
@@ -266,9 +266,9 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleAwake() => client.IsSleeping = false;
+        private void HandleAwake() => client.IsSleeping = false;
 
-        void HandleServerAnnouncement(sbyte[] data, int length)
+        private void HandleServerAnnouncement(sbyte[] data, int length)
         {
             if (length <= 1)
             {
@@ -283,22 +283,22 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleGameSettings(sbyte[] data, int length)
+        private void HandleGameSettings(sbyte[] data, int length)
         {
             // Game settings are managed client-side; acknowledge without applying
         }
 
-        void HandleFriendList(sbyte[] data, int length)
+        private void HandleFriendList(sbyte[] data, int length)
         {
             // Friend list handling not yet implemented
         }
 
-        void HandleIgnoreList(sbyte[] data, int length)
+        private void HandleIgnoreList(sbyte[] data, int length)
         {
             // Ignore list handling not yet implemented
         }
 
-        void HandleBankItem(sbyte[] data)
+        private void HandleBankItem(sbyte[] data)
         {
             int off = 1;
             int itemSlot = data[off++] & 0xff;
@@ -310,9 +310,9 @@ namespace OpenRS.Net.Client
             inventoryManager.BankItem(itemId, itemSlot, itemCount);
         }
 
-        void HandleCombatStyleChange(sbyte[] data) => client.CombatStyle = (CombatStyle)DataOperations.GetInt8(data[1]);
+        private void HandleCombatStyleChange(sbyte[] data) => client.CombatStyle = (CombatStyle)DataOperations.GetInt8(data[1]);
 
-        void HandleCookAssistant(sbyte[] data)
+        private void HandleCookAssistant(sbyte[] data)
         {
             int stage = DataOperations.GetInt16(data, 1);
 
@@ -320,7 +320,7 @@ namespace OpenRS.Net.Client
             questManager.SetStage("0", stage);
         }
 
-        void HandleCommand27(sbyte[] data, int length)
+        private void HandleCommand27(sbyte[] data, int length)
         {
             for (int offset = 1; offset < length;)
             {
@@ -439,9 +439,9 @@ namespace OpenRS.Net.Client
 
                         Point3D off = new(0, rotation * 32, 0);
                         gameObject.index = client.ObjectCount;
-                        gameObject.offsetMiniPosition(off);
+                        gameObject.OffsetMiniPosition(off);
                         off = new Point3D(l40, -client.engineHandle.GetAveragedElevation(l40, k42), k42);
-                        gameObject.offsetLocation(off);
+                        gameObject.OffsetLocation(off);
                         Point3D shadingPoint = new(-50, -10, -50);
                         gameObject.UpdateShading(true, 48, 48, shadingPoint);
                         client.engineHandle.createObject(newSectionLocation.X, newSectionLocation.Y, index, rotation);
@@ -449,7 +449,7 @@ namespace OpenRS.Net.Client
                         if (index == 74)
                         {
                             off = new Point3D(0, -480, 0);
-                            gameObject.offsetLocation(off);
+                            gameObject.OffsetLocation(off);
                         }
 
                         client.ObjectLocations[client.ObjectCount] = newSectionLocation;
@@ -461,7 +461,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleCommand53(sbyte[] data)
+        private void HandleCommand53(sbyte[] data)
         {
             int mobCount = DataOperations.GetInt16(data, 1);
             int mobUpdateOffset = 3;
@@ -663,7 +663,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleCommand77(sbyte[] data, int length)
+        private void HandleCommand77(sbyte[] data, int length)
         {
             client.LastNpcCount = client.NpcCount;
             client.NpcCount = 0;
@@ -782,7 +782,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleCommand114(sbyte[] data)
+        private void HandleCommand114(sbyte[] data)
         {
             int off = 1;
             inventoryManager.InventoryItemsCount = data[off++] & 0xff;
@@ -808,7 +808,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleCommand131(sbyte[] data)
+        private void HandleCommand131(sbyte[] data)
         {
             client.ServerIndex = DataOperations.GetInt16(data, 1);
 
@@ -828,7 +828,7 @@ namespace OpenRS.Net.Client
             client.HasWorldInfo = true;
         }
 
-        void HandleCommand145(sbyte[] data, int length)
+        private void HandleCommand145(sbyte[] data, int length)
         {
             if (!client.HasWorldInfo)
             {
@@ -996,7 +996,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleCommand180(sbyte[] data)
+        private void HandleCommand180(sbyte[] data)
         {
             int offset = 1;
 
@@ -1017,7 +1017,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleCommand190(sbyte[] data)
+        private void HandleCommand190(sbyte[] data)
         {
             int newCount = DataOperations.GetInt16(data, 1);
             int offset = 3;
@@ -1076,11 +1076,11 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleCompletedTasks(sbyte[] data) => client.CompletedTasks = DataOperations.GetInt16(data, 1);
+        private void HandleCompletedTasks(sbyte[] data) => client.CompletedTasks = DataOperations.GetInt16(data, 1);
 
-        void HandleDeaths(sbyte[] data) => client.Deaths = DataOperations.GetInt16(data, 1);
+        private void HandleDeaths(sbyte[] data) => client.Deaths = DataOperations.GetInt16(data, 1);
 
-        void HandleDemonSlayer(sbyte[] data)
+        private void HandleDemonSlayer(sbyte[] data)
         {
             int stage = DataOperations.GetInt16(data, 1);
 
@@ -1088,7 +1088,7 @@ namespace OpenRS.Net.Client
             questManager.SetStage("12", stage);
         }
 
-        void HandleDoricQuest(sbyte[] data)
+        private void HandleDoricQuest(sbyte[] data)
         {
             int stage = DataOperations.GetInt16(data, 1);
 
@@ -1096,7 +1096,7 @@ namespace OpenRS.Net.Client
             questManager.SetStage("7", stage);
         }
 
-        void HandleDruidicRitual(sbyte[] data)
+        private void HandleDruidicRitual(sbyte[] data)
         {
             int stage = DataOperations.GetInt16(data, 1);
 
@@ -1104,7 +1104,7 @@ namespace OpenRS.Net.Client
             questManager.SetStage("17", stage);
         }
 
-        void HandleEquipmentStatus(sbyte[] data)
+        private void HandleEquipmentStatus(sbyte[] data)
         {
             int offset = 1;
 
@@ -1115,7 +1115,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleErnestTheChicken(sbyte[] data)
+        private void HandleErnestTheChicken(sbyte[] data)
         {
             int stage = DataOperations.GetInt16(data, 1);
 
@@ -1123,9 +1123,9 @@ namespace OpenRS.Net.Client
             questManager.SetStage("11", stage);
         }
 
-        void HandleFatigueChange(sbyte[] data) => client.PlayerFatigue = DataOperations.GetInt16(data, 1);
+        private void HandleFatigueChange(sbyte[] data) => client.PlayerFatigue = DataOperations.GetInt16(data, 1);
 
-        void HandleGroundItems(sbyte[] data, int length)
+        private void HandleGroundItems(sbyte[] data, int length)
         {
             /*
             if (client.NeedsClear)
@@ -1235,11 +1235,11 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleGuthixSpells(sbyte[] data) => client.GuthixSpells = DataOperations.GetInt16(data, 1);
+        private void HandleGuthixSpells(sbyte[] data) => client.GuthixSpells = DataOperations.GetInt16(data, 1);
 
-        void HandleHideQuestionMenu() => client.ShowQuestionMenu = false;
+        private void HandleHideQuestionMenu() => client.ShowQuestionMenu = false;
 
-        void HandleImpCatcher(sbyte[] data)
+        private void HandleImpCatcher(sbyte[] data)
         {
             int stage = DataOperations.GetInt16(data, 1);
 
@@ -1247,7 +1247,7 @@ namespace OpenRS.Net.Client
             questManager.SetStage("3", stage);
         }
 
-        void HandleInventoryItems(sbyte[] data)
+        private void HandleInventoryItems(sbyte[] data)
         {
             int offset = 1;
             int count = 1;
@@ -1272,13 +1272,13 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleKillingSpree(sbyte[] data) => client.KillingSpree = DataOperations.GetInt16(data, 1);
+        private void HandleKillingSpree(sbyte[] data) => client.KillingSpree = DataOperations.GetInt16(data, 1);
 
-        void HandleKills(sbyte[] data) => client.Kills = DataOperations.GetInt16(data, 1);
+        private void HandleKills(sbyte[] data) => client.Kills = DataOperations.GetInt16(data, 1);
 
-        void HandleMoneyTask(sbyte[] data, int length) => client.MoneyTask = Encoding.ASCII.GetString((byte[])(Array)data, 1, length);
+        private void HandleMoneyTask(sbyte[] data, int length) => client.MoneyTask = Encoding.ASCII.GetString((byte[])(Array)data, 1, length);
 
-        void HandlePirateTreasure(sbyte[] data)
+        private void HandlePirateTreasure(sbyte[] data)
         {
             int stage = DataOperations.GetInt16(data, 1);
 
@@ -1286,7 +1286,7 @@ namespace OpenRS.Net.Client
             questManager.SetStage("13", stage);
         }
 
-        void HandlePlayerStats(sbyte[] data)
+        private void HandlePlayerStats(sbyte[] data)
         {
             int offset = 1;
             int skillId = data[offset++] & 0xff;
@@ -1296,7 +1296,7 @@ namespace OpenRS.Net.Client
             client.Skills[skillId].Experience = DataOperations.GetInt32(data, offset);
         }
 
-        void HandlePrayers(sbyte[] data, int length)
+        private void HandlePrayers(sbyte[] data, int length)
         {
             for (int i = 0; i < length - 1; i++)
             {
@@ -1304,9 +1304,9 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleQuestPointsChange(sbyte[] data) => questManager.QuestPoints = DataOperations.GetInt16(data, 1);
+        private void HandleQuestPointsChange(sbyte[] data) => questManager.QuestPoints = DataOperations.GetInt16(data, 1);
 
-        void HandleQuestionMenu(sbyte[] data)
+        private void HandleQuestionMenu(sbyte[] data)
         {
             client.ShowQuestionMenu = true;
             client.QuestionMenuCount = DataOperations.GetInt8(data[1]);
@@ -1322,18 +1322,18 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleRemaining(sbyte[] data) => client.Remaining = DataOperations.GetInt16(data, 1);
+        private void HandleRemaining(sbyte[] data) => client.Remaining = DataOperations.GetInt16(data, 1);
 
-        void HandleRemoveItem(sbyte[] data)
+        private void HandleRemoveItem(sbyte[] data)
         {
             int itemSlot = data[1] & 0xff;
 
             inventoryManager.RemoveItem(itemSlot);
         }
 
-        void HandleResetPlayerAliveTimeout() => client.PlayerAliveTimeout = 250;
+        private void HandleResetPlayerAliveTimeout() => client.PlayerAliveTimeout = 250;
 
-        void HandleRomeoAndJuliet(sbyte[] data)
+        private void HandleRomeoAndJuliet(sbyte[] data)
         {
             int stage = DataOperations.GetInt16(data, 1);
 
@@ -1341,15 +1341,15 @@ namespace OpenRS.Net.Client
             questManager.SetStage("5", stage);
         }
 
-        void HandleSaradominSpells(sbyte[] data) => client.SaradominSpells = DataOperations.GetInt16(data, 1);
+        private void HandleSaradominSpells(sbyte[] data) => client.SaradominSpells = DataOperations.GetInt16(data, 1);
 
-        void HandleServerInfo(sbyte[] data, int length)
+        private void HandleServerInfo(sbyte[] data, int length)
         {
             client.ServerStartTime = DataOperations.GetInt16(data, 1);
             client.ServerLocation = Encoding.ASCII.GetString((byte[])(Array)data, 9, length - 9);
         }
 
-        void HandleSheepShearer(sbyte[] data)
+        private void HandleSheepShearer(sbyte[] data)
         {
             int stage = DataOperations.GetInt16(data, 1);
 
@@ -1357,23 +1357,23 @@ namespace OpenRS.Net.Client
             questManager.SetStage("1", stage);
         }
 
-        void HandleShowAppearanceWindow() => client.ShowAppearanceWindow = true;
+        private void HandleShowAppearanceWindow() => client.ShowAppearanceWindow = true;
 
-        void HandleShowBankBox() => client.ShowBankBox = true;
+        private void HandleShowBankBox() => client.ShowBankBox = true;
 
-        void HandleShowShopBox() => client.ShowShopBox = true;
+        private void HandleShowShopBox() => client.ShowShopBox = true;
 
-        void HandleTaskCash(sbyte[] data) => client.TaskCash = DataOperations.GetInt16(data, 1);
+        private void HandleTaskCash(sbyte[] data) => client.TaskCash = DataOperations.GetInt16(data, 1);
 
-        void HandleTaskExperience(sbyte[] data) => client.TaskExperience = DataOperations.GetInt16(data, 1);
+        private void HandleTaskExperience(sbyte[] data) => client.TaskExperience = DataOperations.GetInt16(data, 1);
 
-        void HandleTaskItem(sbyte[] data) => client.TaskItem = DataOperations.GetInt16(data, 1);
+        private void HandleTaskItem(sbyte[] data) => client.TaskItem = DataOperations.GetInt16(data, 1);
 
-        void HandleTaskPointsChange(sbyte[] data) => client.TaskPoints = DataOperations.GetInt16(data, 1);
+        private void HandleTaskPointsChange(sbyte[] data) => client.TaskPoints = DataOperations.GetInt16(data, 1);
 
-        void HandleTaskStatus(sbyte[] data) => client.TaskCash = DataOperations.GetInt16(data, 1);
+        private void HandleTaskStatus(sbyte[] data) => client.TaskCash = DataOperations.GetInt16(data, 1);
 
-        void HandleTheRestlessGhost(sbyte[] data)
+        private void HandleTheRestlessGhost(sbyte[] data)
         {
             int stage = DataOperations.GetInt16(data, 1);
 
@@ -1381,9 +1381,9 @@ namespace OpenRS.Net.Client
             questManager.SetStage("6", stage);
         }
 
-        void HandleTutorialChange(sbyte[] data) => client.Tutorial = DataOperations.GetInt16(data, 1);
+        private void HandleTutorialChange(sbyte[] data) => client.Tutorial = DataOperations.GetInt16(data, 1);
 
-        void HandleWallObjects(sbyte[] data, int length)
+        private void HandleWallObjects(sbyte[] data, int length)
         {
             for (int offset = 1; offset < length;)
             {
@@ -1482,7 +1482,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        void HandleWitchPotion(sbyte[] data)
+        private void HandleWitchPotion(sbyte[] data)
         {
             int stage = DataOperations.GetInt16(data, 1);
 
@@ -1490,6 +1490,6 @@ namespace OpenRS.Net.Client
             questManager.SetStage("9", stage);
         }
 
-        void HandleZamorakSpells(sbyte[] data) => client.ZamorakSpells = DataOperations.GetInt16(data, 1);
+        private void HandleZamorakSpells(sbyte[] data) => client.ZamorakSpells = DataOperations.GetInt16(data, 1);
     }
 }

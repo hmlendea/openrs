@@ -8,8 +8,8 @@ namespace OpenRS.Models
     {
         public WalkPath Path { get; private set; }
 
-        int currentWaypoint;
-        readonly MobInstance mob;
+        private int currentWaypoint;
+        private readonly MobInstance mob;
         // world
 
         public PathHandler(MobInstance mob)
@@ -197,7 +197,7 @@ namespace OpenRS.Models
             }
         }
 
-        Point2D CancelLocation()
+        private Point2D CancelLocation()
         {
             ResetPath();
 
@@ -206,7 +206,7 @@ namespace OpenRS.Models
             return location;
         }
 
-        bool IsBlocking(Point2D location, int bit)
+        private bool IsBlocking(Point2D location, int bit)
         {
             TileValue tileValue;
             throw new NotImplementedException();
@@ -215,7 +215,7 @@ namespace OpenRS.Models
                    IsBlocking(tileValue.ObjectValue, (byte)bit);
         }
 
-        bool IsBlocking(byte val, byte bit)
+        private bool IsBlocking(byte val, byte bit)
         {
             if ((val & bit) != 0)
             {

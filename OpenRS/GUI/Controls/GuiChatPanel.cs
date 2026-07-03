@@ -11,11 +11,11 @@ namespace OpenRS.Gui.Controls
 {
     public sealed class GuiChatPanel : GuiControl
     {
-        const int MessageHeight = 24;
+        private const int MessageHeight = 24;
 
-        GuiImage background;
+        private GuiImage background;
 
-        List<GuiText> messageRows;
+        private List<GuiText> messageRows;
 
         public GuiChatPanel()
         {
@@ -73,7 +73,7 @@ namespace OpenRS.Gui.Controls
             messageRows[messageRows.Count - 1].Text = message;
         }
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             background.Size = Size;
             background.Location = new Point2D(0, 0);

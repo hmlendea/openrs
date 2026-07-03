@@ -9,7 +9,7 @@ namespace OpenRS.GameLogic.Mapping
     /// <summary>
     /// Tile mapping extensions for converting between entities and domain models.
     /// </summary>
-    static class TileMappingExtensions
+    internal static class TileMappingExtensions
     {
         /// <summary>
         /// Converts the entity into a domain model.

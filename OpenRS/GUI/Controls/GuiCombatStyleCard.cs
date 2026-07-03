@@ -9,9 +9,9 @@ namespace OpenRS.Gui.Controls
 {
     public class GuiCombatStyleCard : GuiControl
     {
-        GuiImage background;
-        GuiImage icon;
-        GuiText nameText;
+        private GuiImage background;
+        private GuiImage icon;
+        private GuiText nameText;
 
         public bool IsToggled { get; set; }
 
@@ -60,7 +60,7 @@ namespace OpenRS.Gui.Controls
 
         }
 
-        void SetChildrenProperties()
+        private void SetChildrenProperties()
         {
             background.Size = Size;
             background.Location = new Point2D(0, 0);
