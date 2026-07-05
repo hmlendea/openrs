@@ -83,6 +83,8 @@ namespace OpenRS.Net.Client
         public Point2D[] WalkArrayLocations { get; set; }
         public Point2D[] WallObjectLocations { get; set; }
         public Size2D WindowSize { get; set; }
+
+        private int GameMouseY => InputManager.Instance.MouseLocation.Y;
         public Skill[] Skills { get; set; }
         public CombatStyle CombatStyle { get; set; }
         public int CompletedTasks { get; set; }
@@ -198,7 +200,7 @@ namespace OpenRS.Net.Client
             menuActions = new MenuAction[250];
             Npcs = new ClientMob[500];
             Mobs = new ClientMob[4000];
-            serverMessage = "";
+            serverMessage = string.Empty;
             serverMessageBoxTop = false;
             cameraRotationYIncrement = 2;
             WallObjects = new ObjectModel[500];
@@ -238,7 +240,7 @@ namespace OpenRS.Net.Client
             GameDataObjects = new ObjectModel[1000];
             LastNpcs = new ClientMob[500];
             selectedItem = -1;
-            selectedItemName = "";
+            selectedItemName = string.Empty;
             LastPlayers = new ClientMob[500];
             mouseTrailX = new int[8192];
             mouseTrailY = new int[8192];
@@ -282,6 +284,34 @@ namespace OpenRS.Net.Client
             NeedsClear = false;
             HasWorldInfo = false;
 
+            // Trading arrays
+            tradeItemsOur = new int[30];
+            tradeItemOurCount = new int[30];
+            tradeItemsOther = new int[30];
+            tradeItemOtherCount = new int[30];
+            tradeConfirmOtherItems = new int[30];
+            tradeConfirmOtherItemsCount = new int[30];
+            tradeConfigItemsCount = new int[30];
+            tradeConfirmItems = new int[30];
+
+            // Dueling arrays
+            duelOpponentItems = new int[8];
+            duelOpponentItemsCount = new int[8];
+            duelMyItems = new int[8];
+            duelMyItemsCount = new int[8];
+            duelOpponentStakeItem = new int[8];
+            duelOutStakeItemCount = new int[8];
+            duelOurStakeItem = new int[8];
+            duelOurStakeItemCount = new int[8];
+
+            // Bank raw arrays
+            serverBankItems = new int[256];
+            serverBankItemCount = new int[256];
+
+            tradeOtherName = string.Empty;
+            duelOpponent = string.Empty;
+            lastLoginAddress = string.Empty;
+
             LoadContent(); // TODO: Call this from outside
         }
 
@@ -295,14 +325,14 @@ namespace OpenRS.Net.Client
         {
             try
             {
-                if (gameGraphics != null)
+                if (gameGraphics is not null)
                 {
                     gameGraphics.UnloadContent();
                     gameGraphics.pixels = null;
                     gameGraphics = null;
                 }
 
-                if (gameCamera != null)
+                if (gameCamera is not null)
                 {
                     gameCamera.cleanUp();
                     gameCamera = null;
@@ -317,7 +347,7 @@ namespace OpenRS.Net.Client
                 Npcs = null;
                 CurrentPlayer = null;
 
-                if (engineHandle != null)
+                if (engineHandle is not null)
                 {
                     engineHandle.TileChunks = null;
                     engineHandle.wallObject = null;
@@ -761,7 +791,7 @@ namespace OpenRS.Net.Client
                 return;
             }
 
-            int direction = player.currentSprite + (cameraRotation + 16) / 32 & 7;
+            int direction = player.CurrentSprite + (cameraRotation + 16) / 32 & 7;
             bool flag = false;
             int direction2 = direction;
 
@@ -781,9 +811,9 @@ namespace OpenRS.Net.Client
                 flag = true;
             }
 
-            int j1 = direction2 * 3 + walkModel[player.stepCount / 6 % 4];
+            int j1 = direction2 * 3 + walkModel[player.StepCount / 6 % 4];
 
-            if (player.currentSprite == 8)
+            if (player.CurrentSprite == 8)
             {
                 direction2 = 5;
                 direction = 2;
@@ -791,7 +821,7 @@ namespace OpenRS.Net.Client
                 x -= 5 * arg6 / 100;
                 j1 = direction2 * 3 + combatModelArray1[tick / 5 % 8];
             }
-            else if (player.currentSprite == 9)
+            else if (player.CurrentSprite == 9)
             {
                 direction2 = 5;
                 direction = 2;
@@ -824,37 +854,37 @@ namespace OpenRS.Net.Client
                         {
                             k3 = -22;
                             i4 = -3;
-                            j4 = direction2 * 3 + walkModel[(2 + player.stepCount / 6) % 4];
+                            j4 = direction2 * 3 + walkModel[(2 + player.StepCount / 6) % 4];
                         }
                         else if (l1 == 4 && direction2 == 2)
                         {
                             k3 = 0;
                             i4 = -8;
-                            j4 = direction2 * 3 + walkModel[(2 + player.stepCount / 6) % 4];
+                            j4 = direction2 * 3 + walkModel[(2 + player.StepCount / 6) % 4];
                         }
                         else if (l1 == 4 && direction2 == 3)
                         {
                             k3 = 26;
                             i4 = -5;
-                            j4 = direction2 * 3 + walkModel[(2 + player.stepCount / 6) % 4];
+                            j4 = direction2 * 3 + walkModel[(2 + player.StepCount / 6) % 4];
                         }
                         else if (l1 == 3 && direction2 == 1)
                         {
                             k3 = 22;
                             i4 = 3;
-                            j4 = direction2 * 3 + walkModel[(2 + player.stepCount / 6) % 4];
+                            j4 = direction2 * 3 + walkModel[(2 + player.StepCount / 6) % 4];
                         }
                         else if (l1 == 3 && direction2 == 2)
                         {
                             k3 = 0;
                             i4 = 8;
-                            j4 = direction2 * 3 + walkModel[(2 + player.stepCount / 6) % 4];
+                            j4 = direction2 * 3 + walkModel[(2 + player.StepCount / 6) % 4];
                         }
                         else if (l1 == 3 && direction2 == 3)
                         {
                             k3 = -26;
                             i4 = 5;
-                            j4 = direction2 * 3 + walkModel[(2 + player.stepCount / 6) % 4];
+                            j4 = direction2 * 3 + walkModel[(2 + player.StepCount / 6) % 4];
                         }
                     }
 
@@ -888,18 +918,18 @@ namespace OpenRS.Net.Client
                 }
             }
 
-            if (player.lastMessageTimeout > 0)
+            if (player.LastMessageTimeout > 0)
             {
-                receivedMessageMidPoint[receivedMessagesCount] = gameGraphics.textWidth(player.lastMessage, 1) / 2;
+                receivedMessageMidPoint[receivedMessagesCount] = gameGraphics.textWidth(player.LastMessage, 1) / 2;
                 if (receivedMessageMidPoint[receivedMessagesCount] > 150)
                 {
                     receivedMessageMidPoint[receivedMessagesCount] = 150;
                 }
 
-                receivedMessageHeight[receivedMessagesCount] = gameGraphics.textWidth(player.lastMessage, 1) / 300 * gameGraphics.textHeightNumber(1);
+                receivedMessageHeight[receivedMessagesCount] = gameGraphics.textWidth(player.LastMessage, 1) / 300 * gameGraphics.textHeightNumber(1);
                 receivedMessageX[receivedMessagesCount] = x + width / 2;
                 receivedMessageY[receivedMessagesCount] = y;
-                receivedMessages[receivedMessagesCount++] = player.lastMessage;
+                receivedMessages[receivedMessagesCount++] = player.LastMessage;
             }
 
             if (player.PlayerSkullTimeout > 0)
@@ -910,17 +940,17 @@ namespace OpenRS.Net.Client
                 itemAboveHeadID[itemsAboveHeadCount++] = player.ItemAboveHeadId;
             }
 
-            if (player.currentSprite == 8 || player.currentSprite == 9 || player.combatTimer != 0)
+            if (player.CurrentSprite == 8 || player.CurrentSprite == 9 || player.CombatTimer != 0)
             {
-                if (player.combatTimer > 0)
+                if (player.CombatTimer > 0)
                 {
                     int i2 = x;
-                    if (player.currentSprite == 8)
+                    if (player.CurrentSprite == 8)
                     {
                         i2 -= 20 * arg6 / 100;
                     }
                     else
-                        if (player.currentSprite == 9)
+                        if (player.CurrentSprite == 9)
                     {
                         i2 += 20 * arg6 / 100;
                     }
@@ -930,15 +960,15 @@ namespace OpenRS.Net.Client
                     healthBarY[healthBarVisibleCount] = y;
                     healthBarMissing[healthBarVisibleCount++] = i3;
                 }
-                if (player.combatTimer > 150)
+                if (player.CombatTimer > 150)
                 {
                     int j2 = x;
-                    if (player.currentSprite == 8)
+                    if (player.CurrentSprite == 8)
                     {
                         j2 -= 10 * arg6 / 100;
                     }
                     else
-                        if (player.currentSprite == 9)
+                        if (player.CurrentSprite == 9)
                     {
                         j2 += 10 * arg6 / 100;
                     }
@@ -951,12 +981,12 @@ namespace OpenRS.Net.Client
             if (player.PlayerSkulled == 1 && player.PlayerSkullTimeout == 0)
             {
                 int k2 = arg5 + x + width / 2;
-                if (player.currentSprite == 8)
+                if (player.CurrentSprite == 8)
                 {
                     k2 -= 20 * arg6 / 100;
                 }
                 else
-                    if (player.currentSprite == 9)
+                    if (player.CurrentSprite == 9)
                 {
                     k2 += 20 * arg6 / 100;
                 }
@@ -1051,7 +1081,7 @@ namespace OpenRS.Net.Client
             }
 
             l = InputManager.Instance.MouseLocation.X - (gameGraphics.GameSize.Width - 248);
-            int j2 = InputManager.Instance.MouseLocation.Y - 36;
+            int j2 = GameMouseY - 36;
 
             if (l >= 0 && j2 >= 0 && l < 248 && j2 < InventoryManager.MaximumInventorySize / 5 * 34)
             {
@@ -1164,8 +1194,8 @@ namespace OpenRS.Net.Client
 
                     for (int i11 = 0; i11 < k3; i11++)
                     {
-                        int k17 = SectionLocation.X + DataOperations.getShort2(data, 1 + i11 * 4) >> 3;
-                        int i22 = SectionLocation.Y + DataOperations.getShort2(data, 3 + i11 * 4) >> 3;
+                        int k17 = SectionLocation.X + DataOperations.GetShort2(data, 1 + i11 * 4) >> 3;
+                        int i22 = SectionLocation.Y + DataOperations.GetShort2(data, 3 + i11 * 4) >> 3;
                         int j25 = 0;
 
                         for (int groundItemIndex = 0; groundItemIndex < GroundItemCount; groundItemIndex++)
@@ -1414,6 +1444,236 @@ namespace OpenRS.Net.Client
                     return;
                 }
 
+                if (command == ServerCommand.OpenTradeWindow)
+                {
+                    int tradeOther = DataOperations.GetShort2(data, 1);
+                    if (Mobs[tradeOther] != null)
+                    {
+                        tradeOtherName = Mobs[tradeOther].Username;
+                    }
+                    showTradeBox = true;
+                    tradeOtherAccepted = false;
+                    tradeWeAccepted = false;
+                    tradeItemsOurCount = 0;
+                    tradeItemsOtherCount = 0;
+                    return;
+                }
+
+                if (command == ServerCommand.CloseTradeWindow)
+                {
+                    showTradeBox = false;
+                    showTradeConfirmBox = false;
+                    return;
+                }
+
+                if (command == ServerCommand.TradeItems)
+                {
+                    tradeItemsOtherCount = data[1] & 0xff;
+                    int tradeOff = 2;
+                    for (int ti = 0; ti < tradeItemsOtherCount; ti++)
+                    {
+                        tradeItemsOther[ti] = DataOperations.GetShort2(data, tradeOff);
+                        tradeOff += 2;
+                        tradeItemOtherCount[ti] = DataOperations.GetInt32(data, tradeOff);
+                        tradeOff += 4;
+                    }
+                    tradeOtherAccepted = false;
+                    tradeWeAccepted = false;
+                    return;
+                }
+
+                if (command == ServerCommand.TradeAcceptedByOther)
+                {
+                    tradeOtherAccepted = data[1] == 1;
+                    return;
+                }
+
+                if (command == ServerCommand.TradeAcceptedBySelf)
+                {
+                    tradeWeAccepted = data[1] == 1;
+                    return;
+                }
+
+                if (command == ServerCommand.Command251)
+                {
+                    showTradeConfirmBox = true;
+                    tradeConfirmAccepted = false;
+                    showTradeBox = false;
+                    int confirmOff = 1;
+                    tradeConfirmOtherNameLong = DataOperations.GetLong(data, confirmOff);
+                    confirmOff += 8;
+                    tradeConfirmOtherItemCount = data[confirmOff++] & 0xff;
+                    for (int ci = 0; ci < tradeConfirmOtherItemCount; ci++)
+                    {
+                        tradeConfirmOtherItems[ci] = DataOperations.GetShort2(data, confirmOff);
+                        confirmOff += 2;
+                        tradeConfirmOtherItemsCount[ci] = DataOperations.GetInt32(data, confirmOff);
+                        confirmOff += 4;
+                    }
+                    tradeConfigItemCount = data[confirmOff++] & 0xff;
+                    for (int ci = 0; ci < tradeConfigItemCount; ci++)
+                    {
+                        tradeConfirmItems[ci] = DataOperations.GetShort2(data, confirmOff);
+                        confirmOff += 2;
+                        tradeConfigItemsCount[ci] = DataOperations.GetInt32(data, confirmOff);
+                        confirmOff += 4;
+                    }
+                    return;
+                }
+
+                if (command == ServerCommand.OpenDuelWindow)
+                {
+                    int duelOther = DataOperations.GetShort2(data, 1);
+                    if (Mobs[duelOther] != null)
+                    {
+                        duelOpponent = Mobs[duelOther].Username;
+                    }
+                    showDuelBox = true;
+                    duelMyItemCount = 0;
+                    duelOpponentItemCount = 0;
+                    duelOpponentAccepted = false;
+                    duelMyAccepted = false;
+                    duelNoRetreating = false;
+                    duelNoMagic = false;
+                    duelNoPrayer = false;
+                    duelNoWeapons = false;
+                    return;
+                }
+
+                if (command == ServerCommand.CloseDuelWindow)
+                {
+                    showDuelBox = false;
+                    showDuelConfirmBox = false;
+                    return;
+                }
+
+                if (command == ServerCommand.DuelItems)
+                {
+                    duelOpponentItemCount = data[1] & 0xff;
+                    int duelOff = 2;
+                    for (int di = 0; di < duelOpponentItemCount; di++)
+                    {
+                        duelOpponentItems[di] = DataOperations.GetShort2(data, duelOff);
+                        duelOff += 2;
+                        duelOpponentItemsCount[di] = DataOperations.GetInt32(data, duelOff);
+                        duelOff += 4;
+                    }
+                    duelOpponentAccepted = false;
+                    duelMyAccepted = false;
+                    return;
+                }
+
+                if (command == ServerCommand.DuelAcceptedByOther)
+                {
+                    duelOpponentAccepted = data[1] == 1;
+                    return;
+                }
+
+                if (command == ServerCommand.DuelAcceptedBySelf)
+                {
+                    duelMyAccepted = data[1] == 1;
+                    return;
+                }
+
+                if (command == ServerCommand.DuelSettings)
+                {
+                    duelNoRetreating = data[1] == 1;
+                    duelNoMagic = data[2] == 1;
+                    duelNoPrayer = data[3] == 1;
+                    duelNoWeapons = data[4] == 1;
+                    duelOpponentAccepted = false;
+                    duelMyAccepted = false;
+                    return;
+                }
+
+                if (command == ServerCommand.Command147)
+                {
+                    showDuelConfirmBox = true;
+                    duelConfirmOurAccepted = false;
+                    showDuelBox = false;
+                    int duelConfirmOff = 1;
+                    duelOpponentHash = DataOperations.GetLong(data, duelConfirmOff);
+                    duelConfirmOff += 8;
+                    duelOpponentStakeCount = data[duelConfirmOff++] & 0xff;
+                    for (int di = 0; di < duelOpponentStakeCount; di++)
+                    {
+                        duelOpponentStakeItem[di] = DataOperations.GetShort2(data, duelConfirmOff);
+                        duelConfirmOff += 2;
+                        duelOutStakeItemCount[di] = DataOperations.GetInt32(data, duelConfirmOff);
+                        duelConfirmOff += 4;
+                    }
+                    duelOurStakeCount = data[duelConfirmOff++] & 0xff;
+                    for (int di = 0; di < duelOurStakeCount; di++)
+                    {
+                        duelOurStakeItem[di] = DataOperations.GetShort2(data, duelConfirmOff);
+                        duelConfirmOff += 2;
+                        duelOurStakeItemCount[di] = DataOperations.GetInt32(data, duelConfirmOff);
+                        duelConfirmOff += 4;
+                    }
+                    duelRetreat = data[duelConfirmOff++] & 0xff;
+                    duelMagic = data[duelConfirmOff++] & 0xff;
+                    duelPrayer = data[duelConfirmOff++] & 0xff;
+                    duelWeapons = data[duelConfirmOff++] & 0xff;
+                    return;
+                }
+
+                if (command == ServerCommand.PlaySound)
+                {
+                    string soundName = System.Text.Encoding.ASCII.GetString((byte[])(Array)data, 1, length - 1).TrimEnd('\0');
+                    playSound(soundName);
+                    return;
+                }
+
+                if (command == ServerCommand.AlertSmall)
+                {
+                    serverMessage = System.Text.Encoding.ASCII.GetString((byte[])(Array)data, 1, length - 1).TrimEnd('\0');
+                    showServerMessageBox = true;
+                    serverMessageBoxTop = false;
+                    return;
+                }
+
+                if (command == ServerCommand.AlertBig)
+                {
+                    serverMessage = System.Text.Encoding.ASCII.GetString((byte[])(Array)data, 1, length - 1).TrimEnd('\0');
+                    showServerMessageBox = true;
+                    serverMessageBoxTop = true;
+                    return;
+                }
+
+                if (command == ServerCommand.SystemUpdateTimer)
+                {
+                    systemUpdate = DataOperations.GetShort2(data, 1) * 32;
+                    return;
+                }
+
+                if (command == ServerCommand.TakeScreenshot)
+                {
+                    if (autoScreenshot)
+                    {
+                        takeScreenshot(false);
+                    }
+                    return;
+                }
+
+                if (command == ServerCommand.LogoutCannot)
+                {
+                    logoutTimer = 0;
+                    return;
+                }
+
+                if (command == ServerCommand.LoginScreen)
+                {
+                    if (!loginScreenShown)
+                    {
+                        lastLoginDays = DataOperations.GetShort2(data, 1);
+                        subDaysLeft = DataOperations.GetShort2(data, 3);
+                        lastLoginAddress = System.Text.Encoding.ASCII.GetString((byte[])(Array)data, 5, length - 5).TrimEnd('\0');
+                        showWelcomeBox = true;
+                        loginScreenShown = true;
+                    }
+                    return;
+                }
+
                 Console.WriteLine("UNHANDLED PACKET:" + command + " LEN:" + length + " @#!#@#!#@#!#@#!#@#!#@");
             }
             catch (Exception e)
@@ -1500,7 +1760,7 @@ namespace OpenRS.Net.Client
             }
 
             l = InputManager.Instance.MouseLocation.X - (gameGraphics.GameSize.Width - 199);
-            int l8 = InputManager.Instance.MouseLocation.Y - 36;
+            int l8 = GameMouseY - 36;
             if (l >= 40 && l8 >= 0 && l < 196 && l8 < 152)
             {
                 int c2 = 156;//'\u234';
@@ -1510,7 +1770,7 @@ namespace OpenRS.Net.Client
                 int i1 = gameGraphics.GameSize.Width - 199;
                 i1 += 40;
                 int k3 = (InputManager.Instance.MouseLocation.X - (i1 + c2 / 2)) * 16384 / (3 * k1);
-                int i5 = (InputManager.Instance.MouseLocation.Y - (36 + c4 / 2)) * 16384 / (3 * k1);
+                int i5 = (GameMouseY - (36 + c4 / 2)) * 16384 / (3 * k1);
                 int k5 = Camera.bbk[1024 - i2 * 4 & 0x3ff];
                 int i6 = Camera.bbk[(1024 - i2 * 4 & 0x3ff) + 1024];
                 int k7 = i5 * k5 + k3 * i6 >> 15;
@@ -1865,7 +2125,7 @@ namespace OpenRS.Net.Client
                     abyte7 = DataOperations.loadData(s1 + ".dat", 0, abyte2);
                     abyte4 = abyte3;
                 }
-                if (abyte7 != null)
+                if (abyte7 is not null)
                 {
                     try
                     {
@@ -1930,7 +2190,7 @@ namespace OpenRS.Net.Client
 
         public void updateAppearanceWindow()
         {
-            appearanceMenu.mouseClick(InputManager.Instance.MouseLocation.X, InputManager.Instance.MouseLocation.Y, lastMouseButton, mouseButton);
+            appearanceMenu.mouseClick(InputManager.Instance.MouseLocation.X, GameMouseY, lastMouseButton, mouseButton);
             if (appearanceMenu.isClicked(appearanceHeadLeftArrow))
             {
                 do
@@ -2069,7 +2329,7 @@ namespace OpenRS.Net.Client
 
             actionPictureType = -24;
             walkMouseX = InputManager.Instance.MouseLocation.X;
-            walkMouseY = InputManager.Instance.MouseLocation.Y;
+            walkMouseY = GameMouseY;
 
             return true;
         }
@@ -2113,7 +2373,7 @@ namespace OpenRS.Net.Client
             StreamClass.FormatPacket();
             actionPictureType = -24;
             walkMouseX = InputManager.Instance.MouseLocation.X;
-            walkMouseY = InputManager.Instance.MouseLocation.Y;
+            walkMouseY = GameMouseY;
 
             return true;
         }
@@ -2164,13 +2424,11 @@ namespace OpenRS.Net.Client
 
                 if (arg2 == 4)
                 {
-                    l++;
                 }
 
                 if (arg2 == 6)
                 {
                     location = new Point2D(location.X, location.Y - 1);
-                    i1++;
                 }
 
                 WalkTo(SectionLocation, location, loc, false, true);
@@ -2303,7 +2561,7 @@ namespace OpenRS.Net.Client
             {
                 for (int l = 0; l < QuestionMenuCount; l++)
                 {
-                    if (InputManager.Instance.MouseLocation.X >= gameGraphics.textWidth(questionMenuAnswer[l], 1) || InputManager.Instance.MouseLocation.Y <= l * 12 || InputManager.Instance.MouseLocation.Y >= 12 + l * 12)
+                    if (InputManager.Instance.MouseLocation.X >= gameGraphics.textWidth(questionMenuAnswer[l], 1) || GameMouseY <= l * 12 || GameMouseY >= 12 + l * 12)
                     {
                         continue;
                     }
@@ -2322,7 +2580,7 @@ namespace OpenRS.Net.Client
             for (int i1 = 0; i1 < QuestionMenuCount; i1++)
             {
                 int j1 = 65535;
-                if (InputManager.Instance.MouseLocation.X < gameGraphics.textWidth(questionMenuAnswer[i1], 1) && InputManager.Instance.MouseLocation.Y > i1 * 12 && InputManager.Instance.MouseLocation.Y < 12 + i1 * 12)
+                if (InputManager.Instance.MouseLocation.X < gameGraphics.textWidth(questionMenuAnswer[i1], 1) && GameMouseY > i1 * 12 && GameMouseY < 12 + i1 * 12)
                 {
                     j1 = 0xff0000;
                 }
@@ -2366,12 +2624,12 @@ namespace OpenRS.Net.Client
             ClientMob existingPlayer = Mobs[serverIndex];
 
             bool flag = LastPlayers
-                .Where(player => player != null) // TODO: Remove this check once it is safe
+                .Where(player => player is not null) // TODO: Remove this check once it is safe
                 .Any(player => player.ServerIndex == serverIndex);
 
             if (flag)
             {
-                existingPlayer.nextSprite = sprite;
+                existingPlayer.NextSprite = sprite;
 
                 int waypointIndex = existingPlayer.WaypointCurrent;
 
@@ -2390,8 +2648,8 @@ namespace OpenRS.Net.Client
                 existingPlayer.Location = new Point2D(x, y);
                 existingPlayer.Waypoints[0].X = x;
                 existingPlayer.Waypoints[0].Y = y;
-                existingPlayer.nextSprite = existingPlayer.currentSprite = sprite;
-                existingPlayer.stepCount = 0;
+                existingPlayer.NextSprite = existingPlayer.CurrentSprite = sprite;
+                existingPlayer.StepCount = 0;
             }
 
             Players[PlayerCount++] = existingPlayer;
@@ -2543,8 +2801,7 @@ namespace OpenRS.Net.Client
                 spellMenu.clearList(spellMenuHandle);
                 int i2 = 0;
 
-                int prayerIndex = 0;
-
+                int prayerIndex;
                 for (prayerIndex = 0; prayerIndex < entityManager.PrayerCount; prayerIndex++)
                 {
                     string s2 = "@whi@";
@@ -2586,7 +2843,7 @@ namespace OpenRS.Net.Client
             }
 
             l = InputManager.Instance.MouseLocation.X - (gameGraphics.GameSize.Width - 199);
-            i1 = InputManager.Instance.MouseLocation.Y - 36;
+            i1 = GameMouseY - 36;
 
             if (l >= 0 && i1 >= 0 && l < 196 && i1 < 182)
             {
@@ -2685,7 +2942,7 @@ namespace OpenRS.Net.Client
         {
             sbyte[] abyte0 = Link.GetFile(arg0);
 
-            if (abyte0 != null)
+            if (abyte0 is not null)
             {
                 int l = ((abyte0[0] & 0xff) << 16) + ((abyte0[1] & 0xff) << 8) + (abyte0[2] & 0xff);
                 int i1 = ((abyte0[3] & 0xff) << 16) + ((abyte0[4] & 0xff) << 8) + (abyte0[5] & 0xff);
@@ -2786,13 +3043,13 @@ namespace OpenRS.Net.Client
                         if (player.Location.X < player.Waypoints[targetSprite].X)
                         {
                             player.Location = new Point2D(player.Location.X + i6, player.Location.Y);
-                            player.stepCount++;
+                            player.StepCount++;
                             direction = 2;
                         }
                         else if (player.Location.X > player.Waypoints[targetSprite].X)
                         {
                             player.Location = new Point2D(player.Location.X - i6, player.Location.Y);
-                            player.stepCount++;
+                            player.StepCount++;
                             direction = 6;
                         }
 
@@ -2805,7 +3062,7 @@ namespace OpenRS.Net.Client
                         if (player.Location.Y < player.Waypoints[targetSprite].Y)
                         {
                             player.Location = new Point2D(player.Location.X, player.Location.Y + i6);
-                            player.stepCount++;
+                            player.StepCount++;
 
                             if (direction == -1)
                             {
@@ -2823,7 +3080,7 @@ namespace OpenRS.Net.Client
                         else if (player.Location.Y > player.Waypoints[targetSprite].Y)
                         {
                             player.Location = new Point2D(player.Location.X, player.Location.Y - i6);
-                            player.stepCount++;
+                            player.StepCount++;
 
                             if (direction == -1)
                             {
@@ -2847,7 +3104,7 @@ namespace OpenRS.Net.Client
 
                     if (direction != -1)
                     {
-                        player.currentSprite = direction;
+                        player.CurrentSprite = direction;
                     }
 
                     if (player.Location.X == player.Waypoints[targetSprite].X &&
@@ -2858,12 +3115,12 @@ namespace OpenRS.Net.Client
                 }
                 else
                 {
-                    player.currentSprite = player.nextSprite;
+                    player.CurrentSprite = player.NextSprite;
                 }
 
-                if (player.lastMessageTimeout > 0)
+                if (player.LastMessageTimeout > 0)
                 {
-                    player.lastMessageTimeout--;
+                    player.LastMessageTimeout--;
                 }
 
                 if (player.PlayerSkullTimeout > 0)
@@ -2871,9 +3128,9 @@ namespace OpenRS.Net.Client
                     player.PlayerSkullTimeout--;
                 }
 
-                if (player.combatTimer > 0)
+                if (player.CombatTimer > 0)
                 {
-                    player.combatTimer--;
+                    player.CombatTimer--;
                 }
 
                 if (PlayerAliveTimeout > 0)
@@ -2933,13 +3190,13 @@ namespace OpenRS.Net.Client
                         if (npc.Location.X < npc.Waypoints[waypointIndex].X)
                         {
                             npc.Location = new Point2D(npc.Location.X + k6, npc.Location.Y);
-                            npc.stepCount++;
+                            npc.StepCount++;
                             l3 = 2;
                         }
                         else if (npc.Location.X > npc.Waypoints[waypointIndex].X)
                         {
                             npc.Location = new Point2D(npc.Location.X - k6, npc.Location.Y);
-                            npc.stepCount++;
+                            npc.StepCount++;
                             l3 = 6;
                         }
 
@@ -2952,7 +3209,7 @@ namespace OpenRS.Net.Client
                         if (npc.Location.Y < npc.Waypoints[waypointIndex].Y)
                         {
                             npc.Location = new Point2D(npc.Location.X, npc.Location.Y + k6);
-                            npc.stepCount++;
+                            npc.StepCount++;
 
                             if (l3 == -1)
                             {
@@ -2970,7 +3227,7 @@ namespace OpenRS.Net.Client
                         else if (npc.Location.Y > npc.Waypoints[waypointIndex].Y)
                         {
                             npc.Location = new Point2D(npc.Location.X, npc.Location.Y - k6);
-                            npc.stepCount++;
+                            npc.StepCount++;
 
                             if (l3 == -1)
                             {
@@ -2994,7 +3251,7 @@ namespace OpenRS.Net.Client
                     }
                     if (l3 != -1)
                     {
-                        npc.currentSprite = l3;
+                        npc.CurrentSprite = l3;
                     }
 
                     if (npc.Location.X == npc.Waypoints[waypointIndex].X &&
@@ -3005,15 +3262,15 @@ namespace OpenRS.Net.Client
                 }
                 else
                 {
-                    npc.currentSprite = npc.nextSprite;
-                    if (npc.npcId == 43)
+                    npc.CurrentSprite = npc.NextSprite;
+                    if (npc.NpcIdentifier == 43)
                     {
-                        npc.stepCount++;
+                        npc.StepCount++;
                     }
                 }
-                if (npc.lastMessageTimeout > 0)
+                if (npc.LastMessageTimeout > 0)
                 {
-                    npc.lastMessageTimeout--;
+                    npc.LastMessageTimeout--;
                 }
 
                 if (npc.PlayerSkullTimeout > 0)
@@ -3021,9 +3278,9 @@ namespace OpenRS.Net.Client
                     npc.PlayerSkullTimeout--;
                 }
 
-                if (npc.combatTimer > 0)
+                if (npc.CombatTimer > 0)
                 {
-                    npc.combatTimer--;
+                    npc.CombatTimer--;
                 }
             }
 
@@ -3130,7 +3387,7 @@ namespace OpenRS.Net.Client
 
             if (IsSleeping)
             {
-                if (lastMouseButton == 1 && InputManager.Instance.MouseLocation.Y > 275 && InputManager.Instance.MouseLocation.Y < 310 && InputManager.Instance.MouseLocation.X > 56 && InputManager.Instance.MouseLocation.X < 456)
+                if (lastMouseButton == 1 && GameMouseY > 275 && GameMouseY < 310 && InputManager.Instance.MouseLocation.X > 56 && InputManager.Instance.MouseLocation.X < 456)
                 {
                     StreamClass.CreatePacket(200);
                     StreamClass.AddString("-null-");
@@ -3165,7 +3422,7 @@ namespace OpenRS.Net.Client
                 mouseButtonClick = 2;
             }
 
-            gameCamera.setMousePosition(InputManager.Instance.MouseLocation.X, InputManager.Instance.MouseLocation.Y);
+            gameCamera.setMousePosition(InputManager.Instance.MouseLocation.X, GameMouseY);
             lastMouseButton = 0;
 
             if (SettingsManager.Instance.CameraAutoAngle)
@@ -3373,7 +3630,7 @@ namespace OpenRS.Net.Client
 
             if (loggedIn)
             {
-                if (ShowAppearanceWindow && appearanceMenu != null)
+                if (ShowAppearanceWindow && appearanceMenu is not null)
                 {
                     appearanceMenu.keyPress(key, c);
                 }
@@ -3385,7 +3642,6 @@ namespace OpenRS.Net.Client
             int l = 2203 - (SectionLocation.Y + WildLocation.Y + AreaLocation.Y);
             if (SectionLocation.X + WildLocation.X + AreaLocation.X >= 2640)
             {
-                l = -50;
             }
 
             int ground = -1;
@@ -3462,9 +3718,9 @@ namespace OpenRS.Net.Client
                         }
                         else if (type == 3)
                         {
-                            string s2 = "";
+                            string s2 = string.Empty;
                             int l4 = -1;
-                            int id = Npcs[index].npcId;
+                            int id = Npcs[index].NpcIdentifier;
                             if (entityManager.GetNpc(id).IsAttackable > 0)
                             {
                                 int j5 = (entityManager.GetNpc(id).AttackLevel + entityManager.GetNpc(id).DefenceLevel + entityManager.GetNpc(id).StrengthLevel + entityManager.GetNpc(id).HealthLevel) / 4;
@@ -3519,7 +3775,7 @@ namespace OpenRS.Net.Client
                                 if (entityManager.GetSpell(selectedSpell).Type == 2)
                                 {
                                     menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on";
-                                    menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
+                                    menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].NpcIdentifier).Name;
                                     menuActions[menuOptionsCount] = MenuAction.CastSpellOnNpc;
                                     MenuActionLocations[menuOptionsCount] = Npcs[index].Location;
                                     menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
@@ -3530,7 +3786,7 @@ namespace OpenRS.Net.Client
                             else if (selectedItem >= 0)
                             {
                                 menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                                menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
+                                menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].NpcIdentifier).Name;
                                 menuActions[menuOptionsCount] = MenuAction.UseItemWithNpc;
                                 MenuActionLocations[menuOptionsCount] = Npcs[index].Location;
                                 menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
@@ -3542,7 +3798,7 @@ namespace OpenRS.Net.Client
                                 if (entityManager.GetNpc(id).IsAttackable > 0)
                                 {
                                     menuText1[menuOptionsCount] = "Attack";
-                                    menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name + s2;
+                                    menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].NpcIdentifier).Name + s2;
                                     if (l4 >= 0)
                                     {
                                         menuActions[menuOptionsCount] = MenuAction.AttackNpc;
@@ -3558,7 +3814,7 @@ namespace OpenRS.Net.Client
                                 }
 
                                 menuText1[menuOptionsCount] = "Talk-to";
-                                menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
+                                menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].NpcIdentifier).Name;
                                 menuActions[menuOptionsCount] = MenuAction.TalkToNpc;
                                 MenuActionLocations[menuOptionsCount] = Npcs[index].Location;
                                 menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
@@ -3567,7 +3823,7 @@ namespace OpenRS.Net.Client
                                 if (!entityManager.GetNpc(id).Command.Equals(""))
                                 {
                                     menuText1[menuOptionsCount] = entityManager.GetNpc(id).Command;
-                                    menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
+                                    menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].NpcIdentifier).Name;
                                     menuActions[menuOptionsCount] = MenuAction.CommandOnNpc;
                                     MenuActionLocations[menuOptionsCount] = Npcs[index].Location;
                                     menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
@@ -3575,14 +3831,14 @@ namespace OpenRS.Net.Client
                                 }
 
                                 menuText1[menuOptionsCount] = "Examine";
-                                menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].npcId).Name;
+                                menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].NpcIdentifier).Name;
                                 menuActions[menuOptionsCount] = MenuAction.ExamineNpc;
-                                menuActionType[menuOptionsCount] = Npcs[index].npcId;
+                                menuActionType[menuOptionsCount] = Npcs[index].NpcIdentifier;
                                 menuOptionsCount++;
                             }
                         }
                     }
-                    else if (_obj != null && _obj.index >= 10000)
+                    else if (_obj is not null && _obj.index >= 10000)
                     {
                         int wallObjectIndex = _obj.index - 10000;
                         int i4 = WallObjectId[wallObjectIndex];
@@ -3643,7 +3899,7 @@ namespace OpenRS.Net.Client
                             WallObjectAlreadyInMenu[wallObjectIndex] = true;
                         }
                     }
-                    else if (_obj != null && _obj.index >= 0)
+                    else if (_obj is not null && _obj.index >= 0)
                     {
                         int objectLocation = _obj.index;
                         int j4 = ObjectType[objectLocation];
@@ -3727,7 +3983,7 @@ namespace OpenRS.Net.Client
             if (selectedSpell >= 0 && entityManager.GetSpell(selectedSpell).Type <= 1)
             {
                 menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on self";
-                menuText2[menuOptionsCount] = "";
+                menuText2[menuOptionsCount] = string.Empty;
                 menuActions[menuOptionsCount] = MenuAction.CastSpellOnSelf;
                 menuActionType[menuOptionsCount] = selectedSpell;
                 menuOptionsCount++;
@@ -3740,7 +3996,7 @@ namespace OpenRS.Net.Client
                     if (entityManager.GetSpell(selectedSpell).Type == 6)
                     {
                         menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on ground";
-                        menuText2[menuOptionsCount] = "";
+                        menuText2[menuOptionsCount] = string.Empty;
                         menuActions[menuOptionsCount] = MenuAction.CastSpellOnGround;
                         MenuActionLocations[menuOptionsCount] = new Point2D(engineHandle.selectedX[ground], engineHandle.selectedY[ground]);
                         menuActionType[menuOptionsCount] = selectedSpell;
@@ -3751,7 +4007,7 @@ namespace OpenRS.Net.Client
                 else if (selectedItem < 0)
                 {
                     menuText1[menuOptionsCount] = "Walk here";
-                    menuText2[menuOptionsCount] = "";
+                    menuText2[menuOptionsCount] = string.Empty;
                     menuActions[menuOptionsCount] = MenuAction.WalkHere;
                     MenuActionLocations[menuOptionsCount] = new Point2D(engineHandle.selectedX[ground], engineHandle.selectedY[ground]);
                     menuOptionsCount++;
@@ -3764,8 +4020,10 @@ namespace OpenRS.Net.Client
             if (mouseButtonClick != 0)
             {
                 mouseButtonClick = 0;
+
                 int l = InputManager.Instance.MouseLocation.X - 52;
-                int i1 = InputManager.Instance.MouseLocation.Y - 44;
+                int i1 = GameMouseY - 44;
+
                 if (l >= 0 && i1 >= 12 && l < 408 && i1 < 246)
                 {
                     int j1 = 0;
@@ -3815,6 +4073,7 @@ namespace OpenRS.Net.Client
                     return;
                 }
             }
+
             sbyte _offsetX = 52;
             sbyte _offsetY = 44;
             gameGraphics.DrawBox(_offsetX, _offsetY, 408, 12, 192);
@@ -3825,7 +4084,8 @@ namespace OpenRS.Net.Client
             gameGraphics.DrawBoxAlpha(_offsetX, _offsetY + 199, 408, 47, k1, 160);
             gameGraphics.DrawString("Buying and selling items", _offsetX + 1, _offsetY + 10, 1, 0xffffff);
             int i2 = 0xffffff;
-            if (InputManager.Instance.MouseLocation.X > _offsetX + 320 && InputManager.Instance.MouseLocation.Y >= _offsetY && InputManager.Instance.MouseLocation.X < _offsetX + 408 && InputManager.Instance.MouseLocation.Y < _offsetY + 12)
+
+            if (InputManager.Instance.MouseLocation.X > _offsetX + 320 && GameMouseY >= _offsetY && InputManager.Instance.MouseLocation.X < _offsetX + 408 && GameMouseY < _offsetY + 12)
             {
                 i2 = 0xff0000;
             }
@@ -3834,8 +4094,10 @@ namespace OpenRS.Net.Client
             gameGraphics.DrawString("Shops stock in green", _offsetX + 2, _offsetY + 24, 1, 65280);
             gameGraphics.DrawString("Number you own in blue", _offsetX + 135, _offsetY + 24, 1, 65535);
             gameGraphics.DrawString("Your money: " + inventoryManager.GetItemTotalCount(10) + "gp", _offsetX + 280, _offsetY + 24, 1, 0xffff00);
+
             int j3 = 0xd0d0d0;
             int j4 = 0;
+
             for (int boxRow = 0; boxRow < 5; boxRow++)
             {
                 for (int boxRowColumn = 0; boxRowColumn < 8; boxRowColumn++)
@@ -3864,17 +4126,21 @@ namespace OpenRS.Net.Client
             }
 
             gameGraphics.DrawHorizontalLine(_offsetX + 5, _offsetY + 222, 398, 0);
+
             if (selectedShopItemIndex == -1)
             {
                 gameGraphics.DrawText("Select an object to buy or sell", _offsetX + 204, _offsetY + 214, 3, 0xffff00);
                 return;
             }
+
             int itemId = shopItems[selectedShopItemIndex];
+
             if (itemId != -1)
             {
                 if (shopItemCount[selectedShopItemIndex] > 0)
                 {
                     int j6 = shopItemBuyPriceModifier + shopItemBasePriceModifier[selectedShopItemIndex];
+
                     if (j6 < 10)
                     {
                         j6 = 10;
@@ -3883,7 +4149,7 @@ namespace OpenRS.Net.Client
                     int i7 = j6 * entityManager.GetItem(itemId).BasePrice / 100;
                     gameGraphics.DrawString("Buy a new " + entityManager.GetItem(itemId).Name + " for " + i7 + "gp", _offsetX + 2, _offsetY + 214, 1, 0xffff00);
                     int j2 = 0xffffff;
-                    if (InputManager.Instance.MouseLocation.X > _offsetX + 298 && InputManager.Instance.MouseLocation.Y >= _offsetY + 204 && InputManager.Instance.MouseLocation.X < _offsetX + 408 && InputManager.Instance.MouseLocation.Y <= _offsetY + 215)
+                    if (InputManager.Instance.MouseLocation.X > _offsetX + 298 && GameMouseY >= _offsetY + 204 && InputManager.Instance.MouseLocation.X < _offsetX + 408 && GameMouseY <= _offsetY + 215)
                     {
                         j2 = 0xff0000;
                     }
@@ -3906,7 +4172,7 @@ namespace OpenRS.Net.Client
                     int j7 = k6 * entityManager.GetItem(itemId).BasePrice / 100;
                     gameGraphics.DrawLabel("Sell your " + entityManager.GetItem(itemId).Name + " for " + j7 + "gp", _offsetX + 405, _offsetY + 239, 1, 0xffff00);
                     int k2 = 0xffffff;
-                    if (InputManager.Instance.MouseLocation.X > _offsetX + 2 && InputManager.Instance.MouseLocation.Y >= _offsetY + 229 && InputManager.Instance.MouseLocation.X < _offsetX + 112 && InputManager.Instance.MouseLocation.Y <= _offsetY + 240)
+                    if (InputManager.Instance.MouseLocation.X > _offsetX + 2 && GameMouseY >= _offsetY + 229 && InputManager.Instance.MouseLocation.X < _offsetX + 112 && GameMouseY <= _offsetY + 240)
                     {
                         k2 = 0xff0000;
                     }
@@ -3937,7 +4203,7 @@ namespace OpenRS.Net.Client
                 gameGraphics.DrawPicture(0, 0, baseTexturePic);
                 int i1 = gameGraphics.pictureAssumedWidth[baseTexturePic];
                 string s2 = entityManager.GetTexture(l).SubName;
-                if (s2 != null && s2.Length > 0)
+                if (s2 is not null && s2.Length > 0)
                 {
                     sbyte[] abyte3 = DataOperations.loadData(s2 + ".dat", 0, abyte0);
                     gameGraphics.unpackImageData(baseTexturePic, abyte3, abyte1, 1);
@@ -3985,7 +4251,7 @@ namespace OpenRS.Net.Client
             if (selectedSpell >= 0 || selectedItem >= 0)
             {
                 menuText1[menuOptionsCount] = "Cancel";
-                menuText2[menuOptionsCount] = "";
+                menuText2[menuOptionsCount] = string.Empty;
                 menuActions[menuOptionsCount] = MenuAction.Cancel; ;
                 menuOptionsCount++;
             }
@@ -4046,17 +4312,17 @@ namespace OpenRS.Net.Client
                     s1 = menuText2[menuIndexes[j1]] + ": @whi@" + menuText1[menuIndexes[0]];
                 }
 
-                if (menuOptionsCount == 2 && s1 != null)
+                if (menuOptionsCount == 2 && s1 is not null)
                 {
                     s1 += "@whi@ / 1 more option";
                 }
 
-                if (menuOptionsCount > 2 && s1 != null)
+                if (menuOptionsCount > 2 && s1 is not null)
                 {
                     s1 = s1 + "@whi@ / " + (menuOptionsCount - 1) + " more options";
                 }
 
-                if (s1 != null)
+                if (s1 is not null)
                 {
                     gameGraphics.DrawString(s1, 6, 14, 1, 0xffff00);
                 }
@@ -4081,7 +4347,7 @@ namespace OpenRS.Net.Client
                     }
 
                     menuX = InputManager.Instance.MouseLocation.X - menuWidth / 2;
-                    menuY = InputManager.Instance.MouseLocation.Y - 7;
+                    menuY = GameMouseY - 7;
                     menuShow = true;
 
                     if (menuX < 0)
@@ -4255,12 +4521,12 @@ namespace OpenRS.Net.Client
                         gameCamera.bhe(k4);
                     }
 
-                    if (player.currentSprite == 8)
+                    if (player.CurrentSprite == 8)
                     {
                         gameCamera.bhf(k4, -30);
                     }
 
-                    if (player.currentSprite == 9)
+                    if (player.CurrentSprite == 9)
                     {
                         gameCamera.bhf(k4, 30);
                     }
@@ -4283,14 +4549,14 @@ namespace OpenRS.Net.Client
                         targetMob = Mobs[player.AttackingPlayerIndex];
                     }
 
-                    if (targetMob != null)
+                    if (targetMob is not null)
                     {
                         int k3 = player.Location.X;
                         int l4 = player.Location.Y;
                         int k7 = -engineHandle.GetAveragedElevation(k3, l4) - 110;
                         int k9 = targetMob.Location.X;
                         int j10 = targetMob.Location.Y;
-                        int k10 = -engineHandle.GetAveragedElevation(k9, j10) - entityManager.GetNpc(targetMob.npcId).Camera2 / 2;
+                        int k10 = -engineHandle.GetAveragedElevation(k9, j10) - entityManager.GetNpc(targetMob.NpcIdentifier).Camera2 / 2;
                         int l10 = (k3 * player.ProjectileDistance + k9 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
                         int i11 = (k7 * player.ProjectileDistance + k10 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
                         int j11 = (l4 * player.ProjectileDistance + j10 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
@@ -4311,16 +4577,16 @@ namespace OpenRS.Net.Client
                 int y1 = -engineHandle.GetAveragedElevation(x1, z1);
 
                 Point3D loc = new(x1, y1, z1);
-                int l9 = gameCamera.addSpriteToScene(20000 + npcIndex, loc, entityManager.GetNpc(npc.npcId).Camera1, entityManager.GetNpc(npc.npcId).Camera2, npcIndex + 30000);
+                int l9 = gameCamera.addSpriteToScene(20000 + npcIndex, loc, entityManager.GetNpc(npc.NpcIdentifier).Camera1, entityManager.GetNpc(npc.NpcIdentifier).Camera2, npcIndex + 30000);
 
                 drawUpdatesPerformed++;
 
-                if (npc.currentSprite == 8)
+                if (npc.CurrentSprite == 8)
                 {
                     gameCamera.bhf(l9, -30);
                 }
 
-                if (npc.currentSprite == 9)
+                if (npc.CurrentSprite == 9)
                 {
                     gameCamera.bhf(l9, 30);
                 }
@@ -4437,7 +4703,7 @@ namespace OpenRS.Net.Client
             }
 
             gameCamera.finishCamera();
-            drawAboveHeadThings();
+            DrawAboveHeadThings();
 
             if (actionPictureType > 0)
             {
@@ -4450,6 +4716,23 @@ namespace OpenRS.Net.Client
             }
 
             gameGraphics.DrawPicture(gameGraphics.GameSize.Width - 3 - 197, 3, baseInventoryPic, 128);
+
+            if (systemUpdate != 0)
+            {
+                int sysSeconds = systemUpdate / 50;
+                int sysMinutes = sysSeconds / 60;
+                sysSeconds %= 60;
+                string sysText;
+                if (sysSeconds < 10)
+                {
+                    sysText = "System update in: " + sysMinutes + ":0" + sysSeconds;
+                }
+                else
+                {
+                    sysText = "System update in: " + sysMinutes + ":" + sysSeconds;
+                }
+                gameGraphics.DrawText(sysText, 256, WindowSize.Height - 7, 1, 0xffff00);
+            }
 
             drawMenus();
 
@@ -4514,13 +4797,45 @@ namespace OpenRS.Net.Client
 
         public void drawMenus()
         {
-            if (ShowBankBox)
+            if (logoutTimer != 0)
             {
-                drawBankBox();
+                drawLogoutBox();
             }
-            else if (ShowShopBox)
+            else if (showWelcomeBox)
+            {
+                drawWelcomeBox();
+            }
+            else if (showServerMessageBox)
+            {
+                drawServerMessageBox();
+            }
+            else if (wildType == 1)
+            {
+                drawWildernessAlertBox();
+            }
+            else if (ShowBankBox && combatTimeout == 0)
+            {
+                DrawBankBox();
+            }
+            else if (ShowShopBox && combatTimeout == 0)
             {
                 drawShopBox();
+            }
+            else if (showTradeConfirmBox)
+            {
+                drawTradeConfirmBox();
+            }
+            else if (showTradeBox)
+            {
+                drawTradeBox();
+            }
+            else if (showDuelConfirmBox)
+            {
+                drawDuelConfirmBox();
+            }
+            else if (showDuelBox)
+            {
+                drawDuelBox();
             }
             else
             {
@@ -4549,6 +4864,11 @@ namespace OpenRS.Net.Client
                 if (drawMenuTab == 2)
                 {
                     drawMinimapMenu(flag);
+                }
+
+                if (drawMenuTab == 3)
+                {
+                    drawStatsQuestsMenu(flag);
                 }
 
                 if (drawMenuTab == 4)
@@ -4631,7 +4951,7 @@ namespace OpenRS.Net.Client
         public void DrawNpc(int x, int y, int width, int height, int index, int unknown1, int unknown2)
         {
             ClientMob npc = Npcs[index];
-            int frameIndex = npc.currentSprite + (cameraRotation + 16) / 32 & 7;
+            int frameIndex = npc.CurrentSprite + (cameraRotation + 16) / 32 & 7;
             bool flag = false;
             int newFrameIndex = frameIndex;
             if (newFrameIndex == 5)
@@ -4649,29 +4969,34 @@ namespace OpenRS.Net.Client
                 newFrameIndex = 1;
                 flag = true;
             }
-            int j1 = newFrameIndex * 3 + walkModel[npc.stepCount / entityManager.GetNpc(npc.npcId).WalkModel % 4];
-            if (npc.currentSprite == 8)
+            int j1 = newFrameIndex * 3 + walkModel[npc.StepCount / entityManager.GetNpc(npc.NpcIdentifier).WalkModel % 4];
+            if (npc.CurrentSprite == 8)
             {
                 newFrameIndex = 5;
                 frameIndex = 2;
                 flag = false;
-                x -= entityManager.GetNpc(npc.npcId).CombatSprite * unknown2 / 100;
-                j1 = newFrameIndex * 3 + combatModelArray1[tick / (entityManager.GetNpc(npc.npcId).CombatModel - 1) % 8];
+                x -= entityManager.GetNpc(npc.NpcIdentifier).CombatSprite * unknown2 / 100;
+                j1 = newFrameIndex * 3 + combatModelArray1[tick / (entityManager.GetNpc(npc.NpcIdentifier).CombatModel - 1) % 8];
             }
             else
-                if (npc.currentSprite == 9)
+                if (npc.CurrentSprite == 9)
             {
                 newFrameIndex = 5;
                 frameIndex = 2;
                 flag = true;
-                x += entityManager.GetNpc(npc.npcId).CombatSprite * unknown2 / 100;
-                j1 = newFrameIndex * 3 + combatModelArray2[tick / entityManager.GetNpc(npc.npcId).CombatModel % 8];
+                x += entityManager.GetNpc(npc.NpcIdentifier).CombatSprite * unknown2 / 100;
+                j1 = newFrameIndex * 3 + combatModelArray2[tick / entityManager.GetNpc(npc.NpcIdentifier).CombatModel % 8];
             }
 
             for (int k1 = 0; k1 < 12; k1++)
             {
                 int l1 = animationModelArray[frameIndex][k1];
-                int k2 = entityManager.GetNpc(npc.npcId).Sprites[l1];
+                int k2 = entityManager.GetNpc(npc.NpcIdentifier).Sprites[l1];
+
+                if (k2 > entityManager.AnimationCount - 1)
+                {
+                    continue;
+                }
 
                 if (k2 >= 0)
                 {
@@ -4696,18 +5021,18 @@ namespace OpenRS.Net.Client
 
                         if (j4 == 1)
                         {
-                            j4 = entityManager.GetNpc(npc.npcId).Appearance.HairColour;
-                            k4 = entityManager.GetNpc(npc.npcId).Appearance.SkinColour;
+                            j4 = entityManager.GetNpc(npc.NpcIdentifier).Appearance.HairColour;
+                            k4 = entityManager.GetNpc(npc.NpcIdentifier).Appearance.SkinColour;
                         }
                         else if (j4 == 2)
                         {
-                            j4 = entityManager.GetNpc(npc.npcId).Appearance.TopColour;
-                            k4 = entityManager.GetNpc(npc.npcId).Appearance.SkinColour;
+                            j4 = entityManager.GetNpc(npc.NpcIdentifier).Appearance.TopColour;
+                            k4 = entityManager.GetNpc(npc.NpcIdentifier).Appearance.SkinColour;
                         }
                         else if (j4 == 3)
                         {
-                            j4 = entityManager.GetNpc(npc.npcId).Appearance.TrousersColour;
-                            k4 = entityManager.GetNpc(npc.npcId).Appearance.SkinColour;
+                            j4 = entityManager.GetNpc(npc.NpcIdentifier).Appearance.TrousersColour;
+                            k4 = entityManager.GetNpc(npc.NpcIdentifier).Appearance.SkinColour;
                         }
 
                         gameGraphics.DrawImage(x + i3, y + j3, i4, height, l3, j4, k4, unknown1, flag);
@@ -4715,30 +5040,30 @@ namespace OpenRS.Net.Client
                 }
             }
 
-            if (npc.lastMessageTimeout > 0)
+            if (npc.LastMessageTimeout > 0)
             {
-                receivedMessageMidPoint[receivedMessagesCount] = gameGraphics.textWidth(npc.lastMessage, 1) / 2;
+                receivedMessageMidPoint[receivedMessagesCount] = gameGraphics.textWidth(npc.LastMessage, 1) / 2;
                 if (receivedMessageMidPoint[receivedMessagesCount] > 150)
                 {
                     receivedMessageMidPoint[receivedMessagesCount] = 150;
                 }
 
-                receivedMessageHeight[receivedMessagesCount] = gameGraphics.textWidth(npc.lastMessage, 1) / 300 * gameGraphics.textHeightNumber(1);
+                receivedMessageHeight[receivedMessagesCount] = gameGraphics.textWidth(npc.LastMessage, 1) / 300 * gameGraphics.textHeightNumber(1);
                 receivedMessageX[receivedMessagesCount] = x + width / 2;
                 receivedMessageY[receivedMessagesCount] = y;
-                receivedMessages[receivedMessagesCount++] = npc.lastMessage;
+                receivedMessages[receivedMessagesCount++] = npc.LastMessage;
             }
-            if (npc.currentSprite == 8 || npc.currentSprite == 9 || npc.combatTimer != 0)
+            if (npc.CurrentSprite == 8 || npc.CurrentSprite == 9 || npc.CombatTimer != 0)
             {
-                if (npc.combatTimer > 0)
+                if (npc.CombatTimer > 0)
                 {
                     int i2 = x;
 
-                    if (npc.currentSprite == 8)
+                    if (npc.CurrentSprite == 8)
                     {
                         i2 -= 20 * unknown2 / 100;
                     }
-                    else if (npc.currentSprite == 9)
+                    else if (npc.CurrentSprite == 9)
                     {
                         i2 += 20 * unknown2 / 100;
                     }
@@ -4749,15 +5074,15 @@ namespace OpenRS.Net.Client
                     healthBarMissing[healthBarVisibleCount++] = l2;
                 }
 
-                if (npc.combatTimer > 150)
+                if (npc.CombatTimer > 150)
                 {
                     int j2 = x;
-                    if (npc.currentSprite == 8)
+                    if (npc.CurrentSprite == 8)
                     {
                         j2 -= 10 * unknown2 / 100;
                     }
                     else
-                        if (npc.currentSprite == 9)
+                        if (npc.CurrentSprite == 9)
                     {
                         j2 += 10 * unknown2 / 100;
                     }
@@ -4770,7 +5095,364 @@ namespace OpenRS.Net.Client
 
         public override void DisplayMessage(string message) => OnChatMessageReceived?.Invoke(this, new ChatMessageEventArgs(message));
 
-        public void drawAboveHeadThings()
+        public void playSound(string soundName)
+        {
+            // Sound playback stub — extend when audio engine is available
+        }
+
+        public bool takeScreenshot(bool verbose)
+        {
+            // Screenshot stub — extend with actual capture logic
+            return false;
+        }
+
+        public void drawLogoutBox()
+        {
+            gameGraphics.DrawBox(126, 137, 260, 60, 0);
+            gameGraphics.DrawBoxEdge(126, 137, 260, 60, 0xffffff);
+            gameGraphics.DrawText("Logging out...", 256, 173, 5, 0xffffff);
+        }
+
+        public void drawWelcomeBox()
+        {
+            int boxHeight = 65;
+            if (!lastLoginAddress.Equals("0.0.0.0") && lastLoginAddress.Length > 0)
+            {
+                boxHeight += 30;
+            }
+            if (subDaysLeft > 0)
+            {
+                boxHeight += 15;
+            }
+            if (lastLoginDays >= 0)
+            {
+                boxHeight += 15;
+            }
+            int y = 167 - boxHeight / 2;
+            gameGraphics.DrawBox(56, y, 400, boxHeight, 0);
+            gameGraphics.DrawBoxEdge(56, y, 400, boxHeight, 0xffffff);
+            y += 20;
+            gameGraphics.DrawText("Welcome to RuneScape " + loginUsername, 256, y, 4, 0xffff00);
+            y += 30;
+            string dayText;
+            if (lastLoginDays == 0)
+            {
+                dayText = "earlier today";
+            }
+            else if (lastLoginDays == 1)
+            {
+                dayText = "yesterday";
+            }
+            else
+            {
+                dayText = lastLoginDays + " days ago";
+            }
+            if (!lastLoginAddress.Equals("0.0.0.0") && lastLoginAddress.Length > 0)
+            {
+                gameGraphics.DrawText("You last logged in " + dayText, 256, y, 1, 0xffffff);
+                y += 15;
+                gameGraphics.DrawText("from: " + lastLoginAddress, 256, y, 1, 0xffffff);
+                y += 15;
+            }
+            if (subDaysLeft > 0)
+            {
+                gameGraphics.DrawText("Subscription left: " + subDaysLeft + " days", 256, y, 1, 0xffffff);
+                y += 15;
+            }
+            int closeColour = 0xffffff;
+            if (InputManager.Instance.MouseLocation.Y > y - 12 && InputManager.Instance.MouseLocation.Y <= y
+                && InputManager.Instance.MouseLocation.X > 106 && InputManager.Instance.MouseLocation.X < 406)
+            {
+                closeColour = 0xff0000;
+            }
+            gameGraphics.DrawText("Click here to close window", 256, y, 1, closeColour);
+            if (mouseButtonClick == 1)
+            {
+                if (closeColour.Equals(0xff0000))
+                {
+                    showWelcomeBox = false;
+                }
+                int boxTop = 167 - boxHeight / 2;
+                if ((InputManager.Instance.MouseLocation.X < 86 || InputManager.Instance.MouseLocation.X > 426)
+                    && (InputManager.Instance.MouseLocation.Y < boxTop || InputManager.Instance.MouseLocation.Y > boxTop + boxHeight))
+                {
+                    showWelcomeBox = false;
+                }
+            }
+            mouseButtonClick = 0;
+        }
+
+        public void drawServerMessageBox()
+        {
+            int boxWidth = 400;
+            int boxHeight = serverMessageBoxTop ? 300 : 100;
+            gameGraphics.DrawBox(256 - boxWidth / 2, 167 - boxHeight / 2, boxWidth, boxHeight, 0);
+            gameGraphics.DrawBoxEdge(256 - boxWidth / 2, 167 - boxHeight / 2, boxWidth, boxHeight, 0xffffff);
+            gameGraphics.DrawFloatingText(serverMessage, 256, (167 - boxHeight / 2) + 20, 1, 0xffffff, boxWidth - 40);
+            int closeY = 157 + boxHeight / 2;
+            int closeColour = 0xffffff;
+            if (InputManager.Instance.MouseLocation.Y > closeY - 12 && InputManager.Instance.MouseLocation.Y <= closeY
+                && InputManager.Instance.MouseLocation.X > 106 && InputManager.Instance.MouseLocation.X < 406)
+            {
+                closeColour = 0xff0000;
+            }
+            gameGraphics.DrawText("Click here to close window", 256, closeY, 1, closeColour);
+            if (mouseButtonClick == 1)
+            {
+                if (closeColour.Equals(0xff0000))
+                {
+                    showServerMessageBox = false;
+                }
+                if ((InputManager.Instance.MouseLocation.X < 256 - boxWidth / 2 || InputManager.Instance.MouseLocation.X > 256 + boxWidth / 2)
+                    && (InputManager.Instance.MouseLocation.Y < 167 - boxHeight / 2 || InputManager.Instance.MouseLocation.Y > 167 + boxHeight / 2))
+                {
+                    showServerMessageBox = false;
+                }
+            }
+            mouseButtonClick = 0;
+        }
+
+        public void drawWildernessAlertBox()
+        {
+            int y = 97;
+            gameGraphics.DrawBox(86, 77, 340, 180, 0);
+            gameGraphics.DrawBoxEdge(86, 77, 340, 180, 0xffffff);
+            gameGraphics.DrawText("Warning! Proceed with caution", 256, y, 4, 0xff0000);
+            y += 26;
+            gameGraphics.DrawText("If you go much further north you will enter the", 256, y, 1, 0xffffff);
+            y += 13;
+            gameGraphics.DrawText("wilderness. This a very dangerous area where", 256, y, 1, 0xffffff);
+            y += 13;
+            gameGraphics.DrawText("other players can attack you!", 256, y, 1, 0xffffff);
+            y += 22;
+            gameGraphics.DrawText("The further north you go the more dangerous it", 256, y, 1, 0xffffff);
+            y += 13;
+            gameGraphics.DrawText("becomes, but the more treasure you will find.", 256, y, 1, 0xffffff);
+            y += 22;
+            gameGraphics.DrawText("In the wilderness an indicator at the bottom-right", 256, y, 1, 0xffffff);
+            y += 13;
+            gameGraphics.DrawText("of the screen will show the current level of danger", 256, y, 1, 0xffffff);
+            y += 22;
+            int closeColour = 0xffffff;
+            if (InputManager.Instance.MouseLocation.Y > y - 12 && InputManager.Instance.MouseLocation.Y <= y
+                && InputManager.Instance.MouseLocation.X > 181 && InputManager.Instance.MouseLocation.X < 331)
+            {
+                closeColour = 0xff0000;
+            }
+            gameGraphics.DrawText("Click here to close window", 256, y, 1, closeColour);
+            if (mouseButtonClick != 0)
+            {
+                if (InputManager.Instance.MouseLocation.Y > y - 12 && InputManager.Instance.MouseLocation.Y <= y
+                    && InputManager.Instance.MouseLocation.X > 181 && InputManager.Instance.MouseLocation.X < 331)
+                {
+                    wildType = 2;
+                }
+                if (InputManager.Instance.MouseLocation.X < 86 || InputManager.Instance.MouseLocation.X > 426
+                    || InputManager.Instance.MouseLocation.Y < 77 || InputManager.Instance.MouseLocation.Y > 257)
+                {
+                    wildType = 2;
+                }
+                mouseButtonClick = 0;
+            }
+        }
+
+        public void drawStatsQuestsMenu(bool canClick)
+        {
+            // TODO: Transplant full stats/quests UI from RSCXNA
+        }
+
+        public void drawTradeBox()
+        {
+            // TODO: Transplant full trade box UI from RSCXNA
+            gameGraphics.DrawBox(22, 36, 468, 262, 0);
+            gameGraphics.DrawBoxEdge(22, 36, 468, 262, 0xffffff);
+            gameGraphics.DrawText("Trading with: " + tradeOtherName, 256, 55, 4, 0xffff00);
+            gameGraphics.DrawText("(Click an item to offer/remove it)", 256, 68, 1, 0xaaaaaa);
+            gameGraphics.DrawText("Your offer:", 120, 90, 1, 0xffffff);
+            gameGraphics.DrawText("Their offer:", 355, 90, 1, 0xffffff);
+            for (int i = 0; i < tradeItemsOurCount; i++)
+            {
+                int ix = 30 + (i % 4) * 49;
+                int iy = 100 + (i / 4) * 34;
+                DrawItem(ix, iy, 40, 30, tradeItemsOur[i]);
+            }
+            for (int i = 0; i < tradeItemsOtherCount; i++)
+            {
+                int ix = 245 + (i % 5) * 49;
+                int iy = 100 + (i / 5) * 34;
+                DrawItem(ix, iy, 40, 30, tradeItemsOther[i]);
+            }
+            int acceptColour = tradeWeAccepted ? 0x00ff00 : 0xffffff;
+            gameGraphics.DrawText("Accept", 260, 280, 1, acceptColour);
+            int declineColour = 0xffffff;
+            if (InputManager.Instance.MouseLocation.X >= 416 && InputManager.Instance.MouseLocation.X < 485
+                && InputManager.Instance.MouseLocation.Y >= 274 && InputManager.Instance.MouseLocation.Y < 295)
+            {
+                declineColour = 0xff0000;
+            }
+            gameGraphics.DrawText("Decline", 454, 280, 1, declineColour);
+            if (tradeOtherAccepted)
+            {
+                gameGraphics.DrawText(tradeOtherName + " has accepted.", 256, 295, 1, 0xffff00);
+            }
+            if (mouseButtonClick != 0)
+            {
+                if (declineColour.Equals(0xff0000))
+                {
+                    showTradeBox = false;
+                    showTradeConfirmBox = false;
+                    StreamClass.CreatePacket(207);
+                    StreamClass.FormatPacket();
+                }
+                mouseButtonClick = 0;
+            }
+        }
+
+        public void drawTradeConfirmBox()
+        {
+            // TODO: Transplant full trade confirm box UI from RSCXNA
+            gameGraphics.DrawBox(22, 36, 468, 262, 0);
+            gameGraphics.DrawBoxEdge(22, 36, 468, 262, 0xffffff);
+            gameGraphics.DrawText("Are you sure you want to make this trade?", 256, 70, 4, 0xffff00);
+            gameGraphics.DrawText("You will give:", 120, 100, 1, 0xffffff);
+            gameGraphics.DrawText("You will receive:", 355, 100, 1, 0xffffff);
+            int acceptColour = 0xffffff;
+            if (InputManager.Instance.MouseLocation.X >= 217 && InputManager.Instance.MouseLocation.X < 286
+                && InputManager.Instance.MouseLocation.Y >= 272 && InputManager.Instance.MouseLocation.Y < 293)
+            {
+                acceptColour = 0x00ff00;
+            }
+            gameGraphics.DrawText("Accept", 260, 285, 1, acceptColour);
+            int declineColour = 0xffffff;
+            if (InputManager.Instance.MouseLocation.X >= 394 && InputManager.Instance.MouseLocation.X < 463
+                && InputManager.Instance.MouseLocation.Y >= 272 && InputManager.Instance.MouseLocation.Y < 293)
+            {
+                declineColour = 0xff0000;
+            }
+            gameGraphics.DrawText("Decline", 430, 285, 1, declineColour);
+            if (mouseButtonClick != 0)
+            {
+                if (acceptColour.Equals(0x00ff00))
+                {
+                    tradeConfirmAccepted = true;
+                    StreamClass.CreatePacket(167);
+                    StreamClass.FormatPacket();
+                }
+                if (declineColour.Equals(0xff0000))
+                {
+                    showTradeBox = false;
+                    showTradeConfirmBox = false;
+                    StreamClass.CreatePacket(207);
+                    StreamClass.FormatPacket();
+                }
+                mouseButtonClick = 0;
+            }
+        }
+
+        public void drawDuelBox()
+        {
+            // TODO: Transplant full duel box UI from RSCXNA
+            gameGraphics.DrawBox(22, 36, 468, 262, 0);
+            gameGraphics.DrawBoxEdge(22, 36, 468, 262, 0xffffff);
+            gameGraphics.DrawText("Dueling with: " + duelOpponent, 256, 55, 4, 0xffff00);
+            gameGraphics.DrawText("Your stake:", 120, 90, 1, 0xffffff);
+            gameGraphics.DrawText("Their stake:", 355, 90, 1, 0xffffff);
+            if (duelNoMagic)
+            {
+                gameGraphics.DrawText("No magic", 256, 200, 1, 0xff8800);
+            }
+            if (duelNoPrayer)
+            {
+                gameGraphics.DrawText("No prayer", 256, 213, 1, 0xff8800);
+            }
+            if (duelNoWeapons)
+            {
+                gameGraphics.DrawText("No weapons", 256, 226, 1, 0xff8800);
+            }
+            if (duelNoRetreating)
+            {
+                gameGraphics.DrawText("No retreating", 256, 239, 1, 0xff8800);
+            }
+            if (duelOpponentAccepted)
+            {
+                gameGraphics.DrawText(duelOpponent + " has accepted.", 256, 255, 1, 0xffff00);
+            }
+            gameGraphics.DrawText("Accept", 260, 280, 1, duelMyAccepted ? 0x00ff00 : 0xffffff);
+            int declineColour = 0xffffff;
+            if (InputManager.Instance.MouseLocation.X >= 394 && InputManager.Instance.MouseLocation.X < 463
+                && InputManager.Instance.MouseLocation.Y >= 272 && InputManager.Instance.MouseLocation.Y < 293)
+            {
+                declineColour = 0xff0000;
+            }
+            gameGraphics.DrawText("Decline", 430, 280, 1, declineColour);
+            if (mouseButtonClick != 0)
+            {
+                if (declineColour.Equals(0xff0000))
+                {
+                    showDuelBox = false;
+                    showDuelConfirmBox = false;
+                    StreamClass.CreatePacket(204);
+                    StreamClass.FormatPacket();
+                }
+                mouseButtonClick = 0;
+            }
+        }
+
+        public void drawDuelConfirmBox()
+        {
+            // TODO: Transplant full duel confirm box UI from RSCXNA
+            gameGraphics.DrawBox(22, 36, 468, 262, 0);
+            gameGraphics.DrawBoxEdge(22, 36, 468, 262, 0xffffff);
+            gameGraphics.DrawText("Are you sure you want this duel?", 256, 70, 4, 0xffff00);
+            int acceptColour = 0xffffff;
+            if (InputManager.Instance.MouseLocation.X >= 217 && InputManager.Instance.MouseLocation.X < 286
+                && InputManager.Instance.MouseLocation.Y >= 272 && InputManager.Instance.MouseLocation.Y < 293)
+            {
+                acceptColour = 0x00ff00;
+            }
+            gameGraphics.DrawText("Accept", 260, 285, 1, acceptColour);
+            int declineColour = 0xffffff;
+            if (InputManager.Instance.MouseLocation.X >= 394 && InputManager.Instance.MouseLocation.X < 463
+                && InputManager.Instance.MouseLocation.Y >= 272 && InputManager.Instance.MouseLocation.Y < 293)
+            {
+                declineColour = 0xff0000;
+            }
+            gameGraphics.DrawText("Decline", 430, 285, 1, declineColour);
+            if (mouseButtonClick != 0)
+            {
+                if (acceptColour.Equals(0x00ff00))
+                {
+                    duelConfirmOurAccepted = true;
+                    StreamClass.CreatePacket(176);
+                    StreamClass.FormatPacket();
+                }
+                if (declineColour.Equals(0xff0000))
+                {
+                    showDuelBox = false;
+                    showDuelConfirmBox = false;
+                    StreamClass.CreatePacket(204);
+                    StreamClass.FormatPacket();
+                }
+                mouseButtonClick = 0;
+            }
+        }
+
+        public void updateBankItems()
+        {
+            inventoryManager.ServerBankItemsCount = serverBankItemsCount;
+            InventoryManager.MaximumBankSize = maxBankItems;
+
+            for (int i = 0; i < serverBankItemsCount; i++)
+            {
+                InventoryItem item = inventoryManager.GetServerBankItem(i);
+                item.Index = serverBankItems[i];
+                item.Quantity = serverBankItemCount[i];
+            }
+
+            inventoryManager.UpdateBankItems();
+        }
+
+        public void DrawAboveHeadThings()
         {
             for (int l = 0; l < receivedMessagesCount; l++)
             {
@@ -4780,6 +5462,7 @@ namespace OpenRS.Net.Client
                 int midpoint = receivedMessageMidPoint[l];
                 int l3 = receivedMessageHeight[l];
                 bool flag = true;
+
                 while (flag)
                 {
                     flag = false;
@@ -4822,7 +5505,7 @@ namespace OpenRS.Net.Client
 
         }
 
-        public void drawBankBox()
+        public void DrawBankBox()
         {
             char c1 = '\u0198';
             char c2 = '\u014E';
@@ -4859,7 +5542,7 @@ namespace OpenRS.Net.Client
             {
                 mouseButtonClick = 0;
                 int l = InputManager.Instance.MouseLocation.X - (256 - c1 / 2);
-                int j1 = InputManager.Instance.MouseLocation.Y - (170 - c2 / 2);
+                int j1 = GameMouseY - (170 - c2 / 2);
 
                 if (l >= 0 && j1 >= 12 && l < 408 && j1 < 280)
                 {
@@ -4906,9 +5589,9 @@ namespace OpenRS.Net.Client
 
                         if (count >= 1 &&
                             InputManager.Instance.MouseLocation.X >= l + 220 &&
-                            InputManager.Instance.MouseLocation.Y >= j1 + 238 &&
+                            GameMouseY >= j1 + 238 &&
                             InputManager.Instance.MouseLocation.X < l + 250 &&
-                            InputManager.Instance.MouseLocation.Y <= j1 + 249)
+                            GameMouseY <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
@@ -4918,9 +5601,9 @@ namespace OpenRS.Net.Client
 
                         if (count >= 5 &&
                             InputManager.Instance.MouseLocation.X >= l + 250 &&
-                            InputManager.Instance.MouseLocation.Y >= j1 + 238 &&
+                            GameMouseY >= j1 + 238 &&
                             InputManager.Instance.MouseLocation.X < l + 280 &&
-                            InputManager.Instance.MouseLocation.Y <= j1 + 249)
+                            GameMouseY <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
@@ -4930,9 +5613,9 @@ namespace OpenRS.Net.Client
 
                         if (count >= 25 &&
                             InputManager.Instance.MouseLocation.X >= l + 280 &&
-                            InputManager.Instance.MouseLocation.Y >= j1 + 238 &&
+                            GameMouseY >= j1 + 238 &&
                             InputManager.Instance.MouseLocation.X < l + 305 &&
-                            InputManager.Instance.MouseLocation.Y <= j1 + 249)
+                            GameMouseY <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
@@ -4942,9 +5625,9 @@ namespace OpenRS.Net.Client
 
                         if (count >= 100 &&
                             InputManager.Instance.MouseLocation.X >= l + 305 &&
-                            InputManager.Instance.MouseLocation.Y >= j1 + 238 &&
+                            GameMouseY >= j1 + 238 &&
                             InputManager.Instance.MouseLocation.X < l + 335 &&
-                            InputManager.Instance.MouseLocation.Y <= j1 + 249)
+                            GameMouseY <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
@@ -4954,9 +5637,9 @@ namespace OpenRS.Net.Client
 
                         if (count >= 500 &&
                             InputManager.Instance.MouseLocation.X >= l + 335 &&
-                            InputManager.Instance.MouseLocation.Y >= j1 + 238 &&
+                            GameMouseY >= j1 + 238 &&
                             InputManager.Instance.MouseLocation.X < l + 368 &&
-                            InputManager.Instance.MouseLocation.Y <= j1 + 249)
+                            GameMouseY <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
@@ -4966,9 +5649,9 @@ namespace OpenRS.Net.Client
 
                         if (count >= 2500 &&
                             InputManager.Instance.MouseLocation.X >= l + 370 &&
-                            InputManager.Instance.MouseLocation.Y >= j1 + 238 &&
+                            GameMouseY >= j1 + 238 &&
                             InputManager.Instance.MouseLocation.X < l + 400 &&
-                            InputManager.Instance.MouseLocation.Y <= j1 + 249)
+                            GameMouseY <= j1 + 249)
                         {
                             StreamClass.CreatePacket(183);
                             StreamClass.AddInt16(id);
@@ -4978,9 +5661,9 @@ namespace OpenRS.Net.Client
 
                         if (inventoryManager.GetItemTotalCount(id) >= 1 &&
                             InputManager.Instance.MouseLocation.X >= l + 220 &&
-                            InputManager.Instance.MouseLocation.Y >= j1 + 263 &&
+                            GameMouseY >= j1 + 263 &&
                             InputManager.Instance.MouseLocation.X < l + 250 &&
-                            InputManager.Instance.MouseLocation.Y <= j1 + 274)
+                            GameMouseY <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
@@ -4990,9 +5673,9 @@ namespace OpenRS.Net.Client
 
                         if (inventoryManager.GetItemTotalCount(id) >= 5 &&
                             InputManager.Instance.MouseLocation.X >= l + 250 &&
-                            InputManager.Instance.MouseLocation.Y >= j1 + 263 &&
+                            GameMouseY >= j1 + 263 &&
                             InputManager.Instance.MouseLocation.X < l + 280 &&
-                            InputManager.Instance.MouseLocation.Y <= j1 + 274)
+                            GameMouseY <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
@@ -5002,9 +5685,9 @@ namespace OpenRS.Net.Client
 
                         if (inventoryManager.GetItemTotalCount(id) >= 25 &&
                             InputManager.Instance.MouseLocation.X >= l + 280 &&
-                            InputManager.Instance.MouseLocation.Y >= j1 + 263 &&
+                            GameMouseY >= j1 + 263 &&
                             InputManager.Instance.MouseLocation.X < l + 305 &&
-                            InputManager.Instance.MouseLocation.Y <= j1 + 274)
+                            GameMouseY <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
@@ -5014,9 +5697,9 @@ namespace OpenRS.Net.Client
 
                         if (inventoryManager.GetItemTotalCount(id) >= 100 &&
                             InputManager.Instance.MouseLocation.X >= l + 305 &&
-                            InputManager.Instance.MouseLocation.Y >= j1 + 263 &&
+                            GameMouseY >= j1 + 263 &&
                             InputManager.Instance.MouseLocation.X < l + 335 &&
-                            InputManager.Instance.MouseLocation.Y <= j1 + 274)
+                            GameMouseY <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
@@ -5026,9 +5709,9 @@ namespace OpenRS.Net.Client
 
                         if (inventoryManager.GetItemTotalCount(id) >= 500 &&
                             InputManager.Instance.MouseLocation.X >= l + 335 &&
-                            InputManager.Instance.MouseLocation.Y >= j1 + 263 &&
+                            GameMouseY >= j1 + 263 &&
                             InputManager.Instance.MouseLocation.X < l + 368 &&
-                            InputManager.Instance.MouseLocation.Y <= j1 + 274)
+                            GameMouseY <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
@@ -5038,9 +5721,9 @@ namespace OpenRS.Net.Client
 
                         if (inventoryManager.GetItemTotalCount(id) >= 2500 &&
                             InputManager.Instance.MouseLocation.X >= l + 370 &&
-                            InputManager.Instance.MouseLocation.Y >= j1 + 263 &&
+                            GameMouseY >= j1 + 263 &&
                             InputManager.Instance.MouseLocation.X < l + 400 &&
-                            InputManager.Instance.MouseLocation.Y <= j1 + 274)
+                            GameMouseY <= j1 + 274)
                         {
                             StreamClass.CreatePacket(198);
                             StreamClass.AddInt16(id);
@@ -5093,9 +5776,9 @@ namespace OpenRS.Net.Client
                     k3 = 0xff0000;
                 }
                 else if (InputManager.Instance.MouseLocation.X > i1 + l2 &&
-                         InputManager.Instance.MouseLocation.Y >= k1 &&
+                         GameMouseY >= k1 &&
                          InputManager.Instance.MouseLocation.X < i1 + l2 + 65 &&
-                         InputManager.Instance.MouseLocation.Y < k1 + 12)
+                         GameMouseY < k1 + 12)
                 {
                     k3 = 0xffff00;
                 }
@@ -5109,9 +5792,9 @@ namespace OpenRS.Net.Client
                     k3 = 0xff0000;
                 }
                 else if (InputManager.Instance.MouseLocation.X > i1 + l2 &&
-                         InputManager.Instance.MouseLocation.Y >= k1 &&
+                         GameMouseY >= k1 &&
                          InputManager.Instance.MouseLocation.X < i1 + l2 + 65 &&
-                         InputManager.Instance.MouseLocation.Y < k1 + 12)
+                         GameMouseY < k1 + 12)
                 {
                     k3 = 0xffff00;
                 }
@@ -5129,9 +5812,9 @@ namespace OpenRS.Net.Client
                     l3 = 0xff0000;
                 }
                 else if (InputManager.Instance.MouseLocation.X > i1 + l2 &&
-                         InputManager.Instance.MouseLocation.Y >= k1 &&
+                         GameMouseY >= k1 &&
                          InputManager.Instance.MouseLocation.X < i1 + l2 + 65 &&
-                         InputManager.Instance.MouseLocation.Y < k1 + 12)
+                         GameMouseY < k1 + 12)
                 {
                     l3 = 0xffff00;
                 }
@@ -5148,23 +5831,22 @@ namespace OpenRS.Net.Client
                     i4 = 0xff0000;
                 }
                 else if (InputManager.Instance.MouseLocation.X > i1 + l2 &&
-                         InputManager.Instance.MouseLocation.Y >= k1 &&
+                         GameMouseY >= k1 &&
                          InputManager.Instance.MouseLocation.X < i1 + l2 + 65 &&
-                         InputManager.Instance.MouseLocation.Y < k1 + 12)
+                         GameMouseY < k1 + 12)
                 {
                     i4 = 0xffff00;
                 }
 
                 gameGraphics.DrawString("<page 4>", i1 + l2, k1 + 10, 1, i4);
-                l2 += 65;
             }
 
             int j4 = 0xffffff;
 
             if (InputManager.Instance.MouseLocation.X > i1 + 320 &&
-                InputManager.Instance.MouseLocation.Y >= k1 &&
+                GameMouseY >= k1 &&
                 InputManager.Instance.MouseLocation.X < i1 + 408 &&
-                InputManager.Instance.MouseLocation.Y < k1 + 12)
+                GameMouseY < k1 + 12)
             {
                 j4 = 0xff0000;
             }
@@ -5242,7 +5924,7 @@ namespace OpenRS.Net.Client
 
                     int k4 = 0xffffff;
 
-                    if (InputManager.Instance.MouseLocation.X >= i1 + 220 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 250 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
+                    if (InputManager.Instance.MouseLocation.X >= i1 + 220 && GameMouseY >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 250 && GameMouseY <= k1 + 249)
                     {
                         k4 = 0xff0000;
                     }
@@ -5253,7 +5935,7 @@ namespace OpenRS.Net.Client
                     {
                         int l4 = 0xffffff;
 
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 250 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 280 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 250 && GameMouseY >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 280 && GameMouseY <= k1 + 249)
                         {
                             l4 = 0xff0000;
                         }
@@ -5265,7 +5947,7 @@ namespace OpenRS.Net.Client
                     {
                         int i5 = 0xffffff;
 
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 280 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 305 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 280 && GameMouseY >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 305 && GameMouseY <= k1 + 249)
                         {
                             i5 = 0xff0000;
                         }
@@ -5277,7 +5959,7 @@ namespace OpenRS.Net.Client
                     {
                         int j5 = 0xffffff;
 
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 305 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 335 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 305 && GameMouseY >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 335 && GameMouseY <= k1 + 249)
                         {
                             j5 = 0xff0000;
                         }
@@ -5289,7 +5971,7 @@ namespace OpenRS.Net.Client
                     {
                         int k5 = 0xffffff;
 
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 335 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 368 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 335 && GameMouseY >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 368 && GameMouseY <= k1 + 249)
                         {
                             k5 = 0xff0000;
                         }
@@ -5301,7 +5983,7 @@ namespace OpenRS.Net.Client
                     {
                         int l5 = 0xffffff;
 
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 370 && InputManager.Instance.MouseLocation.Y >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 400 && InputManager.Instance.MouseLocation.Y <= k1 + 249)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 370 && GameMouseY >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 400 && GameMouseY <= k1 + 249)
                         {
                             l5 = 0xff0000;
                         }
@@ -5316,7 +5998,7 @@ namespace OpenRS.Net.Client
 
                     int i6 = 0xffffff;
 
-                    if (InputManager.Instance.MouseLocation.X >= i1 + 220 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 250 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
+                    if (InputManager.Instance.MouseLocation.X >= i1 + 220 && GameMouseY >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 250 && GameMouseY <= k1 + 274)
                     {
                         i6 = 0xff0000;
                     }
@@ -5327,7 +6009,7 @@ namespace OpenRS.Net.Client
                     {
                         int j6 = 0xffffff;
 
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 250 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 280 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 250 && GameMouseY >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 280 && GameMouseY <= k1 + 274)
                         {
                             j6 = 0xff0000;
                         }
@@ -5339,7 +6021,7 @@ namespace OpenRS.Net.Client
                     {
                         int k6 = 0xffffff;
 
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 280 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 305 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 280 && GameMouseY >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 305 && GameMouseY <= k1 + 274)
                         {
                             k6 = 0xff0000;
                         }
@@ -5351,7 +6033,7 @@ namespace OpenRS.Net.Client
                     {
                         int l6 = 0xffffff;
 
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 305 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 335 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 305 && GameMouseY >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 335 && GameMouseY <= k1 + 274)
                         {
                             l6 = 0xff0000;
                         }
@@ -5363,7 +6045,7 @@ namespace OpenRS.Net.Client
                     {
                         int i7 = 0xffffff;
 
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 335 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 368 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 335 && GameMouseY >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 368 && GameMouseY <= k1 + 274)
                         {
                             i7 = 0xff0000;
                         }
@@ -5375,7 +6057,7 @@ namespace OpenRS.Net.Client
                     {
                         int j7 = 0xffffff;
 
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 370 && InputManager.Instance.MouseLocation.Y >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 400 && InputManager.Instance.MouseLocation.Y <= k1 + 274)
+                        if (InputManager.Instance.MouseLocation.X >= i1 + 370 && GameMouseY >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 400 && GameMouseY <= k1 + 274)
                         {
                             j7 = 0xff0000;
                         }
@@ -5428,9 +6110,7 @@ namespace OpenRS.Net.Client
 
             for (int objectIndex = 0; objectIndex < ObjectCount; objectIndex++)
             {
-                ObjectLocations[objectIndex] = new Point2D(
-                    ObjectLocations[objectIndex].X - offsetX,
-                    ObjectLocations[objectIndex].Y - offsetY);
+                ObjectLocations[objectIndex] -= new Point2D(offsetX, offsetY);
 
                 int objX = ObjectLocations[objectIndex].X;
                 int objY = ObjectLocations[objectIndex].Y;
@@ -5588,16 +6268,16 @@ namespace OpenRS.Net.Client
             destTileY *= GridSize;
 
             // add vertex index bottomLeft
-            int bLeft = wallModel.getVertexIndex(tileX, -engineHandle.GetAveragedElevation(tileX, tileY), tileY);
+            int bLeft = wallModel.GetVertexIndex(tileX, -engineHandle.GetAveragedElevation(tileX, tileY), tileY);
 
             // add vertex index topLeft
-            int tLeft = wallModel.getVertexIndex(tileX, -engineHandle.GetAveragedElevation(tileX, tileY) - wallHeight, tileY);
+            int tLeft = wallModel.GetVertexIndex(tileX, -engineHandle.GetAveragedElevation(tileX, tileY) - wallHeight, tileY);
 
             // add vertex index topRight
-            int tRight = wallModel.getVertexIndex(destTileX, -engineHandle.GetAveragedElevation(destTileX, destTileY) - wallHeight, destTileY);
+            int tRight = wallModel.GetVertexIndex(destTileX, -engineHandle.GetAveragedElevation(destTileX, destTileY) - wallHeight, destTileY);
 
             // vertex index bottomRight
-            int bRight = wallModel.getVertexIndex(destTileX, -engineHandle.GetAveragedElevation(destTileX, destTileY), destTileY);
+            int bRight = wallModel.GetVertexIndex(destTileX, -engineHandle.GetAveragedElevation(destTileX, destTileY), destTileY);
             int[] faceVertices = [bLeft, tLeft, tRight, bRight];
             Point3D shadingPoint = new(-50, -10, -50);
 
@@ -5635,8 +6315,8 @@ namespace OpenRS.Net.Client
 
             if (alreadyExists)
             {
-                mob.npcId = id;
-                mob.nextSprite = sprite;
+                mob.NpcIdentifier = id;
+                mob.NextSprite = sprite;
 
                 int waypointCurrent = mob.WaypointCurrent;
 
@@ -5650,9 +6330,9 @@ namespace OpenRS.Net.Client
             else
             {
                 mob.ServerIndex = serverIndex;
-                mob.npcId = id;
-                mob.nextSprite = mob.currentSprite = sprite;
-                mob.stepCount = 0;
+                mob.NpcIdentifier = id;
+                mob.NextSprite = mob.CurrentSprite = sprite;
+                mob.StepCount = 0;
                 mob.WaypointsEndSprite = 0;
                 mob.WaypointCurrent = 0;
                 mob.Location = new Point2D(x, y);
@@ -5673,7 +6353,7 @@ namespace OpenRS.Net.Client
                 {
                     int j1 = menuX + 2;
                     int l1 = menuY + 27 + l * 15;
-                    if (InputManager.Instance.MouseLocation.X <= j1 - 2 || InputManager.Instance.MouseLocation.Y <= l1 - 12 || InputManager.Instance.MouseLocation.Y >= l1 + 4 || InputManager.Instance.MouseLocation.X >= j1 - 3 + menuWidth)
+                    if (InputManager.Instance.MouseLocation.X <= j1 - 2 || GameMouseY <= l1 - 12 || GameMouseY >= l1 + 4 || InputManager.Instance.MouseLocation.X >= j1 - 3 + menuWidth)
                     {
                         continue;
                     }
@@ -5686,7 +6366,7 @@ namespace OpenRS.Net.Client
                 menuShow = false;
                 return;
             }
-            if (InputManager.Instance.MouseLocation.X < menuX - 10 || InputManager.Instance.MouseLocation.Y < menuY - 10 || InputManager.Instance.MouseLocation.X > menuX + menuWidth + 10 || InputManager.Instance.MouseLocation.Y > menuY + menuHeight + 10)
+            if (InputManager.Instance.MouseLocation.X < menuX - 10 || GameMouseY < menuY - 10 || InputManager.Instance.MouseLocation.X > menuX + menuWidth + 10 || GameMouseY > menuY + menuHeight + 10)
             {
                 menuShow = false;
                 return;
@@ -5698,7 +6378,7 @@ namespace OpenRS.Net.Client
                 int k1 = menuX + 2;
                 int i2 = menuY + 27 + i1 * 15;
                 int j2 = 0xffffff;
-                if (InputManager.Instance.MouseLocation.X > k1 - 2 && InputManager.Instance.MouseLocation.Y > i2 - 12 && InputManager.Instance.MouseLocation.Y < i2 + 4 && InputManager.Instance.MouseLocation.X < k1 - 3 + menuWidth)
+                if (InputManager.Instance.MouseLocation.X > k1 - 2 && GameMouseY > i2 - 12 && GameMouseY < i2 + 4 && InputManager.Instance.MouseLocation.X < k1 - 3 + menuWidth)
                 {
                     j2 = 0xffff00;
                 }
@@ -5711,100 +6391,100 @@ namespace OpenRS.Net.Client
 
         public void getMenuHighlighted()
         {
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 && InputManager.Instance.MouseLocation.Y < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 && GameMouseY < 35)
             {
                 drawMenuTab = 1;
             }
 
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 33 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 33 && InputManager.Instance.MouseLocation.Y < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 33 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 33 && GameMouseY < 35)
             {
                 drawMenuTab = 2;
                 minimapRandomRotationX = (int)(random.NextDouble() * 13D) - 6;
                 minimapRandomRotationY = (int)(random.NextDouble() * 23D) - 11;
             }
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 66 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 66 && InputManager.Instance.MouseLocation.Y < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 66 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 66 && GameMouseY < 35)
             {
                 drawMenuTab = 3;
             }
 
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 99 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 99 && InputManager.Instance.MouseLocation.Y < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 99 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 99 && GameMouseY < 35)
             {
                 drawMenuTab = 4;
             }
 
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 132 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 132 && InputManager.Instance.MouseLocation.Y < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 132 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 132 && GameMouseY < 35)
             {
                 drawMenuTab = 5;
             }
 
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 165 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 165 && InputManager.Instance.MouseLocation.Y < 35)
+            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 165 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 165 && GameMouseY < 35)
             {
                 drawMenuTab = 6;
             }
 
-            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 && InputManager.Instance.MouseLocation.Y < 26)
+            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 && GameMouseY < 26)
             {
                 drawMenuTab = 1;
             }
 
-            if (drawMenuTab != 0 && drawMenuTab != 2 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 33 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 33 && InputManager.Instance.MouseLocation.Y < 26)
+            if (drawMenuTab != 0 && drawMenuTab != 2 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 33 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 33 && GameMouseY < 26)
             {
                 drawMenuTab = 2;
                 minimapRandomRotationX = (int)(random.NextDouble() * 13D) - 6;
                 minimapRandomRotationY = (int)(random.NextDouble() * 23D) - 11;
             }
-            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 66 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 66 && InputManager.Instance.MouseLocation.Y < 26)
+            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 66 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 66 && GameMouseY < 26)
             {
                 drawMenuTab = 3;
             }
 
-            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 99 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 99 && InputManager.Instance.MouseLocation.Y < 26)
+            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 99 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 99 && GameMouseY < 26)
             {
                 drawMenuTab = 4;
             }
 
-            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 132 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 132 && InputManager.Instance.MouseLocation.Y < 26)
+            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 132 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 132 && GameMouseY < 26)
             {
                 drawMenuTab = 5;
             }
 
-            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 165 && InputManager.Instance.MouseLocation.Y >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 165 && InputManager.Instance.MouseLocation.Y < 26)
+            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 165 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 165 && GameMouseY < 26)
             {
                 drawMenuTab = 6;
             }
 
-            if (drawMenuTab == 1 && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 248 || InputManager.Instance.MouseLocation.Y > 36 + InventoryManager.MaximumInventorySize / 5 * 34))
+            if (drawMenuTab == 1 && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 248 || GameMouseY > 36 + InventoryManager.MaximumInventorySize / 5 * 34))
             {
                 drawMenuTab = 0;
             }
 
-            if (drawMenuTab == 3 && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 199 || InputManager.Instance.MouseLocation.Y > 316))
+            if (drawMenuTab == 3 && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 199 || GameMouseY > 316))
             {
                 drawMenuTab = 0;
             }
 
-            if ((drawMenuTab == 2 || drawMenuTab == 4 || drawMenuTab == 5) && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 199 || InputManager.Instance.MouseLocation.Y > 240))
+            if ((drawMenuTab == 2 || drawMenuTab == 4 || drawMenuTab == 5) && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 199 || GameMouseY > 240))
             {
                 drawMenuTab = 0;
             }
 
-            if (drawMenuTab == 6 && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 199 || InputManager.Instance.MouseLocation.Y > 326))
+            if (drawMenuTab == 6 && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 199 || GameMouseY > 326))
             {
                 drawMenuTab = 0;
             }
         }
 
         public ClientMob GetLastPlayer(int serverIndex) => LastPlayers
-                .Where(x => x != null) // TODO: Remove this check once it is safe
+                .Where(x => x is not null) // TODO: Remove this check once it is safe
                 .FirstOrDefault(x => x.ServerIndex == serverIndex);
 
         public ClientMob GetLastNpc(int serverIndex) => LastNpcs
-                .Where(x => x != null) // TODO: Remove this check once it is safe
+                .Where(x => x is not null) // TODO: Remove this check once it is safe
                 .FirstOrDefault(x => x.ServerIndex == serverIndex);
 
         public string joinString(string[] hay, string glue, int start)
         {
-            string ret = "";
+            string ret = string.Empty;
             for (int i = start; i < hay.Length; i++)
             {
                 ret += hay[i] + (i != hay.Length - 1 ? glue : "");
@@ -6022,5 +6702,78 @@ namespace OpenRS.Net.Client
         public int[][] captchaPixels;
         public int captchaWidth;
         public int captchaHeight;
+
+        // Trading fields
+        public bool showTradeBox;
+        public bool showTradeConfirmBox;
+        public string tradeOtherName;
+        public bool tradeOtherAccepted;
+        public bool tradeWeAccepted;
+        public int tradeItemsOurCount;
+        public int tradeItemsOtherCount;
+        public int[] tradeItemsOther;
+        public int[] tradeItemOtherCount;
+        public long tradeConfirmOtherNameLong;
+        public int tradeConfirmOtherItemCount;
+        public int[] tradeConfirmOtherItems;
+        public int[] tradeConfirmOtherItemsCount;
+        public int[] tradeConfigItemsCount;
+        public bool tradeConfirmAccepted;
+        public int[] tradeConfirmItems;
+
+        // Dueling fields
+        public bool showDuelBox;
+        public bool showDuelConfirmBox;
+        public string duelOpponent;
+        public long duelOpponentHash;
+        public int duelMyItemCount;
+        public int duelOpponentItemCount;
+        public bool duelOpponentAccepted;
+        public bool duelMyAccepted;
+        public bool duelNoRetreating;
+        public bool duelNoMagic;
+        public bool duelNoPrayer;
+        public bool duelNoWeapons;
+        public int[] duelOpponentItems;
+        public int[] duelOpponentItemsCount;
+        public int[] duelMyItems;
+        public int[] duelMyItemsCount;
+        public bool duelConfirmOurAccepted;
+        public int duelOpponentStakeCount;
+        public int[] duelOpponentStakeItem;
+        public int[] duelOutStakeItemCount;
+        public int duelOurStakeCount;
+        public int[] duelOurStakeItem;
+        public int[] duelOurStakeItemCount;
+        public int duelRetreat;
+        public int duelMagic;
+        public int duelPrayer;
+        public int duelWeapons;
+
+        // Bank (RSCXNA-style raw arrays, kept in sync with inventoryManager)
+        public int serverBankItemsCount;
+        public int maxBankItems;
+        public int[] serverBankItems;
+        public int[] serverBankItemCount;
+
+        // Game state fields
+        public int systemUpdate;
+        public int logoutTimer;
+        public bool autoScreenshot;
+        public int wildType;
+        public int combatTimeout;
+
+        // Welcome / server message
+        public bool showWelcomeBox;
+        public bool showServerMessageBox;
+        public int lastLoginDays;
+        public int subDaysLeft;
+        public string lastLoginAddress;
+        public bool loginScreenShown;
+
+        // Trade "our" side arrays (what we are offering)
+        public int[] tradeItemsOur;
+        public int[] tradeItemOurCount;
+        public int mouseClickedHeldInTradeDuelBox;
     }
 }

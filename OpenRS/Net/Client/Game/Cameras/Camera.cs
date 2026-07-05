@@ -444,7 +444,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
             for (int k1 = 0; k1 < currentObjectCount; k1++)
             {
-                if (objectCache[k1] != null)
+                if (objectCache[k1] is not null)
                 {
                     objectCache[k1].Cnh(viewLocation, bde, bdf, bdg, bcn, bbf);
                 }
@@ -3451,7 +3451,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             }
 
             bem[arg0] = bfb++;
-            if (objectTexturePixels[arg0] != null)
+            if (objectTexturePixels[arg0] is not null)
             {
                 return;
             }
@@ -3473,7 +3473,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 int j1 = 0;
                 for (int i2 = 0; i2 < bei; i2++)
                 {
-                    if (i2 != arg0 && bel[i2] == 0 && objectTexturePixels[i2] != null && bem[i2] < l1)
+                    if (i2 != arg0 && bel[i2] == 0 && objectTexturePixels[i2] is not null && bem[i2] < l1)
                     {
                         l1 = bem[i2];
                         j1 = i2;
@@ -3500,7 +3500,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             int k1 = 0;
             for (int j2 = 0; j2 < bei; j2++)
             {
-                if (j2 != arg0 && bel[j2] == 1 && objectTexturePixels[j2] != null && bem[j2] < l2)
+                if (j2 != arg0 && bel[j2] == 1 && objectTexturePixels[j2] is not null && bem[j2] < l2)
                 {
                     l2 = bem[j2];
                     k1 = j2;

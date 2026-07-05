@@ -7,7 +7,11 @@ namespace OpenRS.Net.Client
         public int FrameHeight { get; set; }
         public int OffsetY { get; set; }
 
-        public GameFrame(GameApplet gameApplet, int width, int height, bool doTranslation)
+        public GameFrame(
+            GameApplet gameApplet,
+            int width,
+            int height,
+            bool doTranslation)
         {
             GameApplet = gameApplet;
             FrameWidth = width;

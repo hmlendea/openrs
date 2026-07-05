@@ -32,7 +32,7 @@ namespace OpenRS.Net.Client.Net
             applet.StartThread(run);
         }
 
-        public bool IsConnected => socket != null && socket.Connected;
+        public bool IsConnected => socket is not null && socket.Connected;
 
         private void OnRead(IAsyncResult result)
         {

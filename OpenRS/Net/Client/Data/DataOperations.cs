@@ -7,9 +7,10 @@ namespace OpenRS.Net.Client.Data
 {
     public class DataOperations
     {
-        public static MemoryStream openInputStream(string arg0)
+        public static MemoryStream OpenInputStream(string arg0)
         {
             Stream obj;
+
             if (codeBase is null)
             {
                 obj = File.OpenRead(arg0);
@@ -18,17 +19,17 @@ namespace OpenRS.Net.Client.Data
             {
                 Uri url = new(codeBase, arg0);
 
-                var req = HttpWebRequest.Create(url.ToString());
+                var req = WebRequest.Create(url.ToString());
 
                 obj = req.GetResponse().GetResponseStream();
             }
 
             MemoryStream memory = new();
-            int j = 0;
             byte[] buffer = new byte[2048];
 
 
 
+            int j;
             //using (BinaryWriter binaryWriter = new BinaryWriter(outputStream))
             //{
             //    binaryWriter.Write((sbyte[])(Array)sbytes);
@@ -45,7 +46,7 @@ namespace OpenRS.Net.Client.Data
             return memory;
         }
 
-        private static sbyte[] streamToSbyte(BinaryReader stream, int length)
+        private static sbyte[] StreamToSbyte(BinaryReader stream, int length)
         {
             List<sbyte> list = [];
             {
@@ -60,20 +61,20 @@ namespace OpenRS.Net.Client.Data
             return [.. list];
         }
 
-        public static void readFully(string p, sbyte[] abyte1, int i)
+        public static void ReadFully(string p, sbyte[] abyte1, int i)
         {
             //org.moparscape.msc.client.DataOperations.readFully(p, abyte1, i);
-            using var stream = openInputStream(p);
-            abyte1 = streamToSbyte(new BinaryReader(stream), i);
+            using var stream = OpenInputStream(p);
+            abyte1 = StreamToSbyte(new BinaryReader(stream), i);
             //for (int j = 0; j < i; j++) {
             //    abyte1[j] =
             //}
             //stream.Read(abyte1, 0, i);
         }
 
-        public static void readFully(string p, byte[] abyte1, int i)
+        public static void ReadFully(string p, byte[] abyte1, int i)
         {
-            using var stream = openInputStream(p);
+            using var stream = OpenInputStream(p);
             stream.Read(abyte1, 0, i);
         }
 
@@ -84,7 +85,7 @@ namespace OpenRS.Net.Client.Data
                     (GetInt32(abyte0, i + 4) & 0xffffffffL);
 
 
-        public static int getShort2(sbyte[] abyte0, int i)
+        public static int GetShort2(sbyte[] abyte0, int i)
         {
             int j = GetInt8(abyte0[i]) * 256 + GetInt8(abyte0[i + 1]);
             if (j > 32767)
@@ -136,7 +137,7 @@ namespace OpenRS.Net.Client.Data
 
         public static string FormatString(string str, int length)
         {
-            string s = "";
+            string s = string.Empty;
 
             for (int i = 0; i < length; i++)
             {
@@ -163,45 +164,47 @@ namespace OpenRS.Net.Client.Data
                    (ip >> 8 & 255) + "." +
                    (ip & 255);
 
-        public static long nameToHash(string arg0)
+        public static long NameToHash(string arg0)
         {
-            string s = "";
+            string str = string.Empty;
+
             for (int i = 0; i < arg0.Length; i++)
             {
                 char c = arg0[i];
+
                 if (c >= 'a' && c <= 'z')
                 {
-                    s += c;
+                    str += c;
                 }
                 else
                 {
                     if (c >= 'A' && c <= 'Z')
                     {
-                        s += (char)(c + 97 - 65);
+                        str += (char)(c + 97 - 65);
                     }
                     else
                     {
                         if (c >= '0' && c <= '9')
                         {
-                            s += c;
+                            str += c;
                         }
                         else
                         {
-                            s += ' ';
+                            str += ' ';
                         }
                     }
                 }
             }
 
-            s = s.Trim();
-            if (s.Length > 12)
+            str = str.Trim();
+            if (str.Length > 12)
             {
-                s = s[..12];
+                str = str[..12];
             }
             long l = 0L;
-            for (int j = 0; j < s.Length; j++)
+            for (int j = 0; j < str.Length; j++)
             {
-                char c1 = s[j];
+                char c1 = str[j];
                 l *= 37L;
                 if (c1 >= 'a' && c1 <= 'z')
                 {
@@ -226,7 +229,7 @@ namespace OpenRS.Net.Client.Data
                 return "invalid_name";
             }
 
-            string str = "";
+            string str = string.Empty;
 
             while (hash != 0L)
             {

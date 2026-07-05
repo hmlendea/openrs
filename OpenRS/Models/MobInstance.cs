@@ -71,7 +71,7 @@ namespace OpenRS.Models
         {
             get
             {
-                return (mobSprite == 8 || mobSprite == 9) && CombatOpponent != null;
+                return (mobSprite == 8 || mobSprite == 9) && CombatOpponent is not null;
             }
         }
 

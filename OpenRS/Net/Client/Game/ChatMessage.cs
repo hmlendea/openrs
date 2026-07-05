@@ -213,30 +213,30 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        lastChat[i++] = (byte)l;
+                        LastChat[i++] = (byte)l;
                     }
                 }
                 else if (l < 13)
                 {
-                    lastChat[i++] = (byte)((j << 4) + l);
+                    LastChat[i++] = (byte)((j << 4) + l);
                     j = -1;
                 }
                 else
                 {
-                    lastChat[i++] = (byte)((j << 4) + (l >> 4));
+                    LastChat[i++] = (byte)((j << 4) + (l >> 4));
                     j = l & 0xf;
                 }
             }
 
             if (j != -1)
             {
-                lastChat[i++] = (byte)(j << 4);
+                LastChat[i++] = (byte)(j << 4);
             }
 
             return i;
         }
 
-        public static byte[] lastChat = new byte[100];
+        public static byte[] LastChat = new byte[100];
         public static char[] chatMessage = new char[100];
 
         private static readonly char[] validChars = [

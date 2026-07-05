@@ -702,7 +702,7 @@ namespace OpenRS.Net.Client.Game
 
                 if (l1 == 0xffffff)
                 {
-                    if (pictureColors[j1] != null)
+                    if (pictureColors[j1] is not null)
                     {
                         if (!flag)
                         {
@@ -723,7 +723,7 @@ namespace OpenRS.Net.Client.Game
                     cdg(pixels, pictureColorIndexes[j1], pictureColor[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, j3, i4, j5);
                     return;
                 }
-                if (pictureColors[j1] != null)
+                if (pictureColors[j1] is not null)
                 {
                     if (!flag)
                     {
@@ -1172,8 +1172,17 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        private void Cch(ref int[] pixels, sbyte[] colourIndexes, int[] arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7, int arg8, int arg9)
+        private void Cch(
+            ref int[] pixels,
+            sbyte[] colourIndexes,
+            int[] arg2,
+            int arg3,
+            int arg4,
+            int arg5,
+            int arg6,
+            int arg7,
+            int arg8,
+            int arg9)
         {
             int i = -(arg5 >> 2);
             arg5 = -(arg5 & 3);
@@ -1870,6 +1879,7 @@ namespace OpenRS.Net.Client.Game
                     }
 
                     arg14 = 1 - arg14;
+
                     if (arg14 != 0)
                     {
                         for (int k3 = k2; k3 < k2 + l2; k3++)

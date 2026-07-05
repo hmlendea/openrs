@@ -58,7 +58,7 @@ namespace OpenRS.Net.Client.Net
             packetOffset = 3;
             skipOffset = 8;
             MaximumPacketCount = 5000;
-            ErrorMessage = "";
+            ErrorMessage = string.Empty;
             HasErrors = false;
         }
 

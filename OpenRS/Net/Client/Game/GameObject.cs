@@ -133,7 +133,7 @@ namespace OpenRS.Net.Client.Game
         }
 
         // TODO: REMOVE ASAP
-        public int getVertexIndex(int x, int y, int z)
+        public int GetVertexIndex(int x, int y, int z)
         {
             Point3D point = new(x, y, z);
 
@@ -141,7 +141,7 @@ namespace OpenRS.Net.Client.Game
         }
 
         // TODO: REMOVE ASAP
-        public void offsetLocation(int x, int y, int z)
+        public void OffsetLocation(int x, int y, int z)
         {
             Point3D point = new(x, y, z);
 
@@ -174,6 +174,7 @@ namespace OpenRS.Net.Client.Game
             gouraud_shade = new int[polygonCount];
             cgh = new int[polygonCount];
             cgg = new int[polygonCount];
+
             if (!cid)
             {
                 vertX = new int[_vert_count];
@@ -280,21 +281,21 @@ namespace OpenRS.Net.Client.Game
 
             for (int verticeIndex = 0; verticeIndex < _vert_count; verticeIndex++)
             {
-                verticeLocations[verticeIndex].X = DataOperations.getShort2(data, offset);
+                verticeLocations[verticeIndex].X = DataOperations.GetShort2(data, offset);
                 _vertices[verticeIndex] = new Vector3(verticeLocations[verticeIndex].X, _vertices[verticeIndex].Y, _vertices[verticeIndex].Z);
                 offset += 2;
             }
 
             for (int verticeIndex = 0; verticeIndex < _vert_count; verticeIndex++)
             {
-                verticeLocations[verticeIndex].Y = DataOperations.getShort2(data, offset);
+                verticeLocations[verticeIndex].Y = DataOperations.GetShort2(data, offset);
                 _vertices[verticeIndex] = new Vector3(_vertices[verticeIndex].X, verticeLocations[verticeIndex].Y, _vertices[verticeIndex].Z);
                 offset += 2;
             }
 
             for (int verticeIndex = 0; verticeIndex < _vert_count; verticeIndex++)
             {
-                verticeLocations[verticeIndex].Z = DataOperations.getShort2(data, offset);
+                verticeLocations[verticeIndex].Z = DataOperations.GetShort2(data, offset);
                 _vertices[verticeIndex] = new Vector3(_vertices[verticeIndex].X, _vertices[verticeIndex].Y, verticeLocations[verticeIndex].Z);
                 offset += 2;
             }
@@ -307,7 +308,7 @@ namespace OpenRS.Net.Client.Game
 
             for (int l1 = 0; l1 < _face_count; l1++)
             {
-                texture_back[l1] = DataOperations.getShort2(data, offset);
+                texture_back[l1] = DataOperations.GetShort2(data, offset);
                 offset += 2;
                 if (texture_back[l1] == 32767)
                 {
@@ -317,7 +318,7 @@ namespace OpenRS.Net.Client.Game
 
             for (int i2 = 0; i2 < _face_count; i2++)
             {
-                texture_front[i2] = DataOperations.getShort2(data, offset);
+                texture_front[i2] = DataOperations.GetShort2(data, offset);
                 offset += 2;
                 if (texture_front[i2] == 32767)
                 {
@@ -385,9 +386,10 @@ namespace OpenRS.Net.Client.Game
             cle = 512;
             clf = 32;
             byte[] abyte0 = null;
+
             try
             {
-                var inputstream = DataOperations.openInputStream(fileName);
+                var inputstream = DataOperations.OpenInputStream(fileName);
                 //DataInputStream datainputstream = new DataInputStream(inputstream);
                 abyte0 = new byte[3];
                 clg = 0;
@@ -414,8 +416,10 @@ namespace OpenRS.Net.Client.Game
                 face_count = 0;
                 return;
             }
+
             int i1 = GetShadeValue((sbyte[])(Array)abyte0);
             int j1 = GetShadeValue((sbyte[])(Array)abyte0);
+
             InitializeObject(i1, j1);
             cje = new int[j1][];
 

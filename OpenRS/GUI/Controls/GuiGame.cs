@@ -49,7 +49,7 @@ namespace OpenRS.Gui.Controls
         /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime)
         {
-            if (gameClient != null) // TODO: Ugly null check
+            if (gameClient is not null) // TODO: Ugly null check
             {
                 gameClient.Update(gameTime);
             }
@@ -117,6 +117,10 @@ namespace OpenRS.Gui.Controls
                         colors[j] = GraphicsEngine.RgbaToUInt(r, g, b, 255);
                     }
 
+                    int gameViewWidth = client.gameGraphics.GameSize.Width - 248;
+                    int gameViewHeight = client.WindowSize.Height;
+                    Rectangle srcRect = new Rectangle(0, 0, gameViewWidth, gameViewHeight);
+
                     if (client.gameGraphics.pixels.Any(p => p != 0) && client.DrawIsNecessary)
                     {
                         Texture2D imageTexture = new(
@@ -128,24 +132,24 @@ namespace OpenRS.Gui.Controls
 
                         imageTexture.SetData(colors.ToArray());
 
-                        Rectangle srcRect = new Rectangle(0, 0, Size.Width, Size.Height);
-                        spriteBatch.Draw(imageTexture, Vector2.Zero, srcRect, Color.White);
+                        spriteBatch.Draw(imageTexture, new Rectangle(0, 0, Size.Width, Size.Height), srcRect, Color.White);
 
                         _lastGameImageTexture = imageTexture;
 
                         client.DrawIsNecessary = false;
 
                     }
-                    else if (_lastGameImageTexture != null)
+                    else if (_lastGameImageTexture is not null)
                     {
-                        Rectangle srcRect = new Rectangle(0, 0, Size.Width, Size.Height);
-                        spriteBatch.Draw(_lastGameImageTexture, Vector2.Zero, srcRect, Color.White);
+                        spriteBatch.Draw(_lastGameImageTexture, new Rectangle(0, 0, Size.Width, Size.Height), srcRect, Color.White);
                     }
                 }
-                else if (_lastGameImageTexture != null)
+                else if (_lastGameImageTexture is not null)
                 {
-                    Rectangle srcRect = new Rectangle(0, 0, Size.Width, Size.Height);
-                    spriteBatch.Draw(_lastGameImageTexture, Vector2.Zero, srcRect, Color.White);
+                    int gameViewWidth = client.gameGraphics.GameSize.Width - 248;
+                    int gameViewHeight = client.WindowSize.Height;
+                    Rectangle srcRect = new Rectangle(0, 0, gameViewWidth, gameViewHeight);
+                    spriteBatch.Draw(_lastGameImageTexture, new Rectangle(0, 0, Size.Width, Size.Height), srcRect, Color.White);
                 }
             }
             catch (Exception ex)

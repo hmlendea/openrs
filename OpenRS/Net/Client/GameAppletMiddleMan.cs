@@ -24,8 +24,8 @@ namespace OpenRS.Net.Client
 
         public GameAppletMiddleMan()
         {
-            username = "";
-            password = "";
+            username = string.Empty;
+            password = string.Empty;
             data = new sbyte[10000];
         }
 
@@ -80,7 +80,7 @@ namespace OpenRS.Net.Client
                 MaximumPacketReadCount = maxPacketReadCount
             };
 
-            long l = DataOperations.nameToHash(user);
+            long l = DataOperations.NameToHash(user);
             StreamClass.CreatePacket(32);
             StreamClass.AddInt8((int)(l >> 16 & 31L));
             StreamClass.AddString("&%..."); // TODO: not used server-side
@@ -145,7 +145,8 @@ namespace OpenRS.Net.Client
                     return;
 
                 case LoginCode.Code5:
-                    throw new LoginException("CODE 5");
+                    Console.WriteLine("Login error: unable to login (code 5). Please retry.");
+                    return;
 
                 case LoginCode.Code99:
                     reconnectTries = 0;
@@ -182,8 +183,8 @@ namespace OpenRS.Net.Client
 
             if (reconnecting)
             {
-                user = "";
-                pass = "";
+                user = string.Empty;
+                pass = string.Empty;
                 resetIntVars();
                 return;
             }
@@ -197,8 +198,8 @@ namespace OpenRS.Net.Client
             }
             if (reconnecting)
             {
-                username = "";
-                password = "";
+                username = string.Empty;
+                password = string.Empty;
                 resetIntVars();
             }
             else
@@ -209,7 +210,7 @@ namespace OpenRS.Net.Client
 
         protected void requestLogout()
         {
-            if (StreamClass != null)
+            if (StreamClass is not null)
             {
                 try
                 {
@@ -222,8 +223,8 @@ namespace OpenRS.Net.Client
                 }
             }
 
-            username = "";
-            password = "";
+            username = string.Empty;
+            password = string.Empty;
             resetIntVars();
         }
 

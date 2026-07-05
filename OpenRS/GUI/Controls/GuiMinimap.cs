@@ -200,7 +200,7 @@ namespace OpenRS.Gui.Controls
 
         private void DrawNpcDots(SpriteBatch spriteBatch, int j1, int l1, int j5, int l5)
         {
-            foreach (ClientMob npc in client.Npcs.Where(x => x != null))
+            foreach (ClientMob npc in client.Npcs.Where(x => x is not null))
             {
                 Point2D npcLocaiton = new(
                     (npc.Location.X - client.CurrentPlayer.Location.X) * 3 * j1 / 2048,
@@ -218,7 +218,7 @@ namespace OpenRS.Gui.Controls
 
         private void DrawPlayerDots(SpriteBatch spriteBatch, int j1, int l1, int j5, int l5)
         {
-            foreach (ClientMob player in client.Players.Where(x => x != null))
+            foreach (ClientMob player in client.Players.Where(x => x is not null))
             {
                 Point2D playerLocaiton = new(
                     (player.Location.X - client.CurrentPlayer.Location.X) * 3 * j1 / 2048,

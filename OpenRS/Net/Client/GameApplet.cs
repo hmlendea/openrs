@@ -155,7 +155,7 @@ namespace OpenRS.Net.Client
 
                 CloseProgram();
 
-                if (gameWindowThread != null)
+                if (gameWindowThread is not null)
                 {
                     gameWindowThread.Abort();
                     gameWindowThread = null;
@@ -290,7 +290,6 @@ namespace OpenRS.Net.Client
             }
 
             fij--;
-            j1 &= 0xff;
         }
 
         public virtual void DrawWindow()
@@ -374,7 +373,7 @@ namespace OpenRS.Net.Client
                 {
                     Console.WriteLine("Loading " + fileTitle + " - 0%");
                     drawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 0%");
-                    var inputstream = new BinaryReader(DataOperations.openInputStream(filename));
+                    var inputstream = new BinaryReader(DataOperations.OpenInputStream(filename));
                     sbyte[] abyte2 = [
                         inputstream.ReadSByte(),inputstream.ReadSByte(),inputstream.ReadSByte(),
                         inputstream.ReadSByte(),inputstream.ReadSByte(),inputstream.ReadSByte()

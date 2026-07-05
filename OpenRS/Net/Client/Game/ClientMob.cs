@@ -45,13 +45,13 @@ namespace OpenRS.Net.Client.Game
         public string Flag { get; set; }
         public string Name { get; set; }
 
-        public string username;
-        public int npcId;
-        public int stepCount;
-        public int currentSprite;
-        public int nextSprite;
-        public string lastMessage;
-        public int lastMessageTimeout;
-        public int combatTimer;
+        public string Username;
+        public int NpcIdentifier;
+        public int StepCount;
+        public int CurrentSprite;
+        public int NextSprite;
+        public string LastMessage;
+        public int LastMessageTimeout;
+        public int CombatTimer;
     }
 }

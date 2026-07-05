@@ -2,7 +2,6 @@
 {
     public class CameraModel
     {
-
         public CameraModel()
         {
             bld = false;

@@ -13,7 +13,7 @@ namespace OpenRS.Net.Client
         private static readonly string[] fileName = new string[50];
         private static readonly sbyte[][] fileData = new sbyte[50][];
 
-        public static sbyte[] streamToSbyte(BinaryReader stream)
+        public static sbyte[] StreamToSbyte(BinaryReader stream)
         {
             List<sbyte> list = [];
 
@@ -87,7 +87,7 @@ namespace OpenRS.Net.Client
         private static void AddFile(string filename, BinaryReader reader)
         {
             fileName[currentFile] = filename;
-            fileData[currentFile] = streamToSbyte(reader);
+            fileData[currentFile] = StreamToSbyte(reader);
 
             currentFile += 1;
         }

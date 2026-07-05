@@ -255,9 +255,6 @@ namespace OpenRS.Net.Client
                     HandleIgnoreList(data, length);
                     return true;
 
-                case ServerCommand.LoginScreen:
-                    return true;
-
                 case ServerCommand.WontImplement158:
                     return true;
 
@@ -305,8 +302,6 @@ namespace OpenRS.Net.Client
             int itemId = DataOperations.GetInt16(data, off);
             off += 2;
             int itemCount = DataOperations.GetInt32(data, off);
-            off += 4;
-
             inventoryManager.BankItem(itemId, itemSlot, itemCount);
         }
 
@@ -412,12 +407,11 @@ namespace OpenRS.Net.Client
                     {
                         client.engineHandle.registerObjectDir(newSectionLocation.X, newSectionLocation.Y, rotation);
 
-                        int width = 0;
-                        int height = 0;
-
 #warning this sometimes returns null (index = WorldObjectCount)
                         WorldObject worldObject = entityManager.GetWorldObject(index);
 
+                        int width;
+                        int height;
                         if (rotation == 0 || rotation == 4)
                         {
                             width = worldObject.Width;
@@ -490,7 +484,7 @@ namespace OpenRS.Net.Client
                     int i30 = DataOperations.GetInt16(data, mobUpdateOffset);
                     mobUpdateOffset += 2;
 
-                    if (mob != null)
+                    if (mob is not null)
                     {
                         mob.PlayerSkullTimeout = 150;
                         mob.ItemAboveHeadId = i30;
@@ -501,14 +495,14 @@ namespace OpenRS.Net.Client
                     // Player talking
                     byte byte7 = (byte)data[mobUpdateOffset++];
 
-                    if (mob != null)
+                    if (mob is not null)
                     {
                         string s2 = DataConversions.ByteToString(data, mobUpdateOffset, byte7);
 
-                        mob.lastMessageTimeout = 150;
-                        mob.lastMessage = s2;
+                        mob.LastMessageTimeout = 150;
+                        mob.LastMessage = s2;
 
-                        if ((mob.Flag != null) && (mob.Flag != ""))
+                        if ((mob.Flag is not null) && (mob.Flag != string.Empty))
                         {
                             // TODO
                             //client.displayMessage("#f" + mob.Flag + "# " + ((mob.Clan.ToLower().Equals("null")) ? "" : "[@cya@" + mob.Clan + "@yel@] ") + mob.Name + ": " + mob.lastMessage, 2, mob.Admin);
@@ -527,12 +521,12 @@ namespace OpenRS.Net.Client
                     int hits = DataOperations.GetInt8(data[mobUpdateOffset++]);
                     int hitsBase = DataOperations.GetInt8(data[mobUpdateOffset++]);
 
-                    if (mob != null)
+                    if (mob is not null)
                     {
                         mob.LastDamageCount = DataOperations.GetInt8(data[mobUpdateOffset++]); ;
                         mob.CurrentHitpoints = hits;
                         mob.BaseHitpoints = hitsBase;
-                        mob.combatTimer = 200;
+                        mob.CombatTimer = 200;
 
                         if (mob == client.CurrentPlayer)
                         {
@@ -551,7 +545,7 @@ namespace OpenRS.Net.Client
                     int k34 = DataOperations.GetInt16(data, mobUpdateOffset);
                     mobUpdateOffset += 2;
 
-                    if (mob != null)
+                    if (mob is not null)
                     {
                         mob.ProjectileType = k30;
                         mob.AttackingNpcIndex = k34;
@@ -568,7 +562,7 @@ namespace OpenRS.Net.Client
                     int l34 = DataOperations.GetInt16(data, mobUpdateOffset);
                     mobUpdateOffset += 2;
 
-                    if (mob != null)
+                    if (mob is not null)
                     {
                         mob.ProjectileType = l30;
                         mob.AttackingPlayerIndex = l34;
@@ -579,7 +573,7 @@ namespace OpenRS.Net.Client
                 else if (mobUpdateType == 5)
                 {
                     // Apperance update
-                    if (mob != null)
+                    if (mob is not null)
                     {
                         try
                         {
@@ -618,7 +612,7 @@ namespace OpenRS.Net.Client
                             string s = DataOperations.LongToString(DataOperations.GetInt16(data, mobUpdateOffset));
                             mobUpdateOffset += 8;
 
-                            if ((s != null) || (!s.Equals("--")))
+                            if ((s is not null) || (!s.Equals("--")))
                             {
                                 mob.Flag = s.ToUpper();
                             }
@@ -645,11 +639,11 @@ namespace OpenRS.Net.Client
                     byte byte8 = (byte)data[mobUpdateOffset];
                     mobUpdateOffset++;
 
-                    if (mob != null)
+                    if (mob is not null)
                     {
                         string s3 = DataConversions.ByteToString(data, mobUpdateOffset, byte8);
-                        mob.lastMessageTimeout = 150;
-                        mob.lastMessage = s3;
+                        mob.LastMessageTimeout = 150;
+                        mob.LastMessage = s3;
 
                         if (mob == client.CurrentPlayer)
                         {
@@ -721,7 +715,7 @@ namespace OpenRS.Net.Client
                             waypoint.Y -= client.GridSize;
                         }
 
-                        newNpc.nextSprite = nextSprite;
+                        newNpc.NextSprite = nextSprite;
                         newNpc.WaypointCurrent = waypointCurrent = (waypointCurrent + 1) % 10;
                         newNpc.Waypoints[waypointCurrent] = waypoint;
                     }
@@ -735,7 +729,7 @@ namespace OpenRS.Net.Client
                             continue;
                         }
 
-                        newNpc.nextSprite = nextSpriteOffset;
+                        newNpc.NextSprite = nextSpriteOffset;
                     }
                 }
 
@@ -919,7 +913,7 @@ namespace OpenRS.Net.Client
                             newWaypoint.Y -= client.GridSize;
                         }
 
-                        mob.nextSprite = currentNextSprite;
+                        mob.NextSprite = currentNextSprite;
                         mob.WaypointCurrent = currentWaypoint = (currentWaypoint + 1) % 10;
                         mob.Waypoints[currentWaypoint] = newWaypoint;
                     }
@@ -933,7 +927,7 @@ namespace OpenRS.Net.Client
                             continue;
                         }
 
-                        mob.nextSprite = needsNextSprite;
+                        mob.NextSprite = needsNextSprite;
                     }
                 }
 
@@ -992,7 +986,6 @@ namespace OpenRS.Net.Client
                 }
 
                 client.StreamClass.FormatPacket();
-                mobCount = 0;
             }
         }
 
@@ -1039,16 +1032,16 @@ namespace OpenRS.Net.Client
                     sbyte messageLength = data[offset];
                     offset++;
 
-                    if (mob != null)
+                    if (mob is not null)
                     {
                         string str = ChatMessage.BytesToString(data, offset, messageLength);
-                        mob.lastMessageTimeout = 150;
-                        mob.lastMessage = str;
+                        mob.LastMessageTimeout = 150;
+                        mob.LastMessage = str;
 
                         if (playerIndex == client.CurrentPlayer.ServerIndex)
                         {
                             // TODO: Is this retrieving the name correctly?
-                            client.DisplayMessage(entityManager.GetNpc(mob.npcId).Name + ": " + mob.lastMessage);
+                            client.DisplayMessage(entityManager.GetNpc(mob.NpcIdentifier).Name + ": " + mob.LastMessage);
                         }
                     }
 
@@ -1065,12 +1058,12 @@ namespace OpenRS.Net.Client
                     int baseHits = DataOperations.GetInt8(data[offset]);
                     offset++;
 
-                    if (mob != null)
+                    if (mob is not null)
                     {
                         mob.LastDamageCount = lastDamageCount;
                         mob.CurrentHitpoints = currentHits;
                         mob.BaseHitpoints = baseHits;
-                        mob.combatTimer = 200;
+                        mob.CombatTimer = 200;
                     }
                 }
             }
@@ -1110,7 +1103,7 @@ namespace OpenRS.Net.Client
 
             for (int i = 0; i < 5; i++)
             {
-                client.EquipmentStatus[i] = DataOperations.getShort2(data, offset);
+                client.EquipmentStatus[i] = DataOperations.GetShort2(data, offset);
                 offset += 2;
             }
         }
@@ -1259,7 +1252,6 @@ namespace OpenRS.Net.Client
             if (entityManager.GetItem(val & 0x7fff).IsStackable == 0)
             {
                 count = DataOperations.GetInt32(data, offset);
-                offset += 4;
             }
 
             inventoryManager.SetItem(newCount, val & 0x7fff);

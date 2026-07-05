@@ -4,7 +4,14 @@ namespace OpenRS.Net.Client
 {
     public class GameImageMiddleMan(int width, int height, int size) : GraphicsEngine(width, height, size)
     {
-        public override void DrawVisibleEntity(int x, int y, int width, int height, int objectId, int unknownParam1, int unknownParam2)
+        public override void DrawVisibleEntity(
+            int x,
+            int y,
+            int width,
+            int height,
+            int objectId,
+            int unknownParam1,
+            int unknownParam2)
         {
             if (objectId >= 50000)
             {

@@ -113,7 +113,7 @@ namespace OpenRS.Net.Client
                 return;
             }
 
-            if (selectedComponent != -1 && componentText[selectedComponent] != null && componentAcceptsInput[selectedComponent])
+            if (selectedComponent != -1 && componentText[selectedComponent] is not null && componentAcceptsInput[selectedComponent])
             {
                 int i = componentText[selectedComponent].Length;
                 if (key == Keys.Back && i > 0)
@@ -254,7 +254,7 @@ namespace OpenRS.Net.Client
             if (componentIsPasswordField[arg0])
             {
                 int i = text.Length;
-                text = "";
+                text = string.Empty;
                 for (int l = 0; l < i; l++)
                 {
                     text += "X";
@@ -737,7 +737,7 @@ namespace OpenRS.Net.Client
             componentWidth[menuItemsCount] = l;
             componentHeight[menuItemsCount] = i1;
             copmonentInputMaxLength[menuItemsCount] = k1;
-            componentText[menuItemsCount] = "";
+            componentText[menuItemsCount] = string.Empty;
             return menuItemsCount++;
         }
 
@@ -755,7 +755,7 @@ namespace OpenRS.Net.Client
             componentWidth[menuItemsCount] = l;
             componentHeight[menuItemsCount] = i1;
             copmonentInputMaxLength[menuItemsCount] = k1;
-            componentText[menuItemsCount] = "";
+            componentText[menuItemsCount] = string.Empty;
             return menuItemsCount++;
         }
 
