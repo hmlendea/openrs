@@ -494,26 +494,15 @@ namespace OpenRS.Net.Client
                 {
                     // Player talking
                     byte byte7 = (byte)data[mobUpdateOffset++];
+                    string chatMsg = DataConversions.ByteToString(data, mobUpdateOffset, byte7);
+                    mobUpdateOffset += byte7;
 
                     if (mob is not null)
                     {
-                        string s2 = DataConversions.ByteToString(data, mobUpdateOffset, byte7);
-
                         mob.LastMessageTimeout = 150;
-                        mob.LastMessage = s2;
-
-                        if ((mob.Flag is not null) && (mob.Flag != string.Empty))
-                        {
-                            // TODO
-                            //client.displayMessage("#f" + mob.Flag + "# " + ((mob.Clan.ToLower().Equals("null")) ? "" : "[@cya@" + mob.Clan + "@yel@] ") + mob.Name + ": " + mob.lastMessage, 2, mob.Admin);
-                        }
-                        else
-                        {
-                            // TODO
-                            //client.displayMessage((mob.Clan.ToLower().Equals("null") ? "" : "[@cya@" + mob.Clan + "@yel@] ") + mob.Clan + ": " + mob.lastMessage, 2, mob.Admin);
-                        }
+                        mob.LastMessage = chatMsg;
+                        client.DisplayMessage(mob.Name + ": " + chatMsg, 2);
                     }
-                    mobUpdateOffset += byte7;
                 }
                 else if (mobUpdateType == 2)
                 {
@@ -523,7 +512,7 @@ namespace OpenRS.Net.Client
 
                     if (mob is not null)
                     {
-                        mob.LastDamageCount = DataOperations.GetInt8(data[mobUpdateOffset++]); ;
+                        mob.LastDamageCount = lastDamageCount;
                         mob.CurrentHitpoints = hits;
                         mob.BaseHitpoints = hitsBase;
                         mob.CombatTimer = 200;
@@ -532,7 +521,6 @@ namespace OpenRS.Net.Client
                         {
                             client.Skills[3].CurrentLevel = hits;
                             client.Skills[3].BaseLevel = hitsBase;
-                            // showServerMessageBox = false;
                         }
                     }
                 }
@@ -572,7 +560,8 @@ namespace OpenRS.Net.Client
                 }
                 else if (mobUpdateType == 5)
                 {
-                    // Apperance update
+                    // Appearance update
+                    // Server sends: AppearanceID(2) + UsernameHash(8) + WornItemsCount(1) + WornItems(N) + HairColour(1) + TopColour(1) + TrouserColour(1) + SkinColour(1) + CombatLevel(1) + Skulled(1) + Admin(1)
                     if (mob is not null)
                     {
                         try
@@ -580,25 +569,22 @@ namespace OpenRS.Net.Client
                             mob.ServerId = DataOperations.GetInt16(data, mobUpdateOffset);
                             mobUpdateOffset += 2;
 
-                            mob.NameHash = DataOperations.GetInt16(data, mobUpdateOffset);
+                            mob.NameHash = DataOperations.GetLong(data, mobUpdateOffset);
                             mobUpdateOffset += 8;
 
                             mob.Name = DataOperations.LongToString(mob.NameHash);
-                            DataOperations.LongToString(DataOperations.GetInt16(data, mobUpdateOffset)); // Dummy for clan
-                            mobUpdateOffset += 8;
+                            mob.Username = mob.Name;
 
-                            int i31 = DataOperations.GetInt8(data[mobUpdateOffset]);
-                            mobUpdateOffset++;
+                            int wornCount = DataOperations.GetInt8(data[mobUpdateOffset++]);
 
-                            for (int i35 = 0; i35 < i31; i35++)
+                            for (int wi = 0; wi < wornCount; wi++)
                             {
-                                mob.AppearanceItems[i35] = DataOperations.GetInt8(data[mobUpdateOffset]);
-                                mobUpdateOffset++;
+                                mob.AppearanceItems[wi] = DataOperations.GetInt8(data[mobUpdateOffset++]);
                             }
 
-                            for (int l37 = i31; l37 < 12; l37++)
+                            for (int wi = wornCount; wi < 12; wi++)
                             {
-                                mob.AppearanceItems[l37] = 0;
+                                mob.AppearanceItems[wi] = 0;
                             }
 
                             mob.Appearance.HairColour = data[mobUpdateOffset++] & 0xff;
@@ -609,50 +595,39 @@ namespace OpenRS.Net.Client
                             mob.PlayerSkulled = data[mobUpdateOffset++] & 0xff;
                             mob.Admin = data[mobUpdateOffset++] & 0xff;
 
-                            string s = DataOperations.LongToString(DataOperations.GetInt16(data, mobUpdateOffset));
-                            mobUpdateOffset += 8;
-
-                            if ((s is not null) || (!s.Equals("--")))
-                            {
-                                mob.Flag = s.ToUpper();
-                            }
-                            else
-                            {
-                                mob.Flag = null;
-                            }
+                            Console.WriteLine($"[Packet53 type5] idx={mobArrayIndex} name={mob.Name} wornCount={wornCount} worn=[{string.Join(",", mob.AppearanceItems)}] hair={mob.Appearance.HairColour} top={mob.Appearance.TopColour} trousers={mob.Appearance.TrousersColour} skin={mob.Appearance.SkinColour} combat={mob.CombatLevel}");
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine(ex);
+                            Console.WriteLine($"[Packet53 type5 ERROR] idx={mobArrayIndex}: {ex.Message}");
                         }
                     }
                     else
                     {
-                        mobUpdateOffset += 14;
-                        int j31 = DataOperations.GetInt8(data[mobUpdateOffset]);
-                        mobUpdateOffset += j31 + 1;
+                        // Skip: AppearanceID(2) + UsernameHash(8) = 10 before worn count
+                        mobUpdateOffset += 10;
+                        int wornCount = DataOperations.GetInt8(data[mobUpdateOffset++]);
+                        // Skip: WornItems(N) + 7 fixed bytes
+                        mobUpdateOffset += wornCount + 7;
                     }
                 }
                 else if (mobUpdateType == 6)
                 {
-                    // private player talking
-                    byte byte8 = (byte)data[mobUpdateOffset];
-                    mobUpdateOffset++;
+                    // Private player talking
+                    byte byte8 = (byte)data[mobUpdateOffset++];
+                    string privateMsg = DataConversions.ByteToString(data, mobUpdateOffset, byte8);
+                    mobUpdateOffset += byte8;
 
                     if (mob is not null)
                     {
-                        string s3 = DataConversions.ByteToString(data, mobUpdateOffset, byte8);
                         mob.LastMessageTimeout = 150;
-                        mob.LastMessage = s3;
+                        mob.LastMessage = privateMsg;
 
                         if (mob == client.CurrentPlayer)
                         {
-                            // TODO
-                            //client.displayMessage(mob.Name + ": " + mob.lastMessage, 5, mob.Admin);
+                            client.DisplayMessage(mob.Name + ": " + privateMsg, 5);
                         }
                     }
-
-                    mobUpdateOffset += byte8;
                 }
             }
         }
@@ -822,6 +797,8 @@ namespace OpenRS.Net.Client
             client.HasWorldInfo = true;
         }
 
+        private int _dbg145Counter;
+
         private void HandleCommand145(sbyte[] data, int length)
         {
             if (!client.HasWorldInfo)
@@ -854,6 +831,12 @@ namespace OpenRS.Net.Client
 
             int mapEnterX = client.SectionLocation.X * client.GridSize + 64;
             int mapEnterY = client.SectionLocation.Y * client.GridSize + 64;
+
+            _dbg145Counter++;
+            if (_dbg145Counter <= 5 || _dbg145Counter % 100 == 0)
+            {
+                Console.WriteLine($"[Pkt145 #{_dbg145Counter}] sectionX={client.SectionLocation.X} sectionY={client.SectionLocation.Y} sprite={sprite} sectionLoaded={sectionLoaded} mapEnterX={mapEnterX} mapEnterY={mapEnterY} areaX={client.AreaLocation.X} areaY={client.AreaLocation.Y}");
+            }
 
             if (sectionLoaded)
             {

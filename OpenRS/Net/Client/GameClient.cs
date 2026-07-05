@@ -2994,7 +2994,27 @@ namespace OpenRS.Net.Client
 
         public void checkGameInputs()
         {
+            if (systemUpdate > 1)
+            {
+                systemUpdate--;
+            }
+
             sendPingPacketAsync();
+
+            if (logoutTimer > 0)
+            {
+                logoutTimer--;
+            }
+
+            if (CurrentPlayer.CurrentSprite == 8 || CurrentPlayer.CurrentSprite == 9)
+            {
+                combatTimeout = 500;
+            }
+
+            if (combatTimeout > 0)
+            {
+                combatTimeout--;
+            }
 
             if (ShowAppearanceWindow)
             {
@@ -3411,7 +3431,24 @@ namespace OpenRS.Net.Client
                 lastMouseButton = 0;
             }
 
-            mouseButtonHeldTime = 0; ;
+            mouseButtonHeldTime = 0;
+
+            if (showTradeBox || showDuelBox)
+            {
+                if (mouseButton != 0)
+                {
+                    mouseButtonHeldTime++;
+                }
+                else
+                {
+                    mouseButtonHeldTime = 0;
+                }
+            }
+            else
+            {
+                mouseButtonHeldTime = 0;
+                mouseClickedHeldInTradeDuelBox = 0;
+            }
 
             if (lastMouseButton == 1)
             {
@@ -3424,6 +3461,30 @@ namespace OpenRS.Net.Client
 
             gameCamera.setMousePosition(InputManager.Instance.MouseLocation.X, GameMouseY);
             lastMouseButton = 0;
+
+            for (int msgIdx = 0; msgIdx < 5; msgIdx++)
+            {
+                if (messagesTimeout[msgIdx] > 0)
+                {
+                    messagesTimeout[msgIdx]--;
+                }
+            }
+
+            for (int tbIdx = teleBubbleCount - 1; tbIdx >= 0; tbIdx--)
+            {
+                teleBubbleTime[tbIdx]++;
+                if (teleBubbleTime[tbIdx] > 44)
+                {
+                    teleBubbleCount--;
+                    for (int tbShift = tbIdx; tbShift < teleBubbleCount; tbShift++)
+                    {
+                        teleBubbleX[tbShift] = teleBubbleX[tbShift + 1];
+                        teleBubbleY[tbShift] = teleBubbleY[tbShift + 1];
+                        teleBubbleType[tbShift] = teleBubbleType[tbShift + 1];
+                        teleBubbleTime[tbShift] = teleBubbleTime[tbShift + 1];
+                    }
+                }
+            }
 
             if (SettingsManager.Instance.CameraAutoAngle)
             {
@@ -4375,19 +4436,30 @@ namespace OpenRS.Net.Client
             }
         }
 
+        private int _dbgDrawGameCounter;
+
         public void drawGame()
         {
+            _dbgDrawGameCounter++;
+            if (_dbgDrawGameCounter % 100 == 1)
+            {
+                Console.WriteLine($"[drawGame] tick={tick} playerIsAlive={engineHandle.playerIsAlive} PlayerCount={PlayerCount} HasWorldInfo={HasWorldInfo} loggedIn={loggedIn} PlayerAliveTimeout={PlayerAliveTimeout} ShowAppearanceWindow={ShowAppearanceWindow} IsSleeping={IsSleeping} CurrentPlayerX={CurrentPlayer?.Location.X} CurrentPlayerY={CurrentPlayer?.Location.Y}");
+            }
+
             if (PlayerAliveTimeout != 0)
             {
                 DrawDead();
+                return;
             }
             else if (ShowAppearanceWindow)
             {
                 drawAppearanceWindow();
+                return;
             }
             else if (IsSleeping)
             {
                 DrawSleeping();
+                return;
             }
             else if (!engineHandle.playerIsAlive)
             {
@@ -4738,6 +4810,37 @@ namespace OpenRS.Net.Client
 
             gameGraphics.IsLoggedIn = false;
 
+            if (!LoadArea)
+            {
+                int wildLevel = 2203 - (SectionLocation.Y + WildLocation.Y + AreaLocation.Y);
+                if (SectionLocation.X + WildLocation.X + AreaLocation.X >= 2640)
+                {
+                    wildLevel = -50;
+                }
+                if (wildLevel > 0)
+                {
+                    int wildDisplayLevel = 1 + wildLevel / 6;
+                    gameGraphics.DrawPicture(453, WindowSize.Height - 56, baseInventoryPic + 13);
+                    gameGraphics.DrawText("Wilderness", 465, WindowSize.Height - 20, 1, 0xffff00);
+                    gameGraphics.DrawText("Level: " + wildDisplayLevel, 465, WindowSize.Height - 7, 1, 0xffff00);
+                    if (wildType == 0)
+                    {
+                        wildType = 2;
+                    }
+                }
+                if (wildType == 0 && wildLevel > -10 && wildLevel <= 0)
+                {
+                    wildType = 1;
+                }
+            }
+
+            for (int msgDraw = 0; msgDraw < 5; msgDraw++)
+            {
+                if (messagesTimeout[msgDraw] > 0)
+                {
+                    gameGraphics.DrawString(messagesArray[msgDraw], 7, WindowSize.Height - 18 - msgDraw * 12, 1, 0xffff00);
+                }
+            }
 
             string text =
                 "Coordinates: ( " + (SectionLocation.X + AreaLocation.X) + "," + (SectionLocation.Y + AreaLocation.Y) + " ) " +
@@ -4747,6 +4850,20 @@ namespace OpenRS.Net.Client
             // Text shadow
             gameGraphics.DrawString(text, 10 + 11, 10 + 11, 1, 0x000000);
             gameGraphics.DrawString(text, 10 + 10, 10 + 10, 1, 0xffffff);
+
+            // Debug overlay
+            int dbgTrousers = CurrentPlayer?.Appearance?.TrousersColour ?? -1;
+            int dbgLocX = CurrentPlayer?.Location.X ?? 0;
+            int dbgLocY = CurrentPlayer?.Location.Y ?? 0;
+            string dbg1 = "Players:" + PlayerCount + " NPCs:" + NpcCount + " Alive:" + engineHandle.playerIsAlive + " WorldInfo:" + HasWorldInfo;
+            string dbg2 = "CurPlayer: trousers=" + dbgTrousers + " locX=" + dbgLocX + " locY=" + dbgLocY;
+            string dbg3 = PlayerCount > 0 ? "P[0] trousers=" + Players[0]?.Appearance?.TrousersColour + " worn=[" + (Players[0]?.AppearanceItems != null ? string.Join(",", Players[0].AppearanceItems) : "null") + "]" : "no players";
+            gameGraphics.DrawString(dbg1, 10 + 1, 30 + 1, 1, 0x000000);
+            gameGraphics.DrawString(dbg1, 10, 30, 1, 0xff8800);
+            gameGraphics.DrawString(dbg2, 10 + 1, 42 + 1, 1, 0x000000);
+            gameGraphics.DrawString(dbg2, 10, 42, 1, 0xff8800);
+            gameGraphics.DrawString(dbg3, 10 + 1, 54 + 1, 1, 0x000000);
+            gameGraphics.DrawString(dbg3, 10, 54, 1, 0xff8800);
 
             OnDrawDone();
         }
@@ -5094,6 +5211,22 @@ namespace OpenRS.Net.Client
         }
 
         public override void DisplayMessage(string message) => OnChatMessageReceived?.Invoke(this, new ChatMessageEventArgs(message));
+
+        public void DisplayMessage(string message, int type)
+        {
+            OnChatMessageReceived?.Invoke(this, new ChatMessageEventArgs(message));
+
+            if (type == 3 || type == 5)
+            {
+                for (int msgShift = 4; msgShift > 0; msgShift--)
+                {
+                    messagesArray[msgShift] = messagesArray[msgShift - 1];
+                    messagesTimeout[msgShift] = messagesTimeout[msgShift - 1];
+                }
+                messagesArray[0] = message;
+                messagesTimeout[0] = 150;
+            }
+        }
 
         public void playSound(string soundName)
         {
