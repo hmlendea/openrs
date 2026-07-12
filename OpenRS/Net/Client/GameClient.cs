@@ -13,6 +13,7 @@ using System.ComponentModel;
 using OpenRS.Net.Client.Events;
 using OpenRS.Settings;
 using System.Threading;
+
 namespace OpenRS.Net.Client
 {
 
@@ -68,7 +69,8 @@ namespace OpenRS.Net.Client
 
         public void UnloadContent() { }
 
-        public void DrawNpc(int x, int y, int width, int height, int npcIndex, int cameraXOffset, int scalePercentage) { }
+        public void DrawNpc(int x, int y, int width, int height, int npcIndex, int cameraXOffset, int scalePercentage)
+            => DrawNPC(x, y, width, height, npcIndex, cameraXOffset, scalePercentage);
 
         public Models.Enumerations.CombatStyle CombatStyle
         {
@@ -4162,7 +4164,10 @@ namespace OpenRS.Net.Client
                 }
                 else
                 {
-                    return false;
+                    // Local pathfinding blocked — send destination directly to server
+                    stepCount = 1;
+                    walkArrayX[0] = destBottomX;
+                    walkArrayY[0] = destBottomY;
                 }
             }
 

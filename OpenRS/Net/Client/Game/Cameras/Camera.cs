@@ -1413,7 +1413,11 @@ namespace OpenRS.Net.Client.Game.Cameras
             if (isMousePositionUpdated && optionCount < maxHighlightedObjects && mouseAdjustedY >= minVisibleScanline && mouseAdjustedY < maxVisibleScanline)
             {
                 CameraVariable m2 = scanlineVariables[mouseAdjustedY];
-                if (mouseAdjustedX >= m2.scanlineMinX >> 8 && mouseAdjustedX <= m2.scanlineMaxX >> 8 && m2.scanlineMinX <= m2.scanlineMaxX && !arg8.shareEntityArrays && arg8.polygonTypeData[arg9] == 0)
+                bool hitX = mouseAdjustedX >= m2.scanlineMinX >> 8 && mouseAdjustedX <= m2.scanlineMaxX >> 8;
+                bool hitScanline = m2.scanlineMinX <= m2.scanlineMaxX;
+                bool hitShare = !arg8.shareEntityArrays;
+                bool hitPoly = hitShare && arg8.polygonTypeData[arg9] == 0;
+                if (hitX && hitScanline && hitShare && hitPoly)
                 {
                     _highlightedObjects[optionCount] = arg8;
                     highlightedPlayerIds[optionCount] = arg9;
