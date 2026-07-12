@@ -9,92 +9,78 @@ namespace OpenRS.Net.Client
 {
     public sealed class Link
     {
-        public static sbyte[] streamToSbyte(BinaryReader stream)
+        public static sbyte[] StreamToSbyte(BinaryReader stream)
         {
-            List<sbyte> list = [];
+            List<sbyte> result = [];
+            int byteIndex = 0;
+
+            try
             {
-                // int ch;
-                int c = 0;
-                try
+                while (byteIndex < stream.BaseStream.Length)
                 {
-                    while (c < stream.BaseStream.Length)
-                    {
-                        list.Add(stream.ReadSByte());
-                        c += 1;
-                    }
+                    result.Add(stream.ReadSByte());
+                    byteIndex += 1;
                 }
-                catch { }
             }
-            return list.ToArray();
+            catch (IOException) { }
+
+            return result.ToArray();
         }
 
-        public static void addFile(String filename, BinaryReader reader)
+        public static void AddFile(string filename, BinaryReader reader)
         {
-
-            Link.fileName[currentFile] = filename;
-
-       //     reader.Close();
-
-          //  var f = Path.Combine(Config.CONF_DIR, filename);
-            //var bytes = File.ReadAllBytes(f).Select(c => (char)c); ;
-            //var sbytes = bytes.Select(c=>Convert.ToSByte(c)).ToArray();//c.t(sbyte[])(Array)bytes;
-            Link.fileData[currentFile] = streamToSbyte(reader);
-
+            Link.fileNames[currentFile] = filename;
+            Link.fileData[currentFile] = StreamToSbyte(reader);
             currentFile += 1;
         }
 
-
-        public static void addFile(String fileName, sbyte[] fileData)
+        public static void AddFile(string fileName, sbyte[] data)
         {
-            Link.fileName[currentFile] = fileName;
-
-            Link.fileData[currentFile] = fileData;//.Cast<byte>().ToArray();
-
+            Link.fileNames[currentFile] = fileName;
+            Link.fileData[currentFile] = data;
             currentFile += 1;
         }
 
-        public static bool loadFile(String fileName)
+        public static bool LoadFile(string fileName)
         {
             try
             {
                 FileInfo fileInfo = new(Path.Combine(Config.ConfigurationDirectory, fileName));
+
                 if (fileInfo.Exists)
                 {
+                    AddFile(fileName, new BinaryReader(fileInfo.OpenRead()));
 
-                    addFile(fileName, new BinaryReader(fileInfo.OpenRead()));
                     return true;
                 }
+
                 return false;
             }
-            catch (IOException ioe)
+            catch (IOException)
             {
-                // ioe.printStackTrace();
                 return false;
             }
         }
 
-        public static sbyte[] getFile(String fileName)
+        public static sbyte[] GetFile(string fileName)
         {
-            for (int i = 0; i < currentFile; i++)
+            for (int fileIndex = 0; fileIndex < currentFile; fileIndex++)
             {
-                if (Link.fileName[i].Equals(fileName))
+                if (string.Equals(Link.fileNames[fileIndex], fileName))
                 {
-                    return fileData[i];
+                    return fileData[fileIndex];
                 }
             }
 
-            if (loadFile(fileName))
+            if (LoadFile(fileName))
             {
-                return getFile(fileName);
+                return GetFile(fileName);
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
-
-        public static TcpClient getSocket(int port)
+        public static TcpClient GetSocket(int port)
         {
             for (Link.port = port; Link.port != 0; )
             {
@@ -102,45 +88,33 @@ namespace OpenRS.Net.Client
                 {
                     Thread.Sleep(100);
                 }
-                catch (Exception _ex) { }
+                catch (Exception) { }
             }
 
             return socket;
         }
 
-        //public static void thread(Runnable runnable) {
-        //    for(thread = runnable; thread is not null;)
-        //        try {
-        //            Thread.Sleep(100);
-        //        }
-        //        catch(Exception _ex) { }
-
-        //}
-
-        public static String getAddress(String ip)
+        public static string GetAddress(string ip)
         {
-            for (iplookup = ip; iplookup is not null; )
+            for (ipLookup = ip; ipLookup is not null; )
             {
                 try
                 {
                     Thread.Sleep(100);
                 }
-                catch (Exception _ex) { }
+                catch (Exception) { }
             }
 
             return address;
         }
 
-        //public static Applet gameApplet;
         public static int uid;
         private static int port;
         private static TcpClient socket;
-        //  static Runnable thread = null;
-        private static String iplookup = null;
-        private static String address;
+        private static string ipLookup = null;
+        private static string address;
         private static int currentFile;
-        private static String[] fileName = new String[50];
+        private static string[] fileNames = new string[50];
         private static sbyte[][] fileData = new sbyte[50][];
-
     }
 }

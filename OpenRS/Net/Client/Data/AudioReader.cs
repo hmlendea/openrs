@@ -21,16 +21,16 @@
 
         public int Read(sbyte[] outputBuffer, int bufferOffset, int byteCount)
         {
-            for (int i = 0; i < byteCount; i += 1)
+            for (int byteIndex = 0; byteIndex < byteCount; byteIndex += 1)
             {
                 if (offset < length)
                 {
-                    outputBuffer[bufferOffset + i] = data[offset];
+                    outputBuffer[bufferOffset + byteIndex] = data[offset];
                     offset += 1;
                 }
                 else
                 {
-                    outputBuffer[bufferOffset + i] = 0;
+                    outputBuffer[bufferOffset + byteIndex] = 0;
                 }
             }
 
@@ -39,9 +39,10 @@
 
         public int Read()
         {
-            sbyte[] abyte0 = new sbyte[1];
-            Read(abyte0, 0, 1);
-            return abyte0[0];
+            sbyte[] singleByte = new sbyte[1];
+            Read(singleByte, 0, 1);
+
+            return singleByte[0];
         }
 
         private sbyte[] data;

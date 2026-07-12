@@ -10,7 +10,7 @@ namespace OpenRS.Net.Client.Data
     {
         public static Uri CodeBase = null;
 
-        private static int[] bitMask = [0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383, 32767, 65535, 0x1ffff, 0x3ffff, 0x7ffff, 0xfffff, 0x1fffff, 0x3fffff, 0x7fffff, 0xffffff, 0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff, 0x1fffffff, 0x3fffffff, 0x7fffffff, -1];
+        private static readonly int[] bitMask = [0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383, 32767, 65535, 0x1ffff, 0x3ffff, 0x7ffff, 0xfffff, 0x1fffff, 0x3fffff, 0x7fffff, 0xffffff, 0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff, 0x1fffffff, 0x3fffffff, 0x7fffffff, -1];
 
         public static MemoryStream OpenInputStream(string fileName)
         {
@@ -209,7 +209,7 @@ namespace OpenRS.Net.Client.Data
 
             string name = "";
 
-            while (!hash.Equals(0L))
+            while (hash != 0L)
             {
                 int remainder = (int)(hash % 37L);
                 hash /= 37L;
@@ -314,7 +314,7 @@ namespace OpenRS.Net.Client.Data
                 int decompressedSize = (indexData[entryIndex * 10 + 6] & 0xff) * 0x10000 + (indexData[entryIndex * 10 + 7] & 0xff) * 256 + (indexData[entryIndex * 10 + 8] & 0xff);
                 int compressedSize = (indexData[entryIndex * 10 + 9] & 0xff) * 0x10000 + (indexData[entryIndex * 10 + 10] & 0xff) * 256 + (indexData[entryIndex * 10 + 11] & 0xff);
 
-                if (entryNameHash.Equals(nameHash))
+                if (entryNameHash == nameHash)
                 {
                     if (outputBuffer is null)
                     {
@@ -364,7 +364,7 @@ namespace OpenRS.Net.Client.Data
                 int decompressedSize = (indexData[entryIndex * 10 + 6] & 0xff) * 0x10000 + (indexData[entryIndex * 10 + 7] & 0xff) * 256 + (indexData[entryIndex * 10 + 8] & 0xff);
                 int compressedSize = (indexData[entryIndex * 10 + 9] & 0xff) * 0x10000 + (indexData[entryIndex * 10 + 10] & 0xff) * 256 + (indexData[entryIndex * 10 + 11] & 0xff);
 
-                if (entryNameHash.Equals(nameHash))
+                if (entryNameHash == nameHash)
                 {
                     if (outputBuffer is null)
                     {

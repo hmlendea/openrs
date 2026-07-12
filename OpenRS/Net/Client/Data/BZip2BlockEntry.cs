@@ -6,18 +6,17 @@ namespace OpenRS.Net.Client.Data
         {
             unzftab = new int[256];
             cumulativeCounts = new int[257];
-            afn = new int[257];
             inUse = new bool[256];
-            inUse16 = new bool[16];
+            symbolGroupFlags = new bool[16];
             seqToUnseq = new int[256];
-            yy = new int[4096];
+            moveToFrontBuffer = new int[4096];
             groupPositions = new int[16];
             selector = new sbyte[18002];
             selectorMtf = new sbyte[18002];
-            len = RectangularArrays.ReturnRectangularSbyteArray(6, 258);
+            huffmanCodeLengths = RectangularArrays.ReturnRectangularSbyteArray(6, 258);
             limit = RectangularArrays.ReturnRectangularIntArray(6, 258);
-            _base = RectangularArrays.ReturnRectangularIntArray(6, 258);
-            perm = RectangularArrays.ReturnRectangularIntArray(6, 258);
+            huffmanBaseValues = RectangularArrays.ReturnRectangularIntArray(6, 258);
+            huffmanPermutations = RectangularArrays.ReturnRectangularIntArray(6, 258);
             minLengths = new int[6];
         }
 
@@ -44,20 +43,19 @@ namespace OpenRS.Net.Client.Data
         internal int[] unzftab;
         internal int symbolIndex;
         internal int[] cumulativeCounts;
-        internal int[] afn;
-        public static int[] transformVector;
+        internal static int[] transformVector;
         internal int inUseOffset;
         internal bool[] inUse;
-        internal bool[] inUse16;
+        internal bool[] symbolGroupFlags;
         internal int[] seqToUnseq;
-        internal int[] yy;
+        internal int[] moveToFrontBuffer;
         internal int[] groupPositions;
         internal sbyte[] selector;
         internal sbyte[] selectorMtf;
-        internal sbyte[][] len;
+        internal sbyte[][] huffmanCodeLengths;
         internal int[][] limit;
-        internal int[][] _base;
-        internal int[][] perm;
+        internal int[][] huffmanBaseValues;
+        internal int[][] huffmanPermutations;
         internal int[] minLengths;
         internal int lastSymbolIndex;
     }

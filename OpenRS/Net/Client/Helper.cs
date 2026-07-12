@@ -4,6 +4,6 @@ namespace OpenRS.Net.Client
 {
     public sealed class Helper
     {
-        public static Random Random = new();
+        public static readonly Random Random = new();
     }
 }

@@ -5847,7 +5847,7 @@ namespace OpenRS.Net.Client
 
         public override sbyte[] unpackData(String fileName, String fileTitle, int progressPercentage)
         {
-            sbyte[] abyte0 = Link.getFile(fileName);
+            sbyte[] abyte0 = Link.GetFile(fileName);
             if (abyte0 is not null)
             {
                 int l = ((abyte0[0] & 0xff) << 16) + ((abyte0[1] & 0xff) << 8) + (abyte0[2] & 0xff);
