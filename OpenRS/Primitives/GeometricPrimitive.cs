@@ -36,7 +36,7 @@ namespace OpenRS.Primitives
 
         VertexDeclaration IVertexType.VertexDeclaration
         {
-            get { return VertexPositionNormal.VertexDeclaration; }
+            get { return VertexDeclaration; }
         }
 
     }

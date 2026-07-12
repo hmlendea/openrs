@@ -23,7 +23,7 @@ namespace OpenRS.Net.Client.Data
             else
             {
                 Uri url = new(CodeBase, fileName);
-                WebRequest webRequest = HttpWebRequest.Create(url.ToString());
+                WebRequest webRequest = WebRequest.Create(url.ToString());
                 inputStream = webRequest.GetResponse().GetResponseStream();
             }
 

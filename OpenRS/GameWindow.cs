@@ -115,7 +115,7 @@ namespace OpenRS
 
         private void rscMudclient_OnLoadingSectionCompleted(object sender, EventArgs e)
         {
-            System.Threading.Thread.Sleep(200);
+            Thread.Sleep(200);
             isSectionLoading = false;
         }
 
@@ -126,7 +126,7 @@ namespace OpenRS
 
         private void rscMudclient_OnContentLoadedCompleted(object sender, EventArgs e)
         {
-            System.Threading.Thread.Sleep(300);
+            Thread.Sleep(300);
             isContentLoading = false;
         }
 
@@ -286,7 +286,7 @@ namespace OpenRS
                                 byte greenChannel = pixelBytes[1];
                                 byte blueChannel = pixelBytes[0];
 
-                                colors[pixelIndex] = OpenRS.Net.Client.Game.GameImage.RgbaToUInt(redChannel, greenChannel, blueChannel, 255);
+                                colors[pixelIndex] = Net.Client.Game.GameImage.RgbaToUInt(redChannel, greenChannel, blueChannel, 255);
                             }
 
                             if (rscMudclient.DrawIsNecessary)

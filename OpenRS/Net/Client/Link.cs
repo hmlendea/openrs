@@ -29,15 +29,15 @@ namespace OpenRS.Net.Client
 
         public static void AddFile(string filename, BinaryReader reader)
         {
-            Link.fileNames[currentFile] = filename;
-            Link.fileData[currentFile] = StreamToSbyte(reader);
+            fileNames[currentFile] = filename;
+            fileData[currentFile] = StreamToSbyte(reader);
             currentFile += 1;
         }
 
         public static void AddFile(string fileName, sbyte[] data)
         {
-            Link.fileNames[currentFile] = fileName;
-            Link.fileData[currentFile] = data;
+            fileNames[currentFile] = fileName;
+            fileData[currentFile] = data;
             currentFile += 1;
         }
 
@@ -66,7 +66,7 @@ namespace OpenRS.Net.Client
         {
             for (int fileIndex = 0; fileIndex < currentFile; fileIndex += 1)
             {
-                if (string.Equals(Link.fileNames[fileIndex], fileName))
+                if (string.Equals(fileNames[fileIndex], fileName))
                 {
                     return fileData[fileIndex];
                 }

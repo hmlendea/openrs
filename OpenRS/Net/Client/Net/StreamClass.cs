@@ -76,7 +76,7 @@ namespace OpenRS.Net.Client.Net
             }
             catch (IOException _ex)
             {
-                System.Console.WriteLine("Error closing stream");
+                Console.WriteLine("Error closing stream");
             }
             socketClosed = true;
             // synchronized {
@@ -201,8 +201,8 @@ namespace OpenRS.Net.Client.Net
                 }
                 catch (IOException ioexception1)
                 {
-                    base.error = true;
-                    base.errorText = "Twriter:" + ioexception1;
+                    error = true;
+                    errorText = "Twriter:" + ioexception1;
                 }
             }
             catch { }
@@ -252,8 +252,8 @@ namespace OpenRS.Net.Client.Net
                     }
                     catch (IOException ioexception)
                     {
-                        base.error = true;
-                        base.errorText = "Twriter:" + ioexception;
+                        error = true;
+                        errorText = "Twriter:" + ioexception;
                     }
                     lastWriteLen = i;
 
@@ -268,12 +268,12 @@ namespace OpenRS.Net.Client.Net
                         }
                         catch (IOException ioexception1)
                         {
-                            base.error = true;
-                            base.errorText = "Twriter:" + ioexception1;
+                            error = true;
+                            errorText = "Twriter:" + ioexception1;
                         }
                     }
                 }
-                System.Threading.Thread.Sleep(1);
+                Thread.Sleep(1);
             }
         }
 
