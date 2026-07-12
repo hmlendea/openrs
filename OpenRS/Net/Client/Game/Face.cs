@@ -34,22 +34,22 @@ namespace OpenRS
 			faceColor = Color.Red;
 		}
 
-		public int getImage()
+		public int GetImage()
 		{
 			return image;
 		}
 
-		public int[] getPoints()
+		public int[] GetPoints()
 		{
 			return points;
 		}
 
-		public Color getFaceColor()
+		public Color GetFaceColour()
 		{
 			return faceColor;
 		}
 
-		public void setFaceColor(Color faceColor)
+		public void SetFaceColor(Color faceColor)
 		{
 			this.faceColor = faceColor;
 		}

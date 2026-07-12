@@ -7,10 +7,10 @@
         {
         }
 
-        public int flm;
-        public int fln;
-        public int fma;
-        public int fmb;
+        public int scanlineMinX;
+        public int scanlineMaxX;
+        public int scanlineMinValue;
+        public int scanlineMaxValue;
     }
 
 }

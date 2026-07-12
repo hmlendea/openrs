@@ -12,29 +12,29 @@ namespace OpenRS.Net.Client.Game
         public RscSector()
         {
             tiles = new SectorTile[RscSector.WIDTH * RscSector.HEIGHT];
-            for (int i = 0; i < tiles.Length; i++)
+            for (int i = 0; i < tiles.Length; i += 1)
             {
                 tiles[i] = new SectorTile(this);
 
             }
         }
 
-        public void setTile(int x, int y, SectorTile t)
+        public void SetTile(int x, int y, SectorTile t)
         {
-            setTile(x * RscSector.WIDTH + y, t);
+            SetTile(x * RscSector.WIDTH + y, t);
         }
 
-        public void setTile(int i, SectorTile t)
+        public void SetTile(int i, SectorTile t)
         {
             tiles[i] = t;
         }
 
-        public SectorTile getTile(int x, int y)
+        public SectorTile GetTile(int x, int y)
         {
-            return getTile(x * RscSector.WIDTH + y);
+            return GetTile(x * RscSector.WIDTH + y);
         }
 
-        public SectorTile getTile(int i)
+        public SectorTile GetTile(int i)
         {
             return tiles[i];
         }
@@ -48,9 +48,9 @@ namespace OpenRS.Net.Client.Game
             }
             RscSector sector = new();
 
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < length; i += 1)
             {
-                sector.setTile(i, SectorTile.unpack(indata));
+                sector.SetTile(i, SectorTile.unpack(indata));
             }
             return sector;
         }

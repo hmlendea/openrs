@@ -10,12 +10,12 @@ namespace OpenRS.Net.Client.Data
 //            offset = 0;
 //        }
 
-//        public virtual void addByte(int arg0)
+//        public virtual void AddByte(int arg0)
 //        {
 //            data[offset++] = (sbyte) arg0;
 //        }
 
-//        public virtual void addInt(int arg0)
+//        public virtual void AddInt(int arg0)
 //        {
 //            data[offset++] = (sbyte)(arg0 >> 24);
 //            data[offset++] = (sbyte)(arg0 >> 16);
@@ -24,18 +24,18 @@ namespace OpenRS.Net.Client.Data
 //        }
 
 ////JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-////ORIGINAL LINE: @SuppressWarnings("deprecation") public void addString(String arg0)
-//        //public virtual void addString(String arg0)
+////ORIGINAL LINE: @SuppressWarnings("deprecation") public void AddString(String arg0)
+//        //public virtual void AddString(String arg0)
 //        //{
-//        //    arg0.getBytes(0, arg0.Length, data, offset);
+//        //    arg0.GetBytes(0, arg0.Length, data, offset);
 //        //    offset += arg0.Length;
 //        //    data[offset++] = 10;
 //        //}
 
-//        public void addString(String arg0)
+//        public void AddString(String arg0)
 //        {
 
-//            //arg0.getBytes(0, arg0.Length, data, offset);
+//            //arg0.GetBytes(0, arg0.Length, data, offset);
 
 //            var bytes = Encoding.UTF8.GetBytes(arg0);
 
@@ -46,7 +46,7 @@ namespace OpenRS.Net.Client.Data
 //            data[offset++] = 10;
 //        }
 
-//        public virtual int getByte()
+//        public virtual int GetByte()
 //        {
 //        //	get
 //            {
@@ -54,7 +54,7 @@ namespace OpenRS.Net.Client.Data
 //            }
 //        }
 
-//        public virtual int getShort()
+//        public virtual int GetShort()
 //        {
 //            //get
 //            {
@@ -63,7 +63,7 @@ namespace OpenRS.Net.Client.Data
 //            }
 //        }
 
-//        public virtual int getInt()
+//        public virtual int GetInt()
 //        {
 //            //get
 //            {
@@ -72,9 +72,9 @@ namespace OpenRS.Net.Client.Data
 //            }
 //        }
 
-//        public virtual void getBytes(sbyte[] arg0, int arg1, int arg2)
+//        public virtual void GetBytes(sbyte[] arg0, int arg1, int arg2)
 //        {
-//            for (int i = arg1; i < arg1 + arg2; i++)
+//            for (int i = arg1; i < arg1 + arg2; i += 1)
 //            {
 //                arg0[i] = data[offset++];
 //            }

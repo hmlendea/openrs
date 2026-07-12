@@ -7,12 +7,12 @@ namespace OpenRS.Net.Client.Net
 {
     public sealed class LoginEncryptor
     {
-        public void addByte(int i)
+        public void AddByte(int i)
         {
             packet[offset++] = (byte)i;
         }
 
-        public void addInt(int i)
+        public void AddInt(int i)
         {
             packet[offset++] = (byte)(i >> 24);
             packet[offset++] = (byte)(i >> 16);
@@ -21,51 +21,51 @@ namespace OpenRS.Net.Client.Net
         }
 
 
-        public void addString(String s)
+        public void AddString(string s)
         {
 
             byte[] encodedBytes = Encoding.UTF8.GetBytes(s);
             Array.Copy(encodedBytes, 0, packet, offset, encodedBytes.Length);
 
-            //s.getBytes(0, s.length(), packet, offset);
+            //s.GetBytes(0, s.length(), packet, offset);
             offset += encodedBytes.Length;
             packet[offset++] = 10;
         }
 
-        public void addBytes(byte[] bytes, int off, int length)
+        public void AddBytes(byte[] bytes, int off, int length)
         {
-            for (int i = off; i < off + length; i++)
+            for (int i = off; i < off + length; i += 1)
             {
                 packet[this.offset++] = bytes[i];
             }
         }
 
-        public int getByte()
+        public int GetByte()
         {
             return packet[offset++] & 0xff;
         }
 
-        public int getShort()
+        public int GetShort()
         {
             offset += 2;
             return ((packet[offset - 2] & 0xff) << 8) + (packet[offset - 1] & 0xff);
         }
 
-        public int getInt()
+        public int GetInt()
         {
             offset += 4;
             return ((packet[offset - 4] & 0xff) << 24) + ((packet[offset - 3] & 0xff) << 16) + ((packet[offset - 2] & 0xff) << 8) + (packet[offset - 1] & 0xff);
         }
 
-        public void getBytes(byte[] outputBuffer, int startIndex, int byteCount)
+        public void GetBytes(byte[] outputBuffer, int startIndex, int byteCount)
         {
-            for (int i = startIndex; i < startIndex + byteCount; i++)
+            for (int i = startIndex; i < startIndex + byteCount; i += 1)
             {
                 outputBuffer[i] = packet[offset += 1];
             }
         }
 
-        public byte[] encrypt(byte[] text) {
+        public byte[] Encrypt(byte[] text) {
             byte[] cipherText = null;
         //Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         //cipher.init(Cipher.ENCRYPT_MODE, pubKey);
@@ -77,12 +77,12 @@ namespace OpenRS.Net.Client.Net
         //return cipherText;
     }
 
-        public void encryptPacket(BigInteger key, BigInteger modulus)
+        public void EncryptPacket(BigInteger key, BigInteger modulus)
         {
             int i = offset;
             offset = 0;
             byte[] plain = new byte[i];
-            for (int k = 0; k < i; k++)
+            for (int k = 0; k < i; k += 1)
             {
                 plain[k] = packet[offset++];
             }
@@ -97,20 +97,20 @@ namespace OpenRS.Net.Client.Net
             int encLen = enc.Length;
             if (encLen > 1 && enc[encLen - 1] == 0x00)
             {
-                encLen--;
+                encLen -= 1;
             }
             Array.Reverse(enc, 0, encLen);
             offset = 0;
             packet[offset++] = (byte)encLen;
-            for (int k = 0; k < encLen; k++)
+            for (int k = 0; k < encLen; k += 1)
             {
                 packet[offset++] = enc[k];
             }
         }
 
-        public LoginEncryptor(byte[] abyte0)
+        public LoginEncryptor(byte[] keyBytes)
         {
-            packet = abyte0;
+            packet = keyBytes;
             offset = 0;
             try
             {

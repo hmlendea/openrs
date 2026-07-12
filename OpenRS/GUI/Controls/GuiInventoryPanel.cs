@@ -24,7 +24,7 @@ namespace OpenRS.Gui.Controls
         {
             itemCards = new GuiItemCard[Rows * Columns];
 
-            for (int slotIndex = 0; slotIndex < Rows * Columns; slotIndex++)
+            for (int slotIndex = 0; slotIndex < Rows * Columns; slotIndex += 1)
             {
                 itemCards[slotIndex] = new GuiItemCard();
             }
@@ -65,7 +65,7 @@ namespace OpenRS.Gui.Controls
             int spacingX = (Size.Width - Columns * itemCards[0].Size.Width) / (Columns + 1);
             int spacingY = (Size.Height - Rows * itemCards[0].Size.Height) / (Rows + 1);
 
-            for (int slotIndex = 0; slotIndex < Rows * Columns; slotIndex++)
+            for (int slotIndex = 0; slotIndex < Rows * Columns; slotIndex += 1)
             {
                 int columnIndex = slotIndex % Columns;
                 int rowIndex = slotIndex / Columns;
@@ -83,7 +83,7 @@ namespace OpenRS.Gui.Controls
                 return;
             }
 
-            for (int itemSlot = 0; itemSlot < Rows * Columns; itemSlot++)
+            for (int itemSlot = 0; itemSlot < Rows * Columns; itemSlot += 1)
             {
                 InventoryItem inventoryItem = client.inventoryManager.GetItem(itemSlot);
                 Item item = client.entityManager.GetItem(inventoryItem.Index);

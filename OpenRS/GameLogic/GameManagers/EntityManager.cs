@@ -189,14 +189,14 @@ namespace OpenRS.GameLogic.GameManagers
 
         public int GetModelIndex(string model)
         {
-            if (model.ToLower().Equals("na"))
+            if (model.ToLower() == "na")
             {
                 return 0;
             }
 
-            for (int i = 0; i < ObjectModelCount; i++)
+            for (int i = 0; i < ObjectModelCount; i += 1)
             {
-                if (modelName[i].ToLower().Equals(model))
+                if (modelName[i].ToLower() == model)
                 {
                     return i;
                 }
@@ -320,6 +320,6 @@ namespace OpenRS.GameLogic.GameManagers
         /// </summary>
         /// <returns>The world object.</returns>
         /// <param name="id">Identifier.</param>
-        public WorldObject GetWorldObject(string id) => worldObjects.FirstOrDefault(worldObject => worldObject.Id.Equals(id));
+        public WorldObject GetWorldObject(string id) => worldObjects.FirstOrDefault(worldObject => worldObject.Id == id);
     }
 }

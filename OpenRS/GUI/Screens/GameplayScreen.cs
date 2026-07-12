@@ -44,7 +44,7 @@ namespace OpenRS.Gui.Screens
             gameClient = GameClient.CreateGameClient(username, password, 512, 334);
             gameClient.gameMinThreadSleepTime = 10;
             gameClient.Start();
-            gameThread = new Thread(gameClient.run);
+            gameThread = new Thread(gameClient.Run);
             gameThread.Start();
 
             SideBar = new GuiSideBar(gameClient)

@@ -28,32 +28,32 @@ namespace OpenRS
 			this.localPoint = localPoint;
 		}
 
-		public Vector3 getLocalPoint()
+		public Vector3 GetLocalPoint()
 		{
 			return localPoint;
 		}
 
-		public void setLocalPoint(Vector3 localPoint)
+		public void SetLocalPoint(Vector3 localPoint)
 		{
 			this.localPoint = localPoint;
 		}
 
-		public Vector3 getWorldPoint()
+		public Vector3 GetWorldPoint()
 		{
 			return worldPoint;
 		}
 
-		public void setWorldPoint(Vector3 worldPoint)
+		public void SetWorldPoint(Vector3 worldPoint)
 		{
 			this.worldPoint = worldPoint;
 		}
 
-		public Vector3 getAlignedPoint()
+		public Vector3 GetAlignedPoint()
 		{
 			return alignedPoint;
 		}
 
-		public void setAlignedPoint(Vector3 alignedPoint)
+		public void SetAlignedPoint(Vector3 alignedPoint)
 		{
 			this.alignedPoint = alignedPoint;
 		}

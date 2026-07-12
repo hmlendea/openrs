@@ -5,26 +5,26 @@
 
         public CameraModel()
         {
-            bld = false;
-            blf = -1;
+            isSorted = false;
+            dependencyIndex = -1;
         }
 
-        public int bkd;
-        public int bke;
-        public int bkf;
-        public int bkg;
-        public int bkh;
-        public int bki;
+        public int boundsMinX;
+        public int boundsMinY;
+        public int boundsMaxX;
+        public int boundsMaxY;
+        public int boundsMinZ;
+        public int boundsMaxZ;
         public GameObject Object;
         public int faceVertCountIndex1;
         public int Scale;
-        public int bkm;
-        public int bkn;
-        public int bla;
-        public int blb;
+        public int normalX;
+        public int normalY;
+        public int normalZ;
+        public int visibilityDot;
         public int currentTextureIndex;
-        public bool bld;
-        public int ble;
-        public int blf;
+        public bool isSorted;
+        public int sortIndex;
+        public int dependencyIndex;
     }
 }

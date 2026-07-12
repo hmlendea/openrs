@@ -7,17 +7,17 @@ namespace OpenRS.Net.Client.Net
     public class PacketConstruction
     {
 
-        public virtual void closeStream()
+        public virtual void CloseStream()
         {
         }
 
-        public void createPacket(int id)
+        public void CreatePacket(int id)
         {
             if (packetStart > (maxPacketLength * 4) / 5)
             {
                 try
                 {
-                    writePacket(0);
+                    WritePacket(0);
                 }
                 catch (IOException ioexception)
                 {
@@ -37,7 +37,7 @@ namespace OpenRS.Net.Client.Net
             skipOffset = 8;
         }
 
-        public void writePacket(int packetId)
+        public void WritePacket(int packetId)
         {
             if (error)
             {
@@ -55,60 +55,60 @@ namespace OpenRS.Net.Client.Net
             if (packetStart > 0)
             {
                 packetCount = 0;
-                writeToBuffer(packetData, 0, packetStart);
+                WriteToBuffer(packetData, 0, packetStart);
             }
             packetStart = 0;
             packetOffset = 3;
         }
 
-        public void addByte(int i)
+        public void AddByte(int i)
         {
             packetData[packetOffset++] = (byte)i;
         }
 
-        public void addString(String s)
+        public void AddString(string s)
         {
             byte[] encodedBytes = Encoding.UTF8.GetBytes(s);
 
-            //s.getBytes(0, s.length(), packetData, packetOffset);
+            //s.GetBytes(0, s.length(), packetData, packetOffset);
 
             Array.Copy(encodedBytes, 0, packetData, packetOffset, encodedBytes.Length);
 
             packetOffset += encodedBytes.Length;//s.length();
         }
 
-        public void addLong(long l)
+        public void AddLong(long l)
         {
-            addInt((int)(l >> 32));
-            addInt((int)(l & -1L));
+            AddInt((int)(l >> 32));
+            AddInt((int)(l & -1L));
         }
 
-        public virtual void writeToBuffer(byte[] abyte0, int i, int j)
-        {
-        }
-
-        public virtual void readInputStream(int i, int j, sbyte[] abyte0)
+        public virtual void WriteToBuffer(byte[] buffer, int offset, int length)
         {
         }
 
-        public int readShort()
+        public virtual void ReadInputStream(int size, int type, sbyte[] buffer)
         {
-            int i = readByte();
-            int j = readByte();
+        }
+
+        public int ReadShort()
+        {
+            int i = ReadByte();
+            int j = ReadByte();
             return i * 256 + j;
         }
 
-        public virtual int read()
+        public virtual int Read()
         {
             return 0;
         }
 
-        public void read(int i, sbyte[] abyte0)
+        public void Read(int size, sbyte[] buffer)
         {
-            readInputStream(i, 0, abyte0);
+            ReadInputStream(size, 0, buffer);
         }
 
-        public void addInt(int i)
+        public void AddInt(int i)
         {
             packetData[packetOffset++] = (byte)(i >> 24);
             packetData[packetOffset++] = (byte)(i >> 16);
@@ -116,14 +116,14 @@ namespace OpenRS.Net.Client.Net
             packetData[packetOffset++] = (byte)i;
         }
 
-        public void flush(bool format = true)
+        public void Flush(bool format = true)
         {
             if (format)
             {
-                formatPacket();
+                FormatPacket();
             }
 
-            writePacket(0);
+            WritePacket(0);
         }
 
         // bad
@@ -133,22 +133,22 @@ namespace OpenRS.Net.Client.Net
         //    return 0;
         //}
 
-        public void addShort(int i)
+        public void AddShort(int i)
         {
             packetData[packetOffset++] = (byte)(i >> 8);
             packetData[packetOffset++] = (byte)i;
         }
 
-        public long readLong()
+        public long ReadLong()
         {
-            long l = readShort();
-            long l1 = readShort();
-            long l2 = readShort();
-            long l3 = readShort();
+            long l = ReadShort();
+            long l1 = ReadShort();
+            long l2 = ReadShort();
+            long l3 = ReadShort();
             return (l << 48) + (l1 << 32) + (l2 << 16) + l3;
         }
 
-        public void formatPacket()
+        public void FormatPacket()
         {
             if (skipOffset != 8)
             {
@@ -164,7 +164,7 @@ namespace OpenRS.Net.Client.Net
             else
             {
                 packetData[packetStart] = (byte)j;
-                packetOffset--;
+                packetOffset -= 1;
                 packetData[packetStart + 1] = packetData[packetOffset];
             }
             if (maxPacketLength <= 10000)
@@ -175,23 +175,23 @@ namespace OpenRS.Net.Client.Net
             }
             packetStart = packetOffset;
 
-            flush(false);
+            Flush(false);
         }
 
-        public void addBytes(byte[] data, int off, int len)
+        public void AddBytes(byte[] data, int off, int len)
         {
-            for (int i = 0; i < len; i++)
+            for (int i = 0; i < len; i += 1)
             {
                 packetData[packetOffset++] = data[off + i];
             }
         }
 
-        public bool hasData()
+        public bool HasData()
         {
             return packetStart > 0;
         }
 
-        public int readPacket(sbyte[] packetBuffer)
+        public int ReadPacket(sbyte[] packetBuffer)
         {
             try
             {
@@ -205,11 +205,11 @@ namespace OpenRS.Net.Client.Net
                 }
                 if (length == 0 /*&& available() >= 2*/)
                 {
-                    int b0 = read() & 0xff;
+                    int b0 = Read() & 0xff;
                     if (b0 < 160)
                     {
                         // compact: b0 = payload length, b1 = last payload byte moved to header
-                        int b1 = read() & 0xff;
+                        int b1 = Read() & 0xff;
                         length = b0; // b0 IS the payload length
                         _swappedByte = b1;
                         _hasSwappedByte = true;
@@ -217,7 +217,7 @@ namespace OpenRS.Net.Client.Net
                     else
                     {
                         // extended: length = (b0-160)*256 + b1
-                        int b1 = read() & 0xff;
+                        int b1 = Read() & 0xff;
                         length = (b0 - 160) * 256 + b1;
                         _hasSwappedByte = false;
                     }
@@ -227,13 +227,13 @@ namespace OpenRS.Net.Client.Net
                     if (_hasSwappedByte)
                     {
                         // read length-1 bytes (cmd + payload without last byte), then append swapped byte
-                        read(length - 1, packetBuffer);
+                        Read(length - 1, packetBuffer);
                         packetBuffer[length - 1] = (sbyte)_swappedByte;
                         _hasSwappedByte = false;
                     }
                     else
                     {
-                        read(length, packetBuffer);
+                        Read(length, packetBuffer);
                     }
                     int i = length;
                     length = 0;
@@ -249,9 +249,9 @@ namespace OpenRS.Net.Client.Net
             return 0;
         }
 
-        public int readByte()
+        public int ReadByte()
         {
-            return read();
+            return Read();
         }
 
         public PacketConstruction()
@@ -276,7 +276,7 @@ namespace OpenRS.Net.Client.Net
         public int maxPacketLength;
         public static int[] packetLengthCount = new int[256];
         public int packetCount;
-        public String errorText;
+        public string errorText;
         public bool error;
     }
 

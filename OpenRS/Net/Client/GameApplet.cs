@@ -16,19 +16,19 @@ namespace OpenRS.Net.Client
         {
         }
 
-        public virtual void loadGame()
+        public virtual void LoadGame()
         {
         }
 
-        public virtual void checkInputs()
+        public virtual void CheckInputs()
         {
         }
 
-        public virtual void close()
+        public virtual void Close()
         {
         }
 
-        public void createWindow(int width, int height, String title, bool resizable)
+        public void CreateWindow(int width, int height, string title, bool resizable)
         {
             Console.WriteLine("Started application");
             appletWidth = width;
@@ -39,79 +39,79 @@ namespace OpenRS.Net.Client
             InitGameApplet();
 
             // gameWindowThread = new Thread(this);
-            //  gameWindowThread.start();
-            //  gameWindowThread.setPriority(1);
+            // gameWindowThread.start();
+            // gameWindowThread.setPriority(1);
         }
 
 
-        public void setRefreshRate(int i)
+        public void SetRefreshRate(int rate)
         {
-            refreshRate = 1000 / i;
+            refreshRate = 1000 / rate;
         }
 
-        public void resetTimings()
+        public void ResetTimings()
         {
-            for (int i = 0; i < 10; i++)
+            for (int timeIndex = 0; timeIndex < 10; timeIndex += 1)
             {
-                timeArray[i] = 0L;
+                timeArray[timeIndex] = 0L;
             }
         }
 
-        public void keyTyped(EventArgs e)
+        public void KeyTyped(EventArgs e)
         {
-            //ignore
+            // Ignore.
         }
 
-        public void mouseClicked(EventArgs e)
+        public void MouseClicked(EventArgs e)
         {
-            //ignore
+            // Ignore.
         }
 
-        public void keyPressed(Keys evt)
+        public void KeyPressed(Keys evt)
         {
             char[] keyChars = Encoding.UTF8.GetChars([(byte)evt]);
-            this.keyDown(evt, keyChars[0]);
+            this.KeyDown(evt, keyChars[0]);
         }
 
-        public void keyReleased(Keys evt)
+        public void KeyReleased(Keys evt)
         {
             char[] keyChars = Encoding.UTF8.GetChars([(byte)evt]);
-            this.keyUp(evt, keyChars[0]);
+            this.KeyUp(evt, keyChars[0]);
         }
 
-        public void mouseEntered(MouseState evt)
+        public void MouseEntered(MouseState evt)
         {
-            this.mouseMove(evt.X, evt.Y);
+            this.MouseMove(evt.X, evt.Y);
         }
 
-        public void mouseExited(MouseState evt)
+        public void MouseExited(MouseState evt)
         {
-            this.mouseMove(evt.X, evt.Y);
+            this.MouseMove(evt.X, evt.Y);
         }
 
-        public void mousePressed(MouseState evt)
+        public void MousePressed(MouseState evt)
         {
-            this.mouseDown(evt.X, evt.Y, evt.RightButton == ButtonState.Pressed);
+            this.MouseDown(evt.X, evt.Y, evt.RightButton == ButtonState.Pressed);
         }
 
-        public void mouseReleased(MouseState evt)
+        public void MouseReleased(MouseState evt)
         {
-            this.mouseUp(evt.X, evt.Y);
+            this.MouseUp(evt.X, evt.Y);
         }
 
-        public void mouseDragged(MouseState evt)
+        public void MouseDragged(MouseState evt)
         {
-            this.mouseDrag(evt.Y, evt.X, evt.RightButton == ButtonState.Pressed);
+            this.MouseDrag(evt.Y, evt.X, evt.RightButton == ButtonState.Pressed);
         }
 
-        public void mouseMoved(MouseState evt)
+        public void MouseMoved(MouseState evt)
         {
-            this.mouseMove(evt.X, evt.Y);
+            this.MouseMove(evt.X, evt.Y);
         }
 
-        public void keyDown(Keys key, char c)
+        public void KeyDown(Keys key, char character)
         {
-            handleKeyDown(key, c);
+            HandleKeyDown(key, character);
             if (key == Keys.Left)
             {
                 keyLeftDown = true;
@@ -147,25 +147,27 @@ namespace OpenRS.Net.Client
                 keyF1Toggle = !keyF1Toggle;
             }
 
-            bool flag = false;
-            for (int i = 0; i < allowedChars.Length; i++)
+            bool charIsAllowed = false;
+
+            for (int charIndex = 0; charIndex < allowedChars.Length; charIndex += 1)
             {
-                if (c != allowedChars[i] && key != Keys.Left && key != Keys.Right && key != Keys.Up && key != Keys.Down)
+                if (character != allowedChars[charIndex] && key != Keys.Left && key != Keys.Right && key != Keys.Up && key != Keys.Down)
                 {
                     continue;
                 }
 
-                flag = true;
+                charIsAllowed = true;
                 break;
             }
-            if (flag && inputText.Length < 20)
+
+            if (charIsAllowed && inputText.Length < 20)
             {
-                inputText += c;
+                inputText += character;
             }
 
-            if (flag && pmText.Length < 80)
+            if (charIsAllowed && pmText.Length < 80)
             {
-                pmText += c;
+                pmText += character;
             }
 
             if (key == Keys.Back && inputText.Length > 0)
@@ -185,11 +187,11 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public virtual void handleKeyDown(Keys key, char c)
+        public virtual void HandleKeyDown(Keys key, char character)
         {
         }
 
-        public void keyUp(Keys key, char c)
+        public void KeyUp(Keys key, char character)
         {
             if (key == Keys.Left)
             {
@@ -222,55 +224,76 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public bool mouseMove(int x, int y)
+        public bool MouseMove(int x, int y)
         {
             mouseX = x;
             mouseY = y - mouseYOffset;
             mouseButton = 0;
+
             return true;
         }
 
-        public bool mouseUp(int x, int y)
+        public bool MouseUp(int x, int y)
         {
             mouseX = x;
             mouseY = y - mouseYOffset;
             mouseButton = 0;
+
             return true;
         }
 
-        public bool mouseDown(int x, int y, bool metaDown)
+        public bool MouseDown(int x, int y, bool isMetaDown)
         {
             mouseX = x;
             mouseY = y - mouseYOffset;
-            mouseButton = metaDown ? 2 : 1;
+
+            if (isMetaDown)
+            {
+                mouseButton = 2;
+            }
+            else
+            {
+                mouseButton = 1;
+            }
+
             lastMouseButton = mouseButton;
-            handleMouseDown(mouseButton, x, y);
+            HandleMouseDown(mouseButton, x, y);
+
             return true;
         }
 
-        public virtual void handleMouseDown(int i, int k, int l)
+        public virtual void HandleMouseDown(int pressedMouseButton, int mouseXPosition, int mouseYPosition)
         {
         }
 
-        public bool mouseDrag(int x, int y, bool metaDown)
+        public bool MouseDrag(int x, int y, bool isMetaDown)
         {
             mouseX = x;
             mouseY = y - mouseYOffset;
-            mouseButton = metaDown ? 2 : 1;
+
+            if (isMetaDown)
+            {
+                mouseButton = 2;
+            }
+            else
+            {
+                mouseButton = 1;
+            }
+
             return true;
         }
 
-        public void init()
+        public void Init()
         {
             Console.WriteLine("Started applet");
             appletWidth = 512;
             appletHeight = 344;
             gameLoadingScreen = 1;
-            DataOperations.CodeBase = getCodeBase();
-            //startThread(this);
+            DataOperations.CodeBase = GetCodeBase();
+            // startThread(this);
         }
 
-        public void start()
+        public void Start()
         {
             if (runStatus >= 0)
             {
@@ -278,7 +301,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void stop()
+        public void Stop()
         {
             if (runStatus >= 0)
             {
@@ -287,18 +310,21 @@ namespace OpenRS.Net.Client
         }
 
 
-        public void destroy()
+        public void Destroy()
         {
             runStatus = -1;
+
             try
             {
                 Thread.Sleep(2000);
             }
-            catch (Exception _ex) { }
+            catch (Exception) { }
+
             if (runStatus == -1)
             {
                 Console.WriteLine("2 seconds expired, forcing kill");
-                closeProgram();
+                CloseProgram();
+
                 if (gameWindowThread is not null)
                 {
                     gameWindowThread.Interrupt();
@@ -309,21 +335,22 @@ namespace OpenRS.Net.Client
 
 
 
-        public void closeProgram()
+        public void CloseProgram()
         {
             runStatus = -2;
             Console.WriteLine("Closing program");
-            close();
+            Close();
+
             try
             {
                 Thread.Sleep(1000);
             }
-            catch (Exception _ex) { }
+            catch (Exception) { }
+
             if (gameFrame is not null)
             {
-                //gameFrame.dispose();
-                //System.Exit(0);
-
+                // gameFrame.dispose();
+                // System.Exit(0);
             }
         }
 
@@ -336,238 +363,215 @@ namespace OpenRS.Net.Client
 
         public void LoadApp()
         {
-
         }
 
 
-        public void run()
+        public void Run()
         {
-            //getGameComponent().addKeyListener(this);
-            //getGameComponent().addMouseListener(this);
-            //getGameComponent().addMouseMotionListener(this);
-
+            // getGameComponent().addKeyListener(this);
+            // getGameComponent().addMouseListener(this);
+            // getGameComponent().addMouseMotionListener(this);
 
             if (gameLoadingScreen == 1)
             {
                 gameLoadingScreen = 2;
-                loadLoadingScreen();
-                drawLoadingScreen(0, "Loading...");
-                loadGame();
+                LoadLoadingScreen();
+                DrawLoadingScreen(0, "Loading...");
+                LoadGame();
                 gameLoadingScreen = 0;
             }
 
-            for (int k1 = 0; k1 < 10; k1++)
+            for (int timeIndex = 0; timeIndex < 10; timeIndex += 1)
             {
-                timeArray[k1] = CurrentTimeMillis();
+                timeArray[timeIndex] = CurrentTimeMillis();
             }
 
             while (runStatus >= 0)
             {
-                UpdateGame(gameVar_i, gameVar_k, gameVar_sleepTime, gameVar_j1);
+                UpdateGame(gameTimingArrayIndex, gameTimingMultiplier, gameThreadSleepTime, gameLoopAccumulator);
                 OnDrawDone();
             }
+
             if (runStatus == -1)
             {
-                closeProgram();
+                CloseProgram();
                 gameWindowThread = null;
             }
-
-
-
-
         }
         public bool DrawIsNecessary = false;
+
         public void OnDrawDone()
         {
             DrawIsNecessary = true;
         }
 
-        public int gameVar_i = 0;
-        public int gameVar_k = 256;
-        public int gameVar_sleepTime = 1;
-        public int gameVar_j1 = 0;
+        public int gameTimingArrayIndex = 0;
+        public int gameTimingMultiplier = 256;
+        public int gameThreadSleepTime = 1;
+        public int gameLoopAccumulator = 0;
 
-        public void UpdateGame(int i, int k, int sleepTime, int j1)
+        public void UpdateGame(int timingArrayIndex, int timingMultiplier, int sleepTime, int loopAccumulator)
         {
             if (runStatus > 0)
             {
-                runStatus--;
+                runStatus -= 1;
+
                 if (runStatus == 0)
                 {
-                    closeProgram();
+                    CloseProgram();
                     gameWindowThread = null;
+
                     return;
                 }
             }
-            int i2 = k;
-            int j2 = sleepTime;
-            k = 300;
+
+            int savedTimingMultiplier = timingMultiplier;
+            int savedSleepTime = sleepTime;
+            timingMultiplier = 300;
             sleepTime = 1;
-            long l1 = CurrentTimeMillis();//System.currentTimeMillis();
-            if (timeArray[i] == 0L)
+            long currentTime = CurrentTimeMillis();
+
+            if (timeArray[timingArrayIndex] == 0L)
             {
-                k = i2;
-                sleepTime = j2;
+                timingMultiplier = savedTimingMultiplier;
+                sleepTime = savedSleepTime;
             }
-            else if (l1 > timeArray[i])
+            else if (currentTime > timeArray[timingArrayIndex])
             {
-                k = (int)((long)(2560 * refreshRate) / (l1 - timeArray[i]));
+                timingMultiplier = (int)((long)(2560 * refreshRate) / (currentTime - timeArray[timingArrayIndex]));
             }
 
-            if (k < 25)
+            if (timingMultiplier < 25)
             {
-                k = 25;
+                timingMultiplier = 25;
             }
 
-            if (k > 256)
+            if (timingMultiplier > 256)
             {
-                k = 256;
-                sleepTime = (int)((long)refreshRate - (l1 - timeArray[i]) / 10L);
+                timingMultiplier = 256;
+                sleepTime = (int)((long)refreshRate - (currentTime - timeArray[timingArrayIndex]) / 10L);
+
                 if (sleepTime < gameMinThreadSleepTime)
                 {
                     sleepTime = gameMinThreadSleepTime;
                 }
             }
+
             try
             {
                 Thread.Sleep(sleepTime);
             }
-            catch (Exception _ex) { }
-            timeArray[i] = l1;
-            i = (i + 1) % 10;
+            catch (Exception) { }
+
+            timeArray[timingArrayIndex] = currentTime;
+            timingArrayIndex = (timingArrayIndex + 1) % 10;
+
             if (sleepTime > 1)
             {
-                for (int k2 = 0; k2 < 10; k2++)
+                for (int timeIndex = 0; timeIndex < 10; timeIndex += 1)
                 {
-                    if (timeArray[k2] != 0L)
+                    if (timeArray[timeIndex] != 0L)
                     {
-                        timeArray[k2] += sleepTime;
+                        timeArray[timeIndex] += sleepTime;
                     }
                 }
             }
-            int l2 = 0;
-            while (j1 < 256)
+
+            int loopCount = 0;
+
+            while (loopAccumulator < 256)
             {
                 DateTime loopStart = DateTime.Now;
-                checkInputs();
-                j1 += k;
-                if (++l2 > fie)
+                CheckInputs();
+                loopAccumulator += timingMultiplier;
+
+                loopCount += 1;
+
+                if (loopCount > maxLoopCount)
                 {
-                    j1 = 0;
-                    fij += 6;
-                    if (fij > 25)
+                    loopAccumulator = 0;
+                    loadingAnimationCounter += 6;
+
+                    if (loadingAnimationCounter > 25)
                     {
-                        fij = 0;
+                        loadingAnimationCounter = 0;
                         keyF1Toggle = true;
                     }
+
                     break;
                 }
+
                 TimeSpan loopDuration = DateTime.Now - loopStart;
             }
-            fij--;
-            j1 &= 0xff;
-            //drawWindow();
+
+            loadingAnimationCounter -= 1;
+            loopAccumulator &= 0xff;
+            // drawWindow();
             // paint(graphics);
         }
 
-        public virtual void drawWindow()
+        public virtual void DrawWindow()
         {
-
         }
 
-        public void paint(GraphicsDevice g1)
+        public void Paint(GraphicsDevice graphicsDevice)
         {
             if (gameLoadingScreen == 2)
             {
-                drawLoadingScreen(gameLoadingPercentage, gameLoadingFileTitle);
+                DrawLoadingScreen(gameLoadingPercentage, gameLoadingFileTitle);
+
                 return;
             }
         }
 
-        private void loadLoadingScreen()
+        private void LoadLoadingScreen()
         {
-            //base.loadLoadingScreen();
-            //graphics.Clear(Color.Black);
-
-            //graphics.fillRect(0, 0, appletWidth, appletHeight);
-            sbyte[] bytes = unpackData("fonts.jag", "Game fonts", 0);
-            GameImage.addFont(DataOperations.LoadData("h11p.jf", 0, bytes));
-            GameImage.addFont(DataOperations.LoadData("h12b.jf", 0, bytes));
-            GameImage.addFont(DataOperations.LoadData("h12p.jf", 0, bytes));
-            GameImage.addFont(DataOperations.LoadData("h13b.jf", 0, bytes));
-            GameImage.addFont(DataOperations.LoadData("h14b.jf", 0, bytes));
-            GameImage.addFont(DataOperations.LoadData("h16b.jf", 0, bytes));
-            GameImage.addFont(DataOperations.LoadData("h20b.jf", 0, bytes));
-            GameImage.addFont(DataOperations.LoadData("h24b.jf", 0, bytes));
+            sbyte[] bytes = UnpackData("fonts.jag", "Game fonts", 0);
+            GameImage.AddFont(DataOperations.LoadData("h11p.jf", 0, bytes));
+            GameImage.AddFont(DataOperations.LoadData("h12b.jf", 0, bytes));
+            GameImage.AddFont(DataOperations.LoadData("h12p.jf", 0, bytes));
+            GameImage.AddFont(DataOperations.LoadData("h13b.jf", 0, bytes));
+            GameImage.AddFont(DataOperations.LoadData("h14b.jf", 0, bytes));
+            GameImage.AddFont(DataOperations.LoadData("h16b.jf", 0, bytes));
+            GameImage.AddFont(DataOperations.LoadData("h20b.jf", 0, bytes));
+            GameImage.AddFont(DataOperations.LoadData("h24b.jf", 0, bytes));
         }
 
-        private void drawLoadingScreen(int percentage, String fileTitle)
+        private void DrawLoadingScreen(int percentage, string fileTitle)
         {
             try
             {
-                int i = (appletWidth - 281) / 2;
-                int k = (appletHeight - 148) / 2;
-                //graphics.setColor(Color.Black);
-                //graphics.fillRect(0, 0, appletWidth, appletHeight);
-                //graphics.Clear(Color.Black);
-
-                i += 2;
-                k += 90;
-
-
-
-                //if (bgImage is not null)
-                //{
-                //    // spriteBatch.BeginSafe();
-                //    spriteBatch.Draw(bgImage, Vector2.Zero, Color.White);
-                //    // spriteBatch.EndSafe();
-                //}
-                //  graphics.drawImage(bgImage, 0, 0, null);
+                int xOffset = (appletWidth - 281) / 2;
+                int yOffset = (appletHeight - 148) / 2;
+                xOffset += 2;
+                yOffset += 90;
                 gameLoadingPercentage = percentage;
                 gameLoadingFileTitle = fileTitle;
-                //graphics.setColor();
-
-                //spriteBatch.drawRect(new Rectangle(i - 2, k - 2, 280, 23), new Color(132, 132, 132));
-                //spriteBatch.fillRect(new Rectangle(i, k, (277 * percentage) / 100, 20), new Color(132, 132, 132));
-
-
-                //graphics.setColor(new Color(198, 198, 198));
-                //drawString(fileTitle/*, gameLoadingFont*/, i + 138, k + 10, new Color(198, 198, 198));
-
             }
-            catch (Exception _ex) { }
+            catch (Exception) { }
         }
 
-        public void drawLoadingBarText(int i, String s)
+        public void DrawLoadingBarText(int percentage, string statusText)
         {
             try
             {
+                int xOffset = (appletWidth - 281) / 2;
+                int yOffset = (appletHeight - 148) / 2;
+                xOffset += 2;
+                yOffset += 90;
+                gameLoadingPercentage = percentage;
+                gameLoadingFileTitle = statusText;
+                int progressWidth = (277 * percentage) / 100;
 
-                int k = (appletWidth - 281) / 2;
-                int l = (appletHeight - 148) / 2;
-                k += 2;
-                l += 90;
-                gameLoadingPercentage = i;
-                gameLoadingFileTitle = s;
-                int i1 = (277 * i) / 100;
-                // spriteBatch.fillRect(new Rectangle(k, l, i1, 20), new Color(132, 132, 132));
-                //  graphics.setColor(new Color(132, 132, 132));
-                //  graphics.fillRect(k, l, i1, 20);
-                //  graphics.setColor(Color.black);
-                //  spriteBatch.fillRect(new Rectangle(k + i1, l, 277 - i1, 20), Color.Black);
-                //graphics.fillRect(k + i1, l, 277 - i1, 20);
-                //graphics.setColor(new Color(198, 198, 198));
-
-                //drawString(graphics, s, gameLoadingFont, k + 138, l + 10, new Color(198, 198, 198));
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception)
             {
                 return;
             }
         }
 
-        //public void drawString(String arg1, int arg3, int arg4, Color color)
+        //public void DrawString(String arg1, int arg3, int arg4, Color color)
         //{
         //    //Object obj;
         //    //if (gameFrame is null)
@@ -576,8 +580,8 @@ namespace OpenRS.Net.Client
         //    //    obj = gameFrame;
         //    //var fontmetrics = arg2.MeasureString(arg1);//((Component)(obj)).getFontMetrics(arg2);
         //    //fontmetrics.stringWidth(arg1);
-        //    //arg0.setFont(arg2);
-        //    //arg0.drawString(arg1, arg3 - fontmetrics.stringWidth(arg1) / 2, arg4 + fontmetrics.getHeight() / 4);
+        //    //arg0.SetFont(arg2);
+        //    //arg0.DrawString(arg1, arg3 - fontmetrics.stringWidth(arg1) / 2, arg4 + fontmetrics.getHeight() / 4);
 
         //    //GameImage.stringsToDraw.Add(new StringDraw
         //    //{
@@ -592,74 +596,72 @@ namespace OpenRS.Net.Client
         //    //spriteBatch.EndSafe();
         //}
 
-        public virtual sbyte[] unpackData(String filename, String fileTitle, int startPercentage)
+        public virtual sbyte[] UnpackData(string filename, string fileTitle, int startPercentage)
         {
 
             Console.WriteLine("Using default load");
-            int i = 0;
-            int k = 0;
-            sbyte[] abyte0 = Link.GetFile(filename);
-            if (abyte0 is null)
+            int decompressedSize = 0;
+            int compressedSize = 0;
+            sbyte[] fileData = Link.GetFile(filename);
+
+            if (fileData is null)
             {
                 try
                 {
                     Console.WriteLine("Loading " + fileTitle + " - 0%");
-                    drawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 0%");
+                    DrawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 0%");
                     BinaryReader inputStream = new(DataOperations.OpenInputStream(filename));
-                    //DataInputStream datainputstream = new DataInputStream(inputStream);
-                    sbyte[] abyte2 = [
-                        inputStream.ReadSByte(),inputStream.ReadSByte(),inputStream.ReadSByte(),
-                        inputStream.ReadSByte(),inputStream.ReadSByte(),inputStream.ReadSByte()
+                    sbyte[] headerBytes = [
+                        inputStream.ReadSByte(), inputStream.ReadSByte(), inputStream.ReadSByte(),
+                        inputStream.ReadSByte(), inputStream.ReadSByte(), inputStream.ReadSByte()
                     ];
-
-                    //inputStream.Read(abyte2, 0, 6);
-                    i = ((abyte2[0] & 0xff) << 16) + ((abyte2[1] & 0xff) << 8) + (abyte2[2] & 0xff);
-                    k = ((abyte2[3] & 0xff) << 16) + ((abyte2[4] & 0xff) << 8) + (abyte2[5] & 0xff);
-
-
+                    decompressedSize = ((headerBytes[0] & 0xff) << 16) + ((headerBytes[1] & 0xff) << 8) + (headerBytes[2] & 0xff);
+                    compressedSize = ((headerBytes[3] & 0xff) << 16) + ((headerBytes[4] & 0xff) << 8) + (headerBytes[5] & 0xff);
 
                     Console.WriteLine("Loading " + fileTitle + " - 5%");
-                    drawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 5%");
+                    DrawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 5%");
 #warning this could break stuff
-					// int l = 0;
-					int l = 6;
-                    abyte0 = new sbyte[k];
-                    while (l < k)
+                    int bytesRead = 6;
+                    fileData = new sbyte[compressedSize];
+
+                    while (bytesRead < compressedSize)
                     {
-                        int i1 = k - l;
-                        if (i1 > 1000)
+                        int chunkSize = compressedSize - bytesRead;
+
+                        if (chunkSize > 1000)
                         {
-                            i1 = 1000;
+                            chunkSize = 1000;
                         }
 
-                        for (int t = 0; t < i1; t++)
+                        for (int chunkIndex = 0; chunkIndex < chunkSize; chunkIndex += 1)
                         {
-                            abyte0[l + t] = inputStream.ReadSByte();
+                            fileData[bytesRead + chunkIndex] = inputStream.ReadSByte();
                         }
 
-                        // inputStream.Read(abyte0, l, i1);
-
-                        l += i1;
-                        Console.WriteLine("Loading " + fileTitle + " - " + (5 + (l * 95) / k) + "%");
-                        drawLoadingBarText(startPercentage, "Loading " + fileTitle + " - " + (5 + (l * 95) / k) + "%");
+                        bytesRead += chunkSize;
+                        Console.WriteLine("Loading " + fileTitle + " - " + (5 + (bytesRead * 95) / compressedSize) + "%");
+                        DrawLoadingBarText(startPercentage, "Loading " + fileTitle + " - " + (5 + (bytesRead * 95) / compressedSize) + "%");
                     }
 
                     inputStream.Close();
                 }
-                catch (IOException _ex) { }
+                catch (IOException) { }
             }
+
             Console.WriteLine("Unpacking " + fileTitle);
-            drawLoadingBarText(startPercentage, "Unpacking " + fileTitle);
-            if (k != i)
+            DrawLoadingBarText(startPercentage, "Unpacking " + fileTitle);
+
+            if (compressedSize != decompressedSize)
             {
-                sbyte[] abyte1 = new sbyte[i];
-                DataFileDecrypter.UnpackData(abyte1, i, abyte0, k, 0);
-                return abyte1;
+                sbyte[] decompressedData = new sbyte[decompressedSize];
+                DataFileDecrypter.UnpackData(decompressedData, decompressedSize, fileData, compressedSize, 0);
+
+                return decompressedData;
             }
             else
             {
-                //  return unpackData(filename, fileTitle, startPercentage); // abyte0;
-                return abyte0;
+                // return UnpackData(filename, fileTitle, startPercentage); // fileData;
+                return fileData;
             }
         }
 
@@ -673,22 +675,13 @@ namespace OpenRS.Net.Client
         //    return new Texture2D(this.graphics, i, k);
         //}
 
-        public Uri getCodeBase()
-        {
-            return default(Uri);//super.getCodeBase();
-        }
+        public Uri GetCodeBase() => default;
 
-        public Uri getDocumentBase()
-        {
-            return default(Uri);//super.getDocumentBase();
-        }
+        public Uri GetDocumentBase() => default;
 
-        public String getParameter(String s)
-        {
-            return ""; //super.getParameter(s);
-        }
+        public string GetParameter(string parameterName) => "";
 
-        public TcpClient makeSocket(String address, int port)
+        public TcpClient MakeSocket(string address, int port)
         {
             TcpClient socket = new(address, port)
             {
@@ -696,12 +689,13 @@ namespace OpenRS.Net.Client
                 ReceiveTimeout = 30000,
                 NoDelay = true
             };
+
             return socket;
         }
 
-        public void mouseScroll(bool begin, int arg)
+        public void MouseScroll(bool begin, int scrollAmount)
         {
-            Console.WriteLine("mouseWheel(" + begin + ", " + arg + ")");
+            Console.WriteLine("mouseWheel(" + begin + ", " + scrollAmount + ")");
         }
 
         public void InitGameApplet()
@@ -709,7 +703,7 @@ namespace OpenRS.Net.Client
             appletWidth = 512;
             appletHeight = 384;
             refreshRate = 60;
-            fie = 1000;
+            maxLoopCount = 1000;
             timeArray = new long[10];
             gameLoadingScreen = 1;
             gameLoadingFileTitle = "Loading";
@@ -728,11 +722,8 @@ namespace OpenRS.Net.Client
             enteredPMText = "";
         }
 
-        public GameApplet(GraphicsDevice graphics, SpriteBatch spriteBatch)
+        public GameApplet(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
         {
-
-            // baseApplet = new org.moparscape.msc.client.GameApplet();
-
             InitGameApplet();
         }
 
@@ -748,16 +739,16 @@ namespace OpenRS.Net.Client
         private int appletHeight;
         public Thread gameWindowThread;
         private int refreshRate;
-        private int fie;
+        private int maxLoopCount;
         private long[] timeArray;
         public static GameFrame gameFrame = null;
         public int runStatus;
-        public int fij;
+        public int loadingAnimationCounter;
         public int mouseYOffset = 0;
         public int gameLoadingScreen;
         public int gameLoadingPercentage;
-        public String gameLoadingFileTitle;
-        public static String allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
+        public string gameLoadingFileTitle;
+        public static string allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
         public bool keyLeftDown;
         public bool keyRightDown;
         public bool keyUpDown;
@@ -770,10 +761,10 @@ namespace OpenRS.Net.Client
         public int mouseButton;
         public int lastMouseButton;
         public bool keyF1Toggle;
-        public String inputText;
-        public String enteredInputText;
-        public String pmText;
-        public String enteredPMText;
+        public string inputText;
+        public string enteredInputText;
+        public string pmText;
+        public string enteredPMText;
 
         public static int[][] bgPixels = null;
         public static Texture2D bgImage = null;

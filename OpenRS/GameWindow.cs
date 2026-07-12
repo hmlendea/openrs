@@ -56,7 +56,7 @@ namespace OpenRS
         }
 
         /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
+        /// Allows the game to perform any initialization it needs to before starting to Run.
         /// This is where it can query for any required services and load any non-graphic
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
@@ -93,9 +93,9 @@ namespace OpenRS
             GameClient.GameWindow = Window;
 
             rscMudclient.gameMinThreadSleepTime = 10;
-            rscMudclient.start();
+            rscMudclient.Start();
 
-            gameThread = new Thread(rscMudclient.run);
+            gameThread = new Thread(rscMudclient.Run);
             gameThread.Start();
 
             // Initialise NuciXNA content and graphics managers (needed by GuiControl)
@@ -145,19 +145,19 @@ namespace OpenRS
         {
             try
             {
-                rscMudclient.destroy();
+                rscMudclient.Destroy();
             }
             catch { }
         }
 
         /// <summary>
-        /// Allows the game to run logic such as updating the world,
+        /// Allows the game to Run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back.Equals(ButtonState.Pressed))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
             {
                 this.Exit();
             }
@@ -175,7 +175,7 @@ namespace OpenRS
                 catch { }
             }
 
-            if (inventoryPanel is not null && rscMudclient?.loggedIn.Equals(true) == true)
+            if (inventoryPanel is not null && rscMudclient?.loggedIn == true)
             {
                 inventoryPanel.Update(gameTime);
             }
@@ -206,7 +206,7 @@ namespace OpenRS
                 DrawContentLoading(contentLoadingStatusText, contentLoadingStatusProgress);
             }
 
-            if (inventoryPanel is not null && rscMudclient?.loggedIn.Equals(true) == true)
+            if (inventoryPanel is not null && rscMudclient?.loggedIn == true)
             {
                 guiSpriteBatch.Begin();
                 inventoryPanel.Draw(guiSpriteBatch);
@@ -279,14 +279,14 @@ namespace OpenRS
 
                             uint[] colors = new uint[rscMudclient.gameGraphics.pixels.Length];
 
-                            for (int pixelIndex = 0; pixelIndex < rscMudclient.gameGraphics.pixels.Length; pixelIndex++)
+                            for (int pixelIndex = 0; pixelIndex < rscMudclient.gameGraphics.pixels.Length; pixelIndex += 1)
                             {
                                 byte[] pixelBytes = BitConverter.GetBytes(rscMudclient.gameGraphics.pixels[pixelIndex]);
                                 byte redChannel = pixelBytes[2];
                                 byte greenChannel = pixelBytes[1];
                                 byte blueChannel = pixelBytes[0];
 
-                                colors[pixelIndex] = OpenRS.Net.Client.Game.GameImage.rgbaToUInt(redChannel, greenChannel, blueChannel, 255);
+                                colors[pixelIndex] = OpenRS.Net.Client.Game.GameImage.RgbaToUInt(redChannel, greenChannel, blueChannel, 255);
                             }
 
                             if (rscMudclient.DrawIsNecessary)
@@ -319,26 +319,26 @@ namespace OpenRS
 
         private static bool DrawMudclient(GameClient rscMudclient)
         {
-            rscMudclient.paint(GameClient.graphics);
+            rscMudclient.Paint(GameClient.graphics);
 
             try
             {
                 if (!rscMudclient.loggedIn)
                 {
                     rscMudclient.gameGraphics.loggedIn = false;
-                    rscMudclient.drawLoginScreens();
+                    rscMudclient.DrawLoginScreens();
                 }
                 if (rscMudclient.loggedIn)
                 {
                     rscMudclient.gameGraphics.loggedIn = true;
-                    rscMudclient.drawGame();
+                    rscMudclient.DrawGame();
 
                     return true;
                 }
             }
             catch (Exception exception)
             {
-                rscMudclient.cleanUp();
+                rscMudclient.CleanUp();
                 rscMudclient.memoryError = true;
 
                 return false;
@@ -373,16 +373,16 @@ namespace OpenRS
                     int tilesHorizontal = (graphics.PreferredBackBufferWidth / loadingBackgroundImage.Width) + 1;
                     int tilesVertical = (graphics.PreferredBackBufferHeight / loadingBackgroundImage.Height) + 1;
 
-                    for (int tileRow = 0; tileRow < tilesVertical; tileRow++)
+                    for (int tileRow = 0; tileRow < tilesVertical; tileRow += 1)
                     {
-                        for (int tileColumn = 0; tileColumn < tilesHorizontal; tileColumn++)
+                        for (int tileColumn = 0; tileColumn < tilesHorizontal; tileColumn += 1)
                         {
                             spriteBatch.Draw(loadingBackgroundImage, new Vector2(tileColumn * loadingBackgroundImage.Width,
                                 tileRow * loadingBackgroundImage.Height), Color.White);
                         }
                     }
 
-                    spriteBatch.drawGradient(20, 20, 20, 90, Color.FromNonPremultiplied(255, 255, 255, 255),
+                    spriteBatch.DrawGradient(20, 20, 20, 90, Color.FromNonPremultiplied(255, 255, 255, 255),
                                              Color.FromNonPremultiplied(255, 255, 255, 100));
                 }
                 else
@@ -391,9 +391,9 @@ namespace OpenRS
                 }
             }
 
-            spriteBatch.fillRect((graphics.PreferredBackBufferWidth / 4) - 12, (int)statusTextPosition.Y - 12, (graphics.PreferredBackBufferWidth / 2) + 24, (int)statusTextSize.Y + 24, Color.FromNonPremultiplied(0, 0, 0, 150));
-            spriteBatch.drawRect((graphics.PreferredBackBufferWidth / 4) - 12, (int)statusTextPosition.Y - 12, (graphics.PreferredBackBufferWidth / 2) + 24, (int)statusTextSize.Y + 24, Color.DarkGray);
-            spriteBatch.fillRect((graphics.PreferredBackBufferWidth / 4) - 10, (int)statusTextPosition.Y - 10, (int)(((float)contentLoadingStatusProgress / 100f) * ((graphics.PreferredBackBufferWidth / 2) + 20)), (int)statusTextSize.Y + 21, Color.DarkGray);
+            spriteBatch.FillRect((graphics.PreferredBackBufferWidth / 4) - 12, (int)statusTextPosition.Y - 12, (graphics.PreferredBackBufferWidth / 2) + 24, (int)statusTextSize.Y + 24, Color.FromNonPremultiplied(0, 0, 0, 150));
+            spriteBatch.DrawRect((graphics.PreferredBackBufferWidth / 4) - 12, (int)statusTextPosition.Y - 12, (graphics.PreferredBackBufferWidth / 2) + 24, (int)statusTextSize.Y + 24, Color.DarkGray);
+            spriteBatch.FillRect((graphics.PreferredBackBufferWidth / 4) - 10, (int)statusTextPosition.Y - 10, (int)(((float)contentLoadingStatusProgress / 100f) * ((graphics.PreferredBackBufferWidth / 2) + 20)), (int)statusTextSize.Y + 21, Color.DarkGray);
             spriteBatch.DrawString(diagnosticFont, statusMessage, statusTextPosition, Color.White);
             spriteBatch.End();
         }

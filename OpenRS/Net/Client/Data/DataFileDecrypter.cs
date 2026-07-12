@@ -272,7 +272,7 @@ namespace OpenRS.Net.Client.Data
                 sbyte origPtrByte2 = GetUByte(blockEntry);
                 blockEntry.origPtr = blockEntry.origPtr << 8 | origPtrByte2 & 0xff;
 
-                for (int groupIndex = 0; groupIndex < 16; groupIndex++)
+                for (int groupIndex = 0; groupIndex < 16; groupIndex += 1)
                 {
                     sbyte groupActiveBit = GetBit(blockEntry);
 
@@ -286,16 +286,16 @@ namespace OpenRS.Net.Client.Data
                     }
                 }
 
-                for (int byteIndex = 0; byteIndex < 256; byteIndex++)
+                for (int byteIndex = 0; byteIndex < 256; byteIndex += 1)
                 {
                     blockEntry.inUse[byteIndex] = false;
                 }
 
-                for (int symbolGroupIndex = 0; symbolGroupIndex < 16; symbolGroupIndex++)
+                for (int symbolGroupIndex = 0; symbolGroupIndex < 16; symbolGroupIndex += 1)
                 {
                     if (blockEntry.symbolGroupFlags[symbolGroupIndex])
                     {
-                        for (int symbolOffset = 0; symbolOffset < 16; symbolOffset++)
+                        for (int symbolOffset = 0; symbolOffset < 16; symbolOffset += 1)
                         {
                             sbyte symbolActiveBit = GetBit(blockEntry);
 
@@ -312,7 +312,7 @@ namespace OpenRS.Net.Client.Data
                 int groupCount = GetBits(3, blockEntry);
                 int selectorCount = GetBits(15, blockEntry);
 
-                for (int selectorMtfIndex = 0; selectorMtfIndex < selectorCount; selectorMtfIndex++)
+                for (int selectorMtfIndex = 0; selectorMtfIndex < selectorCount; selectorMtfIndex += 1)
                 {
                     int mtfPosition = 0;
 
@@ -333,17 +333,17 @@ namespace OpenRS.Net.Client.Data
 
                 sbyte[] selectorPositions = new sbyte[6];
 
-                for (sbyte positionIndex = 0; positionIndex < groupCount; positionIndex++)
+                for (sbyte positionIndex = 0; positionIndex < groupCount; positionIndex += 1)
                 {
                     selectorPositions[positionIndex] = positionIndex;
                 }
 
-                for (int selectorDecodeIndex = 0; selectorDecodeIndex < selectorCount; selectorDecodeIndex++)
+                for (int selectorDecodeIndex = 0; selectorDecodeIndex < selectorCount; selectorDecodeIndex += 1)
                 {
                     sbyte mtfIndex = blockEntry.selectorMtf[selectorDecodeIndex];
                     sbyte selectedGroupId = selectorPositions[mtfIndex];
 
-                    for (; mtfIndex > 0; mtfIndex--)
+                    for (; mtfIndex > 0; mtfIndex -= 1)
                     {
                         selectorPositions[mtfIndex] = selectorPositions[mtfIndex - 1];
                     }
@@ -352,11 +352,11 @@ namespace OpenRS.Net.Client.Data
                     blockEntry.selector[selectorDecodeIndex] = selectedGroupId;
                 }
 
-                for (int tableIndex = 0; tableIndex < groupCount; tableIndex++)
+                for (int tableIndex = 0; tableIndex < groupCount; tableIndex += 1)
                 {
                     int currentCodeLength = GetBits(5, blockEntry);
 
-                    for (int symbolPosition = 0; symbolPosition < alphaSize; symbolPosition++)
+                    for (int symbolPosition = 0; symbolPosition < alphaSize; symbolPosition += 1)
                     {
                         do
                         {
@@ -383,12 +383,12 @@ namespace OpenRS.Net.Client.Data
                     }
                 }
 
-                for (int huffmanGroupIndex = 0; huffmanGroupIndex < groupCount; huffmanGroupIndex++)
+                for (int huffmanGroupIndex = 0; huffmanGroupIndex < groupCount; huffmanGroupIndex += 1)
                 {
                     sbyte minimumCodeLength = 32;
                     int maximumCodeLength = 0;
 
-                    for (int lengthScanIndex = 0; lengthScanIndex < alphaSize; lengthScanIndex++)
+                    for (int lengthScanIndex = 0; lengthScanIndex < alphaSize; lengthScanIndex += 1)
                     {
                         if (blockEntry.huffmanCodeLengths[huffmanGroupIndex][lengthScanIndex] > maximumCodeLength)
                         {
@@ -409,16 +409,16 @@ namespace OpenRS.Net.Client.Data
                 int currentSelectorIndex = -1;
                 int groupSymbolsRemaining = 0;
 
-                for (int tabResetIndex = 0; tabResetIndex <= 255; tabResetIndex++)
+                for (int tabResetIndex = 0; tabResetIndex <= 255; tabResetIndex += 1)
                 {
                     blockEntry.unzftab[tabResetIndex] = 0;
                 }
 
                 int mtfBufferIndex = 4095;
 
-                for (int groupRowIndex = 15; groupRowIndex >= 0; groupRowIndex--)
+                for (int groupRowIndex = 15; groupRowIndex >= 0; groupRowIndex -= 1)
                 {
-                    for (int groupColIndex = 15; groupColIndex >= 0; groupColIndex--)
+                    for (int groupColIndex = 15; groupColIndex >= 0; groupColIndex -= 1)
                     {
                         blockEntry.moveToFrontBuffer[mtfBufferIndex] = (byte)(groupRowIndex * 16 + groupColIndex);
                         mtfBufferIndex -= 1;
@@ -503,7 +503,7 @@ namespace OpenRS.Net.Client.Data
                         sbyte decodedOutputByte = (sbyte)blockEntry.seqToUnseq[blockEntry.moveToFrontBuffer[blockEntry.groupPositions[0]] & 0xff];
                         blockEntry.unzftab[decodedOutputByte & 0xff] += runRepeatCount;
 
-                        for (; runRepeatCount > 0; runRepeatCount--)
+                        for (; runRepeatCount > 0; runRepeatCount -= 1)
                         {
                             BZip2BlockEntry.transformVector[decodedSymbolCount] = decodedOutputByte & 0xff;
                             decodedSymbolCount += 1;
@@ -528,7 +528,7 @@ namespace OpenRS.Net.Client.Data
                                 blockEntry.moveToFrontBuffer[shiftIndex - 3] = blockEntry.moveToFrontBuffer[shiftIndex - 4];
                             }
 
-                            for (; symbolTableOffset > 0; symbolTableOffset--)
+                            for (; symbolTableOffset > 0; symbolTableOffset -= 1)
                             {
                                 blockEntry.moveToFrontBuffer[groupBaseIndex + symbolTableOffset] = blockEntry.moveToFrontBuffer[(groupBaseIndex + symbolTableOffset) - 1];
                             }
@@ -542,14 +542,14 @@ namespace OpenRS.Net.Client.Data
                             int blockGroupPos = blockEntry.groupPositions[blockGroupRow] + blockGroupCol;
                             moveToFrontValue = (sbyte)blockEntry.moveToFrontBuffer[blockGroupPos];
 
-                            for (; blockGroupPos > blockEntry.groupPositions[blockGroupRow]; blockGroupPos--)
+                            for (; blockGroupPos > blockEntry.groupPositions[blockGroupRow]; blockGroupPos -= 1)
                             {
                                 blockEntry.moveToFrontBuffer[blockGroupPos] = blockEntry.moveToFrontBuffer[blockGroupPos - 1];
                             }
 
                             blockEntry.groupPositions[blockGroupRow] += 1;
 
-                            for (; blockGroupRow > 0; blockGroupRow--)
+                            for (; blockGroupRow > 0; blockGroupRow -= 1)
                             {
                                 blockEntry.groupPositions[blockGroupRow] -= 1;
                                 blockEntry.moveToFrontBuffer[blockEntry.groupPositions[blockGroupRow]] = blockEntry.moveToFrontBuffer[(blockEntry.groupPositions[blockGroupRow - 1] + 16) - 1];
@@ -562,9 +562,9 @@ namespace OpenRS.Net.Client.Data
                             {
                                 int rebuildBufferIndex = 4095;
 
-                                for (int rebuildGroupRow = 15; rebuildGroupRow >= 0; rebuildGroupRow--)
+                                for (int rebuildGroupRow = 15; rebuildGroupRow >= 0; rebuildGroupRow -= 1)
                                 {
-                                    for (int rebuildGroupCol = 15; rebuildGroupCol >= 0; rebuildGroupCol--)
+                                    for (int rebuildGroupCol = 15; rebuildGroupCol >= 0; rebuildGroupCol -= 1)
                                     {
                                         blockEntry.moveToFrontBuffer[rebuildBufferIndex] = blockEntry.moveToFrontBuffer[blockEntry.groupPositions[rebuildGroupRow] + rebuildGroupCol];
                                         rebuildBufferIndex -= 1;
@@ -609,17 +609,17 @@ namespace OpenRS.Net.Client.Data
                 blockEntry.lastOutputByte = 0;
                 blockEntry.cumulativeCounts[0] = 0;
 
-                for (int tabFillIndex = 1; tabFillIndex <= 256; tabFillIndex++)
+                for (int tabFillIndex = 1; tabFillIndex <= 256; tabFillIndex += 1)
                 {
                     blockEntry.cumulativeCounts[tabFillIndex] = blockEntry.unzftab[tabFillIndex - 1];
                 }
 
-                for (int cumulativeIndex = 1; cumulativeIndex <= 256; cumulativeIndex++)
+                for (int cumulativeIndex = 1; cumulativeIndex <= 256; cumulativeIndex += 1)
                 {
                     blockEntry.cumulativeCounts[cumulativeIndex] += blockEntry.cumulativeCounts[cumulativeIndex - 1];
                 }
 
-                for (int transformIndex = 0; transformIndex < decodedSymbolCount; transformIndex++)
+                for (int transformIndex = 0; transformIndex < decodedSymbolCount; transformIndex += 1)
                 {
                     int transformByte = BZip2BlockEntry.transformVector[transformIndex] & 0xff;
                     BZip2BlockEntry.transformVector[blockEntry.cumulativeCounts[transformByte & 0xff]] |= transformIndex << 8;
@@ -681,7 +681,7 @@ namespace OpenRS.Net.Client.Data
         {
             blockEntry.inUseOffset = 0;
 
-            for (int symbolIndex = 0; symbolIndex < 256; symbolIndex++)
+            for (int symbolIndex = 0; symbolIndex < 256; symbolIndex += 1)
             {
                 if (blockEntry.inUse[symbolIndex])
                 {
@@ -695,9 +695,9 @@ namespace OpenRS.Net.Client.Data
         {
             int permIndex = 0;
 
-            for (int lengthLevel = minimumLength; lengthLevel <= maximumLength; lengthLevel++)
+            for (int lengthLevel = minimumLength; lengthLevel <= maximumLength; lengthLevel += 1)
             {
-                for (int symbolScanIndex = 0; symbolScanIndex < alphabetSize; symbolScanIndex++)
+                for (int symbolScanIndex = 0; symbolScanIndex < alphabetSize; symbolScanIndex += 1)
                 {
                     if (codeLengths[symbolScanIndex] == lengthLevel)
                     {
@@ -707,36 +707,36 @@ namespace OpenRS.Net.Client.Data
                 }
             }
 
-            for (int baseZeroIndex = 0; baseZeroIndex < 23; baseZeroIndex++)
+            for (int baseZeroIndex = 0; baseZeroIndex < 23; baseZeroIndex += 1)
             {
                 baseValues[baseZeroIndex] = 0;
             }
 
-            for (int baseSetupIndex = 0; baseSetupIndex < alphabetSize; baseSetupIndex++)
+            for (int baseSetupIndex = 0; baseSetupIndex < alphabetSize; baseSetupIndex += 1)
             {
-                baseValues[codeLengths[baseSetupIndex] + 1]++;
+                baseValues[codeLengths[baseSetupIndex] + 1] += 1;
             }
 
-            for (int baseCumulIndex = 1; baseCumulIndex < 23; baseCumulIndex++)
+            for (int baseCumulIndex = 1; baseCumulIndex < 23; baseCumulIndex += 1)
             {
                 baseValues[baseCumulIndex] += baseValues[baseCumulIndex - 1];
             }
 
-            for (int limitZeroIndex = 0; limitZeroIndex < 23; limitZeroIndex++)
+            for (int limitZeroIndex = 0; limitZeroIndex < 23; limitZeroIndex += 1)
             {
                 limit[limitZeroIndex] = 0;
             }
 
             int limitAccumulator = 0;
 
-            for (int limitFillIndex = minimumLength; limitFillIndex <= maximumLength; limitFillIndex++)
+            for (int limitFillIndex = minimumLength; limitFillIndex <= maximumLength; limitFillIndex += 1)
             {
                 limitAccumulator += baseValues[limitFillIndex + 1] - baseValues[limitFillIndex];
                 limit[limitFillIndex] = limitAccumulator - 1;
                 limitAccumulator <<= 1;
             }
 
-            for (int baseAdjustIndex = minimumLength + 1; baseAdjustIndex <= maximumLength; baseAdjustIndex++)
+            for (int baseAdjustIndex = minimumLength + 1; baseAdjustIndex <= maximumLength; baseAdjustIndex += 1)
             {
                 baseValues[baseAdjustIndex] = (limit[baseAdjustIndex - 1] + 1 << 1) - baseValues[baseAdjustIndex];
             }

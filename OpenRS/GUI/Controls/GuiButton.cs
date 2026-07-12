@@ -59,7 +59,7 @@ namespace OpenRS.Gui.Controls
             images = [];
             text = new GuiText();
 
-            for (int x = 0; x < ButtonSize.Width; x++)
+            for (int x = 0; x < ButtonSize.Width; x += 1)
             {
                 GuiImage image = new() { SourceRectangle = CalculateSourceRectangle(x) };
 
@@ -118,7 +118,7 @@ namespace OpenRS.Gui.Controls
 
         private void SetChildrenProperties()
         {
-            for (int i = 0; i < images.Count; i++)
+            for (int i = 0; i < images.Count; i += 1)
             {
                 images[i].ContentFile = Texture;
                 images[i].Location = new Point2D(i * ButtonTileSize.Width, 0);

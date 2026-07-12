@@ -5,7 +5,7 @@ namespace OpenRS.Net.Client
 {
     public sealed class GameFrame
     {
-        public GameFrame(GameApplet applet, int width, int height, String title, bool resizable, bool translate)
+        public GameFrame(GameApplet applet, int width, int height, string title, bool resizable, bool translate)
         {
             yOffset = 28;
             frameWidth = width;
@@ -25,14 +25,14 @@ namespace OpenRS.Net.Client
             //setResizable(resizable);
             //show();
             //toFront();
-            resize(frameWidth, frameHeight);
+            Resize(frameWidth, frameHeight);
 
             //addWindowListener(this);
         }
 
-        //public GraphicsDevice getGraphics()
+        //public GraphicsDevice GetGraphics()
         //{
-        //    GraphicsDevice g = gameApplet.graphics; //super.getGraphics();
+        //    GraphicsDevice g = gameApplet.graphics; //super.GetGraphics();
         //    //if (fej == 0)
         //        //g.translate(0, 24);
         //        //g.Viewport = new Viewport(0, 24, ); = 24;
@@ -42,35 +42,34 @@ namespace OpenRS.Net.Client
         //    return g;
         //}
 
-        public void resize(int i, int j)
+        public void Resize(int i, int j)
         {
-            //super.resize(i, j + yOffset);
+            //super.Resize(i, j + yOffset);
         }
 
-        public void paint(GraphicsDevice g)
+        public void Paint(GraphicsDevice graphicsDevice)
         {
-            gameApplet.paint(g);
+            gameApplet.Paint(graphicsDevice);
         }
 
-        public void windowClosed(EventArgs evt)
+        public void WindowClosed(EventArgs evt)
         {
             if (gameApplet.runStatus != -1)
             {
-                gameApplet.destroy();
+                gameApplet.Destroy();
             }
         }
 
-        public void windowClosing(EventArgs evt)
+        public void WindowClosing(EventArgs evt)
         {
             if (gameApplet.runStatus != -1)
             {
-                gameApplet.destroy();
+                gameApplet.Destroy();
             }
         }
 
         public int frameWidth;
         public int frameHeight;
-        public int fej;
         public int yOffset;
         public GameApplet gameApplet;
     }

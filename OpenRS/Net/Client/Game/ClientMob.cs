@@ -12,7 +12,7 @@ namespace OpenRS.Net.Client.Game
             Location = new Point2D();
             Waypoints = new Point2D[10];
 
-            for (int i = 0; i < Waypoints.Length; i++)
+            for (int i = 0; i < Waypoints.Length; i += 1)
             {
                 Waypoints[i] = new Point2D();
             }

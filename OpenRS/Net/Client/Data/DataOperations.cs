@@ -112,7 +112,7 @@ namespace OpenRS.Net.Client.Data
         {
             string result = "";
 
-            for (int charIndex = 0; charIndex < maxLength; charIndex++)
+            for (int charIndex = 0; charIndex < maxLength; charIndex += 1)
             {
                 if (charIndex >= text.Length)
                 {
@@ -151,7 +151,7 @@ namespace OpenRS.Net.Client.Data
         {
             string normalizedName = "";
 
-            for (int charIndex = 0; charIndex < name.Length; charIndex++)
+            for (int charIndex = 0; charIndex < name.Length; charIndex += 1)
             {
                 char character = name[charIndex];
 
@@ -182,7 +182,7 @@ namespace OpenRS.Net.Client.Data
 
             long hashValue = 0L;
 
-            for (int charIndex = 0; charIndex < normalizedName.Length; charIndex++)
+            for (int charIndex = 0; charIndex < normalizedName.Length; charIndex += 1)
             {
                 char character = normalizedName[charIndex];
                 hashValue *= 37L;
@@ -244,14 +244,14 @@ namespace OpenRS.Net.Client.Data
             int nameHash = 0;
             objectName = objectName.ToUpper();
 
-            for (int charIndex = 0; charIndex < objectName.Length; charIndex++)
+            for (int charIndex = 0; charIndex < objectName.Length; charIndex += 1)
             {
                 nameHash = (nameHash * 61 + objectName[charIndex]) - 32;
             }
 
             long dataOffset = 2 + entryCount * 10;
 
-            for (int entryIndex = 0; entryIndex < entryCount; entryIndex++)
+            for (int entryIndex = 0; entryIndex < entryCount; entryIndex += 1)
             {
                 long entryNameHash = (objectData[entryIndex * 10 + 2] & 0xff) * 0x1000000 + (objectData[entryIndex * 10 + 3] & 0xff) * 0x10000 + (objectData[entryIndex * 10 + 4] & 0xff) * 256 + (objectData[entryIndex * 10 + 5] & 0xff);
                 long entrySize = (objectData[entryIndex * 10 + 9] & 0xff) * 0x10000 + (objectData[entryIndex * 10 + 10] & 0xff) * 256 + (objectData[entryIndex * 10 + 11] & 0xff);
@@ -273,12 +273,12 @@ namespace OpenRS.Net.Client.Data
             int nameHash = 0;
             soundName = soundName.ToUpper();
 
-            for (int charIndex = 0; charIndex < soundName.Length; charIndex++)
+            for (int charIndex = 0; charIndex < soundName.Length; charIndex += 1)
             {
                 nameHash = (nameHash * 61 + soundName[charIndex]) - 32;
             }
 
-            for (int entryIndex = 0; entryIndex < entryCount; entryIndex++)
+            for (int entryIndex = 0; entryIndex < entryCount; entryIndex += 1)
             {
                 int entryNameHash = (soundIndex[entryIndex * 10 + 2] & 0xff) * 0x1000000 + (soundIndex[entryIndex * 10 + 3] & 0xff) * 0x10000 + (soundIndex[entryIndex * 10 + 4] & 0xff) * 256 + (soundIndex[entryIndex * 10 + 5] & 0xff);
                 int entryLength = (soundIndex[entryIndex * 10 + 6] & 0xff) * 0x10000 + (soundIndex[entryIndex * 10 + 7] & 0xff) * 256 + (soundIndex[entryIndex * 10 + 8] & 0xff);
@@ -301,14 +301,14 @@ namespace OpenRS.Net.Client.Data
             int nameHash = 0;
             entryName = entryName.ToUpper();
 
-            for (int charIndex = 0; charIndex < entryName.Length; charIndex++)
+            for (int charIndex = 0; charIndex < entryName.Length; charIndex += 1)
             {
                 nameHash = (nameHash * 61 + entryName[charIndex]) - 32;
             }
 
             int dataOffset = 2 + entryCount * 10;
 
-            for (int entryIndex = 0; entryIndex < entryCount; entryIndex++)
+            for (int entryIndex = 0; entryIndex < entryCount; entryIndex += 1)
             {
                 int entryNameHash = (indexData[entryIndex * 10 + 2] & 0xff) * 0x1000000 + (indexData[entryIndex * 10 + 3] & 0xff) * 0x10000 + (indexData[entryIndex * 10 + 4] & 0xff) * 256 + (indexData[entryIndex * 10 + 5] & 0xff);
                 int decompressedSize = (indexData[entryIndex * 10 + 6] & 0xff) * 0x10000 + (indexData[entryIndex * 10 + 7] & 0xff) * 256 + (indexData[entryIndex * 10 + 8] & 0xff);
@@ -327,7 +327,7 @@ namespace OpenRS.Net.Client.Data
                     }
                     else
                     {
-                        for (long byteIndex = 0; byteIndex < decompressedSize; byteIndex++)
+                        for (long byteIndex = 0; byteIndex < decompressedSize; byteIndex += 1)
                         {
                             outputBuffer[byteIndex] = indexData[dataOffset + byteIndex];
                         }
@@ -351,14 +351,14 @@ namespace OpenRS.Net.Client.Data
             int nameHash = 0;
             entryName = entryName.ToUpper();
 
-            for (int charIndex = 0; charIndex < entryName.Length; charIndex++)
+            for (int charIndex = 0; charIndex < entryName.Length; charIndex += 1)
             {
                 nameHash = (nameHash * 61 + entryName[charIndex]) - 32;
             }
 
             int dataOffset = 2 + entryCount * 10;
 
-            for (int entryIndex = 0; entryIndex < entryCount; entryIndex++)
+            for (int entryIndex = 0; entryIndex < entryCount; entryIndex += 1)
             {
                 int entryNameHash = (indexData[entryIndex * 10 + 2] & 0xff) * 0x1000000 + (indexData[entryIndex * 10 + 3] & 0xff) * 0x10000 + (indexData[entryIndex * 10 + 4] & 0xff) * 256 + (indexData[entryIndex * 10 + 5] & 0xff);
                 int decompressedSize = (indexData[entryIndex * 10 + 6] & 0xff) * 0x10000 + (indexData[entryIndex * 10 + 7] & 0xff) * 256 + (indexData[entryIndex * 10 + 8] & 0xff);
@@ -377,7 +377,7 @@ namespace OpenRS.Net.Client.Data
                     }
                     else
                     {
-                        for (long byteIndex = 0; byteIndex < decompressedSize; byteIndex++)
+                        for (long byteIndex = 0; byteIndex < decompressedSize; byteIndex += 1)
                         {
                             outputBuffer[byteIndex] = indexData[dataOffset + byteIndex];
                         }
@@ -399,14 +399,14 @@ namespace OpenRS.Net.Client.Data
 
             while (byteIndex < length)
             {
-                sbyte readByte = stream.ReadSByte();
+                sbyte ReadByte = stream.ReadSByte();
 
-                if (readByte == -1)
+                if (ReadByte == -1)
                 {
                     break;
                 }
 
-                result.Add(readByte);
+                result.Add(ReadByte);
                 byteIndex += 1;
             }
 

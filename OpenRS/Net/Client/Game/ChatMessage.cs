@@ -5,12 +5,12 @@ namespace OpenRS.Net.Client.Game
 
 public sealed class ChatMessage {
 
-    public static String bytesToString(sbyte[] encodedBytes, int readOffset, int byteCount)
+    public static string BytesToString(sbyte[] encodedBytes, int readOffset, int byteCount)
     {
         try {
             int i = 0;
             int j = -1;
-            for(int k = 0; k < byteCount; k++) {
+            for(int k = 0; k < byteCount; k += 1) {
                 int l = encodedBytes[readOffset += 1] & 0xff;
                 int i1 = l >> 4 & 0xf;
                 if(j == -1) {
@@ -43,7 +43,7 @@ public sealed class ChatMessage {
             }
 
             bool flag = true;
-            for(int j1 = 0; j1 < i; j1++) {
+            for(int j1 = 0; j1 < i; j1 += 1) {
                 char c = chatMessage[j1];
                 if(j1 > 4 && c == '@')
                     {
@@ -65,20 +65,20 @@ public sealed class ChatMessage {
                     }
                 }
 
-            return new String(chatMessage, 0, i);
+            return new string(chatMessage, 0, i);
         }
         catch(Exception _ex) {
             return ".";
         }
     }
 
-    public static String bytesToString(byte[] encodedBytes, int readOffset, int byteCount)
+    public static string BytesToString(byte[] encodedBytes, int readOffset, int byteCount)
     {
         try
         {
             int i = 0;
             int j = -1;
-            for (int k = 0; k < byteCount; k++)
+            for (int k = 0; k < byteCount; k += 1)
             {
                 int l = encodedBytes[readOffset += 1] & 0xff;
                 int i1 = l >> 4 & 0xf;
@@ -118,7 +118,7 @@ public sealed class ChatMessage {
             }
 
             bool flag = true;
-            for (int j1 = 0; j1 < i; j1++)
+            for (int j1 = 0; j1 < i; j1 += 1)
             {
                 char c = chatMessage[j1];
                 if (j1 > 4 && c == '@')
@@ -142,7 +142,7 @@ public sealed class ChatMessage {
                     }
                 }
 
-            return new String(chatMessage, 0, i);
+            return new string(chatMessage, 0, i);
         }
         catch (Exception _ex)
         {
@@ -150,7 +150,7 @@ public sealed class ChatMessage {
         }
     }
 
-    public static int stringToBytes(String message) {
+    public static int StringToBytes(string message) {
         if(message.Length > 80)
             {
                 message = message.Substring(0, 80);
@@ -159,10 +159,10 @@ public sealed class ChatMessage {
             message = message.ToLower();
         int i = 0;
         int j = -1;
-        for(int k = 0; k < message.Length; k++) {
+        for(int k = 0; k < message.Length; k += 1) {
             char c = message[k];
             int l = 0;
-            for(int i1 = 0; i1 < validChars.Length; i1++) {
+            for(int i1 = 0; i1 < validChars.Length; i1 += 1) {
                 if(c != validChars[i1])
                     {
                         continue;

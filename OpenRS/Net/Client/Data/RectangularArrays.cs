@@ -13,7 +13,7 @@ namespace OpenRS.Net.Client.Data
         {
             sbyte[][] result = new sbyte[outerSize][];
 
-            for (int outerIndex = 0; outerIndex < outerSize; outerIndex++)
+            for (int outerIndex = 0; outerIndex < outerSize; outerIndex += 1)
             {
                 result[outerIndex] = new sbyte[innerSize];
             }
@@ -25,7 +25,7 @@ namespace OpenRS.Net.Client.Data
         {
             int[][] result = new int[outerSize][];
 
-            for (int outerIndex = 0; outerIndex < outerSize; outerIndex++)
+            for (int outerIndex = 0; outerIndex < outerSize; outerIndex += 1)
             {
                 result[outerIndex] = new int[innerSize];
             }

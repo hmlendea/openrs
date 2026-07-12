@@ -24,12 +24,12 @@ namespace OpenRS.GameLogic.GameManagers
             bankItems = new InventoryItem[256];
             serverBankItems = new InventoryItem[256];
 
-            for (int slotIndex = 0; slotIndex < inventoryItems.Length; slotIndex++)
+            for (int slotIndex = 0; slotIndex < inventoryItems.Length; slotIndex += 1)
             {
                 inventoryItems[slotIndex] = new InventoryItem();
             }
 
-            for (int slotIndex = 0; slotIndex < bankItems.Length; slotIndex++)
+            for (int slotIndex = 0; slotIndex < bankItems.Length; slotIndex += 1)
             {
                 bankItems[slotIndex] = new InventoryItem();
                 serverBankItems[slotIndex] = new InventoryItem();
@@ -38,9 +38,9 @@ namespace OpenRS.GameLogic.GameManagers
 
         public bool IsItemEquipped(int itemIndex)
         {
-            for (int slotIndex = 0; slotIndex < InventoryItemsCount; slotIndex++)
+            for (int slotIndex = 0; slotIndex < InventoryItemsCount; slotIndex += 1)
             {
-                if (inventoryItems[slotIndex].Index.Equals(itemIndex) &&
+                if (inventoryItems[slotIndex].Index == itemIndex &&
                     inventoryItems[slotIndex].IsEquipped)
                 {
                     return true;
@@ -52,11 +52,11 @@ namespace OpenRS.GameLogic.GameManagers
 
         public void BankItem(int itemId, int itemSlot, int quantity)
         {
-            if (quantity.Equals(0))
+            if (quantity == 0)
             {
                 ServerBankItemsCount -= 1;
 
-                for (int slotIndex = itemSlot; slotIndex < ServerBankItemsCount; slotIndex++)
+                for (int slotIndex = itemSlot; slotIndex < ServerBankItemsCount; slotIndex += 1)
                 {
                     serverBankItems[slotIndex].Index = serverBankItems[slotIndex + 1].Index;
                     serverBankItems[slotIndex].Quantity = serverBankItems[slotIndex + 1].Quantity;
@@ -92,7 +92,7 @@ namespace OpenRS.GameLogic.GameManagers
         {
             InventoryItemsCount -= 1;
 
-            for (int slotIndex = itemSlot; slotIndex < InventoryItemsCount; slotIndex++)
+            for (int slotIndex = itemSlot; slotIndex < InventoryItemsCount; slotIndex += 1)
             {
                 inventoryItems[slotIndex].Index = inventoryItems[slotIndex + 1].Index;
                 inventoryItems[slotIndex].Quantity = inventoryItems[slotIndex + 1].Quantity;
@@ -104,13 +104,13 @@ namespace OpenRS.GameLogic.GameManagers
         {
             BankItemsCount = ServerBankItemsCount;
 
-            for (int serverSlotIndex = 0; serverSlotIndex < ServerBankItemsCount; serverSlotIndex++)
+            for (int serverSlotIndex = 0; serverSlotIndex < ServerBankItemsCount; serverSlotIndex += 1)
             {
                 bankItems[serverSlotIndex].Index = serverBankItems[serverSlotIndex].Index;
                 bankItems[serverSlotIndex].Quantity = serverBankItems[serverSlotIndex].Quantity;
             }
 
-            for (int itemSlot = 0; itemSlot < InventoryItemsCount; itemSlot++)
+            for (int itemSlot = 0; itemSlot < InventoryItemsCount; itemSlot += 1)
             {
                 if (BankItemsCount >= MaximumBankSize)
                 {
@@ -120,9 +120,9 @@ namespace OpenRS.GameLogic.GameManagers
                 int itemIndex = inventoryItems[itemSlot].Index;
                 bool isAlreadyInBank = false;
 
-                for (int bankSlot = 0; bankSlot < BankItemsCount; bankSlot++)
+                for (int bankSlot = 0; bankSlot < BankItemsCount; bankSlot += 1)
                 {
-                    if (bankItems[bankSlot].Index.Equals(itemIndex))
+                    if (bankItems[bankSlot].Index == itemIndex)
                     {
                         isAlreadyInBank = true;
                         break;
@@ -144,14 +144,14 @@ namespace OpenRS.GameLogic.GameManagers
         {
             int quantity = 0;
 
-            for (int slotIndex = 0; slotIndex < InventoryItemsCount; slotIndex++)
+            for (int slotIndex = 0; slotIndex < InventoryItemsCount; slotIndex += 1)
             {
-                if (!inventoryItems[slotIndex].Index.Equals(itemIndex))
+                if (inventoryItems[slotIndex].Index != itemIndex)
                 {
                     continue;
                 }
 
-                if (entityManager.GetItem(itemIndex).IsStackable.Equals(1))
+                if (entityManager.GetItem(itemIndex).IsStackable == 1)
                 {
                     quantity += 1;
                 }

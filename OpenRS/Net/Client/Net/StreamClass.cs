@@ -20,7 +20,7 @@ namespace OpenRS.Net.Client.Net
             outputStream = new BinaryWriter(socket.GetStream()); // socket.getOutputStream();
             socketClosed = false;
 
-            connectionThread = new Thread(new ThreadStart(this.run));
+            connectionThread = new Thread(new ThreadStart(this.Run));
             connectionThread.Start();
             //   a1.startThread(this);
         }
@@ -39,7 +39,7 @@ namespace OpenRS.Net.Client.Net
             try
             {
                 int bytesRead = inputStream.BaseStream.EndRead(iar);
-                if (!bytesRead.Equals(0))
+                if (bytesRead != 0)
                 {
 
                 }
@@ -49,13 +49,13 @@ namespace OpenRS.Net.Client.Net
             catch
             {
                 // We have been disconnected :<
-                closeStream();
+                CloseStream();
             }
         }
 
-        public override void closeStream()
+        public override void CloseStream()
         {
-            base.closeStream();
+            base.CloseStream();
             socketClosing = true;
             try
             {
@@ -89,7 +89,7 @@ namespace OpenRS.Net.Client.Net
             buffer = null;
         }
 
-        public override int read()
+        public override int Read()
         {
             if (socketClosing)
             {
@@ -113,7 +113,7 @@ namespace OpenRS.Net.Client.Net
         //    }
         //}
 
-        public override void readInputStream(int byteCount, int bufferOffset, sbyte[] outputBuffer)
+        public override void ReadInputStream(int byteCount, int bufferOffset, sbyte[] outputBuffer)
         {
             if (socketClosing)
             {
@@ -143,7 +143,7 @@ namespace OpenRS.Net.Client.Net
                     }
                     //throw new IOException("EOF");
 
-                    for (int k = 0; k < outputBuffer.Length; k++)
+                    for (int k = 0; k < outputBuffer.Length; k += 1)
                     {
                         outputBuffer[k] = (sbyte)org[k];
                     }
@@ -159,7 +159,7 @@ namespace OpenRS.Net.Client.Net
         private readonly object syncLock = new();
 
         // [MethodImpl(MethodImplOptions.Synchronized)]
-        public override void writeToBuffer(byte[] sourceData, int sourceOffset, int byteCount)
+        public override void WriteToBuffer(byte[] sourceData, int sourceOffset, int byteCount)
         {
             if (socketClosing)
             {
@@ -172,7 +172,7 @@ namespace OpenRS.Net.Client.Net
             }
             // lock (syncLock)
             {
-                for (int i = 0; i < byteCount; i++)
+                for (int i = 0; i < byteCount; i += 1)
                 {
                     buffer[offset] = sourceData[i + sourceOffset];
                     offset = (offset + 1) % 5000;
@@ -208,7 +208,7 @@ namespace OpenRS.Net.Client.Net
             catch { }
         }
         private int lastWriteLen = 0;
-        public void run()
+        public void Run()
         {
             while (!socketClosed) //  && connectionThread.ThreadState != ThreadState.AbortRequested && connectionThread.ThreadState != ThreadState.Aborted
             {

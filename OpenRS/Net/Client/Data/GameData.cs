@@ -106,7 +106,7 @@ namespace OpenRS.Net.Client.Data
                 return 0;
             }
 
-            for (int modelIndex = 0; modelIndex < modelCount; modelIndex++)
+            for (int modelIndex = 0; modelIndex < modelCount; modelIndex += 1)
             {
                 if (string.Equals(modelName[modelIndex], name, StringComparison.OrdinalIgnoreCase))
                 {
@@ -184,22 +184,22 @@ namespace OpenRS.Net.Client.Data
             itemSpecial = new int[itemCount];
             itemMembers = new int[itemCount];
 
-            for (int itemIndex = 0; itemIndex < itemCount; itemIndex++)
+            for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
                 itemName[itemIndex] = ReadString();
             }
 
-            for (int itemIndex = 0; itemIndex < itemCount; itemIndex++)
+            for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
                 itemDescription[itemIndex] = ReadString();
             }
 
-            for (int itemIndex = 0; itemIndex < itemCount; itemIndex++)
+            for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
                 itemCommand[itemIndex] = ReadString();
             }
 
-            for (int itemIndex = 0; itemIndex < itemCount; itemIndex++)
+            for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
                 itemInventoryPicture[itemIndex] = ReadShort();
 
@@ -209,42 +209,42 @@ namespace OpenRS.Net.Client.Data
                 }
             }
 
-            for (int itemIndex = 0; itemIndex < itemCount; itemIndex++)
+            for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
                 itemBasePrice[itemIndex] = ReadInt();
             }
 
-            for (int itemIndex = 0; itemIndex < itemCount; itemIndex++)
+            for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
                 itemStackable[itemIndex] = ReadByte();
             }
 
-            for (int itemIndex = 0; itemIndex < itemCount; itemIndex++)
+            for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
                 itemUnused[itemIndex] = ReadByte();
             }
 
-            for (int itemIndex = 0; itemIndex < itemCount; itemIndex++)
+            for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
                 itemIsEquippable[itemIndex] = ReadShort();
             }
 
-            for (int itemIndex = 0; itemIndex < itemCount; itemIndex++)
+            for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
                 itemPictureMask[itemIndex] = ReadInt();
             }
 
-            for (int itemIndex = 0; itemIndex < itemCount; itemIndex++)
+            for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
                 itemSpecial[itemIndex] = ReadByte();
             }
 
-            for (int itemIndex = 0; itemIndex < itemCount; itemIndex++)
+            for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
                 itemMembers[itemIndex] = ReadByte();
             }
 
-            for (int itemIndex = 0; itemIndex < itemCount; itemIndex++)
+            for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
                 if (!Config.MembersFeatures && itemMembers[itemIndex] == 1)
                 {
@@ -269,7 +269,7 @@ namespace OpenRS.Net.Client.Data
             npcAttackable = new int[npcCount];
             npcAnimationCount = new int[npcCount][];
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcAnimationCount[npcIndex] = new int[12];
             }
@@ -284,44 +284,44 @@ namespace OpenRS.Net.Client.Data
             npcCombatModel = new int[npcCount];
             npcCombatSprite = new int[npcCount];
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcName[npcIndex] = ReadString();
             }
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcDescription[npcIndex] = ReadString();
             }
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcAttack[npcIndex] = ReadByte();
             }
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcStrength[npcIndex] = ReadByte();
             }
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcHits[npcIndex] = ReadByte();
             }
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcDefense[npcIndex] = ReadByte();
             }
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcAttackable[npcIndex] = ReadByte();
             }
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                for (int animationPartIndex = 0; animationPartIndex < 12; animationPartIndex++)
+                for (int animationPartIndex = 0; animationPartIndex < 12; animationPartIndex += 1)
                 {
                     npcAnimationCount[npcIndex][animationPartIndex] = ReadByte();
 
@@ -332,52 +332,52 @@ namespace OpenRS.Net.Client.Data
                 }
             }
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcHairColor[npcIndex] = ReadInt();
             }
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcTopColor[npcIndex] = ReadInt();
             }
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcBottomColor[npcIndex] = ReadInt();
             }
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcSkinColor[npcIndex] = ReadInt();
             }
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcCameraArray1[npcIndex] = ReadShort();
             }
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcCameraArray2[npcIndex] = ReadShort();
             }
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcWalkModelArray[npcIndex] = ReadByte();
             }
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcCombatModel[npcIndex] = ReadByte();
             }
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcCombatSprite[npcIndex] = ReadByte();
             }
 
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex++)
+            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 npcCommand[npcIndex] = ReadString();
             }
@@ -386,12 +386,12 @@ namespace OpenRS.Net.Client.Data
             textureName = new string[textureCount];
             textureSubName = new string[textureCount];
 
-            for (int textureIndex = 0; textureIndex < textureCount; textureIndex++)
+            for (int textureIndex = 0; textureIndex < textureCount; textureIndex += 1)
             {
                 textureName[textureIndex] = ReadString();
             }
 
-            for (int textureIndex = 0; textureIndex < textureCount; textureIndex++)
+            for (int textureIndex = 0; textureIndex < textureCount; textureIndex += 1)
             {
                 textureSubName[textureIndex] = ReadString();
             }
@@ -404,32 +404,32 @@ namespace OpenRS.Net.Client.Data
             animationHasF = new int[animationCount];
             animationNumber = new int[animationCount];
 
-            for (int animationIndex = 0; animationIndex < animationCount; animationIndex++)
+            for (int animationIndex = 0; animationIndex < animationCount; animationIndex += 1)
             {
                 animationName[animationIndex] = ReadString();
             }
 
-            for (int animationIndex = 0; animationIndex < animationCount; animationIndex++)
+            for (int animationIndex = 0; animationIndex < animationCount; animationIndex += 1)
             {
                 animationCharacterColor[animationIndex] = ReadInt();
             }
 
-            for (int animationIndex = 0; animationIndex < animationCount; animationIndex++)
+            for (int animationIndex = 0; animationIndex < animationCount; animationIndex += 1)
             {
                 animationGenderModels[animationIndex] = ReadByte();
             }
 
-            for (int animationIndex = 0; animationIndex < animationCount; animationIndex++)
+            for (int animationIndex = 0; animationIndex < animationCount; animationIndex += 1)
             {
                 animationHasA[animationIndex] = ReadByte();
             }
 
-            for (int animationIndex = 0; animationIndex < animationCount; animationIndex++)
+            for (int animationIndex = 0; animationIndex < animationCount; animationIndex += 1)
             {
                 animationHasF[animationIndex] = ReadByte();
             }
 
-            for (int animationIndex = 0; animationIndex < animationCount; animationIndex++)
+            for (int animationIndex = 0; animationIndex < animationCount; animationIndex += 1)
             {
                 animationNumber[animationIndex] = ReadByte();
             }
@@ -445,47 +445,47 @@ namespace OpenRS.Net.Client.Data
             objectType = new int[objectCount];
             objectGroundItemVar = new int[objectCount];
 
-            for (int objectIndex = 0; objectIndex < objectCount; objectIndex++)
+            for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
                 objectName[objectIndex] = ReadString();
             }
 
-            for (int objectIndex = 0; objectIndex < objectCount; objectIndex++)
+            for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
                 objectDescription[objectIndex] = ReadString();
             }
 
-            for (int objectIndex = 0; objectIndex < objectCount; objectIndex++)
+            for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
                 objectCommand1[objectIndex] = ReadString();
             }
 
-            for (int objectIndex = 0; objectIndex < objectCount; objectIndex++)
+            for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
                 objectCommand2[objectIndex] = ReadString();
             }
 
-            for (int objectIndex = 0; objectIndex < objectCount; objectIndex++)
+            for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
                 objectModelNumber[objectIndex] = GetModelNameIndex(ReadString());
             }
 
-            for (int objectIndex = 0; objectIndex < objectCount; objectIndex++)
+            for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
                 objectWidth[objectIndex] = ReadByte();
             }
 
-            for (int objectIndex = 0; objectIndex < objectCount; objectIndex++)
+            for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
                 objectHeight[objectIndex] = ReadByte();
             }
 
-            for (int objectIndex = 0; objectIndex < objectCount; objectIndex++)
+            for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
                 objectType[objectIndex] = ReadByte();
             }
 
-            for (int objectIndex = 0; objectIndex < objectCount; objectIndex++)
+            for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
                 objectGroundItemVar[objectIndex] = ReadByte();
             }
@@ -501,47 +501,47 @@ namespace OpenRS.Net.Client.Data
             wallObjectType = new int[wallObjectCount];
             wallObjectUnknown = new int[wallObjectCount];
 
-            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex++)
+            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
                 wallObjectName[wallObjectIndex] = ReadString();
             }
 
-            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex++)
+            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
                 wallObjectDescription[wallObjectIndex] = ReadString();
             }
 
-            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex++)
+            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
                 wallObjectCommand1[wallObjectIndex] = ReadString();
             }
 
-            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex++)
+            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
                 wallObjectCommand2[wallObjectIndex] = ReadString();
             }
 
-            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex++)
+            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
                 wallObjectModelHeight[wallObjectIndex] = ReadShort();
             }
 
-            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex++)
+            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
                 wallObjectModel_FaceBack[wallObjectIndex] = ReadInt();
             }
 
-            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex++)
+            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
                 wallObjectModel_FaceFront[wallObjectIndex] = ReadInt();
             }
 
-            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex++)
+            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
                 wallObjectType[wallObjectIndex] = ReadByte();
             }
 
-            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex++)
+            for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
                 wallObjectUnknown[wallObjectIndex] = ReadByte();
             }
@@ -550,12 +550,12 @@ namespace OpenRS.Net.Client.Data
             roofs = new int[elevationCount];
             roofAltitudes = new int[elevationCount];
 
-            for (int elevationIndex = 0; elevationIndex < elevationCount; elevationIndex++)
+            for (int elevationIndex = 0; elevationIndex < elevationCount; elevationIndex += 1)
             {
                 roofs[elevationIndex] = ReadByte();
             }
 
-            for (int elevationIndex = 0; elevationIndex < elevationCount; elevationIndex++)
+            for (int elevationIndex = 0; elevationIndex < elevationCount; elevationIndex += 1)
             {
                 roofAltitudes[elevationIndex] = ReadByte();
             }
@@ -565,17 +565,17 @@ namespace OpenRS.Net.Client.Data
             tileGroundOverlayTypes = new int[overlayTextureCount];
             overlayTextureFlags = new int[overlayTextureCount];
 
-            for (int overlayIndex = 0; overlayIndex < overlayTextureCount; overlayIndex++)
+            for (int overlayIndex = 0; overlayIndex < overlayTextureCount; overlayIndex += 1)
             {
                 tileGroundOverlayTexture[overlayIndex] = ReadInt();
             }
 
-            for (int overlayIndex = 0; overlayIndex < overlayTextureCount; overlayIndex++)
+            for (int overlayIndex = 0; overlayIndex < overlayTextureCount; overlayIndex += 1)
             {
                 tileGroundOverlayTypes[overlayIndex] = ReadByte();
             }
 
-            for (int overlayIndex = 0; overlayIndex < overlayTextureCount; overlayIndex++)
+            for (int overlayIndex = 0; overlayIndex < overlayTextureCount; overlayIndex += 1)
             {
                 overlayTextureFlags[overlayIndex] = ReadByte();
             }
@@ -590,48 +590,48 @@ namespace OpenRS.Net.Client.Data
             spellRequiredRuneIds = new int[spellCount][];
             spellRequiredRuneCount = new int[spellCount][];
 
-            for (int spellIndex = 0; spellIndex < spellCount; spellIndex++)
+            for (int spellIndex = 0; spellIndex < spellCount; spellIndex += 1)
             {
                 spellName[spellIndex] = ReadString();
             }
 
-            for (int spellIndex = 0; spellIndex < spellCount; spellIndex++)
+            for (int spellIndex = 0; spellIndex < spellCount; spellIndex += 1)
             {
                 spellDescription[spellIndex] = ReadString();
             }
 
-            for (int spellIndex = 0; spellIndex < spellCount; spellIndex++)
+            for (int spellIndex = 0; spellIndex < spellCount; spellIndex += 1)
             {
                 spellRequiredLevel[spellIndex] = ReadByte();
             }
 
-            for (int spellIndex = 0; spellIndex < spellCount; spellIndex++)
+            for (int spellIndex = 0; spellIndex < spellCount; spellIndex += 1)
             {
                 spellDifferentRuneCount[spellIndex] = ReadByte();
             }
 
-            for (int spellIndex = 0; spellIndex < spellCount; spellIndex++)
+            for (int spellIndex = 0; spellIndex < spellCount; spellIndex += 1)
             {
                 spellType[spellIndex] = ReadByte();
             }
 
-            for (int spellIndex = 0; spellIndex < spellCount; spellIndex++)
+            for (int spellIndex = 0; spellIndex < spellCount; spellIndex += 1)
             {
                 int runeIdCount = ReadByte();
                 spellRequiredRuneIds[spellIndex] = new int[runeIdCount];
 
-                for (int runeIndex = 0; runeIndex < runeIdCount; runeIndex++)
+                for (int runeIndex = 0; runeIndex < runeIdCount; runeIndex += 1)
                 {
                     spellRequiredRuneIds[spellIndex][runeIndex] = ReadShort();
                 }
             }
 
-            for (int spellIndex = 0; spellIndex < spellCount; spellIndex++)
+            for (int spellIndex = 0; spellIndex < spellCount; spellIndex += 1)
             {
                 int runeCount = ReadByte();
                 spellRequiredRuneCount[spellIndex] = new int[runeCount];
 
-                for (int runeIndex = 0; runeIndex < runeCount; runeIndex++)
+                for (int runeIndex = 0; runeIndex < runeCount; runeIndex += 1)
                 {
                     spellRequiredRuneCount[spellIndex][runeIndex] = ReadByte();
                 }
@@ -643,22 +643,22 @@ namespace OpenRS.Net.Client.Data
             prayerRequiredLevel = new int[prayerCount];
             prayerDrainRate = new int[prayerCount];
 
-            for (int prayerIndex = 0; prayerIndex < prayerCount; prayerIndex++)
+            for (int prayerIndex = 0; prayerIndex < prayerCount; prayerIndex += 1)
             {
                 prayerName[prayerIndex] = ReadString();
             }
 
-            for (int prayerIndex = 0; prayerIndex < prayerCount; prayerIndex++)
+            for (int prayerIndex = 0; prayerIndex < prayerCount; prayerIndex += 1)
             {
                 prayerDescription[prayerIndex] = ReadString();
             }
 
-            for (int prayerIndex = 0; prayerIndex < prayerCount; prayerIndex++)
+            for (int prayerIndex = 0; prayerIndex < prayerCount; prayerIndex += 1)
             {
                 prayerRequiredLevel[prayerIndex] = ReadByte();
             }
 
-            for (int prayerIndex = 0; prayerIndex < prayerCount; prayerIndex++)
+            for (int prayerIndex = 0; prayerIndex < prayerCount; prayerIndex += 1)
             {
                 prayerDrainRate[prayerIndex] = ReadByte();
             }

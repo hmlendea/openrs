@@ -38,7 +38,7 @@ namespace OpenRS.Gui.Controls
 
         private void SetChildrenProperties()
         {
-            for (int i = 0; i < images.Count; i++)
+            for (int i = 0; i < images.Count; i += 1)
             {
                 if (IsToggled)
                 {

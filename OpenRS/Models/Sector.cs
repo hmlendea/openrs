@@ -12,7 +12,7 @@ namespace OpenRS.Models
         {
             tiles = new WorldTile[Size.Width * Size.Height];
 
-            for (int i = 0; i < Size.Area; i++)
+            for (int i = 0; i < Size.Area; i += 1)
             {
                 tiles[i] = new WorldTile();
             }

@@ -64,7 +64,7 @@ namespace OpenRS.Net.Client
 
         public static sbyte[] GetFile(string fileName)
         {
-            for (int fileIndex = 0; fileIndex < currentFile; fileIndex++)
+            for (int fileIndex = 0; fileIndex < currentFile; fileIndex += 1)
             {
                 if (string.Equals(Link.fileNames[fileIndex], fileName))
                 {
@@ -108,7 +108,7 @@ namespace OpenRS.Net.Client
             return address;
         }
 
-        public static int uid;
+        public static int userId;
         private static int port;
         private static TcpClient socket;
         private static string ipLookup = null;

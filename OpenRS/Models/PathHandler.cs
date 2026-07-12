@@ -9,12 +9,12 @@ namespace OpenRS.Models
         public WalkPath Path { get; private set; }
 
         private int currentWaypoint;
-        private readonly MobInstance mob;
+        private readonly MobInstance mobInstance;
         // world
 
-        public PathHandler(MobInstance mob)
+        public PathHandler(MobInstance mobInstance)
         {
-            this.mob = mob;
+            this.mobInstance = mobInstance;
             ResetPath();
         }
 
@@ -59,10 +59,10 @@ namespace OpenRS.Models
             currentWaypoint = -1;
         }
 
-        protected bool AtStart() => Path.StartLocation == mob.Location;
+        protected bool AtStart() => Path.StartLocation == mobInstance.Location;
 
-        protected bool AtWaypoint(int waypoint) => Path.GetWaypoint(waypoint).X == mob.Location.X &&
-                   Path.GetWaypoint(waypoint).Y == mob.Location.Y;
+        protected bool AtWaypoint(int waypoint) => Path.GetWaypoint(waypoint).X == mobInstance.Location.X &&
+                   Path.GetWaypoint(waypoint).Y == mobInstance.Location.Y;
 
         protected Point2D GetNextPosition(Point2D start, Point2D destination)
         {
@@ -170,7 +170,7 @@ namespace OpenRS.Models
                 }
                 else
                 {
-                    newLocation = GetNextPosition(mob.Location, Path.StartLocation);
+                    newLocation = GetNextPosition(mobInstance.Location, Path.StartLocation);
                 }
             }
 
@@ -183,7 +183,7 @@ namespace OpenRS.Models
 
                 if (currentWaypoint < Path.Length)
                 {
-                    newLocation = GetNextPosition(mob.Location, Path.GetWaypoint(currentWaypoint));
+                    newLocation = GetNextPosition(mobInstance.Location, Path.GetWaypoint(currentWaypoint));
                 }
                 else
                 {
@@ -193,7 +193,7 @@ namespace OpenRS.Models
 
             if (newLocation.X > -1 && newLocation.Y > -1)
             {
-                mob.SetLocation(newLocation);
+                mobInstance.SetLocation(newLocation);
             }
         }
 

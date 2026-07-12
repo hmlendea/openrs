@@ -26,35 +26,49 @@ namespace OpenRS.Net.Client
 
         public event ChatMessageEventHandler OnChatMessageReceived;
 
-        public static GameClient CreateMudclient(string title = "RuneScape", int width = 512, int height = 346)
+        public static GameClient CreateMudclient(string title, int width, int height)
         {
             GameClient mud = new()
             {
                 windowWidth = width,
                 windowHeight = height
             };
-            mud.createWindow(mud.windowWidth, mud.windowHeight + 11, title, false);
+            mud.CreateWindow(mud.windowWidth, mud.windowHeight + 11, title, false);
             mud.gameMinThreadSleepTime = 10;
+
             return mud;
         }
 
-        public static GameClient CreateGameClient(string username, string password, int width = 512, int height = 346)
+        public static GameClient CreateMudclient(string title)
+        {
+            return CreateMudclient(title, 512, 346);
+        }
+
+        public static GameClient CreateMudclient()
+        {
+            return CreateMudclient("RuneScape", 512, 346);
+        }
+
+        public static GameClient CreateGameClient(string username, string password, int width, int height)
         {
             return CreateMudclient("RuneScape", width, height);
         }
 
-        public void Start() => start();
+        public static GameClient CreateGameClient(string username, string password)
+        {
+            return CreateMudclient("RuneScape", 512, 346);
+        }
 
         public new void Dispose()
         {
-            destroy();
+            Destroy();
         }
 
-        public void paint() { }
+        public void Paint() { }
 
         public void UnloadContent() { }
 
-        public void drawNpc(int x, int y, int width, int height, int npcIndex, int cameraXOffset, int scalePercentage) { }
+        public void DrawNpc(int x, int y, int width, int height, int npcIndex, int cameraXOffset, int scalePercentage) { }
 
         public Models.Enumerations.CombatStyle CombatStyle
         {
@@ -71,7 +85,7 @@ namespace OpenRS.Net.Client
         {
             get
             {
-                if (playerArray is null || playerArray.Length.Equals(0))
+                if (playerArray is null || playerArray.Length == 0)
                 {
                     return null;
                 }
@@ -95,7 +109,7 @@ namespace OpenRS.Net.Client
             get
             {
                 NuciXNA.Primitives.Point2D[] locs = new NuciXNA.Primitives.Point2D[groundItemCount];
-                for (int i = 0; i < groundItemCount; i++)
+                for (int i = 0; i < groundItemCount; i += 1)
                 {
                     locs[i] = new NuciXNA.Primitives.Point2D(groundItemX[i], groundItemY[i]);
                 }
@@ -113,14 +127,36 @@ namespace OpenRS.Net.Client
                 }
 
                 Models.Skill[] skills = new Models.Skill[playerStatBase.Length];
-                for (int i = 0; i < playerStatBase.Length; i++)
+
+                for (int i = 0; i < playerStatBase.Length; i += 1)
                 {
+                    int currentLevel = 0;
+
+                    if (playerStatCurrent is not null)
+                    {
+                        currentLevel = playerStatCurrent[i];
+                    }
+
+                    int experience = 0;
+
+                    if (playerStatExp is not null)
+                    {
+                        experience = playerStatExp[i];
+                    }
+
+                    string name = string.Empty;
+
+                    if (skillName is not null && i < skillName.Length)
+                    {
+                        name = skillName[i];
+                    }
+
                     skills[i] = new Models.Skill
                     {
                         BaseLevel = playerStatBase[i],
-                        CurrentLevel = playerStatCurrent is not null ? playerStatCurrent[i] : 0,
-                        Experience = playerStatExp is not null ? playerStatExp[i] : 0,
-                        Name = skillName is not null && i < skillName.Length ? skillName[i] : string.Empty
+                        CurrentLevel = currentLevel,
+                        Experience = experience,
+                        Name = name
                     };
                 }
                 return skills;
@@ -275,30 +311,31 @@ namespace OpenRS.Net.Client
                 mouseState.XButton2);
             List<Keys> keysPressedDown = [.. keyboardState.GetPressedKeys()];
 
-            shiftKeyIsDown = keysPressedDown.Any(k => k == Keys.LeftShift || k == Keys.RightShift);
-            ctrlKeyIsDown = keysPressedDown.Any(k => k == Keys.LeftControl || k == Keys.RightControl);
-            altKeyIsDown = keysPressedDown.Any(k => k == Keys.LeftAlt || k == Keys.RightAlt);
+            shiftKeyIsDown = keysPressedDown.Any(key => key == Keys.LeftShift || key == Keys.RightShift);
+            ctrlKeyIsDown = keysPressedDown.Any(key => key == Keys.LeftControl || key == Keys.RightControl);
+            altKeyIsDown = keysPressedDown.Any(key => key == Keys.LeftAlt || key == Keys.RightAlt);
 
-            foreach (var k in keysPressedDown)
+            foreach (Keys pressedKey in keysPressedDown)
             {
-                //   if (timeLapse > TimeSpan.FromMilliseconds(100))
-                if (!lastPressedKeys.Contains(k))
+                // if (timeLapse > TimeSpan.FromMilliseconds(100))
+                if (!lastPressedKeys.Contains(pressedKey))
                 {
-                    keyDown(k, TranslateOemKeys(k));
+                    KeyDown(pressedKey, TranslateOemKeys(pressedKey));
                     timeLapse = TimeSpan.Zero;
                 }
                 else if (timeLapse > TimeSpan.FromMilliseconds(150))
                 {
-                    keyDown(k, TranslateOemKeys(k));
+                    KeyDown(pressedKey, TranslateOemKeys(pressedKey));
                     timeLapse = TimeSpan.Zero;
                 }
-                //handleKeyDown(k, c[0]);
+                // HandleKeyDown(k, c[0]);
             }
-            foreach (var lk in lastPressedKeys)
+
+            foreach (Keys lastKey in lastPressedKeys)
             {
-                if (!keysPressedDown.Contains(lk))
+                if (!keysPressedDown.Contains(lastKey))
                 {
-                    keyUp(lk, TranslateOemKeys(lk));
+                    KeyUp(lastKey, TranslateOemKeys(lastKey));
                 }
             }
 
@@ -311,7 +348,7 @@ namespace OpenRS.Net.Client
             //mouseEntered(mouseState);
             if (adjustedMouseState.X != lastMouseX || adjustedMouseState.Y != lastMouseY)
             {
-                mouseMove(adjustedMouseState.X, adjustedMouseState.Y);
+                MouseMove(adjustedMouseState.X, adjustedMouseState.Y);
                 lastMouseX = adjustedMouseState.X;
                 lastMouseY = adjustedMouseState.Y;
                 //mouseButtonClick = 0;
@@ -320,8 +357,8 @@ namespace OpenRS.Net.Client
             if (adjustedMouseState.RightButton == ButtonState.Pressed && !lastRightDown)
             {
                 lastRightDown = true;
-                mouseDown(adjustedMouseState.X, adjustedMouseState.Y, adjustedMouseState.LeftButton == ButtonState.Pressed);
-                mousePressed(adjustedMouseState);
+                MouseDown(adjustedMouseState.X, adjustedMouseState.Y, adjustedMouseState.LeftButton == ButtonState.Pressed);
+                MousePressed(adjustedMouseState);
             }
 
 
@@ -329,20 +366,20 @@ namespace OpenRS.Net.Client
             {
                 lastLeftDown = true;
                 Console.WriteLine($"[MOUSEDOWN] screenX={mouseState.X} screenY={mouseState.Y} adjX={rawX} adjY={rawY} windowBounds={bounds}");
-                mouseDown(adjustedMouseState.X, adjustedMouseState.Y, false);
+                MouseDown(adjustedMouseState.X, adjustedMouseState.Y, false);
             }
 
             if (adjustedMouseState.RightButton == ButtonState.Released && lastRightDown)
             {
                 lastRightDown = false;
-                // mousePressed(mouseState);
-                mouseUp(adjustedMouseState.X, adjustedMouseState.Y);
+                // MousePressed(mouseState);
+                MouseUp(adjustedMouseState.X, adjustedMouseState.Y);
             }
             if (adjustedMouseState.LeftButton == ButtonState.Released && lastLeftDown)
             {
                 lastLeftDown = false;
 
-                mouseUp(adjustedMouseState.X, adjustedMouseState.Y);
+                MouseUp(adjustedMouseState.X, adjustedMouseState.Y);
             }
 
             //uglyHack = false;
@@ -353,8 +390,8 @@ namespace OpenRS.Net.Client
             //        uglyHack = true;
             //        leftMouseDown = mouseState.LeftButton == ButtonState.Pressed;
             //        rightMouseDown = mouseState.RightButton == ButtonState.Pressed;
-            //        //mouseDown(
-            //        mouseDown(mouseState.X, mouseState.Y, mouseState.LeftButton != ButtonState.Pressed);
+            //        //MouseDown(
+            //        MouseDown(mouseState.X, mouseState.Y, mouseState.LeftButton != ButtonState.Pressed);
             //        //handleMouseDown(mouseState.X, mouseState.Y, 1);
             //    }
             //}
@@ -364,8 +401,8 @@ namespace OpenRS.Net.Client
 
             //    leftMouseDown = false;
             //    rightMouseDown = false;
-            //    mouseUp(mouseState.X, mouseState.Y);
-            //    mousePressed(mouseState);
+            //    MouseUp(mouseState.X, mouseState.Y);
+            //    MousePressed(mouseState);
 
             //}
 
@@ -384,7 +421,7 @@ namespace OpenRS.Net.Client
 
         //            //  drawWindow();
 
-        //            gameGraphics.drawImage(spriteBatch, 0, 0);
+        //            gameGraphics.DrawImage(spriteBatch, 0, 0);
 
         //            //    //GameClient.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
         //            //    foreach (var str in GameImage.stringsToDraw)
@@ -408,7 +445,7 @@ namespace OpenRS.Net.Client
         //            //        //textToRender = textToRender.Replace("@gre@", "");
         //            //        //textToRender = textToRender.Replace("@yel@", "");
         //            //        //textToRender = textToRender.Replace("@whi@", "");
-        //            //        //textToRender = textToRender.Replace("@bla@", "");
+        //            //        //textToRender = textToRender.Replace("@normalZ@", "");
         //            //        //textToRender = textToRender.Replace("@ran@", "");
         //            //        //textToRender = textToRender.Replace("@red@", "");
 
@@ -426,7 +463,7 @@ namespace OpenRS.Net.Client
         //}
 
 
-        public void menuClick(int l)
+        public void MenuClick(int l)
         {
             int actionX = menuActionX[l];
             int actionY = menuActionY[l];
@@ -436,161 +473,161 @@ namespace OpenRS.Net.Client
             int actionID = menuActionID[l];
             if (actionID == 200)
             {
-                walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
-                base.streamClass.createPacket(104);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                WalkToGroundItem(sectionX, sectionY, actionX, actionY, true);
+                base.streamClass.CreatePacket(104);
+                base.streamClass.AddShort(actionVar1);
+                base.streamClass.AddShort(actionX + areaX);
+                base.streamClass.AddShort(actionY + areaY);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 210)
             {
-                walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
-                base.streamClass.createPacket(34);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.addShort(actionType);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.formatPacket();
+                WalkToGroundItem(sectionX, sectionY, actionX, actionY, true);
+                base.streamClass.CreatePacket(34);
+                base.streamClass.AddShort(actionX + areaX);
+                base.streamClass.AddShort(actionY + areaY);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.AddShort(actionVar1);
+                base.streamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 220)
             {
-                walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
-                base.streamClass.createPacket(245);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.addShort(actionType);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.formatPacket();
+                WalkToGroundItem(sectionX, sectionY, actionX, actionY, true);
+                base.streamClass.CreatePacket(245);
+                base.streamClass.AddShort(actionX + areaX);
+                base.streamClass.AddShort(actionY + areaY);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.AddShort(actionVar1);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 3200)
             {
-                displayMessage(Data.GameData.itemDescription[actionType], 3);
+                DisplayMessage(Data.GameData.itemDescription[actionType], 3);
             }
 
             if (actionID == 300)
             {
-                walkToWallObject(actionX, actionY, actionType);
-                base.streamClass.createPacket(67);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.addByte(actionType);
-                base.streamClass.formatPacket();
+                WalkToWallObject(actionX, actionY, actionType);
+                base.streamClass.CreatePacket(67);
+                base.streamClass.AddShort(actionVar1);
+                base.streamClass.AddShort(actionX + areaX);
+                base.streamClass.AddShort(actionY + areaY);
+                base.streamClass.AddByte(actionType);
+                base.streamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 310)
             {
-                walkToWallObject(actionX, actionY, actionType);
-                base.streamClass.createPacket(36);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.addByte(actionType);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.formatPacket();
+                WalkToWallObject(actionX, actionY, actionType);
+                base.streamClass.CreatePacket(36);
+                base.streamClass.AddShort(actionX + areaX);
+                base.streamClass.AddShort(actionY + areaY);
+                base.streamClass.AddByte(actionType);
+                base.streamClass.AddShort(actionVar1);
+                base.streamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 320)
             {
-                walkToWallObject(actionX, actionY, actionType);
-                base.streamClass.createPacket(126);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.addByte(actionType);
-                base.streamClass.formatPacket();
+                WalkToWallObject(actionX, actionY, actionType);
+                base.streamClass.CreatePacket(126);
+                base.streamClass.AddShort(actionX + areaX);
+                base.streamClass.AddShort(actionY + areaY);
+                base.streamClass.AddByte(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 2300)
             {
-                walkToWallObject(actionX, actionY, actionType);
-                base.streamClass.createPacket(235);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.addByte(actionType);
-                base.streamClass.formatPacket();
+                WalkToWallObject(actionX, actionY, actionType);
+                base.streamClass.CreatePacket(235);
+                base.streamClass.AddShort(actionX + areaX);
+                base.streamClass.AddShort(actionY + areaY);
+                base.streamClass.AddByte(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 3300)
             {
-                displayMessage(Data.GameData.wallObjectDescription[actionType], 3);
+                DisplayMessage(Data.GameData.wallObjectDescription[actionType], 3);
             }
 
             if (actionID == 400)
             {
-                walkToObject(actionX, actionY, actionType, actionVar1);
-                base.streamClass.createPacket(17);
-                base.streamClass.addShort(actionVar2);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
+                WalkToObject(actionX, actionY, actionType, actionVar1);
+                base.streamClass.CreatePacket(17);
+                base.streamClass.AddShort(actionVar2);
+                base.streamClass.AddShort(actionX + areaX);
+                base.streamClass.AddShort(actionY + areaY);
 
-                base.streamClass.formatPacket();
+                base.streamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 410)
             {
-                walkToObject(actionX, actionY, actionType, actionVar1);
-                base.streamClass.createPacket(94);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.addShort(actionVar2);
-                base.streamClass.formatPacket();
+                WalkToObject(actionX, actionY, actionType, actionVar1);
+                base.streamClass.CreatePacket(94);
+                base.streamClass.AddShort(actionX + areaX);
+                base.streamClass.AddShort(actionY + areaY);
+                base.streamClass.AddShort(actionVar2);
+                base.streamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 420)
             {
-                walkToObject(actionX, actionY, actionType, actionVar1);
-                base.streamClass.createPacket(51);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.formatPacket();
+                WalkToObject(actionX, actionY, actionType, actionVar1);
+                base.streamClass.CreatePacket(51);
+                base.streamClass.AddShort(actionX + areaX);
+                base.streamClass.AddShort(actionY + areaY);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 2400)
             {
-                walkToObject(actionX, actionY, actionType, actionVar1);
-                base.streamClass.createPacket(40);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.formatPacket();
+                WalkToObject(actionX, actionY, actionType, actionVar1);
+                base.streamClass.CreatePacket(40);
+                base.streamClass.AddShort(actionX + areaX);
+                base.streamClass.AddShort(actionY + areaY);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 3400)
             {
-                displayMessage(Data.GameData.objectDescription[actionType], 3);
+                DisplayMessage(Data.GameData.objectDescription[actionType], 3);
             }
 
             if (actionID == 600)
             {
-                base.streamClass.createPacket(49);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(49);
+                base.streamClass.AddShort(actionVar1);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 610)
             {
-                base.streamClass.createPacket(27);
-                base.streamClass.addShort(actionType);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(27);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.AddShort(actionVar1);
+                base.streamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 620)
             {
-                base.streamClass.createPacket(92);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(92);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 630)
             {
-                base.streamClass.createPacket(181);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(181);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 640)
             {
-                base.streamClass.createPacket(89);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(89);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 650)
             {
@@ -600,134 +637,134 @@ namespace OpenRS.Net.Client
             }
             if (actionID == 660)
             {
-                base.streamClass.createPacket(147);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(147);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.FormatPacket();
                 selectedItem = -1;
                 drawMenuTab = 0;
-                displayMessage("Dropping " + Data.GameData.itemName[inventoryItems[actionType]], 4);
+                DisplayMessage("Dropping " + Data.GameData.itemName[inventoryItems[actionType]], 4);
             }
             if (actionID == 3600)
             {
-                displayMessage(Data.GameData.itemDescription[actionType], 3);
+                DisplayMessage(Data.GameData.itemDescription[actionType], 3);
             }
 
             if (actionID == 700)
             {
                 int k2 = (actionX - 64) / gridSize;
                 int k4 = (actionY - 64) / gridSize;
-                walkTo1Tile(sectionX, sectionY, k2, k4, true);
-                base.streamClass.createPacket(71);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                WalkTo1Tile(sectionX, sectionY, k2, k4, true);
+                base.streamClass.CreatePacket(71);
+                base.streamClass.AddShort(actionVar1);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 710)
             {
                 int l2 = (actionX - 64) / gridSize;
                 int l4 = (actionY - 64) / gridSize;
-                walkTo1Tile(sectionX, sectionY, l2, l4, true);
-                base.streamClass.createPacket(142);
-                base.streamClass.addShort(actionType);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.formatPacket();
+                WalkTo1Tile(sectionX, sectionY, l2, l4, true);
+                base.streamClass.CreatePacket(142);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.AddShort(actionVar1);
+                base.streamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 720)
             {
                 int i3 = (actionX - 64) / gridSize;
                 int i5 = (actionY - 64) / gridSize;
-                walkTo1Tile(sectionX, sectionY, i3, i5, true);
-                base.streamClass.createPacket(177);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                WalkTo1Tile(sectionX, sectionY, i3, i5, true);
+                base.streamClass.CreatePacket(177);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 725)
             {
                 int j3 = (actionX - 64) / gridSize;
                 int j5 = (actionY - 64) / gridSize;
-                walkTo1Tile(sectionX, sectionY, j3, j5, true);
-                base.streamClass.createPacket(74);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                WalkTo1Tile(sectionX, sectionY, j3, j5, true);
+                base.streamClass.CreatePacket(74);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 715 || actionID == 2715)
             {
                 int k3 = (actionX - 64) / gridSize;
                 int k5 = (actionY - 64) / gridSize;
-                walkTo1Tile(sectionX, sectionY, k3, k5, true);
-                base.streamClass.createPacket(73);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                WalkTo1Tile(sectionX, sectionY, k3, k5, true);
+                base.streamClass.CreatePacket(73);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 3700)
             {
-                displayMessage(Data.GameData.npcDescription[actionType], 3);
+                DisplayMessage(Data.GameData.npcDescription[actionType], 3);
             }
 
             if (actionID == 800)
             {
                 int l3 = (actionX - 64) / gridSize;
                 int l5 = (actionY - 64) / gridSize;
-                walkTo1Tile(sectionX, sectionY, l3, l5, true);
-                base.streamClass.createPacket(55);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                WalkTo1Tile(sectionX, sectionY, l3, l5, true);
+                base.streamClass.CreatePacket(55);
+                base.streamClass.AddShort(actionVar1);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 810)
             {
                 int i4 = (actionX - 64) / gridSize;
                 int i6 = (actionY - 64) / gridSize;
-                walkTo1Tile(sectionX, sectionY, i4, i6, true);
-                base.streamClass.createPacket(16);
-                base.streamClass.addShort(actionType);
-                base.streamClass.addShort(actionVar1);
-                base.streamClass.formatPacket();
+                WalkTo1Tile(sectionX, sectionY, i4, i6, true);
+                base.streamClass.CreatePacket(16);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.AddShort(actionVar1);
+                base.streamClass.FormatPacket();
                 selectedItem = -1;
             }
             if (actionID == 805 || actionID == 2805)
             {
                 int j4 = (actionX - 64) / gridSize;
                 int j6 = (actionY - 64) / gridSize;
-                walkTo1Tile(sectionX, sectionY, j4, j6, true);
-                base.streamClass.createPacket(57);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                WalkTo1Tile(sectionX, sectionY, j4, j6, true);
+                base.streamClass.CreatePacket(57);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 2806)
             {
-                base.streamClass.createPacket(222);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(222);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 2810)
             {
-                base.streamClass.createPacket(166);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(166);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 2820)
             {
-                base.streamClass.createPacket(68);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(68);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.FormatPacket();
             }
             if (actionID == 900)
             {
-                walkTo1Tile(sectionX, sectionY, actionX, actionY, true);
-                base.streamClass.createPacket(232);
-                base.streamClass.addShort(actionType);
-                base.streamClass.addShort(actionX + areaX);
-                base.streamClass.addShort(actionY + areaY);
-                base.streamClass.formatPacket();
+                WalkTo1Tile(sectionX, sectionY, actionX, actionY, true);
+                base.streamClass.CreatePacket(232);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.AddShort(actionX + areaX);
+                base.streamClass.AddShort(actionY + areaY);
+                base.streamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 920)
             {
-                walkTo1Tile(sectionX, sectionY, actionX, actionY, false);
+                WalkTo1Tile(sectionX, sectionY, actionX, actionY, false);
                 if (actionPictureType == -24)
                 {
                     actionPictureType = 24;
@@ -735,9 +772,9 @@ namespace OpenRS.Net.Client
             }
             if (actionID == 1000)
             {
-                base.streamClass.createPacket(206);
-                base.streamClass.addShort(actionType);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(206);
+                base.streamClass.AddShort(actionType);
+                base.streamClass.FormatPacket();
                 selectedSpell = -1;
             }
             if (actionID == 4000)
@@ -747,7 +784,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public override void resetIntVars()
+        public override void ResetIntVars()
         {
             systemUpdate = 0;
             loginScreen = 0;
@@ -755,11 +792,11 @@ namespace OpenRS.Net.Client
             logoutTimer = 0;
         }
 
-        public void drawReportAbuseBox1()
+        public void DrawReportAbuseBox1()
         {
             reportAbuseOptionSelected = 0;
             int yOffset = 135;
-            for (int option = 0; option < 12; option++)
+            for (int option = 0; option < 12; option += 1)
             {
                 if (base.mouseX > 66 && base.mouseX < 446 && base.mouseY >= yOffset - 12 && base.mouseY < yOffset + 3)
                 {
@@ -792,152 +829,152 @@ namespace OpenRS.Net.Client
                     return;
                 }
             }
-            gameGraphics.drawBox(56, 35, 400, 290, 0);
-            gameGraphics.drawBoxEdge(56, 35, 400, 290, 0xffffff);
+            gameGraphics.DrawBox(56, 35, 400, 290, 0);
+            gameGraphics.DrawBoxEdge(56, 35, 400, 290, 0xffffff);
             yOffset = 50;
-            gameGraphics.drawText("This form is for reporting players who are breaking our rules", 256, yOffset, 1, 0xffffff);
+            gameGraphics.DrawText("This form is for reporting players who are breaking our rules", 256, yOffset, 1, 0xffffff);
             yOffset += 15;
-            gameGraphics.drawText("Using it sends a snapshot of the last 60 secs of activity to us", 256, yOffset, 1, 0xffffff);
+            gameGraphics.DrawText("Using it sends a snapshot of the last 60 secs of activity to us", 256, yOffset, 1, 0xffffff);
             yOffset += 15;
-            gameGraphics.drawText("If you misuse this form, you will be banned.", 256, yOffset, 1, 0xff8000);
+            gameGraphics.DrawText("If you misuse this form, you will be banned.", 256, yOffset, 1, 0xff8000);
             yOffset += 15;
             yOffset += 10;
-            gameGraphics.drawText("First indicate which of our 12 rules is being broken. For a detailed", 256, yOffset, 1, 0xffff00);
+            gameGraphics.DrawText("First indicate which of our 12 rules is being broken. For a detailed", 256, yOffset, 1, 0xffff00);
             yOffset += 15;
-            gameGraphics.drawText("explanation of each rule please read the manual on our website.", 256, yOffset, 1, 0xffff00);
+            gameGraphics.DrawText("explanation of each rule please read the manual on our website.", 256, yOffset, 1, 0xffff00);
             yOffset += 15;
             int j1;
             if (reportAbuseOptionSelected == 1)
             {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                gameGraphics.DrawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
                 j1 = 0xff8000;
             }
             else
             {
                 j1 = 0xffffff;
             }
-            gameGraphics.drawText("1: Offensive language", 256, yOffset, 1, j1);
+            gameGraphics.DrawText("1: Offensive language", 256, yOffset, 1, j1);
             yOffset += 14;
             if (reportAbuseOptionSelected == 2)
             {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                gameGraphics.DrawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
                 j1 = 0xff8000;
             }
             else
             {
                 j1 = 0xffffff;
             }
-            gameGraphics.drawText("2: Item scamming", 256, yOffset, 1, j1);
+            gameGraphics.DrawText("2: Item scamming", 256, yOffset, 1, j1);
             yOffset += 14;
             if (reportAbuseOptionSelected == 3)
             {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                gameGraphics.DrawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
                 j1 = 0xff8000;
             }
             else
             {
                 j1 = 0xffffff;
             }
-            gameGraphics.drawText("3: Password scamming", 256, yOffset, 1, j1);
+            gameGraphics.DrawText("3: Password scamming", 256, yOffset, 1, j1);
             yOffset += 14;
             if (reportAbuseOptionSelected == 4)
             {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                gameGraphics.DrawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
                 j1 = 0xff8000;
             }
             else
             {
                 j1 = 0xffffff;
             }
-            gameGraphics.drawText("4: Bug abuse", 256, yOffset, 1, j1);
+            gameGraphics.DrawText("4: Bug abuse", 256, yOffset, 1, j1);
             yOffset += 14;
             if (reportAbuseOptionSelected == 5)
             {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                gameGraphics.DrawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
                 j1 = 0xff8000;
             }
             else
             {
                 j1 = 0xffffff;
             }
-            gameGraphics.drawText("5: Jagex Staff impersonation", 256, yOffset, 1, j1);
+            gameGraphics.DrawText("5: Jagex Staff impersonation", 256, yOffset, 1, j1);
             yOffset += 14;
             if (reportAbuseOptionSelected == 6)
             {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                gameGraphics.DrawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
                 j1 = 0xff8000;
             }
             else
             {
                 j1 = 0xffffff;
             }
-            gameGraphics.drawText("6: Account sharing/trading", 256, yOffset, 1, j1);
+            gameGraphics.DrawText("6: Account sharing/trading", 256, yOffset, 1, j1);
             yOffset += 14;
             if (reportAbuseOptionSelected == 7)
             {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                gameGraphics.DrawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
                 j1 = 0xff8000;
             }
             else
             {
                 j1 = 0xffffff;
             }
-            gameGraphics.drawText("7: Macroing", 256, yOffset, 1, j1);
+            gameGraphics.DrawText("7: Macroing", 256, yOffset, 1, j1);
             yOffset += 14;
             if (reportAbuseOptionSelected == 8)
             {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                gameGraphics.DrawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
                 j1 = 0xff8000;
             }
             else
             {
                 j1 = 0xffffff;
             }
-            gameGraphics.drawText("8: Mutiple logging in", 256, yOffset, 1, j1);
+            gameGraphics.DrawText("8: Mutiple logging in", 256, yOffset, 1, j1);
             yOffset += 14;
             if (reportAbuseOptionSelected == 9)
             {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                gameGraphics.DrawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
                 j1 = 0xff8000;
             }
             else
             {
                 j1 = 0xffffff;
             }
-            gameGraphics.drawText("9: Encouraging others to break rules", 256, yOffset, 1, j1);
+            gameGraphics.DrawText("9: Encouraging others to break rules", 256, yOffset, 1, j1);
             yOffset += 14;
             if (reportAbuseOptionSelected == 10)
             {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                gameGraphics.DrawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
                 j1 = 0xff8000;
             }
             else
             {
                 j1 = 0xffffff;
             }
-            gameGraphics.drawText("10: Misuse of customer support", 256, yOffset, 1, j1);
+            gameGraphics.DrawText("10: Misuse of customer support", 256, yOffset, 1, j1);
             yOffset += 14;
             if (reportAbuseOptionSelected == 11)
             {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                gameGraphics.DrawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
                 j1 = 0xff8000;
             }
             else
             {
                 j1 = 0xffffff;
             }
-            gameGraphics.drawText("11: Advertising / website", 256, yOffset, 1, j1);
+            gameGraphics.DrawText("11: Advertising / website", 256, yOffset, 1, j1);
             yOffset += 14;
             if (reportAbuseOptionSelected == 12)
             {
-                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                gameGraphics.DrawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
                 j1 = 0xff8000;
             }
             else
             {
                 j1 = 0xffffff;
             }
-            gameGraphics.drawText("12: Real world item trading", 256, yOffset, 1, j1);
+            gameGraphics.DrawText("12: Real world item trading", 256, yOffset, 1, j1);
             yOffset += 14;
             yOffset += 15;
             j1 = 0xffffff;
@@ -946,18 +983,18 @@ namespace OpenRS.Net.Client
                 j1 = 0xffff00;
             }
 
-            gameGraphics.drawText("Click here to cancel", 256, yOffset, 1, j1);
+            gameGraphics.DrawText("Click here to cancel", 256, yOffset, 1, j1);
         }
 
-        public void loadMap()
+        public void LoadMap()
         {
-            engineHandle.mapsFree = unpackData("maps.jag", "map", 70);
-            engineHandle.mapsMembers = unpackData("maps.mem", "members map", 75);
-            engineHandle.landscapeFree = unpackData("land.jag", "landscape", 80);
-            engineHandle.landscapeMembers = unpackData("land.mem", "members landscape", 85);
+            engineHandle.mapsFree = UnpackData("maps.jag", "map", 70);
+            engineHandle.mapsMembers = UnpackData("maps.mem", "members map", 75);
+            engineHandle.landscapeFree = UnpackData("land.jag", "landscape", 80);
+            engineHandle.landscapeMembers = UnpackData("land.mem", "members landscape", 85);
         }
 
-        public void drawModel(int l, String s1)
+        public void DrawModel(int l, string s1)
         {
             int i1 = objectX[l];
             int j1 = objectY[l];
@@ -966,10 +1003,10 @@ namespace OpenRS.Net.Client
             byte byte0 = 7;
             if (i1 >= 0 && j1 >= 0 && i1 < 96 && j1 < 96 && k1 > -byte0 && k1 < byte0 && l1 > -byte0 && l1 < byte0)
             {
-                gameCamera.removeModel(objectArray[l]);
+                gameCamera.RemoveModel(objectArray[l]);
                 int i2 = Data.GameData.GetModelNameIndex(s1);
                 GameObject j2 = gameDataObjects[i2].CreateParent();
-                gameCamera.addModel(j2);
+                gameCamera.AddModel(j2);
                 j2.UpdateShading(true, 48, 48, -50, -10, -50);
                 j2.CopyTranslation(objectArray[l]);
                 j2.index = l;
@@ -977,7 +1014,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void drawPlayer(int x, int y, int width, int height, int playerIndex, int cameraXOffset, int scalePercentage)
+        public void DrawPlayer(int x, int y, int width, int height, int playerIndex, int cameraXOffset, int scalePercentage)
         {
             ClientMob f1 = playerArray[playerIndex];
             if (f1.bottomColour == 255)// TODO this checks if the player is an invisible moderator
@@ -1021,7 +1058,7 @@ namespace OpenRS.Net.Client
                     x += (5 * scalePercentage) / 100;
                     j1 = direction2 * 3 + combatModelArray2[(tick / 6) % 8];
                 }
-            for (int k1 = 0; k1 < 12; k1++)
+            for (int k1 = 0; k1 < 12; k1 += 1)
             {
                 int l1 = animationModelArray[direction][k1];
                 int l2 = f1.appearanceItems[l1] - 1;
@@ -1103,20 +1140,20 @@ namespace OpenRS.Net.Client
                             i5 = appearanceTopBottomColours[f1.bottomColour];
                         }
 
-                        gameGraphics.drawImage(x + k3, y + i4, l4, height, k4, i5, j5, cameraXOffset, flag);
+                        gameGraphics.DrawImage(x + k3, y + i4, l4, height, k4, i5, j5, cameraXOffset, flag);
                     }
                 }
             }
 
             if (f1.lastMessageTimeout > 0)
             {
-                receivedMessageMidPoint[receivedMessagesCount] = gameGraphics.textWidth(f1.lastMessage, 1) / 2;
+                receivedMessageMidPoint[receivedMessagesCount] = gameGraphics.TextWidth(f1.lastMessage, 1) / 2;
                 if (receivedMessageMidPoint[receivedMessagesCount] > 150)
                 {
                     receivedMessageMidPoint[receivedMessagesCount] = 150;
                 }
 
-                receivedMessageHeight[receivedMessagesCount] = (gameGraphics.textWidth(f1.lastMessage, 1) / 300) * gameGraphics.textHeightNumber(1);
+                receivedMessageHeight[receivedMessagesCount] = (gameGraphics.TextWidth(f1.lastMessage, 1) / 300) * gameGraphics.TextHeightNumber(1);
                 receivedMessageX[receivedMessagesCount] = x + width / 2;
                 receivedMessageY[receivedMessagesCount] = y;
                 receivedMessages[receivedMessagesCount++] = f1.lastMessage;
@@ -1161,8 +1198,8 @@ namespace OpenRS.Net.Client
                         j2 += (10 * scalePercentage) / 100;
                     }
 
-                    gameGraphics.drawPicture((j2 + width / 2) - 12, (y + height / 2) - 12, baseInventoryPic + 11);
-                    gameGraphics.drawText(f1.lastDamageCount.ToString(), (j2 + width / 2) - 1, y + height / 2 + 5, 3, 0xffffff);
+                    gameGraphics.DrawPicture((j2 + width / 2) - 12, (y + height / 2) - 12, baseInventoryPic + 11);
+                    gameGraphics.DrawText(f1.lastDamageCount.ToString(), (j2 + width / 2) - 1, y + height / 2 + 5, 3, 0xffffff);
                 }
             }
             if (f1.playerSkulled == 1 && f1.playerSkullTimeout == 0)
@@ -1180,142 +1217,142 @@ namespace OpenRS.Net.Client
 
                 int j3 = (16 * scalePercentage) / 100;
                 int l3 = (16 * scalePercentage) / 100;
-                gameGraphics.drawEntity(k2 - j3 / 2, y - l3 / 2 - (10 * scalePercentage) / 100, j3, l3, baseInventoryPic + 13);
+                gameGraphics.DrawEntity(k2 - j3 / 2, y - l3 / 2 - (10 * scalePercentage) / 100, j3, l3, baseInventoryPic + 13);
             }
         }
 
-        public void walkToWallObject(int x, int y, int direction)
+        public void WalkToWallObject(int x, int y, int direction)
         {
             if (direction == 0)
             {
-                walkTo(sectionX, sectionY, x, y - 1, x, y, false, true);
+                WalkTo(sectionX, sectionY, x, y - 1, x, y, false, true);
                 return;
             }
             if (direction == 1)
             {
-                walkTo(sectionX, sectionY, x - 1, y, x, y, false, true);
+                WalkTo(sectionX, sectionY, x - 1, y, x, y, false, true);
                 return;
             }
             else
             {
-                walkTo(sectionX, sectionY, x, y, x, y, true, true);
+                WalkTo(sectionX, sectionY, x, y, x, y, true, true);
                 return;
             }
         }
 
-        public void drawDuelConfirmBox()
+        public void DrawDuelConfirmBox()
         {
             sbyte byte0 = 22;
             sbyte byte1 = 36;
-            gameGraphics.drawBox(byte0, byte1, 468, 16, 192);
+            gameGraphics.DrawBox(byte0, byte1, 468, 16, 192);
             int l = 0x989898;
-            gameGraphics.drawBoxAlpha(byte0, byte1 + 16, 468, 246, l, 160);
-            gameGraphics.drawText("Please confirm your duel with @yel@" + DataOperations.HashToName(duelOpponentHash), byte0 + 234, byte1 + 12, 1, 0xffffff);
-            gameGraphics.drawText("Your stake:", byte0 + 117, byte1 + 30, 1, 0xffff00);
-            for (int i1 = 0; i1 < duelOurStakeCount; i1++)
+            gameGraphics.DrawBoxAlpha(byte0, byte1 + 16, 468, 246, l, 160);
+            gameGraphics.DrawText("Please confirm your duel with @yel@" + DataOperations.HashToName(duelOpponentHash), byte0 + 234, byte1 + 12, 1, 0xffffff);
+            gameGraphics.DrawText("Your stake:", byte0 + 117, byte1 + 30, 1, 0xffff00);
+            for (int i1 = 0; i1 < duelOurStakeCount; i1 += 1)
             {
-                String s1 = Data.GameData.itemName[duelOurStakeItem[i1]];
+                string s1 = Data.GameData.itemName[duelOurStakeItem[i1]];
                 if (Data.GameData.itemStackable[duelOurStakeItem[i1]] == 0)
                 {
                     s1 = s1 + " x " + formatItemCount(duelOurStakeItemCount[i1]);
                 }
 
-                gameGraphics.drawText(s1, byte0 + 117, byte1 + 42 + i1 * 12, 1, 0xffffff);
+                gameGraphics.DrawText(s1, byte0 + 117, byte1 + 42 + i1 * 12, 1, 0xffffff);
             }
 
             if (duelOurStakeCount == 0)
             {
-                gameGraphics.drawText("Nothing!", byte0 + 117, byte1 + 42, 1, 0xffffff);
+                gameGraphics.DrawText("Nothing!", byte0 + 117, byte1 + 42, 1, 0xffffff);
             }
 
-            gameGraphics.drawText("Your opponent's stake:", byte0 + 351, byte1 + 30, 1, 0xffff00);
-            for (int j1 = 0; j1 < duelOpponentStakeCount; j1++)
+            gameGraphics.DrawText("Your opponent's stake:", byte0 + 351, byte1 + 30, 1, 0xffff00);
+            for (int j1 = 0; j1 < duelOpponentStakeCount; j1 += 1)
             {
-                String s2 = Data.GameData.itemName[duelOpponentStakeItem[j1]];
+                string s2 = Data.GameData.itemName[duelOpponentStakeItem[j1]];
                 if (Data.GameData.itemStackable[duelOpponentStakeItem[j1]] == 0)
                 {
                     s2 = s2 + " x " + formatItemCount(duelOutStakeItemCount[j1]);
                 }
 
-                gameGraphics.drawText(s2, byte0 + 351, byte1 + 42 + j1 * 12, 1, 0xffffff);
+                gameGraphics.DrawText(s2, byte0 + 351, byte1 + 42 + j1 * 12, 1, 0xffffff);
             }
 
             if (duelOpponentStakeCount == 0)
             {
-                gameGraphics.drawText("Nothing!", byte0 + 351, byte1 + 42, 1, 0xffffff);
+                gameGraphics.DrawText("Nothing!", byte0 + 351, byte1 + 42, 1, 0xffffff);
             }
 
             if (duelRetreat == 0)
             {
-                gameGraphics.drawText("You can retreat from this duel", byte0 + 234, byte1 + 180, 1, 65280);
+                gameGraphics.DrawText("You can retreat from this duel", byte0 + 234, byte1 + 180, 1, 65280);
             }
             else
             {
-                gameGraphics.drawText("No retreat is possible!", byte0 + 234, byte1 + 180, 1, 0xff0000);
+                gameGraphics.DrawText("No retreat is possible!", byte0 + 234, byte1 + 180, 1, 0xff0000);
             }
 
             if (duelMagic == 0)
             {
-                gameGraphics.drawText("Magic may be used", byte0 + 234, byte1 + 192, 1, 65280);
+                gameGraphics.DrawText("Magic may be used", byte0 + 234, byte1 + 192, 1, 65280);
             }
             else
             {
-                gameGraphics.drawText("Magic cannot be used", byte0 + 234, byte1 + 192, 1, 0xff0000);
+                gameGraphics.DrawText("Magic cannot be used", byte0 + 234, byte1 + 192, 1, 0xff0000);
             }
 
             if (duelPrayer == 0)
             {
-                gameGraphics.drawText("Prayer may be used", byte0 + 234, byte1 + 204, 1, 65280);
+                gameGraphics.DrawText("Prayer may be used", byte0 + 234, byte1 + 204, 1, 65280);
             }
             else
             {
-                gameGraphics.drawText("Prayer cannot be used", byte0 + 234, byte1 + 204, 1, 0xff0000);
+                gameGraphics.DrawText("Prayer cannot be used", byte0 + 234, byte1 + 204, 1, 0xff0000);
             }
 
             if (duelWeapons == 0)
             {
-                gameGraphics.drawText("Weapons may be used", byte0 + 234, byte1 + 216, 1, 65280);
+                gameGraphics.DrawText("Weapons may be used", byte0 + 234, byte1 + 216, 1, 65280);
             }
             else
             {
-                gameGraphics.drawText("Weapons cannot be used", byte0 + 234, byte1 + 216, 1, 0xff0000);
+                gameGraphics.DrawText("Weapons cannot be used", byte0 + 234, byte1 + 216, 1, 0xff0000);
             }
 
-            gameGraphics.drawText("If you are sure click 'Accept' to begin the duel", byte0 + 234, byte1 + 230, 1, 0xffffff);
+            gameGraphics.DrawText("If you are sure click 'Accept' to begin the duel", byte0 + 234, byte1 + 230, 1, 0xffffff);
             if (!duelConfirmOurAccepted)
             {
-                gameGraphics.drawPicture((byte0 + 118) - 35, byte1 + 238, baseInventoryPic + 25);
-                gameGraphics.drawPicture((byte0 + 352) - 35, byte1 + 238, baseInventoryPic + 26);
+                gameGraphics.DrawPicture((byte0 + 118) - 35, byte1 + 238, baseInventoryPic + 25);
+                gameGraphics.DrawPicture((byte0 + 352) - 35, byte1 + 238, baseInventoryPic + 26);
             }
             else
             {
-                gameGraphics.drawText("Waiting for other player...", byte0 + 234, byte1 + 250, 1, 0xffff00);
+                gameGraphics.DrawText("Waiting for other player...", byte0 + 234, byte1 + 250, 1, 0xffff00);
             }
             if (mouseButtonClick == 1)
             {
                 if (base.mouseX < byte0 || base.mouseY < byte1 || base.mouseX > byte0 + 468 || base.mouseY > byte1 + 262)
                 {
                     showDuelConfirmBox = false;
-                    base.streamClass.createPacket(35);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(35);
+                    base.streamClass.FormatPacket();
                 }
                 if (base.mouseX >= (byte0 + 118) - 35 && base.mouseX <= byte0 + 118 + 70 && base.mouseY >= byte1 + 238 && base.mouseY <= byte1 + 238 + 21)
                 {
                     duelConfirmOurAccepted = true;
-                    base.streamClass.createPacket(87);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(87);
+                    base.streamClass.FormatPacket();
                 }
                 if (base.mouseX >= (byte0 + 352) - 35 && base.mouseX <= byte0 + 353 + 70 && base.mouseY >= byte1 + 238 && base.mouseY <= byte1 + 238 + 21)
                 {
                     showDuelConfirmBox = false;
-                    base.streamClass.createPacket(35);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(35);
+                    base.streamClass.FormatPacket();
                 }
                 mouseButtonClick = 0;
             }
         }
 
-        public void setLoginVars()
+        public void SetLoginVars()
         {
             loggedIn = false;
             loginScreen = 0;
@@ -1327,17 +1364,17 @@ namespace OpenRS.Net.Client
             npcCount = 0;
         }
 
-        public override void close()
+        public override void Close()
         {
-            requestLogout();
-            cleanUp();
+            RequestLogout();
+            CleanUp();
             if (audioPlayer is not null)
             {
                 audioPlayer.Stop();
             }
         }
 
-        //protected TcpClient makeSocket(String address, int port) {
+        //protected TcpClient makeSocket(string address, int port) {
 
         //    if(Link.gameApplet is not null) {
         //        Socket socket = Link.getSocket(port);
@@ -1352,41 +1389,41 @@ namespace OpenRS.Net.Client
         //    return socket1;
         //}
 
-        public void drawInventoryMenu(bool canRightClick)
+        public void DrawInventoryMenu(bool canRightClick)
         {
             int l = ((GameImage)(gameGraphics)).gameWidth - 248;
-            gameGraphics.drawPicture(l, 3, baseInventoryPic + 1);
-            for (int i1 = 0; i1 < maxInventoryItems; i1++)
+            gameGraphics.DrawPicture(l, 3, baseInventoryPic + 1);
+            for (int i1 = 0; i1 < maxInventoryItems; i1 += 1)
             {
                 int j1 = l + (i1 % 5) * 49;
                 int l1 = 36 + (i1 / 5) * 34;
                 if (i1 < inventoryItemsCount && inventoryItemEquipped[i1] == 1)
                 {
-                    gameGraphics.drawBoxAlpha(j1, l1, 49, 34, 0xff0000, 128);
+                    gameGraphics.DrawBoxAlpha(j1, l1, 49, 34, 0xff0000, 128);
                 }
                 else
                 {
-                    gameGraphics.drawBoxAlpha(j1, l1, 49, 34, GameImage.rgbToInt(181, 181, 181), 128);
+                    gameGraphics.DrawBoxAlpha(j1, l1, 49, 34, GameImage.RgbToInt(181, 181, 181), 128);
                 }
 
                 if (i1 < inventoryItemsCount)
                 {
-                    gameGraphics.drawImage(j1, l1, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[inventoryItems[i1]], Data.GameData.itemPictureMask[inventoryItems[i1]], 0, 0, false);
+                    gameGraphics.DrawImage(j1, l1, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[inventoryItems[i1]], Data.GameData.itemPictureMask[inventoryItems[i1]], 0, 0, false);
                     if (Data.GameData.itemStackable[inventoryItems[i1]] == 0)
                     {
-                        gameGraphics.drawString(inventoryItemCount[i1].ToString(), j1 + 1, l1 + 10, 1, 0xffff00);
+                        gameGraphics.DrawString(inventoryItemCount[i1].ToString(), j1 + 1, l1 + 10, 1, 0xffff00);
                     }
                 }
             }
 
-            for (int k1 = 1; k1 <= 4; k1++)
+            for (int k1 = 1; k1 <= 4; k1 += 1)
             {
-                gameGraphics.drawLineY(l + k1 * 49, 36, (maxInventoryItems / 5) * 34, 0);
+                gameGraphics.DrawLineY(l + k1 * 49, 36, (maxInventoryItems / 5) * 34, 0);
             }
 
-            for (int i2 = 1; i2 <= maxInventoryItems / 5 - 1; i2++)
+            for (int i2 = 1; i2 <= maxInventoryItems / 5 - 1; i2 += 1)
             {
-                gameGraphics.drawLineX(l, 36 + i2 * 34, 245, 0);
+                gameGraphics.DrawLineX(l, 36 + i2 * 34, 245, 0);
             }
 
             if (!canRightClick)
@@ -1452,7 +1489,7 @@ namespace OpenRS.Net.Client
                                 menuActionType[menuOptionsCount] = k2;
                                 menuOptionsCount += 1;
                             }
-                        if (!Data.GameData.itemCommand[l2].Equals(""))
+                        if (Data.GameData.itemCommand[l2] != "")
                         {
                             menuText1[menuOptionsCount] = Data.GameData.itemCommand[l2];
                             menuText2[menuOptionsCount] = "@lre@" + Data.GameData.itemName[l2];
@@ -1480,7 +1517,7 @@ namespace OpenRS.Net.Client
             }
         }
         public bool DoNotDrawLogo { get; set; }
-        public void createLoginScreenBackgrounds()
+        public void CreateLoginScreenBackgrounds()
         {
             int _bgScreenWidth = windowWidth;
             if (this.OnLoadingSection is not null)
@@ -1492,8 +1529,8 @@ namespace OpenRS.Net.Client
             sbyte byte0 = 50;
             sbyte byte1 = 50;
 
-            engineHandle.loadSection(byte0 * 48 + 23, byte1 * 48 + 23, l);
-            engineHandle.addObjects(gameDataObjects);
+            engineHandle.LoadSection(byte0 * 48 + 23, byte1 * 48 + 23, l);
+            engineHandle.AddObjects(gameDataObjects);
 
             //char c1 = '\u2600';
             //char c2 = '\u1900';
@@ -1509,24 +1546,24 @@ namespace OpenRS.Net.Client
             gameCamera.zoom2 = 4100;
             gameCamera.zoom3 = 1;
             gameCamera.zoom4 = 4000;
-            gameCamera.SetCameraTransform(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY, 912, cameraRotation, 0, cameraDistance * 2);
-            gameCamera.finishCamera();
-            gameGraphics.screenFadeToBlack();
-            gameGraphics.screenFadeToBlack();
+            gameCamera.SetCameraTransform(cameraX, -engineHandle.GetAveragedElevation(cameraX, cameraY), cameraY, 912, cameraRotation, 0, cameraDistance * 2);
+            gameCamera.FinishCamera();
+            gameGraphics.ScreenFadeToBlack();
+            gameGraphics.ScreenFadeToBlack();
 
 
 
-            gameGraphics.drawBox(0, 0, _bgScreenWidth, 6, 0x000000); //_bgScreenWidth=512
-            for (int i1 = 6; i1 >= 1; i1--)
+            gameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0x000000); //_bgScreenWidth=512
+            for (int i1 = 6; i1 >= 1; i1 -= 1)
             {
-                gameGraphics.drawTransparentLine(0, i1, 0, i1, _bgScreenWidth, 8);
+                gameGraphics.DrawTransparentLine(0, i1, 0, i1, _bgScreenWidth, 8);
             }
 
-            gameGraphics.drawBox(0, 194, _bgScreenWidth, 20, 0x000000);
+            gameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0x000000);
 
-            for (int j1 = 6; j1 >= 1; j1--)
+            for (int j1 = 6; j1 >= 1; j1 -= 1)
             {
-                gameGraphics.drawTransparentLine(0, j1, 0, 194 - j1, _bgScreenWidth, 8);
+                gameGraphics.DrawTransparentLine(0, j1, 0, 194 - j1, _bgScreenWidth, 8);
             }
 
 
@@ -1537,17 +1574,17 @@ namespace OpenRS.Net.Client
             {
                 if (bgPixels is null)
                 {
-                    gameGraphics.drawPicture(15, 15, baseInventoryPic + 10);
+                    gameGraphics.DrawPicture(15, 15, baseInventoryPic + 10);
                 }
                 else
                 {
-                    gameGraphics.drawPixels(bgPixels, 0, 0, bgPixels.Length, bgPixels[0].Length);
+                    gameGraphics.DrawPixels(bgPixels, 0, 0, bgPixels.Length, bgPixels[0].Length);
                 }
             }
 
 
-            gameGraphics.drawImage(baseLoginScreenBackgroundPic, 0, 0, _bgScreenWidth, 200);
-            gameGraphics.applyImage(baseLoginScreenBackgroundPic);
+            gameGraphics.DrawImage(baseLoginScreenBackgroundPic, 0, 0, _bgScreenWidth, 200);
+            gameGraphics.ApplyImage(baseLoginScreenBackgroundPic);
 
 
 
@@ -1559,50 +1596,50 @@ namespace OpenRS.Net.Client
             gameCamera.zoom2 = 4100;
             gameCamera.zoom3 = 1;
             gameCamera.zoom4 = 4000;
-            gameCamera.SetCameraTransform(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY, 912, cameraRotation, 0, cameraDistance * 2);
-            gameCamera.finishCamera();
-            gameGraphics.screenFadeToBlack();
-            gameGraphics.screenFadeToBlack();
+            gameCamera.SetCameraTransform(cameraX, -engineHandle.GetAveragedElevation(cameraX, cameraY), cameraY, 912, cameraRotation, 0, cameraDistance * 2);
+            gameCamera.FinishCamera();
+            gameGraphics.ScreenFadeToBlack();
+            gameGraphics.ScreenFadeToBlack();
 
 
 
-            gameGraphics.drawBox(0, 0, _bgScreenWidth, 6, 0);
-            for (int k1 = 6; k1 >= 1; k1--)
+            gameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0);
+            for (int k1 = 6; k1 >= 1; k1 -= 1)
             {
-                gameGraphics.drawTransparentLine(0, k1, 0, k1, _bgScreenWidth, 8);
+                gameGraphics.DrawTransparentLine(0, k1, 0, k1, _bgScreenWidth, 8);
             }
 
-            gameGraphics.drawBox(0, 194, _bgScreenWidth, 20, 0);
-            for (int l1 = 6; l1 >= 1; l1--)
+            gameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0);
+            for (int l1 = 6; l1 >= 1; l1 -= 1)
             {
-                gameGraphics.drawTransparentLine(0, l1, 0, 194 - l1, _bgScreenWidth, 8);
+                gameGraphics.DrawTransparentLine(0, l1, 0, 194 - l1, _bgScreenWidth, 8);
             }
 
             if (!DoNotDrawLogo)
             {
                 if (bgPixels is null)
                 {
-                    gameGraphics.drawPicture(15, 15, baseInventoryPic + 10);
+                    gameGraphics.DrawPicture(15, 15, baseInventoryPic + 10);
                 }
                 else
                 {
-                    gameGraphics.drawPixels(bgPixels, 0, 0, bgPixels.Length, bgPixels[0].Length);
+                    gameGraphics.DrawPixels(bgPixels, 0, 0, bgPixels.Length, bgPixels[0].Length);
                 }
             }
 
-            gameGraphics.drawImage(baseLoginScreenBackgroundPic + 1, 0, 0, _bgScreenWidth, 200);
-            gameGraphics.applyImage(baseLoginScreenBackgroundPic + 1);
+            gameGraphics.DrawImage(baseLoginScreenBackgroundPic + 1, 0, 0, _bgScreenWidth, 200);
+            gameGraphics.ApplyImage(baseLoginScreenBackgroundPic + 1);
 
             // Remove buildings
-            for (int i2 = 0; i2 < 64; i2++)
+            for (int i2 = 0; i2 < 64; i2 += 1)
             {
 
-                gameCamera.removeModel(engineHandle.roofObject[0][i2]);
-                gameCamera.removeModel(engineHandle.wallObject[0][i2]);
-                gameCamera.removeModel(engineHandle.wallObject[1][i2]);
-                gameCamera.removeModel(engineHandle.roofObject[1][i2]);
-                gameCamera.removeModel(engineHandle.wallObject[2][i2]);
-                gameCamera.removeModel(engineHandle.roofObject[2][i2]);
+                gameCamera.RemoveModel(engineHandle.roofObject[0][i2]);
+                gameCamera.RemoveModel(engineHandle.wallObject[0][i2]);
+                gameCamera.RemoveModel(engineHandle.wallObject[1][i2]);
+                gameCamera.RemoveModel(engineHandle.roofObject[1][i2]);
+                gameCamera.RemoveModel(engineHandle.wallObject[2][i2]);
+                gameCamera.RemoveModel(engineHandle.roofObject[2][i2]);
             }
 
             cameraX = 11136;//'\u2B80';
@@ -1613,39 +1650,39 @@ namespace OpenRS.Net.Client
             gameCamera.zoom2 = 4100;
             gameCamera.zoom3 = 1;
             gameCamera.zoom4 = 4000;
-            gameCamera.SetCameraTransform(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY, 912, cameraRotation, 0, cameraDistance * 2);
-            gameCamera.finishCamera();
-            gameGraphics.screenFadeToBlack();
-            gameGraphics.screenFadeToBlack();
+            gameCamera.SetCameraTransform(cameraX, -engineHandle.GetAveragedElevation(cameraX, cameraY), cameraY, 912, cameraRotation, 0, cameraDistance * 2);
+            gameCamera.FinishCamera();
+            gameGraphics.ScreenFadeToBlack();
+            gameGraphics.ScreenFadeToBlack();
 
 
 
-            gameGraphics.drawBox(0, 0, _bgScreenWidth, 6, 0);
-            for (int j2 = 6; j2 >= 1; j2--)
+            gameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0);
+            for (int j2 = 6; j2 >= 1; j2 -= 1)
             {
-                gameGraphics.drawTransparentLine(0, j2, 0, j2, _bgScreenWidth, 8);
+                gameGraphics.DrawTransparentLine(0, j2, 0, j2, _bgScreenWidth, 8);
             }
 
-            gameGraphics.drawBox(0, 194, _bgScreenWidth, 20, 0);
-            for (int k2 = 6; k2 >= 1; k2--)
+            gameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0);
+            for (int k2 = 6; k2 >= 1; k2 -= 1)
             {
-                gameGraphics.drawTransparentLine(0, k2, 0, 194, _bgScreenWidth, 8);
+                gameGraphics.DrawTransparentLine(0, k2, 0, 194, _bgScreenWidth, 8);
             }
 
             if (!DoNotDrawLogo)
             {
                 if (bgPixels is null)
                 {
-                    gameGraphics.drawPicture(15, 15, baseInventoryPic + 10);
+                    gameGraphics.DrawPicture(15, 15, baseInventoryPic + 10);
                 }
                 else
                 {
-                    gameGraphics.drawPixels(bgPixels, 0, 0, bgPixels.Length, bgPixels[0].Length);
+                    gameGraphics.DrawPixels(bgPixels, 0, 0, bgPixels.Length, bgPixels[0].Length);
                 }
             }
 
-            gameGraphics.drawImage(baseInventoryPic + 10, 0, 0, _bgScreenWidth, 200);
-            gameGraphics.applyImage(baseInventoryPic + 10);
+            gameGraphics.DrawImage(baseInventoryPic + 10, 0, 0, _bgScreenWidth, 200);
+            gameGraphics.ApplyImage(baseInventoryPic + 10);
 
             if (this.OnLoadingSectionCompleted is not null)
             {
@@ -1653,7 +1690,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public override void handlePacket(int packetID, int packetLength, sbyte[] packetData)
+        public override void HandlePacket(int packetID, int packetLength, sbyte[] packetData)
         {
             try
             {
@@ -1666,7 +1703,7 @@ namespace OpenRS.Net.Client
                     }
 
                     lastPlayerCount = playerCount;
-                    for (int l = 0; l < lastPlayerCount; l++)
+                    for (int l = 0; l < lastPlayerCount; l += 1)
                     {
                         lastPlayerArray[l] = playerArray[l];
                     }
@@ -1678,7 +1715,7 @@ namespace OpenRS.Net.Client
                     off += 13;
                     int sprite = DataOperations.GetBits(packetData, off, 4);
                     off += 4;
-                    bool sectionLoaded = loadSection(sectionX, sectionY);
+                    bool sectionLoaded = LoadSection(sectionX, sectionY);
                     sectionX -= areaX;
                     sectionY -= areaY;
                     int mapEnterX = sectionX * gridSize + 64;
@@ -1691,13 +1728,13 @@ namespace OpenRS.Net.Client
                         ourPlayer.currentY = ourPlayer.waypointsY[0] = mapEnterY;
                     }
                     playerCount = 0;
-                    ourPlayer = makePlayer(serverIndex, mapEnterX, mapEnterY, sprite);
+                    ourPlayer = CreatePlayer(serverIndex, mapEnterX, mapEnterY, sprite);
                     int newPlayerCount = DataOperations.GetBits(packetData, off, 8);
                     off += 8;
-                    for (int currentNewPlayer = 0; currentNewPlayer < newPlayerCount; currentNewPlayer++)
+                    for (int currentNewPlayer = 0; currentNewPlayer < newPlayerCount; currentNewPlayer += 1)
                     {
                         //ClientMob mob = lastPlayerArray[currentNewPlayer + 1];
-                        ClientMob mob = getLastPlayer(DataOperations.GetBits(packetData, off, 16));
+                        ClientMob mob = GetLastPlayer(DataOperations.GetBits(packetData, off, 16));
                         off += 16;
                         int playerAtTile = DataOperations.GetBits(packetData, off, 1);
                         off += 1;
@@ -1776,7 +1813,7 @@ namespace OpenRS.Net.Client
                         off += 1;
                         int mobX = (sectionX + areaMobX) * gridSize + 64;
                         int mobY = (sectionY + areaMobY) * gridSize + 64;
-                        makePlayer(mobIndex, mobX, mobY, mobSprite);
+                        CreatePlayer(mobIndex, mobX, mobY, mobSprite);
                         if (addIndex == 0)
                         {
                             playerBufferArrayIndexes[mobCount++] = mobIndex;
@@ -1784,16 +1821,16 @@ namespace OpenRS.Net.Client
                     }
                     if (mobCount > 0)
                     {
-                        base.streamClass.createPacket(83);
-                        base.streamClass.addShort(mobCount);
-                        for (int k40 = 0; k40 < mobCount; k40++)
+                        base.streamClass.CreatePacket(83);
+                        base.streamClass.AddShort(mobCount);
+                        for (int k40 = 0; k40 < mobCount; k40 += 1)
                         {
                             ClientMob f5 = playerBufferArray[playerBufferArrayIndexes[k40]];
-                            base.streamClass.addShort(f5.serverIndex);
-                            base.streamClass.addShort(f5.serverID);
+                            base.streamClass.AddShort(f5.serverIndex);
+                            base.streamClass.AddShort(f5.serverID);
                         }
 
-                        base.streamClass.formatPacket();
+                        base.streamClass.FormatPacket();
                         mobCount = 0;
                     }
                     return;
@@ -1802,7 +1839,7 @@ namespace OpenRS.Net.Client
                 {
                     if (needsClear)
                     {
-                        for (int i = 0; i < groundItemID.Length; i++)
+                        for (int i = 0; i < groundItemID.Length; i += 1)
                         {
                             groundItemX[i] = -1;
                             groundItemY[i] = -1;
@@ -1820,7 +1857,7 @@ namespace OpenRS.Net.Client
                             int newSectionX = sectionX + packetData[off + 1] >> 3;
                             int newSectionY = sectionY + packetData[off + 2] >> 3;
                             off += 3;
-                            for (int groundItem = 0; groundItem < groundItemCount; groundItem++)
+                            for (int groundItem = 0; groundItem < groundItemCount; groundItem += 1)
                             {
                                 int newX = (groundItemX[groundItem] >> 3) - newSectionX;
                                 int newY = (groundItemY[groundItem] >> 3) - newSectionY;
@@ -1851,7 +1888,7 @@ namespace OpenRS.Net.Client
                                 groundItemY[groundItemCount] = newY;
                                 groundItemID[groundItemCount] = newID;
                                 groundItemObjectVar[groundItemCount] = 0;
-                                for (int l23 = 0; l23 < objectCount; l23++)
+                                for (int l23 = 0; l23 < objectCount; l23 += 1)
                                 {
                                     if (objectX[l23] != newX || objectY[l23] != newY)
                                     {
@@ -1868,7 +1905,7 @@ namespace OpenRS.Net.Client
                             {
                                 newID &= 0x7fff;
                                 int updateIndex = 0;
-                                for (int currentItemIndex = 0; currentItemIndex < groundItemCount; currentItemIndex++)
+                                for (int currentItemIndex = 0; currentItemIndex < groundItemCount; currentItemIndex += 1)
                                 {
                                     if (groundItemX[currentItemIndex] != newX || groundItemY[currentItemIndex] != newY || groundItemID[currentItemIndex] != newID)
                                     {
@@ -1904,7 +1941,7 @@ namespace OpenRS.Net.Client
                             int newSectionX = sectionX + packetData[off + 1] >> 3;
                             int newSectionY = sectionY + packetData[off + 2] >> 3;
                             off += 3;
-                            for (int _obj = 0; _obj < objectCount; _obj++)
+                            for (int _obj = 0; _obj < objectCount; _obj += 1)
                             {
                                 int newX = (objectX[_obj] >> 3) - newSectionX;
                                 int newY = (objectY[_obj] >> 3) - newSectionY;
@@ -1923,8 +1960,8 @@ namespace OpenRS.Net.Client
                                 }
                                 else
                                 {
-                                    gameCamera.removeModel(objectArray[_obj]);
-                                    engineHandle.removeObject(objectX[_obj], objectY[_obj], objectType[_obj], objectRotation[_obj]);
+                                    gameCamera.RemoveModel(objectArray[_obj]);
+                                    engineHandle.RemoveObject(objectX[_obj], objectY[_obj], objectType[_obj], objectRotation[_obj]);
                                 }
                             }
 
@@ -1938,7 +1975,7 @@ namespace OpenRS.Net.Client
                             int newSectionY = sectionY + packetData[off++];
                             int rotation = packetData[off++];
                             int newCount = 0;
-                            for (int _obj = 0; _obj < objectCount; _obj++)
+                            for (int _obj = 0; _obj < objectCount; _obj += 1)
                             {
                                 if (objectX[_obj] != newSectionX || objectY[_obj] != newSectionY || objectRotation[_obj] != rotation)
                                 {
@@ -1955,15 +1992,15 @@ namespace OpenRS.Net.Client
                                 }
                                 else
                                 {
-                                    gameCamera.removeModel(objectArray[_obj]);
-                                    engineHandle.removeObject(objectX[_obj], objectY[_obj], objectType[_obj], objectRotation[_obj]);
+                                    gameCamera.RemoveModel(objectArray[_obj]);
+                                    engineHandle.RemoveObject(objectX[_obj], objectY[_obj], objectType[_obj], objectRotation[_obj]);
                                 }
                             }
 
                             objectCount = newCount;
                             if (index != 60000)
                             {
-                                engineHandle.registerObjectDir(newSectionX, newSectionY, rotation);
+                                engineHandle.RegisterObjectDir(newSectionX, newSectionY, rotation);
                                 int width;
                                 int height;
                                 if (rotation == 0 || rotation == 4)
@@ -1981,16 +2018,16 @@ namespace OpenRS.Net.Client
                                 int model = Data.GameData.objectModelNumber[index];
                                 GameObject gameObject = gameDataObjects[model].CreateParent();
 #warning object not being added to camera.
-                                gameCamera.addModel(gameObject);
+                                gameCamera.AddModel(gameObject);
 
                                 gameObject.index = objectCount;
-                                gameObject.offsetMiniPosition(0, rotation * 32, 0);
-                                gameObject.offsetPosition(l40, -engineHandle.getAveragedElevation(l40, k42), k42);
+                                gameObject.OffsetMiniPosition(0, rotation * 32, 0);
+                                gameObject.OffsetPosition(l40, -engineHandle.GetAveragedElevation(l40, k42), k42);
                                 gameObject.UpdateShading(true, 48, 48, -50, -10, -50);
-                                engineHandle.createObject(newSectionX, newSectionY, index, rotation);
+                                engineHandle.CreateObject(newSectionX, newSectionY, index, rotation);
                                 if (index == 74)
                                 {
-                                    gameObject.offsetPosition(0, -480, 0);
+                                    gameObject.OffsetPosition(0, -480, 0);
                                 }
 
                                 objectX[objectCount] = newSectionX;
@@ -2008,7 +2045,7 @@ namespace OpenRS.Net.Client
                 {
                     int off = 1;
                     inventoryItemsCount = packetData[off++] & 0xff;
-                    for (int item = 0; item < inventoryItemsCount; item++)
+                    for (int item = 0; item < inventoryItemsCount; item += 1)
                     {
                         int data = DataOperations.GetShort(packetData, off);
                         off += 2;
@@ -2031,7 +2068,7 @@ namespace OpenRS.Net.Client
                 {
                     int newMobCount = DataOperations.GetShort(packetData, 1);
                     int off = 3;
-                    for (int current = 0; current < newMobCount; current++)
+                    for (int current = 0; current < newMobCount; current += 1)
                     {
                         int index = DataOperations.GetShort(packetData, off);
                         off += 2;
@@ -2061,11 +2098,11 @@ namespace OpenRS.Net.Client
                         {
                             sbyte byte7 = packetData[off];
                             off += 1;
-                            String s3 = ChatMessage.bytesToString(packetData, off, byte7);
+                            string s3 = ChatMessage.BytesToString(packetData, off, byte7);
                             //if (useChatFilter)
                             //    s3 = ChatFilter.filterChat(s3);
                             bool ignore = false;
-                            for (int i41 = 0; i41 < base.ignoresCount; i41++)
+                            for (int i41 = 0; i41 < base.ignoresCount; i41 += 1)
                             {
                                 if (base.ignoresList[i41] == mob.nameHash)
                                 {
@@ -2077,7 +2114,7 @@ namespace OpenRS.Net.Client
                             {
                                 mob.lastMessageTimeout = 150;
                                 mob.lastMessage = s3;
-                                displayMessage(mob.username + ": " + mob.lastMessage, 2);
+                                DisplayMessage(mob.username + ": " + mob.lastMessage, 2);
                             }
                             off += byte7;
                         }
@@ -2132,13 +2169,13 @@ namespace OpenRS.Net.Client
                             mob.username = DataOperations.HashToName(mob.nameHash);
                             int appearanceCount = DataOperations.GetByte(packetData[off]);
                             off += 1;
-                            for (int j35 = 0; j35 < appearanceCount; j35++)
+                            for (int j35 = 0; j35 < appearanceCount; j35 += 1)
                             {
                                 mob.appearanceItems[j35] = DataOperations.GetByte(packetData[off]);
                                 off += 1;
                             }
 
-                            for (int j38 = appearanceCount; j38 < 12; j38++)
+                            for (int j38 = appearanceCount; j38 < 12; j38 += 1)
                             {
                                 mob.appearanceItems[j38] = 0;
                             }
@@ -2155,12 +2192,12 @@ namespace OpenRS.Net.Client
                         {
                             sbyte byte8 = packetData[off];
                             off += 1;
-                            String s4 = ChatMessage.bytesToString(packetData, off, byte8);
+                            string s4 = ChatMessage.BytesToString(packetData, off, byte8);
                             mob.lastMessageTimeout = 150;
                             mob.lastMessage = s4;
                             if (mob == ourPlayer)
                             {
-                                displayMessage(mob.username + ": " + mob.lastMessage, 5);
+                                DisplayMessage(mob.username + ": " + mob.lastMessage, 5);
                             }
 
                             off += byte8;
@@ -2179,7 +2216,7 @@ namespace OpenRS.Net.Client
                             int newSectionX = sectionX + packetData[off + 1] >> 3;
                             int newSectionY = sectionY + packetData[off + 2] >> 3;
                             off += 3;
-                            for (int current = 0; current < wallObjectCount; current++)
+                            for (int current = 0; current < wallObjectCount; current += 1)
                             {
                                 int newX = (wallObjectX[current] >> 3) - newSectionX;
                                 int newY = (wallObjectY[current] >> 3) - newSectionY;
@@ -2198,8 +2235,8 @@ namespace OpenRS.Net.Client
                                 }
                                 else
                                 {
-                                    gameCamera.removeModel(wallObjectArray[current]);
-                                    engineHandle.removeWallObject(wallObjectX[current], wallObjectY[current], wallObjectDirection[current], wallObjectID[current]);
+                                    gameCamera.RemoveModel(wallObjectArray[current]);
+                                    engineHandle.RemoveWallObject(wallObjectX[current], wallObjectY[current], wallObjectDirection[current], wallObjectID[current]);
                                 }
                             }
 
@@ -2213,7 +2250,7 @@ namespace OpenRS.Net.Client
                             int newSectionY = sectionY + packetData[off++];
                             sbyte direction = packetData[off++];
                             int newCount = 0;
-                            for (int current = 0; current < wallObjectCount; current++)
+                            for (int current = 0; current < wallObjectCount; current += 1)
                             {
                                 if (wallObjectX[current] != newSectionX || wallObjectY[current] != newSectionY || wallObjectDirection[current] != direction)
                                 {
@@ -2230,16 +2267,16 @@ namespace OpenRS.Net.Client
                                 }
                                 else
                                 {
-                                    gameCamera.removeModel(wallObjectArray[current]);
-                                    engineHandle.removeWallObject(wallObjectX[current], wallObjectY[current], wallObjectDirection[current], wallObjectID[current]);
+                                    gameCamera.RemoveModel(wallObjectArray[current]);
+                                    engineHandle.RemoveWallObject(wallObjectX[current], wallObjectY[current], wallObjectDirection[current], wallObjectID[current]);
                                 }
                             }
 
                             wallObjectCount = newCount;
                             if (newID != 60000)
                             {
-                                engineHandle.createWall(newSectionX, newSectionY, direction, newID);
-                                GameObject k35 = makeWallObject(newSectionX, newSectionY, direction, newID, wallObjectCount);
+                                engineHandle.CreateWall(newSectionX, newSectionY, direction, newID);
+                                GameObject k35 = CreateWallObject(newSectionX, newSectionY, direction, newID, wallObjectCount);
                                 wallObjectArray[wallObjectCount] = k35;
                                 wallObjectX[wallObjectCount] = newSectionX;
                                 wallObjectY[wallObjectCount] = newSectionY;
@@ -2255,7 +2292,7 @@ namespace OpenRS.Net.Client
                 {
                     lastNpcCount = npcCount;
                     npcCount = 0;
-                    for (int j2 = 0; j2 < lastNpcCount; j2++)
+                    for (int j2 = 0; j2 < lastNpcCount; j2 += 1)
                     {
                         lastNpcArray[j2] = npcArray[j2];
                     }
@@ -2263,9 +2300,9 @@ namespace OpenRS.Net.Client
                     int off = 8;
                     int newCount = DataOperations.GetBits(packetData, off, 8);
                     off += 8;
-                    for (int current = 0; current < newCount; current++)
+                    for (int current = 0; current < newCount; current += 1)
                     {
-                        ClientMob newNpc = getLastNpc(DataOperations.GetBits(packetData, off, 16));
+                        ClientMob newNpc = GetLastNpc(DataOperations.GetBits(packetData, off, 16));
                         off += 16;
                         int needsUpdate = DataOperations.GetBits(packetData, off, 1);
                         off += 1;
@@ -2348,7 +2385,7 @@ namespace OpenRS.Net.Client
                             addIndex = 24;
                         }
 
-                        makeNPC(mobIndex, mobX, mobY, mobSprite, addIndex);
+                        CreateNpc(mobIndex, mobX, mobY, mobSprite, addIndex);
                     }
                     return;
                 }
@@ -2356,7 +2393,7 @@ namespace OpenRS.Net.Client
                 {
                     int newCount = DataOperations.GetShort(packetData, 1);
                     int off = 3;
-                    for (int l16 = 0; l16 < newCount; l16++)
+                    for (int l16 = 0; l16 < newCount; l16 += 1)
                     {
                         int npcIndex = DataOperations.GetShort(packetData, off);
                         off += 2;
@@ -2371,12 +2408,12 @@ namespace OpenRS.Net.Client
                             off += 1;
                             if (mob is not null)
                             {
-                                String s5 = ChatMessage.bytesToString(packetData, off, messageLength);
+                                string s5 = ChatMessage.BytesToString(packetData, off, messageLength);
                                 mob.lastMessageTimeout = 150;
                                 mob.lastMessage = s5;
                                 if (playerIndex == ourPlayer.serverIndex)
                                 {
-                                    displayMessage("@yel@" + Data.GameData.npcName[mob.npcId] + ": " + mob.lastMessage, 5);
+                                    DisplayMessage("@yel@" + Data.GameData.npcName[mob.npcId] + ": " + mob.lastMessage, 5);
                                 }
                             }
                             off += messageLength;
@@ -2408,11 +2445,11 @@ namespace OpenRS.Net.Client
                     int count = DataOperations.GetByte(packetData[1]);
                     questionMenuCount = count;
                     int off = 2;
-                    for (int index = 0; index < count; index++)
+                    for (int index = 0; index < count; index += 1)
                     {
                         int optionLength = DataOperations.GetByte(packetData[off]);
                         off += 1;
-                        questionMenuAnswer[index] = new String(packetData.Select(c => (char)c).ToArray(), off, optionLength);
+                        questionMenuAnswer[index] = new string(packetData.Select(byteValue => (char)byteValue).ToArray(), off, optionLength);
                         off += optionLength;
                     }
 
@@ -2439,17 +2476,17 @@ namespace OpenRS.Net.Client
                 if (packetID == 180)
                 {
                     int off = 1;
-                    for (int stat = 0; stat < 18; stat++)
+                    for (int stat = 0; stat < 18; stat += 1)
                     {
                         playerStatCurrent[stat] = DataOperations.GetByte(packetData[off++]);
                     }
 
-                    for (int stat = 0; stat < 18; stat++)
+                    for (int stat = 0; stat < 18; stat += 1)
                     {
                         playerStatBase[stat] = DataOperations.GetByte(packetData[off++]);
                     }
 
-                    for (int stat = 0; stat < 18; stat++)
+                    for (int stat = 0; stat < 18; stat += 1)
                     {
                         playerStatExp[stat] = DataOperations.GetInt(packetData, off);
                         off += 4;
@@ -2459,7 +2496,7 @@ namespace OpenRS.Net.Client
                 if (packetID == 177)
                 {
                     int off = 1;
-                    for (int j3 = 0; j3 < 5; j3++)
+                    for (int j3 = 0; j3 < 5; j3 += 1)
                     {
                         equipmentStatus[j3] = DataOperations.GetSignedShort(packetData, off);
                         off += 2;
@@ -2474,12 +2511,12 @@ namespace OpenRS.Net.Client
                 if (packetID == 115)
                 {
                     int k3 = (packetLength - 1) / 4;
-                    for (int i11 = 0; i11 < k3; i11++)
+                    for (int i11 = 0; i11 < k3; i11 += 1)
                     {
                         int k17 = sectionX + DataOperations.GetSignedShort(packetData, 1 + i11 * 4) >> 3;
                         int i22 = sectionY + DataOperations.GetSignedShort(packetData, 3 + i11 * 4) >> 3;
                         int j25 = 0;
-                        for (int l28 = 0; l28 < groundItemCount; l28++)
+                        for (int l28 = 0; l28 < groundItemCount; l28 += 1)
                         {
                             int j33 = (groundItemX[l28] >> 3) - k17;
                             int l36 = (groundItemY[l28] >> 3) - i22;
@@ -2498,7 +2535,7 @@ namespace OpenRS.Net.Client
 
                         groundItemCount = j25;
                         j25 = 0;
-                        for (int k33 = 0; k33 < objectCount; k33++)
+                        for (int k33 = 0; k33 < objectCount; k33 += 1)
                         {
                             int i37 = (objectX[k33] >> 3) - k17;
                             int j39 = (objectY[k33] >> 3) - i22;
@@ -2517,14 +2554,14 @@ namespace OpenRS.Net.Client
                             }
                             else
                             {
-                                gameCamera.removeModel(objectArray[k33]);
-                                engineHandle.removeObject(objectX[k33], objectY[k33], objectType[k33], objectRotation[k33]);
+                                gameCamera.RemoveModel(objectArray[k33]);
+                                engineHandle.RemoveObject(objectX[k33], objectY[k33], objectType[k33], objectRotation[k33]);
                             }
                         }
 
                         objectCount = j25;
                         j25 = 0;
-                        for (int j37 = 0; j37 < wallObjectCount; j37++)
+                        for (int j37 = 0; j37 < wallObjectCount; j37 += 1)
                         {
                             int k39 = (wallObjectX[j37] >> 3) - k17;
                             int l41 = (wallObjectY[j37] >> 3) - i22;
@@ -2543,8 +2580,8 @@ namespace OpenRS.Net.Client
                             }
                             else
                             {
-                                gameCamera.removeModel(wallObjectArray[j37]);
-                                engineHandle.removeWallObject(wallObjectX[j37], wallObjectY[j37], wallObjectDirection[j37], wallObjectID[j37]);
+                                gameCamera.RemoveModel(wallObjectArray[j37]);
+                                engineHandle.RemoveWallObject(wallObjectX[j37], wallObjectY[j37], wallObjectDirection[j37], wallObjectID[j37]);
                             }
                         }
 
@@ -2583,7 +2620,7 @@ namespace OpenRS.Net.Client
                 {
                     tradeItemsOtherCount = packetData[1] & 0xff;
                     int i4 = 2;
-                    for (int j11 = 0; j11 < tradeItemsOtherCount; j11++)
+                    for (int j11 = 0; j11 < tradeItemsOtherCount; j11 += 1)
                     {
                         tradeItemsOther[j11] = DataOperations.GetShort(packetData, i4);
                         i4 += 2;
@@ -2617,12 +2654,12 @@ namespace OpenRS.Net.Client
                     sbyte isGeneralShop = packetData[off++];
                     shopItemSellPriceModifier = packetData[off++] & 0xff;
                     shopItemBuyPriceModifier = packetData[off++] & 0xff;
-                    for (int j22 = 0; j22 < 40; j22++)
+                    for (int j22 = 0; j22 < 40; j22 += 1)
                     {
                         shopItems[j22] = -1;
                     }
 
-                    for (int item = 0; item < newShopItemCount; item++)
+                    for (int item = 0; item < newShopItemCount; item += 1)
                     {
                         shopItems[item] = DataOperations.GetShort(packetData, off);
                         off += 2;
@@ -2637,7 +2674,7 @@ namespace OpenRS.Net.Client
                     if (isGeneralShop == 1)
                     {
                         int i29 = 39;
-                        for (int l33 = 0; l33 < inventoryItemsCount; l33++)
+                        for (int l33 = 0; l33 < inventoryItemsCount; l33 += 1)
                         {
                             if (i29 < newShopItemCount)
                             {
@@ -2645,7 +2682,7 @@ namespace OpenRS.Net.Client
                             }
 
                             bool flag2 = false;
-                            for (int l39 = 0; l39 < 40; l39++)
+                            for (int l39 = 0; l39 < 40; l39 += 1)
                             {
                                 if (shopItems[l39] != inventoryItems[l33])
                                 {
@@ -2667,7 +2704,7 @@ namespace OpenRS.Net.Client
                                 shopItemCount[i29] = 0;
                                 shopItemSellPrice[i29] = Data.GameData.itemBasePrice[shopItems[i29]] - (int)(Data.GameData.itemBasePrice[shopItems[i29]] / 2.5);
                                 shopItemSellPrice[i29] -= (int)(shopItemSellPrice[i29] * 0.10);
-                                i29--;
+                                i29 -= 1;
                             }
                         }
 
@@ -2710,17 +2747,17 @@ namespace OpenRS.Net.Client
                 }
                 if (packetID == 209)
                 {
-                    for (int k4 = 0; k4 < packetLength - 1; k4++)
+                    for (int k4 = 0; k4 < packetLength - 1; k4 += 1)
                     {
                         bool flag = packetData[k4 + 1] == 1;
                         if (!prayerOn[k4] && flag)
                         {
-                            playSound("prayeron");
+                            PlaySound("prayeron");
                         }
 
                         if (prayerOn[k4] && !flag)
                         {
-                            playSound("prayeroff");
+                            PlaySound("prayeroff");
                         }
 
                         prayerOn[k4] = flag;
@@ -2734,7 +2771,7 @@ namespace OpenRS.Net.Client
                     int off = 1;
                     serverBankItemsCount = packetData[off++] & 0xff;
                     maxBankItems = packetData[off++] & 0xff;
-                    for (int l11 = 0; l11 < serverBankItemsCount; l11++)
+                    for (int l11 = 0; l11 < serverBankItemsCount; l11 += 1)
                     {
                         serverBankItems[l11] = DataOperations.GetShort(packetData, off);
                         off += 2;
@@ -2742,7 +2779,7 @@ namespace OpenRS.Net.Client
                         off += 4;
                     }
 
-                    updateBankItems();
+                    UpdateBankItems();
                     return;
                 }
                 if (packetID == 171)
@@ -2792,7 +2829,7 @@ namespace OpenRS.Net.Client
                     tradeConfirmOtherNameLong = DataOperations.GetLong(packetData, off);
                     off += 8;
                     tradeConfirmOtherItemCount = packetData[off++] & 0xff;
-                    for (int i12 = 0; i12 < tradeConfirmOtherItemCount; i12++)
+                    for (int i12 = 0; i12 < tradeConfirmOtherItemCount; i12 += 1)
                     {
                         tradeConfirmOtherItems[i12] = DataOperations.GetShort(packetData, off);
                         off += 2;
@@ -2801,7 +2838,7 @@ namespace OpenRS.Net.Client
                     }
 
                     tradeConfigItemCount = packetData[off++] & 0xff;
-                    for (int l17 = 0; l17 < tradeConfigItemCount; l17++)
+                    for (int l17 = 0; l17 < tradeConfigItemCount; l17 += 1)
                     {
                         tradeConfirmItems[l17] = DataOperations.GetShort(packetData, off);
                         off += 2;
@@ -2815,7 +2852,7 @@ namespace OpenRS.Net.Client
                 {
                     duelOpponentItemCount = packetData[1] & 0xff;
                     int off = 2;
-                    for (int j12 = 0; j12 < duelOpponentItemCount; j12++)
+                    for (int j12 = 0; j12 < duelOpponentItemCount; j12 += 1)
                     {
                         duelOpponentItems[j12] = DataOperations.GetShort(packetData, off);
                         off += 2;
@@ -2879,8 +2916,8 @@ namespace OpenRS.Net.Client
                     off += 4;
                     if (itemCount == 0)
                     {
-                        serverBankItemsCount--;
-                        for (int l25 = itemSlot; l25 < serverBankItemsCount; l25++)
+                        serverBankItemsCount -= 1;
+                        for (int l25 = itemSlot; l25 < serverBankItemsCount; l25 += 1)
                         {
                             serverBankItems[l25] = serverBankItems[l25 + 1];
                             serverBankItemCount[l25] = serverBankItemCount[l25 + 1];
@@ -2896,7 +2933,7 @@ namespace OpenRS.Net.Client
                             serverBankItemsCount = itemSlot + 1;
                         }
                     }
-                    updateBankItems();
+                    UpdateBankItems();
                     return;
                 }
                 if (packetID == 228)
@@ -2924,8 +2961,8 @@ namespace OpenRS.Net.Client
                 if (packetID == 191)
                 {
                     int l6 = packetData[1] & 0xff;
-                    inventoryItemsCount--;
-                    for (int i13 = l6; i13 < inventoryItemsCount; i13++)
+                    inventoryItemsCount -= 1;
+                    for (int i13 = l6; i13 < inventoryItemsCount; i13 += 1)
                     {
                         inventoryItems[i13] = inventoryItems[i13 + 1];
                         inventoryItemCount[i13] = inventoryItemCount[i13 + 1];
@@ -2981,7 +3018,7 @@ namespace OpenRS.Net.Client
                     duelOpponentHash = DataOperations.GetLong(packetData, off);
                     off += 8;
                     duelOpponentStakeCount = packetData[off++] & 0xff;
-                    for (int k13 = 0; k13 < duelOpponentStakeCount; k13++)
+                    for (int k13 = 0; k13 < duelOpponentStakeCount; k13 += 1)
                     {
                         duelOpponentStakeItem[k13] = DataOperations.GetShort(packetData, off);
                         off += 2;
@@ -2990,7 +3027,7 @@ namespace OpenRS.Net.Client
                     }
 
                     duelOurStakeCount = packetData[off++] & 0xff;
-                    for (int k18 = 0; k18 < duelOurStakeCount; k18++)
+                    for (int k18 = 0; k18 < duelOurStakeCount; k18 += 1)
                     {
                         duelOurStakeItem[k18] = DataOperations.GetShort(packetData, off);
                         off += 2;
@@ -3006,8 +3043,8 @@ namespace OpenRS.Net.Client
                 }
                 if (packetID == 11)
                 {
-                    String s1 = new(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
-                    playSound(s1);
+                    string s1 = new(packetData.Select(byteValue => (char)byteValue).ToArray(), 1, packetLength - 1);
+                    PlaySound(s1);
                     return;
                 }
                 if (packetID == 23)
@@ -3031,7 +3068,7 @@ namespace OpenRS.Net.Client
                     {
                         lastLoginDays = DataOperations.GetShort(packetData, 1);
                         subDaysLeft = DataOperations.GetShort(packetData, 3);
-                        lastLoginAddress = new String(packetData.Select(c => (char)c).ToArray(), 5, packetLength - 5);
+                        lastLoginAddress = new string(packetData.Select(byteValue => (char)byteValue).ToArray(), 5, packetLength - 5);
                         showWelcomeBox = true;
                         loginScreenShown = true;
                     }
@@ -3039,14 +3076,14 @@ namespace OpenRS.Net.Client
                 }
                 if (packetID == 148)
                 {
-                    serverMessage = new String(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
+                    serverMessage = new string(packetData.Select(byteValue => (char)byteValue).ToArray(), 1, packetLength - 1);
                     showServerMessageBox = true;
                     serverMessageBoxTop = false;
                     return;
                 }
                 if (packetID == 64)
                 {
-                    serverMessage = new String(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
+                    serverMessage = new string(packetData.Select(byteValue => (char)byteValue).ToArray(), 1, packetLength - 1);
                     showServerMessageBox = true;
                     serverMessageBoxTop = true;
                     return;
@@ -3080,7 +3117,7 @@ namespace OpenRS.Net.Client
                 {
                     if (autoScreenshot)
                     {
-                        takeScreenshot(false);
+                        TakeScreenshot(false);
                     }
 
                     return;
@@ -3090,7 +3127,7 @@ namespace OpenRS.Net.Client
                     int off = 1;
                     questPoints = DataOperations.GetShort(packetData, off);
                     off += 2;
-                    for (int l4 = 0; l4 < questName.Length; l4++)
+                    for (int l4 = 0; l4 < questName.Length; l4 += 1)
                     {
                         questStage[l4] = packetData[l4 + 1];
                     }
@@ -3102,9 +3139,9 @@ namespace OpenRS.Net.Client
                     questPoints = DataOperations.GetByte(packetData[1]);
                     int count = DataOperations.GetByte(packetData[2]);
                     int off = 3;
-                    string[] newQuestNames = new String[count];
+                    string[] newQuestNames = new string[count];
                     int[] newQuestStage = new int[count];
-                    for (int i = 0; i < count; i++)
+                    for (int i = 0; i < count; i += 1)
                     {
                         newQuestNames[i] = questName[DataOperations.GetByte(packetData[off++])];
                         newQuestStage[i] = DataOperations.GetByte(packetData[off++]);
@@ -3173,57 +3210,57 @@ namespace OpenRS.Net.Client
         //    }
         //}
 
-        public override void initVars()
+        public override void InitVars()
         {
             systemUpdate = 0;
             combatStyle = 0;
             logoutTimer = 0;
             loginScreen = 0;
             loggedIn = true;
-            resetPrivateMessages();
-            gameGraphics.clearScreen();
+            ResetPrivateMessages();
+            gameGraphics.ClearScreen();
             // gameGraphics.UpdateGameImage();
-            //gameGraphics.drawImage(spriteBatch, 0, 0);
+            //gameGraphics.DrawImage(spriteBatch, 0, 0);
             OnDrawDone();
 
-            for (int l = 0; l < objectCount; l++)
+            for (int l = 0; l < objectCount; l += 1)
             {
-                gameCamera.removeModel(objectArray[l]);
-                engineHandle.removeObject(objectX[l], objectY[l], objectType[l], objectRotation[l]);
+                gameCamera.RemoveModel(objectArray[l]);
+                engineHandle.RemoveObject(objectX[l], objectY[l], objectType[l], objectRotation[l]);
             }
 
-            for (int i1 = 0; i1 < wallObjectCount; i1++)
+            for (int i1 = 0; i1 < wallObjectCount; i1 += 1)
             {
-                gameCamera.removeModel(wallObjectArray[i1]);
-                engineHandle.removeWallObject(wallObjectX[i1], wallObjectY[i1], wallObjectDirection[i1], wallObjectID[i1]);
+                gameCamera.RemoveModel(wallObjectArray[i1]);
+                engineHandle.RemoveWallObject(wallObjectX[i1], wallObjectY[i1], wallObjectDirection[i1], wallObjectID[i1]);
             }
 
             objectCount = 0;
             wallObjectCount = 0;
             groundItemCount = 0;
             playerCount = 0;
-            for (int j1 = 0; j1 < 4000; j1++)
+            for (int j1 = 0; j1 < 4000; j1 += 1)
             {
                 playerBufferArray[j1] = null;
             }
 
-            for (int k1 = 0; k1 < 500; k1++)
+            for (int k1 = 0; k1 < 500; k1 += 1)
             {
                 playerArray[k1] = null;
             }
 
             npcCount = 0;
-            for (int l1 = 0; l1 < 5000; l1++)
+            for (int l1 = 0; l1 < 5000; l1 += 1)
             {
                 npcAttackingArray[l1] = null;
             }
 
-            for (int i2 = 0; i2 < 500; i2++)
+            for (int i2 = 0; i2 < 500; i2 += 1)
             {
                 npcArray[i2] = null;
             }
 
-            for (int j2 = 0; j2 < 50; j2++)
+            for (int j2 = 0; j2 < 50; j2 += 1)
             {
                 prayerOn[j2] = false;
             }
@@ -3237,46 +3274,46 @@ namespace OpenRS.Net.Client
             base.friendsCount = 0;
         }
 
-        public void drawMinimapMenu(bool canClick)
+        public void DrawMinimapMenu(bool canClick)
         {
             int l = ((GameImage)(gameGraphics)).gameWidth - 199;
             int c1 = 156;//'æ';//(char)234;//'\u234';
             int c3 = 152;// '~';//(char)230;//'\u230';
-            gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 2);
+            gameGraphics.DrawPicture(l - 49, 3, baseInventoryPic + 2);
             l += 40;
-            gameGraphics.drawBox(l, 36, c1, c3, 0);
-            gameGraphics.setDimensions(l, 36, l + c1, 36 + c3);
+            gameGraphics.DrawBox(l, 36, c1, c3, 0);
+            gameGraphics.SetDimensions(l, 36, l + c1, 36 + c3);
             int j1 = 192 + minimapRandomRotationY;
             int l1 = cameraRotation + minimapRandomRotationX & 0xff;
             int j2 = ((ourPlayer.currentX - 6040) * 3 * j1) / 2048;
             int l3 = ((ourPlayer.currentY - 6040) * 3 * j1) / 2048;
-            int j5 = Camera.bbk[1024 - l1 * 4 & 0x3ff];
-            int l5 = Camera.bbk[(1024 - l1 * 4 & 0x3ff) + 1024];
+            int j5 = Camera.trigonometryTable[1024 - l1 * 4 & 0x3ff];
+            int l5 = Camera.trigonometryTable[(1024 - l1 * 4 & 0x3ff) + 1024];
             int j6 = l3 * j5 + j2 * l5 >> 18;
             l3 = l3 * l5 - j2 * j5 >> 18;
             j2 = j6;
-            gameGraphics.drawMinimapPic((l + c1 / 2) - j2, 36 + c3 / 2 + l3, baseInventoryPic - 1, l1 + 64 & 0xff, j1);
-            for (int l7 = 0; l7 < objectCount; l7++)
+            gameGraphics.DrawMinimapPic((l + c1 / 2) - j2, 36 + c3 / 2 + l3, baseInventoryPic - 1, l1 + 64 & 0xff, j1);
+            for (int l7 = 0; l7 < objectCount; l7 += 1)
             {
                 int k2 = (((objectX[l7] * gridSize + 64) - ourPlayer.currentX) * 3 * j1) / 2048;
                 int i4 = (((objectY[l7] * gridSize + 64) - ourPlayer.currentY) * 3 * j1) / 2048;
                 int k6 = i4 * j5 + k2 * l5 >> 18;
                 i4 = i4 * l5 - k2 * j5 >> 18;
                 k2 = k6;
-                drawMinimapObject(l + c1 / 2 + k2, (36 + c3 / 2) - i4, 65535);
+                DrawMinimapObject(l + c1 / 2 + k2, (36 + c3 / 2) - i4, 65535);
             }
 
-            for (int i8 = 0; i8 < groundItemCount; i8++)
+            for (int i8 = 0; i8 < groundItemCount; i8 += 1)
             {
                 int l2 = (((groundItemX[i8] * gridSize + 64) - ourPlayer.currentX) * 3 * j1) / 2048;
                 int j4 = (((groundItemY[i8] * gridSize + 64) - ourPlayer.currentY) * 3 * j1) / 2048;
                 int l6 = j4 * j5 + l2 * l5 >> 18;
                 j4 = j4 * l5 - l2 * j5 >> 18;
                 l2 = l6;
-                drawMinimapObject(l + c1 / 2 + l2, (36 + c3 / 2) - j4, 0xff0000);
+                DrawMinimapObject(l + c1 / 2 + l2, (36 + c3 / 2) - j4, 0xff0000);
             }
 
-            for (int j8 = 0; j8 < npcCount; j8++)
+            for (int j8 = 0; j8 < npcCount; j8 += 1)
             {
                 ClientMob f1 = npcArray[j8];
                 int i3 = ((f1.currentX - ourPlayer.currentX) * 3 * j1) / 2048;
@@ -3284,10 +3321,10 @@ namespace OpenRS.Net.Client
                 int i7 = k4 * j5 + i3 * l5 >> 18;
                 k4 = k4 * l5 - i3 * j5 >> 18;
                 i3 = i7;
-                drawMinimapObject(l + c1 / 2 + i3, (36 + c3 / 2) - k4, 0xffff00);
+                DrawMinimapObject(l + c1 / 2 + i3, (36 + c3 / 2) - k4, 0xffff00);
             }
 
-            for (int k8 = 0; k8 < playerCount; k8++)
+            for (int k8 = 0; k8 < playerCount; k8 += 1)
             {
                 ClientMob f2 = playerArray[k8];
                 int j3 = ((f2.currentX - ourPlayer.currentX) * 3 * j1) / 2048;
@@ -3296,7 +3333,7 @@ namespace OpenRS.Net.Client
                 l4 = l4 * l5 - j3 * j5 >> 18;
                 j3 = j7;
                 int i9 = 0xffffff;
-                for (int j9 = 0; j9 < base.friendsCount; j9++)
+                for (int j9 = 0; j9 < base.friendsCount; j9 += 1)
                 {
                     if (f2.nameHash != base.friendsList[j9] || base.friendsWorld[j9] != 99)
                     {
@@ -3307,13 +3344,13 @@ namespace OpenRS.Net.Client
                     break;
                 }
 
-                drawMinimapObject(l + c1 / 2 + j3, (36 + c3 / 2) - l4, i9);
+                DrawMinimapObject(l + c1 / 2 + j3, (36 + c3 / 2) - l4, i9);
             }
 
             // compass
-            gameGraphics.drawCircle(l + c1 / 2, 36 + c3 / 2, 2, 0xffffff, 255);
-            gameGraphics.drawMinimapPic(l + 19, 55, baseInventoryPic + 24, cameraRotation + 128 & 0xff, 128);
-            gameGraphics.setDimensions(0, 0, windowWidth, windowHeight + 12);
+            gameGraphics.DrawCircle(l + c1 / 2, 36 + c3 / 2, 2, 0xffffff, 255);
+            gameGraphics.DrawMinimapPic(l + 19, 55, baseInventoryPic + 24, cameraRotation + 128 & 0xff, 128);
+            gameGraphics.SetDimensions(0, 0, windowWidth, windowHeight + 12);
             if (!canClick)
             {
                 return;
@@ -3331,8 +3368,8 @@ namespace OpenRS.Net.Client
                 i1 += 40;
                 int k3 = ((base.mouseX - (i1 + c2 / 2)) * 16384) / (3 * k1);
                 int i5 = ((base.mouseY - (36 + c4 / 2)) * 16384) / (3 * k1);
-                int k5 = Camera.bbk[1024 - i2 * 4 & 0x3ff];
-                int i6 = Camera.bbk[(1024 - i2 * 4 & 0x3ff) + 1024];
+                int k5 = Camera.trigonometryTable[1024 - i2 * 4 & 0x3ff];
+                int i6 = Camera.trigonometryTable[(1024 - i2 * 4 & 0x3ff) + 1024];
                 int k7 = i5 * k5 + k3 * i6 >> 15;
                 i5 = i5 * i6 - k3 * k5 >> 15;
                 k3 = k7;
@@ -3340,55 +3377,55 @@ namespace OpenRS.Net.Client
                 i5 = ourPlayer.currentY - i5;
                 if (mouseButtonClick == 1)
                 {
-                    walkTo1Tile(sectionX, sectionY, k3 / 128, i5 / 128, false);
+                    WalkTo1Tile(sectionX, sectionY, k3 / 128, i5 / 128, false);
                 }
 
                 mouseButtonClick = 0;
             }
         }
 
-        public bool validCameraAngle(int cameraDirection)
+        public bool IsValidCameraAngle(int cameraDirection)
         {
             int l = ourPlayer.currentX / 128;
             int i1 = ourPlayer.currentY / 128;
-            for (int j1 = 2; j1 >= 1; j1--)
+            for (int j1 = 2; j1 >= 1; j1 -= 1)
             {
-                if (cameraDirection.Equals(1) && ((engineHandle.tiles[l][i1 - j1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1 - j1] & 0x80) == 128))
+                if (cameraDirection == 1 && ((engineHandle.tiles[l][i1 - j1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1 - j1] & 0x80) == 128))
                 {
                     return false;
                 }
 
-                if (cameraDirection.Equals(3) && ((engineHandle.tiles[l][i1 + j1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1 + j1] & 0x80) == 128))
+                if (cameraDirection == 3 && ((engineHandle.tiles[l][i1 + j1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1 + j1] & 0x80) == 128))
                 {
                     return false;
                 }
 
-                if (cameraDirection.Equals(5) && ((engineHandle.tiles[l][i1 + j1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1 + j1] & 0x80) == 128))
+                if (cameraDirection == 5 && ((engineHandle.tiles[l][i1 + j1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1 + j1] & 0x80) == 128))
                 {
                     return false;
                 }
 
-                if (cameraDirection.Equals(7) && ((engineHandle.tiles[l][i1 - j1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1 - j1] & 0x80) == 128))
+                if (cameraDirection == 7 && ((engineHandle.tiles[l][i1 - j1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1 - j1] & 0x80) == 128))
                 {
                     return false;
                 }
 
-                if (cameraDirection.Equals(0) && (engineHandle.tiles[l][i1 - j1] & 0x80) == 128)
+                if (cameraDirection == 0 && (engineHandle.tiles[l][i1 - j1] & 0x80) == 128)
                 {
                     return false;
                 }
 
-                if (cameraDirection.Equals(2) && (engineHandle.tiles[l - j1][i1] & 0x80) == 128)
+                if (cameraDirection == 2 && (engineHandle.tiles[l - j1][i1] & 0x80) == 128)
                 {
                     return false;
                 }
 
-                if (cameraDirection.Equals(4) && (engineHandle.tiles[l][i1 + j1] & 0x80) == 128)
+                if (cameraDirection == 4 && (engineHandle.tiles[l][i1 + j1] & 0x80) == 128)
                 {
                     return false;
                 }
 
-                if (cameraDirection.Equals(6) && (engineHandle.tiles[l + j1][i1] & 0x80) == 128)
+                if (cameraDirection == 6 && (engineHandle.tiles[l + j1][i1] & 0x80) == 128)
                 {
                     return false;
                 }
@@ -3397,11 +3434,11 @@ namespace OpenRS.Net.Client
             return true;
         }
 
-        public void loadSounds()
+        public void LoadSounds()
         {
             try
             {
-                soundData = unpackData("sounds.mem", "Sound effects", 90);
+                soundData = UnpackData("sounds.mem", "Sound effects", 90);
                 audioPlayer = new AudioReader();
                 return;
             }
@@ -3411,17 +3448,17 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public override void loadGame()
+        public override void LoadGame()
         {
             int l = 0;
-            for (int i1 = 0; i1 < 99; i1++)
+            for (int i1 = 0; i1 < 99; i1 += 1)
             {
                 int j1 = i1 + 1;
                 int l1 = (int)((double)j1 + 300D * Math.Pow(2D, (double)j1 / 7D));
                 l += l1;
                 experienceList[i1] = (l & 0xffffffc) / 4;
             }
-            loadConfig();
+            LoadConfig();
             if (errorLoading)
             {
                 return;
@@ -3435,30 +3472,30 @@ namespace OpenRS.Net.Client
             baseProjectilePic = baseLoginScreenBackgroundPic + 10;
             baseTexturePic = baseProjectilePic + 50;
             subTexturePic = baseTexturePic + 10;
-            graphics = getGraphics();
-            setRefreshRate(50);
+            graphics = GetGraphics();
+            SetRefreshRate(50);
             gameGraphics = new GameImageMiddleMan(windowWidth, windowHeight + 12, 4000)
             {
                 gameReference = this
             };
-            gameGraphics.setDimensions(0, 0, windowWidth, windowHeight + 12);
-            Menu.gdh = false;
+            gameGraphics.SetDimensions(0, 0, windowWidth, windowHeight + 12);
+            Menu.isBackgroundPatternEnabled = false;
             Menu.baseScrollPic = baseScrollPic;
             spellMenu = new Menu(gameGraphics, 5);
             int k1 = ((GameImage)(gameGraphics)).gameWidth - 199;
             sbyte byte0 = 36;
-            spellMenuHandle = spellMenu.createList(k1, byte0 + 24, 196, 90, 1, 500, true);
+            spellMenuHandle = spellMenu.CreateList(k1, byte0 + 24, 196, 90, 1, 500, true);
             friendsMenu = new Menu(gameGraphics, 5);
-            friendsMenuHandle = friendsMenu.createList(k1, byte0 + 40, 196, 126, 1, 500, true);
+            friendsMenuHandle = friendsMenu.CreateList(k1, byte0 + 40, 196, 126, 1, 500, true);
             questMenu = new Menu(gameGraphics, 5);
-            questMenuHandle = questMenu.createList(k1, byte0 + 24, 196, 251, 1, 500, true);
-            loadMedia();
+            questMenuHandle = questMenu.CreateList(k1, byte0 + 24, 196, 251, 1, 500, true);
+            LoadMedia();
             if (errorLoading)
             {
                 return;
             }
 
-            loadAnimations();
+            LoadAnimations();
             if (errorLoading)
             {
                 return;
@@ -3466,46 +3503,46 @@ namespace OpenRS.Net.Client
 
             gameCamera = new Camera(gameGraphics, 15000, 15000, 1000);
 
-            gameCamera.setCameraSize(windowWidth / 2, windowHeight / 2, windowWidth / 2, windowHeight / 2, windowWidth, cameraFieldOfView);
+            gameCamera.SetCameraSize(windowWidth / 2, windowHeight / 2, windowWidth / 2, windowHeight / 2, windowWidth, cameraFieldOfView);
             gameCamera.zoom1 = 2400;
             gameCamera.zoom2 = 2400;
             gameCamera.zoom3 = 1;
             gameCamera.zoom4 = 2300;
-            gameCamera.bjk(-50, -10, -50);
+            gameCamera.OffsetAllModelColours(-50, -10, -50);
             engineHandle = new EngineHandle(gameCamera, gameGraphics)
             {
                 baseInventoryPic = baseInventoryPic
             };
-            loadTextures();
+            LoadTextures();
             if (errorLoading)
             {
                 return;
             }
 
-            loadModels();
+            LoadModels();
             if (errorLoading)
             {
                 return;
             }
 
-            loadMap();
+            LoadMap();
             if (errorLoading)
             {
                 return;
             }
 
-            loadSounds();
+            LoadSounds();
             if (!errorLoading)
             {
                 if (OnContentLoaded is not null)
                 {
                     OnContentLoaded(this, new ContentLoadedEventArgs("Starting game...", 100));
                 }
-                drawLoadingBarText(100, "Starting game...");
-                createChatInputMenu();
-                createLoginMenus();
-                createAppearanceWindow();
-                setLoginVars();
+                DrawLoadingBarText(100, "Starting game...");
+                CreateChatInputMenu();
+                CreateLoginMenus();
+                CreateAppearanceWindow();
+                SetLoginVars();
 
                 string[] modelNames = Data.GameData.modelName;
 
@@ -3514,105 +3551,105 @@ namespace OpenRS.Net.Client
                     OnContentLoadedCompleted(this, new EventArgs());
                 }
 
-                createLoginScreenBackgrounds();
+                CreateLoginScreenBackgrounds();
                 return;
             }
         }
 
-        public void createLoginMenus()
+        public void CreateLoginMenus()
         {
             loginMenuFirst = new Menu(gameGraphics, 50);
             int l = 40;
             if (!Config.MembersFeatures)
             {
-                loginMenuFirst.drawText(256, 200 + l, "Click on an option", 5, true);
-                loginMenuFirst.drawButton(156, 240 + l, 120, 35);
-                loginMenuFirst.drawButton(356, 240 + l, 120, 35);
-                loginMenuFirst.drawText(156, 240 + l, "New User", 5, false);
-                loginMenuFirst.drawText(356, 240 + l, "Existing User", 5, false);
-                loginButtonNewUser = loginMenuFirst.createButton(156, 240 + l, 120, 35);
-                loginMenuLoginButton = loginMenuFirst.createButton(356, 240 + l, 120, 35);
+                loginMenuFirst.DrawText(256, 200 + l, "Click on an option", 5, true);
+                loginMenuFirst.DrawButton(156, 240 + l, 120, 35);
+                loginMenuFirst.DrawButton(356, 240 + l, 120, 35);
+                loginMenuFirst.DrawText(156, 240 + l, "New User", 5, false);
+                loginMenuFirst.DrawText(356, 240 + l, "Existing User", 5, false);
+                loginButtonNewUser = loginMenuFirst.CreateButton(156, 240 + l, 120, 35);
+                loginMenuLoginButton = loginMenuFirst.CreateButton(356, 240 + l, 120, 35);
             }
             else
             {
-                loginMenuFirst.drawText(256, 200 + l, "Welcome to RuneScape", 4, true);
-                loginMenuFirst.drawText(256, 215 + l, "You need a member account to use this server", 4, true);
-                loginMenuFirst.drawButton(256, 250 + l, 200, 35);
-                loginMenuFirst.drawText(256, 250 + l, "Click here to login", 5, false);
-                loginMenuLoginButton = loginMenuFirst.createButton(256, 250 + l, 200, 35);
+                loginMenuFirst.DrawText(256, 200 + l, "Welcome to RuneScape", 4, true);
+                loginMenuFirst.DrawText(256, 215 + l, "You need a member account to use this server", 4, true);
+                loginMenuFirst.DrawButton(256, 250 + l, 200, 35);
+                loginMenuFirst.DrawText(256, 250 + l, "Click here to login", 5, false);
+                loginMenuLoginButton = loginMenuFirst.CreateButton(256, 250 + l, 200, 35);
             }
             loginNewUser = new Menu(gameGraphics, 50);
             l = 230;
-            loginNewUser.drawText(256, l + 8, "To create an account please go back to the", 4, true);
+            loginNewUser.DrawText(256, l + 8, "To create an account please go back to the", 4, true);
             l += 20;
-            loginNewUser.drawText(256, l + 8, "www.runescape.com front page, and choose 'create account'", 4, true);
+            loginNewUser.DrawText(256, l + 8, "www.runescape.com front page, and choose 'create account'", 4, true);
             l += 30;
-            loginNewUser.drawButton(256, l + 17, 150, 34);
-            loginNewUser.drawText(256, l + 17, "Ok", 5, false);
-            loginMenuOkButton = loginNewUser.createButton(256, l + 17, 150, 34);
+            loginNewUser.DrawButton(256, l + 17, 150, 34);
+            loginNewUser.DrawText(256, l + 17, "Ok", 5, false);
+            loginMenuOkButton = loginNewUser.CreateButton(256, l + 17, 150, 34);
             loginMenuLogin = new Menu(gameGraphics, 50);
             l = 230;
-            loginMenuStatusText = loginMenuLogin.drawText(256, l - 10, "Please enter your username and password", 4, true);
+            loginMenuStatusText = loginMenuLogin.DrawText(256, l - 10, "Please enter your username and password", 4, true);
             l += 28;
-            loginMenuLogin.drawButton(140, l, 200, 40);
-            loginMenuLogin.drawText(140, l - 10, "Username:", 4, false);
-            loginMenuUserText = loginMenuLogin.createInput(140, l + 10, 200, 40, 4, 12, false, false);
+            loginMenuLogin.DrawButton(140, l, 200, 40);
+            loginMenuLogin.DrawText(140, l - 10, "Username:", 4, false);
+            loginMenuUserText = loginMenuLogin.CreateInput(140, l + 10, 200, 40, 4, 12, false, false);
             l += 47;
-            loginMenuLogin.drawButton(190, l, 200, 40);
-            loginMenuLogin.drawText(190, l - 10, "Password:", 4, false);
-            loginMenuPasswordText = loginMenuLogin.createInput(190, l + 10, 200, 40, 4, 20, true, false);
+            loginMenuLogin.DrawButton(190, l, 200, 40);
+            loginMenuLogin.DrawText(190, l - 10, "Password:", 4, false);
+            loginMenuPasswordText = loginMenuLogin.CreateInput(190, l + 10, 200, 40, 4, 20, true, false);
             l -= 55;
-            loginMenuLogin.drawButton(410, l, 120, 25);
-            loginMenuLogin.drawText(410, l, "Ok", 4, false);
-            loginMenuOkLoginButton = loginMenuLogin.createButton(410, l, 120, 25);
+            loginMenuLogin.DrawButton(410, l, 120, 25);
+            loginMenuLogin.DrawText(410, l, "Ok", 4, false);
+            loginMenuOkLoginButton = loginMenuLogin.CreateButton(410, l, 120, 25);
             l += 30;
-            loginMenuLogin.drawButton(410, l, 120, 25);
-            loginMenuLogin.drawText(410, l, "Cancel", 4, false);
-            loginMenuCancelButton = loginMenuLogin.createButton(410, l, 120, 25);
+            loginMenuLogin.DrawButton(410, l, 120, 25);
+            loginMenuLogin.DrawText(410, l, "Cancel", 4, false);
+            loginMenuCancelButton = loginMenuLogin.CreateButton(410, l, 120, 25);
             l += 30;
-            loginMenuLogin.setFocus(loginMenuUserText);
+            loginMenuLogin.SetFocus(loginMenuUserText);
         }
 
-        public override void lostConnection()
+        public override void LostConnection()
         {
             systemUpdate = 0;
             if (logoutTimer != 0)
             {
-                resetIntVars();
+                ResetIntVars();
                 return;
             }
             else
             {
-                base.lostConnection();
+                base.LostConnection();
                 return;
             }
         }
 
-        public void loadMedia()
+        public void LoadMedia()
         {
-            sbyte[] media = unpackData("media.jag", "2d graphics", 20);
+            sbyte[] media = UnpackData("media.jag", "2d graphics", 20);
             if (media is null)
             {
                 errorLoading = true;
                 return;
             }
             sbyte[] abyte1 = DataOperations.LoadData("index.dat", 0, media);
-            gameGraphics.unpackImageData(baseInventoryPic, DataOperations.LoadData("inv1.dat", 0, media), abyte1, 1);
-            gameGraphics.unpackImageData(baseInventoryPic + 1, DataOperations.LoadData("inv2.dat", 0, media), abyte1, 6);
-            gameGraphics.unpackImageData(baseInventoryPic + 9, DataOperations.LoadData("bubble.dat", 0, media), abyte1, 1);
-            gameGraphics.unpackImageData(baseInventoryPic + 10, DataOperations.LoadData("runescape.dat", 0, media), abyte1, 1);
-            gameGraphics.unpackImageData(baseInventoryPic + 11, DataOperations.LoadData("splat.dat", 0, media), abyte1, 3);
-            gameGraphics.unpackImageData(baseInventoryPic + 14, DataOperations.LoadData("icon.dat", 0, media), abyte1, 8);
-            gameGraphics.unpackImageData(baseInventoryPic + 22, DataOperations.LoadData("hbar.dat", 0, media), abyte1, 1);
-            gameGraphics.unpackImageData(baseInventoryPic + 23, DataOperations.LoadData("hbar2.dat", 0, media), abyte1, 1);
-            gameGraphics.unpackImageData(baseInventoryPic + 24, DataOperations.LoadData("compass.dat", 0, media), abyte1, 1);
-            gameGraphics.unpackImageData(baseInventoryPic + 25, DataOperations.LoadData("buttons.dat", 0, media), abyte1, 2);
-            gameGraphics.unpackImageData(baseScrollPic, DataOperations.LoadData("scrollbar.dat", 0, media), abyte1, 2);
-            gameGraphics.unpackImageData(baseScrollPic + 2, DataOperations.LoadData("corners.dat", 0, media), abyte1, 4);
-            gameGraphics.unpackImageData(baseScrollPic + 6, DataOperations.LoadData("arrows.dat", 0, media), abyte1, 2);
-            gameGraphics.unpackImageData(baseProjectilePic, DataOperations.LoadData("projectile.dat", 0, media), abyte1, Data.GameData.spellProjectileCount);
+            gameGraphics.UnpackImageData(baseInventoryPic, DataOperations.LoadData("inv1.dat", 0, media), abyte1, 1);
+            gameGraphics.UnpackImageData(baseInventoryPic + 1, DataOperations.LoadData("inv2.dat", 0, media), abyte1, 6);
+            gameGraphics.UnpackImageData(baseInventoryPic + 9, DataOperations.LoadData("bubble.dat", 0, media), abyte1, 1);
+            gameGraphics.UnpackImageData(baseInventoryPic + 10, DataOperations.LoadData("runescape.dat", 0, media), abyte1, 1);
+            gameGraphics.UnpackImageData(baseInventoryPic + 11, DataOperations.LoadData("splat.dat", 0, media), abyte1, 3);
+            gameGraphics.UnpackImageData(baseInventoryPic + 14, DataOperations.LoadData("icon.dat", 0, media), abyte1, 8);
+            gameGraphics.UnpackImageData(baseInventoryPic + 22, DataOperations.LoadData("hbar.dat", 0, media), abyte1, 1);
+            gameGraphics.UnpackImageData(baseInventoryPic + 23, DataOperations.LoadData("hbar2.dat", 0, media), abyte1, 1);
+            gameGraphics.UnpackImageData(baseInventoryPic + 24, DataOperations.LoadData("compass.dat", 0, media), abyte1, 1);
+            gameGraphics.UnpackImageData(baseInventoryPic + 25, DataOperations.LoadData("buttons.dat", 0, media), abyte1, 2);
+            gameGraphics.UnpackImageData(baseScrollPic, DataOperations.LoadData("scrollbar.dat", 0, media), abyte1, 2);
+            gameGraphics.UnpackImageData(baseScrollPic + 2, DataOperations.LoadData("corners.dat", 0, media), abyte1, 4);
+            gameGraphics.UnpackImageData(baseScrollPic + 6, DataOperations.LoadData("arrows.dat", 0, media), abyte1, 2);
+            gameGraphics.UnpackImageData(baseProjectilePic, DataOperations.LoadData("projectile.dat", 0, media), abyte1, Data.GameData.spellProjectileCount);
             int l = Data.GameData.highestLoadedPicture;
-            for (int i1 = 1; l > 0; i1++)
+            for (int i1 = 1; l > 0; i1 += 1)
             {
                 int j1 = l;
                 l -= 30;
@@ -3621,24 +3658,24 @@ namespace OpenRS.Net.Client
                     j1 = 30;
                 }
 
-                gameGraphics.unpackImageData(baseItemPicture + (i1 - 1) * 30, DataOperations.LoadData("objects" + i1 + ".dat", 0, media), abyte1, j1);
+                gameGraphics.UnpackImageData(baseItemPicture + (i1 - 1) * 30, DataOperations.LoadData("objects" + i1 + ".dat", 0, media), abyte1, j1);
             }
             //gameGraphics.UpdateGameImage();
-            gameGraphics.loadImage(baseInventoryPic);
-            gameGraphics.loadImage(baseInventoryPic + 9);
-            for (int k1 = 11; k1 <= 26; k1++)
+            gameGraphics.LoadImage(baseInventoryPic);
+            gameGraphics.LoadImage(baseInventoryPic + 9);
+            for (int k1 = 11; k1 <= 26; k1 += 1)
             {
-                gameGraphics.loadImage(baseInventoryPic + k1);
+                gameGraphics.LoadImage(baseInventoryPic + k1);
             }
 
-            for (int l1 = 0; l1 < Data.GameData.spellProjectileCount; l1++)
+            for (int l1 = 0; l1 < Data.GameData.spellProjectileCount; l1 += 1)
             {
-                gameGraphics.loadImage(baseProjectilePic + l1);
+                gameGraphics.LoadImage(baseProjectilePic + l1);
             }
 
-            for (int i2 = 0; i2 < Data.GameData.highestLoadedPicture; i2++)
+            for (int i2 = 0; i2 < Data.GameData.highestLoadedPicture; i2 += 1)
             {
-                gameGraphics.loadImage(baseProjectilePic + i2);
+                gameGraphics.LoadImage(baseProjectilePic + i2);
                 //var w = ((GameImage)(gameGraphics)).pictureWidth[baseProjectilePic + i2];
                 //var h = ((GameImage)(gameGraphics)).pictureHeight[baseProjectilePic + i2];
                 //var texture = GameImage.UnpackedImages[baseProjectilePic + i2];
@@ -3649,7 +3686,7 @@ namespace OpenRS.Net.Client
 
         }
 
-        public override void checkInputs()
+        public override void CheckInputs()
         {
             if (memoryError)
             {
@@ -3666,11 +3703,11 @@ namespace OpenRS.Net.Client
                 tick += 1;
                 if (!loggedIn)
                 {
-                    checkLoginScreenInputs();
+                    CheckLoginScreenInputs();
                 }
                 if (loggedIn)
                 {
-                    checkGameInputs();
+                    CheckGameInputs();
                 }
                 base.lastMouseButton = 0;
                 cameraRotateTime += 1;
@@ -3710,37 +3747,37 @@ namespace OpenRS.Net.Client
 
                 if (chatTabAllMsgFlash > 0)
                 {
-                    chatTabAllMsgFlash--;
+                    chatTabAllMsgFlash -= 1;
                 }
 
                 if (chatTabHistoryFlash > 0)
                 {
-                    chatTabHistoryFlash--;
+                    chatTabHistoryFlash -= 1;
                 }
 
                 if (chatTabQuestFlash > 0)
                 {
-                    chatTabQuestFlash--;
+                    chatTabQuestFlash -= 1;
                 }
 
                 if (chatTabPrivateFlash > 0)
                 {
-                    chatTabPrivateFlash--;
+                    chatTabPrivateFlash -= 1;
                 }
             }
             catch (Exception _ex)
             {
-                cleanUp();
+                CleanUp();
                 memoryError = true;
             }
         }
 
-        public void loadAnimations()
+        public void LoadAnimations()
         {
             StringBuilder sb = new();
             sbyte[] abyte0 = null;
             sbyte[] abyte1 = null;
-            abyte0 = unpackData("entity.jag", "people and monsters", 30);
+            abyte0 = UnpackData("entity.jag", "people and monsters", 30);
             if (abyte0 is null)
             {
                 errorLoading = true;
@@ -3749,7 +3786,7 @@ namespace OpenRS.Net.Client
             abyte1 = DataOperations.LoadData("index.dat", 0, abyte0);
             sbyte[] abyte2 = null;
             sbyte[] abyte3 = null;
-            abyte2 = unpackData("entity.mem", "member graphics", 45);
+            abyte2 = UnpackData("entity.mem", "member graphics", 45);
             if (abyte2 is null)
             {
                 errorLoading = true;
@@ -3759,14 +3796,14 @@ namespace OpenRS.Net.Client
             int l = 0;
             animationNumber = 0;
             //label0:
-            for (int i1 = 0; i1 < Data.GameData.animationCount; i1++)
+            for (int i1 = 0; i1 < Data.GameData.animationCount; i1 += 1)
             {
                 //   label4:
                 bool breakThis = false;
-                String s1 = Data.GameData.animationName[i1];
-                for (int j1 = 0; j1 < i1; j1++)
+                string s1 = Data.GameData.animationName[i1];
+                for (int j1 = 0; j1 < i1; j1 += 1)
                 {
-                    if (!Data.GameData.animationName[j1].ToLower().Equals(s1))
+                    if (Data.GameData.animationName[j1].ToLower() != s1)
                     {
                         continue;
                     }
@@ -3796,7 +3833,7 @@ namespace OpenRS.Net.Client
                 {
                     try
                     {
-                        gameGraphics.unpackImageData(animationNumber, abyte7, abyte4, 15);
+                        gameGraphics.UnpackImageData(animationNumber, abyte7, abyte4, 15);
                         l += 15;
                         if (Data.GameData.animationHasA[i1] == 1)
                         {
@@ -3807,7 +3844,7 @@ namespace OpenRS.Net.Client
                                 abyte8 = DataOperations.LoadData(s1 + "a.dat", 0, abyte2);
                                 abyte5 = abyte3;
                             }
-                            gameGraphics.unpackImageData(animationNumber + 15, abyte8, abyte5, 3);
+                            gameGraphics.UnpackImageData(animationNumber + 15, abyte8, abyte5, 3);
                             l += 3;
                         }
                         if (Data.GameData.animationHasF[i1] == 1)
@@ -3819,14 +3856,14 @@ namespace OpenRS.Net.Client
                                 abyte9 = DataOperations.LoadData(s1 + "f.dat", 0, abyte2);
                                 abyte6 = abyte3;
                             }
-                            gameGraphics.unpackImageData(animationNumber + 18, abyte9, abyte6, 9);
+                            gameGraphics.UnpackImageData(animationNumber + 18, abyte9, abyte6, 9);
                             l += 9;
                         }
                         if (Data.GameData.animationGenderModels[i1] != 0)
                         {
-                            for (int k1 = animationNumber; k1 < animationNumber + 27; k1++)
+                            for (int k1 = animationNumber; k1 < animationNumber + 27; k1 += 1)
                             {
-                                gameGraphics.loadImage(k1);
+                                gameGraphics.LoadImage(k1);
                             }
                         }
                     }
@@ -3852,10 +3889,10 @@ namespace OpenRS.Net.Client
             Console.WriteLine("Loaded: " + l + " frames of animation");
         }
 
-        public void updateAppearanceWindow()
+        public void UpdateAppearanceWindow()
         {
-            appearanceMenu.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
-            if (appearanceMenu.isClicked(appearanceHeadLeftArrow))
+            appearanceMenu.MouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
+            if (appearanceMenu.IsClicked(appearanceHeadLeftArrow))
             {
                 do
                 {
@@ -3864,7 +3901,7 @@ namespace OpenRS.Net.Client
                 while ((Data.GameData.animationGenderModels[appearanceHeadType] & 3) != 1 || (Data.GameData.animationGenderModels[appearanceHeadType] & 4 * appearanceHeadGender) == 0);
             }
 
-            if (appearanceMenu.isClicked(appearanceHeadRightArrow))
+            if (appearanceMenu.IsClicked(appearanceHeadRightArrow))
             {
                 do
                 {
@@ -3873,17 +3910,17 @@ namespace OpenRS.Net.Client
                 while ((Data.GameData.animationGenderModels[appearanceHeadType] & 3) != 1 || (Data.GameData.animationGenderModels[appearanceHeadType] & 4 * appearanceHeadGender) == 0);
             }
 
-            if (appearanceMenu.isClicked(appearanceHairLeftArrow))
+            if (appearanceMenu.IsClicked(appearanceHairLeftArrow))
             {
                 appearanceHairColour = ((appearanceHairColour - 1) + appearanceHairColours.Length) % appearanceHairColours.Length;
             }
 
-            if (appearanceMenu.isClicked(appearanceHairRightArrow))
+            if (appearanceMenu.IsClicked(appearanceHairRightArrow))
             {
                 appearanceHairColour = (appearanceHairColour + 1) % appearanceHairColours.Length;
             }
 
-            if (appearanceMenu.isClicked(appearanceGenderLeftArrow) || appearanceMenu.isClicked(appearanceGenderRightArrow))
+            if (appearanceMenu.IsClicked(appearanceGenderLeftArrow) || appearanceMenu.IsClicked(appearanceGenderRightArrow))
             {
                 for (appearanceHeadGender = 3 - appearanceHeadGender; (Data.GameData.animationGenderModels[appearanceHeadType] & 3) != 1 || (Data.GameData.animationGenderModels[appearanceHeadType] & 4 * appearanceHeadGender) == 0; appearanceHeadType = (appearanceHeadType + 1) % Data.GameData.animationCount)
                 {
@@ -3895,57 +3932,57 @@ namespace OpenRS.Net.Client
                     ;
                 }
             }
-            if (appearanceMenu.isClicked(appearanceTopLeftArrow))
+            if (appearanceMenu.IsClicked(appearanceTopLeftArrow))
             {
                 appearanceTopColour = ((appearanceTopColour - 1) + appearanceTopBottomColours.Length) % appearanceTopBottomColours.Length;
             }
 
-            if (appearanceMenu.isClicked(appearanceTopRightArrow))
+            if (appearanceMenu.IsClicked(appearanceTopRightArrow))
             {
                 appearanceTopColour = (appearanceTopColour + 1) % appearanceTopBottomColours.Length;
             }
 
-            if (appearanceMenu.isClicked(appearanceSkinLeftArrow))
+            if (appearanceMenu.IsClicked(appearanceSkinLeftArrow))
             {
                 appearanceSkinColour = ((appearanceSkinColour - 1) + appearanceSkinColours.Length) % appearanceSkinColours.Length;
             }
 
-            if (appearanceMenu.isClicked(appearanceSkingRightArrow))
+            if (appearanceMenu.IsClicked(appearanceSkingRightArrow))
             {
                 appearanceSkinColour = (appearanceSkinColour + 1) % appearanceSkinColours.Length;
             }
 
-            if (appearanceMenu.isClicked(appearanceBottomLeftArrow))
+            if (appearanceMenu.IsClicked(appearanceBottomLeftArrow))
             {
                 appearanceBottomColour = ((appearanceBottomColour - 1) + appearanceTopBottomColours.Length) % appearanceTopBottomColours.Length;
             }
 
-            if (appearanceMenu.isClicked(appearanceBottomRightArrow))
+            if (appearanceMenu.IsClicked(appearanceBottomRightArrow))
             {
                 appearanceBottomColour = (appearanceBottomColour + 1) % appearanceTopBottomColours.Length;
             }
 
-            if (appearanceMenu.isClicked(appearanceAcceptButton))
+            if (appearanceMenu.IsClicked(appearanceAcceptButton))
             {
-                base.streamClass.createPacket(218);
-                base.streamClass.addByte(appearanceHeadGender);
-                base.streamClass.addByte(appearanceHeadType);
-                base.streamClass.addByte(appearanceBodyGender);
-                base.streamClass.addByte(appearance2Colour);
-                base.streamClass.addByte(appearanceHairColour);
-                base.streamClass.addByte(appearanceTopColour);
-                base.streamClass.addByte(appearanceBottomColour);
-                base.streamClass.addByte(appearanceSkinColour);
-                base.streamClass.formatPacket();
-                gameGraphics.clearScreen();
+                base.streamClass.CreatePacket(218);
+                base.streamClass.AddByte(appearanceHeadGender);
+                base.streamClass.AddByte(appearanceHeadType);
+                base.streamClass.AddByte(appearanceBodyGender);
+                base.streamClass.AddByte(appearance2Colour);
+                base.streamClass.AddByte(appearanceHairColour);
+                base.streamClass.AddByte(appearanceTopColour);
+                base.streamClass.AddByte(appearanceBottomColour);
+                base.streamClass.AddByte(appearanceSkinColour);
+                base.streamClass.FormatPacket();
+                gameGraphics.ClearScreen();
                 showAppearanceWindow = false;
             }
         }
 
-        public void drawWelcomeBox()
+        public void DrawWelcomeBox()
         {
             int l = 65;
-            if (!lastLoginAddress.Equals("0.0.0.0"))
+            if (lastLoginAddress != "0.0.0.0")
             {
                 l += 30;
             }
@@ -3961,12 +3998,12 @@ namespace OpenRS.Net.Client
             }
 
             int i1 = 167 - l / 2;
-            gameGraphics.drawBox(56, 167 - l / 2, 400, l, 0);
-            gameGraphics.drawBoxEdge(56, 167 - l / 2, 400, l, 0xffffff);
+            gameGraphics.DrawBox(56, 167 - l / 2, 400, l, 0);
+            gameGraphics.DrawBoxEdge(56, 167 - l / 2, 400, l, 0xffffff);
             i1 += 20;
-            gameGraphics.drawText("Welcome to RuneScape " + loginUsername, 256, i1, 4, 0xffff00);
+            gameGraphics.DrawText("Welcome to RuneScape " + loginUsername, 256, i1, 4, 0xffff00);
             i1 += 30;
-            String s1;
+            string s1;
             // lastLoginDays    subDaysLeft    lastLoginAddress
             if (lastLoginDays == 0)
             {
@@ -3982,41 +4019,41 @@ namespace OpenRS.Net.Client
                 s1 = lastLoginDays + " days ago";
             }
 
-            if (!lastLoginAddress.Equals("0.0.0.0"))
+            if (lastLoginAddress != "0.0.0.0")
             {
-                gameGraphics.drawText("You last logged in " + s1, 256, i1, 1, 0xffffff);
+                gameGraphics.DrawText("You last logged in " + s1, 256, i1, 1, 0xffffff);
                 i1 += 15;
-                gameGraphics.drawText("from: " + lastLoginAddress, 256, i1, 1, 0xffffff);
+                gameGraphics.DrawText("from: " + lastLoginAddress, 256, i1, 1, 0xffffff);
                 i1 += 15;
             }
             if (subDaysLeft > 0)
             {
-                gameGraphics.drawText("Subscription left: " + subDaysLeft + " days", 256, i1, 1, 0xffffff);
+                gameGraphics.DrawText("Subscription left: " + subDaysLeft + " days", 256, i1, 1, 0xffffff);
                 i1 += 15;
             }
             /*if(unreadMessages > 0) {
                 int j1 = 0xffffff;
-                gameGraphics.drawText("Jagex staff will NEVER email you. We use the", 256, i1, 1, j1);
+                gameGraphics.DrawText("Jagex staff will NEVER email you. We use the", 256, i1, 1, j1);
                 i1 += 15;
-                gameGraphics.drawText("message-centre on this website instead.", 256, i1, 1, j1);
+                gameGraphics.DrawText("message-centre on this website instead.", 256, i1, 1, j1);
                 i1 += 15;
                 if(unreadMessages == 1)
-                    gameGraphics.drawText("You have @yel@0@whi@ unread messages in your message-centre", 256, i1, 1, 0xffffff);
+                    gameGraphics.DrawText("You have @yel@0@whi@ unread messages in your message-centre", 256, i1, 1, 0xffffff);
                 else
-                    gameGraphics.drawText("You have @gre@" + (unreadMessages - 1) + " unread messages @whi@in your message-centre", 256, i1, 1, 0xffffff);
+                    gameGraphics.DrawText("You have @gre@" + (unreadMessages - 1) + " unread messages @whi@in your message-centre", 256, i1, 1, 0xffffff);
                 i1 += 15;
                 i1 += 15;
             }
             if(lastChangedRecoveryDays != 201) {
                 if(lastChangedRecoveryDays == 200) {
-                    gameGraphics.drawText("You have not yet set any password recovery questions.", 256, i1, 1, 0xff8000);
+                    gameGraphics.DrawText("You have not yet set any password recovery questions.", 256, i1, 1, 0xff8000);
                     i1 += 15;
-                    gameGraphics.drawText("We strongly recommend you do so now to secure your account.", 256, i1, 1, 0xff8000);
+                    gameGraphics.DrawText("We strongly recommend you do so now to secure your account.", 256, i1, 1, 0xff8000);
                     i1 += 15;
-                    gameGraphics.drawText("Do this from the 'account management' area on our front webpage", 256, i1, 1, 0xff8000);
+                    gameGraphics.DrawText("Do this from the 'account management' area on our front webpage", 256, i1, 1, 0xff8000);
                     i1 += 15;
                 } else {
-                    String s2;
+                    string s2;
                     if(lastChangedRecoveryDays == 0)
                         s2 = "Earlier today";
                     else
@@ -4024,11 +4061,11 @@ namespace OpenRS.Net.Client
                         s2 = "Yesterday";
                     else
                         s2 = lastChangedRecoveryDays + " days ago";
-                    gameGraphics.drawText(s2 + " you changed your recovery questions", 256, i1, 1, 0xff8000);
+                    gameGraphics.DrawText(s2 + " you changed your recovery questions", 256, i1, 1, 0xff8000);
                     i1 += 15;
-                    gameGraphics.drawText("If you do not remember making this change then cancel it immediately", 256, i1, 1, 0xff8000);
+                    gameGraphics.DrawText("If you do not remember making this change then cancel it immediately", 256, i1, 1, 0xff8000);
                     i1 += 15;
-                    gameGraphics.drawText("Do this from the 'account management' area on our front webpage", 256, i1, 1, 0xff8000);
+                    gameGraphics.DrawText("Do this from the 'account management' area on our front webpage", 256, i1, 1, 0xff8000);
                     i1 += 15;
                 }
                 i1 += 15;
@@ -4039,7 +4076,7 @@ namespace OpenRS.Net.Client
                 k1 = 0xff0000;
             }
 
-            gameGraphics.drawText("Click here to close window", 256, i1, 1, k1);
+            gameGraphics.DrawText("Click here to close window", 256, i1, 1, k1);
             if (mouseButtonClick == 1)
             {
                 if (k1 == 0xff0000)
@@ -4055,14 +4092,14 @@ namespace OpenRS.Net.Client
             mouseButtonClick = 0;
         }
 
-        public int getInventoryItemTotalCount(int itemId)
+        public int GetInventoryItemTotalCount(int itemId)
         {
             int l = 0;
-            for (int i1 = 0; i1 < inventoryItemsCount; i1++)
+            for (int i1 = 0; i1 < inventoryItemsCount; i1 += 1)
             {
-                if (inventoryItems[i1].Equals(itemId))
+                if (inventoryItems[i1] == itemId)
                 {
-                    if (Data.GameData.itemStackable[itemId].Equals(1))
+                    if (Data.GameData.itemStackable[itemId] == 1)
                     {
                         l += 1;
                     }
@@ -4076,7 +4113,7 @@ namespace OpenRS.Net.Client
             return l;
         }
 
-        public void sendLogout()
+        public void SendLogout()
         {
             if (!loggedIn)
             {
@@ -4085,21 +4122,21 @@ namespace OpenRS.Net.Client
 
             if (combatTimeout > 450)
             {
-                displayMessage("@cya@You can't logout during combat!", 3);
+                DisplayMessage("@cya@You can't logout during combat!", 3);
                 return;
             }
             if (combatTimeout > 0)
             {
-                displayMessage("@cya@You can't logout for 10 seconds after combat", 3);
+                DisplayMessage("@cya@You can't logout for 10 seconds after combat", 3);
                 return;
             }
             else
             {
-                base.streamClass.createPacket(129);
-                base.streamClass.formatPacket();
+                base.streamClass.CreatePacket(129);
+                base.streamClass.FormatPacket();
                 logoutTimer = 1000;
 
-                base.streamClass.closeStream();
+                base.streamClass.CloseStream();
                 return;
             }
         }
@@ -4111,10 +4148,10 @@ namespace OpenRS.Net.Client
         //        return base.getCodeBase();
         //}
 
-        public bool walkTo(int startX, int startY, int destBottomX, int destBottomY, int destTopX, int destTopY, bool checkForObjects,
+        public bool WalkTo(int startX, int startY, int destBottomX, int destBottomY, int destTopX, int destTopY, bool checkForObjects,
                 bool walkToACommand)
         {
-            int stepCount = engineHandle.generatePath(startX, startY, destBottomX, destBottomY, destTopX, destTopY, walkArrayX, walkArrayY, checkForObjects);
+            int stepCount = engineHandle.GeneratePath(startX, startY, destBottomX, destBottomY, destTopX, destTopY, walkArrayX, walkArrayY, checkForObjects);
             if (stepCount == -1)
             {
                 if (walkToACommand)
@@ -4129,36 +4166,36 @@ namespace OpenRS.Net.Client
                 }
             }
 
-            stepCount--;
+            stepCount -= 1;
             startX = walkArrayX[stepCount];
             startY = walkArrayY[stepCount];
-            stepCount--;
+            stepCount -= 1;
 
             if (walkToACommand)
             {
-                base.streamClass.createPacket(246);
+                base.streamClass.CreatePacket(246);
             }
             else
             {
-                base.streamClass.createPacket(132);
+                base.streamClass.CreatePacket(132);
             }
 
-            base.streamClass.addShort(startX + areaX);
-            base.streamClass.addShort(startY + areaY);
+            base.streamClass.AddShort(startX + areaX);
+            base.streamClass.AddShort(startY + areaY);
 
             if (walkToACommand && stepCount == -1 && (startX + areaX) % 5 == 0)
             {
                 stepCount = 0;
             }
 
-            for (int i1 = stepCount; i1 >= 0 && i1 > stepCount - 25; i1--)
+            for (int i1 = stepCount; i1 >= 0 && i1 > stepCount - 25; i1 -= 1)
             {
-                base.streamClass.addByte(walkArrayX[i1] - startX);
-                base.streamClass.addByte(walkArrayY[i1] - startY);
+                base.streamClass.AddByte(walkArrayX[i1] - startX);
+                base.streamClass.AddByte(walkArrayY[i1] - startY);
             }
 
-            base.streamClass.formatPacket();
-            //base.streamClass.flush();
+            base.streamClass.FormatPacket();
+            //base.streamClass.Flush();
 
             actionPictureType = -24;
             walkMouseX = base.mouseX;
@@ -4166,79 +4203,79 @@ namespace OpenRS.Net.Client
             return true;
         }
 
-        public bool walkTo2(int startX, int startY, int destBottomX, int destBottomY, int destTopX, int destTopY, bool unknownDifferent,
+        public bool WalkToAlternate(int startX, int startY, int destBottomX, int destBottomY, int destTopX, int destTopY, bool unknownDifferent,
                 bool walkToACommand)
         {
-            int stepCount = engineHandle.generatePath(startX, startY, destBottomX, destBottomY, destTopX, destTopY, walkArrayX, walkArrayY, unknownDifferent);
+            int stepCount = engineHandle.GeneratePath(startX, startY, destBottomX, destBottomY, destTopX, destTopY, walkArrayX, walkArrayY, unknownDifferent);
             if (stepCount == -1)
             {
                 return false;
             }
 
-            stepCount--;
+            stepCount -= 1;
             startX = walkArrayX[stepCount];
             startY = walkArrayY[stepCount];
-            stepCount--;
+            stepCount -= 1;
             if (walkToACommand)
             {
-                base.streamClass.createPacket(246);
+                base.streamClass.CreatePacket(246);
             }
             else
             {
-                base.streamClass.createPacket(132);
+                base.streamClass.CreatePacket(132);
             }
 
-            base.streamClass.addShort(startX + areaX);
-            base.streamClass.addShort(startY + areaY);
+            base.streamClass.AddShort(startX + areaX);
+            base.streamClass.AddShort(startY + areaY);
             if (walkToACommand && stepCount == -1 && (startX + areaX) % 5 == 0)
             {
                 stepCount = 0;
             }
 
-            for (int i1 = stepCount; i1 >= 0 && i1 > stepCount - 25; i1--)
+            for (int i1 = stepCount; i1 >= 0 && i1 > stepCount - 25; i1 -= 1)
             {
-                base.streamClass.addByte(walkArrayX[i1] - startX);
-                base.streamClass.addByte(walkArrayY[i1] - startY);
+                base.streamClass.AddByte(walkArrayX[i1] - startX);
+                base.streamClass.AddByte(walkArrayY[i1] - startY);
             }
 
-            base.streamClass.formatPacket();
+            base.streamClass.FormatPacket();
             actionPictureType = -24;
             walkMouseX = base.mouseX;
             walkMouseY = base.mouseY;
             return true;
         }
 
-        public void drawOptionsMenu(bool canClick)
+        public void DrawOptionsMenu(bool canClick)
         {
             int l = ((GameImage)(gameGraphics)).gameWidth - 199;
             int i1 = 36;
-            gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 6);
+            gameGraphics.DrawPicture(l - 49, 3, baseInventoryPic + 6);
             int c1 = 196;
-            gameGraphics.drawBoxAlpha(l, 36, c1, 62, GameImage.rgbToInt(181, 181, 181), 160);
-            gameGraphics.drawBoxAlpha(l, 98, c1, 92, GameImage.rgbToInt(201, 201, 201), 160);
-            gameGraphics.drawBoxAlpha(l, 190, c1, 90, GameImage.rgbToInt(181, 181, 181), 160);
-            gameGraphics.drawBoxAlpha(l, 280, c1, 40, GameImage.rgbToInt(201, 201, 201), 160);
+            gameGraphics.DrawBoxAlpha(l, 36, c1, 62, GameImage.RgbToInt(181, 181, 181), 160);
+            gameGraphics.DrawBoxAlpha(l, 98, c1, 92, GameImage.RgbToInt(201, 201, 201), 160);
+            gameGraphics.DrawBoxAlpha(l, 190, c1, 90, GameImage.RgbToInt(181, 181, 181), 160);
+            gameGraphics.DrawBoxAlpha(l, 280, c1, 40, GameImage.RgbToInt(201, 201, 201), 160);
             int j1 = l + 3;
             int l1 = i1 + 15;
-            gameGraphics.drawString("Game options - click to toggle", j1, l1, 1, 0);
+            gameGraphics.DrawString("Game options - click to toggle", j1, l1, 1, 0);
             l1 += 15;
             if (configCameraAutoAngle)
             {
-                gameGraphics.drawString("Camera angle mode - @gre@Auto", j1, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Camera angle mode - @gre@Auto", j1, l1, 1, 0xffffff);
             }
             else
             {
-                gameGraphics.drawString("Camera angle mode - @red@Manual", j1, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Camera angle mode - @red@Manual", j1, l1, 1, 0xffffff);
             }
 
             l1 += 15;
             if (configOneMouseButton)
             {
-                gameGraphics.drawString("Mouse buttons - @red@One", j1, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Mouse buttons - @red@One", j1, l1, 1, 0xffffff);
             }
             else
             {
-                gameGraphics.drawString("Mouse buttons - @gre@Two", j1, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Mouse buttons - @gre@Two", j1, l1, 1, 0xffffff);
             }
 
             l1 += 15;
@@ -4246,98 +4283,98 @@ namespace OpenRS.Net.Client
             {
                 if (configSoundOff)
                 {
-                    gameGraphics.drawString("Sound effects - @red@off", j1, l1, 1, 0xffffff);
+                    gameGraphics.DrawString("Sound effects - @red@off", j1, l1, 1, 0xffffff);
                 }
                 else
                 {
-                    gameGraphics.drawString("Sound effects - @gre@on", j1, l1, 1, 0xffffff);
+                    gameGraphics.DrawString("Sound effects - @gre@on", j1, l1, 1, 0xffffff);
                 }
             }
 
             l1 += 15;
-            gameGraphics.drawString("Client assists - click to toggle", j1, l1, 1, 0);
+            gameGraphics.DrawString("Client assists - click to toggle", j1, l1, 1, 0);
             l1 += 15;
             if (showRoofs)
             {
-                gameGraphics.drawString("Roofs - @gre@show", j1, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Roofs - @gre@show", j1, l1, 1, 0xffffff);
             }
             else
             {
-                gameGraphics.drawString("Roofs - @red@hide", j1, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Roofs - @red@hide", j1, l1, 1, 0xffffff);
             }
 
             l1 += 15;
             if (showCombatWindow)
             {
-                gameGraphics.drawString("Fight mode window - @gre@show", j1, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Fight mode window - @gre@show", j1, l1, 1, 0xffffff);
             }
             else
             {
-                gameGraphics.drawString("Fight mode window - @red@hide", j1, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Fight mode window - @red@hide", j1, l1, 1, 0xffffff);
             }
 
             l1 += 15;
             if (fogOfWar)
             {
-                gameGraphics.drawString("Fog of war - @gre@show", j1, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Fog of war - @gre@show", j1, l1, 1, 0xffffff);
             }
             else
             {
-                gameGraphics.drawString("Fog of war - @red@hide", j1, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Fog of war - @red@hide", j1, l1, 1, 0xffffff);
             }
 
             l1 += 15;
             if (autoScreenshot)
             {
-                gameGraphics.drawString("Automatic screenshots - @gre@on", j1, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Automatic screenshots - @gre@on", j1, l1, 1, 0xffffff);
             }
             else
             {
-                gameGraphics.drawString("Automatic screenshots - @red@off", j1, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Automatic screenshots - @red@off", j1, l1, 1, 0xffffff);
             }
 
             l1 += 15;
             if (useChatFilter)
             {
-                gameGraphics.drawString("Chat filter: @gre@<on>", l + 3, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Chat filter: @gre@<on>", l + 3, l1, 1, 0xffffff);
             }
             else
             {
-                gameGraphics.drawString("Chat filter: @red@<off>", l + 3, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Chat filter: @red@<off>", l + 3, l1, 1, 0xffffff);
             }
 
             l1 += 15;
-            gameGraphics.drawString("Privacy settings. Will be applied to", j1, l1, 1, 0);
+            gameGraphics.DrawString("Privacy settings. Will be applied to", j1, l1, 1, 0);
             l1 += 15;
-            gameGraphics.drawString("all people not on your friends list", j1, l1, 1, 0);
+            gameGraphics.DrawString("all people not on your friends list", j1, l1, 1, 0);
             l1 += 15;
             if (base.blockChat == 0)
             {
-                gameGraphics.drawString("Block chat messages: @red@<off>", l + 3, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Block chat messages: @red@<off>", l + 3, l1, 1, 0xffffff);
             }
             else
             {
-                gameGraphics.drawString("Block chat messages: @gre@<on>", l + 3, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Block chat messages: @gre@<on>", l + 3, l1, 1, 0xffffff);
             }
 
             l1 += 15;
             if (base.blockPrivate == 0)
             {
-                gameGraphics.drawString("Block public messages: @red@<off>", l + 3, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Block public messages: @red@<off>", l + 3, l1, 1, 0xffffff);
             }
             else
             {
-                gameGraphics.drawString("Block public messages: @gre@<on>", l + 3, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Block public messages: @gre@<on>", l + 3, l1, 1, 0xffffff);
             }
 
             l1 += 15;
             if (base.blockTrade == 0)
             {
-                gameGraphics.drawString("Block trade requests: @red@<off>", l + 3, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Block trade requests: @red@<off>", l + 3, l1, 1, 0xffffff);
             }
             else
             {
-                gameGraphics.drawString("Block trade requests: @gre@<on>", l + 3, l1, 1, 0xffffff);
+                gameGraphics.DrawString("Block trade requests: @gre@<on>", l + 3, l1, 1, 0xffffff);
             }
 
             l1 += 15;
@@ -4345,17 +4382,17 @@ namespace OpenRS.Net.Client
             {
                 if (base.blockDuel == 0)
                 {
-                    gameGraphics.drawString("Block duel requests: @red@<off>", l + 3, l1, 1, 0xffffff);
+                    gameGraphics.DrawString("Block duel requests: @red@<off>", l + 3, l1, 1, 0xffffff);
                 }
                 else
                 {
-                    gameGraphics.drawString("Block duel requests: @gre@<on>", l + 3, l1, 1, 0xffffff);
+                    gameGraphics.DrawString("Block duel requests: @gre@<on>", l + 3, l1, 1, 0xffffff);
                 }
             }
 
             l1 += 15;
             l1 += 5;
-            gameGraphics.drawString("Always logout when you finish", j1, l1, 1, 0);
+            gameGraphics.DrawString("Always logout when you finish", j1, l1, 1, 0);
             l1 += 15;
             int j2 = 0xffffff;
             if (base.mouseX > j1 && base.mouseX < j1 + c1 && base.mouseY > l1 - 12 && base.mouseY < l1 + 4)
@@ -4363,7 +4400,7 @@ namespace OpenRS.Net.Client
                 j2 = 0xffff00;
             }
 
-            gameGraphics.drawString("Click here to logout", l + 3, l1, 1, j2);
+            gameGraphics.DrawString("Click here to logout", l + 3, l1, 1, j2);
             if (!canClick)
             {
                 return;
@@ -4381,47 +4418,72 @@ namespace OpenRS.Net.Client
                 if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     configCameraAutoAngle = !configCameraAutoAngle;
-                    base.streamClass.createPacket(157);
-                    base.streamClass.addByte(0);
-                    base.streamClass.addByte(configCameraAutoAngle ? 1 : 0);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(157);
+                    base.streamClass.AddByte(0);
+                    int configCameraAutoAngleByte = 0;
+                    if (configCameraAutoAngle)
+                    {
+                        configCameraAutoAngleByte = 1;
+                    }
+                    base.streamClass.AddByte(configCameraAutoAngleByte);
+                    base.streamClass.FormatPacket();
                 }
                 i2 += 15;
                 if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     configOneMouseButton = !configOneMouseButton;
-                    base.streamClass.createPacket(157);
-                    base.streamClass.addByte(2);
-                    base.streamClass.addByte(configOneMouseButton ? 1 : 0);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(157);
+                    base.streamClass.AddByte(2);
+                    int configOneMouseButtonByte = 0;
+                    if (configOneMouseButton)
+                    {
+                        configOneMouseButtonByte = 1;
+                    }
+                    base.streamClass.AddByte(configOneMouseButtonByte);
+                    base.streamClass.FormatPacket();
                 }
                 i2 += 15;
                 if (Config.MembersFeatures && base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     configSoundOff = !configSoundOff;
-                    base.streamClass.createPacket(157);
-                    base.streamClass.addByte(3);
-                    base.streamClass.addByte(configSoundOff ? 1 : 0);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(157);
+                    base.streamClass.AddByte(3);
+                    int configSoundOffByte = 0;
+                    if (configSoundOff)
+                    {
+                        configSoundOffByte = 1;
+                    }
+                    base.streamClass.AddByte(configSoundOffByte);
+                    base.streamClass.FormatPacket();
                 }
                 i2 += 15;
                 i2 += 15;
                 if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     showRoofs = !showRoofs;
-                    base.streamClass.createPacket(157);
-                    base.streamClass.addByte(4);
-                    base.streamClass.addByte(showRoofs ? 1 : 0);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(157);
+                    base.streamClass.AddByte(4);
+                    int showRoofsByte = 0;
+                    if (showRoofs)
+                    {
+                        showRoofsByte = 1;
+                    }
+                    base.streamClass.AddByte(showRoofsByte);
+                    base.streamClass.FormatPacket();
                 }
                 i2 += 15;
                 if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     showCombatWindow = !showCombatWindow;
-                    base.streamClass.createPacket(157);
-                    base.streamClass.addByte(6);
-                    base.streamClass.addByte(showCombatWindow ? 1 : 0);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(157);
+                    base.streamClass.AddByte(6);
+                    int showCombatWindowByte = 0;
+                    if (showCombatWindow)
+                    {
+                        showCombatWindowByte = 1;
+                    }
+                    base.streamClass.AddByte(showCombatWindowByte);
+                    base.streamClass.FormatPacket();
                 }
                 i2 += 15;
                 if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
@@ -4432,10 +4494,15 @@ namespace OpenRS.Net.Client
                 if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     autoScreenshot = !autoScreenshot;
-                    base.streamClass.createPacket(157);
-                    base.streamClass.addByte(5);
-                    base.streamClass.addByte(autoScreenshot ? 1 : 0);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(157);
+                    base.streamClass.AddByte(5);
+                    int autoScreenshotByte = 0;
+                    if (autoScreenshot)
+                    {
+                        autoScreenshotByte = 1;
+                    }
+                    base.streamClass.AddByte(autoScreenshotByte);
+                    base.streamClass.FormatPacket();
                 }
                 bool flag = false;
                 i2 += 15;
@@ -4472,24 +4539,24 @@ namespace OpenRS.Net.Client
                 i2 += 15;
                 if (flag)
                 {
-                    sendUpdatedPrivacyInfo(base.blockChat, base.blockPrivate, base.blockTrade, base.blockDuel);
+                    SendUpdatedPrivacyInfo(base.blockChat, base.blockPrivate, base.blockTrade, base.blockDuel);
                 }
 
                 i2 += 20;
                 if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
-                    sendLogout();
+                    SendLogout();
                 }
 
                 mouseButtonClick = 0;
             }
         }
 
-        public void walkToObject(int objectX, int objectY, int facingDirection, int objectIndex)
+        public void WalkToObject(int objectX, int objectY, int facingDirection, int objectIndex)
         {
             int l;
             int i1;
-            if (facingDirection.Equals(0) || facingDirection.Equals(4))
+            if (facingDirection == 0 || facingDirection == 4)
             {
                 l = Data.GameData.objectWidth[objectIndex];
                 i1 = Data.GameData.objectHeight[objectIndex];
@@ -4499,56 +4566,56 @@ namespace OpenRS.Net.Client
                 i1 = Data.GameData.objectWidth[objectIndex];
                 l = Data.GameData.objectHeight[objectIndex];
             }
-            if (Data.GameData.objectType[objectIndex].Equals(2) || Data.GameData.objectType[objectIndex].Equals(3))
+            if (Data.GameData.objectType[objectIndex] == 2 || Data.GameData.objectType[objectIndex] == 3)
             {
-                if (facingDirection.Equals(0))
+                if (facingDirection == 0)
                 {
                     objectX -= 1;
                     l += 1;
                 }
-                if (facingDirection.Equals(2))
+                if (facingDirection == 2)
                 {
                     i1 += 1;
                 }
 
-                if (facingDirection.Equals(4))
+                if (facingDirection == 4)
                 {
                     l += 1;
                 }
 
-                if (facingDirection.Equals(6))
+                if (facingDirection == 6)
                 {
                     objectY -= 1;
                     i1 += 1;
                 }
-                walkTo(sectionX, sectionY, objectX, objectY, (objectX + l) - 1, (objectY + i1) - 1, false, true);
+                WalkTo(sectionX, sectionY, objectX, objectY, (objectX + l) - 1, (objectY + i1) - 1, false, true);
                 return;
             }
             else
             {
-                walkTo(sectionX, sectionY, objectX, objectY, (objectX + l) - 1, (objectY + i1) - 1, true, true);
+                WalkTo(sectionX, sectionY, objectX, objectY, (objectX + l) - 1, (objectY + i1) - 1, true, true);
                 return;
             }
         }
 
-        public void createChatInputMenu()
+        public void CreateChatInputMenu()
         {
             chatInputMenu = new Menu(gameGraphics, 10);
-            messagesHandleType2 = chatInputMenu.gfh(5, 269, 502, 56, 1, 20, true);
-            chatInputBox = chatInputMenu.gfi(7, 324, 498, 14, 1, 80, false, true);
-            messagesHandleType5 = chatInputMenu.gfh(5, 269, 502, 56, 1, 20, true);
-            messagesHandleType6 = chatInputMenu.gfh(5, 269, 502, 56, 1, 20, true);
-            chatInputMenu.setFocus(chatInputBox);
+            messagesHandleType2 = chatInputMenu.CreateScrollableTextBox(5, 269, 502, 56, 1, 20, true);
+            chatInputBox = chatInputMenu.CreateTextInput(7, 324, 498, 14, 1, 80, false, true);
+            messagesHandleType5 = chatInputMenu.CreateScrollableTextBox(5, 269, 502, 56, 1, 20, true);
+            messagesHandleType6 = chatInputMenu.CreateScrollableTextBox(5, 269, 502, 56, 1, 20, true);
+            chatInputMenu.SetFocus(chatInputBox);
         }
 
-        public void drawCombatStyleBox()
+        public void DrawCombatStyleBox()
         {
             sbyte byte0 = 7;
             sbyte byte1 = 15;
             int c1 = 175; ;//'\u257';
             if (mouseButtonClick != 0)
             {
-                for (int l = 0; l < 5; l++)
+                for (int l = 0; l < 5; l += 1)
                 {
                     if (l <= 0 || base.mouseX <= byte0 || base.mouseX >= byte0 + c1 || base.mouseY <= byte1 + l * 20 || base.mouseY >= byte1 + l * 20 + 20)
                     {
@@ -4557,36 +4624,36 @@ namespace OpenRS.Net.Client
 
                     combatStyle = l - 1;
                     mouseButtonClick = 0;
-                    base.streamClass.createPacket(42);
-                    base.streamClass.addByte(combatStyle);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(42);
+                    base.streamClass.AddByte(combatStyle);
+                    base.streamClass.FormatPacket();
                     break;
                 }
 
             }
-            for (int i1 = 0; i1 < 5; i1++)
+            for (int i1 = 0; i1 < 5; i1 += 1)
             {
                 if (i1 == combatStyle + 1)
                 {
-                    gameGraphics.drawBoxAlpha(byte0, byte1 + i1 * 20, c1, 20, GameImage.rgbToInt(255, 0, 0), 128);
+                    gameGraphics.DrawBoxAlpha(byte0, byte1 + i1 * 20, c1, 20, GameImage.RgbToInt(255, 0, 0), 128);
                 }
                 else
                 {
-                    gameGraphics.drawBoxAlpha(byte0, byte1 + i1 * 20, c1, 20, GameImage.rgbToInt(190, 190, 190), 128);
+                    gameGraphics.DrawBoxAlpha(byte0, byte1 + i1 * 20, c1, 20, GameImage.RgbToInt(190, 190, 190), 128);
                 }
 
-                gameGraphics.drawLineX(byte0, byte1 + i1 * 20, c1, 0);
-                gameGraphics.drawLineX(byte0, byte1 + i1 * 20 + 20, c1, 0);
+                gameGraphics.DrawLineX(byte0, byte1 + i1 * 20, c1, 0);
+                gameGraphics.DrawLineX(byte0, byte1 + i1 * 20 + 20, c1, 0);
             }
 
-            gameGraphics.drawText("Select combat style", byte0 + c1 / 2, byte1 + 16, 3, 0xffffff);
-            gameGraphics.drawText("Controlled (+1 of each)", byte0 + c1 / 2, byte1 + 36, 3, 0);
-            gameGraphics.drawText("Aggressive (+3 strength)", byte0 + c1 / 2, byte1 + 56, 3, 0);
-            gameGraphics.drawText("Accurate   (+3 attack)", byte0 + c1 / 2, byte1 + 76, 3, 0);
-            gameGraphics.drawText("Defensive  (+3 defense)", byte0 + c1 / 2, byte1 + 96, 3, 0);
+            gameGraphics.DrawText("Select combat style", byte0 + c1 / 2, byte1 + 16, 3, 0xffffff);
+            gameGraphics.DrawText("Controlled (+1 of each)", byte0 + c1 / 2, byte1 + 36, 3, 0);
+            gameGraphics.DrawText("Aggressive (+3 strength)", byte0 + c1 / 2, byte1 + 56, 3, 0);
+            gameGraphics.DrawText("Accurate   (+3 attack)", byte0 + c1 / 2, byte1 + 76, 3, 0);
+            gameGraphics.DrawText("Defensive  (+3 defense)", byte0 + c1 / 2, byte1 + 96, 3, 0);
         }
 
-        public void drawTradeBox()
+        public void DrawTradeBox()
         {
             if (mouseButtonClick != 0)
             {
@@ -4603,13 +4670,13 @@ namespace OpenRS.Net.Client
                             mouseClickedHeldInTradeDuelBox = 1;
                             bool ourTradeItemsChanged = false;
                             int someInt = 0;
-                            for (int tradeItem = 0; tradeItem < tradeItemsOurCount; tradeItem++)
+                            for (int tradeItem = 0; tradeItem < tradeItemsOurCount; tradeItem += 1)
                             {
                                 if (tradeItemsOur[tradeItem] == item)
                                 {
                                     if (Data.GameData.itemStackable[item] == 0)
                                     {
-                                        for (int i = 0; i < mouseClickedHeldInTradeDuelBox; i++)
+                                        for (int i = 0; i < mouseClickedHeldInTradeDuelBox; i += 1)
                                         {
                                             if (tradeItemOurCount[tradeItem] < inventoryItemCount[curItem])
                                             {
@@ -4626,14 +4693,14 @@ namespace OpenRS.Net.Client
                                 }
                             }
 
-                            if (getInventoryItemTotalCount(item) <= someInt)
+                            if (GetInventoryItemTotalCount(item) <= someInt)
                             {
                                 ourTradeItemsChanged = true;
                             }
 
                             if (Data.GameData.itemSpecial[item] == 1)
                             {
-                                displayMessage("This object cannot be traded with other players", 3);
+                                DisplayMessage("This object cannot be traded with other players", 3);
                                 ourTradeItemsChanged = true;
                             }
                             if (!ourTradeItemsChanged && tradeItemsOurCount < 12)
@@ -4645,14 +4712,14 @@ namespace OpenRS.Net.Client
                             }
                             if (ourTradeItemsChanged)
                             {
-                                base.streamClass.createPacket(70);
-                                base.streamClass.addByte(tradeItemsOurCount);
-                                for (int i = 0; i < tradeItemsOurCount; i++)
+                                base.streamClass.CreatePacket(70);
+                                base.streamClass.AddByte(tradeItemsOurCount);
+                                for (int i = 0; i < tradeItemsOurCount; i += 1)
                                 {
-                                    base.streamClass.addShort(tradeItemsOur[i]);
-                                    base.streamClass.addInt(tradeItemOurCount[i]);
+                                    base.streamClass.AddShort(tradeItemsOur[i]);
+                                    base.streamClass.AddInt(tradeItemOurCount[i]);
                                 }
-                                base.streamClass.formatPacket();
+                                base.streamClass.FormatPacket();
                                 tradeOtherAccepted = false;
                                 tradeWeAccepted = false;
                             }
@@ -4664,30 +4731,30 @@ namespace OpenRS.Net.Client
                         if (curItem >= 0 && curItem < tradeItemsOurCount)
                         {
                             int item = tradeItemsOur[curItem];
-                            for (int i = 0; i < mouseClickedHeldInTradeDuelBox; i++)
+                            for (int i = 0; i < mouseClickedHeldInTradeDuelBox; i += 1)
                             {
                                 if (Data.GameData.itemStackable[item] == 0 && tradeItemOurCount[curItem] > 1)
                                 {
-                                    tradeItemOurCount[curItem]--;
+                                    tradeItemOurCount[curItem] -= 1;
                                     continue;
                                 }
-                                tradeItemsOurCount--;
+                                tradeItemsOurCount -= 1;
                                 mouseButtonHeldTime = 0;
-                                for (int j = curItem; j < tradeItemsOurCount; j++)
+                                for (int j = curItem; j < tradeItemsOurCount; j += 1)
                                 {
                                     tradeItemsOur[j] = tradeItemsOur[j + 1];
                                     tradeItemOurCount[j] = tradeItemOurCount[j + 1];
                                 }
                                 break;
                             }
-                            base.streamClass.createPacket(70);
-                            base.streamClass.addByte(tradeItemsOurCount);
-                            for (int i = 0; i < tradeItemsOurCount; i++)
+                            base.streamClass.CreatePacket(70);
+                            base.streamClass.AddByte(tradeItemsOurCount);
+                            for (int i = 0; i < tradeItemsOurCount; i += 1)
                             {
-                                base.streamClass.addShort(tradeItemsOur[i]);
-                                base.streamClass.addInt(tradeItemOurCount[i]);
+                                base.streamClass.AddShort(tradeItemsOur[i]);
+                                base.streamClass.AddInt(tradeItemOurCount[i]);
                             }
-                            base.streamClass.formatPacket();
+                            base.streamClass.FormatPacket();
                             tradeOtherAccepted = false;
                             tradeWeAccepted = false;
                         }
@@ -4695,21 +4762,21 @@ namespace OpenRS.Net.Client
                     if (mx >= 217 && my >= 238 && mx <= 286 && my <= 259)
                     {
                         tradeWeAccepted = true;
-                        base.streamClass.createPacket(211);
-                        base.streamClass.formatPacket();
+                        base.streamClass.CreatePacket(211);
+                        base.streamClass.FormatPacket();
                     }
                     if (mx >= 394 && my >= 238 && mx < 463 && my < 259)
                     {
                         showTradeBox = false;
-                        base.streamClass.createPacket(216);
-                        base.streamClass.formatPacket();
+                        base.streamClass.CreatePacket(216);
+                        base.streamClass.FormatPacket();
                     }
                 }
                 else
                 {
                     //showTradeBox = false;
-                    //base.streamClass.createPacket(216);
-                    //base.streamClass.formatPacket();
+                    //base.streamClass.CreatePacket(216);
+                    //base.streamClass.FormatPacket();
                 }
                 mouseButtonClick = 0;
                 mouseClickedHeldInTradeDuelBox = 0;
@@ -4721,129 +4788,129 @@ namespace OpenRS.Net.Client
 
             sbyte byte0 = 22;
             sbyte byte1 = 36;
-            gameGraphics.drawBox(byte0, byte1, 468, 12, 192);
+            gameGraphics.DrawBox(byte0, byte1, 468, 12, 192);
             int l1 = 0x989898;
-            gameGraphics.drawBoxAlpha(byte0, byte1 + 12, 468, 18, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0, byte1 + 30, 8, 248, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 205, byte1 + 30, 11, 248, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 462, byte1 + 30, 6, 248, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 133, 197, 22, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 258, 197, 20, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 216, byte1 + 235, 246, 43, l1, 160);
+            gameGraphics.DrawBoxAlpha(byte0, byte1 + 12, 468, 18, l1, 160);
+            gameGraphics.DrawBoxAlpha(byte0, byte1 + 30, 8, 248, l1, 160);
+            gameGraphics.DrawBoxAlpha(byte0 + 205, byte1 + 30, 11, 248, l1, 160);
+            gameGraphics.DrawBoxAlpha(byte0 + 462, byte1 + 30, 6, 248, l1, 160);
+            gameGraphics.DrawBoxAlpha(byte0 + 8, byte1 + 133, 197, 22, l1, 160);
+            gameGraphics.DrawBoxAlpha(byte0 + 8, byte1 + 258, 197, 20, l1, 160);
+            gameGraphics.DrawBoxAlpha(byte0 + 216, byte1 + 235, 246, 43, l1, 160);
             int j2 = 0xd0d0d0;
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 30, 197, 103, j2, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 155, 197, 103, j2, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 216, byte1 + 30, 246, 205, j2, 160);
-            for (int i3 = 0; i3 < 4; i3++)
+            gameGraphics.DrawBoxAlpha(byte0 + 8, byte1 + 30, 197, 103, j2, 160);
+            gameGraphics.DrawBoxAlpha(byte0 + 8, byte1 + 155, 197, 103, j2, 160);
+            gameGraphics.DrawBoxAlpha(byte0 + 216, byte1 + 30, 246, 205, j2, 160);
+            for (int i3 = 0; i3 < 4; i3 += 1)
             {
-                gameGraphics.drawLineX(byte0 + 8, byte1 + 30 + i3 * 34, 197, 0);
+                gameGraphics.DrawLineX(byte0 + 8, byte1 + 30 + i3 * 34, 197, 0);
             }
 
-            for (int i4 = 0; i4 < 4; i4++)
+            for (int i4 = 0; i4 < 4; i4 += 1)
             {
-                gameGraphics.drawLineX(byte0 + 8, byte1 + 155 + i4 * 34, 197, 0);
+                gameGraphics.DrawLineX(byte0 + 8, byte1 + 155 + i4 * 34, 197, 0);
             }
 
-            for (int k4 = 0; k4 < 7; k4++)
+            for (int k4 = 0; k4 < 7; k4 += 1)
             {
-                gameGraphics.drawLineX(byte0 + 216, byte1 + 30 + k4 * 34, 246, 0);
+                gameGraphics.DrawLineX(byte0 + 216, byte1 + 30 + k4 * 34, 246, 0);
             }
 
-            for (int j5 = 0; j5 < 6; j5++)
+            for (int j5 = 0; j5 < 6; j5 += 1)
             {
                 if (j5 < 5)
                 {
-                    gameGraphics.drawLineY(byte0 + 8 + j5 * 49, byte1 + 30, 103, 0);
+                    gameGraphics.DrawLineY(byte0 + 8 + j5 * 49, byte1 + 30, 103, 0);
                 }
 
                 if (j5 < 5)
                 {
-                    gameGraphics.drawLineY(byte0 + 8 + j5 * 49, byte1 + 155, 103, 0);
+                    gameGraphics.DrawLineY(byte0 + 8 + j5 * 49, byte1 + 155, 103, 0);
                 }
 
-                gameGraphics.drawLineY(byte0 + 216 + j5 * 49, byte1 + 30, 205, 0);
+                gameGraphics.DrawLineY(byte0 + 216 + j5 * 49, byte1 + 30, 205, 0);
             }
 
-            gameGraphics.drawString("Trading with: " + tradeOtherName, byte0 + 1, byte1 + 10, 1, 0xffffff);
-            gameGraphics.drawString("Your Offer", byte0 + 9, byte1 + 27, 4, 0xffffff);
-            gameGraphics.drawString("Opponent's Offer", byte0 + 9, byte1 + 152, 4, 0xffffff);
-            gameGraphics.drawString("Your Inventory", byte0 + 216, byte1 + 27, 4, 0xffffff);
+            gameGraphics.DrawString("Trading with: " + tradeOtherName, byte0 + 1, byte1 + 10, 1, 0xffffff);
+            gameGraphics.DrawString("Your Offer", byte0 + 9, byte1 + 27, 4, 0xffffff);
+            gameGraphics.DrawString("Opponent's Offer", byte0 + 9, byte1 + 152, 4, 0xffffff);
+            gameGraphics.DrawString("Your Inventory", byte0 + 216, byte1 + 27, 4, 0xffffff);
             if (!tradeWeAccepted)
             {
-                gameGraphics.drawPicture(byte0 + 217, byte1 + 238, baseInventoryPic + 25);
+                gameGraphics.DrawPicture(byte0 + 217, byte1 + 238, baseInventoryPic + 25);
             }
 
-            gameGraphics.drawPicture(byte0 + 394, byte1 + 238, baseInventoryPic + 26);
+            gameGraphics.DrawPicture(byte0 + 394, byte1 + 238, baseInventoryPic + 26);
             if (tradeOtherAccepted)
             {
-                gameGraphics.drawText("Other player", byte0 + 341, byte1 + 246, 1, 0xffffff);
-                gameGraphics.drawText("has accepted", byte0 + 341, byte1 + 256, 1, 0xffffff);
+                gameGraphics.DrawText("Other player", byte0 + 341, byte1 + 246, 1, 0xffffff);
+                gameGraphics.DrawText("has accepted", byte0 + 341, byte1 + 256, 1, 0xffffff);
             }
             if (tradeWeAccepted)
             {
-                gameGraphics.drawText("Waiting for", byte0 + 217 + 35, byte1 + 246, 1, 0xffffff);
-                gameGraphics.drawText("other player", byte0 + 217 + 35, byte1 + 256, 1, 0xffffff);
+                gameGraphics.DrawText("Waiting for", byte0 + 217 + 35, byte1 + 246, 1, 0xffffff);
+                gameGraphics.DrawText("other player", byte0 + 217 + 35, byte1 + 256, 1, 0xffffff);
             }
-            for (int k5 = 0; k5 < inventoryItemsCount; k5++)
+            for (int k5 = 0; k5 < inventoryItemsCount; k5 += 1)
             {
                 int l5 = 217 + byte0 + (k5 % 5) * 49;
                 int j6 = 31 + byte1 + (k5 / 5) * 34;
-                gameGraphics.drawImage(l5, j6, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[inventoryItems[k5]], Data.GameData.itemPictureMask[inventoryItems[k5]], 0, 0, false);
+                gameGraphics.DrawImage(l5, j6, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[inventoryItems[k5]], Data.GameData.itemPictureMask[inventoryItems[k5]], 0, 0, false);
                 if (Data.GameData.itemStackable[inventoryItems[k5]] == 0)
                 {
-                    gameGraphics.drawString(inventoryItemCount[k5].ToString(), l5 + 1, j6 + 10, 1, 0xffff00);
+                    gameGraphics.DrawString(inventoryItemCount[k5].ToString(), l5 + 1, j6 + 10, 1, 0xffff00);
                 }
             }
 
-            for (int i6 = 0; i6 < tradeItemsOurCount; i6++)
+            for (int i6 = 0; i6 < tradeItemsOurCount; i6 += 1)
             {
                 int k6 = 9 + byte0 + (i6 % 4) * 49;
                 int i7 = 31 + byte1 + (i6 / 4) * 34;
-                gameGraphics.drawImage(k6, i7, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[tradeItemsOur[i6]], Data.GameData.itemPictureMask[tradeItemsOur[i6]], 0, 0, false);
+                gameGraphics.DrawImage(k6, i7, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[tradeItemsOur[i6]], Data.GameData.itemPictureMask[tradeItemsOur[i6]], 0, 0, false);
                 if (Data.GameData.itemStackable[tradeItemsOur[i6]] == 0)
                 {
-                    gameGraphics.drawString(tradeItemOurCount[i6].ToString(), k6 + 1, i7 + 10, 1, 0xffff00);
+                    gameGraphics.DrawString(tradeItemOurCount[i6].ToString(), k6 + 1, i7 + 10, 1, 0xffff00);
                 }
 
                 if (base.mouseX > k6 && base.mouseX < k6 + 48 && base.mouseY > i7 && base.mouseY < i7 + 32)
                 {
-                    gameGraphics.drawString(Data.GameData.itemName[tradeItemsOur[i6]] + ": @whi@" + Data.GameData.itemDescription[tradeItemsOur[i6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
+                    gameGraphics.DrawString(Data.GameData.itemName[tradeItemsOur[i6]] + ": @whi@" + Data.GameData.itemDescription[tradeItemsOur[i6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
                 }
             }
 
-            for (int l6 = 0; l6 < tradeItemsOtherCount; l6++)
+            for (int l6 = 0; l6 < tradeItemsOtherCount; l6 += 1)
             {
                 int j7 = 9 + byte0 + (l6 % 4) * 49;
                 int k7 = 156 + byte1 + (l6 / 4) * 34;
-                gameGraphics.drawImage(j7, k7, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[tradeItemsOther[l6]], Data.GameData.itemPictureMask[tradeItemsOther[l6]], 0, 0, false);
+                gameGraphics.DrawImage(j7, k7, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[tradeItemsOther[l6]], Data.GameData.itemPictureMask[tradeItemsOther[l6]], 0, 0, false);
                 if (Data.GameData.itemStackable[tradeItemsOther[l6]] == 0)
                 {
-                    gameGraphics.drawString(tradeItemOtherCount[l6].ToString(), j7 + 1, k7 + 10, 1, 0xffff00);
+                    gameGraphics.DrawString(tradeItemOtherCount[l6].ToString(), j7 + 1, k7 + 10, 1, 0xffff00);
                 }
 
                 if (base.mouseX > j7 && base.mouseX < j7 + 48 && base.mouseY > k7 && base.mouseY < k7 + 32)
                 {
-                    gameGraphics.drawString(Data.GameData.itemName[tradeItemsOther[l6]] + ": @whi@" + Data.GameData.itemDescription[tradeItemsOther[l6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
+                    gameGraphics.DrawString(Data.GameData.itemName[tradeItemsOther[l6]] + ": @whi@" + Data.GameData.itemDescription[tradeItemsOther[l6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
                 }
             }
 
         }
 
-        public void autoRotateCamera()
+        public void AutoRotateCamera()
         {
-            if ((cameraAutoAngle & 1) == 1 && validCameraAngle(cameraAutoAngle))
+            if ((cameraAutoAngle & 1) == 1 && IsValidCameraAngle(cameraAutoAngle))
             {
                 return;
             }
 
-            if ((cameraAutoAngle & 1) == 0 && validCameraAngle(cameraAutoAngle))
+            if ((cameraAutoAngle & 1) == 0 && IsValidCameraAngle(cameraAutoAngle))
             {
-                if (validCameraAngle(cameraAutoAngle + 1 & 7))
+                if (IsValidCameraAngle(cameraAutoAngle + 1 & 7))
                 {
                     cameraAutoAngle = cameraAutoAngle + 1 & 7;
                     return;
                 }
-                if (validCameraAngle(cameraAutoAngle + 7 & 7))
+                if (IsValidCameraAngle(cameraAutoAngle + 7 & 7))
                 {
                     cameraAutoAngle = cameraAutoAngle + 7 & 7;
                 }
@@ -4853,9 +4920,9 @@ namespace OpenRS.Net.Client
             int[] ai = [
             1, -1, 2, -2, 3, -3, 4
         ];
-            for (int l = 0; l < 7; l++)
+            for (int l = 0; l < 7; l += 1)
             {
-                if (!validCameraAngle(cameraAutoAngle + ai[l] + 8 & 7))
+                if (!IsValidCameraAngle(cameraAutoAngle + ai[l] + 8 & 7))
                 {
                     continue;
                 }
@@ -4864,14 +4931,14 @@ namespace OpenRS.Net.Client
                 break;
             }
 
-            if ((cameraAutoAngle & 1) == 0 && validCameraAngle(cameraAutoAngle))
+            if ((cameraAutoAngle & 1) == 0 && IsValidCameraAngle(cameraAutoAngle))
             {
-                if (validCameraAngle(cameraAutoAngle + 1 & 7))
+                if (IsValidCameraAngle(cameraAutoAngle + 1 & 7))
                 {
                     cameraAutoAngle = cameraAutoAngle + 1 & 7;
                     return;
                 }
-                if (validCameraAngle(cameraAutoAngle + 7 & 7))
+                if (IsValidCameraAngle(cameraAutoAngle + 7 & 7))
                 {
                     cameraAutoAngle = cameraAutoAngle + 7 & 7;
                 }
@@ -4884,65 +4951,65 @@ namespace OpenRS.Net.Client
             }
         }
 
-        //public String getParameter(String s1) {
+        //public string getParameter(string s1) {
         //    if(Link.gameApplet is not null)
         //        return Link.gameApplet.getParameter(s1);
         //    else
         //        return base.getParameter(s1);
         //}
 
-        public void drawLogoutBox()
+        public void DrawLogoutBox()
         {
-            gameGraphics.drawBox(126, 137, 260, 60, 0);
-            gameGraphics.drawBoxEdge(126, 137, 260, 60, 0xffffff);
-            gameGraphics.drawText("Logging out...", 256, 173, 5, 0xffffff);
+            gameGraphics.DrawBox(126, 137, 260, 60, 0);
+            gameGraphics.DrawBoxEdge(126, 137, 260, 60, 0xffffff);
+            gameGraphics.DrawText("Logging out...", 256, 173, 5, 0xffffff);
         }
 
-        public void walkToGroundItem(int l, int i1, int j1, int k1, bool flag)
+        public void WalkToGroundItem(int l, int i1, int j1, int k1, bool flag)
         {
-            if (walkTo2(l, i1, j1, k1, j1, k1, false, flag))
+            if (WalkToAlternate(l, i1, j1, k1, j1, k1, false, flag))
             {
                 return;
             }
             else
             {
-                walkTo(l, i1, j1, k1, j1, k1, true, flag);
+                WalkTo(l, i1, j1, k1, j1, k1, true, flag);
                 return;
             }
         }
 
-        public override void loginScreenPrint(String s1, String s2)
+        public override void LoginScreenPrint(string s1, string s2)
         {
             if (loginScreen == 2 && loginMenuLogin is not null)
             {
-                loginMenuLogin.updateText(loginMenuStatusText, s1 + " " + s2);
+                loginMenuLogin.UpdateText(loginMenuStatusText, s1 + " " + s2);
             }
 
-            drawLoginScreens();
-            resetTimings();
+            DrawLoginScreens();
+            ResetTimings();
         }
 
-        public void drawTeleBubble(int x, int y, int j1, int k1, int l1, int i2, int j2)
+        public void DrawTeleBubble(int x, int y, int j1, int k1, int l1, int i2, int j2)
         {
             int type = teleBubbleType[l1];
             int time = teleBubbleTime[l1];
             if (type == 0)
             {
                 int i3 = 255 + time * 5 * 256;
-                gameGraphics.drawCircle(x + j1 / 2, y + k1 / 2, 20 + time * 2, i3, 255 - time * 5);
+                gameGraphics.DrawCircle(x + j1 / 2, y + k1 / 2, 20 + time * 2, i3, 255 - time * 5);
             }
             if (type == 1)
             {
                 int j3 = 0xff0000 + time * 5 * 256;
-                gameGraphics.drawCircle(x + j1 / 2, y + k1 / 2, 10 + time, j3, 255 - time * 5);
+                gameGraphics.DrawCircle(x + j1 / 2, y + k1 / 2, 10 + time, j3, 255 - time * 5);
             }
         }
 
-        public void checkLoginScreenInputs()
+        public void CheckLoginScreenInputs()
         {
             if (base.socketTimeout > 0)
             {
-                base.socketTimeout--;
+                base.socketTimeout -= 1;
             }
 
             if (loginScreen == 0)
@@ -4957,19 +5024,19 @@ namespace OpenRS.Net.Client
                     Console.WriteLine($"[CLICK] mouseX={base.mouseX} mouseY={base.mouseY} lastMouseButton={base.lastMouseButton} mouseButton={base.mouseButton}");
                 }
 
-                loginMenuFirst.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
-                if (loginMenuFirst.isClicked(loginButtonNewUser))
+                loginMenuFirst.MouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
+                if (loginMenuFirst.IsClicked(loginButtonNewUser))
                 {
                     loginScreen = 1;
                 }
 
-                if (loginMenuFirst.isClicked(loginMenuLoginButton))
+                if (loginMenuFirst.IsClicked(loginMenuLoginButton))
                 {
                     loginScreen = 2;
-                    loginMenuLogin.updateText(loginMenuStatusText, "Please enter your username and password");
-                    loginMenuLogin.updateText(loginMenuUserText, "");
-                    loginMenuLogin.updateText(loginMenuPasswordText, "");
-                    loginMenuLogin.setFocus(loginMenuUserText);
+                    loginMenuLogin.UpdateText(loginMenuStatusText, "Please enter your username and password");
+                    loginMenuLogin.UpdateText(loginMenuUserText, "");
+                    loginMenuLogin.UpdateText(loginMenuPasswordText, "");
+                    loginMenuLogin.SetFocus(loginMenuUserText);
                     return;
                 }
             }
@@ -4981,8 +5048,8 @@ namespace OpenRS.Net.Client
                     return;
                 }
 
-                loginNewUser.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
-                    if (loginNewUser.isClicked(loginMenuOkButton))
+                loginNewUser.MouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
+                    if (loginNewUser.IsClicked(loginMenuOkButton))
                     {
                         loginScreen = 0;
                         return;
@@ -4991,31 +5058,31 @@ namespace OpenRS.Net.Client
                 else
                     if (loginScreen == 2)
                     {
-                        loginMenuLogin.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
-                        if (loginMenuLogin.isClicked(loginMenuCancelButton))
+                        loginMenuLogin.MouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
+                        if (loginMenuLogin.IsClicked(loginMenuCancelButton))
                 {
                     loginScreen = 0;
                 }
 
-                if (loginMenuLogin.isClicked(loginMenuUserText))
+                if (loginMenuLogin.IsClicked(loginMenuUserText))
                 {
-                    loginMenuLogin.setFocus(loginMenuPasswordText);
+                    loginMenuLogin.SetFocus(loginMenuPasswordText);
                 }
 
-                if (loginMenuLogin.isClicked(loginMenuPasswordText) || loginMenuLogin.isClicked(loginMenuOkLoginButton))
+                if (loginMenuLogin.IsClicked(loginMenuPasswordText) || loginMenuLogin.IsClicked(loginMenuOkLoginButton))
                         {
-                            loginUsername = loginMenuLogin.getText(loginMenuUserText);
-                            loginPassword = loginMenuLogin.getText(loginMenuPasswordText);
-                            connect(loginUsername, loginPassword, false);
+                            loginUsername = loginMenuLogin.GetText(loginMenuUserText);
+                            loginPassword = loginMenuLogin.GetText(loginMenuPasswordText);
+                            Connect(loginUsername, loginPassword, false);
                         }
                     }
         }
 
-        public bool isItemEquipped(int itemId)
+        public bool IsItemEquipped(int itemId)
         {
-            for (int l = 0; l < inventoryItemsCount; l++)
+            for (int l = 0; l < inventoryItemsCount; l += 1)
             {
-                if (inventoryItems[l].Equals(itemId) && inventoryItemEquipped[l].Equals(1))
+                if (inventoryItems[l] == itemId && inventoryItemEquipped[l] == 1)
                 {
                     return true;
                 }
@@ -5024,53 +5091,53 @@ namespace OpenRS.Net.Client
             return false;
         }
 
-        public override void drawWindow()
+        public override void DrawWindow()
         {
 
-            paint(graphics);
+            Paint(graphics);
 
             if (errorLoading)
             {
 #warning add error loading event
-                //var g1 = spriteBatch;//getGraphics();
-                ////g1.setColor();
-                //// g1.fillRect(0, 0, 512, 356, Color.Black);
+                //var g1 = spriteBatch;//GetGraphics();
+                ////g1.SetColor();
+                //// g1.FillRect(0, 0, 512, 356, Color.Black);
 
-                //// g1.setFont(gameFont16);
-                //g1.setColor(Color.Yellow);
+                //// g1.SetFont(gameFont16);
+                //g1.SetColor(Color.Yellow);
                 //int l = 35;
-                //g1.drawString("Sorry, an error has occured whilst loading", 30, l);
+                //g1.DrawString("Sorry, an error has occured whilst loading", 30, l);
                 //l += 50;
-                //g1.setColor(Color.White);
-                //g1.drawString("To fix this try the following (in order):", 30, l);
+                //g1.SetColor(Color.White);
+                //g1.DrawString("To fix this try the following (in order):", 30, l);
                 //l += 50;
-                //g1.setColor(Color.White);
-                ////g1.setFont(gameFont12);
-                //g1.drawString("1: Try closing ALL open web-browser windows, and reloading", 30, l);
+                //g1.SetColor(Color.White);
+                ////g1.SetFont(gameFont12);
+                //g1.DrawString("1: Try closing ALL open web-browser windows, and reloading", 30, l);
                 //l += 30;
-                //g1.drawString("2: Try clearing your web-browsers cache from tools->internet options", 30, l);
+                //g1.DrawString("2: Try clearing your web-browsers cache from tools->internet options", 30, l);
                 //l += 30;
-                //g1.drawString("3: Try using a different game-world", 30, l);
+                //g1.DrawString("3: Try using a different game-world", 30, l);
                 //l += 30;
-                //g1.drawString("4: Try rebooting your computer", 30, l);
+                //g1.DrawString("4: Try rebooting your computer", 30, l);
                 //l += 30;
-                //g1.drawString("5: Try selecting a different version of Java from the play-game menu", 30, l);
-                setRefreshRate(1);
+                //g1.DrawString("5: Try selecting a different version of Java from the play-game menu", 30, l);
+                SetRefreshRate(1);
                 return;
             }
             if (memoryError)
             {
 #warning add memory exception event
-                //var g3 = spriteBatch;//getGraphics();
-                ////g3.setColor(Color.Black);
-                ////g3.fillRect(0, 0, 512, 356, Color.Black);
-                ////g3.setFont(gameFont20);
-                //g3.setColor(Color.White);
-                //g3.drawString("Error - out of memory!", 50, 50);
-                //g3.drawString("Close ALL unnecessary programs", 50, 100);
-                //g3.drawString("and windows before loading the game", 50, 150);
-                //g3.drawString("this game needs about 48meg of spare RAM", 50, 200);
-                //setRefreshRate(1);
+                //var g3 = spriteBatch;//GetGraphics();
+                ////g3.SetColor(Color.Black);
+                ////g3.FillRect(0, 0, 512, 356, Color.Black);
+                ////g3.SetFont(gameFont20);
+                //g3.SetColor(Color.White);
+                //g3.DrawString("Error - out of memory!", 50, 50);
+                //g3.DrawString("Close ALL unnecessary programs", 50, 100);
+                //g3.DrawString("and windows before loading the game", 50, 150);
+                //g3.DrawString("this game needs about 48meg of spare RAM", 50, 200);
+                //SetRefreshRate(1);
                 return;
             }
             try
@@ -5078,14 +5145,14 @@ namespace OpenRS.Net.Client
                 if (!loggedIn)
                 {
                     gameGraphics.loggedIn = false;
-                    drawLoginScreens();
+                    DrawLoginScreens();
 
 
                 }
                 if (loggedIn)
                 {
                     gameGraphics.loggedIn = true;
-                    drawGame();
+                    DrawGame();
 
 
                     return;
@@ -5093,25 +5160,25 @@ namespace OpenRS.Net.Client
             }
             catch (Exception _ex)
             {
-                cleanUp();
+                CleanUp();
                 memoryError = true;
             }
         }
 
 
-        public void cleanUp()
+        public void CleanUp()
         {
             try
             {
                 if (gameGraphics is not null)
                 {
-                    gameGraphics.cleanUp();
+                    gameGraphics.CleanUp();
                     gameGraphics.pixels = null;
                     gameGraphics = null;
                 }
                 if (gameCamera is not null)
                 {
-                    gameCamera.cleanUp();
+                    gameCamera.CleanUp();
                     gameCamera = null;
                 }
                 gameDataObjects = null;
@@ -5140,20 +5207,20 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void drawQuestionMenu()
+        public void DrawQuestionMenu()
         {
             if (mouseButtonClick != 0)
             {
-                for (int l = 0; l < questionMenuCount; l++)
+                for (int l = 0; l < questionMenuCount; l += 1)
                 {
-                    if (base.mouseX >= gameGraphics.textWidth(questionMenuAnswer[l], 1) || base.mouseY <= l * 12 || base.mouseY >= 12 + l * 12)
+                    if (base.mouseX >= gameGraphics.TextWidth(questionMenuAnswer[l], 1) || base.mouseY <= l * 12 || base.mouseY >= 12 + l * 12)
                     {
                         continue;
                     }
 
-                    base.streamClass.createPacket(154);
-                    base.streamClass.addByte(l);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(154);
+                    base.streamClass.AddByte(l);
+                    base.streamClass.FormatPacket();
                     break;
                 }
 
@@ -5161,98 +5228,98 @@ namespace OpenRS.Net.Client
                 showQuestionMenu = false;
                 return;
             }
-            for (int i1 = 0; i1 < questionMenuCount; i1++)
+            for (int i1 = 0; i1 < questionMenuCount; i1 += 1)
             {
                 int j1 = 65535;
-                if (base.mouseX < gameGraphics.textWidth(questionMenuAnswer[i1], 1) && base.mouseY > i1 * 12 && base.mouseY < 12 + i1 * 12)
+                if (base.mouseX < gameGraphics.TextWidth(questionMenuAnswer[i1], 1) && base.mouseY > i1 * 12 && base.mouseY < 12 + i1 * 12)
                 {
                     j1 = 0xff0000;
                 }
 
-                gameGraphics.drawString(questionMenuAnswer[i1], 6, 12 + i1 * 12, 1, j1);
+                gameGraphics.DrawString(questionMenuAnswer[i1], 6, 12 + i1 * 12, 1, j1);
             }
 
         }
 
-        public void drawTradeConfirmBox()
+        public void DrawTradeConfirmBox()
         {
             sbyte byte0 = 22;
             sbyte byte1 = 36;
-            gameGraphics.drawBox(byte0, byte1, 468, 16, 192);
+            gameGraphics.DrawBox(byte0, byte1, 468, 16, 192);
             int l = 0x989898;
-            gameGraphics.drawBoxAlpha(byte0, byte1 + 16, 468, 246, l, 160);
-            gameGraphics.drawText("Please confirm your trade with @yel@" + DataOperations.HashToName(tradeConfirmOtherNameLong), byte0 + 234, byte1 + 12, 1, 0xffffff);
-            gameGraphics.drawText("You are about to give:", byte0 + 117, byte1 + 30, 1, 0xffff00);
-            for (int i1 = 0; i1 < tradeConfigItemCount; i1++)
+            gameGraphics.DrawBoxAlpha(byte0, byte1 + 16, 468, 246, l, 160);
+            gameGraphics.DrawText("Please confirm your trade with @yel@" + DataOperations.HashToName(tradeConfirmOtherNameLong), byte0 + 234, byte1 + 12, 1, 0xffffff);
+            gameGraphics.DrawText("You are about to give:", byte0 + 117, byte1 + 30, 1, 0xffff00);
+            for (int i1 = 0; i1 < tradeConfigItemCount; i1 += 1)
             {
-                String s1 = Data.GameData.itemName[tradeConfirmItems[i1]];
+                string s1 = Data.GameData.itemName[tradeConfirmItems[i1]];
                 if (Data.GameData.itemStackable[tradeConfirmItems[i1]] == 0)
                 {
                     s1 = s1 + " x " + formatItemCount(tradeConfigItemsCount[i1]);
                 }
 
-                gameGraphics.drawText(s1, byte0 + 117, byte1 + 42 + i1 * 12, 1, 0xffffff);
+                gameGraphics.DrawText(s1, byte0 + 117, byte1 + 42 + i1 * 12, 1, 0xffffff);
             }
 
             if (tradeConfigItemCount == 0)
             {
-                gameGraphics.drawText("Nothing!", byte0 + 117, byte1 + 42, 1, 0xffffff);
+                gameGraphics.DrawText("Nothing!", byte0 + 117, byte1 + 42, 1, 0xffffff);
             }
 
-            gameGraphics.drawText("In return you will receive:", byte0 + 351, byte1 + 30, 1, 0xffff00);
-            for (int j1 = 0; j1 < tradeConfirmOtherItemCount; j1++)
+            gameGraphics.DrawText("In return you will receive:", byte0 + 351, byte1 + 30, 1, 0xffff00);
+            for (int j1 = 0; j1 < tradeConfirmOtherItemCount; j1 += 1)
             {
-                String s2 = Data.GameData.itemName[tradeConfirmOtherItems[j1]];
+                string s2 = Data.GameData.itemName[tradeConfirmOtherItems[j1]];
                 if (Data.GameData.itemStackable[tradeConfirmOtherItems[j1]] == 0)
                 {
                     s2 = s2 + " x " + formatItemCount(tradeConfirmOtherItemsCount[j1]);
                 }
 
-                gameGraphics.drawText(s2, byte0 + 351, byte1 + 42 + j1 * 12, 1, 0xffffff);
+                gameGraphics.DrawText(s2, byte0 + 351, byte1 + 42 + j1 * 12, 1, 0xffffff);
             }
 
             if (tradeConfirmOtherItemCount == 0)
             {
-                gameGraphics.drawText("Nothing!", byte0 + 351, byte1 + 42, 1, 0xffffff);
+                gameGraphics.DrawText("Nothing!", byte0 + 351, byte1 + 42, 1, 0xffffff);
             }
 
-            gameGraphics.drawText("Are you sure you want to do this?", byte0 + 234, byte1 + 200, 4, 65535);
-            gameGraphics.drawText("There is NO WAY to reverse a trade if you change your mind.", byte0 + 234, byte1 + 215, 1, 0xffffff);
-            gameGraphics.drawText("Remember that not all players are trustworthy", byte0 + 234, byte1 + 230, 1, 0xffffff);
+            gameGraphics.DrawText("Are you sure you want to do this?", byte0 + 234, byte1 + 200, 4, 65535);
+            gameGraphics.DrawText("There is NO WAY to reverse a trade if you change your mind.", byte0 + 234, byte1 + 215, 1, 0xffffff);
+            gameGraphics.DrawText("Remember that not all players are trustworthy", byte0 + 234, byte1 + 230, 1, 0xffffff);
             if (!tradeConfirmAccepted)
             {
-                gameGraphics.drawPicture((byte0 + 118) - 35, byte1 + 238, baseInventoryPic + 25);
-                gameGraphics.drawPicture((byte0 + 352) - 35, byte1 + 238, baseInventoryPic + 26);
+                gameGraphics.DrawPicture((byte0 + 118) - 35, byte1 + 238, baseInventoryPic + 25);
+                gameGraphics.DrawPicture((byte0 + 352) - 35, byte1 + 238, baseInventoryPic + 26);
             }
             else
             {
-                gameGraphics.drawText("Waiting for other player...", byte0 + 234, byte1 + 250, 1, 0xffff00);
+                gameGraphics.DrawText("Waiting for other player...", byte0 + 234, byte1 + 250, 1, 0xffff00);
             }
             if (mouseButtonClick == 1)
             {
                 if (base.mouseX < byte0 || base.mouseY < byte1 || base.mouseX > byte0 + 468 || base.mouseY > byte1 + 262)
                 {
                     //showTradeConfirmBox = false;
-                    //base.streamClass.createPacket(216);
-                    //base.streamClass.formatPacket();
+                    //base.streamClass.CreatePacket(216);
+                    //base.streamClass.FormatPacket();
                 }
                 if (base.mouseX >= (byte0 + 118) - 35 && base.mouseX <= byte0 + 118 + 70 && base.mouseY >= byte1 + 238 && base.mouseY <= byte1 + 238 + 21)
                 {
                     tradeConfirmAccepted = true;
-                    base.streamClass.createPacket(53);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(53);
+                    base.streamClass.FormatPacket();
                 }
                 if (base.mouseX >= (byte0 + 352) - 35 && base.mouseX <= byte0 + 353 + 70 && base.mouseY >= byte1 + 238 && base.mouseY <= byte1 + 238 + 21)
                 {
                     showTradeConfirmBox = false;
-                    base.streamClass.createPacket(216);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(216);
+                    base.streamClass.FormatPacket();
                 }
                 mouseButtonClick = 0;
             }
         }
 
-        public void drawLoginScreens()
+        public void DrawLoginScreens()
         {
             loginScreenShown = false;
             if (gameGraphics is null)
@@ -5261,32 +5328,32 @@ namespace OpenRS.Net.Client
             }
 
             gameGraphics.interlace = false;
-            gameGraphics.clearScreen();
+            gameGraphics.ClearScreen();
             if (loginScreen == 0 || loginScreen == 1 || loginScreen == 2 || loginScreen == 3)
             {
                 int l = (tick * 2) % 3072;
                 if (l < 1024)
                 {
-                    gameGraphics.drawPicture(0, 10, baseLoginScreenBackgroundPic);
+                    gameGraphics.DrawPicture(0, 10, baseLoginScreenBackgroundPic);
                     if (l > 768)
                     {
-                        gameGraphics.drawPicture(0, 10, baseLoginScreenBackgroundPic + 1, l - 768);
+                        gameGraphics.DrawPicture(0, 10, baseLoginScreenBackgroundPic + 1, l - 768);
                     }
                 }
                 else if (l < 2048)
                 {
-                    gameGraphics.drawPicture(0, 10, baseLoginScreenBackgroundPic + 1);
+                    gameGraphics.DrawPicture(0, 10, baseLoginScreenBackgroundPic + 1);
                     if (l > 1792)
                     {
-                        gameGraphics.drawPicture(0, 10, baseInventoryPic + 10, l - 1792);
+                        gameGraphics.DrawPicture(0, 10, baseInventoryPic + 10, l - 1792);
                     }
                 }
                 else
                 {
-                    gameGraphics.drawPicture(0, 10, baseInventoryPic + 10);
+                    gameGraphics.DrawPicture(0, 10, baseInventoryPic + 10);
                     if (l > 2816)
                     {
-                        gameGraphics.drawPicture(0, 10, baseLoginScreenBackgroundPic, l - 2816);
+                        gameGraphics.DrawPicture(0, 10, baseLoginScreenBackgroundPic, l - 2816);
                     }
                 }
             }
@@ -5297,35 +5364,35 @@ namespace OpenRS.Net.Client
 
             if (loginScreen == 0)
             {
-                loginMenuFirst.drawMenu();
+                loginMenuFirst.DrawMenu();
             }
 
             if (loginScreen == 1)
             {
-                loginNewUser.drawMenu();
+                loginNewUser.DrawMenu();
             }
 
             if (loginScreen == 2)
             {
-                loginMenuLogin.drawMenu();
+                loginMenuLogin.DrawMenu();
             }
 
-            gameGraphics.drawPicture(0, windowHeight, baseInventoryPic + 22);
+            gameGraphics.DrawPicture(0, windowHeight, baseInventoryPic + 22);
 
 
 
             //gameGraphics.UpdateGameImage();
-            OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
+            OnDrawDone();//gameGraphics.DrawImage(spriteBatch, 0, 0);
         }
 
-        public void drawItem(int x, int y, int width, int height, int itemID, int i2, int j2)
+        public void DrawItem(int x, int y, int width, int height, int itemID, int i2, int j2)
         {
             int picture = Data.GameData.itemInventoryPicture[itemID] + baseItemPicture;
             int mask = Data.GameData.itemPictureMask[itemID];
-            gameGraphics.drawImage(x, y, width, height, picture, mask, 0, 0, false);
+            gameGraphics.DrawImage(x, y, width, height, picture, mask, 0, 0, false);
         }
 
-        public ClientMob makePlayer(int index, int x, int y, int sprite)
+        public ClientMob CreatePlayer(int index, int x, int y, int sprite)
         {
             if (playerBufferArray[index] is null)
             {
@@ -5337,7 +5404,7 @@ namespace OpenRS.Net.Client
             }
             ClientMob existingPlayer = playerBufferArray[index];
             bool flag = false;
-            for (int l = 0; l < lastPlayerCount; l++)
+            for (int l = 0; l < lastPlayerCount; l += 1)
             {
                 if (lastPlayerArray[l].serverIndex != index)
                 {
@@ -5373,21 +5440,21 @@ namespace OpenRS.Net.Client
             return existingPlayer;
         }
 
-        public void walkTo1Tile(int l, int i1, int j1, int k1, bool flag)
+        public void WalkTo1Tile(int l, int i1, int j1, int k1, bool flag)
         {
-            walkTo(l, i1, j1, k1, j1, k1, false, flag);
+            WalkTo(l, i1, j1, k1, j1, k1, false, flag);
         }
 
-        public void loadConfig()
+        public void LoadConfig()
         {
-            sbyte[] abyte0 = unpackData("config.jag", "Configuration", 10);
+            sbyte[] abyte0 = UnpackData("config.jag", "Configuration", 10);
             if (abyte0 is null)
             {
                 errorLoading = true;
                 return;
             }
             Data.GameData.Load(abyte0);
-            sbyte[] abyte1 = unpackData("filter.jag", "Chat system", 15);
+            sbyte[] abyte1 = UnpackData("filter.jag", "Chat system", 15);
             if (abyte1 is null)
             {
                 errorLoading = true;
@@ -5404,22 +5471,22 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public override void handleMouseDown(int mouseButtonPressed, int mouseXPosition, int mouseYPosition)
+        public override void HandleMouseDown(int mouseButtonPressed, int mouseXPosition, int mouseYPosition)
         {
             mouseTrailX[mouseTrailIndex] = mouseXPosition;
             mouseTrailY[mouseTrailIndex] = mouseYPosition;
             mouseTrailIndex = mouseTrailIndex + 1 & 0x1fff;
-            for (int l = 10; l < 4000; l++)
+            for (int l = 10; l < 4000; l += 1)
             {
                 int lastMouseTrailIndex = mouseTrailIndex - l & 0x1fff;
-                if (mouseTrailX[lastMouseTrailIndex].Equals(mouseXPosition) && mouseTrailY[lastMouseTrailIndex].Equals(mouseYPosition))
+                if (mouseTrailX[lastMouseTrailIndex] == mouseXPosition && mouseTrailY[lastMouseTrailIndex] == mouseYPosition)
                 {
                     bool flag = false;
-                    for (int j1 = 1; j1 < l; j1++)
+                    for (int j1 = 1; j1 < l; j1 += 1)
                     {
                         int mouseNew = mouseTrailIndex - j1 & 0x1fff;
                         int mouseOld = lastMouseTrailIndex - j1 & 0x1fff;
-                        if (!mouseTrailX[mouseOld].Equals(mouseXPosition) || !mouseTrailY[mouseOld].Equals(mouseYPosition))
+                        if (mouseTrailX[mouseOld] != mouseXPosition || mouseTrailY[mouseOld] != mouseYPosition)
                         {
                             flag = true;
                         }
@@ -5431,7 +5498,7 @@ namespace OpenRS.Net.Client
 
                         if (j1 == l - 1 && flag && combatTimeout == 0 && logoutTimer == 0)
                         {
-                            sendLogout();
+                            SendLogout();
                             return;
                         }
                     }
@@ -5441,38 +5508,38 @@ namespace OpenRS.Net.Client
 
         }
 
-        public void drawFriendsMenu(bool canClick)
+        public void DrawFriendsMenu(bool canClick)
         {
             int l = ((GameImage)(gameGraphics)).gameWidth - 199;
             int i1 = 36;
-            gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 5);
+            gameGraphics.DrawPicture(l - 49, 3, baseInventoryPic + 5);
             int c1 = 196;//(char)304;//'\u304';
             int c2 = 182;//(char)266;//'\u266';
             int k1;
-            int j1 = k1 = GameImage.rgbToInt(160, 160, 160);
+            int j1 = k1 = GameImage.RgbToInt(160, 160, 160);
             if (friendsIgnoreMenuSelected == 0)
             {
-                j1 = GameImage.rgbToInt(220, 220, 220);
+                j1 = GameImage.RgbToInt(220, 220, 220);
             }
             else
             {
-                k1 = GameImage.rgbToInt(220, 220, 220);
+                k1 = GameImage.RgbToInt(220, 220, 220);
             }
 
-            gameGraphics.drawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
-            gameGraphics.drawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
-            gameGraphics.drawBoxAlpha(l, i1 + 24, c1, c2 - 24, GameImage.rgbToInt(220, 220, 220), 128);
-            gameGraphics.drawLineX(l, i1 + 24, c1, 0);
-            gameGraphics.drawLineY(l + c1 / 2, i1, 24, 0);
-            gameGraphics.drawLineX(l, (i1 + c2) - 16, c1, 0);
-            gameGraphics.drawText("Friends", l + c1 / 4, i1 + 16, 4, 0);
-            gameGraphics.drawText("Ignore", l + c1 / 4 + c1 / 2, i1 + 16, 4, 0);
-            friendsMenu.clearList(friendsMenuHandle);
+            gameGraphics.DrawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
+            gameGraphics.DrawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
+            gameGraphics.DrawBoxAlpha(l, i1 + 24, c1, c2 - 24, GameImage.RgbToInt(220, 220, 220), 128);
+            gameGraphics.DrawLineX(l, i1 + 24, c1, 0);
+            gameGraphics.DrawLineY(l + c1 / 2, i1, 24, 0);
+            gameGraphics.DrawLineX(l, (i1 + c2) - 16, c1, 0);
+            gameGraphics.DrawText("Friends", l + c1 / 4, i1 + 16, 4, 0);
+            gameGraphics.DrawText("Ignore", l + c1 / 4 + c1 / 2, i1 + 16, 4, 0);
+            friendsMenu.ClearList(friendsMenuHandle);
             if (friendsIgnoreMenuSelected == 0)
             {
-                for (int l1 = 0; l1 < base.friendsCount; l1++)
+                for (int l1 = 0; l1 < base.friendsCount; l1 += 1)
                 {
-                    String s1;
+                    string s1;
                     if (base.friendsWorld[l1] == 99)
                     {
                         s1 = "@gre@";
@@ -5487,45 +5554,45 @@ namespace OpenRS.Net.Client
                         s1 = "@red@";
                     }
 
-                    friendsMenu.addListItem(friendsMenuHandle, l1, s1 + DataOperations.HashToName(base.friendsList[l1]) + "~439~@whi@Remove         WWWWWWWWWW");
+                    friendsMenu.AddListItem(friendsMenuHandle, l1, s1 + DataOperations.HashToName(base.friendsList[l1]) + "~439~@whi@Remove         WWWWWWWWWW");
                 }
 
             }
             if (friendsIgnoreMenuSelected == 1)
             {
-                for (int i2 = 0; i2 < base.ignoresCount; i2++)
+                for (int i2 = 0; i2 < base.ignoresCount; i2 += 1)
                 {
-                    friendsMenu.addListItem(friendsMenuHandle, i2, "@yel@" + DataOperations.HashToName(base.ignoresList[i2]) + "~439~@whi@Remove         WWWWWWWWWW");
+                    friendsMenu.AddListItem(friendsMenuHandle, i2, "@yel@" + DataOperations.HashToName(base.ignoresList[i2]) + "~439~@whi@Remove         WWWWWWWWWW");
                 }
             }
-            friendsMenu.drawMenu();
+            friendsMenu.DrawMenu();
             if (friendsIgnoreMenuSelected == 0)
             {
-                int j2 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
+                int j2 = friendsMenu.GetEntryHighlighted(friendsMenuHandle);
                 if (j2 >= 0 && base.mouseX < 489)
                 {
                     if (base.mouseX > 429)
                     {
-                        gameGraphics.drawText("Click to remove " + DataOperations.HashToName(base.friendsList[j2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
+                        gameGraphics.DrawText("Click to remove " + DataOperations.HashToName(base.friendsList[j2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
                     }
                     else
                         if (base.friendsWorld[j2] == 99)
                     {
-                        gameGraphics.drawText("Click to message " + DataOperations.HashToName(base.friendsList[j2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
+                        gameGraphics.DrawText("Click to message " + DataOperations.HashToName(base.friendsList[j2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
                     }
                     else
                             if (base.friendsWorld[j2] > 0)
                     {
-                        gameGraphics.drawText(DataOperations.HashToName(base.friendsList[j2]) + " is on world " + base.friendsWorld[j2], l + c1 / 2, i1 + 35, 1, 0xffffff);
+                        gameGraphics.DrawText(DataOperations.HashToName(base.friendsList[j2]) + " is on world " + base.friendsWorld[j2], l + c1 / 2, i1 + 35, 1, 0xffffff);
                     }
                     else
                     {
-                        gameGraphics.drawText(DataOperations.HashToName(base.friendsList[j2]) + " is offline", l + c1 / 2, i1 + 35, 1, 0xffffff);
+                        gameGraphics.DrawText(DataOperations.HashToName(base.friendsList[j2]) + " is offline", l + c1 / 2, i1 + 35, 1, 0xffffff);
                     }
                 }
                 else
                 {
-                    gameGraphics.drawText("Click a name to send a message", l + c1 / 2, i1 + 35, 1, 0xffffff);
+                    gameGraphics.DrawText("Click a name to send a message", l + c1 / 2, i1 + 35, 1, 0xffffff);
                 }
                 int j3;
                 if (base.mouseX > l && base.mouseX < l + c1 && base.mouseY > (i1 + c2) - 16 && base.mouseY < i1 + c2)
@@ -5537,21 +5604,21 @@ namespace OpenRS.Net.Client
                     j3 = 0xffffff;
                 }
 
-                gameGraphics.drawText("Click here to add a friend", l + c1 / 2, (i1 + c2) - 3, 1, j3);
+                gameGraphics.DrawText("Click here to add a friend", l + c1 / 2, (i1 + c2) - 3, 1, j3);
             }
             if (friendsIgnoreMenuSelected == 1)
             {
-                int k2 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
+                int k2 = friendsMenu.GetEntryHighlighted(friendsMenuHandle);
                 if (k2 >= 0 && base.mouseX < 489 && base.mouseX > 429)
                 {
                     if (base.mouseX > 429)
                     {
-                        gameGraphics.drawText("Click to remove " + DataOperations.HashToName(base.ignoresList[k2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
+                        gameGraphics.DrawText("Click to remove " + DataOperations.HashToName(base.ignoresList[k2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
                     }
                 }
                 else
                 {
-                    gameGraphics.drawText("Blocking messages from:", l + c1 / 2, i1 + 35, 1, 0xffffff);
+                    gameGraphics.DrawText("Blocking messages from:", l + c1 / 2, i1 + 35, 1, 0xffffff);
                 }
                 int k3;
                 if (base.mouseX > l && base.mouseX < l + c1 && base.mouseY > (i1 + c2) - 16 && base.mouseY < i1 + c2)
@@ -5563,7 +5630,7 @@ namespace OpenRS.Net.Client
                     k3 = 0xffffff;
                 }
 
-                gameGraphics.drawText("Click here to add a name", l + c1 / 2, (i1 + c2) - 3, 1, k3);
+                gameGraphics.DrawText("Click here to add a name", l + c1 / 2, (i1 + c2) - 3, 1, k3);
             }
             if (!canClick)
             {
@@ -5574,30 +5641,30 @@ namespace OpenRS.Net.Client
             i1 = base.mouseY - 36;
             if (l >= 0 && i1 >= 0 && l < 196 && i1 < 182)
             {
-                friendsMenu.mouseClick(l + (((GameImage)(gameGraphics)).gameWidth - 199), i1 + 36, base.lastMouseButton, base.mouseButton);
+                friendsMenu.MouseClick(l + (((GameImage)(gameGraphics)).gameWidth - 199), i1 + 36, base.lastMouseButton, base.mouseButton);
                 if (i1 <= 24 && mouseButtonClick == 1)
                 {
                     if (l < 98 && friendsIgnoreMenuSelected == 1)
                     {
                         friendsIgnoreMenuSelected = 0;
-                        friendsMenu.switchList(friendsMenuHandle);
+                        friendsMenu.SwitchList(friendsMenuHandle);
                     }
                     else
                         if (l > 98 && friendsIgnoreMenuSelected == 0)
                         {
                             friendsIgnoreMenuSelected = 1;
-                            friendsMenu.switchList(friendsMenuHandle);
+                            friendsMenu.SwitchList(friendsMenuHandle);
                         }
                 }
 
                 if (mouseButtonClick == 1 && friendsIgnoreMenuSelected == 0)
                 {
-                    int l2 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
+                    int l2 = friendsMenu.GetEntryHighlighted(friendsMenuHandle);
                     if (l2 >= 0 && base.mouseX < 489)
                     {
                         if (base.mouseX > 429)
                         {
-                            removeFriend(base.friendsList[l2]);
+                            RemoveFriend(base.friendsList[l2]);
                         }
                         else
                             if (base.friendsWorld[l2] != 0)
@@ -5611,10 +5678,10 @@ namespace OpenRS.Net.Client
                 }
                 if (mouseButtonClick == 1 && friendsIgnoreMenuSelected == 1)
                 {
-                    int i3 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
+                    int i3 = friendsMenu.GetEntryHighlighted(friendsMenuHandle);
                     if (i3 >= 0 && base.mouseX < 489 && base.mouseX > 429)
                     {
-                        removeIgnore(base.ignoresList[i3]);
+                        RemoveIgnore(base.ignoresList[i3]);
                     }
                 }
                 if (i1 > 166 && mouseButtonClick == 1 && friendsIgnoreMenuSelected == 0)
@@ -5633,44 +5700,44 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void drawPrayerMagicMenu(bool canClick)
+        public void DrawPrayerMagicMenu(bool canClick)
         {
             int l = ((GameImage)(gameGraphics)).gameWidth - 199;
             int i1 = 36;
-            gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 4);
+            gameGraphics.DrawPicture(l - 49, 3, baseInventoryPic + 4);
             int c1 = 196;//'\u304';
             int c2 = 182;//'\u266';
             int k1;
-            int j1 = k1 = GameImage.rgbToInt(160, 160, 160);
+            int j1 = k1 = GameImage.RgbToInt(160, 160, 160);
             if (menuMagicPrayersSelected == 0)
             {
-                j1 = GameImage.rgbToInt(220, 220, 220);
+                j1 = GameImage.RgbToInt(220, 220, 220);
             }
             else
             {
-                k1 = GameImage.rgbToInt(220, 220, 220);
+                k1 = GameImage.RgbToInt(220, 220, 220);
             }
 
-            gameGraphics.drawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
-            gameGraphics.drawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
-            gameGraphics.drawBoxAlpha(l, i1 + 24, c1, 90, GameImage.rgbToInt(220, 220, 220), 128);
-            gameGraphics.drawBoxAlpha(l, i1 + 24 + 90, c1, c2 - 90 - 24, GameImage.rgbToInt(160, 160, 160), 128);
-            gameGraphics.drawLineX(l, i1 + 24, c1, 0);
-            gameGraphics.drawLineY(l + c1 / 2, i1, 24, 0);
-            gameGraphics.drawLineX(l, i1 + 113, c1, 0);
-            gameGraphics.drawText("Magic", l + c1 / 4, i1 + 16, 4, 0);
-            gameGraphics.drawText("Prayers", l + c1 / 4 + c1 / 2, i1 + 16, 4, 0);
+            gameGraphics.DrawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
+            gameGraphics.DrawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
+            gameGraphics.DrawBoxAlpha(l, i1 + 24, c1, 90, GameImage.RgbToInt(220, 220, 220), 128);
+            gameGraphics.DrawBoxAlpha(l, i1 + 24 + 90, c1, c2 - 90 - 24, GameImage.RgbToInt(160, 160, 160), 128);
+            gameGraphics.DrawLineX(l, i1 + 24, c1, 0);
+            gameGraphics.DrawLineY(l + c1 / 2, i1, 24, 0);
+            gameGraphics.DrawLineX(l, i1 + 113, c1, 0);
+            gameGraphics.DrawText("Magic", l + c1 / 4, i1 + 16, 4, 0);
+            gameGraphics.DrawText("Prayers", l + c1 / 4 + c1 / 2, i1 + 16, 4, 0);
             if (menuMagicPrayersSelected == 0)
             {
-                spellMenu.clearList(spellMenuHandle);
+                spellMenu.ClearList(spellMenuHandle);
                 int l1 = 0;
-                for (int l2 = 0; l2 < Data.GameData.spellCount; l2++)
+                for (int l2 = 0; l2 < Data.GameData.spellCount; l2 += 1)
                 {
-                    String s1 = "@yel@";
-                    for (int k4 = 0; k4 < Data.GameData.spellDifferentRuneCount[l2]; k4++)
+                    string s1 = "@yel@";
+                    for (int k4 = 0; k4 < Data.GameData.spellDifferentRuneCount[l2]; k4 += 1)
                     {
                         int j5 = Data.GameData.spellRequiredRuneIds[l2][k4];
-                        if (hasRequiredRunes(j5, Data.GameData.spellRequiredRuneCount[l2][k4]))
+                        if (HasRequiredRunes(j5, Data.GameData.spellRequiredRuneCount[l2][k4]))
                         {
                             continue;
                         }
@@ -5682,49 +5749,49 @@ namespace OpenRS.Net.Client
                     int k5 = playerStatCurrent[6];
                     if (Data.GameData.spellRequiredLevel[l2] > k5)
                     {
-                        s1 = "@bla@";
+                        s1 = "@normalZ@";
                     }
 
-                    spellMenu.addListItem(spellMenuHandle, l1++, s1 + "Level " + Data.GameData.spellRequiredLevel[l2] + ": " + Data.GameData.spellName[l2]);
+                    spellMenu.AddListItem(spellMenuHandle, l1++, s1 + "Level " + Data.GameData.spellRequiredLevel[l2] + ": " + Data.GameData.spellName[l2]);
                 }
 
-                spellMenu.drawMenu();
-                int l3 = spellMenu.getEntryHighlighted(spellMenuHandle);
+                spellMenu.DrawMenu();
+                int l3 = spellMenu.GetEntryHighlighted(spellMenuHandle);
                 if (l3 != -1)
                 {
-                    gameGraphics.drawString("Level " + Data.GameData.spellRequiredLevel[l3] + ": " + Data.GameData.spellName[l3], l + 2, i1 + 124, 1, 0xffff00);
-                    gameGraphics.drawString(Data.GameData.spellDescription[l3], l + 2, i1 + 136, 0, 0xffffff);
-                    for (int l4 = 0; l4 < Data.GameData.spellDifferentRuneCount[l3]; l4++)
+                    gameGraphics.DrawString("Level " + Data.GameData.spellRequiredLevel[l3] + ": " + Data.GameData.spellName[l3], l + 2, i1 + 124, 1, 0xffff00);
+                    gameGraphics.DrawString(Data.GameData.spellDescription[l3], l + 2, i1 + 136, 0, 0xffffff);
+                    for (int l4 = 0; l4 < Data.GameData.spellDifferentRuneCount[l3]; l4 += 1)
                     {
                         int l5 = Data.GameData.spellRequiredRuneIds[l3][l4];
-                        gameGraphics.drawPicture(l + 2 + l4 * 44, i1 + 150, baseItemPicture + Data.GameData.itemInventoryPicture[l5]);
-                        int i6 = getInventoryItemTotalCount(l5);
+                        gameGraphics.DrawPicture(l + 2 + l4 * 44, i1 + 150, baseItemPicture + Data.GameData.itemInventoryPicture[l5]);
+                        int i6 = GetInventoryItemTotalCount(l5);
                         int j6 = Data.GameData.spellRequiredRuneCount[l3][l4];
-                        String s3 = "@red@";
-                        if (hasRequiredRunes(l5, j6))
+                        string s3 = "@red@";
+                        if (HasRequiredRunes(l5, j6))
                         {
                             s3 = "@gre@";
                         }
 
-                        gameGraphics.drawString(s3 + i6 + "/" + j6, l + 2 + l4 * 44, i1 + 150, 1, 0xffffff);
+                        gameGraphics.DrawString(s3 + i6 + "/" + j6, l + 2 + l4 * 44, i1 + 150, 1, 0xffffff);
                     }
 
                 }
                 else
                 {
-                    gameGraphics.drawString("Point at a spell for a description", l + 2, i1 + 124, 1, 0);
+                    gameGraphics.DrawString("Point at a spell for a description", l + 2, i1 + 124, 1, 0);
                 }
             }
             if (menuMagicPrayersSelected == 1)
             {
-                spellMenu.clearList(spellMenuHandle);
+                spellMenu.ClearList(spellMenuHandle);
                 int i2 = 0;
-                for (int i3 = 0; i3 < Data.GameData.prayerCount; i3++)
+                for (int i3 = 0; i3 < Data.GameData.prayerCount; i3 += 1)
                 {
-                    String s2 = "@whi@";
+                    string s2 = "@whi@";
                     if (Data.GameData.prayerRequiredLevel[i3] > playerStatBase[5])
                     {
-                        s2 = "@bla@";
+                        s2 = "@normalZ@";
                     }
 
                     if (prayerOn[i3])
@@ -5732,20 +5799,20 @@ namespace OpenRS.Net.Client
                         s2 = "@gre@";
                     }
 
-                    spellMenu.addListItem(spellMenuHandle, i2++, s2 + "Level " + Data.GameData.prayerRequiredLevel[i3] + ": " + Data.GameData.prayerName[i3]);
+                    spellMenu.AddListItem(spellMenuHandle, i2++, s2 + "Level " + Data.GameData.prayerRequiredLevel[i3] + ": " + Data.GameData.prayerName[i3]);
                 }
 
-                spellMenu.drawMenu();
-                int i4 = spellMenu.getEntryHighlighted(spellMenuHandle);
+                spellMenu.DrawMenu();
+                int i4 = spellMenu.GetEntryHighlighted(spellMenuHandle);
                 if (i4 != -1)
                 {
-                    gameGraphics.drawText("Level " + Data.GameData.prayerRequiredLevel[i4] + ": " + Data.GameData.prayerName[i4], l + c1 / 2, i1 + 130, 1, 0xffff00);
-                    gameGraphics.drawText(Data.GameData.prayerDescription[i4], l + c1 / 2, i1 + 145, 0, 0xffffff);
-                    gameGraphics.drawText("Drain rate: " + Data.GameData.prayerDrainRate[i4], l + c1 / 2, i1 + 160, 1, 0);
+                    gameGraphics.DrawText("Level " + Data.GameData.prayerRequiredLevel[i4] + ": " + Data.GameData.prayerName[i4], l + c1 / 2, i1 + 130, 1, 0xffff00);
+                    gameGraphics.DrawText(Data.GameData.prayerDescription[i4], l + c1 / 2, i1 + 145, 0, 0xffffff);
+                    gameGraphics.DrawText("Drain rate: " + Data.GameData.prayerDrainRate[i4], l + c1 / 2, i1 + 160, 1, 0);
                 }
                 else
                 {
-                    gameGraphics.drawString("Point at a prayer for a description", l + 2, i1 + 124, 1, 0);
+                    gameGraphics.DrawString("Point at a prayer for a description", l + 2, i1 + 124, 1, 0);
                 }
             }
             if (!canClick)
@@ -5757,44 +5824,44 @@ namespace OpenRS.Net.Client
             i1 = base.mouseY - 36;
             if (l >= 0 && i1 >= 0 && l < 196 && i1 < 182)
             {
-                spellMenu.mouseClick(l + (((GameImage)(gameGraphics)).gameWidth - 199), i1 + 36, base.lastMouseButton, base.mouseButton);
+                spellMenu.MouseClick(l + (((GameImage)(gameGraphics)).gameWidth - 199), i1 + 36, base.lastMouseButton, base.mouseButton);
                 if (i1 <= 24 && mouseButtonClick == 1)
                 {
                     if (l < 98 && menuMagicPrayersSelected == 1)
                     {
                         menuMagicPrayersSelected = 0;
-                        spellMenu.switchList(spellMenuHandle);
+                        spellMenu.SwitchList(spellMenuHandle);
                     }
                     else
                         if (l > 98 && menuMagicPrayersSelected == 0)
                         {
                             menuMagicPrayersSelected = 1;
-                            spellMenu.switchList(spellMenuHandle);
+                            spellMenu.SwitchList(spellMenuHandle);
                         }
                 }
 
                 if (mouseButtonClick == 1 && menuMagicPrayersSelected == 0)
                 {
-                    int j2 = spellMenu.getEntryHighlighted(spellMenuHandle);
+                    int j2 = spellMenu.GetEntryHighlighted(spellMenuHandle);
                     if (j2 != -1)
                     {
                         int j3 = playerStatCurrent[6];
                         if (Data.GameData.spellRequiredLevel[j2] > j3)
                         {
-                            displayMessage("Your magic ability is not high enough for this spell", 3);
+                            DisplayMessage("Your magic ability is not high enough for this spell", 3);
                         }
                         else
                         {
                             int j4;
-                            for (j4 = 0; j4 < Data.GameData.spellDifferentRuneCount[j2]; j4++)
+                            for (j4 = 0; j4 < Data.GameData.spellDifferentRuneCount[j2]; j4 += 1)
                             {
                                 int i5 = Data.GameData.spellRequiredRuneIds[j2][j4];
-                                if (hasRequiredRunes(i5, Data.GameData.spellRequiredRuneCount[j2][j4]))
+                                if (HasRequiredRunes(i5, Data.GameData.spellRequiredRuneCount[j2][j4]))
                                 {
                                     continue;
                                 }
 
-                                displayMessage("You don't have all the reagents you need for this spell", 3);
+                                DisplayMessage("You don't have all the reagents you need for this spell", 3);
                                 j4 = -1;
                                 break;
                             }
@@ -5809,35 +5876,35 @@ namespace OpenRS.Net.Client
                 }
                 if (mouseButtonClick == 1 && menuMagicPrayersSelected == 1)
                 {
-                    int k2 = spellMenu.getEntryHighlighted(spellMenuHandle);
+                    int k2 = spellMenu.GetEntryHighlighted(spellMenuHandle);
                     if (k2 != -1)
                     {
                         int k3 = playerStatBase[5];
                         if (Data.GameData.prayerRequiredLevel[k2] > k3)
                         {
-                            displayMessage("Your prayer ability is not high enough for this prayer", 3);
+                            DisplayMessage("Your prayer ability is not high enough for this prayer", 3);
                         }
                         else
                             if (playerStatCurrent[5] == 0)
                         {
-                            displayMessage("You have run out of prayer points. Return to a church to recharge", 3);
+                            DisplayMessage("You have Run out of prayer points. Return to a church to recharge", 3);
                         }
                         else
                                 if (prayerOn[k2])
                                 {
-                                    base.streamClass.createPacket(248);
-                                    base.streamClass.addByte(k2);
-                                    base.streamClass.formatPacket();
+                                    base.streamClass.CreatePacket(248);
+                                    base.streamClass.AddByte(k2);
+                                    base.streamClass.FormatPacket();
                                     prayerOn[k2] = false;
-                                    playSound("prayeroff");
+                                    PlaySound("prayeroff");
                                 }
                                 else
                                 {
-                                    base.streamClass.createPacket(56);
-                                    base.streamClass.addByte(k2);
-                                    base.streamClass.formatPacket();
+                                    base.streamClass.CreatePacket(56);
+                                    base.streamClass.AddByte(k2);
+                                    base.streamClass.FormatPacket();
                                     prayerOn[k2] = true;
-                                    playSound("prayeron");
+                                    PlaySound("prayeron");
                                 }
                     }
                 }
@@ -5845,7 +5912,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public override sbyte[] unpackData(String fileName, String fileTitle, int progressPercentage)
+        public override sbyte[] UnpackData(string fileName, string fileTitle, int progressPercentage)
         {
             sbyte[] abyte0 = Link.GetFile(fileName);
             if (abyte0 is not null)
@@ -5854,12 +5921,12 @@ namespace OpenRS.Net.Client
                 int i1 = ((abyte0[3] & 0xff) << 16) + ((abyte0[4] & 0xff) << 8) + (abyte0[5] & 0xff);
 
                 sbyte[] abyte1 = new sbyte[abyte0.Length - 6];
-                for (int j1 = 0; j1 < abyte0.Length - 6; j1++)
+                for (int j1 = 0; j1 < abyte0.Length - 6; j1 += 1)
                 {
                     abyte1[j1] = abyte0[j1 + 6];
                 }
 
-                drawLoadingBarText(progressPercentage, "Unpacking " + fileTitle);
+                DrawLoadingBarText(progressPercentage, "Unpacking " + fileTitle);
                 if (i1 != l)
                 {
                     sbyte[] abyte2 = new sbyte[l];
@@ -5885,62 +5952,62 @@ namespace OpenRS.Net.Client
                 {
                     OnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + fileTitle, progressPercentage));
                 }
-                return base.unpackData(fileName, fileTitle, progressPercentage);
+                return base.UnpackData(fileName, fileTitle, progressPercentage);
             }
         }
 
-        public void drawChatMessageTabs()
+        public void DrawChatMessageTabs()
         {
-            gameGraphics.drawPicture(0, windowHeight - 4, baseInventoryPic + 23);
-            int l = GameImage.rgbToInt(200, 200, 255);
+            gameGraphics.DrawPicture(0, windowHeight - 4, baseInventoryPic + 23);
+            int l = GameImage.RgbToInt(200, 200, 255);
             if (messagesTab == 0)
             {
-                l = GameImage.rgbToInt(255, 200, 50);
+                l = GameImage.RgbToInt(255, 200, 50);
             }
 
             if (chatTabAllMsgFlash % 30 > 15)
             {
-                l = GameImage.rgbToInt(255, 50, 50);
+                l = GameImage.RgbToInt(255, 50, 50);
             }
 
-            gameGraphics.drawText("All messages", 54, windowHeight + 6, 0, l);
-            l = GameImage.rgbToInt(200, 200, 255);
+            gameGraphics.DrawText("All messages", 54, windowHeight + 6, 0, l);
+            l = GameImage.RgbToInt(200, 200, 255);
             if (messagesTab == 1)
             {
-                l = GameImage.rgbToInt(255, 200, 50);
+                l = GameImage.RgbToInt(255, 200, 50);
             }
 
             if (chatTabHistoryFlash % 30 > 15)
             {
-                l = GameImage.rgbToInt(255, 50, 50);
+                l = GameImage.RgbToInt(255, 50, 50);
             }
 
-            gameGraphics.drawText("Chat history", 155, windowHeight + 6, 0, l);
-            l = GameImage.rgbToInt(200, 200, 255);
+            gameGraphics.DrawText("Chat history", 155, windowHeight + 6, 0, l);
+            l = GameImage.RgbToInt(200, 200, 255);
             if (messagesTab == 2)
             {
-                l = GameImage.rgbToInt(255, 200, 50);
+                l = GameImage.RgbToInt(255, 200, 50);
             }
 
             if (chatTabQuestFlash % 30 > 15)
             {
-                l = GameImage.rgbToInt(255, 50, 50);
+                l = GameImage.RgbToInt(255, 50, 50);
             }
 
-            gameGraphics.drawText("Quest history", 255, windowHeight + 6, 0, l);
-            l = GameImage.rgbToInt(200, 200, 255);
+            gameGraphics.DrawText("Quest history", 255, windowHeight + 6, 0, l);
+            l = GameImage.RgbToInt(200, 200, 255);
             if (messagesTab == 3)
             {
-                l = GameImage.rgbToInt(255, 200, 50);
+                l = GameImage.RgbToInt(255, 200, 50);
             }
 
             if (chatTabPrivateFlash % 30 > 15)
             {
-                l = GameImage.rgbToInt(255, 50, 50);
+                l = GameImage.RgbToInt(255, 50, 50);
             }
 
-            gameGraphics.drawText("Private history", 355, windowHeight + 6, 0, l);
-            gameGraphics.drawText("Report abuse", 457, windowHeight + 6, 0, 0xffffff);
+            gameGraphics.DrawText("Private history", 355, windowHeight + 6, 0, l);
+            gameGraphics.DrawText("Report abuse", 457, windowHeight + 6, 0, 0xffffff);
         }
 
         //public URL getDocumentBase() {
@@ -5952,7 +6019,7 @@ namespace OpenRS.Net.Client
 
         private readonly Lock _sync = new();
         public static bool sendingPing = false;
-        public void sendPingPacketAsync()
+        public void SendPingPacketAsync()
         {
             lock (_sync)
             {
@@ -5968,7 +6035,7 @@ namespace OpenRS.Net.Client
             {
                 try
                 {
-                    sendPingPacket();
+                    SendPingPacket();
                 }
                 finally
                 {
@@ -5991,21 +6058,21 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void checkGameInputs()
+        public void CheckGameInputs()
         {
             if (systemUpdate > 1)
             {
-                systemUpdate--;
+                systemUpdate -= 1;
             }
 
-            sendPingPacketAsync();
+            SendPingPacketAsync();
 
 
 
 
             if (logoutTimer > 0)
             {
-                logoutTimer--;
+                logoutTimer -= 1;
             }
 
             if (ourPlayer.currentSprite == 8 || ourPlayer.currentSprite == 9)
@@ -6015,15 +6082,15 @@ namespace OpenRS.Net.Client
 
             if (combatTimeout > 0)
             {
-                combatTimeout--;
+                combatTimeout -= 1;
             }
 
             if (showAppearanceWindow)
             {
-                updateAppearanceWindow();
+                UpdateAppearanceWindow();
                 return;
             }
-            for (int l = 0; l < playerCount; l++)
+            for (int l = 0; l < playerCount; l += 1)
             {
                 ClientMob player = playerArray[l];
                 int j1 = (player.waypointCurrent + 1) % 10;
@@ -6130,35 +6197,35 @@ namespace OpenRS.Net.Client
                 }
                 if (player.lastMessageTimeout > 0)
                 {
-                    player.lastMessageTimeout--;
+                    player.lastMessageTimeout -= 1;
                 }
 
                 if (player.playerSkullTimeout > 0)
                 {
-                    player.playerSkullTimeout--;
+                    player.playerSkullTimeout -= 1;
                 }
 
                 if (player.combatTimer > 0)
                 {
-                    player.combatTimer--;
+                    player.combatTimer -= 1;
                 }
 
                 if (playerAliveTimeout > 0)
                 {
-                    playerAliveTimeout--;
+                    playerAliveTimeout -= 1;
                     if (playerAliveTimeout == 0)
                     {
-                        displayMessage("You have been granted another life. Be more careful this time!", 3);
+                        DisplayMessage("You have been granted another life. Be more careful this time!", 3);
                     }
 
                     if (playerAliveTimeout == 0)
                     {
-                        displayMessage("You retain your skills. Your objects land where you died", 3);
+                        DisplayMessage("You retain your skills. Your objects land where you died", 3);
                     }
                 }
             }
 
-            for (int i1 = 0; i1 < npcCount; i1++)
+            for (int i1 = 0; i1 < npcCount; i1 += 1)
             {
                 ClientMob f2 = npcArray[i1];
                 int i2 = (f2.waypointCurrent + 1) % 10;
@@ -6269,41 +6336,41 @@ namespace OpenRS.Net.Client
                 }
                 if (f2.lastMessageTimeout > 0)
                 {
-                    f2.lastMessageTimeout--;
+                    f2.lastMessageTimeout -= 1;
                 }
 
                 if (f2.playerSkullTimeout > 0)
                 {
-                    f2.playerSkullTimeout--;
+                    f2.playerSkullTimeout -= 1;
                 }
 
                 if (f2.combatTimer > 0)
                 {
-                    f2.combatTimer--;
+                    f2.combatTimer -= 1;
                 }
             }
 
             if (drawMenuTab != 2)
             {
-                if (GameImage.bnn > 0)
+                if (GameImage.spiralDrawCount > 0)
                 {
                     sleepWordDelayTimer += 1;
                 }
 
-                if (GameImage.caa > 0)
+                if (GameImage.characterDrawCount > 0)
                 {
                     sleepWordDelayTimer = 0;
                 }
 
-                GameImage.bnn = 0;
-                GameImage.caa = 0;
+                GameImage.spiralDrawCount = 0;
+                GameImage.characterDrawCount = 0;
             }
-            for (int k1 = 0; k1 < playerCount; k1++)
+            for (int k1 = 0; k1 < playerCount; k1 += 1)
             {
                 ClientMob f3 = playerArray[k1];
                 if (f3.projectileDistance > 0)
                 {
-                    f3.projectileDistance--;
+                    f3.projectileDistance -= 1;
                 }
             }
 
@@ -6380,25 +6447,25 @@ namespace OpenRS.Net.Client
             {
                 if (base.enteredInputText.Length > 0)
                 {
-                    if (base.enteredInputText.ToLower().Equals("::lostcon"))
+                    if (base.enteredInputText.ToLower() == "::lostcon")
                     {
-                        base.streamClass.closeStream();
+                        base.streamClass.CloseStream();
                     }
                     else
-                        if (base.enteredInputText.ToLower().Equals("::closecon"))
+                        if (base.enteredInputText.ToLower() == "::closecon")
                         {
-                            requestLogout();
+                            RequestLogout();
                         }
                         else
                         {
-                            base.streamClass.createPacket(200);
-                            base.streamClass.addString(base.enteredInputText);
+                            base.streamClass.CreatePacket(200);
+                            base.streamClass.AddString(base.enteredInputText);
                             if (!sleepWordDelay)
                             {
-                                base.streamClass.addByte(0);
+                                base.streamClass.AddByte(0);
                                 sleepWordDelay = true;
                             }
-                            base.streamClass.formatPacket();
+                            base.streamClass.FormatPacket();
                             base.inputText = "";
                             base.enteredInputText = "";
                             sleepingStatusText = "Please wait...";
@@ -6407,14 +6474,14 @@ namespace OpenRS.Net.Client
 
                 if (base.lastMouseButton == 1 && base.mouseY > 275 && base.mouseY < 310 && base.mouseX > 56 && base.mouseX < 456)
                 {
-                    base.streamClass.createPacket(200);
-                    base.streamClass.addString("-null-");
+                    base.streamClass.CreatePacket(200);
+                    base.streamClass.AddString("-null-");
                     if (!sleepWordDelay)
                     {
-                        base.streamClass.addByte(0);
+                        base.streamClass.AddByte(0);
                         sleepWordDelay = true;
                     }
-                    base.streamClass.formatPacket();
+                    base.streamClass.FormatPacket();
                     base.inputText = "";
                     base.enteredInputText = "";
                     sleepingStatusText = "Please wait...";
@@ -6454,42 +6521,42 @@ namespace OpenRS.Net.Client
                 base.lastMouseButton = 0;
                 base.mouseButton = 0;
             }
-            chatInputMenu.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
+            chatInputMenu.MouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
             if (messagesTab > 0 && base.mouseX >= 494 && base.mouseY >= windowHeight - 66)
             {
                 base.lastMouseButton = 0;
             }
 
-            if (chatInputMenu.isClicked(chatInputBox))
+            if (chatInputMenu.IsClicked(chatInputBox))
             {
-                String input = chatInputMenu.getText(chatInputBox);
-                chatInputMenu.updateText(chatInputBox, "");
+                string input = chatInputMenu.GetText(chatInputBox);
+                chatInputMenu.UpdateText(chatInputBox, "");
                 if (input.StartsWith("::"))
                 {
-                    if (!handleCommand(input.Substring(2)))
+                    if (!HandleCommand(input.Substring(2)))
                     {
-                        sendCommand(input.Substring(2));
+                        SendCommand(input.Substring(2));
                     }
                 }
                 else
                 {
-                    int len = ChatMessage.stringToBytes(input);
-                    sendChatMessage(ChatMessage.lastChat, len);
-                    input = ChatMessage.bytesToString(ChatMessage.lastChat, 0, len);
+                    int len = ChatMessage.StringToBytes(input);
+                    SendChatMessage(ChatMessage.lastChat, len);
+                    input = ChatMessage.BytesToString(ChatMessage.lastChat, 0, len);
                     //if (useChatFilter)
                     //input = ChatFilter.filterChat(input);
                     ourPlayer.lastMessageTimeout = 150;
                     ourPlayer.lastMessage = input;
-                    displayMessage(ourPlayer.username + ": " + input, 2);
+                    DisplayMessage(ourPlayer.username + ": " + input, 2);
                 }
             }
             if (messagesTab == 0)
             {
-                for (int k2 = 0; k2 < 5; k2++)
+                for (int k2 = 0; k2 < 5; k2 += 1)
                 {
                     if (messagesTimeout[k2] > 0)
                     {
-                        messagesTimeout[k2]--;
+                        messagesTimeout[k2] -= 1;
                     }
                 }
             }
@@ -6552,7 +6619,7 @@ namespace OpenRS.Net.Client
                 mouseButtonClick = 2;
             }
 
-            gameCamera.setMousePosition(base.mouseX, base.mouseY);
+            gameCamera.SetMousePosition(base.mouseX, base.mouseY);
             base.lastMouseButton = 0;
             if (configCameraAutoAngle)
             {
@@ -6569,9 +6636,9 @@ namespace OpenRS.Net.Client
                                 cameraAutoAngle = cameraAutoAngle + 1 & 7;
                             }
 
-                            for (int l2 = 0; l2 < 8; l2++)
+                            for (int l2 = 0; l2 < 8; l2 += 1)
                             {
-                                if (validCameraAngle(cameraAutoAngle))
+                                if (IsValidCameraAngle(cameraAutoAngle))
                                 {
                                     break;
                                 }
@@ -6591,9 +6658,9 @@ namespace OpenRS.Net.Client
                                 cameraAutoAngle = cameraAutoAngle + 7 & 7;
                             }
 
-                            for (int i3 = 0; i3 < 8; i3++)
+                            for (int i3 = 0; i3 < 8; i3 += 1)
                             {
-                                if (validCameraAngle(cameraAutoAngle))
+                                if (IsValidCameraAngle(cameraAutoAngle))
                                 {
                                     break;
                                 }
@@ -6636,7 +6703,7 @@ namespace OpenRS.Net.Client
             }
             if (actionPictureType > 0)
             {
-                actionPictureType--;
+                actionPictureType -= 1;
             }
             else
                 if (actionPictureType < 0)
@@ -6644,7 +6711,7 @@ namespace OpenRS.Net.Client
                 actionPictureType += 1;
             }
 
-            gameCamera.updateLightning(17);
+            gameCamera.UpdateLighting(17);
             modelUpdatingTimer += 1;
             if (modelUpdatingTimer > 5)
             {
@@ -6653,23 +6720,23 @@ namespace OpenRS.Net.Client
                 modelTorchNumber = (modelTorchNumber + 1) % 4;
                 modelClawSpellNumber = (modelClawSpellNumber + 1) % 5;
             }
-            for (int j3 = 0; j3 < objectCount; j3++)
+            for (int j3 = 0; j3 < objectCount; j3 += 1)
             {
                 int k4 = objectX[j3];
                 int k5 = objectY[j3];
                 if (k4 >= 0 && k5 >= 0 && k4 < 96 && k5 < 96 && objectType[j3] == 74)
                 {
-                    objectArray[j3].offsetMiniPosition(1, 0, 0);
+                    objectArray[j3].OffsetMiniPosition(1, 0, 0);
                 }
             }
 
-            for (int l4 = 0; l4 < teleBubbleCount; l4++)
+            for (int l4 = 0; l4 < teleBubbleCount; l4 += 1)
             {
                 teleBubbleTime[l4] += 1;
                 if (teleBubbleTime[l4] > 50)
                 {
-                    teleBubbleCount--;
-                    for (int l5 = l4; l5 < teleBubbleCount; l5++)
+                    teleBubbleCount -= 1;
+                    for (int l5 = l4; l5 < teleBubbleCount; l5 += 1)
                     {
                         teleBubbleX[l5] = teleBubbleX[l5 + 1];
                         teleBubbleY[l5] = teleBubbleY[l5 + 1];
@@ -6682,70 +6749,70 @@ namespace OpenRS.Net.Client
 
         }
 
-        public void createAppearanceWindow()
+        public void CreateAppearanceWindow()
         {
             appearanceMenu = new Menu(gameGraphics, 100);
-            appearanceMenu.drawText(256, 10, "Please design Your Character", 4, true);
+            appearanceMenu.DrawText(256, 10, "Please design Your Character", 4, true);
             int l = 140;
             int i1 = 34;
             l += 116;
             i1 -= 10;
-            appearanceMenu.drawText(l - 55, i1 + 110, "Front", 3, true);
-            appearanceMenu.drawText(l, i1 + 110, "Side", 3, true);
-            appearanceMenu.drawText(l + 55, i1 + 110, "Back", 3, true);
+            appearanceMenu.DrawText(l - 55, i1 + 110, "Front", 3, true);
+            appearanceMenu.DrawText(l, i1 + 110, "Side", 3, true);
+            appearanceMenu.DrawText(l + 55, i1 + 110, "Back", 3, true);
             sbyte byte0 = 54;
             i1 += 145;
-            appearanceMenu.drawCurvedBox(l - byte0, i1, 53, 41);
-            appearanceMenu.drawText(l - byte0, i1 - 8, "Head", 1, true);
-            appearanceMenu.drawText(l - byte0, i1 + 8, "Type", 1, true);
-            appearanceMenu.drawArrow(l - byte0 - 40, i1, Menu.baseScrollPic + 7);
-            appearanceHeadLeftArrow = appearanceMenu.createButton(l - byte0 - 40, i1, 20, 20);
-            appearanceMenu.drawArrow((l - byte0) + 40, i1, Menu.baseScrollPic + 6);
-            appearanceHeadRightArrow = appearanceMenu.createButton((l - byte0) + 40, i1, 20, 20);
-            appearanceMenu.drawCurvedBox(l + byte0, i1, 53, 41);
-            appearanceMenu.drawText(l + byte0, i1 - 8, "Hair", 1, true);
-            appearanceMenu.drawText(l + byte0, i1 + 8, "Color", 1, true);
-            appearanceMenu.drawArrow((l + byte0) - 40, i1, Menu.baseScrollPic + 7);
-            appearanceHairLeftArrow = appearanceMenu.createButton((l + byte0) - 40, i1, 20, 20);
-            appearanceMenu.drawArrow(l + byte0 + 40, i1, Menu.baseScrollPic + 6);
-            appearanceHairRightArrow = appearanceMenu.createButton(l + byte0 + 40, i1, 20, 20);
+            appearanceMenu.DrawCurvedBox(l - byte0, i1, 53, 41);
+            appearanceMenu.DrawText(l - byte0, i1 - 8, "Head", 1, true);
+            appearanceMenu.DrawText(l - byte0, i1 + 8, "Type", 1, true);
+            appearanceMenu.DrawArrow(l - byte0 - 40, i1, Menu.baseScrollPic + 7);
+            appearanceHeadLeftArrow = appearanceMenu.CreateButton(l - byte0 - 40, i1, 20, 20);
+            appearanceMenu.DrawArrow((l - byte0) + 40, i1, Menu.baseScrollPic + 6);
+            appearanceHeadRightArrow = appearanceMenu.CreateButton((l - byte0) + 40, i1, 20, 20);
+            appearanceMenu.DrawCurvedBox(l + byte0, i1, 53, 41);
+            appearanceMenu.DrawText(l + byte0, i1 - 8, "Hair", 1, true);
+            appearanceMenu.DrawText(l + byte0, i1 + 8, "Color", 1, true);
+            appearanceMenu.DrawArrow((l + byte0) - 40, i1, Menu.baseScrollPic + 7);
+            appearanceHairLeftArrow = appearanceMenu.CreateButton((l + byte0) - 40, i1, 20, 20);
+            appearanceMenu.DrawArrow(l + byte0 + 40, i1, Menu.baseScrollPic + 6);
+            appearanceHairRightArrow = appearanceMenu.CreateButton(l + byte0 + 40, i1, 20, 20);
             i1 += 50;
-            appearanceMenu.drawCurvedBox(l - byte0, i1, 53, 41);
-            appearanceMenu.drawText(l - byte0, i1, "Gender", 1, true);
-            appearanceMenu.drawArrow(l - byte0 - 40, i1, Menu.baseScrollPic + 7);
-            appearanceGenderLeftArrow = appearanceMenu.createButton(l - byte0 - 40, i1, 20, 20);
-            appearanceMenu.drawArrow((l - byte0) + 40, i1, Menu.baseScrollPic + 6);
-            appearanceGenderRightArrow = appearanceMenu.createButton((l - byte0) + 40, i1, 20, 20);
-            appearanceMenu.drawCurvedBox(l + byte0, i1, 53, 41);
-            appearanceMenu.drawText(l + byte0, i1 - 8, "Top", 1, true);
-            appearanceMenu.drawText(l + byte0, i1 + 8, "Color", 1, true);
-            appearanceMenu.drawArrow((l + byte0) - 40, i1, Menu.baseScrollPic + 7);
-            appearanceTopLeftArrow = appearanceMenu.createButton((l + byte0) - 40, i1, 20, 20);
-            appearanceMenu.drawArrow(l + byte0 + 40, i1, Menu.baseScrollPic + 6);
-            appearanceTopRightArrow = appearanceMenu.createButton(l + byte0 + 40, i1, 20, 20);
+            appearanceMenu.DrawCurvedBox(l - byte0, i1, 53, 41);
+            appearanceMenu.DrawText(l - byte0, i1, "Gender", 1, true);
+            appearanceMenu.DrawArrow(l - byte0 - 40, i1, Menu.baseScrollPic + 7);
+            appearanceGenderLeftArrow = appearanceMenu.CreateButton(l - byte0 - 40, i1, 20, 20);
+            appearanceMenu.DrawArrow((l - byte0) + 40, i1, Menu.baseScrollPic + 6);
+            appearanceGenderRightArrow = appearanceMenu.CreateButton((l - byte0) + 40, i1, 20, 20);
+            appearanceMenu.DrawCurvedBox(l + byte0, i1, 53, 41);
+            appearanceMenu.DrawText(l + byte0, i1 - 8, "Top", 1, true);
+            appearanceMenu.DrawText(l + byte0, i1 + 8, "Color", 1, true);
+            appearanceMenu.DrawArrow((l + byte0) - 40, i1, Menu.baseScrollPic + 7);
+            appearanceTopLeftArrow = appearanceMenu.CreateButton((l + byte0) - 40, i1, 20, 20);
+            appearanceMenu.DrawArrow(l + byte0 + 40, i1, Menu.baseScrollPic + 6);
+            appearanceTopRightArrow = appearanceMenu.CreateButton(l + byte0 + 40, i1, 20, 20);
             i1 += 50;
-            appearanceMenu.drawCurvedBox(l - byte0, i1, 53, 41);
-            appearanceMenu.drawText(l - byte0, i1 - 8, "Skin", 1, true);
-            appearanceMenu.drawText(l - byte0, i1 + 8, "Color", 1, true);
-            appearanceMenu.drawArrow(l - byte0 - 40, i1, Menu.baseScrollPic + 7);
-            appearanceSkinLeftArrow = appearanceMenu.createButton(l - byte0 - 40, i1, 20, 20);
-            appearanceMenu.drawArrow((l - byte0) + 40, i1, Menu.baseScrollPic + 6);
-            appearanceSkingRightArrow = appearanceMenu.createButton((l - byte0) + 40, i1, 20, 20);
-            appearanceMenu.drawCurvedBox(l + byte0, i1, 53, 41);
-            appearanceMenu.drawText(l + byte0, i1 - 8, "Bottom", 1, true);
-            appearanceMenu.drawText(l + byte0, i1 + 8, "Color", 1, true);
-            appearanceMenu.drawArrow((l + byte0) - 40, i1, Menu.baseScrollPic + 7);
-            appearanceBottomLeftArrow = appearanceMenu.createButton((l + byte0) - 40, i1, 20, 20);
-            appearanceMenu.drawArrow(l + byte0 + 40, i1, Menu.baseScrollPic + 6);
-            appearanceBottomRightArrow = appearanceMenu.createButton(l + byte0 + 40, i1, 20, 20);
+            appearanceMenu.DrawCurvedBox(l - byte0, i1, 53, 41);
+            appearanceMenu.DrawText(l - byte0, i1 - 8, "Skin", 1, true);
+            appearanceMenu.DrawText(l - byte0, i1 + 8, "Color", 1, true);
+            appearanceMenu.DrawArrow(l - byte0 - 40, i1, Menu.baseScrollPic + 7);
+            appearanceSkinLeftArrow = appearanceMenu.CreateButton(l - byte0 - 40, i1, 20, 20);
+            appearanceMenu.DrawArrow((l - byte0) + 40, i1, Menu.baseScrollPic + 6);
+            appearanceSkingRightArrow = appearanceMenu.CreateButton((l - byte0) + 40, i1, 20, 20);
+            appearanceMenu.DrawCurvedBox(l + byte0, i1, 53, 41);
+            appearanceMenu.DrawText(l + byte0, i1 - 8, "Bottom", 1, true);
+            appearanceMenu.DrawText(l + byte0, i1 + 8, "Color", 1, true);
+            appearanceMenu.DrawArrow((l + byte0) - 40, i1, Menu.baseScrollPic + 7);
+            appearanceBottomLeftArrow = appearanceMenu.CreateButton((l + byte0) - 40, i1, 20, 20);
+            appearanceMenu.DrawArrow(l + byte0 + 40, i1, Menu.baseScrollPic + 6);
+            appearanceBottomRightArrow = appearanceMenu.CreateButton(l + byte0 + 40, i1, 20, 20);
             i1 += 82;
             i1 -= 35;
-            appearanceMenu.drawButton(l, i1, 200, 30);
-            appearanceMenu.drawText(l, i1, "Accept", 4, false);
-            appearanceAcceptButton = appearanceMenu.createButton(l, i1, 200, 30);
+            appearanceMenu.DrawButton(l, i1, 200, 30);
+            appearanceMenu.DrawText(l, i1, "Accept", 4, false);
+            appearanceAcceptButton = appearanceMenu.CreateButton(l, i1, 200, 30);
         }
 
-        public override void handleKeyDown(Keys key, char c)
+        public override void HandleKeyDown(Keys key, char c)
         {
             if (key == Keys.Left || key == Keys.Right || key == Keys.Up || key == Keys.Down)
             {
@@ -6756,37 +6823,37 @@ namespace OpenRS.Net.Client
             {
                 if (loginScreen == 0 && loginMenuFirst is not null)
                 {
-                    loginMenuFirst.keyPress(key, c);
+                    loginMenuFirst.KeyPress(key, c);
                 }
 
                 if (loginScreen == 1 && loginNewUser is not null)
                 {
-                    loginNewUser.keyPress(key, c);
+                    loginNewUser.KeyPress(key, c);
                 }
 
                 if (loginScreen == 2 && loginMenuLogin is not null)
                 {
-                    loginMenuLogin.keyPress(key, c);
+                    loginMenuLogin.KeyPress(key, c);
                 }
             }
             if (loggedIn)
             {
                 if (key == Keys.F12)
                 {
-                    takeScreenshot(true);
+                    TakeScreenshot(true);
                 }
                 else if (showAppearanceWindow && appearanceMenu is not null)
                 {
-                    appearanceMenu.keyPress(key, c);
+                    appearanceMenu.KeyPress(key, c);
                 }
                 else if (showFriendsBox == 0 && showAbuseBox == 0 && !isSleeping && chatInputMenu is not null)
                 {
-                    chatInputMenu.keyPress(key, c);
+                    chatInputMenu.KeyPress(key, c);
                 }
             }
         }
 
-        public void generateWorldRightClickMenu()
+        public void GenerateWorldRightClickMenu()
         {
             int l = 2203 - (sectionY + wildY + areaY);
             if (sectionX + wildX + areaX >= 2640)
@@ -6795,20 +6862,20 @@ namespace OpenRS.Net.Client
             }
 
             int ground = -1;
-            for (int j1 = 0; j1 < objectCount; j1++)
+            for (int j1 = 0; j1 < objectCount; j1 += 1)
             {
                 objectAlreadyInMenu[j1] = false;
             }
 
-            for (int k1 = 0; k1 < wallObjectCount; k1++)
+            for (int k1 = 0; k1 < wallObjectCount; k1 += 1)
             {
                 wallObjectAlreadyInMenu[k1] = false;
             }
 
-            int optionCount = gameCamera.getOptionCount();
-            GameObject[] objects = gameCamera.getHighlightedObjects();
-            int[] players = gameCamera.getHighlightedPlayers();
-            for (int i2 = 0; i2 < optionCount; i2++)
+            int optionCount = gameCamera.GetOptionCount();
+            GameObject[] objects = gameCamera.GetHighlightedObjects();
+            int[] players = gameCamera.GetHighlightedPlayers();
+            for (int i2 = 0; i2 < optionCount; i2 += 1)
             {
                 if (menuOptionsCount > 200)
                 {
@@ -6825,7 +6892,7 @@ namespace OpenRS.Net.Client
                         int type = _obj.entityType[player] / 10000;
                         if (type == 1)
                         {
-                            String s1 = "";
+                            string s1 = "";
                             int k4 = 0;
                             if (ourPlayer.level > 0 && playerArray[index].level > 0)
                             {
@@ -6990,7 +7057,7 @@ namespace OpenRS.Net.Client
                             else
                                 if (type == 3)
                                 {
-                                    String s2 = "";
+                                    string s2 = "";
                                     int l4 = -1;
                                     int id = npcArray[index].npcId;
                                     if (Data.GameData.npcAttackable[id] > 0)
@@ -7094,7 +7161,7 @@ namespace OpenRS.Net.Client
                                             menuActionY[menuOptionsCount] = npcArray[index].currentY;
                                             menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
                                             menuOptionsCount += 1;
-                                            if (!Data.GameData.npcCommand[id].Equals(""))
+                                            if (Data.GameData.npcCommand[id] != "")
                                             {
                                                 menuText1[menuOptionsCount] = Data.GameData.npcCommand[id];
                                                 menuText2[menuOptionsCount] = "@yel@" + Data.GameData.npcName[npcArray[index].npcId];
@@ -7147,7 +7214,7 @@ namespace OpenRS.Net.Client
                                     }
                                     else
                                     {
-                                        if (!Data.GameData.wallObjectCommand1[i4].ToLower().Equals("WalkTo"))
+                                        if (Data.GameData.wallObjectCommand1[i4].ToLower() != "WalkTo")
                                         {
                                             menuText1[menuOptionsCount] = Data.GameData.wallObjectCommand1[i4];
                                             menuText2[menuOptionsCount] = "@cya@" + Data.GameData.wallObjectName[i4];
@@ -7157,7 +7224,7 @@ namespace OpenRS.Net.Client
                                             menuActionType[menuOptionsCount] = wallObjectDirection[j3];
                                             menuOptionsCount += 1;
                                         }
-                                        if (!Data.GameData.wallObjectCommand2[i4].ToLower().Equals("Examine"))
+                                        if (Data.GameData.wallObjectCommand2[i4].ToLower() != "Examine")
                                         {
                                             menuText1[menuOptionsCount] = Data.GameData.wallObjectCommand2[i4];
                                             menuText2[menuOptionsCount] = "@cya@" + Data.GameData.wallObjectName[i4];
@@ -7213,7 +7280,7 @@ namespace OpenRS.Net.Client
                                         }
                                         else
                                         {
-                                            if (!Data.GameData.objectCommand1[j4].ToLower().Equals("WalkTo"))
+                                            if (Data.GameData.objectCommand1[j4].ToLower() != "WalkTo")
                                             {
                                                 menuText1[menuOptionsCount] = Data.GameData.objectCommand1[j4];
                                                 menuText2[menuOptionsCount] = "@cya@" + Data.GameData.objectName[j4];
@@ -7224,7 +7291,7 @@ namespace OpenRS.Net.Client
                                                 menuActionVar1[menuOptionsCount] = objectType[k3];
                                                 menuOptionsCount += 1;
                                             }
-                                            if (!Data.GameData.objectCommand2[j4].ToLower().Equals("Examine"))
+                                            if (Data.GameData.objectCommand2[j4].ToLower() != "Examine")
                                             {
                                                 menuText1[menuOptionsCount] = Data.GameData.objectCommand2[j4];
                                                 menuText2[menuOptionsCount] = "@cya@" + Data.GameData.objectName[j4];
@@ -7296,7 +7363,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void drawShopBox()
+        public void DrawShopBox()
         {
             if (mouseButtonClick != 0)
             {
@@ -7306,9 +7373,9 @@ namespace OpenRS.Net.Client
                 if (l >= 0 && i1 >= 12 && l < 408 && i1 < 246)
                 {
                     int j1 = 0;
-                    for (int l1 = 0; l1 < 5; l1++)
+                    for (int l1 = 0; l1 < 5; l1 += 1)
                     {
-                        for (int l2 = 0; l2 < 8; l2++)
+                        for (int l2 = 0; l2 < 8; l2 += 1)
                         {
                             int k3 = 7 + l2 * 49;
                             int k4 = 28 + l1 * 34;
@@ -7329,81 +7396,81 @@ namespace OpenRS.Net.Client
                         {
                             if (shopItemCount[selectedShopItemIndex] > 0 && l > 298 && i1 >= 204 && l < 408 && i1 <= 215)
                             {
-                                base.streamClass.createPacket(128);
-                                base.streamClass.addShort(shopItems[selectedShopItemIndex]);
-                                base.streamClass.addInt(shopItemBuyPrice[selectedShopItemIndex]);
-                                base.streamClass.formatPacket();
+                                base.streamClass.CreatePacket(128);
+                                base.streamClass.AddShort(shopItems[selectedShopItemIndex]);
+                                base.streamClass.AddInt(shopItemBuyPrice[selectedShopItemIndex]);
+                                base.streamClass.FormatPacket();
                             }
-                            if (getInventoryItemTotalCount(i3) > 0 && l > 2 && i1 >= 229 && l < 112 && i1 <= 240)
+                            if (GetInventoryItemTotalCount(i3) > 0 && l > 2 && i1 >= 229 && l < 112 && i1 <= 240)
                             {
-                                base.streamClass.createPacket(255);
-                                base.streamClass.addShort(shopItems[selectedShopItemIndex]);
-                                base.streamClass.addInt(shopItemSellPrice[selectedShopItemIndex]);
-                                base.streamClass.formatPacket();
+                                base.streamClass.CreatePacket(255);
+                                base.streamClass.AddShort(shopItems[selectedShopItemIndex]);
+                                base.streamClass.AddInt(shopItemSellPrice[selectedShopItemIndex]);
+                                base.streamClass.FormatPacket();
                             }
                         }
                     }
                 }
                 else
                 {
-                    base.streamClass.createPacket(253);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(253);
+                    base.streamClass.FormatPacket();
                     showShopBox = false;
                     return;
                 }
             }
             sbyte _offsetX = 52;
             sbyte _offsetY = 44;
-            gameGraphics.drawBox(_offsetX, _offsetY, 408, 12, 192);
+            gameGraphics.DrawBox(_offsetX, _offsetY, 408, 12, 192);
             int k1 = 0x989898;
-            gameGraphics.drawBoxAlpha(_offsetX, _offsetY + 12, 408, 17, k1, 160);
-            gameGraphics.drawBoxAlpha(_offsetX, _offsetY + 29, 8, 170, k1, 160);
-            gameGraphics.drawBoxAlpha(_offsetX + 399, _offsetY + 29, 9, 170, k1, 160);
-            gameGraphics.drawBoxAlpha(_offsetX, _offsetY + 199, 408, 47, k1, 160);
-            gameGraphics.drawString("Buying and selling items", _offsetX + 1, _offsetY + 10, 1, 0xffffff);
+            gameGraphics.DrawBoxAlpha(_offsetX, _offsetY + 12, 408, 17, k1, 160);
+            gameGraphics.DrawBoxAlpha(_offsetX, _offsetY + 29, 8, 170, k1, 160);
+            gameGraphics.DrawBoxAlpha(_offsetX + 399, _offsetY + 29, 9, 170, k1, 160);
+            gameGraphics.DrawBoxAlpha(_offsetX, _offsetY + 199, 408, 47, k1, 160);
+            gameGraphics.DrawString("Buying and selling items", _offsetX + 1, _offsetY + 10, 1, 0xffffff);
             int i2 = 0xffffff;
             if (base.mouseX > _offsetX + 320 && base.mouseY >= _offsetY && base.mouseX < _offsetX + 408 && base.mouseY < _offsetY + 12)
             {
                 i2 = 0xff0000;
             }
 
-            gameGraphics.drawLabel("Close window", _offsetX + 406, _offsetY + 10, 1, i2);
-            gameGraphics.drawString("Shops stock in green", _offsetX + 2, _offsetY + 24, 1, 65280);
-            gameGraphics.drawString("Number you own in blue", _offsetX + 135, _offsetY + 24, 1, 65535);
-            gameGraphics.drawString("Your money: " + getInventoryItemTotalCount(10) + "gp", _offsetX + 280, _offsetY + 24, 1, 0xffff00);
+            gameGraphics.DrawLabel("Close window", _offsetX + 406, _offsetY + 10, 1, i2);
+            gameGraphics.DrawString("Shops stock in green", _offsetX + 2, _offsetY + 24, 1, 65280);
+            gameGraphics.DrawString("Number you own in blue", _offsetX + 135, _offsetY + 24, 1, 65535);
+            gameGraphics.DrawString("Your money: " + GetInventoryItemTotalCount(10) + "gp", _offsetX + 280, _offsetY + 24, 1, 0xffff00);
             int j3 = 0xd0d0d0;
             int j4 = 0;
-            for (int boxRow = 0; boxRow < 5; boxRow++)
+            for (int boxRow = 0; boxRow < 5; boxRow += 1)
             {
-                for (int boxRowColumn = 0; boxRowColumn < 8; boxRowColumn++)
+                for (int boxRowColumn = 0; boxRowColumn < 8; boxRowColumn += 1)
                 {
                     int i6 = _offsetX + 7 + boxRowColumn * 49;
                     int l6 = _offsetY + 28 + boxRow * 34;
                     if (selectedShopItemIndex == j4)
                     {
-                        gameGraphics.drawBoxAlpha(i6, l6, 49, 34, 0xff0000, 160);
+                        gameGraphics.DrawBoxAlpha(i6, l6, 49, 34, 0xff0000, 160);
                     }
                     else
                     {
-                        gameGraphics.drawBoxAlpha(i6, l6, 49, 34, j3, 160);
+                        gameGraphics.DrawBoxAlpha(i6, l6, 49, 34, j3, 160);
                     }
 
-                    gameGraphics.drawBoxEdge(i6, l6, 50, 35, 0);
+                    gameGraphics.DrawBoxEdge(i6, l6, 50, 35, 0);
                     if (shopItems[j4] != -1)
                     {
-                        gameGraphics.drawImage(i6, l6, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[shopItems[j4]], Data.GameData.itemPictureMask[shopItems[j4]], 0, 0, false);
-                        gameGraphics.drawString(shopItemCount[j4].ToString(), i6 + 1, l6 + 10, 1, 65280);
-                        gameGraphics.drawLabel(getInventoryItemTotalCount(shopItems[j4]).ToString(), i6 + 47, l6 + 10, 1, 65535);
+                        gameGraphics.DrawImage(i6, l6, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[shopItems[j4]], Data.GameData.itemPictureMask[shopItems[j4]], 0, 0, false);
+                        gameGraphics.DrawString(shopItemCount[j4].ToString(), i6 + 1, l6 + 10, 1, 65280);
+                        gameGraphics.DrawLabel(GetInventoryItemTotalCount(shopItems[j4]).ToString(), i6 + 47, l6 + 10, 1, 65535);
                     }
                     j4 += 1;
                 }
 
             }
 
-            gameGraphics.drawLineX(_offsetX + 5, _offsetY + 222, 398, 0);
+            gameGraphics.DrawLineX(_offsetX + 5, _offsetY + 222, 398, 0);
             if (selectedShopItemIndex == -1)
             {
-                gameGraphics.drawText("Select an object to buy or sell", _offsetX + 204, _offsetY + 214, 3, 0xffff00);
+                gameGraphics.DrawText("Select an object to buy or sell", _offsetX + 204, _offsetY + 214, 3, 0xffff00);
                 return;
             }
             int l5 = shopItems[selectedShopItemIndex];
@@ -7418,20 +7485,20 @@ namespace OpenRS.Net.Client
                     }
 
                     int i7 = (j6 * Data.GameData.itemBasePrice[l5]) / 100;
-                    gameGraphics.drawString("Buy a new " + Data.GameData.itemName[l5] + " for " + i7 + "gp", _offsetX + 2, _offsetY + 214, 1, 0xffff00);
+                    gameGraphics.DrawString("Buy a new " + Data.GameData.itemName[l5] + " for " + i7 + "gp", _offsetX + 2, _offsetY + 214, 1, 0xffff00);
                     int j2 = 0xffffff;
                     if (base.mouseX > _offsetX + 298 && base.mouseY >= _offsetY + 204 && base.mouseX < _offsetX + 408 && base.mouseY <= _offsetY + 215)
                     {
                         j2 = 0xff0000;
                     }
 
-                    gameGraphics.drawLabel("Click here to buy", _offsetX + 405, _offsetY + 214, 3, j2);
+                    gameGraphics.DrawLabel("Click here to buy", _offsetX + 405, _offsetY + 214, 3, j2);
                 }
                 else
                 {
-                    gameGraphics.drawText("This item is not currently available to buy", _offsetX + 204, _offsetY + 214, 3, 0xffff00);
+                    gameGraphics.DrawText("This item is not currently available to buy", _offsetX + 204, _offsetY + 214, 3, 0xffff00);
                 }
-                if (getInventoryItemTotalCount(l5) > 0)
+                if (GetInventoryItemTotalCount(l5) > 0)
                 {
                     int k6 = shopItemSellPriceModifier + shopItemBasePriceModifier[selectedShopItemIndex];
                     if (k6 < 10)
@@ -7440,48 +7507,48 @@ namespace OpenRS.Net.Client
                     }
 
                     int j7 = (k6 * Data.GameData.itemBasePrice[l5]) / 100;
-                    gameGraphics.drawLabel("Sell your " + Data.GameData.itemName[l5] + " for " + j7 + "gp", _offsetX + 405, _offsetY + 239, 1, 0xffff00);
+                    gameGraphics.DrawLabel("Sell your " + Data.GameData.itemName[l5] + " for " + j7 + "gp", _offsetX + 405, _offsetY + 239, 1, 0xffff00);
                     int k2 = 0xffffff;
                     if (base.mouseX > _offsetX + 2 && base.mouseY >= _offsetY + 229 && base.mouseX < _offsetX + 112 && base.mouseY <= _offsetY + 240)
                     {
                         k2 = 0xff0000;
                     }
 
-                    gameGraphics.drawString("Click here to sell", _offsetX + 2, _offsetY + 239, 3, k2);
+                    gameGraphics.DrawString("Click here to sell", _offsetX + 2, _offsetY + 239, 3, k2);
                     return;
                 }
-                gameGraphics.drawText("You do not have any of this item to sell", _offsetX + 204, _offsetY + 239, 3, 0xffff00);
+                gameGraphics.DrawText("You do not have any of this item to sell", _offsetX + 204, _offsetY + 239, 3, 0xffff00);
             }
         }
 
-        public void loadTextures()
+        public void LoadTextures()
         {
-            sbyte[] abyte0 = unpackData("textures.jag", "Textures", 50);
+            sbyte[] abyte0 = UnpackData("textures.jag", "Textures", 50);
             if (abyte0 is null)
             {
                 errorLoading = true;
                 return;
             }
             sbyte[] abyte1 = DataOperations.LoadData("index.dat", 0, abyte0);
-            gameCamera.createTexture(Data.GameData.textureCount, 7, 11);
-            for (int l = 0; l < Data.GameData.textureCount; l++)
+            gameCamera.CreateTexture(Data.GameData.textureCount, 7, 11);
+            for (int l = 0; l < Data.GameData.textureCount; l += 1)
             {
-                String s1 = Data.GameData.textureName[l];
+                string s1 = Data.GameData.textureName[l];
                 sbyte[] abyte2 = DataOperations.LoadData(s1 + ".dat", 0, abyte0);
-                gameGraphics.unpackImageData(baseTexturePic, abyte2, abyte1, 1);
-                gameGraphics.drawBox(0, 0, 128, 128, 0xff00ff);
-                gameGraphics.drawPicture(0, 0, baseTexturePic);
+                gameGraphics.UnpackImageData(baseTexturePic, abyte2, abyte1, 1);
+                gameGraphics.DrawBox(0, 0, 128, 128, 0xff00ff);
+                gameGraphics.DrawPicture(0, 0, baseTexturePic);
                 int i1 = ((GameImage)(gameGraphics)).pictureAssumedWidth[baseTexturePic];
-                String s2 = Data.GameData.textureSubName[l];
+                string s2 = Data.GameData.textureSubName[l];
                 if (s2 is not null && s2.Length > 0)
                 {
                     sbyte[] abyte3 = DataOperations.LoadData(s2 + ".dat", 0, abyte0);
-                    gameGraphics.unpackImageData(baseTexturePic, abyte3, abyte1, 1);
-                    gameGraphics.drawPicture(0, 0, baseTexturePic);
+                    gameGraphics.UnpackImageData(baseTexturePic, abyte3, abyte1, 1);
+                    gameGraphics.DrawPicture(0, 0, baseTexturePic);
                 }
-                gameGraphics.drawImage(subTexturePic + l, 0, 0, i1, i1);
+                gameGraphics.DrawImage(subTexturePic + l, 0, 0, i1, i1);
                 int j1 = i1 * i1;
-                for (int k1 = 0; k1 < j1; k1++)
+                for (int k1 = 0; k1 < j1; k1 += 1)
                 {
                     if (((GameImage)(gameGraphics)).pictureColors[subTexturePic + l][k1] == 65280)
                     {
@@ -7489,35 +7556,35 @@ namespace OpenRS.Net.Client
                     }
                 }
 
-                gameGraphics.applyImage(subTexturePic + l);
-                gameCamera.setTexture(l, ((GameImage)(gameGraphics)).pictureColorIndexes[subTexturePic + l], ((GameImage)(gameGraphics)).pictureColor[subTexturePic + l], i1 / 64 - 1);
+                gameGraphics.ApplyImage(subTexturePic + l);
+                gameCamera.SetTexture(l, ((GameImage)(gameGraphics)).pictureColorIndexes[subTexturePic + l], ((GameImage)(gameGraphics)).pictureColor[subTexturePic + l], i1 / 64 - 1);
             }
         }
 
-        public void drawAppearanceWindow()
+        public void DrawAppearanceWindow()
         {
             gameGraphics.interlace = false;
-            gameGraphics.clearScreen();
-            appearanceMenu.drawMenu();
+            gameGraphics.ClearScreen();
+            appearanceMenu.DrawMenu();
             int l = 140;
             int i1 = 50;
             l += 116;
             i1 -= 25;
-            gameGraphics.drawCharacterLegs(l - 32 - 55, i1, 64, 102, Data.GameData.animationNumber[appearance2Colour], appearanceTopBottomColours[appearanceBottomColour]);
-            gameGraphics.drawImage(l - 32 - 55, i1, 64, 102, Data.GameData.animationNumber[appearanceBodyGender], appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.drawImage(l - 32 - 55, i1, 64, 102, Data.GameData.animationNumber[appearanceHeadType], appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.drawCharacterLegs(l - 32, i1, 64, 102, Data.GameData.animationNumber[appearance2Colour] + 6, appearanceTopBottomColours[appearanceBottomColour]);
-            gameGraphics.drawImage(l - 32, i1, 64, 102, Data.GameData.animationNumber[appearanceBodyGender] + 6, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.drawImage(l - 32, i1, 64, 102, Data.GameData.animationNumber[appearanceHeadType] + 6, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.drawCharacterLegs((l - 32) + 55, i1, 64, 102, Data.GameData.animationNumber[appearance2Colour] + 12, appearanceTopBottomColours[appearanceBottomColour]);
-            gameGraphics.drawImage((l - 32) + 55, i1, 64, 102, Data.GameData.animationNumber[appearanceBodyGender] + 12, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.drawImage((l - 32) + 55, i1, 64, 102, Data.GameData.animationNumber[appearanceHeadType] + 12, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.drawPicture(0, windowHeight, baseInventoryPic + 22);
+            gameGraphics.DrawCharacterLegs(l - 32 - 55, i1, 64, 102, Data.GameData.animationNumber[appearance2Colour], appearanceTopBottomColours[appearanceBottomColour]);
+            gameGraphics.DrawImage(l - 32 - 55, i1, 64, 102, Data.GameData.animationNumber[appearanceBodyGender], appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.DrawImage(l - 32 - 55, i1, 64, 102, Data.GameData.animationNumber[appearanceHeadType], appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.DrawCharacterLegs(l - 32, i1, 64, 102, Data.GameData.animationNumber[appearance2Colour] + 6, appearanceTopBottomColours[appearanceBottomColour]);
+            gameGraphics.DrawImage(l - 32, i1, 64, 102, Data.GameData.animationNumber[appearanceBodyGender] + 6, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.DrawImage(l - 32, i1, 64, 102, Data.GameData.animationNumber[appearanceHeadType] + 6, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.DrawCharacterLegs((l - 32) + 55, i1, 64, 102, Data.GameData.animationNumber[appearance2Colour] + 12, appearanceTopBottomColours[appearanceBottomColour]);
+            gameGraphics.DrawImage((l - 32) + 55, i1, 64, 102, Data.GameData.animationNumber[appearanceBodyGender] + 12, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.DrawImage((l - 32) + 55, i1, 64, 102, Data.GameData.animationNumber[appearanceHeadType] + 12, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.DrawPicture(0, windowHeight, baseInventoryPic + 22);
             //gameGraphics.UpdateGameImage();
-            OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
+            OnDrawDone();//gameGraphics.DrawImage(spriteBatch, 0, 0);
         }
 
-        public void checkMouseStatus()
+        public void CheckMouseStatus()
         {
             if (selectedSpell >= 0 || selectedItem >= 0)
             {
@@ -7526,7 +7593,7 @@ namespace OpenRS.Net.Client
                 menuActionID[menuOptionsCount] = 4000;
                 menuOptionsCount += 1;
             }
-            for (int l = 0; l < menuOptionsCount; l++)
+            for (int l = 0; l < menuOptionsCount; l += 1)
             {
                 menuIndexes[l] = l;
             }
@@ -7534,7 +7601,7 @@ namespace OpenRS.Net.Client
             for (bool flag = false; !flag; )
             {
                 flag = true;
-                for (int i1 = 0; i1 < menuOptionsCount - 1; i1++)
+                for (int i1 = 0; i1 < menuOptionsCount - 1; i1 += 1)
                 {
                     int k1 = menuIndexes[i1];
                     int i2 = menuIndexes[i1 + 1];
@@ -7556,7 +7623,7 @@ namespace OpenRS.Net.Client
             if (menuOptionsCount > 0)
             {
                 int j1 = -1;
-                for (int l1 = 0; l1 < menuOptionsCount; l1++)
+                for (int l1 = 0; l1 < menuOptionsCount; l1 += 1)
                 {
                     if (menuText2[menuIndexes[l1]] is null || menuText2[menuIndexes[l1]].Length <= 0)
                     {
@@ -7567,7 +7634,7 @@ namespace OpenRS.Net.Client
                     break;
                 }
 
-                String s1 = null;
+                string s1 = null;
                 if ((selectedItem >= 0 || selectedSpell >= 0) && menuOptionsCount == 1)
                 {
                     s1 = "Choose a target";
@@ -7595,22 +7662,22 @@ namespace OpenRS.Net.Client
 
                 if (s1 is not null)
                 {
-                    gameGraphics.drawString(s1, 6, 14, 1, 0xffff00);
+                    gameGraphics.DrawString(s1, 6, 14, 1, 0xffff00);
                 }
 
                 if (!configOneMouseButton && mouseButtonClick == 1 || configOneMouseButton && mouseButtonClick == 1 && menuOptionsCount == 1)
                 {
-                    menuClick(menuIndexes[0]);
+                    MenuClick(menuIndexes[0]);
                     mouseButtonClick = 0;
                     return;
                 }
                 if (!configOneMouseButton && mouseButtonClick == 2 || configOneMouseButton && mouseButtonClick == 1)
                 {
                     menuHeight = (menuOptionsCount + 1) * 15;
-                    menuWidth = gameGraphics.textWidth("Choose option", 1) + 5;
-                    for (int j2 = 0; j2 < menuOptionsCount; j2++)
+                    menuWidth = gameGraphics.TextWidth("Choose option", 1) + 5;
+                    for (int j2 = 0; j2 < menuOptionsCount; j2 += 1)
                     {
-                        int k2 = gameGraphics.textWidth(menuText1[j2] + " " + menuText2[j2], 1) + 5;
+                        int k2 = gameGraphics.TextWidth(menuText1[j2] + " " + menuText2[j2], 1) + 5;
                         if (k2 > menuWidth)
                         {
                             menuWidth = k2;
@@ -7645,57 +7712,57 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void drawGame()
+        public void DrawGame()
         {
             if (playerAliveTimeout != 0)
             {
-                gameGraphics.screenFadeToBlack();
-                gameGraphics.drawText("Oh dear! You are dead...", windowWidth / 2, windowHeight / 2, 7, 0xff0000);
-                drawChatMessageTabs();
+                gameGraphics.ScreenFadeToBlack();
+                gameGraphics.DrawText("Oh dear! You are dead...", windowWidth / 2, windowHeight / 2, 7, 0xff0000);
+                DrawChatMessageTabs();
                 //gameGraphics.UpdateGameImage();
-                OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
+                OnDrawDone();//gameGraphics.DrawImage(spriteBatch, 0, 0);
                 return;
             }
             if (showAppearanceWindow)
             {
-                drawAppearanceWindow();
+                DrawAppearanceWindow();
                 return;
             }
             if (isSleeping)
             {
-                gameGraphics.screenFadeToBlack();
+                gameGraphics.ScreenFadeToBlack();
                 if (Helper.Random.NextDouble() < 0.14999999999999999D)
                 {
-                    gameGraphics.drawText("ZZZ", (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
+                    gameGraphics.DrawText("ZZZ", (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
                 }
 
                 if (Helper.Random.NextDouble() < 0.14999999999999999D)
                 {
-                    gameGraphics.drawText("ZZZ", 512 - (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
+                    gameGraphics.DrawText("ZZZ", 512 - (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
                 }
 
-                gameGraphics.drawBox(windowWidth / 2 - 100, 160, 200, 40, 0);
-                gameGraphics.drawText("You are sleeping", windowWidth / 2, 50, 7, 0xffff00);
-                gameGraphics.drawText("Fatigue: " + (fatigue * 100) / 750 + "%", windowWidth / 2, 90, 7, 0xffff00);
-                gameGraphics.drawText("When you want to wake up just use your", windowWidth / 2, 140, 5, 0xffffff);
-                gameGraphics.drawText("keyboard to type the word in the box below", windowWidth / 2, 160, 5, 0xffffff);
-                gameGraphics.drawText(base.inputText + "*", windowWidth / 2, 180, 5, 65535);
+                gameGraphics.DrawBox(windowWidth / 2 - 100, 160, 200, 40, 0);
+                gameGraphics.DrawText("You are sleeping", windowWidth / 2, 50, 7, 0xffff00);
+                gameGraphics.DrawText("Fatigue: " + (fatigue * 100) / 750 + "%", windowWidth / 2, 90, 7, 0xffff00);
+                gameGraphics.DrawText("When you want to wake up just use your", windowWidth / 2, 140, 5, 0xffffff);
+                gameGraphics.DrawText("keyboard to type the word in the box below", windowWidth / 2, 160, 5, 0xffffff);
+                gameGraphics.DrawText(base.inputText + "*", windowWidth / 2, 180, 5, 65535);
                 if (sleepingStatusText is null)
                 {
-                    gameGraphics.drawPixels(captchaPixels, windowWidth / 2 - 127, 230, captchaWidth, captchaHeight);
+                    gameGraphics.DrawPixels(captchaPixels, windowWidth / 2 - 127, 230, captchaWidth, captchaHeight);
                 }
                 else
                 {
-                    gameGraphics.drawText(sleepingStatusText, windowWidth / 2, 260, 5, 0xff0000);
+                    gameGraphics.DrawText(sleepingStatusText, windowWidth / 2, 260, 5, 0xff0000);
                 }
 
-                gameGraphics.drawBoxEdge(windowWidth / 2 - 128, 229, 257, 42, 0xffffff);
-                drawChatMessageTabs();
-                gameGraphics.drawText("If you can't read the word", windowWidth / 2, 290, 1, 0xffffff);
-                gameGraphics.drawText("@yel@click here@whi@ to get a different one", windowWidth / 2, 305, 1, 0xffffff);
+                gameGraphics.DrawBoxEdge(windowWidth / 2 - 128, 229, 257, 42, 0xffffff);
+                DrawChatMessageTabs();
+                gameGraphics.DrawText("If you can't read the word", windowWidth / 2, 290, 1, 0xffffff);
+                gameGraphics.DrawText("@yel@click here@whi@ to get a different one", windowWidth / 2, 305, 1, 0xffffff);
 
                 //gameGraphics.UpdateGameImage();
-                OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
+                OnDrawDone();//gameGraphics.DrawImage(spriteBatch, 0, 0);
                 return;
             }
             if (!engineHandle.playerIsAlive)
@@ -7703,37 +7770,37 @@ namespace OpenRS.Net.Client
                 return;
             }
 
-            for (int l = 0; l < 64; l++)
+            for (int l = 0; l < 64; l += 1)
             {
-                gameCamera.removeModel(engineHandle.roofObject[lastLayerIndex][l]);
+                gameCamera.RemoveModel(engineHandle.roofObject[lastLayerIndex][l]);
                 if (lastLayerIndex == 0)
                 {
-                    gameCamera.removeModel(engineHandle.wallObject[1][l]);
-                    gameCamera.removeModel(engineHandle.roofObject[1][l]);
-                    gameCamera.removeModel(engineHandle.wallObject[2][l]);
-                    gameCamera.removeModel(engineHandle.roofObject[2][l]);
+                    gameCamera.RemoveModel(engineHandle.wallObject[1][l]);
+                    gameCamera.RemoveModel(engineHandle.roofObject[1][l]);
+                    gameCamera.RemoveModel(engineHandle.wallObject[2][l]);
+                    gameCamera.RemoveModel(engineHandle.roofObject[2][l]);
                 }
                 cameraZoom = true;
                 if (lastLayerIndex == 0 && (engineHandle.tiles[ourPlayer.currentX / 128][ourPlayer.currentY / 128] & 0x80) == 0)
                 {
                     if (showRoofs)
                     {
-                        gameCamera.addModel(engineHandle.roofObject[lastLayerIndex][l]);
+                        gameCamera.AddModel(engineHandle.roofObject[lastLayerIndex][l]);
                         if (lastLayerIndex == 0)
                         {
                             // draw wall object at lv 1 / second layer
-                            gameCamera.addModel(engineHandle.wallObject[1][l]);
+                            gameCamera.AddModel(engineHandle.wallObject[1][l]);
                             // draw roof object at lv 1 / second layer
                             GameObject roof1 = engineHandle.roofObject[1][l];
-                            gameCamera.addModel(roof1);
+                            gameCamera.AddModel(roof1);
 
 
                             // draw wall object at lv 2 / third layer
-                            gameCamera.addModel(engineHandle.wallObject[2][l]);
+                            gameCamera.AddModel(engineHandle.wallObject[2][l]);
 
                             // draw roof object at lv 2 / third layer
                             GameObject roof2 = engineHandle.roofObject[2][l];
-                            gameCamera.addModel(engineHandle.roofObject[2][l]);
+                            gameCamera.AddModel(engineHandle.roofObject[2][l]);
                         }
                     }
                     cameraZoom = false;
@@ -7743,31 +7810,31 @@ namespace OpenRS.Net.Client
             if (modelFireLightningSpellNumber != lastModelFireLightningSpellNumber)
             {
                 lastModelFireLightningSpellNumber = modelFireLightningSpellNumber;
-                for (int i1 = 0; i1 < objectCount; i1++)
+                for (int i1 = 0; i1 < objectCount; i1 += 1)
                 {
                     if (objectType[i1] == 97)
                     {
-                        drawModel(i1, "firea" + (modelFireLightningSpellNumber + 1));
+                        DrawModel(i1, "firea" + (modelFireLightningSpellNumber + 1));
                     }
 
                     if (objectType[i1] == 274)
                     {
-                        drawModel(i1, "fireplacea" + (modelFireLightningSpellNumber + 1));
+                        DrawModel(i1, "fireplacea" + (modelFireLightningSpellNumber + 1));
                     }
 
                     if (objectType[i1] == 1031)
                     {
-                        drawModel(i1, "lightning" + (modelFireLightningSpellNumber + 1));
+                        DrawModel(i1, "lightning" + (modelFireLightningSpellNumber + 1));
                     }
 
                     if (objectType[i1] == 1036)
                     {
-                        drawModel(i1, "firespell" + (modelFireLightningSpellNumber + 1));
+                        DrawModel(i1, "firespell" + (modelFireLightningSpellNumber + 1));
                     }
 
                     if (objectType[i1] == 1147)
                     {
-                        drawModel(i1, "spellcharge" + (modelFireLightningSpellNumber + 1));
+                        DrawModel(i1, "spellcharge" + (modelFireLightningSpellNumber + 1));
                     }
                 }
 
@@ -7775,16 +7842,16 @@ namespace OpenRS.Net.Client
             if (modelTorchNumber != lastModelTorchNumber)
             {
                 lastModelTorchNumber = modelTorchNumber;
-                for (int j1 = 0; j1 < objectCount; j1++)
+                for (int j1 = 0; j1 < objectCount; j1 += 1)
                 {
                     if (objectType[j1] == 51)
                     {
-                        drawModel(j1, "torcha" + (modelTorchNumber + 1));
+                        DrawModel(j1, "torcha" + (modelTorchNumber + 1));
                     }
 
                     if (objectType[j1] == 143)
                     {
-                        drawModel(j1, "skulltorcha" + (modelTorchNumber + 1));
+                        DrawModel(j1, "skulltorcha" + (modelTorchNumber + 1));
                     }
                 }
 
@@ -7792,44 +7859,44 @@ namespace OpenRS.Net.Client
             if (modelClawSpellNumber != lastModelClawSpellNumber)
             {
                 lastModelClawSpellNumber = modelClawSpellNumber;
-                for (int k1 = 0; k1 < objectCount; k1++)
+                for (int k1 = 0; k1 < objectCount; k1 += 1)
                 {
                     if (objectType[k1] == 1142)
                     {
-                        drawModel(k1, "clawspell" + (modelClawSpellNumber + 1));
+                        DrawModel(k1, "clawspell" + (modelClawSpellNumber + 1));
                     }
                 }
             }
-            gameCamera.removeLastUpdates(drawUpdatesPerformed);
+            gameCamera.RemoveLastUpdates(drawUpdatesPerformed);
             drawUpdatesPerformed = 0;
-            for (int l1 = 0; l1 < playerCount; l1++)
+            for (int l1 = 0; l1 < playerCount; l1 += 1)
             {
                 ClientMob player = playerArray[l1];
                 if (player.bottomColour != 255)
                 {
                     int j2 = player.currentX;
                     int l2 = player.currentY;
-                    int j3 = -engineHandle.getAveragedElevation(j2, l2);
-                    int k4 = gameCamera.addSpriteToScene(5000 + l1, j2, j3, l2, 145, 220, l1 + 10000);
+                    int j3 = -engineHandle.GetAveragedElevation(j2, l2);
+                    int k4 = gameCamera.AddSpriteToScene(5000 + l1, j2, j3, l2, 145, 220, l1 + 10000);
                     drawUpdatesPerformed += 1;
                     if (player == ourPlayer)
                     {
-                        gameCamera.bhe(k4);
+                        gameCamera.RemoveSprite(k4);
                     }
 
                     if (player.currentSprite == 8)
                     {
-                        gameCamera.bhf(k4, -30);
+                        gameCamera.UpdateSpritePosition(k4, -30);
                     }
 
                     if (player.currentSprite == 9)
                     {
-                        gameCamera.bhf(k4, 30);
+                        gameCamera.UpdateSpritePosition(k4, 30);
                     }
                 }
             }
 
-            for (int i2 = 0; i2 < playerCount; i2++)
+            for (int i2 = 0; i2 < playerCount; i2 += 1)
             {
                 ClientMob player = playerArray[i2];
                 if (player.projectileDistance > 0)
@@ -7848,71 +7915,71 @@ namespace OpenRS.Net.Client
                     {
                         int k3 = player.currentX;
                         int l4 = player.currentY;
-                        int k7 = -engineHandle.getAveragedElevation(k3, l4) - 110;
+                        int k7 = -engineHandle.GetAveragedElevation(k3, l4) - 110;
                         int k9 = targetMob.currentX;
                         int j10 = targetMob.currentY;
-                        int k10 = -engineHandle.getAveragedElevation(k9, j10) - Data.GameData.npcCameraArray2[targetMob.npcId] / 2;
+                        int k10 = -engineHandle.GetAveragedElevation(k9, j10) - Data.GameData.npcCameraArray2[targetMob.npcId] / 2;
                         int l10 = (k3 * player.projectileDistance + k9 * (projectileRange - player.projectileDistance)) / projectileRange;
                         int i11 = (k7 * player.projectileDistance + k10 * (projectileRange - player.projectileDistance)) / projectileRange;
                         int j11 = (l4 * player.projectileDistance + j10 * (projectileRange - player.projectileDistance)) / projectileRange;
-                        gameCamera.addSpriteToScene(baseProjectilePic + player.projectileType, l10, i11, j11, 32, 32, 0);
+                        gameCamera.AddSpriteToScene(baseProjectilePic + player.projectileType, l10, i11, j11, 32, 32, 0);
                         drawUpdatesPerformed += 1;
                     }
                 }
             }
 
-            for (int k2 = 0; k2 < npcCount; k2++)
+            for (int k2 = 0; k2 < npcCount; k2 += 1)
             {
                 ClientMob npc = npcArray[k2];
                 int x1 = npc.currentX;
                 int z1 = npc.currentY;
-                int y1 = -engineHandle.getAveragedElevation(x1, z1);
-                int l9 = gameCamera.addSpriteToScene(20000 + k2, x1, y1, z1, Data.GameData.npcCameraArray1[npc.npcId], Data.GameData.npcCameraArray2[npc.npcId], k2 + 30000);
+                int y1 = -engineHandle.GetAveragedElevation(x1, z1);
+                int l9 = gameCamera.AddSpriteToScene(20000 + k2, x1, y1, z1, Data.GameData.npcCameraArray1[npc.npcId], Data.GameData.npcCameraArray2[npc.npcId], k2 + 30000);
                 drawUpdatesPerformed += 1;
                 if (npc.currentSprite == 8)
                 {
-                    gameCamera.bhf(l9, -30);
+                    gameCamera.UpdateSpritePosition(l9, -30);
                 }
 
                 if (npc.currentSprite == 9)
                 {
-                    gameCamera.bhf(l9, 30);
+                    gameCamera.UpdateSpritePosition(l9, 30);
                 }
             }
 
-            for (int i3 = 0; i3 < groundItemCount; i3++)
+            for (int i3 = 0; i3 < groundItemCount; i3 += 1)
             {
                 int x = groundItemX[i3] * gridSize + 64;
                 int y = groundItemY[i3] * gridSize + 64;
-                gameCamera.addSpriteToScene(40000 + groundItemID[i3], x, -engineHandle.getAveragedElevation(x, y) - groundItemObjectVar[i3], y, 96, 64, i3 + 20000);
+                gameCamera.AddSpriteToScene(40000 + groundItemID[i3], x, -engineHandle.GetAveragedElevation(x, y) - groundItemObjectVar[i3], y, 96, 64, i3 + 20000);
                 drawUpdatesPerformed += 1;
             }
 
-            for (int j4 = 0; j4 < teleBubbleCount; j4++)
+            for (int j4 = 0; j4 < teleBubbleCount; j4 += 1)
             {
                 int k5 = teleBubbleX[j4] * gridSize + 64;
                 int i8 = teleBubbleY[j4] * gridSize + 64;
                 int i10 = teleBubbleType[j4];
                 if (i10 == 0)
                 {
-                    gameCamera.addSpriteToScene(50000 + j4, k5, -engineHandle.getAveragedElevation(k5, i8), i8, 128, 256, j4 + 50000);
+                    gameCamera.AddSpriteToScene(50000 + j4, k5, -engineHandle.GetAveragedElevation(k5, i8), i8, 128, 256, j4 + 50000);
                     drawUpdatesPerformed += 1;
                 }
                 if (i10 == 1)
                 {
-                    gameCamera.addSpriteToScene(50000 + j4, k5, -engineHandle.getAveragedElevation(k5, i8), i8, 128, 64, j4 + 50000);
+                    gameCamera.AddSpriteToScene(50000 + j4, k5, -engineHandle.GetAveragedElevation(k5, i8), i8, 128, 64, j4 + 50000);
                     drawUpdatesPerformed += 1;
                 }
             }
 
             gameGraphics.interlace = false;
-            gameGraphics.clearScreen();
+            gameGraphics.ClearScreen();
             gameGraphics.interlace = base.keyF1Toggle;
             if (lastLayerIndex == 3)
             {
                 int l5 = 40 + (int)(Helper.Random.NextDouble() * 3D);
                 int j8 = 40 + (int)(Helper.Random.NextDouble() * 7D);
-                gameCamera.bjl(l5, j8, -50, -10, -50);
+                gameCamera.SetAllModelColours(l5, j8, -50, -10, -50);
             }
             itemsAboveHeadCount = 0;
             receivedMessagesCount = 0;
@@ -7922,7 +7989,7 @@ namespace OpenRS.Net.Client
                 if (configCameraAutoAngle && !cameraZoom)
                 {
                     int i6 = cameraAutoAngle;
-                    autoRotateCamera();
+                    AutoRotateCamera();
                     if (cameraAutoAngle != i6)
                     {
                         cameraAutoRotatePlayerX = ourPlayer.currentX;
@@ -7946,13 +8013,13 @@ namespace OpenRS.Net.Client
                 cameraRotation = cameraAutoAngle * 32;
                 int newCameraPosX = cameraAutoRotatePlayerX + cameraRotationXAmount;
                 int newCameraPosY = cameraAutoRotatePlayerY + cameraRotationYAmount;
-                gameCamera.SetCameraTransform(newCameraPosX, -engineHandle.getAveragedElevation(newCameraPosX, newCameraPosY), newCameraPosY, 912, cameraRotation * 4, 0, 2000);
+                gameCamera.SetCameraTransform(newCameraPosX, -engineHandle.GetAveragedElevation(newCameraPosX, newCameraPosY), newCameraPosY, 912, cameraRotation * 4, 0, 2000);
             }
             else
             {
                 if (configCameraAutoAngle && !cameraZoom)
                 {
-                    autoRotateCamera();
+                    AutoRotateCamera();
                 }
 
                 if (fogOfWar)
@@ -7981,18 +8048,18 @@ namespace OpenRS.Net.Client
                 }
                 int k6 = cameraAutoRotatePlayerX + cameraRotationXAmount;
                 int l8 = cameraAutoRotatePlayerY + cameraRotationYAmount;
-                gameCamera.SetCameraTransform(k6, -engineHandle.getAveragedElevation(k6, l8), l8, 912, cameraRotation * 4, 0, cameraDistance * 2);
+                gameCamera.SetCameraTransform(k6, -engineHandle.GetAveragedElevation(k6, l8), l8, 912, cameraRotation * 4, 0, cameraDistance * 2);
             }
-            gameCamera.finishCamera();
-            drawAboveHeadThings();
+            gameCamera.FinishCamera();
+            DrawAboveHeadThings();
             if (actionPictureType > 0)
             {
-                gameGraphics.drawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 14 + (24 - actionPictureType) / 6);
+                gameGraphics.DrawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 14 + (24 - actionPictureType) / 6);
             }
 
             if (actionPictureType < 0)
             {
-                gameGraphics.drawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 18 + (24 + actionPictureType) / 6);
+                gameGraphics.DrawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 18 + (24 + actionPictureType) / 6);
             }
 
             if (systemUpdate != 0)
@@ -8002,11 +8069,11 @@ namespace OpenRS.Net.Client
                 seconds %= 60;
                 if (seconds < 10)
                 {
-                    gameGraphics.drawText("System update in: " + minutes + ":0" + seconds, 256, windowHeight - 7, 1, 0xffff00);
+                    gameGraphics.DrawText("System update in: " + minutes + ":0" + seconds, 256, windowHeight - 7, 1, 0xffff00);
                 }
                 else
                 {
-                    gameGraphics.drawText("System update in: " + minutes + ":" + seconds, 256, windowHeight - 7, 1, 0xffff00);
+                    gameGraphics.DrawText("System update in: " + minutes + ":" + seconds, 256, windowHeight - 7, 1, 0xffff00);
                 }
             }
             if (!loadArea)
@@ -8020,9 +8087,9 @@ namespace OpenRS.Net.Client
                 if (i7 > 0)
                 {
                     int j9 = 1 + i7 / 6;
-                    gameGraphics.drawPicture(453, windowHeight - 56, baseInventoryPic + 13);
-                    gameGraphics.drawText("Wilderness", 465, windowHeight - 20, 1, 0xffff00);
-                    gameGraphics.drawText("Level: " + j9, 465, windowHeight - 7, 1, 0xffff00);
+                    gameGraphics.DrawPicture(453, windowHeight - 56, baseInventoryPic + 13);
+                    gameGraphics.DrawText("Wilderness", 465, windowHeight - 20, 1, 0xffff00);
+                    gameGraphics.DrawText("Level: " + j9, 465, windowHeight - 7, 1, 0xffff00);
                     if (wildType == 0)
                     {
                         wildType = 2;
@@ -8035,82 +8102,82 @@ namespace OpenRS.Net.Client
             }
             if (messagesTab == 0)
             {
-                for (int j7 = 0; j7 < 5; j7++)
+                for (int j7 = 0; j7 < 5; j7 += 1)
                 {
                     if (messagesTimeout[j7] > 0)
                     {
-                        String s1 = messagesArray[j7];
-                        gameGraphics.drawString(s1, 7, windowHeight - 18 - j7 * 12, 1, 0xffff00);
+                        string s1 = messagesArray[j7];
+                        gameGraphics.DrawString(s1, 7, windowHeight - 18 - j7 * 12, 1, 0xffff00);
                     }
                 }
             }
-            chatInputMenu.disableInput(messagesHandleType2);
-            chatInputMenu.disableInput(messagesHandleType5);
-            chatInputMenu.disableInput(messagesHandleType6);
+            chatInputMenu.DisableInput(messagesHandleType2);
+            chatInputMenu.DisableInput(messagesHandleType5);
+            chatInputMenu.DisableInput(messagesHandleType6);
             if (messagesTab == 1)
             {
-                chatInputMenu.enableInput(messagesHandleType2);
+                chatInputMenu.EnableInput(messagesHandleType2);
             }
             else if (messagesTab == 2)
             {
-                chatInputMenu.enableInput(messagesHandleType5);
+                chatInputMenu.EnableInput(messagesHandleType5);
             }
             else if (messagesTab == 3)
             {
-                chatInputMenu.enableInput(messagesHandleType6);
+                chatInputMenu.EnableInput(messagesHandleType6);
             }
 
             Menu.chatMenuTextHeightMod = 2;
-            chatInputMenu.drawMenu();
+            chatInputMenu.DrawMenu();
             Menu.chatMenuTextHeightMod = 0;
-            gameGraphics.drawPicture(((GameImage)(gameGraphics)).gameWidth - 3 - 197, 3, baseInventoryPic, 128);
+            gameGraphics.DrawPicture(((GameImage)(gameGraphics)).gameWidth - 3 - 197, 3, baseInventoryPic, 128);
 
 #warning play with this! Create a new menu of choice :)
 
 
-            drawMenus();
+            DrawMenus();
 
             gameGraphics.loggedIn = false;
-            drawChatMessageTabs();
+            DrawChatMessageTabs();
 
 
             string text = "Coordinates: ( " + (sectionX + areaX) + "," + (sectionY + areaY) + " ) Section: (" + sectionX + "," + sectionY + ") Area: (" + areaX + "," + areaY + ")";
             // Text shadow
-            gameGraphics.drawString(text, 10 + 11, 10 + 11, 1, 0x000000);
-            gameGraphics.drawString(text, 10 + 10, 10 + 10, 1, 0xffffff);
+            gameGraphics.DrawString(text, 10 + 11, 10 + 11, 1, 0x000000);
+            gameGraphics.DrawString(text, 10 + 10, 10 + 10, 1, 0xffffff);
 
             //gameGraphics.UpdateGameImage();
-            OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
+            OnDrawDone();//gameGraphics.DrawImage(spriteBatch, 0, 0);
         }
 
         //	public bool DrawCustomMenus { get; set; }
         //    public event EventHandler OnDrawMenus;
 
-        public void drawReportAbuseBox2()
+        public void DrawReportAbuseBox2()
         {
             if (base.enteredInputText.Length > 0)
             {
-                String s1 = base.enteredInputText.Trim();
+                string s1 = base.enteredInputText.Trim();
                 base.inputText = "";
                 base.enteredInputText = "";
                 if (s1.Length > 0)
                 {
                     long l1 = DataOperations.NameToHash(s1);
-                    base.streamClass.createPacket(7);
-                    base.streamClass.addLong(l1);
-                    base.streamClass.addByte(reportAbuseOptionSelected);
-                    //base.streamClass.addByte(dia ? 1 : 0);
-                    base.streamClass.formatPacket();
+                    base.streamClass.CreatePacket(7);
+                    base.streamClass.AddLong(l1);
+                    base.streamClass.AddByte(reportAbuseOptionSelected);
+                    //base.streamClass.AddByte(dia ? 1 : 0);
+                    base.streamClass.FormatPacket();
                 }
                 showAbuseBox = 0;
                 return;
             }
-            gameGraphics.drawBox(56, 130, 400, 100, 0);
-            gameGraphics.drawBoxEdge(56, 130, 400, 100, 0xffffff);
+            gameGraphics.DrawBox(56, 130, 400, 100, 0);
+            gameGraphics.DrawBoxEdge(56, 130, 400, 100, 0xffffff);
             int l = 160;
-            gameGraphics.drawText("Now type the name of the offending player, and press enter", 256, l, 1, 0xffff00);
+            gameGraphics.DrawText("Now type the name of the offending player, and press enter", 256, l, 1, 0xffff00);
             l += 18;
-            gameGraphics.drawText("Name: " + base.inputText + "*", 256, l, 4, 0xffffff);
+            gameGraphics.DrawText("Name: " + base.inputText + "*", 256, l, 4, 0xffffff);
             l = 222;
             int i1 = 0xffffff;
             if (base.mouseX > 196 && base.mouseX < 316 && base.mouseY > l - 13 && base.mouseY < l + 2)
@@ -8122,7 +8189,7 @@ namespace OpenRS.Net.Client
                     showAbuseBox = 0;
                 }
             }
-            gameGraphics.drawText("Click here to cancel", 256, l, 1, i1);
+            gameGraphics.DrawText("Click here to cancel", 256, l, 1, i1);
             if (mouseButtonClick == 1 && (base.mouseX < 56 || base.mouseX > 456 || base.mouseY < 130 || base.mouseY > 230))
             {
                 mouseButtonClick = 0;
@@ -8130,73 +8197,73 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void drawMenus()
+        public void DrawMenus()
         {
             if (logoutTimer != 0)
             {
-                drawLogoutBox();
+                DrawLogoutBox();
             }
             else if (showWelcomeBox)
             {
-                drawWelcomeBox();
+                DrawWelcomeBox();
             }
             else if (showServerMessageBox)
             {
-                drawServerMessageBox();
+                DrawServerMessageBox();
             }
             else if (wildType == 1)
             {
-                drawWildernessAlertBox();
+                DrawWildernessAlertBox();
             }
             else if (showBankBox && combatTimeout == 0)
             {
-                drawBankBox();
+                DrawBankBox();
             }
             else if (showShopBox && combatTimeout == 0)
             {
-                drawShopBox();
+                DrawShopBox();
             }
             else if (showTradeConfirmBox)
             {
-                drawTradeConfirmBox();
+                DrawTradeConfirmBox();
             }
             else if (showTradeBox)
             {
-                drawTradeBox();
+                DrawTradeBox();
             }
             else if (showDuelConfirmBox)
             {
-                drawDuelConfirmBox();
+                DrawDuelConfirmBox();
             }
             else if (showDuelBox)
             {
-                drawDuelBox();
+                DrawDuelBox();
             }
             else if (showAbuseBox == 1)
             {
-                drawReportAbuseBox1();
+                DrawReportAbuseBox1();
             }
             else if (showAbuseBox == 2)
             {
-                drawReportAbuseBox2();
+                DrawReportAbuseBox2();
             }
             else if (showFriendsBox != 0)
             {
-                drawFriendsBox();
+                DrawFriendsBox();
             }
             else
             {
                 if (showQuestionMenu)
                 {
-                    drawQuestionMenu();
+                    DrawQuestionMenu();
                 }
 
                 if (showCombatWindow || ourPlayer.currentSprite == 8 || ourPlayer.currentSprite == 9)
                 {
-                    drawCombatStyleBox();
+                    DrawCombatStyleBox();
                 }
 
-                getMenuHighlighted();
+                GetMenuHighlighted();
                 bool flag = !showQuestionMenu && !menuShow;
                 if (flag)
                 {
@@ -8205,53 +8272,53 @@ namespace OpenRS.Net.Client
 
                 if (drawMenuTab == 0 && flag)
                 {
-                    generateWorldRightClickMenu();
+                    GenerateWorldRightClickMenu();
                 }
 
                 if (drawMenuTab == 1)
                 {
-                    drawInventoryMenu(flag);
+                    DrawInventoryMenu(flag);
                 }
 
                 if (drawMenuTab == 2)
                 {
-                    drawMinimapMenu(flag);
+                    DrawMinimapMenu(flag);
                 }
 
                 if (drawMenuTab == 3)
                 {
-                    drawStatsQuestsMenu(flag);
+                    DrawStatsQuestsMenu(flag);
                 }
 
                 if (drawMenuTab == 4)
                 {
-                    drawPrayerMagicMenu(flag);
+                    DrawPrayerMagicMenu(flag);
                 }
 
                 if (drawMenuTab == 5)
                 {
-                    drawFriendsMenu(flag);
+                    DrawFriendsMenu(flag);
                 }
 
                 if (drawMenuTab == 6)
                 {
-                    drawOptionsMenu(flag);
+                    DrawOptionsMenu(flag);
                 }
 
                 if (!menuShow && !showQuestionMenu)
                 {
-                    checkMouseStatus();
+                    CheckMouseStatus();
                 }
 
                 if (menuShow && !showQuestionMenu)
                 {
-                    drawRightClickMenu();
+                    DrawRightClickMenu();
                 }
             }
             mouseButtonClick = 0;
         }
 
-        public void loadModels()
+        public void LoadModels()
         {
             Data.GameData.GetModelNameIndex("torcha2");
             Data.GameData.GetModelNameIndex("torcha3");
@@ -8273,13 +8340,13 @@ namespace OpenRS.Net.Client
             Data.GameData.GetModelNameIndex("clawspell5");
             Data.GameData.GetModelNameIndex("spellcharge2");
             Data.GameData.GetModelNameIndex("spellcharge3");
-            sbyte[] abyte0 = unpackData("models.jag", "3d models", 60);
+            sbyte[] abyte0 = UnpackData("models.jag", "3d models", 60);
             if (abyte0 is null)
             {
                 errorLoading = true;
                 return;
             }
-            for (int i1 = 0; i1 < Data.GameData.modelCount; i1++)
+            for (int i1 = 0; i1 < Data.GameData.modelCount; i1 += 1)
             {
                 try
                 {
@@ -8293,7 +8360,7 @@ namespace OpenRS.Net.Client
                         gameDataObjects[i1] = new GameObject(1, 1);
                     }
 
-                    if (Data.GameData.modelName[i1].Equals("giantcrystal"))
+                    if (Data.GameData.modelName[i1] == "giantcrystal")
                     {
                         gameDataObjects[i1].isGiantCrystal = true;
                     }
@@ -8302,7 +8369,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void drawDuelBox()
+        public void DrawDuelBox()
         {
             if (mouseButtonClick != 0 && mouseClickedHeldInTradeDuelBox == 0)
             {
@@ -8323,13 +8390,13 @@ namespace OpenRS.Net.Client
                             bool flag1 = false;
                             int k2 = 0;
                             int j3 = inventoryItems[j1];
-                            for (int j4 = 0; j4 < duelMyItemCount; j4++)
+                            for (int j4 = 0; j4 < duelMyItemCount; j4 += 1)
                             {
                                 if (duelMyItems[j4] == j3)
                                 {
                                     if (Data.GameData.itemStackable[j3] == 0)
                                     {
-                                        for (int l4 = 0; l4 < mouseClickedHeldInTradeDuelBox; l4++)
+                                        for (int l4 = 0; l4 < mouseClickedHeldInTradeDuelBox; l4 += 1)
                                         {
                                             if (duelMyItemsCount[j4] < inventoryItemCount[j1])
                                             {
@@ -8347,14 +8414,14 @@ namespace OpenRS.Net.Client
                                 }
                             }
 
-                            if (getInventoryItemTotalCount(j3) <= k2)
+                            if (GetInventoryItemTotalCount(j3) <= k2)
                             {
                                 flag1 = true;
                             }
 
                             if (Data.GameData.itemSpecial[j3] == 1)
                             {
-                                displayMessage("This object cannot be added to a duel offer", 3);
+                                DisplayMessage("This object cannot be added to a duel offer", 3);
                                 flag1 = true;
                             }
                             if (!flag1 && duelMyItemCount < 8)
@@ -8366,15 +8433,15 @@ namespace OpenRS.Net.Client
                             }
                             if (flag1)
                             {
-                                base.streamClass.createPacket(123);
-                                base.streamClass.addByte(duelMyItemCount);
-                                for (int i5 = 0; i5 < duelMyItemCount; i5++)
+                                base.streamClass.CreatePacket(123);
+                                base.streamClass.AddByte(duelMyItemCount);
+                                for (int i5 = 0; i5 < duelMyItemCount; i5 += 1)
                                 {
-                                    base.streamClass.addShort(duelMyItems[i5]);
-                                    base.streamClass.addInt(duelMyItemsCount[i5]);
+                                    base.streamClass.AddShort(duelMyItems[i5]);
+                                    base.streamClass.AddInt(duelMyItemsCount[i5]);
                                 }
 
-                                base.streamClass.formatPacket();
+                                base.streamClass.FormatPacket();
                                 duelOpponentAccepted = false;
                                 duelMyAccepted = false;
                             }
@@ -8386,16 +8453,16 @@ namespace OpenRS.Net.Client
                         if (k1 >= 0 && k1 < duelMyItemCount)
                         {
                             int i2 = duelMyItems[k1];
-                            for (int l2 = 0; l2 < mouseClickedHeldInTradeDuelBox; l2++)
+                            for (int l2 = 0; l2 < mouseClickedHeldInTradeDuelBox; l2 += 1)
                             {
                                 if (Data.GameData.itemStackable[i2] == 0 && duelMyItemsCount[k1] > 1)
                                 {
-                                    duelMyItemsCount[k1]--;
+                                    duelMyItemsCount[k1] -= 1;
                                     continue;
                                 }
-                                duelMyItemCount--;
+                                duelMyItemCount -= 1;
                                 mouseButtonHeldTime = 0;
-                                for (int k3 = k1; k3 < duelMyItemCount; k3++)
+                                for (int k3 = k1; k3 < duelMyItemCount; k3 += 1)
                                 {
                                     duelMyItems[k3] = duelMyItems[k3 + 1];
                                     duelMyItemsCount[k3] = duelMyItemsCount[k3 + 1];
@@ -8404,15 +8471,15 @@ namespace OpenRS.Net.Client
                                 break;
                             }
 
-                            base.streamClass.createPacket(123);
-                            base.streamClass.addByte(duelMyItemCount);
-                            for (int l3 = 0; l3 < duelMyItemCount; l3++)
+                            base.streamClass.CreatePacket(123);
+                            base.streamClass.AddByte(duelMyItemCount);
+                            for (int l3 = 0; l3 < duelMyItemCount; l3 += 1)
                             {
-                                base.streamClass.addShort(duelMyItems[l3]);
-                                base.streamClass.addInt(duelMyItemsCount[l3]);
+                                base.streamClass.AddShort(duelMyItems[l3]);
+                                base.streamClass.AddInt(duelMyItemsCount[l3]);
                             }
 
-                            base.streamClass.formatPacket();
+                            base.streamClass.FormatPacket();
                             duelOpponentAccepted = false;
                             duelMyAccepted = false;
                         }
@@ -8440,34 +8507,54 @@ namespace OpenRS.Net.Client
                     }
                     if (flag)
                     {
-                        base.streamClass.createPacket(225);
-                        base.streamClass.addByte(duelNoRetreating ? 1 : 0);
-                        base.streamClass.addByte(duelNoMagic ? 1 : 0);
-                        base.streamClass.addByte(duelNoPrayer ? 1 : 0);
-                        base.streamClass.addByte(duelNoWeapons ? 1 : 0);
-                        base.streamClass.formatPacket();
+                        base.streamClass.CreatePacket(225);
+                        int duelNoRetreatingByte = 0;
+                        if (duelNoRetreating)
+                        {
+                            duelNoRetreatingByte = 1;
+                        }
+                        base.streamClass.AddByte(duelNoRetreatingByte);
+                        int duelNoMagicByte = 0;
+                        if (duelNoMagic)
+                        {
+                            duelNoMagicByte = 1;
+                        }
+                        base.streamClass.AddByte(duelNoMagicByte);
+                        int duelNoPrayerByte = 0;
+                        if (duelNoPrayer)
+                        {
+                            duelNoPrayerByte = 1;
+                        }
+                        base.streamClass.AddByte(duelNoPrayerByte);
+                        int duelNoWeaponsByte = 0;
+                        if (duelNoWeapons)
+                        {
+                            duelNoWeaponsByte = 1;
+                        }
+                        base.streamClass.AddByte(duelNoWeaponsByte);
+                        base.streamClass.FormatPacket();
                         duelOpponentAccepted = false;
                         duelMyAccepted = false;
                     }
                     if (l >= 217 && i1 >= 238 && l <= 286 && i1 <= 259)
                     {
                         duelMyAccepted = true;
-                        base.streamClass.createPacket(252);
-                        base.streamClass.formatPacket();
+                        base.streamClass.CreatePacket(252);
+                        base.streamClass.FormatPacket();
                     }
                     if (l >= 394 && i1 >= 238 && l < 463 && i1 < 259)
                     {
                         showDuelBox = false;
-                        base.streamClass.createPacket(35);
-                        base.streamClass.formatPacket();
+                        base.streamClass.CreatePacket(35);
+                        base.streamClass.FormatPacket();
                     }
                 }
                 else
                     if (mouseButtonClick != 0)
                     {
                         showDuelBox = false;
-                        base.streamClass.createPacket(35);
-                        base.streamClass.formatPacket();
+                        base.streamClass.CreatePacket(35);
+                        base.streamClass.FormatPacket();
                     }
                 mouseButtonClick = 0;
                 mouseClickedHeldInTradeDuelBox = 0;
@@ -8479,169 +8566,169 @@ namespace OpenRS.Net.Client
 
             sbyte byte0 = 22;
             sbyte byte1 = 36;
-            gameGraphics.drawBox(byte0, byte1, 468, 12, 0xc90b1d);
+            gameGraphics.DrawBox(byte0, byte1, 468, 12, 0xc90b1d);
             int l1 = 0x989898;
-            gameGraphics.drawBoxAlpha(byte0, byte1 + 12, 468, 18, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0, byte1 + 30, 8, 248, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 205, byte1 + 30, 11, 248, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 462, byte1 + 30, 6, 248, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 99, 197, 24, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 192, 197, 23, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 258, 197, 20, l1, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 216, byte1 + 235, 246, 43, l1, 160);
+            gameGraphics.DrawBoxAlpha(byte0, byte1 + 12, 468, 18, l1, 160);
+            gameGraphics.DrawBoxAlpha(byte0, byte1 + 30, 8, 248, l1, 160);
+            gameGraphics.DrawBoxAlpha(byte0 + 205, byte1 + 30, 11, 248, l1, 160);
+            gameGraphics.DrawBoxAlpha(byte0 + 462, byte1 + 30, 6, 248, l1, 160);
+            gameGraphics.DrawBoxAlpha(byte0 + 8, byte1 + 99, 197, 24, l1, 160);
+            gameGraphics.DrawBoxAlpha(byte0 + 8, byte1 + 192, 197, 23, l1, 160);
+            gameGraphics.DrawBoxAlpha(byte0 + 8, byte1 + 258, 197, 20, l1, 160);
+            gameGraphics.DrawBoxAlpha(byte0 + 216, byte1 + 235, 246, 43, l1, 160);
             int j2 = 0xd0d0d0;
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 30, 197, 69, j2, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 123, 197, 69, j2, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 215, 197, 43, j2, 160);
-            gameGraphics.drawBoxAlpha(byte0 + 216, byte1 + 30, 246, 205, j2, 160);
-            for (int i3 = 0; i3 < 3; i3++)
+            gameGraphics.DrawBoxAlpha(byte0 + 8, byte1 + 30, 197, 69, j2, 160);
+            gameGraphics.DrawBoxAlpha(byte0 + 8, byte1 + 123, 197, 69, j2, 160);
+            gameGraphics.DrawBoxAlpha(byte0 + 8, byte1 + 215, 197, 43, j2, 160);
+            gameGraphics.DrawBoxAlpha(byte0 + 216, byte1 + 30, 246, 205, j2, 160);
+            for (int i3 = 0; i3 < 3; i3 += 1)
             {
-                gameGraphics.drawLineX(byte0 + 8, byte1 + 30 + i3 * 34, 197, 0);
+                gameGraphics.DrawLineX(byte0 + 8, byte1 + 30 + i3 * 34, 197, 0);
             }
 
-            for (int i4 = 0; i4 < 3; i4++)
+            for (int i4 = 0; i4 < 3; i4 += 1)
             {
-                gameGraphics.drawLineX(byte0 + 8, byte1 + 123 + i4 * 34, 197, 0);
+                gameGraphics.DrawLineX(byte0 + 8, byte1 + 123 + i4 * 34, 197, 0);
             }
 
-            for (int k4 = 0; k4 < 7; k4++)
+            for (int k4 = 0; k4 < 7; k4 += 1)
             {
-                gameGraphics.drawLineX(byte0 + 216, byte1 + 30 + k4 * 34, 246, 0);
+                gameGraphics.DrawLineX(byte0 + 216, byte1 + 30 + k4 * 34, 246, 0);
             }
 
-            for (int j5 = 0; j5 < 6; j5++)
+            for (int j5 = 0; j5 < 6; j5 += 1)
             {
                 if (j5 < 5)
                 {
-                    gameGraphics.drawLineY(byte0 + 8 + j5 * 49, byte1 + 30, 69, 0);
+                    gameGraphics.DrawLineY(byte0 + 8 + j5 * 49, byte1 + 30, 69, 0);
                 }
 
                 if (j5 < 5)
                 {
-                    gameGraphics.drawLineY(byte0 + 8 + j5 * 49, byte1 + 123, 69, 0);
+                    gameGraphics.DrawLineY(byte0 + 8 + j5 * 49, byte1 + 123, 69, 0);
                 }
 
-                gameGraphics.drawLineY(byte0 + 216 + j5 * 49, byte1 + 30, 205, 0);
+                gameGraphics.DrawLineY(byte0 + 216 + j5 * 49, byte1 + 30, 205, 0);
             }
 
-            gameGraphics.drawLineX(byte0 + 8, byte1 + 215, 197, 0);
-            gameGraphics.drawLineX(byte0 + 8, byte1 + 257, 197, 0);
-            gameGraphics.drawLineY(byte0 + 8, byte1 + 215, 43, 0);
-            gameGraphics.drawLineY(byte0 + 204, byte1 + 215, 43, 0);
-            gameGraphics.drawString("Preparing to duel with: " + duelOpponent, byte0 + 1, byte1 + 10, 1, 0xffffff);
-            gameGraphics.drawString("Your Stake", byte0 + 9, byte1 + 27, 4, 0xffffff);
-            gameGraphics.drawString("Opponent's Stake", byte0 + 9, byte1 + 120, 4, 0xffffff);
-            gameGraphics.drawString("Duel Options", byte0 + 9, byte1 + 212, 4, 0xffffff);
-            gameGraphics.drawString("Your Inventory", byte0 + 216, byte1 + 27, 4, 0xffffff);
-            gameGraphics.drawString("No retreating", byte0 + 8 + 1, byte1 + 215 + 16, 3, 0xffff00);
-            gameGraphics.drawString("No magic", byte0 + 8 + 1, byte1 + 215 + 35, 3, 0xffff00);
-            gameGraphics.drawString("No prayer", byte0 + 8 + 102, byte1 + 215 + 16, 3, 0xffff00);
-            gameGraphics.drawString("No weapons", byte0 + 8 + 102, byte1 + 215 + 35, 3, 0xffff00);
-            gameGraphics.drawBoxEdge(byte0 + 93, byte1 + 215 + 6, 11, 11, 0xffff00);
+            gameGraphics.DrawLineX(byte0 + 8, byte1 + 215, 197, 0);
+            gameGraphics.DrawLineX(byte0 + 8, byte1 + 257, 197, 0);
+            gameGraphics.DrawLineY(byte0 + 8, byte1 + 215, 43, 0);
+            gameGraphics.DrawLineY(byte0 + 204, byte1 + 215, 43, 0);
+            gameGraphics.DrawString("Preparing to duel with: " + duelOpponent, byte0 + 1, byte1 + 10, 1, 0xffffff);
+            gameGraphics.DrawString("Your Stake", byte0 + 9, byte1 + 27, 4, 0xffffff);
+            gameGraphics.DrawString("Opponent's Stake", byte0 + 9, byte1 + 120, 4, 0xffffff);
+            gameGraphics.DrawString("Duel Options", byte0 + 9, byte1 + 212, 4, 0xffffff);
+            gameGraphics.DrawString("Your Inventory", byte0 + 216, byte1 + 27, 4, 0xffffff);
+            gameGraphics.DrawString("No retreating", byte0 + 8 + 1, byte1 + 215 + 16, 3, 0xffff00);
+            gameGraphics.DrawString("No magic", byte0 + 8 + 1, byte1 + 215 + 35, 3, 0xffff00);
+            gameGraphics.DrawString("No prayer", byte0 + 8 + 102, byte1 + 215 + 16, 3, 0xffff00);
+            gameGraphics.DrawString("No weapons", byte0 + 8 + 102, byte1 + 215 + 35, 3, 0xffff00);
+            gameGraphics.DrawBoxEdge(byte0 + 93, byte1 + 215 + 6, 11, 11, 0xffff00);
             if (duelNoRetreating)
             {
-                gameGraphics.drawBox(byte0 + 95, byte1 + 215 + 8, 7, 7, 0xffff00);
+                gameGraphics.DrawBox(byte0 + 95, byte1 + 215 + 8, 7, 7, 0xffff00);
             }
 
-            gameGraphics.drawBoxEdge(byte0 + 93, byte1 + 215 + 25, 11, 11, 0xffff00);
+            gameGraphics.DrawBoxEdge(byte0 + 93, byte1 + 215 + 25, 11, 11, 0xffff00);
             if (duelNoMagic)
             {
-                gameGraphics.drawBox(byte0 + 95, byte1 + 215 + 27, 7, 7, 0xffff00);
+                gameGraphics.DrawBox(byte0 + 95, byte1 + 215 + 27, 7, 7, 0xffff00);
             }
 
-            gameGraphics.drawBoxEdge(byte0 + 191, byte1 + 215 + 6, 11, 11, 0xffff00);
+            gameGraphics.DrawBoxEdge(byte0 + 191, byte1 + 215 + 6, 11, 11, 0xffff00);
             if (duelNoPrayer)
             {
-                gameGraphics.drawBox(byte0 + 193, byte1 + 215 + 8, 7, 7, 0xffff00);
+                gameGraphics.DrawBox(byte0 + 193, byte1 + 215 + 8, 7, 7, 0xffff00);
             }
 
-            gameGraphics.drawBoxEdge(byte0 + 191, byte1 + 215 + 25, 11, 11, 0xffff00);
+            gameGraphics.DrawBoxEdge(byte0 + 191, byte1 + 215 + 25, 11, 11, 0xffff00);
             if (duelNoWeapons)
             {
-                gameGraphics.drawBox(byte0 + 193, byte1 + 215 + 27, 7, 7, 0xffff00);
+                gameGraphics.DrawBox(byte0 + 193, byte1 + 215 + 27, 7, 7, 0xffff00);
             }
 
             if (!duelMyAccepted)
             {
-                gameGraphics.drawPicture(byte0 + 217, byte1 + 238, baseInventoryPic + 25);
+                gameGraphics.DrawPicture(byte0 + 217, byte1 + 238, baseInventoryPic + 25);
             }
 
-            gameGraphics.drawPicture(byte0 + 394, byte1 + 238, baseInventoryPic + 26);
+            gameGraphics.DrawPicture(byte0 + 394, byte1 + 238, baseInventoryPic + 26);
             if (duelOpponentAccepted)
             {
-                gameGraphics.drawText("Other player", byte0 + 341, byte1 + 246, 1, 0xffffff);
-                gameGraphics.drawText("has accepted", byte0 + 341, byte1 + 256, 1, 0xffffff);
+                gameGraphics.DrawText("Other player", byte0 + 341, byte1 + 246, 1, 0xffffff);
+                gameGraphics.DrawText("has accepted", byte0 + 341, byte1 + 256, 1, 0xffffff);
             }
             if (duelMyAccepted)
             {
-                gameGraphics.drawText("Waiting for", byte0 + 217 + 35, byte1 + 246, 1, 0xffffff);
-                gameGraphics.drawText("other player", byte0 + 217 + 35, byte1 + 256, 1, 0xffffff);
+                gameGraphics.DrawText("Waiting for", byte0 + 217 + 35, byte1 + 246, 1, 0xffffff);
+                gameGraphics.DrawText("other player", byte0 + 217 + 35, byte1 + 256, 1, 0xffffff);
             }
-            for (int k5 = 0; k5 < inventoryItemsCount; k5++)
+            for (int k5 = 0; k5 < inventoryItemsCount; k5 += 1)
             {
                 int l5 = 217 + byte0 + (k5 % 5) * 49;
                 int j6 = 31 + byte1 + (k5 / 5) * 34;
-                gameGraphics.drawImage(l5, j6, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[inventoryItems[k5]], Data.GameData.itemPictureMask[inventoryItems[k5]], 0, 0, false);
+                gameGraphics.DrawImage(l5, j6, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[inventoryItems[k5]], Data.GameData.itemPictureMask[inventoryItems[k5]], 0, 0, false);
                 if (Data.GameData.itemStackable[inventoryItems[k5]] == 0)
                 {
-                    gameGraphics.drawString(inventoryItemCount[k5].ToString(), l5 + 1, j6 + 10, 1, 0xffff00);
+                    gameGraphics.DrawString(inventoryItemCount[k5].ToString(), l5 + 1, j6 + 10, 1, 0xffff00);
                 }
             }
 
-            for (int i6 = 0; i6 < duelMyItemCount; i6++)
+            for (int i6 = 0; i6 < duelMyItemCount; i6 += 1)
             {
                 int k6 = 9 + byte0 + (i6 % 4) * 49;
                 int i7 = 31 + byte1 + (i6 / 4) * 34;
-                gameGraphics.drawImage(k6, i7, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[duelMyItems[i6]], Data.GameData.itemPictureMask[duelMyItems[i6]], 0, 0, false);
+                gameGraphics.DrawImage(k6, i7, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[duelMyItems[i6]], Data.GameData.itemPictureMask[duelMyItems[i6]], 0, 0, false);
                 if (Data.GameData.itemStackable[duelMyItems[i6]] == 0)
                 {
-                    gameGraphics.drawString(duelMyItemsCount[i6].ToString(), k6 + 1, i7 + 10, 1, 0xffff00);
+                    gameGraphics.DrawString(duelMyItemsCount[i6].ToString(), k6 + 1, i7 + 10, 1, 0xffff00);
                 }
 
                 if (base.mouseX > k6 && base.mouseX < k6 + 48 && base.mouseY > i7 && base.mouseY < i7 + 32)
                 {
-                    gameGraphics.drawString(Data.GameData.itemName[duelMyItems[i6]] + ": @whi@" + Data.GameData.itemDescription[duelMyItems[i6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
+                    gameGraphics.DrawString(Data.GameData.itemName[duelMyItems[i6]] + ": @whi@" + Data.GameData.itemDescription[duelMyItems[i6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
                 }
             }
 
-            for (int l6 = 0; l6 < duelOpponentItemCount; l6++)
+            for (int l6 = 0; l6 < duelOpponentItemCount; l6 += 1)
             {
                 int j7 = 9 + byte0 + (l6 % 4) * 49;
                 int k7 = 124 + byte1 + (l6 / 4) * 34;
-                gameGraphics.drawImage(j7, k7, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[duelOpponentItems[l6]], Data.GameData.itemPictureMask[duelOpponentItems[l6]], 0, 0, false);
+                gameGraphics.DrawImage(j7, k7, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[duelOpponentItems[l6]], Data.GameData.itemPictureMask[duelOpponentItems[l6]], 0, 0, false);
                 if (Data.GameData.itemStackable[duelOpponentItems[l6]] == 0)
                 {
-                    gameGraphics.drawString(duelOpponentItemsCount[l6].ToString(), j7 + 1, k7 + 10, 1, 0xffff00);
+                    gameGraphics.DrawString(duelOpponentItemsCount[l6].ToString(), j7 + 1, k7 + 10, 1, 0xffff00);
                 }
 
                 if (base.mouseX > j7 && base.mouseX < j7 + 48 && base.mouseY > k7 && base.mouseY < k7 + 32)
                 {
-                    gameGraphics.drawString(Data.GameData.itemName[duelOpponentItems[l6]] + ": @whi@" + Data.GameData.itemDescription[duelOpponentItems[l6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
+                    gameGraphics.DrawString(Data.GameData.itemName[duelOpponentItems[l6]] + ": @whi@" + Data.GameData.itemDescription[duelOpponentItems[l6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
                 }
             }
 
         }
 
-        public void drawWildernessAlertBox()
+        public void DrawWildernessAlertBox()
         {
             int l = 97;
-            gameGraphics.drawBox(86, 77, 340, 180, 0);
-            gameGraphics.drawBoxEdge(86, 77, 340, 180, 0xffffff);
-            gameGraphics.drawText("Warning! Proceed with caution", 256, l, 4, 0xff0000);
+            gameGraphics.DrawBox(86, 77, 340, 180, 0);
+            gameGraphics.DrawBoxEdge(86, 77, 340, 180, 0xffffff);
+            gameGraphics.DrawText("Warning! Proceed with caution", 256, l, 4, 0xff0000);
             l += 26;
-            gameGraphics.drawText("If you go much further north you will enter the", 256, l, 1, 0xffffff);
+            gameGraphics.DrawText("If you go much further north you will enter the", 256, l, 1, 0xffffff);
             l += 13;
-            gameGraphics.drawText("wilderness. This a very dangerous area where", 256, l, 1, 0xffffff);
+            gameGraphics.DrawText("wilderness. This a very dangerous area where", 256, l, 1, 0xffffff);
             l += 13;
-            gameGraphics.drawText("other players can attack you!", 256, l, 1, 0xffffff);
+            gameGraphics.DrawText("other players can attack you!", 256, l, 1, 0xffffff);
             l += 22;
-            gameGraphics.drawText("The further north you go the more dangerous it", 256, l, 1, 0xffffff);
+            gameGraphics.DrawText("The further north you go the more dangerous it", 256, l, 1, 0xffffff);
             l += 13;
-            gameGraphics.drawText("becomes, but the more treasure you will find.", 256, l, 1, 0xffffff);
+            gameGraphics.DrawText("becomes, but the more treasure you will find.", 256, l, 1, 0xffffff);
             l += 22;
-            gameGraphics.drawText("In the wilderness an indicator at the bottom-right", 256, l, 1, 0xffffff);
+            gameGraphics.DrawText("In the wilderness an indicator at the bottom-right", 256, l, 1, 0xffffff);
             l += 13;
-            gameGraphics.drawText("of the screen will show the current level of danger", 256, l, 1, 0xffffff);
+            gameGraphics.DrawText("of the screen will show the current level of danger", 256, l, 1, 0xffffff);
             l += 22;
             int i1 = 0xffffff;
             if (base.mouseY > l - 12 && base.mouseY <= l && base.mouseX > 181 && base.mouseX < 331)
@@ -8649,7 +8736,7 @@ namespace OpenRS.Net.Client
                 i1 = 0xff0000;
             }
 
-            gameGraphics.drawText("Click here to close window", 256, l, 1, i1);
+            gameGraphics.DrawText("Click here to close window", 256, l, 1, i1);
             if (mouseButtonClick != 0)
             {
                 if (base.mouseY > l - 12 && base.mouseY <= l && base.mouseX > 181 && base.mouseX < 331)
@@ -8666,7 +8753,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void drawNPC(int x, int y, int width, int height, int index, int unknown1, int unknown2)
+        public void DrawNPC(int x, int y, int width, int height, int index, int unknown1, int unknown2)
         {
             ClientMob npc = npcArray[index];
             int frameIndex = npc.currentSprite + (cameraRotation + 16) / 32 & 7;
@@ -8705,7 +8792,7 @@ namespace OpenRS.Net.Client
                     x += (Data.GameData.npcCombatSprite[npc.npcId] * unknown2) / 100;
                     j1 = newFrameIndex * 3 + combatModelArray2[(tick / Data.GameData.npcCombatModel[npc.npcId]) % 8];
                 }
-            for (int k1 = 0; k1 < 12; k1++)
+            for (int k1 = 0; k1 < 12; k1 += 1)
             {
                 int l1 = animationModelArray[frameIndex][k1];
                 int k2 = Data.GameData.npcAnimationCount[npc.npcId][l1];
@@ -8745,20 +8832,20 @@ namespace OpenRS.Net.Client
                                     j4 = Data.GameData.npcBottomColor[npc.npcId];
                                     k4 = Data.GameData.npcSkinColor[npc.npcId];
                                 }
-                        gameGraphics.drawImage(x + i3, y + j3, i4, height, l3, j4, k4, unknown1, flag);
+                        gameGraphics.DrawImage(x + i3, y + j3, i4, height, l3, j4, k4, unknown1, flag);
                     }
                 }
             }
 
             if (npc.lastMessageTimeout > 0)
             {
-                receivedMessageMidPoint[receivedMessagesCount] = gameGraphics.textWidth(npc.lastMessage, 1) / 2;
+                receivedMessageMidPoint[receivedMessagesCount] = gameGraphics.TextWidth(npc.lastMessage, 1) / 2;
                 if (receivedMessageMidPoint[receivedMessagesCount] > 150)
                 {
                     receivedMessageMidPoint[receivedMessagesCount] = 150;
                 }
 
-                receivedMessageHeight[receivedMessagesCount] = (gameGraphics.textWidth(npc.lastMessage, 1) / 300) * gameGraphics.textHeightNumber(1);
+                receivedMessageHeight[receivedMessagesCount] = (gameGraphics.TextWidth(npc.lastMessage, 1) / 300) * gameGraphics.TextHeightNumber(1);
                 receivedMessageX[receivedMessagesCount] = x + width / 2;
                 receivedMessageY[receivedMessagesCount] = y;
                 receivedMessages[receivedMessagesCount++] = npc.lastMessage;
@@ -8796,41 +8883,41 @@ namespace OpenRS.Net.Client
                         j2 += (10 * unknown2) / 100;
                     }
 
-                    gameGraphics.drawPicture((j2 + width / 2) - 12, (y + height / 2) - 12, baseInventoryPic + 12);
-                    gameGraphics.drawText(npc.lastDamageCount.ToString(), (j2 + width / 2) - 1, y + height / 2 + 5, 3, 0xffffff);
+                    gameGraphics.DrawPicture((j2 + width / 2) - 12, (y + height / 2) - 12, baseInventoryPic + 12);
+                    gameGraphics.DrawText(npc.lastDamageCount.ToString(), (j2 + width / 2) - 1, y + height / 2 + 5, 3, 0xffffff);
                 }
             }
         }
 
-        public override void displayMessage(String s1)
+        public override void DisplayMessage(string s1)
         {
             if (s1.StartsWith("@bor@"))
             {
-                displayMessage(s1, 4);
+                DisplayMessage(s1, 4);
                 return;
             }
             if (s1.StartsWith("@que@"))
             {
-                displayMessage("@whi@" + s1, 5);
+                DisplayMessage("@whi@" + s1, 5);
                 return;
             }
             if (s1.StartsWith("@pri@"))
             {
-                displayMessage(s1, 6);
+                DisplayMessage(s1, 6);
                 return;
             }
             else
             {
-                displayMessage(s1, 3);
+                DisplayMessage(s1, 3);
                 return;
             }
         }
 
-        public void drawAboveHeadThings()
+        public void DrawAboveHeadThings()
         {
-            for (int l = 0; l < receivedMessagesCount; l++)
+            for (int l = 0; l < receivedMessagesCount; l += 1)
             {
-                int height = gameGraphics.textHeightNumber(1);
+                int height = gameGraphics.TextHeightNumber(1);
                 int x = receivedMessageX[l];
                 int y = receivedMessageY[l];
                 int midpoint = receivedMessageMidPoint[l];
@@ -8839,7 +8926,7 @@ namespace OpenRS.Net.Client
                 while (flag)
                 {
                     flag = false;
-                    for (int l4 = 0; l4 < l; l4++)
+                    for (int l4 = 0; l4 < l; l4 += 1)
                     {
                         if (y + l3 > receivedMessageY[l4] - height && y - height < receivedMessageY[l4] + receivedMessageHeight[l4] && x - midpoint < receivedMessageX[l4] + receivedMessageMidPoint[l4] && x + midpoint > receivedMessageX[l4] - receivedMessageMidPoint[l4] && receivedMessageY[l4] - height - l3 < y)
                         {
@@ -8849,10 +8936,10 @@ namespace OpenRS.Net.Client
                     }
                 }
                 receivedMessageY[l] = y;
-                gameGraphics.drawFloatingText(receivedMessages[l], x, y, 1, 0xffff00, 300);
+                gameGraphics.DrawFloatingText(receivedMessages[l], x, y, 1, 0xffff00, 300);
             }
 
-            for (int j1 = 0; j1 < itemsAboveHeadCount; j1++)
+            for (int j1 = 0; j1 < itemsAboveHeadCount; j1 += 1)
             {
                 int x = itemAboveHeadX[j1];
                 int y = itemAboveHeadY[j1];
@@ -8861,30 +8948,30 @@ namespace OpenRS.Net.Client
                 int width = (39 * scale) / 100;
                 int height = (27 * scale) / 100;
                 int j5 = y - height;
-                gameGraphics.drawTransparentImage(x - width / 2, j5, width, height, baseInventoryPic + 9, 85);
+                gameGraphics.DrawTransparentImage(x - width / 2, j5, width, height, baseInventoryPic + 9, 85);
                 int k5 = (36 * scale) / 100;
                 int l5 = (24 * scale) / 100;
-                gameGraphics.drawImage(x - k5 / 2, (j5 + height / 2) - l5 / 2, k5, l5, Data.GameData.itemInventoryPicture[id] + baseItemPicture, Data.GameData.itemPictureMask[id], 0, 0, false);
+                gameGraphics.DrawImage(x - k5 / 2, (j5 + height / 2) - l5 / 2, k5, l5, Data.GameData.itemInventoryPicture[id] + baseItemPicture, Data.GameData.itemPictureMask[id], 0, 0, false);
             }
 
-            for (int i2 = 0; i2 < healthBarVisibleCount; i2++)
+            for (int i2 = 0; i2 < healthBarVisibleCount; i2 += 1)
             {
                 int x = healthBarX[i2];
                 int y = healthBarY[i2];
                 int missing = healthBarMissing[i2];
-                gameGraphics.drawBoxAlpha(x - 15, y - 3, missing, 5, 65280, 192);
-                gameGraphics.drawBoxAlpha((x - 15) + missing, y - 3, 30 - missing, 5, 0xff0000, 192);
+                gameGraphics.DrawBoxAlpha(x - 15, y - 3, missing, 5, 65280, 192);
+                gameGraphics.DrawBoxAlpha((x - 15) + missing, y - 3, 30 - missing, 5, 0xff0000, 192);
             }
 
         }
 
-        public override void cantLogout()
+        public override void CantLogout()
         {
             logoutTimer = 0;
-            displayMessage("@cya@Sorry, you can't logout at the moment", 3);
+            DisplayMessage("@cya@Sorry, you can't logout at the moment", 3);
         }
 
-        public void drawBankBox()
+        public void DrawBankBox()
         {
             char c1 = '\u0198';
             char c2 = '\u014E';
@@ -8921,9 +9008,9 @@ namespace OpenRS.Net.Client
                 if (l >= 0 && j1 >= 12 && l < 408 && j1 < 280)
                 {
                     int l1 = bankPage * 48;
-                    for (int k2 = 0; k2 < 6; k2++)
+                    for (int k2 = 0; k2 < 6; k2 += 1)
                     {
-                        for (int i3 = 0; i3 < 8; i3++)
+                        for (int i3 = 0; i3 < 8; i3 += 1)
                         {
                             int k7 = 7 + i3 * 49;
                             int i8 = 28 + k2 * 34;
@@ -8959,87 +9046,87 @@ namespace OpenRS.Net.Client
 
                         if (count >= 1 && base.mouseX >= l + 220 && base.mouseY >= j1 + 238 && base.mouseX < l + 250 && base.mouseY <= j1 + 249)
                         {
-                            base.streamClass.createPacket(183);
-                            base.streamClass.addShort(id);
-                            base.streamClass.addInt(1);
-                            base.streamClass.formatPacket();
+                            base.streamClass.CreatePacket(183);
+                            base.streamClass.AddShort(id);
+                            base.streamClass.AddInt(1);
+                            base.streamClass.FormatPacket();
                         }
                         if (count >= 5 && base.mouseX >= l + 250 && base.mouseY >= j1 + 238 && base.mouseX < l + 280 && base.mouseY <= j1 + 249)
                         {
-                            base.streamClass.createPacket(183);
-                            base.streamClass.addShort(id);
-                            base.streamClass.addInt(5);
-                            base.streamClass.formatPacket();
+                            base.streamClass.CreatePacket(183);
+                            base.streamClass.AddShort(id);
+                            base.streamClass.AddInt(5);
+                            base.streamClass.FormatPacket();
                         }
                         if (count >= 25 && base.mouseX >= l + 280 && base.mouseY >= j1 + 238 && base.mouseX < l + 305 && base.mouseY <= j1 + 249)
                         {
-                            base.streamClass.createPacket(183);
-                            base.streamClass.addShort(id);
-                            base.streamClass.addInt(25);
-                            base.streamClass.formatPacket();
+                            base.streamClass.CreatePacket(183);
+                            base.streamClass.AddShort(id);
+                            base.streamClass.AddInt(25);
+                            base.streamClass.FormatPacket();
                         }
                         if (count >= 100 && base.mouseX >= l + 305 && base.mouseY >= j1 + 238 && base.mouseX < l + 335 && base.mouseY <= j1 + 249)
                         {
-                            base.streamClass.createPacket(183);
-                            base.streamClass.addShort(id);
-                            base.streamClass.addInt(100);
-                            base.streamClass.formatPacket();
+                            base.streamClass.CreatePacket(183);
+                            base.streamClass.AddShort(id);
+                            base.streamClass.AddInt(100);
+                            base.streamClass.FormatPacket();
                         }
                         if (count >= 500 && base.mouseX >= l + 335 && base.mouseY >= j1 + 238 && base.mouseX < l + 368 && base.mouseY <= j1 + 249)
                         {
-                            base.streamClass.createPacket(183);
-                            base.streamClass.addShort(id);
-                            base.streamClass.addInt(500);
-                            base.streamClass.formatPacket();
+                            base.streamClass.CreatePacket(183);
+                            base.streamClass.AddShort(id);
+                            base.streamClass.AddInt(500);
+                            base.streamClass.FormatPacket();
                         }
                         if (count >= 2500 && base.mouseX >= l + 370 && base.mouseY >= j1 + 238 && base.mouseX < l + 400 && base.mouseY <= j1 + 249)
                         {
-                            base.streamClass.createPacket(183);
-                            base.streamClass.addShort(id);
-                            base.streamClass.addInt(2500);
-                            base.streamClass.formatPacket();
+                            base.streamClass.CreatePacket(183);
+                            base.streamClass.AddShort(id);
+                            base.streamClass.AddInt(2500);
+                            base.streamClass.FormatPacket();
                         }
-                        if (getInventoryItemTotalCount(id) >= 1 && base.mouseX >= l + 220 && base.mouseY >= j1 + 263 && base.mouseX < l + 250 && base.mouseY <= j1 + 274)
+                        if (GetInventoryItemTotalCount(id) >= 1 && base.mouseX >= l + 220 && base.mouseY >= j1 + 263 && base.mouseX < l + 250 && base.mouseY <= j1 + 274)
                         {
-                            base.streamClass.createPacket(198);
-                            base.streamClass.addShort(id);
-                            base.streamClass.addInt(1);
-                            base.streamClass.formatPacket();
+                            base.streamClass.CreatePacket(198);
+                            base.streamClass.AddShort(id);
+                            base.streamClass.AddInt(1);
+                            base.streamClass.FormatPacket();
                         }
-                        if (getInventoryItemTotalCount(id) >= 5 && base.mouseX >= l + 250 && base.mouseY >= j1 + 263 && base.mouseX < l + 280 && base.mouseY <= j1 + 274)
+                        if (GetInventoryItemTotalCount(id) >= 5 && base.mouseX >= l + 250 && base.mouseY >= j1 + 263 && base.mouseX < l + 280 && base.mouseY <= j1 + 274)
                         {
-                            base.streamClass.createPacket(198);
-                            base.streamClass.addShort(id);
-                            base.streamClass.addInt(5);
-                            base.streamClass.formatPacket();
+                            base.streamClass.CreatePacket(198);
+                            base.streamClass.AddShort(id);
+                            base.streamClass.AddInt(5);
+                            base.streamClass.FormatPacket();
                         }
-                        if (getInventoryItemTotalCount(id) >= 25 && base.mouseX >= l + 280 && base.mouseY >= j1 + 263 && base.mouseX < l + 305 && base.mouseY <= j1 + 274)
+                        if (GetInventoryItemTotalCount(id) >= 25 && base.mouseX >= l + 280 && base.mouseY >= j1 + 263 && base.mouseX < l + 305 && base.mouseY <= j1 + 274)
                         {
-                            base.streamClass.createPacket(198);
-                            base.streamClass.addShort(id);
-                            base.streamClass.addInt(25);
-                            base.streamClass.formatPacket();
+                            base.streamClass.CreatePacket(198);
+                            base.streamClass.AddShort(id);
+                            base.streamClass.AddInt(25);
+                            base.streamClass.FormatPacket();
                         }
-                        if (getInventoryItemTotalCount(id) >= 100 && base.mouseX >= l + 305 && base.mouseY >= j1 + 263 && base.mouseX < l + 335 && base.mouseY <= j1 + 274)
+                        if (GetInventoryItemTotalCount(id) >= 100 && base.mouseX >= l + 305 && base.mouseY >= j1 + 263 && base.mouseX < l + 335 && base.mouseY <= j1 + 274)
                         {
-                            base.streamClass.createPacket(198);
-                            base.streamClass.addShort(id);
-                            base.streamClass.addInt(100);
-                            base.streamClass.formatPacket();
+                            base.streamClass.CreatePacket(198);
+                            base.streamClass.AddShort(id);
+                            base.streamClass.AddInt(100);
+                            base.streamClass.FormatPacket();
                         }
-                        if (getInventoryItemTotalCount(id) >= 500 && base.mouseX >= l + 335 && base.mouseY >= j1 + 263 && base.mouseX < l + 368 && base.mouseY <= j1 + 274)
+                        if (GetInventoryItemTotalCount(id) >= 500 && base.mouseX >= l + 335 && base.mouseY >= j1 + 263 && base.mouseX < l + 368 && base.mouseY <= j1 + 274)
                         {
-                            base.streamClass.createPacket(198);
-                            base.streamClass.addShort(id);
-                            base.streamClass.addInt(500);
-                            base.streamClass.formatPacket();
+                            base.streamClass.CreatePacket(198);
+                            base.streamClass.AddShort(id);
+                            base.streamClass.AddInt(500);
+                            base.streamClass.FormatPacket();
                         }
-                        if (getInventoryItemTotalCount(id) >= 2500 && base.mouseX >= l + 370 && base.mouseY >= j1 + 263 && base.mouseX < l + 400 && base.mouseY <= j1 + 274)
+                        if (GetInventoryItemTotalCount(id) >= 2500 && base.mouseX >= l + 370 && base.mouseY >= j1 + 263 && base.mouseX < l + 400 && base.mouseY <= j1 + 274)
                         {
-                            base.streamClass.createPacket(198);
-                            base.streamClass.addShort(id);
-                            base.streamClass.addInt(2500);
-                            base.streamClass.formatPacket();
+                            base.streamClass.CreatePacket(198);
+                            base.streamClass.AddShort(id);
+                            base.streamClass.AddInt(2500);
+                            base.streamClass.FormatPacket();
                         }
                     }
                 }
@@ -9065,21 +9152,21 @@ namespace OpenRS.Net.Client
                                 }
                                 else
                                 {
-                                    base.streamClass.createPacket(48);
-                                    base.streamClass.formatPacket();
+                                    base.streamClass.CreatePacket(48);
+                                    base.streamClass.FormatPacket();
                                     showBankBox = false;
                                     return;
                                 }
             }
             int i1 = 256 - c1 / 2;
             int k1 = 170 - c2 / 2;
-            gameGraphics.drawBox(i1, k1, 408, 12, 192);
+            gameGraphics.DrawBox(i1, k1, 408, 12, 192);
             int j2 = 0x989898;
-            gameGraphics.drawBoxAlpha(i1, k1 + 12, 408, 17, j2, 160);
-            gameGraphics.drawBoxAlpha(i1, k1 + 29, 8, 204, j2, 160);
-            gameGraphics.drawBoxAlpha(i1 + 399, k1 + 29, 9, 204, j2, 160);
-            gameGraphics.drawBoxAlpha(i1, k1 + 233, 408, 47, j2, 160);
-            gameGraphics.drawString("Bank", i1 + 1, k1 + 10, 1, 0xffffff);
+            gameGraphics.DrawBoxAlpha(i1, k1 + 12, 408, 17, j2, 160);
+            gameGraphics.DrawBoxAlpha(i1, k1 + 29, 8, 204, j2, 160);
+            gameGraphics.DrawBoxAlpha(i1 + 399, k1 + 29, 9, 204, j2, 160);
+            gameGraphics.DrawBoxAlpha(i1, k1 + 233, 408, 47, j2, 160);
+            gameGraphics.DrawString("Bank", i1 + 1, k1 + 10, 1, 0xffffff);
             int l2 = 50;
             if (bankItemsCount > 48)
             {
@@ -9094,7 +9181,7 @@ namespace OpenRS.Net.Client
                     k3 = 0xffff00;
                 }
 
-                gameGraphics.drawString("<page 1>", i1 + l2, k1 + 10, 1, k3);
+                gameGraphics.DrawString("<page 1>", i1 + l2, k1 + 10, 1, k3);
                 l2 += 65;
                 k3 = 0xffffff;
                 if (bankPage == 1)
@@ -9107,7 +9194,7 @@ namespace OpenRS.Net.Client
                     k3 = 0xffff00;
                 }
 
-                gameGraphics.drawString("<page 2>", i1 + l2, k1 + 10, 1, k3);
+                gameGraphics.DrawString("<page 2>", i1 + l2, k1 + 10, 1, k3);
                 l2 += 65;
             }
             if (bankItemsCount > 96)
@@ -9123,7 +9210,7 @@ namespace OpenRS.Net.Client
                     l3 = 0xffff00;
                 }
 
-                gameGraphics.drawString("<page 3>", i1 + l2, k1 + 10, 1, l3);
+                gameGraphics.DrawString("<page 3>", i1 + l2, k1 + 10, 1, l3);
                 l2 += 65;
             }
             if (bankItemsCount > 144)
@@ -9139,7 +9226,7 @@ namespace OpenRS.Net.Client
                     i4 = 0xffff00;
                 }
 
-                gameGraphics.drawString("<page 4>", i1 + l2, k1 + 10, 1, i4);
+                gameGraphics.DrawString("<page 4>", i1 + l2, k1 + 10, 1, i4);
                 l2 += 65;
             }
             int j4 = 0xffffff;
@@ -9148,42 +9235,42 @@ namespace OpenRS.Net.Client
                 j4 = 0xff0000;
             }
 
-            gameGraphics.drawLabel("Close window", i1 + 406, k1 + 10, 1, j4);
-            gameGraphics.drawString("Number in bank in green", i1 + 7, k1 + 24, 1, 65280);
-            gameGraphics.drawString("Number held in blue", i1 + 289, k1 + 24, 1, 65535);
+            gameGraphics.DrawLabel("Close window", i1 + 406, k1 + 10, 1, j4);
+            gameGraphics.DrawString("Number in bank in green", i1 + 7, k1 + 24, 1, 65280);
+            gameGraphics.DrawString("Number held in blue", i1 + 289, k1 + 24, 1, 65535);
             int l7 = 0xd0d0d0;
             int j8 = bankPage * 48;
-            for (int l8 = 0; l8 < 6; l8++)
+            for (int l8 = 0; l8 < 6; l8 += 1)
             {
-                for (int i9 = 0; i9 < 8; i9++)
+                for (int i9 = 0; i9 < 8; i9 += 1)
                 {
                     int k9 = i1 + 7 + i9 * 49;
                     int l9 = k1 + 28 + l8 * 34;
                     if (selectedBankItem == j8)
                     {
-                        gameGraphics.drawBoxAlpha(k9, l9, 49, 34, 0xff0000, 160);
+                        gameGraphics.DrawBoxAlpha(k9, l9, 49, 34, 0xff0000, 160);
                     }
                     else
                     {
-                        gameGraphics.drawBoxAlpha(k9, l9, 49, 34, l7, 160);
+                        gameGraphics.DrawBoxAlpha(k9, l9, 49, 34, l7, 160);
                     }
 
-                    gameGraphics.drawBoxEdge(k9, l9, 50, 35, 0);
+                    gameGraphics.DrawBoxEdge(k9, l9, 50, 35, 0);
                     if (j8 < bankItemsCount && bankItems[j8] != -1)
                     {
-                        gameGraphics.drawImage(k9, l9, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[bankItems[j8]], Data.GameData.itemPictureMask[bankItems[j8]], 0, 0, false);
-                        gameGraphics.drawString(bankItemCount[j8].ToString(), k9 + 1, l9 + 10, 1, 65280);
-                        gameGraphics.drawLabel(getInventoryItemTotalCount(bankItems[j8]).ToString(), k9 + 47, l9 + 29, 1, 65535);
+                        gameGraphics.DrawImage(k9, l9, 48, 32, baseItemPicture + Data.GameData.itemInventoryPicture[bankItems[j8]], Data.GameData.itemPictureMask[bankItems[j8]], 0, 0, false);
+                        gameGraphics.DrawString(bankItemCount[j8].ToString(), k9 + 1, l9 + 10, 1, 65280);
+                        gameGraphics.DrawLabel(GetInventoryItemTotalCount(bankItems[j8]).ToString(), k9 + 47, l9 + 29, 1, 65535);
                     }
                     j8 += 1;
                 }
 
             }
 
-            gameGraphics.drawLineX(i1 + 5, k1 + 256, 398, 0);
+            gameGraphics.DrawLineX(i1 + 5, k1 + 256, 398, 0);
             if (selectedBankItem == -1)
             {
-                gameGraphics.drawText("Select an object to withdraw or deposit", i1 + 204, k1 + 248, 3, 0xffff00);
+                gameGraphics.DrawText("Select an object to withdraw or deposit", i1 + 204, k1 + 248, 3, 0xffff00);
                 return;
             }
             int j9;
@@ -9206,14 +9293,14 @@ namespace OpenRS.Net.Client
 
                 if (k8 > 0)
                 {
-                    gameGraphics.drawString("Withdraw " + Data.GameData.itemName[j9], i1 + 2, k1 + 248, 1, 0xffffff);
+                    gameGraphics.DrawString("Withdraw " + Data.GameData.itemName[j9], i1 + 2, k1 + 248, 1, 0xffffff);
                     int k4 = 0xffffff;
                     if (base.mouseX >= i1 + 220 && base.mouseY >= k1 + 238 && base.mouseX < i1 + 250 && base.mouseY <= k1 + 249)
                     {
                         k4 = 0xff0000;
                     }
 
-                    gameGraphics.drawString("One", i1 + 222, k1 + 248, 1, k4);
+                    gameGraphics.DrawString("One", i1 + 222, k1 + 248, 1, k4);
                     if (k8 >= 5)
                     {
                         int l4 = 0xffffff;
@@ -9222,7 +9309,7 @@ namespace OpenRS.Net.Client
                             l4 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("Five", i1 + 252, k1 + 248, 1, l4);
+                        gameGraphics.DrawString("Five", i1 + 252, k1 + 248, 1, l4);
                     }
                     if (k8 >= 25)
                     {
@@ -9232,7 +9319,7 @@ namespace OpenRS.Net.Client
                             i5 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("25", i1 + 282, k1 + 248, 1, i5);
+                        gameGraphics.DrawString("25", i1 + 282, k1 + 248, 1, i5);
                     }
                     if (k8 >= 100)
                     {
@@ -9242,7 +9329,7 @@ namespace OpenRS.Net.Client
                             j5 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("100", i1 + 307, k1 + 248, 1, j5);
+                        gameGraphics.DrawString("100", i1 + 307, k1 + 248, 1, j5);
                     }
                     if (k8 >= 500)
                     {
@@ -9252,7 +9339,7 @@ namespace OpenRS.Net.Client
                             k5 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("500", i1 + 337, k1 + 248, 1, k5);
+                        gameGraphics.DrawString("500", i1 + 337, k1 + 248, 1, k5);
                     }
                     if (k8 >= 2500)
                     {
@@ -9262,20 +9349,20 @@ namespace OpenRS.Net.Client
                             l5 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("2500", i1 + 370, k1 + 248, 1, l5);
+                        gameGraphics.DrawString("2500", i1 + 370, k1 + 248, 1, l5);
                     }
                 }
-                if (getInventoryItemTotalCount(j9) > 0)
+                if (GetInventoryItemTotalCount(j9) > 0)
                 {
-                    gameGraphics.drawString("Deposit " + Data.GameData.itemName[j9], i1 + 2, k1 + 273, 1, 0xffffff);
+                    gameGraphics.DrawString("Deposit " + Data.GameData.itemName[j9], i1 + 2, k1 + 273, 1, 0xffffff);
                     int i6 = 0xffffff;
                     if (base.mouseX >= i1 + 220 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 250 && base.mouseY <= k1 + 274)
                     {
                         i6 = 0xff0000;
                     }
 
-                    gameGraphics.drawString("One", i1 + 222, k1 + 273, 1, i6);
-                    if (getInventoryItemTotalCount(j9) >= 5)
+                    gameGraphics.DrawString("One", i1 + 222, k1 + 273, 1, i6);
+                    if (GetInventoryItemTotalCount(j9) >= 5)
                     {
                         int j6 = 0xffffff;
                         if (base.mouseX >= i1 + 250 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 280 && base.mouseY <= k1 + 274)
@@ -9283,9 +9370,9 @@ namespace OpenRS.Net.Client
                             j6 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("Five", i1 + 252, k1 + 273, 1, j6);
+                        gameGraphics.DrawString("Five", i1 + 252, k1 + 273, 1, j6);
                     }
-                    if (getInventoryItemTotalCount(j9) >= 25)
+                    if (GetInventoryItemTotalCount(j9) >= 25)
                     {
                         int k6 = 0xffffff;
                         if (base.mouseX >= i1 + 280 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 305 && base.mouseY <= k1 + 274)
@@ -9293,9 +9380,9 @@ namespace OpenRS.Net.Client
                             k6 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("25", i1 + 282, k1 + 273, 1, k6);
+                        gameGraphics.DrawString("25", i1 + 282, k1 + 273, 1, k6);
                     }
-                    if (getInventoryItemTotalCount(j9) >= 100)
+                    if (GetInventoryItemTotalCount(j9) >= 100)
                     {
                         int l6 = 0xffffff;
                         if (base.mouseX >= i1 + 305 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 335 && base.mouseY <= k1 + 274)
@@ -9303,9 +9390,9 @@ namespace OpenRS.Net.Client
                             l6 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("100", i1 + 307, k1 + 273, 1, l6);
+                        gameGraphics.DrawString("100", i1 + 307, k1 + 273, 1, l6);
                     }
-                    if (getInventoryItemTotalCount(j9) >= 500)
+                    if (GetInventoryItemTotalCount(j9) >= 500)
                     {
                         int i7 = 0xffffff;
                         if (base.mouseX >= i1 + 335 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 368 && base.mouseY <= k1 + 274)
@@ -9313,9 +9400,9 @@ namespace OpenRS.Net.Client
                             i7 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("500", i1 + 337, k1 + 273, 1, i7);
+                        gameGraphics.DrawString("500", i1 + 337, k1 + 273, 1, i7);
                     }
-                    if (getInventoryItemTotalCount(j9) >= 2500)
+                    if (GetInventoryItemTotalCount(j9) >= 2500)
                     {
                         int j7 = 0xffffff;
                         if (base.mouseX >= i1 + 370 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 400 && base.mouseY <= k1 + 274)
@@ -9323,25 +9410,25 @@ namespace OpenRS.Net.Client
                             j7 = 0xff0000;
                         }
 
-                        gameGraphics.drawString("2500", i1 + 370, k1 + 273, 1, j7);
+                        gameGraphics.DrawString("2500", i1 + 370, k1 + 273, 1, j7);
                     }
                 }
             }
         }
 
-        public GraphicsDevice getGraphics()
+        public GraphicsDevice GetGraphics()
         {
             //if(GameApplet.gameFrame is not null)
-            //    return GameApplet.gameFrame.getGraphics();
+            //    return GameApplet.gameFrame.GetGraphics();
             //if(Link.gameApplet is not null)
-            //    return Link.gameApplet.getGraphics();
+            //    return Link.gameApplet.GetGraphics();
             //else
-            //    return base.getGraphics();
+            //    return base.GetGraphics();
             return graphics;
         }
         public event EventHandler OnLoadingSection;
         public event EventHandler OnLoadingSectionCompleted;
-        public bool loadSection(int x, int y)
+        public bool LoadSection(int x, int y)
         {
             if (playerAliveTimeout != 0)
             {
@@ -9361,11 +9448,11 @@ namespace OpenRS.Net.Client
                 OnLoadingSection(this, new EventArgs());
             }
 
-            gameGraphics.drawText("Loading... Please wait", 256, 192, 1, 0xffffff);
-            drawChatMessageTabs();
+            gameGraphics.DrawText("Loading... Please wait", 256, 192, 1, 0xffffff);
+            DrawChatMessageTabs();
 
 
-            //gameGraphics.drawImage(spriteBatch, 0, 0);
+            //gameGraphics.DrawImage(spriteBatch, 0, 0);
             int l = areaX;
             int i1 = areaY;
             int xBase = (x + 24) / 48;
@@ -9377,14 +9464,14 @@ namespace OpenRS.Net.Client
             sectionHeight = yBase * 48 - 32;
             sectionPosX = xBase * 48 + 32;
             sectionPosY = yBase * 48 + 32;
-            engineHandle.loadSection(x, y, lastLayerIndex);
+            engineHandle.LoadSection(x, y, lastLayerIndex);
 
 
             areaX -= wildX;
             areaY -= wildY;
             int offsetX = areaX - l;
             int offsetY = areaY - i1;
-            for (int j2 = 0; j2 < objectCount; j2++)
+            for (int j2 = 0; j2 < objectCount; j2 += 1)
             {
                 objectX[j2] -= offsetX;
                 objectY[j2] -= offsetY;
@@ -9411,12 +9498,12 @@ namespace OpenRS.Net.Client
                     int flatObjY = ((objY + objY + objHeight) * gridSize) / 2;
                     if (objX >= 0 && objY >= 0 && objX < 96 && objY < 96)
                     {
-                        gameCamera.addModel(_obj);
-                        _obj.setPosition(flatObjX, -engineHandle.getAveragedElevation(flatObjX, flatObjY), flatObjY);
-                        engineHandle.createObject(objX, objY, objType, objDir);
+                        gameCamera.AddModel(_obj);
+                        _obj.SetPosition(flatObjX, -engineHandle.GetAveragedElevation(flatObjX, flatObjY), flatObjY);
+                        engineHandle.CreateObject(objX, objY, objType, objDir);
                         if (objType == 74)
                         {
-                            _obj.offsetPosition(0, -480, 0);
+                            _obj.OffsetPosition(0, -480, 0);
                         }
                     }
                 }
@@ -9429,7 +9516,7 @@ namespace OpenRS.Net.Client
             }
 
 
-            for (int wallIndex = 0; wallIndex < wallObjectCount; wallIndex++)
+            for (int wallIndex = 0; wallIndex < wallObjectCount; wallIndex += 1)
             {
                 wallObjectX[wallIndex] -= offsetX;
                 wallObjectY[wallIndex] -= offsetY;
@@ -9439,8 +9526,8 @@ namespace OpenRS.Net.Client
                 int wallDir = wallObjectDirection[wallIndex];
                 try
                 {
-                    engineHandle.createWall(wallX, wallY, wallDir, wallId);
-                    GameObject wallObject = makeWallObject(wallX, wallY, wallDir, wallId, wallIndex);
+                    engineHandle.CreateWall(wallX, wallY, wallDir, wallId);
+                    GameObject wallObject = CreateWallObject(wallX, wallY, wallDir, wallId, wallIndex);
                     wallObjectArray[wallIndex] = wallObject;
                 }
                 catch (Exception runtimeexception1)
@@ -9450,18 +9537,18 @@ namespace OpenRS.Net.Client
                 }
             }
 
-            for (int k3 = 0; k3 < groundItemCount; k3++)
+            for (int k3 = 0; k3 < groundItemCount; k3 += 1)
             {
                 groundItemX[k3] -= offsetX;
                 groundItemY[k3] -= offsetY;
             }
 
-            for (int j4 = 0; j4 < playerCount; j4++)
+            for (int j4 = 0; j4 < playerCount; j4 += 1)
             {
                 ClientMob f1 = playerArray[j4];
                 f1.currentX -= offsetX * gridSize;
                 f1.currentY -= offsetY * gridSize;
-                for (int l5 = 0; l5 <= f1.waypointCurrent; l5++)
+                for (int l5 = 0; l5 <= f1.waypointCurrent; l5 += 1)
                 {
                     f1.waypointsX[l5] -= offsetX * gridSize;
                     f1.waypointsY[l5] -= offsetY * gridSize;
@@ -9469,12 +9556,12 @@ namespace OpenRS.Net.Client
 
             }
 
-            for (int i5 = 0; i5 < npcCount; i5++)
+            for (int i5 = 0; i5 < npcCount; i5 += 1)
             {
                 ClientMob f2 = npcArray[i5];
                 f2.currentX -= offsetX * gridSize;
                 f2.currentY -= offsetY * gridSize;
-                for (int k6 = 0; k6 <= f2.waypointCurrent; k6++)
+                for (int k6 = 0; k6 <= f2.waypointCurrent; k6 += 1)
                 {
                     f2.waypointsX[k6] -= offsetX * gridSize;
                     f2.waypointsY[k6] -= offsetY * gridSize;
@@ -9494,9 +9581,9 @@ namespace OpenRS.Net.Client
             return true;
         }
 
-        public static String formatItemCount(int itemCount)
+        public static string formatItemCount(int itemCount)
         {
-            String s1 = itemCount.ToString();
+            string s1 = itemCount.ToString();
             for (int l = s1.Length - 3; l > 0; l -= 3)
             {
                 s1 = s1.Substring(0, l) + "," + s1.Substring(l);
@@ -9515,32 +9602,32 @@ namespace OpenRS.Net.Client
             return s1;
         }
 
-        public bool hasRequiredRunes(int l, int i1)
+        public bool HasRequiredRunes(int l, int i1)
         {
-            if (l == 31 && (isItemEquipped(197) || isItemEquipped(615) || isItemEquipped(682)))
+            if (l == 31 && (IsItemEquipped(197) || IsItemEquipped(615) || IsItemEquipped(682)))
             {
                 return true;
             }
 
-            if (l == 32 && (isItemEquipped(102) || isItemEquipped(616) || isItemEquipped(683)))
+            if (l == 32 && (IsItemEquipped(102) || IsItemEquipped(616) || IsItemEquipped(683)))
             {
                 return true;
             }
 
-            if (l == 33 && (isItemEquipped(101) || isItemEquipped(617) || isItemEquipped(684)))
+            if (l == 33 && (IsItemEquipped(101) || IsItemEquipped(617) || IsItemEquipped(684)))
             {
                 return true;
             }
 
-            if (l == 34 && (isItemEquipped(103) || isItemEquipped(618) || isItemEquipped(685)))
+            if (l == 34 && (IsItemEquipped(103) || IsItemEquipped(618) || IsItemEquipped(685)))
             {
                 return true;
             }
 
-            return getInventoryItemTotalCount(l) >= i1;
+            return GetInventoryItemTotalCount(l) >= i1;
         }
 
-        public void displayMessage(String message, int type)
+        public void DisplayMessage(string message, int type)
         {
             if (type == 2 || type == 4 || type == 6)
             {
@@ -9552,9 +9639,9 @@ namespace OpenRS.Net.Client
                 int l = message.IndexOf(":");
                 if (l != -1)
                 {
-                    String s1 = message.Substring(0, l);
+                    string s1 = message.Substring(0, l);
                     long l1 = DataOperations.NameToHash(s1);
-                    for (int j1 = 0; j1 < base.ignoresCount; j1++)
+                    for (int j1 = 0; j1 < base.ignoresCount; j1 += 1)
                     {
                         if (base.ignoresList[j1] == l1)
                         {
@@ -9610,7 +9697,7 @@ namespace OpenRS.Net.Client
                     messagesTab = 0;
                 }
             }
-            for (int i1 = 4; i1 > 0; i1--)
+            for (int i1 = 4; i1 > 0; i1 -= 1)
             {
                 messagesArray[i1] = messagesArray[i1 - 1];
                 messagesTimeout[i1] = messagesTimeout[i1 - 1];
@@ -9622,11 +9709,11 @@ namespace OpenRS.Net.Client
             {
                 if (chatInputMenu.listShownEntries[messagesHandleType2] == chatInputMenu.listLength[messagesHandleType2] - 4)
                 {
-                    chatInputMenu.addMessage(messagesHandleType2, message, true);
+                    chatInputMenu.AddMessage(messagesHandleType2, message, true);
                 }
                 else
                 {
-                    chatInputMenu.addMessage(messagesHandleType2, message, false);
+                    chatInputMenu.AddMessage(messagesHandleType2, message, false);
                 }
             }
 
@@ -9634,11 +9721,11 @@ namespace OpenRS.Net.Client
             {
                 if (chatInputMenu.listShownEntries[messagesHandleType5] == chatInputMenu.listLength[messagesHandleType5] - 4)
                 {
-                    chatInputMenu.addMessage(messagesHandleType5, message, true);
+                    chatInputMenu.AddMessage(messagesHandleType5, message, true);
                 }
                 else
                 {
-                    chatInputMenu.addMessage(messagesHandleType5, message, false);
+                    chatInputMenu.AddMessage(messagesHandleType5, message, false);
                 }
             }
 
@@ -9646,23 +9733,23 @@ namespace OpenRS.Net.Client
             {
                 if (chatInputMenu.listShownEntries[messagesHandleType6] == chatInputMenu.listLength[messagesHandleType6] - 4)
                 {
-                    chatInputMenu.addMessage(messagesHandleType6, message, true);
+                    chatInputMenu.AddMessage(messagesHandleType6, message, true);
                     return;
                 }
-                chatInputMenu.addMessage(messagesHandleType6, message, false);
+                chatInputMenu.AddMessage(messagesHandleType6, message, false);
             }
         }
 
-        public void drawMinimapObject(int x, int y, int color)
+        public void DrawMinimapObject(int x, int y, int color)
         {
-            gameGraphics.drawMinimapPixel(x, y, color);
-            gameGraphics.drawMinimapPixel(x - 1, y, color);
-            gameGraphics.drawMinimapPixel(x + 1, y, color);
-            gameGraphics.drawMinimapPixel(x, y - 1, color);
-            gameGraphics.drawMinimapPixel(x, y + 1, color);
+            gameGraphics.DrawMinimapPixel(x, y, color);
+            gameGraphics.DrawMinimapPixel(x - 1, y, color);
+            gameGraphics.DrawMinimapPixel(x + 1, y, color);
+            gameGraphics.DrawMinimapPixel(x, y - 1, color);
+            gameGraphics.DrawMinimapPixel(x, y + 1, color);
         }
 
-        public void drawServerMessageBox()
+        public void DrawServerMessageBox()
         {
             char c1 = '\u0190';
             char c2 = 'd';
@@ -9671,9 +9758,9 @@ namespace OpenRS.Net.Client
                 c2 = '\u01C2';
                 c2 = '\u012C';
             }
-            gameGraphics.drawBox(256 - c1 / 2, 167 - c2 / 2, c1, c2, 0);
-            gameGraphics.drawBoxEdge(256 - c1 / 2, 167 - c2 / 2, c1, c2, 0xffffff);
-            gameGraphics.drawFloatingText(serverMessage, 256, (167 - c2 / 2) + 20, 1, 0xffffff, c1 - 40);
+            gameGraphics.DrawBox(256 - c1 / 2, 167 - c2 / 2, c1, c2, 0);
+            gameGraphics.DrawBoxEdge(256 - c1 / 2, 167 - c2 / 2, c1, c2, 0xffffff);
+            gameGraphics.DrawFloatingText(serverMessage, 256, (167 - c2 / 2) + 20, 1, 0xffffff, c1 - 40);
             int l = 157 + c2 / 2;
             int i1 = 0xffffff;
             if (base.mouseY > l - 12 && base.mouseY <= l && base.mouseX > 106 && base.mouseX < 406)
@@ -9681,7 +9768,7 @@ namespace OpenRS.Net.Client
                 i1 = 0xff0000;
             }
 
-            gameGraphics.drawText("Click here to close window", 256, l, 1, i1);
+            gameGraphics.DrawText("Click here to close window", 256, l, 1, i1);
             if (mouseButtonClick == 1)
             {
                 if (i1 == 0xff0000)
@@ -9707,7 +9794,7 @@ namespace OpenRS.Net.Client
         //    return base.createImage(l, i1);
         //}
 
-        public GameObject makeWallObject(int x, int y, int dir, int type, int totalCount)
+        public GameObject CreateWallObject(int x, int y, int dir, int type, int totalCount)
         {
 
             int tileX = x;
@@ -9762,37 +9849,37 @@ namespace OpenRS.Net.Client
             destTileY *= gridSize;
 
             // add vertex index bottomLeft
-            int bLeft = wallModel.getVertexIndex(tileX, -engineHandle.getAveragedElevation(tileX, tileY), tileY);
+            int bLeft = wallModel.GetVertexIndex(tileX, -engineHandle.GetAveragedElevation(tileX, tileY), tileY);
 
             // add vertex index topLeft
-            int tLeft = wallModel.getVertexIndex(tileX, -engineHandle.getAveragedElevation(tileX, tileY) - wallHeight, tileY);
+            int tLeft = wallModel.GetVertexIndex(tileX, -engineHandle.GetAveragedElevation(tileX, tileY) - wallHeight, tileY);
 
             // add vertex index topRight
-            int tRight = wallModel.getVertexIndex(destTileX, -engineHandle.getAveragedElevation(destTileX, destTileY) - wallHeight, destTileY);
+            int tRight = wallModel.GetVertexIndex(destTileX, -engineHandle.GetAveragedElevation(destTileX, destTileY) - wallHeight, destTileY);
 
             // vertex index bottomRight
-            int bRight = wallModel.getVertexIndex(destTileX, -engineHandle.getAveragedElevation(destTileX, destTileY), destTileY);
+            int bRight = wallModel.GetVertexIndex(destTileX, -engineHandle.GetAveragedElevation(destTileX, destTileY), destTileY);
             int[] faceVertices = [
             bLeft, tLeft, tRight, bRight
         ];
-            wallModel.addFaceVertices(4, faceVertices, textureBack, textureFront);
+            wallModel.AddFaceVertices(4, faceVertices, textureBack, textureFront);
             wallModel.UpdateShading(false, 60, 24, -50, -10, -50);
             if (x >= 0 && y >= 0 && x < 96 && y < 96)
             {
-                gameCamera.addModel(wallModel);
+                gameCamera.AddModel(wallModel);
             }
 
             wallModel.index = totalCount + 10000;
             return wallModel;
         }
 
-        public void resetPrivateMessages()
+        public void ResetPrivateMessages()
         {
             base.pmText = "";
             base.enteredPMText = "";
         }
 
-        public ClientMob makeNPC(int index, int x, int y, int sprite, int id)
+        public ClientMob CreateNpc(int index, int x, int y, int sprite, int id)
         {
             if (npcAttackingArray[index] is null)
             {
@@ -9803,7 +9890,7 @@ namespace OpenRS.Net.Client
             }
             ClientMob f1 = npcAttackingArray[index];
             bool flag = false;
-            for (int l = 0; l < lastNpcCount; l++)
+            for (int l = 0; l < lastNpcCount; l += 1)
             {
                 if (lastNpcArray[l].serverIndex != index)
                 {
@@ -9841,16 +9928,16 @@ namespace OpenRS.Net.Client
             return f1;
         }
 
-        public void updateBankItems()
+        public void UpdateBankItems()
         {
             bankItemsCount = serverBankItemsCount;
-            for (int l = 0; l < serverBankItemsCount; l++)
+            for (int l = 0; l < serverBankItemsCount; l += 1)
             {
                 bankItems[l] = serverBankItems[l];
                 bankItemCount[l] = serverBankItemCount[l];
             }
 
-            for (int i1 = 0; i1 < inventoryItemsCount; i1++)
+            for (int i1 = 0; i1 < inventoryItemsCount; i1 += 1)
             {
                 if (bankItemsCount >= maxBankItems)
                 {
@@ -9859,7 +9946,7 @@ namespace OpenRS.Net.Client
 
                 int j1 = inventoryItems[i1];
                 bool flag = false;
-                for (int k1 = 0; k1 < bankItemsCount; k1++)
+                for (int k1 = 0; k1 < bankItemsCount; k1 += 1)
                 {
                     if (bankItems[k1] != j1)
                     {
@@ -9880,38 +9967,38 @@ namespace OpenRS.Net.Client
 
         }
 
-        public void drawStatsQuestsMenu(bool canClick)
+        public void DrawStatsQuestsMenu(bool canClick)
         {
             int l = ((GameImage)(gameGraphics)).gameWidth - 199; //199
             int i1 = 36;
-            gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 3);
+            gameGraphics.DrawPicture(l - 49, 3, baseInventoryPic + 3);
             int c1 = 196;//'\u304';
             int c2 = 275;//113;//'\u0113';
             int k1;
-            int j1 = k1 = GameImage.rgbToInt(160, 160, 160);
+            int j1 = k1 = GameImage.RgbToInt(160, 160, 160);
             if (questMenuSelected == 0)
             {
-                j1 = GameImage.rgbToInt(220, 220, 220);
+                j1 = GameImage.RgbToInt(220, 220, 220);
             }
             else
             {
-                k1 = GameImage.rgbToInt(220, 220, 220);
+                k1 = GameImage.RgbToInt(220, 220, 220);
             }
 
-            gameGraphics.drawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
-            gameGraphics.drawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
-            gameGraphics.drawBoxAlpha(l, i1 + 24, c1, c2 - 24, GameImage.rgbToInt(220, 220, 220), 128);
-            gameGraphics.drawLineX(l, i1 + 24, c1, 0);
-            gameGraphics.drawLineY(l + c1 / 2, i1, 24, 0);
-            gameGraphics.drawText("Stats", l + c1 / 4, i1 + 16, 4, 0);
-            gameGraphics.drawText("Quests", l + c1 / 4 + c1 / 2, i1 + 16, 4, 0);
+            gameGraphics.DrawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
+            gameGraphics.DrawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
+            gameGraphics.DrawBoxAlpha(l, i1 + 24, c1, c2 - 24, GameImage.RgbToInt(220, 220, 220), 128);
+            gameGraphics.DrawLineX(l, i1 + 24, c1, 0);
+            gameGraphics.DrawLineY(l + c1 / 2, i1, 24, 0);
+            gameGraphics.DrawText("Stats", l + c1 / 4, i1 + 16, 4, 0);
+            gameGraphics.DrawText("Quests", l + c1 / 4 + c1 / 2, i1 + 16, 4, 0);
             if (questMenuSelected == 0)
             {
                 int l1 = 72;
                 int j2 = -1;
-                gameGraphics.drawString("Skills", l + 5, l1, 3, 0xffff00);
+                gameGraphics.DrawString("Skills", l + 5, l1, 3, 0xffff00);
                 l1 += 13;
-                for (int k2 = 0; k2 < 9; k2++)
+                for (int k2 = 0; k2 < 9; k2 += 1)
                 {
                     int l2 = 0xffffff;
                     if (base.mouseX > l + 3 && base.mouseY >= l1 - 11 && base.mouseY < l1 + 2 && base.mouseX < l + 90)
@@ -9919,42 +10006,42 @@ namespace OpenRS.Net.Client
                         l2 = 0xff0000;
                         j2 = k2;
                     }
-                    gameGraphics.drawString(skillName[k2] + ":@yel@" + playerStatCurrent[k2] + "/" + playerStatBase[k2], l + 5, l1, 1, l2);
+                    gameGraphics.DrawString(skillName[k2] + ":@yel@" + playerStatCurrent[k2] + "/" + playerStatBase[k2], l + 5, l1, 1, l2);
                     l2 = 0xffffff;
                     if (base.mouseX >= l + 90 && base.mouseY >= l1 - 13 - 11 && base.mouseY < (l1 - 13) + 2 && base.mouseX < l + 196)
                     {
                         l2 = 0xff0000;
                         j2 = k2 + 9;
                     }
-                    gameGraphics.drawString(skillName[k2 + 9] + ":@yel@" + playerStatCurrent[k2 + 9] + "/" + playerStatBase[k2 + 9], (l + c1 / 2) - 5, l1 - 13, 1, l2);
+                    gameGraphics.DrawString(skillName[k2 + 9] + ":@yel@" + playerStatCurrent[k2 + 9] + "/" + playerStatBase[k2 + 9], (l + c1 / 2) - 5, l1 - 13, 1, l2);
                     l1 += 13;
                 }
 
-                gameGraphics.drawString("Quest Points:@yel@" + questPoints, (l + c1 / 2) - 5, l1 - 13, 1, 0xffffff);
+                gameGraphics.DrawString("Quest Points:@yel@" + questPoints, (l + c1 / 2) - 5, l1 - 13, 1, 0xffffff);
                 l1 += 12;
-                gameGraphics.drawString("Fatigue: @yel@" + (fatigue * 100) / 750 + "%", l + 5, l1 - 13, 1, 0xffffff);
+                gameGraphics.DrawString("Fatigue: @yel@" + (fatigue * 100) / 750 + "%", l + 5, l1 - 13, 1, 0xffffff);
                 l1 += 8;
-                gameGraphics.drawString("Equipment Status", l + 5, l1, 3, 0xffff00);
+                gameGraphics.DrawString("Equipment Status", l + 5, l1, 3, 0xffff00);
                 l1 += 12;
-                for (int i3 = 0; i3 < 3; i3++)
+                for (int i3 = 0; i3 < 3; i3 += 1)
                 {
-                    gameGraphics.drawString(gearStats[i3] + ":@yel@" + equipmentStatus[i3], l + 5, l1, 1, 0xffffff);
+                    gameGraphics.DrawString(gearStats[i3] + ":@yel@" + equipmentStatus[i3], l + 5, l1, 1, 0xffffff);
                     if (i3 < 2)
                     {
-                        gameGraphics.drawString(gearStats[i3 + 3] + ":@yel@" + equipmentStatus[i3 + 3], l + c1 / 2 + 25, l1, 1, 0xffffff);
+                        gameGraphics.DrawString(gearStats[i3 + 3] + ":@yel@" + equipmentStatus[i3 + 3], l + c1 / 2 + 25, l1, 1, 0xffffff);
                     }
 
                     l1 += 13;
                 }
 
                 l1 += 6;
-                gameGraphics.drawLineX(l, l1 - 15, c1, 0);
+                gameGraphics.DrawLineX(l, l1 - 15, c1, 0);
                 if (j2 != -1)
                 {
-                    gameGraphics.drawString(skillNameVerb[j2] + " skill", l + 5, l1, 1, 0xffff00);
+                    gameGraphics.DrawString(skillNameVerb[j2] + " skill", l + 5, l1, 1, 0xffff00);
                     l1 += 12;
                     int j3 = experienceList[0];
-                    for (int l3 = 0; l3 < 98; l3++)
+                    for (int l3 = 0; l3 < 98; l3 += 1)
                     {
                         if (playerStatExp[j2] >= experienceList[l3])
                         {
@@ -9962,36 +10049,51 @@ namespace OpenRS.Net.Client
                         }
                     }
 
-                    gameGraphics.drawString("Total xp: " + playerStatExp[j2], l + 5, l1, 1, 0xffffff);
+                    gameGraphics.DrawString("Total xp: " + playerStatExp[j2], l + 5, l1, 1, 0xffffff);
                     l1 += 12;
-                    gameGraphics.drawString("Next level at: " + j3, l + 5, l1, 1, 0xffffff);
+                    gameGraphics.DrawString("Next level at: " + j3, l + 5, l1, 1, 0xffffff);
                 }
                 else
                 {
-                    gameGraphics.drawString("Overall levels", l + 5, l1, 1, 0xffff00);
+                    gameGraphics.DrawString("Overall levels", l + 5, l1, 1, 0xffff00);
                     l1 += 12;
                     int k3 = 0;
-                    for (int i4 = 0; i4 < 18; i4++)
+                    for (int i4 = 0; i4 < 18; i4 += 1)
                     {
                         k3 += playerStatBase[i4];
                     }
 
-                    gameGraphics.drawString("Skill total: " + k3, l + 5, l1, 1, 0xffffff);
+                    gameGraphics.DrawString("Skill total: " + k3, l + 5, l1, 1, 0xffffff);
                     l1 += 12;
-                    gameGraphics.drawString("Combat level: " + ourPlayer.level, l + 5, l1, 1, 0xffffff);
+                    gameGraphics.DrawString("Combat level: " + ourPlayer.level, l + 5, l1, 1, 0xffffff);
                     l1 += 12;
                 }
             }
             if (questMenuSelected == 1)
             {
-                questMenu.clearList(questMenuHandle);
-                questMenu.addListItem(questMenuHandle, 0, "@whi@Quest-list (green=completed)");
-                for (int i2 = 0; i2 < usedQuestName.Length; i2++)
+                questMenu.ClearList(questMenuHandle);
+                questMenu.AddListItem(questMenuHandle, 0, "@whi@Quest-list (green=completed)");
+                for (int i2 = 0; i2 < usedQuestName.Length; i2 += 1)
                 {
-                    questMenu.addListItem(questMenuHandle, i2 + 1, (questStage[i2] == 0 ? "@red@" : questStage[i2] == 1 ? "@yel@" : "@gre@") + usedQuestName[i2]);
+                    string questColor;
+
+                    if (questStage[i2] == 0)
+                    {
+                        questColor = "@red@";
+                    }
+                    else if (questStage[i2] == 1)
+                    {
+                        questColor = "@yel@";
+                    }
+                    else
+                    {
+                        questColor = "@gre@";
+                    }
+
+                    questMenu.AddListItem(questMenuHandle, i2 + 1, questColor + usedQuestName[i2]);
                 }
 
-                questMenu.drawMenu();
+                questMenu.DrawMenu();
             }
             if (!canClick)
             {
@@ -10004,7 +10106,7 @@ namespace OpenRS.Net.Client
             {
                 if (questMenuSelected == 1)
                 {
-                    questMenu.mouseClick(l + (((GameImage)(gameGraphics)).gameWidth - 199), i1 + 36, base.lastMouseButton, base.mouseButton);
+                    questMenu.MouseClick(l + (((GameImage)(gameGraphics)).gameWidth - 199), i1 + 36, base.lastMouseButton, base.mouseButton);
                 }
 
                 if (i1 <= 24 && mouseButtonClick == 1)
@@ -10022,7 +10124,7 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void drawFriendsBox()
+        public void DrawFriendsBox()
         {
             if (mouseButtonClick != 0)
             {
@@ -10051,63 +10153,63 @@ namespace OpenRS.Net.Client
             int l = 145;
             if (showFriendsBox == 1)
             {
-                gameGraphics.drawBox(106, l, 300, 70, 0);
-                gameGraphics.drawBoxEdge(106, l, 300, 70, 0xffffff);
+                gameGraphics.DrawBox(106, l, 300, 70, 0);
+                gameGraphics.DrawBoxEdge(106, l, 300, 70, 0xffffff);
                 l += 20;
-                gameGraphics.drawText("Enter name to add to friends list", 256, l, 4, 0xffffff);
+                gameGraphics.DrawText("Enter name to add to friends list", 256, l, 4, 0xffffff);
                 l += 20;
-                gameGraphics.drawText(base.inputText + "*", 256, l, 4, 0xffffff);
+                gameGraphics.DrawText(base.inputText + "*", 256, l, 4, 0xffffff);
                 if (base.enteredInputText.Length > 0)
                 {
-                    String s1 = base.enteredInputText.Trim();
+                    string s1 = base.enteredInputText.Trim();
                     base.inputText = "";
                     base.enteredInputText = "";
                     showFriendsBox = 0;
                     if (s1.Length > 0 && DataOperations.NameToHash(s1) != ourPlayer.nameHash)
                     {
-                        addFriend(s1);
+                        AddFriend(s1);
                     }
                 }
             }
             if (showFriendsBox == 2)
             {
-                gameGraphics.drawBox(6, l, 500, 70, 0);
-                gameGraphics.drawBoxEdge(6, l, 500, 70, 0xffffff);
+                gameGraphics.DrawBox(6, l, 500, 70, 0);
+                gameGraphics.DrawBoxEdge(6, l, 500, 70, 0xffffff);
                 l += 20;
-                gameGraphics.drawText("Enter message to send to " + DataOperations.HashToName(pmTarget), 256, l, 4, 0xffffff);
+                gameGraphics.DrawText("Enter message to send to " + DataOperations.HashToName(pmTarget), 256, l, 4, 0xffffff);
                 l += 20;
-                gameGraphics.drawText(base.pmText + "*", 256, l, 4, 0xffffff);
+                gameGraphics.DrawText(base.pmText + "*", 256, l, 4, 0xffffff);
                 if (base.enteredPMText.Length > 0)
                 {
-                    String s2 = base.enteredPMText;
+                    string s2 = base.enteredPMText;
                     base.pmText = "";
                     base.enteredPMText = "";
                     showFriendsBox = 0;
-                    int j1 = ChatMessage.stringToBytes(s2);
-                    sendPrivateMessage(pmTarget, ChatMessage.lastChat, j1);
-                    s2 = ChatMessage.bytesToString(ChatMessage.lastChat, 0, j1);
+                    int j1 = ChatMessage.StringToBytes(s2);
+                    SendPrivateMessage(pmTarget, ChatMessage.lastChat, j1);
+                    s2 = ChatMessage.BytesToString(ChatMessage.lastChat, 0, j1);
                     //if (useChatFilter)
                     // s2 = ChatFilter.filterChat(s2);
-                    displayMessage("@pri@You tell " + DataOperations.HashToName(pmTarget) + ": " + s2);
+                    DisplayMessage("@pri@You tell " + DataOperations.HashToName(pmTarget) + ": " + s2);
                 }
             }
             if (showFriendsBox == 3)
             {
-                gameGraphics.drawBox(106, l, 300, 70, 0);
-                gameGraphics.drawBoxEdge(106, l, 300, 70, 0xffffff);
+                gameGraphics.DrawBox(106, l, 300, 70, 0);
+                gameGraphics.DrawBoxEdge(106, l, 300, 70, 0xffffff);
                 l += 20;
-                gameGraphics.drawText("Enter name to add to ignore list", 256, l, 4, 0xffffff);
+                gameGraphics.DrawText("Enter name to add to ignore list", 256, l, 4, 0xffffff);
                 l += 20;
-                gameGraphics.drawText(base.inputText + "*", 256, l, 4, 0xffffff);
+                gameGraphics.DrawText(base.inputText + "*", 256, l, 4, 0xffffff);
                 if (base.enteredInputText.Length > 0)
                 {
-                    String s3 = base.enteredInputText.Trim();
+                    string s3 = base.enteredInputText.Trim();
                     base.inputText = "";
                     base.enteredInputText = "";
                     showFriendsBox = 0;
                     if (s3.Length > 0 && DataOperations.NameToHash(s3) != ourPlayer.nameHash)
                     {
-                        addIgnore(s3);
+                        AddIgnore(s3);
                     }
                 }
             }
@@ -10117,10 +10219,10 @@ namespace OpenRS.Net.Client
                 i1 = 0xffff00;
             }
 
-            gameGraphics.drawText("Cancel", 256, 208, 1, i1);
+            gameGraphics.DrawText("Cancel", 256, 208, 1, i1);
         }
 
-        public void playSound(String s1)
+        public void PlaySound(string s1)
         {
             if (audioPlayer is null || !Config.MembersFeatures)
             {
@@ -10135,11 +10237,11 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void drawRightClickMenu()
+        public void DrawRightClickMenu()
         {
             if (mouseButtonClick != 0)
             {
-                for (int l = 0; l < menuOptionsCount; l++)
+                for (int l = 0; l < menuOptionsCount; l += 1)
                 {
                     int j1 = menuX + 2;
                     int l1 = menuY + 27 + l * 15;
@@ -10148,7 +10250,7 @@ namespace OpenRS.Net.Client
                         continue;
                     }
 
-                    menuClick(menuIndexes[l]);
+                    MenuClick(menuIndexes[l]);
                     break;
                 }
 
@@ -10161,9 +10263,9 @@ namespace OpenRS.Net.Client
                 menuShow = false;
                 return;
             }
-            gameGraphics.drawBoxAlpha(menuX, menuY, menuWidth, menuHeight, 0xd0d0d0, 160);
-            gameGraphics.drawString("Choose option", menuX + 2, menuY + 12, 1, 65535);
-            for (int i1 = 0; i1 < menuOptionsCount; i1++)
+            gameGraphics.DrawBoxAlpha(menuX, menuY, menuWidth, menuHeight, 0xd0d0d0, 160);
+            gameGraphics.DrawString("Choose option", menuX + 2, menuY + 12, 1, 65535);
+            for (int i1 = 0; i1 < menuOptionsCount; i1 += 1)
             {
                 int k1 = menuX + 2;
                 int i2 = menuY + 27 + i1 * 15;
@@ -10174,12 +10276,12 @@ namespace OpenRS.Net.Client
                 }
 
                 string menuSecondaryText = menuText2[menuIndexes[i1]];
-                gameGraphics.drawString(menuText1[menuIndexes[i1]] + " " + menuText2[menuIndexes[i1]], k1, i2, 1, j2);
+                gameGraphics.DrawString(menuText1[menuIndexes[i1]] + " " + menuText2[menuIndexes[i1]], k1, i2, 1, j2);
             }
 
         }
 
-        public void getMenuHighlighted()
+        public void GetMenuHighlighted()
         {
             if (drawMenuTab == 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 && base.mouseY < 35)
             {
@@ -10264,44 +10366,44 @@ namespace OpenRS.Net.Client
             }
         }
 
-        protected int getUID()
+        protected int GetUID()
         {
-            return Link.uid;
+            return Link.userId;
         }
 
-        public bool takeScreenshot(bool verb)
+        public bool TakeScreenshot(bool verb)
         {
             //try
             //{
-            //    String charName = DataOperations.hashToName(DataOperations.nameToHash(username));
+            //    string charName = DataOperations.hashToName(DataOperations.nameToHash(username));
             //    File dir = new File(Config.MEDIA_DIR + "/" + charName);
             //    if (!dir.exists() || !dir.isDirectory())
             //        dir.mkdir();
-            //    String folder = dir.getPath() + "/";
+            //    string folder = dir.getPath() + "/";
             //    File file = null;
-            //    for (int count = 0; file is null || file.exists(); count++)
+            //    for (int count = 0; file is null || file.exists(); count += 1)
             //        file = new File(folder + "screenshot" + count + ".png");
             //    BufferedImage bi = new BufferedImage(windowWidth, windowHeight + 11, BufferedImage.TYPE_INT_RGB);
             //    Graphics2D g2d = bi.createGraphics();
-            //    g2d.drawImage(gameGraphics.image, 0, 0, this);
+            //    g2d.DrawImage(gameGraphics.image, 0, 0, this);
             //    g2d.dispose();
             //    ImageIO.write(bi, "png", file);
             //    if (verb)
-            //        displayMessage("Screenshot saved as " + file.getName());
+            //        DisplayMessage("Screenshot saved as " + file.getName());
             //    return true;
             //}
             //catch (IOException ioe)
             //{
             //    if (verb)
-            //        displayMessage("Error saving screenshot");
+            //        DisplayMessage("Error saving screenshot");
             //    return false;
             //}
             return true;
         }
 
-        public ClientMob getLastPlayer(int serverIndex)
+        public ClientMob GetLastPlayer(int serverIndex)
         {
-            for (int i1 = 0; i1 < lastPlayerCount; i1++)
+            for (int i1 = 0; i1 < lastPlayerCount; i1 += 1)
             {
                 if (lastPlayerArray[i1].serverIndex == serverIndex)
                 {
@@ -10311,9 +10413,9 @@ namespace OpenRS.Net.Client
             return null;
         }
 
-        public ClientMob getLastNpc(int serverIndex)
+        public ClientMob GetLastNpc(int serverIndex)
         {
-            for (int i1 = 0; i1 < lastNpcCount; i1++)
+            for (int i1 = 0; i1 < lastNpcCount; i1 += 1)
             {
                 if (lastNpcArray[i1].serverIndex == serverIndex)
                 {
@@ -10323,48 +10425,48 @@ namespace OpenRS.Net.Client
             return null;
         }
 
-        public bool handleCommand(String command)
+        public bool HandleCommand(string command)
         {
             try
             {
                 int firstSpace = command.IndexOf(' ');
-                String cmd = command;
+                string cmd = command;
                 string[] args = [];
                 if (firstSpace != -1)
                 {
                     cmd = command.Substring(0, firstSpace).Trim();
                     args = command.Substring(firstSpace).Trim().Split(' ');
                 }
-                if (cmd.Equals("closecon"))
+                if (cmd == "closecon")
                 {
-                    base.streamClass.closeStream();
+                    base.streamClass.CloseStream();
                     return true;
                 }
-                if (cmd.Equals("logout"))
+                if (cmd == "logout")
                 {
-                    sendLogout();
+                    SendLogout();
                     return true;
                 }
-                if (cmd.Equals("lostcon"))
+                if (cmd == "lostcon")
                 {
-                    lostConnection();
+                    LostConnection();
                     return true;
                 }
-                if (cmd.Equals("tell"))
+                if (cmd == "tell")
                 {
                     long recipient = DataOperations.NameToHash(args[0]);
-                    String message = joinString(args, " ", 1).Trim();
-                    if (message.Equals(""))
+                    string message = JoinString(args, " ", 1).Trim();
+                    if (message == "")
                     {
                         return true;
                     }
 
-                    int len = ChatMessage.stringToBytes(message);
-                    sendPrivateMessage(recipient, ChatMessage.lastChat, len);
-                    message = ChatMessage.bytesToString(ChatMessage.lastChat, 0, len);
+                    int len = ChatMessage.StringToBytes(message);
+                    SendPrivateMessage(recipient, ChatMessage.lastChat, len);
+                    message = ChatMessage.BytesToString(ChatMessage.lastChat, 0, len);
                     //  if (useChatFilter)
                     //      message = ChatFilter.filterChat(message);
-                    displayMessage("@pri@You tell " + DataOperations.HashToName(recipient) + ": " + message);
+                    DisplayMessage("@pri@You tell " + DataOperations.HashToName(recipient) + ": " + message);
                     return true;
                 }
             }
@@ -10375,20 +10477,26 @@ namespace OpenRS.Net.Client
             return false;
         }
 
-        public String joinString(String[] hay, String glue, int start)
+        public string JoinString(string[] hay, string glue, int start)
         {
-            String ret = "";
-            for (int i = start; i < hay.Length; i++)
+            string ret = "";
+
+            for (int i = start; i < hay.Length; i += 1)
             {
-                ret += hay[i] + (i != hay.Length - 1 ? glue : "");
+                ret += hay[i];
+
+                if (i != hay.Length - 1)
+                {
+                    ret += glue;
+                }
             }
 
             return ret;
         }
 
-        public String joinString(String[] hay, String glue)
+        public string JoinString(string[] hay, string glue)
         {
-            return joinString(hay, glue, 0);
+            return JoinString(hay, glue, 0);
         }
 
         public GameClient()
@@ -10403,7 +10511,7 @@ namespace OpenRS.Net.Client
             cameraFieldOfView = 9;
             showQuestionMenu = false;
             loginScreenShown = false;
-            questionMenuAnswer = new String[10];
+            questionMenuAnswer = new string[10];
             appearanceBodyGender = 1;
             appearance2Colour = 2;
             appearanceHairColour = 2;
@@ -10416,7 +10524,7 @@ namespace OpenRS.Net.Client
             playerArray = new ClientMob[500];
             selectedShopItemIndex = -1;
             selectedShopItemType = -2;
-            menuText1 = new String[250];
+            menuText1 = new string[250];
             isSleeping = false;
             tradeItemsOther = new int[14];
             tradeItemOtherCount = new int[14];
@@ -10443,7 +10551,7 @@ namespace OpenRS.Net.Client
             serverMessageBoxTop = false;
             cameraRotationYIncrement = 2;
             wallObjectArray = new GameObject[500];
-            messagesArray = new String[5];
+            messagesArray = new string[5];
             objectAlreadyInMenu = new bool[1500];
             objectArray = new GameObject[1500];
             selectedSpell = -1;
@@ -10522,7 +10630,7 @@ namespace OpenRS.Net.Client
             duelOpponentStakeItem = new int[8];
             duelOutStakeItemCount = new int[8];
             equipmentStatus = new int[5];
-            receivedMessages = new String[50];
+            receivedMessages = new string[50];
             cameraRotationXIncrement = 2;
             teleBubbleTime = new int[50];
             gridSize = 128;
@@ -10537,7 +10645,7 @@ namespace OpenRS.Net.Client
             memoryError = false;
             duelOurStakeItem = new int[8];
             duelOurStakeItemCount = new int[8];
-            menuText2 = new String[250];
+            menuText2 = new string[250];
             loginUsername = "";
             loginPassword = "";
             duelOpponent = "";
@@ -10574,13 +10682,13 @@ namespace OpenRS.Net.Client
             //ImageIO.setCacheDirectory(new File(Config.CONF_DIR));
         }
 
-        public String tradeOtherName;
+        public string tradeOtherName;
         public int windowWidth;
         public int windowHeight;
         public int cameraFieldOfView;
         public bool showQuestionMenu;
         public bool loginScreenShown;
-        public String[] questionMenuAnswer;
+        public string[] questionMenuAnswer;
         public int appearanceHeadType;
         public int appearanceBodyGender;
         public int appearance2Colour;
@@ -10619,8 +10727,8 @@ namespace OpenRS.Net.Client
     ];
         public int selectedShopItemIndex;
         public int selectedShopItemType;
-        public String sleepingStatusText;
-        public String[] menuText1;
+        public string sleepingStatusText;
+        public string[] menuText1;
         public bool isSleeping;
         public int modelFireLightningSpellNumber;
         public int modelTorchNumber;
@@ -10681,7 +10789,7 @@ namespace OpenRS.Net.Client
         public int lastPlayerCount;
         public int drawUpdatesPerformed;
         public ClientMob[] playerBufferArray;
-        public String serverMessage;
+        public string serverMessage;
         public int groundItemCount;
         public bool duelOpponentAccepted;
         public bool duelMyAccepted;
@@ -10697,7 +10805,7 @@ namespace OpenRS.Net.Client
         public int itemsAboveHeadCount;
         public AudioReader audioPlayer;
         public GameObject[] wallObjectArray;
-        public String[] messagesArray;
+        public string[] messagesArray;
         public long duelOpponentHash;
         public Menu questMenu;
         private int questMenuHandle;
@@ -10706,7 +10814,7 @@ namespace OpenRS.Net.Client
         public GameObject[] objectArray;
         public int selectedSpell;
         public bool cameraAutoAngleDebug;
-        public String lastLoginAddress;
+        public string lastLoginAddress;
         public ClientMob ourPlayer;
         private int sectionX;
         private int sectionY;
@@ -10828,7 +10936,7 @@ namespace OpenRS.Net.Client
         public int[] inventoryItemCount;
         public int[] inventoryItemEquipped;
         public int selectedItem;
-        private String selectedItemName;
+        private string selectedItemName;
         public ClientMob[] lastPlayerArray;
         public bool showTradeConfirmBox;
         public bool tradeConfirmAccepted;
@@ -10919,13 +11027,13 @@ namespace OpenRS.Net.Client
         private int friendsIgnoreMenuSelected;
         private long pmTarget;
         public int healthBarVisibleCount;
-        public String[] menuText2;
+        public string[] menuText2;
         public int sleepWordDelayTimer;
         public int mouseButtonHeldTime;
         public int mouseClickedHeldInTradeDuelBox;
-        public String loginUsername;
-        public String loginPassword;
-        public String duelOpponent;
+        public string loginUsername;
+        public string loginPassword;
+        public string duelOpponent;
         public int bankPage;
         public Menu loginMenuFirst;
         public int[] healthBarX;
@@ -10960,7 +11068,7 @@ namespace OpenRS.Net.Client
         public bool showRoofs;
         public bool autoScreenshot;
         public bool useChatFilter;
-        public String[] usedQuestName;
+        public string[] usedQuestName;
         public int subDaysLeft;
         public int[] shopItemSellPrice;
         public int[] shopItemBuyPrice;

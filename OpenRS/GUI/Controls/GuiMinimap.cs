@@ -28,7 +28,7 @@ namespace OpenRS.Gui.Controls
 
         private byte[,] alphaMask;
 
-        private TextureSprite dot;
+        private TextureSprite dotSprite;
         private TextureSprite pixel;
         private TextureSprite frame;
 
@@ -41,7 +41,7 @@ namespace OpenRS.Gui.Controls
         /// </summary>
         protected override void DoLoadContent()
         {
-            dot = new TextureSprite
+            dotSprite = new TextureSprite
             {
                 ContentFile = "Interface/Minimap/entity_dot"
             };
@@ -84,17 +84,17 @@ namespace OpenRS.Gui.Controls
 
             alphaMask = new byte[Size.Width, Size.Height];
 
-            for (int y = 0; y < Size.Height; y++)
+            for (int tileRow = 0; tileRow < Size.Height; tileRow += 1)
             {
-                for (int x = 0; x < Size.Width; x++)
+                for (int tileColumn = 0; tileColumn < Size.Width; tileColumn += 1)
                 {
-                    int i = x + y * Size.Width;
+                    int pixelIndex = tileColumn + tileRow * Size.Width;
 
-                    alphaMask[x, y] = maskBits[i].R;
+                    alphaMask[tileColumn, tileRow] = maskBits[pixelIndex].R;
                 }
             }
 
-            dot.LoadContent();
+            dotSprite.LoadContent();
             pixel.LoadContent();
             frame.LoadContent();
 
@@ -116,7 +116,7 @@ namespace OpenRS.Gui.Controls
         {
             SetChildrenProperties();
 
-            dot.Update(gameTime);
+            dotSprite.Update(gameTime);
             pixel.Update(gameTime);
             frame.Update(gameTime);
 
@@ -148,7 +148,7 @@ namespace OpenRS.Gui.Controls
 
             // The cameraRotation is expressed in a non-standard manner. 64 = -90 degrees, 32 = -45 degrees, etc...
             // so we have to convert it to degrees by multiplying it with 1.4025, add 180 degrees (flip),
-            // and then convert that to radians in order to use them to rotate the image
+            // and then convert that to radians in order to use them to Rotate the image
             compassIndicator.IconRotation = (float)(Math.PI / 180) * (client.cameraRotation * 1.4025f + 180);
 
             healthIndicator.BaseValue = client.Skills[3].BaseLevel;
@@ -168,29 +168,29 @@ namespace OpenRS.Gui.Controls
                 return; // TODO: Remove this ugly fix
             }
 
-            int j1 = 192 + client.minimapRandomRotationY;
-            int l1 = client.cameraRotation + client.minimapRandomRotationX & 0xff;
-            int j5 = Camera.bbk[1024 - l1 * 4 & 0x3ff];
-            int l5 = Camera.bbk[(1024 - l1 * 4 & 0x3ff) + 1024];
+            int zoomScale = 192 + client.minimapRandomRotationY;
+            int rotationAngle = client.cameraRotation + client.minimapRandomRotationX & 0xff;
+            int rotationCosine = Camera.trigonometryTable[1024 - rotationAngle * 4 & 0x3ff];
+            int rotationSine = Camera.trigonometryTable[(1024 - rotationAngle * 4 & 0x3ff) + 1024];
 
             DrawMinimapTiles(spriteBatch);
 
-            DrawGroundItemDots(spriteBatch, j1, l1, j5, l5);
-            DrawNpcDots(spriteBatch, j1, l1, j5, l5);
-            DrawPlayerDots(spriteBatch, j1, l1, j5, l5);
+            DrawGroundItemDots(spriteBatch, zoomScale, rotationAngle, rotationCosine, rotationSine);
+            DrawNpcDots(spriteBatch, zoomScale, rotationAngle, rotationCosine, rotationSine);
+            DrawPlayerDots(spriteBatch, zoomScale, rotationAngle, rotationCosine, rotationSine);
         }
 
-        private void DrawGroundItemDots(SpriteBatch spriteBatch, int j1, int l1, int j5, int l5)
+        private void DrawGroundItemDots(SpriteBatch spriteBatch, int zoomScale, int rotationAngle, int rotationCosine, int rotationSine)
         {
-            for (int groundItemIndex = 0; groundItemIndex < client.GroundItemCount; groundItemIndex++)
+            for (int groundItemIndex = 0; groundItemIndex < client.GroundItemCount; groundItemIndex += 1)
             {
                 Point2D groundItemLocation = new(
-                    (client.GroundItemLocations[groundItemIndex].X * client.GridSize + 64 - client.CurrentPlayer.Location.X) * 3 * j1 / 2048,
-                    (client.GroundItemLocations[groundItemIndex].Y * client.GridSize + 64 - client.CurrentPlayer.Location.Y) * 3 * j1 / 2048);
+                    (client.GroundItemLocations[groundItemIndex].X * client.GridSize + 64 - client.CurrentPlayer.Location.X) * 3 * zoomScale / 2048,
+                    (client.GroundItemLocations[groundItemIndex].Y * client.GridSize + 64 - client.CurrentPlayer.Location.Y) * 3 * zoomScale / 2048);
 
-                int l6 = groundItemLocation.Y * j5 + groundItemLocation.X * l5 >> 18;
-                groundItemLocation.Y = groundItemLocation.Y * l5 - groundItemLocation.X * j5 >> 18;
-                groundItemLocation.X = l6;
+                int rotatedX = groundItemLocation.Y * rotationCosine + groundItemLocation.X * rotationSine >> 18;
+                groundItemLocation.Y = groundItemLocation.Y * rotationSine - groundItemLocation.X * rotationCosine >> 18;
+                groundItemLocation.X = rotatedX;
 
                 Point2D dotLocation = new(groundItemLocation.X, -groundItemLocation.Y);
 
@@ -198,17 +198,17 @@ namespace OpenRS.Gui.Controls
             }
         }
 
-        private void DrawNpcDots(SpriteBatch spriteBatch, int j1, int l1, int j5, int l5)
+        private void DrawNpcDots(SpriteBatch spriteBatch, int zoomScale, int rotationAngle, int rotationCosine, int rotationSine)
         {
-            foreach (ClientMob npc in client.Npcs.Where(x => x is not null))
+            foreach (ClientMob npc in client.Npcs.Where(npcEntry => npcEntry is not null))
             {
                 Point2D npcLocaiton = new(
-                    (npc.Location.X - client.CurrentPlayer.Location.X) * 3 * j1 / 2048,
-                    (npc.Location.Y - client.CurrentPlayer.Location.Y) * 3 * j1 / 2048);
+                    (npc.Location.X - client.CurrentPlayer.Location.X) * 3 * zoomScale / 2048,
+                    (npc.Location.Y - client.CurrentPlayer.Location.Y) * 3 * zoomScale / 2048);
 
-                int i7 = npcLocaiton.Y * j5 + npcLocaiton.X * l5 >> 18;
-                npcLocaiton.Y = npcLocaiton.Y * l5 - npcLocaiton.X * j5 >> 18;
-                npcLocaiton.X = i7;
+                int rotatedX = npcLocaiton.Y * rotationCosine + npcLocaiton.X * rotationSine >> 18;
+                npcLocaiton.Y = npcLocaiton.Y * rotationSine - npcLocaiton.X * rotationCosine >> 18;
+                npcLocaiton.X = rotatedX;
 
                 Point2D dotLocation = new(npcLocaiton.X, -npcLocaiton.Y);
 
@@ -216,17 +216,17 @@ namespace OpenRS.Gui.Controls
             }
         }
 
-        private void DrawPlayerDots(SpriteBatch spriteBatch, int j1, int l1, int j5, int l5)
+        private void DrawPlayerDots(SpriteBatch spriteBatch, int zoomScale, int rotationAngle, int rotationCosine, int rotationSine)
         {
-            foreach (ClientMob player in client.Players.Where(x => x is not null))
+            foreach (ClientMob player in client.Players.Where(playerEntry => playerEntry is not null))
             {
                 Point2D playerLocaiton = new(
-                    (player.Location.X - client.CurrentPlayer.Location.X) * 3 * j1 / 2048,
-                    (player.Location.Y - client.CurrentPlayer.Location.Y) * 3 * j1 / 2048);
+                    (player.Location.X - client.CurrentPlayer.Location.X) * 3 * zoomScale / 2048,
+                    (player.Location.Y - client.CurrentPlayer.Location.Y) * 3 * zoomScale / 2048);
 
-                int j7 = playerLocaiton.Y * j5 + playerLocaiton.X * l5 >> 18;
-                playerLocaiton.Y = playerLocaiton.Y * l5 - playerLocaiton.X * j5 >> 18;
-                playerLocaiton.X = j7;
+                int rotatedX = playerLocaiton.Y * rotationCosine + playerLocaiton.X * rotationSine >> 18;
+                playerLocaiton.Y = playerLocaiton.Y * rotationSine - playerLocaiton.X * rotationCosine >> 18;
+                playerLocaiton.X = rotatedX;
 
                 Point2D dotLocation = new(playerLocaiton.X, -playerLocaiton.Y);
 
@@ -236,14 +236,14 @@ namespace OpenRS.Gui.Controls
 
         private void DrawMinimapTiles(SpriteBatch spriteBatch)
         {
-            for (int y = 0; y < Size.Height; y++)
+            for (int tileRow = 0; tileRow < Size.Height; tileRow += 1)
             {
-                for (int x = 0; x < Size.Width; x++)
+                for (int tileColumn = 0; tileColumn < Size.Width; tileColumn += 1)
                 {
                     Colour tileColour = Colour.Black;
-                    int alpha = tileColour.A - 255 + alphaMask[x, y];
+                    int alpha = tileColour.A - 255 + alphaMask[tileColumn, tileRow];
 
-                    pixel.Location = new Point2D(ScreenLocation.X + x, ScreenLocation.Y + y);
+                    pixel.Location = new Point2D(ScreenLocation.X + tileColumn, ScreenLocation.Y + tileRow);
                     pixel.Tint = Color.FromNonPremultiplied(tileColour.R, tileColour.G, tileColour.B, alpha).ToColour();
 
                     pixel.Draw(spriteBatch);
@@ -255,7 +255,7 @@ namespace OpenRS.Gui.Controls
         {
             Point2D dotOffset = new(156 / 2, 36 + 152 / 2);
             Point2D minimapLocation = location + dotOffset;
-            Point2D screenLocation = new Point2D(dot.SpriteSize / 2) + ScreenLocation + minimapLocation;
+            Point2D screenLocation = new Point2D(dotSprite.SpriteSize / 2) + ScreenLocation + minimapLocation;
 
             if (!DisplayRectangle.Contains(screenLocation))
             {
@@ -269,10 +269,10 @@ namespace OpenRS.Gui.Controls
                 return;
             }
 
-            dot.Tint = colour;
-            dot.Location = screenLocation;
+            dotSprite.Tint = colour;
+            dotSprite.Location = screenLocation;
 
-            dot.Draw(spriteBatch);
+            dotSprite.Draw(spriteBatch);
         }
 
         private void OnCompassIndicatorClicked(object sender, MouseButtonEventArgs e) => client.cameraRotation = 128;

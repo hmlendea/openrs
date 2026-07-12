@@ -39,7 +39,7 @@ namespace OpenRS.Net.Client.Game
             {
                 // colorModel = new DirectColorModel(32, 0xff0000, 65280, 255);
                 int i = gameWidth * gameHeight;
-                for (int k = 0; k < i; k++)
+                for (int k = 0; k < i; k += 1)
                 {
                     pixels[k] = 0;
                 }
@@ -59,7 +59,7 @@ namespace OpenRS.Net.Client.Game
         //public void addConsumer(ImageConsumer imageconsumer)
         //{
         //    imageConsumer = imageconsumer;
-        //    imageconsumer.setDimensions(gameWidth, gameHeight);
+        //    imageconsumer.SetDimensions(gameWidth, gameHeight);
         //    imageconsumer.setProperties(null);
         //    imageconsumer.setColorModel(colorModel);
         //    imageconsumer.setHints(14);
@@ -116,7 +116,7 @@ namespace OpenRS.Net.Client.Game
         //    this.imageTexture.SetData(clrs.ToArray());
         //}
 
-        public void setDimensions(int x, int y, int _w, int _h)
+        public void SetDimensions(int x, int y, int _w, int _h)
         {
             if (x < 0)
             {
@@ -144,7 +144,7 @@ namespace OpenRS.Net.Client.Game
             imageHeight = _h;
         }
 
-        public void resetDimensions()
+        public void ResetDimensions()
         {
             imageX = 0;
             imageY = 0;
@@ -152,25 +152,25 @@ namespace OpenRS.Net.Client.Game
             imageHeight = gameHeight;
         }
 
-        //public void drawImage(SpriteBatch g, int x, int y)
+        //public void DrawImage(SpriteBatch g, int x, int y)
         //{
         //    //UpdateGameImage();
         //    try
         //    {
         //        //  g.BeginSafe();
         //        //  if (g.BeginIsActive())
-        //        // g.Draw(imageTexture, new Vector2(x, y), Color.White); // drawImage(image, x, y, this);
+        //        // g.Draw(imageTexture, new Vector2(x, y), Color.White); // DrawImage(image, x, y, this);
         //        //  g.EndSafe();
         //    }
         //    catch { }
         //}
 
-        public void clearScreen()
+        public void ClearScreen()
         {
             int i = gameWidth * gameHeight;
             if (!interlace)
             {
-                for (int k = 0; k < i; k++)
+                for (int k = 0; k < i; k += 1)
                 {
                     pixels[k] = 0;
                 }
@@ -180,7 +180,7 @@ namespace OpenRS.Net.Client.Game
             int l = 0;
             for (int i1 = -gameHeight; i1 < 0; i1 += 2)
             {
-                for (int j1 = -gameWidth; j1 < 0; j1++)
+                for (int j1 = -gameWidth; j1 < 0; j1 += 1)
                 {
                     pixels[l++] = 0;
                 }
@@ -190,19 +190,19 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        public void drawCircle(int arg0, int arg1, int arg2, int arg3, int arg4)
+        public void DrawCircle(int centreX, int centreY, int radius, int colour, int alpha)
         {
-            int i = 256 - arg4;
-            int k = (arg3 >> 16 & 0xff) * arg4;
-            int l = (arg3 >> 8 & 0xff) * arg4;
-            int i1 = (arg3 & 0xff) * arg4;
-            int i2 = arg1 - arg2;
+            int i = 256 - alpha;
+            int k = (colour >> 16 & 0xff) * alpha;
+            int l = (colour >> 8 & 0xff) * alpha;
+            int i1 = (colour & 0xff) * alpha;
+            int i2 = centreY - radius;
             if (i2 < 0)
             {
                 i2 = 0;
             }
 
-            int j2 = arg1 + arg2;
+            int j2 = centreY + radius;
             if (j2 >= gameHeight)
             {
                 j2 = gameHeight - 1;
@@ -219,22 +219,22 @@ namespace OpenRS.Net.Client.Game
             }
             for (int k2 = i2; k2 <= j2; k2 += byte0)
             {
-                int l2 = k2 - arg1;
-                int i3 = (int)Math.Sqrt(arg2 * arg2 - l2 * l2);
-                int j3 = arg0 - i3;
+                int l2 = k2 - centreY;
+                int i3 = (int)Math.Sqrt(radius * radius - l2 * l2);
+                int j3 = centreX - i3;
                 if (j3 < 0)
                 {
                     j3 = 0;
                 }
 
-                int k3 = arg0 + i3;
+                int k3 = centreX + i3;
                 if (k3 >= gameWidth)
                 {
                     k3 = gameWidth - 1;
                 }
 
                 int l3 = j3 + k2 * gameWidth;
-                for (int i4 = j3; i4 <= k3; i4++)
+                for (int i4 = j3; i4 <= k3; i4 += 1)
                 {
                     int j1 = (pixels[l3] >> 16 & 0xff) * i;
                     int k1 = (pixels[l3] >> 8 & 0xff) * i;
@@ -247,7 +247,7 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        public void drawBoxAlpha(int x, int y, int w, int h, int arg4, int arg5)
+        public void DrawBoxAlpha(int x, int y, int w, int h, int colour, int alpha)
         {
             if (x < imageX)
             {
@@ -269,10 +269,10 @@ namespace OpenRS.Net.Client.Game
                 h = imageHeight - y;
             }
 
-            int i = 256 - arg5;
-            int k = (arg4 >> 16 & 0xff) * arg5;
-            int l = (arg4 >> 8 & 0xff) * arg5;
-            int i1 = (arg4 & 0xff) * arg5;
+            int i = 256 - alpha;
+            int k = (colour >> 16 & 0xff) * alpha;
+            int l = (colour >> 8 & 0xff) * alpha;
+            int i1 = (colour & 0xff) * alpha;
             int i2 = gameWidth - w;
             byte byte0 = 1;
             if (interlace)
@@ -282,13 +282,13 @@ namespace OpenRS.Net.Client.Game
                 if ((y & 1) != 0)
                 {
                     y += 1;
-                    h--;
+                    h -= 1;
                 }
             }
             int j2 = x + y * gameWidth;
             for (int k2 = 0; k2 < h; k2 += byte0)
             {
-                for (int l2 = -w; l2 < 0; l2++)
+                for (int l2 = -w; l2 < 0; l2 += 1)
                 {
                     int j1 = (pixels[j2] >> 16 & 0xff) * i;
                     int k1 = (pixels[j2] >> 8 & 0xff) * i;
@@ -302,7 +302,7 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        public void drawGradientBox(int x, int y, int w, int h, int startColor, int endColor)
+        public void DrawGradientBox(int x, int y, int w, int h, int startColor, int endColor)
         {
             if (x < imageX)
             {
@@ -330,7 +330,7 @@ namespace OpenRS.Net.Client.Game
                 if ((y & 1) != 0)
                 {
                     y += 1;
-                    h--;
+                    h -= 1;
                 }
             }
             int i2 = x + y * gameWidth;
@@ -339,7 +339,7 @@ namespace OpenRS.Net.Client.Game
                 if (j2 + y >= imageY && j2 + y < imageHeight)
                 {
                     int k2 = ((eB * j2 + sB * (h - j2)) / h << 16) + ((eG * j2 + sG * (h - j2)) / h << 8) + (eR * j2 + sR * (h - j2)) / h;
-                    for (int l2 = -w; l2 < 0; l2++)
+                    for (int l2 = -w; l2 < 0; l2 += 1)
                     {
                         pixels[i2++] = k2;
                     }
@@ -353,7 +353,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public void drawBox(int x, int y, int w, int h, int color)
+        public void DrawBox(int x, int y, int w, int h, int color)
         {
             if (x < imageX)
             {
@@ -384,13 +384,13 @@ namespace OpenRS.Net.Client.Game
                 if ((y & 1) != 0)
                 {
                     y += 1;
-                    h--;
+                    h -= 1;
                 }
             }
             int k = x + y * gameWidth;
             for (int l = -h; l < 0; l += byte0)
             {
-                for (int i1 = -w; i1 < 0; i1++)
+                for (int i1 = -w; i1 < 0; i1 += 1)
                 {
                     pixels[k++] = color;
                 }
@@ -400,39 +400,39 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        public void drawBoxEdge(int x, int y, int w, int h, int color)
+        public void DrawBoxEdge(int x, int y, int w, int h, int color)
         {
-            drawLineX(x, y, w, color);
-            drawLineX(x, (y + h) - 1, w, color);
-            drawLineY(x, y, h, color);
-            drawLineY((x + w) - 1, y, h, color);
+            DrawLineX(x, y, w, color);
+            DrawLineX(x, (y + h) - 1, w, color);
+            DrawLineY(x, y, h, color);
+            DrawLineY((x + w) - 1, y, h, color);
         }
 
-        public void drawLineX(int arg0, int arg1, int arg2, int arg3)
+        public void DrawLineX(int x, int y, int length, int colour)
         {
-            if (arg1 < imageY || arg1 >= imageHeight)
+            if (y < imageY || y >= imageHeight)
             {
                 return;
             }
 
-            if (arg0 < imageX)
+            if (x < imageX)
             {
-                arg2 -= imageX - arg0;
-                arg0 = imageX;
+                length -= imageX - x;
+                x = imageX;
             }
-            if (arg0 + arg2 > imageWidth)
+            if (x + length > imageWidth)
             {
-                arg2 = imageWidth - arg0;
+                length = imageWidth - x;
             }
 
-            int i = arg0 + arg1 * gameWidth;
-            for (int k = 0; k < arg2; k++)
+            int i = x + y * gameWidth;
+            for (int k = 0; k < length; k += 1)
             {
-                pixels[i + k] = arg3;
+                pixels[i + k] = colour;
             }
         }
 
-        public void drawLineY(int x, int y, int arg2, int arg3)
+        public void DrawLineY(int x, int y, int length, int colour)
         {
             if (x < imageX || x >= imageWidth)
             {
@@ -441,22 +441,22 @@ namespace OpenRS.Net.Client.Game
 
             if (y < imageY)
             {
-                arg2 -= imageY - y;
+                length -= imageY - y;
                 y = imageY;
             }
-            if (y + arg2 > imageWidth)
+            if (y + length > imageWidth)
             {
-                arg2 = imageHeight - y;
+                length = imageHeight - y;
             }
 
             int i = x + y * gameWidth;
-            for (int k = 0; k < arg2; k++)
+            for (int k = 0; k < length; k += 1)
             {
-                pixels[i + k * gameWidth] = arg3;
+                pixels[i + k * gameWidth] = colour;
             }
         }
 
-        public void drawMinimapPixel(int x, int y, int color)
+        public void DrawMinimapPixel(int x, int y, int color)
         {
             if (x < imageX || y < imageY || x >= imageWidth || y >= imageHeight)
             {
@@ -469,10 +469,10 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public void screenFadeToBlack()
+        public void ScreenFadeToBlack()
         {
             int l = gameWidth * gameHeight;
-            for (int k = 0; k < l; k++)
+            for (int k = 0; k < l; k += 1)
             {
                 int i = pixels[k] & 0xffffff;
                 pixels[k] = (int)(((uint)i >> 1 & 0x7f7f7f) + ((uint)i >> 2 & 0x3f3f3f) + ((uint)i >> 3 & 0x1f1f1f) + ((uint)i >> 4 & 0xf0f0f));
@@ -480,21 +480,21 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        public void drawTransparentLine(int x, int y, int destX, int destY, int length, int color)
+        public void DrawTransparentLine(int x, int y, int destX, int destY, int length, int color)
         {
-            for (int i = destX; i < destX + length; i++)
+            for (int i = destX; i < destX + length; i += 1)
             {
-                for (int k = destY; k < destY + color; k++)
+                for (int k = destY; k < destY + color; k += 1)
                 {
                     int l = 0;
                     int i1 = 0;
                     int j1 = 0;
                     int k1 = 0;
-                    for (int l1 = i - x; l1 <= i + x; l1++)
+                    for (int l1 = i - x; l1 <= i + x; l1 += 1)
                     {
                         if (l1 >= 0 && l1 < gameWidth)
                         {
-                            for (int i2 = k - y; i2 <= k + y; i2++)
+                            for (int i2 = k - y; i2 <= k + y; i2 += 1)
                             {
                                 if (i2 >= 0 && i2 < gameHeight)
                                 {
@@ -515,7 +515,7 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        public static uint rgbaToUInt(int r, int g, int b, int a)
+        public static uint RgbaToUInt(int r, int g, int b, int a)
         {
             if (((((r | g) | b) | a) & -256) != 0)
             {
@@ -557,14 +557,14 @@ namespace OpenRS.Net.Client.Game
             return (int)value;
         }
 
-        public static int rgbToInt(int i, int k, int l)
+        public static int RgbToInt(int i, int k, int l)
         {
             return (i << 16) + (k << 8) + l;
         }
 
-        public void cleanUp()
+        public void CleanUp()
         {
-            for (int i = 0; i < pictureColors.Length; i++)
+            for (int i = 0; i < pictureColors.Length; i += 1)
             {
                 pictureColors[i] = null;
                 pictureWidth[i] = 0;
@@ -575,27 +575,27 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        public void unpackImageData(int arg0, sbyte[] arg1, sbyte[] arg2, int arg3)
+        public void UnpackImageData(int startIndex, sbyte[] imageData, sbyte[] metaData, int count)
         {
-            int i = DataOperations.GetShort(arg1, 0);
-            int k = DataOperations.GetShort(arg2, i);
+            int i = DataOperations.GetShort(imageData, 0);
+            int k = DataOperations.GetShort(metaData, i);
             i += 2;
-            int l = DataOperations.GetShort(arg2, i);
+            int l = DataOperations.GetShort(metaData, i);
             i += 2;
-            int i1 = arg2[i++] & 0xff;
+            int i1 = metaData[i++] & 0xff;
             int[] ai = new int[i1];
 
 
             //      List<Color> clr = new List<Color>();
             ai[0] = 0xff00ff;
-            for (int j1 = 0; j1 < i1 - 1; j1++)
+            for (int j1 = 0; j1 < i1 - 1; j1 += 1)
             {
                 //var r = destX[x] & 0xff;
                 //var g = destX[x + 1] & 0xff;
                 //var b = destX[x + 2] & 0xff;
                 //clr.Add(new Color(r, g, b, 255));
 
-                ai[j1 + 1] = ((arg2[i] & 0xff) << 16) + ((arg2[i + 1] & 0xff) << 8) + (arg2[i + 2] & 0xff);
+                ai[j1 + 1] = ((metaData[i] & 0xff) << 16) + ((metaData[i + 1] & 0xff) << 8) + (metaData[i + 2] & 0xff);
                 i += 3;
             }
 
@@ -606,20 +606,20 @@ namespace OpenRS.Net.Client.Game
 
 
             int k1 = 2;
-            for (int l1 = arg0; l1 < arg0 + arg3; l1++)
+            for (int l1 = startIndex; l1 < startIndex + count; l1 += 1)
             {
                 if (l1 >= pictureOffsetX.Length)
                 {
                     break;
                 }
 
-                pictureOffsetX[l1] = arg2[i++] & 0xff;
-                pictureOffsetY[l1] = arg2[i++] & 0xff;
-                pictureWidth[l1] = DataOperations.GetShort(arg2, i);
+                pictureOffsetX[l1] = metaData[i++] & 0xff;
+                pictureOffsetY[l1] = metaData[i++] & 0xff;
+                pictureWidth[l1] = DataOperations.GetShort(metaData, i);
                 i += 2;
-                pictureHeight[l1] = DataOperations.GetShort(arg2, i);
+                pictureHeight[l1] = DataOperations.GetShort(metaData, i);
                 i += 2;
-                int i2 = arg2[i++] & 0xff;
+                int i2 = metaData[i++] & 0xff;
                 int j2 = pictureWidth[l1] * pictureHeight[l1];
                 pictureColorIndexes[l1] = new sbyte[j2];
                 pictureColor[l1] = ai;
@@ -634,10 +634,10 @@ namespace OpenRS.Net.Client.Game
 
                 if (i2 == 0)
                 {
-                    for (int k2 = 0; k2 < j2; k2++)
+                    for (int k2 = 0; k2 < j2; k2 += 1)
                     {
                         // clr[k2] = y[k1];
-                        pictureColorIndexes[l1][k2] = arg1[k1++];
+                        pictureColorIndexes[l1][k2] = imageData[k1++];
                         if (pictureColorIndexes[l1][k2] == 0)
                         {
                             hasTransparentBackground[l1] = true;
@@ -647,12 +647,12 @@ namespace OpenRS.Net.Client.Game
                 }
                 else if (i2 == 1)
                 {
-                    for (int l2 = 0; l2 < pictureWidth[l1]; l2++)
+                    for (int l2 = 0; l2 < pictureWidth[l1]; l2 += 1)
                     {
-                        for (int i3 = 0; i3 < pictureHeight[l1]; i3++)
+                        for (int i3 = 0; i3 < pictureHeight[l1]; i3 += 1)
                         {
 
-                            pictureColorIndexes[l1][l2 + i3 * pictureWidth[l1]] = arg1[k1++];
+                            pictureColorIndexes[l1][l2 + i3 * pictureWidth[l1]] = imageData[k1++];
                             if (pictureColorIndexes[l1][l2 + i3 * pictureWidth[l1]] == 0)
                             {
                                 hasTransparentBackground[l1] = true;
@@ -681,7 +681,7 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        public void setSleepSprite(int pictureIndex, sbyte[] spriteData)
+        public void SetSleepSprite(int pictureIndex, sbyte[] spriteData)
         {
             int[] colors = pictureColors[pictureIndex] = new int[10200];
             pictureWidth[pictureIndex] = 255;
@@ -699,7 +699,7 @@ namespace OpenRS.Net.Client.Game
                 for (x = 0; x < 255; )
                 {
                     int i1 = spriteData[off++] & 0xff;
-                    for (int k1 = 0; k1 < i1; k1++)
+                    for (int k1 = 0; k1 < i1; k1 += 1)
                     {
                         colors[x++] = color;
                     }
@@ -707,12 +707,12 @@ namespace OpenRS.Net.Client.Game
                     color = 0xffffff - color;
                 }
 
-                for (int y = 1; y < 40; y++)
+                for (int y = 1; y < 40; y += 1)
                 {
                     for (int l1 = 0; l1 < 255; )
                     {
                         int i2 = spriteData[off++] & 0xff;
-                        for (int j2 = 0; j2 < i2; j2++)
+                        for (int j2 = 0; j2 < i2; j2 += 1)
                         {
                             colors[x] = colors[x - 255];
                             x += 1;
@@ -737,12 +737,12 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        public void applyImage(int arg0)
+        public void ApplyImage(int pictureIndex)
         {
-            int i = pictureWidth[arg0] * pictureHeight[arg0];
-            int[] ai = pictureColors[arg0];
+            int i = pictureWidth[pictureIndex] * pictureHeight[pictureIndex];
+            int[] ai = pictureColors[pictureIndex];
             int[] ai1 = new int[32768];
-            for (int k = 0; k < i; k++)
+            for (int k = 0; k < i; k += 1)
             {
                 int l = ai[k];
                 ai1[((l & 0xf80000) >> 9) + ((l & 0xf800) >> 6) + ((l & 0xf8) >> 3)] += 1;
@@ -751,19 +751,19 @@ namespace OpenRS.Net.Client.Game
             int[] ai2 = new int[256];
             ai2[0] = 0xff00ff;
             int[] ai3 = new int[256];
-            for (int i1 = 0; i1 < 32768; i1++)
+            for (int i1 = 0; i1 < 32768; i1 += 1)
             {
                 int j1 = ai1[i1];
                 if (j1 > ai3[255])
                 {
-                    for (int k1 = 1; k1 < 256; k1++)
+                    for (int k1 = 1; k1 < 256; k1 += 1)
                     {
                         if (j1 <= ai3[k1])
                         {
                             continue;
                         }
 
-                        for (int i2 = 255; i2 > k1; i2--)
+                        for (int i2 = 255; i2 > k1; i2 -= 1)
                         {
                             ai2[i2] = ai2[i2 - 1];
                             ai3[i2] = ai3[i2 - 1];
@@ -780,7 +780,7 @@ namespace OpenRS.Net.Client.Game
 
             sbyte[] abyte0 = new sbyte[i];
             //  Color[] colors = new Color[x];
-            for (int l1 = 0; l1 < i; l1++)
+            for (int l1 = 0; l1 < i; l1 += 1)
             {
                 int j2 = ai[l1];
                 int k2 = ((j2 & 0xf80000) >> 9) + ((j2 & 0xf800) >> 6) + ((j2 & 0xf8) >> 3);
@@ -794,7 +794,7 @@ namespace OpenRS.Net.Client.Game
                     // colors[width] = new Color(j3, k3, l3, 255);
 
 
-                    for (int i4 = 0; i4 < 256; i4++)
+                    for (int i4 = 0; i4 < 256; i4 += 1)
                     {
                         int j4 = ai2[i4];
                         int b1 = j4 >> 16 & 0xff;
@@ -822,23 +822,23 @@ namespace OpenRS.Net.Client.Game
             //}
 
 
-            pictureColorIndexes[arg0] = abyte0;
-            pictureColor[arg0] = ai2;
-            pictureColors[arg0] = null;
+            pictureColorIndexes[pictureIndex] = abyte0;
+            pictureColor[pictureIndex] = ai2;
+            pictureColors[pictureIndex] = null;
         }
 
-        public void loadImage(int arg0)
+        public void LoadImage(int pictureIndex)
         {
-            if (pictureColorIndexes[arg0] is null)
+            if (pictureColorIndexes[pictureIndex] is null)
             {
                 return;
             }
 
-            int i = pictureWidth[arg0] * pictureHeight[arg0];
-            sbyte[] abyte0 = pictureColorIndexes[arg0];
-            int[] ai = pictureColor[arg0];
+            int i = pictureWidth[pictureIndex] * pictureHeight[pictureIndex];
+            sbyte[] abyte0 = pictureColorIndexes[pictureIndex];
+            int[] ai = pictureColor[pictureIndex];
             int[] ai1 = new int[i];
-            for (int k = 0; k < i; k++)
+            for (int k = 0; k < i; k += 1)
             {
                 int l = ai[abyte0[k] & 0xff];
                 if (l == 0)
@@ -875,15 +875,15 @@ namespace OpenRS.Net.Client.Game
             //    catch { }
             //}
 
-            pictureColors[arg0] = ai1;
+            pictureColors[pictureIndex] = ai1;
 
 
 
-            pictureColorIndexes[arg0] = null;
-            pictureColor[arg0] = null;
+            pictureColorIndexes[pictureIndex] = null;
+            pictureColor[pictureIndex] = null;
         }
 
-        public void fillPicture(int pictureIndex, int x, int y, int width, int height)
+        public void FillPicture(int pictureIndex, int x, int y, int width, int height)
         {
             pictureWidth[pictureIndex] = width;
             pictureHeight[pictureIndex] = height;
@@ -905,9 +905,9 @@ namespace OpenRS.Net.Client.Game
             //Color[] clrs = new Color[pictureWidth[_pixels] * pictureHeight[_pixels]];
 
 
-            for (int x1 = x; x1 < x + width; x1++)
+            for (int x1 = x; x1 < x + width; x1 += 1)
             {
-                for (int y1 = y; y1 < y + height; y1++)
+                for (int y1 = y; y1 < y + height; y1 += 1)
                 {
                     //try
                     //{
@@ -936,18 +936,18 @@ namespace OpenRS.Net.Client.Game
             //}
         }
 
-        public void drawImage(int arg0, int arg1, int arg2, int width, int height)
+        public void DrawImage(int pictureIndex, int x, int y, int width, int height)
         {
-            pictureWidth[arg0] = width;
-            pictureHeight[arg0] = height;
-            hasTransparentBackground[arg0] = false;
-            pictureOffsetX[arg0] = 0;
-            pictureOffsetY[arg0] = 0;
-            pictureAssumedWidth[arg0] = width;
-            pictureAssumedHeight[arg0] = height;
+            pictureWidth[pictureIndex] = width;
+            pictureHeight[pictureIndex] = height;
+            hasTransparentBackground[pictureIndex] = false;
+            pictureOffsetX[pictureIndex] = 0;
+            pictureOffsetY[pictureIndex] = 0;
+            pictureAssumedWidth[pictureIndex] = width;
+            pictureAssumedHeight[pictureIndex] = height;
             int i = width * height;
             int k = 0;
-            pictureColors[arg0] = new int[i];
+            pictureColors[pictureIndex] = new int[i];
 
             //***********************
             //** Lets see if we can output this image aswell!
@@ -959,9 +959,9 @@ namespace OpenRS.Net.Client.Game
 
 
 
-            for (int l = arg2; l < arg2 + height; l++)
+            for (int l = y; l < y + height; l += 1)
             {
-                for (int i1 = arg1; i1 < arg1 + width; i1++)
+                for (int i1 = x; i1 < x + width; i1 += 1)
                 {
                     //try
                     //{
@@ -975,7 +975,7 @@ namespace OpenRS.Net.Client.Game
                     //}
                     //catch { }
 
-                    pictureColors[arg0][k++] = pixels[i1 + l * gameWidth];
+                    pictureColors[pictureIndex][k++] = pixels[i1 + l * gameWidth];
 
                 }
 
@@ -994,7 +994,7 @@ namespace OpenRS.Net.Client.Game
             //}
         }
 
-        public void drawPicture(int x, int y, int pictureIndex)
+        public void DrawPicture(int x, int y, int pictureIndex)
         {
             if (hasTransparentBackground[pictureIndex])
             {
@@ -1051,22 +1051,22 @@ namespace OpenRS.Net.Client.Game
                 if ((y & 1) != 0)
                 {
                     i1 += gameWidth;
-                    k1--;
+                    k1 -= 1;
                 }
             }
             if (pictureColors[pictureIndex] is null)
             {
-                cch(ref pixels, pictureColorIndexes[pictureIndex], pictureColor[pictureIndex], j1, i1, l1, k1, i2, j2, byte0);
+                DrawSpriteTextured(ref pixels, pictureColorIndexes[pictureIndex], pictureColor[pictureIndex], j1, i1, l1, k1, i2, j2, byte0);
                 return;
             }
             else
             {
-                ccg(ref pixels, pictureColors[pictureIndex], 0, j1, i1, l1, k1, i2, j2, byte0);
+                DrawSpriteOpaque(ref pixels, pictureColors[pictureIndex], 0, j1, i1, l1, k1, i2, j2, byte0);
                 return;
             }
         }
 
-        public void drawEntity(int x, int y, int width, int height, int index)
+        public void DrawEntity(int x, int y, int width, int height, int index)
         {
             try
             {
@@ -1136,10 +1136,10 @@ namespace OpenRS.Net.Client.Game
                     if ((y & 1) != 0)
                     {
                         j3 += gameWidth;
-                        height--;
+                        height -= 1;
                     }
                 }
-                cci(ref pixels, pictureColors[index], 0, i2, j2, j3, l3, width, height, k2, l2, k1, byte0);
+                DrawSpriteTransparent(ref pixels, pictureColors[index], 0, i2, j2, j3, l3, width, height, k2, l2, k1, byte0);
                 return;
             }
             catch (Exception _ex)
@@ -1148,7 +1148,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public void drawPicture(int x, int y, int index, int i1)
+        public void DrawPicture(int x, int y, int index, int i1)
         {
             if (hasTransparentBackground[index])
             {
@@ -1205,22 +1205,22 @@ namespace OpenRS.Net.Client.Game
                 if ((y & 1) != 0)
                 {
                     j1 += gameWidth;
-                    l1--;
+                    l1 -= 1;
                 }
             }
             if (pictureColors[index] is null)
             {
-                cck(ref pixels, pictureColorIndexes[index], pictureColor[index], k1, j1, i2, l1, j2, k2, byte0, i1);
+                DrawSpriteColorShiftedTextured(ref pixels, pictureColorIndexes[index], pictureColor[index], k1, j1, i2, l1, j2, k2, byte0, i1);
                 return;
             }
             else
             {
-                ccj(ref pixels, pictureColors[index], 0, k1, j1, i2, l1, j2, k2, byte0, i1);
+                DrawSpriteColorShifted(ref pixels, pictureColors[index], 0, k1, j1, i2, l1, j2, k2, byte0, i1);
                 return;
             }
         }
 
-        public void drawTransparentImage(int i, int k, int l, int i1, int j1, int k1)
+        public void DrawTransparentImage(int i, int k, int l, int i1, int j1, int k1)
         {
             try
             {
@@ -1290,10 +1290,10 @@ namespace OpenRS.Net.Client.Game
                     if ((k & 1) != 0)
                     {
                         k3 += gameWidth;
-                        i1--;
+                        i1 -= 1;
                     }
                 }
-                ccl(ref pixels, pictureColors[j1], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, k1);
+                DrawSpriteFlipped(ref pixels, pictureColors[j1], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, k1);
                 return;
             }
             catch (Exception _ex)
@@ -1302,7 +1302,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public void drawCharacterLegs(int i, int k, int l, int i1, int j1, int k1)
+        public void DrawCharacterLegs(int i, int k, int l, int i1, int j1, int k1)
         {
             try
             {
@@ -1372,10 +1372,10 @@ namespace OpenRS.Net.Client.Game
                     if ((k & 1) != 0)
                     {
                         k3 += gameWidth;
-                        i1--;
+                        i1 -= 1;
                     }
                 }
-                ccm(ref pixels, pictureColors[j1], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, k1);
+                DrawSpriteFlippedColorShifted(ref pixels, pictureColors[j1], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, k1);
                 return;
             }
             catch (Exception _ex)
@@ -1384,171 +1384,171 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        private void ccg(ref int[] pixels, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7, int arg8, int arg9)
+        private void DrawSpriteOpaque(ref int[] pixels, int[] colours, int currentColour, int srcOffset, int dstOffset, int width, int height,
+                int dstStride, int srcStride, int rowStep)
         {
-            int i = -(arg5 >> 2);
-            arg5 = -(arg5 & 3);
-            for (int k = -arg6; k < 0; k += arg9)
+            int i = -(width >> 2);
+            width = -(width & 3);
+            for (int k = -height; k < 0; k += rowStep)
             {
-                for (int l = i; l < 0; l++)
+                for (int l = i; l < 0; l += 1)
                 {
-                    arg2 = arg1[arg3++];
-                    if (arg2 != 0)
+                    currentColour = colours[srcOffset++];
+                    if (currentColour != 0)
                     {
-                        pixels[arg4++] = arg2;
+                        pixels[dstOffset++] = currentColour;
                     }
                     else
                     {
-                        arg4 += 1;
+                        dstOffset += 1;
                     }
 
-                    arg2 = arg1[arg3++];
-                    if (arg2 != 0)
+                    currentColour = colours[srcOffset++];
+                    if (currentColour != 0)
                     {
-                        pixels[arg4++] = arg2;
+                        pixels[dstOffset++] = currentColour;
                     }
                     else
                     {
-                        arg4 += 1;
+                        dstOffset += 1;
                     }
 
-                    arg2 = arg1[arg3++];
-                    if (arg2 != 0)
+                    currentColour = colours[srcOffset++];
+                    if (currentColour != 0)
                     {
-                        pixels[arg4++] = arg2;
+                        pixels[dstOffset++] = currentColour;
                     }
                     else
                     {
-                        arg4 += 1;
+                        dstOffset += 1;
                     }
 
-                    arg2 = arg1[arg3++];
-                    if (arg2 != 0)
+                    currentColour = colours[srcOffset++];
+                    if (currentColour != 0)
                     {
-                        pixels[arg4++] = arg2;
+                        pixels[dstOffset++] = currentColour;
                     }
                     else
                     {
-                        arg4 += 1;
+                        dstOffset += 1;
                     }
                 }
 
-                for (int i1 = arg5; i1 < 0; i1++)
+                for (int i1 = width; i1 < 0; i1 += 1)
                 {
-                    arg2 = arg1[arg3++];
-                    if (arg2 != 0)
+                    currentColour = colours[srcOffset++];
+                    if (currentColour != 0)
                     {
-                        pixels[arg4++] = arg2;
+                        pixels[dstOffset++] = currentColour;
                     }
                     else
                     {
-                        arg4 += 1;
+                        dstOffset += 1;
                     }
                 }
 
-                arg4 += arg7;
-                arg3 += arg8;
+                dstOffset += dstStride;
+                srcOffset += srcStride;
             }
 
         }
 
-        private void cch(ref int[] pixels, sbyte[] arg1, int[] arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7, int arg8, int arg9)
+        private void DrawSpriteTextured(ref int[] pixels, sbyte[] colourIndexes, int[] colourLookup, int srcOffset, int dstOffset, int width, int height,
+                int dstStride, int srcStride, int rowStep)
         {
-            int i = -(arg5 >> 2);
-            arg5 = -(arg5 & 3);
-            for (int k = -arg6; k < 0; k += arg9)
+            int i = -(width >> 2);
+            width = -(width & 3);
+            for (int k = -height; k < 0; k += rowStep)
             {
-                for (int l = i; l < 0; l++)
+                for (int l = i; l < 0; l += 1)
                 {
-                    sbyte byte0 = arg1[arg3++];
+                    sbyte byte0 = colourIndexes[srcOffset++];
                     if (byte0 != 0)
                     {
-                        pixels[arg4++] = arg2[byte0 & 0xff];
+                        pixels[dstOffset++] = colourLookup[byte0 & 0xff];
                     }
                     else
                     {
-                        arg4 += 1;
+                        dstOffset += 1;
                     }
 
-                    byte0 = arg1[arg3++];
+                    byte0 = colourIndexes[srcOffset++];
                     if (byte0 != 0)
                     {
-                        pixels[arg4++] = arg2[byte0 & 0xff];
+                        pixels[dstOffset++] = colourLookup[byte0 & 0xff];
                     }
                     else
                     {
-                        arg4 += 1;
+                        dstOffset += 1;
                     }
 
-                    byte0 = arg1[arg3++];
+                    byte0 = colourIndexes[srcOffset++];
                     if (byte0 != 0)
                     {
-                        pixels[arg4++] = arg2[byte0 & 0xff];
+                        pixels[dstOffset++] = colourLookup[byte0 & 0xff];
                     }
                     else
                     {
-                        arg4 += 1;
+                        dstOffset += 1;
                     }
 
-                    byte0 = arg1[arg3++];
+                    byte0 = colourIndexes[srcOffset++];
                     if (byte0 != 0)
                     {
-                        pixels[arg4++] = arg2[byte0 & 0xff];
+                        pixels[dstOffset++] = colourLookup[byte0 & 0xff];
                     }
                     else
                     {
-                        arg4 += 1;
+                        dstOffset += 1;
                     }
                 }
 
-                for (int i1 = arg5; i1 < 0; i1++)
+                for (int i1 = width; i1 < 0; i1 += 1)
                 {
-                    sbyte byte1 = arg1[arg3++];
+                    sbyte byte1 = colourIndexes[srcOffset++];
                     if (byte1 != 0)
                     {
-                        pixels[arg4++] = arg2[byte1 & 0xff];
+                        pixels[dstOffset++] = colourLookup[byte1 & 0xff];
                     }
                     else
                     {
-                        arg4 += 1;
+                        dstOffset += 1;
                     }
                 }
 
-                arg4 += arg7;
-                arg3 += arg8;
+                dstOffset += dstStride;
+                srcOffset += srcStride;
             }
 
         }
 
-        private void cci(ref int[] pixels, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7, int arg8, int arg9, int arg10, int arg11, int arg12)
+        private void DrawSpriteTransparent(ref int[] pixels, int[] colours, int currentColour, int srcX, int srcY, int dstOffset, int dstStride,
+                int width, int height, int xStep, int yStep, int srcWidth, int rowStep)
         {
             try
             {
-                int i = arg3;
-                for (int k = -arg8; k < 0; k += arg12)
+                int i = srcX;
+                for (int k = -height; k < 0; k += rowStep)
                 {
-                    int l = (arg4 >> 16) * arg11;
-                    for (int i1 = -arg7; i1 < 0; i1++)
+                    int l = (srcY >> 16) * srcWidth;
+                    for (int i1 = -width; i1 < 0; i1 += 1)
                     {
-                        arg2 = arg1[(arg3 >> 16) + l];
-                        if (arg2 != 0)
+                        currentColour = colours[(srcX >> 16) + l];
+                        if (currentColour != 0)
                         {
-                            pixels[arg5++] = arg2;
+                            pixels[dstOffset++] = currentColour;
                         }
                         else
                         {
-                            arg5 += 1;
+                            dstOffset += 1;
                         }
 
-                        arg3 += arg9;
+                        srcX += xStep;
                     }
 
-                    arg4 += arg10;
-                    arg3 = i;
-                    arg5 += arg6;
+                    srcY += yStep;
+                    srcX = i;
+                    dstOffset += dstStride;
                 }
 
                 return;
@@ -1559,87 +1559,87 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        private void ccj(ref int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7, int arg8, int arg9, int arg10)
+        private void DrawSpriteColorShifted(ref int[] pixels, int[] colours, int currentColour, int srcOffset, int dstOffset, int width, int height,
+                int dstStride, int srcStride, int rowStep, int blendFactor)
         {
-            int i = 256 - arg10;
-            for (int k = -arg6; k < 0; k += arg9)
+            int i = 256 - blendFactor;
+            for (int k = -height; k < 0; k += rowStep)
             {
-                for (int l = -arg5; l < 0; l++)
+                for (int l = -width; l < 0; l += 1)
                 {
-                    arg2 = arg1[arg3++];
-                    if (arg2 != 0)
+                    currentColour = colours[srcOffset++];
+                    if (currentColour != 0)
                     {
-                        int i1 = arg0[arg4];
-                        arg0[arg4++] = (int)(((arg2 & 0xff00ff) * arg10 + (i1 & 0xff00ff) * i & 0xff00ff00) + ((arg2 & 0xff00) * arg10 + (i1 & 0xff00) * i & 0xff0000) >> 8);
+                        int i1 = pixels[dstOffset];
+                        pixels[dstOffset++] = (int)(((currentColour & 0xff00ff) * blendFactor + (i1 & 0xff00ff) * i & 0xff00ff00) + ((currentColour & 0xff00) * blendFactor + (i1 & 0xff00) * i & 0xff0000) >> 8);
                     }
                     else
                     {
-                        arg4 += 1;
+                        dstOffset += 1;
                     }
                 }
 
-                arg4 += arg7;
-                arg3 += arg8;
+                dstOffset += dstStride;
+                srcOffset += srcStride;
             }
 
         }
 
-        private void cck(ref int[] arg0, sbyte[] arg1, int[] arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7, int arg8, int arg9, int arg10)
+        private void DrawSpriteColorShiftedTextured(ref int[] pixels, sbyte[] colourIndexes, int[] colourLookup, int srcOffset, int dstOffset, int width, int height,
+                int dstStride, int srcStride, int rowStep, int blendFactor)
         {
-            int i = 256 - arg10;
-            for (int k = -arg6; k < 0; k += arg9)
+            int i = 256 - blendFactor;
+            for (int k = -height; k < 0; k += rowStep)
             {
-                for (int l = -arg5; l < 0; l++)
+                for (int l = -width; l < 0; l += 1)
                 {
-                    int i1 = arg1[arg3++];
+                    int i1 = colourIndexes[srcOffset++];
                     if (i1 != 0)
                     {
-                        i1 = arg2[i1 & 0xff];
-                        int j1 = arg0[arg4];
-                        arg0[arg4++] = (int)(((i1 & 0xff00ff) * arg10 + (j1 & 0xff00ff) * i & 0xff00ff00) + ((i1 & 0xff00) * arg10 + (j1 & 0xff00) * i & 0xff0000) >> 8);
+                        i1 = colourLookup[i1 & 0xff];
+                        int j1 = pixels[dstOffset];
+                        pixels[dstOffset++] = (int)(((i1 & 0xff00ff) * blendFactor + (j1 & 0xff00ff) * i & 0xff00ff00) + ((i1 & 0xff00) * blendFactor + (j1 & 0xff00) * i & 0xff0000) >> 8);
                     }
                     else
                     {
-                        arg4 += 1;
+                        dstOffset += 1;
                     }
                 }
 
-                arg4 += arg7;
-                arg3 += arg8;
+                dstOffset += dstStride;
+                srcOffset += srcStride;
             }
 
         }
 
-        private void ccl(ref int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int arg13)
+        private void DrawSpriteFlipped(ref int[] pixels, int[] colours, int currentColour, int srcX, int srcY, int dstOffset, int dstStride,
+                int width, int height, int xStep, int yStep, int srcWidth, int rowStep, int blendFactor)
         {
-            int i = 256 - arg13;
+            int i = 256 - blendFactor;
             try
             {
-                int k = arg3;
-                for (int l = -arg8; l < 0; l += arg12)
+                int k = srcX;
+                for (int l = -height; l < 0; l += rowStep)
                 {
-                    int i1 = (arg4 >> 16) * arg11;
-                    for (int j1 = -arg7; j1 < 0; j1++)
+                    int i1 = (srcY >> 16) * srcWidth;
+                    for (int j1 = -width; j1 < 0; j1 += 1)
                     {
-                        arg2 = arg1[(arg3 >> 16) + i1];
-                        if (arg2 != 0)
+                        currentColour = colours[(srcX >> 16) + i1];
+                        if (currentColour != 0)
                         {
-                            int k1 = arg0[arg5];
-                            arg0[arg5++] = (int)(((arg2 & 0xff00ff) * arg13 + (k1 & 0xff00ff) * i & 0xff00ff00) + ((arg2 & 0xff00) * arg13 + (k1 & 0xff00) * i & 0xff0000) >> 8);
+                            int k1 = pixels[dstOffset];
+                            pixels[dstOffset++] = (int)(((currentColour & 0xff00ff) * blendFactor + (k1 & 0xff00ff) * i & 0xff00ff00) + ((currentColour & 0xff00) * blendFactor + (k1 & 0xff00) * i & 0xff0000) >> 8);
                         }
                         else
                         {
-                            arg5 += 1;
+                            dstOffset += 1;
                         }
-                        arg3 += arg9;
+                        srcX += xStep;
                     }
 
-                    arg4 += arg10;
-                    arg3 = k;
-                    arg5 += arg6;
+                    srcY += yStep;
+                    srcX = k;
+                    dstOffset += dstStride;
                 }
 
                 return;
@@ -1650,45 +1650,45 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        private void ccm(ref int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int color)
+        private void DrawSpriteFlippedColorShifted(ref int[] pixels, int[] colours, int currentColour, int srcX, int srcY, int dstOffset, int dstStride,
+                int width, int height, int xStep, int yStep, int srcWidth, int rowStep, int color)
         {
             int red = color >> 16 & 0xff;
             int green = color >> 8 & 0xff;
             int blue = color & 0xff;
             try
             {
-                int i1 = arg3;
-                for (int j1 = -arg8; j1 < 0; j1 += arg12)
+                int i1 = srcX;
+                for (int j1 = -height; j1 < 0; j1 += rowStep)
                 {
-                    int k1 = (arg4 >> 16) * arg11;
-                    for (int l1 = -arg7; l1 < 0; l1++)
+                    int k1 = (srcY >> 16) * srcWidth;
+                    for (int l1 = -width; l1 < 0; l1 += 1)
                     {
-                        arg2 = arg1[(arg3 >> 16) + k1];
-                        if (arg2 != 0)
+                        currentColour = colours[(srcX >> 16) + k1];
+                        if (currentColour != 0)
                         {
-                            int i2 = arg2 >> 16 & 0xff;
-                            int j2 = arg2 >> 8 & 0xff;
-                            int k2 = arg2 & 0xff;
+                            int i2 = currentColour >> 16 & 0xff;
+                            int j2 = currentColour >> 8 & 0xff;
+                            int k2 = currentColour & 0xff;
                             if (i2 == j2 && j2 == k2)
                             {
-                                arg0[arg5++] = ((i2 * red >> 8) << 16) + ((j2 * green >> 8) << 8) + (k2 * blue >> 8);
+                                pixels[dstOffset++] = ((i2 * red >> 8) << 16) + ((j2 * green >> 8) << 8) + (k2 * blue >> 8);
                             }
                             else
                             {
-                                arg0[arg5++] = arg2;
+                                pixels[dstOffset++] = currentColour;
                             }
                         }
                         else
                         {
-                            arg5 += 1;
+                            dstOffset += 1;
                         }
-                        arg3 += arg9;
+                        srcX += xStep;
                     }
 
-                    arg4 += arg10;
-                    arg3 = i1;
-                    arg5 += arg6;
+                    srcY += yStep;
+                    srcX = i1;
+                    dstOffset += dstStride;
                 }
 
                 return;
@@ -1699,56 +1699,56 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public void drawMinimapPic(int arg0, int arg1, int arg2, int arg3, int arg4)
+        public void DrawMinimapPic(int centreX, int centreY, int pictureIndex, int rotation, int scale)
         {
             int i = gameWidth;
             int k = gameHeight;
-            if (bng is null)
+            if (characterRotationTable is null)
             {
-                bng = new int[512];
-                for (int l = 0; l < 256; l++)
+                characterRotationTable = new int[512];
+                for (int l = 0; l < 256; l += 1)
                 {
-                    bng[l] = (int)(Math.Sin((double)l * 0.02454369D) * 32768D);
-                    bng[l + 256] = (int)(Math.Cos((double)l * 0.02454369D) * 32768D);
+                    characterRotationTable[l] = (int)(Math.Sin((double)l * 0.02454369D) * 32768D);
+                    characterRotationTable[l + 256] = (int)(Math.Cos((double)l * 0.02454369D) * 32768D);
                 }
 
             }
-            int i1 = -pictureAssumedWidth[arg2] / 2;
-            int j1 = -pictureAssumedHeight[arg2] / 2;
-            if (hasTransparentBackground[arg2])
+            int i1 = -pictureAssumedWidth[pictureIndex] / 2;
+            int j1 = -pictureAssumedHeight[pictureIndex] / 2;
+            if (hasTransparentBackground[pictureIndex])
             {
-                i1 += pictureOffsetX[arg2];
-                j1 += pictureOffsetY[arg2];
+                i1 += pictureOffsetX[pictureIndex];
+                j1 += pictureOffsetY[pictureIndex];
             }
-            int k1 = i1 + pictureWidth[arg2];
-            int l1 = j1 + pictureHeight[arg2];
+            int k1 = i1 + pictureWidth[pictureIndex];
+            int l1 = j1 + pictureHeight[pictureIndex];
             int i2 = k1;
             int j2 = j1;
             int k2 = i1;
             int l2 = l1;
-            arg3 &= 0xff;
-            int i3 = bng[arg3] * arg4;
-            int j3 = bng[arg3 + 256] * arg4;
-            int k3 = arg0 + (j1 * i3 + i1 * j3 >> 22);
-            int l3 = arg1 + (j1 * j3 - i1 * i3 >> 22);
-            int i4 = arg0 + (j2 * i3 + i2 * j3 >> 22);
-            int j4 = arg1 + (j2 * j3 - i2 * i3 >> 22);
-            int k4 = arg0 + (l1 * i3 + k1 * j3 >> 22);
-            int l4 = arg1 + (l1 * j3 - k1 * i3 >> 22);
-            int i5 = arg0 + (l2 * i3 + k2 * j3 >> 22);
-            int j5 = arg1 + (l2 * j3 - k2 * i3 >> 22);
-            if (arg4 == 192 && (arg3 & 0x3f) == (cab & 0x3f))
+            rotation &= 0xff;
+            int i3 = characterRotationTable[rotation] * scale;
+            int j3 = characterRotationTable[rotation + 256] * scale;
+            int k3 = centreX + (j1 * i3 + i1 * j3 >> 22);
+            int l3 = centreY + (j1 * j3 - i1 * i3 >> 22);
+            int i4 = centreX + (j2 * i3 + i2 * j3 >> 22);
+            int j4 = centreY + (j2 * j3 - i2 * i3 >> 22);
+            int k4 = centreX + (l1 * i3 + k1 * j3 >> 22);
+            int l4 = centreY + (l1 * j3 - k1 * i3 >> 22);
+            int i5 = centreX + (l2 * i3 + k2 * j3 >> 22);
+            int j5 = centreY + (l2 * j3 - k2 * i3 >> 22);
+            if (scale == 192 && (rotation & 0x3f) == (lastCharacterRotation & 0x3f))
             {
-                bnn += 1;
+                spiralDrawCount += 1;
             }
             else
-                if (arg4 == 128)
+                if (scale == 128)
             {
-                cab = arg3;
+                lastCharacterRotation = rotation;
             }
             else
             {
-                caa += 1;
+                characterDrawCount += 1;
             }
 
             int k5 = l3;
@@ -1793,26 +1793,26 @@ namespace OpenRS.Net.Client.Game
                 l5 = imageHeight;
             }
 
-            if (bnh is null || bnh.Length != k + 1)
+            if (entityScanlineMinX is null || entityScanlineMinX.Length != k + 1)
             {
-                bnh = new int[k + 1];
-                bni = new int[k + 1];
-                bnj = new int[k + 1];
-                bnk = new int[k + 1];
-                bnl = new int[k + 1];
-                bnm = new int[k + 1];
+                entityScanlineMinX = new int[k + 1];
+                entityScanlineMaxX = new int[k + 1];
+                entityScanlineMinValue = new int[k + 1];
+                entityScanlineMaxValue = new int[k + 1];
+                entityScanlineMinExtra = new int[k + 1];
+                entityScanlineMaxExtra = new int[k + 1];
             }
-            for (int i6 = k5; i6 <= l5; i6++)
+            for (int i6 = k5; i6 <= l5; i6 += 1)
             {
-                bnh[i6] = 0x5f5e0ff;
-                bni[i6] = -bnh[i6];//0xfa0a1f01;
+                entityScanlineMinX[i6] = 0x5f5e0ff;
+                entityScanlineMaxX[i6] = -entityScanlineMinX[i6];//0xfa0a1f01;
             }
 
             int i7 = 0;
             int k7 = 0;
             int i8 = 0;
-            int j8 = pictureWidth[arg2];
-            int k8 = pictureHeight[arg2];
+            int j8 = pictureWidth[pictureIndex];
+            int k8 = pictureHeight[pictureIndex];
             i1 = 0;
             j1 = 0;
             i2 = j8 - 1;
@@ -1855,12 +1855,12 @@ namespace OpenRS.Net.Client.Game
                 k6 = k - 1;
             }
 
-            for (int l8 = j6; l8 <= k6; l8++)
+            for (int l8 = j6; l8 <= k6; l8 += 1)
             {
-                bnh[l8] = (bni[l8] = l6);
+                entityScanlineMinX[l8] = (entityScanlineMaxX[l8] = l6);
                 l6 += i7;
-                bnj[l8] = bnk[l8] = 0;
-                bnl[l8] = bnm[l8] = l7;
+                entityScanlineMinValue[l8] = entityScanlineMaxValue[l8] = 0;
+                entityScanlineMinExtra[l8] = entityScanlineMaxExtra[l8] = l7;
                 l7 += i8;
             }
 
@@ -1895,19 +1895,19 @@ namespace OpenRS.Net.Client.Game
                 k6 = k - 1;
             }
 
-            for (int i9 = j6; i9 <= k6; i9++)
+            for (int i9 = j6; i9 <= k6; i9 += 1)
             {
-                if (l6 < bnh[i9])
+                if (l6 < entityScanlineMinX[i9])
                 {
-                    bnh[i9] = l6;
-                    bnj[i9] = j7;
-                    bnl[i9] = 0;
+                    entityScanlineMinX[i9] = l6;
+                    entityScanlineMinValue[i9] = j7;
+                    entityScanlineMinExtra[i9] = 0;
                 }
-                if (l6 > bni[i9])
+                if (l6 > entityScanlineMaxX[i9])
                 {
-                    bni[i9] = l6;
-                    bnk[i9] = j7;
-                    bnm[i9] = 0;
+                    entityScanlineMaxX[i9] = l6;
+                    entityScanlineMaxValue[i9] = j7;
+                    entityScanlineMaxExtra[i9] = 0;
                 }
                 l6 += i7;
                 j7 += k7;
@@ -1945,19 +1945,19 @@ namespace OpenRS.Net.Client.Game
                 k6 = k - 1;
             }
 
-            for (int j9 = j6; j9 <= k6; j9++)
+            for (int j9 = j6; j9 <= k6; j9 += 1)
             {
-                if (l6 < bnh[j9])
+                if (l6 < entityScanlineMinX[j9])
                 {
-                    bnh[j9] = (int)l6;
-                    bnj[j9] = (int)j7;
-                    bnl[j9] = (int)l7;
+                    entityScanlineMinX[j9] = (int)l6;
+                    entityScanlineMinValue[j9] = (int)j7;
+                    entityScanlineMinExtra[j9] = (int)l7;
                 }
-                if (l6 > bni[j9])
+                if (l6 > entityScanlineMaxX[j9])
                 {
-                    bni[j9] = l6;
-                    bnk[j9] = (int)j7;
-                    bnm[j9] = (int)l7;
+                    entityScanlineMaxX[j9] = l6;
+                    entityScanlineMaxValue[j9] = (int)j7;
+                    entityScanlineMaxExtra[j9] = (int)l7;
                 }
                 l6 += i7;
                 l7 += i8;
@@ -1995,40 +1995,40 @@ namespace OpenRS.Net.Client.Game
                 k6 = k - 1;
             }
 
-            for (int k9 = j6; k9 <= k6; k9++)
+            for (int k9 = j6; k9 <= k6; k9 += 1)
             {
-                if (l6 < bnh[k9])
+                if (l6 < entityScanlineMinX[k9])
                 {
-                    bnh[k9] = (int)l6;
-                    bnj[k9] = (int)j7;
-                    bnl[k9] = (int)l7;
+                    entityScanlineMinX[k9] = (int)l6;
+                    entityScanlineMinValue[k9] = (int)j7;
+                    entityScanlineMinExtra[k9] = (int)l7;
                 }
-                if (l6 > bni[k9])
+                if (l6 > entityScanlineMaxX[k9])
                 {
-                    bni[k9] = l6;
-                    bnk[k9] = (int)j7;
-                    bnm[k9] = (int)l7;
+                    entityScanlineMaxX[k9] = l6;
+                    entityScanlineMaxValue[k9] = (int)j7;
+                    entityScanlineMaxExtra[k9] = (int)l7;
                 }
                 l6 += i7;
                 j7 += k7;
             }
 
             int l9 = k5 * i;
-            int[] ai = pictureColors[arg2];
-            for (int i10 = k5; i10 < l5; i10++)
+            int[] ai = pictureColors[pictureIndex];
+            for (int i10 = k5; i10 < l5; i10 += 1)
             {
-                int j10 = bnh[i10] >> 8;
-                int k10 = bni[i10] >> 8;
+                int j10 = entityScanlineMinX[i10] >> 8;
+                int k10 = entityScanlineMaxX[i10] >> 8;
                 if (k10 - j10 <= 0)
                 {
                     l9 += i;
                 }
                 else
                 {
-                    int l10 = bnj[i10] << 9;
-                    int i11 = ((bnk[i10] << 9) - l10) / (k10 - j10);
-                    int j11 = bnl[i10] << 9;
-                    int k11 = ((bnm[i10] << 9) - j11) / (k10 - j10);
+                    int l10 = entityScanlineMinValue[i10] << 9;
+                    int i11 = ((entityScanlineMaxValue[i10] << 9) - l10) / (k10 - j10);
+                    int j11 = entityScanlineMinExtra[i10] << 9;
+                    int k11 = ((entityScanlineMaxExtra[i10] << 9) - j11) / (k10 - j10);
                     if (j10 < imageX)
                     {
                         l10 += (imageX - j10) * i11;
@@ -2042,13 +2042,13 @@ namespace OpenRS.Net.Client.Game
 
                     if (!interlace || (i10 & 1) == 0)
                     {
-                        if (!hasTransparentBackground[arg2])
+                        if (!hasTransparentBackground[pictureIndex])
                         {
-                            cda(ref pixels, ai, 0, (int)l9 + (int)j10, (int)l10, (int)j11, (int)i11, (int)k11, (int)j10 - (int)k10, (int)j8);
+                            DrawSpriteAlpha(ref pixels, ai, 0, (int)l9 + (int)j10, (int)l10, (int)j11, (int)i11, (int)k11, (int)j10 - (int)k10, (int)j8);
                         }
                         else
                         {
-                            cdb(ref pixels, ai, 0, (int)l9 + (int)j10, (int)l10, (int)j11, (int)i11, (int)k11, (int)j10 - (int)k10, (int)j8);
+                            DrawSpriteAlphaColorShifted(ref pixels, ai, 0, (int)l9 + (int)j10, (int)l10, (int)j11, (int)i11, (int)k11, (int)j10 - (int)k10, (int)j8);
                         }
                     }
 
@@ -2058,45 +2058,45 @@ namespace OpenRS.Net.Client.Game
 
         }
 
-        private void cda(ref int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7, int arg8, int arg9)
+        private void DrawSpriteAlpha(ref int[] screenPixels, int[] colours, int currentColour, int dstOffset, int srcX, int srcY, int xStep,
+                int yStep, int count, int srcWidth)
         {
-            for (arg2 = arg8; arg2 < 0; arg2++)
+            for (currentColour = count; currentColour < 0; currentColour += 1)
             {
-                pixels[arg3++] = arg1[(arg4 >> 17) + (arg5 >> 17) * arg9];
-                arg4 += arg6;
-                arg5 += arg7;
+                pixels[dstOffset++] = colours[(srcX >> 17) + (srcY >> 17) * srcWidth];
+                srcX += xStep;
+                srcY += yStep;
             }
 
         }
 
-        private void cdb(ref int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7, int arg8, int arg9)
+        private void DrawSpriteAlphaColorShifted(ref int[] screenPixels, int[] colours, int currentColour, int dstOffset, int srcX, int srcY, int xStep,
+                int yStep, int count, int srcWidth)
         {
-            for (int i = arg8; i < 0; i++)
+            for (int i = count; i < 0; i += 1)
             {
-                arg2 = arg1[(arg4 >> 17) + (arg5 >> 17) * arg9];
-                if (arg2 != 0)
+                currentColour = colours[(srcX >> 17) + (srcY >> 17) * srcWidth];
+                if (currentColour != 0)
                 {
-                    pixels[arg3++] = arg2;
+                    pixels[dstOffset++] = currentColour;
                 }
                 else
                 {
-                    arg3 += 1;
+                    dstOffset += 1;
                 }
 
-                arg4 += arg6;
-                arg5 += arg7;
+                srcX += xStep;
+                srcY += yStep;
             }
 
         }
 
-        public virtual void drawVisibleEntity(int i, int k, int l, int i1, int j1, int k1, int l1)
+        public virtual void DrawVisibleEntity(int i, int k, int l, int i1, int j1, int k1, int l1)
         {
-            drawEntity(i, k, l, i1, j1);
+            DrawEntity(i, k, l, i1, j1);
         }
 
-        public virtual void drawImage(int x, int y, int width, int height, int j1, int k1, int l1,
+        public virtual void DrawImage(int x, int y, int width, int height, int j1, int k1, int l1,
                 int i2, bool flag)
         {
             try
@@ -2177,24 +2177,24 @@ namespace OpenRS.Net.Client.Game
                     {
                         if (!flag)
                         {
-                            cde(pixels, pictureColors[j1], 0, l2, i3, k4, width, height, k3, l3, j2, k1, j3, i4, j5);
+                            DrawSpriteFlatShaded(pixels, pictureColors[j1], 0, l2, i3, k4, width, height, k3, l3, j2, k1, j3, i4, j5);
                             return;
                         }
                         else
                         {
-                            cde(pixels, pictureColors[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, j3, i4, j5);
+                            DrawSpriteFlatShaded(pixels, pictureColors[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, j3, i4, j5);
                             return;
                         }
                     }
 
                     if (!flag)
                     {
-                        cdg(pixels, pictureColorIndexes[j1], pictureColor[j1], 0, l2, i3, k4, width, height, k3, l3, j2, k1, j3, i4, j5);
+                        DrawSpriteFlatShadedTextured(pixels, pictureColorIndexes[j1], pictureColor[j1], 0, l2, i3, k4, width, height, k3, l3, j2, k1, j3, i4, j5);
                         return;
                     }
                     else
                     {
-                        cdg(pixels, pictureColorIndexes[j1], pictureColor[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, j3, i4, j5);
+                        DrawSpriteFlatShadedTextured(pixels, pictureColorIndexes[j1], pictureColor[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, j3, i4, j5);
                         return;
                     }
                 }
@@ -2202,24 +2202,24 @@ namespace OpenRS.Net.Client.Game
                 {
                     if (!flag)
                     {
-                        cdf(pixels, pictureColors[j1], 0, l2, i3, k4, width, height, k3, l3, j2, k1, l1, j3, i4, j5);
+                        DrawSpriteFlatShadedAlt(pixels, pictureColors[j1], 0, l2, i3, k4, width, height, k3, l3, j2, k1, l1, j3, i4, j5);
                         return;
                     }
                     else
                     {
-                        cdf(pixels, pictureColors[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, l1, j3, i4, j5);
+                        DrawSpriteFlatShadedAlt(pixels, pictureColors[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, l1, j3, i4, j5);
                         return;
                     }
                 }
 
                 if (!flag)
                 {
-                    cdh(pixels, pictureColorIndexes[j1], pictureColor[j1], 0, l2, i3, k4, width, height, k3, l3, j2, k1, l1, j3, i4, j5);
+                    DrawSpriteFlatShadedTexturedAlt(pixels, pictureColorIndexes[j1], pictureColor[j1], 0, l2, i3, k4, width, height, k3, l3, j2, k1, l1, j3, i4, j5);
                     return;
                 }
                 else
                 {
-                    cdh(pixels, pictureColorIndexes[j1], pictureColor[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, l1, j3, i4, j5);
+                    DrawSpriteFlatShadedTexturedAlt(pixels, pictureColorIndexes[j1], pictureColor[j1], 0, (pictureWidth[j1] << 16) - l2 - 1, i3, k4, width, height, -k3, l3, j2, k1, l1, j3, i4, j5);
                     return;
                 }
             }
@@ -2229,61 +2229,61 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        private void cde(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int arg13,
-                int arg14)
+        private void DrawSpriteFlatShaded(int[] pixels, int[] colours, int currentColour, int srcX, int srcY, int dstOffset, int width,
+                int height, int xStep, int yStep, int srcWidth, int primaryColour, int xPosFixed, int xPosStep,
+                int interlaceFlag)
         {
-            int i1 = arg11 >> 16 & 0xff;
-            int j1 = arg11 >> 8 & 0xff;
-            int k1 = arg11 & 0xff;
+            int i1 = primaryColour >> 16 & 0xff;
+            int j1 = primaryColour >> 8 & 0xff;
+            int k1 = primaryColour & 0xff;
             try
             {
-                int l1 = arg3;
-                for (int i2 = -arg7; i2 < 0; i2++)
+                int l1 = srcX;
+                for (int i2 = -height; i2 < 0; i2 += 1)
                 {
-                    int j2 = (arg4 >> 16) * arg10;
-                    int k2 = arg12 >> 16;
-                    int l2 = arg6;
+                    int j2 = (srcY >> 16) * srcWidth;
+                    int k2 = xPosFixed >> 16;
+                    int l2 = width;
                     if (k2 < imageX)
                     {
                         int i3 = imageX - k2;
                         l2 -= i3;
                         k2 = imageX;
-                        arg3 += arg8 * i3;
+                        srcX += xStep * i3;
                     }
                     if (k2 + l2 >= imageWidth)
                     {
                         int j3 = (k2 + l2) - imageWidth;
                         l2 -= j3;
                     }
-                    arg14 = 1 - arg14;
-                    if (arg14 != 0)
+                    interlaceFlag = 1 - interlaceFlag;
+                    if (interlaceFlag != 0)
                     {
-                        for (int k3 = k2; k3 < k2 + l2; k3++)
+                        for (int k3 = k2; k3 < k2 + l2; k3 += 1)
                         {
-                            arg2 = arg1[(arg3 >> 16) + j2];
-                            if (arg2 != 0)
+                            currentColour = colours[(srcX >> 16) + j2];
+                            if (currentColour != 0)
                             {
-                                int i = arg2 >> 16 & 0xff;
-                                int k = arg2 >> 8 & 0xff;
-                                int l = arg2 & 0xff;
+                                int i = currentColour >> 16 & 0xff;
+                                int k = currentColour >> 8 & 0xff;
+                                int l = currentColour & 0xff;
                                 if (i == k && k == l)
                                 {
-                                    arg0[k3 + arg5] = ((i * i1 >> 8) << 16) + ((k * j1 >> 8) << 8) + (l * k1 >> 8);
+                                    pixels[k3 + dstOffset] = ((i * i1 >> 8) << 16) + ((k * j1 >> 8) << 8) + (l * k1 >> 8);
                                 }
                                 else
                                 {
-                                    arg0[k3 + arg5] = arg2;
+                                    pixels[k3 + dstOffset] = currentColour;
                                 }
                             }
-                            arg3 += arg8;
+                            srcX += xStep;
                         }
 
                     }
-                    arg4 += arg9;
-                    arg3 = l1;
-                    arg5 += gameWidth;
-                    arg12 += arg13;
+                    srcY += yStep;
+                    srcX = l1;
+                    dstOffset += gameWidth;
+                    xPosFixed += xPosStep;
                 }
 
                 return;
@@ -2294,69 +2294,69 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        private void cdf(int[] arg0, int[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int arg13,
-                int arg14, int arg15)
+        private void DrawSpriteFlatShadedAlt(int[] pixels, int[] colours, int currentColour, int srcX, int srcY, int dstOffset, int width,
+                int height, int xStep, int yStep, int srcWidth, int primaryColour, int secondaryColour, int xPosFixed,
+                int xPosStep, int interlaceFlag)
         {
-            int i1 = arg11 >> 16 & 0xff;
-            int j1 = arg11 >> 8 & 0xff;
-            int k1 = arg11 & 0xff;
-            int l1 = arg12 >> 16 & 0xff;
-            int i2 = arg12 >> 8 & 0xff;
-            int j2 = arg12 & 0xff;
+            int i1 = primaryColour >> 16 & 0xff;
+            int j1 = primaryColour >> 8 & 0xff;
+            int k1 = primaryColour & 0xff;
+            int l1 = secondaryColour >> 16 & 0xff;
+            int i2 = secondaryColour >> 8 & 0xff;
+            int j2 = secondaryColour & 0xff;
             try
             {
-                int k2 = arg3;
-                for (int l2 = -arg7; l2 < 0; l2++)
+                int k2 = srcX;
+                for (int l2 = -height; l2 < 0; l2 += 1)
                 {
-                    int i3 = (arg4 >> 16) * arg10;
-                    int j3 = arg13 >> 16;
-                    int k3 = arg6;
+                    int i3 = (srcY >> 16) * srcWidth;
+                    int j3 = xPosFixed >> 16;
+                    int k3 = width;
                     if (j3 < imageX)
                     {
                         int l3 = imageX - j3;
                         k3 -= l3;
                         j3 = imageX;
-                        arg3 += arg8 * l3;
+                        srcX += xStep * l3;
                     }
                     if (j3 + k3 >= imageWidth)
                     {
                         int i4 = (j3 + k3) - imageWidth;
                         k3 -= i4;
                     }
-                    arg15 = 1 - arg15;
-                    if (arg15 != 0)
+                    interlaceFlag = 1 - interlaceFlag;
+                    if (interlaceFlag != 0)
                     {
-                        for (int j4 = j3; j4 < j3 + k3; j4++)
+                        for (int j4 = j3; j4 < j3 + k3; j4 += 1)
                         {
-                            arg2 = arg1[(arg3 >> 16) + i3];
-                            if (arg2 != 0)
+                            currentColour = colours[(srcX >> 16) + i3];
+                            if (currentColour != 0)
                             {
-                                int i = arg2 >> 16 & 0xff;
-                                int k = arg2 >> 8 & 0xff;
-                                int l = arg2 & 0xff;
+                                int i = currentColour >> 16 & 0xff;
+                                int k = currentColour >> 8 & 0xff;
+                                int l = currentColour & 0xff;
                                 if (i == k && k == l)
                                 {
-                                    arg0[j4 + arg5] = ((i * i1 >> 8) << 16) + ((k * j1 >> 8) << 8) + (l * k1 >> 8);
+                                    pixels[j4 + dstOffset] = ((i * i1 >> 8) << 16) + ((k * j1 >> 8) << 8) + (l * k1 >> 8);
                                 }
                                 else
                                     if (i == 255 && k == l)
                                 {
-                                    arg0[j4 + arg5] = ((i * l1 >> 8) << 16) + ((k * i2 >> 8) << 8) + (l * j2 >> 8);
+                                    pixels[j4 + dstOffset] = ((i * l1 >> 8) << 16) + ((k * i2 >> 8) << 8) + (l * j2 >> 8);
                                 }
                                 else
                                 {
-                                    arg0[j4 + arg5] = arg2;
+                                    pixels[j4 + dstOffset] = currentColour;
                                 }
                             }
-                            arg3 += arg8;
+                            srcX += xStep;
                         }
 
                     }
-                    arg4 += arg9;
-                    arg3 = k2;
-                    arg5 += gameWidth;
-                    arg13 += arg14;
+                    srcY += yStep;
+                    srcX = k2;
+                    dstOffset += gameWidth;
+                    xPosFixed += xPosStep;
                 }
 
                 return;
@@ -2367,62 +2367,62 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        private void cdg(int[] arg0, sbyte[] arg1, int[] arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int arg13,
-                int arg14, int arg15)
+        private void DrawSpriteFlatShadedTextured(int[] pixels, sbyte[] colourIndexes, int[] colourLookup, int currentColour, int srcX, int srcY, int dstOffset,
+                int width, int height, int xStep, int yStep, int srcWidth, int primaryColour, int xPosFixed,
+                int xPosStep, int interlaceFlag)
         {
-            int i1 = arg12 >> 16 & 0xff;
-            int j1 = arg12 >> 8 & 0xff;
-            int k1 = arg12 & 0xff;
+            int i1 = primaryColour >> 16 & 0xff;
+            int j1 = primaryColour >> 8 & 0xff;
+            int k1 = primaryColour & 0xff;
             try
             {
-                int l1 = arg4;
-                for (int i2 = -arg8; i2 < 0; i2++)
+                int l1 = srcX;
+                for (int i2 = -height; i2 < 0; i2 += 1)
                 {
-                    int j2 = (arg5 >> 16) * arg11;
-                    int k2 = arg13 >> 16;
-                    int l2 = arg7;
+                    int j2 = (srcY >> 16) * srcWidth;
+                    int k2 = xPosFixed >> 16;
+                    int l2 = width;
                     if (k2 < imageX)
                     {
                         int i3 = imageX - k2;
                         l2 -= i3;
                         k2 = imageX;
-                        arg4 += arg9 * i3;
+                        srcX += xStep * i3;
                     }
                     if (k2 + l2 >= imageWidth)
                     {
                         int j3 = (k2 + l2) - imageWidth;
                         l2 -= j3;
                     }
-                    arg15 = 1 - arg15;
-                    if (arg15 != 0)
+                    interlaceFlag = 1 - interlaceFlag;
+                    if (interlaceFlag != 0)
                     {
-                        for (int k3 = k2; k3 < k2 + l2; k3++)
+                        for (int k3 = k2; k3 < k2 + l2; k3 += 1)
                         {
-                            arg3 = arg1[(arg4 >> 16) + j2] & 0xff;
-                            if (arg3 != 0)
+                            currentColour = colourIndexes[(srcX >> 16) + j2] & 0xff;
+                            if (currentColour != 0)
                             {
-                                arg3 = arg2[arg3];
-                                int i = arg3 >> 16 & 0xff;
-                                int k = arg3 >> 8 & 0xff;
-                                int l = arg3 & 0xff;
+                                currentColour = colourLookup[currentColour];
+                                int i = currentColour >> 16 & 0xff;
+                                int k = currentColour >> 8 & 0xff;
+                                int l = currentColour & 0xff;
                                 if (i == k && k == l)
                                 {
-                                    arg0[k3 + arg6] = ((i * i1 >> 8) << 16) + ((k * j1 >> 8) << 8) + (l * k1 >> 8);
+                                    pixels[k3 + dstOffset] = ((i * i1 >> 8) << 16) + ((k * j1 >> 8) << 8) + (l * k1 >> 8);
                                 }
                                 else
                                 {
-                                    arg0[k3 + arg6] = arg3;
+                                    pixels[k3 + dstOffset] = currentColour;
                                 }
                             }
-                            arg4 += arg9;
+                            srcX += xStep;
                         }
 
                     }
-                    arg5 += arg10;
-                    arg4 = l1;
-                    arg6 += gameWidth;
-                    arg13 += arg14;
+                    srcY += yStep;
+                    srcX = l1;
+                    dstOffset += gameWidth;
+                    xPosFixed += xPosStep;
                 }
 
                 return;
@@ -2433,70 +2433,70 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        private void cdh(int[] arg0, sbyte[] arg1, int[] arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7, int arg8, int arg9, int arg10, int arg11, int arg12, int arg13,
-                int arg14, int arg15, int arg16)
+        private void DrawSpriteFlatShadedTexturedAlt(int[] pixels, sbyte[] colourIndexes, int[] colourLookup, int currentColour, int srcX, int srcY, int dstOffset,
+                int width, int height, int xStep, int yStep, int srcWidth, int primaryColour, int secondaryColour,
+                int xPosFixed, int xPosStep, int interlaceFlag)
         {
-            int i1 = arg12 >> 16 & 0xff;
-            int j1 = arg12 >> 8 & 0xff;
-            int k1 = arg12 & 0xff;
-            int l1 = arg13 >> 16 & 0xff;
-            int i2 = arg13 >> 8 & 0xff;
-            int j2 = arg13 & 0xff;
+            int i1 = primaryColour >> 16 & 0xff;
+            int j1 = primaryColour >> 8 & 0xff;
+            int k1 = primaryColour & 0xff;
+            int l1 = secondaryColour >> 16 & 0xff;
+            int i2 = secondaryColour >> 8 & 0xff;
+            int j2 = secondaryColour & 0xff;
             try
             {
-                int k2 = arg4;
-                for (int l2 = -arg8; l2 < 0; l2++)
+                int k2 = srcX;
+                for (int l2 = -height; l2 < 0; l2 += 1)
                 {
-                    int i3 = (arg5 >> 16) * arg11;
-                    int j3 = arg14 >> 16;
-                    int k3 = arg7;
+                    int i3 = (srcY >> 16) * srcWidth;
+                    int j3 = xPosFixed >> 16;
+                    int k3 = width;
                     if (j3 < imageX)
                     {
                         int l3 = imageX - j3;
                         k3 -= l3;
                         j3 = imageX;
-                        arg4 += arg9 * l3;
+                        srcX += xStep * l3;
                     }
                     if (j3 + k3 >= imageWidth)
                     {
                         int i4 = (j3 + k3) - imageWidth;
                         k3 -= i4;
                     }
-                    arg16 = 1 - arg16;
-                    if (arg16 != 0)
+                    interlaceFlag = 1 - interlaceFlag;
+                    if (interlaceFlag != 0)
                     {
-                        for (int j4 = j3; j4 < j3 + k3; j4++)
+                        for (int j4 = j3; j4 < j3 + k3; j4 += 1)
                         {
-                            arg3 = arg1[(arg4 >> 16) + i3] & 0xff;
-                            if (arg3 != 0)
+                            currentColour = colourIndexes[(srcX >> 16) + i3] & 0xff;
+                            if (currentColour != 0)
                             {
-                                arg3 = arg2[arg3];
-                                int i = arg3 >> 16 & 0xff;
-                                int k = arg3 >> 8 & 0xff;
-                                int l = arg3 & 0xff;
+                                currentColour = colourLookup[currentColour];
+                                int i = currentColour >> 16 & 0xff;
+                                int k = currentColour >> 8 & 0xff;
+                                int l = currentColour & 0xff;
                                 if (i == k && k == l)
                                 {
-                                    arg0[j4 + arg6] = ((i * i1 >> 8) << 16) + ((k * j1 >> 8) << 8) + (l * k1 >> 8);
+                                    pixels[j4 + dstOffset] = ((i * i1 >> 8) << 16) + ((k * j1 >> 8) << 8) + (l * k1 >> 8);
                                 }
                                 else
                                     if (i == 255 && k == l)
                                 {
-                                    arg0[j4 + arg6] = ((i * l1 >> 8) << 16) + ((k * i2 >> 8) << 8) + (l * j2 >> 8);
+                                    pixels[j4 + dstOffset] = ((i * l1 >> 8) << 16) + ((k * i2 >> 8) << 8) + (l * j2 >> 8);
                                 }
                                 else
                                 {
-                                    arg0[j4 + arg6] = arg3;
+                                    pixels[j4 + dstOffset] = currentColour;
                                 }
                             }
-                            arg4 += arg9;
+                            srcX += xStep;
                         }
 
                     }
-                    arg5 += arg10;
-                    arg4 = k2;
-                    arg6 += gameWidth;
-                    arg14 += arg15;
+                    srcY += yStep;
+                    srcX = k2;
+                    dstOffset += gameWidth;
+                    xPosFixed += xPosStep;
                 }
 
                 return;
@@ -2534,14 +2534,14 @@ namespace OpenRS.Net.Client.Game
         //    // int j1 = ascent.Y;
 
         //    var image = startColor.createImage(x, _h);
-        //    var g = image.getGraphics();
-        //    g.setColor(Color.Black);
-        //    g.fillRect(0, 0, x, _h);
-        //    g.setColor(Color.White);
-        //    g.setFont(_pixels);
-        //    g.drawString(destX.ToString(), 0, _w);
+        //    var g = image.GetGraphics();
+        //    g.SetColor(Color.Black);
+        //    g.FillRect(0, 0, x, _h);
+        //    g.SetColor(Color.White);
+        //    g.SetFont(_pixels);
+        //    g.DrawString(destX.ToString(), 0, _w);
         //    if (arg6)
-        //        g.drawString(destX.ToString(), 1, _w);
+        //        g.DrawString(destX.ToString(), 1, _w);
         //    int[] ai = new int[x * _h];
         //    PixelGrabber pixelgrabber = new PixelGrabber(image, 0, 0, x, _h, ai, 0, x);
         //    try
@@ -2552,16 +2552,16 @@ namespace OpenRS.Net.Client.Game
         //    {
         //        return;
         //    }
-        //    image.flush();
+        //    image.Flush();
         //    image = null;
         //    int k1 = 0;
         //    int width = 0;
         //    int i2 = x;
         //    int j2 = _h;
         //label0:
-        //    for (int k2 = 0; k2 < _h; k2++)
+        //    for (int k2 = 0; k2 < _h; k2 += 1)
         //    {
-        //        for (int l2 = 0; l2 < x; l2++)
+        //        for (int l2 = 0; l2 < x; l2 += 1)
         //        {
         //            int j3 = ai[l2 + k2 * x];
         //            if ((j3 & 0xffffff) == 0)
@@ -2574,9 +2574,9 @@ namespace OpenRS.Net.Client.Game
         //    }
 
         //label1:
-        //    for (int i3 = 0; i3 < x; i3++)
+        //    for (int i3 = 0; i3 < x; i3 += 1)
         //    {
-        //        for (int k3 = 0; k3 < _h; k3++)
+        //        for (int k3 = 0; k3 < _h; k3 += 1)
         //        {
         //            int i4 = ai[i3 + k3 * x];
         //            if ((i4 & 0xffffff) == 0)
@@ -2589,9 +2589,9 @@ namespace OpenRS.Net.Client.Game
         //    }
 
         //label2:
-        //    for (int l3 = _h - 1; l3 >= 0; l3--)
+        //    for (int l3 = _h - 1; l3 >= 0; l3 -= 1)
         //    {
-        //        for (int j4 = 0; j4 < x; j4++)
+        //        for (int j4 = 0; j4 < x; j4 += 1)
         //        {
         //            int l4 = ai[j4 + l3 * x];
         //            if ((l4 & 0xffffff) == 0)
@@ -2604,9 +2604,9 @@ namespace OpenRS.Net.Client.Game
         //    }
 
         //label3:
-        //    for (int k4 = x - 1; k4 >= 0; k4--)
+        //    for (int k4 = x - 1; k4 >= 0; k4 -= 1)
         //    {
-        //        for (int i5 = 0; i5 < _h; i5++)
+        //        for (int i5 = 0; i5 < _h; i5 += 1)
         //        {
         //            int k5 = ai[k4 + i5 * x];
         //            if ((k5 & 0xffffff) == 0)
@@ -2627,13 +2627,13 @@ namespace OpenRS.Net.Client.Game
         //    cae[destY * 9 + 6] = (byte)(_w - width);
         //    cae[destY * 9 + 7] = (byte)y;
         //    cae[destY * 9 + 8] = (byte)j1;
-        //    for (int j5 = width; j5 < j2; j5++)
+        //    for (int j5 = width; j5 < j2; j5 += 1)
         //    {
-        //        for (int l5 = k1; l5 < i2; l5++)
+        //        for (int l5 = k1; l5 < i2; l5 += 1)
         //        {
         //            int i6 = ai[l5 + j5 * x] & 0xff;
         //            if (i6 > 30 && i6 < 230)
-        //                cac[endColor] = true;
+        //                fontShadowEnabled[endColor] = true;
         //            cae[cad++] = (byte)i6;
         //        }
 
@@ -2641,72 +2641,72 @@ namespace OpenRS.Net.Client.Game
 
         //}
 
-        public void drawLabel(String s, int i, int k, int l, int i1)
+        public void DrawLabel(string s, int i, int k, int l, int i1)
         {
-            drawString(s, i - textWidth(s, l), k, l, i1);
+            DrawString(s, i - TextWidth(s, l), k, l, i1);
         }
 
-        public void drawText(String s, int i, int k, int l, int i1)
+        public void DrawText(string s, int i, int k, int l, int i1)
         {
-            drawString(s, i - textWidth(s, l) / 2, k, l, i1);
+            DrawString(s, i - TextWidth(s, l) / 2, k, l, i1);
         }
 
-        //public int textWidth(String s, int _w)
+        //public int TextWidth(string s, int _w)
         //{
         //    return (int)GameClient.gameFont12.MeasureString(s).X;
         //}
 
-        public void drawFloatingText(String arg0, int arg1, int arg2, int arg3, int arg4, int arg5)
+        public void DrawFloatingText(string text, int x, int y, int fontIndex, int colour, int maxWidth)
         {
             try
             {
                 int i = 0;
-                sbyte[] abyte0 = gameFonts[arg3];
+                sbyte[] abyte0 = gameFonts[fontIndex];
                 int k = 0;
                 int l = 0;
-                for (int i1 = 0; i1 < arg0.Length; i1++)
+                for (int i1 = 0; i1 < text.Length; i1 += 1)
                 {
-                    if (arg0[i1] == '@' && i1 + 4 < arg0.Length && arg0[i1 + 4] == '@')
+                    if (text[i1] == '@' && i1 + 4 < text.Length && text[i1 + 4] == '@')
                     {
                         i1 += 4;
                     }
                     else
-                        if (arg0[i1] == '~' && i1 + 4 < arg0.Length && arg0[i1 + 4] == '~')
+                        if (text[i1] == '~' && i1 + 4 < text.Length && text[i1 + 4] == '~')
                     {
                         i1 += 4;
                     }
                     else
                     {
-                        i += abyte0[bne[arg0[i1]] + 7];
+                        i += abyte0[characterFontOffsetTable[text[i1]] + 7];
                     }
 
-                    if (arg0[i1] == ' ')
+                    if (text[i1] == ' ')
                     {
                         l = i1;
                     }
 
-                    if (arg0[i1] == '%')
+                    if (text[i1] == '%')
                     {
                         l = i1;
                         i = 1000;
                     }
-                    if (i > arg5)
+                    if (i > maxWidth)
                     {
                         if (l <= k)
                         {
                             l = i1;
                         }
 
-                        drawText(arg0.Substring(k, l), arg1, arg2, arg3, arg4);
+                        DrawText(text.Substring(k, l), x, y, fontIndex, colour);
                         i = 0;
                         k = i1 = l + 1;
-                        arg2 += textHeightNumber(arg3);
+                        y += TextHeightNumber(fontIndex);
                     }
                 }
 
                 if (i > 0)
                 {
-                    drawText(arg0.Substring(k), arg1, arg2, arg3, arg4);
+                    DrawText(text.Substring(k), x, y, fontIndex, colour);
                     return;
                 }
             }
@@ -2720,7 +2720,7 @@ namespace OpenRS.Net.Client.Game
 
         public static List<StringDraw> stringsToDraw = [];
 
-        public void drawString(String arg0, int arg1, int arg2, int arg3, int arg4)
+        public void DrawString(string text, int x, int y, int fontIndex, int colour)
         {
             try
             {
@@ -2738,123 +2738,123 @@ namespace OpenRS.Net.Client.Game
 
                 //return;
 
-                sbyte[] abyte0 = gameFonts[arg3];
+                sbyte[] abyte0 = gameFonts[fontIndex];
                 try
                 {
-                    for (int i = 0; i < arg0.Length; i++)
+                    for (int i = 0; i < text.Length; i += 1)
                     {
-                        char currentChar = arg0[i];
+                        char currentChar = text[i];
                         int lookAheadIndex = i + 4;
-                        int textLength = arg0.Length;
-                        if (arg0[i].Equals('@') && lookAheadIndex < textLength)
+                        int textLength = text.Length;
+                        if (text[i] == '@' && lookAheadIndex < textLength)
                         {
-                            char lookAheadChar = arg0[(i + 4)];
-                            string colourCode = arg0.Substring(i + 1, 3).ToLower();
+                            char lookAheadChar = text[(i + 4)];
+                            string colourCode = text.Substring(i + 1, 3).ToLower();
                         }
-                        if (arg0[i] == '@' && i + 4 < arg0.Length && arg0[(i + 4)] == '@')
+                        if (text[i] == '@' && i + 4 < text.Length && text[(i + 4)] == '@')
                         {
-                            if (arg0.Substring(i + 1, 3).ToLower().Equals("red"))
+                            if (text.Substring(i + 1, 3).ToLower() == "red")
                             {
-                                arg4 = 0xff0000;
+                                colour = 0xff0000;
                             }
-                            else if (arg0.Substring(i + 1, 3).ToLower().Equals("lre"))
+                            else if (text.Substring(i + 1, 3).ToLower() == "lre")
                             {
-                                arg4 = 0xff9040;
+                                colour = 0xff9040;
                             }
-                            else if (arg0.Substring(i + 1, 3).ToLower().Equals("yel"))
+                            else if (text.Substring(i + 1, 3).ToLower() == "yel")
                             {
-                                arg4 = 0xffff00;
+                                colour = 0xffff00;
                             }
-                            else if (arg0.Substring(i + 1, 3).ToLower().Equals("gre"))
+                            else if (text.Substring(i + 1, 3).ToLower() == "gre")
                             {
-                                arg4 = 65280;
+                                colour = 65280;
                             }
-                            else if (arg0.Substring(i + 1, 3).ToLower().Equals("blu"))
+                            else if (text.Substring(i + 1, 3).ToLower() == "blu")
                             {
-                                arg4 = 255;
+                                colour = 255;
                             }
-                            else if (arg0.Substring(i + 1, 3).ToLower().Equals("cya"))
+                            else if (text.Substring(i + 1, 3).ToLower() == "cya")
                             {
-                                arg4 = 65535;
+                                colour = 65535;
                             }
-                            else if (arg0.Substring(i + 1, 3).ToLower().Equals("mag"))
+                            else if (text.Substring(i + 1, 3).ToLower() == "mag")
                             {
-                                arg4 = 0xff00ff;
+                                colour = 0xff00ff;
                             }
-                            else if (arg0.Substring(i + 1, 3).ToLower().Equals("whi"))
+                            else if (text.Substring(i + 1, 3).ToLower() == "whi")
                             {
-                                arg4 = 0xffffff;
+                                colour = 0xffffff;
                             }
-                            else if (arg0.Substring(i + 1, 3).ToLower().Equals("bla"))
+                            else if (text.Substring(i + 1, 3).ToLower() == "normalZ")
                             {
-                                arg4 = 0;
+                                colour = 0;
                             }
-                            else if (arg0.Substring(i + 1, 3).ToLower().Equals("dre"))
+                            else if (text.Substring(i + 1, 3).ToLower() == "dre")
                             {
-                                arg4 = 0xc00000;
+                                colour = 0xc00000;
                             }
-                            else if (arg0.Substring(i + 1, 3).ToLower().Equals("ora"))
+                            else if (text.Substring(i + 1, 3).ToLower() == "ora")
                             {
-                                arg4 = 0xff9040;
+                                colour = 0xff9040;
                             }
-                            else if (arg0.Substring(i + 1, 3).ToLower().Equals("ran"))
+                            else if (text.Substring(i + 1, 3).ToLower() == "ran")
                             {
-                                arg4 = (int)(new Random().NextDouble() * 16777215D);
+                                colour = (int)(new Random().NextDouble() * 16777215D);
                             }
-                            else if (arg0.Substring(i + 1, 3).ToLower().Equals("or1"))
+                            else if (text.Substring(i + 1, 3).ToLower() == "or1")
                             {
-                                arg4 = 0xffb000;
+                                colour = 0xffb000;
                             }
-                            else if (arg0.Substring(i + 1, 3).ToLower().Equals("or2"))
+                            else if (text.Substring(i + 1, 3).ToLower() == "or2")
                             {
-                                arg4 = 0xff7000;
+                                colour = 0xff7000;
                             }
-                            else if (arg0.Substring(i + 1, 3).ToLower().Equals("or3"))
+                            else if (text.Substring(i + 1, 3).ToLower() == "or3")
                             {
-                                arg4 = 0xff3000;
+                                colour = 0xff3000;
                             }
-                            else if (arg0.Substring(i + 1, 3).ToLower().Equals("gr1"))
+                            else if (text.Substring(i + 1, 3).ToLower() == "gr1")
                             {
-                                arg4 = 0xc0ff00;
+                                colour = 0xc0ff00;
                             }
-                            else if (arg0.Substring(i + 1, 3).ToLower().Equals("gr2"))
+                            else if (text.Substring(i + 1, 3).ToLower() == "gr2")
                             {
-                                arg4 = 0x80ff00;
+                                colour = 0x80ff00;
                             }
-                            else if (arg0.Substring(i + 1, 3).ToLower().Equals("gr3"))
+                            else if (text.Substring(i + 1, 3).ToLower() == "gr3")
                             {
-                                arg4 = 0x40ff00;
+                                colour = 0x40ff00;
                             }
 
                             i += 3;
                             continue;
                         }
-                        else if (arg0[i] == '~' && i + 4 < arg0.Length && arg0[i + 4] == '~')
+                        else if (text[i] == '~' && i + 4 < text.Length && text[i + 4] == '~')
                         {
-                            char c = arg0[i + 1];
-                            char c1 = arg0[i + 2];
-                            char c2 = arg0[i + 3];
+                            char c = text[i + 1];
+                            char c1 = text[i + 2];
+                            char c2 = text[i + 3];
                             if (c >= '0' && c <= '9' && c1 >= '0' && c1 <= '9' && c2 >= '0' && c2 <= '9')
                             {
-                                arg1 = int.Parse(arg0.Substring(i + 1, i + 4));
+                                x = int.Parse(text.Substring(i + 1, i + 4));
                             }
 
                             i += 3;
-                        } else if (arg0[i] != '@' && arg0[i] != '~')
+                        } else if (text[i] != '@' && text[i] != '~')
                         {
-                            int k = bne[arg0[i]];
-                            if (loggedIn && !cac[arg3] && arg4 != 0)
+                            int k = characterFontOffsetTable[text[i]];
+                            if (loggedIn && !fontShadowEnabled[fontIndex] && colour != 0)
                             {
-                                cea(k, arg1 + 1, arg2, 0, abyte0, cac[arg3]);
+                                UnpackSpriteRow(k, x + 1, y, 0, abyte0, fontShadowEnabled[fontIndex]);
                             }
 
-                            if (loggedIn && !cac[arg3] && arg4 != 0)
+                            if (loggedIn && !fontShadowEnabled[fontIndex] && colour != 0)
                             {
-                                cea(k, arg1, arg2 + 1, 0, abyte0, cac[arg3]);
+                                UnpackSpriteRow(k, x, y + 1, 0, abyte0, fontShadowEnabled[fontIndex]);
                             }
 
-                            cea(k, arg1, arg2, arg4, abyte0, cac[arg3]);
-                            arg1 += abyte0[k + 7];
+                            UnpackSpriteRow(k, x, y, colour, abyte0, fontShadowEnabled[fontIndex]);
+                            x += abyte0[k + 7];
                         }
                     }
                 }
@@ -2889,13 +2889,13 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        private void cea(int i, int k, int l, int i1, sbyte[] abyte0, bool flag)
+        private void UnpackSpriteRow(int charOffset, int x, int y, int colour, sbyte[] fontData, bool useShadow)
         {
-            int j1 = k + abyte0[i + 5];
-            int k1 = l - abyte0[i + 6];
-            int l1 = abyte0[i + 3];
-            int i2 = abyte0[i + 4];
-            int j2 = abyte0[i] * 16384 + abyte0[i + 1] * 128 + abyte0[i + 2];
+            int j1 = x + fontData[charOffset + 5];
+            int k1 = y - fontData[charOffset + 6];
+            int l1 = fontData[charOffset + 3];
+            int i2 = fontData[charOffset + 4];
+            int j2 = fontData[charOffset] * 16384 + fontData[charOffset + 1] * 128 + fontData[charOffset + 2];
             int k2 = j1 + k1 * gameWidth;
             int l2 = gameWidth - l1;
             int i3 = 0;
@@ -2931,77 +2931,77 @@ namespace OpenRS.Net.Client.Game
             }
             if (l1 > 0 && i2 > 0)
             {
-                if (flag)
+                if (useShadow)
                 {
-                    cec(ref pixels, abyte0, i1, j2, k2, l1, i2, l2, i3);
+                    DrawCharacterRow(ref pixels, fontData, colour, j2, k2, l1, i2, l2, i3);
                     return;
                 }
-                PlotLetter(ref pixels, abyte0, i1, j2, k2, l1, i2, l2, i3);
+                PlotLetter(ref pixels, fontData, colour, j2, k2, l1, i2, l2, i3);
             }
         }
 
-        private void PlotLetter(ref int[] _pixels, sbyte[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7, int arg8)
+        private void PlotLetter(ref int[] screenPixels, sbyte[] fontData, int colour, int glyphOffset, int pixelOffset, int glyphWidth, int glyphHeight,
+                int screenStride, int fontStride)
         {
             try
             {
-                int i = -(arg5 >> 2);
-                arg5 = -(arg5 & 3);
-                for (int k = -arg6; k < 0; k++)
+                int i = -(glyphWidth >> 2);
+                glyphWidth = -(glyphWidth & 3);
+                for (int k = -glyphHeight; k < 0; k += 1)
                 {
-                    for (int l = i; l < 0; l++)
+                    for (int l = i; l < 0; l += 1)
                     {
-                        if (arg1[arg3++] != 0)
+                        if (fontData[glyphOffset++] != 0)
                         {
-                            _pixels[arg4++] = arg2;
+                            screenPixels[pixelOffset++] = colour;
                         }
                         else
                         {
-                            arg4 += 1;
+                            pixelOffset += 1;
                         }
 
-                        if (arg1[arg3++] != 0)
+                        if (fontData[glyphOffset++] != 0)
                         {
-                            _pixels[arg4++] = arg2;
+                            screenPixels[pixelOffset++] = colour;
                         }
                         else
                         {
-                            arg4 += 1;
+                            pixelOffset += 1;
                         }
 
-                        if (arg1[arg3++] != 0)
+                        if (fontData[glyphOffset++] != 0)
                         {
-                            _pixels[arg4++] = arg2;
+                            screenPixels[pixelOffset++] = colour;
                         }
                         else
                         {
-                            arg4 += 1;
+                            pixelOffset += 1;
                         }
 
-                        if (arg1[arg3++] != 0)
+                        if (fontData[glyphOffset++] != 0)
                         {
-                            _pixels[arg4++] = arg2;
+                            screenPixels[pixelOffset++] = colour;
                         }
                         else
                         {
-                            arg4 += 1;
+                            pixelOffset += 1;
                         }
                     }
 
-                    for (int i1 = arg5; i1 < 0; i1++)
+                    for (int i1 = glyphWidth; i1 < 0; i1 += 1)
                     {
-                        if (arg1[arg3++] != 0)
+                        if (fontData[glyphOffset++] != 0)
                         {
-                            _pixels[arg4++] = arg2;
+                            screenPixels[pixelOffset++] = colour;
                         }
                         else
                         {
-                            arg4 += 1;
+                            pixelOffset += 1;
                         }
                     }
 
-                    arg4 += arg7;
-                    arg3 += arg8;
+                    pixelOffset += screenStride;
+                    glyphOffset += fontStride;
                 }
 
                 return;
@@ -3014,39 +3014,39 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        private void cec(ref int[] arg0, sbyte[] arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7, int arg8)
+        private void DrawCharacterRow(ref int[] pixels, sbyte[] fontData, int colour, int glyphOffset, int pixelOffset, int glyphWidth, int glyphHeight,
+                int screenStride, int fontStride)
         {
-            for (int i = -arg6; i < 0; i++)
+            for (int i = -glyphHeight; i < 0; i += 1)
             {
-                for (int k = -arg5; k < 0; k++)
+                for (int k = -glyphWidth; k < 0; k += 1)
                 {
-                    int l = arg1[arg3++] & 0xff;
+                    int l = fontData[glyphOffset++] & 0xff;
                     if (l > 30)
                     {
                         if (l >= 230)
                         {
-                            arg0[arg4++] = arg2;
+                            pixels[pixelOffset++] = colour;
                         }
                         else
                         {
-                            int i1 = arg0[arg4];
-                            arg0[arg4++] = (int)(((arg2 & 0xff00ff) * l + (i1 & 0xff00ff) * (256 - l) & 0xff00ff00) + ((arg2 & 0xff00) * l + (i1 & 0xff00) * (256 - l) & 0xff0000) >> 8);
+                            int i1 = pixels[pixelOffset];
+                            pixels[pixelOffset++] = (int)(((colour & 0xff00ff) * l + (i1 & 0xff00ff) * (256 - l) & 0xff00ff00) + ((colour & 0xff00) * l + (i1 & 0xff00) * (256 - l) & 0xff0000) >> 8);
                         }
                     }
                     else
                     {
-                        arg4 += 1;
+                        pixelOffset += 1;
                     }
                 }
 
-                arg4 += arg7;
-                arg3 += arg8;
+                pixelOffset += screenStride;
+                glyphOffset += fontStride;
             }
 
         }
 
-        public int textHeightNumber(int i)
+        public int TextHeightNumber(int i)
         {
             //return (int)GameClient.gameFont12.MeasureString("A").Y;
 
@@ -3091,11 +3091,11 @@ namespace OpenRS.Net.Client.Game
             }
             else
             {
-                return cee(i);
+                return GetCharacterWidth(i);
             }
         }
 
-        public int cee(int i)
+        public int GetCharacterWidth(int i)
         {
             if (i == 0)
             {
@@ -3107,24 +3107,24 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public int textWidth(String arg0, int arg1)
+        public int TextWidth(string text, int fontIndex)
         {
             int i = 0;
-            sbyte[] abyte0 = gameFonts[arg1];
-            for (int k = 0; k < arg0.Length; k++)
+            sbyte[] abyte0 = gameFonts[fontIndex];
+            for (int k = 0; k < text.Length; k += 1)
             {
-                if (arg0[k] == '@' && k + 4 < arg0.Length && arg0[k + 4] == '@')
+                if (text[k] == '@' && k + 4 < text.Length && text[k + 4] == '@')
                 {
                     k += 4;
                 }
                 else
-                    if (arg0[k] == '~' && k + 4 < arg0.Length && arg0[k + 4] == '~')
+                    if (text[k] == '~' && k + 4 < text.Length && text[k + 4] == '~')
                 {
                     k += 4;
                 }
                 else
                 {
-                    i += abyte0[bne[arg0[k]] + 7];
+                    i += abyte0[characterFontOffsetTable[text[k]] + 7];
                 }
             }
 
@@ -3134,19 +3134,19 @@ namespace OpenRS.Net.Client.Game
         }
 
 
-        public void drawPixels(int[][] pixels, int drawx, int drawy, int width, int height)
+        public void DrawPixels(int[][] pixels, int drawx, int drawy, int width, int height)
         {
 
-            for (int x = drawx; x < drawx + width; x++)
+            for (int x = drawx; x < drawx + width; x += 1)
             {
-                for (int y = drawy; y < drawy + height; y++)
+                for (int y = drawy; y < drawy + height; y += 1)
                 {
                     this.pixels[x + y * gameWidth] = pixels[x - drawx][y - drawy];
                 }
             }
         }
 
-        public static int addFont(sbyte[] bytes)
+        public static int AddFont(sbyte[] bytes)
         {
             gameFonts[currentFont] = bytes;
             currentFont += 1;
@@ -3178,7 +3178,7 @@ namespace OpenRS.Net.Client.Game
         private int imageWidth;
         public bool interlace;
         private static sbyte[][] gameFonts = new sbyte[50][];
-        private static int[] bne;
+        private static int[] characterFontOffsetTable;
         public bool loggedIn;
 
         public bool IsLoggedIn
@@ -3188,27 +3188,24 @@ namespace OpenRS.Net.Client.Game
         }
 
         public Size2D GameSize => new(gameWidth, gameHeight);
-        public int[] bng;
-        public int[] bnh;
-        public int[] bni;
-        public int[] bnj;
-        public int[] bnk;
-        public int[] bnl;
-        public int[] bnm;
-        public static int bnn;
-        public static int caa;
-        public static int cab;
-        private static bool[] cac = new bool[12];
-        private static int cad;
-        private static sbyte[] cae = new sbyte[0x186a0];
-        public static int caf;
+        public int[] characterRotationTable;
+        public int[] entityScanlineMinX;
+        public int[] entityScanlineMaxX;
+        public int[] entityScanlineMinValue;
+        public int[] entityScanlineMaxValue;
+        public int[] entityScanlineMinExtra;
+        public int[] entityScanlineMaxExtra;
+        public static int spiralDrawCount;
+        public static int characterDrawCount;
+        public static int lastCharacterRotation;
+        private static bool[] fontShadowEnabled = new bool[12];
         private static int currentFont;
 
         static GameImage()
         {
-            String s = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
-            bne = new int[256];
-            for (int i = 0; i < 256; i++)
+            string s = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
+            characterFontOffsetTable = new int[256];
+            for (int i = 0; i < 256; i += 1)
             {
                 int k = s.IndexOf((char)i);
                 if (k == -1)
@@ -3216,7 +3213,7 @@ namespace OpenRS.Net.Client.Game
                     k = 74;
                 }
 
-                bne[i] = k * 9;
+                characterFontOffsetTable[i] = k * 9;
             }
 
         }
@@ -3228,7 +3225,7 @@ namespace OpenRS.Net.Client.Game
     public sealed class StringDraw
     {
         public string text { get; set; }
-        public Vector2 pos { get; set; }
+        public Vector2 drawPosition { get; set; }
 
         public Color forecolor = new(255, 0, 0, 255);
 

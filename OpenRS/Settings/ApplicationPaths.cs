@@ -38,7 +38,6 @@ namespace OpenRS.Settings
                 return Path.Combine(localAppData, "OpenRS");
             }
         }
-
         /// <summary>
         /// The configuration directory.
         /// </summary>

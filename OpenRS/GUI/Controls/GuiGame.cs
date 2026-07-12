@@ -109,7 +109,7 @@ namespace OpenRS.Gui.Controls
 
                     uint[] colors = new uint[client.gameGraphics.pixels.Length];
 
-                    for (int pixelIndex = 0; pixelIndex < client.gameGraphics.pixels.Length; pixelIndex++)
+                    for (int pixelIndex = 0; pixelIndex < client.gameGraphics.pixels.Length; pixelIndex += 1)
                     {
                         byte[] pixelBytes = BitConverter.GetBytes(client.gameGraphics.pixels[pixelIndex]);
                         byte redChannel = pixelBytes[2];
@@ -188,19 +188,19 @@ namespace OpenRS.Gui.Controls
 
         private static bool DrawGameClient(GameClient client)
         {
-            client.paint();
+            client.Paint();
 
             try
             {
                 if (!client.loggedIn)
                 {
                     client.gameGraphics.IsLoggedIn = false;
-                    client.drawLoginScreens();
+                    client.DrawLoginScreens();
                 }
                 else
                 {
                     client.gameGraphics.IsLoggedIn = true;
-                    client.drawGame();
+                    client.DrawGame();
 
                     return true;
                 }

@@ -4,12 +4,12 @@
     {
         public AudioReader()
         {
-           // AudioPlayer.player.start(this);
+            // AudioPlayer.player.start(this);
         }
 
         public void Stop()
         {
-          //  AudioPlayer.player.stop(this);
+            // AudioPlayer.player.stop(this);
         }
 
         public void Play(sbyte[] audioData, int startOffset, int byteCount)

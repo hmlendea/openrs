@@ -56,66 +56,66 @@ namespace OpenRS
             xTranslate = yTranslate = zTranslate = 0.0F;
         }
 
-        public void addFace(Face face)
+        public void AddFace(Face face)
         {
             faces.Add(face);
         }
 
-        public Face getFace(int i)
+        public Face GetFace(int i)
         {
             return faces[i];
         }
 
-        public Face removeFace(int i)
+        public Face RemoveFace(int i)
         {
             Face face = faces[i];
             faces.Remove(face);
             return face;
         }
 
-        public List<Face> getFaces()
+        public List<Face> GetFaces()
         {
             return faces;
         }
 
-        public void addVert(Vertex vertex)
+        public void AddVert(Vertex vertex)
         {
             vertices.Add(vertex);
         }
 
-        public Vertex removeVert(int i)
+        public Vertex RemoveVertex(int i)
         {
             Vertex vertex2 = vertices[i];
             vertices.Remove(vertex2);
             return vertex2;
         }
 
-        public Vertex getVert(int i)
+        public Vertex GetVertex(int i)
         {
             return vertices[i];
         }
 
-        public List<Vertex> getVertices()
+        public List<Vertex> GetVertices()
         {
             return vertices;
         }
 
-        public void setVertices(List<Vertex> vertices)
+        public void SetVertices(List<Vertex> vertices)
         {
             this.vertices = vertices;
         }
 
-        public void setFaces(List<Face> faces)
+        public void SetFaces(List<Face> faces)
         {
             this.faces = faces;
         }
 
-        public float getXRot()
+        public float GetXRot()
         {
             return xRot;
         }
 
-        public void setXRot(float xRot)
+        public void SetXRot(float xRot)
         {
             if (xRot > 360F)
             {
@@ -129,12 +129,12 @@ namespace OpenRS
             this.xRot = xRot;
         }
 
-        public float getYRot()
+        public float GetYRot()
         {
             return yRot;
         }
 
-        public void setYRot(float yRot)
+        public void SetYRot(float yRot)
         {
             if (yRot > 360F)
             {
@@ -148,12 +148,12 @@ namespace OpenRS
             this.yRot = yRot;
         }
 
-        public float getZRot()
+        public float GetZRot()
         {
             return zRot;
         }
 
-        public void setZRot(float zRot)
+        public void SetZRot(float zRot)
         {
             if (zRot > 360F)
             {
@@ -167,79 +167,79 @@ namespace OpenRS
             this.zRot = zRot;
         }
 
-        public float getXScale()
+        public float GetXScale()
         {
             return xScale;
         }
 
-        public void setXScale(float xScale)
+        public void SetXScale(float xScale)
         {
             this.xScale = xScale;
         }
 
-        public float getYScale()
+        public float GetYScale()
         {
             return yScale;
         }
 
-        public void setYScale(float yScale)
+        public void SetYScale(float yScale)
         {
             this.yScale = yScale;
         }
 
-        public float getZScale()
+        public float GetZScale()
         {
             return zScale;
         }
 
-        public void setZScale(float zScale)
+        public void SetZScale(float zScale)
         {
             this.zScale = zScale;
         }
 
-        public void setScale(float scale)
+        public void SetScale(float scale)
         {
-            setXScale(scale);
-            setYScale(scale);
-            setZScale(scale);
+            SetXScale(scale);
+            SetYScale(scale);
+            SetZScale(scale);
         }
 
-        public float getXTranslate()
+        public float GetXTranslate()
         {
             return xTranslate;
         }
 
-        public void setXTranslate(float xTranslate)
+        public void SetXTranslate(float xTranslate)
         {
             this.xTranslate = xTranslate;
         }
 
-        public float getYTranslate()
+        public float GetYTranslate()
         {
             return yTranslate;
         }
 
-        public void setYTranslate(float yTranslate)
+        public void SetYTranslate(float yTranslate)
         {
             this.yTranslate = yTranslate;
         }
 
-        public float getZTranslate()
+        public float GetZTranslate()
         {
             return zTranslate;
         }
 
-        public void setZTranslate(float zTranslate)
+        public void SetZTranslate(float zTranslate)
         {
             this.zTranslate = zTranslate;
         }
 
-        public void setNumTextures(int numTextures)
+        public void SetNumTextures(int numTextures)
         {
             this.numTextures = numTextures;
         }
 
-        public int getNumTextures()
+        public int GetNumTextures()
         {
             return numTextures;
         }

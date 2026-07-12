@@ -65,7 +65,7 @@ namespace OpenRS.Gui.Controls
 
         public void AddMessage(string message)
         {
-            for (int i = 0; i < messageRows.Count - 1; i++)
+            for (int i = 0; i < messageRows.Count - 1; i += 1)
             {
                 messageRows[i].Text = messageRows[i + 1].Text;
             }
@@ -101,7 +101,7 @@ namespace OpenRS.Gui.Controls
 
             // Update the properties of
             int y = Size.Height - MessageHeight;
-            for (int i = messageRows.Count - 1; i >= 0; i--)
+            for (int i = messageRows.Count - 1; i >= 0; i -= 1)
             {
                 GuiText message = messageRows[i];
 

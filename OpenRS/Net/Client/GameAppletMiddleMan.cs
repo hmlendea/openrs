@@ -12,25 +12,25 @@ namespace OpenRS.Net.Client
 {
     public class GameAppletMiddleMan : GameApplet
     {
-        public static Random ran = new();
+        public static Random random = new();
         private static bool isConnecting = false;
         private Thread connectionThread;
-        public void connect(String user, String pass, bool reconnecting)
+        public void Connect(string username, string password, bool isReconnecting)
         {
             if (isConnecting)
             {
-                isConnecting = !reconnecting;
+                isConnecting = !isReconnecting;
             }
 
             if (socketTimeout > 0)
             {
-                loginScreenPrint("Please wait...", "Connecting to server");
+                LoginScreenPrint("Please wait...", "Connecting to server");
                 try
                 {
                     Thread.Sleep(2000);
                 }
-                catch (Exception _ex) { }
-                loginScreenPrint("Sorry! The server is currently full.", "Please try again later");
+                catch (Exception) { }
+                LoginScreenPrint("Sorry! The server is currently full.", "Please try again later");
                 return;
             }
             try
@@ -42,8 +42,8 @@ namespace OpenRS.Net.Client
 
                 isConnecting = true;
 
-                username = user;
-                password = pass;
+                this.username = username;
+                this.password = password;
 
                 connectionThread = new Thread(new ThreadStart(DoConnect));
                 connectionThread.Start();
@@ -62,51 +62,50 @@ namespace OpenRS.Net.Client
 
         private void DoConnect()
         {
-            //username = user;
             string formattedUsername = DataOperations.FormatString(username, 20);
-            // password = pass;
             string formattedPassword = DataOperations.FormatString(password, 20);
-            if (formattedUsername.Trim().Length.Equals(0))
+
+            if (formattedUsername.Trim().Length == 0)
             {
-                loginScreenPrint("You must enter both a username", "and a password - Please try again");
+                LoginScreenPrint("You must enter both a username", "and a password - Please try again");
                 return;
             }
             if (reconnecting)
             {
-                gameBoxPrint("Connection lost! Please wait...", "Attempting to re-establish");
+                GameBoxPrint("Connection lost! Please wait...", "Attempting to re-establish");
             }
             else
             {
-                loginScreenPrint("Please wait...", "Connecting to server");
+                LoginScreenPrint("Please wait...", "Connecting to server");
             }
             try
             {
-                streamClass = new StreamClass(makeSocket(Config.ServerIp, Config.ServerPort), this);
+                streamClass = new StreamClass(MakeSocket(Config.ServerIp, Config.ServerPort), this);
             }
             catch (System.Net.Sockets.SocketException ex)
             {
-                loginScreenPrint("Unable to connect.", ex.Message);
+                LoginScreenPrint("Unable to Connect.", ex.Message);
                 return;
             }
             streamClass.maxPacketReadCount = maxPacketReadCount;
 
 
             long l = DataOperations.NameToHash(formattedUsername);
-            streamClass.createPacket(32);
-            streamClass.addByte((int)(l >> 16 & 31L));
-            streamClass.addString("Shinigami");// TODO not used server-side
-            streamClass.flush();
+            streamClass.CreatePacket(32);
+            streamClass.AddByte((int)(l >> 16 & 31L));
+            streamClass.AddString("Shinigami");// TODO not used server-side
+            streamClass.Flush();
 
             long sessionId;
             try
             {
-                sessionId = streamClass.readLong();
+                sessionId = streamClass.ReadLong();
             }
             catch (Exception ex)
             {
-                loginScreenPrint("Unable to connect.", "Server timed out");
+                LoginScreenPrint("Unable to Connect.", "Server timed out");
                 Console.WriteLine(ex);
-                streamClass.closeStream();
+                streamClass.CloseStream();
                 return;
             }
 
@@ -114,7 +113,7 @@ namespace OpenRS.Net.Client
 
             if (sessionId == 0L)
             {
-                //     loginScreenPrint("Login server offline.", "Please try again in a few mins");
+                //     LoginScreenPrint("Login server offline.", "Please try again in a few mins");
                 //     return;
             }
             Console.WriteLine("Verb: Session id: " + sessionId);
@@ -126,35 +125,35 @@ namespace OpenRS.Net.Client
                 (int)sessionId,
             ];
             LoginEncryptor loginEncryptor = new(new byte[500]);
-            loginEncryptor.addInt(sessionKeys[0]);
-            loginEncryptor.addInt(sessionKeys[1]);
-            loginEncryptor.addInt(sessionKeys[2]);
-            loginEncryptor.addInt(sessionKeys[3]);
-            loginEncryptor.addInt(0);
-            loginEncryptor.addString(formattedUsername);
-            loginEncryptor.addString(formattedPassword);
-            loginEncryptor.encryptPacket(RsaKey, RsaModulus);
-            streamClass.createPacket(0);
+            loginEncryptor.AddInt(sessionKeys[0]);
+            loginEncryptor.AddInt(sessionKeys[1]);
+            loginEncryptor.AddInt(sessionKeys[2]);
+            loginEncryptor.AddInt(sessionKeys[3]);
+            loginEncryptor.AddInt(0);
+            loginEncryptor.AddString(formattedUsername);
+            loginEncryptor.AddString(formattedPassword);
+            loginEncryptor.EncryptPacket(RsaKey, RsaModulus);
+            streamClass.CreatePacket(0);
             if (reconnecting)
             {
-                streamClass.addByte(1);
+                streamClass.AddByte(1);
             }
             else
             {
-                streamClass.addByte(0);
+                streamClass.AddByte(0);
             }
-            streamClass.addShort(Config.ClientVersion);
-            streamClass.addBytes(loginEncryptor.packet, 0, loginEncryptor.offset);
-            streamClass.flush();
+            streamClass.AddShort(Config.ClientVersion);
+            streamClass.AddBytes(loginEncryptor.packet, 0, loginEncryptor.offset);
+            streamClass.Flush();
             int loginCode;
             try
             {
-                loginCode = streamClass.read();
+                loginCode = streamClass.Read();
             }
             catch (Exception)
             {
-                loginScreenPrint("Unable to connect.", "Server timed out");
-                streamClass.closeStream();
+                LoginScreenPrint("Unable to Connect.", "Server timed out");
+                streamClass.CloseStream();
                 return;
             }
             Console.WriteLine("login response:" + loginCode);
@@ -164,13 +163,13 @@ namespace OpenRS.Net.Client
             if (loginCode == 99)
             {
                 reconnectTries = 0;
-                initVars();
+                InitVars();
                 return;
             }
             if (loginCode == 0)
             {
                 reconnectTries = 0;
-                initVars();
+                InitVars();
                 return;
             }
             if (loginCode == 1)
@@ -182,57 +181,57 @@ namespace OpenRS.Net.Client
             {
                 username = "";
                 password = "";
-                resetIntVars();
+                ResetIntVars();
                 return;
             }
             if (loginCode == -1)
             {
-                loginScreenPrint("Error unable to login.", "Server timed out");
+                LoginScreenPrint("Error unable to login.", "Server timed out");
                 return;
             }
             if (loginCode == 2)
             {
-                loginScreenPrint("Invalid username or password.", "Try again, or create a new account");
+                LoginScreenPrint("Invalid username or password.", "Try again, or create a new account");
                 return;
             }
             if (loginCode == 3)
             {
-                loginScreenPrint("That username is already logged in.", "Wait 60 seconds then retry");
+                LoginScreenPrint("That username is already logged in.", "Wait 60 seconds then retry");
                 return;
             }
             if (loginCode == 4)
             {
-                loginScreenPrint("The client has been updated.", "Please restart the client");
+                LoginScreenPrint("The client has been updated.", "Please restart the client");
                 return;
             }
             if (loginCode == 5)
             {
-                loginScreenPrint("Error unable to login.", "Please retry");
+                LoginScreenPrint("Error unable to login.", "Please retry");
                 return;
             }
             if (loginCode == 6)
             {
-                loginScreenPrint("Account banned.", "Appeal on the forums, ASAP.");
+                LoginScreenPrint("Account banned.", "Appeal on the forums, ASAP.");
                 return;
             }
             if (loginCode == 7)
             {
-                loginScreenPrint("Error - failed to decode profile.", "Contact an admin!");
+                LoginScreenPrint("Error - failed to decode profile.", "Contact an admin!");
                 return;
             }
             if (loginCode == 8)
             {
-                loginScreenPrint("Too many connections from your IP.", "Please try again later");
+                LoginScreenPrint("Too many connections from your IP.", "Please try again later");
                 return;
             }
             if (loginCode == 9)
             {
-                loginScreenPrint("Account already in use.", "You may only login to one character at a time");
+                LoginScreenPrint("Account already in use.", "You may only login to one character at a time");
                 return;
             }
             else
             {
-                loginScreenPrint("Error unable to login.", "Unrecognised response code");
+                LoginScreenPrint("Error unable to login.", "Unrecognised response code");
                 return;
             }
 
@@ -242,145 +241,140 @@ namespace OpenRS.Net.Client
                 {
                     Thread.Sleep(2500);
                 }
-                catch (Exception _ex) { }
-                reconnectTries--;
-                connect(username, password, reconnecting);
+                catch (Exception) { }
+
+                reconnectTries -= 1;
+                Connect(username, password, reconnecting);
             }
-            if (reconnecting)
-            {
-                username = "";
-                password = "";
-                resetIntVars();
-            }
-            else
-            {
-                loginScreenPrint("Sorry! Unable to connect.", "Check internet settings or try another world");
-            }
+
+            username = "";
+            password = "";
+            ResetIntVars();
+            LoginScreenPrint("Please enter your usename and password", "");
         }
 
-        protected void requestLogout()
+        protected void RequestLogout()
         {
             if (streamClass is not null)
             {
                 try
                 {
-                    streamClass.createPacket(39);
-                    streamClass.flush();
+                    streamClass.CreatePacket(39);
+                    streamClass.Flush();
                 }
-                catch (IOException _ex) { }
+                catch (IOException) { }
             }
 
             username = "";
             password = "";
-            resetIntVars();
-            loginScreenPrint("Please enter your usename and password", "");
+            ResetIntVars();
+            LoginScreenPrint("Please enter your usename and password", "");
         }
 
-        public virtual void lostConnection()
+        public virtual void LostConnection()
         {
             Console.WriteLine("Lost connection");
-            //connect(username, password, true);
-            loginScreenPrint("Please enter your usename and password", "");
+            // Connect(username, password, true);
+            LoginScreenPrint("Please enter your usename and password", "");
         }
 
-        protected void gameBoxPrint(String s1, String s2)
+        protected void GameBoxPrint(string firstLine, string secondLine)
         {
-
-            //Font font = new Font("Helvetica", 1, 15);
-            char c = '\u0200';
-            char c1 = '\u0158';
-            // g.setColor(Color.Black);
-
-            //g.fillRect(c / 2 - 140, c1 / 2 - 25, 280, 50, Color.Black);
-
-            //g.setColor(Color.White);
-            //g.drawRect(c / 2 - 140, c1 / 2 - 25, 280, 50, Color.White);
-            //drawString(s1/*, font*/, c / 2, c1 / 2 - 10, Color.White);
-            //drawString(s2/*, font*/, c / 2, c1 / 2 + 10, Color.White);
+            // Font font = new Font("Helvetica", 1, 15);
+            char windowWidth = '\u0200';
+            char windowHeight = '\u0158';
+            // g.SetColor(Color.Black);
+            // g.FillRect(c / 2 - 140, c1 / 2 - 25, 280, 50, Color.Black);
+            // g.SetColor(Color.White);
+            // g.DrawRect(c / 2 - 140, c1 / 2 - 25, 280, 50, Color.White);
+            // drawString(s1, c / 2, c1 / 2 - 10, Color.White);
+            // drawString(s2, c / 2, c1 / 2 + 10, Color.White);
         }
 
-        protected void sendPingPacket()
+        protected void SendPingPacket()
         {
-            long l = CurrentTimeMillis();
-            if (streamClass.hasData())
+            long currentTime = CurrentTimeMillis();
+
+            if (streamClass.HasData())
             {
-                lastPing = l;
+                lastPing = currentTime;
             }
 
-            if (l - lastPing > 5000L)
+            if (currentTime - lastPing > 5000L)
             {
-                lastPing = l;
-                streamClass.createPacket(5);
-                streamClass.formatPacket();
+                lastPing = currentTime;
+                streamClass.CreatePacket(5);
+                streamClass.FormatPacket();
             }
             try
             {
-                streamClass.writePacket(20);
+                streamClass.WritePacket(20);
             }
             catch (IOException _ex)
             {
-                lostConnection();
+                LostConnection();
                 return;
             }
-            int packetLength = streamClass.readPacket(packetData);
+            int packetLength = streamClass.ReadPacket(packetData);
             if (packetLength > 0)
             {
-                handlePacket(packetData[0] & 0xff, packetLength);
+                HandlePacket(packetData[0] & 0xff, packetLength);
             }
         }
 
-        public virtual void handlePacket(int command, int length)
+        public virtual void HandlePacket(int command, int length)
         {
             if (command == 48)
             {
                 string displayText = Encoding.UTF8.GetString((byte[])(Array)packetData, 1, length - 1);
-                //String s1 = new String(packetData, 1, length - 1);
-                displayMessage(displayText);
+                //string s1 = new String(packetData, 1, length - 1);
+                DisplayMessage(displayText);
                 return;
             }
             if (command == 222)
             {
-                requestLogout();
+                RequestLogout();
                 return;
             }
             if (command == 136)
             {
-                cantLogout();
+                CantLogout();
                 return;
             }
             if (command == 249)
             {
                 friendsCount = DataOperations.GetByte((sbyte)packetData[1]);
-                for (int i = 0; i < friendsCount; i++)
+                for (int friendIndex = 0; friendIndex < friendsCount; friendIndex += 1)
                 {
-                    friendsList[i] = DataOperations.GetLong(packetData, 2 + i * 9);
-                    friendsWorld[i] = DataOperations.GetByte(packetData[10 + i * 9]);
+                    friendsList[friendIndex] = DataOperations.GetLong(packetData, 2 + friendIndex * 9);
+                    friendsWorld[friendIndex] = DataOperations.GetByte(packetData[10 + friendIndex * 9]);
                 }
 
-                reOrderFriendsList();
+                ReOrderFriendsList();
                 return;
             }
             if (command == 25)
             {
                 long friend = DataOperations.GetLong(packetData, 1);
                 int status = packetData[9] & 0xff;
-                for (int j1 = 0; j1 < friendsCount; j1++)
+                for (int friendIndex = 0; friendIndex < friendsCount; friendIndex += 1)
                 {
-                    if (friendsList[j1] == friend)
+                    if (friendsList[friendIndex] == friend)
                     {
-                        if (friendsWorld[j1] == 0 && status != 0)
+                        if (friendsWorld[friendIndex] == 0 && status != 0)
                         {
-                            displayMessage("@pri@" + DataOperations.HashToName(friend) + " has logged in");
+                            DisplayMessage("@pri@" + DataOperations.HashToName(friend) + " has logged in");
                         }
 
-                        if (friendsWorld[j1] != 0 && status == 0)
+                        if (friendsWorld[friendIndex] != 0 && status == 0)
                         {
-                            displayMessage("@pri@" + DataOperations.HashToName(friend) + " has logged out");
+                            DisplayMessage("@pri@" + DataOperations.HashToName(friend) + " has logged out");
                         }
 
-                        friendsWorld[j1] = status;
+                        friendsWorld[friendIndex] = status;
                         length = 0;
-                        reOrderFriendsList();
+                        ReOrderFriendsList();
+
                         return;
                     }
                 }
@@ -388,15 +382,15 @@ namespace OpenRS.Net.Client
                 friendsList[friendsCount] = friend;
                 friendsWorld[friendsCount] = status;
                 friendsCount += 1;
-                reOrderFriendsList();
+                ReOrderFriendsList();
                 return;
             }
             if (command == 2)
             {
                 ignoresCount = DataOperations.GetByte(packetData[1]);
-                for (int j = 0; j < ignoresCount; j++)
+                for (int ignoreIndex = 0; ignoreIndex < ignoresCount; ignoreIndex += 1)
                 {
-                    ignoresList[j] = DataOperations.GetLong(packetData, 2 + j * 8);
+                    ignoresList[ignoreIndex] = DataOperations.GetLong(packetData, 2 + ignoreIndex * 8);
                 }
 
                 return;
@@ -411,16 +405,16 @@ namespace OpenRS.Net.Client
             }
             if (command == 170)
             {
-                long l1 = DataOperations.GetLong(packetData, 1);
-                String s = ChatMessage.bytesToString(packetData, 9, length - 9);
-                displayMessage("@pri@" + DataOperations.HashToName(l1) + ": tells you " + s);
+                long senderHash = DataOperations.GetLong(packetData, 1);
+                string messageText = ChatMessage.BytesToString(packetData, 9, length - 9);
+                DisplayMessage("@pri@" + DataOperations.HashToName(senderHash) + ": tells you " + messageText);
                 return;
             }
             if (command == 211)
             {// TODO remove?
-                streamClass.createPacket(69);
-                streamClass.addByte(0);// scar.exe, etc
-                streamClass.formatPacket();
+                streamClass.CreatePacket(69);
+                streamClass.AddByte(0);// scar.exe, etc
+                streamClass.FormatPacket();
                 return;
             }
             if (command == 1)
@@ -429,50 +423,53 @@ namespace OpenRS.Net.Client
                 //redPoints
                 return;
             }
-            handlePacket(command, length, packetData);
+            HandlePacket(command, length, packetData);
         }
 
-        private void reOrderFriendsList()
+        private void ReOrderFriendsList()
         {
-            bool flag = true;
-            while (flag)
+            bool hasSwapped = true;
+
+            while (hasSwapped)
             {
-                flag = false;
-                for (int i = 0; i < friendsCount - 1; i++)
+                hasSwapped = false;
+
+                for (int friendIndex = 0; friendIndex < friendsCount - 1; friendIndex += 1)
                 {
-                    if (friendsWorld[i] < friendsWorld[i + 1])
+                    if (friendsWorld[friendIndex] < friendsWorld[friendIndex + 1])
                     {
-                        int j = friendsWorld[i];
-                        friendsWorld[i] = friendsWorld[i + 1];
-                        friendsWorld[i + 1] = j;
-                        long l = friendsList[i];
-                        friendsList[i] = friendsList[i + 1];
-                        friendsList[i + 1] = l;
-                        flag = true;
+                        int tempWorld = friendsWorld[friendIndex];
+                        friendsWorld[friendIndex] = friendsWorld[friendIndex + 1];
+                        friendsWorld[friendIndex + 1] = tempWorld;
+                        long tempFriend = friendsList[friendIndex];
+                        friendsList[friendIndex] = friendsList[friendIndex + 1];
+                        friendsList[friendIndex + 1] = tempFriend;
+                        hasSwapped = true;
                     }
                 }
             }
         }
 
-        protected void sendUpdatedPrivacyInfo(int blockChat, int blockPrivate, int blockTrade, int blockDuel)
+        protected void SendUpdatedPrivacyInfo(int blockChat, int blockPrivate, int blockTrade, int blockDuel)
         {
-            streamClass.createPacket(176);
-            streamClass.addByte(blockChat);
-            streamClass.addByte(blockPrivate);
-            streamClass.addByte(blockTrade);
-            streamClass.addByte(blockDuel);
-            streamClass.formatPacket();
+            streamClass.CreatePacket(176);
+            streamClass.AddByte(blockChat);
+            streamClass.AddByte(blockPrivate);
+            streamClass.AddByte(blockTrade);
+            streamClass.AddByte(blockDuel);
+            streamClass.FormatPacket();
         }
 
-        protected void addIgnore(String username)
+        protected void AddIgnore(string username)
         {
-            long l = DataOperations.NameToHash(username);
-            streamClass.createPacket(25);
-            streamClass.addLong(l);
-            streamClass.formatPacket();
-            for (int i = 0; i < ignoresCount; i++)
+            long usernameHash = DataOperations.NameToHash(username);
+            streamClass.CreatePacket(25);
+            streamClass.AddLong(usernameHash);
+            streamClass.FormatPacket();
+
+            for (int ignoreIndex = 0; ignoreIndex < ignoresCount; ignoreIndex += 1)
             {
-                if (ignoresList[i] == l)
+                if (ignoresList[ignoreIndex] == usernameHash)
                 {
                     return;
                 }
@@ -482,26 +479,25 @@ namespace OpenRS.Net.Client
             {
                 return;
             }
-            else
-            {
-                ignoresList[ignoresCount++] = l;
-                return;
-            }
+
+            ignoresList[ignoresCount++] = usernameHash;
         }
 
-        protected void removeIgnore(long usernameHash)
+        protected void RemoveIgnore(long usernameHash)
         {
-            streamClass.createPacket(108);
-            streamClass.addLong(usernameHash);
-            streamClass.formatPacket();
-            for (int i = 0; i < ignoresCount; i++)
+            streamClass.CreatePacket(108);
+            streamClass.AddLong(usernameHash);
+            streamClass.FormatPacket();
+
+            for (int ignoreIndex = 0; ignoreIndex < ignoresCount; ignoreIndex += 1)
             {
-                if (ignoresList[i] == usernameHash)
+                if (ignoresList[ignoreIndex] == usernameHash)
                 {
-                    ignoresCount--;
-                    for (int j = i; j < ignoresCount; j++)
+                    ignoresCount -= 1;
+
+                    for (int shiftIndex = ignoreIndex; shiftIndex < ignoresCount; shiftIndex += 1)
                     {
-                        ignoresList[j] = ignoresList[j + 1];
+                        ignoresList[shiftIndex] = ignoresList[shiftIndex + 1];
                     }
 
                     return;
@@ -509,15 +505,16 @@ namespace OpenRS.Net.Client
             }
         }
 
-        protected void addFriend(String usernameHash)
+        protected void AddFriend(string friendUsername)
         {
-            streamClass.createPacket(168);
-            streamClass.addLong(DataOperations.NameToHash(usernameHash));
-            streamClass.formatPacket();
-            long l = DataOperations.NameToHash(username);
-            for (int i = 0; i < friendsCount; i++)
+            streamClass.CreatePacket(168);
+            streamClass.AddLong(DataOperations.NameToHash(friendUsername));
+            streamClass.FormatPacket();
+            long selfHash = DataOperations.NameToHash(username);
+
+            for (int friendIndex = 0; friendIndex < friendsCount; friendIndex += 1)
             {
-                if (friendsList[i] == l)
+                if (friendsList[friendIndex] == selfHash)
                 {
                     return;
                 }
@@ -527,83 +524,82 @@ namespace OpenRS.Net.Client
             {
                 return;
             }
-            else
-            {
-                friendsList[friendsCount] = l;
-                friendsWorld[friendsCount] = 0;
-                friendsCount += 1;
-                return;
-            }
+
+            friendsList[friendsCount] = selfHash;
+            friendsWorld[friendsCount] = 0;
+            friendsCount += 1;
         }
 
-        protected void removeFriend(long usernameHash)
+        protected void RemoveFriend(long usernameHash)
         {
-            streamClass.createPacket(52);
-            streamClass.addLong(usernameHash);
-            streamClass.formatPacket();
-            for (int i = 0; i < friendsCount; i++)
+            streamClass.CreatePacket(52);
+            streamClass.AddLong(usernameHash);
+            streamClass.FormatPacket();
+
+            for (int friendIndex = 0; friendIndex < friendsCount; friendIndex += 1)
             {
-                if (friendsList[i] != usernameHash)
+                if (friendsList[friendIndex] != usernameHash)
                 {
                     continue;
                 }
 
-                friendsCount--;
-                for (int j = i; j < friendsCount; j++)
+                friendsCount -= 1;
+
+                for (int shiftIndex = friendIndex; shiftIndex < friendsCount; shiftIndex += 1)
                 {
-                    friendsList[j] = friendsList[j + 1];
-                    friendsWorld[j] = friendsWorld[j + 1];
+                    friendsList[shiftIndex] = friendsList[shiftIndex + 1];
+                    friendsWorld[shiftIndex] = friendsWorld[shiftIndex + 1];
                 }
 
                 break;
             }
 
-            displayMessage("@pri@" + DataOperations.HashToName(usernameHash) + " has been removed from your friends list");
+            DisplayMessage("@pri@" + DataOperations.HashToName(usernameHash) + " has been removed from your friends list");
         }
 
-        protected void sendPrivateMessage(long l, byte[] abyte0, int i)
+        protected void SendPrivateMessage(long recipientHash, byte[] messageBytes, int messageLength)
         {
-            streamClass.createPacket(254);
-            streamClass.addLong(l);
-            streamClass.addBytes(abyte0, 0, i);
-            streamClass.formatPacket();
+            streamClass.CreatePacket(254);
+            streamClass.AddLong(recipientHash);
+            streamClass.AddBytes(messageBytes, 0, messageLength);
+            streamClass.FormatPacket();
         }
 
-        protected void sendChatMessage(byte[] abyte0, int i)
+        protected void SendChatMessage(byte[] messageBytes, int messageLength)
         {
-            streamClass.createPacket(145);
-            streamClass.addBytes(abyte0, 0, i);
-            streamClass.formatPacket();
+            streamClass.CreatePacket(145);
+            streamClass.AddBytes(messageBytes, 0, messageLength);
+            streamClass.FormatPacket();
         }
 
-        protected void sendCommand(String s1)
+        protected void SendCommand(string commandText)
         {
-            streamClass.createPacket(90);
-            streamClass.addString(s1);
-            streamClass.formatPacket();
+            streamClass.CreatePacket(90);
+            streamClass.AddString(commandText);
+            streamClass.FormatPacket();
         }
 
-        public virtual void loginScreenPrint(String s1, String s2)
-        {
-        }
-
-        public virtual void initVars()
+        public virtual void LoginScreenPrint(string firstLine, string secondLine)
         {
         }
 
-        public virtual void resetIntVars()
+        public virtual void InitVars()
         {
         }
 
-        public virtual void cantLogout()
+        public virtual void ResetIntVars()
         {
         }
 
-        public virtual void handlePacket(int i, int j, sbyte[] abyte0)
+        public virtual void CantLogout()
         {
         }
 
-        public virtual void displayMessage(String s1)
+        public virtual void HandlePacket(int command, int length, sbyte[] data)
+        {
+        }
+
+        public virtual void DisplayMessage(string message)
         {
         }
 
@@ -618,8 +614,8 @@ namespace OpenRS.Net.Client
         }
 
         public static int maxPacketReadCount;
-        public String username;
-        private String password;
+        public string username;
+        private string password;
         public StreamClass streamClass;
         public sbyte[] packetData;
         public int reconnectTries;
