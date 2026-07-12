@@ -1,6 +1,6 @@
 ﻿namespace OpenRS.Models
 {
-    public class Quest
+    public sealed class Quest
     {
         public string Id { get; set; }
 

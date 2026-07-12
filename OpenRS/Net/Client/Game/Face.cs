@@ -11,7 +11,7 @@ namespace OpenRS
     /// <summary>
 	/// TODO: Update summary.
 	/// </summary>
-	public class Face
+	public sealed class Face
 	{
 		private int[] points;
 		private Color faceColor;

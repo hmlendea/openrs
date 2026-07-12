@@ -11,7 +11,7 @@ namespace OpenRS.DataAccess.Repositories
     /// Initializes a new instance of the <see cref="QuestRepository"/> class.
     /// </remarks>
     /// <param name="fileName">File name.</param>
-    public class QuestRepository(string fileName) : XmlRepository<QuestEntity>(fileName)
+    public sealed class QuestRepository(string fileName) : XmlRepository<QuestEntity>(fileName)
     {
         /// <summary>
         /// Updates the specified quest.

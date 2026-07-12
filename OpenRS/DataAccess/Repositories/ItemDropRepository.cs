@@ -11,7 +11,7 @@ namespace OpenRS.DataAccess.Repositories
     /// Initializes a new instance of the <see cref="ItemDropRepository"/> class.
     /// </remarks>
     /// <param name="fileName">File name.</param>
-    public class ItemDropRepository(string fileName) : XmlRepository<ItemDropEntity>(fileName)
+    public sealed class ItemDropRepository(string fileName) : XmlRepository<ItemDropEntity>(fileName)
     {
         /// <summary>
         /// Updates the specified itemDrop.

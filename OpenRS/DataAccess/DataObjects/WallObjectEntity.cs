@@ -5,7 +5,7 @@ namespace OpenRS.DataAccess.DataObjects
     /// <summary>
     /// Wall object entity.
     /// </summary>
-    public class WallObjectEntity : EntityBase
+    public sealed class WallObjectEntity : EntityBase
     {
         /// <summary>
         /// Gets or sets the name.

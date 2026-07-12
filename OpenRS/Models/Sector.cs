@@ -2,7 +2,7 @@
 
 namespace OpenRS.Models
 {
-    public class Sector
+    public sealed class Sector
     {
         public static readonly Size2D Size = new(48, 48);
 

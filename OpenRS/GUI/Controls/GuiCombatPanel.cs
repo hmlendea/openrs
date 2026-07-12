@@ -10,9 +10,9 @@ using OpenRS.Net.Client;
 
 namespace OpenRS.Gui.Controls
 {
-    public class GuiCombatPanel : GuiControl
+    public sealed class GuiCombatPanel : GuiControl
     {
-        private const int Spacing = 12;
+        private static int Spacing => 12;
 
         private readonly GameClient client;
 

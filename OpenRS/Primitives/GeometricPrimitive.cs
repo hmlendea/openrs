@@ -9,7 +9,6 @@
 #endregion
 
 #region Using Statements
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,8 +29,7 @@ namespace OpenRS.Primitives
         /// A VertexDeclaration object, which contains information about the vertex
         /// elements contained within this struct.
         /// </summary>
-        public static readonly VertexDeclaration VertexDeclaration = new VertexDeclaration
-        (
+        public static readonly VertexDeclaration VertexDeclaration = new        (
             new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
             new VertexElement(12, VertexElementFormat.Vector3, VertexElementUsage.Normal, 0)
         );
@@ -50,23 +48,23 @@ namespace OpenRS.Primitives
     /// derived from this common base, and use the AddVertex and AddIndex methods
     /// to specify their geometry.
     /// </summary>
-    public abstract class GeometricPrimitive : System.IDisposable
+    public abstract class GeometricPrimitive : IDisposable
     {
         #region Fields
 
 
         // During the process of constructing a primitive model, vertex
         // and index data is stored on the CPU in these managed lists.
-        List<VertexPositionNormal> vertices = new List<VertexPositionNormal>();
-        List<ushort> indices = new List<ushort>();
+        private List<VertexPositionNormal> vertices = [];
+        private List<ushort> indices = [];
 
 
         // Once all the geometry has been specified, the InitializePrimitive
         // method copies the vertex and index data into these buffers, which
         // store it on the GPU ready for efficient rendering.
-        VertexBuffer vertexBuffer;
-        IndexBuffer indexBuffer;
-        BasicEffect basicEffect;
+        private VertexBuffer vertexBuffer;
+        private IndexBuffer indexBuffer;
+        private BasicEffect basicEffect;
 
 
         #endregion
@@ -91,7 +89,9 @@ namespace OpenRS.Primitives
         protected void AddIndex(int index)
         {
             if (index > ushort.MaxValue)
+            {
                 throw new ArgumentOutOfRangeException("index");
+            }
 
             indices.Add((ushort)index);
         }
@@ -161,14 +161,20 @@ namespace OpenRS.Primitives
         {
             if (disposing)
             {
-                if (vertexBuffer != null)
+                if (vertexBuffer is not null)
+                {
                     vertexBuffer.Dispose();
+                }
 
-                if (indexBuffer != null)
+                if (indexBuffer is not null)
+                {
                     indexBuffer.Dispose();
+                }
 
-                if (basicEffect != null)
+                if (basicEffect is not null)
+                {
                     basicEffect.Dispose();
+                }
             }
         }
 

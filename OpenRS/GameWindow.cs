@@ -1,50 +1,44 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using NuciXNA.DataAccess.Content;
 using NuciXNA.Graphics;
 using NuciXNA.Primitives;
 using OpenRS.Gui.Controls;
 using OpenRS.Net.Client;
 using OpenRS.Net.Client.Events;
-using OpenRS.Primitives;
 
 namespace OpenRS
 {
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class GameWindow : Microsoft.Xna.Framework.Game
+    public sealed class GameWindow : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        GameClient _rscMudclient;
-        Thread _gameThread;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private GameClient rscMudclient;
+        private Thread gameThread;
 
-        Texture2D _lastGameImageTexture = null;
+        private Texture2D lastGameImageTexture;
 
-        private Texture2D _gameLogo;
+        private Texture2D gameLogo;
 
-        private SpriteFont _diagnosticFont;
-        private SpriteFont _diagnosticFont2;
+        private SpriteFont diagnosticFont;
+        private SpriteFont diagnosticFont2;
 
-        bool _isSectionLoading = false;
-        bool _isContentLoading = false;
-        string _contentLoadingStatusText = "";
-        decimal _contentLoadingStatusProgress = 0m;
+        private bool isSectionLoading;
+        private bool isContentLoading;
+        private string contentLoadingStatusText = "";
+        private decimal contentLoadingStatusProgress = 0m;
 
-        private Texture2D _loadingBackgroundImage;
+        private Texture2D loadingBackgroundImage;
 
-        private GuiInventoryPanel _inventoryPanel;
-        private SpriteBatch _guiSpriteBatch;
+        private GuiInventoryPanel inventoryPanel;
+        private SpriteBatch guiSpriteBatch;
 
         public GameWindow()
         {
@@ -81,66 +75,66 @@ namespace OpenRS
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _diagnosticFont = Content.Load<SpriteFont>("fonts/gameFont12");
-            _diagnosticFont2 = Content.Load<SpriteFont>("fonts/gameFont16");
+            diagnosticFont = Content.Load<SpriteFont>("fonts/gameFont12");
+            diagnosticFont2 = Content.Load<SpriteFont>("fonts/gameFont16");
 
-            _loadingBackgroundImage = Content.Load<Texture2D>("sprites/pattern_40");
+            loadingBackgroundImage = Content.Load<Texture2D>("sprites/pattern_40");
 
-            _gameLogo = Content.Load<Texture2D>("sprites/yuno4");
+            gameLogo = Content.Load<Texture2D>("sprites/yuno4");
 
-            _rscMudclient = GameClient.CreateMudclient(Window.Title, 768, 480);
-            _rscMudclient.DoNotDrawLogo = true;
+            rscMudclient = GameClient.CreateMudclient(Window.Title, 768, 480);
+            rscMudclient.DoNotDrawLogo = true;
 
-            _rscMudclient.OnContentLoadedCompleted += new EventHandler(rscMudclient_OnContentLoadedCompleted);
-            _rscMudclient.OnContentLoaded += new EventHandler<ContentLoadedEventArgs>(rscMudclient_OnContentLoaded);
-            _rscMudclient.OnLoadingSection += new EventHandler(_rscMudclient_OnLoadingSection);
-            _rscMudclient.OnLoadingSectionCompleted += new EventHandler(_rscMudclient_OnLoadingSectionCompleted);
+            rscMudclient.OnContentLoadedCompleted += new EventHandler(rscMudclient_OnContentLoadedCompleted);
+            rscMudclient.OnContentLoaded += new EventHandler<ContentLoadedEventArgs>(rscMudclient_OnContentLoaded);
+            rscMudclient.OnLoadingSection += new EventHandler(rscMudclient_OnLoadingSection);
+            rscMudclient.OnLoadingSectionCompleted += new EventHandler(rscMudclient_OnLoadingSectionCompleted);
 
             GameClient.GameWindow = Window;
 
-            _rscMudclient.gameMinThreadSleepTime = 10;
-            _rscMudclient.start();
+            rscMudclient.gameMinThreadSleepTime = 10;
+            rscMudclient.start();
 
-            _gameThread = new Thread(_rscMudclient.run);
-            _gameThread.Start();
+            gameThread = new Thread(rscMudclient.run);
+            gameThread.Start();
 
             // Initialise NuciXNA content and graphics managers (needed by GuiControl)
-            _guiSpriteBatch = new SpriteBatch(GraphicsDevice);
+            guiSpriteBatch = new SpriteBatch(GraphicsDevice);
             GraphicsManager.Instance.Graphics = graphics;
-            GraphicsManager.Instance.SpriteBatch = _guiSpriteBatch;
+            GraphicsManager.Instance.SpriteBatch = guiSpriteBatch;
             NuciContentManager.Instance.LoadContent(Content, GraphicsDevice);
             NuciContentManager.MissingTexturePlaceholder = "sprites/pattern_40";
 
-            _inventoryPanel = new GuiInventoryPanel(_rscMudclient)
+            inventoryPanel = new GuiInventoryPanel(rscMudclient)
             {
                 Location = new Point2D(768, 0),
                 Size = new Size2D(256, 480)
             };
-            _inventoryPanel.LoadContent();
+            inventoryPanel.LoadContent();
         }
 
-        void _rscMudclient_OnLoadingSectionCompleted(object sender, EventArgs e)
+        private void rscMudclient_OnLoadingSectionCompleted(object sender, EventArgs e)
         {
             System.Threading.Thread.Sleep(200);
-            _isSectionLoading = false;
+            isSectionLoading = false;
         }
 
-        void _rscMudclient_OnLoadingSection(object sender, EventArgs e)
+        private void rscMudclient_OnLoadingSection(object sender, EventArgs e)
         {
-            _isSectionLoading = true;
+            isSectionLoading = true;
         }
 
-        void rscMudclient_OnContentLoadedCompleted(object sender, EventArgs e)
+        private void rscMudclient_OnContentLoadedCompleted(object sender, EventArgs e)
         {
             System.Threading.Thread.Sleep(300);
-            _isContentLoading = false;
+            isContentLoading = false;
         }
 
-        void rscMudclient_OnContentLoaded(object sender, ContentLoadedEventArgs e)
+        private void rscMudclient_OnContentLoaded(object sender, ContentLoadedEventArgs e)
         {
-            _isContentLoading = true;
-            _contentLoadingStatusProgress = e.Progress;
-            _contentLoadingStatusText = e.StatusText;
+            isContentLoading = true;
+            contentLoadingStatusProgress = e.Progress;
+            contentLoadingStatusText = e.StatusText;
         }
 
         /// <summary>
@@ -151,7 +145,7 @@ namespace OpenRS
         {
             try
             {
-                _rscMudclient.destroy();
+                rscMudclient.destroy();
             }
             catch { }
         }
@@ -163,23 +157,28 @@ namespace OpenRS
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
-            if (_rscMudclient != null)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back.Equals(ButtonState.Pressed))
             {
-                _rscMudclient.Update(gameTime);
+                this.Exit();
+            }
+
+            if (rscMudclient is not null)
+            {
+                rscMudclient.Update(gameTime);
+
                 try
                 {
-                    if (_rscMudclient.IsTradeWindowVisible(TradeAndDuelState.Initial))
+                    if (rscMudclient.IsTradeWindowVisible(TradeAndDuelState.Initial))
                     {
                     }
                 }
                 catch { }
             }
 
-            if (_inventoryPanel != null && _rscMudclient?.loggedIn == true)
-                _inventoryPanel.Update(gameTime);
+            if (inventoryPanel is not null && rscMudclient?.loggedIn.Equals(true) == true)
+            {
+                inventoryPanel.Update(gameTime);
+            }
 
             base.Update(gameTime);
         }
@@ -192,26 +191,26 @@ namespace OpenRS
         {
             GraphicsDevice.Clear(Color.Black);
 
-            if (!_isContentLoading)
+            if (!isContentLoading)
             {
-                DrawGame(_rscMudclient);
+                DrawGame(rscMudclient);
 
-                if (_rscMudclient.loggedIn == false && _rscMudclient.DoNotDrawLogo)
+                if (!rscMudclient.loggedIn && rscMudclient.DoNotDrawLogo)
                 {
                     DrawLogo();
                 }
             }
 
-            if (_isContentLoading)
+            if (isContentLoading)
             {
-                DrawContentLoading(_contentLoadingStatusText, _contentLoadingStatusProgress);
+                DrawContentLoading(contentLoadingStatusText, contentLoadingStatusProgress);
             }
 
-            if (_inventoryPanel != null && _rscMudclient?.loggedIn == true)
+            if (inventoryPanel is not null && rscMudclient?.loggedIn.Equals(true) == true)
             {
-                _guiSpriteBatch.Begin();
-                _inventoryPanel.Draw(_guiSpriteBatch);
-                _guiSpriteBatch.End();
+                guiSpriteBatch.Begin();
+                inventoryPanel.Draw(guiSpriteBatch);
+                guiSpriteBatch.End();
             }
 
             base.Draw(gameTime);
@@ -235,23 +234,23 @@ namespace OpenRS
 
             try
             {
-                var w = _gameLogo.Width;
-                var h = _gameLogo.Height;
-                var aspect = (float)h / (float)w;
+                int logoWidth = gameLogo.Width;
+                int logoHeight = gameLogo.Height;
+                float logoAspectRatio = (float)logoHeight / (float)logoWidth;
 
-                var newWidth = _rscMudclient.windowWidth / 2;
-                var newHeight = newWidth * aspect;
+                int halfWindowWidth = rscMudclient.windowWidth / 2;
+                float scaledLogoHeight = halfWindowWidth * logoAspectRatio;
 
-                spriteBatch.Draw(_gameLogo, new Rectangle((_rscMudclient.windowWidth / 2) - (newWidth / 2), 0, newWidth, (int)newHeight), Color.White);
+                spriteBatch.Draw(gameLogo, new Rectangle((rscMudclient.windowWidth / 2) - (halfWindowWidth / 2), 0, halfWindowWidth, (int)scaledLogoHeight), Color.White);
 
                 spriteBatch.End();
             }
             catch { }
         }
 
-        private void DrawGame(GameClient _rscMudclient)
+        private void DrawGame(GameClient rscMudclient)
         {
-            if (_rscMudclient != null)
+            if (rscMudclient is not null)
             {
                 try
                 {
@@ -269,42 +268,45 @@ namespace OpenRS
                         catch { }
                     }
 
-                    if (_rscMudclient.gameGraphics != null)
+                    if (rscMudclient.gameGraphics is not null)
                     {
-                        if (!_isSectionLoading)
+                        if (!isSectionLoading)
                         {
-                            if (!DrawMudclient(_rscMudclient)) return;
-
-                            uint[] colors = new uint[_rscMudclient.gameGraphics.pixels.Length];
-                            for (int j = 0; j < _rscMudclient.gameGraphics.pixels.Length; j++)
+                            if (!DrawMudclient(rscMudclient))
                             {
-                                var bytes = BitConverter.GetBytes(_rscMudclient.gameGraphics.pixels[j]);
-                                var r = bytes[2];
-                                var g = bytes[1];
-                                var b = bytes[0];
-
-                                colors[j] = OpenRS.Net.Client.Game.GameImage.rgbaToUInt(r, g, b, 255);
+                                return;
                             }
 
-                            if (_rscMudclient.DrawIsNecessary)
+                            uint[] colors = new uint[rscMudclient.gameGraphics.pixels.Length];
+
+                            for (int pixelIndex = 0; pixelIndex < rscMudclient.gameGraphics.pixels.Length; pixelIndex++)
                             {
-                                var imageTexture = new Texture2D(GraphicsDevice, _rscMudclient.gameGraphics.gameWidth, _rscMudclient.gameGraphics.gameHeight, false, SurfaceFormat.Color);
+                                byte[] pixelBytes = BitConverter.GetBytes(rscMudclient.gameGraphics.pixels[pixelIndex]);
+                                byte redChannel = pixelBytes[2];
+                                byte greenChannel = pixelBytes[1];
+                                byte blueChannel = pixelBytes[0];
+
+                                colors[pixelIndex] = OpenRS.Net.Client.Game.GameImage.rgbaToUInt(redChannel, greenChannel, blueChannel, 255);
+                            }
+
+                            if (rscMudclient.DrawIsNecessary)
+                            {
+                                Texture2D imageTexture = new(GraphicsDevice, rscMudclient.gameGraphics.gameWidth, rscMudclient.gameGraphics.gameHeight, false, SurfaceFormat.Color);
                                 imageTexture.SetData(colors.ToArray());
 
                                 spriteBatch.Draw(imageTexture, Vector2.Zero, Color.White);
 
-                                _lastGameImageTexture = imageTexture;
+                                lastGameImageTexture = imageTexture;
 
-                                _rscMudclient.DrawIsNecessary = false;
+                                rscMudclient.DrawIsNecessary = false;
                             }
-                            else if (_lastGameImageTexture != null)
+                            else if (lastGameImageTexture is not null)
                             {
-                                spriteBatch.Draw(_lastGameImageTexture, Vector2.Zero, Color.White);
+                                spriteBatch.Draw(lastGameImageTexture, Vector2.Zero, Color.White);
                             }
                         }
-                        else if (_lastGameImageTexture != null)
+                        else if (lastGameImageTexture is not null)
                         {
-                            spriteBatch.Draw(_lastGameImageTexture, Vector2.Zero, Color.White);
                             DrawSectionLoading();
                         }
                     }
@@ -315,29 +317,30 @@ namespace OpenRS
             }
         }
 
-        private static bool DrawMudclient(GameClient _rscMudclient)
+        private static bool DrawMudclient(GameClient rscMudclient)
         {
-            _rscMudclient.paint(GameClient.graphics);
+            rscMudclient.paint(GameClient.graphics);
 
             try
             {
-                if (!_rscMudclient.loggedIn)
+                if (!rscMudclient.loggedIn)
                 {
-                    _rscMudclient.gameGraphics.loggedIn = false;
-                    _rscMudclient.drawLoginScreens();
+                    rscMudclient.gameGraphics.loggedIn = false;
+                    rscMudclient.drawLoginScreens();
                 }
-                if (_rscMudclient.loggedIn)
+                if (rscMudclient.loggedIn)
                 {
-                    _rscMudclient.gameGraphics.loggedIn = true;
-                    _rscMudclient.drawGame();
+                    rscMudclient.gameGraphics.loggedIn = true;
+                    rscMudclient.drawGame();
 
                     return true;
                 }
             }
-            catch (Exception _ex)
+            catch (Exception exception)
             {
-                _rscMudclient.cleanUp();
-                _rscMudclient.memoryError = true;
+                rscMudclient.cleanUp();
+                rscMudclient.memoryError = true;
+
                 return false;
             }
             return true;
@@ -345,36 +348,37 @@ namespace OpenRS
 
         private void DrawSectionLoading()
         {
-            var s1 = "Loading... Please wait";
-            var sSize = _diagnosticFont2.MeasureString(s1);
-            var sPos = new Vector2(graphics.PreferredBackBufferWidth / 2 - (sSize.X / 2),
-                                   graphics.PreferredBackBufferHeight / 2 - (sSize.Y / 2));
+            string message = "Loading... Please wait";
+            Vector2 textSize = diagnosticFont2.MeasureString(message);
+            Vector2 textPosition = new(graphics.PreferredBackBufferWidth / 2 - (textSize.X / 2),
+                                               graphics.PreferredBackBufferHeight / 2 - (textSize.Y / 2));
 
-            spriteBatch.DrawString(_diagnosticFont2, s1, sPos, Color.White);
+            spriteBatch.DrawString(diagnosticFont2, message, textPosition, Color.White);
         }
 
         private void DrawContentLoading(string contentLoadingStatusText, decimal contentLoadingStatusProgress)
         {
             GraphicsDevice.Clear(Color.Black);
 
-            var s1 = contentLoadingStatusText + " - " + contentLoadingStatusProgress + "%";
-            var sSize = _diagnosticFont.MeasureString(s1);
-            var sPos = new Vector2(graphics.PreferredBackBufferWidth / 2 - (sSize.X / 2),
-                                   graphics.PreferredBackBufferHeight / 2 - (sSize.Y / 2));
+            string statusMessage = contentLoadingStatusText + " - " + contentLoadingStatusProgress + "%";
+            Vector2 statusTextSize = diagnosticFont.MeasureString(statusMessage);
+            Vector2 statusTextPosition = new(graphics.PreferredBackBufferWidth / 2 - (statusTextSize.X / 2),
+                                                     graphics.PreferredBackBufferHeight / 2 - (statusTextSize.Y / 2));
             spriteBatch.Begin();
 
-            if (_loadingBackgroundImage != null)
+            if (loadingBackgroundImage is not null)
             {
-                if (_loadingBackgroundImage.Width < this.graphics.PreferredBackBufferWidth)
+                if (loadingBackgroundImage.Width < graphics.PreferredBackBufferWidth)
                 {
-                    var xs = (this.graphics.PreferredBackBufferWidth / _loadingBackgroundImage.Width) + 1;
-                    var ys = (this.graphics.PreferredBackBufferHeight / _loadingBackgroundImage.Height) + 1;
-                    for (int y = 0; y < ys; y++)
+                    int tilesHorizontal = (graphics.PreferredBackBufferWidth / loadingBackgroundImage.Width) + 1;
+                    int tilesVertical = (graphics.PreferredBackBufferHeight / loadingBackgroundImage.Height) + 1;
+
+                    for (int tileRow = 0; tileRow < tilesVertical; tileRow++)
                     {
-                        for (int x = 0; x < xs; x++)
+                        for (int tileColumn = 0; tileColumn < tilesHorizontal; tileColumn++)
                         {
-                            spriteBatch.Draw(_loadingBackgroundImage, new Vector2(x * _loadingBackgroundImage.Width,
-                                y * _loadingBackgroundImage.Height), Color.White);
+                            spriteBatch.Draw(loadingBackgroundImage, new Vector2(tileColumn * loadingBackgroundImage.Width,
+                                tileRow * loadingBackgroundImage.Height), Color.White);
                         }
                     }
 
@@ -383,14 +387,14 @@ namespace OpenRS
                 }
                 else
                 {
-                    spriteBatch.Draw(_loadingBackgroundImage, Vector2.Zero, Color.White);
+                    spriteBatch.Draw(loadingBackgroundImage, Vector2.Zero, Color.White);
                 }
             }
 
-            spriteBatch.fillRect((graphics.PreferredBackBufferWidth / 4) - 12, (int)sPos.Y - 12, (graphics.PreferredBackBufferWidth / 2) + 24, (int)sSize.Y + 24, Color.FromNonPremultiplied(0, 0, 0, 150));
-            spriteBatch.drawRect((graphics.PreferredBackBufferWidth / 4) - 12, (int)sPos.Y - 12, (graphics.PreferredBackBufferWidth / 2) + 24, (int)sSize.Y + 24, Color.DarkGray);
-            spriteBatch.fillRect((graphics.PreferredBackBufferWidth / 4) - 10, (int)sPos.Y - 10, (int)(((float)contentLoadingStatusProgress / 100f) * ((graphics.PreferredBackBufferWidth / 2) + 20)), (int)sSize.Y + 21, Color.DarkGray);
-            spriteBatch.DrawString(_diagnosticFont, s1, sPos, Color.White);
+            spriteBatch.fillRect((graphics.PreferredBackBufferWidth / 4) - 12, (int)statusTextPosition.Y - 12, (graphics.PreferredBackBufferWidth / 2) + 24, (int)statusTextSize.Y + 24, Color.FromNonPremultiplied(0, 0, 0, 150));
+            spriteBatch.drawRect((graphics.PreferredBackBufferWidth / 4) - 12, (int)statusTextPosition.Y - 12, (graphics.PreferredBackBufferWidth / 2) + 24, (int)statusTextSize.Y + 24, Color.DarkGray);
+            spriteBatch.fillRect((graphics.PreferredBackBufferWidth / 4) - 10, (int)statusTextPosition.Y - 10, (int)(((float)contentLoadingStatusProgress / 100f) * ((graphics.PreferredBackBufferWidth / 2) + 20)), (int)statusTextSize.Y + 21, Color.DarkGray);
+            spriteBatch.DrawString(diagnosticFont, statusMessage, statusTextPosition, Color.White);
             spriteBatch.End();
         }
     }

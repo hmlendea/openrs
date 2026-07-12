@@ -2,7 +2,7 @@
 
 namespace OpenRS.DataAccess.DataObjects
 {
-    public class QuestEntity : EntityBase
+    public sealed class QuestEntity : EntityBase
     {
         public string Name { get; set; }
     }

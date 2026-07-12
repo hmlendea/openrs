@@ -3,7 +3,7 @@
     /// <summary>
     /// Model.
     /// </summary>
-    public class WorldObject
+    public sealed class WorldObject
     {
         /// <summary>
         /// Gets or sets the name.

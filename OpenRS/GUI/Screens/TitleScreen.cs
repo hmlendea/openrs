@@ -6,7 +6,7 @@ namespace OpenRS.Gui.Screens
     /// <summary>
     /// Title screen.
     /// </summary>
-    public class TitleScreen : MenuScreen
+    public sealed class TitleScreen : MenuScreen
     {
         private GuiMenuLink newGameLink;
         private GuiMenuLink settingsLink;

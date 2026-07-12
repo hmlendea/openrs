@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Numerics;
 
 namespace OpenRS.Net.Client.Net
 {
-    public class LoginEncryptor
+    public sealed class LoginEncryptor
     {
         public void addByte(int i)
         {
@@ -27,19 +24,20 @@ namespace OpenRS.Net.Client.Net
         public void addString(String s)
         {
 
-            var bytes0 = Encoding.UTF8.GetBytes(s);
-            Array.Copy(bytes0, 0, packet, offset, bytes0.Length);
+            byte[] encodedBytes = Encoding.UTF8.GetBytes(s);
+            Array.Copy(encodedBytes, 0, packet, offset, encodedBytes.Length);
 
             //s.getBytes(0, s.length(), packet, offset);
-            offset += bytes0.Length;
+            offset += encodedBytes.Length;
             packet[offset++] = 10;
         }
 
         public void addBytes(byte[] bytes, int off, int length)
         {
             for (int i = off; i < off + length; i++)
+            {
                 packet[this.offset++] = bytes[i];
-
+            }
         }
 
         public int getByte()
@@ -59,11 +57,12 @@ namespace OpenRS.Net.Client.Net
             return ((packet[offset - 4] & 0xff) << 24) + ((packet[offset - 3] & 0xff) << 16) + ((packet[offset - 2] & 0xff) << 8) + (packet[offset - 1] & 0xff);
         }
 
-        public void getBytes(byte[] arg0, int arg1, int arg2)
+        public void getBytes(byte[] outputBuffer, int startIndex, int byteCount)
         {
-            for (int i = arg1; i < arg1 + arg2; i++)
-                arg0[i] = packet[offset++];
-
+            for (int i = startIndex; i < startIndex + byteCount; i++)
+            {
+                outputBuffer[i] = packet[offset += 1];
+            }
         }
 
         public byte[] encrypt(byte[] text) {
@@ -91,7 +90,7 @@ namespace OpenRS.Net.Client.Net
             // Append 0x00 to ensure BigInteger treats value as positive (two's complement, little-endian)
             byte[] plainUnsigned = new byte[plain.Length + 1];
             Array.Copy(plain, plainUnsigned, plain.Length);
-            BigInteger plainInt = new BigInteger(plainUnsigned);
+            BigInteger plainInt = new(plainUnsigned);
             BigInteger encInt = BigInteger.ModPow(plainInt, key, modulus);
             byte[] enc = encInt.ToByteArray();
             // Strip trailing 0x00 sign byte if present (ToByteArray is little-endian)

@@ -5,7 +5,7 @@ using NuciXNA.Gui.Controls;
 
 namespace OpenRS.Gui.Controls
 {
-    public class GuiSideBarPanel : GuiControl
+    public sealed class GuiSideBarPanel : GuiControl
     {
         private GuiImage background;
 

@@ -9,7 +9,7 @@ using OpenRS.Net.Client.Data;
 
 namespace OpenRS.Net.Client.Game
 {
-    public class GraphicsEngine
+    public sealed class GraphicsEngine
     {
         public Size2D GameSize { get; set; }
 
@@ -335,7 +335,7 @@ namespace OpenRS.Net.Client.Game
                             l += j2 >> 16 & 0xff;
                             i1 += j2 >> 8 & 0xff;
                             j1 += j2 & 0xff;
-                            k1++;
+                            k1 += 1;
                         }
                     }
 
@@ -479,7 +479,7 @@ namespace OpenRS.Net.Client.Game
             for (int k = 0; k < i; k++)
             {
                 int l = ai[k];
-                ai1[((l & 0xf80000) >> 9) + ((l & 0xf800) >> 6) + ((l & 0xf8) >> 3)]++;
+                ai1[((l & 0xf80000) >> 9) + ((l & 0xf800) >> 6) + ((l & 0xf8) >> 3)] += 1;
             }
 
             int[] ai2 = new int[256];
@@ -630,7 +630,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public virtual void DrawImage(int x, int y, int width, int height, int j1, int k1, int l1, int i2, bool flag)
+        public void DrawImage(int x, int y, int width, int height, int j1, int k1, int l1, int i2, bool flag)
         {
             try
             {
@@ -1119,7 +1119,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        arg4++;
+                        arg4 += 1;
                     }
 
                     arg2 = colours[arg3++];
@@ -1129,7 +1129,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        arg4++;
+                        arg4 += 1;
                     }
 
                     arg2 = colours[arg3++];
@@ -1139,7 +1139,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        arg4++;
+                        arg4 += 1;
                     }
 
                     arg2 = colours[arg3++];
@@ -1149,7 +1149,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        arg4++;
+                        arg4 += 1;
                     }
                 }
 
@@ -1162,7 +1162,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        arg4++;
+                        arg4 += 1;
                     }
                 }
 
@@ -1197,7 +1197,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        arg4++;
+                        arg4 += 1;
                     }
 
                     byte0 = colourIndexes[arg3++];
@@ -1207,7 +1207,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        arg4++;
+                        arg4 += 1;
                     }
 
                     byte0 = colourIndexes[arg3++];
@@ -1217,7 +1217,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        arg4++;
+                        arg4 += 1;
                     }
 
                     byte0 = colourIndexes[arg3++];
@@ -1227,7 +1227,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        arg4++;
+                        arg4 += 1;
                     }
                 }
 
@@ -1240,7 +1240,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        arg4++;
+                        arg4 += 1;
                     }
                 }
 
@@ -1268,7 +1268,7 @@ namespace OpenRS.Net.Client.Game
                         }
                         else
                         {
-                            arg5++;
+                            arg5 += 1;
                         }
 
                         arg3 += arg9;
@@ -1303,7 +1303,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        arg4++;
+                        arg4 += 1;
                     }
                 }
 
@@ -1330,7 +1330,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        arg4++;
+                        arg4 += 1;
                     }
                 }
 
@@ -1360,7 +1360,7 @@ namespace OpenRS.Net.Client.Game
                         }
                         else
                         {
-                            arg5++;
+                            arg5 += 1;
                         }
                         arg3 += arg9;
                     }
@@ -1410,7 +1410,7 @@ namespace OpenRS.Net.Client.Game
                         }
                         else
                         {
-                            arg5++;
+                            arg5 += 1;
                         }
                         arg3 += arg9;
                     }
@@ -1470,7 +1470,7 @@ namespace OpenRS.Net.Client.Game
 
             if (arg4 == 192 && (arg3 & 0x3f) == (cab & 0x3f))
             {
-                bnn++;
+                bnn += 1;
             }
             else if (arg4 == 128)
             {
@@ -1478,7 +1478,7 @@ namespace OpenRS.Net.Client.Game
             }
             else
             {
-                caa++;
+                caa += 1;
             }
 
             int k5 = l3;
@@ -1831,7 +1831,7 @@ namespace OpenRS.Net.Client.Game
                 }
                 else
                 {
-                    arg3++;
+                    arg3 += 1;
                 }
 
                 arg4 += arg6;
@@ -1839,7 +1839,7 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        public virtual void DrawVisibleEntity(
+        public void DrawVisibleEntity(
             int x,
             int y,
             int width,
@@ -2206,14 +2206,14 @@ namespace OpenRS.Net.Client.Game
                 {
                     for (int i = 0; i < text.Length; i++)
                     {
-                        var ss = text[i];
-                        var s1 = i + 4;
-                        var s2 = text.Length;
+                        char currentChar = text[i];
+                        int lookAheadIndex = i + 4;
+                        int textLength = text.Length;
 
-                        if (text[i] == '@' && s1 < s2)
+                        if (text[i].Equals('@') && lookAheadIndex < textLength)
                         {
-                            var s3 = text[i + 4];
-                            var val = text.Substring(i + 1, 3).ToLower();
+                            char lookAheadChar = text[i + 4];
+                            string colourCode = text.Substring(i + 1, 3).ToLower();
                         }
                         if (text[i] == '@' && i + 4 < text.Length && text[i + 4] == '@')
                         {
@@ -2425,7 +2425,7 @@ namespace OpenRS.Net.Client.Game
                         }
                         else
                         {
-                            arg4++;
+                            arg4 += 1;
                         }
 
                         if (arg1[arg3++] != 0)
@@ -2434,7 +2434,7 @@ namespace OpenRS.Net.Client.Game
                         }
                         else
                         {
-                            arg4++;
+                            arg4 += 1;
                         }
 
                         if (arg1[arg3++] != 0)
@@ -2443,7 +2443,7 @@ namespace OpenRS.Net.Client.Game
                         }
                         else
                         {
-                            arg4++;
+                            arg4 += 1;
                         }
 
                         if (arg1[arg3++] != 0)
@@ -2452,7 +2452,7 @@ namespace OpenRS.Net.Client.Game
                         }
                         else
                         {
-                            arg4++;
+                            arg4 += 1;
                         }
                     }
 
@@ -2464,7 +2464,7 @@ namespace OpenRS.Net.Client.Game
                         }
                         else
                         {
-                            arg4++;
+                            arg4 += 1;
                         }
                     }
 
@@ -2504,7 +2504,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        arg4++;
+                        arg4 += 1;
                     }
                 }
 
@@ -2610,7 +2610,8 @@ namespace OpenRS.Net.Client.Game
         public static int addFont(sbyte[] bytes)
         {
             gameFonts[currentFont] = bytes;
-            return currentFont++;
+            currentFont += 1;
+            return currentFont - 1;
         }
 
         public int[] pixels;

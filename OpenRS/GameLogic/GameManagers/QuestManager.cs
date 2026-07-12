@@ -12,7 +12,7 @@ namespace OpenRS.GameLogic.GameManagers
     /// <summary>
     /// Quest manager.
     /// </summary>
-    public class QuestManager
+    public sealed class QuestManager
     {
         private List<Quest> quests;
 
@@ -37,7 +37,7 @@ namespace OpenRS.GameLogic.GameManagers
         /// </summary>
         /// <returns>The quest.</returns>
         /// <param name="id">Identifier.</param>
-        public Quest GetQuest(string id) => quests.FirstOrDefault(quest => quest.Id == id);
+        public Quest GetQuest(string id) => quests.FirstOrDefault(quest => quest.Id.Equals(id));
 
         /// <summary>
         /// Sets the stage of a quest.

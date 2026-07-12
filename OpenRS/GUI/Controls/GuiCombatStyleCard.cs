@@ -7,7 +7,7 @@ using NuciXNA.Gui.Controls;
 
 namespace OpenRS.Gui.Controls
 {
-    public class GuiCombatStyleCard : GuiControl
+    public sealed class GuiCombatStyleCard : GuiControl
     {
         private GuiImage background;
         private GuiImage icon;

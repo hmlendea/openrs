@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,12 +6,16 @@ namespace OpenRS.Net.Client
 {
     public static class GraphicsDeviceExtensions
     {
-        static bool sbBegin = false;
-        static Color defaultColor { get; set; }
-        static SpriteFont defaultFont { get; set; }
+        private static bool sbBegin = false;
+        private static Color defaultColor { get; set; }
+        private static SpriteFont defaultFont { get; set; }
         public static void fillRect(this SpriteBatch spriteBatch, Rectangle rect, Color color)
         {
-            if (dummyTexture == null) createDummyTexture(spriteBatch);
+            if (dummyTexture is null)
+            {
+                createDummyTexture(spriteBatch);
+            }
+
             try
             {
                 //   spriteBatch.BeginSafe();
@@ -41,7 +42,7 @@ namespace OpenRS.Net.Client
 
         public static void drawString(this SpriteBatch spriteBatch, string text, int x, int y)
         {
-            if (defaultFont != null)
+            if (defaultFont is not null)
             {
                 //  spriteBatch.BeginSafe();
                 //    if (spriteBatch.BeginIsActive())
@@ -58,7 +59,11 @@ namespace OpenRS.Net.Client
         /// <param name="color">The draw color.</param>
         public static void drawLine(this SpriteBatch spriteBatch, Vector2 start, Vector2 end, Color color)
         {
-            if (dummyTexture == null) createDummyTexture(spriteBatch);
+            if (dummyTexture is null)
+            {
+                createDummyTexture(spriteBatch);
+            }
+
             float length = (end - start).Length();
             float rotation = (float)Math.Atan2(end.Y - start.Y, end.X - start.X);
 
@@ -73,22 +78,29 @@ namespace OpenRS.Net.Client
         public static void fillRect(this SpriteBatch spriteBatch, int x, int y, int w, int h, Color color)
         {
             //fillRect(spriteBatch, x, y, w, h, color);
-            if (dummyTexture == null) createDummyTexture(spriteBatch);
+            if (dummyTexture is null)
+            {
+                createDummyTexture(spriteBatch);
+            }
+
             spriteBatch.Draw(dummyTexture, new Rectangle(x, y, w, h), color);
         }
 
         public static void drawGradient(this SpriteBatch spriteBatch, int x, int y, int x2, int y2, Color color, Color color2)
         {
-            if (dummyTexture == null) createDummyTexture(spriteBatch);
+            if (dummyTexture is null)
+            {
+                createDummyTexture(spriteBatch);
+            }
 
             //  drawLine(spriteBatch)
             //int stepX = x2 - x;
-            var stepY = y2 - y;
+            int stepY = y2 - y;
 
-            var stepR = (color2.R - color.R) / stepY;
-            var stepG = (color2.G - color.G) / stepY;
-            var stepB = (color2.B - color.B) / stepY;
-            var stepA = (color2.A - color.A) / stepY;
+            int stepR = (color2.R - color.R) / stepY;
+            int stepG = (color2.G - color.G) / stepY;
+            int stepB = (color2.B - color.B) / stepY;
+            int stepA = (color2.A - color.A) / stepY;
 
           //  MathHelper.s
             MathHelper.Lerp(color2.PackedValue, color.PackedValue, 0);
@@ -98,16 +110,16 @@ namespace OpenRS.Net.Client
                 int sR=0, sG=0, sB=0, sA=0;
                 for (int j = 0; j < stepY; j++)
                 {
-                    var nY = y + j;
-                    var nX = x;
+                    int currentY = y + j;
+                    int currentX = x;
 
                     sR += stepR;
                     sG += stepG;
                     sB += stepB;
                     sA += stepA;
 
-                    var nColor = new Color(sR,sG,sB,sA);
-                    spriteBatch.drawLine(new Vector2(nX, nY), new Vector2(x2, nY), nColor);
+                    Color currentColor = new(sR, sG, sB, sA);
+                    spriteBatch.drawLine(new Vector2(currentX, currentY), new Vector2(x2, currentY), currentColor);
                 }
             }
             //else
@@ -130,7 +142,11 @@ namespace OpenRS.Net.Client
         /// <param name="color">The draw color.</param>
         public static void drawRect(this SpriteBatch spriteBatch, Rectangle rectangle, Color color)
         {
-            if (dummyTexture == null) createDummyTexture(spriteBatch);
+            if (dummyTexture is null)
+            {
+                createDummyTexture(spriteBatch);
+            }
+
             spriteBatch.Draw(dummyTexture, new Rectangle(rectangle.Left, rectangle.Top, rectangle.Width, 1), color);
             spriteBatch.Draw(dummyTexture, new Rectangle(rectangle.Left, rectangle.Bottom, rectangle.Width, 1), color);
             spriteBatch.Draw(dummyTexture, new Rectangle(rectangle.Left, rectangle.Top, 1, rectangle.Height), color);
@@ -141,7 +157,7 @@ namespace OpenRS.Net.Client
         private static void createDummyTexture(SpriteBatch spriteBatch)
         {
             dummyTexture = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
-            dummyTexture.SetData(new[] { Color.White });
+            dummyTexture.SetData([Color.White]);
         }
 
         private static Texture2D dummyTexture;

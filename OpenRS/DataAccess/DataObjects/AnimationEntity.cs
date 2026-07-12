@@ -5,7 +5,7 @@ namespace OpenRS.DataAccess.DataObjects
     /// <summary>
     /// Animation entity.
     /// </summary>
-    public class AnimationEntity : EntityBase
+    public sealed class AnimationEntity : EntityBase
     {
         /// <summary>
         /// Gets or sets the name.

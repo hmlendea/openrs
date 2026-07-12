@@ -5,7 +5,7 @@ namespace OpenRS.DataAccess.DataObjects
     /// <summary>
     /// Prayer entity.
     /// </summary>
-    public class PrayerEntity : EntityBase
+    public sealed class PrayerEntity : EntityBase
     {
         /// <summary>
         /// Gets or sets the name.

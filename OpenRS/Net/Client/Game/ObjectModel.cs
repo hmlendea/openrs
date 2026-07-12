@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using OpenRS.Primitives;
 using OpenRS.Net.Client.Game;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 
 namespace OpenRS
 {
 
 
-    public class ObjectModel
+    public sealed class ObjectModel
     {
 
         private List<Vertex> vertices;
@@ -51,8 +47,8 @@ namespace OpenRS
 
         public ObjectModel()
         {
-            vertices = new List<Vertex>();
-            faces = new List<Face>();
+            vertices = [];
+            faces = [];
             // faces = new Vector();
             // vertices = new Vector();
             xRot = yRot = zRot = 0.0F;
@@ -72,9 +68,9 @@ namespace OpenRS
 
         public Face removeFace(int i)
         {
-            var f = faces[i];
-            faces.Remove(f);
-            return f;
+            Face face = faces[i];
+            faces.Remove(face);
+            return face;
         }
 
         public List<Face> getFaces()
@@ -89,9 +85,9 @@ namespace OpenRS
 
         public Vertex removeVert(int i)
         {
-            var f = vertices[i];
-            vertices.Remove(f);
-            return f;
+            Vertex vertex2 = vertices[i];
+            vertices.Remove(vertex2);
+            return vertex2;
         }
 
         public Vertex getVert(int i)
@@ -250,7 +246,7 @@ namespace OpenRS
     }
 
 
-    public class OB3Model(GraphicsDevice graphicsDevice, GameObject obj) : GeometricPrimitive
+    public sealed class OB3Model(GraphicsDevice graphicsDevice, GameObject obj) : GeometricPrimitive
     {
     }
 }

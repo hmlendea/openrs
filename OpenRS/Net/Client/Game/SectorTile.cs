@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 
 namespace OpenRS.Net.Client.Game
 {
-    public class SectorTile
+    public sealed class SectorTile
     {
         public byte groundElevation = 0;
         public byte groundTexture = 0;
@@ -26,8 +22,8 @@ namespace OpenRS.Net.Client.Game
             {
                 throw new IOException("Provided buffer too short");
             }
-            SectorTile tile = new SectorTile();
-            var binReader = new BinaryReader(indata);
+            SectorTile tile = new();
+            BinaryReader binReader = new(indata);
             tile.groundElevation = binReader.ReadByte();
             tile.groundTexture = binReader.ReadByte();
             tile.groundOverlay = binReader.ReadByte();

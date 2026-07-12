@@ -5,33 +5,33 @@
     /// </summary>
     public static class GameDefines
     {
-        public static string ApplicationName => $"OpenRS v{CLIENT_VERSION}";
+        public static string ApplicationName => $"OpenRS v{ClientVersion}";
 
-        public const int GUI_TILE_SIZE = 32;
+        public static int GuiTileSize => 32;
 
         /// <summary>
         /// The client version.
         /// </summary>
-        public const int CLIENT_VERSION = 3;
+        public static int ClientVersion => 3;
 
         /// <summary>
         /// The IP address of the server.
         /// </summary>
-        public const string SERVER_IP = "127.0.0.1";
+        public static string ServerIp => "127.0.0.1";
 
         /// <summary>
         /// The port of the server.
         /// </summary>
-        public const int SERVER_PORT = 43594;
+        public static int ServerPort => 43594;
 
         /// <summary>
         /// The cache URL.
         /// </summary>
-        public const string CACHE_URL = "http://216.24.201.81/cache/";
+        public static string CacheUrl => "http://216.24.201.81/cache/";
 
         /// <summary>
         /// The crash URL.
         /// </summary>
-        public const string CRASH_URL = "http://216.24.201.81/crash.php";
+        public static string CrashUrl => "http://216.24.201.81/crash.php";
     }
 }

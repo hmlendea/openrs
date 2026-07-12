@@ -13,7 +13,7 @@ namespace OpenRS.Gui.Screens
     /// <summary>
     /// Splash screen.
     /// </summary>
-    public class SplashScreen : Screen
+    public sealed class SplashScreen : Screen
     {
         /// <summary>
         /// Gets or sets the delay.

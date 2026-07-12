@@ -3,7 +3,7 @@
     /// <summary>
     /// Spell.
     /// </summary>
-    public class Spell
+    public sealed class Spell
     {
         /// <summary>
         /// Gets or sets the identifier.

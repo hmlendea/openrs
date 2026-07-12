@@ -11,7 +11,7 @@ namespace OpenRS.Gui.Controls
 {
     public sealed class GuiChatPanel : GuiControl
     {
-        private const int MessageHeight = 24;
+        private static int MessageHeight => 24;
 
         private GuiImage background;
 

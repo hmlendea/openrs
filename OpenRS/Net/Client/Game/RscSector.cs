@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 
 namespace OpenRS.Net.Client.Game
 {
-    public class RscSector
+    public sealed class RscSector
     {
         public static short WIDTH = 48;
         public static short HEIGHT = 48;
@@ -50,7 +46,7 @@ namespace OpenRS.Net.Client.Game
             {
                 throw new IOException("Provided buffer too short");
             }
-            RscSector sector = new RscSector();
+            RscSector sector = new();
 
             for (int i = 0; i < length; i++)
             {

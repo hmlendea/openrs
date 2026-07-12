@@ -16,55 +16,34 @@ namespace OpenRS.GameLogic.Mapping
         /// </summary>
         /// <returns>The domain model.</returns>
         /// <param name="textureEntity">Texture entity.</param>
-        internal static GameTexture ToDomainModel(this GameTextureEntity textureEntity)
+        internal static GameTexture ToDomainModel(this GameTextureEntity textureEntity) => new()
         {
-            GameTexture texture = new()
-            {
-                Name = textureEntity.Name,
-                SubName = textureEntity.SubName
-            };
-
-            return texture;
-        }
+            Name = textureEntity.Name,
+            SubName = textureEntity.SubName
+        };
 
         /// <summary>
         /// Converts the domain model into an entity.
         /// </summary>
         /// <returns>The entity.</returns>
         /// <param name="texture">Texture.</param>
-        internal static GameTextureEntity ToEntity(this GameTexture texture)
+        internal static GameTextureEntity ToDataObject(this GameTexture texture) => new()
         {
-            GameTextureEntity textureEntity = new()
-            {
-                Name = texture.Name,
-                SubName = texture.SubName
-            };
-
-            return textureEntity;
-        }
+            Name = texture.Name,
+            SubName = texture.SubName
+        };
 
         /// <summary>
         /// Converts the entities into domain models.
         /// </summary>
         /// <returns>The domain models.</returns>
         /// <param name="textureEntities">Texture entities.</param>
-        internal static IEnumerable<GameTexture> ToDomainModels(this IEnumerable<GameTextureEntity> textureEntities)
-        {
-            IEnumerable<GameTexture> textures = textureEntities.Select(textureEntity => textureEntity.ToDomainModel());
+        internal static IEnumerable<GameTexture> ToDomainModels(
+            this IEnumerable<GameTextureEntity> textureEntities)
+            => textureEntities.Select(textureEntity => textureEntity.ToDomainModel());
 
-            return textures;
-        }
-
-        /// <summary>
-        /// Converts the domain models into entities.
-        /// </summary>
-        /// <returns>The entities.</returns>
-        /// <param name="textures">Textures.</param>
-        internal static IEnumerable<GameTextureEntity> ToEntities(this IEnumerable<GameTexture> textures)
-        {
-            IEnumerable<GameTextureEntity> textureEntities = textures.Select(texture => texture.ToEntity());
-
-            return textureEntities;
-        }
+        internal static IEnumerable<GameTextureEntity> ToDataObjects(
+            this IEnumerable<GameTexture> textures)
+            => textures.Select(texture => texture.ToDataObject());
     }
 }

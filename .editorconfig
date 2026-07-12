@@ -1,0 +1,7 @@
+root = true
+
+[*.cs]
+csharp_prefer_braces = true:warning
+dotnet_diagnostic.IDE0011.severity = warning
+dotnet_style_require_accessibility_modifiers = always:warning
+dotnet_diagnostic.IDE0040.severity = warning

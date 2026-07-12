@@ -11,7 +11,7 @@ namespace OpenRS.DataAccess.Repositories
     /// Initializes a new instance of the <see cref="NpcLocationRepository"/> class.
     /// </remarks>
     /// <param name="fileName">File name.</param>
-    public class NpcLocationRepository(string fileName) : XmlRepository<NpcLocationEntity>(fileName)
+    public sealed class NpcLocationRepository(string fileName) : XmlRepository<NpcLocationEntity>(fileName)
     {
         /// <summary>
         /// Updates the specified npcLocation.

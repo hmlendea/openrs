@@ -2,7 +2,7 @@
 
 namespace OpenRS.Settings
 {
-    public class GraphicsSettings
+    public sealed class GraphicsSettings
     {
         /// <summary>
         /// Gets or sets the resolution.

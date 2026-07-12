@@ -3,7 +3,7 @@
     /// <summary>
     /// Non-player character.
     /// </summary>
-    public class Npc
+    public sealed class Npc
     {
         /// <summary>
         /// Gets or sets the identifier.

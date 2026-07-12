@@ -8,7 +8,7 @@ using OpenRS.Net.Client;
 
 namespace OpenRS.Gui.Controls
 {
-    public class GuiSkillsPanel(GameClient client) : GuiControl
+    public sealed class GuiSkillsPanel(GameClient client) : GuiControl
     {
         private readonly GameClient client = client;
 

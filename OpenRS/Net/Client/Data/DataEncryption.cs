@@ -1,5 +1,3 @@
-using System;
-using System.Text;
 namespace OpenRS.Net.Client.Data
 {
 

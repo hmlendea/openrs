@@ -11,7 +11,7 @@ namespace OpenRS
     /// <summary>
 	/// TODO: Update summary.
 	/// </summary>
-	public class Vertex
+	public sealed class Vertex
 	{
 
 		private Vector3 localPoint;

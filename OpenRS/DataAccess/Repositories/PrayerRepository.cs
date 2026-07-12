@@ -11,7 +11,7 @@ namespace OpenRS.DataAccess.Repositories
     /// Initializes a new instance of the <see cref="PrayerRepository"/> class.
     /// </remarks>
     /// <param name="fileName">File name.</param>
-    public class PrayerRepository(string fileName) : XmlRepository<PrayerEntity>(fileName)
+    public sealed class PrayerRepository(string fileName) : XmlRepository<PrayerEntity>(fileName)
     {
         /// <summary>
         /// Updates the specified prayer.

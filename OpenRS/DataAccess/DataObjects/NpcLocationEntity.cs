@@ -2,7 +2,7 @@
 
 namespace OpenRS.DataAccess.DataObjects
 {
-    public class NpcLocationEntity : EntityBase
+    public sealed class NpcLocationEntity : EntityBase
     {
         public int InitialX { get; set; }
 

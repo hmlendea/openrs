@@ -17,7 +17,7 @@ namespace OpenRS.Gui.Screens
     /// <summary>
     /// Gameplay screen.
     /// </summary>
-    public class GameplayScreen(string username, string password) : Screen
+    public sealed class GameplayScreen(string username, string password) : Screen
     {
         private GameClient gameClient;
         private Thread gameThread;

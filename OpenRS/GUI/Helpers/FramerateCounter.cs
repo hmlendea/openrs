@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace OpenRS.Gui.Helpers
 {
     /// <summary>
     /// Framerate counter.
     /// </summary>
-    public class FramerateCounter
+    public sealed class FramerateCounter
     {
         private static volatile FramerateCounter instance;
-        private static readonly object syncRoot = new();
+        private static readonly Lock syncRoot = new();
 
         private readonly Queue<float> sampleBuffer;
 
@@ -60,7 +61,7 @@ namespace OpenRS.Gui.Helpers
         /// <summary>
         /// The maximum number of samples.
         /// </summary>
-        public const int MAXIMUM_SAMPLES = 100;
+        public static int MaximumSamples => 100;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FramerateCounter"/> class.
@@ -80,10 +81,10 @@ namespace OpenRS.Gui.Helpers
 
             sampleBuffer.Enqueue(CurrentFramesPerSecond);
 
-            if (sampleBuffer.Count > MAXIMUM_SAMPLES)
+            if (sampleBuffer.Count > MaximumSamples)
             {
                 sampleBuffer.Dequeue();
-                AverageFramesPerSecond = sampleBuffer.Average(i => i);
+                AverageFramesPerSecond = sampleBuffer.Average(sample => sample);
             }
             else
             {

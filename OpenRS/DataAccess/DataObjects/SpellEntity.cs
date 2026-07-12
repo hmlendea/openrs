@@ -5,7 +5,7 @@ namespace OpenRS.DataAccess.DataObjects
     /// <summary>
     /// Spell entity.
     /// </summary>
-    public class SpellEntity : EntityBase
+    public sealed class SpellEntity : EntityBase
     {
         /// <summary>
         /// Gets or sets the name.

@@ -3,12 +3,12 @@ using System;
 namespace OpenRS.Net.Client.Data
 {
 
-    public class DataFileDecrypter
+    public sealed class DataFileDecrypter
     {
 
         public static long unpackData(sbyte[] abyte0, int decompressedSize, sbyte[] abyte1, int j, int k)
         {
-            BZip2BlockEntry blockEntry = new BZip2BlockEntry
+            BZip2BlockEntry blockEntry = new()
             {
                 inputBuffer = abyte1,
                 offset = k,
@@ -31,7 +31,7 @@ namespace OpenRS.Net.Client.Data
 
         public static long unpackData(byte[] abyte0, int decompressedSize, byte[] abyte1, int j, int k)
         {
-            BZip2BlockEntry blockEntry = new BZip2BlockEntry
+            BZip2BlockEntry blockEntry = new()
             {
                 inputBuffer = (sbyte[])(Array)abyte1,
                 offset = k,
@@ -53,19 +53,19 @@ namespace OpenRS.Net.Client.Data
         }
 
 
-        private static void glk(BZip2BlockEntry arg0)
+        private static void glk(BZip2BlockEntry blockEntry)
         {
-            sbyte sbyte4 = arg0.afa;
-            int i = arg0.afb;
-            int j = arg0.afl;
-            int k = arg0.afj;
+            sbyte sbyte4 = blockEntry.afa;
+            int i = blockEntry.afb;
+            int j = blockEntry.afl;
+            int k = blockEntry.afj;
             int[] ai = BZip2BlockEntry.aga;
-            int l = arg0.afi;
-            sbyte[] abyte0 = arg0.outputBuffer;
-            int i1 = arg0.aek;
-            int j1 = arg0.decompressedSize;
+            int l = blockEntry.afi;
+            sbyte[] abyte0 = blockEntry.outputBuffer;
+            int i1 = blockEntry.aek;
+            int j1 = blockEntry.decompressedSize;
             int k1 = j1;
-            int l1 = arg0.aha + 1;
+            int l1 = blockEntry.aha + 1;
             // label0:
             do
             {
@@ -74,12 +74,18 @@ namespace OpenRS.Net.Client.Data
                     do
                     {
                         if (j1 == 0)
+                        {
                             goto done;
+                        }
+
                         if (i == 1)
+                        {
                             break;
+                        }
+
                         abyte0[i1] = sbyte4;
                         i--;
-                        i1++;
+                        i1 += 1;
                         j1--;
                     } while (true);
                     if (j1 == 0)
@@ -88,7 +94,7 @@ namespace OpenRS.Net.Client.Data
                         break;
                     }
                     abyte0[i1] = sbyte4;
-                    i1++;
+                    i1 += 1;
                     j1--;
                 }
                 bool flag = true;
@@ -104,7 +110,7 @@ namespace OpenRS.Net.Client.Data
                     l = ai[l];
                     byte sbyte0 = (byte)(l & 0xff);
                     l >>= 8;
-                    j++;
+                    j += 1;
                     if (sbyte0 != k)
                     {
                         k = sbyte0;
@@ -115,7 +121,7 @@ namespace OpenRS.Net.Client.Data
                         else
                         {
                             abyte0[i1] = sbyte4;
-                            i1++;
+                            i1 += 1;
                             j1--;
                             flag = true;
                             continue;
@@ -123,14 +129,17 @@ namespace OpenRS.Net.Client.Data
                         goto done;
                     }
                     if (j != l1)
+                    {
                         continue;
+                    }
+
                     if (j1 == 0)
                     {
                         i = 1;
                         goto done;
                     }
                     abyte0[i1] = sbyte4;
-                    i1++;
+                    i1 += 1;
                     j1--;
                     flag = true;
                 }
@@ -139,6 +148,7 @@ namespace OpenRS.Net.Client.Data
                 byte sbyte1 = (byte)(l & 0xff);
                 l >>= 8;
                 if (++j != l1)
+                {
                     if (sbyte1 != k)
                     {
                         k = sbyte1;
@@ -150,6 +160,7 @@ namespace OpenRS.Net.Client.Data
                         byte sbyte2 = (byte)(l & 0xff);
                         l >>= 8;
                         if (++j != l1)
+                        {
                             if (sbyte2 != k)
                             {
                                 k = sbyte2;
@@ -159,31 +170,36 @@ namespace OpenRS.Net.Client.Data
                                 l = ai[l];
                                 byte sbyte3 = (byte)(l & 0xff);
                                 l >>= 8;
-                                j++;
+                                j += 1;
                                 i = (sbyte3 & 0xff) + 4;
                                 l = ai[l];
                                 k = (l & 0xff);
                                 l >>= 8;
-                                j++;
+                                j += 1;
                             }
+                        }
                     }
+                }
             } while (true);
 
         done:
 
-            int i2 = arg0.aem;
-            arg0.aem += k1 - j1;
-            if (arg0.aem < i2)
-                arg0.aen++;
-            arg0.afa = sbyte4;
-            arg0.afb = i;
-            arg0.afl = j;
-            arg0.afj = k;
+            int i2 = blockEntry.aem;
+            blockEntry.aem += k1 - j1;
+            if (blockEntry.aem < i2)
+            {
+                blockEntry.aen += 1;
+            }
+
+            blockEntry.afa = sbyte4;
+            blockEntry.afb = i;
+            blockEntry.afl = j;
+            blockEntry.afj = k;
             BZip2BlockEntry.aga = ai;
-            arg0.afi = l;
-            arg0.outputBuffer = abyte0;
-            arg0.aek = i1;
-            arg0.decompressedSize = j1;
+            blockEntry.afi = l;
+            blockEntry.outputBuffer = abyte0;
+            blockEntry.aek = i1;
+            blockEntry.decompressedSize = j1;
         }
 
 
@@ -194,7 +210,7 @@ namespace OpenRS.Net.Client.Data
             int[] base_zt = null;
             int[] perm_zt = null;
             blockEntry.blockSize100k = 1;
-            if (BZip2BlockEntry.aga == null)
+            if (BZip2BlockEntry.aga is null)
             {
                 BZip2BlockEntry.aga = new int[blockEntry.blockSize100k * 0x186a0];
             }
@@ -211,7 +227,7 @@ namespace OpenRS.Net.Client.Data
                 tmpRegister = getUByte(blockEntry);
                 tmpRegister = getUByte(blockEntry);
                 tmpRegister = getUByte(blockEntry);
-                blockEntry.afg++;
+                blockEntry.afg += 1;
                 tmpRegister = getUByte(blockEntry);
                 tmpRegister = getUByte(blockEntry);
                 tmpRegister = getUByte(blockEntry);
@@ -284,7 +300,7 @@ namespace OpenRS.Net.Client.Data
                         {
                             break;
                         }
-                        j3++;
+                        j3 += 1;
                     } while (true);
                      blockEntry.selectorMtf[i1] = (sbyte)j3;
                     //blockEntry.selectorMtf[i1] = (byte)j3;
@@ -324,7 +340,7 @@ namespace OpenRS.Net.Client.Data
                             sbyte4 = getBit(blockEntry);
                             if (sbyte4 == 0)
                             {
-                                l6++;
+                                l6 += 1;
                             }
                             else
                             {
@@ -379,7 +395,7 @@ namespace OpenRS.Net.Client.Data
                 int i6 = 0;
                 if (groupPos == 0)
                 {
-                    lastShadow++;
+                    lastShadow += 1;
                     groupPos = 50;
                     sbyte sbyte12 = blockEntry.selector[lastShadow];
                     minLens_zt = blockEntry.agn[sbyte12];
@@ -393,7 +409,7 @@ namespace OpenRS.Net.Client.Data
                 sbyte sbyte9;
                 for (l7 = getBits(i7, blockEntry); l7 > limit_zt[i7]; l7 = l7 << 1 | sbyte9)
                 {
-                    i7++;
+                    i7 += 1;
                     sbyte9 = getBit(blockEntry);
                 }
 
@@ -419,7 +435,7 @@ namespace OpenRS.Net.Client.Data
                             k6 *= 2;
                             if (groupPos == 0)
                             {
-                                lastShadow++;
+                                lastShadow += 1;
                                 groupPos = 50;
                                 sbyte sbyte13 = blockEntry.selector[lastShadow];
                                 minLens_zt = blockEntry.agn[sbyte13];
@@ -433,19 +449,19 @@ namespace OpenRS.Net.Client.Data
                             sbyte sbyte10;
                             for (i8 = getBits(j7, blockEntry); i8 > limit_zt[j7]; i8 = i8 << 1 | (byte)sbyte10)
                             {
-                                j7++;
+                                j7 += 1;
                                 sbyte10 = getBit(blockEntry);
                             }
 
                             nextSym = perm_zt[i8 - base_zt[j7]];
                         } while (nextSym == 0 || nextSym == 1);
-                        j6++;
+                        j6 += 1;
                         sbyte sbyte5 = (sbyte)blockEntry.seqToUnseq[blockEntry.yy[blockEntry.agg[0]] & 0xff];
                         blockEntry.unzftab[sbyte5 & 0xff] += j6;
                         for (; j6 > 0; j6--)
                         {
                             BZip2BlockEntry.aga[i6] = sbyte5 & 0xff;
-                            i6++;
+                            i6 += 1;
                         }
 
                     }
@@ -484,7 +500,7 @@ namespace OpenRS.Net.Client.Data
                                 blockEntry.yy[k10] = blockEntry.yy[k10 - 1];
                             }
 
-                            blockEntry.agg[l10]++;
+                            blockEntry.agg[l10] += 1;
                             for (; l10 > 0; l10--)
                             {
                                 blockEntry.agg[l10]--;
@@ -511,10 +527,10 @@ namespace OpenRS.Net.Client.Data
                         }
                         blockEntry.unzftab[blockEntry.seqToUnseq[sbyte6 & 0xff] & 0xff]++;
                         BZip2BlockEntry.aga[i6] = blockEntry.seqToUnseq[sbyte6 & 0xff] & 0xff;
-                        i6++;
+                        i6 += 1;
                         if (groupPos == 0)
                         {
-                            lastShadow++;
+                            lastShadow += 1;
                             groupPos = 50;
                             sbyte sbyte14 = blockEntry.selector[lastShadow];
                             minLens_zt = blockEntry.agn[sbyte14];
@@ -528,7 +544,7 @@ namespace OpenRS.Net.Client.Data
                         sbyte sbyte11;
                         for (j8 = getBits(k7, blockEntry); j8 > limit_zt[k7]; j8 = j8 << 1 | sbyte11)
                         {
-                            k7++;
+                            k7 += 1;
                             sbyte11 = getBit(blockEntry);
                         }
 
@@ -553,7 +569,7 @@ namespace OpenRS.Net.Client.Data
                 {
                     int sbyte7 = ((BZip2BlockEntry.aga[l2]) & 0xff);
                     BZip2BlockEntry.aga[blockEntry.afm[sbyte7 & 0xff]] |= l2 << 8;
-                    blockEntry.afm[sbyte7 & 0xff]++;
+                    blockEntry.afm[sbyte7 & 0xff] += 1;
                 }
 
                 blockEntry.afi = BZip2BlockEntry.aga[blockEntry.origPtr] >> 8;
@@ -561,7 +577,7 @@ namespace OpenRS.Net.Client.Data
                 blockEntry.afi = BZip2BlockEntry.aga[blockEntry.afi];
                 blockEntry.afj = (blockEntry.afi & 0xff);
                 blockEntry.afi >>= 8;
-                blockEntry.afl++;
+                blockEntry.afl += 1;
                 blockEntry.aha = i6;
                 glk(blockEntry);
                 if (blockEntry.afl == blockEntry.aha + 1 && blockEntry.afb == 0)
@@ -585,40 +601,40 @@ namespace OpenRS.Net.Client.Data
             return (sbyte)getBits(1, o1);
         }
 
-        private static int getBits(int arg0, BZip2BlockEntry arg1)
+        private static int getBits(int bitCount, BZip2BlockEntry blockEntry)
         {
             int i;
             do
             {
-                if (arg1.afe >= arg0)
+                if (blockEntry.afe >= bitCount)
                 {
-                    int j = arg1.afd >> arg1.afe - arg0 & (1 << arg0) - 1;
-                    arg1.afe -= arg0;
+                    int j = blockEntry.afd >> blockEntry.afe - bitCount & (1 << bitCount) - 1;
+                    blockEntry.afe -= bitCount;
                     i = j;
                     break;
                 }
-                arg1.afd = arg1.afd << 8 | arg1.inputBuffer[arg1.offset] & 0xff;
-                arg1.afe += 8;
-                arg1.offset++;
-                arg1.compressedSize--;
-                arg1.aeh++;
-                if (arg1.aeh == 0)
+                blockEntry.afd = blockEntry.afd << 8 | blockEntry.inputBuffer[blockEntry.offset] & 0xff;
+                blockEntry.afe += 8;
+                blockEntry.offset += 1;
+                blockEntry.compressedSize--;
+                blockEntry.aeh += 1;
+                if (blockEntry.aeh == 0)
                 {
-                    arg1.aei++;
+                    blockEntry.aei += 1;
                 }
             } while (true);
             return i;
         }
 
-        private static void createMaps(BZip2BlockEntry arg0)
+        private static void createMaps(BZip2BlockEntry blockEntry)
         {
-            arg0.inUseOffset = 0;
+            blockEntry.inUseOffset = 0;
             for (int i = 0; i < 256; i++)
             {
-                if (arg0.inUse[i])
+                if (blockEntry.inUse[i])
                 {
-                    arg0.seqToUnseq[arg0.inUseOffset] = (byte)i;
-                    arg0.inUseOffset++;
+                    blockEntry.seqToUnseq[blockEntry.inUseOffset] = (byte)i;
+                    blockEntry.inUseOffset += 1;
                 }
             }
 
@@ -634,7 +650,7 @@ namespace OpenRS.Net.Client.Data
                     if (length[i2] == j)
                     {
                         perm[i] = i2;
-                        i++;
+                        i += 1;
                     }
                 }
 

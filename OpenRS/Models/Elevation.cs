@@ -3,7 +3,7 @@
     /// <summary>
     /// Elevation.
     /// </summary>
-    public class Elevation
+    public sealed class Elevation
     {
         // TODO: Find meaning
         public int Roof { get; set; }

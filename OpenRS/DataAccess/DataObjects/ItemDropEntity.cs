@@ -5,7 +5,7 @@ namespace OpenRS.DataAccess.DataObjects
     /// <summary>
     /// Item drop entity.
     /// </summary>
-    public class ItemDropEntity : EntityBase
+    public sealed class ItemDropEntity : EntityBase
     {
         /// <summary>
         /// Gets or sets the item identifier.

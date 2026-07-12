@@ -1,5 +1,5 @@
 ﻿using System.IO;
-
+using System.Threading;
 using NuciDAL.IO;
 using NuciXNA.Graphics;
 
@@ -8,10 +8,10 @@ namespace OpenRS.Settings
     /// <summary>
     /// Settings manager.
     /// </summary>
-    public class SettingsManager
+    public sealed class SettingsManager
     {
         private static volatile SettingsManager instance;
-        private static readonly object syncRoot = new();
+        private static readonly Lock syncRoot = new();
 
         /// <summary>
         /// Gets the instance.

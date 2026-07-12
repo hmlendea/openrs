@@ -1,9 +1,7 @@
 ﻿namespace OpenRS.GameLogic.GameManagers
 {
-    public class CombatManager(InventoryManager inventoryManager)
+    public sealed class CombatManager(InventoryManager inventoryManager)
     {
-        private readonly InventoryManager inventoryManager = inventoryManager;
-
         public bool HasRequiredRunes(int itemId, int count)
         {
             if (itemId == 31 && (inventoryManager.IsItemEquipped(197) || inventoryManager.IsItemEquipped(615) || inventoryManager.IsItemEquipped(682)))

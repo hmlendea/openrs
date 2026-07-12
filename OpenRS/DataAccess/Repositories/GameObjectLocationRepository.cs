@@ -11,7 +11,7 @@ namespace OpenRS.DataAccess.Repositories
     /// Initializes a new instance of the <see cref="GameObjectLocationRepository"/> class.
     /// </remarks>
     /// <param name="fileName">File name.</param>
-    public class GameObjectLocationRepository(string fileName) : XmlRepository<GameObjectLocationEntity>(fileName)
+    public sealed class GameObjectLocationRepository(string fileName) : XmlRepository<GameObjectLocationEntity>(fileName)
     {
         /// <summary>
         /// Updates the specified world object.

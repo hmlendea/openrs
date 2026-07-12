@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenRS.Net.Client;
+﻿using OpenRS.Net.Client;
 
 namespace OpenRS
 {
@@ -27,11 +23,11 @@ namespace OpenRS
         }
         public static void AcceptTrade(this GameClient mc, TradeAndDuelState state)
         {
-            if (state == TradeAndDuelState.Initial) 
-            { 
+            if (state == TradeAndDuelState.Initial)
+            {
             }
-            else 
-            { 
+            else
+            {
             }
         }
         public static void DeclineTrade(this GameClient mc)

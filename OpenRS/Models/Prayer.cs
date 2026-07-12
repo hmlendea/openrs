@@ -3,7 +3,7 @@
     /// <summary>
     /// Prayer.
     /// </summary>
-    public class Prayer
+    public sealed class Prayer
     {
         /// <summary>
         /// Gets or sets the identifier.

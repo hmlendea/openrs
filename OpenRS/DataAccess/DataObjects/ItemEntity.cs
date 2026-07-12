@@ -5,7 +5,7 @@ namespace OpenRS.DataAccess.DataObjects
     /// <summary>
     /// Game item entity.
     /// </summary>
-    public class ItemEntity : EntityBase
+    public sealed class ItemEntity : EntityBase
     {
         /// <summary>
         /// Gets or sets the name.

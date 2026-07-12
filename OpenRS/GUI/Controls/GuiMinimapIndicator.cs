@@ -6,7 +6,7 @@ using NuciXNA.Primitives;
 
 namespace OpenRS.Gui.Controls
 {
-    public class GuiMinimapIndicator : GuiControl
+    public sealed class GuiMinimapIndicator : GuiControl
     {
         private GuiImage indicator;
         private GuiImage icon;

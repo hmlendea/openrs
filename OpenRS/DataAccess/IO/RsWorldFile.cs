@@ -2,7 +2,7 @@
 
 namespace OpenRS.DataAccess.IO
 {
-    public class RsWorldFile
+    public sealed class RsWorldFile
     {
         public void Read() => throw new NotImplementedException();
 

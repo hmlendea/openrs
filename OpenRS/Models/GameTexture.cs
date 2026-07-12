@@ -3,7 +3,7 @@
     /// <summary>
     /// Texture.
     /// </summary>
-    public class GameTexture
+    public sealed class GameTexture
     {
         /// <summary>
         /// Gets or sets the name.

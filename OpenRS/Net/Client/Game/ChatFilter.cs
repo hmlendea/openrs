@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OpenRS.Net.Client.Game
+﻿namespace OpenRS.Net.Client.Game
 {
-    public class ChatFilter
+    public sealed class ChatFilter
     {
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// Item drop.
     /// </summary>
-    public class ItemDrop
+    public sealed class ItemDrop
     {
         /// <summary>
         /// Gets or sets the item identifier.

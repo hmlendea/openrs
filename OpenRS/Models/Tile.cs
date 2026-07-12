@@ -3,7 +3,7 @@
     /// <summary>
     /// Tile.
     /// </summary>
-    public class Tile
+    public sealed class Tile
     {
         /// <summary>
         /// Gets or sets the colour.

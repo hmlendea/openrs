@@ -16,61 +16,40 @@ namespace OpenRS.GameLogic.Mapping
         /// </summary>
         /// <returns>The domain model.</returns>
         /// <param name="prayerEntity">Prayer entity.</param>
-        internal static Prayer ToDomainModel(this PrayerEntity prayerEntity)
+        internal static Prayer ToDomainModel(this PrayerEntity prayerEntity) => new()
         {
-            Prayer prayer = new()
-            {
-                Id = prayerEntity.Id,
-                Name = prayerEntity.Name,
-                Description = prayerEntity.Description,
-                RequiredLevel = prayerEntity.RequiredLevel,
-                DrainRate = prayerEntity.DrainRate
-            };
-
-            return prayer;
-        }
+            Id = prayerEntity.Id,
+            Name = prayerEntity.Name,
+            Description = prayerEntity.Description,
+            RequiredLevel = prayerEntity.RequiredLevel,
+            DrainRate = prayerEntity.DrainRate
+        };
 
         /// <summary>
         /// Converts the domain model into an entity.
         /// </summary>
         /// <returns>The entity.</returns>
         /// <param name="prayer">Prayer.</param>
-        internal static PrayerEntity ToEntity(this Prayer prayer)
+        internal static PrayerEntity ToDataObject(this Prayer prayer) => new()
         {
-            PrayerEntity prayerEntity = new()
-            {
-                Id = prayer.Id,
-                Name = prayer.Name,
-                Description = prayer.Description,
-                RequiredLevel = prayer.RequiredLevel,
-                DrainRate = prayer.DrainRate
-            };
-
-            return prayerEntity;
-        }
+            Id = prayer.Id,
+            Name = prayer.Name,
+            Description = prayer.Description,
+            RequiredLevel = prayer.RequiredLevel,
+            DrainRate = prayer.DrainRate
+        };
 
         /// <summary>
         /// Converts the entities into domain models.
         /// </summary>
         /// <returns>The domain models.</returns>
         /// <param name="prayerEntities">Prayer entities.</param>
-        internal static IEnumerable<Prayer> ToDomainModels(this IEnumerable<PrayerEntity> prayerEntities)
-        {
-            IEnumerable<Prayer> prayers = prayerEntities.Select(prayerEntity => prayerEntity.ToDomainModel());
+        internal static IEnumerable<Prayer> ToDomainModels(
+            this IEnumerable<PrayerEntity> prayerEntities)
+            => prayerEntities.Select(prayerEntity => prayerEntity.ToDomainModel());
 
-            return prayers;
-        }
-
-        /// <summary>
-        /// Converts the domain models into entities.
-        /// </summary>
-        /// <returns>The entities.</returns>
-        /// <param name="prayers">Prayers.</param>
-        internal static IEnumerable<PrayerEntity> ToEntities(this IEnumerable<Prayer> prayers)
-        {
-            IEnumerable<PrayerEntity> prayerEntities = prayers.Select(prayer => prayer.ToEntity());
-
-            return prayerEntities;
-        }
+        internal static IEnumerable<PrayerEntity> ToDataObjects(
+            this IEnumerable<Prayer> prayers)
+            => prayers.Select(prayer => prayer.ToDataObject());
     }
 }

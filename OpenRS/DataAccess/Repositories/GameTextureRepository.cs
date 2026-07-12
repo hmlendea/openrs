@@ -11,7 +11,7 @@ namespace OpenRS.DataAccess.Repositories
     /// Initializes a new instance of the <see cref="GameTextureRepository"/> class.
     /// </remarks>
     /// <param name="fileName">File name.</param>
-    public class GameTextureRepository(string fileName) : XmlRepository<GameTextureEntity>(fileName)
+    public sealed class GameTextureRepository(string fileName) : XmlRepository<GameTextureEntity>(fileName)
     {
         /// <summary>
         /// Updates the specified texture.

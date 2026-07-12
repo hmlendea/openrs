@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OpenRS.Net.Client.Data
+﻿namespace OpenRS.Net.Client.Data
 {
-    public class AudioReader
+    public sealed class AudioReader
     {
         public AudioReader()
         {
@@ -17,22 +12,28 @@ namespace OpenRS.Net.Client.Data
           //  AudioPlayer.player.stop(this);
         }
 
-        public void play(sbyte[] abyte0, int i, int j)
+        public void play(sbyte[] audioData, int startOffset, int byteCount)
         {
-            data = abyte0;
-            offset = i;
-            length = i + j;
+            data = audioData;
+            offset = startOffset;
+            length = startOffset + byteCount;
         }
 
-        public int read(sbyte[] arg0, int arg1, int arg2)
+        public int read(sbyte[] outputBuffer, int bufferOffset, int byteCount)
         {
-            for (int i = 0; i < arg2; i++)
+            for (int i = 0; i < byteCount; i++)
+            {
                 if (offset < length)
-                    arg0[arg1 + i] = data[offset++];
+                {
+                    outputBuffer[bufferOffset + i] = data[offset += 1];
+                }
                 else
-                    arg0[arg1 + i] = 0;
+                {
+                    outputBuffer[bufferOffset + i] = 0;
+                }
+            }
 
-            return arg2;
+            return byteCount;
         }
 
         public int read()
@@ -42,8 +43,8 @@ namespace OpenRS.Net.Client.Data
             return abyte0[0];
         }
 
-        sbyte[] data;
-        int offset;
-        int length;
+        private sbyte[] data;
+        private int offset;
+        private int length;
     }
 }

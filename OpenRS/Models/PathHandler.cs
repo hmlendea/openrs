@@ -4,7 +4,7 @@ using NuciXNA.Primitives;
 
 namespace OpenRS.Models
 {
-    public class PathHandler
+    public sealed class PathHandler
     {
         public WalkPath Path { get; private set; }
 

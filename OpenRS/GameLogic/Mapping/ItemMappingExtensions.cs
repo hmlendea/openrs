@@ -16,77 +16,56 @@ namespace OpenRS.GameLogic.Mapping
         /// </summary>
         /// <returns>The domain model.</returns>
         /// <param name="itemEntity">Item entity.</param>
-        internal static Item ToDomainModel(this ItemEntity itemEntity)
+        internal static Item ToDomainModel(this ItemEntity itemEntity) => new()
         {
-            Item item = new()
-            {
-                Id = itemEntity.Id,
-                Name = itemEntity.Name,
-                Description = itemEntity.Description,
-                Command = itemEntity.Command,
-                BasePrice = itemEntity.BasePrice,
-                SpriteId = itemEntity.SpriteId,
-                InventoryPicture = itemEntity.InventoryPicture,
-                PictureMask = itemEntity.PictureMask,
-                IsEquipable = itemEntity.IsEquipable,
-                IsPremium = itemEntity.IsPremium,
-                IsSpecial = itemEntity.IsSpecial,
-                IsStackable = itemEntity.IsStackable,
-                IsUnused = itemEntity.IsUnused
-            };
-
-            return item;
-        }
+            Id = itemEntity.Id,
+            Name = itemEntity.Name,
+            Description = itemEntity.Description,
+            Command = itemEntity.Command,
+            BasePrice = itemEntity.BasePrice,
+            SpriteId = itemEntity.SpriteId,
+            InventoryPicture = itemEntity.InventoryPicture,
+            PictureMask = itemEntity.PictureMask,
+            IsEquipable = itemEntity.IsEquipable,
+            IsPremium = itemEntity.IsPremium,
+            IsSpecial = itemEntity.IsSpecial,
+            IsStackable = itemEntity.IsStackable,
+            IsUnused = itemEntity.IsUnused
+        };
 
         /// <summary>
         /// Converts the domain model into an entity.
         /// </summary>
         /// <returns>The entity.</returns>
         /// <param name="item">Item.</param>
-        internal static ItemEntity ToEntity(this Item item)
+        internal static ItemEntity ToDataObject(this Item item) => new()
         {
-            ItemEntity itemEntity = new()
-            {
-                Id = item.Id,
-                Name = item.Name,
-                Description = item.Description,
-                Command = item.Command,
-                BasePrice = item.BasePrice,
-                SpriteId = item.SpriteId,
-                InventoryPicture = item.InventoryPicture,
-                PictureMask = item.PictureMask,
-                IsEquipable = item.IsEquipable,
-                IsPremium = item.IsPremium,
-                IsSpecial = item.IsSpecial,
-                IsStackable = item.IsStackable,
-                IsUnused = item.IsUnused
-            };
-
-            return itemEntity;
-        }
+            Id = item.Id,
+            Name = item.Name,
+            Description = item.Description,
+            Command = item.Command,
+            BasePrice = item.BasePrice,
+            SpriteId = item.SpriteId,
+            InventoryPicture = item.InventoryPicture,
+            PictureMask = item.PictureMask,
+            IsEquipable = item.IsEquipable,
+            IsPremium = item.IsPremium,
+            IsSpecial = item.IsSpecial,
+            IsStackable = item.IsStackable,
+            IsUnused = item.IsUnused
+        };
 
         /// <summary>
         /// Converts the entities into domain models.
         /// </summary>
         /// <returns>The domain models.</returns>
         /// <param name="itemEntities">Item entities.</param>
-        internal static IEnumerable<Item> ToDomainModels(this IEnumerable<ItemEntity> itemEntities)
-        {
-            IEnumerable<Item> items = itemEntities.Select(itemEntity => itemEntity.ToDomainModel());
+        internal static IEnumerable<Item> ToDomainModels(
+            this IEnumerable<ItemEntity> itemEntities)
+            => itemEntities.Select(itemEntity => itemEntity.ToDomainModel());
 
-            return items;
-        }
-
-        /// <summary>
-        /// Converts the domain models into entities.
-        /// </summary>
-        /// <returns>The entities.</returns>
-        /// <param name="items">Items.</param>
-        internal static IEnumerable<ItemEntity> ToEntities(this IEnumerable<Item> items)
-        {
-            IEnumerable<ItemEntity> itemEntities = items.Select(item => item.ToEntity());
-
-            return itemEntities;
-        }
+        internal static IEnumerable<ItemEntity> ToDataObjects(
+            this IEnumerable<Item> items)
+            => items.Select(item => item.ToDataObject());
     }
 }

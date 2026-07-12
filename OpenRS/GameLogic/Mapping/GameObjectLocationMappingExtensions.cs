@@ -19,58 +19,42 @@ namespace OpenRS.GameLogic.Mapping
         /// </summary>
         /// <returns>The domain model.</returns>
         /// <param name="gameObjectLocationEntity">Model entity.</param>
-        internal static GameObjectLocation ToDomainModel(this GameObjectLocationEntity gameObjectLocationEntity)
+        internal static GameObjectLocation ToDomainModel(this GameObjectLocationEntity gameObjectLocationEntity) => new()
         {
-            GameObjectLocation gameObjectLocation = new()
-            {
-                Location = new Point2D(gameObjectLocationEntity.X, gameObjectLocationEntity.Y),
-                Direction = gameObjectLocationEntity.Direction,
-                Type = (GameObjectType)gameObjectLocationEntity.Type
-            };
-
-            return gameObjectLocation;
-        }
+            Location = new Point2D(gameObjectLocationEntity.X, gameObjectLocationEntity.Y),
+            Direction = gameObjectLocationEntity.Direction,
+            Type = (GameObjectType)gameObjectLocationEntity.Type
+        };
 
         /// <summary>
         /// Converts the domain model into an entity.
         /// </summary>
         /// <returns>The entity.</returns>
         /// <param name="gameObjectLocation">Model.</param>
-        internal static GameObjectLocationEntity ToEntity(this GameObjectLocation gameObjectLocation)
+        internal static GameObjectLocationEntity ToDataObject(this GameObjectLocation gameObjectLocation) => new()
         {
-            GameObjectLocationEntity gameObjectLocationEntity = new()
-            {
-                X = gameObjectLocation.Location.X,
-                Y = gameObjectLocation.Location.Y,
-                Direction = gameObjectLocation.Direction,
-                Type = (int)gameObjectLocation.Type
-            };
-
-            return gameObjectLocationEntity;
-        }
+            X = gameObjectLocation.Location.X,
+            Y = gameObjectLocation.Location.Y,
+            Direction = gameObjectLocation.Direction,
+            Type = (int)gameObjectLocation.Type
+        };
 
         /// <summary>
         /// Converts the entities into domain models.
         /// </summary>
         /// <returns>The domain models.</returns>
         /// <param name="gameObjectLocationEntities">Model entities.</param>
-        internal static IEnumerable<GameObjectLocation> ToDomainModels(this IEnumerable<GameObjectLocationEntity> gameObjectLocationEntities)
-        {
-            IEnumerable<GameObjectLocation> gameObjectLocations = gameObjectLocationEntities.Select(modelEntity => modelEntity.ToDomainModel());
-
-            return gameObjectLocations;
-        }
+        internal static IEnumerable<GameObjectLocation> ToDomainModels(
+            this IEnumerable<GameObjectLocationEntity> gameObjectLocationEntities)
+            => gameObjectLocationEntities.Select(gameObjectLocationEntity => gameObjectLocationEntity.ToDomainModel());
 
         /// <summary>
         /// Converts the domain models into entities.
         /// </summary>
         /// <returns>The entities.</returns>
         /// <param name="gameObjectLocations">Models.</param>
-        internal static IEnumerable<GameObjectLocationEntity> ToEntities(this IEnumerable<GameObjectLocation> gameObjectLocations)
-        {
-            IEnumerable<GameObjectLocationEntity> gameObjectLocationEntities = gameObjectLocations.Select(model => model.ToEntity());
-
-            return gameObjectLocationEntities;
-        }
+        internal static IEnumerable<GameObjectLocationEntity> ToDataObjects(
+            this IEnumerable<GameObjectLocation> gameObjectLocations)
+            => gameObjectLocations.Select(gameObjectLocation => gameObjectLocation.ToDataObject());
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace OpenRS.Models
 {
-    public class Skill
+    public sealed class Skill
     {
         public string Name { get; set; }
 

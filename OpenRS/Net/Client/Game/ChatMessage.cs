@@ -1,37 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OpenRS.Net.Client.Game
 {
 
-public class ChatMessage {
+public sealed class ChatMessage {
 
-    public static String bytesToString(sbyte[] arg0, int arg1, int arg2)
+    public static String bytesToString(sbyte[] encodedBytes, int readOffset, int byteCount)
     {
         try {
             int i = 0;
             int j = -1;
-            for(int k = 0; k < arg2; k++) {
-                int l = arg0[arg1++] & 0xff;
+            for(int k = 0; k < byteCount; k++) {
+                int l = encodedBytes[readOffset += 1] & 0xff;
                 int i1 = l >> 4 & 0xf;
                 if(j == -1) {
                     if(i1 < 13)
-                        chatMessage[i++] = validChars[i1];
-                    else
-                        j = i1;
-                } else {
+                        {
+                            chatMessage[i++] = validChars[i1];
+                        }
+                        else
+                        {
+                            j = i1;
+                        }
+                    } else {
                     chatMessage[i++] = validChars[((j << 4) + i1) - 195];
                     j = -1;
                 }
                 i1 = l & 0xf;
                 if(j == -1) {
                     if(i1 < 13)
-                        chatMessage[i++] = validChars[i1];
-                    else
-                        j = i1;
-                } else {
+                        {
+                            chatMessage[i++] = validChars[i1];
+                        }
+                        else
+                        {
+                            j = i1;
+                        }
+                    } else {
                     chatMessage[i++] = validChars[((j << 4) + i1) - 195];
                     j = -1;
                 }
@@ -41,16 +46,24 @@ public class ChatMessage {
             for(int j1 = 0; j1 < i; j1++) {
                 char c = chatMessage[j1];
                 if(j1 > 4 && c == '@')
-                    chatMessage[j1] = ' ';
-                if(c == '%')
-                    chatMessage[j1] = ' ';
-                if(flag && c >= 'a' && c <= 'z') {
+                    {
+                        chatMessage[j1] = ' ';
+                    }
+
+                    if (c == '%')
+                    {
+                        chatMessage[j1] = ' ';
+                    }
+
+                    if (flag && c >= 'a' && c <= 'z') {
                     chatMessage[j1] += '\uFFE0';
                     flag = false;
                 }
                 if(c == '.' || c == '!')
-                    flag = true;
-            }
+                    {
+                        flag = true;
+                    }
+                }
 
             return new String(chatMessage, 0, i);
         }
@@ -59,23 +72,27 @@ public class ChatMessage {
         }
     }
 
-    public static String bytesToString(byte[] arg0, int arg1, int arg2)
+    public static String bytesToString(byte[] encodedBytes, int readOffset, int byteCount)
     {
         try
         {
             int i = 0;
             int j = -1;
-            for (int k = 0; k < arg2; k++)
+            for (int k = 0; k < byteCount; k++)
             {
-                int l = arg0[arg1++] & 0xff;
+                int l = encodedBytes[readOffset += 1] & 0xff;
                 int i1 = l >> 4 & 0xf;
                 if (j == -1)
                 {
                     if (i1 < 13)
-                        chatMessage[i++] = validChars[i1];
-                    else
-                        j = i1;
-                }
+                        {
+                            chatMessage[i++] = validChars[i1];
+                        }
+                        else
+                        {
+                            j = i1;
+                        }
+                    }
                 else
                 {
                     chatMessage[i++] = validChars[((j << 4) + i1) - 195];
@@ -85,10 +102,14 @@ public class ChatMessage {
                 if (j == -1)
                 {
                     if (i1 < 13)
-                        chatMessage[i++] = validChars[i1];
-                    else
-                        j = i1;
-                }
+                        {
+                            chatMessage[i++] = validChars[i1];
+                        }
+                        else
+                        {
+                            j = i1;
+                        }
+                    }
                 else
                 {
                     chatMessage[i++] = validChars[((j << 4) + i1) - 195];
@@ -101,17 +122,25 @@ public class ChatMessage {
             {
                 char c = chatMessage[j1];
                 if (j1 > 4 && c == '@')
-                    chatMessage[j1] = ' ';
-                if (c == '%')
-                    chatMessage[j1] = ' ';
-                if (flag && c >= 'a' && c <= 'z')
+                    {
+                        chatMessage[j1] = ' ';
+                    }
+
+                    if (c == '%')
+                    {
+                        chatMessage[j1] = ' ';
+                    }
+
+                    if (flag && c >= 'a' && c <= 'z')
                 {
                     chatMessage[j1] += '\uFFE0';
                     flag = false;
                 }
                 if (c == '.' || c == '!')
-                    flag = true;
-            }
+                    {
+                        flag = true;
+                    }
+                }
 
             return new String(chatMessage, 0, i);
         }
@@ -121,30 +150,43 @@ public class ChatMessage {
         }
     }
 
-    public static int stringToBytes(String arg0) {
-        if(arg0.Length > 80)
-            arg0 = arg0.Substring(0, 80);
-        arg0 = arg0.ToLower();
+    public static int stringToBytes(String message) {
+        if(message.Length > 80)
+            {
+                message = message.Substring(0, 80);
+            }
+
+            message = message.ToLower();
         int i = 0;
         int j = -1;
-        for(int k = 0; k < arg0.Length; k++) {
-            char c = arg0[k];
+        for(int k = 0; k < message.Length; k++) {
+            char c = message[k];
             int l = 0;
             for(int i1 = 0; i1 < validChars.Length; i1++) {
                 if(c != validChars[i1])
-                    continue;
-                l = i1;
+                    {
+                        continue;
+                    }
+
+                    l = i1;
                 break;
             }
 
             if(l > 12)
-                l += 195;
-            if(j == -1) {
+                {
+                    l += 195;
+                }
+
+                if (j == -1) {
                 if(l < 13)
-                    j = l;
-                else
-                    lastChat[i++] = (byte)l;
-            } else
+                    {
+                        j = l;
+                    }
+                    else
+                    {
+                        lastChat[i++] = (byte)l;
+                    }
+                } else
             if(l < 13) {
                 lastChat[i++] = (byte)((j << 4) + l);
                 j = -1;
@@ -155,21 +197,24 @@ public class ChatMessage {
         }
 
         if(j != -1)
-            lastChat[i++] = (byte)(j << 4);
-        return i;
+            {
+                lastChat[i++] = (byte)(j << 4);
+            }
+
+            return i;
     }
 
     public static byte[] lastChat = new byte[100];
     public static char[] chatMessage = new char[100];
-    private static char[] validChars = {
-        ' ', 'e', 't', 'a', 'o', 'i', 'h', 'n', 's', 'r', 
-        'd', 'l', 'u', 'm', 'w', 'c', 'y', 'f', 'g', 'p', 
-        'b', 'v', 'k', 'x', 'j', 'q', 'z', '0', '1', '2', 
-        '3', '4', '5', '6', '7', '8', '9', ' ', '!', '?', 
-        '.', ',', ':', ';', '(', ')', '-', '&', '*', '\\', 
-        '\'', '@', '#', '+', '=', '§', '$', '%', '"', '[', 
+    private static char[] validChars = [
+        ' ', 'e', 't', 'a', 'o', 'i', 'h', 'n', 's', 'r',
+        'd', 'l', 'u', 'm', 'w', 'c', 'y', 'f', 'g', 'p',
+        'b', 'v', 'k', 'x', 'j', 'q', 'z', '0', '1', '2',
+        '3', '4', '5', '6', '7', '8', '9', ' ', '!', '?',
+        '.', ',', ':', ';', '(', ')', '-', '&', '*', '\\',
+        '\'', '@', '#', '+', '=', '§', '$', '%', '"', '[',
         ']'
-    };
+    ];
 
 }
 

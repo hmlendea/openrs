@@ -3,7 +3,7 @@
     /// <summary>
     /// Animation.
     /// </summary>
-    public class Animation
+    public sealed class Animation
     {
         /// <summary>
         /// Gets or sets the name.

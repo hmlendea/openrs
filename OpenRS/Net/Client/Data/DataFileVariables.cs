@@ -1,7 +1,7 @@
 namespace OpenRS.Net.Client.Data
 {
 
-	internal class DataFileVariables
+	internal sealed class DataFileVariables
 	{
 
 		internal DataFileVariables()

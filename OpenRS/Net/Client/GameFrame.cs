@@ -1,23 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace OpenRS.Net.Client
 {
-    public class GameFrame
+    public sealed class GameFrame
     {
-        public GameFrame(GameApplet arg0, int width, int height, String title, bool resizable, bool translate)
+        public GameFrame(GameApplet applet, int width, int height, String title, bool resizable, bool translate)
         {
             yOffset = 28;
             frameWidth = width;
             frameHeight = height;
-            gameApplet = arg0;
+            gameApplet = applet;
             if (translate)
+            {
                 yOffset = 48;
+            }
             else
+            {
                 yOffset = 28;
+            }
+
             gameApplet.mouseYOffset = 0;// 24;
             //setTitle(title);
             //setResizable(resizable);
@@ -53,13 +55,17 @@ namespace OpenRS.Net.Client
         public void windowClosed(EventArgs evt)
         {
             if (gameApplet.runStatus != -1)
+            {
                 gameApplet.destroy();
+            }
         }
 
         public void windowClosing(EventArgs evt)
         {
             if (gameApplet.runStatus != -1)
+            {
                 gameApplet.destroy();
+            }
         }
 
         public int frameWidth;

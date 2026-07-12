@@ -1,6 +1,6 @@
 ﻿namespace OpenRS.Models
 {
-    public class WorldTile
+    public sealed class WorldTile
     {
         public byte Elevation { get; set; }
 

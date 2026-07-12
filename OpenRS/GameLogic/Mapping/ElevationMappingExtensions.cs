@@ -27,7 +27,7 @@ namespace OpenRS.GameLogic.Mapping
         /// </summary>
         /// <returns>The entity.</returns>
         /// <param name="elevation">Elevation.</param>
-        internal static ElevationEntity ToDataObject(this Elevation elevation) =>new()
+        internal static ElevationEntity ToDataObject(this Elevation elevation) => new()
         {
             Roof = elevation.Roof,
             Unknown = elevation.Unknown

@@ -11,7 +11,7 @@ namespace OpenRS.DataAccess.Repositories
     /// Initializes a new instance of the <see cref="AnimationRepository"/> class.
     /// </remarks>
     /// <param name="fileName">File name.</param>
-    public class AnimationRepository(string fileName) : XmlRepository<AnimationEntity>(fileName)
+    public sealed class AnimationRepository(string fileName) : XmlRepository<AnimationEntity>(fileName)
     {
         /// <summary>
         /// Updates the specified animation.

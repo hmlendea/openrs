@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OpenRS.Net.Client.Game.Cameras
+﻿namespace OpenRS.Net.Client.Game.Cameras
 {
-    public class CameraModel
+    public sealed class CameraModel
     {
 
         public CameraModel()

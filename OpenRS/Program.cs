@@ -2,16 +2,13 @@ using System;
 
 namespace OpenRS
 {
-    static class Program
+    internal static class Program
     {
         [STAThread]
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            using (GameWindow game = new GameWindow())
-            {
-                game.Run();
-            }
+            using GameWindow game = new();
+            game.Run();
         }
     }
 }
-

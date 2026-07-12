@@ -7,7 +7,7 @@ namespace OpenRS.Net.Client.Data
 {
 
 
-    public class DataOperations
+    public sealed class DataOperations
     {
 
         //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
@@ -15,7 +15,7 @@ namespace OpenRS.Net.Client.Data
         //public static InputStream openInputStream(string objName)
         //{
         //    object obj;
-        //    if (codeBase == null)
+        //    if (codeBase is null)
         //    {
         //        obj = new BufferedInputStream(new FileInputStream(objName));
         //    }
@@ -27,26 +27,26 @@ namespace OpenRS.Net.Client.Data
         //    return ((InputStream)(obj));
         //}
 
-        public static MemoryStream openInputStream(String arg0)
+        public static MemoryStream openInputStream(String fileName)
         {
 
             //return org.moparscape.msc.client.DataOperations.getByte(byte0);
 
             Stream obj;
-            if (codeBase == null)
+            if (codeBase is null)
             {
-                obj = File.OpenRead(Path.Combine(Config.CONF_DIR, arg0));
+                obj = File.OpenRead(Path.Combine(Config.ConfigurationDirectory, fileName));
             }
             else
             {
-                Uri url = new Uri(codeBase, arg0);
+                Uri url = new(codeBase, fileName);
 
-                var req = HttpWebRequest.Create(url.ToString());
+                WebRequest webRequest = HttpWebRequest.Create(url.ToString());
 
-                obj = req.GetResponse().GetResponseStream();
+                obj = webRequest.GetResponse().GetResponseStream();
             }
 
-            MemoryStream memory = new MemoryStream();
+            MemoryStream memory = new();
             int j = 0;
             byte[] buffer = new byte[2048];
 
@@ -70,14 +70,14 @@ namespace OpenRS.Net.Client.Data
 
         static private sbyte[] streamToSbyte(BinaryReader stream, int length)
         {
-            List<sbyte> list = new List<sbyte>();
+            List<sbyte> list = [];
             {
                 sbyte ch;
-                var i = 0;
-                while ((ch = stream.ReadSByte()) != -1 && i < length)
+                int byteIndex = 0;
+                while ((ch = stream.ReadSByte()) != -1 && byteIndex < length)
                 {
                     list.Add(ch);
-                    i++;
+                    byteIndex += 1;
                 }
             }
             return list.ToArray();
@@ -86,21 +86,18 @@ namespace OpenRS.Net.Client.Data
         public static void readFully(string p, sbyte[] abyte1, int i)
         {
             //org.moparscape.msc.client.DataOperations.readFully(p, abyte1, i);
-            using (var stream = openInputStream(p))
-            {
-                abyte1 = streamToSbyte(new BinaryReader(stream), i);
-                //for (int j = 0; j < i; j++) {
-                //    abyte1[j] =
-                //}
-                //stream.Read(abyte1, 0, i);
-            }
+            using MemoryStream stream = openInputStream(p);
+            abyte1 = streamToSbyte(new BinaryReader(stream), i);
+            //for (int j = 0; j < i; j++) {
+            //    abyte1[j] =
+            //}
+            //stream.Read(abyte1, 0, i);
         }
 
-        public static void readFully(string p, byte[] abyte1, int i) {
-            using (var stream = openInputStream(p))
-            {
-                stream.Read(abyte1, 0, i);
-            }
+        public static void readFully(string p, byte[] abyte1, int i)
+        {
+            using MemoryStream stream = openInputStream(p);
+            stream.Read(abyte1, 0, i);
         }
 
         ////JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
@@ -144,12 +141,12 @@ namespace OpenRS.Net.Client.Data
         public static int getShort(sbyte[] abyte0, int i)
         {
             //return org.moparscape.msc.client.DataOperations.getShort(abyte0, i);
-            var val = ((abyte0[i] & 0xff) << 8) + (abyte0[i + 1] & 0xff);
-            var val2 = abyte0[i];
-            var val3 = abyte0[i] & 0xff;
-            var val4 = abyte0[i] & 0xff;
-            var val5 = abyte0[i + 1] & 0xff;
-            return val;
+            int shortValue = ((abyte0[i] & 0xff) << 8) + (abyte0[i + 1] & 0xff);
+            int highByte = abyte0[i];
+            int highByteUnsigned = abyte0[i] & 0xff;
+            int highByteUnsigned2 = abyte0[i] & 0xff;
+            int lowByteUnsigned = abyte0[i + 1] & 0xff;
+            return shortValue;
         }
 
         public static int GetInt16(sbyte[] abyte0, int i) => getShort(abyte0, i);
@@ -259,18 +256,18 @@ namespace OpenRS.Net.Client.Data
         //    return k;
         //}
 
-        public static string formatString(string arg0, int arg1)
+        public static string formatString(string text, int maxLength)
         {
             string s = "";
-            for (int i = 0; i < arg1; i++)
+            for (int i = 0; i < maxLength; i++)
             {
-                if (i >= arg0.Length)
+                if (i >= text.Length)
                 {
                     s = s + " ";
                 }
                 else
                 {
-                    char c = arg0[i];
+                    char c = text[i];
                     if (c >= 'a' && c <= 'z')
                     {
                         s = s + c;
@@ -304,12 +301,12 @@ namespace OpenRS.Net.Client.Data
             return (i >> 24 & 0xff) + "." + (i >> 16 & 0xff) + "." + (i >> 8 & 0xff) + "." + (i & 0xff);
         }
 
-        public static long nameToHash(string arg0)
+        public static long nameToHash(string name)
         {
             string s = "";
-            for (int i = 0; i < arg0.Length; i++)
+            for (int i = 0; i < name.Length; i++)
             {
-                char c = arg0[i];
+                char c = name[i];
                 if (c >= 'a' && c <= 'z')
                 {
                     s = s + c;
@@ -360,17 +357,17 @@ namespace OpenRS.Net.Client.Data
             return l;
         }
 
-        public static string hashToName(long arg0)
+        public static string hashToName(long hash)
         {
-            if (arg0 < 0L)
+            if (hash < 0L)
             {
                 return "invalid_name";
             }
             string s = "";
-            while (arg0 != 0L)
+            while (!hash.Equals(0L))
             {
-                int i = (int)(arg0 % 37L);
-                arg0 /= 37L;
+                int i = (int)(hash % 37L);
+                hash /= 37L;
                 if (i == 0)
                 {
                     s = " " + s;
@@ -379,7 +376,7 @@ namespace OpenRS.Net.Client.Data
                 {
                     if (i < 27)
                     {
-                        if (arg0 % 37L == 0L)
+                        if (hash % 37L == 0L)
                         {
                             s = (char)((i + 65) - 1) + s;
                         }
@@ -424,22 +421,22 @@ namespace OpenRS.Net.Client.Data
             return 0;
         }
 
-        public static int getSoundLength(string arg0, sbyte[] arg1)
+        public static int getSoundLength(string soundName, sbyte[] soundIndex)
         {
             // return org.moparscape.msc.client.DataOperations.getSoundLength(objName, objData);
 
-            int i = getShort(arg1, 0);
+            int i = getShort(soundIndex, 0);
             int j = 0;
-            arg0 = arg0.ToUpper();
-            for (int k = 0; k < arg0.Length; k++)
+            soundName = soundName.ToUpper();
+            for (int k = 0; k < soundName.Length; k++)
             {
-                j = (j * 61 + arg0[k]) - 32;
+                j = (j * 61 + soundName[k]) - 32;
             }
 
             for (int i1 = 0; i1 < i; i1++)
             {
-                int j1 = (arg1[i1 * 10 + 2] & 0xff) * 0x1000000 + (arg1[i1 * 10 + 3] & 0xff) * 0x10000 + (arg1[i1 * 10 + 4] & 0xff) * 256 + (arg1[i1 * 10 + 5] & 0xff);
-                int k1 = (arg1[i1 * 10 + 6] & 0xff) * 0x10000 + (arg1[i1 * 10 + 7] & 0xff) * 256 + (arg1[i1 * 10 + 8] & 0xff);
+                int j1 = (soundIndex[i1 * 10 + 2] & 0xff) * 0x1000000 + (soundIndex[i1 * 10 + 3] & 0xff) * 0x10000 + (soundIndex[i1 * 10 + 4] & 0xff) * 256 + (soundIndex[i1 * 10 + 5] & 0xff);
+                int k1 = (soundIndex[i1 * 10 + 6] & 0xff) * 0x10000 + (soundIndex[i1 * 10 + 7] & 0xff) * 256 + (soundIndex[i1 * 10 + 8] & 0xff);
                 if (j1 == j)
                 {
                     return k1;
@@ -454,44 +451,44 @@ namespace OpenRS.Net.Client.Data
             return loadData(s, i, abyte0, null);
         }
 
-        public static byte[] loadData(string arg0, int arg1, byte[] arg2, byte[] arg3)
+        public static byte[] loadData(string entryName, int outputOffset, byte[] indexData, byte[] outputBuffer)
         {
 
             //return org.moparscape.msc.client.DataOperations.loadData(objName, objData, arg2, arg3);
 
-            int i = (arg2[0] & 0xff) * 256 + (arg2[1] & 0xff);
+            int i = (indexData[0] & 0xff) * 256 + (indexData[1] & 0xff);
             int j = 0;
-            arg0 = arg0.ToUpper();
-            for (int k = 0; k < arg0.Length; k++)
+            entryName = entryName.ToUpper();
+            for (int k = 0; k < entryName.Length; k++)
             {
-                j = (j * 61 + arg0[k]) - 32;
+                j = (j * 61 + entryName[k]) - 32;
             }
 
             int l = 2 + i * 10;
             for (int i1 = 0; i1 < i; i1++)
             {
-                int j1 = (arg2[i1 * 10 + 2] & 0xff) * 0x1000000 + (arg2[i1 * 10 + 3] & 0xff) * 0x10000 + (arg2[i1 * 10 + 4] & 0xff) * 256 + (arg2[i1 * 10 + 5] & 0xff);
-                int k1 = (arg2[i1 * 10 + 6] & 0xff) * 0x10000 + (arg2[i1 * 10 + 7] & 0xff) * 256 + (arg2[i1 * 10 + 8] & 0xff);
-                int l1 = (arg2[i1 * 10 + 9] & 0xff) * 0x10000 + (arg2[i1 * 10 + 10] & 0xff) * 256 + (arg2[i1 * 10 + 11] & 0xff);
-                if (j1 == j)
+                int j1 = (indexData[i1 * 10 + 2] & 0xff) * 0x1000000 + (indexData[i1 * 10 + 3] & 0xff) * 0x10000 + (indexData[i1 * 10 + 4] & 0xff) * 256 + (indexData[i1 * 10 + 5] & 0xff);
+                int k1 = (indexData[i1 * 10 + 6] & 0xff) * 0x10000 + (indexData[i1 * 10 + 7] & 0xff) * 256 + (indexData[i1 * 10 + 8] & 0xff);
+                int l1 = (indexData[i1 * 10 + 9] & 0xff) * 0x10000 + (indexData[i1 * 10 + 10] & 0xff) * 256 + (indexData[i1 * 10 + 11] & 0xff);
+                if (j1.Equals(j))
                 {
-                    if (arg3 == null)
+                    if (outputBuffer is null)
                     {
-                        arg3 = new byte[k1 + arg1];
+                        outputBuffer = new byte[k1 + outputOffset];
                     }
                     if (k1 != l1)
                     {
-                        DataFileDecrypter.unpackData(arg3, k1, arg2, l1, l);
+                        DataFileDecrypter.unpackData(outputBuffer, k1, indexData, l1, l);
                     }
                     else
                     {
                         for (long i2 = 0; i2 < k1; i2++)
                         {
-                            arg3[i2] = arg2[l + i2];
+                            outputBuffer[i2] = indexData[l + i2];
                         }
 
                     }
-                    return arg3;
+                    return outputBuffer;
                 }
                 l += l1;
             }
@@ -504,44 +501,44 @@ namespace OpenRS.Net.Client.Data
             return loadData(s, i, abyte0, null);
         }
 
-        public static sbyte[] loadData(string arg0, int arg1, sbyte[] arg2, sbyte[] arg3)
+        public static sbyte[] loadData(string entryNameS, int outputOffsetS, sbyte[] indexDataS, sbyte[] outputBufferS)
         {
 
             //return org.moparscape.msc.client.DataOperations.loadData(objName, objData, arg2, arg3);
 
-            int i = (arg2[0] & 0xff) * 256 + (arg2[1] & 0xff);
+            int i = (indexDataS[0] & 0xff) * 256 + (indexDataS[1] & 0xff);
             int j = 0;
-            arg0 = arg0.ToUpper();
-            for (int k = 0; k < arg0.Length; k++)
+            entryNameS = entryNameS.ToUpper();
+            for (int k = 0; k < entryNameS.Length; k++)
             {
-                j = (j * 61 + arg0[k]) - 32;
+                j = (j * 61 + entryNameS[k]) - 32;
             }
 
             int l = 2 + i * 10;
             for (int i1 = 0; i1 < i; i1++)
             {
-                int j1 = (arg2[i1 * 10 + 2] & 0xff) * 0x1000000 + (arg2[i1 * 10 + 3] & 0xff) * 0x10000 + (arg2[i1 * 10 + 4] & 0xff) * 256 + (arg2[i1 * 10 + 5] & 0xff);
-                int k1 = (arg2[i1 * 10 + 6] & 0xff) * 0x10000 + (arg2[i1 * 10 + 7] & 0xff) * 256 + (arg2[i1 * 10 + 8] & 0xff);
-                int l1 = (arg2[i1 * 10 + 9] & 0xff) * 0x10000 + (arg2[i1 * 10 + 10] & 0xff) * 256 + (arg2[i1 * 10 + 11] & 0xff);
-                if (j1 == j)
+                int j1 = (indexDataS[i1 * 10 + 2] & 0xff) * 0x1000000 + (indexDataS[i1 * 10 + 3] & 0xff) * 0x10000 + (indexDataS[i1 * 10 + 4] & 0xff) * 256 + (indexDataS[i1 * 10 + 5] & 0xff);
+                int k1 = (indexDataS[i1 * 10 + 6] & 0xff) * 0x10000 + (indexDataS[i1 * 10 + 7] & 0xff) * 256 + (indexDataS[i1 * 10 + 8] & 0xff);
+                int l1 = (indexDataS[i1 * 10 + 9] & 0xff) * 0x10000 + (indexDataS[i1 * 10 + 10] & 0xff) * 256 + (indexDataS[i1 * 10 + 11] & 0xff);
+                if (j1.Equals(j))
                 {
-                    if (arg3 == null)
+                    if (outputBufferS is null)
                     {
-                        arg3 = new sbyte[k1 + arg1];
+                        outputBufferS = new sbyte[k1 + outputOffsetS];
                     }
                     if (k1 != l1)
                     {
-                        DataFileDecrypter.unpackData(arg3, k1, arg2, l1, l);
+                        DataFileDecrypter.unpackData(outputBufferS, k1, indexDataS, l1, l);
                     }
                     else
                     {
                         for (long i2 = 0; i2 < k1; i2++)
                         {
-                            arg3[i2] = arg2[l + i2];
+                            outputBufferS[i2] = indexDataS[l + i2];
                         }
 
                     }
-                    return arg3;
+                    return outputBufferS;
                 }
                 l += l1;
             }
@@ -550,7 +547,7 @@ namespace OpenRS.Net.Client.Data
         }
 
         public static Uri codeBase = null;
-        private static int[] bitMask = { 0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383, 32767, 65535, 0x1ffff, 0x3ffff, 0x7ffff, 0xfffff, 0x1fffff, 0x3fffff, 0x7fffff, 0xffffff, 0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff, 0x1fffffff, 0x3fffffff, 0x7fffffff, -1 };
+        private static int[] bitMask = [0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383, 32767, 65535, 0x1ffff, 0x3ffff, 0x7ffff, 0xfffff, 0x1fffff, 0x3fffff, 0x7fffff, 0xffffff, 0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff, 0x1fffffff, 0x3fffffff, 0x7fffffff, -1];
 
     }
 

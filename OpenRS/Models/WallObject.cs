@@ -3,7 +3,7 @@
     /// <summary>
     /// Wall object.
     /// </summary>
-    public class WallObject
+    public sealed class WallObject
     {
         /// <summary>
         /// Gets or sets the name.

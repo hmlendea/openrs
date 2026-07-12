@@ -4,7 +4,7 @@ using NuciXNA.Primitives;
 
 namespace OpenRS.Gui.Controls
 {
-    public class GuiToggleButton : GuiButton
+    public sealed class GuiToggleButton : GuiButton
     {
         public bool IsToggled { get; set; }
 

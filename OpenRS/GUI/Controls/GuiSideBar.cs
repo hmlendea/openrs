@@ -13,9 +13,9 @@ using OpenRS.Settings;
 
 namespace OpenRS.Gui.Controls
 {
-    public class GuiSideBar(GameClient client) : GuiControl
+    public sealed class GuiSideBar(GameClient client) : GuiControl
     {
-        private readonly GameClient client = client;
+
 
         private GuiImage background;
         private GuiMinimap minimap;
@@ -209,7 +209,7 @@ namespace OpenRS.Gui.Controls
 
             exitButton.Location = new Point2D(
                 (Size.Width - exitButton.Size.Width) / 2,
-                Size.Height - GameDefines.GUI_TILE_SIZE);
+                Size.Height - GameDefines.GuiTileSize);
 
             panel.Location = new Point2D(
                 (Size.Width - panel.Size.Width) / 2,

@@ -3,7 +3,7 @@
     /// <summary>
     /// Game item.
     /// </summary>
-    public class Item
+    public sealed class Item
     {
         /// <summary>
         /// Gets or sets the identifier.

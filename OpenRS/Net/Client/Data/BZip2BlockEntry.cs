@@ -1,7 +1,7 @@
 namespace OpenRS.Net.Client.Data
 {
 
-	internal class BZip2BlockEntry
+	internal sealed class BZip2BlockEntry
 	{
 
 		internal BZip2BlockEntry()

@@ -7,10 +7,11 @@ using NuciXNA.Primitives;
 
 namespace OpenRS.Gui.Controls
 {
-    public class GuiItemCard : GuiControl
+    public sealed class GuiItemCard : GuiControl
     {
-        private const int SpriteRows = 32;
-        private const int SpriteColumns = 32;
+        private static int SpriteRows => 32;
+
+        private static int SpriteColumns => 32;
 
         private GuiImage icon;
         private GuiText quantity;

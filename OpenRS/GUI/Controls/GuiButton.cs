@@ -47,7 +47,7 @@ namespace OpenRS.Gui.Controls
         {
             Texture = "Interface/button";
             FontName = "ButtonFont";
-            ButtonTileSize = new Size2D(GameDefines.GUI_TILE_SIZE, GameDefines.GUI_TILE_SIZE);
+            ButtonTileSize = new Size2D(GameDefines.GuiTileSize, GameDefines.GuiTileSize);
         }
 
         /// <summary>

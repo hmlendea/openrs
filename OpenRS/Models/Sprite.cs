@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OpenRS.Models
+﻿namespace OpenRS.Models
 {
-    class Sprite
+    public sealed class Sprite
     {
     }
 }

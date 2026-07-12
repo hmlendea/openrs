@@ -11,7 +11,7 @@ namespace OpenRS.DataAccess.Repositories
     /// Initializes a new instance of the <see cref="SpellRepository"/> class.
     /// </remarks>
     /// <param name="fileName">File name.</param>
-    public class SpellRepository(string fileName) : XmlRepository<SpellEntity>(fileName)
+    public sealed class SpellRepository(string fileName) : XmlRepository<SpellEntity>(fileName)
     {
         /// <summary>
         /// Updates the specified spell.

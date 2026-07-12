@@ -13,7 +13,7 @@ namespace OpenRS.Gui
     /// <summary>
     /// FPS indicator.
     /// </summary>
-    public class FpsIndicator
+    public sealed class FpsIndicator
     {
         private GameTime gameTime;
         private SpriteFont fpsFont;

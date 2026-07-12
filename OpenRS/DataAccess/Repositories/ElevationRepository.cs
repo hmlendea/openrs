@@ -11,7 +11,7 @@ namespace OpenRS.DataAccess.Repositories
     /// Initializes a new instance of the <see cref="ElevationRepository"/> class.
     /// </remarks>
     /// <param name="fileName">File name.</param>
-    public class ElevationRepository(string fileName) : XmlRepository<ElevationEntity>(fileName)
+    public sealed class ElevationRepository(string fileName) : XmlRepository<ElevationEntity>(fileName)
     {
         /// <summary>
         /// Updates the specified elevation.

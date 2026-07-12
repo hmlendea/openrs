@@ -17,7 +17,7 @@ using OpenRS.Net.Client.Game.Cameras;
 
 namespace OpenRS.Gui.Controls
 {
-    public class GuiMinimap(GameClient client) : GuiControl
+    public sealed class GuiMinimap(GameClient client) : GuiControl
     {
         private readonly GameClient client = client;
 

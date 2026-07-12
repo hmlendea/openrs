@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OpenRS.Net.Client.Game;
 using Microsoft.Xna.Framework.Input;
 
 namespace OpenRS.Net.Client
 {
-    public class Menu
+    public sealed class Menu
     {
 
 
@@ -60,27 +57,44 @@ namespace OpenRS.Net.Client
             this.mouseY = mouseY;
             this.mouseButton = mouseButton;
             if (lastMouseButton != 0)
+            {
                 this.lastMouseButton = lastMouseButton;
+            }
+
             if (lastMouseButton == 1)
             {
                 for (int i = 0; i < menuItemsCount; i++)
                 {
                     if (componentAcceptsInput[i] && componentType[i] == 10 && this.mouseX >= componentX[i] && this.mouseY >= componentY[i] && this.mouseX <= componentX[i] + componentWidth[i] && this.mouseY <= componentY[i] + componentHeight[i])
+                    {
                         componentSkip[i] = true;
+                    }
+
                     if (componentAcceptsInput[i] && componentType[i] == 14 && this.mouseX >= componentX[i] && this.mouseY >= componentY[i] && this.mouseX <= componentX[i] + componentWidth[i] && this.mouseY <= componentY[i] + componentHeight[i])
+                    {
                         gbe[i] = 1 - gbe[i];
+                    }
                 }
 
             }
             if (mouseButton == 1)
-                gch++;
+            {
+                gch += 1;
+            }
             else
+            {
                 gch = 0;
+            }
+
             if (lastMouseButton == 1 || gch > 20)
             {
                 for (int k = 0; k < menuItemsCount; k++)
+                {
                     if (componentAcceptsInput[k] && componentType[k] == 15 && this.mouseX >= componentX[k] && this.mouseY >= componentY[k] && this.mouseX <= componentX[k] + componentWidth[k] && this.mouseY <= componentY[k] + componentHeight[k])
+                    {
                         componentSkip[k] = true;
+                    }
+                }
 
                 gch -= 5;
             }
@@ -102,26 +116,40 @@ namespace OpenRS.Net.Client
         public void keyPress(Keys key, char c)
         {
             if (key == 0)
+            {
                 return;
-            if (selectedComponent != -1 && componentText[selectedComponent] != null && componentAcceptsInput[selectedComponent])
+            }
+
+            if (selectedComponent != -1 && componentText[selectedComponent] is not null && componentAcceptsInput[selectedComponent])
             {
                 int i = componentText[selectedComponent].Length;
                 if (key == Keys.Back && i > 0)
+                {
                     componentText[selectedComponent] = componentText[selectedComponent].Substring(0, i - 1);
+                }
+
                 if ((key == Keys.Enter) && i > 0)
+                {
                     componentSkip[selectedComponent] = true;
+                }
+
                 String s = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789!\"" + (char)243 + "$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
                 if (i < copmonentInputMaxLength[selectedComponent])
                 {
                     for (int k = 0; k < s.Length; k++)
+                    {
                         if (c == s[k])
+                        {
                             componentText[selectedComponent] += c;
-
+                        }
+                    }
                 }
                 if (key == Keys.Tab)
                 {
                     do
+                    {
                         selectedComponent = (selectedComponent + 1) % menuItemsCount;
+                    }
                     while (componentType[selectedComponent] != 5 && componentType[selectedComponent] != 6);
                     return;
                 }
@@ -131,43 +159,71 @@ namespace OpenRS.Net.Client
         public void drawMenu()
         {
             for (int i = 0; i < menuItemsCount; i++)
+            {
                 if (componentAcceptsInput[i])
+                {
                     if (componentType[i] == 0)
+                    {
                         gef(i, componentX[i], componentY[i], componentText[i], componentTextSize[i]);
+                    }
                     else if (componentType[i] == 1)
+                    {
                         gef(i, componentX[i] - gameImage.textWidth(componentText[i], componentTextSize[i]) / 2, componentY[i], componentText[i], componentTextSize[i]);
+                    }
                     else if (componentType[i] == 2)
+                    {
                         gei(componentX[i], componentY[i], componentWidth[i], componentHeight[i]);
+                    }
                     else if (componentType[i] == 3)
+                    {
                         drawLineX(componentX[i], componentY[i], componentWidth[i]);
+                    }
                     else if (componentType[i] == 4)
+                    {
                         gem(i, componentX[i], componentY[i], componentWidth[i], componentHeight[i], componentTextSize[i], componentTextList[i], listLength[i], listShownEntries[i]);
+                    }
                     else if (componentType[i] == 5 || componentType[i] == 6)
+                    {
                         drawInputBox(i, componentX[i], componentY[i], componentWidth[i], componentHeight[i], componentText[i], componentTextSize[i]);
+                    }
                     else if (componentType[i] == 7)
+                    {
                         gfa(i, componentX[i], componentY[i], componentTextSize[i], componentTextList[i]);
+                    }
                     else if (componentType[i] == 8)
+                    {
                         gfb(i, componentX[i], componentY[i], componentTextSize[i], componentTextList[i]);
+                    }
                     else if (componentType[i] == 9)
+                    {
                         drawList(i, componentX[i], componentY[i], componentWidth[i], componentHeight[i], componentTextSize[i], componentTextList[i], listLength[i], listShownEntries[i]);
+                    }
                     else if (componentType[i] == 11)
+                    {
                         gej(componentX[i], componentY[i], componentWidth[i], componentHeight[i]);
+                    }
                     else if (componentType[i] == 12)
+                    {
                         drawPicture(componentX[i], componentY[i], componentTextSize[i]);
+                    }
                     else if (componentType[i] == 14)
+                    {
                         gee(i, componentX[i], componentY[i], componentWidth[i], componentHeight[i]);
+                    }
+                }
+            }
 
             lastMouseButton = 0;
         }
 
-        protected void gee(int arg0, int x, int y, int w, int h)
+        protected void gee(int componentIndex, int x, int y, int w, int h)
         {
             gameImage.drawBox(x, y, w, h, 0xffffff);
             gameImage.drawLineX(x, y, w, gdc);
             gameImage.drawLineY(x, y, h, gdc);
 			gameImage.drawLineX(x, (y + h) - 1, w, gdf);
 			gameImage.drawLineY((x + w) - 1, y, h, gdf);
-            if (gbe[arg0] == 1)
+            if (gbe[componentIndex].Equals(1))
             {
                 for (int i = 0; i < h; i++)
                 {
@@ -184,70 +240,89 @@ namespace OpenRS.Net.Client
             geg(i, k, j1, s, i1);
         }
 
-        protected void geg(int arg0, int arg1, int arg2, String arg3, int arg4)
+        protected void geg(int componentIndex, int xPosition, int yPosition, String text, int fontIndex)
         {
-            int i;
-            if (componentWhiteText[arg0])
-                i = 0xffffff;
+            int textColour;
+            if (componentWhiteText[componentIndex])
+            {
+                textColour = 0xffffff;
+            }
             else
-                i = 0;
-            gameImage.drawString(arg3, arg1, arg2, arg4, i);
+            {
+                textColour = 0;
+            }
+
+            gameImage.drawString(text, xPosition, yPosition, fontIndex, textColour);
         }
 
-        protected void drawInputBox(int arg0, int arg1, int arg2, int arg3, int arg4, String arg5, int arg6)
+        protected void drawInputBox(int componentIndex, int xPosition, int yPosition, int width, int height, String text, int fontIndex)
         {
-            if (componentIsPasswordField[arg0])
+            if (componentIsPasswordField[componentIndex])
             {
-                int i = arg5.Length;
-                arg5 = "";
-                for (int l = 0; l < i; l++)
-                    arg5 = arg5 + "X";
-
-            }
-            if (componentType[arg0] == 5)
-            {
-                if (lastMouseButton == 1 && mouseX >= arg1 && mouseY >= arg2 - arg4 / 2 && mouseX <= arg1 + arg3 && mouseY <= arg2 + arg4 / 2)
-                    selectedComponent = arg0;
-            }
-            else
-                if (componentType[arg0] == 6)
+                int maskedLength = text.Length;
+                text = "";
+                for (int l = 0; l < maskedLength; l++)
                 {
-                    if (lastMouseButton == 1 && mouseX >= arg1 - arg3 / 2 && mouseY >= arg2 - arg4 / 2 && mouseX <= arg1 + arg3 / 2 && mouseY <= arg2 + arg4 / 2)
-                        selectedComponent = arg0;
-                    arg1 -= gameImage.textWidth(arg5, arg6) / 2;
+                    text = text + "X";
                 }
-            if (selectedComponent == arg0)
-                arg5 = arg5 + "*";
-            int k = arg2 + gameImage.textHeightNumber(arg6) / 3;
-            geg(arg0, arg1, k, arg5, arg6);
+            }
+
+            if (componentType[componentIndex].Equals(5))
+            {
+                if (lastMouseButton.Equals(1) && mouseX >= xPosition && mouseY >= yPosition - height / 2 && mouseX <= xPosition + width && mouseY <= yPosition + height / 2)
+                {
+                    selectedComponent = componentIndex;
+                }
+            }
+            else
+            {
+                if (componentType[componentIndex].Equals(6))
+                {
+                    if (lastMouseButton.Equals(1) && mouseX >= xPosition - width / 2 && mouseY >= yPosition - height / 2 && mouseX <= xPosition + width / 2 && mouseY <= yPosition + height / 2)
+                    {
+                        selectedComponent = componentIndex;
+                    }
+
+                    xPosition -= gameImage.textWidth(text, fontIndex) / 2;
+                }
+            }
+
+            if (selectedComponent.Equals(componentIndex))
+            {
+                text = text + "*";
+            }
+
+            int textY = yPosition + gameImage.textHeightNumber(fontIndex) / 3;
+            geg(componentIndex, xPosition, textY, text, fontIndex);
         }
 
-        public void gei(int arg0, int arg1, int arg2, int arg3)
+        public void gei(int xPosition, int yPosition, int width, int height)
         {
-            gameImage.setDimensions(arg0, arg1, arg0 + arg2, arg1 + arg3);
-            gameImage.drawGradientBox(arg0, arg1, arg2, arg3, gdf, gdc);
+            gameImage.setDimensions(xPosition, yPosition, xPosition + width, yPosition + height);
+            gameImage.drawGradientBox(xPosition, yPosition, width, height, gdf, gdc);
             if (gdh)
             {
-                for (int i = arg0 - (arg1 & 0x3f); i < arg0 + arg2; i += 128)
+                for (int i = xPosition - (yPosition & 0x3f); i < xPosition + width; i += 128)
                 {
-                    for (int k = arg1 - (arg1 & 0x1f); k < arg1 + arg3; k += 128)
+                    for (int k = yPosition - (yPosition & 0x1f); k < yPosition + height; k += 128)
+                    {
                         gameImage.drawPicture(i, k, 6 + baseScrollPic, 128);
-
+                    }
                 }
 
             }
-            gameImage.drawLineX(arg0, arg1, arg2, gdc);
-            gameImage.drawLineX(arg0 + 1, arg1 + 1, arg2 - 2, gdc);
-            gameImage.drawLineX(arg0 + 2, arg1 + 2, arg2 - 4, gdd);
-            gameImage.drawLineY(arg0, arg1, arg3, gdc);
-            gameImage.drawLineY(arg0 + 1, arg1 + 1, arg3 - 2, gdc);
-            gameImage.drawLineY(arg0 + 2, arg1 + 2, arg3 - 4, gdd);
-            gameImage.drawLineX(arg0, (arg1 + arg3) - 1, arg2, gdf);
-            gameImage.drawLineX(arg0 + 1, (arg1 + arg3) - 2, arg2 - 2, gdf);
-            gameImage.drawLineX(arg0 + 2, (arg1 + arg3) - 3, arg2 - 4, gde);
-            gameImage.drawLineY((arg0 + arg2) - 1, arg1, arg3, gdf);
-            gameImage.drawLineY((arg0 + arg2) - 2, arg1 + 1, arg3 - 2, gdf);
-            gameImage.drawLineY((arg0 + arg2) - 3, arg1 + 2, arg3 - 4, gde);
+            gameImage.drawLineX(xPosition, yPosition, width, gdc);
+            gameImage.drawLineX(xPosition + 1, yPosition + 1, width - 2, gdc);
+            gameImage.drawLineX(xPosition + 2, yPosition + 2, width - 4, gdd);
+            gameImage.drawLineY(xPosition, yPosition, height, gdc);
+            gameImage.drawLineY(xPosition + 1, yPosition + 1, height - 2, gdc);
+            gameImage.drawLineY(xPosition + 2, yPosition + 2, height - 4, gdd);
+            gameImage.drawLineX(xPosition, (yPosition + height) - 1, width, gdf);
+            gameImage.drawLineX(xPosition + 1, (yPosition + height) - 2, width - 2, gdf);
+            gameImage.drawLineX(xPosition + 2, (yPosition + height) - 3, width - 4, gde);
+            gameImage.drawLineY((xPosition + width) - 1, yPosition, height, gdf);
+            gameImage.drawLineY((xPosition + width) - 2, yPosition + 1, height - 2, gdf);
+            gameImage.drawLineY((xPosition + width) - 3, yPosition + 2, height - 4, gde);
             gameImage.resetDimensions();
         }
 
@@ -273,59 +348,92 @@ namespace OpenRS.Net.Client
             gameImage.drawLineX(i, k, l, 0);
         }
 
-        protected void gem(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, String[] arg6,
-                int arg7, int arg8)
+        protected void gem(int componentIndex, int xPosition, int yPosition, int width, int height, int fontIndex, String[] textList,
+                int listLength, int shownEntries)
         {
-            int i = arg4 / gameImage.textHeightNumber(arg5);
-            if (arg8 > arg7 - i)
-                arg8 = arg7 - i;
-            if (arg8 < 0)
-                arg8 = 0;
-            listShownEntries[arg0] = arg8;
-            if (i < arg7)
+            int visibleEntries = height / gameImage.textHeightNumber(fontIndex);
+
+            if (shownEntries > listLength - visibleEntries)
             {
-                int k = (arg1 + arg3) - 12;
-                int i1 = ((arg4 - 27) * i) / arg7;
-                if (i1 < 6)
-                    i1 = 6;
-                int k1 = ((arg4 - 27 - i1) * arg8) / (arg7 - i);
-                if (mouseButton == 1 && mouseX >= k && mouseX <= k + 12)
+                shownEntries = listLength - visibleEntries;
+            }
+
+            if (shownEntries < 0)
+            {
+                shownEntries = 0;
+            }
+
+            listShownEntries[componentIndex] = shownEntries;
+
+            if (visibleEntries < listLength)
+            {
+                int scrollbarX = (xPosition + width) - 12;
+                int scrollbarThumbSize = ((height - 27) * visibleEntries) / listLength;
+
+                if (scrollbarThumbSize < 6)
                 {
-                    if (mouseY > arg2 && mouseY < arg2 + 12 && arg8 > 0)
-                        arg8--;
-                    if (mouseY > (arg2 + arg4) - 12 && mouseY < arg2 + arg4 && arg8 < arg7 - i)
-                        arg8++;
-                    listShownEntries[arg0] = arg8;
+                    scrollbarThumbSize = 6;
                 }
-                if (mouseButton == 1 && (mouseX >= k && mouseX <= k + 12 || mouseX >= k - 12 && mouseX <= k + 24 && gan[arg0]))
+
+                int scrollbarThumbOffset = ((height - 27 - scrollbarThumbSize) * shownEntries) / (listLength - visibleEntries);
+
+                if (mouseButton.Equals(1) && mouseX >= scrollbarX && mouseX <= scrollbarX + 12)
                 {
-                    if (mouseY > arg2 + 12 && mouseY < (arg2 + arg4) - 12)
+                    if (mouseY > yPosition && mouseY < yPosition + 12 && shownEntries > 0)
                     {
-                        gan[arg0] = true;
-                        int i2 = mouseY - arg2 - 12 - i1 / 2;
-                        arg8 = (i2 * arg7) / (arg4 - 24);
-                        if (arg8 > arg7 - i)
-                            arg8 = arg7 - i;
-                        if (arg8 < 0)
-                            arg8 = 0;
-                        listShownEntries[arg0] = arg8;
+                        shownEntries -= 1;
+                    }
+
+                    if (mouseY > (yPosition + height) - 12 && mouseY < yPosition + height && shownEntries < listLength - visibleEntries)
+                    {
+                        shownEntries += 1;
+                    }
+
+                    listShownEntries[componentIndex] = shownEntries;
+                }
+
+                if (mouseButton.Equals(1) && (mouseX >= scrollbarX && mouseX <= scrollbarX + 12 || mouseX >= scrollbarX - 12 && mouseX <= scrollbarX + 24 && gan[componentIndex]))
+                {
+                    if (mouseY > yPosition + 12 && mouseY < (yPosition + height) - 12)
+                    {
+                        gan[componentIndex] = true;
+                        int dragOffset = mouseY - yPosition - 12 - scrollbarThumbSize / 2;
+                        shownEntries = (dragOffset * listLength) / (height - 24);
+
+                        if (shownEntries > listLength - visibleEntries)
+                        {
+                            shownEntries = listLength - visibleEntries;
+                        }
+
+                        if (shownEntries < 0)
+                        {
+                            shownEntries = 0;
+                        }
+
+                        listShownEntries[componentIndex] = shownEntries;
                     }
                 }
                 else
                 {
-                    gan[arg0] = false;
+                    gan[componentIndex] = false;
                 }
-                k1 = ((arg4 - 27 - i1) * arg8) / (arg7 - i);
-                drawScrollbar(arg1, arg2, arg3, arg4, k1, i1);
+
+                scrollbarThumbOffset = ((height - 27 - scrollbarThumbSize) * shownEntries) / (listLength - visibleEntries);
+                drawScrollbar(xPosition, yPosition, width, height, scrollbarThumbOffset, scrollbarThumbSize);
             }
-            int l = arg4 - i * gameImage.textHeightNumber(arg5);
-            int j1 = arg2 + (gameImage.textHeightNumber(arg5) * 5) / 6 + l / 2;
-            for (int l1 = arg8; l1 < arg7; l1++)
+
+            int remainingSpace = height - visibleEntries * gameImage.textHeightNumber(fontIndex);
+            int textY = yPosition + (gameImage.textHeightNumber(fontIndex) * 5) / 6 + remainingSpace / 2;
+
+            for (int entryIndex = shownEntries; entryIndex < listLength; entryIndex++)
             {
-                geg(arg0, arg1 + 2, j1, arg6[l1], arg5);
-                j1 += gameImage.textHeightNumber(arg5) - chatMenuTextHeightMod;
-                if (j1 >= arg2 + arg4)
+                geg(componentIndex, xPosition + 2, textY, textList[entryIndex], fontIndex);
+                textY += gameImage.textHeightNumber(fontIndex) - chatMenuTextHeightMod;
+
+                if (textY >= yPosition + height)
+                {
                     return;
+                }
             }
 
         }
@@ -344,80 +452,125 @@ namespace OpenRS.Net.Client
             gameImage.drawLineY(l1 + 2 + 8, j1 + k + 14, k1, scrollBarDraggingBarLine2Color);// drawgging bar
         }
 
-        protected void gfa(int arg0, int arg1, int arg2, int arg3, String[] arg4)
+        protected void gfa(int componentIndex, int xPosition, int yPosition, int fontIndex, String[] options)
         {
-            int i = 0;
-            int k = arg4.Length;
-            for (int l = 0; l < k; l++)
+            int totalWidth = 0;
+            int optionCount = options.Length;
+
+            for (int l = 0; l < optionCount; l++)
             {
-                i += gameImage.textWidth(arg4[l], arg3);
-                if (l < k - 1)
-                    i += gameImage.textWidth("  ", arg3);
+                totalWidth += gameImage.textWidth(options[l], fontIndex);
+
+                if (l < optionCount - 1)
+                {
+                    totalWidth += gameImage.textWidth("  ", fontIndex);
+                }
             }
 
-            int i1 = arg1 - i / 2;
-            int j1 = arg2 + gameImage.textHeightNumber(arg3) / 3;
-            for (int k1 = 0; k1 < k; k1++)
+            int currentX = xPosition - totalWidth / 2;
+            int textY = yPosition + gameImage.textHeightNumber(fontIndex) / 3;
+
+            for (int optionIndex = 0; optionIndex < optionCount; optionIndex++)
             {
-                int l1;
-                if (componentWhiteText[arg0])
-                    l1 = 0xffffff;
-                else
-                    l1 = 0;
-                if (mouseX >= i1 && mouseX <= i1 + gameImage.textWidth(arg4[k1], arg3) && mouseY <= j1 && mouseY > j1 - gameImage.textHeightNumber(arg3))
+                int textColour;
+
+                if (componentWhiteText[componentIndex])
                 {
-                    if (componentWhiteText[arg0])
-                        l1 = 0x808080;
-                    else
-                        l1 = 0xffffff;
-                    if (lastMouseButton == 1)
+                    textColour = 0xffffff;
+                }
+                else
+                {
+                    textColour = 0;
+                }
+
+                if (mouseX >= currentX && mouseX <= currentX + gameImage.textWidth(options[optionIndex], fontIndex) && mouseY <= textY && mouseY > textY - gameImage.textHeightNumber(fontIndex))
+                {
+                    if (componentWhiteText[componentIndex])
                     {
-                        gbe[arg0] = k1;
-                        componentSkip[arg0] = true;
+                        textColour = 0x808080;
+                    }
+                    else
+                    {
+                        textColour = 0xffffff;
+                    }
+
+                    if (lastMouseButton.Equals(1))
+                    {
+                        gbe[componentIndex] = optionIndex;
+                        componentSkip[componentIndex] = true;
                     }
                 }
-                if (gbe[arg0] == k1)
-                    if (componentWhiteText[arg0])
-                        l1 = 0xff0000;
+
+                if (gbe[componentIndex].Equals(optionIndex))
+                {
+                    if (componentWhiteText[componentIndex])
+                    {
+                        textColour = 0xff0000;
+                    }
                     else
-                        l1 = 0xc00000;
-                gameImage.drawString(arg4[k1], i1, j1, arg3, l1);
-                i1 += gameImage.textWidth(arg4[k1] + "  ", arg3);
+                    {
+                        textColour = 0xc00000;
+                    }
+                }
+
+                gameImage.drawString(options[optionIndex], currentX, textY, fontIndex, textColour);
+                currentX += gameImage.textWidth(options[optionIndex] + "  ", fontIndex);
             }
 
         }
 
-        protected void gfb(int arg0, int arg1, int arg2, int arg3, String[] arg4)
+        protected void gfb(int componentIndex, int xPosition, int yPosition, int fontIndex, String[] options)
         {
-            int i = arg4.Length;
-            int k = arg2 - (gameImage.textHeightNumber(arg3) * (i - 1)) / 2;
-            for (int l = 0; l < i; l++)
+            int optionCount = options.Length;
+            int currentY = yPosition - (gameImage.textHeightNumber(fontIndex) * (optionCount - 1)) / 2;
+
+            for (int optionIndex = 0; optionIndex < optionCount; optionIndex++)
             {
-                int i1;
-                if (componentWhiteText[arg0])
-                    i1 = 0xffffff;
-                else
-                    i1 = 0;
-                int j1 = gameImage.textWidth(arg4[l], arg3);
-                if (mouseX >= arg1 - j1 / 2 && mouseX <= arg1 + j1 / 2 && mouseY - 2 <= k && mouseY - 2 > k - gameImage.textHeightNumber(arg3))
+                int textColour;
+
+                if (componentWhiteText[componentIndex])
                 {
-                    if (componentWhiteText[arg0])
-                        i1 = 0x808080;
-                    else
-                        i1 = 0xffffff;
-                    if (lastMouseButton == 1)
+                    textColour = 0xffffff;
+                }
+                else
+                {
+                    textColour = 0;
+                }
+
+                int optionWidth = gameImage.textWidth(options[optionIndex], fontIndex);
+
+                if (mouseX >= xPosition - optionWidth / 2 && mouseX <= xPosition + optionWidth / 2 && mouseY - 2 <= currentY && mouseY - 2 > currentY - gameImage.textHeightNumber(fontIndex))
+                {
+                    if (componentWhiteText[componentIndex])
                     {
-                        gbe[arg0] = l;
-                        componentSkip[arg0] = true;
+                        textColour = 0x808080;
+                    }
+                    else
+                    {
+                        textColour = 0xffffff;
+                    }
+
+                    if (lastMouseButton.Equals(1))
+                    {
+                        gbe[componentIndex] = optionIndex;
+                        componentSkip[componentIndex] = true;
                     }
                 }
-                if (gbe[arg0] == l)
-                    if (componentWhiteText[arg0])
-                        i1 = 0xff0000;
+
+                if (gbe[componentIndex].Equals(optionIndex))
+                {
+                    if (componentWhiteText[componentIndex])
+                    {
+                        textColour = 0xff0000;
+                    }
                     else
-                        i1 = 0xc00000;
-                gameImage.drawString(arg4[l], arg1 - j1 / 2, k, arg3, i1);
-                k += gameImage.textHeightNumber(arg3);
+                    {
+                        textColour = 0xc00000;
+                    }
+                }
+
+                gameImage.drawString(options[optionIndex], xPosition - optionWidth / 2, currentY, fontIndex, textColour);
+                currentY += gameImage.textHeightNumber(fontIndex);
             }
 
         }
@@ -431,14 +584,23 @@ namespace OpenRS.Net.Client
                 int k = (listX + listWidth) - 12;
                 int i1 = ((listHeight - 27) * entryCount) / listLength;
                 if (i1 < 6)
+                {
                     i1 = 6;
+                }
+
                 int k1 = ((listHeight - 27 - i1) * shownEntries) / (listLength - entryCount);
                 if (mouseButton == 1 && mouseX >= k && mouseX <= k + 12)
                 {
                     if (mouseY > listY && mouseY < listY + 12 && shownEntries > 0)
+                    {
                         shownEntries--;
+                    }
+
                     if (mouseY > (listY + listHeight) - 12 && mouseY < listY + listHeight && shownEntries < listLength - entryCount)
-                        shownEntries++;
+                    {
+                        shownEntries += 1;
+                    }
+
                     listShownEntries[listIndex] = shownEntries;
                 }
                 if (mouseButton == 1 && (mouseX >= k && mouseX <= k + 12 || mouseX >= k - 12 && mouseX <= k + 24 && gan[listIndex]))
@@ -449,9 +611,15 @@ namespace OpenRS.Net.Client
                         int i2 = mouseY - listY - 12 - i1 / 2;
                         shownEntries = (i2 * listLength) / (listHeight - 24);
                         if (shownEntries < 0)
+                        {
                             shownEntries = 0;
+                        }
+
                         if (shownEntries > listLength - entryCount)
+                        {
                             shownEntries = listLength - entryCount;
+                        }
+
                         listShownEntries[listIndex] = shownEntries;
                     }
                 }
@@ -474,15 +642,25 @@ namespace OpenRS.Net.Client
             {
                 int j2;
                 if (componentWhiteText[listIndex])
+                {
                     j2 = 0xffffff;
+                }
                 else
+                {
                     j2 = 0;
+                }
+
                 if (mouseX >= listX + 2 && mouseX <= listX + 2 + gameImage.textWidth(listText[l1], listTextSize) && mouseY - 2 <= j1 && mouseY - 2 > j1 - gameImage.textHeightNumber(listTextSize))
                 {
                     if (componentWhiteText[listIndex])
+                    {
                         j2 = 0x808080;
+                    }
                     else
+                    {
                         j2 = 0xffffff;
+                    }
+
                     gbf[listIndex] = l1;
                     if (lastMouseButton == 1)
                     {
@@ -491,11 +669,16 @@ namespace OpenRS.Net.Client
                     }
                 }
                 if (gbe[listIndex] == l1 && gdg)
+                {
                     j2 = 0xff0000;
+                }
+
                 gameImage.drawString(listText[l1], listX + 2, j1, listTextSize, j2);
                 j1 += gameImage.textHeightNumber(listTextSize);
                 if (j1 >= listY + listHeight)
+                {
                     return;
+                }
             }
 
         }
@@ -510,7 +693,8 @@ namespace OpenRS.Net.Client
             componentX[menuItemsCount] = i;
             componentY[menuItemsCount] = k;
             componentText[menuItemsCount] = s;
-            return menuItemsCount++;
+            menuItemsCount += 1;
+            return menuItemsCount - 1;
         }
 
         public int drawButton(int i, int k, int l, int i1)
@@ -522,7 +706,8 @@ namespace OpenRS.Net.Client
             componentY[menuItemsCount] = k - i1 / 2;
             componentWidth[menuItemsCount] = l;
             componentHeight[menuItemsCount] = i1;
-            return menuItemsCount++;
+            menuItemsCount += 1;
+            return menuItemsCount - 1;
         }
 
         public int drawCurvedBox(int i, int k, int l, int i1)
@@ -534,7 +719,8 @@ namespace OpenRS.Net.Client
             componentY[menuItemsCount] = k - i1 / 2;
             componentWidth[menuItemsCount] = l;
             componentHeight[menuItemsCount] = i1;
-            return menuItemsCount++;
+            menuItemsCount += 1;
+            return menuItemsCount - 1;
         }
 
         public int drawArrow(int i, int k, int l)
@@ -549,7 +735,8 @@ namespace OpenRS.Net.Client
             componentWidth[menuItemsCount] = i1;
             componentHeight[menuItemsCount] = j1;
             componentTextSize[menuItemsCount] = l;
-            return menuItemsCount++;
+            menuItemsCount += 1;
+            return menuItemsCount - 1;
         }
 
         public int gfh(int i, int k, int l, int i1, int j1, int k1, bool flag)
@@ -567,7 +754,8 @@ namespace OpenRS.Net.Client
             listLength[menuItemsCount] = 0;
             listShownEntries[menuItemsCount] = 0;
             componentTextList[menuItemsCount] = new String[k1];
-            return menuItemsCount++;
+            menuItemsCount += 1;
+            return menuItemsCount - 1;
         }
 
         public int gfi(int i, int k, int l, int i1, int j1, int k1, bool flag,
@@ -585,7 +773,8 @@ namespace OpenRS.Net.Client
             componentHeight[menuItemsCount] = i1;
             copmonentInputMaxLength[menuItemsCount] = k1;
             componentText[menuItemsCount] = "";
-            return menuItemsCount++;
+            menuItemsCount += 1;
+            return menuItemsCount - 1;
         }
 
         public int createInput(int i, int k, int l, int i1, int j1, int k1, bool flag,
@@ -603,7 +792,8 @@ namespace OpenRS.Net.Client
             componentHeight[menuItemsCount] = i1;
             copmonentInputMaxLength[menuItemsCount] = k1;
             componentText[menuItemsCount] = "";
-            return menuItemsCount++;
+            menuItemsCount += 1;
+            return menuItemsCount - 1;
         }
 
         public int createList(int i, int k, int l, int i1, int j1, int k1, bool flag)
@@ -623,7 +813,8 @@ namespace OpenRS.Net.Client
             listShownEntries[menuItemsCount] = 0;
             gbe[menuItemsCount] = -1;
             gbf[menuItemsCount] = -1;
-            return menuItemsCount++;
+            menuItemsCount += 1;
+            return menuItemsCount - 1;
         }
 
         public int createButton(int i, int k, int l, int i1)
@@ -635,7 +826,8 @@ namespace OpenRS.Net.Client
             componentY[menuItemsCount] = k - i1 / 2;
             componentWidth[menuItemsCount] = l;
             componentHeight[menuItemsCount] = i1;
-            return menuItemsCount++;
+            menuItemsCount += 1;
+            return menuItemsCount - 1;
         }
 
         public void clearList(int i)
@@ -653,23 +845,28 @@ namespace OpenRS.Net.Client
         {
             componentTextList[i][k] = s;
             if (k + 1 > listLength[i])
+            {
                 listLength[i] = k + 1;
+            }
         }
 
-        public void addMessage(int arg0, String arg1, bool arg2)
+        public void addMessage(int componentIndex, String messageText, bool isScrollToBottom)
         {
-            int i = listLength[arg0]++;
-            if (i >= copmonentInputMaxLength[arg0])
+            int messageIndex = listLength[componentIndex] += 1;
+            if (messageIndex >= copmonentInputMaxLength[componentIndex])
             {
-                i--;
-                listLength[arg0]--;
-                for (int k = 0; k < i; k++)
-                    componentTextList[arg0][k] = componentTextList[arg0][k + 1];
-
+                messageIndex--;
+                listLength[componentIndex]--;
+                for (int k = 0; k < messageIndex; k++)
+                {
+                    componentTextList[componentIndex][k] = componentTextList[componentIndex][k + 1];
+                }
             }
-            componentTextList[arg0][i] = arg1;
-            if (arg2)
-                listShownEntries[arg0] = 0xf423f;
+            componentTextList[componentIndex][messageIndex] = messageText;
+            if (isScrollToBottom)
+            {
+                listShownEntries[componentIndex] = 0xf423f;
+            }
         }
 
         public void updateText(int i, String s)
@@ -679,10 +876,14 @@ namespace OpenRS.Net.Client
 
         public String getText(int i)
         {
-            if (componentText[i] == null)
+            if (componentText[i] is null)
+            {
                 return "null";
+            }
             else
+            {
                 return componentText[i];
+            }
         }
 
         public void enableInput(int i)
@@ -708,8 +909,8 @@ namespace OpenRS.Net.Client
 
 
         protected GameImage gameImage;
-        int menuItemsCount;
-        int gal;
+        private int menuItemsCount;
+        private int gal;
         public bool[] componentAcceptsInput;
         public bool[] gan;
         public bool[] componentIsPasswordField;
@@ -718,34 +919,34 @@ namespace OpenRS.Net.Client
         public int[] listLength;
         public int[] gbe;
         public int[] gbf;
-        bool[] componentWhiteText;
-        int[] componentX;
-        int[] componentY;
-        int[] componentType;
-        int[] componentWidth;
-        int[] componentHeight;
-        int[] copmonentInputMaxLength;
-        int[] componentTextSize;
-        String[] componentText;
-        String[][] componentTextList;
-        int mouseX;
-        int mouseY;
-        int lastMouseButton;
-        int mouseButton;
-        int selectedComponent;
-        int gch;
-        int scrollBarGradientColorTop;
-        int scrollBarGradientColorBottom;
-        int scrollBarDraggingBarLine1Color;
-        int scrollBarDraggingBarColor;
-        int scrollBarDraggingBarLine2Color;
-        int gcn;
-        int gda;
-        int gdb;
-        int gdc;
-        int gdd;
-        int gde;
-        int gdf;
+        private bool[] componentWhiteText;
+        private int[] componentX;
+        private int[] componentY;
+        private int[] componentType;
+        private int[] componentWidth;
+        private int[] componentHeight;
+        private int[] copmonentInputMaxLength;
+        private int[] componentTextSize;
+        private String[] componentText;
+        private String[][] componentTextList;
+        private int mouseX;
+        private int mouseY;
+        private int lastMouseButton;
+        private int mouseButton;
+        private int selectedComponent;
+        private int gch;
+        private int scrollBarGradientColorTop;
+        private int scrollBarGradientColorBottom;
+        private int scrollBarDraggingBarLine1Color;
+        private int scrollBarDraggingBarColor;
+        private int scrollBarDraggingBarLine2Color;
+        private int gcn;
+        private int gda;
+        private int gdb;
+        private int gdc;
+        private int gdd;
+        private int gde;
+        private int gdf;
         public bool gdg;
         public static bool gdh = true;
         public static int baseScrollPic;

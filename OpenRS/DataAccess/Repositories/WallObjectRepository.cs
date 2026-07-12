@@ -11,7 +11,7 @@ namespace OpenRS.DataAccess.Repositories
     /// Initializes a new instance of the <see cref="WallObjectRepository"/> class.
     /// </remarks>
     /// <param name="fileName">File name.</param>
-    public class WallObjectRepository(string fileName) : XmlRepository<WallObjectEntity>(fileName)
+    public sealed class WallObjectRepository(string fileName) : XmlRepository<WallObjectEntity>(fileName)
     {
         /// <summary>
         /// Updates the specified wallObject.

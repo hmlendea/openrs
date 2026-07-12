@@ -2,7 +2,7 @@
 
 namespace OpenRS.DataAccess.DataObjects
 {
-    public class ItemLocationEntity : EntityBase
+    public sealed class ItemLocationEntity : EntityBase
     {
         public int X { get; set; }
 

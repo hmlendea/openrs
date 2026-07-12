@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using OpenRS.Settings;
 
 namespace OpenRS.Net.Client
 {
-    public class Link
+    public sealed class Link
     {
         public static sbyte[] streamToSbyte(BinaryReader stream)
         {
-            List<sbyte> list = new List<sbyte>();
+            List<sbyte> list = [];
             {
                 // int ch;
                 int c = 0;
@@ -22,7 +20,7 @@ namespace OpenRS.Net.Client
                     while (c < stream.BaseStream.Length)
                     {
                         list.Add(stream.ReadSByte());
-                        c++;
+                        c += 1;
                     }
                 }
                 catch { }
@@ -42,7 +40,7 @@ namespace OpenRS.Net.Client
             //var sbytes = bytes.Select(c=>Convert.ToSByte(c)).ToArray();//c.t(sbyte[])(Array)bytes;
             Link.fileData[currentFile] = streamToSbyte(reader);
 
-            currentFile++;
+            currentFile += 1;
         }
 
 
@@ -52,18 +50,18 @@ namespace OpenRS.Net.Client
 
             Link.fileData[currentFile] = fileData;//.Cast<byte>().ToArray();
 
-            currentFile++;
+            currentFile += 1;
         }
 
         public static bool loadFile(String fileName)
         {
             try
             {
-                var f = new FileInfo(Path.Combine(Config.CONF_DIR, fileName));
-                if (f.Exists)
+                FileInfo fileInfo = new(Path.Combine(Config.ConfigurationDirectory, fileName));
+                if (fileInfo.Exists)
                 {
 
-                    addFile(fileName, new BinaryReader(f.OpenRead()));
+                    addFile(fileName, new BinaryReader(fileInfo.OpenRead()));
                     return true;
                 }
                 return false;
@@ -78,29 +76,40 @@ namespace OpenRS.Net.Client
         public static sbyte[] getFile(String fileName)
         {
             for (int i = 0; i < currentFile; i++)
+            {
                 if (Link.fileName[i].Equals(fileName))
+                {
                     return fileData[i];
+                }
+            }
+
             if (loadFile(fileName))
+            {
                 return getFile(fileName);
+            }
             else
+            {
                 return null;
+            }
         }
 
 
         public static TcpClient getSocket(int port)
         {
             for (Link.port = port; Link.port != 0; )
+            {
                 try
                 {
                     Thread.Sleep(100);
                 }
                 catch (Exception _ex) { }
+            }
 
             return socket;
         }
 
         //public static void thread(Runnable runnable) {
-        //    for(thread = runnable; thread != null;)
+        //    for(thread = runnable; thread is not null;)
         //        try {
         //            Thread.Sleep(100);
         //        }
@@ -110,24 +119,26 @@ namespace OpenRS.Net.Client
 
         public static String getAddress(String ip)
         {
-            for (iplookup = ip; iplookup != null; )
+            for (iplookup = ip; iplookup is not null; )
+            {
                 try
                 {
                     Thread.Sleep(100);
                 }
                 catch (Exception _ex) { }
+            }
 
             return address;
         }
 
         //public static Applet gameApplet;
         public static int uid;
-        static int port;
-        static TcpClient socket;
+        private static int port;
+        private static TcpClient socket;
         //  static Runnable thread = null;
-        static String iplookup = null;
-        static String address;
-        static int currentFile;
+        private static String iplookup = null;
+        private static String address;
+        private static int currentFile;
         private static String[] fileName = new String[50];
         private static sbyte[][] fileData = new sbyte[50][];
 

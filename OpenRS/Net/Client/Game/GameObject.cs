@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
 using Microsoft.Xna.Framework;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game.Cameras;
 namespace OpenRS.Net.Client.Game
 {
 
-    public class GameObject //: GameObject
+    public sealed class GameObject //: GameObject
     {
 
         public GameObject(int vertCount, int polygonCount)
@@ -163,13 +161,18 @@ namespace OpenRS.Net.Client.Game
         {
             face_count -= j;
             if (face_count < 0)
+            {
                 face_count = 0;
+            }
+
             vert_count -= k;
             if (vert_count < 0)
+            {
                 vert_count = 0;
+            }
         }
 
-        public GameObject(sbyte[] data, int offset, bool arg2)
+        public GameObject(sbyte[] data, int offset, bool loadFromData)
         //: base(_vert_count, polygonCount, z)
         {
             objectState = 1;
@@ -223,14 +226,18 @@ namespace OpenRS.Net.Client.Game
 
             vert_count = _vert_count;
             for (int k1 = 0; k1 < _face_count; k1++)
+            {
                 face_vertices_count[k1] = data[offset++] & 0xff;
+            }
 
             for (int l1 = 0; l1 < _face_count; l1++)
             {
                 texture_back[l1] = DataOperations.getShort2(data, offset);
                 offset += 2;
                 if (texture_back[l1] == 32767)
+                {
                     texture_back[l1] = shadeValue;
+                }
             }
 
             for (int i2 = 0; i2 < _face_count; i2++)
@@ -238,22 +245,29 @@ namespace OpenRS.Net.Client.Game
                 texture_front[i2] = DataOperations.getShort2(data, offset);
                 offset += 2;
                 if (texture_front[i2] == 32767)
+                {
                     texture_front[i2] = shadeValue;
+                }
             }
 
             for (int j2 = 0; j2 < _face_count; j2++)
             {
                 int k2 = data[offset++] & 0xff;
                 if (k2 == 0)
+                {
                     gouraud_shade[j2] = 0;
+                }
                 else
+                {
                     gouraud_shade[j2] = shadeValue;
+                }
             }
 
             for (int l2 = 0; l2 < _face_count; l2++)
             {
                 face_vertices[l2] = new int[face_vertices_count[l2]];
                 for (int i3 = 0; i3 < face_vertices_count[l2]; i3++)
+                {
                     if (_vert_count < 256)
                     {
                         face_vertices[l2][i3] = data[offset++] & 0xff;
@@ -263,7 +277,7 @@ namespace OpenRS.Net.Client.Game
                         face_vertices[l2][i3] = DataOperations.getShort(data, offset);
                         offset += 2;
                     }
-
+                }
             }
 
             face_count = _face_count;
@@ -294,16 +308,24 @@ namespace OpenRS.Net.Client.Game
             byte[] abyte0 = null;
             try
             {
-                var inputstream = DataOperations.openInputStream(fileName);
+                MemoryStream inputStream = DataOperations.openInputStream(fileName);
                 //DataInputStream datainputstream = new DataInputStream(inputstream);
                 abyte0 = new byte[3];
                 clg = 0;
-                for (int j = 0; j < 3; j += inputstream.Read(abyte0, j, 3 - j)) ;
+                for (int j = 0; j < 3; j += inputStream.Read(abyte0, j, 3 - j))
+                {
+                    ;
+                }
+
                 int l = getShadeValue((sbyte[])(Array)abyte0);
                 abyte0 = new byte[l];
                 clg = 0;
-                for (int k = 0; k < l; k += inputstream.Read(abyte0, k, l - k)) ;
-                inputstream.Close();
+                for (int k = 0; k < l; k += inputStream.Read(abyte0, k, l - k))
+                {
+                    ;
+                }
+
+                inputStream.Close();
             }
             catch
             {
@@ -334,18 +356,26 @@ namespace OpenRS.Net.Client.Game
                 int j3 = getShadeValue((sbyte[])(Array)abyte0);
                 int[] ai = new int[j2];
                 for (int i4 = 0; i4 < j2; i4++)
+                {
                     ai[i4] = getShadeValue((sbyte[])(Array)abyte0);
+                }
 
                 int[] ai1 = new int[i3];
                 for (int j4 = 0; j4 < i3; j4++)
+                {
                     ai1[j4] = getShadeValue((sbyte[])(Array)abyte0);
+                }
 
                 int k4 = addFaceVertices(j2, ai, k2, l2);
                 cje[l3] = ai1;
                 if (j3 == 0)
+                {
                     gouraud_shade[k4] = 0;
+                }
                 else
+                {
                     gouraud_shade[k4] = shadeValue;
+                }
             }
 
             objectState = 1;
@@ -405,7 +435,7 @@ namespace OpenRS.Net.Client.Game
             BuildGameObject(childObjects, objectCount, true);
         }
 
-        public void BuildGameObject(GameObject[] childObjects, int objectCount, bool arg2)
+        public void BuildGameObject(GameObject[] childObjects, int objectCount, bool applyLighting)
         {
             int j = 0;
             int k = 0;
@@ -416,8 +446,11 @@ namespace OpenRS.Net.Client.Game
             }
 
             InitializeObject(k, j);
-            if (arg2)
+            if (applyLighting)
+            {
                 cje = new int[j][];
+            }
+
             for (int i1 = 0; i1 < objectCount; i1++)
             {
                 GameObject j1 = childObjects[i1];
@@ -433,28 +466,34 @@ namespace OpenRS.Net.Client.Game
                     int[] ai = new int[j1.face_vertices_count[k1]];
                     int[] ai1 = j1.face_vertices[k1];
                     for (int l1 = 0; l1 < j1.face_vertices_count[k1]; l1++)
+                    {
                         ai[l1] = getVertexIndex(j1.vert_x[ai1[l1]], j1.vert_y[ai1[l1]], j1.vert_z[ai1[l1]]);
+                    }
 
                     int i2 = addFaceVertices(j1.face_vertices_count[k1], ai, j1.texture_back[k1], j1.texture_front[k1]);
                     gouraud_shade[i2] = j1.gouraud_shade[k1];
                     cgh[i2] = j1.cgh[k1];
                     cgg[i2] = j1.cgg[k1];
-                    if (arg2)
+                    if (applyLighting)
+                    {
                         if (objectCount > 1)
                         {
                             cje[i2] = new int[j1.cje[k1].Length + 1];
                             cje[i2][0] = i1;
                             for (int j2 = 0; j2 < j1.cje[k1].Length; j2++)
+                            {
                                 cje[i2][j2 + 1] = j1.cje[k1][j2];
-
+                            }
                         }
                         else
                         {
                             cje[i2] = new int[j1.cje[k1].Length];
                             for (int k2 = 0; k2 < j1.cje[k1].Length; k2++)
+                            {
                                 cje[i2][k2] = j1.cje[k1][k2];
-
+                            }
                         }
+                    }
                 }
 
             }
@@ -465,8 +504,12 @@ namespace OpenRS.Net.Client.Game
         public int getVertexIndex(int x, int y, int z)
         {
             for (int j = 0; j < vert_count; j++)
+            {
                 if (vert_x[j] == x && vert_y[j] == y && vert_z[j] == z)
+                {
                     return j;
+                }
+            }
 
             if (vert_count >= totalVerticeCount)
             {
@@ -477,7 +520,8 @@ namespace OpenRS.Net.Client.Game
                 vert_x[vert_count] = x;
                 vert_y[vert_count] = y;
                 vert_z[vert_count] = z;
-                return vert_count++;
+                vert_count += 1;
+                return vert_count - 1;
             }
         }
 
@@ -492,7 +536,8 @@ namespace OpenRS.Net.Client.Game
                 vert_x[vert_count] = x;
                 vert_y[vert_count] = y;
                 vert_z[vert_count] = z;
-                return vert_count++;
+                vert_count += 1;
+                return vert_count - 1;
             }
         }
 
@@ -509,12 +554,13 @@ namespace OpenRS.Net.Client.Game
                 texture_back[face_count] = _faceBack;
                 texture_front[face_count] = _faceFront;
                 objectState = 1;
-                return face_count++;
+                face_count += 1;
+                return face_count - 1;
             }
         }
 
         public GameObject[] getObjectsWithinArea(int x, int y, int width, int height, int objectSize, int objectCount, int maxVertCount,
-                bool arg7)
+                bool applyLighting)
         {
             cni();
             int[] ai = new int[objectCount];
@@ -539,15 +585,18 @@ namespace OpenRS.Net.Client.Game
 
                 int i3 = l / (k1 * width) + (i1 / (k1 * height)) * objectSize;
                 ai[i3] += k1;
-                ai1[i3]++;
+                ai1[i3] += 1;
             }
 
             GameObject[] ai2 = new GameObject[objectCount];
             for (int j1 = 0; j1 < objectCount; j1++)
             {
                 if (ai[j1] > maxVertCount)
+                {
                     ai[j1] = maxVertCount;
-                ai2[j1] = new GameObject(ai[j1], ai1[j1], true, true, true, arg7, true)
+                }
+
+                ai2[j1] = new GameObject(ai[j1], ai1[j1], true, true, true, applyLighting, true)
                 {
                     cle = cle,
                     clf = clf
@@ -571,40 +620,54 @@ namespace OpenRS.Net.Client.Game
             }
 
             for (int j2 = 0; j2 < objectCount; j2++)
+            {
                 ai2[j2].clj();
+            }
 
             return ai2;
         }
 
-        public void CopyModelData(GameObject arg0, int[] indices, int indexCount, int entityTypeIndex)
+        public void CopyModelData(GameObject sourceModel, int[] indices, int indexCount, int entityTypeIndex)
         {
             int[] ai = new int[indexCount];
             for (int j = 0; j < indexCount; j++)
             {
-                int k = ai[j] = arg0.getVertexIndex(vert_x[indices[j]], vert_y[indices[j]], vert_z[indices[j]]);
-                arg0.cfn[k] = cfn[indices[j]];
-                arg0.vertexColor[k] = vertexColor[indices[j]];
+                int k = ai[j] = sourceModel.getVertexIndex(vert_x[indices[j]], vert_y[indices[j]], vert_z[indices[j]]);
+                sourceModel.cfn[k] = cfn[indices[j]];
+                sourceModel.vertexColor[k] = vertexColor[indices[j]];
             }
 
-            int l = arg0.addFaceVertices(indexCount, ai, texture_back[entityTypeIndex], texture_front[entityTypeIndex]);
-            if (!arg0.cic && !cic)
-                arg0.entityType[l] = entityType[entityTypeIndex];
-            arg0.gouraud_shade[l] = gouraud_shade[entityTypeIndex];
-            arg0.cgh[l] = cgh[entityTypeIndex];
-            arg0.cgg[l] = cgg[entityTypeIndex];
+            int l = sourceModel.addFaceVertices(indexCount, ai, texture_back[entityTypeIndex], texture_front[entityTypeIndex]);
+            if (!sourceModel.cic && !cic)
+            {
+                sourceModel.entityType[l] = entityType[entityTypeIndex];
+            }
+
+            sourceModel.gouraud_shade[l] = gouraud_shade[entityTypeIndex];
+            sourceModel.cgh[l] = cgh[entityTypeIndex];
+            sourceModel.cgg[l] = cgg[entityTypeIndex];
         }
 
-        public void UpdateShading(bool setShadeValue, int arg1, int arg2, int x, int y, int z)
+        public void UpdateShading(bool setShadeValue, int lightIntensity, int ambientLight, int x, int y, int z)
         {
-            clf = 256 - arg1 * 4;
-            cle = (64 - arg2) * 16 + 128;
+            clf = 256 - lightIntensity * 4;
+            cle = (64 - ambientLight) * 16 + 128;
             if (dontRecieveShadows)
+            {
                 return;
+            }
+
             for (int j = 0; j < face_count; j++)
+            {
                 if (setShadeValue)
+                {
                     gouraud_shade[j] = shadeValue;
+                }
                 else
+                {
                     gouraud_shade[j] = 0;
+                }
+            }
 
             cla = x;
             clb = y;
@@ -769,17 +832,34 @@ namespace OpenRS.Net.Client.Game
             for (int j = 0; j < vert_count; j++)
             {
                 if (x != 0)
+                {
                     worldVertX[j] += worldVertY[j] * x >> 8;
+                }
+
                 if (z != 0)
+                {
                     worldVertZ[j] += worldVertY[j] * z >> 8;
+                }
+
                 if (x1 != 0)
+                {
                     worldVertX[j] += worldVertZ[j] * x1 >> 8;
+                }
+
                 if (y != 0)
+                {
                     worldVertY[j] += worldVertZ[j] * y >> 8;
+                }
+
                 if (z1 != 0)
+                {
                     worldVertZ[j] += worldVertX[j] * z1 >> 8;
+                }
+
                 if (y1 != 0)
+                {
                     worldVertY[j] += worldVertX[j] * y1 >> 8;
+                }
             }
 
         }
@@ -814,20 +894,34 @@ namespace OpenRS.Net.Client.Game
                 {
                     int i1 = ai[k];
                     if (worldVertX[i1] < minX)
+                    {
                         minX = worldVertX[i1];
+                    }
                     else
                         if (worldVertX[i1] > maxX)
-                            maxX = worldVertX[i1];
+                    {
+                        maxX = worldVertX[i1];
+                    }
+
                     if (worldVertY[i1] < minY)
+                    {
                         minY = worldVertY[i1];
+                    }
                     else
                         if (worldVertY[i1] > maxY)
-                            maxY = worldVertY[i1];
+                    {
+                        maxY = worldVertY[i1];
+                    }
+
                     if (worldVertZ[i1] < minZ)
+                    {
                         minZ = worldVertZ[i1];
+                    }
                     else
                         if (worldVertZ[i1] > maxZ)
-                            maxZ = worldVertZ[i1];
+                    {
+                        maxZ = worldVertZ[i1];
+                    }
                 }
 
                 if (!noCollider)
@@ -841,23 +935,49 @@ namespace OpenRS.Net.Client.Game
                 }
 
                 if (maxX - minX > distVar)
+                {
                     distVar = (maxX - minX);
+                }
+
                 if (maxY - minY > distVar)
+                {
                     distVar = (maxY - minY);
+                }
+
                 if (maxZ - minZ > distVar)
+                {
                     distVar = (maxZ - minZ);
+                }
+
                 if (minX < boundsMinX)
+                {
                     boundsMinX = minX;
+                }
+
                 if (maxX > boundsMaxX)
+                {
                     boundsMaxX = maxX;
+                }
+
                 if (minY < boundsMinY)
+                {
                     boundsMinY = minY;
+                }
+
                 if (maxY > boundsMaxY)
+                {
                     boundsMaxY = maxY;
+                }
+
                 if (minZ < boundsMinZ)
+                {
                     boundsMinZ = minZ;
+                }
+
                 if (maxZ > boundsMaxZ)
+                {
                     boundsMaxZ = maxZ;
+                }
             }
 
         }
@@ -865,11 +985,18 @@ namespace OpenRS.Net.Client.Game
         public void normalize()
         {
             if (dontRecieveShadows)
+            {
                 return;
+            }
+
             int j = cle * cld >> 8;
             for (int k = 0; k < face_count; k++)
+            {
                 if (gouraud_shade[k] != shadeValue)
+                {
                     gouraud_shade[k] = (normalX[k] * cla + normalY[k] * clb + normalZ[k] * clc) / j;
+                }
+            }
 
             int[] ai = new int[vert_count];
             int[] ai1 = new int[vert_count];
@@ -884,6 +1011,7 @@ namespace OpenRS.Net.Client.Game
             }
 
             for (int i1 = 0; i1 < face_count; i1++)
+            {
                 if (gouraud_shade[i1] == shadeValue)
                 {
                     for (int j1 = 0; j1 < face_vertices_count[i1]; j1++)
@@ -892,21 +1020,28 @@ namespace OpenRS.Net.Client.Game
                         ai[l1] += normalX[i1];
                         ai1[l1] += normalY[i1];
                         ai2[l1] += normalZ[i1];
-                        ai3[l1]++;
+                        ai3[l1] += 1;
                     }
 
                 }
+            }
 
             for (int k1 = 0; k1 < vert_count; k1++)
+            {
                 if (ai3[k1] > 0)
+                {
                     cfn[k1] = (ai[k1] * cla + ai1[k1] * clb + ai2[k1] * clc) / (j * ai3[k1]);
-
+                }
+            }
         }
 
         public void calculateNormals()
         {
             if (dontRecieveShadows && noCollider)
+            {
                 return;
+            }
+
             for (int j = 0; j < face_count; j++)
             {
                 int[] ai = face_vertices[j];
@@ -932,7 +1067,10 @@ namespace OpenRS.Net.Client.Game
                 // normalize
                 int k3 = (int)(256D * Math.Sqrt(xDistance * xDistance + yDistance * yDistance + j3 * j3));
                 if (k3 <= 0)
+                {
                     k3 = 1;
+                }
+
                 normalX[j] = (xDistance * 0x10000) / k3;
                 normalY[j] = (yDistance * 0x10000) / k3;
                 normalZ[j] = (j3 * 65535) / k3;
@@ -970,20 +1108,32 @@ namespace OpenRS.Net.Client.Game
                 }
 
                 if (ckm >= 2)
+                {
                     rotate(rotationX, rotationY, rotationZ);
+                }
+
                 if (ckm >= 3)
+                {
                     scaleVertices(ckd, cke, ckf);
+                }
+
                 if (ckm >= 4)
+                {
                     scaleVertices(ckg, ckh, cki, ckj, ckk, ckl);
+                }
+
                 if (ckm >= 1)
+                {
                     OffsetWorldVertices(positionX, positionY, positionZ);
+                }
+
                 calculateObjectBounds();
                 calculateNormals();
             }
         }
 
-        public void cnh(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6,
-                int arg7)
+        public void cnh(int originX, int originY, int originZ, int rotationXAngle, int rotationYAngle, int rotationZAngle, int projectionScale,
+                int nearPlane)
         {
             UpdateWorldTransformation();
             if (boundsMinZ > Camera.farZ || boundsMaxZ < Camera.nearZ || boundsMinX > Camera.farX || boundsMaxX < Camera.nearX || boundsMinY > Camera.farY || boundsMaxY < Camera.nearY)
@@ -998,52 +1148,62 @@ namespace OpenRS.Net.Client.Game
             int l1 = 0;
             int i2 = 0;
             int j2 = 0;
-            if (arg5 != 0)
+            if (!rotationZAngle.Equals(0))
             {
-                i1 = cif[arg5];
-                j1 = cif[arg5 + 1024];
+                i1 = cif[rotationZAngle];
+                j1 = cif[rotationZAngle + 1024];
             }
-            if (arg4 != 0)
+            if (!rotationYAngle.Equals(0))
             {
-                i2 = cif[arg4];
-                j2 = cif[arg4 + 1024];
+                i2 = cif[rotationYAngle];
+                j2 = cif[rotationYAngle + 1024];
             }
-            if (arg3 != 0)
+            if (!rotationXAngle.Equals(0))
             {
-                k1 = cif[arg3];
-                l1 = cif[arg3 + 1024];
+                k1 = cif[rotationXAngle];
+                l1 = cif[rotationXAngle + 1024];
             }
             for (int k2 = 0; k2 < vert_count; k2++)
             {
-                int l2 = worldVertX[k2] - arg0;
-                int i3 = worldVertY[k2] - arg1;
-                int j3 = worldVertZ[k2] - arg2;
-                if (arg5 != 0)
+                int l2 = worldVertX[k2] - originX;
+                int i3 = worldVertY[k2] - originY;
+                int j3 = worldVertZ[k2] - originZ;
+                if (!rotationZAngle.Equals(0))
                 {
                     int j = i3 * i1 + l2 * j1 >> 15;
                     i3 = i3 * j1 - l2 * i1 >> 15;
                     l2 = j;
                 }
-                if (arg4 != 0)
+                if (!rotationYAngle.Equals(0))
                 {
                     int k = j3 * i2 + l2 * j2 >> 15;
                     j3 = j3 * j2 - l2 * i2 >> 15;
                     l2 = k;
                 }
-                if (arg3 != 0)
+                if (!rotationXAngle.Equals(0))
                 {
                     int l = i3 * l1 - j3 * k1 >> 15;
                     j3 = i3 * k1 + j3 * l1 >> 15;
                     i3 = l;
                 }
-                if (j3 >= arg7)
-                    cfl[k2] = (l2 << arg6) / j3;
+                if (j3 >= nearPlane)
+                {
+                    cfl[k2] = (l2 << projectionScale) / j3;
+                }
                 else
-                    cfl[k2] = l2 << arg6;
-                if (j3 >= arg7)
-                    cfm[k2] = (i3 << arg6) / j3;
+                {
+                    cfl[k2] = l2 << projectionScale;
+                }
+
+                if (j3 >= nearPlane)
+                {
+                    cfm[k2] = (i3 << projectionScale) / j3;
+                }
                 else
-                    cfm[k2] = i3 << arg6;
+                {
+                    cfm[k2] = i3 << projectionScale;
+                }
+
                 cfi[k2] = l2;
                 cfj[k2] = i3;
                 cfk[k2] = j3;
@@ -1070,9 +1230,8 @@ namespace OpenRS.Net.Client.Game
 
         public GameObject CreateParent()
         {
-            GameObject[] ai = new GameObject[1];
-            ai[0] = this;
-            GameObject j = new GameObject(ai, 1)
+            GameObject[] ai = [this];
+            GameObject j = new(ai, 1)
             {
                 cgm = cgm,
                 isGiantCrystal = isGiantCrystal
@@ -1082,9 +1241,8 @@ namespace OpenRS.Net.Client.Game
 
         public GameObject CreateParent(bool flag, bool flag1, bool flag2, bool flag3)
         {
-            GameObject[] ai = new GameObject[1];
-            ai[0] = this;
-            GameObject j = new GameObject(ai, 1, flag, flag1, flag2, flag3)
+            GameObject[] ai = [this];
+            GameObject j = new(ai, 1, flag, flag1, flag2, flag3)
             {
                 cgm = cgm
             };
@@ -1115,15 +1273,22 @@ namespace OpenRS.Net.Client.Game
         //    return y;
         //}
 
-        public int getShadeValue(sbyte[] arg0)
+        public int getShadeValue(sbyte[] buffer)
         {
-            for (; arg0[clg] == 10 || arg0[clg] == 13; clg++) ;
-            int j = cih[arg0[clg++] & 0xff];
-            int k = cih[arg0[clg++] & 0xff];
-            int l = cih[arg0[clg++] & 0xff];
+            for (; buffer[clg] == 10 || buffer[clg] == 13; clg++)
+            {
+                ;
+            }
+
+            int j = cih[buffer[clg++] & 0xff];
+            int k = cih[buffer[clg++] & 0xff];
+            int l = cih[buffer[clg++] & 0xff];
             int i1 = (j * 4096 + k * 64 + l) - 0x20000;
             if (i1 == 0x1e240)
+            {
                 i1 = shadeValue;
+            }
+
             return i1;
         }
 
@@ -1233,24 +1398,36 @@ namespace OpenRS.Net.Client.Game
             }
 
             for (int l = 0; l < 10; l++)
+            {
                 cig[l] = (byte)(48 + l);
+            }
 
             for (int i1 = 0; i1 < 26; i1++)
+            {
                 cig[i1 + 10] = (byte)(65 + i1);
+            }
 
             for (int j1 = 0; j1 < 26; j1++)
+            {
                 cig[j1 + 36] = (byte)(97 + j1);
+            }
 
             cig[62] = -93;
             cig[63] = 36;
             for (int k1 = 0; k1 < 10; k1++)
+            {
                 cih[48 + k1] = k1;
+            }
 
             for (int l1 = 0; l1 < 26; l1++)
+            {
                 cih[65 + l1] = l1 + 10;
+            }
 
             for (int i2 = 0; i2 < 26; i2++)
+            {
                 cih[97 + i2] = i2 + 36;
+            }
 
             cih[163] = 62;
             cih[36] = 63;

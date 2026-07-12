@@ -9,7 +9,7 @@ using OpenRS.Settings;
 
 namespace OpenRS.GameLogic.GameManagers
 {
-    public class EntityManager
+    public sealed class EntityManager
     {
         private List<Animation> animations;
         private List<Elevation> elevations;
@@ -320,6 +320,6 @@ namespace OpenRS.GameLogic.GameManagers
         /// </summary>
         /// <returns>The world object.</returns>
         /// <param name="id">Identifier.</param>
-        public WorldObject GetWorldObject(string id) => worldObjects.FirstOrDefault(x => x.Id == id);
+        public WorldObject GetWorldObject(string id) => worldObjects.FirstOrDefault(worldObject => worldObject.Id.Equals(id));
     }
 }

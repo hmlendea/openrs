@@ -11,7 +11,7 @@ namespace OpenRS.Gui.Screens
     /// <summary>
     /// Settings screen.
     /// </summary>
-    public class SettingsScreen : MenuScreen
+    public sealed class SettingsScreen : MenuScreen
     {
         private GuiMenuToggle debugModeToggle;
         private GuiMenuToggle fowToggle;

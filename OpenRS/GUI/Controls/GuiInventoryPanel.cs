@@ -9,14 +9,13 @@ using OpenRS.Models;
 
 namespace OpenRS.Gui.Controls
 {
-    public class GuiInventoryPanel(GameClient client) : GuiControl
+    public sealed class GuiInventoryPanel(GameClient client) : GuiControl
     {
-        private readonly GameClient client = client;
+        private static int Rows => 8;
+
+        private static int Columns => 4;
 
         private GuiItemCard[] itemCards;
-
-        private const int Rows = 8;
-        private const int Columns = 4;
 
         /// <summary>
         /// Loads the content.
@@ -25,9 +24,9 @@ namespace OpenRS.Gui.Controls
         {
             itemCards = new GuiItemCard[Rows * Columns];
 
-            for (int i = 0; i < Rows * Columns; i++)
+            for (int slotIndex = 0; slotIndex < Rows * Columns; slotIndex++)
             {
-                itemCards[i] = new GuiItemCard();
+                itemCards[slotIndex] = new GuiItemCard();
             }
 
             RegisterChildren(itemCards);
@@ -66,14 +65,14 @@ namespace OpenRS.Gui.Controls
             int spacingX = (Size.Width - Columns * itemCards[0].Size.Width) / (Columns + 1);
             int spacingY = (Size.Height - Rows * itemCards[0].Size.Height) / (Rows + 1);
 
-            for (int i = 0; i < Rows * Columns; i++)
+            for (int slotIndex = 0; slotIndex < Rows * Columns; slotIndex++)
             {
-                int x = i % Columns;
-                int y = i / Columns;
+                int columnIndex = slotIndex % Columns;
+                int rowIndex = slotIndex / Columns;
 
-                itemCards[i].Location = new Point2D(
-                    spacingX * (x + 1) + itemCards[i].Size.Width * x,
-                    spacingY * (y + 1) + itemCards[i].Size.Height * y);
+                itemCards[slotIndex].Location = new Point2D(
+                    spacingX * (columnIndex + 1) + itemCards[slotIndex].Size.Width * columnIndex,
+                    spacingY * (rowIndex + 1) + itemCards[slotIndex].Size.Height * rowIndex);
             }
         }
 

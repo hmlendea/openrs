@@ -5,7 +5,7 @@ namespace OpenRS.DataAccess.DataObjects
     /// <summary>
     /// Tile entity.
     /// </summary>
-    public class TileEntity : EntityBase
+    public sealed class TileEntity : EntityBase
     {
         /// <summary>
         /// Gets or sets the colour.

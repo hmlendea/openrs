@@ -2,7 +2,7 @@
 
 namespace OpenRS.Models
 {
-    public class WalkPath
+    public sealed class WalkPath
     {
         private readonly Point2D[] waypointOffsets;
 

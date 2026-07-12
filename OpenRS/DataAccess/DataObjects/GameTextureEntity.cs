@@ -5,7 +5,7 @@ namespace OpenRS.DataAccess.DataObjects
     /// <summary>
     /// Texture entity.
     /// </summary>
-    public class GameTextureEntity : EntityBase
+    public sealed class GameTextureEntity : EntityBase
     {
         /// <summary>
         /// Gets or sets the name.

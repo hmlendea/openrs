@@ -4,7 +4,7 @@ using OpenRS.Models;
 
 namespace OpenRS.Net.Client.Game
 {
-    public class ClientMob
+    public sealed class ClientMob
     {
         public ClientMob()
         {
@@ -88,8 +88,8 @@ namespace OpenRS.Net.Client.Game
         public int skinColour { get => Appearance.SkinColour; set => Appearance.SkinColour = value; }
 
         // Location aliases
-        public int currentX { get => Location.X; set => Location = new NuciXNA.Primitives.Point2D(value, Location.Y); }
-        public int currentY { get => Location.Y; set => Location = new NuciXNA.Primitives.Point2D(Location.X, value); }
+        public int currentX { get => Location.X; set => Location = new Point2D(value, Location.Y); }
+        public int currentY { get => Location.Y; set => Location = new Point2D(Location.X, value); }
 
         // Waypoint int arrays
         public int[] waypointsX = new int[10];

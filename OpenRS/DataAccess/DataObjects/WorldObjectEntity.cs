@@ -5,7 +5,7 @@ namespace OpenRS.DataAccess.DataObjects
     /// <summary>
     /// Model entity.
     /// </summary>
-    public class WorldObjectEntity : EntityBase
+    public sealed class WorldObjectEntity : EntityBase
     {
         /// <summary>
         /// Gets or sets the name.

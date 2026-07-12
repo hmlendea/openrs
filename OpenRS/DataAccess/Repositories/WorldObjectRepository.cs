@@ -11,7 +11,7 @@ namespace OpenRS.DataAccess.Repositories
     /// Initializes a new instance of the <see cref="WorldObjectRepository"/> class.
     /// </remarks>
     /// <param name="fileName">File name.</param>
-    public class WorldObjectRepository(string fileName) : XmlRepository<WorldObjectEntity>(fileName)
+    public sealed class WorldObjectRepository(string fileName) : XmlRepository<WorldObjectEntity>(fileName)
     {
         /// <summary>
         /// Updates the specified world object.

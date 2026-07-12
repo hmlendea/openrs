@@ -5,7 +5,7 @@ namespace OpenRS.DataAccess.DataObjects
     /// <summary>
     /// Non-player character entity.
     /// </summary>
-    public class NpcEntity : EntityBase
+    public sealed class NpcEntity : EntityBase
     {
         /// <summary>
         /// Gets or sets the name.

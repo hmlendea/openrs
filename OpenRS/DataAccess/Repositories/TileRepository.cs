@@ -11,7 +11,7 @@ namespace OpenRS.DataAccess.Repositories
     /// Initializes a new instance of the <see cref="TileRepository"/> class.
     /// </remarks>
     /// <param name="fileName">File name.</param>
-    public class TileRepository(string fileName) : XmlRepository<TileEntity>(fileName)
+    public sealed class TileRepository(string fileName) : XmlRepository<TileEntity>(fileName)
     {
         /// <summary>
         /// Updates the specified tile.

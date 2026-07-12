@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using OpenRS.Net.Client.Data;
@@ -56,8 +52,9 @@ namespace OpenRS.Net.Client
         public void resetTimings()
         {
             for (int i = 0; i < 10; i++)
+            {
                 timeArray[i] = 0L;
-
+            }
         }
 
         public void keyTyped(EventArgs e)
@@ -72,14 +69,14 @@ namespace OpenRS.Net.Client
 
         public void keyPressed(Keys evt)
         {
-            var c = Encoding.UTF8.GetChars(new[] { (byte)evt });
-            this.keyDown(evt, c[0]);
+            char[] keyChars = Encoding.UTF8.GetChars([(byte)evt]);
+            this.keyDown(evt, keyChars[0]);
         }
 
         public void keyReleased(Keys evt)
         {
-            var c = Encoding.UTF8.GetChars(new[] { (byte)evt });
-            this.keyUp(evt, c[0]);
+            char[] keyChars = Encoding.UTF8.GetChars([(byte)evt]);
+            this.keyUp(evt, keyChars[0]);
         }
 
         public void mouseEntered(MouseState evt)
@@ -116,35 +113,71 @@ namespace OpenRS.Net.Client
         {
             handleKeyDown(key, c);
             if (key == Keys.Left)
+            {
                 keyLeftDown = true;
+            }
+
             if (key == Keys.Right)
+            {
                 keyRightDown = true;
+            }
+
             if (key == Keys.Up)
+            {
                 keyUpDown = true;
+            }
+
             if (key == Keys.Down)
+            {
                 keyDownDown = true;
+            }
+
             if (key == Keys.Space)
+            {
                 keySpaceDown = true;
+            }
+
             if (key == Keys.N || key == Keys.M)
+            {
                 keyNMDown = true;
+            }
+
             if (key == Keys.F1)
+            {
                 keyF1Toggle = !keyF1Toggle;
+            }
+
             bool flag = false;
             for (int i = 0; i < allowedChars.Length; i++)
             {
                 if (c != allowedChars[i] && key != Keys.Left && key != Keys.Right && key != Keys.Up && key != Keys.Down)
+                {
                     continue;
+                }
+
                 flag = true;
                 break;
             }
             if (flag && inputText.Length < 20)
+            {
                 inputText += c;
+            }
+
             if (flag && pmText.Length < 80)
+            {
                 pmText += c;
+            }
+
             if (key == Keys.Back && inputText.Length > 0)
+            {
                 inputText = inputText.Substring(0, inputText.Length - 1);
+            }
+
             if (key == Keys.Back && pmText.Length > 0)
+            {
                 pmText = pmText.Substring(0, pmText.Length - 1);
+            }
+
             if (key == Keys.Enter)
             {
                 enteredInputText = inputText;
@@ -159,17 +192,34 @@ namespace OpenRS.Net.Client
         public void keyUp(Keys key, char c)
         {
             if (key == Keys.Left)
+            {
                 keyLeftDown = false;
+            }
+
             if (key == Keys.Right)
+            {
                 keyRightDown = false;
+            }
+
             if (key == Keys.Up)
+            {
                 keyUpDown = false;
+            }
+
             if (key == Keys.Down)
+            {
                 keyDownDown = false;
+            }
+
             if (key == Keys.Space)
+            {
                 keySpaceDown = false;
+            }
+
             if (key == Keys.N || key == Keys.M)
+            {
                 keyNMDown = false;
+            }
         }
 
         public bool mouseMove(int x, int y)
@@ -223,13 +273,17 @@ namespace OpenRS.Net.Client
         public void start()
         {
             if (runStatus >= 0)
+            {
                 runStatus = 0;
+            }
         }
 
         public void stop()
         {
             if (runStatus >= 0)
+            {
                 runStatus = 4000 / refreshRate;
+            }
         }
 
 
@@ -245,7 +299,7 @@ namespace OpenRS.Net.Client
             {
                 Console.WriteLine("2 seconds expired, forcing kill");
                 closeProgram();
-                if (gameWindowThread != null)
+                if (gameWindowThread is not null)
                 {
                     gameWindowThread.Interrupt();
                     gameWindowThread = null;
@@ -265,7 +319,7 @@ namespace OpenRS.Net.Client
                 Thread.Sleep(1000);
             }
             catch (Exception _ex) { }
-            if (gameFrame != null)
+            if (gameFrame is not null)
             {
                 //gameFrame.dispose();
                 //System.Exit(0);
@@ -274,7 +328,7 @@ namespace OpenRS.Net.Client
         }
 
         //Component getGameComponent() {
-        //    if(gameFrame != null)
+        //    if(gameFrame is not null)
         //        return gameFrame;
         //    else
         //        return this;
@@ -303,10 +357,9 @@ namespace OpenRS.Net.Client
             }
 
             for (int k1 = 0; k1 < 10; k1++)
+            {
                 timeArray[k1] = CurrentTimeMillis();
-
-
-
+            }
 
             while (runStatus >= 0)
             {
@@ -357,15 +410,23 @@ namespace OpenRS.Net.Client
                 sleepTime = j2;
             }
             else if (l1 > timeArray[i])
+            {
                 k = (int)((long)(2560 * refreshRate) / (l1 - timeArray[i]));
+            }
+
             if (k < 25)
+            {
                 k = 25;
+            }
+
             if (k > 256)
             {
                 k = 256;
                 sleepTime = (int)((long)refreshRate - (l1 - timeArray[i]) / 10L);
                 if (sleepTime < gameMinThreadSleepTime)
+                {
                     sleepTime = gameMinThreadSleepTime;
+                }
             }
             try
             {
@@ -377,14 +438,17 @@ namespace OpenRS.Net.Client
             if (sleepTime > 1)
             {
                 for (int k2 = 0; k2 < 10; k2++)
+                {
                     if (timeArray[k2] != 0L)
+                    {
                         timeArray[k2] += sleepTime;
-
+                    }
+                }
             }
             int l2 = 0;
             while (j1 < 256)
             {
-                var start = DateTime.Now;
+                DateTime loopStart = DateTime.Now;
                 checkInputs();
                 j1 += k;
                 if (++l2 > fie)
@@ -398,7 +462,7 @@ namespace OpenRS.Net.Client
                     }
                     break;
                 }
-                var end = DateTime.Now - start;
+                TimeSpan loopDuration = DateTime.Now - loopStart;
             }
             fij--;
             j1 &= 0xff;
@@ -452,7 +516,7 @@ namespace OpenRS.Net.Client
 
 
 
-                //if (bgImage != null)
+                //if (bgImage is not null)
                 //{
                 //    // spriteBatch.BeginSafe();
                 //    spriteBatch.Draw(bgImage, Vector2.Zero, Color.White);
@@ -506,7 +570,7 @@ namespace OpenRS.Net.Client
         //public void drawString(String arg1, int arg3, int arg4, Color color)
         //{
         //    //Object obj;
-        //    //if (gameFrame == null)
+        //    //if (gameFrame is null)
         //    //    obj = this;
         //    //else
         //    //    obj = gameFrame;
@@ -535,20 +599,20 @@ namespace OpenRS.Net.Client
             int i = 0;
             int k = 0;
             sbyte[] abyte0 = Link.getFile(filename);
-            if (abyte0 == null)
+            if (abyte0 is null)
             {
                 try
                 {
                     Console.WriteLine("Loading " + fileTitle + " - 0%");
                     drawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 0%");
-                    var inputstream = new BinaryReader(DataOperations.openInputStream(filename));
-                    //DataInputStream datainputstream = new DataInputStream(inputstream);
-                    sbyte[] abyte2 = new sbyte[6] {
-                        inputstream.ReadSByte(),inputstream.ReadSByte(),inputstream.ReadSByte(),
-                        inputstream.ReadSByte(),inputstream.ReadSByte(),inputstream.ReadSByte()
-                    };
+                    BinaryReader inputStream = new(DataOperations.openInputStream(filename));
+                    //DataInputStream datainputstream = new DataInputStream(inputStream);
+                    sbyte[] abyte2 = [
+                        inputStream.ReadSByte(),inputStream.ReadSByte(),inputStream.ReadSByte(),
+                        inputStream.ReadSByte(),inputStream.ReadSByte(),inputStream.ReadSByte()
+                    ];
 
-                    //inputstream.Read(abyte2, 0, 6);
+                    //inputStream.Read(abyte2, 0, 6);
                     i = ((abyte2[0] & 0xff) << 16) + ((abyte2[1] & 0xff) << 8) + (abyte2[2] & 0xff);
                     k = ((abyte2[3] & 0xff) << 16) + ((abyte2[4] & 0xff) << 8) + (abyte2[5] & 0xff);
 
@@ -564,19 +628,23 @@ namespace OpenRS.Net.Client
                     {
                         int i1 = k - l;
                         if (i1 > 1000)
+                        {
                             i1 = 1000;
+                        }
 
                         for (int t = 0; t < i1; t++)
-                            abyte0[l + t] = inputstream.ReadSByte();
+                        {
+                            abyte0[l + t] = inputStream.ReadSByte();
+                        }
 
-                        // inputstream.Read(abyte0, l, i1);
+                        // inputStream.Read(abyte0, l, i1);
 
                         l += i1;
                         Console.WriteLine("Loading " + fileTitle + " - " + (5 + (l * 95) / k) + "%");
                         drawLoadingBarText(startPercentage, "Loading " + fileTitle + " - " + (5 + (l * 95) / k) + "%");
                     }
 
-                    inputstream.Close();
+                    inputStream.Close();
                 }
                 catch (IOException _ex) { }
             }
@@ -597,7 +665,7 @@ namespace OpenRS.Net.Client
 
         //public Texture2D createImage(int i, int k)
         //{
-        //    //if (gameFrame != null)
+        //    //if (gameFrame is not null)
         //    //    return gameFrame.createImage(i, k);
         //    //else
         //    //    return super.createImage(i, k);
@@ -622,7 +690,7 @@ namespace OpenRS.Net.Client
 
         public TcpClient makeSocket(String address, int port)
         {
-            var socket = new TcpClient(address, port)
+            TcpClient socket = new(address, port)
             {
                 SendTimeout = 30000,
                 ReceiveTimeout = 30000,
@@ -668,7 +736,7 @@ namespace OpenRS.Net.Client
             InitGameApplet();
         }
 
-        private static readonly DateTime Jan1st1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        private static readonly DateTime Jan1st1970 = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         public static long CurrentTimeMillis()
         {

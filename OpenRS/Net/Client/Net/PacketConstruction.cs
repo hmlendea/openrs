@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.IO;
 
@@ -16,6 +14,7 @@ namespace OpenRS.Net.Client.Net
         public void createPacket(int id)
         {
             if (packetStart > (maxPacketLength * 4) / 5)
+            {
                 try
                 {
                     writePacket(0);
@@ -25,8 +24,13 @@ namespace OpenRS.Net.Client.Net
                     error = true;
                     errorText = ioexception.ToString();//ioexception.getMessage();
                 }
-            if (packetData == null)
+            }
+
+            if (packetData is null)
+            {
                 packetData = new byte[maxPacketLength];
+            }
+
             packetData[packetStart + 2] = (byte)id;
             packetData[packetStart + 3] = 0;
             packetOffset = packetStart + 3;
@@ -42,9 +46,12 @@ namespace OpenRS.Net.Client.Net
                 error = false;
                 throw new IOException(errorText);
             }
-            packetCount++;
+            packetCount += 1;
             if (packetCount < packetId)
+            {
                 return;
+            }
+
             if (packetStart > 0)
             {
                 packetCount = 0;
@@ -61,13 +68,13 @@ namespace OpenRS.Net.Client.Net
 
         public void addString(String s)
         {
-            var bytes = Encoding.UTF8.GetBytes(s);
+            byte[] encodedBytes = Encoding.UTF8.GetBytes(s);
 
             //s.getBytes(0, s.length(), packetData, packetOffset);
 
-            Array.Copy(bytes, 0, packetData, packetOffset, bytes.Length);
+            Array.Copy(encodedBytes, 0, packetData, packetOffset, encodedBytes.Length);
 
-            packetOffset += bytes.Length;//s.length();
+            packetOffset += encodedBytes.Length;//s.length();
         }
 
         public void addLong(long l)
@@ -112,7 +119,10 @@ namespace OpenRS.Net.Client.Net
         public void flush(bool format = true)
         {
             if (format)
+            {
                 formatPacket();
+            }
+
             writePacket(0);
         }
 
@@ -141,7 +151,10 @@ namespace OpenRS.Net.Client.Net
         public void formatPacket()
         {
             if (skipOffset != 8)
-                packetOffset++;
+            {
+                packetOffset += 1;
+            }
+
             int j = packetOffset - packetStart - 2;
             if (j >= 160)
             {
@@ -157,7 +170,7 @@ namespace OpenRS.Net.Client.Net
             if (maxPacketLength <= 10000)
             {
                 int k = packetData[packetStart + 2] & 0xff;
-                packetCommandCount[k]++;
+                packetCommandCount[k] += 1;
                 packetLengthCount[k] += packetOffset - packetStart;
             }
             packetStart = packetOffset;
@@ -168,8 +181,9 @@ namespace OpenRS.Net.Client.Net
         public void addBytes(byte[] data, int off, int len)
         {
             for (int i = 0; i < len; i++)
+            {
                 packetData[packetOffset++] = data[off + i];
-
+            }
         }
 
         public bool hasData()
@@ -177,11 +191,11 @@ namespace OpenRS.Net.Client.Net
             return packetStart > 0;
         }
 
-        public int readPacket(sbyte[] arg0)
+        public int readPacket(sbyte[] packetBuffer)
         {
             try
             {
-                _read++;
+                _read += 1;
                 if (maxPacketReadCount > 0 && _read > maxPacketReadCount)
                 {
                     error = true;
@@ -213,13 +227,13 @@ namespace OpenRS.Net.Client.Net
                     if (_hasSwappedByte)
                     {
                         // read length-1 bytes (cmd + payload without last byte), then append swapped byte
-                        read(length - 1, arg0);
-                        arg0[length - 1] = (sbyte)_swappedByte;
+                        read(length - 1, packetBuffer);
+                        packetBuffer[length - 1] = (sbyte)_swappedByte;
                         _hasSwappedByte = false;
                     }
                     else
                     {
-                        read(length, arg0);
+                        read(length, packetBuffer);
                     }
                     int i = length;
                     length = 0;

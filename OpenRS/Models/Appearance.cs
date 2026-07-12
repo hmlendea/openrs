@@ -1,6 +1,6 @@
 ﻿namespace OpenRS.Models
 {
-    public class Appearance
+    public sealed class Appearance
     {
         public int HairColour { get; set; }
 

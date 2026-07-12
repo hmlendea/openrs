@@ -10,7 +10,7 @@ using NuciXNA.Primitives;
 
 namespace OpenRS.Gui.Controls
 {
-    public class GuiSkillCard : GuiControl
+    public sealed class GuiSkillCard : GuiControl
     {
         private GuiImage regularBackground;
         private GuiImage detailsBackground;

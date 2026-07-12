@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OpenRS.Net.Client
 {
-    public class Helper
+    public sealed class Helper
     {
-        public static Random Random = new Random();
+        public static Random Random = new();
     }
 }

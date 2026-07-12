@@ -14,9 +14,9 @@ using OpenRS.Net.Client.Game;
 
 namespace OpenRS.Gui.Controls
 {
-    public class GuiGame(GameClient client) : GuiControl
+    public sealed class GuiGame(GameClient client) : GuiControl
     {
-        private readonly GameClient gameClient = client;
+
 
         private SpriteBatch spriteBatch;
         private SpriteBatch gameSpriteBatch;
@@ -41,7 +41,7 @@ namespace OpenRS.Gui.Controls
         /// </summary>
         protected override void DoUnloadContent()
         {
-            gameClient.Dispose();
+            client.Dispose();
             UnregisterEvents();
         }
 
@@ -51,9 +51,9 @@ namespace OpenRS.Gui.Controls
         /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime)
         {
-            if (gameClient is not null) // TODO: Ugly null check
+            if (client is not null) // TODO: Ugly null check
             {
-                gameClient.Update(gameTime);
+                client.Update(gameTime);
             }
         }
 
@@ -65,7 +65,7 @@ namespace OpenRS.Gui.Controls
         {
             if (!isContentLoading) // TODO: Ugly check here
             {
-                DrawGame(gameClient);
+                DrawGame(client);
             }
         }
 
@@ -74,10 +74,10 @@ namespace OpenRS.Gui.Controls
         /// </summary>
         private void RegisterEvents()
         {
-            gameClient.OnContentLoadedCompleted += client_OnContentLoadedCompleted;
-            gameClient.OnContentLoaded += client_OnContentLoaded;
-            gameClient.OnLoadingSection += client_OnLoadingSection;
-            gameClient.OnLoadingSectionCompleted += client_OnLoadingSectionCompleted;
+            client.OnContentLoadedCompleted += client_OnContentLoadedCompleted;
+            client.OnContentLoaded += client_OnContentLoaded;
+            client.OnLoadingSection += client_OnLoadingSection;
+            client.OnLoadingSectionCompleted += client_OnLoadingSectionCompleted;
         }
 
         /// <summary>
@@ -85,10 +85,10 @@ namespace OpenRS.Gui.Controls
         /// </summary>
         private void UnregisterEvents()
         {
-            gameClient.OnContentLoadedCompleted -= client_OnContentLoadedCompleted;
-            gameClient.OnContentLoaded -= client_OnContentLoaded;
-            gameClient.OnLoadingSection -= client_OnLoadingSection;
-            gameClient.OnLoadingSectionCompleted -= client_OnLoadingSectionCompleted;
+            client.OnContentLoadedCompleted -= client_OnContentLoadedCompleted;
+            client.OnContentLoaded -= client_OnContentLoaded;
+            client.OnLoadingSection -= client_OnLoadingSection;
+            client.OnLoadingSectionCompleted -= client_OnLoadingSectionCompleted;
         }
 
         private void DrawGame(GameClient client)
@@ -109,14 +109,14 @@ namespace OpenRS.Gui.Controls
 
                     uint[] colors = new uint[client.gameGraphics.pixels.Length];
 
-                    for (int j = 0; j < client.gameGraphics.pixels.Length; j++)
+                    for (int pixelIndex = 0; pixelIndex < client.gameGraphics.pixels.Length; pixelIndex++)
                     {
-                        var bytes = BitConverter.GetBytes(client.gameGraphics.pixels[j]);
-                        var r = bytes[2];
-                        var g = bytes[1];
-                        var b = bytes[0];
+                        byte[] pixelBytes = BitConverter.GetBytes(client.gameGraphics.pixels[pixelIndex]);
+                        byte redChannel = pixelBytes[2];
+                        byte greenChannel = pixelBytes[1];
+                        byte blueChannel = pixelBytes[0];
 
-                        colors[j] = GraphicsEngine.RgbaToUInt(r, g, b, 255);
+                        colors[pixelIndex] = GraphicsEngine.RgbaToUInt(redChannel, greenChannel, blueChannel, 255);
                     }
 
                     int bufW = client.gameGraphics.GameSize.Width;
@@ -133,8 +133,8 @@ namespace OpenRS.Gui.Controls
                     client.GameDisplayScaleX = scale;
                     client.GameDisplayScaleY = scale;
 
-                    Rectangle srcRect = new Rectangle(0, 0, bufW, bufH);
-                    Rectangle destRect = new Rectangle(drawX, drawY, drawW, drawH);
+                    Rectangle srcRect = new(0, 0, bufW, bufH);
+                    Rectangle destRect = new(drawX, drawY, drawW, drawH);
 
                     if (client.gameGraphics.pixels.Any(p => p != 0) && client.DrawIsNecessary)
                     {
@@ -172,8 +172,8 @@ namespace OpenRS.Gui.Controls
                     int drawH = (int)(bufH * scale);
                     int drawX = (Size.Width - drawW) / 2;
                     int drawY = (Size.Height - drawH) / 2;
-                    Rectangle srcRect = new Rectangle(0, 0, bufW, bufH);
-                    Rectangle destRect = new Rectangle(drawX, drawY, drawW, drawH);
+                    Rectangle srcRect = new(0, 0, bufW, bufH);
+                    Rectangle destRect = new(drawX, drawY, drawW, drawH);
                     gameSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp);
                     gameSpriteBatch.Draw(_lastGameImageTexture, destRect, srcRect, Color.White);
                     gameSpriteBatch.End();

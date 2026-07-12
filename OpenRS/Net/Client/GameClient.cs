@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Drawing;
 using System.Linq;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using OpenRS.Net.Client.Data;
@@ -12,14 +9,14 @@ using OpenRS.Net.Client.Game.Cameras;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Color = Microsoft.Xna.Framework.Color;
 using System.ComponentModel;
 using OpenRS.Net.Client.Events;
 using OpenRS.Settings;
+using System.Threading;
 namespace OpenRS.Net.Client
 {
 
-    public class GameClient : GameAppletMiddleMan
+    public sealed class GameClient : GameAppletMiddleMan
     {
         public int killingSpree;
         public event EventHandler OnContentLoadedCompleted;
@@ -31,7 +28,7 @@ namespace OpenRS.Net.Client
 
         public static GameClient CreateMudclient(string title = "RuneScape", int width = 512, int height = 346)
         {
-            GameClient mud = new GameClient
+            GameClient mud = new()
             {
                 windowWidth = width,
                 windowHeight = height
@@ -57,15 +54,15 @@ namespace OpenRS.Net.Client
 
         public void UnloadContent() { }
 
-        public void drawNpc(int x, int y, int width, int height, int npcIndex, int arg5, int arg6) { }
+        public void drawNpc(int x, int y, int width, int height, int npcIndex, int cameraXOffset, int scalePercentage) { }
 
-        public OpenRS.Models.Enumerations.CombatStyle CombatStyle
+        public Models.Enumerations.CombatStyle CombatStyle
         {
-            get => (OpenRS.Models.Enumerations.CombatStyle)combatStyle;
+            get => (Models.Enumerations.CombatStyle)combatStyle;
             set => combatStyle = (int)value;
         }
 
-        public void SetCombatStyle(OpenRS.Models.Enumerations.CombatStyle style)
+        public void SetCombatStyle(Models.Enumerations.CombatStyle style)
         {
             combatStyle = (int)style;
         }
@@ -106,24 +103,24 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public OpenRS.Models.Skill[] Skills
+        public Models.Skill[] Skills
         {
             get
             {
                 if (playerStatBase is null)
                 {
-                    return new OpenRS.Models.Skill[0];
+                    return [];
                 }
 
-                OpenRS.Models.Skill[] skills = new OpenRS.Models.Skill[playerStatBase.Length];
+                Models.Skill[] skills = new Models.Skill[playerStatBase.Length];
                 for (int i = 0; i < playerStatBase.Length; i++)
                 {
-                    skills[i] = new OpenRS.Models.Skill
+                    skills[i] = new Models.Skill
                     {
                         BaseLevel = playerStatBase[i],
-                        CurrentLevel = playerStatCurrent != null ? playerStatCurrent[i] : 0,
-                        Experience = playerStatExp != null ? playerStatExp[i] : 0,
-                        Name = skillName != null && i < skillName.Length ? skillName[i] : string.Empty
+                        CurrentLevel = playerStatCurrent is not null ? playerStatCurrent[i] : 0,
+                        Experience = playerStatExp is not null ? playerStatExp[i] : 0,
+                        Name = skillName is not null && i < skillName.Length ? skillName[i] : string.Empty
                     };
                 }
                 return skills;
@@ -138,72 +135,113 @@ namespace OpenRS.Net.Client
 
         public float GameDisplayScaleY { get; set; } = 1.0f;
 
-        public OpenRS.GameLogic.GameManagers.EntityManager entityManager;
+        public GameLogic.GameManagers.EntityManager entityManager;
 
-        public OpenRS.GameLogic.GameManagers.InventoryManager inventoryManager;
+        public GameLogic.GameManagers.InventoryManager inventoryManager;
 
-        bool leftMouseDown = false;
-        bool rightMouseDown = false;
-        List<Keys> lastPressedKeys = new List<Keys>();
-        int lastMouseX = 0;
-        int lastMouseY = 0;
-        bool lastLeftDown = false;
-        bool lastRightDown = false;
-        bool shiftKeyIsDown = false;
-        bool ctrlKeyIsDown = false;
-        bool altKeyIsDown = false;
-        TimeSpan timeLapse = TimeSpan.Zero;
+        private bool leftMouseDown = false;
+        private bool rightMouseDown = false;
+        private List<Keys> lastPressedKeys = [];
+        private int lastMouseX = 0;
+        private int lastMouseY = 0;
+        private bool lastLeftDown = false;
+        private bool lastRightDown = false;
+        private bool shiftKeyIsDown = false;
+        private bool ctrlKeyIsDown = false;
+        private bool altKeyIsDown = false;
+        private TimeSpan timeLapse = TimeSpan.Zero;
 
         public char TranslateOemKeys(Keys k)
         {
             //   if (k == Keys.1)
             //  { }
             if (k == Keys.OemPeriod)
+            {
                 return '.';
+            }
             else if (shiftKeyIsDown)
             {
                 if (k == Keys.NumPad1 || k == Keys.D1)
+                {
                     return '!';
+                }
                 else if (k == Keys.NumPad2 || k == Keys.D2)
+                {
                     return '"';
+                }
                 else if (k == Keys.NumPad3 || k == Keys.D3)
+                {
                     return '#';
+                }
                 else if (k == Keys.NumPad4 || k == Keys.D4)
+                {
                     return '¤';
+                }
                 else if (k == Keys.NumPad5 || k == Keys.D5)
+                {
                     return '%';
+                }
                 else if (k == Keys.NumPad6 || k == Keys.D6)
+                {
                     return '&';
+                }
                 else if (k == Keys.NumPad7 || k == Keys.D7)
+                {
                     return '/';
+                }
                 else if (k == Keys.NumPad8 || k == Keys.D8)
+                {
                     return '(';
+                }
                 else if (k == Keys.NumPad9 || k == Keys.D9)
+                {
                     return ')';
+                }
                 else if (k == Keys.NumPad0 || k == Keys.D0)
+                {
                     return '=';
+                }
                 else if (k == Keys.OemPlus)
+                {
                     return '?';
+                }
+
                 return (char)k;
             }
             else if (altKeyIsDown && ctrlKeyIsDown) // alt Gr
             {
                 if (k == Keys.NumPad2 || k == Keys.D2)
+                {
                     return '@';
+                }
                 else if (k == Keys.NumPad3 || k == Keys.D3)
+                {
                     return '£';
+                }
                 else if (k == Keys.NumPad4 || k == Keys.D4)
+                {
                     return '$';
+                }
                 else if (k == Keys.NumPad7 || k == Keys.D7)
+                {
                     return '{';
+                }
                 else if (k == Keys.NumPad8 || k == Keys.D8)
+                {
                     return '[';
+                }
                 else if (k == Keys.NumPad9 || k == Keys.D9)
+                {
                     return ']';
+                }
                 else if (k == Keys.NumPad0 || k == Keys.D0)
+                {
                     return '}';
+                }
                 else if (k == Keys.OemPlus)
+                {
                     return '\\';
+                }
             }
             else
             {
@@ -214,20 +252,20 @@ namespace OpenRS.Net.Client
 
         public void Update(GameTime gt)
         {
-            var lastUpdate = gt.ElapsedGameTime;
+            TimeSpan lastUpdate = gt.ElapsedGameTime;
 
-            var keyboardState = Keyboard.GetState();
+            KeyboardState keyboardState = Keyboard.GetState();
 
-            var mouseState = Mouse.GetState();
+            MouseState mouseState = Mouse.GetState();
             int rawX = mouseState.X;
             int rawY = mouseState.Y;
-            var bounds = GameWindow?.ClientBounds;
-            if (GameWindow != null)
+            Rectangle? bounds = GameWindow?.ClientBounds;
+            if (GameWindow is not null)
             {
                 rawX += GameWindow.ClientBounds.X;
                 rawY += GameWindow.ClientBounds.Y;
             }
-            MouseState adjustedMouseState = new MouseState(
+            MouseState adjustedMouseState = new(
                 rawX, rawY,
                 mouseState.ScrollWheelValue,
                 mouseState.LeftButton,
@@ -235,8 +273,7 @@ namespace OpenRS.Net.Client
                 mouseState.RightButton,
                 mouseState.XButton1,
                 mouseState.XButton2);
-            List<Keys> keysPressedDown = new List<Keys>();
-            keysPressedDown.AddRange(keyboardState.GetPressedKeys());
+            List<Keys> keysPressedDown = [.. keyboardState.GetPressedKeys()];
 
             shiftKeyIsDown = keysPressedDown.Any(k => k == Keys.LeftShift || k == Keys.RightShift);
             ctrlKeyIsDown = keysPressedDown.Any(k => k == Keys.LeftControl || k == Keys.RightControl);
@@ -335,11 +372,11 @@ namespace OpenRS.Net.Client
 
 
         }
-        bool uglyHack = false;
+        private bool uglyHack = false;
 
         //public void Draw(GameTime gt)
         //{
-        //    if (gameGraphics != null)
+        //    if (gameGraphics is not null)
         //    {
         //        try
         //        {
@@ -363,7 +400,7 @@ namespace OpenRS.Net.Client
         //            //        //if (clr.A == 0 || clr.A < 255)
         //            //        //    clr = new Color(255, 255, 255, 255);
 
-        //            //        if (str.font != null)
+        //            //        if (str.font is not null)
         //            //        {
         //            //            font = str.font;
         //            //        }
@@ -430,7 +467,10 @@ namespace OpenRS.Net.Client
                 base.streamClass.formatPacket();
             }
             if (actionID == 3200)
+            {
                 displayMessage(Data.Data.itemDescription[actionType], 3);
+            }
+
             if (actionID == 300)
             {
                 walkToWallObject(actionX, actionY, actionType);
@@ -472,7 +512,10 @@ namespace OpenRS.Net.Client
                 base.streamClass.formatPacket();
             }
             if (actionID == 3300)
+            {
                 displayMessage(Data.Data.wallObjectDescription[actionType], 3);
+            }
+
             if (actionID == 400)
             {
                 walkToObject(actionX, actionY, actionType, actionVar1);
@@ -511,7 +554,10 @@ namespace OpenRS.Net.Client
                 base.streamClass.formatPacket();
             }
             if (actionID == 3400)
+            {
                 displayMessage(Data.Data.objectDescription[actionType], 3);
+            }
+
             if (actionID == 600)
             {
                 base.streamClass.createPacket(49);
@@ -562,7 +608,10 @@ namespace OpenRS.Net.Client
                 displayMessage("Dropping " + Data.Data.itemName[inventoryItems[actionType]], 4);
             }
             if (actionID == 3600)
+            {
                 displayMessage(Data.Data.itemDescription[actionType], 3);
+            }
+
             if (actionID == 700)
             {
                 int k2 = (actionX - 64) / gridSize;
@@ -613,7 +662,10 @@ namespace OpenRS.Net.Client
                 base.streamClass.formatPacket();
             }
             if (actionID == 3700)
+            {
                 displayMessage(Data.Data.npcDescription[actionType], 3);
+            }
+
             if (actionID == 800)
             {
                 int l3 = (actionX - 64) / gridSize;
@@ -677,7 +729,9 @@ namespace OpenRS.Net.Client
             {
                 walkTo1Tile(sectionX, sectionY, actionX, actionY, false);
                 if (actionPictureType == -24)
+                {
                     actionPictureType = 24;
+                }
             }
             if (actionID == 1000)
             {
@@ -708,7 +762,10 @@ namespace OpenRS.Net.Client
             for (int option = 0; option < 12; option++)
             {
                 if (base.mouseX > 66 && base.mouseX < 446 && base.mouseY >= yOffset - 12 && base.mouseY < yOffset + 3)
+                {
                     reportAbuseOptionSelected = option + 1;
+                }
+
                 yOffset += 14;
             }
 
@@ -885,7 +942,10 @@ namespace OpenRS.Net.Client
             yOffset += 15;
             j1 = 0xffffff;
             if (base.mouseX > 196 && base.mouseX < 316 && base.mouseY > yOffset - 15 && base.mouseY < yOffset + 5)
+            {
                 j1 = 0xffff00;
+            }
+
             gameGraphics.drawText("Click here to cancel", 256, yOffset, 1, j1);
         }
 
@@ -917,11 +977,14 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void drawPlayer(int x, int y, int width, int height, int playerIndex, int arg5, int arg6)
+        public void drawPlayer(int x, int y, int width, int height, int playerIndex, int cameraXOffset, int scalePercentage)
         {
             ClientMob f1 = playerArray[playerIndex];
             if (f1.bottomColour == 255)// TODO this checks if the player is an invisible moderator
+            {
                 return;
+            }
+
             int direction = f1.currentSprite + (cameraRotation + 16) / 32 & 7;
             bool flag = false;
             int direction2 = direction;
@@ -946,7 +1009,7 @@ namespace OpenRS.Net.Client
                 direction2 = 5;
                 direction = 2;
                 flag = false;
-                x -= (5 * arg6) / 100;
+                x -= (5 * scalePercentage) / 100;
                 j1 = direction2 * 3 + combatModelArray1[(tick / 5) % 8];
             }
             else
@@ -955,7 +1018,7 @@ namespace OpenRS.Net.Client
                     direction2 = 5;
                     direction = 2;
                     flag = true;
-                    x += (5 * arg6) / 100;
+                    x += (5 * scalePercentage) / 100;
                     j1 = direction2 * 3 + combatModelArray2[(tick / 6) % 8];
                 }
             for (int k1 = 0; k1 < 12; k1++)
@@ -963,15 +1026,21 @@ namespace OpenRS.Net.Client
                 int l1 = animationModelArray[direction][k1];
                 int l2 = f1.appearanceItems[l1] - 1;
                 if (l2 > Data.Data.animationCount - 1)
+                {
                     continue;
+                }
+
                 if (l2 >= 0)
                 {
                     int k3 = 0;
                     int i4 = 0;
                     int j4 = j1;
                     if (flag && direction2 >= 1 && direction2 <= 3)
+                    {
                         if (Data.Data.animationHasF[l2] == 1)
+                        {
                             j4 += 15;
+                        }
                         else if (l1 == 4 && direction2 == 1)
                         {
                             k3 = -22;
@@ -1008,6 +1077,8 @@ namespace OpenRS.Net.Client
                             i4 = 5;
                             j4 = direction2 * 3 + walkModel[(2 + f1.stepCount / 6) % 4];
                         }
+                    }
+
                     if (direction2 != 5 || Data.Data.animationHasA[l2] == 1)
                     {
                         int k4 = j4 + Data.Data.animationNumber[l2];
@@ -1018,14 +1089,21 @@ namespace OpenRS.Net.Client
                         int i5 = Data.Data.animationCharacterColor[l2];
                         int j5 = appearanceSkinColours[f1.skinColour];
                         if (i5 == 1)
+                        {
                             i5 = appearanceHairColours[f1.hairColour];
+                        }
                         else
                             if (i5 == 2)
-                                i5 = appearanceTopBottomColours[f1.topColour];
-                            else
+                        {
+                            i5 = appearanceTopBottomColours[f1.topColour];
+                        }
+                        else
                                 if (i5 == 3)
-                                    i5 = appearanceTopBottomColours[f1.bottomColour];
-                        gameGraphics.drawImage(x + k3, y + i4, l4, height, k4, i5, j5, arg5, flag);
+                        {
+                            i5 = appearanceTopBottomColours[f1.bottomColour];
+                        }
+
+                        gameGraphics.drawImage(x + k3, y + i4, l4, height, k4, i5, j5, cameraXOffset, flag);
                     }
                 }
             }
@@ -1034,7 +1112,10 @@ namespace OpenRS.Net.Client
             {
                 receivedMessageMidPoint[receivedMessagesCount] = gameGraphics.textWidth(f1.lastMessage, 1) / 2;
                 if (receivedMessageMidPoint[receivedMessagesCount] > 150)
+                {
                     receivedMessageMidPoint[receivedMessagesCount] = 150;
+                }
+
                 receivedMessageHeight[receivedMessagesCount] = (gameGraphics.textWidth(f1.lastMessage, 1) / 300) * gameGraphics.textHeightNumber(1);
                 receivedMessageX[receivedMessagesCount] = x + width / 2;
                 receivedMessageY[receivedMessagesCount] = y;
@@ -1044,7 +1125,7 @@ namespace OpenRS.Net.Client
             {
                 itemAboveHeadX[itemsAboveHeadCount] = x + width / 2;
                 itemAboveHeadY[itemsAboveHeadCount] = y;
-                itemAboveHeadScale[itemsAboveHeadCount] = arg6;
+                itemAboveHeadScale[itemsAboveHeadCount] = scalePercentage;
                 itemAboveHeadID[itemsAboveHeadCount++] = f1.itemAboveHeadID;
             }
             if (f1.currentSprite == 8 || f1.currentSprite == 9 || f1.combatTimer != 0)
@@ -1053,10 +1134,15 @@ namespace OpenRS.Net.Client
                 {
                     int i2 = x;
                     if (f1.currentSprite == 8)
-                        i2 -= (20 * arg6) / 100;
+                    {
+                        i2 -= (20 * scalePercentage) / 100;
+                    }
                     else
                         if (f1.currentSprite == 9)
-                            i2 += (20 * arg6) / 100;
+                    {
+                        i2 += (20 * scalePercentage) / 100;
+                    }
+
                     int i3 = (f1.currentHits * 30) / f1.baseHits;
                     healthBarX[healthBarVisibleCount] = i2 + width / 2;
                     healthBarY[healthBarVisibleCount] = y;
@@ -1066,25 +1152,35 @@ namespace OpenRS.Net.Client
                 {
                     int j2 = x;
                     if (f1.currentSprite == 8)
-                        j2 -= (10 * arg6) / 100;
+                    {
+                        j2 -= (10 * scalePercentage) / 100;
+                    }
                     else
                         if (f1.currentSprite == 9)
-                            j2 += (10 * arg6) / 100;
+                    {
+                        j2 += (10 * scalePercentage) / 100;
+                    }
+
                     gameGraphics.drawPicture((j2 + width / 2) - 12, (y + height / 2) - 12, baseInventoryPic + 11);
                     gameGraphics.drawText(f1.lastDamageCount.ToString(), (j2 + width / 2) - 1, y + height / 2 + 5, 3, 0xffffff);
                 }
             }
             if (f1.playerSkulled == 1 && f1.playerSkullTimeout == 0)
             {
-                int k2 = arg5 + x + width / 2;
+                int k2 = cameraXOffset + x + width / 2;
                 if (f1.currentSprite == 8)
-                    k2 -= (20 * arg6) / 100;
+                {
+                    k2 -= (20 * scalePercentage) / 100;
+                }
                 else
                     if (f1.currentSprite == 9)
-                        k2 += (20 * arg6) / 100;
-                int j3 = (16 * arg6) / 100;
-                int l3 = (16 * arg6) / 100;
-                gameGraphics.drawEntity(k2 - j3 / 2, y - l3 / 2 - (10 * arg6) / 100, j3, l3, baseInventoryPic + 13);
+                {
+                    k2 += (20 * scalePercentage) / 100;
+                }
+
+                int j3 = (16 * scalePercentage) / 100;
+                int l3 = (16 * scalePercentage) / 100;
+                gameGraphics.drawEntity(k2 - j3 / 2, y - l3 / 2 - (10 * scalePercentage) / 100, j3, l3, baseInventoryPic + 13);
             }
         }
 
@@ -1120,39 +1216,71 @@ namespace OpenRS.Net.Client
             {
                 String s1 = Data.Data.itemName[duelOurStakeItem[i1]];
                 if (Data.Data.itemStackable[duelOurStakeItem[i1]] == 0)
+                {
                     s1 = s1 + " x " + formatItemCount(duelOurStakeItemCount[i1]);
+                }
+
                 gameGraphics.drawText(s1, byte0 + 117, byte1 + 42 + i1 * 12, 1, 0xffffff);
             }
 
             if (duelOurStakeCount == 0)
+            {
                 gameGraphics.drawText("Nothing!", byte0 + 117, byte1 + 42, 1, 0xffffff);
+            }
+
             gameGraphics.drawText("Your opponent's stake:", byte0 + 351, byte1 + 30, 1, 0xffff00);
             for (int j1 = 0; j1 < duelOpponentStakeCount; j1++)
             {
                 String s2 = Data.Data.itemName[duelOpponentStakeItem[j1]];
                 if (Data.Data.itemStackable[duelOpponentStakeItem[j1]] == 0)
+                {
                     s2 = s2 + " x " + formatItemCount(duelOutStakeItemCount[j1]);
+                }
+
                 gameGraphics.drawText(s2, byte0 + 351, byte1 + 42 + j1 * 12, 1, 0xffffff);
             }
 
             if (duelOpponentStakeCount == 0)
+            {
                 gameGraphics.drawText("Nothing!", byte0 + 351, byte1 + 42, 1, 0xffffff);
+            }
+
             if (duelRetreat == 0)
+            {
                 gameGraphics.drawText("You can retreat from this duel", byte0 + 234, byte1 + 180, 1, 65280);
+            }
             else
+            {
                 gameGraphics.drawText("No retreat is possible!", byte0 + 234, byte1 + 180, 1, 0xff0000);
+            }
+
             if (duelMagic == 0)
+            {
                 gameGraphics.drawText("Magic may be used", byte0 + 234, byte1 + 192, 1, 65280);
+            }
             else
+            {
                 gameGraphics.drawText("Magic cannot be used", byte0 + 234, byte1 + 192, 1, 0xff0000);
+            }
+
             if (duelPrayer == 0)
+            {
                 gameGraphics.drawText("Prayer may be used", byte0 + 234, byte1 + 204, 1, 65280);
+            }
             else
+            {
                 gameGraphics.drawText("Prayer cannot be used", byte0 + 234, byte1 + 204, 1, 0xff0000);
+            }
+
             if (duelWeapons == 0)
+            {
                 gameGraphics.drawText("Weapons may be used", byte0 + 234, byte1 + 216, 1, 65280);
+            }
             else
+            {
                 gameGraphics.drawText("Weapons cannot be used", byte0 + 234, byte1 + 216, 1, 0xff0000);
+            }
+
             gameGraphics.drawText("If you are sure click 'Accept' to begin the duel", byte0 + 234, byte1 + 230, 1, 0xffffff);
             if (!duelConfirmOurAccepted)
             {
@@ -1203,15 +1331,17 @@ namespace OpenRS.Net.Client
         {
             requestLogout();
             cleanUp();
-            if (audioPlayer != null)
+            if (audioPlayer is not null)
+            {
                 audioPlayer.stop();
+            }
         }
 
         //protected TcpClient makeSocket(String address, int port) {
 
-        //    if(Link.gameApplet != null) {
+        //    if(Link.gameApplet is not null) {
         //        Socket socket = Link.getSocket(port);
-        //        if(socket == null)
+        //        if(socket is null)
         //            throw new IOException();
         //        else
         //            return socket;
@@ -1231,25 +1361,39 @@ namespace OpenRS.Net.Client
                 int j1 = l + (i1 % 5) * 49;
                 int l1 = 36 + (i1 / 5) * 34;
                 if (i1 < inventoryItemsCount && inventoryItemEquipped[i1] == 1)
+                {
                     gameGraphics.drawBoxAlpha(j1, l1, 49, 34, 0xff0000, 128);
+                }
                 else
+                {
                     gameGraphics.drawBoxAlpha(j1, l1, 49, 34, GameImage.rgbToInt(181, 181, 181), 128);
+                }
+
                 if (i1 < inventoryItemsCount)
                 {
                     gameGraphics.drawImage(j1, l1, 48, 32, baseItemPicture + Data.Data.itemInventoryPicture[inventoryItems[i1]], Data.Data.itemPictureMask[inventoryItems[i1]], 0, 0, false);
                     if (Data.Data.itemStackable[inventoryItems[i1]] == 0)
+                    {
                         gameGraphics.drawString(inventoryItemCount[i1].ToString(), j1 + 1, l1 + 10, 1, 0xffff00);
+                    }
                 }
             }
 
             for (int k1 = 1; k1 <= 4; k1++)
+            {
                 gameGraphics.drawLineY(l + k1 * 49, 36, (maxInventoryItems / 5) * 34, 0);
+            }
 
             for (int i2 = 1; i2 <= maxInventoryItems / 5 - 1; i2++)
+            {
                 gameGraphics.drawLineX(l, 36 + i2 * 34, 245, 0);
+            }
 
             if (!canRightClick)
+            {
                 return;
+            }
+
             l = base.mouseX - (((GameImage)(gameGraphics)).gameWidth - 248);
             int j2 = base.mouseY - 36;
             if (l >= 0 && j2 >= 0 && l < 248 && j2 < (maxInventoryItems / 5) * 34)
@@ -1267,7 +1411,7 @@ namespace OpenRS.Net.Client
                             menuActionID[menuOptionsCount] = 600;
                             menuActionType[menuOptionsCount] = k2;
                             menuActionVar1[menuOptionsCount] = selectedSpell;
-                            menuOptionsCount++;
+                            menuOptionsCount += 1;
                             return;
                         }
                     }
@@ -1280,7 +1424,7 @@ namespace OpenRS.Net.Client
                             menuActionID[menuOptionsCount] = 610;
                             menuActionType[menuOptionsCount] = k2;
                             menuActionVar1[menuOptionsCount] = selectedItem;
-                            menuOptionsCount++;
+                            menuOptionsCount += 1;
                             return;
                         }
                         if (inventoryItemEquipped[k2] == 1)
@@ -1289,19 +1433,24 @@ namespace OpenRS.Net.Client
                             menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[l2];
                             menuActionID[menuOptionsCount] = 620;
                             menuActionType[menuOptionsCount] = k2;
-                            menuOptionsCount++;
+                            menuOptionsCount += 1;
                         }
                         else
                             if (Data.Data.itemIsEquippable[l2] != 0)
                             {
                                 if ((Data.Data.itemIsEquippable[l2] & 0x18) != 0)
-                                    menuText1[menuOptionsCount] = "Wield";
-                                else
-                                    menuText1[menuOptionsCount] = "Wear";
-                                menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[l2];
+                            {
+                                menuText1[menuOptionsCount] = "Wield";
+                            }
+                            else
+                            {
+                                menuText1[menuOptionsCount] = "Wear";
+                            }
+
+                            menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[l2];
                                 menuActionID[menuOptionsCount] = 630;
                                 menuActionType[menuOptionsCount] = k2;
-                                menuOptionsCount++;
+                                menuOptionsCount += 1;
                             }
                         if (!Data.Data.itemCommand[l2].Equals(""))
                         {
@@ -1309,23 +1458,23 @@ namespace OpenRS.Net.Client
                             menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[l2];
                             menuActionID[menuOptionsCount] = 640;
                             menuActionType[menuOptionsCount] = k2;
-                            menuOptionsCount++;
+                            menuOptionsCount += 1;
                         }
                         menuText1[menuOptionsCount] = "Use";
                         menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[l2];
                         menuActionID[menuOptionsCount] = 650;
                         menuActionType[menuOptionsCount] = k2;
-                        menuOptionsCount++;
+                        menuOptionsCount += 1;
                         menuText1[menuOptionsCount] = "Drop";
                         menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[l2];
                         menuActionID[menuOptionsCount] = 660;
                         menuActionType[menuOptionsCount] = k2;
-                        menuOptionsCount++;
+                        menuOptionsCount += 1;
                         menuText1[menuOptionsCount] = "Examine";
                         menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[l2];
                         menuActionID[menuOptionsCount] = 3600;
                         menuActionType[menuOptionsCount] = l2;
-                        menuOptionsCount++;
+                        menuOptionsCount += 1;
                     }
                 }
             }
@@ -1334,8 +1483,11 @@ namespace OpenRS.Net.Client
         public void createLoginScreenBackgrounds()
         {
             int _bgScreenWidth = windowWidth;
-            if (this.OnLoadingSection != null)
+            if (this.OnLoadingSection is not null)
+            {
                 this.OnLoadingSection(this, new EventArgs());
+            }
+
             int l = 0;
             sbyte byte0 = 50;
             sbyte byte1 = 50;
@@ -1366,12 +1518,16 @@ namespace OpenRS.Net.Client
 
             gameGraphics.drawBox(0, 0, _bgScreenWidth, 6, 0x000000); //_bgScreenWidth=512
             for (int i1 = 6; i1 >= 1; i1--)
+            {
                 gameGraphics.drawTransparentLine(0, i1, 0, i1, _bgScreenWidth, 8);
+            }
 
             gameGraphics.drawBox(0, 194, _bgScreenWidth, 20, 0x000000);
 
             for (int j1 = 6; j1 >= 1; j1--)
+            {
                 gameGraphics.drawTransparentLine(0, j1, 0, 194 - j1, _bgScreenWidth, 8);
+            }
 
 
 
@@ -1379,10 +1535,14 @@ namespace OpenRS.Net.Client
 
             if (!DoNotDrawLogo)
             {
-                if (bgPixels == null)
+                if (bgPixels is null)
+                {
                     gameGraphics.drawPicture(15, 15, baseInventoryPic + 10);
+                }
                 else
+                {
                     gameGraphics.drawPixels(bgPixels, 0, 0, bgPixels.Length, bgPixels[0].Length);
+                }
             }
 
 
@@ -1408,16 +1568,26 @@ namespace OpenRS.Net.Client
 
             gameGraphics.drawBox(0, 0, _bgScreenWidth, 6, 0);
             for (int k1 = 6; k1 >= 1; k1--)
+            {
                 gameGraphics.drawTransparentLine(0, k1, 0, k1, _bgScreenWidth, 8);
+            }
 
             gameGraphics.drawBox(0, 194, _bgScreenWidth, 20, 0);
             for (int l1 = 6; l1 >= 1; l1--)
+            {
                 gameGraphics.drawTransparentLine(0, l1, 0, 194 - l1, _bgScreenWidth, 8);
+            }
 
             if (!DoNotDrawLogo)
             {
-                if (bgPixels == null) gameGraphics.drawPicture(15, 15, baseInventoryPic + 10);
-                else gameGraphics.drawPixels(bgPixels, 0, 0, bgPixels.Length, bgPixels[0].Length);
+                if (bgPixels is null)
+                {
+                    gameGraphics.drawPicture(15, 15, baseInventoryPic + 10);
+                }
+                else
+                {
+                    gameGraphics.drawPixels(bgPixels, 0, 0, bgPixels.Length, bgPixels[0].Length);
+                }
             }
 
             gameGraphics.drawImage(baseLoginScreenBackgroundPic + 1, 0, 0, _bgScreenWidth, 200);
@@ -1452,23 +1622,35 @@ namespace OpenRS.Net.Client
 
             gameGraphics.drawBox(0, 0, _bgScreenWidth, 6, 0);
             for (int j2 = 6; j2 >= 1; j2--)
+            {
                 gameGraphics.drawTransparentLine(0, j2, 0, j2, _bgScreenWidth, 8);
+            }
 
             gameGraphics.drawBox(0, 194, _bgScreenWidth, 20, 0);
             for (int k2 = 6; k2 >= 1; k2--)
+            {
                 gameGraphics.drawTransparentLine(0, k2, 0, 194, _bgScreenWidth, 8);
+            }
 
             if (!DoNotDrawLogo)
             {
-                if (bgPixels == null) gameGraphics.drawPicture(15, 15, baseInventoryPic + 10);
-                else gameGraphics.drawPixels(bgPixels, 0, 0, bgPixels.Length, bgPixels[0].Length);
+                if (bgPixels is null)
+                {
+                    gameGraphics.drawPicture(15, 15, baseInventoryPic + 10);
+                }
+                else
+                {
+                    gameGraphics.drawPixels(bgPixels, 0, 0, bgPixels.Length, bgPixels[0].Length);
+                }
             }
 
             gameGraphics.drawImage(baseInventoryPic + 10, 0, 0, _bgScreenWidth, 200);
             gameGraphics.applyImage(baseInventoryPic + 10);
 
-            if (this.OnLoadingSectionCompleted != null)
+            if (this.OnLoadingSectionCompleted is not null)
+            {
                 this.OnLoadingSectionCompleted(this, new EventArgs());
+            }
         }
 
         public override void handlePacket(int packetID, int packetLength, sbyte[] packetData)
@@ -1479,10 +1661,15 @@ namespace OpenRS.Net.Client
                 if (packetID == 145)
                 {
                     if (!hasWorldInfo)
+                    {
                         return;
+                    }
+
                     lastPlayerCount = playerCount;
                     for (int l = 0; l < lastPlayerCount; l++)
+                    {
                         lastPlayerArray[l] = playerArray[l];
+                    }
 
                     int off = 8;
                     sectionX = DataOperations.getBits(packetData, off, 11);
@@ -1513,11 +1700,11 @@ namespace OpenRS.Net.Client
                         ClientMob mob = getLastPlayer(DataOperations.getBits(packetData, off, 16));
                         off += 16;
                         int playerAtTile = DataOperations.getBits(packetData, off, 1);
-                        off++;
+                        off += 1;
                         if (playerAtTile != 0)
                         {
                             int waypointsLeft = DataOperations.getBits(packetData, off, 1);
-                            off++;
+                            off += 1;
                             if (waypointsLeft == 0)
                             {
                                 int currentNextSprite = DataOperations.getBits(packetData, off, 3);
@@ -1526,13 +1713,25 @@ namespace OpenRS.Net.Client
                                 int newWaypointX = mob.waypointsX[currentWaypoint];
                                 int newWaypointY = mob.waypointsY[currentWaypoint];
                                 if (currentNextSprite == 2 || currentNextSprite == 1 || currentNextSprite == 3)
+                                {
                                     newWaypointX += gridSize;
+                                }
+
                                 if (currentNextSprite == 6 || currentNextSprite == 5 || currentNextSprite == 7)
+                                {
                                     newWaypointX -= gridSize;
+                                }
+
                                 if (currentNextSprite == 4 || currentNextSprite == 3 || currentNextSprite == 5)
+                                {
                                     newWaypointY += gridSize;
+                                }
+
                                 if (currentNextSprite == 0 || currentNextSprite == 1 || currentNextSprite == 7)
+                                {
                                     newWaypointY -= gridSize;
+                                }
+
                                 mob.nextSprite = currentNextSprite;
                                 mob.waypointCurrent = currentWaypoint = (currentWaypoint + 1) % 10;
                                 mob.waypointsX[currentWaypoint] = newWaypointX;
@@ -1560,20 +1759,28 @@ namespace OpenRS.Net.Client
                         int areaMobX = DataOperations.getBits(packetData, off, 5);
                         off += 5;
                         if (areaMobX > 15)
+                        {
                             areaMobX -= 32;
+                        }
+
                         int areaMobY = DataOperations.getBits(packetData, off, 5);
                         off += 5;
                         if (areaMobY > 15)
+                        {
                             areaMobY -= 32;
+                        }
+
                         int mobSprite = DataOperations.getBits(packetData, off, 4);
                         off += 4;
                         int addIndex = DataOperations.getBits(packetData, off, 1);
-                        off++;
+                        off += 1;
                         int mobX = (sectionX + areaMobX) * gridSize + 64;
                         int mobY = (sectionY + areaMobY) * gridSize + 64;
                         makePlayer(mobIndex, mobX, mobY, mobSprite);
                         if (addIndex == 0)
+                        {
                             playerBufferArrayIndexes[mobCount++] = mobIndex;
+                        }
                     }
                     if (mobCount > 0)
                     {
@@ -1606,6 +1813,7 @@ namespace OpenRS.Net.Client
                         needsClear = false;
                     }
                     for (int off = 1; off < packetLength; )
+                    {
                         if (DataOperations.getByte(packetData[off]) == 255)
                         {
                             int newCount = 0;
@@ -1625,7 +1833,7 @@ namespace OpenRS.Net.Client
                                         groundItemID[newCount] = groundItemID[groundItem];
                                         groundItemObjectVar[newCount] = groundItemObjectVar[groundItem];
                                     }
-                                    newCount++;
+                                    newCount += 1;
                                 }
                             }
 
@@ -1646,18 +1854,22 @@ namespace OpenRS.Net.Client
                                 for (int l23 = 0; l23 < objectCount; l23++)
                                 {
                                     if (objectX[l23] != newX || objectY[l23] != newY)
+                                    {
                                         continue;
+                                    }
+
                                     groundItemObjectVar[groundItemCount] = Data.Data.objectGroundItemVar[objectType[l23]];
                                     break;
                                 }
 
-                                groundItemCount++;
+                                groundItemCount += 1;
                             }
                             else
                             {
                                 newID &= 0x7fff;
                                 int updateIndex = 0;
                                 for (int currentItemIndex = 0; currentItemIndex < groundItemCount; currentItemIndex++)
+                                {
                                     if (groundItemX[currentItemIndex] != newX || groundItemY[currentItemIndex] != newY || groundItemID[currentItemIndex] != newID)
                                     {
                                         if (currentItemIndex != updateIndex)
@@ -1667,22 +1879,25 @@ namespace OpenRS.Net.Client
                                             groundItemID[updateIndex] = groundItemID[currentItemIndex];
                                             groundItemObjectVar[updateIndex] = groundItemObjectVar[currentItemIndex];
                                         }
-                                        updateIndex++;
+                                        updateIndex += 1;
                                     }
                                     else
                                     {
                                         newID = -123;
                                     }
+                                }
 
                                 groundItemCount = updateIndex;
                             }
                         }
+                    }
 
                     return;
                 }
                 if (packetID == 27)
                 {
                     for (int off = 1; off < packetLength; )
+                    {
                         if (DataOperations.getByte(packetData[off]) == 255)
                         {
                             int newCount = 0;
@@ -1704,7 +1919,7 @@ namespace OpenRS.Net.Client
                                         objectType[newCount] = objectType[_obj];
                                         objectRotation[newCount] = objectRotation[_obj];
                                     }
-                                    newCount++;
+                                    newCount += 1;
                                 }
                                 else
                                 {
@@ -1724,6 +1939,7 @@ namespace OpenRS.Net.Client
                             int rotation = packetData[off++];
                             int newCount = 0;
                             for (int _obj = 0; _obj < objectCount; _obj++)
+                            {
                                 if (objectX[_obj] != newSectionX || objectY[_obj] != newSectionY || objectRotation[_obj] != rotation)
                                 {
                                     if (_obj != newCount)
@@ -1735,13 +1951,14 @@ namespace OpenRS.Net.Client
                                         objectType[newCount] = objectType[_obj];
                                         objectRotation[newCount] = objectRotation[_obj];
                                     }
-                                    newCount++;
+                                    newCount += 1;
                                 }
                                 else
                                 {
                                     gameCamera.removeModel(objectArray[_obj]);
                                     engineHandle.removeObject(objectX[_obj], objectY[_obj], objectType[_obj], objectRotation[_obj]);
                                 }
+                            }
 
                             objectCount = newCount;
                             if (index != 60000)
@@ -1772,7 +1989,10 @@ namespace OpenRS.Net.Client
                                 gameObject.UpdateShading(true, 48, 48, -50, -10, -50);
                                 engineHandle.createObject(newSectionX, newSectionY, index, rotation);
                                 if (index == 74)
+                                {
                                     gameObject.offsetPosition(0, -480, 0);
+                                }
+
                                 objectX[objectCount] = newSectionX;
                                 objectY[objectCount] = newSectionY;
                                 objectType[objectCount] = index;
@@ -1780,6 +2000,7 @@ namespace OpenRS.Net.Client
                                 objectArray[objectCount++] = gameObject;
                             }
                         }
+                    }
 
                     return;
                 }
@@ -1815,12 +2036,18 @@ namespace OpenRS.Net.Client
                         int index = DataOperations.getShort(packetData, off);
                         off += 2;
                         if (index < 0 || index > playerBufferArray.Length)
+                        {
                             return;
+                        }
+
                         ClientMob mob = playerBufferArray[index];
-                        if (mob == null)
+                        if (mob is null)
+                        {
                             return;
+                        }
+
                         sbyte mobUpdateType = packetData[off];
-                        off++;
+                        off += 1;
                         if (mobUpdateType == 0)
                         {
                             int j30 = DataOperations.getShort(packetData, off);
@@ -1833,14 +2060,18 @@ namespace OpenRS.Net.Client
                         else if (mobUpdateType == 1)
                         {
                             sbyte byte7 = packetData[off];
-                            off++;
+                            off += 1;
                             String s3 = ChatMessage.bytesToString(packetData, off, byte7);
                             //if (useChatFilter)
                             //    s3 = ChatFilter.filterChat(s3);
                             bool ignore = false;
                             for (int i41 = 0; i41 < base.ignoresCount; i41++)
+                            {
                                 if (base.ignoresList[i41] == mob.nameHash)
+                                {
                                     ignore = true;
+                                }
+                            }
 
                             if (!ignore)
                             {
@@ -1853,11 +2084,11 @@ namespace OpenRS.Net.Client
                         else if (mobUpdateType == 2)
                         {
                             int lastDamageCount = DataOperations.getByte(packetData[off]);
-                            off++;
+                            off += 1;
                             int currentHits = DataOperations.getByte(packetData[off]);
-                            off++;
+                            off += 1;
                             int baseHits = DataOperations.getByte(packetData[off]);
-                            off++;
+                            off += 1;
                             mob.lastDamageCount = lastDamageCount;
                             mob.currentHits = currentHits;
                             mob.baseHits = baseHits;
@@ -1900,15 +2131,17 @@ namespace OpenRS.Net.Client
                             off += 8;
                             mob.username = DataOperations.hashToName(mob.nameHash);
                             int appearanceCount = DataOperations.getByte(packetData[off]);
-                            off++;
+                            off += 1;
                             for (int j35 = 0; j35 < appearanceCount; j35++)
                             {
                                 mob.appearanceItems[j35] = DataOperations.getByte(packetData[off]);
-                                off++;
+                                off += 1;
                             }
 
                             for (int j38 = appearanceCount; j38 < 12; j38++)
+                            {
                                 mob.appearanceItems[j38] = 0;
+                            }
 
                             mob.hairColour = packetData[off++] & 0xff;
                             mob.topColour = packetData[off++] & 0xff;
@@ -1916,17 +2149,20 @@ namespace OpenRS.Net.Client
                             mob.skinColour = packetData[off++] & 0xff;
                             mob.level = packetData[off++] & 0xff;
                             mob.playerSkulled = packetData[off++] & 0xff;
-                            off++;// TODO to skip the admin flag (should it be removed)
+                            off += 1;// TODO to skip the admin flag (should it be removed)
                         }
                         else if (mobUpdateType == 6)
                         {
                             sbyte byte8 = packetData[off];
-                            off++;
+                            off += 1;
                             String s4 = ChatMessage.bytesToString(packetData, off, byte8);
                             mob.lastMessageTimeout = 150;
                             mob.lastMessage = s4;
                             if (mob == ourPlayer)
+                            {
                                 displayMessage(mob.username + ": " + mob.lastMessage, 5);
+                            }
+
                             off += byte8;
                         }
                     }
@@ -1936,6 +2172,7 @@ namespace OpenRS.Net.Client
                 if (packetID == 95)
                 {
                     for (int off = 1; off < packetLength; )
+                    {
                         if (DataOperations.getByte(packetData[off]) == 255)
                         {
                             int newCount = 0;
@@ -1957,7 +2194,7 @@ namespace OpenRS.Net.Client
                                         wallObjectDirection[newCount] = wallObjectDirection[current];
                                         wallObjectID[newCount] = wallObjectID[current];
                                     }
-                                    newCount++;
+                                    newCount += 1;
                                 }
                                 else
                                 {
@@ -1977,6 +2214,7 @@ namespace OpenRS.Net.Client
                             sbyte direction = packetData[off++];
                             int newCount = 0;
                             for (int current = 0; current < wallObjectCount; current++)
+                            {
                                 if (wallObjectX[current] != newSectionX || wallObjectY[current] != newSectionY || wallObjectDirection[current] != direction)
                                 {
                                     if (current != newCount)
@@ -1988,13 +2226,14 @@ namespace OpenRS.Net.Client
                                         wallObjectDirection[newCount] = wallObjectDirection[current];
                                         wallObjectID[newCount] = wallObjectID[current];
                                     }
-                                    newCount++;
+                                    newCount += 1;
                                 }
                                 else
                                 {
                                     gameCamera.removeModel(wallObjectArray[current]);
                                     engineHandle.removeWallObject(wallObjectX[current], wallObjectY[current], wallObjectDirection[current], wallObjectID[current]);
                                 }
+                            }
 
                             wallObjectCount = newCount;
                             if (newID != 60000)
@@ -2008,6 +2247,7 @@ namespace OpenRS.Net.Client
                                 wallObjectDirection[wallObjectCount++] = direction;
                             }
                         }
+                    }
 
                     return;
                 }
@@ -2016,7 +2256,9 @@ namespace OpenRS.Net.Client
                     lastNpcCount = npcCount;
                     npcCount = 0;
                     for (int j2 = 0; j2 < lastNpcCount; j2++)
+                    {
                         lastNpcArray[j2] = npcArray[j2];
+                    }
 
                     int off = 8;
                     int newCount = DataOperations.getBits(packetData, off, 8);
@@ -2026,11 +2268,11 @@ namespace OpenRS.Net.Client
                         ClientMob newNpc = getLastNpc(DataOperations.getBits(packetData, off, 16));
                         off += 16;
                         int needsUpdate = DataOperations.getBits(packetData, off, 1);
-                        off++;
+                        off += 1;
                         if (needsUpdate != 0)
                         {
                             int j32 = DataOperations.getBits(packetData, off, 1);
-                            off++;
+                            off += 1;
                             if (j32 == 0)
                             {
                                 int nextSprite = DataOperations.getBits(packetData, off, 3);
@@ -2039,13 +2281,25 @@ namespace OpenRS.Net.Client
                                 int waypointX = newNpc.waypointsX[waypointCurrent];
                                 int waypointY = newNpc.waypointsY[waypointCurrent];
                                 if (nextSprite == 2 || nextSprite == 1 || nextSprite == 3)
+                                {
                                     waypointX += gridSize;
+                                }
+
                                 if (nextSprite == 6 || nextSprite == 5 || nextSprite == 7)
+                                {
                                     waypointX -= gridSize;
+                                }
+
                                 if (nextSprite == 4 || nextSprite == 3 || nextSprite == 5)
+                                {
                                     waypointY += gridSize;
+                                }
+
                                 if (nextSprite == 0 || nextSprite == 1 || nextSprite == 7)
+                                {
                                     waypointY -= gridSize;
+                                }
+
                                 newNpc.nextSprite = nextSprite;
                                 newNpc.waypointCurrent = waypointCurrent = (waypointCurrent + 1) % 10;
                                 newNpc.waypointsX[waypointCurrent] = waypointX;
@@ -2072,11 +2326,17 @@ namespace OpenRS.Net.Client
                         int areaMobX = DataOperations.getBits(packetData, off, 5);
                         off += 5;
                         if (areaMobX > 15)
+                        {
                             areaMobX -= 32;
+                        }
+
                         int areaMobY = DataOperations.getBits(packetData, off, 5);
                         off += 5;
                         if (areaMobY > 15)
+                        {
                             areaMobY -= 32;
+                        }
+
                         int mobSprite = DataOperations.getBits(packetData, off, 4);
                         off += 4;
                         int mobX = (sectionX + areaMobX) * gridSize + 64;
@@ -2084,7 +2344,10 @@ namespace OpenRS.Net.Client
                         int addIndex = DataOperations.getBits(packetData, off, 10);
                         off += 10;
                         if (addIndex >= Data.Data.npcCount)
+                        {
                             addIndex = 24;
+                        }
+
                         makeNPC(mobIndex, mobX, mobY, mobSprite, addIndex);
                     }
                     return;
@@ -2099,20 +2362,22 @@ namespace OpenRS.Net.Client
                         off += 2;
                         ClientMob mob = npcAttackingArray[npcIndex];
                         int updateType = DataOperations.getByte(packetData[off]);
-                        off++;
+                        off += 1;
                         if (updateType == 1)
                         {
                             int playerIndex = DataOperations.getShort(packetData, off);
                             off += 2;
                             sbyte messageLength = packetData[off];
-                            off++;
-                            if (mob != null)
+                            off += 1;
+                            if (mob is not null)
                             {
                                 String s5 = ChatMessage.bytesToString(packetData, off, messageLength);
                                 mob.lastMessageTimeout = 150;
                                 mob.lastMessage = s5;
                                 if (playerIndex == ourPlayer.serverIndex)
+                                {
                                     displayMessage("@yel@" + Data.Data.npcName[mob.npcId] + ": " + mob.lastMessage, 5);
+                                }
                             }
                             off += messageLength;
                         }
@@ -2120,12 +2385,12 @@ namespace OpenRS.Net.Client
                             if (updateType == 2)
                             {
                                 int lastDamageCount = DataOperations.getByte(packetData[off]);
-                                off++;
+                                off += 1;
                                 int currentHits = DataOperations.getByte(packetData[off]);
-                                off++;
+                                off += 1;
                                 int baseHits = DataOperations.getByte(packetData[off]);
-                                off++;
-                                if (mob != null)
+                                off += 1;
+                                if (mob is not null)
                                 {
                                     mob.lastDamageCount = lastDamageCount;
                                     mob.currentHits = currentHits;
@@ -2146,7 +2411,7 @@ namespace OpenRS.Net.Client
                     for (int index = 0; index < count; index++)
                     {
                         int optionLength = DataOperations.getByte(packetData[off]);
-                        off++;
+                        off += 1;
                         questionMenuAnswer[index] = new String(packetData.Select(c => (char)c).ToArray(), off, optionLength);
                         off += optionLength;
                     }
@@ -2175,10 +2440,14 @@ namespace OpenRS.Net.Client
                 {
                     int off = 1;
                     for (int stat = 0; stat < 18; stat++)
+                    {
                         playerStatCurrent[stat] = DataOperations.getByte(packetData[off++]);
+                    }
 
                     for (int stat = 0; stat < 18; stat++)
+                    {
                         playerStatBase[stat] = DataOperations.getByte(packetData[off++]);
+                    }
 
                     for (int stat = 0; stat < 18; stat++)
                     {
@@ -2223,7 +2492,7 @@ namespace OpenRS.Net.Client
                                     groundItemID[j25] = groundItemID[l28];
                                     groundItemObjectVar[j25] = groundItemObjectVar[l28];
                                 }
-                                j25++;
+                                j25 += 1;
                             }
                         }
 
@@ -2244,7 +2513,7 @@ namespace OpenRS.Net.Client
                                     objectType[j25] = objectType[k33];
                                     objectRotation[j25] = objectRotation[k33];
                                 }
-                                j25++;
+                                j25 += 1;
                             }
                             else
                             {
@@ -2270,7 +2539,7 @@ namespace OpenRS.Net.Client
                                     wallObjectDirection[j25] = wallObjectDirection[j37];
                                     wallObjectID[j25] = wallObjectID[j37];
                                 }
-                                j25++;
+                                j25 += 1;
                             }
                             else
                             {
@@ -2292,8 +2561,11 @@ namespace OpenRS.Net.Client
                 if (packetID == 4)
                 {
                     int tradeOther = DataOperations.getShort(packetData, 1);
-                    if (playerBufferArray[tradeOther] != null)
+                    if (playerBufferArray[tradeOther] is not null)
+                    {
                         tradeOtherName = playerBufferArray[tradeOther].username;
+                    }
+
                     showTradeBox = true;
                     tradeOtherAccepted = false;
                     tradeWeAccepted = false;
@@ -2346,7 +2618,9 @@ namespace OpenRS.Net.Client
                     shopItemSellPriceModifier = packetData[off++] & 0xff;
                     shopItemBuyPriceModifier = packetData[off++] & 0xff;
                     for (int j22 = 0; j22 < 40; j22++)
+                    {
                         shopItems[j22] = -1;
+                    }
 
                     for (int item = 0; item < newShopItemCount; item++)
                     {
@@ -2366,18 +2640,27 @@ namespace OpenRS.Net.Client
                         for (int l33 = 0; l33 < inventoryItemsCount; l33++)
                         {
                             if (i29 < newShopItemCount)
+                            {
                                 break;
+                            }
+
                             bool flag2 = false;
                             for (int l39 = 0; l39 < 40; l39++)
                             {
                                 if (shopItems[l39] != inventoryItems[l33])
+                                {
                                     continue;
+                                }
+
                                 flag2 = true;
                                 break;
                             }
 
                             if (inventoryItems[l33] == 10)
+                            {
                                 flag2 = true;
+                            }
+
                             if (!flag2)
                             {
                                 shopItems[i29] = inventoryItems[l33] & 0x7fff;
@@ -2431,9 +2714,15 @@ namespace OpenRS.Net.Client
                     {
                         bool flag = packetData[k4 + 1] == 1;
                         if (!prayerOn[k4] && flag)
+                        {
                             playSound("prayeron");
+                        }
+
                         if (prayerOn[k4] && !flag)
+                        {
                             playSound("prayeroff");
+                        }
+
                         prayerOn[k4] = flag;
                     }
 
@@ -2470,8 +2759,11 @@ namespace OpenRS.Net.Client
                 if (packetID == 229)
                 {
                     int k5 = DataOperations.getShort(packetData, 1);
-                    if (playerBufferArray[k5] != null)
+                    if (playerBufferArray[k5] is not null)
+                    {
                         duelOpponent = playerBufferArray[k5].username;
+                    }
+
                     showDuelBox = true;
                     duelMyItemCount = 0;
                     duelOpponentItemCount = 0;
@@ -2538,21 +2830,41 @@ namespace OpenRS.Net.Client
                 if (packetID == 198)
                 {
                     if (packetData[1] == 1)
+                    {
                         duelNoRetreating = true;
+                    }
                     else
+                    {
                         duelNoRetreating = false;
+                    }
+
                     if (packetData[2] == 1)
+                    {
                         duelNoMagic = true;
+                    }
                     else
+                    {
                         duelNoMagic = false;
+                    }
+
                     if (packetData[3] == 1)
+                    {
                         duelNoPrayer = true;
+                    }
                     else
+                    {
                         duelNoPrayer = false;
+                    }
+
                     if (packetData[4] == 1)
+                    {
                         duelNoWeapons = true;
+                    }
                     else
+                    {
                         duelNoWeapons = false;
+                    }
+
                     duelOpponentAccepted = false;
                     duelMyAccepted = false;
                     return;
@@ -2580,7 +2892,9 @@ namespace OpenRS.Net.Client
                         serverBankItems[itemSlot] = itemID;
                         serverBankItemCount[itemSlot] = itemCount;
                         if (itemSlot >= serverBankItemsCount)
+                        {
                             serverBankItemsCount = itemSlot + 1;
+                        }
                     }
                     updateBankItems();
                     return;
@@ -2601,7 +2915,10 @@ namespace OpenRS.Net.Client
                     inventoryItemEquipped[newCount] = data / 32768;
                     inventoryItemCount[newCount] = count;
                     if (newCount >= inventoryItemsCount)
+                    {
                         inventoryItemsCount = newCount + 1;
+                    }
+
                     return;
                 }
                 if (packetID == 191)
@@ -2689,7 +3006,7 @@ namespace OpenRS.Net.Client
                 }
                 if (packetID == 11)
                 {
-                    String s1 = new String(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
+                    String s1 = new(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
                     playSound(s1);
                     return;
                 }
@@ -2704,7 +3021,7 @@ namespace OpenRS.Net.Client
                         teleBubbleTime[teleBubbleCount] = 0;
                         teleBubbleX[teleBubbleCount] = x;
                         teleBubbleY[teleBubbleCount] = y;
-                        teleBubbleCount++;
+                        teleBubbleCount += 1;
                     }
                     return;
                 }
@@ -2762,7 +3079,10 @@ namespace OpenRS.Net.Client
                 if (packetID == 181)
                 {
                     if (autoScreenshot)
+                    {
                         takeScreenshot(false);
+                    }
+
                     return;
                 }
                 if (packetID == 182)
@@ -2771,7 +3091,9 @@ namespace OpenRS.Net.Client
                     questPoints = DataOperations.getShort(packetData, off);
                     off += 2;
                     for (int l4 = 0; l4 < questName.Length; l4++)
+                    {
                         questStage[l4] = packetData[l4 + 1];
+                    }
 
                     return;
                 }
@@ -2840,7 +3162,7 @@ namespace OpenRS.Net.Client
         }
 
         //protected void startThread(Runnable runnable) {
-        //    if(Link.gameApplet != null) {
+        //    if(Link.gameApplet is not null) {
         //        Link.thread(runnable);
         //        return;
         //    } else {
@@ -2881,20 +3203,30 @@ namespace OpenRS.Net.Client
             groundItemCount = 0;
             playerCount = 0;
             for (int j1 = 0; j1 < 4000; j1++)
+            {
                 playerBufferArray[j1] = null;
+            }
 
             for (int k1 = 0; k1 < 500; k1++)
+            {
                 playerArray[k1] = null;
+            }
 
             npcCount = 0;
             for (int l1 = 0; l1 < 5000; l1++)
+            {
                 npcAttackingArray[l1] = null;
+            }
 
             for (int i2 = 0; i2 < 500; i2++)
+            {
                 npcArray[i2] = null;
+            }
 
             for (int j2 = 0; j2 < 50; j2++)
+            {
                 prayerOn[j2] = false;
+            }
 
             mouseButtonClick = 0;
             base.lastMouseButton = 0;
@@ -2967,7 +3299,10 @@ namespace OpenRS.Net.Client
                 for (int j9 = 0; j9 < base.friendsCount; j9++)
                 {
                     if (f2.nameHash != base.friendsList[j9] || base.friendsWorld[j9] != 99)
+                    {
                         continue;
+                    }
+
                     i9 = 65280;
                     break;
                 }
@@ -2980,7 +3315,10 @@ namespace OpenRS.Net.Client
             gameGraphics.drawMinimapPic(l + 19, 55, baseInventoryPic + 24, cameraRotation + 128 & 0xff, 128);
             gameGraphics.setDimensions(0, 0, windowWidth, windowHeight + 12);
             if (!canClick)
+            {
                 return;
+            }
+
             l = base.mouseX - (((GameImage)(gameGraphics)).gameWidth - 199);
             int l8 = base.mouseY - 36;
             if (l >= 40 && l8 >= 0 && l < 196 && l8 < 152)
@@ -3001,33 +3339,59 @@ namespace OpenRS.Net.Client
                 k3 += ourPlayer.currentX;
                 i5 = ourPlayer.currentY - i5;
                 if (mouseButtonClick == 1)
+                {
                     walkTo1Tile(sectionX, sectionY, k3 / 128, i5 / 128, false);
+                }
+
                 mouseButtonClick = 0;
             }
         }
 
-        public bool validCameraAngle(int arg0)
+        public bool validCameraAngle(int cameraDirection)
         {
             int l = ourPlayer.currentX / 128;
             int i1 = ourPlayer.currentY / 128;
             for (int j1 = 2; j1 >= 1; j1--)
             {
-                if (arg0 == 1 && ((engineHandle.tiles[l][i1 - j1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1 - j1] & 0x80) == 128))
+                if (cameraDirection.Equals(1) && ((engineHandle.tiles[l][i1 - j1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1 - j1] & 0x80) == 128))
+                {
                     return false;
-                if (arg0 == 3 && ((engineHandle.tiles[l][i1 + j1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1 + j1] & 0x80) == 128))
+                }
+
+                if (cameraDirection.Equals(3) && ((engineHandle.tiles[l][i1 + j1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1 + j1] & 0x80) == 128))
+                {
                     return false;
-                if (arg0 == 5 && ((engineHandle.tiles[l][i1 + j1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1 + j1] & 0x80) == 128))
+                }
+
+                if (cameraDirection.Equals(5) && ((engineHandle.tiles[l][i1 + j1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1 + j1] & 0x80) == 128))
+                {
                     return false;
-                if (arg0 == 7 && ((engineHandle.tiles[l][i1 - j1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1 - j1] & 0x80) == 128))
+                }
+
+                if (cameraDirection.Equals(7) && ((engineHandle.tiles[l][i1 - j1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1 - j1] & 0x80) == 128))
+                {
                     return false;
-                if (arg0 == 0 && (engineHandle.tiles[l][i1 - j1] & 0x80) == 128)
+                }
+
+                if (cameraDirection.Equals(0) && (engineHandle.tiles[l][i1 - j1] & 0x80) == 128)
+                {
                     return false;
-                if (arg0 == 2 && (engineHandle.tiles[l - j1][i1] & 0x80) == 128)
+                }
+
+                if (cameraDirection.Equals(2) && (engineHandle.tiles[l - j1][i1] & 0x80) == 128)
+                {
                     return false;
-                if (arg0 == 4 && (engineHandle.tiles[l][i1 + j1] & 0x80) == 128)
+                }
+
+                if (cameraDirection.Equals(4) && (engineHandle.tiles[l][i1 + j1] & 0x80) == 128)
+                {
                     return false;
-                if (arg0 == 6 && (engineHandle.tiles[l + j1][i1] & 0x80) == 128)
+                }
+
+                if (cameraDirection.Equals(6) && (engineHandle.tiles[l + j1][i1] & 0x80) == 128)
+                {
                     return false;
+                }
             }
 
             return true;
@@ -3059,7 +3423,10 @@ namespace OpenRS.Net.Client
             }
             loadConfig();
             if (errorLoading)
+            {
                 return;
+            }
+
             GameAppletMiddleMan.maxPacketReadCount = 500;
             baseInventoryPic = 2000;
             baseScrollPic = baseInventoryPic + 100;
@@ -3087,10 +3454,16 @@ namespace OpenRS.Net.Client
             questMenuHandle = questMenu.createList(k1, byte0 + 24, 196, 251, 1, 500, true);
             loadMedia();
             if (errorLoading)
+            {
                 return;
+            }
+
             loadAnimations();
             if (errorLoading)
+            {
                 return;
+            }
+
             gameCamera = new Camera(gameGraphics, 15000, 15000, 1000);
 
             gameCamera.setCameraSize(windowWidth / 2, windowHeight / 2, windowWidth / 2, windowHeight / 2, windowWidth, cameraFieldOfView);
@@ -3105,17 +3478,26 @@ namespace OpenRS.Net.Client
             };
             loadTextures();
             if (errorLoading)
+            {
                 return;
+            }
+
             loadModels();
             if (errorLoading)
+            {
                 return;
+            }
+
             loadMap();
             if (errorLoading)
+            {
                 return;
+            }
+
             loadSounds();
             if (!errorLoading)
             {
-                if (OnContentLoaded != null)
+                if (OnContentLoaded is not null)
                 {
                     OnContentLoaded(this, new ContentLoadedEventArgs("Starting game...", 100));
                 }
@@ -3125,9 +3507,9 @@ namespace OpenRS.Net.Client
                 createAppearanceWindow();
                 setLoginVars();
 
-                var modelNames = Data.Data.modelName;
+                string[] modelNames = Data.Data.modelName;
 
-                if (OnContentLoadedCompleted != null)
+                if (OnContentLoadedCompleted is not null)
                 {
                     OnContentLoadedCompleted(this, new EventArgs());
                 }
@@ -3141,7 +3523,7 @@ namespace OpenRS.Net.Client
         {
             loginMenuFirst = new Menu(gameGraphics, 50);
             int l = 40;
-            if (!Config.MEMBERS_FEATURES)
+            if (!Config.MembersFeatures)
             {
                 loginMenuFirst.drawText(256, 200 + l, "Click on an option", 5, true);
                 loginMenuFirst.drawButton(156, 240 + l, 120, 35);
@@ -3209,7 +3591,7 @@ namespace OpenRS.Net.Client
         public void loadMedia()
         {
             sbyte[] media = unpackData("media.jag", "2d graphics", 20);
-            if (media == null)
+            if (media is null)
             {
                 errorLoading = true;
                 return;
@@ -3235,17 +3617,24 @@ namespace OpenRS.Net.Client
                 int j1 = l;
                 l -= 30;
                 if (j1 > 30)
+                {
                     j1 = 30;
+                }
+
                 gameGraphics.unpackImageData(baseItemPicture + (i1 - 1) * 30, DataOperations.loadData("objects" + i1 + ".dat", 0, media), abyte1, j1);
             }
             //gameGraphics.UpdateGameImage();
             gameGraphics.loadImage(baseInventoryPic);
             gameGraphics.loadImage(baseInventoryPic + 9);
             for (int k1 = 11; k1 <= 26; k1++)
+            {
                 gameGraphics.loadImage(baseInventoryPic + k1);
+            }
 
             for (int l1 = 0; l1 < Data.Data.spellProjectileCount; l1++)
+            {
                 gameGraphics.loadImage(baseProjectilePic + l1);
+            }
 
             for (int i2 = 0; i2 < Data.Data.highestLoadedPicture; i2++)
             {
@@ -3253,7 +3642,7 @@ namespace OpenRS.Net.Client
                 //var w = ((GameImage)(gameGraphics)).pictureWidth[baseProjectilePic + i2];
                 //var h = ((GameImage)(gameGraphics)).pictureHeight[baseProjectilePic + i2];
                 //var texture = GameImage.UnpackedImages[baseProjectilePic + i2];
-                //if (texture != null)
+                //if (texture is not null)
                 //    texture.SaveAsJpeg(System.IO.File.OpenWrite("c:/jpg/" + baseProjectilePic + i2 + ".jpg"), w, h);
             }
 
@@ -3263,12 +3652,18 @@ namespace OpenRS.Net.Client
         public override void checkInputs()
         {
             if (memoryError)
+            {
                 return;
+            }
+
             if (errorLoading)
+            {
                 return;
+            }
+
             try
             {
-                tick++;
+                tick += 1;
                 if (!loggedIn)
                 {
                     checkLoginScreenInputs();
@@ -3278,32 +3673,60 @@ namespace OpenRS.Net.Client
                     checkGameInputs();
                 }
                 base.lastMouseButton = 0;
-                cameraRotateTime++;
+                cameraRotateTime += 1;
                 if (cameraRotateTime > 500)
                 {
                     cameraRotateTime = 0;
                     int l = (int)(Helper.Random.NextDouble() * 4D);
                     if ((l & 1) == 1)
+                    {
                         cameraRotationXAmount += cameraRotationXIncrement;
+                    }
+
                     if ((l & 2) == 2)
+                    {
                         cameraRotationYAmount += cameraRotationYIncrement;
+                    }
                 }
                 if (cameraRotationXAmount < -50)
+                {
                     cameraRotationXIncrement = 2;
+                }
+
                 if (cameraRotationXAmount > 50)
+                {
                     cameraRotationXIncrement = -2;
+                }
+
                 if (cameraRotationYAmount < -50)
+                {
                     cameraRotationYIncrement = 2;
+                }
+
                 if (cameraRotationYAmount > 50)
+                {
                     cameraRotationYIncrement = -2;
+                }
+
                 if (chatTabAllMsgFlash > 0)
+                {
                     chatTabAllMsgFlash--;
+                }
+
                 if (chatTabHistoryFlash > 0)
+                {
                     chatTabHistoryFlash--;
+                }
+
                 if (chatTabQuestFlash > 0)
+                {
                     chatTabQuestFlash--;
+                }
+
                 if (chatTabPrivateFlash > 0)
+                {
                     chatTabPrivateFlash--;
+                }
             }
             catch (Exception _ex)
             {
@@ -3314,11 +3737,11 @@ namespace OpenRS.Net.Client
 
         public void loadAnimations()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             sbyte[] abyte0 = null;
             sbyte[] abyte1 = null;
             abyte0 = unpackData("entity.jag", "people and monsters", 30);
-            if (abyte0 == null)
+            if (abyte0 is null)
             {
                 errorLoading = true;
                 return;
@@ -3327,7 +3750,7 @@ namespace OpenRS.Net.Client
             sbyte[] abyte2 = null;
             sbyte[] abyte3 = null;
             abyte2 = unpackData("entity.mem", "member graphics", 45);
-            if (abyte2 == null)
+            if (abyte2 is null)
             {
                 errorLoading = true;
                 return;
@@ -3344,26 +3767,32 @@ namespace OpenRS.Net.Client
                 for (int j1 = 0; j1 < i1; j1++)
                 {
                     if (!Data.Data.animationName[j1].ToLower().Equals(s1))
+                    {
                         continue;
+                    }
+
                     Data.Data.animationNumber[i1] = Data.Data.animationNumber[j1];
 
-                    // i1++;
+                    // i1 += 1;
                     // goto label0;
                     //break;
                     breakThis = true;
                     break;
                 }
-                if (breakThis) continue;
+                if (breakThis)
+                {
+                    continue;
+                }
 
                 //label4:
                 sbyte[] abyte7 = DataOperations.loadData(s1 + ".dat", 0, abyte0);
                 sbyte[] abyte4 = abyte1;
-                if (abyte7 == null)
+                if (abyte7 is null)
                 {
                     abyte7 = DataOperations.loadData(s1 + ".dat", 0, abyte2);
                     abyte4 = abyte3;
                 }
-                if (abyte7 != null)
+                if (abyte7 is not null)
                 {
                     try
                     {
@@ -3373,7 +3802,7 @@ namespace OpenRS.Net.Client
                         {
                             sbyte[] abyte8 = DataOperations.loadData(s1 + "a.dat", 0, abyte0);
                             sbyte[] abyte5 = abyte1;
-                            if (abyte8 == null)
+                            if (abyte8 is null)
                             {
                                 abyte8 = DataOperations.loadData(s1 + "a.dat", 0, abyte2);
                                 abyte5 = abyte3;
@@ -3385,7 +3814,7 @@ namespace OpenRS.Net.Client
                         {
                             sbyte[] abyte9 = DataOperations.loadData(s1 + "f.dat", 0, abyte0);
                             sbyte[] abyte6 = abyte1;
-                            if (abyte9 == null)
+                            if (abyte9 is null)
                             {
                                 abyte9 = DataOperations.loadData(s1 + "f.dat", 0, abyte2);
                                 abyte6 = abyte3;
@@ -3396,8 +3825,9 @@ namespace OpenRS.Net.Client
                         if (Data.Data.animationGenderModels[i1] != 0)
                         {
                             for (int k1 = animationNumber; k1 < animationNumber + 27; k1++)
+                            {
                                 gameGraphics.loadImage(k1);
-
+                            }
                         }
                     }
                     catch { }
@@ -3413,10 +3843,12 @@ namespace OpenRS.Net.Client
                 sb.AppendLine("Loaded: " + l + " frames of animation");
 
 #warning ugly fix for forcing animation count to 1143.
-                if (l == 1143) break;
-
+                if (l == 1143)
+                {
+                    break;
+                }
             }
-            var str = sb.ToString();
+            string animationsOutput = sb.ToString();
             Console.WriteLine("Loaded: " + l + " frames of animation");
         }
 
@@ -3424,34 +3856,75 @@ namespace OpenRS.Net.Client
         {
             appearanceMenu.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
             if (appearanceMenu.isClicked(appearanceHeadLeftArrow))
+            {
                 do
+                {
                     appearanceHeadType = ((appearanceHeadType - 1) + Data.Data.animationCount) % Data.Data.animationCount;
+                }
                 while ((Data.Data.animationGenderModels[appearanceHeadType] & 3) != 1 || (Data.Data.animationGenderModels[appearanceHeadType] & 4 * appearanceHeadGender) == 0);
+            }
+
             if (appearanceMenu.isClicked(appearanceHeadRightArrow))
+            {
                 do
+                {
                     appearanceHeadType = (appearanceHeadType + 1) % Data.Data.animationCount;
+                }
                 while ((Data.Data.animationGenderModels[appearanceHeadType] & 3) != 1 || (Data.Data.animationGenderModels[appearanceHeadType] & 4 * appearanceHeadGender) == 0);
+            }
+
             if (appearanceMenu.isClicked(appearanceHairLeftArrow))
+            {
                 appearanceHairColour = ((appearanceHairColour - 1) + appearanceHairColours.Length) % appearanceHairColours.Length;
+            }
+
             if (appearanceMenu.isClicked(appearanceHairRightArrow))
+            {
                 appearanceHairColour = (appearanceHairColour + 1) % appearanceHairColours.Length;
+            }
+
             if (appearanceMenu.isClicked(appearanceGenderLeftArrow) || appearanceMenu.isClicked(appearanceGenderRightArrow))
             {
-                for (appearanceHeadGender = 3 - appearanceHeadGender; (Data.Data.animationGenderModels[appearanceHeadType] & 3) != 1 || (Data.Data.animationGenderModels[appearanceHeadType] & 4 * appearanceHeadGender) == 0; appearanceHeadType = (appearanceHeadType + 1) % Data.Data.animationCount) ;
-                for (; (Data.Data.animationGenderModels[appearanceBodyGender] & 3) != 2 || (Data.Data.animationGenderModels[appearanceBodyGender] & 4 * appearanceHeadGender) == 0; appearanceBodyGender = (appearanceBodyGender + 1) % Data.Data.animationCount) ;
+                for (appearanceHeadGender = 3 - appearanceHeadGender; (Data.Data.animationGenderModels[appearanceHeadType] & 3) != 1 || (Data.Data.animationGenderModels[appearanceHeadType] & 4 * appearanceHeadGender) == 0; appearanceHeadType = (appearanceHeadType + 1) % Data.Data.animationCount)
+                {
+                    ;
+                }
+
+                for (; (Data.Data.animationGenderModels[appearanceBodyGender] & 3) != 2 || (Data.Data.animationGenderModels[appearanceBodyGender] & 4 * appearanceHeadGender) == 0; appearanceBodyGender = (appearanceBodyGender + 1) % Data.Data.animationCount)
+                {
+                    ;
+                }
             }
             if (appearanceMenu.isClicked(appearanceTopLeftArrow))
+            {
                 appearanceTopColour = ((appearanceTopColour - 1) + appearanceTopBottomColours.Length) % appearanceTopBottomColours.Length;
+            }
+
             if (appearanceMenu.isClicked(appearanceTopRightArrow))
+            {
                 appearanceTopColour = (appearanceTopColour + 1) % appearanceTopBottomColours.Length;
+            }
+
             if (appearanceMenu.isClicked(appearanceSkinLeftArrow))
+            {
                 appearanceSkinColour = ((appearanceSkinColour - 1) + appearanceSkinColours.Length) % appearanceSkinColours.Length;
+            }
+
             if (appearanceMenu.isClicked(appearanceSkingRightArrow))
+            {
                 appearanceSkinColour = (appearanceSkinColour + 1) % appearanceSkinColours.Length;
+            }
+
             if (appearanceMenu.isClicked(appearanceBottomLeftArrow))
+            {
                 appearanceBottomColour = ((appearanceBottomColour - 1) + appearanceTopBottomColours.Length) % appearanceTopBottomColours.Length;
+            }
+
             if (appearanceMenu.isClicked(appearanceBottomRightArrow))
+            {
                 appearanceBottomColour = (appearanceBottomColour + 1) % appearanceTopBottomColours.Length;
+            }
+
             if (appearanceMenu.isClicked(appearanceAcceptButton))
             {
                 base.streamClass.createPacket(218);
@@ -3473,11 +3946,20 @@ namespace OpenRS.Net.Client
         {
             int l = 65;
             if (!lastLoginAddress.Equals("0.0.0.0"))
+            {
                 l += 30;
+            }
+
             if (subDaysLeft > 0)
+            {
                 l += 15;
+            }
+
             if (lastLoginDays >= 0)
+            {
                 l += 15;
+            }
+
             int i1 = 167 - l / 2;
             gameGraphics.drawBox(56, 167 - l / 2, 400, l, 0);
             gameGraphics.drawBoxEdge(56, 167 - l / 2, 400, l, 0xffffff);
@@ -3487,12 +3969,19 @@ namespace OpenRS.Net.Client
             String s1;
             // lastLoginDays    subDaysLeft    lastLoginAddress
             if (lastLoginDays == 0)
+            {
                 s1 = "earlier today";
+            }
             else
                 if (lastLoginDays == 1)
-                    s1 = "yesterday";
-                else
-                    s1 = lastLoginDays + " days ago";
+            {
+                s1 = "yesterday";
+            }
+            else
+            {
+                s1 = lastLoginDays + " days ago";
+            }
+
             if (!lastLoginAddress.Equals("0.0.0.0"))
             {
                 gameGraphics.drawText("You last logged in " + s1, 256, i1, 1, 0xffffff);
@@ -3546,27 +4035,43 @@ namespace OpenRS.Net.Client
             }*/
             int k1 = 0xffffff;
             if (base.mouseY > i1 - 12 && base.mouseY <= i1 && base.mouseX > 106 && base.mouseX < 406)
+            {
                 k1 = 0xff0000;
+            }
+
             gameGraphics.drawText("Click here to close window", 256, i1, 1, k1);
             if (mouseButtonClick == 1)
             {
                 if (k1 == 0xff0000)
+                {
                     showWelcomeBox = false;
+                }
+
                 if ((base.mouseX < 86 || base.mouseX > 426) && (base.mouseY < 167 - l / 2 || base.mouseY > 167 + l / 2))
+                {
                     showWelcomeBox = false;
+                }
             }
             mouseButtonClick = 0;
         }
 
-        public int getInventoryItemTotalCount(int arg0)
+        public int getInventoryItemTotalCount(int itemId)
         {
             int l = 0;
             for (int i1 = 0; i1 < inventoryItemsCount; i1++)
-                if (inventoryItems[i1] == arg0)
-                    if (Data.Data.itemStackable[arg0] == 1)
-                        l++;
+            {
+                if (inventoryItems[i1].Equals(itemId))
+                {
+                    if (Data.Data.itemStackable[itemId].Equals(1))
+                    {
+                        l += 1;
+                    }
                     else
+                    {
                         l += inventoryItemCount[i1];
+                    }
+                }
+            }
 
             return l;
         }
@@ -3574,7 +4079,10 @@ namespace OpenRS.Net.Client
         public void sendLogout()
         {
             if (!loggedIn)
+            {
                 return;
+            }
+
             if (combatTimeout > 450)
             {
                 displayMessage("@cya@You can't logout during combat!", 3);
@@ -3597,7 +4105,7 @@ namespace OpenRS.Net.Client
         }
 
         //public Uri getCodeBase() {
-        //    if(Link.gameApplet != null)
+        //    if(Link.gameApplet is not null)
         //        return Link.gameApplet.getCodeBase();
         //    else
         //        return base.getCodeBase();
@@ -3608,6 +4116,7 @@ namespace OpenRS.Net.Client
         {
             int stepCount = engineHandle.generatePath(startX, startY, destBottomX, destBottomY, destTopX, destTopY, walkArrayX, walkArrayY, checkForObjects);
             if (stepCount == -1)
+            {
                 if (walkToACommand)
                 {
                     stepCount = 1;
@@ -3618,6 +4127,7 @@ namespace OpenRS.Net.Client
                 {
                     return false;
                 }
+            }
 
             stepCount--;
             startX = walkArrayX[stepCount];
@@ -3625,15 +4135,22 @@ namespace OpenRS.Net.Client
             stepCount--;
 
             if (walkToACommand)
+            {
                 base.streamClass.createPacket(246);
+            }
             else
+            {
                 base.streamClass.createPacket(132);
+            }
 
             base.streamClass.addShort(startX + areaX);
             base.streamClass.addShort(startY + areaY);
 
             if (walkToACommand && stepCount == -1 && (startX + areaX) % 5 == 0)
+            {
                 stepCount = 0;
+            }
+
             for (int i1 = stepCount; i1 >= 0 && i1 > stepCount - 25; i1--)
             {
                 base.streamClass.addByte(walkArrayX[i1] - startX);
@@ -3654,19 +4171,30 @@ namespace OpenRS.Net.Client
         {
             int stepCount = engineHandle.generatePath(startX, startY, destBottomX, destBottomY, destTopX, destTopY, walkArrayX, walkArrayY, unknownDifferent);
             if (stepCount == -1)
+            {
                 return false;
+            }
+
             stepCount--;
             startX = walkArrayX[stepCount];
             startY = walkArrayY[stepCount];
             stepCount--;
             if (walkToACommand)
+            {
                 base.streamClass.createPacket(246);
+            }
             else
+            {
                 base.streamClass.createPacket(132);
+            }
+
             base.streamClass.addShort(startX + areaX);
             base.streamClass.addShort(startY + areaY);
             if (walkToACommand && stepCount == -1 && (startX + areaX) % 5 == 0)
+            {
                 stepCount = 0;
+            }
+
             for (int i1 = stepCount; i1 >= 0 && i1 > stepCount - 25; i1--)
             {
                 base.streamClass.addByte(walkArrayX[i1] - startX);
@@ -3695,82 +4223,152 @@ namespace OpenRS.Net.Client
             gameGraphics.drawString("Game options - click to toggle", j1, l1, 1, 0);
             l1 += 15;
             if (configCameraAutoAngle)
+            {
                 gameGraphics.drawString("Camera angle mode - @gre@Auto", j1, l1, 1, 0xffffff);
+            }
             else
+            {
                 gameGraphics.drawString("Camera angle mode - @red@Manual", j1, l1, 1, 0xffffff);
+            }
+
             l1 += 15;
             if (configOneMouseButton)
+            {
                 gameGraphics.drawString("Mouse buttons - @red@One", j1, l1, 1, 0xffffff);
+            }
             else
+            {
                 gameGraphics.drawString("Mouse buttons - @gre@Two", j1, l1, 1, 0xffffff);
+            }
+
             l1 += 15;
-            if (Config.MEMBERS_FEATURES)
+            if (Config.MembersFeatures)
+            {
                 if (configSoundOff)
+                {
                     gameGraphics.drawString("Sound effects - @red@off", j1, l1, 1, 0xffffff);
+                }
                 else
+                {
                     gameGraphics.drawString("Sound effects - @gre@on", j1, l1, 1, 0xffffff);
+                }
+            }
+
             l1 += 15;
             gameGraphics.drawString("Client assists - click to toggle", j1, l1, 1, 0);
             l1 += 15;
             if (showRoofs)
+            {
                 gameGraphics.drawString("Roofs - @gre@show", j1, l1, 1, 0xffffff);
+            }
             else
+            {
                 gameGraphics.drawString("Roofs - @red@hide", j1, l1, 1, 0xffffff);
+            }
+
             l1 += 15;
             if (showCombatWindow)
+            {
                 gameGraphics.drawString("Fight mode window - @gre@show", j1, l1, 1, 0xffffff);
+            }
             else
+            {
                 gameGraphics.drawString("Fight mode window - @red@hide", j1, l1, 1, 0xffffff);
+            }
+
             l1 += 15;
             if (fogOfWar)
+            {
                 gameGraphics.drawString("Fog of war - @gre@show", j1, l1, 1, 0xffffff);
+            }
             else
+            {
                 gameGraphics.drawString("Fog of war - @red@hide", j1, l1, 1, 0xffffff);
+            }
+
             l1 += 15;
             if (autoScreenshot)
+            {
                 gameGraphics.drawString("Automatic screenshots - @gre@on", j1, l1, 1, 0xffffff);
+            }
             else
+            {
                 gameGraphics.drawString("Automatic screenshots - @red@off", j1, l1, 1, 0xffffff);
+            }
+
             l1 += 15;
             if (useChatFilter)
+            {
                 gameGraphics.drawString("Chat filter: @gre@<on>", l + 3, l1, 1, 0xffffff);
+            }
             else
+            {
                 gameGraphics.drawString("Chat filter: @red@<off>", l + 3, l1, 1, 0xffffff);
+            }
+
             l1 += 15;
             gameGraphics.drawString("Privacy settings. Will be applied to", j1, l1, 1, 0);
             l1 += 15;
             gameGraphics.drawString("all people not on your friends list", j1, l1, 1, 0);
             l1 += 15;
             if (base.blockChat == 0)
+            {
                 gameGraphics.drawString("Block chat messages: @red@<off>", l + 3, l1, 1, 0xffffff);
+            }
             else
+            {
                 gameGraphics.drawString("Block chat messages: @gre@<on>", l + 3, l1, 1, 0xffffff);
+            }
+
             l1 += 15;
             if (base.blockPrivate == 0)
+            {
                 gameGraphics.drawString("Block public messages: @red@<off>", l + 3, l1, 1, 0xffffff);
+            }
             else
+            {
                 gameGraphics.drawString("Block public messages: @gre@<on>", l + 3, l1, 1, 0xffffff);
+            }
+
             l1 += 15;
             if (base.blockTrade == 0)
+            {
                 gameGraphics.drawString("Block trade requests: @red@<off>", l + 3, l1, 1, 0xffffff);
+            }
             else
+            {
                 gameGraphics.drawString("Block trade requests: @gre@<on>", l + 3, l1, 1, 0xffffff);
+            }
+
             l1 += 15;
-            if (Config.MEMBERS_FEATURES)
+            if (Config.MembersFeatures)
+            {
                 if (base.blockDuel == 0)
+                {
                     gameGraphics.drawString("Block duel requests: @red@<off>", l + 3, l1, 1, 0xffffff);
+                }
                 else
+                {
                     gameGraphics.drawString("Block duel requests: @gre@<on>", l + 3, l1, 1, 0xffffff);
+                }
+            }
+
             l1 += 15;
             l1 += 5;
             gameGraphics.drawString("Always logout when you finish", j1, l1, 1, 0);
             l1 += 15;
             int j2 = 0xffffff;
             if (base.mouseX > j1 && base.mouseX < j1 + c1 && base.mouseY > l1 - 12 && base.mouseY < l1 + 4)
+            {
                 j2 = 0xffff00;
+            }
+
             gameGraphics.drawString("Click here to logout", l + 3, l1, 1, j2);
             if (!canClick)
+            {
                 return;
+            }
+
             l = base.mouseX - (((GameImage)(gameGraphics)).gameWidth - 199);
             i1 = base.mouseY - 36;
             if (l >= 0 && i1 >= 0 && l < 196 && i1 < 280)
@@ -3798,7 +4396,7 @@ namespace OpenRS.Net.Client
                     base.streamClass.formatPacket();
                 }
                 i2 += 15;
-                if (Config.MEMBERS_FEATURES && base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                if (Config.MembersFeatures && base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     configSoundOff = !configSoundOff;
                     base.streamClass.createPacket(157);
@@ -3866,57 +4464,69 @@ namespace OpenRS.Net.Client
                     flag = true;
                 }
                 i2 += 15;
-                if (Config.MEMBERS_FEATURES && base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                if (Config.MembersFeatures && base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
                 {
                     base.blockDuel = 1 - base.blockDuel;
                     flag = true;
                 }
                 i2 += 15;
                 if (flag)
+                {
                     sendUpdatedPrivacyInfo(base.blockChat, base.blockPrivate, base.blockTrade, base.blockDuel);
+                }
+
                 i2 += 20;
                 if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                {
                     sendLogout();
+                }
+
                 mouseButtonClick = 0;
             }
         }
 
-        public void walkToObject(int arg0, int arg1, int arg2, int arg3)
+        public void walkToObject(int objectX, int objectY, int facingDirection, int objectIndex)
         {
             int l;
             int i1;
-            if (arg2 == 0 || arg2 == 4)
+            if (facingDirection.Equals(0) || facingDirection.Equals(4))
             {
-                l = Data.Data.objectWidth[arg3];
-                i1 = Data.Data.objectHeight[arg3];
+                l = Data.Data.objectWidth[objectIndex];
+                i1 = Data.Data.objectHeight[objectIndex];
             }
             else
             {
-                i1 = Data.Data.objectWidth[arg3];
-                l = Data.Data.objectHeight[arg3];
+                i1 = Data.Data.objectWidth[objectIndex];
+                l = Data.Data.objectHeight[objectIndex];
             }
-            if (Data.Data.objectType[arg3] == 2 || Data.Data.objectType[arg3] == 3)
+            if (Data.Data.objectType[objectIndex].Equals(2) || Data.Data.objectType[objectIndex].Equals(3))
             {
-                if (arg2 == 0)
+                if (facingDirection.Equals(0))
                 {
-                    arg0--;
-                    l++;
+                    objectX -= 1;
+                    l += 1;
                 }
-                if (arg2 == 2)
-                    i1++;
-                if (arg2 == 4)
-                    l++;
-                if (arg2 == 6)
+                if (facingDirection.Equals(2))
                 {
-                    arg1--;
-                    i1++;
+                    i1 += 1;
                 }
-                walkTo(sectionX, sectionY, arg0, arg1, (arg0 + l) - 1, (arg1 + i1) - 1, false, true);
+
+                if (facingDirection.Equals(4))
+                {
+                    l += 1;
+                }
+
+                if (facingDirection.Equals(6))
+                {
+                    objectY -= 1;
+                    i1 += 1;
+                }
+                walkTo(sectionX, sectionY, objectX, objectY, (objectX + l) - 1, (objectY + i1) - 1, false, true);
                 return;
             }
             else
             {
-                walkTo(sectionX, sectionY, arg0, arg1, (arg0 + l) - 1, (arg1 + i1) - 1, true, true);
+                walkTo(sectionX, sectionY, objectX, objectY, (objectX + l) - 1, (objectY + i1) - 1, true, true);
                 return;
             }
         }
@@ -3941,7 +4551,10 @@ namespace OpenRS.Net.Client
                 for (int l = 0; l < 5; l++)
                 {
                     if (l <= 0 || base.mouseX <= byte0 || base.mouseX >= byte0 + c1 || base.mouseY <= byte1 + l * 20 || base.mouseY >= byte1 + l * 20 + 20)
+                    {
                         continue;
+                    }
+
                     combatStyle = l - 1;
                     mouseButtonClick = 0;
                     base.streamClass.createPacket(42);
@@ -3954,9 +4567,14 @@ namespace OpenRS.Net.Client
             for (int i1 = 0; i1 < 5; i1++)
             {
                 if (i1 == combatStyle + 1)
+                {
                     gameGraphics.drawBoxAlpha(byte0, byte1 + i1 * 20, c1, 20, GameImage.rgbToInt(255, 0, 0), 128);
+                }
                 else
+                {
                     gameGraphics.drawBoxAlpha(byte0, byte1 + i1 * 20, c1, 20, GameImage.rgbToInt(190, 190, 190), 128);
+                }
+
                 gameGraphics.drawLineX(byte0, byte1 + i1 * 20, c1, 0);
                 gameGraphics.drawLineX(byte0, byte1 + i1 * 20 + 20, c1, 0);
             }
@@ -3986,18 +4604,33 @@ namespace OpenRS.Net.Client
                             bool ourTradeItemsChanged = false;
                             int someInt = 0;
                             for (int tradeItem = 0; tradeItem < tradeItemsOurCount; tradeItem++)
+                            {
                                 if (tradeItemsOur[tradeItem] == item)
+                                {
                                     if (Data.Data.itemStackable[item] == 0)
+                                    {
                                         for (int i = 0; i < mouseClickedHeldInTradeDuelBox; i++)
                                         {
                                             if (tradeItemOurCount[tradeItem] < inventoryItemCount[curItem])
-                                                tradeItemOurCount[tradeItem]++;
+                                            {
+                                                tradeItemOurCount[tradeItem] += 1;
+                                            }
+
                                             ourTradeItemsChanged = true;
                                         }
+                                    }
                                     else
-                                        someInt++;
+                                    {
+                                        someInt += 1;
+                                    }
+                                }
+                            }
+
                             if (getInventoryItemTotalCount(item) <= someInt)
+                            {
                                 ourTradeItemsChanged = true;
+                            }
+
                             if (Data.Data.itemSpecial[item] == 1)
                             {
                                 displayMessage("This object cannot be traded with other players", 3);
@@ -4007,7 +4640,7 @@ namespace OpenRS.Net.Client
                             {
                                 tradeItemsOur[tradeItemsOurCount] = item;
                                 tradeItemOurCount[tradeItemsOurCount] = 1;
-                                tradeItemsOurCount++;
+                                tradeItemsOurCount += 1;
                                 ourTradeItemsChanged = true;
                             }
                             if (ourTradeItemsChanged)
@@ -4082,7 +4715,10 @@ namespace OpenRS.Net.Client
                 mouseClickedHeldInTradeDuelBox = 0;
             }
             if (!showTradeBox)
+            {
                 return;
+            }
+
             sbyte byte0 = 22;
             sbyte byte1 = 36;
             gameGraphics.drawBox(byte0, byte1, 468, 12, 192);
@@ -4099,20 +4735,32 @@ namespace OpenRS.Net.Client
             gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 155, 197, 103, j2, 160);
             gameGraphics.drawBoxAlpha(byte0 + 216, byte1 + 30, 246, 205, j2, 160);
             for (int i3 = 0; i3 < 4; i3++)
+            {
                 gameGraphics.drawLineX(byte0 + 8, byte1 + 30 + i3 * 34, 197, 0);
+            }
 
             for (int i4 = 0; i4 < 4; i4++)
+            {
                 gameGraphics.drawLineX(byte0 + 8, byte1 + 155 + i4 * 34, 197, 0);
+            }
 
             for (int k4 = 0; k4 < 7; k4++)
+            {
                 gameGraphics.drawLineX(byte0 + 216, byte1 + 30 + k4 * 34, 246, 0);
+            }
 
             for (int j5 = 0; j5 < 6; j5++)
             {
                 if (j5 < 5)
+                {
                     gameGraphics.drawLineY(byte0 + 8 + j5 * 49, byte1 + 30, 103, 0);
+                }
+
                 if (j5 < 5)
+                {
                     gameGraphics.drawLineY(byte0 + 8 + j5 * 49, byte1 + 155, 103, 0);
+                }
+
                 gameGraphics.drawLineY(byte0 + 216 + j5 * 49, byte1 + 30, 205, 0);
             }
 
@@ -4121,7 +4769,10 @@ namespace OpenRS.Net.Client
             gameGraphics.drawString("Opponent's Offer", byte0 + 9, byte1 + 152, 4, 0xffffff);
             gameGraphics.drawString("Your Inventory", byte0 + 216, byte1 + 27, 4, 0xffffff);
             if (!tradeWeAccepted)
+            {
                 gameGraphics.drawPicture(byte0 + 217, byte1 + 238, baseInventoryPic + 25);
+            }
+
             gameGraphics.drawPicture(byte0 + 394, byte1 + 238, baseInventoryPic + 26);
             if (tradeOtherAccepted)
             {
@@ -4139,7 +4790,9 @@ namespace OpenRS.Net.Client
                 int j6 = 31 + byte1 + (k5 / 5) * 34;
                 gameGraphics.drawImage(l5, j6, 48, 32, baseItemPicture + Data.Data.itemInventoryPicture[inventoryItems[k5]], Data.Data.itemPictureMask[inventoryItems[k5]], 0, 0, false);
                 if (Data.Data.itemStackable[inventoryItems[k5]] == 0)
+                {
                     gameGraphics.drawString(inventoryItemCount[k5].ToString(), l5 + 1, j6 + 10, 1, 0xffff00);
+                }
             }
 
             for (int i6 = 0; i6 < tradeItemsOurCount; i6++)
@@ -4148,9 +4801,14 @@ namespace OpenRS.Net.Client
                 int i7 = 31 + byte1 + (i6 / 4) * 34;
                 gameGraphics.drawImage(k6, i7, 48, 32, baseItemPicture + Data.Data.itemInventoryPicture[tradeItemsOur[i6]], Data.Data.itemPictureMask[tradeItemsOur[i6]], 0, 0, false);
                 if (Data.Data.itemStackable[tradeItemsOur[i6]] == 0)
+                {
                     gameGraphics.drawString(tradeItemOurCount[i6].ToString(), k6 + 1, i7 + 10, 1, 0xffff00);
+                }
+
                 if (base.mouseX > k6 && base.mouseX < k6 + 48 && base.mouseY > i7 && base.mouseY < i7 + 32)
+                {
                     gameGraphics.drawString(Data.Data.itemName[tradeItemsOur[i6]] + ": @whi@" + Data.Data.itemDescription[tradeItemsOur[i6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
+                }
             }
 
             for (int l6 = 0; l6 < tradeItemsOtherCount; l6++)
@@ -4159,9 +4817,14 @@ namespace OpenRS.Net.Client
                 int k7 = 156 + byte1 + (l6 / 4) * 34;
                 gameGraphics.drawImage(j7, k7, 48, 32, baseItemPicture + Data.Data.itemInventoryPicture[tradeItemsOther[l6]], Data.Data.itemPictureMask[tradeItemsOther[l6]], 0, 0, false);
                 if (Data.Data.itemStackable[tradeItemsOther[l6]] == 0)
+                {
                     gameGraphics.drawString(tradeItemOtherCount[l6].ToString(), j7 + 1, k7 + 10, 1, 0xffff00);
+                }
+
                 if (base.mouseX > j7 && base.mouseX < j7 + 48 && base.mouseY > k7 && base.mouseY < k7 + 32)
+                {
                     gameGraphics.drawString(Data.Data.itemName[tradeItemsOther[l6]] + ": @whi@" + Data.Data.itemDescription[tradeItemsOther[l6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
+                }
             }
 
         }
@@ -4169,7 +4832,10 @@ namespace OpenRS.Net.Client
         public void autoRotateCamera()
         {
             if ((cameraAutoAngle & 1) == 1 && validCameraAngle(cameraAutoAngle))
+            {
                 return;
+            }
+
             if ((cameraAutoAngle & 1) == 0 && validCameraAngle(cameraAutoAngle))
             {
                 if (validCameraAngle(cameraAutoAngle + 1 & 7))
@@ -4178,16 +4844,22 @@ namespace OpenRS.Net.Client
                     return;
                 }
                 if (validCameraAngle(cameraAutoAngle + 7 & 7))
+                {
                     cameraAutoAngle = cameraAutoAngle + 7 & 7;
+                }
+
                 return;
             }
-            int[] ai = {
+            int[] ai = [
             1, -1, 2, -2, 3, -3, 4
-        };
+        ];
             for (int l = 0; l < 7; l++)
             {
                 if (!validCameraAngle(cameraAutoAngle + ai[l] + 8 & 7))
+                {
                     continue;
+                }
+
                 cameraAutoAngle = cameraAutoAngle + ai[l] + 8 & 7;
                 break;
             }
@@ -4200,7 +4872,10 @@ namespace OpenRS.Net.Client
                     return;
                 }
                 if (validCameraAngle(cameraAutoAngle + 7 & 7))
+                {
                     cameraAutoAngle = cameraAutoAngle + 7 & 7;
+                }
+
                 return;
             }
             else
@@ -4210,7 +4885,7 @@ namespace OpenRS.Net.Client
         }
 
         //public String getParameter(String s1) {
-        //    if(Link.gameApplet != null)
+        //    if(Link.gameApplet is not null)
         //        return Link.gameApplet.getParameter(s1);
         //    else
         //        return base.getParameter(s1);
@@ -4238,8 +4913,11 @@ namespace OpenRS.Net.Client
 
         public override void loginScreenPrint(String s1, String s2)
         {
-            if (loginScreen == 2 && loginMenuLogin != null)
+            if (loginScreen == 2 && loginMenuLogin is not null)
+            {
                 loginMenuLogin.updateText(loginMenuStatusText, s1 + " " + s2);
+            }
+
             drawLoginScreens();
             resetTimings();
         }
@@ -4263,15 +4941,28 @@ namespace OpenRS.Net.Client
         public void checkLoginScreenInputs()
         {
             if (base.socketTimeout > 0)
+            {
                 base.socketTimeout--;
+            }
+
             if (loginScreen == 0)
             {
-                if (loginMenuFirst == null) return;
+                if (loginMenuFirst is null)
+                {
+                    return;
+                }
+
                 if (base.lastMouseButton != 0 || base.mouseButton != 0)
+                {
                     Console.WriteLine($"[CLICK] mouseX={base.mouseX} mouseY={base.mouseY} lastMouseButton={base.lastMouseButton} mouseButton={base.mouseButton}");
+                }
+
                 loginMenuFirst.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
                 if (loginMenuFirst.isClicked(loginButtonNewUser))
+                {
                     loginScreen = 1;
+                }
+
                 if (loginMenuFirst.isClicked(loginMenuLoginButton))
                 {
                     loginScreen = 2;
@@ -4285,8 +4976,12 @@ namespace OpenRS.Net.Client
             else
                 if (loginScreen == 1)
                 {
-                    if (loginNewUser == null) return;
-                    loginNewUser.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
+                    if (loginNewUser is null)
+                {
+                    return;
+                }
+
+                loginNewUser.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
                     if (loginNewUser.isClicked(loginMenuOkButton))
                     {
                         loginScreen = 0;
@@ -4298,10 +4993,16 @@ namespace OpenRS.Net.Client
                     {
                         loginMenuLogin.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
                         if (loginMenuLogin.isClicked(loginMenuCancelButton))
-                            loginScreen = 0;
-                        if (loginMenuLogin.isClicked(loginMenuUserText))
-                            loginMenuLogin.setFocus(loginMenuPasswordText);
-                        if (loginMenuLogin.isClicked(loginMenuPasswordText) || loginMenuLogin.isClicked(loginMenuOkLoginButton))
+                {
+                    loginScreen = 0;
+                }
+
+                if (loginMenuLogin.isClicked(loginMenuUserText))
+                {
+                    loginMenuLogin.setFocus(loginMenuPasswordText);
+                }
+
+                if (loginMenuLogin.isClicked(loginMenuPasswordText) || loginMenuLogin.isClicked(loginMenuOkLoginButton))
                         {
                             loginUsername = loginMenuLogin.getText(loginMenuUserText);
                             loginPassword = loginMenuLogin.getText(loginMenuPasswordText);
@@ -4310,11 +5011,15 @@ namespace OpenRS.Net.Client
                     }
         }
 
-        public bool isItemEquipped(int arg0)
+        public bool isItemEquipped(int itemId)
         {
             for (int l = 0; l < inventoryItemsCount; l++)
-                if (inventoryItems[l] == arg0 && inventoryItemEquipped[l] == 1)
+            {
+                if (inventoryItems[l].Equals(itemId) && inventoryItemEquipped[l].Equals(1))
+                {
                     return true;
+                }
+            }
 
             return false;
         }
@@ -4398,13 +5103,13 @@ namespace OpenRS.Net.Client
         {
             try
             {
-                if (gameGraphics != null)
+                if (gameGraphics is not null)
                 {
                     gameGraphics.cleanUp();
                     gameGraphics.pixels = null;
                     gameGraphics = null;
                 }
-                if (gameCamera != null)
+                if (gameCamera is not null)
                 {
                     gameCamera.cleanUp();
                     gameCamera = null;
@@ -4417,7 +5122,7 @@ namespace OpenRS.Net.Client
                 npcAttackingArray = null;
                 npcArray = null;
                 ourPlayer = null;
-                if (engineHandle != null)
+                if (engineHandle is not null)
                 {
                     engineHandle.TileChunks = null;
                     engineHandle.wallObject = null;
@@ -4442,7 +5147,10 @@ namespace OpenRS.Net.Client
                 for (int l = 0; l < questionMenuCount; l++)
                 {
                     if (base.mouseX >= gameGraphics.textWidth(questionMenuAnswer[l], 1) || base.mouseY <= l * 12 || base.mouseY >= 12 + l * 12)
+                    {
                         continue;
+                    }
+
                     base.streamClass.createPacket(154);
                     base.streamClass.addByte(l);
                     base.streamClass.formatPacket();
@@ -4457,7 +5165,10 @@ namespace OpenRS.Net.Client
             {
                 int j1 = 65535;
                 if (base.mouseX < gameGraphics.textWidth(questionMenuAnswer[i1], 1) && base.mouseY > i1 * 12 && base.mouseY < 12 + i1 * 12)
+                {
                     j1 = 0xff0000;
+                }
+
                 gameGraphics.drawString(questionMenuAnswer[i1], 6, 12 + i1 * 12, 1, j1);
             }
 
@@ -4476,23 +5187,35 @@ namespace OpenRS.Net.Client
             {
                 String s1 = Data.Data.itemName[tradeConfirmItems[i1]];
                 if (Data.Data.itemStackable[tradeConfirmItems[i1]] == 0)
+                {
                     s1 = s1 + " x " + formatItemCount(tradeConfigItemsCount[i1]);
+                }
+
                 gameGraphics.drawText(s1, byte0 + 117, byte1 + 42 + i1 * 12, 1, 0xffffff);
             }
 
             if (tradeConfigItemCount == 0)
+            {
                 gameGraphics.drawText("Nothing!", byte0 + 117, byte1 + 42, 1, 0xffffff);
+            }
+
             gameGraphics.drawText("In return you will receive:", byte0 + 351, byte1 + 30, 1, 0xffff00);
             for (int j1 = 0; j1 < tradeConfirmOtherItemCount; j1++)
             {
                 String s2 = Data.Data.itemName[tradeConfirmOtherItems[j1]];
                 if (Data.Data.itemStackable[tradeConfirmOtherItems[j1]] == 0)
+                {
                     s2 = s2 + " x " + formatItemCount(tradeConfirmOtherItemsCount[j1]);
+                }
+
                 gameGraphics.drawText(s2, byte0 + 351, byte1 + 42 + j1 * 12, 1, 0xffffff);
             }
 
             if (tradeConfirmOtherItemCount == 0)
+            {
                 gameGraphics.drawText("Nothing!", byte0 + 351, byte1 + 42, 1, 0xffffff);
+            }
+
             gameGraphics.drawText("Are you sure you want to do this?", byte0 + 234, byte1 + 200, 4, 65535);
             gameGraphics.drawText("There is NO WAY to reverse a trade if you change your mind.", byte0 + 234, byte1 + 215, 1, 0xffffff);
             gameGraphics.drawText("Remember that not all players are trustworthy", byte0 + 234, byte1 + 230, 1, 0xffffff);
@@ -4529,11 +5252,14 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public virtual void drawLoginScreens()
+        public void drawLoginScreens()
         {
             loginScreenShown = false;
-            if (gameGraphics == null)
+            if (gameGraphics is null)
+            {
                 return;
+            }
+
             gameGraphics.interlace = false;
             gameGraphics.clearScreen();
             if (loginScreen == 0 || loginScreen == 1 || loginScreen == 2 || loginScreen == 3)
@@ -4543,28 +5269,46 @@ namespace OpenRS.Net.Client
                 {
                     gameGraphics.drawPicture(0, 10, baseLoginScreenBackgroundPic);
                     if (l > 768)
+                    {
                         gameGraphics.drawPicture(0, 10, baseLoginScreenBackgroundPic + 1, l - 768);
+                    }
                 }
                 else if (l < 2048)
                 {
                     gameGraphics.drawPicture(0, 10, baseLoginScreenBackgroundPic + 1);
                     if (l > 1792)
+                    {
                         gameGraphics.drawPicture(0, 10, baseInventoryPic + 10, l - 1792);
+                    }
                 }
                 else
                 {
                     gameGraphics.drawPicture(0, 10, baseInventoryPic + 10);
                     if (l > 2816)
+                    {
                         gameGraphics.drawPicture(0, 10, baseLoginScreenBackgroundPic, l - 2816);
+                    }
                 }
             }
-            if (loginMenuFirst == null) return;
+            if (loginMenuFirst is null)
+            {
+                return;
+            }
+
             if (loginScreen == 0)
+            {
                 loginMenuFirst.drawMenu();
+            }
+
             if (loginScreen == 1)
+            {
                 loginNewUser.drawMenu();
+            }
+
             if (loginScreen == 2)
+            {
                 loginMenuLogin.drawMenu();
+            }
 
             gameGraphics.drawPicture(0, windowHeight, baseInventoryPic + 22);
 
@@ -4583,7 +5327,7 @@ namespace OpenRS.Net.Client
 
         public ClientMob makePlayer(int index, int x, int y, int sprite)
         {
-            if (playerBufferArray[index] == null)
+            if (playerBufferArray[index] is null)
             {
                 playerBufferArray[index] = new ClientMob
                 {
@@ -4596,7 +5340,10 @@ namespace OpenRS.Net.Client
             for (int l = 0; l < lastPlayerCount; l++)
             {
                 if (lastPlayerArray[l].serverIndex != index)
+                {
                     continue;
+                }
+
                 flag = true;
                 break;
             }
@@ -4634,14 +5381,14 @@ namespace OpenRS.Net.Client
         public void loadConfig()
         {
             sbyte[] abyte0 = unpackData("config.jag", "Configuration", 10);
-            if (abyte0 == null)
+            if (abyte0 is null)
             {
                 errorLoading = true;
                 return;
             }
             Data.Data.load(abyte0);
             sbyte[] abyte1 = unpackData("filter.jag", "Chat system", 15);
-            if (abyte1 == null)
+            if (abyte1 is null)
             {
                 errorLoading = true;
                 return;
@@ -4657,25 +5404,31 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public override void handleMouseDown(int arg0, int arg1, int arg2)
+        public override void handleMouseDown(int mouseButtonPressed, int mouseXPosition, int mouseYPosition)
         {
-            mouseTrailX[mouseTrailIndex] = arg1;
-            mouseTrailY[mouseTrailIndex] = arg2;
+            mouseTrailX[mouseTrailIndex] = mouseXPosition;
+            mouseTrailY[mouseTrailIndex] = mouseYPosition;
             mouseTrailIndex = mouseTrailIndex + 1 & 0x1fff;
             for (int l = 10; l < 4000; l++)
             {
                 int lastMouseTrailIndex = mouseTrailIndex - l & 0x1fff;
-                if (mouseTrailX[lastMouseTrailIndex] == arg1 && mouseTrailY[lastMouseTrailIndex] == arg2)
+                if (mouseTrailX[lastMouseTrailIndex].Equals(mouseXPosition) && mouseTrailY[lastMouseTrailIndex].Equals(mouseYPosition))
                 {
                     bool flag = false;
                     for (int j1 = 1; j1 < l; j1++)
                     {
                         int mouseNew = mouseTrailIndex - j1 & 0x1fff;
                         int mouseOld = lastMouseTrailIndex - j1 & 0x1fff;
-                        if (mouseTrailX[mouseOld] != arg1 || mouseTrailY[mouseOld] != arg2)
+                        if (!mouseTrailX[mouseOld].Equals(mouseXPosition) || !mouseTrailY[mouseOld].Equals(mouseYPosition))
+                        {
                             flag = true;
+                        }
+
                         if (mouseTrailX[mouseNew] != mouseTrailX[mouseOld] || mouseTrailY[mouseNew] != mouseTrailY[mouseOld])
+                        {
                             break;
+                        }
+
                         if (j1 == l - 1 && flag && combatTimeout == 0 && logoutTimer == 0)
                         {
                             sendLogout();
@@ -4698,9 +5451,14 @@ namespace OpenRS.Net.Client
             int k1;
             int j1 = k1 = GameImage.rgbToInt(160, 160, 160);
             if (friendsIgnoreMenuSelected == 0)
+            {
                 j1 = GameImage.rgbToInt(220, 220, 220);
+            }
             else
+            {
                 k1 = GameImage.rgbToInt(220, 220, 220);
+            }
+
             gameGraphics.drawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
             gameGraphics.drawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
             gameGraphics.drawBoxAlpha(l, i1 + 24, c1, c2 - 24, GameImage.rgbToInt(220, 220, 220), 128);
@@ -4716,12 +5474,19 @@ namespace OpenRS.Net.Client
                 {
                     String s1;
                     if (base.friendsWorld[l1] == 99)
+                    {
                         s1 = "@gre@";
+                    }
                     else
                         if (base.friendsWorld[l1] > 0)
-                            s1 = "@yel@";
-                        else
-                            s1 = "@red@";
+                    {
+                        s1 = "@yel@";
+                    }
+                    else
+                    {
+                        s1 = "@red@";
+                    }
+
                     friendsMenu.addListItem(friendsMenuHandle, l1, s1 + DataOperations.hashToName(base.friendsList[l1]) + "~439~@whi@Remove         WWWWWWWWWW");
                 }
 
@@ -4729,8 +5494,9 @@ namespace OpenRS.Net.Client
             if (friendsIgnoreMenuSelected == 1)
             {
                 for (int i2 = 0; i2 < base.ignoresCount; i2++)
+                {
                     friendsMenu.addListItem(friendsMenuHandle, i2, "@yel@" + DataOperations.hashToName(base.ignoresList[i2]) + "~439~@whi@Remove         WWWWWWWWWW");
-
+                }
             }
             friendsMenu.drawMenu();
             if (friendsIgnoreMenuSelected == 0)
@@ -4739,15 +5505,23 @@ namespace OpenRS.Net.Client
                 if (j2 >= 0 && base.mouseX < 489)
                 {
                     if (base.mouseX > 429)
+                    {
                         gameGraphics.drawText("Click to remove " + DataOperations.hashToName(base.friendsList[j2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
+                    }
                     else
                         if (base.friendsWorld[j2] == 99)
-                            gameGraphics.drawText("Click to message " + DataOperations.hashToName(base.friendsList[j2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
-                        else
+                    {
+                        gameGraphics.drawText("Click to message " + DataOperations.hashToName(base.friendsList[j2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
+                    }
+                    else
                             if (base.friendsWorld[j2] > 0)
-                                gameGraphics.drawText(DataOperations.hashToName(base.friendsList[j2]) + " is on world " + base.friendsWorld[j2], l + c1 / 2, i1 + 35, 1, 0xffffff);
-                            else
-                                gameGraphics.drawText(DataOperations.hashToName(base.friendsList[j2]) + " is offline", l + c1 / 2, i1 + 35, 1, 0xffffff);
+                    {
+                        gameGraphics.drawText(DataOperations.hashToName(base.friendsList[j2]) + " is on world " + base.friendsWorld[j2], l + c1 / 2, i1 + 35, 1, 0xffffff);
+                    }
+                    else
+                    {
+                        gameGraphics.drawText(DataOperations.hashToName(base.friendsList[j2]) + " is offline", l + c1 / 2, i1 + 35, 1, 0xffffff);
+                    }
                 }
                 else
                 {
@@ -4755,9 +5529,14 @@ namespace OpenRS.Net.Client
                 }
                 int j3;
                 if (base.mouseX > l && base.mouseX < l + c1 && base.mouseY > (i1 + c2) - 16 && base.mouseY < i1 + c2)
+                {
                     j3 = 0xffff00;
+                }
                 else
+                {
                     j3 = 0xffffff;
+                }
+
                 gameGraphics.drawText("Click here to add a friend", l + c1 / 2, (i1 + c2) - 3, 1, j3);
             }
             if (friendsIgnoreMenuSelected == 1)
@@ -4766,7 +5545,9 @@ namespace OpenRS.Net.Client
                 if (k2 >= 0 && base.mouseX < 489 && base.mouseX > 429)
                 {
                     if (base.mouseX > 429)
+                    {
                         gameGraphics.drawText("Click to remove " + DataOperations.hashToName(base.ignoresList[k2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
+                    }
                 }
                 else
                 {
@@ -4774,19 +5555,28 @@ namespace OpenRS.Net.Client
                 }
                 int k3;
                 if (base.mouseX > l && base.mouseX < l + c1 && base.mouseY > (i1 + c2) - 16 && base.mouseY < i1 + c2)
+                {
                     k3 = 0xffff00;
+                }
                 else
+                {
                     k3 = 0xffffff;
+                }
+
                 gameGraphics.drawText("Click here to add a name", l + c1 / 2, (i1 + c2) - 3, 1, k3);
             }
             if (!canClick)
+            {
                 return;
+            }
+
             l = base.mouseX - (((GameImage)(gameGraphics)).gameWidth - 199);
             i1 = base.mouseY - 36;
             if (l >= 0 && i1 >= 0 && l < 196 && i1 < 182)
             {
                 friendsMenu.mouseClick(l + (((GameImage)(gameGraphics)).gameWidth - 199), i1 + 36, base.lastMouseButton, base.mouseButton);
                 if (i1 <= 24 && mouseButtonClick == 1)
+                {
                     if (l < 98 && friendsIgnoreMenuSelected == 1)
                     {
                         friendsIgnoreMenuSelected = 0;
@@ -4798,12 +5588,17 @@ namespace OpenRS.Net.Client
                             friendsIgnoreMenuSelected = 1;
                             friendsMenu.switchList(friendsMenuHandle);
                         }
+                }
+
                 if (mouseButtonClick == 1 && friendsIgnoreMenuSelected == 0)
                 {
                     int l2 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
                     if (l2 >= 0 && base.mouseX < 489)
+                    {
                         if (base.mouseX > 429)
+                        {
                             removeFriend(base.friendsList[l2]);
+                        }
                         else
                             if (base.friendsWorld[l2] != 0)
                             {
@@ -4812,12 +5607,15 @@ namespace OpenRS.Net.Client
                                 base.pmText = "";
                                 base.enteredPMText = "";
                             }
+                    }
                 }
                 if (mouseButtonClick == 1 && friendsIgnoreMenuSelected == 1)
                 {
                     int i3 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
                     if (i3 >= 0 && base.mouseX < 489 && base.mouseX > 429)
+                    {
                         removeIgnore(base.ignoresList[i3]);
+                    }
                 }
                 if (i1 > 166 && mouseButtonClick == 1 && friendsIgnoreMenuSelected == 0)
                 {
@@ -4845,9 +5643,14 @@ namespace OpenRS.Net.Client
             int k1;
             int j1 = k1 = GameImage.rgbToInt(160, 160, 160);
             if (menuMagicPrayersSelected == 0)
+            {
                 j1 = GameImage.rgbToInt(220, 220, 220);
+            }
             else
+            {
                 k1 = GameImage.rgbToInt(220, 220, 220);
+            }
+
             gameGraphics.drawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
             gameGraphics.drawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
             gameGraphics.drawBoxAlpha(l, i1 + 24, c1, 90, GameImage.rgbToInt(220, 220, 220), 128);
@@ -4868,14 +5671,20 @@ namespace OpenRS.Net.Client
                     {
                         int j5 = Data.Data.spelRequiredRuneID[l2][k4];
                         if (hasRequiredRunes(j5, Data.Data.spellRequiredRuneCount[l2][k4]))
+                        {
                             continue;
+                        }
+
                         s1 = "@whi@";
                         break;
                     }
 
                     int k5 = playerStatCurrent[6];
                     if (Data.Data.spellRequiredLevel[l2] > k5)
+                    {
                         s1 = "@bla@";
+                    }
+
                     spellMenu.addListItem(spellMenuHandle, l1++, s1 + "Level " + Data.Data.spellRequiredLevel[l2] + ": " + Data.Data.spellName[l2]);
                 }
 
@@ -4893,7 +5702,10 @@ namespace OpenRS.Net.Client
                         int j6 = Data.Data.spellRequiredRuneCount[l3][l4];
                         String s3 = "@red@";
                         if (hasRequiredRunes(l5, j6))
+                        {
                             s3 = "@gre@";
+                        }
+
                         gameGraphics.drawString(s3 + i6 + "/" + j6, l + 2 + l4 * 44, i1 + 150, 1, 0xffffff);
                     }
 
@@ -4911,9 +5723,15 @@ namespace OpenRS.Net.Client
                 {
                     String s2 = "@whi@";
                     if (Data.Data.prayerRequiredLevel[i3] > playerStatBase[5])
+                    {
                         s2 = "@bla@";
+                    }
+
                     if (prayerOn[i3])
+                    {
                         s2 = "@gre@";
+                    }
+
                     spellMenu.addListItem(spellMenuHandle, i2++, s2 + "Level " + Data.Data.prayerRequiredLevel[i3] + ": " + Data.Data.prayerName[i3]);
                 }
 
@@ -4931,13 +5749,17 @@ namespace OpenRS.Net.Client
                 }
             }
             if (!canClick)
+            {
                 return;
+            }
+
             l = base.mouseX - (((GameImage)(gameGraphics)).gameWidth - 199);
             i1 = base.mouseY - 36;
             if (l >= 0 && i1 >= 0 && l < 196 && i1 < 182)
             {
                 spellMenu.mouseClick(l + (((GameImage)(gameGraphics)).gameWidth - 199), i1 + 36, base.lastMouseButton, base.mouseButton);
                 if (i1 <= 24 && mouseButtonClick == 1)
+                {
                     if (l < 98 && menuMagicPrayersSelected == 1)
                     {
                         menuMagicPrayersSelected = 0;
@@ -4949,6 +5771,8 @@ namespace OpenRS.Net.Client
                             menuMagicPrayersSelected = 1;
                             spellMenu.switchList(spellMenuHandle);
                         }
+                }
+
                 if (mouseButtonClick == 1 && menuMagicPrayersSelected == 0)
                 {
                     int j2 = spellMenu.getEntryHighlighted(spellMenuHandle);
@@ -4966,7 +5790,10 @@ namespace OpenRS.Net.Client
                             {
                                 int i5 = Data.Data.spelRequiredRuneID[j2][j4];
                                 if (hasRequiredRunes(i5, Data.Data.spellRequiredRuneCount[j2][j4]))
+                                {
                                     continue;
+                                }
+
                                 displayMessage("You don't have all the reagents you need for this spell", 3);
                                 j4 = -1;
                                 break;
@@ -4987,11 +5814,15 @@ namespace OpenRS.Net.Client
                     {
                         int k3 = playerStatBase[5];
                         if (Data.Data.prayerRequiredLevel[k2] > k3)
+                        {
                             displayMessage("Your prayer ability is not high enough for this prayer", 3);
+                        }
                         else
                             if (playerStatCurrent[5] == 0)
-                                displayMessage("You have run out of prayer points. Return to a church to recharge", 3);
-                            else
+                        {
+                            displayMessage("You have run out of prayer points. Return to a church to recharge", 3);
+                        }
+                        else
                                 if (prayerOn[k2])
                                 {
                                     base.streamClass.createPacket(248);
@@ -5014,45 +5845,47 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public override sbyte[] unpackData(String arg0, String arg1, int arg2)
+        public override sbyte[] unpackData(String fileName, String fileTitle, int progressPercentage)
         {
-            sbyte[] abyte0 = Link.getFile(arg0);
-            if (abyte0 != null)
+            sbyte[] abyte0 = Link.getFile(fileName);
+            if (abyte0 is not null)
             {
                 int l = ((abyte0[0] & 0xff) << 16) + ((abyte0[1] & 0xff) << 8) + (abyte0[2] & 0xff);
                 int i1 = ((abyte0[3] & 0xff) << 16) + ((abyte0[4] & 0xff) << 8) + (abyte0[5] & 0xff);
 
                 sbyte[] abyte1 = new sbyte[abyte0.Length - 6];
                 for (int j1 = 0; j1 < abyte0.Length - 6; j1++)
+                {
                     abyte1[j1] = abyte0[j1 + 6];
+                }
 
-                drawLoadingBarText(arg2, "Unpacking " + arg1);
+                drawLoadingBarText(progressPercentage, "Unpacking " + fileTitle);
                 if (i1 != l)
                 {
                     sbyte[] abyte2 = new sbyte[l];
                     DataFileDecrypter.unpackData(abyte2, l, abyte1, i1, 0);
-                    if (OnContentLoaded != null)
+                    if (OnContentLoaded is not null)
                     {
-                        OnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + arg1, arg2));
+                        OnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + fileTitle, progressPercentage));
                     }
                     return abyte2;
                 }
                 else
                 {
-                    if (OnContentLoaded != null)
+                    if (OnContentLoaded is not null)
                     {
-                        OnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + arg1, arg2));
+                        OnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + fileTitle, progressPercentage));
                     }
                     return abyte1;
                 }
             }
             else
             {
-                if (OnContentLoaded != null)
+                if (OnContentLoaded is not null)
                 {
-                    OnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + arg1, arg2));
+                    OnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + fileTitle, progressPercentage));
                 }
-                return base.unpackData(arg0, arg1, arg2);
+                return base.unpackData(fileName, fileTitle, progressPercentage);
             }
         }
 
@@ -5061,46 +5894,73 @@ namespace OpenRS.Net.Client
             gameGraphics.drawPicture(0, windowHeight - 4, baseInventoryPic + 23);
             int l = GameImage.rgbToInt(200, 200, 255);
             if (messagesTab == 0)
+            {
                 l = GameImage.rgbToInt(255, 200, 50);
+            }
+
             if (chatTabAllMsgFlash % 30 > 15)
+            {
                 l = GameImage.rgbToInt(255, 50, 50);
+            }
+
             gameGraphics.drawText("All messages", 54, windowHeight + 6, 0, l);
             l = GameImage.rgbToInt(200, 200, 255);
             if (messagesTab == 1)
+            {
                 l = GameImage.rgbToInt(255, 200, 50);
+            }
+
             if (chatTabHistoryFlash % 30 > 15)
+            {
                 l = GameImage.rgbToInt(255, 50, 50);
+            }
+
             gameGraphics.drawText("Chat history", 155, windowHeight + 6, 0, l);
             l = GameImage.rgbToInt(200, 200, 255);
             if (messagesTab == 2)
+            {
                 l = GameImage.rgbToInt(255, 200, 50);
+            }
+
             if (chatTabQuestFlash % 30 > 15)
+            {
                 l = GameImage.rgbToInt(255, 50, 50);
+            }
+
             gameGraphics.drawText("Quest history", 255, windowHeight + 6, 0, l);
             l = GameImage.rgbToInt(200, 200, 255);
             if (messagesTab == 3)
+            {
                 l = GameImage.rgbToInt(255, 200, 50);
+            }
+
             if (chatTabPrivateFlash % 30 > 15)
+            {
                 l = GameImage.rgbToInt(255, 50, 50);
+            }
+
             gameGraphics.drawText("Private history", 355, windowHeight + 6, 0, l);
             gameGraphics.drawText("Report abuse", 457, windowHeight + 6, 0, 0xffffff);
         }
 
         //public URL getDocumentBase() {
-        //    if(Link.gameApplet != null)
+        //    if(Link.gameApplet is not null)
         //        return Link.gameApplet.getDocumentBase();
         //    else
         //        return base.getDocumentBase();
         //}
 
-        private readonly object _sync = new object();
+        private readonly Lock _sync = new();
         public static bool sendingPing = false;
         public void sendPingPacketAsync()
         {
             lock (_sync)
             {
                 if (sendingPing)
+                {
                     return;
+                }
+
                 sendingPing = true;
             }
 
@@ -5123,16 +5983,20 @@ namespace OpenRS.Net.Client
 
         public event AsyncCompletedEventHandler MyTaskCompleted;
 
-        protected virtual void OnMyTaskCompleted(AsyncCompletedEventArgs e)
+        protected void OnMyTaskCompleted(AsyncCompletedEventArgs e)
         {
-            if (MyTaskCompleted != null)
+            if (MyTaskCompleted is not null)
+            {
                 MyTaskCompleted(this, e);
+            }
         }
 
         public void checkGameInputs()
         {
             if (systemUpdate > 1)
+            {
                 systemUpdate--;
+            }
 
             sendPingPacketAsync();
 
@@ -5140,11 +6004,20 @@ namespace OpenRS.Net.Client
 
 
             if (logoutTimer > 0)
+            {
                 logoutTimer--;
+            }
+
             if (ourPlayer.currentSprite == 8 || ourPlayer.currentSprite == 9)
+            {
                 combatTimeout = 500;
+            }
+
             if (combatTimeout > 0)
+            {
                 combatTimeout--;
+            }
+
             if (showAppearanceWindow)
             {
                 updateAppearanceWindow();
@@ -5160,12 +6033,20 @@ namespace OpenRS.Net.Client
                     int targetSprite = player.waypointsEndSprite;
                     int i5;
                     if (targetSprite < j1)
+                    {
                         i5 = j1 - targetSprite;
+                    }
                     else
+                    {
                         i5 = (10 + j1) - targetSprite;
+                    }
+
                     int i6 = 4;
                     if (i5 > 2)
+                    {
                         i6 = (i5 - 1) * 4;
+                    }
+
                     if (player.waypointsX[targetSprite] - player.currentX > gridSize * 3 || player.waypointsY[targetSprite] - player.currentY > gridSize * 3 || player.waypointsX[targetSprite] - player.currentX < -gridSize * 3 || player.waypointsY[targetSprite] - player.currentY < -gridSize * 3 || i5 > 8)
                     {
                         player.currentX = player.waypointsX[targetSprite];
@@ -5176,68 +6057,104 @@ namespace OpenRS.Net.Client
                         if (player.currentX < player.waypointsX[targetSprite])
                         {
                             player.currentX += i6;
-                            player.stepCount++;
+                            player.stepCount += 1;
                             direction = 2;
                         }
                         else
                             if (player.currentX > player.waypointsX[targetSprite])
                             {
                                 player.currentX -= i6;
-                                player.stepCount++;
+                                player.stepCount += 1;
                                 direction = 6;
                             }
                         if (player.currentX - player.waypointsX[targetSprite] < i6 && player.currentX - player.waypointsX[targetSprite] > -i6)
+                        {
                             player.currentX = player.waypointsX[targetSprite];
+                        }
+
                         if (player.currentY < player.waypointsY[targetSprite])
                         {
                             player.currentY += i6;
-                            player.stepCount++;
+                            player.stepCount += 1;
                             if (direction == -1)
+                            {
                                 direction = 4;
+                            }
                             else
                                 if (direction == 2)
-                                    direction = 3;
-                                else
-                                    direction = 5;
+                            {
+                                direction = 3;
+                            }
+                            else
+                            {
+                                direction = 5;
+                            }
                         }
                         else
                             if (player.currentY > player.waypointsY[targetSprite])
                             {
                                 player.currentY -= i6;
-                                player.stepCount++;
+                                player.stepCount += 1;
                                 if (direction == -1)
-                                    direction = 0;
-                                else
-                                    if (direction == 2)
-                                        direction = 1;
-                                    else
-                                        direction = 7;
+                            {
+                                direction = 0;
                             }
+                            else
+                                    if (direction == 2)
+                            {
+                                direction = 1;
+                            }
+                            else
+                            {
+                                direction = 7;
+                            }
+                        }
                         if (player.currentY - player.waypointsY[targetSprite] < i6 && player.currentY - player.waypointsY[targetSprite] > -i6)
+                        {
                             player.currentY = player.waypointsY[targetSprite];
+                        }
                     }
                     if (direction != -1)
+                    {
                         player.currentSprite = direction;
+                    }
+
                     if (player.currentX == player.waypointsX[targetSprite] && player.currentY == player.waypointsY[targetSprite])
+                    {
                         player.waypointsEndSprite = (targetSprite + 1) % 10;
+                    }
                 }
                 else
                 {
                     player.currentSprite = player.nextSprite;
                 }
                 if (player.lastMessageTimeout > 0)
+                {
                     player.lastMessageTimeout--;
+                }
+
                 if (player.playerSkullTimeout > 0)
+                {
                     player.playerSkullTimeout--;
+                }
+
                 if (player.combatTimer > 0)
+                {
                     player.combatTimer--;
+                }
+
                 if (playerAliveTimeout > 0)
                 {
                     playerAliveTimeout--;
                     if (playerAliveTimeout == 0)
+                    {
                         displayMessage("You have been granted another life. Be more careful this time!", 3);
+                    }
+
                     if (playerAliveTimeout == 0)
+                    {
                         displayMessage("You retain your skills. Your objects land where you died", 3);
+                    }
                 }
             }
 
@@ -5251,12 +6168,20 @@ namespace OpenRS.Net.Client
                     int j5 = f2.waypointsEndSprite;
                     int j6;
                     if (j5 < i2)
+                    {
                         j6 = i2 - j5;
+                    }
                     else
+                    {
                         j6 = (10 + i2) - j5;
+                    }
+
                     int k6 = 4;
                     if (j6 > 2)
+                    {
                         k6 = (j6 - 1) * 4;
+                    }
+
                     if (f2.waypointsX[j5] - f2.currentX > gridSize * 3 || f2.waypointsY[j5] - f2.currentY > gridSize * 3 || f2.waypointsX[j5] - f2.currentX < -gridSize * 3 || f2.waypointsY[j5] - f2.currentY < -gridSize * 3 || j6 > 8)
                     {
                         f2.currentX = f2.waypointsX[j5];
@@ -5267,71 +6192,109 @@ namespace OpenRS.Net.Client
                         if (f2.currentX < f2.waypointsX[j5])
                         {
                             f2.currentX += k6;
-                            f2.stepCount++;
+                            f2.stepCount += 1;
                             l3 = 2;
                         }
                         else
                             if (f2.currentX > f2.waypointsX[j5])
                             {
                                 f2.currentX -= k6;
-                                f2.stepCount++;
+                                f2.stepCount += 1;
                                 l3 = 6;
                             }
                         if (f2.currentX - f2.waypointsX[j5] < k6 && f2.currentX - f2.waypointsX[j5] > -k6)
+                        {
                             f2.currentX = f2.waypointsX[j5];
+                        }
+
                         if (f2.currentY < f2.waypointsY[j5])
                         {
                             f2.currentY += k6;
-                            f2.stepCount++;
+                            f2.stepCount += 1;
                             if (l3 == -1)
+                            {
                                 l3 = 4;
+                            }
                             else
                                 if (l3 == 2)
-                                    l3 = 3;
-                                else
-                                    l3 = 5;
+                            {
+                                l3 = 3;
+                            }
+                            else
+                            {
+                                l3 = 5;
+                            }
                         }
                         else
                             if (f2.currentY > f2.waypointsY[j5])
                             {
                                 f2.currentY -= k6;
-                                f2.stepCount++;
+                                f2.stepCount += 1;
                                 if (l3 == -1)
-                                    l3 = 0;
-                                else
-                                    if (l3 == 2)
-                                        l3 = 1;
-                                    else
-                                        l3 = 7;
+                            {
+                                l3 = 0;
                             }
+                            else
+                                    if (l3 == 2)
+                            {
+                                l3 = 1;
+                            }
+                            else
+                            {
+                                l3 = 7;
+                            }
+                        }
                         if (f2.currentY - f2.waypointsY[j5] < k6 && f2.currentY - f2.waypointsY[j5] > -k6)
+                        {
                             f2.currentY = f2.waypointsY[j5];
+                        }
                     }
                     if (l3 != -1)
+                    {
                         f2.currentSprite = l3;
+                    }
+
                     if (f2.currentX == f2.waypointsX[j5] && f2.currentY == f2.waypointsY[j5])
+                    {
                         f2.waypointsEndSprite = (j5 + 1) % 10;
+                    }
                 }
                 else
                 {
                     f2.currentSprite = f2.nextSprite;
                     if (f2.npcId == 43)
-                        f2.stepCount++;
+                    {
+                        f2.stepCount += 1;
+                    }
                 }
                 if (f2.lastMessageTimeout > 0)
+                {
                     f2.lastMessageTimeout--;
+                }
+
                 if (f2.playerSkullTimeout > 0)
+                {
                     f2.playerSkullTimeout--;
+                }
+
                 if (f2.combatTimer > 0)
+                {
                     f2.combatTimer--;
+                }
             }
 
             if (drawMenuTab != 2)
             {
                 if (GameImage.bnn > 0)
-                    sleepWordDelayTimer++;
+                {
+                    sleepWordDelayTimer += 1;
+                }
+
                 if (GameImage.caa > 0)
+                {
                     sleepWordDelayTimer = 0;
+                }
+
                 GameImage.bnn = 0;
                 GameImage.caa = 0;
             }
@@ -5339,7 +6302,9 @@ namespace OpenRS.Net.Client
             {
                 ClientMob f3 = playerArray[k1];
                 if (f3.projectileDistance > 0)
+                {
                     f3.projectileDistance--;
+                }
             }
 
             if (cameraAutoAngleDebug)
@@ -5358,9 +6323,15 @@ namespace OpenRS.Net.Client
                     cameraAutoRotatePlayerY = ourPlayer.currentY;
                 }
                 if (cameraAutoRotatePlayerX != ourPlayer.currentX)
+                {
                     cameraAutoRotatePlayerX += (ourPlayer.currentX - cameraAutoRotatePlayerX) / (16 + (cameraDistance - 500) / 15);
+                }
+
                 if (cameraAutoRotatePlayerY != ourPlayer.currentY)
+                {
                     cameraAutoRotatePlayerY += (ourPlayer.currentY - cameraAutoRotatePlayerY) / (16 + (cameraDistance - 500) / 15);
+                }
+
                 if (configCameraAutoAngle)
                 {
                     int j2 = cameraAutoAngle * 32;
@@ -5368,7 +6339,7 @@ namespace OpenRS.Net.Client
                     int byte0 = 1;
                     if (i4 != 0)
                     {
-                        cameraAutoRotationAmount++;
+                        cameraAutoRotationAmount += 1;
                         if (i4 > 128)
                         {
                             byte0 = -1;
@@ -5376,8 +6347,10 @@ namespace OpenRS.Net.Client
                         }
                         else
                             if (i4 > 0)
-                                byte0 = 1;
-                            else
+                        {
+                            byte0 = 1;
+                        }
+                        else
                                 if (i4 < -128)
                                 {
                                     byte0 = 1;
@@ -5406,8 +6379,11 @@ namespace OpenRS.Net.Client
             if (isSleeping)
             {
                 if (base.enteredInputText.Length > 0)
+                {
                     if (base.enteredInputText.ToLower().Equals("::lostcon"))
+                    {
                         base.streamClass.closeStream();
+                    }
                     else
                         if (base.enteredInputText.ToLower().Equals("::closecon"))
                         {
@@ -5427,6 +6403,8 @@ namespace OpenRS.Net.Client
                             base.enteredInputText = "";
                             sleepingStatusText = "Please wait...";
                         }
+                }
+
                 if (base.lastMouseButton == 1 && base.mouseY > 275 && base.mouseY < 310 && base.mouseX > 56 && base.mouseX < 456)
                 {
                     base.streamClass.createPacket(200);
@@ -5447,7 +6425,10 @@ namespace OpenRS.Net.Client
             if (base.mouseY > windowHeight - 4)
             {
                 if (base.mouseX > 15 && base.mouseX < 96 && base.lastMouseButton == 1)
+                {
                     messagesTab = 0;
+                }
+
                 if (base.mouseX > 110 && base.mouseX < 194 && base.lastMouseButton == 1)
                 {
                     messagesTab = 1;
@@ -5475,7 +6456,10 @@ namespace OpenRS.Net.Client
             }
             chatInputMenu.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
             if (messagesTab > 0 && base.mouseX >= 494 && base.mouseY >= windowHeight - 66)
+            {
                 base.lastMouseButton = 0;
+            }
+
             if (chatInputMenu.isClicked(chatInputBox))
             {
                 String input = chatInputMenu.getText(chatInputBox);
@@ -5483,7 +6467,9 @@ namespace OpenRS.Net.Client
                 if (input.StartsWith("::"))
                 {
                     if (!handleCommand(input.Substring(2)))
+                    {
                         sendCommand(input.Substring(2));
+                    }
                 }
                 else
                 {
@@ -5500,32 +6486,57 @@ namespace OpenRS.Net.Client
             if (messagesTab == 0)
             {
                 for (int k2 = 0; k2 < 5; k2++)
+                {
                     if (messagesTimeout[k2] > 0)
+                    {
                         messagesTimeout[k2]--;
-
+                    }
+                }
             }
             if (playerAliveTimeout != 0)
+            {
                 base.lastMouseButton = 0;
+            }
+
             if (showTradeBox || showDuelBox)
             {
                 if (base.mouseButton != 0)
-                    mouseButtonHeldTime++;
+                {
+                    mouseButtonHeldTime += 1;
+                }
                 else
+                {
                     mouseButtonHeldTime = 0;
+                }
+
                 if (mouseButtonHeldTime > 500)
+                {
                     mouseClickedHeldInTradeDuelBox += 100000;
+                }
                 else if (mouseButtonHeldTime > 350)
+                {
                     mouseClickedHeldInTradeDuelBox += 10000;
+                }
                 else if (mouseButtonHeldTime > 250)
+                {
                     mouseClickedHeldInTradeDuelBox += 1000;
+                }
                 else if (mouseButtonHeldTime > 150)
+                {
                     mouseClickedHeldInTradeDuelBox += 100;
+                }
                 else if (mouseButtonHeldTime > 100)
+                {
                     mouseClickedHeldInTradeDuelBox += 10;
+                }
                 else if (mouseButtonHeldTime > 50)
-                    mouseClickedHeldInTradeDuelBox++;
+                {
+                    mouseClickedHeldInTradeDuelBox += 1;
+                }
                 else if (mouseButtonHeldTime > 20 && (mouseButtonHeldTime & 5) == 0)
-                    mouseClickedHeldInTradeDuelBox++;
+                {
+                    mouseClickedHeldInTradeDuelBox += 1;
+                }
             }
             else
             {
@@ -5533,9 +6544,14 @@ namespace OpenRS.Net.Client
                 mouseClickedHeldInTradeDuelBox = 0;
             }
             if (base.lastMouseButton == 1)
+            {
                 mouseButtonClick = 1;
+            }
             else if (base.lastMouseButton == 2)
+            {
                 mouseButtonClick = 2;
+            }
+
             gameCamera.setMousePosition(base.mouseX, base.mouseY);
             base.lastMouseButton = 0;
             if (configCameraAutoAngle)
@@ -5549,11 +6565,17 @@ namespace OpenRS.Net.Client
                         if (!cameraZoom)
                         {
                             if ((cameraAutoAngle & 1) == 0)
+                            {
                                 cameraAutoAngle = cameraAutoAngle + 1 & 7;
+                            }
+
                             for (int l2 = 0; l2 < 8; l2++)
                             {
                                 if (validCameraAngle(cameraAutoAngle))
+                                {
                                     break;
+                                }
+
                                 cameraAutoAngle = cameraAutoAngle + 1 & 7;
                             }
                         }
@@ -5565,11 +6587,17 @@ namespace OpenRS.Net.Client
                         if (!cameraZoom)
                         {
                             if ((cameraAutoAngle & 1) == 0)
+                            {
                                 cameraAutoAngle = cameraAutoAngle + 7 & 7;
+                            }
+
                             for (int i3 = 0; i3 < 8; i3++)
                             {
                                 if (validCameraAngle(cameraAutoAngle))
+                                {
                                     break;
+                                }
+
                                 cameraAutoAngle = cameraAutoAngle + 7 & 7;
                             }
                         }
@@ -5577,27 +6605,47 @@ namespace OpenRS.Net.Client
                 }
             }
             else if (base.keyLeftDown)
+            {
                 cameraRotation = cameraRotation + 2 & 0xff;
+            }
             else if (base.keyRightDown)
+            {
                 cameraRotation = cameraRotation - 2 & 0xff;
+            }
+
             if (base.keyUpDown && cameraDistance > 550)
+            {
                 cameraDistance -= 4;
+            }
             else if (base.keyDownDown && cameraDistance < 1250)
+            {
                 cameraDistance += 4;
+            }
+
             if (fogOfWar)
             {
                 if ((cameraZoom && cameraDistance > 550) || cameraDistance > 750)
+                {
                     cameraDistance -= 4;
+                }
+
                 if (!cameraZoom && cameraDistance < 750)
+                {
                     cameraDistance += 4;
+                }
             }
             if (actionPictureType > 0)
+            {
                 actionPictureType--;
+            }
             else
                 if (actionPictureType < 0)
-                    actionPictureType++;
+            {
+                actionPictureType += 1;
+            }
+
             gameCamera.updateLightning(17);
-            modelUpdatingTimer++;
+            modelUpdatingTimer += 1;
             if (modelUpdatingTimer > 5)
             {
                 modelUpdatingTimer = 0;
@@ -5610,12 +6658,14 @@ namespace OpenRS.Net.Client
                 int k4 = objectX[j3];
                 int k5 = objectY[j3];
                 if (k4 >= 0 && k5 >= 0 && k4 < 96 && k5 < 96 && objectType[j3] == 74)
+                {
                     objectArray[j3].offsetMiniPosition(1, 0, 0);
+                }
             }
 
             for (int l4 = 0; l4 < teleBubbleCount; l4++)
             {
-                teleBubbleTime[l4]++;
+                teleBubbleTime[l4] += 1;
                 if (teleBubbleTime[l4] > 50)
                 {
                     teleBubbleCount--;
@@ -5697,25 +6747,42 @@ namespace OpenRS.Net.Client
 
         public override void handleKeyDown(Keys key, char c)
         {
-            if (key == Keys.Left || key == Keys.Right || key == Keys.Up || key == Keys.Down) return;
+            if (key == Keys.Left || key == Keys.Right || key == Keys.Up || key == Keys.Down)
+            {
+                return;
+            }
 
             if (!loggedIn)
             {
-                if (loginScreen == 0 && loginMenuFirst != null)
+                if (loginScreen == 0 && loginMenuFirst is not null)
+                {
                     loginMenuFirst.keyPress(key, c);
-                if (loginScreen == 1 && loginNewUser != null)
+                }
+
+                if (loginScreen == 1 && loginNewUser is not null)
+                {
                     loginNewUser.keyPress(key, c);
-                if (loginScreen == 2 && loginMenuLogin != null)
+                }
+
+                if (loginScreen == 2 && loginMenuLogin is not null)
+                {
                     loginMenuLogin.keyPress(key, c);
+                }
             }
             if (loggedIn)
             {
                 if (key == Keys.F12)
+                {
                     takeScreenshot(true);
-                else if (showAppearanceWindow && appearanceMenu != null)
+                }
+                else if (showAppearanceWindow && appearanceMenu is not null)
+                {
                     appearanceMenu.keyPress(key, c);
-                else if (showFriendsBox == 0 && showAbuseBox == 0 && !isSleeping && chatInputMenu != null)
+                }
+                else if (showFriendsBox == 0 && showAbuseBox == 0 && !isSleeping && chatInputMenu is not null)
+                {
                     chatInputMenu.keyPress(key, c);
+                }
             }
         }
 
@@ -5723,13 +6790,20 @@ namespace OpenRS.Net.Client
         {
             int l = 2203 - (sectionY + wildY + areaY);
             if (sectionX + wildX + areaX >= 2640)
+            {
                 l = -50;
+            }
+
             int ground = -1;
             for (int j1 = 0; j1 < objectCount; j1++)
+            {
                 objectAlreadyInMenu[j1] = false;
+            }
 
             for (int k1 = 0; k1 < wallObjectCount; k1++)
+            {
                 wallObjectAlreadyInMenu[k1] = false;
+            }
 
             int optionCount = gameCamera.getOptionCount();
             GameObject[] objects = gameCamera.getHighlightedObjects();
@@ -5737,10 +6811,14 @@ namespace OpenRS.Net.Client
             for (int i2 = 0; i2 < optionCount; i2++)
             {
                 if (menuOptionsCount > 200)
+                {
                     break;
+                }
+
                 int player = players[i2];
                 GameObject _obj = objects[i2];
                 if (_obj.entityType[player] <= 65535 || _obj.entityType[player] >= 0x30d40 && _obj.entityType[player] <= 0x493e0)
+                {
                     if (_obj == gameCamera.highlightedObject)
                     {
                         int index = _obj.entityType[player] % 10000;
@@ -5750,23 +6828,50 @@ namespace OpenRS.Net.Client
                             String s1 = "";
                             int k4 = 0;
                             if (ourPlayer.level > 0 && playerArray[index].level > 0)
+                            {
                                 k4 = ourPlayer.level - playerArray[index].level;
+                            }
+
                             if (k4 < 0)
+                            {
                                 s1 = "@or1@";
+                            }
+
                             if (k4 < -3)
+                            {
                                 s1 = "@or2@";
+                            }
+
                             if (k4 < -6)
+                            {
                                 s1 = "@or3@";
+                            }
+
                             if (k4 < -9)
+                            {
                                 s1 = "@red@";
+                            }
+
                             if (k4 > 0)
+                            {
                                 s1 = "@gr1@";
+                            }
+
                             if (k4 > 3)
+                            {
                                 s1 = "@gr2@";
+                            }
+
                             if (k4 > 6)
+                            {
                                 s1 = "@gr3@";
+                            }
+
                             if (k4 > 9)
+                            {
                                 s1 = "@gre@";
+                            }
+
                             s1 = " " + s1 + "(level-" + playerArray[index].level + ")";
                             if (selectedSpell >= 0)
                             {
@@ -5779,7 +6884,7 @@ namespace OpenRS.Net.Client
                                     menuActionY[menuOptionsCount] = playerArray[index].currentY;
                                     menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
                                     menuActionVar1[menuOptionsCount] = selectedSpell;
-                                    menuOptionsCount++;
+                                    menuOptionsCount += 1;
                                 }
                             }
                             else
@@ -5792,7 +6897,7 @@ namespace OpenRS.Net.Client
                                     menuActionY[menuOptionsCount] = playerArray[index].currentY;
                                     menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
                                     menuActionVar1[menuOptionsCount] = selectedItem;
-                                    menuOptionsCount++;
+                                    menuOptionsCount += 1;
                                 }
                                 else
                                 {
@@ -5801,16 +6906,21 @@ namespace OpenRS.Net.Client
                                         menuText1[menuOptionsCount] = "Attack";
                                         menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
                                         if (k4 >= 0 && k4 < 5)
-                                            menuActionID[menuOptionsCount] = 805;
-                                        else
-                                            menuActionID[menuOptionsCount] = 2805;
-                                        menuActionX[menuOptionsCount] = playerArray[index].currentX;
-                                        menuActionY[menuOptionsCount] = playerArray[index].currentY;
-                                        menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
-                                        menuOptionsCount++;
+                                    {
+                                        menuActionID[menuOptionsCount] = 805;
                                     }
                                     else
-                                        if (Config.MEMBERS_FEATURES)
+                                    {
+                                        menuActionID[menuOptionsCount] = 2805;
+                                    }
+
+                                    menuActionX[menuOptionsCount] = playerArray[index].currentX;
+                                        menuActionY[menuOptionsCount] = playerArray[index].currentY;
+                                        menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
+                                        menuOptionsCount += 1;
+                                    }
+                                    else
+                                        if (Config.MembersFeatures)
                                         {
                                             menuText1[menuOptionsCount] = "Duel with";
                                             menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
@@ -5818,18 +6928,18 @@ namespace OpenRS.Net.Client
                                             menuActionY[menuOptionsCount] = playerArray[index].currentY;
                                             menuActionID[menuOptionsCount] = 2806;
                                             menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
-                                            menuOptionsCount++;
+                                            menuOptionsCount += 1;
                                         }
                                     menuText1[menuOptionsCount] = "Trade with";
                                     menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
                                     menuActionID[menuOptionsCount] = 2810;
                                     menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
-                                    menuOptionsCount++;
+                                    menuOptionsCount += 1;
                                     menuText1[menuOptionsCount] = "Follow";
                                     menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
                                     menuActionID[menuOptionsCount] = 2820;
                                     menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
-                                    menuOptionsCount++;
+                                    menuOptionsCount += 1;
                                 }
                         }
                         else
@@ -5846,7 +6956,7 @@ namespace OpenRS.Net.Client
                                         menuActionY[menuOptionsCount] = groundItemY[index];
                                         menuActionType[menuOptionsCount] = groundItemID[index];
                                         menuActionVar1[menuOptionsCount] = selectedSpell;
-                                        menuOptionsCount++;
+                                        menuOptionsCount += 1;
                                     }
                                 }
                                 else
@@ -5859,7 +6969,7 @@ namespace OpenRS.Net.Client
                                         menuActionY[menuOptionsCount] = groundItemY[index];
                                         menuActionType[menuOptionsCount] = groundItemID[index];
                                         menuActionVar1[menuOptionsCount] = selectedItem;
-                                        menuOptionsCount++;
+                                        menuOptionsCount += 1;
                                     }
                                     else
                                     {
@@ -5869,12 +6979,12 @@ namespace OpenRS.Net.Client
                                         menuActionX[menuOptionsCount] = groundItemX[index];
                                         menuActionY[menuOptionsCount] = groundItemY[index];
                                         menuActionType[menuOptionsCount] = groundItemID[index];
-                                        menuOptionsCount++;
+                                        menuOptionsCount += 1;
                                         menuText1[menuOptionsCount] = "Examine";
                                         menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[groundItemID[index]];
                                         menuActionID[menuOptionsCount] = 3200;
                                         menuActionType[menuOptionsCount] = groundItemID[index];
-                                        menuOptionsCount++;
+                                        menuOptionsCount += 1;
                                     }
                             }
                             else
@@ -5890,22 +7000,46 @@ namespace OpenRS.Net.Client
                                         l4 = k5 - j5;
                                         s2 = "@yel@";
                                         if (l4 < 0)
-                                            s2 = "@or1@";
-                                        if (l4 < -3)
-                                            s2 = "@or2@";
-                                        if (l4 < -6)
-                                            s2 = "@or3@";
-                                        if (l4 < -9)
-                                            s2 = "@red@";
-                                        if (l4 > 0)
-                                            s2 = "@gr1@";
-                                        if (l4 > 3)
-                                            s2 = "@gr2@";
-                                        if (l4 > 6)
-                                            s2 = "@gr3@";
-                                        if (l4 > 9)
-                                            s2 = "@gre@";
-                                        s2 = " " + s2 + "(level-" + j5 + ")";
+                                {
+                                    s2 = "@or1@";
+                                }
+
+                                if (l4 < -3)
+                                {
+                                    s2 = "@or2@";
+                                }
+
+                                if (l4 < -6)
+                                {
+                                    s2 = "@or3@";
+                                }
+
+                                if (l4 < -9)
+                                {
+                                    s2 = "@red@";
+                                }
+
+                                if (l4 > 0)
+                                {
+                                    s2 = "@gr1@";
+                                }
+
+                                if (l4 > 3)
+                                {
+                                    s2 = "@gr2@";
+                                }
+
+                                if (l4 > 6)
+                                {
+                                    s2 = "@gr3@";
+                                }
+
+                                if (l4 > 9)
+                                {
+                                    s2 = "@gre@";
+                                }
+
+                                s2 = " " + s2 + "(level-" + j5 + ")";
                                     }
                                     if (selectedSpell >= 0)
                                     {
@@ -5918,7 +7052,7 @@ namespace OpenRS.Net.Client
                                             menuActionY[menuOptionsCount] = npcArray[index].currentY;
                                             menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
                                             menuActionVar1[menuOptionsCount] = selectedSpell;
-                                            menuOptionsCount++;
+                                            menuOptionsCount += 1;
                                         }
                                     }
                                     else
@@ -5931,7 +7065,7 @@ namespace OpenRS.Net.Client
                                             menuActionY[menuOptionsCount] = npcArray[index].currentY;
                                             menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
                                             menuActionVar1[menuOptionsCount] = selectedItem;
-                                            menuOptionsCount++;
+                                            menuOptionsCount += 1;
                                         }
                                         else
                                         {
@@ -5940,13 +7074,18 @@ namespace OpenRS.Net.Client
                                                 menuText1[menuOptionsCount] = "Attack";
                                                 menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId] + s2;
                                                 if (l4 >= 0)
-                                                    menuActionID[menuOptionsCount] = 715;
-                                                else
-                                                    menuActionID[menuOptionsCount] = 2715;
-                                                menuActionX[menuOptionsCount] = npcArray[index].currentX;
+                                    {
+                                        menuActionID[menuOptionsCount] = 715;
+                                    }
+                                    else
+                                    {
+                                        menuActionID[menuOptionsCount] = 2715;
+                                    }
+
+                                    menuActionX[menuOptionsCount] = npcArray[index].currentX;
                                                 menuActionY[menuOptionsCount] = npcArray[index].currentY;
                                                 menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
-                                                menuOptionsCount++;
+                                                menuOptionsCount += 1;
                                             }
                                             menuText1[menuOptionsCount] = "Talk-to";
                                             menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId];
@@ -5954,7 +7093,7 @@ namespace OpenRS.Net.Client
                                             menuActionX[menuOptionsCount] = npcArray[index].currentX;
                                             menuActionY[menuOptionsCount] = npcArray[index].currentY;
                                             menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
-                                            menuOptionsCount++;
+                                            menuOptionsCount += 1;
                                             if (!Data.Data.npcCommand[id].Equals(""))
                                             {
                                                 menuText1[menuOptionsCount] = Data.Data.npcCommand[id];
@@ -5963,18 +7102,18 @@ namespace OpenRS.Net.Client
                                                 menuActionX[menuOptionsCount] = npcArray[index].currentX;
                                                 menuActionY[menuOptionsCount] = npcArray[index].currentY;
                                                 menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
-                                                menuOptionsCount++;
+                                                menuOptionsCount += 1;
                                             }
                                             menuText1[menuOptionsCount] = "Examine";
                                             menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId];
                                             menuActionID[menuOptionsCount] = 3700;
                                             menuActionType[menuOptionsCount] = npcArray[index].npcId;
-                                            menuOptionsCount++;
+                                            menuOptionsCount += 1;
                                         }
                                 }
                     }
                     else
-                        if (_obj != null && _obj.index >= 10000)
+                        if (_obj is not null && _obj.index >= 10000)
                         {
                             int j3 = _obj.index - 10000;
                             int i4 = wallObjectID[j3];
@@ -5991,7 +7130,7 @@ namespace OpenRS.Net.Client
                                         menuActionY[menuOptionsCount] = wallObjectY[j3];
                                         menuActionType[menuOptionsCount] = wallObjectDirection[j3];
                                         menuActionVar1[menuOptionsCount] = selectedSpell;
-                                        menuOptionsCount++;
+                                        menuOptionsCount += 1;
                                     }
                                 }
                                 else
@@ -6004,7 +7143,7 @@ namespace OpenRS.Net.Client
                                         menuActionY[menuOptionsCount] = wallObjectY[j3];
                                         menuActionType[menuOptionsCount] = wallObjectDirection[j3];
                                         menuActionVar1[menuOptionsCount] = selectedItem;
-                                        menuOptionsCount++;
+                                        menuOptionsCount += 1;
                                     }
                                     else
                                     {
@@ -6016,7 +7155,7 @@ namespace OpenRS.Net.Client
                                             menuActionX[menuOptionsCount] = wallObjectX[j3];
                                             menuActionY[menuOptionsCount] = wallObjectY[j3];
                                             menuActionType[menuOptionsCount] = wallObjectDirection[j3];
-                                            menuOptionsCount++;
+                                            menuOptionsCount += 1;
                                         }
                                         if (!Data.Data.wallObjectCommand2[i4].ToLower().Equals("Examine"))
                                         {
@@ -6026,19 +7165,19 @@ namespace OpenRS.Net.Client
                                             menuActionX[menuOptionsCount] = wallObjectX[j3];
                                             menuActionY[menuOptionsCount] = wallObjectY[j3];
                                             menuActionType[menuOptionsCount] = wallObjectDirection[j3];
-                                            menuOptionsCount++;
+                                            menuOptionsCount += 1;
                                         }
                                         menuText1[menuOptionsCount] = "Examine";
                                         menuText2[menuOptionsCount] = "@cya@" + Data.Data.wallObjectName[i4];
                                         menuActionID[menuOptionsCount] = 3300;
                                         menuActionType[menuOptionsCount] = i4;
-                                        menuOptionsCount++;
+                                        menuOptionsCount += 1;
                                     }
                                 wallObjectAlreadyInMenu[j3] = true;
                             }
                         }
                         else
-                            if (_obj != null && _obj.index >= 0)
+                            if (_obj is not null && _obj.index >= 0)
                             {
                                 int k3 = _obj.index;
                                 int j4 = objectType[k3];
@@ -6056,7 +7195,7 @@ namespace OpenRS.Net.Client
                                             menuActionType[menuOptionsCount] = objectRotation[k3];
                                             menuActionVar1[menuOptionsCount] = objectType[k3];
                                             menuActionVar2[menuOptionsCount] = selectedSpell;
-                                            menuOptionsCount++;
+                                            menuOptionsCount += 1;
                                         }
                                     }
                                     else
@@ -6070,7 +7209,7 @@ namespace OpenRS.Net.Client
                                             menuActionType[menuOptionsCount] = objectRotation[k3];
                                             menuActionVar1[menuOptionsCount] = objectType[k3];
                                             menuActionVar2[menuOptionsCount] = selectedItem;
-                                            menuOptionsCount++;
+                                            menuOptionsCount += 1;
                                         }
                                         else
                                         {
@@ -6083,7 +7222,7 @@ namespace OpenRS.Net.Client
                                                 menuActionY[menuOptionsCount] = objectY[k3];
                                                 menuActionType[menuOptionsCount] = objectRotation[k3];
                                                 menuActionVar1[menuOptionsCount] = objectType[k3];
-                                                menuOptionsCount++;
+                                                menuOptionsCount += 1;
                                             }
                                             if (!Data.Data.objectCommand2[j4].ToLower().Equals("Examine"))
                                             {
@@ -6094,13 +7233,13 @@ namespace OpenRS.Net.Client
                                                 menuActionY[menuOptionsCount] = objectY[k3];
                                                 menuActionType[menuOptionsCount] = objectRotation[k3];
                                                 menuActionVar1[menuOptionsCount] = objectType[k3];
-                                                menuOptionsCount++;
+                                                menuOptionsCount += 1;
                                             }
                                             menuText1[menuOptionsCount] = "Examine";
                                             menuText2[menuOptionsCount] = "@cya@" + Data.Data.objectName[j4];
                                             menuActionID[menuOptionsCount] = 3400;
                                             menuActionType[menuOptionsCount] = j4;
-                                            menuOptionsCount++;
+                                            menuOptionsCount += 1;
                                         }
                                     objectAlreadyInMenu[k3] = true;
                                 }
@@ -6108,10 +7247,16 @@ namespace OpenRS.Net.Client
                             else
                             {
                                 if (player >= 0)
-                                    player = _obj.entityType[player] - 0x30d40;
-                                if (player >= 0)
-                                    ground = player;
-                            }
+                        {
+                            player = _obj.entityType[player] - 0x30d40;
+                        }
+
+                        if (player >= 0)
+                        {
+                            ground = player;
+                        }
+                    }
+                }
             }
 
             if (selectedSpell >= 0 && Data.Data.spellType[selectedSpell] <= 1)
@@ -6120,7 +7265,7 @@ namespace OpenRS.Net.Client
                 menuText2[menuOptionsCount] = "";
                 menuActionID[menuOptionsCount] = 1000;
                 menuActionType[menuOptionsCount] = selectedSpell;
-                menuOptionsCount++;
+                menuOptionsCount += 1;
             }
             if (ground != -1)
             {
@@ -6134,7 +7279,7 @@ namespace OpenRS.Net.Client
                         menuActionX[menuOptionsCount] = engineHandle.selectedX[ground];
                         menuActionY[menuOptionsCount] = engineHandle.selectedY[ground];
                         menuActionType[menuOptionsCount] = selectedSpell;
-                        menuOptionsCount++;
+                        menuOptionsCount += 1;
                         return;
                     }
                 }
@@ -6146,7 +7291,7 @@ namespace OpenRS.Net.Client
                         menuActionID[menuOptionsCount] = 920;
                         menuActionX[menuOptionsCount] = engineHandle.selectedX[ground];
                         menuActionY[menuOptionsCount] = engineHandle.selectedY[ground];
-                        menuOptionsCount++;
+                        menuOptionsCount += 1;
                     }
             }
         }
@@ -6172,7 +7317,7 @@ namespace OpenRS.Net.Client
                                 selectedShopItemIndex = j1;
                                 selectedShopItemType = shopItems[j1];
                             }
-                            j1++;
+                            j1 += 1;
                         }
 
                     }
@@ -6218,7 +7363,10 @@ namespace OpenRS.Net.Client
             gameGraphics.drawString("Buying and selling items", _offsetX + 1, _offsetY + 10, 1, 0xffffff);
             int i2 = 0xffffff;
             if (base.mouseX > _offsetX + 320 && base.mouseY >= _offsetY && base.mouseX < _offsetX + 408 && base.mouseY < _offsetY + 12)
+            {
                 i2 = 0xff0000;
+            }
+
             gameGraphics.drawLabel("Close window", _offsetX + 406, _offsetY + 10, 1, i2);
             gameGraphics.drawString("Shops stock in green", _offsetX + 2, _offsetY + 24, 1, 65280);
             gameGraphics.drawString("Number you own in blue", _offsetX + 135, _offsetY + 24, 1, 65535);
@@ -6232,9 +7380,14 @@ namespace OpenRS.Net.Client
                     int i6 = _offsetX + 7 + boxRowColumn * 49;
                     int l6 = _offsetY + 28 + boxRow * 34;
                     if (selectedShopItemIndex == j4)
+                    {
                         gameGraphics.drawBoxAlpha(i6, l6, 49, 34, 0xff0000, 160);
+                    }
                     else
+                    {
                         gameGraphics.drawBoxAlpha(i6, l6, 49, 34, j3, 160);
+                    }
+
                     gameGraphics.drawBoxEdge(i6, l6, 50, 35, 0);
                     if (shopItems[j4] != -1)
                     {
@@ -6242,7 +7395,7 @@ namespace OpenRS.Net.Client
                         gameGraphics.drawString(shopItemCount[j4].ToString(), i6 + 1, l6 + 10, 1, 65280);
                         gameGraphics.drawLabel(getInventoryItemTotalCount(shopItems[j4]).ToString(), i6 + 47, l6 + 10, 1, 65535);
                     }
-                    j4++;
+                    j4 += 1;
                 }
 
             }
@@ -6260,12 +7413,18 @@ namespace OpenRS.Net.Client
                 {
                     int j6 = shopItemBuyPriceModifier + shopItemBasePriceModifier[selectedShopItemIndex];
                     if (j6 < 10)
+                    {
                         j6 = 10;
+                    }
+
                     int i7 = (j6 * Data.Data.itemBasePrice[l5]) / 100;
                     gameGraphics.drawString("Buy a new " + Data.Data.itemName[l5] + " for " + i7 + "gp", _offsetX + 2, _offsetY + 214, 1, 0xffff00);
                     int j2 = 0xffffff;
                     if (base.mouseX > _offsetX + 298 && base.mouseY >= _offsetY + 204 && base.mouseX < _offsetX + 408 && base.mouseY <= _offsetY + 215)
+                    {
                         j2 = 0xff0000;
+                    }
+
                     gameGraphics.drawLabel("Click here to buy", _offsetX + 405, _offsetY + 214, 3, j2);
                 }
                 else
@@ -6276,12 +7435,18 @@ namespace OpenRS.Net.Client
                 {
                     int k6 = shopItemSellPriceModifier + shopItemBasePriceModifier[selectedShopItemIndex];
                     if (k6 < 10)
+                    {
                         k6 = 10;
+                    }
+
                     int j7 = (k6 * Data.Data.itemBasePrice[l5]) / 100;
                     gameGraphics.drawLabel("Sell your " + Data.Data.itemName[l5] + " for " + j7 + "gp", _offsetX + 405, _offsetY + 239, 1, 0xffff00);
                     int k2 = 0xffffff;
                     if (base.mouseX > _offsetX + 2 && base.mouseY >= _offsetY + 229 && base.mouseX < _offsetX + 112 && base.mouseY <= _offsetY + 240)
+                    {
                         k2 = 0xff0000;
+                    }
+
                     gameGraphics.drawString("Click here to sell", _offsetX + 2, _offsetY + 239, 3, k2);
                     return;
                 }
@@ -6292,7 +7457,7 @@ namespace OpenRS.Net.Client
         public void loadTextures()
         {
             sbyte[] abyte0 = unpackData("textures.jag", "Textures", 50);
-            if (abyte0 == null)
+            if (abyte0 is null)
             {
                 errorLoading = true;
                 return;
@@ -6308,7 +7473,7 @@ namespace OpenRS.Net.Client
                 gameGraphics.drawPicture(0, 0, baseTexturePic);
                 int i1 = ((GameImage)(gameGraphics)).pictureAssumedWidth[baseTexturePic];
                 String s2 = Data.Data.textureSubName[l];
-                if (s2 != null && s2.Length > 0)
+                if (s2 is not null && s2.Length > 0)
                 {
                     sbyte[] abyte3 = DataOperations.loadData(s2 + ".dat", 0, abyte0);
                     gameGraphics.unpackImageData(baseTexturePic, abyte3, abyte1, 1);
@@ -6317,8 +7482,12 @@ namespace OpenRS.Net.Client
                 gameGraphics.drawImage(subTexturePic + l, 0, 0, i1, i1);
                 int j1 = i1 * i1;
                 for (int k1 = 0; k1 < j1; k1++)
+                {
                     if (((GameImage)(gameGraphics)).pictureColors[subTexturePic + l][k1] == 65280)
+                    {
                         ((GameImage)(gameGraphics)).pictureColors[subTexturePic + l][k1] = 0xff00ff;
+                    }
+                }
 
                 gameGraphics.applyImage(subTexturePic + l);
                 gameCamera.setTexture(l, ((GameImage)(gameGraphics)).pictureColorIndexes[subTexturePic + l], ((GameImage)(gameGraphics)).pictureColor[subTexturePic + l], i1 / 64 - 1);
@@ -6355,10 +7524,12 @@ namespace OpenRS.Net.Client
                 menuText1[menuOptionsCount] = "Cancel";
                 menuText2[menuOptionsCount] = "";
                 menuActionID[menuOptionsCount] = 4000;
-                menuOptionsCount++;
+                menuOptionsCount += 1;
             }
             for (int l = 0; l < menuOptionsCount; l++)
+            {
                 menuIndexes[l] = l;
+            }
 
             for (bool flag = false; !flag; )
             {
@@ -6378,33 +7549,55 @@ namespace OpenRS.Net.Client
             }
 
             if (menuOptionsCount > 20)
+            {
                 menuOptionsCount = 20;
+            }
+
             if (menuOptionsCount > 0)
             {
                 int j1 = -1;
                 for (int l1 = 0; l1 < menuOptionsCount; l1++)
                 {
-                    if (menuText2[menuIndexes[l1]] == null || menuText2[menuIndexes[l1]].Length <= 0)
+                    if (menuText2[menuIndexes[l1]] is null || menuText2[menuIndexes[l1]].Length <= 0)
+                    {
                         continue;
+                    }
+
                     j1 = l1;
                     break;
                 }
 
                 String s1 = null;
                 if ((selectedItem >= 0 || selectedSpell >= 0) && menuOptionsCount == 1)
+                {
                     s1 = "Choose a target";
+                }
                 else
                     if ((selectedItem >= 0 || selectedSpell >= 0) && menuOptionsCount > 1)
-                        s1 = "@whi@" + menuText1[menuIndexes[0]] + " " + menuText2[menuIndexes[0]];
-                    else
+                {
+                    s1 = "@whi@" + menuText1[menuIndexes[0]] + " " + menuText2[menuIndexes[0]];
+                }
+                else
                         if (j1 != -1)
-                            s1 = menuText2[menuIndexes[j1]] + ": @whi@" + menuText1[menuIndexes[0]];
-                if (menuOptionsCount == 2 && s1 != null)
+                {
+                    s1 = menuText2[menuIndexes[j1]] + ": @whi@" + menuText1[menuIndexes[0]];
+                }
+
+                if (menuOptionsCount == 2 && s1 is not null)
+                {
                     s1 = s1 + "@whi@ / 1 more option";
-                if (menuOptionsCount > 2 && s1 != null)
+                }
+
+                if (menuOptionsCount > 2 && s1 is not null)
+                {
                     s1 = s1 + "@whi@ / " + (menuOptionsCount - 1) + " more options";
-                if (s1 != null)
+                }
+
+                if (s1 is not null)
+                {
                     gameGraphics.drawString(s1, 6, 14, 1, 0xffff00);
+                }
+
                 if (!configOneMouseButton && mouseButtonClick == 1 || configOneMouseButton && mouseButtonClick == 1 && menuOptionsCount == 1)
                 {
                     menuClick(menuIndexes[0]);
@@ -6419,20 +7612,34 @@ namespace OpenRS.Net.Client
                     {
                         int k2 = gameGraphics.textWidth(menuText1[j2] + " " + menuText2[j2], 1) + 5;
                         if (k2 > menuWidth)
+                        {
                             menuWidth = k2;
+                        }
                     }
 
                     menuX = base.mouseX - menuWidth / 2;
                     menuY = base.mouseY - 7;
                     menuShow = true;
                     if (menuX < 0)
+                    {
                         menuX = 0;
+                    }
+
                     if (menuY < 0)
+                    {
                         menuY = 0;
+                    }
+
                     if (menuX + menuWidth > 510)
+                    {
                         menuX = 510 - menuWidth;
+                    }
+
                     if (menuY + menuHeight > 315)
+                    {
                         menuY = 315 - menuHeight;
+                    }
+
                     mouseButtonClick = 0;
                 }
             }
@@ -6458,21 +7665,30 @@ namespace OpenRS.Net.Client
             {
                 gameGraphics.screenFadeToBlack();
                 if (Helper.Random.NextDouble() < 0.14999999999999999D)
+                {
                     gameGraphics.drawText("ZZZ", (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
+                }
+
                 if (Helper.Random.NextDouble() < 0.14999999999999999D)
+                {
                     gameGraphics.drawText("ZZZ", 512 - (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
+                }
+
                 gameGraphics.drawBox(windowWidth / 2 - 100, 160, 200, 40, 0);
                 gameGraphics.drawText("You are sleeping", windowWidth / 2, 50, 7, 0xffff00);
                 gameGraphics.drawText("Fatigue: " + (fatigue * 100) / 750 + "%", windowWidth / 2, 90, 7, 0xffff00);
                 gameGraphics.drawText("When you want to wake up just use your", windowWidth / 2, 140, 5, 0xffffff);
                 gameGraphics.drawText("keyboard to type the word in the box below", windowWidth / 2, 160, 5, 0xffffff);
                 gameGraphics.drawText(base.inputText + "*", windowWidth / 2, 180, 5, 65535);
-                if (sleepingStatusText == null)
+                if (sleepingStatusText is null)
                 {
                     gameGraphics.drawPixels(captchaPixels, windowWidth / 2 - 127, 230, captchaWidth, captchaHeight);
                 }
                 else
+                {
                     gameGraphics.drawText(sleepingStatusText, windowWidth / 2, 260, 5, 0xff0000);
+                }
+
                 gameGraphics.drawBoxEdge(windowWidth / 2 - 128, 229, 257, 42, 0xffffff);
                 drawChatMessageTabs();
                 gameGraphics.drawText("If you can't read the word", windowWidth / 2, 290, 1, 0xffffff);
@@ -6483,7 +7699,10 @@ namespace OpenRS.Net.Client
                 return;
             }
             if (!engineHandle.playerIsAlive)
+            {
                 return;
+            }
+
             for (int l = 0; l < 64; l++)
             {
                 gameCamera.removeModel(engineHandle.roofObject[lastLayerIndex][l]);
@@ -6505,7 +7724,7 @@ namespace OpenRS.Net.Client
                             // draw wall object at lv 1 / second layer
                             gameCamera.addModel(engineHandle.wallObject[1][l]);
                             // draw roof object at lv 1 / second layer
-                            var roof1 = engineHandle.roofObject[1][l];
+                            GameObject roof1 = engineHandle.roofObject[1][l];
                             gameCamera.addModel(roof1);
 
 
@@ -6513,7 +7732,7 @@ namespace OpenRS.Net.Client
                             gameCamera.addModel(engineHandle.wallObject[2][l]);
 
                             // draw roof object at lv 2 / third layer
-                            var roof2 = engineHandle.roofObject[2][l];
+                            GameObject roof2 = engineHandle.roofObject[2][l];
                             gameCamera.addModel(engineHandle.roofObject[2][l]);
                         }
                     }
@@ -6527,15 +7746,29 @@ namespace OpenRS.Net.Client
                 for (int i1 = 0; i1 < objectCount; i1++)
                 {
                     if (objectType[i1] == 97)
+                    {
                         drawModel(i1, "firea" + (modelFireLightningSpellNumber + 1));
+                    }
+
                     if (objectType[i1] == 274)
+                    {
                         drawModel(i1, "fireplacea" + (modelFireLightningSpellNumber + 1));
+                    }
+
                     if (objectType[i1] == 1031)
+                    {
                         drawModel(i1, "lightning" + (modelFireLightningSpellNumber + 1));
+                    }
+
                     if (objectType[i1] == 1036)
+                    {
                         drawModel(i1, "firespell" + (modelFireLightningSpellNumber + 1));
+                    }
+
                     if (objectType[i1] == 1147)
+                    {
                         drawModel(i1, "spellcharge" + (modelFireLightningSpellNumber + 1));
+                    }
                 }
 
             }
@@ -6545,9 +7778,14 @@ namespace OpenRS.Net.Client
                 for (int j1 = 0; j1 < objectCount; j1++)
                 {
                     if (objectType[j1] == 51)
+                    {
                         drawModel(j1, "torcha" + (modelTorchNumber + 1));
+                    }
+
                     if (objectType[j1] == 143)
+                    {
                         drawModel(j1, "skulltorcha" + (modelTorchNumber + 1));
+                    }
                 }
 
             }
@@ -6555,9 +7793,12 @@ namespace OpenRS.Net.Client
             {
                 lastModelClawSpellNumber = modelClawSpellNumber;
                 for (int k1 = 0; k1 < objectCount; k1++)
+                {
                     if (objectType[k1] == 1142)
+                    {
                         drawModel(k1, "clawspell" + (modelClawSpellNumber + 1));
-
+                    }
+                }
             }
             gameCamera.removeLastUpdates(drawUpdatesPerformed);
             drawUpdatesPerformed = 0;
@@ -6570,13 +7811,21 @@ namespace OpenRS.Net.Client
                     int l2 = player.currentY;
                     int j3 = -engineHandle.getAveragedElevation(j2, l2);
                     int k4 = gameCamera.addSpriteToScene(5000 + l1, j2, j3, l2, 145, 220, l1 + 10000);
-                    drawUpdatesPerformed++;
+                    drawUpdatesPerformed += 1;
                     if (player == ourPlayer)
+                    {
                         gameCamera.bhe(k4);
+                    }
+
                     if (player.currentSprite == 8)
+                    {
                         gameCamera.bhf(k4, -30);
+                    }
+
                     if (player.currentSprite == 9)
+                    {
                         gameCamera.bhf(k4, 30);
+                    }
                 }
             }
 
@@ -6587,11 +7836,15 @@ namespace OpenRS.Net.Client
                 {
                     ClientMob targetMob = null;
                     if (player.attackingNpcIndex != -1)
+                    {
                         targetMob = npcAttackingArray[player.attackingNpcIndex];
+                    }
                     else if (player.attackingPlayerIndex != -1)
+                    {
                         targetMob = playerBufferArray[player.attackingPlayerIndex];
+                    }
 
-                    if (targetMob != null)
+                    if (targetMob is not null)
                     {
                         int k3 = player.currentX;
                         int l4 = player.currentY;
@@ -6603,7 +7856,7 @@ namespace OpenRS.Net.Client
                         int i11 = (k7 * player.projectileDistance + k10 * (projectileRange - player.projectileDistance)) / projectileRange;
                         int j11 = (l4 * player.projectileDistance + j10 * (projectileRange - player.projectileDistance)) / projectileRange;
                         gameCamera.addSpriteToScene(baseProjectilePic + player.projectileType, l10, i11, j11, 32, 32, 0);
-                        drawUpdatesPerformed++;
+                        drawUpdatesPerformed += 1;
                     }
                 }
             }
@@ -6615,11 +7868,16 @@ namespace OpenRS.Net.Client
                 int z1 = npc.currentY;
                 int y1 = -engineHandle.getAveragedElevation(x1, z1);
                 int l9 = gameCamera.addSpriteToScene(20000 + k2, x1, y1, z1, Data.Data.npcCameraArray1[npc.npcId], Data.Data.npcCameraArray2[npc.npcId], k2 + 30000);
-                drawUpdatesPerformed++;
+                drawUpdatesPerformed += 1;
                 if (npc.currentSprite == 8)
+                {
                     gameCamera.bhf(l9, -30);
+                }
+
                 if (npc.currentSprite == 9)
+                {
                     gameCamera.bhf(l9, 30);
+                }
             }
 
             for (int i3 = 0; i3 < groundItemCount; i3++)
@@ -6627,7 +7885,7 @@ namespace OpenRS.Net.Client
                 int x = groundItemX[i3] * gridSize + 64;
                 int y = groundItemY[i3] * gridSize + 64;
                 gameCamera.addSpriteToScene(40000 + groundItemID[i3], x, -engineHandle.getAveragedElevation(x, y) - groundItemObjectVar[i3], y, 96, 64, i3 + 20000);
-                drawUpdatesPerformed++;
+                drawUpdatesPerformed += 1;
             }
 
             for (int j4 = 0; j4 < teleBubbleCount; j4++)
@@ -6638,12 +7896,12 @@ namespace OpenRS.Net.Client
                 if (i10 == 0)
                 {
                     gameCamera.addSpriteToScene(50000 + j4, k5, -engineHandle.getAveragedElevation(k5, i8), i8, 128, 256, j4 + 50000);
-                    drawUpdatesPerformed++;
+                    drawUpdatesPerformed += 1;
                 }
                 if (i10 == 1)
                 {
                     gameCamera.addSpriteToScene(50000 + j4, k5, -engineHandle.getAveragedElevation(k5, i8), i8, 128, 64, j4 + 50000);
-                    drawUpdatesPerformed++;
+                    drawUpdatesPerformed += 1;
                 }
             }
 
@@ -6693,7 +7951,10 @@ namespace OpenRS.Net.Client
             else
             {
                 if (configCameraAutoAngle && !cameraZoom)
+                {
                     autoRotateCamera();
+                }
+
                 if (fogOfWar)
                 {
                     if (!base.keyF1Toggle)
@@ -6725,24 +7986,37 @@ namespace OpenRS.Net.Client
             gameCamera.finishCamera();
             drawAboveHeadThings();
             if (actionPictureType > 0)
+            {
                 gameGraphics.drawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 14 + (24 - actionPictureType) / 6);
+            }
+
             if (actionPictureType < 0)
+            {
                 gameGraphics.drawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 18 + (24 + actionPictureType) / 6);
+            }
+
             if (systemUpdate != 0)
             {
                 int seconds = systemUpdate / 50;
                 int minutes = seconds / 60;
                 seconds %= 60;
                 if (seconds < 10)
+                {
                     gameGraphics.drawText("System update in: " + minutes + ":0" + seconds, 256, windowHeight - 7, 1, 0xffff00);
+                }
                 else
+                {
                     gameGraphics.drawText("System update in: " + minutes + ":" + seconds, 256, windowHeight - 7, 1, 0xffff00);
+                }
             }
             if (!loadArea)
             {
                 int i7 = 2203 - (sectionY + wildY + areaY);
                 if (sectionX + wildX + areaX >= 2640)
+                {
                     i7 = -50;
+                }
+
                 if (i7 > 0)
                 {
                     int j9 = 1 + i7 / 6;
@@ -6750,30 +8024,42 @@ namespace OpenRS.Net.Client
                     gameGraphics.drawText("Wilderness", 465, windowHeight - 20, 1, 0xffff00);
                     gameGraphics.drawText("Level: " + j9, 465, windowHeight - 7, 1, 0xffff00);
                     if (wildType == 0)
+                    {
                         wildType = 2;
+                    }
                 }
                 if (wildType == 0 && i7 > -10 && i7 <= 0)
+                {
                     wildType = 1;
+                }
             }
             if (messagesTab == 0)
             {
                 for (int j7 = 0; j7 < 5; j7++)
+                {
                     if (messagesTimeout[j7] > 0)
                     {
                         String s1 = messagesArray[j7];
                         gameGraphics.drawString(s1, 7, windowHeight - 18 - j7 * 12, 1, 0xffff00);
                     }
-
+                }
             }
             chatInputMenu.disableInput(messagesHandleType2);
             chatInputMenu.disableInput(messagesHandleType5);
             chatInputMenu.disableInput(messagesHandleType6);
             if (messagesTab == 1)
+            {
                 chatInputMenu.enableInput(messagesHandleType2);
+            }
             else if (messagesTab == 2)
+            {
                 chatInputMenu.enableInput(messagesHandleType5);
+            }
             else if (messagesTab == 3)
+            {
                 chatInputMenu.enableInput(messagesHandleType6);
+            }
+
             Menu.chatMenuTextHeightMod = 2;
             chatInputMenu.drawMenu();
             Menu.chatMenuTextHeightMod = 0;
@@ -6847,29 +8133,53 @@ namespace OpenRS.Net.Client
         public void drawMenus()
         {
             if (logoutTimer != 0)
+            {
                 drawLogoutBox();
+            }
             else if (showWelcomeBox)
+            {
                 drawWelcomeBox();
+            }
             else if (showServerMessageBox)
+            {
                 drawServerMessageBox();
+            }
             else if (wildType == 1)
+            {
                 drawWildernessAlertBox();
+            }
             else if (showBankBox && combatTimeout == 0)
+            {
                 drawBankBox();
+            }
             else if (showShopBox && combatTimeout == 0)
+            {
                 drawShopBox();
+            }
             else if (showTradeConfirmBox)
+            {
                 drawTradeConfirmBox();
+            }
             else if (showTradeBox)
+            {
                 drawTradeBox();
+            }
             else if (showDuelConfirmBox)
+            {
                 drawDuelConfirmBox();
+            }
             else if (showDuelBox)
+            {
                 drawDuelBox();
+            }
             else if (showAbuseBox == 1)
+            {
                 drawReportAbuseBox1();
+            }
             else if (showAbuseBox == 2)
+            {
                 drawReportAbuseBox2();
+            }
             else if (showFriendsBox != 0)
             {
                 drawFriendsBox();
@@ -6877,31 +8187,66 @@ namespace OpenRS.Net.Client
             else
             {
                 if (showQuestionMenu)
+                {
                     drawQuestionMenu();
+                }
+
                 if (showCombatWindow || ourPlayer.currentSprite == 8 || ourPlayer.currentSprite == 9)
+                {
                     drawCombatStyleBox();
+                }
+
                 getMenuHighlighted();
                 bool flag = !showQuestionMenu && !menuShow;
                 if (flag)
+                {
                     menuOptionsCount = 0;
+                }
+
                 if (drawMenuTab == 0 && flag)
+                {
                     generateWorldRightClickMenu();
+                }
+
                 if (drawMenuTab == 1)
+                {
                     drawInventoryMenu(flag);
+                }
+
                 if (drawMenuTab == 2)
+                {
                     drawMinimapMenu(flag);
+                }
+
                 if (drawMenuTab == 3)
+                {
                     drawStatsQuestsMenu(flag);
+                }
+
                 if (drawMenuTab == 4)
+                {
                     drawPrayerMagicMenu(flag);
+                }
+
                 if (drawMenuTab == 5)
+                {
                     drawFriendsMenu(flag);
+                }
+
                 if (drawMenuTab == 6)
+                {
                     drawOptionsMenu(flag);
+                }
+
                 if (!menuShow && !showQuestionMenu)
+                {
                     checkMouseStatus();
+                }
+
                 if (menuShow && !showQuestionMenu)
+                {
                     drawRightClickMenu();
+                }
             }
             mouseButtonClick = 0;
         }
@@ -6929,7 +8274,7 @@ namespace OpenRS.Net.Client
             Data.Data.getModelNameIndex("spellcharge2");
             Data.Data.getModelNameIndex("spellcharge3");
             sbyte[] abyte0 = unpackData("models.jag", "3d models", 60);
-            if (abyte0 == null)
+            if (abyte0 is null)
             {
                 errorLoading = true;
                 return;
@@ -6940,11 +8285,18 @@ namespace OpenRS.Net.Client
                 {
                     long j1 = DataOperations.getObjectOffset(Data.Data.modelName[i1] + ".ob3", abyte0);
                     if (j1 != 0)
+                    {
                         gameDataObjects[i1] = new GameObject(abyte0, (int)j1, true);
+                    }
                     else
+                    {
                         gameDataObjects[i1] = new GameObject(1, 1);
+                    }
+
                     if (Data.Data.modelName[i1].Equals("giantcrystal"))
+                    {
                         gameDataObjects[i1].isGiantCrystal = true;
+                    }
                 }
                 catch { }
             }
@@ -6953,7 +8305,10 @@ namespace OpenRS.Net.Client
         public void drawDuelBox()
         {
             if (mouseButtonClick != 0 && mouseClickedHeldInTradeDuelBox == 0)
+            {
                 mouseClickedHeldInTradeDuelBox = 1;
+            }
+
             if (mouseClickedHeldInTradeDuelBox > 0)
             {
                 int l = base.mouseX - 22;
@@ -6969,24 +8324,34 @@ namespace OpenRS.Net.Client
                             int k2 = 0;
                             int j3 = inventoryItems[j1];
                             for (int j4 = 0; j4 < duelMyItemCount; j4++)
+                            {
                                 if (duelMyItems[j4] == j3)
+                                {
                                     if (Data.Data.itemStackable[j3] == 0)
                                     {
                                         for (int l4 = 0; l4 < mouseClickedHeldInTradeDuelBox; l4++)
                                         {
                                             if (duelMyItemsCount[j4] < inventoryItemCount[j1])
-                                                duelMyItemsCount[j4]++;
+                                            {
+                                                duelMyItemsCount[j4] += 1;
+                                            }
+
                                             flag1 = true;
                                         }
 
                                     }
                                     else
                                     {
-                                        k2++;
+                                        k2 += 1;
                                     }
+                                }
+                            }
 
                             if (getInventoryItemTotalCount(j3) <= k2)
+                            {
                                 flag1 = true;
+                            }
+
                             if (Data.Data.itemSpecial[j3] == 1)
                             {
                                 displayMessage("This object cannot be added to a duel offer", 3);
@@ -6996,7 +8361,7 @@ namespace OpenRS.Net.Client
                             {
                                 duelMyItems[duelMyItemCount] = j3;
                                 duelMyItemsCount[duelMyItemCount] = 1;
-                                duelMyItemCount++;
+                                duelMyItemCount += 1;
                                 flag1 = true;
                             }
                             if (flag1)
@@ -7108,7 +8473,10 @@ namespace OpenRS.Net.Client
                 mouseClickedHeldInTradeDuelBox = 0;
             }
             if (!showDuelBox)
+            {
                 return;
+            }
+
             sbyte byte0 = 22;
             sbyte byte1 = 36;
             gameGraphics.drawBox(byte0, byte1, 468, 12, 0xc90b1d);
@@ -7127,20 +8495,32 @@ namespace OpenRS.Net.Client
             gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 215, 197, 43, j2, 160);
             gameGraphics.drawBoxAlpha(byte0 + 216, byte1 + 30, 246, 205, j2, 160);
             for (int i3 = 0; i3 < 3; i3++)
+            {
                 gameGraphics.drawLineX(byte0 + 8, byte1 + 30 + i3 * 34, 197, 0);
+            }
 
             for (int i4 = 0; i4 < 3; i4++)
+            {
                 gameGraphics.drawLineX(byte0 + 8, byte1 + 123 + i4 * 34, 197, 0);
+            }
 
             for (int k4 = 0; k4 < 7; k4++)
+            {
                 gameGraphics.drawLineX(byte0 + 216, byte1 + 30 + k4 * 34, 246, 0);
+            }
 
             for (int j5 = 0; j5 < 6; j5++)
             {
                 if (j5 < 5)
+                {
                     gameGraphics.drawLineY(byte0 + 8 + j5 * 49, byte1 + 30, 69, 0);
+                }
+
                 if (j5 < 5)
+                {
                     gameGraphics.drawLineY(byte0 + 8 + j5 * 49, byte1 + 123, 69, 0);
+                }
+
                 gameGraphics.drawLineY(byte0 + 216 + j5 * 49, byte1 + 30, 205, 0);
             }
 
@@ -7159,18 +8539,33 @@ namespace OpenRS.Net.Client
             gameGraphics.drawString("No weapons", byte0 + 8 + 102, byte1 + 215 + 35, 3, 0xffff00);
             gameGraphics.drawBoxEdge(byte0 + 93, byte1 + 215 + 6, 11, 11, 0xffff00);
             if (duelNoRetreating)
+            {
                 gameGraphics.drawBox(byte0 + 95, byte1 + 215 + 8, 7, 7, 0xffff00);
+            }
+
             gameGraphics.drawBoxEdge(byte0 + 93, byte1 + 215 + 25, 11, 11, 0xffff00);
             if (duelNoMagic)
+            {
                 gameGraphics.drawBox(byte0 + 95, byte1 + 215 + 27, 7, 7, 0xffff00);
+            }
+
             gameGraphics.drawBoxEdge(byte0 + 191, byte1 + 215 + 6, 11, 11, 0xffff00);
             if (duelNoPrayer)
+            {
                 gameGraphics.drawBox(byte0 + 193, byte1 + 215 + 8, 7, 7, 0xffff00);
+            }
+
             gameGraphics.drawBoxEdge(byte0 + 191, byte1 + 215 + 25, 11, 11, 0xffff00);
             if (duelNoWeapons)
+            {
                 gameGraphics.drawBox(byte0 + 193, byte1 + 215 + 27, 7, 7, 0xffff00);
+            }
+
             if (!duelMyAccepted)
+            {
                 gameGraphics.drawPicture(byte0 + 217, byte1 + 238, baseInventoryPic + 25);
+            }
+
             gameGraphics.drawPicture(byte0 + 394, byte1 + 238, baseInventoryPic + 26);
             if (duelOpponentAccepted)
             {
@@ -7188,7 +8583,9 @@ namespace OpenRS.Net.Client
                 int j6 = 31 + byte1 + (k5 / 5) * 34;
                 gameGraphics.drawImage(l5, j6, 48, 32, baseItemPicture + Data.Data.itemInventoryPicture[inventoryItems[k5]], Data.Data.itemPictureMask[inventoryItems[k5]], 0, 0, false);
                 if (Data.Data.itemStackable[inventoryItems[k5]] == 0)
+                {
                     gameGraphics.drawString(inventoryItemCount[k5].ToString(), l5 + 1, j6 + 10, 1, 0xffff00);
+                }
             }
 
             for (int i6 = 0; i6 < duelMyItemCount; i6++)
@@ -7197,9 +8594,14 @@ namespace OpenRS.Net.Client
                 int i7 = 31 + byte1 + (i6 / 4) * 34;
                 gameGraphics.drawImage(k6, i7, 48, 32, baseItemPicture + Data.Data.itemInventoryPicture[duelMyItems[i6]], Data.Data.itemPictureMask[duelMyItems[i6]], 0, 0, false);
                 if (Data.Data.itemStackable[duelMyItems[i6]] == 0)
+                {
                     gameGraphics.drawString(duelMyItemsCount[i6].ToString(), k6 + 1, i7 + 10, 1, 0xffff00);
+                }
+
                 if (base.mouseX > k6 && base.mouseX < k6 + 48 && base.mouseY > i7 && base.mouseY < i7 + 32)
+                {
                     gameGraphics.drawString(Data.Data.itemName[duelMyItems[i6]] + ": @whi@" + Data.Data.itemDescription[duelMyItems[i6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
+                }
             }
 
             for (int l6 = 0; l6 < duelOpponentItemCount; l6++)
@@ -7208,9 +8610,14 @@ namespace OpenRS.Net.Client
                 int k7 = 124 + byte1 + (l6 / 4) * 34;
                 gameGraphics.drawImage(j7, k7, 48, 32, baseItemPicture + Data.Data.itemInventoryPicture[duelOpponentItems[l6]], Data.Data.itemPictureMask[duelOpponentItems[l6]], 0, 0, false);
                 if (Data.Data.itemStackable[duelOpponentItems[l6]] == 0)
+                {
                     gameGraphics.drawString(duelOpponentItemsCount[l6].ToString(), j7 + 1, k7 + 10, 1, 0xffff00);
+                }
+
                 if (base.mouseX > j7 && base.mouseX < j7 + 48 && base.mouseY > k7 && base.mouseY < k7 + 32)
+                {
                     gameGraphics.drawString(Data.Data.itemName[duelOpponentItems[l6]] + ": @whi@" + Data.Data.itemDescription[duelOpponentItems[l6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
+                }
             }
 
         }
@@ -7238,14 +8645,23 @@ namespace OpenRS.Net.Client
             l += 22;
             int i1 = 0xffffff;
             if (base.mouseY > l - 12 && base.mouseY <= l && base.mouseX > 181 && base.mouseX < 331)
+            {
                 i1 = 0xff0000;
+            }
+
             gameGraphics.drawText("Click here to close window", 256, l, 1, i1);
             if (mouseButtonClick != 0)
             {
                 if (base.mouseY > l - 12 && base.mouseY <= l && base.mouseX > 181 && base.mouseX < 331)
+                {
                     wildType = 2;
+                }
+
                 if (base.mouseX < 86 || base.mouseX > 426 || base.mouseY < 77 || base.mouseY > 257)
+                {
                     wildType = 2;
+                }
+
                 mouseButtonClick = 0;
             }
         }
@@ -7299,7 +8715,10 @@ namespace OpenRS.Net.Client
                     int j3 = 0;
                     int k3 = j1;
                     if (flag && newFrameIndex >= 1 && newFrameIndex <= 3 && Data.Data.animationHasF[k2] == 1)
+                    {
                         k3 += 15;
+                    }
+
                     if (newFrameIndex != 5 || Data.Data.animationHasA[k2] == 1)
                     {
                         int l3 = k3 + Data.Data.animationNumber[k2];
@@ -7335,7 +8754,10 @@ namespace OpenRS.Net.Client
             {
                 receivedMessageMidPoint[receivedMessagesCount] = gameGraphics.textWidth(npc.lastMessage, 1) / 2;
                 if (receivedMessageMidPoint[receivedMessagesCount] > 150)
+                {
                     receivedMessageMidPoint[receivedMessagesCount] = 150;
+                }
+
                 receivedMessageHeight[receivedMessagesCount] = (gameGraphics.textWidth(npc.lastMessage, 1) / 300) * gameGraphics.textHeightNumber(1);
                 receivedMessageX[receivedMessagesCount] = x + width / 2;
                 receivedMessageY[receivedMessagesCount] = y;
@@ -7347,10 +8769,15 @@ namespace OpenRS.Net.Client
                 {
                     int i2 = x;
                     if (npc.currentSprite == 8)
+                    {
                         i2 -= (20 * unknown2) / 100;
+                    }
                     else
                         if (npc.currentSprite == 9)
-                            i2 += (20 * unknown2) / 100;
+                    {
+                        i2 += (20 * unknown2) / 100;
+                    }
+
                     int l2 = (npc.currentHits * 30) / npc.baseHits;
                     healthBarX[healthBarVisibleCount] = i2 + width / 2;
                     healthBarY[healthBarVisibleCount] = y;
@@ -7360,10 +8787,15 @@ namespace OpenRS.Net.Client
                 {
                     int j2 = x;
                     if (npc.currentSprite == 8)
+                    {
                         j2 -= (10 * unknown2) / 100;
+                    }
                     else
                         if (npc.currentSprite == 9)
-                            j2 += (10 * unknown2) / 100;
+                    {
+                        j2 += (10 * unknown2) / 100;
+                    }
+
                     gameGraphics.drawPicture((j2 + width / 2) - 12, (y + height / 2) - 12, baseInventoryPic + 12);
                     gameGraphics.drawText(npc.lastDamageCount.ToString(), (j2 + width / 2) - 1, y + height / 2 + 5, 3, 0xffffff);
                 }
@@ -7408,12 +8840,13 @@ namespace OpenRS.Net.Client
                 {
                     flag = false;
                     for (int l4 = 0; l4 < l; l4++)
+                    {
                         if (y + l3 > receivedMessageY[l4] - height && y - height < receivedMessageY[l4] + receivedMessageHeight[l4] && x - midpoint < receivedMessageX[l4] + receivedMessageMidPoint[l4] && x + midpoint > receivedMessageX[l4] - receivedMessageMidPoint[l4] && receivedMessageY[l4] - height - l3 < y)
                         {
                             y = receivedMessageY[l4] - height - l3;
                             flag = true;
                         }
-
+                    }
                 }
                 receivedMessageY[l] = y;
                 gameGraphics.drawFloatingText(receivedMessages[l], x, y, 1, 0xffff00, 300);
@@ -7456,13 +8889,25 @@ namespace OpenRS.Net.Client
             char c1 = '\u0198';
             char c2 = '\u014E';
             if (bankPage > 0 && bankItemsCount <= 48)
+            {
                 bankPage = 0;
+            }
+
             if (bankPage > 1 && bankItemsCount <= 96)
+            {
                 bankPage = 1;
+            }
+
             if (bankPage > 2 && bankItemsCount <= 144)
+            {
                 bankPage = 2;
+            }
+
             if (selectedBankItem >= bankItemsCount || selectedBankItem < 0)
+            {
                 selectedBankItem = -1;
+            }
+
             if (selectedBankItem != -1 && bankItems[selectedBankItem] != selectedBankItemType)
             {
                 selectedBankItem = -1;
@@ -7487,7 +8932,7 @@ namespace OpenRS.Net.Client
                                 selectedBankItemType = bankItems[l1];
                                 selectedBankItem = l1;
                             }
-                            l1++;
+                            l1 += 1;
                         }
 
                     }
@@ -7496,14 +8941,22 @@ namespace OpenRS.Net.Client
                     j1 = 170 - c2 / 2;
                     int id;
                     if (selectedBankItem < 0)
+                    {
                         id = -1;
+                    }
                     else
+                    {
                         id = bankItems[selectedBankItem];
+                    }
+
                     if (id != -1)
                     {
                         int count = bankItemCount[selectedBankItem];
                         if (Data.Data.itemStackable[id] == 1 && count > 1)
+                        {
                             count = 1;
+                        }
+
                         if (count >= 1 && base.mouseX >= l + 220 && base.mouseY >= j1 + 238 && base.mouseX < l + 250 && base.mouseY <= j1 + 249)
                         {
                             base.streamClass.createPacket(183);
@@ -7592,14 +9045,20 @@ namespace OpenRS.Net.Client
                 }
                 else
                     if (bankItemsCount > 48 && l >= 50 && l <= 115 && j1 <= 12)
-                        bankPage = 0;
-                    else
+                {
+                    bankPage = 0;
+                }
+                else
                         if (bankItemsCount > 48 && l >= 115 && l <= 180 && j1 <= 12)
-                            bankPage = 1;
-                        else
+                {
+                    bankPage = 1;
+                }
+                else
                             if (bankItemsCount > 96 && l >= 180 && l <= 245 && j1 <= 12)
-                                bankPage = 2;
-                            else
+                {
+                    bankPage = 2;
+                }
+                else
                                 if (bankItemsCount > 144 && l >= 245 && l <= 310 && j1 <= 12)
                                 {
                                     bankPage = 3;
@@ -7626,18 +9085,28 @@ namespace OpenRS.Net.Client
             {
                 int k3 = 0xffffff;
                 if (bankPage == 0)
+                {
                     k3 = 0xff0000;
+                }
                 else
                     if (base.mouseX > i1 + l2 && base.mouseY >= k1 && base.mouseX < i1 + l2 + 65 && base.mouseY < k1 + 12)
-                        k3 = 0xffff00;
+                {
+                    k3 = 0xffff00;
+                }
+
                 gameGraphics.drawString("<page 1>", i1 + l2, k1 + 10, 1, k3);
                 l2 += 65;
                 k3 = 0xffffff;
                 if (bankPage == 1)
+                {
                     k3 = 0xff0000;
+                }
                 else
                     if (base.mouseX > i1 + l2 && base.mouseY >= k1 && base.mouseX < i1 + l2 + 65 && base.mouseY < k1 + 12)
-                        k3 = 0xffff00;
+                {
+                    k3 = 0xffff00;
+                }
+
                 gameGraphics.drawString("<page 2>", i1 + l2, k1 + 10, 1, k3);
                 l2 += 65;
             }
@@ -7645,10 +9114,15 @@ namespace OpenRS.Net.Client
             {
                 int l3 = 0xffffff;
                 if (bankPage == 2)
+                {
                     l3 = 0xff0000;
+                }
                 else
                     if (base.mouseX > i1 + l2 && base.mouseY >= k1 && base.mouseX < i1 + l2 + 65 && base.mouseY < k1 + 12)
-                        l3 = 0xffff00;
+                {
+                    l3 = 0xffff00;
+                }
+
                 gameGraphics.drawString("<page 3>", i1 + l2, k1 + 10, 1, l3);
                 l2 += 65;
             }
@@ -7656,16 +9130,24 @@ namespace OpenRS.Net.Client
             {
                 int i4 = 0xffffff;
                 if (bankPage == 3)
+                {
                     i4 = 0xff0000;
+                }
                 else
                     if (base.mouseX > i1 + l2 && base.mouseY >= k1 && base.mouseX < i1 + l2 + 65 && base.mouseY < k1 + 12)
-                        i4 = 0xffff00;
+                {
+                    i4 = 0xffff00;
+                }
+
                 gameGraphics.drawString("<page 4>", i1 + l2, k1 + 10, 1, i4);
                 l2 += 65;
             }
             int j4 = 0xffffff;
             if (base.mouseX > i1 + 320 && base.mouseY >= k1 && base.mouseX < i1 + 408 && base.mouseY < k1 + 12)
+            {
                 j4 = 0xff0000;
+            }
+
             gameGraphics.drawLabel("Close window", i1 + 406, k1 + 10, 1, j4);
             gameGraphics.drawString("Number in bank in green", i1 + 7, k1 + 24, 1, 65280);
             gameGraphics.drawString("Number held in blue", i1 + 289, k1 + 24, 1, 65535);
@@ -7678,9 +9160,14 @@ namespace OpenRS.Net.Client
                     int k9 = i1 + 7 + i9 * 49;
                     int l9 = k1 + 28 + l8 * 34;
                     if (selectedBankItem == j8)
+                    {
                         gameGraphics.drawBoxAlpha(k9, l9, 49, 34, 0xff0000, 160);
+                    }
                     else
+                    {
                         gameGraphics.drawBoxAlpha(k9, l9, 49, 34, l7, 160);
+                    }
+
                     gameGraphics.drawBoxEdge(k9, l9, 50, 35, 0);
                     if (j8 < bankItemsCount && bankItems[j8] != -1)
                     {
@@ -7688,7 +9175,7 @@ namespace OpenRS.Net.Client
                         gameGraphics.drawString(bankItemCount[j8].ToString(), k9 + 1, l9 + 10, 1, 65280);
                         gameGraphics.drawLabel(getInventoryItemTotalCount(bankItems[j8]).ToString(), k9 + 47, l9 + 29, 1, 65535);
                     }
-                    j8++;
+                    j8 += 1;
                 }
 
             }
@@ -7701,54 +9188,80 @@ namespace OpenRS.Net.Client
             }
             int j9;
             if (selectedBankItem < 0)
+            {
                 j9 = -1;
+            }
             else
+            {
                 j9 = bankItems[selectedBankItem];
+            }
+
             if (j9 != -1)
             {
                 int k8 = bankItemCount[selectedBankItem];
                 if (Data.Data.itemStackable[j9] == 1 && k8 > 1)
+                {
                     k8 = 1;
+                }
+
                 if (k8 > 0)
                 {
                     gameGraphics.drawString("Withdraw " + Data.Data.itemName[j9], i1 + 2, k1 + 248, 1, 0xffffff);
                     int k4 = 0xffffff;
                     if (base.mouseX >= i1 + 220 && base.mouseY >= k1 + 238 && base.mouseX < i1 + 250 && base.mouseY <= k1 + 249)
+                    {
                         k4 = 0xff0000;
+                    }
+
                     gameGraphics.drawString("One", i1 + 222, k1 + 248, 1, k4);
                     if (k8 >= 5)
                     {
                         int l4 = 0xffffff;
                         if (base.mouseX >= i1 + 250 && base.mouseY >= k1 + 238 && base.mouseX < i1 + 280 && base.mouseY <= k1 + 249)
+                        {
                             l4 = 0xff0000;
+                        }
+
                         gameGraphics.drawString("Five", i1 + 252, k1 + 248, 1, l4);
                     }
                     if (k8 >= 25)
                     {
                         int i5 = 0xffffff;
                         if (base.mouseX >= i1 + 280 && base.mouseY >= k1 + 238 && base.mouseX < i1 + 305 && base.mouseY <= k1 + 249)
+                        {
                             i5 = 0xff0000;
+                        }
+
                         gameGraphics.drawString("25", i1 + 282, k1 + 248, 1, i5);
                     }
                     if (k8 >= 100)
                     {
                         int j5 = 0xffffff;
                         if (base.mouseX >= i1 + 305 && base.mouseY >= k1 + 238 && base.mouseX < i1 + 335 && base.mouseY <= k1 + 249)
+                        {
                             j5 = 0xff0000;
+                        }
+
                         gameGraphics.drawString("100", i1 + 307, k1 + 248, 1, j5);
                     }
                     if (k8 >= 500)
                     {
                         int k5 = 0xffffff;
                         if (base.mouseX >= i1 + 335 && base.mouseY >= k1 + 238 && base.mouseX < i1 + 368 && base.mouseY <= k1 + 249)
+                        {
                             k5 = 0xff0000;
+                        }
+
                         gameGraphics.drawString("500", i1 + 337, k1 + 248, 1, k5);
                     }
                     if (k8 >= 2500)
                     {
                         int l5 = 0xffffff;
                         if (base.mouseX >= i1 + 370 && base.mouseY >= k1 + 238 && base.mouseX < i1 + 400 && base.mouseY <= k1 + 249)
+                        {
                             l5 = 0xff0000;
+                        }
+
                         gameGraphics.drawString("2500", i1 + 370, k1 + 248, 1, l5);
                     }
                 }
@@ -7757,41 +9270,59 @@ namespace OpenRS.Net.Client
                     gameGraphics.drawString("Deposit " + Data.Data.itemName[j9], i1 + 2, k1 + 273, 1, 0xffffff);
                     int i6 = 0xffffff;
                     if (base.mouseX >= i1 + 220 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 250 && base.mouseY <= k1 + 274)
+                    {
                         i6 = 0xff0000;
+                    }
+
                     gameGraphics.drawString("One", i1 + 222, k1 + 273, 1, i6);
                     if (getInventoryItemTotalCount(j9) >= 5)
                     {
                         int j6 = 0xffffff;
                         if (base.mouseX >= i1 + 250 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 280 && base.mouseY <= k1 + 274)
+                        {
                             j6 = 0xff0000;
+                        }
+
                         gameGraphics.drawString("Five", i1 + 252, k1 + 273, 1, j6);
                     }
                     if (getInventoryItemTotalCount(j9) >= 25)
                     {
                         int k6 = 0xffffff;
                         if (base.mouseX >= i1 + 280 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 305 && base.mouseY <= k1 + 274)
+                        {
                             k6 = 0xff0000;
+                        }
+
                         gameGraphics.drawString("25", i1 + 282, k1 + 273, 1, k6);
                     }
                     if (getInventoryItemTotalCount(j9) >= 100)
                     {
                         int l6 = 0xffffff;
                         if (base.mouseX >= i1 + 305 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 335 && base.mouseY <= k1 + 274)
+                        {
                             l6 = 0xff0000;
+                        }
+
                         gameGraphics.drawString("100", i1 + 307, k1 + 273, 1, l6);
                     }
                     if (getInventoryItemTotalCount(j9) >= 500)
                     {
                         int i7 = 0xffffff;
                         if (base.mouseX >= i1 + 335 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 368 && base.mouseY <= k1 + 274)
+                        {
                             i7 = 0xff0000;
+                        }
+
                         gameGraphics.drawString("500", i1 + 337, k1 + 273, 1, i7);
                     }
                     if (getInventoryItemTotalCount(j9) >= 2500)
                     {
                         int j7 = 0xffffff;
                         if (base.mouseX >= i1 + 370 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 400 && base.mouseY <= k1 + 274)
+                        {
                             j7 = 0xff0000;
+                        }
+
                         gameGraphics.drawString("2500", i1 + 370, k1 + 273, 1, j7);
                     }
                 }
@@ -7800,9 +9331,9 @@ namespace OpenRS.Net.Client
 
         public GraphicsDevice getGraphics()
         {
-            //if(GameApplet.gameFrame != null)
+            //if(GameApplet.gameFrame is not null)
             //    return GameApplet.gameFrame.getGraphics();
-            //if(Link.gameApplet != null)
+            //if(Link.gameApplet is not null)
             //    return Link.gameApplet.getGraphics();
             //else
             //    return base.getGraphics();
@@ -7825,7 +9356,11 @@ namespace OpenRS.Net.Client
                 engineHandle.playerIsAlive = true;
                 return false;
             }
-            if (OnLoadingSection != null) OnLoadingSection(this, new EventArgs());
+            if (OnLoadingSection is not null)
+            {
+                OnLoadingSection(this, new EventArgs());
+            }
+
             gameGraphics.drawText("Loading... Please wait", 256, 192, 1, 0xffffff);
             drawChatMessageTabs();
 
@@ -7880,7 +9415,9 @@ namespace OpenRS.Net.Client
                         _obj.setPosition(flatObjX, -engineHandle.getAveragedElevation(flatObjX, flatObjY), flatObjY);
                         engineHandle.createObject(objX, objY, objType, objDir);
                         if (objType == 74)
+                        {
                             _obj.offsetPosition(0, -480, 0);
+                        }
                     }
                 }
                 catch (Exception runtimeexception)
@@ -7946,8 +9483,10 @@ namespace OpenRS.Net.Client
             }
 
             engineHandle.playerIsAlive = true;
-            if (OnLoadingSectionCompleted != null) OnLoadingSectionCompleted(this, new EventArgs());
-
+            if (OnLoadingSectionCompleted is not null)
+            {
+                OnLoadingSectionCompleted(this, new EventArgs());
+            }
 
             OnDrawDone();
 
@@ -7955,30 +9494,49 @@ namespace OpenRS.Net.Client
             return true;
         }
 
-        public static String formatItemCount(int arg0)
+        public static String formatItemCount(int itemCount)
         {
-            String s1 = arg0.ToString();
+            String s1 = itemCount.ToString();
             for (int l = s1.Length - 3; l > 0; l -= 3)
+            {
                 s1 = s1.Substring(0, l) + "," + s1.Substring(l);
+            }
 
             if (s1.Length > 8)
+            {
                 s1 = "@gre@" + s1.Substring(0, s1.Length - 8) + " million @whi@(" + s1 + ")";
+            }
             else
                 if (s1.Length > 4)
-                    s1 = "@cya@" + s1.Substring(0, s1.Length - 4) + "K @whi@(" + s1 + ")";
+            {
+                s1 = "@cya@" + s1.Substring(0, s1.Length - 4) + "K @whi@(" + s1 + ")";
+            }
+
             return s1;
         }
 
         public bool hasRequiredRunes(int l, int i1)
         {
             if (l == 31 && (isItemEquipped(197) || isItemEquipped(615) || isItemEquipped(682)))
+            {
                 return true;
+            }
+
             if (l == 32 && (isItemEquipped(102) || isItemEquipped(616) || isItemEquipped(683)))
+            {
                 return true;
+            }
+
             if (l == 33 && (isItemEquipped(101) || isItemEquipped(617) || isItemEquipped(684)))
+            {
                 return true;
+            }
+
             if (l == 34 && (isItemEquipped(103) || isItemEquipped(618) || isItemEquipped(685)))
+            {
                 return true;
+            }
+
             return getInventoryItemTotalCount(l) >= i1;
         }
 
@@ -7986,38 +9544,71 @@ namespace OpenRS.Net.Client
         {
             if (type == 2 || type == 4 || type == 6)
             {
-                for (; message.Length > 5 && message[0] == '@' && message[4] == '@'; message = message.Substring(5)) ;
+                for (; message.Length > 5 && message[0] == '@' && message[4] == '@'; message = message.Substring(5))
+                {
+                    ;
+                }
+
                 int l = message.IndexOf(":");
                 if (l != -1)
                 {
                     String s1 = message.Substring(0, l);
                     long l1 = DataOperations.nameToHash(s1);
                     for (int j1 = 0; j1 < base.ignoresCount; j1++)
+                    {
                         if (base.ignoresList[j1] == l1)
+                        {
                             return;
-
+                        }
+                    }
                 }
             }
             if (type == 2)
+            {
                 message = "@yel@" + message;
+            }
+
             if (type == 3 || type == 4)
+            {
                 message = "@whi@" + message;
+            }
+
             if (type == 6)
+            {
                 message = "@cya@" + message;
+            }
+
             if (messagesTab != 0)
             {
                 if (type == 4 || type == 3)
+                {
                     chatTabAllMsgFlash = 200;
+                }
+
                 if (type == 2 && messagesTab != 1)
+                {
                     chatTabHistoryFlash = 200;
+                }
+
                 if (type == 5 && messagesTab != 2)
+                {
                     chatTabQuestFlash = 200;
+                }
+
                 if (type == 6 && messagesTab != 3)
+                {
                     chatTabPrivateFlash = 200;
+                }
+
                 if (type == 3 && messagesTab != 0)
+                {
                     messagesTab = 0;
+                }
+
                 if (type == 6 && messagesTab != 3 && messagesTab != 0)
+                {
                     messagesTab = 0;
+                }
             }
             for (int i1 = 4; i1 > 0; i1--)
             {
@@ -8028,15 +9619,29 @@ namespace OpenRS.Net.Client
             messagesArray[0] = message;
             messagesTimeout[0] = 300;
             if (type == 2)
+            {
                 if (chatInputMenu.listShownEntries[messagesHandleType2] == chatInputMenu.listLength[messagesHandleType2] - 4)
+                {
                     chatInputMenu.addMessage(messagesHandleType2, message, true);
+                }
                 else
+                {
                     chatInputMenu.addMessage(messagesHandleType2, message, false);
+                }
+            }
+
             if (type == 5)
+            {
                 if (chatInputMenu.listShownEntries[messagesHandleType5] == chatInputMenu.listLength[messagesHandleType5] - 4)
+                {
                     chatInputMenu.addMessage(messagesHandleType5, message, true);
+                }
                 else
+                {
                     chatInputMenu.addMessage(messagesHandleType5, message, false);
+                }
+            }
+
             if (type == 6)
             {
                 if (chatInputMenu.listShownEntries[messagesHandleType6] == chatInputMenu.listLength[messagesHandleType6] - 4)
@@ -8072,23 +9677,31 @@ namespace OpenRS.Net.Client
             int l = 157 + c2 / 2;
             int i1 = 0xffffff;
             if (base.mouseY > l - 12 && base.mouseY <= l && base.mouseX > 106 && base.mouseX < 406)
+            {
                 i1 = 0xff0000;
+            }
+
             gameGraphics.drawText("Click here to close window", 256, l, 1, i1);
             if (mouseButtonClick == 1)
             {
                 if (i1 == 0xff0000)
+                {
                     showServerMessageBox = false;
+                }
+
                 if ((base.mouseX < 256 - c1 / 2 || base.mouseX > 256 + c1 / 2) && (base.mouseY < 167 - c2 / 2 || base.mouseY > 167 + c2 / 2))
+                {
                     showServerMessageBox = false;
+                }
             }
             mouseButtonClick = 0;
         }
 
         //public Texture2D createImage(int l, int i1)
         //{
-        //    //if(GameApplet.gameFrame != null)
+        //    //if(GameApplet.gameFrame is not null)
         //    //    return GameApplet.gameFrame.createImage(l, i1);
-        //    //if(Link.gameApplet != null)
+        //    //if(Link.gameApplet is not null)
         //    //    return Link.gameApplet.createImage(l, i1);
         //    //else
         //    return base.createImage(l, i1);
@@ -8104,21 +9717,25 @@ namespace OpenRS.Net.Client
             int textureBack = Data.Data.wallObjectModel_FaceBack[type];
             int textureFront = Data.Data.wallObjectModel_FaceFront[type];
             int wallHeight = Data.Data.wallObjectModelHeight[type];
-            GameObject wallModel = new GameObject(4, 1);
+            GameObject wallModel = new(4, 1);
 
             //
             //    _ _ _ _
             //
             //
             if (dir == 0)
+            {
                 destTileX = x + 1;
+            }
 
             //    |
             //    |
             //    |
             //    |
             if (dir == 1)
+            {
                 destTileY = y + 1;
+            }
 
             //       /
             //      /
@@ -8155,13 +9772,16 @@ namespace OpenRS.Net.Client
 
             // vertex index bottomRight
             int bRight = wallModel.getVertexIndex(destTileX, -engineHandle.getAveragedElevation(destTileX, destTileY), destTileY);
-            int[] faceVertices = {
+            int[] faceVertices = [
             bLeft, tLeft, tRight, bRight
-        };
+        ];
             wallModel.addFaceVertices(4, faceVertices, textureBack, textureFront);
             wallModel.UpdateShading(false, 60, 24, -50, -10, -50);
             if (x >= 0 && y >= 0 && x < 96 && y < 96)
+            {
                 gameCamera.addModel(wallModel);
+            }
+
             wallModel.index = totalCount + 10000;
             return wallModel;
         }
@@ -8174,7 +9794,7 @@ namespace OpenRS.Net.Client
 
         public ClientMob makeNPC(int index, int x, int y, int sprite, int id)
         {
-            if (npcAttackingArray[index] == null)
+            if (npcAttackingArray[index] is null)
             {
                 npcAttackingArray[index] = new ClientMob
                 {
@@ -8186,7 +9806,10 @@ namespace OpenRS.Net.Client
             for (int l = 0; l < lastNpcCount; l++)
             {
                 if (lastNpcArray[l].serverIndex != index)
+                {
                     continue;
+                }
+
                 flag = true;
                 break;
             }
@@ -8230,13 +9853,19 @@ namespace OpenRS.Net.Client
             for (int i1 = 0; i1 < inventoryItemsCount; i1++)
             {
                 if (bankItemsCount >= maxBankItems)
+                {
                     break;
+                }
+
                 int j1 = inventoryItems[i1];
                 bool flag = false;
                 for (int k1 = 0; k1 < bankItemsCount; k1++)
                 {
                     if (bankItems[k1] != j1)
+                    {
                         continue;
+                    }
+
                     flag = true;
                     break;
                 }
@@ -8245,7 +9874,7 @@ namespace OpenRS.Net.Client
                 {
                     bankItems[bankItemsCount] = j1;
                     bankItemCount[bankItemsCount] = 0;
-                    bankItemsCount++;
+                    bankItemsCount += 1;
                 }
             }
 
@@ -8261,9 +9890,14 @@ namespace OpenRS.Net.Client
             int k1;
             int j1 = k1 = GameImage.rgbToInt(160, 160, 160);
             if (questMenuSelected == 0)
+            {
                 j1 = GameImage.rgbToInt(220, 220, 220);
+            }
             else
+            {
                 k1 = GameImage.rgbToInt(220, 220, 220);
+            }
+
             gameGraphics.drawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
             gameGraphics.drawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
             gameGraphics.drawBoxAlpha(l, i1 + 24, c1, c2 - 24, GameImage.rgbToInt(220, 220, 220), 128);
@@ -8306,7 +9940,10 @@ namespace OpenRS.Net.Client
                 {
                     gameGraphics.drawString(gearStats[i3] + ":@yel@" + equipmentStatus[i3], l + 5, l1, 1, 0xffffff);
                     if (i3 < 2)
+                    {
                         gameGraphics.drawString(gearStats[i3 + 3] + ":@yel@" + equipmentStatus[i3 + 3], l + c1 / 2 + 25, l1, 1, 0xffffff);
+                    }
+
                     l1 += 13;
                 }
 
@@ -8318,8 +9955,13 @@ namespace OpenRS.Net.Client
                     l1 += 12;
                     int j3 = experienceList[0];
                     for (int l3 = 0; l3 < 98; l3++)
+                    {
                         if (playerStatExp[j2] >= experienceList[l3])
+                        {
                             j3 = experienceList[l3 + 1];
+                        }
+                    }
+
                     gameGraphics.drawString("Total xp: " + playerStatExp[j2], l + 5, l1, 1, 0xffffff);
                     l1 += 12;
                     gameGraphics.drawString("Next level at: " + j3, l + 5, l1, 1, 0xffffff);
@@ -8330,7 +9972,9 @@ namespace OpenRS.Net.Client
                     l1 += 12;
                     int k3 = 0;
                     for (int i4 = 0; i4 < 18; i4++)
+                    {
                         k3 += playerStatBase[i4];
+                    }
 
                     gameGraphics.drawString("Skill total: " + k3, l + 5, l1, 1, 0xffffff);
                     l1 += 12;
@@ -8343,18 +9987,26 @@ namespace OpenRS.Net.Client
                 questMenu.clearList(questMenuHandle);
                 questMenu.addListItem(questMenuHandle, 0, "@whi@Quest-list (green=completed)");
                 for (int i2 = 0; i2 < usedQuestName.Length; i2++)
+                {
                     questMenu.addListItem(questMenuHandle, i2 + 1, (questStage[i2] == 0 ? "@red@" : questStage[i2] == 1 ? "@yel@" : "@gre@") + usedQuestName[i2]);
+                }
 
                 questMenu.drawMenu();
             }
             if (!canClick)
+            {
                 return;
+            }
+
             l = base.mouseX - (((GameImage)(gameGraphics)).gameWidth - 199);
             i1 = base.mouseY - 36;
             if (l >= 0 && i1 >= 0 && l < c1 && i1 < c2)
             {
                 if (questMenuSelected == 1)
+                {
                     questMenu.mouseClick(l + (((GameImage)(gameGraphics)).gameWidth - 199), i1 + 36, base.lastMouseButton, base.mouseButton);
+                }
+
                 if (i1 <= 24 && mouseButtonClick == 1)
                 {
                     if (l < 98)
@@ -8363,7 +10015,9 @@ namespace OpenRS.Net.Client
                         return;
                     }
                     if (l > 98)
+                    {
                         questMenuSelected = 1;
+                    }
                 }
             }
         }
@@ -8410,7 +10064,9 @@ namespace OpenRS.Net.Client
                     base.enteredInputText = "";
                     showFriendsBox = 0;
                     if (s1.Length > 0 && DataOperations.nameToHash(s1) != ourPlayer.nameHash)
+                    {
                         addFriend(s1);
+                    }
                 }
             }
             if (showFriendsBox == 2)
@@ -8450,19 +10106,27 @@ namespace OpenRS.Net.Client
                     base.enteredInputText = "";
                     showFriendsBox = 0;
                     if (s3.Length > 0 && DataOperations.nameToHash(s3) != ourPlayer.nameHash)
+                    {
                         addIgnore(s3);
+                    }
                 }
             }
             int i1 = 0xffffff;
             if (base.mouseX > 236 && base.mouseX < 276 && base.mouseY > 193 && base.mouseY < 213)
+            {
                 i1 = 0xffff00;
+            }
+
             gameGraphics.drawText("Cancel", 256, 208, 1, i1);
         }
 
         public void playSound(String s1)
         {
-            if (audioPlayer == null || !Config.MEMBERS_FEATURES)
+            if (audioPlayer is null || !Config.MembersFeatures)
+            {
                 return;
+            }
+
             if (!configSoundOff)
             {
                 int off = (int)DataOperations.getObjectOffset(s1 + ".pcm", soundData);
@@ -8480,7 +10144,10 @@ namespace OpenRS.Net.Client
                     int j1 = menuX + 2;
                     int l1 = menuY + 27 + l * 15;
                     if (base.mouseX <= j1 - 2 || base.mouseY <= l1 - 12 || base.mouseY >= l1 + 4 || base.mouseX >= (j1 - 3) + menuWidth)
+                    {
                         continue;
+                    }
+
                     menuClick(menuIndexes[l]);
                     break;
                 }
@@ -8502,9 +10169,11 @@ namespace OpenRS.Net.Client
                 int i2 = menuY + 27 + i1 * 15;
                 int j2 = 0xffffff;
                 if (base.mouseX > k1 - 2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && base.mouseX < (k1 - 3) + menuWidth)
+                {
                     j2 = 0xffff00;
+                }
 
-                var t2 = menuText2[menuIndexes[i1]];
+                string menuSecondaryText = menuText2[menuIndexes[i1]];
                 gameGraphics.drawString(menuText1[menuIndexes[i1]] + " " + menuText2[menuIndexes[i1]], k1, i2, 1, j2);
             }
 
@@ -8513,7 +10182,10 @@ namespace OpenRS.Net.Client
         public void getMenuHighlighted()
         {
             if (drawMenuTab == 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 && base.mouseY < 35)
+            {
                 drawMenuTab = 1;
+            }
+
             if (drawMenuTab == 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 33 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 33 && base.mouseY < 35)
             {
                 drawMenuTab = 2;
@@ -8521,15 +10193,30 @@ namespace OpenRS.Net.Client
                 minimapRandomRotationY = (int)(Helper.Random.NextDouble() * 23D) - 11;
             }
             if (drawMenuTab == 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 66 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 66 && base.mouseY < 35)
+            {
                 drawMenuTab = 3;
+            }
+
             if (drawMenuTab == 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 99 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 99 && base.mouseY < 35)
+            {
                 drawMenuTab = 4;
+            }
+
             if (drawMenuTab == 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 132 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 132 && base.mouseY < 35)
+            {
                 drawMenuTab = 5;
+            }
+
             if (drawMenuTab == 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 165 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 165 && base.mouseY < 35)
+            {
                 drawMenuTab = 6;
+            }
+
             if (drawMenuTab != 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 && base.mouseY < 26)
+            {
                 drawMenuTab = 1;
+            }
+
             if (drawMenuTab != 0 && drawMenuTab != 2 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 33 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 33 && base.mouseY < 26)
             {
                 drawMenuTab = 2;
@@ -8537,21 +10224,44 @@ namespace OpenRS.Net.Client
                 minimapRandomRotationY = (int)(Helper.Random.NextDouble() * 23D) - 11;
             }
             if (drawMenuTab != 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 66 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 66 && base.mouseY < 26)
+            {
                 drawMenuTab = 3;
+            }
+
             if (drawMenuTab != 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 99 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 99 && base.mouseY < 26)
+            {
                 drawMenuTab = 4;
+            }
+
             if (drawMenuTab != 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 132 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 132 && base.mouseY < 26)
+            {
                 drawMenuTab = 5;
+            }
+
             if (drawMenuTab != 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 165 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 165 && base.mouseY < 26)
+            {
                 drawMenuTab = 6;
+            }
+
             if (drawMenuTab == 1 && (base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 248 || base.mouseY > 36 + (maxInventoryItems / 5) * 34))
+            {
                 drawMenuTab = 0;
+            }
+
             if (drawMenuTab == 3 && (base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 199 || base.mouseY > 316))
+            {
                 drawMenuTab = 0;
+            }
+
             if ((drawMenuTab == 2 || drawMenuTab == 4 || drawMenuTab == 5) && (base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 199 || base.mouseY > 240))
+            {
                 drawMenuTab = 0;
+            }
+
             if (drawMenuTab == 6 && (base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 199 || base.mouseY > 326))
+            {
                 drawMenuTab = 0;
+            }
         }
 
         protected int getUID()
@@ -8569,7 +10279,7 @@ namespace OpenRS.Net.Client
             //        dir.mkdir();
             //    String folder = dir.getPath() + "/";
             //    File file = null;
-            //    for (int count = 0; file == null || file.exists(); count++)
+            //    for (int count = 0; file is null || file.exists(); count++)
             //        file = new File(folder + "screenshot" + count + ".png");
             //    BufferedImage bi = new BufferedImage(windowWidth, windowHeight + 11, BufferedImage.TYPE_INT_RGB);
             //    Graphics2D g2d = bi.createGraphics();
@@ -8619,7 +10329,7 @@ namespace OpenRS.Net.Client
             {
                 int firstSpace = command.IndexOf(' ');
                 String cmd = command;
-                string[] args = new String[0];
+                string[] args = [];
                 if (firstSpace != -1)
                 {
                     cmd = command.Substring(0, firstSpace).Trim();
@@ -8645,7 +10355,10 @@ namespace OpenRS.Net.Client
                     long recipient = DataOperations.nameToHash(args[0]);
                     String message = joinString(args, " ", 1).Trim();
                     if (message.Equals(""))
+                    {
                         return true;
+                    }
+
                     int len = ChatMessage.stringToBytes(message);
                     sendPrivateMessage(recipient, ChatMessage.lastChat, len);
                     message = ChatMessage.bytesToString(ChatMessage.lastChat, 0, len);
@@ -8666,7 +10379,10 @@ namespace OpenRS.Net.Client
         {
             String ret = "";
             for (int i = start; i < hay.Length; i++)
+            {
                 ret += hay[i] + (i != hay.Length - 1 ? glue : "");
+            }
+
             return ret;
         }
 
@@ -8846,11 +10562,11 @@ namespace OpenRS.Net.Client
             showRoofs = true;
             autoScreenshot = false;
             useChatFilter = true;
-            usedQuestName = new String[0];
+            usedQuestName = [];
             subDaysLeft = 0;
             shopItemSellPrice = new int[256];
             shopItemBuyPrice = new int[256];
-            captchaPixels = new int[0][];
+            captchaPixels = [];
             captchaWidth = 0;
             captchaHeight = 0;
             needsClear = false;
@@ -8874,18 +10590,18 @@ namespace OpenRS.Net.Client
         public int appearanceSkinColour;
         public int appearanceHeadGender;
         public Menu chatInputMenu;
-        int messagesHandleType2;
-        int chatInputBox;
-        int messagesHandleType5;
-        int messagesHandleType6;
-        int messagesTab;
+        private int messagesHandleType2;
+        private int chatInputBox;
+        private int messagesHandleType5;
+        private int messagesHandleType6;
+        private int messagesTab;
         public int[] menuIndexes;
         public int duelMyItemCount;
         public int[] duelMyItems;
         public int[] duelMyItemsCount;
         public int systemUpdate;
         public ClientMob[] playerArray;
-        public string[] questName = {// TODO really?... needs to be done better imho
+        public string[] questName = [// TODO really?... needs to be done better imho
             "Cook's Assistant", "Sheep Shearer", "Black knight's fortress", "Imp catcher", "Vampire slayer",
             "Romeo & Juliet", "The restless ghost", "Doric's quest", "The knight's sword", "Witch's potion",
             "Goblin diplomacy", "Ernest the chicken", "Demon Slayer", "Pirate's treasure", "Prince Ali Rescue",
@@ -8900,7 +10616,7 @@ namespace OpenRS.Net.Client
         "Sea Slug (members)", "Waterfall quest (members)", "Biohazard (members)", "Jungle potion (members)", "Grand tree (members)",
         "Shilo village (members)", "Underground pass (members)", "Observatory quest (members)", "Tourist trap (members)", "Watchtower (members)",
         "Dwarf Cannon (members)", "Murder Mystery (members)", "Digsite (members)", "Gertrude's Cat (members)", "Legend's Quest (members)"*/
-    };
+    ];
         public int selectedShopItemIndex;
         public int selectedShopItemType;
         public String sleepingStatusText;
@@ -8919,10 +10635,10 @@ namespace OpenRS.Net.Client
         public int[] playerStatCurrent;
         public int[] menuActionX;
         public int[] menuActionY;
-        public string[] skillNameVerb = new string[] {
+        public string[] skillNameVerb = [
         "Attack", "Defense", "Strength", "Hits", "Ranged", "Prayer", "Magic", "Cooking", "Woodcutting", "Fletching",
         "Fishing", "Firemaking", "Crafting", "Smithing", "Mining", "Herblaw", "Agility", "Thieving"
-    };
+    ];
         public int[] menuActionID;
         public int playerAliveTimeout;
         public int cameraAutoRotatePlayerX;
@@ -8934,33 +10650,33 @@ namespace OpenRS.Net.Client
         public bool duelNoPrayer;
         public bool duelNoWeapons;
         public Menu appearanceMenu;
-        public int[][] animationModelArray = new int[][]
-        { new int[]{
+        public int[][] animationModelArray =
+        [ [
             11, 2, 9, 7, 1, 6, 10, 0, 5, 8,
             3, 4
-        }, new int[]{
+        ], [
             11, 2, 9, 7, 1, 6, 10, 0, 5, 8,
             3, 4
-        }, new int[]{
+        ], [
             11, 3, 2, 9, 7, 1, 6, 10, 0, 5,
             8, 4
-        }, new int[]{
+        ], [
             3, 4, 2, 9, 7, 1, 6, 10, 8, 11,
             0, 5
-        }, new int[]{
+        ], [
             3, 4, 2, 9, 7, 1, 6, 10, 8, 11,
             0, 5
-        }, new int[]{
+        ], [
             4, 3, 2, 9, 7, 1, 6, 10, 8, 11,
             0, 5
-        }, new int[]{
+        ], [
             11, 4, 2, 9, 7, 1, 6, 10, 0, 5,
             8, 3
-        }, new int[]{
+        ], [
             11, 2, 9, 7, 1, 6, 10, 0, 5, 8,
             4, 3
-        }
-    };
+        ]
+    ];
         public int playerCount;
         public int lastPlayerCount;
         public int drawUpdatesPerformed;
@@ -8975,26 +10691,26 @@ namespace OpenRS.Net.Client
         public int fatigue;
         public int cameraRotationYAmount;
         public int cameraRotationYIncrement;
-        public int[] walkModel = {
+        public int[] walkModel = [
         0, 1, 2, 1
-    };
+    ];
         public int itemsAboveHeadCount;
         public AudioReader audioPlayer;
         public GameObject[] wallObjectArray;
         public String[] messagesArray;
         public long duelOpponentHash;
         public Menu questMenu;
-        int questMenuHandle;
-        int questMenuSelected;
+        private int questMenuHandle;
+        private int questMenuSelected;
         public bool[] objectAlreadyInMenu;
         public GameObject[] objectArray;
         public int selectedSpell;
         public bool cameraAutoAngleDebug;
         public String lastLoginAddress;
         public ClientMob ourPlayer;
-        int sectionX;
-        int sectionY;
-        int serverIndex;
+        private int sectionX;
+        private int sectionY;
+        private int serverIndex;
         public int tradeItemsOurCount;
         public int[] tradeItemsOur;
         public int[] tradeItemOurCount;
@@ -9009,9 +10725,9 @@ namespace OpenRS.Net.Client
         public int loginMenuOkButton;
         public int cameraRotation;
         public int combatStyle;
-        public int[] appearanceSkinColours = {
+        public int[] appearanceSkinColours = [
         0xecded0, 0xccb366, 0xb38c40, 0x997326, 0x906020
-    };
+    ];
         public bool configSoundOff;
         public bool menuShow;
         public int duelOpponentItemCount;
@@ -9060,9 +10776,9 @@ namespace OpenRS.Net.Client
         public Menu loginNewUser;
         public int[] walkArrayX;
         public int[] walkArrayY;
-        public int[] combatModelArray2 = {
+        public int[] combatModelArray2 = [
         0, 0, 0, 0, 0, 1, 2, 1
-    };
+    ];
         public int cameraDistance;
         public int[] receivedMessageX;
         public int[] receivedMessageY;
@@ -9075,10 +10791,10 @@ namespace OpenRS.Net.Client
         public int lastLayerIndex;
         public int[] bankItems;
         public int[] bankItemCount;
-        public string[] skillName = {
+        public string[] skillName = [
         "Attack", "Defense", "Strength", "Hits", "Ranged", "Prayer", "Magic", "Cooking", "Woodcut", "Fletching",
         "Fishing", "Firemaking", "Crafting", "Smithing", "Mining", "Herblaw", "Agility", "Thieving"
-    };
+    ];
         public int npcCount;
         public int lastNpcCount;
         public int combatTimeout;
@@ -9112,7 +10828,7 @@ namespace OpenRS.Net.Client
         public int[] inventoryItemCount;
         public int[] inventoryItemEquipped;
         public int selectedItem;
-        String selectedItemName;
+        private String selectedItemName;
         public ClientMob[] lastPlayerArray;
         public bool showTradeConfirmBox;
         public bool tradeConfirmAccepted;
@@ -9120,8 +10836,8 @@ namespace OpenRS.Net.Client
         public int loginButtonNewUser;
         public int loginMenuLoginButton;
         public int mouseTrailIndex;
-        int[] mouseTrailX;
-        int[] mouseTrailY;
+        private int[] mouseTrailX;
+        private int[] mouseTrailY;
         public bool configOneMouseButton;
         public bool[] prayerOn;
         public int lastLoginDays;
@@ -9151,15 +10867,15 @@ namespace OpenRS.Net.Client
         public int[] equipmentStatus;
         public int drawMenuTab;
         public int receivedMessagesCount;
-        string[] receivedMessages;
+        private string[] receivedMessages;
         public int cameraRotateTime;
         public int questionMenuCount;
         public int cameraRotationXAmount;
         public int cameraRotationXIncrement;
         public int[] teleBubbleTime;
-        public string[] gearStats = {
+        public string[] gearStats = [
         "Armour", "WeaponAim", "WeaponPower", "Magic", "Prayer"
-    };
+    ];
         public int logoutTimer;
         public int wallObjectCount;
         public int gridSize;
@@ -9176,19 +10892,19 @@ namespace OpenRS.Net.Client
         public int chatTabPrivateFlash;
         public int[] messagesTimeout;
         public int projectileRange;
-        public int[] appearanceTopBottomColours = {
+        public int[] appearanceTopBottomColours = [
         0xff0000, 0xff8000, 0xffe000, 0xa0e000, 57344, 32768, 41088, 45311, 33023, 12528,
         0xe000e0, 0x303030, 0x604000, 0x805000, 0xffffff
-    };
+    ];
         public int showFriendsBox;
         public int teleBubbleCount;
         public bool memoryError;
-        public int[] appearanceHairColours = {
+        public int[] appearanceHairColours = [
         0xffc030, 0xffa040, 0x805030, 0x604020, 0x303030, 0xff6020, 0xff4000, 0xffffff, 65280, 65535
-    };
+    ];
         public Menu spellMenu;
-        int spellMenuHandle;
-        int menuMagicPrayersSelected;
+        private int spellMenuHandle;
+        private int menuMagicPrayersSelected;
         public int duelOurStakeCount;
         public int[] duelOurStakeItem;
         public int[] duelOurStakeItemCount;
@@ -9199,9 +10915,9 @@ namespace OpenRS.Net.Client
         public int menuOptionsCount;
         public Camera gameCamera;
         public Menu friendsMenu;
-        int friendsMenuHandle;
-        int friendsIgnoreMenuSelected;
-        long pmTarget;
+        private int friendsMenuHandle;
+        private int friendsIgnoreMenuSelected;
+        private long pmTarget;
         public int healthBarVisibleCount;
         public String[] menuText2;
         public int sleepWordDelayTimer;
@@ -9232,11 +10948,11 @@ namespace OpenRS.Net.Client
         public bool showAppearanceWindow;
         public int questPoints;
         public int actionPictureType;
-        int walkMouseX;
-        int walkMouseY;
-        public int[] combatModelArray1 = {
+        private int walkMouseX;
+        private int walkMouseY;
+        public int[] combatModelArray1 = [
         0, 1, 2, 1, 0, 0, 0, 0
-    };
+    ];
         public bool cameraZoom;
 
         public bool fogOfWar;
