@@ -263,7 +263,7 @@ namespace OpenRS.Net.Client
                 text = "";
                 for (int l = 0; l < maskedLength; l++)
                 {
-                    text = text + "X";
+                    text += "X";
                 }
             }
 
@@ -289,7 +289,7 @@ namespace OpenRS.Net.Client
 
             if (selectedComponent.Equals(componentIndex))
             {
-                text = text + "*";
+                text += "*";
             }
 
             int textY = yPosition + gameImage.textHeightNumber(fontIndex) / 3;

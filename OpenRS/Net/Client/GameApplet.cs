@@ -266,7 +266,7 @@ namespace OpenRS.Net.Client
             appletWidth = 512;
             appletHeight = 344;
             gameLoadingScreen = 1;
-            DataOperations.codeBase = getCodeBase();
+            DataOperations.CodeBase = getCodeBase();
             //startThread(this);
         }
 
@@ -491,14 +491,14 @@ namespace OpenRS.Net.Client
 
             //graphics.fillRect(0, 0, appletWidth, appletHeight);
             sbyte[] bytes = unpackData("fonts.jag", "Game fonts", 0);
-            GameImage.addFont(DataOperations.loadData("h11p.jf", 0, bytes));
-            GameImage.addFont(DataOperations.loadData("h12b.jf", 0, bytes));
-            GameImage.addFont(DataOperations.loadData("h12p.jf", 0, bytes));
-            GameImage.addFont(DataOperations.loadData("h13b.jf", 0, bytes));
-            GameImage.addFont(DataOperations.loadData("h14b.jf", 0, bytes));
-            GameImage.addFont(DataOperations.loadData("h16b.jf", 0, bytes));
-            GameImage.addFont(DataOperations.loadData("h20b.jf", 0, bytes));
-            GameImage.addFont(DataOperations.loadData("h24b.jf", 0, bytes));
+            GameImage.addFont(DataOperations.LoadData("h11p.jf", 0, bytes));
+            GameImage.addFont(DataOperations.LoadData("h12b.jf", 0, bytes));
+            GameImage.addFont(DataOperations.LoadData("h12p.jf", 0, bytes));
+            GameImage.addFont(DataOperations.LoadData("h13b.jf", 0, bytes));
+            GameImage.addFont(DataOperations.LoadData("h14b.jf", 0, bytes));
+            GameImage.addFont(DataOperations.LoadData("h16b.jf", 0, bytes));
+            GameImage.addFont(DataOperations.LoadData("h20b.jf", 0, bytes));
+            GameImage.addFont(DataOperations.LoadData("h24b.jf", 0, bytes));
         }
 
         private void drawLoadingScreen(int percentage, String fileTitle)
@@ -605,7 +605,7 @@ namespace OpenRS.Net.Client
                 {
                     Console.WriteLine("Loading " + fileTitle + " - 0%");
                     drawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 0%");
-                    BinaryReader inputStream = new(DataOperations.openInputStream(filename));
+                    BinaryReader inputStream = new(DataOperations.OpenInputStream(filename));
                     //DataInputStream datainputstream = new DataInputStream(inputStream);
                     sbyte[] abyte2 = [
                         inputStream.ReadSByte(),inputStream.ReadSByte(),inputStream.ReadSByte(),
@@ -653,7 +653,7 @@ namespace OpenRS.Net.Client
             if (k != i)
             {
                 sbyte[] abyte1 = new sbyte[i];
-                DataFileDecrypter.unpackData(abyte1, i, abyte0, k, 0);
+                DataFileDecrypter.UnpackData(abyte1, i, abyte0, k, 0);
                 return abyte1;
             }
             else

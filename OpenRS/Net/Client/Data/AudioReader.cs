@@ -7,25 +7,26 @@
            // AudioPlayer.player.start(this);
         }
 
-        public void stop()
+        public void Stop()
         {
           //  AudioPlayer.player.stop(this);
         }
 
-        public void play(sbyte[] audioData, int startOffset, int byteCount)
+        public void Play(sbyte[] audioData, int startOffset, int byteCount)
         {
             data = audioData;
             offset = startOffset;
             length = startOffset + byteCount;
         }
 
-        public int read(sbyte[] outputBuffer, int bufferOffset, int byteCount)
+        public int Read(sbyte[] outputBuffer, int bufferOffset, int byteCount)
         {
-            for (int i = 0; i < byteCount; i++)
+            for (int i = 0; i < byteCount; i += 1)
             {
                 if (offset < length)
                 {
-                    outputBuffer[bufferOffset + i] = data[offset += 1];
+                    outputBuffer[bufferOffset + i] = data[offset];
+                    offset += 1;
                 }
                 else
                 {
@@ -36,10 +37,10 @@
             return byteCount;
         }
 
-        public int read()
+        public int Read()
         {
             sbyte[] abyte0 = new sbyte[1];
-            read(abyte0, 0, 1);
+            Read(abyte0, 0, 1);
             return abyte0[0];
         }
 

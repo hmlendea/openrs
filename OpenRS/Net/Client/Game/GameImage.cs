@@ -524,9 +524,9 @@ namespace OpenRS.Net.Client.Game
                 b = ClampToByte32(b);
                 a = ClampToByte32(a);
             }
-            g = g << 8;
-            b = b << 0x10;
-            a = a << 0x18;
+            g <<= 8;
+            b <<= 0x10;
+            a <<= 0x18;
             return (uint)(((r | g) | b) | a);
             //return (r << 24) + (g << 16) + (b << 8) + a;
         }
@@ -577,10 +577,10 @@ namespace OpenRS.Net.Client.Game
 
         public void unpackImageData(int arg0, sbyte[] arg1, sbyte[] arg2, int arg3)
         {
-            int i = DataOperations.getShort(arg1, 0);
-            int k = DataOperations.getShort(arg2, i);
+            int i = DataOperations.GetShort(arg1, 0);
+            int k = DataOperations.GetShort(arg2, i);
             i += 2;
-            int l = DataOperations.getShort(arg2, i);
+            int l = DataOperations.GetShort(arg2, i);
             i += 2;
             int i1 = arg2[i++] & 0xff;
             int[] ai = new int[i1];
@@ -615,9 +615,9 @@ namespace OpenRS.Net.Client.Game
 
                 pictureOffsetX[l1] = arg2[i++] & 0xff;
                 pictureOffsetY[l1] = arg2[i++] & 0xff;
-                pictureWidth[l1] = DataOperations.getShort(arg2, i);
+                pictureWidth[l1] = DataOperations.GetShort(arg2, i);
                 i += 2;
-                pictureHeight[l1] = DataOperations.getShort(arg2, i);
+                pictureHeight[l1] = DataOperations.GetShort(arg2, i);
                 i += 2;
                 int i2 = arg2[i++] & 0xff;
                 int j2 = pictureWidth[l1] * pictureHeight[l1];

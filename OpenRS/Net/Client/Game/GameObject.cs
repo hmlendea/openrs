@@ -194,9 +194,9 @@ namespace OpenRS.Net.Client.Game
             cld = 256;
             cle = 512;
             clf = 32;
-            int _vert_count = DataOperations.getShort(data, offset);
+            int _vert_count = DataOperations.GetShort(data, offset);
             offset += 2;
-            int _face_count = DataOperations.getShort(data, offset);
+            int _face_count = DataOperations.GetShort(data, offset);
             offset += 2;
 
             InitializeObject(_vert_count, _face_count);
@@ -205,21 +205,21 @@ namespace OpenRS.Net.Client.Game
             for (int l = 0; l < _vert_count; l++)
             {
                 cje[l] = new int[1];
-                vert_x[l] = DataOperations.getShort2(data, offset);
+                vert_x[l] = DataOperations.GetSignedShort(data, offset);
                 _vertices[l] = new Vector3(vert_x[l], _vertices[l].Y, _vertices[l].Z);
                 offset += 2;
             }
 
             for (int i1 = 0; i1 < _vert_count; i1++)
             {
-                vert_y[i1] = DataOperations.getShort2(data, offset);
+                vert_y[i1] = DataOperations.GetSignedShort(data, offset);
                 _vertices[i1] = new Vector3(_vertices[i1].X, vert_y[i1], _vertices[i1].Z);
                 offset += 2;
             }
 
             for (int j1 = 0; j1 < _vert_count; j1++)
             {
-                vert_z[j1] = DataOperations.getShort2(data, offset);
+                vert_z[j1] = DataOperations.GetSignedShort(data, offset);
                 _vertices[j1] = new Vector3(_vertices[j1].X, _vertices[j1].Y, vert_z[j1]);
                 offset += 2;
             }
@@ -232,7 +232,7 @@ namespace OpenRS.Net.Client.Game
 
             for (int l1 = 0; l1 < _face_count; l1++)
             {
-                texture_back[l1] = DataOperations.getShort2(data, offset);
+                texture_back[l1] = DataOperations.GetSignedShort(data, offset);
                 offset += 2;
                 if (texture_back[l1] == 32767)
                 {
@@ -242,7 +242,7 @@ namespace OpenRS.Net.Client.Game
 
             for (int i2 = 0; i2 < _face_count; i2++)
             {
-                texture_front[i2] = DataOperations.getShort2(data, offset);
+                texture_front[i2] = DataOperations.GetSignedShort(data, offset);
                 offset += 2;
                 if (texture_front[i2] == 32767)
                 {
@@ -274,7 +274,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else
                     {
-                        face_vertices[l2][i3] = DataOperations.getShort(data, offset);
+                        face_vertices[l2][i3] = DataOperations.GetShort(data, offset);
                         offset += 2;
                     }
                 }
@@ -308,7 +308,7 @@ namespace OpenRS.Net.Client.Game
             byte[] abyte0 = null;
             try
             {
-                MemoryStream inputStream = DataOperations.openInputStream(fileName);
+                MemoryStream inputStream = DataOperations.OpenInputStream(fileName);
                 //DataInputStream datainputstream = new DataInputStream(inputstream);
                 abyte0 = new byte[3];
                 clg = 0;

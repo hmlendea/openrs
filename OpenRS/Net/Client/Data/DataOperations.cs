@@ -1,554 +1,416 @@
-using System.IO;
 using System;
-using System.Net;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using OpenRS.Settings;
+
 namespace OpenRS.Net.Client.Data
 {
-
-
     public sealed class DataOperations
     {
+        public static Uri CodeBase = null;
 
-        //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-        //ORIGINAL LINE: public static java.io.InputStream openInputStream(String objName) throws java.io.IOException
-        //public static InputStream openInputStream(string objName)
-        //{
-        //    object obj;
-        //    if (codeBase is null)
-        //    {
-        //        obj = new BufferedInputStream(new FileInputStream(objName));
-        //    }
-        //    else
-        //    {
-        //        URL url = new URL(codeBase, objName);
-        //        obj = url.openStream();
-        //    }
-        //    return ((InputStream)(obj));
-        //}
+        private static int[] bitMask = [0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383, 32767, 65535, 0x1ffff, 0x3ffff, 0x7ffff, 0xfffff, 0x1fffff, 0x3fffff, 0x7fffff, 0xffffff, 0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff, 0x1fffffff, 0x3fffffff, 0x7fffffff, -1];
 
-        public static MemoryStream openInputStream(String fileName)
+        public static MemoryStream OpenInputStream(string fileName)
         {
+            Stream inputStream;
 
-            //return org.moparscape.msc.client.DataOperations.getByte(byte0);
-
-            Stream obj;
-            if (codeBase is null)
+            if (CodeBase is null)
             {
-                obj = File.OpenRead(Path.Combine(Config.ConfigurationDirectory, fileName));
+                inputStream = File.OpenRead(Path.Combine(Config.ConfigurationDirectory, fileName));
             }
             else
             {
-                Uri url = new(codeBase, fileName);
-
+                Uri url = new(CodeBase, fileName);
                 WebRequest webRequest = HttpWebRequest.Create(url.ToString());
-
-                obj = webRequest.GetResponse().GetResponseStream();
+                inputStream = webRequest.GetResponse().GetResponseStream();
             }
 
             MemoryStream memory = new();
-            int j = 0;
+            int bytesRead = 0;
             byte[] buffer = new byte[2048];
 
-
-
-            //using (BinaryWriter binaryWriter = new BinaryWriter(outputStream))
-            //{
-            //    binaryWriter.Write((sbyte[])(Array)sbytes);
-            //}
-
-
-            while ((j = obj.Read(buffer, 0, buffer.Length)) != 0)
+            while ((bytesRead = inputStream.Read(buffer, 0, buffer.Length)) != 0)
             {
-                //memory.Write(buffer, 0, j);
-                memory.Write((byte[])(Array)buffer, 0, j);
+                memory.Write((byte[])(Array)buffer, 0, bytesRead);
             }
-
 
             return memory;
         }
 
-        static private sbyte[] streamToSbyte(BinaryReader stream, int length)
+        public static void ReadFully(string path, sbyte[] data, int length)
         {
-            List<sbyte> list = [];
+            using MemoryStream stream = OpenInputStream(path);
+            sbyte[] readData = StreamToSbyte(new BinaryReader(stream), length);
+            Array.Copy(readData, data, readData.Length);
+        }
+
+        public static void ReadFully(string path, byte[] data, int length)
+        {
+            using MemoryStream stream = OpenInputStream(path);
+            stream.Read(data, 0, length);
+        }
+
+        public static int GetByte(sbyte value) => value & 0xff;
+
+        public static int GetShort(sbyte[] data, int offset) =>
+            ((data[offset] & 0xff) << 8) + (data[offset + 1] & 0xff);
+
+        public static int GetInt16(sbyte[] data, int offset) => GetShort(data, offset);
+
+        public static long GetLong(sbyte[] data, int offset) =>
+            (((long)GetInt(data, offset) & 0xffffffffL) << 32) + ((long)GetInt(data, offset + 4) & 0xffffffffL);
+
+        public static long GetLong(byte[] data, int offset) =>
+            (((long)GetInt(data, offset) & 0xffffffffL) << 32) + ((long)GetInt(data, offset + 4) & 0xffffffffL);
+
+        public static int GetInt(sbyte[] data, int offset) =>
+            ((data[offset] & 0xff) << 24) + ((data[offset + 1] & 0xff) << 16) + ((data[offset + 2] & 0xff) << 8) + (data[offset + 3] & 0xff);
+
+        public static int GetInt(byte[] data, int offset) =>
+            ((data[offset] & 0xff) << 24) + ((data[offset + 1] & 0xff) << 16) + ((data[offset + 2] & 0xff) << 8) + (data[offset + 3] & 0xff);
+
+        public static int GetSignedShort(sbyte[] data, int offset)
+        {
+            int value = GetByte(data[offset]) * 256 + GetByte(data[offset + 1]);
+
+            if (value > 32767)
             {
-                sbyte ch;
-                int byteIndex = 0;
-                while ((ch = stream.ReadSByte()) != -1 && byteIndex < length)
-                {
-                    list.Add(ch);
-                    byteIndex += 1;
-                }
-            }
-            return list.ToArray();
-        }
-
-        public static void readFully(string p, sbyte[] abyte1, int i)
-        {
-            //org.moparscape.msc.client.DataOperations.readFully(p, abyte1, i);
-            using MemoryStream stream = openInputStream(p);
-            abyte1 = streamToSbyte(new BinaryReader(stream), i);
-            //for (int j = 0; j < i; j++) {
-            //    abyte1[j] =
-            //}
-            //stream.Read(abyte1, 0, i);
-        }
-
-        public static void readFully(string p, byte[] abyte1, int i)
-        {
-            using MemoryStream stream = openInputStream(p);
-            stream.Read(abyte1, 0, i);
-        }
-
-        ////JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-        ////ORIGINAL LINE: public static void readFully(String s, byte abyte0[] , int i) throws java.io.IOException
-        //public static void readFully(string s, sbyte[] abyte0, int i)
-        //{
-        //    InputStream inputstream = openInputStream(s);
-        //    DataInputStream datainputstream = new DataInputStream(inputstream);
-        //    try
-        //    {
-        //        datainputstream.readFully(abyte0, 0, i);
-        //    }
-        //    catch (EOFException _ex)
-        //    {
-        //    }
-        //    datainputstream.close();
-        //}
-
-
-        //public static int getByte(byte byte0)
-        //{
-        //    //return org.moparscape.msc.client.DataOperations.getByte(byte0);
-        //    return byte0 & 0xff;
-        //}
-        public static int getByte(sbyte byte0)
-        {
-            return byte0 & 0xff;
-        }
-        //public static int getShort(byte[] abyte0, int i)
-        //{
-        //    //return org.moparscape.msc.client.DataOperations.getShort(abyte0, i);
-        //    var val = ((abyte0[i] & 0xff) << 8) + (abyte0[i + 1] & 0xff);
-        //    var val2 = abyte0[i];
-        //    var val3 = abyte0[i] & 0xff;
-        //    var val4 = abyte0[i] & 0xff;
-        //    var val5 = abyte0[i + 1] & 0xff;
-        //    return val;
-        //}
-
-
-        public static int getShort(sbyte[] abyte0, int i)
-        {
-            //return org.moparscape.msc.client.DataOperations.getShort(abyte0, i);
-            int shortValue = ((abyte0[i] & 0xff) << 8) + (abyte0[i + 1] & 0xff);
-            int highByte = abyte0[i];
-            int highByteUnsigned = abyte0[i] & 0xff;
-            int highByteUnsigned2 = abyte0[i] & 0xff;
-            int lowByteUnsigned = abyte0[i + 1] & 0xff;
-            return shortValue;
-        }
-
-        public static int GetInt16(sbyte[] abyte0, int i) => getShort(abyte0, i);
-
-        //public static int getInt(sbyte[] abyte0, int i)
-        //{
-        //    return ((abyte0[i] & 0xff) << 24) + ((abyte0[i + 1] & 0xff) << 16) + ((abyte0[i + 2] & 0xff) << 8) + (abyte0[i + 3] & 0xff);
-        //}
-
-        public static long getLong(sbyte[] abyte0, int i)
-        {
-            //return org.moparscape.msc.client.DataOperations.getLong(abyte0, i);
-            return (((long)getInt(abyte0, i) & 0xffffffffL) << 32) + ((long)getInt(abyte0, i + 4) & 0xffffffffL);
-        }
-
-        public static long getLong(byte[] abyte0, int i)
-        {
-            //return org.moparscape.msc.client.DataOperations.getLong(abyte0, i);
-            return (((long)getInt(abyte0, i) & 0xffffffffL) << 32) + ((long)getInt(abyte0, i + 4) & 0xffffffffL);
-        }
-
-        //public static int getShort(sbyte[] abyte0, int i)
-        //{
-        //    return ((abyte0[i] & 0xff) << 8) + (abyte0[i + 1] & 0xff);
-        //}
-
-        public static int getInt(sbyte[] abyte0, int i)
-        {
-            //return org.moparscape.msc.client.DataOperations.getInt(abyte0, i);
-            return ((abyte0[i] & 0xff) << 24) + ((abyte0[i + 1] & 0xff) << 16) + ((abyte0[i + 2] & 0xff) << 8) + (abyte0[i + 3] & 0xff);
-        }
-
-        public static int getInt(byte[] abyte0, int i)
-        {
-            //return org.moparscape.msc.client.DataOperations.getInt(abyte0, i);
-            return ((abyte0[i] & 0xff) << 24) + ((abyte0[i + 1] & 0xff) << 16) + ((abyte0[i + 2] & 0xff) << 8) + (abyte0[i + 3] & 0xff);
-        }
-
-        //public static long getLong(sbyte[] abyte0, int i)
-        //{
-        //    return (((long)getInt(abyte0, i) & 0xffffffffL) << 32) + ((long)getInt(abyte0, i + 4) & 0xffffffffL);
-        //}
-        public static int getShort2(sbyte[] abyte0, int i)
-        {
-            int j = getByte(abyte0[i]) * 256 + getByte(abyte0[i + 1]);
-            if (j > 32767)
-            {
-                j -= 0x10000;
-            }
-            return j;
-        }
-
-        //public static int getShort2(byte[] abyte0, int i)
-        //{
-        //    int j = getByte(abyte0[i]) * 256 + getByte(abyte0[i + 1]);
-        //    if (j > 32767)
-        //    {
-        //        j -= 0x10000;
-        //    }
-        //    return j;
-        //}
-
-
-        public static int getBits(sbyte[] bytes, int off, int len)
-        {
-            //return org.moparscape.msc.client.DataOperations.getBits(bytes, off, len);
-
-            int bitOff = off >> 3;
-            int bitMod = 8 - (off & 7);
-            int k = 0;
-            for (; len > bitMod; bitMod = 8)
-            {
-                k += (bytes[bitOff++] & bitMask[bitMod]) << len - bitMod;
-                len -= bitMod;
+                value -= 0x10000;
             }
 
-            if (len == bitMod)
+            return value;
+        }
+
+        public static int GetBits(sbyte[] data, int offset, int bitCount)
+        {
+            int byteOffset = offset >> 3;
+            int bitModifier = 8 - (offset & 7);
+            int result = 0;
+
+            for (; bitCount > bitModifier; bitModifier = 8)
             {
-                k += bytes[bitOff] & bitMask[bitMod];
+                result += (data[byteOffset] & bitMask[bitModifier]) << bitCount - bitModifier;
+                byteOffset += 1;
+                bitCount -= bitModifier;
+            }
+
+            if (bitCount == bitModifier)
+            {
+                result += data[byteOffset] & bitMask[bitModifier];
             }
             else
             {
-                k += bytes[bitOff] >> bitMod - len & bitMask[len];
+                result += data[byteOffset] >> bitModifier - bitCount & bitMask[bitCount];
             }
-            return k;
+
+            return result;
         }
 
-        //public static int getBits(byte[] bytes, int off, int len)
-        //{
-        //    int bitOff = off >> 3;
-        //    int bitMod = 8 - (off & 7);
-        //    int k = 0;
-        //    for (; len > bitMod; bitMod = 8)
-        //    {
-        //        k += (bytes[bitOff++] & bitMask[bitMod]) << len - bitMod;
-        //        len -= bitMod;
-        //    }
-
-        //    if (len == bitMod)
-        //    {
-        //        k += bytes[bitOff] & bitMask[bitMod];
-        //    }
-        //    else
-        //    {
-        //        k += bytes[bitOff] >> bitMod - len & bitMask[len];
-        //    }
-        //    return k;
-        //}
-
-        public static string formatString(string text, int maxLength)
+        public static string FormatString(string text, int maxLength)
         {
-            string s = "";
-            for (int i = 0; i < maxLength; i++)
+            string result = "";
+
+            for (int charIndex = 0; charIndex < maxLength; charIndex++)
             {
-                if (i >= text.Length)
+                if (charIndex >= text.Length)
                 {
-                    s = s + " ";
+                    result += " ";
                 }
                 else
                 {
-                    char c = text[i];
-                    if (c >= 'a' && c <= 'z')
+                    char character = text[charIndex];
+
+                    if (character >= 'a' && character <= 'z')
                     {
-                        s = s + c;
+                        result += character;
+                    }
+                    else if (character >= 'A' && character <= 'Z')
+                    {
+                        result += character;
+                    }
+                    else if (character >= '0' && character <= '9')
+                    {
+                        result += character;
                     }
                     else
                     {
-                        if (c >= 'A' && c <= 'Z')
-                        {
-                            s = s + c;
-                        }
-                        else
-                        {
-                            if (c >= '0' && c <= '9')
-                            {
-                                s = s + c;
-                            }
-                            else
-                            {
-                                s = s + '_';
-                            }
-                        }
+                        result += '_';
                     }
                 }
             }
 
-            return s;
+            return result;
         }
 
-        public static string ipToString(int i)
-        {
-            return (i >> 24 & 0xff) + "." + (i >> 16 & 0xff) + "." + (i >> 8 & 0xff) + "." + (i & 0xff);
-        }
+        public static string IpToString(int ipAddress) =>
+            (ipAddress >> 24 & 0xff) + "." + (ipAddress >> 16 & 0xff) + "." + (ipAddress >> 8 & 0xff) + "." + (ipAddress & 0xff);
 
-        public static long nameToHash(string name)
+        public static long NameToHash(string name)
         {
-            string s = "";
-            for (int i = 0; i < name.Length; i++)
+            string normalizedName = "";
+
+            for (int charIndex = 0; charIndex < name.Length; charIndex++)
             {
-                char c = name[i];
-                if (c >= 'a' && c <= 'z')
+                char character = name[charIndex];
+
+                if (character >= 'a' && character <= 'z')
                 {
-                    s = s + c;
+                    normalizedName += character;
+                }
+                else if (character >= 'A' && character <= 'Z')
+                {
+                    normalizedName += (char)((character + 97) - 65);
+                }
+                else if (character >= '0' && character <= '9')
+                {
+                    normalizedName += character;
                 }
                 else
                 {
-                    if (c >= 'A' && c <= 'Z')
-                    {
-                        s = s + (char)((c + 97) - 65);
-                    }
-                    else
-                    {
-                        if (c >= '0' && c <= '9')
-                        {
-                            s = s + c;
-                        }
-                        else
-                        {
-                            s = s + ' ';
-                        }
-                    }
+                    normalizedName += ' ';
                 }
             }
 
-            s = s.Trim();
-            if (s.Length > 12)
+            normalizedName = normalizedName.Trim();
+
+            if (normalizedName.Length > 12)
             {
-                s = s.Substring(0, 12);
+                normalizedName = normalizedName.Substring(0, 12);
             }
-            long l = 0L;
-            for (int j = 0; j < s.Length; j++)
+
+            long hashValue = 0L;
+
+            for (int charIndex = 0; charIndex < normalizedName.Length; charIndex++)
             {
-                char c1 = s[j];
-                l *= 37L;
-                if (c1 >= 'a' && c1 <= 'z')
+                char character = normalizedName[charIndex];
+                hashValue *= 37L;
+
+                if (character >= 'a' && character <= 'z')
                 {
-                    l += (1 + c1) - 97;
+                    hashValue += (1 + character) - 97;
                 }
-                else
+                else if (character >= '0' && character <= '9')
                 {
-                    if (c1 >= '0' && c1 <= '9')
-                    {
-                        l += (27 + c1) - 48;
-                    }
+                    hashValue += (27 + character) - 48;
                 }
             }
 
-            return l;
+            return hashValue;
         }
 
-        public static string hashToName(long hash)
+        public static string HashToName(long hash)
         {
             if (hash < 0L)
             {
                 return "invalid_name";
             }
-            string s = "";
+
+            string name = "";
+
             while (!hash.Equals(0L))
             {
-                int i = (int)(hash % 37L);
+                int remainder = (int)(hash % 37L);
                 hash /= 37L;
-                if (i == 0)
+
+                if (remainder == 0)
                 {
-                    s = " " + s;
+                    name = " " + name;
+                }
+                else if (remainder < 27)
+                {
+                    if (hash % 37L == 0L)
+                    {
+                        name = (char)((remainder + 65) - 1) + name;
+                    }
+                    else
+                    {
+                        name = (char)((remainder + 97) - 1) + name;
+                    }
                 }
                 else
                 {
-                    if (i < 27)
-                    {
-                        if (hash % 37L == 0L)
-                        {
-                            s = (char)((i + 65) - 1) + s;
-                        }
-                        else
-                        {
-                            s = (char)((i + 97) - 1) + s;
-                        }
-                    }
-                    else
-                    {
-                        s = (char)((i + 48) - 27) + s;
-                    }
+                    name = (char)((remainder + 48) - 27) + name;
                 }
             }
-            return s;
+
+            return name;
         }
 
-        public static long getObjectOffset(string objName, sbyte[] objData)
+        public static long GetObjectOffset(string objectName, sbyte[] objectData)
         {
-            //return org.moparscape.msc.client.DataOperations.getObjectOffset(objName, objData);
+            int entryCount = GetShort(objectData, 0);
+            int nameHash = 0;
+            objectName = objectName.ToUpper();
 
-            int i = getShort(objData, 0);
-            int j = 0;
-            objName = objName.ToUpper();
-            for (int k = 0; k < objName.Length; k++)
+            for (int charIndex = 0; charIndex < objectName.Length; charIndex++)
             {
-                j = (j * 61 + objName[k]) - 32;
+                nameHash = (nameHash * 61 + objectName[charIndex]) - 32;
             }
 
-            long l = 2 + i * 10;
-            for (int i1 = 0; i1 < i; i1++)
+            long dataOffset = 2 + entryCount * 10;
+
+            for (int entryIndex = 0; entryIndex < entryCount; entryIndex++)
             {
-                long j1 = (objData[i1 * 10 + 2] & 0xff) * 0x1000000 + (objData[i1 * 10 + 3] & 0xff) * 0x10000 + (objData[i1 * 10 + 4] & 0xff) * 256 + (objData[i1 * 10 + 5] & 0xff);
-                long k1 = (objData[i1 * 10 + 9] & 0xff) * 0x10000 + (objData[i1 * 10 + 10] & 0xff) * 256 + (objData[i1 * 10 + 11] & 0xff);
-                if (j1 == j)
+                long entryNameHash = (objectData[entryIndex * 10 + 2] & 0xff) * 0x1000000 + (objectData[entryIndex * 10 + 3] & 0xff) * 0x10000 + (objectData[entryIndex * 10 + 4] & 0xff) * 256 + (objectData[entryIndex * 10 + 5] & 0xff);
+                long entrySize = (objectData[entryIndex * 10 + 9] & 0xff) * 0x10000 + (objectData[entryIndex * 10 + 10] & 0xff) * 256 + (objectData[entryIndex * 10 + 11] & 0xff);
+
+                if (entryNameHash == nameHash)
                 {
-                    return l;
+                    return dataOffset;
                 }
-                l += k1;
+
+                dataOffset += entrySize;
             }
 
             return 0;
         }
 
-        public static int getSoundLength(string soundName, sbyte[] soundIndex)
+        public static int GetSoundLength(string soundName, sbyte[] soundIndex)
         {
-            // return org.moparscape.msc.client.DataOperations.getSoundLength(objName, objData);
-
-            int i = getShort(soundIndex, 0);
-            int j = 0;
+            int entryCount = GetShort(soundIndex, 0);
+            int nameHash = 0;
             soundName = soundName.ToUpper();
-            for (int k = 0; k < soundName.Length; k++)
+
+            for (int charIndex = 0; charIndex < soundName.Length; charIndex++)
             {
-                j = (j * 61 + soundName[k]) - 32;
+                nameHash = (nameHash * 61 + soundName[charIndex]) - 32;
             }
 
-            for (int i1 = 0; i1 < i; i1++)
+            for (int entryIndex = 0; entryIndex < entryCount; entryIndex++)
             {
-                int j1 = (soundIndex[i1 * 10 + 2] & 0xff) * 0x1000000 + (soundIndex[i1 * 10 + 3] & 0xff) * 0x10000 + (soundIndex[i1 * 10 + 4] & 0xff) * 256 + (soundIndex[i1 * 10 + 5] & 0xff);
-                int k1 = (soundIndex[i1 * 10 + 6] & 0xff) * 0x10000 + (soundIndex[i1 * 10 + 7] & 0xff) * 256 + (soundIndex[i1 * 10 + 8] & 0xff);
-                if (j1 == j)
+                int entryNameHash = (soundIndex[entryIndex * 10 + 2] & 0xff) * 0x1000000 + (soundIndex[entryIndex * 10 + 3] & 0xff) * 0x10000 + (soundIndex[entryIndex * 10 + 4] & 0xff) * 256 + (soundIndex[entryIndex * 10 + 5] & 0xff);
+                int entryLength = (soundIndex[entryIndex * 10 + 6] & 0xff) * 0x10000 + (soundIndex[entryIndex * 10 + 7] & 0xff) * 256 + (soundIndex[entryIndex * 10 + 8] & 0xff);
+
+                if (entryNameHash == nameHash)
                 {
-                    return k1;
+                    return entryLength;
                 }
             }
 
             return 0;
         }
 
-        public static byte[] loadData(string s, int i, byte[] abyte0)
+        public static byte[] LoadData(string entryName, int outputOffset, byte[] indexData) =>
+            LoadData(entryName, outputOffset, indexData, null);
+
+        public static byte[] LoadData(string entryName, int outputOffset, byte[] indexData, byte[] outputBuffer)
         {
-            return loadData(s, i, abyte0, null);
-        }
-
-        public static byte[] loadData(string entryName, int outputOffset, byte[] indexData, byte[] outputBuffer)
-        {
-
-            //return org.moparscape.msc.client.DataOperations.loadData(objName, objData, arg2, arg3);
-
-            int i = (indexData[0] & 0xff) * 256 + (indexData[1] & 0xff);
-            int j = 0;
+            int entryCount = (indexData[0] & 0xff) * 256 + (indexData[1] & 0xff);
+            int nameHash = 0;
             entryName = entryName.ToUpper();
-            for (int k = 0; k < entryName.Length; k++)
+
+            for (int charIndex = 0; charIndex < entryName.Length; charIndex++)
             {
-                j = (j * 61 + entryName[k]) - 32;
+                nameHash = (nameHash * 61 + entryName[charIndex]) - 32;
             }
 
-            int l = 2 + i * 10;
-            for (int i1 = 0; i1 < i; i1++)
+            int dataOffset = 2 + entryCount * 10;
+
+            for (int entryIndex = 0; entryIndex < entryCount; entryIndex++)
             {
-                int j1 = (indexData[i1 * 10 + 2] & 0xff) * 0x1000000 + (indexData[i1 * 10 + 3] & 0xff) * 0x10000 + (indexData[i1 * 10 + 4] & 0xff) * 256 + (indexData[i1 * 10 + 5] & 0xff);
-                int k1 = (indexData[i1 * 10 + 6] & 0xff) * 0x10000 + (indexData[i1 * 10 + 7] & 0xff) * 256 + (indexData[i1 * 10 + 8] & 0xff);
-                int l1 = (indexData[i1 * 10 + 9] & 0xff) * 0x10000 + (indexData[i1 * 10 + 10] & 0xff) * 256 + (indexData[i1 * 10 + 11] & 0xff);
-                if (j1.Equals(j))
+                int entryNameHash = (indexData[entryIndex * 10 + 2] & 0xff) * 0x1000000 + (indexData[entryIndex * 10 + 3] & 0xff) * 0x10000 + (indexData[entryIndex * 10 + 4] & 0xff) * 256 + (indexData[entryIndex * 10 + 5] & 0xff);
+                int decompressedSize = (indexData[entryIndex * 10 + 6] & 0xff) * 0x10000 + (indexData[entryIndex * 10 + 7] & 0xff) * 256 + (indexData[entryIndex * 10 + 8] & 0xff);
+                int compressedSize = (indexData[entryIndex * 10 + 9] & 0xff) * 0x10000 + (indexData[entryIndex * 10 + 10] & 0xff) * 256 + (indexData[entryIndex * 10 + 11] & 0xff);
+
+                if (entryNameHash.Equals(nameHash))
                 {
                     if (outputBuffer is null)
                     {
-                        outputBuffer = new byte[k1 + outputOffset];
+                        outputBuffer = new byte[decompressedSize + outputOffset];
                     }
-                    if (k1 != l1)
+
+                    if (decompressedSize != compressedSize)
                     {
-                        DataFileDecrypter.unpackData(outputBuffer, k1, indexData, l1, l);
+                        DataFileDecrypter.UnpackData(outputBuffer, decompressedSize, indexData, compressedSize, dataOffset);
                     }
                     else
                     {
-                        for (long i2 = 0; i2 < k1; i2++)
+                        for (long byteIndex = 0; byteIndex < decompressedSize; byteIndex++)
                         {
-                            outputBuffer[i2] = indexData[l + i2];
+                            outputBuffer[byteIndex] = indexData[dataOffset + byteIndex];
                         }
-
                     }
+
                     return outputBuffer;
                 }
-                l += l1;
+
+                dataOffset += compressedSize;
             }
 
             return null;
         }
 
-        public static sbyte[] loadData(string s, int i, sbyte[] abyte0)
+        public static sbyte[] LoadData(string entryName, int outputOffset, sbyte[] indexData) =>
+            LoadData(entryName, outputOffset, indexData, null);
+
+        public static sbyte[] LoadData(string entryName, int outputOffset, sbyte[] indexData, sbyte[] outputBuffer)
         {
-            return loadData(s, i, abyte0, null);
-        }
+            int entryCount = (indexData[0] & 0xff) * 256 + (indexData[1] & 0xff);
+            int nameHash = 0;
+            entryName = entryName.ToUpper();
 
-        public static sbyte[] loadData(string entryNameS, int outputOffsetS, sbyte[] indexDataS, sbyte[] outputBufferS)
-        {
-
-            //return org.moparscape.msc.client.DataOperations.loadData(objName, objData, arg2, arg3);
-
-            int i = (indexDataS[0] & 0xff) * 256 + (indexDataS[1] & 0xff);
-            int j = 0;
-            entryNameS = entryNameS.ToUpper();
-            for (int k = 0; k < entryNameS.Length; k++)
+            for (int charIndex = 0; charIndex < entryName.Length; charIndex++)
             {
-                j = (j * 61 + entryNameS[k]) - 32;
+                nameHash = (nameHash * 61 + entryName[charIndex]) - 32;
             }
 
-            int l = 2 + i * 10;
-            for (int i1 = 0; i1 < i; i1++)
+            int dataOffset = 2 + entryCount * 10;
+
+            for (int entryIndex = 0; entryIndex < entryCount; entryIndex++)
             {
-                int j1 = (indexDataS[i1 * 10 + 2] & 0xff) * 0x1000000 + (indexDataS[i1 * 10 + 3] & 0xff) * 0x10000 + (indexDataS[i1 * 10 + 4] & 0xff) * 256 + (indexDataS[i1 * 10 + 5] & 0xff);
-                int k1 = (indexDataS[i1 * 10 + 6] & 0xff) * 0x10000 + (indexDataS[i1 * 10 + 7] & 0xff) * 256 + (indexDataS[i1 * 10 + 8] & 0xff);
-                int l1 = (indexDataS[i1 * 10 + 9] & 0xff) * 0x10000 + (indexDataS[i1 * 10 + 10] & 0xff) * 256 + (indexDataS[i1 * 10 + 11] & 0xff);
-                if (j1.Equals(j))
+                int entryNameHash = (indexData[entryIndex * 10 + 2] & 0xff) * 0x1000000 + (indexData[entryIndex * 10 + 3] & 0xff) * 0x10000 + (indexData[entryIndex * 10 + 4] & 0xff) * 256 + (indexData[entryIndex * 10 + 5] & 0xff);
+                int decompressedSize = (indexData[entryIndex * 10 + 6] & 0xff) * 0x10000 + (indexData[entryIndex * 10 + 7] & 0xff) * 256 + (indexData[entryIndex * 10 + 8] & 0xff);
+                int compressedSize = (indexData[entryIndex * 10 + 9] & 0xff) * 0x10000 + (indexData[entryIndex * 10 + 10] & 0xff) * 256 + (indexData[entryIndex * 10 + 11] & 0xff);
+
+                if (entryNameHash.Equals(nameHash))
                 {
-                    if (outputBufferS is null)
+                    if (outputBuffer is null)
                     {
-                        outputBufferS = new sbyte[k1 + outputOffsetS];
+                        outputBuffer = new sbyte[decompressedSize + outputOffset];
                     }
-                    if (k1 != l1)
+
+                    if (decompressedSize != compressedSize)
                     {
-                        DataFileDecrypter.unpackData(outputBufferS, k1, indexDataS, l1, l);
+                        DataFileDecrypter.UnpackData(outputBuffer, decompressedSize, indexData, compressedSize, dataOffset);
                     }
                     else
                     {
-                        for (long i2 = 0; i2 < k1; i2++)
+                        for (long byteIndex = 0; byteIndex < decompressedSize; byteIndex++)
                         {
-                            outputBufferS[i2] = indexDataS[l + i2];
+                            outputBuffer[byteIndex] = indexData[dataOffset + byteIndex];
                         }
-
                     }
-                    return outputBufferS;
+
+                    return outputBuffer;
                 }
-                l += l1;
+
+                dataOffset += compressedSize;
             }
 
             return null;
         }
 
-        public static Uri codeBase = null;
-        private static int[] bitMask = [0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383, 32767, 65535, 0x1ffff, 0x3ffff, 0x7ffff, 0xfffff, 0x1fffff, 0x3fffff, 0x7fffff, 0xffffff, 0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff, 0x1fffffff, 0x3fffffff, 0x7fffffff, -1];
+        private static sbyte[] StreamToSbyte(BinaryReader stream, int length)
+        {
+            List<sbyte> result = [];
+            int byteIndex = 0;
 
+            while (byteIndex < length)
+            {
+                sbyte readByte = stream.ReadSByte();
+
+                if (readByte == -1)
+                {
+                    break;
+                }
+
+                result.Add(readByte);
+                byteIndex += 1;
+            }
+
+            return result.ToArray();
+        }
     }
-
 }

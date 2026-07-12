@@ -63,9 +63,9 @@ namespace OpenRS.Net.Client
         private void DoConnect()
         {
             //username = user;
-            string formattedUsername = DataOperations.formatString(username, 20);
+            string formattedUsername = DataOperations.FormatString(username, 20);
             // password = pass;
-            string formattedPassword = DataOperations.formatString(password, 20);
+            string formattedPassword = DataOperations.FormatString(password, 20);
             if (formattedUsername.Trim().Length.Equals(0))
             {
                 loginScreenPrint("You must enter both a username", "and a password - Please try again");
@@ -91,7 +91,7 @@ namespace OpenRS.Net.Client
             streamClass.maxPacketReadCount = maxPacketReadCount;
 
 
-            long l = DataOperations.nameToHash(formattedUsername);
+            long l = DataOperations.NameToHash(formattedUsername);
             streamClass.createPacket(32);
             streamClass.addByte((int)(l >> 16 & 31L));
             streamClass.addString("Shinigami");// TODO not used server-side
@@ -350,11 +350,11 @@ namespace OpenRS.Net.Client
             }
             if (command == 249)
             {
-                friendsCount = DataOperations.getByte((sbyte)packetData[1]);
+                friendsCount = DataOperations.GetByte((sbyte)packetData[1]);
                 for (int i = 0; i < friendsCount; i++)
                 {
-                    friendsList[i] = DataOperations.getLong(packetData, 2 + i * 9);
-                    friendsWorld[i] = DataOperations.getByte(packetData[10 + i * 9]);
+                    friendsList[i] = DataOperations.GetLong(packetData, 2 + i * 9);
+                    friendsWorld[i] = DataOperations.GetByte(packetData[10 + i * 9]);
                 }
 
                 reOrderFriendsList();
@@ -362,7 +362,7 @@ namespace OpenRS.Net.Client
             }
             if (command == 25)
             {
-                long friend = DataOperations.getLong(packetData, 1);
+                long friend = DataOperations.GetLong(packetData, 1);
                 int status = packetData[9] & 0xff;
                 for (int j1 = 0; j1 < friendsCount; j1++)
                 {
@@ -370,12 +370,12 @@ namespace OpenRS.Net.Client
                     {
                         if (friendsWorld[j1] == 0 && status != 0)
                         {
-                            displayMessage("@pri@" + DataOperations.hashToName(friend) + " has logged in");
+                            displayMessage("@pri@" + DataOperations.HashToName(friend) + " has logged in");
                         }
 
                         if (friendsWorld[j1] != 0 && status == 0)
                         {
-                            displayMessage("@pri@" + DataOperations.hashToName(friend) + " has logged out");
+                            displayMessage("@pri@" + DataOperations.HashToName(friend) + " has logged out");
                         }
 
                         friendsWorld[j1] = status;
@@ -393,10 +393,10 @@ namespace OpenRS.Net.Client
             }
             if (command == 2)
             {
-                ignoresCount = DataOperations.getByte(packetData[1]);
+                ignoresCount = DataOperations.GetByte(packetData[1]);
                 for (int j = 0; j < ignoresCount; j++)
                 {
-                    ignoresList[j] = DataOperations.getLong(packetData, 2 + j * 8);
+                    ignoresList[j] = DataOperations.GetLong(packetData, 2 + j * 8);
                 }
 
                 return;
@@ -411,9 +411,9 @@ namespace OpenRS.Net.Client
             }
             if (command == 170)
             {
-                long l1 = DataOperations.getLong(packetData, 1);
+                long l1 = DataOperations.GetLong(packetData, 1);
                 String s = ChatMessage.bytesToString(packetData, 9, length - 9);
-                displayMessage("@pri@" + DataOperations.hashToName(l1) + ": tells you " + s);
+                displayMessage("@pri@" + DataOperations.HashToName(l1) + ": tells you " + s);
                 return;
             }
             if (command == 211)
@@ -466,7 +466,7 @@ namespace OpenRS.Net.Client
 
         protected void addIgnore(String username)
         {
-            long l = DataOperations.nameToHash(username);
+            long l = DataOperations.NameToHash(username);
             streamClass.createPacket(25);
             streamClass.addLong(l);
             streamClass.formatPacket();
@@ -512,9 +512,9 @@ namespace OpenRS.Net.Client
         protected void addFriend(String usernameHash)
         {
             streamClass.createPacket(168);
-            streamClass.addLong(DataOperations.nameToHash(usernameHash));
+            streamClass.addLong(DataOperations.NameToHash(usernameHash));
             streamClass.formatPacket();
-            long l = DataOperations.nameToHash(username);
+            long l = DataOperations.NameToHash(username);
             for (int i = 0; i < friendsCount; i++)
             {
                 if (friendsList[i] == l)
@@ -558,7 +558,7 @@ namespace OpenRS.Net.Client
                 break;
             }
 
-            displayMessage("@pri@" + DataOperations.hashToName(usernameHash) + " has been removed from your friends list");
+            displayMessage("@pri@" + DataOperations.HashToName(usernameHash) + " has been removed from your friends list");
         }
 
         protected void sendPrivateMessage(long l, byte[] abyte0, int i)

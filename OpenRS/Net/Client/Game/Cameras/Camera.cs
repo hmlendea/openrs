@@ -1769,7 +1769,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     int k1 = (int)(randomValue /*Math.random()*/ * bba);
                     if (k1 >= bbb.Length)
                     {
-                        k1 = k1 - 1;
+                        k1--;
                     }
 
                     bbb[k1] = textureIndex;
