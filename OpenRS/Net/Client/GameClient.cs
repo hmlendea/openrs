@@ -1,750 +1,895 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Drawing;
 using System.Linq;
-//using System.Runtime.Remoting.Messaging;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-
-using Microsoft.Xna.Framework;
-
-using NuciXNA.Input;
-using NuciXNA.Primitives;
-using NuciXNA.Primitives.Mapping;
-
-using OpenRS.GameLogic.GameManagers;
-using OpenRS.Models;
-using OpenRS.Models.Enumerations;
 using OpenRS.Net.Client.Data;
-using OpenRS.Net.Client.Events;
 using OpenRS.Net.Client.Game;
 using OpenRS.Net.Client.Game.Cameras;
-using OpenRS.Net.Enumerations;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using Color = Microsoft.Xna.Framework.Color;
+using System.ComponentModel;
+using OpenRS.Net.Client.Events;
 using OpenRS.Settings;
-
-using ObjectModel = OpenRS.Net.Client.Game.ObjectModel;
-using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
-using Keyboard = Microsoft.Xna.Framework.Input.Keyboard;
-using Keys = Microsoft.Xna.Framework.Input.Keys;
-using Mouse = Microsoft.Xna.Framework.Input.Mouse;
-
 namespace OpenRS.Net.Client
 {
+
     public class GameClient : GameAppletMiddleMan
     {
-        private readonly string username;
-        private readonly string password;
-
+        public int killingSpree;
         public event EventHandler OnContentLoadedCompleted;
         public event EventHandler<ContentLoadedEventArgs> OnContentLoaded;
 
+        public static Microsoft.Xna.Framework.GameWindow GameWindow;
+
         public event ChatMessageEventHandler OnChatMessageReceived;
+
+        public static GameClient CreateMudclient(string title = "RuneScape", int width = 512, int height = 346)
+        {
+            GameClient mud = new GameClient
+            {
+                windowWidth = width,
+                windowHeight = height
+            };
+            mud.createWindow(mud.windowWidth, mud.windowHeight + 11, title, false);
+            mud.gameMinThreadSleepTime = 10;
+            return mud;
+        }
 
         public static GameClient CreateGameClient(string username, string password, int width = 512, int height = 346)
         {
-            GameClient client = new(username, password)
-            {
-                WindowSize = new Size2D(width, height)
-            };
-
-            client.CreateWindow(client.WindowSize.Width, client.WindowSize.Height + 11);
-            client.gameMinThreadSleepTime = 10;
-
-            return client;
+            return CreateMudclient("RuneScape", width, height);
         }
 
-        private readonly PacketHandler packetHandler;
-        private readonly Random random = new();
+        public void Start() => start();
 
-        private readonly List<Keys> lastPressedKeys = [];
-        private int lastMouseX;
-        private int lastMouseY;
-        private TimeSpan timeLapse = TimeSpan.Zero;
-
-        private readonly CombatManager combatManager;
-        public readonly EntityManager entityManager; // TODO: Shouldn't be public
-        public readonly InventoryManager inventoryManager; // TODO: Shouldn't be public
-        private readonly QuestManager questManager;
-
-        public ObjectModel[] GameDataObjects { get; set; }
-        public ObjectModel[] WallObjects { get; set; }
-        public ClientMob CurrentPlayer { get; set; }
-        public ClientMob[] LastNpcs { get; set; }
-        public ClientMob[] LastPlayers { get; set; }
-        public ClientMob[] Mobs { get; set; }
-        public ClientMob[] Npcs { get; set; }
-        public ClientMob[] NpcAttackingArray { get; set; }
-        public ClientMob[] Players { get; set; }
-        public Point2D AreaLocation { get; set; }
-        public Point2D SectionLocation { get; set; }
-        public Point2D WildLocation { get; set; }
-        public Point2D[] GroundItemLocations { get; set; }
-        public Point2D[] MenuActionLocations { get; set; }
-        public Point2D[] ObjectLocations { get; set; }
-        public Point2D[] WalkArrayLocations { get; set; }
-        public Point2D[] WallObjectLocations { get; set; }
-        public Size2D WindowSize { get; set; }
-
-        private int GameMouseY => InputManager.Instance.MouseLocation.Y;
-        public Skill[] Skills { get; set; }
-        public CombatStyle CombatStyle { get; set; }
-        public int CompletedTasks { get; set; }
-        public int Deaths { get; set; }
-        public int GridSize { get; set; }
-        public int GroundItemCount { get; set; }
-        public int GuthixSpells { get; set; }
-        public int Tutorial { get; set; }
-        public int TaskCash { get; set; }
-        public int TaskExperience { get; set; }
-        public int TaskItem { get; set; }
-        public int TaskPoints { get; set; }
-        public int TaskStatus { get; set; }
-        public int KillingSpree { get; set; }
-        public int Kills { get; set; }
-        public int LastLoginDays { get; set; }
-        public int LastNpcCount { get; set; }
-        public int LastPlayerCount { get; set; }
-        public int LayerIndex { get; set; }
-        public int LayerModifier { get; set; }
-        public int NpcCount { get; set; }
-        public int ObjectCount { get; set; }
-        public int PlayerAliveTimeout { get; set; }
-        public int PlayerCount { get; set; }
-        public int PlayerFatigue { get; set; }
-        public int ProjectileRange { get; set; }
-        public int QuestionMenuCount { get; set; }
-        public int Remaining { get; set; }
-        public int SaradominSpells { get; set; }
-        public int ServerStartTime { get; set; }
-        public int ServerIndex { get; set; }
-        public int SubscriptionDaysLeft { get; set; }
-        public int WallObjectCount { get; set; }
-        public int ZamorakSpells { get; set; }
-        public int[] EquipmentStatus { get; set; }
-        public int[] GroundItemId { get; set; }
-        public int[] GroundItemObjectVar { get; set; }
-        public int[] ObjectRotation { get; set; }
-        public int[] ObjectType { get; set; }
-        public int[] PlayersBufferIndexes { get; set; }
-        public int[] WallObjectDirection { get; set; }
-        public int[] WallObjectId { get; set; }
-        public bool HasWorldInfo { get; set; }
-        public bool LoadArea { get; set; } // Not in wilderness
-        public bool NeedsClear { get; set; }
-        public bool ShowAppearanceWindow { get; set; }
-        public bool ShowBankBox { get; set; }
-        public bool ShowQuestionMenu { get; set; }
-        public bool ShowShopBox { get; set; }
-        public bool[] WallObjectAlreadyInMenu { get; set; }
-        public string LastLoginAddress { get; set; }
-        public string MoneyTask { get; set; }
-        public string ServerLocation { get; set; }
-
-        public GameClient(string username, string password)
+        public new void Dispose()
         {
-            this.username = username;
-            this.password = password;
-
-            entityManager = new EntityManager();
-            inventoryManager = new InventoryManager(entityManager);
-            combatManager = new CombatManager(inventoryManager);
-            questManager = new QuestManager();
-
-            packetHandler = new PacketHandler(this, entityManager, inventoryManager, questManager);
-
-            WindowSize = new Size2D(512, 334);
-
-            Skills = new Skill[18];
-
-            Skills[0] = new Skill { Name = "Attack" };
-            Skills[1] = new Skill { Name = "Defence" };
-            Skills[2] = new Skill { Name = "Strength" };
-            Skills[3] = new Skill { Name = "Health" };
-            Skills[4] = new Skill { Name = "Ranged" };
-            Skills[5] = new Skill { Name = "Prayer" };
-            Skills[6] = new Skill { Name = "Magic" };
-            Skills[7] = new Skill { Name = "Cooking" };
-            Skills[8] = new Skill { Name = "Woodcutting" };
-            Skills[9] = new Skill { Name = "Fletching" };
-            Skills[10] = new Skill { Name = "Fishing" };
-            Skills[11] = new Skill { Name = "Firemaking" };
-            Skills[12] = new Skill { Name = "Crafting" };
-            Skills[13] = new Skill { Name = "Smithing" };
-            Skills[14] = new Skill { Name = "Mining" };
-            Skills[15] = new Skill { Name = "Herblore" };
-            Skills[16] = new Skill { Name = "Agility" };
-            Skills[17] = new Skill { Name = "Thieving" };
-
-            MenuActionLocations = new Point2D[250];
-            GroundItemLocations = new Point2D[5000];
-            ObjectLocations = new Point2D[1500];
-            WalkArrayLocations = new Point2D[8000];
-            WallObjectLocations = new Point2D[500];
-
-            cameraFieldOfView = 9;
-            ShowQuestionMenu = false;
-            questionMenuAnswer = new string[10];
-            appearanceBodyGender = 1;
-            appearance2Colour = 2;
-            appearanceHairColour = 2;
-            appearanceTopColour = 8;
-            appearanceBottomColour = 14;
-            appearanceHeadGender = 1;
-            menuIndexes = new int[250];
-            Players = new ClientMob[500];
-            selectedShopItemIndex = -1;
-            selectedShopItemType = -2;
-            menuText1 = new string[250];
-            IsSleeping = false;
-            itemAboveHeadScale = new int[50];
-            itemAboveHeadID = new int[50];
-            menuActions = new MenuAction[250];
-            Npcs = new ClientMob[500];
-            Mobs = new ClientMob[4000];
-            serverMessage = string.Empty;
-            serverMessageBoxTop = false;
-            cameraRotationYIncrement = 2;
-            WallObjects = new ObjectModel[500];
-            messagesArray = new string[5];
-            objectAlreadyInMenu = new bool[1500];
-            ObjectArray = new ObjectModel[1500];
-            selectedSpell = -1;
-            cameraAutoAngleDebug = false;
-            CurrentPlayer = new ClientMob();
-            ServerIndex = -1;
-            menuActionType = new int[250];
-            menuActionVar1 = new int[250];
-            menuActionVar2 = new int[250];
-            sleepWordDelay = true;
-            cameraRotation = 128;
-            menuShow = false;
-            ShowBankBox = false;
-            ShowShopBox = false;
-            GroundItemId = new int[5000];
-            GroundItemObjectVar = new int[5000];
-            LayerIndex = -1;
-            cameraDistance = 550;
-            receivedMessageX = new int[50];
-            receivedMessageY = new int[50];
-            receivedMessageMidPoint = new int[50];
-            receivedMessageHeight = new int[50];
-            WallObjectAlreadyInMenu = new bool[500];
-            lastLayerIndex = -1;
-            errorLoading = false;
-            itemAboveHeadX = new int[50];
-            itemAboveHeadY = new int[50];
-            PlayersBufferIndexes = new int[500];
-            selectedBankItem = -1;
-            selectedBankItemType = -2;
-            WallObjectDirection = new int[500];
-            WallObjectId = new int[500];
-            GameDataObjects = new ObjectModel[1000];
-            LastNpcs = new ClientMob[500];
-            selectedItem = -1;
-            selectedItemName = string.Empty;
-            LastPlayers = new ClientMob[500];
-            mouseTrailX = new int[8192];
-            mouseTrailY = new int[8192];
-            prayerOn = new bool[50];
-            shopItems = new int[256];
-            shopItemCount = new int[256];
-            shopItemBasePriceModifier = new int[256];
-            EquipmentStatus = new int[5];
-            receivedMessages = new string[50];
-            cameraRotationXIncrement = 2;
-            teleBubbleTime = new int[50];
-            GridSize = 128;
-            teleBubbleType = new int[50];
-            experienceList = new int[99];
-            lastModelFireLightningSpellNumber = -1;
-            lastModelTorchNumber = -1;
-            lastModelClawSpellNumber = -1;
-            messagesTimeout = new int[5];
-            ProjectileRange = 40;
-            memoryError = false;
-            menuText2 = new string[250];
-            healthBarX = new int[50];
-            healthBarY = new int[50];
-            healthBarMissing = new int[50];
-            ObjectType = new int[1500];
-            ObjectRotation = new int[1500];
-            NpcAttackingArray = new ClientMob[5000];
-            teleBubbleY = new int[50];
-            cameraAutoAngle = 1;
-            LoadArea = false;
-            teleBubbleX = new int[50];
-            ShowAppearanceWindow = false;
-            cameraZoom = false;
-
-            SubscriptionDaysLeft = 0;
-            shopItemSellPrice = new int[256];
-            shopItemBuyPrice = new int[256];
-            captchaPixels = [];
-            captchaWidth = 0;
-            captchaHeight = 0;
-            NeedsClear = false;
-            HasWorldInfo = false;
-
-            // Trading arrays
-            tradeItemsOur = new int[30];
-            tradeItemOurCount = new int[30];
-            tradeItemsOther = new int[30];
-            tradeItemOtherCount = new int[30];
-            tradeConfirmOtherItems = new int[30];
-            tradeConfirmOtherItemsCount = new int[30];
-            tradeConfigItemsCount = new int[30];
-            tradeConfirmItems = new int[30];
-
-            // Dueling arrays
-            duelOpponentItems = new int[8];
-            duelOpponentItemsCount = new int[8];
-            duelMyItems = new int[8];
-            duelMyItemsCount = new int[8];
-            duelOpponentStakeItem = new int[8];
-            duelOutStakeItemCount = new int[8];
-            duelOurStakeItem = new int[8];
-            duelOurStakeItemCount = new int[8];
-
-            // Bank raw arrays
-            serverBankItems = new int[256];
-            serverBankItemCount = new int[256];
-
-            tradeOtherName = string.Empty;
-            duelOpponent = string.Empty;
-            lastLoginAddress = string.Empty;
-
-            LoadContent(); // TODO: Call this from outside
+            destroy();
         }
 
-        public void LoadContent()
+        public void paint() { }
+
+        public void UnloadContent() { }
+
+        public void drawNpc(int x, int y, int width, int height, int npcIndex, int arg5, int arg6) { }
+
+        public OpenRS.Models.Enumerations.CombatStyle CombatStyle
         {
-            entityManager.LoadContent();
-            inventoryManager.LoadContent();
+            get => (OpenRS.Models.Enumerations.CombatStyle)combatStyle;
+            set => combatStyle = (int)value;
         }
 
-        public override void UnloadContent()
+        public void SetCombatStyle(OpenRS.Models.Enumerations.CombatStyle style)
         {
-            try
+            combatStyle = (int)style;
+        }
+
+        public ClientMob CurrentPlayer
+        {
+            get
             {
-                if (gameGraphics is not null)
+                if (playerArray is null || playerArray.Length.Equals(0))
                 {
-                    gameGraphics.UnloadContent();
-                    gameGraphics.pixels = null;
-                    gameGraphics = null;
+                    return null;
                 }
 
-                if (gameCamera is not null)
-                {
-                    gameCamera.cleanUp();
-                    gameCamera = null;
-                }
-
-                GameDataObjects = null;
-                ObjectArray = null;
-                WallObjects = null;
-                Mobs = null;
-                Players = null;
-                NpcAttackingArray = null;
-                Npcs = null;
-                CurrentPlayer = null;
-
-                if (engineHandle is not null)
-                {
-                    engineHandle.TileChunks = null;
-                    engineHandle.wallObject = null;
-                    engineHandle.roofObject = null;
-                    engineHandle.currentSectionObject = null;
-                    engineHandle = null;
-                }
-
-                GC.Collect();
-
-                return;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
-                Console.WriteLine(ex);
-
-                return;
+                return playerArray[0];
             }
         }
 
-        public void Update(GameTime gameTime)
+        public ClientMob[] Players => playerArray;
+
+        public ClientMob[] Npcs => npcArray;
+
+        public int GridSize => gridSize;
+
+        public int GroundItemCount => groundItemCount;
+
+        public int PlayerFatigue => fatigue;
+
+        public NuciXNA.Primitives.Point2D[] GroundItemLocations
         {
-            var lastUpdate = gameTime.ElapsedGameTime;
+            get
+            {
+                NuciXNA.Primitives.Point2D[] locs = new NuciXNA.Primitives.Point2D[groundItemCount];
+                for (int i = 0; i < groundItemCount; i++)
+                {
+                    locs[i] = new NuciXNA.Primitives.Point2D(groundItemX[i], groundItemY[i]);
+                }
+                return locs;
+            }
+        }
+
+        public OpenRS.Models.Skill[] Skills
+        {
+            get
+            {
+                if (playerStatBase is null)
+                {
+                    return new OpenRS.Models.Skill[0];
+                }
+
+                OpenRS.Models.Skill[] skills = new OpenRS.Models.Skill[playerStatBase.Length];
+                for (int i = 0; i < playerStatBase.Length; i++)
+                {
+                    skills[i] = new OpenRS.Models.Skill
+                    {
+                        BaseLevel = playerStatBase[i],
+                        CurrentLevel = playerStatCurrent != null ? playerStatCurrent[i] : 0,
+                        Experience = playerStatExp != null ? playerStatExp[i] : 0,
+                        Name = skillName != null && i < skillName.Length ? skillName[i] : string.Empty
+                    };
+                }
+                return skills;
+            }
+        }
+
+        public int GameDisplayOffsetX { get; set; }
+
+        public int GameDisplayOffsetY { get; set; }
+
+        public float GameDisplayScaleX { get; set; } = 1.0f;
+
+        public float GameDisplayScaleY { get; set; } = 1.0f;
+
+        public OpenRS.GameLogic.GameManagers.EntityManager entityManager;
+
+        public OpenRS.GameLogic.GameManagers.InventoryManager inventoryManager;
+
+        bool leftMouseDown = false;
+        bool rightMouseDown = false;
+        List<Keys> lastPressedKeys = new List<Keys>();
+        int lastMouseX = 0;
+        int lastMouseY = 0;
+        bool lastLeftDown = false;
+        bool lastRightDown = false;
+        bool shiftKeyIsDown = false;
+        bool ctrlKeyIsDown = false;
+        bool altKeyIsDown = false;
+        TimeSpan timeLapse = TimeSpan.Zero;
+
+        public char TranslateOemKeys(Keys k)
+        {
+            //   if (k == Keys.1)
+            //  { }
+            if (k == Keys.OemPeriod)
+                return '.';
+            else if (shiftKeyIsDown)
+            {
+                if (k == Keys.NumPad1 || k == Keys.D1)
+                    return '!';
+                else if (k == Keys.NumPad2 || k == Keys.D2)
+                    return '"';
+                else if (k == Keys.NumPad3 || k == Keys.D3)
+                    return '#';
+                else if (k == Keys.NumPad4 || k == Keys.D4)
+                    return '¤';
+                else if (k == Keys.NumPad5 || k == Keys.D5)
+                    return '%';
+                else if (k == Keys.NumPad6 || k == Keys.D6)
+                    return '&';
+                else if (k == Keys.NumPad7 || k == Keys.D7)
+                    return '/';
+                else if (k == Keys.NumPad8 || k == Keys.D8)
+                    return '(';
+                else if (k == Keys.NumPad9 || k == Keys.D9)
+                    return ')';
+                else if (k == Keys.NumPad0 || k == Keys.D0)
+                    return '=';
+                else if (k == Keys.OemPlus)
+                    return '?';
+                return (char)k;
+            }
+            else if (altKeyIsDown && ctrlKeyIsDown) // alt Gr
+            {
+                if (k == Keys.NumPad2 || k == Keys.D2)
+                    return '@';
+                else if (k == Keys.NumPad3 || k == Keys.D3)
+                    return '£';
+                else if (k == Keys.NumPad4 || k == Keys.D4)
+                    return '$';
+                else if (k == Keys.NumPad7 || k == Keys.D7)
+                    return '{';
+                else if (k == Keys.NumPad8 || k == Keys.D8)
+                    return '[';
+                else if (k == Keys.NumPad9 || k == Keys.D9)
+                    return ']';
+                else if (k == Keys.NumPad0 || k == Keys.D0)
+                    return '}';
+                else if (k == Keys.OemPlus)
+                    return '\\';
+            }
+            else
+            {
+                return ((char)k + "").ToLower()[0];
+            }
+            return (char)k;
+        }
+
+        public void Update(GameTime gt)
+        {
+            var lastUpdate = gt.ElapsedGameTime;
 
             var keyboardState = Keyboard.GetState();
 
             var mouseState = Mouse.GetState();
-            List<Keys> keysPressedDown = [.. keyboardState.GetPressedKeys()];
+            int rawX = mouseState.X;
+            int rawY = mouseState.Y;
+            var bounds = GameWindow?.ClientBounds;
+            if (GameWindow != null)
+            {
+                rawX += GameWindow.ClientBounds.X;
+                rawY += GameWindow.ClientBounds.Y;
+            }
+            MouseState adjustedMouseState = new MouseState(
+                rawX, rawY,
+                mouseState.ScrollWheelValue,
+                mouseState.LeftButton,
+                mouseState.MiddleButton,
+                mouseState.RightButton,
+                mouseState.XButton1,
+                mouseState.XButton2);
+            List<Keys> keysPressedDown = new List<Keys>();
+            keysPressedDown.AddRange(keyboardState.GetPressedKeys());
+
+            shiftKeyIsDown = keysPressedDown.Any(k => k == Keys.LeftShift || k == Keys.RightShift);
+            ctrlKeyIsDown = keysPressedDown.Any(k => k == Keys.LeftControl || k == Keys.RightControl);
+            altKeyIsDown = keysPressedDown.Any(k => k == Keys.LeftAlt || k == Keys.RightAlt);
 
             foreach (var k in keysPressedDown)
             {
+                //   if (timeLapse > TimeSpan.FromMilliseconds(100))
                 if (!lastPressedKeys.Contains(k))
                 {
-                    KeyDown(k, KeyTranslator.TranslateOemKeys(k));
+                    keyDown(k, TranslateOemKeys(k));
                     timeLapse = TimeSpan.Zero;
                 }
                 else if (timeLapse > TimeSpan.FromMilliseconds(150))
                 {
-                    KeyDown(k, KeyTranslator.TranslateOemKeys(k));
+                    keyDown(k, TranslateOemKeys(k));
                     timeLapse = TimeSpan.Zero;
                 }
+                //handleKeyDown(k, c[0]);
             }
+            foreach (var lk in lastPressedKeys)
+            {
+                if (!keysPressedDown.Contains(lk))
+                {
+                    keyUp(lk, TranslateOemKeys(lk));
+                }
+            }
+
 
             lastPressedKeys.Clear();
             lastPressedKeys.AddRange(keyboardState.GetPressedKeys());
 
             timeLapse += lastUpdate;
 
-            if (mouseState.X != lastMouseX || mouseState.Y != lastMouseY)
+            //mouseEntered(mouseState);
+            if (adjustedMouseState.X != lastMouseX || adjustedMouseState.Y != lastMouseY)
             {
-                MouseMove();
-
-                lastMouseX = mouseState.X;
-                lastMouseY = mouseState.Y;
+                mouseMove(adjustedMouseState.X, adjustedMouseState.Y);
+                lastMouseX = adjustedMouseState.X;
+                lastMouseY = adjustedMouseState.Y;
+                //mouseButtonClick = 0;
             }
 
-            if (mouseState.RightButton == ButtonState.Pressed)
+            if (adjustedMouseState.RightButton == ButtonState.Pressed && !lastRightDown)
             {
-                mouseDown(mouseState.X, mouseState.Y, mouseState.LeftButton == ButtonState.Pressed);
-                MousePressed(mouseState);
+                lastRightDown = true;
+                mouseDown(adjustedMouseState.X, adjustedMouseState.Y, adjustedMouseState.LeftButton == ButtonState.Pressed);
+                mousePressed(adjustedMouseState);
             }
 
-            if (mouseState.LeftButton == ButtonState.Pressed)
+
+            if (adjustedMouseState.LeftButton == ButtonState.Pressed && !lastLeftDown)
             {
-                mouseDown(mouseState.X, mouseState.Y, mouseState.LeftButton != ButtonState.Pressed);
-                MousePressed(mouseState);
+                lastLeftDown = true;
+                Console.WriteLine($"[MOUSEDOWN] screenX={mouseState.X} screenY={mouseState.Y} adjX={rawX} adjY={rawY} windowBounds={bounds}");
+                mouseDown(adjustedMouseState.X, adjustedMouseState.Y, false);
             }
 
-            if (mouseState.RightButton == ButtonState.Released)
+            if (adjustedMouseState.RightButton == ButtonState.Released && lastRightDown)
             {
-                MouseUp();
+                lastRightDown = false;
+                // mousePressed(mouseState);
+                mouseUp(adjustedMouseState.X, adjustedMouseState.Y);
+            }
+            if (adjustedMouseState.LeftButton == ButtonState.Released && lastLeftDown)
+            {
+                lastLeftDown = false;
+
+                mouseUp(adjustedMouseState.X, adjustedMouseState.Y);
             }
 
-            if (mouseState.LeftButton == ButtonState.Released)
-            {
-                MouseUp();
-            }
+            //uglyHack = false;
+            //if ((!rightMouseDown && !leftMouseDown) && (mouseState.LeftButton == ButtonState.Pressed || mouseState.RightButton == ButtonState.Pressed))
+            //{
+            //    if (!uglyHack)
+            //    {
+            //        uglyHack = true;
+            //        leftMouseDown = mouseState.LeftButton == ButtonState.Pressed;
+            //        rightMouseDown = mouseState.RightButton == ButtonState.Pressed;
+            //        //mouseDown(
+            //        mouseDown(mouseState.X, mouseState.Y, mouseState.LeftButton != ButtonState.Pressed);
+            //        //handleMouseDown(mouseState.X, mouseState.Y, 1);
+            //    }
+            //}
+
+            //if ((leftMouseDown || rightMouseDown) && mouseState.LeftButton == ButtonState.Released && mouseState.RightButton == ButtonState.Released && !uglyHack)
+            //{
+
+            //    leftMouseDown = false;
+            //    rightMouseDown = false;
+            //    mouseUp(mouseState.X, mouseState.Y);
+            //    mousePressed(mouseState);
+
+            //}
+
+
+
         }
+        bool uglyHack = false;
 
-        public void menuClick(int actionId)
+        //public void Draw(GameTime gt)
+        //{
+        //    if (gameGraphics != null)
+        //    {
+        //        try
+        //        {
+        //            //   gameGraphics.UpdateGameImage();
+
+        //            //  drawWindow();
+
+        //            gameGraphics.drawImage(spriteBatch, 0, 0);
+
+        //            //    //GameClient.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
+        //            //    foreach (var str in GameImage.stringsToDraw)
+        //            //    {
+
+        //            //        //GameClient.gameFont12
+        //            //        if (!GameClient.spriteBatch.BeginIsActive()) return;
+        //            //        //var color = new Color(startColor >> 0x0000ff, startColor >> 0x00ff00, startColor >> 0xff0000, 255);
+
+        //            //        Color clr = str.forecolor;
+        //            //        SpriteFont font = GameClient.gameFont12;
+
+        //            //        //if (clr.A == 0 || clr.A < 255)
+        //            //        //    clr = new Color(255, 255, 255, 255);
+
+        //            //        if (str.font != null)
+        //            //        {
+        //            //            font = str.font;
+        //            //        }
+        //            //        var textToRender = str.text;
+        //            //        //textToRender = textToRender.Replace("@gre@", "");
+        //            //        //textToRender = textToRender.Replace("@yel@", "");
+        //            //        //textToRender = textToRender.Replace("@whi@", "");
+        //            //        //textToRender = textToRender.Replace("@bla@", "");
+        //            //        //textToRender = textToRender.Replace("@ran@", "");
+        //            //        //textToRender = textToRender.Replace("@red@", "");
+
+        //            //        GameClient.spriteBatch.DrawString(font, textToRender, str.pos - new Vector2(0f, (float)gameFrame.yOffset / 2.5f), clr);
+
+
+        //            //    }
+        //        }
+        //        catch { }
+
+        //        ////GameClient.spriteBatch.End();
+
+        //        //GameImage.stringsToDraw.Clear();
+        //    }
+        //}
+
+
+        public void menuClick(int l)
         {
-            int actionType = menuActionType[actionId];
-            int actionVar1 = menuActionVar1[actionId];
-            int actionVar2 = menuActionVar2[actionId];
-
-            MenuAction action = menuActions[actionId];
-
-            if (action == MenuAction.CastSpellOnGroundItem)
+            int actionX = menuActionX[l];
+            int actionY = menuActionY[l];
+            int actionType = menuActionType[l];
+            int actionVar1 = menuActionVar1[l];
+            int actionVar2 = menuActionVar2[l];
+            int actionID = menuActionID[l];
+            if (actionID == 200)
             {
-                walkToGroundItem(SectionLocation, MenuActionLocations[actionId], true);
-                StreamClass.CreatePacket(104);
-                StreamClass.AddInt16(actionVar1);
-                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
-                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
-                StreamClass.AddInt16(actionType);
-                StreamClass.FormatPacket();
+                walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
+                base.streamClass.createPacket(104);
+                base.streamClass.addShort(actionVar1);
+                base.streamClass.addShort(actionX + areaX);
+                base.streamClass.addShort(actionY + areaY);
+                base.streamClass.addShort(actionType);
+                base.streamClass.formatPacket();
                 selectedSpell = -1;
             }
-
-            if (action == MenuAction.UseItemWithGroundItem)
+            if (actionID == 210)
             {
-                walkToGroundItem(SectionLocation, MenuActionLocations[actionId], true);
-                StreamClass.CreatePacket(34);
-                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
-                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
-                StreamClass.AddInt16(actionType);
-                StreamClass.AddInt16(actionVar1);
-                StreamClass.FormatPacket();
+                walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
+                base.streamClass.createPacket(34);
+                base.streamClass.addShort(actionX + areaX);
+                base.streamClass.addShort(actionY + areaY);
+                base.streamClass.addShort(actionType);
+                base.streamClass.addShort(actionVar1);
+                base.streamClass.formatPacket();
                 selectedItem = -1;
             }
-
-            if (action == MenuAction.TakeItem)
+            if (actionID == 220)
             {
-                walkToGroundItem(SectionLocation, MenuActionLocations[actionId], true);
-                StreamClass.CreatePacket(245);
-                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
-                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
-                StreamClass.AddInt16(actionType);
-                StreamClass.AddInt16(actionVar1);
-                StreamClass.FormatPacket();
+                walkToGroundItem(sectionX, sectionY, actionX, actionY, true);
+                base.streamClass.createPacket(245);
+                base.streamClass.addShort(actionX + areaX);
+                base.streamClass.addShort(actionY + areaY);
+                base.streamClass.addShort(actionType);
+                base.streamClass.addShort(actionVar1);
+                base.streamClass.formatPacket();
             }
-
-            if (action == MenuAction.ExamineGroundItem)
+            if (actionID == 3200)
+                displayMessage(Data.Data.itemDescription[actionType], 3);
+            if (actionID == 300)
             {
-                DisplayMessage(entityManager.GetItem(actionType).Description);
-            }
-
-            if (action == MenuAction.CastSpellOnWallObject)
-            {
-                walkToWallObject(MenuActionLocations[actionId], actionType);
-                StreamClass.CreatePacket(67);
-                StreamClass.AddInt16(actionVar1);
-                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
-                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
-                StreamClass.AddInt8(actionType);
-                StreamClass.FormatPacket();
+                walkToWallObject(actionX, actionY, actionType);
+                base.streamClass.createPacket(67);
+                base.streamClass.addShort(actionVar1);
+                base.streamClass.addShort(actionX + areaX);
+                base.streamClass.addShort(actionY + areaY);
+                base.streamClass.addByte(actionType);
+                base.streamClass.formatPacket();
                 selectedSpell = -1;
             }
-
-            if (action == MenuAction.UseItemWithWallObject)
+            if (actionID == 310)
             {
-                walkToWallObject(MenuActionLocations[actionId], actionType);
-                StreamClass.CreatePacket(36);
-                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
-                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
-                StreamClass.AddInt8(actionType);
-                StreamClass.AddInt16(actionVar1);
-                StreamClass.FormatPacket();
+                walkToWallObject(actionX, actionY, actionType);
+                base.streamClass.createPacket(36);
+                base.streamClass.addShort(actionX + areaX);
+                base.streamClass.addShort(actionY + areaY);
+                base.streamClass.addByte(actionType);
+                base.streamClass.addShort(actionVar1);
+                base.streamClass.formatPacket();
                 selectedItem = -1;
             }
-
-            if (action == MenuAction.Command1OnWallObject)
+            if (actionID == 320)
             {
-                walkToWallObject(MenuActionLocations[actionId], actionType);
-                StreamClass.CreatePacket(126);
-                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
-                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
-                StreamClass.AddInt8(actionType);
-                StreamClass.FormatPacket();
+                walkToWallObject(actionX, actionY, actionType);
+                base.streamClass.createPacket(126);
+                base.streamClass.addShort(actionX + areaX);
+                base.streamClass.addShort(actionY + areaY);
+                base.streamClass.addByte(actionType);
+                base.streamClass.formatPacket();
             }
-
-            if (action == MenuAction.Command2OnWallObject)
+            if (actionID == 2300)
             {
-                walkToWallObject(MenuActionLocations[actionId], actionType);
-                StreamClass.CreatePacket(235);
-                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
-                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
-                StreamClass.AddInt8(actionType);
-                StreamClass.FormatPacket();
+                walkToWallObject(actionX, actionY, actionType);
+                base.streamClass.createPacket(235);
+                base.streamClass.addShort(actionX + areaX);
+                base.streamClass.addShort(actionY + areaY);
+                base.streamClass.addByte(actionType);
+                base.streamClass.formatPacket();
             }
-
-            if (action == MenuAction.ExamineWallObject)
+            if (actionID == 3300)
+                displayMessage(Data.Data.wallObjectDescription[actionType], 3);
+            if (actionID == 400)
             {
-                DisplayMessage(entityManager.GetWallObject(actionType).Description);
-            }
+                walkToObject(actionX, actionY, actionType, actionVar1);
+                base.streamClass.createPacket(17);
+                base.streamClass.addShort(actionVar2);
+                base.streamClass.addShort(actionX + areaX);
+                base.streamClass.addShort(actionY + areaY);
 
-            if (action == MenuAction.CastSpellOnModel)
-            {
-                walkToObject(MenuActionLocations[actionId], actionType, actionVar1);
-                StreamClass.CreatePacket(17);
-                StreamClass.AddInt16(actionVar2);
-                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
-                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
-
-                StreamClass.FormatPacket();
+                base.streamClass.formatPacket();
                 selectedSpell = -1;
             }
-
-            if (action == MenuAction.UseItemWithModel)
+            if (actionID == 410)
             {
-                walkToObject(MenuActionLocations[actionId], actionType, actionVar1);
-                StreamClass.CreatePacket(94);
-                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
-                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
-                StreamClass.AddInt16(actionVar2);
-                StreamClass.FormatPacket();
+                walkToObject(actionX, actionY, actionType, actionVar1);
+                base.streamClass.createPacket(94);
+                base.streamClass.addShort(actionX + areaX);
+                base.streamClass.addShort(actionY + areaY);
+                base.streamClass.addShort(actionVar2);
+                base.streamClass.formatPacket();
                 selectedItem = -1;
             }
-
-            if (action == MenuAction.Command1OnModel)
+            if (actionID == 420)
             {
-                walkToObject(MenuActionLocations[actionId], actionType, actionVar1);
-                StreamClass.CreatePacket(51);
-                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
-                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
-                StreamClass.FormatPacket();
+                walkToObject(actionX, actionY, actionType, actionVar1);
+                base.streamClass.createPacket(51);
+                base.streamClass.addShort(actionX + areaX);
+                base.streamClass.addShort(actionY + areaY);
+                base.streamClass.formatPacket();
             }
-
-            if (action == MenuAction.Command2OnModel)
+            if (actionID == 2400)
             {
-                walkToObject(MenuActionLocations[actionId], actionType, actionVar1);
-                StreamClass.CreatePacket(40);
-                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
-                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
-                StreamClass.FormatPacket();
+                walkToObject(actionX, actionY, actionType, actionVar1);
+                base.streamClass.createPacket(40);
+                base.streamClass.addShort(actionX + areaX);
+                base.streamClass.addShort(actionY + areaY);
+                base.streamClass.formatPacket();
             }
-
-            if (action == MenuAction.ExamineModel)
+            if (actionID == 3400)
+                displayMessage(Data.Data.objectDescription[actionType], 3);
+            if (actionID == 600)
             {
-                DisplayMessage(entityManager.GetWorldObject(actionType).Description);
-            }
-
-            if (action == MenuAction.CastSpellOnItem)
-            {
-                StreamClass.CreatePacket(49);
-                StreamClass.AddInt16(actionVar1);
-                StreamClass.AddInt16(actionType);
-                StreamClass.FormatPacket();
+                base.streamClass.createPacket(49);
+                base.streamClass.addShort(actionVar1);
+                base.streamClass.addShort(actionType);
+                base.streamClass.formatPacket();
                 selectedSpell = -1;
             }
-
-            if (action == MenuAction.UseItemWithItem)
+            if (actionID == 610)
             {
-                StreamClass.CreatePacket(27);
-                StreamClass.AddInt16(actionType);
-                StreamClass.AddInt16(actionVar1);
-                StreamClass.FormatPacket();
+                base.streamClass.createPacket(27);
+                base.streamClass.addShort(actionType);
+                base.streamClass.addShort(actionVar1);
+                base.streamClass.formatPacket();
                 selectedItem = -1;
             }
-
-            if (action == MenuAction.RemoveItem)
+            if (actionID == 620)
             {
-                StreamClass.CreatePacket(92);
-                StreamClass.AddInt16(actionType);
-                StreamClass.FormatPacket();
+                base.streamClass.createPacket(92);
+                base.streamClass.addShort(actionType);
+                base.streamClass.formatPacket();
             }
-
-            if (action == MenuAction.EquipItem)
+            if (actionID == 630)
             {
-                StreamClass.CreatePacket(181);
-                StreamClass.AddInt16(actionType);
-                StreamClass.FormatPacket();
+                base.streamClass.createPacket(181);
+                base.streamClass.addShort(actionType);
+                base.streamClass.formatPacket();
             }
-
-            if (action == MenuAction.CommandOnItem)
+            if (actionID == 640)
             {
-                StreamClass.CreatePacket(89);
-                StreamClass.AddInt16(actionType);
-                StreamClass.FormatPacket();
+                base.streamClass.createPacket(89);
+                base.streamClass.addShort(actionType);
+                base.streamClass.formatPacket();
             }
-
-            if (action == MenuAction.UseItem)
+            if (actionID == 650)
             {
                 selectedItem = actionType;
                 drawMenuTab = 0;
-
-                int itemId = inventoryManager.GetItem(selectedItem).Index;
-                selectedItemName = entityManager.GetItem(itemId).Name;
+                selectedItemName = Data.Data.itemName[inventoryItems[selectedItem]];
             }
-
-            if (action == MenuAction.UseItem)
+            if (actionID == 660)
             {
-                StreamClass.CreatePacket(147);
-                StreamClass.AddInt16(actionType);
-                StreamClass.FormatPacket();
+                base.streamClass.createPacket(147);
+                base.streamClass.addShort(actionType);
+                base.streamClass.formatPacket();
                 selectedItem = -1;
                 drawMenuTab = 0;
-
-                int itemIndex = inventoryManager.GetItem(actionType).Index;
-
-                DisplayMessage("Dropping " + entityManager.GetItem(itemIndex).Name);
+                displayMessage("Dropping " + Data.Data.itemName[inventoryItems[actionType]], 4);
             }
-
-            if (action == MenuAction.ExamineItem)
+            if (actionID == 3600)
+                displayMessage(Data.Data.itemDescription[actionType], 3);
+            if (actionID == 700)
             {
-                DisplayMessage(entityManager.GetItem(actionType).Description);
-            }
-
-            if (action == MenuAction.CastSpellOnNpc)
-            {
-                Point2D destination = new(
-                    (MenuActionLocations[actionId].X - 64) / GridSize,
-                    (MenuActionLocations[actionId].Y - 64) / GridSize);
-
-                walkTo1Tile(SectionLocation, destination, true);
-                StreamClass.CreatePacket(71);
-                StreamClass.AddInt16(actionVar1);
-                StreamClass.AddInt16(actionType);
-                StreamClass.FormatPacket();
+                int k2 = (actionX - 64) / gridSize;
+                int k4 = (actionY - 64) / gridSize;
+                walkTo1Tile(sectionX, sectionY, k2, k4, true);
+                base.streamClass.createPacket(71);
+                base.streamClass.addShort(actionVar1);
+                base.streamClass.addShort(actionType);
+                base.streamClass.formatPacket();
                 selectedSpell = -1;
             }
-
-            if (action == MenuAction.UseItemWithNpc)
+            if (actionID == 710)
             {
-                Point2D destination = new(
-                    (MenuActionLocations[actionId].X - 64) / GridSize,
-                    (MenuActionLocations[actionId].Y - 64) / GridSize);
-
-                walkTo1Tile(SectionLocation, destination, true);
-                StreamClass.CreatePacket(142);
-                StreamClass.AddInt16(actionType);
-                StreamClass.AddInt16(actionVar1);
-                StreamClass.FormatPacket();
+                int l2 = (actionX - 64) / gridSize;
+                int l4 = (actionY - 64) / gridSize;
+                walkTo1Tile(sectionX, sectionY, l2, l4, true);
+                base.streamClass.createPacket(142);
+                base.streamClass.addShort(actionType);
+                base.streamClass.addShort(actionVar1);
+                base.streamClass.formatPacket();
                 selectedItem = -1;
             }
-
-            if (action == MenuAction.TalkToNpc)
+            if (actionID == 720)
             {
-                Point2D destination = new(
-                    (MenuActionLocations[actionId].X - 64) / GridSize,
-                    (MenuActionLocations[actionId].Y - 64) / GridSize);
-
-                walkTo1Tile(SectionLocation, destination, true);
-                StreamClass.CreatePacket(177);
-                StreamClass.AddInt16(actionType);
-                StreamClass.FormatPacket();
+                int i3 = (actionX - 64) / gridSize;
+                int i5 = (actionY - 64) / gridSize;
+                walkTo1Tile(sectionX, sectionY, i3, i5, true);
+                base.streamClass.createPacket(177);
+                base.streamClass.addShort(actionType);
+                base.streamClass.formatPacket();
             }
-
-            if (action == MenuAction.CommandOnNpc)
+            if (actionID == 725)
             {
-                Point2D destination = new(
-                    (MenuActionLocations[actionId].X - 64) / GridSize,
-                    (MenuActionLocations[actionId].Y - 64) / GridSize);
-
-                walkTo1Tile(SectionLocation, destination, true);
-                StreamClass.CreatePacket(74);
-                StreamClass.AddInt16(actionType);
-                StreamClass.FormatPacket();
+                int j3 = (actionX - 64) / gridSize;
+                int j5 = (actionY - 64) / gridSize;
+                walkTo1Tile(sectionX, sectionY, j3, j5, true);
+                base.streamClass.createPacket(74);
+                base.streamClass.addShort(actionType);
+                base.streamClass.formatPacket();
             }
-
-            if (action == MenuAction.AttackNpc || action == MenuAction.AttackNpc2)
+            if (actionID == 715 || actionID == 2715)
             {
-                Point2D destination = new(
-                    (MenuActionLocations[actionId].X - 64) / GridSize,
-                    (MenuActionLocations[actionId].Y - 64) / GridSize);
-
-                walkTo1Tile(SectionLocation, destination, true);
-                StreamClass.CreatePacket(73);
-                StreamClass.AddInt16(actionType);
-                StreamClass.FormatPacket();
+                int k3 = (actionX - 64) / gridSize;
+                int k5 = (actionY - 64) / gridSize;
+                walkTo1Tile(sectionX, sectionY, k3, k5, true);
+                base.streamClass.createPacket(73);
+                base.streamClass.addShort(actionType);
+                base.streamClass.formatPacket();
             }
-
-            if (action == MenuAction.ExamineNpc)
+            if (actionID == 3700)
+                displayMessage(Data.Data.npcDescription[actionType], 3);
+            if (actionID == 800)
             {
-                DisplayMessage(entityManager.GetNpc(actionType).Description);
-            }
-
-            if (action == MenuAction.CastSpellOnGround)
-            {
-                walkTo1Tile(SectionLocation, MenuActionLocations[actionId], true);
-                StreamClass.CreatePacket(232);
-                StreamClass.AddInt16(actionType);
-                StreamClass.AddInt16(MenuActionLocations[actionId].X + AreaLocation.X);
-                StreamClass.AddInt16(MenuActionLocations[actionId].Y + AreaLocation.Y);
-                StreamClass.FormatPacket();
+                int l3 = (actionX - 64) / gridSize;
+                int l5 = (actionY - 64) / gridSize;
+                walkTo1Tile(sectionX, sectionY, l3, l5, true);
+                base.streamClass.createPacket(55);
+                base.streamClass.addShort(actionVar1);
+                base.streamClass.addShort(actionType);
+                base.streamClass.formatPacket();
                 selectedSpell = -1;
             }
-
-            if (action == MenuAction.WalkHere)
+            if (actionID == 810)
             {
-                walkTo1Tile(SectionLocation, MenuActionLocations[actionId], false);
-
+                int i4 = (actionX - 64) / gridSize;
+                int i6 = (actionY - 64) / gridSize;
+                walkTo1Tile(sectionX, sectionY, i4, i6, true);
+                base.streamClass.createPacket(16);
+                base.streamClass.addShort(actionType);
+                base.streamClass.addShort(actionVar1);
+                base.streamClass.formatPacket();
+                selectedItem = -1;
+            }
+            if (actionID == 805 || actionID == 2805)
+            {
+                int j4 = (actionX - 64) / gridSize;
+                int j6 = (actionY - 64) / gridSize;
+                walkTo1Tile(sectionX, sectionY, j4, j6, true);
+                base.streamClass.createPacket(57);
+                base.streamClass.addShort(actionType);
+                base.streamClass.formatPacket();
+            }
+            if (actionID == 2806)
+            {
+                base.streamClass.createPacket(222);
+                base.streamClass.addShort(actionType);
+                base.streamClass.formatPacket();
+            }
+            if (actionID == 2810)
+            {
+                base.streamClass.createPacket(166);
+                base.streamClass.addShort(actionType);
+                base.streamClass.formatPacket();
+            }
+            if (actionID == 2820)
+            {
+                base.streamClass.createPacket(68);
+                base.streamClass.addShort(actionType);
+                base.streamClass.formatPacket();
+            }
+            if (actionID == 900)
+            {
+                walkTo1Tile(sectionX, sectionY, actionX, actionY, true);
+                base.streamClass.createPacket(232);
+                base.streamClass.addShort(actionType);
+                base.streamClass.addShort(actionX + areaX);
+                base.streamClass.addShort(actionY + areaY);
+                base.streamClass.formatPacket();
+                selectedSpell = -1;
+            }
+            if (actionID == 920)
+            {
+                walkTo1Tile(sectionX, sectionY, actionX, actionY, false);
                 if (actionPictureType == -24)
-                {
                     actionPictureType = 24;
-                }
             }
-
-            if (action == MenuAction.CastSpellOnSelf)
+            if (actionID == 1000)
             {
-                StreamClass.CreatePacket(206);
-                StreamClass.AddInt16(actionType);
-                StreamClass.FormatPacket();
+                base.streamClass.createPacket(206);
+                base.streamClass.addShort(actionType);
+                base.streamClass.formatPacket();
                 selectedSpell = -1;
             }
-
-            if (action == MenuAction.Cancel)
+            if (actionID == 4000)
             {
                 selectedItem = -1;
                 selectedSpell = -1;
             }
         }
 
-        public override void resetIntVars() => loggedIn = false;
+        public override void resetIntVars()
+        {
+            systemUpdate = 0;
+            loginScreen = 0;
+            loggedIn = false;
+            logoutTimer = 0;
+        }
 
-        public void LoadMap()
+        public void drawReportAbuseBox1()
+        {
+            reportAbuseOptionSelected = 0;
+            int yOffset = 135;
+            for (int option = 0; option < 12; option++)
+            {
+                if (base.mouseX > 66 && base.mouseX < 446 && base.mouseY >= yOffset - 12 && base.mouseY < yOffset + 3)
+                    reportAbuseOptionSelected = option + 1;
+                yOffset += 14;
+            }
+
+            if (mouseButtonClick != 0 && reportAbuseOptionSelected != 0)
+            {
+                mouseButtonClick = 0;
+                showAbuseBox = 2;
+                base.inputText = "";
+                base.enteredInputText = "";
+                return;
+            }
+            yOffset += 15;
+            if (mouseButtonClick != 0)
+            {
+                mouseButtonClick = 0;
+                if (base.mouseX < 56 || base.mouseY < 35 || base.mouseX > 456 || base.mouseY > 325)
+                {
+                    showAbuseBox = 0;
+                    return;
+                }
+                if (base.mouseX > 66 && base.mouseX < 446 && base.mouseY >= yOffset - 15 && base.mouseY < yOffset + 5)
+                {
+                    showAbuseBox = 0;
+                    return;
+                }
+            }
+            gameGraphics.drawBox(56, 35, 400, 290, 0);
+            gameGraphics.drawBoxEdge(56, 35, 400, 290, 0xffffff);
+            yOffset = 50;
+            gameGraphics.drawText("This form is for reporting players who are breaking our rules", 256, yOffset, 1, 0xffffff);
+            yOffset += 15;
+            gameGraphics.drawText("Using it sends a snapshot of the last 60 secs of activity to us", 256, yOffset, 1, 0xffffff);
+            yOffset += 15;
+            gameGraphics.drawText("If you misuse this form, you will be banned.", 256, yOffset, 1, 0xff8000);
+            yOffset += 15;
+            yOffset += 10;
+            gameGraphics.drawText("First indicate which of our 12 rules is being broken. For a detailed", 256, yOffset, 1, 0xffff00);
+            yOffset += 15;
+            gameGraphics.drawText("explanation of each rule please read the manual on our website.", 256, yOffset, 1, 0xffff00);
+            yOffset += 15;
+            int j1;
+            if (reportAbuseOptionSelected == 1)
+            {
+                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                j1 = 0xff8000;
+            }
+            else
+            {
+                j1 = 0xffffff;
+            }
+            gameGraphics.drawText("1: Offensive language", 256, yOffset, 1, j1);
+            yOffset += 14;
+            if (reportAbuseOptionSelected == 2)
+            {
+                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                j1 = 0xff8000;
+            }
+            else
+            {
+                j1 = 0xffffff;
+            }
+            gameGraphics.drawText("2: Item scamming", 256, yOffset, 1, j1);
+            yOffset += 14;
+            if (reportAbuseOptionSelected == 3)
+            {
+                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                j1 = 0xff8000;
+            }
+            else
+            {
+                j1 = 0xffffff;
+            }
+            gameGraphics.drawText("3: Password scamming", 256, yOffset, 1, j1);
+            yOffset += 14;
+            if (reportAbuseOptionSelected == 4)
+            {
+                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                j1 = 0xff8000;
+            }
+            else
+            {
+                j1 = 0xffffff;
+            }
+            gameGraphics.drawText("4: Bug abuse", 256, yOffset, 1, j1);
+            yOffset += 14;
+            if (reportAbuseOptionSelected == 5)
+            {
+                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                j1 = 0xff8000;
+            }
+            else
+            {
+                j1 = 0xffffff;
+            }
+            gameGraphics.drawText("5: Jagex Staff impersonation", 256, yOffset, 1, j1);
+            yOffset += 14;
+            if (reportAbuseOptionSelected == 6)
+            {
+                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                j1 = 0xff8000;
+            }
+            else
+            {
+                j1 = 0xffffff;
+            }
+            gameGraphics.drawText("6: Account sharing/trading", 256, yOffset, 1, j1);
+            yOffset += 14;
+            if (reportAbuseOptionSelected == 7)
+            {
+                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                j1 = 0xff8000;
+            }
+            else
+            {
+                j1 = 0xffffff;
+            }
+            gameGraphics.drawText("7: Macroing", 256, yOffset, 1, j1);
+            yOffset += 14;
+            if (reportAbuseOptionSelected == 8)
+            {
+                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                j1 = 0xff8000;
+            }
+            else
+            {
+                j1 = 0xffffff;
+            }
+            gameGraphics.drawText("8: Mutiple logging in", 256, yOffset, 1, j1);
+            yOffset += 14;
+            if (reportAbuseOptionSelected == 9)
+            {
+                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                j1 = 0xff8000;
+            }
+            else
+            {
+                j1 = 0xffffff;
+            }
+            gameGraphics.drawText("9: Encouraging others to break rules", 256, yOffset, 1, j1);
+            yOffset += 14;
+            if (reportAbuseOptionSelected == 10)
+            {
+                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                j1 = 0xff8000;
+            }
+            else
+            {
+                j1 = 0xffffff;
+            }
+            gameGraphics.drawText("10: Misuse of customer support", 256, yOffset, 1, j1);
+            yOffset += 14;
+            if (reportAbuseOptionSelected == 11)
+            {
+                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                j1 = 0xff8000;
+            }
+            else
+            {
+                j1 = 0xffffff;
+            }
+            gameGraphics.drawText("11: Advertising / website", 256, yOffset, 1, j1);
+            yOffset += 14;
+            if (reportAbuseOptionSelected == 12)
+            {
+                gameGraphics.drawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                j1 = 0xff8000;
+            }
+            else
+            {
+                j1 = 0xffffff;
+            }
+            gameGraphics.drawText("12: Real world item trading", 256, yOffset, 1, j1);
+            yOffset += 14;
+            yOffset += 15;
+            j1 = 0xffffff;
+            if (base.mouseX > 196 && base.mouseX < 316 && base.mouseY > yOffset - 15 && base.mouseY < yOffset + 5)
+                j1 = 0xffff00;
+            gameGraphics.drawText("Click here to cancel", 256, yOffset, 1, j1);
+        }
+
+        public void loadMap()
         {
             engineHandle.mapsFree = unpackData("maps.jag", "map", 70);
             engineHandle.mapsMembers = unpackData("maps.mem", "members map", 75);
@@ -752,49 +897,34 @@ namespace OpenRS.Net.Client
             engineHandle.landscapeMembers = unpackData("land.mem", "members landscape", 85);
         }
 
-        public void DrawModel(int objectIndex, string modelName)
+        public void drawModel(int l, String s1)
         {
-            int k1 = ObjectLocations[objectIndex].X - CurrentPlayer.Location.X / 128;
-            int l1 = ObjectLocations[objectIndex].Y - CurrentPlayer.Location.Y / 128;
-
+            int i1 = objectX[l];
+            int j1 = objectY[l];
+            int k1 = i1 - ourPlayer.currentX / 128;
+            int l1 = j1 - ourPlayer.currentY / 128;
             byte byte0 = 7;
-
-            if (ObjectLocations[objectIndex].X >= 0 &&
-                ObjectLocations[objectIndex].Y >= 0 &&
-                ObjectLocations[objectIndex].X < 96 &&
-                ObjectLocations[objectIndex].Y < 96 &&
-                k1 > -byte0 &&
-                k1 < byte0 &&
-                l1 > -byte0 &&
-                l1 < byte0)
+            if (i1 >= 0 && j1 >= 0 && i1 < 96 && j1 < 96 && k1 > -byte0 && k1 < byte0 && l1 > -byte0 && l1 < byte0)
             {
-                gameCamera.removeModel(ObjectArray[objectIndex]);
-
-                int i2 = entityManager.GetModelIndex(modelName);
-                ObjectModel j2 = GameDataObjects[i2].CreateParent();
-                Point3D shadingPoint = new(-50, -10, -50);
-
+                gameCamera.removeModel(objectArray[l]);
+                int i2 = Data.Data.getModelNameIndex(s1);
+                GameObject j2 = gameDataObjects[i2].CreateParent();
                 gameCamera.addModel(j2);
-                j2.UpdateShading(true, 48, 48, shadingPoint);
-                j2.CopyTranslation(ObjectArray[objectIndex]);
-                j2.index = objectIndex;
-                ObjectArray[objectIndex] = j2;
+                j2.UpdateShading(true, 48, 48, -50, -10, -50);
+                j2.CopyTranslation(objectArray[l]);
+                j2.index = l;
+                objectArray[l] = j2;
             }
         }
 
-        public void DrawPlayer(int x, int y, int width, int height, int playerIndex, int arg5, int arg6)
+        public void drawPlayer(int x, int y, int width, int height, int playerIndex, int arg5, int arg6)
         {
-            ClientMob player = Players[playerIndex];
-
-            if (player.Appearance.TrousersColour == 255)// TODO this checks if the player is an invisible moderator
-            {
+            ClientMob f1 = playerArray[playerIndex];
+            if (f1.bottomColour == 255)// TODO this checks if the player is an invisible moderator
                 return;
-            }
-
-            int direction = player.CurrentSprite + (cameraRotation + 16) / 32 & 7;
+            int direction = f1.currentSprite + (cameraRotation + 16) / 32 & 7;
             bool flag = false;
             int direction2 = direction;
-
             if (direction2 == 5)
             {
                 direction2 = 3;
@@ -810,296 +940,332 @@ namespace OpenRS.Net.Client
                 direction2 = 1;
                 flag = true;
             }
-
-            int j1 = direction2 * 3 + walkModel[player.StepCount / 6 % 4];
-
-            if (player.CurrentSprite == 8)
+            int j1 = direction2 * 3 + walkModel[(f1.stepCount / 6) % 4];
+            if (f1.currentSprite == 8)
             {
                 direction2 = 5;
                 direction = 2;
                 flag = false;
-                x -= 5 * arg6 / 100;
-                j1 = direction2 * 3 + combatModelArray1[tick / 5 % 8];
+                x -= (5 * arg6) / 100;
+                j1 = direction2 * 3 + combatModelArray1[(tick / 5) % 8];
             }
-            else if (player.CurrentSprite == 9)
-            {
-                direction2 = 5;
-                direction = 2;
-                flag = true;
-                x += 5 * arg6 / 100;
-                j1 = direction2 * 3 + combatModelArray2[tick / 6 % 8];
-            }
-
+            else
+                if (f1.currentSprite == 9)
+                {
+                    direction2 = 5;
+                    direction = 2;
+                    flag = true;
+                    x += (5 * arg6) / 100;
+                    j1 = direction2 * 3 + combatModelArray2[(tick / 6) % 8];
+                }
             for (int k1 = 0; k1 < 12; k1++)
             {
                 int l1 = animationModelArray[direction][k1];
-                int l2 = player.AppearanceItems[l1] - 1;
-                if (l2 > entityManager.AnimationCount - 1)
-                {
+                int l2 = f1.appearanceItems[l1] - 1;
+                if (l2 > Data.Data.animationCount - 1)
                     continue;
-                }
-
                 if (l2 >= 0)
                 {
                     int k3 = 0;
                     int i4 = 0;
                     int j4 = j1;
                     if (flag && direction2 >= 1 && direction2 <= 3)
-                    {
-                        if (entityManager.GetAnimation(l2).HasF == 1)
-                        {
+                        if (Data.Data.animationHasF[l2] == 1)
                             j4 += 15;
-                        }
                         else if (l1 == 4 && direction2 == 1)
                         {
                             k3 = -22;
                             i4 = -3;
-                            j4 = direction2 * 3 + walkModel[(2 + player.StepCount / 6) % 4];
+                            j4 = direction2 * 3 + walkModel[(2 + f1.stepCount / 6) % 4];
                         }
                         else if (l1 == 4 && direction2 == 2)
                         {
                             k3 = 0;
                             i4 = -8;
-                            j4 = direction2 * 3 + walkModel[(2 + player.StepCount / 6) % 4];
+                            j4 = direction2 * 3 + walkModel[(2 + f1.stepCount / 6) % 4];
                         }
                         else if (l1 == 4 && direction2 == 3)
                         {
                             k3 = 26;
                             i4 = -5;
-                            j4 = direction2 * 3 + walkModel[(2 + player.StepCount / 6) % 4];
+                            j4 = direction2 * 3 + walkModel[(2 + f1.stepCount / 6) % 4];
                         }
                         else if (l1 == 3 && direction2 == 1)
                         {
                             k3 = 22;
                             i4 = 3;
-                            j4 = direction2 * 3 + walkModel[(2 + player.StepCount / 6) % 4];
+                            j4 = direction2 * 3 + walkModel[(2 + f1.stepCount / 6) % 4];
                         }
                         else if (l1 == 3 && direction2 == 2)
                         {
                             k3 = 0;
                             i4 = 8;
-                            j4 = direction2 * 3 + walkModel[(2 + player.StepCount / 6) % 4];
+                            j4 = direction2 * 3 + walkModel[(2 + f1.stepCount / 6) % 4];
                         }
                         else if (l1 == 3 && direction2 == 3)
                         {
                             k3 = -26;
                             i4 = 5;
-                            j4 = direction2 * 3 + walkModel[(2 + player.StepCount / 6) % 4];
+                            j4 = direction2 * 3 + walkModel[(2 + f1.stepCount / 6) % 4];
                         }
-                    }
-
-                    if (direction2 != 5 || entityManager.GetAnimation(l2).HasA == 1)
+                    if (direction2 != 5 || Data.Data.animationHasA[l2] == 1)
                     {
-                        int k4 = j4 + entityManager.GetAnimation(l2).Number;
-                        k3 = k3 * width / gameGraphics.pictureAssumedWidth[k4];
-                        i4 = i4 * height / gameGraphics.pictureAssumedHeight[k4];
-                        int l4 = width * gameGraphics.pictureAssumedWidth[k4] / gameGraphics.pictureAssumedWidth[entityManager.GetAnimation(l2).Number];
+                        int k4 = j4 + Data.Data.animationNumber[l2];
+                        k3 = (k3 * width) / ((GameImage)(gameGraphics)).pictureAssumedWidth[k4];
+                        i4 = (i4 * height) / ((GameImage)(gameGraphics)).pictureAssumedHeight[k4];
+                        int l4 = (width * ((GameImage)(gameGraphics)).pictureAssumedWidth[k4]) / ((GameImage)(gameGraphics)).pictureAssumedWidth[Data.Data.animationNumber[l2]];
                         k3 -= (l4 - width) / 2;
-                        int i5 = entityManager.GetAnimation(l2).CharacterColour;
-                        int j5 = appearanceSkinColours[player.Appearance.SkinColour];
-
+                        int i5 = Data.Data.animationCharacterColor[l2];
+                        int j5 = appearanceSkinColours[f1.skinColour];
                         if (i5 == 1)
-                        {
-                            i5 = appearanceHairColours[player.Appearance.HairColour];
-                        }
+                            i5 = appearanceHairColours[f1.hairColour];
                         else
                             if (i5 == 2)
-                        {
-                            i5 = appearanceTopBottomColours[player.Appearance.TopColour];
-                        }
-                        else
+                                i5 = appearanceTopBottomColours[f1.topColour];
+                            else
                                 if (i5 == 3)
-                        {
-                            i5 = appearanceTopBottomColours[player.Appearance.TrousersColour];
-                        }
-
-                        gameGraphics.DrawImage(x + k3, y + i4, l4, height, k4, i5, j5, arg5, flag);
+                                    i5 = appearanceTopBottomColours[f1.bottomColour];
+                        gameGraphics.drawImage(x + k3, y + i4, l4, height, k4, i5, j5, arg5, flag);
                     }
                 }
             }
 
-            if (player.LastMessageTimeout > 0)
+            if (f1.lastMessageTimeout > 0)
             {
-                receivedMessageMidPoint[receivedMessagesCount] = gameGraphics.textWidth(player.LastMessage, 1) / 2;
+                receivedMessageMidPoint[receivedMessagesCount] = gameGraphics.textWidth(f1.lastMessage, 1) / 2;
                 if (receivedMessageMidPoint[receivedMessagesCount] > 150)
-                {
                     receivedMessageMidPoint[receivedMessagesCount] = 150;
-                }
-
-                receivedMessageHeight[receivedMessagesCount] = gameGraphics.textWidth(player.LastMessage, 1) / 300 * gameGraphics.textHeightNumber(1);
+                receivedMessageHeight[receivedMessagesCount] = (gameGraphics.textWidth(f1.lastMessage, 1) / 300) * gameGraphics.textHeightNumber(1);
                 receivedMessageX[receivedMessagesCount] = x + width / 2;
                 receivedMessageY[receivedMessagesCount] = y;
-                receivedMessages[receivedMessagesCount++] = player.LastMessage;
+                receivedMessages[receivedMessagesCount++] = f1.lastMessage;
             }
-
-            if (player.PlayerSkullTimeout > 0)
+            if (f1.playerSkullTimeout > 0)
             {
                 itemAboveHeadX[itemsAboveHeadCount] = x + width / 2;
                 itemAboveHeadY[itemsAboveHeadCount] = y;
                 itemAboveHeadScale[itemsAboveHeadCount] = arg6;
-                itemAboveHeadID[itemsAboveHeadCount++] = player.ItemAboveHeadId;
+                itemAboveHeadID[itemsAboveHeadCount++] = f1.itemAboveHeadID;
             }
-
-            if (player.CurrentSprite == 8 || player.CurrentSprite == 9 || player.CombatTimer != 0)
+            if (f1.currentSprite == 8 || f1.currentSprite == 9 || f1.combatTimer != 0)
             {
-                if (player.CombatTimer > 0)
+                if (f1.combatTimer > 0)
                 {
                     int i2 = x;
-                    if (player.CurrentSprite == 8)
-                    {
-                        i2 -= 20 * arg6 / 100;
-                    }
+                    if (f1.currentSprite == 8)
+                        i2 -= (20 * arg6) / 100;
                     else
-                        if (player.CurrentSprite == 9)
-                    {
-                        i2 += 20 * arg6 / 100;
-                    }
-
-                    int i3 = player.CurrentHitpoints * 30 / player.BaseHitpoints;
+                        if (f1.currentSprite == 9)
+                            i2 += (20 * arg6) / 100;
+                    int i3 = (f1.currentHits * 30) / f1.baseHits;
                     healthBarX[healthBarVisibleCount] = i2 + width / 2;
                     healthBarY[healthBarVisibleCount] = y;
                     healthBarMissing[healthBarVisibleCount++] = i3;
                 }
-                if (player.CombatTimer > 150)
+                if (f1.combatTimer > 150)
                 {
                     int j2 = x;
-                    if (player.CurrentSprite == 8)
-                    {
-                        j2 -= 10 * arg6 / 100;
-                    }
+                    if (f1.currentSprite == 8)
+                        j2 -= (10 * arg6) / 100;
                     else
-                        if (player.CurrentSprite == 9)
-                    {
-                        j2 += 10 * arg6 / 100;
-                    }
-
-                    gameGraphics.DrawPicture(j2 + width / 2 - 12, y + height / 2 - 12, baseInventoryPic + 11);
-                    gameGraphics.DrawText(player.LastDamageCount.ToString(), j2 + width / 2 - 1, y + height / 2 + 5, 3, 0xffffff);
+                        if (f1.currentSprite == 9)
+                            j2 += (10 * arg6) / 100;
+                    gameGraphics.drawPicture((j2 + width / 2) - 12, (y + height / 2) - 12, baseInventoryPic + 11);
+                    gameGraphics.drawText(f1.lastDamageCount.ToString(), (j2 + width / 2) - 1, y + height / 2 + 5, 3, 0xffffff);
                 }
             }
-
-            if (player.PlayerSkulled == 1 && player.PlayerSkullTimeout == 0)
+            if (f1.playerSkulled == 1 && f1.playerSkullTimeout == 0)
             {
                 int k2 = arg5 + x + width / 2;
-                if (player.CurrentSprite == 8)
-                {
-                    k2 -= 20 * arg6 / 100;
-                }
+                if (f1.currentSprite == 8)
+                    k2 -= (20 * arg6) / 100;
                 else
-                    if (player.CurrentSprite == 9)
-                {
-                    k2 += 20 * arg6 / 100;
-                }
-
-                int j3 = 16 * arg6 / 100;
-                int l3 = 16 * arg6 / 100;
-                gameGraphics.DrawEntity(k2 - j3 / 2, y - l3 / 2 - 10 * arg6 / 100, j3, l3, baseInventoryPic + 13);
+                    if (f1.currentSprite == 9)
+                        k2 += (20 * arg6) / 100;
+                int j3 = (16 * arg6) / 100;
+                int l3 = (16 * arg6) / 100;
+                gameGraphics.drawEntity(k2 - j3 / 2, y - l3 / 2 - (10 * arg6) / 100, j3, l3, baseInventoryPic + 13);
             }
         }
 
-        public void walkToWallObject(Point2D location, int direction)
+        public void walkToWallObject(int x, int y, int direction)
         {
             if (direction == 0)
             {
-                Point2D locationBottom = new(location.X, location.Y - 1);
-                WalkTo(SectionLocation, locationBottom, location, false, true);
+                walkTo(sectionX, sectionY, x, y - 1, x, y, false, true);
                 return;
             }
-
             if (direction == 1)
             {
-                Point2D locationBottom = new(location.X - 1, location.Y);
-                WalkTo(SectionLocation, locationBottom, location, false, true);
+                walkTo(sectionX, sectionY, x - 1, y, x, y, false, true);
                 return;
             }
-
-            WalkTo(SectionLocation, location, location, true, true);
-            return;
+            else
+            {
+                walkTo(sectionX, sectionY, x, y, x, y, true, true);
+                return;
+            }
         }
 
-        public void InitialiseLoginVars()
+        public void drawDuelConfirmBox()
+        {
+            sbyte byte0 = 22;
+            sbyte byte1 = 36;
+            gameGraphics.drawBox(byte0, byte1, 468, 16, 192);
+            int l = 0x989898;
+            gameGraphics.drawBoxAlpha(byte0, byte1 + 16, 468, 246, l, 160);
+            gameGraphics.drawText("Please confirm your duel with @yel@" + DataOperations.hashToName(duelOpponentHash), byte0 + 234, byte1 + 12, 1, 0xffffff);
+            gameGraphics.drawText("Your stake:", byte0 + 117, byte1 + 30, 1, 0xffff00);
+            for (int i1 = 0; i1 < duelOurStakeCount; i1++)
+            {
+                String s1 = Data.Data.itemName[duelOurStakeItem[i1]];
+                if (Data.Data.itemStackable[duelOurStakeItem[i1]] == 0)
+                    s1 = s1 + " x " + formatItemCount(duelOurStakeItemCount[i1]);
+                gameGraphics.drawText(s1, byte0 + 117, byte1 + 42 + i1 * 12, 1, 0xffffff);
+            }
+
+            if (duelOurStakeCount == 0)
+                gameGraphics.drawText("Nothing!", byte0 + 117, byte1 + 42, 1, 0xffffff);
+            gameGraphics.drawText("Your opponent's stake:", byte0 + 351, byte1 + 30, 1, 0xffff00);
+            for (int j1 = 0; j1 < duelOpponentStakeCount; j1++)
+            {
+                String s2 = Data.Data.itemName[duelOpponentStakeItem[j1]];
+                if (Data.Data.itemStackable[duelOpponentStakeItem[j1]] == 0)
+                    s2 = s2 + " x " + formatItemCount(duelOutStakeItemCount[j1]);
+                gameGraphics.drawText(s2, byte0 + 351, byte1 + 42 + j1 * 12, 1, 0xffffff);
+            }
+
+            if (duelOpponentStakeCount == 0)
+                gameGraphics.drawText("Nothing!", byte0 + 351, byte1 + 42, 1, 0xffffff);
+            if (duelRetreat == 0)
+                gameGraphics.drawText("You can retreat from this duel", byte0 + 234, byte1 + 180, 1, 65280);
+            else
+                gameGraphics.drawText("No retreat is possible!", byte0 + 234, byte1 + 180, 1, 0xff0000);
+            if (duelMagic == 0)
+                gameGraphics.drawText("Magic may be used", byte0 + 234, byte1 + 192, 1, 65280);
+            else
+                gameGraphics.drawText("Magic cannot be used", byte0 + 234, byte1 + 192, 1, 0xff0000);
+            if (duelPrayer == 0)
+                gameGraphics.drawText("Prayer may be used", byte0 + 234, byte1 + 204, 1, 65280);
+            else
+                gameGraphics.drawText("Prayer cannot be used", byte0 + 234, byte1 + 204, 1, 0xff0000);
+            if (duelWeapons == 0)
+                gameGraphics.drawText("Weapons may be used", byte0 + 234, byte1 + 216, 1, 65280);
+            else
+                gameGraphics.drawText("Weapons cannot be used", byte0 + 234, byte1 + 216, 1, 0xff0000);
+            gameGraphics.drawText("If you are sure click 'Accept' to begin the duel", byte0 + 234, byte1 + 230, 1, 0xffffff);
+            if (!duelConfirmOurAccepted)
+            {
+                gameGraphics.drawPicture((byte0 + 118) - 35, byte1 + 238, baseInventoryPic + 25);
+                gameGraphics.drawPicture((byte0 + 352) - 35, byte1 + 238, baseInventoryPic + 26);
+            }
+            else
+            {
+                gameGraphics.drawText("Waiting for other player...", byte0 + 234, byte1 + 250, 1, 0xffff00);
+            }
+            if (mouseButtonClick == 1)
+            {
+                if (base.mouseX < byte0 || base.mouseY < byte1 || base.mouseX > byte0 + 468 || base.mouseY > byte1 + 262)
+                {
+                    showDuelConfirmBox = false;
+                    base.streamClass.createPacket(35);
+                    base.streamClass.formatPacket();
+                }
+                if (base.mouseX >= (byte0 + 118) - 35 && base.mouseX <= byte0 + 118 + 70 && base.mouseY >= byte1 + 238 && base.mouseY <= byte1 + 238 + 21)
+                {
+                    duelConfirmOurAccepted = true;
+                    base.streamClass.createPacket(87);
+                    base.streamClass.formatPacket();
+                }
+                if (base.mouseX >= (byte0 + 352) - 35 && base.mouseX <= byte0 + 353 + 70 && base.mouseY >= byte1 + 238 && base.mouseY <= byte1 + 238 + 21)
+                {
+                    showDuelConfirmBox = false;
+                    base.streamClass.createPacket(35);
+                    base.streamClass.formatPacket();
+                }
+                mouseButtonClick = 0;
+            }
+        }
+
+        public void setLoginVars()
         {
             loggedIn = false;
-
-            PlayerCount = 0;
-            NpcCount = 0;
+            loginScreen = 0;
+            loginUsername = "";
+            loginPassword = "";
+            /*dja = "Please enter a username:";
+            djb = "*" + loginUsername + "*";*/
+            playerCount = 0;
+            npcCount = 0;
         }
+
+        public override void close()
+        {
+            requestLogout();
+            cleanUp();
+            if (audioPlayer != null)
+                audioPlayer.stop();
+        }
+
+        //protected TcpClient makeSocket(String address, int port) {
+
+        //    if(Link.gameApplet != null) {
+        //        Socket socket = Link.getSocket(port);
+        //        if(socket == null)
+        //            throw new IOException();
+        //        else
+        //            return socket;
+        //    }
+        //    Socket socket1 = new Socket(InetAddress.getByName(address), port);
+        //    socket1.setSoTimeout(30000);
+        //    socket1.setTcpNoDelay(true);
+        //    return socket1;
+        //}
 
         public void drawInventoryMenu(bool canRightClick)
         {
-            int l = gameGraphics.GameSize.Width - 248;
-            gameGraphics.DrawPicture(l, 3, baseInventoryPic + 1);
-
-            for (int itemSlot = 0; itemSlot < InventoryManager.MaximumInventorySize; itemSlot++)
+            int l = ((GameImage)(gameGraphics)).gameWidth - 248;
+            gameGraphics.drawPicture(l, 3, baseInventoryPic + 1);
+            for (int i1 = 0; i1 < maxInventoryItems; i1++)
             {
-                int j1 = l + itemSlot % 5 * 49;
-                int l1 = 36 + itemSlot / 5 * 34;
-
-
-                if (itemSlot < inventoryManager.InventoryItemsCount &&
-                    inventoryManager.GetItem(itemSlot).IsEquipped)
-                {
-                    gameGraphics.DrawBoxAlpha(j1, l1, 49, 34, 0xff0000, 128);
-                }
+                int j1 = l + (i1 % 5) * 49;
+                int l1 = 36 + (i1 / 5) * 34;
+                if (i1 < inventoryItemsCount && inventoryItemEquipped[i1] == 1)
+                    gameGraphics.drawBoxAlpha(j1, l1, 49, 34, 0xff0000, 128);
                 else
+                    gameGraphics.drawBoxAlpha(j1, l1, 49, 34, GameImage.rgbToInt(181, 181, 181), 128);
+                if (i1 < inventoryItemsCount)
                 {
-                    int argb = ColourTranslator.ToArgb(181, 181, 181);
-
-                    gameGraphics.DrawBoxAlpha(j1, l1, 49, 34, argb, 128);
-                }
-
-                if (itemSlot < inventoryManager.InventoryItemsCount)
-                {
-                    InventoryItem inventoryItem = inventoryManager.GetItem(itemSlot);
-                    Item item = entityManager.GetItem(inventoryItem.Index);
-
-                    int pic = item.InventoryPicture;
-                    int picMask = item.PictureMask;
-
-                    gameGraphics.DrawImage(j1, l1, 48, 32, baseItemPicture + pic, picMask, 0, 0, false);
-
-                    if (item.IsStackable == 0)
-                    {
-                        gameGraphics.DrawString(inventoryItem.Quantity.ToString(), j1 + 1, l1 + 10, 1, 0xffff00);
-                    }
+                    gameGraphics.drawImage(j1, l1, 48, 32, baseItemPicture + Data.Data.itemInventoryPicture[inventoryItems[i1]], Data.Data.itemPictureMask[inventoryItems[i1]], 0, 0, false);
+                    if (Data.Data.itemStackable[inventoryItems[i1]] == 0)
+                        gameGraphics.drawString(inventoryItemCount[i1].ToString(), j1 + 1, l1 + 10, 1, 0xffff00);
                 }
             }
 
             for (int k1 = 1; k1 <= 4; k1++)
-            {
-                gameGraphics.DrawVerticalLine(l + k1 * 49, 36, InventoryManager.MaximumInventorySize / 5 * 34, 0);
-            }
+                gameGraphics.drawLineY(l + k1 * 49, 36, (maxInventoryItems / 5) * 34, 0);
 
-            for (int i2 = 1; i2 <= InventoryManager.MaximumInventorySize / 5 - 1; i2++)
-            {
-                gameGraphics.DrawHorizontalLine(l, 36 + i2 * 34, 245, 0);
-            }
+            for (int i2 = 1; i2 <= maxInventoryItems / 5 - 1; i2++)
+                gameGraphics.drawLineX(l, 36 + i2 * 34, 245, 0);
 
             if (!canRightClick)
-            {
                 return;
-            }
-
-            l = InputManager.Instance.MouseLocation.X - (gameGraphics.GameSize.Width - 248);
-            int j2 = GameMouseY - 36;
-
-            if (l >= 0 && j2 >= 0 && l < 248 && j2 < InventoryManager.MaximumInventorySize / 5 * 34)
+            l = base.mouseX - (((GameImage)(gameGraphics)).gameWidth - 248);
+            int j2 = base.mouseY - 36;
+            if (l >= 0 && j2 >= 0 && l < 248 && j2 < (maxInventoryItems / 5) * 34)
             {
-                int itemSlot = l / 49 + j2 / 34 * 5;
-
-                if (itemSlot < inventoryManager.InventoryItemsCount)
+                int k2 = l / 49 + (j2 / 34) * 5;
+                if (k2 < inventoryItemsCount)
                 {
-                    InventoryItem inventoryItem = inventoryManager.GetItem(itemSlot);
-                    Item item = entityManager.GetItem(inventoryItem.Index);
-
+                    int l2 = inventoryItems[k2];
                     if (selectedSpell >= 0)
                     {
-                        if (entityManager.GetSpell(selectedSpell).Type == 3)
+                        if (Data.Data.spellType[selectedSpell] == 3)
                         {
-                            menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on";
-                            menuText2[menuOptionsCount] = "@lre@" + item.Name;
-                            menuActions[menuOptionsCount] = MenuAction.CastSpellOnItem;
-                            menuActionType[menuOptionsCount] = itemSlot;
+                            menuText1[menuOptionsCount] = "Cast " + Data.Data.spellName[selectedSpell] + " on";
+                            menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[l2];
+                            menuActionID[menuOptionsCount] = 600;
+                            menuActionType[menuOptionsCount] = k2;
                             menuActionVar1[menuOptionsCount] = selectedSpell;
                             menuOptionsCount++;
                             return;
@@ -1110,233 +1276,1113 @@ namespace OpenRS.Net.Client
                         if (selectedItem >= 0)
                         {
                             menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                            menuText2[menuOptionsCount] = "@lre@" + item.Name;
-                            menuActions[menuOptionsCount] = MenuAction.UseItemWithItem;
-                            menuActionType[menuOptionsCount] = itemSlot;
+                            menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[l2];
+                            menuActionID[menuOptionsCount] = 610;
+                            menuActionType[menuOptionsCount] = k2;
                             menuActionVar1[menuOptionsCount] = selectedItem;
                             menuOptionsCount++;
                             return;
                         }
-
-                        if (inventoryItem.IsEquipped)
+                        if (inventoryItemEquipped[k2] == 1)
                         {
                             menuText1[menuOptionsCount] = "Remove";
-                            menuText2[menuOptionsCount] = "@lre@" + item.Name;
-                            menuActions[menuOptionsCount] = MenuAction.RemoveItem;
-                            menuActionType[menuOptionsCount] = itemSlot;
+                            menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[l2];
+                            menuActionID[menuOptionsCount] = 620;
+                            menuActionType[menuOptionsCount] = k2;
                             menuOptionsCount++;
                         }
-                        else if (item.IsEquipable != 0)
-                        {
-                            if ((item.IsEquipable & 0x18) != 0)
+                        else
+                            if (Data.Data.itemIsEquippable[l2] != 0)
                             {
-                                menuText1[menuOptionsCount] = "Wield";
+                                if ((Data.Data.itemIsEquippable[l2] & 0x18) != 0)
+                                    menuText1[menuOptionsCount] = "Wield";
+                                else
+                                    menuText1[menuOptionsCount] = "Wear";
+                                menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[l2];
+                                menuActionID[menuOptionsCount] = 630;
+                                menuActionType[menuOptionsCount] = k2;
+                                menuOptionsCount++;
                             }
-                            else
-                            {
-                                menuText1[menuOptionsCount] = "Wear";
-                            }
-
-                            menuText2[menuOptionsCount] = "@lre@" + item.Name;
-                            menuActions[menuOptionsCount] = MenuAction.EquipItem;
-                            menuActionType[menuOptionsCount] = itemSlot;
-                            menuOptionsCount++;
-                        }
-
-                        if (!item.Command.Equals(""))
+                        if (!Data.Data.itemCommand[l2].Equals(""))
                         {
-                            menuText1[menuOptionsCount] = item.Command;
-                            menuText2[menuOptionsCount] = "@lre@" + item.Name;
-                            menuActions[menuOptionsCount] = MenuAction.CommandOnItem;
-                            menuActionType[menuOptionsCount] = itemSlot;
+                            menuText1[menuOptionsCount] = Data.Data.itemCommand[l2];
+                            menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[l2];
+                            menuActionID[menuOptionsCount] = 640;
+                            menuActionType[menuOptionsCount] = k2;
                             menuOptionsCount++;
                         }
-
                         menuText1[menuOptionsCount] = "Use";
-                        menuText2[menuOptionsCount] = "@lre@" + item.Name;
-                        menuActions[menuOptionsCount] = MenuAction.UseItem;
-                        menuActionType[menuOptionsCount] = itemSlot;
+                        menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[l2];
+                        menuActionID[menuOptionsCount] = 650;
+                        menuActionType[menuOptionsCount] = k2;
                         menuOptionsCount++;
-
                         menuText1[menuOptionsCount] = "Drop";
-                        menuText2[menuOptionsCount] = "@lre@" + item.Name;
-                        menuActions[menuOptionsCount] = MenuAction.DropItem;
-                        menuActionType[menuOptionsCount] = itemSlot;
+                        menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[l2];
+                        menuActionID[menuOptionsCount] = 660;
+                        menuActionType[menuOptionsCount] = k2;
                         menuOptionsCount++;
-
                         menuText1[menuOptionsCount] = "Examine";
-                        menuText2[menuOptionsCount] = "@lre@" + item.Name;
-                        menuActions[menuOptionsCount] = MenuAction.ExamineItem;
-                        menuActionType[menuOptionsCount] = inventoryItem.Index;
+                        menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[l2];
+                        menuActionID[menuOptionsCount] = 3600;
+                        menuActionType[menuOptionsCount] = l2;
                         menuOptionsCount++;
                     }
                 }
             }
         }
+        public bool DoNotDrawLogo { get; set; }
+        public void createLoginScreenBackgrounds()
+        {
+            int _bgScreenWidth = windowWidth;
+            if (this.OnLoadingSection != null)
+                this.OnLoadingSection(this, new EventArgs());
+            int l = 0;
+            sbyte byte0 = 50;
+            sbyte byte1 = 50;
 
-        public override void HandlePacket(ServerCommand command, int length, sbyte[] data)
+            engineHandle.loadSection(byte0 * 48 + 23, byte1 * 48 + 23, l);
+            engineHandle.addObjects(gameDataObjects);
+
+            //char c1 = '\u2600';
+            //char c2 = '\u1900';
+            //char c3 = '\u044C';
+            //char c4 = '\u0378';
+
+            int cameraX = 9728;
+            int cameraY = 6400;
+            int cameraDistance = 1100;
+            int cameraRotation = 888;
+
+            gameCamera.zoom1 = 4100;
+            gameCamera.zoom2 = 4100;
+            gameCamera.zoom3 = 1;
+            gameCamera.zoom4 = 4000;
+            gameCamera.SetCameraTransform(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY, 912, cameraRotation, 0, cameraDistance * 2);
+            gameCamera.finishCamera();
+            gameGraphics.screenFadeToBlack();
+            gameGraphics.screenFadeToBlack();
+
+
+
+            gameGraphics.drawBox(0, 0, _bgScreenWidth, 6, 0x000000); //_bgScreenWidth=512
+            for (int i1 = 6; i1 >= 1; i1--)
+                gameGraphics.drawTransparentLine(0, i1, 0, i1, _bgScreenWidth, 8);
+
+            gameGraphics.drawBox(0, 194, _bgScreenWidth, 20, 0x000000);
+
+            for (int j1 = 6; j1 >= 1; j1--)
+                gameGraphics.drawTransparentLine(0, j1, 0, 194 - j1, _bgScreenWidth, 8);
+
+
+
+#warning draws logo
+
+            if (!DoNotDrawLogo)
+            {
+                if (bgPixels == null)
+                    gameGraphics.drawPicture(15, 15, baseInventoryPic + 10);
+                else
+                    gameGraphics.drawPixels(bgPixels, 0, 0, bgPixels.Length, bgPixels[0].Length);
+            }
+
+
+            gameGraphics.drawImage(baseLoginScreenBackgroundPic, 0, 0, _bgScreenWidth, 200);
+            gameGraphics.applyImage(baseLoginScreenBackgroundPic);
+
+
+
+            cameraX = 9216;
+            cameraY = 9216;
+            cameraDistance = 1100;
+            cameraRotation = 888;
+            gameCamera.zoom1 = 4100;
+            gameCamera.zoom2 = 4100;
+            gameCamera.zoom3 = 1;
+            gameCamera.zoom4 = 4000;
+            gameCamera.SetCameraTransform(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY, 912, cameraRotation, 0, cameraDistance * 2);
+            gameCamera.finishCamera();
+            gameGraphics.screenFadeToBlack();
+            gameGraphics.screenFadeToBlack();
+
+
+
+            gameGraphics.drawBox(0, 0, _bgScreenWidth, 6, 0);
+            for (int k1 = 6; k1 >= 1; k1--)
+                gameGraphics.drawTransparentLine(0, k1, 0, k1, _bgScreenWidth, 8);
+
+            gameGraphics.drawBox(0, 194, _bgScreenWidth, 20, 0);
+            for (int l1 = 6; l1 >= 1; l1--)
+                gameGraphics.drawTransparentLine(0, l1, 0, 194 - l1, _bgScreenWidth, 8);
+
+            if (!DoNotDrawLogo)
+            {
+                if (bgPixels == null) gameGraphics.drawPicture(15, 15, baseInventoryPic + 10);
+                else gameGraphics.drawPixels(bgPixels, 0, 0, bgPixels.Length, bgPixels[0].Length);
+            }
+
+            gameGraphics.drawImage(baseLoginScreenBackgroundPic + 1, 0, 0, _bgScreenWidth, 200);
+            gameGraphics.applyImage(baseLoginScreenBackgroundPic + 1);
+
+            // Remove buildings
+            for (int i2 = 0; i2 < 64; i2++)
+            {
+
+                gameCamera.removeModel(engineHandle.roofObject[0][i2]);
+                gameCamera.removeModel(engineHandle.wallObject[0][i2]);
+                gameCamera.removeModel(engineHandle.wallObject[1][i2]);
+                gameCamera.removeModel(engineHandle.roofObject[1][i2]);
+                gameCamera.removeModel(engineHandle.wallObject[2][i2]);
+                gameCamera.removeModel(engineHandle.roofObject[2][i2]);
+            }
+
+            cameraX = 11136;//'\u2B80';
+            cameraY = 10368;//'\u2880';
+            cameraDistance = 500;//'\u01F4';
+            cameraRotation = 376;//'\u0178';
+            gameCamera.zoom1 = 4100;
+            gameCamera.zoom2 = 4100;
+            gameCamera.zoom3 = 1;
+            gameCamera.zoom4 = 4000;
+            gameCamera.SetCameraTransform(cameraX, -engineHandle.getAveragedElevation(cameraX, cameraY), cameraY, 912, cameraRotation, 0, cameraDistance * 2);
+            gameCamera.finishCamera();
+            gameGraphics.screenFadeToBlack();
+            gameGraphics.screenFadeToBlack();
+
+
+
+            gameGraphics.drawBox(0, 0, _bgScreenWidth, 6, 0);
+            for (int j2 = 6; j2 >= 1; j2--)
+                gameGraphics.drawTransparentLine(0, j2, 0, j2, _bgScreenWidth, 8);
+
+            gameGraphics.drawBox(0, 194, _bgScreenWidth, 20, 0);
+            for (int k2 = 6; k2 >= 1; k2--)
+                gameGraphics.drawTransparentLine(0, k2, 0, 194, _bgScreenWidth, 8);
+
+            if (!DoNotDrawLogo)
+            {
+                if (bgPixels == null) gameGraphics.drawPicture(15, 15, baseInventoryPic + 10);
+                else gameGraphics.drawPixels(bgPixels, 0, 0, bgPixels.Length, bgPixels[0].Length);
+            }
+
+            gameGraphics.drawImage(baseInventoryPic + 10, 0, 0, _bgScreenWidth, 200);
+            gameGraphics.applyImage(baseInventoryPic + 10);
+
+            if (this.OnLoadingSectionCompleted != null)
+                this.OnLoadingSectionCompleted(this, new EventArgs());
+        }
+
+        public override void handlePacket(int packetID, int packetLength, sbyte[] packetData)
         {
             try
             {
-                // TODO: Remove this check after all commands are properly handled
-                bool properlyHandled = packetHandler.HandlePacket(command, data, length);
-
-                if (properlyHandled)
+                //base.handlePacket(packetID, packetLength, packetData);
+                if (packetID == 145)
                 {
+                    if (!hasWorldInfo)
+                        return;
+                    lastPlayerCount = playerCount;
+                    for (int l = 0; l < lastPlayerCount; l++)
+                        lastPlayerArray[l] = playerArray[l];
+
+                    int off = 8;
+                    sectionX = DataOperations.getBits(packetData, off, 11);
+                    off += 11;
+                    sectionY = DataOperations.getBits(packetData, off, 13);
+                    off += 13;
+                    int sprite = DataOperations.getBits(packetData, off, 4);
+                    off += 4;
+                    bool sectionLoaded = loadSection(sectionX, sectionY);
+                    sectionX -= areaX;
+                    sectionY -= areaY;
+                    int mapEnterX = sectionX * gridSize + 64;
+                    int mapEnterY = sectionY * gridSize + 64;
+                    if (sectionLoaded)
+                    {
+                        ourPlayer.waypointCurrent = 0;
+                        ourPlayer.waypointsEndSprite = 0;
+                        ourPlayer.currentX = ourPlayer.waypointsX[0] = mapEnterX;
+                        ourPlayer.currentY = ourPlayer.waypointsY[0] = mapEnterY;
+                    }
+                    playerCount = 0;
+                    ourPlayer = makePlayer(serverIndex, mapEnterX, mapEnterY, sprite);
+                    int newPlayerCount = DataOperations.getBits(packetData, off, 8);
+                    off += 8;
+                    for (int currentNewPlayer = 0; currentNewPlayer < newPlayerCount; currentNewPlayer++)
+                    {
+                        //ClientMob mob = lastPlayerArray[currentNewPlayer + 1];
+                        ClientMob mob = getLastPlayer(DataOperations.getBits(packetData, off, 16));
+                        off += 16;
+                        int playerAtTile = DataOperations.getBits(packetData, off, 1);
+                        off++;
+                        if (playerAtTile != 0)
+                        {
+                            int waypointsLeft = DataOperations.getBits(packetData, off, 1);
+                            off++;
+                            if (waypointsLeft == 0)
+                            {
+                                int currentNextSprite = DataOperations.getBits(packetData, off, 3);
+                                off += 3;
+                                int currentWaypoint = mob.waypointCurrent;
+                                int newWaypointX = mob.waypointsX[currentWaypoint];
+                                int newWaypointY = mob.waypointsY[currentWaypoint];
+                                if (currentNextSprite == 2 || currentNextSprite == 1 || currentNextSprite == 3)
+                                    newWaypointX += gridSize;
+                                if (currentNextSprite == 6 || currentNextSprite == 5 || currentNextSprite == 7)
+                                    newWaypointX -= gridSize;
+                                if (currentNextSprite == 4 || currentNextSprite == 3 || currentNextSprite == 5)
+                                    newWaypointY += gridSize;
+                                if (currentNextSprite == 0 || currentNextSprite == 1 || currentNextSprite == 7)
+                                    newWaypointY -= gridSize;
+                                mob.nextSprite = currentNextSprite;
+                                mob.waypointCurrent = currentWaypoint = (currentWaypoint + 1) % 10;
+                                mob.waypointsX[currentWaypoint] = newWaypointX;
+                                mob.waypointsY[currentWaypoint] = newWaypointY;
+                            }
+                            else
+                            {
+                                int needsNextSprite = DataOperations.getBits(packetData, off, 4);
+                                off += 4;
+                                if ((needsNextSprite & 0xc) == 12)
+                                {
+                                    continue;
+                                }
+                                mob.nextSprite = needsNextSprite;
+                            }
+                        }
+                        playerArray[playerCount++] = mob;
+                    }
+
+                    int mobCount = 0;
+                    while (off + 24 < packetLength * 8)
+                    {
+                        int mobIndex = DataOperations.getBits(packetData, off, 16);
+                        off += 16;
+                        int areaMobX = DataOperations.getBits(packetData, off, 5);
+                        off += 5;
+                        if (areaMobX > 15)
+                            areaMobX -= 32;
+                        int areaMobY = DataOperations.getBits(packetData, off, 5);
+                        off += 5;
+                        if (areaMobY > 15)
+                            areaMobY -= 32;
+                        int mobSprite = DataOperations.getBits(packetData, off, 4);
+                        off += 4;
+                        int addIndex = DataOperations.getBits(packetData, off, 1);
+                        off++;
+                        int mobX = (sectionX + areaMobX) * gridSize + 64;
+                        int mobY = (sectionY + areaMobY) * gridSize + 64;
+                        makePlayer(mobIndex, mobX, mobY, mobSprite);
+                        if (addIndex == 0)
+                            playerBufferArrayIndexes[mobCount++] = mobIndex;
+                    }
+                    if (mobCount > 0)
+                    {
+                        base.streamClass.createPacket(83);
+                        base.streamClass.addShort(mobCount);
+                        for (int k40 = 0; k40 < mobCount; k40++)
+                        {
+                            ClientMob f5 = playerBufferArray[playerBufferArrayIndexes[k40]];
+                            base.streamClass.addShort(f5.serverIndex);
+                            base.streamClass.addShort(f5.serverID);
+                        }
+
+                        base.streamClass.formatPacket();
+                        mobCount = 0;
+                    }
                     return;
                 }
-
-                Console.WriteLine($"Command unproperly handled: {command} (length={length})");
-
-                if (command == ServerCommand.Command115)
+                if (packetID == 109)
                 {
-                    int k3 = (length - 1) / 4;
+                    if (needsClear)
+                    {
+                        for (int i = 0; i < groundItemID.Length; i++)
+                        {
+                            groundItemX[i] = -1;
+                            groundItemY[i] = -1;
+                            groundItemID[i] = -1;
+                            groundItemObjectVar[i] = -1;
+                        }
+                        groundItemCount = 0;
+                        needsClear = false;
+                    }
+                    for (int off = 1; off < packetLength; )
+                        if (DataOperations.getByte(packetData[off]) == 255)
+                        {
+                            int newCount = 0;
+                            int newSectionX = sectionX + packetData[off + 1] >> 3;
+                            int newSectionY = sectionY + packetData[off + 2] >> 3;
+                            off += 3;
+                            for (int groundItem = 0; groundItem < groundItemCount; groundItem++)
+                            {
+                                int newX = (groundItemX[groundItem] >> 3) - newSectionX;
+                                int newY = (groundItemY[groundItem] >> 3) - newSectionY;
+                                if (newX != 0 || newY != 0)
+                                {
+                                    if (groundItem != newCount)
+                                    {
+                                        groundItemX[newCount] = groundItemX[groundItem];
+                                        groundItemY[newCount] = groundItemY[groundItem];
+                                        groundItemID[newCount] = groundItemID[groundItem];
+                                        groundItemObjectVar[newCount] = groundItemObjectVar[groundItem];
+                                    }
+                                    newCount++;
+                                }
+                            }
 
+                            groundItemCount = newCount;
+                        }
+                        else
+                        {
+                            int newID = DataOperations.getShort(packetData, off);
+                            off += 2;
+                            int newX = sectionX + packetData[off++];
+                            int newY = sectionY + packetData[off++];
+                            if ((newID & 0x8000) == 0)
+                            {
+                                groundItemX[groundItemCount] = newX;
+                                groundItemY[groundItemCount] = newY;
+                                groundItemID[groundItemCount] = newID;
+                                groundItemObjectVar[groundItemCount] = 0;
+                                for (int l23 = 0; l23 < objectCount; l23++)
+                                {
+                                    if (objectX[l23] != newX || objectY[l23] != newY)
+                                        continue;
+                                    groundItemObjectVar[groundItemCount] = Data.Data.objectGroundItemVar[objectType[l23]];
+                                    break;
+                                }
+
+                                groundItemCount++;
+                            }
+                            else
+                            {
+                                newID &= 0x7fff;
+                                int updateIndex = 0;
+                                for (int currentItemIndex = 0; currentItemIndex < groundItemCount; currentItemIndex++)
+                                    if (groundItemX[currentItemIndex] != newX || groundItemY[currentItemIndex] != newY || groundItemID[currentItemIndex] != newID)
+                                    {
+                                        if (currentItemIndex != updateIndex)
+                                        {
+                                            groundItemX[updateIndex] = groundItemX[currentItemIndex];
+                                            groundItemY[updateIndex] = groundItemY[currentItemIndex];
+                                            groundItemID[updateIndex] = groundItemID[currentItemIndex];
+                                            groundItemObjectVar[updateIndex] = groundItemObjectVar[currentItemIndex];
+                                        }
+                                        updateIndex++;
+                                    }
+                                    else
+                                    {
+                                        newID = -123;
+                                    }
+
+                                groundItemCount = updateIndex;
+                            }
+                        }
+
+                    return;
+                }
+                if (packetID == 27)
+                {
+                    for (int off = 1; off < packetLength; )
+                        if (DataOperations.getByte(packetData[off]) == 255)
+                        {
+                            int newCount = 0;
+                            int newSectionX = sectionX + packetData[off + 1] >> 3;
+                            int newSectionY = sectionY + packetData[off + 2] >> 3;
+                            off += 3;
+                            for (int _obj = 0; _obj < objectCount; _obj++)
+                            {
+                                int newX = (objectX[_obj] >> 3) - newSectionX;
+                                int newY = (objectY[_obj] >> 3) - newSectionY;
+                                if (newX != 0 || newY != 0)
+                                {
+                                    if (_obj != newCount)
+                                    {
+                                        objectArray[newCount] = objectArray[_obj];
+                                        objectArray[newCount].index = newCount;
+                                        objectX[newCount] = objectX[_obj];
+                                        objectY[newCount] = objectY[_obj];
+                                        objectType[newCount] = objectType[_obj];
+                                        objectRotation[newCount] = objectRotation[_obj];
+                                    }
+                                    newCount++;
+                                }
+                                else
+                                {
+                                    gameCamera.removeModel(objectArray[_obj]);
+                                    engineHandle.removeObject(objectX[_obj], objectY[_obj], objectType[_obj], objectRotation[_obj]);
+                                }
+                            }
+
+                            objectCount = newCount;
+                        }
+                        else
+                        {
+                            int index = DataOperations.getShort(packetData, off);
+                            off += 2;
+                            int newSectionX = sectionX + packetData[off++];
+                            int newSectionY = sectionY + packetData[off++];
+                            int rotation = packetData[off++];
+                            int newCount = 0;
+                            for (int _obj = 0; _obj < objectCount; _obj++)
+                                if (objectX[_obj] != newSectionX || objectY[_obj] != newSectionY || objectRotation[_obj] != rotation)
+                                {
+                                    if (_obj != newCount)
+                                    {
+                                        objectArray[newCount] = objectArray[_obj];
+                                        objectArray[newCount].index = newCount;
+                                        objectX[newCount] = objectX[_obj];
+                                        objectY[newCount] = objectY[_obj];
+                                        objectType[newCount] = objectType[_obj];
+                                        objectRotation[newCount] = objectRotation[_obj];
+                                    }
+                                    newCount++;
+                                }
+                                else
+                                {
+                                    gameCamera.removeModel(objectArray[_obj]);
+                                    engineHandle.removeObject(objectX[_obj], objectY[_obj], objectType[_obj], objectRotation[_obj]);
+                                }
+
+                            objectCount = newCount;
+                            if (index != 60000)
+                            {
+                                engineHandle.registerObjectDir(newSectionX, newSectionY, rotation);
+                                int width;
+                                int height;
+                                if (rotation == 0 || rotation == 4)
+                                {
+                                    width = Data.Data.objectWidth[index];
+                                    height = Data.Data.objectHeight[index];
+                                }
+                                else
+                                {
+                                    height = Data.Data.objectWidth[index];
+                                    width = Data.Data.objectHeight[index];
+                                }
+                                int l40 = ((newSectionX + newSectionX + width) * gridSize) / 2;
+                                int k42 = ((newSectionY + newSectionY + height) * gridSize) / 2;
+                                int model = Data.Data.objectModelNumber[index];
+                                GameObject gameObject = gameDataObjects[model].CreateParent();
+#warning object not being added to camera.
+                                gameCamera.addModel(gameObject);
+
+                                gameObject.index = objectCount;
+                                gameObject.offsetMiniPosition(0, rotation * 32, 0);
+                                gameObject.offsetPosition(l40, -engineHandle.getAveragedElevation(l40, k42), k42);
+                                gameObject.UpdateShading(true, 48, 48, -50, -10, -50);
+                                engineHandle.createObject(newSectionX, newSectionY, index, rotation);
+                                if (index == 74)
+                                    gameObject.offsetPosition(0, -480, 0);
+                                objectX[objectCount] = newSectionX;
+                                objectY[objectCount] = newSectionY;
+                                objectType[objectCount] = index;
+                                objectRotation[objectCount] = rotation;
+                                objectArray[objectCount++] = gameObject;
+                            }
+                        }
+
+                    return;
+                }
+                if (packetID == 114)
+                {
+                    int off = 1;
+                    inventoryItemsCount = packetData[off++] & 0xff;
+                    for (int item = 0; item < inventoryItemsCount; item++)
+                    {
+                        int data = DataOperations.getShort(packetData, off);
+                        off += 2;
+                        inventoryItems[item] = data & 0x7fff;
+                        inventoryItemEquipped[item] = data / 32768;
+                        if (Data.Data.itemStackable[data & 0x7fff] == 0)
+                        {
+                            inventoryItemCount[item] = DataOperations.getInt(packetData, off);
+                            off += 4;
+                        }
+                        else
+                        {
+                            inventoryItemCount[item] = 1;
+                        }
+                    }
+
+                    return;
+                }
+                if (packetID == 53)
+                {
+                    int newMobCount = DataOperations.getShort(packetData, 1);
+                    int off = 3;
+                    for (int current = 0; current < newMobCount; current++)
+                    {
+                        int index = DataOperations.getShort(packetData, off);
+                        off += 2;
+                        if (index < 0 || index > playerBufferArray.Length)
+                            return;
+                        ClientMob mob = playerBufferArray[index];
+                        if (mob == null)
+                            return;
+                        sbyte mobUpdateType = packetData[off];
+                        off++;
+                        if (mobUpdateType == 0)
+                        {
+                            int j30 = DataOperations.getShort(packetData, off);
+                            off += 2;
+
+                            mob.playerSkullTimeout = 150;
+                            mob.itemAboveHeadID = j30;
+
+                        }
+                        else if (mobUpdateType == 1)
+                        {
+                            sbyte byte7 = packetData[off];
+                            off++;
+                            String s3 = ChatMessage.bytesToString(packetData, off, byte7);
+                            //if (useChatFilter)
+                            //    s3 = ChatFilter.filterChat(s3);
+                            bool ignore = false;
+                            for (int i41 = 0; i41 < base.ignoresCount; i41++)
+                                if (base.ignoresList[i41] == mob.nameHash)
+                                    ignore = true;
+
+                            if (!ignore)
+                            {
+                                mob.lastMessageTimeout = 150;
+                                mob.lastMessage = s3;
+                                displayMessage(mob.username + ": " + mob.lastMessage, 2);
+                            }
+                            off += byte7;
+                        }
+                        else if (mobUpdateType == 2)
+                        {
+                            int lastDamageCount = DataOperations.getByte(packetData[off]);
+                            off++;
+                            int currentHits = DataOperations.getByte(packetData[off]);
+                            off++;
+                            int baseHits = DataOperations.getByte(packetData[off]);
+                            off++;
+                            mob.lastDamageCount = lastDamageCount;
+                            mob.currentHits = currentHits;
+                            mob.baseHits = baseHits;
+                            mob.combatTimer = 200;
+                            if (mob == ourPlayer)
+                            {
+                                playerStatCurrent[3] = currentHits;
+                                playerStatBase[3] = baseHits;
+                                showWelcomeBox = false;
+                                showServerMessageBox = false;
+                            }
+                        }
+                        else if (mobUpdateType == 3)
+                        {
+                            int l30 = DataOperations.getShort(packetData, off);
+                            off += 2;
+                            int l34 = DataOperations.getShort(packetData, off);
+                            off += 2;
+                            mob.projectileType = l30;
+                            mob.attackingNpcIndex = l34;
+                            mob.attackingPlayerIndex = -1;
+                            mob.projectileDistance = projectileRange;
+                        }
+                        else if (mobUpdateType == 4)
+                        {
+                            int i31 = DataOperations.getShort(packetData, off);
+                            off += 2;
+                            int i35 = DataOperations.getShort(packetData, off);
+                            off += 2;
+                            mob.projectileType = i31;
+                            mob.attackingPlayerIndex = i35;
+                            mob.attackingNpcIndex = -1;
+                            mob.projectileDistance = projectileRange;
+                        }
+                        else if (mobUpdateType == 5)
+                        {
+                            mob.serverID = DataOperations.getShort(packetData, off);
+                            off += 2;
+                            mob.nameHash = DataOperations.getLong(packetData, off);
+                            off += 8;
+                            mob.username = DataOperations.hashToName(mob.nameHash);
+                            int appearanceCount = DataOperations.getByte(packetData[off]);
+                            off++;
+                            for (int j35 = 0; j35 < appearanceCount; j35++)
+                            {
+                                mob.appearanceItems[j35] = DataOperations.getByte(packetData[off]);
+                                off++;
+                            }
+
+                            for (int j38 = appearanceCount; j38 < 12; j38++)
+                                mob.appearanceItems[j38] = 0;
+
+                            mob.hairColour = packetData[off++] & 0xff;
+                            mob.topColour = packetData[off++] & 0xff;
+                            mob.bottomColour = packetData[off++] & 0xff;
+                            mob.skinColour = packetData[off++] & 0xff;
+                            mob.level = packetData[off++] & 0xff;
+                            mob.playerSkulled = packetData[off++] & 0xff;
+                            off++;// TODO to skip the admin flag (should it be removed)
+                        }
+                        else if (mobUpdateType == 6)
+                        {
+                            sbyte byte8 = packetData[off];
+                            off++;
+                            String s4 = ChatMessage.bytesToString(packetData, off, byte8);
+                            mob.lastMessageTimeout = 150;
+                            mob.lastMessage = s4;
+                            if (mob == ourPlayer)
+                                displayMessage(mob.username + ": " + mob.lastMessage, 5);
+                            off += byte8;
+                        }
+                    }
+
+                    return;
+                }
+                if (packetID == 95)
+                {
+                    for (int off = 1; off < packetLength; )
+                        if (DataOperations.getByte(packetData[off]) == 255)
+                        {
+                            int newCount = 0;
+                            int newSectionX = sectionX + packetData[off + 1] >> 3;
+                            int newSectionY = sectionY + packetData[off + 2] >> 3;
+                            off += 3;
+                            for (int current = 0; current < wallObjectCount; current++)
+                            {
+                                int newX = (wallObjectX[current] >> 3) - newSectionX;
+                                int newY = (wallObjectY[current] >> 3) - newSectionY;
+                                if (newX != 0 || newY != 0)
+                                {
+                                    if (current != newCount)
+                                    {
+                                        wallObjectArray[newCount] = wallObjectArray[current];
+                                        wallObjectArray[newCount].index = newCount + 10000;
+                                        wallObjectX[newCount] = wallObjectX[current];
+                                        wallObjectY[newCount] = wallObjectY[current];
+                                        wallObjectDirection[newCount] = wallObjectDirection[current];
+                                        wallObjectID[newCount] = wallObjectID[current];
+                                    }
+                                    newCount++;
+                                }
+                                else
+                                {
+                                    gameCamera.removeModel(wallObjectArray[current]);
+                                    engineHandle.removeWallObject(wallObjectX[current], wallObjectY[current], wallObjectDirection[current], wallObjectID[current]);
+                                }
+                            }
+
+                            wallObjectCount = newCount;
+                        }
+                        else
+                        {
+                            int newID = DataOperations.getShort(packetData, off);
+                            off += 2;
+                            int newSectionX = sectionX + packetData[off++];
+                            int newSectionY = sectionY + packetData[off++];
+                            sbyte direction = packetData[off++];
+                            int newCount = 0;
+                            for (int current = 0; current < wallObjectCount; current++)
+                                if (wallObjectX[current] != newSectionX || wallObjectY[current] != newSectionY || wallObjectDirection[current] != direction)
+                                {
+                                    if (current != newCount)
+                                    {
+                                        wallObjectArray[newCount] = wallObjectArray[current];
+                                        wallObjectArray[newCount].index = newCount + 10000;
+                                        wallObjectX[newCount] = wallObjectX[current];
+                                        wallObjectY[newCount] = wallObjectY[current];
+                                        wallObjectDirection[newCount] = wallObjectDirection[current];
+                                        wallObjectID[newCount] = wallObjectID[current];
+                                    }
+                                    newCount++;
+                                }
+                                else
+                                {
+                                    gameCamera.removeModel(wallObjectArray[current]);
+                                    engineHandle.removeWallObject(wallObjectX[current], wallObjectY[current], wallObjectDirection[current], wallObjectID[current]);
+                                }
+
+                            wallObjectCount = newCount;
+                            if (newID != 60000)
+                            {
+                                engineHandle.createWall(newSectionX, newSectionY, direction, newID);
+                                GameObject k35 = makeWallObject(newSectionX, newSectionY, direction, newID, wallObjectCount);
+                                wallObjectArray[wallObjectCount] = k35;
+                                wallObjectX[wallObjectCount] = newSectionX;
+                                wallObjectY[wallObjectCount] = newSectionY;
+                                wallObjectID[wallObjectCount] = newID;
+                                wallObjectDirection[wallObjectCount++] = direction;
+                            }
+                        }
+
+                    return;
+                }
+                if (packetID == 77)
+                {
+                    lastNpcCount = npcCount;
+                    npcCount = 0;
+                    for (int j2 = 0; j2 < lastNpcCount; j2++)
+                        lastNpcArray[j2] = npcArray[j2];
+
+                    int off = 8;
+                    int newCount = DataOperations.getBits(packetData, off, 8);
+                    off += 8;
+                    for (int current = 0; current < newCount; current++)
+                    {
+                        ClientMob newNpc = getLastNpc(DataOperations.getBits(packetData, off, 16));
+                        off += 16;
+                        int needsUpdate = DataOperations.getBits(packetData, off, 1);
+                        off++;
+                        if (needsUpdate != 0)
+                        {
+                            int j32 = DataOperations.getBits(packetData, off, 1);
+                            off++;
+                            if (j32 == 0)
+                            {
+                                int nextSprite = DataOperations.getBits(packetData, off, 3);
+                                off += 3;
+                                int waypointCurrent = newNpc.waypointCurrent;
+                                int waypointX = newNpc.waypointsX[waypointCurrent];
+                                int waypointY = newNpc.waypointsY[waypointCurrent];
+                                if (nextSprite == 2 || nextSprite == 1 || nextSprite == 3)
+                                    waypointX += gridSize;
+                                if (nextSprite == 6 || nextSprite == 5 || nextSprite == 7)
+                                    waypointX -= gridSize;
+                                if (nextSprite == 4 || nextSprite == 3 || nextSprite == 5)
+                                    waypointY += gridSize;
+                                if (nextSprite == 0 || nextSprite == 1 || nextSprite == 7)
+                                    waypointY -= gridSize;
+                                newNpc.nextSprite = nextSprite;
+                                newNpc.waypointCurrent = waypointCurrent = (waypointCurrent + 1) % 10;
+                                newNpc.waypointsX[waypointCurrent] = waypointX;
+                                newNpc.waypointsY[waypointCurrent] = waypointY;
+                            }
+                            else
+                            {
+                                int nextSprite = DataOperations.getBits(packetData, off, 4);
+                                off += 4;
+                                if ((nextSprite & 0xc) == 12)
+                                {
+                                    continue;
+                                }
+                                newNpc.nextSprite = nextSprite;
+                            }
+                        }
+                        npcArray[npcCount++] = newNpc;
+                    }
+
+                    while (off + 34 < packetLength * 8)
+                    {
+                        int mobIndex = DataOperations.getBits(packetData, off, 16);
+                        off += 16;
+                        int areaMobX = DataOperations.getBits(packetData, off, 5);
+                        off += 5;
+                        if (areaMobX > 15)
+                            areaMobX -= 32;
+                        int areaMobY = DataOperations.getBits(packetData, off, 5);
+                        off += 5;
+                        if (areaMobY > 15)
+                            areaMobY -= 32;
+                        int mobSprite = DataOperations.getBits(packetData, off, 4);
+                        off += 4;
+                        int mobX = (sectionX + areaMobX) * gridSize + 64;
+                        int mobY = (sectionY + areaMobY) * gridSize + 64;
+                        int addIndex = DataOperations.getBits(packetData, off, 10);
+                        off += 10;
+                        if (addIndex >= Data.Data.npcCount)
+                            addIndex = 24;
+                        makeNPC(mobIndex, mobX, mobY, mobSprite, addIndex);
+                    }
+                    return;
+                }
+                if (packetID == 190)
+                {
+                    int newCount = DataOperations.getShort(packetData, 1);
+                    int off = 3;
+                    for (int l16 = 0; l16 < newCount; l16++)
+                    {
+                        int npcIndex = DataOperations.getShort(packetData, off);
+                        off += 2;
+                        ClientMob mob = npcAttackingArray[npcIndex];
+                        int updateType = DataOperations.getByte(packetData[off]);
+                        off++;
+                        if (updateType == 1)
+                        {
+                            int playerIndex = DataOperations.getShort(packetData, off);
+                            off += 2;
+                            sbyte messageLength = packetData[off];
+                            off++;
+                            if (mob != null)
+                            {
+                                String s5 = ChatMessage.bytesToString(packetData, off, messageLength);
+                                mob.lastMessageTimeout = 150;
+                                mob.lastMessage = s5;
+                                if (playerIndex == ourPlayer.serverIndex)
+                                    displayMessage("@yel@" + Data.Data.npcName[mob.npcId] + ": " + mob.lastMessage, 5);
+                            }
+                            off += messageLength;
+                        }
+                        else
+                            if (updateType == 2)
+                            {
+                                int lastDamageCount = DataOperations.getByte(packetData[off]);
+                                off++;
+                                int currentHits = DataOperations.getByte(packetData[off]);
+                                off++;
+                                int baseHits = DataOperations.getByte(packetData[off]);
+                                off++;
+                                if (mob != null)
+                                {
+                                    mob.lastDamageCount = lastDamageCount;
+                                    mob.currentHits = currentHits;
+                                    mob.baseHits = baseHits;
+                                    mob.combatTimer = 200;
+                                }
+                            }
+                    }
+
+                    return;
+                }
+                if (packetID == 223)
+                {
+                    showQuestionMenu = true;
+                    int count = DataOperations.getByte(packetData[1]);
+                    questionMenuCount = count;
+                    int off = 2;
+                    for (int index = 0; index < count; index++)
+                    {
+                        int optionLength = DataOperations.getByte(packetData[off]);
+                        off++;
+                        questionMenuAnswer[index] = new String(packetData.Select(c => (char)c).ToArray(), off, optionLength);
+                        off += optionLength;
+                    }
+
+                    return;
+                }
+                if (packetID == 127)
+                {
+                    showQuestionMenu = false;
+                    return;
+                }
+                if (packetID == 131)
+                {
+                    loadArea = true;
+                    serverIndex = DataOperations.getShort(packetData, 1);
+                    wildX = DataOperations.getShort(packetData, 3);
+                    wildY = DataOperations.getShort(packetData, 5);
+                    layerIndex = DataOperations.getShort(packetData, 7);
+                    layerModifier = DataOperations.getShort(packetData, 9);
+                    wildY -= layerIndex * layerModifier;
+                    needsClear = true;
+                    hasWorldInfo = true;
+                    return;
+                }
+                if (packetID == 180)
+                {
+                    int off = 1;
+                    for (int stat = 0; stat < 18; stat++)
+                        playerStatCurrent[stat] = DataOperations.getByte(packetData[off++]);
+
+                    for (int stat = 0; stat < 18; stat++)
+                        playerStatBase[stat] = DataOperations.getByte(packetData[off++]);
+
+                    for (int stat = 0; stat < 18; stat++)
+                    {
+                        playerStatExp[stat] = DataOperations.getInt(packetData, off);
+                        off += 4;
+                    }
+                    return;
+                }
+                if (packetID == 177)
+                {
+                    int off = 1;
+                    for (int j3 = 0; j3 < 5; j3++)
+                    {
+                        equipmentStatus[j3] = DataOperations.getShort2(packetData, off);
+                        off += 2;
+                    }
+                    return;
+                }
+                if (packetID == 165)
+                {
+                    playerAliveTimeout = 250;
+                    return;
+                }
+                if (packetID == 115)
+                {
+                    int k3 = (packetLength - 1) / 4;
                     for (int i11 = 0; i11 < k3; i11++)
                     {
-                        int k17 = SectionLocation.X + DataOperations.GetShort2(data, 1 + i11 * 4) >> 3;
-                        int i22 = SectionLocation.Y + DataOperations.GetShort2(data, 3 + i11 * 4) >> 3;
+                        int k17 = sectionX + DataOperations.getShort2(packetData, 1 + i11 * 4) >> 3;
+                        int i22 = sectionY + DataOperations.getShort2(packetData, 3 + i11 * 4) >> 3;
                         int j25 = 0;
-
-                        for (int groundItemIndex = 0; groundItemIndex < GroundItemCount; groundItemIndex++)
+                        for (int l28 = 0; l28 < groundItemCount; l28++)
                         {
-                            int j33 = (GroundItemLocations[groundItemIndex].X >> 3) - k17;
-                            int l36 = (GroundItemLocations[groundItemIndex].Y >> 3) - i22;
-
+                            int j33 = (groundItemX[l28] >> 3) - k17;
+                            int l36 = (groundItemY[l28] >> 3) - i22;
                             if (j33 != 0 || l36 != 0)
                             {
-                                if (groundItemIndex != j25)
+                                if (l28 != j25)
                                 {
-                                    GroundItemLocations[j25] = GroundItemLocations[groundItemIndex];
-                                    GroundItemId[j25] = GroundItemId[groundItemIndex];
-                                    GroundItemObjectVar[j25] = GroundItemObjectVar[groundItemIndex];
+                                    groundItemX[j25] = groundItemX[l28];
+                                    groundItemY[j25] = groundItemY[l28];
+                                    groundItemID[j25] = groundItemID[l28];
+                                    groundItemObjectVar[j25] = groundItemObjectVar[l28];
                                 }
-
                                 j25++;
                             }
                         }
 
-                        GroundItemCount = j25;
+                        groundItemCount = j25;
                         j25 = 0;
-
-                        for (int objectIndex = 0; objectIndex < ObjectCount; objectIndex++)
+                        for (int k33 = 0; k33 < objectCount; k33++)
                         {
-                            int i37 = (ObjectLocations[objectIndex].X >> 3) - k17;
-                            int j39 = (ObjectLocations[objectIndex].Y >> 3) - i22;
-
+                            int i37 = (objectX[k33] >> 3) - k17;
+                            int j39 = (objectY[k33] >> 3) - i22;
                             if (i37 != 0 || j39 != 0)
                             {
-                                if (objectIndex != j25)
+                                if (k33 != j25)
                                 {
-                                    ObjectArray[j25] = ObjectArray[objectIndex];
-                                    ObjectArray[j25].index = j25;
-                                    ObjectLocations[j25] = ObjectLocations[objectIndex];
-                                    ObjectType[j25] = ObjectType[objectIndex];
-                                    ObjectRotation[j25] = ObjectRotation[objectIndex];
+                                    objectArray[j25] = objectArray[k33];
+                                    objectArray[j25].index = j25;
+                                    objectX[j25] = objectX[k33];
+                                    objectY[j25] = objectY[k33];
+                                    objectType[j25] = objectType[k33];
+                                    objectRotation[j25] = objectRotation[k33];
                                 }
                                 j25++;
                             }
                             else
                             {
-                                gameCamera.removeModel(ObjectArray[objectIndex]);
-                                engineHandle.removeObject(ObjectLocations[objectIndex], ObjectType[objectIndex], ObjectRotation[objectIndex]);
+                                gameCamera.removeModel(objectArray[k33]);
+                                engineHandle.removeObject(objectX[k33], objectY[k33], objectType[k33], objectRotation[k33]);
                             }
                         }
 
-                        ObjectCount = j25;
+                        objectCount = j25;
                         j25 = 0;
-
-                        for (int wallObjectIndex = 0; wallObjectIndex < WallObjectCount; wallObjectIndex++)
+                        for (int j37 = 0; j37 < wallObjectCount; j37++)
                         {
-                            int k39 = (WallObjectLocations[wallObjectIndex].X >> 3) - k17;
-                            int l41 = (WallObjectLocations[wallObjectIndex].Y >> 3) - i22;
-
+                            int k39 = (wallObjectX[j37] >> 3) - k17;
+                            int l41 = (wallObjectY[j37] >> 3) - i22;
                             if (k39 != 0 || l41 != 0)
                             {
-                                if (wallObjectIndex != j25)
+                                if (j37 != j25)
                                 {
-                                    WallObjects[j25] = WallObjects[wallObjectIndex];
-                                    WallObjects[j25].index = j25 + 10000;
-                                    WallObjectLocations[j25] = WallObjectLocations[wallObjectIndex];
-                                    WallObjectDirection[j25] = WallObjectDirection[wallObjectIndex];
-                                    WallObjectId[j25] = WallObjectId[wallObjectIndex];
+                                    wallObjectArray[j25] = wallObjectArray[j37];
+                                    wallObjectArray[j25].index = j25 + 10000;
+                                    wallObjectX[j25] = wallObjectX[j37];
+                                    wallObjectY[j25] = wallObjectY[j37];
+                                    wallObjectDirection[j25] = wallObjectDirection[j37];
+                                    wallObjectID[j25] = wallObjectID[j37];
                                 }
-
                                 j25++;
                             }
                             else
                             {
-                                gameCamera.removeModel(WallObjects[wallObjectIndex]);
-                                engineHandle.RemoveWallObject(WallObjectLocations[wallObjectIndex], WallObjectDirection[wallObjectIndex], WallObjectId[wallObjectIndex]);
+                                gameCamera.removeModel(wallObjectArray[j37]);
+                                engineHandle.removeWallObject(wallObjectX[j37], wallObjectY[j37], wallObjectDirection[j37], wallObjectID[j37]);
                             }
                         }
 
-                        WallObjectCount = j25;
+                        wallObjectCount = j25;
                     }
 
                     return;
                 }
-
-                if (command == ServerCommand.OpenShopWindow)
+                if (packetID == 207)
                 {
-                    ShowShopBox = true;
-                    int off = 1;
-                    int newShopItemCount = data[off++] & 0xff;
-                    sbyte isGeneralShop = data[off++];
-                    shopItemSellPriceModifier = data[off++] & 0xff;
-                    shopItemBuyPriceModifier = data[off++] & 0xff;
-
-                    for (int shopItemIndex = 0; shopItemIndex < 40; shopItemIndex++)
+                    showAppearanceWindow = true;
+                    return;
+                }
+                if (packetID == 4)
+                {
+                    int tradeOther = DataOperations.getShort(packetData, 1);
+                    if (playerBufferArray[tradeOther] != null)
+                        tradeOtherName = playerBufferArray[tradeOther].username;
+                    showTradeBox = true;
+                    tradeOtherAccepted = false;
+                    tradeWeAccepted = false;
+                    tradeItemsOurCount = 0;
+                    tradeItemsOtherCount = 0;
+                    return;
+                }
+                if (packetID == 187)
+                {
+                    showTradeBox = false;
+                    showTradeConfirmBox = false;
+                    return;
+                }
+                if (packetID == 250)
+                {
+                    tradeItemsOtherCount = packetData[1] & 0xff;
+                    int i4 = 2;
+                    for (int j11 = 0; j11 < tradeItemsOtherCount; j11++)
                     {
-                        shopItems[shopItemIndex] = -1;
+                        tradeItemsOther[j11] = DataOperations.getShort(packetData, i4);
+                        i4 += 2;
+                        tradeItemOtherCount[j11] = DataOperations.getInt(packetData, i4);
+                        i4 += 4;
                     }
+
+                    tradeOtherAccepted = false;
+                    tradeWeAccepted = false;
+                    return;
+                }
+                if (packetID == 92)
+                {
+                    sbyte byte0 = packetData[1];
+                    if (byte0 == 1)
+                    {
+                        tradeOtherAccepted = true;
+                        return;
+                    }
+                    else
+                    {
+                        tradeOtherAccepted = false;
+                        return;
+                    }
+                }
+                if (packetID == 253)
+                {
+                    showShopBox = true;
+                    int off = 1;
+                    int newShopItemCount = packetData[off++] & 0xff;
+                    sbyte isGeneralShop = packetData[off++];
+                    shopItemSellPriceModifier = packetData[off++] & 0xff;
+                    shopItemBuyPriceModifier = packetData[off++] & 0xff;
+                    for (int j22 = 0; j22 < 40; j22++)
+                        shopItems[j22] = -1;
 
                     for (int item = 0; item < newShopItemCount; item++)
                     {
-                        shopItems[item] = DataOperations.GetInt16(data, off);
+                        shopItems[item] = DataOperations.getShort(packetData, off);
                         off += 2;
-                        shopItemCount[item] = DataOperations.GetInt16(data, off);
+                        shopItemCount[item] = DataOperations.getShort(packetData, off);
                         off += 2;
-                        shopItemBuyPrice[item] = DataOperations.GetInt32(data, off);
+                        shopItemBuyPrice[item] = DataOperations.getInt(packetData, off);
                         off += 4;
-                        shopItemSellPrice[item] = DataOperations.GetInt32(data, off);
+                        shopItemSellPrice[item] = DataOperations.getInt(packetData, off);
                         off += 4;
                     }
 
                     if (isGeneralShop == 1)
                     {
                         int i29 = 39;
-                        for (int itemSlot = 0; itemSlot < inventoryManager.InventoryItemsCount; itemSlot++)
+                        for (int l33 = 0; l33 < inventoryItemsCount; l33++)
                         {
-                            InventoryItem inventoryItem = inventoryManager.GetItem(itemSlot);
-
                             if (i29 < newShopItemCount)
-                            {
                                 break;
-                            }
-
                             bool flag2 = false;
                             for (int l39 = 0; l39 < 40; l39++)
                             {
-                                if (shopItems[l39] != inventoryItem.Index)
-                                {
+                                if (shopItems[l39] != inventoryItems[l33])
                                     continue;
-                                }
-
                                 flag2 = true;
                                 break;
                             }
 
-                            if (inventoryItem.Index == 10)
-                            {
+                            if (inventoryItems[l33] == 10)
                                 flag2 = true;
-                            }
-
                             if (!flag2)
                             {
-                                shopItems[i29] = inventoryItem.Index & 0x7fff;
+                                shopItems[i29] = inventoryItems[l33] & 0x7fff;
                                 shopItemCount[i29] = 0;
-                                shopItemSellPrice[i29] = entityManager.GetItem(shopItems[i29]).BasePrice - (int)(entityManager.GetItem(shopItems[i29]).BasePrice / 2.5);
+                                shopItemSellPrice[i29] = Data.Data.itemBasePrice[shopItems[i29]] - (int)(Data.Data.itemBasePrice[shopItems[i29]] / 2.5);
                                 shopItemSellPrice[i29] -= (int)(shopItemSellPrice[i29] * 0.10);
                                 i29--;
                             }
@@ -1350,184 +2396,82 @@ namespace OpenRS.Net.Client
                     }
                     return;
                 }
-
-                if (command == ServerCommand.OpenBankWindow)
+                if (packetID == 220)
                 {
-                    ShowBankBox = true;
-                    int off = 1;
-
-                    inventoryManager.ServerBankItemsCount = data[off++] & 0xff;
-                    InventoryManager.MaximumBankSize = data[off++] & 0xff;
-
-                    for (int bankSlot = 0; bankSlot < inventoryManager.ServerBankItemsCount; bankSlot++)
+                    showShopBox = false;
+                    return;
+                }
+                if (packetID == 18)
+                {
+                    sbyte byte1 = packetData[1];
+                    if (byte1 == 1)
                     {
-                        InventoryItem serverBankItem = inventoryManager.GetServerBankItem(bankSlot);
+                        tradeWeAccepted = true;
+                        return;
+                    }
+                    else
+                    {
+                        tradeWeAccepted = false;
+                        return;
+                    }
+                }
+                if (packetID == 152)
+                {
+                    configCameraAutoAngle = DataOperations.getByte(packetData[1]) == 1;
+                    configOneMouseButton = DataOperations.getByte(packetData[2]) == 1;
+                    configSoundOff = DataOperations.getByte(packetData[3]) == 1;
+                    showRoofs = DataOperations.getByte(packetData[4]) == 1;
+                    autoScreenshot = DataOperations.getByte(packetData[5]) == 1;
+                    showCombatWindow = DataOperations.getByte(packetData[6]) == 1;
+                    return;
+                }
+                if (packetID == 209)
+                {
+                    for (int k4 = 0; k4 < packetLength - 1; k4++)
+                    {
+                        bool flag = packetData[k4 + 1] == 1;
+                        if (!prayerOn[k4] && flag)
+                            playSound("prayeron");
+                        if (prayerOn[k4] && !flag)
+                            playSound("prayeroff");
+                        prayerOn[k4] = flag;
+                    }
 
-                        // TODO: Does the value update persist?
-                        serverBankItem.Index = DataOperations.GetInt16(data, off);
+                    return;
+                }
+                if (packetID == 93)
+                {
+                    showBankBox = true;
+                    int off = 1;
+                    serverBankItemsCount = packetData[off++] & 0xff;
+                    maxBankItems = packetData[off++] & 0xff;
+                    for (int l11 = 0; l11 < serverBankItemsCount; l11++)
+                    {
+                        serverBankItems[l11] = DataOperations.getShort(packetData, off);
                         off += 2;
-
-                        // TODO: Does the value update persist?
-                        serverBankItem.Quantity = DataOperations.GetInt32(data, off);
+                        serverBankItemCount[l11] = DataOperations.getInt(packetData, off);
                         off += 4;
                     }
 
-                    inventoryManager.UpdateBankItems();
+                    updateBankItems();
                     return;
                 }
-
-                if (command == ServerCommand.SkillExperience)
+                if (packetID == 171)
                 {
-                    int j5 = data[1] & 0xff;
-                    Skills[j5].Experience = DataOperations.GetInt32(data, 2);
+                    showBankBox = false;
                     return;
                 }
-
-#warning have not fixed the following yet....
-                Console.WriteLine($"Unfixed command? {command}");
-
-                if (command == ServerCommand.TeleBubble)
+                if (packetID == 211)
                 {
-                    if (teleBubbleCount < 50)
-                    {
-                        int type = data[1] & 0xff;
-                        int x = data[2] + SectionLocation.X;
-                        int y = data[3] + SectionLocation.Y;
-
-                        teleBubbleType[teleBubbleCount] = type;
-                        teleBubbleTime[teleBubbleCount] = 0;
-                        teleBubbleX[teleBubbleCount] = x;
-                        teleBubbleY[teleBubbleCount] = y;
-                        teleBubbleCount++;
-                    }
+                    int j5 = packetData[1] & 0xff;
+                    playerStatExp[j5] = DataOperations.getInt(packetData, 2);
                     return;
                 }
-
-                if (command == ServerCommand.Command225)
+                if (packetID == 229)
                 {
-                    sleepingStatusText = "Incorrect - Please wait...";
-                    return;
-                }
-
-                if (command == ServerCommand.Command182)
-                {
-                    int off = 1;
-                    questManager.QuestPoints = DataOperations.GetInt16(data, off);
-                    off += 2;
-
-                    for (int i = 0; i < questManager.QuestsCount; i++)
-                    {
-                        // TODO: Ditch numerical identifiers
-                        questManager.SetStage(i.ToString(), data[i + 1]);
-                    }
-
-                    return;
-                }
-
-                if (command == ServerCommand.Command233)
-                {
-                    questManager.QuestPoints = DataOperations.GetInt8(data[1]);
-                    int count = DataOperations.GetInt8(data[2]);
-                    int off = 3;
-                    string[] newQuestNames = new string[count];
-                    int[] newQuestStage = new int[count];
-
-                    for (int i = 0; i < count; i++)
-                    {
-                        // TODO: Ditch numerical identifiers
-                        int id = DataOperations.GetInt8(data[off++]);
-                        int newStage = DataOperations.GetInt8(data[off++]);
-
-                        questManager.SetStage(id.ToString(), newStage);
-                    }
-
-                    return;
-                }
-
-                if (command == ServerCommand.OpenTradeWindow)
-                {
-                    int tradeOther = DataOperations.GetShort2(data, 1);
-                    if (Mobs[tradeOther] != null)
-                    {
-                        tradeOtherName = Mobs[tradeOther].Username;
-                    }
-                    showTradeBox = true;
-                    tradeOtherAccepted = false;
-                    tradeWeAccepted = false;
-                    tradeItemsOurCount = 0;
-                    tradeItemsOtherCount = 0;
-                    return;
-                }
-
-                if (command == ServerCommand.CloseTradeWindow)
-                {
-                    showTradeBox = false;
-                    showTradeConfirmBox = false;
-                    return;
-                }
-
-                if (command == ServerCommand.TradeItems)
-                {
-                    tradeItemsOtherCount = data[1] & 0xff;
-                    int tradeOff = 2;
-                    for (int ti = 0; ti < tradeItemsOtherCount; ti++)
-                    {
-                        tradeItemsOther[ti] = DataOperations.GetShort2(data, tradeOff);
-                        tradeOff += 2;
-                        tradeItemOtherCount[ti] = DataOperations.GetInt32(data, tradeOff);
-                        tradeOff += 4;
-                    }
-                    tradeOtherAccepted = false;
-                    tradeWeAccepted = false;
-                    return;
-                }
-
-                if (command == ServerCommand.TradeAcceptedByOther)
-                {
-                    tradeOtherAccepted = data[1] == 1;
-                    return;
-                }
-
-                if (command == ServerCommand.TradeAcceptedBySelf)
-                {
-                    tradeWeAccepted = data[1] == 1;
-                    return;
-                }
-
-                if (command == ServerCommand.Command251)
-                {
-                    showTradeConfirmBox = true;
-                    tradeConfirmAccepted = false;
-                    showTradeBox = false;
-                    int confirmOff = 1;
-                    tradeConfirmOtherNameLong = DataOperations.GetLong(data, confirmOff);
-                    confirmOff += 8;
-                    tradeConfirmOtherItemCount = data[confirmOff++] & 0xff;
-                    for (int ci = 0; ci < tradeConfirmOtherItemCount; ci++)
-                    {
-                        tradeConfirmOtherItems[ci] = DataOperations.GetShort2(data, confirmOff);
-                        confirmOff += 2;
-                        tradeConfirmOtherItemsCount[ci] = DataOperations.GetInt32(data, confirmOff);
-                        confirmOff += 4;
-                    }
-                    tradeConfigItemCount = data[confirmOff++] & 0xff;
-                    for (int ci = 0; ci < tradeConfigItemCount; ci++)
-                    {
-                        tradeConfirmItems[ci] = DataOperations.GetShort2(data, confirmOff);
-                        confirmOff += 2;
-                        tradeConfigItemsCount[ci] = DataOperations.GetInt32(data, confirmOff);
-                        confirmOff += 4;
-                    }
-                    return;
-                }
-
-                if (command == ServerCommand.OpenDuelWindow)
-                {
-                    int duelOther = DataOperations.GetShort2(data, 1);
-                    if (Mobs[duelOther] != null)
-                    {
-                        duelOpponent = Mobs[duelOther].Username;
-                    }
+                    int k5 = DataOperations.getShort(packetData, 1);
+                    if (playerBufferArray[k5] != null)
+                        duelOpponent = playerBufferArray[k5].username;
                     showDuelBox = true;
                     duelMyItemCount = 0;
                     duelOpponentItemCount = 0;
@@ -1539,324 +2483,584 @@ namespace OpenRS.Net.Client
                     duelNoWeapons = false;
                     return;
                 }
-
-                if (command == ServerCommand.CloseDuelWindow)
+                if (packetID == 160)
                 {
                     showDuelBox = false;
                     showDuelConfirmBox = false;
                     return;
                 }
 
-                if (command == ServerCommand.DuelItems)
+#warning have not fixed the following yet....
+                if (packetID == 251)
                 {
-                    duelOpponentItemCount = data[1] & 0xff;
-                    int duelOff = 2;
-                    for (int di = 0; di < duelOpponentItemCount; di++)
+                    showTradeConfirmBox = true;
+                    tradeConfirmAccepted = false;
+                    showTradeBox = false;
+                    int off = 1;
+                    tradeConfirmOtherNameLong = DataOperations.getLong(packetData, off);
+                    off += 8;
+                    tradeConfirmOtherItemCount = packetData[off++] & 0xff;
+                    for (int i12 = 0; i12 < tradeConfirmOtherItemCount; i12++)
                     {
-                        duelOpponentItems[di] = DataOperations.GetShort2(data, duelOff);
-                        duelOff += 2;
-                        duelOpponentItemsCount[di] = DataOperations.GetInt32(data, duelOff);
-                        duelOff += 4;
+                        tradeConfirmOtherItems[i12] = DataOperations.getShort(packetData, off);
+                        off += 2;
+                        tradeConfirmOtherItemsCount[i12] = DataOperations.getInt(packetData, off);
+                        off += 4;
                     }
+
+                    tradeConfigItemCount = packetData[off++] & 0xff;
+                    for (int l17 = 0; l17 < tradeConfigItemCount; l17++)
+                    {
+                        tradeConfirmItems[l17] = DataOperations.getShort(packetData, off);
+                        off += 2;
+                        tradeConfigItemsCount[l17] = DataOperations.getInt(packetData, off);
+                        off += 4;
+                    }
+
+                    return;
+                }
+                if (packetID == 63)
+                {
+                    duelOpponentItemCount = packetData[1] & 0xff;
+                    int off = 2;
+                    for (int j12 = 0; j12 < duelOpponentItemCount; j12++)
+                    {
+                        duelOpponentItems[j12] = DataOperations.getShort(packetData, off);
+                        off += 2;
+                        duelOpponentItemsCount[j12] = DataOperations.getInt(packetData, off);
+                        off += 4;
+                    }
+
                     duelOpponentAccepted = false;
                     duelMyAccepted = false;
                     return;
                 }
-
-                if (command == ServerCommand.DuelAcceptedByOther)
+                if (packetID == 198)
                 {
-                    duelOpponentAccepted = data[1] == 1;
-                    return;
-                }
-
-                if (command == ServerCommand.DuelAcceptedBySelf)
-                {
-                    duelMyAccepted = data[1] == 1;
-                    return;
-                }
-
-                if (command == ServerCommand.DuelSettings)
-                {
-                    duelNoRetreating = data[1] == 1;
-                    duelNoMagic = data[2] == 1;
-                    duelNoPrayer = data[3] == 1;
-                    duelNoWeapons = data[4] == 1;
+                    if (packetData[1] == 1)
+                        duelNoRetreating = true;
+                    else
+                        duelNoRetreating = false;
+                    if (packetData[2] == 1)
+                        duelNoMagic = true;
+                    else
+                        duelNoMagic = false;
+                    if (packetData[3] == 1)
+                        duelNoPrayer = true;
+                    else
+                        duelNoPrayer = false;
+                    if (packetData[4] == 1)
+                        duelNoWeapons = true;
+                    else
+                        duelNoWeapons = false;
                     duelOpponentAccepted = false;
                     duelMyAccepted = false;
                     return;
                 }
+                if (packetID == 139)
+                {
+                    int off = 1;
+                    int itemSlot = packetData[off++] & 0xff;
+                    int itemID = DataOperations.getShort(packetData, off);
+                    off += 2;
+                    int itemCount = DataOperations.getInt(packetData, off);
+                    off += 4;
+                    if (itemCount == 0)
+                    {
+                        serverBankItemsCount--;
+                        for (int l25 = itemSlot; l25 < serverBankItemsCount; l25++)
+                        {
+                            serverBankItems[l25] = serverBankItems[l25 + 1];
+                            serverBankItemCount[l25] = serverBankItemCount[l25 + 1];
+                        }
 
-                if (command == ServerCommand.Command147)
+                    }
+                    else
+                    {
+                        serverBankItems[itemSlot] = itemID;
+                        serverBankItemCount[itemSlot] = itemCount;
+                        if (itemSlot >= serverBankItemsCount)
+                            serverBankItemsCount = itemSlot + 1;
+                    }
+                    updateBankItems();
+                    return;
+                }
+                if (packetID == 228)
+                {
+                    int off = 1;
+                    int count = 1;
+                    int newCount = packetData[off++] & 0xff;
+                    int data = DataOperations.getShort(packetData, off);
+                    off += 2;
+                    if (Data.Data.itemStackable[data & 0x7fff] == 0)
+                    {
+                        count = DataOperations.getInt(packetData, off);
+                        off += 4;
+                    }
+                    inventoryItems[newCount] = data & 0x7fff;
+                    inventoryItemEquipped[newCount] = data / 32768;
+                    inventoryItemCount[newCount] = count;
+                    if (newCount >= inventoryItemsCount)
+                        inventoryItemsCount = newCount + 1;
+                    return;
+                }
+                if (packetID == 191)
+                {
+                    int l6 = packetData[1] & 0xff;
+                    inventoryItemsCount--;
+                    for (int i13 = l6; i13 < inventoryItemsCount; i13++)
+                    {
+                        inventoryItems[i13] = inventoryItems[i13 + 1];
+                        inventoryItemCount[i13] = inventoryItemCount[i13 + 1];
+                        inventoryItemEquipped[i13] = inventoryItemEquipped[i13 + 1];
+                    }
+
+                    return;
+                }
+                if (packetID == 208)
+                {
+                    int off = 1;
+                    int stat = packetData[off++] & 0xff;
+                    playerStatCurrent[stat] = DataOperations.getByte(packetData[off++]);
+                    playerStatBase[stat] = DataOperations.getByte(packetData[off++]);
+                    playerStatExp[stat] = DataOperations.getInt(packetData, off);
+                    off += 4;
+                    return;
+                }
+                if (packetID == 65)
+                {
+                    sbyte byte2 = packetData[1];
+                    if (byte2 == 1)
+                    {
+                        duelOpponentAccepted = true;
+                        return;
+                    }
+                    else
+                    {
+                        duelOpponentAccepted = false;
+                        return;
+                    }
+                }
+                if (packetID == 197)
+                {
+                    sbyte byte3 = packetData[1];
+                    if (byte3 == 1)
+                    {
+                        duelMyAccepted = true;
+                        return;
+                    }
+                    else
+                    {
+                        duelMyAccepted = false;
+                        return;
+                    }
+                }
+                if (packetID == 147)
                 {
                     showDuelConfirmBox = true;
                     duelConfirmOurAccepted = false;
                     showDuelBox = false;
-                    int duelConfirmOff = 1;
-                    duelOpponentHash = DataOperations.GetLong(data, duelConfirmOff);
-                    duelConfirmOff += 8;
-                    duelOpponentStakeCount = data[duelConfirmOff++] & 0xff;
-                    for (int di = 0; di < duelOpponentStakeCount; di++)
+                    int off = 1;
+                    duelOpponentHash = DataOperations.getLong(packetData, off);
+                    off += 8;
+                    duelOpponentStakeCount = packetData[off++] & 0xff;
+                    for (int k13 = 0; k13 < duelOpponentStakeCount; k13++)
                     {
-                        duelOpponentStakeItem[di] = DataOperations.GetShort2(data, duelConfirmOff);
-                        duelConfirmOff += 2;
-                        duelOutStakeItemCount[di] = DataOperations.GetInt32(data, duelConfirmOff);
-                        duelConfirmOff += 4;
+                        duelOpponentStakeItem[k13] = DataOperations.getShort(packetData, off);
+                        off += 2;
+                        duelOutStakeItemCount[k13] = DataOperations.getInt(packetData, off);
+                        off += 4;
                     }
-                    duelOurStakeCount = data[duelConfirmOff++] & 0xff;
-                    for (int di = 0; di < duelOurStakeCount; di++)
+
+                    duelOurStakeCount = packetData[off++] & 0xff;
+                    for (int k18 = 0; k18 < duelOurStakeCount; k18++)
                     {
-                        duelOurStakeItem[di] = DataOperations.GetShort2(data, duelConfirmOff);
-                        duelConfirmOff += 2;
-                        duelOurStakeItemCount[di] = DataOperations.GetInt32(data, duelConfirmOff);
-                        duelConfirmOff += 4;
+                        duelOurStakeItem[k18] = DataOperations.getShort(packetData, off);
+                        off += 2;
+                        duelOurStakeItemCount[k18] = DataOperations.getInt(packetData, off);
+                        off += 4;
                     }
-                    duelRetreat = data[duelConfirmOff++] & 0xff;
-                    duelMagic = data[duelConfirmOff++] & 0xff;
-                    duelPrayer = data[duelConfirmOff++] & 0xff;
-                    duelWeapons = data[duelConfirmOff++] & 0xff;
+
+                    duelRetreat = packetData[off++] & 0xff;
+                    duelMagic = packetData[off++] & 0xff;
+                    duelPrayer = packetData[off++] & 0xff;
+                    duelWeapons = packetData[off++] & 0xff;
                     return;
                 }
-
-                if (command == ServerCommand.PlaySound)
+                if (packetID == 11)
                 {
-                    string soundName = System.Text.Encoding.ASCII.GetString((byte[])(Array)data, 1, length - 1).TrimEnd('\0');
-                    playSound(soundName);
+                    String s1 = new String(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
+                    playSound(s1);
                     return;
                 }
-
-                if (command == ServerCommand.AlertSmall)
+                if (packetID == 23)
                 {
-                    serverMessage = System.Text.Encoding.ASCII.GetString((byte[])(Array)data, 1, length - 1).TrimEnd('\0');
-                    showServerMessageBox = true;
-                    serverMessageBoxTop = false;
-                    return;
-                }
-
-                if (command == ServerCommand.AlertBig)
-                {
-                    serverMessage = System.Text.Encoding.ASCII.GetString((byte[])(Array)data, 1, length - 1).TrimEnd('\0');
-                    showServerMessageBox = true;
-                    serverMessageBoxTop = true;
-                    return;
-                }
-
-                if (command == ServerCommand.SystemUpdateTimer)
-                {
-                    systemUpdate = DataOperations.GetShort2(data, 1) * 32;
-                    return;
-                }
-
-                if (command == ServerCommand.TakeScreenshot)
-                {
-                    if (autoScreenshot)
+                    if (teleBubbleCount < 50)
                     {
-                        takeScreenshot(false);
+                        int type = packetData[1] & 0xff;
+                        int x = packetData[2] + sectionX;
+                        int y = packetData[3] + sectionY;
+                        teleBubbleType[teleBubbleCount] = type;
+                        teleBubbleTime[teleBubbleCount] = 0;
+                        teleBubbleX[teleBubbleCount] = x;
+                        teleBubbleY[teleBubbleCount] = y;
+                        teleBubbleCount++;
                     }
                     return;
                 }
-
-                if (command == ServerCommand.LogoutCannot)
-                {
-                    logoutTimer = 0;
-                    return;
-                }
-
-                if (command == ServerCommand.LoginScreen)
+                if (packetID == 248)
                 {
                     if (!loginScreenShown)
                     {
-                        lastLoginDays = DataOperations.GetShort2(data, 1);
-                        subDaysLeft = DataOperations.GetShort2(data, 3);
-                        lastLoginAddress = System.Text.Encoding.ASCII.GetString((byte[])(Array)data, 5, length - 5).TrimEnd('\0');
+                        lastLoginDays = DataOperations.getShort(packetData, 1);
+                        subDaysLeft = DataOperations.getShort(packetData, 3);
+                        lastLoginAddress = new String(packetData.Select(c => (char)c).ToArray(), 5, packetLength - 5);
                         showWelcomeBox = true;
                         loginScreenShown = true;
                     }
                     return;
                 }
+                if (packetID == 148)
+                {
+                    serverMessage = new String(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
+                    showServerMessageBox = true;
+                    serverMessageBoxTop = false;
+                    return;
+                }
+                if (packetID == 64)
+                {
+                    serverMessage = new String(packetData.Select(c => (char)c).ToArray(), 1, packetLength - 1);
+                    showServerMessageBox = true;
+                    serverMessageBoxTop = true;
+                    return;
+                }
+                if (packetID == 126)
+                {
+                    fatigue = DataOperations.getShort(packetData, 1);
+                    return;
+                }
+                if (packetID == 206)
+                {
+                    killingSpree = DataOperations.getShort(packetData, 1);
+                    return;
+                }
+                if (packetID == 224)
+                {
+                    isSleeping = false;
+                    return;
+                }
+                if (packetID == 225)
+                {
+                    sleepingStatusText = "Incorrect - Please wait...";
+                    return;
+                }
+                if (packetID == 172)
+                {
+                    systemUpdate = DataOperations.getShort(packetData, 1) * 32;
+                    return;
+                }
+                if (packetID == 181)
+                {
+                    if (autoScreenshot)
+                        takeScreenshot(false);
+                    return;
+                }
+                if (packetID == 182)
+                {
+                    int off = 1;
+                    questPoints = DataOperations.getShort(packetData, off);
+                    off += 2;
+                    for (int l4 = 0; l4 < questName.Length; l4++)
+                        questStage[l4] = packetData[l4 + 1];
 
-                Console.WriteLine("UNHANDLED PACKET:" + command + " LEN:" + length + " @#!#@#!#@#!#@#!#@#!#@");
+                    return;
+                }
+                if (packetID == 233)
+                {
+                    questPoints = DataOperations.getByte(packetData[1]);
+                    int count = DataOperations.getByte(packetData[2]);
+                    int off = 3;
+                    string[] newQuestNames = new String[count];
+                    int[] newQuestStage = new int[count];
+                    for (int i = 0; i < count; i++)
+                    {
+                        newQuestNames[i] = questName[DataOperations.getByte(packetData[off++])];
+                        newQuestStage[i] = DataOperations.getByte(packetData[off++]);
+                    }
+                    usedQuestName = newQuestNames;
+                    questStage = newQuestStage;
+                    return;
+                }
+                if (packetID == 129)
+                {
+                    combatStyle = DataOperations.getByte(packetData[1]);
+                    return;
+                }
+                if (packetID == 110)
+                {// TODO remove?
+                    Console.WriteLine("RECEIVED PACKET 110 (SERVER INFO)");
+                    return;
+                }
+                // Spell counts and quest progress — 2-byte value packets, silently accepted
+                if (packetID == 210 || packetID == 212 || packetID == 213) { return; } // Guthix/Zamorak/Saradomin spells
+                if (packetID == 128) { return; } // QuestPointsChange
+                if (packetID == 134) { return; } // Deaths
+                if (packetID == 137) { return; } // DruidicRitual
+                if (packetID == 138) { return; } // ImpCatcher
+                if (packetID == 141) { return; } // SheepShearer
+                if (packetID == 143) { return; } // DoricQuest
+                if (packetID == 132) { return; } // Kills
+                if (packetID == 140) { return; } // RomeoAndJuliet
+                if (packetID == 142) { return; } // WitchPotion
+                if (packetID == 144) { return; } // CookAssistant
+                if (packetID == 133) { return; } // PirateTreasure
+                if (packetID == 139) { return; } // BlackKnightsForte
+                if (packetID == 146) { return; } // RestlessGhost
+                if (packetID == 149) { return; } // ErnestTheChicken
+                if (packetID == 150) { return; } // Goblintown
+                if (packetID == 151) { return; } // MinersBlazonQuest
+                if (packetID == 173) { return; } // VampireSlayer
+                if (packetID == 174) { return; } // MilleniumItemQuest
+                if (packetID == 175) { return; } // KnightsSword
+                if (packetID == 202) { return; } // GoblinDiplomacy
+                if (packetID == 203) { return; } // TheGrandTree
+                if (packetID == 204) { return; } // FightArena
+                if (packetID == 205) { return; } // Hazeel
+                if (packetID == 214) { return; } // HolyGrail
+                if (packetID == 215) { return; } // MerlinsCrystal
+                if (packetID == 216) { return; } // LostCity
+                if (packetID == 217) { return; } // WitchHouse
+                Console.WriteLine("UNHANDLED PACKET:" + packetID + " LEN:" + packetLength);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(ex);
+                // ex.printStackTrace();
             }
         }
 
+        //protected void startThread(Runnable runnable) {
+        //    if(Link.gameApplet != null) {
+        //        Link.thread(runnable);
+        //        return;
+        //    } else {
+        //        Thread thread = new Thread(runnable);
+        //        thread.setDaemon(true);
+        //        thread.start();
+        //        return;
+        //    }
+        //}
+
         public override void initVars()
         {
-            CombatStyle = 0;
+            systemUpdate = 0;
+            combatStyle = 0;
+            logoutTimer = 0;
+            loginScreen = 0;
             loggedIn = true;
-
-            gameGraphics.ClearScreen();
+            resetPrivateMessages();
+            gameGraphics.clearScreen();
+            // gameGraphics.UpdateGameImage();
+            //gameGraphics.drawImage(spriteBatch, 0, 0);
             OnDrawDone();
 
-            for (int objectIndex = 0; objectIndex < ObjectCount; objectIndex++)
+            for (int l = 0; l < objectCount; l++)
             {
-                gameCamera.removeModel(ObjectArray[objectIndex]);
-                engineHandle.removeObject(ObjectLocations[objectIndex], ObjectType[objectIndex], ObjectRotation[objectIndex]);
+                gameCamera.removeModel(objectArray[l]);
+                engineHandle.removeObject(objectX[l], objectY[l], objectType[l], objectRotation[l]);
             }
 
-            for (int wallObjectIndex = 0; wallObjectIndex < WallObjectCount; wallObjectIndex++)
+            for (int i1 = 0; i1 < wallObjectCount; i1++)
             {
-                gameCamera.removeModel(WallObjects[wallObjectIndex]);
-                engineHandle.RemoveWallObject(WallObjectLocations[wallObjectIndex], WallObjectDirection[wallObjectIndex], WallObjectId[wallObjectIndex]);
+                gameCamera.removeModel(wallObjectArray[i1]);
+                engineHandle.removeWallObject(wallObjectX[i1], wallObjectY[i1], wallObjectDirection[i1], wallObjectID[i1]);
             }
 
-            ObjectCount = 0;
-            WallObjectCount = 0;
-            GroundItemCount = 0;
-            PlayerCount = 0;
-            NpcCount = 0;
+            objectCount = 0;
+            wallObjectCount = 0;
+            groundItemCount = 0;
+            playerCount = 0;
+            for (int j1 = 0; j1 < 4000; j1++)
+                playerBufferArray[j1] = null;
 
-            for (int i = 0; i < 4000; i++)
-            {
-                Mobs[i] = null;
-                NpcAttackingArray[i] = null;
-            }
+            for (int k1 = 0; k1 < 500; k1++)
+                playerArray[k1] = null;
 
-            for (int i = 0; i < 500; i++)
-            {
-                Players[i] = null;
-                Npcs[i] = null;
-            }
+            npcCount = 0;
+            for (int l1 = 0; l1 < 5000; l1++)
+                npcAttackingArray[l1] = null;
 
-            for (int i = 0; i < 50; i++)
-            {
-                prayerOn[i] = false;
-            }
+            for (int i2 = 0; i2 < 500; i2++)
+                npcArray[i2] = null;
+
+            for (int j2 = 0; j2 < 50; j2++)
+                prayerOn[j2] = false;
 
             mouseButtonClick = 0;
-            lastMouseButton = 0;
-            mouseButton = 0;
-            ShowShopBox = false;
-            ShowBankBox = false;
-            IsSleeping = false;
+            base.lastMouseButton = 0;
+            base.mouseButton = 0;
+            showShopBox = false;
+            showBankBox = false;
+            isSleeping = false;
+            base.friendsCount = 0;
         }
 
         public void drawMinimapMenu(bool canClick)
         {
-            int l = gameGraphics.GameSize.Width - 199;
+            int l = ((GameImage)(gameGraphics)).gameWidth - 199;
             int c1 = 156;//'æ';//(char)234;//'\u234';
             int c3 = 152;// '~';//(char)230;//'\u230';
-
+            gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 2);
             l += 40;
-            gameGraphics.SetDimensions(l, 36, l + c1, 36 + c3);
-
+            gameGraphics.drawBox(l, 36, c1, c3, 0);
+            gameGraphics.setDimensions(l, 36, l + c1, 36 + c3);
             int j1 = 192 + minimapRandomRotationY;
             int l1 = cameraRotation + minimapRandomRotationX & 0xff;
-            int j2 = (CurrentPlayer.Location.X - 6040) * 3 * j1 / 2048;
-            int l3 = (CurrentPlayer.Location.Y - 6040) * 3 * j1 / 2048;
+            int j2 = ((ourPlayer.currentX - 6040) * 3 * j1) / 2048;
+            int l3 = ((ourPlayer.currentY - 6040) * 3 * j1) / 2048;
             int j5 = Camera.bbk[1024 - l1 * 4 & 0x3ff];
             int l5 = Camera.bbk[(1024 - l1 * 4 & 0x3ff) + 1024];
             int j6 = l3 * j5 + j2 * l5 >> 18;
             l3 = l3 * l5 - j2 * j5 >> 18;
-
-            gameGraphics.DrawMinimapPic(l + c1 / 2 - j6, 36 + c3 / 2 + l3, baseInventoryPic - 1, l1 + 64 & 0xff, j1);
-            gameGraphics.SetDimensions(0, 0, WindowSize.Width, WindowSize.Height + 12);
-
-            if (!canClick)
+            j2 = j6;
+            gameGraphics.drawMinimapPic((l + c1 / 2) - j2, 36 + c3 / 2 + l3, baseInventoryPic - 1, l1 + 64 & 0xff, j1);
+            for (int l7 = 0; l7 < objectCount; l7++)
             {
-                return;
+                int k2 = (((objectX[l7] * gridSize + 64) - ourPlayer.currentX) * 3 * j1) / 2048;
+                int i4 = (((objectY[l7] * gridSize + 64) - ourPlayer.currentY) * 3 * j1) / 2048;
+                int k6 = i4 * j5 + k2 * l5 >> 18;
+                i4 = i4 * l5 - k2 * j5 >> 18;
+                k2 = k6;
+                drawMinimapObject(l + c1 / 2 + k2, (36 + c3 / 2) - i4, 65535);
             }
 
-            l = InputManager.Instance.MouseLocation.X - (gameGraphics.GameSize.Width - 199);
-            int l8 = GameMouseY - 36;
+            for (int i8 = 0; i8 < groundItemCount; i8++)
+            {
+                int l2 = (((groundItemX[i8] * gridSize + 64) - ourPlayer.currentX) * 3 * j1) / 2048;
+                int j4 = (((groundItemY[i8] * gridSize + 64) - ourPlayer.currentY) * 3 * j1) / 2048;
+                int l6 = j4 * j5 + l2 * l5 >> 18;
+                j4 = j4 * l5 - l2 * j5 >> 18;
+                l2 = l6;
+                drawMinimapObject(l + c1 / 2 + l2, (36 + c3 / 2) - j4, 0xff0000);
+            }
+
+            for (int j8 = 0; j8 < npcCount; j8++)
+            {
+                ClientMob f1 = npcArray[j8];
+                int i3 = ((f1.currentX - ourPlayer.currentX) * 3 * j1) / 2048;
+                int k4 = ((f1.currentY - ourPlayer.currentY) * 3 * j1) / 2048;
+                int i7 = k4 * j5 + i3 * l5 >> 18;
+                k4 = k4 * l5 - i3 * j5 >> 18;
+                i3 = i7;
+                drawMinimapObject(l + c1 / 2 + i3, (36 + c3 / 2) - k4, 0xffff00);
+            }
+
+            for (int k8 = 0; k8 < playerCount; k8++)
+            {
+                ClientMob f2 = playerArray[k8];
+                int j3 = ((f2.currentX - ourPlayer.currentX) * 3 * j1) / 2048;
+                int l4 = ((f2.currentY - ourPlayer.currentY) * 3 * j1) / 2048;
+                int j7 = l4 * j5 + j3 * l5 >> 18;
+                l4 = l4 * l5 - j3 * j5 >> 18;
+                j3 = j7;
+                int i9 = 0xffffff;
+                for (int j9 = 0; j9 < base.friendsCount; j9++)
+                {
+                    if (f2.nameHash != base.friendsList[j9] || base.friendsWorld[j9] != 99)
+                        continue;
+                    i9 = 65280;
+                    break;
+                }
+
+                drawMinimapObject(l + c1 / 2 + j3, (36 + c3 / 2) - l4, i9);
+            }
+
+            // compass
+            gameGraphics.drawCircle(l + c1 / 2, 36 + c3 / 2, 2, 0xffffff, 255);
+            gameGraphics.drawMinimapPic(l + 19, 55, baseInventoryPic + 24, cameraRotation + 128 & 0xff, 128);
+            gameGraphics.setDimensions(0, 0, windowWidth, windowHeight + 12);
+            if (!canClick)
+                return;
+            l = base.mouseX - (((GameImage)(gameGraphics)).gameWidth - 199);
+            int l8 = base.mouseY - 36;
             if (l >= 40 && l8 >= 0 && l < 196 && l8 < 152)
             {
                 int c2 = 156;//'\u234';
                 int c4 = 152;//'\u230';
                 int k1 = 192 + minimapRandomRotationY;
                 int i2 = cameraRotation + minimapRandomRotationX & 0xff;
-                int i1 = gameGraphics.GameSize.Width - 199;
+                int i1 = ((GameImage)(gameGraphics)).gameWidth - 199;
                 i1 += 40;
-                int k3 = (InputManager.Instance.MouseLocation.X - (i1 + c2 / 2)) * 16384 / (3 * k1);
-                int i5 = (GameMouseY - (36 + c4 / 2)) * 16384 / (3 * k1);
+                int k3 = ((base.mouseX - (i1 + c2 / 2)) * 16384) / (3 * k1);
+                int i5 = ((base.mouseY - (36 + c4 / 2)) * 16384) / (3 * k1);
                 int k5 = Camera.bbk[1024 - i2 * 4 & 0x3ff];
                 int i6 = Camera.bbk[(1024 - i2 * 4 & 0x3ff) + 1024];
                 int k7 = i5 * k5 + k3 * i6 >> 15;
                 i5 = i5 * i6 - k3 * k5 >> 15;
                 k3 = k7;
-                k3 += CurrentPlayer.Location.X;
-                i5 = CurrentPlayer.Location.Y - i5;
-
-                Point2D destination = new(k3 / 128, i5 / 128);
-
+                k3 += ourPlayer.currentX;
+                i5 = ourPlayer.currentY - i5;
                 if (mouseButtonClick == 1)
-                {
-                    walkTo1Tile(SectionLocation, destination, false);
-                }
-
+                    walkTo1Tile(sectionX, sectionY, k3 / 128, i5 / 128, false);
                 mouseButtonClick = 0;
             }
         }
 
         public bool validCameraAngle(int arg0)
         {
-            int l = CurrentPlayer.Location.X / 128;
-            int i1 = CurrentPlayer.Location.Y / 128;
+            int l = ourPlayer.currentX / 128;
+            int i1 = ourPlayer.currentY / 128;
             for (int j1 = 2; j1 >= 1; j1--)
             {
                 if (arg0 == 1 && ((engineHandle.tiles[l][i1 - j1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1 - j1] & 0x80) == 128))
-                {
                     return false;
-                }
-
                 if (arg0 == 3 && ((engineHandle.tiles[l][i1 + j1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1] & 0x80) == 128 || (engineHandle.tiles[l - j1][i1 + j1] & 0x80) == 128))
-                {
                     return false;
-                }
-
                 if (arg0 == 5 && ((engineHandle.tiles[l][i1 + j1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1 + j1] & 0x80) == 128))
-                {
                     return false;
-                }
-
                 if (arg0 == 7 && ((engineHandle.tiles[l][i1 - j1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1] & 0x80) == 128 || (engineHandle.tiles[l + j1][i1 - j1] & 0x80) == 128))
-                {
                     return false;
-                }
-
                 if (arg0 == 0 && (engineHandle.tiles[l][i1 - j1] & 0x80) == 128)
-                {
                     return false;
-                }
-
                 if (arg0 == 2 && (engineHandle.tiles[l - j1][i1] & 0x80) == 128)
-                {
                     return false;
-                }
-
                 if (arg0 == 4 && (engineHandle.tiles[l][i1 + j1] & 0x80) == 128)
-                {
                     return false;
-                }
-
                 if (arg0 == 6 && (engineHandle.tiles[l + j1][i1] & 0x80) == 128)
-                {
                     return false;
-                }
             }
 
             return true;
         }
 
-        public override void LoadGame()
+        public void loadSounds()
+        {
+            try
+            {
+                soundData = unpackData("sounds.mem", "Sound effects", 90);
+                audioPlayer = new AudioReader();
+                return;
+            }
+            catch (Exception throwable)
+            {
+                Console.WriteLine("Unable to init sounds:" + throwable);
+            }
+        }
+
+        public override void loadGame()
         {
             int l = 0;
             for (int i1 = 0; i1 < 99; i1++)
             {
                 int j1 = i1 + 1;
-                int l1 = (int)(j1 + 300D * Math.Pow(2D, j1 / 7D));
+                int l1 = (int)((double)j1 + 300D * Math.Pow(2D, (double)j1 / 7D));
                 l += l1;
                 experienceList[i1] = (l & 0xffffffc) / 4;
             }
-            LoadConfig();
+            loadConfig();
             if (errorLoading)
-            {
                 return;
-            }
-
-            maxPacketReadCount = 500;
+            GameAppletMiddleMan.maxPacketReadCount = 500;
             baseInventoryPic = 2000;
             baseScrollPic = baseInventoryPic + 100;
             baseItemPicture = baseScrollPic + 50;
@@ -1864,79 +3068,140 @@ namespace OpenRS.Net.Client
             baseProjectilePic = baseLoginScreenBackgroundPic + 10;
             baseTexturePic = baseProjectilePic + 50;
             subTexturePic = baseTexturePic + 10;
-            SetRefreshRate(50);
-            gameGraphics = new GameImageMiddleMan(WindowSize.Width, WindowSize.Height + 12, 4000)
+            graphics = getGraphics();
+            setRefreshRate(50);
+            gameGraphics = new GameImageMiddleMan(windowWidth, windowHeight + 12, 4000)
             {
                 gameReference = this
             };
-            gameGraphics.SetDimensions(0, 0, WindowSize.Width, WindowSize.Height + 12);
+            gameGraphics.setDimensions(0, 0, windowWidth, windowHeight + 12);
             Menu.gdh = false;
             Menu.baseScrollPic = baseScrollPic;
             spellMenu = new Menu(gameGraphics, 5);
-            int k1 = gameGraphics.GameSize.Width - 199;
+            int k1 = ((GameImage)(gameGraphics)).gameWidth - 199;
             sbyte byte0 = 36;
             spellMenuHandle = spellMenu.createList(k1, byte0 + 24, 196, 90, 1, 500, true);
+            friendsMenu = new Menu(gameGraphics, 5);
+            friendsMenuHandle = friendsMenu.createList(k1, byte0 + 40, 196, 126, 1, 500, true);
             questMenu = new Menu(gameGraphics, 5);
             questMenuHandle = questMenu.createList(k1, byte0 + 24, 196, 251, 1, 500, true);
             loadMedia();
-
             if (errorLoading)
-            {
                 return;
-            }
-
             loadAnimations();
-
             if (errorLoading)
-            {
                 return;
-            }
-
             gameCamera = new Camera(gameGraphics, 15000, 15000, 1000);
-            Point3D shadingPoint = new(-50, -10, -50);
 
-            int viewportWidth = WindowSize.Width - 248;
-            int viewportHalfWidth = viewportWidth / 2;
-            int viewportHalfHeight = WindowSize.Height / 2;
-            gameCamera.setCameraSize(viewportHalfWidth, viewportHalfHeight, viewportHalfWidth, viewportHalfHeight, WindowSize.Width, cameraFieldOfView);
+            gameCamera.setCameraSize(windowWidth / 2, windowHeight / 2, windowWidth / 2, windowHeight / 2, windowWidth, cameraFieldOfView);
             gameCamera.zoom1 = 2400;
             gameCamera.zoom2 = 2400;
             gameCamera.zoom3 = 1;
             gameCamera.zoom4 = 2300;
-            gameCamera.bjk(shadingPoint);
-            engineHandle = new EngineHandle(entityManager, gameCamera, gameGraphics)
+            gameCamera.bjk(-50, -10, -50);
+            engineHandle = new EngineHandle(gameCamera, gameGraphics)
             {
                 baseInventoryPic = baseInventoryPic
             };
             loadTextures();
-
             if (errorLoading)
-            {
                 return;
-            }
-
-            LoadModels();
-
+            loadModels();
             if (errorLoading)
-            {
                 return;
-            }
-
-            LoadMap();
-
+            loadMap();
             if (errorLoading)
-            {
                 return;
-            }
-
+            loadSounds();
             if (!errorLoading)
             {
-                OnContentLoaded?.Invoke(this, new ContentLoadedEventArgs("Starting game...", 100));
+                if (OnContentLoaded != null)
+                {
+                    OnContentLoaded(this, new ContentLoadedEventArgs("Starting game...", 100));
+                }
                 drawLoadingBarText(100, "Starting game...");
+                createChatInputMenu();
+                createLoginMenus();
                 createAppearanceWindow();
-                InitialiseLoginVars();
+                setLoginVars();
 
-                OnContentLoadedCompleted?.Invoke(this, new EventArgs());
+                var modelNames = Data.Data.modelName;
+
+                if (OnContentLoadedCompleted != null)
+                {
+                    OnContentLoadedCompleted(this, new EventArgs());
+                }
+
+                createLoginScreenBackgrounds();
+                return;
+            }
+        }
+
+        public void createLoginMenus()
+        {
+            loginMenuFirst = new Menu(gameGraphics, 50);
+            int l = 40;
+            if (!Config.MEMBERS_FEATURES)
+            {
+                loginMenuFirst.drawText(256, 200 + l, "Click on an option", 5, true);
+                loginMenuFirst.drawButton(156, 240 + l, 120, 35);
+                loginMenuFirst.drawButton(356, 240 + l, 120, 35);
+                loginMenuFirst.drawText(156, 240 + l, "New User", 5, false);
+                loginMenuFirst.drawText(356, 240 + l, "Existing User", 5, false);
+                loginButtonNewUser = loginMenuFirst.createButton(156, 240 + l, 120, 35);
+                loginMenuLoginButton = loginMenuFirst.createButton(356, 240 + l, 120, 35);
+            }
+            else
+            {
+                loginMenuFirst.drawText(256, 200 + l, "Welcome to RuneScape", 4, true);
+                loginMenuFirst.drawText(256, 215 + l, "You need a member account to use this server", 4, true);
+                loginMenuFirst.drawButton(256, 250 + l, 200, 35);
+                loginMenuFirst.drawText(256, 250 + l, "Click here to login", 5, false);
+                loginMenuLoginButton = loginMenuFirst.createButton(256, 250 + l, 200, 35);
+            }
+            loginNewUser = new Menu(gameGraphics, 50);
+            l = 230;
+            loginNewUser.drawText(256, l + 8, "To create an account please go back to the", 4, true);
+            l += 20;
+            loginNewUser.drawText(256, l + 8, "www.runescape.com front page, and choose 'create account'", 4, true);
+            l += 30;
+            loginNewUser.drawButton(256, l + 17, 150, 34);
+            loginNewUser.drawText(256, l + 17, "Ok", 5, false);
+            loginMenuOkButton = loginNewUser.createButton(256, l + 17, 150, 34);
+            loginMenuLogin = new Menu(gameGraphics, 50);
+            l = 230;
+            loginMenuStatusText = loginMenuLogin.drawText(256, l - 10, "Please enter your username and password", 4, true);
+            l += 28;
+            loginMenuLogin.drawButton(140, l, 200, 40);
+            loginMenuLogin.drawText(140, l - 10, "Username:", 4, false);
+            loginMenuUserText = loginMenuLogin.createInput(140, l + 10, 200, 40, 4, 12, false, false);
+            l += 47;
+            loginMenuLogin.drawButton(190, l, 200, 40);
+            loginMenuLogin.drawText(190, l - 10, "Password:", 4, false);
+            loginMenuPasswordText = loginMenuLogin.createInput(190, l + 10, 200, 40, 4, 20, true, false);
+            l -= 55;
+            loginMenuLogin.drawButton(410, l, 120, 25);
+            loginMenuLogin.drawText(410, l, "Ok", 4, false);
+            loginMenuOkLoginButton = loginMenuLogin.createButton(410, l, 120, 25);
+            l += 30;
+            loginMenuLogin.drawButton(410, l, 120, 25);
+            loginMenuLogin.drawText(410, l, "Cancel", 4, false);
+            loginMenuCancelButton = loginMenuLogin.createButton(410, l, 120, 25);
+            l += 30;
+            loginMenuLogin.setFocus(loginMenuUserText);
+        }
+
+        public override void lostConnection()
+        {
+            systemUpdate = 0;
+            if (logoutTimer != 0)
+            {
+                resetIntVars();
+                return;
+            }
+            else
+            {
+                base.lostConnection();
                 return;
             }
         }
@@ -1944,7 +3209,7 @@ namespace OpenRS.Net.Client
         public void loadMedia()
         {
             sbyte[] media = unpackData("media.jag", "2d graphics", 20);
-            if (media is null)
+            if (media == null)
             {
                 errorLoading = true;
                 return;
@@ -1963,118 +3228,97 @@ namespace OpenRS.Net.Client
             gameGraphics.unpackImageData(baseScrollPic, DataOperations.loadData("scrollbar.dat", 0, media), abyte1, 2);
             gameGraphics.unpackImageData(baseScrollPic + 2, DataOperations.loadData("corners.dat", 0, media), abyte1, 4);
             gameGraphics.unpackImageData(baseScrollPic + 6, DataOperations.loadData("arrows.dat", 0, media), abyte1, 2);
-            gameGraphics.unpackImageData(baseProjectilePic, DataOperations.loadData("projectile.dat", 0, media), abyte1, entityManager.SpellProjectileCount);
-            int l = entityManager.HighestLoadedPicture;
+            gameGraphics.unpackImageData(baseProjectilePic, DataOperations.loadData("projectile.dat", 0, media), abyte1, Data.Data.spellProjectileCount);
+            int l = Data.Data.highestLoadedPicture;
             for (int i1 = 1; l > 0; i1++)
             {
                 int j1 = l;
                 l -= 30;
                 if (j1 > 30)
-                {
                     j1 = 30;
-                }
-
                 gameGraphics.unpackImageData(baseItemPicture + (i1 - 1) * 30, DataOperations.loadData("objects" + i1 + ".dat", 0, media), abyte1, j1);
             }
             //gameGraphics.UpdateGameImage();
-            gameGraphics.LoadImage(baseInventoryPic);
-            gameGraphics.LoadImage(baseInventoryPic + 9);
+            gameGraphics.loadImage(baseInventoryPic);
+            gameGraphics.loadImage(baseInventoryPic + 9);
             for (int k1 = 11; k1 <= 26; k1++)
-            {
-                gameGraphics.LoadImage(baseInventoryPic + k1);
-            }
+                gameGraphics.loadImage(baseInventoryPic + k1);
 
-            for (int l1 = 0; l1 < entityManager.SpellProjectileCount; l1++)
-            {
-                gameGraphics.LoadImage(baseProjectilePic + l1);
-            }
+            for (int l1 = 0; l1 < Data.Data.spellProjectileCount; l1++)
+                gameGraphics.loadImage(baseProjectilePic + l1);
 
-            for (int i2 = 0; i2 < entityManager.HighestLoadedPicture; i2++)
+            for (int i2 = 0; i2 < Data.Data.highestLoadedPicture; i2++)
             {
-                gameGraphics.LoadImage(baseProjectilePic + i2);
+                gameGraphics.loadImage(baseProjectilePic + i2);
+                //var w = ((GameImage)(gameGraphics)).pictureWidth[baseProjectilePic + i2];
+                //var h = ((GameImage)(gameGraphics)).pictureHeight[baseProjectilePic + i2];
+                //var texture = GameImage.UnpackedImages[baseProjectilePic + i2];
+                //if (texture != null)
+                //    texture.SaveAsJpeg(System.IO.File.OpenWrite("c:/jpg/" + baseProjectilePic + i2 + ".jpg"), w, h);
             }
 
 
         }
 
-        public override void CheckInputs()
+        public override void checkInputs()
         {
             if (memoryError)
-            {
                 return;
-            }
-
             if (errorLoading)
-            {
                 return;
-            }
-
             try
             {
                 tick++;
-
+                if (!loggedIn)
+                {
+                    checkLoginScreenInputs();
+                }
                 if (loggedIn)
                 {
                     checkGameInputs();
                 }
-                else
-                {
-                    connect(username, password, false);
-                }
-
-                lastMouseButton = 0;
+                base.lastMouseButton = 0;
                 cameraRotateTime++;
                 if (cameraRotateTime > 500)
                 {
                     cameraRotateTime = 0;
-                    int l = (int)(random.NextDouble() * 4D);
+                    int l = (int)(Helper.Random.NextDouble() * 4D);
                     if ((l & 1) == 1)
-                    {
                         cameraRotationXAmount += cameraRotationXIncrement;
-                    }
-
                     if ((l & 2) == 2)
-                    {
                         cameraRotationYAmount += cameraRotationYIncrement;
-                    }
                 }
                 if (cameraRotationXAmount < -50)
-                {
                     cameraRotationXIncrement = 2;
-                }
-
                 if (cameraRotationXAmount > 50)
-                {
                     cameraRotationXIncrement = -2;
-                }
-
                 if (cameraRotationYAmount < -50)
-                {
                     cameraRotationYIncrement = 2;
-                }
-
                 if (cameraRotationYAmount > 50)
-                {
                     cameraRotationYIncrement = -2;
-                }
+                if (chatTabAllMsgFlash > 0)
+                    chatTabAllMsgFlash--;
+                if (chatTabHistoryFlash > 0)
+                    chatTabHistoryFlash--;
+                if (chatTabQuestFlash > 0)
+                    chatTabQuestFlash--;
+                if (chatTabPrivateFlash > 0)
+                    chatTabPrivateFlash--;
             }
-            catch (Exception ex)
+            catch (Exception _ex)
             {
-                Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
-                Console.WriteLine(ex);
-
-                UnloadContent();
+                cleanUp();
                 memoryError = true;
             }
         }
 
         public void loadAnimations()
         {
-            StringBuilder sb = new();
+            StringBuilder sb = new StringBuilder();
             sbyte[] abyte0 = null;
             sbyte[] abyte1 = null;
             abyte0 = unpackData("entity.jag", "people and monsters", 30);
-            if (abyte0 is null)
+            if (abyte0 == null)
             {
                 errorLoading = true;
                 return;
@@ -2083,7 +3327,7 @@ namespace OpenRS.Net.Client
             sbyte[] abyte2 = null;
             sbyte[] abyte3 = null;
             abyte2 = unpackData("entity.mem", "member graphics", 45);
-            if (abyte2 is null)
+            if (abyte2 == null)
             {
                 errorLoading = true;
                 return;
@@ -2092,19 +3336,16 @@ namespace OpenRS.Net.Client
             int l = 0;
             animationNumber = 0;
             //label0:
-            for (int i1 = 0; i1 < entityManager.AnimationCount; i1++)
+            for (int i1 = 0; i1 < Data.Data.animationCount; i1++)
             {
                 //   label4:
                 bool breakThis = false;
-                string s1 = entityManager.GetAnimation(i1).Name;
+                String s1 = Data.Data.animationName[i1];
                 for (int j1 = 0; j1 < i1; j1++)
                 {
-                    if (!entityManager.GetAnimation(j1).Name.ToLower().Equals(s1))
-                    {
+                    if (!Data.Data.animationName[j1].ToLower().Equals(s1))
                         continue;
-                    }
-
-                    entityManager.GetAnimation(i1).Number = entityManager.GetAnimation(j1).Number;
+                    Data.Data.animationNumber[i1] = Data.Data.animationNumber[j1];
 
                     // i1++;
                     // goto label0;
@@ -2112,30 +3353,27 @@ namespace OpenRS.Net.Client
                     breakThis = true;
                     break;
                 }
-                if (breakThis)
-                {
-                    continue;
-                }
+                if (breakThis) continue;
 
                 //label4:
                 sbyte[] abyte7 = DataOperations.loadData(s1 + ".dat", 0, abyte0);
                 sbyte[] abyte4 = abyte1;
-                if (abyte7 is null)
+                if (abyte7 == null)
                 {
                     abyte7 = DataOperations.loadData(s1 + ".dat", 0, abyte2);
                     abyte4 = abyte3;
                 }
-                if (abyte7 is not null)
+                if (abyte7 != null)
                 {
                     try
                     {
                         gameGraphics.unpackImageData(animationNumber, abyte7, abyte4, 15);
                         l += 15;
-                        if (entityManager.GetAnimation(i1).HasA == 1)
+                        if (Data.Data.animationHasA[i1] == 1)
                         {
                             sbyte[] abyte8 = DataOperations.loadData(s1 + "a.dat", 0, abyte0);
                             sbyte[] abyte5 = abyte1;
-                            if (abyte8 is null)
+                            if (abyte8 == null)
                             {
                                 abyte8 = DataOperations.loadData(s1 + "a.dat", 0, abyte2);
                                 abyte5 = abyte3;
@@ -2143,11 +3381,11 @@ namespace OpenRS.Net.Client
                             gameGraphics.unpackImageData(animationNumber + 15, abyte8, abyte5, 3);
                             l += 3;
                         }
-                        if (entityManager.GetAnimation(i1).HasF == 1)
+                        if (Data.Data.animationHasF[i1] == 1)
                         {
                             sbyte[] abyte9 = DataOperations.loadData(s1 + "f.dat", 0, abyte0);
                             sbyte[] abyte6 = abyte1;
-                            if (abyte9 is null)
+                            if (abyte9 == null)
                             {
                                 abyte9 = DataOperations.loadData(s1 + "f.dat", 0, abyte2);
                                 abyte6 = abyte3;
@@ -2155,20 +3393,16 @@ namespace OpenRS.Net.Client
                             gameGraphics.unpackImageData(animationNumber + 18, abyte9, abyte6, 9);
                             l += 9;
                         }
-                        if (entityManager.GetAnimation(i1).GenderModel != 0)
+                        if (Data.Data.animationGenderModels[i1] != 0)
                         {
                             for (int k1 = animationNumber; k1 < animationNumber + 27; k1++)
-                            {
-                                gameGraphics.LoadImage(k1);
-                            }
+                                gameGraphics.loadImage(k1);
+
                         }
                     }
-                    catch
-                    {
-                        Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
-                    }
+                    catch { }
                 }
-                entityManager.GetAnimation(i1).Number = animationNumber;
+                Data.Data.animationNumber[i1] = animationNumber;
                 animationNumber += 27;
 
 
@@ -2179,10 +3413,8 @@ namespace OpenRS.Net.Client
                 sb.AppendLine("Loaded: " + l + " frames of animation");
 
 #warning ugly fix for forcing animation count to 1143.
-                if (l == 1143)
-                {
-                    break;
-                }
+                if (l == 1143) break;
+
             }
             var str = sb.ToString();
             Console.WriteLine("Loaded: " + l + " frames of animation");
@@ -2190,262 +3422,774 @@ namespace OpenRS.Net.Client
 
         public void updateAppearanceWindow()
         {
-            appearanceMenu.mouseClick(InputManager.Instance.MouseLocation.X, GameMouseY, lastMouseButton, mouseButton);
+            appearanceMenu.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
             if (appearanceMenu.isClicked(appearanceHeadLeftArrow))
-            {
                 do
-                {
-                    appearanceHeadType = (appearanceHeadType - 1 + entityManager.AnimationCount) % entityManager.AnimationCount;
-                }
-                while ((entityManager.GetAnimation(appearanceHeadType).GenderModel & 3) != 1 ||
-                       (entityManager.GetAnimation(appearanceHeadType).GenderModel & 4 * appearanceHeadGender) == 0);
-            }
-
+                    appearanceHeadType = ((appearanceHeadType - 1) + Data.Data.animationCount) % Data.Data.animationCount;
+                while ((Data.Data.animationGenderModels[appearanceHeadType] & 3) != 1 || (Data.Data.animationGenderModels[appearanceHeadType] & 4 * appearanceHeadGender) == 0);
             if (appearanceMenu.isClicked(appearanceHeadRightArrow))
-            {
                 do
-                {
-                    appearanceHeadType = (appearanceHeadType + 1) % entityManager.AnimationCount;
-                }
-                while ((entityManager.GetAnimation(appearanceHeadType).GenderModel & 3) != 1 ||
-                       (entityManager.GetAnimation(appearanceHeadType).GenderModel & 4 * appearanceHeadGender) == 0);
-            }
-
+                    appearanceHeadType = (appearanceHeadType + 1) % Data.Data.animationCount;
+                while ((Data.Data.animationGenderModels[appearanceHeadType] & 3) != 1 || (Data.Data.animationGenderModels[appearanceHeadType] & 4 * appearanceHeadGender) == 0);
             if (appearanceMenu.isClicked(appearanceHairLeftArrow))
-            {
-                appearanceHairColour = (appearanceHairColour - 1 + appearanceHairColours.Length) % appearanceHairColours.Length;
-            }
-
+                appearanceHairColour = ((appearanceHairColour - 1) + appearanceHairColours.Length) % appearanceHairColours.Length;
             if (appearanceMenu.isClicked(appearanceHairRightArrow))
-            {
                 appearanceHairColour = (appearanceHairColour + 1) % appearanceHairColours.Length;
-            }
-
             if (appearanceMenu.isClicked(appearanceGenderLeftArrow) || appearanceMenu.isClicked(appearanceGenderRightArrow))
             {
-                for (appearanceHeadGender = 3 - appearanceHeadGender; (entityManager.GetAnimation(appearanceHeadType).GenderModel & 3) != 1 || (entityManager.GetAnimation(appearanceHeadType).GenderModel & 4 * appearanceHeadGender) == 0; appearanceHeadType = (appearanceHeadType + 1) % entityManager.AnimationCount)
-                {
-                    ;
-                }
-
-                for (; (entityManager.GetAnimation(appearanceBodyGender).GenderModel & 3) != 2 || (entityManager.GetAnimation(appearanceBodyGender).GenderModel & 4 * appearanceHeadGender) == 0; appearanceBodyGender = (appearanceBodyGender + 1) % entityManager.AnimationCount)
-                {
-                    ;
-                }
+                for (appearanceHeadGender = 3 - appearanceHeadGender; (Data.Data.animationGenderModels[appearanceHeadType] & 3) != 1 || (Data.Data.animationGenderModels[appearanceHeadType] & 4 * appearanceHeadGender) == 0; appearanceHeadType = (appearanceHeadType + 1) % Data.Data.animationCount) ;
+                for (; (Data.Data.animationGenderModels[appearanceBodyGender] & 3) != 2 || (Data.Data.animationGenderModels[appearanceBodyGender] & 4 * appearanceHeadGender) == 0; appearanceBodyGender = (appearanceBodyGender + 1) % Data.Data.animationCount) ;
             }
-
             if (appearanceMenu.isClicked(appearanceTopLeftArrow))
-            {
-                appearanceTopColour = (appearanceTopColour - 1 + appearanceTopBottomColours.Length) % appearanceTopBottomColours.Length;
-            }
-
+                appearanceTopColour = ((appearanceTopColour - 1) + appearanceTopBottomColours.Length) % appearanceTopBottomColours.Length;
             if (appearanceMenu.isClicked(appearanceTopRightArrow))
-            {
                 appearanceTopColour = (appearanceTopColour + 1) % appearanceTopBottomColours.Length;
-            }
-
             if (appearanceMenu.isClicked(appearanceSkinLeftArrow))
-            {
-                appearanceSkinColour = (appearanceSkinColour - 1 + appearanceSkinColours.Length) % appearanceSkinColours.Length;
-            }
-
+                appearanceSkinColour = ((appearanceSkinColour - 1) + appearanceSkinColours.Length) % appearanceSkinColours.Length;
             if (appearanceMenu.isClicked(appearanceSkingRightArrow))
-            {
                 appearanceSkinColour = (appearanceSkinColour + 1) % appearanceSkinColours.Length;
-            }
-
             if (appearanceMenu.isClicked(appearanceBottomLeftArrow))
-            {
-                appearanceBottomColour = (appearanceBottomColour - 1 + appearanceTopBottomColours.Length) % appearanceTopBottomColours.Length;
-            }
-
+                appearanceBottomColour = ((appearanceBottomColour - 1) + appearanceTopBottomColours.Length) % appearanceTopBottomColours.Length;
             if (appearanceMenu.isClicked(appearanceBottomRightArrow))
-            {
                 appearanceBottomColour = (appearanceBottomColour + 1) % appearanceTopBottomColours.Length;
-            }
-
             if (appearanceMenu.isClicked(appearanceAcceptButton))
             {
-                StreamClass.CreatePacket(218);
-                StreamClass.AddInt8(appearanceHeadGender);
-                StreamClass.AddInt8(appearanceHeadType);
-                StreamClass.AddInt8(appearanceBodyGender);
-                StreamClass.AddInt8(appearance2Colour);
-                StreamClass.AddInt8(appearanceHairColour);
-                StreamClass.AddInt8(appearanceTopColour);
-                StreamClass.AddInt8(appearanceBottomColour);
-                StreamClass.AddInt8(appearanceSkinColour);
-                StreamClass.FormatPacket();
-                gameGraphics.ClearScreen();
-                ShowAppearanceWindow = false;
+                base.streamClass.createPacket(218);
+                base.streamClass.addByte(appearanceHeadGender);
+                base.streamClass.addByte(appearanceHeadType);
+                base.streamClass.addByte(appearanceBodyGender);
+                base.streamClass.addByte(appearance2Colour);
+                base.streamClass.addByte(appearanceHairColour);
+                base.streamClass.addByte(appearanceTopColour);
+                base.streamClass.addByte(appearanceBottomColour);
+                base.streamClass.addByte(appearanceSkinColour);
+                base.streamClass.formatPacket();
+                gameGraphics.clearScreen();
+                showAppearanceWindow = false;
             }
         }
 
-        public bool WalkTo(Point2D startLocation, Point2D destinationBottom, Point2D destinationTop, bool checkForObjects, bool walkToACommand)
+        public void drawWelcomeBox()
         {
-            int stepCount = engineHandle.GeneratePath(startLocation, destinationBottom, destinationTop, WalkArrayLocations, checkForObjects);
-
-            if (stepCount == -1)
+            int l = 65;
+            if (!lastLoginAddress.Equals("0.0.0.0"))
+                l += 30;
+            if (subDaysLeft > 0)
+                l += 15;
+            if (lastLoginDays >= 0)
+                l += 15;
+            int i1 = 167 - l / 2;
+            gameGraphics.drawBox(56, 167 - l / 2, 400, l, 0);
+            gameGraphics.drawBoxEdge(56, 167 - l / 2, 400, l, 0xffffff);
+            i1 += 20;
+            gameGraphics.drawText("Welcome to RuneScape " + loginUsername, 256, i1, 4, 0xffff00);
+            i1 += 30;
+            String s1;
+            // lastLoginDays    subDaysLeft    lastLoginAddress
+            if (lastLoginDays == 0)
+                s1 = "earlier today";
+            else
+                if (lastLoginDays == 1)
+                    s1 = "yesterday";
+                else
+                    s1 = lastLoginDays + " days ago";
+            if (!lastLoginAddress.Equals("0.0.0.0"))
             {
+                gameGraphics.drawText("You last logged in " + s1, 256, i1, 1, 0xffffff);
+                i1 += 15;
+                gameGraphics.drawText("from: " + lastLoginAddress, 256, i1, 1, 0xffffff);
+                i1 += 15;
+            }
+            if (subDaysLeft > 0)
+            {
+                gameGraphics.drawText("Subscription left: " + subDaysLeft + " days", 256, i1, 1, 0xffffff);
+                i1 += 15;
+            }
+            /*if(unreadMessages > 0) {
+                int j1 = 0xffffff;
+                gameGraphics.drawText("Jagex staff will NEVER email you. We use the", 256, i1, 1, j1);
+                i1 += 15;
+                gameGraphics.drawText("message-centre on this website instead.", 256, i1, 1, j1);
+                i1 += 15;
+                if(unreadMessages == 1)
+                    gameGraphics.drawText("You have @yel@0@whi@ unread messages in your message-centre", 256, i1, 1, 0xffffff);
+                else
+                    gameGraphics.drawText("You have @gre@" + (unreadMessages - 1) + " unread messages @whi@in your message-centre", 256, i1, 1, 0xffffff);
+                i1 += 15;
+                i1 += 15;
+            }
+            if(lastChangedRecoveryDays != 201) {
+                if(lastChangedRecoveryDays == 200) {
+                    gameGraphics.drawText("You have not yet set any password recovery questions.", 256, i1, 1, 0xff8000);
+                    i1 += 15;
+                    gameGraphics.drawText("We strongly recommend you do so now to secure your account.", 256, i1, 1, 0xff8000);
+                    i1 += 15;
+                    gameGraphics.drawText("Do this from the 'account management' area on our front webpage", 256, i1, 1, 0xff8000);
+                    i1 += 15;
+                } else {
+                    String s2;
+                    if(lastChangedRecoveryDays == 0)
+                        s2 = "Earlier today";
+                    else
+                    if(lastChangedRecoveryDays == 1)
+                        s2 = "Yesterday";
+                    else
+                        s2 = lastChangedRecoveryDays + " days ago";
+                    gameGraphics.drawText(s2 + " you changed your recovery questions", 256, i1, 1, 0xff8000);
+                    i1 += 15;
+                    gameGraphics.drawText("If you do not remember making this change then cancel it immediately", 256, i1, 1, 0xff8000);
+                    i1 += 15;
+                    gameGraphics.drawText("Do this from the 'account management' area on our front webpage", 256, i1, 1, 0xff8000);
+                    i1 += 15;
+                }
+                i1 += 15;
+            }*/
+            int k1 = 0xffffff;
+            if (base.mouseY > i1 - 12 && base.mouseY <= i1 && base.mouseX > 106 && base.mouseX < 406)
+                k1 = 0xff0000;
+            gameGraphics.drawText("Click here to close window", 256, i1, 1, k1);
+            if (mouseButtonClick == 1)
+            {
+                if (k1 == 0xff0000)
+                    showWelcomeBox = false;
+                if ((base.mouseX < 86 || base.mouseX > 426) && (base.mouseY < 167 - l / 2 || base.mouseY > 167 + l / 2))
+                    showWelcomeBox = false;
+            }
+            mouseButtonClick = 0;
+        }
+
+        public int getInventoryItemTotalCount(int arg0)
+        {
+            int l = 0;
+            for (int i1 = 0; i1 < inventoryItemsCount; i1++)
+                if (inventoryItems[i1] == arg0)
+                    if (Data.Data.itemStackable[arg0] == 1)
+                        l++;
+                    else
+                        l += inventoryItemCount[i1];
+
+            return l;
+        }
+
+        public void sendLogout()
+        {
+            if (!loggedIn)
+                return;
+            if (combatTimeout > 450)
+            {
+                displayMessage("@cya@You can't logout during combat!", 3);
+                return;
+            }
+            if (combatTimeout > 0)
+            {
+                displayMessage("@cya@You can't logout for 10 seconds after combat", 3);
+                return;
+            }
+            else
+            {
+                base.streamClass.createPacket(129);
+                base.streamClass.formatPacket();
+                logoutTimer = 1000;
+
+                base.streamClass.closeStream();
+                return;
+            }
+        }
+
+        //public Uri getCodeBase() {
+        //    if(Link.gameApplet != null)
+        //        return Link.gameApplet.getCodeBase();
+        //    else
+        //        return base.getCodeBase();
+        //}
+
+        public bool walkTo(int startX, int startY, int destBottomX, int destBottomY, int destTopX, int destTopY, bool checkForObjects,
+                bool walkToACommand)
+        {
+            int stepCount = engineHandle.generatePath(startX, startY, destBottomX, destBottomY, destTopX, destTopY, walkArrayX, walkArrayY, checkForObjects);
+            if (stepCount == -1)
                 if (walkToACommand)
                 {
                     stepCount = 1;
-                    WalkArrayLocations[0] = destinationBottom;
+                    walkArrayX[0] = destBottomX;
+                    walkArrayY[0] = destBottomY;
                 }
                 else
                 {
                     return false;
                 }
-            }
 
             stepCount--;
-            startLocation = WalkArrayLocations[stepCount];
+            startX = walkArrayX[stepCount];
+            startY = walkArrayY[stepCount];
             stepCount--;
 
             if (walkToACommand)
-            {
-                StreamClass.CreatePacket(246);
-            }
+                base.streamClass.createPacket(246);
             else
-            {
-                StreamClass.CreatePacket(132);
-            }
+                base.streamClass.createPacket(132);
 
-            StreamClass.AddInt16(startLocation.X + AreaLocation.X);
-            StreamClass.AddInt16(startLocation.Y + AreaLocation.Y);
+            base.streamClass.addShort(startX + areaX);
+            base.streamClass.addShort(startY + areaY);
 
-            if (walkToACommand && stepCount == -1 && (startLocation.X + AreaLocation.X) % 5 == 0)
-            {
+            if (walkToACommand && stepCount == -1 && (startX + areaX) % 5 == 0)
                 stepCount = 0;
-            }
-
-            for (int currentStep = stepCount; currentStep >= 0 && currentStep > stepCount - 25; currentStep--)
+            for (int i1 = stepCount; i1 >= 0 && i1 > stepCount - 25; i1--)
             {
-                StreamClass.AddInt8(WalkArrayLocations[currentStep].X - startLocation.X);
-                StreamClass.AddInt8(WalkArrayLocations[currentStep].Y - startLocation.Y);
+                base.streamClass.addByte(walkArrayX[i1] - startX);
+                base.streamClass.addByte(walkArrayY[i1] - startY);
             }
 
-            StreamClass.FormatPacket();
+            base.streamClass.formatPacket();
+            //base.streamClass.flush();
 
             actionPictureType = -24;
-            walkMouseX = InputManager.Instance.MouseLocation.X;
-            walkMouseY = GameMouseY;
-
+            walkMouseX = base.mouseX;
+            walkMouseY = base.mouseY;
             return true;
         }
 
-        public bool walkTo2(Point2D startLocation, Point2D destinationBottom, Point2D destinationTop, bool unknownDifferent, bool walkToACommand)
+        public bool walkTo2(int startX, int startY, int destBottomX, int destBottomY, int destTopX, int destTopY, bool unknownDifferent,
+                bool walkToACommand)
         {
-            int stepCount = engineHandle.GeneratePath(startLocation, destinationBottom, destinationTop, WalkArrayLocations, unknownDifferent);
-
+            int stepCount = engineHandle.generatePath(startX, startY, destBottomX, destBottomY, destTopX, destTopY, walkArrayX, walkArrayY, unknownDifferent);
             if (stepCount == -1)
-            {
                 return false;
-            }
-
             stepCount--;
-            startLocation = WalkArrayLocations[stepCount];
+            startX = walkArrayX[stepCount];
+            startY = walkArrayY[stepCount];
             stepCount--;
-
             if (walkToACommand)
-            {
-                StreamClass.CreatePacket(246);
-            }
+                base.streamClass.createPacket(246);
             else
-            {
-                StreamClass.CreatePacket(132);
-            }
-
-            StreamClass.AddInt16(startLocation.X + AreaLocation.X);
-            StreamClass.AddInt16(startLocation.Y + AreaLocation.Y);
-
-            if (walkToACommand && stepCount == -1 && (startLocation.X + AreaLocation.X) % 5 == 0)
-            {
+                base.streamClass.createPacket(132);
+            base.streamClass.addShort(startX + areaX);
+            base.streamClass.addShort(startY + areaY);
+            if (walkToACommand && stepCount == -1 && (startX + areaX) % 5 == 0)
                 stepCount = 0;
-            }
-
-            for (int step = stepCount; step >= 0 && step > stepCount - 25; step--)
+            for (int i1 = stepCount; i1 >= 0 && i1 > stepCount - 25; i1--)
             {
-                StreamClass.AddInt8(WalkArrayLocations[step].X - startLocation.X);
-                StreamClass.AddInt8(WalkArrayLocations[step].Y - startLocation.Y);
+                base.streamClass.addByte(walkArrayX[i1] - startX);
+                base.streamClass.addByte(walkArrayY[i1] - startY);
             }
 
-            StreamClass.FormatPacket();
+            base.streamClass.formatPacket();
             actionPictureType = -24;
-            walkMouseX = InputManager.Instance.MouseLocation.X;
-            walkMouseY = GameMouseY;
-
+            walkMouseX = base.mouseX;
+            walkMouseY = base.mouseY;
             return true;
         }
 
-        public void SetCombatStyle(CombatStyle style)
+        public void drawOptionsMenu(bool canClick)
         {
-            if (CombatStyle == style)
-            {
+            int l = ((GameImage)(gameGraphics)).gameWidth - 199;
+            int i1 = 36;
+            gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 6);
+            int c1 = 196;
+            gameGraphics.drawBoxAlpha(l, 36, c1, 62, GameImage.rgbToInt(181, 181, 181), 160);
+            gameGraphics.drawBoxAlpha(l, 98, c1, 92, GameImage.rgbToInt(201, 201, 201), 160);
+            gameGraphics.drawBoxAlpha(l, 190, c1, 90, GameImage.rgbToInt(181, 181, 181), 160);
+            gameGraphics.drawBoxAlpha(l, 280, c1, 40, GameImage.rgbToInt(201, 201, 201), 160);
+            int j1 = l + 3;
+            int l1 = i1 + 15;
+            gameGraphics.drawString("Game options - click to toggle", j1, l1, 1, 0);
+            l1 += 15;
+            if (configCameraAutoAngle)
+                gameGraphics.drawString("Camera angle mode - @gre@Auto", j1, l1, 1, 0xffffff);
+            else
+                gameGraphics.drawString("Camera angle mode - @red@Manual", j1, l1, 1, 0xffffff);
+            l1 += 15;
+            if (configOneMouseButton)
+                gameGraphics.drawString("Mouse buttons - @red@One", j1, l1, 1, 0xffffff);
+            else
+                gameGraphics.drawString("Mouse buttons - @gre@Two", j1, l1, 1, 0xffffff);
+            l1 += 15;
+            if (Config.MEMBERS_FEATURES)
+                if (configSoundOff)
+                    gameGraphics.drawString("Sound effects - @red@off", j1, l1, 1, 0xffffff);
+                else
+                    gameGraphics.drawString("Sound effects - @gre@on", j1, l1, 1, 0xffffff);
+            l1 += 15;
+            gameGraphics.drawString("Client assists - click to toggle", j1, l1, 1, 0);
+            l1 += 15;
+            if (showRoofs)
+                gameGraphics.drawString("Roofs - @gre@show", j1, l1, 1, 0xffffff);
+            else
+                gameGraphics.drawString("Roofs - @red@hide", j1, l1, 1, 0xffffff);
+            l1 += 15;
+            if (showCombatWindow)
+                gameGraphics.drawString("Fight mode window - @gre@show", j1, l1, 1, 0xffffff);
+            else
+                gameGraphics.drawString("Fight mode window - @red@hide", j1, l1, 1, 0xffffff);
+            l1 += 15;
+            if (fogOfWar)
+                gameGraphics.drawString("Fog of war - @gre@show", j1, l1, 1, 0xffffff);
+            else
+                gameGraphics.drawString("Fog of war - @red@hide", j1, l1, 1, 0xffffff);
+            l1 += 15;
+            if (autoScreenshot)
+                gameGraphics.drawString("Automatic screenshots - @gre@on", j1, l1, 1, 0xffffff);
+            else
+                gameGraphics.drawString("Automatic screenshots - @red@off", j1, l1, 1, 0xffffff);
+            l1 += 15;
+            if (useChatFilter)
+                gameGraphics.drawString("Chat filter: @gre@<on>", l + 3, l1, 1, 0xffffff);
+            else
+                gameGraphics.drawString("Chat filter: @red@<off>", l + 3, l1, 1, 0xffffff);
+            l1 += 15;
+            gameGraphics.drawString("Privacy settings. Will be applied to", j1, l1, 1, 0);
+            l1 += 15;
+            gameGraphics.drawString("all people not on your friends list", j1, l1, 1, 0);
+            l1 += 15;
+            if (base.blockChat == 0)
+                gameGraphics.drawString("Block chat messages: @red@<off>", l + 3, l1, 1, 0xffffff);
+            else
+                gameGraphics.drawString("Block chat messages: @gre@<on>", l + 3, l1, 1, 0xffffff);
+            l1 += 15;
+            if (base.blockPrivate == 0)
+                gameGraphics.drawString("Block public messages: @red@<off>", l + 3, l1, 1, 0xffffff);
+            else
+                gameGraphics.drawString("Block public messages: @gre@<on>", l + 3, l1, 1, 0xffffff);
+            l1 += 15;
+            if (base.blockTrade == 0)
+                gameGraphics.drawString("Block trade requests: @red@<off>", l + 3, l1, 1, 0xffffff);
+            else
+                gameGraphics.drawString("Block trade requests: @gre@<on>", l + 3, l1, 1, 0xffffff);
+            l1 += 15;
+            if (Config.MEMBERS_FEATURES)
+                if (base.blockDuel == 0)
+                    gameGraphics.drawString("Block duel requests: @red@<off>", l + 3, l1, 1, 0xffffff);
+                else
+                    gameGraphics.drawString("Block duel requests: @gre@<on>", l + 3, l1, 1, 0xffffff);
+            l1 += 15;
+            l1 += 5;
+            gameGraphics.drawString("Always logout when you finish", j1, l1, 1, 0);
+            l1 += 15;
+            int j2 = 0xffffff;
+            if (base.mouseX > j1 && base.mouseX < j1 + c1 && base.mouseY > l1 - 12 && base.mouseY < l1 + 4)
+                j2 = 0xffff00;
+            gameGraphics.drawString("Click here to logout", l + 3, l1, 1, j2);
+            if (!canClick)
                 return;
+            l = base.mouseX - (((GameImage)(gameGraphics)).gameWidth - 199);
+            i1 = base.mouseY - 36;
+            if (l >= 0 && i1 >= 0 && l < 196 && i1 < 280)
+            {
+                int k2 = ((GameImage)(gameGraphics)).gameWidth - 199;
+                sbyte byte0 = 36;
+                int c2 = 196;
+                int k1 = k2 + 3;
+                int i2 = byte0 + 30;
+                if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                {
+                    configCameraAutoAngle = !configCameraAutoAngle;
+                    base.streamClass.createPacket(157);
+                    base.streamClass.addByte(0);
+                    base.streamClass.addByte(configCameraAutoAngle ? 1 : 0);
+                    base.streamClass.formatPacket();
+                }
+                i2 += 15;
+                if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                {
+                    configOneMouseButton = !configOneMouseButton;
+                    base.streamClass.createPacket(157);
+                    base.streamClass.addByte(2);
+                    base.streamClass.addByte(configOneMouseButton ? 1 : 0);
+                    base.streamClass.formatPacket();
+                }
+                i2 += 15;
+                if (Config.MEMBERS_FEATURES && base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                {
+                    configSoundOff = !configSoundOff;
+                    base.streamClass.createPacket(157);
+                    base.streamClass.addByte(3);
+                    base.streamClass.addByte(configSoundOff ? 1 : 0);
+                    base.streamClass.formatPacket();
+                }
+                i2 += 15;
+                i2 += 15;
+                if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                {
+                    showRoofs = !showRoofs;
+                    base.streamClass.createPacket(157);
+                    base.streamClass.addByte(4);
+                    base.streamClass.addByte(showRoofs ? 1 : 0);
+                    base.streamClass.formatPacket();
+                }
+                i2 += 15;
+                if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                {
+                    showCombatWindow = !showCombatWindow;
+                    base.streamClass.createPacket(157);
+                    base.streamClass.addByte(6);
+                    base.streamClass.addByte(showCombatWindow ? 1 : 0);
+                    base.streamClass.formatPacket();
+                }
+                i2 += 15;
+                if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                {
+                    fogOfWar = !fogOfWar;
+                }
+                i2 += 15;
+                if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                {
+                    autoScreenshot = !autoScreenshot;
+                    base.streamClass.createPacket(157);
+                    base.streamClass.addByte(5);
+                    base.streamClass.addByte(autoScreenshot ? 1 : 0);
+                    base.streamClass.formatPacket();
+                }
+                bool flag = false;
+                i2 += 15;
+                if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                {
+                    useChatFilter = !useChatFilter;
+                }
+                i2 += 15;
+                i2 += 15;
+                i2 += 15;
+                if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                {
+                    base.blockChat = 1 - base.blockChat;
+                    flag = true;
+                }
+                i2 += 15;
+                if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                {
+                    base.blockPrivate = 1 - base.blockPrivate;
+                    flag = true;
+                }
+                i2 += 15;
+                if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                {
+                    base.blockTrade = 1 - base.blockTrade;
+                    flag = true;
+                }
+                i2 += 15;
+                if (Config.MEMBERS_FEATURES && base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                {
+                    base.blockDuel = 1 - base.blockDuel;
+                    flag = true;
+                }
+                i2 += 15;
+                if (flag)
+                    sendUpdatedPrivacyInfo(base.blockChat, base.blockPrivate, base.blockTrade, base.blockDuel);
+                i2 += 20;
+                if (base.mouseX > k1 && base.mouseX < k1 + c2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && mouseButtonClick == 1)
+                    sendLogout();
+                mouseButtonClick = 0;
             }
-
-            CombatStyle = style;
-            StreamClass.CreatePacket(42);
-            StreamClass.AddInt8((int)CombatStyle);
-            StreamClass.FormatPacket();
         }
 
-        public void walkToObject(Point2D location, int arg2, int arg3)
+        public void walkToObject(int arg0, int arg1, int arg2, int arg3)
         {
             int l;
             int i1;
-
             if (arg2 == 0 || arg2 == 4)
             {
-                l = entityManager.GetWorldObject(arg3).Width;
-                i1 = entityManager.GetWorldObject(arg3).Height;
+                l = Data.Data.objectWidth[arg3];
+                i1 = Data.Data.objectHeight[arg3];
             }
             else
             {
-                i1 = entityManager.GetWorldObject(arg3).Width;
-                l = entityManager.GetWorldObject(arg3).Height;
+                i1 = Data.Data.objectWidth[arg3];
+                l = Data.Data.objectHeight[arg3];
             }
-
-            Point2D loc = new(location.X + l - 1, location.Y + i1 - 1);
-
-            if (entityManager.GetWorldObject(arg3).Type == 2 || entityManager.GetWorldObject(arg3).Type == 3)
+            if (Data.Data.objectType[arg3] == 2 || Data.Data.objectType[arg3] == 3)
             {
                 if (arg2 == 0)
                 {
-                    location = new Point2D(location.X - 1, location.Y);
+                    arg0--;
                     l++;
                 }
-
                 if (arg2 == 2)
-                {
                     i1++;
-                }
-
                 if (arg2 == 4)
-                {
-                }
-
+                    l++;
                 if (arg2 == 6)
                 {
-                    location = new Point2D(location.X, location.Y - 1);
+                    arg1--;
+                    i1++;
                 }
-
-                WalkTo(SectionLocation, location, loc, false, true);
+                walkTo(sectionX, sectionY, arg0, arg1, (arg0 + l) - 1, (arg1 + i1) - 1, false, true);
                 return;
             }
             else
             {
-                WalkTo(SectionLocation, location, loc, true, true);
+                walkTo(sectionX, sectionY, arg0, arg1, (arg0 + l) - 1, (arg1 + i1) - 1, true, true);
                 return;
             }
+        }
+
+        public void createChatInputMenu()
+        {
+            chatInputMenu = new Menu(gameGraphics, 10);
+            messagesHandleType2 = chatInputMenu.gfh(5, 269, 502, 56, 1, 20, true);
+            chatInputBox = chatInputMenu.gfi(7, 324, 498, 14, 1, 80, false, true);
+            messagesHandleType5 = chatInputMenu.gfh(5, 269, 502, 56, 1, 20, true);
+            messagesHandleType6 = chatInputMenu.gfh(5, 269, 502, 56, 1, 20, true);
+            chatInputMenu.setFocus(chatInputBox);
+        }
+
+        public void drawCombatStyleBox()
+        {
+            sbyte byte0 = 7;
+            sbyte byte1 = 15;
+            int c1 = 175; ;//'\u257';
+            if (mouseButtonClick != 0)
+            {
+                for (int l = 0; l < 5; l++)
+                {
+                    if (l <= 0 || base.mouseX <= byte0 || base.mouseX >= byte0 + c1 || base.mouseY <= byte1 + l * 20 || base.mouseY >= byte1 + l * 20 + 20)
+                        continue;
+                    combatStyle = l - 1;
+                    mouseButtonClick = 0;
+                    base.streamClass.createPacket(42);
+                    base.streamClass.addByte(combatStyle);
+                    base.streamClass.formatPacket();
+                    break;
+                }
+
+            }
+            for (int i1 = 0; i1 < 5; i1++)
+            {
+                if (i1 == combatStyle + 1)
+                    gameGraphics.drawBoxAlpha(byte0, byte1 + i1 * 20, c1, 20, GameImage.rgbToInt(255, 0, 0), 128);
+                else
+                    gameGraphics.drawBoxAlpha(byte0, byte1 + i1 * 20, c1, 20, GameImage.rgbToInt(190, 190, 190), 128);
+                gameGraphics.drawLineX(byte0, byte1 + i1 * 20, c1, 0);
+                gameGraphics.drawLineX(byte0, byte1 + i1 * 20 + 20, c1, 0);
+            }
+
+            gameGraphics.drawText("Select combat style", byte0 + c1 / 2, byte1 + 16, 3, 0xffffff);
+            gameGraphics.drawText("Controlled (+1 of each)", byte0 + c1 / 2, byte1 + 36, 3, 0);
+            gameGraphics.drawText("Aggressive (+3 strength)", byte0 + c1 / 2, byte1 + 56, 3, 0);
+            gameGraphics.drawText("Accurate   (+3 attack)", byte0 + c1 / 2, byte1 + 76, 3, 0);
+            gameGraphics.drawText("Defensive  (+3 defense)", byte0 + c1 / 2, byte1 + 96, 3, 0);
+        }
+
+        public void drawTradeBox()
+        {
+            if (mouseButtonClick != 0)
+            {
+                int mx = base.mouseX - 22;
+                int my = base.mouseY - 36;
+                if (mx >= 0 && my >= 30 && mx < 462 && my < 262)
+                {
+                    if (mx > 216 && my > 30 && mx < 462 && my < 235)
+                    {
+                        int curItem = (mx - 217) / 49 + ((my - 31) / 34) * 5;
+                        if (curItem >= 0 && curItem < inventoryItemsCount)
+                        {
+                            int item = inventoryItems[curItem];
+                            mouseClickedHeldInTradeDuelBox = 1;
+                            bool ourTradeItemsChanged = false;
+                            int someInt = 0;
+                            for (int tradeItem = 0; tradeItem < tradeItemsOurCount; tradeItem++)
+                                if (tradeItemsOur[tradeItem] == item)
+                                    if (Data.Data.itemStackable[item] == 0)
+                                        for (int i = 0; i < mouseClickedHeldInTradeDuelBox; i++)
+                                        {
+                                            if (tradeItemOurCount[tradeItem] < inventoryItemCount[curItem])
+                                                tradeItemOurCount[tradeItem]++;
+                                            ourTradeItemsChanged = true;
+                                        }
+                                    else
+                                        someInt++;
+                            if (getInventoryItemTotalCount(item) <= someInt)
+                                ourTradeItemsChanged = true;
+                            if (Data.Data.itemSpecial[item] == 1)
+                            {
+                                displayMessage("This object cannot be traded with other players", 3);
+                                ourTradeItemsChanged = true;
+                            }
+                            if (!ourTradeItemsChanged && tradeItemsOurCount < 12)
+                            {
+                                tradeItemsOur[tradeItemsOurCount] = item;
+                                tradeItemOurCount[tradeItemsOurCount] = 1;
+                                tradeItemsOurCount++;
+                                ourTradeItemsChanged = true;
+                            }
+                            if (ourTradeItemsChanged)
+                            {
+                                base.streamClass.createPacket(70);
+                                base.streamClass.addByte(tradeItemsOurCount);
+                                for (int i = 0; i < tradeItemsOurCount; i++)
+                                {
+                                    base.streamClass.addShort(tradeItemsOur[i]);
+                                    base.streamClass.addInt(tradeItemOurCount[i]);
+                                }
+                                base.streamClass.formatPacket();
+                                tradeOtherAccepted = false;
+                                tradeWeAccepted = false;
+                            }
+                        }
+                    }
+                    else if (mx > 8 && my > 30 && mx < 205 && my < 133)
+                    {
+                        int curItem = (mx - 9) / 49 + ((my - 31) / 34) * 4;
+                        if (curItem >= 0 && curItem < tradeItemsOurCount)
+                        {
+                            int item = tradeItemsOur[curItem];
+                            for (int i = 0; i < mouseClickedHeldInTradeDuelBox; i++)
+                            {
+                                if (Data.Data.itemStackable[item] == 0 && tradeItemOurCount[curItem] > 1)
+                                {
+                                    tradeItemOurCount[curItem]--;
+                                    continue;
+                                }
+                                tradeItemsOurCount--;
+                                mouseButtonHeldTime = 0;
+                                for (int j = curItem; j < tradeItemsOurCount; j++)
+                                {
+                                    tradeItemsOur[j] = tradeItemsOur[j + 1];
+                                    tradeItemOurCount[j] = tradeItemOurCount[j + 1];
+                                }
+                                break;
+                            }
+                            base.streamClass.createPacket(70);
+                            base.streamClass.addByte(tradeItemsOurCount);
+                            for (int i = 0; i < tradeItemsOurCount; i++)
+                            {
+                                base.streamClass.addShort(tradeItemsOur[i]);
+                                base.streamClass.addInt(tradeItemOurCount[i]);
+                            }
+                            base.streamClass.formatPacket();
+                            tradeOtherAccepted = false;
+                            tradeWeAccepted = false;
+                        }
+                    }
+                    if (mx >= 217 && my >= 238 && mx <= 286 && my <= 259)
+                    {
+                        tradeWeAccepted = true;
+                        base.streamClass.createPacket(211);
+                        base.streamClass.formatPacket();
+                    }
+                    if (mx >= 394 && my >= 238 && mx < 463 && my < 259)
+                    {
+                        showTradeBox = false;
+                        base.streamClass.createPacket(216);
+                        base.streamClass.formatPacket();
+                    }
+                }
+                else
+                {
+                    //showTradeBox = false;
+                    //base.streamClass.createPacket(216);
+                    //base.streamClass.formatPacket();
+                }
+                mouseButtonClick = 0;
+                mouseClickedHeldInTradeDuelBox = 0;
+            }
+            if (!showTradeBox)
+                return;
+            sbyte byte0 = 22;
+            sbyte byte1 = 36;
+            gameGraphics.drawBox(byte0, byte1, 468, 12, 192);
+            int l1 = 0x989898;
+            gameGraphics.drawBoxAlpha(byte0, byte1 + 12, 468, 18, l1, 160);
+            gameGraphics.drawBoxAlpha(byte0, byte1 + 30, 8, 248, l1, 160);
+            gameGraphics.drawBoxAlpha(byte0 + 205, byte1 + 30, 11, 248, l1, 160);
+            gameGraphics.drawBoxAlpha(byte0 + 462, byte1 + 30, 6, 248, l1, 160);
+            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 133, 197, 22, l1, 160);
+            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 258, 197, 20, l1, 160);
+            gameGraphics.drawBoxAlpha(byte0 + 216, byte1 + 235, 246, 43, l1, 160);
+            int j2 = 0xd0d0d0;
+            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 30, 197, 103, j2, 160);
+            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 155, 197, 103, j2, 160);
+            gameGraphics.drawBoxAlpha(byte0 + 216, byte1 + 30, 246, 205, j2, 160);
+            for (int i3 = 0; i3 < 4; i3++)
+                gameGraphics.drawLineX(byte0 + 8, byte1 + 30 + i3 * 34, 197, 0);
+
+            for (int i4 = 0; i4 < 4; i4++)
+                gameGraphics.drawLineX(byte0 + 8, byte1 + 155 + i4 * 34, 197, 0);
+
+            for (int k4 = 0; k4 < 7; k4++)
+                gameGraphics.drawLineX(byte0 + 216, byte1 + 30 + k4 * 34, 246, 0);
+
+            for (int j5 = 0; j5 < 6; j5++)
+            {
+                if (j5 < 5)
+                    gameGraphics.drawLineY(byte0 + 8 + j5 * 49, byte1 + 30, 103, 0);
+                if (j5 < 5)
+                    gameGraphics.drawLineY(byte0 + 8 + j5 * 49, byte1 + 155, 103, 0);
+                gameGraphics.drawLineY(byte0 + 216 + j5 * 49, byte1 + 30, 205, 0);
+            }
+
+            gameGraphics.drawString("Trading with: " + tradeOtherName, byte0 + 1, byte1 + 10, 1, 0xffffff);
+            gameGraphics.drawString("Your Offer", byte0 + 9, byte1 + 27, 4, 0xffffff);
+            gameGraphics.drawString("Opponent's Offer", byte0 + 9, byte1 + 152, 4, 0xffffff);
+            gameGraphics.drawString("Your Inventory", byte0 + 216, byte1 + 27, 4, 0xffffff);
+            if (!tradeWeAccepted)
+                gameGraphics.drawPicture(byte0 + 217, byte1 + 238, baseInventoryPic + 25);
+            gameGraphics.drawPicture(byte0 + 394, byte1 + 238, baseInventoryPic + 26);
+            if (tradeOtherAccepted)
+            {
+                gameGraphics.drawText("Other player", byte0 + 341, byte1 + 246, 1, 0xffffff);
+                gameGraphics.drawText("has accepted", byte0 + 341, byte1 + 256, 1, 0xffffff);
+            }
+            if (tradeWeAccepted)
+            {
+                gameGraphics.drawText("Waiting for", byte0 + 217 + 35, byte1 + 246, 1, 0xffffff);
+                gameGraphics.drawText("other player", byte0 + 217 + 35, byte1 + 256, 1, 0xffffff);
+            }
+            for (int k5 = 0; k5 < inventoryItemsCount; k5++)
+            {
+                int l5 = 217 + byte0 + (k5 % 5) * 49;
+                int j6 = 31 + byte1 + (k5 / 5) * 34;
+                gameGraphics.drawImage(l5, j6, 48, 32, baseItemPicture + Data.Data.itemInventoryPicture[inventoryItems[k5]], Data.Data.itemPictureMask[inventoryItems[k5]], 0, 0, false);
+                if (Data.Data.itemStackable[inventoryItems[k5]] == 0)
+                    gameGraphics.drawString(inventoryItemCount[k5].ToString(), l5 + 1, j6 + 10, 1, 0xffff00);
+            }
+
+            for (int i6 = 0; i6 < tradeItemsOurCount; i6++)
+            {
+                int k6 = 9 + byte0 + (i6 % 4) * 49;
+                int i7 = 31 + byte1 + (i6 / 4) * 34;
+                gameGraphics.drawImage(k6, i7, 48, 32, baseItemPicture + Data.Data.itemInventoryPicture[tradeItemsOur[i6]], Data.Data.itemPictureMask[tradeItemsOur[i6]], 0, 0, false);
+                if (Data.Data.itemStackable[tradeItemsOur[i6]] == 0)
+                    gameGraphics.drawString(tradeItemOurCount[i6].ToString(), k6 + 1, i7 + 10, 1, 0xffff00);
+                if (base.mouseX > k6 && base.mouseX < k6 + 48 && base.mouseY > i7 && base.mouseY < i7 + 32)
+                    gameGraphics.drawString(Data.Data.itemName[tradeItemsOur[i6]] + ": @whi@" + Data.Data.itemDescription[tradeItemsOur[i6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
+            }
+
+            for (int l6 = 0; l6 < tradeItemsOtherCount; l6++)
+            {
+                int j7 = 9 + byte0 + (l6 % 4) * 49;
+                int k7 = 156 + byte1 + (l6 / 4) * 34;
+                gameGraphics.drawImage(j7, k7, 48, 32, baseItemPicture + Data.Data.itemInventoryPicture[tradeItemsOther[l6]], Data.Data.itemPictureMask[tradeItemsOther[l6]], 0, 0, false);
+                if (Data.Data.itemStackable[tradeItemsOther[l6]] == 0)
+                    gameGraphics.drawString(tradeItemOtherCount[l6].ToString(), j7 + 1, k7 + 10, 1, 0xffff00);
+                if (base.mouseX > j7 && base.mouseX < j7 + 48 && base.mouseY > k7 && base.mouseY < k7 + 32)
+                    gameGraphics.drawString(Data.Data.itemName[tradeItemsOther[l6]] + ": @whi@" + Data.Data.itemDescription[tradeItemsOther[l6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
+            }
+
         }
 
         public void autoRotateCamera()
         {
             if ((cameraAutoAngle & 1) == 1 && validCameraAngle(cameraAutoAngle))
-            {
                 return;
+            if ((cameraAutoAngle & 1) == 0 && validCameraAngle(cameraAutoAngle))
+            {
+                if (validCameraAngle(cameraAutoAngle + 1 & 7))
+                {
+                    cameraAutoAngle = cameraAutoAngle + 1 & 7;
+                    return;
+                }
+                if (validCameraAngle(cameraAutoAngle + 7 & 7))
+                    cameraAutoAngle = cameraAutoAngle + 7 & 7;
+                return;
+            }
+            int[] ai = {
+            1, -1, 2, -2, 3, -3, 4
+        };
+            for (int l = 0; l < 7; l++)
+            {
+                if (!validCameraAngle(cameraAutoAngle + ai[l] + 8 & 7))
+                    continue;
+                cameraAutoAngle = cameraAutoAngle + ai[l] + 8 & 7;
+                break;
             }
 
             if ((cameraAutoAngle & 1) == 0 && validCameraAngle(cameraAutoAngle))
@@ -2456,102 +4200,238 @@ namespace OpenRS.Net.Client
                     return;
                 }
                 if (validCameraAngle(cameraAutoAngle + 7 & 7))
-                {
                     cameraAutoAngle = cameraAutoAngle + 7 & 7;
-                }
-
                 return;
             }
-            int[] ai = [
-            1, -1, 2, -2, 3, -3, 4
-        ];
-            for (int l = 0; l < 7; l++)
+            else
             {
-                if (!validCameraAngle(cameraAutoAngle + ai[l] + 8 & 7))
-                {
-                    continue;
-                }
-
-                cameraAutoAngle = cameraAutoAngle + ai[l] + 8 & 7;
-                break;
-            }
-
-            if ((cameraAutoAngle & 1) == 0 && validCameraAngle(cameraAutoAngle))
-            {
-                if (validCameraAngle(cameraAutoAngle + 1 & 7))
-                {
-                    cameraAutoAngle = cameraAutoAngle + 1 & 7;
-                }
-                else if (validCameraAngle(cameraAutoAngle + 7 & 7))
-                {
-                    cameraAutoAngle = cameraAutoAngle + 7 & 7;
-                }
+                return;
             }
         }
 
-        public void walkToGroundItem(Point2D location, Point2D destination, bool flag)
+        //public String getParameter(String s1) {
+        //    if(Link.gameApplet != null)
+        //        return Link.gameApplet.getParameter(s1);
+        //    else
+        //        return base.getParameter(s1);
+        //}
+
+        public void drawLogoutBox()
         {
-            if (walkTo2(location, destination, destination, false, flag))
+            gameGraphics.drawBox(126, 137, 260, 60, 0);
+            gameGraphics.drawBoxEdge(126, 137, 260, 60, 0xffffff);
+            gameGraphics.drawText("Logging out...", 256, 173, 5, 0xffffff);
+        }
+
+        public void walkToGroundItem(int l, int i1, int j1, int k1, bool flag)
+        {
+            if (walkTo2(l, i1, j1, k1, j1, k1, false, flag))
             {
                 return;
             }
-
-            WalkTo(location, destination, destination, true, flag);
+            else
+            {
+                walkTo(l, i1, j1, k1, j1, k1, true, flag);
+                return;
+            }
         }
 
-        public void DrawTeleBubble(int x, int y, int j1, int k1, int l1)
+        public override void loginScreenPrint(String s1, String s2)
+        {
+            if (loginScreen == 2 && loginMenuLogin != null)
+                loginMenuLogin.updateText(loginMenuStatusText, s1 + " " + s2);
+            drawLoginScreens();
+            resetTimings();
+        }
+
+        public void drawTeleBubble(int x, int y, int j1, int k1, int l1, int i2, int j2)
         {
             int type = teleBubbleType[l1];
             int time = teleBubbleTime[l1];
-
             if (type == 0)
             {
                 int i3 = 255 + time * 5 * 256;
-                gameGraphics.DrawCircle(x + j1 / 2, y + k1 / 2, 20 + time * 2, i3, 255 - time * 5);
+                gameGraphics.drawCircle(x + j1 / 2, y + k1 / 2, 20 + time * 2, i3, 255 - time * 5);
             }
-
             if (type == 1)
             {
                 int j3 = 0xff0000 + time * 5 * 256;
-                gameGraphics.DrawCircle(x + j1 / 2, y + k1 / 2, 10 + time, j3, 255 - time * 5);
+                gameGraphics.drawCircle(x + j1 / 2, y + k1 / 2, 10 + time, j3, 255 - time * 5);
             }
         }
 
-        public override void DrawWindow()
+        public void checkLoginScreenInputs()
         {
-            paint();
+            if (base.socketTimeout > 0)
+                base.socketTimeout--;
+            if (loginScreen == 0)
+            {
+                if (loginMenuFirst == null) return;
+                if (base.lastMouseButton != 0 || base.mouseButton != 0)
+                    Console.WriteLine($"[CLICK] mouseX={base.mouseX} mouseY={base.mouseY} lastMouseButton={base.lastMouseButton} mouseButton={base.mouseButton}");
+                loginMenuFirst.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
+                if (loginMenuFirst.isClicked(loginButtonNewUser))
+                    loginScreen = 1;
+                if (loginMenuFirst.isClicked(loginMenuLoginButton))
+                {
+                    loginScreen = 2;
+                    loginMenuLogin.updateText(loginMenuStatusText, "Please enter your username and password");
+                    loginMenuLogin.updateText(loginMenuUserText, "");
+                    loginMenuLogin.updateText(loginMenuPasswordText, "");
+                    loginMenuLogin.setFocus(loginMenuUserText);
+                    return;
+                }
+            }
+            else
+                if (loginScreen == 1)
+                {
+                    if (loginNewUser == null) return;
+                    loginNewUser.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
+                    if (loginNewUser.isClicked(loginMenuOkButton))
+                    {
+                        loginScreen = 0;
+                        return;
+                    }
+                }
+                else
+                    if (loginScreen == 2)
+                    {
+                        loginMenuLogin.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
+                        if (loginMenuLogin.isClicked(loginMenuCancelButton))
+                            loginScreen = 0;
+                        if (loginMenuLogin.isClicked(loginMenuUserText))
+                            loginMenuLogin.setFocus(loginMenuPasswordText);
+                        if (loginMenuLogin.isClicked(loginMenuPasswordText) || loginMenuLogin.isClicked(loginMenuOkLoginButton))
+                        {
+                            loginUsername = loginMenuLogin.getText(loginMenuUserText);
+                            loginPassword = loginMenuLogin.getText(loginMenuPasswordText);
+                            connect(loginUsername, loginPassword, false);
+                        }
+                    }
+        }
+
+        public bool isItemEquipped(int arg0)
+        {
+            for (int l = 0; l < inventoryItemsCount; l++)
+                if (inventoryItems[l] == arg0 && inventoryItemEquipped[l] == 1)
+                    return true;
+
+            return false;
+        }
+
+        public override void drawWindow()
+        {
+
+            paint(graphics);
 
             if (errorLoading)
             {
-                SetRefreshRate(1);
+#warning add error loading event
+                //var g1 = spriteBatch;//getGraphics();
+                ////g1.setColor();
+                //// g1.fillRect(0, 0, 512, 356, Color.Black);
+
+                //// g1.setFont(gameFont16);
+                //g1.setColor(Color.Yellow);
+                //int l = 35;
+                //g1.drawString("Sorry, an error has occured whilst loading", 30, l);
+                //l += 50;
+                //g1.setColor(Color.White);
+                //g1.drawString("To fix this try the following (in order):", 30, l);
+                //l += 50;
+                //g1.setColor(Color.White);
+                ////g1.setFont(gameFont12);
+                //g1.drawString("1: Try closing ALL open web-browser windows, and reloading", 30, l);
+                //l += 30;
+                //g1.drawString("2: Try clearing your web-browsers cache from tools->internet options", 30, l);
+                //l += 30;
+                //g1.drawString("3: Try using a different game-world", 30, l);
+                //l += 30;
+                //g1.drawString("4: Try rebooting your computer", 30, l);
+                //l += 30;
+                //g1.drawString("5: Try selecting a different version of Java from the play-game menu", 30, l);
+                setRefreshRate(1);
                 return;
             }
-
             if (memoryError)
             {
+#warning add memory exception event
+                //var g3 = spriteBatch;//getGraphics();
+                ////g3.setColor(Color.Black);
+                ////g3.fillRect(0, 0, 512, 356, Color.Black);
+                ////g3.setFont(gameFont20);
+                //g3.setColor(Color.White);
+                //g3.drawString("Error - out of memory!", 50, 50);
+                //g3.drawString("Close ALL unnecessary programs", 50, 100);
+                //g3.drawString("and windows before loading the game", 50, 150);
+                //g3.drawString("this game needs about 48meg of spare RAM", 50, 200);
+                //setRefreshRate(1);
                 return;
             }
-
             try
             {
+                if (!loggedIn)
+                {
+                    gameGraphics.loggedIn = false;
+                    drawLoginScreens();
+
+
+                }
                 if (loggedIn)
                 {
-                    gameGraphics.IsLoggedIn = true;
+                    gameGraphics.loggedIn = true;
                     drawGame();
+
 
                     return;
                 }
-
-                gameGraphics.IsLoggedIn = false;
-                drawLoginScreens();
             }
-            catch (Exception ex)
+            catch (Exception _ex)
             {
-                Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
-                Console.WriteLine(ex);
-
-                UnloadContent();
+                cleanUp();
                 memoryError = true;
+            }
+        }
+
+
+        public void cleanUp()
+        {
+            try
+            {
+                if (gameGraphics != null)
+                {
+                    gameGraphics.cleanUp();
+                    gameGraphics.pixels = null;
+                    gameGraphics = null;
+                }
+                if (gameCamera != null)
+                {
+                    gameCamera.cleanUp();
+                    gameCamera = null;
+                }
+                gameDataObjects = null;
+                objectArray = null;
+                wallObjectArray = null;
+                playerBufferArray = null;
+                playerArray = null;
+                npcAttackingArray = null;
+                npcArray = null;
+                ourPlayer = null;
+                if (engineHandle != null)
+                {
+                    engineHandle.TileChunks = null;
+                    engineHandle.wallObject = null;
+                    engineHandle.roofObject = null;
+                    engineHandle.currentSectionObject = null;
+                    engineHandle = null;
+                }
+                //System.gc();
+                System.GC.Collect();
+                return;
+            }
+            catch (Exception _ex)
+            {
+                return;
             }
         }
 
@@ -2559,123 +4439,222 @@ namespace OpenRS.Net.Client
         {
             if (mouseButtonClick != 0)
             {
-                for (int l = 0; l < QuestionMenuCount; l++)
+                for (int l = 0; l < questionMenuCount; l++)
                 {
-                    if (InputManager.Instance.MouseLocation.X >= gameGraphics.textWidth(questionMenuAnswer[l], 1) || GameMouseY <= l * 12 || GameMouseY >= 12 + l * 12)
-                    {
+                    if (base.mouseX >= gameGraphics.textWidth(questionMenuAnswer[l], 1) || base.mouseY <= l * 12 || base.mouseY >= 12 + l * 12)
                         continue;
-                    }
-
-                    StreamClass.CreatePacket(154);
-                    StreamClass.AddInt8(l);
-                    StreamClass.FormatPacket();
+                    base.streamClass.createPacket(154);
+                    base.streamClass.addByte(l);
+                    base.streamClass.formatPacket();
                     break;
                 }
 
                 mouseButtonClick = 0;
-                ShowQuestionMenu = false;
+                showQuestionMenu = false;
                 return;
             }
-
-            for (int i1 = 0; i1 < QuestionMenuCount; i1++)
+            for (int i1 = 0; i1 < questionMenuCount; i1++)
             {
                 int j1 = 65535;
-                if (InputManager.Instance.MouseLocation.X < gameGraphics.textWidth(questionMenuAnswer[i1], 1) && GameMouseY > i1 * 12 && GameMouseY < 12 + i1 * 12)
-                {
+                if (base.mouseX < gameGraphics.textWidth(questionMenuAnswer[i1], 1) && base.mouseY > i1 * 12 && base.mouseY < 12 + i1 * 12)
                     j1 = 0xff0000;
-                }
+                gameGraphics.drawString(questionMenuAnswer[i1], 6, 12 + i1 * 12, 1, j1);
+            }
 
-                gameGraphics.DrawString(questionMenuAnswer[i1], 6, 12 + i1 * 12, 1, j1);
+        }
+
+        public void drawTradeConfirmBox()
+        {
+            sbyte byte0 = 22;
+            sbyte byte1 = 36;
+            gameGraphics.drawBox(byte0, byte1, 468, 16, 192);
+            int l = 0x989898;
+            gameGraphics.drawBoxAlpha(byte0, byte1 + 16, 468, 246, l, 160);
+            gameGraphics.drawText("Please confirm your trade with @yel@" + DataOperations.hashToName(tradeConfirmOtherNameLong), byte0 + 234, byte1 + 12, 1, 0xffffff);
+            gameGraphics.drawText("You are about to give:", byte0 + 117, byte1 + 30, 1, 0xffff00);
+            for (int i1 = 0; i1 < tradeConfigItemCount; i1++)
+            {
+                String s1 = Data.Data.itemName[tradeConfirmItems[i1]];
+                if (Data.Data.itemStackable[tradeConfirmItems[i1]] == 0)
+                    s1 = s1 + " x " + formatItemCount(tradeConfigItemsCount[i1]);
+                gameGraphics.drawText(s1, byte0 + 117, byte1 + 42 + i1 * 12, 1, 0xffffff);
+            }
+
+            if (tradeConfigItemCount == 0)
+                gameGraphics.drawText("Nothing!", byte0 + 117, byte1 + 42, 1, 0xffffff);
+            gameGraphics.drawText("In return you will receive:", byte0 + 351, byte1 + 30, 1, 0xffff00);
+            for (int j1 = 0; j1 < tradeConfirmOtherItemCount; j1++)
+            {
+                String s2 = Data.Data.itemName[tradeConfirmOtherItems[j1]];
+                if (Data.Data.itemStackable[tradeConfirmOtherItems[j1]] == 0)
+                    s2 = s2 + " x " + formatItemCount(tradeConfirmOtherItemsCount[j1]);
+                gameGraphics.drawText(s2, byte0 + 351, byte1 + 42 + j1 * 12, 1, 0xffffff);
+            }
+
+            if (tradeConfirmOtherItemCount == 0)
+                gameGraphics.drawText("Nothing!", byte0 + 351, byte1 + 42, 1, 0xffffff);
+            gameGraphics.drawText("Are you sure you want to do this?", byte0 + 234, byte1 + 200, 4, 65535);
+            gameGraphics.drawText("There is NO WAY to reverse a trade if you change your mind.", byte0 + 234, byte1 + 215, 1, 0xffffff);
+            gameGraphics.drawText("Remember that not all players are trustworthy", byte0 + 234, byte1 + 230, 1, 0xffffff);
+            if (!tradeConfirmAccepted)
+            {
+                gameGraphics.drawPicture((byte0 + 118) - 35, byte1 + 238, baseInventoryPic + 25);
+                gameGraphics.drawPicture((byte0 + 352) - 35, byte1 + 238, baseInventoryPic + 26);
+            }
+            else
+            {
+                gameGraphics.drawText("Waiting for other player...", byte0 + 234, byte1 + 250, 1, 0xffff00);
+            }
+            if (mouseButtonClick == 1)
+            {
+                if (base.mouseX < byte0 || base.mouseY < byte1 || base.mouseX > byte0 + 468 || base.mouseY > byte1 + 262)
+                {
+                    //showTradeConfirmBox = false;
+                    //base.streamClass.createPacket(216);
+                    //base.streamClass.formatPacket();
+                }
+                if (base.mouseX >= (byte0 + 118) - 35 && base.mouseX <= byte0 + 118 + 70 && base.mouseY >= byte1 + 238 && base.mouseY <= byte1 + 238 + 21)
+                {
+                    tradeConfirmAccepted = true;
+                    base.streamClass.createPacket(53);
+                    base.streamClass.formatPacket();
+                }
+                if (base.mouseX >= (byte0 + 352) - 35 && base.mouseX <= byte0 + 353 + 70 && base.mouseY >= byte1 + 238 && base.mouseY <= byte1 + 238 + 21)
+                {
+                    showTradeConfirmBox = false;
+                    base.streamClass.createPacket(216);
+                    base.streamClass.formatPacket();
+                }
+                mouseButtonClick = 0;
             }
         }
 
         public virtual void drawLoginScreens()
         {
-            if (gameGraphics is null)
-            {
+            loginScreenShown = false;
+            if (gameGraphics == null)
                 return;
-            }
-
-            gameGraphics.ClearScreen();
-            gameGraphics.DrawPicture(0, WindowSize.Height, baseInventoryPic + 22);
-
-            OnDrawDone();
-        }
-
-        public void DrawItem(int x, int y, int width, int height, int itemID)
-        {
-            int picture = entityManager.GetItem(itemID).InventoryPicture + baseItemPicture;
-            int mask = entityManager.GetItem(itemID).PictureMask;
-
-            gameGraphics.DrawImage(x, y, width, height, picture, mask, 0, 0, false);
-        }
-
-        public ClientMob MakePlayer(int serverIndex, int x, int y, int sprite)
-        {
-            if (Mobs[serverIndex] is null)
+            gameGraphics.interlace = false;
+            gameGraphics.clearScreen();
+            if (loginScreen == 0 || loginScreen == 1 || loginScreen == 2 || loginScreen == 3)
             {
-                Mobs[serverIndex] = new ClientMob
+                int l = (tick * 2) % 3072;
+                if (l < 1024)
                 {
-                    ServerIndex = serverIndex,
-                    ServerId = 0
+                    gameGraphics.drawPicture(0, 10, baseLoginScreenBackgroundPic);
+                    if (l > 768)
+                        gameGraphics.drawPicture(0, 10, baseLoginScreenBackgroundPic + 1, l - 768);
+                }
+                else if (l < 2048)
+                {
+                    gameGraphics.drawPicture(0, 10, baseLoginScreenBackgroundPic + 1);
+                    if (l > 1792)
+                        gameGraphics.drawPicture(0, 10, baseInventoryPic + 10, l - 1792);
+                }
+                else
+                {
+                    gameGraphics.drawPicture(0, 10, baseInventoryPic + 10);
+                    if (l > 2816)
+                        gameGraphics.drawPicture(0, 10, baseLoginScreenBackgroundPic, l - 2816);
+                }
+            }
+            if (loginMenuFirst == null) return;
+            if (loginScreen == 0)
+                loginMenuFirst.drawMenu();
+            if (loginScreen == 1)
+                loginNewUser.drawMenu();
+            if (loginScreen == 2)
+                loginMenuLogin.drawMenu();
+
+            gameGraphics.drawPicture(0, windowHeight, baseInventoryPic + 22);
+
+
+
+            //gameGraphics.UpdateGameImage();
+            OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
+        }
+
+        public void drawItem(int x, int y, int width, int height, int itemID, int i2, int j2)
+        {
+            int picture = Data.Data.itemInventoryPicture[itemID] + baseItemPicture;
+            int mask = Data.Data.itemPictureMask[itemID];
+            gameGraphics.drawImage(x, y, width, height, picture, mask, 0, 0, false);
+        }
+
+        public ClientMob makePlayer(int index, int x, int y, int sprite)
+        {
+            if (playerBufferArray[index] == null)
+            {
+                playerBufferArray[index] = new ClientMob
+                {
+                    serverIndex = index,
+                    serverID = 0
                 };
             }
-
-            ClientMob existingPlayer = Mobs[serverIndex];
-
-            bool flag = LastPlayers
-                .Where(player => player is not null) // TODO: Remove this check once it is safe
-                .Any(player => player.ServerIndex == serverIndex);
+            ClientMob existingPlayer = playerBufferArray[index];
+            bool flag = false;
+            for (int l = 0; l < lastPlayerCount; l++)
+            {
+                if (lastPlayerArray[l].serverIndex != index)
+                    continue;
+                flag = true;
+                break;
+            }
 
             if (flag)
             {
-                existingPlayer.NextSprite = sprite;
-
-                int waypointIndex = existingPlayer.WaypointCurrent;
-
-                if (x != existingPlayer.Waypoints[waypointIndex].X || y != existingPlayer.Waypoints[waypointIndex].Y)
+                existingPlayer.nextSprite = sprite;
+                int i1 = existingPlayer.waypointCurrent;
+                if (x != existingPlayer.waypointsX[i1] || y != existingPlayer.waypointsY[i1])
                 {
-                    existingPlayer.WaypointCurrent = waypointIndex = (waypointIndex + 1) % 10;
-                    existingPlayer.Waypoints[waypointIndex].X = x;
-                    existingPlayer.Waypoints[waypointIndex].Y = y;
+                    existingPlayer.waypointCurrent = i1 = (i1 + 1) % 10;
+                    existingPlayer.waypointsX[i1] = x;
+                    existingPlayer.waypointsY[i1] = y;
                 }
             }
             else
             {
-                existingPlayer.ServerIndex = serverIndex;
-                existingPlayer.WaypointsEndSprite = 0;
-                existingPlayer.WaypointCurrent = 0;
-                existingPlayer.Location = new Point2D(x, y);
-                existingPlayer.Waypoints[0].X = x;
-                existingPlayer.Waypoints[0].Y = y;
-                existingPlayer.NextSprite = existingPlayer.CurrentSprite = sprite;
-                existingPlayer.StepCount = 0;
+                existingPlayer.serverIndex = index;
+                existingPlayer.waypointsEndSprite = 0;
+                existingPlayer.waypointCurrent = 0;
+                existingPlayer.waypointsX[0] = existingPlayer.currentX = x;
+                existingPlayer.waypointsY[0] = existingPlayer.currentY = y;
+                existingPlayer.nextSprite = existingPlayer.currentSprite = sprite;
+                existingPlayer.stepCount = 0;
             }
-
-            Players[PlayerCount++] = existingPlayer;
-
+            playerArray[playerCount++] = existingPlayer;
             return existingPlayer;
         }
 
-        public void walkTo1Tile(Point2D location, Point2D destination, bool flag) => WalkTo(location, destination, destination, false, flag);
-
-        public void LoadConfig()
+        public void walkTo1Tile(int l, int i1, int j1, int k1, bool flag)
         {
-            entityManager.LoadContent();
+            walkTo(l, i1, j1, k1, j1, k1, false, flag);
+        }
 
-            sbyte[] abyte1 = unpackData("filter.jag", "Chat system", 15);
-            if (abyte1 is null)
+        public void loadConfig()
+        {
+            sbyte[] abyte0 = unpackData("config.jag", "Configuration", 10);
+            if (abyte0 == null)
             {
                 errorLoading = true;
                 return;
             }
-
-            sbyte[] abyte2 = DataOperations.loadData("fragmentsenc.txt", 0, abyte1);
-            sbyte[] abyte3 = DataOperations.loadData("badenc.txt", 0, abyte1);
-            sbyte[] abyte4 = DataOperations.loadData("hostenc.txt", 0, abyte1);
-            sbyte[] abyte5 = DataOperations.loadData("tldlist.txt", 0, abyte1);
-
-            return;
+            Data.Data.load(abyte0);
+            sbyte[] abyte1 = unpackData("filter.jag", "Chat system", 15);
+            if (abyte1 == null)
+            {
+                errorLoading = true;
+                return;
+            }
+            else
+            {
+                sbyte[] abyte2 = DataOperations.loadData("fragmentsenc.txt", 0, abyte1);
+                sbyte[] abyte3 = DataOperations.loadData("badenc.txt", 0, abyte1);
+                sbyte[] abyte4 = DataOperations.loadData("hostenc.txt", 0, abyte1);
+                sbyte[] abyte5 = DataOperations.loadData("tldlist.txt", 0, abyte1);
+                //ChatFilter.addFilterData(new DataEncryption(abyte2), new DataEncryption(abyte3), new DataEncryption(abyte4), new DataEncryption(abyte5));
+                return;
+            }
         }
 
         public override void handleMouseDown(int arg0, int arg1, int arg2)
@@ -2683,216 +4662,317 @@ namespace OpenRS.Net.Client
             mouseTrailX[mouseTrailIndex] = arg1;
             mouseTrailY[mouseTrailIndex] = arg2;
             mouseTrailIndex = mouseTrailIndex + 1 & 0x1fff;
-
             for (int l = 10; l < 4000; l++)
             {
                 int lastMouseTrailIndex = mouseTrailIndex - l & 0x1fff;
-
                 if (mouseTrailX[lastMouseTrailIndex] == arg1 && mouseTrailY[lastMouseTrailIndex] == arg2)
                 {
+                    bool flag = false;
                     for (int j1 = 1; j1 < l; j1++)
                     {
                         int mouseNew = mouseTrailIndex - j1 & 0x1fff;
                         int mouseOld = lastMouseTrailIndex - j1 & 0x1fff;
-
+                        if (mouseTrailX[mouseOld] != arg1 || mouseTrailY[mouseOld] != arg2)
+                            flag = true;
                         if (mouseTrailX[mouseNew] != mouseTrailX[mouseOld] || mouseTrailY[mouseNew] != mouseTrailY[mouseOld])
-                        {
                             break;
+                        if (j1 == l - 1 && flag && combatTimeout == 0 && logoutTimer == 0)
+                        {
+                            sendLogout();
+                            return;
                         }
                     }
+
                 }
+            }
+
+        }
+
+        public void drawFriendsMenu(bool canClick)
+        {
+            int l = ((GameImage)(gameGraphics)).gameWidth - 199;
+            int i1 = 36;
+            gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 5);
+            int c1 = 196;//(char)304;//'\u304';
+            int c2 = 182;//(char)266;//'\u266';
+            int k1;
+            int j1 = k1 = GameImage.rgbToInt(160, 160, 160);
+            if (friendsIgnoreMenuSelected == 0)
+                j1 = GameImage.rgbToInt(220, 220, 220);
+            else
+                k1 = GameImage.rgbToInt(220, 220, 220);
+            gameGraphics.drawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
+            gameGraphics.drawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
+            gameGraphics.drawBoxAlpha(l, i1 + 24, c1, c2 - 24, GameImage.rgbToInt(220, 220, 220), 128);
+            gameGraphics.drawLineX(l, i1 + 24, c1, 0);
+            gameGraphics.drawLineY(l + c1 / 2, i1, 24, 0);
+            gameGraphics.drawLineX(l, (i1 + c2) - 16, c1, 0);
+            gameGraphics.drawText("Friends", l + c1 / 4, i1 + 16, 4, 0);
+            gameGraphics.drawText("Ignore", l + c1 / 4 + c1 / 2, i1 + 16, 4, 0);
+            friendsMenu.clearList(friendsMenuHandle);
+            if (friendsIgnoreMenuSelected == 0)
+            {
+                for (int l1 = 0; l1 < base.friendsCount; l1++)
+                {
+                    String s1;
+                    if (base.friendsWorld[l1] == 99)
+                        s1 = "@gre@";
+                    else
+                        if (base.friendsWorld[l1] > 0)
+                            s1 = "@yel@";
+                        else
+                            s1 = "@red@";
+                    friendsMenu.addListItem(friendsMenuHandle, l1, s1 + DataOperations.hashToName(base.friendsList[l1]) + "~439~@whi@Remove         WWWWWWWWWW");
+                }
+
+            }
+            if (friendsIgnoreMenuSelected == 1)
+            {
+                for (int i2 = 0; i2 < base.ignoresCount; i2++)
+                    friendsMenu.addListItem(friendsMenuHandle, i2, "@yel@" + DataOperations.hashToName(base.ignoresList[i2]) + "~439~@whi@Remove         WWWWWWWWWW");
+
+            }
+            friendsMenu.drawMenu();
+            if (friendsIgnoreMenuSelected == 0)
+            {
+                int j2 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
+                if (j2 >= 0 && base.mouseX < 489)
+                {
+                    if (base.mouseX > 429)
+                        gameGraphics.drawText("Click to remove " + DataOperations.hashToName(base.friendsList[j2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
+                    else
+                        if (base.friendsWorld[j2] == 99)
+                            gameGraphics.drawText("Click to message " + DataOperations.hashToName(base.friendsList[j2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
+                        else
+                            if (base.friendsWorld[j2] > 0)
+                                gameGraphics.drawText(DataOperations.hashToName(base.friendsList[j2]) + " is on world " + base.friendsWorld[j2], l + c1 / 2, i1 + 35, 1, 0xffffff);
+                            else
+                                gameGraphics.drawText(DataOperations.hashToName(base.friendsList[j2]) + " is offline", l + c1 / 2, i1 + 35, 1, 0xffffff);
+                }
+                else
+                {
+                    gameGraphics.drawText("Click a name to send a message", l + c1 / 2, i1 + 35, 1, 0xffffff);
+                }
+                int j3;
+                if (base.mouseX > l && base.mouseX < l + c1 && base.mouseY > (i1 + c2) - 16 && base.mouseY < i1 + c2)
+                    j3 = 0xffff00;
+                else
+                    j3 = 0xffffff;
+                gameGraphics.drawText("Click here to add a friend", l + c1 / 2, (i1 + c2) - 3, 1, j3);
+            }
+            if (friendsIgnoreMenuSelected == 1)
+            {
+                int k2 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
+                if (k2 >= 0 && base.mouseX < 489 && base.mouseX > 429)
+                {
+                    if (base.mouseX > 429)
+                        gameGraphics.drawText("Click to remove " + DataOperations.hashToName(base.ignoresList[k2]), l + c1 / 2, i1 + 35, 1, 0xffffff);
+                }
+                else
+                {
+                    gameGraphics.drawText("Blocking messages from:", l + c1 / 2, i1 + 35, 1, 0xffffff);
+                }
+                int k3;
+                if (base.mouseX > l && base.mouseX < l + c1 && base.mouseY > (i1 + c2) - 16 && base.mouseY < i1 + c2)
+                    k3 = 0xffff00;
+                else
+                    k3 = 0xffffff;
+                gameGraphics.drawText("Click here to add a name", l + c1 / 2, (i1 + c2) - 3, 1, k3);
+            }
+            if (!canClick)
+                return;
+            l = base.mouseX - (((GameImage)(gameGraphics)).gameWidth - 199);
+            i1 = base.mouseY - 36;
+            if (l >= 0 && i1 >= 0 && l < 196 && i1 < 182)
+            {
+                friendsMenu.mouseClick(l + (((GameImage)(gameGraphics)).gameWidth - 199), i1 + 36, base.lastMouseButton, base.mouseButton);
+                if (i1 <= 24 && mouseButtonClick == 1)
+                    if (l < 98 && friendsIgnoreMenuSelected == 1)
+                    {
+                        friendsIgnoreMenuSelected = 0;
+                        friendsMenu.switchList(friendsMenuHandle);
+                    }
+                    else
+                        if (l > 98 && friendsIgnoreMenuSelected == 0)
+                        {
+                            friendsIgnoreMenuSelected = 1;
+                            friendsMenu.switchList(friendsMenuHandle);
+                        }
+                if (mouseButtonClick == 1 && friendsIgnoreMenuSelected == 0)
+                {
+                    int l2 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
+                    if (l2 >= 0 && base.mouseX < 489)
+                        if (base.mouseX > 429)
+                            removeFriend(base.friendsList[l2]);
+                        else
+                            if (base.friendsWorld[l2] != 0)
+                            {
+                                showFriendsBox = 2;
+                                pmTarget = base.friendsList[l2];
+                                base.pmText = "";
+                                base.enteredPMText = "";
+                            }
+                }
+                if (mouseButtonClick == 1 && friendsIgnoreMenuSelected == 1)
+                {
+                    int i3 = friendsMenu.getEntryHighlighted(friendsMenuHandle);
+                    if (i3 >= 0 && base.mouseX < 489 && base.mouseX > 429)
+                        removeIgnore(base.ignoresList[i3]);
+                }
+                if (i1 > 166 && mouseButtonClick == 1 && friendsIgnoreMenuSelected == 0)
+                {
+                    showFriendsBox = 1;
+                    base.inputText = "";
+                    base.enteredInputText = "";
+                }
+                if (i1 > 166 && mouseButtonClick == 1 && friendsIgnoreMenuSelected == 1)
+                {
+                    showFriendsBox = 3;
+                    base.inputText = "";
+                    base.enteredInputText = "";
+                }
+                mouseButtonClick = 0;
             }
         }
 
         public void drawPrayerMagicMenu(bool canClick)
         {
-            int l = gameGraphics.GameSize.Width - 199;
+            int l = ((GameImage)(gameGraphics)).gameWidth - 199;
             int i1 = 36;
-            gameGraphics.DrawPicture(l - 49, 3, baseInventoryPic + 4);
+            gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 4);
             int c1 = 196;//'\u304';
             int c2 = 182;//'\u266';
             int k1;
-            int j1 = k1 = ColourTranslator.ToArgb(160, 160, 160);
-
+            int j1 = k1 = GameImage.rgbToInt(160, 160, 160);
             if (menuMagicPrayersSelected == 0)
-            {
-                j1 = ColourTranslator.ToArgb(220, 220, 220);
-            }
+                j1 = GameImage.rgbToInt(220, 220, 220);
             else
-            {
-                k1 = ColourTranslator.ToArgb(220, 220, 220);
-            }
-
-            gameGraphics.DrawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
-            gameGraphics.DrawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
-            gameGraphics.DrawBoxAlpha(l, i1 + 24, c1, 90, ColourTranslator.ToArgb(220, 220, 220), 128);
-            gameGraphics.DrawBoxAlpha(l, i1 + 24 + 90, c1, c2 - 90 - 24, ColourTranslator.ToArgb(160, 160, 160), 128);
-            gameGraphics.DrawHorizontalLine(l, i1 + 24, c1, 0);
-            gameGraphics.DrawVerticalLine(l + c1 / 2, i1, 24, 0);
-            gameGraphics.DrawHorizontalLine(l, i1 + 113, c1, 0);
-            gameGraphics.DrawText("Magic", l + c1 / 4, i1 + 16, 4, 0);
-            gameGraphics.DrawText("Prayers", l + c1 / 4 + c1 / 2, i1 + 16, 4, 0);
-
+                k1 = GameImage.rgbToInt(220, 220, 220);
+            gameGraphics.drawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
+            gameGraphics.drawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
+            gameGraphics.drawBoxAlpha(l, i1 + 24, c1, 90, GameImage.rgbToInt(220, 220, 220), 128);
+            gameGraphics.drawBoxAlpha(l, i1 + 24 + 90, c1, c2 - 90 - 24, GameImage.rgbToInt(160, 160, 160), 128);
+            gameGraphics.drawLineX(l, i1 + 24, c1, 0);
+            gameGraphics.drawLineY(l + c1 / 2, i1, 24, 0);
+            gameGraphics.drawLineX(l, i1 + 113, c1, 0);
+            gameGraphics.drawText("Magic", l + c1 / 4, i1 + 16, 4, 0);
+            gameGraphics.drawText("Prayers", l + c1 / 4 + c1 / 2, i1 + 16, 4, 0);
             if (menuMagicPrayersSelected == 0)
             {
                 spellMenu.clearList(spellMenuHandle);
                 int l1 = 0;
-
-                for (int l2 = 0; l2 < entityManager.SpellCount; l2++)
+                for (int l2 = 0; l2 < Data.Data.spellCount; l2++)
                 {
-                    string s1 = "@yel@";
-
-                    for (int k4 = 0; k4 < entityManager.GetSpell(l2).RuneCount; k4++)
+                    String s1 = "@yel@";
+                    for (int k4 = 0; k4 < Data.Data.spellDifferentRuneCount[l2]; k4++)
                     {
-                        int runeItemId = entityManager.GetSpell(l2).RequiredRunesIds[k4];
-                        int runeCount = entityManager.GetSpell(l2).RequiredRunesCounts[k4];
-
-                        if (combatManager.HasRequiredRunes(runeItemId, runeCount))
-                        {
+                        int j5 = Data.Data.spelRequiredRuneID[l2][k4];
+                        if (hasRequiredRunes(j5, Data.Data.spellRequiredRuneCount[l2][k4]))
                             continue;
-                        }
-
                         s1 = "@whi@";
                         break;
                     }
 
-                    int k5 = Skills[6].CurrentLevel;
-
-                    if (entityManager.GetSpell(l2).RequiredLevel > k5)
-                    {
+                    int k5 = playerStatCurrent[6];
+                    if (Data.Data.spellRequiredLevel[l2] > k5)
                         s1 = "@bla@";
-                    }
-
-                    spellMenu.addListItem(spellMenuHandle, l1++, s1 + "Level " + entityManager.GetSpell(l2).RequiredLevel + ": " + entityManager.GetSpell(l2).Name);
+                    spellMenu.addListItem(spellMenuHandle, l1++, s1 + "Level " + Data.Data.spellRequiredLevel[l2] + ": " + Data.Data.spellName[l2]);
                 }
 
                 spellMenu.drawMenu();
                 int l3 = spellMenu.getEntryHighlighted(spellMenuHandle);
-
                 if (l3 != -1)
                 {
-                    gameGraphics.DrawString("Level " + entityManager.GetSpell(l3).RequiredLevel + ": " + entityManager.GetSpell(l3).Name, l + 2, i1 + 124, 1, 0xffff00);
-                    gameGraphics.DrawString(entityManager.GetSpell(l3).Description, l + 2, i1 + 136, 0, 0xffffff);
-
-                    for (int l4 = 0; l4 < entityManager.GetSpell(l3).RuneCount; l4++)
+                    gameGraphics.drawString("Level " + Data.Data.spellRequiredLevel[l3] + ": " + Data.Data.spellName[l3], l + 2, i1 + 124, 1, 0xffff00);
+                    gameGraphics.drawString(Data.Data.spellDescription[l3], l + 2, i1 + 136, 0, 0xffffff);
+                    for (int l4 = 0; l4 < Data.Data.spellDifferentRuneCount[l3]; l4++)
                     {
-                        int runeItemId = entityManager.GetSpell(l3).RequiredRunesIds[l4];
-                        gameGraphics.DrawPicture(l + 2 + l4 * 44, i1 + 150, baseItemPicture + entityManager.GetItem(runeItemId).InventoryPicture);
-                        int i6 = inventoryManager.GetItemTotalCount(runeItemId);
-                        int runeCount = entityManager.GetSpell(l3).RequiredRunesCounts[l4];
-                        string s3 = "@red@";
-
-                        if (combatManager.HasRequiredRunes(runeItemId, runeCount))
-                        {
+                        int l5 = Data.Data.spelRequiredRuneID[l3][l4];
+                        gameGraphics.drawPicture(l + 2 + l4 * 44, i1 + 150, baseItemPicture + Data.Data.itemInventoryPicture[l5]);
+                        int i6 = getInventoryItemTotalCount(l5);
+                        int j6 = Data.Data.spellRequiredRuneCount[l3][l4];
+                        String s3 = "@red@";
+                        if (hasRequiredRunes(l5, j6))
                             s3 = "@gre@";
-                        }
-
-                        gameGraphics.DrawString(s3 + i6 + "/" + runeCount, l + 2 + l4 * 44, i1 + 150, 1, 0xffffff);
+                        gameGraphics.drawString(s3 + i6 + "/" + j6, l + 2 + l4 * 44, i1 + 150, 1, 0xffffff);
                     }
 
                 }
                 else
                 {
-                    gameGraphics.DrawString("Point at a spell for a description", l + 2, i1 + 124, 1, 0);
+                    gameGraphics.drawString("Point at a spell for a description", l + 2, i1 + 124, 1, 0);
                 }
             }
             if (menuMagicPrayersSelected == 1)
             {
                 spellMenu.clearList(spellMenuHandle);
                 int i2 = 0;
-
-                int prayerIndex;
-                for (prayerIndex = 0; prayerIndex < entityManager.PrayerCount; prayerIndex++)
+                for (int i3 = 0; i3 < Data.Data.prayerCount; i3++)
                 {
-                    string s2 = "@whi@";
-                    if (entityManager.GetPrayer(prayerIndex).RequiredLevel > Skills[5].BaseLevel)
-                    {
+                    String s2 = "@whi@";
+                    if (Data.Data.prayerRequiredLevel[i3] > playerStatBase[5])
                         s2 = "@bla@";
-                    }
-
-                    if (prayerOn[prayerIndex])
-                    {
+                    if (prayerOn[i3])
                         s2 = "@gre@";
-                    }
-
-                    Prayer prayer = entityManager.GetPrayer(prayerIndex);
-
-                    spellMenu.addListItem(spellMenuHandle, i2++, s2 + "Level " + prayer.RequiredLevel + ": " + prayer.Name);
+                    spellMenu.addListItem(spellMenuHandle, i2++, s2 + "Level " + Data.Data.prayerRequiredLevel[i3] + ": " + Data.Data.prayerName[i3]);
                 }
 
                 spellMenu.drawMenu();
-                prayerIndex = spellMenu.getEntryHighlighted(spellMenuHandle);
-
-                if (prayerIndex != -1)
+                int i4 = spellMenu.getEntryHighlighted(spellMenuHandle);
+                if (i4 != -1)
                 {
-                    Prayer prayer = entityManager.GetPrayer(prayerIndex);
-
-                    gameGraphics.DrawText("Level " + prayer.RequiredLevel + ": " + prayer.Name, l + c1 / 2, i1 + 130, 1, 0xffff00);
-                    gameGraphics.DrawText(prayer.Description, l + c1 / 2, i1 + 145, 0, 0xffffff);
-                    gameGraphics.DrawText("Drain rate: " + prayer.DrainRate, l + c1 / 2, i1 + 160, 1, 0);
+                    gameGraphics.drawText("Level " + Data.Data.prayerRequiredLevel[i4] + ": " + Data.Data.prayerName[i4], l + c1 / 2, i1 + 130, 1, 0xffff00);
+                    gameGraphics.drawText(Data.Data.prayerDescription[i4], l + c1 / 2, i1 + 145, 0, 0xffffff);
+                    gameGraphics.drawText("Drain rate: " + Data.Data.prayerDrainRate[i4], l + c1 / 2, i1 + 160, 1, 0);
                 }
                 else
                 {
-                    gameGraphics.DrawString("Point at a prayer for a description", l + 2, i1 + 124, 1, 0);
+                    gameGraphics.drawString("Point at a prayer for a description", l + 2, i1 + 124, 1, 0);
                 }
             }
-
             if (!canClick)
-            {
                 return;
-            }
-
-            l = InputManager.Instance.MouseLocation.X - (gameGraphics.GameSize.Width - 199);
-            i1 = GameMouseY - 36;
-
+            l = base.mouseX - (((GameImage)(gameGraphics)).gameWidth - 199);
+            i1 = base.mouseY - 36;
             if (l >= 0 && i1 >= 0 && l < 196 && i1 < 182)
             {
-                spellMenu.mouseClick(l + (gameGraphics.GameSize.Width - 199), i1 + 36, lastMouseButton, mouseButton);
-
+                spellMenu.mouseClick(l + (((GameImage)(gameGraphics)).gameWidth - 199), i1 + 36, base.lastMouseButton, base.mouseButton);
                 if (i1 <= 24 && mouseButtonClick == 1)
-                {
                     if (l < 98 && menuMagicPrayersSelected == 1)
                     {
                         menuMagicPrayersSelected = 0;
                         spellMenu.switchList(spellMenuHandle);
                     }
-                    else if (l > 98 && menuMagicPrayersSelected == 0)
-                    {
-                        menuMagicPrayersSelected = 1;
-                        spellMenu.switchList(spellMenuHandle);
-                    }
-                }
-
+                    else
+                        if (l > 98 && menuMagicPrayersSelected == 0)
+                        {
+                            menuMagicPrayersSelected = 1;
+                            spellMenu.switchList(spellMenuHandle);
+                        }
                 if (mouseButtonClick == 1 && menuMagicPrayersSelected == 0)
                 {
                     int j2 = spellMenu.getEntryHighlighted(spellMenuHandle);
                     if (j2 != -1)
                     {
-                        int magicLevel = Skills[6].CurrentLevel;
-
-                        if (entityManager.GetSpell(j2).RequiredLevel > magicLevel)
+                        int j3 = playerStatCurrent[6];
+                        if (Data.Data.spellRequiredLevel[j2] > j3)
                         {
-                            DisplayMessage("Your magic ability is not high enough for this spell");
+                            displayMessage("Your magic ability is not high enough for this spell", 3);
                         }
                         else
                         {
                             int j4;
-                            for (j4 = 0; j4 < entityManager.GetSpell(j2).RuneCount; j4++)
+                            for (j4 = 0; j4 < Data.Data.spellDifferentRuneCount[j2]; j4++)
                             {
-                                int runeItemId = entityManager.GetSpell(j2).RequiredRunesIds[j4];
-                                int runeCount = entityManager.GetSpell(j2).RequiredRunesCounts[j4];
-
-                                if (combatManager.HasRequiredRunes(runeItemId, runeCount))
-                                {
+                                int i5 = Data.Data.spelRequiredRuneID[j2][j4];
+                                if (hasRequiredRunes(i5, Data.Data.spellRequiredRuneCount[j2][j4]))
                                     continue;
-                                }
-
-                                DisplayMessage("You don't have all the reagents you need for this spell");
+                                displayMessage("You don't have all the reagents you need for this spell", 3);
                                 j4 = -1;
                                 break;
                             }
 
-                            if (j4 == entityManager.GetSpell(j2).RuneCount)
+                            if (j4 == Data.Data.spellDifferentRuneCount[j2])
                             {
                                 selectedSpell = j2;
                                 selectedItem = -1;
@@ -2900,472 +4980,392 @@ namespace OpenRS.Net.Client
                         }
                     }
                 }
-
                 if (mouseButtonClick == 1 && menuMagicPrayersSelected == 1)
                 {
                     int k2 = spellMenu.getEntryHighlighted(spellMenuHandle);
-
                     if (k2 != -1)
                     {
-                        int prayerLevel = Skills[5].BaseLevel;
-
-                        if (entityManager.GetPrayer(k2).RequiredLevel > prayerLevel)
-                        {
-                            DisplayMessage("Your prayer ability is not high enough for this prayer");
-                        }
-                        else if (Skills[5].CurrentLevel == 0)
-                        {
-                            DisplayMessage("You have run out of prayer points. Return to a church to recharge");
-                        }
-                        else if (prayerOn[k2])
-                        {
-                            StreamClass.CreatePacket(248);
-                            StreamClass.AddInt8(k2);
-                            StreamClass.FormatPacket();
-                            prayerOn[k2] = false;
-                        }
+                        int k3 = playerStatBase[5];
+                        if (Data.Data.prayerRequiredLevel[k2] > k3)
+                            displayMessage("Your prayer ability is not high enough for this prayer", 3);
                         else
-                        {
-                            StreamClass.CreatePacket(56);
-                            StreamClass.AddInt8(k2);
-                            StreamClass.FormatPacket();
-                            prayerOn[k2] = true;
-                        }
+                            if (playerStatCurrent[5] == 0)
+                                displayMessage("You have run out of prayer points. Return to a church to recharge", 3);
+                            else
+                                if (prayerOn[k2])
+                                {
+                                    base.streamClass.createPacket(248);
+                                    base.streamClass.addByte(k2);
+                                    base.streamClass.formatPacket();
+                                    prayerOn[k2] = false;
+                                    playSound("prayeroff");
+                                }
+                                else
+                                {
+                                    base.streamClass.createPacket(56);
+                                    base.streamClass.addByte(k2);
+                                    base.streamClass.formatPacket();
+                                    prayerOn[k2] = true;
+                                    playSound("prayeron");
+                                }
                     }
                 }
-
                 mouseButtonClick = 0;
             }
         }
 
-        public override sbyte[] unpackData(string arg0, string arg1, int arg2)
+        public override sbyte[] unpackData(String arg0, String arg1, int arg2)
         {
-            sbyte[] abyte0 = Link.GetFile(arg0);
-
-            if (abyte0 is not null)
+            sbyte[] abyte0 = Link.getFile(arg0);
+            if (abyte0 != null)
             {
                 int l = ((abyte0[0] & 0xff) << 16) + ((abyte0[1] & 0xff) << 8) + (abyte0[2] & 0xff);
                 int i1 = ((abyte0[3] & 0xff) << 16) + ((abyte0[4] & 0xff) << 8) + (abyte0[5] & 0xff);
 
                 sbyte[] abyte1 = new sbyte[abyte0.Length - 6];
                 for (int j1 = 0; j1 < abyte0.Length - 6; j1++)
-                {
                     abyte1[j1] = abyte0[j1 + 6];
-                }
 
                 drawLoadingBarText(arg2, "Unpacking " + arg1);
-
                 if (i1 != l)
                 {
                     sbyte[] abyte2 = new sbyte[l];
-                    DataFileDecrypter.UnpackData(abyte2, l, abyte1, i1, 0);
-                    OnContentLoaded?.Invoke(this, new ContentLoadedEventArgs("Unpacking " + arg1, arg2));
+                    DataFileDecrypter.unpackData(abyte2, l, abyte1, i1, 0);
+                    if (OnContentLoaded != null)
+                    {
+                        OnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + arg1, arg2));
+                    }
                     return abyte2;
                 }
-
-                OnContentLoaded?.Invoke(this, new ContentLoadedEventArgs("Unpacking " + arg1, arg2));
-                return abyte1;
-            }
-
-            OnContentLoaded?.Invoke(this, new ContentLoadedEventArgs("Unpacking " + arg1, arg2));
-            return base.unpackData(arg0, arg1, arg2);
-        }
-
-        public async Task sendPingPacketAsync() =>
-            // TODO: Ping
-            /*
-            SendPingPacketDelegate worker = new SendPingPacketDelegate(SendPing);
-            AsyncCallback completedCallback = new AsyncCallback(sendPingPacketCompletedCallback);
-
-            lock (_sync)
-            {
-                if (sendingPing)
-                {
-                    return;
-                }
-
-                // TODO: Ping
-                //AsyncOperation async1 = AsyncOperationManager.CreateOperation(null);
-                //worker.BeginInvoke(completedCallback, async1);
-                sendingPing = true;
-            } */
-
-            await Task.Run(() => SendPing());
-
-        public void checkGameInputs()
-        {
-            if (systemUpdate > 1)
-            {
-                systemUpdate--;
-            }
-
-            sendPingPacketAsync();
-
-            if (logoutTimer > 0)
-            {
-                logoutTimer--;
-            }
-
-            if (CurrentPlayer.CurrentSprite == 8 || CurrentPlayer.CurrentSprite == 9)
-            {
-                combatTimeout = 500;
-            }
-
-            if (combatTimeout > 0)
-            {
-                combatTimeout--;
-            }
-
-            if (ShowAppearanceWindow)
-            {
-                updateAppearanceWindow();
-                return;
-            }
-
-            for (int playerIndex = 0; playerIndex < PlayerCount; playerIndex++)
-            {
-                ClientMob player = Players[playerIndex];
-                int j1 = (player.WaypointCurrent + 1) % 10;
-
-                if (player.WaypointsEndSprite != j1)
-                {
-                    int direction = -1;
-                    int targetSprite = player.WaypointsEndSprite;
-                    int i5;
-
-                    if (targetSprite < j1)
-                    {
-                        i5 = j1 - targetSprite;
-                    }
-                    else
-                    {
-                        i5 = 10 + j1 - targetSprite;
-                    }
-
-                    int i6 = 4;
-                    if (i5 > 2)
-                    {
-                        i6 = (i5 - 1) * 4;
-                    }
-
-                    if (player.Waypoints[targetSprite].X - player.Location.X > GridSize * 3 ||
-                        player.Waypoints[targetSprite].Y - player.Location.Y > GridSize * 3 ||
-                        player.Waypoints[targetSprite].X - player.Location.X < -GridSize * 3 ||
-                        player.Waypoints[targetSprite].Y - player.Location.Y < -GridSize * 3 ||
-                        i5 > 8)
-                    {
-                        player.Location = new Point2D(
-                            player.Waypoints[targetSprite].X,
-                            player.Waypoints[targetSprite].Y);
-                    }
-                    else
-                    {
-                        if (player.Location.X < player.Waypoints[targetSprite].X)
-                        {
-                            player.Location = new Point2D(player.Location.X + i6, player.Location.Y);
-                            player.StepCount++;
-                            direction = 2;
-                        }
-                        else if (player.Location.X > player.Waypoints[targetSprite].X)
-                        {
-                            player.Location = new Point2D(player.Location.X - i6, player.Location.Y);
-                            player.StepCount++;
-                            direction = 6;
-                        }
-
-                        if (player.Location.X - player.Waypoints[targetSprite].X < i6 &&
-                            player.Location.X - player.Waypoints[targetSprite].X > -i6)
-                        {
-                            player.Location = new Point2D(player.Waypoints[targetSprite].X, player.Location.Y);
-                        }
-
-                        if (player.Location.Y < player.Waypoints[targetSprite].Y)
-                        {
-                            player.Location = new Point2D(player.Location.X, player.Location.Y + i6);
-                            player.StepCount++;
-
-                            if (direction == -1)
-                            {
-                                direction = 4;
-                            }
-                            else if (direction == 2)
-                            {
-                                direction = 3;
-                            }
-                            else
-                            {
-                                direction = 5;
-                            }
-                        }
-                        else if (player.Location.Y > player.Waypoints[targetSprite].Y)
-                        {
-                            player.Location = new Point2D(player.Location.X, player.Location.Y - i6);
-                            player.StepCount++;
-
-                            if (direction == -1)
-                            {
-                                direction = 0;
-                            }
-                            else if (direction == 2)
-                            {
-                                direction = 1;
-                            }
-                            else
-                            {
-                                direction = 7;
-                            }
-                        }
-                        if (player.Location.Y - player.Waypoints[targetSprite].Y < i6 &&
-                            player.Location.Y - player.Waypoints[targetSprite].Y > -i6)
-                        {
-                            player.Location = new Point2D(player.Location.X, player.Waypoints[targetSprite].Y);
-                        }
-                    }
-
-                    if (direction != -1)
-                    {
-                        player.CurrentSprite = direction;
-                    }
-
-                    if (player.Location.X == player.Waypoints[targetSprite].X &&
-                        player.Location.Y == player.Waypoints[targetSprite].Y)
-                    {
-                        player.WaypointsEndSprite = (targetSprite + 1) % 10;
-                    }
-                }
                 else
                 {
-                    player.CurrentSprite = player.NextSprite;
-                }
-
-                if (player.LastMessageTimeout > 0)
-                {
-                    player.LastMessageTimeout--;
-                }
-
-                if (player.PlayerSkullTimeout > 0)
-                {
-                    player.PlayerSkullTimeout--;
-                }
-
-                if (player.CombatTimer > 0)
-                {
-                    player.CombatTimer--;
-                }
-
-                if (PlayerAliveTimeout > 0)
-                {
-                    PlayerAliveTimeout--;
-
-                    if (PlayerAliveTimeout == 0)
+                    if (OnContentLoaded != null)
                     {
-                        DisplayMessage("You have been granted another life. Be more careful this time!");
+                        OnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + arg1, arg2));
                     }
-
-                    if (PlayerAliveTimeout == 0)
-                    {
-                        DisplayMessage("You retain your skills. Your objects land where you died");
-                    }
-                }
-            }
-
-            for (int npcIndex = 0; npcIndex < NpcCount; npcIndex++)
-            {
-                ClientMob npc = Npcs[npcIndex];
-                int i2 = (npc.WaypointCurrent + 1) % 10;
-
-                if (npc.WaypointsEndSprite != i2)
-                {
-                    int l3 = -1;
-                    int waypointIndex = npc.WaypointsEndSprite;
-                    int j6;
-
-                    if (waypointIndex < i2)
-                    {
-                        j6 = i2 - waypointIndex;
-                    }
-                    else
-                    {
-                        j6 = 10 + i2 - waypointIndex;
-                    }
-
-                    int k6 = 4;
-
-                    if (j6 > 2)
-                    {
-                        k6 = (j6 - 1) * 4;
-                    }
-
-                    if (npc.Waypoints[waypointIndex].X - npc.Location.X > GridSize * 3 ||
-                        npc.Waypoints[waypointIndex].Y - npc.Location.Y > GridSize * 3 ||
-                        npc.Waypoints[waypointIndex].X - npc.Location.X < -GridSize * 3 ||
-                        npc.Waypoints[waypointIndex].Y - npc.Location.Y < -GridSize * 3 || j6 > 8)
-                    {
-                        npc.Location = new Point2D(
-                            npc.Waypoints[waypointIndex].X,
-                            npc.Waypoints[waypointIndex].Y);
-                    }
-                    else
-                    {
-                        if (npc.Location.X < npc.Waypoints[waypointIndex].X)
-                        {
-                            npc.Location = new Point2D(npc.Location.X + k6, npc.Location.Y);
-                            npc.StepCount++;
-                            l3 = 2;
-                        }
-                        else if (npc.Location.X > npc.Waypoints[waypointIndex].X)
-                        {
-                            npc.Location = new Point2D(npc.Location.X - k6, npc.Location.Y);
-                            npc.StepCount++;
-                            l3 = 6;
-                        }
-
-                        if (npc.Location.X - npc.Waypoints[waypointIndex].X < k6 &&
-                            npc.Location.X - npc.Waypoints[waypointIndex].X > -k6)
-                        {
-                            npc.Location = new Point2D(npc.Waypoints[waypointIndex].X, npc.Location.Y);
-                        }
-
-                        if (npc.Location.Y < npc.Waypoints[waypointIndex].Y)
-                        {
-                            npc.Location = new Point2D(npc.Location.X, npc.Location.Y + k6);
-                            npc.StepCount++;
-
-                            if (l3 == -1)
-                            {
-                                l3 = 4;
-                            }
-                            else if (l3 == 2)
-                            {
-                                l3 = 3;
-                            }
-                            else
-                            {
-                                l3 = 5;
-                            }
-                        }
-                        else if (npc.Location.Y > npc.Waypoints[waypointIndex].Y)
-                        {
-                            npc.Location = new Point2D(npc.Location.X, npc.Location.Y - k6);
-                            npc.StepCount++;
-
-                            if (l3 == -1)
-                            {
-                                l3 = 0;
-                            }
-                            else if (l3 == 2)
-                            {
-                                l3 = 1;
-                            }
-                            else
-                            {
-                                l3 = 7;
-                            }
-                        }
-
-                        if (npc.Location.Y - npc.Waypoints[waypointIndex].Y < k6 &&
-                            npc.Location.Y - npc.Waypoints[waypointIndex].Y > -k6)
-                        {
-                            npc.Location = new Point2D(npc.Location.X, npc.Waypoints[waypointIndex].Y);
-                        }
-                    }
-                    if (l3 != -1)
-                    {
-                        npc.CurrentSprite = l3;
-                    }
-
-                    if (npc.Location.X == npc.Waypoints[waypointIndex].X &&
-                        npc.Location.Y == npc.Waypoints[waypointIndex].Y)
-                    {
-                        npc.WaypointsEndSprite = (waypointIndex + 1) % 10;
-                    }
-                }
-                else
-                {
-                    npc.CurrentSprite = npc.NextSprite;
-                    if (npc.NpcIdentifier == 43)
-                    {
-                        npc.StepCount++;
-                    }
-                }
-                if (npc.LastMessageTimeout > 0)
-                {
-                    npc.LastMessageTimeout--;
-                }
-
-                if (npc.PlayerSkullTimeout > 0)
-                {
-                    npc.PlayerSkullTimeout--;
-                }
-
-                if (npc.CombatTimer > 0)
-                {
-                    npc.CombatTimer--;
-                }
-            }
-
-            if (drawMenuTab != 2)
-            {
-                if (GraphicsEngine.bnn > 0)
-                {
-                    sleepWordDelayTimer++;
-                }
-
-                if (GraphicsEngine.caa > 0)
-                {
-                    sleepWordDelayTimer = 0;
-                }
-
-                GraphicsEngine.bnn = 0;
-                GraphicsEngine.caa = 0;
-            }
-            for (int k1 = 0; k1 < PlayerCount; k1++)
-            {
-                ClientMob f3 = Players[k1];
-                if (f3.ProjectileDistance > 0)
-                {
-                    f3.ProjectileDistance--;
-                }
-            }
-
-            if (cameraAutoAngleDebug)
-            {
-                if (cameraAutoRotatePlayerX - CurrentPlayer.Location.X < -500 ||
-                    cameraAutoRotatePlayerX - CurrentPlayer.Location.X > 500 ||
-                    cameraAutoRotatePlayerY - CurrentPlayer.Location.Y < -500 ||
-                    cameraAutoRotatePlayerY - CurrentPlayer.Location.Y > 500)
-                {
-                    cameraAutoRotatePlayerX = CurrentPlayer.Location.X;
-                    cameraAutoRotatePlayerY = CurrentPlayer.Location.Y;
+                    return abyte1;
                 }
             }
             else
             {
-                if (cameraAutoRotatePlayerX - CurrentPlayer.Location.X < -500 ||
-                    cameraAutoRotatePlayerX - CurrentPlayer.Location.X > 500 ||
-                    cameraAutoRotatePlayerY - CurrentPlayer.Location.Y < -500 ||
-                    cameraAutoRotatePlayerY - CurrentPlayer.Location.Y > 500)
+                if (OnContentLoaded != null)
                 {
-                    cameraAutoRotatePlayerX = CurrentPlayer.Location.X;
-                    cameraAutoRotatePlayerY = CurrentPlayer.Location.Y;
+                    OnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + arg1, arg2));
                 }
+                return base.unpackData(arg0, arg1, arg2);
+            }
+        }
 
-                if (cameraAutoRotatePlayerX != CurrentPlayer.Location.X)
+        public void drawChatMessageTabs()
+        {
+            gameGraphics.drawPicture(0, windowHeight - 4, baseInventoryPic + 23);
+            int l = GameImage.rgbToInt(200, 200, 255);
+            if (messagesTab == 0)
+                l = GameImage.rgbToInt(255, 200, 50);
+            if (chatTabAllMsgFlash % 30 > 15)
+                l = GameImage.rgbToInt(255, 50, 50);
+            gameGraphics.drawText("All messages", 54, windowHeight + 6, 0, l);
+            l = GameImage.rgbToInt(200, 200, 255);
+            if (messagesTab == 1)
+                l = GameImage.rgbToInt(255, 200, 50);
+            if (chatTabHistoryFlash % 30 > 15)
+                l = GameImage.rgbToInt(255, 50, 50);
+            gameGraphics.drawText("Chat history", 155, windowHeight + 6, 0, l);
+            l = GameImage.rgbToInt(200, 200, 255);
+            if (messagesTab == 2)
+                l = GameImage.rgbToInt(255, 200, 50);
+            if (chatTabQuestFlash % 30 > 15)
+                l = GameImage.rgbToInt(255, 50, 50);
+            gameGraphics.drawText("Quest history", 255, windowHeight + 6, 0, l);
+            l = GameImage.rgbToInt(200, 200, 255);
+            if (messagesTab == 3)
+                l = GameImage.rgbToInt(255, 200, 50);
+            if (chatTabPrivateFlash % 30 > 15)
+                l = GameImage.rgbToInt(255, 50, 50);
+            gameGraphics.drawText("Private history", 355, windowHeight + 6, 0, l);
+            gameGraphics.drawText("Report abuse", 457, windowHeight + 6, 0, 0xffffff);
+        }
+
+        //public URL getDocumentBase() {
+        //    if(Link.gameApplet != null)
+        //        return Link.gameApplet.getDocumentBase();
+        //    else
+        //        return base.getDocumentBase();
+        //}
+
+        private readonly object _sync = new object();
+        public static bool sendingPing = false;
+        public void sendPingPacketAsync()
+        {
+            lock (_sync)
+            {
+                if (sendingPing)
+                    return;
+                sendingPing = true;
+            }
+
+            Task.Run(() =>
+            {
+                try
                 {
-                    cameraAutoRotatePlayerX += (CurrentPlayer.Location.X - cameraAutoRotatePlayerX) / (16 + (cameraDistance - 500) / 15);
+                    sendPingPacket();
                 }
-
-                if (cameraAutoRotatePlayerY != CurrentPlayer.Location.Y)
+                finally
                 {
-                    cameraAutoRotatePlayerY += (CurrentPlayer.Location.Y - cameraAutoRotatePlayerY) / (16 + (cameraDistance - 500) / 15);
+                    lock (_sync)
+                    {
+                        sendingPing = false;
+                    }
+                    OnMyTaskCompleted(new AsyncCompletedEventArgs(null, false, null));
                 }
+            });
+        }
 
-                if (SettingsManager.Instance.CameraAutoAngle)
+        public event AsyncCompletedEventHandler MyTaskCompleted;
+
+        protected virtual void OnMyTaskCompleted(AsyncCompletedEventArgs e)
+        {
+            if (MyTaskCompleted != null)
+                MyTaskCompleted(this, e);
+        }
+
+        public void checkGameInputs()
+        {
+            if (systemUpdate > 1)
+                systemUpdate--;
+
+            sendPingPacketAsync();
+
+
+
+
+            if (logoutTimer > 0)
+                logoutTimer--;
+            if (ourPlayer.currentSprite == 8 || ourPlayer.currentSprite == 9)
+                combatTimeout = 500;
+            if (combatTimeout > 0)
+                combatTimeout--;
+            if (showAppearanceWindow)
+            {
+                updateAppearanceWindow();
+                return;
+            }
+            for (int l = 0; l < playerCount; l++)
+            {
+                ClientMob player = playerArray[l];
+                int j1 = (player.waypointCurrent + 1) % 10;
+                if (player.waypointsEndSprite != j1)
+                {
+                    int direction = -1;
+                    int targetSprite = player.waypointsEndSprite;
+                    int i5;
+                    if (targetSprite < j1)
+                        i5 = j1 - targetSprite;
+                    else
+                        i5 = (10 + j1) - targetSprite;
+                    int i6 = 4;
+                    if (i5 > 2)
+                        i6 = (i5 - 1) * 4;
+                    if (player.waypointsX[targetSprite] - player.currentX > gridSize * 3 || player.waypointsY[targetSprite] - player.currentY > gridSize * 3 || player.waypointsX[targetSprite] - player.currentX < -gridSize * 3 || player.waypointsY[targetSprite] - player.currentY < -gridSize * 3 || i5 > 8)
+                    {
+                        player.currentX = player.waypointsX[targetSprite];
+                        player.currentY = player.waypointsY[targetSprite];
+                    }
+                    else
+                    {
+                        if (player.currentX < player.waypointsX[targetSprite])
+                        {
+                            player.currentX += i6;
+                            player.stepCount++;
+                            direction = 2;
+                        }
+                        else
+                            if (player.currentX > player.waypointsX[targetSprite])
+                            {
+                                player.currentX -= i6;
+                                player.stepCount++;
+                                direction = 6;
+                            }
+                        if (player.currentX - player.waypointsX[targetSprite] < i6 && player.currentX - player.waypointsX[targetSprite] > -i6)
+                            player.currentX = player.waypointsX[targetSprite];
+                        if (player.currentY < player.waypointsY[targetSprite])
+                        {
+                            player.currentY += i6;
+                            player.stepCount++;
+                            if (direction == -1)
+                                direction = 4;
+                            else
+                                if (direction == 2)
+                                    direction = 3;
+                                else
+                                    direction = 5;
+                        }
+                        else
+                            if (player.currentY > player.waypointsY[targetSprite])
+                            {
+                                player.currentY -= i6;
+                                player.stepCount++;
+                                if (direction == -1)
+                                    direction = 0;
+                                else
+                                    if (direction == 2)
+                                        direction = 1;
+                                    else
+                                        direction = 7;
+                            }
+                        if (player.currentY - player.waypointsY[targetSprite] < i6 && player.currentY - player.waypointsY[targetSprite] > -i6)
+                            player.currentY = player.waypointsY[targetSprite];
+                    }
+                    if (direction != -1)
+                        player.currentSprite = direction;
+                    if (player.currentX == player.waypointsX[targetSprite] && player.currentY == player.waypointsY[targetSprite])
+                        player.waypointsEndSprite = (targetSprite + 1) % 10;
+                }
+                else
+                {
+                    player.currentSprite = player.nextSprite;
+                }
+                if (player.lastMessageTimeout > 0)
+                    player.lastMessageTimeout--;
+                if (player.playerSkullTimeout > 0)
+                    player.playerSkullTimeout--;
+                if (player.combatTimer > 0)
+                    player.combatTimer--;
+                if (playerAliveTimeout > 0)
+                {
+                    playerAliveTimeout--;
+                    if (playerAliveTimeout == 0)
+                        displayMessage("You have been granted another life. Be more careful this time!", 3);
+                    if (playerAliveTimeout == 0)
+                        displayMessage("You retain your skills. Your objects land where you died", 3);
+                }
+            }
+
+            for (int i1 = 0; i1 < npcCount; i1++)
+            {
+                ClientMob f2 = npcArray[i1];
+                int i2 = (f2.waypointCurrent + 1) % 10;
+                if (f2.waypointsEndSprite != i2)
+                {
+                    int l3 = -1;
+                    int j5 = f2.waypointsEndSprite;
+                    int j6;
+                    if (j5 < i2)
+                        j6 = i2 - j5;
+                    else
+                        j6 = (10 + i2) - j5;
+                    int k6 = 4;
+                    if (j6 > 2)
+                        k6 = (j6 - 1) * 4;
+                    if (f2.waypointsX[j5] - f2.currentX > gridSize * 3 || f2.waypointsY[j5] - f2.currentY > gridSize * 3 || f2.waypointsX[j5] - f2.currentX < -gridSize * 3 || f2.waypointsY[j5] - f2.currentY < -gridSize * 3 || j6 > 8)
+                    {
+                        f2.currentX = f2.waypointsX[j5];
+                        f2.currentY = f2.waypointsY[j5];
+                    }
+                    else
+                    {
+                        if (f2.currentX < f2.waypointsX[j5])
+                        {
+                            f2.currentX += k6;
+                            f2.stepCount++;
+                            l3 = 2;
+                        }
+                        else
+                            if (f2.currentX > f2.waypointsX[j5])
+                            {
+                                f2.currentX -= k6;
+                                f2.stepCount++;
+                                l3 = 6;
+                            }
+                        if (f2.currentX - f2.waypointsX[j5] < k6 && f2.currentX - f2.waypointsX[j5] > -k6)
+                            f2.currentX = f2.waypointsX[j5];
+                        if (f2.currentY < f2.waypointsY[j5])
+                        {
+                            f2.currentY += k6;
+                            f2.stepCount++;
+                            if (l3 == -1)
+                                l3 = 4;
+                            else
+                                if (l3 == 2)
+                                    l3 = 3;
+                                else
+                                    l3 = 5;
+                        }
+                        else
+                            if (f2.currentY > f2.waypointsY[j5])
+                            {
+                                f2.currentY -= k6;
+                                f2.stepCount++;
+                                if (l3 == -1)
+                                    l3 = 0;
+                                else
+                                    if (l3 == 2)
+                                        l3 = 1;
+                                    else
+                                        l3 = 7;
+                            }
+                        if (f2.currentY - f2.waypointsY[j5] < k6 && f2.currentY - f2.waypointsY[j5] > -k6)
+                            f2.currentY = f2.waypointsY[j5];
+                    }
+                    if (l3 != -1)
+                        f2.currentSprite = l3;
+                    if (f2.currentX == f2.waypointsX[j5] && f2.currentY == f2.waypointsY[j5])
+                        f2.waypointsEndSprite = (j5 + 1) % 10;
+                }
+                else
+                {
+                    f2.currentSprite = f2.nextSprite;
+                    if (f2.npcId == 43)
+                        f2.stepCount++;
+                }
+                if (f2.lastMessageTimeout > 0)
+                    f2.lastMessageTimeout--;
+                if (f2.playerSkullTimeout > 0)
+                    f2.playerSkullTimeout--;
+                if (f2.combatTimer > 0)
+                    f2.combatTimer--;
+            }
+
+            if (drawMenuTab != 2)
+            {
+                if (GameImage.bnn > 0)
+                    sleepWordDelayTimer++;
+                if (GameImage.caa > 0)
+                    sleepWordDelayTimer = 0;
+                GameImage.bnn = 0;
+                GameImage.caa = 0;
+            }
+            for (int k1 = 0; k1 < playerCount; k1++)
+            {
+                ClientMob f3 = playerArray[k1];
+                if (f3.projectileDistance > 0)
+                    f3.projectileDistance--;
+            }
+
+            if (cameraAutoAngleDebug)
+            {
+                if (cameraAutoRotatePlayerX - ourPlayer.currentX < -500 || cameraAutoRotatePlayerX - ourPlayer.currentX > 500 || cameraAutoRotatePlayerY - ourPlayer.currentY < -500 || cameraAutoRotatePlayerY - ourPlayer.currentY > 500)
+                {
+                    cameraAutoRotatePlayerX = ourPlayer.currentX;
+                    cameraAutoRotatePlayerY = ourPlayer.currentY;
+                }
+            }
+            else
+            {
+                if (cameraAutoRotatePlayerX - ourPlayer.currentX < -500 || cameraAutoRotatePlayerX - ourPlayer.currentX > 500 || cameraAutoRotatePlayerY - ourPlayer.currentY < -500 || cameraAutoRotatePlayerY - ourPlayer.currentY > 500)
+                {
+                    cameraAutoRotatePlayerX = ourPlayer.currentX;
+                    cameraAutoRotatePlayerY = ourPlayer.currentY;
+                }
+                if (cameraAutoRotatePlayerX != ourPlayer.currentX)
+                    cameraAutoRotatePlayerX += (ourPlayer.currentX - cameraAutoRotatePlayerX) / (16 + (cameraDistance - 500) / 15);
+                if (cameraAutoRotatePlayerY != ourPlayer.currentY)
+                    cameraAutoRotatePlayerY += (ourPlayer.currentY - cameraAutoRotatePlayerY) / (16 + (cameraDistance - 500) / 15);
+                if (configCameraAutoAngle)
                 {
                     int j2 = cameraAutoAngle * 32;
                     int i4 = j2 - cameraRotation;
                     int byte0 = 1;
-
                     if (i4 != 0)
                     {
                         cameraAutoRotationAmount++;
@@ -3374,22 +5374,22 @@ namespace OpenRS.Net.Client
                             byte0 = -1;
                             i4 = 256 - i4;
                         }
-                        else if (i4 > 0)
-                        {
-                            byte0 = 1;
-                        }
-                        else if (i4 < -128)
-                        {
-                            byte0 = 1;
-                            i4 = 256 + i4;
-                        }
-                        else if (i4 < 0)
-                        {
-                            byte0 = -1;
-                            i4 = -i4;
-                        }
-
-                        cameraRotation += (cameraAutoRotationAmount * i4 + 255) / 256 * byte0;
+                        else
+                            if (i4 > 0)
+                                byte0 = 1;
+                            else
+                                if (i4 < -128)
+                                {
+                                    byte0 = 1;
+                                    i4 = 256 + i4;
+                                }
+                                else
+                                    if (i4 < 0)
+                                    {
+                                        byte0 = -1;
+                                        i4 = -i4;
+                                    }
+                        cameraRotation += ((cameraAutoRotationAmount * i4 + 255) / 256) * byte0;
                         cameraRotation &= 0xff;
                     }
                     else
@@ -3398,187 +5398,206 @@ namespace OpenRS.Net.Client
                     }
                 }
             }
-
             if (sleepWordDelayTimer > 20)
             {
                 sleepWordDelay = false;
                 sleepWordDelayTimer = 0;
             }
-
-            if (IsSleeping)
+            if (isSleeping)
             {
-                if (lastMouseButton == 1 && GameMouseY > 275 && GameMouseY < 310 && InputManager.Instance.MouseLocation.X > 56 && InputManager.Instance.MouseLocation.X < 456)
+                if (base.enteredInputText.Length > 0)
+                    if (base.enteredInputText.ToLower().Equals("::lostcon"))
+                        base.streamClass.closeStream();
+                    else
+                        if (base.enteredInputText.ToLower().Equals("::closecon"))
+                        {
+                            requestLogout();
+                        }
+                        else
+                        {
+                            base.streamClass.createPacket(200);
+                            base.streamClass.addString(base.enteredInputText);
+                            if (!sleepWordDelay)
+                            {
+                                base.streamClass.addByte(0);
+                                sleepWordDelay = true;
+                            }
+                            base.streamClass.formatPacket();
+                            base.inputText = "";
+                            base.enteredInputText = "";
+                            sleepingStatusText = "Please wait...";
+                        }
+                if (base.lastMouseButton == 1 && base.mouseY > 275 && base.mouseY < 310 && base.mouseX > 56 && base.mouseX < 456)
                 {
-                    StreamClass.CreatePacket(200);
-                    StreamClass.AddString("-null-");
-
+                    base.streamClass.createPacket(200);
+                    base.streamClass.addString("-null-");
                     if (!sleepWordDelay)
                     {
-                        StreamClass.AddInt8(0);
+                        base.streamClass.addByte(0);
                         sleepWordDelay = true;
                     }
-
-                    StreamClass.FormatPacket();
+                    base.streamClass.formatPacket();
+                    base.inputText = "";
+                    base.enteredInputText = "";
                     sleepingStatusText = "Please wait...";
                 }
-
-                lastMouseButton = 0;
+                base.lastMouseButton = 0;
                 return;
             }
-
-            if (PlayerAliveTimeout != 0)
+            if (base.mouseY > windowHeight - 4)
             {
-                lastMouseButton = 0;
-            }
-
-            mouseButtonHeldTime = 0;
-
-            if (showTradeBox || showDuelBox)
-            {
-                if (mouseButton != 0)
+                if (base.mouseX > 15 && base.mouseX < 96 && base.lastMouseButton == 1)
+                    messagesTab = 0;
+                if (base.mouseX > 110 && base.mouseX < 194 && base.lastMouseButton == 1)
                 {
-                    mouseButtonHeldTime++;
+                    messagesTab = 1;
+                    chatInputMenu.listShownEntries[messagesHandleType2] = 0xf423f;
+                }
+                if (base.mouseX > 215 && base.mouseX < 295 && base.lastMouseButton == 1)
+                {
+                    messagesTab = 2;
+                    chatInputMenu.listShownEntries[messagesHandleType5] = 0xf423f;
+                }
+                if (base.mouseX > 315 && base.mouseX < 395 && base.lastMouseButton == 1)
+                {
+                    messagesTab = 3;
+                    chatInputMenu.listShownEntries[messagesHandleType6] = 0xf423f;
+                }
+                if (base.mouseX > 417 && base.mouseX < 497 && base.lastMouseButton == 1)
+                {
+                    showAbuseBox = 1;
+                    reportAbuseOptionSelected = 0;
+                    base.inputText = "";
+                    base.enteredInputText = "";
+                }
+                base.lastMouseButton = 0;
+                base.mouseButton = 0;
+            }
+            chatInputMenu.mouseClick(base.mouseX, base.mouseY, base.lastMouseButton, base.mouseButton);
+            if (messagesTab > 0 && base.mouseX >= 494 && base.mouseY >= windowHeight - 66)
+                base.lastMouseButton = 0;
+            if (chatInputMenu.isClicked(chatInputBox))
+            {
+                String input = chatInputMenu.getText(chatInputBox);
+                chatInputMenu.updateText(chatInputBox, "");
+                if (input.StartsWith("::"))
+                {
+                    if (!handleCommand(input.Substring(2)))
+                        sendCommand(input.Substring(2));
                 }
                 else
                 {
-                    mouseButtonHeldTime = 0;
+                    int len = ChatMessage.stringToBytes(input);
+                    sendChatMessage(ChatMessage.lastChat, len);
+                    input = ChatMessage.bytesToString(ChatMessage.lastChat, 0, len);
+                    //if (useChatFilter)
+                    //input = ChatFilter.filterChat(input);
+                    ourPlayer.lastMessageTimeout = 150;
+                    ourPlayer.lastMessage = input;
+                    displayMessage(ourPlayer.username + ": " + input, 2);
                 }
+            }
+            if (messagesTab == 0)
+            {
+                for (int k2 = 0; k2 < 5; k2++)
+                    if (messagesTimeout[k2] > 0)
+                        messagesTimeout[k2]--;
+
+            }
+            if (playerAliveTimeout != 0)
+                base.lastMouseButton = 0;
+            if (showTradeBox || showDuelBox)
+            {
+                if (base.mouseButton != 0)
+                    mouseButtonHeldTime++;
+                else
+                    mouseButtonHeldTime = 0;
+                if (mouseButtonHeldTime > 500)
+                    mouseClickedHeldInTradeDuelBox += 100000;
+                else if (mouseButtonHeldTime > 350)
+                    mouseClickedHeldInTradeDuelBox += 10000;
+                else if (mouseButtonHeldTime > 250)
+                    mouseClickedHeldInTradeDuelBox += 1000;
+                else if (mouseButtonHeldTime > 150)
+                    mouseClickedHeldInTradeDuelBox += 100;
+                else if (mouseButtonHeldTime > 100)
+                    mouseClickedHeldInTradeDuelBox += 10;
+                else if (mouseButtonHeldTime > 50)
+                    mouseClickedHeldInTradeDuelBox++;
+                else if (mouseButtonHeldTime > 20 && (mouseButtonHeldTime & 5) == 0)
+                    mouseClickedHeldInTradeDuelBox++;
             }
             else
             {
                 mouseButtonHeldTime = 0;
                 mouseClickedHeldInTradeDuelBox = 0;
             }
-
-            if (lastMouseButton == 1)
-            {
+            if (base.lastMouseButton == 1)
                 mouseButtonClick = 1;
-            }
-            else if (lastMouseButton == 2)
-            {
+            else if (base.lastMouseButton == 2)
                 mouseButtonClick = 2;
-            }
-
-            gameCamera.setMousePosition(InputManager.Instance.MouseLocation.X, GameMouseY);
-            lastMouseButton = 0;
-
-            for (int msgIdx = 0; msgIdx < 5; msgIdx++)
-            {
-                if (messagesTimeout[msgIdx] > 0)
-                {
-                    messagesTimeout[msgIdx]--;
-                }
-            }
-
-            for (int tbIdx = teleBubbleCount - 1; tbIdx >= 0; tbIdx--)
-            {
-                teleBubbleTime[tbIdx]++;
-                if (teleBubbleTime[tbIdx] > 44)
-                {
-                    teleBubbleCount--;
-                    for (int tbShift = tbIdx; tbShift < teleBubbleCount; tbShift++)
-                    {
-                        teleBubbleX[tbShift] = teleBubbleX[tbShift + 1];
-                        teleBubbleY[tbShift] = teleBubbleY[tbShift + 1];
-                        teleBubbleType[tbShift] = teleBubbleType[tbShift + 1];
-                        teleBubbleTime[tbShift] = teleBubbleTime[tbShift + 1];
-                    }
-                }
-            }
-
-            if (SettingsManager.Instance.CameraAutoAngle)
+            gameCamera.setMousePosition(base.mouseX, base.mouseY);
+            base.lastMouseButton = 0;
+            if (configCameraAutoAngle)
             {
                 if (cameraAutoRotationAmount == 0 || cameraAutoAngleDebug)
                 {
-                    if (InputManager.Instance.IsKeyDown(Keys.Left))
+                    if (base.keyLeftDown)
                     {
                         cameraAutoAngle = cameraAutoAngle + 1 & 7;
-
+                        base.keyLeftDown = false;
                         if (!cameraZoom)
                         {
                             if ((cameraAutoAngle & 1) == 0)
-                            {
                                 cameraAutoAngle = cameraAutoAngle + 1 & 7;
-                            }
-
                             for (int l2 = 0; l2 < 8; l2++)
                             {
                                 if (validCameraAngle(cameraAutoAngle))
-                                {
                                     break;
-                                }
-
                                 cameraAutoAngle = cameraAutoAngle + 1 & 7;
                             }
                         }
                     }
-                    if (InputManager.Instance.IsKeyDown(Keys.Right))
+                    if (base.keyRightDown)
                     {
                         cameraAutoAngle = cameraAutoAngle + 7 & 7;
-
+                        base.keyRightDown = false;
                         if (!cameraZoom)
                         {
                             if ((cameraAutoAngle & 1) == 0)
-                            {
                                 cameraAutoAngle = cameraAutoAngle + 7 & 7;
-                            }
-
                             for (int i3 = 0; i3 < 8; i3++)
                             {
                                 if (validCameraAngle(cameraAutoAngle))
-                                {
                                     break;
-                                }
-
                                 cameraAutoAngle = cameraAutoAngle + 7 & 7;
                             }
                         }
                     }
                 }
             }
-            else if (InputManager.Instance.IsKeyDown(Keys.Left))
-            {
+            else if (base.keyLeftDown)
                 cameraRotation = cameraRotation + 2 & 0xff;
-            }
-            else if (InputManager.Instance.IsKeyDown(Keys.Right))
-            {
+            else if (base.keyRightDown)
                 cameraRotation = cameraRotation - 2 & 0xff;
-            }
-
-            if (InputManager.Instance.IsKeyDown(Keys.Up) && cameraDistance > 550)
-            {
+            if (base.keyUpDown && cameraDistance > 550)
                 cameraDistance -= 4;
-            }
-            else if (InputManager.Instance.IsKeyDown(Keys.Down) && cameraDistance < 1250)
-            {
+            else if (base.keyDownDown && cameraDistance < 1250)
                 cameraDistance += 4;
-            }
-
-            if (SettingsManager.Instance.GraphicsSettings.FogOfWar)
+            if (fogOfWar)
             {
                 if ((cameraZoom && cameraDistance > 550) || cameraDistance > 750)
-                {
                     cameraDistance -= 4;
-                }
-
                 if (!cameraZoom && cameraDistance < 750)
-                {
                     cameraDistance += 4;
-                }
             }
-
             if (actionPictureType > 0)
-            {
                 actionPictureType--;
-            }
-            else if (actionPictureType < 0)
-            {
-                actionPictureType++;
-            }
-
+            else
+                if (actionPictureType < 0)
+                    actionPictureType++;
             gameCamera.updateLightning(17);
             modelUpdatingTimer++;
-
             if (modelUpdatingTimer > 5)
             {
                 modelUpdatingTimer = 0;
@@ -3586,37 +5605,31 @@ namespace OpenRS.Net.Client
                 modelTorchNumber = (modelTorchNumber + 1) % 4;
                 modelClawSpellNumber = (modelClawSpellNumber + 1) % 5;
             }
-
-            for (int objectIndex = 0; objectIndex < ObjectCount; objectIndex++)
+            for (int j3 = 0; j3 < objectCount; j3++)
             {
-                if (ObjectLocations[objectIndex].X >= 0 &&
-                    ObjectLocations[objectIndex].Y >= 0 &&
-                    ObjectLocations[objectIndex].X < 96 &&
-                    ObjectLocations[objectIndex].Y < 96 &&
-                    ObjectType[objectIndex] == 74)
-                {
-                    Point3D off = new(1, 0, 0);
-                    ObjectArray[objectIndex].OffsetMiniPosition(off);
-                }
+                int k4 = objectX[j3];
+                int k5 = objectY[j3];
+                if (k4 >= 0 && k5 >= 0 && k4 < 96 && k5 < 96 && objectType[j3] == 74)
+                    objectArray[j3].offsetMiniPosition(1, 0, 0);
             }
 
-            for (int teleBubbleIndex = 0; teleBubbleIndex < teleBubbleCount; teleBubbleIndex++)
+            for (int l4 = 0; l4 < teleBubbleCount; l4++)
             {
-                teleBubbleTime[teleBubbleIndex]++;
-
-                if (teleBubbleTime[teleBubbleIndex] > 50)
+                teleBubbleTime[l4]++;
+                if (teleBubbleTime[l4] > 50)
                 {
                     teleBubbleCount--;
-
-                    for (int l5 = teleBubbleIndex; l5 < teleBubbleCount; l5++)
+                    for (int l5 = l4; l5 < teleBubbleCount; l5++)
                     {
                         teleBubbleX[l5] = teleBubbleX[l5 + 1];
                         teleBubbleY[l5] = teleBubbleY[l5 + 1];
                         teleBubbleTime[l5] = teleBubbleTime[l5 + 1];
                         teleBubbleType[l5] = teleBubbleType[l5 + 1];
                     }
+
                 }
             }
+
         }
 
         public void createAppearanceWindow()
@@ -3637,13 +5650,13 @@ namespace OpenRS.Net.Client
             appearanceMenu.drawText(l - byte0, i1 + 8, "Type", 1, true);
             appearanceMenu.drawArrow(l - byte0 - 40, i1, Menu.baseScrollPic + 7);
             appearanceHeadLeftArrow = appearanceMenu.createButton(l - byte0 - 40, i1, 20, 20);
-            appearanceMenu.drawArrow(l - byte0 + 40, i1, Menu.baseScrollPic + 6);
-            appearanceHeadRightArrow = appearanceMenu.createButton(l - byte0 + 40, i1, 20, 20);
+            appearanceMenu.drawArrow((l - byte0) + 40, i1, Menu.baseScrollPic + 6);
+            appearanceHeadRightArrow = appearanceMenu.createButton((l - byte0) + 40, i1, 20, 20);
             appearanceMenu.drawCurvedBox(l + byte0, i1, 53, 41);
             appearanceMenu.drawText(l + byte0, i1 - 8, "Hair", 1, true);
             appearanceMenu.drawText(l + byte0, i1 + 8, "Color", 1, true);
-            appearanceMenu.drawArrow(l + byte0 - 40, i1, Menu.baseScrollPic + 7);
-            appearanceHairLeftArrow = appearanceMenu.createButton(l + byte0 - 40, i1, 20, 20);
+            appearanceMenu.drawArrow((l + byte0) - 40, i1, Menu.baseScrollPic + 7);
+            appearanceHairLeftArrow = appearanceMenu.createButton((l + byte0) - 40, i1, 20, 20);
             appearanceMenu.drawArrow(l + byte0 + 40, i1, Menu.baseScrollPic + 6);
             appearanceHairRightArrow = appearanceMenu.createButton(l + byte0 + 40, i1, 20, 20);
             i1 += 50;
@@ -3651,13 +5664,13 @@ namespace OpenRS.Net.Client
             appearanceMenu.drawText(l - byte0, i1, "Gender", 1, true);
             appearanceMenu.drawArrow(l - byte0 - 40, i1, Menu.baseScrollPic + 7);
             appearanceGenderLeftArrow = appearanceMenu.createButton(l - byte0 - 40, i1, 20, 20);
-            appearanceMenu.drawArrow(l - byte0 + 40, i1, Menu.baseScrollPic + 6);
-            appearanceGenderRightArrow = appearanceMenu.createButton(l - byte0 + 40, i1, 20, 20);
+            appearanceMenu.drawArrow((l - byte0) + 40, i1, Menu.baseScrollPic + 6);
+            appearanceGenderRightArrow = appearanceMenu.createButton((l - byte0) + 40, i1, 20, 20);
             appearanceMenu.drawCurvedBox(l + byte0, i1, 53, 41);
             appearanceMenu.drawText(l + byte0, i1 - 8, "Top", 1, true);
             appearanceMenu.drawText(l + byte0, i1 + 8, "Color", 1, true);
-            appearanceMenu.drawArrow(l + byte0 - 40, i1, Menu.baseScrollPic + 7);
-            appearanceTopLeftArrow = appearanceMenu.createButton(l + byte0 - 40, i1, 20, 20);
+            appearanceMenu.drawArrow((l + byte0) - 40, i1, Menu.baseScrollPic + 7);
+            appearanceTopLeftArrow = appearanceMenu.createButton((l + byte0) - 40, i1, 20, 20);
             appearanceMenu.drawArrow(l + byte0 + 40, i1, Menu.baseScrollPic + 6);
             appearanceTopRightArrow = appearanceMenu.createButton(l + byte0 + 40, i1, 20, 20);
             i1 += 50;
@@ -3666,13 +5679,13 @@ namespace OpenRS.Net.Client
             appearanceMenu.drawText(l - byte0, i1 + 8, "Color", 1, true);
             appearanceMenu.drawArrow(l - byte0 - 40, i1, Menu.baseScrollPic + 7);
             appearanceSkinLeftArrow = appearanceMenu.createButton(l - byte0 - 40, i1, 20, 20);
-            appearanceMenu.drawArrow(l - byte0 + 40, i1, Menu.baseScrollPic + 6);
-            appearanceSkingRightArrow = appearanceMenu.createButton(l - byte0 + 40, i1, 20, 20);
+            appearanceMenu.drawArrow((l - byte0) + 40, i1, Menu.baseScrollPic + 6);
+            appearanceSkingRightArrow = appearanceMenu.createButton((l - byte0) + 40, i1, 20, 20);
             appearanceMenu.drawCurvedBox(l + byte0, i1, 53, 41);
             appearanceMenu.drawText(l + byte0, i1 - 8, "Bottom", 1, true);
             appearanceMenu.drawText(l + byte0, i1 + 8, "Color", 1, true);
-            appearanceMenu.drawArrow(l + byte0 - 40, i1, Menu.baseScrollPic + 7);
-            appearanceBottomLeftArrow = appearanceMenu.createButton(l + byte0 - 40, i1, 20, 20);
+            appearanceMenu.drawArrow((l + byte0) - 40, i1, Menu.baseScrollPic + 7);
+            appearanceBottomLeftArrow = appearanceMenu.createButton((l + byte0) - 40, i1, 20, 20);
             appearanceMenu.drawArrow(l + byte0 + 40, i1, Menu.baseScrollPic + 6);
             appearanceBottomRightArrow = appearanceMenu.createButton(l + byte0 + 40, i1, 20, 20);
             i1 += 82;
@@ -3682,397 +5695,459 @@ namespace OpenRS.Net.Client
             appearanceAcceptButton = appearanceMenu.createButton(l, i1, 200, 30);
         }
 
-        public override void HandleKeyDown(Keys key, char c)
+        public override void handleKeyDown(Keys key, char c)
         {
-            if (key == Keys.Left || key == Keys.Right || key == Keys.Up || key == Keys.Down)
-            {
-                return;
-            }
+            if (key == Keys.Left || key == Keys.Right || key == Keys.Up || key == Keys.Down) return;
 
+            if (!loggedIn)
+            {
+                if (loginScreen == 0 && loginMenuFirst != null)
+                    loginMenuFirst.keyPress(key, c);
+                if (loginScreen == 1 && loginNewUser != null)
+                    loginNewUser.keyPress(key, c);
+                if (loginScreen == 2 && loginMenuLogin != null)
+                    loginMenuLogin.keyPress(key, c);
+            }
             if (loggedIn)
             {
-                if (ShowAppearanceWindow && appearanceMenu is not null)
-                {
+                if (key == Keys.F12)
+                    takeScreenshot(true);
+                else if (showAppearanceWindow && appearanceMenu != null)
                     appearanceMenu.keyPress(key, c);
-                }
+                else if (showFriendsBox == 0 && showAbuseBox == 0 && !isSleeping && chatInputMenu != null)
+                    chatInputMenu.keyPress(key, c);
             }
         }
 
         public void generateWorldRightClickMenu()
         {
-            int l = 2203 - (SectionLocation.Y + WildLocation.Y + AreaLocation.Y);
-            if (SectionLocation.X + WildLocation.X + AreaLocation.X >= 2640)
-            {
-            }
-
+            int l = 2203 - (sectionY + wildY + areaY);
+            if (sectionX + wildX + areaX >= 2640)
+                l = -50;
             int ground = -1;
-            for (int j1 = 0; j1 < ObjectCount; j1++)
-            {
+            for (int j1 = 0; j1 < objectCount; j1++)
                 objectAlreadyInMenu[j1] = false;
-            }
 
-            for (int k1 = 0; k1 < WallObjectCount; k1++)
-            {
-                WallObjectAlreadyInMenu[k1] = false;
-            }
+            for (int k1 = 0; k1 < wallObjectCount; k1++)
+                wallObjectAlreadyInMenu[k1] = false;
 
             int optionCount = gameCamera.getOptionCount();
-            ObjectModel[] objects = gameCamera.getHighlightedObjects();
+            GameObject[] objects = gameCamera.getHighlightedObjects();
             int[] players = gameCamera.getHighlightedPlayers();
             for (int i2 = 0; i2 < optionCount; i2++)
             {
                 if (menuOptionsCount > 200)
-                {
                     break;
-                }
-
                 int player = players[i2];
-                ObjectModel _obj = objects[i2];
-
+                GameObject _obj = objects[i2];
                 if (_obj.entityType[player] <= 65535 || _obj.entityType[player] >= 0x30d40 && _obj.entityType[player] <= 0x493e0)
-                {
                     if (_obj == gameCamera.highlightedObject)
                     {
                         int index = _obj.entityType[player] % 10000;
                         int type = _obj.entityType[player] / 10000;
-
-                        if (type == 2)
+                        if (type == 1)
                         {
+                            String s1 = "";
+                            int k4 = 0;
+                            if (ourPlayer.level > 0 && playerArray[index].level > 0)
+                                k4 = ourPlayer.level - playerArray[index].level;
+                            if (k4 < 0)
+                                s1 = "@or1@";
+                            if (k4 < -3)
+                                s1 = "@or2@";
+                            if (k4 < -6)
+                                s1 = "@or3@";
+                            if (k4 < -9)
+                                s1 = "@red@";
+                            if (k4 > 0)
+                                s1 = "@gr1@";
+                            if (k4 > 3)
+                                s1 = "@gr2@";
+                            if (k4 > 6)
+                                s1 = "@gr3@";
+                            if (k4 > 9)
+                                s1 = "@gre@";
+                            s1 = " " + s1 + "(level-" + playerArray[index].level + ")";
                             if (selectedSpell >= 0)
                             {
-                                if (entityManager.GetSpell(selectedSpell).Type == 3)
+                                if (Data.Data.spellType[selectedSpell] == 1 || Data.Data.spellType[selectedSpell] == 2)
                                 {
-                                    menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on";
-                                    menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(GroundItemId[index]).Name;
-                                    menuActions[menuOptionsCount] = MenuAction.CastSpellOnGroundItem;
-                                    MenuActionLocations[menuOptionsCount] = GroundItemLocations[index];
-                                    menuActionType[menuOptionsCount] = GroundItemId[index];
+                                    menuText1[menuOptionsCount] = "Cast " + Data.Data.spellName[selectedSpell] + " on";
+                                    menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
+                                    menuActionID[menuOptionsCount] = 800;
+                                    menuActionX[menuOptionsCount] = playerArray[index].currentX;
+                                    menuActionY[menuOptionsCount] = playerArray[index].currentY;
+                                    menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
                                     menuActionVar1[menuOptionsCount] = selectedSpell;
                                     menuOptionsCount++;
                                 }
                             }
                             else
                                 if (selectedItem >= 0)
-                            {
-                                menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                                menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(GroundItemId[index]).Name;
-                                menuActions[menuOptionsCount] = MenuAction.UseItemWithGroundItem;
-                                MenuActionLocations[menuOptionsCount] = GroundItemLocations[index];
-                                menuActionType[menuOptionsCount] = GroundItemId[index];
-                                menuActionVar1[menuOptionsCount] = selectedItem;
-                                menuOptionsCount++;
-                            }
-                            else
-                            {
-                                menuText1[menuOptionsCount] = "Take";
-                                menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(GroundItemId[index]).Name;
-                                menuActions[menuOptionsCount] = MenuAction.TakeItem;
-                                MenuActionLocations[menuOptionsCount] = GroundItemLocations[index];
-                                menuActionType[menuOptionsCount] = GroundItemId[index];
-                                menuOptionsCount++;
-                                menuText1[menuOptionsCount] = "Examine";
-                                menuText2[menuOptionsCount] = "@lre@" + entityManager.GetItem(GroundItemId[index]).Name;
-                                menuActions[menuOptionsCount] = MenuAction.ExamineGroundItem;
-                                menuActionType[menuOptionsCount] = GroundItemId[index];
-                                menuOptionsCount++;
-                            }
-                        }
-                        else if (type == 3)
-                        {
-                            string s2 = string.Empty;
-                            int l4 = -1;
-                            int id = Npcs[index].NpcIdentifier;
-                            if (entityManager.GetNpc(id).IsAttackable > 0)
-                            {
-                                int j5 = (entityManager.GetNpc(id).AttackLevel + entityManager.GetNpc(id).DefenceLevel + entityManager.GetNpc(id).StrengthLevel + entityManager.GetNpc(id).HealthLevel) / 4;
-                                int k5 = (Skills[0].BaseLevel + Skills[1].BaseLevel + Skills[2].BaseLevel + Skills[3].BaseLevel + 27) / 4;
-                                l4 = k5 - j5;
-                                s2 = "@yel@";
-                                if (l4 < 0)
                                 {
-                                    s2 = "@or1@";
-                                }
-
-                                if (l4 < -3)
-                                {
-                                    s2 = "@or2@";
-                                }
-
-                                if (l4 < -6)
-                                {
-                                    s2 = "@or3@";
-                                }
-
-                                if (l4 < -9)
-                                {
-                                    s2 = "@red@";
-                                }
-
-                                if (l4 > 0)
-                                {
-                                    s2 = "@gr1@";
-                                }
-
-                                if (l4 > 3)
-                                {
-                                    s2 = "@gr2@";
-                                }
-
-                                if (l4 > 6)
-                                {
-                                    s2 = "@gr3@";
-                                }
-
-                                if (l4 > 9)
-                                {
-                                    s2 = "@gre@";
-                                }
-
-                                s2 = " " + s2 + "(level-" + j5 + ")";
-                            }
-
-                            if (selectedSpell >= 0)
-                            {
-                                if (entityManager.GetSpell(selectedSpell).Type == 2)
-                                {
-                                    menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on";
-                                    menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].NpcIdentifier).Name;
-                                    menuActions[menuOptionsCount] = MenuAction.CastSpellOnNpc;
-                                    MenuActionLocations[menuOptionsCount] = Npcs[index].Location;
-                                    menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
-                                    menuActionVar1[menuOptionsCount] = selectedSpell;
+                                    menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
+                                    menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
+                                    menuActionID[menuOptionsCount] = 810;
+                                    menuActionX[menuOptionsCount] = playerArray[index].currentX;
+                                    menuActionY[menuOptionsCount] = playerArray[index].currentY;
+                                    menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
+                                    menuActionVar1[menuOptionsCount] = selectedItem;
                                     menuOptionsCount++;
                                 }
-                            }
-                            else if (selectedItem >= 0)
-                            {
-                                menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                                menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].NpcIdentifier).Name;
-                                menuActions[menuOptionsCount] = MenuAction.UseItemWithNpc;
-                                MenuActionLocations[menuOptionsCount] = Npcs[index].Location;
-                                menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
-                                menuActionVar1[menuOptionsCount] = selectedItem;
-                                menuOptionsCount++;
-                            }
-                            else
-                            {
-                                if (entityManager.GetNpc(id).IsAttackable > 0)
+                                else
                                 {
-                                    menuText1[menuOptionsCount] = "Attack";
-                                    menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].NpcIdentifier).Name + s2;
-                                    if (l4 >= 0)
+                                    if (l > 0 && (playerArray[index].currentY - 64) / gridSize + wildY + areaY < 2203)
                                     {
-                                        menuActions[menuOptionsCount] = MenuAction.AttackNpc;
+                                        menuText1[menuOptionsCount] = "Attack";
+                                        menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
+                                        if (k4 >= 0 && k4 < 5)
+                                            menuActionID[menuOptionsCount] = 805;
+                                        else
+                                            menuActionID[menuOptionsCount] = 2805;
+                                        menuActionX[menuOptionsCount] = playerArray[index].currentX;
+                                        menuActionY[menuOptionsCount] = playerArray[index].currentY;
+                                        menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
+                                        menuOptionsCount++;
+                                    }
+                                    else
+                                        if (Config.MEMBERS_FEATURES)
+                                        {
+                                            menuText1[menuOptionsCount] = "Duel with";
+                                            menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
+                                            menuActionX[menuOptionsCount] = playerArray[index].currentX;
+                                            menuActionY[menuOptionsCount] = playerArray[index].currentY;
+                                            menuActionID[menuOptionsCount] = 2806;
+                                            menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
+                                            menuOptionsCount++;
+                                        }
+                                    menuText1[menuOptionsCount] = "Trade with";
+                                    menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
+                                    menuActionID[menuOptionsCount] = 2810;
+                                    menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
+                                    menuOptionsCount++;
+                                    menuText1[menuOptionsCount] = "Follow";
+                                    menuText2[menuOptionsCount] = "@whi@" + playerArray[index].username + s1;
+                                    menuActionID[menuOptionsCount] = 2820;
+                                    menuActionType[menuOptionsCount] = playerArray[index].serverIndex;
+                                    menuOptionsCount++;
+                                }
+                        }
+                        else
+                            if (type == 2)
+                            {
+                                if (selectedSpell >= 0)
+                                {
+                                    if (Data.Data.spellType[selectedSpell] == 3)
+                                    {
+                                        menuText1[menuOptionsCount] = "Cast " + Data.Data.spellName[selectedSpell] + " on";
+                                        menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[groundItemID[index]];
+                                        menuActionID[menuOptionsCount] = 200;
+                                        menuActionX[menuOptionsCount] = groundItemX[index];
+                                        menuActionY[menuOptionsCount] = groundItemY[index];
+                                        menuActionType[menuOptionsCount] = groundItemID[index];
+                                        menuActionVar1[menuOptionsCount] = selectedSpell;
+                                        menuOptionsCount++;
+                                    }
+                                }
+                                else
+                                    if (selectedItem >= 0)
+                                    {
+                                        menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
+                                        menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[groundItemID[index]];
+                                        menuActionID[menuOptionsCount] = 210;
+                                        menuActionX[menuOptionsCount] = groundItemX[index];
+                                        menuActionY[menuOptionsCount] = groundItemY[index];
+                                        menuActionType[menuOptionsCount] = groundItemID[index];
+                                        menuActionVar1[menuOptionsCount] = selectedItem;
+                                        menuOptionsCount++;
                                     }
                                     else
                                     {
-                                        menuActions[menuOptionsCount] = MenuAction.AttackNpc2;
+                                        menuText1[menuOptionsCount] = "Take";
+                                        menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[groundItemID[index]];
+                                        menuActionID[menuOptionsCount] = 220;
+                                        menuActionX[menuOptionsCount] = groundItemX[index];
+                                        menuActionY[menuOptionsCount] = groundItemY[index];
+                                        menuActionType[menuOptionsCount] = groundItemID[index];
+                                        menuOptionsCount++;
+                                        menuText1[menuOptionsCount] = "Examine";
+                                        menuText2[menuOptionsCount] = "@lre@" + Data.Data.itemName[groundItemID[index]];
+                                        menuActionID[menuOptionsCount] = 3200;
+                                        menuActionType[menuOptionsCount] = groundItemID[index];
+                                        menuOptionsCount++;
                                     }
-
-                                    MenuActionLocations[menuOptionsCount] = Npcs[index].Location;
-                                    menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
-                                    menuOptionsCount++;
-                                }
-
-                                menuText1[menuOptionsCount] = "Talk-to";
-                                menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].NpcIdentifier).Name;
-                                menuActions[menuOptionsCount] = MenuAction.TalkToNpc;
-                                MenuActionLocations[menuOptionsCount] = Npcs[index].Location;
-                                menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
-                                menuOptionsCount++;
-
-                                if (!entityManager.GetNpc(id).Command.Equals(""))
-                                {
-                                    menuText1[menuOptionsCount] = entityManager.GetNpc(id).Command;
-                                    menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].NpcIdentifier).Name;
-                                    menuActions[menuOptionsCount] = MenuAction.CommandOnNpc;
-                                    MenuActionLocations[menuOptionsCount] = Npcs[index].Location;
-                                    menuActionType[menuOptionsCount] = Npcs[index].ServerIndex;
-                                    menuOptionsCount++;
-                                }
-
-                                menuText1[menuOptionsCount] = "Examine";
-                                menuText2[menuOptionsCount] = "@yel@" + entityManager.GetNpc(Npcs[index].NpcIdentifier).Name;
-                                menuActions[menuOptionsCount] = MenuAction.ExamineNpc;
-                                menuActionType[menuOptionsCount] = Npcs[index].NpcIdentifier;
-                                menuOptionsCount++;
-                            }
-                        }
-                    }
-                    else if (_obj is not null && _obj.index >= 10000)
-                    {
-                        int wallObjectIndex = _obj.index - 10000;
-                        int i4 = WallObjectId[wallObjectIndex];
-
-                        if (!WallObjectAlreadyInMenu[wallObjectIndex])
-                        {
-                            if (selectedSpell >= 0)
-                            {
-                                if (entityManager.GetSpell(selectedSpell).Type == 4)
-                                {
-                                    menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on";
-                                    menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWallObject(i4).Name;
-                                    menuActions[menuOptionsCount] = MenuAction.CastSpellOnWallObject;
-                                    MenuActionLocations[menuOptionsCount] = WallObjectLocations[wallObjectIndex];
-                                    menuActionType[menuOptionsCount] = WallObjectDirection[wallObjectIndex];
-                                    menuActionVar1[menuOptionsCount] = selectedSpell;
-                                    menuOptionsCount++;
-                                }
-                            }
-                            else if (selectedItem >= 0)
-                            {
-                                menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                                menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWallObject(i4).Name;
-                                menuActions[menuOptionsCount] = MenuAction.UseItemWithWallObject;
-                                MenuActionLocations[menuOptionsCount] = WallObjectLocations[wallObjectIndex];
-                                menuActionType[menuOptionsCount] = WallObjectDirection[wallObjectIndex];
-                                menuActionVar1[menuOptionsCount] = selectedItem;
-                                menuOptionsCount++;
                             }
                             else
-                            {
-                                if (!entityManager.GetWallObject(i4).Command1.ToLower().Equals("WalkTo"))
+                                if (type == 3)
                                 {
-                                    menuText1[menuOptionsCount] = entityManager.GetWallObject(i4).Command1;
-                                    menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWallObject(i4).Name;
-                                    menuActions[menuOptionsCount] = MenuAction.Command1OnWallObject;
-                                    MenuActionLocations[menuOptionsCount] = WallObjectLocations[wallObjectIndex];
-                                    menuActionType[menuOptionsCount] = WallObjectDirection[wallObjectIndex];
-                                    menuOptionsCount++;
+                                    String s2 = "";
+                                    int l4 = -1;
+                                    int id = npcArray[index].npcId;
+                                    if (Data.Data.npcAttackable[id] > 0)
+                                    {
+                                        int j5 = (Data.Data.npcAttack[id] + Data.Data.npcDefense[id] + Data.Data.npcStrength[id] + Data.Data.npcHits[id]) / 4;
+                                        int k5 = (playerStatBase[0] + playerStatBase[1] + playerStatBase[2] + playerStatBase[3] + 27) / 4;
+                                        l4 = k5 - j5;
+                                        s2 = "@yel@";
+                                        if (l4 < 0)
+                                            s2 = "@or1@";
+                                        if (l4 < -3)
+                                            s2 = "@or2@";
+                                        if (l4 < -6)
+                                            s2 = "@or3@";
+                                        if (l4 < -9)
+                                            s2 = "@red@";
+                                        if (l4 > 0)
+                                            s2 = "@gr1@";
+                                        if (l4 > 3)
+                                            s2 = "@gr2@";
+                                        if (l4 > 6)
+                                            s2 = "@gr3@";
+                                        if (l4 > 9)
+                                            s2 = "@gre@";
+                                        s2 = " " + s2 + "(level-" + j5 + ")";
+                                    }
+                                    if (selectedSpell >= 0)
+                                    {
+                                        if (Data.Data.spellType[selectedSpell] == 2)
+                                        {
+                                            menuText1[menuOptionsCount] = "Cast " + Data.Data.spellName[selectedSpell] + " on";
+                                            menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId];
+                                            menuActionID[menuOptionsCount] = 700;
+                                            menuActionX[menuOptionsCount] = npcArray[index].currentX;
+                                            menuActionY[menuOptionsCount] = npcArray[index].currentY;
+                                            menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
+                                            menuActionVar1[menuOptionsCount] = selectedSpell;
+                                            menuOptionsCount++;
+                                        }
+                                    }
+                                    else
+                                        if (selectedItem >= 0)
+                                        {
+                                            menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
+                                            menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId];
+                                            menuActionID[menuOptionsCount] = 710;
+                                            menuActionX[menuOptionsCount] = npcArray[index].currentX;
+                                            menuActionY[menuOptionsCount] = npcArray[index].currentY;
+                                            menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
+                                            menuActionVar1[menuOptionsCount] = selectedItem;
+                                            menuOptionsCount++;
+                                        }
+                                        else
+                                        {
+                                            if (Data.Data.npcAttackable[id] > 0)
+                                            {
+                                                menuText1[menuOptionsCount] = "Attack";
+                                                menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId] + s2;
+                                                if (l4 >= 0)
+                                                    menuActionID[menuOptionsCount] = 715;
+                                                else
+                                                    menuActionID[menuOptionsCount] = 2715;
+                                                menuActionX[menuOptionsCount] = npcArray[index].currentX;
+                                                menuActionY[menuOptionsCount] = npcArray[index].currentY;
+                                                menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
+                                                menuOptionsCount++;
+                                            }
+                                            menuText1[menuOptionsCount] = "Talk-to";
+                                            menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId];
+                                            menuActionID[menuOptionsCount] = 720;
+                                            menuActionX[menuOptionsCount] = npcArray[index].currentX;
+                                            menuActionY[menuOptionsCount] = npcArray[index].currentY;
+                                            menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
+                                            menuOptionsCount++;
+                                            if (!Data.Data.npcCommand[id].Equals(""))
+                                            {
+                                                menuText1[menuOptionsCount] = Data.Data.npcCommand[id];
+                                                menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId];
+                                                menuActionID[menuOptionsCount] = 725;
+                                                menuActionX[menuOptionsCount] = npcArray[index].currentX;
+                                                menuActionY[menuOptionsCount] = npcArray[index].currentY;
+                                                menuActionType[menuOptionsCount] = npcArray[index].serverIndex;
+                                                menuOptionsCount++;
+                                            }
+                                            menuText1[menuOptionsCount] = "Examine";
+                                            menuText2[menuOptionsCount] = "@yel@" + Data.Data.npcName[npcArray[index].npcId];
+                                            menuActionID[menuOptionsCount] = 3700;
+                                            menuActionType[menuOptionsCount] = npcArray[index].npcId;
+                                            menuOptionsCount++;
+                                        }
                                 }
-
-                                if (!entityManager.GetWallObject(i4).Command2.ToLower().Equals("Examine"))
-                                {
-                                    menuText1[menuOptionsCount] = entityManager.GetWallObject(i4).Command2;
-                                    menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWallObject(i4).Name;
-                                    menuActions[menuOptionsCount] = MenuAction.Command2OnWallObject;
-                                    MenuActionLocations[menuOptionsCount] = WallObjectLocations[wallObjectIndex];
-                                    menuActionType[menuOptionsCount] = WallObjectDirection[wallObjectIndex];
-                                    menuOptionsCount++;
-                                }
-
-                                menuText1[menuOptionsCount] = "Examine";
-                                menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWallObject(i4).Name;
-                                menuActions[menuOptionsCount] = MenuAction.ExamineWallObject;
-                                menuActionType[menuOptionsCount] = i4;
-                                menuOptionsCount++;
-                            }
-                            WallObjectAlreadyInMenu[wallObjectIndex] = true;
-                        }
-                    }
-                    else if (_obj is not null && _obj.index >= 0)
-                    {
-                        int objectLocation = _obj.index;
-                        int j4 = ObjectType[objectLocation];
-
-                        if (!objectAlreadyInMenu[objectLocation])
-                        {
-                            if (selectedSpell >= 0)
-                            {
-                                if (entityManager.GetSpell(selectedSpell).Type == 5)
-                                {
-                                    menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on";
-                                    menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWorldObject(j4).Name;
-                                    menuActions[menuOptionsCount] = MenuAction.CastSpellOnModel;
-                                    MenuActionLocations[menuOptionsCount] = ObjectLocations[objectLocation];
-                                    menuActionType[menuOptionsCount] = ObjectRotation[objectLocation];
-                                    menuActionVar1[menuOptionsCount] = ObjectType[objectLocation];
-                                    menuActionVar2[menuOptionsCount] = selectedSpell;
-                                    menuOptionsCount++;
-                                }
-                            }
-                            else if (selectedItem >= 0)
-                            {
-                                menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
-                                menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWorldObject(j4).Name;
-                                menuActions[menuOptionsCount] = MenuAction.UseItemWithModel;
-                                MenuActionLocations[menuOptionsCount] = ObjectLocations[objectLocation];
-                                menuActionType[menuOptionsCount] = ObjectRotation[objectLocation];
-                                menuActionVar1[menuOptionsCount] = ObjectType[objectLocation];
-                                menuActionVar2[menuOptionsCount] = selectedItem;
-                                menuOptionsCount++;
-                            }
-                            else
-                            {
-                                if (!entityManager.GetWorldObject(j4).Command1.ToLower().Equals("WalkTo"))
-                                {
-                                    menuText1[menuOptionsCount] = entityManager.GetWorldObject(j4).Command1;
-                                    menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWorldObject(j4).Name;
-                                    menuActions[menuOptionsCount] = MenuAction.Command1OnModel;
-                                    MenuActionLocations[menuOptionsCount] = ObjectLocations[objectLocation];
-                                    menuActionType[menuOptionsCount] = ObjectRotation[objectLocation];
-                                    menuActionVar1[menuOptionsCount] = ObjectType[objectLocation];
-                                    menuOptionsCount++;
-                                }
-
-                                if (!entityManager.GetWorldObject(j4).Command2.ToLower().Equals("Examine"))
-                                {
-                                    menuText1[menuOptionsCount] = entityManager.GetWorldObject(j4).Command2;
-                                    menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWorldObject(j4).Name;
-                                    menuActions[menuOptionsCount] = MenuAction.Command2OnModel;
-                                    MenuActionLocations[menuOptionsCount] = ObjectLocations[objectLocation];
-                                    menuActionType[menuOptionsCount] = ObjectRotation[objectLocation];
-                                    menuActionVar1[menuOptionsCount] = ObjectType[objectLocation];
-                                    menuOptionsCount++;
-                                }
-
-                                menuText1[menuOptionsCount] = "Examine";
-                                menuText2[menuOptionsCount] = "@cya@" + entityManager.GetWorldObject(j4).Name;
-                                menuActions[menuOptionsCount] = MenuAction.ExamineModel;
-                                menuActionType[menuOptionsCount] = j4;
-                                menuOptionsCount++;
-                            }
-
-                            objectAlreadyInMenu[objectLocation] = true;
-                        }
                     }
                     else
-                    {
-                        if (player >= 0)
+                        if (_obj != null && _obj.index >= 10000)
                         {
-                            player = _obj.entityType[player] - 0x30d40;
+                            int j3 = _obj.index - 10000;
+                            int i4 = wallObjectID[j3];
+                            if (!wallObjectAlreadyInMenu[j3])
+                            {
+                                if (selectedSpell >= 0)
+                                {
+                                    if (Data.Data.spellType[selectedSpell] == 4)
+                                    {
+                                        menuText1[menuOptionsCount] = "Cast " + Data.Data.spellName[selectedSpell] + " on";
+                                        menuText2[menuOptionsCount] = "@cya@" + Data.Data.wallObjectName[i4];
+                                        menuActionID[menuOptionsCount] = 300;
+                                        menuActionX[menuOptionsCount] = wallObjectX[j3];
+                                        menuActionY[menuOptionsCount] = wallObjectY[j3];
+                                        menuActionType[menuOptionsCount] = wallObjectDirection[j3];
+                                        menuActionVar1[menuOptionsCount] = selectedSpell;
+                                        menuOptionsCount++;
+                                    }
+                                }
+                                else
+                                    if (selectedItem >= 0)
+                                    {
+                                        menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
+                                        menuText2[menuOptionsCount] = "@cya@" + Data.Data.wallObjectName[i4];
+                                        menuActionID[menuOptionsCount] = 310;
+                                        menuActionX[menuOptionsCount] = wallObjectX[j3];
+                                        menuActionY[menuOptionsCount] = wallObjectY[j3];
+                                        menuActionType[menuOptionsCount] = wallObjectDirection[j3];
+                                        menuActionVar1[menuOptionsCount] = selectedItem;
+                                        menuOptionsCount++;
+                                    }
+                                    else
+                                    {
+                                        if (!Data.Data.wallObjectCommand1[i4].ToLower().Equals("WalkTo"))
+                                        {
+                                            menuText1[menuOptionsCount] = Data.Data.wallObjectCommand1[i4];
+                                            menuText2[menuOptionsCount] = "@cya@" + Data.Data.wallObjectName[i4];
+                                            menuActionID[menuOptionsCount] = 320;
+                                            menuActionX[menuOptionsCount] = wallObjectX[j3];
+                                            menuActionY[menuOptionsCount] = wallObjectY[j3];
+                                            menuActionType[menuOptionsCount] = wallObjectDirection[j3];
+                                            menuOptionsCount++;
+                                        }
+                                        if (!Data.Data.wallObjectCommand2[i4].ToLower().Equals("Examine"))
+                                        {
+                                            menuText1[menuOptionsCount] = Data.Data.wallObjectCommand2[i4];
+                                            menuText2[menuOptionsCount] = "@cya@" + Data.Data.wallObjectName[i4];
+                                            menuActionID[menuOptionsCount] = 2300;
+                                            menuActionX[menuOptionsCount] = wallObjectX[j3];
+                                            menuActionY[menuOptionsCount] = wallObjectY[j3];
+                                            menuActionType[menuOptionsCount] = wallObjectDirection[j3];
+                                            menuOptionsCount++;
+                                        }
+                                        menuText1[menuOptionsCount] = "Examine";
+                                        menuText2[menuOptionsCount] = "@cya@" + Data.Data.wallObjectName[i4];
+                                        menuActionID[menuOptionsCount] = 3300;
+                                        menuActionType[menuOptionsCount] = i4;
+                                        menuOptionsCount++;
+                                    }
+                                wallObjectAlreadyInMenu[j3] = true;
+                            }
                         }
-
-                        if (player >= 0)
-                        {
-                            ground = player;
-                        }
-                    }
-                }
+                        else
+                            if (_obj != null && _obj.index >= 0)
+                            {
+                                int k3 = _obj.index;
+                                int j4 = objectType[k3];
+                                if (!objectAlreadyInMenu[k3])
+                                {
+                                    if (selectedSpell >= 0)
+                                    {
+                                        if (Data.Data.spellType[selectedSpell] == 5)
+                                        {
+                                            menuText1[menuOptionsCount] = "Cast " + Data.Data.spellName[selectedSpell] + " on";
+                                            menuText2[menuOptionsCount] = "@cya@" + Data.Data.objectName[j4];
+                                            menuActionID[menuOptionsCount] = 400;
+                                            menuActionX[menuOptionsCount] = objectX[k3];
+                                            menuActionY[menuOptionsCount] = objectY[k3];
+                                            menuActionType[menuOptionsCount] = objectRotation[k3];
+                                            menuActionVar1[menuOptionsCount] = objectType[k3];
+                                            menuActionVar2[menuOptionsCount] = selectedSpell;
+                                            menuOptionsCount++;
+                                        }
+                                    }
+                                    else
+                                        if (selectedItem >= 0)
+                                        {
+                                            menuText1[menuOptionsCount] = "Use " + selectedItemName + " with";
+                                            menuText2[menuOptionsCount] = "@cya@" + Data.Data.objectName[j4];
+                                            menuActionID[menuOptionsCount] = 410;
+                                            menuActionX[menuOptionsCount] = objectX[k3];
+                                            menuActionY[menuOptionsCount] = objectY[k3];
+                                            menuActionType[menuOptionsCount] = objectRotation[k3];
+                                            menuActionVar1[menuOptionsCount] = objectType[k3];
+                                            menuActionVar2[menuOptionsCount] = selectedItem;
+                                            menuOptionsCount++;
+                                        }
+                                        else
+                                        {
+                                            if (!Data.Data.objectCommand1[j4].ToLower().Equals("WalkTo"))
+                                            {
+                                                menuText1[menuOptionsCount] = Data.Data.objectCommand1[j4];
+                                                menuText2[menuOptionsCount] = "@cya@" + Data.Data.objectName[j4];
+                                                menuActionID[menuOptionsCount] = 420;
+                                                menuActionX[menuOptionsCount] = objectX[k3];
+                                                menuActionY[menuOptionsCount] = objectY[k3];
+                                                menuActionType[menuOptionsCount] = objectRotation[k3];
+                                                menuActionVar1[menuOptionsCount] = objectType[k3];
+                                                menuOptionsCount++;
+                                            }
+                                            if (!Data.Data.objectCommand2[j4].ToLower().Equals("Examine"))
+                                            {
+                                                menuText1[menuOptionsCount] = Data.Data.objectCommand2[j4];
+                                                menuText2[menuOptionsCount] = "@cya@" + Data.Data.objectName[j4];
+                                                menuActionID[menuOptionsCount] = 2400;
+                                                menuActionX[menuOptionsCount] = objectX[k3];
+                                                menuActionY[menuOptionsCount] = objectY[k3];
+                                                menuActionType[menuOptionsCount] = objectRotation[k3];
+                                                menuActionVar1[menuOptionsCount] = objectType[k3];
+                                                menuOptionsCount++;
+                                            }
+                                            menuText1[menuOptionsCount] = "Examine";
+                                            menuText2[menuOptionsCount] = "@cya@" + Data.Data.objectName[j4];
+                                            menuActionID[menuOptionsCount] = 3400;
+                                            menuActionType[menuOptionsCount] = j4;
+                                            menuOptionsCount++;
+                                        }
+                                    objectAlreadyInMenu[k3] = true;
+                                }
+                            }
+                            else
+                            {
+                                if (player >= 0)
+                                    player = _obj.entityType[player] - 0x30d40;
+                                if (player >= 0)
+                                    ground = player;
+                            }
             }
 
-            if (selectedSpell >= 0 && entityManager.GetSpell(selectedSpell).Type <= 1)
+            if (selectedSpell >= 0 && Data.Data.spellType[selectedSpell] <= 1)
             {
-                menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on self";
-                menuText2[menuOptionsCount] = string.Empty;
-                menuActions[menuOptionsCount] = MenuAction.CastSpellOnSelf;
+                menuText1[menuOptionsCount] = "Cast " + Data.Data.spellName[selectedSpell] + " on self";
+                menuText2[menuOptionsCount] = "";
+                menuActionID[menuOptionsCount] = 1000;
                 menuActionType[menuOptionsCount] = selectedSpell;
                 menuOptionsCount++;
             }
-
             if (ground != -1)
             {
                 if (selectedSpell >= 0)
                 {
-                    if (entityManager.GetSpell(selectedSpell).Type == 6)
+                    if (Data.Data.spellType[selectedSpell] == 6)
                     {
-                        menuText1[menuOptionsCount] = "Cast " + entityManager.GetSpell(selectedSpell).Name + " on ground";
-                        menuText2[menuOptionsCount] = string.Empty;
-                        menuActions[menuOptionsCount] = MenuAction.CastSpellOnGround;
-                        MenuActionLocations[menuOptionsCount] = new Point2D(engineHandle.selectedX[ground], engineHandle.selectedY[ground]);
+                        menuText1[menuOptionsCount] = "Cast " + Data.Data.spellName[selectedSpell] + " on ground";
+                        menuText2[menuOptionsCount] = "";
+                        menuActionID[menuOptionsCount] = 900;
+                        menuActionX[menuOptionsCount] = engineHandle.selectedX[ground];
+                        menuActionY[menuOptionsCount] = engineHandle.selectedY[ground];
                         menuActionType[menuOptionsCount] = selectedSpell;
                         menuOptionsCount++;
                         return;
                     }
                 }
-                else if (selectedItem < 0)
-                {
-                    menuText1[menuOptionsCount] = "Walk here";
-                    menuText2[menuOptionsCount] = string.Empty;
-                    menuActions[menuOptionsCount] = MenuAction.WalkHere;
-                    MenuActionLocations[menuOptionsCount] = new Point2D(engineHandle.selectedX[ground], engineHandle.selectedY[ground]);
-                    menuOptionsCount++;
-                }
+                else
+                    if (selectedItem < 0)
+                    {
+                        menuText1[menuOptionsCount] = "Walk here";
+                        menuText2[menuOptionsCount] = "";
+                        menuActionID[menuOptionsCount] = 920;
+                        menuActionX[menuOptionsCount] = engineHandle.selectedX[ground];
+                        menuActionY[menuOptionsCount] = engineHandle.selectedY[ground];
+                        menuOptionsCount++;
+                    }
             }
         }
 
@@ -4081,10 +6156,8 @@ namespace OpenRS.Net.Client
             if (mouseButtonClick != 0)
             {
                 mouseButtonClick = 0;
-
-                int l = InputManager.Instance.MouseLocation.X - 52;
-                int i1 = GameMouseY - 44;
-
+                int l = base.mouseX - 52;
+                int i1 = base.mouseY - 44;
                 if (l >= 0 && i1 >= 12 && l < 408 && i1 < 246)
                 {
                     int j1 = 0;
@@ -4106,59 +6179,52 @@ namespace OpenRS.Net.Client
 
                     if (selectedShopItemIndex >= 0)
                     {
-                        int itemIde = shopItems[selectedShopItemIndex];
-                        if (itemIde != -1)
+                        int i3 = shopItems[selectedShopItemIndex];
+                        if (i3 != -1)
                         {
                             if (shopItemCount[selectedShopItemIndex] > 0 && l > 298 && i1 >= 204 && l < 408 && i1 <= 215)
                             {
-                                StreamClass.CreatePacket(128);
-                                StreamClass.AddInt16(shopItems[selectedShopItemIndex]);
-                                StreamClass.AddInt32(shopItemBuyPrice[selectedShopItemIndex]);
-                                StreamClass.FormatPacket();
+                                base.streamClass.createPacket(128);
+                                base.streamClass.addShort(shopItems[selectedShopItemIndex]);
+                                base.streamClass.addInt(shopItemBuyPrice[selectedShopItemIndex]);
+                                base.streamClass.formatPacket();
                             }
-                            if (inventoryManager.GetItemTotalCount(itemIde) > 0 && l > 2 && i1 >= 229 && l < 112 && i1 <= 240)
+                            if (getInventoryItemTotalCount(i3) > 0 && l > 2 && i1 >= 229 && l < 112 && i1 <= 240)
                             {
-                                StreamClass.CreatePacket(255);
-                                StreamClass.AddInt16(shopItems[selectedShopItemIndex]);
-                                StreamClass.AddInt32(shopItemSellPrice[selectedShopItemIndex]);
-                                StreamClass.FormatPacket();
+                                base.streamClass.createPacket(255);
+                                base.streamClass.addShort(shopItems[selectedShopItemIndex]);
+                                base.streamClass.addInt(shopItemSellPrice[selectedShopItemIndex]);
+                                base.streamClass.formatPacket();
                             }
                         }
                     }
                 }
                 else
                 {
-                    StreamClass.CreatePacket(253);
-                    StreamClass.FormatPacket();
-                    ShowShopBox = false;
+                    base.streamClass.createPacket(253);
+                    base.streamClass.formatPacket();
+                    showShopBox = false;
                     return;
                 }
             }
-
             sbyte _offsetX = 52;
             sbyte _offsetY = 44;
-            gameGraphics.DrawBox(_offsetX, _offsetY, 408, 12, 192);
+            gameGraphics.drawBox(_offsetX, _offsetY, 408, 12, 192);
             int k1 = 0x989898;
-            gameGraphics.DrawBoxAlpha(_offsetX, _offsetY + 12, 408, 17, k1, 160);
-            gameGraphics.DrawBoxAlpha(_offsetX, _offsetY + 29, 8, 170, k1, 160);
-            gameGraphics.DrawBoxAlpha(_offsetX + 399, _offsetY + 29, 9, 170, k1, 160);
-            gameGraphics.DrawBoxAlpha(_offsetX, _offsetY + 199, 408, 47, k1, 160);
-            gameGraphics.DrawString("Buying and selling items", _offsetX + 1, _offsetY + 10, 1, 0xffffff);
+            gameGraphics.drawBoxAlpha(_offsetX, _offsetY + 12, 408, 17, k1, 160);
+            gameGraphics.drawBoxAlpha(_offsetX, _offsetY + 29, 8, 170, k1, 160);
+            gameGraphics.drawBoxAlpha(_offsetX + 399, _offsetY + 29, 9, 170, k1, 160);
+            gameGraphics.drawBoxAlpha(_offsetX, _offsetY + 199, 408, 47, k1, 160);
+            gameGraphics.drawString("Buying and selling items", _offsetX + 1, _offsetY + 10, 1, 0xffffff);
             int i2 = 0xffffff;
-
-            if (InputManager.Instance.MouseLocation.X > _offsetX + 320 && GameMouseY >= _offsetY && InputManager.Instance.MouseLocation.X < _offsetX + 408 && GameMouseY < _offsetY + 12)
-            {
+            if (base.mouseX > _offsetX + 320 && base.mouseY >= _offsetY && base.mouseX < _offsetX + 408 && base.mouseY < _offsetY + 12)
                 i2 = 0xff0000;
-            }
-
-            gameGraphics.DrawLabel("Close window", _offsetX + 406, _offsetY + 10, 1, i2);
-            gameGraphics.DrawString("Shops stock in green", _offsetX + 2, _offsetY + 24, 1, 65280);
-            gameGraphics.DrawString("Number you own in blue", _offsetX + 135, _offsetY + 24, 1, 65535);
-            gameGraphics.DrawString("Your money: " + inventoryManager.GetItemTotalCount(10) + "gp", _offsetX + 280, _offsetY + 24, 1, 0xffff00);
-
+            gameGraphics.drawLabel("Close window", _offsetX + 406, _offsetY + 10, 1, i2);
+            gameGraphics.drawString("Shops stock in green", _offsetX + 2, _offsetY + 24, 1, 65280);
+            gameGraphics.drawString("Number you own in blue", _offsetX + 135, _offsetY + 24, 1, 65535);
+            gameGraphics.drawString("Your money: " + getInventoryItemTotalCount(10) + "gp", _offsetX + 280, _offsetY + 24, 1, 0xffff00);
             int j3 = 0xd0d0d0;
             int j4 = 0;
-
             for (int boxRow = 0; boxRow < 5; boxRow++)
             {
                 for (int boxRowColumn = 0; boxRowColumn < 8; boxRowColumn++)
@@ -4166,145 +6232,120 @@ namespace OpenRS.Net.Client
                     int i6 = _offsetX + 7 + boxRowColumn * 49;
                     int l6 = _offsetY + 28 + boxRow * 34;
                     if (selectedShopItemIndex == j4)
-                    {
-                        gameGraphics.DrawBoxAlpha(i6, l6, 49, 34, 0xff0000, 160);
-                    }
+                        gameGraphics.drawBoxAlpha(i6, l6, 49, 34, 0xff0000, 160);
                     else
-                    {
-                        gameGraphics.DrawBoxAlpha(i6, l6, 49, 34, j3, 160);
-                    }
-
-                    gameGraphics.DrawBoxEdge(i6, l6, 50, 35, 0);
+                        gameGraphics.drawBoxAlpha(i6, l6, 49, 34, j3, 160);
+                    gameGraphics.drawBoxEdge(i6, l6, 50, 35, 0);
                     if (shopItems[j4] != -1)
                     {
-                        gameGraphics.DrawImage(i6, l6, 48, 32, baseItemPicture + entityManager.GetItem(shopItems[j4]).InventoryPicture, entityManager.GetItem(shopItems[j4]).PictureMask, 0, 0, false);
-                        gameGraphics.DrawString(shopItemCount[j4].ToString(), i6 + 1, l6 + 10, 1, 65280);
-                        gameGraphics.DrawLabel(inventoryManager.GetItemTotalCount(shopItems[j4]).ToString(), i6 + 47, l6 + 10, 1, 65535);
+                        gameGraphics.drawImage(i6, l6, 48, 32, baseItemPicture + Data.Data.itemInventoryPicture[shopItems[j4]], Data.Data.itemPictureMask[shopItems[j4]], 0, 0, false);
+                        gameGraphics.drawString(shopItemCount[j4].ToString(), i6 + 1, l6 + 10, 1, 65280);
+                        gameGraphics.drawLabel(getInventoryItemTotalCount(shopItems[j4]).ToString(), i6 + 47, l6 + 10, 1, 65535);
                     }
                     j4++;
                 }
 
             }
 
-            gameGraphics.DrawHorizontalLine(_offsetX + 5, _offsetY + 222, 398, 0);
-
+            gameGraphics.drawLineX(_offsetX + 5, _offsetY + 222, 398, 0);
             if (selectedShopItemIndex == -1)
             {
-                gameGraphics.DrawText("Select an object to buy or sell", _offsetX + 204, _offsetY + 214, 3, 0xffff00);
+                gameGraphics.drawText("Select an object to buy or sell", _offsetX + 204, _offsetY + 214, 3, 0xffff00);
                 return;
             }
-
-            int itemId = shopItems[selectedShopItemIndex];
-
-            if (itemId != -1)
+            int l5 = shopItems[selectedShopItemIndex];
+            if (l5 != -1)
             {
                 if (shopItemCount[selectedShopItemIndex] > 0)
                 {
                     int j6 = shopItemBuyPriceModifier + shopItemBasePriceModifier[selectedShopItemIndex];
-
                     if (j6 < 10)
-                    {
                         j6 = 10;
-                    }
-
-                    int i7 = j6 * entityManager.GetItem(itemId).BasePrice / 100;
-                    gameGraphics.DrawString("Buy a new " + entityManager.GetItem(itemId).Name + " for " + i7 + "gp", _offsetX + 2, _offsetY + 214, 1, 0xffff00);
+                    int i7 = (j6 * Data.Data.itemBasePrice[l5]) / 100;
+                    gameGraphics.drawString("Buy a new " + Data.Data.itemName[l5] + " for " + i7 + "gp", _offsetX + 2, _offsetY + 214, 1, 0xffff00);
                     int j2 = 0xffffff;
-                    if (InputManager.Instance.MouseLocation.X > _offsetX + 298 && GameMouseY >= _offsetY + 204 && InputManager.Instance.MouseLocation.X < _offsetX + 408 && GameMouseY <= _offsetY + 215)
-                    {
+                    if (base.mouseX > _offsetX + 298 && base.mouseY >= _offsetY + 204 && base.mouseX < _offsetX + 408 && base.mouseY <= _offsetY + 215)
                         j2 = 0xff0000;
-                    }
-
-                    gameGraphics.DrawLabel("Click here to buy", _offsetX + 405, _offsetY + 214, 3, j2);
+                    gameGraphics.drawLabel("Click here to buy", _offsetX + 405, _offsetY + 214, 3, j2);
                 }
                 else
                 {
-                    gameGraphics.DrawText("This item is not currently available to buy", _offsetX + 204, _offsetY + 214, 3, 0xffff00);
+                    gameGraphics.drawText("This item is not currently available to buy", _offsetX + 204, _offsetY + 214, 3, 0xffff00);
                 }
-
-                if (inventoryManager.GetItemTotalCount(itemId) > 0)
+                if (getInventoryItemTotalCount(l5) > 0)
                 {
                     int k6 = shopItemSellPriceModifier + shopItemBasePriceModifier[selectedShopItemIndex];
                     if (k6 < 10)
-                    {
                         k6 = 10;
-                    }
-
-                    int j7 = k6 * entityManager.GetItem(itemId).BasePrice / 100;
-                    gameGraphics.DrawLabel("Sell your " + entityManager.GetItem(itemId).Name + " for " + j7 + "gp", _offsetX + 405, _offsetY + 239, 1, 0xffff00);
+                    int j7 = (k6 * Data.Data.itemBasePrice[l5]) / 100;
+                    gameGraphics.drawLabel("Sell your " + Data.Data.itemName[l5] + " for " + j7 + "gp", _offsetX + 405, _offsetY + 239, 1, 0xffff00);
                     int k2 = 0xffffff;
-                    if (InputManager.Instance.MouseLocation.X > _offsetX + 2 && GameMouseY >= _offsetY + 229 && InputManager.Instance.MouseLocation.X < _offsetX + 112 && GameMouseY <= _offsetY + 240)
-                    {
+                    if (base.mouseX > _offsetX + 2 && base.mouseY >= _offsetY + 229 && base.mouseX < _offsetX + 112 && base.mouseY <= _offsetY + 240)
                         k2 = 0xff0000;
-                    }
-
-                    gameGraphics.DrawString("Click here to sell", _offsetX + 2, _offsetY + 239, 3, k2);
+                    gameGraphics.drawString("Click here to sell", _offsetX + 2, _offsetY + 239, 3, k2);
                     return;
                 }
-                gameGraphics.DrawText("You do not have any of this item to sell", _offsetX + 204, _offsetY + 239, 3, 0xffff00);
+                gameGraphics.drawText("You do not have any of this item to sell", _offsetX + 204, _offsetY + 239, 3, 0xffff00);
             }
         }
 
         public void loadTextures()
         {
             sbyte[] abyte0 = unpackData("textures.jag", "Textures", 50);
-            if (abyte0 is null)
+            if (abyte0 == null)
             {
                 errorLoading = true;
                 return;
             }
             sbyte[] abyte1 = DataOperations.loadData("index.dat", 0, abyte0);
-            gameCamera.createTexture(entityManager.TextureCount, 7, 11);
-            for (int l = 0; l < entityManager.TextureCount; l++)
+            gameCamera.createTexture(Data.Data.textureCount, 7, 11);
+            for (int l = 0; l < Data.Data.textureCount; l++)
             {
-                string s1 = entityManager.GetTexture(l).Name;
+                String s1 = Data.Data.textureName[l];
                 sbyte[] abyte2 = DataOperations.loadData(s1 + ".dat", 0, abyte0);
                 gameGraphics.unpackImageData(baseTexturePic, abyte2, abyte1, 1);
-                gameGraphics.DrawBox(0, 0, 128, 128, 0xff00ff);
-                gameGraphics.DrawPicture(0, 0, baseTexturePic);
-                int i1 = gameGraphics.pictureAssumedWidth[baseTexturePic];
-                string s2 = entityManager.GetTexture(l).SubName;
-                if (s2 is not null && s2.Length > 0)
+                gameGraphics.drawBox(0, 0, 128, 128, 0xff00ff);
+                gameGraphics.drawPicture(0, 0, baseTexturePic);
+                int i1 = ((GameImage)(gameGraphics)).pictureAssumedWidth[baseTexturePic];
+                String s2 = Data.Data.textureSubName[l];
+                if (s2 != null && s2.Length > 0)
                 {
                     sbyte[] abyte3 = DataOperations.loadData(s2 + ".dat", 0, abyte0);
                     gameGraphics.unpackImageData(baseTexturePic, abyte3, abyte1, 1);
-                    gameGraphics.DrawPicture(0, 0, baseTexturePic);
+                    gameGraphics.drawPicture(0, 0, baseTexturePic);
                 }
-                gameGraphics.DrawImage(subTexturePic + l, 0, 0, i1, i1);
+                gameGraphics.drawImage(subTexturePic + l, 0, 0, i1, i1);
                 int j1 = i1 * i1;
                 for (int k1 = 0; k1 < j1; k1++)
-                {
-                    if (gameGraphics.pictureColors[subTexturePic + l][k1] == 65280)
-                    {
-                        gameGraphics.pictureColors[subTexturePic + l][k1] = 0xff00ff;
-                    }
-                }
+                    if (((GameImage)(gameGraphics)).pictureColors[subTexturePic + l][k1] == 65280)
+                        ((GameImage)(gameGraphics)).pictureColors[subTexturePic + l][k1] = 0xff00ff;
 
-                gameGraphics.ApplyImage(subTexturePic + l);
-                gameCamera.setTexture(l, gameGraphics.pictureColorIndexes[subTexturePic + l], gameGraphics.pictureColor[subTexturePic + l], i1 / 64 - 1);
+                gameGraphics.applyImage(subTexturePic + l);
+                gameCamera.setTexture(l, ((GameImage)(gameGraphics)).pictureColorIndexes[subTexturePic + l], ((GameImage)(gameGraphics)).pictureColor[subTexturePic + l], i1 / 64 - 1);
             }
         }
 
         public void drawAppearanceWindow()
         {
-            gameGraphics.ClearScreen();
+            gameGraphics.interlace = false;
+            gameGraphics.clearScreen();
             appearanceMenu.drawMenu();
             int l = 140;
             int i1 = 50;
             l += 116;
             i1 -= 25;
-            gameGraphics.DrawCharacterLegs(l - 32 - 55, i1, 64, 102, entityManager.GetAnimation(appearance2Colour).Number, appearanceTopBottomColours[appearanceBottomColour]);
-            gameGraphics.DrawImage(l - 32 - 55, i1, 64, 102, entityManager.GetAnimation(appearanceBodyGender).Number, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.DrawImage(l - 32 - 55, i1, 64, 102, entityManager.GetAnimation(appearanceHeadType).Number, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.DrawCharacterLegs(l - 32, i1, 64, 102, entityManager.GetAnimation(appearance2Colour).Number + 6, appearanceTopBottomColours[appearanceBottomColour]);
-            gameGraphics.DrawImage(l - 32, i1, 64, 102, entityManager.GetAnimation(appearanceBodyGender).Number + 6, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.DrawImage(l - 32, i1, 64, 102, entityManager.GetAnimation(appearanceHeadType).Number + 6, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.DrawCharacterLegs(l - 32 + 55, i1, 64, 102, entityManager.GetAnimation(appearance2Colour).Number + 12, appearanceTopBottomColours[appearanceBottomColour]);
-            gameGraphics.DrawImage(l - 32 + 55, i1, 64, 102, entityManager.GetAnimation(appearanceBodyGender).Number + 12, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.DrawImage(l - 32 + 55, i1, 64, 102, entityManager.GetAnimation(appearanceHeadType).Number + 12, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
-            gameGraphics.DrawPicture(0, WindowSize.Height, baseInventoryPic + 22);
-
-            OnDrawDone();
+            gameGraphics.drawCharacterLegs(l - 32 - 55, i1, 64, 102, Data.Data.animationNumber[appearance2Colour], appearanceTopBottomColours[appearanceBottomColour]);
+            gameGraphics.drawImage(l - 32 - 55, i1, 64, 102, Data.Data.animationNumber[appearanceBodyGender], appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.drawImage(l - 32 - 55, i1, 64, 102, Data.Data.animationNumber[appearanceHeadType], appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.drawCharacterLegs(l - 32, i1, 64, 102, Data.Data.animationNumber[appearance2Colour] + 6, appearanceTopBottomColours[appearanceBottomColour]);
+            gameGraphics.drawImage(l - 32, i1, 64, 102, Data.Data.animationNumber[appearanceBodyGender] + 6, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.drawImage(l - 32, i1, 64, 102, Data.Data.animationNumber[appearanceHeadType] + 6, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.drawCharacterLegs((l - 32) + 55, i1, 64, 102, Data.Data.animationNumber[appearance2Colour] + 12, appearanceTopBottomColours[appearanceBottomColour]);
+            gameGraphics.drawImage((l - 32) + 55, i1, 64, 102, Data.Data.animationNumber[appearanceBodyGender] + 12, appearanceTopBottomColours[appearanceTopColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.drawImage((l - 32) + 55, i1, 64, 102, Data.Data.animationNumber[appearanceHeadType] + 12, appearanceHairColours[appearanceHairColour], appearanceSkinColours[appearanceSkinColour], 0, false);
+            gameGraphics.drawPicture(0, windowHeight, baseInventoryPic + 22);
+            //gameGraphics.UpdateGameImage();
+            OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
         }
 
         public void checkMouseStatus()
@@ -4312,23 +6353,21 @@ namespace OpenRS.Net.Client
             if (selectedSpell >= 0 || selectedItem >= 0)
             {
                 menuText1[menuOptionsCount] = "Cancel";
-                menuText2[menuOptionsCount] = string.Empty;
-                menuActions[menuOptionsCount] = MenuAction.Cancel; ;
+                menuText2[menuOptionsCount] = "";
+                menuActionID[menuOptionsCount] = 4000;
                 menuOptionsCount++;
             }
             for (int l = 0; l < menuOptionsCount; l++)
-            {
                 menuIndexes[l] = l;
-            }
 
-            for (bool flag = false; !flag;)
+            for (bool flag = false; !flag; )
             {
                 flag = true;
                 for (int i1 = 0; i1 < menuOptionsCount - 1; i1++)
                 {
                     int k1 = menuIndexes[i1];
                     int i2 = menuIndexes[i1 + 1];
-                    if (menuActions[k1] > menuActions[i2])
+                    if (menuActionID[k1] > menuActionID[i2])
                     {
                         menuIndexes[i1] = i2;
                         menuIndexes[i1 + 1] = k1;
@@ -4339,62 +6378,40 @@ namespace OpenRS.Net.Client
             }
 
             if (menuOptionsCount > 20)
-            {
                 menuOptionsCount = 20;
-            }
-
             if (menuOptionsCount > 0)
             {
                 int j1 = -1;
                 for (int l1 = 0; l1 < menuOptionsCount; l1++)
                 {
-                    if (menuText2[menuIndexes[l1]] is null || menuText2[menuIndexes[l1]].Length <= 0)
-                    {
+                    if (menuText2[menuIndexes[l1]] == null || menuText2[menuIndexes[l1]].Length <= 0)
                         continue;
-                    }
-
                     j1 = l1;
                     break;
                 }
 
-                string s1 = null;
+                String s1 = null;
                 if ((selectedItem >= 0 || selectedSpell >= 0) && menuOptionsCount == 1)
-                {
                     s1 = "Choose a target";
-                }
                 else
                     if ((selectedItem >= 0 || selectedSpell >= 0) && menuOptionsCount > 1)
-                {
-                    s1 = "@whi@" + menuText1[menuIndexes[0]] + " " + menuText2[menuIndexes[0]];
-                }
-                else
+                        s1 = "@whi@" + menuText1[menuIndexes[0]] + " " + menuText2[menuIndexes[0]];
+                    else
                         if (j1 != -1)
-                {
-                    s1 = menuText2[menuIndexes[j1]] + ": @whi@" + menuText1[menuIndexes[0]];
-                }
-
-                if (menuOptionsCount == 2 && s1 is not null)
-                {
-                    s1 += "@whi@ / 1 more option";
-                }
-
-                if (menuOptionsCount > 2 && s1 is not null)
-                {
+                            s1 = menuText2[menuIndexes[j1]] + ": @whi@" + menuText1[menuIndexes[0]];
+                if (menuOptionsCount == 2 && s1 != null)
+                    s1 = s1 + "@whi@ / 1 more option";
+                if (menuOptionsCount > 2 && s1 != null)
                     s1 = s1 + "@whi@ / " + (menuOptionsCount - 1) + " more options";
-                }
-
-                if (s1 is not null)
-                {
-                    gameGraphics.DrawString(s1, 6, 14, 1, 0xffff00);
-                }
-
-                if (mouseButtonClick == 1)
+                if (s1 != null)
+                    gameGraphics.drawString(s1, 6, 14, 1, 0xffff00);
+                if (!configOneMouseButton && mouseButtonClick == 1 || configOneMouseButton && mouseButtonClick == 1 && menuOptionsCount == 1)
                 {
                     menuClick(menuIndexes[0]);
                     mouseButtonClick = 0;
                     return;
                 }
-                if (mouseButtonClick == 2)
+                if (!configOneMouseButton && mouseButtonClick == 2 || configOneMouseButton && mouseButtonClick == 1)
                 {
                     menuHeight = (menuOptionsCount + 1) * 15;
                     menuWidth = gameGraphics.textWidth("Choose option", 1) + 5;
@@ -4402,74 +6419,74 @@ namespace OpenRS.Net.Client
                     {
                         int k2 = gameGraphics.textWidth(menuText1[j2] + " " + menuText2[j2], 1) + 5;
                         if (k2 > menuWidth)
-                        {
                             menuWidth = k2;
-                        }
                     }
 
-                    menuX = InputManager.Instance.MouseLocation.X - menuWidth / 2;
-                    menuY = GameMouseY - 7;
+                    menuX = base.mouseX - menuWidth / 2;
+                    menuY = base.mouseY - 7;
                     menuShow = true;
-
                     if (menuX < 0)
-                    {
                         menuX = 0;
-                    }
-
                     if (menuY < 0)
-                    {
                         menuY = 0;
-                    }
-
                     if (menuX + menuWidth > 510)
-                    {
                         menuX = 510 - menuWidth;
-                    }
-
                     if (menuY + menuHeight > 315)
-                    {
                         menuY = 315 - menuHeight;
-                    }
-
                     mouseButtonClick = 0;
                 }
             }
         }
 
-        private int _dbgDrawGameCounter;
-
         public void drawGame()
         {
-            _dbgDrawGameCounter++;
-            if (_dbgDrawGameCounter % 100 == 1)
+            if (playerAliveTimeout != 0)
             {
-                Console.WriteLine($"[drawGame] tick={tick} playerIsAlive={engineHandle.playerIsAlive} PlayerCount={PlayerCount} HasWorldInfo={HasWorldInfo} loggedIn={loggedIn} PlayerAliveTimeout={PlayerAliveTimeout} ShowAppearanceWindow={ShowAppearanceWindow} IsSleeping={IsSleeping} CurrentPlayerX={CurrentPlayer?.Location.X} CurrentPlayerY={CurrentPlayer?.Location.Y}");
-            }
-
-            if (PlayerAliveTimeout != 0)
-            {
-                DrawDead();
+                gameGraphics.screenFadeToBlack();
+                gameGraphics.drawText("Oh dear! You are dead...", windowWidth / 2, windowHeight / 2, 7, 0xff0000);
+                drawChatMessageTabs();
+                //gameGraphics.UpdateGameImage();
+                OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
                 return;
             }
-            else if (ShowAppearanceWindow)
+            if (showAppearanceWindow)
             {
                 drawAppearanceWindow();
                 return;
             }
-            else if (IsSleeping)
+            if (isSleeping)
             {
-                DrawSleeping();
-                return;
-            }
-            else if (!engineHandle.playerIsAlive)
-            {
-                return;
-            }
+                gameGraphics.screenFadeToBlack();
+                if (Helper.Random.NextDouble() < 0.14999999999999999D)
+                    gameGraphics.drawText("ZZZ", (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
+                if (Helper.Random.NextDouble() < 0.14999999999999999D)
+                    gameGraphics.drawText("ZZZ", 512 - (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
+                gameGraphics.drawBox(windowWidth / 2 - 100, 160, 200, 40, 0);
+                gameGraphics.drawText("You are sleeping", windowWidth / 2, 50, 7, 0xffff00);
+                gameGraphics.drawText("Fatigue: " + (fatigue * 100) / 750 + "%", windowWidth / 2, 90, 7, 0xffff00);
+                gameGraphics.drawText("When you want to wake up just use your", windowWidth / 2, 140, 5, 0xffffff);
+                gameGraphics.drawText("keyboard to type the word in the box below", windowWidth / 2, 160, 5, 0xffffff);
+                gameGraphics.drawText(base.inputText + "*", windowWidth / 2, 180, 5, 65535);
+                if (sleepingStatusText == null)
+                {
+                    gameGraphics.drawPixels(captchaPixels, windowWidth / 2 - 127, 230, captchaWidth, captchaHeight);
+                }
+                else
+                    gameGraphics.drawText(sleepingStatusText, windowWidth / 2, 260, 5, 0xff0000);
+                gameGraphics.drawBoxEdge(windowWidth / 2 - 128, 229, 257, 42, 0xffffff);
+                drawChatMessageTabs();
+                gameGraphics.drawText("If you can't read the word", windowWidth / 2, 290, 1, 0xffffff);
+                gameGraphics.drawText("@yel@click here@whi@ to get a different one", windowWidth / 2, 305, 1, 0xffffff);
 
+                //gameGraphics.UpdateGameImage();
+                OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
+                return;
+            }
+            if (!engineHandle.playerIsAlive)
+                return;
             for (int l = 0; l < 64; l++)
             {
                 gameCamera.removeModel(engineHandle.roofObject[lastLayerIndex][l]);
-
                 if (lastLayerIndex == 0)
                 {
                     gameCamera.removeModel(engineHandle.wallObject[1][l]);
@@ -4477,12 +6494,10 @@ namespace OpenRS.Net.Client
                     gameCamera.removeModel(engineHandle.wallObject[2][l]);
                     gameCamera.removeModel(engineHandle.roofObject[2][l]);
                 }
-
                 cameraZoom = true;
-
-                if (lastLayerIndex == 0 && (engineHandle.tiles[CurrentPlayer.Location.X / 128][CurrentPlayer.Location.Y / 128] & 0x80) == 0)
+                if (lastLayerIndex == 0 && (engineHandle.tiles[ourPlayer.currentX / 128][ourPlayer.currentY / 128] & 0x80) == 0)
                 {
-                    if (SettingsManager.Instance.GraphicsSettings.ShowRoofs)
+                    if (showRoofs)
                     {
                         gameCamera.addModel(engineHandle.roofObject[lastLayerIndex][l]);
                         if (lastLayerIndex == 0)
@@ -4509,222 +6524,154 @@ namespace OpenRS.Net.Client
             if (modelFireLightningSpellNumber != lastModelFireLightningSpellNumber)
             {
                 lastModelFireLightningSpellNumber = modelFireLightningSpellNumber;
-
-                for (int objectIndex = 0; objectIndex < ObjectCount; objectIndex++)
+                for (int i1 = 0; i1 < objectCount; i1++)
                 {
-                    if (ObjectType[objectIndex] == 97)
-                    {
-                        DrawModel(objectIndex, "firea" + (modelFireLightningSpellNumber + 1));
-                    }
-
-                    if (ObjectType[objectIndex] == 274)
-                    {
-                        DrawModel(objectIndex, "fireplacea" + (modelFireLightningSpellNumber + 1));
-                    }
-
-                    if (ObjectType[objectIndex] == 1031)
-                    {
-                        DrawModel(objectIndex, "lightning" + (modelFireLightningSpellNumber + 1));
-                    }
-
-                    if (ObjectType[objectIndex] == 1036)
-                    {
-                        DrawModel(objectIndex, "firespell" + (modelFireLightningSpellNumber + 1));
-                    }
-
-                    if (ObjectType[objectIndex] == 1147)
-                    {
-                        DrawModel(objectIndex, "spellcharge" + (modelFireLightningSpellNumber + 1));
-                    }
+                    if (objectType[i1] == 97)
+                        drawModel(i1, "firea" + (modelFireLightningSpellNumber + 1));
+                    if (objectType[i1] == 274)
+                        drawModel(i1, "fireplacea" + (modelFireLightningSpellNumber + 1));
+                    if (objectType[i1] == 1031)
+                        drawModel(i1, "lightning" + (modelFireLightningSpellNumber + 1));
+                    if (objectType[i1] == 1036)
+                        drawModel(i1, "firespell" + (modelFireLightningSpellNumber + 1));
+                    if (objectType[i1] == 1147)
+                        drawModel(i1, "spellcharge" + (modelFireLightningSpellNumber + 1));
                 }
-            }
 
+            }
             if (modelTorchNumber != lastModelTorchNumber)
             {
                 lastModelTorchNumber = modelTorchNumber;
-
-                for (int objectIndex = 0; objectIndex < ObjectCount; objectIndex++)
+                for (int j1 = 0; j1 < objectCount; j1++)
                 {
-                    if (ObjectType[objectIndex] == 51)
-                    {
-                        DrawModel(objectIndex, "torcha" + (modelTorchNumber + 1));
-                    }
-
-                    if (ObjectType[objectIndex] == 143)
-                    {
-                        DrawModel(objectIndex, "skulltorcha" + (modelTorchNumber + 1));
-                    }
+                    if (objectType[j1] == 51)
+                        drawModel(j1, "torcha" + (modelTorchNumber + 1));
+                    if (objectType[j1] == 143)
+                        drawModel(j1, "skulltorcha" + (modelTorchNumber + 1));
                 }
 
             }
-
             if (modelClawSpellNumber != lastModelClawSpellNumber)
             {
                 lastModelClawSpellNumber = modelClawSpellNumber;
+                for (int k1 = 0; k1 < objectCount; k1++)
+                    if (objectType[k1] == 1142)
+                        drawModel(k1, "clawspell" + (modelClawSpellNumber + 1));
 
-                for (int objectIndex = 0; objectIndex < ObjectCount; objectIndex++)
-                {
-                    if (ObjectType[objectIndex] == 1142)
-                    {
-                        DrawModel(objectIndex, "clawspell" + (modelClawSpellNumber + 1));
-                    }
-                }
             }
             gameCamera.removeLastUpdates(drawUpdatesPerformed);
             drawUpdatesPerformed = 0;
-
-            for (int playerIndex = 0; playerIndex < PlayerCount; playerIndex++)
+            for (int l1 = 0; l1 < playerCount; l1++)
             {
-                ClientMob player = Players[playerIndex];
-
-                if (player.Appearance.TrousersColour != 255)
+                ClientMob player = playerArray[l1];
+                if (player.bottomColour != 255)
                 {
-                    int j2 = player.Location.X;
-                    int l2 = player.Location.Y;
-                    int j3 = -engineHandle.GetAveragedElevation(j2, l2);
-
-                    Point3D loc = new(j2, j3, l2);
-                    int k4 = gameCamera.addSpriteToScene(5000 + playerIndex, loc, 145, 220, playerIndex + 10000);
-
+                    int j2 = player.currentX;
+                    int l2 = player.currentY;
+                    int j3 = -engineHandle.getAveragedElevation(j2, l2);
+                    int k4 = gameCamera.addSpriteToScene(5000 + l1, j2, j3, l2, 145, 220, l1 + 10000);
                     drawUpdatesPerformed++;
-
-                    if (player == CurrentPlayer)
-                    {
+                    if (player == ourPlayer)
                         gameCamera.bhe(k4);
-                    }
-
-                    if (player.CurrentSprite == 8)
-                    {
+                    if (player.currentSprite == 8)
                         gameCamera.bhf(k4, -30);
-                    }
-
-                    if (player.CurrentSprite == 9)
-                    {
+                    if (player.currentSprite == 9)
                         gameCamera.bhf(k4, 30);
-                    }
                 }
             }
 
-            for (int playerIndex = 0; playerIndex < PlayerCount; playerIndex++)
+            for (int i2 = 0; i2 < playerCount; i2++)
             {
-                ClientMob player = Players[playerIndex];
-
-                if (player.ProjectileDistance > 0)
+                ClientMob player = playerArray[i2];
+                if (player.projectileDistance > 0)
                 {
                     ClientMob targetMob = null;
-                    if (player.AttackingNpcIndex != -1)
-                    {
-                        targetMob = NpcAttackingArray[player.AttackingNpcIndex];
-                    }
-                    else if (player.AttackingPlayerIndex != -1)
-                    {
-                        targetMob = Mobs[player.AttackingPlayerIndex];
-                    }
+                    if (player.attackingNpcIndex != -1)
+                        targetMob = npcAttackingArray[player.attackingNpcIndex];
+                    else if (player.attackingPlayerIndex != -1)
+                        targetMob = playerBufferArray[player.attackingPlayerIndex];
 
-                    if (targetMob is not null)
+                    if (targetMob != null)
                     {
-                        int k3 = player.Location.X;
-                        int l4 = player.Location.Y;
-                        int k7 = -engineHandle.GetAveragedElevation(k3, l4) - 110;
-                        int k9 = targetMob.Location.X;
-                        int j10 = targetMob.Location.Y;
-                        int k10 = -engineHandle.GetAveragedElevation(k9, j10) - entityManager.GetNpc(targetMob.NpcIdentifier).Camera2 / 2;
-                        int l10 = (k3 * player.ProjectileDistance + k9 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
-                        int i11 = (k7 * player.ProjectileDistance + k10 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
-                        int j11 = (l4 * player.ProjectileDistance + j10 * (ProjectileRange - player.ProjectileDistance)) / ProjectileRange;
-
-                        Point3D loc = new(l10, i11, j11);
-                        gameCamera.addSpriteToScene(baseProjectilePic + player.ProjectileType, loc, 32, 32, 0);
+                        int k3 = player.currentX;
+                        int l4 = player.currentY;
+                        int k7 = -engineHandle.getAveragedElevation(k3, l4) - 110;
+                        int k9 = targetMob.currentX;
+                        int j10 = targetMob.currentY;
+                        int k10 = -engineHandle.getAveragedElevation(k9, j10) - Data.Data.npcCameraArray2[targetMob.npcId] / 2;
+                        int l10 = (k3 * player.projectileDistance + k9 * (projectileRange - player.projectileDistance)) / projectileRange;
+                        int i11 = (k7 * player.projectileDistance + k10 * (projectileRange - player.projectileDistance)) / projectileRange;
+                        int j11 = (l4 * player.projectileDistance + j10 * (projectileRange - player.projectileDistance)) / projectileRange;
+                        gameCamera.addSpriteToScene(baseProjectilePic + player.projectileType, l10, i11, j11, 32, 32, 0);
                         drawUpdatesPerformed++;
                     }
                 }
             }
 
-            for (int npcIndex = 0; npcIndex < NpcCount; npcIndex++)
+            for (int k2 = 0; k2 < npcCount; k2++)
             {
-                ClientMob npc = Npcs[npcIndex];
-
-                int x1 = npc.Location.X;
-                int z1 = npc.Location.Y;
-                int y1 = -engineHandle.GetAveragedElevation(x1, z1);
-
-                Point3D loc = new(x1, y1, z1);
-                int l9 = gameCamera.addSpriteToScene(20000 + npcIndex, loc, entityManager.GetNpc(npc.NpcIdentifier).Camera1, entityManager.GetNpc(npc.NpcIdentifier).Camera2, npcIndex + 30000);
-
+                ClientMob npc = npcArray[k2];
+                int x1 = npc.currentX;
+                int z1 = npc.currentY;
+                int y1 = -engineHandle.getAveragedElevation(x1, z1);
+                int l9 = gameCamera.addSpriteToScene(20000 + k2, x1, y1, z1, Data.Data.npcCameraArray1[npc.npcId], Data.Data.npcCameraArray2[npc.npcId], k2 + 30000);
                 drawUpdatesPerformed++;
-
-                if (npc.CurrentSprite == 8)
-                {
+                if (npc.currentSprite == 8)
                     gameCamera.bhf(l9, -30);
-                }
-
-                if (npc.CurrentSprite == 9)
-                {
+                if (npc.currentSprite == 9)
                     gameCamera.bhf(l9, 30);
-                }
             }
 
-            for (int groundITemIndex = 0; groundITemIndex < GroundItemCount; groundITemIndex++)
+            for (int i3 = 0; i3 < groundItemCount; i3++)
             {
-                int x = GroundItemLocations[groundITemIndex].X * GridSize + 64;
-                int y = GroundItemLocations[groundITemIndex].Y * GridSize + 64;
-
-                Point3D loc = new(x, -engineHandle.GetAveragedElevation(x, y) - GroundItemObjectVar[groundITemIndex], y);
-                gameCamera.addSpriteToScene(40000 + GroundItemId[groundITemIndex], loc, 96, 64, groundITemIndex + 20000);
+                int x = groundItemX[i3] * gridSize + 64;
+                int y = groundItemY[i3] * gridSize + 64;
+                gameCamera.addSpriteToScene(40000 + groundItemID[i3], x, -engineHandle.getAveragedElevation(x, y) - groundItemObjectVar[i3], y, 96, 64, i3 + 20000);
                 drawUpdatesPerformed++;
             }
 
-            for (int teleBubbleIndex = 0; teleBubbleIndex < teleBubbleCount; teleBubbleIndex++)
+            for (int j4 = 0; j4 < teleBubbleCount; j4++)
             {
-                int k5 = teleBubbleX[teleBubbleIndex] * GridSize + 64;
-                int i8 = teleBubbleY[teleBubbleIndex] * GridSize + 64;
-                int i10 = teleBubbleType[teleBubbleIndex];
-
+                int k5 = teleBubbleX[j4] * gridSize + 64;
+                int i8 = teleBubbleY[j4] * gridSize + 64;
+                int i10 = teleBubbleType[j4];
                 if (i10 == 0)
                 {
-                    Point3D loc = new(k5, -engineHandle.GetAveragedElevation(k5, i8), i8);
-                    gameCamera.addSpriteToScene(50000 + teleBubbleIndex, loc, 128, 256, teleBubbleIndex + 50000);
+                    gameCamera.addSpriteToScene(50000 + j4, k5, -engineHandle.getAveragedElevation(k5, i8), i8, 128, 256, j4 + 50000);
                     drawUpdatesPerformed++;
                 }
-
                 if (i10 == 1)
                 {
-                    Point3D loc = new(k5, -engineHandle.GetAveragedElevation(k5, i8), i8);
-                    gameCamera.addSpriteToScene(50000 + teleBubbleIndex, loc, 128, 64, teleBubbleIndex + 50000);
+                    gameCamera.addSpriteToScene(50000 + j4, k5, -engineHandle.getAveragedElevation(k5, i8), i8, 128, 64, j4 + 50000);
                     drawUpdatesPerformed++;
                 }
             }
 
-            gameGraphics.ClearScreen();
-
+            gameGraphics.interlace = false;
+            gameGraphics.clearScreen();
+            gameGraphics.interlace = base.keyF1Toggle;
             if (lastLayerIndex == 3)
             {
-                int l5 = 40 + (int)(random.NextDouble() * 3D);
-                int j8 = 40 + (int)(random.NextDouble() * 7D);
-
-                Point3D loc = new(-50, -10, -50);
-                gameCamera.bjl(l5, j8, loc);
+                int l5 = 40 + (int)(Helper.Random.NextDouble() * 3D);
+                int j8 = 40 + (int)(Helper.Random.NextDouble() * 7D);
+                gameCamera.bjl(l5, j8, -50, -10, -50);
             }
-
             itemsAboveHeadCount = 0;
             receivedMessagesCount = 0;
             healthBarVisibleCount = 0;
-
             if (cameraAutoAngleDebug)
             {
-                if (SettingsManager.Instance.CameraAutoAngle && !cameraZoom)
+                if (configCameraAutoAngle && !cameraZoom)
                 {
                     int i6 = cameraAutoAngle;
                     autoRotateCamera();
-
                     if (cameraAutoAngle != i6)
                     {
-                        cameraAutoRotatePlayerX = CurrentPlayer.Location.X;
-                        cameraAutoRotatePlayerY = CurrentPlayer.Location.Y;
+                        cameraAutoRotatePlayerX = ourPlayer.currentX;
+                        cameraAutoRotatePlayerY = ourPlayer.currentY;
                     }
                 }
-
-                if (SettingsManager.Instance.GraphicsSettings.FogOfWar)
+                if (fogOfWar)
                 {
                     gameCamera.zoom1 = 3000;
                     gameCamera.zoom2 = 3000;
@@ -4738,27 +6685,31 @@ namespace OpenRS.Net.Client
                     gameCamera.zoom3 = 40000;
                     gameCamera.zoom4 = 40000;
                 }
-
+                cameraRotation = cameraAutoAngle * 32;
                 int newCameraPosX = cameraAutoRotatePlayerX + cameraRotationXAmount;
                 int newCameraPosY = cameraAutoRotatePlayerY + cameraRotationYAmount;
-
-                cameraRotation = cameraAutoAngle * 32;
-                Point3D loc = new(newCameraPosX, -engineHandle.GetAveragedElevation(newCameraPosX, newCameraPosY), newCameraPosY);
-                gameCamera.SetCameraTransform(loc, 912, cameraRotation * 4, 0, 2000);
+                gameCamera.SetCameraTransform(newCameraPosX, -engineHandle.getAveragedElevation(newCameraPosX, newCameraPosY), newCameraPosY, 912, cameraRotation * 4, 0, 2000);
             }
             else
             {
-                if (SettingsManager.Instance.CameraAutoAngle && !cameraZoom)
-                {
+                if (configCameraAutoAngle && !cameraZoom)
                     autoRotateCamera();
-                }
-
-                if (SettingsManager.Instance.GraphicsSettings.FogOfWar)
+                if (fogOfWar)
                 {
-                    gameCamera.zoom1 = 2400;
-                    gameCamera.zoom2 = 2400;
-                    gameCamera.zoom3 = 1;
-                    gameCamera.zoom4 = 2300;
+                    if (!base.keyF1Toggle)
+                    {
+                        gameCamera.zoom1 = 2400;
+                        gameCamera.zoom2 = 2400;
+                        gameCamera.zoom3 = 1;
+                        gameCamera.zoom4 = 2300;
+                    }
+                    else
+                    {
+                        gameCamera.zoom1 = 2200;
+                        gameCamera.zoom2 = 2200;
+                        gameCamera.zoom3 = 1;
+                        gameCamera.zoom4 = 2100;
+                    }
                 }
                 else
                 {
@@ -4767,308 +6718,542 @@ namespace OpenRS.Net.Client
                     gameCamera.zoom3 = 40000;
                     gameCamera.zoom4 = 40000;
                 }
-
                 int k6 = cameraAutoRotatePlayerX + cameraRotationXAmount;
                 int l8 = cameraAutoRotatePlayerY + cameraRotationYAmount;
-                Point3D loc = new(k6, -engineHandle.GetAveragedElevation(k6, l8), l8);
-                gameCamera.SetCameraTransform(loc, 912, cameraRotation * 4, 0, cameraDistance * 2);
+                gameCamera.SetCameraTransform(k6, -engineHandle.getAveragedElevation(k6, l8), l8, 912, cameraRotation * 4, 0, cameraDistance * 2);
             }
-
             gameCamera.finishCamera();
-            DrawAboveHeadThings();
-
+            drawAboveHeadThings();
             if (actionPictureType > 0)
-            {
-                gameGraphics.DrawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 14 + (24 - actionPictureType) / 6);
-            }
-
+                gameGraphics.drawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 14 + (24 - actionPictureType) / 6);
             if (actionPictureType < 0)
-            {
-                gameGraphics.DrawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 18 + (24 + actionPictureType) / 6);
-            }
-
-            gameGraphics.DrawPicture(gameGraphics.GameSize.Width - 3 - 197, 3, baseInventoryPic, 128);
-
+                gameGraphics.drawPicture(walkMouseX - 8, walkMouseY - 8, baseInventoryPic + 18 + (24 + actionPictureType) / 6);
             if (systemUpdate != 0)
             {
-                int sysSeconds = systemUpdate / 50;
-                int sysMinutes = sysSeconds / 60;
-                sysSeconds %= 60;
-                string sysText;
-                if (sysSeconds < 10)
-                {
-                    sysText = "System update in: " + sysMinutes + ":0" + sysSeconds;
-                }
+                int seconds = systemUpdate / 50;
+                int minutes = seconds / 60;
+                seconds %= 60;
+                if (seconds < 10)
+                    gameGraphics.drawText("System update in: " + minutes + ":0" + seconds, 256, windowHeight - 7, 1, 0xffff00);
                 else
-                {
-                    sysText = "System update in: " + sysMinutes + ":" + sysSeconds;
-                }
-                gameGraphics.DrawText(sysText, 256, WindowSize.Height - 7, 1, 0xffff00);
+                    gameGraphics.drawText("System update in: " + minutes + ":" + seconds, 256, windowHeight - 7, 1, 0xffff00);
             }
+            if (!loadArea)
+            {
+                int i7 = 2203 - (sectionY + wildY + areaY);
+                if (sectionX + wildX + areaX >= 2640)
+                    i7 = -50;
+                if (i7 > 0)
+                {
+                    int j9 = 1 + i7 / 6;
+                    gameGraphics.drawPicture(453, windowHeight - 56, baseInventoryPic + 13);
+                    gameGraphics.drawText("Wilderness", 465, windowHeight - 20, 1, 0xffff00);
+                    gameGraphics.drawText("Level: " + j9, 465, windowHeight - 7, 1, 0xffff00);
+                    if (wildType == 0)
+                        wildType = 2;
+                }
+                if (wildType == 0 && i7 > -10 && i7 <= 0)
+                    wildType = 1;
+            }
+            if (messagesTab == 0)
+            {
+                for (int j7 = 0; j7 < 5; j7++)
+                    if (messagesTimeout[j7] > 0)
+                    {
+                        String s1 = messagesArray[j7];
+                        gameGraphics.drawString(s1, 7, windowHeight - 18 - j7 * 12, 1, 0xffff00);
+                    }
+
+            }
+            chatInputMenu.disableInput(messagesHandleType2);
+            chatInputMenu.disableInput(messagesHandleType5);
+            chatInputMenu.disableInput(messagesHandleType6);
+            if (messagesTab == 1)
+                chatInputMenu.enableInput(messagesHandleType2);
+            else if (messagesTab == 2)
+                chatInputMenu.enableInput(messagesHandleType5);
+            else if (messagesTab == 3)
+                chatInputMenu.enableInput(messagesHandleType6);
+            Menu.chatMenuTextHeightMod = 2;
+            chatInputMenu.drawMenu();
+            Menu.chatMenuTextHeightMod = 0;
+            gameGraphics.drawPicture(((GameImage)(gameGraphics)).gameWidth - 3 - 197, 3, baseInventoryPic, 128);
+
+#warning play with this! Create a new menu of choice :)
+
 
             drawMenus();
 
-            gameGraphics.IsLoggedIn = false;
+            gameGraphics.loggedIn = false;
+            drawChatMessageTabs();
 
-            if (!LoadArea)
-            {
-                int wildLevel = 2203 - (SectionLocation.Y + WildLocation.Y + AreaLocation.Y);
-                if (SectionLocation.X + WildLocation.X + AreaLocation.X >= 2640)
-                {
-                    wildLevel = -50;
-                }
-                if (wildLevel > 0)
-                {
-                    int wildDisplayLevel = 1 + wildLevel / 6;
-                    gameGraphics.DrawPicture(453, WindowSize.Height - 56, baseInventoryPic + 13);
-                    gameGraphics.DrawText("Wilderness", 465, WindowSize.Height - 20, 1, 0xffff00);
-                    gameGraphics.DrawText("Level: " + wildDisplayLevel, 465, WindowSize.Height - 7, 1, 0xffff00);
-                    if (wildType == 0)
-                    {
-                        wildType = 2;
-                    }
-                }
-                if (wildType == 0 && wildLevel > -10 && wildLevel <= 0)
-                {
-                    wildType = 1;
-                }
-            }
 
-            for (int msgDraw = 0; msgDraw < 5; msgDraw++)
-            {
-                if (messagesTimeout[msgDraw] > 0)
-                {
-                    gameGraphics.DrawString(messagesArray[msgDraw], 7, WindowSize.Height - 18 - msgDraw * 12, 1, 0xffff00);
-                }
-            }
-
-            string text =
-                "Coordinates: ( " + (SectionLocation.X + AreaLocation.X) + "," + (SectionLocation.Y + AreaLocation.Y) + " ) " +
-                "Section: (" + SectionLocation.X + "," + SectionLocation.Y + ") " +
-                "Area: (" + AreaLocation.X + "," + AreaLocation.Y + ")";
-
+            string text = "Coordinates: ( " + (sectionX + areaX) + "," + (sectionY + areaY) + " ) Section: (" + sectionX + "," + sectionY + ") Area: (" + areaX + "," + areaY + ")";
             // Text shadow
-            gameGraphics.DrawString(text, 10 + 11, 10 + 11, 1, 0x000000);
-            gameGraphics.DrawString(text, 10 + 10, 10 + 10, 1, 0xffffff);
+            gameGraphics.drawString(text, 10 + 11, 10 + 11, 1, 0x000000);
+            gameGraphics.drawString(text, 10 + 10, 10 + 10, 1, 0xffffff);
 
-            // Debug overlay
-            int dbgTrousers = CurrentPlayer?.Appearance?.TrousersColour ?? -1;
-            int dbgLocX = CurrentPlayer?.Location.X ?? 0;
-            int dbgLocY = CurrentPlayer?.Location.Y ?? 0;
-            string dbg1 = "Players:" + PlayerCount + " NPCs:" + NpcCount + " Alive:" + engineHandle.playerIsAlive + " WorldInfo:" + HasWorldInfo;
-            string dbg2 = "CurPlayer: trousers=" + dbgTrousers + " locX=" + dbgLocX + " locY=" + dbgLocY;
-            string dbg3 = PlayerCount > 0 ? "P[0] trousers=" + Players[0]?.Appearance?.TrousersColour + " worn=[" + (Players[0]?.AppearanceItems != null ? string.Join(",", Players[0].AppearanceItems) : "null") + "]" : "no players";
-            gameGraphics.DrawString(dbg1, 10 + 1, 30 + 1, 1, 0x000000);
-            gameGraphics.DrawString(dbg1, 10, 30, 1, 0xff8800);
-            gameGraphics.DrawString(dbg2, 10 + 1, 42 + 1, 1, 0x000000);
-            gameGraphics.DrawString(dbg2, 10, 42, 1, 0xff8800);
-            gameGraphics.DrawString(dbg3, 10 + 1, 54 + 1, 1, 0x000000);
-            gameGraphics.DrawString(dbg3, 10, 54, 1, 0xff8800);
-
-            OnDrawDone();
+            //gameGraphics.UpdateGameImage();
+            OnDrawDone();//gameGraphics.drawImage(spriteBatch, 0, 0);
         }
 
-        private void DrawDead()
+        //	public bool DrawCustomMenus { get; set; }
+        //    public event EventHandler OnDrawMenus;
+
+        public void drawReportAbuseBox2()
         {
-            gameGraphics.FadeScreenToBlack();
-            gameGraphics.DrawText("Oh dear! You are dead...", WindowSize.Width / 2, WindowSize.Height / 2, 7, 0xff0000);
-
-            OnDrawDone();
-        }
-
-        private void DrawSleeping()
-        {
-            gameGraphics.FadeScreenToBlack();
-
-            if (random.NextDouble() < 0.14999999999999999D)
+            if (base.enteredInputText.Length > 0)
             {
-                gameGraphics.DrawText("ZZZ", (int)(random.NextDouble() * 80D), (int)(random.NextDouble() * 334D), 5, (int)(random.NextDouble() * 16777215D));
+                String s1 = base.enteredInputText.Trim();
+                base.inputText = "";
+                base.enteredInputText = "";
+                if (s1.Length > 0)
+                {
+                    long l1 = DataOperations.nameToHash(s1);
+                    base.streamClass.createPacket(7);
+                    base.streamClass.addLong(l1);
+                    base.streamClass.addByte(reportAbuseOptionSelected);
+                    //base.streamClass.addByte(dia ? 1 : 0);
+                    base.streamClass.formatPacket();
+                }
+                showAbuseBox = 0;
+                return;
             }
-
-            if (random.NextDouble() < 0.14999999999999999D)
+            gameGraphics.drawBox(56, 130, 400, 100, 0);
+            gameGraphics.drawBoxEdge(56, 130, 400, 100, 0xffffff);
+            int l = 160;
+            gameGraphics.drawText("Now type the name of the offending player, and press enter", 256, l, 1, 0xffff00);
+            l += 18;
+            gameGraphics.drawText("Name: " + base.inputText + "*", 256, l, 4, 0xffffff);
+            l = 222;
+            int i1 = 0xffffff;
+            if (base.mouseX > 196 && base.mouseX < 316 && base.mouseY > l - 13 && base.mouseY < l + 2)
             {
-                gameGraphics.DrawText("ZZZ", 512 - (int)(random.NextDouble() * 80D), (int)(random.NextDouble() * 334D), 5, (int)(random.NextDouble() * 16777215D));
+                i1 = 0xffff00;
+                if (mouseButtonClick == 1)
+                {
+                    mouseButtonClick = 0;
+                    showAbuseBox = 0;
+                }
             }
-
-            gameGraphics.DrawBox(WindowSize.Width / 2 - 100, 160, 200, 40, 0);
-            gameGraphics.DrawText("You are sleeping", WindowSize.Width / 2, 50, 7, 0xffff00);
-            gameGraphics.DrawText("Fatigue: " + PlayerFatigue * 100 / 750 + "%", WindowSize.Width / 2, 90, 7, 0xffff00);
-            gameGraphics.DrawText("When you want to wake up just use your", WindowSize.Width / 2, 140, 5, 0xffffff);
-            gameGraphics.DrawText("keyboard to type the word in the box below", WindowSize.Width / 2, 160, 5, 0xffffff);
-
-            if (sleepingStatusText is null)
+            gameGraphics.drawText("Click here to cancel", 256, l, 1, i1);
+            if (mouseButtonClick == 1 && (base.mouseX < 56 || base.mouseX > 456 || base.mouseY < 130 || base.mouseY > 230))
             {
-                gameGraphics.drawPixels(captchaPixels, WindowSize.Width / 2 - 127, 230, captchaWidth, captchaHeight);
+                mouseButtonClick = 0;
+                showAbuseBox = 0;
             }
-            else
-            {
-                gameGraphics.DrawText(sleepingStatusText, WindowSize.Width / 2, 260, 5, 0xff0000);
-            }
-
-            gameGraphics.DrawBoxEdge(WindowSize.Width / 2 - 128, 229, 257, 42, 0xffffff);
-            gameGraphics.DrawText("If you can't read the word", WindowSize.Width / 2, 290, 1, 0xffffff);
-            gameGraphics.DrawText("@yel@click here@whi@ to get a different one", WindowSize.Width / 2, 305, 1, 0xffffff);
-
-            OnDrawDone();
         }
 
         public void drawMenus()
         {
             if (logoutTimer != 0)
-            {
                 drawLogoutBox();
-            }
             else if (showWelcomeBox)
-            {
                 drawWelcomeBox();
-            }
             else if (showServerMessageBox)
-            {
                 drawServerMessageBox();
-            }
             else if (wildType == 1)
-            {
                 drawWildernessAlertBox();
-            }
-            else if (ShowBankBox && combatTimeout == 0)
-            {
-                DrawBankBox();
-            }
-            else if (ShowShopBox && combatTimeout == 0)
-            {
+            else if (showBankBox && combatTimeout == 0)
+                drawBankBox();
+            else if (showShopBox && combatTimeout == 0)
                 drawShopBox();
-            }
             else if (showTradeConfirmBox)
-            {
                 drawTradeConfirmBox();
-            }
             else if (showTradeBox)
-            {
                 drawTradeBox();
-            }
             else if (showDuelConfirmBox)
-            {
                 drawDuelConfirmBox();
-            }
             else if (showDuelBox)
-            {
                 drawDuelBox();
+            else if (showAbuseBox == 1)
+                drawReportAbuseBox1();
+            else if (showAbuseBox == 2)
+                drawReportAbuseBox2();
+            else if (showFriendsBox != 0)
+            {
+                drawFriendsBox();
             }
             else
             {
-                if (ShowQuestionMenu)
-                {
+                if (showQuestionMenu)
                     drawQuestionMenu();
-                }
-
+                if (showCombatWindow || ourPlayer.currentSprite == 8 || ourPlayer.currentSprite == 9)
+                    drawCombatStyleBox();
                 getMenuHighlighted();
-                bool flag = !ShowQuestionMenu && !menuShow;
+                bool flag = !showQuestionMenu && !menuShow;
                 if (flag)
-                {
                     menuOptionsCount = 0;
-                }
-
                 if (drawMenuTab == 0 && flag)
-                {
                     generateWorldRightClickMenu();
-                }
-
                 if (drawMenuTab == 1)
-                {
                     drawInventoryMenu(flag);
-                }
-
                 if (drawMenuTab == 2)
-                {
                     drawMinimapMenu(flag);
-                }
-
                 if (drawMenuTab == 3)
-                {
                     drawStatsQuestsMenu(flag);
-                }
-
                 if (drawMenuTab == 4)
-                {
                     drawPrayerMagicMenu(flag);
-                }
-
-                if (!menuShow && !ShowQuestionMenu)
-                {
+                if (drawMenuTab == 5)
+                    drawFriendsMenu(flag);
+                if (drawMenuTab == 6)
+                    drawOptionsMenu(flag);
+                if (!menuShow && !showQuestionMenu)
                     checkMouseStatus();
-                }
-
-                if (menuShow && !ShowQuestionMenu)
-                {
+                if (menuShow && !showQuestionMenu)
                     drawRightClickMenu();
-                }
             }
             mouseButtonClick = 0;
         }
 
-        public void LoadModels()
+        public void loadModels()
         {
-            entityManager.GetModelIndex("torcha2");
-            entityManager.GetModelIndex("torcha3");
-            entityManager.GetModelIndex("torcha4");
-            entityManager.GetModelIndex("skulltorcha2");
-            entityManager.GetModelIndex("skulltorcha3");
-            entityManager.GetModelIndex("skulltorcha4");
-            entityManager.GetModelIndex("firea2");
-            entityManager.GetModelIndex("firea3");
-            entityManager.GetModelIndex("fireplacea2");
-            entityManager.GetModelIndex("fireplacea3");
-            entityManager.GetModelIndex("firespell2");
-            entityManager.GetModelIndex("firespell3");
-            entityManager.GetModelIndex("lightning2");
-            entityManager.GetModelIndex("lightning3");
-            entityManager.GetModelIndex("clawspell2");
-            entityManager.GetModelIndex("clawspell3");
-            entityManager.GetModelIndex("clawspell4");
-            entityManager.GetModelIndex("clawspell5");
-            entityManager.GetModelIndex("spellcharge2");
-            entityManager.GetModelIndex("spellcharge3");
-
-            sbyte[] models = unpackData("models.jag", "3d models", 60);
-
-            if (models is null)
+            Data.Data.getModelNameIndex("torcha2");
+            Data.Data.getModelNameIndex("torcha3");
+            Data.Data.getModelNameIndex("torcha4");
+            Data.Data.getModelNameIndex("skulltorcha2");
+            Data.Data.getModelNameIndex("skulltorcha3");
+            Data.Data.getModelNameIndex("skulltorcha4");
+            Data.Data.getModelNameIndex("firea2");
+            Data.Data.getModelNameIndex("firea3");
+            Data.Data.getModelNameIndex("fireplacea2");
+            Data.Data.getModelNameIndex("fireplacea3");
+            Data.Data.getModelNameIndex("firespell2");
+            Data.Data.getModelNameIndex("firespell3");
+            Data.Data.getModelNameIndex("lightning2");
+            Data.Data.getModelNameIndex("lightning3");
+            Data.Data.getModelNameIndex("clawspell2");
+            Data.Data.getModelNameIndex("clawspell3");
+            Data.Data.getModelNameIndex("clawspell4");
+            Data.Data.getModelNameIndex("clawspell5");
+            Data.Data.getModelNameIndex("spellcharge2");
+            Data.Data.getModelNameIndex("spellcharge3");
+            sbyte[] abyte0 = unpackData("models.jag", "3d models", 60);
+            if (abyte0 == null)
             {
                 errorLoading = true;
                 return;
             }
-
-            for (int objectModelIndex = 0; objectModelIndex < entityManager.ObjectModelCount; objectModelIndex++)
+            for (int i1 = 0; i1 < Data.Data.modelCount; i1++)
             {
                 try
                 {
-                    long objectOffset = DataOperations.getObjectOffset(entityManager.GetObjectModelName(objectModelIndex) + ".ob3", models);
-
-                    if (objectOffset != 0)
-                    {
-                        GameDataObjects[objectModelIndex] = new ObjectModel(models, (int)objectOffset);
-                    }
+                    long j1 = DataOperations.getObjectOffset(Data.Data.modelName[i1] + ".ob3", abyte0);
+                    if (j1 != 0)
+                        gameDataObjects[i1] = new GameObject(abyte0, (int)j1, true);
                     else
-                    {
-                        GameDataObjects[objectModelIndex] = new ObjectModel(1, 1);
-                    }
-
-                    if (entityManager.GetObjectModelName(objectModelIndex).Equals("giantcrystal"))
-                    {
-                        GameDataObjects[objectModelIndex].isGiantCrystal = true;
-                    }
+                        gameDataObjects[i1] = new GameObject(1, 1);
+                    if (Data.Data.modelName[i1].Equals("giantcrystal"))
+                        gameDataObjects[i1].isGiantCrystal = true;
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"An error has occured in {nameof(GameClient)}.cs");
-                    Console.WriteLine(ex);
-                }
+                catch { }
             }
         }
 
-        public void DrawNpc(int x, int y, int width, int height, int index, int unknown1, int unknown2)
+        public void drawDuelBox()
         {
-            ClientMob npc = Npcs[index];
-            int frameIndex = npc.CurrentSprite + (cameraRotation + 16) / 32 & 7;
+            if (mouseButtonClick != 0 && mouseClickedHeldInTradeDuelBox == 0)
+                mouseClickedHeldInTradeDuelBox = 1;
+            if (mouseClickedHeldInTradeDuelBox > 0)
+            {
+                int l = base.mouseX - 22;
+                int i1 = base.mouseY - 36;
+                if (l >= 0 && i1 >= 0 && l < 468 && i1 < 262)
+                {
+                    if (l > 216 && i1 > 30 && l < 462 && i1 < 235)
+                    {
+                        int j1 = (l - 217) / 49 + ((i1 - 31) / 34) * 5;
+                        if (j1 >= 0 && j1 < inventoryItemsCount)
+                        {
+                            bool flag1 = false;
+                            int k2 = 0;
+                            int j3 = inventoryItems[j1];
+                            for (int j4 = 0; j4 < duelMyItemCount; j4++)
+                                if (duelMyItems[j4] == j3)
+                                    if (Data.Data.itemStackable[j3] == 0)
+                                    {
+                                        for (int l4 = 0; l4 < mouseClickedHeldInTradeDuelBox; l4++)
+                                        {
+                                            if (duelMyItemsCount[j4] < inventoryItemCount[j1])
+                                                duelMyItemsCount[j4]++;
+                                            flag1 = true;
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        k2++;
+                                    }
+
+                            if (getInventoryItemTotalCount(j3) <= k2)
+                                flag1 = true;
+                            if (Data.Data.itemSpecial[j3] == 1)
+                            {
+                                displayMessage("This object cannot be added to a duel offer", 3);
+                                flag1 = true;
+                            }
+                            if (!flag1 && duelMyItemCount < 8)
+                            {
+                                duelMyItems[duelMyItemCount] = j3;
+                                duelMyItemsCount[duelMyItemCount] = 1;
+                                duelMyItemCount++;
+                                flag1 = true;
+                            }
+                            if (flag1)
+                            {
+                                base.streamClass.createPacket(123);
+                                base.streamClass.addByte(duelMyItemCount);
+                                for (int i5 = 0; i5 < duelMyItemCount; i5++)
+                                {
+                                    base.streamClass.addShort(duelMyItems[i5]);
+                                    base.streamClass.addInt(duelMyItemsCount[i5]);
+                                }
+
+                                base.streamClass.formatPacket();
+                                duelOpponentAccepted = false;
+                                duelMyAccepted = false;
+                            }
+                        }
+                    }
+                    if (l > 8 && i1 > 30 && l < 205 && i1 < 129)
+                    {
+                        int k1 = (l - 9) / 49 + ((i1 - 31) / 34) * 4;
+                        if (k1 >= 0 && k1 < duelMyItemCount)
+                        {
+                            int i2 = duelMyItems[k1];
+                            for (int l2 = 0; l2 < mouseClickedHeldInTradeDuelBox; l2++)
+                            {
+                                if (Data.Data.itemStackable[i2] == 0 && duelMyItemsCount[k1] > 1)
+                                {
+                                    duelMyItemsCount[k1]--;
+                                    continue;
+                                }
+                                duelMyItemCount--;
+                                mouseButtonHeldTime = 0;
+                                for (int k3 = k1; k3 < duelMyItemCount; k3++)
+                                {
+                                    duelMyItems[k3] = duelMyItems[k3 + 1];
+                                    duelMyItemsCount[k3] = duelMyItemsCount[k3 + 1];
+                                }
+
+                                break;
+                            }
+
+                            base.streamClass.createPacket(123);
+                            base.streamClass.addByte(duelMyItemCount);
+                            for (int l3 = 0; l3 < duelMyItemCount; l3++)
+                            {
+                                base.streamClass.addShort(duelMyItems[l3]);
+                                base.streamClass.addInt(duelMyItemsCount[l3]);
+                            }
+
+                            base.streamClass.formatPacket();
+                            duelOpponentAccepted = false;
+                            duelMyAccepted = false;
+                        }
+                    }
+                    bool flag = false;
+                    if (l >= 93 && i1 >= 221 && l <= 104 && i1 <= 232)
+                    {
+                        duelNoRetreating = !duelNoRetreating;
+                        flag = true;
+                    }
+                    if (l >= 93 && i1 >= 240 && l <= 104 && i1 <= 251)
+                    {
+                        duelNoMagic = !duelNoMagic;
+                        flag = true;
+                    }
+                    if (l >= 191 && i1 >= 221 && l <= 202 && i1 <= 232)
+                    {
+                        duelNoPrayer = !duelNoPrayer;
+                        flag = true;
+                    }
+                    if (l >= 191 && i1 >= 240 && l <= 202 && i1 <= 251)
+                    {
+                        duelNoWeapons = !duelNoWeapons;
+                        flag = true;
+                    }
+                    if (flag)
+                    {
+                        base.streamClass.createPacket(225);
+                        base.streamClass.addByte(duelNoRetreating ? 1 : 0);
+                        base.streamClass.addByte(duelNoMagic ? 1 : 0);
+                        base.streamClass.addByte(duelNoPrayer ? 1 : 0);
+                        base.streamClass.addByte(duelNoWeapons ? 1 : 0);
+                        base.streamClass.formatPacket();
+                        duelOpponentAccepted = false;
+                        duelMyAccepted = false;
+                    }
+                    if (l >= 217 && i1 >= 238 && l <= 286 && i1 <= 259)
+                    {
+                        duelMyAccepted = true;
+                        base.streamClass.createPacket(252);
+                        base.streamClass.formatPacket();
+                    }
+                    if (l >= 394 && i1 >= 238 && l < 463 && i1 < 259)
+                    {
+                        showDuelBox = false;
+                        base.streamClass.createPacket(35);
+                        base.streamClass.formatPacket();
+                    }
+                }
+                else
+                    if (mouseButtonClick != 0)
+                    {
+                        showDuelBox = false;
+                        base.streamClass.createPacket(35);
+                        base.streamClass.formatPacket();
+                    }
+                mouseButtonClick = 0;
+                mouseClickedHeldInTradeDuelBox = 0;
+            }
+            if (!showDuelBox)
+                return;
+            sbyte byte0 = 22;
+            sbyte byte1 = 36;
+            gameGraphics.drawBox(byte0, byte1, 468, 12, 0xc90b1d);
+            int l1 = 0x989898;
+            gameGraphics.drawBoxAlpha(byte0, byte1 + 12, 468, 18, l1, 160);
+            gameGraphics.drawBoxAlpha(byte0, byte1 + 30, 8, 248, l1, 160);
+            gameGraphics.drawBoxAlpha(byte0 + 205, byte1 + 30, 11, 248, l1, 160);
+            gameGraphics.drawBoxAlpha(byte0 + 462, byte1 + 30, 6, 248, l1, 160);
+            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 99, 197, 24, l1, 160);
+            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 192, 197, 23, l1, 160);
+            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 258, 197, 20, l1, 160);
+            gameGraphics.drawBoxAlpha(byte0 + 216, byte1 + 235, 246, 43, l1, 160);
+            int j2 = 0xd0d0d0;
+            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 30, 197, 69, j2, 160);
+            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 123, 197, 69, j2, 160);
+            gameGraphics.drawBoxAlpha(byte0 + 8, byte1 + 215, 197, 43, j2, 160);
+            gameGraphics.drawBoxAlpha(byte0 + 216, byte1 + 30, 246, 205, j2, 160);
+            for (int i3 = 0; i3 < 3; i3++)
+                gameGraphics.drawLineX(byte0 + 8, byte1 + 30 + i3 * 34, 197, 0);
+
+            for (int i4 = 0; i4 < 3; i4++)
+                gameGraphics.drawLineX(byte0 + 8, byte1 + 123 + i4 * 34, 197, 0);
+
+            for (int k4 = 0; k4 < 7; k4++)
+                gameGraphics.drawLineX(byte0 + 216, byte1 + 30 + k4 * 34, 246, 0);
+
+            for (int j5 = 0; j5 < 6; j5++)
+            {
+                if (j5 < 5)
+                    gameGraphics.drawLineY(byte0 + 8 + j5 * 49, byte1 + 30, 69, 0);
+                if (j5 < 5)
+                    gameGraphics.drawLineY(byte0 + 8 + j5 * 49, byte1 + 123, 69, 0);
+                gameGraphics.drawLineY(byte0 + 216 + j5 * 49, byte1 + 30, 205, 0);
+            }
+
+            gameGraphics.drawLineX(byte0 + 8, byte1 + 215, 197, 0);
+            gameGraphics.drawLineX(byte0 + 8, byte1 + 257, 197, 0);
+            gameGraphics.drawLineY(byte0 + 8, byte1 + 215, 43, 0);
+            gameGraphics.drawLineY(byte0 + 204, byte1 + 215, 43, 0);
+            gameGraphics.drawString("Preparing to duel with: " + duelOpponent, byte0 + 1, byte1 + 10, 1, 0xffffff);
+            gameGraphics.drawString("Your Stake", byte0 + 9, byte1 + 27, 4, 0xffffff);
+            gameGraphics.drawString("Opponent's Stake", byte0 + 9, byte1 + 120, 4, 0xffffff);
+            gameGraphics.drawString("Duel Options", byte0 + 9, byte1 + 212, 4, 0xffffff);
+            gameGraphics.drawString("Your Inventory", byte0 + 216, byte1 + 27, 4, 0xffffff);
+            gameGraphics.drawString("No retreating", byte0 + 8 + 1, byte1 + 215 + 16, 3, 0xffff00);
+            gameGraphics.drawString("No magic", byte0 + 8 + 1, byte1 + 215 + 35, 3, 0xffff00);
+            gameGraphics.drawString("No prayer", byte0 + 8 + 102, byte1 + 215 + 16, 3, 0xffff00);
+            gameGraphics.drawString("No weapons", byte0 + 8 + 102, byte1 + 215 + 35, 3, 0xffff00);
+            gameGraphics.drawBoxEdge(byte0 + 93, byte1 + 215 + 6, 11, 11, 0xffff00);
+            if (duelNoRetreating)
+                gameGraphics.drawBox(byte0 + 95, byte1 + 215 + 8, 7, 7, 0xffff00);
+            gameGraphics.drawBoxEdge(byte0 + 93, byte1 + 215 + 25, 11, 11, 0xffff00);
+            if (duelNoMagic)
+                gameGraphics.drawBox(byte0 + 95, byte1 + 215 + 27, 7, 7, 0xffff00);
+            gameGraphics.drawBoxEdge(byte0 + 191, byte1 + 215 + 6, 11, 11, 0xffff00);
+            if (duelNoPrayer)
+                gameGraphics.drawBox(byte0 + 193, byte1 + 215 + 8, 7, 7, 0xffff00);
+            gameGraphics.drawBoxEdge(byte0 + 191, byte1 + 215 + 25, 11, 11, 0xffff00);
+            if (duelNoWeapons)
+                gameGraphics.drawBox(byte0 + 193, byte1 + 215 + 27, 7, 7, 0xffff00);
+            if (!duelMyAccepted)
+                gameGraphics.drawPicture(byte0 + 217, byte1 + 238, baseInventoryPic + 25);
+            gameGraphics.drawPicture(byte0 + 394, byte1 + 238, baseInventoryPic + 26);
+            if (duelOpponentAccepted)
+            {
+                gameGraphics.drawText("Other player", byte0 + 341, byte1 + 246, 1, 0xffffff);
+                gameGraphics.drawText("has accepted", byte0 + 341, byte1 + 256, 1, 0xffffff);
+            }
+            if (duelMyAccepted)
+            {
+                gameGraphics.drawText("Waiting for", byte0 + 217 + 35, byte1 + 246, 1, 0xffffff);
+                gameGraphics.drawText("other player", byte0 + 217 + 35, byte1 + 256, 1, 0xffffff);
+            }
+            for (int k5 = 0; k5 < inventoryItemsCount; k5++)
+            {
+                int l5 = 217 + byte0 + (k5 % 5) * 49;
+                int j6 = 31 + byte1 + (k5 / 5) * 34;
+                gameGraphics.drawImage(l5, j6, 48, 32, baseItemPicture + Data.Data.itemInventoryPicture[inventoryItems[k5]], Data.Data.itemPictureMask[inventoryItems[k5]], 0, 0, false);
+                if (Data.Data.itemStackable[inventoryItems[k5]] == 0)
+                    gameGraphics.drawString(inventoryItemCount[k5].ToString(), l5 + 1, j6 + 10, 1, 0xffff00);
+            }
+
+            for (int i6 = 0; i6 < duelMyItemCount; i6++)
+            {
+                int k6 = 9 + byte0 + (i6 % 4) * 49;
+                int i7 = 31 + byte1 + (i6 / 4) * 34;
+                gameGraphics.drawImage(k6, i7, 48, 32, baseItemPicture + Data.Data.itemInventoryPicture[duelMyItems[i6]], Data.Data.itemPictureMask[duelMyItems[i6]], 0, 0, false);
+                if (Data.Data.itemStackable[duelMyItems[i6]] == 0)
+                    gameGraphics.drawString(duelMyItemsCount[i6].ToString(), k6 + 1, i7 + 10, 1, 0xffff00);
+                if (base.mouseX > k6 && base.mouseX < k6 + 48 && base.mouseY > i7 && base.mouseY < i7 + 32)
+                    gameGraphics.drawString(Data.Data.itemName[duelMyItems[i6]] + ": @whi@" + Data.Data.itemDescription[duelMyItems[i6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
+            }
+
+            for (int l6 = 0; l6 < duelOpponentItemCount; l6++)
+            {
+                int j7 = 9 + byte0 + (l6 % 4) * 49;
+                int k7 = 124 + byte1 + (l6 / 4) * 34;
+                gameGraphics.drawImage(j7, k7, 48, 32, baseItemPicture + Data.Data.itemInventoryPicture[duelOpponentItems[l6]], Data.Data.itemPictureMask[duelOpponentItems[l6]], 0, 0, false);
+                if (Data.Data.itemStackable[duelOpponentItems[l6]] == 0)
+                    gameGraphics.drawString(duelOpponentItemsCount[l6].ToString(), j7 + 1, k7 + 10, 1, 0xffff00);
+                if (base.mouseX > j7 && base.mouseX < j7 + 48 && base.mouseY > k7 && base.mouseY < k7 + 32)
+                    gameGraphics.drawString(Data.Data.itemName[duelOpponentItems[l6]] + ": @whi@" + Data.Data.itemDescription[duelOpponentItems[l6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
+            }
+
+        }
+
+        public void drawWildernessAlertBox()
+        {
+            int l = 97;
+            gameGraphics.drawBox(86, 77, 340, 180, 0);
+            gameGraphics.drawBoxEdge(86, 77, 340, 180, 0xffffff);
+            gameGraphics.drawText("Warning! Proceed with caution", 256, l, 4, 0xff0000);
+            l += 26;
+            gameGraphics.drawText("If you go much further north you will enter the", 256, l, 1, 0xffffff);
+            l += 13;
+            gameGraphics.drawText("wilderness. This a very dangerous area where", 256, l, 1, 0xffffff);
+            l += 13;
+            gameGraphics.drawText("other players can attack you!", 256, l, 1, 0xffffff);
+            l += 22;
+            gameGraphics.drawText("The further north you go the more dangerous it", 256, l, 1, 0xffffff);
+            l += 13;
+            gameGraphics.drawText("becomes, but the more treasure you will find.", 256, l, 1, 0xffffff);
+            l += 22;
+            gameGraphics.drawText("In the wilderness an indicator at the bottom-right", 256, l, 1, 0xffffff);
+            l += 13;
+            gameGraphics.drawText("of the screen will show the current level of danger", 256, l, 1, 0xffffff);
+            l += 22;
+            int i1 = 0xffffff;
+            if (base.mouseY > l - 12 && base.mouseY <= l && base.mouseX > 181 && base.mouseX < 331)
+                i1 = 0xff0000;
+            gameGraphics.drawText("Click here to close window", 256, l, 1, i1);
+            if (mouseButtonClick != 0)
+            {
+                if (base.mouseY > l - 12 && base.mouseY <= l && base.mouseX > 181 && base.mouseX < 331)
+                    wildType = 2;
+                if (base.mouseX < 86 || base.mouseX > 426 || base.mouseY < 77 || base.mouseY > 257)
+                    wildType = 2;
+                mouseButtonClick = 0;
+            }
+        }
+
+        public void drawNPC(int x, int y, int width, int height, int index, int unknown1, int unknown2)
+        {
+            ClientMob npc = npcArray[index];
+            int frameIndex = npc.currentSprite + (cameraRotation + 16) / 32 & 7;
             bool flag = false;
             int newFrameIndex = frameIndex;
             if (newFrameIndex == 5)
@@ -5086,506 +7271,130 @@ namespace OpenRS.Net.Client
                 newFrameIndex = 1;
                 flag = true;
             }
-            int j1 = newFrameIndex * 3 + walkModel[npc.StepCount / entityManager.GetNpc(npc.NpcIdentifier).WalkModel % 4];
-            if (npc.CurrentSprite == 8)
+            int j1 = newFrameIndex * 3 + walkModel[(npc.stepCount / Data.Data.npcWalkModelArray[npc.npcId]) % 4];
+            if (npc.currentSprite == 8)
             {
                 newFrameIndex = 5;
                 frameIndex = 2;
                 flag = false;
-                x -= entityManager.GetNpc(npc.NpcIdentifier).CombatSprite * unknown2 / 100;
-                j1 = newFrameIndex * 3 + combatModelArray1[tick / (entityManager.GetNpc(npc.NpcIdentifier).CombatModel - 1) % 8];
+                x -= (Data.Data.npcCombatSprite[npc.npcId] * unknown2) / 100;
+                j1 = newFrameIndex * 3 + combatModelArray1[(tick / (Data.Data.npcCombatModel[npc.npcId] - 1)) % 8];
             }
             else
-                if (npc.CurrentSprite == 9)
-            {
-                newFrameIndex = 5;
-                frameIndex = 2;
-                flag = true;
-                x += entityManager.GetNpc(npc.NpcIdentifier).CombatSprite * unknown2 / 100;
-                j1 = newFrameIndex * 3 + combatModelArray2[tick / entityManager.GetNpc(npc.NpcIdentifier).CombatModel % 8];
-            }
-
+                if (npc.currentSprite == 9)
+                {
+                    newFrameIndex = 5;
+                    frameIndex = 2;
+                    flag = true;
+                    x += (Data.Data.npcCombatSprite[npc.npcId] * unknown2) / 100;
+                    j1 = newFrameIndex * 3 + combatModelArray2[(tick / Data.Data.npcCombatModel[npc.npcId]) % 8];
+                }
             for (int k1 = 0; k1 < 12; k1++)
             {
                 int l1 = animationModelArray[frameIndex][k1];
-                int k2 = entityManager.GetNpc(npc.NpcIdentifier).Sprites[l1];
-
-                if (k2 > entityManager.AnimationCount - 1)
-                {
-                    continue;
-                }
-
+                int k2 = Data.Data.npcAnimationCount[npc.npcId][l1];
                 if (k2 >= 0)
                 {
                     int i3 = 0;
                     int j3 = 0;
                     int k3 = j1;
-
-                    if (flag && newFrameIndex >= 1 && newFrameIndex <= 3 && entityManager.GetAnimation(k2).HasF == 1)
-                    {
+                    if (flag && newFrameIndex >= 1 && newFrameIndex <= 3 && Data.Data.animationHasF[k2] == 1)
                         k3 += 15;
-                    }
-
-                    if (newFrameIndex != 5 || entityManager.GetAnimation(k2).HasA == 1)
+                    if (newFrameIndex != 5 || Data.Data.animationHasA[k2] == 1)
                     {
-                        int l3 = k3 + entityManager.GetAnimation(k2).Number;
-                        i3 = i3 * width / gameGraphics.pictureAssumedWidth[l3];
-                        j3 = j3 * height / gameGraphics.pictureAssumedHeight[l3];
-                        int i4 = width * gameGraphics.pictureAssumedWidth[l3] / gameGraphics.pictureAssumedWidth[entityManager.GetAnimation(k2).Number];
+                        int l3 = k3 + Data.Data.animationNumber[k2];
+                        i3 = (i3 * width) / ((GameImage)(gameGraphics)).pictureAssumedWidth[l3];
+                        j3 = (j3 * height) / ((GameImage)(gameGraphics)).pictureAssumedHeight[l3];
+                        int i4 = (width * ((GameImage)(gameGraphics)).pictureAssumedWidth[l3]) / ((GameImage)(gameGraphics)).pictureAssumedWidth[Data.Data.animationNumber[k2]];
                         i3 -= (i4 - width) / 2;
-                        int j4 = entityManager.GetAnimation(k2).CharacterColour;
+                        int j4 = Data.Data.animationCharacterColor[k2];
                         int k4 = 0;
-
                         if (j4 == 1)
                         {
-                            j4 = entityManager.GetNpc(npc.NpcIdentifier).Appearance.HairColour;
-                            k4 = entityManager.GetNpc(npc.NpcIdentifier).Appearance.SkinColour;
+                            j4 = Data.Data.npcHairColor[npc.npcId];
+                            k4 = Data.Data.npcSkinColor[npc.npcId];
                         }
-                        else if (j4 == 2)
-                        {
-                            j4 = entityManager.GetNpc(npc.NpcIdentifier).Appearance.TopColour;
-                            k4 = entityManager.GetNpc(npc.NpcIdentifier).Appearance.SkinColour;
-                        }
-                        else if (j4 == 3)
-                        {
-                            j4 = entityManager.GetNpc(npc.NpcIdentifier).Appearance.TrousersColour;
-                            k4 = entityManager.GetNpc(npc.NpcIdentifier).Appearance.SkinColour;
-                        }
-
-                        gameGraphics.DrawImage(x + i3, y + j3, i4, height, l3, j4, k4, unknown1, flag);
+                        else
+                            if (j4 == 2)
+                            {
+                                j4 = Data.Data.npcTopColor[npc.npcId];
+                                k4 = Data.Data.npcSkinColor[npc.npcId];
+                            }
+                            else
+                                if (j4 == 3)
+                                {
+                                    j4 = Data.Data.npcBottomColor[npc.npcId];
+                                    k4 = Data.Data.npcSkinColor[npc.npcId];
+                                }
+                        gameGraphics.drawImage(x + i3, y + j3, i4, height, l3, j4, k4, unknown1, flag);
                     }
                 }
             }
 
-            if (npc.LastMessageTimeout > 0)
+            if (npc.lastMessageTimeout > 0)
             {
-                receivedMessageMidPoint[receivedMessagesCount] = gameGraphics.textWidth(npc.LastMessage, 1) / 2;
+                receivedMessageMidPoint[receivedMessagesCount] = gameGraphics.textWidth(npc.lastMessage, 1) / 2;
                 if (receivedMessageMidPoint[receivedMessagesCount] > 150)
-                {
                     receivedMessageMidPoint[receivedMessagesCount] = 150;
-                }
-
-                receivedMessageHeight[receivedMessagesCount] = gameGraphics.textWidth(npc.LastMessage, 1) / 300 * gameGraphics.textHeightNumber(1);
+                receivedMessageHeight[receivedMessagesCount] = (gameGraphics.textWidth(npc.lastMessage, 1) / 300) * gameGraphics.textHeightNumber(1);
                 receivedMessageX[receivedMessagesCount] = x + width / 2;
                 receivedMessageY[receivedMessagesCount] = y;
-                receivedMessages[receivedMessagesCount++] = npc.LastMessage;
+                receivedMessages[receivedMessagesCount++] = npc.lastMessage;
             }
-            if (npc.CurrentSprite == 8 || npc.CurrentSprite == 9 || npc.CombatTimer != 0)
+            if (npc.currentSprite == 8 || npc.currentSprite == 9 || npc.combatTimer != 0)
             {
-                if (npc.CombatTimer > 0)
+                if (npc.combatTimer > 0)
                 {
                     int i2 = x;
-
-                    if (npc.CurrentSprite == 8)
-                    {
-                        i2 -= 20 * unknown2 / 100;
-                    }
-                    else if (npc.CurrentSprite == 9)
-                    {
-                        i2 += 20 * unknown2 / 100;
-                    }
-
-                    int l2 = npc.CurrentHitpoints * 30 / npc.BaseHitpoints;
+                    if (npc.currentSprite == 8)
+                        i2 -= (20 * unknown2) / 100;
+                    else
+                        if (npc.currentSprite == 9)
+                            i2 += (20 * unknown2) / 100;
+                    int l2 = (npc.currentHits * 30) / npc.baseHits;
                     healthBarX[healthBarVisibleCount] = i2 + width / 2;
                     healthBarY[healthBarVisibleCount] = y;
                     healthBarMissing[healthBarVisibleCount++] = l2;
                 }
-
-                if (npc.CombatTimer > 150)
+                if (npc.combatTimer > 150)
                 {
                     int j2 = x;
-                    if (npc.CurrentSprite == 8)
-                    {
-                        j2 -= 10 * unknown2 / 100;
-                    }
+                    if (npc.currentSprite == 8)
+                        j2 -= (10 * unknown2) / 100;
                     else
-                        if (npc.CurrentSprite == 9)
-                    {
-                        j2 += 10 * unknown2 / 100;
-                    }
-
-                    gameGraphics.DrawPicture(j2 + width / 2 - 12, y + height / 2 - 12, baseInventoryPic + 12);
-                    gameGraphics.DrawText(npc.LastDamageCount.ToString(), j2 + width / 2 - 1, y + height / 2 + 5, 3, 0xffffff);
+                        if (npc.currentSprite == 9)
+                            j2 += (10 * unknown2) / 100;
+                    gameGraphics.drawPicture((j2 + width / 2) - 12, (y + height / 2) - 12, baseInventoryPic + 12);
+                    gameGraphics.drawText(npc.lastDamageCount.ToString(), (j2 + width / 2) - 1, y + height / 2 + 5, 3, 0xffffff);
                 }
             }
         }
 
-        public override void DisplayMessage(string message) => OnChatMessageReceived?.Invoke(this, new ChatMessageEventArgs(message));
-
-        public void DisplayMessage(string message, int type)
+        public override void displayMessage(String s1)
         {
-            OnChatMessageReceived?.Invoke(this, new ChatMessageEventArgs(message));
-
-            if (type == 3 || type == 5)
+            if (s1.StartsWith("@bor@"))
             {
-                for (int msgShift = 4; msgShift > 0; msgShift--)
-                {
-                    messagesArray[msgShift] = messagesArray[msgShift - 1];
-                    messagesTimeout[msgShift] = messagesTimeout[msgShift - 1];
-                }
-                messagesArray[0] = message;
-                messagesTimeout[0] = 150;
+                displayMessage(s1, 4);
+                return;
             }
-        }
-
-        public void playSound(string soundName)
-        {
-            // Sound playback stub — extend when audio engine is available
-        }
-
-        public bool takeScreenshot(bool verbose)
-        {
-            // Screenshot stub — extend with actual capture logic
-            return false;
-        }
-
-        public void drawLogoutBox()
-        {
-            gameGraphics.DrawBox(126, 137, 260, 60, 0);
-            gameGraphics.DrawBoxEdge(126, 137, 260, 60, 0xffffff);
-            gameGraphics.DrawText("Logging out...", 256, 173, 5, 0xffffff);
-        }
-
-        public void drawWelcomeBox()
-        {
-            int boxHeight = 65;
-            if (!lastLoginAddress.Equals("0.0.0.0") && lastLoginAddress.Length > 0)
+            if (s1.StartsWith("@que@"))
             {
-                boxHeight += 30;
+                displayMessage("@whi@" + s1, 5);
+                return;
             }
-            if (subDaysLeft > 0)
+            if (s1.StartsWith("@pri@"))
             {
-                boxHeight += 15;
-            }
-            if (lastLoginDays >= 0)
-            {
-                boxHeight += 15;
-            }
-            int y = 167 - boxHeight / 2;
-            gameGraphics.DrawBox(56, y, 400, boxHeight, 0);
-            gameGraphics.DrawBoxEdge(56, y, 400, boxHeight, 0xffffff);
-            y += 20;
-            gameGraphics.DrawText("Welcome to RuneScape " + loginUsername, 256, y, 4, 0xffff00);
-            y += 30;
-            string dayText;
-            if (lastLoginDays == 0)
-            {
-                dayText = "earlier today";
-            }
-            else if (lastLoginDays == 1)
-            {
-                dayText = "yesterday";
+                displayMessage(s1, 6);
+                return;
             }
             else
             {
-                dayText = lastLoginDays + " days ago";
-            }
-            if (!lastLoginAddress.Equals("0.0.0.0") && lastLoginAddress.Length > 0)
-            {
-                gameGraphics.DrawText("You last logged in " + dayText, 256, y, 1, 0xffffff);
-                y += 15;
-                gameGraphics.DrawText("from: " + lastLoginAddress, 256, y, 1, 0xffffff);
-                y += 15;
-            }
-            if (subDaysLeft > 0)
-            {
-                gameGraphics.DrawText("Subscription left: " + subDaysLeft + " days", 256, y, 1, 0xffffff);
-                y += 15;
-            }
-            int closeColour = 0xffffff;
-            if (InputManager.Instance.MouseLocation.Y > y - 12 && InputManager.Instance.MouseLocation.Y <= y
-                && InputManager.Instance.MouseLocation.X > 106 && InputManager.Instance.MouseLocation.X < 406)
-            {
-                closeColour = 0xff0000;
-            }
-            gameGraphics.DrawText("Click here to close window", 256, y, 1, closeColour);
-            if (mouseButtonClick == 1)
-            {
-                if (closeColour.Equals(0xff0000))
-                {
-                    showWelcomeBox = false;
-                }
-                int boxTop = 167 - boxHeight / 2;
-                if ((InputManager.Instance.MouseLocation.X < 86 || InputManager.Instance.MouseLocation.X > 426)
-                    && (InputManager.Instance.MouseLocation.Y < boxTop || InputManager.Instance.MouseLocation.Y > boxTop + boxHeight))
-                {
-                    showWelcomeBox = false;
-                }
-            }
-            mouseButtonClick = 0;
-        }
-
-        public void drawServerMessageBox()
-        {
-            int boxWidth = 400;
-            int boxHeight = serverMessageBoxTop ? 300 : 100;
-            gameGraphics.DrawBox(256 - boxWidth / 2, 167 - boxHeight / 2, boxWidth, boxHeight, 0);
-            gameGraphics.DrawBoxEdge(256 - boxWidth / 2, 167 - boxHeight / 2, boxWidth, boxHeight, 0xffffff);
-            gameGraphics.DrawFloatingText(serverMessage, 256, (167 - boxHeight / 2) + 20, 1, 0xffffff, boxWidth - 40);
-            int closeY = 157 + boxHeight / 2;
-            int closeColour = 0xffffff;
-            if (InputManager.Instance.MouseLocation.Y > closeY - 12 && InputManager.Instance.MouseLocation.Y <= closeY
-                && InputManager.Instance.MouseLocation.X > 106 && InputManager.Instance.MouseLocation.X < 406)
-            {
-                closeColour = 0xff0000;
-            }
-            gameGraphics.DrawText("Click here to close window", 256, closeY, 1, closeColour);
-            if (mouseButtonClick == 1)
-            {
-                if (closeColour.Equals(0xff0000))
-                {
-                    showServerMessageBox = false;
-                }
-                if ((InputManager.Instance.MouseLocation.X < 256 - boxWidth / 2 || InputManager.Instance.MouseLocation.X > 256 + boxWidth / 2)
-                    && (InputManager.Instance.MouseLocation.Y < 167 - boxHeight / 2 || InputManager.Instance.MouseLocation.Y > 167 + boxHeight / 2))
-                {
-                    showServerMessageBox = false;
-                }
-            }
-            mouseButtonClick = 0;
-        }
-
-        public void drawWildernessAlertBox()
-        {
-            int y = 97;
-            gameGraphics.DrawBox(86, 77, 340, 180, 0);
-            gameGraphics.DrawBoxEdge(86, 77, 340, 180, 0xffffff);
-            gameGraphics.DrawText("Warning! Proceed with caution", 256, y, 4, 0xff0000);
-            y += 26;
-            gameGraphics.DrawText("If you go much further north you will enter the", 256, y, 1, 0xffffff);
-            y += 13;
-            gameGraphics.DrawText("wilderness. This a very dangerous area where", 256, y, 1, 0xffffff);
-            y += 13;
-            gameGraphics.DrawText("other players can attack you!", 256, y, 1, 0xffffff);
-            y += 22;
-            gameGraphics.DrawText("The further north you go the more dangerous it", 256, y, 1, 0xffffff);
-            y += 13;
-            gameGraphics.DrawText("becomes, but the more treasure you will find.", 256, y, 1, 0xffffff);
-            y += 22;
-            gameGraphics.DrawText("In the wilderness an indicator at the bottom-right", 256, y, 1, 0xffffff);
-            y += 13;
-            gameGraphics.DrawText("of the screen will show the current level of danger", 256, y, 1, 0xffffff);
-            y += 22;
-            int closeColour = 0xffffff;
-            if (InputManager.Instance.MouseLocation.Y > y - 12 && InputManager.Instance.MouseLocation.Y <= y
-                && InputManager.Instance.MouseLocation.X > 181 && InputManager.Instance.MouseLocation.X < 331)
-            {
-                closeColour = 0xff0000;
-            }
-            gameGraphics.DrawText("Click here to close window", 256, y, 1, closeColour);
-            if (mouseButtonClick != 0)
-            {
-                if (InputManager.Instance.MouseLocation.Y > y - 12 && InputManager.Instance.MouseLocation.Y <= y
-                    && InputManager.Instance.MouseLocation.X > 181 && InputManager.Instance.MouseLocation.X < 331)
-                {
-                    wildType = 2;
-                }
-                if (InputManager.Instance.MouseLocation.X < 86 || InputManager.Instance.MouseLocation.X > 426
-                    || InputManager.Instance.MouseLocation.Y < 77 || InputManager.Instance.MouseLocation.Y > 257)
-                {
-                    wildType = 2;
-                }
-                mouseButtonClick = 0;
+                displayMessage(s1, 3);
+                return;
             }
         }
 
-        public void drawStatsQuestsMenu(bool canClick)
-        {
-            // TODO: Transplant full stats/quests UI from RSCXNA
-        }
-
-        public void drawTradeBox()
-        {
-            // TODO: Transplant full trade box UI from RSCXNA
-            gameGraphics.DrawBox(22, 36, 468, 262, 0);
-            gameGraphics.DrawBoxEdge(22, 36, 468, 262, 0xffffff);
-            gameGraphics.DrawText("Trading with: " + tradeOtherName, 256, 55, 4, 0xffff00);
-            gameGraphics.DrawText("(Click an item to offer/remove it)", 256, 68, 1, 0xaaaaaa);
-            gameGraphics.DrawText("Your offer:", 120, 90, 1, 0xffffff);
-            gameGraphics.DrawText("Their offer:", 355, 90, 1, 0xffffff);
-            for (int i = 0; i < tradeItemsOurCount; i++)
-            {
-                int ix = 30 + (i % 4) * 49;
-                int iy = 100 + (i / 4) * 34;
-                DrawItem(ix, iy, 40, 30, tradeItemsOur[i]);
-            }
-            for (int i = 0; i < tradeItemsOtherCount; i++)
-            {
-                int ix = 245 + (i % 5) * 49;
-                int iy = 100 + (i / 5) * 34;
-                DrawItem(ix, iy, 40, 30, tradeItemsOther[i]);
-            }
-            int acceptColour = tradeWeAccepted ? 0x00ff00 : 0xffffff;
-            gameGraphics.DrawText("Accept", 260, 280, 1, acceptColour);
-            int declineColour = 0xffffff;
-            if (InputManager.Instance.MouseLocation.X >= 416 && InputManager.Instance.MouseLocation.X < 485
-                && InputManager.Instance.MouseLocation.Y >= 274 && InputManager.Instance.MouseLocation.Y < 295)
-            {
-                declineColour = 0xff0000;
-            }
-            gameGraphics.DrawText("Decline", 454, 280, 1, declineColour);
-            if (tradeOtherAccepted)
-            {
-                gameGraphics.DrawText(tradeOtherName + " has accepted.", 256, 295, 1, 0xffff00);
-            }
-            if (mouseButtonClick != 0)
-            {
-                if (declineColour.Equals(0xff0000))
-                {
-                    showTradeBox = false;
-                    showTradeConfirmBox = false;
-                    StreamClass.CreatePacket(207);
-                    StreamClass.FormatPacket();
-                }
-                mouseButtonClick = 0;
-            }
-        }
-
-        public void drawTradeConfirmBox()
-        {
-            // TODO: Transplant full trade confirm box UI from RSCXNA
-            gameGraphics.DrawBox(22, 36, 468, 262, 0);
-            gameGraphics.DrawBoxEdge(22, 36, 468, 262, 0xffffff);
-            gameGraphics.DrawText("Are you sure you want to make this trade?", 256, 70, 4, 0xffff00);
-            gameGraphics.DrawText("You will give:", 120, 100, 1, 0xffffff);
-            gameGraphics.DrawText("You will receive:", 355, 100, 1, 0xffffff);
-            int acceptColour = 0xffffff;
-            if (InputManager.Instance.MouseLocation.X >= 217 && InputManager.Instance.MouseLocation.X < 286
-                && InputManager.Instance.MouseLocation.Y >= 272 && InputManager.Instance.MouseLocation.Y < 293)
-            {
-                acceptColour = 0x00ff00;
-            }
-            gameGraphics.DrawText("Accept", 260, 285, 1, acceptColour);
-            int declineColour = 0xffffff;
-            if (InputManager.Instance.MouseLocation.X >= 394 && InputManager.Instance.MouseLocation.X < 463
-                && InputManager.Instance.MouseLocation.Y >= 272 && InputManager.Instance.MouseLocation.Y < 293)
-            {
-                declineColour = 0xff0000;
-            }
-            gameGraphics.DrawText("Decline", 430, 285, 1, declineColour);
-            if (mouseButtonClick != 0)
-            {
-                if (acceptColour.Equals(0x00ff00))
-                {
-                    tradeConfirmAccepted = true;
-                    StreamClass.CreatePacket(167);
-                    StreamClass.FormatPacket();
-                }
-                if (declineColour.Equals(0xff0000))
-                {
-                    showTradeBox = false;
-                    showTradeConfirmBox = false;
-                    StreamClass.CreatePacket(207);
-                    StreamClass.FormatPacket();
-                }
-                mouseButtonClick = 0;
-            }
-        }
-
-        public void drawDuelBox()
-        {
-            // TODO: Transplant full duel box UI from RSCXNA
-            gameGraphics.DrawBox(22, 36, 468, 262, 0);
-            gameGraphics.DrawBoxEdge(22, 36, 468, 262, 0xffffff);
-            gameGraphics.DrawText("Dueling with: " + duelOpponent, 256, 55, 4, 0xffff00);
-            gameGraphics.DrawText("Your stake:", 120, 90, 1, 0xffffff);
-            gameGraphics.DrawText("Their stake:", 355, 90, 1, 0xffffff);
-            if (duelNoMagic)
-            {
-                gameGraphics.DrawText("No magic", 256, 200, 1, 0xff8800);
-            }
-            if (duelNoPrayer)
-            {
-                gameGraphics.DrawText("No prayer", 256, 213, 1, 0xff8800);
-            }
-            if (duelNoWeapons)
-            {
-                gameGraphics.DrawText("No weapons", 256, 226, 1, 0xff8800);
-            }
-            if (duelNoRetreating)
-            {
-                gameGraphics.DrawText("No retreating", 256, 239, 1, 0xff8800);
-            }
-            if (duelOpponentAccepted)
-            {
-                gameGraphics.DrawText(duelOpponent + " has accepted.", 256, 255, 1, 0xffff00);
-            }
-            gameGraphics.DrawText("Accept", 260, 280, 1, duelMyAccepted ? 0x00ff00 : 0xffffff);
-            int declineColour = 0xffffff;
-            if (InputManager.Instance.MouseLocation.X >= 394 && InputManager.Instance.MouseLocation.X < 463
-                && InputManager.Instance.MouseLocation.Y >= 272 && InputManager.Instance.MouseLocation.Y < 293)
-            {
-                declineColour = 0xff0000;
-            }
-            gameGraphics.DrawText("Decline", 430, 280, 1, declineColour);
-            if (mouseButtonClick != 0)
-            {
-                if (declineColour.Equals(0xff0000))
-                {
-                    showDuelBox = false;
-                    showDuelConfirmBox = false;
-                    StreamClass.CreatePacket(204);
-                    StreamClass.FormatPacket();
-                }
-                mouseButtonClick = 0;
-            }
-        }
-
-        public void drawDuelConfirmBox()
-        {
-            // TODO: Transplant full duel confirm box UI from RSCXNA
-            gameGraphics.DrawBox(22, 36, 468, 262, 0);
-            gameGraphics.DrawBoxEdge(22, 36, 468, 262, 0xffffff);
-            gameGraphics.DrawText("Are you sure you want this duel?", 256, 70, 4, 0xffff00);
-            int acceptColour = 0xffffff;
-            if (InputManager.Instance.MouseLocation.X >= 217 && InputManager.Instance.MouseLocation.X < 286
-                && InputManager.Instance.MouseLocation.Y >= 272 && InputManager.Instance.MouseLocation.Y < 293)
-            {
-                acceptColour = 0x00ff00;
-            }
-            gameGraphics.DrawText("Accept", 260, 285, 1, acceptColour);
-            int declineColour = 0xffffff;
-            if (InputManager.Instance.MouseLocation.X >= 394 && InputManager.Instance.MouseLocation.X < 463
-                && InputManager.Instance.MouseLocation.Y >= 272 && InputManager.Instance.MouseLocation.Y < 293)
-            {
-                declineColour = 0xff0000;
-            }
-            gameGraphics.DrawText("Decline", 430, 285, 1, declineColour);
-            if (mouseButtonClick != 0)
-            {
-                if (acceptColour.Equals(0x00ff00))
-                {
-                    duelConfirmOurAccepted = true;
-                    StreamClass.CreatePacket(176);
-                    StreamClass.FormatPacket();
-                }
-                if (declineColour.Equals(0xff0000))
-                {
-                    showDuelBox = false;
-                    showDuelConfirmBox = false;
-                    StreamClass.CreatePacket(204);
-                    StreamClass.FormatPacket();
-                }
-                mouseButtonClick = 0;
-            }
-        }
-
-        public void updateBankItems()
-        {
-            inventoryManager.ServerBankItemsCount = serverBankItemsCount;
-            InventoryManager.MaximumBankSize = maxBankItems;
-
-            for (int i = 0; i < serverBankItemsCount; i++)
-            {
-                InventoryItem item = inventoryManager.GetServerBankItem(i);
-                item.Index = serverBankItems[i];
-                item.Quantity = serverBankItemCount[i];
-            }
-
-            inventoryManager.UpdateBankItems();
-        }
-
-        public void DrawAboveHeadThings()
+        public void drawAboveHeadThings()
         {
             for (int l = 0; l < receivedMessagesCount; l++)
             {
@@ -5595,21 +7404,19 @@ namespace OpenRS.Net.Client
                 int midpoint = receivedMessageMidPoint[l];
                 int l3 = receivedMessageHeight[l];
                 bool flag = true;
-
                 while (flag)
                 {
                     flag = false;
                     for (int l4 = 0; l4 < l; l4++)
-                    {
                         if (y + l3 > receivedMessageY[l4] - height && y - height < receivedMessageY[l4] + receivedMessageHeight[l4] && x - midpoint < receivedMessageX[l4] + receivedMessageMidPoint[l4] && x + midpoint > receivedMessageX[l4] - receivedMessageMidPoint[l4] && receivedMessageY[l4] - height - l3 < y)
                         {
                             y = receivedMessageY[l4] - height - l3;
                             flag = true;
                         }
-                    }
+
                 }
                 receivedMessageY[l] = y;
-                gameGraphics.DrawFloatingText(receivedMessages[l], x, y, 1, 0xffff00, 300);
+                gameGraphics.drawFloatingText(receivedMessages[l], x, y, 1, 0xffff00, 300);
             }
 
             for (int j1 = 0; j1 < itemsAboveHeadCount; j1++)
@@ -5618,13 +7425,13 @@ namespace OpenRS.Net.Client
                 int y = itemAboveHeadY[j1];
                 int scale = itemAboveHeadScale[j1];
                 int id = itemAboveHeadID[j1];
-                int width = 39 * scale / 100;
-                int height = 27 * scale / 100;
+                int width = (39 * scale) / 100;
+                int height = (27 * scale) / 100;
                 int j5 = y - height;
-                gameGraphics.DrawImageTransparent(x - width / 2, j5, width, height, baseInventoryPic + 9, 85);
-                int k5 = 36 * scale / 100;
-                int l5 = 24 * scale / 100;
-                gameGraphics.DrawImage(x - k5 / 2, j5 + height / 2 - l5 / 2, k5, l5, entityManager.GetItem(id).InventoryPicture + baseItemPicture, entityManager.GetItem(id).PictureMask, 0, 0, false);
+                gameGraphics.drawTransparentImage(x - width / 2, j5, width, height, baseInventoryPic + 9, 85);
+                int k5 = (36 * scale) / 100;
+                int l5 = (24 * scale) / 100;
+                gameGraphics.drawImage(x - k5 / 2, (j5 + height / 2) - l5 / 2, k5, l5, Data.Data.itemInventoryPicture[id] + baseItemPicture, Data.Data.itemPictureMask[id], 0, 0, false);
             }
 
             for (int i2 = 0; i2 < healthBarVisibleCount; i2++)
@@ -5632,850 +7439,1036 @@ namespace OpenRS.Net.Client
                 int x = healthBarX[i2];
                 int y = healthBarY[i2];
                 int missing = healthBarMissing[i2];
-                gameGraphics.DrawBoxAlpha(x - 15, y - 3, missing, 5, 65280, 192);
-                gameGraphics.DrawBoxAlpha(x - 15 + missing, y - 3, 30 - missing, 5, 0xff0000, 192);
+                gameGraphics.drawBoxAlpha(x - 15, y - 3, missing, 5, 65280, 192);
+                gameGraphics.drawBoxAlpha((x - 15) + missing, y - 3, 30 - missing, 5, 0xff0000, 192);
             }
 
         }
 
-        public void DrawBankBox()
+        public override void cantLogout()
+        {
+            logoutTimer = 0;
+            displayMessage("@cya@Sorry, you can't logout at the moment", 3);
+        }
+
+        public void drawBankBox()
         {
             char c1 = '\u0198';
             char c2 = '\u014E';
-
-            InventoryItem bankItem = inventoryManager.GetBankItem(selectedBankItem);
-
-            if (bankPage > 0 && inventoryManager.BankItemsCount <= 48)
-            {
+            if (bankPage > 0 && bankItemsCount <= 48)
                 bankPage = 0;
-            }
-
-            if (bankPage > 1 && inventoryManager.BankItemsCount <= 96)
-            {
+            if (bankPage > 1 && bankItemsCount <= 96)
                 bankPage = 1;
-            }
-
-            if (bankPage > 2 && inventoryManager.BankItemsCount <= 144)
-            {
+            if (bankPage > 2 && bankItemsCount <= 144)
                 bankPage = 2;
-            }
-
-            if (selectedBankItem >= inventoryManager.BankItemsCount || selectedBankItem < 0)
-            {
+            if (selectedBankItem >= bankItemsCount || selectedBankItem < 0)
                 selectedBankItem = -1;
-            }
-
-            if (selectedBankItem != -1 && bankItem.Index != selectedBankItemType)
+            if (selectedBankItem != -1 && bankItems[selectedBankItem] != selectedBankItemType)
             {
                 selectedBankItem = -1;
                 selectedBankItemType = -2;
             }
-
             if (mouseButtonClick != 0)
             {
                 mouseButtonClick = 0;
-                int l = InputManager.Instance.MouseLocation.X - (256 - c1 / 2);
-                int j1 = GameMouseY - (170 - c2 / 2);
-
+                int l = base.mouseX - (256 - c1 / 2);
+                int j1 = base.mouseY - (170 - c2 / 2);
                 if (l >= 0 && j1 >= 12 && l < 408 && j1 < 280)
                 {
-                    int slot = bankPage * 48;
-
+                    int l1 = bankPage * 48;
                     for (int k2 = 0; k2 < 6; k2++)
                     {
                         for (int i3 = 0; i3 < 8; i3++)
                         {
                             int k7 = 7 + i3 * 49;
                             int i8 = 28 + k2 * 34;
-
-                            if (l > k7 && l < k7 + 49 && j1 > i8 && j1 < i8 + 34 && slot < inventoryManager.BankItemsCount && inventoryManager.GetItem(slot).Index != -1)
+                            if (l > k7 && l < k7 + 49 && j1 > i8 && j1 < i8 + 34 && l1 < bankItemsCount && bankItems[l1] != -1)
                             {
-                                selectedBankItemType = bankItem.Index;
-                                selectedBankItem = slot;
+                                selectedBankItemType = bankItems[l1];
+                                selectedBankItem = l1;
                             }
-
-                            slot++;
+                            l1++;
                         }
+
                     }
 
                     l = 256 - c1 / 2;
                     j1 = 170 - c2 / 2;
                     int id;
-
                     if (selectedBankItem < 0)
-                    {
                         id = -1;
-                    }
                     else
-                    {
-                        id = bankItem.Index;
-                    }
-
+                        id = bankItems[selectedBankItem];
                     if (id != -1)
                     {
-                        int count = bankItem.Quantity;
-
-                        if (entityManager.GetItem(id).IsStackable == 1 && count > 1)
-                        {
+                        int count = bankItemCount[selectedBankItem];
+                        if (Data.Data.itemStackable[id] == 1 && count > 1)
                             count = 1;
-                        }
-
-                        if (count >= 1 &&
-                            InputManager.Instance.MouseLocation.X >= l + 220 &&
-                            GameMouseY >= j1 + 238 &&
-                            InputManager.Instance.MouseLocation.X < l + 250 &&
-                            GameMouseY <= j1 + 249)
+                        if (count >= 1 && base.mouseX >= l + 220 && base.mouseY >= j1 + 238 && base.mouseX < l + 250 && base.mouseY <= j1 + 249)
                         {
-                            StreamClass.CreatePacket(183);
-                            StreamClass.AddInt16(id);
-                            StreamClass.AddInt32(1);
-                            StreamClass.FormatPacket();
+                            base.streamClass.createPacket(183);
+                            base.streamClass.addShort(id);
+                            base.streamClass.addInt(1);
+                            base.streamClass.formatPacket();
                         }
-
-                        if (count >= 5 &&
-                            InputManager.Instance.MouseLocation.X >= l + 250 &&
-                            GameMouseY >= j1 + 238 &&
-                            InputManager.Instance.MouseLocation.X < l + 280 &&
-                            GameMouseY <= j1 + 249)
+                        if (count >= 5 && base.mouseX >= l + 250 && base.mouseY >= j1 + 238 && base.mouseX < l + 280 && base.mouseY <= j1 + 249)
                         {
-                            StreamClass.CreatePacket(183);
-                            StreamClass.AddInt16(id);
-                            StreamClass.AddInt32(5);
-                            StreamClass.FormatPacket();
+                            base.streamClass.createPacket(183);
+                            base.streamClass.addShort(id);
+                            base.streamClass.addInt(5);
+                            base.streamClass.formatPacket();
                         }
-
-                        if (count >= 25 &&
-                            InputManager.Instance.MouseLocation.X >= l + 280 &&
-                            GameMouseY >= j1 + 238 &&
-                            InputManager.Instance.MouseLocation.X < l + 305 &&
-                            GameMouseY <= j1 + 249)
+                        if (count >= 25 && base.mouseX >= l + 280 && base.mouseY >= j1 + 238 && base.mouseX < l + 305 && base.mouseY <= j1 + 249)
                         {
-                            StreamClass.CreatePacket(183);
-                            StreamClass.AddInt16(id);
-                            StreamClass.AddInt32(25);
-                            StreamClass.FormatPacket();
+                            base.streamClass.createPacket(183);
+                            base.streamClass.addShort(id);
+                            base.streamClass.addInt(25);
+                            base.streamClass.formatPacket();
                         }
-
-                        if (count >= 100 &&
-                            InputManager.Instance.MouseLocation.X >= l + 305 &&
-                            GameMouseY >= j1 + 238 &&
-                            InputManager.Instance.MouseLocation.X < l + 335 &&
-                            GameMouseY <= j1 + 249)
+                        if (count >= 100 && base.mouseX >= l + 305 && base.mouseY >= j1 + 238 && base.mouseX < l + 335 && base.mouseY <= j1 + 249)
                         {
-                            StreamClass.CreatePacket(183);
-                            StreamClass.AddInt16(id);
-                            StreamClass.AddInt32(100);
-                            StreamClass.FormatPacket();
+                            base.streamClass.createPacket(183);
+                            base.streamClass.addShort(id);
+                            base.streamClass.addInt(100);
+                            base.streamClass.formatPacket();
                         }
-
-                        if (count >= 500 &&
-                            InputManager.Instance.MouseLocation.X >= l + 335 &&
-                            GameMouseY >= j1 + 238 &&
-                            InputManager.Instance.MouseLocation.X < l + 368 &&
-                            GameMouseY <= j1 + 249)
+                        if (count >= 500 && base.mouseX >= l + 335 && base.mouseY >= j1 + 238 && base.mouseX < l + 368 && base.mouseY <= j1 + 249)
                         {
-                            StreamClass.CreatePacket(183);
-                            StreamClass.AddInt16(id);
-                            StreamClass.AddInt32(500);
-                            StreamClass.FormatPacket();
+                            base.streamClass.createPacket(183);
+                            base.streamClass.addShort(id);
+                            base.streamClass.addInt(500);
+                            base.streamClass.formatPacket();
                         }
-
-                        if (count >= 2500 &&
-                            InputManager.Instance.MouseLocation.X >= l + 370 &&
-                            GameMouseY >= j1 + 238 &&
-                            InputManager.Instance.MouseLocation.X < l + 400 &&
-                            GameMouseY <= j1 + 249)
+                        if (count >= 2500 && base.mouseX >= l + 370 && base.mouseY >= j1 + 238 && base.mouseX < l + 400 && base.mouseY <= j1 + 249)
                         {
-                            StreamClass.CreatePacket(183);
-                            StreamClass.AddInt16(id);
-                            StreamClass.AddInt32(2500);
-                            StreamClass.FormatPacket();
+                            base.streamClass.createPacket(183);
+                            base.streamClass.addShort(id);
+                            base.streamClass.addInt(2500);
+                            base.streamClass.formatPacket();
                         }
-
-                        if (inventoryManager.GetItemTotalCount(id) >= 1 &&
-                            InputManager.Instance.MouseLocation.X >= l + 220 &&
-                            GameMouseY >= j1 + 263 &&
-                            InputManager.Instance.MouseLocation.X < l + 250 &&
-                            GameMouseY <= j1 + 274)
+                        if (getInventoryItemTotalCount(id) >= 1 && base.mouseX >= l + 220 && base.mouseY >= j1 + 263 && base.mouseX < l + 250 && base.mouseY <= j1 + 274)
                         {
-                            StreamClass.CreatePacket(198);
-                            StreamClass.AddInt16(id);
-                            StreamClass.AddInt32(1);
-                            StreamClass.FormatPacket();
+                            base.streamClass.createPacket(198);
+                            base.streamClass.addShort(id);
+                            base.streamClass.addInt(1);
+                            base.streamClass.formatPacket();
                         }
-
-                        if (inventoryManager.GetItemTotalCount(id) >= 5 &&
-                            InputManager.Instance.MouseLocation.X >= l + 250 &&
-                            GameMouseY >= j1 + 263 &&
-                            InputManager.Instance.MouseLocation.X < l + 280 &&
-                            GameMouseY <= j1 + 274)
+                        if (getInventoryItemTotalCount(id) >= 5 && base.mouseX >= l + 250 && base.mouseY >= j1 + 263 && base.mouseX < l + 280 && base.mouseY <= j1 + 274)
                         {
-                            StreamClass.CreatePacket(198);
-                            StreamClass.AddInt16(id);
-                            StreamClass.AddInt32(5);
-                            StreamClass.FormatPacket();
+                            base.streamClass.createPacket(198);
+                            base.streamClass.addShort(id);
+                            base.streamClass.addInt(5);
+                            base.streamClass.formatPacket();
                         }
-
-                        if (inventoryManager.GetItemTotalCount(id) >= 25 &&
-                            InputManager.Instance.MouseLocation.X >= l + 280 &&
-                            GameMouseY >= j1 + 263 &&
-                            InputManager.Instance.MouseLocation.X < l + 305 &&
-                            GameMouseY <= j1 + 274)
+                        if (getInventoryItemTotalCount(id) >= 25 && base.mouseX >= l + 280 && base.mouseY >= j1 + 263 && base.mouseX < l + 305 && base.mouseY <= j1 + 274)
                         {
-                            StreamClass.CreatePacket(198);
-                            StreamClass.AddInt16(id);
-                            StreamClass.AddInt32(25);
-                            StreamClass.FormatPacket();
+                            base.streamClass.createPacket(198);
+                            base.streamClass.addShort(id);
+                            base.streamClass.addInt(25);
+                            base.streamClass.formatPacket();
                         }
-
-                        if (inventoryManager.GetItemTotalCount(id) >= 100 &&
-                            InputManager.Instance.MouseLocation.X >= l + 305 &&
-                            GameMouseY >= j1 + 263 &&
-                            InputManager.Instance.MouseLocation.X < l + 335 &&
-                            GameMouseY <= j1 + 274)
+                        if (getInventoryItemTotalCount(id) >= 100 && base.mouseX >= l + 305 && base.mouseY >= j1 + 263 && base.mouseX < l + 335 && base.mouseY <= j1 + 274)
                         {
-                            StreamClass.CreatePacket(198);
-                            StreamClass.AddInt16(id);
-                            StreamClass.AddInt32(100);
-                            StreamClass.FormatPacket();
+                            base.streamClass.createPacket(198);
+                            base.streamClass.addShort(id);
+                            base.streamClass.addInt(100);
+                            base.streamClass.formatPacket();
                         }
-
-                        if (inventoryManager.GetItemTotalCount(id) >= 500 &&
-                            InputManager.Instance.MouseLocation.X >= l + 335 &&
-                            GameMouseY >= j1 + 263 &&
-                            InputManager.Instance.MouseLocation.X < l + 368 &&
-                            GameMouseY <= j1 + 274)
+                        if (getInventoryItemTotalCount(id) >= 500 && base.mouseX >= l + 335 && base.mouseY >= j1 + 263 && base.mouseX < l + 368 && base.mouseY <= j1 + 274)
                         {
-                            StreamClass.CreatePacket(198);
-                            StreamClass.AddInt16(id);
-                            StreamClass.AddInt32(500);
-                            StreamClass.FormatPacket();
+                            base.streamClass.createPacket(198);
+                            base.streamClass.addShort(id);
+                            base.streamClass.addInt(500);
+                            base.streamClass.formatPacket();
                         }
-
-                        if (inventoryManager.GetItemTotalCount(id) >= 2500 &&
-                            InputManager.Instance.MouseLocation.X >= l + 370 &&
-                            GameMouseY >= j1 + 263 &&
-                            InputManager.Instance.MouseLocation.X < l + 400 &&
-                            GameMouseY <= j1 + 274)
+                        if (getInventoryItemTotalCount(id) >= 2500 && base.mouseX >= l + 370 && base.mouseY >= j1 + 263 && base.mouseX < l + 400 && base.mouseY <= j1 + 274)
                         {
-                            StreamClass.CreatePacket(198);
-                            StreamClass.AddInt16(id);
-                            StreamClass.AddInt32(2500);
-                            StreamClass.FormatPacket();
+                            base.streamClass.createPacket(198);
+                            base.streamClass.addShort(id);
+                            base.streamClass.addInt(2500);
+                            base.streamClass.formatPacket();
                         }
                     }
                 }
-                else if (inventoryManager.BankItemsCount > 48 && l >= 50 && l <= 115 && j1 <= 12)
-                {
-                    bankPage = 0;
-                }
-                else if (inventoryManager.BankItemsCount > 48 && l >= 115 && l <= 180 && j1 <= 12)
-                {
-                    bankPage = 1;
-                }
-                else if (inventoryManager.BankItemsCount > 96 && l >= 180 && l <= 245 && j1 <= 12)
-                {
-                    bankPage = 2;
-                }
-                else if (inventoryManager.BankItemsCount > 144 && l >= 245 && l <= 310 && j1 <= 12)
-                {
-                    bankPage = 3;
-                }
                 else
-                {
-                    StreamClass.CreatePacket(48);
-                    StreamClass.FormatPacket();
-                    ShowBankBox = false;
-                    return;
-                }
+                    if (bankItemsCount > 48 && l >= 50 && l <= 115 && j1 <= 12)
+                        bankPage = 0;
+                    else
+                        if (bankItemsCount > 48 && l >= 115 && l <= 180 && j1 <= 12)
+                            bankPage = 1;
+                        else
+                            if (bankItemsCount > 96 && l >= 180 && l <= 245 && j1 <= 12)
+                                bankPage = 2;
+                            else
+                                if (bankItemsCount > 144 && l >= 245 && l <= 310 && j1 <= 12)
+                                {
+                                    bankPage = 3;
+                                }
+                                else
+                                {
+                                    base.streamClass.createPacket(48);
+                                    base.streamClass.formatPacket();
+                                    showBankBox = false;
+                                    return;
+                                }
             }
-
             int i1 = 256 - c1 / 2;
             int k1 = 170 - c2 / 2;
-            gameGraphics.DrawBox(i1, k1, 408, 12, 192);
+            gameGraphics.drawBox(i1, k1, 408, 12, 192);
             int j2 = 0x989898;
-            gameGraphics.DrawBoxAlpha(i1, k1 + 12, 408, 17, j2, 160);
-            gameGraphics.DrawBoxAlpha(i1, k1 + 29, 8, 204, j2, 160);
-            gameGraphics.DrawBoxAlpha(i1 + 399, k1 + 29, 9, 204, j2, 160);
-            gameGraphics.DrawBoxAlpha(i1, k1 + 233, 408, 47, j2, 160);
-            gameGraphics.DrawString("Bank", i1 + 1, k1 + 10, 1, 0xffffff);
+            gameGraphics.drawBoxAlpha(i1, k1 + 12, 408, 17, j2, 160);
+            gameGraphics.drawBoxAlpha(i1, k1 + 29, 8, 204, j2, 160);
+            gameGraphics.drawBoxAlpha(i1 + 399, k1 + 29, 9, 204, j2, 160);
+            gameGraphics.drawBoxAlpha(i1, k1 + 233, 408, 47, j2, 160);
+            gameGraphics.drawString("Bank", i1 + 1, k1 + 10, 1, 0xffffff);
             int l2 = 50;
-
-            if (inventoryManager.BankItemsCount > 48)
+            if (bankItemsCount > 48)
             {
                 int k3 = 0xffffff;
                 if (bankPage == 0)
-                {
                     k3 = 0xff0000;
-                }
-                else if (InputManager.Instance.MouseLocation.X > i1 + l2 &&
-                         GameMouseY >= k1 &&
-                         InputManager.Instance.MouseLocation.X < i1 + l2 + 65 &&
-                         GameMouseY < k1 + 12)
-                {
-                    k3 = 0xffff00;
-                }
-
-                gameGraphics.DrawString("<page 1>", i1 + l2, k1 + 10, 1, k3);
+                else
+                    if (base.mouseX > i1 + l2 && base.mouseY >= k1 && base.mouseX < i1 + l2 + 65 && base.mouseY < k1 + 12)
+                        k3 = 0xffff00;
+                gameGraphics.drawString("<page 1>", i1 + l2, k1 + 10, 1, k3);
                 l2 += 65;
                 k3 = 0xffffff;
-
                 if (bankPage == 1)
-                {
                     k3 = 0xff0000;
-                }
-                else if (InputManager.Instance.MouseLocation.X > i1 + l2 &&
-                         GameMouseY >= k1 &&
-                         InputManager.Instance.MouseLocation.X < i1 + l2 + 65 &&
-                         GameMouseY < k1 + 12)
-                {
-                    k3 = 0xffff00;
-                }
-
-                gameGraphics.DrawString("<page 2>", i1 + l2, k1 + 10, 1, k3);
+                else
+                    if (base.mouseX > i1 + l2 && base.mouseY >= k1 && base.mouseX < i1 + l2 + 65 && base.mouseY < k1 + 12)
+                        k3 = 0xffff00;
+                gameGraphics.drawString("<page 2>", i1 + l2, k1 + 10, 1, k3);
                 l2 += 65;
             }
-
-            if (inventoryManager.BankItemsCount > 96)
+            if (bankItemsCount > 96)
             {
                 int l3 = 0xffffff;
-
                 if (bankPage == 2)
-                {
                     l3 = 0xff0000;
-                }
-                else if (InputManager.Instance.MouseLocation.X > i1 + l2 &&
-                         GameMouseY >= k1 &&
-                         InputManager.Instance.MouseLocation.X < i1 + l2 + 65 &&
-                         GameMouseY < k1 + 12)
-                {
-                    l3 = 0xffff00;
-                }
-
-                gameGraphics.DrawString("<page 3>", i1 + l2, k1 + 10, 1, l3);
+                else
+                    if (base.mouseX > i1 + l2 && base.mouseY >= k1 && base.mouseX < i1 + l2 + 65 && base.mouseY < k1 + 12)
+                        l3 = 0xffff00;
+                gameGraphics.drawString("<page 3>", i1 + l2, k1 + 10, 1, l3);
                 l2 += 65;
             }
-
-            if (inventoryManager.BankItemsCount > 144)
+            if (bankItemsCount > 144)
             {
                 int i4 = 0xffffff;
                 if (bankPage == 3)
-                {
                     i4 = 0xff0000;
-                }
-                else if (InputManager.Instance.MouseLocation.X > i1 + l2 &&
-                         GameMouseY >= k1 &&
-                         InputManager.Instance.MouseLocation.X < i1 + l2 + 65 &&
-                         GameMouseY < k1 + 12)
-                {
-                    i4 = 0xffff00;
-                }
-
-                gameGraphics.DrawString("<page 4>", i1 + l2, k1 + 10, 1, i4);
+                else
+                    if (base.mouseX > i1 + l2 && base.mouseY >= k1 && base.mouseX < i1 + l2 + 65 && base.mouseY < k1 + 12)
+                        i4 = 0xffff00;
+                gameGraphics.drawString("<page 4>", i1 + l2, k1 + 10, 1, i4);
+                l2 += 65;
             }
-
             int j4 = 0xffffff;
-
-            if (InputManager.Instance.MouseLocation.X > i1 + 320 &&
-                GameMouseY >= k1 &&
-                InputManager.Instance.MouseLocation.X < i1 + 408 &&
-                GameMouseY < k1 + 12)
-            {
+            if (base.mouseX > i1 + 320 && base.mouseY >= k1 && base.mouseX < i1 + 408 && base.mouseY < k1 + 12)
                 j4 = 0xff0000;
-            }
-
-            gameGraphics.DrawLabel("Close window", i1 + 406, k1 + 10, 1, j4);
-            gameGraphics.DrawString("Number in bank in green", i1 + 7, k1 + 24, 1, 65280);
-            gameGraphics.DrawString("Number held in blue", i1 + 289, k1 + 24, 1, 65535);
-
+            gameGraphics.drawLabel("Close window", i1 + 406, k1 + 10, 1, j4);
+            gameGraphics.drawString("Number in bank in green", i1 + 7, k1 + 24, 1, 65280);
+            gameGraphics.drawString("Number held in blue", i1 + 289, k1 + 24, 1, 65535);
             int l7 = 0xd0d0d0;
-            int bankSlot = bankPage * 48;
-
+            int j8 = bankPage * 48;
             for (int l8 = 0; l8 < 6; l8++)
             {
                 for (int i9 = 0; i9 < 8; i9++)
                 {
                     int k9 = i1 + 7 + i9 * 49;
                     int l9 = k1 + 28 + l8 * 34;
-
-                    InventoryItem bankItem2 = inventoryManager.GetBankItem(bankSlot);
-                    Item item = entityManager.GetItem(bankItem2.Index);
-
-                    if (selectedBankItem == bankSlot)
-                    {
-                        gameGraphics.DrawBoxAlpha(k9, l9, 49, 34, 0xff0000, 160);
-                    }
+                    if (selectedBankItem == j8)
+                        gameGraphics.drawBoxAlpha(k9, l9, 49, 34, 0xff0000, 160);
                     else
+                        gameGraphics.drawBoxAlpha(k9, l9, 49, 34, l7, 160);
+                    gameGraphics.drawBoxEdge(k9, l9, 50, 35, 0);
+                    if (j8 < bankItemsCount && bankItems[j8] != -1)
                     {
-                        gameGraphics.DrawBoxAlpha(k9, l9, 49, 34, l7, 160);
+                        gameGraphics.drawImage(k9, l9, 48, 32, baseItemPicture + Data.Data.itemInventoryPicture[bankItems[j8]], Data.Data.itemPictureMask[bankItems[j8]], 0, 0, false);
+                        gameGraphics.drawString(bankItemCount[j8].ToString(), k9 + 1, l9 + 10, 1, 65280);
+                        gameGraphics.drawLabel(getInventoryItemTotalCount(bankItems[j8]).ToString(), k9 + 47, l9 + 29, 1, 65535);
                     }
-
-                    gameGraphics.DrawBoxEdge(k9, l9, 50, 35, 0);
-
-                    if (bankSlot < inventoryManager.BankItemsCount && bankItem2.Index != -1)
-                    {
-                        gameGraphics.DrawImage(k9, l9, 48, 32, baseItemPicture + item.InventoryPicture, item.PictureMask, 0, 0, false);
-                        gameGraphics.DrawString(bankItem2.Quantity.ToString(), k9 + 1, l9 + 10, 1, 65280);
-                        gameGraphics.DrawLabel(inventoryManager.GetItemTotalCount(bankItem2.Quantity).ToString(), k9 + 47, l9 + 29, 1, 65535);
-                    }
-
-                    bankSlot++;
+                    j8++;
                 }
+
             }
 
-            gameGraphics.DrawHorizontalLine(i1 + 5, k1 + 256, 398, 0);
-
+            gameGraphics.drawLineX(i1 + 5, k1 + 256, 398, 0);
             if (selectedBankItem == -1)
             {
-                gameGraphics.DrawText("Select an object to withdraw or deposit", i1 + 204, k1 + 248, 3, 0xffff00);
+                gameGraphics.drawText("Select an object to withdraw or deposit", i1 + 204, k1 + 248, 3, 0xffff00);
                 return;
             }
-
-            int itemId;
-
+            int j9;
             if (selectedBankItem < 0)
-            {
-                itemId = -1;
-            }
+                j9 = -1;
             else
+                j9 = bankItems[selectedBankItem];
+            if (j9 != -1)
             {
-                itemId = inventoryManager.GetBankItem(selectedBankItem).Index;
-            }
-
-            if (itemId != -1)
-            {
-                int quantity = inventoryManager.GetBankItem(selectedBankItem).Quantity;
-
-                if (entityManager.GetItem(itemId).IsStackable == 1 && quantity > 1)
+                int k8 = bankItemCount[selectedBankItem];
+                if (Data.Data.itemStackable[j9] == 1 && k8 > 1)
+                    k8 = 1;
+                if (k8 > 0)
                 {
-                    quantity = 1;
-                }
-
-                if (quantity > 0)
-                {
-                    gameGraphics.DrawString("Withdraw " + entityManager.GetItem(itemId).Name, i1 + 2, k1 + 248, 1, 0xffffff);
-
+                    gameGraphics.drawString("Withdraw " + Data.Data.itemName[j9], i1 + 2, k1 + 248, 1, 0xffffff);
                     int k4 = 0xffffff;
-
-                    if (InputManager.Instance.MouseLocation.X >= i1 + 220 && GameMouseY >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 250 && GameMouseY <= k1 + 249)
-                    {
+                    if (base.mouseX >= i1 + 220 && base.mouseY >= k1 + 238 && base.mouseX < i1 + 250 && base.mouseY <= k1 + 249)
                         k4 = 0xff0000;
-                    }
-
-                    gameGraphics.DrawString("One", i1 + 222, k1 + 248, 1, k4);
-
-                    if (quantity >= 5)
+                    gameGraphics.drawString("One", i1 + 222, k1 + 248, 1, k4);
+                    if (k8 >= 5)
                     {
                         int l4 = 0xffffff;
-
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 250 && GameMouseY >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 280 && GameMouseY <= k1 + 249)
-                        {
+                        if (base.mouseX >= i1 + 250 && base.mouseY >= k1 + 238 && base.mouseX < i1 + 280 && base.mouseY <= k1 + 249)
                             l4 = 0xff0000;
-                        }
-
-                        gameGraphics.DrawString("Five", i1 + 252, k1 + 248, 1, l4);
+                        gameGraphics.drawString("Five", i1 + 252, k1 + 248, 1, l4);
                     }
-
-                    if (quantity >= 25)
+                    if (k8 >= 25)
                     {
                         int i5 = 0xffffff;
-
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 280 && GameMouseY >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 305 && GameMouseY <= k1 + 249)
-                        {
+                        if (base.mouseX >= i1 + 280 && base.mouseY >= k1 + 238 && base.mouseX < i1 + 305 && base.mouseY <= k1 + 249)
                             i5 = 0xff0000;
-                        }
-
-                        gameGraphics.DrawString("25", i1 + 282, k1 + 248, 1, i5);
+                        gameGraphics.drawString("25", i1 + 282, k1 + 248, 1, i5);
                     }
-
-                    if (quantity >= 100)
+                    if (k8 >= 100)
                     {
                         int j5 = 0xffffff;
-
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 305 && GameMouseY >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 335 && GameMouseY <= k1 + 249)
-                        {
+                        if (base.mouseX >= i1 + 305 && base.mouseY >= k1 + 238 && base.mouseX < i1 + 335 && base.mouseY <= k1 + 249)
                             j5 = 0xff0000;
-                        }
-
-                        gameGraphics.DrawString("100", i1 + 307, k1 + 248, 1, j5);
+                        gameGraphics.drawString("100", i1 + 307, k1 + 248, 1, j5);
                     }
-
-                    if (quantity >= 500)
+                    if (k8 >= 500)
                     {
                         int k5 = 0xffffff;
-
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 335 && GameMouseY >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 368 && GameMouseY <= k1 + 249)
-                        {
+                        if (base.mouseX >= i1 + 335 && base.mouseY >= k1 + 238 && base.mouseX < i1 + 368 && base.mouseY <= k1 + 249)
                             k5 = 0xff0000;
-                        }
-
-                        gameGraphics.DrawString("500", i1 + 337, k1 + 248, 1, k5);
+                        gameGraphics.drawString("500", i1 + 337, k1 + 248, 1, k5);
                     }
-
-                    if (quantity >= 2500)
+                    if (k8 >= 2500)
                     {
                         int l5 = 0xffffff;
-
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 370 && GameMouseY >= k1 + 238 && InputManager.Instance.MouseLocation.X < i1 + 400 && GameMouseY <= k1 + 249)
-                        {
+                        if (base.mouseX >= i1 + 370 && base.mouseY >= k1 + 238 && base.mouseX < i1 + 400 && base.mouseY <= k1 + 249)
                             l5 = 0xff0000;
-                        }
-
-                        gameGraphics.DrawString("2500", i1 + 370, k1 + 248, 1, l5);
+                        gameGraphics.drawString("2500", i1 + 370, k1 + 248, 1, l5);
                     }
                 }
-
-                if (inventoryManager.GetItemTotalCount(itemId) > 0)
+                if (getInventoryItemTotalCount(j9) > 0)
                 {
-                    gameGraphics.DrawString("Deposit " + entityManager.GetItem(itemId).Name, i1 + 2, k1 + 273, 1, 0xffffff);
-
+                    gameGraphics.drawString("Deposit " + Data.Data.itemName[j9], i1 + 2, k1 + 273, 1, 0xffffff);
                     int i6 = 0xffffff;
-
-                    if (InputManager.Instance.MouseLocation.X >= i1 + 220 && GameMouseY >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 250 && GameMouseY <= k1 + 274)
-                    {
+                    if (base.mouseX >= i1 + 220 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 250 && base.mouseY <= k1 + 274)
                         i6 = 0xff0000;
-                    }
-
-                    gameGraphics.DrawString("One", i1 + 222, k1 + 273, 1, i6);
-
-                    if (inventoryManager.GetItemTotalCount(itemId) >= 5)
+                    gameGraphics.drawString("One", i1 + 222, k1 + 273, 1, i6);
+                    if (getInventoryItemTotalCount(j9) >= 5)
                     {
                         int j6 = 0xffffff;
-
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 250 && GameMouseY >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 280 && GameMouseY <= k1 + 274)
-                        {
+                        if (base.mouseX >= i1 + 250 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 280 && base.mouseY <= k1 + 274)
                             j6 = 0xff0000;
-                        }
-
-                        gameGraphics.DrawString("Five", i1 + 252, k1 + 273, 1, j6);
+                        gameGraphics.drawString("Five", i1 + 252, k1 + 273, 1, j6);
                     }
-
-                    if (inventoryManager.GetItemTotalCount(itemId) >= 25)
+                    if (getInventoryItemTotalCount(j9) >= 25)
                     {
                         int k6 = 0xffffff;
-
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 280 && GameMouseY >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 305 && GameMouseY <= k1 + 274)
-                        {
+                        if (base.mouseX >= i1 + 280 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 305 && base.mouseY <= k1 + 274)
                             k6 = 0xff0000;
-                        }
-
-                        gameGraphics.DrawString("25", i1 + 282, k1 + 273, 1, k6);
+                        gameGraphics.drawString("25", i1 + 282, k1 + 273, 1, k6);
                     }
-
-                    if (inventoryManager.GetItemTotalCount(itemId) >= 100)
+                    if (getInventoryItemTotalCount(j9) >= 100)
                     {
                         int l6 = 0xffffff;
-
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 305 && GameMouseY >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 335 && GameMouseY <= k1 + 274)
-                        {
+                        if (base.mouseX >= i1 + 305 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 335 && base.mouseY <= k1 + 274)
                             l6 = 0xff0000;
-                        }
-
-                        gameGraphics.DrawString("100", i1 + 307, k1 + 273, 1, l6);
+                        gameGraphics.drawString("100", i1 + 307, k1 + 273, 1, l6);
                     }
-
-                    if (inventoryManager.GetItemTotalCount(itemId) >= 500)
+                    if (getInventoryItemTotalCount(j9) >= 500)
                     {
                         int i7 = 0xffffff;
-
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 335 && GameMouseY >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 368 && GameMouseY <= k1 + 274)
-                        {
+                        if (base.mouseX >= i1 + 335 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 368 && base.mouseY <= k1 + 274)
                             i7 = 0xff0000;
-                        }
-
-                        gameGraphics.DrawString("500", i1 + 337, k1 + 273, 1, i7);
+                        gameGraphics.drawString("500", i1 + 337, k1 + 273, 1, i7);
                     }
-
-                    if (inventoryManager.GetItemTotalCount(itemId) >= 2500)
+                    if (getInventoryItemTotalCount(j9) >= 2500)
                     {
                         int j7 = 0xffffff;
-
-                        if (InputManager.Instance.MouseLocation.X >= i1 + 370 && GameMouseY >= k1 + 263 && InputManager.Instance.MouseLocation.X < i1 + 400 && GameMouseY <= k1 + 274)
-                        {
+                        if (base.mouseX >= i1 + 370 && base.mouseY >= k1 + 263 && base.mouseX < i1 + 400 && base.mouseY <= k1 + 274)
                             j7 = 0xff0000;
-                        }
-
-                        gameGraphics.DrawString("2500", i1 + 370, k1 + 273, 1, j7);
+                        gameGraphics.drawString("2500", i1 + 370, k1 + 273, 1, j7);
                     }
                 }
             }
         }
 
+        public GraphicsDevice getGraphics()
+        {
+            //if(GameApplet.gameFrame != null)
+            //    return GameApplet.gameFrame.getGraphics();
+            //if(Link.gameApplet != null)
+            //    return Link.gameApplet.getGraphics();
+            //else
+            //    return base.getGraphics();
+            return graphics;
+        }
         public event EventHandler OnLoadingSection;
         public event EventHandler OnLoadingSectionCompleted;
-
-        public bool LoadSection(int x, int y)
+        public bool loadSection(int x, int y)
         {
-            if (PlayerAliveTimeout != 0)
+            if (playerAliveTimeout != 0)
             {
                 engineHandle.playerIsAlive = false;
                 return false;
             }
-            LoadArea = false;
-            x += WildLocation.X;
-            y += WildLocation.Y;
-
-            if (lastLayerIndex == LayerIndex && x > sectionWidth && x < sectionPosX && y > sectionHeight && y < sectionPosY)
+            loadArea = false;
+            x += wildX;
+            y += wildY;
+            if (lastLayerIndex == layerIndex && x > sectionWidth && x < sectionPosX && y > sectionHeight && y < sectionPosY)
             {
                 engineHandle.playerIsAlive = true;
                 return false;
             }
+            if (OnLoadingSection != null) OnLoadingSection(this, new EventArgs());
+            gameGraphics.drawText("Loading... Please wait", 256, 192, 1, 0xffffff);
+            drawChatMessageTabs();
 
-            OnLoadingSection?.Invoke(this, new EventArgs());
-            gameGraphics.DrawText("Loading... Please wait", 256, 192, 1, 0xffffff);
 
-            int l = AreaLocation.X;
-            int i1 = AreaLocation.Y;
+            //gameGraphics.drawImage(spriteBatch, 0, 0);
+            int l = areaX;
+            int i1 = areaY;
             int xBase = (x + 24) / 48;
             int yBase = (y + 24) / 48;
-            lastLayerIndex = LayerIndex;
-            AreaLocation = new Point2D(xBase * 48 - 48, yBase * 48 - 48);
+            lastLayerIndex = layerIndex;
+            areaX = xBase * 48 - 48;
+            areaY = yBase * 48 - 48;
             sectionWidth = xBase * 48 - 32;
             sectionHeight = yBase * 48 - 32;
             sectionPosX = xBase * 48 + 32;
             sectionPosY = yBase * 48 + 32;
-            engineHandle.LoadSection(x, y, lastLayerIndex);
+            engineHandle.loadSection(x, y, lastLayerIndex);
 
-            AreaLocation = new Point2D(AreaLocation.X - WildLocation.X, AreaLocation.Y - WildLocation.Y);
 
-            int offsetX = AreaLocation.X - l;
-            int offsetY = AreaLocation.Y - i1;
-
-            for (int objectIndex = 0; objectIndex < ObjectCount; objectIndex++)
+            areaX -= wildX;
+            areaY -= wildY;
+            int offsetX = areaX - l;
+            int offsetY = areaY - i1;
+            for (int j2 = 0; j2 < objectCount; j2++)
             {
-                ObjectLocations[objectIndex] -= new Point2D(offsetX, offsetY);
-
-                int objX = ObjectLocations[objectIndex].X;
-                int objY = ObjectLocations[objectIndex].Y;
-                int objType = ObjectType[objectIndex];
-                ObjectModel _obj = ObjectArray[objectIndex];
-
+                objectX[j2] -= offsetX;
+                objectY[j2] -= offsetY;
+                int objX = objectX[j2];
+                int objY = objectY[j2];
+                int objType = objectType[j2];
+                GameObject _obj = objectArray[j2];
                 try
                 {
-                    int objDir = ObjectRotation[objectIndex];
+                    int objDir = objectRotation[j2];
                     int objWidth;
                     int objHeight;
-
                     if (objDir == 0 || objDir == 4)
                     {
-                        objWidth = entityManager.GetWorldObject(objType).Width;
-                        objHeight = entityManager.GetWorldObject(objType).Height;
+                        objWidth = Data.Data.objectWidth[objType];
+                        objHeight = Data.Data.objectHeight[objType];
                     }
                     else
                     {
-                        objHeight = entityManager.GetWorldObject(objType).Width;
-                        objWidth = entityManager.GetWorldObject(objType).Height;
+                        objHeight = Data.Data.objectWidth[objType];
+                        objWidth = Data.Data.objectHeight[objType];
                     }
-
-                    int flatObjX = (objX + objX + objWidth) * GridSize / 2;
-                    int flatObjY = (objY + objY + objHeight) * GridSize / 2;
-
+                    int flatObjX = ((objX + objX + objWidth) * gridSize) / 2;
+                    int flatObjY = ((objY + objY + objHeight) * gridSize) / 2;
                     if (objX >= 0 && objY >= 0 && objX < 96 && objY < 96)
                     {
                         gameCamera.addModel(_obj);
-
-                        Point3D location = new(flatObjX, -engineHandle.GetAveragedElevation(flatObjX, flatObjY), flatObjY);
-
-                        _obj.SetLocation(location);
+                        _obj.setPosition(flatObjX, -engineHandle.getAveragedElevation(flatObjX, flatObjY), flatObjY);
                         engineHandle.createObject(objX, objY, objType, objDir);
-
                         if (objType == 74)
-                        {
-                            location = new Point3D(0, -480, 0);
-                            _obj.SetLocation(location);
-                        }
+                            _obj.offsetPosition(0, -480, 0);
                     }
                 }
-                catch (Exception ex)
+                catch (Exception runtimeexception)
                 {
-                    Console.WriteLine("Loc Error: " + ex);
-                    Console.WriteLine("x:" + objectIndex + " obj:" + _obj);
+                    Console.WriteLine("Loc Error: " + runtimeexception.ToString());
+                    Console.WriteLine("x:" + j2 + " obj:" + _obj);
+                    //runtimeexception.printStackTrace();
                 }
             }
 
-            for (int wallIndex = 0; wallIndex < WallObjectCount; wallIndex++)
+
+            for (int wallIndex = 0; wallIndex < wallObjectCount; wallIndex++)
             {
-                WallObjectLocations[wallIndex] = new Point2D(
-                    WallObjectLocations[wallIndex].X - offsetX,
-                    WallObjectLocations[wallIndex].Y - offsetY);
-
-                int wallId = WallObjectId[wallIndex];
-                int wallDir = WallObjectDirection[wallIndex];
-
+                wallObjectX[wallIndex] -= offsetX;
+                wallObjectY[wallIndex] -= offsetY;
+                int wallX = wallObjectX[wallIndex];
+                int wallY = wallObjectY[wallIndex];
+                int wallId = wallObjectID[wallIndex];
+                int wallDir = wallObjectDirection[wallIndex];
                 try
                 {
-                    engineHandle.createWall(WallObjectLocations[wallIndex], wallDir, wallId);
-                    ObjectModel wallObject = makeWallObject(WallObjectLocations[wallIndex], wallDir, wallId, wallIndex);
-                    WallObjects[wallIndex] = wallObject;
+                    engineHandle.createWall(wallX, wallY, wallDir, wallId);
+                    GameObject wallObject = makeWallObject(wallX, wallY, wallDir, wallId, wallIndex);
+                    wallObjectArray[wallIndex] = wallObject;
                 }
-                catch (Exception ex)
+                catch (Exception runtimeexception1)
                 {
-                    Console.WriteLine("Bound Error: " + ex);
+                    Console.WriteLine("Bound Error: " + runtimeexception1.ToString());
+                    //runtimeexception1.printStackTrace();
                 }
             }
 
-            for (int groundItemIndex = 0; groundItemIndex < GroundItemCount; groundItemIndex++)
+            for (int k3 = 0; k3 < groundItemCount; k3++)
             {
-                GroundItemLocations[groundItemIndex] = new Point2D(
-                    GroundItemLocations[groundItemIndex].X - offsetX,
-                    GroundItemLocations[groundItemIndex].Y - offsetY);
+                groundItemX[k3] -= offsetX;
+                groundItemY[k3] -= offsetY;
             }
 
-            for (int playerIndex = 0; playerIndex < PlayerCount; playerIndex++)
+            for (int j4 = 0; j4 < playerCount; j4++)
             {
-                ClientMob player = Players[playerIndex];
-                player.Location = new Point2D(
-                    player.Location.X - offsetX * GridSize,
-                    player.Location.Y - offsetY * GridSize);
-
-                for (int waypointIndex = 0; waypointIndex <= player.WaypointCurrent; waypointIndex++)
+                ClientMob f1 = playerArray[j4];
+                f1.currentX -= offsetX * gridSize;
+                f1.currentY -= offsetY * gridSize;
+                for (int l5 = 0; l5 <= f1.waypointCurrent; l5++)
                 {
-                    player.Waypoints[waypointIndex] = new Point2D(
-                        player.Waypoints[waypointIndex].X - offsetX * GridSize,
-                        player.Waypoints[waypointIndex].Y - offsetY * GridSize);
+                    f1.waypointsX[l5] -= offsetX * gridSize;
+                    f1.waypointsY[l5] -= offsetY * gridSize;
                 }
+
             }
 
-            for (int npcIndex = 0; npcIndex < NpcCount; npcIndex++)
+            for (int i5 = 0; i5 < npcCount; i5++)
             {
-                ClientMob npc = Npcs[npcIndex];
-                npc.Location = new Point2D(
-                    npc.Location.X - offsetX * GridSize,
-                    npc.Location.Y - offsetY * GridSize);
-
-                for (int waypointIndex = 0; waypointIndex <= npc.WaypointCurrent; waypointIndex++)
+                ClientMob f2 = npcArray[i5];
+                f2.currentX -= offsetX * gridSize;
+                f2.currentY -= offsetY * gridSize;
+                for (int k6 = 0; k6 <= f2.waypointCurrent; k6++)
                 {
-                    npc.Waypoints[waypointIndex] = new Point2D(
-                        npc.Waypoints[waypointIndex].X - offsetX * GridSize,
-                        npc.Waypoints[waypointIndex].Y - offsetY * GridSize);
+                    f2.waypointsX[k6] -= offsetX * gridSize;
+                    f2.waypointsY[k6] -= offsetY * gridSize;
                 }
+
             }
 
             engineHandle.playerIsAlive = true;
-            OnLoadingSectionCompleted?.Invoke(this, new EventArgs());
+            if (OnLoadingSectionCompleted != null) OnLoadingSectionCompleted(this, new EventArgs());
+
+
             OnDrawDone();
+
 
             return true;
         }
 
-        public ObjectModel makeWallObject(Point2D location, int dir, int type, int totalCount)
+        public static String formatItemCount(int arg0)
         {
-            int tileX = location.X;
-            int tileY = location.Y;
-            int destTileX = location.X;
-            int destTileY = location.Y;
-            int textureBack = entityManager.GetWallObject(type).ModelFaceBack;
-            int textureFront = entityManager.GetWallObject(type).ModelFaceFront;
-            int wallHeight = entityManager.GetWallObject(type).ModelHeight;
-            ObjectModel wallModel = new(4, 1);
+            String s1 = arg0.ToString();
+            for (int l = s1.Length - 3; l > 0; l -= 3)
+                s1 = s1.Substring(0, l) + "," + s1.Substring(l);
 
-            // -
+            if (s1.Length > 8)
+                s1 = "@gre@" + s1.Substring(0, s1.Length - 8) + " million @whi@(" + s1 + ")";
+            else
+                if (s1.Length > 4)
+                    s1 = "@cya@" + s1.Substring(0, s1.Length - 4) + "K @whi@(" + s1 + ")";
+            return s1;
+        }
+
+        public bool hasRequiredRunes(int l, int i1)
+        {
+            if (l == 31 && (isItemEquipped(197) || isItemEquipped(615) || isItemEquipped(682)))
+                return true;
+            if (l == 32 && (isItemEquipped(102) || isItemEquipped(616) || isItemEquipped(683)))
+                return true;
+            if (l == 33 && (isItemEquipped(101) || isItemEquipped(617) || isItemEquipped(684)))
+                return true;
+            if (l == 34 && (isItemEquipped(103) || isItemEquipped(618) || isItemEquipped(685)))
+                return true;
+            return getInventoryItemTotalCount(l) >= i1;
+        }
+
+        public void displayMessage(String message, int type)
+        {
+            if (type == 2 || type == 4 || type == 6)
+            {
+                for (; message.Length > 5 && message[0] == '@' && message[4] == '@'; message = message.Substring(5)) ;
+                int l = message.IndexOf(":");
+                if (l != -1)
+                {
+                    String s1 = message.Substring(0, l);
+                    long l1 = DataOperations.nameToHash(s1);
+                    for (int j1 = 0; j1 < base.ignoresCount; j1++)
+                        if (base.ignoresList[j1] == l1)
+                            return;
+
+                }
+            }
+            if (type == 2)
+                message = "@yel@" + message;
+            if (type == 3 || type == 4)
+                message = "@whi@" + message;
+            if (type == 6)
+                message = "@cya@" + message;
+            if (messagesTab != 0)
+            {
+                if (type == 4 || type == 3)
+                    chatTabAllMsgFlash = 200;
+                if (type == 2 && messagesTab != 1)
+                    chatTabHistoryFlash = 200;
+                if (type == 5 && messagesTab != 2)
+                    chatTabQuestFlash = 200;
+                if (type == 6 && messagesTab != 3)
+                    chatTabPrivateFlash = 200;
+                if (type == 3 && messagesTab != 0)
+                    messagesTab = 0;
+                if (type == 6 && messagesTab != 3 && messagesTab != 0)
+                    messagesTab = 0;
+            }
+            for (int i1 = 4; i1 > 0; i1--)
+            {
+                messagesArray[i1] = messagesArray[i1 - 1];
+                messagesTimeout[i1] = messagesTimeout[i1 - 1];
+            }
+
+            messagesArray[0] = message;
+            messagesTimeout[0] = 300;
+            if (type == 2)
+                if (chatInputMenu.listShownEntries[messagesHandleType2] == chatInputMenu.listLength[messagesHandleType2] - 4)
+                    chatInputMenu.addMessage(messagesHandleType2, message, true);
+                else
+                    chatInputMenu.addMessage(messagesHandleType2, message, false);
+            if (type == 5)
+                if (chatInputMenu.listShownEntries[messagesHandleType5] == chatInputMenu.listLength[messagesHandleType5] - 4)
+                    chatInputMenu.addMessage(messagesHandleType5, message, true);
+                else
+                    chatInputMenu.addMessage(messagesHandleType5, message, false);
+            if (type == 6)
+            {
+                if (chatInputMenu.listShownEntries[messagesHandleType6] == chatInputMenu.listLength[messagesHandleType6] - 4)
+                {
+                    chatInputMenu.addMessage(messagesHandleType6, message, true);
+                    return;
+                }
+                chatInputMenu.addMessage(messagesHandleType6, message, false);
+            }
+        }
+
+        public void drawMinimapObject(int x, int y, int color)
+        {
+            gameGraphics.drawMinimapPixel(x, y, color);
+            gameGraphics.drawMinimapPixel(x - 1, y, color);
+            gameGraphics.drawMinimapPixel(x + 1, y, color);
+            gameGraphics.drawMinimapPixel(x, y - 1, color);
+            gameGraphics.drawMinimapPixel(x, y + 1, color);
+        }
+
+        public void drawServerMessageBox()
+        {
+            char c1 = '\u0190';
+            char c2 = 'd';
+            if (serverMessageBoxTop)
+            {
+                c2 = '\u01C2';
+                c2 = '\u012C';
+            }
+            gameGraphics.drawBox(256 - c1 / 2, 167 - c2 / 2, c1, c2, 0);
+            gameGraphics.drawBoxEdge(256 - c1 / 2, 167 - c2 / 2, c1, c2, 0xffffff);
+            gameGraphics.drawFloatingText(serverMessage, 256, (167 - c2 / 2) + 20, 1, 0xffffff, c1 - 40);
+            int l = 157 + c2 / 2;
+            int i1 = 0xffffff;
+            if (base.mouseY > l - 12 && base.mouseY <= l && base.mouseX > 106 && base.mouseX < 406)
+                i1 = 0xff0000;
+            gameGraphics.drawText("Click here to close window", 256, l, 1, i1);
+            if (mouseButtonClick == 1)
+            {
+                if (i1 == 0xff0000)
+                    showServerMessageBox = false;
+                if ((base.mouseX < 256 - c1 / 2 || base.mouseX > 256 + c1 / 2) && (base.mouseY < 167 - c2 / 2 || base.mouseY > 167 + c2 / 2))
+                    showServerMessageBox = false;
+            }
+            mouseButtonClick = 0;
+        }
+
+        //public Texture2D createImage(int l, int i1)
+        //{
+        //    //if(GameApplet.gameFrame != null)
+        //    //    return GameApplet.gameFrame.createImage(l, i1);
+        //    //if(Link.gameApplet != null)
+        //    //    return Link.gameApplet.createImage(l, i1);
+        //    //else
+        //    return base.createImage(l, i1);
+        //}
+
+        public GameObject makeWallObject(int x, int y, int dir, int type, int totalCount)
+        {
+
+            int tileX = x;
+            int tileY = y;
+            int destTileX = x;
+            int destTileY = y;
+            int textureBack = Data.Data.wallObjectModel_FaceBack[type];
+            int textureFront = Data.Data.wallObjectModel_FaceFront[type];
+            int wallHeight = Data.Data.wallObjectModelHeight[type];
+            GameObject wallModel = new GameObject(4, 1);
+
+            //
+            //    _ _ _ _
+            //
+            //
             if (dir == 0)
-            {
-                destTileX = location.X + 1;
-            }
+                destTileX = x + 1;
 
-            // |
+            //    |
+            //    |
+            //    |
+            //    |
             if (dir == 1)
-            {
-                destTileY = location.Y + 1;
-            }
+                destTileY = y + 1;
 
-            // /
+            //       /
+            //      /
+            //     /
+            //    /
             if (dir == 2)
             {
-                tileX = location.X + 1;
-                destTileY = location.Y + 1;
+                tileX = x + 1;
+                destTileY = y + 1;
             }
 
-            // \
+            //    \
+            //     \
+            //      \
+            //       \
             if (dir == 3)
             {
-                destTileX = location.X + 1;
-                destTileY = location.Y + 1;
+                destTileX = x + 1;
+                destTileY = y + 1;
             }
-
-            tileX *= GridSize;
-            tileY *= GridSize;
-            destTileX *= GridSize;
-            destTileY *= GridSize;
+            tileX *= gridSize;
+            tileY *= gridSize;
+            destTileX *= gridSize;
+            destTileY *= gridSize;
 
             // add vertex index bottomLeft
-            int bLeft = wallModel.GetVertexIndex(tileX, -engineHandle.GetAveragedElevation(tileX, tileY), tileY);
+            int bLeft = wallModel.getVertexIndex(tileX, -engineHandle.getAveragedElevation(tileX, tileY), tileY);
 
             // add vertex index topLeft
-            int tLeft = wallModel.GetVertexIndex(tileX, -engineHandle.GetAveragedElevation(tileX, tileY) - wallHeight, tileY);
+            int tLeft = wallModel.getVertexIndex(tileX, -engineHandle.getAveragedElevation(tileX, tileY) - wallHeight, tileY);
 
             // add vertex index topRight
-            int tRight = wallModel.GetVertexIndex(destTileX, -engineHandle.GetAveragedElevation(destTileX, destTileY) - wallHeight, destTileY);
+            int tRight = wallModel.getVertexIndex(destTileX, -engineHandle.getAveragedElevation(destTileX, destTileY) - wallHeight, destTileY);
 
             // vertex index bottomRight
-            int bRight = wallModel.GetVertexIndex(destTileX, -engineHandle.GetAveragedElevation(destTileX, destTileY), destTileY);
-            int[] faceVertices = [bLeft, tLeft, tRight, bRight];
-            Point3D shadingPoint = new(-50, -10, -50);
-
-            wallModel.AddFaceVertices(4, faceVertices, textureBack, textureFront);
-            wallModel.UpdateShading(false, 60, 24, shadingPoint);
-
-            if (location.X >= 0 &&
-                location.Y >= 0 &&
-                location.X < 96 &&
-                location.Y < 96)
-            {
+            int bRight = wallModel.getVertexIndex(destTileX, -engineHandle.getAveragedElevation(destTileX, destTileY), destTileY);
+            int[] faceVertices = {
+            bLeft, tLeft, tRight, bRight
+        };
+            wallModel.addFaceVertices(4, faceVertices, textureBack, textureFront);
+            wallModel.UpdateShading(false, 60, 24, -50, -10, -50);
+            if (x >= 0 && y >= 0 && x < 96 && y < 96)
                 gameCamera.addModel(wallModel);
-            }
-
             wallModel.index = totalCount + 10000;
-
             return wallModel;
         }
 
-        public ClientMob AddNpc(int serverIndex, int x, int y, int sprite, int id)
+        public void resetPrivateMessages()
         {
-            if (NpcAttackingArray[serverIndex] is null)
+            base.pmText = "";
+            base.enteredPMText = "";
+        }
+
+        public ClientMob makeNPC(int index, int x, int y, int sprite, int id)
+        {
+            if (npcAttackingArray[index] == null)
             {
-                NpcAttackingArray[serverIndex] = new ClientMob
+                npcAttackingArray[index] = new ClientMob
                 {
-                    ServerIndex = serverIndex
+                    serverIndex = index
                 };
             }
-
-            ClientMob mob = NpcAttackingArray[serverIndex];
-
-            bool alreadyExists = LastNpcs
-                .Take(LastNpcCount)
-                .Any(lastNpc => lastNpc.ServerIndex == serverIndex);
-
-            if (alreadyExists)
+            ClientMob f1 = npcAttackingArray[index];
+            bool flag = false;
+            for (int l = 0; l < lastNpcCount; l++)
             {
-                mob.NpcIdentifier = id;
-                mob.NextSprite = sprite;
+                if (lastNpcArray[l].serverIndex != index)
+                    continue;
+                flag = true;
+                break;
+            }
 
-                int waypointCurrent = mob.WaypointCurrent;
-
-                if (x != mob.Waypoints[waypointCurrent].X ||
-                    y != mob.Waypoints[waypointCurrent].Y)
+            if (flag)
+            {
+                f1.npcId = id;
+                f1.nextSprite = sprite;
+                int i1 = f1.waypointCurrent;
+                if (x != f1.waypointsX[i1] || y != f1.waypointsY[i1])
                 {
-                    mob.WaypointCurrent = waypointCurrent = (waypointCurrent + 1) % 10;
-                    mob.Waypoints[waypointCurrent] = new Point2D(x, y);
+                    f1.waypointCurrent = i1 = (i1 + 1) % 10;
+                    f1.waypointsX[i1] = x;
+                    f1.waypointsY[i1] = y;
                 }
             }
             else
             {
-                mob.ServerIndex = serverIndex;
-                mob.NpcIdentifier = id;
-                mob.NextSprite = mob.CurrentSprite = sprite;
-                mob.StepCount = 0;
-                mob.WaypointsEndSprite = 0;
-                mob.WaypointCurrent = 0;
-                mob.Location = new Point2D(x, y);
-                mob.Waypoints[0] = mob.Location;
+                f1.serverIndex = index;
+                f1.waypointsEndSprite = 0;
+                f1.waypointCurrent = 0;
+                f1.waypointsX[0] = f1.currentX = x;
+                f1.waypointsY[0] = f1.currentY = y;
+                f1.npcId = id;
+                f1.nextSprite = f1.currentSprite = sprite;
+                f1.stepCount = 0;
+            }
+            npcArray[npcCount++] = f1;
+            return f1;
+        }
+
+        public void updateBankItems()
+        {
+            bankItemsCount = serverBankItemsCount;
+            for (int l = 0; l < serverBankItemsCount; l++)
+            {
+                bankItems[l] = serverBankItems[l];
+                bankItemCount[l] = serverBankItemCount[l];
             }
 
-            Npcs[NpcCount] = mob;
-            NpcCount += 1;
+            for (int i1 = 0; i1 < inventoryItemsCount; i1++)
+            {
+                if (bankItemsCount >= maxBankItems)
+                    break;
+                int j1 = inventoryItems[i1];
+                bool flag = false;
+                for (int k1 = 0; k1 < bankItemsCount; k1++)
+                {
+                    if (bankItems[k1] != j1)
+                        continue;
+                    flag = true;
+                    break;
+                }
 
-            return mob;
+                if (!flag)
+                {
+                    bankItems[bankItemsCount] = j1;
+                    bankItemCount[bankItemsCount] = 0;
+                    bankItemsCount++;
+                }
+            }
+
+        }
+
+        public void drawStatsQuestsMenu(bool canClick)
+        {
+            int l = ((GameImage)(gameGraphics)).gameWidth - 199; //199
+            int i1 = 36;
+            gameGraphics.drawPicture(l - 49, 3, baseInventoryPic + 3);
+            int c1 = 196;//'\u304';
+            int c2 = 275;//113;//'\u0113';
+            int k1;
+            int j1 = k1 = GameImage.rgbToInt(160, 160, 160);
+            if (questMenuSelected == 0)
+                j1 = GameImage.rgbToInt(220, 220, 220);
+            else
+                k1 = GameImage.rgbToInt(220, 220, 220);
+            gameGraphics.drawBoxAlpha(l, i1, c1 / 2, 24, j1, 128);
+            gameGraphics.drawBoxAlpha(l + c1 / 2, i1, c1 / 2, 24, k1, 128);
+            gameGraphics.drawBoxAlpha(l, i1 + 24, c1, c2 - 24, GameImage.rgbToInt(220, 220, 220), 128);
+            gameGraphics.drawLineX(l, i1 + 24, c1, 0);
+            gameGraphics.drawLineY(l + c1 / 2, i1, 24, 0);
+            gameGraphics.drawText("Stats", l + c1 / 4, i1 + 16, 4, 0);
+            gameGraphics.drawText("Quests", l + c1 / 4 + c1 / 2, i1 + 16, 4, 0);
+            if (questMenuSelected == 0)
+            {
+                int l1 = 72;
+                int j2 = -1;
+                gameGraphics.drawString("Skills", l + 5, l1, 3, 0xffff00);
+                l1 += 13;
+                for (int k2 = 0; k2 < 9; k2++)
+                {
+                    int l2 = 0xffffff;
+                    if (base.mouseX > l + 3 && base.mouseY >= l1 - 11 && base.mouseY < l1 + 2 && base.mouseX < l + 90)
+                    {
+                        l2 = 0xff0000;
+                        j2 = k2;
+                    }
+                    gameGraphics.drawString(skillName[k2] + ":@yel@" + playerStatCurrent[k2] + "/" + playerStatBase[k2], l + 5, l1, 1, l2);
+                    l2 = 0xffffff;
+                    if (base.mouseX >= l + 90 && base.mouseY >= l1 - 13 - 11 && base.mouseY < (l1 - 13) + 2 && base.mouseX < l + 196)
+                    {
+                        l2 = 0xff0000;
+                        j2 = k2 + 9;
+                    }
+                    gameGraphics.drawString(skillName[k2 + 9] + ":@yel@" + playerStatCurrent[k2 + 9] + "/" + playerStatBase[k2 + 9], (l + c1 / 2) - 5, l1 - 13, 1, l2);
+                    l1 += 13;
+                }
+
+                gameGraphics.drawString("Quest Points:@yel@" + questPoints, (l + c1 / 2) - 5, l1 - 13, 1, 0xffffff);
+                l1 += 12;
+                gameGraphics.drawString("Fatigue: @yel@" + (fatigue * 100) / 750 + "%", l + 5, l1 - 13, 1, 0xffffff);
+                l1 += 8;
+                gameGraphics.drawString("Equipment Status", l + 5, l1, 3, 0xffff00);
+                l1 += 12;
+                for (int i3 = 0; i3 < 3; i3++)
+                {
+                    gameGraphics.drawString(gearStats[i3] + ":@yel@" + equipmentStatus[i3], l + 5, l1, 1, 0xffffff);
+                    if (i3 < 2)
+                        gameGraphics.drawString(gearStats[i3 + 3] + ":@yel@" + equipmentStatus[i3 + 3], l + c1 / 2 + 25, l1, 1, 0xffffff);
+                    l1 += 13;
+                }
+
+                l1 += 6;
+                gameGraphics.drawLineX(l, l1 - 15, c1, 0);
+                if (j2 != -1)
+                {
+                    gameGraphics.drawString(skillNameVerb[j2] + " skill", l + 5, l1, 1, 0xffff00);
+                    l1 += 12;
+                    int j3 = experienceList[0];
+                    for (int l3 = 0; l3 < 98; l3++)
+                        if (playerStatExp[j2] >= experienceList[l3])
+                            j3 = experienceList[l3 + 1];
+                    gameGraphics.drawString("Total xp: " + playerStatExp[j2], l + 5, l1, 1, 0xffffff);
+                    l1 += 12;
+                    gameGraphics.drawString("Next level at: " + j3, l + 5, l1, 1, 0xffffff);
+                }
+                else
+                {
+                    gameGraphics.drawString("Overall levels", l + 5, l1, 1, 0xffff00);
+                    l1 += 12;
+                    int k3 = 0;
+                    for (int i4 = 0; i4 < 18; i4++)
+                        k3 += playerStatBase[i4];
+
+                    gameGraphics.drawString("Skill total: " + k3, l + 5, l1, 1, 0xffffff);
+                    l1 += 12;
+                    gameGraphics.drawString("Combat level: " + ourPlayer.level, l + 5, l1, 1, 0xffffff);
+                    l1 += 12;
+                }
+            }
+            if (questMenuSelected == 1)
+            {
+                questMenu.clearList(questMenuHandle);
+                questMenu.addListItem(questMenuHandle, 0, "@whi@Quest-list (green=completed)");
+                for (int i2 = 0; i2 < usedQuestName.Length; i2++)
+                    questMenu.addListItem(questMenuHandle, i2 + 1, (questStage[i2] == 0 ? "@red@" : questStage[i2] == 1 ? "@yel@" : "@gre@") + usedQuestName[i2]);
+
+                questMenu.drawMenu();
+            }
+            if (!canClick)
+                return;
+            l = base.mouseX - (((GameImage)(gameGraphics)).gameWidth - 199);
+            i1 = base.mouseY - 36;
+            if (l >= 0 && i1 >= 0 && l < c1 && i1 < c2)
+            {
+                if (questMenuSelected == 1)
+                    questMenu.mouseClick(l + (((GameImage)(gameGraphics)).gameWidth - 199), i1 + 36, base.lastMouseButton, base.mouseButton);
+                if (i1 <= 24 && mouseButtonClick == 1)
+                {
+                    if (l < 98)
+                    {
+                        questMenuSelected = 0;
+                        return;
+                    }
+                    if (l > 98)
+                        questMenuSelected = 1;
+                }
+            }
+        }
+
+        public void drawFriendsBox()
+        {
+            if (mouseButtonClick != 0)
+            {
+                mouseButtonClick = 0;
+                if (showFriendsBox == 1 && (base.mouseX < 106 || base.mouseY < 145 || base.mouseX > 406 || base.mouseY > 215))
+                {
+                    showFriendsBox = 0;
+                    return;
+                }
+                if (showFriendsBox == 2 && (base.mouseX < 6 || base.mouseY < 145 || base.mouseX > 506 || base.mouseY > 215))
+                {
+                    showFriendsBox = 0;
+                    return;
+                }
+                if (showFriendsBox == 3 && (base.mouseX < 106 || base.mouseY < 145 || base.mouseX > 406 || base.mouseY > 215))
+                {
+                    showFriendsBox = 0;
+                    return;
+                }
+                if (base.mouseX > 236 && base.mouseX < 276 && base.mouseY > 193 && base.mouseY < 213)
+                {
+                    showFriendsBox = 0;
+                    return;
+                }
+            }
+            int l = 145;
+            if (showFriendsBox == 1)
+            {
+                gameGraphics.drawBox(106, l, 300, 70, 0);
+                gameGraphics.drawBoxEdge(106, l, 300, 70, 0xffffff);
+                l += 20;
+                gameGraphics.drawText("Enter name to add to friends list", 256, l, 4, 0xffffff);
+                l += 20;
+                gameGraphics.drawText(base.inputText + "*", 256, l, 4, 0xffffff);
+                if (base.enteredInputText.Length > 0)
+                {
+                    String s1 = base.enteredInputText.Trim();
+                    base.inputText = "";
+                    base.enteredInputText = "";
+                    showFriendsBox = 0;
+                    if (s1.Length > 0 && DataOperations.nameToHash(s1) != ourPlayer.nameHash)
+                        addFriend(s1);
+                }
+            }
+            if (showFriendsBox == 2)
+            {
+                gameGraphics.drawBox(6, l, 500, 70, 0);
+                gameGraphics.drawBoxEdge(6, l, 500, 70, 0xffffff);
+                l += 20;
+                gameGraphics.drawText("Enter message to send to " + DataOperations.hashToName(pmTarget), 256, l, 4, 0xffffff);
+                l += 20;
+                gameGraphics.drawText(base.pmText + "*", 256, l, 4, 0xffffff);
+                if (base.enteredPMText.Length > 0)
+                {
+                    String s2 = base.enteredPMText;
+                    base.pmText = "";
+                    base.enteredPMText = "";
+                    showFriendsBox = 0;
+                    int j1 = ChatMessage.stringToBytes(s2);
+                    sendPrivateMessage(pmTarget, ChatMessage.lastChat, j1);
+                    s2 = ChatMessage.bytesToString(ChatMessage.lastChat, 0, j1);
+                    //if (useChatFilter)
+                    // s2 = ChatFilter.filterChat(s2);
+                    displayMessage("@pri@You tell " + DataOperations.hashToName(pmTarget) + ": " + s2);
+                }
+            }
+            if (showFriendsBox == 3)
+            {
+                gameGraphics.drawBox(106, l, 300, 70, 0);
+                gameGraphics.drawBoxEdge(106, l, 300, 70, 0xffffff);
+                l += 20;
+                gameGraphics.drawText("Enter name to add to ignore list", 256, l, 4, 0xffffff);
+                l += 20;
+                gameGraphics.drawText(base.inputText + "*", 256, l, 4, 0xffffff);
+                if (base.enteredInputText.Length > 0)
+                {
+                    String s3 = base.enteredInputText.Trim();
+                    base.inputText = "";
+                    base.enteredInputText = "";
+                    showFriendsBox = 0;
+                    if (s3.Length > 0 && DataOperations.nameToHash(s3) != ourPlayer.nameHash)
+                        addIgnore(s3);
+                }
+            }
+            int i1 = 0xffffff;
+            if (base.mouseX > 236 && base.mouseX < 276 && base.mouseY > 193 && base.mouseY < 213)
+                i1 = 0xffff00;
+            gameGraphics.drawText("Cancel", 256, 208, 1, i1);
+        }
+
+        public void playSound(String s1)
+        {
+            if (audioPlayer == null || !Config.MEMBERS_FEATURES)
+                return;
+            if (!configSoundOff)
+            {
+                int off = (int)DataOperations.getObjectOffset(s1 + ".pcm", soundData);
+                int len = DataOperations.getSoundLength(s1 + ".pcm", soundData);
+                audioPlayer.play(soundData, off, len);
+            }
         }
 
         public void drawRightClickMenu()
@@ -6486,11 +8479,8 @@ namespace OpenRS.Net.Client
                 {
                     int j1 = menuX + 2;
                     int l1 = menuY + 27 + l * 15;
-                    if (InputManager.Instance.MouseLocation.X <= j1 - 2 || GameMouseY <= l1 - 12 || GameMouseY >= l1 + 4 || InputManager.Instance.MouseLocation.X >= j1 - 3 + menuWidth)
-                    {
+                    if (base.mouseX <= j1 - 2 || base.mouseY <= l1 - 12 || base.mouseY >= l1 + 4 || base.mouseX >= (j1 - 3) + menuWidth)
                         continue;
-                    }
-
                     menuClick(menuIndexes[l]);
                     break;
                 }
@@ -6499,137 +8489,382 @@ namespace OpenRS.Net.Client
                 menuShow = false;
                 return;
             }
-            if (InputManager.Instance.MouseLocation.X < menuX - 10 || GameMouseY < menuY - 10 || InputManager.Instance.MouseLocation.X > menuX + menuWidth + 10 || GameMouseY > menuY + menuHeight + 10)
+            if (base.mouseX < menuX - 10 || base.mouseY < menuY - 10 || base.mouseX > menuX + menuWidth + 10 || base.mouseY > menuY + menuHeight + 10)
             {
                 menuShow = false;
                 return;
             }
-            gameGraphics.DrawBoxAlpha(menuX, menuY, menuWidth, menuHeight, 0xd0d0d0, 160);
-            gameGraphics.DrawString("Choose option", menuX + 2, menuY + 12, 1, 65535);
+            gameGraphics.drawBoxAlpha(menuX, menuY, menuWidth, menuHeight, 0xd0d0d0, 160);
+            gameGraphics.drawString("Choose option", menuX + 2, menuY + 12, 1, 65535);
             for (int i1 = 0; i1 < menuOptionsCount; i1++)
             {
                 int k1 = menuX + 2;
                 int i2 = menuY + 27 + i1 * 15;
                 int j2 = 0xffffff;
-                if (InputManager.Instance.MouseLocation.X > k1 - 2 && GameMouseY > i2 - 12 && GameMouseY < i2 + 4 && InputManager.Instance.MouseLocation.X < k1 - 3 + menuWidth)
-                {
+                if (base.mouseX > k1 - 2 && base.mouseY > i2 - 12 && base.mouseY < i2 + 4 && base.mouseX < (k1 - 3) + menuWidth)
                     j2 = 0xffff00;
-                }
 
                 var t2 = menuText2[menuIndexes[i1]];
-                gameGraphics.DrawString(menuText1[menuIndexes[i1]] + " " + menuText2[menuIndexes[i1]], k1, i2, 1, j2);
+                gameGraphics.drawString(menuText1[menuIndexes[i1]] + " " + menuText2[menuIndexes[i1]], k1, i2, 1, j2);
             }
 
         }
 
         public void getMenuHighlighted()
         {
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 && GameMouseY < 35)
-            {
+            if (drawMenuTab == 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 && base.mouseY < 35)
                 drawMenuTab = 1;
-            }
-
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 33 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 33 && GameMouseY < 35)
+            if (drawMenuTab == 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 33 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 33 && base.mouseY < 35)
             {
                 drawMenuTab = 2;
-                minimapRandomRotationX = (int)(random.NextDouble() * 13D) - 6;
-                minimapRandomRotationY = (int)(random.NextDouble() * 23D) - 11;
+                minimapRandomRotationX = (int)(Helper.Random.NextDouble() * 13D) - 6;
+                minimapRandomRotationY = (int)(Helper.Random.NextDouble() * 23D) - 11;
             }
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 66 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 66 && GameMouseY < 35)
-            {
+            if (drawMenuTab == 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 66 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 66 && base.mouseY < 35)
                 drawMenuTab = 3;
-            }
-
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 99 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 99 && GameMouseY < 35)
-            {
+            if (drawMenuTab == 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 99 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 99 && base.mouseY < 35)
                 drawMenuTab = 4;
-            }
-
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 132 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 132 && GameMouseY < 35)
-            {
+            if (drawMenuTab == 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 132 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 132 && base.mouseY < 35)
                 drawMenuTab = 5;
-            }
-
-            if (drawMenuTab == 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 165 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 165 && GameMouseY < 35)
-            {
+            if (drawMenuTab == 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 165 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 165 && base.mouseY < 35)
                 drawMenuTab = 6;
-            }
-
-            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 && GameMouseY < 26)
-            {
+            if (drawMenuTab != 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 && base.mouseY < 26)
                 drawMenuTab = 1;
-            }
-
-            if (drawMenuTab != 0 && drawMenuTab != 2 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 33 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 33 && GameMouseY < 26)
+            if (drawMenuTab != 0 && drawMenuTab != 2 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 33 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 33 && base.mouseY < 26)
             {
                 drawMenuTab = 2;
-                minimapRandomRotationX = (int)(random.NextDouble() * 13D) - 6;
-                minimapRandomRotationY = (int)(random.NextDouble() * 23D) - 11;
+                minimapRandomRotationX = (int)(Helper.Random.NextDouble() * 13D) - 6;
+                minimapRandomRotationY = (int)(Helper.Random.NextDouble() * 23D) - 11;
             }
-            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 66 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 66 && GameMouseY < 26)
-            {
+            if (drawMenuTab != 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 66 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 66 && base.mouseY < 26)
                 drawMenuTab = 3;
-            }
-
-            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 99 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 99 && GameMouseY < 26)
-            {
+            if (drawMenuTab != 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 99 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 99 && base.mouseY < 26)
                 drawMenuTab = 4;
-            }
-
-            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 132 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 132 && GameMouseY < 26)
-            {
+            if (drawMenuTab != 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 132 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 132 && base.mouseY < 26)
                 drawMenuTab = 5;
-            }
-
-            if (drawMenuTab != 0 && InputManager.Instance.MouseLocation.X >= gameGraphics.GameSize.Width - 35 - 165 && GameMouseY >= 3 && InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 3 - 165 && GameMouseY < 26)
-            {
+            if (drawMenuTab != 0 && base.mouseX >= ((GameImage)(gameGraphics)).gameWidth - 35 - 165 && base.mouseY >= 3 && base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 3 - 165 && base.mouseY < 26)
                 drawMenuTab = 6;
-            }
-
-            if (drawMenuTab == 1 && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 248 || GameMouseY > 36 + InventoryManager.MaximumInventorySize / 5 * 34))
-            {
+            if (drawMenuTab == 1 && (base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 248 || base.mouseY > 36 + (maxInventoryItems / 5) * 34))
                 drawMenuTab = 0;
-            }
-
-            if (drawMenuTab == 3 && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 199 || GameMouseY > 316))
-            {
+            if (drawMenuTab == 3 && (base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 199 || base.mouseY > 316))
                 drawMenuTab = 0;
-            }
-
-            if ((drawMenuTab == 2 || drawMenuTab == 4 || drawMenuTab == 5) && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 199 || GameMouseY > 240))
-            {
+            if ((drawMenuTab == 2 || drawMenuTab == 4 || drawMenuTab == 5) && (base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 199 || base.mouseY > 240))
                 drawMenuTab = 0;
-            }
-
-            if (drawMenuTab == 6 && (InputManager.Instance.MouseLocation.X < gameGraphics.GameSize.Width - 199 || GameMouseY > 326))
-            {
+            if (drawMenuTab == 6 && (base.mouseX < ((GameImage)(gameGraphics)).gameWidth - 199 || base.mouseY > 326))
                 drawMenuTab = 0;
-            }
         }
 
-        public ClientMob GetLastPlayer(int serverIndex) => LastPlayers
-                .Where(x => x is not null) // TODO: Remove this check once it is safe
-                .FirstOrDefault(x => x.ServerIndex == serverIndex);
-
-        public ClientMob GetLastNpc(int serverIndex) => LastNpcs
-                .Where(x => x is not null) // TODO: Remove this check once it is safe
-                .FirstOrDefault(x => x.ServerIndex == serverIndex);
-
-        public string joinString(string[] hay, string glue, int start)
+        protected int getUID()
         {
-            string ret = string.Empty;
-            for (int i = start; i < hay.Length; i++)
-            {
-                ret += hay[i] + (i != hay.Length - 1 ? glue : "");
-            }
+            return Link.uid;
+        }
 
+        public bool takeScreenshot(bool verb)
+        {
+            //try
+            //{
+            //    String charName = DataOperations.hashToName(DataOperations.nameToHash(username));
+            //    File dir = new File(Config.MEDIA_DIR + "/" + charName);
+            //    if (!dir.exists() || !dir.isDirectory())
+            //        dir.mkdir();
+            //    String folder = dir.getPath() + "/";
+            //    File file = null;
+            //    for (int count = 0; file == null || file.exists(); count++)
+            //        file = new File(folder + "screenshot" + count + ".png");
+            //    BufferedImage bi = new BufferedImage(windowWidth, windowHeight + 11, BufferedImage.TYPE_INT_RGB);
+            //    Graphics2D g2d = bi.createGraphics();
+            //    g2d.drawImage(gameGraphics.image, 0, 0, this);
+            //    g2d.dispose();
+            //    ImageIO.write(bi, "png", file);
+            //    if (verb)
+            //        displayMessage("Screenshot saved as " + file.getName());
+            //    return true;
+            //}
+            //catch (IOException ioe)
+            //{
+            //    if (verb)
+            //        displayMessage("Error saving screenshot");
+            //    return false;
+            //}
+            return true;
+        }
+
+        public ClientMob getLastPlayer(int serverIndex)
+        {
+            for (int i1 = 0; i1 < lastPlayerCount; i1++)
+            {
+                if (lastPlayerArray[i1].serverIndex == serverIndex)
+                {
+                    return lastPlayerArray[i1];
+                }
+            }
+            return null;
+        }
+
+        public ClientMob getLastNpc(int serverIndex)
+        {
+            for (int i1 = 0; i1 < lastNpcCount; i1++)
+            {
+                if (lastNpcArray[i1].serverIndex == serverIndex)
+                {
+                    return lastNpcArray[i1];
+                }
+            }
+            return null;
+        }
+
+        public bool handleCommand(String command)
+        {
+            try
+            {
+                int firstSpace = command.IndexOf(' ');
+                String cmd = command;
+                string[] args = new String[0];
+                if (firstSpace != -1)
+                {
+                    cmd = command.Substring(0, firstSpace).Trim();
+                    args = command.Substring(firstSpace).Trim().Split(' ');
+                }
+                if (cmd.Equals("closecon"))
+                {
+                    base.streamClass.closeStream();
+                    return true;
+                }
+                if (cmd.Equals("logout"))
+                {
+                    sendLogout();
+                    return true;
+                }
+                if (cmd.Equals("lostcon"))
+                {
+                    lostConnection();
+                    return true;
+                }
+                if (cmd.Equals("tell"))
+                {
+                    long recipient = DataOperations.nameToHash(args[0]);
+                    String message = joinString(args, " ", 1).Trim();
+                    if (message.Equals(""))
+                        return true;
+                    int len = ChatMessage.stringToBytes(message);
+                    sendPrivateMessage(recipient, ChatMessage.lastChat, len);
+                    message = ChatMessage.bytesToString(ChatMessage.lastChat, 0, len);
+                    //  if (useChatFilter)
+                    //      message = ChatFilter.filterChat(message);
+                    displayMessage("@pri@You tell " + DataOperations.hashToName(recipient) + ": " + message);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                //e.printStackTrace();
+            }
+            return false;
+        }
+
+        public String joinString(String[] hay, String glue, int start)
+        {
+            String ret = "";
+            for (int i = start; i < hay.Length; i++)
+                ret += hay[i] + (i != hay.Length - 1 ? glue : "");
             return ret;
         }
 
-        public string joinString(string[] hay, string glue) => joinString(hay, glue, 0);
+        public String joinString(String[] hay, String glue)
+        {
+            return joinString(hay, glue, 0);
+        }
 
+        public GameClient()
+        {
+            tradeOtherName = "";
+
+
+            windowWidth = 512;
+            windowHeight = 334;
+
+
+            cameraFieldOfView = 9;
+            showQuestionMenu = false;
+            loginScreenShown = false;
+            questionMenuAnswer = new String[10];
+            appearanceBodyGender = 1;
+            appearance2Colour = 2;
+            appearanceHairColour = 2;
+            appearanceTopColour = 8;
+            appearanceBottomColour = 14;
+            appearanceHeadGender = 1;
+            menuIndexes = new int[250];
+            duelMyItems = new int[8];
+            duelMyItemsCount = new int[8];
+            playerArray = new ClientMob[500];
+            selectedShopItemIndex = -1;
+            selectedShopItemType = -2;
+            menuText1 = new String[250];
+            isSleeping = false;
+            tradeItemsOther = new int[14];
+            tradeItemOtherCount = new int[14];
+            tradeOtherAccepted = false;
+            tradeWeAccepted = false;
+            itemAboveHeadScale = new int[50];
+            itemAboveHeadID = new int[50];
+            playerStatCurrent = new int[18];
+            menuActionX = new int[250];
+            menuActionY = new int[250];
+            menuActionID = new int[250];
+            showTradeBox = false;
+            npcArray = new ClientMob[500];
+            duelNoRetreating = false;
+            duelNoMagic = false;
+            duelNoPrayer = false;
+            duelNoWeapons = false;
+            playerBufferArray = new ClientMob[4000];
+            serverMessage = "";
+            duelOpponentAccepted = false;
+            duelMyAccepted = false;
+            wallObjectX = new int[500];
+            wallObjectY = new int[500];
+            serverMessageBoxTop = false;
+            cameraRotationYIncrement = 2;
+            wallObjectArray = new GameObject[500];
+            messagesArray = new String[5];
+            objectAlreadyInMenu = new bool[1500];
+            objectArray = new GameObject[1500];
+            selectedSpell = -1;
+            cameraAutoAngleDebug = false;
+            ourPlayer = new ClientMob();
+            serverIndex = -1;
+            tradeItemsOur = new int[14];
+            tradeItemOurCount = new int[14];
+            showWelcomeBox = false;
+            menuActionType = new int[250];
+            menuActionVar1 = new int[250];
+            menuActionVar2 = new int[250];
+            sleepWordDelay = true;
+            configCameraAutoAngle = true;
+            cameraRotation = 128;
+            configSoundOff = false;
+            menuShow = false;
+            duelOpponentItems = new int[8];
+            duelOpponentItemsCount = new int[8];
+            showBankBox = false;
+            playerStatBase = new int[18];
+            serverBankItems = new int[256];
+            serverBankItemCount = new int[256];
+            showShopBox = false;
+            groundItemX = new int[5000];
+            groundItemY = new int[5000];
+            groundItemID = new int[5000];
+            groundItemObjectVar = new int[5000];
+            maxBankItems = 48;
+            tradeConfirmOtherItems = new int[14];
+            tradeConfirmOtherItemsCount = new int[14];
+            layerIndex = -1;
+            walkArrayX = new int[8000];
+            walkArrayY = new int[8000];
+            cameraDistance = 550;
+            receivedMessageX = new int[50];
+            receivedMessageY = new int[50];
+            receivedMessageMidPoint = new int[50];
+            receivedMessageHeight = new int[50];
+            wallObjectAlreadyInMenu = new bool[500];
+            lastLayerIndex = -1;
+            bankItems = new int[256];
+            bankItemCount = new int[256];
+            maxInventoryItems = 30;
+            errorLoading = false;
+            itemAboveHeadX = new int[50];
+            itemAboveHeadY = new int[50];
+            showServerMessageBox = false;
+            playerBufferArrayIndexes = new int[500];
+            tradeConfirmItems = new int[14];
+            tradeConfigItemsCount = new int[14];
+            selectedBankItem = -1;
+            selectedBankItemType = -2;
+            showDuelConfirmBox = false;
+            duelConfirmOurAccepted = false;
+            wallObjectDirection = new int[500];
+            wallObjectID = new int[500];
+            gameDataObjects = new GameObject[1000];
+            lastNpcArray = new ClientMob[500];
+            inventoryItems = new int[35];
+            inventoryItemCount = new int[35];
+            inventoryItemEquipped = new int[35];
+            selectedItem = -1;
+            selectedItemName = "";
+            lastPlayerArray = new ClientMob[500];
+            showTradeConfirmBox = false;
+            tradeConfirmAccepted = false;
+            playerStatExp = new int[18];
+            mouseTrailX = new int[8192];
+            mouseTrailY = new int[8192];
+            configOneMouseButton = false;
+            prayerOn = new bool[50];
+            shopItems = new int[256];
+            shopItemCount = new int[256];
+            shopItemBasePriceModifier = new int[256];
+            duelOpponentStakeItem = new int[8];
+            duelOutStakeItemCount = new int[8];
+            equipmentStatus = new int[5];
+            receivedMessages = new String[50];
+            cameraRotationXIncrement = 2;
+            teleBubbleTime = new int[50];
+            gridSize = 128;
+            questStage = new int[questName.Length];
+            teleBubbleType = new int[50];
+            experienceList = new int[99];
+            lastModelFireLightningSpellNumber = -1;
+            lastModelTorchNumber = -1;
+            lastModelClawSpellNumber = -1;
+            messagesTimeout = new int[5];
+            projectileRange = 40;
+            memoryError = false;
+            duelOurStakeItem = new int[8];
+            duelOurStakeItemCount = new int[8];
+            menuText2 = new String[250];
+            loginUsername = "";
+            loginPassword = "";
+            duelOpponent = "";
+            healthBarX = new int[50];
+            healthBarY = new int[50];
+            healthBarMissing = new int[50];
+            objectX = new int[1500];
+            objectY = new int[1500];
+            objectType = new int[1500];
+            objectRotation = new int[1500];
+            showDuelBox = false;
+            npcAttackingArray = new ClientMob[5000];
+            teleBubbleY = new int[50];
+            cameraAutoAngle = 1;
+            loadArea = false;
+            teleBubbleX = new int[50];
+            showAppearanceWindow = false;
+            cameraZoom = false;
+
+            fogOfWar = true;
+            showCombatWindow = false;
+            showRoofs = true;
+            autoScreenshot = false;
+            useChatFilter = true;
+            usedQuestName = new String[0];
+            subDaysLeft = 0;
+            shopItemSellPrice = new int[256];
+            shopItemBuyPrice = new int[256];
+            captchaPixels = new int[0][];
+            captchaWidth = 0;
+            captchaHeight = 0;
+            needsClear = false;
+            hasWorldInfo = false;
+            //ImageIO.setCacheDirectory(new File(Config.CONF_DIR));
+        }
+
+        public String tradeOtherName;
+        public int windowWidth;
+        public int windowHeight;
         public int cameraFieldOfView;
-        public string[] questionMenuAnswer;
+        public bool showQuestionMenu;
+        public bool loginScreenShown;
+        public String[] questionMenuAnswer;
         public int appearanceHeadType;
         public int appearanceBodyGender;
         public int appearance2Colour;
@@ -6638,78 +8873,151 @@ namespace OpenRS.Net.Client
         public int appearanceBottomColour;
         public int appearanceSkinColour;
         public int appearanceHeadGender;
-
+        public Menu chatInputMenu;
+        int messagesHandleType2;
+        int chatInputBox;
+        int messagesHandleType5;
+        int messagesHandleType6;
+        int messagesTab;
         public int[] menuIndexes;
+        public int duelMyItemCount;
+        public int[] duelMyItems;
+        public int[] duelMyItemsCount;
+        public int systemUpdate;
+        public ClientMob[] playerArray;
+        public string[] questName = {// TODO really?... needs to be done better imho
+            "Cook's Assistant", "Sheep Shearer", "Black knight's fortress", "Imp catcher", "Vampire slayer",
+            "Romeo & Juliet", "The restless ghost", "Doric's quest", "The knight's sword", "Witch's potion",
+            "Goblin diplomacy", "Ernest the chicken", "Demon Slayer", "Pirate's treasure", "Prince Ali Rescue",
+            "Shield of Arrav", "Dragon Slayer"
+        /*"Black knight's fortress", "Cook's assistant", "Demon slayer", "Doric's quest", "The restless ghost", "Goblin diplomacy", "Ernest the chicken",
+        "Imp catcher", "Pirate's treasure", "Prince Ali rescue",
+        "Romeo & Juliet", "Sheep shearer", "Shield of Arrav", "The knight's sword", "Vampire slayer", "Witch's potion", "Dragon slayer", "Witch's house (members)",
+        "Lost city (members)", "Hero's quest (members)",
+        "Druidic ritual (members)", "Merlin's crystal (members)", "Scorpion catcher (members)", "Family crest (members)", "Tribal totem (members)",
+        "Fishing contest (members)", "Monk's friend (members)", "Temple of Ikov (members)", "Clock tower (members)", "The Holy Grail (members)",
+        "Fight Arena (members)", "Tree Gnome Village (members)", "The Hazeel Cult (members)", "Sheep Herder (members)", "Plague City (members)",
+        "Sea Slug (members)", "Waterfall quest (members)", "Biohazard (members)", "Jungle potion (members)", "Grand tree (members)",
+        "Shilo village (members)", "Underground pass (members)", "Observatory quest (members)", "Tourist trap (members)", "Watchtower (members)",
+        "Dwarf Cannon (members)", "Murder Mystery (members)", "Digsite (members)", "Gertrude's Cat (members)", "Legend's Quest (members)"*/
+    };
         public int selectedShopItemIndex;
         public int selectedShopItemType;
-        public string sleepingStatusText;
-        public string[] menuText1;
-        public bool IsSleeping;
+        public String sleepingStatusText;
+        public String[] menuText1;
+        public bool isSleeping;
         public int modelFireLightningSpellNumber;
         public int modelTorchNumber;
         public int modelClawSpellNumber;
+        public int tradeItemsOtherCount;
+        public int[] tradeItemsOther;
+        public int[] tradeItemOtherCount;
+        public bool tradeOtherAccepted;
+        public bool tradeWeAccepted;
         public int[] itemAboveHeadScale;
         public int[] itemAboveHeadID;
-        public MenuAction[] menuActions;
+        public int[] playerStatCurrent;
+        public int[] menuActionX;
+        public int[] menuActionY;
+        public string[] skillNameVerb = new string[] {
+        "Attack", "Defense", "Strength", "Hits", "Ranged", "Prayer", "Magic", "Cooking", "Woodcutting", "Fletching",
+        "Fishing", "Firemaking", "Crafting", "Smithing", "Mining", "Herblaw", "Agility", "Thieving"
+    };
+        public int[] menuActionID;
+        public int playerAliveTimeout;
         public int cameraAutoRotatePlayerX;
         public int cameraAutoRotatePlayerY;
+        public bool showTradeBox;
+        public ClientMob[] npcArray;
+        public bool duelNoRetreating;
+        public bool duelNoMagic;
+        public bool duelNoPrayer;
+        public bool duelNoWeapons;
         public Menu appearanceMenu;
-        public int[][] animationModelArray =
-        [ [
+        public int[][] animationModelArray = new int[][]
+        { new int[]{
             11, 2, 9, 7, 1, 6, 10, 0, 5, 8,
             3, 4
-        ], [
+        }, new int[]{
             11, 2, 9, 7, 1, 6, 10, 0, 5, 8,
             3, 4
-        ], [
+        }, new int[]{
             11, 3, 2, 9, 7, 1, 6, 10, 0, 5,
             8, 4
-        ], [
+        }, new int[]{
             3, 4, 2, 9, 7, 1, 6, 10, 8, 11,
             0, 5
-        ], [
+        }, new int[]{
             3, 4, 2, 9, 7, 1, 6, 10, 8, 11,
             0, 5
-        ], [
+        }, new int[]{
             4, 3, 2, 9, 7, 1, 6, 10, 8, 11,
             0, 5
-        ], [
+        }, new int[]{
             11, 4, 2, 9, 7, 1, 6, 10, 0, 5,
             8, 3
-        ], [
+        }, new int[]{
             11, 2, 9, 7, 1, 6, 10, 0, 5, 8,
             4, 3
-        ]
-    ];
-
+        }
+    };
+        public int playerCount;
+        public int lastPlayerCount;
         public int drawUpdatesPerformed;
-        public string serverMessage;
+        public ClientMob[] playerBufferArray;
+        public String serverMessage;
+        public int groundItemCount;
+        public bool duelOpponentAccepted;
+        public bool duelMyAccepted;
+        public int[] wallObjectX;
+        public int[] wallObjectY;
         public bool serverMessageBoxTop;
+        public int fatigue;
         public int cameraRotationYAmount;
         public int cameraRotationYIncrement;
-        public int[] walkModel = [
+        public int[] walkModel = {
         0, 1, 2, 1
-    ];
+    };
         public int itemsAboveHeadCount;
-        public string[] messagesArray;
+        public AudioReader audioPlayer;
+        public GameObject[] wallObjectArray;
+        public String[] messagesArray;
+        public long duelOpponentHash;
         public Menu questMenu;
-        private int questMenuHandle;
+        int questMenuHandle;
+        int questMenuSelected;
         public bool[] objectAlreadyInMenu;
-        public ObjectModel[] ObjectArray;
+        public GameObject[] objectArray;
         public int selectedSpell;
         public bool cameraAutoAngleDebug;
+        public String lastLoginAddress;
+        public ClientMob ourPlayer;
+        int sectionX;
+        int sectionY;
+        int serverIndex;
+        public int tradeItemsOurCount;
+        public int[] tradeItemsOur;
+        public int[] tradeItemOurCount;
+        public bool showWelcomeBox;
         public int[] menuActionType;
         public int[] menuActionVar1;
         public int[] menuActionVar2;
         public bool sleepWordDelay;
+        public bool configCameraAutoAngle;
         public int minimapRandomRotationX;
         public int minimapRandomRotationY;
         public int loginMenuOkButton;
         public int cameraRotation;
-        public int[] appearanceSkinColours = [
+        public int combatStyle;
+        public int[] appearanceSkinColours = {
         0xecded0, 0xccb366, 0xb38c40, 0x997326, 0x906020
-    ];
+    };
+        public bool configSoundOff;
         public bool menuShow;
+        public int duelOpponentItemCount;
+        public int[] duelOpponentItems;
+        public int[] duelOpponentItemsCount;
+        public Menu loginMenuLogin;
         public int appearanceHeadLeftArrow;
         public int appearanceHeadRightArrow;
         public int appearanceHairLeftArrow;
@@ -6723,37 +9031,100 @@ namespace OpenRS.Net.Client
         public int appearanceBottomLeftArrow;
         public int appearanceBottomRightArrow;
         public int appearanceAcceptButton;
+        public sbyte[] soundData;
+        public bool showBankBox;
         public int shopItemSellPriceModifier;
         public int shopItemBuyPriceModifier;
+        public int wildType;
+        public int[] playerStatBase;
+        public long tradeConfirmOtherNameLong;
+        public int showAbuseBox;
+        public int[] serverBankItems;
+        public int[] serverBankItemCount;
+        public bool showShopBox;
+        public int[] groundItemX;
+        public int[] groundItemY;
+        public int[] groundItemID;
+        public int[] groundItemObjectVar;
         public GameImageMiddleMan gameGraphics;
+        public int maxBankItems;
+        public int tradeConfirmOtherItemCount;
+        public int[] tradeConfirmOtherItems;
+        public int[] tradeConfirmOtherItemsCount;
         public int tick;
         public EngineHandle engineHandle;
+        public int areaX;
+        public int areaY;
+        public int layerIndex;
         public int mouseButtonClick;
-        public int[] combatModelArray2 = [
+        public Menu loginNewUser;
+        public int[] walkArrayX;
+        public int[] walkArrayY;
+        public int[] combatModelArray2 = {
         0, 0, 0, 0, 0, 1, 2, 1
-    ];
+    };
         public int cameraDistance;
         public int[] receivedMessageX;
         public int[] receivedMessageY;
         public int[] receivedMessageMidPoint;
         public int[] receivedMessageHeight;
+        public bool[] wallObjectAlreadyInMenu;
+        public int wildX;
+        public int wildY;
+        public int layerModifier;
         public int lastLayerIndex;
+        public int[] bankItems;
+        public int[] bankItemCount;
+        public string[] skillName = {
+        "Attack", "Defense", "Strength", "Hits", "Ranged", "Prayer", "Magic", "Cooking", "Woodcut", "Fletching",
+        "Fishing", "Firemaking", "Crafting", "Smithing", "Mining", "Herblaw", "Agility", "Thieving"
+    };
+        public int npcCount;
+        public int lastNpcCount;
+        public int combatTimeout;
+        public int maxInventoryItems;
+        public static GraphicsDevice graphics;
         public bool errorLoading;
         public int animationNumber;
         public int[] itemAboveHeadX;
         public int[] itemAboveHeadY;
+        public int duelRetreat;
+        public int duelMagic;
+        public int duelPrayer;
+        public int duelWeapons;
+        public bool showServerMessageBox;
+        public int[] playerBufferArrayIndexes;
+        public int loginScreen;
         public int tradeConfigItemCount;
+        public int[] tradeConfirmItems;
+        public int[] tradeConfigItemsCount;
         public int selectedBankItem;
         public int selectedBankItemType;
+        public bool showDuelConfirmBox;
+        public bool duelConfirmOurAccepted;
+        public int[] wallObjectDirection;
+        public int[] wallObjectID;
+        public GameObject[] gameDataObjects;
+        public ClientMob[] lastNpcArray;
         public int modelUpdatingTimer;
+        public int inventoryItemsCount;
+        public int[] inventoryItems;
+        public int[] inventoryItemCount;
+        public int[] inventoryItemEquipped;
         public int selectedItem;
-        private string selectedItemName;
+        String selectedItemName;
+        public ClientMob[] lastPlayerArray;
+        public bool showTradeConfirmBox;
+        public bool tradeConfirmAccepted;
+        public int[] playerStatExp;
         public int loginButtonNewUser;
         public int loginMenuLoginButton;
         public int mouseTrailIndex;
-        private readonly int[] mouseTrailX;
-        private readonly int[] mouseTrailY;
+        int[] mouseTrailX;
+        int[] mouseTrailY;
+        public bool configOneMouseButton;
         public bool[] prayerOn;
+        public int lastLoginDays;
         public int loginMenuStatusText;
         public int loginMenuUserText;
         public int loginMenuPasswordText;
@@ -6762,6 +9133,10 @@ namespace OpenRS.Net.Client
         public int[] shopItems;
         public int[] shopItemCount;
         public int[] shopItemBasePriceModifier;
+        public int objectCount;
+        public int duelOpponentStakeCount;
+        public int[] duelOpponentStakeItem;
+        public int[] duelOutStakeItemCount;
         public int baseInventoryPic;
         public int baseScrollPic;
         public int baseItemPicture;
@@ -6773,140 +9148,116 @@ namespace OpenRS.Net.Client
         public int sectionHeight;
         public int sectionPosX;
         public int sectionPosY;
+        public int[] equipmentStatus;
         public int drawMenuTab;
         public int receivedMessagesCount;
-        private readonly string[] receivedMessages;
+        string[] receivedMessages;
         public int cameraRotateTime;
+        public int questionMenuCount;
         public int cameraRotationXAmount;
         public int cameraRotationXIncrement;
         public int[] teleBubbleTime;
-        public string[] gearStats = [
+        public string[] gearStats = {
         "Armour", "WeaponAim", "WeaponPower", "Magic", "Prayer"
-    ];
+    };
+        public int logoutTimer;
+        public int wallObjectCount;
+        public int gridSize;
         public bool loggedIn;
+        public int[] questStage;
         public int[] teleBubbleType;
         public int[] experienceList;
         public int lastModelFireLightningSpellNumber;
         public int lastModelTorchNumber;
         public int lastModelClawSpellNumber;
+        public int chatTabAllMsgFlash;
+        public int chatTabHistoryFlash;
+        public int chatTabQuestFlash;
+        public int chatTabPrivateFlash;
         public int[] messagesTimeout;
-        public int[] appearanceTopBottomColours = [
+        public int projectileRange;
+        public int[] appearanceTopBottomColours = {
         0xff0000, 0xff8000, 0xffe000, 0xa0e000, 57344, 32768, 41088, 45311, 33023, 12528,
         0xe000e0, 0x303030, 0x604000, 0x805000, 0xffffff
-    ];
+    };
+        public int showFriendsBox;
         public int teleBubbleCount;
         public bool memoryError;
-        public int[] appearanceHairColours = [
+        public int[] appearanceHairColours = {
         0xffc030, 0xffa040, 0x805030, 0x604020, 0x303030, 0xff6020, 0xff4000, 0xffffff, 65280, 65535
-    ];
+    };
         public Menu spellMenu;
-        private int spellMenuHandle;
-        private int menuMagicPrayersSelected;
+        int spellMenuHandle;
+        int menuMagicPrayersSelected;
+        public int duelOurStakeCount;
+        public int[] duelOurStakeItem;
+        public int[] duelOurStakeItemCount;
         public int menuX;
         public int menuY;
         public int menuWidth;
         public int menuHeight;
         public int menuOptionsCount;
         public Camera gameCamera;
+        public Menu friendsMenu;
+        int friendsMenuHandle;
+        int friendsIgnoreMenuSelected;
+        long pmTarget;
         public int healthBarVisibleCount;
-        public string[] menuText2;
+        public String[] menuText2;
         public int sleepWordDelayTimer;
         public int mouseButtonHeldTime;
-        public string loginUsername;
-        public string loginPassword;
+        public int mouseClickedHeldInTradeDuelBox;
+        public String loginUsername;
+        public String loginPassword;
+        public String duelOpponent;
         public int bankPage;
+        public Menu loginMenuFirst;
         public int[] healthBarX;
         public int[] healthBarY;
         public int[] healthBarMissing;
+        public int[] objectX;
+        public int[] objectY;
+        public int[] objectType;
+        public int[] objectRotation;
+        public int reportAbuseOptionSelected;
+        public bool showDuelBox;
+        public ClientMob[] npcAttackingArray;
+        public int serverBankItemsCount;
         public int[] teleBubbleY;
         public int cameraAutoAngle;
         public int cameraAutoRotationAmount;
+        public bool loadArea;
         public int[] teleBubbleX;
+        public int bankItemsCount;
+        public bool showAppearanceWindow;
+        public int questPoints;
         public int actionPictureType;
-        private int walkMouseX;
-        private int walkMouseY;
-        public int[] combatModelArray1 = [
+        int walkMouseX;
+        int walkMouseY;
+        public int[] combatModelArray1 = {
         0, 1, 2, 1, 0, 0, 0, 0
-    ];
+    };
         public bool cameraZoom;
 
+        public bool fogOfWar;
+        public bool showCombatWindow;
+        public bool showRoofs;
+        public bool autoScreenshot;
+        public bool useChatFilter;
+        public String[] usedQuestName;
+        public int subDaysLeft;
         public int[] shopItemSellPrice;
         public int[] shopItemBuyPrice;
         public int[][] captchaPixels;
         public int captchaWidth;
         public int captchaHeight;
+        public bool needsClear;
+        public bool hasWorldInfo;
 
-        // Trading fields
-        public bool showTradeBox;
-        public bool showTradeConfirmBox;
-        public string tradeOtherName;
-        public bool tradeOtherAccepted;
-        public bool tradeWeAccepted;
-        public int tradeItemsOurCount;
-        public int tradeItemsOtherCount;
-        public int[] tradeItemsOther;
-        public int[] tradeItemOtherCount;
-        public long tradeConfirmOtherNameLong;
-        public int tradeConfirmOtherItemCount;
-        public int[] tradeConfirmOtherItems;
-        public int[] tradeConfirmOtherItemsCount;
-        public int[] tradeConfigItemsCount;
-        public bool tradeConfirmAccepted;
-        public int[] tradeConfirmItems;
-
-        // Dueling fields
-        public bool showDuelBox;
-        public bool showDuelConfirmBox;
-        public string duelOpponent;
-        public long duelOpponentHash;
-        public int duelMyItemCount;
-        public int duelOpponentItemCount;
-        public bool duelOpponentAccepted;
-        public bool duelMyAccepted;
-        public bool duelNoRetreating;
-        public bool duelNoMagic;
-        public bool duelNoPrayer;
-        public bool duelNoWeapons;
-        public int[] duelOpponentItems;
-        public int[] duelOpponentItemsCount;
-        public int[] duelMyItems;
-        public int[] duelMyItemsCount;
-        public bool duelConfirmOurAccepted;
-        public int duelOpponentStakeCount;
-        public int[] duelOpponentStakeItem;
-        public int[] duelOutStakeItemCount;
-        public int duelOurStakeCount;
-        public int[] duelOurStakeItem;
-        public int[] duelOurStakeItemCount;
-        public int duelRetreat;
-        public int duelMagic;
-        public int duelPrayer;
-        public int duelWeapons;
-
-        // Bank (RSCXNA-style raw arrays, kept in sync with inventoryManager)
-        public int serverBankItemsCount;
-        public int maxBankItems;
-        public int[] serverBankItems;
-        public int[] serverBankItemCount;
-
-        // Game state fields
-        public int systemUpdate;
-        public int logoutTimer;
-        public bool autoScreenshot;
-        public int wildType;
-        public int combatTimeout;
-
-        // Welcome / server message
-        public bool showWelcomeBox;
-        public bool showServerMessageBox;
-        public int lastLoginDays;
-        public int subDaysLeft;
-        public string lastLoginAddress;
-        public bool loginScreenShown;
-
-        // Trade "our" side arrays (what we are offering)
-        public int[] tradeItemsOur;
-        public int[] tradeItemOurCount;
-        public int mouseClickedHeldInTradeDuelBox;
+        //public void LoadContent()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
+
 }

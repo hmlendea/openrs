@@ -22,7 +22,9 @@ namespace OpenRS.Settings
 
         public GraphicsSettings()
         {
-            Resolution = new Size2D(1024, 544);
+            Resolution = new Size2D(1024, 480);
+            FogOfWar = true;
+            ShowRoofs = true;
         }
     }
 }

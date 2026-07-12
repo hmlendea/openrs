@@ -30,9 +30,6 @@ namespace OpenRS.Gui.Screens
 
         public GuiChatPanel ChatPanel { get; set; }
 
-        private readonly string username = username;
-        private readonly string password = password;
-
         /// <summary>
         /// Gets or sets the game client.
         /// </summary>
@@ -44,18 +41,18 @@ namespace OpenRS.Gui.Screens
         /// </summary>
         protected override void DoLoadContent()
         {
-            int sideBarWidth = 240;
-            int chatPanelHeight = (int)(ScreenManager.Instance.Size.Height * 0.25);
-            int gameViewWidth = ScreenManager.Instance.Size.Width - sideBarWidth;
-            int gameViewHeight = ScreenManager.Instance.Size.Height - chatPanelHeight;
-            int oldRscSidebarWidth = 248;
-            gameClient = GameClient.CreateGameClient(username, password, gameViewWidth + oldRscSidebarWidth, gameViewHeight);
+            gameClient = GameClient.CreateGameClient(username, password, 512, 334);
             gameClient.gameMinThreadSleepTime = 10;
             gameClient.Start();
             gameThread = new Thread(gameClient.run);
             gameThread.Start();
 
-            SideBar = new GuiSideBar(gameClient);
+            SideBar = new GuiSideBar(gameClient)
+            {
+                Location = new Point2D(
+                    ScreenManager.Instance.Size.Width - 240,
+                    0),
+            };
             ChatPanel = new GuiChatPanel();
             GuiGame = new GuiGame(gameClient);
 

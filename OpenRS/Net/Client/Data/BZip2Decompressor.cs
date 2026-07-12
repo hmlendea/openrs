@@ -3,7 +3,7 @@ using System;
 namespace OpenRS.Net.Client.Data
 {
 
-    public class DataFileDecrypter
+    public class BZip2Decompressor
     {
 
         public static long unpackData(sbyte[] abyte0, int decompressedSize, sbyte[] abyte1, int j, int k)

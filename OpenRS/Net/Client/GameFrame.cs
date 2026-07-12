@@ -1,33 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.Xna.Framework.Graphics;
+
 namespace OpenRS.Net.Client
 {
     public class GameFrame
     {
-        public GameApplet GameApplet { get; set; }
-        public int FrameWidth { get; set; }
-        public int FrameHeight { get; set; }
-        public int OffsetY { get; set; }
-
-        public GameFrame(
-            GameApplet gameApplet,
-            int width,
-            int height,
-            bool doTranslation)
+        public GameFrame(GameApplet arg0, int width, int height, String title, bool resizable, bool translate)
         {
-            GameApplet = gameApplet;
-            FrameWidth = width;
-            FrameHeight = height;
-            OffsetY = 28;
-
-            if (doTranslation)
-            {
-                OffsetY = 48;
-            }
+            yOffset = 28;
+            frameWidth = width;
+            frameHeight = height;
+            gameApplet = arg0;
+            if (translate)
+                yOffset = 48;
             else
-            {
-                OffsetY = 28;
-            }
+                yOffset = 28;
+            gameApplet.mouseYOffset = 0;// 24;
+            //setTitle(title);
+            //setResizable(resizable);
+            //show();
+            //toFront();
+            resize(frameWidth, frameHeight);
+
+            //addWindowListener(this);
         }
 
-        public void Paint() => GameApplet.paint();
+        //public GraphicsDevice getGraphics()
+        //{
+        //    GraphicsDevice g = gameApplet.graphics; //super.getGraphics();
+        //    //if (fej == 0)
+        //        //g.translate(0, 24);
+        //        //g.Viewport = new Viewport(0, 24, ); = 24;
+        //    //else
+        //        //g.translate(-5, 0);
+        //        //g.Viewport.X -= 5;
+        //    return g;
+        //}
+
+        public void resize(int i, int j)
+        {
+            //super.resize(i, j + yOffset);
+        }
+
+        public void paint(GraphicsDevice g)
+        {
+            gameApplet.paint(g);
+        }
+
+        public void windowClosed(EventArgs evt)
+        {
+            if (gameApplet.runStatus != -1)
+                gameApplet.destroy();
+        }
+
+        public void windowClosing(EventArgs evt)
+        {
+            if (gameApplet.runStatus != -1)
+                gameApplet.destroy();
+        }
+
+        public int frameWidth;
+        public int frameHeight;
+        public int fej;
+        public int yOffset;
+        public GameApplet gameApplet;
     }
 }

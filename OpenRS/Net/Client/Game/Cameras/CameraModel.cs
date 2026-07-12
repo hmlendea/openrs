@@ -1,7 +1,13 @@
-﻿namespace OpenRS.Net.Client.Game.Cameras
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace OpenRS.Net.Client.Game.Cameras
 {
     public class CameraModel
     {
+
         public CameraModel()
         {
             bld = false;
@@ -14,7 +20,7 @@
         public int bkg;
         public int bkh;
         public int bki;
-        public ObjectModel Object;
+        public GameObject Object;
         public int faceVertCountIndex1;
         public int Scale;
         public int bkm;

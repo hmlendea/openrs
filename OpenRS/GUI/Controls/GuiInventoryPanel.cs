@@ -79,6 +79,11 @@ namespace OpenRS.Gui.Controls
 
         private void SetItems()
         {
+            if (client.inventoryManager is null || client.entityManager is null)
+            {
+                return;
+            }
+
             for (int itemSlot = 0; itemSlot < Rows * Columns; itemSlot++)
             {
                 InventoryItem inventoryItem = client.inventoryManager.GetItem(itemSlot);

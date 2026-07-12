@@ -1,287 +1,148 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.IO;
 
 namespace OpenRS.Net.Client.Net
 {
-    /// <summary>
-    /// Packet construction.
-    /// </summary>
     public class PacketConstruction
     {
-        private int length;
-        private int packetReadCount;
-        private int packetStart;
-        private int packetOffset;
-        private int skipOffset;
-        private byte[] packetData;
-        private int PacketCount { get; set; }
 
-        private static readonly int[] packetCommandCount = new int[256];
-        private static readonly int[] packetLengthCount = new int[256];
-
-        /// <summary>
-        /// Gets or sets the maximum packet count.
-        /// </summary>
-        /// <value>The maximum packet count.</value>
-        public int MaximumPacketCount { get; set; }
-
-        /// <summary>
-        /// Gets or sets the maximum packet read count.
-        /// </summary>
-        /// <value>The maximum packet read count.</value>
-        public int MaximumPacketReadCount { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="PacketConstruction"/> has data.
-        /// </summary>
-        /// <value><c>true</c> if has data; otherwise, <c>false</c>.</value>
-        public bool HasData => packetStart > 0;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="PacketConstruction"/> has errors.
-        /// </summary>
-        /// <value><c>true</c> if has errors; otherwise, <c>false</c>.</value>
-        public bool HasErrors { get; protected set; }
-
-        /// <summary>
-        /// Gets or sets the error message.
-        /// </summary>
-        /// <value>The error message.</value>
-        public string ErrorMessage { get; protected set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PacketConstruction"/> class.
-        /// </summary>
-        public PacketConstruction()
-        {
-            packetOffset = 3;
-            skipOffset = 8;
-            MaximumPacketCount = 5000;
-            ErrorMessage = string.Empty;
-            HasErrors = false;
-        }
-
-        /// <summary>
-        /// Closes the stream.
-        /// </summary>
-        public virtual void CloseStream()
+        public virtual void closeStream()
         {
         }
 
-        /// <summary>
-        /// Creates the packet.
-        /// </summary>
-        /// <param name="value">Value.</param>
-        public void CreatePacket(int value)
+        public void createPacket(int id)
         {
-            if (packetStart > MaximumPacketCount * 4 / 5)
-            {
+            if (packetStart > (maxPacketLength * 4) / 5)
                 try
                 {
-                    WritePacket(0);
+                    writePacket(0);
                 }
-                catch (IOException ex)
+                catch (IOException ioexception)
                 {
-                    Console.WriteLine($"An error has occured in {nameof(PacketConstruction)}.cs");
-                    Console.WriteLine(ex);
-
-                    HasErrors = true;
-                    ErrorMessage = ex.Message;
+                    error = true;
+                    errorText = ioexception.ToString();//ioexception.getMessage();
                 }
-            }
-
-            packetData ??= new byte[MaximumPacketCount];
-
-            packetData[packetStart + 2] = (byte)value;
+            if (packetData == null)
+                packetData = new byte[maxPacketLength];
+            packetData[packetStart + 2] = (byte)id;
             packetData[packetStart + 3] = 0;
-
             packetOffset = packetStart + 3;
             skipOffset = 8;
         }
 
-        /// <summary>
-        /// Writes the packet.
-        /// </summary>
-        /// <param name="value">Value.</param>
-        public void WritePacket(int value)
+        public void writePacket(int packetId)
         {
-            if (HasErrors)
+            if (error)
             {
                 packetStart = 0;
                 packetOffset = 3;
-                HasErrors = false;
-                throw new IOException(ErrorMessage);
+                error = false;
+                throw new IOException(errorText);
             }
-
-            PacketCount++;
-
-            if (PacketCount < value)
-            {
+            packetCount++;
+            if (packetCount < packetId)
                 return;
-            }
             if (packetStart > 0)
             {
-                PacketCount = 0;
-                WriteToBuffer(packetData, 0, packetStart);
+                packetCount = 0;
+                writeToBuffer(packetData, 0, packetStart);
             }
-
             packetStart = 0;
             packetOffset = 3;
         }
 
-        /// <summary>
-        /// Adds an 8-bit integer.
-        /// </summary>
-        /// <param name="value">Value.</param>
-        public void AddInt8(int value) => packetData[packetOffset++] = (byte)value;
-
-        /// <summary>
-        /// Adds a 16-bit integer.
-        /// </summary>
-        /// <param name="value">Value.</param>
-        public void AddInt16(int value)
+        public void addByte(int i)
         {
-            packetData[packetOffset++] = (byte)(value >> 8);
-            packetData[packetOffset++] = (byte)value;
+            packetData[packetOffset++] = (byte)i;
         }
 
-        /// <summary>
-        /// Adds an 32-bit integer.
-        /// </summary>
-        /// <param name="value">Value.</param>
-        public void AddInt32(int value)
+        public void addString(String s)
         {
-            packetData[packetOffset++] = (byte)(value >> 24);
-            packetData[packetOffset++] = (byte)(value >> 16);
-            packetData[packetOffset++] = (byte)(value >> 8);
-            packetData[packetOffset++] = (byte)value;
-        }
+            var bytes = Encoding.UTF8.GetBytes(s);
 
-        /// <summary>
-        /// Adds an 64-bit integer.
-        /// </summary>
-        /// <param name="value">Value.</param>
-        public void AddInt64(long value)
-        {
-            AddInt32((int)(value >> 32));
-            AddInt32((int)(value & -1L));
-        }
-
-        /// <summary>
-        /// Adds a string.
-        /// </summary>
-        /// <param name="str">Text.</param>
-        public void AddString(string str)
-        {
-            byte[] bytes = Encoding.UTF8.GetBytes(str);
+            //s.getBytes(0, s.length(), packetData, packetOffset);
 
             Array.Copy(bytes, 0, packetData, packetOffset, bytes.Length);
 
-            packetOffset += bytes.Length;
+            packetOffset += bytes.Length;//s.length();
         }
 
-        /// <summary>
-        /// Adds the bytes.
-        /// </summary>
-        /// <param name="data">Data.</param>
-        public void AddBytes(byte[] data) => AddBytes(data, 0, data.Length);
-
-        /// <summary>
-        /// Adds the bytes.
-        /// </summary>
-        /// <param name="data">Data.</param>
-        /// <param name="offset">Offset.</param>
-        /// <param name="length">Length.</param>
-        public void AddBytes(byte[] data, int offset, int length)
+        public void addLong(long l)
         {
-            Array.Copy(data, offset, packetData, packetOffset, length);
-            packetOffset += length;
+            addInt((int)(l >> 32));
+            addInt((int)(l & -1L));
         }
 
-        public virtual void WriteToBuffer(byte[] abyte0, int i, int j)
+        public virtual void writeToBuffer(byte[] abyte0, int i, int j)
         {
         }
 
-        /// <summary>
-        /// Reads an 8-bit integer.
-        /// </summary>
-        public int ReadInt8() => ReadInputStream();
-
-        /// <summary>
-        /// Reads a 16-bit integer.
-        /// </summary>
-        public int ReadInt16()
+        public virtual void readInputStream(int i, int j, sbyte[] abyte0)
         {
-            int i = ReadInt8();
-            int j = ReadInt8();
+        }
 
+        public int readShort()
+        {
+            int i = readByte();
+            int j = readByte();
             return i * 256 + j;
         }
 
-        /// <summary>
-        /// Reads a 64-bit integer.
-        /// </summary>
-        public long ReadInt64()
+        public virtual int read()
         {
-            long q1 = ReadInt16();
-            long q2 = ReadInt16();
-            long q3 = ReadInt16();
-            long q4 = ReadInt16();
-
-            return (q1 << 48) + (q2 << 32) + (q3 << 16) + q4;
+            return 0;
         }
 
-        /// <summary>
-        /// Reads.
-        /// </summary>
-        /// <param name="length">The index.</param>
-        /// <param name="data">Data.</param>
-        public void Read(int length, sbyte[] data) => ReadInputStream(length, 0, data);
-
-        /// <summary>
-        /// Reads the input stream.
-        /// </summary>
-        /// <returns>The input stream.</returns>
-        public virtual int ReadInputStream() => 0;
-
-        /// <summary>
-        /// Reads the input stream.
-        /// </summary>
-        /// <param name="length">Length.</param>
-        /// <param name="data">Data.</param>
-        public virtual void ReadInputStream(int length, sbyte[] data) => ReadInputStream(length, 0, data);
-
-        public virtual void ReadInputStream(int length, int offset, sbyte[] data)
+        public void read(int i, sbyte[] abyte0)
         {
+            readInputStream(i, 0, abyte0);
         }
 
-        /// <summary>
-        /// Finalises the packet.
-        /// </summary>
-        /// <param name="format">If set to <c>true</c> format.</param>
-        public void FinalisePacket(bool format = true)
+        public void addInt(int i)
+        {
+            packetData[packetOffset++] = (byte)(i >> 24);
+            packetData[packetOffset++] = (byte)(i >> 16);
+            packetData[packetOffset++] = (byte)(i >> 8);
+            packetData[packetOffset++] = (byte)i;
+        }
+
+        public void flush(bool format = true)
         {
             if (format)
-            {
-                FormatPacket();
-            }
-
-            WritePacket(0);
+                formatPacket();
+            writePacket(0);
         }
 
-        /// <summary>
-        /// Formats the packet.
-        /// </summary>
-        public void FormatPacket()
+        // bad
+        //public virtual int available()
+        //{
+        //    Console.WriteLine("packetconstruction.available WRONG");
+        //    return 0;
+        //}
+
+        public void addShort(int i)
+        {
+            packetData[packetOffset++] = (byte)(i >> 8);
+            packetData[packetOffset++] = (byte)i;
+        }
+
+        public long readLong()
+        {
+            long l = readShort();
+            long l1 = readShort();
+            long l2 = readShort();
+            long l3 = readShort();
+            return (l << 48) + (l1 << 32) + (l2 << 16) + l3;
+        }
+
+        public void formatPacket()
         {
             if (skipOffset != 8)
-            {
                 packetOffset++;
-            }
-
             int j = packetOffset - packetStart - 2;
-
             if (j >= 160)
             {
                 packetData[packetStart] = (byte)(160 + j / 256);
@@ -293,80 +154,116 @@ namespace OpenRS.Net.Client.Net
                 packetOffset--;
                 packetData[packetStart + 1] = packetData[packetOffset];
             }
-            if (MaximumPacketCount <= 10000)
+            if (maxPacketLength <= 10000)
             {
                 int k = packetData[packetStart + 2] & 0xff;
-
                 packetCommandCount[k]++;
                 packetLengthCount[k] += packetOffset - packetStart;
             }
-
             packetStart = packetOffset;
+
+            flush(false);
         }
 
-        /// <summary>
-        /// Reads the packet.
-        /// </summary>
-        /// <returns>The value.</returns>
-        /// <param name="data">Data.</param>
-        public int ReadPacket(sbyte[] data)
+        public void addBytes(byte[] data, int off, int len)
+        {
+            for (int i = 0; i < len; i++)
+                packetData[packetOffset++] = data[off + i];
+
+        }
+
+        public bool hasData()
+        {
+            return packetStart > 0;
+        }
+
+        public int readPacket(sbyte[] arg0)
         {
             try
             {
-                packetReadCount += 1;
-
-                if (MaximumPacketReadCount > 0 && packetReadCount > MaximumPacketReadCount)
+                _read++;
+                if (maxPacketReadCount > 0 && _read > maxPacketReadCount)
                 {
-                    HasErrors = true;
-                    ErrorMessage = "time-out";
-                    MaximumPacketReadCount += MaximumPacketReadCount;
-
+                    error = true;
+                    errorText = "time-out";
+                    maxPacketReadCount += maxPacketReadCount;
                     return 0;
                 }
-
-                if (length == 0)// && available() >= 2)
+                if (length == 0 /*&& available() >= 2*/)
                 {
-                    length = ReadInputStream();
-
-                    if (length >= 160)
+                    int b0 = read() & 0xff;
+                    if (b0 < 160)
                     {
-                        length = (length - 160) * 256 + ReadInputStream();
-                    }
-                }
-
-                if (length > 0)// && available() >= length)
-                {
-                    if (length >= 160)
-                    {
-                        ReadInputStream(length, data);
+                        // compact: b0 = payload length, b1 = last payload byte moved to header
+                        int b1 = read() & 0xff;
+                        length = b0; // b0 IS the payload length
+                        _swappedByte = b1;
+                        _hasSwappedByte = true;
                     }
                     else
                     {
-                        data[length - 1] = (sbyte)ReadInputStream();
-
-                        if (length > 1)
-                        {
-                            ReadInputStream(length - 1, data);
-                        }
+                        // extended: length = (b0-160)*256 + b1
+                        int b1 = read() & 0xff;
+                        length = (b0 - 160) * 256 + b1;
+                        _hasSwappedByte = false;
                     }
-
-                    int readBytes = length;
+                }
+                if (length > 0 /*&& available() >= length*/)
+                {
+                    if (_hasSwappedByte)
+                    {
+                        // read length-1 bytes (cmd + payload without last byte), then append swapped byte
+                        read(length - 1, arg0);
+                        arg0[length - 1] = (sbyte)_swappedByte;
+                        _hasSwappedByte = false;
+                    }
+                    else
+                    {
+                        read(length, arg0);
+                    }
+                    int i = length;
                     length = 0;
-                    packetReadCount = 0;
-
-                    return readBytes;
+                    _read = 0;
+                    return i;
                 }
             }
-            catch (IOException ex)
+            catch (IOException ioexception)
             {
-                Console.WriteLine($"An error has occured in {nameof(PacketConstruction)}.cs");
-                Console.WriteLine(ex);
-
-                HasErrors = true;
-                ErrorMessage = ex.Message;
+                error = true;
+                errorText = ioexception.ToString();//ioexception.getMessage();
             }
-
             return 0;
         }
+
+        public int readByte()
+        {
+            return read();
+        }
+
+        public PacketConstruction()
+        {
+            packetOffset = 3;
+            skipOffset = 8;
+            maxPacketLength = 5000;
+            errorText = "";
+            error = false;
+        }
+
+        public int length;
+        public int _read;
+        private int _swappedByte;
+        private bool _hasSwappedByte;
+        public int maxPacketReadCount;
+        public int packetStart;
+        private int packetOffset;
+        private int skipOffset;
+        public byte[] packetData;
+        public static int[] packetCommandCount = new int[256];
+        public int maxPacketLength;
+        public static int[] packetLengthCount = new int[256];
+        public int packetCount;
+        public String errorText;
+        public bool error;
     }
+
 }

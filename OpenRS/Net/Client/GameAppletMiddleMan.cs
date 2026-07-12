@@ -1,35 +1,23 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Net.Sockets;
-using System.Numerics;
+using System.Linq;
+using System.Text;
 using System.Threading;
-
+using Microsoft.Xna.Framework;
 using OpenRS.Net.Client.Data;
+using OpenRS.Net.Client.Game;
 using OpenRS.Net.Client.Net;
-using OpenRS.Net.Enumerations;
 using OpenRS.Settings;
 
 namespace OpenRS.Net.Client
 {
     public class GameAppletMiddleMan : GameApplet
     {
-        public static Random ran = new();
-        private static bool isConnecting = false;
-        private Thread connectionThread;
-
-        public StreamClass StreamClass { get; set; }
-
-        private static readonly BigInteger key = BigInteger.Parse("1370158896620336158431733257575682136836100155721926632321599369132092701295540721504104229217666225601026879393318399391095704223500673696914052239029335");
-        private static readonly BigInteger modulus = BigInteger.Parse("1549611057746979844352781944553705273443228154042066840514290174539588436243191882510185738846985723357723362764835928526260868977814405651690121789896823");
-
-        public GameAppletMiddleMan()
-        {
-            username = string.Empty;
-            password = string.Empty;
-            data = new sbyte[10000];
-        }
-
-        public void connect(string user, string pass, bool reconnecting)
+        public static Random ran = new Random();
+        static bool isConnecting = false;
+        Thread connectionThread;
+        public void connect(String user, String pass, bool reconnecting)
         {
             if (isConnecting)
             {
@@ -38,17 +26,18 @@ namespace OpenRS.Net.Client
 
             if (socketTimeout > 0)
             {
-                Thread.Sleep(2000);
-
-                throw new LoginException("The server is currently full");
+                loginScreenPrint("Please wait...", "Connecting to server");
+                try
+                {
+                    Thread.Sleep(2000);
+                }
+                catch (Exception _ex) { }
+                loginScreenPrint("Sorry! The server is currently full.", "Please try again later");
+                return;
             }
             try
             {
-                if (isConnecting)
-                {
-                    return;
-                }
-
+                if (isConnecting) return;
                 isConnecting = true;
 
                 username = user;
@@ -60,247 +49,501 @@ namespace OpenRS.Net.Client
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(e.ToString());
+                // e.printStackTrace();
             }
+
         }
+
+        static readonly System.Numerics.BigInteger RsaKey = System.Numerics.BigInteger.Parse("1370158896620336158431733257575682136836100155721926632321599369132092701295540721504104229217666225601026879393318399391095704223500673696914052239029335");
+        static readonly System.Numerics.BigInteger RsaModulus = System.Numerics.BigInteger.Parse("1549611057746979844352781944553705273443228154042066840514290174539588436243191882510185738846985723357723362764835928526260868977814405651690121789896823");
 
         private void DoConnect()
         {
-            var user = DataOperations.FormatString(username, 20);
-            var pass = DataOperations.FormatString(password, 20);
-
+            //username = user;
+            var user = DataOperations.formatString(username, 20);
+            // password = pass;
+            var pass = DataOperations.formatString(password, 20);
             if (user.Trim().Length == 0)
             {
+                loginScreenPrint("You must enter both a username", "and a password - Please try again");
+                return;
+            }
+            if (reconnecting)
+                gameBoxPrint("Connection lost! Please wait...", "Attempting to re-establish");
+            else
+                loginScreenPrint("Please wait...", "Connecting to server");
+            try
+            {
+                streamClass = new StreamClass(makeSocket(Config.SERVER_IP, Config.SERVER_PORT), this);
+            }
+            catch (System.Net.Sockets.SocketException ex)
+            {
+                loginScreenPrint("Unable to connect.", ex.Message);
+                return;
+            }
+            streamClass.maxPacketReadCount = maxPacketReadCount;
+
+
+            long l = DataOperations.nameToHash(user);
+            streamClass.createPacket(32);
+            streamClass.addByte((int)(l >> 16 & 31L));
+            streamClass.addString("Shinigami");// TODO not used server-side
+            streamClass.flush();
+
+            long sessionId;
+            try
+            {
+                sessionId = streamClass.readLong();
+            }
+            catch (Exception ex)
+            {
+                loginScreenPrint("Unable to connect.", "Server timed out");
+                Console.WriteLine(ex);
+                streamClass.closeStream();
                 return;
             }
 
-            TcpClient socket = MakeSocket(GameDefines.SERVER_IP, GameDefines.SERVER_PORT);
-            StreamClass = new StreamClass(socket, this)
-            {
-                MaximumPacketReadCount = maxPacketReadCount
-            };
 
-            long l = DataOperations.NameToHash(user);
-            StreamClass.CreatePacket(32);
-            StreamClass.AddInt8((int)(l >> 16 & 31L));
-            StreamClass.AddString("&%..."); // TODO: not used server-side
-            StreamClass.FinalisePacket();
-
-            long sessionId = StreamClass.ReadInt64();
 
             if (sessionId == 0L)
             {
-                throw new LoginException("Login server offline");
+                //     loginScreenPrint("Login server offline.", "Please try again in a few mins");
+                //     return;
             }
-
-            Console.WriteLine($"Session ID: {sessionId}");
-
-            int[] sessionRotationKeys =
-            [
-                (int)(ran.NextDouble() * 99999999D),
-                (int)(ran.NextDouble() * 99999999D),
-                (int)(sessionId >> 32),
-                (int)sessionId,
-            ];
-            LoginEncryptor encryptor = new(new byte[500]);
-            encryptor.AddInt32(sessionRotationKeys[0]);
-            encryptor.AddInt32(sessionRotationKeys[1]);
-            encryptor.AddInt32(sessionRotationKeys[2]);
-            encryptor.AddInt32(sessionRotationKeys[3]);
-            encryptor.AddInt32(0);
-            encryptor.AddString(user);
-            encryptor.AddString(pass);
-            encryptor.EncryptPacket(key, modulus);
-
-            StreamClass.CreatePacket(0);
-
+            Console.WriteLine("Verb: Session id: " + sessionId);
+            int[] sessionKeys = new int[4];
+            sessionKeys[0] = (int)(Helper.Random.NextDouble() * 99999999D);
+            sessionKeys[1] = (int)(Helper.Random.NextDouble() * 99999999D);
+            sessionKeys[2] = (int)(sessionId >> 32);
+            sessionKeys[3] = (int)sessionId;
+            var dataEnc = new LoginEncryptor(new byte[500]);
+            dataEnc.addInt(sessionKeys[0]);
+            dataEnc.addInt(sessionKeys[1]);
+            dataEnc.addInt(sessionKeys[2]);
+            dataEnc.addInt(sessionKeys[3]);
+            dataEnc.addInt(0);
+            dataEnc.addString(user);
+            dataEnc.addString(pass);
+            dataEnc.encryptPacket(RsaKey, RsaModulus);
+            streamClass.createPacket(0);
             if (reconnecting)
             {
-                StreamClass.AddInt8(1);
+                streamClass.addByte(1);
             }
             else
             {
-                StreamClass.AddInt8(0);
+                streamClass.addByte(0);
             }
-
-            StreamClass.AddInt16(GameDefines.CLIENT_VERSION);
-            StreamClass.AddBytes(encryptor.Packet, 0, encryptor.Offset);
-            StreamClass.FinalisePacket();
-
-            LoginCode loginResponse = (LoginCode)StreamClass.ReadInputStream();
-
-            Console.WriteLine($"Login response: {(int)loginResponse} ({loginResponse})");
-
-            // streamClass.MakeAsync();
-
-            switch (loginResponse)
+            streamClass.addShort(Config.CLIENT_VERSION);
+            streamClass.addBytes(dataEnc.packet, 0, dataEnc.offset);
+            streamClass.flush();
+            int loginCode;
+            try
             {
-                case LoginCode.Code0:
-                    reconnectTries = 0;
-                    initVars();
-                    return;
-
-                case LoginCode.Code1:
-                    reconnectTries = 0;
-                    return;
-
-                case LoginCode.Code5:
-                    Console.WriteLine("Login error: unable to login (code 5). Please retry.");
-                    return;
-
-                case LoginCode.Code99:
-                    reconnectTries = 0;
-                    initVars();
-                    return;
-
-                case LoginCode.AccountBanned:
-                    throw new LoginException("Account banned");
-
-                case LoginCode.AccountAlreadyLoggedIn:
-                    throw new LoginException("Account already in use");
-
-                case LoginCode.ClientUpdated:
-                    throw new LoginException("The client has been updated");
-
-                case LoginCode.InvalidCredentials:
-                    throw new LoginException("Invalid credentials");
-
-                case LoginCode.ProfileDecodeFailure:
-                    throw new LoginException("Failed to decode the profile");
-
-                case LoginCode.ServerTimeOut:
-                    throw new LoginException("Server timed out");
-
-                case LoginCode.TooManyConnections:
-                    throw new LoginException("Too many connections from the same IP");
-
-                case LoginCode.UsernameAlreadyLoggedIn:
-                    throw new LoginException("Already logged in");
-
-                default:
-                    throw new LoginException();
+                loginCode = streamClass.read();
             }
+            catch (Exception)
+            {
+                loginScreenPrint("Unable to connect.", "Server timed out");
+                streamClass.closeStream();
+                return;
+            }
+            Console.WriteLine("login response:" + loginCode);
 
+           // streamClass.MakeAsync();
+
+            if (loginCode == 99)
+            {
+                reconnectTries = 0;
+                initVars();
+                return;
+            }
+            if (loginCode == 0)
+            {
+                reconnectTries = 0;
+                initVars();
+                return;
+            }
+            if (loginCode == 1)
+            {
+                reconnectTries = 0;
+                return;
+            }
             if (reconnecting)
             {
-                user = string.Empty;
-                pass = string.Empty;
+                user = "";
+                pass = "";
                 resetIntVars();
+                return;
+            }
+            if (loginCode == -1)
+            {
+                loginScreenPrint("Error unable to login.", "Server timed out");
+                return;
+            }
+            if (loginCode == 2)
+            {
+                loginScreenPrint("Invalid username or password.", "Try again, or create a new account");
+                return;
+            }
+            if (loginCode == 3)
+            {
+                loginScreenPrint("That username is already logged in.", "Wait 60 seconds then retry");
+                return;
+            }
+            if (loginCode == 4)
+            {
+                loginScreenPrint("The client has been updated.", "Please restart the client");
+                return;
+            }
+            if (loginCode == 5)
+            {
+                loginScreenPrint("Error unable to login.", "Please retry");
+                return;
+            }
+            if (loginCode == 6)
+            {
+                loginScreenPrint("Account banned.", "Appeal on the forums, ASAP.");
+                return;
+            }
+            if (loginCode == 7)
+            {
+                loginScreenPrint("Error - failed to decode profile.", "Contact an admin!");
+                return;
+            }
+            if (loginCode == 8)
+            {
+                loginScreenPrint("Too many connections from your IP.", "Please try again later");
+                return;
+            }
+            if (loginCode == 9)
+            {
+                loginScreenPrint("Account already in use.", "You may only login to one character at a time");
+                return;
+            }
+            else
+            {
+                loginScreenPrint("Error unable to login.", "Unrecognised response code");
                 return;
             }
 
             if (reconnectTries > 0)
             {
-                Thread.Sleep(2500);
-
+                try
+                {
+                    Thread.Sleep(2500);
+                }
+                catch (Exception _ex) { }
                 reconnectTries--;
                 connect(username, password, reconnecting);
             }
             if (reconnecting)
             {
-                username = string.Empty;
-                password = string.Empty;
+                username = "";
+                password = "";
                 resetIntVars();
             }
             else
             {
-                throw new LoginException("Unable to connect");
+                loginScreenPrint("Sorry! Unable to connect.", "Check internet settings or try another world");
             }
         }
 
         protected void requestLogout()
         {
-            if (StreamClass is not null)
-            {
+            if (streamClass != null)
                 try
                 {
-                    StreamClass.CreatePacket(39);
-                    StreamClass.FinalisePacket();
+                    streamClass.createPacket(39);
+                    streamClass.flush();
                 }
-                catch (IOException)
-                {
-                    Console.WriteLine($"An error has occured in {nameof(GameAppletMiddleMan)}.cs");
-                }
-            }
-
-            username = string.Empty;
-            password = string.Empty;
+                catch (IOException _ex) { }
+            username = "";
+            password = "";
             resetIntVars();
+            loginScreenPrint("Please enter your usename and password", "");
         }
 
-        public virtual void LostConnection() => Console.WriteLine("Lost connection");
-
-        private readonly object _sync = new();
-        protected static bool sendingPing;
-
-        protected void SendPing()
+        public virtual void lostConnection()
         {
-            lock (_sync)
+            Console.WriteLine("Lost connection");
+            //connect(username, password, true);
+            loginScreenPrint("Please enter your usename and password", "");
+        }
+
+        protected void gameBoxPrint(String s1, String s2)
+        {
+
+            //Font font = new Font("Helvetica", 1, 15);
+            char c = '\u0200';
+            char c1 = '\u0158';
+            // g.setColor(Color.Black);
+
+            //g.fillRect(c / 2 - 140, c1 / 2 - 25, 280, 50, Color.Black);
+
+            //g.setColor(Color.White);
+            //g.drawRect(c / 2 - 140, c1 / 2 - 25, 280, 50, Color.White);
+            //drawString(s1/*, font*/, c / 2, c1 / 2 - 10, Color.White);
+            //drawString(s2/*, font*/, c / 2, c1 / 2 + 10, Color.White);
+        }
+
+        protected void sendPingPacket()
+        {
+            long l = CurrentTimeMillis();
+            if (streamClass.hasData())
+                lastPing = l;
+            if (l - lastPing > 5000L)
             {
-                if (sendingPing)
-                {
-                    return;
-                }
+                lastPing = l;
+                streamClass.createPacket(5);
+                streamClass.formatPacket();
             }
-
-            Console.WriteLine($"Sending PING @ {DateTime.Now}");
-            sendingPing = true;
-
-            long time = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-
-            if (StreamClass.HasData)
-            {
-                lastPing = time;
-            }
-
-            if (time - lastPing > 5000L)
-            {
-                lastPing = time;
-                StreamClass.CreatePacket(5);
-                StreamClass.FormatPacket();
-            }
-
             try
             {
-                StreamClass.WritePacket(20);
+                streamClass.writePacket(20);
             }
-            catch (IOException)
+            catch (IOException _ex)
             {
-                LostConnection();
+                lostConnection();
+                return;
+            }
+            int packetLength = streamClass.readPacket(packetData);
+            if (packetLength > 0)
+                handlePacket(packetData[0] & 0xff, packetLength);
+        }
+
+        public virtual void handlePacket(int command, int length)
+        {
+            if (command == 48)
+            {
+                var s1 = Encoding.UTF8.GetString((byte[])(Array)packetData, 1, length - 1);
+                //String s1 = new String(packetData, 1, length - 1);
+                displayMessage(s1);
+                return;
+            }
+            if (command == 222)
+            {
+                requestLogout();
+                return;
+            }
+            if (command == 136)
+            {
+                cantLogout();
+                return;
+            }
+            if (command == 249)
+            {
+                friendsCount = DataOperations.getByte((sbyte)packetData[1]);
+                for (int i = 0; i < friendsCount; i++)
+                {
+                    friendsList[i] = DataOperations.getLong(packetData, 2 + i * 9);
+                    friendsWorld[i] = DataOperations.getByte(packetData[10 + i * 9]);
+                }
+
+                reOrderFriendsList();
+                return;
+            }
+            if (command == 25)
+            {
+                long friend = DataOperations.getLong(packetData, 1);
+                int status = packetData[9] & 0xff;
+                for (int j1 = 0; j1 < friendsCount; j1++)
+                    if (friendsList[j1] == friend)
+                    {
+                        if (friendsWorld[j1] == 0 && status != 0)
+                            displayMessage("@pri@" + DataOperations.hashToName(friend) + " has logged in");
+                        if (friendsWorld[j1] != 0 && status == 0)
+                            displayMessage("@pri@" + DataOperations.hashToName(friend) + " has logged out");
+                        friendsWorld[j1] = status;
+                        length = 0;
+                        reOrderFriendsList();
+                        return;
+                    }
+
+                friendsList[friendsCount] = friend;
+                friendsWorld[friendsCount] = status;
+                friendsCount++;
+                reOrderFriendsList();
+                return;
+            }
+            if (command == 2)
+            {
+                ignoresCount = DataOperations.getByte(packetData[1]);
+                for (int j = 0; j < ignoresCount; j++)
+                    ignoresList[j] = DataOperations.getLong(packetData, 2 + j * 8);
 
                 return;
             }
-
-            int length = StreamClass.ReadPacket(data);
-
-            if (length > 0)
+            if (command == 158)
             {
-                int commandId = data[0] & 0xff;
-                ServerCommand command = (ServerCommand)commandId;
-
-                HandlePacket(command, length);
+                blockChat = packetData[1];
+                blockPrivate = packetData[2];
+                blockTrade = packetData[3];
+                blockDuel = packetData[4];
+                return;
             }
-
-            sendingPing = false;
+            if (command == 170)
+            {
+                long l1 = DataOperations.getLong(packetData, 1);
+                String s = ChatMessage.bytesToString(packetData, 9, length - 9);
+                displayMessage("@pri@" + DataOperations.hashToName(l1) + ": tells you " + s);
+                return;
+            }
+            if (command == 211)
+            {// TODO remove?
+                streamClass.createPacket(69);
+                streamClass.addByte(0);// scar.exe, etc
+                streamClass.formatPacket();
+                return;
+            }
+            if (command == 1)
+            {// TODO remove?
+                //bluePoints
+                //redPoints
+                return;
+            }
+            handlePacket(command, length, packetData);
         }
 
-        public virtual void HandlePacket(ServerCommand command, int length) => HandlePacket(command, length, data);
+        private void reOrderFriendsList()
+        {
+            bool flag = true;
+            while (flag)
+            {
+                flag = false;
+                for (int i = 0; i < friendsCount - 1; i++)
+                    if (friendsWorld[i] < friendsWorld[i + 1])
+                    {
+                        int j = friendsWorld[i];
+                        friendsWorld[i] = friendsWorld[i + 1];
+                        friendsWorld[i + 1] = j;
+                        long l = friendsList[i];
+                        friendsList[i] = friendsList[i + 1];
+                        friendsList[i + 1] = l;
+                        flag = true;
+                    }
+
+            }
+        }
 
         protected void sendUpdatedPrivacyInfo(int blockChat, int blockPrivate, int blockTrade, int blockDuel)
         {
-            StreamClass.CreatePacket(176);
-            StreamClass.AddInt8(blockChat);
-            StreamClass.AddInt8(blockPrivate);
-            StreamClass.AddInt8(blockTrade);
-            StreamClass.AddInt8(blockDuel);
-            StreamClass.FormatPacket();
+            streamClass.createPacket(176);
+            streamClass.addByte(blockChat);
+            streamClass.addByte(blockPrivate);
+            streamClass.addByte(blockTrade);
+            streamClass.addByte(blockDuel);
+            streamClass.formatPacket();
         }
 
-        protected void SendCommand(string command)
+        protected void addIgnore(String arg0)
         {
-            StreamClass.CreatePacket(90);
-            StreamClass.AddString(command);
-            StreamClass.FormatPacket();
+            long l = DataOperations.nameToHash(arg0);
+            streamClass.createPacket(25);
+            streamClass.addLong(l);
+            streamClass.formatPacket();
+            for (int i = 0; i < ignoresCount; i++)
+                if (ignoresList[i] == l)
+                    return;
+
+            if (ignoresCount >= ignoresList.Length - 1)
+            {
+                return;
+            }
+            else
+            {
+                ignoresList[ignoresCount++] = l;
+                return;
+            }
+        }
+
+        protected void removeIgnore(long arg0)
+        {
+            streamClass.createPacket(108);
+            streamClass.addLong(arg0);
+            streamClass.formatPacket();
+            for (int i = 0; i < ignoresCount; i++)
+                if (ignoresList[i] == arg0)
+                {
+                    ignoresCount--;
+                    for (int j = i; j < ignoresCount; j++)
+                        ignoresList[j] = ignoresList[j + 1];
+
+                    return;
+                }
+
+        }
+
+        protected void addFriend(String arg0)
+        {
+            streamClass.createPacket(168);
+            streamClass.addLong(DataOperations.nameToHash(arg0));
+            streamClass.formatPacket();
+            long l = DataOperations.nameToHash(arg0);
+            for (int i = 0; i < friendsCount; i++)
+                if (friendsList[i] == l)
+                    return;
+
+            if (friendsCount >= friendsList.Length - 1)
+            {
+                return;
+            }
+            else
+            {
+                friendsList[friendsCount] = l;
+                friendsWorld[friendsCount] = 0;
+                friendsCount++;
+                return;
+            }
+        }
+
+        protected void removeFriend(long arg0)
+        {
+            streamClass.createPacket(52);
+            streamClass.addLong(arg0);
+            streamClass.formatPacket();
+            for (int i = 0; i < friendsCount; i++)
+            {
+                if (friendsList[i] != arg0)
+                    continue;
+                friendsCount--;
+                for (int j = i; j < friendsCount; j++)
+                {
+                    friendsList[j] = friendsList[j + 1];
+                    friendsWorld[j] = friendsWorld[j + 1];
+                }
+
+                break;
+            }
+
+            displayMessage("@pri@" + DataOperations.hashToName(arg0) + " has been removed from your friends list");
+        }
+
+        protected void sendPrivateMessage(long l, byte[] abyte0, int i)
+        {
+            streamClass.createPacket(254);
+            streamClass.addLong(l);
+            streamClass.addBytes(abyte0, 0, i);
+            streamClass.formatPacket();
+        }
+
+        protected void sendChatMessage(byte[] abyte0, int i)
+        {
+            streamClass.createPacket(145);
+            streamClass.addBytes(abyte0, 0, i);
+            streamClass.formatPacket();
+        }
+
+        protected void sendCommand(String s1)
+        {
+            streamClass.createPacket(90);
+            streamClass.addString(s1);
+            streamClass.formatPacket();
+        }
+
+        public virtual void loginScreenPrint(String s1, String s2)
+        {
         }
 
         public virtual void initVars()
@@ -315,20 +558,40 @@ namespace OpenRS.Net.Client
         {
         }
 
-        public virtual void HandlePacket(ServerCommand command, int length, sbyte[] data)
+        public virtual void handlePacket(int i, int j, sbyte[] abyte0)
         {
         }
 
-        public virtual void DisplayMessage(string message)
+        public virtual void displayMessage(String s1)
         {
+        }
+
+        public GameAppletMiddleMan()
+        {
+            username = "";
+            password = "";
+            packetData = new sbyte[10000];
+            friendsList = new long[40];
+            friendsWorld = new int[400];
+            ignoresList = new long[200];
         }
 
         public static int maxPacketReadCount;
-        public string username;
-        private string password;
-        public sbyte[] data;
+        public String username;
+        String password;
+        public StreamClass streamClass;
+        public sbyte[] packetData;
         public int reconnectTries;
         public long lastPing;
+        public int friendsCount;
+        public long[] friendsList;
+        public int[] friendsWorld;
+        public int ignoresCount;
+        public long[] ignoresList;
+        public int blockChat;
+        public int blockPrivate;
+        public int blockTrade;
+        public int blockDuel;
         public long sessionId;
         public int socketTimeout;
 

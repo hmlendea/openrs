@@ -19,6 +19,7 @@ namespace OpenRS.Gui.Controls
         private readonly GameClient gameClient = client;
 
         private SpriteBatch spriteBatch;
+        private SpriteBatch gameSpriteBatch;
 
         private Texture2D _lastGameImageTexture;
 
@@ -31,6 +32,7 @@ namespace OpenRS.Gui.Controls
         protected override void DoLoadContent()
         {
             spriteBatch = GraphicsManager.Instance.SpriteBatch;
+            gameSpriteBatch = new SpriteBatch(GraphicsManager.Instance.Graphics.GraphicsDevice);
             RegisterEvents();
         }
 
@@ -117,22 +119,37 @@ namespace OpenRS.Gui.Controls
                         colors[j] = GraphicsEngine.RgbaToUInt(r, g, b, 255);
                     }
 
-                    int gameViewWidth = client.gameGraphics.GameSize.Width - 248;
-                    int gameViewHeight = client.WindowSize.Height;
-                    Rectangle srcRect = new Rectangle(0, 0, gameViewWidth, gameViewHeight);
+                    int bufW = client.gameGraphics.GameSize.Width;
+                    int bufH = client.gameGraphics.GameSize.Height;
+
+                    float scale = Math.Min((float)Size.Width / bufW, (float)Size.Height / bufH);
+                    int drawW = (int)(bufW * scale);
+                    int drawH = (int)(bufH * scale);
+                    int drawX = (Size.Width - drawW) / 2;
+                    int drawY = (Size.Height - drawH) / 2;
+
+                    client.GameDisplayOffsetX = drawX;
+                    client.GameDisplayOffsetY = drawY;
+                    client.GameDisplayScaleX = scale;
+                    client.GameDisplayScaleY = scale;
+
+                    Rectangle srcRect = new Rectangle(0, 0, bufW, bufH);
+                    Rectangle destRect = new Rectangle(drawX, drawY, drawW, drawH);
 
                     if (client.gameGraphics.pixels.Any(p => p != 0) && client.DrawIsNecessary)
                     {
                         Texture2D imageTexture = new(
                             GraphicsManager.Instance.Graphics.GraphicsDevice,
-                            client.gameGraphics.GameSize.Width,
-                            client.gameGraphics.GameSize.Height,
+                            bufW,
+                            bufH,
                             false,
                             SurfaceFormat.Color);
 
                         imageTexture.SetData(colors.ToArray());
 
-                        spriteBatch.Draw(imageTexture, new Rectangle(0, 0, Size.Width, Size.Height), srcRect, Color.White);
+                        gameSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp);
+                        gameSpriteBatch.Draw(imageTexture, destRect, srcRect, Color.White);
+                        gameSpriteBatch.End();
 
                         _lastGameImageTexture = imageTexture;
 
@@ -141,15 +158,25 @@ namespace OpenRS.Gui.Controls
                     }
                     else if (_lastGameImageTexture is not null)
                     {
-                        spriteBatch.Draw(_lastGameImageTexture, new Rectangle(0, 0, Size.Width, Size.Height), srcRect, Color.White);
+                        gameSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp);
+                        gameSpriteBatch.Draw(_lastGameImageTexture, destRect, srcRect, Color.White);
+                        gameSpriteBatch.End();
                     }
                 }
                 else if (_lastGameImageTexture is not null)
                 {
-                    int gameViewWidth = client.gameGraphics.GameSize.Width - 248;
-                    int gameViewHeight = client.WindowSize.Height;
-                    Rectangle srcRect = new Rectangle(0, 0, gameViewWidth, gameViewHeight);
-                    spriteBatch.Draw(_lastGameImageTexture, new Rectangle(0, 0, Size.Width, Size.Height), srcRect, Color.White);
+                    int bufW = client.gameGraphics.GameSize.Width;
+                    int bufH = client.gameGraphics.GameSize.Height;
+                    float scale = Math.Min((float)Size.Width / bufW, (float)Size.Height / bufH);
+                    int drawW = (int)(bufW * scale);
+                    int drawH = (int)(bufH * scale);
+                    int drawX = (Size.Width - drawW) / 2;
+                    int drawY = (Size.Height - drawH) / 2;
+                    Rectangle srcRect = new Rectangle(0, 0, bufW, bufH);
+                    Rectangle destRect = new Rectangle(drawX, drawY, drawW, drawH);
+                    gameSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp);
+                    gameSpriteBatch.Draw(_lastGameImageTexture, destRect, srcRect, Color.White);
+                    gameSpriteBatch.End();
                 }
             }
             catch (Exception ex)

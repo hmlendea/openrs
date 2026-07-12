@@ -1,95 +1,135 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Linq;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
 using OpenRS.Settings;
 
 namespace OpenRS.Net.Client
 {
     public class Link
     {
-        public static int uid;
-        private static int currentFile;
-        private static readonly string[] fileName = new string[50];
-        private static readonly sbyte[][] fileData = new sbyte[50][];
-
-        public static sbyte[] StreamToSbyte(BinaryReader stream)
+        public static sbyte[] streamToSbyte(BinaryReader stream)
         {
-            List<sbyte> list = [];
-
-            try
+            List<sbyte> list = new List<sbyte>();
             {
+                // int ch;
                 int c = 0;
-
-                while (c < stream.BaseStream.Length)
+                try
                 {
-                    list.Add(stream.ReadSByte());
-                    c++;
+                    while (c < stream.BaseStream.Length)
+                    {
+                        list.Add(stream.ReadSByte());
+                        c++;
+                    }
                 }
+                catch { }
             }
-            catch
-            {
-                Console.WriteLine($"An error has occured in {nameof(Link)}.cs");
-            }
-
-            return [.. list];
+            return list.ToArray();
         }
 
-        /// <summary>
-        /// Loads the file.
-        /// </summary>
-        /// <returns><c>true</c>, if file was loaded, <c>false</c> otherwise.</returns>
-        /// <param name="fileName">File name.</param>
-        public static bool LoadFile(string fileName)
+        public static void addFile(String filename, BinaryReader reader)
         {
-            string path = Path.Combine(ApplicationPaths.ConfigurationDirectory, fileName);
 
+            Link.fileName[currentFile] = filename;
+
+       //     reader.Close();
+
+          //  var f = Path.Combine(Config.CONF_DIR, filename);
+            //var bytes = File.ReadAllBytes(f).Select(c => (char)c); ;
+            //var sbytes = bytes.Select(c=>Convert.ToSByte(c)).ToArray();//c.t(sbyte[])(Array)bytes;
+            Link.fileData[currentFile] = streamToSbyte(reader);
+
+            currentFile++;
+        }
+
+
+        public static void addFile(String fileName, sbyte[] fileData)
+        {
+            Link.fileName[currentFile] = fileName;
+
+            Link.fileData[currentFile] = fileData;//.Cast<byte>().ToArray();
+
+            currentFile++;
+        }
+
+        public static bool loadFile(String fileName)
+        {
             try
             {
-                FileInfo f = new(path);
-
+                var f = new FileInfo(Path.Combine(Config.CONF_DIR, fileName));
                 if (f.Exists)
                 {
-                    AddFile(fileName, new BinaryReader(f.OpenRead()));
 
+                    addFile(fileName, new BinaryReader(f.OpenRead()));
                     return true;
                 }
-
                 return false;
             }
-            catch (IOException ex)
+            catch (IOException ioe)
             {
-                Console.WriteLine($"An error has occured in {nameof(Link)}.cs");
-                Console.WriteLine(ex);
-
+                // ioe.printStackTrace();
                 return false;
             }
         }
 
-        public static sbyte[] GetFile(string fileName)
+        public static sbyte[] getFile(String fileName)
         {
             for (int i = 0; i < currentFile; i++)
-            {
                 if (Link.fileName[i].Equals(fileName))
-                {
                     return fileData[i];
-                }
-            }
-
-            if (LoadFile(fileName))
-            {
-                return GetFile(fileName);
-            }
-
-            return null;
+            if (loadFile(fileName))
+                return getFile(fileName);
+            else
+                return null;
         }
 
-        private static void AddFile(string filename, BinaryReader reader)
+
+        public static TcpClient getSocket(int port)
         {
-            fileName[currentFile] = filename;
-            fileData[currentFile] = StreamToSbyte(reader);
+            for (Link.port = port; Link.port != 0; )
+                try
+                {
+                    Thread.Sleep(100);
+                }
+                catch (Exception _ex) { }
 
-            currentFile += 1;
+            return socket;
         }
+
+        //public static void thread(Runnable runnable) {
+        //    for(thread = runnable; thread != null;)
+        //        try {
+        //            Thread.Sleep(100);
+        //        }
+        //        catch(Exception _ex) { }
+
+        //}
+
+        public static String getAddress(String ip)
+        {
+            for (iplookup = ip; iplookup != null; )
+                try
+                {
+                    Thread.Sleep(100);
+                }
+                catch (Exception _ex) { }
+
+            return address;
+        }
+
+        //public static Applet gameApplet;
+        public static int uid;
+        static int port;
+        static TcpClient socket;
+        //  static Runnable thread = null;
+        static String iplookup = null;
+        static String address;
+        static int currentFile;
+        private static String[] fileName = new String[50];
+        private static sbyte[][] fileData = new sbyte[50][];
+
     }
 }
