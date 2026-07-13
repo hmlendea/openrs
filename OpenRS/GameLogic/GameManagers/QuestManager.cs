@@ -9,41 +9,24 @@ using OpenRS.Settings;
 
 namespace OpenRS.GameLogic.GameManagers
 {
-    /// <summary>
-    /// Quest manager.
-    /// </summary>
     public sealed class QuestManager
     {
         private List<Quest> quests;
 
-        /// <summary>
-        /// Gets the quests count.
-        /// </summary>
-        /// <value>The quests count.</value>
         public int QuestsCount => quests.Count;
 
         public int QuestPoints { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="QuestManager"/> class.
-        /// </summary>
         public QuestManager()
         {
             LoadQuests();
         }
 
-        /// <summary>
-        /// Gets the quest.
-        /// </summary>
-        /// <returns>The quest.</returns>
-        /// <param name="id">Identifier.</param>
         public Quest GetQuest(string id) => quests.FirstOrDefault(quest => quest.Id == id);
 
-        /// <summary>
-        /// Sets the stage of a quest.
-        /// </summary>
-        /// <param name="id">Quest identifier.</param>
-        /// <param name="stage">Stage.</param>
+        public string[] GetNames()
+            => [.. quests.Select(quest => quest.Name)];
+
         public void SetStage(string id, int stage)
         {
             Quest quest = GetQuest(id);
@@ -53,7 +36,7 @@ namespace OpenRS.GameLogic.GameManagers
 
         private void LoadQuests()
         {
-            string questRepositoryPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "quests.xml");
+            string questRepositoryPath = Path.Combine(ApplicationPaths.DataDirectory, "quests.json");
             QuestRepository questRepository = new(questRepositoryPath);
 
             quests = [.. questRepository.GetAll().ToDomainModels()];

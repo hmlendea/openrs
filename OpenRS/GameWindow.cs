@@ -10,9 +10,6 @@ using OpenRS.Net.Client;
 
 namespace OpenRS
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
     public sealed class GameWindow : Game
     {
         private readonly GraphicsDeviceManager graphics;
@@ -80,4 +77,3 @@ namespace OpenRS
         }
     }
 }
-

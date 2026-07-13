@@ -6,16 +6,8 @@ using OpenRS.Models;
 
 namespace OpenRS.GameLogic.Mapping
 {
-    /// <summary>
-    /// Item mapping extensions for converting between entities and domain models.
-    /// </summary>
     internal static class ItemMappingExtensions
     {
-        /// <summary>
-        /// Converts the entity into a domain model.
-        /// </summary>
-        /// <returns>The domain model.</returns>
-        /// <param name="itemEntity">Item entity.</param>
         internal static Item ToDomainModel(this ItemEntity itemEntity) => new()
         {
             Id = itemEntity.Id,
@@ -32,12 +24,6 @@ namespace OpenRS.GameLogic.Mapping
             IsStackable = itemEntity.IsStackable,
             IsUnused = itemEntity.IsUnused
         };
-
-        /// <summary>
-        /// Converts the domain model into an entity.
-        /// </summary>
-        /// <returns>The entity.</returns>
-        /// <param name="item">Item.</param>
         internal static ItemEntity ToDataObject(this Item item) => new()
         {
             Id = item.Id,
@@ -54,12 +40,6 @@ namespace OpenRS.GameLogic.Mapping
             IsStackable = item.IsStackable,
             IsUnused = item.IsUnused
         };
-
-        /// <summary>
-        /// Converts the entities into domain models.
-        /// </summary>
-        /// <returns>The domain models.</returns>
-        /// <param name="itemEntities">Item entities.</param>
         internal static IEnumerable<Item> ToDomainModels(
             this IEnumerable<ItemEntity> itemEntities)
             => itemEntities.Select(itemEntity => itemEntity.ToDomainModel());

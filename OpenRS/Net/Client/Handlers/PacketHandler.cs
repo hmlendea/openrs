@@ -1,7 +1,8 @@
+using System;
 using System.Linq;
+
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
-using System;
 
 namespace OpenRS.Net.Client.Handlers
 {
@@ -520,7 +521,7 @@ namespace OpenRS.Net.Client.Handlers
                             mob.skinColour = client.packetData[off++] & 0xff;
                             mob.level = client.packetData[off++] & 0xff;
                             mob.playerSkulled = client.packetData[off++] & 0xff;
-                            off += 1;// TODO to skip the admin flag (should it be removed)
+                            off += 1; // TODO: Skip the admin flag (should it be removed?).
                         }
                         else if (mobUpdateType == 6)
                         {
@@ -1490,7 +1491,8 @@ namespace OpenRS.Net.Client.Handlers
                     return;
                 }
                 if (packetID == 110)
-                {// TODO remove?
+                {
+                    // TODO: Determine if this packet should be removed.
                     Console.WriteLine("RECEIVED PACKET 110 (SERVER INFO)");
                     return;
                 }

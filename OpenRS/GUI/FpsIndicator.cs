@@ -10,57 +10,27 @@ using OpenRS.Settings;
 
 namespace OpenRS.Gui
 {
-    /// <summary>
-    /// FPS indicator.
-    /// </summary>
     public sealed class FpsIndicator
     {
         private GameTime gameTime;
         private SpriteFont fpsFont;
         private string fpsString;
-
-        /// <summary>
-        /// Gets or sets the location.
-        /// </summary>
-        /// <value>The location.</value>
         public Vector2 Location { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FpsIndicator"/> class.
-        /// </summary>
         public FpsIndicator()
         {
             Location = Vector2.Zero;
         }
-
-        /// <summary>
-        /// Loads the content.
-        /// </summary>
         public void LoadContent() => fpsFont = NuciContentManager.Instance.LoadSpriteFont("Fonts/FrameCounterFont");
-
-        /// <summary>
-        /// Unloads the content.
-        /// </summary>
         public void UnloadContent()
         {
 
         }
-
-        /// <summary>
-        /// Updates the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
         public void Update(GameTime gameTime)
         {
             this.gameTime = gameTime;
 
             fpsString = $"FPS: {Math.Round(FramerateCounter.Instance.AverageFramesPerSecond)}";
         }
-
-        /// <summary>
-        /// Draws the content on the specified spriteBatch.
-        /// </summary>
-        /// <param name="spriteBatch">Sprite batch.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;

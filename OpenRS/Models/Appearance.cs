@@ -14,7 +14,7 @@
 
         public int Body { get; set; }
 
-        public bool IsValid => true; // TODO: Implement this
+        public bool IsValid => true; // TODO: Implement this.
 
         public int GetSprite(int position) => position switch
         {

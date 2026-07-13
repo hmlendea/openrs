@@ -35,10 +35,6 @@ namespace OpenRS.Gui.Controls
         public bool IsClickable { get; set; } = true;
 
         public int ZoomLevel { get; set; } = 2;
-
-        /// <summary>
-        /// Loads the content.
-        /// </summary>
         protected override void DoLoadContent()
         {
             dotSprite = new TextureSprite
@@ -102,16 +98,7 @@ namespace OpenRS.Gui.Controls
             RegisterEvents();
             SetChildrenProperties();
         }
-
-        /// <summary>
-        /// /// Unloads the content.
-        /// </summary>
         protected override void DoUnloadContent() => UnregisterEvents();
-
-        /// <summary>
-        /// Update the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime)
         {
             SetChildrenProperties();
@@ -122,11 +109,6 @@ namespace OpenRS.Gui.Controls
 
             compassIndicator.IconRotation = 1;
         }
-
-        /// <summary>
-        /// Draw the content on the specified <see cref="SpriteBatch"/>.
-        /// </summary>
-        /// <param name="spriteBatch">Sprite batch.</param>
         protected override void DoDraw(SpriteBatch spriteBatch)
         {
             DrawMinimapMenu(spriteBatch);
@@ -143,7 +125,7 @@ namespace OpenRS.Gui.Controls
 
             if (client is null || !client.loggedIn)
             {
-                return; // TODO: Ugly fix
+                return; // TODO: Ugly fix.
             }
 
             // The cameraRotation is expressed in a non-standard manner. 64 = -90 degrees, 32 = -45 degrees, etc...
@@ -165,7 +147,7 @@ namespace OpenRS.Gui.Controls
         {
             if (client.gameGraphics is null || !client.loggedIn)
             {
-                return; // TODO: Remove this ugly fix
+                return; // TODO: Remove this ugly fix.
             }
 
             int zoomScale = 192 + client.minimapRandomRotationY;

@@ -1,12 +1,10 @@
 ﻿using System;
+
 namespace OpenRS.Net.Client.Game.Cameras
 {
-
-    public sealed class Camera // : org.moparscape.msc.client.Camera
+    public sealed class Camera
     {
-
         public Camera(GameImage gameImageSource, int maxObjects, int maxVisibleObjects, int maxSceneObjects)
-        //: base(models, start, x, x)
         {
             maxTextureCount = 50;
             textureClipIds = new int[maxTextureCount];
@@ -3597,11 +3595,6 @@ namespace OpenRS.Net.Client.Game.Cameras
             }
 
         }
-
-        /// <summary>
-        /// ?????? No idea if the name convention for this one is correct...
-        /// </summary>
-        /// <param name="arg0"></param>
         public void UpdateLighting(int textureIndex)
         {
             if (objectTexturePixels[textureIndex] is null)

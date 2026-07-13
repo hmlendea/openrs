@@ -6,7 +6,7 @@ namespace OpenRS.Net.Client
 {
     public static class GraphicsDeviceExtensions
     {
-        private static readonly bool sbBegin = false;
+        private static readonly bool sbBegin;
         private static Color defaultColor { get; set; }
         private static SpriteFont defaultFont { get; set; }
         public static void FillRect(this SpriteBatch spriteBatch, Rectangle rect, Color color)
@@ -39,7 +39,6 @@ namespace OpenRS.Net.Client
             return sbBegin;
         }
 
-
         public static void DrawString(this SpriteBatch spriteBatch, string text, int x, int y)
         {
             if (defaultFont is not null)
@@ -50,13 +49,6 @@ namespace OpenRS.Net.Client
                 //  spriteBatch.EndSafe();
             }
         }
-
-        /// <summary>
-        /// Draw a line between the two supplied points.
-        /// </summary>
-        /// <param name="start">Starting point.</param>
-        /// <param name="end">End point.</param>
-        /// <param name="color">The draw color.</param>
         public static void DrawLine(this SpriteBatch spriteBatch, Vector2 start, Vector2 end, Color color)
         {
             if (dummyTexture is null)
@@ -129,17 +121,10 @@ namespace OpenRS.Net.Client
 
         }
 
-
         public static void DrawRect(this SpriteBatch spriteBatch, int x, int y, int w, int h, Color color)
         {
             DrawRect(spriteBatch, new Rectangle(x, y, w, h), color);
         }
-
-        /// <summary>
-        /// Draw a rectangle.
-        /// </summary>
-        /// <param name="rectangle">The rectangle to draw.</param>
-        /// <param name="color">The draw color.</param>
         public static void DrawRect(this SpriteBatch spriteBatch, Rectangle rectangle, Color color)
         {
             if (dummyTexture is null)
@@ -152,7 +137,6 @@ namespace OpenRS.Net.Client
             spriteBatch.Draw(dummyTexture, new Rectangle(rectangle.Left, rectangle.Top, 1, rectangle.Height), color);
             spriteBatch.Draw(dummyTexture, new Rectangle(rectangle.Right, rectangle.Top, 1, rectangle.Height + 1), color);
         }
-
 
         private static void CreateDummyTexture(SpriteBatch spriteBatch)
         {

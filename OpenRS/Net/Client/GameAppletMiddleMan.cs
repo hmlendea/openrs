@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Net.Sockets;
 using System.Numerics;
 using System.Text;
 using System.Threading;
+
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 using OpenRS.Net.Client.Net;
@@ -13,8 +15,7 @@ namespace OpenRS.Net.Client
 {
     public class GameAppletMiddleMan : GameApplet
     {
-        public static Random random = new();
-        private static bool isConnecting = false;
+        private static bool isConnecting;
         private Thread connectionThread;
         public void Connect(string username, string password, bool isReconnecting)
         {
@@ -82,19 +83,19 @@ namespace OpenRS.Net.Client
             {
                 streamClass = new StreamClass(MakeSocket(Config.ServerIp, Config.ServerPort), this);
             }
-            catch (System.Net.Sockets.SocketException ex)
+            catch (SocketException exception)
             {
-                LoginScreenPrint("Unable to Connect.", ex.Message);
+                LoginScreenPrint("Unable to Connect.", exception.Message);
                 return;
             }
             streamClass.maxPacketReadCount = maxPacketReadCount;
-
 
             long nameHash = DataOperations.NameToHash(formattedUsername);
             sessionNameHashByte = (int)(nameHash >> 16 & 31L);
             streamClass.CreatePacket((int)ClientPacket.SessionNameHash);
             streamClass.AddByte(sessionNameHashByte);
-            streamClass.AddString("Shinigami"); // TODO: Remove unused server-side string.
+            streamClass.AddString("Shinigami");
+            // TODO: Remove unused server-side string.
             streamClass.Flush();
 
             long sessionId;

@@ -8,9 +8,6 @@ using Microsoft.Xna.Framework;
 
 namespace OpenRS
 {
-    /// <summary>
-	/// TODO: Update summary.
-	/// </summary>
 	public sealed class Face
 	{
 		private readonly int[] points;

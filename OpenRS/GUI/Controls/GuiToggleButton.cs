@@ -14,21 +14,12 @@ namespace OpenRS.Gui.Controls
         {
             ToggleColour = Colour.DarkRed;
         }
-
-        /// <summary>
-        /// Loads the content.
-        /// </summary>
         protected override void DoLoadContent()
         {
             base.DoLoadContent();
 
             SetChildrenProperties();
         }
-
-        /// <summary>
-        /// Update the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime)
         {
             base.DoUpdate(gameTime);

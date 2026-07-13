@@ -1,6 +1,7 @@
+using System;
+
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
-using System;
 
 namespace OpenRS.Net.Client.Entities
 {

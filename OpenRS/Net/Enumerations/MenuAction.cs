@@ -20,7 +20,7 @@
         DropItem = 660,
         CastSpellOnNpc = 700,
         UseItemWithNpc = 710,
-        AttackNpc = 715, // TODO: Find the difference between this and the other
+        AttackNpc = 715, // TODO: Find the difference between this and the other.
         TalkToNpc = 720,
         CommandOnNpc = 725,
         CastSpellOnPlayer = 800,
@@ -31,7 +31,7 @@
         CastSpellOnSelf = 1000,
         Command2OnWallObject = 2300,
         Command2OnModel = 2400,
-        AttackNpc2 = 2715, // TODO: Find the difference between this and the other
+        AttackNpc2 = 2715, // TODO: Find the difference between this and the other.
         AttackPlayerUnsafe = 2805,
         DuelWithPlayer = 2806,
         TradeWithPlayer = 2810,

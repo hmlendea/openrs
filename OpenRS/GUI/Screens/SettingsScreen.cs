@@ -1,4 +1,3 @@
-
 using System;
 
 using NuciXNA.Gui.Controls;
@@ -8,19 +7,12 @@ using OpenRS.Settings;
 
 namespace OpenRS.Gui.Screens
 {
-    /// <summary>
-    /// Settings screen.
-    /// </summary>
     public sealed class SettingsScreen : MenuScreen
     {
         private GuiMenuToggle debugModeToggle;
         private GuiMenuToggle fowToggle;
         private GuiMenuToggle roofsToggle;
         private GuiMenuLink backLink;
-
-        /// <summary>
-        /// Loads the content.
-        /// </summary>
         protected override void DoLoadContent()
         {
             debugModeToggle = new GuiMenuToggle
@@ -55,10 +47,6 @@ namespace OpenRS.Gui.Screens
 
             base.DoLoadContent();
         }
-
-        /// <summary>
-        /// Unloads the content.
-        /// </summary>
         protected override void DoUnloadContent()
         {
             SettingsManager.Instance.SaveContent();
@@ -67,20 +55,12 @@ namespace OpenRS.Gui.Screens
 
             base.DoUnloadContent();
         }
-
-        /// <summary>
-        /// Registers the events.
-        /// </summary>
         private void RegisterEvents()
         {
             debugModeToggle.Triggered += OnDebugModeToggleTriggered;
             fowToggle.Triggered += OnFowToggleTriggered;
             roofsToggle.Triggered += OnRoofsToggleTriggered;
         }
-
-        /// <summary>
-        /// Unregisters the events.
-        /// </summary>
         private void UnregisterEvents()
         {
             debugModeToggle.Triggered -= OnDebugModeToggleTriggered;

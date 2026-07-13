@@ -1,10 +1,11 @@
+using System;
 using System.Text;
+
 using OpenRS.Net.Client.Data;
+using OpenRS.Net.Client.Events;
 using OpenRS.Net.Client.Game;
 using OpenRS.Net.Client.Game.Cameras;
-using OpenRS.Net.Client.Events;
 using OpenRS.Settings;
-using System;
 
 namespace OpenRS.Net.Client.Loading
 {

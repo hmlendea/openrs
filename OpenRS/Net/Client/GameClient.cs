@@ -1,22 +1,24 @@
 ﻿using System;
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+
+using OpenRS.GameLogic.GameManagers;
 using OpenRS.Net.Client.Data;
+using OpenRS.Net.Client.Entities;
+using OpenRS.Net.Client.Events;
 using OpenRS.Net.Client.Game;
 using OpenRS.Net.Client.Game.Cameras;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using OpenRS.Net.Client.Events;
-using OpenRS.Net.Client.Input;
 using OpenRS.Net.Client.Handlers;
-using OpenRS.Net.Client.Rendering;
+using OpenRS.Net.Client.Input;
 using OpenRS.Net.Client.Loading;
-using OpenRS.Net.Client.World;
-using OpenRS.Net.Client.Entities;
+using OpenRS.Net.Client.Rendering;
 using OpenRS.Net.Client.Utilities;
+using OpenRS.Net.Client.World;
 
 namespace OpenRS.Net.Client
 {
-
     public sealed class GameClient : GameAppletMiddleMan
     {
         public InputHandler inputHandler;
@@ -377,6 +379,8 @@ namespace OpenRS.Net.Client
             duelMyItems = new int[8];
             duelMyItemsCount = new int[8];
             playerArray = new ClientMob[500];
+            QuestManager = new QuestManager();
+            questName = QuestManager.GetNames();
             selectedShopItemIndex = -1;
             selectedShopItemType = -2;
             menuText1 = new string[250];
@@ -572,22 +576,8 @@ namespace OpenRS.Net.Client
         public int[] duelMyItemsCount;
         public int systemUpdate;
         public ClientMob[] playerArray;
-        public string[] questName = [// TODO really?... needs to be done better imho
-            "Cook's Assistant", "Sheep Shearer", "Black knight's fortress", "Imp catcher", "Vampire slayer",
-            "Romeo & Juliet", "The restless ghost", "Doric's quest", "The knight's sword", "Witch's potion",
-            "Goblin diplomacy", "Ernest the chicken", "Demon Slayer", "Pirate's treasure", "Prince Ali Rescue",
-            "Shield of Arrav", "Dragon Slayer"
-        /*"Black knight's fortress", "Cook's assistant", "Demon slayer", "Doric's quest", "The restless ghost", "Goblin diplomacy", "Ernest the chicken",
-        "Imp catcher", "Pirate's treasure", "Prince Ali rescue",
-        "Romeo & Juliet", "Sheep shearer", "Shield of Arrav", "The knight's sword", "Vampire slayer", "Witch's potion", "Dragon slayer", "Witch's house (members)",
-        "Lost city (members)", "Hero's quest (members)",
-        "Druidic ritual (members)", "Merlin's crystal (members)", "Scorpion catcher (members)", "Family crest (members)", "Tribal totem (members)",
-        "Fishing contest (members)", "Monk's friend (members)", "Temple of Ikov (members)", "Clock tower (members)", "The Holy Grail (members)",
-        "Fight Arena (members)", "Tree Gnome Village (members)", "The Hazeel Cult (members)", "Sheep Herder (members)", "Plague City (members)",
-        "Sea Slug (members)", "Waterfall quest (members)", "Biohazard (members)", "Jungle potion (members)", "Grand tree (members)",
-        "Shilo village (members)", "Underground pass (members)", "Observatory quest (members)", "Tourist trap (members)", "Watchtower (members)",
-        "Dwarf Cannon (members)", "Murder Mystery (members)", "Digsite (members)", "Gertrude's Cat (members)", "Legend's Quest (members)"*/
-    ];
+        public QuestManager QuestManager { get; private set; }
+        public string[] questName;
         public int selectedShopItemIndex;
         public int selectedShopItemType;
         public string sleepingStatusText;
@@ -960,9 +950,7 @@ namespace OpenRS.Net.Client
         public override void DisplayMessage(string message) => utilities.DisplayMessage(message);
         public override void CantLogout() => utilities.CantLogout();
 
-        public char TranslateOemKeys(Keys k) => inputHandler.TranslateOemKeys(k);
-
-        public void Update(GameTime gt) => inputHandler.Update(gt);
+        public void Update(GameTime gameTime) => inputHandler.Update(gameTime);
 
         public void CheckLoginScreenInputs() => inputHandler.CheckLoginScreenInputs();
 

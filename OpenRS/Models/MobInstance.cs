@@ -193,7 +193,7 @@ namespace OpenRS.Models
             }
             catch (Exception ex)
             {
-                // TODO: Use logger
+                // TODO: Use logger.
                 Console.WriteLine(ex);
             }
         }

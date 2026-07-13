@@ -17,7 +17,6 @@ namespace OpenRS.Gui.Controls
     public sealed class GuiGame(GameClient client) : GuiControl
     {
 
-
         private SpriteBatch spriteBatch;
         private SpriteBatch gameSpriteBatch;
 
@@ -25,53 +24,31 @@ namespace OpenRS.Gui.Controls
 
         private bool isSectionLoading;
         private bool isContentLoading;
-
-        /// <summary>
-        /// Loads the content.
-        /// </summary>
         protected override void DoLoadContent()
         {
             spriteBatch = GraphicsManager.Instance.SpriteBatch;
             gameSpriteBatch = new SpriteBatch(GraphicsManager.Instance.Graphics.GraphicsDevice);
             RegisterEvents();
         }
-
-        /// <summary>
-        /// Unloads the content.
-        /// </summary>
         protected override void DoUnloadContent()
         {
             client.Dispose();
             UnregisterEvents();
         }
-
-        /// <summary>
-        /// Update the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime)
         {
-            if (client is not null) // TODO: Ugly null check
+            if (client is not null) // TODO: Ugly null check.
             {
                 client.Update(gameTime);
             }
         }
-
-        /// <summary>
-        /// Draw the content on the specified <see cref="SpriteBatch"/>.
-        /// </summary>
-        /// <param name="spriteBatch">Sprite batch.</param>
         protected override void DoDraw(SpriteBatch spriteBatch)
         {
-            if (!isContentLoading) // TODO: Ugly check here
+            if (!isContentLoading) // TODO: Ugly check here.
             {
                 DrawGame(client);
             }
         }
-
-        /// <summary>
-        /// Registers the events.
-        /// </summary>
         private void RegisterEvents()
         {
             client.OnContentLoadedCompleted += client_OnContentLoadedCompleted;
@@ -79,10 +56,6 @@ namespace OpenRS.Gui.Controls
             client.OnLoadingSection += client_OnLoadingSection;
             client.OnLoadingSectionCompleted += client_OnLoadingSectionCompleted;
         }
-
-        /// <summary>
-        /// Unregisters the events.
-        /// </summary>
         private void UnregisterEvents()
         {
             client.OnContentLoadedCompleted -= client_OnContentLoadedCompleted;

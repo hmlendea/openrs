@@ -3,10 +3,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using NuciXNA.Input;
-using NuciXNA.Primitives;
 using NuciXNA.Graphics.Drawing;
 using NuciXNA.Gui.Controls;
+using NuciXNA.Input;
+using NuciXNA.Primitives;
 
 using OpenRS.Net.Client;
 using OpenRS.Settings;
@@ -15,7 +15,6 @@ namespace OpenRS.Gui.Controls
 {
     public sealed class GuiSideBar(GameClient client) : GuiControl
     {
-
 
         private GuiImage background;
         private GuiMinimap minimap;
@@ -34,10 +33,6 @@ namespace OpenRS.Gui.Controls
         private GuiToggleButton prayerButton;
         private GuiToggleButton spellsButton;
         private GuiToggleButton exitButton;
-
-        /// <summary>
-        /// Loads the content.
-        /// </summary>
         protected override void DoLoadContent()
         {
             background = new GuiImage
@@ -144,30 +139,12 @@ namespace OpenRS.Gui.Controls
             RegisterEvents();
             SetChildrenProperties();
         }
-
-        /// <summary>
-        /// Unloads the content.
-        /// </summary>
         protected override void DoUnloadContent() => UnregisterEvents();
-
-        /// <summary>
-        /// Update the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
-
-        /// <summary>
-        /// Draw the content on the specified <see cref="SpriteBatch"/>.
-        /// </summary>
-        /// <param name="spriteBatch">Sprite batch.</param>
         protected override void DoDraw(SpriteBatch spriteBatch)
         {
 
         }
-
-        /// <summary>
-        /// Registers the events.
-        /// </summary>
         private void RegisterEvents()
         {
             ContentLoaded += OnContentLoaded;
@@ -182,10 +159,6 @@ namespace OpenRS.Gui.Controls
             spellsButton.Clicked += OnSpellsButtonClicked;
             exitButton.Clicked += OnExitButtonClicked;
         }
-
-        /// <summary>
-        /// Unregisters the events.
-        /// </summary>
         private void UnregisterEvents()
         {
             ContentLoaded -= OnContentLoaded;

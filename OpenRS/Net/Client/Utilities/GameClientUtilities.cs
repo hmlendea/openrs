@@ -2,10 +2,12 @@ using System;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Microsoft.Xna.Framework.Graphics;
+
+using OpenRS.Models.Enumerations;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Enumerations;
-using OpenRS.Models.Enumerations;
 using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Utilities
@@ -13,7 +15,7 @@ namespace OpenRS.Net.Client.Utilities
     public sealed class GameClientUtilities(GameClient client)
     {
         private readonly Lock sync = new();
-        private static bool isSendingPing = false;
+        private static bool isSendingPing;
 
         public int GetInventoryItemTotalCount(int itemId)
         {

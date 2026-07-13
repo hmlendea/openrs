@@ -6,16 +6,8 @@ using OpenRS.Models;
 
 namespace OpenRS.GameLogic.Mapping
 {
-    /// <summary>
-    /// Model mapping extensions for converting between entities and domain models.
-    /// </summary>
     internal static class WorldObjectMappingExtensions
     {
-        /// <summary>
-        /// Converts the entity into a domain model.
-        /// </summary>
-        /// <returns>The domain model.</returns>
-        /// <param name="worldObjectEntity">Model entity.</param>
         internal static WorldObject ToDomainModel(this WorldObjectEntity worldObjectEntity) => new()
         {
             Id = worldObjectEntity.Id,
@@ -30,12 +22,6 @@ namespace OpenRS.GameLogic.Mapping
             ObjectModel = worldObjectEntity.ObjectModel,
             ModelId = worldObjectEntity.ModelId
         };
-
-        /// <summary>
-        /// Converts the domain model into an entity.
-        /// </summary>
-        /// <returns>The entity.</returns>
-        /// <param name="worldObject">Model.</param>
         internal static WorldObjectEntity ToDataObject(this WorldObject worldObject) => new()
         {
             Id = worldObject.Id,
@@ -50,12 +36,6 @@ namespace OpenRS.GameLogic.Mapping
             ObjectModel = worldObject.ObjectModel,
             ModelId = worldObject.ModelId
         };
-
-        /// <summary>
-        /// Converts the entities into domain models.
-        /// </summary>
-        /// <returns>The domain models.</returns>
-        /// <param name="worldObjectEntities">Model entities.</param>
         internal static IEnumerable<WorldObject> ToDomainModels(
             this IEnumerable<WorldObjectEntity> worldObjectEntities)
             => worldObjectEntities.Select(worldObjectEntity => worldObjectEntity.ToDomainModel());

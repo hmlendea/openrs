@@ -11,25 +11,12 @@ using OpenRS.Settings;
 
 namespace OpenRS.Gui.Controls
 {
-    /// <summary>
-    /// Button GUI element.
-    /// </summary>
     public class GuiButton : GuiControl
     {
         public Size2D ButtonTileSize { get; set; }
-
-        /// <summary>
-        /// Gets or sets the size of the button.
-        /// </summary>
-        /// <value>The size of the button.</value>
         public Size2D ButtonSize => new(
             Size.Width / ButtonTileSize.Width,
             Size.Height / ButtonTileSize.Height);
-
-        /// <summary>
-        /// Gets or sets the text.
-        /// </summary>
-        /// <value>The text.</value>
         public string Text { get; set; }
 
         public string Icon { get; set; }
@@ -39,20 +26,12 @@ namespace OpenRS.Gui.Controls
         protected List<GuiImage> images;
         private GuiImage icon;
         private GuiText text;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GuiButton"/> class.
-        /// </summary>
         public GuiButton()
         {
             Texture = "Interface/button";
             FontName = "ButtonFont";
             ButtonTileSize = new Size2D(GameDefines.GuiTileSize, GameDefines.GuiTileSize);
         }
-
-        /// <summary>
-        /// Loads the content.
-        /// </summary>
         protected override void DoLoadContent()
         {
             icon = new GuiImage();
@@ -77,39 +56,17 @@ namespace OpenRS.Gui.Controls
             RegisterEvents();
             SetChildrenProperties();
         }
-
-        /// <summary>
-        /// Unloads the content.
-        /// </summary>
         protected override void DoUnloadContent() => UnregisterEvents();
-
-        /// <summary>
-        /// Update the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
-
-        /// <summary>
-        /// Draw the content on the specified <see cref="SpriteBatch"/>.
-        /// </summary>
-        /// <param name="spriteBatch">Sprite batch.</param>
         protected override void DoDraw(SpriteBatch spriteBatch)
         {
 
         }
-
-        /// <summary>
-        /// Registers the events.
-        /// </summary>
         private void RegisterEvents()
         {
             Clicked += OnClicked;
             MouseEntered += OnMouseEntered;
         }
-
-        /// <summary>
-        /// Unregisters the events.
-        /// </summary>
         private void UnregisterEvents()
         {
             Clicked -= OnClicked;
@@ -136,12 +93,6 @@ namespace OpenRS.Gui.Controls
                 (Size.Width - icon.Size.Width) / 2,
                 (Size.Height - icon.Size.Height) / 2);
         }
-
-        /// <summary>
-        /// Fired by the Clicked event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
         private void OnClicked(object sender, MouseButtonEventArgs e)
         {
             if (e.Button != MouseButton.Left)
@@ -151,12 +102,6 @@ namespace OpenRS.Gui.Controls
 
             //AudioManager.Instance.PlaySound("Interface/click");
         }
-
-        /// <summary>
-        /// Fired by the MouseMoved event.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">Event arguments.</param>
         private void OnMouseEntered(object sender, MouseEventArgs e)
         {
             //AudioManager.Instance.PlaySound("Interface/select");

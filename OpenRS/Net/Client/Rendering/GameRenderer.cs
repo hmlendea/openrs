@@ -1,9 +1,10 @@
+using System;
+
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 using OpenRS.Net.Client.Game.Cameras;
 using OpenRS.Net.Client.Utilities;
 using OpenRS.Settings;
-using System;
 
 namespace OpenRS.Net.Client.Rendering
 {
@@ -232,7 +233,7 @@ namespace OpenRS.Net.Client.Rendering
         public void DrawPlayer(int x, int y, int width, int height, int playerIndex, int cameraXOffset, int scalePercentage)
         {
             ClientMob f1 = client.playerArray[playerIndex];
-            if (f1.bottomColour == 255)// TODO this checks if the player is an invisible moderator
+            if (f1.bottomColour == 255) // TODO: This checks if the player is an invisible moderator.
             {
                 return;
             }

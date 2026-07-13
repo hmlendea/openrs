@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
-using System.Numerics;
 
 namespace OpenRS.Net.Client.Net
 {

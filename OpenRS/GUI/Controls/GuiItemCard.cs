@@ -24,10 +24,6 @@ namespace OpenRS.Gui.Controls
         {
             Size = new Size2D(36, 36);
         }
-
-        /// <summary>
-        /// Loads the content.
-        /// </summary>
         protected override void DoLoadContent()
         {
             icon = new GuiImage
@@ -47,25 +43,11 @@ namespace OpenRS.Gui.Controls
             RegisterChildren(icon, quantity);
             SetChildrenProperties();
         }
-
-        /// <summary>
-        /// Unloads the content.
-        /// </summary>
         protected override void DoUnloadContent()
         {
 
         }
-
-        /// <summary>
-        /// Update the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
-
-        /// <summary>
-        /// Draw the content on the specified <see cref="SpriteBatch"/>.
-        /// </summary>
-        /// <param name="spriteBatch">Sprite batch.</param>
         protected override void DoDraw(SpriteBatch spriteBatch)
         {
 

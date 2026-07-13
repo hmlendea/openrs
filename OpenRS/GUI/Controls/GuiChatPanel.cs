@@ -22,10 +22,6 @@ namespace OpenRS.Gui.Controls
             BackgroundColour = Colour.Black;
             ForegroundColour = Colour.Yellow;
         }
-
-        /// <summary>
-        /// Loads the content.
-        /// </summary>
         protected override void DoLoadContent()
         {
             messageRows = [];
@@ -39,25 +35,11 @@ namespace OpenRS.Gui.Controls
             RegisterChild(background);
             SetChildrenProperties();
         }
-
-        /// <summary>
-        /// Unloads the content.
-        /// </summary>
         protected override void DoUnloadContent()
         {
 
         }
-
-        /// <summary>
-        /// Update the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
-
-        /// <summary>
-        /// Draw the content on the specified <see cref="SpriteBatch"/>.
-        /// </summary>
-        /// <param name="spriteBatch">Sprite batch.</param>
         protected override void DoDraw(SpriteBatch spriteBatch)
         {
 

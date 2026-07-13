@@ -6,16 +6,8 @@ using OpenRS.Models;
 
 namespace OpenRS.GameLogic.Mapping
 {
-    /// <summary>
-    /// Npc mapping extensions for converting between entities and domain models.
-    /// </summary>
     internal static class NpcMappingExtensions
     {
-        /// <summary>
-        /// Converts the entity into a domain model.
-        /// </summary>
-        /// <returns>The domain model.</returns>
-        /// <param name="npcEntity">Npc entity.</param>
         internal static Npc ToDomainModel(this NpcEntity npcEntity) => new()
         {
             Id = npcEntity.Id,
@@ -44,12 +36,6 @@ namespace OpenRS.GameLogic.Mapping
             IsAggressive = npcEntity.IsAggressive,
             Drops = npcEntity.Drops?.ToDomainModels().ToArray()
         };
-
-        /// <summary>
-        /// Converts the domain model into an entity.
-        /// </summary>
-        /// <returns>The entity.</returns>
-        /// <param name="npc">Npc.</param>
         internal static NpcEntity ToDataObject(this Npc npc) => new()
         {
             Id = npc.Id,
@@ -75,12 +61,6 @@ namespace OpenRS.GameLogic.Mapping
             IsAggressive = npc.IsAggressive,
             Drops = npc.Drops?.ToDataObjects().ToArray()
         };
-
-        /// <summary>
-        /// Converts the entities into domain models.
-        /// </summary>
-        /// <returns>The domain models.</returns>
-        /// <param name="npcEntities">Npc entities.</param>
         internal static IEnumerable<Npc> ToDomainModels(
             this IEnumerable<NpcEntity> npcEntities)
             => npcEntities.Select(npcEntity => npcEntity.ToDomainModel());

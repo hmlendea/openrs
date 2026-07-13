@@ -12,8 +12,6 @@ namespace OpenRS.Net.Client.Game
     /* implements ImageProducer, ImageObserver */{
         // public static Texture2D[] UnpackedImages = new Texture2D[5000];
 
-
-
         public GameImage(int width, int height, int size /*, java.awt.Component destY*/)
         //  : base(_pixels, y, destX, destY)
         {
@@ -94,7 +92,6 @@ namespace OpenRS.Net.Client.Game
 
         //    if (graphics is null)
         //        graphics = GameClient.graphics;
-
 
         //    if (GameClient.spriteBatch.BeginIsActive()) return;
 
@@ -572,7 +569,6 @@ namespace OpenRS.Net.Client.Game
             int i1 = metaData[i++] & 0xff;
             int[] ai = new int[i1];
 
-
             //      List<Color> clr = new List<Color>();
             ai[0] = 0xff00ff;
             for (int j1 = 0; j1 < i1 - 1; j1 += 1)
@@ -586,11 +582,8 @@ namespace OpenRS.Net.Client.Game
                 i += 3;
             }
 
-
-
             // UnpackedImages[_pixels] = new Texture2D(graphics, y, _w);
             // UnpackedImages[_pixels].SetData(ai);
-
 
             int k1 = 2;
             for (int l1 = startIndex; l1 < startIndex + count; l1 += 1)
@@ -649,8 +642,6 @@ namespace OpenRS.Net.Client.Game
                     }
 
                 }
-
-
 
                 //using (var stream = System.IO.File.OpenWrite("c:/jpg/" + _pixels + ".jpg"))
                 //{
@@ -780,7 +771,6 @@ namespace OpenRS.Net.Client.Game
                     int r = j2 & 0xff;
                     // colors[width] = new Color(j3, k3, l3, 255);
 
-
                     for (int i4 = 0; i4 < 256; i4 += 1)
                     {
                         int j4 = ai2[i4];
@@ -807,7 +797,6 @@ namespace OpenRS.Net.Client.Game
             //    UnpackedImages[_pixels].SetData(colors);
             //    UnpackedImages[_pixels].SaveAsJpeg(stream, UnpackedImages[_pixels].Width, UnpackedImages[_pixels].Height);
             //}
-
 
             pictureColorIndexes[pictureIndex] = abyte0;
             pictureColor[pictureIndex] = ai2;
@@ -864,8 +853,6 @@ namespace OpenRS.Net.Client.Game
 
             pictureColors[pictureIndex] = ai1;
 
-
-
             pictureColorIndexes[pictureIndex] = null;
             pictureColor[pictureIndex] = null;
         }
@@ -890,7 +877,6 @@ namespace OpenRS.Net.Client.Game
             //var pix = new int[pictureWidth[_pixels] * pictureHeight[_pixels]];
             //List<Color> colors = new List<Color>();
             //Color[] clrs = new Color[pictureWidth[_pixels] * pictureHeight[_pixels]];
-
 
             for (int x1 = x; x1 < x + width; x1 += 1)
             {
@@ -944,8 +930,6 @@ namespace OpenRS.Net.Client.Game
             //List<Color> colors = new List<Color>();
             //Color[] clrs = new Color[pictureWidth[_pixels] * pictureHeight[_pixels]];
 
-
-
             for (int l = y; l < y + height; l += 1)
             {
                 for (int i1 = x; i1 < x + width; i1 += 1)
@@ -965,7 +949,6 @@ namespace OpenRS.Net.Client.Game
                     pictureColors[pictureIndex][k++] = pixels[i1 + l * gameWidth];
 
                 }
-
 
             }
 
@@ -2704,7 +2687,6 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-
         public static List<StringDraw> stringsToDraw = [];
 
         public void DrawString(string text, int x, int y, int fontIndex, int colour)
@@ -2712,8 +2694,6 @@ namespace OpenRS.Net.Client.Game
             try
             {
 #warning fix real draw string
-
-
 
                 //return;
                 //GameClient.spriteBatch.BeginSafe();
@@ -2864,7 +2844,6 @@ namespace OpenRS.Net.Client.Game
                 //    x += 4;
                 //}
                 //else
-
 
                 return;
             }
@@ -3117,9 +3096,7 @@ namespace OpenRS.Net.Client.Game
 
             return i;
 
-
         }
-
 
         public void DrawPixels(int[][] pixels, int drawx, int drawy, int width, int height)
         {
@@ -3207,7 +3184,6 @@ namespace OpenRS.Net.Client.Game
 
         public GraphicsDevice graphics { get; set; }
     }
-
 
     public sealed class StringDraw
     {

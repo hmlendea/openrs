@@ -1,0 +1,202 @@
+[
+    {
+        "id": "black-knights-fortress",
+        "name": "Black Knight's Fortress"
+    },
+    {
+        "id": "cooks-assistant",
+        "name": "Cook's Assistant"
+    },
+    {
+        "id": "demon-slayer",
+        "name": "Demon Slayer"
+    },
+    {
+        "id": "dorics-quest",
+        "name": "Doric's Quest"
+    },
+    {
+        "id": "the-restless-ghost",
+        "name": "The Restless Ghost"
+    },
+    {
+        "id": "goblin-diplomacy",
+        "name": "Goblin Diplomacy"
+    },
+    {
+        "id": "ernest-the-chicken",
+        "name": "Ernest the Chicken"
+    },
+    {
+        "id": "imp-catcher",
+        "name": "Imp Catcher"
+    },
+    {
+        "id": "pirates-treasure",
+        "name": "Pirate's Treasure"
+    },
+    {
+        "id": "prince-ali-rescue",
+        "name": "Prince Ali Rescue"
+    },
+    {
+        "id": "romeo-and-juliet",
+        "name": "Romeo & Juliet"
+    },
+    {
+        "id": "sheep-shearer",
+        "name": "Sheep Shearer"
+    },
+    {
+        "id": "shield-of-arrav",
+        "name": "Shield of Arrav"
+    },
+    {
+        "id": "the-knights-sword",
+        "name": "The Knight's Sword"
+    },
+    {
+        "id": "vampire-slayer",
+        "name": "Vampire Slayer"
+    },
+    {
+        "id": "witchs-potion",
+        "name": "Witch's Potion"
+    },
+    {
+        "id": "dragon-slayer",
+        "name": "Dragon Slayer"
+    },
+    {
+        "id": "witchs-house",
+        "name": "Witch's House"
+    },
+    {
+        "id": "lost-city",
+        "name": "Lost City"
+    },
+    {
+        "id": "heros-quest",
+        "name": "Hero's Quest"
+    },
+    {
+        "id": "druidic-ritual",
+        "name": "Druidic Ritual"
+    },
+    {
+        "id": "merlins-crystal",
+        "name": "Merlin's Crystal"
+    },
+    {
+        "id": "scorpion-catcher",
+        "name": "Scorpion Catcher"
+    },
+    {
+        "id": "family-crest",
+        "name": "Family Crest"
+    },
+    {
+        "id": "tribal-totem",
+        "name": "Tribal Totem"
+    },
+    {
+        "id": "fishing-contest",
+        "name": "Fishing Contest"
+    },
+    {
+        "id": "monks-friend",
+        "name": "Monk's Friend"
+    },
+    {
+        "id": "temple-of-ikov",
+        "name": "Temple of Ikov"
+    },
+    {
+        "id": "clock-tower",
+        "name": "Clock Tower"
+    },
+    {
+        "id": "the-holy-grail",
+        "name": "The Holy Grail"
+    },
+    {
+        "id": "fight-arena",
+        "name": "Fight Arena"
+    },
+    {
+        "id": "tree-gnome-village",
+        "name": "Tree Gnome Village"
+    },
+    {
+        "id": "the-hazeel-cult",
+        "name": "The Hazeel Cult"
+    },
+    {
+        "id": "sheep-herder",
+        "name": "Sheep Herder"
+    },
+    {
+        "id": "plague-city",
+        "name": "Plague City"
+    },
+    {
+        "id": "sea-slug",
+        "name": "Sea Slug"
+    },
+    {
+        "id": "waterfall-quest",
+        "name": "Waterfall Quest"
+    },
+    {
+        "id": "biohazard",
+        "name": "Biohazard"
+    },
+    {
+        "id": "jungle-potion",
+        "name": "Jungle Potion"
+    },
+    {
+        "id": "grand-tree",
+        "name": "Grand Tree"
+    },
+    {
+        "id": "shilo-village",
+        "name": "Shilo Village"
+    },
+    {
+        "id": "underground-pass",
+        "name": "Underground Pass"
+    },
+    {
+        "id": "observatory-quest",
+        "name": "Observatory Quest"
+    },
+    {
+        "id": "tourist-trap",
+        "name": "Tourist Trap"
+    },
+    {
+        "id": "watchtower",
+        "name": "Watchtower"
+    },
+    {
+        "id": "dwarf-cannon",
+        "name": "Dwarf Cannon"
+    },
+    {
+        "id": "murder-mystery",
+        "name": "Murder Mystery"
+    },
+    {
+        "id": "digsite",
+        "name": "Digsite"
+    },
+    {
+        "id": "gertrudes-cat",
+        "name": "Gertrude's Cat"
+    },
+    {
+        "id": "legends-quest",
+        "name": "Legend's Quest"
+    }
+]

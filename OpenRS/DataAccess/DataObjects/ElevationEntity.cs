@@ -2,9 +2,6 @@
 
 namespace OpenRS.DataAccess.DataObjects
 {
-    /// <summary>
-    /// Elevation entity.
-    /// </summary>
     public sealed class ElevationEntity : EntityBase
     {
         public int Roof { get; set; }

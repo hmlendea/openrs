@@ -4,11 +4,11 @@ namespace OpenRS.Net.Client.Game
 {
     public sealed class SectorTile
     {
-        public byte groundElevation = 0;
-        public byte groundTexture = 0;
-        public byte roofTexture = 0;
-        public byte horizontalWall = 0;
-        public byte verticalWall = 0;
+        public byte groundElevation;
+        public byte groundTexture;
+        public byte roofTexture;
+        public byte horizontalWall;
+        public byte verticalWall;
         public int diagonalWalls = 0;
         public byte groundOverlay = 0;
 		public SectorTile() {}

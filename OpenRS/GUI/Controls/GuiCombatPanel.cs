@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.Gui.Controls;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
-using NuciXNA.Gui.Controls;
 
 using OpenRS.Models.Enumerations;
 using OpenRS.Net.Client;
@@ -29,10 +29,6 @@ namespace OpenRS.Gui.Controls
 
             ForegroundColour = Colour.Gold;
         }
-
-        /// <summary>
-        /// Loads the content.
-        /// </summary>
         protected override void DoLoadContent()
         {
             combatLevelText = new GuiText { Size = new Size2D(Size.Width, 24) };
@@ -70,22 +66,8 @@ namespace OpenRS.Gui.Controls
             RegisterEvents();
             SetChildrenProperties();
         }
-
-        /// <summary>
-        /// Unloads the content.
-        /// </summary>
         protected override void DoUnloadContent() => UnregisterEvents();
-
-        /// <summary>
-        /// Update the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
-
-        /// <summary>
-        /// Draw the content on the specified <see cref="SpriteBatch"/>.
-        /// </summary>
-        /// <param name="spriteBatch">Sprite batch.</param>
         protected override void DoDraw(SpriteBatch spriteBatch)
         {
 
@@ -131,7 +113,7 @@ namespace OpenRS.Gui.Controls
             accurateStyleCard.ForegroundColour = ForegroundColour;
             defensiveStyleCard.ForegroundColour = ForegroundColour;
 
-            if (client is not null && client.loggedIn && client.CurrentPlayer is not null) // TODO: Ugly fix
+            if (client is not null && client.loggedIn && client.CurrentPlayer is not null) // TODO: Ugly fix.
             {
                 combatLevelText.Text = $"Combat Level: {client.CurrentPlayer.CombatLevel}";
 

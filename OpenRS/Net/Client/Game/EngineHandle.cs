@@ -1,13 +1,13 @@
 ﻿using System;
-using OpenRS.Net.Client.Game.Cameras;
-using OpenRS.Net.Client.Data;
 using System.IO;
+
+using OpenRS.Net.Client.Data;
+using OpenRS.Net.Client.Game.Cameras;
+
 namespace OpenRS.Net.Client.Game
 {
 	public sealed class EngineHandle
 	{
-		public static Random random = new();
-
 		public void SetTileData(int x, int y, int i1)
 		{
 			int j1 = x / 12;

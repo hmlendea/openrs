@@ -23,84 +23,20 @@ namespace OpenRS.GameLogic.GameManagers
         private List<WorldObject> worldObjects;
 
         private readonly string[] modelName = new string[5000];
-
-        /// <summary>
-        /// Gets the animations count.
-        /// </summary>
-        /// <value>The animations count.</value>
         public int AnimationCount => animations.Count;
-
-        /// <summary>
-        /// Gets the elevations count.
-        /// </summary>
-        /// <value>The elevations count.</value>
         public int ElevationCount => elevations.Count;
-
-        /// <summary>
-        /// Gets the items count.
-        /// </summary>
-        /// <value>The items count.</value>
         public int ItemCount => items.Count;
-
-        /// <summary>
-        /// Gets the npc count.
-        /// </summary>
-        /// <value>The npc count.</value>
         public int NpcCount => npcs.Count;
-
-        /// <summary>
-        /// Gets the object models count.
-        /// </summary>
-        /// <value>The object models count.</value>
         public int ObjectModelCount { get; private set; }
-
-        /// <summary>
-        /// Gets the prayers count.
-        /// </summary>
-        /// <value>The prayers count.</value>
         public int PrayerCount => prayers.Count;
-
-        /// <summary>
-        /// Gets the spells count.
-        /// </summary>
-        /// <value>The spells count.</value>
         public int SpellCount => spells.Count;
-
-        /// <summary>
-        /// Gets or sets the spell projectile count.
-        /// </summary>
-        /// <value>The spell projectile count.</value>
         public int SpellProjectileCount { get; private set; }
-
-        /// <summary>
-        /// Gets the textures count.
-        /// </summary>
-        /// <value>The textures count.</value>
         public int TextureCount => textures.Count;
-
-        /// <summary>
-        /// Gets the tiles count.
-        /// </summary>
-        /// <value>The tiles count.</value>
         public int TileCount => tiles.Count;
-
-        /// <summary>
-        /// Gets the wall objects count.
-        /// </summary>
-        /// <value>The wall objects count.</value>
         public int WallObjectCount => wallObjects.Count;
-
-        /// <summary>
-        /// Gets the world objects count.
-        /// </summary>
-        /// <value>The world objects count.</value>
         public int WorldObjectCount => worldObjects.Count;
 
         public int HighestLoadedPicture { get; private set; }
-
-        /// <summary>
-        /// Loads the entities in memory.
-        /// </summary>
         public void LoadContent()
         {
             string animationsPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "animations.xml");
@@ -141,12 +77,6 @@ namespace OpenRS.GameLogic.GameManagers
                 worldObject.ModelId = GetModelIndex(worldObject.ObjectModel);
             }
         }
-
-        /// <summary>
-        /// Gets the animation.
-        /// </summary>
-        /// <returns>The animation.</returns>
-        /// <param name="index">Identifier.</param>
         public Animation GetAnimation(int index)
         {
             if (index < 0 || index >= AnimationCount)
@@ -156,12 +86,6 @@ namespace OpenRS.GameLogic.GameManagers
 
             return animations[index];
         }
-
-        /// <summary>
-        /// Gets the elevation.
-        /// </summary>
-        /// <returns>The elevation.</returns>
-        /// <param name="index">Identifier.</param>
         public Elevation GetElevation(int index)
         {
             if (index < 0 || index >= ElevationCount)
@@ -171,12 +95,6 @@ namespace OpenRS.GameLogic.GameManagers
 
             return elevations[index];
         }
-
-        /// <summary>
-        /// Gets the item.
-        /// </summary>
-        /// <returns>The item.</returns>
-        /// <param name="index">Identifier.</param>
         public Item GetItem(int index)
         {
             if (index < 0 || index >= ItemCount)
@@ -207,12 +125,6 @@ namespace OpenRS.GameLogic.GameManagers
 
             return ObjectModelCount - 1;
         }
-
-        /// <summary>
-        /// Gets the npc.
-        /// </summary>
-        /// <returns>The npc.</returns>
-        /// <param name="index">Identifier.</param>
         public Npc GetNpc(int index)
         {
             if (index < 0 || index >= NpcCount)
@@ -224,12 +136,6 @@ namespace OpenRS.GameLogic.GameManagers
         }
 
         public string GetObjectModelName(int index) => modelName[index];
-
-        /// <summary>
-        /// Gets the prayer.
-        /// </summary>
-        /// <returns>The prayer.</returns>
-        /// <param name="index">Identifier.</param>
         public Prayer GetPrayer(int index)
         {
             if (index < 0 || index >= PrayerCount)
@@ -239,12 +145,6 @@ namespace OpenRS.GameLogic.GameManagers
 
             return prayers[index];
         }
-
-        /// <summary>
-        /// Gets the spell.
-        /// </summary>
-        /// <returns>The spell.</returns>
-        /// <param name="index">Identifier.</param>
         public Spell GetSpell(int index)
         {
             if (index < 0 || index >= SpellCount)
@@ -254,12 +154,6 @@ namespace OpenRS.GameLogic.GameManagers
 
             return spells[index];
         }
-
-        /// <summary>
-        /// Gets the texture.
-        /// </summary>
-        /// <returns>The texture.</returns>
-        /// <param name="index">Identifier.</param>
         public GameTexture GetTexture(int index)
         {
             if (index < 0 || index >= TextureCount)
@@ -269,12 +163,6 @@ namespace OpenRS.GameLogic.GameManagers
 
             return textures[index];
         }
-
-        /// <summary>
-        /// Gets the tile.
-        /// </summary>
-        /// <returns>The tile.</returns>
-        /// <param name="index">Identifier.</param>
         public Tile GetTile(int index)
         {
             if (index < 0 || index >= TileCount)
@@ -284,12 +172,6 @@ namespace OpenRS.GameLogic.GameManagers
 
             return tiles[index];
         }
-
-        /// <summary>
-        /// Gets the wall object.
-        /// </summary>
-        /// <returns>The wall object.</returns>
-        /// <param name="index">Identifier.</param>
         public WallObject GetWallObject(int index)
         {
             if (index < 0 || index >= WallObjectCount)
@@ -299,12 +181,6 @@ namespace OpenRS.GameLogic.GameManagers
 
             return wallObjects[index];
         }
-
-        /// <summary>
-        /// Gets the world object.
-        /// </summary>
-        /// <returns>The world object.</returns>
-        /// <param name="index">Index.</param>
         public WorldObject GetWorldObject(int index)
         {
             if (index < 0 || index >= WorldObjectCount)
@@ -314,12 +190,6 @@ namespace OpenRS.GameLogic.GameManagers
 
             return worldObjects[index];
         }
-
-        /// <summary>
-        /// Gets the world object.
-        /// </summary>
-        /// <returns>The world object.</returns>
-        /// <param name="id">Identifier.</param>
         public WorldObject GetWorldObject(string id) => worldObjects.FirstOrDefault(worldObject => worldObject.Id == id);
     }
 }

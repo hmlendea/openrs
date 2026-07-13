@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Net.Sockets;
 using System.IO;
+using System.Net.Sockets;
 using System.Threading;
 
 namespace OpenRS.Net.Client.Net
@@ -8,7 +8,7 @@ namespace OpenRS.Net.Client.Net
     public sealed class StreamClass : PacketConstruction
     {
 
-        private readonly Thread connectionThread = null;
+        private readonly Thread connectionThread;
 
         public StreamClass(/*Socket*/ TcpClient socket, GameApplet a1 = null)
         {
@@ -186,7 +186,7 @@ namespace OpenRS.Net.Client.Net
             }
         }
 
-        private int lastWriteLen = 0;
+        private int lastWriteLen;
         public void Run()
         {
             while (!socketClosed) //  && connectionThread.ThreadState != ThreadState.AbortRequested && connectionThread.ThreadState != ThreadState.Aborted

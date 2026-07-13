@@ -4,17 +4,10 @@ using System.Reflection;
 
 namespace OpenRS.Settings
 {
-    /// <summary>
-    /// Application paths.
-    /// </summary>
     public static class ApplicationPaths
     {
         private static string rootDirectory;
         private static string localAppData;
-
-        /// <summary>
-        /// The application directory.
-        /// </summary>
         public static string ApplicationDirectory
         {
             get
@@ -24,11 +17,6 @@ namespace OpenRS.Settings
                 return rootDirectory;
             }
         }
-
-        /// <summary>
-        /// Gets the user data directory.
-        /// </summary>
-        /// <value>The user data directory.</value>
         public static string UserDataDirectory
         {
             get
@@ -38,25 +26,9 @@ namespace OpenRS.Settings
                 return Path.Combine(localAppData, "OpenRS");
             }
         }
-        /// <summary>
-        /// The configuration directory.
-        /// </summary>
         public static string ConfigurationDirectory => Path.Combine(ApplicationDirectory, "Data");
-
-        /// <summary>
-        /// The data directory.
-        /// </summary>
         public static string DataDirectory => Path.Combine(ApplicationDirectory, "Data");
-
-        /// <summary>
-        /// The entities directory.
-        /// </summary>
         public static string EntitiesDirectory => Path.Combine(DataDirectory, "Entities");
-
-        /// <summary>
-        /// Gets the options file.
-        /// </summary>
-        /// <value>The options file.</value>
         public static string SettingsFile => Path.Combine(UserDataDirectory, "Settings.xml");
     }
 }

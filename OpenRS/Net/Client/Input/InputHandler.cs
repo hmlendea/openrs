@@ -1,137 +1,136 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenRS.Net.Client.Game;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System;
+
+using OpenRS.Net.Client.Game;
 
 namespace OpenRS.Net.Client.Input
 {
     public sealed class InputHandler(GameClient client)
     {
         private readonly List<Keys> lastPressedKeys = [];
-        private int lastMouseX = 0;
-        private int lastMouseY = 0;
-        private bool lastLeftDown = false;
-        private bool lastRightDown = false;
-        private bool shiftKeyIsDown = false;
-        private bool ctrlKeyIsDown = false;
-        private bool altKeyIsDown = false;
-        private TimeSpan timeLapse = TimeSpan.Zero;
+        private int lastMouseX;
+        private int lastMouseY;
+        private bool lastLeftDown;
+        private bool lastRightDown;
+        private bool shiftKeyIsDown;
+        private bool ctrlKeyIsDown;
+        private bool altKeyIsDown;
+        private TimeSpan timeLapse;
 
-        public char TranslateOemKeys(Keys k)
+        public char TranslateOemKeys(Keys key)
         {
-            //   if (k == Keys.1)
-            //  { }
-            if (k == Keys.OemPeriod)
+            if (key == Keys.OemPeriod)
             {
                 return '.';
             }
             else if (shiftKeyIsDown)
             {
-                if (k == Keys.NumPad1 || k == Keys.D1)
+                if (key == Keys.NumPad1 || key == Keys.D1)
                 {
                     return '!';
                 }
-                else if (k == Keys.NumPad2 || k == Keys.D2)
+                else if (key == Keys.NumPad2 || key == Keys.D2)
                 {
                     return '"';
                 }
-                else if (k == Keys.NumPad3 || k == Keys.D3)
+                else if (key == Keys.NumPad3 || key == Keys.D3)
                 {
                     return '#';
                 }
-                else if (k == Keys.NumPad4 || k == Keys.D4)
+                else if (key == Keys.NumPad4 || key == Keys.D4)
                 {
                     return '¤';
                 }
-                else if (k == Keys.NumPad5 || k == Keys.D5)
+                else if (key == Keys.NumPad5 || key == Keys.D5)
                 {
                     return '%';
                 }
-                else if (k == Keys.NumPad6 || k == Keys.D6)
+                else if (key == Keys.NumPad6 || key == Keys.D6)
                 {
                     return '&';
                 }
-                else if (k == Keys.NumPad7 || k == Keys.D7)
+                else if (key == Keys.NumPad7 || key == Keys.D7)
                 {
                     return '/';
                 }
-                else if (k == Keys.NumPad8 || k == Keys.D8)
+                else if (key == Keys.NumPad8 || key == Keys.D8)
                 {
                     return '(';
                 }
-                else if (k == Keys.NumPad9 || k == Keys.D9)
+                else if (key == Keys.NumPad9 || key == Keys.D9)
                 {
                     return ')';
                 }
-                else if (k == Keys.NumPad0 || k == Keys.D0)
+                else if (key == Keys.NumPad0 || key == Keys.D0)
                 {
                     return '=';
                 }
-                else if (k == Keys.OemPlus)
+                else if (key == Keys.OemPlus)
                 {
                     return '?';
                 }
 
-                return (char)k;
+                return (char)key;
             }
-            else if (altKeyIsDown && ctrlKeyIsDown) // alt Gr
+            else if (altKeyIsDown && ctrlKeyIsDown) // Alt Gr.
             {
-                if (k == Keys.NumPad2 || k == Keys.D2)
+                if (key == Keys.NumPad2 || key == Keys.D2)
                 {
                     return '@';
                 }
-                else if (k == Keys.NumPad3 || k == Keys.D3)
+                else if (key == Keys.NumPad3 || key == Keys.D3)
                 {
                     return '£';
                 }
-                else if (k == Keys.NumPad4 || k == Keys.D4)
+                else if (key == Keys.NumPad4 || key == Keys.D4)
                 {
                     return '$';
                 }
-                else if (k == Keys.NumPad7 || k == Keys.D7)
+                else if (key == Keys.NumPad7 || key == Keys.D7)
                 {
                     return '{';
                 }
-                else if (k == Keys.NumPad8 || k == Keys.D8)
+                else if (key == Keys.NumPad8 || key == Keys.D8)
                 {
                     return '[';
                 }
-                else if (k == Keys.NumPad9 || k == Keys.D9)
+                else if (key == Keys.NumPad9 || key == Keys.D9)
                 {
                     return ']';
                 }
-                else if (k == Keys.NumPad0 || k == Keys.D0)
+                else if (key == Keys.NumPad0 || key == Keys.D0)
                 {
                     return '}';
                 }
-                else if (k == Keys.OemPlus)
+                else if (key == Keys.OemPlus)
                 {
                     return '\\';
                 }
             }
             else
             {
-                return ((char)k + "").ToLower()[0];
+                return char.ToLower((char)key);
             }
-            return (char)k;
+
+            return (char)key;
         }
-        public void Update(GameTime gt)
+        public void Update(GameTime gameTime)
         {
-            TimeSpan lastUpdate = gt.ElapsedGameTime;
-
             KeyboardState keyboardState = Keyboard.GetState();
-
             MouseState mouseState = Mouse.GetState();
             int rawX = mouseState.X;
             int rawY = mouseState.Y;
-            Rectangle? bounds = GameClient.GameWindow?.ClientBounds;
+
             if (GameClient.GameWindow is not null)
             {
                 rawX += GameClient.GameWindow.ClientBounds.X;
                 rawY += GameClient.GameWindow.ClientBounds.Y;
             }
+
             MouseState adjustedMouseState = new(
                 rawX, rawY,
                 mouseState.ScrollWheelValue,
@@ -151,12 +150,12 @@ namespace OpenRS.Net.Client.Input
                 // if (timeLapse > TimeSpan.FromMilliseconds(100))
                 if (!lastPressedKeys.Contains(pressedKey))
                 {
-                    client.KeyDown(pressedKey, client.TranslateOemKeys(pressedKey));
+                    client.KeyDown(pressedKey, TranslateOemKeys(pressedKey));
                     timeLapse = TimeSpan.Zero;
                 }
                 else if (timeLapse > TimeSpan.FromMilliseconds(150))
                 {
-                    client.KeyDown(pressedKey, client.TranslateOemKeys(pressedKey));
+                    client.KeyDown(pressedKey, TranslateOemKeys(pressedKey));
                     timeLapse = TimeSpan.Zero;
                 }
                 // HandleKeyDown(k, c[0]);
@@ -166,7 +165,7 @@ namespace OpenRS.Net.Client.Input
             {
                 if (!keysPressedDown.Contains(lastKey))
                 {
-                    client.KeyUp(lastKey, client.TranslateOemKeys(lastKey));
+                    client.KeyUp(lastKey, TranslateOemKeys(lastKey));
                 }
             }
 
@@ -174,7 +173,7 @@ namespace OpenRS.Net.Client.Input
             lastPressedKeys.Clear();
             lastPressedKeys.AddRange(keyboardState.GetPressedKeys());
 
-            timeLapse += lastUpdate;
+            timeLapse += gameTime.ElapsedGameTime;
 
             //mouseEntered(mouseState);
             if (adjustedMouseState.X != lastMouseX || adjustedMouseState.Y != lastMouseY)
@@ -192,7 +191,6 @@ namespace OpenRS.Net.Client.Input
                 client.MousePressed(adjustedMouseState);
             }
 
-
             if (adjustedMouseState.LeftButton == ButtonState.Pressed && !lastLeftDown)
             {
                 lastLeftDown = true;
@@ -202,95 +200,14 @@ namespace OpenRS.Net.Client.Input
             if (adjustedMouseState.RightButton == ButtonState.Released && lastRightDown)
             {
                 lastRightDown = false;
-                // MousePressed(mouseState);
                 client.MouseUp(adjustedMouseState.X, adjustedMouseState.Y);
             }
             if (adjustedMouseState.LeftButton == ButtonState.Released && lastLeftDown)
             {
                 lastLeftDown = false;
-
                 client.MouseUp(adjustedMouseState.X, adjustedMouseState.Y);
             }
-
-            //uglyHack = false;
-            //if ((!rightMouseDown && !leftMouseDown) && (mouseState.LeftButton == ButtonState.Pressed || mouseState.RightButton == ButtonState.Pressed))
-            //{
-            //    if (!uglyHack)
-            //    {
-            //        uglyHack = true;
-            //        leftMouseDown = mouseState.LeftButton == ButtonState.Pressed;
-            //        rightMouseDown = mouseState.RightButton == ButtonState.Pressed;
-            //        //MouseDown(
-            //        MouseDown(mouseState.X, mouseState.Y, mouseState.LeftButton != ButtonState.Pressed);
-            //        //handleMouseDown(mouseState.X, mouseState.Y, 1);
-            //    }
-            //}
-
-            //if ((leftMouseDown || rightMouseDown) && mouseState.LeftButton == ButtonState.Released && mouseState.RightButton == ButtonState.Released && !uglyHack)
-            //{
-
-            //    leftMouseDown = false;
-            //    rightMouseDown = false;
-            //    MouseUp(mouseState.X, mouseState.Y);
-            //    MousePressed(mouseState);
-
-            //}
-
-
-
         }
-
-        //public void Draw(GameTime gt)
-        //{
-        //    if (gameGraphics is not null)
-        //    {
-        //        try
-        //        {
-        //            //   gameGraphics.UpdateGameImage();
-
-        //            //  drawWindow();
-
-        //            gameGraphics.DrawImage(spriteBatch, 0, 0);
-
-        //            //    //GameClient.spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
-        //            //    foreach (var str in GameImage.stringsToDraw)
-        //            //    {
-
-        //            //        //GameClient.gameFont12
-        //            //        if (!GameClient.spriteBatch.BeginIsActive()) return;
-        //            //        //var color = new Color(startColor >> 0x0000ff, startColor >> 0x00ff00, startColor >> 0xff0000, 255);
-
-        //            //        Color clr = str.forecolor;
-        //            //        SpriteFont font = GameClient.gameFont12;
-
-        //            //        //if (clr.A == 0 || clr.A < 255)
-        //            //        //    clr = new Color(255, 255, 255, 255);
-
-        //            //        if (str.font is not null)
-        //            //        {
-        //            //            font = str.font;
-        //            //        }
-        //            //        var textToRender = str.text;
-        //            //        //textToRender = textToRender.Replace("@gre@", "");
-        //            //        //textToRender = textToRender.Replace("@yel@", "");
-        //            //        //textToRender = textToRender.Replace("@whi@", "");
-        //            //        //textToRender = textToRender.Replace("@normalZ@", "");
-        //            //        //textToRender = textToRender.Replace("@ran@", "");
-        //            //        //textToRender = textToRender.Replace("@red@", "");
-
-        //            //        GameClient.spriteBatch.DrawString(font, textToRender, str.pos - new Vector2(0f, (float)gameFrame.yOffset / 2.5f), clr);
-
-
-        //            //    }
-        //        }
-        //        catch { }
-
-        //        ////GameClient.spriteBatch.End();
-
-        //        //GameImage.stringsToDraw.Clear();
-        //    }
-        //}
-
 
         public void CheckInputs()
         {
@@ -320,13 +237,14 @@ namespace OpenRS.Net.Client.Input
                 if (client.cameraRotateTime > 500)
                 {
                     client.cameraRotateTime = 0;
-                    int l = (int)(Helper.Random.NextDouble() * 4D);
-                    if ((l & 1) == 1)
+                    int randomFlags = (int)(Helper.Random.NextDouble() * 4D);
+
+                    if ((randomFlags & 1) == 1)
                     {
                         client.cameraRotationXAmount += client.cameraRotationXIncrement;
                     }
 
-                    if ((l & 2) == 2)
+                    if ((randomFlags & 2) == 2)
                     {
                         client.cameraRotationYAmount += client.cameraRotationYIncrement;
                     }
@@ -371,14 +289,15 @@ namespace OpenRS.Net.Client.Input
                     client.chatTabPrivateFlash -= 1;
                 }
             }
-            catch (Exception _ex)
+            catch (Exception exception)
             {
-                Console.WriteLine($"[CheckInputs EXCEPTION] {_ex.GetType().Name}: {_ex.Message}");
-                Console.WriteLine(_ex.StackTrace);
+                Console.WriteLine($"[CheckInputs EXCEPTION] {exception.GetType().Name}: {exception.Message}");
+                Console.WriteLine(exception.StackTrace);
                 client.CleanUp();
                 client.memoryError = true;
             }
         }
+
         public void CheckLoginScreenInputs()
         {
             if (client.socketTimeout > 0)
@@ -413,26 +332,26 @@ namespace OpenRS.Net.Client.Input
                     return;
                 }
             }
-            else
-                if (client.loginScreen == 1)
-                {
-                    if (client.loginNewUser is null)
+            else if (client.loginScreen == 1)
+            {
+                if (client.loginNewUser is null)
                 {
                     return;
                 }
 
                 client.loginNewUser.MouseClick(client.mouseX, client.mouseY, client.lastMouseButton, client.mouseButton);
-                    if (client.loginNewUser.IsClicked(client.loginMenuOkButton))
-                    {
-                        client.loginScreen = 0;
-                        return;
-                    }
+
+                if (client.loginNewUser.IsClicked(client.loginMenuOkButton))
+                {
+                    client.loginScreen = 0;
+                    return;
                 }
-                else
-                    if (client.loginScreen == 2)
-                    {
-                        client.loginMenuLogin.MouseClick(client.mouseX, client.mouseY, client.lastMouseButton, client.mouseButton);
-                        if (client.loginMenuLogin.IsClicked(client.loginMenuCancelButton))
+            }
+            else if (client.loginScreen == 2)
+            {
+                client.loginMenuLogin.MouseClick(client.mouseX, client.mouseY, client.lastMouseButton, client.mouseButton);
+
+                if (client.loginMenuLogin.IsClicked(client.loginMenuCancelButton))
                 {
                     client.loginScreen = 0;
                 }
@@ -443,49 +362,53 @@ namespace OpenRS.Net.Client.Input
                 }
 
                 if (client.loginMenuLogin.IsClicked(client.loginMenuPasswordText) || client.loginMenuLogin.IsClicked(client.loginMenuOkLoginButton))
-                        {
-                            client.loginUsername = client.loginMenuLogin.GetText(client.loginMenuUserText);
-                            client.loginPassword = client.loginMenuLogin.GetText(client.loginMenuPasswordText);
-                            client.Connect(client.loginUsername, client.loginPassword, false);
-                        }
-                    }
+                {
+                    client.loginUsername = client.loginMenuLogin.GetText(client.loginMenuUserText);
+                    client.loginPassword = client.loginMenuLogin.GetText(client.loginMenuPasswordText);
+                    client.Connect(client.loginUsername, client.loginPassword, false);
+                }
+            }
         }
-        public void HandleMouseDown(int mouseButtonPressed, int mouseXPosition, int mouseYPosition)
+
+        public void HandleMouseDown(int pressedMouseButton, int mouseXPosition, int mouseYPosition)
         {
             client.mouseTrailX[client.mouseTrailIndex] = mouseXPosition;
             client.mouseTrailY[client.mouseTrailIndex] = mouseYPosition;
             client.mouseTrailIndex = client.mouseTrailIndex + 1 & 0x1fff;
-            for (int l = 10; l < 4000; l += 1)
+
+            for (int lookbackLength = 10; lookbackLength < 4000; lookbackLength += 1)
             {
-                int lastMouseTrailIndex = client.mouseTrailIndex - l & 0x1fff;
-                if (client.mouseTrailX[lastMouseTrailIndex] == mouseXPosition && client.mouseTrailY[lastMouseTrailIndex] == mouseYPosition)
+                int historicTrailIndex = client.mouseTrailIndex - lookbackLength & 0x1fff;
+
+                if (client.mouseTrailX[historicTrailIndex] == mouseXPosition && client.mouseTrailY[historicTrailIndex] == mouseYPosition)
                 {
-                    bool flag = false;
-                    for (int j1 = 1; j1 < l; j1 += 1)
+                    bool hasTrailMismatch = false;
+
+                    for (int trailSearchIndex = 1; trailSearchIndex < lookbackLength; trailSearchIndex += 1)
                     {
-                        int mouseNew = client.mouseTrailIndex - j1 & 0x1fff;
-                        int mouseOld = lastMouseTrailIndex - j1 & 0x1fff;
-                        if (client.mouseTrailX[mouseOld] != mouseXPosition || client.mouseTrailY[mouseOld] != mouseYPosition)
+                        int recentTrailIndex = client.mouseTrailIndex - trailSearchIndex & 0x1fff;
+                        int olderTrailIndex = historicTrailIndex - trailSearchIndex & 0x1fff;
+
+                        if (client.mouseTrailX[olderTrailIndex] != mouseXPosition || client.mouseTrailY[olderTrailIndex] != mouseYPosition)
                         {
-                            flag = true;
+                            hasTrailMismatch = true;
                         }
 
-                        if (client.mouseTrailX[mouseNew] != client.mouseTrailX[mouseOld] || client.mouseTrailY[mouseNew] != client.mouseTrailY[mouseOld])
+                        if (client.mouseTrailX[recentTrailIndex] != client.mouseTrailX[olderTrailIndex] || client.mouseTrailY[recentTrailIndex] != client.mouseTrailY[olderTrailIndex])
                         {
                             break;
                         }
 
-                        if (j1 == l - 1 && flag && client.combatTimeout == 0 && client.logoutTimer == 0)
+                        if (trailSearchIndex == lookbackLength - 1 && hasTrailMismatch && client.combatTimeout == 0 && client.logoutTimer == 0)
                         {
                             client.SendLogout();
                             return;
                         }
                     }
-
                 }
             }
-
         }
+
         public void CheckGameInputs()
         {
             if (client.ourPlayer is null)
@@ -500,9 +423,6 @@ namespace OpenRS.Net.Client.Input
             }
 
             client.SendPingPacketAsync();
-
-
-
 
             if (client.logoutTimer > 0)
             {
@@ -524,35 +444,40 @@ namespace OpenRS.Net.Client.Input
                 client.UpdateAppearanceWindow();
                 return;
             }
-            for (int l = 0; l < client.playerCount; l += 1)
+            for (int playerIndex = 0; playerIndex < client.playerCount; playerIndex += 1)
             {
-                ClientMob player = client.playerArray[l];
+                ClientMob player = client.playerArray[playerIndex];
+
                 if (player is null)
                 {
                     continue;
                 }
-                int j1 = (player.waypointCurrent + 1) % 10;
-                if (player.waypointsEndSprite != j1)
+
+                int nextWaypointIndex = (player.waypointCurrent + 1) % 10;
+
+                if (player.waypointsEndSprite != nextWaypointIndex)
                 {
                     int direction = -1;
                     int targetSprite = player.waypointsEndSprite;
-                    int i5;
-                    if (targetSprite < j1)
+                    int waypointDistance;
+
+                    if (targetSprite < nextWaypointIndex)
                     {
-                        i5 = j1 - targetSprite;
+                        waypointDistance = nextWaypointIndex - targetSprite;
                     }
                     else
                     {
-                        i5 = 10 + j1 - targetSprite;
+                        waypointDistance = 10 + nextWaypointIndex - targetSprite;
                     }
 
-                    int i6 = 4;
-                    if (i5 > 2)
+                    int movementSpeed = 4;
+
+                    if (waypointDistance > 2)
                     {
-                        i6 = (i5 - 1) * 4;
+                        movementSpeed = (waypointDistance - 1) * 4;
                     }
 
-                    if (player.waypointsX[targetSprite] - player.currentX > client.gridSize * 3 || player.waypointsY[targetSprite] - player.currentY > client.gridSize * 3 || player.waypointsX[targetSprite] - player.currentX < -client.gridSize * 3 || player.waypointsY[targetSprite] - player.currentY < -client.gridSize * 3 || i5 > 8)
+                    if (player.waypointsX[targetSprite] - player.currentX > client.gridSize * 3 || player.waypointsY[targetSprite] - player.currentY > client.gridSize * 3 || player.waypointsX[targetSprite] - player.currentX < -client.gridSize * 3 || player.waypointsY[targetSprite] - player.currentY < -client.gridSize * 3 || waypointDistance > 8)
                     {
                         player.currentX = player.waypointsX[targetSprite];
                         player.currentY = player.waypointsY[targetSprite];
@@ -561,32 +486,32 @@ namespace OpenRS.Net.Client.Input
                     {
                         if (player.currentX < player.waypointsX[targetSprite])
                         {
-                            player.currentX += i6;
+                            player.currentX += movementSpeed;
                             player.stepCount += 1;
                             direction = 2;
                         }
-                        else
-                            if (player.currentX > player.waypointsX[targetSprite])
-                            {
-                                player.currentX -= i6;
-                                player.stepCount += 1;
-                                direction = 6;
-                            }
-                        if (player.currentX - player.waypointsX[targetSprite] < i6 && player.currentX - player.waypointsX[targetSprite] > -i6)
+                        else if (player.currentX > player.waypointsX[targetSprite])
+                        {
+                            player.currentX -= movementSpeed;
+                            player.stepCount += 1;
+                            direction = 6;
+                        }
+
+                        if (player.currentX - player.waypointsX[targetSprite] < movementSpeed && player.currentX - player.waypointsX[targetSprite] > -movementSpeed)
                         {
                             player.currentX = player.waypointsX[targetSprite];
                         }
 
                         if (player.currentY < player.waypointsY[targetSprite])
                         {
-                            player.currentY += i6;
+                            player.currentY += movementSpeed;
                             player.stepCount += 1;
+
                             if (direction == -1)
                             {
                                 direction = 4;
                             }
-                            else
-                                if (direction == 2)
+                            else if (direction == 2)
                             {
                                 direction = 3;
                             }
@@ -595,17 +520,16 @@ namespace OpenRS.Net.Client.Input
                                 direction = 5;
                             }
                         }
-                        else
-                            if (player.currentY > player.waypointsY[targetSprite])
-                            {
-                                player.currentY -= i6;
-                                player.stepCount += 1;
-                                if (direction == -1)
+                        else if (player.currentY > player.waypointsY[targetSprite])
+                        {
+                            player.currentY -= movementSpeed;
+                            player.stepCount += 1;
+
+                            if (direction == -1)
                             {
                                 direction = 0;
                             }
-                            else
-                                    if (direction == 2)
+                            else if (direction == 2)
                             {
                                 direction = 1;
                             }
@@ -614,7 +538,8 @@ namespace OpenRS.Net.Client.Input
                                 direction = 7;
                             }
                         }
-                        if (player.currentY - player.waypointsY[targetSprite] < i6 && player.currentY - player.waypointsY[targetSprite] > -i6)
+
+                        if (player.currentY - player.waypointsY[targetSprite] < movementSpeed && player.currentY - player.waypointsY[targetSprite] > -movementSpeed)
                         {
                             player.currentY = player.waypointsY[targetSprite];
                         }
@@ -663,128 +588,134 @@ namespace OpenRS.Net.Client.Input
                 }
             }
 
-            for (int i1 = 0; i1 < client.npcCount; i1 += 1)
+            for (int npcIndex = 0; npcIndex < client.npcCount; npcIndex += 1)
             {
-                ClientMob f2 = client.npcArray[i1];
-                int i2 = (f2.waypointCurrent + 1) % 10;
-                if (f2.waypointsEndSprite != i2)
+                ClientMob npcMob = client.npcArray[npcIndex];
+                int nextWaypointIndex = (npcMob.waypointCurrent + 1) % 10;
+
+                if (npcMob.waypointsEndSprite != nextWaypointIndex)
                 {
-                    int l3 = -1;
-                    int j5 = f2.waypointsEndSprite;
-                    int j6;
-                    if (j5 < i2)
+                    int direction = -1;
+                    int targetSprite = npcMob.waypointsEndSprite;
+                    int waypointDistance;
+
+                    if (targetSprite < nextWaypointIndex)
                     {
-                        j6 = i2 - j5;
+                        waypointDistance = nextWaypointIndex - targetSprite;
                     }
                     else
                     {
-                        j6 = 10 + i2 - j5;
+                        waypointDistance = 10 + nextWaypointIndex - targetSprite;
                     }
 
-                    int k6 = 4;
-                    if (j6 > 2)
+                    int movementSpeed = 4;
+
+                    if (waypointDistance > 2)
                     {
-                        k6 = (j6 - 1) * 4;
+                        movementSpeed = (waypointDistance - 1) * 4;
                     }
 
-                    if (f2.waypointsX[j5] - f2.currentX > client.gridSize * 3 || f2.waypointsY[j5] - f2.currentY > client.gridSize * 3 || f2.waypointsX[j5] - f2.currentX < -client.gridSize * 3 || f2.waypointsY[j5] - f2.currentY < -client.gridSize * 3 || j6 > 8)
+                    if (npcMob.waypointsX[targetSprite] - npcMob.currentX > client.gridSize * 3 || npcMob.waypointsY[targetSprite] - npcMob.currentY > client.gridSize * 3 || npcMob.waypointsX[targetSprite] - npcMob.currentX < -client.gridSize * 3 || npcMob.waypointsY[targetSprite] - npcMob.currentY < -client.gridSize * 3 || waypointDistance > 8)
                     {
-                        f2.currentX = f2.waypointsX[j5];
-                        f2.currentY = f2.waypointsY[j5];
+                        npcMob.currentX = npcMob.waypointsX[targetSprite];
+                        npcMob.currentY = npcMob.waypointsY[targetSprite];
                     }
                     else
                     {
-                        if (f2.currentX < f2.waypointsX[j5])
+                        if (npcMob.currentX < npcMob.waypointsX[targetSprite])
                         {
-                            f2.currentX += k6;
-                            f2.stepCount += 1;
-                            l3 = 2;
+                            npcMob.currentX += movementSpeed;
+                            npcMob.stepCount += 1;
+                            direction = 2;
                         }
-                        else
-                            if (f2.currentX > f2.waypointsX[j5])
-                            {
-                                f2.currentX -= k6;
-                                f2.stepCount += 1;
-                                l3 = 6;
-                            }
-                        if (f2.currentX - f2.waypointsX[j5] < k6 && f2.currentX - f2.waypointsX[j5] > -k6)
+                        else if (npcMob.currentX > npcMob.waypointsX[targetSprite])
                         {
-                            f2.currentX = f2.waypointsX[j5];
+                            npcMob.currentX -= movementSpeed;
+                            npcMob.stepCount += 1;
+                            direction = 6;
                         }
 
-                        if (f2.currentY < f2.waypointsY[j5])
+                        if (npcMob.currentX - npcMob.waypointsX[targetSprite] < movementSpeed && npcMob.currentX - npcMob.waypointsX[targetSprite] > -movementSpeed)
                         {
-                            f2.currentY += k6;
-                            f2.stepCount += 1;
-                            if (l3 == -1)
-                            {
-                                l3 = 4;
-                            }
-                            else
-                                if (l3 == 2)
-                            {
-                                l3 = 3;
-                            }
-                            else
-                            {
-                                l3 = 5;
-                            }
+                            npcMob.currentX = npcMob.waypointsX[targetSprite];
                         }
-                        else
-                            if (f2.currentY > f2.waypointsY[j5])
-                            {
-                                f2.currentY -= k6;
-                                f2.stepCount += 1;
-                                if (l3 == -1)
-                            {
-                                l3 = 0;
-                            }
-                            else
-                                    if (l3 == 2)
-                            {
-                                l3 = 1;
-                            }
-                            else
-                            {
-                                l3 = 7;
-                            }
-                        }
-                        if (f2.currentY - f2.waypointsY[j5] < k6 && f2.currentY - f2.waypointsY[j5] > -k6)
+
+                        if (npcMob.currentY < npcMob.waypointsY[targetSprite])
                         {
-                            f2.currentY = f2.waypointsY[j5];
+                            npcMob.currentY += movementSpeed;
+                            npcMob.stepCount += 1;
+
+                            if (direction == -1)
+                            {
+                                direction = 4;
+                            }
+                            else if (direction == 2)
+                            {
+                                direction = 3;
+                            }
+                            else
+                            {
+                                direction = 5;
+                            }
                         }
-                    }
-                    if (l3 != -1)
-                    {
-                        f2.currentSprite = l3;
+                        else if (npcMob.currentY > npcMob.waypointsY[targetSprite])
+                        {
+                            npcMob.currentY -= movementSpeed;
+                            npcMob.stepCount += 1;
+
+                            if (direction == -1)
+                            {
+                                direction = 0;
+                            }
+                            else if (direction == 2)
+                            {
+                                direction = 1;
+                            }
+                            else
+                            {
+                                direction = 7;
+                            }
+                        }
+
+                        if (npcMob.currentY - npcMob.waypointsY[targetSprite] < movementSpeed && npcMob.currentY - npcMob.waypointsY[targetSprite] > -movementSpeed)
+                        {
+                            npcMob.currentY = npcMob.waypointsY[targetSprite];
+                        }
                     }
 
-                    if (f2.currentX == f2.waypointsX[j5] && f2.currentY == f2.waypointsY[j5])
+                    if (direction != -1)
                     {
-                        f2.waypointsEndSprite = (j5 + 1) % 10;
+                        npcMob.currentSprite = direction;
+                    }
+
+                    if (npcMob.currentX == npcMob.waypointsX[targetSprite] && npcMob.currentY == npcMob.waypointsY[targetSprite])
+                    {
+                        npcMob.waypointsEndSprite = (targetSprite + 1) % 10;
                     }
                 }
                 else
                 {
-                    f2.currentSprite = f2.nextSprite;
-                    if (f2.npcId == 43)
+                    npcMob.currentSprite = npcMob.nextSprite;
+
+                    if (npcMob.npcId == 43)
                     {
-                        f2.stepCount += 1;
+                        npcMob.stepCount += 1;
                     }
                 }
-                if (f2.lastMessageTimeout > 0)
+
+                if (npcMob.lastMessageTimeout > 0)
                 {
-                    f2.lastMessageTimeout -= 1;
+                    npcMob.lastMessageTimeout -= 1;
                 }
 
-                if (f2.playerSkullTimeout > 0)
+                if (npcMob.playerSkullTimeout > 0)
                 {
-                    f2.playerSkullTimeout -= 1;
+                    npcMob.playerSkullTimeout -= 1;
                 }
 
-                if (f2.combatTimer > 0)
+                if (npcMob.combatTimer > 0)
                 {
-                    f2.combatTimer -= 1;
+                    npcMob.combatTimer -= 1;
                 }
             }
 
@@ -803,12 +734,13 @@ namespace OpenRS.Net.Client.Input
                 GameImage.spiralDrawCount = 0;
                 GameImage.characterDrawCount = 0;
             }
-            for (int k1 = 0; k1 < client.playerCount; k1 += 1)
+            for (int playerIndex = 0; playerIndex < client.playerCount; playerIndex += 1)
             {
-                ClientMob f3 = client.playerArray[k1];
-                if (f3.projectileDistance > 0)
+                ClientMob player = client.playerArray[playerIndex];
+
+                if (player.projectileDistance > 0)
                 {
-                    f3.projectileDistance -= 1;
+                    player.projectileDistance -= 1;
                 }
             }
 
@@ -839,35 +771,35 @@ namespace OpenRS.Net.Client.Input
 
                 if (client.configCameraAutoAngle)
                 {
-                    int j2 = client.cameraAutoAngle * 32;
-                    int i4 = j2 - client.cameraRotation;
-                    int byte0 = 1;
-                    if (i4 != 0)
+                    int targetCameraRotation = client.cameraAutoAngle * 32;
+                    int rotationDifference = targetCameraRotation - client.cameraRotation;
+                    int rotationDirection = 1;
+
+                    if (rotationDifference != 0)
                     {
                         client.cameraAutoRotationAmount += 1;
-                        if (i4 > 128)
+
+                        if (rotationDifference > 128)
                         {
-                            byte0 = -1;
-                            i4 = 256 - i4;
+                            rotationDirection = -1;
+                            rotationDifference = 256 - rotationDifference;
                         }
-                        else
-                            if (i4 > 0)
+                        else if (rotationDifference > 0)
                         {
-                            byte0 = 1;
+                            rotationDirection = 1;
                         }
-                        else
-                                if (i4 < -128)
-                                {
-                                    byte0 = 1;
-                                    i4 = 256 + i4;
-                                }
-                                else
-                                    if (i4 < 0)
-                                    {
-                                        byte0 = -1;
-                                        i4 = -i4;
-                                    }
-                        client.cameraRotation += (client.cameraAutoRotationAmount * i4 + 255) / 256 * byte0;
+                        else if (rotationDifference < -128)
+                        {
+                            rotationDirection = 1;
+                            rotationDifference = 256 + rotationDifference;
+                        }
+                        else if (rotationDifference < 0)
+                        {
+                            rotationDirection = -1;
+                            rotationDifference = -rotationDifference;
+                        }
+
+                        client.cameraRotation += (client.cameraAutoRotationAmount * rotationDifference + 255) / 256 * rotationDirection;
                         client.cameraRotation &= 0xff;
                     }
                     else
@@ -889,11 +821,10 @@ namespace OpenRS.Net.Client.Input
                     {
                         client.streamClass.CloseStream();
                     }
-                    else
-                        if (client.enteredInputText.ToLower() == "::closecon")
-                        {
-                            client.CallRequestLogout();
-                        }
+                    else if (client.enteredInputText.ToLower() == "::closecon")
+                    {
+                        client.CallRequestLogout();
+                    }
                         else
                         {
                             client.streamClass.CreatePacket(200);
@@ -978,11 +909,9 @@ namespace OpenRS.Net.Client.Input
                 }
                 else
                 {
-                    int len = ChatMessage.StringToBytes(input);
-                    client.CallSendChatMessage(ChatMessage.lastChat, len);
-                    input = ChatMessage.BytesToString(ChatMessage.lastChat, 0, len);
-                    //if (useChatFilter)
-                    //input = ChatFilter.filterChat(input);
+                    int chatMessageLength = ChatMessage.StringToBytes(input);
+                    client.CallSendChatMessage(ChatMessage.lastChat, chatMessageLength);
+                    input = ChatMessage.BytesToString(ChatMessage.lastChat, 0, chatMessageLength);
                     client.ourPlayer.lastMessageTimeout = 150;
                     client.ourPlayer.lastMessage = input;
                     client.DisplayMessage(client.ourPlayer.username + ": " + input, 2);
@@ -990,11 +919,11 @@ namespace OpenRS.Net.Client.Input
             }
             if (client.messagesTab == 0)
             {
-                for (int k2 = 0; k2 < 5; k2 += 1)
+                for (int messageTabIndex = 0; messageTabIndex < 5; messageTabIndex += 1)
                 {
-                    if (client.messagesTimeout[k2] > 0)
+                    if (client.messagesTimeout[messageTabIndex] > 0)
                     {
-                        client.messagesTimeout[k2] -= 1;
+                        client.messagesTimeout[messageTabIndex] -= 1;
                     }
                 }
             }
@@ -1074,7 +1003,7 @@ namespace OpenRS.Net.Client.Input
                                 client.cameraAutoAngle = client.cameraAutoAngle + 1 & 7;
                             }
 
-                            for (int l2 = 0; l2 < 8; l2 += 1)
+                            for (int angleCheckIndex = 0; angleCheckIndex < 8; angleCheckIndex += 1)
                             {
                                 if (client.IsValidCameraAngle(client.cameraAutoAngle))
                                 {
@@ -1096,7 +1025,7 @@ namespace OpenRS.Net.Client.Input
                                 client.cameraAutoAngle = client.cameraAutoAngle + 7 & 7;
                             }
 
-                            for (int i3 = 0; i3 < 8; i3 += 1)
+                            for (int angleCheckIndex = 0; angleCheckIndex < 8; angleCheckIndex += 1)
                             {
                                 if (client.IsValidCameraAngle(client.cameraAutoAngle))
                                 {
@@ -1143,8 +1072,7 @@ namespace OpenRS.Net.Client.Input
             {
                 client.actionPictureType -= 1;
             }
-            else
-                if (client.actionPictureType < 0)
+            else if (client.actionPictureType < 0)
             {
                 client.actionPictureType += 1;
             }
@@ -1158,35 +1086,36 @@ namespace OpenRS.Net.Client.Input
                 client.modelTorchNumber = (client.modelTorchNumber + 1) % 4;
                 client.modelClawSpellNumber = (client.modelClawSpellNumber + 1) % 5;
             }
-            for (int j3 = 0; j3 < client.objectCount; j3 += 1)
+            for (int objectIndex = 0; objectIndex < client.objectCount; objectIndex += 1)
             {
-                int k4 = client.objectX[j3];
-                int k5 = client.objectY[j3];
-                if (k4 >= 0 && k5 >= 0 && k4 < 96 && k5 < 96 && client.objectType[j3] == 74)
+                int objectXCoord = client.objectX[objectIndex];
+                int objectYCoord = client.objectY[objectIndex];
+
+                if (objectXCoord >= 0 && objectYCoord >= 0 && objectXCoord < 96 && objectYCoord < 96 && client.objectType[objectIndex] == 74)
                 {
-                    client.objectArray[j3].OffsetMiniPosition(1, 0, 0);
+                    client.objectArray[objectIndex].OffsetMiniPosition(1, 0, 0);
                 }
             }
 
-            for (int l4 = 0; l4 < client.teleBubbleCount; l4 += 1)
+            for (int bubbleIndex = 0; bubbleIndex < client.teleBubbleCount; bubbleIndex += 1)
             {
-                client.teleBubbleTime[l4] += 1;
-                if (client.teleBubbleTime[l4] > 50)
+                client.teleBubbleTime[bubbleIndex] += 1;
+
+                if (client.teleBubbleTime[bubbleIndex] > 50)
                 {
                     client.teleBubbleCount -= 1;
-                    for (int l5 = l4; l5 < client.teleBubbleCount; l5 += 1)
-                    {
-                        client.teleBubbleX[l5] = client.teleBubbleX[l5 + 1];
-                        client.teleBubbleY[l5] = client.teleBubbleY[l5 + 1];
-                        client.teleBubbleTime[l5] = client.teleBubbleTime[l5 + 1];
-                        client.teleBubbleType[l5] = client.teleBubbleType[l5 + 1];
-                    }
 
+                    for (int shiftIndex = bubbleIndex; shiftIndex < client.teleBubbleCount; shiftIndex += 1)
+                    {
+                        client.teleBubbleX[shiftIndex] = client.teleBubbleX[shiftIndex + 1];
+                        client.teleBubbleY[shiftIndex] = client.teleBubbleY[shiftIndex + 1];
+                        client.teleBubbleTime[shiftIndex] = client.teleBubbleTime[shiftIndex + 1];
+                        client.teleBubbleType[shiftIndex] = client.teleBubbleType[shiftIndex + 1];
+                    }
                 }
             }
-
         }
-        public void HandleKeyDown(Keys key, char c)
+        public void HandleKeyDown(Keys key, char character)
         {
             if (key == Keys.Left || key == Keys.Right || key == Keys.Up || key == Keys.Down)
             {
@@ -1197,17 +1126,17 @@ namespace OpenRS.Net.Client.Input
             {
                 if (client.loginScreen == 0 && client.loginMenuFirst is not null)
                 {
-                    client.loginMenuFirst.KeyPress(key, c);
+                    client.loginMenuFirst.KeyPress(key, character);
                 }
 
                 if (client.loginScreen == 1 && client.loginNewUser is not null)
                 {
-                    client.loginNewUser.KeyPress(key, c);
+                    client.loginNewUser.KeyPress(key, character);
                 }
 
                 if (client.loginScreen == 2 && client.loginMenuLogin is not null)
                 {
-                    client.loginMenuLogin.KeyPress(key, c);
+                    client.loginMenuLogin.KeyPress(key, character);
                 }
             }
             if (client.loggedIn)
@@ -1218,14 +1147,15 @@ namespace OpenRS.Net.Client.Input
                 }
                 else if (client.showAppearanceWindow && client.appearanceMenu is not null)
                 {
-                    client.appearanceMenu.KeyPress(key, c);
+                    client.appearanceMenu.KeyPress(key, character);
                 }
                 else if (client.showFriendsBox == 0 && client.showAbuseBox == 0 && !client.isSleeping && client.chatInputMenu is not null)
                 {
-                    client.chatInputMenu.KeyPress(key, c);
+                    client.chatInputMenu.KeyPress(key, character);
                 }
             }
         }
+
         public void CheckMouseStatus()
         {
             if (client.selectedSpell >= 0 || client.selectedItem >= 0)
@@ -1235,26 +1165,27 @@ namespace OpenRS.Net.Client.Input
                 client.menuActionID[client.menuOptionsCount] = 4000;
                 client.menuOptionsCount += 1;
             }
-            for (int l = 0; l < client.menuOptionsCount; l += 1)
+            for (int menuIndex = 0; menuIndex < client.menuOptionsCount; menuIndex += 1)
             {
-                client.menuIndexes[l] = l;
+                client.menuIndexes[menuIndex] = menuIndex;
             }
 
-            for (bool flag = false; !flag; )
+            for (bool isSorted = false; !isSorted;)
             {
-                flag = true;
-                for (int i1 = 0; i1 < client.menuOptionsCount - 1; i1 += 1)
+                isSorted = true;
+
+                for (int menuIndex = 0; menuIndex < client.menuOptionsCount - 1; menuIndex += 1)
                 {
-                    int k1 = client.menuIndexes[i1];
-                    int i2 = client.menuIndexes[i1 + 1];
-                    if (client.menuActionID[k1] > client.menuActionID[i2])
+                    int firstIndex = client.menuIndexes[menuIndex];
+                    int secondIndex = client.menuIndexes[menuIndex + 1];
+
+                    if (client.menuActionID[firstIndex] > client.menuActionID[secondIndex])
                     {
-                        client.menuIndexes[i1] = i2;
-                        client.menuIndexes[i1 + 1] = k1;
-                        flag = false;
+                        client.menuIndexes[menuIndex] = secondIndex;
+                        client.menuIndexes[menuIndex + 1] = firstIndex;
+                        isSorted = false;
                     }
                 }
-
             }
 
             if (client.menuOptionsCount > 20)
@@ -1264,47 +1195,47 @@ namespace OpenRS.Net.Client.Input
 
             if (client.menuOptionsCount > 0)
             {
-                int j1 = -1;
-                for (int l1 = 0; l1 < client.menuOptionsCount; l1 += 1)
+                int firstTextEntryIndex = -1;
+
+                for (int menuSearchIndex = 0; menuSearchIndex < client.menuOptionsCount; menuSearchIndex += 1)
                 {
-                    if (client.menuText2[client.menuIndexes[l1]] is null || client.menuText2[client.menuIndexes[l1]].Length <= 0)
+                    if (client.menuText2[client.menuIndexes[menuSearchIndex]] is null || client.menuText2[client.menuIndexes[menuSearchIndex]].Length <= 0)
                     {
                         continue;
                     }
 
-                    j1 = l1;
+                    firstTextEntryIndex = menuSearchIndex;
                     break;
                 }
 
-                string s1 = null;
+                string statusText = null;
+
                 if ((client.selectedItem >= 0 || client.selectedSpell >= 0) && client.menuOptionsCount == 1)
                 {
-                    s1 = "Choose a target";
+                    statusText = "Choose a target";
                 }
-                else
-                    if ((client.selectedItem >= 0 || client.selectedSpell >= 0) && client.menuOptionsCount > 1)
+                else if ((client.selectedItem >= 0 || client.selectedSpell >= 0) && client.menuOptionsCount > 1)
                 {
-                    s1 = "@whi@" + client.menuText1[client.menuIndexes[0]] + " " + client.menuText2[client.menuIndexes[0]];
+                    statusText = "@whi@" + client.menuText1[client.menuIndexes[0]] + " " + client.menuText2[client.menuIndexes[0]];
                 }
-                else
-                        if (j1 != -1)
+                else if (firstTextEntryIndex != -1)
                 {
-                    s1 = client.menuText2[client.menuIndexes[j1]] + ": @whi@" + client.menuText1[client.menuIndexes[0]];
+                    statusText = client.menuText2[client.menuIndexes[firstTextEntryIndex]] + ": @whi@" + client.menuText1[client.menuIndexes[0]];
                 }
 
-                if (client.menuOptionsCount == 2 && s1 is not null)
+                if (client.menuOptionsCount == 2 && statusText is not null)
                 {
-                    s1 += "@whi@ / 1 more option";
+                    statusText += "@whi@ / 1 more option";
                 }
 
-                if (client.menuOptionsCount > 2 && s1 is not null)
+                if (client.menuOptionsCount > 2 && statusText is not null)
                 {
-                    s1 = s1 + "@whi@ / " + (client.menuOptionsCount - 1) + " more options";
+                    statusText = statusText + "@whi@ / " + (client.menuOptionsCount - 1) + " more options";
                 }
 
-                if (s1 is not null)
+                if (statusText is not null)
                 {
-                    client.gameGraphics.DrawString(s1, 6, 14, 1, 0xffff00);
+                    client.gameGraphics.DrawString(statusText, 6, 14, 1, 0xffff00);
                 }
 
                 if (!client.configOneMouseButton && client.mouseButtonClick == 1 || client.configOneMouseButton && client.mouseButtonClick == 1 && client.menuOptionsCount == 1)
@@ -1317,12 +1248,13 @@ namespace OpenRS.Net.Client.Input
                 {
                     client.menuHeight = (client.menuOptionsCount + 1) * 15;
                     client.menuWidth = client.gameGraphics.TextWidth("Choose option", 1) + 5;
-                    for (int j2 = 0; j2 < client.menuOptionsCount; j2 += 1)
+                    for (int menuIndex = 0; menuIndex < client.menuOptionsCount; menuIndex += 1)
                     {
-                        int k2 = client.gameGraphics.TextWidth(client.menuText1[j2] + " " + client.menuText2[j2], 1) + 5;
-                        if (k2 > client.menuWidth)
+                        int entryTextWidth = client.gameGraphics.TextWidth(client.menuText1[menuIndex] + " " + client.menuText2[menuIndex], 1) + 5;
+
+                        if (entryTextWidth > client.menuWidth)
                         {
-                            client.menuWidth = k2;
+                            client.menuWidth = entryTextWidth;
                         }
                     }
 

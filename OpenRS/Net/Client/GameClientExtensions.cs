@@ -4,14 +4,9 @@ namespace OpenRS
 {
     public static class GameClientExtensions
     {
-        #region displaying and drawing text
         public static void ShowMessage(this GameClient mc, string message, int type)
-        {
-            mc.DisplayMessage(message, type);
-        }
-        #endregion
+            => mc.DisplayMessage(message, type);
 
-        #region Boxes, such as Bank, Trade, Duel, etc.
         public static bool IsTradeWindowVisible(this GameClient mc, TradeAndDuelState state)
         {
             if (state == TradeAndDuelState.Initial)
@@ -21,18 +16,13 @@ namespace OpenRS
 
             return mc.showTradeConfirmBox;
         }
+
         public static void AcceptTrade(this GameClient mc, TradeAndDuelState state)
         {
-            if (state == TradeAndDuelState.Initial)
-            {
-            }
-            else
-            {
-            }
         }
+
         public static void DeclineTrade(this GameClient mc)
         {
-
         }
 
         public static bool IsDuelWindowVisible(this GameClient mc, TradeAndDuelState state)
@@ -44,6 +34,7 @@ namespace OpenRS
 
             return mc.showDuelConfirmBox;
         }
+
         public static void AcceptDuel(this GameClient mc, TradeAndDuelState state)
         {
             if (state == TradeAndDuelState.Confirm)
@@ -53,18 +44,12 @@ namespace OpenRS
                 mc.streamClass.FormatPacket();
             }
         }
+
         public static void DeclineDuel(this GameClient mc)
         {
             mc.showDuelConfirmBox = false;
             mc.streamClass.CreatePacket(35);
             mc.streamClass.FormatPacket();
         }
-
-        #endregion
-    }
-
-    public enum TradeAndDuelState
-    {
-        Initial, Confirm
     }
 }

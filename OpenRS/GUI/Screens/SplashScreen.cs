@@ -1,42 +1,27 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciXNA.Graphics.SpriteEffects;
 using NuciXNA.Gui;
 using NuciXNA.Gui.Controls;
 using NuciXNA.Gui.Screens;
-using NuciXNA.Graphics.SpriteEffects;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
 
 namespace OpenRS.Gui.Screens
 {
-    /// <summary>
-    /// Splash screen.
-    /// </summary>
     public sealed class SplashScreen : Screen
     {
-        /// <summary>
-        /// Gets or sets the delay.
-        /// </summary>
-        /// <value>The delay.</value>
         public float Delay { get; set; }
 
         private GuiImage backgroundImage;
         private GuiImage overlayImage;
         private GuiImage logoImage;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SplashScreen"/> class.
-        /// </summary>
         public SplashScreen()
         {
             Delay = 3;
             BackgroundColour = Colour.DodgerBlue;
         }
-
-        /// <summary>
-        /// Loads the content.
-        /// </summary>
         protected override void DoLoadContent()
         {
             backgroundImage = new GuiImage
@@ -72,16 +57,7 @@ namespace OpenRS.Gui.Screens
             RegisterEvents();
             SetChildrenProperties();
         }
-
-        /// <summary>
-        /// Unloads the content.
-        /// </summary>
         protected override void DoUnloadContent() => UnregisterEvents();
-
-        /// <summary>
-        /// Updates the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime)
         {
             SetChildrenProperties();
@@ -99,28 +75,15 @@ namespace OpenRS.Gui.Screens
 
             Delay -= (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
-
-        /// <summary>
-        /// Update the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
         protected override void DoDraw(SpriteBatch spriteBatch)
         {
 
         }
-
-        /// <summary>
-        /// Registers the events.
-        /// </summary>
         private void RegisterEvents()
         {
             KeyPressed += OnKeyPressed;
             MouseButtonPressed += OnMouseButtonPressed;
         }
-
-        /// <summary>
-        /// Unregisters the events.
-        /// </summary>
         private void UnregisterEvents()
         {
             KeyPressed -= OnKeyPressed;

@@ -7,11 +7,6 @@ namespace OpenRS.Models
     public class GameEntityInstance
     {
         // world
-
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>The identifier.</value>
         public int Id { get; set; }
 
         public int Index { get; set; }
@@ -108,7 +103,7 @@ namespace OpenRS.Models
             // If both directions are blocked OR we are going straing and the direction is blocked
             if ((newXblocked && newYblocked) ||
                 (newXblocked && myLocation.Y == newLocation.Y) ||
-                (myYblocked && myLocation.X == newLocation.X)) // TODO: Check: myYblocked or newYblocked
+                (myYblocked && myLocation.X == newLocation.X)) // TODO: Check: myYblocked or newYblocked.
             {
                 return null;
             }

@@ -3,14 +3,16 @@ using System.IO;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 
 namespace OpenRS.Net.Client
 {
-    public class GameApplet// : java.applet.Applet
+    public class GameApplet
     {
         public GameApplet()
         {
@@ -43,7 +45,9 @@ namespace OpenRS.Net.Client
         public void SetRefreshRate(int rate)
         {
             refreshRate = 1000 / rate;
-        }        public void ResetTimings()
+        }
+
+        public void ResetTimings()
         {
             for (int timeIndex = 0; timeIndex < 10; timeIndex += 1)
             {
@@ -284,7 +288,6 @@ namespace OpenRS.Net.Client
             appletHeight = 344;
             gameLoadingScreen = 1;
             DataOperations.CodeBase = GetCodeBase();
-            // startThread(this);
         }
 
         public void Start()
@@ -302,7 +305,6 @@ namespace OpenRS.Net.Client
                 runStatus = 4000 / refreshRate;
             }
         }
-
 
         public void Destroy()
         {
@@ -327,8 +329,6 @@ namespace OpenRS.Net.Client
             }
         }
 
-
-
         public void CloseProgram()
         {
             runStatus = -2;
@@ -342,17 +342,9 @@ namespace OpenRS.Net.Client
             catch (Exception) { }
         }
 
-        //Component getGameComponent() {
-        //    if(gameFrame is not null)
-        //        return gameFrame;
-        //    else
-        //        return this;
-        //}
-
         public void LoadApp()
         {
         }
-
 
         public void Run()
         {
@@ -382,14 +374,15 @@ namespace OpenRS.Net.Client
                 gameWindowThread = null;
             }
         }
-        public bool DrawIsNecessary = false;
+
+        public bool DrawIsNecessary;
 
         public void OnDrawDone() => DrawIsNecessary = true;
 
-        public int gameTimingArrayIndex = 0;
+        public int gameTimingArrayIndex;
         public int gameTimingMultiplier = 256;
         public int gameThreadSleepTime = 1;
-        public int gameLoopAccumulator = 0;
+        public int gameLoopAccumulator;
 
         public void UpdateGame(int timingArrayIndex, int timingMultiplier, int sleepTime, int loopAccumulator)
         {
@@ -543,31 +536,6 @@ namespace OpenRS.Net.Client
             }
         }
 
-        //public void DrawString(String arg1, int arg3, int arg4, Color color)
-        //{
-        //    //Object obj;
-        //    //if (gameFrame is null)
-        //    //    obj = this;
-        //    //else
-        //    //    obj = gameFrame;
-        //    //var fontmetrics = arg2.MeasureString(arg1);//((Component)(obj)).getFontMetrics(arg2);
-        //    //fontmetrics.stringWidth(arg1);
-        //    //arg0.SetFont(arg2);
-        //    //arg0.DrawString(arg1, arg3 - fontmetrics.stringWidth(arg1) / 2, arg4 + fontmetrics.getHeight() / 4);
-
-        //    //GameImage.stringsToDraw.Add(new StringDraw
-        //    //{
-        //    //    font = arg2,
-        //    //    text = arg1,
-        //    //    pos = new Vector2(arg3 - fontmetrics.X / 2, arg4 + fontmetrics.Y / 4),
-        //    //    forecolor = color
-        //    //});
-
-        //    //spriteBatch.BeginSafe();
-        //    //spriteBatch.DrawString(arg2, arg1, new Vector2(fontmetrics.X / 2, arg4 + fontmetrics.Y / 4), color);
-        //    //spriteBatch.EndSafe();
-        //}
-
         public virtual sbyte[] UnpackData(string filename, string fileTitle, int startPercentage)
         {
             Console.WriteLine("Using default load");
@@ -631,20 +599,9 @@ namespace OpenRS.Net.Client
             }
             else
             {
-                // return UnpackData(filename, fileTitle, startPercentage); // fileData;
                 return fileData;
             }
         }
-
-        //public Texture2D createImage(int i, int k)
-        //{
-        //    //if (gameFrame is not null)
-        //    //    return gameFrame.createImage(i, k);
-        //    //else
-        //    //    return super.createImage(i, k);
-
-        //    return new Texture2D(this.graphics, i, k);
-        //}
 
         public Uri GetCodeBase() => default;
 
@@ -678,7 +635,6 @@ namespace OpenRS.Net.Client
             timeArray = new long[10];
             gameLoadingScreen = 1;
             gameLoadingFileTitle = "Loading";
-            //gameLoadingFont = loadingFont;//new Font("TimesRoman", 0, 15);
             keyLeftDown = false;
             keyRightDown = false;
             keyUpDown = false;
@@ -702,17 +658,16 @@ namespace OpenRS.Net.Client
 
         public static long CurrentTimeMillis() => (long)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds;
 
-        //GameApplet baseApplet;
         private int appletWidth;
         private int appletHeight;
         public Thread gameWindowThread;
         private int refreshRate;
         private int maxLoopCount;
         private long[] timeArray;
-        public static GameFrame gameFrame = null;
+        public static GameFrame gameFrame;
         public int runStatus;
         public int loadingAnimationCounter;
-        public int mouseYOffset = 0;
+        public int mouseYOffset;
         public int gameLoadingScreen;
         public int gameLoadingPercentage;
         public string gameLoadingFileTitle;
@@ -734,8 +689,8 @@ namespace OpenRS.Net.Client
         public string pmText;
         public string enteredPMText;
 
-        public static int[][] bgPixels = null;
-        public static Texture2D bgImage = null;
+        public static int[][] bgPixels;
+        public static Texture2D bgImage;
 
     }
 }

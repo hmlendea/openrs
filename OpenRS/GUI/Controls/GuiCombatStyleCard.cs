@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using NuciXNA.Primitives;
 using NuciXNA.Graphics.Drawing;
 using NuciXNA.Gui.Controls;
+using NuciXNA.Primitives;
 
 namespace OpenRS.Gui.Controls
 {
@@ -18,10 +18,6 @@ namespace OpenRS.Gui.Controls
         public string Icon { get; set; }
 
         public string CombatStyleName { get; set; }
-
-        /// <summary>
-        /// Loads the content.
-        /// </summary>
         protected override void DoLoadContent()
         {
             background = new GuiImage { ContentFile = "Interface/combatcard" };
@@ -36,25 +32,11 @@ namespace OpenRS.Gui.Controls
             RegisterChildren(background, icon, nameText);
             SetChildrenProperties();
         }
-
-        /// <summary>
-        /// Unloads the content.
-        /// </summary>
         protected override void DoUnloadContent()
         {
 
         }
-
-        /// <summary>
-        /// Update the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
-
-        /// <summary>
-        /// Draw the content on the specified <see cref="SpriteBatch"/>.
-        /// </summary>
-        /// <param name="spriteBatch">Sprite batch.</param>
         protected override void DoDraw(SpriteBatch spriteBatch)
         {
 

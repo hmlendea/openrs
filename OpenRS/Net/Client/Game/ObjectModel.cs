@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
-using OpenRS.Primitives;
-using OpenRS.Net.Client.Game;
+
 using Microsoft.Xna.Framework.Graphics;
+
+using OpenRS.Net.Client.Game;
+using OpenRS.Primitives;
 
 namespace OpenRS
 {
@@ -21,7 +23,7 @@ namespace OpenRS
         private float xTranslate;
         private float yTranslate;
         private float zTranslate;
-        private int numTextures = 0;
+        private int numTextures;
 
         public ObjectModel(List<Vertex> vertices, List<Face> faces)
         {

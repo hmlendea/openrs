@@ -2,10 +2,8 @@
 {
     public sealed class CameraModel
     {
-
         public CameraModel()
         {
-            isSorted = false;
             dependencyIndex = -1;
         }
 

@@ -30,10 +30,6 @@ namespace OpenRS.Gui.Controls
         private GuiSkillCard magicCard;
         private GuiSkillCard fletchingCard;
         private GuiSkillCard woodcuttingCard;
-
-        /// <summary>
-        /// Loads the content.
-        /// </summary>
         protected override void DoLoadContent()
         {
             attackCard = new GuiSkillCard { SkillIcon = "Icons/Skills/attack" };
@@ -75,29 +71,15 @@ namespace OpenRS.Gui.Controls
                 woodcuttingCard);
             SetChildrenLocations();
         }
-
-        /// <summary>
-        /// Unloads the content.
-        /// </summary>
         protected override void DoUnloadContent()
         {
 
         }
-
-        /// <summary>
-        /// Update the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime)
         {
             SetChildrenLocations();
             UpdateLevels();
         }
-
-        /// <summary>
-        /// Draw the content on the specified <see cref="SpriteBatch"/>.
-        /// </summary>
-        /// <param name="spriteBatch">Sprite batch.</param>
         protected override void DoDraw(SpriteBatch spriteBatch)
         {
 

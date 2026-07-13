@@ -14,31 +14,14 @@ using OpenRS.Net.Client.Events;
 
 namespace OpenRS.Gui.Screens
 {
-    /// <summary>
-    /// Gameplay screen.
-    /// </summary>
     public sealed class GameplayScreen(string username, string password) : Screen
     {
         private GameClient gameClient;
         private Thread gameThread;
-
-        /// <summary>
-        /// Gets or sets the minimap.
-        /// </summary>
-        /// <value>The minimap.</value>
         public GuiSideBar SideBar { get; set; }
 
         public GuiChatPanel ChatPanel { get; set; }
-
-        /// <summary>
-        /// Gets or sets the game client.
-        /// </summary>
-        /// <value>The game client.</value>
         public GuiGame GuiGame { get; set; }
-
-        /// <summary>
-        /// Loads the content.
-        /// </summary>
         protected override void DoLoadContent()
         {
             gameClient = GameClient.CreateGameClient(username, password, 512, 334);
@@ -61,16 +44,7 @@ namespace OpenRS.Gui.Screens
             RegisterEvents();
             SetChildrenProperties();
         }
-
-        /// <summary>
-        /// Unloads the content.
-        /// </summary>
         protected override void DoUnloadContent() => UnregisterEvents();
-
-        /// <summary>
-        /// Update the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime)
         {
             if (gameClient.loggedIn)
@@ -89,29 +63,15 @@ namespace OpenRS.Gui.Screens
                 SideBar.Hide();
             }
         }
-
-        /// <summary>
-        /// Draw the content on the specified spriteBatch.
-        /// </summary>
-        /// <returns>The draw.</returns>
-        /// <param name="spriteBatch">Sprite batch.</param>
         protected override void DoDraw(SpriteBatch spriteBatch)
         {
 
         }
-
-        /// <summary>
-        /// Registers the events.
-        /// </summary>
         private void RegisterEvents()
         {
             ContentLoaded += OnContentLoaded;
             gameClient.OnChatMessageReceived += OnGameClientChatMessageReceived;
         }
-
-        /// <summary>
-        /// Unregisters the events.
-        /// </summary>
         private void UnregisterEvents()
         {
             ContentLoaded -= OnContentLoaded;

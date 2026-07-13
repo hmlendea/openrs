@@ -4,8 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using NuciXNA.Gui.Controls;
 using NuciXNA.Primitives;
 
-using OpenRS.Net.Client;
 using OpenRS.Models;
+using OpenRS.Net.Client;
 
 namespace OpenRS.Gui.Controls
 {
@@ -16,10 +16,6 @@ namespace OpenRS.Gui.Controls
         private static int Columns => 4;
 
         private GuiItemCard[] itemCards;
-
-        /// <summary>
-        /// Loads the content.
-        /// </summary>
         protected override void DoLoadContent()
         {
             itemCards = new GuiItemCard[Rows * Columns];
@@ -32,29 +28,15 @@ namespace OpenRS.Gui.Controls
             RegisterChildren(itemCards);
             SetChildrenProperties();
         }
-
-        /// <summary>
-        /// Unloads the content.
-        /// </summary>
         protected override void DoUnloadContent()
         {
 
         }
-
-        /// <summary>
-        /// Update the content.
-        /// </summary>
-        /// <param name="gameTime">Game time.</param>
         protected override void DoUpdate(GameTime gameTime)
         {
             SetChildrenProperties();
             SetItems();
         }
-
-        /// <summary>
-        /// Draw the content on the specified <see cref="SpriteBatch"/>.
-        /// </summary>
-        /// <param name="spriteBatch">Sprite batch.</param>
         protected override void DoDraw(SpriteBatch spriteBatch)
         {
 
