@@ -1,4 +1,3 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,12 +12,13 @@ using System.ComponentModel;
 using OpenRS.Net.Client.Events;
 using OpenRS.Settings;
 using System.Threading;
-
+using System;
 
 namespace OpenRS.Net.Client
 {
-    public sealed partial class GameClient
+    public sealed class InputHandler(GameClient client)
     {
+
         private bool leftMouseDown = false;
         private bool rightMouseDown = false;
         private List<Keys> lastPressedKeys = [];
@@ -138,11 +138,11 @@ namespace OpenRS.Net.Client
             MouseState mouseState = Mouse.GetState();
             int rawX = mouseState.X;
             int rawY = mouseState.Y;
-            Rectangle? bounds = GameWindow?.ClientBounds;
-            if (GameWindow is not null)
+            Rectangle? bounds = GameClient.GameWindow?.ClientBounds;
+            if (GameClient.GameWindow is not null)
             {
-                rawX += GameWindow.ClientBounds.X;
-                rawY += GameWindow.ClientBounds.Y;
+                rawX += GameClient.GameWindow.ClientBounds.X;
+                rawY += GameClient.GameWindow.ClientBounds.Y;
             }
             MouseState adjustedMouseState = new(
                 rawX, rawY,
@@ -163,12 +163,12 @@ namespace OpenRS.Net.Client
                 // if (timeLapse > TimeSpan.FromMilliseconds(100))
                 if (!lastPressedKeys.Contains(pressedKey))
                 {
-                    KeyDown(pressedKey, TranslateOemKeys(pressedKey));
+                    client.KeyDown(pressedKey, client.TranslateOemKeys(pressedKey));
                     timeLapse = TimeSpan.Zero;
                 }
                 else if (timeLapse > TimeSpan.FromMilliseconds(150))
                 {
-                    KeyDown(pressedKey, TranslateOemKeys(pressedKey));
+                    client.KeyDown(pressedKey, client.TranslateOemKeys(pressedKey));
                     timeLapse = TimeSpan.Zero;
                 }
                 // HandleKeyDown(k, c[0]);
@@ -178,7 +178,7 @@ namespace OpenRS.Net.Client
             {
                 if (!keysPressedDown.Contains(lastKey))
                 {
-                    KeyUp(lastKey, TranslateOemKeys(lastKey));
+                    client.KeyUp(lastKey, client.TranslateOemKeys(lastKey));
                 }
             }
 
@@ -191,7 +191,7 @@ namespace OpenRS.Net.Client
             //mouseEntered(mouseState);
             if (adjustedMouseState.X != lastMouseX || adjustedMouseState.Y != lastMouseY)
             {
-                MouseMove(adjustedMouseState.X, adjustedMouseState.Y);
+                client.MouseMove(adjustedMouseState.X, adjustedMouseState.Y);
                 lastMouseX = adjustedMouseState.X;
                 lastMouseY = adjustedMouseState.Y;
                 //mouseButtonClick = 0;
@@ -200,8 +200,8 @@ namespace OpenRS.Net.Client
             if (adjustedMouseState.RightButton == ButtonState.Pressed && !lastRightDown)
             {
                 lastRightDown = true;
-                MouseDown(adjustedMouseState.X, adjustedMouseState.Y, adjustedMouseState.LeftButton == ButtonState.Pressed);
-                MousePressed(adjustedMouseState);
+                client.MouseDown(adjustedMouseState.X, adjustedMouseState.Y, adjustedMouseState.LeftButton == ButtonState.Pressed);
+                client.MousePressed(adjustedMouseState);
             }
 
 
@@ -209,20 +209,20 @@ namespace OpenRS.Net.Client
             {
                 lastLeftDown = true;
                 Console.WriteLine($"[MOUSEDOWN] screenX={mouseState.X} screenY={mouseState.Y} adjX={rawX} adjY={rawY} windowBounds={bounds}");
-                MouseDown(adjustedMouseState.X, adjustedMouseState.Y, false);
+                client.MouseDown(adjustedMouseState.X, adjustedMouseState.Y, false);
             }
 
             if (adjustedMouseState.RightButton == ButtonState.Released && lastRightDown)
             {
                 lastRightDown = false;
                 // MousePressed(mouseState);
-                MouseUp(adjustedMouseState.X, adjustedMouseState.Y);
+                client.MouseUp(adjustedMouseState.X, adjustedMouseState.Y);
             }
             if (adjustedMouseState.LeftButton == ButtonState.Released && lastLeftDown)
             {
                 lastLeftDown = false;
 
-                MouseUp(adjustedMouseState.X, adjustedMouseState.Y);
+                client.MouseUp(adjustedMouseState.X, adjustedMouseState.Y);
             }
 
             //uglyHack = false;
@@ -305,191 +305,193 @@ namespace OpenRS.Net.Client
         //}
 
 
-        public override void CheckInputs()
+        public void CheckInputs()
         {
-            if (memoryError)
+            if (client.memoryError)
             {
                 return;
             }
 
-            if (errorLoading)
+            if (client.errorLoading)
             {
                 return;
             }
 
             try
             {
-                tick += 1;
-                if (!loggedIn)
+                client.tick += 1;
+                if (!client.loggedIn)
                 {
                     CheckLoginScreenInputs();
                 }
-                if (loggedIn)
+                if (client.loggedIn)
                 {
                     CheckGameInputs();
                 }
-                lastMouseButton = 0;
-                cameraRotateTime += 1;
-                if (cameraRotateTime > 500)
+                client.lastMouseButton = 0;
+                client.cameraRotateTime += 1;
+                if (client.cameraRotateTime > 500)
                 {
-                    cameraRotateTime = 0;
+                    client.cameraRotateTime = 0;
                     int l = (int)(Helper.Random.NextDouble() * 4D);
                     if ((l & 1) == 1)
                     {
-                        cameraRotationXAmount += cameraRotationXIncrement;
+                        client.cameraRotationXAmount += client.cameraRotationXIncrement;
                     }
 
                     if ((l & 2) == 2)
                     {
-                        cameraRotationYAmount += cameraRotationYIncrement;
+                        client.cameraRotationYAmount += client.cameraRotationYIncrement;
                     }
                 }
-                if (cameraRotationXAmount < -50)
+                if (client.cameraRotationXAmount < -50)
                 {
-                    cameraRotationXIncrement = 2;
+                    client.cameraRotationXIncrement = 2;
                 }
 
-                if (cameraRotationXAmount > 50)
+                if (client.cameraRotationXAmount > 50)
                 {
-                    cameraRotationXIncrement = -2;
+                    client.cameraRotationXIncrement = -2;
                 }
 
-                if (cameraRotationYAmount < -50)
+                if (client.cameraRotationYAmount < -50)
                 {
-                    cameraRotationYIncrement = 2;
+                    client.cameraRotationYIncrement = 2;
                 }
 
-                if (cameraRotationYAmount > 50)
+                if (client.cameraRotationYAmount > 50)
                 {
-                    cameraRotationYIncrement = -2;
+                    client.cameraRotationYIncrement = -2;
                 }
 
-                if (chatTabAllMsgFlash > 0)
+                if (client.chatTabAllMsgFlash > 0)
                 {
-                    chatTabAllMsgFlash -= 1;
+                    client.chatTabAllMsgFlash -= 1;
                 }
 
-                if (chatTabHistoryFlash > 0)
+                if (client.chatTabHistoryFlash > 0)
                 {
-                    chatTabHistoryFlash -= 1;
+                    client.chatTabHistoryFlash -= 1;
                 }
 
-                if (chatTabQuestFlash > 0)
+                if (client.chatTabQuestFlash > 0)
                 {
-                    chatTabQuestFlash -= 1;
+                    client.chatTabQuestFlash -= 1;
                 }
 
-                if (chatTabPrivateFlash > 0)
+                if (client.chatTabPrivateFlash > 0)
                 {
-                    chatTabPrivateFlash -= 1;
+                    client.chatTabPrivateFlash -= 1;
                 }
             }
             catch (Exception _ex)
             {
-                CleanUp();
-                memoryError = true;
+                Console.WriteLine($"[CheckInputs EXCEPTION] {_ex.GetType().Name}: {_ex.Message}");
+                Console.WriteLine(_ex.StackTrace);
+                client.CleanUp();
+                client.memoryError = true;
             }
         }
         public void CheckLoginScreenInputs()
         {
-            if (socketTimeout > 0)
+            if (client.socketTimeout > 0)
             {
-                socketTimeout -= 1;
+                client.socketTimeout -= 1;
             }
 
-            if (loginScreen == 0)
+            if (client.loginScreen == 0)
             {
-                if (loginMenuFirst is null)
+                if (client.loginMenuFirst is null)
                 {
                     return;
                 }
 
-                if (lastMouseButton != 0 || mouseButton != 0)
+                if (client.lastMouseButton != 0 || client.mouseButton != 0)
                 {
-                    Console.WriteLine($"[CLICK] mouseX={mouseX} mouseY={mouseY} lastMouseButton={lastMouseButton} mouseButton={mouseButton}");
+                    Console.WriteLine($"[CLICK] client.mouseX={client.mouseX} client.mouseY={client.mouseY} client.lastMouseButton={client.lastMouseButton} client.mouseButton={client.mouseButton}");
                 }
 
-                loginMenuFirst.MouseClick(mouseX, mouseY, lastMouseButton, mouseButton);
-                if (loginMenuFirst.IsClicked(loginButtonNewUser))
+                client.loginMenuFirst.MouseClick(client.mouseX, client.mouseY, client.lastMouseButton, client.mouseButton);
+                if (client.loginMenuFirst.IsClicked(client.loginButtonNewUser))
                 {
-                    loginScreen = 1;
+                    client.loginScreen = 1;
                 }
 
-                if (loginMenuFirst.IsClicked(loginMenuLoginButton))
+                if (client.loginMenuFirst.IsClicked(client.loginMenuLoginButton))
                 {
-                    loginScreen = 2;
-                    loginMenuLogin.UpdateText(loginMenuStatusText, "Please enter your username and password");
-                    loginMenuLogin.UpdateText(loginMenuUserText, "");
-                    loginMenuLogin.UpdateText(loginMenuPasswordText, "");
-                    loginMenuLogin.SetFocus(loginMenuUserText);
+                    client.loginScreen = 2;
+                    client.loginMenuLogin.UpdateText(client.loginMenuStatusText, "Please enter your username and password");
+                    client.loginMenuLogin.UpdateText(client.loginMenuUserText, "");
+                    client.loginMenuLogin.UpdateText(client.loginMenuPasswordText, "");
+                    client.loginMenuLogin.SetFocus(client.loginMenuUserText);
                     return;
                 }
             }
             else
-                if (loginScreen == 1)
+                if (client.loginScreen == 1)
                 {
-                    if (loginNewUser is null)
+                    if (client.loginNewUser is null)
                 {
                     return;
                 }
 
-                loginNewUser.MouseClick(mouseX, mouseY, lastMouseButton, mouseButton);
-                    if (loginNewUser.IsClicked(loginMenuOkButton))
+                client.loginNewUser.MouseClick(client.mouseX, client.mouseY, client.lastMouseButton, client.mouseButton);
+                    if (client.loginNewUser.IsClicked(client.loginMenuOkButton))
                     {
-                        loginScreen = 0;
+                        client.loginScreen = 0;
                         return;
                     }
                 }
                 else
-                    if (loginScreen == 2)
+                    if (client.loginScreen == 2)
                     {
-                        loginMenuLogin.MouseClick(mouseX, mouseY, lastMouseButton, mouseButton);
-                        if (loginMenuLogin.IsClicked(loginMenuCancelButton))
+                        client.loginMenuLogin.MouseClick(client.mouseX, client.mouseY, client.lastMouseButton, client.mouseButton);
+                        if (client.loginMenuLogin.IsClicked(client.loginMenuCancelButton))
                 {
-                    loginScreen = 0;
+                    client.loginScreen = 0;
                 }
 
-                if (loginMenuLogin.IsClicked(loginMenuUserText))
+                if (client.loginMenuLogin.IsClicked(client.loginMenuUserText))
                 {
-                    loginMenuLogin.SetFocus(loginMenuPasswordText);
+                    client.loginMenuLogin.SetFocus(client.loginMenuPasswordText);
                 }
 
-                if (loginMenuLogin.IsClicked(loginMenuPasswordText) || loginMenuLogin.IsClicked(loginMenuOkLoginButton))
+                if (client.loginMenuLogin.IsClicked(client.loginMenuPasswordText) || client.loginMenuLogin.IsClicked(client.loginMenuOkLoginButton))
                         {
-                            loginUsername = loginMenuLogin.GetText(loginMenuUserText);
-                            loginPassword = loginMenuLogin.GetText(loginMenuPasswordText);
-                            Connect(loginUsername, loginPassword, false);
+                            client.loginUsername = client.loginMenuLogin.GetText(client.loginMenuUserText);
+                            client.loginPassword = client.loginMenuLogin.GetText(client.loginMenuPasswordText);
+                            client.Connect(client.loginUsername, client.loginPassword, false);
                         }
                     }
         }
-        public override void HandleMouseDown(int mouseButtonPressed, int mouseXPosition, int mouseYPosition)
+        public void HandleMouseDown(int mouseButtonPressed, int mouseXPosition, int mouseYPosition)
         {
-            mouseTrailX[mouseTrailIndex] = mouseXPosition;
-            mouseTrailY[mouseTrailIndex] = mouseYPosition;
-            mouseTrailIndex = mouseTrailIndex + 1 & 0x1fff;
+            client.mouseTrailX[client.mouseTrailIndex] = mouseXPosition;
+            client.mouseTrailY[client.mouseTrailIndex] = mouseYPosition;
+            client.mouseTrailIndex = client.mouseTrailIndex + 1 & 0x1fff;
             for (int l = 10; l < 4000; l += 1)
             {
-                int lastMouseTrailIndex = mouseTrailIndex - l & 0x1fff;
-                if (mouseTrailX[lastMouseTrailIndex] == mouseXPosition && mouseTrailY[lastMouseTrailIndex] == mouseYPosition)
+                int lastMouseTrailIndex = client.mouseTrailIndex - l & 0x1fff;
+                if (client.mouseTrailX[lastMouseTrailIndex] == mouseXPosition && client.mouseTrailY[lastMouseTrailIndex] == mouseYPosition)
                 {
                     bool flag = false;
                     for (int j1 = 1; j1 < l; j1 += 1)
                     {
-                        int mouseNew = mouseTrailIndex - j1 & 0x1fff;
+                        int mouseNew = client.mouseTrailIndex - j1 & 0x1fff;
                         int mouseOld = lastMouseTrailIndex - j1 & 0x1fff;
-                        if (mouseTrailX[mouseOld] != mouseXPosition || mouseTrailY[mouseOld] != mouseYPosition)
+                        if (client.mouseTrailX[mouseOld] != mouseXPosition || client.mouseTrailY[mouseOld] != mouseYPosition)
                         {
                             flag = true;
                         }
 
-                        if (mouseTrailX[mouseNew] != mouseTrailX[mouseOld] || mouseTrailY[mouseNew] != mouseTrailY[mouseOld])
+                        if (client.mouseTrailX[mouseNew] != client.mouseTrailX[mouseOld] || client.mouseTrailY[mouseNew] != client.mouseTrailY[mouseOld])
                         {
                             break;
                         }
 
-                        if (j1 == l - 1 && flag && combatTimeout == 0 && logoutTimer == 0)
+                        if (j1 == l - 1 && flag && client.combatTimeout == 0 && client.logoutTimer == 0)
                         {
-                            SendLogout();
+                            client.SendLogout();
                             return;
                         }
                     }
@@ -500,39 +502,39 @@ namespace OpenRS.Net.Client
         }
         public void CheckGameInputs()
         {
-            if (systemUpdate > 1)
+            if (client.systemUpdate > 1)
             {
-                systemUpdate -= 1;
+                client.systemUpdate -= 1;
             }
 
-            SendPingPacketAsync();
+            client.SendPingPacketAsync();
 
 
 
 
-            if (logoutTimer > 0)
+            if (client.logoutTimer > 0)
             {
-                logoutTimer -= 1;
+                client.logoutTimer -= 1;
             }
 
-            if (ourPlayer.currentSprite == 8 || ourPlayer.currentSprite == 9)
+            if (client.ourPlayer.currentSprite == 8 || client.ourPlayer.currentSprite == 9)
             {
-                combatTimeout = 500;
+                client.combatTimeout = 500;
             }
 
-            if (combatTimeout > 0)
+            if (client.combatTimeout > 0)
             {
-                combatTimeout -= 1;
+                client.combatTimeout -= 1;
             }
 
-            if (showAppearanceWindow)
+            if (client.showAppearanceWindow)
             {
-                UpdateAppearanceWindow();
+                client.UpdateAppearanceWindow();
                 return;
             }
-            for (int l = 0; l < playerCount; l += 1)
+            for (int l = 0; l < client.playerCount; l += 1)
             {
-                ClientMob player = playerArray[l];
+                ClientMob player = client.playerArray[l];
                 int j1 = (player.waypointCurrent + 1) % 10;
                 if (player.waypointsEndSprite != j1)
                 {
@@ -554,7 +556,7 @@ namespace OpenRS.Net.Client
                         i6 = (i5 - 1) * 4;
                     }
 
-                    if (player.waypointsX[targetSprite] - player.currentX > gridSize * 3 || player.waypointsY[targetSprite] - player.currentY > gridSize * 3 || player.waypointsX[targetSprite] - player.currentX < -gridSize * 3 || player.waypointsY[targetSprite] - player.currentY < -gridSize * 3 || i5 > 8)
+                    if (player.waypointsX[targetSprite] - player.currentX > client.gridSize * 3 || player.waypointsY[targetSprite] - player.currentY > client.gridSize * 3 || player.waypointsX[targetSprite] - player.currentX < -client.gridSize * 3 || player.waypointsY[targetSprite] - player.currentY < -client.gridSize * 3 || i5 > 8)
                     {
                         player.currentX = player.waypointsX[targetSprite];
                         player.currentY = player.waypointsY[targetSprite];
@@ -650,24 +652,24 @@ namespace OpenRS.Net.Client
                     player.combatTimer -= 1;
                 }
 
-                if (playerAliveTimeout > 0)
+                if (client.playerAliveTimeout > 0)
                 {
-                    playerAliveTimeout -= 1;
-                    if (playerAliveTimeout == 0)
+                    client.playerAliveTimeout -= 1;
+                    if (client.playerAliveTimeout == 0)
                     {
-                        DisplayMessage("You have been granted another life. Be more careful this time!", 3);
+                        client.DisplayMessage("You have been granted another life. Be more careful this time!", 3);
                     }
 
-                    if (playerAliveTimeout == 0)
+                    if (client.playerAliveTimeout == 0)
                     {
-                        DisplayMessage("You retain your skills. Your objects land where you died", 3);
+                        client.DisplayMessage("You retain your skills. Your objects land where you died", 3);
                     }
                 }
             }
 
-            for (int i1 = 0; i1 < npcCount; i1 += 1)
+            for (int i1 = 0; i1 < client.npcCount; i1 += 1)
             {
-                ClientMob f2 = npcArray[i1];
+                ClientMob f2 = client.npcArray[i1];
                 int i2 = (f2.waypointCurrent + 1) % 10;
                 if (f2.waypointsEndSprite != i2)
                 {
@@ -689,7 +691,7 @@ namespace OpenRS.Net.Client
                         k6 = (j6 - 1) * 4;
                     }
 
-                    if (f2.waypointsX[j5] - f2.currentX > gridSize * 3 || f2.waypointsY[j5] - f2.currentY > gridSize * 3 || f2.waypointsX[j5] - f2.currentX < -gridSize * 3 || f2.waypointsY[j5] - f2.currentY < -gridSize * 3 || j6 > 8)
+                    if (f2.waypointsX[j5] - f2.currentX > client.gridSize * 3 || f2.waypointsY[j5] - f2.currentY > client.gridSize * 3 || f2.waypointsX[j5] - f2.currentX < -client.gridSize * 3 || f2.waypointsY[j5] - f2.currentY < -client.gridSize * 3 || j6 > 8)
                     {
                         f2.currentX = f2.waypointsX[j5];
                         f2.currentY = f2.waypointsY[j5];
@@ -790,63 +792,63 @@ namespace OpenRS.Net.Client
                 }
             }
 
-            if (drawMenuTab != 2)
+            if (client.drawMenuTab != 2)
             {
                 if (GameImage.spiralDrawCount > 0)
                 {
-                    sleepWordDelayTimer += 1;
+                    client.sleepWordDelayTimer += 1;
                 }
 
                 if (GameImage.characterDrawCount > 0)
                 {
-                    sleepWordDelayTimer = 0;
+                    client.sleepWordDelayTimer = 0;
                 }
 
                 GameImage.spiralDrawCount = 0;
                 GameImage.characterDrawCount = 0;
             }
-            for (int k1 = 0; k1 < playerCount; k1 += 1)
+            for (int k1 = 0; k1 < client.playerCount; k1 += 1)
             {
-                ClientMob f3 = playerArray[k1];
+                ClientMob f3 = client.playerArray[k1];
                 if (f3.projectileDistance > 0)
                 {
                     f3.projectileDistance -= 1;
                 }
             }
 
-            if (cameraAutoAngleDebug)
+            if (client.cameraAutoAngleDebug)
             {
-                if (cameraAutoRotatePlayerX - ourPlayer.currentX < -500 || cameraAutoRotatePlayerX - ourPlayer.currentX > 500 || cameraAutoRotatePlayerY - ourPlayer.currentY < -500 || cameraAutoRotatePlayerY - ourPlayer.currentY > 500)
+                if (client.cameraAutoRotatePlayerX - client.ourPlayer.currentX < -500 || client.cameraAutoRotatePlayerX - client.ourPlayer.currentX > 500 || client.cameraAutoRotatePlayerY - client.ourPlayer.currentY < -500 || client.cameraAutoRotatePlayerY - client.ourPlayer.currentY > 500)
                 {
-                    cameraAutoRotatePlayerX = ourPlayer.currentX;
-                    cameraAutoRotatePlayerY = ourPlayer.currentY;
+                    client.cameraAutoRotatePlayerX = client.ourPlayer.currentX;
+                    client.cameraAutoRotatePlayerY = client.ourPlayer.currentY;
                 }
             }
             else
             {
-                if (cameraAutoRotatePlayerX - ourPlayer.currentX < -500 || cameraAutoRotatePlayerX - ourPlayer.currentX > 500 || cameraAutoRotatePlayerY - ourPlayer.currentY < -500 || cameraAutoRotatePlayerY - ourPlayer.currentY > 500)
+                if (client.cameraAutoRotatePlayerX - client.ourPlayer.currentX < -500 || client.cameraAutoRotatePlayerX - client.ourPlayer.currentX > 500 || client.cameraAutoRotatePlayerY - client.ourPlayer.currentY < -500 || client.cameraAutoRotatePlayerY - client.ourPlayer.currentY > 500)
                 {
-                    cameraAutoRotatePlayerX = ourPlayer.currentX;
-                    cameraAutoRotatePlayerY = ourPlayer.currentY;
+                    client.cameraAutoRotatePlayerX = client.ourPlayer.currentX;
+                    client.cameraAutoRotatePlayerY = client.ourPlayer.currentY;
                 }
-                if (cameraAutoRotatePlayerX != ourPlayer.currentX)
+                if (client.cameraAutoRotatePlayerX != client.ourPlayer.currentX)
                 {
-                    cameraAutoRotatePlayerX += (ourPlayer.currentX - cameraAutoRotatePlayerX) / (16 + (cameraDistance - 500) / 15);
-                }
-
-                if (cameraAutoRotatePlayerY != ourPlayer.currentY)
-                {
-                    cameraAutoRotatePlayerY += (ourPlayer.currentY - cameraAutoRotatePlayerY) / (16 + (cameraDistance - 500) / 15);
+                    client.cameraAutoRotatePlayerX += (client.ourPlayer.currentX - client.cameraAutoRotatePlayerX) / (16 + (client.cameraDistance - 500) / 15);
                 }
 
-                if (configCameraAutoAngle)
+                if (client.cameraAutoRotatePlayerY != client.ourPlayer.currentY)
                 {
-                    int j2 = cameraAutoAngle * 32;
-                    int i4 = j2 - cameraRotation;
+                    client.cameraAutoRotatePlayerY += (client.ourPlayer.currentY - client.cameraAutoRotatePlayerY) / (16 + (client.cameraDistance - 500) / 15);
+                }
+
+                if (client.configCameraAutoAngle)
+                {
+                    int j2 = client.cameraAutoAngle * 32;
+                    int i4 = j2 - client.cameraRotation;
                     int byte0 = 1;
                     if (i4 != 0)
                     {
-                        cameraAutoRotationAmount += 1;
+                        client.cameraAutoRotationAmount += 1;
                         if (i4 > 128)
                         {
                             byte0 = -1;
@@ -869,407 +871,407 @@ namespace OpenRS.Net.Client
                                         byte0 = -1;
                                         i4 = -i4;
                                     }
-                        cameraRotation += ((cameraAutoRotationAmount * i4 + 255) / 256) * byte0;
-                        cameraRotation &= 0xff;
+                        client.cameraRotation += ((client.cameraAutoRotationAmount * i4 + 255) / 256) * byte0;
+                        client.cameraRotation &= 0xff;
                     }
                     else
                     {
-                        cameraAutoRotationAmount = 0;
+                        client.cameraAutoRotationAmount = 0;
                     }
                 }
             }
-            if (sleepWordDelayTimer > 20)
+            if (client.sleepWordDelayTimer > 20)
             {
-                sleepWordDelay = false;
-                sleepWordDelayTimer = 0;
+                client.sleepWordDelay = false;
+                client.sleepWordDelayTimer = 0;
             }
-            if (isSleeping)
+            if (client.isSleeping)
             {
-                if (enteredInputText.Length > 0)
+                if (client.enteredInputText.Length > 0)
                 {
-                    if (enteredInputText.ToLower() == "::lostcon")
+                    if (client.enteredInputText.ToLower() == "::lostcon")
                     {
-                        streamClass.CloseStream();
+                        client.streamClass.CloseStream();
                     }
                     else
-                        if (enteredInputText.ToLower() == "::closecon")
+                        if (client.enteredInputText.ToLower() == "::closecon")
                         {
-                            RequestLogout();
+                            client.CallRequestLogout();
                         }
                         else
                         {
-                            streamClass.CreatePacket(200);
-                            streamClass.AddString(enteredInputText);
-                            if (!sleepWordDelay)
+                            client.streamClass.CreatePacket(200);
+                            client.streamClass.AddString(client.enteredInputText);
+                            if (!client.sleepWordDelay)
                             {
-                                streamClass.AddByte(0);
-                                sleepWordDelay = true;
+                                client.streamClass.AddByte(0);
+                                client.sleepWordDelay = true;
                             }
-                            streamClass.FormatPacket();
-                            inputText = "";
-                            enteredInputText = "";
-                            sleepingStatusText = "Please wait...";
+                            client.streamClass.FormatPacket();
+                            client.inputText = "";
+                            client.enteredInputText = "";
+                            client.sleepingStatusText = "Please wait...";
                         }
                 }
 
-                if (lastMouseButton == 1 && mouseY > 275 && mouseY < 310 && mouseX > 56 && mouseX < 456)
+                if (client.lastMouseButton == 1 && client.mouseY > 275 && client.mouseY < 310 && client.mouseX > 56 && client.mouseX < 456)
                 {
-                    streamClass.CreatePacket(200);
-                    streamClass.AddString("-null-");
-                    if (!sleepWordDelay)
+                    client.streamClass.CreatePacket(200);
+                    client.streamClass.AddString("-null-");
+                    if (!client.sleepWordDelay)
                     {
-                        streamClass.AddByte(0);
-                        sleepWordDelay = true;
+                        client.streamClass.AddByte(0);
+                        client.sleepWordDelay = true;
                     }
-                    streamClass.FormatPacket();
-                    inputText = "";
-                    enteredInputText = "";
-                    sleepingStatusText = "Please wait...";
+                    client.streamClass.FormatPacket();
+                    client.inputText = "";
+                    client.enteredInputText = "";
+                    client.sleepingStatusText = "Please wait...";
                 }
-                lastMouseButton = 0;
+                client.lastMouseButton = 0;
                 return;
             }
-            if (mouseY > windowHeight - 4)
+            if (client.mouseY > client.windowHeight - 4)
             {
-                if (mouseX > 15 && mouseX < 96 && lastMouseButton == 1)
+                if (client.mouseX > 15 && client.mouseX < 96 && client.lastMouseButton == 1)
                 {
-                    messagesTab = 0;
+                    client.messagesTab = 0;
                 }
 
-                if (mouseX > 110 && mouseX < 194 && lastMouseButton == 1)
+                if (client.mouseX > 110 && client.mouseX < 194 && client.lastMouseButton == 1)
                 {
-                    messagesTab = 1;
-                    chatInputMenu.listShownEntries[messagesHandleType2] = 0xf423f;
+                    client.messagesTab = 1;
+                    client.chatInputMenu.listShownEntries[client.messagesHandleType2] = 0xf423f;
                 }
-                if (mouseX > 215 && mouseX < 295 && lastMouseButton == 1)
+                if (client.mouseX > 215 && client.mouseX < 295 && client.lastMouseButton == 1)
                 {
-                    messagesTab = 2;
-                    chatInputMenu.listShownEntries[messagesHandleType5] = 0xf423f;
+                    client.messagesTab = 2;
+                    client.chatInputMenu.listShownEntries[client.messagesHandleType5] = 0xf423f;
                 }
-                if (mouseX > 315 && mouseX < 395 && lastMouseButton == 1)
+                if (client.mouseX > 315 && client.mouseX < 395 && client.lastMouseButton == 1)
                 {
-                    messagesTab = 3;
-                    chatInputMenu.listShownEntries[messagesHandleType6] = 0xf423f;
+                    client.messagesTab = 3;
+                    client.chatInputMenu.listShownEntries[client.messagesHandleType6] = 0xf423f;
                 }
-                if (mouseX > 417 && mouseX < 497 && lastMouseButton == 1)
+                if (client.mouseX > 417 && client.mouseX < 497 && client.lastMouseButton == 1)
                 {
-                    showAbuseBox = 1;
-                    reportAbuseOptionSelected = 0;
-                    inputText = "";
-                    enteredInputText = "";
+                    client.showAbuseBox = 1;
+                    client.reportAbuseOptionSelected = 0;
+                    client.inputText = "";
+                    client.enteredInputText = "";
                 }
-                lastMouseButton = 0;
-                mouseButton = 0;
+                client.lastMouseButton = 0;
+                client.mouseButton = 0;
             }
-            chatInputMenu.MouseClick(mouseX, mouseY, lastMouseButton, mouseButton);
-            if (messagesTab > 0 && mouseX >= 494 && mouseY >= windowHeight - 66)
+            client.chatInputMenu.MouseClick(client.mouseX, client.mouseY, client.lastMouseButton, client.mouseButton);
+            if (client.messagesTab > 0 && client.mouseX >= 494 && client.mouseY >= client.windowHeight - 66)
             {
-                lastMouseButton = 0;
+                client.lastMouseButton = 0;
             }
 
-            if (chatInputMenu.IsClicked(chatInputBox))
+            if (client.chatInputMenu.IsClicked(client.chatInputBox))
             {
-                string input = chatInputMenu.GetText(chatInputBox);
-                chatInputMenu.UpdateText(chatInputBox, "");
+                string input = client.chatInputMenu.GetText(client.chatInputBox);
+                client.chatInputMenu.UpdateText(client.chatInputBox, "");
                 if (input.StartsWith("::"))
                 {
-                    if (!HandleCommand(input.Substring(2)))
+                    if (!client.HandleCommand(input.Substring(2)))
                     {
-                        SendCommand(input.Substring(2));
+                        client.CallSendCommand(input.Substring(2));
                     }
                 }
                 else
                 {
                     int len = ChatMessage.StringToBytes(input);
-                    SendChatMessage(ChatMessage.lastChat, len);
+                    client.CallSendChatMessage(ChatMessage.lastChat, len);
                     input = ChatMessage.BytesToString(ChatMessage.lastChat, 0, len);
                     //if (useChatFilter)
                     //input = ChatFilter.filterChat(input);
-                    ourPlayer.lastMessageTimeout = 150;
-                    ourPlayer.lastMessage = input;
-                    DisplayMessage(ourPlayer.username + ": " + input, 2);
+                    client.ourPlayer.lastMessageTimeout = 150;
+                    client.ourPlayer.lastMessage = input;
+                    client.DisplayMessage(client.ourPlayer.username + ": " + input, 2);
                 }
             }
-            if (messagesTab == 0)
+            if (client.messagesTab == 0)
             {
                 for (int k2 = 0; k2 < 5; k2 += 1)
                 {
-                    if (messagesTimeout[k2] > 0)
+                    if (client.messagesTimeout[k2] > 0)
                     {
-                        messagesTimeout[k2] -= 1;
+                        client.messagesTimeout[k2] -= 1;
                     }
                 }
             }
-            if (playerAliveTimeout != 0)
+            if (client.playerAliveTimeout != 0)
             {
-                lastMouseButton = 0;
+                client.lastMouseButton = 0;
             }
 
-            if (showTradeBox || showDuelBox)
+            if (client.showTradeBox || client.showDuelBox)
             {
-                if (mouseButton != 0)
+                if (client.mouseButton != 0)
                 {
-                    mouseButtonHeldTime += 1;
+                    client.mouseButtonHeldTime += 1;
                 }
                 else
                 {
-                    mouseButtonHeldTime = 0;
+                    client.mouseButtonHeldTime = 0;
                 }
 
-                if (mouseButtonHeldTime > 500)
+                if (client.mouseButtonHeldTime > 500)
                 {
-                    mouseClickedHeldInTradeDuelBox += 100000;
+                    client.mouseClickedHeldInTradeDuelBox += 100000;
                 }
-                else if (mouseButtonHeldTime > 350)
+                else if (client.mouseButtonHeldTime > 350)
                 {
-                    mouseClickedHeldInTradeDuelBox += 10000;
+                    client.mouseClickedHeldInTradeDuelBox += 10000;
                 }
-                else if (mouseButtonHeldTime > 250)
+                else if (client.mouseButtonHeldTime > 250)
                 {
-                    mouseClickedHeldInTradeDuelBox += 1000;
+                    client.mouseClickedHeldInTradeDuelBox += 1000;
                 }
-                else if (mouseButtonHeldTime > 150)
+                else if (client.mouseButtonHeldTime > 150)
                 {
-                    mouseClickedHeldInTradeDuelBox += 100;
+                    client.mouseClickedHeldInTradeDuelBox += 100;
                 }
-                else if (mouseButtonHeldTime > 100)
+                else if (client.mouseButtonHeldTime > 100)
                 {
-                    mouseClickedHeldInTradeDuelBox += 10;
+                    client.mouseClickedHeldInTradeDuelBox += 10;
                 }
-                else if (mouseButtonHeldTime > 50)
+                else if (client.mouseButtonHeldTime > 50)
                 {
-                    mouseClickedHeldInTradeDuelBox += 1;
+                    client.mouseClickedHeldInTradeDuelBox += 1;
                 }
-                else if (mouseButtonHeldTime > 20 && (mouseButtonHeldTime & 5) == 0)
+                else if (client.mouseButtonHeldTime > 20 && (client.mouseButtonHeldTime & 5) == 0)
                 {
-                    mouseClickedHeldInTradeDuelBox += 1;
+                    client.mouseClickedHeldInTradeDuelBox += 1;
                 }
             }
             else
             {
-                mouseButtonHeldTime = 0;
-                mouseClickedHeldInTradeDuelBox = 0;
+                client.mouseButtonHeldTime = 0;
+                client.mouseClickedHeldInTradeDuelBox = 0;
             }
-            if (lastMouseButton == 1)
+            if (client.lastMouseButton == 1)
             {
-                mouseButtonClick = 1;
+                client.mouseButtonClick = 1;
             }
-            else if (lastMouseButton == 2)
+            else if (client.lastMouseButton == 2)
             {
-                mouseButtonClick = 2;
+                client.mouseButtonClick = 2;
             }
 
-            gameCamera.SetMousePosition(mouseX, mouseY);
-            lastMouseButton = 0;
-            if (configCameraAutoAngle)
+            client.gameCamera.SetMousePosition(client.mouseX, client.mouseY);
+            client.lastMouseButton = 0;
+            if (client.configCameraAutoAngle)
             {
-                if (cameraAutoRotationAmount == 0 || cameraAutoAngleDebug)
+                if (client.cameraAutoRotationAmount == 0 || client.cameraAutoAngleDebug)
                 {
-                    if (keyLeftDown)
+                    if (client.keyLeftDown)
                     {
-                        cameraAutoAngle = cameraAutoAngle + 1 & 7;
-                        keyLeftDown = false;
-                        if (!cameraZoom)
+                        client.cameraAutoAngle = client.cameraAutoAngle + 1 & 7;
+                        client.keyLeftDown = false;
+                        if (!client.cameraZoom)
                         {
-                            if ((cameraAutoAngle & 1) == 0)
+                            if ((client.cameraAutoAngle & 1) == 0)
                             {
-                                cameraAutoAngle = cameraAutoAngle + 1 & 7;
+                                client.cameraAutoAngle = client.cameraAutoAngle + 1 & 7;
                             }
 
                             for (int l2 = 0; l2 < 8; l2 += 1)
                             {
-                                if (IsValidCameraAngle(cameraAutoAngle))
+                                if (client.IsValidCameraAngle(client.cameraAutoAngle))
                                 {
                                     break;
                                 }
 
-                                cameraAutoAngle = cameraAutoAngle + 1 & 7;
+                                client.cameraAutoAngle = client.cameraAutoAngle + 1 & 7;
                             }
                         }
                     }
-                    if (keyRightDown)
+                    if (client.keyRightDown)
                     {
-                        cameraAutoAngle = cameraAutoAngle + 7 & 7;
-                        keyRightDown = false;
-                        if (!cameraZoom)
+                        client.cameraAutoAngle = client.cameraAutoAngle + 7 & 7;
+                        client.keyRightDown = false;
+                        if (!client.cameraZoom)
                         {
-                            if ((cameraAutoAngle & 1) == 0)
+                            if ((client.cameraAutoAngle & 1) == 0)
                             {
-                                cameraAutoAngle = cameraAutoAngle + 7 & 7;
+                                client.cameraAutoAngle = client.cameraAutoAngle + 7 & 7;
                             }
 
                             for (int i3 = 0; i3 < 8; i3 += 1)
                             {
-                                if (IsValidCameraAngle(cameraAutoAngle))
+                                if (client.IsValidCameraAngle(client.cameraAutoAngle))
                                 {
                                     break;
                                 }
 
-                                cameraAutoAngle = cameraAutoAngle + 7 & 7;
+                                client.cameraAutoAngle = client.cameraAutoAngle + 7 & 7;
                             }
                         }
                     }
                 }
             }
-            else if (keyLeftDown)
+            else if (client.keyLeftDown)
             {
-                cameraRotation = cameraRotation + 2 & 0xff;
+                client.cameraRotation = client.cameraRotation + 2 & 0xff;
             }
-            else if (keyRightDown)
+            else if (client.keyRightDown)
             {
-                cameraRotation = cameraRotation - 2 & 0xff;
-            }
-
-            if (keyUpDown && cameraDistance > 550)
-            {
-                cameraDistance -= 4;
-            }
-            else if (keyDownDown && cameraDistance < 1250)
-            {
-                cameraDistance += 4;
+                client.cameraRotation = client.cameraRotation - 2 & 0xff;
             }
 
-            if (fogOfWar)
+            if (client.keyUpDown && client.cameraDistance > 550)
             {
-                if ((cameraZoom && cameraDistance > 550) || cameraDistance > 750)
+                client.cameraDistance -= 4;
+            }
+            else if (client.keyDownDown && client.cameraDistance < 1250)
+            {
+                client.cameraDistance += 4;
+            }
+
+            if (client.fogOfWar)
+            {
+                if ((client.cameraZoom && client.cameraDistance > 550) || client.cameraDistance > 750)
                 {
-                    cameraDistance -= 4;
+                    client.cameraDistance -= 4;
                 }
 
-                if (!cameraZoom && cameraDistance < 750)
+                if (!client.cameraZoom && client.cameraDistance < 750)
                 {
-                    cameraDistance += 4;
+                    client.cameraDistance += 4;
                 }
             }
-            if (actionPictureType > 0)
+            if (client.actionPictureType > 0)
             {
-                actionPictureType -= 1;
+                client.actionPictureType -= 1;
             }
             else
-                if (actionPictureType < 0)
+                if (client.actionPictureType < 0)
             {
-                actionPictureType += 1;
+                client.actionPictureType += 1;
             }
 
-            gameCamera.UpdateLighting(17);
-            modelUpdatingTimer += 1;
-            if (modelUpdatingTimer > 5)
+            client.gameCamera.UpdateLighting(17);
+            client.modelUpdatingTimer += 1;
+            if (client.modelUpdatingTimer > 5)
             {
-                modelUpdatingTimer = 0;
-                modelFireLightningSpellNumber = (modelFireLightningSpellNumber + 1) % 3;
-                modelTorchNumber = (modelTorchNumber + 1) % 4;
-                modelClawSpellNumber = (modelClawSpellNumber + 1) % 5;
+                client.modelUpdatingTimer = 0;
+                client.modelFireLightningSpellNumber = (client.modelFireLightningSpellNumber + 1) % 3;
+                client.modelTorchNumber = (client.modelTorchNumber + 1) % 4;
+                client.modelClawSpellNumber = (client.modelClawSpellNumber + 1) % 5;
             }
-            for (int j3 = 0; j3 < objectCount; j3 += 1)
+            for (int j3 = 0; j3 < client.objectCount; j3 += 1)
             {
-                int k4 = objectX[j3];
-                int k5 = objectY[j3];
-                if (k4 >= 0 && k5 >= 0 && k4 < 96 && k5 < 96 && objectType[j3] == 74)
+                int k4 = client.objectX[j3];
+                int k5 = client.objectY[j3];
+                if (k4 >= 0 && k5 >= 0 && k4 < 96 && k5 < 96 && client.objectType[j3] == 74)
                 {
-                    objectArray[j3].OffsetMiniPosition(1, 0, 0);
+                    client.objectArray[j3].OffsetMiniPosition(1, 0, 0);
                 }
             }
 
-            for (int l4 = 0; l4 < teleBubbleCount; l4 += 1)
+            for (int l4 = 0; l4 < client.teleBubbleCount; l4 += 1)
             {
-                teleBubbleTime[l4] += 1;
-                if (teleBubbleTime[l4] > 50)
+                client.teleBubbleTime[l4] += 1;
+                if (client.teleBubbleTime[l4] > 50)
                 {
-                    teleBubbleCount -= 1;
-                    for (int l5 = l4; l5 < teleBubbleCount; l5 += 1)
+                    client.teleBubbleCount -= 1;
+                    for (int l5 = l4; l5 < client.teleBubbleCount; l5 += 1)
                     {
-                        teleBubbleX[l5] = teleBubbleX[l5 + 1];
-                        teleBubbleY[l5] = teleBubbleY[l5 + 1];
-                        teleBubbleTime[l5] = teleBubbleTime[l5 + 1];
-                        teleBubbleType[l5] = teleBubbleType[l5 + 1];
+                        client.teleBubbleX[l5] = client.teleBubbleX[l5 + 1];
+                        client.teleBubbleY[l5] = client.teleBubbleY[l5 + 1];
+                        client.teleBubbleTime[l5] = client.teleBubbleTime[l5 + 1];
+                        client.teleBubbleType[l5] = client.teleBubbleType[l5 + 1];
                     }
 
                 }
             }
 
         }
-        public override void HandleKeyDown(Keys key, char c)
+        public void HandleKeyDown(Keys key, char c)
         {
             if (key == Keys.Left || key == Keys.Right || key == Keys.Up || key == Keys.Down)
             {
                 return;
             }
 
-            if (!loggedIn)
+            if (!client.loggedIn)
             {
-                if (loginScreen == 0 && loginMenuFirst is not null)
+                if (client.loginScreen == 0 && client.loginMenuFirst is not null)
                 {
-                    loginMenuFirst.KeyPress(key, c);
+                    client.loginMenuFirst.KeyPress(key, c);
                 }
 
-                if (loginScreen == 1 && loginNewUser is not null)
+                if (client.loginScreen == 1 && client.loginNewUser is not null)
                 {
-                    loginNewUser.KeyPress(key, c);
+                    client.loginNewUser.KeyPress(key, c);
                 }
 
-                if (loginScreen == 2 && loginMenuLogin is not null)
+                if (client.loginScreen == 2 && client.loginMenuLogin is not null)
                 {
-                    loginMenuLogin.KeyPress(key, c);
+                    client.loginMenuLogin.KeyPress(key, c);
                 }
             }
-            if (loggedIn)
+            if (client.loggedIn)
             {
                 if (key == Keys.F12)
                 {
-                    TakeScreenshot(true);
+                    client.TakeScreenshot(true);
                 }
-                else if (showAppearanceWindow && appearanceMenu is not null)
+                else if (client.showAppearanceWindow && client.appearanceMenu is not null)
                 {
-                    appearanceMenu.KeyPress(key, c);
+                    client.appearanceMenu.KeyPress(key, c);
                 }
-                else if (showFriendsBox == 0 && showAbuseBox == 0 && !isSleeping && chatInputMenu is not null)
+                else if (client.showFriendsBox == 0 && client.showAbuseBox == 0 && !client.isSleeping && client.chatInputMenu is not null)
                 {
-                    chatInputMenu.KeyPress(key, c);
+                    client.chatInputMenu.KeyPress(key, c);
                 }
             }
         }
         public void CheckMouseStatus()
         {
-            if (selectedSpell >= 0 || selectedItem >= 0)
+            if (client.selectedSpell >= 0 || client.selectedItem >= 0)
             {
-                menuText1[menuOptionsCount] = "Cancel";
-                menuText2[menuOptionsCount] = "";
-                menuActionID[menuOptionsCount] = 4000;
-                menuOptionsCount += 1;
+                client.menuText1[client.menuOptionsCount] = "Cancel";
+                client.menuText2[client.menuOptionsCount] = "";
+                client.menuActionID[client.menuOptionsCount] = 4000;
+                client.menuOptionsCount += 1;
             }
-            for (int l = 0; l < menuOptionsCount; l += 1)
+            for (int l = 0; l < client.menuOptionsCount; l += 1)
             {
-                menuIndexes[l] = l;
+                client.menuIndexes[l] = l;
             }
 
             for (bool flag = false; !flag; )
             {
                 flag = true;
-                for (int i1 = 0; i1 < menuOptionsCount - 1; i1 += 1)
+                for (int i1 = 0; i1 < client.menuOptionsCount - 1; i1 += 1)
                 {
-                    int k1 = menuIndexes[i1];
-                    int i2 = menuIndexes[i1 + 1];
-                    if (menuActionID[k1] > menuActionID[i2])
+                    int k1 = client.menuIndexes[i1];
+                    int i2 = client.menuIndexes[i1 + 1];
+                    if (client.menuActionID[k1] > client.menuActionID[i2])
                     {
-                        menuIndexes[i1] = i2;
-                        menuIndexes[i1 + 1] = k1;
+                        client.menuIndexes[i1] = i2;
+                        client.menuIndexes[i1 + 1] = k1;
                         flag = false;
                     }
                 }
 
             }
 
-            if (menuOptionsCount > 20)
+            if (client.menuOptionsCount > 20)
             {
-                menuOptionsCount = 20;
+                client.menuOptionsCount = 20;
             }
 
-            if (menuOptionsCount > 0)
+            if (client.menuOptionsCount > 0)
             {
                 int j1 = -1;
-                for (int l1 = 0; l1 < menuOptionsCount; l1 += 1)
+                for (int l1 = 0; l1 < client.menuOptionsCount; l1 += 1)
                 {
-                    if (menuText2[menuIndexes[l1]] is null || menuText2[menuIndexes[l1]].Length <= 0)
+                    if (client.menuText2[client.menuIndexes[l1]] is null || client.menuText2[client.menuIndexes[l1]].Length <= 0)
                     {
                         continue;
                     }
@@ -1279,82 +1281,83 @@ namespace OpenRS.Net.Client
                 }
 
                 string s1 = null;
-                if ((selectedItem >= 0 || selectedSpell >= 0) && menuOptionsCount == 1)
+                if ((client.selectedItem >= 0 || client.selectedSpell >= 0) && client.menuOptionsCount == 1)
                 {
                     s1 = "Choose a target";
                 }
                 else
-                    if ((selectedItem >= 0 || selectedSpell >= 0) && menuOptionsCount > 1)
+                    if ((client.selectedItem >= 0 || client.selectedSpell >= 0) && client.menuOptionsCount > 1)
                 {
-                    s1 = "@whi@" + menuText1[menuIndexes[0]] + " " + menuText2[menuIndexes[0]];
+                    s1 = "@whi@" + client.menuText1[client.menuIndexes[0]] + " " + client.menuText2[client.menuIndexes[0]];
                 }
                 else
                         if (j1 != -1)
                 {
-                    s1 = menuText2[menuIndexes[j1]] + ": @whi@" + menuText1[menuIndexes[0]];
+                    s1 = client.menuText2[client.menuIndexes[j1]] + ": @whi@" + client.menuText1[client.menuIndexes[0]];
                 }
 
-                if (menuOptionsCount == 2 && s1 is not null)
+                if (client.menuOptionsCount == 2 && s1 is not null)
                 {
                     s1 += "@whi@ / 1 more option";
                 }
 
-                if (menuOptionsCount > 2 && s1 is not null)
+                if (client.menuOptionsCount > 2 && s1 is not null)
                 {
-                    s1 = s1 + "@whi@ / " + (menuOptionsCount - 1) + " more options";
+                    s1 = s1 + "@whi@ / " + (client.menuOptionsCount - 1) + " more options";
                 }
 
                 if (s1 is not null)
                 {
-                    gameGraphics.DrawString(s1, 6, 14, 1, 0xffff00);
+                    client.gameGraphics.DrawString(s1, 6, 14, 1, 0xffff00);
                 }
 
-                if (!configOneMouseButton && mouseButtonClick == 1 || configOneMouseButton && mouseButtonClick == 1 && menuOptionsCount == 1)
+                if (!client.configOneMouseButton && client.mouseButtonClick == 1 || client.configOneMouseButton && client.mouseButtonClick == 1 && client.menuOptionsCount == 1)
                 {
-                    MenuClick(menuIndexes[0]);
-                    mouseButtonClick = 0;
+                    client.MenuClick(client.menuIndexes[0]);
+                    client.mouseButtonClick = 0;
                     return;
                 }
-                if (!configOneMouseButton && mouseButtonClick == 2 || configOneMouseButton && mouseButtonClick == 1)
+                if (!client.configOneMouseButton && client.mouseButtonClick == 2 || client.configOneMouseButton && client.mouseButtonClick == 1)
                 {
-                    menuHeight = (menuOptionsCount + 1) * 15;
-                    menuWidth = gameGraphics.TextWidth("Choose option", 1) + 5;
-                    for (int j2 = 0; j2 < menuOptionsCount; j2 += 1)
+                    client.menuHeight = (client.menuOptionsCount + 1) * 15;
+                    client.menuWidth = client.gameGraphics.TextWidth("Choose option", 1) + 5;
+                    for (int j2 = 0; j2 < client.menuOptionsCount; j2 += 1)
                     {
-                        int k2 = gameGraphics.TextWidth(menuText1[j2] + " " + menuText2[j2], 1) + 5;
-                        if (k2 > menuWidth)
+                        int k2 = client.gameGraphics.TextWidth(client.menuText1[j2] + " " + client.menuText2[j2], 1) + 5;
+                        if (k2 > client.menuWidth)
                         {
-                            menuWidth = k2;
+                            client.menuWidth = k2;
                         }
                     }
 
-                    menuX = mouseX - menuWidth / 2;
-                    menuY = mouseY - 7;
-                    menuShow = true;
-                    if (menuX < 0)
+                    client.menuX = client.mouseX - client.menuWidth / 2;
+                    client.menuY = client.mouseY - 7;
+                    client.menuShow = true;
+                    if (client.menuX < 0)
                     {
-                        menuX = 0;
+                        client.menuX = 0;
                     }
 
-                    if (menuY < 0)
+                    if (client.menuY < 0)
                     {
-                        menuY = 0;
+                        client.menuY = 0;
                     }
 
-                    if (menuX + menuWidth > 510)
+                    if (client.menuX + client.menuWidth > 510)
                     {
-                        menuX = 510 - menuWidth;
+                        client.menuX = 510 - client.menuWidth;
                     }
 
-                    if (menuY + menuHeight > 315)
+                    if (client.menuY + client.menuHeight > 315)
                     {
-                        menuY = 315 - menuHeight;
+                        client.menuY = 315 - client.menuHeight;
                     }
 
-                    mouseButtonClick = 0;
+                    client.mouseButtonClick = 0;
                 }
             }
         }
+
     }
 
 }

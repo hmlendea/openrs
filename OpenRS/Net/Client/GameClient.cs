@@ -17,10 +17,20 @@ using System.Threading;
 namespace OpenRS.Net.Client
 {
 
-    public sealed partial class GameClient : GameAppletMiddleMan
+    public sealed class GameClient : GameAppletMiddleMan
     {
+        public InputHandler inputHandler;
+        public PacketHandler packetHandler;
+        public GameRenderer renderer;
+        public GameLoader loader;
+        public WorldInteractionHandler worldInteractionHandler;
+        public ClientEntityHandler entityHandler;
+        public GameClientUtilities utilities;
+
         public int killingSpree;
         public event EventHandler OnContentLoadedCompleted;
+        public event EventHandler OnLoadingSection;
+        public event EventHandler OnLoadingSectionCompleted;
         public event EventHandler<ContentLoadedEventArgs> OnContentLoaded;
 
         public static Microsoft.Xna.Framework.GameWindow GameWindow;
@@ -73,6 +83,11 @@ namespace OpenRS.Net.Client
         public void SetCombatStyle(Models.Enumerations.CombatStyle style)
         {
             combatStyle = (int)style;
+        }
+        public Models.Enumerations.CombatStyle CombatStyle
+        {
+            get => (Models.Enumerations.CombatStyle)combatStyle;
+            set => combatStyle = (int)value;
         }
 
         public ClientMob CurrentPlayer
@@ -520,6 +535,14 @@ namespace OpenRS.Net.Client
             needsClear = false;
             hasWorldInfo = false;
             //ImageIO.setCacheDirectory(new File(Config.CONF_DIR));
+
+            inputHandler = new InputHandler(this);
+            packetHandler = new PacketHandler(this);
+            renderer = new GameRenderer(this);
+            loader = new GameLoader(this);
+            worldInteractionHandler = new WorldInteractionHandler(this);
+            entityHandler = new ClientEntityHandler(this);
+            utilities = new GameClientUtilities(this);
         }
 
         public string tradeOtherName;
@@ -538,11 +561,11 @@ namespace OpenRS.Net.Client
         public int appearanceSkinColour;
         public int appearanceHeadGender;
         public Menu chatInputMenu;
-        private int messagesHandleType2;
-        private int chatInputBox;
-        private int messagesHandleType5;
-        private int messagesHandleType6;
-        private int messagesTab;
+        public int messagesHandleType2;
+        public int chatInputBox;
+        public int messagesHandleType5;
+        public int messagesHandleType6;
+        public int messagesTab;
         public int[] menuIndexes;
         public int duelMyItemCount;
         public int[] duelMyItems;
@@ -648,17 +671,17 @@ namespace OpenRS.Net.Client
         public string[] messagesArray;
         public long duelOpponentHash;
         public Menu questMenu;
-        private int questMenuHandle;
-        private int questMenuSelected;
+        public int questMenuHandle;
+        public int questMenuSelected;
         public bool[] objectAlreadyInMenu;
         public GameObject[] objectArray;
         public int selectedSpell;
         public bool cameraAutoAngleDebug;
         public string lastLoginAddress;
         public ClientMob ourPlayer;
-        private int sectionX;
-        private int sectionY;
-        private int serverIndex;
+        public int sectionX;
+        public int sectionY;
+        public int serverIndex;
         public int tradeItemsOurCount;
         public int[] tradeItemsOur;
         public int[] tradeItemOurCount;
@@ -776,7 +799,7 @@ namespace OpenRS.Net.Client
         public int[] inventoryItemCount;
         public int[] inventoryItemEquipped;
         public int selectedItem;
-        private string selectedItemName;
+        public string selectedItemName;
         public ClientMob[] lastPlayerArray;
         public bool showTradeConfirmBox;
         public bool tradeConfirmAccepted;
@@ -784,8 +807,8 @@ namespace OpenRS.Net.Client
         public int loginButtonNewUser;
         public int loginMenuLoginButton;
         public int mouseTrailIndex;
-        private int[] mouseTrailX;
-        private int[] mouseTrailY;
+        public int[] mouseTrailX;
+        public int[] mouseTrailY;
         public bool configOneMouseButton;
         public bool[] prayerOn;
         public int lastLoginDays;
@@ -815,7 +838,7 @@ namespace OpenRS.Net.Client
         public int[] equipmentStatus;
         public int drawMenuTab;
         public int receivedMessagesCount;
-        private string[] receivedMessages;
+        public string[] receivedMessages;
         public int cameraRotateTime;
         public int questionMenuCount;
         public int cameraRotationXAmount;
@@ -851,8 +874,8 @@ namespace OpenRS.Net.Client
         0xffc030, 0xffa040, 0x805030, 0x604020, 0x303030, 0xff6020, 0xff4000, 0xffffff, 65280, 65535
     ];
         public Menu spellMenu;
-        private int spellMenuHandle;
-        private int menuMagicPrayersSelected;
+        public int spellMenuHandle;
+        public int menuMagicPrayersSelected;
         public int duelOurStakeCount;
         public int[] duelOurStakeItem;
         public int[] duelOurStakeItemCount;
@@ -863,9 +886,9 @@ namespace OpenRS.Net.Client
         public int menuOptionsCount;
         public Camera gameCamera;
         public Menu friendsMenu;
-        private int friendsMenuHandle;
-        private int friendsIgnoreMenuSelected;
-        private long pmTarget;
+        public int friendsMenuHandle;
+        public int friendsIgnoreMenuSelected;
+        public long pmTarget;
         public int healthBarVisibleCount;
         public string[] menuText2;
         public int sleepWordDelayTimer;
@@ -896,8 +919,8 @@ namespace OpenRS.Net.Client
         public bool showAppearanceWindow;
         public int questPoints;
         public int actionPictureType;
-        private int walkMouseX;
-        private int walkMouseY;
+        public int walkMouseX;
+        public int walkMouseY;
         public int[] combatModelArray1 = [
         0, 1, 2, 1, 0, 0, 0, 0
     ];
@@ -922,6 +945,211 @@ namespace OpenRS.Net.Client
         //{
         //    throw new NotImplementedException();
         //}
+        // Virtual method overrides delegating to handler classes
+        public override void LoadGame() => loader.LoadGame();
+        public override void InitVars() { loader.InitVars(); }
+        public override void Close() => loader.Close();
+        public override void LostConnection() => loader.LostConnection();
+        public override sbyte[] UnpackData(string fileName, string fileTitle, int startPercentage) => loader.UnpackData(fileName, fileTitle, startPercentage);
+        public override void DrawWindow() => renderer.DrawWindow();
+        public override void LoginScreenPrint(string firstLine, string secondLine) => renderer.LoginScreenPrint(firstLine, secondLine);
+        public override void CheckInputs() => inputHandler.CheckInputs();
+        public override void HandleKeyDown(Keys key, char character) => inputHandler.HandleKeyDown(key, character);
+        public override void HandleMouseDown(int pressedMouseButton, int mouseXPosition, int mouseYPosition) => inputHandler.HandleMouseDown(pressedMouseButton, mouseXPosition, mouseYPosition);
+        public override void HandlePacket(int command, int length, sbyte[] data) => packetHandler.HandlePacket(command, length, data);
+        public override void DisplayMessage(string message) => utilities.DisplayMessage(message);
+        public override void CantLogout() => utilities.CantLogout();
+
+        public char TranslateOemKeys(Keys k) => inputHandler.TranslateOemKeys(k);
+
+        public void Update(GameTime gt) => inputHandler.Update(gt);
+
+        public void CheckLoginScreenInputs() => inputHandler.CheckLoginScreenInputs();
+
+        public void CheckGameInputs() => inputHandler.CheckGameInputs();
+
+        public void CheckMouseStatus() => inputHandler.CheckMouseStatus();
+
+        public void DrawNpc(int x, int y, int width, int height, int npcIndex, int cameraXOffset, int scalePercentage) => renderer.DrawNpc(x, y, width, height, npcIndex, cameraXOffset, scalePercentage);
+
+        public void DrawReportAbuseBox1() => renderer.DrawReportAbuseBox1();
+
+        public void DrawModel(int l, string s1) => renderer.DrawModel(l, s1);
+
+        public void DrawPlayer(int x, int y, int width, int height, int playerIndex, int cameraXOffset, int scalePercentage) => renderer.DrawPlayer(x, y, width, height, playerIndex, cameraXOffset, scalePercentage);
+
+        public void DrawDuelConfirmBox() => renderer.DrawDuelConfirmBox();
+
+        public void DrawInventoryMenu(bool canRightClick) => renderer.DrawInventoryMenu(canRightClick);
+
+        public void DrawMinimapMenu(bool canClick) => renderer.DrawMinimapMenu(canClick);
+
+        public void DrawWelcomeBox() => renderer.DrawWelcomeBox();
+
+        public void DrawOptionsMenu(bool canClick) => renderer.DrawOptionsMenu(canClick);
+
+        public void DrawCombatStyleBox() => renderer.DrawCombatStyleBox();
+
+        public void DrawTradeBox() => renderer.DrawTradeBox();
+
+        public void DrawLogoutBox() => renderer.DrawLogoutBox();
+
+        public void DrawTeleBubble(int x, int y, int j1, int k1, int l1, int i2, int j2) => renderer.DrawTeleBubble(x, y, j1, k1, l1, i2, j2);
+
+        public void DrawQuestionMenu() => renderer.DrawQuestionMenu();
+
+        public void DrawTradeConfirmBox() => renderer.DrawTradeConfirmBox();
+
+        public void DrawLoginScreens() => renderer.DrawLoginScreens();
+
+        public void DrawItem(int x, int y, int width, int height, int itemID, int i2, int j2) => renderer.DrawItem(x, y, width, height, itemID, i2, j2);
+
+        public void DrawFriendsMenu(bool canClick) => renderer.DrawFriendsMenu(canClick);
+
+        public void DrawPrayerMagicMenu(bool canClick) => renderer.DrawPrayerMagicMenu(canClick);
+
+        public void DrawChatMessageTabs() => renderer.DrawChatMessageTabs();
+
+        public void DrawShopBox() => renderer.DrawShopBox();
+
+        public void DrawAppearanceWindow() => renderer.DrawAppearanceWindow();
+
+        public void DrawGame() => renderer.DrawGame();
+
+        public void DrawReportAbuseBox2() => renderer.DrawReportAbuseBox2();
+
+        public void DrawMenus() => renderer.DrawMenus();
+
+        public void DrawDuelBox() => renderer.DrawDuelBox();
+
+        public void DrawWildernessAlertBox() => renderer.DrawWildernessAlertBox();
+
+        public void DrawNPC(int x, int y, int width, int height, int index, int unknown1, int unknown2) => renderer.DrawNPC(x, y, width, height, index, unknown1, unknown2);
+
+        public void DrawAboveHeadThings() => renderer.DrawAboveHeadThings();
+
+        public void DrawBankBox() => renderer.DrawBankBox();
+
+        public void DrawMinimapObject(int x, int y, int color) => renderer.DrawMinimapObject(x, y, color);
+
+        public void DrawServerMessageBox() => renderer.DrawServerMessageBox();
+
+        public void DrawStatsQuestsMenu(bool canClick) => renderer.DrawStatsQuestsMenu(canClick);
+
+        public void DrawFriendsBox() => renderer.DrawFriendsBox();
+
+        public void DrawRightClickMenu() => renderer.DrawRightClickMenu();
+
+        public void SetLoginVars() => loader.SetLoginVars();
+
+        public void CreateLoginScreenBackgrounds() => loader.CreateLoginScreenBackgrounds();
+
+        public void LoadSounds() => loader.LoadSounds();
+
+        public void CreateLoginMenus() => loader.CreateLoginMenus();
+
+        public void LoadMedia() => loader.LoadMedia();
+
+        public void LoadAnimations() => loader.LoadAnimations();
+
+        public void CreateChatInputMenu() => loader.CreateChatInputMenu();
+
+        public void LoadConfig() => loader.LoadConfig();
+
+        public void CreateAppearanceWindow() => loader.CreateAppearanceWindow();
+
+        public void LoadTextures() => loader.LoadTextures();
+
+        public void LoadModels() => loader.LoadModels();
+
+        public bool LoadSection(int x, int y) => loader.LoadSection(x, y);
+
+        public void MenuClick(int l) => worldInteractionHandler.MenuClick(l);
+
+        public void LoadMap() => worldInteractionHandler.LoadMap();
+
+        public void WalkToWallObject(int x, int y, int direction) => worldInteractionHandler.WalkToWallObject(x, y, direction);
+
+        public bool IsValidCameraAngle(int cameraDirection) => worldInteractionHandler.IsValidCameraAngle(cameraDirection);
+
+        public bool WalkTo(int startX, int startY, int destBottomX, int destBottomY, int destTopX, int destTopY, bool checkForObjects,
+                bool walkToACommand) => worldInteractionHandler.WalkTo(startX, startY, destBottomX, destBottomY, destTopX, destTopY, checkForObjects, walkToACommand);
+
+        public bool WalkToAlternate(int startX, int startY, int destBottomX, int destBottomY, int destTopX, int destTopY, bool unknownDifferent,
+                bool walkToACommand) => worldInteractionHandler.WalkToAlternate(startX, startY, destBottomX, destBottomY, destTopX, destTopY, unknownDifferent, walkToACommand);
+
+        public void WalkToObject(int objectX, int objectY, int facingDirection, int objectIndex) => worldInteractionHandler.WalkToObject(objectX, objectY, facingDirection, objectIndex);
+
+        public void AutoRotateCamera() => worldInteractionHandler.AutoRotateCamera();
+
+        public void WalkToGroundItem(int l, int i1, int j1, int k1, bool flag) => worldInteractionHandler.WalkToGroundItem(l, i1, j1, k1, flag);
+
+        public void WalkTo1Tile(int l, int i1, int j1, int k1, bool flag) => worldInteractionHandler.WalkTo1Tile(l, i1, j1, k1, flag);
+
+        public void GenerateWorldRightClickMenu() => worldInteractionHandler.GenerateWorldRightClickMenu();
+
+        public void GetMenuHighlighted() => worldInteractionHandler.GetMenuHighlighted();
+
+        public bool HandleCommand(string command) => worldInteractionHandler.HandleCommand(command);
+
+        public void UpdateAppearanceWindow() => entityHandler.UpdateAppearanceWindow();
+
+        public void CleanUp() => entityHandler.CleanUp();
+
+        public ClientMob CreatePlayer(int index, int x, int y, int sprite) => entityHandler.CreatePlayer(index, x, y, sprite);
+
+        public GameObject CreateWallObject(int x, int y, int dir, int type, int totalCount) => entityHandler.CreateWallObject(x, y, dir, type, totalCount);
+
+        public void ResetPrivateMessages() => entityHandler.ResetPrivateMessages();
+
+        public ClientMob CreateNpc(int index, int x, int y, int sprite, int id) => entityHandler.CreateNpc(index, x, y, sprite, id);
+
+        public void UpdateBankItems() => entityHandler.UpdateBankItems();
+
+        public ClientMob GetLastPlayer(int serverIndex) => entityHandler.GetLastPlayer(serverIndex);
+
+        public ClientMob GetLastNpc(int serverIndex) => entityHandler.GetLastNpc(serverIndex);
+
+        public int GetInventoryItemTotalCount(int itemId) => utilities.GetInventoryItemTotalCount(itemId);
+
+        public void SendLogout() => utilities.SendLogout();
+
+        public bool IsItemEquipped(int itemId) => utilities.IsItemEquipped(itemId);
+
+        public void SendPingPacketAsync() => utilities.SendPingPacketAsync();
+
+        public GraphicsDevice GetGraphics() => utilities.GetGraphics();
+
+        public string formatItemCount(int itemCount) => GameClientUtilities.formatItemCount(itemCount);
+
+        public bool HasRequiredRunes(int l, int i1) => utilities.HasRequiredRunes(l, i1);
+
+        public void DisplayMessage(string message, int type) => utilities.DisplayMessage(message, type);
+
+        public void PlaySound(string s1) => utilities.PlaySound(s1);
+
+        public bool TakeScreenshot(bool verb) => utilities.TakeScreenshot(verb);
+
+        public string JoinString(string[] hay, string glue, int start) => utilities.JoinString(hay, glue, start);
+        public void CallRequestLogout() => base.RequestLogout();
+        public void CallSendPingPacket() => base.SendPingPacket();
+        public void CallSendCommand(string commandText) => base.SendCommand(commandText);
+        public void CallSendChatMessage(byte[] messageBytes, int messageLength) => base.SendChatMessage(messageBytes, messageLength);
+        public void CallSendPrivateMessage(long recipientHash, byte[] messageBytes, int messageLength) => base.SendPrivateMessage(recipientHash, messageBytes, messageLength);
+        public void CallRemoveFriend(long usernameHash) => base.RemoveFriend(usernameHash);
+        public void CallRemoveIgnore(long usernameHash) => base.RemoveIgnore(usernameHash);
+        public void CallAddFriend(string friendUsername) => base.AddFriend(friendUsername);
+        public void CallAddIgnore(string username) => base.AddIgnore(username);
+        public void CallSendUpdatedPrivacyInfo(int blockChat, int blockPrivate, int blockTrade, int blockDuel) => base.SendUpdatedPrivacyInfo(blockChat, blockPrivate, blockTrade, blockDuel);
+        public void RaiseOnLoadingSection(object sender, EventArgs e) => OnLoadingSection?.Invoke(sender, e);
+        public void RaiseOnLoadingSectionCompleted(object sender, EventArgs e) => OnLoadingSectionCompleted?.Invoke(sender, e);
+        public void RaiseOnContentLoaded(object sender, OpenRS.Net.Client.Events.ContentLoadedEventArgs e) => OnContentLoaded?.Invoke(sender, e);
+        public void RaiseOnContentLoadedCompleted(object sender, EventArgs e) => OnContentLoadedCompleted?.Invoke(sender, e);
+        public void CallBaseLostConnection() => base.LostConnection();
+
+        public sbyte[] CallBaseUnpackData(string fileName, string fileTitle, int progressPercentage)
+            => base.UnpackData(fileName, fileTitle, progressPercentage);
+
     }
 
 }

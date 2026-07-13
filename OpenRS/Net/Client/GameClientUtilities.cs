@@ -1,4 +1,3 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,18 +12,19 @@ using System.ComponentModel;
 using OpenRS.Net.Client.Events;
 using OpenRS.Settings;
 using System.Threading;
-
+using System;
 
 namespace OpenRS.Net.Client
 {
-    public sealed partial class GameClient
+    public sealed class GameClientUtilities(GameClient client)
     {
+
         public int GetInventoryItemTotalCount(int itemId)
         {
             int l = 0;
-            for (int i1 = 0; i1 < inventoryItemsCount; i1 += 1)
+            for (int i1 = 0; i1 < client.inventoryItemsCount; i1 += 1)
             {
-                if (inventoryItems[i1] == itemId)
+                if (client.inventoryItems[i1] == itemId)
                 {
                     if (GameData.itemStackable[itemId] == 1)
                     {
@@ -32,7 +32,7 @@ namespace OpenRS.Net.Client
                     }
                     else
                     {
-                        l += inventoryItemCount[i1];
+                        l += client.inventoryItemCount[i1];
                     }
                 }
             }
@@ -41,36 +41,36 @@ namespace OpenRS.Net.Client
         }
         public void SendLogout()
         {
-            if (!loggedIn)
+            if (!client.loggedIn)
             {
                 return;
             }
 
-            if (combatTimeout > 450)
+            if (client.combatTimeout > 450)
             {
-                DisplayMessage("@cya@You can't logout during combat!", 3);
+                client.DisplayMessage("@cya@You can't logout during combat!", 3);
                 return;
             }
-            if (combatTimeout > 0)
+            if (client.combatTimeout > 0)
             {
-                DisplayMessage("@cya@You can't logout for 10 seconds after combat", 3);
+                client.DisplayMessage("@cya@You can't logout for 10 seconds after combat", 3);
                 return;
             }
             else
             {
-                streamClass.CreatePacket(129);
-                streamClass.FormatPacket();
-                logoutTimer = 1000;
+                client.streamClass.CreatePacket(129);
+                client.streamClass.FormatPacket();
+                client.logoutTimer = 1000;
 
-                streamClass.CloseStream();
+                client.streamClass.CloseStream();
                 return;
             }
         }
         public bool IsItemEquipped(int itemId)
         {
-            for (int l = 0; l < inventoryItemsCount; l += 1)
+            for (int l = 0; l < client.inventoryItemsCount; l += 1)
             {
-                if (inventoryItems[l] == itemId && inventoryItemEquipped[l] == 1)
+                if (client.inventoryItems[l] == itemId && client.inventoryItemEquipped[l] == 1)
                 {
                     return true;
                 }
@@ -96,7 +96,12 @@ namespace OpenRS.Net.Client
             {
                 try
                 {
-                    SendPingPacket();
+                    client.CallSendPingPacket();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[SendPingPacket EXCEPTION] {ex.GetType().Name}: {ex.Message}");
+                    Console.WriteLine(ex.StackTrace);
                 }
                 finally
                 {
@@ -116,33 +121,33 @@ namespace OpenRS.Net.Client
                 MyTaskCompleted(this, e);
             }
         }
-        public override void DisplayMessage(string s1)
+        public void DisplayMessage(string s1)
         {
             if (s1.StartsWith("@bor@"))
             {
-                DisplayMessage(s1, 4);
+                client.DisplayMessage(s1, 4);
                 return;
             }
             if (s1.StartsWith("@que@"))
             {
-                DisplayMessage("@whi@" + s1, 5);
+                client.DisplayMessage("@whi@" + s1, 5);
                 return;
             }
             if (s1.StartsWith("@pri@"))
             {
-                DisplayMessage(s1, 6);
+                client.DisplayMessage(s1, 6);
                 return;
             }
             else
             {
-                DisplayMessage(s1, 3);
+                client.DisplayMessage(s1, 3);
                 return;
             }
         }
-        public override void CantLogout()
+        public void CantLogout()
         {
-            logoutTimer = 0;
-            DisplayMessage("@cya@Sorry, you can't logout at the moment", 3);
+            client.logoutTimer = 0;
+            client.DisplayMessage("@cya@Sorry, you can't logout at the moment", 3);
         }
         public GraphicsDevice GetGraphics()
         {
@@ -152,7 +157,7 @@ namespace OpenRS.Net.Client
             //    return Link.gameApplet.GetGraphics();
             //else
             //    return base.GetGraphics();
-            return graphics;
+            return GameClient.graphics;
         }
         public static string formatItemCount(int itemCount)
         {
@@ -176,27 +181,27 @@ namespace OpenRS.Net.Client
         }
         public bool HasRequiredRunes(int l, int i1)
         {
-            if (l == 31 && (IsItemEquipped(197) || IsItemEquipped(615) || IsItemEquipped(682)))
+            if (l == 31 && (client.IsItemEquipped(197) || client.IsItemEquipped(615) || client.IsItemEquipped(682)))
             {
                 return true;
             }
 
-            if (l == 32 && (IsItemEquipped(102) || IsItemEquipped(616) || IsItemEquipped(683)))
+            if (l == 32 && (client.IsItemEquipped(102) || client.IsItemEquipped(616) || client.IsItemEquipped(683)))
             {
                 return true;
             }
 
-            if (l == 33 && (IsItemEquipped(101) || IsItemEquipped(617) || IsItemEquipped(684)))
+            if (l == 33 && (client.IsItemEquipped(101) || client.IsItemEquipped(617) || client.IsItemEquipped(684)))
             {
                 return true;
             }
 
-            if (l == 34 && (IsItemEquipped(103) || IsItemEquipped(618) || IsItemEquipped(685)))
+            if (l == 34 && (client.IsItemEquipped(103) || client.IsItemEquipped(618) || client.IsItemEquipped(685)))
             {
                 return true;
             }
 
-            return GetInventoryItemTotalCount(l) >= i1;
+            return client.GetInventoryItemTotalCount(l) >= i1;
         }
         public void DisplayMessage(string message, int type)
         {
@@ -212,9 +217,9 @@ namespace OpenRS.Net.Client
                 {
                     string s1 = message.Substring(0, l);
                     long l1 = DataOperations.NameToHash(s1);
-                    for (int j1 = 0; j1 < ignoresCount; j1 += 1)
+                    for (int j1 = 0; j1 < client.ignoresCount; j1 += 1)
                     {
-                        if (ignoresList[j1] == l1)
+                        if (client.ignoresList[j1] == l1)
                         {
                             return;
                         }
@@ -236,92 +241,92 @@ namespace OpenRS.Net.Client
                 message = "@cya@" + message;
             }
 
-            if (messagesTab != 0)
+            if (client.messagesTab != 0)
             {
                 if (type == 4 || type == 3)
                 {
-                    chatTabAllMsgFlash = 200;
+                    client.chatTabAllMsgFlash = 200;
                 }
 
-                if (type == 2 && messagesTab != 1)
+                if (type == 2 && client.messagesTab != 1)
                 {
-                    chatTabHistoryFlash = 200;
+                    client.chatTabHistoryFlash = 200;
                 }
 
-                if (type == 5 && messagesTab != 2)
+                if (type == 5 && client.messagesTab != 2)
                 {
-                    chatTabQuestFlash = 200;
+                    client.chatTabQuestFlash = 200;
                 }
 
-                if (type == 6 && messagesTab != 3)
+                if (type == 6 && client.messagesTab != 3)
                 {
-                    chatTabPrivateFlash = 200;
+                    client.chatTabPrivateFlash = 200;
                 }
 
-                if (type == 3 && messagesTab != 0)
+                if (type == 3 && client.messagesTab != 0)
                 {
-                    messagesTab = 0;
+                    client.messagesTab = 0;
                 }
 
-                if (type == 6 && messagesTab != 3 && messagesTab != 0)
+                if (type == 6 && client.messagesTab != 3 && client.messagesTab != 0)
                 {
-                    messagesTab = 0;
+                    client.messagesTab = 0;
                 }
             }
             for (int i1 = 4; i1 > 0; i1 -= 1)
             {
-                messagesArray[i1] = messagesArray[i1 - 1];
-                messagesTimeout[i1] = messagesTimeout[i1 - 1];
+                client.messagesArray[i1] = client.messagesArray[i1 - 1];
+                client.messagesTimeout[i1] = client.messagesTimeout[i1 - 1];
             }
 
-            messagesArray[0] = message;
-            messagesTimeout[0] = 300;
+            client.messagesArray[0] = message;
+            client.messagesTimeout[0] = 300;
             if (type == 2)
             {
-                if (chatInputMenu.listShownEntries[messagesHandleType2] == chatInputMenu.listLength[messagesHandleType2] - 4)
+                if (client.chatInputMenu.listShownEntries[client.messagesHandleType2] == client.chatInputMenu.listLength[client.messagesHandleType2] - 4)
                 {
-                    chatInputMenu.AddMessage(messagesHandleType2, message, true);
+                    client.chatInputMenu.AddMessage(client.messagesHandleType2, message, true);
                 }
                 else
                 {
-                    chatInputMenu.AddMessage(messagesHandleType2, message, false);
+                    client.chatInputMenu.AddMessage(client.messagesHandleType2, message, false);
                 }
             }
 
             if (type == 5)
             {
-                if (chatInputMenu.listShownEntries[messagesHandleType5] == chatInputMenu.listLength[messagesHandleType5] - 4)
+                if (client.chatInputMenu.listShownEntries[client.messagesHandleType5] == client.chatInputMenu.listLength[client.messagesHandleType5] - 4)
                 {
-                    chatInputMenu.AddMessage(messagesHandleType5, message, true);
+                    client.chatInputMenu.AddMessage(client.messagesHandleType5, message, true);
                 }
                 else
                 {
-                    chatInputMenu.AddMessage(messagesHandleType5, message, false);
+                    client.chatInputMenu.AddMessage(client.messagesHandleType5, message, false);
                 }
             }
 
             if (type == 6)
             {
-                if (chatInputMenu.listShownEntries[messagesHandleType6] == chatInputMenu.listLength[messagesHandleType6] - 4)
+                if (client.chatInputMenu.listShownEntries[client.messagesHandleType6] == client.chatInputMenu.listLength[client.messagesHandleType6] - 4)
                 {
-                    chatInputMenu.AddMessage(messagesHandleType6, message, true);
+                    client.chatInputMenu.AddMessage(client.messagesHandleType6, message, true);
                     return;
                 }
-                chatInputMenu.AddMessage(messagesHandleType6, message, false);
+                client.chatInputMenu.AddMessage(client.messagesHandleType6, message, false);
             }
         }
         public void PlaySound(string s1)
         {
-            if (audioPlayer is null || !Config.MembersFeatures)
+            if (client.audioPlayer is null || !Config.MembersFeatures)
             {
                 return;
             }
 
-            if (!configSoundOff)
+            if (!client.configSoundOff)
             {
-                int off = (int)DataOperations.GetObjectOffset(s1 + ".pcm", soundData);
-                int len = DataOperations.GetSoundLength(s1 + ".pcm", soundData);
-                audioPlayer.Play(soundData, off, len);
+                int off = (int)DataOperations.GetObjectOffset(s1 + ".pcm", client.soundData);
+                int len = DataOperations.GetSoundLength(s1 + ".pcm", client.soundData);
+                client.audioPlayer.Play(client.soundData, off, len);
             }
         }
         protected int GetUID()
@@ -375,8 +380,9 @@ namespace OpenRS.Net.Client
         }
         public string JoinString(string[] hay, string glue)
         {
-            return JoinString(hay, glue, 0);
+            return client.JoinString(hay, glue, 0);
         }
+
     }
 
 }

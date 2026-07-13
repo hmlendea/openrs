@@ -338,6 +338,8 @@ namespace OpenRS
             }
             catch (Exception exception)
             {
+                Console.WriteLine($"[DrawMudclient EXCEPTION] {exception.GetType().Name}: {exception.Message}");
+                Console.WriteLine(exception.StackTrace);
                 rscMudclient.CleanUp();
                 rscMudclient.memoryError = true;
 
