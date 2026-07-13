@@ -1,0 +1,32 @@
+[
+  {
+    "id": "0",
+    "roof": 64,
+    "unknown": 6
+  },
+  {
+    "id": "1",
+    "roof": 64,
+    "unknown": 3
+  },
+  {
+    "id": "2",
+    "roof": 96,
+    "unknown": 2
+  },
+  {
+    "id": "3",
+    "roof": 80,
+    "unknown": 33
+  },
+  {
+    "id": "4",
+    "roof": 80,
+    "unknown": 15
+  },
+  {
+    "id": "5",
+    "roof": 90,
+    "unknown": 49
+  }
+]

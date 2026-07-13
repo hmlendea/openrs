@@ -1678,8 +1678,8 @@ namespace OpenRS.Net.Client.Game
                 characterRotationTable = new int[512];
                 for (int l = 0; l < 256; l += 1)
                 {
-                    characterRotationTable[l] = (int)(Math.Sin((double)l * 0.02454369D) * 32768D);
-                    characterRotationTable[l + 256] = (int)(Math.Cos((double)l * 0.02454369D) * 32768D);
+                    characterRotationTable[l] = (int)(Math.Sin(l * 0.02454369D) * 32768D);
+                    characterRotationTable[l + 256] = (int)(Math.Cos(l * 0.02454369D) * 32768D);
                 }
 
             }
@@ -1919,15 +1919,15 @@ namespace OpenRS.Net.Client.Game
             {
                 if (l6 < entityScanlineMinX[j9])
                 {
-                    entityScanlineMinX[j9] = (int)l6;
-                    entityScanlineMinValue[j9] = (int)j7;
-                    entityScanlineMinExtra[j9] = (int)l7;
+                    entityScanlineMinX[j9] = l6;
+                    entityScanlineMinValue[j9] = j7;
+                    entityScanlineMinExtra[j9] = l7;
                 }
                 if (l6 > entityScanlineMaxX[j9])
                 {
                     entityScanlineMaxX[j9] = l6;
-                    entityScanlineMaxValue[j9] = (int)j7;
-                    entityScanlineMaxExtra[j9] = (int)l7;
+                    entityScanlineMaxValue[j9] = j7;
+                    entityScanlineMaxExtra[j9] = l7;
                 }
                 l6 += i7;
                 l7 += i8;
@@ -1969,15 +1969,15 @@ namespace OpenRS.Net.Client.Game
             {
                 if (l6 < entityScanlineMinX[k9])
                 {
-                    entityScanlineMinX[k9] = (int)l6;
-                    entityScanlineMinValue[k9] = (int)j7;
-                    entityScanlineMinExtra[k9] = (int)l7;
+                    entityScanlineMinX[k9] = l6;
+                    entityScanlineMinValue[k9] = j7;
+                    entityScanlineMinExtra[k9] = l7;
                 }
                 if (l6 > entityScanlineMaxX[k9])
                 {
                     entityScanlineMaxX[k9] = l6;
-                    entityScanlineMaxValue[k9] = (int)j7;
-                    entityScanlineMaxExtra[k9] = (int)l7;
+                    entityScanlineMaxValue[k9] = j7;
+                    entityScanlineMaxExtra[k9] = l7;
                 }
                 l6 += i7;
                 j7 += k7;
@@ -2014,11 +2014,11 @@ namespace OpenRS.Net.Client.Game
                     {
                         if (!hasTransparentBackground[pictureIndex])
                         {
-                            DrawSpriteAlpha(ref pixels, ai, 0, (int)l9 + (int)j10, (int)l10, (int)j11, (int)i11, (int)k11, (int)j10 - (int)k10, (int)j8);
+                            DrawSpriteAlpha(ref pixels, ai, 0, l9 + j10, l10, j11, i11, k11, j10 - k10, j8);
                         }
                         else
                         {
-                            DrawSpriteAlphaColorShifted(ref pixels, ai, 0, (int)l9 + (int)j10, (int)l10, (int)j11, (int)i11, (int)k11, (int)j10 - (int)k10, (int)j8);
+                            DrawSpriteAlphaColorShifted(ref pixels, ai, 0, l9 + j10, l10, j11, i11, k11, j10 - k10, j8);
                         }
                     }
 

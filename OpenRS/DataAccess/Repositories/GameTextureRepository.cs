@@ -4,7 +4,7 @@ using OpenRS.DataAccess.DataObjects;
 
 namespace OpenRS.DataAccess.Repositories
 {
-    public sealed class GameTextureRepository(string fileName) : XmlRepository<GameTextureEntity>(fileName)
+    public sealed class GameTextureRepository(string fileName) : JsonRepository<GameTextureEntity>(fileName)
     {
         public override void Update(GameTextureEntity entity)
         {

@@ -46,7 +46,7 @@ namespace OpenRS
             GraphicsManager.Instance.Graphics = graphics;
             GraphicsManager.Instance.SpriteBatch = spriteBatch;
             NuciContentManager.Instance.LoadContent(Content, GraphicsDevice);
-            NuciContentManager.MissingTexturePlaceholder = "sprites/pattern_40";
+            NuciContentManager.MissingTexturePlaceholder = "ScreenManager/missing-texture";
 
             GameClient.GameWindow = Window;
 

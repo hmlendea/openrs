@@ -4,7 +4,7 @@ using OpenRS.DataAccess.DataObjects;
 
 namespace OpenRS.DataAccess.Repositories
 {
-    public sealed class TileRepository(string fileName) : XmlRepository<TileEntity>(fileName)
+    public sealed class TileRepository(string fileName) : JsonRepository<TileEntity>(fileName)
     {
         public override void Update(TileEntity tileEntity)
         {

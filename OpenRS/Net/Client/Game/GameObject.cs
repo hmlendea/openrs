@@ -878,7 +878,7 @@ namespace OpenRS.Net.Client.Game
         private void CalculateObjectBounds()
         {
             boundsMinX = boundsMinY = boundsMinZ = 0xf423f;
-            distVar = (int)(boundsMaxX = boundsMaxY = boundsMaxZ = -boundsMinX/*unchecked((int)0xfff0bdc1)*/);
+            distVar = boundsMaxX = boundsMaxY = boundsMaxZ = -boundsMinX/*unchecked((int)0xfff0bdc1)*/;
             for (int j = 0; j < face_count; j += 1)
             {
                 int[] ai = face_vertices[j];
@@ -1093,8 +1093,8 @@ namespace OpenRS.Net.Client.Game
                 }
 
 
-                distVar = (int)(boundsMaxX = boundsMaxY = boundsMaxZ = 0x98967f);
-                boundsMinX = (int)(boundsMinY = boundsMinZ = -boundsMaxZ/*unchecked((int)0xff676981)*/);
+                distVar = boundsMaxX = boundsMaxY = boundsMaxZ = 0x98967f;
+                boundsMinX = boundsMinY = boundsMinZ = -boundsMaxZ/*unchecked((int)0xff676981)*/;
                 return;
             }
             if (objectState == 1)
@@ -1387,14 +1387,14 @@ namespace OpenRS.Net.Client.Game
             shadeTable = new int[256];
             for (int j = 0; j < 256; j += 1)
             {
-                rotationSinCosTable[j] = (int)(Math.Sin((double)j * 0.02454369D) * 32768D);
-                rotationSinCosTable[j + 256] = (int)(Math.Cos((double)j * 0.02454369D) * 32768D);
+                rotationSinCosTable[j] = (int)(Math.Sin(j * 0.02454369D) * 32768D);
+                rotationSinCosTable[j + 256] = (int)(Math.Cos(j * 0.02454369D) * 32768D);
             }
 
             for (int k = 0; k < 1024; k += 1)
             {
-                fineRotationTable[k] = (int)(Math.Sin((double)k * 0.00613592315D) * 32768D);
-                fineRotationTable[k + 1024] = (int)(Math.Cos((double)k * 0.00613592315D) * 32768D);
+                fineRotationTable[k] = (int)(Math.Sin(k * 0.00613592315D) * 32768D);
+                fineRotationTable[k + 1024] = (int)(Math.Cos(k * 0.00613592315D) * 32768D);
             }
 
             for (int l = 0; l < 10; l += 1)

@@ -317,7 +317,7 @@ namespace OpenRS.Net.Client
             }
             if (command == (int)ServerCommand.FriendList)
             {
-                friendsCount = DataOperations.GetByte((sbyte)packetData[1]);
+                friendsCount = DataOperations.GetByte(packetData[1]);
                 for (int friendIndex = 0; friendIndex < friendsCount; friendIndex += 1)
                 {
                     friendsList[friendIndex] = DataOperations.GetLong(packetData, 2 + friendIndex * 9);

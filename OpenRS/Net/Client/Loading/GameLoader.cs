@@ -642,6 +642,9 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
             client.entityManager.LoadAnimations();
             client.entityManager.LoadWallObjects();
             client.entityManager.LoadWorldObjects();
+            client.entityManager.LoadTextures();
+            client.entityManager.LoadElevations();
+            client.entityManager.LoadTiles();
 
             sbyte[] abyte1 = client.UnpackData("filter.jag", "Chat system", 15);
             if (abyte1 is null)
@@ -764,16 +767,18 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                 return;
             }
             sbyte[] abyte1 = DataOperations.LoadData("index.dat", 0, abyte0);
-            client.gameCamera.CreateTexture(GameData.textureCount, 7, 11);
-            for (int l = 0; l < GameData.textureCount; l += 1)
+            client.gameCamera.CreateTexture(client.entityManager.TextureCount, 7, 11);
+
+            for (int l = 0; l < client.entityManager.TextureCount; l += 1)
             {
-                string s1 = GameData.textureName[l];
+                string s1 = client.entityManager.GetTexture(l).Name;
                 sbyte[] abyte2 = DataOperations.LoadData(s1 + ".dat", 0, abyte0);
                 client.gameGraphics.UnpackImageData(client.baseTexturePic, abyte2, abyte1, 1);
                 client.gameGraphics.DrawBox(0, 0, 128, 128, 0xff00ff);
                 client.gameGraphics.DrawPicture(0, 0, client.baseTexturePic);
                 int i1 = client.gameGraphics.pictureAssumedWidth[client.baseTexturePic];
-                string s2 = GameData.textureSubName[l];
+                string s2 = client.entityManager.GetTexture(l).SubName;
+
                 if (s2 is not null && s2.Length > 0)
                 {
                     sbyte[] abyte3 = DataOperations.LoadData(s2 + ".dat", 0, abyte0);

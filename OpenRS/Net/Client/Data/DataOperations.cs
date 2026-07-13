@@ -60,10 +60,10 @@ namespace OpenRS.Net.Client.Data
         public static int GetInt16(sbyte[] data, int offset) => GetShort(data, offset);
 
         public static long GetLong(sbyte[] data, int offset) =>
-            (((long)GetInt(data, offset) & 0xffffffffL) << 32) + ((long)GetInt(data, offset + 4) & 0xffffffffL);
+            ((GetInt(data, offset) & 0xffffffffL) << 32) + (GetInt(data, offset + 4) & 0xffffffffL);
 
         public static long GetLong(byte[] data, int offset) =>
-            (((long)GetInt(data, offset) & 0xffffffffL) << 32) + ((long)GetInt(data, offset + 4) & 0xffffffffL);
+            ((GetInt(data, offset) & 0xffffffffL) << 32) + (GetInt(data, offset + 4) & 0xffffffffL);
 
         public static int GetInt(sbyte[] data, int offset) =>
             ((data[offset] & 0xff) << 24) + ((data[offset + 1] & 0xff) << 16) + ((data[offset + 2] & 0xff) << 8) + (data[offset + 3] & 0xff);

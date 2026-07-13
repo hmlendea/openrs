@@ -114,16 +114,37 @@ namespace OpenRS.GameLogic.GameManagers
             prayers = [.. prayerRepository.GetAll().ToDomainModels()];
         }
 
+        public void LoadTextures()
+        {
+            string texturePath = Path.Combine(ApplicationPaths.DataDirectory, "textures.json");
+            GameTextureRepository textureRepository = new(texturePath);
+            textures = [.. textureRepository.GetAll().OrderBy(texture => int.Parse(texture.Id)).ToDomainModels()];
+        }
+
+        public void LoadElevations()
+        {
+            string elevationPath = Path.Combine(ApplicationPaths.DataDirectory, "elevations.json");
+            ElevationRepository elevationRepository = new(elevationPath);
+            elevations = [.. elevationRepository.GetAll().OrderBy(elevation => int.Parse(elevation.Id)).ToDomainModels()];
+        }
+
+        public void LoadTiles()
+        {
+            string tilePath = Path.Combine(ApplicationPaths.DataDirectory, "tiles.json");
+            TileRepository tileRepository = new(tilePath);
+            tiles = [.. tileRepository.GetAll().OrderBy(tile => int.Parse(tile.Id)).ToDomainModels()];
+        }
+
         public void LoadContent()
         {
             string animationsPath = Path.Combine(ApplicationPaths.DataDirectory, "animations.json");
-            string elevationPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "elevations.xml");
-            string itemPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "items.xml");
+            string elevationPath = Path.Combine(ApplicationPaths.DataDirectory, "elevations.json");
+            string itemPath = Path.Combine(ApplicationPaths.DataDirectory, "items.json");
             string npcPath = Path.Combine(ApplicationPaths.DataDirectory, "npcs.json");
             string prayerPath = Path.Combine(ApplicationPaths.DataDirectory, "prayers.json");
-            string spellPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "spells.xml");
-            string texturePath = Path.Combine(ApplicationPaths.EntitiesDirectory, "textures.xml");
-            string tilePath = Path.Combine(ApplicationPaths.EntitiesDirectory, "tiles.xml");
+            string spellPath = Path.Combine(ApplicationPaths.DataDirectory, "spells.json");
+            string texturePath = Path.Combine(ApplicationPaths.DataDirectory, "textures.json");
+            string tilePath = Path.Combine(ApplicationPaths.DataDirectory, "tiles.json");
             string wallObjectPath = Path.Combine(ApplicationPaths.DataDirectory, "wall_objects.json");
             string worldObjectPath = Path.Combine(ApplicationPaths.DataDirectory, "world_objects.json");
 

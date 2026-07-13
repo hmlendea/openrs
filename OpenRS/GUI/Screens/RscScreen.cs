@@ -23,7 +23,6 @@ namespace OpenRS.Gui.Screens
         private Thread gameThread;
 
         private Texture2D lastGameImageTexture;
-        private Texture2D gameLogo;
         private SpriteBatch guiSpriteBatch;
 
         private SpriteFont diagnosticFont;
@@ -34,8 +33,6 @@ namespace OpenRS.Gui.Screens
         private string contentLoadingStatusText = "";
         private decimal contentLoadingStatusProgress = 0m;
 
-        private Texture2D loadingBackgroundImage;
-
         private GuiInventoryPanel inventoryPanel;
 
         protected override void DoLoadContent()
@@ -44,9 +41,6 @@ namespace OpenRS.Gui.Screens
 
             diagnosticFont = NuciContentManager.Instance.LoadSpriteFont("fonts/gameFont12");
             diagnosticFont2 = NuciContentManager.Instance.LoadSpriteFont("fonts/gameFont16");
-
-            loadingBackgroundImage = NuciContentManager.Instance.LoadTexture2D("sprites/pattern_40");
-            gameLogo = NuciContentManager.Instance.LoadTexture2D("sprites/yuno4");
 
             rscMudclient = GameClient.CreateMudclient("RuneScape Classic", 768, 480);
             rscMudclient.DoNotDrawLogo = true;
@@ -224,15 +218,6 @@ namespace OpenRS.Gui.Screens
 
             try
             {
-                float logoAspectRatio = (float)gameLogo.Height / (float)gameLogo.Width;
-                int halfWindowWidth = rscMudclient.windowWidth / 2;
-                float scaledLogoHeight = halfWindowWidth * logoAspectRatio;
-
-                spriteBatch.Draw(
-                    gameLogo,
-                    new Rectangle((rscMudclient.windowWidth / 2) - (halfWindowWidth / 2), 0, halfWindowWidth, (int)scaledLogoHeight),
-                    Color.White);
-
                 spriteBatch.End();
             }
             catch { }
@@ -260,35 +245,6 @@ namespace OpenRS.Gui.Screens
                 ScreenManager.Instance.Size.Height / 2 - (statusTextSize.Y / 2));
 
             spriteBatch.Begin();
-
-            if (loadingBackgroundImage is not null)
-            {
-                if (loadingBackgroundImage.Width < ScreenManager.Instance.Size.Width)
-                {
-                    int tilesHorizontal = (ScreenManager.Instance.Size.Width / loadingBackgroundImage.Width) + 1;
-                    int tilesVertical = (ScreenManager.Instance.Size.Height / loadingBackgroundImage.Height) + 1;
-
-                    for (int tileRow = 0; tileRow < tilesVertical; tileRow += 1)
-                    {
-                        for (int tileColumn = 0; tileColumn < tilesHorizontal; tileColumn += 1)
-                        {
-                            spriteBatch.Draw(
-                                loadingBackgroundImage,
-                                new Vector2(tileColumn * loadingBackgroundImage.Width, tileRow * loadingBackgroundImage.Height),
-                                Color.White);
-                        }
-                    }
-
-                    spriteBatch.DrawGradient(
-                        20, 20, 20, 90,
-                        Color.FromNonPremultiplied(255, 255, 255, 255),
-                        Color.FromNonPremultiplied(255, 255, 255, 100));
-                }
-                else
-                {
-                    spriteBatch.Draw(loadingBackgroundImage, Vector2.Zero, Color.White);
-                }
-            }
 
             spriteBatch.FillRect(
                 (ScreenManager.Instance.Size.Width / 4) - 12, (int)statusTextPosition.Y - 12,

@@ -8,15 +8,6 @@ namespace OpenRS.Net.Client.Data
         public static int spellProjectileCount;
         public static int overlayTextureCount;
         public static string[] modelName = new string[5000];
-        public static string[] textureName;
-        public static string[] textureSubName;
-        public static int textureCount;
-        public static int elevationCount;
-        public static int[] tileGroundOverlayTexture;
-        public static int[] tileGroundOverlayTypes;
-        public static int[] overlayTextureFlags;
-        public static int[] roofs;
-        public static int[] roofAltitudes;
         public static int modelCount;
         public static string[] wallObjectModelNames = new string[5000];
         public static string[] floorModelNames = new string[5000];
@@ -251,18 +242,16 @@ namespace OpenRS.Net.Client.Data
                 ReadString();
             }
 
-            textureCount = ReadShort();
-            textureName = new string[textureCount];
-            textureSubName = new string[textureCount];
+            int textureCount = ReadShort();
 
             for (int textureIndex = 0; textureIndex < textureCount; textureIndex += 1)
             {
-                textureName[textureIndex] = ReadString();
+                ReadString();
             }
 
             for (int textureIndex = 0; textureIndex < textureCount; textureIndex += 1)
             {
-                textureSubName[textureIndex] = ReadString();
+                ReadString();
             }
 
             int animationCount = ReadShort();
@@ -391,38 +380,33 @@ namespace OpenRS.Net.Client.Data
                 ReadByte();
             }
 
-            elevationCount = ReadShort();
-            roofs = new int[elevationCount];
-            roofAltitudes = new int[elevationCount];
+            int elevationCount = ReadShort();
 
             for (int elevationIndex = 0; elevationIndex < elevationCount; elevationIndex += 1)
             {
-                roofs[elevationIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int elevationIndex = 0; elevationIndex < elevationCount; elevationIndex += 1)
             {
-                roofAltitudes[elevationIndex] = ReadByte();
+                ReadByte();
             }
 
             overlayTextureCount = ReadShort();
-            tileGroundOverlayTexture = new int[overlayTextureCount];
-            tileGroundOverlayTypes = new int[overlayTextureCount];
-            overlayTextureFlags = new int[overlayTextureCount];
 
             for (int overlayIndex = 0; overlayIndex < overlayTextureCount; overlayIndex += 1)
             {
-                tileGroundOverlayTexture[overlayIndex] = ReadInt();
+                ReadInt();
             }
 
             for (int overlayIndex = 0; overlayIndex < overlayTextureCount; overlayIndex += 1)
             {
-                tileGroundOverlayTypes[overlayIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int overlayIndex = 0; overlayIndex < overlayTextureCount; overlayIndex += 1)
             {
-                overlayTextureFlags[overlayIndex] = ReadByte();
+                ReadByte();
             }
 
             spellProjectileCount = ReadShort();

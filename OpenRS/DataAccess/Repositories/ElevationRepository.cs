@@ -4,7 +4,7 @@ using OpenRS.DataAccess.DataObjects;
 
 namespace OpenRS.DataAccess.Repositories
 {
-    public sealed class ElevationRepository(string fileName) : XmlRepository<ElevationEntity>(fileName)
+    public sealed class ElevationRepository(string fileName) : JsonRepository<ElevationEntity>(fileName)
     {
         public override void Update(ElevationEntity entity)
         {

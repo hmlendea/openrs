@@ -78,16 +78,16 @@ namespace OpenRS.Net.Client.Game.Cameras
             cameraOffsetZ = 0;
             for (int i1 = 0; i1 < 256; i1 += 1)
             {
-                int sineValue = (int)(Math.Sin((double)i1 * 0.02454369D) * 32768D);
-                sinCosTable[i1] = (int)(Math.Sin((double)i1 * 0.02454369D) * 32768D);
-                sinCosTable[i1 + 256] = (int)(Math.Cos((double)i1 * 0.02454369D) * 32768D);
+                int sineValue = (int)(Math.Sin(i1 * 0.02454369D) * 32768D);
+                sinCosTable[i1] = (int)(Math.Sin(i1 * 0.02454369D) * 32768D);
+                sinCosTable[i1 + 256] = (int)(Math.Cos(i1 * 0.02454369D) * 32768D);
             }
 
             for (int j1 = 0; j1 < 1024; j1 += 1)
             {
-                int sineValue = (int)(Math.Sin((double)j1 * 0.00613592315D) * 32768D);
-                trigonometryTable[j1] = (int)(Math.Sin((double)j1 * 0.00613592315D) * 32768D);
-                trigonometryTable[j1 + 1024] = (int)(Math.Cos((double)j1 * 0.00613592315D) * 32768D);
+                int sineValue = (int)(Math.Sin(j1 * 0.00613592315D) * 32768D);
+                trigonometryTable[j1] = (int)(Math.Sin(j1 * 0.00613592315D) * 32768D);
+                trigonometryTable[j1 + 1024] = (int)(Math.Cos(j1 * 0.00613592315D) * 32768D);
             }
 
         }
@@ -1137,20 +1137,20 @@ namespace OpenRS.Net.Client.Game.Cameras
                     minVisibleScanline = i23;
                 }
 
-                maxVisibleScanline = (int)j16;
+                maxVisibleScanline = j16;
                     if (j19 > maxVisibleScanline)
                 {
-                    maxVisibleScanline = (int)j19;
+                    maxVisibleScanline = j19;
                 }
 
                 if (l21 > maxVisibleScanline)
                 {
-                    maxVisibleScanline = (int)l21;
+                    maxVisibleScanline = l21;
                 }
 
                 if (j23 > maxVisibleScanline)
                 {
-                    maxVisibleScanline = (int)j23;
+                    maxVisibleScanline = j23;
                 }
 
                 int k23 = 0;
@@ -1158,7 +1158,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     {
                         if (textureFlags >= l15 && textureFlags < j16)
                         {
-                            polygonFlags = (int)(shadingMode = l13);
+                            polygonFlags = shadingMode = l13;
                             colourShift = k23 = l14;
                             l13 += j14;
                             l14 += j15;
@@ -2552,8 +2552,8 @@ namespace OpenRS.Net.Client.Game.Cameras
             arg13 <<= 2;
             if (destOffset != 0)
             {
-                k = (int)((endScanline / destOffset) << 6);
-                i1 = (int)((startPixelX / destOffset) << 6);
+                k = (endScanline / destOffset) << 6;
+                i1 = (startPixelX / destOffset) << 6;
             }
             if (k < 0)
             {
@@ -3106,7 +3106,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 }
 
                 k.faceRenderFlag[i1] = k1;
-                k.faceVisibility[i1] = (int)((double)lightingFactor * Math.Sqrt(xDistance * xDistance + yDistance * yDistance + zDistance * zDistance));
+                k.faceVisibility[i1] = (int)(lightingFactor * Math.Sqrt(xDistance * xDistance + yDistance * yDistance + zDistance * zDistance));
             }
             else
             {
@@ -3586,9 +3586,9 @@ namespace OpenRS.Net.Client.Game.Cameras
             for (int pixel = 0; pixel < pixelCount; pixel += 1)
             {
                 int i2 = texture[pixel];
-                texture[pixelCount + pixel] = i2 - (int)(i2 >> 3) & 0xf8f8ff;
-                texture[pixelCount * 2 + pixel] = i2 - (int)(i2 >> 2) & 0xf8f8ff;
-                texture[pixelCount * 3 + pixel] = i2 - (int)(i2 >> 2) - (int)(i2 >> 3) & 0xf8f8ff;
+                texture[pixelCount + pixel] = i2 - (i2 >> 3) & 0xf8f8ff;
+                texture[pixelCount * 2 + pixel] = i2 - (i2 >> 2) & 0xf8f8ff;
+                texture[pixelCount * 3 + pixel] = i2 - (i2 >> 2) - (i2 >> 3) & 0xf8f8ff;
             }
 
         }
@@ -3617,9 +3617,9 @@ namespace OpenRS.Net.Client.Game.Cameras
             for (int k1 = 0; k1 < c; k1 += 1)
             {
                 int i2 = objLight[k1];
-                objLight[c + k1] = i2 - (int)(i2 >> 3) & 0xf8f8ff;
-                objLight[c * 2 + k1] = i2 - (int)(i2 >> 2) & 0xf8f8ff;
-                objLight[c * 3 + k1] = i2 - (int)(i2 >> 2) - (int)(i2 >> 3) & 0xf8f8ff;
+                objLight[c + k1] = i2 - (i2 >> 3) & 0xf8f8ff;
+                objLight[c * 2 + k1] = i2 - (i2 >> 2) & 0xf8f8ff;
+                objLight[c * 3 + k1] = i2 - (i2 >> 2) - (i2 >> 3) & 0xf8f8ff;
             }
 
         }

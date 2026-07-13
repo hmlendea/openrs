@@ -408,7 +408,7 @@ namespace OpenRS.Net.Client
             }
             else if (currentTime > timeArray[timingArrayIndex])
             {
-                timingMultiplier = (int)((long)(2560 * refreshRate) / (currentTime - timeArray[timingArrayIndex]));
+                timingMultiplier = (int)(2560 * refreshRate / (currentTime - timeArray[timingArrayIndex]));
             }
 
             if (timingMultiplier < 25)
@@ -419,7 +419,7 @@ namespace OpenRS.Net.Client
             if (timingMultiplier > 256)
             {
                 timingMultiplier = 256;
-                sleepTime = (int)((long)refreshRate - (currentTime - timeArray[timingArrayIndex]) / 10L);
+                sleepTime = (int)(refreshRate - (currentTime - timeArray[timingArrayIndex]) / 10L);
 
                 if (sleepTime < gameMinThreadSleepTime)
                 {

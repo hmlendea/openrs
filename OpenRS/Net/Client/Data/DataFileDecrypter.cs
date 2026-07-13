@@ -397,7 +397,7 @@ namespace OpenRS.Net.Client.Data
 
                         if (blockEntry.huffmanCodeLengths[huffmanGroupIndex][lengthScanIndex] < minimumCodeLength)
                         {
-                            minimumCodeLength = (sbyte)blockEntry.huffmanCodeLengths[huffmanGroupIndex][lengthScanIndex];
+                            minimumCodeLength = blockEntry.huffmanCodeLengths[huffmanGroupIndex][lengthScanIndex];
                         }
                     }
 

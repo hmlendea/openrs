@@ -415,22 +415,22 @@ namespace OpenRS.Net.Client.Game
 					for (int i3 = 0; i3 < 96; i3 += 1)
 					{
 						int i4 = -GetTileElevation(j2, i3);
-						if (GetTileGroundOverlayIndex(j2, i3, height) > 0 && GameData.tileGroundOverlayTypes[GetTileGroundOverlayIndex(j2, i3, height) - 1] == 4)
+						if (GetTileGroundOverlayIndex(j2, i3, height) > 0 && entityManager.GetTile(GetTileGroundOverlayIndex(j2, i3, height) - 1).Type == 4)
                         {
                             i4 = 0;
                         }
 
-                        if (GetTileGroundOverlayIndex(j2 - 1, i3, height) > 0 && GameData.tileGroundOverlayTypes[GetTileGroundOverlayIndex(j2 - 1, i3, height) - 1] == 4)
+                        if (GetTileGroundOverlayIndex(j2 - 1, i3, height) > 0 && entityManager.GetTile(GetTileGroundOverlayIndex(j2 - 1, i3, height) - 1).Type == 4)
                         {
                             i4 = 0;
                         }
 
-                        if (GetTileGroundOverlayIndex(j2, i3 - 1, height) > 0 && GameData.tileGroundOverlayTypes[GetTileGroundOverlayIndex(j2, i3 - 1, height) - 1] == 4)
+                        if (GetTileGroundOverlayIndex(j2, i3 - 1, height) > 0 && entityManager.GetTile(GetTileGroundOverlayIndex(j2, i3 - 1, height) - 1).Type == 4)
                         {
                             i4 = 0;
                         }
 
-                        if (GetTileGroundOverlayIndex(j2 - 1, i3 - 1, height) > 0 && GameData.tileGroundOverlayTypes[GetTileGroundOverlayIndex(j2 - 1, i3 - 1, height) - 1] == 4)
+                        if (GetTileGroundOverlayIndex(j2 - 1, i3 - 1, height) > 0 && entityManager.GetTile(GetTileGroundOverlayIndex(j2 - 1, i3 - 1, height) - 1).Type == 4)
                         {
                             i4 = 0;
                         }
@@ -462,9 +462,9 @@ namespace OpenRS.Net.Client.Game
 						if (GetTileGroundOverlayIndex(x1, y1, height) > 0)
 						{
 							int tileIndex = GetTileGroundOverlayIndex(x1, y1, height);
-							int tileType = GameData.tileGroundOverlayTypes[tileIndex - 1];
+							int tileType = entityManager.GetTile(tileIndex - 1).Type;
 							int i19 = GetElevationMinimum(x1, y1, height);
-							texture = texture1 = GameData.tileGroundOverlayTexture[tileIndex - 1];
+							texture = texture1 = entityManager.GetTile(tileIndex - 1).Colour;
 							if (tileType == 4)
 							{
 								texture = 1;
@@ -525,12 +525,12 @@ namespace OpenRS.Net.Client.Game
 								}
                             }
 
-                            if (GameData.overlayTextureFlags[tileIndex - 1] != 0)
+                            if (entityManager.GetTile(tileIndex - 1).Unknown != 0)
                             {
                                 tiles[x1][y1] |= 0x40;
                             }
 
-                            if (GameData.tileGroundOverlayTypes[tileIndex - 1] == 2)
+                            if (entityManager.GetTile(tileIndex - 1).Type == 2)
                             {
                                 tiles[x1][y1] |= 0x80;
                             }
@@ -617,9 +617,9 @@ namespace OpenRS.Net.Client.Game
 				{
 					for (int y1 = 1; y1 < 95; y1 += 1)
                     {
-                        if (GetTileGroundOverlayIndex(x1, y1, height) > 0 && GameData.tileGroundOverlayTypes[GetTileGroundOverlayIndex(x1, y1, height) - 1] == 4)
+                        if (GetTileGroundOverlayIndex(x1, y1, height) > 0 && entityManager.GetTile(GetTileGroundOverlayIndex(x1, y1, height) - 1).Type == 4)
 						{
-							int l7 = GameData.tileGroundOverlayTexture[GetTileGroundOverlayIndex(x1, y1, height) - 1];
+							int l7 = entityManager.GetTile(GetTileGroundOverlayIndex(x1, y1, height) - 1).Colour;
 							int j10 = sectionObj.GetVertexIndex(x1 * 128, -GetTileElevation(x1, y1), y1 * 128);
 							int l12 = sectionObj.GetVertexIndex((x1 + 1) * 128, -GetTileElevation(x1 + 1, y1), y1 * 128);
 							int i15 = sectionObj.GetVertexIndex((x1 + 1) * 128, -GetTileElevation(x1 + 1, y1 + 1), (y1 + 1) * 128);
@@ -633,11 +633,11 @@ namespace OpenRS.Net.Client.Game
 							sectionObj.entityType[i20] = 0x30d40 + i20;
 							DrawMinimapPixel(x1, y1, 0, l7, l7);
 						}
-						else if (GetTileGroundOverlayIndex(x1, y1, height) == 0 || GameData.tileGroundOverlayTypes[GetTileGroundOverlayIndex(x1, y1, height) - 1] != 3)
+						else if (GetTileGroundOverlayIndex(x1, y1, height) == 0 || entityManager.GetTile(GetTileGroundOverlayIndex(x1, y1, height) - 1).Type != 3)
 						{
-							if (GetTileGroundOverlayIndex(x1, y1 + 1, height) > 0 && GameData.tileGroundOverlayTypes[GetTileGroundOverlayIndex(x1, y1 + 1, height) - 1] == 4)
+							if (GetTileGroundOverlayIndex(x1, y1 + 1, height) > 0 && entityManager.GetTile(GetTileGroundOverlayIndex(x1, y1 + 1, height) - 1).Type == 4)
 							{
-								int i8 = GameData.tileGroundOverlayTexture[GetTileGroundOverlayIndex(x1, y1 + 1, height) - 1];
+								int i8 = entityManager.GetTile(GetTileGroundOverlayIndex(x1, y1 + 1, height) - 1).Colour;
 								int k10 = sectionObj.GetVertexIndex(x1 * 128, -GetTileElevation(x1, y1), y1 * 128);
 								int i13 = sectionObj.GetVertexIndex((x1 + 1) * 128, -GetTileElevation(x1 + 1, y1), y1 * 128);
 								int j15 = sectionObj.GetVertexIndex((x1 + 1) * 128, -GetTileElevation(x1 + 1, y1 + 1), (y1 + 1) * 128);
@@ -651,9 +651,9 @@ namespace OpenRS.Net.Client.Game
 								sectionObj.entityType[j20] = 0x30d40 + j20;
 								DrawMinimapPixel(x1, y1, 0, i8, i8);
 							}
-							if (GetTileGroundOverlayIndex(x1, y1 - 1, height) > 0 && GameData.tileGroundOverlayTypes[GetTileGroundOverlayIndex(x1, y1 - 1, height) - 1] == 4)
+							if (GetTileGroundOverlayIndex(x1, y1 - 1, height) > 0 && entityManager.GetTile(GetTileGroundOverlayIndex(x1, y1 - 1, height) - 1).Type == 4)
 							{
-								int j8 = GameData.tileGroundOverlayTexture[GetTileGroundOverlayIndex(x1, y1 - 1, height) - 1];
+								int j8 = entityManager.GetTile(GetTileGroundOverlayIndex(x1, y1 - 1, height) - 1).Colour;
 								int l10 = sectionObj.GetVertexIndex(x1 * 128, -GetTileElevation(x1, y1), y1 * 128);
 								int j13 = sectionObj.GetVertexIndex((x1 + 1) * 128, -GetTileElevation(x1 + 1, y1), y1 * 128);
 								int k15 = sectionObj.GetVertexIndex((x1 + 1) * 128, -GetTileElevation(x1 + 1, y1 + 1), (y1 + 1) * 128);
@@ -667,9 +667,9 @@ namespace OpenRS.Net.Client.Game
 								sectionObj.entityType[k20] = 0x30d40 + k20;
 								DrawMinimapPixel(x1, y1, 0, j8, j8);
 							}
-							if (GetTileGroundOverlayIndex(x1 + 1, y1, height) > 0 && GameData.tileGroundOverlayTypes[GetTileGroundOverlayIndex(x1 + 1, y1, height) - 1] == 4)
+							if (GetTileGroundOverlayIndex(x1 + 1, y1, height) > 0 && entityManager.GetTile(GetTileGroundOverlayIndex(x1 + 1, y1, height) - 1).Type == 4)
 							{
-								int k8 = GameData.tileGroundOverlayTexture[GetTileGroundOverlayIndex(x1 + 1, y1, height) - 1];
+								int k8 = entityManager.GetTile(GetTileGroundOverlayIndex(x1 + 1, y1, height) - 1).Colour;
 								int i11 = sectionObj.GetVertexIndex(x1 * 128, -GetTileElevation(x1, y1), y1 * 128);
 								int k13 = sectionObj.GetVertexIndex((x1 + 1) * 128, -GetTileElevation(x1 + 1, y1), y1 * 128);
 								int l15 = sectionObj.GetVertexIndex((x1 + 1) * 128, -GetTileElevation(x1 + 1, y1 + 1), (y1 + 1) * 128);
@@ -683,9 +683,9 @@ namespace OpenRS.Net.Client.Game
 								sectionObj.entityType[l20] = 0x30d40 + l20;
 								DrawMinimapPixel(x1, y1, 0, k8, k8);
 							}
-							if (GetTileGroundOverlayIndex(x1 - 1, y1, height) > 0 && GameData.tileGroundOverlayTypes[GetTileGroundOverlayIndex(x1 - 1, y1, height) - 1] == 4)
+							if (GetTileGroundOverlayIndex(x1 - 1, y1, height) > 0 && entityManager.GetTile(GetTileGroundOverlayIndex(x1 - 1, y1, height) - 1).Type == 4)
 							{
-								int l8 = GameData.tileGroundOverlayTexture[GetTileGroundOverlayIndex(x1 - 1, y1, height) - 1];
+								int l8 = entityManager.GetTile(GetTileGroundOverlayIndex(x1 - 1, y1, height) - 1).Colour;
 								int j11 = sectionObj.GetVertexIndex(x1 * 128, -GetTileElevation(x1, y1), y1 * 128);
 								int l13 = sectionObj.GetVertexIndex((x1 + 1) * 128, -GetTileElevation(x1 + 1, y1), y1 * 128);
 								int i16 = sectionObj.GetVertexIndex((x1 + 1) * 128, -GetTileElevation(x1 + 1, y1 + 1), (y1 + 1) * 128);
@@ -1014,7 +1014,7 @@ namespace OpenRS.Net.Client.Game
 						int k27 = roofTiles[l18][k19];
 						int l27 = roofTiles[k21][i23];
 						int i28 = roofTiles[k23][i24];
-						int j28 = GameData.roofs[i12 - 1];
+						int j28 = entityManager.GetElevation(i12 - 1).Roof;
 						if (IsRoofTile(j14, k16) && j27 < 0x13880)
 						{
 							j27 += j28 + 0x13880;
@@ -1136,7 +1136,7 @@ namespace OpenRS.Net.Client.Game
                             i27 += byte0;
                         }
 
-                        i12 = GameData.roofAltitudes[i12 - 1];
+                        i12 = entityManager.GetElevation(i12 - 1).Unknown;
 						j27 = -j27;
 						k27 = -k27;
 						l27 = -l27;
@@ -1495,7 +1495,7 @@ namespace OpenRS.Net.Client.Game
             }
             else
             {
-                return GameData.tileGroundOverlayTexture[k1 - 1];
+                return entityManager.GetTile(k1 - 1).Colour;
             }
         }
 
@@ -1610,7 +1610,7 @@ namespace OpenRS.Net.Client.Game
                 return -1;
             }
 
-            int k1 = GameData.tileGroundOverlayTypes[j1 - 1];
+            int k1 = entityManager.GetTile(j1 - 1).Type;
 
             if (k1 != 2)
             {
