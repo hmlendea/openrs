@@ -403,9 +403,9 @@ namespace OpenRS.Net.Client.Game
         public void DrawBoxEdge(int x, int y, int w, int h, int color)
         {
             DrawLineX(x, y, w, color);
-            DrawLineX(x, (y + h) - 1, w, color);
+            DrawLineX(x, y + h - 1, w, color);
             DrawLineY(x, y, h, color);
-            DrawLineY((x + w) - 1, y, h, color);
+            DrawLineY(x + w - 1, y, h, color);
         }
 
         public void DrawLineX(int x, int y, int length, int colour)
@@ -517,7 +517,7 @@ namespace OpenRS.Net.Client.Game
 
         public static uint RgbaToUInt(int r, int g, int b, int a)
         {
-            if (((((r | g) | b) | a) & -256) != 0)
+            if (((r | g | b | a) & -256) != 0)
             {
                 r = ClampToByte32(r);
                 g = ClampToByte32(g);
@@ -527,7 +527,7 @@ namespace OpenRS.Net.Client.Game
             g <<= 8;
             b <<= 0x10;
             a <<= 0x18;
-            return (uint)(((r | g) | b) | a);
+            return (uint)(r | g | b | a);
             //return (r << 24) + (g << 16) + (b << 8) + a;
         }
 
@@ -542,19 +542,6 @@ namespace OpenRS.Net.Client.Game
                 return 0xff;
             }
             return value;
-        }
-
-        private static int ClampToByte64(long value)
-        {
-            if (value < 0L)
-            {
-                return 0;
-            }
-            if (value > 0xffL)
-            {
-                return 0xff;
-            }
-            return (int)value;
         }
 
         public static int RgbToInt(int i, int k, int l)
@@ -1017,7 +1004,7 @@ namespace OpenRS.Net.Client.Game
             }
             if (y + k1 >= imageHeight)
             {
-                k1 -= ((y + k1) - imageHeight) + 1;
+                k1 -= y + k1 - imageHeight + 1;
             }
 
             if (x < imageX)
@@ -1032,7 +1019,7 @@ namespace OpenRS.Net.Client.Game
             }
             if (x + l1 >= imageWidth)
             {
-                int i3 = ((x + l1) - imageWidth) + 1;
+                int i3 = x + l1 - imageWidth + 1;
                 l1 -= i3;
                 j2 += i3;
                 i2 += i3;
@@ -1082,20 +1069,20 @@ namespace OpenRS.Net.Client.Game
                     int k3 = pictureAssumedHeight[index];
                     k2 = (i3 << 16) / width;
                     l2 = (k3 << 16) / height;
-                    x += ((pictureOffsetX[index] * width + i3) - 1) / i3;
-                    y += ((pictureOffsetY[index] * height + k3) - 1) / k3;
-                    if ((pictureOffsetX[index] * width) % i3 != 0)
+                    x += (pictureOffsetX[index] * width + i3 - 1) / i3;
+                    y += (pictureOffsetY[index] * height + k3 - 1) / k3;
+                    if (pictureOffsetX[index] * width % i3 != 0)
                     {
-                        i2 = (i3 - (pictureOffsetX[index] * width) % i3 << 16) / width;
+                        i2 = (i3 - pictureOffsetX[index] * width % i3 << 16) / width;
                     }
 
-                    if ((pictureOffsetY[index] * height) % k3 != 0)
+                    if (pictureOffsetY[index] * height % k3 != 0)
                     {
-                        j2 = (k3 - (pictureOffsetY[index] * height) % k3 << 16) / height;
+                        j2 = (k3 - pictureOffsetY[index] * height % k3 << 16) / height;
                     }
 
-                    width = (width * (pictureWidth[index] - (i2 >> 16))) / i3;
-                    height = (height * (pictureHeight[index] - (j2 >> 16))) / k3;
+                    width = width * (pictureWidth[index] - (i2 >> 16)) / i3;
+                    height = height * (pictureHeight[index] - (j2 >> 16)) / k3;
                 }
                 int j3 = x + y * gameWidth;
                 int l3 = gameWidth - width;
@@ -1109,7 +1096,7 @@ namespace OpenRS.Net.Client.Game
                 }
                 if (y + height >= imageHeight)
                 {
-                    height -= ((y + height) - imageHeight) + 1;
+                    height -= y + height - imageHeight + 1;
                 }
 
                 if (x < imageX)
@@ -1123,7 +1110,7 @@ namespace OpenRS.Net.Client.Game
                 }
                 if (x + width >= imageWidth)
                 {
-                    int k4 = ((x + width) - imageWidth) + 1;
+                    int k4 = x + width - imageWidth + 1;
                     width -= k4;
                     l3 += k4;
                 }
@@ -1171,7 +1158,7 @@ namespace OpenRS.Net.Client.Game
             }
             if (y + l1 >= imageHeight)
             {
-                l1 -= ((y + l1) - imageHeight) + 1;
+                l1 -= y + l1 - imageHeight + 1;
             }
 
             if (x < imageX)
@@ -1186,7 +1173,7 @@ namespace OpenRS.Net.Client.Game
             }
             if (x + i2 >= imageWidth)
             {
-                int j3 = ((x + i2) - imageWidth) + 1;
+                int j3 = x + i2 - imageWidth + 1;
                 i2 -= j3;
                 k2 += j3;
                 j2 += j3;
@@ -1236,20 +1223,20 @@ namespace OpenRS.Net.Client.Game
                     int l3 = pictureAssumedHeight[j1];
                     l2 = (j3 << 16) / l;
                     i3 = (l3 << 16) / i1;
-                    i += ((pictureOffsetX[j1] * l + j3) - 1) / j3;
-                    k += ((pictureOffsetY[j1] * i1 + l3) - 1) / l3;
-                    if ((pictureOffsetX[j1] * l) % j3 != 0)
+                    i += (pictureOffsetX[j1] * l + j3 - 1) / j3;
+                    k += (pictureOffsetY[j1] * i1 + l3 - 1) / l3;
+                    if (pictureOffsetX[j1] * l % j3 != 0)
                     {
-                        j2 = (j3 - (pictureOffsetX[j1] * l) % j3 << 16) / l;
+                        j2 = (j3 - pictureOffsetX[j1] * l % j3 << 16) / l;
                     }
 
-                    if ((pictureOffsetY[j1] * i1) % l3 != 0)
+                    if (pictureOffsetY[j1] * i1 % l3 != 0)
                     {
-                        k2 = (l3 - (pictureOffsetY[j1] * i1) % l3 << 16) / i1;
+                        k2 = (l3 - pictureOffsetY[j1] * i1 % l3 << 16) / i1;
                     }
 
-                    l = (l * (pictureWidth[j1] - (j2 >> 16))) / j3;
-                    i1 = (i1 * (pictureHeight[j1] - (k2 >> 16))) / l3;
+                    l = l * (pictureWidth[j1] - (j2 >> 16)) / j3;
+                    i1 = i1 * (pictureHeight[j1] - (k2 >> 16)) / l3;
                 }
                 int k3 = i + k * gameWidth;
                 int i4 = gameWidth - l;
@@ -1263,7 +1250,7 @@ namespace OpenRS.Net.Client.Game
                 }
                 if (k + i1 >= imageHeight)
                 {
-                    i1 -= ((k + i1) - imageHeight) + 1;
+                    i1 -= k + i1 - imageHeight + 1;
                 }
 
                 if (i < imageX)
@@ -1277,7 +1264,7 @@ namespace OpenRS.Net.Client.Game
                 }
                 if (i + l >= imageWidth)
                 {
-                    int l4 = ((i + l) - imageWidth) + 1;
+                    int l4 = i + l - imageWidth + 1;
                     l -= l4;
                     i4 += l4;
                 }
@@ -1318,20 +1305,20 @@ namespace OpenRS.Net.Client.Game
                     int l3 = pictureAssumedHeight[j1];
                     l2 = (j3 << 16) / l;
                     i3 = (l3 << 16) / i1;
-                    i += ((pictureOffsetX[j1] * l + j3) - 1) / j3;
-                    k += ((pictureOffsetY[j1] * i1 + l3) - 1) / l3;
-                    if ((pictureOffsetX[j1] * l) % j3 != 0)
+                    i += (pictureOffsetX[j1] * l + j3 - 1) / j3;
+                    k += (pictureOffsetY[j1] * i1 + l3 - 1) / l3;
+                    if (pictureOffsetX[j1] * l % j3 != 0)
                     {
-                        j2 = (j3 - (pictureOffsetX[j1] * l) % j3 << 16) / l;
+                        j2 = (j3 - pictureOffsetX[j1] * l % j3 << 16) / l;
                     }
 
-                    if ((pictureOffsetY[j1] * i1) % l3 != 0)
+                    if (pictureOffsetY[j1] * i1 % l3 != 0)
                     {
-                        k2 = (l3 - (pictureOffsetY[j1] * i1) % l3 << 16) / i1;
+                        k2 = (l3 - pictureOffsetY[j1] * i1 % l3 << 16) / i1;
                     }
 
-                    l = (l * (pictureWidth[j1] - (j2 >> 16))) / j3;
-                    i1 = (i1 * (pictureHeight[j1] - (k2 >> 16))) / l3;
+                    l = l * (pictureWidth[j1] - (j2 >> 16)) / j3;
+                    i1 = i1 * (pictureHeight[j1] - (k2 >> 16)) / l3;
                 }
                 int k3 = i + k * gameWidth;
                 int i4 = gameWidth - l;
@@ -1345,7 +1332,7 @@ namespace OpenRS.Net.Client.Game
                 }
                 if (k + i1 >= imageHeight)
                 {
-                    i1 -= ((k + i1) - imageHeight) + 1;
+                    i1 -= k + i1 - imageHeight + 1;
                 }
 
                 if (i < imageX)
@@ -1359,7 +1346,7 @@ namespace OpenRS.Net.Client.Game
                 }
                 if (i + l >= imageWidth)
                 {
-                    int l4 = ((i + l) - imageWidth) + 1;
+                    int l4 = i + l - imageWidth + 1;
                     l -= l4;
                     i4 += l4;
                 }
@@ -1857,7 +1844,7 @@ namespace OpenRS.Net.Client.Game
 
             for (int l8 = j6; l8 <= k6; l8 += 1)
             {
-                entityScanlineMinX[l8] = (entityScanlineMaxX[l8] = l6);
+                entityScanlineMinX[l8] = entityScanlineMaxX[l8] = l6;
                 l6 += i7;
                 entityScanlineMinValue[l8] = entityScanlineMaxValue[l8] = 0;
                 entityScanlineMinExtra[l8] = entityScanlineMaxExtra[l8] = l7;
@@ -2132,22 +2119,22 @@ namespace OpenRS.Net.Client.Game
                         k5 = j4 - pictureWidth[j1] - k5;
                     }
 
-                    x += ((k5 * width + j4) - 1) / j4;
-                    int i6 = ((l5 * height + l4) - 1) / l4;
+                    x += (k5 * width + j4 - 1) / j4;
+                    int i6 = (l5 * height + l4 - 1) / l4;
                     y += i6;
                     j3 += i6 * i4;
-                    if ((k5 * width) % j4 != 0)
+                    if (k5 * width % j4 != 0)
                     {
-                        l2 = (j4 - (k5 * width) % j4 << 16) / width;
+                        l2 = (j4 - k5 * width % j4 << 16) / width;
                     }
 
-                    if ((l5 * height) % l4 != 0)
+                    if (l5 * height % l4 != 0)
                     {
-                        i3 = (l4 - (l5 * height) % l4 << 16) / height;
+                        i3 = (l4 - l5 * height % l4 << 16) / height;
                     }
 
-                    width = ((((pictureWidth[j1] << 16) - l2) + k3) - 1) / k3;
-                    height = ((((pictureHeight[j1] << 16) - i3) + l3) - 1) / l3;
+                    width = ((pictureWidth[j1] << 16) - l2 + k3 - 1) / k3;
+                    height = ((pictureHeight[j1] << 16) - i3 + l3 - 1) / l3;
                 }
                 int k4 = y * gameWidth;
                 j3 += x << 16;
@@ -2162,7 +2149,7 @@ namespace OpenRS.Net.Client.Game
                 }
                 if (y + height >= imageHeight)
                 {
-                    height -= ((y + height) - imageHeight) + 1;
+                    height -= y + height - imageHeight + 1;
                 }
 
                 int j5 = k4 / gameWidth & 1;
@@ -2253,7 +2240,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     if (k2 + l2 >= imageWidth)
                     {
-                        int j3 = (k2 + l2) - imageWidth;
+                        int j3 = k2 + l2 - imageWidth;
                         l2 -= j3;
                     }
                     interlaceFlag = 1 - interlaceFlag;
@@ -2321,7 +2308,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     if (j3 + k3 >= imageWidth)
                     {
-                        int i4 = (j3 + k3) - imageWidth;
+                        int i4 = j3 + k3 - imageWidth;
                         k3 -= i4;
                     }
                     interlaceFlag = 1 - interlaceFlag;
@@ -2391,7 +2378,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     if (k2 + l2 >= imageWidth)
                     {
-                        int j3 = (k2 + l2) - imageWidth;
+                        int j3 = k2 + l2 - imageWidth;
                         l2 -= j3;
                     }
                     interlaceFlag = 1 - interlaceFlag;
@@ -2460,7 +2447,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     if (j3 + k3 >= imageWidth)
                     {
-                        int i4 = (j3 + k3) - imageWidth;
+                        int i4 = j3 + k3 - imageWidth;
                         k3 -= i4;
                     }
                     interlaceFlag = 1 - interlaceFlag;
@@ -2748,10 +2735,10 @@ namespace OpenRS.Net.Client.Game
                         int textLength = text.Length;
                         if (text[i] == '@' && lookAheadIndex < textLength)
                         {
-                            char lookAheadChar = text[(i + 4)];
+                            char lookAheadChar = text[i + 4];
                             string colourCode = text.Substring(i + 1, 3).ToLower();
                         }
-                        if (text[i] == '@' && i + 4 < text.Length && text[(i + 4)] == '@')
+                        if (text[i] == '@' && i + 4 < text.Length && text[i + 4] == '@')
                         {
                             if (text.Substring(i + 1, 3).ToLower() == "red")
                             {
@@ -2909,7 +2896,7 @@ namespace OpenRS.Net.Client.Game
             }
             if (k1 + i2 >= imageHeight)
             {
-                i2 -= ((k1 + i2) - imageHeight) + 1;
+                i2 -= k1 + i2 - imageHeight + 1;
             }
 
             if (j1 < imageX)
@@ -2924,7 +2911,7 @@ namespace OpenRS.Net.Client.Game
             }
             if (j1 + l1 >= imageWidth)
             {
-                int l3 = ((j1 + l1) - imageWidth) + 1;
+                int l3 = j1 + l1 - imageWidth + 1;
                 l1 -= l3;
                 i3 += l3;
                 l2 += l3;
@@ -3177,8 +3164,8 @@ namespace OpenRS.Net.Client.Game
         private int imageX;
         private int imageWidth;
         public bool interlace;
-        private static sbyte[][] gameFonts = new sbyte[50][];
-        private static int[] characterFontOffsetTable;
+        private static readonly sbyte[][] gameFonts = new sbyte[50][];
+        private static readonly int[] characterFontOffsetTable;
         public bool loggedIn;
 
         public bool IsLoggedIn
@@ -3198,7 +3185,7 @@ namespace OpenRS.Net.Client.Game
         public static int spiralDrawCount;
         public static int characterDrawCount;
         public static int lastCharacterRotation;
-        private static bool[] fontShadowEnabled = new bool[12];
+        private static readonly bool[] fontShadowEnabled = new bool[12];
         private static int currentFont;
 
         static GameImage()

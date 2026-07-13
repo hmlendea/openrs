@@ -530,7 +530,7 @@ namespace OpenRS.Net.Client.Data
 
                             for (; symbolTableOffset > 0; symbolTableOffset -= 1)
                             {
-                                blockEntry.moveToFrontBuffer[groupBaseIndex + symbolTableOffset] = blockEntry.moveToFrontBuffer[(groupBaseIndex + symbolTableOffset) - 1];
+                                blockEntry.moveToFrontBuffer[groupBaseIndex + symbolTableOffset] = blockEntry.moveToFrontBuffer[groupBaseIndex + symbolTableOffset - 1];
                             }
 
                             blockEntry.moveToFrontBuffer[groupBaseIndex] = moveToFrontValue;
@@ -552,7 +552,7 @@ namespace OpenRS.Net.Client.Data
                             for (; blockGroupRow > 0; blockGroupRow -= 1)
                             {
                                 blockEntry.groupPositions[blockGroupRow] -= 1;
-                                blockEntry.moveToFrontBuffer[blockEntry.groupPositions[blockGroupRow]] = blockEntry.moveToFrontBuffer[(blockEntry.groupPositions[blockGroupRow - 1] + 16) - 1];
+                                blockEntry.moveToFrontBuffer[blockEntry.groupPositions[blockGroupRow]] = blockEntry.moveToFrontBuffer[blockEntry.groupPositions[blockGroupRow - 1] + 16 - 1];
                             }
 
                             blockEntry.groupPositions[0] -= 1;

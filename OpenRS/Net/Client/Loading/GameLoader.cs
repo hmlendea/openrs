@@ -307,7 +307,7 @@ client.RaiseOnLoadingSectionCompleted(this, new EventArgs());
             Menu.isBackgroundPatternEnabled = false;
             Menu.baseScrollPic = client.baseScrollPic;
             client.spellMenu = new Menu(client.gameGraphics, 5);
-            int k1 = ((GameImage)(client.gameGraphics)).gameWidth - 199;
+            int k1 = ((GameImage)client.gameGraphics).gameWidth - 199;
             sbyte byte0 = 36;
             client.spellMenuHandle = client.spellMenu.CreateList(k1, byte0 + 24, 196, 90, 1, 500, true);
             client.friendsMenu = new Menu(client.gameGraphics, 5);
@@ -365,10 +365,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                 CreateLoginMenus();
                 CreateAppearanceWindow();
                 SetLoginVars();
-
-                string[] modelNames = GameData.modelName;
-
-client.RaiseOnContentLoadedCompleted(this, new EventArgs());
+                client.RaiseOnContentLoadedCompleted(this, new EventArgs());
 
                 CreateLoginScreenBackgrounds();
                 return;
@@ -424,7 +421,6 @@ client.RaiseOnContentLoadedCompleted(this, new EventArgs());
             client.loginMenuLogin.DrawButton(410, l, 120, 25);
             client.loginMenuLogin.DrawText(410, l, "Cancel", 4, false);
             client.loginMenuCancelButton = client.loginMenuLogin.CreateButton(410, l, 120, 25);
-            l += 30;
             client.loginMenuLogin.SetFocus(client.loginMenuUserText);
         }
         public void LostConnection()
@@ -504,24 +500,22 @@ client.RaiseOnContentLoadedCompleted(this, new EventArgs());
         public void LoadAnimations()
         {
             StringBuilder sb = new();
-            sbyte[] abyte0 = null;
-            sbyte[] abyte1 = null;
-            abyte0 = client.UnpackData("entity.jag", "people and monsters", 30);
+            sbyte[] abyte0 = client.UnpackData("entity.jag", "people and monsters", 30);
             if (abyte0 is null)
             {
                 client.errorLoading = true;
                 return;
             }
-            abyte1 = DataOperations.LoadData("index.dat", 0, abyte0);
-            sbyte[] abyte2 = null;
-            sbyte[] abyte3 = null;
-            abyte2 = client.UnpackData("entity.mem", "member client.graphics", 45);
+
+            sbyte[] abyte1 = DataOperations.LoadData("index.dat", 0, abyte0);
+            sbyte[] abyte2 = client.UnpackData("entity.mem", "member client.graphics", 45);
             if (abyte2 is null)
             {
                 client.errorLoading = true;
                 return;
             }
-            abyte3 = DataOperations.LoadData("index.dat", 0, abyte2);
+
+            sbyte[] abyte3 = DataOperations.LoadData("index.dat", 0, abyte2);
             int l = 0;
             client.animationNumber = 0;
             //label0:
@@ -703,13 +697,13 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
             client.appearanceMenu.DrawText(l - byte0, i1 + 8, "Type", 1, true);
             client.appearanceMenu.DrawArrow(l - byte0 - 40, i1, Menu.baseScrollPic + 7);
             client.appearanceHeadLeftArrow = client.appearanceMenu.CreateButton(l - byte0 - 40, i1, 20, 20);
-            client.appearanceMenu.DrawArrow((l - byte0) + 40, i1, Menu.baseScrollPic + 6);
-            client.appearanceHeadRightArrow = client.appearanceMenu.CreateButton((l - byte0) + 40, i1, 20, 20);
+            client.appearanceMenu.DrawArrow(l - byte0 + 40, i1, Menu.baseScrollPic + 6);
+            client.appearanceHeadRightArrow = client.appearanceMenu.CreateButton(l - byte0 + 40, i1, 20, 20);
             client.appearanceMenu.DrawCurvedBox(l + byte0, i1, 53, 41);
             client.appearanceMenu.DrawText(l + byte0, i1 - 8, "Hair", 1, true);
             client.appearanceMenu.DrawText(l + byte0, i1 + 8, "Color", 1, true);
-            client.appearanceMenu.DrawArrow((l + byte0) - 40, i1, Menu.baseScrollPic + 7);
-            client.appearanceHairLeftArrow = client.appearanceMenu.CreateButton((l + byte0) - 40, i1, 20, 20);
+            client.appearanceMenu.DrawArrow(l + byte0 - 40, i1, Menu.baseScrollPic + 7);
+            client.appearanceHairLeftArrow = client.appearanceMenu.CreateButton(l + byte0 - 40, i1, 20, 20);
             client.appearanceMenu.DrawArrow(l + byte0 + 40, i1, Menu.baseScrollPic + 6);
             client.appearanceHairRightArrow = client.appearanceMenu.CreateButton(l + byte0 + 40, i1, 20, 20);
             i1 += 50;
@@ -717,13 +711,13 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
             client.appearanceMenu.DrawText(l - byte0, i1, "Gender", 1, true);
             client.appearanceMenu.DrawArrow(l - byte0 - 40, i1, Menu.baseScrollPic + 7);
             client.appearanceGenderLeftArrow = client.appearanceMenu.CreateButton(l - byte0 - 40, i1, 20, 20);
-            client.appearanceMenu.DrawArrow((l - byte0) + 40, i1, Menu.baseScrollPic + 6);
-            client.appearanceGenderRightArrow = client.appearanceMenu.CreateButton((l - byte0) + 40, i1, 20, 20);
+            client.appearanceMenu.DrawArrow(l - byte0 + 40, i1, Menu.baseScrollPic + 6);
+            client.appearanceGenderRightArrow = client.appearanceMenu.CreateButton(l - byte0 + 40, i1, 20, 20);
             client.appearanceMenu.DrawCurvedBox(l + byte0, i1, 53, 41);
             client.appearanceMenu.DrawText(l + byte0, i1 - 8, "Top", 1, true);
             client.appearanceMenu.DrawText(l + byte0, i1 + 8, "Color", 1, true);
-            client.appearanceMenu.DrawArrow((l + byte0) - 40, i1, Menu.baseScrollPic + 7);
-            client.appearanceTopLeftArrow = client.appearanceMenu.CreateButton((l + byte0) - 40, i1, 20, 20);
+            client.appearanceMenu.DrawArrow(l + byte0 - 40, i1, Menu.baseScrollPic + 7);
+            client.appearanceTopLeftArrow = client.appearanceMenu.CreateButton(l + byte0 - 40, i1, 20, 20);
             client.appearanceMenu.DrawArrow(l + byte0 + 40, i1, Menu.baseScrollPic + 6);
             client.appearanceTopRightArrow = client.appearanceMenu.CreateButton(l + byte0 + 40, i1, 20, 20);
             i1 += 50;
@@ -732,13 +726,13 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
             client.appearanceMenu.DrawText(l - byte0, i1 + 8, "Color", 1, true);
             client.appearanceMenu.DrawArrow(l - byte0 - 40, i1, Menu.baseScrollPic + 7);
             client.appearanceSkinLeftArrow = client.appearanceMenu.CreateButton(l - byte0 - 40, i1, 20, 20);
-            client.appearanceMenu.DrawArrow((l - byte0) + 40, i1, Menu.baseScrollPic + 6);
-            client.appearanceSkingRightArrow = client.appearanceMenu.CreateButton((l - byte0) + 40, i1, 20, 20);
+            client.appearanceMenu.DrawArrow(l - byte0 + 40, i1, Menu.baseScrollPic + 6);
+            client.appearanceSkingRightArrow = client.appearanceMenu.CreateButton(l - byte0 + 40, i1, 20, 20);
             client.appearanceMenu.DrawCurvedBox(l + byte0, i1, 53, 41);
             client.appearanceMenu.DrawText(l + byte0, i1 - 8, "Bottom", 1, true);
             client.appearanceMenu.DrawText(l + byte0, i1 + 8, "Color", 1, true);
-            client.appearanceMenu.DrawArrow((l + byte0) - 40, i1, Menu.baseScrollPic + 7);
-            client.appearanceBottomLeftArrow = client.appearanceMenu.CreateButton((l + byte0) - 40, i1, 20, 20);
+            client.appearanceMenu.DrawArrow(l + byte0 - 40, i1, Menu.baseScrollPic + 7);
+            client.appearanceBottomLeftArrow = client.appearanceMenu.CreateButton(l + byte0 - 40, i1, 20, 20);
             client.appearanceMenu.DrawArrow(l + byte0 + 40, i1, Menu.baseScrollPic + 6);
             client.appearanceBottomRightArrow = client.appearanceMenu.CreateButton(l + byte0 + 40, i1, 20, 20);
             i1 += 82;
@@ -764,7 +758,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                 client.gameGraphics.UnpackImageData(client.baseTexturePic, abyte2, abyte1, 1);
                 client.gameGraphics.DrawBox(0, 0, 128, 128, 0xff00ff);
                 client.gameGraphics.DrawPicture(0, 0, client.baseTexturePic);
-                int i1 = ((GameImage)(client.gameGraphics)).pictureAssumedWidth[client.baseTexturePic];
+                int i1 = ((GameImage)client.gameGraphics).pictureAssumedWidth[client.baseTexturePic];
                 string s2 = GameData.textureSubName[l];
                 if (s2 is not null && s2.Length > 0)
                 {
@@ -776,14 +770,14 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                 int j1 = i1 * i1;
                 for (int k1 = 0; k1 < j1; k1 += 1)
                 {
-                    if (((GameImage)(client.gameGraphics)).pictureColors[client.subTexturePic + l][k1] == 65280)
+                    if (((GameImage)client.gameGraphics).pictureColors[client.subTexturePic + l][k1] == 65280)
                     {
-                        ((GameImage)(client.gameGraphics)).pictureColors[client.subTexturePic + l][k1] = 0xff00ff;
+                        ((GameImage)client.gameGraphics).pictureColors[client.subTexturePic + l][k1] = 0xff00ff;
                     }
                 }
 
                 client.gameGraphics.ApplyImage(client.subTexturePic + l);
-                client.gameCamera.SetTexture(l, ((GameImage)(client.gameGraphics)).pictureColorIndexes[client.subTexturePic + l], ((GameImage)(client.gameGraphics)).pictureColor[client.subTexturePic + l], i1 / 64 - 1);
+                client.gameCamera.SetTexture(l, ((GameImage)client.gameGraphics).pictureColorIndexes[client.subTexturePic + l], ((GameImage)client.gameGraphics).pictureColor[client.subTexturePic + l], i1 / 64 - 1);
             }
         }
         public void LoadModels()
@@ -899,8 +893,8 @@ client.RaiseOnLoadingSection(this, new EventArgs());
                         objHeight = GameData.objectWidth[objType];
                         objWidth = GameData.objectHeight[objType];
                     }
-                    int flatObjX = ((objX + objX + objWidth) * client.gridSize) / 2;
-                    int flatObjY = ((objY + objY + objHeight) * client.gridSize) / 2;
+                    int flatObjX = (objX + objX + objWidth) * client.gridSize / 2;
+                    int flatObjY = (objY + objY + objHeight) * client.gridSize / 2;
                     if (objX >= 0 && objY >= 0 && objX < 96 && objY < 96)
                     {
                         client.gameCamera.AddModel(_obj);

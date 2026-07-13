@@ -14,7 +14,7 @@ namespace OpenRS.Net.Client.Entities
             {
                 do
                 {
-                    client.appearanceHeadType = ((client.appearanceHeadType - 1) + GameData.animationCount) % GameData.animationCount;
+                    client.appearanceHeadType = (client.appearanceHeadType - 1 + GameData.animationCount) % GameData.animationCount;
                 }
                 while ((GameData.animationGenderModels[client.appearanceHeadType] & 3) != 1 || (GameData.animationGenderModels[client.appearanceHeadType] & 4 * client.appearanceHeadGender) == 0);
             }
@@ -30,7 +30,7 @@ namespace OpenRS.Net.Client.Entities
 
             if (client.appearanceMenu.IsClicked(client.appearanceHairLeftArrow))
             {
-                client.appearanceHairColour = ((client.appearanceHairColour - 1) + client.appearanceHairColours.Length) % client.appearanceHairColours.Length;
+                client.appearanceHairColour = (client.appearanceHairColour - 1 + client.appearanceHairColours.Length) % client.appearanceHairColours.Length;
             }
 
             if (client.appearanceMenu.IsClicked(client.appearanceHairRightArrow))
@@ -52,7 +52,7 @@ namespace OpenRS.Net.Client.Entities
             }
             if (client.appearanceMenu.IsClicked(client.appearanceTopLeftArrow))
             {
-                client.appearanceTopColour = ((client.appearanceTopColour - 1) + client.appearanceTopBottomColours.Length) % client.appearanceTopBottomColours.Length;
+                client.appearanceTopColour = (client.appearanceTopColour - 1 + client.appearanceTopBottomColours.Length) % client.appearanceTopBottomColours.Length;
             }
 
             if (client.appearanceMenu.IsClicked(client.appearanceTopRightArrow))
@@ -62,7 +62,7 @@ namespace OpenRS.Net.Client.Entities
 
             if (client.appearanceMenu.IsClicked(client.appearanceSkinLeftArrow))
             {
-                client.appearanceSkinColour = ((client.appearanceSkinColour - 1) + client.appearanceSkinColours.Length) % client.appearanceSkinColours.Length;
+                client.appearanceSkinColour = (client.appearanceSkinColour - 1 + client.appearanceSkinColours.Length) % client.appearanceSkinColours.Length;
             }
 
             if (client.appearanceMenu.IsClicked(client.appearanceSkingRightArrow))
@@ -72,7 +72,7 @@ namespace OpenRS.Net.Client.Entities
 
             if (client.appearanceMenu.IsClicked(client.appearanceBottomLeftArrow))
             {
-                client.appearanceBottomColour = ((client.appearanceBottomColour - 1) + client.appearanceTopBottomColours.Length) % client.appearanceTopBottomColours.Length;
+                client.appearanceBottomColour = (client.appearanceBottomColour - 1 + client.appearanceTopBottomColours.Length) % client.appearanceTopBottomColours.Length;
             }
 
             if (client.appearanceMenu.IsClicked(client.appearanceBottomRightArrow))

@@ -305,7 +305,7 @@ namespace OpenRS.Net.Client.Game
             lightMagnitude = 256;
             ambientLightLevel = 512;
             baseShadeLevel = 32;
-            byte[] abyte0 = null;
+            byte[] abyte0;
             try
             {
                 MemoryStream inputStream = DataOperations.OpenInputStream(fileName);
@@ -583,7 +583,7 @@ namespace OpenRS.Net.Client.Game
                     i1 += vert_z[ai3[k2]];
                 }
 
-                int i3 = l / (k1 * width) + (i1 / (k1 * height)) * objectSize;
+                int i3 = l / (k1 * width) + i1 / (k1 * height) * objectSize;
                 ai[i3] += k1;
                 ai1[i3] += 1;
             }
@@ -615,7 +615,7 @@ namespace OpenRS.Net.Client.Game
                     l2 += vert_z[ai4[k3]];
                 }
 
-                int l3 = i2 / (j3 * width) + (l2 / (j3 * height)) * objectSize;
+                int l3 = i2 / (j3 * width) + l2 / (j3 * height) * objectSize;
                 CopyModelData(ai2[l3], ai4, j3, l1);
             }
 
@@ -936,17 +936,17 @@ namespace OpenRS.Net.Client.Game
 
                 if (maxX - minX > distVar)
                 {
-                    distVar = (maxX - minX);
+                    distVar = maxX - minX;
                 }
 
                 if (maxY - minY > distVar)
                 {
-                    distVar = (maxY - minY);
+                    distVar = maxY - minY;
                 }
 
                 if (maxZ - minZ > distVar)
                 {
-                    distVar = (maxZ - minZ);
+                    distVar = maxZ - minZ;
                 }
 
                 if (minX < boundsMinX)
@@ -1071,9 +1071,9 @@ namespace OpenRS.Net.Client.Game
                     k3 = 1;
                 }
 
-                normalX[j] = (xDistance * 0x10000) / k3;
-                normalY[j] = (yDistance * 0x10000) / k3;
-                normalZ[j] = (j3 * 65535) / k3;
+                normalX[j] = xDistance * 0x10000 / k3;
+                normalY[j] = yDistance * 0x10000 / k3;
+                normalZ[j] = j3 * 65535 / k3;
                 faceRenderFlag[j] = -1;
             }
 
@@ -1283,7 +1283,7 @@ namespace OpenRS.Net.Client.Game
             int j = shadeTable[buffer[shadeBufferIndex++] & 0xff];
             int k = shadeTable[buffer[shadeBufferIndex++] & 0xff];
             int l = shadeTable[buffer[shadeBufferIndex++] & 0xff];
-            int i1 = (j * 4096 + k * 64 + l) - 0x20000;
+            int i1 = j * 4096 + k * 64 + l - 0x20000;
             if (i1 == 0x1e240)
             {
                 i1 = shadeValue;
@@ -1326,16 +1326,16 @@ namespace OpenRS.Net.Client.Game
         public int index;
         public int[] entityType;
         public int[] polygonTypeData;
-        private bool sharesWorldVertices;
+        private readonly bool sharesWorldVertices;
         public bool noCollider;
         public bool dontRecieveShadows;
         public bool shareEntityArrays;
         public bool shareVertexArrays;
-        private static int[] rotationSinCosTable;
-        private static int[] fineRotationTable;
-        private static int[] scaleTable;
-        private static int[] shadeTable;
-        private int shadeValue;
+        private static readonly int[] rotationSinCosTable;
+        private static readonly int[] fineRotationTable;
+        private static readonly int[] scaleTable;
+        private static readonly int[] shadeTable;
+        private readonly int shadeValue;
         public int totalVerticeCount;
         public int[] vert_x;
         public int[] vert_y;

@@ -483,7 +483,6 @@ namespace OpenRS.Net.Client
             }
 
             loadingAnimationCounter -= 1;
-            loopAccumulator &= 0xff;
         }
 
         public virtual void DrawWindow()
@@ -537,7 +536,7 @@ namespace OpenRS.Net.Client
                 yOffset += 90;
                 gameLoadingPercentage = percentage;
                 gameLoadingFileTitle = statusText;
-                int progressWidth = (277 * percentage) / 100;
+                int progressWidth = 277 * percentage / 100;
             }
             catch (Exception)
             {
@@ -611,8 +610,8 @@ namespace OpenRS.Net.Client
                         }
 
                         bytesRead += chunkSize;
-                        Console.WriteLine("Loading " + fileTitle + " - " + (5 + (bytesRead * 95) / compressedSize) + "%");
-                        DrawLoadingBarText(startPercentage, "Loading " + fileTitle + " - " + (5 + (bytesRead * 95) / compressedSize) + "%");
+                        Console.WriteLine("Loading " + fileTitle + " - " + (5 + bytesRead * 95 / compressedSize) + "%");
+                        DrawLoadingBarText(startPercentage, "Loading " + fileTitle + " - " + (5 + bytesRead * 95 / compressedSize) + "%");
                     }
 
                     inputStream.Close();

@@ -9,10 +9,7 @@ namespace OpenRS.Net.Client.Input
 {
     public sealed class InputHandler(GameClient client)
     {
-
-        private bool leftMouseDown = false;
-        private bool rightMouseDown = false;
-        private List<Keys> lastPressedKeys = [];
+        private readonly List<Keys> lastPressedKeys = [];
         private int lastMouseX = 0;
         private int lastMouseY = 0;
         private bool lastLeftDown = false;
@@ -199,7 +196,6 @@ namespace OpenRS.Net.Client.Input
             if (adjustedMouseState.LeftButton == ButtonState.Pressed && !lastLeftDown)
             {
                 lastLeftDown = true;
-                Console.WriteLine($"[MOUSEDOWN] screenX={mouseState.X} screenY={mouseState.Y} adjX={rawX} adjY={rawY} windowBounds={bounds}");
                 client.MouseDown(adjustedMouseState.X, adjustedMouseState.Y, false);
             }
 
@@ -243,7 +239,7 @@ namespace OpenRS.Net.Client.Input
 
 
         }
-        private bool uglyHack = false;
+
         //public void Draw(GameTime gt)
         //{
         //    if (gameGraphics is not null)
@@ -399,7 +395,6 @@ namespace OpenRS.Net.Client.Input
 
                 if (client.lastMouseButton != 0 || client.mouseButton != 0)
                 {
-                    Console.WriteLine($"[CLICK] client.mouseX={client.mouseX} client.mouseY={client.mouseY} client.lastMouseButton={client.lastMouseButton} client.mouseButton={client.mouseButton}");
                 }
 
                 client.loginMenuFirst.MouseClick(client.mouseX, client.mouseY, client.lastMouseButton, client.mouseButton);
@@ -493,6 +488,12 @@ namespace OpenRS.Net.Client.Input
         }
         public void CheckGameInputs()
         {
+            if (client.ourPlayer is null)
+            {
+                client.SendPingPacketAsync();
+                return;
+            }
+
             if (client.systemUpdate > 1)
             {
                 client.systemUpdate -= 1;
@@ -526,6 +527,10 @@ namespace OpenRS.Net.Client.Input
             for (int l = 0; l < client.playerCount; l += 1)
             {
                 ClientMob player = client.playerArray[l];
+                if (player is null)
+                {
+                    continue;
+                }
                 int j1 = (player.waypointCurrent + 1) % 10;
                 if (player.waypointsEndSprite != j1)
                 {
@@ -538,7 +543,7 @@ namespace OpenRS.Net.Client.Input
                     }
                     else
                     {
-                        i5 = (10 + j1) - targetSprite;
+                        i5 = 10 + j1 - targetSprite;
                     }
 
                     int i6 = 4;
@@ -673,7 +678,7 @@ namespace OpenRS.Net.Client.Input
                     }
                     else
                     {
-                        j6 = (10 + i2) - j5;
+                        j6 = 10 + i2 - j5;
                     }
 
                     int k6 = 4;
@@ -862,7 +867,7 @@ namespace OpenRS.Net.Client.Input
                                         byte0 = -1;
                                         i4 = -i4;
                                     }
-                        client.cameraRotation += ((client.cameraAutoRotationAmount * i4 + 255) / 256) * byte0;
+                        client.cameraRotation += (client.cameraAutoRotationAmount * i4 + 255) / 256 * byte0;
                         client.cameraRotation &= 0xff;
                     }
                     else

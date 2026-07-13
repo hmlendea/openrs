@@ -47,7 +47,7 @@ namespace OpenRS.Net.Client
 
         public int RgbToInt(int redValue, int greenValue, int blueValue)
         {
-            return GameImage.RgbToInt((redMod * redValue) / 114, (greenMod * greenValue) / 114, (blueMod * blueValue) / 176);
+            return GameImage.RgbToInt(redMod * redValue / 114, greenMod * greenValue / 114, blueMod * blueValue / 176);
         }
 
         public void MouseClick(int mouseXPosition, int mouseYPosition, int lastMouseButtonState, int mouseButtonState)
@@ -224,15 +224,15 @@ namespace OpenRS.Net.Client
             gameImage.DrawBox(x, y, w, h, 0xffffff);
             gameImage.DrawLineX(x, y, w, panelTopLeftColour);
             gameImage.DrawLineY(x, y, h, panelTopLeftColour);
-            gameImage.DrawLineX(x, (y + h) - 1, w, panelBottomRightColour);
-            gameImage.DrawLineY((x + w) - 1, y, h, panelBottomRightColour);
+            gameImage.DrawLineX(x, y + h - 1, w, panelBottomRightColour);
+            gameImage.DrawLineY(x + w - 1, y, h, panelBottomRightColour);
 
             if (componentSelectedIndex[componentIndex] == 1)
             {
                 for (int drawIndex = 0; drawIndex < h; drawIndex += 1)
                 {
                     gameImage.DrawLineX(x + drawIndex, y + drawIndex, 1, 0);
-                    gameImage.DrawLineX((x + w) - 1 - drawIndex, y + drawIndex, 1, 0);
+                    gameImage.DrawLineX(x + w - 1 - drawIndex, y + drawIndex, 1, 0);
                 }
             }
         }
@@ -321,12 +321,12 @@ namespace OpenRS.Net.Client
             gameImage.DrawLineY(xPosition, yPosition, height, panelTopLeftColour);
             gameImage.DrawLineY(xPosition + 1, yPosition + 1, height - 2, panelTopLeftColour);
             gameImage.DrawLineY(xPosition + 2, yPosition + 2, height - 4, panelTopLeftAltColour);
-            gameImage.DrawLineX(xPosition, (yPosition + height) - 1, width, panelBottomRightColour);
-            gameImage.DrawLineX(xPosition + 1, (yPosition + height) - 2, width - 2, panelBottomRightColour);
-            gameImage.DrawLineX(xPosition + 2, (yPosition + height) - 3, width - 4, panelBottomRightAltColour);
-            gameImage.DrawLineY((xPosition + width) - 1, yPosition, height, panelBottomRightColour);
-            gameImage.DrawLineY((xPosition + width) - 2, yPosition + 1, height - 2, panelBottomRightColour);
-            gameImage.DrawLineY((xPosition + width) - 3, yPosition + 2, height - 4, panelBottomRightAltColour);
+            gameImage.DrawLineX(xPosition, yPosition + height - 1, width, panelBottomRightColour);
+            gameImage.DrawLineX(xPosition + 1, yPosition + height - 2, width - 2, panelBottomRightColour);
+            gameImage.DrawLineX(xPosition + 2, yPosition + height - 3, width - 4, panelBottomRightAltColour);
+            gameImage.DrawLineY(xPosition + width - 1, yPosition, height, panelBottomRightColour);
+            gameImage.DrawLineY(xPosition + width - 2, yPosition + 1, height - 2, panelBottomRightColour);
+            gameImage.DrawLineY(xPosition + width - 3, yPosition + 2, height - 4, panelBottomRightAltColour);
             gameImage.ResetDimensions();
         }
 
@@ -337,9 +337,9 @@ namespace OpenRS.Net.Client
             gameImage.DrawBoxEdge(xPosition + 1, yPosition + 1, width - 2, height - 2, borderColourMiddle);
             gameImage.DrawBoxEdge(xPosition + 2, yPosition + 2, width - 4, height - 4, borderColourInner);
             gameImage.DrawPicture(xPosition, yPosition, 2 + baseScrollPic);
-            gameImage.DrawPicture((xPosition + width) - 7, yPosition, 3 + baseScrollPic);
-            gameImage.DrawPicture(xPosition, (yPosition + height) - 7, 4 + baseScrollPic);
-            gameImage.DrawPicture((xPosition + width) - 7, (yPosition + height) - 7, 5 + baseScrollPic);
+            gameImage.DrawPicture(xPosition + width - 7, yPosition, 3 + baseScrollPic);
+            gameImage.DrawPicture(xPosition, yPosition + height - 7, 4 + baseScrollPic);
+            gameImage.DrawPicture(xPosition + width - 7, yPosition + height - 7, 5 + baseScrollPic);
         }
 
         protected void DrawPicture(int xPosition, int yPosition, int pictureIndex)
@@ -371,15 +371,15 @@ namespace OpenRS.Net.Client
 
             if (visibleEntries < listLength)
             {
-                int scrollbarX = (xPosition + width) - 12;
-                int scrollbarThumbSize = ((height - 27) * visibleEntries) / listLength;
+                int scrollbarX = xPosition + width - 12;
+                int scrollbarThumbSize = (height - 27) * visibleEntries / listLength;
 
                 if (scrollbarThumbSize < 6)
                 {
                     scrollbarThumbSize = 6;
                 }
 
-                int scrollbarThumbOffset = ((height - 27 - scrollbarThumbSize) * shownEntries) / (listLength - visibleEntries);
+                int scrollbarThumbOffset = (height - 27 - scrollbarThumbSize) * shownEntries / (listLength - visibleEntries);
 
                 if (mouseButton == 1 && mouseX >= scrollbarX && mouseX <= scrollbarX + 12)
                 {
@@ -388,7 +388,7 @@ namespace OpenRS.Net.Client
                         shownEntries -= 1;
                     }
 
-                    if (mouseY > (yPosition + height) - 12 && mouseY < yPosition + height && shownEntries < listLength - visibleEntries)
+                    if (mouseY > yPosition + height - 12 && mouseY < yPosition + height && shownEntries < listLength - visibleEntries)
                     {
                         shownEntries += 1;
                     }
@@ -398,11 +398,11 @@ namespace OpenRS.Net.Client
 
                 if (mouseButton == 1 && (mouseX >= scrollbarX && mouseX <= scrollbarX + 12 || mouseX >= scrollbarX - 12 && mouseX <= scrollbarX + 24 && isScrollDragging[componentIndex]))
                 {
-                    if (mouseY > yPosition + 12 && mouseY < (yPosition + height) - 12)
+                    if (mouseY > yPosition + 12 && mouseY < yPosition + height - 12)
                     {
                         isScrollDragging[componentIndex] = true;
                         int dragOffset = mouseY - yPosition - 12 - scrollbarThumbSize / 2;
-                        shownEntries = (dragOffset * listLength) / (height - 24);
+                        shownEntries = dragOffset * listLength / (height - 24);
 
                         if (shownEntries > listLength - visibleEntries)
                         {
@@ -422,12 +422,12 @@ namespace OpenRS.Net.Client
                     isScrollDragging[componentIndex] = false;
                 }
 
-                scrollbarThumbOffset = ((height - 27 - scrollbarThumbSize) * shownEntries) / (listLength - visibleEntries);
+                scrollbarThumbOffset = (height - 27 - scrollbarThumbSize) * shownEntries / (listLength - visibleEntries);
                 DrawScrollbar(xPosition, yPosition, width, height, scrollbarThumbOffset, scrollbarThumbSize);
             }
 
             int remainingSpace = height - visibleEntries * gameImage.TextHeightNumber(fontIndex);
-            int textY = yPosition + (gameImage.TextHeightNumber(fontIndex) * 5) / 6 + remainingSpace / 2;
+            int textY = yPosition + gameImage.TextHeightNumber(fontIndex) * 5 / 6 + remainingSpace / 2;
 
             for (int entryIndex = shownEntries; entryIndex < listLength; entryIndex += 1)
             {
@@ -444,12 +444,12 @@ namespace OpenRS.Net.Client
 
         protected void DrawScrollbar(int xPosition, int yPosition, int width, int height, int thumbOffset, int thumbSize)
         {
-            int scrollbarXOffset = (xPosition + width) - 12;
+            int scrollbarXOffset = xPosition + width - 12;
             gameImage.DrawBoxEdge(scrollbarXOffset, yPosition, 12, height, 0); // Border.
             gameImage.DrawPicture(scrollbarXOffset + 1, yPosition + 1, baseScrollPic); // Up arrow.
-            gameImage.DrawPicture(scrollbarXOffset + 1, (yPosition + height) - 12, 1 + baseScrollPic); // Down arrow.
+            gameImage.DrawPicture(scrollbarXOffset + 1, yPosition + height - 12, 1 + baseScrollPic); // Down arrow.
             gameImage.DrawLineX(scrollbarXOffset, yPosition + 13, 12, 0); // Up arrow border.
-            gameImage.DrawLineX(scrollbarXOffset, (yPosition + height) - 13, 12, 0); // Down arrow border.
+            gameImage.DrawLineX(scrollbarXOffset, yPosition + height - 13, 12, 0); // Down arrow border.
             gameImage.DrawGradientBox(scrollbarXOffset + 1, yPosition + 14, 11, height - 27, scrollBarGradientColorTop, scrollBarGradientColorBottom); // Background gradient.
             gameImage.DrawBox(scrollbarXOffset + 3, thumbOffset + yPosition + 14, 7, thumbSize, scrollBarDraggingBarColor); // Dragging bar.
             gameImage.DrawLineY(scrollbarXOffset + 2, thumbOffset + yPosition + 14, thumbSize, scrollBarDraggingBarLine1Color); // Dragging bar.
@@ -526,7 +526,7 @@ namespace OpenRS.Net.Client
         protected void DrawVerticalOptions(int componentIndex, int xPosition, int yPosition, int fontIndex, string[] options)
         {
             int optionCount = options.Length;
-            int currentY = yPosition - (gameImage.TextHeightNumber(fontIndex) * (optionCount - 1)) / 2;
+            int currentY = yPosition - gameImage.TextHeightNumber(fontIndex) * (optionCount - 1) / 2;
 
             for (int optionIndex = 0; optionIndex < optionCount; optionIndex += 1)
             {
@@ -586,15 +586,15 @@ namespace OpenRS.Net.Client
 
             if (entryCount < listLength)
             {
-                int scrollbarX = (listX + listWidth) - 12;
-                int thumbSize = ((listHeight - 27) * entryCount) / listLength;
+                int scrollbarX = listX + listWidth - 12;
+                int thumbSize = (listHeight - 27) * entryCount / listLength;
 
                 if (thumbSize < 6)
                 {
                     thumbSize = 6;
                 }
 
-                int thumbOffset = ((listHeight - 27 - thumbSize) * shownEntries) / (listLength - entryCount);
+                int thumbOffset = (listHeight - 27 - thumbSize) * shownEntries / (listLength - entryCount);
 
                 if (mouseButton == 1 && mouseX >= scrollbarX && mouseX <= scrollbarX + 12)
                 {
@@ -603,7 +603,7 @@ namespace OpenRS.Net.Client
                         shownEntries -= 1;
                     }
 
-                    if (mouseY > (listY + listHeight) - 12 && mouseY < listY + listHeight && shownEntries < listLength - entryCount)
+                    if (mouseY > listY + listHeight - 12 && mouseY < listY + listHeight && shownEntries < listLength - entryCount)
                     {
                         shownEntries += 1;
                     }
@@ -613,11 +613,11 @@ namespace OpenRS.Net.Client
 
                 if (mouseButton == 1 && (mouseX >= scrollbarX && mouseX <= scrollbarX + 12 || mouseX >= scrollbarX - 12 && mouseX <= scrollbarX + 24 && isScrollDragging[listIndex]))
                 {
-                    if (mouseY > listY + 12 && mouseY < (listY + listHeight) - 12)
+                    if (mouseY > listY + 12 && mouseY < listY + listHeight - 12)
                     {
                         isScrollDragging[listIndex] = true;
                         int dragOffset = mouseY - listY - 12 - thumbSize / 2;
-                        shownEntries = (dragOffset * listLength) / (listHeight - 24);
+                        shownEntries = dragOffset * listLength / (listHeight - 24);
 
                         if (shownEntries < 0)
                         {
@@ -637,7 +637,7 @@ namespace OpenRS.Net.Client
                     isScrollDragging[listIndex] = false;
                 }
 
-                thumbOffset = ((listHeight - 27 - thumbSize) * shownEntries) / (listLength - entryCount);
+                thumbOffset = (listHeight - 27 - thumbSize) * shownEntries / (listLength - entryCount);
                 DrawScrollbar(listX, listY, listWidth, listHeight, thumbOffset, thumbSize);
             }
             else
@@ -648,7 +648,7 @@ namespace OpenRS.Net.Client
 
             componentHighlightedIndex[listIndex] = -1;
             int remainingSpace = listHeight - entryCount * gameImage.TextHeightNumber(listTextSize);
-            int textY = listY + (gameImage.TextHeightNumber(listTextSize) * 5) / 6 + remainingSpace / 2;
+            int textY = listY + gameImage.TextHeightNumber(listTextSize) * 5 / 6 + remainingSpace / 2;
 
             for (int entryIndex = shownEntries; entryIndex < listLength; entryIndex += 1)
             {
@@ -936,7 +936,7 @@ namespace OpenRS.Net.Client
 
         protected GameImage gameImage;
         private int menuItemsCount;
-        private int componentCapacity;
+        private readonly int componentCapacity;
         public bool[] componentAcceptsInput;
         public bool[] isScrollDragging;
         public bool[] componentIsPasswordField;
@@ -945,34 +945,34 @@ namespace OpenRS.Net.Client
         public int[] listLength;
         public int[] componentSelectedIndex;
         public int[] componentHighlightedIndex;
-        private bool[] componentWhiteText;
-        private int[] componentX;
-        private int[] componentY;
-        private int[] componentType;
-        private int[] componentWidth;
-        private int[] componentHeight;
-        private int[] copmonentInputMaxLength;
-        private int[] componentTextSize;
-        private string[] componentText;
-        private string[][] componentTextList;
+        private readonly bool[] componentWhiteText;
+        private readonly int[] componentX;
+        private readonly int[] componentY;
+        private readonly int[] componentType;
+        private readonly int[] componentWidth;
+        private readonly int[] componentHeight;
+        private readonly int[] copmonentInputMaxLength;
+        private readonly int[] componentTextSize;
+        private readonly string[] componentText;
+        private readonly string[][] componentTextList;
         private int mouseX;
         private int mouseY;
         private int lastMouseButton;
         private int mouseButton;
         private int selectedComponent;
         private int mouseClickHoldCounter;
-        private int scrollBarGradientColorTop;
-        private int scrollBarGradientColorBottom;
-        private int scrollBarDraggingBarLine1Color;
-        private int scrollBarDraggingBarColor;
-        private int scrollBarDraggingBarLine2Color;
-        private int borderColourOutside;
-        private int borderColourMiddle;
-        private int borderColourInner;
-        private int panelTopLeftColour;
-        private int panelTopLeftAltColour;
-        private int panelBottomRightAltColour;
-        private int panelBottomRightColour;
+        private readonly int scrollBarGradientColorTop;
+        private readonly int scrollBarGradientColorBottom;
+        private readonly int scrollBarDraggingBarLine1Color;
+        private readonly int scrollBarDraggingBarColor;
+        private readonly int scrollBarDraggingBarLine2Color;
+        private readonly int borderColourOutside;
+        private readonly int borderColourMiddle;
+        private readonly int borderColourInner;
+        private readonly int panelTopLeftColour;
+        private readonly int panelTopLeftAltColour;
+        private readonly int panelBottomRightAltColour;
+        private readonly int panelBottomRightColour;
         public bool isListSelectionHighlighted;
         public static bool isBackgroundPatternEnabled = true;
         public static int baseScrollPic;

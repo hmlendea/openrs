@@ -627,10 +627,10 @@ namespace OpenRS.Net.Client.Game.Cameras
                     int i12 = (sceneObjectWidths[j2] << screenProjectionShift) / j11;
                     int k12 = (sceneObjectHeights[j2] << screenProjectionShift) / j11;
                     int j13 = j10 - model.projectedV[ai2[1]];
-                    int k13 = ((model.projectedU[ai2[1]] - i9) * j13) / k12;
+                    int k13 = (model.projectedU[ai2[1]] - i9) * j13 / k12;
                     k13 = model.projectedU[ai2[1]] - i9;
                     int i14 = i9 - i12 / 2;
-                    int k14 = (scanlineBufferCentre + j10) - k12;
+                    int k14 = scanlineBufferCentre + j10 - k12;
                     gameImage.DrawVisibleEntity(i14 + screenMouseOffsetX, k14, i12, k12, sceneObjectId[j2], k13, (256 << screenProjectionShift) / j11);
                     if (isMousePositionUpdated && optionCount < maxHighlightedObjects)
                     {
@@ -671,7 +671,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                         {
                             if (l6.visibilityDot < 0)
                             {
-                                j12 = (model.baseShadeLevel - model.faceNormalComponent[i4]) + model.vertexColor[i4];
+                                j12 = model.baseShadeLevel - model.faceNormalComponent[i4] + model.vertexColor[i4];
                             }
                             else
                             {
@@ -706,8 +706,8 @@ namespace OpenRS.Net.Client.Game.Cameras
                             if (model.projectedDepth[k11] >= nearPlane)
                             {
                                 int j9 = model.projectedDepth[i4] - model.projectedDepth[k11];
-                                int k6 = model.projectedX[i4] - ((model.projectedX[i4] - model.projectedX[k11]) * (model.projectedDepth[i4] - nearPlane)) / j9;
-                                int i8 = model.projectedY[i4] - ((model.projectedY[i4] - model.projectedY[k11]) * (model.projectedDepth[i4] - nearPlane)) / j9;
+                                int k6 = model.projectedX[i4] - (model.projectedX[i4] - model.projectedX[k11]) * (model.projectedDepth[i4] - nearPlane) / j9;
+                                int i8 = model.projectedY[i4] - (model.projectedY[i4] - model.projectedY[k11]) * (model.projectedDepth[i4] - nearPlane) / j9;
                                 clipPolygonX[k10] = (k6 << screenProjectionShift) / nearPlane;
                                 clipPolygonY[k10] = (i8 << screenProjectionShift) / nearPlane;
                                 clipPolygonValues[k10] = j12;
@@ -725,8 +725,8 @@ namespace OpenRS.Net.Client.Game.Cameras
                             if (model.projectedDepth[k11] >= nearPlane)
                             {
                                 int k9 = model.projectedDepth[i4] - model.projectedDepth[k11];
-                                int i7 = model.projectedX[i4] - ((model.projectedX[i4] - model.projectedX[k11]) * (model.projectedDepth[i4] - nearPlane)) / k9;
-                                int j8 = model.projectedY[i4] - ((model.projectedY[i4] - model.projectedY[k11]) * (model.projectedDepth[i4] - nearPlane)) / k9;
+                                int i7 = model.projectedX[i4] - (model.projectedX[i4] - model.projectedX[k11]) * (model.projectedDepth[i4] - nearPlane) / k9;
+                                int j8 = model.projectedY[i4] - (model.projectedY[i4] - model.projectedY[k11]) * (model.projectedDepth[i4] - nearPlane) / k9;
                                 clipPolygonX[k10] = (i7 << screenProjectionShift) / nearPlane;
                                 clipPolygonY[k10] = (j8 << screenProjectionShift) / nearPlane;
                                 clipPolygonValues[k10] = j12;
@@ -785,7 +785,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 int i8 = polygonZ[0];
                 int k9 = polygonZ[1];
                 int k10 = polygonZ[2];
-                int k11 = (scanlineBufferCentre + screenCentreY) - 1;
+                int k11 = scanlineBufferCentre + screenCentreY - 1;
                 int i12 = 0;
                 int k12 = 0;
                 int i13 = 0;
@@ -918,7 +918,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 {
                     if (textureFlags >= i14 && textureFlags < k14)
                     {
-                        polygonFlags = (shadingMode = i12);
+                        polygonFlags = shadingMode = i12;
                         colourShift = i21 = i13;
                         i12 += k12;
                         i13 += k13;
@@ -985,7 +985,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     int l11 = polygonZ[1];
                     int j12 = polygonZ[2];
                     int l12 = polygonZ[3];
-                    int j13 = (scanlineBufferCentre + screenCentreY) - 1;
+                    int j13 = scanlineBufferCentre + screenCentreY - 1;
                     int l13 = 0;
                     int j14 = 0;
                     int l14 = 0;
@@ -1254,7 +1254,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
                 if (maxVisibleScanline >= scanlineBufferCentre + screenCentreY)
                 {
-                    maxVisibleScanline = (scanlineBufferCentre + screenCentreY) - 1;
+                    maxVisibleScanline = scanlineBufferCentre + screenCentreY - 1;
                 }
 
                 if (minVisibleScanline >= maxVisibleScanline)
@@ -1274,9 +1274,9 @@ namespace OpenRS.Net.Client.Game.Cameras
                     int j3 = polygonY[k1];
                     if (j2 < j3)
                     {
-                        int j4 = (polygonX[0] << 8);
+                        int j4 = polygonX[0] << 8;
                         int k5 = ((polygonX[k1] - polygonX[0]) << 8) / (j3 - j2);
-                        int i7 = (polygonZ[0] << 8);
+                        int i7 = polygonZ[0] << 8;
                         int k8 = ((polygonZ[k1] - polygonZ[0]) << 8) / (j3 - j2);
                         if (j2 < 0)
                         {
@@ -1455,13 +1455,13 @@ namespace OpenRS.Net.Client.Game.Cameras
                 if (textureLastAccessFrame[textureIndex] == 1)
                 {
                     int k9 = l5 * j1 - i7 * k << 12;
-                    int j10 = i7 * i2 - j8 * j1 << (5 - screenProjectionShift) + 7 + 4;
-                    int l10 = j8 * k - l5 * i2 << (5 - screenProjectionShift) + 7;
+                    int j10 = i7 * i2 - j8 * j1 << 5 - screenProjectionShift + 7 + 4;
+                    int l10 = j8 * k - l5 * i2 << 5 - screenProjectionShift + 7;
                     int j11 = l2 * j1 - j3 * k << 12;
-                    int l11 = j3 * i2 - l3 * j1 << (5 - screenProjectionShift) + 7 + 4;
-                    int j12 = l3 * k - l2 * i2 << (5 - screenProjectionShift) + 7;
+                    int l11 = j3 * i2 - l3 * j1 << 5 - screenProjectionShift + 7 + 4;
+                    int j12 = l3 * k - l2 * i2 << 5 - screenProjectionShift + 7;
                     int l12 = j3 * l5 - l2 * i7 << 5;
-                    int j13 = l3 * i7 - j3 * j8 << (5 - screenProjectionShift) + 4;
+                    int j13 = l3 * i7 - j3 * j8 << 5 - screenProjectionShift + 4;
                     int l13 = l2 * j8 - l3 * l5 >> screenProjectionShift - 5;
                     int j14 = j10 >> 4;
                     int l14 = l11 >> 4;
@@ -1573,7 +1573,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     {
                         CameraVariable m6 = scanlineVariables[colourMode];
                         textureMode = m6.scanlineMinX >> 8;
-                        int j18 = (m6.scanlineMaxX) >> 8;
+                        int j18 = m6.scanlineMaxX >> 8;
                         int l20 = j18 - textureMode;
                         if (l20 <= 0)
                         {
@@ -1607,18 +1607,18 @@ namespace OpenRS.Net.Client.Game.Cameras
 
                     return;
                 }
-                int l9 = ((l5 * j1 - i7 * k) << 11);
-                int k10 = ((i7 * i2 - j8 * j1) << (5 - screenProjectionShift) + 6 + 4);
-                int i11 = ((j8 * k - l5 * i2) << (5 - screenProjectionShift) + 6);
-                int k11 = ((l2 * j1 - j3 * k) << 11);
-                int i12 = ((j3 * i2 - l3 * j1) << (5 - screenProjectionShift) + 6 + 4);
-                int k12 = ((l3 * k - l2 * i2) << (5 - screenProjectionShift) + 6);
-                int i13 = ((j3 * l5 - l2 * i7) << 5);
-                int k13 = ((l3 * i7 - j3 * j8) << (5 - screenProjectionShift) + 4);
-                int i14 = ((l2 * j8 - l3 * l5) >> (screenProjectionShift - 5));
-                int k14 = (k10 >> 4);
-                int i15 = (i12 >> 4);
-                int k15 = (k13 >> 4);
+                int l9 = (l5 * j1 - i7 * k) << 11;
+                int k10 = (i7 * i2 - j8 * j1) << 5 - screenProjectionShift + 6 + 4;
+                int i11 = (j8 * k - l5 * i2) << 5 - screenProjectionShift + 6;
+                int k11 = (l2 * j1 - j3 * k) << 11;
+                int i12 = (j3 * i2 - l3 * j1) << 5 - screenProjectionShift + 6 + 4;
+                int k12 = (l3 * k - l2 * i2) << 5 - screenProjectionShift + 6;
+                int i13 = (j3 * l5 - l2 * i7) << 5;
+                int k13 = (l3 * i7 - j3 * j8) << 5 - screenProjectionShift + 4;
+                int i14 = (l2 * j8 - l3 * l5) >> (screenProjectionShift - 5);
+                int k14 = k10 >> 4;
+                int i15 = i12 >> 4;
+                int k15 = k13 >> 4;
                 int i16 = minVisibleScanline - scanlineBufferCentre;
                 int k16 = defaultScreenHalfWidth;
                 int i17 = screenMouseOffsetX + minVisibleScanline * k16;
@@ -1784,9 +1784,9 @@ namespace OpenRS.Net.Client.Game.Cameras
                     for (int i4 = 0; i4 < 256; i4 += 1)
                     {
                         int i6 = i4 * i4;
-                        int j7 = (j2 * i6) / 0x10000;
-                        int k8 = (i3 * i6) / 0x10000;
-                        int i10 = (k3 * i6) / 0x10000;
+                        int j7 = j2 * i6 / 0x10000;
+                        int k8 = i3 * i6 / 0x10000;
+                        int i10 = k3 * i6 / 0x10000;
                         textureClipData[k1][255 - i4] = (j7 << 16) + (k8 << 8) + i10;
                     }
 
@@ -1958,61 +1958,61 @@ namespace OpenRS.Net.Client.Game.Cameras
                 colour += arg12 & 0x600000;
                 l1 = arg12 >> 23;
                 arg12 += arg13;
-                pixels[arg11++] = ((scanlines[(startScanline & 0x3f80) + (colour >> 7)]) >> l1);
+                pixels[arg11++] = scanlines[(startScanline & 0x3f80) + (colour >> 7)] >> l1;
                 colour += j1;
                 startScanline += k1;
-                pixels[arg11++] = ((scanlines[(startScanline & 0x3f80) + (colour >> 7)]) >> l1);
+                pixels[arg11++] = scanlines[(startScanline & 0x3f80) + (colour >> 7)] >> l1;
                 colour += j1;
                 startScanline += k1;
-                pixels[arg11++] = ((scanlines[(startScanline & 0x3f80) + (colour >> 7)]) >> l1);
+                pixels[arg11++] = scanlines[(startScanline & 0x3f80) + (colour >> 7)] >> l1;
                 colour += j1;
                 startScanline += k1;
-                pixels[arg11++] = ((scanlines[(startScanline & 0x3f80) + (colour >> 7)]) >> l1);
-                colour += j1;
-                startScanline += k1;
-                colour = (colour & 0x3fff) + (arg12 & 0x600000);
-                l1 = arg12 >> 23;
-                arg12 += arg13;
-                pixels[arg11++] = ((scanlines[(startScanline & 0x3f80) + (colour >> 7)]) >> l1);
-                colour += j1;
-                startScanline += k1;
-                pixels[arg11++] = ((scanlines[(startScanline & 0x3f80) + (colour >> 7)]) >> l1);
-                colour += j1;
-                startScanline += k1;
-                pixels[arg11++] = ((scanlines[(startScanline & 0x3f80) + (colour >> 7)]) >> l1);
-                colour += j1;
-                startScanline += k1;
-                pixels[arg11++] = ((scanlines[(startScanline & 0x3f80) + (colour >> 7)]) >> l1);
+                pixels[arg11++] = scanlines[(startScanline & 0x3f80) + (colour >> 7)] >> l1;
                 colour += j1;
                 startScanline += k1;
                 colour = (colour & 0x3fff) + (arg12 & 0x600000);
                 l1 = arg12 >> 23;
                 arg12 += arg13;
-                pixels[arg11++] = ((scanlines[(startScanline & 0x3f80) + (colour >> 7)]) >> l1);
+                pixels[arg11++] = scanlines[(startScanline & 0x3f80) + (colour >> 7)] >> l1;
                 colour += j1;
                 startScanline += k1;
-                pixels[arg11++] = ((scanlines[(startScanline & 0x3f80) + (colour >> 7)]) >> l1);
+                pixels[arg11++] = scanlines[(startScanline & 0x3f80) + (colour >> 7)] >> l1;
                 colour += j1;
                 startScanline += k1;
-                pixels[arg11++] = ((scanlines[(startScanline & 0x3f80) + (colour >> 7)]) >> l1);
+                pixels[arg11++] = scanlines[(startScanline & 0x3f80) + (colour >> 7)] >> l1;
                 colour += j1;
                 startScanline += k1;
-                pixels[arg11++] = ((scanlines[(startScanline & 0x3f80) + (colour >> 7)]) >> l1);
+                pixels[arg11++] = scanlines[(startScanline & 0x3f80) + (colour >> 7)] >> l1;
                 colour += j1;
                 startScanline += k1;
                 colour = (colour & 0x3fff) + (arg12 & 0x600000);
                 l1 = arg12 >> 23;
                 arg12 += arg13;
-                pixels[arg11++] = ((scanlines[(startScanline & 0x3f80) + (colour >> 7)]) >> l1);
+                pixels[arg11++] = scanlines[(startScanline & 0x3f80) + (colour >> 7)] >> l1;
                 colour += j1;
                 startScanline += k1;
-                pixels[arg11++] = ((scanlines[(startScanline & 0x3f80) + (colour >> 7)]) >> l1);
+                pixels[arg11++] = scanlines[(startScanline & 0x3f80) + (colour >> 7)] >> l1;
                 colour += j1;
                 startScanline += k1;
-                pixels[arg11++] = ((scanlines[(startScanline & 0x3f80) + (colour >> 7)]) >> l1);
+                pixels[arg11++] = scanlines[(startScanline & 0x3f80) + (colour >> 7)] >> l1;
                 colour += j1;
                 startScanline += k1;
-                pixels[arg11++] = ((scanlines[(startScanline & 0x3f80) + (colour >> 7)]) >> l1);
+                pixels[arg11++] = scanlines[(startScanline & 0x3f80) + (colour >> 7)] >> l1;
+                colour += j1;
+                startScanline += k1;
+                colour = (colour & 0x3fff) + (arg12 & 0x600000);
+                l1 = arg12 >> 23;
+                arg12 += arg13;
+                pixels[arg11++] = scanlines[(startScanline & 0x3f80) + (colour >> 7)] >> l1;
+                colour += j1;
+                startScanline += k1;
+                pixels[arg11++] = scanlines[(startScanline & 0x3f80) + (colour >> 7)] >> l1;
+                colour += j1;
+                startScanline += k1;
+                pixels[arg11++] = scanlines[(startScanline & 0x3f80) + (colour >> 7)] >> l1;
+                colour += j1;
+                startScanline += k1;
+                pixels[arg11++] = scanlines[(startScanline & 0x3f80) + (colour >> 7)] >> l1;
                 colour = k;
                 startScanline = i1;
                 endScanline += scanlineCount;
@@ -2045,7 +2045,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     l1 = arg12 >> 23;
                     arg12 += arg13;
                 }
-                pixels[arg11++] = (scanlines[(startScanline & 0x3f80) + (colour >> 7)]) >> l1;
+                pixels[arg11++] = scanlines[(startScanline & 0x3f80) + (colour >> 7)] >> l1;
                 colour += j1;
                 startScanline += k1;
             }
@@ -2254,7 +2254,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 {
                     for (int j2 = 0; j2 < l1; j2 += 1)
                     {
-                        if ((texturePixels = (textureData[(startV & 0x3f80) + (startU >> 7)] >> i2)) != 0)
+                        if ((texturePixels = textureData[(startV & 0x3f80) + (startU >> 7)] >> i2) != 0)
                         {
                             pixels[arg12] = texturePixels;
                         }
@@ -2273,7 +2273,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 }
                 else
                 {
-                    if ((texturePixels = (textureData[(startV & 0x3f80) + (startU >> 7)] >> i2)) != 0)
+                    if ((texturePixels = textureData[(startV & 0x3f80) + (startU >> 7)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2281,7 +2281,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0x3f80) + (startU >> 7)] >> i2)) != 0)
+                    if ((texturePixels = textureData[(startV & 0x3f80) + (startU >> 7)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2289,7 +2289,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0x3f80) + (startU >> 7)] >> i2)) != 0)
+                    if ((texturePixels = textureData[(startV & 0x3f80) + (startU >> 7)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2297,42 +2297,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0x3f80) + (startU >> 7)] >> i2)) != 0)
-                    {
-                        pixels[arg12] = texturePixels;
-                    }
-
-                    arg12 += 1;
-                    startU += j1;
-                    startV += k1;
-                    startU = (startU & 0x3fff) + (arg13 & 0x600000);
-                    i2 = arg13 >> 23;
-                    arg13 += arg14;
-                    if ((texturePixels = (textureData[(startV & 0x3f80) + (startU >> 7)] >> i2)) != 0)
-                    {
-                        pixels[arg12] = texturePixels;
-                    }
-
-                    arg12 += 1;
-                    startU += j1;
-                    startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0x3f80) + (startU >> 7)] >> i2)) != 0)
-                    {
-                        pixels[arg12] = texturePixels;
-                    }
-
-                    arg12 += 1;
-                    startU += j1;
-                    startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0x3f80) + (startU >> 7)] >> i2)) != 0)
-                    {
-                        pixels[arg12] = texturePixels;
-                    }
-
-                    arg12 += 1;
-                    startU += j1;
-                    startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0x3f80) + (startU >> 7)] >> i2)) != 0)
+                    if ((texturePixels = textureData[(startV & 0x3f80) + (startU >> 7)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2343,7 +2308,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     startU = (startU & 0x3fff) + (arg13 & 0x600000);
                     i2 = arg13 >> 23;
                     arg13 += arg14;
-                    if ((texturePixels = (textureData[(startV & 0x3f80) + (startU >> 7)] >> i2)) != 0)
+                    if ((texturePixels = textureData[(startV & 0x3f80) + (startU >> 7)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2351,7 +2316,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0x3f80) + (startU >> 7)] >> i2)) != 0)
+                    if ((texturePixels = textureData[(startV & 0x3f80) + (startU >> 7)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2359,7 +2324,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0x3f80) + (startU >> 7)] >> i2)) != 0)
+                    if ((texturePixels = textureData[(startV & 0x3f80) + (startU >> 7)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2367,7 +2332,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0x3f80) + (startU >> 7)] >> i2)) != 0)
+                    if ((texturePixels = textureData[(startV & 0x3f80) + (startU >> 7)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2378,7 +2343,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     startU = (startU & 0x3fff) + (arg13 & 0x600000);
                     i2 = arg13 >> 23;
                     arg13 += arg14;
-                    if ((texturePixels = (textureData[(startV & 0x3f80) + (startU >> 7)] >> i2)) != 0)
+                    if ((texturePixels = textureData[(startV & 0x3f80) + (startU >> 7)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2386,7 +2351,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0x3f80) + (startU >> 7)] >> i2)) != 0)
+                    if ((texturePixels = textureData[(startV & 0x3f80) + (startU >> 7)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2394,7 +2359,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0x3f80) + (startU >> 7)] >> i2)) != 0)
+                    if ((texturePixels = textureData[(startV & 0x3f80) + (startU >> 7)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2402,7 +2367,42 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0x3f80) + (startU >> 7)] >> i2)) != 0)
+                    if ((texturePixels = textureData[(startV & 0x3f80) + (startU >> 7)] >> i2) != 0)
+                    {
+                        pixels[arg12] = texturePixels;
+                    }
+
+                    arg12 += 1;
+                    startU += j1;
+                    startV += k1;
+                    startU = (startU & 0x3fff) + (arg13 & 0x600000);
+                    i2 = arg13 >> 23;
+                    arg13 += arg14;
+                    if ((texturePixels = textureData[(startV & 0x3f80) + (startU >> 7)] >> i2) != 0)
+                    {
+                        pixels[arg12] = texturePixels;
+                    }
+
+                    arg12 += 1;
+                    startU += j1;
+                    startV += k1;
+                    if ((texturePixels = textureData[(startV & 0x3f80) + (startU >> 7)] >> i2) != 0)
+                    {
+                        pixels[arg12] = texturePixels;
+                    }
+
+                    arg12 += 1;
+                    startU += j1;
+                    startV += k1;
+                    if ((texturePixels = textureData[(startV & 0x3f80) + (startU >> 7)] >> i2) != 0)
+                    {
+                        pixels[arg12] = texturePixels;
+                    }
+
+                    arg12 += 1;
+                    startU += j1;
+                    startV += k1;
+                    if ((texturePixels = textureData[(startV & 0x3f80) + (startU >> 7)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2470,7 +2470,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 {
                     for (int j2 = 0; j2 < l1; j2 += 1)
                     {
-                        pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2);
+                        pixels[arg11++] = scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2;
                         colour += j1;
                         startScanline += k1;
                         if ((j2 & 3) == 3)
@@ -2484,61 +2484,61 @@ namespace OpenRS.Net.Client.Game.Cameras
                 }
                 else
                 {
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2);
+                    pixels[arg11++] = scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2;
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2);
+                    pixels[arg11++] = scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2;
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2);
+                    pixels[arg11++] = scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2;
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2);
-                    colour += j1;
-                    startScanline += k1;
-                    colour = (colour & 0xfff) + (arg12 & 0xc0000);
-                    i2 = arg12 >> 20;
-                    arg12 += arg13;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2);
-                    colour += j1;
-                    startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2);
-                    colour += j1;
-                    startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2);
-                    colour += j1;
-                    startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2);
+                    pixels[arg11++] = scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2;
                     colour += j1;
                     startScanline += k1;
                     colour = (colour & 0xfff) + (arg12 & 0xc0000);
                     i2 = arg12 >> 20;
                     arg12 += arg13;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2);
+                    pixels[arg11++] = scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2;
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2);
+                    pixels[arg11++] = scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2;
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2);
+                    pixels[arg11++] = scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2;
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2);
+                    pixels[arg11++] = scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2;
                     colour += j1;
                     startScanline += k1;
                     colour = (colour & 0xfff) + (arg12 & 0xc0000);
                     i2 = arg12 >> 20;
                     arg12 += arg13;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2);
+                    pixels[arg11++] = scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2;
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2);
+                    pixels[arg11++] = scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2;
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2);
+                    pixels[arg11++] = scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2;
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2);
+                    pixels[arg11++] = scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2;
+                    colour += j1;
+                    startScanline += k1;
+                    colour = (colour & 0xfff) + (arg12 & 0xc0000);
+                    i2 = arg12 >> 20;
+                    arg12 += arg13;
+                    pixels[arg11++] = scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2;
+                    colour += j1;
+                    startScanline += k1;
+                    pixels[arg11++] = scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2;
+                    colour += j1;
+                    startScanline += k1;
+                    pixels[arg11++] = scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2;
+                    colour += j1;
+                    startScanline += k1;
+                    pixels[arg11++] = scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2;
                 }
             }
 
@@ -2601,7 +2601,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 {
                     for (int j2 = 0; j2 < l1; j2 += 1)
                     {
-                        pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
+                        pixels[arg11++] = (scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
                         colour += j1;
                         startScanline += k1;
                         if ((j2 & 3) == 3)
@@ -2615,61 +2615,61 @@ namespace OpenRS.Net.Client.Game.Cameras
                 }
                 else
                 {
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
+                    pixels[arg11++] = (scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
+                    pixels[arg11++] = (scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
+                    pixels[arg11++] = (scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
-                    colour += j1;
-                    startScanline += k1;
-                    colour = (colour & 0xfff) + (arg12 & 0xc0000);
-                    i2 = arg12 >> 20;
-                    arg12 += arg13;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
-                    colour += j1;
-                    startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
-                    colour += j1;
-                    startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
-                    colour += j1;
-                    startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
+                    pixels[arg11++] = (scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
                     colour += j1;
                     startScanline += k1;
                     colour = (colour & 0xfff) + (arg12 & 0xc0000);
                     i2 = arg12 >> 20;
                     arg12 += arg13;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
+                    pixels[arg11++] = (scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
+                    pixels[arg11++] = (scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
+                    pixels[arg11++] = (scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
+                    pixels[arg11++] = (scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
                     colour += j1;
                     startScanline += k1;
                     colour = (colour & 0xfff) + (arg12 & 0xc0000);
                     i2 = arg12 >> 20;
                     arg12 += arg13;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
+                    pixels[arg11++] = (scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
+                    pixels[arg11++] = (scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
+                    pixels[arg11++] = (scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
                     colour += j1;
                     startScanline += k1;
-                    pixels[arg11++] = ((scanlines[(startScanline & 0xfc0) + (colour >> 6)]) >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
+                    pixels[arg11++] = (scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
+                    colour += j1;
+                    startScanline += k1;
+                    colour = (colour & 0xfff) + (arg12 & 0xc0000);
+                    i2 = arg12 >> 20;
+                    arg12 += arg13;
+                    pixels[arg11++] = (scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
+                    colour += j1;
+                    startScanline += k1;
+                    pixels[arg11++] = (scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
+                    colour += j1;
+                    startScanline += k1;
+                    pixels[arg11++] = (scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
+                    colour += j1;
+                    startScanline += k1;
+                    pixels[arg11++] = (scanlines[(startScanline & 0xfc0) + (colour >> 6)] >> i2) + (pixels[arg11] >> 1 & 0x7f7f7f);
                 }
             }
 
@@ -2732,7 +2732,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 {
                     for (int j2 = 0; j2 < l1; j2 += 1)
                     {
-                        if ((texturePixels = ((textureData[(startV & 0xfc0) + (startU >> 6)] >> i2))) != 0)
+                        if ((texturePixels = textureData[(startV & 0xfc0) + (startU >> 6)] >> i2) != 0)
                         {
                             pixels[arg12] = texturePixels;
                         }
@@ -2751,7 +2751,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 }
                 else
                 {
-                    if ((texturePixels = (textureData[(startV & 0xfc0) + (startU >> 6)]) >> i2) != 0)
+                    if ((texturePixels = textureData[(startV & 0xfc0) + (startU >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2759,7 +2759,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0xfc0) + (startU >> 6)]) >> i2) != 0)
+                    if ((texturePixels = textureData[(startV & 0xfc0) + (startU >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2767,7 +2767,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0xfc0) + (startU >> 6)]) >> i2) != 0)
+                    if ((texturePixels = textureData[(startV & 0xfc0) + (startU >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2775,42 +2775,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0xfc0) + (startU >> 6)]) >> i2) != 0)
-                    {
-                        pixels[arg12] = texturePixels;
-                    }
-
-                    arg12 += 1;
-                    startU += j1;
-                    startV += k1;
-                    startU = (startU & 0xfff) + (arg13 & 0xc0000);
-                    i2 = arg13 >> 20;
-                    arg13 += arg14;
-                    if ((texturePixels = (textureData[(startV & 0xfc0) + (startU >> 6)]) >> i2) != 0)
-                    {
-                        pixels[arg12] = texturePixels;
-                    }
-
-                    arg12 += 1;
-                    startU += j1;
-                    startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0xfc0) + (startU >> 6)]) >> i2) != 0)
-                    {
-                        pixels[arg12] = texturePixels;
-                    }
-
-                    arg12 += 1;
-                    startU += j1;
-                    startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0xfc0) + (startU >> 6)]) >> i2) != 0)
-                    {
-                        pixels[arg12] = texturePixels;
-                    }
-
-                    arg12 += 1;
-                    startU += j1;
-                    startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0xfc0) + (startU >> 6)]) >> i2) != 0)
+                    if ((texturePixels = textureData[(startV & 0xfc0) + (startU >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2821,7 +2786,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     startU = (startU & 0xfff) + (arg13 & 0xc0000);
                     i2 = arg13 >> 20;
                     arg13 += arg14;
-                    if ((texturePixels = (textureData[(startV & 0xfc0) + (startU >> 6)]) >> i2) != 0)
+                    if ((texturePixels = textureData[(startV & 0xfc0) + (startU >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2829,7 +2794,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0xfc0) + (startU >> 6)]) >> i2) != 0)
+                    if ((texturePixels = textureData[(startV & 0xfc0) + (startU >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2837,7 +2802,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0xfc0) + (startU >> 6)]) >> i2) != 0)
+                    if ((texturePixels = textureData[(startV & 0xfc0) + (startU >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2845,7 +2810,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0xfc0) + (startU >> 6)]) >> i2) != 0)
+                    if ((texturePixels = textureData[(startV & 0xfc0) + (startU >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2856,7 +2821,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     startU = (startU & 0xfff) + (arg13 & 0xc0000);
                     i2 = arg13 >> 20;
                     arg13 += arg14;
-                    if ((texturePixels = (textureData[(startV & 0xfc0) + (startU >> 6)]) >> i2) != 0)
+                    if ((texturePixels = textureData[(startV & 0xfc0) + (startU >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2864,7 +2829,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0xfc0) + (startU >> 6)]) >> i2) != 0)
+                    if ((texturePixels = textureData[(startV & 0xfc0) + (startU >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2872,7 +2837,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0xfc0) + (startU >> 6)]) >> i2) != 0)
+                    if ((texturePixels = textureData[(startV & 0xfc0) + (startU >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -2880,7 +2845,42 @@ namespace OpenRS.Net.Client.Game.Cameras
                     arg12 += 1;
                     startU += j1;
                     startV += k1;
-                    if ((texturePixels = (textureData[(startV & 0xfc0) + (startU >> 6)]) >> i2) != 0)
+                    if ((texturePixels = textureData[(startV & 0xfc0) + (startU >> 6)] >> i2) != 0)
+                    {
+                        pixels[arg12] = texturePixels;
+                    }
+
+                    arg12 += 1;
+                    startU += j1;
+                    startV += k1;
+                    startU = (startU & 0xfff) + (arg13 & 0xc0000);
+                    i2 = arg13 >> 20;
+                    arg13 += arg14;
+                    if ((texturePixels = textureData[(startV & 0xfc0) + (startU >> 6)] >> i2) != 0)
+                    {
+                        pixels[arg12] = texturePixels;
+                    }
+
+                    arg12 += 1;
+                    startU += j1;
+                    startV += k1;
+                    if ((texturePixels = textureData[(startV & 0xfc0) + (startU >> 6)] >> i2) != 0)
+                    {
+                        pixels[arg12] = texturePixels;
+                    }
+
+                    arg12 += 1;
+                    startU += j1;
+                    startV += k1;
+                    if ((texturePixels = textureData[(startV & 0xfc0) + (startU >> 6)] >> i2) != 0)
+                    {
+                        pixels[arg12] = texturePixels;
+                    }
+
+                    arg12 += 1;
+                    startU += j1;
+                    startV += k1;
+                    if ((texturePixels = textureData[(startV & 0xfc0) + (startU >> 6)] >> i2) != 0)
                     {
                         pixels[arg12] = texturePixels;
                     }
@@ -3027,7 +3027,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 startScanline += destOffset;
             }
 
-            k = (-(startColour % 16));
+            k = -(startColour % 16);
             for (int j1 = 0; j1 < k; j1 += 1)
             {
                 pixels[startU++] = startV;
@@ -3689,7 +3689,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         public static int GetTextureColour(int r, int g, int b)
         {
-            return -1 - (r / 8) * 1024 - (g / 8) * 32 - b / 8;
+            return -1 - r / 8 * 1024 - g / 8 * 32 - b / 8;
         }
 
         public int LinearInterpolate(int valueA, int rangeStartY, int valueB, int rangeEndY, int targetY)
@@ -3700,7 +3700,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             }
             else
             {
-                return valueA + ((valueB - valueA) * (targetY - rangeStartY)) / (rangeEndY - rangeStartY);
+                return valueA + (valueB - valueA) * (targetY - rangeStartY) / (rangeEndY - rangeStartY);
             }
         }
 
@@ -3825,13 +3825,13 @@ namespace OpenRS.Net.Client.Game.Cameras
                     ;
                 }
 
-                for (; polygonAY[j1] < polygonBY[l1]; j1 = ((j1 - 1) + k) % k)
+                for (; polygonAY[j1] < polygonBY[l1]; j1 = (j1 - 1 + k) % k)
                 {
                     ;
                 }
 
                 int j2 = LinearInterpolate(polygonAX[(j1 + 1) % k], polygonAY[(j1 + 1) % k], polygonAX[j1], polygonAY[j1], polygonBY[l1]);
-                int j7 = LinearInterpolate(polygonAX[((k1 - 1) + k) % k], polygonAY[((k1 - 1) + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[l1]);
+                int j7 = LinearInterpolate(polygonAX[(k1 - 1 + k) % k], polygonAY[(k1 - 1 + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[l1]);
                 int k11 = polygonBX[l1];
                 flag = (j2 < k11) | (j7 < k11);
                 if (ComparePolygonRange(j2, j7, k11, flag))
@@ -3840,7 +3840,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 }
 
                 i2 = (l1 + 1) % i1;
-                l1 = ((l1 - 1) + i1) % i1;
+                l1 = (l1 - 1 + i1) % i1;
                 if (j1 == k1)
                 {
                     byte0 = 1;
@@ -3853,14 +3853,14 @@ namespace OpenRS.Net.Client.Game.Cameras
                     ;
                 }
 
-                for (; polygonBY[l1] < polygonAY[j1]; l1 = ((l1 - 1) + i1) % i1)
+                for (; polygonBY[l1] < polygonAY[j1]; l1 = (l1 - 1 + i1) % i1)
                 {
                     ;
                 }
 
                 int k2 = polygonAX[j1];
                 int l11 = LinearInterpolate(polygonBX[(l1 + 1) % i1], polygonBY[(l1 + 1) % i1], polygonBX[l1], polygonBY[l1], polygonAY[j1]);
-                int k16 = LinearInterpolate(polygonBX[((i2 - 1) + i1) % i1], polygonBY[((i2 - 1) + i1) % i1], polygonBX[i2], polygonBY[i2], polygonAY[j1]);
+                int k16 = LinearInterpolate(polygonBX[(i2 - 1 + i1) % i1], polygonBY[(i2 - 1 + i1) % i1], polygonBX[i2], polygonBY[i2], polygonAY[j1]);
                 flag = (k2 < l11) | (k2 < k16);
                 if (ComparePolygonRange(l11, k16, k2, !flag))
                 {
@@ -3868,7 +3868,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 }
 
                 k1 = (j1 + 1) % k;
-                j1 = ((j1 - 1) + k) % k;
+                j1 = (j1 - 1 + k) % k;
                 if (l1 == i2)
                 {
                     byte0 = 2;
@@ -3883,15 +3883,15 @@ namespace OpenRS.Net.Client.Game.Cameras
                         if (polygonAY[j1] < polygonBY[i2])
                         {
                             int l2 = polygonAX[j1];
-                            int k7 = LinearInterpolate(polygonAX[((k1 - 1) + k) % k], polygonAY[((k1 - 1) + k) % k], polygonAX[k1], polygonAY[k1], polygonAY[j1]);
+                            int k7 = LinearInterpolate(polygonAX[(k1 - 1 + k) % k], polygonAY[(k1 - 1 + k) % k], polygonAX[k1], polygonAY[k1], polygonAY[j1]);
                             int i12 = LinearInterpolate(polygonBX[(l1 + 1) % i1], polygonBY[(l1 + 1) % i1], polygonBX[l1], polygonBY[l1], polygonAY[j1]);
-                            int l16 = LinearInterpolate(polygonBX[((i2 - 1) + i1) % i1], polygonBY[((i2 - 1) + i1) % i1], polygonBX[i2], polygonBY[i2], polygonAY[j1]);
+                            int l16 = LinearInterpolate(polygonBX[(i2 - 1 + i1) % i1], polygonBY[(i2 - 1 + i1) % i1], polygonBX[i2], polygonBY[i2], polygonAY[j1]);
                             if (ComparePolygonRanges(l2, k7, i12, l16, flag))
                             {
                                 return true;
                             }
 
-                            j1 = ((j1 - 1) + k) % k;
+                            j1 = (j1 - 1 + k) % k;
                             if (j1 == k1)
                             {
                                 byte0 = 1;
@@ -3900,7 +3900,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                         else
                         {
                             int i3 = LinearInterpolate(polygonAX[(j1 + 1) % k], polygonAY[(j1 + 1) % k], polygonAX[j1], polygonAY[j1], polygonBY[i2]);
-                            int l7 = LinearInterpolate(polygonAX[((k1 - 1) + k) % k], polygonAY[((k1 - 1) + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[i2]);
+                            int l7 = LinearInterpolate(polygonAX[(k1 - 1 + k) % k], polygonAY[(k1 - 1 + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[i2]);
                             int j12 = LinearInterpolate(polygonBX[(l1 + 1) % i1], polygonBY[(l1 + 1) % i1], polygonBX[l1], polygonBY[l1], polygonBY[i2]);
                             int i17 = polygonBX[i2];
                             if (ComparePolygonRanges(i3, l7, j12, i17, flag))
@@ -3919,15 +3919,15 @@ namespace OpenRS.Net.Client.Game.Cameras
                         if (polygonBY[l1] < polygonBY[i2])
                         {
                             int j3 = LinearInterpolate(polygonAX[(j1 + 1) % k], polygonAY[(j1 + 1) % k], polygonAX[j1], polygonAY[j1], polygonBY[l1]);
-                            int i8 = LinearInterpolate(polygonAX[((k1 - 1) + k) % k], polygonAY[((k1 - 1) + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[l1]);
+                            int i8 = LinearInterpolate(polygonAX[(k1 - 1 + k) % k], polygonAY[(k1 - 1 + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[l1]);
                             int k12 = polygonBX[l1];
-                            int j17 = LinearInterpolate(polygonBX[((i2 - 1) + i1) % i1], polygonBY[((i2 - 1) + i1) % i1], polygonBX[i2], polygonBY[i2], polygonBY[l1]);
+                            int j17 = LinearInterpolate(polygonBX[(i2 - 1 + i1) % i1], polygonBY[(i2 - 1 + i1) % i1], polygonBX[i2], polygonBY[i2], polygonBY[l1]);
                             if (ComparePolygonRanges(j3, i8, k12, j17, flag))
                         {
                             return true;
                         }
 
-                        l1 = ((l1 - 1) + i1) % i1;
+                        l1 = (l1 - 1 + i1) % i1;
                             if (l1 == i2)
                         {
                             byte0 = 2;
@@ -3936,7 +3936,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                         else
                         {
                             int k3 = LinearInterpolate(polygonAX[(j1 + 1) % k], polygonAY[(j1 + 1) % k], polygonAX[j1], polygonAY[j1], polygonBY[i2]);
-                            int j8 = LinearInterpolate(polygonAX[((k1 - 1) + k) % k], polygonAY[((k1 - 1) + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[i2]);
+                            int j8 = LinearInterpolate(polygonAX[(k1 - 1 + k) % k], polygonAY[(k1 - 1 + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[i2]);
                             int l12 = LinearInterpolate(polygonBX[(l1 + 1) % i1], polygonBY[(l1 + 1) % i1], polygonBX[l1], polygonBY[l1], polygonBY[i2]);
                             int k17 = polygonBX[i2];
                             if (ComparePolygonRanges(k3, j8, l12, k17, flag))
@@ -3959,7 +3959,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                             int l3 = LinearInterpolate(polygonAX[(j1 + 1) % k], polygonAY[(j1 + 1) % k], polygonAX[j1], polygonAY[j1], polygonAY[k1]);
                             int k8 = polygonAX[k1];
                             int i13 = LinearInterpolate(polygonBX[(l1 + 1) % i1], polygonBY[(l1 + 1) % i1], polygonBX[l1], polygonBY[l1], polygonAY[k1]);
-                            int l17 = LinearInterpolate(polygonBX[((i2 - 1) + i1) % i1], polygonBY[((i2 - 1) + i1) % i1], polygonBX[i2], polygonBY[i2], polygonAY[k1]);
+                            int l17 = LinearInterpolate(polygonBX[(i2 - 1 + i1) % i1], polygonBY[(i2 - 1 + i1) % i1], polygonBX[i2], polygonBY[i2], polygonAY[k1]);
                             if (ComparePolygonRanges(l3, k8, i13, l17, flag))
                         {
                             return true;
@@ -3974,7 +3974,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                         else
                         {
                             int i4 = LinearInterpolate(polygonAX[(j1 + 1) % k], polygonAY[(j1 + 1) % k], polygonAX[j1], polygonAY[j1], polygonBY[i2]);
-                            int l8 = LinearInterpolate(polygonAX[((k1 - 1) + k) % k], polygonAY[((k1 - 1) + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[i2]);
+                            int l8 = LinearInterpolate(polygonAX[(k1 - 1 + k) % k], polygonAY[(k1 - 1 + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[i2]);
                             int j13 = LinearInterpolate(polygonBX[(l1 + 1) % i1], polygonBY[(l1 + 1) % i1], polygonBX[l1], polygonBY[l1], polygonBY[i2]);
                             int i18 = polygonBX[i2];
                             if (ComparePolygonRanges(i4, l8, j13, i18, flag))
@@ -3993,15 +3993,15 @@ namespace OpenRS.Net.Client.Game.Cameras
                         if (polygonBY[l1] < polygonBY[i2])
                         {
                             int j4 = LinearInterpolate(polygonAX[(j1 + 1) % k], polygonAY[(j1 + 1) % k], polygonAX[j1], polygonAY[j1], polygonBY[l1]);
-                            int i9 = LinearInterpolate(polygonAX[((k1 - 1) + k) % k], polygonAY[((k1 - 1) + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[l1]);
+                            int i9 = LinearInterpolate(polygonAX[(k1 - 1 + k) % k], polygonAY[(k1 - 1 + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[l1]);
                             int k13 = polygonBX[l1];
-                            int j18 = LinearInterpolate(polygonBX[((i2 - 1) + i1) % i1], polygonBY[((i2 - 1) + i1) % i1], polygonBX[i2], polygonBY[i2], polygonBY[l1]);
+                            int j18 = LinearInterpolate(polygonBX[(i2 - 1 + i1) % i1], polygonBY[(i2 - 1 + i1) % i1], polygonBX[i2], polygonBY[i2], polygonBY[l1]);
                             if (ComparePolygonRanges(j4, i9, k13, j18, flag))
                     {
                         return true;
                     }
 
-                    l1 = ((l1 - 1) + i1) % i1;
+                    l1 = (l1 - 1 + i1) % i1;
                             if (l1 == i2)
                     {
                         byte0 = 2;
@@ -4010,7 +4010,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                         else
                         {
                             int k4 = LinearInterpolate(polygonAX[(j1 + 1) % k], polygonAY[(j1 + 1) % k], polygonAX[j1], polygonAY[j1], polygonBY[i2]);
-                            int j9 = LinearInterpolate(polygonAX[((k1 - 1) + k) % k], polygonAY[((k1 - 1) + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[i2]);
+                            int j9 = LinearInterpolate(polygonAX[(k1 - 1 + k) % k], polygonAY[(k1 - 1 + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[i2]);
                             int l13 = LinearInterpolate(polygonBX[(l1 + 1) % i1], polygonBY[(l1 + 1) % i1], polygonBX[l1], polygonBY[l1], polygonBY[i2]);
                             int k18 = polygonBX[i2];
                             if (ComparePolygonRanges(k4, j9, l13, k18, flag))
@@ -4034,11 +4034,11 @@ namespace OpenRS.Net.Client.Game.Cameras
                     {
                         int l4 = polygonAX[j1];
                         int i14 = LinearInterpolate(polygonBX[(l1 + 1) % i1], polygonBY[(l1 + 1) % i1], polygonBX[l1], polygonBY[l1], polygonAY[j1]);
-                        int l18 = LinearInterpolate(polygonBX[((i2 - 1) + i1) % i1], polygonBY[((i2 - 1) + i1) % i1], polygonBX[i2], polygonBY[i2], polygonAY[j1]);
+                        int l18 = LinearInterpolate(polygonBX[(i2 - 1 + i1) % i1], polygonBY[(i2 - 1 + i1) % i1], polygonBX[i2], polygonBY[i2], polygonAY[j1]);
                         return ComparePolygonRange(i14, l18, l4, !flag);
                     }
                     int i5 = LinearInterpolate(polygonAX[(j1 + 1) % k], polygonAY[(j1 + 1) % k], polygonAX[j1], polygonAY[j1], polygonBY[i2]);
-                    int k9 = LinearInterpolate(polygonAX[((k1 - 1) + k) % k], polygonAY[((k1 - 1) + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[i2]);
+                    int k9 = LinearInterpolate(polygonAX[(k1 - 1 + k) % k], polygonAY[(k1 - 1 + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[i2]);
                     int j14 = LinearInterpolate(polygonBX[(l1 + 1) % i1], polygonBY[(l1 + 1) % i1], polygonBX[l1], polygonBY[l1], polygonBY[i2]);
                     int i19 = polygonBX[i2];
                     if (ComparePolygonRanges(i5, k9, j14, i19, flag))
@@ -4056,15 +4056,15 @@ namespace OpenRS.Net.Client.Game.Cameras
                     if (polygonBY[l1] < polygonBY[i2])
                     {
                         int j5 = LinearInterpolate(polygonAX[(j1 + 1) % k], polygonAY[(j1 + 1) % k], polygonAX[j1], polygonAY[j1], polygonBY[l1]);
-                        int l9 = LinearInterpolate(polygonAX[((k1 - 1) + k) % k], polygonAY[((k1 - 1) + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[l1]);
+                        int l9 = LinearInterpolate(polygonAX[(k1 - 1 + k) % k], polygonAY[(k1 - 1 + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[l1]);
                         int k14 = polygonBX[l1];
-                        int j19 = LinearInterpolate(polygonBX[((i2 - 1) + i1) % i1], polygonBY[((i2 - 1) + i1) % i1], polygonBX[i2], polygonBY[i2], polygonBY[l1]);
+                        int j19 = LinearInterpolate(polygonBX[(i2 - 1 + i1) % i1], polygonBY[(i2 - 1 + i1) % i1], polygonBX[i2], polygonBY[i2], polygonBY[l1]);
                         if (ComparePolygonRanges(j5, l9, k14, j19, flag))
                     {
                         return true;
                     }
 
-                    l1 = ((l1 - 1) + i1) % i1;
+                    l1 = (l1 - 1 + i1) % i1;
                         if (l1 == i2)
                     {
                         byte0 = 0;
@@ -4073,7 +4073,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     else
                     {
                         int k5 = LinearInterpolate(polygonAX[(j1 + 1) % k], polygonAY[(j1 + 1) % k], polygonAX[j1], polygonAY[j1], polygonBY[i2]);
-                        int i10 = LinearInterpolate(polygonAX[((k1 - 1) + k) % k], polygonAY[((k1 - 1) + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[i2]);
+                        int i10 = LinearInterpolate(polygonAX[(k1 - 1 + k) % k], polygonAY[(k1 - 1 + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[i2]);
                         int l14 = LinearInterpolate(polygonBX[(l1 + 1) % i1], polygonBY[(l1 + 1) % i1], polygonBX[l1], polygonBY[l1], polygonBY[i2]);
                         int k19 = polygonBX[i2];
                         if (ComparePolygonRanges(k5, i10, l14, k19, flag))
@@ -4096,14 +4096,14 @@ namespace OpenRS.Net.Client.Game.Cameras
                     if (polygonBY[l1] < polygonAY[k1])
                     {
                         int l5 = LinearInterpolate(polygonAX[(j1 + 1) % k], polygonAY[(j1 + 1) % k], polygonAX[j1], polygonAY[j1], polygonBY[l1]);
-                        int j10 = LinearInterpolate(polygonAX[((k1 - 1) + k) % k], polygonAY[((k1 - 1) + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[l1]);
+                        int j10 = LinearInterpolate(polygonAX[(k1 - 1 + k) % k], polygonAY[(k1 - 1 + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[l1]);
                         int i15 = polygonBX[l1];
                         return ComparePolygonRange(l5, j10, i15, flag);
                     }
                     int i6 = LinearInterpolate(polygonAX[(j1 + 1) % k], polygonAY[(j1 + 1) % k], polygonAX[j1], polygonAY[j1], polygonAY[k1]);
                     int k10 = polygonAX[k1];
                     int j15 = LinearInterpolate(polygonBX[(l1 + 1) % i1], polygonBY[(l1 + 1) % i1], polygonBX[l1], polygonBY[l1], polygonAY[k1]);
-                    int l19 = LinearInterpolate(polygonBX[((i2 - 1) + i1) % i1], polygonBY[((i2 - 1) + i1) % i1], polygonBX[i2], polygonBY[i2], polygonAY[k1]);
+                    int l19 = LinearInterpolate(polygonBX[(i2 - 1 + i1) % i1], polygonBY[(i2 - 1 + i1) % i1], polygonBX[i2], polygonBY[i2], polygonAY[k1]);
                     if (ComparePolygonRanges(i6, k10, j15, l19, flag))
                     {
                         return true;
@@ -4119,15 +4119,15 @@ namespace OpenRS.Net.Client.Game.Cameras
                     if (polygonAY[j1] < polygonAY[k1])
                     {
                         int j6 = polygonAX[j1];
-                        int l10 = LinearInterpolate(polygonAX[((k1 - 1) + k) % k], polygonAY[((k1 - 1) + k) % k], polygonAX[k1], polygonAY[k1], polygonAY[j1]);
+                        int l10 = LinearInterpolate(polygonAX[(k1 - 1 + k) % k], polygonAY[(k1 - 1 + k) % k], polygonAX[k1], polygonAY[k1], polygonAY[j1]);
                         int k15 = LinearInterpolate(polygonBX[(l1 + 1) % i1], polygonBY[(l1 + 1) % i1], polygonBX[l1], polygonBY[l1], polygonAY[j1]);
-                        int i20 = LinearInterpolate(polygonBX[((i2 - 1) + i1) % i1], polygonBY[((i2 - 1) + i1) % i1], polygonBX[i2], polygonBY[i2], polygonAY[j1]);
+                        int i20 = LinearInterpolate(polygonBX[(i2 - 1 + i1) % i1], polygonBY[(i2 - 1 + i1) % i1], polygonBX[i2], polygonBY[i2], polygonAY[j1]);
                         if (ComparePolygonRanges(j6, l10, k15, i20, flag))
                     {
                         return true;
                     }
 
-                    j1 = ((j1 - 1) + k) % k;
+                    j1 = (j1 - 1 + k) % k;
                         if (j1 == k1)
                     {
                         byte0 = 0;
@@ -4138,7 +4138,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                         int k6 = LinearInterpolate(polygonAX[(j1 + 1) % k], polygonAY[(j1 + 1) % k], polygonAX[j1], polygonAY[j1], polygonAY[k1]);
                         int i11 = polygonAX[k1];
                         int l15 = LinearInterpolate(polygonBX[(l1 + 1) % i1], polygonBY[(l1 + 1) % i1], polygonBX[l1], polygonBY[l1], polygonAY[k1]);
-                        int j20 = LinearInterpolate(polygonBX[((i2 - 1) + i1) % i1], polygonBY[((i2 - 1) + i1) % i1], polygonBX[i2], polygonBY[i2], polygonAY[k1]);
+                        int j20 = LinearInterpolate(polygonBX[(i2 - 1 + i1) % i1], polygonBY[(i2 - 1 + i1) % i1], polygonBX[i2], polygonBY[i2], polygonAY[k1]);
                         if (ComparePolygonRanges(k6, i11, l15, j20, flag))
                     {
                         return true;
@@ -4156,11 +4156,11 @@ namespace OpenRS.Net.Client.Game.Cameras
             {
                 int l6 = polygonAX[j1];
                 int i16 = LinearInterpolate(polygonBX[(l1 + 1) % i1], polygonBY[(l1 + 1) % i1], polygonBX[l1], polygonBY[l1], polygonAY[j1]);
-                int k20 = LinearInterpolate(polygonBX[((i2 - 1) + i1) % i1], polygonBY[((i2 - 1) + i1) % i1], polygonBX[i2], polygonBY[i2], polygonAY[j1]);
+                int k20 = LinearInterpolate(polygonBX[(i2 - 1 + i1) % i1], polygonBY[(i2 - 1 + i1) % i1], polygonBX[i2], polygonBY[i2], polygonAY[j1]);
                 return ComparePolygonRange(i16, k20, l6, !flag);
             }
             int i7 = LinearInterpolate(polygonAX[(j1 + 1) % k], polygonAY[(j1 + 1) % k], polygonAX[j1], polygonAY[j1], polygonBY[l1]);
-            int j11 = LinearInterpolate(polygonAX[((k1 - 1) + k) % k], polygonAY[((k1 - 1) + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[l1]);
+            int j11 = LinearInterpolate(polygonAX[(k1 - 1 + k) % k], polygonAY[(k1 - 1 + k) % k], polygonAX[k1], polygonAY[k1], polygonBY[l1]);
             int j16 = polygonBX[l1];
             return ComparePolygonRange(i7, j11, j16, flag);
         }
@@ -4176,7 +4176,7 @@ namespace OpenRS.Net.Client.Game.Cameras
         public int zoom3;
         public int zoom4;
         public static int[] trigonometryTable = new int[2048];
-        private static int[] sinCosTable = new int[512];
+        private static readonly int[] sinCosTable = new int[512];
         public bool isInterlaced;
         public double scaleFactor;
         public int depthSortStride;
@@ -4184,16 +4184,16 @@ namespace OpenRS.Net.Client.Game.Cameras
         private int mouseAdjustedX;
         private int mouseAdjustedY;
         private int optionCount;
-        private int maxHighlightedObjects;
-        private GameObject[] _highlightedObjects;
-        private int[] highlightedPlayerIds;
+        private readonly int maxHighlightedObjects;
+        private readonly GameObject[] _highlightedObjects;
+        private readonly int[] highlightedPlayerIds;
         private int defaultScreenHalfWidth;
         private int screenCentreX;
         private int screenCentreY;
         private int screenMouseOffsetX;
         private int scanlineBufferCentre;
         private int screenProjectionShift;
-        private int lightingFactor;
+        private readonly int lightingFactor;
         private int viewX;
         private int ViewY;
         private int ViewZ;
@@ -4203,17 +4203,17 @@ namespace OpenRS.Net.Client.Game.Cameras
         public int currentObjectCount;
         public int totalModelCount;
         public GameObject[] objectCache;
-        private int[] modelPriorities;
+        private readonly int[] modelPriorities;
         private int currentModelIndex;
-        private CameraModel[] visibleModels;
+        private readonly CameraModel[] visibleModels;
         private int sceneObjectCount;
-        private int[] sceneObjectId;
-        private int[] sceneObjectX;
-        private int[] sceneObjectY;
-        private int[] sceneObjectZ;
-        private int[] sceneObjectWidths;
-        private int[] sceneObjectHeights;
-        private int[] sceneObjectFrames;
+        private readonly int[] sceneObjectId;
+        private readonly int[] sceneObjectX;
+        private readonly int[] sceneObjectY;
+        private readonly int[] sceneObjectZ;
+        private readonly int[] sceneObjectWidths;
+        private readonly int[] sceneObjectHeights;
+        private readonly int[] sceneObjectFrames;
         public GameObject highlightedObject;
         public int textureCount;
         public sbyte[][] texturePictureColorIndex;

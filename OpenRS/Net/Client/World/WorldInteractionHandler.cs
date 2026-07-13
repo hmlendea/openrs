@@ -16,6 +16,7 @@ namespace OpenRS.Net.Client.World
             int actionVar1 = client.menuActionVar1[menuIndex];
             int actionVar2 = client.menuActionVar2[menuIndex];
             int actionID = client.menuActionID[menuIndex];
+
             if (actionID == (int)MenuAction.CastSpellOnGroundItem)
             {
                 WalkToGroundItem(client.sectionX, client.sectionY, actionX, actionY, true);
@@ -551,12 +552,12 @@ namespace OpenRS.Net.Client.World
                     adjustedHeight += 1;
                 }
 
-                client.WalkTo(client.sectionX, client.sectionY, objectX, objectY, (objectX + adjustedWidth) - 1, (objectY + adjustedHeight) - 1, false, true);
+                client.WalkTo(client.sectionX, client.sectionY, objectX, objectY, objectX + adjustedWidth - 1, objectY + adjustedHeight - 1, false, true);
 
                 return;
             }
 
-            client.WalkTo(client.sectionX, client.sectionY, objectX, objectY, (objectX + adjustedWidth) - 1, (objectY + adjustedHeight) - 1, true, true);
+            client.WalkTo(client.sectionX, client.sectionY, objectX, objectY, objectX + adjustedWidth - 1, objectY + adjustedHeight - 1, true, true);
         }
         public void AutoRotateCamera()
         {
@@ -1152,84 +1153,84 @@ namespace OpenRS.Net.Client.World
 
         public void GetMenuHighlighted()
         {
-            if (client.drawMenuTab == 0 && client.mouseX >= ((GameImage)(client.gameGraphics)).gameWidth - 35 && client.mouseY >= 3 && client.mouseX < ((GameImage)(client.gameGraphics)).gameWidth - 3 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= ((GameImage)client.gameGraphics).gameWidth - 35 && client.mouseY >= 3 && client.mouseX < ((GameImage)client.gameGraphics).gameWidth - 3 && client.mouseY < 35)
             {
                 client.drawMenuTab = 1;
             }
 
-            if (client.drawMenuTab == 0 && client.mouseX >= ((GameImage)(client.gameGraphics)).gameWidth - 35 - 33 && client.mouseY >= 3 && client.mouseX < ((GameImage)(client.gameGraphics)).gameWidth - 3 - 33 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= ((GameImage)client.gameGraphics).gameWidth - 35 - 33 && client.mouseY >= 3 && client.mouseX < ((GameImage)client.gameGraphics).gameWidth - 3 - 33 && client.mouseY < 35)
             {
                 client.drawMenuTab = 2;
                 client.minimapRandomRotationX = (int)(Helper.Random.NextDouble() * 13D) - 6;
                 client.minimapRandomRotationY = (int)(Helper.Random.NextDouble() * 23D) - 11;
             }
-            if (client.drawMenuTab == 0 && client.mouseX >= ((GameImage)(client.gameGraphics)).gameWidth - 35 - 66 && client.mouseY >= 3 && client.mouseX < ((GameImage)(client.gameGraphics)).gameWidth - 3 - 66 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= ((GameImage)client.gameGraphics).gameWidth - 35 - 66 && client.mouseY >= 3 && client.mouseX < ((GameImage)client.gameGraphics).gameWidth - 3 - 66 && client.mouseY < 35)
             {
                 client.drawMenuTab = 3;
             }
 
-            if (client.drawMenuTab == 0 && client.mouseX >= ((GameImage)(client.gameGraphics)).gameWidth - 35 - 99 && client.mouseY >= 3 && client.mouseX < ((GameImage)(client.gameGraphics)).gameWidth - 3 - 99 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= ((GameImage)client.gameGraphics).gameWidth - 35 - 99 && client.mouseY >= 3 && client.mouseX < ((GameImage)client.gameGraphics).gameWidth - 3 - 99 && client.mouseY < 35)
             {
                 client.drawMenuTab = 4;
             }
 
-            if (client.drawMenuTab == 0 && client.mouseX >= ((GameImage)(client.gameGraphics)).gameWidth - 35 - 132 && client.mouseY >= 3 && client.mouseX < ((GameImage)(client.gameGraphics)).gameWidth - 3 - 132 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= ((GameImage)client.gameGraphics).gameWidth - 35 - 132 && client.mouseY >= 3 && client.mouseX < ((GameImage)client.gameGraphics).gameWidth - 3 - 132 && client.mouseY < 35)
             {
                 client.drawMenuTab = 5;
             }
 
-            if (client.drawMenuTab == 0 && client.mouseX >= ((GameImage)(client.gameGraphics)).gameWidth - 35 - 165 && client.mouseY >= 3 && client.mouseX < ((GameImage)(client.gameGraphics)).gameWidth - 3 - 165 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= ((GameImage)client.gameGraphics).gameWidth - 35 - 165 && client.mouseY >= 3 && client.mouseX < ((GameImage)client.gameGraphics).gameWidth - 3 - 165 && client.mouseY < 35)
             {
                 client.drawMenuTab = 6;
             }
 
-            if (client.drawMenuTab != 0 && client.mouseX >= ((GameImage)(client.gameGraphics)).gameWidth - 35 && client.mouseY >= 3 && client.mouseX < ((GameImage)(client.gameGraphics)).gameWidth - 3 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.mouseX >= ((GameImage)client.gameGraphics).gameWidth - 35 && client.mouseY >= 3 && client.mouseX < ((GameImage)client.gameGraphics).gameWidth - 3 && client.mouseY < 26)
             {
                 client.drawMenuTab = 1;
             }
 
-            if (client.drawMenuTab != 0 && client.drawMenuTab != 2 && client.mouseX >= ((GameImage)(client.gameGraphics)).gameWidth - 35 - 33 && client.mouseY >= 3 && client.mouseX < ((GameImage)(client.gameGraphics)).gameWidth - 3 - 33 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.drawMenuTab != 2 && client.mouseX >= ((GameImage)client.gameGraphics).gameWidth - 35 - 33 && client.mouseY >= 3 && client.mouseX < ((GameImage)client.gameGraphics).gameWidth - 3 - 33 && client.mouseY < 26)
             {
                 client.drawMenuTab = 2;
                 client.minimapRandomRotationX = (int)(Helper.Random.NextDouble() * 13D) - 6;
                 client.minimapRandomRotationY = (int)(Helper.Random.NextDouble() * 23D) - 11;
             }
-            if (client.drawMenuTab != 0 && client.mouseX >= ((GameImage)(client.gameGraphics)).gameWidth - 35 - 66 && client.mouseY >= 3 && client.mouseX < ((GameImage)(client.gameGraphics)).gameWidth - 3 - 66 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.mouseX >= ((GameImage)client.gameGraphics).gameWidth - 35 - 66 && client.mouseY >= 3 && client.mouseX < ((GameImage)client.gameGraphics).gameWidth - 3 - 66 && client.mouseY < 26)
             {
                 client.drawMenuTab = 3;
             }
 
-            if (client.drawMenuTab != 0 && client.mouseX >= ((GameImage)(client.gameGraphics)).gameWidth - 35 - 99 && client.mouseY >= 3 && client.mouseX < ((GameImage)(client.gameGraphics)).gameWidth - 3 - 99 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.mouseX >= ((GameImage)client.gameGraphics).gameWidth - 35 - 99 && client.mouseY >= 3 && client.mouseX < ((GameImage)client.gameGraphics).gameWidth - 3 - 99 && client.mouseY < 26)
             {
                 client.drawMenuTab = 4;
             }
 
-            if (client.drawMenuTab != 0 && client.mouseX >= ((GameImage)(client.gameGraphics)).gameWidth - 35 - 132 && client.mouseY >= 3 && client.mouseX < ((GameImage)(client.gameGraphics)).gameWidth - 3 - 132 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.mouseX >= ((GameImage)client.gameGraphics).gameWidth - 35 - 132 && client.mouseY >= 3 && client.mouseX < ((GameImage)client.gameGraphics).gameWidth - 3 - 132 && client.mouseY < 26)
             {
                 client.drawMenuTab = 5;
             }
 
-            if (client.drawMenuTab != 0 && client.mouseX >= ((GameImage)(client.gameGraphics)).gameWidth - 35 - 165 && client.mouseY >= 3 && client.mouseX < ((GameImage)(client.gameGraphics)).gameWidth - 3 - 165 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.mouseX >= ((GameImage)client.gameGraphics).gameWidth - 35 - 165 && client.mouseY >= 3 && client.mouseX < ((GameImage)client.gameGraphics).gameWidth - 3 - 165 && client.mouseY < 26)
             {
                 client.drawMenuTab = 6;
             }
 
-            if (client.drawMenuTab == 1 && (client.mouseX < ((GameImage)(client.gameGraphics)).gameWidth - 248 || client.mouseY > 36 + (client.maxInventoryItems / 5) * 34))
+            if (client.drawMenuTab == 1 && (client.mouseX < ((GameImage)client.gameGraphics).gameWidth - 248 || client.mouseY > 36 + client.maxInventoryItems / 5 * 34))
             {
                 client.drawMenuTab = 0;
             }
 
-            if (client.drawMenuTab == 3 && (client.mouseX < ((GameImage)(client.gameGraphics)).gameWidth - 199 || client.mouseY > 316))
+            if (client.drawMenuTab == 3 && (client.mouseX < ((GameImage)client.gameGraphics).gameWidth - 199 || client.mouseY > 316))
             {
                 client.drawMenuTab = 0;
             }
 
-            if ((client.drawMenuTab == 2 || client.drawMenuTab == 4 || client.drawMenuTab == 5) && (client.mouseX < ((GameImage)(client.gameGraphics)).gameWidth - 199 || client.mouseY > 240))
+            if ((client.drawMenuTab == 2 || client.drawMenuTab == 4 || client.drawMenuTab == 5) && (client.mouseX < ((GameImage)client.gameGraphics).gameWidth - 199 || client.mouseY > 240))
             {
                 client.drawMenuTab = 0;
             }
 
-            if (client.drawMenuTab == 6 && (client.mouseX < ((GameImage)(client.gameGraphics)).gameWidth - 199 || client.mouseY > 326))
+            if (client.drawMenuTab == 6 && (client.mouseX < ((GameImage)client.gameGraphics).gameWidth - 199 || client.mouseY > 326))
             {
                 client.drawMenuTab = 0;
             }

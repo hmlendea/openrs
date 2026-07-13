@@ -23,7 +23,7 @@ public sealed class ChatMessage {
                             j = i1;
                         }
                     } else {
-                    chatMessage[i++] = validChars[((j << 4) + i1) - 195];
+                    chatMessage[i++] = validChars[(j << 4) + i1 - 195];
                     j = -1;
                 }
                 i1 = l & 0xf;
@@ -37,7 +37,7 @@ public sealed class ChatMessage {
                             j = i1;
                         }
                     } else {
-                    chatMessage[i++] = validChars[((j << 4) + i1) - 195];
+                    chatMessage[i++] = validChars[(j << 4) + i1 - 195];
                     j = -1;
                 }
             }
@@ -95,7 +95,7 @@ public sealed class ChatMessage {
                     }
                 else
                 {
-                    chatMessage[i++] = validChars[((j << 4) + i1) - 195];
+                    chatMessage[i++] = validChars[(j << 4) + i1 - 195];
                     j = -1;
                 }
                 i1 = l & 0xf;
@@ -112,7 +112,7 @@ public sealed class ChatMessage {
                     }
                 else
                 {
-                    chatMessage[i++] = validChars[((j << 4) + i1) - 195];
+                    chatMessage[i++] = validChars[(j << 4) + i1 - 195];
                     j = -1;
                 }
             }
@@ -206,7 +206,7 @@ public sealed class ChatMessage {
 
     public static byte[] lastChat = new byte[100];
     public static char[] chatMessage = new char[100];
-    private static char[] validChars = [
+    private static readonly char[] validChars = [
         ' ', 'e', 't', 'a', 'o', 'i', 'h', 'n', 's', 'r',
         'd', 'l', 'u', 'm', 'w', 'c', 'y', 'f', 'g', 'p',
         'b', 'v', 'k', 'x', 'j', 'q', 'z', '0', '1', '2',

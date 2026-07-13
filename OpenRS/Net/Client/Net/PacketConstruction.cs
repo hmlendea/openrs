@@ -13,7 +13,7 @@ namespace OpenRS.Net.Client.Net
 
         public void CreatePacket(int id)
         {
-            if (packetStart > (maxPacketLength * 4) / 5)
+            if (packetStart > maxPacketLength * 4 / 5)
             {
                 try
                 {

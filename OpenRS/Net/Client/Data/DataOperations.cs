@@ -28,9 +28,9 @@ namespace OpenRS.Net.Client.Data
             }
 
             MemoryStream memory = new();
-            int bytesRead = 0;
             byte[] buffer = new byte[2048];
 
+            int bytesRead;
             while ((bytesRead = inputStream.Read(buffer, 0, buffer.Length)) != 0)
             {
                 memory.Write((byte[])(Array)buffer, 0, bytesRead);
@@ -161,7 +161,7 @@ namespace OpenRS.Net.Client.Data
                 }
                 else if (character >= 'A' && character <= 'Z')
                 {
-                    normalizedName += (char)((character + 97) - 65);
+                    normalizedName += (char)(character + 97 - 65);
                 }
                 else if (character >= '0' && character <= '9')
                 {
@@ -189,11 +189,11 @@ namespace OpenRS.Net.Client.Data
 
                 if (character >= 'a' && character <= 'z')
                 {
-                    hashValue += (1 + character) - 97;
+                    hashValue += 1 + character - 97;
                 }
                 else if (character >= '0' && character <= '9')
                 {
-                    hashValue += (27 + character) - 48;
+                    hashValue += 27 + character - 48;
                 }
             }
 
@@ -222,16 +222,16 @@ namespace OpenRS.Net.Client.Data
                 {
                     if (hash % 37L == 0L)
                     {
-                        name = (char)((remainder + 65) - 1) + name;
+                        name = (char)(remainder + 65 - 1) + name;
                     }
                     else
                     {
-                        name = (char)((remainder + 97) - 1) + name;
+                        name = (char)(remainder + 97 - 1) + name;
                     }
                 }
                 else
                 {
-                    name = (char)((remainder + 48) - 27) + name;
+                    name = (char)(remainder + 48 - 27) + name;
                 }
             }
 
@@ -246,7 +246,7 @@ namespace OpenRS.Net.Client.Data
 
             for (int charIndex = 0; charIndex < objectName.Length; charIndex += 1)
             {
-                nameHash = (nameHash * 61 + objectName[charIndex]) - 32;
+                nameHash = nameHash * 61 + objectName[charIndex] - 32;
             }
 
             long dataOffset = 2 + entryCount * 10;
@@ -275,7 +275,7 @@ namespace OpenRS.Net.Client.Data
 
             for (int charIndex = 0; charIndex < soundName.Length; charIndex += 1)
             {
-                nameHash = (nameHash * 61 + soundName[charIndex]) - 32;
+                nameHash = nameHash * 61 + soundName[charIndex] - 32;
             }
 
             for (int entryIndex = 0; entryIndex < entryCount; entryIndex += 1)
@@ -303,7 +303,7 @@ namespace OpenRS.Net.Client.Data
 
             for (int charIndex = 0; charIndex < entryName.Length; charIndex += 1)
             {
-                nameHash = (nameHash * 61 + entryName[charIndex]) - 32;
+                nameHash = nameHash * 61 + entryName[charIndex] - 32;
             }
 
             int dataOffset = 2 + entryCount * 10;
@@ -353,7 +353,7 @@ namespace OpenRS.Net.Client.Data
 
             for (int charIndex = 0; charIndex < entryName.Length; charIndex += 1)
             {
-                nameHash = (nameHash * 61 + entryName[charIndex]) - 32;
+                nameHash = nameHash * 61 + entryName[charIndex] - 32;
             }
 
             int dataOffset = 2 + entryCount * 10;

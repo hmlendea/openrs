@@ -8,7 +8,7 @@ namespace OpenRS.Net.Client.Net
     public sealed class StreamClass : PacketConstruction
     {
 
-        private Thread connectionThread = null;
+        private readonly Thread connectionThread = null;
 
         public StreamClass(/*Socket*/ TcpClient socket, GameApplet a1 = null)
         {
@@ -186,27 +186,6 @@ namespace OpenRS.Net.Client.Net
             }
         }
 
-        private void OnWrite(IAsyncResult iar)
-        {
-            try
-            {
-                outputStream.BaseStream.EndWrite(iar);
-                dataWritten = (dataWritten + lastWriteLen) % 5000;
-                try
-                {
-                    if (offset == dataWritten)
-                    {
-                        outputStream.Flush();
-                    }
-                }
-                catch (IOException ioexception1)
-                {
-                    error = true;
-                    errorText = "Twriter:" + ioexception1;
-                }
-            }
-            catch { }
-        }
         private int lastWriteLen = 0;
         public void Run()
         {
@@ -277,9 +256,9 @@ namespace OpenRS.Net.Client.Net
             }
         }
 
-        private BinaryReader /*InputStream*/ inputStream;
-        private BinaryWriter /*OutputStream*/ outputStream;
-        private TcpClient /*Socket*/ socket;
+        private readonly BinaryReader /*InputStream*/ inputStream;
+        private readonly BinaryWriter /*OutputStream*/ outputStream;
+        private readonly TcpClient /*Socket*/ socket;
         private bool socketClosing;
         private byte[] buffer;
         private int dataWritten;

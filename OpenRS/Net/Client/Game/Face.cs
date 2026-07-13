@@ -13,9 +13,9 @@ namespace OpenRS
 	/// </summary>
 	public sealed class Face
 	{
-		private int[] points;
+		private readonly int[] points;
 		private Color faceColor;
-		private int image = -1;
+		private readonly int image = -1;
 		public Face(Color c, int[] points)
 		{
 			this.points = points;

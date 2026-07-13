@@ -6,7 +6,7 @@ namespace OpenRS.Net.Client.Game
     {
         public static short WIDTH = 48;
         public static short HEIGHT = 48;
-        private SectorTile[] tiles;
+        private readonly SectorTile[] tiles;
 
 
         public RscSector()

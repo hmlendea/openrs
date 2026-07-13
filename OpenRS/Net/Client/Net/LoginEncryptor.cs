@@ -66,12 +66,11 @@ namespace OpenRS.Net.Client.Net
         }
 
         public byte[] Encrypt(byte[] text) {
-            byte[] cipherText = null;
-        //Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-        //cipher.init(Cipher.ENCRYPT_MODE, pubKey);
-        //cipherText = cipher.doFinal(text);
+            //Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            //cipher.init(Cipher.ENCRYPT_MODE, pubKey);
+            //cipherText = cipher.doFinal(text);
 
-           //return Crypto.Encrypt(text, false);
+            //return Crypto.Encrypt(text, false);
             return text;
 
         //return cipherText;

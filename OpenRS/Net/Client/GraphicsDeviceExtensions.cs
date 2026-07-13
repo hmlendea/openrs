@@ -6,7 +6,7 @@ namespace OpenRS.Net.Client
 {
     public static class GraphicsDeviceExtensions
     {
-        private static bool sbBegin = false;
+        private static readonly bool sbBegin = false;
         private static Color defaultColor { get; set; }
         private static SpriteFont defaultFont { get; set; }
         public static void FillRect(this SpriteBatch spriteBatch, Rectangle rect, Color color)

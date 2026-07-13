@@ -64,33 +64,36 @@ namespace OpenRS.Net.Client.Handlers
                             {
                                 int currentNextSprite = DataOperations.GetBits(client.packetData, off, 3);
                                 off += 3;
-                                int currentWaypoint = mob.waypointCurrent;
-                                int newWaypointX = mob.waypointsX[currentWaypoint];
-                                int newWaypointY = mob.waypointsY[currentWaypoint];
-                                if (currentNextSprite == 2 || currentNextSprite == 1 || currentNextSprite == 3)
+                                if (mob is not null)
                                 {
-                                    newWaypointX += client.gridSize;
-                                }
+                                    int currentWaypoint = mob.waypointCurrent;
+                                    int newWaypointX = mob.waypointsX[currentWaypoint];
+                                    int newWaypointY = mob.waypointsY[currentWaypoint];
+                                    if (currentNextSprite == 2 || currentNextSprite == 1 || currentNextSprite == 3)
+                                    {
+                                        newWaypointX += client.gridSize;
+                                    }
 
-                                if (currentNextSprite == 6 || currentNextSprite == 5 || currentNextSprite == 7)
-                                {
-                                    newWaypointX -= client.gridSize;
-                                }
+                                    if (currentNextSprite == 6 || currentNextSprite == 5 || currentNextSprite == 7)
+                                    {
+                                        newWaypointX -= client.gridSize;
+                                    }
 
-                                if (currentNextSprite == 4 || currentNextSprite == 3 || currentNextSprite == 5)
-                                {
-                                    newWaypointY += client.gridSize;
-                                }
+                                    if (currentNextSprite == 4 || currentNextSprite == 3 || currentNextSprite == 5)
+                                    {
+                                        newWaypointY += client.gridSize;
+                                    }
 
-                                if (currentNextSprite == 0 || currentNextSprite == 1 || currentNextSprite == 7)
-                                {
-                                    newWaypointY -= client.gridSize;
-                                }
+                                    if (currentNextSprite == 0 || currentNextSprite == 1 || currentNextSprite == 7)
+                                    {
+                                        newWaypointY -= client.gridSize;
+                                    }
 
-                                mob.nextSprite = currentNextSprite;
-                                mob.waypointCurrent = currentWaypoint = (currentWaypoint + 1) % 10;
-                                mob.waypointsX[currentWaypoint] = newWaypointX;
-                                mob.waypointsY[currentWaypoint] = newWaypointY;
+                                    mob.nextSprite = currentNextSprite;
+                                    mob.waypointCurrent = currentWaypoint = (currentWaypoint + 1) % 10;
+                                    mob.waypointsX[currentWaypoint] = newWaypointX;
+                                    mob.waypointsY[currentWaypoint] = newWaypointY;
+                                }
                             }
                             else
                             {
@@ -100,10 +103,16 @@ namespace OpenRS.Net.Client.Handlers
                                 {
                                     continue;
                                 }
-                                mob.nextSprite = needsNextSprite;
+                                if (mob is not null)
+                                {
+                                    mob.nextSprite = needsNextSprite;
+                                }
                             }
                         }
-                        client.playerArray[client.playerCount++] = mob;
+                        if (mob is not null)
+                        {
+                            client.playerArray[client.playerCount++] = mob;
+                        }
                     }
 
                     int mobCount = 0;
@@ -318,41 +327,48 @@ namespace OpenRS.Net.Client.Handlers
                             client.objectCount = newCount;
                             if (index != 60000)
                             {
-                                client.engineHandle.RegisterObjectDir(newSectionX, newSectionY, rotation);
-                                int width;
-                                int height;
-                                if (rotation == 0 || rotation == 4)
+                                if (index >= GameData.objectCount)
                                 {
-                                    width = GameData.objectWidth[index];
-                                    height = GameData.objectHeight[index];
+                                    Console.WriteLine($"[PacketHandler] Skipping unknown object index {index} (objectCount={GameData.objectCount})");
                                 }
                                 else
                                 {
-                                    height = GameData.objectWidth[index];
-                                    width = GameData.objectHeight[index];
-                                }
-                                int l40 = ((newSectionX + newSectionX + width) * client.gridSize) / 2;
-                                int k42 = ((newSectionY + newSectionY + height) * client.gridSize) / 2;
-                                int model = GameData.objectModelNumber[index];
-                                GameObject gameObject = client.gameDataObjects[model].CreateParent();
-#warning object not being added to camera.
-                                client.gameCamera.AddModel(gameObject);
+                                    client.engineHandle.RegisterObjectDir(newSectionX, newSectionY, rotation);
+                                    int width;
+                                    int height;
+                                    if (rotation == 0 || rotation == 4)
+                                    {
+                                        width = GameData.objectWidth[index];
+                                        height = GameData.objectHeight[index];
+                                    }
+                                    else
+                                    {
+                                        height = GameData.objectWidth[index];
+                                        width = GameData.objectHeight[index];
+                                    }
+                                    int l40 = (newSectionX + newSectionX + width) * client.gridSize / 2;
+                                    int k42 = (newSectionY + newSectionY + height) * client.gridSize / 2;
+                                    int model = GameData.objectModelNumber[index];
+                                    GameObject gameObject = client.gameDataObjects[model].CreateParent();
+    #warning object not being added to camera.
+                                    client.gameCamera.AddModel(gameObject);
 
-                                gameObject.index = client.objectCount;
-                                gameObject.OffsetMiniPosition(0, rotation * 32, 0);
-                                gameObject.OffsetPosition(l40, -client.engineHandle.GetAveragedElevation(l40, k42), k42);
-                                gameObject.UpdateShading(true, 48, 48, -50, -10, -50);
-                                client.engineHandle.CreateObject(newSectionX, newSectionY, index, rotation);
-                                if (index == 74)
-                                {
-                                    gameObject.OffsetPosition(0, -480, 0);
-                                }
+                                    gameObject.index = client.objectCount;
+                                    gameObject.OffsetMiniPosition(0, rotation * 32, 0);
+                                    gameObject.OffsetPosition(l40, -client.engineHandle.GetAveragedElevation(l40, k42), k42);
+                                    gameObject.UpdateShading(true, 48, 48, -50, -10, -50);
+                                    client.engineHandle.CreateObject(newSectionX, newSectionY, index, rotation);
+                                    if (index == 74)
+                                    {
+                                        gameObject.OffsetPosition(0, -480, 0);
+                                    }
 
-                                client.objectX[client.objectCount] = newSectionX;
-                                client.objectY[client.objectCount] = newSectionY;
-                                client.objectType[client.objectCount] = index;
-                                client.objectRotation[client.objectCount] = rotation;
-                                client.objectArray[client.objectCount++] = gameObject;
+                                    client.objectX[client.objectCount] = newSectionX;
+                                    client.objectY[client.objectCount] = newSectionY;
+                                    client.objectType[client.objectCount] = index;
+                                    client.objectRotation[client.objectCount] = rotation;
+                                    client.objectArray[client.objectCount++] = gameObject;
+                                }
                             }
                         }
                     }

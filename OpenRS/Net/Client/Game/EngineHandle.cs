@@ -86,7 +86,7 @@ namespace OpenRS.Net.Client.Game
 				i1 = 128 - i1;
 				j1 = 128 - j1;
 			}
-			int j2 = k1 + (l1 * i1) / 128 + (i2 * j1) / 128;
+			int j2 = k1 + l1 * i1 / 128 + i2 * j1 / 128;
 			return j2;
 		}
 
@@ -95,9 +95,7 @@ namespace OpenRS.Net.Client.Game
 			tiles[x][y] |= flags;
 		}
 
-
-		private int loadedSameIndex = 0;
-		public void LoadSection(int sectionX, int sectionY, int height, int sector)
+        public void LoadSection(int sectionX, int sectionY, int height, int sector)
 		{
 			string filename = "m" + height + sectionX / 10 + sectionX % 10 + sectionY / 10 + sectionY % 10;
 			//if(filename=="m05049")
@@ -125,7 +123,7 @@ namespace OpenRS.Net.Client.Game
 						int i2 = 0;
 						for (int tile = 0; tile < 2304; )
 						{
-							int k3 = (data[off++] & 0xff);
+							int k3 = data[off++] & 0xff;
 							if (k3 < 128)
 							{
 								tileGroundElevation[sector][tile++] = (sbyte)k3;
@@ -145,7 +143,7 @@ namespace OpenRS.Net.Client.Game
 						{
 							for (int l4 = 0; l4 < 48; l4 += 1)
 							{
-								i2 = (tileGroundElevation[sector][l4 * 48 + tile] + i2 & 0x7f);
+								i2 = tileGroundElevation[sector][l4 * 48 + tile] + i2 & 0x7f;
 								tileGroundElevation[sector][l4 * 48 + tile] = (sbyte)(i2 * 2);
 							}
 
@@ -154,7 +152,7 @@ namespace OpenRS.Net.Client.Game
 						i2 = 0;
 						for (int tile = 0; tile < 2304; )
 						{
-							int l5 = (data[off++] & 0xff);
+							int l5 = data[off++] & 0xff;
 							if (l5 < 128)
 							{
 								tileGroundTexture[sector][tile++] = l5;
@@ -174,8 +172,8 @@ namespace OpenRS.Net.Client.Game
 						{
 							for (int j7 = 0; j7 < 48; j7 += 1)
 							{
-								i2 = (tileGroundTexture[sector][j7 * 48 + i6] + i2 & 0x7f);
-								tileGroundTexture[sector][j7 * 48 + i6] = (i2 * 2);
+								i2 = tileGroundTexture[sector][j7 * 48 + i6] + i2 & 0x7f;
+								tileGroundTexture[sector][j7 * 48 + i6] = i2 * 2;
 							}
 
 						}
@@ -230,7 +228,7 @@ namespace OpenRS.Net.Client.Game
 
 					for (int tile = 0; tile < 2304; )
 					{
-						int k7 = (data[off2++] & 0xff);
+						int k7 = data[off2++] & 0xff;
 						if (k7 < 128)
 						{
 							tileRoofType[sector][tile++] = k7; //(sbyte)k7;
@@ -249,7 +247,7 @@ namespace OpenRS.Net.Client.Game
 					int l7 = 0;
 					for (int tile = 0; tile < 2304; )
 					{
-						int i9 = (data[off2++] & 0xff);
+						int i9 = data[off2++] & 0xff;
 						if (i9 < 128)
 						{
 							tileGroundOverlay[sector][tile++] = (sbyte)i9;
@@ -338,17 +336,17 @@ namespace OpenRS.Net.Client.Game
 
 					for (int l8 = 0; l8 < 2304; l8 += 1)
                     {
-                        tileRoofType[sector][l8] = (abyte1[k2++]);
+                        tileRoofType[sector][l8] = abyte1[k2++];
                     }
 
                     for (int k9 = 0; k9 < 2304; k9 += 1)
                     {
-                        tileGroundOverlay[sector][k9] = (abyte1[k2++]);
+                        tileGroundOverlay[sector][k9] = abyte1[k2++];
                     }
 
                     for (int k10 = 0; k10 < 2304; k10 += 1)
                     {
-                        tileObjectRotation[sector][k10] = (abyte1[k2++]);
+                        tileObjectRotation[sector][k10] = abyte1[k2++];
                     }
                 }
 				return;
@@ -537,7 +535,7 @@ namespace OpenRS.Net.Client.Game
                             }
                         }
 						DrawMinimapPixel(x1, y1, l14, texture, texture1);
-						int i17 = ((GetTileElevation(x1 + 1, y1 + 1) - GetTileElevation(x1 + 1, y1)) + GetTileElevation(x1, y1 + 1)) - GetTileElevation(x1, y1);
+						int i17 = GetTileElevation(x1 + 1, y1 + 1) - GetTileElevation(x1 + 1, y1) + GetTileElevation(x1, y1 + 1) - GetTileElevation(x1, y1);
 						if (texture != texture1 || i17 != 0)
 						{
 							int[] textCoords1 = new int[3];
@@ -2201,8 +2199,8 @@ namespace OpenRS.Net.Client.Game
 							}
 							CreateObject(x, y, objectIndex, objectRotation);
 							GameObject i2 = tileX[GameData.objectModelNumber[objectIndex]].CreateParent(false, true, false, false);
-							int j2 = ((x + x + objectWidth) * 128) / 2;
-							int l2 = ((y + y + objectHeight) * 128) / 2;
+							int j2 = (x + x + objectWidth) * 128 / 2;
+							int l2 = (y + y + objectHeight) * 128 / 2;
 							i2.OffsetPosition(j2, -GetAveragedElevation(j2, l2), l2);
 							i2.SetRotation(0, GetTileRotation(x, y) * 32, 0);
 							i2.SetRotation(0, objectRotation * 32, 0);
@@ -2332,6 +2330,6 @@ namespace OpenRS.Net.Client.Game
 		public bool isCameraInitialised;
 		public int baseInventoryPic;
 
-        private int[][] objectDirs;
+        private readonly int[][] objectDirs;
 	}
 }

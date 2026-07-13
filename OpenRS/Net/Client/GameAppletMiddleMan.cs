@@ -91,8 +91,9 @@ namespace OpenRS.Net.Client
 
 
             long nameHash = DataOperations.NameToHash(formattedUsername);
+            sessionNameHashByte = (int)(nameHash >> 16 & 31L);
             streamClass.CreatePacket((int)ClientPacket.SessionNameHash);
-            streamClass.AddByte((int)(nameHash >> 16 & 31L));
+            streamClass.AddByte(sessionNameHashByte);
             streamClass.AddString("Shinigami"); // TODO: Remove unused server-side string.
             streamClass.Flush();
 
@@ -158,18 +159,21 @@ namespace OpenRS.Net.Client
             if (loginCode == (int)LoginCode.Code99)
             {
                 reconnectTries = 0;
+                lastPing = CurrentTimeMillis();
                 InitVars();
                 return;
             }
             if (loginCode == (int)LoginCode.Code0)
             {
                 reconnectTries = 0;
+                lastPing = CurrentTimeMillis();
                 InitVars();
                 return;
             }
             if (loginCode == (int)LoginCode.Code1)
             {
                 reconnectTries = 0;
+                lastPing = CurrentTimeMillis();
                 return;
             }
             if (reconnecting)
@@ -269,7 +273,7 @@ namespace OpenRS.Net.Client
             if (currentTime - lastPing > 5000L)
             {
                 lastPing = currentTime;
-                streamClass.CreatePacket((int)ClientPacket.SessionNameHash);
+                streamClass.CreatePacket((int)ClientPacket.Ping);
                 streamClass.FormatPacket();
             }
 
@@ -343,7 +347,6 @@ namespace OpenRS.Net.Client
                         }
 
                         friendsWorld[friendIndex] = status;
-                        length = 0;
                         ReOrderFriendsList();
 
                         return;
@@ -360,7 +363,9 @@ namespace OpenRS.Net.Client
 
             if (command == (int)ServerCommand.IgnoreList)
             {
-                ignoresCount = DataOperations.GetByte(packetData[1]);
+                ignoresCount = Math.Min(
+                    DataOperations.GetByte(packetData[1]),
+                    Math.Min(ignoresList.Length, (length - 2) / 8));
 
                 for (int ignoreIndex = 0; ignoreIndex < ignoresCount; ignoreIndex += 1)
                 {
@@ -598,6 +603,7 @@ namespace OpenRS.Net.Client
         public sbyte[] packetData;
         public int reconnectTries;
         public long lastPing;
+        private int sessionNameHashByte;
         public int friendsCount;
         public long[] friendsList;
         public int[] friendsWorld;

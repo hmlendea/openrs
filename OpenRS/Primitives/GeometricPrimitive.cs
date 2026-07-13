@@ -55,8 +55,8 @@ namespace OpenRS.Primitives
 
         // During the process of constructing a primitive model, vertex
         // and index data is stored on the CPU in these managed lists.
-        private List<VertexPositionNormal> vertices = [];
-        private List<ushort> indices = [];
+        private readonly List<VertexPositionNormal> vertices = [];
+        private readonly List<ushort> indices = [];
 
 
         // Once all the geometry has been specified, the InitializePrimitive
