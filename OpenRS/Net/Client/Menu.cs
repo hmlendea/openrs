@@ -1,5 +1,4 @@
-﻿using System;
-using OpenRS.Net.Client.Game;
+﻿using OpenRS.Net.Client.Game;
 using Microsoft.Xna.Framework.Input;
 
 namespace OpenRS.Net.Client

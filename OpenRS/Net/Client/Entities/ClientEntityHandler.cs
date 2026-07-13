@@ -1,20 +1,8 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
-using OpenRS.Net.Client.Game.Cameras;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using System.ComponentModel;
-using OpenRS.Net.Client.Events;
-using OpenRS.Settings;
-using System.Threading;
 using System;
 
-namespace OpenRS.Net.Client
+namespace OpenRS.Net.Client.Entities
 {
     public sealed class ClientEntityHandler(GameClient client)
     {
@@ -386,7 +374,7 @@ namespace OpenRS.Net.Client
             }
             return null;
         }
-    
+
     }
 
 }

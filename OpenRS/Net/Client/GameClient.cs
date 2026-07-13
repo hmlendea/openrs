@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 using OpenRS.Net.Client.Game.Cameras;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System.ComponentModel;
 using OpenRS.Net.Client.Events;
-using OpenRS.Settings;
-using System.Threading;
+using OpenRS.Net.Client.Input;
+using OpenRS.Net.Client.Handlers;
+using OpenRS.Net.Client.Rendering;
+using OpenRS.Net.Client.Loading;
+using OpenRS.Net.Client.World;
+using OpenRS.Net.Client.Entities;
+using OpenRS.Net.Client.Utilities;
 
 namespace OpenRS.Net.Client
 {

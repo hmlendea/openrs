@@ -1,24 +1,14 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 using OpenRS.Net.Client.Game.Cameras;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using System.ComponentModel;
-using OpenRS.Net.Client.Events;
+using OpenRS.Net.Client.Utilities;
 using OpenRS.Settings;
-using System.Threading;
 using System;
 
-namespace OpenRS.Net.Client
+namespace OpenRS.Net.Client.Rendering
 {
     public sealed class GameRenderer(GameClient client)
     {
-
         public void DrawNpc(int x, int y, int width, int height, int npcIndex, int cameraXOffset, int scalePercentage)
             => DrawNPC(x, y, width, height, npcIndex, cameraXOffset, scalePercentage);
 
@@ -1529,7 +1519,6 @@ namespace OpenRS.Net.Client
         }
         public void DrawWindow()
         {
-
             client.Paint(GameClient.graphics);
 
             if (client.errorLoading)
@@ -1583,13 +1572,11 @@ namespace OpenRS.Net.Client
                     client.gameGraphics.loggedIn = false;
                     DrawLoginScreens();
 
-
                 }
                 if (client.loggedIn)
                 {
                     client.gameGraphics.loggedIn = true;
                     DrawGame();
-
 
                     return;
                 }
@@ -1769,8 +1756,6 @@ namespace OpenRS.Net.Client
             }
 
             client.gameGraphics.DrawPicture(0, client.windowHeight, client.baseInventoryPic + 22);
-
-
 
             //gameGraphics.UpdateGameImage();
             client.OnDrawDone();//client.gameGraphics.DrawImage(spriteBatch, 0, 0);
@@ -2497,7 +2482,6 @@ namespace OpenRS.Net.Client
                             GameObject roof1 = client.engineHandle.roofObject[1][l];
                             client.gameCamera.AddModel(roof1);
 
-
                             // draw wall object at lv 2 / third layer
                             client.gameCamera.AddModel(client.engineHandle.wallObject[2][l]);
 
@@ -2837,12 +2821,10 @@ namespace OpenRS.Net.Client
 
 #warning play with this! Create a new menu of choice :)
 
-
             DrawMenus();
 
             client.gameGraphics.loggedIn = false;
             client.DrawChatMessageTabs();
-
 
             string text = "Coordinates: ( " + (client.sectionX + client.areaX) + "," + (client.sectionY + client.areaY) + " ) Section: (" + client.sectionX + "," + client.sectionY + ") Area: (" + client.areaX + "," + client.areaY + ")";
             // Text shadow
@@ -4365,7 +4347,7 @@ namespace OpenRS.Net.Client
             }
 
         }
-    
+
     }
 
 }
