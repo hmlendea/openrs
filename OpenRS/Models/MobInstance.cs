@@ -91,7 +91,7 @@ namespace OpenRS.Models
             HasAppearanceChanged = true;
             AppearanceId = 0;
             LastMovementTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            activatedPrayers = new bool[14];
+            activatedPrayers = new bool[Prayer.MaximumCount];
             LastCombatState = CombatState.Waiting;
 
             pathHandler = new PathHandler(this);

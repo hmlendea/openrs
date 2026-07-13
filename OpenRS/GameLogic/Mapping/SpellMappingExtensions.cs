@@ -20,6 +20,7 @@ namespace OpenRS.GameLogic.Mapping
             RequiredRunesCounts = spellEntity.RequiredRunesCounts,
             ExperienceGain = spellEntity.ExperienceGain
         };
+
         internal static SpellEntity ToDataObject(this Spell spell) => new()
         {
             Id = spell.Id,

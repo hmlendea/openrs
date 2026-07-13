@@ -5,92 +5,20 @@ namespace OpenRS.Net.Client.Data
 {
     public sealed class GameData
     {
-        public static int itemCount;
-        public static int highestLoadedPicture;
-        public static string[] npcName;
-        public static string[] npcDescription;
-        public static string[] npcCommand;
         public static int spellProjectileCount;
-        public static int objectCount;
-        public static string[] wallObjectName;
-        public static string[] wallObjectDescription;
-        public static string[] wallObjectCommand1;
-        public static string[] wallObjectCommand2;
-        public static int spellCount;
-        public static int[] npcCameraArray1;
-        public static int[] npcCameraArray2;
-        public static string[] itemName;
-        public static string[] itemDescription;
-        public static string[] itemCommand;
-        public static int[] itemInventoryPicture;
-        public static int[] itemBasePrice;
-        public static int[] itemStackable;
-        public static int[] itemUnused;
-        public static int[] itemIsEquippable;
-        public static int[] itemPictureMask;
-        public static int[] itemSpecial;
-        public static int[] itemMembers;
-        public static string[] prayerName;
-        public static string[] prayerDescription;
-        public static string[] animationName;
-        public static int prayerCount;
-        public static int[] npcHairColor;
-        public static int[] npcTopColor;
-        public static int[] npcBottomColor;
-        public static int[] npcSkinColor;
         public static int overlayTextureCount;
-        public static int wallObjectCount;
-        public static int animationCount;
         public static string[] modelName = new string[5000];
         public static string[] textureName;
         public static string[] textureSubName;
-        public static string[] objectName;
-        public static string[] objectDescription;
-        public static string[] objectCommand1;
-        public static string[] objectCommand2;
         public static int textureCount;
         public static int elevationCount;
-        public static int[] prayerRequiredLevel;
-        public static int[] prayerDrainRate;
         public static int[] tileGroundOverlayTexture;
         public static int[] tileGroundOverlayTypes;
         public static int[] overlayTextureFlags;
-        public static string[] spellName;
-        public static string[] spellDescription;
-        public static int[] npcWalkModelArray;
-        public static int[] npcCombatModel;
-        public static int[] npcCombatSprite;
-        public static int[][] npcAnimationCount;
-        public static int[] npcAttack;
-        public static int[] npcStrength;
-        public static int[] npcHits;
-        public static int[] npcDefense;
-        public static int[] npcAttackable;
-        public static int npcCount;
-        public static int[] animationCharacterColor;
-        public static int[] animationGenderModels;
-        public static int[] animationHasA;
-        public static int[] animationHasF;
-        public static int[] animationNumber;
         public static int[] roofs;
         public static int[] roofAltitudes;
         public static int modelCount;
-        public static int[] spellRequiredLevel;
-        public static int[] spellDifferentRuneCount;
-        public static int[] spellType;
-        public static int[][] spellRequiredRuneIds;
-        public static int[][] spellRequiredRuneCount;
-        public static int[] objectModelNumber;
-        public static int[] objectWidth;
-        public static int[] objectHeight;
-        public static int[] objectType;
-        public static int[] objectGroundItemVar;
         public static string[] wallObjectModelNames = new string[5000];
-        public static int[] wallObjectModelHeight;
-        public static int[] wallObjectModel_FaceBack;
-        public static int[] wallObjectModel_FaceFront;
-        public static int[] wallObjectType;
-        public static int[] wallObjectUnknown;
         public static string[] floorModelNames = new string[5000];
         public static int additionalModelCount;
 
@@ -171,215 +99,156 @@ namespace OpenRS.Net.Client.Data
             integerData = DataOperations.LoadData("integer.dat", 0, rawData);
             integerDataIndex = 0;
 
-            itemCount = ReadShort();
-            itemName = new string[itemCount];
-            itemDescription = new string[itemCount];
-            itemCommand = new string[itemCount];
-            itemInventoryPicture = new int[itemCount];
-            itemBasePrice = new int[itemCount];
-            itemStackable = new int[itemCount];
-            itemUnused = new int[itemCount];
-            itemIsEquippable = new int[itemCount];
-            itemPictureMask = new int[itemCount];
-            itemSpecial = new int[itemCount];
-            itemMembers = new int[itemCount];
+            int itemCount = ReadShort();
 
             for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
-                itemName[itemIndex] = ReadString();
+                ReadString();
             }
 
             for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
-                itemDescription[itemIndex] = ReadString();
+                ReadString();
             }
 
             for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
-                itemCommand[itemIndex] = ReadString();
+                ReadString();
             }
 
             for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
-                itemInventoryPicture[itemIndex] = ReadShort();
-
-                if (itemInventoryPicture[itemIndex] + 1 > highestLoadedPicture)
-                {
-                    highestLoadedPicture = itemInventoryPicture[itemIndex] + 1;
-                }
+                ReadShort();
             }
 
             for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
-                itemBasePrice[itemIndex] = ReadInt();
+                ReadInt();
             }
 
             for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
-                itemStackable[itemIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
-                itemUnused[itemIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
-                itemIsEquippable[itemIndex] = ReadShort();
+                ReadShort();
             }
 
             for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
-                itemPictureMask[itemIndex] = ReadInt();
+                ReadInt();
             }
 
             for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
-                itemSpecial[itemIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
             {
-                itemMembers[itemIndex] = ReadByte();
+                ReadByte();
             }
 
-            for (int itemIndex = 0; itemIndex < itemCount; itemIndex += 1)
-            {
-                if (!Config.MembersFeatures && itemMembers[itemIndex] == 1)
-                {
-                    itemName[itemIndex] = "Members object";
-                    itemDescription[itemIndex] = "You need to be a member to use this object";
-                    itemBasePrice[itemIndex] = 0;
-                    itemCommand[itemIndex] = "";
-                    itemUnused[0] = 0;
-                    itemIsEquippable[itemIndex] = 0;
-                    itemSpecial[itemIndex] = 1;
-                }
-            }
-
-            npcCount = ReadShort();
-            npcName = new string[npcCount];
-            npcDescription = new string[npcCount];
-            npcCommand = new string[npcCount];
-            npcAttack = new int[npcCount];
-            npcStrength = new int[npcCount];
-            npcHits = new int[npcCount];
-            npcDefense = new int[npcCount];
-            npcAttackable = new int[npcCount];
-            npcAnimationCount = new int[npcCount][];
+            int npcCount = ReadShort();
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                npcAnimationCount[npcIndex] = new int[12];
-            }
-
-            npcHairColor = new int[npcCount];
-            npcTopColor = new int[npcCount];
-            npcBottomColor = new int[npcCount];
-            npcSkinColor = new int[npcCount];
-            npcCameraArray1 = new int[npcCount];
-            npcCameraArray2 = new int[npcCount];
-            npcWalkModelArray = new int[npcCount];
-            npcCombatModel = new int[npcCount];
-            npcCombatSprite = new int[npcCount];
-
-            for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
-            {
-                npcName[npcIndex] = ReadString();
+                ReadString();
             }
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                npcDescription[npcIndex] = ReadString();
+                ReadString();
             }
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                npcAttack[npcIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                npcStrength[npcIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                npcHits[npcIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                npcDefense[npcIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                npcAttackable[npcIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
                 for (int animationPartIndex = 0; animationPartIndex < 12; animationPartIndex += 1)
                 {
-                    npcAnimationCount[npcIndex][animationPartIndex] = ReadByte();
-
-                    if (npcAnimationCount[npcIndex][animationPartIndex] == 255)
-                    {
-                        npcAnimationCount[npcIndex][animationPartIndex] = -1;
-                    }
+                    ReadByte();
                 }
             }
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                npcHairColor[npcIndex] = ReadInt();
+                ReadInt();
             }
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                npcTopColor[npcIndex] = ReadInt();
+                ReadInt();
             }
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                npcBottomColor[npcIndex] = ReadInt();
+                ReadInt();
             }
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                npcSkinColor[npcIndex] = ReadInt();
+                ReadInt();
             }
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                npcCameraArray1[npcIndex] = ReadShort();
+                ReadShort();
             }
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                npcCameraArray2[npcIndex] = ReadShort();
+                ReadShort();
             }
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                npcWalkModelArray[npcIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                npcCombatModel[npcIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                npcCombatSprite[npcIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int npcIndex = 0; npcIndex < npcCount; npcIndex += 1)
             {
-                npcCommand[npcIndex] = ReadString();
+                ReadString();
             }
 
             textureCount = ReadShort();
@@ -396,154 +265,130 @@ namespace OpenRS.Net.Client.Data
                 textureSubName[textureIndex] = ReadString();
             }
 
-            animationCount = ReadShort();
-            animationName = new string[animationCount];
-            animationCharacterColor = new int[animationCount];
-            animationGenderModels = new int[animationCount];
-            animationHasA = new int[animationCount];
-            animationHasF = new int[animationCount];
-            animationNumber = new int[animationCount];
+            int animationCount = ReadShort();
 
             for (int animationIndex = 0; animationIndex < animationCount; animationIndex += 1)
             {
-                animationName[animationIndex] = ReadString();
+                ReadString();
             }
 
             for (int animationIndex = 0; animationIndex < animationCount; animationIndex += 1)
             {
-                animationCharacterColor[animationIndex] = ReadInt();
+                ReadInt();
             }
 
             for (int animationIndex = 0; animationIndex < animationCount; animationIndex += 1)
             {
-                animationGenderModels[animationIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int animationIndex = 0; animationIndex < animationCount; animationIndex += 1)
             {
-                animationHasA[animationIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int animationIndex = 0; animationIndex < animationCount; animationIndex += 1)
             {
-                animationHasF[animationIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int animationIndex = 0; animationIndex < animationCount; animationIndex += 1)
             {
-                animationNumber[animationIndex] = ReadByte();
+                ReadByte();
             }
 
-            objectCount = ReadShort();
-            objectName = new string[objectCount];
-            objectDescription = new string[objectCount];
-            objectCommand1 = new string[objectCount];
-            objectCommand2 = new string[objectCount];
-            objectModelNumber = new int[objectCount];
-            objectWidth = new int[objectCount];
-            objectHeight = new int[objectCount];
-            objectType = new int[objectCount];
-            objectGroundItemVar = new int[objectCount];
+            int objectCount = ReadShort();
 
             for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
-                objectName[objectIndex] = ReadString();
+                ReadString();
             }
 
             for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
-                objectDescription[objectIndex] = ReadString();
+                ReadString();
             }
 
             for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
-                objectCommand1[objectIndex] = ReadString();
+                ReadString();
             }
 
             for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
-                objectCommand2[objectIndex] = ReadString();
+                ReadString();
             }
 
             for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
-                objectModelNumber[objectIndex] = GetModelNameIndex(ReadString());
+                ReadString();
             }
 
             for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
-                objectWidth[objectIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
-                objectHeight[objectIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
-                objectType[objectIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int objectIndex = 0; objectIndex < objectCount; objectIndex += 1)
             {
-                objectGroundItemVar[objectIndex] = ReadByte();
+                ReadByte();
             }
 
-            wallObjectCount = ReadShort();
-            wallObjectName = new string[wallObjectCount];
-            wallObjectDescription = new string[wallObjectCount];
-            wallObjectCommand1 = new string[wallObjectCount];
-            wallObjectCommand2 = new string[wallObjectCount];
-            wallObjectModelHeight = new int[wallObjectCount];
-            wallObjectModel_FaceBack = new int[wallObjectCount];
-            wallObjectModel_FaceFront = new int[wallObjectCount];
-            wallObjectType = new int[wallObjectCount];
-            wallObjectUnknown = new int[wallObjectCount];
+            int wallObjectCount = ReadShort();
 
             for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
-                wallObjectName[wallObjectIndex] = ReadString();
+                ReadString();
             }
 
             for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
-                wallObjectDescription[wallObjectIndex] = ReadString();
+                ReadString();
             }
 
             for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
-                wallObjectCommand1[wallObjectIndex] = ReadString();
+                ReadString();
             }
 
             for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
-                wallObjectCommand2[wallObjectIndex] = ReadString();
+                ReadString();
             }
 
             for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
-                wallObjectModelHeight[wallObjectIndex] = ReadShort();
+                ReadShort();
             }
 
             for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
-                wallObjectModel_FaceBack[wallObjectIndex] = ReadInt();
+                ReadInt();
             }
 
             for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
-                wallObjectModel_FaceFront[wallObjectIndex] = ReadInt();
+                ReadInt();
             }
 
             for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
-                wallObjectType[wallObjectIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int wallObjectIndex = 0; wallObjectIndex < wallObjectCount; wallObjectIndex += 1)
             {
-                wallObjectUnknown[wallObjectIndex] = ReadByte();
+                ReadByte();
             }
 
             elevationCount = ReadShort();
@@ -581,86 +426,51 @@ namespace OpenRS.Net.Client.Data
             }
 
             spellProjectileCount = ReadShort();
-            spellCount = ReadShort();
-            spellName = new string[spellCount];
-            spellDescription = new string[spellCount];
-            spellRequiredLevel = new int[spellCount];
-            spellDifferentRuneCount = new int[spellCount];
-            spellType = new int[spellCount];
-            spellRequiredRuneIds = new int[spellCount][];
-            spellRequiredRuneCount = new int[spellCount][];
+            int spellCount = ReadShort();
 
             for (int spellIndex = 0; spellIndex < spellCount; spellIndex += 1)
             {
-                spellName[spellIndex] = ReadString();
+                ReadString();
             }
 
             for (int spellIndex = 0; spellIndex < spellCount; spellIndex += 1)
             {
-                spellDescription[spellIndex] = ReadString();
+                ReadString();
             }
 
             for (int spellIndex = 0; spellIndex < spellCount; spellIndex += 1)
             {
-                spellRequiredLevel[spellIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int spellIndex = 0; spellIndex < spellCount; spellIndex += 1)
             {
-                spellDifferentRuneCount[spellIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int spellIndex = 0; spellIndex < spellCount; spellIndex += 1)
             {
-                spellType[spellIndex] = ReadByte();
+                ReadByte();
             }
 
             for (int spellIndex = 0; spellIndex < spellCount; spellIndex += 1)
             {
                 int runeIdCount = ReadByte();
-                spellRequiredRuneIds[spellIndex] = new int[runeIdCount];
 
                 for (int runeIndex = 0; runeIndex < runeIdCount; runeIndex += 1)
                 {
-                    spellRequiredRuneIds[spellIndex][runeIndex] = ReadShort();
+                    ReadShort();
                 }
             }
 
             for (int spellIndex = 0; spellIndex < spellCount; spellIndex += 1)
             {
                 int runeCount = ReadByte();
-                spellRequiredRuneCount[spellIndex] = new int[runeCount];
 
                 for (int runeIndex = 0; runeIndex < runeCount; runeIndex += 1)
                 {
-                    spellRequiredRuneCount[spellIndex][runeIndex] = ReadByte();
+                    ReadByte();
                 }
-            }
-
-            prayerCount = ReadShort();
-            prayerName = new string[prayerCount];
-            prayerDescription = new string[prayerCount];
-            prayerRequiredLevel = new int[prayerCount];
-            prayerDrainRate = new int[prayerCount];
-
-            for (int prayerIndex = 0; prayerIndex < prayerCount; prayerIndex += 1)
-            {
-                prayerName[prayerIndex] = ReadString();
-            }
-
-            for (int prayerIndex = 0; prayerIndex < prayerCount; prayerIndex += 1)
-            {
-                prayerDescription[prayerIndex] = ReadString();
-            }
-
-            for (int prayerIndex = 0; prayerIndex < prayerCount; prayerIndex += 1)
-            {
-                prayerRequiredLevel[prayerIndex] = ReadByte();
-            }
-
-            for (int prayerIndex = 0; prayerIndex < prayerCount; prayerIndex += 1)
-            {
-                prayerDrainRate[prayerIndex] = ReadByte();
             }
 
             stringData = null;

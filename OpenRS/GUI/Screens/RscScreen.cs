@@ -13,6 +13,7 @@ using NuciXNA.Primitives;
 using OpenRS.Gui.Controls;
 using OpenRS.Net.Client;
 using OpenRS.Net.Client.Events;
+using OpenRS.Net.Client.Game;
 
 namespace OpenRS.Gui.Screens
 {
@@ -80,10 +81,7 @@ namespace OpenRS.Gui.Screens
 
         protected override void DoUpdate(GameTime gameTime)
         {
-            if (rscMudclient is not null)
-            {
-                rscMudclient.Update(gameTime);
-            }
+            rscMudclient?.Update(gameTime);
 
             if (inventoryPanel is not null && rscMudclient?.loggedIn == true)
             {
@@ -178,7 +176,7 @@ namespace OpenRS.Gui.Screens
                             byte greenChannel = pixelBytes[1];
                             byte blueChannel = pixelBytes[0];
 
-                            colors[pixelIndex] = Net.Client.Game.GameImage.RgbaToUInt(redChannel, greenChannel, blueChannel, 255);
+                            colors[pixelIndex] = GameImage.RgbaToUInt(redChannel, greenChannel, blueChannel, 255);
                         }
 
                         if (rscMudclient.DrawIsNecessary)

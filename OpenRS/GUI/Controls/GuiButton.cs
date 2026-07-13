@@ -32,15 +32,16 @@ namespace OpenRS.Gui.Controls
             FontName = "ButtonFont";
             ButtonTileSize = new Size2D(GameDefines.GuiTileSize, GameDefines.GuiTileSize);
         }
+
         protected override void DoLoadContent()
         {
             icon = new GuiImage();
             images = [];
             text = new GuiText();
 
-            for (int x = 0; x < ButtonSize.Width; x += 1)
+            for (int sectionIndex = 0; sectionIndex < ButtonSize.Width; sectionIndex += 1)
             {
-                GuiImage image = new() { SourceRectangle = CalculateSourceRectangle(x) };
+                GuiImage image = new() { SourceRectangle = CalculateSourceRectangle(sectionIndex) };
 
                 images.Add(image);
             }
@@ -58,15 +59,13 @@ namespace OpenRS.Gui.Controls
         }
         protected override void DoUnloadContent() => UnregisterEvents();
         protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
-
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) { }
         private void RegisterEvents()
         {
             Clicked += OnClicked;
             MouseEntered += OnMouseEntered;
         }
+
         private void UnregisterEvents()
         {
             Clicked -= OnClicked;
@@ -75,11 +74,11 @@ namespace OpenRS.Gui.Controls
 
         private void SetChildrenProperties()
         {
-            for (int i = 0; i < images.Count; i += 1)
+            for (int imageIndex = 0; imageIndex < images.Count; imageIndex += 1)
             {
-                images[i].ContentFile = Texture;
-                images[i].Location = new Point2D(i * ButtonTileSize.Width, 0);
-                images[i].SourceRectangle = CalculateSourceRectangle(i);
+                images[imageIndex].ContentFile = Texture;
+                images[imageIndex].Location = new Point2D(imageIndex * ButtonTileSize.Width, 0);
+                images[imageIndex].SourceRectangle = CalculateSourceRectangle(imageIndex);
             }
 
             text.Text = Text;
@@ -93,44 +92,41 @@ namespace OpenRS.Gui.Controls
                 (Size.Width - icon.Size.Width) / 2,
                 (Size.Height - icon.Size.Height) / 2);
         }
+
         private void OnClicked(object sender, MouseButtonEventArgs e)
         {
             if (e.Button != MouseButton.Left)
             {
                 return;
             }
-
-            //AudioManager.Instance.PlaySound("Interface/click");
-        }
-        private void OnMouseEntered(object sender, MouseEventArgs e)
-        {
-            //AudioManager.Instance.PlaySound("Interface/select");
         }
 
-        protected virtual Rectangle2D CalculateSourceRectangle(int x)
+        private void OnMouseEntered(object sender, MouseEventArgs e) { }
+
+        protected virtual Rectangle2D CalculateSourceRectangle(int sectionIndex)
         {
-            int sx = 1;
+            int spriteStateOffset = 1;
 
             if (ButtonSize.Width == 1)
             {
-                sx = 3;
+                spriteStateOffset = 3;
             }
-            else if (x == 0)
+            else if (sectionIndex == 0)
             {
-                sx = 0;
+                spriteStateOffset = 0;
             }
-            else if (x == ButtonSize.Width - 1)
+            else if (sectionIndex == ButtonSize.Width - 1)
             {
-                sx = 2;
+                spriteStateOffset = 2;
             }
 
             if (IsHovered)
             {
-                sx += 4;
+                spriteStateOffset += 4;
             }
 
             return new Rectangle2D(
-                sx * ButtonTileSize.Width, 0,
+                spriteStateOffset * ButtonTileSize.Width, 0,
                 ButtonTileSize.Width, ButtonTileSize.Height);
         }
     }

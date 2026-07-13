@@ -37,6 +37,7 @@ namespace OpenRS.Gui.Controls
             Size = new Size2D(22, 22);
             BackgroundColour = Colour.White;
         }
+
         protected override void DoLoadContent()
         {
             indicator = new GuiImage { ContentFile = "Interface/Minimap/indicator_bg" };
@@ -45,15 +46,11 @@ namespace OpenRS.Gui.Controls
             RegisterChildren(indicator, icon);
             SetChildrenProperties();
         }
-        protected override void DoUnloadContent()
-        {
+        protected override void DoUnloadContent() { }
 
-        }
         protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
 
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) { }
 
         private void SetChildrenProperties()
         {

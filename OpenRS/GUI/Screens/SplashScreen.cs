@@ -58,6 +58,7 @@ namespace OpenRS.Gui.Screens
             SetChildrenProperties();
         }
         protected override void DoUnloadContent() => UnregisterEvents();
+
         protected override void DoUpdate(GameTime gameTime)
         {
             SetChildrenProperties();
@@ -75,15 +76,14 @@ namespace OpenRS.Gui.Screens
 
             Delay -= (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
+        protected override void DoDraw(SpriteBatch spriteBatch) { }
 
-        }
         private void RegisterEvents()
         {
             KeyPressed += OnKeyPressed;
             MouseButtonPressed += OnMouseButtonPressed;
         }
+
         private void UnregisterEvents()
         {
             KeyPressed -= OnKeyPressed;

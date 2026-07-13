@@ -31,25 +31,19 @@ namespace OpenRS.Primitives
         private IndexBuffer indexBuffer;
         private BasicEffect basicEffect;
 
-        protected void AddVertex(Vector3 position, Vector3 normal)
-        {
-            vertices.Add(new VertexPositionNormal(position, normal));
-        }
+        protected void AddVertex(Vector3 position, Vector3 normal) => vertices.Add(new VertexPositionNormal(position, normal));
 
         protected void AddIndex(int index)
         {
             if (index > ushort.MaxValue)
             {
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
 
             indices.Add((ushort)index);
         }
 
-        protected int CurrentVertex
-        {
-            get { return vertices.Count; }
-        }
+        protected int CurrentVertex => vertices.Count;
 
         protected void InitializePrimitive(GraphicsDevice graphicsDevice)
         {
@@ -84,22 +78,15 @@ namespace OpenRS.Primitives
         {
             if (disposing)
             {
-                if (vertexBuffer is not null)
-                {
-                    vertexBuffer.Dispose();
-                }
+                vertexBuffer?.Dispose();
 
-                if (indexBuffer is not null)
-                {
-                    indexBuffer.Dispose();
-                }
+                indexBuffer?.Dispose();
 
-                if (basicEffect is not null)
-                {
-                    basicEffect.Dispose();
-                }
+                basicEffect?.Dispose();
             }
         }
+
+        private static float MaxAlphaChannel => 255.0f;
 
         public void Draw(Effect effect)
         {
@@ -126,7 +113,7 @@ namespace OpenRS.Primitives
             basicEffect.View = view;
             basicEffect.Projection = projection;
             basicEffect.DiffuseColor = color.ToVector3();
-            basicEffect.Alpha = color.A / 255.0f;
+            basicEffect.Alpha = color.A / MaxAlphaChannel;
 
             GraphicsDevice device = basicEffect.GraphicsDevice;
             device.DepthStencilState = DepthStencilState.Default;

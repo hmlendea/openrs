@@ -18,17 +18,10 @@ namespace OpenRS.Gui.Controls
 
             RegisterChild(background);
         }
-        protected override void DoUnloadContent()
-        {
+        protected override void DoUnloadContent() { }
 
-        }
-        protected override void DoUpdate(GameTime gameTime)
-        {
+        protected override void DoUpdate(GameTime gameTime) { }
 
-        }
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
-
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) { }
     }
 }

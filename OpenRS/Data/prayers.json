@@ -1,0 +1,100 @@
+[
+    {
+        "id": "thick-skin",
+        "name": "Thick Skin",
+        "description": "Increases your defence by 5%.",
+        "requiredLevel": 1,
+        "drainRate": 1
+    },
+    {
+        "id": "burst-of-strength",
+        "name": "Burst of Strength",
+        "description": "Increases your strength by 5%.",
+        "requiredLevel": 4,
+        "drainRate": 1
+    },
+    {
+        "id": "clarity-of-thought",
+        "name": "Clarity of Thought",
+        "description": "Increases your attack by 5%.",
+        "requiredLevel": 7,
+        "drainRate": 1
+    },
+    {
+        "id": "rock-skin",
+        "name": "Rock Skin",
+        "description": "Increases your defence by 10%.",
+        "requiredLevel": 10,
+        "drainRate": 3
+    },
+    {
+        "id": "superhuman-strength",
+        "name": "Superhuman Strength",
+        "description": "Increases your strength by 10%.",
+        "requiredLevel": 13,
+        "drainRate": 3
+    },
+    {
+        "id": "improved-reflexes",
+        "name": "Improved Reflexes",
+        "description": "Increases your attack by 10%.",
+        "requiredLevel": 16,
+        "drainRate": 3
+    },
+    {
+        "id": "rapid-restore",
+        "name": "Rapid Restore",
+        "description": "Doubles the speed of stat restoration.",
+        "requiredLevel": 19,
+        "drainRate": 1
+    },
+    {
+        "id": "rapid-heal",
+        "name": "Rapid Heal",
+        "description": "Doubles the speed of health restoration.",
+        "requiredLevel": 22,
+        "drainRate": 2
+    },
+    {
+        "id": "protect-item",
+        "name": "Protect Item",
+        "description": "You keep one extra item if you die.",
+        "requiredLevel": 25,
+        "drainRate": 2
+    },
+    {
+        "id": "steel-skin",
+        "name": "Steel Skin",
+        "description": "Increases your defence by 15%.",
+        "requiredLevel": 28,
+        "drainRate": 5
+    },
+    {
+        "id": "ultimate-strength",
+        "name": "Ultimate Strength",
+        "description": "Increases your strength by 15%.",
+        "requiredLevel": 31,
+        "drainRate": 5
+    },
+    {
+        "id": "incredible-reflexes",
+        "name": "Incredible Reflexes",
+        "description": "Increases your attack by 15%.",
+        "requiredLevel": 34,
+        "drainRate": 5
+    },
+    {
+        "id": "protect-from-missiles",
+        "name": "Protect from Missiles",
+        "description": "Protects you from ranged attacks.",
+        "requiredLevel": 40,
+        "drainRate": 10
+    },
+    {
+        "id": "retribution",
+        "name": "Retribution",
+        "description": "Damages attackers when your health runs out.",
+        "requiredLevel": 46,
+        "drainRate": 3
+    }
+]

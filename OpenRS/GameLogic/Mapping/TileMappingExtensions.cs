@@ -14,6 +14,7 @@ namespace OpenRS.GameLogic.Mapping
             Unknown = tileEntity.Unknown,
             Type = tileEntity.Type
         };
+
         internal static TileEntity ToDataObject(this Tile tile) => new()
         {
             Colour = tile.Colour,

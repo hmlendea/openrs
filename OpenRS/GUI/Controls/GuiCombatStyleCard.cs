@@ -32,15 +32,11 @@ namespace OpenRS.Gui.Controls
             RegisterChildren(background, icon, nameText);
             SetChildrenProperties();
         }
-        protected override void DoUnloadContent()
-        {
+        protected override void DoUnloadContent() { }
 
-        }
         protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
 
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) { }
 
         private void SetChildrenProperties()
         {

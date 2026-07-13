@@ -4,7 +4,7 @@ using OpenRS.DataAccess.DataObjects;
 
 namespace OpenRS.DataAccess.Repositories
 {
-    public sealed class AnimationRepository(string fileName) : XmlRepository<AnimationEntity>(fileName)
+    public sealed class AnimationRepository(string fileName) : JsonRepository<AnimationEntity>(fileName)
     {
         public override void Update(AnimationEntity entity)
         {

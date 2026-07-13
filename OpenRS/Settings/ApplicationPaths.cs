@@ -8,6 +8,7 @@ namespace OpenRS.Settings
     {
         private static string rootDirectory;
         private static string localAppData;
+
         public static string ApplicationDirectory
         {
             get
@@ -17,6 +18,7 @@ namespace OpenRS.Settings
                 return rootDirectory;
             }
         }
+
         public static string UserDataDirectory
         {
             get
@@ -26,9 +28,13 @@ namespace OpenRS.Settings
                 return Path.Combine(localAppData, "OpenRS");
             }
         }
+
         public static string ConfigurationDirectory => Path.Combine(ApplicationDirectory, "Data");
+
         public static string DataDirectory => Path.Combine(ApplicationDirectory, "Data");
+
         public static string EntitiesDirectory => Path.Combine(DataDirectory, "Entities");
+
         public static string SettingsFile => Path.Combine(UserDataDirectory, "Settings.xml");
     }
 }

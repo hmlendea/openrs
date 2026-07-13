@@ -24,6 +24,7 @@ namespace OpenRS.GameLogic.Mapping
             IsStackable = itemEntity.IsStackable,
             IsUnused = itemEntity.IsUnused
         };
+
         internal static ItemEntity ToDataObject(this Item item) => new()
         {
             Id = item.Id,

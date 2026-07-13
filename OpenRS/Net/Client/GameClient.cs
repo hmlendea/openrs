@@ -182,9 +182,9 @@ namespace OpenRS.Net.Client
 
         public float GameDisplayScaleY { get; set; } = 1.0f;
 
-        public GameLogic.GameManagers.EntityManager entityManager;
+        public EntityManager entityManager;
 
-        public GameLogic.GameManagers.InventoryManager inventoryManager;
+        public InventoryManager inventoryManager;
 
 
 

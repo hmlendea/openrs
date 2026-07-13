@@ -1,6 +1,5 @@
 using System;
 
-using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 
 namespace OpenRS.Net.Client.Entities
@@ -15,18 +14,18 @@ namespace OpenRS.Net.Client.Entities
             {
                 do
                 {
-                    client.appearanceHeadType = (client.appearanceHeadType - 1 + GameData.animationCount) % GameData.animationCount;
+                    client.appearanceHeadType = (client.appearanceHeadType - 1 + client.entityManager.AnimationCount) % client.entityManager.AnimationCount;
                 }
-                while ((GameData.animationGenderModels[client.appearanceHeadType] & 3) != 1 || (GameData.animationGenderModels[client.appearanceHeadType] & 4 * client.appearanceHeadGender) == 0);
+                while ((client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 3) != 1 || (client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 4 * client.appearanceHeadGender) == 0);
             }
 
             if (client.appearanceMenu.IsClicked(client.appearanceHeadRightArrow))
             {
                 do
                 {
-                    client.appearanceHeadType = (client.appearanceHeadType + 1) % GameData.animationCount;
+                    client.appearanceHeadType = (client.appearanceHeadType + 1) % client.entityManager.AnimationCount;
                 }
-                while ((GameData.animationGenderModels[client.appearanceHeadType] & 3) != 1 || (GameData.animationGenderModels[client.appearanceHeadType] & 4 * client.appearanceHeadGender) == 0);
+                while ((client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 3) != 1 || (client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 4 * client.appearanceHeadGender) == 0);
             }
 
             if (client.appearanceMenu.IsClicked(client.appearanceHairLeftArrow))
@@ -41,12 +40,12 @@ namespace OpenRS.Net.Client.Entities
 
             if (client.appearanceMenu.IsClicked(client.appearanceGenderLeftArrow) || client.appearanceMenu.IsClicked(client.appearanceGenderRightArrow))
             {
-                for (client.appearanceHeadGender = 3 - client.appearanceHeadGender; (GameData.animationGenderModels[client.appearanceHeadType] & 3) != 1 || (GameData.animationGenderModels[client.appearanceHeadType] & 4 * client.appearanceHeadGender) == 0; client.appearanceHeadType = (client.appearanceHeadType + 1) % GameData.animationCount)
+                for (client.appearanceHeadGender = 3 - client.appearanceHeadGender; (client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 3) != 1 || (client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 4 * client.appearanceHeadGender) == 0; client.appearanceHeadType = (client.appearanceHeadType + 1) % client.entityManager.AnimationCount)
                 {
                     ;
                 }
 
-                for (; (GameData.animationGenderModels[client.appearanceBodyGender] & 3) != 2 || (GameData.animationGenderModels[client.appearanceBodyGender] & 4 * client.appearanceHeadGender) == 0; client.appearanceBodyGender = (client.appearanceBodyGender + 1) % GameData.animationCount)
+                for (; (client.entityManager.GetAnimation(client.appearanceBodyGender).GenderModel & 3) != 2 || (client.entityManager.GetAnimation(client.appearanceBodyGender).GenderModel & 4 * client.appearanceHeadGender) == 0; client.appearanceBodyGender = (client.appearanceBodyGender + 1) % client.entityManager.AnimationCount)
                 {
                     ;
                 }
@@ -107,11 +106,9 @@ namespace OpenRS.Net.Client.Entities
                     client.gameGraphics.pixels = null;
                     client.gameGraphics = null;
                 }
-                if (client.gameCamera is not null)
-                {
-                    client.gameCamera.CleanUp();
-                    client.gameCamera = null;
-                }
+
+                client.gameCamera?.CleanUp();
+                client.gameCamera = null;
                 client.gameDataObjects = null;
                 client.objectArray = null;
                 client.wallObjectArray = null;
@@ -191,9 +188,9 @@ namespace OpenRS.Net.Client.Entities
             int tileY = y;
             int destTileX = x;
             int destTileY = y;
-            int textureBack = GameData.wallObjectModel_FaceBack[type];
-            int textureFront = GameData.wallObjectModel_FaceFront[type];
-            int wallHeight = GameData.wallObjectModelHeight[type];
+            int textureBack = client.entityManager.GetWallObject(type).ModelFaceBack;
+            int textureFront = client.entityManager.GetWallObject(type).ModelFaceFront;
+            int wallHeight = client.entityManager.GetWallObject(type).ModelHeight;
             GameObject wallModel = new(4, 1);
 
             //

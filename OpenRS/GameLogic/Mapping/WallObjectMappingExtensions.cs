@@ -20,6 +20,7 @@ namespace OpenRS.GameLogic.Mapping
             ModelFaceBack = wallObjectEntity.ModelFaceBack,
             ModelFaceFront = wallObjectEntity.ModelFaceFront
         };
+
         internal static WallObjectEntity ToDataObject(this WallObject wallObject) => new()
         {
             Name = wallObject.Name,
@@ -35,6 +36,7 @@ namespace OpenRS.GameLogic.Mapping
         internal static IEnumerable<WallObject> ToDomainModels(
             this IEnumerable<WallObjectEntity> wallObjectEntities)
             => wallObjectEntities.Select(wallObjectEntity => wallObjectEntity.ToDomainModel());
+
         internal static IEnumerable<WallObjectEntity> ToDataObjects(
             this IEnumerable<WallObject> wallObjects)
             => wallObjects.Select(wallObject => wallObject.ToDataObject());

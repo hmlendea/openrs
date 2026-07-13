@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 
 using OpenRS.Models.Enumerations;
+using OpenRS.Models;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Enumerations;
 using OpenRS.Settings;
@@ -25,7 +26,7 @@ namespace OpenRS.Net.Client.Utilities
             {
                 if (client.inventoryItems[itemIndex] == itemId)
                 {
-                    if (GameData.itemStackable[itemId] == 1)
+                    if (client.entityManager.GetItem(itemId).IsStackable == 1)
                     {
                         totalCount += 1;
                     }

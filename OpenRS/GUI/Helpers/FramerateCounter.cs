@@ -10,6 +10,7 @@ namespace OpenRS.Gui.Helpers
         private static readonly Lock syncRoot = new();
 
         private readonly Queue<float> sampleBuffer;
+
         public static FramerateCounter Instance
         {
             get
@@ -25,15 +26,22 @@ namespace OpenRS.Gui.Helpers
                 return instance;
             }
         }
+
         public long TotalFrames { get; private set; }
+
         public float TotalSeconds { get; private set; }
+
         public float AverageFramesPerSecond { get; private set; }
+
         public float CurrentFramesPerSecond { get; private set; }
+
         public static int MaximumSamples => 100;
+
         public FramerateCounter()
         {
-            sampleBuffer = new Queue<float>();
+            sampleBuffer = new();
         }
+
         public void Update(float deltaTime)
         {
             CurrentFramesPerSecond = 1.0f / deltaTime;

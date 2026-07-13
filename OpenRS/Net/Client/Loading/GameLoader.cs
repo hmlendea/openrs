@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 
+using OpenRS.GameLogic.GameManagers;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Events;
 using OpenRS.Net.Client.Game;
@@ -27,10 +28,7 @@ namespace OpenRS.Net.Client.Loading
         {
             client.CallRequestLogout();
             client.CleanUp();
-            if (client.audioPlayer is not null)
-            {
-                client.audioPlayer.Stop();
-            }
+            client.audioPlayer?.Stop();
         }
         public void CreateLoginScreenBackgrounds()
         {
@@ -280,7 +278,7 @@ client.RaiseOnLoadingSectionCompleted(this, new EventArgs());
             for (int i1 = 0; i1 < 99; i1 += 1)
             {
                 int j1 = i1 + 1;
-                int l1 = (int)((double)j1 + 300D * Math.Pow(2D, (double)j1 / 7D));
+                int l1 = (int)(j1 + 300D * Math.Pow(2D, j1 / 7D));
                 l += l1;
                 client.experienceList[i1] = (l & 0xffffffc) / 4;
             }
@@ -308,7 +306,7 @@ client.RaiseOnLoadingSectionCompleted(this, new EventArgs());
             Menu.isBackgroundPatternEnabled = false;
             Menu.baseScrollPic = client.baseScrollPic;
             client.spellMenu = new Menu(client.gameGraphics, 5);
-            int k1 = ((GameImage)client.gameGraphics).gameWidth - 199;
+            int k1 = client.gameGraphics.gameWidth - 199;
             sbyte byte0 = 36;
             client.spellMenuHandle = client.spellMenu.CreateList(k1, byte0 + 24, 196, 90, 1, 500, true);
             client.friendsMenu = new Menu(client.gameGraphics, 5);
@@ -335,11 +333,16 @@ client.RaiseOnLoadingSectionCompleted(this, new EventArgs());
             client.gameCamera.zoom3 = 1;
             client.gameCamera.zoom4 = 2300;
             client.gameCamera.OffsetAllModelColours(-50, -10, -50);
-            client.engineHandle = new EngineHandle(client.gameCamera, client.gameGraphics)
+            client.engineHandle = new EngineHandle(
+                client.gameCamera,
+                client.gameGraphics,
+                client.entityManager)
             {
                 baseInventoryPic = client.baseInventoryPic
             };
+
             LoadTextures();
+
             if (client.errorLoading)
             {
                 return;
@@ -460,8 +463,8 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
             client.gameGraphics.UnpackImageData(client.baseScrollPic, DataOperations.LoadData("scrollbar.dat", 0, media), abyte1, 2);
             client.gameGraphics.UnpackImageData(client.baseScrollPic + 2, DataOperations.LoadData("corners.dat", 0, media), abyte1, 4);
             client.gameGraphics.UnpackImageData(client.baseScrollPic + 6, DataOperations.LoadData("arrows.dat", 0, media), abyte1, 2);
-            client.gameGraphics.UnpackImageData(client.baseProjectilePic, DataOperations.LoadData("projectile.dat", 0, media), abyte1, GameData.spellProjectileCount);
-            int l = GameData.highestLoadedPicture;
+            client.gameGraphics.UnpackImageData(client.baseProjectilePic, DataOperations.LoadData("projectile.dat", 0, media), abyte1, client.entityManager.SpellProjectileCount);
+            int l = client.entityManager.HighestLoadedPicture;
             for (int i1 = 1; l > 0; i1 += 1)
             {
                 int j1 = l;
@@ -481,12 +484,12 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                 client.gameGraphics.LoadImage(client.baseInventoryPic + k1);
             }
 
-            for (int l1 = 0; l1 < GameData.spellProjectileCount; l1 += 1)
+            for (int l1 = 0; l1 < client.entityManager.SpellProjectileCount; l1 += 1)
             {
                 client.gameGraphics.LoadImage(client.baseProjectilePic + l1);
             }
 
-            for (int i2 = 0; i2 < GameData.highestLoadedPicture; i2 += 1)
+            for (int i2 = 0; i2 < client.entityManager.HighestLoadedPicture; i2 += 1)
             {
                 client.gameGraphics.LoadImage(client.baseProjectilePic + i2);
                 //var w = ((GameImage)(gameGraphics)).pictureWidth[baseProjectilePic + i2];
@@ -520,19 +523,19 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
             int l = 0;
             client.animationNumber = 0;
             //label0:
-            for (int i1 = 0; i1 < GameData.animationCount; i1 += 1)
+            for (int i1 = 0; i1 < client.entityManager.AnimationCount; i1 += 1)
             {
                 //   label4:
                 bool breakThis = false;
-                string s1 = GameData.animationName[i1];
+                string s1 = client.entityManager.GetAnimation(i1).Name;
                 for (int j1 = 0; j1 < i1; j1 += 1)
                 {
-                    if (GameData.animationName[j1].ToLower() != s1)
+                    if (client.entityManager.GetAnimation(j1).Name.ToLower() != s1)
                     {
                         continue;
                     }
 
-                    GameData.animationNumber[i1] = GameData.animationNumber[j1];
+                    client.entityManager.GetAnimation(i1).Number = client.entityManager.GetAnimation(j1).Number;
 
                     // i1 += 1;
                     // goto label0;
@@ -559,7 +562,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                     {
                         client.gameGraphics.UnpackImageData(client.animationNumber, abyte7, abyte4, 15);
                         l += 15;
-                        if (GameData.animationHasA[i1] == 1)
+                        if (client.entityManager.GetAnimation(i1).HasA == 1)
                         {
                             sbyte[] abyte8 = DataOperations.LoadData(s1 + "a.dat", 0, abyte0);
                             sbyte[] abyte5 = abyte1;
@@ -571,7 +574,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                             client.gameGraphics.UnpackImageData(client.animationNumber + 15, abyte8, abyte5, 3);
                             l += 3;
                         }
-                        if (GameData.animationHasF[i1] == 1)
+                        if (client.entityManager.GetAnimation(i1).HasF == 1)
                         {
                             sbyte[] abyte9 = DataOperations.LoadData(s1 + "f.dat", 0, abyte0);
                             sbyte[] abyte6 = abyte1;
@@ -583,7 +586,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                             client.gameGraphics.UnpackImageData(client.animationNumber + 18, abyte9, abyte6, 9);
                             l += 9;
                         }
-                        if (GameData.animationGenderModels[i1] != 0)
+                        if (client.entityManager.GetAnimation(i1).GenderModel != 0)
                         {
                             for (int k1 = client.animationNumber; k1 < client.animationNumber + 27; k1 += 1)
                             {
@@ -593,7 +596,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                     }
                     catch { }
                 }
-                GameData.animationNumber[i1] = client.animationNumber;
+                client.entityManager.GetAnimation(i1).Number = client.animationNumber;
                 client.animationNumber += 27;
 
 
@@ -630,6 +633,16 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                 return;
             }
             GameData.Load(abyte0);
+
+            client.entityManager = new EntityManager();
+            client.entityManager.LoadPrayers();
+            client.entityManager.LoadItems();
+            client.entityManager.LoadSpells(GameData.spellProjectileCount);
+            client.entityManager.LoadNpcs();
+            client.entityManager.LoadAnimations();
+            client.entityManager.LoadWallObjects();
+            client.entityManager.LoadWorldObjects();
+
             sbyte[] abyte1 = client.UnpackData("filter.jag", "Chat system", 15);
             if (abyte1 is null)
             {
@@ -759,7 +772,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                 client.gameGraphics.UnpackImageData(client.baseTexturePic, abyte2, abyte1, 1);
                 client.gameGraphics.DrawBox(0, 0, 128, 128, 0xff00ff);
                 client.gameGraphics.DrawPicture(0, 0, client.baseTexturePic);
-                int i1 = ((GameImage)client.gameGraphics).pictureAssumedWidth[client.baseTexturePic];
+                int i1 = client.gameGraphics.pictureAssumedWidth[client.baseTexturePic];
                 string s2 = GameData.textureSubName[l];
                 if (s2 is not null && s2.Length > 0)
                 {
@@ -771,14 +784,14 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                 int j1 = i1 * i1;
                 for (int k1 = 0; k1 < j1; k1 += 1)
                 {
-                    if (((GameImage)client.gameGraphics).pictureColors[client.subTexturePic + l][k1] == 65280)
+                    if (client.gameGraphics.pictureColors[client.subTexturePic + l][k1] == 65280)
                     {
-                        ((GameImage)client.gameGraphics).pictureColors[client.subTexturePic + l][k1] = 0xff00ff;
+                        client.gameGraphics.pictureColors[client.subTexturePic + l][k1] = 0xff00ff;
                     }
                 }
 
                 client.gameGraphics.ApplyImage(client.subTexturePic + l);
-                client.gameCamera.SetTexture(l, ((GameImage)client.gameGraphics).pictureColorIndexes[client.subTexturePic + l], ((GameImage)client.gameGraphics).pictureColor[client.subTexturePic + l], i1 / 64 - 1);
+                client.gameCamera.SetTexture(l, client.gameGraphics.pictureColorIndexes[client.subTexturePic + l], client.gameGraphics.pictureColor[client.subTexturePic + l], i1 / 64 - 1);
             }
         }
         public void LoadModels()
@@ -886,13 +899,13 @@ client.RaiseOnLoadingSection(this, new EventArgs());
                     int objHeight;
                     if (objDir == 0 || objDir == 4)
                     {
-                        objWidth = GameData.objectWidth[objType];
-                        objHeight = GameData.objectHeight[objType];
+                        objWidth = client.entityManager.GetWorldObject(objType).Width;
+                        objHeight = client.entityManager.GetWorldObject(objType).Height;
                     }
                     else
                     {
-                        objHeight = GameData.objectWidth[objType];
-                        objWidth = GameData.objectHeight[objType];
+                        objHeight = client.entityManager.GetWorldObject(objType).Width;
+                        objWidth = client.entityManager.GetWorldObject(objType).Height;
                     }
                     int flatObjX = (objX + objX + objWidth) * client.gridSize / 2;
                     int flatObjY = (objY + objY + objHeight) * client.gridSize / 2;

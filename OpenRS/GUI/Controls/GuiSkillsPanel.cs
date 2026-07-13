@@ -71,95 +71,91 @@ namespace OpenRS.Gui.Controls
                 woodcuttingCard);
             SetChildrenLocations();
         }
-        protected override void DoUnloadContent()
-        {
+        protected override void DoUnloadContent() { }
 
-        }
         protected override void DoUpdate(GameTime gameTime)
         {
             SetChildrenLocations();
             UpdateLevels();
         }
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
 
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) { }
 
         private void SetChildrenLocations()
         {
-            int spacingX = 1;
-            int spacingY = 1;
+            int horizontalSpacing = 1;
+            int verticalSpacing = 1;
 
             attackCard.Location = new Point2D(
-                (Size.Width - 3 * attackCard.Size.Width - 2 * spacingX) / 2,
-                (Size.Width - 3 * attackCard.Size.Width - 2 * spacingX) / 2);
+                (Size.Width - 3 * attackCard.Size.Width - 2 * horizontalSpacing) / 2,
+                (Size.Width - 3 * attackCard.Size.Width - 2 * horizontalSpacing) / 2);
 
             healthCard.Location = new Point2D(
-                attackCard.ClientRectangle.Right + spacingX,
+                attackCard.ClientRectangle.Right + horizontalSpacing,
                 attackCard.ClientRectangle.Top);
 
             miningCard.Location = new Point2D(
-                healthCard.ClientRectangle.Right + spacingX,
+                healthCard.ClientRectangle.Right + horizontalSpacing,
                 healthCard.ClientRectangle.Top);
 
             strengthCard.Location = new Point2D(
                 attackCard.ClientRectangle.Left,
-                attackCard.ClientRectangle.Bottom + spacingY);
+                attackCard.ClientRectangle.Bottom + verticalSpacing);
 
             agilityCard.Location = new Point2D(
-                strengthCard.ClientRectangle.Right + spacingX,
+                strengthCard.ClientRectangle.Right + horizontalSpacing,
                 strengthCard.ClientRectangle.Top);
 
             smithingCard.Location = new Point2D(
-                agilityCard.ClientRectangle.Right + spacingX,
+                agilityCard.ClientRectangle.Right + horizontalSpacing,
                 agilityCard.ClientRectangle.Top);
 
             defenceCard.Location = new Point2D(
                 strengthCard.ClientRectangle.Left,
-                strengthCard.ClientRectangle.Bottom + spacingY);
+                strengthCard.ClientRectangle.Bottom + verticalSpacing);
 
             herbloreCard.Location = new Point2D(
-                defenceCard.ClientRectangle.Right + spacingX,
+                defenceCard.ClientRectangle.Right + horizontalSpacing,
                 defenceCard.ClientRectangle.Top);
 
             fishingCard.Location = new Point2D(
-                herbloreCard.ClientRectangle.Right + spacingX,
+                herbloreCard.ClientRectangle.Right + horizontalSpacing,
                 herbloreCard.ClientRectangle.Top);
 
             rangedCard.Location = new Point2D(
                 defenceCard.ClientRectangle.Left,
-                defenceCard.ClientRectangle.Bottom + spacingY);
+                defenceCard.ClientRectangle.Bottom + verticalSpacing);
 
             thievingCard.Location = new Point2D(
-                rangedCard.ClientRectangle.Right + spacingX,
+                rangedCard.ClientRectangle.Right + horizontalSpacing,
                 rangedCard.ClientRectangle.Top);
 
             cookingCard.Location = new Point2D(
-                thievingCard.ClientRectangle.Right + spacingX,
+                thievingCard.ClientRectangle.Right + horizontalSpacing,
                 thievingCard.ClientRectangle.Top);
 
             prayerCard.Location = new Point2D(
                 rangedCard.ClientRectangle.Left,
-                rangedCard.ClientRectangle.Bottom + spacingY);
+                rangedCard.ClientRectangle.Bottom + verticalSpacing);
 
             craftingCard.Location = new Point2D(
-                prayerCard.ClientRectangle.Right + spacingX,
+                prayerCard.ClientRectangle.Right + horizontalSpacing,
                 prayerCard.ClientRectangle.Top);
 
             firemakingCard.Location = new Point2D(
-                craftingCard.ClientRectangle.Right + spacingX,
+                craftingCard.ClientRectangle.Right + horizontalSpacing,
                 prayerCard.ClientRectangle.Top);
 
             magicCard.Location = new Point2D(
                 prayerCard.ClientRectangle.Left,
-                prayerCard.ClientRectangle.Bottom + spacingY);
+                prayerCard.ClientRectangle.Bottom + verticalSpacing);
 
             fletchingCard.Location = new Point2D(
-                magicCard.ClientRectangle.Right + spacingX,
+                magicCard.ClientRectangle.Right + horizontalSpacing,
                 magicCard.ClientRectangle.Top);
 
             woodcuttingCard.Location = new Point2D(
-                fletchingCard.ClientRectangle.Right + spacingX,
+                fletchingCard.ClientRectangle.Right + horizontalSpacing,
                 fletchingCard.ClientRectangle.Top);
         }
 

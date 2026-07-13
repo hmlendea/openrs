@@ -14,12 +14,14 @@ namespace OpenRS.Gui.Controls
         {
             ToggleColour = Colour.DarkRed;
         }
+
         protected override void DoLoadContent()
         {
             base.DoLoadContent();
 
             SetChildrenProperties();
         }
+
         protected override void DoUpdate(GameTime gameTime)
         {
             base.DoUpdate(gameTime);
@@ -29,15 +31,15 @@ namespace OpenRS.Gui.Controls
 
         private void SetChildrenProperties()
         {
-            for (int i = 0; i < images.Count; i += 1)
+            for (int imageIndex = 0; imageIndex < images.Count; imageIndex += 1)
             {
                 if (IsToggled)
                 {
-                    images[i].TintColour = ToggleColour;
+                    images[imageIndex].TintColour = ToggleColour;
                 }
                 else
                 {
-                    images[i].TintColour = Colour.White;
+                    images[imageIndex].TintColour = Colour.White;
                 }
             }
         }

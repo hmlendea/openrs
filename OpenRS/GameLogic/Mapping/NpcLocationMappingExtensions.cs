@@ -16,6 +16,7 @@ namespace OpenRS.GameLogic.Mapping
             MinimumCoordinates = new Point2D(npcLocationEntity.MinX, npcLocationEntity.MinY),
             MaximumCoordinates = new Point2D(npcLocationEntity.MaxX, npcLocationEntity.MaxY)
         };
+
         internal static NpcLocationEntity ToDataObject(this NpcLocation npcLocation) => new()
         {
             InitialX = npcLocation.InitialCoordinates.X,

@@ -12,33 +12,36 @@ namespace OpenRS.Gui
 {
     public sealed class FpsIndicator
     {
-        private GameTime gameTime;
-        private SpriteFont fpsFont;
-        private string fpsString;
+        private GameTime currentGameTime;
+        private SpriteFont framesPerSecondFont;
+        private string framesPerSecondText;
+
         public Vector2 Location { get; set; }
+
         public FpsIndicator()
         {
             Location = Vector2.Zero;
         }
-        public void LoadContent() => fpsFont = NuciContentManager.Instance.LoadSpriteFont("Fonts/FrameCounterFont");
-        public void UnloadContent()
-        {
 
-        }
+        public void LoadContent() => framesPerSecondFont = NuciContentManager.Instance.LoadSpriteFont("Fonts/FrameCounterFont");
+
+        public void UnloadContent() { }
+
         public void Update(GameTime gameTime)
         {
-            this.gameTime = gameTime;
+            currentGameTime = gameTime;
 
-            fpsString = $"FPS: {Math.Round(FramerateCounter.Instance.AverageFramesPerSecond)}";
+            framesPerSecondText = $"FPS: {Math.Round(FramerateCounter.Instance.AverageFramesPerSecond)}";
         }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            float deltaTime = (float)currentGameTime.ElapsedGameTime.TotalSeconds;
             FramerateCounter.Instance.Update(deltaTime);
 
             if (SettingsManager.Instance.DebugMode)
             {
-                spriteBatch.DrawString(fpsFont, fpsString, new Vector2(1, 1), Color.Lime);
+                spriteBatch.DrawString(framesPerSecondFont, framesPerSecondText, new Vector2(1, 1), Color.Lime);
             }
         }
     }

@@ -23,6 +23,7 @@ namespace OpenRS.GameLogic.Mapping
             Amount = itemLocation.Amount,
             RespawnTime = itemLocation.RespawnTime
         };
+
         internal static IEnumerable<ItemLocation> ToDomainModels(
             this IEnumerable<ItemLocationEntity> itemLocationEntities)
             => itemLocationEntities.Select(itemLocationEntity => itemLocationEntity.ToDomainModel());

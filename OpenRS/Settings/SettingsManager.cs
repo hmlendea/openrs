@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Threading;
+
 using NuciDAL.IO;
 using NuciXNA.Graphics;
 
@@ -9,6 +10,7 @@ namespace OpenRS.Settings
     {
         private static volatile SettingsManager instance;
         private static readonly Lock syncRoot = new();
+
         public static SettingsManager Instance
         {
             get
@@ -26,19 +28,20 @@ namespace OpenRS.Settings
         }
 
         public GraphicsSettings GraphicsSettings { get; set; }
+
         public bool DebugMode { get; set; }
 
         public bool CameraAutoAngle { get; set; }
+
         public SettingsManager()
         {
             GraphicsSettings = new GraphicsSettings();
         }
+
         public void LoadContent()
         {
             if (!File.Exists(ApplicationPaths.SettingsFile))
             {
-                // TODO: Log error.
-
                 SaveContent();
                 return;
             }
@@ -48,11 +51,13 @@ namespace OpenRS.Settings
 
             instance = storedSettings;
         }
+
         public void SaveContent()
         {
             XmlFileObject<SettingsManager> xmlManager = new();
             xmlManager.Write(ApplicationPaths.SettingsFile, this);
         }
+
         public void Update()
         {
             bool graphicsChanged = false;

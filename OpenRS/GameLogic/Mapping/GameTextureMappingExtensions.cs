@@ -13,6 +13,7 @@ namespace OpenRS.GameLogic.Mapping
             Name = textureEntity.Name,
             SubName = textureEntity.SubName
         };
+
         internal static GameTextureEntity ToDataObject(this GameTexture texture) => new()
         {
             Name = texture.Name,

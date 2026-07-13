@@ -13,6 +13,7 @@ namespace OpenRS.GameLogic.Mapping
             Id = questEntity.Id,
             Name = questEntity.Name
         };
+
         internal static QuestEntity ToDataObject(this Quest quest) => new()
         {
             Id = quest.Id,

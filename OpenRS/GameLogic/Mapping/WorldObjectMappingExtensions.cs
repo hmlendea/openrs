@@ -22,6 +22,7 @@ namespace OpenRS.GameLogic.Mapping
             ObjectModel = worldObjectEntity.ObjectModel,
             ModelId = worldObjectEntity.ModelId
         };
+
         internal static WorldObjectEntity ToDataObject(this WorldObject worldObject) => new()
         {
             Id = worldObject.Id,

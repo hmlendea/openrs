@@ -1,12 +1,16 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
 using NuciXNA.DataAccess.Content;
 using NuciXNA.Graphics;
 using NuciXNA.Gui.Screens;
 using NuciXNA.Input;
+
 using OpenRS.Gui.Screens;
 using OpenRS.Net.Client;
+
+using XnaButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 
 namespace OpenRS
 {
@@ -58,7 +62,7 @@ namespace OpenRS
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == XnaButtonState.Pressed)
             {
                 Exit();
             }

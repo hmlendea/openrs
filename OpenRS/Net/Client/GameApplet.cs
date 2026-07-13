@@ -320,12 +320,8 @@ namespace OpenRS.Net.Client
             {
                 Console.WriteLine("2 seconds expired, forcing kill");
                 CloseProgram();
-
-                if (gameWindowThread is not null)
-                {
-                    gameWindowThread.Interrupt();
-                    gameWindowThread = null;
-                }
+                gameWindowThread?.Interrupt();
+                gameWindowThread = null;
             }
         }
 

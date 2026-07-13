@@ -36,6 +36,7 @@ namespace OpenRS.GameLogic.Mapping
             IsAggressive = npcEntity.IsAggressive,
             Drops = npcEntity.Drops?.ToDomainModels().ToArray()
         };
+
         internal static NpcEntity ToDataObject(this Npc npc) => new()
         {
             Id = npc.Id,

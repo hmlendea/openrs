@@ -449,10 +449,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             highlightedObject.objectState = 2;
             for (int k1 = 0; k1 < currentObjectCount; k1 += 1)
             {
-                if (objectCache[k1] is not null)
-                {
-                    objectCache[k1].ProjectWithRotation(viewX, ViewY, ViewZ, cameraOffsetX, cameraOffsetY, cameraOffsetZ, screenProjectionShift, nearPlane);
-                }
+                objectCache[k1]?.ProjectWithRotation(viewX, ViewY, ViewZ, cameraOffsetX, cameraOffsetY, cameraOffsetZ, screenProjectionShift, nearPlane);
             }
 
             int msSlept = 0;

@@ -13,6 +13,7 @@ namespace OpenRS.GameLogic.Mapping
             Roof = elevationEntity.Roof,
             Unknown = elevationEntity.Unknown
         };
+
         internal static ElevationEntity ToDataObject(this Elevation elevation) => new()
         {
             Roof = elevation.Roof,
@@ -20,6 +21,7 @@ namespace OpenRS.GameLogic.Mapping
         };
         internal static IEnumerable<Elevation> ToDomainModels(this IEnumerable<ElevationEntity> elevationEntities)
             => elevationEntities.Select(elevationEntity => elevationEntity.ToDomainModel());
+
         internal static IEnumerable<ElevationEntity> ToDataObjects(
             this IEnumerable<Elevation> elevations)
             => elevations.Select(elevation => elevation.ToDataObject());

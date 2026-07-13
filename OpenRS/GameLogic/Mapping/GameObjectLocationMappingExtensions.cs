@@ -24,6 +24,7 @@ namespace OpenRS.GameLogic.Mapping
             Direction = gameObjectLocation.Direction,
             Type = (int)gameObjectLocation.Type
         };
+
         internal static IEnumerable<GameObjectLocation> ToDomainModels(
             this IEnumerable<GameObjectLocationEntity> gameObjectLocationEntities)
             => gameObjectLocationEntities.Select(gameObjectLocationEntity => gameObjectLocationEntity.ToDomainModel());

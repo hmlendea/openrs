@@ -35,21 +35,17 @@ namespace OpenRS.Gui.Controls
             RegisterChild(background);
             SetChildrenProperties();
         }
-        protected override void DoUnloadContent()
-        {
+        protected override void DoUnloadContent() { }
 
-        }
         protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
 
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) { }
 
         public void AddMessage(string message)
         {
-            for (int i = 0; i < messageRows.Count - 1; i += 1)
+            for (int messageRowIndex = 0; messageRowIndex < messageRows.Count - 1; messageRowIndex += 1)
             {
-                messageRows[i].Text = messageRows[i + 1].Text;
+                messageRows[messageRowIndex].Text = messageRows[messageRowIndex + 1].Text;
             }
 
             messageRows[messageRows.Count - 1].Text = message;
@@ -81,17 +77,18 @@ namespace OpenRS.Gui.Controls
                 messageRows.RemoveAt(0);
             }
 
-            // Update the properties of
-            int y = Size.Height - MessageHeight;
-            for (int i = messageRows.Count - 1; i >= 0; i -= 1)
+            // Update the properties of each row.
+            int verticalOffset = Size.Height - MessageHeight;
+
+            for (int messageRowIndex = messageRows.Count - 1; messageRowIndex >= 0; messageRowIndex -= 1)
             {
-                GuiText message = messageRows[i];
+                GuiText message = messageRows[messageRowIndex];
 
                 message.Size = new Size2D(Size.Width, MessageHeight);
                 message.ForegroundColour = ForegroundColour;
-                message.Location = new Point2D(0, y);
+                message.Location = new Point2D(0, verticalOffset);
 
-                y -= message.Size.Height;
+                verticalOffset -= message.Size.Height;
             }
         }
     }

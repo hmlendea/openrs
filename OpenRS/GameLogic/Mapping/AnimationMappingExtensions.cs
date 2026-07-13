@@ -17,6 +17,7 @@ namespace OpenRS.GameLogic.Mapping
             HasF = animationEntity.HasF,
             Number = animationEntity.Number
         };
+
         internal static AnimationEntity ToDataObject(this Animation animation) => new()
         {
             Name = animation.Name,
@@ -26,9 +27,11 @@ namespace OpenRS.GameLogic.Mapping
             HasF = animation.HasF,
             Number = animation.Number
         };
+
         internal static IEnumerable<Animation> ToDomainModels(
             this IEnumerable<AnimationEntity> animationEntities)
             => animationEntities.Select(animationEntity => animationEntity.ToDomainModel());
+
         internal static IEnumerable<AnimationEntity> ToDataObjects(
             this IEnumerable<Animation> animations)
             => animations.Select(animation => animation.ToDataObject());

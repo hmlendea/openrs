@@ -55,12 +55,14 @@ namespace OpenRS.Gui.Screens
 
             base.DoUnloadContent();
         }
+
         private void RegisterEvents()
         {
             debugModeToggle.Triggered += OnDebugModeToggleTriggered;
             fowToggle.Triggered += OnFowToggleTriggered;
             roofsToggle.Triggered += OnRoofsToggleTriggered;
         }
+
         private void UnregisterEvents()
         {
             debugModeToggle.Triggered -= OnDebugModeToggleTriggered;

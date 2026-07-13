@@ -16,6 +16,7 @@ namespace OpenRS.GameLogic.Mapping
             RequiredLevel = prayerEntity.RequiredLevel,
             DrainRate = prayerEntity.DrainRate
         };
+
         internal static PrayerEntity ToDataObject(this Prayer prayer) => new()
         {
             Id = prayer.Id,

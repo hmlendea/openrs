@@ -43,15 +43,11 @@ namespace OpenRS.Gui.Controls
             RegisterChildren(icon, quantity);
             SetChildrenProperties();
         }
-        protected override void DoUnloadContent()
-        {
+        protected override void DoUnloadContent() { }
 
-        }
         protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
 
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) { }
 
         private void SetChildrenProperties()
         {
@@ -90,13 +86,14 @@ namespace OpenRS.Gui.Controls
 
         private Rectangle2D CalculateIconSourceRectangle(int id)
         {
-            int x = id % SpriteColumns;
-            int y = id / SpriteRows;
+            int columnIndex = id % SpriteColumns;
+            int rowIndex = id / SpriteRows;
 
-            return new Rectangle2D(x * icon.Size.Width,
-                                   y * icon.Size.Height,
-                                   icon.Size.Width,
-                                   icon.Size.Height);
+            return new Rectangle2D(
+                columnIndex * icon.Size.Width,
+                rowIndex * icon.Size.Height,
+                icon.Size.Width,
+                icon.Size.Height);
         }
     }
 }

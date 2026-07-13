@@ -14,6 +14,7 @@ namespace OpenRS.GameLogic.Mapping
             Amount = itemDropEntity.Amount,
             Weight = itemDropEntity.Weight
         };
+
         internal static ItemDropEntity ToDataObject(this ItemDrop itemDrop) => new()
         {
             ItemId = itemDrop.ItemId,

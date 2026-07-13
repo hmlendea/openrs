@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 
+using OpenRS.GameLogic.GameManagers;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game.Cameras;
 
@@ -727,10 +728,10 @@ namespace OpenRS.Net.Client.Game
 				for (int y1 = 0; y1 < 95; y1 += 1)
 				{
 					int k3 = GetHorizontalWall(x1, y1);
-					if (k3 > 0 && (GameData.wallObjectUnknown[k3 - 1] == 0 || showAllWalls))
+					if (k3 > 0 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || showAllWalls))
 					{
 						MakeWall(currentSectionObject, k3 - 1, x1, y1, x1 + 1, y1);
-						if (freshLoad && GameData.wallObjectType[k3 - 1] != 0)
+						if (freshLoad && entityManager.GetWallObject(k3 - 1).Type != 0)
 						{
 							tiles[x1][y1] |= 1;
 							if (y1 > 0)
@@ -744,10 +745,10 @@ namespace OpenRS.Net.Client.Game
                         }
                     }
 					k3 = GetVerticalWall(x1, y1);
-					if (k3 > 0 && (GameData.wallObjectUnknown[k3 - 1] == 0 || showAllWalls))
+					if (k3 > 0 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || showAllWalls))
 					{
 						MakeWall(currentSectionObject, k3 - 1, x1, y1, x1, y1 + 1);
-						if (freshLoad && GameData.wallObjectType[k3 - 1] != 0)
+						if (freshLoad && entityManager.GetWallObject(k3 - 1).Type != 0)
 						{
 							tiles[x1][y1] |= 2;
 							if (x1 > 0)
@@ -761,10 +762,10 @@ namespace OpenRS.Net.Client.Game
                         }
                     }
 					k3 = GetDiagonalWall(x1, y1);
-					if (k3 > 0 && k3 < 12000 && (GameData.wallObjectUnknown[k3 - 1] == 0 || showAllWalls))
+					if (k3 > 0 && k3 < 12000 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || showAllWalls))
 					{
 						MakeWall(currentSectionObject, k3 - 1, x1, y1, x1 + 1, y1 + 1);
-						if (freshLoad && GameData.wallObjectType[k3 - 1] != 0)
+						if (freshLoad && entityManager.GetWallObject(k3 - 1).Type != 0)
                         {
                             tiles[x1][y1] |= 0x20;
                         }
@@ -776,10 +777,10 @@ namespace OpenRS.Net.Client.Game
 							gameGraphics.DrawMinimapPixel(x1 * 3 + 2, y1 * 3 + 2, j1);
 						}
 					}
-					if (k3 > 12000 && k3 < 24000 && (GameData.wallObjectUnknown[k3 - 12001] == 0 || showAllWalls))
+					if (k3 > 12000 && k3 < 24000 && (entityManager.GetWallObject(k3 - 12001).Unknown == 0 || showAllWalls))
 					{
 						MakeWall(currentSectionObject, k3 - 12001, x1 + 1, y1, x1, y1 + 1);
-						if (freshLoad && GameData.wallObjectType[k3 - 12001] != 0)
+						if (freshLoad && entityManager.GetWallObject(k3 - 12001).Type != 0)
                         {
                             tiles[x1][y1] |= 0x10;
                         }
@@ -1529,7 +1530,7 @@ namespace OpenRS.Net.Client.Game
                 return;
             }
 
-            if (GameData.wallObjectType[index] == 1)
+            if (entityManager.GetWallObject(index).Type == 1)
 			{
 				if (wallDirection == 0)
 				{
@@ -1568,7 +1569,7 @@ namespace OpenRS.Net.Client.Game
                 return;
             }
 
-            if (GameData.wallObjectType[index] == 1)
+            if (entityManager.GetWallObject(index).Type == 1)
 			{
 				if (wallDirection == 0)
 				{
@@ -1665,26 +1666,26 @@ namespace OpenRS.Net.Client.Game
                 return;
             }
 
-            if (GameData.objectType[objType] == 1 || GameData.objectType[objType] == 2)
+            if (entityManager.GetWorldObject(objType).Type == 1 || entityManager.GetWorldObject(objType).Type == 2)
 			{
 				//int wallObj = GetTileRotation(x, tileY);
 				int objWidth;
 				int objHeight;
 				if (objDir == 0 || objDir == 4)
 				{
-					objWidth = GameData.objectWidth[objType];
-					objHeight = GameData.objectHeight[objType];
+					objWidth = entityManager.GetWorldObject(objType).Width;
+					objHeight = entityManager.GetWorldObject(objType).Height;
 				}
 				else
 				{
-					objHeight = GameData.objectWidth[objType];
-					objWidth = GameData.objectHeight[objType];
+					objHeight = entityManager.GetWorldObject(objType).Width;
+					objWidth = entityManager.GetWorldObject(objType).Height;
 				}
 				for (int j1 = x; j1 < x + objWidth; j1 += 1)
 				{
 					for (int k1 = y; k1 < y + objHeight; k1 += 1)
                     {
-                        if (GameData.objectType[objType] == 1)
+                        if (entityManager.GetWorldObject(objType).Type == 1)
                         {
                             tiles[j1][k1] &= 0xffbf;
                         }
@@ -1759,7 +1760,7 @@ namespace OpenRS.Net.Client.Game
             // 0x13880 = 80000 decimal
 			// dont think theres any problem here.
 			// Data.wallObjectModelHeight is not the problem either, i debugged the java version and got the same values both here and there. :p
-			int height = GameData.wallObjectModelHeight[objType];
+			int height = entityManager.GetWallObject(objType).ModelHeight;
 			if (roofTiles[srcX][srcY] < 0x13880)
             {
                 roofTiles[srcX][srcY] += 0x13880 + height;
@@ -1844,9 +1845,10 @@ namespace OpenRS.Net.Client.Game
 
 		private static int SectorCount => 4;
 
-		public EngineHandle(Camera tileX, GameImage tileY)
+		public EngineHandle(Camera tileX, GameImage tileY, EntityManager entityManager)
 		//: base(x, tileY)
 		{
+			this.entityManager = entityManager;
 			//new org.moparscape.msc.client.EngineHandle
 			int o2 = 2304;
 			int o9 = 96;
@@ -1909,7 +1911,7 @@ namespace OpenRS.Net.Client.Game
 			gameGraphics = tileY;
 			for (int k = 0; k < 64; k += 1)
             {
-                groundTexture[k] = Camera.GetTextureColour(255 - k * 4, 255 - (int)((double)k * 1.75D), 255 - k * 4);
+                groundTexture[k] = Camera.GetTextureColour(255 - k * 4, 255 - (int)(k * 1.75D), 255 - k * 4);
             }
 
             for (int l = 0; l < 64; l += 1)
@@ -1919,12 +1921,12 @@ namespace OpenRS.Net.Client.Game
 
             for (int i1 = 0; i1 < 64; i1 += 1)
             {
-                groundTexture[i1 + 128] = Camera.GetTextureColour(192 - (int)((double)i1 * 1.5D), 144 - (int)((double)i1 * 1.5D), 0);
+                groundTexture[i1 + 128] = Camera.GetTextureColour(192 - (int)(i1 * 1.5D), 144 - (int)(i1 * 1.5D), 0);
             }
 
             for (int j1 = 0; j1 < 64; j1 += 1)
             {
-                groundTexture[j1 + 192] = Camera.GetTextureColour(96 - (int)((double)j1 * 1.5D), 48 + (int)((double)j1 * 1.5D), 0);
+                groundTexture[j1 + 192] = Camera.GetTextureColour(96 - (int)(j1 * 1.5D), 48 + (int)(j1 * 1.5D), 0);
             }
         }
 
@@ -1968,26 +1970,26 @@ namespace OpenRS.Net.Client.Game
                 return;
             }
 
-            if (GameData.objectType[index] == 1 || GameData.objectType[index] == 2)
+            if (entityManager.GetWorldObject(index).Type == 1 || entityManager.GetWorldObject(index).Type == 2)
 			{
 				//int wallObj = GetTileRotation(x, tileY);
 				int objectWidth;
 				int objectHeight;
 				if (direction == 0 || direction == 4)
 				{
-					objectWidth = GameData.objectWidth[index];
-					objectHeight = GameData.objectHeight[index];
+					objectWidth = entityManager.GetWorldObject(index).Width;
+					objectHeight = entityManager.GetWorldObject(index).Height;
 				}
 				else
 				{
-					objectHeight = GameData.objectWidth[index];
-					objectWidth = GameData.objectHeight[index];
+					objectHeight = entityManager.GetWorldObject(index).Width;
+					objectWidth = entityManager.GetWorldObject(index).Height;
 				}
 				for (int x1 = x; x1 < x + objectWidth; x1 += 1)
 				{
 					for (int y1 = y; y1 < y + objectHeight; y1 += 1)
                     {
-                        if (GameData.objectType[index] == 1)
+                        if (entityManager.GetWorldObject(index).Type == 1)
                         {
                             tiles[x1][y1] |= 0x40;
                         }
@@ -2189,16 +2191,16 @@ namespace OpenRS.Net.Client.Game
 							int objectHeight;
 							if (objectRotation == 0 || objectRotation == 4)
 							{
-								objectWidth = GameData.objectWidth[objectIndex];
-								objectHeight = GameData.objectHeight[objectIndex];
+								objectWidth = entityManager.GetWorldObject(objectIndex).Width;
+								objectHeight = entityManager.GetWorldObject(objectIndex).Height;
 							}
 							else
 							{
-								objectHeight = GameData.objectWidth[objectIndex];
-								objectWidth = GameData.objectHeight[objectIndex];
+								objectHeight = entityManager.GetWorldObject(objectIndex).Width;
+								objectWidth = entityManager.GetWorldObject(objectIndex).Height;
 							}
 							CreateObject(x, y, objectIndex, objectRotation);
-							GameObject i2 = tileX[GameData.objectModelNumber[objectIndex]].CreateParent(false, true, false, false);
+							GameObject i2 = tileX[entityManager.GetWorldObject(objectIndex).ModelId].CreateParent(false, true, false, false);
 							int j2 = (x + x + objectWidth) * 128 / 2;
 							int l2 = (y + y + objectHeight) * 128 / 2;
 							i2.OffsetPosition(j2, -GetAveragedElevation(j2, l2), l2);
@@ -2270,9 +2272,9 @@ namespace OpenRS.Net.Client.Game
 		{
 			SetTileFlags(x, y, 40);
 			SetTileFlags(destX, destY, 40);
-			int i2 = GameData.wallObjectModelHeight[wallObjIndex];
-			int j2 = GameData.wallObjectModel_FaceBack[wallObjIndex];
-			int k2 = GameData.wallObjectModel_FaceFront[wallObjIndex];
+			int i2 = entityManager.GetWallObject(wallObjIndex).ModelHeight;
+			int j2 = entityManager.GetWallObject(wallObjIndex).ModelFaceBack;
+			int k2 = entityManager.GetWallObject(wallObjIndex).ModelFaceFront;
 			int l2 = x * 128;
 			int i3 = y * 128;
 			int j3 = destX * 128;
@@ -2285,7 +2287,7 @@ namespace OpenRS.Net.Client.Game
             l3, i4, j4, k4
         ];
 			int l4 = wallObj.AddFaceVertices(4, ai, j2, k2);
-			if (GameData.wallObjectUnknown[wallObjIndex] == 5)
+			if (entityManager.GetWallObject(wallObjIndex).Unknown == 5)
 			{
 				wallObj.entityType[l4] = 30000 + wallObjIndex;
 				return;
@@ -2308,6 +2310,7 @@ namespace OpenRS.Net.Client.Game
 		public bool showAllWalls;
 		public GameImage gameGraphics;
 		public Camera _camera;
+		private readonly EntityManager entityManager;
 		public int[] selectedY;
 		public int[][] tileGroundTexture;
 		public int[] groundTexture;

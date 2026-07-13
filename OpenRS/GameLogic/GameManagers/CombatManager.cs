@@ -1,25 +1,39 @@
-﻿namespace OpenRS.GameLogic.GameManagers
+﻿using OpenRS.Models.Enumerations;
+
+namespace OpenRS.GameLogic.GameManagers
 {
     public sealed class CombatManager(InventoryManager inventoryManager)
     {
         public bool HasRequiredRunes(int itemId, int count)
         {
-            if (itemId == 31 && (inventoryManager.IsItemEquipped(197) || inventoryManager.IsItemEquipped(615) || inventoryManager.IsItemEquipped(682)))
+            if (itemId == (int)RuneElement.Air &&
+                (inventoryManager.IsItemEquipped((int)ElementalStaff.Air) ||
+                 inventoryManager.IsItemEquipped((int)ElementalBattlestaff.Air) ||
+                 inventoryManager.IsItemEquipped((int)ElementalMysticStaff.Air)))
             {
                 return true;
             }
 
-            if (itemId == 32 && (inventoryManager.IsItemEquipped(102) || inventoryManager.IsItemEquipped(616) || inventoryManager.IsItemEquipped(683)))
+            if (itemId == (int)RuneElement.Water &&
+                (inventoryManager.IsItemEquipped((int)ElementalStaff.Water) ||
+                 inventoryManager.IsItemEquipped((int)ElementalBattlestaff.Water) ||
+                 inventoryManager.IsItemEquipped((int)ElementalMysticStaff.Water)))
             {
                 return true;
             }
 
-            if (itemId == 33 && (inventoryManager.IsItemEquipped(101) || inventoryManager.IsItemEquipped(617) || inventoryManager.IsItemEquipped(684)))
+            if (itemId == (int)RuneElement.Earth &&
+                (inventoryManager.IsItemEquipped((int)ElementalStaff.Earth) ||
+                 inventoryManager.IsItemEquipped((int)ElementalBattlestaff.Earth) ||
+                 inventoryManager.IsItemEquipped((int)ElementalMysticStaff.Earth)))
             {
                 return true;
             }
 
-            if (itemId == 34 && (inventoryManager.IsItemEquipped(103) || inventoryManager.IsItemEquipped(618) || inventoryManager.IsItemEquipped(685)))
+            if (itemId == (int)RuneElement.Fire &&
+                (inventoryManager.IsItemEquipped((int)ElementalStaff.Fire) ||
+                 inventoryManager.IsItemEquipped((int)ElementalBattlestaff.Fire) ||
+                 inventoryManager.IsItemEquipped((int)ElementalMysticStaff.Fire)))
             {
                 return true;
             }

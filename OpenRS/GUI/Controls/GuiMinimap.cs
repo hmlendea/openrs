@@ -125,7 +125,7 @@ namespace OpenRS.Gui.Controls
 
             if (client is null || !client.loggedIn)
             {
-                return; // TODO: Ugly fix.
+                return;
             }
 
             // The cameraRotation is expressed in a non-standard manner. 64 = -90 degrees, 32 = -45 degrees, etc...
@@ -147,7 +147,7 @@ namespace OpenRS.Gui.Controls
         {
             if (client.gameGraphics is null || !client.loggedIn)
             {
-                return; // TODO: Remove this ugly fix.
+                return;
             }
 
             int zoomScale = 192 + client.minimapRandomRotationY;
@@ -170,9 +170,9 @@ namespace OpenRS.Gui.Controls
                     (client.GroundItemLocations[groundItemIndex].X * client.GridSize + 64 - client.CurrentPlayer.Location.X) * 3 * zoomScale / 2048,
                     (client.GroundItemLocations[groundItemIndex].Y * client.GridSize + 64 - client.CurrentPlayer.Location.Y) * 3 * zoomScale / 2048);
 
-                int rotatedX = groundItemLocation.Y * rotationCosine + groundItemLocation.X * rotationSine >> 18;
+                int rotatedCoordinateX = groundItemLocation.Y * rotationCosine + groundItemLocation.X * rotationSine >> 18;
                 groundItemLocation.Y = groundItemLocation.Y * rotationSine - groundItemLocation.X * rotationCosine >> 18;
-                groundItemLocation.X = rotatedX;
+                groundItemLocation.X = rotatedCoordinateX;
 
                 Point2D dotLocation = new(groundItemLocation.X, -groundItemLocation.Y);
 
@@ -184,15 +184,15 @@ namespace OpenRS.Gui.Controls
         {
             foreach (ClientMob npc in client.Npcs.Where(npcEntry => npcEntry is not null))
             {
-                Point2D npcLocaiton = new(
+                Point2D npcLocation = new(
                     (npc.Location.X - client.CurrentPlayer.Location.X) * 3 * zoomScale / 2048,
                     (npc.Location.Y - client.CurrentPlayer.Location.Y) * 3 * zoomScale / 2048);
 
-                int rotatedX = npcLocaiton.Y * rotationCosine + npcLocaiton.X * rotationSine >> 18;
-                npcLocaiton.Y = npcLocaiton.Y * rotationSine - npcLocaiton.X * rotationCosine >> 18;
-                npcLocaiton.X = rotatedX;
+                int rotatedCoordinateX = npcLocation.Y * rotationCosine + npcLocation.X * rotationSine >> 18;
+                npcLocation.Y = npcLocation.Y * rotationSine - npcLocation.X * rotationCosine >> 18;
+                npcLocation.X = rotatedCoordinateX;
 
-                Point2D dotLocation = new(npcLocaiton.X, -npcLocaiton.Y);
+                Point2D dotLocation = new(npcLocation.X, -npcLocation.Y);
 
                 DrawMinimapDot(spriteBatch, dotLocation, Colour.ChromeYellow);
             }
@@ -202,15 +202,15 @@ namespace OpenRS.Gui.Controls
         {
             foreach (ClientMob player in client.Players.Where(playerEntry => playerEntry is not null))
             {
-                Point2D playerLocaiton = new(
+                Point2D playerLocation = new(
                     (player.Location.X - client.CurrentPlayer.Location.X) * 3 * zoomScale / 2048,
                     (player.Location.Y - client.CurrentPlayer.Location.Y) * 3 * zoomScale / 2048);
 
-                int rotatedX = playerLocaiton.Y * rotationCosine + playerLocaiton.X * rotationSine >> 18;
-                playerLocaiton.Y = playerLocaiton.Y * rotationSine - playerLocaiton.X * rotationCosine >> 18;
-                playerLocaiton.X = rotatedX;
+                int rotatedCoordinateX = playerLocation.Y * rotationCosine + playerLocation.X * rotationSine >> 18;
+                playerLocation.Y = playerLocation.Y * rotationSine - playerLocation.X * rotationCosine >> 18;
+                playerLocation.X = rotatedCoordinateX;
 
-                Point2D dotLocation = new(playerLocaiton.X, -playerLocaiton.Y);
+                Point2D dotLocation = new(playerLocation.X, -playerLocation.Y);
 
                 DrawMinimapDot(spriteBatch, dotLocation, Colour.White);
             }

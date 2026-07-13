@@ -1,5 +1,6 @@
 using System;
 
+using OpenRS.Models;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 using OpenRS.Net.Client.Game.Cameras;
@@ -278,7 +279,7 @@ namespace OpenRS.Net.Client.Rendering
             {
                 int l1 = client.animationModelArray[direction][k1];
                 int l2 = f1.appearanceItems[l1] - 1;
-                if (l2 > GameData.animationCount - 1)
+                if (l2 > client.entityManager.AnimationCount - 1)
                 {
                     continue;
                 }
@@ -290,7 +291,7 @@ namespace OpenRS.Net.Client.Rendering
                     int j4 = j1;
                     if (flag && direction2 >= 1 && direction2 <= 3)
                     {
-                        if (GameData.animationHasF[l2] == 1)
+                        if (client.entityManager.GetAnimation(l2).HasF == 1)
                         {
                             j4 += 15;
                         }
@@ -332,14 +333,14 @@ namespace OpenRS.Net.Client.Rendering
                         }
                     }
 
-                    if (direction2 != 5 || GameData.animationHasA[l2] == 1)
+                    if (direction2 != 5 || client.entityManager.GetAnimation(l2).HasA == 1)
                     {
-                        int k4 = j4 + GameData.animationNumber[l2];
-                        k3 = k3 * width / ((GameImage)client.gameGraphics).pictureAssumedWidth[k4];
-                        i4 = i4 * height / ((GameImage)client.gameGraphics).pictureAssumedHeight[k4];
-                        int l4 = width * ((GameImage)client.gameGraphics).pictureAssumedWidth[k4] / ((GameImage)client.gameGraphics).pictureAssumedWidth[GameData.animationNumber[l2]];
+                        int k4 = j4 + client.entityManager.GetAnimation(l2).Number;
+                        k3 = k3 * width / client.gameGraphics.pictureAssumedWidth[k4];
+                        i4 = i4 * height / client.gameGraphics.pictureAssumedHeight[k4];
+                        int l4 = width * client.gameGraphics.pictureAssumedWidth[k4] / client.gameGraphics.pictureAssumedWidth[client.entityManager.GetAnimation(l2).Number];
                         k3 -= (l4 - width) / 2;
-                        int i5 = GameData.animationCharacterColor[l2];
+                        int i5 = client.entityManager.GetAnimation(l2).CharacterColour;
                         int j5 = client.appearanceSkinColours[f1.skinColour];
                         if (i5 == 1)
                         {
@@ -447,8 +448,9 @@ namespace OpenRS.Net.Client.Rendering
             client.gameGraphics.DrawText("Your stake:", byte0 + 117, byte1 + 30, 1, 0xffff00);
             for (int i1 = 0; i1 < client.duelOurStakeCount; i1 += 1)
             {
-                string s1 = GameData.itemName[client.duelOurStakeItem[i1]];
-                if (GameData.itemStackable[client.duelOurStakeItem[i1]] == 0)
+                Item stakeItem = client.entityManager.GetItem(client.duelOurStakeItem[i1]);
+                string s1 = stakeItem.Name;
+                if (stakeItem.IsStackable == 0)
                 {
                     s1 = s1 + " x " + GameClientUtilities.FormatItemCount(client.duelOurStakeItemCount[i1]);
                 }
@@ -464,8 +466,9 @@ namespace OpenRS.Net.Client.Rendering
             client.gameGraphics.DrawText("Your opponent's stake:", byte0 + 351, byte1 + 30, 1, 0xffff00);
             for (int j1 = 0; j1 < client.duelOpponentStakeCount; j1 += 1)
             {
-                string s2 = GameData.itemName[client.duelOpponentStakeItem[j1]];
-                if (GameData.itemStackable[client.duelOpponentStakeItem[j1]] == 0)
+                Item stakeItem = client.entityManager.GetItem(client.duelOpponentStakeItem[j1]);
+                string s2 = stakeItem.Name;
+                if (stakeItem.IsStackable == 0)
                 {
                     s2 = s2 + " x " + GameClientUtilities.FormatItemCount(client.duelOutStakeItemCount[j1]);
                 }
@@ -549,7 +552,7 @@ namespace OpenRS.Net.Client.Rendering
         }
         public void DrawInventoryMenu(bool canRightClick)
         {
-            int l = ((GameImage)client.gameGraphics).gameWidth - 248;
+            int l = client.gameGraphics.gameWidth - 248;
             client.gameGraphics.DrawPicture(l, 3, client.baseInventoryPic + 1);
             for (int i1 = 0; i1 < client.maxInventoryItems; i1 += 1)
             {
@@ -566,8 +569,9 @@ namespace OpenRS.Net.Client.Rendering
 
                 if (i1 < client.inventoryItemsCount)
                 {
-                    client.gameGraphics.DrawImage(j1, l1, 48, 32, client.baseItemPicture + GameData.itemInventoryPicture[client.inventoryItems[i1]], GameData.itemPictureMask[client.inventoryItems[i1]], 0, 0, false);
-                    if (GameData.itemStackable[client.inventoryItems[i1]] == 0)
+                    Item inventoryItem = client.entityManager.GetItem(client.inventoryItems[i1]);
+                    client.gameGraphics.DrawImage(j1, l1, 48, 32, client.baseItemPicture + inventoryItem.InventoryPicture, inventoryItem.PictureMask, 0, 0, false);
+                    if (inventoryItem.IsStackable == 0)
                     {
                         client.gameGraphics.DrawString(client.inventoryItemCount[i1].ToString(), j1 + 1, l1 + 10, 1, 0xffff00);
                     }
@@ -589,7 +593,7 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            l = client.mouseX - (((GameImage)client.gameGraphics).gameWidth - 248);
+            l = client.mouseX - (client.gameGraphics.gameWidth - 248);
             int j2 = client.mouseY - 36;
             if (l >= 0 && j2 >= 0 && l < 248 && j2 < client.maxInventoryItems / 5 * 34)
             {
@@ -597,12 +601,13 @@ namespace OpenRS.Net.Client.Rendering
                 if (k2 < client.inventoryItemsCount)
                 {
                     int l2 = client.inventoryItems[k2];
+                    Item inventoryItem = client.entityManager.GetItem(l2);
                     if (client.selectedSpell >= 0)
                     {
-                        if (GameData.spellType[client.selectedSpell] == 3)
+                        if (client.entityManager.GetSpell(client.selectedSpell).Type == 3)
                         {
-                            client.menuText1[client.menuOptionsCount] = "Cast " + GameData.spellName[client.selectedSpell] + " on";
-                            client.menuText2[client.menuOptionsCount] = "@lre@" + GameData.itemName[l2];
+                            client.menuText1[client.menuOptionsCount] = "Cast " + client.entityManager.GetSpell(client.selectedSpell).Name + " on";
+                            client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
                             client.menuActionID[client.menuOptionsCount] = 600;
                             client.menuActionType[client.menuOptionsCount] = k2;
                             client.menuActionVar1[client.menuOptionsCount] = client.selectedSpell;
@@ -615,7 +620,7 @@ namespace OpenRS.Net.Client.Rendering
                         if (client.selectedItem >= 0)
                         {
                             client.menuText1[client.menuOptionsCount] = "Use " + client.selectedItemName + " with";
-                            client.menuText2[client.menuOptionsCount] = "@lre@" + GameData.itemName[l2];
+                            client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
                             client.menuActionID[client.menuOptionsCount] = 610;
                             client.menuActionType[client.menuOptionsCount] = k2;
                             client.menuActionVar1[client.menuOptionsCount] = client.selectedItem;
@@ -625,15 +630,15 @@ namespace OpenRS.Net.Client.Rendering
                         if (client.inventoryItemEquipped[k2] == 1)
                         {
                             client.menuText1[client.menuOptionsCount] = "Remove";
-                            client.menuText2[client.menuOptionsCount] = "@lre@" + GameData.itemName[l2];
+                            client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
                             client.menuActionID[client.menuOptionsCount] = 620;
                             client.menuActionType[client.menuOptionsCount] = k2;
                             client.menuOptionsCount += 1;
                         }
                         else
-                            if (GameData.itemIsEquippable[l2] != 0)
+                            if (inventoryItem.IsEquipable != 0)
                             {
-                                if ((GameData.itemIsEquippable[l2] & 0x18) != 0)
+                                if ((inventoryItem.IsEquipable & 0x18) != 0)
                             {
                                 client.menuText1[client.menuOptionsCount] = "Wield";
                             }
@@ -642,31 +647,31 @@ namespace OpenRS.Net.Client.Rendering
                                 client.menuText1[client.menuOptionsCount] = "Wear";
                             }
 
-                            client.menuText2[client.menuOptionsCount] = "@lre@" + GameData.itemName[l2];
+                            client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
                                 client.menuActionID[client.menuOptionsCount] = 630;
                                 client.menuActionType[client.menuOptionsCount] = k2;
                                 client.menuOptionsCount += 1;
                             }
-                        if (GameData.itemCommand[l2] != "")
+                        if (inventoryItem.Command != "")
                         {
-                            client.menuText1[client.menuOptionsCount] = GameData.itemCommand[l2];
-                            client.menuText2[client.menuOptionsCount] = "@lre@" + GameData.itemName[l2];
+                            client.menuText1[client.menuOptionsCount] = inventoryItem.Command;
+                            client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
                             client.menuActionID[client.menuOptionsCount] = 640;
                             client.menuActionType[client.menuOptionsCount] = k2;
                             client.menuOptionsCount += 1;
                         }
                         client.menuText1[client.menuOptionsCount] = "Use";
-                        client.menuText2[client.menuOptionsCount] = "@lre@" + GameData.itemName[l2];
+                        client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
                         client.menuActionID[client.menuOptionsCount] = 650;
                         client.menuActionType[client.menuOptionsCount] = k2;
                         client.menuOptionsCount += 1;
                         client.menuText1[client.menuOptionsCount] = "Drop";
-                        client.menuText2[client.menuOptionsCount] = "@lre@" + GameData.itemName[l2];
+                        client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
                         client.menuActionID[client.menuOptionsCount] = 660;
                         client.menuActionType[client.menuOptionsCount] = k2;
                         client.menuOptionsCount += 1;
                         client.menuText1[client.menuOptionsCount] = "Examine";
-                        client.menuText2[client.menuOptionsCount] = "@lre@" + GameData.itemName[l2];
+                        client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
                         client.menuActionID[client.menuOptionsCount] = 3600;
                         client.menuActionType[client.menuOptionsCount] = l2;
                         client.menuOptionsCount += 1;
@@ -676,7 +681,7 @@ namespace OpenRS.Net.Client.Rendering
         }
         public void DrawMinimapMenu(bool canClick)
         {
-            int l = ((GameImage)client.gameGraphics).gameWidth - 199;
+            int l = client.gameGraphics.gameWidth - 199;
             int c1 = 156;//'æ';//(char)234;//'\u234';
             int c3 = 152;// '~';//(char)230;//'\u230';
             client.gameGraphics.DrawPicture(l - 49, 3, client.baseInventoryPic + 2);
@@ -756,7 +761,7 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            l = client.mouseX - (((GameImage)client.gameGraphics).gameWidth - 199);
+            l = client.mouseX - (client.gameGraphics.gameWidth - 199);
             int l8 = client.mouseY - 36;
             if (l >= 40 && l8 >= 0 && l < 196 && l8 < 152)
             {
@@ -764,7 +769,7 @@ namespace OpenRS.Net.Client.Rendering
                 int c4 = 152;//'\u230';
                 int k1 = 192 + client.minimapRandomRotationY;
                 int i2 = client.cameraRotation + client.minimapRandomRotationX & 0xff;
-                int i1 = ((GameImage)client.gameGraphics).gameWidth - 199;
+                int i1 = client.gameGraphics.gameWidth - 199;
                 i1 += 40;
                 int k3 = (client.mouseX - (i1 + c2 / 2)) * 16384 / (3 * k1);
                 int i5 = (client.mouseY - (36 + c4 / 2)) * 16384 / (3 * k1);
@@ -897,7 +902,7 @@ namespace OpenRS.Net.Client.Rendering
         }
         public void DrawOptionsMenu(bool canClick)
         {
-            int l = ((GameImage)client.gameGraphics).gameWidth - 199;
+            int l = client.gameGraphics.gameWidth - 199;
             int i1 = 36;
             client.gameGraphics.DrawPicture(l - 49, 3, client.baseInventoryPic + 6);
             int c1 = 196;
@@ -1056,11 +1061,11 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            l = client.mouseX - (((GameImage)client.gameGraphics).gameWidth - 199);
+            l = client.mouseX - (client.gameGraphics.gameWidth - 199);
             i1 = client.mouseY - 36;
             if (l >= 0 && i1 >= 0 && l < 196 && i1 < 280)
             {
-                int k2 = ((GameImage)client.gameGraphics).gameWidth - 199;
+                int k2 = client.gameGraphics.gameWidth - 199;
                 sbyte byte0 = 36;
                 int c2 = 196;
                 int k1 = k2 + 3;
@@ -1266,7 +1271,7 @@ namespace OpenRS.Net.Client.Rendering
                             {
                                 if (client.tradeItemsOur[tradeItem] == item)
                                 {
-                                    if (GameData.itemStackable[item] == 0)
+                                    if (client.entityManager.GetItem(item).IsStackable == 0)
                                     {
                                         for (int i = 0; i < client.mouseClickedHeldInTradeDuelBox; i += 1)
                                         {
@@ -1290,7 +1295,7 @@ namespace OpenRS.Net.Client.Rendering
                                 ourTradeItemsChanged = true;
                             }
 
-                            if (GameData.itemSpecial[item] == 1)
+                            if (client.entityManager.GetItem(item).IsSpecial == 1)
                             {
                                 client.DisplayMessage("This object cannot be traded with other players", 3);
                                 ourTradeItemsChanged = true;
@@ -1325,7 +1330,7 @@ namespace OpenRS.Net.Client.Rendering
                             int item = client.tradeItemsOur[curItem];
                             for (int i = 0; i < client.mouseClickedHeldInTradeDuelBox; i += 1)
                             {
-                                if (GameData.itemStackable[item] == 0 && client.tradeItemOurCount[curItem] > 1)
+                                if (client.entityManager.GetItem(item).IsStackable == 0 && client.tradeItemOurCount[curItem] > 1)
                                 {
                                     client.tradeItemOurCount[curItem] -= 1;
                                     continue;
@@ -1447,8 +1452,8 @@ namespace OpenRS.Net.Client.Rendering
             {
                 int l5 = 217 + byte0 + k5 % 5 * 49;
                 int j6 = 31 + byte1 + k5 / 5 * 34;
-                client.gameGraphics.DrawImage(l5, j6, 48, 32, client.baseItemPicture + GameData.itemInventoryPicture[client.inventoryItems[k5]], GameData.itemPictureMask[client.inventoryItems[k5]], 0, 0, false);
-                if (GameData.itemStackable[client.inventoryItems[k5]] == 0)
+                client.gameGraphics.DrawImage(l5, j6, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.inventoryItems[k5]).InventoryPicture, client.entityManager.GetItem(client.inventoryItems[k5]).PictureMask, 0, 0, false);
+                if (client.entityManager.GetItem(client.inventoryItems[k5]).IsStackable == 0)
                 {
                     client.gameGraphics.DrawString(client.inventoryItemCount[k5].ToString(), l5 + 1, j6 + 10, 1, 0xffff00);
                 }
@@ -1458,15 +1463,16 @@ namespace OpenRS.Net.Client.Rendering
             {
                 int k6 = 9 + byte0 + i6 % 4 * 49;
                 int i7 = 31 + byte1 + i6 / 4 * 34;
-                client.gameGraphics.DrawImage(k6, i7, 48, 32, client.baseItemPicture + GameData.itemInventoryPicture[client.tradeItemsOur[i6]], GameData.itemPictureMask[client.tradeItemsOur[i6]], 0, 0, false);
-                if (GameData.itemStackable[client.tradeItemsOur[i6]] == 0)
+                client.gameGraphics.DrawImage(k6, i7, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.tradeItemsOur[i6]).InventoryPicture, client.entityManager.GetItem(client.tradeItemsOur[i6]).PictureMask, 0, 0, false);
+                if (client.entityManager.GetItem(client.tradeItemsOur[i6]).IsStackable == 0)
                 {
                     client.gameGraphics.DrawString(client.tradeItemOurCount[i6].ToString(), k6 + 1, i7 + 10, 1, 0xffff00);
                 }
 
                 if (client.mouseX > k6 && client.mouseX < k6 + 48 && client.mouseY > i7 && client.mouseY < i7 + 32)
                 {
-                    client.gameGraphics.DrawString(GameData.itemName[client.tradeItemsOur[i6]] + ": @whi@" + GameData.itemDescription[client.tradeItemsOur[i6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
+                    Item tradeOurItem = client.entityManager.GetItem(client.tradeItemsOur[i6]);
+                    client.gameGraphics.DrawString(tradeOurItem.Name + ": @whi@" + tradeOurItem.Description, byte0 + 8, byte1 + 273, 1, 0xffff00);
                 }
             }
 
@@ -1474,15 +1480,16 @@ namespace OpenRS.Net.Client.Rendering
             {
                 int j7 = 9 + byte0 + l6 % 4 * 49;
                 int k7 = 156 + byte1 + l6 / 4 * 34;
-                client.gameGraphics.DrawImage(j7, k7, 48, 32, client.baseItemPicture + GameData.itemInventoryPicture[client.tradeItemsOther[l6]], GameData.itemPictureMask[client.tradeItemsOther[l6]], 0, 0, false);
-                if (GameData.itemStackable[client.tradeItemsOther[l6]] == 0)
+                client.gameGraphics.DrawImage(j7, k7, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.tradeItemsOther[l6]).InventoryPicture, client.entityManager.GetItem(client.tradeItemsOther[l6]).PictureMask, 0, 0, false);
+                if (client.entityManager.GetItem(client.tradeItemsOther[l6]).IsStackable == 0)
                 {
                     client.gameGraphics.DrawString(client.tradeItemOtherCount[l6].ToString(), j7 + 1, k7 + 10, 1, 0xffff00);
                 }
 
                 if (client.mouseX > j7 && client.mouseX < j7 + 48 && client.mouseY > k7 && client.mouseY < k7 + 32)
                 {
-                    client.gameGraphics.DrawString(GameData.itemName[client.tradeItemsOther[l6]] + ": @whi@" + GameData.itemDescription[client.tradeItemsOther[l6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
+                    Item tradeOtherItem = client.entityManager.GetItem(client.tradeItemsOther[l6]);
+                    client.gameGraphics.DrawString(tradeOtherItem.Name + ": @whi@" + tradeOtherItem.Description, byte0 + 8, byte1 + 273, 1, 0xffff00);
                 }
             }
 
@@ -1634,8 +1641,9 @@ namespace OpenRS.Net.Client.Rendering
             client.gameGraphics.DrawText("You are about to give:", byte0 + 117, byte1 + 30, 1, 0xffff00);
             for (int i1 = 0; i1 < client.tradeConfigItemCount; i1 += 1)
             {
-                string s1 = GameData.itemName[client.tradeConfirmItems[i1]];
-                if (GameData.itemStackable[client.tradeConfirmItems[i1]] == 0)
+                Item tradeConfirmItem = client.entityManager.GetItem(client.tradeConfirmItems[i1]);
+                string s1 = tradeConfirmItem.Name;
+                if (tradeConfirmItem.IsStackable == 0)
                 {
                     s1 = s1 + " x " + GameClientUtilities.FormatItemCount(client.tradeConfigItemsCount[i1]);
                 }
@@ -1651,8 +1659,9 @@ namespace OpenRS.Net.Client.Rendering
             client.gameGraphics.DrawText("In return you will receive:", byte0 + 351, byte1 + 30, 1, 0xffff00);
             for (int j1 = 0; j1 < client.tradeConfirmOtherItemCount; j1 += 1)
             {
-                string s2 = GameData.itemName[client.tradeConfirmOtherItems[j1]];
-                if (GameData.itemStackable[client.tradeConfirmOtherItems[j1]] == 0)
+                Item tradeConfirmOtherItem = client.entityManager.GetItem(client.tradeConfirmOtherItems[j1]);
+                string s2 = tradeConfirmOtherItem.Name;
+                if (tradeConfirmOtherItem.IsStackable == 0)
                 {
                     s2 = s2 + " x " + GameClientUtilities.FormatItemCount(client.tradeConfirmOtherItemsCount[j1]);
                 }
@@ -1765,13 +1774,13 @@ namespace OpenRS.Net.Client.Rendering
         }
         public void DrawItem(int x, int y, int width, int height, int itemID, int i2, int j2)
         {
-            int picture = GameData.itemInventoryPicture[itemID] + client.baseItemPicture;
-            int mask = GameData.itemPictureMask[itemID];
+            int picture = client.entityManager.GetItem(itemID).InventoryPicture + client.baseItemPicture;
+            int mask = client.entityManager.GetItem(itemID).PictureMask;
             client.gameGraphics.DrawImage(x, y, width, height, picture, mask, 0, 0, false);
         }
         public void DrawFriendsMenu(bool canClick)
         {
-            int l = ((GameImage)client.gameGraphics).gameWidth - 199;
+            int l = client.gameGraphics.gameWidth - 199;
             int i1 = 36;
             client.gameGraphics.DrawPicture(l - 49, 3, client.baseInventoryPic + 5);
             int c1 = 196;//(char)304;//'\u304';
@@ -1898,11 +1907,11 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            l = client.mouseX - (((GameImage)client.gameGraphics).gameWidth - 199);
+            l = client.mouseX - (client.gameGraphics.gameWidth - 199);
             i1 = client.mouseY - 36;
             if (l >= 0 && i1 >= 0 && l < 196 && i1 < 182)
             {
-                client.friendsMenu.MouseClick(l + (((GameImage)client.gameGraphics).gameWidth - 199), i1 + 36, client.lastMouseButton, client.mouseButton);
+                client.friendsMenu.MouseClick(l + (client.gameGraphics.gameWidth - 199), i1 + 36, client.lastMouseButton, client.mouseButton);
                 if (i1 <= 24 && client.mouseButtonClick == 1)
                 {
                     if (l < 98 && client.friendsIgnoreMenuSelected == 1)
@@ -1962,7 +1971,7 @@ namespace OpenRS.Net.Client.Rendering
         }
         public void DrawPrayerMagicMenu(bool canClick)
         {
-            int l = ((GameImage)client.gameGraphics).gameWidth - 199;
+            int l = client.gameGraphics.gameWidth - 199;
             int i1 = 36;
             client.gameGraphics.DrawPicture(l - 49, 3, client.baseInventoryPic + 4);
             int c1 = 196;//'\u304';
@@ -1991,13 +2000,13 @@ namespace OpenRS.Net.Client.Rendering
             {
                 client.spellMenu.ClearList(client.spellMenuHandle);
                 int l1 = 0;
-                for (int l2 = 0; l2 < GameData.spellCount; l2 += 1)
+                for (int l2 = 0; l2 < client.entityManager.SpellCount; l2 += 1)
                 {
                     string s1 = "@yel@";
-                    for (int k4 = 0; k4 < GameData.spellDifferentRuneCount[l2]; k4 += 1)
+                    for (int k4 = 0; k4 < client.entityManager.GetSpell(l2).RuneCount; k4 += 1)
                     {
-                        int j5 = GameData.spellRequiredRuneIds[l2][k4];
-                        if (client.HasRequiredRunes(j5, GameData.spellRequiredRuneCount[l2][k4]))
+                        int j5 = client.entityManager.GetSpell(l2).RequiredRunesIds[k4];
+                        if (client.HasRequiredRunes(j5, client.entityManager.GetSpell(l2).RequiredRunesCounts[k4]))
                         {
                             continue;
                         }
@@ -2007,26 +2016,26 @@ namespace OpenRS.Net.Client.Rendering
                     }
 
                     int k5 = client.playerStatCurrent[6];
-                    if (GameData.spellRequiredLevel[l2] > k5)
+                    if (client.entityManager.GetSpell(l2).RequiredLevel > k5)
                     {
                         s1 = "@normalZ@";
                     }
 
-                    client.spellMenu.AddListItem(client.spellMenuHandle, l1++, s1 + "Level " + GameData.spellRequiredLevel[l2] + ": " + GameData.spellName[l2]);
+                    client.spellMenu.AddListItem(client.spellMenuHandle, l1++, s1 + "Level " + client.entityManager.GetSpell(l2).RequiredLevel + ": " + client.entityManager.GetSpell(l2).Name);
                 }
 
                 client.spellMenu.DrawMenu();
                 int l3 = client.spellMenu.GetEntryHighlighted(client.spellMenuHandle);
                 if (l3 != -1)
                 {
-                    client.gameGraphics.DrawString("Level " + GameData.spellRequiredLevel[l3] + ": " + GameData.spellName[l3], l + 2, i1 + 124, 1, 0xffff00);
-                    client.gameGraphics.DrawString(GameData.spellDescription[l3], l + 2, i1 + 136, 0, 0xffffff);
-                    for (int l4 = 0; l4 < GameData.spellDifferentRuneCount[l3]; l4 += 1)
+                    client.gameGraphics.DrawString("Level " + client.entityManager.GetSpell(l3).RequiredLevel + ": " + client.entityManager.GetSpell(l3).Name, l + 2, i1 + 124, 1, 0xffff00);
+                    client.gameGraphics.DrawString(client.entityManager.GetSpell(l3).Description, l + 2, i1 + 136, 0, 0xffffff);
+                    for (int l4 = 0; l4 < client.entityManager.GetSpell(l3).RuneCount; l4 += 1)
                     {
-                        int l5 = GameData.spellRequiredRuneIds[l3][l4];
-                        client.gameGraphics.DrawPicture(l + 2 + l4 * 44, i1 + 150, client.baseItemPicture + GameData.itemInventoryPicture[l5]);
+                        int l5 = client.entityManager.GetSpell(l3).RequiredRunesIds[l4];
+                        client.gameGraphics.DrawPicture(l + 2 + l4 * 44, i1 + 150, client.baseItemPicture + client.entityManager.GetItem(l5).InventoryPicture);
                         int i6 = client.GetInventoryItemTotalCount(l5);
-                        int j6 = GameData.spellRequiredRuneCount[l3][l4];
+                        int j6 = client.entityManager.GetSpell(l3).RequiredRunesCounts[l4];
                         string s3 = "@red@";
                         if (client.HasRequiredRunes(l5, j6))
                         {
@@ -2046,10 +2055,11 @@ namespace OpenRS.Net.Client.Rendering
             {
                 client.spellMenu.ClearList(client.spellMenuHandle);
                 int i2 = 0;
-                for (int i3 = 0; i3 < GameData.prayerCount; i3 += 1)
+                for (int i3 = 0; i3 < client.entityManager.PrayerCount; i3 += 1)
                 {
+                    Prayer prayer = client.entityManager.GetPrayer(i3);
                     string s2 = "@whi@";
-                    if (GameData.prayerRequiredLevel[i3] > client.playerStatBase[5])
+                    if (prayer.RequiredLevel > client.playerStatBase[5])
                     {
                         s2 = "@normalZ@";
                     }
@@ -2059,16 +2069,17 @@ namespace OpenRS.Net.Client.Rendering
                         s2 = "@gre@";
                     }
 
-                    client.spellMenu.AddListItem(client.spellMenuHandle, i2++, s2 + "Level " + GameData.prayerRequiredLevel[i3] + ": " + GameData.prayerName[i3]);
+                    client.spellMenu.AddListItem(client.spellMenuHandle, i2++, s2 + "Level " + prayer.RequiredLevel + ": " + prayer.Name);
                 }
 
                 client.spellMenu.DrawMenu();
                 int i4 = client.spellMenu.GetEntryHighlighted(client.spellMenuHandle);
                 if (i4 != -1)
                 {
-                    client.gameGraphics.DrawText("Level " + GameData.prayerRequiredLevel[i4] + ": " + GameData.prayerName[i4], l + c1 / 2, i1 + 130, 1, 0xffff00);
-                    client.gameGraphics.DrawText(GameData.prayerDescription[i4], l + c1 / 2, i1 + 145, 0, 0xffffff);
-                    client.gameGraphics.DrawText("Drain rate: " + GameData.prayerDrainRate[i4], l + c1 / 2, i1 + 160, 1, 0);
+                    Prayer highlightedPrayer = client.entityManager.GetPrayer(i4);
+                    client.gameGraphics.DrawText("Level " + highlightedPrayer.RequiredLevel + ": " + highlightedPrayer.Name, l + c1 / 2, i1 + 130, 1, 0xffff00);
+                    client.gameGraphics.DrawText(highlightedPrayer.Description, l + c1 / 2, i1 + 145, 0, 0xffffff);
+                    client.gameGraphics.DrawText("Drain rate: " + highlightedPrayer.DrainRate, l + c1 / 2, i1 + 160, 1, 0);
                 }
                 else
                 {
@@ -2080,11 +2091,11 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            l = client.mouseX - (((GameImage)client.gameGraphics).gameWidth - 199);
+            l = client.mouseX - (client.gameGraphics.gameWidth - 199);
             i1 = client.mouseY - 36;
             if (l >= 0 && i1 >= 0 && l < 196 && i1 < 182)
             {
-                client.spellMenu.MouseClick(l + (((GameImage)client.gameGraphics).gameWidth - 199), i1 + 36, client.lastMouseButton, client.mouseButton);
+                client.spellMenu.MouseClick(l + (client.gameGraphics.gameWidth - 199), i1 + 36, client.lastMouseButton, client.mouseButton);
                 if (i1 <= 24 && client.mouseButtonClick == 1)
                 {
                     if (l < 98 && client.menuMagicPrayersSelected == 1)
@@ -2106,17 +2117,17 @@ namespace OpenRS.Net.Client.Rendering
                     if (j2 != -1)
                     {
                         int j3 = client.playerStatCurrent[6];
-                        if (GameData.spellRequiredLevel[j2] > j3)
+                        if (client.entityManager.GetSpell(j2).RequiredLevel > j3)
                         {
                             client.DisplayMessage("Your magic ability is not high enough for this spell", 3);
                         }
                         else
                         {
                             int j4;
-                            for (j4 = 0; j4 < GameData.spellDifferentRuneCount[j2]; j4 += 1)
+                            for (j4 = 0; j4 < client.entityManager.GetSpell(j2).RuneCount; j4 += 1)
                             {
-                                int i5 = GameData.spellRequiredRuneIds[j2][j4];
-                                if (client.HasRequiredRunes(i5, GameData.spellRequiredRuneCount[j2][j4]))
+                                int i5 = client.entityManager.GetSpell(j2).RequiredRunesIds[j4];
+                                if (client.HasRequiredRunes(i5, client.entityManager.GetSpell(j2).RequiredRunesCounts[j4]))
                                 {
                                     continue;
                                 }
@@ -2126,7 +2137,7 @@ namespace OpenRS.Net.Client.Rendering
                                 break;
                             }
 
-                            if (j4 == GameData.spellDifferentRuneCount[j2])
+                            if (j4 == client.entityManager.GetSpell(j2).RuneCount)
                             {
                                 client.selectedSpell = j2;
                                 client.selectedItem = -1;
@@ -2140,7 +2151,7 @@ namespace OpenRS.Net.Client.Rendering
                     if (k2 != -1)
                     {
                         int k3 = client.playerStatBase[5];
-                        if (GameData.prayerRequiredLevel[k2] > k3)
+                        if (client.entityManager.GetPrayer(k2).RequiredLevel > k3)
                         {
                             client.DisplayMessage("Your prayer ability is not high enough for this prayer", 3);
                         }
@@ -2319,7 +2330,7 @@ namespace OpenRS.Net.Client.Rendering
                     client.gameGraphics.DrawBoxEdge(i6, l6, 50, 35, 0);
                     if (client.shopItems[j4] != -1)
                     {
-                        client.gameGraphics.DrawImage(i6, l6, 48, 32, client.baseItemPicture + GameData.itemInventoryPicture[client.shopItems[j4]], GameData.itemPictureMask[client.shopItems[j4]], 0, 0, false);
+                        client.gameGraphics.DrawImage(i6, l6, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.shopItems[j4]).InventoryPicture, client.entityManager.GetItem(client.shopItems[j4]).PictureMask, 0, 0, false);
                         client.gameGraphics.DrawString(client.shopItemCount[j4].ToString(), i6 + 1, l6 + 10, 1, 65280);
                         client.gameGraphics.DrawLabel(client.GetInventoryItemTotalCount(client.shopItems[j4]).ToString(), i6 + 47, l6 + 10, 1, 65535);
                     }
@@ -2345,8 +2356,8 @@ namespace OpenRS.Net.Client.Rendering
                         j6 = 10;
                     }
 
-                    int i7 = j6 * GameData.itemBasePrice[l5] / 100;
-                    client.gameGraphics.DrawString("Buy a new " + GameData.itemName[l5] + " for " + i7 + "gp", _offsetX + 2, _offsetY + 214, 1, 0xffff00);
+                    int i7 = j6 * client.entityManager.GetItem(l5).BasePrice / 100;
+                    client.gameGraphics.DrawString("Buy a new " + client.entityManager.GetItem(l5).Name + " for " + i7 + "gp", _offsetX + 2, _offsetY + 214, 1, 0xffff00);
                     int j2 = 0xffffff;
                     if (client.mouseX > _offsetX + 298 && client.mouseY >= _offsetY + 204 && client.mouseX < _offsetX + 408 && client.mouseY <= _offsetY + 215)
                     {
@@ -2367,8 +2378,8 @@ namespace OpenRS.Net.Client.Rendering
                         k6 = 10;
                     }
 
-                    int j7 = k6 * GameData.itemBasePrice[l5] / 100;
-                    client.gameGraphics.DrawLabel("Sell your " + GameData.itemName[l5] + " for " + j7 + "gp", _offsetX + 405, _offsetY + 239, 1, 0xffff00);
+                    int j7 = k6 * client.entityManager.GetItem(l5).BasePrice / 100;
+                    client.gameGraphics.DrawLabel("Sell your " + client.entityManager.GetItem(l5).Name + " for " + j7 + "gp", _offsetX + 405, _offsetY + 239, 1, 0xffff00);
                     int k2 = 0xffffff;
                     if (client.mouseX > _offsetX + 2 && client.mouseY >= _offsetY + 229 && client.mouseX < _offsetX + 112 && client.mouseY <= _offsetY + 240)
                     {
@@ -2390,15 +2401,15 @@ namespace OpenRS.Net.Client.Rendering
             int i1 = 50;
             l += 116;
             i1 -= 25;
-            client.gameGraphics.DrawCharacterLegs(l - 32 - 55, i1, 64, 102, GameData.animationNumber[client.appearance2Colour], client.appearanceTopBottomColours[client.appearanceBottomColour]);
-            client.gameGraphics.DrawImage(l - 32 - 55, i1, 64, 102, GameData.animationNumber[client.appearanceBodyGender], client.appearanceTopBottomColours[client.appearanceTopColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
-            client.gameGraphics.DrawImage(l - 32 - 55, i1, 64, 102, GameData.animationNumber[client.appearanceHeadType], client.appearanceHairColours[client.appearanceHairColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
-            client.gameGraphics.DrawCharacterLegs(l - 32, i1, 64, 102, GameData.animationNumber[client.appearance2Colour] + 6, client.appearanceTopBottomColours[client.appearanceBottomColour]);
-            client.gameGraphics.DrawImage(l - 32, i1, 64, 102, GameData.animationNumber[client.appearanceBodyGender] + 6, client.appearanceTopBottomColours[client.appearanceTopColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
-            client.gameGraphics.DrawImage(l - 32, i1, 64, 102, GameData.animationNumber[client.appearanceHeadType] + 6, client.appearanceHairColours[client.appearanceHairColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
-            client.gameGraphics.DrawCharacterLegs(l - 32 + 55, i1, 64, 102, GameData.animationNumber[client.appearance2Colour] + 12, client.appearanceTopBottomColours[client.appearanceBottomColour]);
-            client.gameGraphics.DrawImage(l - 32 + 55, i1, 64, 102, GameData.animationNumber[client.appearanceBodyGender] + 12, client.appearanceTopBottomColours[client.appearanceTopColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
-            client.gameGraphics.DrawImage(l - 32 + 55, i1, 64, 102, GameData.animationNumber[client.appearanceHeadType] + 12, client.appearanceHairColours[client.appearanceHairColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
+            client.gameGraphics.DrawCharacterLegs(l - 32 - 55, i1, 64, 102, client.entityManager.GetAnimation(client.appearance2Colour).Number, client.appearanceTopBottomColours[client.appearanceBottomColour]);
+            client.gameGraphics.DrawImage(l - 32 - 55, i1, 64, 102, client.entityManager.GetAnimation(client.appearanceBodyGender).Number, client.appearanceTopBottomColours[client.appearanceTopColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
+            client.gameGraphics.DrawImage(l - 32 - 55, i1, 64, 102, client.entityManager.GetAnimation(client.appearanceHeadType).Number, client.appearanceHairColours[client.appearanceHairColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
+            client.gameGraphics.DrawCharacterLegs(l - 32, i1, 64, 102, client.entityManager.GetAnimation(client.appearance2Colour).Number + 6, client.appearanceTopBottomColours[client.appearanceBottomColour]);
+            client.gameGraphics.DrawImage(l - 32, i1, 64, 102, client.entityManager.GetAnimation(client.appearanceBodyGender).Number + 6, client.appearanceTopBottomColours[client.appearanceTopColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
+            client.gameGraphics.DrawImage(l - 32, i1, 64, 102, client.entityManager.GetAnimation(client.appearanceHeadType).Number + 6, client.appearanceHairColours[client.appearanceHairColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
+            client.gameGraphics.DrawCharacterLegs(l - 32 + 55, i1, 64, 102, client.entityManager.GetAnimation(client.appearance2Colour).Number + 12, client.appearanceTopBottomColours[client.appearanceBottomColour]);
+            client.gameGraphics.DrawImage(l - 32 + 55, i1, 64, 102, client.entityManager.GetAnimation(client.appearanceBodyGender).Number + 12, client.appearanceTopBottomColours[client.appearanceTopColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
+            client.gameGraphics.DrawImage(l - 32 + 55, i1, 64, 102, client.entityManager.GetAnimation(client.appearanceHeadType).Number + 12, client.appearanceHairColours[client.appearanceHairColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
             client.gameGraphics.DrawPicture(0, client.windowHeight, client.baseInventoryPic + 22);
             //gameGraphics.UpdateGameImage();
             client.OnDrawDone();//client.gameGraphics.DrawImage(spriteBatch, 0, 0);
@@ -2613,7 +2624,7 @@ namespace OpenRS.Net.Client.Rendering
                         int k7 = -client.engineHandle.GetAveragedElevation(k3, l4) - 110;
                         int k9 = targetMob.currentX;
                         int j10 = targetMob.currentY;
-                        int k10 = -client.engineHandle.GetAveragedElevation(k9, j10) - GameData.npcCameraArray2[targetMob.npcId] / 2;
+                        int k10 = -client.engineHandle.GetAveragedElevation(k9, j10) - client.entityManager.GetNpc(targetMob.npcId).Camera2 / 2;
                         int l10 = (k3 * player.projectileDistance + k9 * (client.projectileRange - player.projectileDistance)) / client.projectileRange;
                         int i11 = (k7 * player.projectileDistance + k10 * (client.projectileRange - player.projectileDistance)) / client.projectileRange;
                         int j11 = (l4 * player.projectileDistance + j10 * (client.projectileRange - player.projectileDistance)) / client.projectileRange;
@@ -2629,7 +2640,7 @@ namespace OpenRS.Net.Client.Rendering
                 int x1 = npc.currentX;
                 int z1 = npc.currentY;
                 int y1 = -client.engineHandle.GetAveragedElevation(x1, z1);
-                int l9 = client.gameCamera.AddSpriteToScene(20000 + k2, x1, y1, z1, GameData.npcCameraArray1[npc.npcId], GameData.npcCameraArray2[npc.npcId], k2 + 30000);
+                int l9 = client.gameCamera.AddSpriteToScene(20000 + k2, x1, y1, z1, client.entityManager.GetNpc(npc.npcId).Camera1, client.entityManager.GetNpc(npc.npcId).Camera2, k2 + 30000);
                 client.drawUpdatesPerformed += 1;
                 if (npc.currentSprite == 8)
                 {
@@ -2825,7 +2836,7 @@ namespace OpenRS.Net.Client.Rendering
             Menu.chatMenuTextHeightMod = 2;
             client.chatInputMenu.DrawMenu();
             Menu.chatMenuTextHeightMod = 0;
-            client.gameGraphics.DrawPicture(((GameImage)client.gameGraphics).gameWidth - 3 - 197, 3, client.baseInventoryPic, 128);
+            client.gameGraphics.DrawPicture(client.gameGraphics.gameWidth - 3 - 197, 3, client.baseInventoryPic, 128);
 
 #warning play with this! Create a new menu of choice :)
 
@@ -3030,7 +3041,7 @@ namespace OpenRS.Net.Client.Rendering
                             {
                                 if (client.duelMyItems[j4] == j3)
                                 {
-                                    if (GameData.itemStackable[j3] == 0)
+                                    if (client.entityManager.GetItem(j3).IsStackable == 0)
                                     {
                                         for (int l4 = 0; l4 < client.mouseClickedHeldInTradeDuelBox; l4 += 1)
                                         {
@@ -3055,7 +3066,7 @@ namespace OpenRS.Net.Client.Rendering
                                 flag1 = true;
                             }
 
-                            if (GameData.itemSpecial[j3] == 1)
+                            if (client.entityManager.GetItem(j3).IsSpecial == 1)
                             {
                                 client.DisplayMessage("This object cannot be added to a duel offer", 3);
                                 flag1 = true;
@@ -3091,7 +3102,7 @@ namespace OpenRS.Net.Client.Rendering
                             int i2 = client.duelMyItems[k1];
                             for (int l2 = 0; l2 < client.mouseClickedHeldInTradeDuelBox; l2 += 1)
                             {
-                                if (GameData.itemStackable[i2] == 0 && client.duelMyItemsCount[k1] > 1)
+                                if (client.entityManager.GetItem(i2).IsStackable == 0 && client.duelMyItemsCount[k1] > 1)
                                 {
                                     client.duelMyItemsCount[k1] -= 1;
                                     continue;
@@ -3304,8 +3315,8 @@ namespace OpenRS.Net.Client.Rendering
             {
                 int l5 = 217 + byte0 + k5 % 5 * 49;
                 int j6 = 31 + byte1 + k5 / 5 * 34;
-                client.gameGraphics.DrawImage(l5, j6, 48, 32, client.baseItemPicture + GameData.itemInventoryPicture[client.inventoryItems[k5]], GameData.itemPictureMask[client.inventoryItems[k5]], 0, 0, false);
-                if (GameData.itemStackable[client.inventoryItems[k5]] == 0)
+                client.gameGraphics.DrawImage(l5, j6, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.inventoryItems[k5]).InventoryPicture, client.entityManager.GetItem(client.inventoryItems[k5]).PictureMask, 0, 0, false);
+                if (client.entityManager.GetItem(client.inventoryItems[k5]).IsStackable == 0)
                 {
                     client.gameGraphics.DrawString(client.inventoryItemCount[k5].ToString(), l5 + 1, j6 + 10, 1, 0xffff00);
                 }
@@ -3315,15 +3326,16 @@ namespace OpenRS.Net.Client.Rendering
             {
                 int k6 = 9 + byte0 + i6 % 4 * 49;
                 int i7 = 31 + byte1 + i6 / 4 * 34;
-                client.gameGraphics.DrawImage(k6, i7, 48, 32, client.baseItemPicture + GameData.itemInventoryPicture[client.duelMyItems[i6]], GameData.itemPictureMask[client.duelMyItems[i6]], 0, 0, false);
-                if (GameData.itemStackable[client.duelMyItems[i6]] == 0)
+                client.gameGraphics.DrawImage(k6, i7, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.duelMyItems[i6]).InventoryPicture, client.entityManager.GetItem(client.duelMyItems[i6]).PictureMask, 0, 0, false);
+                if (client.entityManager.GetItem(client.duelMyItems[i6]).IsStackable == 0)
                 {
                     client.gameGraphics.DrawString(client.duelMyItemsCount[i6].ToString(), k6 + 1, i7 + 10, 1, 0xffff00);
                 }
 
                 if (client.mouseX > k6 && client.mouseX < k6 + 48 && client.mouseY > i7 && client.mouseY < i7 + 32)
                 {
-                    client.gameGraphics.DrawString(GameData.itemName[client.duelMyItems[i6]] + ": @whi@" + GameData.itemDescription[client.duelMyItems[i6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
+                    Item duelMyItem = client.entityManager.GetItem(client.duelMyItems[i6]);
+                    client.gameGraphics.DrawString(duelMyItem.Name + ": @whi@" + duelMyItem.Description, byte0 + 8, byte1 + 273, 1, 0xffff00);
                 }
             }
 
@@ -3331,15 +3343,16 @@ namespace OpenRS.Net.Client.Rendering
             {
                 int j7 = 9 + byte0 + l6 % 4 * 49;
                 int k7 = 124 + byte1 + l6 / 4 * 34;
-                client.gameGraphics.DrawImage(j7, k7, 48, 32, client.baseItemPicture + GameData.itemInventoryPicture[client.duelOpponentItems[l6]], GameData.itemPictureMask[client.duelOpponentItems[l6]], 0, 0, false);
-                if (GameData.itemStackable[client.duelOpponentItems[l6]] == 0)
+                client.gameGraphics.DrawImage(j7, k7, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.duelOpponentItems[l6]).InventoryPicture, client.entityManager.GetItem(client.duelOpponentItems[l6]).PictureMask, 0, 0, false);
+                if (client.entityManager.GetItem(client.duelOpponentItems[l6]).IsStackable == 0)
                 {
                     client.gameGraphics.DrawString(client.duelOpponentItemsCount[l6].ToString(), j7 + 1, k7 + 10, 1, 0xffff00);
                 }
 
                 if (client.mouseX > j7 && client.mouseX < j7 + 48 && client.mouseY > k7 && client.mouseY < k7 + 32)
                 {
-                    client.gameGraphics.DrawString(GameData.itemName[client.duelOpponentItems[l6]] + ": @whi@" + GameData.itemDescription[client.duelOpponentItems[l6]], byte0 + 8, byte1 + 273, 1, 0xffff00);
+                    Item duelOpponentItem = client.entityManager.GetItem(client.duelOpponentItems[l6]);
+                    client.gameGraphics.DrawString(duelOpponentItem.Name + ": @whi@" + duelOpponentItem.Description, byte0 + 8, byte1 + 273, 1, 0xffff00);
                 }
             }
 
@@ -3408,14 +3421,14 @@ namespace OpenRS.Net.Client.Rendering
                 newFrameIndex = 1;
                 flag = true;
             }
-            int j1 = newFrameIndex * 3 + client.walkModel[npc.stepCount / GameData.npcWalkModelArray[npc.npcId] % 4];
+            int j1 = newFrameIndex * 3 + client.walkModel[npc.stepCount / client.entityManager.GetNpc(npc.npcId).WalkModel % 4];
             if (npc.currentSprite == 8)
             {
                 newFrameIndex = 5;
                 frameIndex = 2;
                 flag = false;
-                x -= GameData.npcCombatSprite[npc.npcId] * unknown2 / 100;
-                j1 = newFrameIndex * 3 + client.combatModelArray1[client.tick / (GameData.npcCombatModel[npc.npcId] - 1) % 8];
+                x -= client.entityManager.GetNpc(npc.npcId).CombatSprite * unknown2 / 100;
+                j1 = newFrameIndex * 3 + client.combatModelArray1[client.tick / (client.entityManager.GetNpc(npc.npcId).CombatModel - 1) % 8];
             }
             else
                 if (npc.currentSprite == 9)
@@ -3423,48 +3436,48 @@ namespace OpenRS.Net.Client.Rendering
                     newFrameIndex = 5;
                     frameIndex = 2;
                     flag = true;
-                    x += GameData.npcCombatSprite[npc.npcId] * unknown2 / 100;
-                    j1 = newFrameIndex * 3 + client.combatModelArray2[client.tick / GameData.npcCombatModel[npc.npcId] % 8];
+                    x += client.entityManager.GetNpc(npc.npcId).CombatSprite * unknown2 / 100;
+                    j1 = newFrameIndex * 3 + client.combatModelArray2[client.tick / client.entityManager.GetNpc(npc.npcId).CombatModel % 8];
                 }
             for (int k1 = 0; k1 < 12; k1 += 1)
             {
                 int l1 = client.animationModelArray[frameIndex][k1];
-                int k2 = GameData.npcAnimationCount[npc.npcId][l1];
+                int k2 = client.entityManager.GetNpc(npc.npcId).Sprites[l1];
                 if (k2 >= 0)
                 {
                     int i3 = 0;
                     int j3 = 0;
                     int k3 = j1;
-                    if (flag && newFrameIndex >= 1 && newFrameIndex <= 3 && GameData.animationHasF[k2] == 1)
+                    if (flag && newFrameIndex >= 1 && newFrameIndex <= 3 && client.entityManager.GetAnimation(k2).HasF == 1)
                     {
                         k3 += 15;
                     }
 
-                    if (newFrameIndex != 5 || GameData.animationHasA[k2] == 1)
+                    if (newFrameIndex != 5 || client.entityManager.GetAnimation(k2).HasA == 1)
                     {
-                        int l3 = k3 + GameData.animationNumber[k2];
-                        i3 = i3 * width / ((GameImage)client.gameGraphics).pictureAssumedWidth[l3];
-                        j3 = j3 * height / ((GameImage)client.gameGraphics).pictureAssumedHeight[l3];
-                        int i4 = width * ((GameImage)client.gameGraphics).pictureAssumedWidth[l3] / ((GameImage)client.gameGraphics).pictureAssumedWidth[GameData.animationNumber[k2]];
+                        int l3 = k3 + client.entityManager.GetAnimation(k2).Number;
+                        i3 = i3 * width / client.gameGraphics.pictureAssumedWidth[l3];
+                        j3 = j3 * height / client.gameGraphics.pictureAssumedHeight[l3];
+                        int i4 = width * client.gameGraphics.pictureAssumedWidth[l3] / client.gameGraphics.pictureAssumedWidth[client.entityManager.GetAnimation(k2).Number];
                         i3 -= (i4 - width) / 2;
-                        int j4 = GameData.animationCharacterColor[k2];
+                        int j4 = client.entityManager.GetAnimation(k2).CharacterColour;
                         int k4 = 0;
                         if (j4 == 1)
                         {
-                            j4 = GameData.npcHairColor[npc.npcId];
-                            k4 = GameData.npcSkinColor[npc.npcId];
+                            j4 = client.entityManager.GetNpc(npc.npcId).Appearance.HairColour;
+                            k4 = client.entityManager.GetNpc(npc.npcId).Appearance.SkinColour;
                         }
                         else
                             if (j4 == 2)
                             {
-                                j4 = GameData.npcTopColor[npc.npcId];
-                                k4 = GameData.npcSkinColor[npc.npcId];
+                                j4 = client.entityManager.GetNpc(npc.npcId).Appearance.TopColour;
+                                k4 = client.entityManager.GetNpc(npc.npcId).Appearance.SkinColour;
                             }
                             else
                                 if (j4 == 3)
                                 {
-                                    j4 = GameData.npcBottomColor[npc.npcId];
-                                    k4 = GameData.npcSkinColor[npc.npcId];
+                                    j4 = client.entityManager.GetNpc(npc.npcId).Appearance.TrousersColour;
+                                    k4 = client.entityManager.GetNpc(npc.npcId).Appearance.SkinColour;
                                 }
                         client.gameGraphics.DrawImage(x + i3, y + j3, i4, height, l3, j4, k4, unknown1, flag);
                     }
@@ -3560,7 +3573,7 @@ namespace OpenRS.Net.Client.Rendering
                 client.gameGraphics.DrawTransparentImage(x - width / 2, j5, width, height, client.baseInventoryPic + 9, 85);
                 int k5 = 36 * scale / 100;
                 int l5 = 24 * scale / 100;
-                client.gameGraphics.DrawImage(x - k5 / 2, j5 + height / 2 - l5 / 2, k5, l5, GameData.itemInventoryPicture[id] + client.baseItemPicture, GameData.itemPictureMask[id], 0, 0, false);
+                client.gameGraphics.DrawImage(x - k5 / 2, j5 + height / 2 - l5 / 2, k5, l5, client.entityManager.GetItem(id).InventoryPicture + client.baseItemPicture, client.entityManager.GetItem(id).PictureMask, 0, 0, false);
             }
 
             for (int i2 = 0; i2 < client.healthBarVisibleCount; i2 += 1)
@@ -3641,7 +3654,7 @@ namespace OpenRS.Net.Client.Rendering
                     if (id != -1)
                     {
                         int count = client.bankItemCount[client.selectedBankItem];
-                        if (GameData.itemStackable[id] == 1 && count > 1)
+                        if (client.entityManager.GetItem(id).IsStackable == 1 && count > 1)
                         {
                             count = 1;
                         }
@@ -3859,7 +3872,7 @@ namespace OpenRS.Net.Client.Rendering
                     client.gameGraphics.DrawBoxEdge(k9, l9, 50, 35, 0);
                     if (j8 < client.bankItemsCount && client.bankItems[j8] != -1)
                     {
-                        client.gameGraphics.DrawImage(k9, l9, 48, 32, client.baseItemPicture + GameData.itemInventoryPicture[client.bankItems[j8]], GameData.itemPictureMask[client.bankItems[j8]], 0, 0, false);
+                        client.gameGraphics.DrawImage(k9, l9, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.bankItems[j8]).InventoryPicture, client.entityManager.GetItem(client.bankItems[j8]).PictureMask, 0, 0, false);
                         client.gameGraphics.DrawString(client.bankItemCount[j8].ToString(), k9 + 1, l9 + 10, 1, 65280);
                         client.gameGraphics.DrawLabel(client.GetInventoryItemTotalCount(client.bankItems[j8]).ToString(), k9 + 47, l9 + 29, 1, 65535);
                     }
@@ -3887,14 +3900,14 @@ namespace OpenRS.Net.Client.Rendering
             if (j9 != -1)
             {
                 int k8 = client.bankItemCount[client.selectedBankItem];
-                if (GameData.itemStackable[j9] == 1 && k8 > 1)
+                if (client.entityManager.GetItem(j9).IsStackable == 1 && k8 > 1)
                 {
                     k8 = 1;
                 }
 
                 if (k8 > 0)
                 {
-                    client.gameGraphics.DrawString("Withdraw " + GameData.itemName[j9], i1 + 2, k1 + 248, 1, 0xffffff);
+                    client.gameGraphics.DrawString("Withdraw " + client.entityManager.GetItem(j9).Name, i1 + 2, k1 + 248, 1, 0xffffff);
                     int k4 = 0xffffff;
                     if (client.mouseX >= i1 + 220 && client.mouseY >= k1 + 238 && client.mouseX < i1 + 250 && client.mouseY <= k1 + 249)
                     {
@@ -3955,7 +3968,7 @@ namespace OpenRS.Net.Client.Rendering
                 }
                 if (client.GetInventoryItemTotalCount(j9) > 0)
                 {
-                    client.gameGraphics.DrawString("Deposit " + GameData.itemName[j9], i1 + 2, k1 + 273, 1, 0xffffff);
+                    client.gameGraphics.DrawString("Deposit " + client.entityManager.GetItem(j9).Name, i1 + 2, k1 + 273, 1, 0xffffff);
                     int i6 = 0xffffff;
                     if (client.mouseX >= i1 + 220 && client.mouseY >= k1 + 263 && client.mouseX < i1 + 250 && client.mouseY <= k1 + 274)
                     {
@@ -4059,7 +4072,7 @@ namespace OpenRS.Net.Client.Rendering
         }
         public void DrawStatsQuestsMenu(bool canClick)
         {
-            int l = ((GameImage)client.gameGraphics).gameWidth - 199; //199
+            int l = client.gameGraphics.gameWidth - 199; //199
             int i1 = 36;
             client.gameGraphics.DrawPicture(l - 49, 3, client.baseInventoryPic + 3);
             int c1 = 196;//'\u304';
@@ -4189,13 +4202,13 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            l = client.mouseX - (((GameImage)client.gameGraphics).gameWidth - 199);
+            l = client.mouseX - (client.gameGraphics.gameWidth - 199);
             i1 = client.mouseY - 36;
             if (l >= 0 && i1 >= 0 && l < c1 && i1 < c2)
             {
                 if (client.questMenuSelected == 1)
                 {
-                    client.questMenu.MouseClick(l + (((GameImage)client.gameGraphics).gameWidth - 199), i1 + 36, client.lastMouseButton, client.mouseButton);
+                    client.questMenu.MouseClick(l + (client.gameGraphics.gameWidth - 199), i1 + 36, client.lastMouseButton, client.mouseButton);
                 }
 
                 if (i1 <= 24 && client.mouseButtonClick == 1)

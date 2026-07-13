@@ -4,7 +4,7 @@ using OpenRS.DataAccess.DataObjects;
 
 namespace OpenRS.DataAccess.Repositories
 {
-    public sealed class PrayerRepository(string fileName) : XmlRepository<PrayerEntity>(fileName)
+    public sealed class PrayerRepository(string fileName) : JsonRepository<PrayerEntity>(fileName)
     {
         public override void Update(PrayerEntity entity)
         {

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 
+using OpenRS.Models;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 
@@ -104,10 +105,7 @@ namespace OpenRS.Net.Client.Handlers
                                 {
                                     continue;
                                 }
-                                if (mob is not null)
-                                {
-                                    mob.nextSprite = needsNextSprite;
-                                }
+                                mob?.nextSprite = needsNextSprite;
                             }
                         }
                         if (mob is not null)
@@ -223,7 +221,7 @@ namespace OpenRS.Net.Client.Handlers
                                         continue;
                                     }
 
-                                    client.groundItemObjectVar[client.groundItemCount] = GameData.objectGroundItemVar[client.objectType[l23]];
+                                    client.groundItemObjectVar[client.groundItemCount] = client.entityManager.GetWorldObject(client.objectType[l23]).GroundItemVar;
                                     break;
                                 }
 
@@ -328,9 +326,9 @@ namespace OpenRS.Net.Client.Handlers
                             client.objectCount = newCount;
                             if (index != 60000)
                             {
-                                if (index >= GameData.objectCount)
+                                if (index >= client.entityManager.WorldObjectCount)
                                 {
-                                    Console.WriteLine($"[PacketHandler] Skipping unknown object index {index} (objectCount={GameData.objectCount})");
+                                    Console.WriteLine($"[PacketHandler] Skipping unknown object index {index} (objectCount={client.entityManager.WorldObjectCount})");
                                 }
                                 else
                                 {
@@ -339,17 +337,17 @@ namespace OpenRS.Net.Client.Handlers
                                     int height;
                                     if (rotation == 0 || rotation == 4)
                                     {
-                                        width = GameData.objectWidth[index];
-                                        height = GameData.objectHeight[index];
+                                        width = client.entityManager.GetWorldObject(index).Width;
+                                        height = client.entityManager.GetWorldObject(index).Height;
                                     }
                                     else
                                     {
-                                        height = GameData.objectWidth[index];
-                                        width = GameData.objectHeight[index];
+                                        height = client.entityManager.GetWorldObject(index).Width;
+                                        width = client.entityManager.GetWorldObject(index).Height;
                                     }
                                     int l40 = (newSectionX + newSectionX + width) * client.gridSize / 2;
                                     int k42 = (newSectionY + newSectionY + height) * client.gridSize / 2;
-                                    int model = GameData.objectModelNumber[index];
+                                    int model = client.entityManager.GetWorldObject(index).ModelId;
                                     GameObject gameObject = client.gameDataObjects[model].CreateParent();
     #warning object not being added to camera.
                                     client.gameCamera.AddModel(gameObject);
@@ -386,7 +384,7 @@ namespace OpenRS.Net.Client.Handlers
                         off += 2;
                         client.inventoryItems[item] = data & 0x7fff;
                         client.inventoryItemEquipped[item] = data / 32768;
-                        if (GameData.itemStackable[data & 0x7fff] == 0)
+                        if (client.entityManager.GetItem(data & 0x7fff).IsStackable == 0)
                         {
                             client.inventoryItemCount[item] = DataOperations.GetInt(client.packetData, off);
                             off += 4;
@@ -715,7 +713,7 @@ namespace OpenRS.Net.Client.Handlers
                         int mobY = (client.sectionY + areaMobY) * client.gridSize + 64;
                         int addIndex = DataOperations.GetBits(client.packetData, off, 10);
                         off += 10;
-                        if (addIndex >= GameData.npcCount)
+                        if (addIndex >= client.entityManager.NpcCount)
                         {
                             addIndex = 24;
                         }
@@ -748,7 +746,7 @@ namespace OpenRS.Net.Client.Handlers
                                 mob.lastMessage = s5;
                                 if (playerIndex == client.ourPlayer.serverIndex)
                                 {
-                                    client.DisplayMessage("@yel@" + GameData.npcName[mob.npcId] + ": " + mob.lastMessage, 5);
+                                    client.DisplayMessage("@yel@" + client.entityManager.GetNpc(mob.npcId).Name + ": " + mob.lastMessage, 5);
                                 }
                             }
                             off += messageLength;
@@ -1037,7 +1035,7 @@ namespace OpenRS.Net.Client.Handlers
                             {
                                 client.shopItems[i29] = client.inventoryItems[l33] & 0x7fff;
                                 client.shopItemCount[i29] = 0;
-                                client.shopItemSellPrice[i29] = GameData.itemBasePrice[client.shopItems[i29]] - (int)(GameData.itemBasePrice[client.shopItems[i29]] / 2.5);
+                                client.shopItemSellPrice[i29] = client.entityManager.GetItem(client.shopItems[i29]).BasePrice - (int)(client.entityManager.GetItem(client.shopItems[i29]).BasePrice / 2.5);
                                 client.shopItemSellPrice[i29] -= (int)(client.shopItemSellPrice[i29] * 0.10);
                                 i29 -= 1;
                             }
@@ -1278,7 +1276,7 @@ namespace OpenRS.Net.Client.Handlers
                     int newCount = client.packetData[off++] & 0xff;
                     int data = DataOperations.GetShort(client.packetData, off);
                     off += 2;
-                    if (GameData.itemStackable[data & 0x7fff] == 0)
+                    if (client.entityManager.GetItem(data & 0x7fff).IsStackable == 0)
                     {
                         count = DataOperations.GetInt(client.packetData, off);
                         off += 4;

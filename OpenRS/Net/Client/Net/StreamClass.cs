@@ -59,20 +59,11 @@ namespace OpenRS.Net.Client.Net
             socketClosing = true;
             try
             {
-                if (inputStream is not null)
-                {
-                    inputStream.Close();
-                }
+                inputStream?.Close();
 
-                if (outputStream is not null)
-                {
-                    outputStream.Close();
-                }
+                outputStream?.Close();
 
-                if (socket is not null)
-                {
-                    socket.Close();
-                }
+                socket?.Close();
             }
             catch (IOException _ex)
             {

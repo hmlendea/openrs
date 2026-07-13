@@ -45,6 +45,7 @@ namespace OpenRS.Gui.Screens
             SetChildrenProperties();
         }
         protected override void DoUnloadContent() => UnregisterEvents();
+
         protected override void DoUpdate(GameTime gameTime)
         {
             if (gameClient.loggedIn)
@@ -63,15 +64,15 @@ namespace OpenRS.Gui.Screens
                 SideBar.Hide();
             }
         }
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
 
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) { }
+
         private void RegisterEvents()
         {
             ContentLoaded += OnContentLoaded;
             gameClient.OnChatMessageReceived += OnGameClientChatMessageReceived;
         }
+
         private void UnregisterEvents()
         {
             ContentLoaded -= OnContentLoaded;
