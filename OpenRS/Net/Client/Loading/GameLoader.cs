@@ -626,18 +626,10 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
         }
         public void LoadConfig()
         {
-            sbyte[] abyte0 = client.UnpackData("config.jag", "Configuration", 10);
-            if (abyte0 is null)
-            {
-                client.errorLoading = true;
-                return;
-            }
-            GameData.Load(abyte0);
-
             client.entityManager = new EntityManager();
             client.entityManager.LoadPrayers();
             client.entityManager.LoadItems();
-            client.entityManager.LoadSpells(GameData.spellProjectileCount);
+            client.entityManager.LoadSpells(GameDefines.SpellProjectileCount);
             client.entityManager.LoadNpcs();
             client.entityManager.LoadAnimations();
             client.entityManager.LoadWallObjects();
