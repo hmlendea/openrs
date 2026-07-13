@@ -449,7 +449,7 @@ namespace OpenRS.Net.Client.Rendering
                 string s1 = GameData.itemName[client.duelOurStakeItem[i1]];
                 if (GameData.itemStackable[client.duelOurStakeItem[i1]] == 0)
                 {
-                    s1 = s1 + " x " + GameClientUtilities.formatItemCount(client.duelOurStakeItemCount[i1]);
+                    s1 = s1 + " x " + GameClientUtilities.FormatItemCount(client.duelOurStakeItemCount[i1]);
                 }
 
                 client.gameGraphics.DrawText(s1, byte0 + 117, byte1 + 42 + i1 * 12, 1, 0xffffff);
@@ -466,7 +466,7 @@ namespace OpenRS.Net.Client.Rendering
                 string s2 = GameData.itemName[client.duelOpponentStakeItem[j1]];
                 if (GameData.itemStackable[client.duelOpponentStakeItem[j1]] == 0)
                 {
-                    s2 = s2 + " x " + GameClientUtilities.formatItemCount(client.duelOutStakeItemCount[j1]);
+                    s2 = s2 + " x " + GameClientUtilities.FormatItemCount(client.duelOutStakeItemCount[j1]);
                 }
 
                 client.gameGraphics.DrawText(s2, byte0 + 351, byte1 + 42 + j1 * 12, 1, 0xffffff);
@@ -1634,7 +1634,7 @@ namespace OpenRS.Net.Client.Rendering
                 string s1 = GameData.itemName[client.tradeConfirmItems[i1]];
                 if (GameData.itemStackable[client.tradeConfirmItems[i1]] == 0)
                 {
-                    s1 = s1 + " x " + GameClientUtilities.formatItemCount(client.tradeConfigItemsCount[i1]);
+                    s1 = s1 + " x " + GameClientUtilities.FormatItemCount(client.tradeConfigItemsCount[i1]);
                 }
 
                 client.gameGraphics.DrawText(s1, byte0 + 117, byte1 + 42 + i1 * 12, 1, 0xffffff);
@@ -1651,7 +1651,7 @@ namespace OpenRS.Net.Client.Rendering
                 string s2 = GameData.itemName[client.tradeConfirmOtherItems[j1]];
                 if (GameData.itemStackable[client.tradeConfirmOtherItems[j1]] == 0)
                 {
-                    s2 = s2 + " x " + GameClientUtilities.formatItemCount(client.tradeConfirmOtherItemsCount[j1]);
+                    s2 = s2 + " x " + GameClientUtilities.FormatItemCount(client.tradeConfirmOtherItemsCount[j1]);
                 }
 
                 client.gameGraphics.DrawText(s2, byte0 + 351, byte1 + 42 + j1 * 12, 1, 0xffffff);

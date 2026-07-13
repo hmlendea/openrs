@@ -49,10 +49,9 @@ namespace OpenRS.Net.Client
                 connectionThread.Start();
 
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Console.WriteLine(e.ToString());
-                // e.printStackTrace();
+                Console.WriteLine(exception.ToString());
             }
 
         }
@@ -90,10 +89,10 @@ namespace OpenRS.Net.Client
             streamClass.maxPacketReadCount = maxPacketReadCount;
 
 
-            long l = DataOperations.NameToHash(formattedUsername);
+            long nameHash = DataOperations.NameToHash(formattedUsername);
             streamClass.CreatePacket(32);
-            streamClass.AddByte((int)(l >> 16 & 31L));
-            streamClass.AddString("Shinigami");// TODO not used server-side
+            streamClass.AddByte((int)(nameHash >> 16 & 31L));
+            streamClass.AddString("Shinigami"); // TODO: Remove unused server-side string.
             streamClass.Flush();
 
             long sessionId;
@@ -109,13 +108,10 @@ namespace OpenRS.Net.Client
                 return;
             }
 
-
-
             if (sessionId == 0L)
             {
-                //     LoginScreenPrint("Login server offline.", "Please try again in a few mins");
-                //     return;
             }
+
             Console.WriteLine("Verb: Session id: " + sessionId);
             int[] sessionKeys =
             [
@@ -157,8 +153,6 @@ namespace OpenRS.Net.Client
                 return;
             }
             Console.WriteLine("login response:" + loginCode);
-
-           // streamClass.MakeAsync();
 
             if (loginCode == 99)
             {
@@ -229,28 +223,8 @@ namespace OpenRS.Net.Client
                 LoginScreenPrint("Account already in use.", "You may only login to one character at a time");
                 return;
             }
-            else
-            {
-                LoginScreenPrint("Error unable to login.", "Unrecognised response code");
-                return;
-            }
 
-            if (reconnectTries > 0)
-            {
-                try
-                {
-                    Thread.Sleep(2500);
-                }
-                catch (Exception) { }
-
-                reconnectTries -= 1;
-                Connect(username, password, reconnecting);
-            }
-
-            username = "";
-            password = "";
-            ResetIntVars();
-            LoginScreenPrint("Please enter your usename and password", "");
+            LoginScreenPrint("Error unable to login.", "Unrecognised response code");
         }
 
         protected void RequestLogout()
@@ -280,15 +254,6 @@ namespace OpenRS.Net.Client
 
         protected void GameBoxPrint(string firstLine, string secondLine)
         {
-            // Font font = new Font("Helvetica", 1, 15);
-            char windowWidth = '\u0200';
-            char windowHeight = '\u0158';
-            // g.SetColor(Color.Black);
-            // g.FillRect(c / 2 - 140, c1 / 2 - 25, 280, 50, Color.Black);
-            // g.SetColor(Color.White);
-            // g.DrawRect(c / 2 - 140, c1 / 2 - 25, 280, 50, Color.White);
-            // drawString(s1, c / 2, c1 / 2 - 10, Color.White);
-            // drawString(s2, c / 2, c1 / 2 + 10, Color.White);
         }
 
         protected void SendPingPacket()
@@ -306,16 +271,19 @@ namespace OpenRS.Net.Client
                 streamClass.CreatePacket(5);
                 streamClass.FormatPacket();
             }
+
             try
             {
                 streamClass.WritePacket(20);
             }
-            catch (IOException _ex)
+            catch (IOException)
             {
                 LostConnection();
                 return;
             }
+
             int packetLength = streamClass.ReadPacket(packetData);
+
             if (packetLength > 0)
             {
                 HandlePacket(packetData[0] & 0xff, packetLength);
@@ -351,8 +319,10 @@ namespace OpenRS.Net.Client
                 }
 
                 ReOrderFriendsList();
+
                 return;
             }
+
             if (command == 25)
             {
                 long friend = DataOperations.GetLong(packetData, 1);
@@ -383,11 +353,14 @@ namespace OpenRS.Net.Client
                 friendsWorld[friendsCount] = status;
                 friendsCount += 1;
                 ReOrderFriendsList();
+
                 return;
             }
+
             if (command == 2)
             {
                 ignoresCount = DataOperations.GetByte(packetData[1]);
+
                 for (int ignoreIndex = 0; ignoreIndex < ignoresCount; ignoreIndex += 1)
                 {
                     ignoresList[ignoreIndex] = DataOperations.GetLong(packetData, 2 + ignoreIndex * 8);
@@ -401,26 +374,29 @@ namespace OpenRS.Net.Client
                 blockPrivate = packetData[2];
                 blockTrade = packetData[3];
                 blockDuel = packetData[4];
+
                 return;
             }
+
             if (command == 170)
             {
                 long senderHash = DataOperations.GetLong(packetData, 1);
                 string messageText = ChatMessage.BytesToString(packetData, 9, length - 9);
                 DisplayMessage("@pri@" + DataOperations.HashToName(senderHash) + ": tells you " + messageText);
+
                 return;
             }
+
             if (command == 211)
-            {// TODO remove?
+            { // TODO: Determine if this command can be removed.
                 streamClass.CreatePacket(69);
-                streamClass.AddByte(0);// scar.exe, etc
+                streamClass.AddByte(0); // scar.exe, etc.
                 streamClass.FormatPacket();
                 return;
             }
+
             if (command == 1)
-            {// TODO remove?
-                //bluePoints
-                //redPoints
+            { // TODO: Determine if this command can be removed.
                 return;
             }
             HandlePacket(command, length, packetData);
@@ -480,7 +456,8 @@ namespace OpenRS.Net.Client
                 return;
             }
 
-            ignoresList[ignoresCount++] = usernameHash;
+            ignoresList[ignoresCount] = usernameHash;
+            ignoresCount += 1;
         }
 
         protected void RemoveIgnore(long usernameHash)

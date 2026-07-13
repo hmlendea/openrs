@@ -1064,7 +1064,7 @@ namespace OpenRS.Net.Client
 
         public bool LoadSection(int x, int y) => loader.LoadSection(x, y);
 
-        public void MenuClick(int l) => worldInteractionHandler.MenuClick(l);
+        public void MenuClick(int menuIndex) => worldInteractionHandler.MenuClick(menuIndex);
 
         public void LoadMap() => worldInteractionHandler.LoadMap();
 
@@ -1082,9 +1082,9 @@ namespace OpenRS.Net.Client
 
         public void AutoRotateCamera() => worldInteractionHandler.AutoRotateCamera();
 
-        public void WalkToGroundItem(int l, int i1, int j1, int k1, bool flag) => worldInteractionHandler.WalkToGroundItem(l, i1, j1, k1, flag);
+        public void WalkToGroundItem(int sectionX, int sectionY, int destinationX, int destinationY, bool isWalkCommand) => worldInteractionHandler.WalkToGroundItem(sectionX, sectionY, destinationX, destinationY, isWalkCommand);
 
-        public void WalkTo1Tile(int l, int i1, int j1, int k1, bool flag) => worldInteractionHandler.WalkTo1Tile(l, i1, j1, k1, flag);
+        public void WalkTo1Tile(int sectionX, int sectionY, int destinationX, int destinationY, bool isWalkCommand) => worldInteractionHandler.WalkTo1Tile(sectionX, sectionY, destinationX, destinationY, isWalkCommand);
 
         public void GenerateWorldRightClickMenu() => worldInteractionHandler.GenerateWorldRightClickMenu();
 
@@ -1120,17 +1120,17 @@ namespace OpenRS.Net.Client
 
         public GraphicsDevice GetGraphics() => utilities.GetGraphics();
 
-        public string formatItemCount(int itemCount) => GameClientUtilities.formatItemCount(itemCount);
+        public string FormatItemCount(int itemCount) => GameClientUtilities.FormatItemCount(itemCount);
 
-        public bool HasRequiredRunes(int l, int i1) => utilities.HasRequiredRunes(l, i1);
+        public bool HasRequiredRunes(int runeId, int requiredAmount) => utilities.HasRequiredRunes(runeId, requiredAmount);
 
-        public void DisplayMessage(string message, int type) => utilities.DisplayMessage(message, type);
+        public void DisplayMessage(string message, int messageType) => utilities.DisplayMessage(message, messageType);
 
-        public void PlaySound(string s1) => utilities.PlaySound(s1);
+        public void PlaySound(string soundName) => utilities.PlaySound(soundName);
 
-        public bool TakeScreenshot(bool verb) => utilities.TakeScreenshot(verb);
+        public bool TakeScreenshot(bool isVerbose) => utilities.TakeScreenshot(isVerbose);
 
-        public string JoinString(string[] hay, string glue, int start) => utilities.JoinString(hay, glue, start);
+        public string JoinString(string[] parts, string separator, int startIndex) => utilities.JoinString(parts, separator, startIndex);
         public void CallRequestLogout() => base.RequestLogout();
         public void CallSendPingPacket() => base.SendPingPacket();
         public void CallSendCommand(string commandText) => base.SendCommand(commandText);
@@ -1143,7 +1143,7 @@ namespace OpenRS.Net.Client
         public void CallSendUpdatedPrivacyInfo(int blockChat, int blockPrivate, int blockTrade, int blockDuel) => base.SendUpdatedPrivacyInfo(blockChat, blockPrivate, blockTrade, blockDuel);
         public void RaiseOnLoadingSection(object sender, EventArgs e) => OnLoadingSection?.Invoke(sender, e);
         public void RaiseOnLoadingSectionCompleted(object sender, EventArgs e) => OnLoadingSectionCompleted?.Invoke(sender, e);
-        public void RaiseOnContentLoaded(object sender, OpenRS.Net.Client.Events.ContentLoadedEventArgs e) => OnContentLoaded?.Invoke(sender, e);
+        public void RaiseOnContentLoaded(object sender, ContentLoadedEventArgs e) => OnContentLoaded?.Invoke(sender, e);
         public void RaiseOnContentLoadedCompleted(object sender, EventArgs e) => OnContentLoadedCompleted?.Invoke(sender, e);
         public void CallBaseLostConnection() => base.LostConnection();
 

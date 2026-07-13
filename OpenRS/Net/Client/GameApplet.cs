@@ -37,19 +37,13 @@ namespace OpenRS.Net.Client
             gameLoadingScreen = 1;
 
             InitGameApplet();
-
-            // gameWindowThread = new Thread(this);
-            // gameWindowThread.start();
-            // gameWindowThread.setPriority(1);
         }
 
 
         public void SetRefreshRate(int rate)
         {
             refreshRate = 1000 / rate;
-        }
-
-        public void ResetTimings()
+        }        public void ResetTimings()
         {
             for (int timeIndex = 0; timeIndex < 10; timeIndex += 1)
             {
@@ -67,46 +61,46 @@ namespace OpenRS.Net.Client
             // Ignore.
         }
 
-        public void KeyPressed(Keys evt)
+        public void KeyPressed(Keys key)
         {
-            char[] keyChars = Encoding.UTF8.GetChars([(byte)evt]);
-            this.KeyDown(evt, keyChars[0]);
+            char[] keyChars = Encoding.UTF8.GetChars([(byte)key]);
+            KeyDown(key, keyChars[0]);
         }
 
-        public void KeyReleased(Keys evt)
+        public void KeyReleased(Keys key)
         {
-            char[] keyChars = Encoding.UTF8.GetChars([(byte)evt]);
-            this.KeyUp(evt, keyChars[0]);
+            char[] keyChars = Encoding.UTF8.GetChars([(byte)key]);
+            KeyUp(key, keyChars[0]);
         }
 
-        public void MouseEntered(MouseState evt)
+        public void MouseEntered(MouseState mouseState)
         {
-            this.MouseMove(evt.X, evt.Y);
+            MouseMove(mouseState.X, mouseState.Y);
         }
 
-        public void MouseExited(MouseState evt)
+        public void MouseExited(MouseState mouseState)
         {
-            this.MouseMove(evt.X, evt.Y);
+            MouseMove(mouseState.X, mouseState.Y);
         }
 
-        public void MousePressed(MouseState evt)
+        public void MousePressed(MouseState mouseState)
         {
-            this.MouseDown(evt.X, evt.Y, evt.RightButton == ButtonState.Pressed);
+            MouseDown(mouseState.X, mouseState.Y, mouseState.RightButton == ButtonState.Pressed);
         }
 
-        public void MouseReleased(MouseState evt)
+        public void MouseReleased(MouseState mouseState)
         {
-            this.MouseUp(evt.X, evt.Y);
+            MouseUp(mouseState.X, mouseState.Y);
         }
 
-        public void MouseDragged(MouseState evt)
+        public void MouseDragged(MouseState mouseState)
         {
-            this.MouseDrag(evt.Y, evt.X, evt.RightButton == ButtonState.Pressed);
+            MouseDrag(mouseState.Y, mouseState.X, mouseState.RightButton == ButtonState.Pressed);
         }
 
-        public void MouseMoved(MouseState evt)
+        public void MouseMoved(MouseState mouseState)
         {
-            this.MouseMove(evt.X, evt.Y);
+            MouseMove(mouseState.X, mouseState.Y);
         }
 
         public void KeyDown(Keys key, char character)
@@ -149,9 +143,9 @@ namespace OpenRS.Net.Client
 
             bool charIsAllowed = false;
 
-            for (int charIndex = 0; charIndex < allowedChars.Length; charIndex += 1)
+            for (int charIndex = 0; charIndex < AllowedChars.Length; charIndex += 1)
             {
-                if (character != allowedChars[charIndex] && key != Keys.Left && key != Keys.Right && key != Keys.Up && key != Keys.Down)
+                if (character != AllowedChars[charIndex] && key != Keys.Left && key != Keys.Right && key != Keys.Up && key != Keys.Down)
                 {
                     continue;
                 }
@@ -346,12 +340,6 @@ namespace OpenRS.Net.Client
                 Thread.Sleep(1000);
             }
             catch (Exception) { }
-
-            if (gameFrame is not null)
-            {
-                // gameFrame.dispose();
-                // System.Exit(0);
-            }
         }
 
         //Component getGameComponent() {
@@ -368,10 +356,6 @@ namespace OpenRS.Net.Client
 
         public void Run()
         {
-            // getGameComponent().addKeyListener(this);
-            // getGameComponent().addMouseListener(this);
-            // getGameComponent().addMouseMotionListener(this);
-
             if (gameLoadingScreen == 1)
             {
                 gameLoadingScreen = 2;
@@ -400,10 +384,7 @@ namespace OpenRS.Net.Client
         }
         public bool DrawIsNecessary = false;
 
-        public void OnDrawDone()
-        {
-            DrawIsNecessary = true;
-        }
+        public void OnDrawDone() => DrawIsNecessary = true;
 
         public int gameTimingArrayIndex = 0;
         public int gameTimingMultiplier = 256;
@@ -481,7 +462,6 @@ namespace OpenRS.Net.Client
 
             while (loopAccumulator < 256)
             {
-                DateTime loopStart = DateTime.Now;
                 CheckInputs();
                 loopAccumulator += timingMultiplier;
 
@@ -500,14 +480,10 @@ namespace OpenRS.Net.Client
 
                     break;
                 }
-
-                TimeSpan loopDuration = DateTime.Now - loopStart;
             }
 
             loadingAnimationCounter -= 1;
             loopAccumulator &= 0xff;
-            // drawWindow();
-            // paint(graphics);
         }
 
         public virtual void DrawWindow()
@@ -562,12 +538,9 @@ namespace OpenRS.Net.Client
                 gameLoadingPercentage = percentage;
                 gameLoadingFileTitle = statusText;
                 int progressWidth = (277 * percentage) / 100;
-
-                return;
             }
             catch (Exception)
             {
-                return;
             }
         }
 
@@ -598,7 +571,6 @@ namespace OpenRS.Net.Client
 
         public virtual sbyte[] UnpackData(string filename, string fileTitle, int startPercentage)
         {
-
             Console.WriteLine("Using default load");
             int decompressedSize = 0;
             int compressedSize = 0;
@@ -729,10 +701,7 @@ namespace OpenRS.Net.Client
 
         private static readonly DateTime Jan1st1970 = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        public static long CurrentTimeMillis()
-        {
-            return (long)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds;
-        }
+        public static long CurrentTimeMillis() => (long)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds;
 
         //GameApplet baseApplet;
         private int appletWidth;
@@ -748,7 +717,7 @@ namespace OpenRS.Net.Client
         public int gameLoadingScreen;
         public int gameLoadingPercentage;
         public string gameLoadingFileTitle;
-        public static string allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
+        public static string AllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
         public bool keyLeftDown;
         public bool keyRightDown;
         public bool keyUpDown;

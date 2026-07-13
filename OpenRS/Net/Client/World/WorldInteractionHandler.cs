@@ -1,21 +1,20 @@
+using System;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 using OpenRS.Settings;
-using System;
 
 namespace OpenRS.Net.Client.World
 {
     public sealed class WorldInteractionHandler(GameClient client)
     {
-
-        public void MenuClick(int l)
+        public void MenuClick(int menuIndex)
         {
-            int actionX = client.menuActionX[l];
-            int actionY = client.menuActionY[l];
-            int actionType = client.menuActionType[l];
-            int actionVar1 = client.menuActionVar1[l];
-            int actionVar2 = client.menuActionVar2[l];
-            int actionID = client.menuActionID[l];
+            int actionX = client.menuActionX[menuIndex];
+            int actionY = client.menuActionY[menuIndex];
+            int actionType = client.menuActionType[menuIndex];
+            int actionVar1 = client.menuActionVar1[menuIndex];
+            int actionVar2 = client.menuActionVar2[menuIndex];
+            int actionID = client.menuActionID[menuIndex];
             if (actionID == 200)
             {
                 WalkToGroundItem(client.sectionX, client.sectionY, actionX, actionY, true);
@@ -196,49 +195,53 @@ namespace OpenRS.Net.Client.World
 
             if (actionID == 700)
             {
-                int k2 = (actionX - 64) / client.gridSize;
-                int k4 = (actionY - 64) / client.gridSize;
-                client.WalkTo1Tile(client.sectionX, client.sectionY, k2, k4, true);
+                int tileX = (actionX - 64) / client.gridSize;
+                int tileY = (actionY - 64) / client.gridSize;
+                client.WalkTo1Tile(client.sectionX, client.sectionY, tileX, tileY, true);
                 client.streamClass.CreatePacket(71);
                 client.streamClass.AddShort(actionVar1);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
                 client.selectedSpell = -1;
             }
+
             if (actionID == 710)
             {
-                int l2 = (actionX - 64) / client.gridSize;
-                int l4 = (actionY - 64) / client.gridSize;
-                client.WalkTo1Tile(client.sectionX, client.sectionY, l2, l4, true);
+                int tileX = (actionX - 64) / client.gridSize;
+                int tileY = (actionY - 64) / client.gridSize;
+                client.WalkTo1Tile(client.sectionX, client.sectionY, tileX, tileY, true);
                 client.streamClass.CreatePacket(142);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.AddShort(actionVar1);
                 client.streamClass.FormatPacket();
                 client.selectedItem = -1;
             }
+
             if (actionID == 720)
             {
-                int i3 = (actionX - 64) / client.gridSize;
-                int i5 = (actionY - 64) / client.gridSize;
-                client.WalkTo1Tile(client.sectionX, client.sectionY, i3, i5, true);
+                int tileX = (actionX - 64) / client.gridSize;
+                int tileY = (actionY - 64) / client.gridSize;
+                client.WalkTo1Tile(client.sectionX, client.sectionY, tileX, tileY, true);
                 client.streamClass.CreatePacket(177);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
             }
+
             if (actionID == 725)
             {
-                int j3 = (actionX - 64) / client.gridSize;
-                int j5 = (actionY - 64) / client.gridSize;
-                client.WalkTo1Tile(client.sectionX, client.sectionY, j3, j5, true);
+                int tileX = (actionX - 64) / client.gridSize;
+                int tileY = (actionY - 64) / client.gridSize;
+                client.WalkTo1Tile(client.sectionX, client.sectionY, tileX, tileY, true);
                 client.streamClass.CreatePacket(74);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
             }
+
             if (actionID == 715 || actionID == 2715)
             {
-                int k3 = (actionX - 64) / client.gridSize;
-                int k5 = (actionY - 64) / client.gridSize;
-                client.WalkTo1Tile(client.sectionX, client.sectionY, k3, k5, true);
+                int tileX = (actionX - 64) / client.gridSize;
+                int tileY = (actionY - 64) / client.gridSize;
+                client.WalkTo1Tile(client.sectionX, client.sectionY, tileX, tileY, true);
                 client.streamClass.CreatePacket(73);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
@@ -250,31 +253,33 @@ namespace OpenRS.Net.Client.World
 
             if (actionID == 800)
             {
-                int l3 = (actionX - 64) / client.gridSize;
-                int l5 = (actionY - 64) / client.gridSize;
-                client.WalkTo1Tile(client.sectionX, client.sectionY, l3, l5, true);
+                int tileX = (actionX - 64) / client.gridSize;
+                int tileY = (actionY - 64) / client.gridSize;
+                client.WalkTo1Tile(client.sectionX, client.sectionY, tileX, tileY, true);
                 client.streamClass.CreatePacket(55);
                 client.streamClass.AddShort(actionVar1);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
                 client.selectedSpell = -1;
             }
+
             if (actionID == 810)
             {
-                int i4 = (actionX - 64) / client.gridSize;
-                int i6 = (actionY - 64) / client.gridSize;
-                client.WalkTo1Tile(client.sectionX, client.sectionY, i4, i6, true);
+                int tileX = (actionX - 64) / client.gridSize;
+                int tileY = (actionY - 64) / client.gridSize;
+                client.WalkTo1Tile(client.sectionX, client.sectionY, tileX, tileY, true);
                 client.streamClass.CreatePacket(16);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.AddShort(actionVar1);
                 client.streamClass.FormatPacket();
                 client.selectedItem = -1;
             }
+
             if (actionID == 805 || actionID == 2805)
             {
-                int j4 = (actionX - 64) / client.gridSize;
-                int j6 = (actionY - 64) / client.gridSize;
-                client.WalkTo1Tile(client.sectionX, client.sectionY, j4, j6, true);
+                int tileX = (actionX - 64) / client.gridSize;
+                int tileY = (actionY - 64) / client.gridSize;
+                client.WalkTo1Tile(client.sectionX, client.sectionY, tileX, tileY, true);
                 client.streamClass.CreatePacket(57);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
@@ -335,6 +340,7 @@ namespace OpenRS.Net.Client.World
             client.engineHandle.landscapeFree = client.UnpackData("land.jag", "landscape", 80);
             client.engineHandle.landscapeMembers = client.UnpackData("land.mem", "members landscape", 85);
         }
+
         public void WalkToWallObject(int x, int y, int direction)
         {
             if (direction == 0)
@@ -342,59 +348,58 @@ namespace OpenRS.Net.Client.World
                 client.WalkTo(client.sectionX, client.sectionY, x, y - 1, x, y, false, true);
                 return;
             }
+
             if (direction == 1)
             {
                 client.WalkTo(client.sectionX, client.sectionY, x - 1, y, x, y, false, true);
                 return;
             }
-            else
-            {
-                client.WalkTo(client.sectionX, client.sectionY, x, y, x, y, true, true);
-                return;
-            }
+
+            client.WalkTo(client.sectionX, client.sectionY, x, y, x, y, true, true);
         }
         public bool IsValidCameraAngle(int cameraDirection)
         {
-            int l = client.ourPlayer.currentX / 128;
-            int i1 = client.ourPlayer.currentY / 128;
-            for (int j1 = 2; j1 >= 1; j1 -= 1)
+            int playerTileX = client.ourPlayer.currentX / 128;
+            int playerTileY = client.ourPlayer.currentY / 128;
+
+            for (int checkDistance = 2; checkDistance >= 1; checkDistance -= 1)
             {
-                if (cameraDirection == 1 && ((client.engineHandle.tiles[l][i1 - j1] & 0x80) == 128 || (client.engineHandle.tiles[l - j1][i1] & 0x80) == 128 || (client.engineHandle.tiles[l - j1][i1 - j1] & 0x80) == 128))
+                if (cameraDirection == 1 && ((client.engineHandle.tiles[playerTileX][playerTileY - checkDistance] & 0x80) == 128 || (client.engineHandle.tiles[playerTileX - checkDistance][playerTileY] & 0x80) == 128 || (client.engineHandle.tiles[playerTileX - checkDistance][playerTileY - checkDistance] & 0x80) == 128))
                 {
                     return false;
                 }
 
-                if (cameraDirection == 3 && ((client.engineHandle.tiles[l][i1 + j1] & 0x80) == 128 || (client.engineHandle.tiles[l - j1][i1] & 0x80) == 128 || (client.engineHandle.tiles[l - j1][i1 + j1] & 0x80) == 128))
+                if (cameraDirection == 3 && ((client.engineHandle.tiles[playerTileX][playerTileY + checkDistance] & 0x80) == 128 || (client.engineHandle.tiles[playerTileX - checkDistance][playerTileY] & 0x80) == 128 || (client.engineHandle.tiles[playerTileX - checkDistance][playerTileY + checkDistance] & 0x80) == 128))
                 {
                     return false;
                 }
 
-                if (cameraDirection == 5 && ((client.engineHandle.tiles[l][i1 + j1] & 0x80) == 128 || (client.engineHandle.tiles[l + j1][i1] & 0x80) == 128 || (client.engineHandle.tiles[l + j1][i1 + j1] & 0x80) == 128))
+                if (cameraDirection == 5 && ((client.engineHandle.tiles[playerTileX][playerTileY + checkDistance] & 0x80) == 128 || (client.engineHandle.tiles[playerTileX + checkDistance][playerTileY] & 0x80) == 128 || (client.engineHandle.tiles[playerTileX + checkDistance][playerTileY + checkDistance] & 0x80) == 128))
                 {
                     return false;
                 }
 
-                if (cameraDirection == 7 && ((client.engineHandle.tiles[l][i1 - j1] & 0x80) == 128 || (client.engineHandle.tiles[l + j1][i1] & 0x80) == 128 || (client.engineHandle.tiles[l + j1][i1 - j1] & 0x80) == 128))
+                if (cameraDirection == 7 && ((client.engineHandle.tiles[playerTileX][playerTileY - checkDistance] & 0x80) == 128 || (client.engineHandle.tiles[playerTileX + checkDistance][playerTileY] & 0x80) == 128 || (client.engineHandle.tiles[playerTileX + checkDistance][playerTileY - checkDistance] & 0x80) == 128))
                 {
                     return false;
                 }
 
-                if (cameraDirection == 0 && (client.engineHandle.tiles[l][i1 - j1] & 0x80) == 128)
+                if (cameraDirection == 0 && (client.engineHandle.tiles[playerTileX][playerTileY - checkDistance] & 0x80) == 128)
                 {
                     return false;
                 }
 
-                if (cameraDirection == 2 && (client.engineHandle.tiles[l - j1][i1] & 0x80) == 128)
+                if (cameraDirection == 2 && (client.engineHandle.tiles[playerTileX - checkDistance][playerTileY] & 0x80) == 128)
                 {
                     return false;
                 }
 
-                if (cameraDirection == 4 && (client.engineHandle.tiles[l][i1 + j1] & 0x80) == 128)
+                if (cameraDirection == 4 && (client.engineHandle.tiles[playerTileX][playerTileY + checkDistance] & 0x80) == 128)
                 {
                     return false;
                 }
 
-                if (cameraDirection == 6 && (client.engineHandle.tiles[l + j1][i1] & 0x80) == 128)
+                if (cameraDirection == 6 && (client.engineHandle.tiles[playerTileX + checkDistance][playerTileY] & 0x80) == 128)
                 {
                     return false;
                 }
@@ -445,24 +450,26 @@ namespace OpenRS.Net.Client.World
                 stepCount = 0;
             }
 
-            for (int i1 = stepCount; i1 >= 0 && i1 > stepCount - 25; i1 -= 1)
+            for (int walkStepIndex = stepCount; walkStepIndex >= 0 && walkStepIndex > stepCount - 25; walkStepIndex -= 1)
             {
-                client.streamClass.AddByte(client.walkArrayX[i1] - startX);
-                client.streamClass.AddByte(client.walkArrayY[i1] - startY);
+                client.streamClass.AddByte(client.walkArrayX[walkStepIndex] - startX);
+                client.streamClass.AddByte(client.walkArrayY[walkStepIndex] - startY);
             }
 
             client.streamClass.FormatPacket();
-            //base.streamClass.Flush();
 
             client.actionPictureType = -24;
             client.walkMouseX = client.mouseX;
             client.walkMouseY = client.mouseY;
+
             return true;
         }
+
         public bool WalkToAlternate(int startX, int startY, int destBottomX, int destBottomY, int destTopX, int destTopY, bool unknownDifferent,
                 bool walkToACommand)
         {
             int stepCount = client.engineHandle.GeneratePath(startX, startY, destBottomX, destBottomY, destTopX, destTopY, client.walkArrayX, client.walkArrayY, unknownDifferent);
+
             if (stepCount == -1)
             {
                 return false;
@@ -472,6 +479,7 @@ namespace OpenRS.Net.Client.World
             startX = client.walkArrayX[stepCount];
             startY = client.walkArrayY[stepCount];
             stepCount -= 1;
+
             if (walkToACommand)
             {
                 client.streamClass.CreatePacket(246);
@@ -483,67 +491,71 @@ namespace OpenRS.Net.Client.World
 
             client.streamClass.AddShort(startX + client.areaX);
             client.streamClass.AddShort(startY + client.areaY);
+
             if (walkToACommand && stepCount == -1 && (startX + client.areaX) % 5 == 0)
             {
                 stepCount = 0;
             }
 
-            for (int i1 = stepCount; i1 >= 0 && i1 > stepCount - 25; i1 -= 1)
+            for (int walkStepIndex = stepCount; walkStepIndex >= 0 && walkStepIndex > stepCount - 25; walkStepIndex -= 1)
             {
-                client.streamClass.AddByte(client.walkArrayX[i1] - startX);
-                client.streamClass.AddByte(client.walkArrayY[i1] - startY);
+                client.streamClass.AddByte(client.walkArrayX[walkStepIndex] - startX);
+                client.streamClass.AddByte(client.walkArrayY[walkStepIndex] - startY);
             }
 
             client.streamClass.FormatPacket();
             client.actionPictureType = -24;
             client.walkMouseX = client.mouseX;
             client.walkMouseY = client.mouseY;
+
             return true;
         }
         public void WalkToObject(int objectX, int objectY, int facingDirection, int objectIndex)
         {
-            int l;
-            int i1;
+            int adjustedWidth;
+            int adjustedHeight;
+
             if (facingDirection == 0 || facingDirection == 4)
             {
-                l = GameData.objectWidth[objectIndex];
-                i1 = GameData.objectHeight[objectIndex];
+                adjustedWidth = GameData.objectWidth[objectIndex];
+                adjustedHeight = GameData.objectHeight[objectIndex];
             }
             else
             {
-                i1 = GameData.objectWidth[objectIndex];
-                l = GameData.objectHeight[objectIndex];
+                adjustedHeight = GameData.objectWidth[objectIndex];
+                adjustedWidth = GameData.objectHeight[objectIndex];
             }
+
             if (GameData.objectType[objectIndex] == 2 || GameData.objectType[objectIndex] == 3)
             {
                 if (facingDirection == 0)
                 {
                     objectX -= 1;
-                    l += 1;
+                    adjustedWidth += 1;
                 }
+
                 if (facingDirection == 2)
                 {
-                    i1 += 1;
+                    adjustedHeight += 1;
                 }
 
                 if (facingDirection == 4)
                 {
-                    l += 1;
+                    adjustedWidth += 1;
                 }
 
                 if (facingDirection == 6)
                 {
                     objectY -= 1;
-                    i1 += 1;
+                    adjustedHeight += 1;
                 }
-                client.WalkTo(client.sectionX, client.sectionY, objectX, objectY, (objectX + l) - 1, (objectY + i1) - 1, false, true);
+
+                client.WalkTo(client.sectionX, client.sectionY, objectX, objectY, (objectX + adjustedWidth) - 1, (objectY + adjustedHeight) - 1, false, true);
+
                 return;
             }
-            else
-            {
-                client.WalkTo(client.sectionX, client.sectionY, objectX, objectY, (objectX + l) - 1, (objectY + i1) - 1, true, true);
-                return;
-            }
+
+            client.WalkTo(client.sectionX, client.sectionY, objectX, objectY, (objectX + adjustedWidth) - 1, (objectY + adjustedHeight) - 1, true, true);
         }
         public void AutoRotateCamera()
         {
@@ -559,6 +571,7 @@ namespace OpenRS.Net.Client.World
                     client.cameraAutoAngle = client.cameraAutoAngle + 1 & 7;
                     return;
                 }
+
                 if (client.IsValidCameraAngle(client.cameraAutoAngle + 7 & 7))
                 {
                     client.cameraAutoAngle = client.cameraAutoAngle + 7 & 7;
@@ -566,17 +579,17 @@ namespace OpenRS.Net.Client.World
 
                 return;
             }
-            int[] ai = [
-            1, -1, 2, -2, 3, -3, 4
-        ];
-            for (int l = 0; l < 7; l += 1)
+
+            int[] directionOffsets = [1, -1, 2, -2, 3, -3, 4];
+
+            for (int offsetIndex = 0; offsetIndex < 7; offsetIndex += 1)
             {
-                if (!client.IsValidCameraAngle(client.cameraAutoAngle + ai[l] + 8 & 7))
+                if (!client.IsValidCameraAngle(client.cameraAutoAngle + directionOffsets[offsetIndex] + 8 & 7))
                 {
                     continue;
                 }
 
-                client.cameraAutoAngle = client.cameraAutoAngle + ai[l] + 8 & 7;
+                client.cameraAutoAngle = client.cameraAutoAngle + directionOffsets[offsetIndex] + 8 & 7;
                 break;
             }
 
@@ -587,154 +600,154 @@ namespace OpenRS.Net.Client.World
                     client.cameraAutoAngle = client.cameraAutoAngle + 1 & 7;
                     return;
                 }
+
                 if (client.IsValidCameraAngle(client.cameraAutoAngle + 7 & 7))
                 {
                     client.cameraAutoAngle = client.cameraAutoAngle + 7 & 7;
                 }
+            }
+        }
+        public void WalkToGroundItem(int sectionX, int sectionY, int destinationX, int destinationY, bool isWalkCommand)
+        {
+            if (client.WalkToAlternate(sectionX, sectionY, destinationX, destinationY, destinationX, destinationY, false, isWalkCommand))
+            {
+                return;
+            }
 
-                return;
-            }
-            else
-            {
-                return;
-            }
+            client.WalkTo(sectionX, sectionY, destinationX, destinationY, destinationX, destinationY, true, isWalkCommand);
         }
-        public void WalkToGroundItem(int l, int i1, int j1, int k1, bool flag)
+
+        public void WalkTo1Tile(int sectionX, int sectionY, int destinationX, int destinationY, bool isWalkCommand)
         {
-            if (client.WalkToAlternate(l, i1, j1, k1, j1, k1, false, flag))
-            {
-                return;
-            }
-            else
-            {
-                client.WalkTo(l, i1, j1, k1, j1, k1, true, flag);
-                return;
-            }
+            client.WalkTo(sectionX, sectionY, destinationX, destinationY, destinationX, destinationY, false, isWalkCommand);
         }
-        public void WalkTo1Tile(int l, int i1, int j1, int k1, bool flag)
-        {
-            client.WalkTo(l, i1, j1, k1, j1, k1, false, flag);
-        }
+
         public void GenerateWorldRightClickMenu()
         {
-            int l = 2203 - (client.sectionY + client.wildY + client.areaY);
+            int northernWildernessBoundary = 2203 - (client.sectionY + client.wildY + client.areaY);
+
             if (client.sectionX + client.wildX + client.areaX >= 2640)
             {
-                l = -50;
+                northernWildernessBoundary = -50;
             }
 
-            int ground = -1;
-            for (int j1 = 0; j1 < client.objectCount; j1 += 1)
+            int groundEntityIndex = -1;
+
+            for (int objectSlot = 0; objectSlot < client.objectCount; objectSlot += 1)
             {
-                client.objectAlreadyInMenu[j1] = false;
+                client.objectAlreadyInMenu[objectSlot] = false;
             }
 
-            for (int k1 = 0; k1 < client.wallObjectCount; k1 += 1)
+            for (int wallObjectSlot = 0; wallObjectSlot < client.wallObjectCount; wallObjectSlot += 1)
             {
-                client.wallObjectAlreadyInMenu[k1] = false;
+                client.wallObjectAlreadyInMenu[wallObjectSlot] = false;
             }
 
             int optionCount = client.gameCamera.GetOptionCount();
             GameObject[] objects = client.gameCamera.GetHighlightedObjects();
-            int[] players = client.gameCamera.GetHighlightedPlayers();
-            for (int i2 = 0; i2 < optionCount; i2 += 1)
+            int[] entitySlots = client.gameCamera.GetHighlightedPlayers();
+
+            for (int optionIndex = 0; optionIndex < optionCount; optionIndex += 1)
             {
                 if (client.menuOptionsCount > 200)
                 {
                     break;
                 }
 
-                int player = players[i2];
-                GameObject _obj = objects[i2];
-                if (_obj.entityType[player] <= 65535 || _obj.entityType[player] >= 0x30d40 && _obj.entityType[player] <= 0x493e0)
+                int entitySlotId = entitySlots[optionIndex];
+                GameObject highlightedObject = objects[optionIndex];
+
+                if (highlightedObject.entityType[entitySlotId] <= 65535 || highlightedObject.entityType[entitySlotId] >= 0x30d40 && highlightedObject.entityType[entitySlotId] <= 0x493e0)
                 {
-                    if (_obj == client.gameCamera.highlightedObject)
+                    if (highlightedObject == client.gameCamera.highlightedObject)
                     {
-                        int index = _obj.entityType[player] % 10000;
-                        int type = _obj.entityType[player] / 10000;
-                        if (type == 1)
+                        int entityIndex = highlightedObject.entityType[entitySlotId] % 10000;
+                        int entityKind = highlightedObject.entityType[entitySlotId] / 10000;
+
+                        if (entityKind == 1)
                         {
-                            string s1 = "";
-                            int k4 = 0;
-                            if (client.ourPlayer.level > 0 && client.playerArray[index].level > 0)
+                            string levelColourCode = "";
+                            int levelDifference = 0;
+
+                            if (client.ourPlayer.level > 0 && client.playerArray[entityIndex].level > 0)
                             {
-                                k4 = client.ourPlayer.level - client.playerArray[index].level;
+                                levelDifference = client.ourPlayer.level - client.playerArray[entityIndex].level;
                             }
 
-                            if (k4 < 0)
+                            if (levelDifference < 0)
                             {
-                                s1 = "@or1@";
+                                levelColourCode = "@or1@";
                             }
 
-                            if (k4 < -3)
+                            if (levelDifference < -3)
                             {
-                                s1 = "@or2@";
+                                levelColourCode = "@or2@";
                             }
 
-                            if (k4 < -6)
+                            if (levelDifference < -6)
                             {
-                                s1 = "@or3@";
+                                levelColourCode = "@or3@";
                             }
 
-                            if (k4 < -9)
+                            if (levelDifference < -9)
                             {
-                                s1 = "@red@";
+                                levelColourCode = "@red@";
                             }
 
-                            if (k4 > 0)
+                            if (levelDifference > 0)
                             {
-                                s1 = "@gr1@";
+                                levelColourCode = "@gr1@";
                             }
 
-                            if (k4 > 3)
+                            if (levelDifference > 3)
                             {
-                                s1 = "@gr2@";
+                                levelColourCode = "@gr2@";
                             }
 
-                            if (k4 > 6)
+                            if (levelDifference > 6)
                             {
-                                s1 = "@gr3@";
+                                levelColourCode = "@gr3@";
                             }
 
-                            if (k4 > 9)
+                            if (levelDifference > 9)
                             {
-                                s1 = "@gre@";
+                                levelColourCode = "@gre@";
                             }
 
-                            s1 = " " + s1 + "(level-" + client.playerArray[index].level + ")";
+                            levelColourCode = " " + levelColourCode + "(level-" + client.playerArray[entityIndex].level + ")";
                             if (client.selectedSpell >= 0)
                             {
                                 if (GameData.spellType[client.selectedSpell] == 1 || GameData.spellType[client.selectedSpell] == 2)
                                 {
                                     client.menuText1[client.menuOptionsCount] = "Cast " + GameData.spellName[client.selectedSpell] + " on";
-                                    client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[index].username + s1;
+                                    client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].username + levelColourCode;
                                     client.menuActionID[client.menuOptionsCount] = 800;
-                                    client.menuActionX[client.menuOptionsCount] = client.playerArray[index].currentX;
-                                    client.menuActionY[client.menuOptionsCount] = client.playerArray[index].currentY;
-                                    client.menuActionType[client.menuOptionsCount] = client.playerArray[index].serverIndex;
+                                    client.menuActionX[client.menuOptionsCount] = client.playerArray[entityIndex].currentX;
+                                    client.menuActionY[client.menuOptionsCount] = client.playerArray[entityIndex].currentY;
+                                    client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].serverIndex;
                                     client.menuActionVar1[client.menuOptionsCount] = client.selectedSpell;
                                     client.menuOptionsCount += 1;
                                 }
                             }
+                            else if (client.selectedItem >= 0)
+                            {
+                                client.menuText1[client.menuOptionsCount] = "Use " + client.selectedItemName + " with";
+                                client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].username + levelColourCode;
+                                client.menuActionID[client.menuOptionsCount] = 810;
+                                client.menuActionX[client.menuOptionsCount] = client.playerArray[entityIndex].currentX;
+                                client.menuActionY[client.menuOptionsCount] = client.playerArray[entityIndex].currentY;
+                                client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].serverIndex;
+                                client.menuActionVar1[client.menuOptionsCount] = client.selectedItem;
+                                client.menuOptionsCount += 1;
+                            }
                             else
-                                if (client.selectedItem >= 0)
+                            {
+                                if (northernWildernessBoundary > 0 && (client.playerArray[entityIndex].currentY - 64) / client.gridSize + client.wildY + client.areaY < 2203)
                                 {
-                                    client.menuText1[client.menuOptionsCount] = "Use " + client.selectedItemName + " with";
-                                    client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[index].username + s1;
-                                    client.menuActionID[client.menuOptionsCount] = 810;
-                                    client.menuActionX[client.menuOptionsCount] = client.playerArray[index].currentX;
-                                    client.menuActionY[client.menuOptionsCount] = client.playerArray[index].currentY;
-                                    client.menuActionType[client.menuOptionsCount] = client.playerArray[index].serverIndex;
-                                    client.menuActionVar1[client.menuOptionsCount] = client.selectedItem;
-                                    client.menuOptionsCount += 1;
-                                }
-                                else
-                                {
-                                    if (l > 0 && (client.playerArray[index].currentY - 64) / client.gridSize + client.wildY + client.areaY < 2203)
-                                    {
-                                        client.menuText1[client.menuOptionsCount] = "Attack";
-                                        client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[index].username + s1;
-                                        if (k4 >= 0 && k4 < 5)
+                                    client.menuText1[client.menuOptionsCount] = "Attack";
+                                    client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].username + levelColourCode;
+
+                                    if (levelDifference >= 0 && levelDifference < 5)
                                     {
                                         client.menuActionID[client.menuOptionsCount] = 805;
                                     }
@@ -743,166 +756,168 @@ namespace OpenRS.Net.Client.World
                                         client.menuActionID[client.menuOptionsCount] = 2805;
                                     }
 
-                                    client.menuActionX[client.menuOptionsCount] = client.playerArray[index].currentX;
-                                        client.menuActionY[client.menuOptionsCount] = client.playerArray[index].currentY;
-                                        client.menuActionType[client.menuOptionsCount] = client.playerArray[index].serverIndex;
-                                        client.menuOptionsCount += 1;
-                                    }
-                                    else
-                                        if (Config.MembersFeatures)
-                                        {
-                                            client.menuText1[client.menuOptionsCount] = "Duel with";
-                                            client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[index].username + s1;
-                                            client.menuActionX[client.menuOptionsCount] = client.playerArray[index].currentX;
-                                            client.menuActionY[client.menuOptionsCount] = client.playerArray[index].currentY;
-                                            client.menuActionID[client.menuOptionsCount] = 2806;
-                                            client.menuActionType[client.menuOptionsCount] = client.playerArray[index].serverIndex;
-                                            client.menuOptionsCount += 1;
-                                        }
-                                    client.menuText1[client.menuOptionsCount] = "Trade with";
-                                    client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[index].username + s1;
-                                    client.menuActionID[client.menuOptionsCount] = 2810;
-                                    client.menuActionType[client.menuOptionsCount] = client.playerArray[index].serverIndex;
-                                    client.menuOptionsCount += 1;
-                                    client.menuText1[client.menuOptionsCount] = "Follow";
-                                    client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[index].username + s1;
-                                    client.menuActionID[client.menuOptionsCount] = 2820;
-                                    client.menuActionType[client.menuOptionsCount] = client.playerArray[index].serverIndex;
+                                    client.menuActionX[client.menuOptionsCount] = client.playerArray[entityIndex].currentX;
+                                    client.menuActionY[client.menuOptionsCount] = client.playerArray[entityIndex].currentY;
+                                    client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].serverIndex;
                                     client.menuOptionsCount += 1;
                                 }
+                                else if (Config.MembersFeatures)
+                                {
+                                    client.menuText1[client.menuOptionsCount] = "Duel with";
+                                    client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].username + levelColourCode;
+                                    client.menuActionX[client.menuOptionsCount] = client.playerArray[entityIndex].currentX;
+                                    client.menuActionY[client.menuOptionsCount] = client.playerArray[entityIndex].currentY;
+                                    client.menuActionID[client.menuOptionsCount] = 2806;
+                                    client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].serverIndex;
+                                    client.menuOptionsCount += 1;
+                                }
+
+                                client.menuText1[client.menuOptionsCount] = "Trade with";
+                                client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].username + levelColourCode;
+                                client.menuActionID[client.menuOptionsCount] = 2810;
+                                client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].serverIndex;
+                                client.menuOptionsCount += 1;
+
+                                client.menuText1[client.menuOptionsCount] = "Follow";
+                                client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].username + levelColourCode;
+                                client.menuActionID[client.menuOptionsCount] = 2820;
+                                client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].serverIndex;
+                                client.menuOptionsCount += 1;
+                            }
                         }
-                        else
-                            if (type == 2)
-                            {
+                        else if (entityKind == 2)
+                        {
                                 if (client.selectedSpell >= 0)
                                 {
                                     if (GameData.spellType[client.selectedSpell] == 3)
                                     {
                                         client.menuText1[client.menuOptionsCount] = "Cast " + GameData.spellName[client.selectedSpell] + " on";
-                                        client.menuText2[client.menuOptionsCount] = "@lre@" + GameData.itemName[client.groundItemID[index]];
+                                        client.menuText2[client.menuOptionsCount] = "@lre@" + GameData.itemName[client.groundItemID[entityIndex]];
                                         client.menuActionID[client.menuOptionsCount] = 200;
-                                        client.menuActionX[client.menuOptionsCount] = client.groundItemX[index];
-                                        client.menuActionY[client.menuOptionsCount] = client.groundItemY[index];
-                                        client.menuActionType[client.menuOptionsCount] = client.groundItemID[index];
+                                        client.menuActionX[client.menuOptionsCount] = client.groundItemX[entityIndex];
+                                        client.menuActionY[client.menuOptionsCount] = client.groundItemY[entityIndex];
+                                        client.menuActionType[client.menuOptionsCount] = client.groundItemID[entityIndex];
                                         client.menuActionVar1[client.menuOptionsCount] = client.selectedSpell;
                                         client.menuOptionsCount += 1;
                                     }
                                 }
+                                else if (client.selectedItem >= 0)
+                                {
+                                    client.menuText1[client.menuOptionsCount] = "Use " + client.selectedItemName + " with";
+                                    client.menuText2[client.menuOptionsCount] = "@lre@" + GameData.itemName[client.groundItemID[entityIndex]];
+                                    client.menuActionID[client.menuOptionsCount] = 210;
+                                    client.menuActionX[client.menuOptionsCount] = client.groundItemX[entityIndex];
+                                    client.menuActionY[client.menuOptionsCount] = client.groundItemY[entityIndex];
+                                    client.menuActionType[client.menuOptionsCount] = client.groundItemID[entityIndex];
+                                    client.menuActionVar1[client.menuOptionsCount] = client.selectedItem;
+                                    client.menuOptionsCount += 1;
+                                }
                                 else
-                                    if (client.selectedItem >= 0)
-                                    {
-                                        client.menuText1[client.menuOptionsCount] = "Use " + client.selectedItemName + " with";
-                                        client.menuText2[client.menuOptionsCount] = "@lre@" + GameData.itemName[client.groundItemID[index]];
-                                        client.menuActionID[client.menuOptionsCount] = 210;
-                                        client.menuActionX[client.menuOptionsCount] = client.groundItemX[index];
-                                        client.menuActionY[client.menuOptionsCount] = client.groundItemY[index];
-                                        client.menuActionType[client.menuOptionsCount] = client.groundItemID[index];
-                                        client.menuActionVar1[client.menuOptionsCount] = client.selectedItem;
-                                        client.menuOptionsCount += 1;
-                                    }
-                                    else
-                                    {
-                                        client.menuText1[client.menuOptionsCount] = "Take";
-                                        client.menuText2[client.menuOptionsCount] = "@lre@" + GameData.itemName[client.groundItemID[index]];
-                                        client.menuActionID[client.menuOptionsCount] = 220;
-                                        client.menuActionX[client.menuOptionsCount] = client.groundItemX[index];
-                                        client.menuActionY[client.menuOptionsCount] = client.groundItemY[index];
-                                        client.menuActionType[client.menuOptionsCount] = client.groundItemID[index];
-                                        client.menuOptionsCount += 1;
-                                        client.menuText1[client.menuOptionsCount] = "Examine";
-                                        client.menuText2[client.menuOptionsCount] = "@lre@" + GameData.itemName[client.groundItemID[index]];
-                                        client.menuActionID[client.menuOptionsCount] = 3200;
-                                        client.menuActionType[client.menuOptionsCount] = client.groundItemID[index];
-                                        client.menuOptionsCount += 1;
-                                    }
+                                {
+                                    client.menuText1[client.menuOptionsCount] = "Take";
+                                    client.menuText2[client.menuOptionsCount] = "@lre@" + GameData.itemName[client.groundItemID[entityIndex]];
+                                    client.menuActionID[client.menuOptionsCount] = 220;
+                                    client.menuActionX[client.menuOptionsCount] = client.groundItemX[entityIndex];
+                                    client.menuActionY[client.menuOptionsCount] = client.groundItemY[entityIndex];
+                                    client.menuActionType[client.menuOptionsCount] = client.groundItemID[entityIndex];
+                                    client.menuOptionsCount += 1;
+
+                                    client.menuText1[client.menuOptionsCount] = "Examine";
+                                    client.menuText2[client.menuOptionsCount] = "@lre@" + GameData.itemName[client.groundItemID[entityIndex]];
+                                    client.menuActionID[client.menuOptionsCount] = 3200;
+                                    client.menuActionType[client.menuOptionsCount] = client.groundItemID[entityIndex];
+                                    client.menuOptionsCount += 1;
+                                }
+                        }
+                        else if (entityKind == 3)
+                        {
+                            string npcLevelColourCode = "";
+                            int npcLevelDifference = -1;
+                            int npcId = client.npcArray[entityIndex].npcId;
+
+                            if (GameData.npcAttackable[npcId] > 0)
+                            {
+                                int npcAverageLevel = (GameData.npcAttack[npcId] + GameData.npcDefense[npcId] + GameData.npcStrength[npcId] + GameData.npcHits[npcId]) / 4;
+                                int playerAverageLevel = (client.playerStatBase[0] + client.playerStatBase[1] + client.playerStatBase[2] + client.playerStatBase[3] + 27) / 4;
+                                npcLevelDifference = playerAverageLevel - npcAverageLevel;
+                                npcLevelColourCode = "@yel@";
+
+                                if (npcLevelDifference < 0)
+                                {
+                                    npcLevelColourCode = "@or1@";
+                                }
+
+                                if (npcLevelDifference < -3)
+                                {
+                                    npcLevelColourCode = "@or2@";
+                                }
+
+                                if (npcLevelDifference < -6)
+                                {
+                                    npcLevelColourCode = "@or3@";
+                                }
+
+                                if (npcLevelDifference < -9)
+                                {
+                                    npcLevelColourCode = "@red@";
+                                }
+
+                                if (npcLevelDifference > 0)
+                                {
+                                    npcLevelColourCode = "@gr1@";
+                                }
+
+                                if (npcLevelDifference > 3)
+                                {
+                                    npcLevelColourCode = "@gr2@";
+                                }
+
+                                if (npcLevelDifference > 6)
+                                {
+                                    npcLevelColourCode = "@gr3@";
+                                }
+
+                                if (npcLevelDifference > 9)
+                                {
+                                    npcLevelColourCode = "@gre@";
+                                }
+
+                                npcLevelColourCode = " " + npcLevelColourCode + "(level-" + npcAverageLevel + ")";
+                            }
+
+                            if (client.selectedSpell >= 0)
+                            {
+                                if (GameData.spellType[client.selectedSpell] == 2)
+                                {
+                                    client.menuText1[client.menuOptionsCount] = "Cast " + GameData.spellName[client.selectedSpell] + " on";
+                                    client.menuText2[client.menuOptionsCount] = "@yel@" + GameData.npcName[client.npcArray[entityIndex].npcId];
+                                    client.menuActionID[client.menuOptionsCount] = 700;
+                                    client.menuActionX[client.menuOptionsCount] = client.npcArray[entityIndex].currentX;
+                                    client.menuActionY[client.menuOptionsCount] = client.npcArray[entityIndex].currentY;
+                                    client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].serverIndex;
+                                    client.menuActionVar1[client.menuOptionsCount] = client.selectedSpell;
+                                    client.menuOptionsCount += 1;
+                                }
+                            }
+                            else if (client.selectedItem >= 0)
+                            {
+                                client.menuText1[client.menuOptionsCount] = "Use " + client.selectedItemName + " with";
+                                client.menuText2[client.menuOptionsCount] = "@yel@" + GameData.npcName[client.npcArray[entityIndex].npcId];
+                                client.menuActionID[client.menuOptionsCount] = 710;
+                                client.menuActionX[client.menuOptionsCount] = client.npcArray[entityIndex].currentX;
+                                client.menuActionY[client.menuOptionsCount] = client.npcArray[entityIndex].currentY;
+                                client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].serverIndex;
+                                client.menuActionVar1[client.menuOptionsCount] = client.selectedItem;
+                                client.menuOptionsCount += 1;
                             }
                             else
-                                if (type == 3)
+                            {
+                                if (GameData.npcAttackable[npcId] > 0)
                                 {
-                                    string s2 = "";
-                                    int l4 = -1;
-                                    int id = client.npcArray[index].npcId;
-                                    if (GameData.npcAttackable[id] > 0)
-                                    {
-                                        int j5 = (GameData.npcAttack[id] + GameData.npcDefense[id] + GameData.npcStrength[id] + GameData.npcHits[id]) / 4;
-                                        int k5 = (client.playerStatBase[0] + client.playerStatBase[1] + client.playerStatBase[2] + client.playerStatBase[3] + 27) / 4;
-                                        l4 = k5 - j5;
-                                        s2 = "@yel@";
-                                        if (l4 < 0)
-                                {
-                                    s2 = "@or1@";
-                                }
+                                    client.menuText1[client.menuOptionsCount] = "Attack";
+                                    client.menuText2[client.menuOptionsCount] = "@yel@" + GameData.npcName[client.npcArray[entityIndex].npcId] + npcLevelColourCode;
 
-                                if (l4 < -3)
-                                {
-                                    s2 = "@or2@";
-                                }
-
-                                if (l4 < -6)
-                                {
-                                    s2 = "@or3@";
-                                }
-
-                                if (l4 < -9)
-                                {
-                                    s2 = "@red@";
-                                }
-
-                                if (l4 > 0)
-                                {
-                                    s2 = "@gr1@";
-                                }
-
-                                if (l4 > 3)
-                                {
-                                    s2 = "@gr2@";
-                                }
-
-                                if (l4 > 6)
-                                {
-                                    s2 = "@gr3@";
-                                }
-
-                                if (l4 > 9)
-                                {
-                                    s2 = "@gre@";
-                                }
-
-                                s2 = " " + s2 + "(level-" + j5 + ")";
-                                    }
-                                    if (client.selectedSpell >= 0)
-                                    {
-                                        if (GameData.spellType[client.selectedSpell] == 2)
-                                        {
-                                            client.menuText1[client.menuOptionsCount] = "Cast " + GameData.spellName[client.selectedSpell] + " on";
-                                            client.menuText2[client.menuOptionsCount] = "@yel@" + GameData.npcName[client.npcArray[index].npcId];
-                                            client.menuActionID[client.menuOptionsCount] = 700;
-                                            client.menuActionX[client.menuOptionsCount] = client.npcArray[index].currentX;
-                                            client.menuActionY[client.menuOptionsCount] = client.npcArray[index].currentY;
-                                            client.menuActionType[client.menuOptionsCount] = client.npcArray[index].serverIndex;
-                                            client.menuActionVar1[client.menuOptionsCount] = client.selectedSpell;
-                                            client.menuOptionsCount += 1;
-                                        }
-                                    }
-                                    else
-                                        if (client.selectedItem >= 0)
-                                        {
-                                            client.menuText1[client.menuOptionsCount] = "Use " + client.selectedItemName + " with";
-                                            client.menuText2[client.menuOptionsCount] = "@yel@" + GameData.npcName[client.npcArray[index].npcId];
-                                            client.menuActionID[client.menuOptionsCount] = 710;
-                                            client.menuActionX[client.menuOptionsCount] = client.npcArray[index].currentX;
-                                            client.menuActionY[client.menuOptionsCount] = client.npcArray[index].currentY;
-                                            client.menuActionType[client.menuOptionsCount] = client.npcArray[index].serverIndex;
-                                            client.menuActionVar1[client.menuOptionsCount] = client.selectedItem;
-                                            client.menuOptionsCount += 1;
-                                        }
-                                        else
-                                        {
-                                            if (GameData.npcAttackable[id] > 0)
-                                            {
-                                                client.menuText1[client.menuOptionsCount] = "Attack";
-                                                client.menuText2[client.menuOptionsCount] = "@yel@" + GameData.npcName[client.npcArray[index].npcId] + s2;
-                                                if (l4 >= 0)
+                                    if (npcLevelDifference >= 0)
                                     {
                                         client.menuActionID[client.menuOptionsCount] = 715;
                                     }
@@ -911,178 +926,187 @@ namespace OpenRS.Net.Client.World
                                         client.menuActionID[client.menuOptionsCount] = 2715;
                                     }
 
-                                    client.menuActionX[client.menuOptionsCount] = client.npcArray[index].currentX;
-                                                client.menuActionY[client.menuOptionsCount] = client.npcArray[index].currentY;
-                                                client.menuActionType[client.menuOptionsCount] = client.npcArray[index].serverIndex;
-                                                client.menuOptionsCount += 1;
-                                            }
-                                            client.menuText1[client.menuOptionsCount] = "Talk-to";
-                                            client.menuText2[client.menuOptionsCount] = "@yel@" + GameData.npcName[client.npcArray[index].npcId];
-                                            client.menuActionID[client.menuOptionsCount] = 720;
-                                            client.menuActionX[client.menuOptionsCount] = client.npcArray[index].currentX;
-                                            client.menuActionY[client.menuOptionsCount] = client.npcArray[index].currentY;
-                                            client.menuActionType[client.menuOptionsCount] = client.npcArray[index].serverIndex;
-                                            client.menuOptionsCount += 1;
-                                            if (GameData.npcCommand[id] != "")
-                                            {
-                                                client.menuText1[client.menuOptionsCount] = GameData.npcCommand[id];
-                                                client.menuText2[client.menuOptionsCount] = "@yel@" + GameData.npcName[client.npcArray[index].npcId];
-                                                client.menuActionID[client.menuOptionsCount] = 725;
-                                                client.menuActionX[client.menuOptionsCount] = client.npcArray[index].currentX;
-                                                client.menuActionY[client.menuOptionsCount] = client.npcArray[index].currentY;
-                                                client.menuActionType[client.menuOptionsCount] = client.npcArray[index].serverIndex;
-                                                client.menuOptionsCount += 1;
-                                            }
-                                            client.menuText1[client.menuOptionsCount] = "Examine";
-                                            client.menuText2[client.menuOptionsCount] = "@yel@" + GameData.npcName[client.npcArray[index].npcId];
-                                            client.menuActionID[client.menuOptionsCount] = 3700;
-                                            client.menuActionType[client.menuOptionsCount] = client.npcArray[index].npcId;
-                                            client.menuOptionsCount += 1;
-                                        }
+                                    client.menuActionX[client.menuOptionsCount] = client.npcArray[entityIndex].currentX;
+                                    client.menuActionY[client.menuOptionsCount] = client.npcArray[entityIndex].currentY;
+                                    client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].serverIndex;
+                                    client.menuOptionsCount += 1;
                                 }
-                    }
-                    else
-                        if (_obj is not null && _obj.index >= 10000)
-                        {
-                            int j3 = _obj.index - 10000;
-                            int i4 = client.wallObjectID[j3];
-                            if (!client.wallObjectAlreadyInMenu[j3])
-                            {
-                                if (client.selectedSpell >= 0)
+
+                                client.menuText1[client.menuOptionsCount] = "Talk-to";
+                                client.menuText2[client.menuOptionsCount] = "@yel@" + GameData.npcName[client.npcArray[entityIndex].npcId];
+                                client.menuActionID[client.menuOptionsCount] = 720;
+                                client.menuActionX[client.menuOptionsCount] = client.npcArray[entityIndex].currentX;
+                                client.menuActionY[client.menuOptionsCount] = client.npcArray[entityIndex].currentY;
+                                client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].serverIndex;
+                                client.menuOptionsCount += 1;
+
+                                if (GameData.npcCommand[npcId] != "")
                                 {
-                                    if (GameData.spellType[client.selectedSpell] == 4)
-                                    {
-                                        client.menuText1[client.menuOptionsCount] = "Cast " + GameData.spellName[client.selectedSpell] + " on";
-                                        client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.wallObjectName[i4];
-                                        client.menuActionID[client.menuOptionsCount] = 300;
-                                        client.menuActionX[client.menuOptionsCount] = client.wallObjectX[j3];
-                                        client.menuActionY[client.menuOptionsCount] = client.wallObjectY[j3];
-                                        client.menuActionType[client.menuOptionsCount] = client.wallObjectDirection[j3];
-                                        client.menuActionVar1[client.menuOptionsCount] = client.selectedSpell;
-                                        client.menuOptionsCount += 1;
-                                    }
+                                    client.menuText1[client.menuOptionsCount] = GameData.npcCommand[npcId];
+                                    client.menuText2[client.menuOptionsCount] = "@yel@" + GameData.npcName[client.npcArray[entityIndex].npcId];
+                                    client.menuActionID[client.menuOptionsCount] = 725;
+                                    client.menuActionX[client.menuOptionsCount] = client.npcArray[entityIndex].currentX;
+                                    client.menuActionY[client.menuOptionsCount] = client.npcArray[entityIndex].currentY;
+                                    client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].serverIndex;
+                                    client.menuOptionsCount += 1;
                                 }
-                                else
-                                    if (client.selectedItem >= 0)
-                                    {
-                                        client.menuText1[client.menuOptionsCount] = "Use " + client.selectedItemName + " with";
-                                        client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.wallObjectName[i4];
-                                        client.menuActionID[client.menuOptionsCount] = 310;
-                                        client.menuActionX[client.menuOptionsCount] = client.wallObjectX[j3];
-                                        client.menuActionY[client.menuOptionsCount] = client.wallObjectY[j3];
-                                        client.menuActionType[client.menuOptionsCount] = client.wallObjectDirection[j3];
-                                        client.menuActionVar1[client.menuOptionsCount] = client.selectedItem;
-                                        client.menuOptionsCount += 1;
-                                    }
-                                    else
-                                    {
-                                        if (GameData.wallObjectCommand1[i4].ToLower() != "WalkTo")
-                                        {
-                                            client.menuText1[client.menuOptionsCount] = GameData.wallObjectCommand1[i4];
-                                            client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.wallObjectName[i4];
-                                            client.menuActionID[client.menuOptionsCount] = 320;
-                                            client.menuActionX[client.menuOptionsCount] = client.wallObjectX[j3];
-                                            client.menuActionY[client.menuOptionsCount] = client.wallObjectY[j3];
-                                            client.menuActionType[client.menuOptionsCount] = client.wallObjectDirection[j3];
-                                            client.menuOptionsCount += 1;
-                                        }
-                                        if (GameData.wallObjectCommand2[i4].ToLower() != "Examine")
-                                        {
-                                            client.menuText1[client.menuOptionsCount] = GameData.wallObjectCommand2[i4];
-                                            client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.wallObjectName[i4];
-                                            client.menuActionID[client.menuOptionsCount] = 2300;
-                                            client.menuActionX[client.menuOptionsCount] = client.wallObjectX[j3];
-                                            client.menuActionY[client.menuOptionsCount] = client.wallObjectY[j3];
-                                            client.menuActionType[client.menuOptionsCount] = client.wallObjectDirection[j3];
-                                            client.menuOptionsCount += 1;
-                                        }
-                                        client.menuText1[client.menuOptionsCount] = "Examine";
-                                        client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.wallObjectName[i4];
-                                        client.menuActionID[client.menuOptionsCount] = 3300;
-                                        client.menuActionType[client.menuOptionsCount] = i4;
-                                        client.menuOptionsCount += 1;
-                                    }
-                                client.wallObjectAlreadyInMenu[j3] = true;
+
+                                client.menuText1[client.menuOptionsCount] = "Examine";
+                                client.menuText2[client.menuOptionsCount] = "@yel@" + GameData.npcName[client.npcArray[entityIndex].npcId];
+                                client.menuActionID[client.menuOptionsCount] = 3700;
+                                client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].npcId;
+                                client.menuOptionsCount += 1;
                             }
                         }
-                        else
-                            if (_obj is not null && _obj.index >= 0)
+                    }
+                    else if (highlightedObject is not null && highlightedObject.index >= 10000)
+                    {
+                        int wallObjectSlotIndex = highlightedObject.index - 10000;
+                        int wallObjectId = client.wallObjectID[wallObjectSlotIndex];
+
+                        if (!client.wallObjectAlreadyInMenu[wallObjectSlotIndex])
+                        {
+                            if (client.selectedSpell >= 0)
                             {
-                                int k3 = _obj.index;
-                                int j4 = client.objectType[k3];
-                                if (!client.objectAlreadyInMenu[k3])
+                                if (GameData.spellType[client.selectedSpell] == 4)
                                 {
-                                    if (client.selectedSpell >= 0)
-                                    {
-                                        if (GameData.spellType[client.selectedSpell] == 5)
-                                        {
-                                            client.menuText1[client.menuOptionsCount] = "Cast " + GameData.spellName[client.selectedSpell] + " on";
-                                            client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.objectName[j4];
-                                            client.menuActionID[client.menuOptionsCount] = 400;
-                                            client.menuActionX[client.menuOptionsCount] = client.objectX[k3];
-                                            client.menuActionY[client.menuOptionsCount] = client.objectY[k3];
-                                            client.menuActionType[client.menuOptionsCount] = client.objectRotation[k3];
-                                            client.menuActionVar1[client.menuOptionsCount] = client.objectType[k3];
-                                            client.menuActionVar2[client.menuOptionsCount] = client.selectedSpell;
-                                            client.menuOptionsCount += 1;
-                                        }
-                                    }
-                                    else
-                                        if (client.selectedItem >= 0)
-                                        {
-                                            client.menuText1[client.menuOptionsCount] = "Use " + client.selectedItemName + " with";
-                                            client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.objectName[j4];
-                                            client.menuActionID[client.menuOptionsCount] = 410;
-                                            client.menuActionX[client.menuOptionsCount] = client.objectX[k3];
-                                            client.menuActionY[client.menuOptionsCount] = client.objectY[k3];
-                                            client.menuActionType[client.menuOptionsCount] = client.objectRotation[k3];
-                                            client.menuActionVar1[client.menuOptionsCount] = client.objectType[k3];
-                                            client.menuActionVar2[client.menuOptionsCount] = client.selectedItem;
-                                            client.menuOptionsCount += 1;
-                                        }
-                                        else
-                                        {
-                                            if (GameData.objectCommand1[j4].ToLower() != "WalkTo")
-                                            {
-                                                client.menuText1[client.menuOptionsCount] = GameData.objectCommand1[j4];
-                                                client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.objectName[j4];
-                                                client.menuActionID[client.menuOptionsCount] = 420;
-                                                client.menuActionX[client.menuOptionsCount] = client.objectX[k3];
-                                                client.menuActionY[client.menuOptionsCount] = client.objectY[k3];
-                                                client.menuActionType[client.menuOptionsCount] = client.objectRotation[k3];
-                                                client.menuActionVar1[client.menuOptionsCount] = client.objectType[k3];
-                                                client.menuOptionsCount += 1;
-                                            }
-                                            if (GameData.objectCommand2[j4].ToLower() != "Examine")
-                                            {
-                                                client.menuText1[client.menuOptionsCount] = GameData.objectCommand2[j4];
-                                                client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.objectName[j4];
-                                                client.menuActionID[client.menuOptionsCount] = 2400;
-                                                client.menuActionX[client.menuOptionsCount] = client.objectX[k3];
-                                                client.menuActionY[client.menuOptionsCount] = client.objectY[k3];
-                                                client.menuActionType[client.menuOptionsCount] = client.objectRotation[k3];
-                                                client.menuActionVar1[client.menuOptionsCount] = client.objectType[k3];
-                                                client.menuOptionsCount += 1;
-                                            }
-                                            client.menuText1[client.menuOptionsCount] = "Examine";
-                                            client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.objectName[j4];
-                                            client.menuActionID[client.menuOptionsCount] = 3400;
-                                            client.menuActionType[client.menuOptionsCount] = j4;
-                                            client.menuOptionsCount += 1;
-                                        }
-                                    client.objectAlreadyInMenu[k3] = true;
+                                    client.menuText1[client.menuOptionsCount] = "Cast " + GameData.spellName[client.selectedSpell] + " on";
+                                    client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.wallObjectName[wallObjectId];
+                                    client.menuActionID[client.menuOptionsCount] = 300;
+                                    client.menuActionX[client.menuOptionsCount] = client.wallObjectX[wallObjectSlotIndex];
+                                    client.menuActionY[client.menuOptionsCount] = client.wallObjectY[wallObjectSlotIndex];
+                                    client.menuActionType[client.menuOptionsCount] = client.wallObjectDirection[wallObjectSlotIndex];
+                                    client.menuActionVar1[client.menuOptionsCount] = client.selectedSpell;
+                                    client.menuOptionsCount += 1;
                                 }
+                            }
+                            else if (client.selectedItem >= 0)
+                            {
+                                client.menuText1[client.menuOptionsCount] = "Use " + client.selectedItemName + " with";
+                                client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.wallObjectName[wallObjectId];
+                                client.menuActionID[client.menuOptionsCount] = 310;
+                                client.menuActionX[client.menuOptionsCount] = client.wallObjectX[wallObjectSlotIndex];
+                                client.menuActionY[client.menuOptionsCount] = client.wallObjectY[wallObjectSlotIndex];
+                                client.menuActionType[client.menuOptionsCount] = client.wallObjectDirection[wallObjectSlotIndex];
+                                client.menuActionVar1[client.menuOptionsCount] = client.selectedItem;
+                                client.menuOptionsCount += 1;
                             }
                             else
                             {
-                                if (player >= 0)
+                                if (GameData.wallObjectCommand1[wallObjectId].ToLower() != "WalkTo")
+                                {
+                                    client.menuText1[client.menuOptionsCount] = GameData.wallObjectCommand1[wallObjectId];
+                                    client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.wallObjectName[wallObjectId];
+                                    client.menuActionID[client.menuOptionsCount] = 320;
+                                    client.menuActionX[client.menuOptionsCount] = client.wallObjectX[wallObjectSlotIndex];
+                                    client.menuActionY[client.menuOptionsCount] = client.wallObjectY[wallObjectSlotIndex];
+                                    client.menuActionType[client.menuOptionsCount] = client.wallObjectDirection[wallObjectSlotIndex];
+                                    client.menuOptionsCount += 1;
+                                }
+
+                                if (GameData.wallObjectCommand2[wallObjectId].ToLower() != "Examine")
+                                {
+                                    client.menuText1[client.menuOptionsCount] = GameData.wallObjectCommand2[wallObjectId];
+                                    client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.wallObjectName[wallObjectId];
+                                    client.menuActionID[client.menuOptionsCount] = 2300;
+                                    client.menuActionX[client.menuOptionsCount] = client.wallObjectX[wallObjectSlotIndex];
+                                    client.menuActionY[client.menuOptionsCount] = client.wallObjectY[wallObjectSlotIndex];
+                                    client.menuActionType[client.menuOptionsCount] = client.wallObjectDirection[wallObjectSlotIndex];
+                                    client.menuOptionsCount += 1;
+                                }
+
+                                client.menuText1[client.menuOptionsCount] = "Examine";
+                                client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.wallObjectName[wallObjectId];
+                                client.menuActionID[client.menuOptionsCount] = 3300;
+                                client.menuActionType[client.menuOptionsCount] = wallObjectId;
+                                client.menuOptionsCount += 1;
+                            }
+
+                            client.wallObjectAlreadyInMenu[wallObjectSlotIndex] = true;
+                        }
+                    }
+                    else if (highlightedObject is not null && highlightedObject.index >= 0)
+                    {
+                        int objectSlotIndex = highlightedObject.index;
+                        int objectTypeId = client.objectType[objectSlotIndex];
+
+                        if (!client.objectAlreadyInMenu[objectSlotIndex])
                         {
-                            player = _obj.entityType[player] - 0x30d40;
+                            if (client.selectedSpell >= 0)
+                            {
+                                if (GameData.spellType[client.selectedSpell] == 5)
+                                {
+                                    client.menuText1[client.menuOptionsCount] = "Cast " + GameData.spellName[client.selectedSpell] + " on";
+                                    client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.objectName[objectTypeId];
+                                    client.menuActionID[client.menuOptionsCount] = 400;
+                                    client.menuActionX[client.menuOptionsCount] = client.objectX[objectSlotIndex];
+                                    client.menuActionY[client.menuOptionsCount] = client.objectY[objectSlotIndex];
+                                    client.menuActionType[client.menuOptionsCount] = client.objectRotation[objectSlotIndex];
+                                    client.menuActionVar1[client.menuOptionsCount] = client.objectType[objectSlotIndex];
+                                    client.menuActionVar2[client.menuOptionsCount] = client.selectedSpell;
+                                    client.menuOptionsCount += 1;
+                                }
+                            }
+                            else if (client.selectedItem >= 0)
+                            {
+                                client.menuText1[client.menuOptionsCount] = "Use " + client.selectedItemName + " with";
+                                client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.objectName[objectTypeId];
+                                client.menuActionID[client.menuOptionsCount] = 410;
+                                client.menuActionX[client.menuOptionsCount] = client.objectX[objectSlotIndex];
+                                client.menuActionY[client.menuOptionsCount] = client.objectY[objectSlotIndex];
+                                client.menuActionType[client.menuOptionsCount] = client.objectRotation[objectSlotIndex];
+                                client.menuActionVar1[client.menuOptionsCount] = client.objectType[objectSlotIndex];
+                                client.menuActionVar2[client.menuOptionsCount] = client.selectedItem;
+                                client.menuOptionsCount += 1;
+                            }
+                            else
+                            {
+                                if (GameData.objectCommand1[objectTypeId].ToLower() != "WalkTo")
+                                {
+                                    client.menuText1[client.menuOptionsCount] = GameData.objectCommand1[objectTypeId];
+                                    client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.objectName[objectTypeId];
+                                    client.menuActionID[client.menuOptionsCount] = 420;
+                                    client.menuActionX[client.menuOptionsCount] = client.objectX[objectSlotIndex];
+                                    client.menuActionY[client.menuOptionsCount] = client.objectY[objectSlotIndex];
+                                    client.menuActionType[client.menuOptionsCount] = client.objectRotation[objectSlotIndex];
+                                    client.menuActionVar1[client.menuOptionsCount] = client.objectType[objectSlotIndex];
+                                    client.menuOptionsCount += 1;
+                                }
+
+                                if (GameData.objectCommand2[objectTypeId].ToLower() != "Examine")
+                                {
+                                    client.menuText1[client.menuOptionsCount] = GameData.objectCommand2[objectTypeId];
+                                    client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.objectName[objectTypeId];
+                                    client.menuActionID[client.menuOptionsCount] = 2400;
+                                    client.menuActionX[client.menuOptionsCount] = client.objectX[objectSlotIndex];
+                                    client.menuActionY[client.menuOptionsCount] = client.objectY[objectSlotIndex];
+                                    client.menuActionType[client.menuOptionsCount] = client.objectRotation[objectSlotIndex];
+                                    client.menuActionVar1[client.menuOptionsCount] = client.objectType[objectSlotIndex];
+                                    client.menuOptionsCount += 1;
+                                }
+
+                                client.menuText1[client.menuOptionsCount] = "Examine";
+                                client.menuText2[client.menuOptionsCount] = "@cya@" + GameData.objectName[objectTypeId];
+                                client.menuActionID[client.menuOptionsCount] = 3400;
+                                client.menuActionType[client.menuOptionsCount] = objectTypeId;
+                                client.menuOptionsCount += 1;
+                            }
+
+                            client.objectAlreadyInMenu[objectSlotIndex] = true;
+                        }
+                    }
+                    else
+                    {
+                        int groundEntitySlotId = entitySlotId;
+
+                        if (groundEntitySlotId >= 0)
+                        {
+                            groundEntitySlotId = highlightedObject.entityType[entitySlotId] - 0x30d40;
                         }
 
-                        if (player >= 0)
+                        if (groundEntitySlotId >= 0)
                         {
-                            ground = player;
+                            groundEntityIndex = groundEntitySlotId;
                         }
                     }
                 }
@@ -1096,7 +1120,8 @@ namespace OpenRS.Net.Client.World
                 client.menuActionType[client.menuOptionsCount] = client.selectedSpell;
                 client.menuOptionsCount += 1;
             }
-            if (ground != -1)
+
+            if (groundEntityIndex != -1)
             {
                 if (client.selectedSpell >= 0)
                 {
@@ -1105,25 +1130,25 @@ namespace OpenRS.Net.Client.World
                         client.menuText1[client.menuOptionsCount] = "Cast " + GameData.spellName[client.selectedSpell] + " on ground";
                         client.menuText2[client.menuOptionsCount] = "";
                         client.menuActionID[client.menuOptionsCount] = 900;
-                        client.menuActionX[client.menuOptionsCount] = client.engineHandle.selectedX[ground];
-                        client.menuActionY[client.menuOptionsCount] = client.engineHandle.selectedY[ground];
+                        client.menuActionX[client.menuOptionsCount] = client.engineHandle.selectedX[groundEntityIndex];
+                        client.menuActionY[client.menuOptionsCount] = client.engineHandle.selectedY[groundEntityIndex];
                         client.menuActionType[client.menuOptionsCount] = client.selectedSpell;
                         client.menuOptionsCount += 1;
                         return;
                     }
                 }
-                else
-                    if (client.selectedItem < 0)
-                    {
-                        client.menuText1[client.menuOptionsCount] = "Walk here";
+                else if (client.selectedItem < 0)
+                {
+                    client.menuText1[client.menuOptionsCount] = "Walk here";
                         client.menuText2[client.menuOptionsCount] = "";
                         client.menuActionID[client.menuOptionsCount] = 920;
-                        client.menuActionX[client.menuOptionsCount] = client.engineHandle.selectedX[ground];
-                        client.menuActionY[client.menuOptionsCount] = client.engineHandle.selectedY[ground];
+                        client.menuActionX[client.menuOptionsCount] = client.engineHandle.selectedX[groundEntityIndex];
+                        client.menuActionY[client.menuOptionsCount] = client.engineHandle.selectedY[groundEntityIndex];
                         client.menuOptionsCount += 1;
-                    }
+                }
             }
         }
+
         public void GetMenuHighlighted()
         {
             if (client.drawMenuTab == 0 && client.mouseX >= ((GameImage)(client.gameGraphics)).gameWidth - 35 && client.mouseY >= 3 && client.mouseX < ((GameImage)(client.gameGraphics)).gameWidth - 3 && client.mouseY < 35)
@@ -1253,10 +1278,10 @@ namespace OpenRS.Net.Client.World
                     return true;
                 }
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                //e.printStackTrace();
             }
+
             return false;
         }
 
