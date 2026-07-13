@@ -6,6 +6,7 @@ using System.Threading;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 using OpenRS.Net.Client.Net;
+using OpenRS.Net.Enumerations;
 using OpenRS.Settings;
 
 namespace OpenRS.Net.Client
@@ -90,7 +91,7 @@ namespace OpenRS.Net.Client
 
 
             long nameHash = DataOperations.NameToHash(formattedUsername);
-            streamClass.CreatePacket(32);
+            streamClass.CreatePacket((int)ClientPacket.SessionNameHash);
             streamClass.AddByte((int)(nameHash >> 16 & 31L));
             streamClass.AddString("Shinigami"); // TODO: Remove unused server-side string.
             streamClass.Flush();
@@ -129,7 +130,7 @@ namespace OpenRS.Net.Client
             loginEncryptor.AddString(formattedUsername);
             loginEncryptor.AddString(formattedPassword);
             loginEncryptor.EncryptPacket(RsaKey, RsaModulus);
-            streamClass.CreatePacket(0);
+            streamClass.CreatePacket((int)ClientPacket.Login);
             if (reconnecting)
             {
                 streamClass.AddByte(1);
@@ -154,19 +155,19 @@ namespace OpenRS.Net.Client
             }
             Console.WriteLine("login response:" + loginCode);
 
-            if (loginCode == 99)
+            if (loginCode == (int)LoginCode.Code99)
             {
                 reconnectTries = 0;
                 InitVars();
                 return;
             }
-            if (loginCode == 0)
+            if (loginCode == (int)LoginCode.Code0)
             {
                 reconnectTries = 0;
                 InitVars();
                 return;
             }
-            if (loginCode == 1)
+            if (loginCode == (int)LoginCode.Code1)
             {
                 reconnectTries = 0;
                 return;
@@ -178,47 +179,47 @@ namespace OpenRS.Net.Client
                 ResetIntVars();
                 return;
             }
-            if (loginCode == -1)
+            if (loginCode == (int)LoginCode.ServerTimeOut)
             {
                 LoginScreenPrint("Error unable to login.", "Server timed out");
                 return;
             }
-            if (loginCode == 2)
+            if (loginCode == (int)LoginCode.InvalidCredentials)
             {
                 LoginScreenPrint("Invalid username or password.", "Try again, or create a new account");
                 return;
             }
-            if (loginCode == 3)
+            if (loginCode == (int)LoginCode.UsernameAlreadyLoggedIn)
             {
                 LoginScreenPrint("That username is already logged in.", "Wait 60 seconds then retry");
                 return;
             }
-            if (loginCode == 4)
+            if (loginCode == (int)LoginCode.ClientUpdated)
             {
                 LoginScreenPrint("The client has been updated.", "Please restart the client");
                 return;
             }
-            if (loginCode == 5)
+            if (loginCode == (int)LoginCode.Code5)
             {
                 LoginScreenPrint("Error unable to login.", "Please retry");
                 return;
             }
-            if (loginCode == 6)
+            if (loginCode == (int)LoginCode.AccountBanned)
             {
                 LoginScreenPrint("Account banned.", "Appeal on the forums, ASAP.");
                 return;
             }
-            if (loginCode == 7)
+            if (loginCode == (int)LoginCode.ProfileDecodeFailure)
             {
                 LoginScreenPrint("Error - failed to decode profile.", "Contact an admin!");
                 return;
             }
-            if (loginCode == 8)
+            if (loginCode == (int)LoginCode.TooManyConnections)
             {
                 LoginScreenPrint("Too many connections from your IP.", "Please try again later");
                 return;
             }
-            if (loginCode == 9)
+            if (loginCode == (int)LoginCode.AccountAlreadyLoggedIn)
             {
                 LoginScreenPrint("Account already in use.", "You may only login to one character at a time");
                 return;
@@ -233,7 +234,7 @@ namespace OpenRS.Net.Client
             {
                 try
                 {
-                    streamClass.CreatePacket(39);
+                    streamClass.CreatePacket((int)ClientPacket.RequestLogout);
                     streamClass.Flush();
                 }
                 catch (IOException) { }
@@ -268,7 +269,7 @@ namespace OpenRS.Net.Client
             if (currentTime - lastPing > 5000L)
             {
                 lastPing = currentTime;
-                streamClass.CreatePacket(5);
+                streamClass.CreatePacket((int)ClientPacket.SessionNameHash);
                 streamClass.FormatPacket();
             }
 
@@ -292,24 +293,24 @@ namespace OpenRS.Net.Client
 
         public virtual void HandlePacket(int command, int length)
         {
-            if (command == 48)
+            if (command == (int)ServerCommand.ServerAnnouncement)
             {
                 string displayText = Encoding.UTF8.GetString((byte[])(Array)packetData, 1, length - 1);
                 //string s1 = new String(packetData, 1, length - 1);
                 DisplayMessage(displayText);
                 return;
             }
-            if (command == 222)
+            if (command == (int)ServerCommand.LogoutRequest)
             {
                 RequestLogout();
                 return;
             }
-            if (command == 136)
+            if (command == (int)ServerCommand.LogoutCannot)
             {
                 CantLogout();
                 return;
             }
-            if (command == 249)
+            if (command == (int)ServerCommand.FriendList)
             {
                 friendsCount = DataOperations.GetByte((sbyte)packetData[1]);
                 for (int friendIndex = 0; friendIndex < friendsCount; friendIndex += 1)
@@ -323,7 +324,7 @@ namespace OpenRS.Net.Client
                 return;
             }
 
-            if (command == 25)
+            if (command == (int)ServerCommand.FriendUpdate)
             {
                 long friend = DataOperations.GetLong(packetData, 1);
                 int status = packetData[9] & 0xff;
@@ -357,7 +358,7 @@ namespace OpenRS.Net.Client
                 return;
             }
 
-            if (command == 2)
+            if (command == (int)ServerCommand.IgnoreList)
             {
                 ignoresCount = DataOperations.GetByte(packetData[1]);
 
@@ -368,7 +369,7 @@ namespace OpenRS.Net.Client
 
                 return;
             }
-            if (command == 158)
+            if (command == (int)ServerCommand.WontImplement158)
             {
                 blockChat = packetData[1];
                 blockPrivate = packetData[2];
@@ -378,7 +379,7 @@ namespace OpenRS.Net.Client
                 return;
             }
 
-            if (command == 170)
+            if (command == (int)ServerCommand.PrivateMessage)
             {
                 long senderHash = DataOperations.GetLong(packetData, 1);
                 string messageText = ChatMessage.BytesToString(packetData, 9, length - 9);
@@ -387,15 +388,15 @@ namespace OpenRS.Net.Client
                 return;
             }
 
-            if (command == 211)
+            if (command == (int)ServerCommand.ServerInfo)
             { // TODO: Determine if this command can be removed.
-                streamClass.CreatePacket(69);
+                streamClass.CreatePacket((int)ClientPacket.ClientInfoReport);
                 streamClass.AddByte(0); // scar.exe, etc.
                 streamClass.FormatPacket();
                 return;
             }
 
-            if (command == 1)
+            if (command == (int)ServerCommand.Command1)
             { // TODO: Determine if this command can be removed.
                 return;
             }
@@ -428,7 +429,7 @@ namespace OpenRS.Net.Client
 
         protected void SendUpdatedPrivacyInfo(int blockChat, int blockPrivate, int blockTrade, int blockDuel)
         {
-            streamClass.CreatePacket(176);
+            streamClass.CreatePacket((int)ClientPacket.UpdatePrivacySettings);
             streamClass.AddByte(blockChat);
             streamClass.AddByte(blockPrivate);
             streamClass.AddByte(blockTrade);
@@ -439,7 +440,7 @@ namespace OpenRS.Net.Client
         protected void AddIgnore(string username)
         {
             long usernameHash = DataOperations.NameToHash(username);
-            streamClass.CreatePacket(25);
+            streamClass.CreatePacket((int)ClientPacket.AddIgnore);
             streamClass.AddLong(usernameHash);
             streamClass.FormatPacket();
 
@@ -462,7 +463,7 @@ namespace OpenRS.Net.Client
 
         protected void RemoveIgnore(long usernameHash)
         {
-            streamClass.CreatePacket(108);
+            streamClass.CreatePacket((int)ClientPacket.RemoveIgnore);
             streamClass.AddLong(usernameHash);
             streamClass.FormatPacket();
 
@@ -484,7 +485,7 @@ namespace OpenRS.Net.Client
 
         protected void AddFriend(string friendUsername)
         {
-            streamClass.CreatePacket(168);
+            streamClass.CreatePacket((int)ClientPacket.AddFriend);
             streamClass.AddLong(DataOperations.NameToHash(friendUsername));
             streamClass.FormatPacket();
             long selfHash = DataOperations.NameToHash(username);
@@ -509,7 +510,7 @@ namespace OpenRS.Net.Client
 
         protected void RemoveFriend(long usernameHash)
         {
-            streamClass.CreatePacket(52);
+            streamClass.CreatePacket((int)ClientPacket.RemoveFriend);
             streamClass.AddLong(usernameHash);
             streamClass.FormatPacket();
 
@@ -536,7 +537,7 @@ namespace OpenRS.Net.Client
 
         protected void SendPrivateMessage(long recipientHash, byte[] messageBytes, int messageLength)
         {
-            streamClass.CreatePacket(254);
+            streamClass.CreatePacket((int)ClientPacket.SendPrivateMessage);
             streamClass.AddLong(recipientHash);
             streamClass.AddBytes(messageBytes, 0, messageLength);
             streamClass.FormatPacket();
@@ -544,14 +545,14 @@ namespace OpenRS.Net.Client
 
         protected void SendChatMessage(byte[] messageBytes, int messageLength)
         {
-            streamClass.CreatePacket(145);
+            streamClass.CreatePacket((int)ClientPacket.SendChatMessage);
             streamClass.AddBytes(messageBytes, 0, messageLength);
             streamClass.FormatPacket();
         }
 
         protected void SendCommand(string commandText)
         {
-            streamClass.CreatePacket(90);
+            streamClass.CreatePacket((int)ClientPacket.SendCommand);
             streamClass.AddString(commandText);
             streamClass.FormatPacket();
         }

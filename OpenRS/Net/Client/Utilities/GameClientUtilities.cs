@@ -4,6 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using OpenRS.Net.Client.Data;
+using OpenRS.Net.Enumerations;
+using OpenRS.Models.Enumerations;
 using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Utilities
@@ -43,17 +45,17 @@ namespace OpenRS.Net.Client.Utilities
 
             if (client.combatTimeout > 450)
             {
-                client.DisplayMessage("@cya@You can't logout during combat!", 3);
+                client.DisplayMessage("@cya@You can't logout during combat!", (int)MessageType.Game);
                 return;
             }
 
             if (client.combatTimeout > 0)
             {
-                client.DisplayMessage("@cya@You can't logout for 10 seconds after combat", 3);
+                client.DisplayMessage("@cya@You can't logout for 10 seconds after combat", (int)MessageType.Game);
                 return;
             }
 
-            client.streamClass.CreatePacket(129);
+            client.streamClass.CreatePacket((int)ClientPacket.SendLogout);
             client.streamClass.FormatPacket();
             client.logoutTimer = 1000;
             client.streamClass.CloseStream();
@@ -119,28 +121,28 @@ namespace OpenRS.Net.Client.Utilities
         {
             if (message.StartsWith("@bor@"))
             {
-                client.DisplayMessage(message, 4);
+                client.DisplayMessage(message, (int)MessageType.GameLocal);
                 return;
             }
 
             if (message.StartsWith("@que@"))
             {
-                client.DisplayMessage("@whi@" + message, 5);
+                client.DisplayMessage("@whi@" + message, (int)MessageType.Quest);
                 return;
             }
 
             if (message.StartsWith("@pri@"))
             {
-                client.DisplayMessage(message, 6);
+                client.DisplayMessage(message, (int)MessageType.PrivateMessage);
                 return;
             }
 
-            client.DisplayMessage(message, 3);
+            client.DisplayMessage(message, (int)MessageType.Game);
         }
         public void CantLogout()
         {
             client.logoutTimer = 0;
-            client.DisplayMessage("@cya@Sorry, you can't logout at the moment", 3);
+            client.DisplayMessage("@cya@Sorry, you can't logout at the moment", (int)MessageType.Game);
         }
 
         public GraphicsDevice GetGraphics() => GameClient.graphics;
@@ -166,22 +168,22 @@ namespace OpenRS.Net.Client.Utilities
         }
         public bool HasRequiredRunes(int runeId, int requiredAmount)
         {
-            if (runeId == 31 && (client.IsItemEquipped(197) || client.IsItemEquipped(615) || client.IsItemEquipped(682)))
+            if (runeId == (int)RuneElement.Air && (client.IsItemEquipped((int)ElementalStaff.Air) || client.IsItemEquipped((int)ElementalBattlestaff.Air) || client.IsItemEquipped((int)ElementalMysticStaff.Air)))
             {
                 return true;
             }
 
-            if (runeId == 32 && (client.IsItemEquipped(102) || client.IsItemEquipped(616) || client.IsItemEquipped(683)))
+            if (runeId == (int)RuneElement.Water && (client.IsItemEquipped((int)ElementalStaff.Water) || client.IsItemEquipped((int)ElementalBattlestaff.Water) || client.IsItemEquipped((int)ElementalMysticStaff.Water)))
             {
                 return true;
             }
 
-            if (runeId == 33 && (client.IsItemEquipped(101) || client.IsItemEquipped(617) || client.IsItemEquipped(684)))
+            if (runeId == (int)RuneElement.Earth && (client.IsItemEquipped((int)ElementalStaff.Earth) || client.IsItemEquipped((int)ElementalBattlestaff.Earth) || client.IsItemEquipped((int)ElementalMysticStaff.Earth)))
             {
                 return true;
             }
 
-            if (runeId == 34 && (client.IsItemEquipped(103) || client.IsItemEquipped(618) || client.IsItemEquipped(685)))
+            if (runeId == (int)RuneElement.Fire && (client.IsItemEquipped((int)ElementalStaff.Fire) || client.IsItemEquipped((int)ElementalBattlestaff.Fire) || client.IsItemEquipped((int)ElementalMysticStaff.Fire)))
             {
                 return true;
             }
@@ -190,7 +192,7 @@ namespace OpenRS.Net.Client.Utilities
         }
         public void DisplayMessage(string message, int messageType)
         {
-            if (messageType == 2 || messageType == 4 || messageType == 6)
+            if (messageType == (int)MessageType.Chat || messageType == (int)MessageType.GameLocal || messageType == (int)MessageType.PrivateMessage)
             {
                 while (message.Length > 5 && message[0] == '@' && message[4] == '@')
                 {
@@ -214,49 +216,49 @@ namespace OpenRS.Net.Client.Utilities
                 }
             }
 
-            if (messageType == 2)
+            if (messageType == (int)MessageType.Chat)
             {
                 message = "@yel@" + message;
             }
 
-            if (messageType == 3 || messageType == 4)
+            if (messageType == (int)MessageType.Game || messageType == (int)MessageType.GameLocal)
             {
                 message = "@whi@" + message;
             }
 
-            if (messageType == 6)
+            if (messageType == (int)MessageType.PrivateMessage)
             {
                 message = "@cya@" + message;
             }
 
             if (client.messagesTab != 0)
             {
-                if (messageType == 4 || messageType == 3)
+                if (messageType == (int)MessageType.GameLocal || messageType == (int)MessageType.Game)
                 {
                     client.chatTabAllMsgFlash = 200;
                 }
 
-                if (messageType == 2 && client.messagesTab != 1)
+                if (messageType == (int)MessageType.Chat && client.messagesTab != 1)
                 {
                     client.chatTabHistoryFlash = 200;
                 }
 
-                if (messageType == 5 && client.messagesTab != 2)
+                if (messageType == (int)MessageType.Quest && client.messagesTab != 2)
                 {
                     client.chatTabQuestFlash = 200;
                 }
 
-                if (messageType == 6 && client.messagesTab != 3)
+                if (messageType == (int)MessageType.PrivateMessage && client.messagesTab != 3)
                 {
                     client.chatTabPrivateFlash = 200;
                 }
 
-                if (messageType == 3 && client.messagesTab != 0)
+                if (messageType == (int)MessageType.Game && client.messagesTab != 0)
                 {
                     client.messagesTab = 0;
                 }
 
-                if (messageType == 6 && client.messagesTab != 3 && client.messagesTab != 0)
+                if (messageType == (int)MessageType.PrivateMessage && client.messagesTab != 3 && client.messagesTab != 0)
                 {
                     client.messagesTab = 0;
                 }
@@ -271,7 +273,7 @@ namespace OpenRS.Net.Client.Utilities
             client.messagesArray[0] = message;
             client.messagesTimeout[0] = 300;
 
-            if (messageType == 2)
+            if (messageType == (int)MessageType.Chat)
             {
                 if (client.chatInputMenu.listShownEntries[client.messagesHandleType2] == client.chatInputMenu.listLength[client.messagesHandleType2] - 4)
                 {
@@ -283,7 +285,7 @@ namespace OpenRS.Net.Client.Utilities
                 }
             }
 
-            if (messageType == 5)
+            if (messageType == (int)MessageType.Quest)
             {
                 if (client.chatInputMenu.listShownEntries[client.messagesHandleType5] == client.chatInputMenu.listLength[client.messagesHandleType5] - 4)
                 {
@@ -295,7 +297,7 @@ namespace OpenRS.Net.Client.Utilities
                 }
             }
 
-            if (messageType == 6)
+            if (messageType == (int)MessageType.PrivateMessage)
             {
                 if (client.chatInputMenu.listShownEntries[client.messagesHandleType6] == client.chatInputMenu.listLength[client.messagesHandleType6] - 4)
                 {

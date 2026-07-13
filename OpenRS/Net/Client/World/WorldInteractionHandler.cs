@@ -1,6 +1,7 @@
 using System;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
+using OpenRS.Net.Enumerations;
 using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.World
@@ -15,10 +16,10 @@ namespace OpenRS.Net.Client.World
             int actionVar1 = client.menuActionVar1[menuIndex];
             int actionVar2 = client.menuActionVar2[menuIndex];
             int actionID = client.menuActionID[menuIndex];
-            if (actionID == 200)
+            if (actionID == (int)MenuAction.CastSpellOnGroundItem)
             {
                 WalkToGroundItem(client.sectionX, client.sectionY, actionX, actionY, true);
-                client.streamClass.CreatePacket(104);
+                client.streamClass.CreatePacket((int)ClientPacket.CastSpellOnGroundItem);
                 client.streamClass.AddShort(actionVar1);
                 client.streamClass.AddShort(actionX + client.areaX);
                 client.streamClass.AddShort(actionY + client.areaY);
@@ -26,10 +27,10 @@ namespace OpenRS.Net.Client.World
                 client.streamClass.FormatPacket();
                 client.selectedSpell = -1;
             }
-            if (actionID == 210)
+            if (actionID == (int)MenuAction.UseItemWithGroundItem)
             {
                 WalkToGroundItem(client.sectionX, client.sectionY, actionX, actionY, true);
-                client.streamClass.CreatePacket(34);
+                client.streamClass.CreatePacket((int)ClientPacket.UseItemWithGroundItem);
                 client.streamClass.AddShort(actionX + client.areaX);
                 client.streamClass.AddShort(actionY + client.areaY);
                 client.streamClass.AddShort(actionType);
@@ -37,25 +38,25 @@ namespace OpenRS.Net.Client.World
                 client.streamClass.FormatPacket();
                 client.selectedItem = -1;
             }
-            if (actionID == 220)
+            if (actionID == (int)MenuAction.TakeItem)
             {
                 WalkToGroundItem(client.sectionX, client.sectionY, actionX, actionY, true);
-                client.streamClass.CreatePacket(245);
+                client.streamClass.CreatePacket((int)ClientPacket.TakeGroundItem);
                 client.streamClass.AddShort(actionX + client.areaX);
                 client.streamClass.AddShort(actionY + client.areaY);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.AddShort(actionVar1);
                 client.streamClass.FormatPacket();
             }
-            if (actionID == 3200)
+            if (actionID == (int)MenuAction.ExamineGroundItem)
             {
                 client.DisplayMessage(GameData.itemDescription[actionType], 3);
             }
 
-            if (actionID == 300)
+            if (actionID == (int)MenuAction.CastSpellOnWallObject)
             {
                 WalkToWallObject(actionX, actionY, actionType);
-                client.streamClass.CreatePacket(67);
+                client.streamClass.CreatePacket((int)ClientPacket.CastSpellOnWallObject);
                 client.streamClass.AddShort(actionVar1);
                 client.streamClass.AddShort(actionX + client.areaX);
                 client.streamClass.AddShort(actionY + client.areaY);
@@ -63,10 +64,10 @@ namespace OpenRS.Net.Client.World
                 client.streamClass.FormatPacket();
                 client.selectedSpell = -1;
             }
-            if (actionID == 310)
+            if (actionID == (int)MenuAction.UseItemWithWallObject)
             {
                 WalkToWallObject(actionX, actionY, actionType);
-                client.streamClass.CreatePacket(36);
+                client.streamClass.CreatePacket((int)ClientPacket.UseItemWithWallObject);
                 client.streamClass.AddShort(actionX + client.areaX);
                 client.streamClass.AddShort(actionY + client.areaY);
                 client.streamClass.AddByte(actionType);
@@ -74,33 +75,33 @@ namespace OpenRS.Net.Client.World
                 client.streamClass.FormatPacket();
                 client.selectedItem = -1;
             }
-            if (actionID == 320)
+            if (actionID == (int)MenuAction.Command1OnWallObject)
             {
                 WalkToWallObject(actionX, actionY, actionType);
-                client.streamClass.CreatePacket(126);
+                client.streamClass.CreatePacket((int)ClientPacket.WallObjectCommand1);
                 client.streamClass.AddShort(actionX + client.areaX);
                 client.streamClass.AddShort(actionY + client.areaY);
                 client.streamClass.AddByte(actionType);
                 client.streamClass.FormatPacket();
             }
-            if (actionID == 2300)
+            if (actionID == (int)MenuAction.Command2OnWallObject)
             {
                 WalkToWallObject(actionX, actionY, actionType);
-                client.streamClass.CreatePacket(235);
+                client.streamClass.CreatePacket((int)ClientPacket.WallObjectCommand2);
                 client.streamClass.AddShort(actionX + client.areaX);
                 client.streamClass.AddShort(actionY + client.areaY);
                 client.streamClass.AddByte(actionType);
                 client.streamClass.FormatPacket();
             }
-            if (actionID == 3300)
+            if (actionID == (int)MenuAction.ExamineWallObject)
             {
                 client.DisplayMessage(GameData.wallObjectDescription[actionType], 3);
             }
 
-            if (actionID == 400)
+            if (actionID == (int)MenuAction.CastSpellOnModel)
             {
                 WalkToObject(actionX, actionY, actionType, actionVar1);
-                client.streamClass.CreatePacket(17);
+                client.streamClass.CreatePacket((int)ClientPacket.CastSpellOnGameObject);
                 client.streamClass.AddShort(actionVar2);
                 client.streamClass.AddShort(actionX + client.areaX);
                 client.streamClass.AddShort(actionY + client.areaY);
@@ -108,211 +109,211 @@ namespace OpenRS.Net.Client.World
                 client.streamClass.FormatPacket();
                 client.selectedSpell = -1;
             }
-            if (actionID == 410)
+            if (actionID == (int)MenuAction.UseItemWithModel)
             {
                 WalkToObject(actionX, actionY, actionType, actionVar1);
-                client.streamClass.CreatePacket(94);
+                client.streamClass.CreatePacket((int)ClientPacket.UseItemWithGameObject);
                 client.streamClass.AddShort(actionX + client.areaX);
                 client.streamClass.AddShort(actionY + client.areaY);
                 client.streamClass.AddShort(actionVar2);
                 client.streamClass.FormatPacket();
                 client.selectedItem = -1;
             }
-            if (actionID == 420)
+            if (actionID == (int)MenuAction.Command1OnModel)
             {
                 WalkToObject(actionX, actionY, actionType, actionVar1);
-                client.streamClass.CreatePacket(51);
+                client.streamClass.CreatePacket((int)ClientPacket.GameObjectCommand1);
                 client.streamClass.AddShort(actionX + client.areaX);
                 client.streamClass.AddShort(actionY + client.areaY);
                 client.streamClass.FormatPacket();
             }
-            if (actionID == 2400)
+            if (actionID == (int)MenuAction.Command2OnModel)
             {
                 WalkToObject(actionX, actionY, actionType, actionVar1);
-                client.streamClass.CreatePacket(40);
+                client.streamClass.CreatePacket((int)ClientPacket.GameObjectCommand2);
                 client.streamClass.AddShort(actionX + client.areaX);
                 client.streamClass.AddShort(actionY + client.areaY);
                 client.streamClass.FormatPacket();
             }
-            if (actionID == 3400)
+            if (actionID == (int)MenuAction.ExamineModel)
             {
                 client.DisplayMessage(GameData.objectDescription[actionType], 3);
             }
 
-            if (actionID == 600)
+            if (actionID == (int)MenuAction.CastSpellOnItem)
             {
-                client.streamClass.CreatePacket(49);
+                client.streamClass.CreatePacket((int)ClientPacket.CastSpellOnInventoryItem);
                 client.streamClass.AddShort(actionVar1);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
                 client.selectedSpell = -1;
             }
-            if (actionID == 610)
+            if (actionID == (int)MenuAction.UseItemWithItem)
             {
-                client.streamClass.CreatePacket(27);
+                client.streamClass.CreatePacket((int)ClientPacket.UseItemWithInventoryItem);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.AddShort(actionVar1);
                 client.streamClass.FormatPacket();
                 client.selectedItem = -1;
             }
-            if (actionID == 620)
+            if (actionID == (int)MenuAction.RemoveItem)
             {
-                client.streamClass.CreatePacket(92);
+                client.streamClass.CreatePacket((int)ClientPacket.RemoveInventoryItem);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
             }
-            if (actionID == 630)
+            if (actionID == (int)MenuAction.EquipItem)
             {
-                client.streamClass.CreatePacket(181);
+                client.streamClass.CreatePacket((int)ClientPacket.EquipItem);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
             }
-            if (actionID == 640)
+            if (actionID == (int)MenuAction.CommandOnItem)
             {
-                client.streamClass.CreatePacket(89);
+                client.streamClass.CreatePacket((int)ClientPacket.InventoryItemCommand);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
             }
-            if (actionID == 650)
+            if (actionID == (int)MenuAction.UseItem)
             {
                 client.selectedItem = actionType;
                 client.drawMenuTab = 0;
                 client.selectedItemName = GameData.itemName[client.inventoryItems[client.selectedItem]];
             }
-            if (actionID == 660)
+            if (actionID == (int)MenuAction.DropItem)
             {
-                client.streamClass.CreatePacket(147);
+                client.streamClass.CreatePacket((int)ClientPacket.DropItem);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
                 client.selectedItem = -1;
                 client.drawMenuTab = 0;
                 client.DisplayMessage("Dropping " + GameData.itemName[client.inventoryItems[actionType]], 4);
             }
-            if (actionID == 3600)
+            if (actionID == (int)MenuAction.ExamineItem)
             {
                 client.DisplayMessage(GameData.itemDescription[actionType], 3);
             }
 
-            if (actionID == 700)
+            if (actionID == (int)MenuAction.CastSpellOnNpc)
             {
                 int tileX = (actionX - 64) / client.gridSize;
                 int tileY = (actionY - 64) / client.gridSize;
                 client.WalkTo1Tile(client.sectionX, client.sectionY, tileX, tileY, true);
-                client.streamClass.CreatePacket(71);
+                client.streamClass.CreatePacket((int)ClientPacket.CastSpellOnNpc);
                 client.streamClass.AddShort(actionVar1);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
                 client.selectedSpell = -1;
             }
 
-            if (actionID == 710)
+            if (actionID == (int)MenuAction.UseItemWithNpc)
             {
                 int tileX = (actionX - 64) / client.gridSize;
                 int tileY = (actionY - 64) / client.gridSize;
                 client.WalkTo1Tile(client.sectionX, client.sectionY, tileX, tileY, true);
-                client.streamClass.CreatePacket(142);
+                client.streamClass.CreatePacket((int)ClientPacket.UseItemWithNpc);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.AddShort(actionVar1);
                 client.streamClass.FormatPacket();
                 client.selectedItem = -1;
             }
 
-            if (actionID == 720)
+            if (actionID == (int)MenuAction.TalkToNpc)
             {
                 int tileX = (actionX - 64) / client.gridSize;
                 int tileY = (actionY - 64) / client.gridSize;
                 client.WalkTo1Tile(client.sectionX, client.sectionY, tileX, tileY, true);
-                client.streamClass.CreatePacket(177);
+                client.streamClass.CreatePacket((int)ClientPacket.TalkToNpc);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
             }
 
-            if (actionID == 725)
+            if (actionID == (int)MenuAction.CommandOnNpc)
             {
                 int tileX = (actionX - 64) / client.gridSize;
                 int tileY = (actionY - 64) / client.gridSize;
                 client.WalkTo1Tile(client.sectionX, client.sectionY, tileX, tileY, true);
-                client.streamClass.CreatePacket(74);
+                client.streamClass.CreatePacket((int)ClientPacket.NpcCommand);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
             }
 
-            if (actionID == 715 || actionID == 2715)
+            if (actionID == (int)MenuAction.AttackNpc || actionID == (int)MenuAction.AttackNpc2)
             {
                 int tileX = (actionX - 64) / client.gridSize;
                 int tileY = (actionY - 64) / client.gridSize;
                 client.WalkTo1Tile(client.sectionX, client.sectionY, tileX, tileY, true);
-                client.streamClass.CreatePacket(73);
+                client.streamClass.CreatePacket((int)ClientPacket.AttackNpc);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
             }
-            if (actionID == 3700)
+            if (actionID == (int)MenuAction.ExamineNpc)
             {
                 client.DisplayMessage(GameData.npcDescription[actionType], 3);
             }
 
-            if (actionID == 800)
+            if (actionID == (int)MenuAction.CastSpellOnPlayer)
             {
                 int tileX = (actionX - 64) / client.gridSize;
                 int tileY = (actionY - 64) / client.gridSize;
                 client.WalkTo1Tile(client.sectionX, client.sectionY, tileX, tileY, true);
-                client.streamClass.CreatePacket(55);
+                client.streamClass.CreatePacket((int)ClientPacket.CastSpellOnPlayer);
                 client.streamClass.AddShort(actionVar1);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
                 client.selectedSpell = -1;
             }
 
-            if (actionID == 810)
+            if (actionID == (int)MenuAction.UseItemWithPlayer)
             {
                 int tileX = (actionX - 64) / client.gridSize;
                 int tileY = (actionY - 64) / client.gridSize;
                 client.WalkTo1Tile(client.sectionX, client.sectionY, tileX, tileY, true);
-                client.streamClass.CreatePacket(16);
+                client.streamClass.CreatePacket((int)ClientPacket.UseItemWithPlayer);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.AddShort(actionVar1);
                 client.streamClass.FormatPacket();
                 client.selectedItem = -1;
             }
 
-            if (actionID == 805 || actionID == 2805)
+            if (actionID == (int)MenuAction.AttackPlayerSafe || actionID == (int)MenuAction.AttackPlayerUnsafe)
             {
                 int tileX = (actionX - 64) / client.gridSize;
                 int tileY = (actionY - 64) / client.gridSize;
                 client.WalkTo1Tile(client.sectionX, client.sectionY, tileX, tileY, true);
-                client.streamClass.CreatePacket(57);
+                client.streamClass.CreatePacket((int)ClientPacket.AttackPlayer);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
             }
-            if (actionID == 2806)
+            if (actionID == (int)MenuAction.DuelWithPlayer)
             {
-                client.streamClass.CreatePacket(222);
+                client.streamClass.CreatePacket((int)ClientPacket.DuelWithPlayer);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
             }
-            if (actionID == 2810)
+            if (actionID == (int)MenuAction.TradeWithPlayer)
             {
-                client.streamClass.CreatePacket(166);
+                client.streamClass.CreatePacket((int)ClientPacket.TradeWithPlayer);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
             }
-            if (actionID == 2820)
+            if (actionID == (int)MenuAction.FollowPlayer)
             {
-                client.streamClass.CreatePacket(68);
+                client.streamClass.CreatePacket((int)ClientPacket.FollowPlayer);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
             }
-            if (actionID == 900)
+            if (actionID == (int)MenuAction.CastSpellOnGround)
             {
                 client.WalkTo1Tile(client.sectionX, client.sectionY, actionX, actionY, true);
-                client.streamClass.CreatePacket(232);
+                client.streamClass.CreatePacket((int)ClientPacket.CastSpellOnGround);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.AddShort(actionX + client.areaX);
                 client.streamClass.AddShort(actionY + client.areaY);
                 client.streamClass.FormatPacket();
                 client.selectedSpell = -1;
             }
-            if (actionID == 920)
+            if (actionID == (int)MenuAction.WalkHere)
             {
                 client.WalkTo1Tile(client.sectionX, client.sectionY, actionX, actionY, false);
                 if (client.actionPictureType == -24)
@@ -320,14 +321,14 @@ namespace OpenRS.Net.Client.World
                     client.actionPictureType = 24;
                 }
             }
-            if (actionID == 1000)
+            if (actionID == (int)MenuAction.CastSpellOnSelf)
             {
-                client.streamClass.CreatePacket(206);
+                client.streamClass.CreatePacket((int)ClientPacket.CastSpellOnSelf);
                 client.streamClass.AddShort(actionType);
                 client.streamClass.FormatPacket();
                 client.selectedSpell = -1;
             }
-            if (actionID == 4000)
+            if (actionID == (int)MenuAction.Cancel)
             {
                 client.selectedItem = -1;
                 client.selectedSpell = -1;
@@ -435,11 +436,11 @@ namespace OpenRS.Net.Client.World
 
             if (walkToACommand)
             {
-                client.streamClass.CreatePacket(246);
+                client.streamClass.CreatePacket((int)ClientPacket.WalkToCommand);
             }
             else
             {
-                client.streamClass.CreatePacket(132);
+                client.streamClass.CreatePacket((int)ClientPacket.Walk);
             }
 
             client.streamClass.AddShort(startX + client.areaX);
@@ -482,11 +483,11 @@ namespace OpenRS.Net.Client.World
 
             if (walkToACommand)
             {
-                client.streamClass.CreatePacket(246);
+                client.streamClass.CreatePacket((int)ClientPacket.WalkToCommand);
             }
             else
             {
-                client.streamClass.CreatePacket(132);
+                client.streamClass.CreatePacket((int)ClientPacket.Walk);
             }
 
             client.streamClass.AddShort(startX + client.areaX);
