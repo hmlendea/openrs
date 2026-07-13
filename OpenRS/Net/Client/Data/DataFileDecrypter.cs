@@ -54,7 +54,6 @@ namespace OpenRS.Net.Client.Data
             return decompressedSize;
         }
 
-
         private static void DecodeRunLength(BZip2BlockEntry blockEntry)
         {
             sbyte currentRunByte = blockEntry.lastOutputByte;
@@ -220,7 +219,6 @@ namespace OpenRS.Net.Client.Data
             blockEntry.outputIndex = outputIndex;
             blockEntry.decompressedSize = remainingOutput;
         }
-
 
         private static void ReadBlock(BZip2BlockEntry blockEntry)
         {

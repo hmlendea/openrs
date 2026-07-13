@@ -83,7 +83,6 @@ namespace OpenRS.Net.Client.Game
             faceNormalComponent = new int[_vert_count];
             vertexColor = new int[_vert_count];
 
-
             face_vertices_count = new int[polygonCount];
             face_vertices = new int[polygonCount][];
             texture_back = new int[polygonCount];
@@ -1091,7 +1090,6 @@ namespace OpenRS.Net.Client.Game
                     worldVertY[j] = vert_y[j];
                     worldVertZ[j] = vert_z[j];
                 }
-
 
                 distVar = boundsMaxX = boundsMaxY = boundsMaxZ = 0x98967f;
                 boundsMinX = boundsMinY = boundsMinZ = -boundsMaxZ/*unchecked((int)0xff676981)*/;

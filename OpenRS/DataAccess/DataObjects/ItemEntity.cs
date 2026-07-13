@@ -16,6 +16,8 @@ namespace OpenRS.DataAccess.DataObjects
 
         public int InventoryPicture { get; set; }
 
+        public string SpriteName { get; set; }
+
         public int PictureMask { get; set; }
 
         public int IsEquipable { get; set; }

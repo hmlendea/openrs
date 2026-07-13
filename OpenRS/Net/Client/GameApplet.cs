@@ -41,7 +41,6 @@ namespace OpenRS.Net.Client
             InitGameApplet();
         }
 
-
         public void SetRefreshRate(int rate)
         {
             refreshRate = 1000 / rate;

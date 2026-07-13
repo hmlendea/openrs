@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using OpenRS.Models;
 using OpenRS.Net.Client.Data;
@@ -11,6 +12,25 @@ namespace OpenRS.Net.Client.Rendering
 {
     public sealed class GameRenderer(GameClient client)
     {
+        private List<ItemSpriteDrawCall> pendingItemSpriteDrawCalls = [];
+
+        private void RecordItemSprite(int x, int y, int width, int height, Item item)
+        {
+            if (item is null || string.IsNullOrEmpty(item.SpriteName))
+            {
+                return;
+            }
+
+            pendingItemSpriteDrawCalls.Add(new ItemSpriteDrawCall
+            {
+                PixelX = x,
+                PixelY = y,
+                PixelWidth = width,
+                PixelHeight = height,
+                SpriteName = item.SpriteName
+            });
+        }
+
         public void DrawNpc(int x, int y, int width, int height, int npcIndex, int cameraXOffset, int scalePercentage)
             => DrawNPC(x, y, width, height, npcIndex, cameraXOffset, scalePercentage);
 
@@ -365,6 +385,7 @@ namespace OpenRS.Net.Client.Rendering
             if (f1.lastMessageTimeout > 0)
             {
                 client.receivedMessageMidPoint[client.receivedMessagesCount] = client.gameGraphics.TextWidth(f1.lastMessage, 1) / 2;
+
                 if (client.receivedMessageMidPoint[client.receivedMessagesCount] > 150)
                 {
                     client.receivedMessageMidPoint[client.receivedMessagesCount] = 150;
@@ -570,7 +591,7 @@ namespace OpenRS.Net.Client.Rendering
                 if (i1 < client.inventoryItemsCount)
                 {
                     Item inventoryItem = client.entityManager.GetItem(client.inventoryItems[i1]);
-                    client.gameGraphics.DrawImage(j1, l1, 48, 32, client.baseItemPicture + inventoryItem.InventoryPicture, inventoryItem.PictureMask, 0, 0, false);
+                    RecordItemSprite(j1, l1, 48, 32, inventoryItem);
                     if (inventoryItem.IsStackable == 0)
                     {
                         client.gameGraphics.DrawString(client.inventoryItemCount[i1].ToString(), j1 + 1, l1 + 10, 1, 0xffff00);
@@ -969,6 +990,7 @@ namespace OpenRS.Net.Client.Rendering
             }
 
             l1 += 15;
+
             if (client.fogOfWar)
             {
                 client.gameGraphics.DrawString("Fog of war - @gre@show", j1, l1, 1, 0xffffff);
@@ -1463,7 +1485,7 @@ namespace OpenRS.Net.Client.Rendering
             {
                 int k6 = 9 + byte0 + i6 % 4 * 49;
                 int i7 = 31 + byte1 + i6 / 4 * 34;
-                client.gameGraphics.DrawImage(k6, i7, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.tradeItemsOur[i6]).InventoryPicture, client.entityManager.GetItem(client.tradeItemsOur[i6]).PictureMask, 0, 0, false);
+                RecordItemSprite(k6, i7, 48, 32, client.entityManager.GetItem(client.tradeItemsOur[i6]));
                 if (client.entityManager.GetItem(client.tradeItemsOur[i6]).IsStackable == 0)
                 {
                     client.gameGraphics.DrawString(client.tradeItemOurCount[i6].ToString(), k6 + 1, i7 + 10, 1, 0xffff00);
@@ -1480,7 +1502,7 @@ namespace OpenRS.Net.Client.Rendering
             {
                 int j7 = 9 + byte0 + l6 % 4 * 49;
                 int k7 = 156 + byte1 + l6 / 4 * 34;
-                client.gameGraphics.DrawImage(j7, k7, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.tradeItemsOther[l6]).InventoryPicture, client.entityManager.GetItem(client.tradeItemsOther[l6]).PictureMask, 0, 0, false);
+                RecordItemSprite(j7, k7, 48, 32, client.entityManager.GetItem(client.tradeItemsOther[l6]));
                 if (client.entityManager.GetItem(client.tradeItemsOther[l6]).IsStackable == 0)
                 {
                     client.gameGraphics.DrawString(client.tradeItemOtherCount[l6].ToString(), j7 + 1, k7 + 10, 1, 0xffff00);
@@ -1996,10 +2018,12 @@ namespace OpenRS.Net.Client.Rendering
             client.gameGraphics.DrawLineX(l, i1 + 113, c1, 0);
             client.gameGraphics.DrawText("Magic", l + c1 / 4, i1 + 16, 4, 0);
             client.gameGraphics.DrawText("Prayers", l + c1 / 4 + c1 / 2, i1 + 16, 4, 0);
+
             if (client.menuMagicPrayersSelected == 0)
             {
                 client.spellMenu.ClearList(client.spellMenuHandle);
                 int l1 = 0;
+
                 for (int l2 = 0; l2 < client.entityManager.SpellCount; l2 += 1)
                 {
                     string s1 = "@yel@";
@@ -2033,7 +2057,7 @@ namespace OpenRS.Net.Client.Rendering
                     for (int l4 = 0; l4 < client.entityManager.GetSpell(l3).RuneCount; l4 += 1)
                     {
                         int l5 = client.entityManager.GetSpell(l3).RequiredRunesIds[l4];
-                        client.gameGraphics.DrawPicture(l + 2 + l4 * 44, i1 + 150, client.baseItemPicture + client.entityManager.GetItem(l5).InventoryPicture);
+                        RecordItemSprite(l + 2 + l4 * 44, i1 + 150, 48, 32, client.entityManager.GetItem(l5));
                         int i6 = client.GetInventoryItemTotalCount(l5);
                         int j6 = client.entityManager.GetSpell(l3).RequiredRunesCounts[l4];
                         string s3 = "@red@";
@@ -2301,6 +2325,7 @@ namespace OpenRS.Net.Client.Rendering
             client.gameGraphics.DrawBoxAlpha(_offsetX, _offsetY + 199, 408, 47, k1, 160);
             client.gameGraphics.DrawString("Buying and selling items", _offsetX + 1, _offsetY + 10, 1, 0xffffff);
             int i2 = 0xffffff;
+
             if (client.mouseX > _offsetX + 320 && client.mouseY >= _offsetY && client.mouseX < _offsetX + 408 && client.mouseY < _offsetY + 12)
             {
                 i2 = 0xff0000;
@@ -2330,7 +2355,7 @@ namespace OpenRS.Net.Client.Rendering
                     client.gameGraphics.DrawBoxEdge(i6, l6, 50, 35, 0);
                     if (client.shopItems[j4] != -1)
                     {
-                        client.gameGraphics.DrawImage(i6, l6, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.shopItems[j4]).InventoryPicture, client.entityManager.GetItem(client.shopItems[j4]).PictureMask, 0, 0, false);
+                        RecordItemSprite(i6, l6, 48, 32, client.entityManager.GetItem(client.shopItems[j4]));
                         client.gameGraphics.DrawString(client.shopItemCount[j4].ToString(), i6 + 1, l6 + 10, 1, 65280);
                         client.gameGraphics.DrawLabel(client.GetInventoryItemTotalCount(client.shopItems[j4]).ToString(), i6 + 47, l6 + 10, 1, 65535);
                     }
@@ -2416,6 +2441,9 @@ namespace OpenRS.Net.Client.Rendering
         }
         public void DrawGame()
         {
+            pendingItemSpriteDrawCalls = [];
+            client.PendingItemSpriteDrawCalls = pendingItemSpriteDrawCalls;
+
             if (client.ourPlayer is null)
             {
                 return;
@@ -2964,6 +2992,7 @@ namespace OpenRS.Net.Client.Rendering
 
                 client.GetMenuHighlighted();
                 bool flag = !client.showQuestionMenu && !client.menuShow;
+
                 if (flag)
                 {
                     client.menuOptionsCount = 0;
@@ -3315,7 +3344,7 @@ namespace OpenRS.Net.Client.Rendering
             {
                 int l5 = 217 + byte0 + k5 % 5 * 49;
                 int j6 = 31 + byte1 + k5 / 5 * 34;
-                client.gameGraphics.DrawImage(l5, j6, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.inventoryItems[k5]).InventoryPicture, client.entityManager.GetItem(client.inventoryItems[k5]).PictureMask, 0, 0, false);
+                RecordItemSprite(l5, j6, 48, 32, client.entityManager.GetItem(client.inventoryItems[k5]));
                 if (client.entityManager.GetItem(client.inventoryItems[k5]).IsStackable == 0)
                 {
                     client.gameGraphics.DrawString(client.inventoryItemCount[k5].ToString(), l5 + 1, j6 + 10, 1, 0xffff00);
@@ -3326,7 +3355,7 @@ namespace OpenRS.Net.Client.Rendering
             {
                 int k6 = 9 + byte0 + i6 % 4 * 49;
                 int i7 = 31 + byte1 + i6 / 4 * 34;
-                client.gameGraphics.DrawImage(k6, i7, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.duelMyItems[i6]).InventoryPicture, client.entityManager.GetItem(client.duelMyItems[i6]).PictureMask, 0, 0, false);
+                RecordItemSprite(k6, i7, 48, 32, client.entityManager.GetItem(client.duelMyItems[i6]));
                 if (client.entityManager.GetItem(client.duelMyItems[i6]).IsStackable == 0)
                 {
                     client.gameGraphics.DrawString(client.duelMyItemsCount[i6].ToString(), k6 + 1, i7 + 10, 1, 0xffff00);
@@ -3343,7 +3372,7 @@ namespace OpenRS.Net.Client.Rendering
             {
                 int j7 = 9 + byte0 + l6 % 4 * 49;
                 int k7 = 124 + byte1 + l6 / 4 * 34;
-                client.gameGraphics.DrawImage(j7, k7, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.duelOpponentItems[l6]).InventoryPicture, client.entityManager.GetItem(client.duelOpponentItems[l6]).PictureMask, 0, 0, false);
+                RecordItemSprite(j7, k7, 48, 32, client.entityManager.GetItem(client.duelOpponentItems[l6]));
                 if (client.entityManager.GetItem(client.duelOpponentItems[l6]).IsStackable == 0)
                 {
                     client.gameGraphics.DrawString(client.duelOpponentItemsCount[l6].ToString(), j7 + 1, k7 + 10, 1, 0xffff00);
@@ -3573,7 +3602,7 @@ namespace OpenRS.Net.Client.Rendering
                 client.gameGraphics.DrawTransparentImage(x - width / 2, j5, width, height, client.baseInventoryPic + 9, 85);
                 int k5 = 36 * scale / 100;
                 int l5 = 24 * scale / 100;
-                client.gameGraphics.DrawImage(x - k5 / 2, j5 + height / 2 - l5 / 2, k5, l5, client.entityManager.GetItem(id).InventoryPicture + client.baseItemPicture, client.entityManager.GetItem(id).PictureMask, 0, 0, false);
+                RecordItemSprite(x - k5 / 2, j5 + height / 2 - l5 / 2, k5, l5, client.entityManager.GetItem(id));
             }
 
             for (int i2 = 0; i2 < client.healthBarVisibleCount; i2 += 1)
@@ -3870,12 +3899,14 @@ namespace OpenRS.Net.Client.Rendering
                     }
 
                     client.gameGraphics.DrawBoxEdge(k9, l9, 50, 35, 0);
+
                     if (j8 < client.bankItemsCount && client.bankItems[j8] != -1)
                     {
-                        client.gameGraphics.DrawImage(k9, l9, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.bankItems[j8]).InventoryPicture, client.entityManager.GetItem(client.bankItems[j8]).PictureMask, 0, 0, false);
+                        RecordItemSprite(k9, l9, 48, 32, client.entityManager.GetItem(client.bankItems[j8]));
                         client.gameGraphics.DrawString(client.bankItemCount[j8].ToString(), k9 + 1, l9 + 10, 1, 65280);
                         client.gameGraphics.DrawLabel(client.GetInventoryItemTotalCount(client.bankItems[j8]).ToString(), k9 + 47, l9 + 29, 1, 65535);
                     }
+
                     j8 += 1;
                 }
 

@@ -610,7 +610,6 @@ namespace OpenRS.Net.Client.Game
 
 				}
 
-
 #warning draw tiles ? -part-3- ?????
 
 				for (int x1 = 1; x1 < 95; x1 += 1)
@@ -804,7 +803,6 @@ namespace OpenRS.Net.Client.Game
             currentSectionObject.UpdateShading(false, 60, 24, -50, -10, -50);
 			wallObject[height] = currentSectionObject.GetObjectsWithinArea(0, 0, 1536, 1536, 8, 64, 338, true);
 
-
 			for (int l2 = 0; l2 < 64; l2 += 1)
             {
                 _camera.AddModel(wallObject[height][l2]);
@@ -814,8 +812,6 @@ namespace OpenRS.Net.Client.Game
 			{
 				for (int y1 = 0; y1 < 95; y1 += 1)
 				{
-
-
 
 					/*
 					 * ----> Walls/roofs being messed up
@@ -1894,7 +1890,6 @@ namespace OpenRS.Net.Client.Game
 				objectDirs[j] = new int[o9];
 			}
 
-
 			showAllWalls = false;
 			selectedY = new int[18432];
 			groundTexture = new int[256];
@@ -1903,7 +1898,6 @@ namespace OpenRS.Net.Client.Game
 			playerIsAlive = false;
 
 			selectedX = new int[18432];
-
 
 			isCameraInitialised = true;
 			baseInventoryPic = 750;

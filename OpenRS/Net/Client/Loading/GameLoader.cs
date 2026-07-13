@@ -61,8 +61,6 @@ client.RaiseOnLoadingSection(this, new EventArgs());
             client.gameGraphics.ScreenFadeToBlack();
             client.gameGraphics.ScreenFadeToBlack();
 
-
-
             client.gameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0x000000); //_bgScreenWidth=512
             for (int i1 = 6; i1 >= 1; i1 -= 1)
             {
@@ -75,8 +73,6 @@ client.RaiseOnLoadingSection(this, new EventArgs());
             {
                 client.gameGraphics.DrawTransparentLine(0, j1, 0, 194 - j1, _bgScreenWidth, 8);
             }
-
-
 
 #warning draws logo
 
@@ -92,11 +88,8 @@ client.RaiseOnLoadingSection(this, new EventArgs());
                 }
             }
 
-
             client.gameGraphics.DrawImage(client.baseLoginScreenBackgroundPic, 0, 0, _bgScreenWidth, 200);
             client.gameGraphics.ApplyImage(client.baseLoginScreenBackgroundPic);
-
-
 
             cameraX = 9216;
             cameraY = 9216;
@@ -110,8 +103,6 @@ client.RaiseOnLoadingSection(this, new EventArgs());
             client.gameCamera.FinishCamera();
             client.gameGraphics.ScreenFadeToBlack();
             client.gameGraphics.ScreenFadeToBlack();
-
-
 
             client.gameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0);
             for (int k1 = 6; k1 >= 1; k1 -= 1)
@@ -164,8 +155,6 @@ client.RaiseOnLoadingSection(this, new EventArgs());
             client.gameCamera.FinishCamera();
             client.gameGraphics.ScreenFadeToBlack();
             client.gameGraphics.ScreenFadeToBlack();
-
-
 
             client.gameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0);
             for (int j2 = 6; j2 >= 1; j2 -= 1)
@@ -499,7 +488,6 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                 //    texture.SaveAsJpeg(System.IO.File.OpenWrite("c:/jpg/" + baseProjectilePic + i2 + ".jpg"), w, h);
             }
 
-
         }
         public void LoadAnimations()
         {
@@ -598,9 +586,6 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                 }
                 client.entityManager.GetAnimation(i1).Number = client.animationNumber;
                 client.animationNumber += 27;
-
-
-
 
                 //if (File.Exists("animations-loaded.txt")) File.Delete("animations-loaded.txt");
                 //if (!File.Exists("animations-loaded.txt")) File.Create("animations-loaded.txt").Close();
@@ -861,7 +846,6 @@ client.RaiseOnLoadingSection(this, new EventArgs());
             client.gameGraphics.DrawText("Loading... Please wait", 256, 192, 1, 0xffffff);
             client.DrawChatMessageTabs();
 
-
             //gameGraphics.DrawImage(spriteBatch, 0, 0);
             int l = client.areaX;
             int i1 = client.areaY;
@@ -875,7 +859,6 @@ client.RaiseOnLoadingSection(this, new EventArgs());
             client.sectionPosX = xBase * 48 + 32;
             client.sectionPosY = yBase * 48 + 32;
             client.engineHandle.LoadSection(x, y, client.lastLayerIndex);
-
 
             client.areaX -= client.wildX;
             client.areaY -= client.wildY;
@@ -924,7 +907,6 @@ client.RaiseOnLoadingSection(this, new EventArgs());
                     //runtimeexception.printStackTrace();
                 }
             }
-
 
             for (int wallIndex = 0; wallIndex < client.wallObjectCount; wallIndex += 1)
             {
@@ -983,7 +965,6 @@ client.RaiseOnLoadingSection(this, new EventArgs());
 client.RaiseOnLoadingSectionCompleted(this, new EventArgs());
 
             client.OnDrawDone();
-
 
             return true;
         }

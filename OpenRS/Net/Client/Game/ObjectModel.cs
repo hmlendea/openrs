@@ -8,7 +8,6 @@ using OpenRS.Primitives;
 namespace OpenRS
 {
 
-
     public sealed class ObjectModel
     {
 
@@ -246,7 +245,6 @@ namespace OpenRS
             return numTextures;
         }
     }
-
 
     public sealed class OB3Model(GraphicsDevice graphicsDevice, GameObject obj) : GeometricPrimitive
     {

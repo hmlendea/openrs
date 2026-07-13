@@ -9,14 +9,14 @@ namespace OpenRS.Gui.Controls
 {
     public sealed class GuiItemCard : GuiControl
     {
-        private static int SpriteRows => 32;
+        private static string ItemSpritePathPrefix => "sprites/items/";
 
-        private static int SpriteColumns => 32;
+        private static Size2D IconSize => new(48, 32);
 
         private GuiImage icon;
         private GuiText quantity;
 
-        public int ItemPictureId { get; set; }
+        public string SpriteName { get; set; }
 
         public int Quantity { get; set; }
 
@@ -24,12 +24,13 @@ namespace OpenRS.Gui.Controls
         {
             Size = new Size2D(36, 36);
         }
+
         protected override void DoLoadContent()
         {
             icon = new GuiImage
             {
                 Size = new Size2D(32, 32),
-                ContentFile = "Interface/items"
+                ContentFile = "ScreenManager/missing-texture"
             };
             quantity = new GuiText
             {
@@ -43,6 +44,7 @@ namespace OpenRS.Gui.Controls
             RegisterChildren(icon, quantity);
             SetChildrenProperties();
         }
+
         protected override void DoUnloadContent() { }
 
         protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
@@ -51,9 +53,15 @@ namespace OpenRS.Gui.Controls
 
         private void SetChildrenProperties()
         {
-            if (Quantity > 0)
+            if (Quantity > 0 && !string.IsNullOrEmpty(SpriteName))
             {
-                icon.SourceRectangle = CalculateIconSourceRectangle(ItemPictureId);
+                string contentFile = ItemSpritePathPrefix + SpriteName;
+
+                if (!string.Equals(icon.ContentFile, contentFile, System.StringComparison.Ordinal))
+                {
+                    icon.ContentFile = contentFile;
+                }
+
                 icon.Location = new Point2D(
                     (Size.Width - icon.Size.Width) / 2,
                     (Size.Height - icon.Size.Height) / 2);
@@ -82,18 +90,6 @@ namespace OpenRS.Gui.Controls
             {
                 quantity.Hide();
             }
-        }
-
-        private Rectangle2D CalculateIconSourceRectangle(int id)
-        {
-            int columnIndex = id % SpriteColumns;
-            int rowIndex = id / SpriteRows;
-
-            return new Rectangle2D(
-                columnIndex * icon.Size.Width,
-                rowIndex * icon.Size.Height,
-                icon.Size.Width,
-                icon.Size.Height);
         }
     }
 }

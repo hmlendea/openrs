@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -80,7 +81,6 @@ namespace OpenRS.Net.Client
         public void Paint() { }
 
         public void UnloadContent() { }
-
 
         public void SetCombatStyle(Models.Enumerations.CombatStyle style)
         {
@@ -182,12 +182,11 @@ namespace OpenRS.Net.Client
 
         public float GameDisplayScaleY { get; set; } = 1.0f;
 
+        public IReadOnlyList<ItemSpriteDrawCall> PendingItemSpriteDrawCalls { get; set; } = [];
+
         public EntityManager entityManager;
 
         public InventoryManager inventoryManager;
-
-
-
 
         public override void ResetIntVars()
         {
@@ -196,14 +195,6 @@ namespace OpenRS.Net.Client
             loggedIn = false;
             logoutTimer = 0;
         }
-
-
-
-
-
-
-
-
 
         //protected TcpClient makeSocket(string address, int port) {
 
@@ -222,7 +213,6 @@ namespace OpenRS.Net.Client
 
         public bool DoNotDrawLogo { get; set; }
 
-
         //protected void startThread(Runnable runnable) {
         //    if(Link.gameApplet is not null) {
         //        Link.thread(runnable);
@@ -235,34 +225,12 @@ namespace OpenRS.Net.Client
         //    }
         //}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         //public Uri getCodeBase() {
         //    if(Link.gameApplet is not null)
         //        return Link.gameApplet.getCodeBase();
         //    else
         //        return base.getCodeBase();
         //}
-
-
-
-
-
-
-
-
 
         //public string getParameter(string s1) {
         //    if(Link.gameApplet is not null)
@@ -271,27 +239,6 @@ namespace OpenRS.Net.Client
         //        return base.getParameter(s1);
         //}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         //public URL getDocumentBase() {
         //    if(Link.gameApplet is not null)
         //        return Link.gameApplet.getDocumentBase();
@@ -299,36 +246,8 @@ namespace OpenRS.Net.Client
         //        return base.getDocumentBase();
         //}
 
-
-
-
-
-
-
-
-
-
-
-
-
         //	public bool DrawCustomMenus { get; set; }
         //    public event EventHandler OnDrawMenus;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         //public Texture2D createImage(int l, int i1)
         //{
@@ -340,30 +259,12 @@ namespace OpenRS.Net.Client
         //    return base.createImage(l, i1);
         //}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public GameClient()
         {
             tradeOtherName = "";
 
-
             windowWidth = 512;
             windowHeight = 334;
-
 
             cameraFieldOfView = 9;
             showQuestionMenu = false;

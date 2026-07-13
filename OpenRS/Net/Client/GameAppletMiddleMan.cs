@@ -617,7 +617,6 @@ namespace OpenRS.Net.Client
         public long sessionId;
         public int socketTimeout;
 
-
         public bool reconnecting { get; set; }
     }
 }

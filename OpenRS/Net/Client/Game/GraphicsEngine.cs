@@ -411,7 +411,6 @@ namespace OpenRS.Net.Client.Game
             int i1 = metaData[i++] & 0xff;
             int[] ai = new int[i1];
 
-
             //      List<Color> clr = new List<Color>();
             ai[0] = 0xff00ff;
             for (int j1 = 0; j1 < i1 - 1; j1 += 1)
@@ -540,7 +539,6 @@ namespace OpenRS.Net.Client.Game
                     int g = j2 >> 8 & 0xff;
                     int r = j2 & 0xff;
                     // colors[width] = new Color(j3, k3, l3, 255);
-
 
                     for (int i4 = 0; i4 < 256; i4 += 1)
                     {
@@ -1076,8 +1074,10 @@ namespace OpenRS.Net.Client.Game
                     l = l * (pictureWidth[animationNumber] - (j2 >> 16)) / j3;
                     i1 = i1 * (pictureHeight[animationNumber] - (k2 >> 16)) / l3;
                 }
+
                 int k3 = i + k * GameSize.Width;
                 int i4 = GameSize.Width - l;
+
                 if (k < imageRectangle.Y)
                 {
                     int j4 = imageRectangle.Y - k;
@@ -1100,15 +1100,18 @@ namespace OpenRS.Net.Client.Game
                     j2 += l2 * k4;
                     i4 += k4;
                 }
+
                 if (i + l >= imageRectangle.Width)
                 {
                     int l4 = i + l - imageRectangle.Width + 1;
                     l -= l4;
                     i4 += l4;
                 }
+
                 byte byte0 = 1;
 
                 Ccm(ref pixels, pictureColors[animationNumber], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, colour);
+
                 return;
             }
             catch (Exception)
@@ -2359,7 +2362,6 @@ namespace OpenRS.Net.Client.Game
                 //    x += 4;
                 //}
                 //else
-
 
                 return;
             }

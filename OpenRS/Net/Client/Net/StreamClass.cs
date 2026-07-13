@@ -33,7 +33,6 @@ namespace OpenRS.Net.Client.Net
             }
         }
 
-
         private void OnRead(IAsyncResult iar)
         {
             try
@@ -216,7 +215,6 @@ namespace OpenRS.Net.Client.Net
                 {
                     try
                     {
-
 
                         outputStream.Write(buffer, j, i);
                     }

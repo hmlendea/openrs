@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 
@@ -14,11 +16,16 @@ using OpenRS.Gui.Controls;
 using OpenRS.Net.Client;
 using OpenRS.Net.Client.Events;
 using OpenRS.Net.Client.Game;
+using OpenRS.Settings;
+using OpenRS.Net.Client.Game;
 
 namespace OpenRS.Gui.Screens
 {
     public sealed class RscScreen : Screen
     {
+        private static string ItemSpritesDirectory
+            => Path.Combine(ApplicationPaths.ApplicationDirectory, "Content", "sprites", "items");
+
         private GameClient rscMudclient;
         private Thread gameThread;
 
@@ -27,6 +34,8 @@ namespace OpenRS.Gui.Screens
 
         private SpriteFont diagnosticFont;
         private SpriteFont diagnosticFont2;
+
+        private readonly Dictionary<string, Texture2D> itemTextureCache = [];
 
         private bool isSectionLoading;
         private bool isContentLoading;
@@ -66,6 +75,13 @@ namespace OpenRS.Gui.Screens
 
         protected override void DoUnloadContent()
         {
+            foreach (Texture2D texture in itemTextureCache.Values)
+            {
+                texture?.Dispose();
+            }
+
+            itemTextureCache.Clear();
+
             try
             {
                 rscMudclient.Destroy();
@@ -88,6 +104,11 @@ namespace OpenRS.Gui.Screens
             if (!isContentLoading)
             {
                 DrawGame(spriteBatch);
+
+                if (rscMudclient?.loggedIn == true)
+                {
+                    DrawItemSprites();
+                }
 
                 if (!rscMudclient.loggedIn && rscMudclient.DoNotDrawLogo)
                 {
@@ -198,6 +219,68 @@ namespace OpenRS.Gui.Screens
                 spriteBatch.End();
             }
             catch { }
+        }
+
+        private void DrawItemSprites()
+        {
+            IReadOnlyList<ItemSpriteDrawCall> drawCalls = rscMudclient.PendingItemSpriteDrawCalls;
+
+            if (drawCalls.Count == 0)
+            {
+                return;
+            }
+
+            guiSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp);
+
+            foreach (ItemSpriteDrawCall drawCall in drawCalls)
+            {
+                Texture2D texture = LoadItemTexture(drawCall.SpriteName);
+
+                if (texture is null)
+                {
+                    continue;
+                }
+
+                Rectangle destination = new(
+                    (int)(rscMudclient.GameDisplayOffsetX + drawCall.PixelX * rscMudclient.GameDisplayScaleX),
+                    (int)(rscMudclient.GameDisplayOffsetY + drawCall.PixelY * rscMudclient.GameDisplayScaleY),
+                    (int)(drawCall.PixelWidth * rscMudclient.GameDisplayScaleX),
+                    (int)(drawCall.PixelHeight * rscMudclient.GameDisplayScaleY));
+
+                guiSpriteBatch.Draw(texture, destination, Color.White);
+            }
+
+            guiSpriteBatch.End();
+        }
+
+        private Texture2D LoadItemTexture(string spriteName)
+        {
+            if (itemTextureCache.TryGetValue(spriteName, out Texture2D cached))
+            {
+                return cached;
+            }
+
+            string pngPath = Path.Combine(ItemSpritesDirectory, spriteName + ".png");
+
+            if (!File.Exists(pngPath))
+            {
+                itemTextureCache[spriteName] = null;
+                return null;
+            }
+
+            try
+            {
+                using Stream stream = File.OpenRead(pngPath);
+                Texture2D texture = Texture2D.FromStream(GraphicsManager.Instance.Graphics.GraphicsDevice, stream);
+                itemTextureCache[spriteName] = texture;
+                return texture;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[LoadItemTexture] Failed to load '{pngPath}': {ex.Message}");
+                itemTextureCache[spriteName] = null;
+                return null;
+            }
         }
 
         private void DrawLogo(SpriteBatch spriteBatch)

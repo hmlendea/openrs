@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 
@@ -11,15 +13,20 @@ using NuciXNA.Gui.Controls;
 using OpenRS.Net.Client;
 using OpenRS.Net.Client.Events;
 using OpenRS.Net.Client.Game;
+using OpenRS.Settings;
 
 namespace OpenRS.Gui.Controls
 {
     public sealed class GuiGame(GameClient client) : GuiControl
     {
+        private static string ItemSpritesDirectory
+            => Path.Combine(ApplicationPaths.ApplicationDirectory, "Content", "sprites", "items");
+
         private SpriteBatch spriteBatch;
         private SpriteBatch gameSpriteBatch;
 
         private Texture2D lastGameImageTexture;
+        private readonly Dictionary<string, Texture2D> itemTextureCache = [];
 
         private bool isSectionLoading;
         private bool isContentLoading;
@@ -33,6 +40,12 @@ namespace OpenRS.Gui.Controls
 
         protected override void DoUnloadContent()
         {
+            foreach (Texture2D texture in itemTextureCache.Values)
+            {
+                texture?.Dispose();
+            }
+
+            itemTextureCache.Clear();
             client.Dispose();
             UnregisterEvents();
         }
@@ -127,6 +140,8 @@ namespace OpenRS.Gui.Controls
                         gameSpriteBatch.Draw(lastGameImageTexture, destinationRectangle, sourceRectangle, Color.White);
                         gameSpriteBatch.End();
                     }
+
+                    DrawItemSprites(client);
                 }
                 else if (lastGameImageTexture is not null)
                 {
@@ -142,6 +157,71 @@ namespace OpenRS.Gui.Controls
             {
                 Console.WriteLine($"An error has occured in {nameof(GameWindow)}.cs");
                 Console.WriteLine(ex);
+            }
+        }
+
+        private void DrawItemSprites(GameClient gameClient)
+        {
+            IReadOnlyList<ItemSpriteDrawCall> drawCalls = gameClient.PendingItemSpriteDrawCalls;
+
+            if (drawCalls.Count == 0)
+            {
+                return;
+            }
+
+            gameSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp);
+
+            foreach (ItemSpriteDrawCall drawCall in drawCalls)
+            {
+                Texture2D texture = LoadItemTexture(drawCall.SpriteName);
+
+                if (texture is null)
+                {
+                    continue;
+                }
+
+                Rectangle destination = new(
+                    (int)(gameClient.GameDisplayOffsetX + drawCall.PixelX * gameClient.GameDisplayScaleX),
+                    (int)(gameClient.GameDisplayOffsetY + drawCall.PixelY * gameClient.GameDisplayScaleY),
+                    (int)(drawCall.PixelWidth * gameClient.GameDisplayScaleX),
+                    (int)(drawCall.PixelHeight * gameClient.GameDisplayScaleY));
+
+                gameSpriteBatch.Draw(texture, destination, Color.White);
+            }
+
+            gameSpriteBatch.End();
+        }
+
+        private Texture2D LoadItemTexture(string spriteName)
+        {
+            if (itemTextureCache.TryGetValue(spriteName, out Texture2D cached))
+            {
+                return cached;
+            }
+
+            string pngPath = Path.Combine(ItemSpritesDirectory, spriteName + ".png");
+
+            if (!File.Exists(pngPath))
+            {
+                Console.WriteLine($"[LoadItemTexture] PNG file not found: {pngPath}");
+                itemTextureCache[spriteName] = null;
+                return null;
+            }
+
+            try
+            {
+                using Stream stream = File.OpenRead(pngPath);
+                Texture2D texture = Texture2D.FromStream(GraphicsManager.Instance.Graphics.GraphicsDevice, stream);
+                itemTextureCache[spriteName] = texture;
+
+                return texture;
+            }
+            catch (Exception loadException)
+            {
+                Console.WriteLine($"[LoadItemTexture] Failed to load '{pngPath}': {loadException.Message}");
+                itemTextureCache[spriteName] = null;
+
+                return null;
             }
         }
 

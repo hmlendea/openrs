@@ -20,7 +20,6 @@ namespace OpenRS.Net.Client.Net
             packet[offset++] = (byte)i;
         }
 
-
         public void AddString(string s)
         {
 
@@ -115,11 +114,8 @@ namespace OpenRS.Net.Client.Net
             {
                 // keyFactory = KeyFactory.getInstance("RSA");
 
-
-
                 Crypto = new RSACryptoServiceProvider();
                 pubKey = Crypto.ExportParameters(false);
-
 
                 //parms.
                 //var key =

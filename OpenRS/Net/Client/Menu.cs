@@ -6,7 +6,6 @@ namespace OpenRS.Net.Client
     public sealed class Menu
     {
 
-
         public Menu(GameImage gameImageInstance, int capacity)
         {
             selectedComponent = -1;
@@ -932,7 +931,6 @@ namespace OpenRS.Net.Client
 
             return highlightedIndex;
         }
-
 
         protected GameImage gameImage;
         private int menuItemsCount;

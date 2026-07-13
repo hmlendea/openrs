@@ -169,7 +169,6 @@ namespace OpenRS.Net.Client.Input
                 }
             }
 
-
             lastPressedKeys.Clear();
             lastPressedKeys.AddRange(keyboardState.GetPressedKeys());
 

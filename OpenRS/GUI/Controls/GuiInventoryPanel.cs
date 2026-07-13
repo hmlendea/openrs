@@ -66,7 +66,7 @@ namespace OpenRS.Gui.Controls
                 InventoryItem inventoryItem = client.inventoryManager.GetItem(itemSlot);
                 Item item = client.entityManager.GetItem(inventoryItem.Index);
 
-                itemCards[itemSlot].ItemPictureId = item.InventoryPicture;
+                itemCards[itemSlot].SpriteName = item.SpriteName;
                 itemCards[itemSlot].Quantity = inventoryItem.Quantity;
             }
         }
