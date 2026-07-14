@@ -432,8 +432,12 @@ namespace OpenRS.Net.Client.Handlers
                             sbyte byte7 = client.packetData[off];
                             off += 1;
                             string s3 = ChatMessage.BytesToString(client.packetData, off, byte7);
-                            //if (useChatFilter)
-                            //    s3 = ChatFilter.filterChat(s3);
+
+                            if (client.useChatFilter)
+                            {
+                                s3 = ChatFilter.FilterChat(s3);
+                            }
+
                             bool ignore = false;
                             for (int i41 = 0; i41 < client.ignoresCount; i41 += 1)
                             {

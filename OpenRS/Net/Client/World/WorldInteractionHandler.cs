@@ -1276,8 +1276,12 @@ namespace OpenRS.Net.Client.World
                     int len = ChatMessage.StringToBytes(message);
                     client.CallSendPrivateMessage(recipient, ChatMessage.lastChat, len);
                     message = ChatMessage.BytesToString(ChatMessage.lastChat, 0, len);
-                    //  if (useChatFilter)
-                    //      message = ChatFilter.filterChat(message);
+
+                    if (client.useChatFilter)
+                    {
+                        message = ChatFilter.FilterChat(message);
+                    }
+
                     client.DisplayMessage("@pri@You tell " + DataOperations.HashToName(recipient) + ": " + message);
                     return true;
                 }

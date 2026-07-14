@@ -625,21 +625,9 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
             client.entityManager.LoadElevations();
             client.entityManager.LoadTiles();
 
-            sbyte[] abyte1 = client.UnpackData("filter.jag", "Chat system", 15);
-            if (abyte1 is null)
-            {
-                client.errorLoading = true;
-                return;
-            }
-            else
-            {
-                sbyte[] abyte2 = DataOperations.LoadData("fragmentsenc.txt", 0, abyte1);
-                sbyte[] abyte3 = DataOperations.LoadData("badenc.txt", 0, abyte1);
-                sbyte[] abyte4 = DataOperations.LoadData("hostenc.txt", 0, abyte1);
-                sbyte[] abyte5 = DataOperations.LoadData("tldlist.txt", 0, abyte1);
-                //ChatFilter.addFilterData(new DataEncryption(abyte2), new DataEncryption(abyte3), new DataEncryption(abyte4), new DataEncryption(abyte5));
-                return;
-            }
+            ChatFilter.Load();
+            client.DrawLoadingBarText(15, "Chat system");
+            client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Chat system", 15));
         }
         public sbyte[] UnpackData(string fileName, string fileTitle, int progressPercentage)
         {
