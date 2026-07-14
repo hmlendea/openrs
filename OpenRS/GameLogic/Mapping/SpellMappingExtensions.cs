@@ -16,9 +16,11 @@ namespace OpenRS.GameLogic.Mapping
             Description = LocalisationManager.GetString(spellEntity.Description),
             RequiredLevel = spellEntity.RequiredLevel,
             Type = spellEntity.Type,
-            RuneCount = spellEntity.RuneCount,
-            RequiredRunesIds = spellEntity.RequiredRunesIds,
-            RequiredRunesCounts = spellEntity.RequiredRunesCounts,
+            RequiredRunes = Enumerable
+                .Range(0, spellEntity.RuneCount)
+                .ToDictionary(
+                    runeIndex => spellEntity.RequiredRunesIds[runeIndex],
+                    runeIndex => spellEntity.RequiredRunesCounts[runeIndex]),
             ExperienceGain = spellEntity.ExperienceGain
         };
 
@@ -29,9 +31,9 @@ namespace OpenRS.GameLogic.Mapping
             Description = spell.Description,
             RequiredLevel = spell.RequiredLevel,
             Type = spell.Type,
-            RuneCount = spell.RuneCount,
-            RequiredRunesIds = spell.RequiredRunesIds,
-            RequiredRunesCounts = spell.RequiredRunesCounts,
+            RuneCount = spell.RequiredRunes.Count,
+            RequiredRunesIds = [.. spell.RequiredRunes.Keys],
+            RequiredRunesCounts = [.. spell.RequiredRunes.Values],
             ExperienceGain = spell.ExperienceGain
         };
 

@@ -1,4 +1,6 @@
-﻿namespace OpenRS.Models
+﻿using System.Collections.Generic;
+
+namespace OpenRS.Models
 {
     public sealed class Spell
     {
@@ -7,12 +9,7 @@
         public string Description { get; set; }
         public int RequiredLevel { get; set; }
         public int Type { get; set; }
-        public int RuneCount { get; set; }
-        //public IDictionary<int, int> RequiredRunes { get; set; }
-
-        // TODO: Replace those with a dictionary.
-        public int[] RequiredRunesIds { get; set; }
-        public int[] RequiredRunesCounts { get; set; }
+        public IDictionary<int, int> RequiredRunes { get; set; }
         public int ExperienceGain { get; set; }
     }
 }

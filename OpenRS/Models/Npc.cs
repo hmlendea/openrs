@@ -36,11 +36,9 @@
 
         public int RespawnTime { get; set; }
 
-        // TODO: Convert to bool.
-        public int IsAttackable { get; set; }
+        public bool IsAttackable { get; set; }
 
-        // TODO: Convert to bool.
-        public int IsAggressive { get; set; }
+        public bool IsAggressive { get; set; }
 
         public ItemDrop[] Drops { get; set; }
 

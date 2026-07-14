@@ -239,7 +239,7 @@ namespace OpenRS.Net.Client.World
                 client.streamClass.FormatPacket();
             }
 
-            if (actionID == (int)MenuAction.AttackNpc || actionID == (int)MenuAction.AttackNpc2)
+            if (actionID == (int)MenuAction.AttackNpc || actionID == (int)MenuAction.AttackNpcOffscreen)
             {
                 int tileX = (actionX - 64) / client.gridSize;
                 int tileY = (actionY - 64) / client.gridSize;
@@ -839,7 +839,7 @@ namespace OpenRS.Net.Client.World
                             int npcLevelDifference = -1;
                             int npcId = client.npcArray[entityIndex].npcId;
 
-                            if (client.entityManager.GetNpc(npcId).IsAttackable > 0)
+                            if (client.entityManager.GetNpc(npcId).IsAttackable)
                             {
                                 int npcAverageLevel = (client.entityManager.GetNpc(npcId).AttackLevel + client.entityManager.GetNpc(npcId).DefenceLevel + client.entityManager.GetNpc(npcId).StrengthLevel + client.entityManager.GetNpc(npcId).HealthLevel) / 4;
                                 int playerAverageLevel = (client.playerStatBase[0] + client.playerStatBase[1] + client.playerStatBase[2] + client.playerStatBase[3] + 27) / 4;
@@ -916,7 +916,7 @@ namespace OpenRS.Net.Client.World
                             }
                             else
                             {
-                                if (client.entityManager.GetNpc(npcId).IsAttackable > 0)
+                                if (client.entityManager.GetNpc(npcId).IsAttackable)
                                 {
                                     client.menuText1[client.menuOptionsCount] = "Attack";
                                     client.menuText2[client.menuOptionsCount] = "@yel@" + client.entityManager.GetNpc(client.npcArray[entityIndex].npcId).Name + npcLevelColourCode;

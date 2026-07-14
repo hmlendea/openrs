@@ -32,7 +32,7 @@ namespace OpenRS.Net.Client.Rendering
                     Item inventoryItem = client.entityManager.GetItem(client.inventoryItems[itemIndex]);
                     recordItemSprite(cellX, cellY, 48, 32, inventoryItem);
 
-                    if (inventoryItem.IsStackable == 0)
+                    if (!inventoryItem.IsStackable)
                     {
                         client.gameGraphics.DrawString(client.inventoryItemCount[itemIndex].ToString(), cellX + 1, cellY + 10, 1, 0xffff00);
                     }
@@ -436,7 +436,7 @@ namespace OpenRS.Net.Client.Rendering
                     {
                         int count = client.bankItemCount[client.selectedBankItem];
 
-                        if (client.entityManager.GetItem(id).IsStackable == 1 && count > 1)
+                        if (client.entityManager.GetItem(id).IsStackable && count > 1)
                         {
                             count = 1;
                         }
@@ -702,7 +702,7 @@ namespace OpenRS.Net.Client.Rendering
             {
                 int itemCount = client.bankItemCount[client.selectedBankItem];
 
-                if (client.entityManager.GetItem(selectedItemId).IsStackable == 1 && itemCount > 1)
+                if (client.entityManager.GetItem(selectedItemId).IsStackable && itemCount > 1)
                 {
                     itemCount = 1;
                 }

@@ -13,8 +13,8 @@ namespace OpenRS.GameLogic.Mapping
             Name = animationEntity.Name,
             CharacterColour = animationEntity.CharacterColour,
             GenderModel = animationEntity.GenderModel,
-            HasA = animationEntity.HasA,
-            HasF = animationEntity.HasF,
+            HasA = animationEntity.HasA != 0,
+            HasF = animationEntity.HasF != 0,
             Number = animationEntity.Number
         };
 
@@ -23,8 +23,8 @@ namespace OpenRS.GameLogic.Mapping
             Name = animation.Name,
             CharacterColour = animation.CharacterColour,
             GenderModel = animation.GenderModel,
-            HasA = animation.HasA,
-            HasF = animation.HasF,
+            HasA = animation.HasA ? 1 : 0,
+            HasF = animation.HasF ? 1 : 0,
             Number = animation.Number
         };
 

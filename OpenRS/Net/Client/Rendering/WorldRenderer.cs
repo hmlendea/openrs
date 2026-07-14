@@ -47,7 +47,7 @@ namespace OpenRS.Net.Client.Rendering
         {
             ClientMob player = client.playerArray[playerIndex];
 
-            if (player.bottomColour == 255) // TODO: This checks if the player is an invisible moderator.
+            if (player.Admin >= 2) // Admin level 2 or above marks an invisible moderator.
             {
                 return;
             }
@@ -109,7 +109,7 @@ namespace OpenRS.Net.Client.Rendering
 
                     if (isMirrored && effectiveDirection >= 1 && effectiveDirection <= 3)
                     {
-                        if (client.entityManager.GetAnimation(appearanceItemIndex).HasF == 1)
+                        if (client.entityManager.GetAnimation(appearanceItemIndex).HasF)
                         {
                             animationFrameIndex += 15;
                         }
@@ -151,7 +151,7 @@ namespace OpenRS.Net.Client.Rendering
                         }
                     }
 
-                    if (effectiveDirection != 5 || client.entityManager.GetAnimation(appearanceItemIndex).HasA == 1)
+                    if (effectiveDirection != 5 || client.entityManager.GetAnimation(appearanceItemIndex).HasA)
                     {
                         int pictureIndex = animationFrameIndex + client.entityManager.GetAnimation(appearanceItemIndex).Number;
                         xOffset = xOffset * width / client.gameGraphics.pictureAssumedWidth[pictureIndex];
@@ -452,12 +452,12 @@ namespace OpenRS.Net.Client.Rendering
                     if (isMirrored &&
                         newFrameIndex >= 1 &&
                         newFrameIndex <= 3 &&
-                        client.entityManager.GetAnimation(spriteId).HasF == 1)
+                        client.entityManager.GetAnimation(spriteId).HasF)
                     {
                         frameNumber += 15;
                     }
 
-                    if (newFrameIndex != 5 || client.entityManager.GetAnimation(spriteId).HasA == 1)
+                    if (newFrameIndex != 5 || client.entityManager.GetAnimation(spriteId).HasA)
                     {
                         int actualFrame = frameNumber + client.entityManager.GetAnimation(spriteId).Number;
                         drawOffsetX = drawOffsetX * width / client.gameGraphics.pictureAssumedWidth[actualFrame];

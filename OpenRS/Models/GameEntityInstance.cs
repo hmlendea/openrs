@@ -102,7 +102,7 @@ namespace OpenRS.Models
             // If both directions are blocked OR we are going straing and the direction is blocked
             if ((newXblocked && newYblocked) ||
                 (newXblocked && myLocation.Y == newLocation.Y) ||
-                (myYblocked && myLocation.X == newLocation.X)) // TODO: Check: myYblocked or newYblocked.
+                (newYblocked && myLocation.X == newLocation.X))
             {
                 return null;
             }

@@ -25,7 +25,7 @@ namespace OpenRS.Net.Client.Rendering
                 Item stakeItem = client.entityManager.GetItem(client.duelOurStakeItem[stakeIndex]);
                 string stakeItemName = stakeItem.Name;
 
-                if (stakeItem.IsStackable == 0)
+                if (!stakeItem.IsStackable)
                 {
                     stakeItemName = stakeItemName + " x " + GameClientUtilities.FormatItemCount(client.duelOurStakeItemCount[stakeIndex]);
                 }
@@ -45,7 +45,7 @@ namespace OpenRS.Net.Client.Rendering
                 Item opponentStakeItem = client.entityManager.GetItem(client.duelOpponentStakeItem[opponentStakeIndex]);
                 string opponentStakeItemName = opponentStakeItem.Name;
 
-                if (opponentStakeItem.IsStackable == 0)
+                if (!opponentStakeItem.IsStackable)
                 {
                     opponentStakeItemName = opponentStakeItemName + " x " + GameClientUtilities.FormatItemCount(client.duelOutStakeItemCount[opponentStakeIndex]);
                 }
@@ -164,7 +164,7 @@ namespace OpenRS.Net.Client.Rendering
                             {
                                 if (client.tradeItemsOur[tradeItem] == item)
                                 {
-                                    if (client.entityManager.GetItem(item).IsStackable == 0)
+                                    if (!client.entityManager.GetItem(item).IsStackable)
                                     {
                                         for (int i = 0; i < client.mouseClickedHeldInTradeDuelBox; i += 1)
                                         {
@@ -188,7 +188,7 @@ namespace OpenRS.Net.Client.Rendering
                                 ourTradeItemsChanged = true;
                             }
 
-                            if (client.entityManager.GetItem(item).IsSpecial == 1)
+                            if (client.entityManager.GetItem(item).IsSpecial)
                             {
                                 client.DisplayMessage(LocalisationManager.GetString("trade.trade_not_tradeable"), 3);
                                 ourTradeItemsChanged = true;
@@ -223,7 +223,7 @@ namespace OpenRS.Net.Client.Rendering
                             int item = client.tradeItemsOur[curItem];
                             for (int i = 0; i < client.mouseClickedHeldInTradeDuelBox; i += 1)
                             {
-                                if (client.entityManager.GetItem(item).IsStackable == 0 && client.tradeItemOurCount[curItem] > 1)
+                                if (!client.entityManager.GetItem(item).IsStackable && client.tradeItemOurCount[curItem] > 1)
                                 {
                                     client.tradeItemOurCount[curItem] -= 1;
                                     continue;
@@ -347,7 +347,7 @@ namespace OpenRS.Net.Client.Rendering
                 int inventoryCellY = 31 + boxOffsetY + inventoryIndex / 5 * 34;
                 client.gameGraphics.DrawImage(inventoryCellX, inventoryCellY, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.inventoryItems[inventoryIndex]).InventoryPicture, client.entityManager.GetItem(client.inventoryItems[inventoryIndex]).PictureMask, 0, 0, false);
 
-                if (client.entityManager.GetItem(client.inventoryItems[inventoryIndex]).IsStackable == 0)
+                if (!client.entityManager.GetItem(client.inventoryItems[inventoryIndex]).IsStackable)
                 {
                     client.gameGraphics.DrawString(client.inventoryItemCount[inventoryIndex].ToString(), inventoryCellX + 1, inventoryCellY + 10, 1, 0xffff00);
                 }
@@ -359,7 +359,7 @@ namespace OpenRS.Net.Client.Rendering
                 int ourStakeCellY = 31 + boxOffsetY + ourStakeIndex / 4 * 34;
                 recordItemSprite(ourStakeCellX, ourStakeCellY, 48, 32, client.entityManager.GetItem(client.tradeItemsOur[ourStakeIndex]));
 
-                if (client.entityManager.GetItem(client.tradeItemsOur[ourStakeIndex]).IsStackable == 0)
+                if (!client.entityManager.GetItem(client.tradeItemsOur[ourStakeIndex]).IsStackable)
                 {
                     client.gameGraphics.DrawString(client.tradeItemOurCount[ourStakeIndex].ToString(), ourStakeCellX + 1, ourStakeCellY + 10, 1, 0xffff00);
                 }
@@ -380,7 +380,7 @@ namespace OpenRS.Net.Client.Rendering
                 int theirStakeCellY = 156 + boxOffsetY + theirStakeIndex / 4 * 34;
                 recordItemSprite(theirStakeCellX, theirStakeCellY, 48, 32, client.entityManager.GetItem(client.tradeItemsOther[theirStakeIndex]));
 
-                if (client.entityManager.GetItem(client.tradeItemsOther[theirStakeIndex]).IsStackable == 0)
+                if (!client.entityManager.GetItem(client.tradeItemsOther[theirStakeIndex]).IsStackable)
                 {
                     client.gameGraphics.DrawString(client.tradeItemOtherCount[theirStakeIndex].ToString(), theirStakeCellX + 1, theirStakeCellY + 10, 1, 0xffff00);
                 }
@@ -412,7 +412,7 @@ namespace OpenRS.Net.Client.Rendering
                 Item tradeConfirmItem = client.entityManager.GetItem(client.tradeConfirmItems[ourStakeIndex]);
                 string ourItemName = tradeConfirmItem.Name;
 
-                if (tradeConfirmItem.IsStackable == 0)
+                if (!tradeConfirmItem.IsStackable)
                 {
                     ourItemName = ourItemName + " x " + GameClientUtilities.FormatItemCount(client.tradeConfigItemsCount[ourStakeIndex]);
                 }
@@ -432,7 +432,7 @@ namespace OpenRS.Net.Client.Rendering
                 Item tradeConfirmOtherItem = client.entityManager.GetItem(client.tradeConfirmOtherItems[theirStakeIndex]);
                 string theirItemName = tradeConfirmOtherItem.Name;
 
-                if (tradeConfirmOtherItem.IsStackable == 0)
+                if (!tradeConfirmOtherItem.IsStackable)
                 {
                     theirItemName = theirItemName + " x " + GameClientUtilities.FormatItemCount(client.tradeConfirmOtherItemsCount[theirStakeIndex]);
                 }
@@ -514,7 +514,7 @@ namespace OpenRS.Net.Client.Rendering
                             {
                                 if (client.duelMyItems[duelItemIndex] == clickedItemId)
                                 {
-                                    if (client.entityManager.GetItem(clickedItemId).IsStackable == 0)
+                                    if (!client.entityManager.GetItem(clickedItemId).IsStackable)
                                     {
                                         for (int clickCount = 0; clickCount < client.mouseClickedHeldInTradeDuelBox; clickCount += 1)
                                         {
@@ -538,7 +538,7 @@ namespace OpenRS.Net.Client.Rendering
                                 isItemAdded = true;
                             }
 
-                            if (client.entityManager.GetItem(clickedItemId).IsSpecial == 1)
+                            if (client.entityManager.GetItem(clickedItemId).IsSpecial)
                             {
                                 client.DisplayMessage(LocalisationManager.GetString("trade.duel_not_addable"), 3);
                                 isItemAdded = true;
@@ -580,7 +580,7 @@ namespace OpenRS.Net.Client.Rendering
 
                             for (int clickCountIndex = 0; clickCountIndex < client.mouseClickedHeldInTradeDuelBox; clickCountIndex += 1)
                             {
-                                if (client.entityManager.GetItem(ourStakeItemId).IsStackable == 0 &&
+                                if (!client.entityManager.GetItem(ourStakeItemId).IsStackable &&
                                     client.duelMyItemsCount[ourStakeClickIndex] > 1)
                                 {
                                     client.duelMyItemsCount[ourStakeClickIndex] -= 1;
@@ -814,7 +814,7 @@ namespace OpenRS.Net.Client.Rendering
                 int inventoryCellY = 31 + boxOffsetY + inventoryIndex / 5 * 34;
                 recordItemSprite(inventoryCellX, inventoryCellY, 48, 32, client.entityManager.GetItem(client.inventoryItems[inventoryIndex]));
 
-                if (client.entityManager.GetItem(client.inventoryItems[inventoryIndex]).IsStackable == 0)
+                if (!client.entityManager.GetItem(client.inventoryItems[inventoryIndex]).IsStackable)
                 {
                     client.gameGraphics.DrawString(client.inventoryItemCount[inventoryIndex].ToString(), inventoryCellX + 1, inventoryCellY + 10, 1, 0xffff00);
                 }
@@ -826,7 +826,7 @@ namespace OpenRS.Net.Client.Rendering
                 int ourStakeCellY = 31 + boxOffsetY + ourStakeIndex / 4 * 34;
                 recordItemSprite(ourStakeCellX, ourStakeCellY, 48, 32, client.entityManager.GetItem(client.duelMyItems[ourStakeIndex]));
 
-                if (client.entityManager.GetItem(client.duelMyItems[ourStakeIndex]).IsStackable == 0)
+                if (!client.entityManager.GetItem(client.duelMyItems[ourStakeIndex]).IsStackable)
                 {
                     client.gameGraphics.DrawString(client.duelMyItemsCount[ourStakeIndex].ToString(), ourStakeCellX + 1, ourStakeCellY + 10, 1, 0xffff00);
                 }
@@ -847,7 +847,7 @@ namespace OpenRS.Net.Client.Rendering
                 int opponentStakeCellY = 124 + boxOffsetY + opponentStakeIndex / 4 * 34;
                 recordItemSprite(opponentStakeCellX, opponentStakeCellY, 48, 32, client.entityManager.GetItem(client.duelOpponentItems[opponentStakeIndex]));
 
-                if (client.entityManager.GetItem(client.duelOpponentItems[opponentStakeIndex]).IsStackable == 0)
+                if (!client.entityManager.GetItem(client.duelOpponentItems[opponentStakeIndex]).IsStackable)
                 {
                     client.gameGraphics.DrawString(client.duelOpponentItemsCount[opponentStakeIndex].ToString(), opponentStakeCellX + 1, opponentStakeCellY + 10, 1, 0xffff00);
                 }

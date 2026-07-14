@@ -20,19 +20,15 @@
 
         public int PictureMask { get; set; }
 
-        // TODO: Convert to bool.
+        // Equipment type bitfield: 0 = not equippable, non-zero = equip slot (bits 3-4 indicate weapon type).
         public int IsEquipable { get; set; }
 
-        // TODO: Convert to bool.
-        public int IsPremium { get; set; }
+        public bool IsPremium { get; set; }
 
-        // TODO: Convert to bool.
-        public int IsSpecial { get; set; }
+        public bool IsSpecial { get; set; }
 
-        // TODO: Convert to bool.
-        public int IsStackable { get; set; }
+        public bool IsStackable { get; set; }
 
-        // TODO: Convert to bool.
-        public int IsUnused { get; set; }
+        public bool IsUnused { get; set; }
     }
 }

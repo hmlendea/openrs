@@ -29,7 +29,7 @@ namespace OpenRS.Net.Client.Utilities
             {
                 if (client.inventoryItems[itemIndex] == itemId)
                 {
-                    if (client.entityManager.GetItem(itemId).IsStackable == 1)
+                    if (client.entityManager.GetItem(itemId).IsStackable)
                     {
                         totalCount += 1;
                     }

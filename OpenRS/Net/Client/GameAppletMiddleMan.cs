@@ -97,8 +97,6 @@ namespace OpenRS.Net.Client
             sessionNameHashByte = (int)(nameHash >> 16 & 31L);
             streamClass.CreatePacket((int)ClientPacket.SessionNameHash);
             streamClass.AddByte(sessionNameHashByte);
-            streamClass.AddString("Shinigami");
-            // TODO: Remove unused server-side string.
             streamClass.Flush();
 
             long sessionId;
@@ -164,21 +162,21 @@ namespace OpenRS.Net.Client
                 "Login response received.",
                 new LogInfo(GameLogInfoKey.LoginResponseCode, loginCode));
 
-            if (loginCode == (int)LoginCode.Code99)
+            if (loginCode == (int)LoginCode.LoginComplete)
             {
                 reconnectTries = 0;
                 lastPing = CurrentTimeMillis();
                 InitVars();
                 return;
             }
-            if (loginCode == (int)LoginCode.Code0)
+            if (loginCode == (int)LoginCode.LoginSuccess)
             {
                 reconnectTries = 0;
                 lastPing = CurrentTimeMillis();
                 InitVars();
                 return;
             }
-            if (loginCode == (int)LoginCode.Code1)
+            if (loginCode == (int)LoginCode.ReconnectSuccess)
             {
                 reconnectTries = 0;
                 lastPing = CurrentTimeMillis();
@@ -211,7 +209,7 @@ namespace OpenRS.Net.Client
                 LoginScreenPrint("The client has been updated.", "Please restart the client");
                 return;
             }
-            if (loginCode == (int)LoginCode.Code5)
+            if (loginCode == (int)LoginCode.SessionRejected)
             {
                 LoginScreenPrint("Error unable to login.", "Please retry");
                 return;
@@ -402,17 +400,13 @@ namespace OpenRS.Net.Client
             }
 
             if (command == (int)ServerCommand.ServerInfo)
-            { // TODO: Determine if this command can be removed.
+            {
                 streamClass.CreatePacket((int)ClientPacket.ClientInfoReport);
                 streamClass.AddByte(0); // scar.exe, etc.
                 streamClass.FormatPacket();
                 return;
             }
 
-            if (command == (int)ServerCommand.Command1)
-            { // TODO: Determine if this command can be removed.
-                return;
-            }
             HandlePacket(command, length, packetData);
         }
 

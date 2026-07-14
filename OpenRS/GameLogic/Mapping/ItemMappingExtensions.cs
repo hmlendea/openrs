@@ -21,10 +21,10 @@ namespace OpenRS.GameLogic.Mapping
             SpriteName = itemEntity.SpriteName,
             PictureMask = itemEntity.PictureMask,
             IsEquipable = itemEntity.IsEquipable,
-            IsPremium = itemEntity.IsPremium,
-            IsSpecial = itemEntity.IsSpecial,
-            IsStackable = itemEntity.IsStackable,
-            IsUnused = itemEntity.IsUnused
+            IsPremium = itemEntity.IsPremium != 0,
+            IsSpecial = itemEntity.IsSpecial != 0,
+            IsStackable = itemEntity.IsStackable != 0,
+            IsUnused = itemEntity.IsUnused != 0
         };
 
         internal static ItemEntity ToDataObject(this Item item) => new()
@@ -39,10 +39,10 @@ namespace OpenRS.GameLogic.Mapping
             SpriteName = item.SpriteName,
             PictureMask = item.PictureMask,
             IsEquipable = item.IsEquipable,
-            IsPremium = item.IsPremium,
-            IsSpecial = item.IsSpecial,
-            IsStackable = item.IsStackable,
-            IsUnused = item.IsUnused
+            IsPremium = item.IsPremium ? 1 : 0,
+            IsSpecial = item.IsSpecial ? 1 : 0,
+            IsStackable = item.IsStackable ? 1 : 0,
+            IsUnused = item.IsUnused ? 1 : 0
         };
 
         internal static IEnumerable<Item> ToDomainModels(

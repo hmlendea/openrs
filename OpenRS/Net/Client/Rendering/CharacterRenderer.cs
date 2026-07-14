@@ -47,11 +47,10 @@ namespace OpenRS.Net.Client.Rendering
                 {
                     string spellColourPrefix = "@yel@";
 
-                    for (int runeIndex = 0; runeIndex < client.entityManager.GetSpell(spellIndex).RuneCount; runeIndex += 1)
+                    foreach ((int runeItemId, int requiredRuneCount) in
+                        client.entityManager.GetSpell(spellIndex).RequiredRunes)
                     {
-                        int runeItemId = client.entityManager.GetSpell(spellIndex).RequiredRunesIds[runeIndex];
-
-                        if (client.HasRequiredRunes(runeItemId, client.entityManager.GetSpell(spellIndex).RequiredRunesCounts[runeIndex]))
+                        if (client.HasRequiredRunes(runeItemId, requiredRuneCount))
                         {
                             continue;
                         }
@@ -79,12 +78,19 @@ namespace OpenRS.Net.Client.Rendering
                     client.gameGraphics.DrawString(LocalisationManager.GetString("character.spell_level_prefix") + client.entityManager.GetSpell(highlightedSpellIndex).RequiredLevel + ": " + client.entityManager.GetSpell(highlightedSpellIndex).Name, menuX + 2, menuY + 124, 1, 0xffff00);
                     client.gameGraphics.DrawString(client.entityManager.GetSpell(highlightedSpellIndex).Description, menuX + 2, menuY + 136, 0, 0xffffff);
 
-                    for (int runeDisplayIndex = 0; runeDisplayIndex < client.entityManager.GetSpell(highlightedSpellIndex).RuneCount; runeDisplayIndex += 1)
+                    int runeDisplayIndex = 0;
+
+                    foreach ((int runeId, int requiredRuneCount) in
+                        client.entityManager.GetSpell(highlightedSpellIndex).RequiredRunes)
                     {
-                        int runeId = client.entityManager.GetSpell(highlightedSpellIndex).RequiredRunesIds[runeDisplayIndex];
-                        recordItemSprite(menuX + 2 + runeDisplayIndex * 44, menuY + 150, 48, 32, client.entityManager.GetItem(runeId));
+                        recordItemSprite(
+                            menuX + 2 + runeDisplayIndex * 44,
+                            menuY + 150,
+                            48,
+                            32,
+                            client.entityManager.GetItem(runeId));
+
                         int runeInventoryCount = client.GetInventoryItemTotalCount(runeId);
-                        int requiredRuneCount = client.entityManager.GetSpell(highlightedSpellIndex).RequiredRunesCounts[runeDisplayIndex];
                         string runeCountColour = "@red@";
 
                         if (client.HasRequiredRunes(runeId, requiredRuneCount))
@@ -92,7 +98,14 @@ namespace OpenRS.Net.Client.Rendering
                             runeCountColour = "@gre@";
                         }
 
-                        client.gameGraphics.DrawString(runeCountColour + runeInventoryCount + "/" + requiredRuneCount, menuX + 2 + runeDisplayIndex * 44, menuY + 150, 1, 0xffffff);
+                        client.gameGraphics.DrawString(
+                            runeCountColour + runeInventoryCount + "/" + requiredRuneCount,
+                            menuX + 2 + runeDisplayIndex * 44,
+                            menuY + 150,
+                            1,
+                            0xffffff);
+
+                        runeDisplayIndex += 1;
                     }
                 }
                 else
@@ -181,23 +194,24 @@ namespace OpenRS.Net.Client.Rendering
                         }
                         else
                         {
-                            int runeCheckIndex;
+                            bool hasAllRunes = true;
 
-                            for (runeCheckIndex = 0; runeCheckIndex < client.entityManager.GetSpell(clickedSpellIndex).RuneCount; runeCheckIndex += 1)
+                            foreach ((int runeId, int requiredCount) in
+                                client.entityManager.GetSpell(clickedSpellIndex).RequiredRunes)
                             {
-                                int checkRuneId = client.entityManager.GetSpell(clickedSpellIndex).RequiredRunesIds[runeCheckIndex];
-
-                                if (client.HasRequiredRunes(checkRuneId, client.entityManager.GetSpell(clickedSpellIndex).RequiredRunesCounts[runeCheckIndex]))
+                                if (client.HasRequiredRunes(runeId, requiredCount))
                                 {
                                     continue;
                                 }
 
-                                client.DisplayMessage(LocalisationManager.GetString("character.spell_missing_reagents"), 3);
-                                runeCheckIndex = -1;
+                                client.DisplayMessage(LocalisationManager.GetString(
+                                    "character.spell_missing_reagents"), 3);
+
+                                hasAllRunes = false;
                                 break;
                             }
 
-                            if (runeCheckIndex == client.entityManager.GetSpell(clickedSpellIndex).RuneCount)
+                            if (hasAllRunes)
                             {
                                 client.selectedSpell = clickedSpellIndex;
                                 client.selectedItem = -1;

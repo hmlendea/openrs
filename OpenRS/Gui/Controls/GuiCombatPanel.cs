@@ -116,7 +116,7 @@ namespace OpenRS.Gui.Controls
             accurateStyleCard.ForegroundColour = ForegroundColour;
             defensiveStyleCard.ForegroundColour = ForegroundColour;
 
-            if (client is not null && client.loggedIn && client.CurrentPlayer is not null) // TODO: Ugly fix.
+            if (client.loggedIn && client.CurrentPlayer is not null)
             {
                 combatLevelText.Text = $"Combat Level: {client.CurrentPlayer.CombatLevel}";
 

@@ -33,8 +33,8 @@ namespace OpenRS.GameLogic.Mapping
             DefenceLevel = npcEntity.DefenceLevel,
             StrengthLevel = npcEntity.StrengthLevel,
             RespawnTime = npcEntity.RespawnTime,
-            IsAttackable = npcEntity.IsAttackable,
-            IsAggressive = npcEntity.IsAggressive,
+            IsAttackable = npcEntity.IsAttackable != 0,
+            IsAggressive = npcEntity.IsAggressive != 0,
             Drops = npcEntity.Drops?.ToDomainModels().ToArray()
         };
 
@@ -59,8 +59,8 @@ namespace OpenRS.GameLogic.Mapping
             DefenceLevel = npc.DefenceLevel,
             StrengthLevel = npc.StrengthLevel,
             RespawnTime = npc.RespawnTime,
-            IsAttackable = npc.IsAttackable,
-            IsAggressive = npc.IsAggressive,
+            IsAttackable = npc.IsAttackable ? 1 : 0,
+            IsAggressive = npc.IsAggressive ? 1 : 0,
             Drops = npc.Drops?.ToDataObjects().ToArray()
         };
 

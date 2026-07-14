@@ -533,7 +533,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                     client.gameGraphics.UnpackImageData(client.animationNumber, animationData, indexData, 15);
                     frameCount += 15;
 
-                    if (client.entityManager.GetAnimation(animationIndex).HasA == 1)
+                    if (client.entityManager.GetAnimation(animationIndex).HasA)
                     {
                         client.gameGraphics.UnpackImageData(
                             client.animationNumber + 15,
@@ -543,7 +543,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                         frameCount += 3;
                     }
 
-                    if (client.entityManager.GetAnimation(animationIndex).HasF == 1)
+                    if (client.entityManager.GetAnimation(animationIndex).HasF)
                     {
                         client.gameGraphics.UnpackImageData(
                             client.animationNumber + 18,

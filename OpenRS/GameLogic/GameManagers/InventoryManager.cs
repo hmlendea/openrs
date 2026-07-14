@@ -151,7 +151,7 @@ namespace OpenRS.GameLogic.GameManagers
                     continue;
                 }
 
-                if (entityManager.GetItem(itemIndex).IsStackable == 1)
+                if (entityManager.GetItem(itemIndex).IsStackable)
                 {
                     quantity += 1;
                 }

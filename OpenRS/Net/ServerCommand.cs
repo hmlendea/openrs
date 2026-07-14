@@ -2,20 +2,20 @@
 {
     public enum ServerCommand
     {
-        Command1 = 1, // TODO: Find its meaning.
+        Heartbeat = 1,
         IgnoreList = 2,
         OpenTradeWindow = 4,
         PlaySound = 11,
         TradeAcceptedBySelf = 18,
         TeleBubble = 23,
         FriendUpdate = 25,
-        Command27 = 27, // TODO: Find its meaning.
+        GameObjectPositions = 27,
         ServerAnnouncement = 48,
-        Command53 = 53, // TODO: Find its meaning.
+        PlayerUpdates = 53,
         DuelItems = 63,
         AlertBig = 64,
         DuelAcceptedByOther = 65,
-        Command77 = 77, // TODO: Find its meaning.
+        NpcPositions = 77,
         TradeAcceptedByOther = 92,
         OpenBankWindow = 93,
         WallObjects = 95,
@@ -23,7 +23,7 @@
         GroundItems = 109,
         ServerInfo = 110,
         Inventory = 114,
-        Command115 = 115, // TODO: Find its meaning.
+        GroundItemSections = 115,
         FatigueChange = 126,
         CloseQuestionMenu = 127,
         QuestPointsChange = 128,
@@ -41,9 +41,9 @@
         WitchPotion = 142,
         DoricQuest = 143,
         CookAssistant = 144,
-        Command145 = 145, // TODO: Find its meaning.
+        PlayerPositions = 145,
         DemonsSlayer = 146,
-        Command147 = 147, // TODO: Find its meaning.
+        DuelConfirmation = 147,
         AlertSmall = 148,
         TheRuthlessGhost = 149,
         PirateTreasure = 150,
@@ -61,9 +61,9 @@
         EquipmentStats = 177,
         UserStats = 180,
         TakeScreenshot = 181,
-        Command182 = 182, // TODO: Find its meaning.
+        WontImplement182 = 182,
         CloseTradeWindow = 187,
-        Command190 = 190, // TODO: Find its meaning.
+        NpcUpdates = 190,
         RemoveItem = 191,
         DuelAcceptedBySelf = 197,
         DuelSettings = 198,
@@ -87,14 +87,14 @@
         LogoutRequest = 222,
         OpenQuestionMenu = 223,
         Awake = 224,
-        Command225 = 225, // TODO: Find its meaning.
+        WontImplement225 = 225,
         UpdateItem = 228,
         OpenDuelWindow = 229,
-        Command233 = 233, // TODO: Find its meaning.
+        WontImplement233 = 233,
         LoginScreen = 248,
         FriendList = 249,
         TradeItems = 250,
-        Command251 = 251, // TODO: Find its meaning.
+        TradeConfirmation = 251,
         OpenShopWindow = 253,
         Mute = 2000
     }

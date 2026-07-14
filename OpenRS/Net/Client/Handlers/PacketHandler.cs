@@ -391,7 +391,7 @@ namespace OpenRS.Net.Client.Handlers
                         off += 2;
                         client.inventoryItems[item] = data & 0x7fff;
                         client.inventoryItemEquipped[item] = data / 32768;
-                        if (client.entityManager.GetItem(data & 0x7fff).IsStackable == 0)
+                        if (!client.entityManager.GetItem(data & 0x7fff).IsStackable)
                         {
                             client.inventoryItemCount[item] = DataOperations.GetInt(client.packetData, off);
                             off += 4;
@@ -530,7 +530,7 @@ namespace OpenRS.Net.Client.Handlers
                             mob.skinColour = client.packetData[off++] & 0xff;
                             mob.level = client.packetData[off++] & 0xff;
                             mob.playerSkulled = client.packetData[off++] & 0xff;
-                            off += 1; // TODO: Skip the admin flag (should it be removed?).
+                            mob.Admin = client.packetData[off++] & 0xff;
                         }
                         else if (mobUpdateType == 6)
                         {
@@ -1287,7 +1287,7 @@ namespace OpenRS.Net.Client.Handlers
                     int newCount = client.packetData[off++] & 0xff;
                     int data = DataOperations.GetShort(client.packetData, off);
                     off += 2;
-                    if (client.entityManager.GetItem(data & 0x7fff).IsStackable == 0)
+                    if (!client.entityManager.GetItem(data & 0x7fff).IsStackable)
                     {
                         count = DataOperations.GetInt(client.packetData, off);
                         off += 4;

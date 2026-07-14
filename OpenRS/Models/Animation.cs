@@ -6,11 +6,9 @@
         public int CharacterColour { get; set; }
         public int GenderModel { get; set; }
 
-        // TODO: Convert to bool.
-        public int HasA { get; set; }
+        public bool HasA { get; set; }
 
-        // TODO: Convert to bool.
-        public int HasF { get; set; }
+        public bool HasF { get; set; }
 
         public int Number { get; set; }
     }

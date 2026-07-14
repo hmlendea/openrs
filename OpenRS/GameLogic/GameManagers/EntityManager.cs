@@ -51,14 +51,14 @@ namespace OpenRS.GameLogic.GameManagers
             {
                 foreach (Item item in items)
                 {
-                    if (item.IsPremium == 1)
+                    if (item.IsPremium)
                     {
                         item.Name = LocalisationManager.GetString("entity_manager.members_object");
                         item.Description = LocalisationManager.GetString("entity_manager.members_object_description");
                         item.BasePrice = 0;
                         item.Command = "";
                         item.IsEquipable = 0;
-                        item.IsSpecial = 1;
+                        item.IsSpecial = true;
                     }
                 }
             }
