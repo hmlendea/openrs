@@ -1,16 +1,9 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="Vertex.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
+﻿using Microsoft.Xna.Framework;
 
-using Microsoft.Xna.Framework;
-
-namespace OpenRS
+namespace OpenRS.Net.Client.Game
 {
 	public sealed class Vertex
 	{
-
 		private Vector3 localPoint;
 		private Vector3 worldPoint;
 		private Vector3 alignedPoint;

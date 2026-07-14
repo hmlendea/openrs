@@ -1,4 +1,4 @@
-namespace OpenRS
+namespace OpenRS.Net.Client
 {
     public enum TradeAndDuelState
     {

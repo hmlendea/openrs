@@ -1,12 +1,6 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="Face.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
+﻿using Microsoft.Xna.Framework;
 
-using Microsoft.Xna.Framework;
-
-namespace OpenRS
+namespace OpenRS.Net.Client.Game
 {
 	public sealed class Face
 	{

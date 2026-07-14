@@ -1,6 +1,4 @@
-﻿using OpenRS.Net.Client;
-
-namespace OpenRS
+﻿namespace OpenRS.Net.Client
 {
     public static class GameClientExtensions
     {

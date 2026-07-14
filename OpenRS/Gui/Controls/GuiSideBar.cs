@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using NuciXNA.Graphics.Drawing;
 using NuciXNA.Gui.Controls;
 using NuciXNA.Input;
-using NuciXNA.Primitives;
+
 using OpenRS.Net.Client;
 using OpenRS.Settings;
 

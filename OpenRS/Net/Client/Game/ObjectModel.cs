@@ -2,10 +2,9 @@
 
 using Microsoft.Xna.Framework.Graphics;
 
-using OpenRS.Net.Client.Game;
 using OpenRS.Primitives;
 
-namespace OpenRS
+namespace OpenRS.Net.Client.Game
 {
 
     public sealed class ObjectModel
