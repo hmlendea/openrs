@@ -2,6 +2,7 @@
 using System.Linq;
 
 using OpenRS.DataAccess.DataObjects;
+using OpenRS.Localisation;
 using OpenRS.Models;
 
 namespace OpenRS.GameLogic.Mapping
@@ -11,8 +12,8 @@ namespace OpenRS.GameLogic.Mapping
         internal static Prayer ToDomainModel(this PrayerEntity prayerEntity) => new()
         {
             Id = prayerEntity.Id,
-            Name = prayerEntity.Name,
-            Description = prayerEntity.Description,
+            Name = LocalisationManager.GetString(prayerEntity.Name),
+            Description = LocalisationManager.GetString(prayerEntity.Description),
             RequiredLevel = prayerEntity.RequiredLevel,
             DrainRate = prayerEntity.DrainRate
         };

@@ -2,6 +2,7 @@
 using System.Linq;
 
 using OpenRS.DataAccess.DataObjects;
+using OpenRS.Localisation;
 using OpenRS.Models;
 
 namespace OpenRS.GameLogic.Mapping
@@ -11,9 +12,9 @@ namespace OpenRS.GameLogic.Mapping
         internal static Item ToDomainModel(this ItemEntity itemEntity) => new()
         {
             Id = itemEntity.Id,
-            Name = itemEntity.Name,
-            Description = itemEntity.Description,
-            Command = itemEntity.Command,
+            Name = LocalisationManager.GetString(itemEntity.Name),
+            Description = LocalisationManager.GetString(itemEntity.Description),
+            Command = LocalisationManager.GetString(itemEntity.Command),
             BasePrice = itemEntity.BasePrice,
             SpriteId = itemEntity.SpriteId,
             InventoryPicture = itemEntity.InventoryPicture,

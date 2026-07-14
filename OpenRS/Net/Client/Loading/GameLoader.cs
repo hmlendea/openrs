@@ -2,6 +2,7 @@ using System;
 using System.Text;
 
 using OpenRS.GameLogic.GameManagers;
+using OpenRS.Localisation;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Events;
 using OpenRS.Net.Client.Game;
@@ -612,6 +613,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
         public void LoadConfig()
         {
             client.entityManager = new EntityManager();
+            LocalisationManager.Load(Language.English);
             client.entityManager.LoadPrayers();
             client.entityManager.LoadItems();
             client.entityManager.LoadSpells(GameDefines.SpellProjectileCount);

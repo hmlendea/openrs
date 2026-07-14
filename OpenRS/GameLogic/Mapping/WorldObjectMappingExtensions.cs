@@ -2,6 +2,7 @@
 using System.Linq;
 
 using OpenRS.DataAccess.DataObjects;
+using OpenRS.Localisation;
 using OpenRS.Models;
 
 namespace OpenRS.GameLogic.Mapping
@@ -11,10 +12,10 @@ namespace OpenRS.GameLogic.Mapping
         internal static WorldObject ToDomainModel(this WorldObjectEntity worldObjectEntity) => new()
         {
             Id = worldObjectEntity.Id,
-            Name = worldObjectEntity.Name,
-            Description = worldObjectEntity.Description,
-            Command1 = worldObjectEntity.Command1,
-            Command2 = worldObjectEntity.Command2,
+            Name = LocalisationManager.GetString(worldObjectEntity.Name),
+            Description = LocalisationManager.GetString(worldObjectEntity.Description),
+            Command1 = LocalisationManager.GetString(worldObjectEntity.Command1),
+            Command2 = LocalisationManager.GetString(worldObjectEntity.Command2),
             Type = worldObjectEntity.Type,
             Width = worldObjectEntity.Width,
             Height = worldObjectEntity.Height,

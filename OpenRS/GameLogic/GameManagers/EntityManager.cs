@@ -5,6 +5,7 @@ using System.Linq;
 
 using OpenRS.DataAccess.Repositories;
 using OpenRS.GameLogic.Mapping;
+using OpenRS.Localisation;
 using OpenRS.Models;
 using OpenRS.Net.Client.Data;
 using OpenRS.Settings;
@@ -53,8 +54,8 @@ namespace OpenRS.GameLogic.GameManagers
                 {
                     if (item.IsPremium == 1)
                     {
-                        item.Name = "Members object";
-                        item.Description = "You need to be a member to use this object";
+                        item.Name = LocalisationManager.GetString("entity_manager.members_object");
+                        item.Description = LocalisationManager.GetString("entity_manager.members_object_description");
                         item.BasePrice = 0;
                         item.Command = "";
                         item.IsEquipable = 0;

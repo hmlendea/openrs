@@ -3,6 +3,7 @@ using System;
 using OpenRS.Models;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Utilities;
+using OpenRS.Localisation;
 
 namespace OpenRS.Net.Client.Rendering
 {
@@ -17,7 +18,7 @@ namespace OpenRS.Net.Client.Rendering
             int backgroundColour = 0x989898;
             client.gameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 16, 468, 246, backgroundColour, 160);
             client.gameGraphics.DrawText("Please confirm your duel with @yel@" + DataOperations.HashToName(client.duelOpponentHash), boxOffsetX + 234, boxOffsetY + 12, 1, 0xffffff);
-            client.gameGraphics.DrawText("Your stake:", boxOffsetX + 117, boxOffsetY + 30, 1, 0xffff00);
+            client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_your_stake"), boxOffsetX + 117, boxOffsetY + 30, 1, 0xffff00);
 
             for (int stakeIndex = 0; stakeIndex < client.duelOurStakeCount; stakeIndex += 1)
             {
@@ -34,10 +35,10 @@ namespace OpenRS.Net.Client.Rendering
 
             if (client.duelOurStakeCount == 0)
             {
-                client.gameGraphics.DrawText("Nothing!", boxOffsetX + 117, boxOffsetY + 42, 1, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_nothing"), boxOffsetX + 117, boxOffsetY + 42, 1, 0xffffff);
             }
 
-            client.gameGraphics.DrawText("Your opponent's stake:", boxOffsetX + 351, boxOffsetY + 30, 1, 0xffff00);
+            client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_opponent_stake"), boxOffsetX + 351, boxOffsetY + 30, 1, 0xffff00);
 
             for (int opponentStakeIndex = 0; opponentStakeIndex < client.duelOpponentStakeCount; opponentStakeIndex += 1)
             {
@@ -54,46 +55,46 @@ namespace OpenRS.Net.Client.Rendering
 
             if (client.duelOpponentStakeCount == 0)
             {
-                client.gameGraphics.DrawText("Nothing!", boxOffsetX + 351, boxOffsetY + 42, 1, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_nothing"), boxOffsetX + 351, boxOffsetY + 42, 1, 0xffffff);
             }
 
             if (client.duelRetreat == 0)
             {
-                client.gameGraphics.DrawText("You can retreat from this duel", boxOffsetX + 234, boxOffsetY + 180, 1, 65280);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_can_retreat"), boxOffsetX + 234, boxOffsetY + 180, 1, 65280);
             }
             else
             {
-                client.gameGraphics.DrawText("No retreat is possible!", boxOffsetX + 234, boxOffsetY + 180, 1, 0xff0000);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_no_retreat"), boxOffsetX + 234, boxOffsetY + 180, 1, 0xff0000);
             }
 
             if (client.duelMagic == 0)
             {
-                client.gameGraphics.DrawText("Magic may be used", boxOffsetX + 234, boxOffsetY + 192, 1, 65280);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_magic_allowed"), boxOffsetX + 234, boxOffsetY + 192, 1, 65280);
             }
             else
             {
-                client.gameGraphics.DrawText("Magic cannot be used", boxOffsetX + 234, boxOffsetY + 192, 1, 0xff0000);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_magic_forbidden"), boxOffsetX + 234, boxOffsetY + 192, 1, 0xff0000);
             }
 
             if (client.duelPrayer == 0)
             {
-                client.gameGraphics.DrawText("Prayer may be used", boxOffsetX + 234, boxOffsetY + 204, 1, 65280);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_prayer_allowed"), boxOffsetX + 234, boxOffsetY + 204, 1, 65280);
             }
             else
             {
-                client.gameGraphics.DrawText("Prayer cannot be used", boxOffsetX + 234, boxOffsetY + 204, 1, 0xff0000);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_prayer_forbidden"), boxOffsetX + 234, boxOffsetY + 204, 1, 0xff0000);
             }
 
             if (client.duelWeapons == 0)
             {
-                client.gameGraphics.DrawText("Weapons may be used", boxOffsetX + 234, boxOffsetY + 216, 1, 65280);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_weapons_allowed"), boxOffsetX + 234, boxOffsetY + 216, 1, 65280);
             }
             else
             {
-                client.gameGraphics.DrawText("Weapons cannot be used", boxOffsetX + 234, boxOffsetY + 216, 1, 0xff0000);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_weapons_forbidden"), boxOffsetX + 234, boxOffsetY + 216, 1, 0xff0000);
             }
 
-            client.gameGraphics.DrawText("If you are sure click 'Accept' to begin the duel", boxOffsetX + 234, boxOffsetY + 230, 1, 0xffffff);
+            client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_accept_prompt"), boxOffsetX + 234, boxOffsetY + 230, 1, 0xffffff);
 
             if (!client.duelConfirmOurAccepted)
             {
@@ -102,7 +103,7 @@ namespace OpenRS.Net.Client.Rendering
             }
             else
             {
-                client.gameGraphics.DrawText("Waiting for other player...", boxOffsetX + 234, boxOffsetY + 250, 1, 0xffff00);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_waiting"), boxOffsetX + 234, boxOffsetY + 250, 1, 0xffff00);
             }
 
             if (client.mouseButtonClick == 1)
@@ -189,7 +190,7 @@ namespace OpenRS.Net.Client.Rendering
 
                             if (client.entityManager.GetItem(item).IsSpecial == 1)
                             {
-                                client.DisplayMessage("This object cannot be traded with other players", 3);
+                                client.DisplayMessage(LocalisationManager.GetString("trade.trade_not_tradeable"), 3);
                                 ourTradeItemsChanged = true;
                             }
                             if (!ourTradeItemsChanged && client.tradeItemsOurCount < 12)
@@ -316,10 +317,10 @@ namespace OpenRS.Net.Client.Rendering
                 client.gameGraphics.DrawLineY(boxOffsetX + 216 + columnIndex * 49, boxOffsetY + 30, 205, 0);
             }
 
-            client.gameGraphics.DrawString("Trading with: " + client.tradeOtherName, boxOffsetX + 1, boxOffsetY + 10, 1, 0xffffff);
-            client.gameGraphics.DrawString("Your Offer", boxOffsetX + 9, boxOffsetY + 27, 4, 0xffffff);
-            client.gameGraphics.DrawString("Opponent's Offer", boxOffsetX + 9, boxOffsetY + 152, 4, 0xffffff);
-            client.gameGraphics.DrawString("Your Inventory", boxOffsetX + 216, boxOffsetY + 27, 4, 0xffffff);
+            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.trade_with_prefix") + client.tradeOtherName, boxOffsetX + 1, boxOffsetY + 10, 1, 0xffffff);
+            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.trade_your_offer"), boxOffsetX + 9, boxOffsetY + 27, 4, 0xffffff);
+            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.trade_opponent_offer"), boxOffsetX + 9, boxOffsetY + 152, 4, 0xffffff);
+            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.trade_your_inventory"), boxOffsetX + 216, boxOffsetY + 27, 4, 0xffffff);
 
             if (!client.tradeWeAccepted)
             {
@@ -330,14 +331,14 @@ namespace OpenRS.Net.Client.Rendering
 
             if (client.tradeOtherAccepted)
             {
-                client.gameGraphics.DrawText("Other player", boxOffsetX + 341, boxOffsetY + 246, 1, 0xffffff);
-                client.gameGraphics.DrawText("has accepted", boxOffsetX + 341, boxOffsetY + 256, 1, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.trade_other_accepted"), boxOffsetX + 341, boxOffsetY + 246, 1, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.trade_has_accepted"), boxOffsetX + 341, boxOffsetY + 256, 1, 0xffffff);
             }
 
             if (client.tradeWeAccepted)
             {
-                client.gameGraphics.DrawText("Waiting for", boxOffsetX + 217 + 35, boxOffsetY + 246, 1, 0xffffff);
-                client.gameGraphics.DrawText("other player", boxOffsetX + 217 + 35, boxOffsetY + 256, 1, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.trade_waiting_for"), boxOffsetX + 217 + 35, boxOffsetY + 246, 1, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.trade_other_player"), boxOffsetX + 217 + 35, boxOffsetY + 256, 1, 0xffffff);
             }
 
             for (int inventoryIndex = 0; inventoryIndex < client.inventoryItemsCount; inventoryIndex += 1)
@@ -404,7 +405,7 @@ namespace OpenRS.Net.Client.Rendering
             int backgroundColour = 0x989898;
             client.gameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 16, 468, 246, backgroundColour, 160);
             client.gameGraphics.DrawText("Please confirm your trade with @yel@" + DataOperations.HashToName(client.tradeConfirmOtherNameLong), boxOffsetX + 234, boxOffsetY + 12, 1, 0xffffff);
-            client.gameGraphics.DrawText("You are about to give:", boxOffsetX + 117, boxOffsetY + 30, 1, 0xffff00);
+            client.gameGraphics.DrawText(LocalisationManager.GetString("trade.confirm_giving"), boxOffsetX + 117, boxOffsetY + 30, 1, 0xffff00);
 
             for (int ourStakeIndex = 0; ourStakeIndex < client.tradeConfigItemCount; ourStakeIndex += 1)
             {
@@ -421,10 +422,10 @@ namespace OpenRS.Net.Client.Rendering
 
             if (client.tradeConfigItemCount == 0)
             {
-                client.gameGraphics.DrawText("Nothing!", boxOffsetX + 117, boxOffsetY + 42, 1, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_nothing"), boxOffsetX + 117, boxOffsetY + 42, 1, 0xffffff);
             }
 
-            client.gameGraphics.DrawText("In return you will receive:", boxOffsetX + 351, boxOffsetY + 30, 1, 0xffff00);
+            client.gameGraphics.DrawText(LocalisationManager.GetString("trade.confirm_receiving"), boxOffsetX + 351, boxOffsetY + 30, 1, 0xffff00);
 
             for (int theirStakeIndex = 0; theirStakeIndex < client.tradeConfirmOtherItemCount; theirStakeIndex += 1)
             {
@@ -441,12 +442,12 @@ namespace OpenRS.Net.Client.Rendering
 
             if (client.tradeConfirmOtherItemCount == 0)
             {
-                client.gameGraphics.DrawText("Nothing!", boxOffsetX + 351, boxOffsetY + 42, 1, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_nothing"), boxOffsetX + 351, boxOffsetY + 42, 1, 0xffffff);
             }
 
-            client.gameGraphics.DrawText("Are you sure you want to do this?", boxOffsetX + 234, boxOffsetY + 200, 4, 65535);
-            client.gameGraphics.DrawText("There is NO WAY to reverse a trade if you change your mind.", boxOffsetX + 234, boxOffsetY + 215, 1, 0xffffff);
-            client.gameGraphics.DrawText("Remember that not all players are trustworthy", boxOffsetX + 234, boxOffsetY + 230, 1, 0xffffff);
+            client.gameGraphics.DrawText(LocalisationManager.GetString("trade.confirm_warning1"), boxOffsetX + 234, boxOffsetY + 200, 4, 65535);
+            client.gameGraphics.DrawText(LocalisationManager.GetString("trade.confirm_warning2"), boxOffsetX + 234, boxOffsetY + 215, 1, 0xffffff);
+            client.gameGraphics.DrawText(LocalisationManager.GetString("trade.confirm_warning3"), boxOffsetX + 234, boxOffsetY + 230, 1, 0xffffff);
 
             if (!client.tradeConfirmAccepted)
             {
@@ -455,7 +456,7 @@ namespace OpenRS.Net.Client.Rendering
             }
             else
             {
-                client.gameGraphics.DrawText("Waiting for other player...", boxOffsetX + 234, boxOffsetY + 250, 1, 0xffff00);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_waiting"), boxOffsetX + 234, boxOffsetY + 250, 1, 0xffff00);
             }
 
             if (client.mouseButtonClick == 1)
@@ -539,7 +540,7 @@ namespace OpenRS.Net.Client.Rendering
 
                             if (client.entityManager.GetItem(clickedItemId).IsSpecial == 1)
                             {
-                                client.DisplayMessage("This object cannot be added to a duel offer", 3);
+                                client.DisplayMessage(LocalisationManager.GetString("trade.duel_not_addable"), 3);
                                 isItemAdded = true;
                             }
 
@@ -751,15 +752,15 @@ namespace OpenRS.Net.Client.Rendering
             client.gameGraphics.DrawLineX(boxOffsetX + 8, boxOffsetY + 257, 197, 0);
             client.gameGraphics.DrawLineY(boxOffsetX + 8, boxOffsetY + 215, 43, 0);
             client.gameGraphics.DrawLineY(boxOffsetX + 204, boxOffsetY + 215, 43, 0);
-            client.gameGraphics.DrawString("Preparing to duel with: " + client.duelOpponent, boxOffsetX + 1, boxOffsetY + 10, 1, 0xffffff);
-            client.gameGraphics.DrawString("Your Stake", boxOffsetX + 9, boxOffsetY + 27, 4, 0xffffff);
-            client.gameGraphics.DrawString("Opponent's Stake", boxOffsetX + 9, boxOffsetY + 120, 4, 0xffffff);
-            client.gameGraphics.DrawString("Duel Options", boxOffsetX + 9, boxOffsetY + 212, 4, 0xffffff);
-            client.gameGraphics.DrawString("Your Inventory", boxOffsetX + 216, boxOffsetY + 27, 4, 0xffffff);
-            client.gameGraphics.DrawString("No retreating", boxOffsetX + 8 + 1, boxOffsetY + 215 + 16, 3, 0xffff00);
-            client.gameGraphics.DrawString("No magic", boxOffsetX + 8 + 1, boxOffsetY + 215 + 35, 3, 0xffff00);
-            client.gameGraphics.DrawString("No prayer", boxOffsetX + 8 + 102, boxOffsetY + 215 + 16, 3, 0xffff00);
-            client.gameGraphics.DrawString("No weapons", boxOffsetX + 8 + 102, boxOffsetY + 215 + 35, 3, 0xffff00);
+            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.duel_with_prefix") + client.duelOpponent, boxOffsetX + 1, boxOffsetY + 10, 1, 0xffffff);
+            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.duel_your_stake_tab"), boxOffsetX + 9, boxOffsetY + 27, 4, 0xffffff);
+            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.duel_opponent_stake_tab"), boxOffsetX + 9, boxOffsetY + 120, 4, 0xffffff);
+            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.duel_options"), boxOffsetX + 9, boxOffsetY + 212, 4, 0xffffff);
+            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.trade_your_inventory"), boxOffsetX + 216, boxOffsetY + 27, 4, 0xffffff);
+            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.duel_option_no_retreat"), boxOffsetX + 8 + 1, boxOffsetY + 215 + 16, 3, 0xffff00);
+            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.duel_option_no_magic"), boxOffsetX + 8 + 1, boxOffsetY + 215 + 35, 3, 0xffff00);
+            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.duel_option_no_prayer"), boxOffsetX + 8 + 102, boxOffsetY + 215 + 16, 3, 0xffff00);
+            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.duel_option_no_weapons"), boxOffsetX + 8 + 102, boxOffsetY + 215 + 35, 3, 0xffff00);
             client.gameGraphics.DrawBoxEdge(boxOffsetX + 93, boxOffsetY + 215 + 6, 11, 11, 0xffff00);
 
             if (client.duelNoRetreating)
@@ -797,14 +798,14 @@ namespace OpenRS.Net.Client.Rendering
 
             if (client.duelOpponentAccepted)
             {
-                client.gameGraphics.DrawText("Other player", boxOffsetX + 341, boxOffsetY + 246, 1, 0xffffff);
-                client.gameGraphics.DrawText("has accepted", boxOffsetX + 341, boxOffsetY + 256, 1, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.trade_other_accepted"), boxOffsetX + 341, boxOffsetY + 246, 1, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.trade_has_accepted"), boxOffsetX + 341, boxOffsetY + 256, 1, 0xffffff);
             }
 
             if (client.duelMyAccepted)
             {
-                client.gameGraphics.DrawText("Waiting for", boxOffsetX + 217 + 35, boxOffsetY + 246, 1, 0xffffff);
-                client.gameGraphics.DrawText("other player", boxOffsetX + 217 + 35, boxOffsetY + 256, 1, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.trade_waiting_for"), boxOffsetX + 217 + 35, boxOffsetY + 246, 1, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.trade_other_player"), boxOffsetX + 217 + 35, boxOffsetY + 256, 1, 0xffffff);
             }
 
             for (int inventoryIndex = 0; inventoryIndex < client.inventoryItemsCount; inventoryIndex += 1)

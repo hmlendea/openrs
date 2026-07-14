@@ -1,3 +1,6 @@
+using OpenRS.Localisation;
+using OpenRS.Net.Client.Game;
+
 namespace OpenRS.Net.Client.Rendering
 {
     public sealed class LoginRenderer(GameClient client)
@@ -26,30 +29,30 @@ namespace OpenRS.Net.Client.Rendering
             client.gameGraphics.DrawBox(56, yPosition, 400, boxHeight, 0);
             client.gameGraphics.DrawBoxEdge(56, yPosition, 400, boxHeight, 0xffffff);
             yPosition += 20;
-            client.gameGraphics.DrawText("Welcome to RuneScape " + client.loginUsername, 256, yPosition, 4, 0xffff00);
+            client.gameGraphics.DrawText(LocalisationManager.GetString("login.welcome_title") + client.loginUsername, 256, yPosition, 4, 0xffff00);
             yPosition += 30;
             string lastLoginDescription = client.lastLoginDays + " days ago";
 
             if (client.lastLoginDays == 0)
             {
-                lastLoginDescription = "earlier today";
+                lastLoginDescription = LocalisationManager.GetString("login.last_login_today");
             }
             else if (client.lastLoginDays == 1)
             {
-                lastLoginDescription = "yesterday";
+                lastLoginDescription = LocalisationManager.GetString("login.last_login_yesterday");
             }
 
             if (client.lastLoginAddress != "0.0.0.0")
             {
-                client.gameGraphics.DrawText("You last logged in " + lastLoginDescription, 256, yPosition, 1, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("login.last_login_prefix") + lastLoginDescription, 256, yPosition, 1, 0xffffff);
                 yPosition += 15;
-                client.gameGraphics.DrawText("from: " + client.lastLoginAddress, 256, yPosition, 1, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("login.last_login_from_prefix") + client.lastLoginAddress, 256, yPosition, 1, 0xffffff);
                 yPosition += 15;
             }
 
             if (client.subDaysLeft > 0)
             {
-                client.gameGraphics.DrawText("Subscription left: " + client.subDaysLeft + " days", 256, yPosition, 1, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("login.subscription_prefix") + client.subDaysLeft + " days", 256, yPosition, 1, 0xffffff);
                 yPosition += 15;
             }
 
@@ -60,7 +63,7 @@ namespace OpenRS.Net.Client.Rendering
                 closeButtonColour = 0xff0000;
             }
 
-            client.gameGraphics.DrawText("Click here to close window", 256, yPosition, 1, closeButtonColour);
+            client.gameGraphics.DrawText(LocalisationManager.GetString("combat.close_window"), 256, yPosition, 1, closeButtonColour);
 
             if (client.mouseButtonClick == 1)
             {

@@ -2,6 +2,7 @@
 using System.Linq;
 
 using OpenRS.DataAccess.DataObjects;
+using OpenRS.Localisation;
 using OpenRS.Models;
 
 namespace OpenRS.GameLogic.Mapping
@@ -11,7 +12,7 @@ namespace OpenRS.GameLogic.Mapping
         internal static Quest ToDomainModel(this QuestEntity questEntity) => new()
         {
             Id = questEntity.Id,
-            Name = questEntity.Name
+            Name = LocalisationManager.GetString(questEntity.Name)
         };
 
         internal static QuestEntity ToDataObject(this Quest quest) => new()

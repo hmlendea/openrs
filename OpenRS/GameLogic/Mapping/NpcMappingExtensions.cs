@@ -2,6 +2,7 @@
 using System.Linq;
 
 using OpenRS.DataAccess.DataObjects;
+using OpenRS.Localisation;
 using OpenRS.Models;
 
 namespace OpenRS.GameLogic.Mapping
@@ -11,9 +12,9 @@ namespace OpenRS.GameLogic.Mapping
         internal static Npc ToDomainModel(this NpcEntity npcEntity) => new()
         {
             Id = npcEntity.Id,
-            Name = npcEntity.Name,
-            Description = npcEntity.Description,
-            Command = npcEntity.Command,
+            Name = LocalisationManager.GetString(npcEntity.Name),
+            Description = LocalisationManager.GetString(npcEntity.Description),
+            Command = LocalisationManager.GetString(npcEntity.Command),
             Sprites = npcEntity.Sprites,
             Appearance = new Appearance
             {

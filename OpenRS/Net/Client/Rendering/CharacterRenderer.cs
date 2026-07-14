@@ -2,6 +2,7 @@ using System;
 
 using OpenRS.Models;
 using OpenRS.Net.Client.Game;
+using OpenRS.Localisation;
 
 namespace OpenRS.Net.Client.Rendering
 {
@@ -34,8 +35,8 @@ namespace OpenRS.Net.Client.Rendering
             client.gameGraphics.DrawLineX(menuX, menuY + 24, menuWidth, 0);
             client.gameGraphics.DrawLineY(menuX + menuWidth / 2, menuY, 24, 0);
             client.gameGraphics.DrawLineX(menuX, menuY + 113, menuWidth, 0);
-            client.gameGraphics.DrawText("Magic", menuX + menuWidth / 4, menuY + 16, 4, 0);
-            client.gameGraphics.DrawText("Prayers", menuX + menuWidth / 4 + menuWidth / 2, menuY + 16, 4, 0);
+            client.gameGraphics.DrawText(LocalisationManager.GetString("character.tab_magic"), menuX + menuWidth / 4, menuY + 16, 4, 0);
+            client.gameGraphics.DrawText(LocalisationManager.GetString("character.tab_prayers"), menuX + menuWidth / 4 + menuWidth / 2, menuY + 16, 4, 0);
 
             if (client.menuMagicPrayersSelected == 0)
             {
@@ -66,7 +67,7 @@ namespace OpenRS.Net.Client.Rendering
                         spellColourPrefix = "@normalZ@";
                     }
 
-                    client.spellMenu.AddListItem(client.spellMenuHandle, spellListPosition, spellColourPrefix + "Level " + client.entityManager.GetSpell(spellIndex).RequiredLevel + ": " + client.entityManager.GetSpell(spellIndex).Name);
+                    client.spellMenu.AddListItem(client.spellMenuHandle, spellListPosition, spellColourPrefix + LocalisationManager.GetString("character.spell_level_prefix") + client.entityManager.GetSpell(spellIndex).RequiredLevel + ": " + client.entityManager.GetSpell(spellIndex).Name);
                     spellListPosition += 1;
                 }
 
@@ -75,7 +76,7 @@ namespace OpenRS.Net.Client.Rendering
 
                 if (highlightedSpellIndex != -1)
                 {
-                    client.gameGraphics.DrawString("Level " + client.entityManager.GetSpell(highlightedSpellIndex).RequiredLevel + ": " + client.entityManager.GetSpell(highlightedSpellIndex).Name, menuX + 2, menuY + 124, 1, 0xffff00);
+                    client.gameGraphics.DrawString(LocalisationManager.GetString("character.spell_level_prefix") + client.entityManager.GetSpell(highlightedSpellIndex).RequiredLevel + ": " + client.entityManager.GetSpell(highlightedSpellIndex).Name, menuX + 2, menuY + 124, 1, 0xffff00);
                     client.gameGraphics.DrawString(client.entityManager.GetSpell(highlightedSpellIndex).Description, menuX + 2, menuY + 136, 0, 0xffffff);
 
                     for (int runeDisplayIndex = 0; runeDisplayIndex < client.entityManager.GetSpell(highlightedSpellIndex).RuneCount; runeDisplayIndex += 1)
@@ -96,7 +97,7 @@ namespace OpenRS.Net.Client.Rendering
                 }
                 else
                 {
-                    client.gameGraphics.DrawString("Point at a spell for a description", menuX + 2, menuY + 124, 1, 0);
+                    client.gameGraphics.DrawString(LocalisationManager.GetString("character.spell_no_description"), menuX + 2, menuY + 124, 1, 0);
                 }
             }
 
@@ -120,7 +121,7 @@ namespace OpenRS.Net.Client.Rendering
                         prayerColourPrefix = "@gre@";
                     }
 
-                    client.spellMenu.AddListItem(client.spellMenuHandle, prayerListPosition, prayerColourPrefix + "Level " + prayer.RequiredLevel + ": " + prayer.Name);
+                    client.spellMenu.AddListItem(client.spellMenuHandle, prayerListPosition, prayerColourPrefix + LocalisationManager.GetString("character.spell_level_prefix") + prayer.RequiredLevel + ": " + prayer.Name);
                     prayerListPosition += 1;
                 }
 
@@ -130,13 +131,13 @@ namespace OpenRS.Net.Client.Rendering
                 if (highlightedPrayerIndex != -1)
                 {
                     Prayer highlightedPrayer = client.entityManager.GetPrayer(highlightedPrayerIndex);
-                    client.gameGraphics.DrawText("Level " + highlightedPrayer.RequiredLevel + ": " + highlightedPrayer.Name, menuX + menuWidth / 2, menuY + 130, 1, 0xffff00);
+                    client.gameGraphics.DrawText(LocalisationManager.GetString("character.spell_level_prefix") + highlightedPrayer.RequiredLevel + ": " + highlightedPrayer.Name, menuX + menuWidth / 2, menuY + 130, 1, 0xffff00);
                     client.gameGraphics.DrawText(highlightedPrayer.Description, menuX + menuWidth / 2, menuY + 145, 0, 0xffffff);
-                    client.gameGraphics.DrawText("Drain rate: " + highlightedPrayer.DrainRate, menuX + menuWidth / 2, menuY + 160, 1, 0);
+                    client.gameGraphics.DrawText(LocalisationManager.GetString("character.prayer_drain_rate_prefix") + highlightedPrayer.DrainRate, menuX + menuWidth / 2, menuY + 160, 1, 0);
                 }
                 else
                 {
-                    client.gameGraphics.DrawString("Point at a prayer for a description", menuX + 2, menuY + 124, 1, 0);
+                    client.gameGraphics.DrawString(LocalisationManager.GetString("character.prayer_no_description"), menuX + 2, menuY + 124, 1, 0);
                 }
             }
 
@@ -176,7 +177,7 @@ namespace OpenRS.Net.Client.Rendering
 
                         if (client.entityManager.GetSpell(clickedSpellIndex).RequiredLevel > currentMagicStat)
                         {
-                            client.DisplayMessage("Your magic ability is not high enough for this spell", 3);
+                            client.DisplayMessage(LocalisationManager.GetString("character.spell_level_too_low"), 3);
                         }
                         else
                         {
@@ -191,7 +192,7 @@ namespace OpenRS.Net.Client.Rendering
                                     continue;
                                 }
 
-                                client.DisplayMessage("You don't have all the reagents you need for this spell", 3);
+                                client.DisplayMessage(LocalisationManager.GetString("character.spell_missing_reagents"), 3);
                                 runeCheckIndex = -1;
                                 break;
                             }
@@ -215,11 +216,11 @@ namespace OpenRS.Net.Client.Rendering
 
                         if (client.entityManager.GetPrayer(clickedPrayerIndex).RequiredLevel > currentPrayerBase)
                         {
-                            client.DisplayMessage("Your prayer ability is not high enough for this prayer", 3);
+                            client.DisplayMessage(LocalisationManager.GetString("character.prayer_level_too_low"), 3);
                         }
                         else if (client.playerStatCurrent[5] == 0)
                         {
-                            client.DisplayMessage("You have Run out of prayer points. Return to a church to recharge", 3);
+                            client.DisplayMessage(LocalisationManager.GetString("character.prayer_no_points"), 3);
                         }
                         else if (client.prayerOn[clickedPrayerIndex])
                         {
@@ -290,14 +291,14 @@ namespace OpenRS.Net.Client.Rendering
             client.gameGraphics.DrawBoxAlpha(menuX, menuY + 24, menuWidth, menuHeight - 24, GameImage.RgbToInt(220, 220, 220), 128);
             client.gameGraphics.DrawLineX(menuX, menuY + 24, menuWidth, 0);
             client.gameGraphics.DrawLineY(menuX + menuWidth / 2, menuY, 24, 0);
-            client.gameGraphics.DrawText("Stats", menuX + menuWidth / 4, menuY + 16, 4, 0);
-            client.gameGraphics.DrawText("Quests", menuX + menuWidth / 4 + menuWidth / 2, menuY + 16, 4, 0);
+            client.gameGraphics.DrawText(LocalisationManager.GetString("character.tab_stats"), menuX + menuWidth / 4, menuY + 16, 4, 0);
+            client.gameGraphics.DrawText(LocalisationManager.GetString("character.tab_quests"), menuX + menuWidth / 4 + menuWidth / 2, menuY + 16, 4, 0);
 
             if (client.questMenuSelected == 0)
             {
                 int textY = 72;
                 int hoveredSkillIndex = -1;
-                client.gameGraphics.DrawString("Skills", menuX + 5, textY, 3, 0xffff00);
+                client.gameGraphics.DrawString(LocalisationManager.GetString("character.skills_heading"), menuX + 5, textY, 3, 0xffff00);
                 textY += 13;
 
                 for (int skillRowIndex = 0; skillRowIndex < 9; skillRowIndex += 1)
@@ -323,11 +324,11 @@ namespace OpenRS.Net.Client.Rendering
                     textY += 13;
                 }
 
-                client.gameGraphics.DrawString("Quest Points:@yel@" + client.questPoints, menuX + menuWidth / 2 - 5, textY - 13, 1, 0xffffff);
+                client.gameGraphics.DrawString(LocalisationManager.GetString("character.quest_points_prefix") + client.questPoints, menuX + menuWidth / 2 - 5, textY - 13, 1, 0xffffff);
                 textY += 12;
-                client.gameGraphics.DrawString("Fatigue: @yel@" + client.fatigue * 100 / 750 + "%", menuX + 5, textY - 13, 1, 0xffffff);
+                client.gameGraphics.DrawString(LocalisationManager.GetString("character.fatigue_prefix") + client.fatigue * 100 / 750 + "%", menuX + 5, textY - 13, 1, 0xffffff);
                 textY += 8;
-                client.gameGraphics.DrawString("Equipment Status", menuX + 5, textY, 3, 0xffff00);
+                client.gameGraphics.DrawString(LocalisationManager.GetString("character.equipment_status"), menuX + 5, textY, 3, 0xffff00);
                 textY += 12;
 
                 for (int gearRowIndex = 0; gearRowIndex < 3; gearRowIndex += 1)
@@ -347,7 +348,7 @@ namespace OpenRS.Net.Client.Rendering
 
                 if (hoveredSkillIndex != -1)
                 {
-                    client.gameGraphics.DrawString(client.skillNameVerb[hoveredSkillIndex] + " skill", menuX + 5, textY, 1, 0xffff00);
+                    client.gameGraphics.DrawString(client.skillNameVerb[hoveredSkillIndex] + LocalisationManager.GetString("character.skill_hover_suffix"), menuX + 5, textY, 1, 0xffff00);
                     textY += 12;
                     int nextLevelXp = client.experienceList[0];
 
@@ -359,13 +360,13 @@ namespace OpenRS.Net.Client.Rendering
                         }
                     }
 
-                    client.gameGraphics.DrawString("Total xp: " + client.playerStatExp[hoveredSkillIndex], menuX + 5, textY, 1, 0xffffff);
+                    client.gameGraphics.DrawString(LocalisationManager.GetString("character.total_xp_prefix") + client.playerStatExp[hoveredSkillIndex], menuX + 5, textY, 1, 0xffffff);
                     textY += 12;
-                    client.gameGraphics.DrawString("Next level at: " + nextLevelXp, menuX + 5, textY, 1, 0xffffff);
+                    client.gameGraphics.DrawString(LocalisationManager.GetString("character.next_level_prefix") + nextLevelXp, menuX + 5, textY, 1, 0xffffff);
                 }
                 else
                 {
-                    client.gameGraphics.DrawString("Overall levels", menuX + 5, textY, 1, 0xffff00);
+                    client.gameGraphics.DrawString(LocalisationManager.GetString("character.overall_levels"), menuX + 5, textY, 1, 0xffff00);
                     textY += 12;
                     int totalSkillLevels = 0;
 
@@ -374,16 +375,16 @@ namespace OpenRS.Net.Client.Rendering
                         totalSkillLevels += client.playerStatBase[skillSumIndex];
                     }
 
-                    client.gameGraphics.DrawString("Skill total: " + totalSkillLevels, menuX + 5, textY, 1, 0xffffff);
+                    client.gameGraphics.DrawString(LocalisationManager.GetString("character.skill_total_prefix") + totalSkillLevels, menuX + 5, textY, 1, 0xffffff);
                     textY += 12;
-                    client.gameGraphics.DrawString("Combat level: " + client.ourPlayer.level, menuX + 5, textY, 1, 0xffffff);
+                    client.gameGraphics.DrawString(LocalisationManager.GetString("character.combat_level_prefix") + client.ourPlayer.level, menuX + 5, textY, 1, 0xffffff);
                 }
             }
 
             if (client.questMenuSelected == 1)
             {
                 client.questMenu.ClearList(client.questMenuHandle);
-                client.questMenu.AddListItem(client.questMenuHandle, 0, "@whi@Quest-list (green=completed)");
+                client.questMenu.AddListItem(client.questMenuHandle, 0, LocalisationManager.GetString("character.quest_list_header"));
 
                 for (int questIndex = 0; questIndex < client.usedQuestName.Length; questIndex += 1)
                 {

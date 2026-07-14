@@ -2,6 +2,7 @@
 using System.Linq;
 
 using OpenRS.DataAccess.DataObjects;
+using OpenRS.Localisation;
 using OpenRS.Models;
 
 namespace OpenRS.GameLogic.Mapping
@@ -11,8 +12,8 @@ namespace OpenRS.GameLogic.Mapping
         internal static Spell ToDomainModel(this SpellEntity spellEntity) => new()
         {
             Id = spellEntity.Id,
-            Name = spellEntity.Name,
-            Description = spellEntity.Description,
+            Name = LocalisationManager.GetString(spellEntity.Name),
+            Description = LocalisationManager.GetString(spellEntity.Description),
             RequiredLevel = spellEntity.RequiredLevel,
             Type = spellEntity.Type,
             RuneCount = spellEntity.RuneCount,

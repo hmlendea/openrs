@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using OpenRS.Models;
 using OpenRS.Net.Client.Game;
 using OpenRS.Net.Client.Utilities;
+using OpenRS.Localisation;
 
 namespace OpenRS.Net.Client.Rendering
 {
@@ -308,7 +309,7 @@ namespace OpenRS.Net.Client.Rendering
             if (client.playerAliveTimeout != 0)
             {
                 client.gameGraphics.ScreenFadeToBlack();
-                client.gameGraphics.DrawText("Oh dear! You are dead...", client.windowWidth / 2, client.windowHeight / 2, 7, 0xff0000);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("game.player_dead"), client.windowWidth / 2, client.windowHeight / 2, 7, 0xff0000);
                 socialRenderer.DrawChatMessageTabs();
                 client.OnDrawDone();
 
@@ -334,10 +335,10 @@ namespace OpenRS.Net.Client.Rendering
                 }
 
                 client.gameGraphics.DrawBox(client.windowWidth / 2 - 100, 160, 200, 40, 0);
-                client.gameGraphics.DrawText("You are sleeping", client.windowWidth / 2, 50, 7, 0xffff00);
-                client.gameGraphics.DrawText("Fatigue: " + client.fatigue * 100 / 750 + "%", client.windowWidth / 2, 90, 7, 0xffff00);
-                client.gameGraphics.DrawText("When you want to wake up just use your", client.windowWidth / 2, 140, 5, 0xffffff);
-                client.gameGraphics.DrawText("keyboard to type the word in the box below", client.windowWidth / 2, 160, 5, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("game.sleeping"), client.windowWidth / 2, 50, 7, 0xffff00);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("game.sleeping_fatigue_prefix") + client.fatigue * 100 / 750 + "%", client.windowWidth / 2, 90, 7, 0xffff00);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("game.sleeping_instruction1"), client.windowWidth / 2, 140, 5, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("game.sleeping_instruction2"), client.windowWidth / 2, 160, 5, 0xffffff);
                 client.gameGraphics.DrawText(client.inputText + "*", client.windowWidth / 2, 180, 5, 65535);
                 if (client.sleepingStatusText is null)
                 {
@@ -350,8 +351,8 @@ namespace OpenRS.Net.Client.Rendering
 
                 client.gameGraphics.DrawBoxEdge(client.windowWidth / 2 - 128, 229, 257, 42, 0xffffff);
                 socialRenderer.DrawChatMessageTabs();
-                client.gameGraphics.DrawText("If you can't read the word", client.windowWidth / 2, 290, 1, 0xffffff);
-                client.gameGraphics.DrawText("@yel@click here@whi@ to get a different one", client.windowWidth / 2, 305, 1, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("game.sleeping_captcha_alternative"), client.windowWidth / 2, 290, 1, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("game.sleeping_captcha_action"), client.windowWidth / 2, 305, 1, 0xffffff);
                 client.OnDrawDone();
 
                 return;
@@ -672,11 +673,11 @@ namespace OpenRS.Net.Client.Rendering
                 seconds %= 60;
                 if (seconds < 10)
                 {
-                    client.gameGraphics.DrawText("System update in: " + minutes + ":0" + seconds, 256, client.windowHeight - 7, 1, 0xffff00);
+                    client.gameGraphics.DrawText(LocalisationManager.GetString("game.system_update_prefix") + minutes + ":0" + seconds, 256, client.windowHeight - 7, 1, 0xffff00);
                 }
                 else
                 {
-                    client.gameGraphics.DrawText("System update in: " + minutes + ":" + seconds, 256, client.windowHeight - 7, 1, 0xffff00);
+                    client.gameGraphics.DrawText(LocalisationManager.GetString("game.system_update_prefix") + minutes + ":" + seconds, 256, client.windowHeight - 7, 1, 0xffff00);
                 }
             }
             if (!client.loadArea)
@@ -692,8 +693,8 @@ namespace OpenRS.Net.Client.Rendering
                 {
                     int wildernessLevel = 1 + wildernessYDistance / 6;
                     client.gameGraphics.DrawPicture(453, client.windowHeight - 56, client.baseInventoryPic + 13);
-                    client.gameGraphics.DrawText("Wilderness", 465, client.windowHeight - 20, 1, 0xffff00);
-                    client.gameGraphics.DrawText("Level: " + wildernessLevel, 465, client.windowHeight - 7, 1, 0xffff00);
+                    client.gameGraphics.DrawText(LocalisationManager.GetString("game.wilderness"), 465, client.windowHeight - 20, 1, 0xffff00);
+                    client.gameGraphics.DrawText(LocalisationManager.GetString("game.wilderness_level_prefix") + wildernessLevel, 465, client.windowHeight - 7, 1, 0xffff00);
 
                     if (client.wildType == 0)
                     {

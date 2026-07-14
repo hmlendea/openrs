@@ -2,6 +2,7 @@
 using System.Linq;
 
 using OpenRS.DataAccess.DataObjects;
+using OpenRS.Localisation;
 using OpenRS.Models;
 
 namespace OpenRS.GameLogic.Mapping
@@ -10,10 +11,10 @@ namespace OpenRS.GameLogic.Mapping
     {
         internal static WallObject ToDomainModel(this WallObjectEntity wallObjectEntity) => new()
         {
-            Name = wallObjectEntity.Name,
-            Description = wallObjectEntity.Description,
-            Command1 = wallObjectEntity.Command1,
-            Command2 = wallObjectEntity.Command2,
+            Name = LocalisationManager.GetString(wallObjectEntity.Name),
+            Description = LocalisationManager.GetString(wallObjectEntity.Description),
+            Command1 = LocalisationManager.GetString(wallObjectEntity.Command1),
+            Command2 = LocalisationManager.GetString(wallObjectEntity.Command2),
             Type = wallObjectEntity.Type,
             Unknown = wallObjectEntity.Unknown,
             ModelHeight = wallObjectEntity.ModelHeight,

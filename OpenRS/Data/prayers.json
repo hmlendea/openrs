@@ -1,100 +1,100 @@
 [
-    {
-        "id": "thick-skin",
-        "name": "Thick Skin",
-        "description": "Increases your defence by 5%.",
-        "requiredLevel": 1,
-        "drainRate": 1
-    },
-    {
-        "id": "burst-of-strength",
-        "name": "Burst of Strength",
-        "description": "Increases your strength by 5%.",
-        "requiredLevel": 4,
-        "drainRate": 1
-    },
-    {
-        "id": "clarity-of-thought",
-        "name": "Clarity of Thought",
-        "description": "Increases your attack by 5%.",
-        "requiredLevel": 7,
-        "drainRate": 1
-    },
-    {
-        "id": "rock-skin",
-        "name": "Rock Skin",
-        "description": "Increases your defence by 10%.",
-        "requiredLevel": 10,
-        "drainRate": 3
-    },
-    {
-        "id": "superhuman-strength",
-        "name": "Superhuman Strength",
-        "description": "Increases your strength by 10%.",
-        "requiredLevel": 13,
-        "drainRate": 3
-    },
-    {
-        "id": "improved-reflexes",
-        "name": "Improved Reflexes",
-        "description": "Increases your attack by 10%.",
-        "requiredLevel": 16,
-        "drainRate": 3
-    },
-    {
-        "id": "rapid-restore",
-        "name": "Rapid Restore",
-        "description": "Doubles the speed of stat restoration.",
-        "requiredLevel": 19,
-        "drainRate": 1
-    },
-    {
-        "id": "rapid-heal",
-        "name": "Rapid Heal",
-        "description": "Doubles the speed of health restoration.",
-        "requiredLevel": 22,
-        "drainRate": 2
-    },
-    {
-        "id": "protect-item",
-        "name": "Protect Item",
-        "description": "You keep one extra item if you die.",
-        "requiredLevel": 25,
-        "drainRate": 2
-    },
-    {
-        "id": "steel-skin",
-        "name": "Steel Skin",
-        "description": "Increases your defence by 15%.",
-        "requiredLevel": 28,
-        "drainRate": 5
-    },
-    {
-        "id": "ultimate-strength",
-        "name": "Ultimate Strength",
-        "description": "Increases your strength by 15%.",
-        "requiredLevel": 31,
-        "drainRate": 5
-    },
-    {
-        "id": "incredible-reflexes",
-        "name": "Incredible Reflexes",
-        "description": "Increases your attack by 15%.",
-        "requiredLevel": 34,
-        "drainRate": 5
-    },
-    {
-        "id": "protect-from-missiles",
-        "name": "Protect from Missiles",
-        "description": "Protects you from ranged attacks.",
-        "requiredLevel": 40,
-        "drainRate": 10
-    },
-    {
-        "id": "retribution",
-        "name": "Retribution",
-        "description": "Damages attackers when your health runs out.",
-        "requiredLevel": 46,
-        "drainRate": 3
-    }
+  {
+    "id": "thick-skin",
+    "name": "prayer.thick-skin.name",
+    "description": "prayer.thick-skin.description",
+    "requiredLevel": 1,
+    "drainRate": 1
+  },
+  {
+    "id": "burst-of-strength",
+    "name": "prayer.burst-of-strength.name",
+    "description": "prayer.burst-of-strength.description",
+    "requiredLevel": 4,
+    "drainRate": 1
+  },
+  {
+    "id": "clarity-of-thought",
+    "name": "prayer.clarity-of-thought.name",
+    "description": "prayer.clarity-of-thought.description",
+    "requiredLevel": 7,
+    "drainRate": 1
+  },
+  {
+    "id": "rock-skin",
+    "name": "prayer.rock-skin.name",
+    "description": "prayer.rock-skin.description",
+    "requiredLevel": 10,
+    "drainRate": 3
+  },
+  {
+    "id": "superhuman-strength",
+    "name": "prayer.superhuman-strength.name",
+    "description": "prayer.superhuman-strength.description",
+    "requiredLevel": 13,
+    "drainRate": 3
+  },
+  {
+    "id": "improved-reflexes",
+    "name": "prayer.improved-reflexes.name",
+    "description": "prayer.improved-reflexes.description",
+    "requiredLevel": 16,
+    "drainRate": 3
+  },
+  {
+    "id": "rapid-restore",
+    "name": "prayer.rapid-restore.name",
+    "description": "prayer.rapid-restore.description",
+    "requiredLevel": 19,
+    "drainRate": 1
+  },
+  {
+    "id": "rapid-heal",
+    "name": "prayer.rapid-heal.name",
+    "description": "prayer.rapid-heal.description",
+    "requiredLevel": 22,
+    "drainRate": 2
+  },
+  {
+    "id": "protect-item",
+    "name": "prayer.protect-item.name",
+    "description": "prayer.protect-item.description",
+    "requiredLevel": 25,
+    "drainRate": 2
+  },
+  {
+    "id": "steel-skin",
+    "name": "prayer.steel-skin.name",
+    "description": "prayer.steel-skin.description",
+    "requiredLevel": 28,
+    "drainRate": 5
+  },
+  {
+    "id": "ultimate-strength",
+    "name": "prayer.ultimate-strength.name",
+    "description": "prayer.ultimate-strength.description",
+    "requiredLevel": 31,
+    "drainRate": 5
+  },
+  {
+    "id": "incredible-reflexes",
+    "name": "prayer.incredible-reflexes.name",
+    "description": "prayer.incredible-reflexes.description",
+    "requiredLevel": 34,
+    "drainRate": 5
+  },
+  {
+    "id": "protect-from-missiles",
+    "name": "prayer.protect-from-missiles.name",
+    "description": "prayer.protect-from-missiles.description",
+    "requiredLevel": 40,
+    "drainRate": 10
+  },
+  {
+    "id": "retribution",
+    "name": "prayer.retribution.name",
+    "description": "prayer.retribution.description",
+    "requiredLevel": 46,
+    "drainRate": 3
+  }
 ]
