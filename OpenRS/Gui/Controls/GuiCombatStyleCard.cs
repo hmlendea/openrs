@@ -9,6 +9,12 @@ namespace OpenRS.Gui.Controls
 {
     public sealed class GuiCombatStyleCard : GuiControl
     {
+        private static string BackgroundContentFile => "Interface/combatcard";
+
+        private static string NameTextFontName => "SkillCardFont";
+
+        private static int NameTextHeight => 14;
+
         private GuiImage background;
         private GuiImage icon;
         private GuiText nameText;
@@ -21,11 +27,11 @@ namespace OpenRS.Gui.Controls
 
         protected override void DoLoadContent()
         {
-            background = new GuiImage { ContentFile = "Interface/combatcard" };
-            icon = new();
+            background = new GuiImage { ContentFile = BackgroundContentFile };
+            icon = new GuiImage();
             nameText = new GuiText
             {
-                FontName = "SkillCardFont",
+                FontName = NameTextFontName,
                 FontOutline = FontOutline.BottomRight,
                 VerticalAlignment = Alignment.Beginning
             };
@@ -34,28 +40,21 @@ namespace OpenRS.Gui.Controls
             SetChildrenProperties();
         }
 
-        protected override void DoUnloadContent()
-        {
-        }
+        protected override void DoUnloadContent() { }
 
         protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
 
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) { }
 
         private void SetChildrenProperties()
         {
             background.Size = Size;
-            background.Location = new(0, 0);
+            background.Location = Point2D.Empty;
+            background.TintColour = Colour.White;
 
             if (IsToggled)
             {
                 background.TintColour = Colour.Red;
-            }
-            else
-            {
-                background.TintColour = Colour.White;
             }
 
             icon.ContentFile = Icon;
@@ -63,10 +62,11 @@ namespace OpenRS.Gui.Controls
                 (Size.Width - icon.Size.Width) / 2,
                 (Size.Height - nameText.Size.Height - icon.Size.Height) / 2);
 
-            nameText.Size = new(Size.Width, 14);
+            nameText.Size = new(Size.Width, NameTextHeight);
             nameText.Location = new(0, Size.Height - nameText.Size.Height);
             nameText.Text = CombatStyleName;
             nameText.ForegroundColour = ForegroundColour;
         }
     }
 }
+

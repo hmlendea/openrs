@@ -13,6 +13,17 @@ namespace OpenRS.GameLogic.GameManagers
 {
     public sealed class EntityManager
     {
+        private static string AnimationsFileName => "animations.json";
+        private static string ElevationsFileName => "elevations.json";
+        private static string ItemsFileName => "items.json";
+        private static string NpcsFileName => "npcs.json";
+        private static string PrayersFileName => "prayers.json";
+        private static string SpellsFileName => "spells.json";
+        private static string TexturesFileName => "textures.json";
+        private static string TilesFileName => "tiles.json";
+        private static string WallObjectsFileName => "wall_objects.json";
+        private static string WorldObjectsFileName => "world_objects.json";
+
         private List<Animation> animations;
         private List<Elevation> elevations;
         private List<Item> items;
@@ -23,8 +34,6 @@ namespace OpenRS.GameLogic.GameManagers
         private List<Tile> tiles;
         private List<WallObject> wallObjects;
         private List<WorldObject> worldObjects;
-
-        private static int MaximumObjectModelCount => 5000;
 
         public int AnimationCount => animations.Count;
 
@@ -54,9 +63,10 @@ namespace OpenRS.GameLogic.GameManagers
 
         public void LoadItems()
         {
-            string itemPath = Path.Combine(ApplicationPaths.DataDirectory, "items.json");
-            ItemRepository itemRepository = new(itemPath);
-            items = [.. itemRepository.GetAll().ToDomainModels().OrderBy(item => int.Parse(item.Id))];
+            ItemRepository itemRepository = new(GetDataFilePath(ItemsFileName));
+            items = [.. itemRepository.GetAll()
+                .ToServiceModels()
+                .OrderBy(item => int.Parse(item.Id))];
 
             if (!Config.MembersFeatures)
             {
@@ -64,8 +74,10 @@ namespace OpenRS.GameLogic.GameManagers
                 {
                     if (item.IsPremium)
                     {
-                        item.Name = LocalisationManager.GetString("entity_manager.members_object");
-                        item.Description = LocalisationManager.GetString("entity_manager.members_object_description");
+                        item.Name = LocalisationManager.GetString(
+                            "entity_manager.members_object");
+                        item.Description = LocalisationManager.GetString(
+                            "entity_manager.members_object_description");
                         item.BasePrice = 0;
                         item.Command = "";
                         item.IsEquipable = 0;
@@ -84,218 +96,154 @@ namespace OpenRS.GameLogic.GameManagers
 
         public void LoadNpcs()
         {
-            string npcPath = Path.Combine(ApplicationPaths.DataDirectory, "npcs.json");
-            NpcRepository npcRepository = new(npcPath);
-            npcs = [.. npcRepository.GetAll().ToDomainModels().OrderBy(npc => int.Parse(npc.Id))];
+            NpcRepository npcRepository = new(GetDataFilePath(NpcsFileName));
+            npcs = [.. npcRepository.GetAll()
+                .ToServiceModels()
+                .OrderBy(npc => int.Parse(npc.Id))];
         }
 
         public void LoadSpells(int projectileCount)
         {
             SpellProjectileCount = projectileCount;
-            string spellPath = Path.Combine(ApplicationPaths.DataDirectory, "spells.json");
-            SpellRepository spellRepository = new(spellPath);
-            spells = [.. spellRepository.GetAll().ToDomainModels().OrderBy(spell => int.Parse(spell.Id))];
+            SpellRepository spellRepository = new(GetDataFilePath(SpellsFileName));
+            spells = [.. spellRepository.GetAll()
+                .ToServiceModels()
+                .OrderBy(spell => int.Parse(spell.Id))];
         }
 
         public void LoadAnimations()
         {
-            string animationsPath = Path.Combine(ApplicationPaths.DataDirectory, "animations.json");
-            AnimationRepository animationRepository = new(animationsPath);
-            animations = [.. animationRepository.GetAll().OrderBy(animation => int.Parse(animation.Id)).ToDomainModels()];
+            AnimationRepository animationRepository = new(GetDataFilePath(AnimationsFileName));
+            animations = [.. animationRepository.GetAll()
+                .OrderBy(animation => int.Parse(animation.Id))
+                .ToServiceModels()];
         }
 
         public void LoadWallObjects()
         {
-            string wallObjectPath = Path.Combine(ApplicationPaths.DataDirectory, "wall_objects.json");
-            WallObjectRepository wallObjectRepository = new(wallObjectPath);
-            wallObjects = [.. wallObjectRepository.GetAll().OrderBy(wallObject => int.Parse(wallObject.Id)).ToDomainModels()];
+            WallObjectRepository wallObjectRepository = new(
+                GetDataFilePath(WallObjectsFileName));
+            wallObjects = [.. wallObjectRepository.GetAll()
+                .OrderBy(wallObject => int.Parse(wallObject.Id))
+                .ToServiceModels()];
         }
 
         public void LoadWorldObjects()
         {
-            string worldObjectPath = Path.Combine(ApplicationPaths.DataDirectory, "world_objects.json");
-            WorldObjectRepository worldObjectRepository = new(worldObjectPath);
-            worldObjects = [.. worldObjectRepository.GetAll().ToDomainModels().OrderBy(worldObject => int.Parse(worldObject.Id))];
+            WorldObjectRepository worldObjectRepository = new(
+                GetDataFilePath(WorldObjectsFileName));
+            worldObjects = [.. worldObjectRepository.GetAll()
+                .ToServiceModels()
+                .OrderBy(worldObject => int.Parse(worldObject.Id))];
 
-            foreach (WorldObject worldObject in worldObjects)
-            {
-                worldObject.ModelId = GetModelIndex(worldObject.ObjectModel);
-            }
+            AssignWorldObjectModelIds();
         }
 
         public void LoadPrayers()
         {
-            string prayerPath = Path.Combine(ApplicationPaths.DataDirectory, "prayers.json");
-            PrayerRepository prayerRepository = new(prayerPath);
-            prayers = [.. prayerRepository.GetAll().ToDomainModels()];
+            PrayerRepository prayerRepository = new(GetDataFilePath(PrayersFileName));
+            prayers = [.. prayerRepository.GetAll().ToServiceModels()];
         }
 
         public void LoadTextures()
         {
-            string texturePath = Path.Combine(ApplicationPaths.DataDirectory, "textures.json");
-            GameTextureRepository textureRepository = new(texturePath);
-            textures = [.. textureRepository.GetAll().OrderBy(texture => int.Parse(texture.Id)).ToDomainModels()];
+            GameTextureRepository textureRepository = new(GetDataFilePath(TexturesFileName));
+            textures = [.. textureRepository.GetAll()
+                .OrderBy(texture => int.Parse(texture.Id))
+                .ToServiceModels()];
         }
 
         public void LoadElevations()
         {
-            string elevationPath = Path.Combine(ApplicationPaths.DataDirectory, "elevations.json");
-            ElevationRepository elevationRepository = new(elevationPath);
-            elevations = [.. elevationRepository.GetAll().OrderBy(elevation => int.Parse(elevation.Id)).ToDomainModels()];
+            ElevationRepository elevationRepository = new(GetDataFilePath(ElevationsFileName));
+            elevations = [.. elevationRepository.GetAll()
+                .OrderBy(elevation => int.Parse(elevation.Id))
+                .ToServiceModels()];
         }
 
         public void LoadTiles()
         {
-            string tilePath = Path.Combine(ApplicationPaths.DataDirectory, "tiles.json");
-            TileRepository tileRepository = new(tilePath);
-            tiles = [.. tileRepository.GetAll().OrderBy(tile => int.Parse(tile.Id)).ToDomainModels()];
+            TileRepository tileRepository = new(GetDataFilePath(TilesFileName));
+            tiles = [.. tileRepository.GetAll()
+                .OrderBy(tile => int.Parse(tile.Id))
+                .ToServiceModels()];
         }
 
         public void LoadContent()
         {
-            string animationsPath = Path.Combine(ApplicationPaths.DataDirectory, "animations.json");
-            string elevationPath = Path.Combine(ApplicationPaths.DataDirectory, "elevations.json");
-            string itemPath = Path.Combine(ApplicationPaths.DataDirectory, "items.json");
-            string npcPath = Path.Combine(ApplicationPaths.DataDirectory, "npcs.json");
-            string prayerPath = Path.Combine(ApplicationPaths.DataDirectory, "prayers.json");
-            string spellPath = Path.Combine(ApplicationPaths.DataDirectory, "spells.json");
-            string texturePath = Path.Combine(ApplicationPaths.DataDirectory, "textures.json");
-            string tilePath = Path.Combine(ApplicationPaths.DataDirectory, "tiles.json");
-            string wallObjectPath = Path.Combine(ApplicationPaths.DataDirectory, "wall_objects.json");
-            string worldObjectPath = Path.Combine(ApplicationPaths.DataDirectory, "world_objects.json");
+            AnimationRepository animationRepository = new(GetDataFilePath(AnimationsFileName));
+            ElevationRepository elevationRepository = new(GetDataFilePath(ElevationsFileName));
+            ItemRepository itemRepository = new(GetDataFilePath(ItemsFileName));
+            NpcRepository npcRepository = new(GetDataFilePath(NpcsFileName));
+            PrayerRepository prayerRepository = new(GetDataFilePath(PrayersFileName));
+            SpellRepository spellRepository = new(GetDataFilePath(SpellsFileName));
+            GameTextureRepository textureRepository = new(GetDataFilePath(TexturesFileName));
+            TileRepository tileRepository = new(GetDataFilePath(TilesFileName));
+            WallObjectRepository wallObjectRepository = new(
+                GetDataFilePath(WallObjectsFileName));
+            WorldObjectRepository worldObjectRepository = new(
+                GetDataFilePath(WorldObjectsFileName));
 
-            AnimationRepository animationRepository = new(animationsPath);
-            ElevationRepository elevationRepository = new(elevationPath);
-            ItemRepository itemRepository = new(itemPath);
-            NpcRepository npcRepository = new(npcPath);
-            PrayerRepository prayerRepository = new(prayerPath);
-            SpellRepository spellRepository = new(spellPath);
-            GameTextureRepository textureRepository = new(texturePath);
-            TileRepository tileRepository = new(tilePath);
-            WallObjectRepository wallObjectRepository = new(wallObjectPath);
-            WorldObjectRepository worldObjectRepository = new(worldObjectPath);
+            animations = [.. animationRepository.GetAll().ToServiceModels()];
+            elevations = [.. elevationRepository.GetAll().ToServiceModels()];
+            items = [.. itemRepository.GetAll().ToServiceModels()];
+            npcs = [.. npcRepository.GetAll().ToServiceModels()];
+            prayers = [.. prayerRepository.GetAll().ToServiceModels()];
+            spells = [.. spellRepository.GetAll().ToServiceModels()];
+            textures = [.. textureRepository.GetAll().ToServiceModels()];
+            tiles = [.. tileRepository.GetAll().ToServiceModels()];
+            wallObjects = [.. wallObjectRepository.GetAll().ToServiceModels()];
+            worldObjects = [.. worldObjectRepository.GetAll().ToServiceModels()];
 
-            animations = [.. animationRepository.GetAll().ToDomainModels()];
-            elevations = [.. elevationRepository.GetAll().ToDomainModels()];
-            items = [.. itemRepository.GetAll().ToDomainModels()];
-            npcs = [.. npcRepository.GetAll().ToDomainModels()];
-            prayers = [.. prayerRepository.GetAll().ToDomainModels()];
-            spells = [.. spellRepository.GetAll().ToDomainModels()];
-            textures = [.. textureRepository.GetAll().ToDomainModels()];
-            tiles = [.. tileRepository.GetAll().ToDomainModels()];
-            wallObjects = [.. wallObjectRepository.GetAll().ToDomainModels()];
-            worldObjects = [.. worldObjectRepository.GetAll().ToDomainModels()];
-
-            foreach (WorldObject worldObject in worldObjects)
-            {
-                worldObject.ModelId = GetModelIndex(worldObject.ObjectModel);
-            }
+            AssignWorldObjectModelIds();
         }
 
-        public Animation GetAnimation(int index)
-        {
-            if (index < 0 || index >= AnimationCount)
-            {
-                return null;
-            }
+        public Animation GetAnimation(int index) => GetByIndex(animations, index);
 
-            return animations[index];
-        }
+        public Elevation GetElevation(int index) => GetByIndex(elevations, index);
 
-        public Elevation GetElevation(int index)
-        {
-            if (index < 0 || index >= ElevationCount)
-            {
-                return null;
-            }
-
-            return elevations[index];
-        }
-
-        public Item GetItem(int index)
-        {
-            if (index < 0 || index >= ItemCount)
-            {
-                return null;
-            }
-
-            return items[index];
-        }
+        public Item GetItem(int index) => GetByIndex(items, index);
 
         public int GetModelIndex(string model) => GameData.GetModelNameIndex(model);
 
         public string GetObjectModelName(int index) => GameData.modelName[index];
 
-        public Npc GetNpc(int index)
+        public Npc GetNpc(int index) => GetByIndex(npcs, index);
+
+        public Prayer GetPrayer(int index) => GetByIndex(prayers, index);
+
+        public Spell GetSpell(int index) => GetByIndex(spells, index);
+
+        public GameTexture GetTexture(int index) => GetByIndex(textures, index);
+
+        public Tile GetTile(int index) => GetByIndex(tiles, index);
+
+        public WallObject GetWallObject(int index) => GetByIndex(wallObjects, index);
+
+        public WorldObject GetWorldObject(int index) => GetByIndex(worldObjects, index);
+
+        public WorldObject GetWorldObject(string id)
+            => worldObjects.FirstOrDefault(worldObject => worldObject.Id == id);
+
+        private static string GetDataFilePath(string fileName)
+            => Path.Combine(ApplicationPaths.DataDirectory, fileName);
+
+        private static T GetByIndex<T>(List<T> list, int index) where T : class
         {
-            if (index < 0 || index >= NpcCount)
+            if (index < 0 || index >= list.Count)
             {
                 return null;
             }
 
-            return npcs[index];
+            return list[index];
         }
 
-        public Prayer GetPrayer(int index)
+        private void AssignWorldObjectModelIds()
         {
-            if (index < 0 || index >= PrayerCount)
+            foreach (WorldObject worldObject in worldObjects)
             {
-                return null;
+                worldObject.ModelId = GetModelIndex(worldObject.ObjectModel);
             }
-
-            return prayers[index];
         }
-
-        public Spell GetSpell(int index)
-        {
-            if (index < 0 || index >= SpellCount)
-            {
-                return null;
-            }
-
-            return spells[index];
-        }
-
-        public GameTexture GetTexture(int index)
-        {
-            if (index < 0 || index >= TextureCount)
-            {
-                return null;
-            }
-
-            return textures[index];
-        }
-
-        public Tile GetTile(int index)
-        {
-            if (index < 0 || index >= TileCount)
-            {
-                return null;
-            }
-
-            return tiles[index];
-        }
-
-        public WallObject GetWallObject(int index)
-        {
-            if (index < 0 || index >= WallObjectCount)
-            {
-                return null;
-            }
-
-            return wallObjects[index];
-        }
-
-        public WorldObject GetWorldObject(int index)
-        {
-            if (index < 0 || index >= WorldObjectCount)
-            {
-                return null;
-            }
-
-            return worldObjects[index];
-        }
-
-        public WorldObject GetWorldObject(string id) => worldObjects.FirstOrDefault(worldObject => worldObject.Id == id);
     }
 }

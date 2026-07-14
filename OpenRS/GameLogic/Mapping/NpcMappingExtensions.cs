@@ -10,7 +10,7 @@ namespace OpenRS.GameLogic.Mapping
 {
     internal static class NpcMappingExtensions
     {
-        internal static Npc ToDomainModel(this NpcEntity npcEntity) => new()
+        internal static Npc ToServiceModel(this NpcEntity npcEntity) => new()
         {
             Id = npcEntity.Id,
             Name = LocalisationManager.GetString(npcEntity.Name),
@@ -36,7 +36,7 @@ namespace OpenRS.GameLogic.Mapping
             RespawnTime = npcEntity.RespawnTime,
             IsAttackable = npcEntity.IsAttackable != 0,
             IsAggressive = npcEntity.IsAggressive != 0,
-            Drops = npcEntity.Drops?.ToDomainModels().ToArray()
+            Drops = npcEntity.Drops?.ToServiceModels().ToArray()
         };
 
         internal static NpcEntity ToDataObject(this Npc npc) => new()
@@ -65,9 +65,9 @@ namespace OpenRS.GameLogic.Mapping
             Drops = npc.Drops?.ToDataObjects().ToArray()
         };
 
-        internal static IEnumerable<Npc> ToDomainModels(
+        internal static IEnumerable<Npc> ToServiceModels(
             this IEnumerable<NpcEntity> npcEntities)
-            => npcEntities.Select(npcEntity => npcEntity.ToDomainModel());
+            => npcEntities.Select(npcEntity => npcEntity.ToServiceModel());
 
         internal static IEnumerable<NpcEntity> ToDataObjects(
             this IEnumerable<Npc> npcs)

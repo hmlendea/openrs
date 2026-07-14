@@ -9,7 +9,8 @@ namespace OpenRS.GameLogic.Mapping
 {
     internal static class WallObjectMappingExtensions
     {
-        internal static WallObject ToDomainModel(this WallObjectEntity wallObjectEntity) => new()
+        internal static WallObject ToServiceModel(
+            this WallObjectEntity wallObjectEntity) => new()
         {
             Name = LocalisationManager.GetString(wallObjectEntity.Name),
             Description = LocalisationManager.GetString(wallObjectEntity.Description),
@@ -35,9 +36,9 @@ namespace OpenRS.GameLogic.Mapping
             ModelFaceFront = wallObject.ModelFaceFront
         };
 
-        internal static IEnumerable<WallObject> ToDomainModels(
+        internal static IEnumerable<WallObject> ToServiceModels(
             this IEnumerable<WallObjectEntity> wallObjectEntities)
-            => wallObjectEntities.Select(wallObjectEntity => wallObjectEntity.ToDomainModel());
+            => wallObjectEntities.Select(wallObjectEntity => wallObjectEntity.ToServiceModel());
 
         internal static IEnumerable<WallObjectEntity> ToDataObjects(
             this IEnumerable<WallObject> wallObjects)

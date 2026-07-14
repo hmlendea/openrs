@@ -9,7 +9,8 @@ namespace OpenRS.GameLogic.Mapping
 {
     internal static class WorldObjectMappingExtensions
     {
-        internal static WorldObject ToDomainModel(this WorldObjectEntity worldObjectEntity) => new()
+        internal static WorldObject ToServiceModel(
+            this WorldObjectEntity worldObjectEntity) => new()
         {
             Id = worldObjectEntity.Id,
             Name = LocalisationManager.GetString(worldObjectEntity.Name),
@@ -39,9 +40,10 @@ namespace OpenRS.GameLogic.Mapping
             ModelId = worldObject.ModelId
         };
 
-        internal static IEnumerable<WorldObject> ToDomainModels(
+        internal static IEnumerable<WorldObject> ToServiceModels(
             this IEnumerable<WorldObjectEntity> worldObjectEntities)
-            => worldObjectEntities.Select(worldObjectEntity => worldObjectEntity.ToDomainModel());
+            => worldObjectEntities.Select(
+                worldObjectEntity => worldObjectEntity.ToServiceModel());
 
         internal static IEnumerable<WorldObjectEntity> ToDataObjects(
             this IEnumerable<WorldObject> worldObjects)

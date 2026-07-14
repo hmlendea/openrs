@@ -8,7 +8,7 @@ namespace OpenRS.GameLogic.Mapping
 {
     internal static class GameTextureMappingExtensions
     {
-        internal static GameTexture ToDomainModel(this GameTextureEntity textureEntity) => new()
+        internal static GameTexture ToServiceModel(this GameTextureEntity textureEntity) => new()
         {
             Name = textureEntity.Name,
             SubName = textureEntity.SubName
@@ -20,9 +20,9 @@ namespace OpenRS.GameLogic.Mapping
             SubName = texture.SubName
         };
 
-        internal static IEnumerable<GameTexture> ToDomainModels(
+        internal static IEnumerable<GameTexture> ToServiceModels(
             this IEnumerable<GameTextureEntity> textureEntities)
-            => textureEntities.Select(textureEntity => textureEntity.ToDomainModel());
+            => textureEntities.Select(textureEntity => textureEntity.ToServiceModel());
 
         internal static IEnumerable<GameTextureEntity> ToDataObjects(
             this IEnumerable<GameTexture> textures)

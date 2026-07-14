@@ -1,15 +1,8 @@
-﻿using NuciDAL.Repositories;
-
-using OpenRS.DataAccess.DataObjects;
+﻿using OpenRS.DataAccess.DataObjects;
 
 namespace OpenRS.DataAccess.Repositories
 {
-    public sealed class AnimationRepository(string fileName) : JsonRepository<AnimationEntity>(fileName)
-    {
-        public override void Update(AnimationEntity entity)
-        {
-            base.Update(entity);
-            SaveChanges();
-        }
-    }
+    public sealed class AnimationRepository(string fileName)
+        : AutoSavingJsonRepository<AnimationEntity>(fileName);
 }
+

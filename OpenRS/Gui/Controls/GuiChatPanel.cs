@@ -13,6 +13,10 @@ namespace OpenRS.Gui.Controls
     {
         private static int MessageHeight => 24;
 
+        private static string BackgroundContentFile => "ScreenManager/FillImage";
+
+        private static string MessageFontName => "ChatFont";
+
         private GuiImage background;
 
         private List<GuiText> messageRows;
@@ -29,7 +33,7 @@ namespace OpenRS.Gui.Controls
 
             background = new GuiImage
             {
-                ContentFile = "ScreenManager/FillImage",
+                ContentFile = BackgroundContentFile,
                 TextureLayout = TextureLayout.Tile
             };
 
@@ -37,15 +41,11 @@ namespace OpenRS.Gui.Controls
             SetChildrenProperties();
         }
 
-        protected override void DoUnloadContent()
-        {
-        }
+        protected override void DoUnloadContent() { }
 
         protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
 
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) { }
 
         public void AddMessage(string message)
         {
@@ -59,16 +59,26 @@ namespace OpenRS.Gui.Controls
 
         private void SetChildrenProperties()
         {
-            background.Size = Size;
-            background.Location = new(0, 0);
-            background.TintColour = BackgroundColour;
+            UpdateBackgroundProperties();
+            EnsureCorrectRowCount();
+            UpdateRowProperties();
+        }
 
-            // Add additional rows if there is enough room (the chat panel was expanded)
+        private void UpdateBackgroundProperties()
+        {
+            background.Size = Size;
+            background.Location = Point2D.Empty;
+            background.TintColour = BackgroundColour;
+        }
+
+        private void EnsureCorrectRowCount()
+        {
+            // Add additional rows if there is enough room (the chat panel was expanded).
             while (Size.Height - (messageRows.Count * MessageHeight) >= MessageHeight)
             {
                 GuiText newRow = new()
                 {
-                    FontName = "ChatFont",
+                    FontName = MessageFontName,
                     HorizontalAlignment = Alignment.Beginning
                 };
 
@@ -77,25 +87,28 @@ namespace OpenRS.Gui.Controls
                 messageRows.Insert(0, newRow);
             }
 
-            // Remove extra rows if there is not enough room (the chat panel was shrunk)
+            // Remove extra rows if there is not enough room (the chat panel was shrunk).
             while (Size.Height < MessageHeight * messageRows.Count)
             {
                 messageRows.RemoveAt(0);
             }
+        }
 
-            // Update the properties of each row.
+        private void UpdateRowProperties()
+        {
             int verticalOffset = Size.Height - MessageHeight;
 
             for (int messageRowIndex = messageRows.Count - 1; messageRowIndex >= 0; messageRowIndex -= 1)
             {
-                GuiText message = messageRows[messageRowIndex];
+                GuiText messageRow = messageRows[messageRowIndex];
 
-                message.Size = new(Size.Width, MessageHeight);
-                message.ForegroundColour = ForegroundColour;
-                message.Location = new(0, verticalOffset);
+                messageRow.Size = new(Size.Width, MessageHeight);
+                messageRow.ForegroundColour = ForegroundColour;
+                messageRow.Location = new(0, verticalOffset);
 
-                verticalOffset -= message.Size.Height;
+                verticalOffset -= messageRow.Size.Height;
             }
         }
     }
 }
+

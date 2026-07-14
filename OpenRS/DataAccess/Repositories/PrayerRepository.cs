@@ -1,15 +1,7 @@
-﻿using NuciDAL.Repositories;
-
-using OpenRS.DataAccess.DataObjects;
+﻿using OpenRS.DataAccess.DataObjects;
 
 namespace OpenRS.DataAccess.Repositories
 {
-    public sealed class PrayerRepository(string fileName) : JsonRepository<PrayerEntity>(fileName)
-    {
-        public override void Update(PrayerEntity entity)
-        {
-            base.Update(entity);
-            SaveChanges();
-        }
-    }
+    public sealed class PrayerRepository(string fileName)
+        : AutoSavingJsonRepository<PrayerEntity>(fileName);
 }

@@ -9,7 +9,7 @@ namespace OpenRS.GameLogic.Mapping
 {
     internal static class SpellMappingExtensions
     {
-        internal static Spell ToDomainModel(this SpellEntity spellEntity) => new()
+        internal static Spell ToServiceModel(this SpellEntity spellEntity) => new()
         {
             Id = spellEntity.Id,
             Name = LocalisationManager.GetString(spellEntity.Name),
@@ -37,9 +37,9 @@ namespace OpenRS.GameLogic.Mapping
             ExperienceGain = spell.ExperienceGain
         };
 
-        internal static IEnumerable<Spell> ToDomainModels(
+        internal static IEnumerable<Spell> ToServiceModels(
             this IEnumerable<SpellEntity> spellEntities)
-            => spellEntities.Select(spellEntity => spellEntity.ToDomainModel());
+            => spellEntities.Select(spellEntity => spellEntity.ToServiceModel());
 
         internal static IEnumerable<SpellEntity> ToDataObjects(
             this IEnumerable<Spell> spells)

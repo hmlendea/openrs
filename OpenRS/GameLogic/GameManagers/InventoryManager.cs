@@ -8,6 +8,10 @@ namespace OpenRS.GameLogic.GameManagers
 
         public static int MaximumBankSize => 48;
 
+        private static int InventorySlotCount => 35;
+
+        private static int BankSlotCount => 256;
+
         public int InventoryItemsCount { get; set; }
 
         public int BankItemsCount { get; set; }
@@ -20,9 +24,9 @@ namespace OpenRS.GameLogic.GameManagers
 
         public void LoadContent()
         {
-            inventoryItems = new InventoryItem[35];
-            bankItems = new InventoryItem[256];
-            serverBankItems = new InventoryItem[256];
+            inventoryItems = new InventoryItem[InventorySlotCount];
+            bankItems = new InventoryItem[BankSlotCount];
+            serverBankItems = new InventoryItem[BankSlotCount];
 
             for (int slotIndex = 0; slotIndex < inventoryItems.Length; slotIndex += 1)
             {
@@ -82,11 +86,14 @@ namespace OpenRS.GameLogic.GameManagers
 
         public InventoryItem GetServerBankItem(int slot) => serverBankItems[slot];
 
-        public void SetItem(int itemSlot, int numericalId) => inventoryItems[itemSlot].Index = numericalId;
+        public void SetItem(int itemSlot, int numericalId)
+            => inventoryItems[itemSlot].Index = numericalId;
 
-        public void SetItemCount(int itemSlot, int quantity) => inventoryItems[itemSlot].Quantity = quantity;
+        public void SetItemCount(int itemSlot, int quantity)
+            => inventoryItems[itemSlot].Quantity = quantity;
 
-        public void SetItemEquippedStatus(int itemSlot, bool isEquipped) => inventoryItems[itemSlot].IsEquipped = isEquipped;
+        public void SetItemEquippedStatus(int itemSlot, bool isEquipped)
+            => inventoryItems[itemSlot].IsEquipped = isEquipped;
 
         public void RemoveItem(int itemSlot)
         {
@@ -118,18 +125,8 @@ namespace OpenRS.GameLogic.GameManagers
                 }
 
                 int itemIndex = inventoryItems[itemSlot].Index;
-                bool isAlreadyInBank = false;
 
-                for (int bankSlot = 0; bankSlot < BankItemsCount; bankSlot += 1)
-                {
-                    if (bankItems[bankSlot].Index == itemIndex)
-                    {
-                        isAlreadyInBank = true;
-                        break;
-                    }
-                }
-
-                if (!isAlreadyInBank)
+                if (!IsItemInBank(itemIndex))
                 {
                     bankItems[BankItemsCount].Index = itemIndex;
                     bankItems[BankItemsCount].Quantity = 0;
@@ -163,5 +160,19 @@ namespace OpenRS.GameLogic.GameManagers
 
             return quantity;
         }
+
+        private bool IsItemInBank(int itemIndex)
+        {
+            for (int bankSlot = 0; bankSlot < BankItemsCount; bankSlot += 1)
+            {
+                if (bankItems[bankSlot].Index == itemIndex)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
+

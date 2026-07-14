@@ -9,7 +9,7 @@ namespace OpenRS.GameLogic.Mapping
 {
     internal static class QuestMappingExtensions
     {
-        internal static Quest ToDomainModel(this QuestEntity questEntity) => new()
+        internal static Quest ToServiceModel(this QuestEntity questEntity) => new()
         {
             Id = questEntity.Id,
             Name = LocalisationManager.GetString(questEntity.Name)
@@ -21,9 +21,9 @@ namespace OpenRS.GameLogic.Mapping
             Name = quest.Name
         };
 
-        internal static IEnumerable<Quest> ToDomainModels(
+        internal static IEnumerable<Quest> ToServiceModels(
             this IEnumerable<QuestEntity> questEntities)
-            => questEntities.Select(questEntity => questEntity.ToDomainModel());
+            => questEntities.Select(questEntity => questEntity.ToServiceModel());
 
         internal static IEnumerable<QuestEntity> ToDataObjects(
             this IEnumerable<Quest> quests)

@@ -8,7 +8,7 @@ namespace OpenRS.GameLogic.Mapping
 {
     internal static class ItemDropMappingExtensions
     {
-        internal static ItemDrop ToDomainModel(this ItemDropEntity itemDropEntity) => new()
+        internal static ItemDrop ToServiceModel(this ItemDropEntity itemDropEntity) => new()
         {
             ItemId = itemDropEntity.ItemId,
             Amount = itemDropEntity.Amount,
@@ -22,10 +22,12 @@ namespace OpenRS.GameLogic.Mapping
             Weight = itemDrop.Weight
         };
 
-        internal static IEnumerable<ItemDrop> ToDomainModels(this IEnumerable<ItemDropEntity> itemDropEntities)
-            => itemDropEntities?.Select(itemDropEntity => itemDropEntity.ToDomainModel());
+        internal static IEnumerable<ItemDrop> ToServiceModels(
+            this IEnumerable<ItemDropEntity> itemDropEntities)
+            => itemDropEntities?.Select(itemDropEntity => itemDropEntity.ToServiceModel());
 
-        internal static IEnumerable<ItemDropEntity> ToDataObjects(this IEnumerable<ItemDrop> itemDrops)
+        internal static IEnumerable<ItemDropEntity> ToDataObjects(
+            this IEnumerable<ItemDrop> itemDrops)
             => itemDrops?.Select(itemDrop => itemDrop.ToDataObject());
     }
 }

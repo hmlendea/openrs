@@ -9,7 +9,7 @@ namespace OpenRS.GameLogic.Mapping
 {
     internal static class PrayerMappingExtensions
     {
-        internal static Prayer ToDomainModel(this PrayerEntity prayerEntity) => new()
+        internal static Prayer ToServiceModel(this PrayerEntity prayerEntity) => new()
         {
             Id = prayerEntity.Id,
             Name = LocalisationManager.GetString(prayerEntity.Name),
@@ -27,9 +27,9 @@ namespace OpenRS.GameLogic.Mapping
             DrainRate = prayer.DrainRate
         };
 
-        internal static IEnumerable<Prayer> ToDomainModels(
+        internal static IEnumerable<Prayer> ToServiceModels(
             this IEnumerable<PrayerEntity> prayerEntities)
-            => prayerEntities.Select(prayerEntity => prayerEntity.ToDomainModel());
+            => prayerEntities.Select(prayerEntity => prayerEntity.ToServiceModel());
 
         internal static IEnumerable<PrayerEntity> ToDataObjects(
             this IEnumerable<Prayer> prayers)

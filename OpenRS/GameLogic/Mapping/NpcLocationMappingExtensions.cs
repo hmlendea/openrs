@@ -8,26 +8,34 @@ namespace OpenRS.GameLogic.Mapping
 {
     internal static class NpcLocationMappingExtensions
     {
-        internal static NpcLocation ToDomainModel(this NpcLocationEntity npcLocationEntity) => new()
+        internal static NpcLocation ToServiceModel(
+            this NpcLocationEntity npcLocationEntity) => new()
         {
-            InitialCoordinates = new(npcLocationEntity.InitialX, npcLocationEntity.InitialY),
-            MinimumCoordinates = new(npcLocationEntity.MinX, npcLocationEntity.MinY),
-            MaximumCoordinates = new(npcLocationEntity.MaxX, npcLocationEntity.MaxY)
+            InitialCoordinates = new(
+                npcLocationEntity.InitialXCoordinate,
+                npcLocationEntity.InitialYCoordinate),
+            MinimumCoordinates = new(
+                npcLocationEntity.MinimumXCoordinate,
+                npcLocationEntity.MinimumYCoordinate),
+            MaximumCoordinates = new(
+                npcLocationEntity.MaximumXCoordinate,
+                npcLocationEntity.MaximumYCoordinate)
         };
 
         internal static NpcLocationEntity ToDataObject(this NpcLocation npcLocation) => new()
         {
-            InitialX = npcLocation.InitialCoordinates.X,
-            InitialY = npcLocation.InitialCoordinates.Y,
-            MinX = npcLocation.MinimumCoordinates.X,
-            MinY = npcLocation.MinimumCoordinates.Y,
-            MaxX = npcLocation.MaximumCoordinates.X,
-            MaxY = npcLocation.MaximumCoordinates.Y
+            InitialXCoordinate = npcLocation.InitialCoordinates.X,
+            InitialYCoordinate = npcLocation.InitialCoordinates.Y,
+            MinimumXCoordinate = npcLocation.MinimumCoordinates.X,
+            MinimumYCoordinate = npcLocation.MinimumCoordinates.Y,
+            MaximumXCoordinate = npcLocation.MaximumCoordinates.X,
+            MaximumYCoordinate = npcLocation.MaximumCoordinates.Y
         };
 
-        internal static IEnumerable<NpcLocation> ToDomainModels(
+        internal static IEnumerable<NpcLocation> ToServiceModels(
             this IEnumerable<NpcLocationEntity> npcLocationEntities)
-            => npcLocationEntities.Select(npcLocationEntity => npcLocationEntity.ToDomainModel());
+            => npcLocationEntities.Select(
+                npcLocationEntity => npcLocationEntity.ToServiceModel());
 
         internal static IEnumerable<NpcLocationEntity> ToDataObjects(
             this IEnumerable<NpcLocation> npcLocations)

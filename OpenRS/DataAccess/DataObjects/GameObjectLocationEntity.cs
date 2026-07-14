@@ -4,9 +4,9 @@ namespace OpenRS.DataAccess.DataObjects
 {
     public sealed class GameObjectLocationEntity : EntityBase
     {
-        public int X { get; set; }
+        public int XCoordinate { get; set; }
 
-        public int Y { get; set; }
+        public int YCoordinate { get; set; }
 
         public int Direction { get; set; }
 

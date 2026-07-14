@@ -42,10 +42,9 @@ namespace OpenRS.DataAccess.DataObjects
 
         public int RespawnTime { get; set; }
 
-        // TODO: Convert to bool.
+        // RSC game data: 0 = not attackable, non-zero values encode combat level/type.
         public int IsAttackable { get; set; }
 
-        // TODO: Convert to bool.
         public int IsAggressive { get; set; }
 
         public ItemDropEntity[] Drops { get; set; }

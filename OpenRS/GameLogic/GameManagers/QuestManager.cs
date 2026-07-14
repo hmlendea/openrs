@@ -11,6 +11,8 @@ namespace OpenRS.GameLogic.GameManagers
 {
     public sealed class QuestManager
     {
+        private static string QuestsFileName => "quests.json";
+
         private List<Quest> quests;
 
         public int QuestsCount => quests.Count;
@@ -24,22 +26,17 @@ namespace OpenRS.GameLogic.GameManagers
 
         public Quest GetQuest(string id) => quests.FirstOrDefault(quest => quest.Id == id);
 
-        public string[] GetNames()
-            => [.. quests.Select(quest => quest.Name)];
+        public string[] GetNames() => [.. quests.Select(quest => quest.Name)];
 
-        public void SetStage(string id, int stage)
-        {
-            Quest quest = GetQuest(id);
-
-            quest.Stage = stage;
-        }
+        public void SetStage(string id, int stage) => GetQuest(id).Stage = stage;
 
         private void LoadQuests()
         {
-            string questRepositoryPath = Path.Combine(ApplicationPaths.DataDirectory, "quests.json");
-            QuestRepository questRepository = new(questRepositoryPath);
+            QuestRepository questRepository = new(
+                Path.Combine(ApplicationPaths.DataDirectory, QuestsFileName));
 
-            quests = [.. questRepository.GetAll().ToDomainModels()];
+            quests = [.. questRepository.GetAll().ToServiceModels()];
         }
     }
 }
+

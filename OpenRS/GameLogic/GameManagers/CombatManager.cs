@@ -6,39 +6,45 @@ namespace OpenRS.GameLogic.GameManagers
     {
         public bool HasRequiredRunes(int itemId, int count)
         {
-            if (itemId == (int)RuneElement.Air &&
-                (inventoryManager.IsItemEquipped((int)ElementalStaff.Air) ||
-                 inventoryManager.IsItemEquipped((int)ElementalBattlestaff.Air) ||
-                 inventoryManager.IsItemEquipped((int)ElementalMysticStaff.Air)))
-            {
-                return true;
-            }
-
-            if (itemId == (int)RuneElement.Water &&
-                (inventoryManager.IsItemEquipped((int)ElementalStaff.Water) ||
-                 inventoryManager.IsItemEquipped((int)ElementalBattlestaff.Water) ||
-                 inventoryManager.IsItemEquipped((int)ElementalMysticStaff.Water)))
-            {
-                return true;
-            }
-
-            if (itemId == (int)RuneElement.Earth &&
-                (inventoryManager.IsItemEquipped((int)ElementalStaff.Earth) ||
-                 inventoryManager.IsItemEquipped((int)ElementalBattlestaff.Earth) ||
-                 inventoryManager.IsItemEquipped((int)ElementalMysticStaff.Earth)))
-            {
-                return true;
-            }
-
-            if (itemId == (int)RuneElement.Fire &&
-                (inventoryManager.IsItemEquipped((int)ElementalStaff.Fire) ||
-                 inventoryManager.IsItemEquipped((int)ElementalBattlestaff.Fire) ||
-                 inventoryManager.IsItemEquipped((int)ElementalMysticStaff.Fire)))
+            if (IsRuneCoveredByEquippedStaff(itemId))
             {
                 return true;
             }
 
             return inventoryManager.GetItemTotalCount(itemId) >= count;
+        }
+
+        private bool IsRuneCoveredByEquippedStaff(int runeItemId)
+            => (RuneElement)runeItemId switch
+            {
+                RuneElement.Air => IsAnyElementalStaffEquipped(
+                    (int)ElementalStaff.Air,
+                    (int)ElementalBattlestaff.Air,
+                    (int)ElementalMysticStaff.Air),
+                RuneElement.Water => IsAnyElementalStaffEquipped(
+                    (int)ElementalStaff.Water,
+                    (int)ElementalBattlestaff.Water,
+                    (int)ElementalMysticStaff.Water),
+                RuneElement.Earth => IsAnyElementalStaffEquipped(
+                    (int)ElementalStaff.Earth,
+                    (int)ElementalBattlestaff.Earth,
+                    (int)ElementalMysticStaff.Earth),
+                RuneElement.Fire => IsAnyElementalStaffEquipped(
+                    (int)ElementalStaff.Fire,
+                    (int)ElementalBattlestaff.Fire,
+                    (int)ElementalMysticStaff.Fire),
+                _ => false
+            };
+
+        private bool IsAnyElementalStaffEquipped(
+            int staffItemId,
+            int battlestaffItemId,
+            int mysticStaffItemId)
+        {
+            return
+                inventoryManager.IsItemEquipped(staffItemId) ||
+                inventoryManager.IsItemEquipped(battlestaffItemId) ||
+                inventoryManager.IsItemEquipped(mysticStaffItemId);
         }
     }
 }

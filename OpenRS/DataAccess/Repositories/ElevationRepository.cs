@@ -1,15 +1,8 @@
-﻿using NuciDAL.Repositories;
-
-using OpenRS.DataAccess.DataObjects;
+﻿using OpenRS.DataAccess.DataObjects;
 
 namespace OpenRS.DataAccess.Repositories
 {
-    public sealed class ElevationRepository(string fileName) : JsonRepository<ElevationEntity>(fileName)
-    {
-        public override void Update(ElevationEntity entity)
-        {
-            base.Update(entity);
-            SaveChanges();
-        }
-    }
+    public sealed class ElevationRepository(string fileName)
+        : AutoSavingJsonRepository<ElevationEntity>(fileName);
 }
+

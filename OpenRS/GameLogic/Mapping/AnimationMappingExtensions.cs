@@ -9,7 +9,7 @@ namespace OpenRS.GameLogic.Mapping
 {
     internal static class AnimationMappingExtensions
     {
-        internal static Animation ToDomainModel(this AnimationEntity animationEntity) => new()
+        internal static Animation ToServiceModel(this AnimationEntity animationEntity) => new()
         {
             Name = animationEntity.Name,
             CharacterColour = animationEntity.CharacterColour,
@@ -29,9 +29,9 @@ namespace OpenRS.GameLogic.Mapping
             Number = animation.Number
         };
 
-        internal static IEnumerable<Animation> ToDomainModels(
+        internal static IEnumerable<Animation> ToServiceModels(
             this IEnumerable<AnimationEntity> animationEntities)
-            => animationEntities.Select(animationEntity => animationEntity.ToDomainModel());
+            => animationEntities.Select(animationEntity => animationEntity.ToServiceModel());
 
         internal static IEnumerable<AnimationEntity> ToDataObjects(
             this IEnumerable<Animation> animations)

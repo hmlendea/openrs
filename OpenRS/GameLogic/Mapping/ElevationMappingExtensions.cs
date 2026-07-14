@@ -8,7 +8,7 @@ namespace OpenRS.GameLogic.Mapping
 {
     internal static class ElevationMappingExtensions
     {
-        internal static Elevation ToDomainModel(this ElevationEntity elevationEntity) => new()
+        internal static Elevation ToServiceModel(this ElevationEntity elevationEntity) => new()
         {
             Roof = elevationEntity.Roof,
             Unknown = elevationEntity.Unknown
@@ -20,8 +20,9 @@ namespace OpenRS.GameLogic.Mapping
             Unknown = elevation.Unknown
         };
 
-        internal static IEnumerable<Elevation> ToDomainModels(this IEnumerable<ElevationEntity> elevationEntities)
-            => elevationEntities.Select(elevationEntity => elevationEntity.ToDomainModel());
+        internal static IEnumerable<Elevation> ToServiceModels(
+            this IEnumerable<ElevationEntity> elevationEntities)
+            => elevationEntities.Select(elevationEntity => elevationEntity.ToServiceModel());
 
         internal static IEnumerable<ElevationEntity> ToDataObjects(
             this IEnumerable<Elevation> elevations)

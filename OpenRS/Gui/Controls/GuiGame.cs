@@ -24,9 +24,16 @@ namespace OpenRS.Gui.Controls
         private static string ItemSpritesDirectory
             => Path.Combine(ApplicationPaths.ApplicationDirectory, "Content", "sprites", "items");
 
+        private static string PngFileExtension => ".png";
+        private static int RedChannelByteIndex => 2;
+        private static int GreenChannelByteIndex => 1;
+        private static int BlueChannelByteIndex => 0;
+        private static byte OpaqueAlphaValue => 255;
+        private static int SectionLoadedDelayMilliseconds => 200;
+        private static int ContentLoadedDelayMilliseconds => 300;
+
         private static readonly ILogger logger = NuciLoggerFactory.CreateLogger<GuiGame>();
 
-        private SpriteBatch spriteBatch;
         private SpriteBatch gameSpriteBatch;
 
         private Texture2D lastGameImageTexture;
@@ -37,7 +44,6 @@ namespace OpenRS.Gui.Controls
 
         protected override void DoLoadContent()
         {
-            spriteBatch = GraphicsManager.Instance.SpriteBatch;
             gameSpriteBatch = new SpriteBatch(GraphicsManager.Instance.Graphics.GraphicsDevice);
             RegisterEvents();
         }
@@ -63,27 +69,27 @@ namespace OpenRS.Gui.Controls
         {
             if (!isContentLoading)
             {
-                DrawGame(client);
+                DrawGame();
             }
         }
 
         private void RegisterEvents()
         {
-            client.OnContentLoadedCompleted += client_OnContentLoadedCompleted;
-            client.OnContentLoaded += client_OnContentLoaded;
-            client.OnLoadingSection += client_OnLoadingSection;
-            client.OnLoadingSectionCompleted += client_OnLoadingSectionCompleted;
+            client.OnContentLoadedCompleted += OnClientContentLoadedCompleted;
+            client.OnContentLoaded += OnClientContentLoaded;
+            client.OnLoadingSection += OnClientLoadingSection;
+            client.OnLoadingSectionCompleted += OnClientLoadingSectionCompleted;
         }
 
         private void UnregisterEvents()
         {
-            client.OnContentLoadedCompleted -= client_OnContentLoadedCompleted;
-            client.OnContentLoaded -= client_OnContentLoaded;
-            client.OnLoadingSection -= client_OnLoadingSection;
-            client.OnLoadingSectionCompleted -= client_OnLoadingSectionCompleted;
+            client.OnContentLoadedCompleted -= OnClientContentLoadedCompleted;
+            client.OnContentLoaded -= OnClientContentLoaded;
+            client.OnLoadingSection -= OnClientLoadingSection;
+            client.OnLoadingSectionCompleted -= OnClientLoadingSectionCompleted;
         }
 
-        private void DrawGame(GameClient client)
+        private void DrawGame()
         {
             if (client is null || client.gameGraphics is null)
             {
@@ -99,16 +105,22 @@ namespace OpenRS.Gui.Controls
                         return;
                     }
 
-                    uint[] pixelColours = new uint[client.gameGraphics.pixels.Length];
+                    int pixelCount = client.gameGraphics.pixels.Length;
+                    uint[] pixelColours = new uint[pixelCount];
 
-                    for (int pixelIndex = 0; pixelIndex < client.gameGraphics.pixels.Length; pixelIndex += 1)
+                    for (int pixelIndex = 0; pixelIndex < pixelCount; pixelIndex += 1)
                     {
-                        byte[] pixelBytes = BitConverter.GetBytes(client.gameGraphics.pixels[pixelIndex]);
-                        byte redChannel = pixelBytes[2];
-                        byte greenChannel = pixelBytes[1];
-                        byte blueChannel = pixelBytes[0];
+                        int pixelValue = client.gameGraphics.pixels[pixelIndex];
+                        byte[] pixelBytes = BitConverter.GetBytes(pixelValue);
+                        byte redChannel = pixelBytes[RedChannelByteIndex];
+                        byte greenChannel = pixelBytes[GreenChannelByteIndex];
+                        byte blueChannel = pixelBytes[BlueChannelByteIndex];
 
-                        pixelColours[pixelIndex] = GraphicsEngine.RgbaToUInt(redChannel, greenChannel, blueChannel, 255);
+                        pixelColours[pixelIndex] = GraphicsEngine.RgbaToUInt(
+                            redChannel,
+                            greenChannel,
+                            blueChannel,
+                            OpaqueAlphaValue);
                     }
 
                     Rectangle sourceRectangle = CalculateGameSourceRectangle(client);
@@ -116,10 +128,13 @@ namespace OpenRS.Gui.Controls
 
                     client.GameDisplayOffsetX = destinationRectangle.X;
                     client.GameDisplayOffsetY = destinationRectangle.Y;
-                    client.GameDisplayScaleX = (float)destinationRectangle.Width / sourceRectangle.Width;
-                    client.GameDisplayScaleY = (float)destinationRectangle.Height / sourceRectangle.Height;
+                    client.GameDisplayScaleX =
+                        (float)destinationRectangle.Width / sourceRectangle.Width;
+                    client.GameDisplayScaleY =
+                        (float)destinationRectangle.Height / sourceRectangle.Height;
 
-                    if (client.gameGraphics.pixels.Any(pixel => pixel != 0) && client.DrawIsNecessary)
+                    if (client.gameGraphics.pixels.Any(pixel => pixel != 0) &&
+                        client.DrawIsNecessary)
                     {
                         Texture2D imageTexture = new(
                             GraphicsManager.Instance.Graphics.GraphicsDevice,
@@ -130,9 +145,7 @@ namespace OpenRS.Gui.Controls
 
                         imageTexture.SetData(pixelColours.ToArray());
 
-                        gameSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp);
-                        gameSpriteBatch.Draw(imageTexture, destinationRectangle, sourceRectangle, Color.White);
-                        gameSpriteBatch.End();
+                        DrawTextureOpaque(imageTexture, destinationRectangle, sourceRectangle);
 
                         lastGameImageTexture = imageTexture;
 
@@ -140,9 +153,10 @@ namespace OpenRS.Gui.Controls
                     }
                     else if (lastGameImageTexture is not null)
                     {
-                        gameSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp);
-                        gameSpriteBatch.Draw(lastGameImageTexture, destinationRectangle, sourceRectangle, Color.White);
-                        gameSpriteBatch.End();
+                        DrawTextureOpaque(
+                            lastGameImageTexture,
+                            destinationRectangle,
+                            sourceRectangle);
                     }
 
                     DrawItemSprites(client);
@@ -152,9 +166,10 @@ namespace OpenRS.Gui.Controls
                     Rectangle sourceRectangle = CalculateGameSourceRectangle(client);
                     Rectangle destinationRectangle = CalculateGameDestinationRectangle(client);
 
-                    gameSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp);
-                    gameSpriteBatch.Draw(lastGameImageTexture, destinationRectangle, sourceRectangle, Color.White);
-                    gameSpriteBatch.End();
+                    DrawTextureOpaque(
+                        lastGameImageTexture,
+                        destinationRectangle,
+                        sourceRectangle);
                 }
             }
             catch (Exception ex)
@@ -172,7 +187,10 @@ namespace OpenRS.Gui.Controls
                 return;
             }
 
-            gameSpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp);
+            gameSpriteBatch.Begin(
+                SpriteSortMode.Deferred,
+                BlendState.NonPremultiplied,
+                SamplerState.PointClamp);
 
             foreach (ItemSpriteDrawCall drawCall in drawCalls)
             {
@@ -184,8 +202,10 @@ namespace OpenRS.Gui.Controls
                 }
 
                 Rectangle destination = new(
-                    (int)(gameClient.GameDisplayOffsetX + drawCall.PixelX * gameClient.GameDisplayScaleX),
-                    (int)(gameClient.GameDisplayOffsetY + drawCall.PixelY * gameClient.GameDisplayScaleY),
+                    (int)(gameClient.GameDisplayOffsetX +
+                        drawCall.PixelX * gameClient.GameDisplayScaleX),
+                    (int)(gameClient.GameDisplayOffsetY +
+                        drawCall.PixelY * gameClient.GameDisplayScaleY),
                     (int)(drawCall.PixelWidth * gameClient.GameDisplayScaleX),
                     (int)(drawCall.PixelHeight * gameClient.GameDisplayScaleY));
 
@@ -202,7 +222,7 @@ namespace OpenRS.Gui.Controls
                 return cached;
             }
 
-            string pngPath = Path.Combine(ItemSpritesDirectory, spriteName + ".png");
+            string pngPath = Path.Combine(ItemSpritesDirectory, spriteName + PngFileExtension);
 
             if (!File.Exists(pngPath))
             {
@@ -210,13 +230,16 @@ namespace OpenRS.Gui.Controls
                     "Item texture file not found.",
                     new LogInfo(GameLogInfoKey.FilePath, pngPath));
                 itemTextureCache[spriteName] = null;
+
                 return null;
             }
 
             try
             {
                 using Stream stream = File.OpenRead(pngPath);
-                Texture2D texture = Texture2D.FromStream(GraphicsManager.Instance.Graphics.GraphicsDevice, stream);
+                Texture2D texture = Texture2D.FromStream(
+                    GraphicsManager.Instance.Graphics.GraphicsDevice,
+                    stream);
                 itemTextureCache[spriteName] = texture;
 
                 return texture;
@@ -245,7 +268,9 @@ namespace OpenRS.Gui.Controls
         {
             int bufferWidth = gameClient.gameGraphics.GameSize.Width;
             int bufferHeight = gameClient.gameGraphics.GameSize.Height;
-            float scale = Math.Min((float)Size.Width / bufferWidth, (float)Size.Height / bufferHeight);
+            float scale = Math.Min(
+                (float)Size.Width / bufferWidth,
+                (float)Size.Height / bufferHeight);
             int drawWidth = (int)(bufferWidth * scale);
             int drawHeight = (int)(bufferHeight * scale);
             int drawPositionX = (Size.Width - drawWidth) / 2;
@@ -254,21 +279,34 @@ namespace OpenRS.Gui.Controls
             return new Rectangle(drawPositionX, drawPositionY, drawWidth, drawHeight);
         }
 
-        private static bool DrawGameClient(GameClient client)
+        private void DrawTextureOpaque(
+            Texture2D texture,
+            Rectangle destination,
+            Rectangle source)
         {
-            client.Paint();
+            gameSpriteBatch.Begin(
+                SpriteSortMode.Deferred,
+                BlendState.Opaque,
+                SamplerState.PointClamp);
+            gameSpriteBatch.Draw(texture, destination, source, Color.White);
+            gameSpriteBatch.End();
+        }
+
+        private static bool DrawGameClient(GameClient gameClient)
+        {
+            gameClient.Paint();
 
             try
             {
-                if (!client.loggedIn)
+                if (!gameClient.loggedIn)
                 {
-                    client.gameGraphics.IsLoggedIn = false;
-                    client.DrawLoginScreens();
+                    gameClient.gameGraphics.IsLoggedIn = false;
+                    gameClient.DrawLoginScreens();
                 }
                 else
                 {
-                    client.gameGraphics.IsLoggedIn = true;
-                    client.DrawGame();
+                    gameClient.gameGraphics.IsLoggedIn = true;
+                    gameClient.DrawGame();
 
                     return true;
                 }
@@ -277,8 +315,8 @@ namespace OpenRS.Gui.Controls
             {
                 logger.Error("An error has occurred while drawing the game.", ex);
 
-                client.UnloadContent();
-                client.memoryError = true;
+                gameClient.UnloadContent();
+                gameClient.memoryError = true;
 
                 return false;
             }
@@ -286,22 +324,24 @@ namespace OpenRS.Gui.Controls
             return true;
         }
 
-        private void client_OnLoadingSectionCompleted(object sender, EventArgs e)
+        private void OnClientLoadingSectionCompleted(object sender, EventArgs e)
         {
-            Thread.Sleep(200);
+            Thread.Sleep(SectionLoadedDelayMilliseconds);
 
             isSectionLoading = false;
         }
 
-        private void client_OnLoadingSection(object sender, EventArgs e) => isSectionLoading = true;
+        private void OnClientLoadingSection(object sender, EventArgs e) =>
+            isSectionLoading = true;
 
-        private void client_OnContentLoadedCompleted(object sender, EventArgs e)
+        private void OnClientContentLoadedCompleted(object sender, EventArgs e)
         {
-            Thread.Sleep(300);
+            Thread.Sleep(ContentLoadedDelayMilliseconds);
 
             isContentLoading = false;
         }
 
-        private void client_OnContentLoaded(object sender, ContentLoadedEventArgs e) => isContentLoading = true;
+        private void OnClientContentLoaded(object sender, ContentLoadedEventArgs e) =>
+            isContentLoading = true;
     }
 }

@@ -8,24 +8,26 @@ namespace OpenRS.GameLogic.Mapping
 {
     internal static class ItemLocationMappingExtensions
     {
-        internal static ItemLocation ToDomainModel(this ItemLocationEntity itemLocationEntity) => new()
+        internal static ItemLocation ToServiceModel(
+            this ItemLocationEntity itemLocationEntity) => new()
         {
-            Coordinates = new(itemLocationEntity.X, itemLocationEntity.Y),
+            Coordinates = new(itemLocationEntity.XCoordinate, itemLocationEntity.YCoordinate),
             Amount = itemLocationEntity.Amount,
             RespawnTime = itemLocationEntity.RespawnTime
         };
 
         internal static ItemLocationEntity ToDataObject(this ItemLocation itemLocation) => new()
         {
-            X = itemLocation.Coordinates.X,
-            Y = itemLocation.Coordinates.Y,
+            XCoordinate = itemLocation.Coordinates.X,
+            YCoordinate = itemLocation.Coordinates.Y,
             Amount = itemLocation.Amount,
             RespawnTime = itemLocation.RespawnTime
         };
 
-        internal static IEnumerable<ItemLocation> ToDomainModels(
+        internal static IEnumerable<ItemLocation> ToServiceModels(
             this IEnumerable<ItemLocationEntity> itemLocationEntities)
-            => itemLocationEntities.Select(itemLocationEntity => itemLocationEntity.ToDomainModel());
+            => itemLocationEntities.Select(
+                itemLocationEntity => itemLocationEntity.ToServiceModel());
 
         internal static IEnumerable<ItemLocationEntity> ToDataObjects(
             this IEnumerable<ItemLocation> itemLocations)

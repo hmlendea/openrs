@@ -10,7 +10,7 @@ namespace OpenRS.GameLogic.Mapping
 {
     internal static class ItemMappingExtensions
     {
-        internal static Item ToDomainModel(this ItemEntity itemEntity) => new()
+        internal static Item ToServiceModel(this ItemEntity itemEntity) => new()
         {
             Id = itemEntity.Id,
             Name = LocalisationManager.GetString(itemEntity.Name),
@@ -46,9 +46,9 @@ namespace OpenRS.GameLogic.Mapping
             IsUnused = Convert.ToInt32(item.IsUnused)
         };
 
-        internal static IEnumerable<Item> ToDomainModels(
+        internal static IEnumerable<Item> ToServiceModels(
             this IEnumerable<ItemEntity> itemEntities)
-            => itemEntities.Select(itemEntity => itemEntity.ToDomainModel());
+            => itemEntities.Select(itemEntity => itemEntity.ToServiceModel());
 
         internal static IEnumerable<ItemEntity> ToDataObjects(
             this IEnumerable<Item> items)

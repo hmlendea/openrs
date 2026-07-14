@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using NuciXNA.Gui.Controls;
-using NuciXNA.Input;
 using NuciXNA.Primitives;
 
 using OpenRS.Settings;
@@ -15,7 +14,7 @@ namespace OpenRS.Gui.Controls
     {
         public Size2D ButtonTileSize { get; set; }
 
-        public Size2D ButtonSize => new(
+        public Size2D ButtonTileCount => new(
             Size.Width / ButtonTileSize.Width,
             Size.Height / ButtonTileSize.Height);
 
@@ -42,7 +41,7 @@ namespace OpenRS.Gui.Controls
             images = [];
             text = new GuiText();
 
-            for (int sectionIndex = 0; sectionIndex < ButtonSize.Width; sectionIndex += 1)
+            for (int sectionIndex = 0; sectionIndex < ButtonTileCount.Width; sectionIndex += 1)
             {
                 GuiImage image = new() { SourceRectangle = CalculateSourceRectangle(sectionIndex) };
 
@@ -57,68 +56,20 @@ namespace OpenRS.Gui.Controls
                 RegisterChild(icon);
             }
 
-            RegisterEvents();
             SetChildrenProperties();
         }
 
-        protected override void DoUnloadContent() => UnregisterEvents();
-
         protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
 
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
-        }
+        protected override void DoUnloadContent() { }
 
-        private void RegisterEvents()
-        {
-            Clicked += OnClicked;
-            MouseEntered += OnMouseEntered;
-        }
-
-        private void UnregisterEvents()
-        {
-            Clicked -= OnClicked;
-            MouseEntered -= OnMouseEntered;
-        }
-
-        private void SetChildrenProperties()
-        {
-            for (int imageIndex = 0; imageIndex < images.Count; imageIndex += 1)
-            {
-                images[imageIndex].ContentFile = Texture;
-                images[imageIndex].Location = new(imageIndex * ButtonTileSize.Width, 0);
-                images[imageIndex].SourceRectangle = CalculateSourceRectangle(imageIndex);
-            }
-
-            text.Text = Text;
-            text.ForegroundColour = ForegroundColour;
-            text.FontName = FontName;
-            text.Location = new(0, 0);
-            text.Size = Size;
-
-            icon.ContentFile = Icon;
-            icon.Location = new(
-                (Size.Width - icon.Size.Width) / 2,
-                (Size.Height - icon.Size.Height) / 2);
-        }
-
-        private void OnClicked(object sender, MouseButtonEventArgs e)
-        {
-            if (e.Button != MouseButton.Left)
-            {
-                return;
-            }
-        }
-
-        private void OnMouseEntered(object sender, MouseEventArgs e)
-        {
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) { }
 
         protected virtual Rectangle2D CalculateSourceRectangle(int sectionIndex)
         {
             int spriteStateOffset = 1;
 
-            if (ButtonSize.Width == 1)
+            if (ButtonTileCount.Width == 1)
             {
                 spriteStateOffset = 3;
             }
@@ -126,7 +77,7 @@ namespace OpenRS.Gui.Controls
             {
                 spriteStateOffset = 0;
             }
-            else if (sectionIndex == ButtonSize.Width - 1)
+            else if (sectionIndex == ButtonTileCount.Width - 1)
             {
                 spriteStateOffset = 2;
             }
@@ -140,5 +91,28 @@ namespace OpenRS.Gui.Controls
                 spriteStateOffset * ButtonTileSize.Width, 0,
                 ButtonTileSize.Width, ButtonTileSize.Height);
         }
+
+        private void SetChildrenProperties()
+        {
+            for (int imageIndex = 0; imageIndex < images.Count; imageIndex += 1)
+            {
+                GuiImage image = images[imageIndex];
+                image.ContentFile = Texture;
+                image.Location = new(imageIndex * ButtonTileSize.Width, 0);
+                image.SourceRectangle = CalculateSourceRectangle(imageIndex);
+            }
+
+            text.Text = Text;
+            text.ForegroundColour = ForegroundColour;
+            text.FontName = FontName;
+            text.Location = Point2D.Empty;
+            text.Size = Size;
+
+            icon.ContentFile = Icon;
+            icon.Location = new(
+                (Size.Width - icon.Size.Width) / 2,
+                (Size.Height - icon.Size.Height) / 2);
+        }
     }
 }
+

@@ -8,7 +8,7 @@ namespace OpenRS.GameLogic.Mapping
 {
     internal static class TileMappingExtensions
     {
-        internal static Tile ToDomainModel(this TileEntity tileEntity) => new()
+        internal static Tile ToServiceModel(this TileEntity tileEntity) => new()
         {
             Colour = tileEntity.Colour,
             Unknown = tileEntity.Unknown,
@@ -22,9 +22,9 @@ namespace OpenRS.GameLogic.Mapping
             Type = tile.Type
         };
 
-        internal static IEnumerable<Tile> ToDomainModels(
+        internal static IEnumerable<Tile> ToServiceModels(
             this IEnumerable<TileEntity> tileEntities)
-            => tileEntities.Select(tileEntity => tileEntity.ToDomainModel());
+            => tileEntities.Select(tileEntity => tileEntity.ToServiceModel());
 
         internal static IEnumerable<TileEntity> ToDataObjects(
             this IEnumerable<Tile> tiles)

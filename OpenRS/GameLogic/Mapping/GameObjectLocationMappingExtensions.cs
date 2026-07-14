@@ -8,27 +8,33 @@ namespace OpenRS.GameLogic.Mapping
 {
     internal static class GameObjectLocationMappingExtensions
     {
-        internal static GameObjectLocation ToDomainModel(this GameObjectLocationEntity gameObjectLocationEntity) => new()
+        internal static GameObjectLocation ToServiceModel(
+            this GameObjectLocationEntity gameObjectLocationEntity) => new()
         {
-            Location = new(gameObjectLocationEntity.X, gameObjectLocationEntity.Y),
+            Location = new(
+                gameObjectLocationEntity.XCoordinate,
+                gameObjectLocationEntity.YCoordinate),
             Direction = gameObjectLocationEntity.Direction,
             Type = (GameObjectType)gameObjectLocationEntity.Type
         };
 
-        internal static GameObjectLocationEntity ToDataObject(this GameObjectLocation gameObjectLocation) => new()
+        internal static GameObjectLocationEntity ToDataObject(
+            this GameObjectLocation gameObjectLocation) => new()
         {
-            X = gameObjectLocation.Location.X,
-            Y = gameObjectLocation.Location.Y,
+            XCoordinate = gameObjectLocation.Location.X,
+            YCoordinate = gameObjectLocation.Location.Y,
             Direction = gameObjectLocation.Direction,
             Type = (int)gameObjectLocation.Type
         };
 
-        internal static IEnumerable<GameObjectLocation> ToDomainModels(
+        internal static IEnumerable<GameObjectLocation> ToServiceModels(
             this IEnumerable<GameObjectLocationEntity> gameObjectLocationEntities)
-            => gameObjectLocationEntities.Select(gameObjectLocationEntity => gameObjectLocationEntity.ToDomainModel());
+            => gameObjectLocationEntities.Select(
+                gameObjectLocationEntity => gameObjectLocationEntity.ToServiceModel());
 
         internal static IEnumerable<GameObjectLocationEntity> ToDataObjects(
             this IEnumerable<GameObjectLocation> gameObjectLocations)
-            => gameObjectLocations.Select(gameObjectLocation => gameObjectLocation.ToDataObject());
+            => gameObjectLocations.Select(
+                gameObjectLocation => gameObjectLocation.ToDataObject());
     }
 }
