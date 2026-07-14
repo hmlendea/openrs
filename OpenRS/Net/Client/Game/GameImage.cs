@@ -33,6 +33,7 @@ namespace OpenRS.Net.Client.Game
             pictureAssumedHeight = new int[size];
             pictureOffsetX = new int[size];
             pictureOffsetY = new int[size];
+
             if (width > 1 && height > 1 /*&& destY is not null*/)
             {
                 // colorModel = new DirectColorModel(32, 0xff0000, 65280, 255);
