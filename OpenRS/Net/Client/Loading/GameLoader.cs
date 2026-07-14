@@ -490,113 +490,91 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
         public void LoadAnimations()
         {
             StringBuilder sb = new();
-            sbyte[] abyte0 = client.UnpackData("entity.jag", "people and monsters", 30);
-            if (abyte0 is null)
-            {
-                client.errorLoading = true;
-                return;
-            }
-
-            sbyte[] abyte1 = DataOperations.LoadData("index.dat", 0, abyte0);
-            sbyte[] abyte2 = client.UnpackData("entity.mem", "member client.graphics", 45);
-            if (abyte2 is null)
-            {
-                client.errorLoading = true;
-                return;
-            }
-
-            sbyte[] abyte3 = DataOperations.LoadData("index.dat", 0, abyte2);
-            int l = 0;
+            sbyte[] indexData = LoadDataFile(ApplicationPaths.AnimationsDirectory, "index.dat");
+            int frameCount = 0;
             client.animationNumber = 0;
-            //label0:
-            for (int i1 = 0; i1 < client.entityManager.AnimationCount; i1 += 1)
+
+            for (int animationIndex = 0; animationIndex < client.entityManager.AnimationCount; animationIndex += 1)
             {
-                //   label4:
-                bool breakThis = false;
-                string s1 = client.entityManager.GetAnimation(i1).Name;
-                for (int j1 = 0; j1 < i1; j1 += 1)
+                bool isDuplicate = false;
+                string animationName = client.entityManager.GetAnimation(animationIndex).Name;
+
+                for (int previousIndex = 0; previousIndex < animationIndex; previousIndex += 1)
                 {
-                    if (client.entityManager.GetAnimation(j1).Name.ToLower() != s1)
+                    if (client.entityManager.GetAnimation(previousIndex).Name.ToLower() != animationName)
                     {
                         continue;
                     }
 
-                    client.entityManager.GetAnimation(i1).Number = client.entityManager.GetAnimation(j1).Number;
-
-                    // i1 += 1;
-                    // goto label0;
-                    //break;
-                    breakThis = true;
+                    client.entityManager.GetAnimation(animationIndex).Number = client.entityManager.GetAnimation(previousIndex).Number;
+                    isDuplicate = true;
                     break;
                 }
-                if (breakThis)
+
+                if (isDuplicate)
                 {
                     continue;
                 }
 
-                //label4:
-                sbyte[] abyte7 = DataOperations.LoadData(s1 + ".dat", 0, abyte0);
-                sbyte[] abyte4 = abyte1;
-                if (abyte7 is null)
+                string animationFilePath = Path.Combine(ApplicationPaths.AnimationsDirectory, animationName + ".dat");
+
+                if (!File.Exists(animationFilePath))
                 {
-                    abyte7 = DataOperations.LoadData(s1 + ".dat", 0, abyte2);
-                    abyte4 = abyte3;
+                    client.entityManager.GetAnimation(animationIndex).Number = client.animationNumber;
+                    client.animationNumber += 27;
+                    continue;
                 }
-                if (abyte7 is not null)
+
+                sbyte[] animationData = LoadDataFile(ApplicationPaths.AnimationsDirectory, animationName + ".dat");
+
+                try
                 {
-                    try
+                    client.gameGraphics.UnpackImageData(client.animationNumber, animationData, indexData, 15);
+                    frameCount += 15;
+
+                    if (client.entityManager.GetAnimation(animationIndex).HasA == 1)
                     {
-                        client.gameGraphics.UnpackImageData(client.animationNumber, abyte7, abyte4, 15);
-                        l += 15;
-                        if (client.entityManager.GetAnimation(i1).HasA == 1)
+                        client.gameGraphics.UnpackImageData(
+                            client.animationNumber + 15,
+                            LoadDataFile(ApplicationPaths.AnimationsDirectory, animationName + "a.dat"),
+                            indexData,
+                            3);
+                        frameCount += 3;
+                    }
+
+                    if (client.entityManager.GetAnimation(animationIndex).HasF == 1)
+                    {
+                        client.gameGraphics.UnpackImageData(
+                            client.animationNumber + 18,
+                            LoadDataFile(ApplicationPaths.AnimationsDirectory, animationName + "f.dat"),
+                            indexData,
+                            9);
+                        frameCount += 9;
+                    }
+
+                    if (client.entityManager.GetAnimation(animationIndex).GenderModel != 0)
+                    {
+                        for (int imageIndex = client.animationNumber; imageIndex < client.animationNumber + 27; imageIndex += 1)
                         {
-                            sbyte[] abyte8 = DataOperations.LoadData(s1 + "a.dat", 0, abyte0);
-                            sbyte[] abyte5 = abyte1;
-                            if (abyte8 is null)
-                            {
-                                abyte8 = DataOperations.LoadData(s1 + "a.dat", 0, abyte2);
-                                abyte5 = abyte3;
-                            }
-                            client.gameGraphics.UnpackImageData(client.animationNumber + 15, abyte8, abyte5, 3);
-                            l += 3;
-                        }
-                        if (client.entityManager.GetAnimation(i1).HasF == 1)
-                        {
-                            sbyte[] abyte9 = DataOperations.LoadData(s1 + "f.dat", 0, abyte0);
-                            sbyte[] abyte6 = abyte1;
-                            if (abyte9 is null)
-                            {
-                                abyte9 = DataOperations.LoadData(s1 + "f.dat", 0, abyte2);
-                                abyte6 = abyte3;
-                            }
-                            client.gameGraphics.UnpackImageData(client.animationNumber + 18, abyte9, abyte6, 9);
-                            l += 9;
-                        }
-                        if (client.entityManager.GetAnimation(i1).GenderModel != 0)
-                        {
-                            for (int k1 = client.animationNumber; k1 < client.animationNumber + 27; k1 += 1)
-                            {
-                                client.gameGraphics.LoadImage(k1);
-                            }
+                            client.gameGraphics.LoadImage(imageIndex);
                         }
                     }
-                    catch { }
                 }
-                client.entityManager.GetAnimation(i1).Number = client.animationNumber;
+                catch { }
+
+                client.entityManager.GetAnimation(animationIndex).Number = client.animationNumber;
                 client.animationNumber += 27;
 
-                //if (File.Exists("animations-loaded.txt")) File.Delete("animations-loaded.txt");
-                //if (!File.Exists("animations-loaded.txt")) File.Create("animations-loaded.txt").Close();
-                sb.AppendLine("Loaded: " + l + " frames of animation");
+                sb.AppendLine("Loaded: " + frameCount + " frames of animation");
 
 #warning ugly fix for forcing animation count to 1143.
-                if (l == 1143)
+                if (frameCount == 1143)
                 {
                     break;
                 }
             }
-            string animationsOutput = sb.ToString();
-            Console.WriteLine("Loaded: " + l + " frames of animation");
+
+            Console.WriteLine("Loaded: " + frameCount + " frames of animation");
         }
         public void CreateChatInputMenu()
         {
@@ -766,7 +744,8 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
 
         private static sbyte[] LoadDataFile(string directory, string fileName)
         {
-            string filePath = Path.Combine(directory, fileName);
+            string filePath = Path.Combine(directory, fileName.ToLower());
+
             return (sbyte[])(Array)File.ReadAllBytes(filePath);
         }
 

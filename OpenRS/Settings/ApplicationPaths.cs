@@ -33,6 +33,8 @@ namespace OpenRS.Settings
 
         public static string DataDirectory => Path.Combine(ApplicationDirectory, "Data");
 
+        public static string AnimationsDirectory => Path.Combine(DataDirectory, "Animations");
+
         public static string ChatFilterDirectory => Path.Combine(DataDirectory, "ChatFilter");
 
         public static string FontsDirectory => Path.Combine(DataDirectory, "Fonts");
