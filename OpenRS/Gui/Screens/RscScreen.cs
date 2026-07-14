@@ -11,8 +11,10 @@ using NuciLog.Core;
 
 using NuciXNA.DataAccess.Content;
 using NuciXNA.Graphics;
+using NuciXNA.Graphics.Drawing;
+using NuciXNA.Gui;
+using NuciXNA.Gui.Controls;
 using NuciXNA.Gui.Screens;
-using NuciXNA.Primitives;
 
 using OpenRS.Gui.Controls;
 using OpenRS.Net.Client;
@@ -23,8 +25,7 @@ using OpenRS.Settings;
 namespace OpenRS.Gui.Screens
 {
     public sealed class RscScreen : Screen
-    {
-        private static string ItemSpritesDirectory
+    {        private static string ItemSpritesDirectory
             => Path.Combine(ApplicationPaths.ApplicationDirectory, "Content", "sprites", "items");
 
         private static readonly ILogger logger = NuciLoggerFactory.CreateLogger<RscScreen>();
@@ -45,7 +46,7 @@ namespace OpenRS.Gui.Screens
         private string contentLoadingStatusText = "";
         private decimal contentLoadingStatusProgress = 0m;
 
-        private GuiInventoryPanel inventoryPanel;
+        private GuiSideBar sideBarPanel;
 
         protected override void DoLoadContent()
         {
@@ -54,7 +55,7 @@ namespace OpenRS.Gui.Screens
             diagnosticFont = NuciContentManager.Instance.LoadSpriteFont("fonts/gameFont12");
             diagnosticFont2 = NuciContentManager.Instance.LoadSpriteFont("fonts/gameFont16");
 
-            rscMudclient = GameClient.CreateMudclient("RuneScape Classic", 768, 480);
+            rscMudclient = GameClient.CreateMudclient("RuneScape Classic", GameDefines.GameViewportWidth, GameDefines.WindowHeight);
             rscMudclient.DoNotDrawLogo = true;
 
             rscMudclient.OnContentLoadedCompleted += OnContentLoadedCompleted;
@@ -68,12 +69,17 @@ namespace OpenRS.Gui.Screens
             gameThread = new Thread(rscMudclient.Run);
             gameThread.Start();
 
-            inventoryPanel = new GuiInventoryPanel(rscMudclient)
+            int panelWidth = GameDefines.SidePanelWidth;
+            int panelHeight = GameDefines.WindowHeight;
+
+            sideBarPanel = new GuiSideBar(rscMudclient)
             {
-                Location = new(768, 0),
-                Size = new(256, 480)
+                Location = new(GameDefines.GameViewportWidth, 0),
+                Size = new(panelWidth, panelHeight)
             };
-            inventoryPanel.LoadContent();
+
+            GuiManager.Instance.RegisterControls(sideBarPanel);
+            sideBarPanel.Hide();
         }
 
         protected override void DoUnloadContent()
@@ -96,14 +102,25 @@ namespace OpenRS.Gui.Screens
         {
             rscMudclient?.Update(gameTime);
 
-            if (inventoryPanel is not null && rscMudclient?.loggedIn == true)
+            if (sideBarPanel is not null)
             {
-                inventoryPanel.Update(gameTime);
+                if (rscMudclient?.loggedIn == true)
+                {
+                    sideBarPanel.Show();
+                }
+                else
+                {
+                    sideBarPanel.Hide();
+                }
             }
         }
 
         protected override void DoDraw(SpriteBatch spriteBatch)
         {
+            // Ensure the batch is closed before our custom drawing begins,
+            // regardless of the state left by the previous frame's GuiManager pass.
+            try { spriteBatch.End(); } catch { }
+
             if (!isContentLoading)
             {
                 DrawGame(spriteBatch);
@@ -124,12 +141,7 @@ namespace OpenRS.Gui.Screens
                 DrawContentLoading(spriteBatch, contentLoadingStatusText, contentLoadingStatusProgress);
             }
 
-            if (inventoryPanel is not null && rscMudclient?.loggedIn == true)
-            {
-                guiSpriteBatch.Begin();
-                inventoryPanel.Draw(guiSpriteBatch);
-                guiSpriteBatch.End();
-            }
+            spriteBatch.Begin();
         }
 
         private void OnLoadingSectionCompleted(object sender, EventArgs e)

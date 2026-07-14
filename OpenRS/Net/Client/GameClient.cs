@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Input;
 
 using OpenRS.GameLogic.GameManagers;
 using OpenRS.Models;
-using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Entities;
 using OpenRS.Net.Client.Events;
 using OpenRS.Net.Client.Game;

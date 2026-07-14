@@ -13,6 +13,7 @@ namespace OpenRS.Gui.Controls
 
         private static Size2D IconSize => new(48, 32);
 
+        private GuiImage slotBackground;
         private GuiImage icon;
         private GuiText quantity;
 
@@ -27,6 +28,12 @@ namespace OpenRS.Gui.Controls
 
         protected override void DoLoadContent()
         {
+            slotBackground = new GuiImage
+            {
+                Size = Size,
+                ContentFile = "ScreenManager/FillImage",
+                TintColour = new Colour(30, 20, 10)
+            };
             icon = new GuiImage
             {
                 Size = new(32, 32),
@@ -41,7 +48,7 @@ namespace OpenRS.Gui.Controls
                 HorizontalAlignment = Alignment.Beginning
             };
 
-            RegisterChildren(icon, quantity);
+            RegisterChildren(slotBackground, icon, quantity);
             SetChildrenProperties();
         }
 

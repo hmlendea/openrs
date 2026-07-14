@@ -7,7 +7,6 @@ using NuciXNA.Graphics.Drawing;
 using NuciXNA.Gui.Controls;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
-
 using OpenRS.Net.Client;
 using OpenRS.Settings;
 
@@ -38,7 +37,7 @@ namespace OpenRS.Gui.Controls
             background = new GuiImage
             {
                 ContentFile = "Interface/Backgrounds/sidebar",
-                TextureLayout = TextureLayout.Tile
+                TextureLayout = TextureLayout.Stretch
             };
             minimap = new GuiMinimap(client)
             {

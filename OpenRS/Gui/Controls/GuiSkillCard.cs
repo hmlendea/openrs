@@ -70,6 +70,9 @@ namespace OpenRS.Gui.Controls
             RegisterChildren(currentLevelText, baseLevelText, detailsText);
             RegisterEvents();
             SetChildrenProperties();
+
+            detailsBackground.Hide();
+            detailsText.Hide();
         }
 
         protected override void DoUnloadContent() => UnregisterEvents();

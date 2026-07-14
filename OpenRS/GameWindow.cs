@@ -9,6 +9,7 @@ using NuciXNA.Input;
 
 using OpenRS.Gui.Screens;
 using OpenRS.Net.Client;
+using OpenRS.Settings;
 
 using XnaButtonState = Microsoft.Xna.Framework.Input.ButtonState;
 
@@ -23,8 +24,8 @@ namespace OpenRS
         {
             graphics = new GraphicsDeviceManager(this)
             {
-                PreferredBackBufferWidth = 1024,
-                PreferredBackBufferHeight = 480
+                PreferredBackBufferWidth = GameDefines.WindowWidth,
+                PreferredBackBufferHeight = GameDefines.WindowHeight
             };
 
             IsFixedTimeStep = false;
