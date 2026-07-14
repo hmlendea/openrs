@@ -339,10 +339,6 @@ namespace OpenRS.Net.Client.World
         }
         public void LoadMap()
         {
-            client.engineHandle.mapsFree = client.UnpackData("maps.jag", "map", 70);
-            client.engineHandle.mapsMembers = client.UnpackData("maps.mem", "members map", 75);
-            client.engineHandle.landscapeFree = client.UnpackData("land.jag", "landscape", 80);
-            client.engineHandle.landscapeMembers = client.UnpackData("land.mem", "members landscape", 85);
         }
 
         public void WalkToWallObject(int x, int y, int direction)

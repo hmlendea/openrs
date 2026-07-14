@@ -2,8 +2,8 @@
 using System.IO;
 
 using OpenRS.GameLogic.GameManagers;
-using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game.Cameras;
+using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Game
 {
@@ -99,262 +99,203 @@ namespace OpenRS.Net.Client.Game
         public void LoadSection(int sectionX, int sectionY, int height, int sector)
 		{
 			string filename = "m" + height + sectionX / 10 + sectionX % 10 + sectionY / 10 + sectionY % 10;
-			//if(filename=="m05049")
-			//{
-			//    if (loadedSameIndex==1)
-			//    {
-			//        loadedSameIndex = 0;
-			//        return;
-			//    }
-			//    loadedSameIndex += 1;
-			//}
+
 			try
 			{
-				if (landscapeFree is not null)
+				sbyte[] data = LoadMapFile(filename + ".hei");
+
+				if (data is not null && data.Length > 0)
 				{
-					sbyte[] data = DataOperations.LoadData(filename + ".hei", 0, landscapeFree);
-					if (data is null && landscapeMembers is not null)
-                    {
-                        data = DataOperations.LoadData(filename + ".hei", 0, landscapeMembers);
-                    }
-
-                    if (data is not null && data.Length > 0)
-					{
-						int off = 0;
-						int i2 = 0;
-						for (int tile = 0; tile < 2304; )
-						{
-							int k3 = data[off++] & 0xff;
-							if (k3 < 128)
-							{
-								tileGroundElevation[sector][tile++] = (sbyte)k3;
-								i2 = k3;
-							}
-							if (k3 >= 128)
-							{
-								for (int k4 = 0; k4 < k3 - 128; k4 += 1)
-                                {
-                                    tileGroundElevation[sector][tile++] = (sbyte)i2;
-                                }
-                            }
-						}
-
-						i2 = 64;
-						for (int tile = 0; tile < 48; tile += 1)
-						{
-							for (int l4 = 0; l4 < 48; l4 += 1)
-							{
-								i2 = tileGroundElevation[sector][l4 * 48 + tile] + i2 & 0x7f;
-								tileGroundElevation[sector][l4 * 48 + tile] = (sbyte)(i2 * 2);
-							}
-
-						}
-
-						i2 = 0;
-						for (int tile = 0; tile < 2304; )
-						{
-							int l5 = data[off++] & 0xff;
-							if (l5 < 128)
-							{
-								tileGroundTexture[sector][tile++] = l5;
-								i2 = l5;
-							}
-							if (l5 >= 128)
-							{
-								for (int i7 = 0; i7 < l5 - 128; i7 += 1)
-                                {
-                                    tileGroundTexture[sector][tile++] = i2;
-                                }
-                            }
-						}
-
-						i2 = 35;
-						for (int i6 = 0; i6 < 48; i6 += 1)
-						{
-							for (int j7 = 0; j7 < 48; j7 += 1)
-							{
-								i2 = tileGroundTexture[sector][j7 * 48 + i6] + i2 & 0x7f;
-								tileGroundTexture[sector][j7 * 48 + i6] = i2 * 2;
-							}
-
-						}
-
-					}
-					else
-					{
-						for (int tile = 0; tile < 2304; tile += 1)
-						{
-							tileGroundElevation[sector][tile] = 0;
-							tileGroundTexture[sector][tile] = 0;
-						}
-
-					}
-					data = DataOperations.LoadData(filename + ".dat", 0, mapsFree);
-					if (data is null && mapsMembers is not null)
-                    {
-                        data = DataOperations.LoadData(filename + ".dat", 0, mapsMembers);
-                    }
-
-                    if (data is null || data.Length == 0)
-                    {
-                        return;//throw new IOException();
-                    }
-
-                    int off2 = 0;
-
-					//#warning added & 0xff on marked, not original
-					for (int tile = 0; tile < 2304; tile += 1)
-                    {
-                        tileVerticalWall[sector][tile] = data[off2++]; // MARKED, should not have & 0xff
-                    }
-
-                    for (int tile = 0; tile < 2304; tile += 1)
-                    {
-                        tileHorizontalWall[sector][tile] = data[off2++]; // MARKED, should not have & 0xff
-                    }
-
-                    for (int tile = 0; tile < 2304; tile += 1)
-                    {
-                        tileDiagonalWall[sector][tile] = data[off2++] & 0xff;
-                    }
-
-                    for (int tile = 0; tile < 2304; tile += 1)
-					{
-						int j6 = data[off2++] & 0xff;
-						if (j6 > 0)
-                        {
-                            tileDiagonalWall[sector][tile] = j6 + 12000;
-                        }
-                    }
+					int off = 0;
+					int i2 = 0;
 
 					for (int tile = 0; tile < 2304; )
 					{
-						int k7 = data[off2++] & 0xff;
-						if (k7 < 128)
+						int k3 = data[off++] & 0xff;
+
+						if (k3 < 128)
 						{
-							tileRoofType[sector][tile++] = k7; //(sbyte)k7;
-							//tileRoofType[sector][tile++] = 0;
+							tileGroundElevation[sector][tile++] = (sbyte)k3;
+							i2 = k3;
 						}
-						else
+
+						if (k3 >= 128)
 						{
-							for (int j8 = 0; j8 < k7 - 128; j8 += 1)
-                            {
-                                tileRoofType[sector][tile++] = 0;
-                            }
-                        }
+							for (int k4 = 0; k4 < k3 - 128; k4 += 1)
+							{
+								tileGroundElevation[sector][tile++] = (sbyte)i2;
+							}
+						}
 					}
 
-					// Adds water on lower heights
-					int l7 = 0;
+					i2 = 64;
+
+					for (int tile = 0; tile < 48; tile += 1)
+					{
+						for (int l4 = 0; l4 < 48; l4 += 1)
+						{
+							i2 = tileGroundElevation[sector][l4 * 48 + tile] + i2 & 0x7f;
+							tileGroundElevation[sector][l4 * 48 + tile] = (sbyte)(i2 * 2);
+						}
+					}
+
+					i2 = 0;
+
 					for (int tile = 0; tile < 2304; )
 					{
-						int i9 = data[off2++] & 0xff;
-						if (i9 < 128)
+						int l5 = data[off++] & 0xff;
+
+						if (l5 < 128)
 						{
-							tileGroundOverlay[sector][tile++] = (sbyte)i9;
-							l7 = i9;
+							tileGroundTexture[sector][tile++] = l5;
+							i2 = l5;
 						}
-						else
+
+						if (l5 >= 128)
 						{
-							for (int l9 = 0; l9 < i9 - 128; l9 += 1)
-                            {
-                                tileGroundOverlay[sector][tile++] = (sbyte)l7;
-                            }
-                        }
+							for (int i7 = 0; i7 < l5 - 128; i7 += 1)
+							{
+								tileGroundTexture[sector][tile++] = i2;
+							}
+						}
 					}
 
-					for (int j9 = 0; j9 < 2304; )
+					i2 = 35;
+
+					for (int i6 = 0; i6 < 48; i6 += 1)
 					{
-						int i10 = data[off2++] & 0xff;
-						if (i10 < 128)
+						for (int j7 = 0; j7 < 48; j7 += 1)
 						{
-							tileObjectRotation[sector][j9++] = (sbyte)i10;
+							i2 = tileGroundTexture[sector][j7 * 48 + i6] + i2 & 0x7f;
+							tileGroundTexture[sector][j7 * 48 + i6] = i2 * 2;
 						}
-						else
-						{
-							for (int l10 = 0; l10 < i10 - 128; l10 += 1)
-                            {
-                                tileObjectRotation[sector][j9++] = 0;
-                            }
-                        }
-					}
-
-					data = DataOperations.LoadData(filename + ".loc", 0, mapsFree);
-					if (data is not null && data.Length > 0)
-					{
-						int k1 = 0;
-						for (int j10 = 0; j10 < 2304; )
-						{
-
-							int i11 = data[k1++] & 0xff;
-							if (i11 < 128)
-                            {
-                                tileDiagonalWall[sector][j10++] = i11 + 48000;
-                            }
-                            else
-                            {
-                                j10 += i11 - 128;
-                            }
-                        }
-
-						return;
 					}
 				}
 				else
 				{
-					sbyte[] abyte1 = new sbyte[20736];
-					DataOperations.ReadFully("../gamedata/maps/" + filename + ".jm", abyte1, 20736);
-					int l1 = 0;
-					int k2 = 0;
-					for (int j3 = 0; j3 < 2304; j3 += 1)
+					for (int tile = 0; tile < 2304; tile += 1)
 					{
-						l1 = l1 + abyte1[k2++] & 0xff;
-						tileGroundElevation[sector][j3] = (sbyte)l1;
+						tileGroundElevation[sector][tile] = 0;
+						tileGroundTexture[sector][tile] = 0;
+					}
+				}
+
+				data = LoadMapFile(filename + ".dat");
+
+				if (data is null || data.Length == 0)
+				{
+					return;
+				}
+
+				int off2 = 0;
+
+				for (int tile = 0; tile < 2304; tile += 1)
+				{
+					tileVerticalWall[sector][tile] = data[off2++];
+				}
+
+				for (int tile = 0; tile < 2304; tile += 1)
+				{
+					tileHorizontalWall[sector][tile] = data[off2++];
+				}
+
+				for (int tile = 0; tile < 2304; tile += 1)
+				{
+					tileDiagonalWall[sector][tile] = data[off2++] & 0xff;
+				}
+
+				for (int tile = 0; tile < 2304; tile += 1)
+				{
+					int j6 = data[off2++] & 0xff;
+
+					if (j6 > 0)
+					{
+						tileDiagonalWall[sector][tile] = j6 + 12000;
+					}
+				}
+
+				for (int tile = 0; tile < 2304; )
+				{
+					int k7 = data[off2++] & 0xff;
+
+					if (k7 < 128)
+					{
+						tileRoofType[sector][tile++] = k7;
+					}
+					else
+					{
+						for (int j8 = 0; j8 < k7 - 128; j8 += 1)
+						{
+							tileRoofType[sector][tile++] = 0;
+						}
+					}
+				}
+
+				// Adds water on lower heights.
+				int l7 = 0;
+
+				for (int tile = 0; tile < 2304; )
+				{
+					int i9 = data[off2++] & 0xff;
+
+					if (i9 < 128)
+					{
+						tileGroundOverlay[sector][tile++] = (sbyte)i9;
+						l7 = i9;
+					}
+					else
+					{
+						for (int l9 = 0; l9 < i9 - 128; l9 += 1)
+						{
+							tileGroundOverlay[sector][tile++] = (sbyte)l7;
+						}
+					}
+				}
+
+				for (int j9 = 0; j9 < 2304; )
+				{
+					int i10 = data[off2++] & 0xff;
+
+					if (i10 < 128)
+					{
+						tileObjectRotation[sector][j9++] = (sbyte)i10;
+					}
+					else
+					{
+						for (int l10 = 0; l10 < i10 - 128; l10 += 1)
+						{
+							tileObjectRotation[sector][j9++] = 0;
+						}
+					}
+				}
+
+				data = LoadMapFile(filename + ".loc");
+
+				if (data is not null && data.Length > 0)
+				{
+					int k1 = 0;
+
+					for (int j10 = 0; j10 < 2304; )
+					{
+						int i11 = data[k1++] & 0xff;
+
+						if (i11 < 128)
+						{
+							tileDiagonalWall[sector][j10++] = i11 + 48000;
+						}
+						else
+						{
+							j10 += i11 - 128;
+						}
 					}
 
-					l1 = 0;
-					for (int j4 = 0; j4 < 2304; j4 += 1)
-					{
-						l1 = l1 + abyte1[k2++] & 0xff;
-						tileGroundTexture[sector][j4] = l1;
-					}
-
-					for (int k5 = 0; k5 < 2304; k5 += 1)
-                    {
-                        tileVerticalWall[sector][k5] = abyte1[k2++];
-                    }
-
-                    for (int l6 = 0; l6 < 2304; l6 += 1)
-                    {
-                        tileHorizontalWall[sector][l6] = abyte1[k2++];
-                    }
-
-                    for (int i8 = 0; i8 < 2304; i8 += 1)
-					{
-						tileDiagonalWall[sector][i8] = (abyte1[k2] & 0xff) * 256 + (abyte1[k2 + 1] & 0xff);
-						k2 += 2;
-					}
-
-					for (int l8 = 0; l8 < 2304; l8 += 1)
-                    {
-                        tileRoofType[sector][l8] = abyte1[k2++];
-                    }
-
-                    for (int k9 = 0; k9 < 2304; k9 += 1)
-                    {
-                        tileGroundOverlay[sector][k9] = abyte1[k2++];
-                    }
-
-                    for (int k10 = 0; k10 < 2304; k10 += 1)
-                    {
-                        tileObjectRotation[sector][k10] = abyte1[k2++];
-                    }
-                }
-				return;
+					return;
+				}
 			}
-			catch (IOException _ex)
+			catch (IOException)
 			{
 			}
+
 			for (int k = 0; k < 2304; k += 1)
 			{
 				tileGroundElevation[sector][k] = 0;
@@ -364,24 +305,35 @@ namespace OpenRS.Net.Client.Game
 				tileDiagonalWall[sector][k] = 0;
 				tileRoofType[sector][k] = 0;
 				tileGroundOverlay[sector][k] = 0;
+
 				if (height == 0)
-                {
-                    tileGroundOverlay[sector][k] = -6;
-                }
+				{
+					tileGroundOverlay[sector][k] = -6;
+				}
 
-                if (height == 3)
-                {
-                    tileGroundOverlay[sector][k] = 8;
-                }
+				if (height == 3)
+				{
+					tileGroundOverlay[sector][k] = 8;
+				}
 
-                tileObjectRotation[sector][k] = 0;
+				tileObjectRotation[sector][k] = 0;
+			}
+		}
+
+		private static sbyte[] LoadMapFile(string fileName)
+		{
+			string filePath = Path.Combine(ApplicationPaths.MapsDirectory, fileName);
+
+			if (!File.Exists(filePath))
+			{
+				return null;
 			}
 
+			return (sbyte[])(Array)File.ReadAllBytes(filePath);
 		}
 
 		public void LoadSection(int x, int y, int height, bool freshLoad)
 		{
-
 			int sectionX = (x + 24) / 48;
 			int sectionY = (y + 24) / 48;
 			LoadSection(sectionX - 1, sectionY - 1, height, 0);
@@ -2313,14 +2265,10 @@ namespace OpenRS.Net.Client.Game
 		public int[][] roofTiles;
 		public int[][] tileVerticalWall;
 		public int[][] steps;
-		public sbyte[] landscapeFree;
-		public sbyte[] mapsFree;
 		public sbyte[][] tileGroundElevation;
 		public GameObject[][] roofObject;
 		public bool playerIsAlive;
 		public int[][] tiles;
-		public sbyte[] landscapeMembers;
-		public sbyte[] mapsMembers;
 		public GameObject[][] wallObject;
 		public int[] selectedX;
 		public int[][] tileRoofType;
