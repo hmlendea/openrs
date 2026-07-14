@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
+using OpenRS.Settings;
 
 namespace OpenRS.Net.Client
 {
@@ -489,15 +490,20 @@ namespace OpenRS.Net.Client
 
         private void LoadLoadingScreen()
         {
-            sbyte[] bytes = UnpackData("fonts.jag", "Game fonts", 0);
-            GameImage.AddFont(DataOperations.LoadData("h11p.jf", 0, bytes));
-            GameImage.AddFont(DataOperations.LoadData("h12b.jf", 0, bytes));
-            GameImage.AddFont(DataOperations.LoadData("h12p.jf", 0, bytes));
-            GameImage.AddFont(DataOperations.LoadData("h13b.jf", 0, bytes));
-            GameImage.AddFont(DataOperations.LoadData("h14b.jf", 0, bytes));
-            GameImage.AddFont(DataOperations.LoadData("h16b.jf", 0, bytes));
-            GameImage.AddFont(DataOperations.LoadData("h20b.jf", 0, bytes));
-            GameImage.AddFont(DataOperations.LoadData("h24b.jf", 0, bytes));
+            GameImage.AddFont(LoadFontFile("h11p.jf"));
+            GameImage.AddFont(LoadFontFile("h12b.jf"));
+            GameImage.AddFont(LoadFontFile("h12p.jf"));
+            GameImage.AddFont(LoadFontFile("h13b.jf"));
+            GameImage.AddFont(LoadFontFile("h14b.jf"));
+            GameImage.AddFont(LoadFontFile("h16b.jf"));
+            GameImage.AddFont(LoadFontFile("h20b.jf"));
+            GameImage.AddFont(LoadFontFile("h24b.jf"));
+        }
+
+        private static sbyte[] LoadFontFile(string fileName)
+        {
+            string filePath = System.IO.Path.Combine(ApplicationPaths.FontsDirectory, fileName);
+            return (sbyte[])(Array)System.IO.File.ReadAllBytes(filePath);
         }
 
         private void DrawLoadingScreen(int percentage, string fileTitle)

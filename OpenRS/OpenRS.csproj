@@ -43,7 +43,7 @@
     <None Update="Data\ChatFilter\tlds.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\fonts.jag">
+    <None Update="Data\Fonts\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Maps\**">
