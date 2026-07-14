@@ -5,6 +5,10 @@ namespace OpenRS.Gui.Screens
 {
     public sealed class TitleScreen : MenuScreen
     {
+        private static string TestUsername => "test";
+
+        private static string TestPassword => "test";
+
         private GuiMenuLink newGameLink;
         private GuiMenuLink settingsLink;
         private GuiMenuItem exitAction;
@@ -14,9 +18,9 @@ namespace OpenRS.Gui.Screens
             newGameLink = new GuiMenuLink
             {
                 Id = nameof(newGameLink),
-                Text = "Login as 'test'",
+                Text = $"Login as '{TestUsername}'",
                 TargetScreen = typeof(GameplayScreen),
-                Parameters = ["test", "test"]
+                Parameters = [TestUsername, TestPassword]
             };
 
             settingsLink = new GuiMenuLink

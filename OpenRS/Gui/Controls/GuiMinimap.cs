@@ -35,6 +35,7 @@ namespace OpenRS.Gui.Controls
         public bool IsClickable { get; set; } = true;
 
         public int ZoomLevel { get; set; } = 2;
+
         protected override void DoLoadContent()
         {
             dotSprite = new TextureSprite
@@ -100,6 +101,7 @@ namespace OpenRS.Gui.Controls
         }
 
         protected override void DoUnloadContent() => UnregisterEvents();
+
         protected override void DoUpdate(GameTime gameTime)
         {
             SetChildrenProperties();

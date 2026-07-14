@@ -1,4 +1,6 @@
-﻿namespace OpenRS.Models
+﻿using System;
+
+namespace OpenRS.Models
 {
     public sealed class Appearance
     {
@@ -23,8 +25,8 @@
         public int Body { get; set; }
 
         public bool IsValid =>
-            System.Array.IndexOf(ValidHeadSprites, Head) >= 0 &&
-            System.Array.IndexOf(ValidBodySprites, Body) >= 0 &&
+            Array.IndexOf(ValidHeadSprites, Head) >= 0 &&
+            Array.IndexOf(ValidBodySprites, Body) >= 0 &&
             HairColour >= 0 && HairColour <= MaximumHairColour &&
             TopColour >= 0 && TopColour <= MaximumTopColour &&
             TrousersColour >= 0 && TrousersColour <= MaximumTrousersColour &&

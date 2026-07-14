@@ -1,8 +1,11 @@
 ﻿using System;
 using System.IO;
+
 using Microsoft.Xna.Framework;
+
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game.Cameras;
+
 namespace OpenRS.Net.Client.Game
 {
 

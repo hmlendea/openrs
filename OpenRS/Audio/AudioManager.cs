@@ -1,3 +1,5 @@
+using System.Threading;
+
 using Microsoft.Xna.Framework.Audio;
 
 using NuciXNA.DataAccess.Content;
@@ -7,7 +9,7 @@ namespace OpenRS.Audio
     public sealed class AudioManager
     {
         private static volatile AudioManager instance;
-        private static readonly object syncRoot = new();
+        private static readonly Lock syncRoot = new();
 
         public static AudioManager Instance
         {
@@ -23,6 +25,10 @@ namespace OpenRS.Audio
 
                 return instance;
             }
+        }
+
+        private AudioManager()
+        {
         }
 
         public void PlaySound(string sound)

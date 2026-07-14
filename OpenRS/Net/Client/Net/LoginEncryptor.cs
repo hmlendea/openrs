@@ -124,7 +124,7 @@ namespace OpenRS.Net.Client.Net
                 //        .ToByteArray();
                 //pubKey = keyFactory.generatePublic(new X509EncodedKeySpec());
             }
-            catch (Exception e) { }
+            catch { }
         }
 
         public byte[] packet;

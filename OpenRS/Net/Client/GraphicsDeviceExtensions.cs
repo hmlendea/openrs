@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -6,9 +7,10 @@ namespace OpenRS.Net.Client
 {
     public static class GraphicsDeviceExtensions
     {
-        private static readonly bool sbBegin;
         private static Color defaultColor { get; set; }
+
         private static SpriteFont defaultFont { get; set; }
+
         public static void FillRect(this SpriteBatch spriteBatch, Rectangle rect, Color color)
         {
             if (dummyTexture is null)
@@ -25,20 +27,11 @@ namespace OpenRS.Net.Client
             catch { }
         }
 
-        public static void SetColor(this SpriteBatch spriteBatch, Color color)
-        {
-            defaultColor = color;
-        }
+        public static void SetColor(this SpriteBatch spriteBatch, Color color) => defaultColor = color;
 
-        public static void SetFont(this SpriteBatch spriteBatch, SpriteFont font)
-        {
-            defaultFont = font;
-        }
+        public static void SetFont(this SpriteBatch spriteBatch, SpriteFont font) => defaultFont = font;
 
-        public static bool BeginIsActive(this SpriteBatch spriteBatch)
-        {
-            return sbBegin;
-        }
+        public static bool BeginIsActive(this SpriteBatch spriteBatch) => false;
 
         public static void DrawString(this SpriteBatch spriteBatch, string text, int x, int y)
         {

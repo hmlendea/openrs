@@ -67,7 +67,7 @@ public sealed class ChatMessage {
 
             return new string(chatMessage, 0, i);
         }
-        catch(Exception _ex) {
+        catch {
             return ".";
         }
     }
@@ -144,7 +144,7 @@ public sealed class ChatMessage {
 
             return new string(chatMessage, 0, i);
         }
-        catch (Exception _ex)
+        catch (Exception)
         {
             return ".";
         }

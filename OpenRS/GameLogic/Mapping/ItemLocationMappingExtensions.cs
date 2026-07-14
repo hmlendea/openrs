@@ -28,6 +28,7 @@ namespace OpenRS.GameLogic.Mapping
         internal static IEnumerable<ItemLocation> ToDomainModels(
             this IEnumerable<ItemLocationEntity> itemLocationEntities)
             => itemLocationEntities.Select(itemLocationEntity => itemLocationEntity.ToDomainModel());
+
         internal static IEnumerable<ItemLocationEntity> ToDataObjects(
             this IEnumerable<ItemLocation> itemLocations)
             => itemLocations.Select(itemLocation => itemLocation.ToDataObject());

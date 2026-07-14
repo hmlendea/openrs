@@ -1119,7 +1119,7 @@ namespace OpenRS.Net.Client.Game
                 DrawSpriteTransparent(ref pixels, pictureColors[index], 0, i2, j2, j3, l3, width, height, k2, l2, k1, byte0);
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception)
             {
                 logger.Error("Error in sprite clipping routine.");
             }
@@ -1273,7 +1273,7 @@ namespace OpenRS.Net.Client.Game
                 DrawSpriteFlipped(ref pixels, pictureColors[j1], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, k1);
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception)
             {
                 logger.Error("Error in sprite clipping routine.");
             }
@@ -1355,7 +1355,7 @@ namespace OpenRS.Net.Client.Game
                 DrawSpriteFlippedColorShifted(ref pixels, pictureColors[j1], 0, j2, k2, k3, i4, l, i1, l2, i3, l1, byte0, k1);
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception)
             {
                 logger.Error("Error in sprite clipping routine.");
             }
@@ -1530,7 +1530,7 @@ namespace OpenRS.Net.Client.Game
 
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception)
             {
                 logger.Error("Error in the plot_scale routine.");
             }
@@ -1621,7 +1621,7 @@ namespace OpenRS.Net.Client.Game
 
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception)
             {
                 logger.Error("Error in the tran_scale routine.");
             }
@@ -1670,7 +1670,7 @@ namespace OpenRS.Net.Client.Game
 
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception)
             {
                 logger.Error("Error in the plot_scale routine.");
             }
@@ -2200,7 +2200,7 @@ namespace OpenRS.Net.Client.Game
                     return;
                 }
             }
-            catch (Exception _ex)
+            catch (Exception)
             {
                 logger.Error("Error in sprite clipping routine.");
             }
@@ -2265,7 +2265,7 @@ namespace OpenRS.Net.Client.Game
 
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception)
             {
                 logger.Error("Error in transparent sprite plot routine.");
             }
@@ -2338,7 +2338,7 @@ namespace OpenRS.Net.Client.Game
 
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception)
             {
                 logger.Error("Error in transparent sprite plot routine.");
             }
@@ -2404,7 +2404,7 @@ namespace OpenRS.Net.Client.Game
 
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception)
             {
                 logger.Error("Error in transparent sprite plot routine.");
             }
@@ -2478,7 +2478,7 @@ namespace OpenRS.Net.Client.Game
 
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception)
             {
                 logger.Error("Error in transparent sprite plot routine.");
             }
@@ -2498,7 +2498,7 @@ namespace OpenRS.Net.Client.Game
         //            if (destX == 'f' || destX == 't' || destX == 'w' || destX == 'v' || destX == 'y' || destX == 'x' || destX == 'y' || destX == 'A' || destX == 'V' || destX == 'W')
         //                x += 1;
         //        }
-        //        catch (Exception _ex) { }
+        //        catch (Exception) { }
 
         //    // var ascent= _pixels.MeasureString(str)
 

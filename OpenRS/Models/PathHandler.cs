@@ -1,8 +1,8 @@
 ﻿using System;
 
-using NuciXNA.Primitives;
-
 using NuciLog.Core;
+
+using NuciXNA.Primitives;
 
 using OpenRS.Settings;
 

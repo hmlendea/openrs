@@ -840,7 +840,7 @@ namespace OpenRS.Net.Client
         //}
         // Virtual method overrides delegating to handler classes
         public override void LoadGame() => loader.LoadGame();
-        public override void InitVars() { loader.InitVars(); }
+        public override void InitVars() => loader.InitVars();
         public override void Close() => loader.Close();
         public override void LostConnection() => loader.LostConnection();
         public override sbyte[] UnpackData(string fileName, string fileTitle, int startPercentage) => loader.UnpackData(fileName, fileTitle, startPercentage);

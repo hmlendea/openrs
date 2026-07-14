@@ -37,7 +37,7 @@ namespace OpenRS.Gui.Helpers
 
         public static int MaximumSamples => 100;
 
-        public FramerateCounter()
+        private FramerateCounter()
         {
             sampleBuffer = new();
         }

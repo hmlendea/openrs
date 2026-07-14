@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using OpenRS.DataAccess.DataObjects;
@@ -39,10 +40,10 @@ namespace OpenRS.GameLogic.Mapping
             SpriteName = item.SpriteName,
             PictureMask = item.PictureMask,
             IsEquipable = item.IsEquipable,
-            IsPremium = item.IsPremium ? 1 : 0,
-            IsSpecial = item.IsSpecial ? 1 : 0,
-            IsStackable = item.IsStackable ? 1 : 0,
-            IsUnused = item.IsUnused ? 1 : 0
+            IsPremium = Convert.ToInt32(item.IsPremium),
+            IsSpecial = Convert.ToInt32(item.IsSpecial),
+            IsStackable = Convert.ToInt32(item.IsStackable),
+            IsUnused = Convert.ToInt32(item.IsUnused)
         };
 
         internal static IEnumerable<Item> ToDomainModels(

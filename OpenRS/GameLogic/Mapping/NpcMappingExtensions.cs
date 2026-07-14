@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using OpenRS.DataAccess.DataObjects;
@@ -59,8 +60,8 @@ namespace OpenRS.GameLogic.Mapping
             DefenceLevel = npc.DefenceLevel,
             StrengthLevel = npc.StrengthLevel,
             RespawnTime = npc.RespawnTime,
-            IsAttackable = npc.IsAttackable ? 1 : 0,
-            IsAggressive = npc.IsAggressive ? 1 : 0,
+            IsAttackable = Convert.ToInt32(npc.IsAttackable),
+            IsAggressive = Convert.ToInt32(npc.IsAggressive),
             Drops = npc.Drops?.ToDataObjects().ToArray()
         };
 

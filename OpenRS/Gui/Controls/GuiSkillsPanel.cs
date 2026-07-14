@@ -30,6 +30,7 @@ namespace OpenRS.Gui.Controls
         private GuiSkillCard magicCard;
         private GuiSkillCard fletchingCard;
         private GuiSkillCard woodcuttingCard;
+
         protected override void DoLoadContent()
         {
             attackCard = new GuiSkillCard { SkillIcon = "Icons/Skills/attack" };

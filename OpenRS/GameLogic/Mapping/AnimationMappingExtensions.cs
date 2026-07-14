@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using OpenRS.DataAccess.DataObjects;
@@ -23,8 +24,8 @@ namespace OpenRS.GameLogic.Mapping
             Name = animation.Name,
             CharacterColour = animation.CharacterColour,
             GenderModel = animation.GenderModel,
-            HasA = animation.HasA ? 1 : 0,
-            HasF = animation.HasF ? 1 : 0,
+            HasA = Convert.ToInt32(animation.HasA),
+            HasF = Convert.ToInt32(animation.HasF),
             Number = animation.Number
         };
 

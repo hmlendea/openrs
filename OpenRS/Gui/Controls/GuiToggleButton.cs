@@ -33,33 +33,29 @@ namespace OpenRS.Gui.Controls
         {
             for (int imageIndex = 0; imageIndex < images.Count; imageIndex += 1)
             {
+                images[imageIndex].TintColour = Colour.White;
+
                 if (IsToggled)
                 {
                     images[imageIndex].TintColour = ToggleColour;
                 }
-                else
-                {
-                    images[imageIndex].TintColour = Colour.White;
-                }
             }
         }
 
-        protected override Rectangle2D CalculateSourceRectangle(int x)
+        protected override Rectangle2D CalculateSourceRectangle(int sectionIndex)
         {
-            Rectangle2D rect = base.CalculateSourceRectangle(x);
+            Rectangle2D rect = base.CalculateSourceRectangle(sectionIndex);
 
             if (IsToggled && !IsHovered)
             {
-                return new Rectangle2D(
+                return new(
                     rect.X + 4 * ButtonTileSize.Width,
                     rect.Y,
                     rect.Width,
                     rect.Height);
             }
-            else
-            {
-                return rect;
-            }
+
+            return rect;
         }
     }
 }

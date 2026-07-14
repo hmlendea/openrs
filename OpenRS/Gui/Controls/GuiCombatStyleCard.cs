@@ -18,6 +18,7 @@ namespace OpenRS.Gui.Controls
         public string Icon { get; set; }
 
         public string CombatStyleName { get; set; }
+
         protected override void DoLoadContent()
         {
             background = new GuiImage { ContentFile = "Interface/combatcard" };

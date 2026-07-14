@@ -7,10 +7,10 @@ using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciLog.Core;
+
 using NuciXNA.Graphics;
 using NuciXNA.Gui.Controls;
-
-using NuciLog.Core;
 
 using OpenRS.Net.Client;
 using OpenRS.Net.Client.Events;

@@ -130,7 +130,7 @@ namespace OpenRS.Net.Client.Entities
                 GC.Collect();
                 return;
             }
-            catch (Exception _ex)
+            catch (Exception)
             {
                 return;
             }

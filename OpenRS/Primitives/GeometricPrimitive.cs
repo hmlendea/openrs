@@ -16,10 +16,7 @@ namespace OpenRS.Primitives
             new VertexElement(12, VertexElementFormat.Vector3, VertexElementUsage.Normal, 0)
         );
 
-        VertexDeclaration IVertexType.VertexDeclaration
-        {
-            get { return VertexDeclaration; }
-        }
+        readonly VertexDeclaration IVertexType.VertexDeclaration => VertexDeclaration;
     }
 
     public abstract class GeometricPrimitive : IDisposable
@@ -102,8 +99,7 @@ namespace OpenRS.Primitives
 
                 int primitiveCount = indices.Count / 3;
 
-                graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0,
-                                                     vertices.Count, 0, primitiveCount);
+                graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, primitiveCount);
             }
         }
 

@@ -17,6 +17,7 @@ namespace OpenRS.Gui.Screens
         private GuiImage backgroundImage;
         private GuiImage overlayImage;
         private GuiImage logoImage;
+
         public SplashScreen()
         {
             Delay = 3;

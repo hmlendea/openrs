@@ -13,6 +13,7 @@ namespace OpenRS.Gui.Screens
         private GuiMenuToggle fowToggle;
         private GuiMenuToggle roofsToggle;
         private GuiMenuLink backLink;
+
         protected override void DoLoadContent()
         {
             debugModeToggle = new GuiMenuToggle

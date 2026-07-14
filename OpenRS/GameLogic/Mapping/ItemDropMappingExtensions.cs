@@ -24,6 +24,7 @@ namespace OpenRS.GameLogic.Mapping
 
         internal static IEnumerable<ItemDrop> ToDomainModels(this IEnumerable<ItemDropEntity> itemDropEntities)
             => itemDropEntities?.Select(itemDropEntity => itemDropEntity.ToDomainModel());
+
         internal static IEnumerable<ItemDropEntity> ToDataObjects(this IEnumerable<ItemDrop> itemDrops)
             => itemDrops?.Select(itemDrop => itemDrop.ToDataObject());
     }

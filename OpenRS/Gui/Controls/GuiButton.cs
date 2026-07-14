@@ -14,9 +14,11 @@ namespace OpenRS.Gui.Controls
     public class GuiButton : GuiControl
     {
         public Size2D ButtonTileSize { get; set; }
+
         public Size2D ButtonSize => new(
             Size.Width / ButtonTileSize.Width,
             Size.Height / ButtonTileSize.Height);
+
         public string Text { get; set; }
 
         public string Icon { get; set; }
@@ -26,6 +28,7 @@ namespace OpenRS.Gui.Controls
         protected List<GuiImage> images;
         private GuiImage icon;
         private GuiText text;
+
         public GuiButton()
         {
             Texture = "Interface/button";
@@ -59,7 +62,9 @@ namespace OpenRS.Gui.Controls
         }
 
         protected override void DoUnloadContent() => UnregisterEvents();
+
         protected override void DoUpdate(GameTime gameTime) => SetChildrenProperties();
+
         protected override void DoDraw(SpriteBatch spriteBatch)
         {
         }

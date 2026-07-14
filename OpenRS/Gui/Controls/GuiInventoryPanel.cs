@@ -16,6 +16,7 @@ namespace OpenRS.Gui.Controls
         private static int Columns => 4;
 
         private GuiItemCard[] itemCards;
+
         protected override void DoLoadContent()
         {
             itemCards = new GuiItemCard[Rows * Columns];

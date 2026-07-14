@@ -34,10 +34,7 @@ namespace OpenRS
             IsMouseVisible = true;
         }
 
-        protected override void Initialize()
-        {
-            base.Initialize();
-        }
+        protected override void Initialize() => base.Initialize();
 
         protected override void LoadContent()
         {
@@ -55,10 +52,7 @@ namespace OpenRS
             ScreenManager.Instance.LoadContent();
         }
 
-        protected override void UnloadContent()
-        {
-            ScreenManager.Instance.UnloadContent();
-        }
+        protected override void UnloadContent() => ScreenManager.Instance.UnloadContent();
 
         protected override void Update(GameTime gameTime)
         {

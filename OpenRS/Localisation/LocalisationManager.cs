@@ -40,7 +40,7 @@ namespace OpenRS.Localisation
         {
             string current = value;
 
-            for (int depth = 0; depth < MaxResolutionDepth; depth++)
+            for (int depth = 0; depth < MaxResolutionDepth; depth += 1)
             {
                 if (!current.StartsWith(ReferencePrefix))
                 {

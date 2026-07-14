@@ -32,6 +32,7 @@ namespace OpenRS.Gui.Controls
         private GuiToggleButton prayerButton;
         private GuiToggleButton spellsButton;
         private GuiToggleButton exitButton;
+
         protected override void DoLoadContent()
         {
             background = new GuiImage

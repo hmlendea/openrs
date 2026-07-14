@@ -27,16 +27,27 @@ namespace OpenRS.GameLogic.GameManagers
         private static int MaximumObjectModelCount => 5000;
 
         public int AnimationCount => animations.Count;
+
         public int ElevationCount => elevations.Count;
+
         public int ItemCount => items.Count;
+
         public int NpcCount => npcs.Count;
+
         public int ObjectModelCount => GameData.modelCount;
+
         public int PrayerCount => prayers.Count;
+
         public int SpellCount => spells.Count;
+
         public int SpellProjectileCount { get; private set; }
+
         public int TextureCount => textures.Count;
+
         public int TileCount => tiles.Count;
+
         public int WallObjectCount => wallObjects.Count;
+
         public int WorldObjectCount => worldObjects.Count;
 
         public int HighestLoadedPicture { get; private set; }

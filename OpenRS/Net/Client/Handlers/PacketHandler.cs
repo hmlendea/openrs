@@ -1505,35 +1505,174 @@ namespace OpenRS.Net.Client.Handlers
                     logger.Debug("Received packet 110 (server info).");
                     return;
                 }
-                // Spell counts and quest progress — 2-byte value packets, silently accepted
-                if (packetID == 210 || packetID == 212 || packetID == 213) { return; } // Guthix/Zamorak/Saradomin spells
-                if (packetID == 128) { return; } // QuestPointsChange
-                if (packetID == 134) { return; } // Deaths
-                if (packetID == 137) { return; } // DruidicRitual
-                if (packetID == 138) { return; } // ImpCatcher
-                if (packetID == 141) { return; } // SheepShearer
-                if (packetID == 143) { return; } // DoricQuest
-                if (packetID == 132) { return; } // Kills
-                if (packetID == 140) { return; } // RomeoAndJuliet
-                if (packetID == 142) { return; } // WitchPotion
-                if (packetID == 144) { return; } // CookAssistant
-                if (packetID == 133) { return; } // PirateTreasure
-                if (packetID == 139) { return; } // BlackKnightsForte
-                if (packetID == 146) { return; } // RestlessGhost
-                if (packetID == 149) { return; } // ErnestTheChicken
-                if (packetID == 150) { return; } // Goblintown
-                if (packetID == 151) { return; } // MinersBlazonQuest
-                if (packetID == 173) { return; } // VampireSlayer
-                if (packetID == 174) { return; } // MilleniumItemQuest
-                if (packetID == 175) { return; } // KnightsSword
-                if (packetID == 202) { return; } // GoblinDiplomacy
-                if (packetID == 203) { return; } // TheGrandTree
-                if (packetID == 204) { return; } // FightArena
-                if (packetID == 205) { return; } // Hazeel
-                if (packetID == 214) { return; } // HolyGrail
-                if (packetID == 215) { return; } // MerlinsCrystal
-                if (packetID == 216) { return; } // LostCity
-                if (packetID == 217) { return; } // WitchHouse
+                // Spell counts and quest progress - 2-byte value packets, silently accepted.
+                if (packetID == 210 || packetID == 212 || packetID == 213)
+                {
+                    // Guthix/Zamorak/Saradomin spells.
+                    return;
+                }
+
+                if (packetID == 128)
+                {
+                    // QuestPointsChange.
+                    return;
+                }
+
+                if (packetID == 134)
+                {
+                    // Deaths.
+                    return;
+                }
+
+                if (packetID == 137)
+                {
+                    // DruidicRitual.
+                    return;
+                }
+
+                if (packetID == 138)
+                {
+                    // ImpCatcher.
+                    return;
+                }
+
+                if (packetID == 141)
+                {
+                    // SheepShearer.
+                    return;
+                }
+
+                if (packetID == 143)
+                {
+                    // DoricQuest.
+                    return;
+                }
+
+                if (packetID == 132)
+                {
+                    // Kills.
+                    return;
+                }
+
+                if (packetID == 140)
+                {
+                    // RomeoAndJuliet.
+                    return;
+                }
+
+                if (packetID == 142)
+                {
+                    // WitchPotion.
+                    return;
+                }
+
+                if (packetID == 144)
+                {
+                    // CookAssistant.
+                    return;
+                }
+
+                if (packetID == 133)
+                {
+                    // PirateTreasure.
+                    return;
+                }
+
+                if (packetID == 139)
+                {
+                    // BlackKnightsForte.
+                    return;
+                }
+
+                if (packetID == 146)
+                {
+                    // RestlessGhost.
+                    return;
+                }
+
+                if (packetID == 149)
+                {
+                    // ErnestTheChicken.
+                    return;
+                }
+
+                if (packetID == 150)
+                {
+                    // Goblintown.
+                    return;
+                }
+
+                if (packetID == 151)
+                {
+                    // MinersBlazonQuest.
+                    return;
+                }
+
+                if (packetID == 173)
+                {
+                    // VampireSlayer.
+                    return;
+                }
+
+                if (packetID == 174)
+                {
+                    // MilleniumItemQuest.
+                    return;
+                }
+
+                if (packetID == 175)
+                {
+                    // KnightsSword.
+                    return;
+                }
+
+                if (packetID == 202)
+                {
+                    // GoblinDiplomacy.
+                    return;
+                }
+
+                if (packetID == 203)
+                {
+                    // TheGrandTree.
+                    return;
+                }
+
+                if (packetID == 204)
+                {
+                    // FightArena.
+                    return;
+                }
+
+                if (packetID == 205)
+                {
+                    // Hazeel.
+                    return;
+                }
+
+                if (packetID == 214)
+                {
+                    // HolyGrail.
+                    return;
+                }
+
+                if (packetID == 215)
+                {
+                    // MerlinsCrystal.
+                    return;
+                }
+
+                if (packetID == 216)
+                {
+                    // LostCity.
+                    return;
+                }
+
+                if (packetID == 217)
+                {
+                    // WitchHouse.
+                    return;
+                }
                 logger.Warn(
                     "Unhandled packet.",
                     new LogInfo(GameLogInfoKey.PacketId, packetID),

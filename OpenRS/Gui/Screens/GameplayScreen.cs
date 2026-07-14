@@ -18,10 +18,13 @@ namespace OpenRS.Gui.Screens
     {
         private GameClient gameClient;
         private Thread gameThread;
+
         public GuiSideBar SideBar { get; set; }
 
         public GuiChatPanel ChatPanel { get; set; }
+
         public GuiGame GuiGame { get; set; }
+
         protected override void DoLoadContent()
         {
             gameClient = GameClient.CreateGameClient(username, password, 512, 334);
