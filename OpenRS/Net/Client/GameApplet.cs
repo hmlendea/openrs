@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 using NuciLog.Core;
 
+using OpenRS.Logging;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 using OpenRS.Settings;
@@ -35,7 +36,7 @@ namespace OpenRS.Net.Client
 
         public void CreateWindow(int width, int height, string title, bool resizable)
         {
-            logger.Info("The application has started.");
+            logger.Info(GameOperation.Startup, "The application has started.");
             appletWidth = width;
             appletHeight = height;
             gameFrame = new GameFrame(this, width, height, title, resizable, false);
@@ -285,7 +286,7 @@ namespace OpenRS.Net.Client
 
         public void Init()
         {
-            logger.Info("The applet has started.");
+            logger.Info(GameOperation.Startup, "The applet has started.");
             appletWidth = 512;
             appletHeight = 344;
             gameLoadingScreen = 1;
@@ -320,7 +321,7 @@ namespace OpenRS.Net.Client
 
             if (runStatus == -1)
             {
-                logger.Warn("The 2-second timeout has expired, forcing kill.");
+                logger.Warn(GameOperation.ForceShutdown, "The 2-second timeout has expired, forcing kill.");
                 CloseProgram();
                 gameWindowThread?.Interrupt();
                 gameWindowThread = null;
@@ -330,7 +331,7 @@ namespace OpenRS.Net.Client
         public void CloseProgram()
         {
             runStatus = -2;
-            logger.Info("The program is closing.");
+            logger.Info(GameOperation.Shutdown, "The program is closing.");
             Close();
 
             try
@@ -541,7 +542,7 @@ namespace OpenRS.Net.Client
 
         public virtual sbyte[] UnpackData(string filename, string fileTitle, int startPercentage)
         {
-            logger.Debug("Using default load.");
+            logger.Debug(GameOperation.UnpackData, "Using default load.");
             int decompressedSize = 0;
             int compressedSize = 0;
             sbyte[] fileData = Link.GetFile(filename);
@@ -551,6 +552,7 @@ namespace OpenRS.Net.Client
                 try
                 {
                     logger.Debug(
+                        GameOperation.UnpackData,
                         "Loading file.",
                         new LogInfo(GameLogInfoKey.FileName, fileTitle),
                         new LogInfo(GameLogInfoKey.LoadProgress, 0));
@@ -564,6 +566,7 @@ namespace OpenRS.Net.Client
                     compressedSize = ((headerBytes[3] & 0xff) << 16) + ((headerBytes[4] & 0xff) << 8) + (headerBytes[5] & 0xff);
 
                     logger.Debug(
+                        GameOperation.UnpackData,
                         "Loading file.",
                         new LogInfo(GameLogInfoKey.FileName, fileTitle),
                         new LogInfo(GameLogInfoKey.LoadProgress, 5));
@@ -588,6 +591,7 @@ namespace OpenRS.Net.Client
 
                         bytesRead += chunkSize;
                         logger.Debug(
+                            GameOperation.UnpackData,
                             "Loading file.",
                             new LogInfo(GameLogInfoKey.FileName, fileTitle),
                             new LogInfo(GameLogInfoKey.LoadProgress, 5 + bytesRead * 95 / compressedSize));
@@ -599,7 +603,10 @@ namespace OpenRS.Net.Client
                 catch (IOException) { }
             }
 
-            logger.Debug("Unpacking file.", new LogInfo(GameLogInfoKey.FileName, fileTitle));
+            logger.Debug(
+                GameOperation.UnpackData,
+                "Unpacking file.",
+                new LogInfo(GameLogInfoKey.FileName, fileTitle));
             DrawLoadingBarText(startPercentage, "Unpacking " + fileTitle);
 
             if (compressedSize != decompressedSize)
@@ -636,6 +643,7 @@ namespace OpenRS.Net.Client
         public void MouseScroll(bool begin, int scrollAmount)
         {
             logger.Verbose(
+                GameOperation.ProcessInput,
                 "Mouse scroll event.",
                 new LogInfo(GameLogInfoKey.ScrollBegin, begin),
                 new LogInfo(GameLogInfoKey.ScrollAmount, scrollAmount));

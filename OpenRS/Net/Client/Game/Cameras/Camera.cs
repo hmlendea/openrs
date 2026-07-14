@@ -2,6 +2,7 @@
 
 using NuciLog.Core;
 
+using OpenRS.Logging;
 using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Game.Cameras
@@ -100,7 +101,7 @@ namespace OpenRS.Net.Client.Game.Cameras
         {
             if (gameObject is null)
             {
-                logger.Warn("Attempted to add a null object.");
+                logger.Warn(GameOperation.AddSceneObject, "Attempted to add a null object.");
             }
 
             if (currentObjectCount < totalModelCount)

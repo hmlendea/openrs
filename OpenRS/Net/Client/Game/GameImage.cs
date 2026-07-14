@@ -8,6 +8,7 @@ using NuciXNA.Primitives;
 
 using NuciLog.Core;
 
+using OpenRS.Logging;
 using OpenRS.Net.Client.Data;
 using OpenRS.Settings;
 
@@ -717,7 +718,7 @@ namespace OpenRS.Net.Client.Game
             catch (Exception e)
             {
                 //e.printStackTrace();
-                logger.Error("An error has occurred while applying the image.", e);
+                logger.Error(GameOperation.RenderSprite, "An error has occurred while applying the image.", e);
             }
 
         }
@@ -1121,7 +1122,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                logger.Error("Error in sprite clipping routine.");
+                logger.Error(GameOperation.RenderEntity, "Error in sprite clipping routine.");
             }
         }
 
@@ -1275,7 +1276,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                logger.Error("Error in sprite clipping routine.");
+                logger.Error(GameOperation.RenderImage, "Error in sprite clipping routine.");
             }
         }
 
@@ -1357,7 +1358,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                logger.Error("Error in sprite clipping routine.");
+                logger.Error(GameOperation.RenderCharacter, "Error in sprite clipping routine.");
             }
         }
 
@@ -1532,7 +1533,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                logger.Error("Error in the plot_scale routine.");
+                logger.Error(GameOperation.RenderSprite, "Error in the plot_scale routine.");
             }
         }
 
@@ -1623,7 +1624,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                logger.Error("Error in the tran_scale routine.");
+                logger.Error(GameOperation.RenderSprite, "Error in the tran_scale routine.");
             }
         }
 
@@ -1672,7 +1673,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                logger.Error("Error in the plot_scale routine.");
+                logger.Error(GameOperation.RenderSprite, "Error in the plot_scale routine.");
             }
         }
 
@@ -2202,7 +2203,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                logger.Error("Error in sprite clipping routine.");
+                logger.Error(GameOperation.RenderImage, "Error in sprite clipping routine.");
             }
         }
 
@@ -2267,7 +2268,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                logger.Error("Error in transparent sprite plot routine.");
+                logger.Error(GameOperation.RenderSprite, "Error in transparent sprite plot routine.");
             }
         }
 
@@ -2340,7 +2341,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                logger.Error("Error in transparent sprite plot routine.");
+                logger.Error(GameOperation.RenderSprite, "Error in transparent sprite plot routine.");
             }
         }
 
@@ -2406,7 +2407,9 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                logger.Error("Error in transparent sprite plot routine.");
+                logger.Error(
+                    GameOperation.RenderSprite,
+                    "Error in transparent sprite plot routine.");
             }
         }
 
@@ -2480,7 +2483,9 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                logger.Error("Error in transparent sprite plot routine.");
+                logger.Error(
+                    GameOperation.RenderSprite,
+                    "Error in transparent sprite plot routine.");
             }
         }
 
@@ -2689,7 +2694,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception exception)
             {
-                logger.Error("Error in the centrepara routine.", exception);
+                logger.Error(GameOperation.RenderText, "Error in the centrepara routine.", exception);
                 //exception.printStackTrace();
             }
         }
@@ -2856,7 +2861,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception exception)
             {
-                logger.Error("Error in the drawstring routine.", exception);
+                logger.Error(GameOperation.RenderText, "Error in the drawstring routine.", exception);
                 // exception.printStackTrace();
                 return;
             }
@@ -2981,7 +2986,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception exception)
             {
-                logger.Error("Error in the plotletter routine.", exception);
+                logger.Error(GameOperation.RenderText, "Error in the plotletter routine.", exception);
                 //exception.printStackTrace();
                 return;
             }

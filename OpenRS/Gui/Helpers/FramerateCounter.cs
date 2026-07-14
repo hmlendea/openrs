@@ -9,6 +9,8 @@ namespace OpenRS.Gui.Helpers
         private static volatile FramerateCounter instance;
         private static readonly Lock syncRoot = new();
 
+        private static float OneSecond => 1.0f;
+
         private readonly Queue<float> sampleBuffer;
 
         public static FramerateCounter Instance
@@ -39,12 +41,12 @@ namespace OpenRS.Gui.Helpers
 
         private FramerateCounter()
         {
-            sampleBuffer = new();
+            sampleBuffer = new Queue<float>();
         }
 
         public void Update(float deltaTime)
         {
-            CurrentFramesPerSecond = 1.0f / deltaTime;
+            CurrentFramesPerSecond = OneSecond / deltaTime;
 
             sampleBuffer.Enqueue(CurrentFramesPerSecond);
 

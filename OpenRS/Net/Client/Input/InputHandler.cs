@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 using NuciLog.Core;
 
+using OpenRS.Logging;
 using OpenRS.Net.Client.Game;
 using OpenRS.Settings;
 
@@ -296,7 +297,7 @@ namespace OpenRS.Net.Client.Input
             }
             catch (Exception exception)
             {
-                logger.Error("The CheckInputs call has failed.", exception);
+                logger.Error(GameOperation.ProcessInput, "The CheckInputs call has failed.", exception);
                 client.CleanUp();
                 client.memoryError = true;
             }

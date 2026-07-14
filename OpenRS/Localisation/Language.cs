@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace OpenRS.Localisation
 {
-    public class Language : IEquatable<Language>
+    public sealed class Language : IEquatable<Language>
     {
         private static readonly Dictionary<string, Language> values = new()
         {
@@ -27,12 +27,14 @@ namespace OpenRS.Localisation
 
         public static Language FromString(string name)
         {
-            if (!values.ContainsKey(name))
+            Language language = English;
+
+            if (values.TryGetValue(name, out Language found))
             {
-                return English;
+                language = found;
             }
 
-            return values[name];
+            return language;
         }
 
         public bool Equals(Language other)
@@ -47,7 +49,7 @@ namespace OpenRS.Localisation
                 return true;
             }
 
-            return string.Equals(Name, other.Name);
+            return string.Equals(Name, other.Name, StringComparison.Ordinal);
         }
 
         public override bool Equals(object obj)

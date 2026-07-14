@@ -5,6 +5,7 @@ using System.Text;
 using NuciLog.Core;
 
 using OpenRS.GameLogic.GameManagers;
+using OpenRS.Logging;
 using OpenRS.Localisation;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Events;
@@ -576,6 +577,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
             }
 
             logger.Info(
+                GameOperation.LoadAnimations,
                 "Loaded animation frames.",
                 new LogInfo(GameLogInfoKey.AnimationFrameCount, frameCount));
         }
@@ -884,6 +886,7 @@ client.RaiseOnLoadingSection(this, new EventArgs());
                 catch (Exception runtimeexception)
                 {
                     logger.Error(
+                        GameOperation.LoadSection,
                         "Location error for object.",
                         runtimeexception,
                         new LogInfo(GameLogInfoKey.CoordinateX, j2));
@@ -907,7 +910,10 @@ client.RaiseOnLoadingSection(this, new EventArgs());
                 }
                 catch (Exception runtimeexception1)
                 {
-                    logger.Error("Boundary error while creating wall object.", runtimeexception1);
+                    logger.Error(
+                        GameOperation.LoadSection,
+                        "Boundary error while creating wall object.",
+                        runtimeexception1);
                     //runtimeexception1.printStackTrace();
                 }
             }

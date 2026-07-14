@@ -14,15 +14,17 @@ namespace OpenRS.Gui.Controls
 
         private static int Columns => 4;
 
+        private static int SlotCount => Rows * Columns;
+
         private GuiItemCard[] itemCards;
 
         protected override void DoLoadContent()
         {
-            itemCards = new GuiItemCard[Rows * Columns];
+            itemCards = new GuiItemCard[SlotCount];
 
-            for (int slotIndex = 0; slotIndex < Rows * Columns; slotIndex += 1)
+            for (int slotIndex = 0; slotIndex < SlotCount; slotIndex += 1)
             {
-                itemCards[slotIndex] = new();
+                itemCards[slotIndex] = new GuiItemCard();
             }
 
             RegisterChildren(itemCards);
@@ -48,13 +50,14 @@ namespace OpenRS.Gui.Controls
             int spacingX = (Size.Width - Columns * itemCards[0].Size.Width) / (Columns + 1);
             int spacingY = (Size.Height - Rows * itemCards[0].Size.Height) / (Rows + 1);
 
-            for (int slotIndex = 0; slotIndex < Rows * Columns; slotIndex += 1)
+            for (int slotIndex = 0; slotIndex < SlotCount; slotIndex += 1)
             {
                 int columnIndex = slotIndex % Columns;
                 int rowIndex = slotIndex / Columns;
 
                 itemCards[slotIndex].Location = new(
-                    spacingX * (columnIndex + 1) + itemCards[slotIndex].Size.Width * columnIndex,
+                    spacingX * (columnIndex + 1) +
+                        itemCards[slotIndex].Size.Width * columnIndex,
                     spacingY * (rowIndex + 1) + itemCards[slotIndex].Size.Height * rowIndex);
             }
         }
@@ -66,13 +69,13 @@ namespace OpenRS.Gui.Controls
                 return;
             }
 
-            for (int itemSlot = 0; itemSlot < Rows * Columns; itemSlot += 1)
+            for (int slotIndex = 0; slotIndex < SlotCount; slotIndex += 1)
             {
-                InventoryItem inventoryItem = client.inventoryManager.GetItem(itemSlot);
+                InventoryItem inventoryItem = client.inventoryManager.GetItem(slotIndex);
                 Item item = client.entityManager.GetItem(inventoryItem.Index);
 
-                itemCards[itemSlot].SpriteName = item.SpriteName;
-                itemCards[itemSlot].Quantity = inventoryItem.Quantity;
+                itemCards[slotIndex].SpriteName = item.SpriteName;
+                itemCards[slotIndex].Quantity = inventoryItem.Quantity;
             }
         }
     }

@@ -6,6 +6,8 @@ namespace OpenRS.Gui.Controls
 {
     public sealed class GuiToggleButton : GuiButton
     {
+        private static int ToggledSectionOffset => 4;
+
         public bool IsToggled { get; set; }
 
         public Colour ToggleColour { get; set; }
@@ -48,8 +50,8 @@ namespace OpenRS.Gui.Controls
 
             if (IsToggled && !IsHovered)
             {
-                return new(
-                    rect.X + 4 * ButtonTileSize.Width,
+                return new Rectangle2D(
+                    rect.X + ToggledSectionOffset * ButtonTileSize.Width,
                     rect.Y,
                     rect.Width,
                     rect.Height);

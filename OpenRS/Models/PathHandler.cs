@@ -4,6 +4,7 @@ using NuciLog.Core;
 
 using NuciXNA.Primitives;
 
+using OpenRS.Logging;
 using OpenRS.Settings;
 
 namespace OpenRS.Models
@@ -157,7 +158,10 @@ namespace OpenRS.Models
             }
             catch (Exception ex)
             {
-                logger.Error("Failed to calculate the next path location.", ex);
+                logger.Error(
+                    GameOperation.CalculatePath,
+                    "Failed to calculate the next path location.",
+                    ex);
             }
 
             return start;

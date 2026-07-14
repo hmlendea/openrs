@@ -7,6 +7,7 @@ using System.Threading;
 
 using NuciLog.Core;
 
+using OpenRS.Logging;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 using OpenRS.Net.Client.Net;
@@ -56,7 +57,10 @@ namespace OpenRS.Net.Client
             }
             catch (Exception exception)
             {
-                logger.Error("Failed to initiate the connection.", exception);
+                logger.Error(
+                    GameOperation.Connect,
+                    "Failed to initiate the connection.",
+                    exception);
             }
 
         }
@@ -107,7 +111,10 @@ namespace OpenRS.Net.Client
             catch (Exception ex)
             {
                 LoginScreenPrint("Unable to Connect.", "Server timed out");
-                logger.Error("Failed to read the session ID.", ex);
+                logger.Error(
+                    GameOperation.Authenticate,
+                    "Failed to read the session ID.",
+                    ex);
                 streamClass.CloseStream();
                 return;
             }
@@ -117,6 +124,7 @@ namespace OpenRS.Net.Client
             }
 
             logger.Debug(
+                GameOperation.Authenticate,
                 "Session ID received.",
                 new LogInfo(GameLogInfoKey.SessionId, sessionId));
             int[] sessionKeys =
@@ -159,6 +167,7 @@ namespace OpenRS.Net.Client
                 return;
             }
             logger.Debug(
+                GameOperation.Authenticate,
                 "Login response received.",
                 new LogInfo(GameLogInfoKey.LoginResponseCode, loginCode));
 
@@ -258,7 +267,7 @@ namespace OpenRS.Net.Client
 
         public virtual void LostConnection()
         {
-            logger.Warn("Lost connection.");
+            logger.Warn(GameOperation.LostConnection);
             // Connect(username, password, true);
             LoginScreenPrint("Please enter your usename and password", "");
         }

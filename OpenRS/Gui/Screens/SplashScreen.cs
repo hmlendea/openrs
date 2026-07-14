@@ -113,6 +113,6 @@ namespace OpenRS.Gui.Screens
 
         private void OnMouseButtonPressed(object sender, MouseButtonEventArgs e) => ChangeScreens();
 
-        private void ChangeScreens() => ScreenManager.Instance.ChangeScreens(typeof(TitleScreen));
+        private void ChangeScreens() => ScreenManager.Instance.ChangeScreens(typeof(GameplayScreen));
     }
 }

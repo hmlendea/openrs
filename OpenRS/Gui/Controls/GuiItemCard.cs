@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using System;
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using NuciXNA.DataAccess.Content;
 using NuciXNA.Graphics.Drawing;
 using NuciXNA.Gui.Controls;
 using NuciXNA.Primitives;
@@ -11,7 +13,11 @@ namespace OpenRS.Gui.Controls
     {
         private static string ItemSpritePathPrefix => "sprites/items/";
 
-        private static Size2D IconSize => new(48, 32);
+        private static string SlotBackgroundContentFile => "ScreenManager/FillImage";
+        private static string QuantityFontName => "ItemCardFont";
+        private static int QuantityTextHeight => 10;
+        private static int DefaultCardSize => 36;
+        private static int IconRenderSize => 32;
 
         private GuiImage slotBackground;
         private GuiImage icon;
@@ -23,7 +29,7 @@ namespace OpenRS.Gui.Controls
 
         public GuiItemCard()
         {
-            Size = new(36, 36);
+            Size = new Size2D(DefaultCardSize, DefaultCardSize);
         }
 
         protected override void DoLoadContent()
@@ -31,18 +37,18 @@ namespace OpenRS.Gui.Controls
             slotBackground = new GuiImage
             {
                 Size = Size,
-                ContentFile = "ScreenManager/FillImage",
+                ContentFile = SlotBackgroundContentFile,
                 TintColour = new Colour(30, 20, 10)
             };
             icon = new GuiImage
             {
-                Size = new(32, 32),
-                ContentFile = "ScreenManager/missing-texture"
+                Size = new Size2D(IconRenderSize, IconRenderSize),
+                ContentFile = NuciContentManager.MissingTexturePlaceholder
             };
             quantity = new GuiText
             {
-                Size = new(Size.Width, 10),
-                FontName = "ItemCardFont",
+                Size = new Size2D(Size.Width, QuantityTextHeight),
+                FontName = QuantityFontName,
                 FontOutline = FontOutline.BottomRight,
                 VerticalAlignment = Alignment.Beginning,
                 HorizontalAlignment = Alignment.Beginning
@@ -64,16 +70,22 @@ namespace OpenRS.Gui.Controls
 
         private void SetChildrenProperties()
         {
+            UpdateIconProperties();
+            UpdateQuantityProperties();
+        }
+
+        private void UpdateIconProperties()
+        {
             if (Quantity > 0 && !string.IsNullOrEmpty(SpriteName))
             {
                 string contentFile = ItemSpritePathPrefix + SpriteName;
 
-                if (!string.Equals(icon.ContentFile, contentFile, System.StringComparison.Ordinal))
+                if (!string.Equals(icon.ContentFile, contentFile, StringComparison.Ordinal))
                 {
                     icon.ContentFile = contentFile;
                 }
 
-                icon.Location = new(
+                icon.Location = new Point2D(
                     (Size.Width - icon.Size.Width) / 2,
                     (Size.Height - icon.Size.Height) / 2);
 
@@ -86,10 +98,13 @@ namespace OpenRS.Gui.Controls
             {
                 icon.Hide();
             }
+        }
 
+        private void UpdateQuantityProperties()
+        {
             if (Quantity > 1)
             {
-                quantity.Location = new(0, 0);
+                quantity.Location = Point2D.Empty;
                 quantity.Text = Quantity.ToString();
 
                 if (!quantity.IsVisible)

@@ -12,6 +12,7 @@ using NuciLog.Core;
 using NuciXNA.Graphics;
 using NuciXNA.Gui.Controls;
 
+using OpenRS.Logging;
 using OpenRS.Net.Client;
 using OpenRS.Net.Client.Events;
 using OpenRS.Net.Client.Game;
@@ -174,7 +175,10 @@ namespace OpenRS.Gui.Controls
             }
             catch (Exception ex)
             {
-                logger.Error("An error has occurred while drawing the game.", ex);
+                logger.Error(
+                    GameOperation.RenderGame,
+                    "An error has occurred while drawing the game.",
+                    ex);
             }
         }
 
@@ -227,6 +231,7 @@ namespace OpenRS.Gui.Controls
             if (!File.Exists(pngPath))
             {
                 logger.Warn(
+                    GameOperation.LoadItemTexture,
                     "Item texture file not found.",
                     new LogInfo(GameLogInfoKey.FilePath, pngPath));
                 itemTextureCache[spriteName] = null;
@@ -247,6 +252,7 @@ namespace OpenRS.Gui.Controls
             catch (Exception loadException)
             {
                 logger.Error(
+                    GameOperation.LoadItemTexture,
                     "Failed to load item texture.",
                     loadException,
                     new LogInfo(GameLogInfoKey.FilePath, pngPath));
@@ -313,7 +319,10 @@ namespace OpenRS.Gui.Controls
             }
             catch (Exception ex)
             {
-                logger.Error("An error has occurred while drawing the game.", ex);
+                logger.Error(
+                    GameOperation.RenderGame,
+                    "An error has occurred while drawing the game.",
+                    ex);
 
                 gameClient.UnloadContent();
                 gameClient.memoryError = true;

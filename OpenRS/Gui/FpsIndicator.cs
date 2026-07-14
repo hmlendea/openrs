@@ -6,24 +6,23 @@ using Microsoft.Xna.Framework.Graphics;
 using NuciXNA.DataAccess.Content;
 
 using OpenRS.Gui.Helpers;
+using OpenRS.Localisation;
 using OpenRS.Settings;
 
 namespace OpenRS.Gui
 {
     public sealed class FpsIndicator
     {
+        private static string FontContentFile => "Fonts/FrameCounterFont";
+        private static string FpsTextPrefix => $"{LocalisationManager.GetString("ui.fps")}: ";
+        private static Vector2 DrawPosition => new(1, 1);
+
         private GameTime currentGameTime;
         private SpriteFont framesPerSecondFont;
         private string framesPerSecondText;
 
-        public Vector2 Location { get; set; }
-
-        public FpsIndicator()
-        {
-            Location = Vector2.Zero;
-        }
-
-        public void LoadContent() => framesPerSecondFont = NuciContentManager.Instance.LoadSpriteFont("Fonts/FrameCounterFont");
+        public void LoadContent() =>
+            framesPerSecondFont = NuciContentManager.Instance.LoadSpriteFont(FontContentFile);
 
         public void UnloadContent() { }
 
@@ -31,7 +30,8 @@ namespace OpenRS.Gui
         {
             currentGameTime = gameTime;
 
-            framesPerSecondText = $"FPS: {Math.Round(FramerateCounter.Instance.AverageFramesPerSecond)}";
+            framesPerSecondText =
+                $"{FpsTextPrefix}{Math.Round(FramerateCounter.Instance.AverageFramesPerSecond)}";
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -41,7 +41,11 @@ namespace OpenRS.Gui
 
             if (SettingsManager.Instance.DebugMode)
             {
-                spriteBatch.DrawString(framesPerSecondFont, framesPerSecondText, new Vector2(1, 1), Color.Lime);
+                spriteBatch.DrawString(
+                    framesPerSecondFont,
+                    framesPerSecondText,
+                    DrawPosition,
+                    Color.Lime);
             }
         }
     }

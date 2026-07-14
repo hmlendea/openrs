@@ -2,14 +2,38 @@
 using Microsoft.Xna.Framework.Graphics;
 
 using NuciXNA.Gui.Controls;
+using NuciXNA.Primitives;
 
+using OpenRS.Models;
 using OpenRS.Net.Client;
 
 namespace OpenRS.Gui.Controls
 {
     public sealed class GuiSkillsPanel(GameClient client) : GuiControl
     {
-        private readonly GameClient client = client;
+        private static string SkillIconPathPrefix => "Icons/Skills/";
+
+        private static int CardSpacing => 1;
+        private static int ColumnCount => 3;
+
+        private static int AttackSkillIndex => 0;
+        private static int DefenceSkillIndex => 1;
+        private static int StrengthSkillIndex => 2;
+        private static int HealthSkillIndex => 3;
+        private static int RangedSkillIndex => 4;
+        private static int PrayerSkillIndex => 5;
+        private static int MagicSkillIndex => 6;
+        private static int CookingSkillIndex => 7;
+        private static int WoodcuttingSkillIndex => 8;
+        private static int FletchingSkillIndex => 9;
+        private static int FishingSkillIndex => 10;
+        private static int FiremakingSkillIndex => 11;
+        private static int CraftingSkillIndex => 12;
+        private static int SmithingSkillIndex => 13;
+        private static int MiningSkillIndex => 14;
+        private static int HerbloreSkillIndex => 15;
+        private static int AgilitySkillIndex => 16;
+        private static int ThievingSkillIndex => 17;
 
         private GuiSkillCard attackCard;
         private GuiSkillCard healthCard;
@@ -32,24 +56,24 @@ namespace OpenRS.Gui.Controls
 
         protected override void DoLoadContent()
         {
-            attackCard = new GuiSkillCard { SkillIcon = "Icons/Skills/attack" };
-            healthCard = new GuiSkillCard { SkillIcon = "Icons/Skills/health" };
-            miningCard = new GuiSkillCard { SkillIcon = "Icons/Skills/mining" };
-            strengthCard = new GuiSkillCard { SkillIcon = "Icons/Skills/strength" };
-            agilityCard = new GuiSkillCard { SkillIcon = "Icons/Skills/agility" };
-            smithingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/smithing" };
-            defenceCard = new GuiSkillCard { SkillIcon = "Icons/Skills/defence" };
-            herbloreCard = new GuiSkillCard { SkillIcon = "Icons/Skills/herblore" };
-            fishingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/fishing" };
-            rangedCard = new GuiSkillCard { SkillIcon = "Icons/Skills/ranged" };
-            thievingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/thieving" };
-            cookingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/cooking" };
-            prayerCard = new GuiSkillCard { SkillIcon = "Icons/Skills/prayer" };
-            craftingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/crafting" };
-            firemakingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/firemaking" };
-            magicCard = new GuiSkillCard { SkillIcon = "Icons/Skills/magic" };
-            fletchingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/fletching" };
-            woodcuttingCard = new GuiSkillCard { SkillIcon = "Icons/Skills/woodcutting" };
+            attackCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "attack" };
+            healthCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "health" };
+            miningCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "mining" };
+            strengthCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "strength" };
+            agilityCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "agility" };
+            smithingCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "smithing" };
+            defenceCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "defence" };
+            herbloreCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "herblore" };
+            fishingCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "fishing" };
+            rangedCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "ranged" };
+            thievingCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "thieving" };
+            cookingCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "cooking" };
+            prayerCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "prayer" };
+            craftingCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "crafting" };
+            firemakingCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "firemaking" };
+            magicCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "magic" };
+            fletchingCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "fletching" };
+            woodcuttingCard = new GuiSkillCard { SkillIcon = SkillIconPathPrefix + "woodcutting" };
 
             RegisterChildren(
                 attackCard,
@@ -73,9 +97,7 @@ namespace OpenRS.Gui.Controls
             SetChildrenLocations();
         }
 
-        protected override void DoUnloadContent()
-        {
-        }
+        protected override void DoUnloadContent() { }
 
         protected override void DoUpdate(GameTime gameTime)
         {
@@ -83,168 +105,120 @@ namespace OpenRS.Gui.Controls
             UpdateLevels();
         }
 
-        protected override void DoDraw(SpriteBatch spriteBatch)
-        {
-        }
+        protected override void DoDraw(SpriteBatch spriteBatch) { }
 
         private void SetChildrenLocations()
         {
-            int horizontalSpacing = 1;
-            int verticalSpacing = 1;
+            int gridLeft =
+                (Size.Width - ColumnCount * attackCard.Size.Width -
+                    (ColumnCount - 1) * CardSpacing) / 2;
+            int gridTop = gridLeft;
 
-            attackCard.Location = new(
-                (Size.Width - 3 * attackCard.Size.Width - 2 * horizontalSpacing) / 2,
-                (Size.Width - 3 * attackCard.Size.Width - 2 * horizontalSpacing) / 2);
+            attackCard.Location = new Point2D(gridLeft, gridTop);
 
-            healthCard.Location = new(
-                attackCard.ClientRectangle.Right + horizontalSpacing,
+            healthCard.Location = new Point2D(
+                attackCard.ClientRectangle.Right + CardSpacing,
                 attackCard.ClientRectangle.Top);
 
-            miningCard.Location = new(
-                healthCard.ClientRectangle.Right + horizontalSpacing,
+            miningCard.Location = new Point2D(
+                healthCard.ClientRectangle.Right + CardSpacing,
                 healthCard.ClientRectangle.Top);
 
-            strengthCard.Location = new(
+            strengthCard.Location = new Point2D(
                 attackCard.ClientRectangle.Left,
-                attackCard.ClientRectangle.Bottom + verticalSpacing);
+                attackCard.ClientRectangle.Bottom + CardSpacing);
 
-            agilityCard.Location = new(
-                strengthCard.ClientRectangle.Right + horizontalSpacing,
+            agilityCard.Location = new Point2D(
+                strengthCard.ClientRectangle.Right + CardSpacing,
                 strengthCard.ClientRectangle.Top);
 
-            smithingCard.Location = new(
-                agilityCard.ClientRectangle.Right + horizontalSpacing,
+            smithingCard.Location = new Point2D(
+                agilityCard.ClientRectangle.Right + CardSpacing,
                 agilityCard.ClientRectangle.Top);
 
-            defenceCard.Location = new(
+            defenceCard.Location = new Point2D(
                 strengthCard.ClientRectangle.Left,
-                strengthCard.ClientRectangle.Bottom + verticalSpacing);
+                strengthCard.ClientRectangle.Bottom + CardSpacing);
 
-            herbloreCard.Location = new(
-                defenceCard.ClientRectangle.Right + horizontalSpacing,
+            herbloreCard.Location = new Point2D(
+                defenceCard.ClientRectangle.Right + CardSpacing,
                 defenceCard.ClientRectangle.Top);
 
-            fishingCard.Location = new(
-                herbloreCard.ClientRectangle.Right + horizontalSpacing,
+            fishingCard.Location = new Point2D(
+                herbloreCard.ClientRectangle.Right + CardSpacing,
                 herbloreCard.ClientRectangle.Top);
 
-            rangedCard.Location = new(
+            rangedCard.Location = new Point2D(
                 defenceCard.ClientRectangle.Left,
-                defenceCard.ClientRectangle.Bottom + verticalSpacing);
+                defenceCard.ClientRectangle.Bottom + CardSpacing);
 
-            thievingCard.Location = new(
-                rangedCard.ClientRectangle.Right + horizontalSpacing,
+            thievingCard.Location = new Point2D(
+                rangedCard.ClientRectangle.Right + CardSpacing,
                 rangedCard.ClientRectangle.Top);
 
-            cookingCard.Location = new(
-                thievingCard.ClientRectangle.Right + horizontalSpacing,
+            cookingCard.Location = new Point2D(
+                thievingCard.ClientRectangle.Right + CardSpacing,
                 thievingCard.ClientRectangle.Top);
 
-            prayerCard.Location = new(
+            prayerCard.Location = new Point2D(
                 rangedCard.ClientRectangle.Left,
-                rangedCard.ClientRectangle.Bottom + verticalSpacing);
+                rangedCard.ClientRectangle.Bottom + CardSpacing);
 
-            craftingCard.Location = new(
-                prayerCard.ClientRectangle.Right + horizontalSpacing,
+            craftingCard.Location = new Point2D(
+                prayerCard.ClientRectangle.Right + CardSpacing,
                 prayerCard.ClientRectangle.Top);
 
-            firemakingCard.Location = new(
-                craftingCard.ClientRectangle.Right + horizontalSpacing,
+            firemakingCard.Location = new Point2D(
+                craftingCard.ClientRectangle.Right + CardSpacing,
                 prayerCard.ClientRectangle.Top);
 
-            magicCard.Location = new(
+            magicCard.Location = new Point2D(
                 prayerCard.ClientRectangle.Left,
-                prayerCard.ClientRectangle.Bottom + verticalSpacing);
+                prayerCard.ClientRectangle.Bottom + CardSpacing);
 
-            fletchingCard.Location = new(
-                magicCard.ClientRectangle.Right + horizontalSpacing,
+            fletchingCard.Location = new Point2D(
+                magicCard.ClientRectangle.Right + CardSpacing,
                 magicCard.ClientRectangle.Top);
 
-            woodcuttingCard.Location = new(
-                fletchingCard.ClientRectangle.Right + horizontalSpacing,
+            woodcuttingCard.Location = new Point2D(
+                fletchingCard.ClientRectangle.Right + CardSpacing,
                 fletchingCard.ClientRectangle.Top);
         }
 
         private void UpdateLevels()
         {
-            Models.Skill[] skills = client.Skills;
+            Skill[] skills = client.Skills;
 
             if (skills.Length == 0)
             {
                 return;
             }
 
-            attackCard.BaseLevel = skills[0].BaseLevel;
-            attackCard.CurrentLevel = skills[0].CurrentLevel;
-            attackCard.Experience = skills[0].Experience;
+            AssignSkillCard(attackCard, skills[AttackSkillIndex]);
+            AssignSkillCard(healthCard, skills[HealthSkillIndex]);
+            AssignSkillCard(miningCard, skills[MiningSkillIndex]);
+            AssignSkillCard(strengthCard, skills[StrengthSkillIndex]);
+            AssignSkillCard(agilityCard, skills[AgilitySkillIndex]);
+            AssignSkillCard(smithingCard, skills[SmithingSkillIndex]);
+            AssignSkillCard(defenceCard, skills[DefenceSkillIndex]);
+            AssignSkillCard(herbloreCard, skills[HerbloreSkillIndex]);
+            AssignSkillCard(fishingCard, skills[FishingSkillIndex]);
+            AssignSkillCard(rangedCard, skills[RangedSkillIndex]);
+            AssignSkillCard(thievingCard, skills[ThievingSkillIndex]);
+            AssignSkillCard(cookingCard, skills[CookingSkillIndex]);
+            AssignSkillCard(prayerCard, skills[PrayerSkillIndex]);
+            AssignSkillCard(craftingCard, skills[CraftingSkillIndex]);
+            AssignSkillCard(firemakingCard, skills[FiremakingSkillIndex]);
+            AssignSkillCard(magicCard, skills[MagicSkillIndex]);
+            AssignSkillCard(fletchingCard, skills[FletchingSkillIndex]);
+            AssignSkillCard(woodcuttingCard, skills[WoodcuttingSkillIndex]);
+        }
 
-            healthCard.BaseLevel = skills[3].BaseLevel;
-            healthCard.CurrentLevel = skills[3].CurrentLevel;
-            healthCard.Experience = skills[3].Experience;
-
-            miningCard.BaseLevel = skills[14].BaseLevel;
-            miningCard.CurrentLevel = skills[14].CurrentLevel;
-            miningCard.Experience = skills[14].Experience;
-
-            strengthCard.BaseLevel = skills[2].BaseLevel;
-            strengthCard.CurrentLevel = skills[2].CurrentLevel;
-            strengthCard.Experience = skills[2].Experience;
-
-            agilityCard.BaseLevel = skills[16].BaseLevel;
-            agilityCard.CurrentLevel = skills[16].CurrentLevel;
-            agilityCard.Experience = skills[16].Experience;
-
-            smithingCard.BaseLevel = skills[13].BaseLevel;
-            smithingCard.CurrentLevel = skills[13].CurrentLevel;
-            smithingCard.Experience = skills[13].Experience;
-
-            defenceCard.BaseLevel = skills[1].BaseLevel;
-            defenceCard.CurrentLevel = skills[1].CurrentLevel;
-            defenceCard.Experience = skills[1].Experience;
-
-            herbloreCard.BaseLevel = skills[15].BaseLevel;
-            herbloreCard.CurrentLevel = skills[15].CurrentLevel;
-            herbloreCard.Experience = skills[15].Experience;
-
-            fishingCard.BaseLevel = skills[10].BaseLevel;
-            fishingCard.CurrentLevel = skills[10].CurrentLevel;
-            fishingCard.Experience = skills[10].Experience;
-
-            rangedCard.BaseLevel = skills[4].BaseLevel;
-            rangedCard.CurrentLevel = skills[4].CurrentLevel;
-            rangedCard.Experience = skills[4].Experience;
-
-            thievingCard.BaseLevel = skills[17].BaseLevel;
-            thievingCard.CurrentLevel = skills[17].CurrentLevel;
-            thievingCard.Experience = skills[17].Experience;
-
-            cookingCard.BaseLevel = skills[7].BaseLevel;
-            cookingCard.CurrentLevel = skills[7].CurrentLevel;
-            cookingCard.Experience = skills[7].Experience;
-
-            prayerCard.BaseLevel = skills[5].BaseLevel;
-            prayerCard.CurrentLevel = skills[5].CurrentLevel;
-            prayerCard.Experience = skills[5].Experience;
-
-            craftingCard.BaseLevel = skills[12].BaseLevel;
-            craftingCard.CurrentLevel = skills[12].CurrentLevel;
-            craftingCard.Experience = skills[12].Experience;
-
-            firemakingCard.BaseLevel = skills[11].BaseLevel;
-            firemakingCard.CurrentLevel = skills[11].CurrentLevel;
-            firemakingCard.Experience = skills[11].Experience;
-
-            magicCard.BaseLevel = skills[6].BaseLevel;
-            magicCard.CurrentLevel = skills[6].CurrentLevel;
-            magicCard.Experience = skills[6].Experience;
-
-            fletchingCard.BaseLevel = skills[9].BaseLevel;
-            fletchingCard.CurrentLevel = skills[9].CurrentLevel;
-            fletchingCard.Experience = skills[9].Experience;
-
-            woodcuttingCard.BaseLevel = skills[8].BaseLevel;
-            woodcuttingCard.CurrentLevel = skills[8].CurrentLevel;
-            woodcuttingCard.Experience = skills[8].Experience;
+        private static void AssignSkillCard(GuiSkillCard card, Skill skill)
+        {
+            card.BaseLevel = skill.BaseLevel;
+            card.CurrentLevel = skill.CurrentLevel;
+            card.Experience = skill.Experience;
         }
     }
 }

@@ -8,6 +8,10 @@ namespace OpenRS.Gui.Controls
 {
     public sealed class GuiMinimapIndicator : GuiControl
     {
+        private static string IndicatorBackgroundContentFile => "Interface/Minimap/indicator_bg";
+        private static int DefaultSize => 22;
+        private static float FullFillLevel => 1.0f;
+
         private GuiImage indicator;
         private GuiImage icon;
 
@@ -23,24 +27,26 @@ namespace OpenRS.Gui.Controls
         {
             get
             {
-                if (CurrentValue == BaseValue)
+                float fillLevel = FullFillLevel;
+
+                if (CurrentValue != BaseValue)
                 {
-                    return 1.0f;
+                    fillLevel = (float)CurrentValue / BaseValue;
                 }
 
-                return (float)CurrentValue / BaseValue;
+                return fillLevel;
             }
         }
 
         public GuiMinimapIndicator()
         {
-            Size = new(22, 22);
+            Size = new Size2D(DefaultSize, DefaultSize);
             BackgroundColour = Colour.White;
         }
 
         protected override void DoLoadContent()
         {
-            indicator = new GuiImage { ContentFile = "Interface/Minimap/indicator_bg" };
+            indicator = new GuiImage { ContentFile = IndicatorBackgroundContentFile };
             icon = new GuiImage { ContentFile = Icon };
 
             RegisterChildren(indicator, icon);
@@ -59,16 +65,28 @@ namespace OpenRS.Gui.Controls
 
         private void SetChildrenProperties()
         {
-            indicator.Location = new(0, 0);
-            indicator.TintColour = BackgroundColour;
-            indicator.Size = new(Size.Width, (int)(Size.Height * FillLevel));
-            indicator.SourceRectangle = new Rectangle2D(0, Size.Height - indicator.Size.Height, Size.Width, indicator.Size.Height);
-            indicator.Location = new(0, Size.Height - indicator.Size.Height);
+            UpdateIndicatorProperties();
+            UpdateIconProperties();
+        }
 
-            icon.Location = new(
+        private void UpdateIndicatorProperties()
+        {
+            indicator.TintColour = BackgroundColour;
+            indicator.Location = new Point2D(0, Size.Height - indicator.Size.Height);
+            indicator.Size = new Size2D(Size.Width, (int)(Size.Height * FillLevel));
+            indicator.SourceRectangle = new Rectangle2D(
+                0,
+                Size.Height - indicator.Size.Height,
+                Size.Width,
+                indicator.Size.Height);
+        }
+
+        private void UpdateIconProperties()
+        {
+            icon.Rotation = IconRotation;
+            icon.Location = new Point2D(
                 (Size.Width - icon.Size.Width) / 2,
                 (Size.Height - icon.Size.Height) / 2);
-            icon.Rotation = IconRotation;
         }
     }
 }

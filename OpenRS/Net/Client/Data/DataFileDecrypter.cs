@@ -2,6 +2,7 @@ using System;
 
 using NuciLog.Core;
 
+using OpenRS.Logging;
 using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Data
@@ -264,7 +265,7 @@ namespace OpenRS.Net.Client.Data
 
                 if (blockEntry.isRandomised)
                 {
-                    logger.Error("Encountered a randomised block.");
+                    logger.Error(GameOperation.ReadDataBlock, "Encountered a randomised block.");
                 }
 
                 blockEntry.origPtr = 0;

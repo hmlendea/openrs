@@ -43,13 +43,14 @@ namespace OpenRS
 
             GraphicsManager.Instance.Graphics = graphics;
             GraphicsManager.Instance.SpriteBatch = spriteBatch;
+
             NuciContentManager.Instance.LoadContent(Content, GraphicsDevice);
             NuciContentManager.MissingTexturePlaceholder = "ScreenManager/missing-texture";
 
             GameClient.GameWindow = Window;
 
             ScreenManager.Instance.SpriteBatch = spriteBatch;
-            ScreenManager.Instance.StartingScreenType = typeof(RscScreen);
+            ScreenManager.Instance.StartingScreenType = typeof(SplashScreen);
             ScreenManager.Instance.LoadContent();
         }
 

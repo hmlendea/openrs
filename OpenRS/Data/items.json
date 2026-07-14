@@ -2961,7 +2961,7 @@
   },
   {
     "id": "185",
-    "name": "name.wizardshat",
+    "name": "name.wizards_hat",
     "description": "description.a_silly_pointed_hat",
     "command": "command.none",
     "basePrice": 2,
@@ -3185,7 +3185,7 @@
   },
   {
     "id": "199",
-    "name": "name.wizardshat",
+    "name": "name.wizards_hat",
     "description": "description.a_silly_pointed_hat",
     "command": "command.none",
     "basePrice": 2,

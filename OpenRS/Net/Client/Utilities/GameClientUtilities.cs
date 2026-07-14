@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using NuciLog.Core;
 
 using OpenRS.Audio;
+using OpenRS.Logging;
 using OpenRS.Models;
 using OpenRS.Net.Client.Data;
 using OpenRS.Settings;
@@ -101,7 +102,7 @@ namespace OpenRS.Net.Client.Utilities
                 }
                 catch (Exception exception)
                 {
-                    logger.Error("The SendPingPacket call has failed.", exception);
+                    logger.Error(GameOperation.SendPing, "The SendPingPacket call has failed.", exception);
                 }
                 finally
                 {

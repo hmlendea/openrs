@@ -3,6 +3,7 @@ using System.Linq;
 
 using NuciLog.Core;
 
+using OpenRS.Logging;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 using OpenRS.Settings;
@@ -333,6 +334,7 @@ namespace OpenRS.Net.Client.Handlers
                                 {
                                     int worldObjectCount = client.entityManager.WorldObjectCount;
                                     logger.Warn(
+                                        GameOperation.HandlePacket,
                                         "Skipping unknown object.",
                                         new LogInfo(GameLogInfoKey.ObjectIndex, index),
                                         new LogInfo(GameLogInfoKey.ObjectCount, worldObjectCount));
@@ -1502,7 +1504,7 @@ namespace OpenRS.Net.Client.Handlers
                 if (packetID == 110)
                 {
                     // TODO: Determine if this packet should be removed.
-                    logger.Debug("Received packet 110 (server info).");
+                    logger.Debug(GameOperation.HandlePacket, "Received packet 110 (server info).");
                     return;
                 }
                 // Spell counts and quest progress - 2-byte value packets, silently accepted.
@@ -1674,13 +1676,14 @@ namespace OpenRS.Net.Client.Handlers
                     return;
                 }
                 logger.Warn(
+                    GameOperation.HandlePacket,
                     "Unhandled packet.",
                     new LogInfo(GameLogInfoKey.PacketId, packetID),
                     new LogInfo(GameLogInfoKey.PacketLength, packetLength));
             }
             catch (Exception ex)
             {
-                logger.Error("Packet handling has failed.", ex);
+                logger.Error(GameOperation.HandlePacket, "Packet handling has failed.", ex);
                 // ex.printStackTrace();
             }
         }

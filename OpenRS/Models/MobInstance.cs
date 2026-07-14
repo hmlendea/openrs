@@ -5,6 +5,7 @@ using NuciLog.Core;
 
 using NuciXNA.Primitives;
 
+using OpenRS.Logging;
 using OpenRS.Settings;
 
 namespace OpenRS.Models
@@ -198,7 +199,10 @@ namespace OpenRS.Models
             }
             catch (Exception ex)
             {
-                logger.Error("Failed to update the mob sprite.", ex);
+                logger.Error(
+                    GameOperation.UpdateEntitySprite,
+                    "Failed to update the mob sprite.",
+                    ex);
             }
         }
     }

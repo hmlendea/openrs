@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using NuciXNA.Graphics.Drawing;
 using NuciXNA.Gui.Controls;
 using NuciXNA.Input;
+using NuciXNA.Primitives;
 
 using OpenRS.Net.Client;
 using OpenRS.Settings;
@@ -14,6 +15,28 @@ namespace OpenRS.Gui.Controls
 {
     public sealed class GuiSideBar(GameClient client) : GuiControl
     {
+        private static string BackgroundContentFile => "Interface/Backgrounds/sidebar";
+        private static string ButtonTextureContentFile => "Interface/SideBar/button";
+        private static string CombatButtonIconContentFile => "Interface/SideBar/combat_button_icon";
+        private static string SkillsButtonIconContentFile => "Interface/SideBar/skills_button_icon";
+        private static string QuestsButtonIconContentFile => "Interface/SideBar/quests_button_icon";
+        private static string TasksButtonIconContentFile => "Interface/SideBar/tasks_button_icon";
+        private static string InventoryButtonIconContentFile => "Interface/SideBar/inventory_button_icon";
+        private static string EquipmentButtonIconContentFile => "Interface/SideBar/equipment_button_icon";
+        private static string PrayerButtonIconContentFile => "Interface/SideBar/prayer_button_icon";
+        private static string SpellsButtonIconContentFile => "Interface/SideBar/spells_button_icon";
+        private static string ExitButtonIconContentFile => "Interface/SideBar/exit_button_icon";
+
+        private static int MinimapWidth => 224;
+        private static int MinimapHeight => 176;
+        private static int PanelWidth => 240;
+        private static int PanelHeight => 262;
+        private static int SubPanelWidth => 190;
+        private static int ButtonTileWidth => 30;
+        private static int ButtonTileHeight => 36;
+        private static int ExitButtonWidth => 240;
+        private static int SubPanelHorizontalOffset => 25;
+
         private GuiImage background;
         private GuiMinimap minimap;
 
@@ -36,90 +59,44 @@ namespace OpenRS.Gui.Controls
         {
             background = new GuiImage
             {
-                ContentFile = "Interface/Backgrounds/sidebar",
+                ContentFile = BackgroundContentFile,
                 TextureLayout = TextureLayout.Stretch
             };
             minimap = new GuiMinimap(client)
             {
-                Size = new(224, 176)
+                Size = new Size2D(MinimapWidth, MinimapHeight)
             };
             panel = new GuiSideBarPanel
             {
-                Size = new(240, 262)
+                Size = new Size2D(PanelWidth, PanelHeight)
             };
             combatPanel = new GuiCombatPanel(client)
             {
-                Size = new(190, 262)
+                Size = new Size2D(SubPanelWidth, PanelHeight)
             };
-            skillsPanel = new GuiSkillsPanel(client) {
-                Size = new(190, 262)
+            skillsPanel = new GuiSkillsPanel(client)
+            {
+                Size = new Size2D(SubPanelWidth, PanelHeight)
             };
-            inventoryPanel = new GuiInventoryPanel(client) {
-                Size = new(190, 262)
+            inventoryPanel = new GuiInventoryPanel(client)
+            {
+                Size = new Size2D(SubPanelWidth, PanelHeight)
             };
 
-            combatButton = new GuiToggleButton
-            {
-                Texture = "Interface/SideBar/button",
-                ButtonTileSize = new(30, 36),
-                Icon = "Interface/SideBar/combat_button_icon",
-                Size = new(30, 36)
-            };
-            skillsButton = new GuiToggleButton
-            {
-                Texture = "Interface/SideBar/button",
-                ButtonTileSize = new(30, 36),
-                Icon = "Interface/SideBar/skills_button_icon",
-                Size = new(30, 36)
-            };
-            questsButton = new GuiToggleButton
-            {
-                Texture = "Interface/SideBar/button",
-                ButtonTileSize = new(30, 36),
-                Icon = "Interface/SideBar/quests_button_icon",
-                Size = new(30, 36)
-            };
-            tasksButton = new GuiToggleButton
-            {
-                Texture = "Interface/SideBar/button",
-                ButtonTileSize = new(30, 36),
-                Icon = "Interface/SideBar/tasks_button_icon",
-                Size = new(30, 36)
-            };
-            inventoryButton = new GuiToggleButton
-            {
-                Texture = "Interface/SideBar/button",
-                ButtonTileSize = new(30, 36),
-                Icon = "Interface/SideBar/inventory_button_icon",
-                Size = new(30, 36)
-            };
-            equipmentButton = new GuiToggleButton
-            {
-                Texture = "Interface/SideBar/button",
-                ButtonTileSize = new(30, 36),
-                Icon = "Interface/SideBar/equipment_button_icon",
-                Size = new(30, 36)
-            };
-            prayerButton = new GuiToggleButton
-            {
-                Texture = "Interface/SideBar/button",
-                ButtonTileSize = new(30, 36),
-                Icon = "Interface/SideBar/prayer_button_icon",
-                Size = new(30, 36)
-            };
-            spellsButton = new GuiToggleButton
-            {
-                Texture = "Interface/SideBar/button",
-                ButtonTileSize = new(30, 36),
-                Icon = "Interface/SideBar/spells_button_icon",
-                Size = new(30, 36)
-            };
+            combatButton = CreateButton(CombatButtonIconContentFile);
+            skillsButton = CreateButton(SkillsButtonIconContentFile);
+            questsButton = CreateButton(QuestsButtonIconContentFile);
+            tasksButton = CreateButton(TasksButtonIconContentFile);
+            inventoryButton = CreateButton(InventoryButtonIconContentFile);
+            equipmentButton = CreateButton(EquipmentButtonIconContentFile);
+            prayerButton = CreateButton(PrayerButtonIconContentFile);
+            spellsButton = CreateButton(SpellsButtonIconContentFile);
             exitButton = new GuiToggleButton
             {
-                Texture = "Interface/SideBar/button",
-                ButtonTileSize = new(30, 36),
-                Icon = "Interface/SideBar/exit_button_icon",
-                Size = new(240, 36)
+                Texture = ButtonTextureContentFile,
+                ButtonTileSize = new Size2D(ButtonTileWidth, ButtonTileHeight),
+                Icon = ExitButtonIconContentFile,
+                Size = new Size2D(ExitButtonWidth, ButtonTileHeight)
             };
 
             RegisterChildren(background, minimap);
@@ -145,6 +122,17 @@ namespace OpenRS.Gui.Controls
 
         protected override void DoDraw(SpriteBatch spriteBatch)
         {
+        }
+
+        private static GuiToggleButton CreateButton(string iconContentFile)
+        {
+            return new GuiToggleButton
+            {
+                Texture = ButtonTextureContentFile,
+                ButtonTileSize = new Size2D(ButtonTileWidth, ButtonTileHeight),
+                Icon = iconContentFile,
+                Size = new Size2D(ButtonTileWidth, ButtonTileHeight)
+            };
         }
 
         private void RegisterEvents()
@@ -179,47 +167,49 @@ namespace OpenRS.Gui.Controls
 
         private void SetChildrenProperties()
         {
-            minimap.Location = new(
+            UpdateMinimapLayout();
+            UpdatePanelLayouts();
+            UpdateButtonLayout();
+        }
+
+        private void UpdateMinimapLayout()
+        {
+            minimap.Location = new Point2D(
                 (Size.Width - minimap.Size.Width) / 2,
                 (Size.Width - minimap.Size.Width) / 2);
+        }
 
-            exitButton.Location = new(
+        private void UpdatePanelLayouts()
+        {
+            exitButton.Location = new Point2D(
                 (Size.Width - exitButton.Size.Width) / 2,
                 Size.Height - GameDefines.GuiTileSize);
 
-            panel.Location = new(
+            panel.Location = new Point2D(
                 (Size.Width - panel.Size.Width) / 2,
                 exitButton.Location.Y - panel.Size.Height);
-            combatPanel.Location = new(
-                panel.Location.X + 25,
-                panel.Location.Y);
-            skillsPanel.Location = combatPanel.Location;
-            inventoryPanel.Location = skillsPanel.Location;
 
-            combatButton.Location = new(
-                panel.Location.X,
-                panel.Location.Y - combatButton.Size.Height);
-            skillsButton.Location = new(
-                combatButton.ClientRectangle.Right,
-                combatButton.Location.Y);
-            questsButton.Location = new(
-                skillsButton.ClientRectangle.Right,
-                skillsButton.Location.Y);
-            tasksButton.Location = new(
-                questsButton.ClientRectangle.Right,
-                questsButton.Location.Y);
-            inventoryButton.Location = new(
-                tasksButton.ClientRectangle.Right,
-                tasksButton.Location.Y);
-            equipmentButton.Location = new(
-                inventoryButton.ClientRectangle.Right,
-                inventoryButton.Location.Y);
-            prayerButton.Location = new(
-                equipmentButton.ClientRectangle.Right,
-                equipmentButton.Location.Y);
-            spellsButton.Location = new(
-                prayerButton.ClientRectangle.Right,
-                prayerButton.Location.Y);
+            Point2D subPanelLocation = new(
+                panel.Location.X + SubPanelHorizontalOffset,
+                panel.Location.Y);
+
+            combatPanel.Location = subPanelLocation;
+            skillsPanel.Location = subPanelLocation;
+            inventoryPanel.Location = subPanelLocation;
+        }
+
+        private void UpdateButtonLayout()
+        {
+            int buttonRowY = panel.Location.Y - combatButton.Size.Height;
+
+            combatButton.Location = new Point2D(panel.Location.X, buttonRowY);
+            skillsButton.Location = new Point2D(combatButton.ClientRectangle.Right, buttonRowY);
+            questsButton.Location = new Point2D(skillsButton.ClientRectangle.Right, buttonRowY);
+            tasksButton.Location = new Point2D(questsButton.ClientRectangle.Right, buttonRowY);
+            inventoryButton.Location = new Point2D(tasksButton.ClientRectangle.Right, buttonRowY);
+            equipmentButton.Location = new Point2D(inventoryButton.ClientRectangle.Right, buttonRowY);
+            prayerButton.Location = new Point2D(equipmentButton.ClientRectangle.Right, buttonRowY);
+            spellsButton.Location = new Point2D(prayerButton.ClientRectangle.Right, buttonRowY);
         }
 
         private void OnContentLoaded(object sender, EventArgs e)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using NuciLog.Core;
 
+using OpenRS.Logging;
 using OpenRS.Models;
 using OpenRS.Net.Client.Game;
 using OpenRS.Localisation;
@@ -171,7 +172,7 @@ namespace OpenRS.Net.Client.Rendering
             }
             catch (Exception exception)
             {
-                logger.Error("The Paint call has failed.", exception);
+                logger.Error(GameOperation.RenderGame, "The Paint call has failed.", exception);
                 client.CleanUp();
                 client.memoryError = true;
             }

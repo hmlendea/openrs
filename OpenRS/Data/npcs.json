@@ -1837,7 +1837,7 @@
   },
   {
     "id": "51",
-    "name": "name.shopkeeper",
+    "name": "name.merchant",
     "description": "description.maybe_hed_like_to_buy",
     "command": "command.none",
     "sprites": [
@@ -1981,7 +1981,7 @@
   },
   {
     "id": "55",
-    "name": "name.shopkeeper",
+    "name": "name.merchant",
     "description": "description.i_wonder_what_hes_got",
     "command": "command.none",
     "sprites": [
@@ -3133,7 +3133,7 @@
   },
   {
     "id": "87",
-    "name": "name.shopkeeper",
+    "name": "name.merchant",
     "description": "description.i_wonder_what_hes_got",
     "command": "command.none",
     "sprites": [
@@ -3710,7 +3710,7 @@
   {
     "id": "103",
     "name": "npc.103.name",
-    "description": "description.a_shopkeeper_of_some_sort",
+    "description": "description.a_merchant_of_some_sort",
     "command": "command.none",
     "sprites": [
       3,
@@ -3781,7 +3781,7 @@
   },
   {
     "id": "105",
-    "name": "name.shopkeeper",
+    "name": "name.merchant",
     "description": "description.i_wonder_what_hes_got",
     "command": "command.none",
     "sprites": [
@@ -5221,7 +5221,7 @@
   },
   {
     "id": "145",
-    "name": "name.shopkeeper",
+    "name": "name.merchant",
     "description": "description.i_wonder_what_hes_got",
     "command": "command.none",
     "sprites": [
@@ -6049,7 +6049,7 @@
   },
   {
     "id": "168",
-    "name": "name.shopkeeper",
+    "name": "name.merchant",
     "description": "description.i_wonder_what_hes_got",
     "command": "command.none",
     "sprites": [
@@ -6661,7 +6661,7 @@
   },
   {
     "id": "185",
-    "name": "name.shopkeeper",
+    "name": "name.merchant",
     "description": "description.i_wonder_what_hes_got",
     "command": "command.none",
     "sprites": [
@@ -11918,7 +11918,7 @@
   {
     "id": "331",
     "name": "npc.331.name",
-    "description": "description.a_shopkeeper_of_some_sort",
+    "description": "description.a_merchant_of_some_sort",
     "command": "command.none",
     "sprites": [
       3,
@@ -13357,7 +13357,7 @@
   },
   {
     "id": "371",
-    "name": "name.shopkeeper",
+    "name": "name.merchant",
     "description": "description.he_smells_of_fish",
     "command": "command.none",
     "sprites": [
@@ -14077,7 +14077,7 @@
   },
   {
     "id": "391",
-    "name": "name.shopkeeper",
+    "name": "name.merchant",
     "description": "description.maybe_hed_like_to_buy",
     "command": "command.none",
     "sprites": [

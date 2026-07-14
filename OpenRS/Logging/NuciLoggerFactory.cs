@@ -4,7 +4,7 @@ using NuciLog;
 using NuciLog.Configuration;
 using NuciLog.Core;
 
-namespace OpenRS.Settings
+namespace OpenRS.Logging
 {
     internal static class NuciLoggerFactory
     {

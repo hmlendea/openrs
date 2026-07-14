@@ -1,6 +1,6 @@
 using NuciLog.Core;
 
-namespace OpenRS.Settings
+namespace OpenRS.Logging
 {
     public sealed class GameLogInfoKey(string name) : LogInfoKey(name)
     {

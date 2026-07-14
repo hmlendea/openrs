@@ -5,6 +5,7 @@ using System.Threading;
 
 using NuciLog.Core;
 
+using OpenRS.Logging;
 using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Net
@@ -72,7 +73,7 @@ namespace OpenRS.Net.Client.Net
             }
             catch (IOException _ex)
             {
-                logger.Error("Failed to close the stream.");
+                logger.Error(GameOperation.NetworkDisconnect, "Failed to close the stream.");
             }
             socketClosed = true;
             // synchronized {
