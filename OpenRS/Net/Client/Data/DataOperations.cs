@@ -267,31 +267,6 @@ namespace OpenRS.Net.Client.Data
             return 0;
         }
 
-        public static int GetSoundLength(string soundName, sbyte[] soundIndex)
-        {
-            int entryCount = GetShort(soundIndex, 0);
-            int nameHash = 0;
-            soundName = soundName.ToUpper();
-
-            for (int charIndex = 0; charIndex < soundName.Length; charIndex += 1)
-            {
-                nameHash = nameHash * 61 + soundName[charIndex] - 32;
-            }
-
-            for (int entryIndex = 0; entryIndex < entryCount; entryIndex += 1)
-            {
-                int entryNameHash = (soundIndex[entryIndex * 10 + 2] & 0xff) * 0x1000000 + (soundIndex[entryIndex * 10 + 3] & 0xff) * 0x10000 + (soundIndex[entryIndex * 10 + 4] & 0xff) * 256 + (soundIndex[entryIndex * 10 + 5] & 0xff);
-                int entryLength = (soundIndex[entryIndex * 10 + 6] & 0xff) * 0x10000 + (soundIndex[entryIndex * 10 + 7] & 0xff) * 256 + (soundIndex[entryIndex * 10 + 8] & 0xff);
-
-                if (entryNameHash == nameHash)
-                {
-                    return entryLength;
-                }
-            }
-
-            return 0;
-        }
-
         public static byte[] LoadData(string entryName, int outputOffset, byte[] indexData) =>
             LoadData(entryName, outputOffset, indexData, null);
 

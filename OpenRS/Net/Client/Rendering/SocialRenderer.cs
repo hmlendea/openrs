@@ -1,6 +1,5 @@
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
-using OpenRS.Net.Client.Utilities;
 using OpenRS.Localisation;
 
 namespace OpenRS.Net.Client.Rendering
@@ -422,6 +421,6 @@ namespace OpenRS.Net.Client.Rendering
             client.gameGraphics.DrawText(LocalisationManager.GetString("social.action_cancel"), 256, 208, 1, cancelLabelColour);
         }
 
-   
+
     }
 }

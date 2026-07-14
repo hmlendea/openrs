@@ -557,7 +557,7 @@ namespace OpenRS.Net.Client
         0, 1, 2, 1
     ];
         public int itemsAboveHeadCount;
-        public AudioReader audioPlayer;
+
         public GameObject[] wallObjectArray;
         public string[] messagesArray;
         public long duelOpponentHash;
@@ -609,7 +609,7 @@ namespace OpenRS.Net.Client
         public int appearanceBottomLeftArrow;
         public int appearanceBottomRightArrow;
         public int appearanceAcceptButton;
-        public sbyte[] soundData;
+
         public bool showBankBox;
         public int shopItemSellPriceModifier;
         public int shopItemBuyPriceModifier;

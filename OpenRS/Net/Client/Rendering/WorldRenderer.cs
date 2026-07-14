@@ -4,7 +4,6 @@ using OpenRS.Models;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 using OpenRS.Net.Client.Game.Cameras;
-using OpenRS.Net.Client.Utilities;
 
 namespace OpenRS.Net.Client.Rendering
 {
@@ -613,6 +612,6 @@ namespace OpenRS.Net.Client.Rendering
             client.gameGraphics.DrawMinimapPixel(x, y + 1, colour);
         }
 
-   
+
     }
 }

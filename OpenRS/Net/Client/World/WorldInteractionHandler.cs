@@ -1,6 +1,4 @@
 using System;
-
-using OpenRS.Models;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 using OpenRS.Net.Enumerations;

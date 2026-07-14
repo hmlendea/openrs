@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using OpenRS.Models;
 using OpenRS.Net.Client.Game;
-using OpenRS.Net.Client.Utilities;
 using OpenRS.Localisation;
 
 namespace OpenRS.Net.Client.Rendering

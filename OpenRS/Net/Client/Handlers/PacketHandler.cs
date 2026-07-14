@@ -1,7 +1,5 @@
 using System;
 using System.Linq;
-
-using OpenRS.Models;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 

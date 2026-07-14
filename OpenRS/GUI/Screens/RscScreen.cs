@@ -17,7 +17,6 @@ using OpenRS.Net.Client;
 using OpenRS.Net.Client.Events;
 using OpenRS.Net.Client.Game;
 using OpenRS.Settings;
-using OpenRS.Net.Client.Game;
 
 namespace OpenRS.Gui.Screens
 {

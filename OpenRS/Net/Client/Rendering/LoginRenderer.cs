@@ -1,5 +1,4 @@
 using OpenRS.Localisation;
-using OpenRS.Net.Client.Game;
 
 namespace OpenRS.Net.Client.Rendering
 {
@@ -167,6 +166,6 @@ namespace OpenRS.Net.Client.Rendering
             client.OnDrawDone();
         }
 
-   
+
     }
 }

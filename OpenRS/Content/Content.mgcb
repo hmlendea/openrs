@@ -5261,3 +5261,225 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/items/zadimus_corpse.png
+
+#begin Sounds/0x0ad836ec.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x0ad836ec.wav
+
+#begin Sounds/0x0c4fa97a.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x0c4fa97a.wav
+
+#begin Sounds/0x10cab19c.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x10cab19c.wav
+
+#begin Sounds/0x22c8a45e.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x22c8a45e.wav
+
+#begin Sounds/0x3ade8727.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x3ade8727.wav
+
+#begin Sounds/0x3c463e4c.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x3c463e4c.wav
+
+#begin Sounds/0x4a7cef40.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x4a7cef40.wav
+
+#begin Sounds/0x57494cfb.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x57494cfb.wav
+
+#begin Sounds/0x5e62ab71.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x5e62ab71.wav
+
+#begin Sounds/0x67a77ddf.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x67a77ddf.wav
+
+#begin Sounds/0x7226f18f.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x7226f18f.wav
+
+#begin Sounds/0x7702c183.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x7702c183.wav
+
+#begin Sounds/0x7e6b845a.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x7e6b845a.wav
+
+#begin Sounds/0x857f7b88.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x857f7b88.wav
+
+#begin Sounds/0x9148bdf9.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x9148bdf9.wav
+
+#begin Sounds/0x948827e2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x948827e2.wav
+
+#begin Sounds/0x955b6d33.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x955b6d33.wav
+
+#begin Sounds/0x98516d58.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0x98516d58.wav
+
+#begin Sounds/0xa58d871a.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0xa58d871a.wav
+
+#begin Sounds/0xa9aef9cc.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0xa9aef9cc.wav
+
+#begin Sounds/0xb0a01e57.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0xb0a01e57.wav
+
+#begin Sounds/0xb949bc72.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0xb949bc72.wav
+
+#begin Sounds/0xc6dfac2f.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0xc6dfac2f.wav
+
+#begin Sounds/0xc7b2f180.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0xc7b2f180.wav
+
+#begin Sounds/0xd56f3cf9.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0xd56f3cf9.wav
+
+#begin Sounds/0xe1f9d3cc.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0xe1f9d3cc.wav
+
+#begin Sounds/0xed079bf6.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0xed079bf6.wav
+
+#begin Sounds/0xf937307c.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0xf937307c.wav
+
+#begin Sounds/0xfa0a75cd.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0xfa0a75cd.wav
+
+#begin Sounds/0xfb758c9c.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/0xfb758c9c.wav
+
+#begin Sounds/click.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/click.wav
+
+#begin Sounds/closedoor.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/closedoor.wav
+
+#begin Sounds/coins.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/coins.wav
+
+#begin Sounds/eat.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/eat.wav
+
+#begin Sounds/opendoor.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/opendoor.wav
+
+#begin Sounds/prayeroff.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/prayeroff.wav
+
+#begin Sounds/prayeron.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/prayeron.wav

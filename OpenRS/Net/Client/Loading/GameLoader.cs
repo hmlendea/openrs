@@ -30,7 +30,6 @@ namespace OpenRS.Net.Client.Loading
         {
             client.CallRequestLogout();
             client.CleanUp();
-            client.audioPlayer?.Stop();
         }
         public void CreateLoginScreenBackgrounds()
         {
@@ -252,16 +251,6 @@ client.RaiseOnLoadingSectionCompleted(this, new EventArgs());
         }
         public void LoadSounds()
         {
-            try
-            {
-                client.soundData = client.UnpackData("sounds.mem", "Sound effects", 90);
-                client.audioPlayer = new AudioReader();
-                return;
-            }
-            catch (Exception throwable)
-            {
-                Console.WriteLine("Unable to init sounds:" + throwable);
-            }
         }
         public void LoadGame()
         {

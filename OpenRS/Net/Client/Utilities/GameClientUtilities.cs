@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework.Graphics;
 
+using OpenRS.Audio;
 using OpenRS.Models.Enumerations;
-using OpenRS.Models;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Enumerations;
 using OpenRS.Settings;
@@ -313,17 +313,12 @@ namespace OpenRS.Net.Client.Utilities
         }
         public void PlaySound(string soundName)
         {
-            if (client.audioPlayer is null || !Config.MembersFeatures)
+            if (!Config.MembersFeatures || client.configSoundOff)
             {
                 return;
             }
 
-            if (!client.configSoundOff)
-            {
-                int soundOffset = (int)DataOperations.GetObjectOffset(soundName + ".pcm", client.soundData);
-                int soundLength = DataOperations.GetSoundLength(soundName + ".pcm", client.soundData);
-                client.audioPlayer.Play(client.soundData, soundOffset, soundLength);
-            }
+            AudioManager.Instance.PlaySound(soundName);
         }
 
         protected int GetUID() => Link.userId;

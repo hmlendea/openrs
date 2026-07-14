@@ -52,9 +52,6 @@
     <None Update="Data\models.jag">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\sounds.mem">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Data\Textures\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
