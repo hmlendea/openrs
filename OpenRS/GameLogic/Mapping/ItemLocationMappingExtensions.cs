@@ -12,10 +12,11 @@ namespace OpenRS.GameLogic.Mapping
     {
         internal static ItemLocation ToDomainModel(this ItemLocationEntity itemLocationEntity) => new()
         {
-            Coordinates = new Point2D(itemLocationEntity.X, itemLocationEntity.Y),
+            Coordinates = new(itemLocationEntity.X, itemLocationEntity.Y),
             Amount = itemLocationEntity.Amount,
             RespawnTime = itemLocationEntity.RespawnTime
         };
+
         internal static ItemLocationEntity ToDataObject(this ItemLocation itemLocation) => new()
         {
             X = itemLocation.Coordinates.X,

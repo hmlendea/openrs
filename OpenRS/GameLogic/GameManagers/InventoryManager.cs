@@ -26,13 +26,13 @@ namespace OpenRS.GameLogic.GameManagers
 
             for (int slotIndex = 0; slotIndex < inventoryItems.Length; slotIndex += 1)
             {
-                inventoryItems[slotIndex] = new InventoryItem();
+                inventoryItems[slotIndex] = new();
             }
 
             for (int slotIndex = 0; slotIndex < bankItems.Length; slotIndex += 1)
             {
-                bankItems[slotIndex] = new InventoryItem();
-                serverBankItems[slotIndex] = new InventoryItem();
+                bankItems[slotIndex] = new();
+                serverBankItems[slotIndex] = new();
             }
         }
 

@@ -1,12 +1,17 @@
 using System;
 using System.Linq;
+
+using NuciLog.Core;
+
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
+using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Handlers
 {
     public sealed class PacketHandler(GameClient client)
     {
+        private readonly ILogger logger = NuciLoggerFactory.CreateLogger<PacketHandler>();
 
         public void HandlePacket(int packetID, int packetLength, sbyte[] packetData)
         {
@@ -326,7 +331,11 @@ namespace OpenRS.Net.Client.Handlers
                             {
                                 if (index >= client.entityManager.WorldObjectCount)
                                 {
-                                    Console.WriteLine($"[PacketHandler] Skipping unknown object index {index} (objectCount={client.entityManager.WorldObjectCount})");
+                                    int worldObjectCount = client.entityManager.WorldObjectCount;
+                                    logger.Warn(
+                                        "Skipping unknown object.",
+                                        new LogInfo(GameLogInfoKey.ObjectIndex, index),
+                                        new LogInfo(GameLogInfoKey.ObjectCount, worldObjectCount));
                                 }
                                 else
                                 {
@@ -1493,7 +1502,7 @@ namespace OpenRS.Net.Client.Handlers
                 if (packetID == 110)
                 {
                     // TODO: Determine if this packet should be removed.
-                    Console.WriteLine("RECEIVED PACKET 110 (SERVER INFO)");
+                    logger.Debug("Received packet 110 (server info).");
                     return;
                 }
                 // Spell counts and quest progress — 2-byte value packets, silently accepted
@@ -1525,11 +1534,14 @@ namespace OpenRS.Net.Client.Handlers
                 if (packetID == 215) { return; } // MerlinsCrystal
                 if (packetID == 216) { return; } // LostCity
                 if (packetID == 217) { return; } // WitchHouse
-                Console.WriteLine("UNHANDLED PACKET:" + packetID + " LEN:" + packetLength);
+                logger.Warn(
+                    "Unhandled packet.",
+                    new LogInfo(GameLogInfoKey.PacketId, packetID),
+                    new LogInfo(GameLogInfoKey.PacketLength, packetLength));
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                logger.Error("Packet handling has failed.", ex);
                 // ex.printStackTrace();
             }
         }

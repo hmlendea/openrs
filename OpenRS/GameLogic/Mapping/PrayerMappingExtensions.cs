@@ -26,6 +26,7 @@ namespace OpenRS.GameLogic.Mapping
             RequiredLevel = prayer.RequiredLevel,
             DrainRate = prayer.DrainRate
         };
+
         internal static IEnumerable<Prayer> ToDomainModels(
             this IEnumerable<PrayerEntity> prayerEntities)
             => prayerEntities.Select(prayerEntity => prayerEntity.ToDomainModel());

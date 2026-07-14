@@ -20,6 +20,7 @@ namespace OpenRS.GameLogic.Mapping
             Id = quest.Id,
             Name = quest.Name
         };
+
         internal static IEnumerable<Quest> ToDomainModels(
             this IEnumerable<QuestEntity> questEntities)
             => questEntities.Select(questEntity => questEntity.ToDomainModel());

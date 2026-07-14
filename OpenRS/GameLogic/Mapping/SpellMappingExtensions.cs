@@ -34,6 +34,7 @@ namespace OpenRS.GameLogic.Mapping
             RequiredRunesCounts = spell.RequiredRunesCounts,
             ExperienceGain = spell.ExperienceGain
         };
+
         internal static IEnumerable<Spell> ToDomainModels(
             this IEnumerable<SpellEntity> spellEntities)
             => spellEntities.Select(spellEntity => spellEntity.ToDomainModel());

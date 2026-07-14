@@ -1,7 +1,7 @@
 using System;
+
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
-using OpenRS.Net.Enumerations;
 using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.World
@@ -335,6 +335,7 @@ namespace OpenRS.Net.Client.World
                 client.selectedSpell = -1;
             }
         }
+
         public void LoadMap()
         {
         }
@@ -355,6 +356,7 @@ namespace OpenRS.Net.Client.World
 
             client.WalkTo(client.sectionX, client.sectionY, x, y, x, y, true, true);
         }
+
         public bool IsValidCameraAngle(int cameraDirection)
         {
             int playerTileX = client.ourPlayer.currentX / 128;
@@ -405,6 +407,7 @@ namespace OpenRS.Net.Client.World
 
             return true;
         }
+
         public bool WalkTo(int startX, int startY, int destBottomX, int destBottomY, int destTopX, int destTopY, bool checkForObjects,
                 bool walkToACommand)
         {
@@ -508,6 +511,7 @@ namespace OpenRS.Net.Client.World
 
             return true;
         }
+
         public void WalkToObject(int objectX, int objectY, int facingDirection, int objectIndex)
         {
             int adjustedWidth;
@@ -555,6 +559,7 @@ namespace OpenRS.Net.Client.World
 
             client.WalkTo(client.sectionX, client.sectionY, objectX, objectY, objectX + adjustedWidth - 1, objectY + adjustedHeight - 1, true, true);
         }
+
         public void AutoRotateCamera()
         {
             if ((client.cameraAutoAngle & 1) == 1 && client.IsValidCameraAngle(client.cameraAutoAngle))
@@ -605,6 +610,7 @@ namespace OpenRS.Net.Client.World
                 }
             }
         }
+
         public void WalkToGroundItem(int sectionX, int sectionY, int destinationX, int destinationY, bool isWalkCommand)
         {
             if (client.WalkToAlternate(sectionX, sectionY, destinationX, destinationY, destinationX, destinationY, false, isWalkCommand))
@@ -1231,6 +1237,7 @@ namespace OpenRS.Net.Client.World
                 client.drawMenuTab = 0;
             }
         }
+
         public bool HandleCommand(string command)
         {
             try

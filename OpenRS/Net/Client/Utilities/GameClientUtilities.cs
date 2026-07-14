@@ -5,16 +5,19 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework.Graphics;
 
+using NuciLog.Core;
+
 using OpenRS.Audio;
-using OpenRS.Models.Enumerations;
+using OpenRS.Models;
 using OpenRS.Net.Client.Data;
-using OpenRS.Net.Enumerations;
 using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Utilities
 {
     public sealed class GameClientUtilities(GameClient client)
     {
+        private readonly ILogger logger = NuciLoggerFactory.CreateLogger<GameClientUtilities>();
+
         private readonly Lock sync = new();
         private static bool isSendingPing;
 
@@ -39,6 +42,7 @@ namespace OpenRS.Net.Client.Utilities
 
             return totalCount;
         }
+
         public void SendLogout()
         {
             if (!client.loggedIn)
@@ -63,6 +67,7 @@ namespace OpenRS.Net.Client.Utilities
             client.logoutTimer = 1000;
             client.streamClass.CloseStream();
         }
+
         public bool IsItemEquipped(int itemId)
         {
             for (int inventorySlotIndex = 0; inventorySlotIndex < client.inventoryItemsCount; inventorySlotIndex += 1)
@@ -96,8 +101,7 @@ namespace OpenRS.Net.Client.Utilities
                 }
                 catch (Exception exception)
                 {
-                    Console.WriteLine($"[SendPingPacket EXCEPTION] {exception.GetType().Name}: {exception.Message}");
-                    Console.WriteLine(exception.StackTrace);
+                    logger.Error("The SendPingPacket call has failed.", exception);
                 }
                 finally
                 {
@@ -113,13 +117,14 @@ namespace OpenRS.Net.Client.Utilities
 
         public event AsyncCompletedEventHandler MyTaskCompleted;
 
-        protected void OnMyTaskCompleted(AsyncCompletedEventArgs eventArgs)
+        private void OnMyTaskCompleted(AsyncCompletedEventArgs eventArgs)
         {
             if (MyTaskCompleted is not null)
             {
                 MyTaskCompleted(this, eventArgs);
             }
         }
+
         public void DisplayMessage(string message)
         {
             if (message.StartsWith("@bor@"))
@@ -142,6 +147,7 @@ namespace OpenRS.Net.Client.Utilities
 
             client.DisplayMessage(message, (int)MessageType.Game);
         }
+
         public void CantLogout()
         {
             client.logoutTimer = 0;
@@ -169,6 +175,7 @@ namespace OpenRS.Net.Client.Utilities
 
             return formattedCount;
         }
+
         public bool HasRequiredRunes(int runeId, int requiredAmount)
         {
             if (runeId == (int)RuneElement.Air && (client.IsItemEquipped((int)ElementalStaff.Air) || client.IsItemEquipped((int)ElementalBattlestaff.Air) || client.IsItemEquipped((int)ElementalMysticStaff.Air)))
@@ -193,6 +200,7 @@ namespace OpenRS.Net.Client.Utilities
 
             return client.GetInventoryItemTotalCount(runeId) >= requiredAmount;
         }
+
         public void DisplayMessage(string message, int messageType)
         {
             if (messageType == (int)MessageType.Chat || messageType == (int)MessageType.GameLocal || messageType == (int)MessageType.PrivateMessage)
@@ -311,6 +319,7 @@ namespace OpenRS.Net.Client.Utilities
                 client.chatInputMenu.AddMessage(client.messagesHandleType6, message, false);
             }
         }
+
         public void PlaySound(string soundName)
         {
             if (!Config.MembersFeatures || client.configSoundOff)
@@ -321,7 +330,7 @@ namespace OpenRS.Net.Client.Utilities
             AudioManager.Instance.PlaySound(soundName);
         }
 
-        protected int GetUID() => Link.userId;
+        private int GetUID() => Link.userId;
 
         public bool TakeScreenshot(bool isVerbose) => true;
 

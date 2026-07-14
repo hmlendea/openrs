@@ -2,6 +2,10 @@
 
 using NuciXNA.Primitives;
 
+using NuciLog.Core;
+
+using OpenRS.Settings;
+
 namespace OpenRS.Models
 {
     public sealed class PathHandler
@@ -11,6 +15,8 @@ namespace OpenRS.Models
         private int currentWaypoint;
         private readonly MobInstance mobInstance;
         // world
+
+        private readonly ILogger logger = NuciLoggerFactory.CreateLogger<PathHandler>();
 
         public PathHandler(MobInstance mobInstance)
         {
@@ -59,12 +65,12 @@ namespace OpenRS.Models
             currentWaypoint = -1;
         }
 
-        protected bool AtStart() => Path.StartLocation == mobInstance.Location;
+        private bool AtStart() => Path.StartLocation == mobInstance.Location;
 
-        protected bool AtWaypoint(int waypoint) => Path.GetWaypoint(waypoint).X == mobInstance.Location.X &&
+        private bool AtWaypoint(int waypoint) => Path.GetWaypoint(waypoint).X == mobInstance.Location.X &&
                    Path.GetWaypoint(waypoint).Y == mobInstance.Location.Y;
 
-        protected Point2D GetNextPosition(Point2D start, Point2D destination)
+        private Point2D GetNextPosition(Point2D start, Point2D destination)
         {
             try
             {
@@ -151,14 +157,13 @@ namespace OpenRS.Models
             }
             catch (Exception ex)
             {
-                // TODO: Use logger.
-                Console.WriteLine(ex);
+                logger.Error("Failed to calculate the next path location.", ex);
             }
 
             return start;
         }
 
-        protected void SetNextPosition()
+        private void SetNextPosition()
         {
             Point2D newLocation = new(-1, -1);
 

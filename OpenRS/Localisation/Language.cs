@@ -7,7 +7,7 @@ namespace OpenRS.Localisation
     {
         private static readonly Dictionary<string, Language> values = new()
         {
-            { nameof(English), new Language(nameof(English), "en") }
+            { nameof(English), new Language(nameof(English), "en") },
         };
 
         public string Name { get; }
@@ -22,7 +22,7 @@ namespace OpenRS.Localisation
 
         public static Language English => values[nameof(English)];
 
-        public static Language[] GetValues() => [.. values.Values];
+        public static IEnumerable<Language> GetValues() => values.Values;
 
         public bool Equals(Language other)
         {

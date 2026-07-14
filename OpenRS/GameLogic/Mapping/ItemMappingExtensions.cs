@@ -44,6 +44,7 @@ namespace OpenRS.GameLogic.Mapping
             IsStackable = item.IsStackable,
             IsUnused = item.IsUnused
         };
+
         internal static IEnumerable<Item> ToDomainModels(
             this IEnumerable<ItemEntity> itemEntities)
             => itemEntities.Select(itemEntity => itemEntity.ToDomainModel());

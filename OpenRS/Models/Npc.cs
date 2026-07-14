@@ -46,7 +46,7 @@
 
         public Npc()
         {
-            Appearance = new Appearance();
+            Appearance = new();
             Sprites = new int[SpriteCount];
         }
     }

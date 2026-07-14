@@ -5,10 +5,11 @@ using System.Numerics;
 using System.Text;
 using System.Threading;
 
+using NuciLog.Core;
+
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 using OpenRS.Net.Client.Net;
-using OpenRS.Net.Enumerations;
 using OpenRS.Settings;
 
 namespace OpenRS.Net.Client
@@ -17,6 +18,8 @@ namespace OpenRS.Net.Client
     {
         private static bool isConnecting;
         private Thread connectionThread;
+
+        private readonly ILogger logger = NuciLoggerFactory.CreateLogger<GameAppletMiddleMan>();
         public void Connect(string username, string password, bool isReconnecting)
         {
             if (isConnecting)
@@ -53,7 +56,7 @@ namespace OpenRS.Net.Client
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception.ToString());
+                logger.Error("Failed to initiate the connection.", exception);
             }
 
         }
@@ -106,7 +109,7 @@ namespace OpenRS.Net.Client
             catch (Exception ex)
             {
                 LoginScreenPrint("Unable to Connect.", "Server timed out");
-                Console.WriteLine(ex);
+                logger.Error("Failed to read the session ID.", ex);
                 streamClass.CloseStream();
                 return;
             }
@@ -115,7 +118,9 @@ namespace OpenRS.Net.Client
             {
             }
 
-            Console.WriteLine("Verb: Session id: " + sessionId);
+            logger.Debug(
+                "Session ID received.",
+                new LogInfo(GameLogInfoKey.SessionId, sessionId));
             int[] sessionKeys =
             [
                 (int)(Helper.Random.NextDouble() * 99999999D),
@@ -155,7 +160,9 @@ namespace OpenRS.Net.Client
                 streamClass.CloseStream();
                 return;
             }
-            Console.WriteLine("login response:" + loginCode);
+            logger.Debug(
+                "Login response received.",
+                new LogInfo(GameLogInfoKey.LoginResponseCode, loginCode));
 
             if (loginCode == (int)LoginCode.Code99)
             {
@@ -253,7 +260,7 @@ namespace OpenRS.Net.Client
 
         public virtual void LostConnection()
         {
-            Console.WriteLine("Lost connection");
+            logger.Warn("Lost connection.");
             // Connect(username, password, true);
             LoginScreenPrint("Please enter your usename and password", "");
         }

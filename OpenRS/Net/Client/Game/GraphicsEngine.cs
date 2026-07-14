@@ -5,7 +5,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 using NuciXNA.Primitives;
 
+using NuciLog.Core;
+
 using OpenRS.Net.Client.Data;
+using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Game
 {
@@ -17,7 +20,7 @@ namespace OpenRS.Net.Client.Game
 
         public GraphicsEngine(int width, int height, int size)
         {
-            GameSize = new Size2D(width, height);
+            GameSize = new(width, height);
 
             imageRectangle = new Rectangle2D(0, 0, width, height);
 
@@ -756,7 +759,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                Console.WriteLine("error in sprite clipping routine");
+                logger.Error("Error in sprite clipping routine.");
             }
         }
 
@@ -835,7 +838,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                Console.WriteLine("error in sprite clipping routine");
+                logger.Error("Error in sprite clipping routine.");
             }
         }
 
@@ -1038,7 +1041,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                Console.WriteLine("error in sprite clipping routine");
+                logger.Error("Error in sprite clipping routine.");
             }
         }
 
@@ -1116,7 +1119,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                Console.WriteLine("error in sprite clipping routine");
+                logger.Error("Error in sprite clipping routine.");
             }
         }
 
@@ -1300,7 +1303,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                Console.WriteLine("error in plot_scale");
+                logger.Error("Error in the plot_scale routine.");
             }
         }
 
@@ -1391,7 +1394,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                Console.WriteLine("error in tran_scale");
+                logger.Error("Error in the tran_scale routine.");
             }
         }
 
@@ -1441,7 +1444,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception)
             {
-                Console.WriteLine("error in plot_scale");
+                logger.Error("Error in the plot_scale routine.");
             }
         }
 
@@ -2207,7 +2210,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception exception)
             {
-                Console.WriteLine("centrepara: " + exception);
+                logger.Error("Error in the centrepara routine.", exception);
             }
         }
 
@@ -2342,7 +2345,7 @@ namespace OpenRS.Net.Client.Game
                 }
                 catch
                 {
-                    Console.WriteLine($"An error has occured in {nameof(GraphicsEngine)}.cs");
+                    logger.Error("An error has occurred while drawing.");
                 }
 
                 //stringsToDraw.Add(new stringDrawDef
@@ -2367,7 +2370,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception exception)
             {
-                Console.WriteLine("drawstring: " + exception);
+                logger.Error("Error in the drawstring routine.", exception);
 
                 return;
             }
@@ -2492,7 +2495,7 @@ namespace OpenRS.Net.Client.Game
             }
             catch (Exception exception)
             {
-                Console.WriteLine("plotletter: " + exception);
+                logger.Error("Error in the plotletter routine.", exception);
 
                 return;
             }
@@ -2645,6 +2648,8 @@ namespace OpenRS.Net.Client.Game
         private static readonly sbyte[][] gameFonts = new sbyte[50][];
         private static readonly int[] characterFontOffsetTable;
         public bool IsLoggedIn;
+
+        private readonly ILogger logger = NuciLoggerFactory.CreateLogger<GraphicsEngine>();
         public int[] characterRotationTable;
         public int[] entityScanlineMinX;
         public int[] entityScanlineMaxX;

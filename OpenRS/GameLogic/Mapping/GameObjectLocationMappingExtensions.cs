@@ -5,7 +5,6 @@ using NuciXNA.Primitives;
 
 using OpenRS.DataAccess.DataObjects;
 using OpenRS.Models;
-using OpenRS.Models.Enumerations;
 
 namespace OpenRS.GameLogic.Mapping
 {
@@ -13,10 +12,11 @@ namespace OpenRS.GameLogic.Mapping
     {
         internal static GameObjectLocation ToDomainModel(this GameObjectLocationEntity gameObjectLocationEntity) => new()
         {
-            Location = new Point2D(gameObjectLocationEntity.X, gameObjectLocationEntity.Y),
+            Location = new(gameObjectLocationEntity.X, gameObjectLocationEntity.Y),
             Direction = gameObjectLocationEntity.Direction,
             Type = (GameObjectType)gameObjectLocationEntity.Type
         };
+
         internal static GameObjectLocationEntity ToDataObject(this GameObjectLocation gameObjectLocation) => new()
         {
             X = gameObjectLocation.Location.X,
@@ -28,6 +28,7 @@ namespace OpenRS.GameLogic.Mapping
         internal static IEnumerable<GameObjectLocation> ToDomainModels(
             this IEnumerable<GameObjectLocationEntity> gameObjectLocationEntities)
             => gameObjectLocationEntities.Select(gameObjectLocationEntity => gameObjectLocationEntity.ToDomainModel());
+
         internal static IEnumerable<GameObjectLocationEntity> ToDataObjects(
             this IEnumerable<GameObjectLocation> gameObjectLocations)
             => gameObjectLocations.Select(gameObjectLocation => gameObjectLocation.ToDataObject());

@@ -21,6 +21,7 @@ namespace OpenRS.GameLogic.Mapping
             Amount = itemDrop.Amount,
             Weight = itemDrop.Weight
         };
+
         internal static IEnumerable<ItemDrop> ToDomainModels(this IEnumerable<ItemDropEntity> itemDropEntities)
             => itemDropEntities?.Select(itemDropEntity => itemDropEntity.ToDomainModel());
         internal static IEnumerable<ItemDropEntity> ToDataObjects(this IEnumerable<ItemDrop> itemDrops)

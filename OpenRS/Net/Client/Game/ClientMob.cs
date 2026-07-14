@@ -8,13 +8,13 @@ namespace OpenRS.Net.Client.Game
     {
         public ClientMob()
         {
-            Appearance = new Appearance();
-            Location = new Point2D();
+            Appearance = new();
+            Location = new();
             Waypoints = new Point2D[10];
 
             for (int i = 0; i < Waypoints.Length; i += 1)
             {
-                Waypoints[i] = new Point2D();
+                Waypoints[i] = new();
             }
 
             AppearanceItems = new int[12];
@@ -88,8 +88,8 @@ namespace OpenRS.Net.Client.Game
         public int skinColour { get => Appearance.SkinColour; set => Appearance.SkinColour = value; }
 
         // Location aliases
-        public int currentX { get => Location.X; set => Location = new Point2D(value, Location.Y); }
-        public int currentY { get => Location.Y; set => Location = new Point2D(Location.X, value); }
+        public int currentX { get => Location.X; set => Location = new(value, Location.Y); }
+        public int currentY { get => Location.Y; set => Location = new(Location.X, value); }
 
         // Waypoint int arrays
         public int[] waypointsX = new int[10];

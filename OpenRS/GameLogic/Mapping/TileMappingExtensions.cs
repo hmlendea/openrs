@@ -21,6 +21,7 @@ namespace OpenRS.GameLogic.Mapping
             Unknown = tile.Unknown,
             Type = tile.Type
         };
+
         internal static IEnumerable<Tile> ToDomainModels(
             this IEnumerable<TileEntity> tileEntities)
             => tileEntities.Select(tileEntity => tileEntity.ToDomainModel());

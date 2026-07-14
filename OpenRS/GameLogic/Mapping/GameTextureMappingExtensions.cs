@@ -19,6 +19,7 @@ namespace OpenRS.GameLogic.Mapping
             Name = texture.Name,
             SubName = texture.SubName
         };
+
         internal static IEnumerable<GameTexture> ToDomainModels(
             this IEnumerable<GameTextureEntity> textureEntities)
             => textureEntities.Select(textureEntity => textureEntity.ToDomainModel());

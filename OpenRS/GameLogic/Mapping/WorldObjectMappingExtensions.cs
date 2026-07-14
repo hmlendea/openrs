@@ -38,6 +38,7 @@ namespace OpenRS.GameLogic.Mapping
             ObjectModel = worldObject.ObjectModel,
             ModelId = worldObject.ModelId
         };
+
         internal static IEnumerable<WorldObject> ToDomainModels(
             this IEnumerable<WorldObjectEntity> worldObjectEntities)
             => worldObjectEntities.Select(worldObjectEntity => worldObjectEntity.ToDomainModel());

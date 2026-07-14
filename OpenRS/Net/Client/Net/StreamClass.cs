@@ -3,12 +3,18 @@ using System.IO;
 using System.Net.Sockets;
 using System.Threading;
 
+using NuciLog.Core;
+
+using OpenRS.Settings;
+
 namespace OpenRS.Net.Client.Net
 {
     public sealed class StreamClass : PacketConstruction
     {
 
         private readonly Thread connectionThread;
+
+        private readonly ILogger logger = NuciLoggerFactory.CreateLogger<StreamClass>();
 
         public StreamClass(/*Socket*/ TcpClient socket, GameApplet a1 = null)
         {
@@ -66,7 +72,7 @@ namespace OpenRS.Net.Client.Net
             }
             catch (IOException _ex)
             {
-                Console.WriteLine("Error closing stream");
+                logger.Error("Failed to close the stream.");
             }
             socketClosed = true;
             // synchronized {

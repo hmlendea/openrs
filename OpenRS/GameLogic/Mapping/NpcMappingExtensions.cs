@@ -16,7 +16,7 @@ namespace OpenRS.GameLogic.Mapping
             Description = LocalisationManager.GetString(npcEntity.Description),
             Command = LocalisationManager.GetString(npcEntity.Command),
             Sprites = npcEntity.Sprites,
-            Appearance = new Appearance
+            Appearance = new()
             {
                 HairColour = npcEntity.HairColour,
                 TopColour = npcEntity.TopColour,
@@ -63,6 +63,7 @@ namespace OpenRS.GameLogic.Mapping
             IsAggressive = npc.IsAggressive,
             Drops = npc.Drops?.ToDataObjects().ToArray()
         };
+
         internal static IEnumerable<Npc> ToDomainModels(
             this IEnumerable<NpcEntity> npcEntities)
             => npcEntities.Select(npcEntity => npcEntity.ToDomainModel());

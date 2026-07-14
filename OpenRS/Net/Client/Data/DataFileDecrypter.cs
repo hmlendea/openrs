@@ -1,10 +1,15 @@
 using System;
 
+using NuciLog.Core;
+
+using OpenRS.Settings;
+
 namespace OpenRS.Net.Client.Data
 {
 
     public sealed class DataFileDecrypter
     {
+        private static readonly ILogger logger = NuciLoggerFactory.CreateLogger<DataFileDecrypter>();
 
         public static long UnpackData(sbyte[] outputBuffer, int decompressedSize, sbyte[] inputBuffer, int compressedSize, int startOffset)
         {
@@ -259,7 +264,7 @@ namespace OpenRS.Net.Client.Data
 
                 if (blockEntry.isRandomised)
                 {
-                    Console.WriteLine("PANIC! RANDOMISED BLOCK!");
+                    logger.Error("Encountered a randomised block.");
                 }
 
                 blockEntry.origPtr = 0;

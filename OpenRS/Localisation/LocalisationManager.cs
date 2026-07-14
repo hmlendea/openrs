@@ -8,6 +8,10 @@ namespace OpenRS.Localisation
 {
     public static class LocalisationManager
     {
+        private static string ReferencePrefix => "@ref:";
+
+        private static int MaxResolutionDepth => 5;
+
         private static Dictionary<string, string> strings = [];
 
         public static void Load(Language language)
@@ -34,9 +38,6 @@ namespace OpenRS.Localisation
 
         private static string ResolveReference(string value)
         {
-            const string ReferencePrefix = "@ref:";
-            const int MaxResolutionDepth = 5;
-
             string current = value;
 
             for (int depth = 0; depth < MaxResolutionDepth; depth++)

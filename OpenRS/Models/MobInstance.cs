@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using NuciXNA.Primitives;
 
-using OpenRS.Models.Enumerations;
+using NuciLog.Core;
+
+using OpenRS.Settings;
 
 namespace OpenRS.Models
 {
@@ -14,6 +17,8 @@ namespace OpenRS.Models
         private readonly bool[] activatedPrayers;
         private readonly PathHandler pathHandler;
         // viewArea
+
+        private readonly ILogger logger = NuciLoggerFactory.CreateLogger<MobInstance>();
 
         protected Dictionary<long, int> totalDamageTable;
         protected Dictionary<long, int> meleeDamageTable;
@@ -193,8 +198,7 @@ namespace OpenRS.Models
             }
             catch (Exception ex)
             {
-                // TODO: Use logger.
-                Console.WriteLine(ex);
+                logger.Error("Failed to update the mob sprite.", ex);
             }
         }
     }

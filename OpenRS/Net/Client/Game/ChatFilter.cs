@@ -16,9 +16,9 @@ namespace OpenRS.Net.Client.Game
 
         public static void Load()
         {
-            HashSet<string> badWords = LoadWordSet("bad.txt");
-            HashSet<string> badHosts = LoadWordSet("hosts.txt");
-            HashSet<string> tlds = LoadWordSet("tlds.txt");
+            IEnumerable<string> badWords = LoadWordSet("bad.txt");
+            IEnumerable<string> badHosts = LoadWordSet("hosts.txt");
+            IEnumerable<string> tlds = LoadWordSet("tlds.txt");
 
             // fragments.txt contains the original binary encoding table
             // (character substitution codes for leet-speak detection).
@@ -49,14 +49,12 @@ namespace OpenRS.Net.Client.Game
             return filteredMessage;
         }
 
-        private static HashSet<string> LoadWordSet(string fileName)
+        private static IEnumerable<string> LoadWordSet(string fileName)
         {
             string filePath = Path.Combine(ApplicationPaths.ChatFilterDirectory, fileName);
             string[] lines = File.ReadAllLines(filePath, Encoding.UTF8);
 
-            return new HashSet<string>(
-                lines.Where(line => !string.IsNullOrWhiteSpace(line)),
-                StringComparer.OrdinalIgnoreCase);
+            return lines.Where(line => !string.IsNullOrWhiteSpace(line));
         }
     }
 }

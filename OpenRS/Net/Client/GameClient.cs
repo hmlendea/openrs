@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using OpenRS.GameLogic.GameManagers;
+using OpenRS.Models;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Entities;
 using OpenRS.Net.Client.Events;
@@ -82,13 +83,14 @@ namespace OpenRS.Net.Client
 
         public void UnloadContent() { }
 
-        public void SetCombatStyle(Models.Enumerations.CombatStyle style)
+        public void SetCombatStyle(CombatStyle style)
         {
             combatStyle = (int)style;
         }
-        public Models.Enumerations.CombatStyle CombatStyle
+
+        public CombatStyle CombatStyle
         {
-            get => (Models.Enumerations.CombatStyle)combatStyle;
+            get => (CombatStyle)combatStyle;
             set => combatStyle = (int)value;
         }
 

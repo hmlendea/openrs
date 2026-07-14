@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 
+using NuciLog.Core;
+
 using OpenRS.Models;
 using OpenRS.Net.Client.Game;
 using OpenRS.Localisation;
+using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Rendering
 {
@@ -19,19 +22,21 @@ namespace OpenRS.Net.Client.Rendering
         private readonly TradeRenderer tradeRenderer;
         private readonly WorldRenderer worldRenderer;
 
+        private readonly ILogger logger = NuciLoggerFactory.CreateLogger<GameRenderer>();
+
         private List<ItemSpriteDrawCall> pendingItemSpriteDrawCalls = [];
 
         public GameRenderer(GameClient client)
         {
             this.client = client;
-            characterRenderer = new CharacterRenderer(client, RecordItemSprite);
-            combatRenderer = new CombatRenderer(client);
-            inventoryRenderer = new InventoryRenderer(client, RecordItemSprite);
-            loginRenderer = new LoginRenderer(client);
-            overlayRenderer = new OverlayRenderer(client);
-            socialRenderer = new SocialRenderer(client);
-            tradeRenderer = new TradeRenderer(client, RecordItemSprite);
-            worldRenderer = new WorldRenderer(client, RecordItemSprite);
+            characterRenderer = new(client, RecordItemSprite);
+            combatRenderer = new(client);
+            inventoryRenderer = new(client, RecordItemSprite);
+            loginRenderer = new(client);
+            overlayRenderer = new(client);
+            socialRenderer = new(client);
+            tradeRenderer = new(client, RecordItemSprite);
+            worldRenderer = new(client, RecordItemSprite);
         }
 
         private void RecordItemSprite(int x, int y, int width, int height, Item item)
@@ -51,9 +56,9 @@ namespace OpenRS.Net.Client.Rendering
             });
         }
 
-        public Models.Enumerations.CombatStyle CombatStyle
+        public CombatStyle CombatStyle
         {
-            get => (Models.Enumerations.CombatStyle)client.combatStyle;
+            get => (CombatStyle)client.combatStyle;
             set => client.combatStyle = (int)value;
         }
 
@@ -166,8 +171,7 @@ namespace OpenRS.Net.Client.Rendering
             }
             catch (Exception exception)
             {
-                Console.WriteLine($"[Paint EXCEPTION] {exception.GetType().Name}: {exception.Message}");
-                Console.WriteLine(exception.StackTrace);
+                logger.Error("The Paint call has failed.", exception);
                 client.CleanUp();
                 client.memoryError = true;
             }

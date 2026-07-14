@@ -14,7 +14,7 @@ namespace OpenRS.Models
 
             for (int tileIndex = 0; tileIndex < Size.Area; tileIndex += 1)
             {
-                tiles[tileIndex] = new WorldTile();
+                tiles[tileIndex] = new();
             }
         }
 

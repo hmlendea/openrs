@@ -5,12 +5,17 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+using NuciLog.Core;
+
 using OpenRS.Net.Client.Game;
+using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Input
 {
     public sealed class InputHandler(GameClient client)
     {
+        private readonly ILogger logger = NuciLoggerFactory.CreateLogger<InputHandler>();
+
         private readonly List<Keys> lastPressedKeys = [];
         private int lastMouseX;
         private int lastMouseY;
@@ -118,6 +123,7 @@ namespace OpenRS.Net.Client.Input
 
             return (char)key;
         }
+
         public void Update(GameTime gameTime)
         {
             KeyboardState keyboardState = Keyboard.GetState();
@@ -290,8 +296,7 @@ namespace OpenRS.Net.Client.Input
             }
             catch (Exception exception)
             {
-                Console.WriteLine($"[CheckInputs EXCEPTION] {exception.GetType().Name}: {exception.Message}");
-                Console.WriteLine(exception.StackTrace);
+                logger.Error("The CheckInputs call has failed.", exception);
                 client.CleanUp();
                 client.memoryError = true;
             }
@@ -1114,6 +1119,7 @@ namespace OpenRS.Net.Client.Input
                 }
             }
         }
+
         public void HandleKeyDown(Keys key, char character)
         {
             if (key == Keys.Left || key == Keys.Right || key == Keys.Up || key == Keys.Down)

@@ -1,4 +1,4 @@
-﻿using OpenRS.Models.Enumerations;
+﻿using OpenRS.Models;
 
 namespace OpenRS.GameLogic.GameManagers
 {

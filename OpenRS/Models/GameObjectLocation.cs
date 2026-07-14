@@ -1,7 +1,5 @@
 ﻿using NuciXNA.Primitives;
 
-using OpenRS.Models.Enumerations;
-
 namespace OpenRS.Models
 {
     public sealed class GameObjectLocation

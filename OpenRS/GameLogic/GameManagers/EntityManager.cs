@@ -63,7 +63,12 @@ namespace OpenRS.GameLogic.GameManagers
                 }
             }
 
-            HighestLoadedPicture = items.Count > 0 ? items.Max(i => i.InventoryPicture) + 1 : 0;
+            HighestLoadedPicture = 0;
+
+            if (items.Count > 0)
+            {
+                HighestLoadedPicture = items.Max(item => item.InventoryPicture) + 1;
+            }
         }
 
         public void LoadNpcs()
@@ -175,6 +180,7 @@ namespace OpenRS.GameLogic.GameManagers
                 worldObject.ModelId = GetModelIndex(worldObject.ObjectModel);
             }
         }
+
         public Animation GetAnimation(int index)
         {
             if (index < 0 || index >= AnimationCount)
@@ -278,6 +284,7 @@ namespace OpenRS.GameLogic.GameManagers
 
             return worldObjects[index];
         }
+
         public WorldObject GetWorldObject(string id) => worldObjects.FirstOrDefault(worldObject => worldObject.Id == id);
     }
 }

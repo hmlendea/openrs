@@ -96,6 +96,7 @@ namespace OpenRS.Net.Client.Entities
                 client.showAppearanceWindow = false;
             }
         }
+
         public void CleanUp()
         {
             try
@@ -134,6 +135,7 @@ namespace OpenRS.Net.Client.Entities
                 return;
             }
         }
+
         public ClientMob CreatePlayer(int index, int x, int y, int sprite)
         {
             if (client.playerBufferArray[index] is null)
@@ -181,6 +183,7 @@ namespace OpenRS.Net.Client.Entities
             client.playerArray[client.playerCount++] = existingPlayer;
             return existingPlayer;
         }
+
         public GameObject CreateWallObject(int x, int y, int dir, int type, int totalCount)
         {
 
@@ -259,11 +262,13 @@ namespace OpenRS.Net.Client.Entities
             wallModel.index = totalCount + 10000;
             return wallModel;
         }
+
         public void ResetPrivateMessages()
         {
             client.pmText = "";
             client.enteredPMText = "";
         }
+
         public ClientMob CreateNpc(int index, int x, int y, int sprite, int id)
         {
             if (client.npcAttackingArray[index] is null)
@@ -312,6 +317,7 @@ namespace OpenRS.Net.Client.Entities
             client.npcArray[client.npcCount++] = f1;
             return f1;
         }
+
         public void UpdateBankItems()
         {
             client.bankItemsCount = client.serverBankItemsCount;
@@ -350,6 +356,7 @@ namespace OpenRS.Net.Client.Entities
             }
 
         }
+
         public ClientMob GetLastPlayer(int serverIndex)
         {
             for (int i1 = 0; i1 < client.lastPlayerCount; i1 += 1)
@@ -361,6 +368,7 @@ namespace OpenRS.Net.Client.Entities
             }
             return null;
         }
+
         public ClientMob GetLastNpc(int serverIndex)
         {
             for (int i1 = 0; i1 < client.lastNpcCount; i1 += 1)

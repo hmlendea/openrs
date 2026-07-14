@@ -16,7 +16,6 @@ namespace OpenRS.Models
         public virtual void SetLocation(Point2D location)
         {
             throw new NotImplementedException();
-            Location = location;
         }
 
         public bool IsWithinRange(GameEntityInstance other, int radius) => IsWithinRange(other.Location, radius);

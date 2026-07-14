@@ -1,5 +1,6 @@
-﻿using OpenRS.Net.Client.Game;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
+
+using OpenRS.Net.Client.Game;
 
 namespace OpenRS.Net.Client
 {
@@ -218,7 +219,7 @@ namespace OpenRS.Net.Client
             lastMouseButton = 0;
         }
 
-        protected void DrawBorderBox(int componentIndex, int x, int y, int w, int h)
+        private void DrawBorderBox(int componentIndex, int x, int y, int w, int h)
         {
             gameImage.DrawBox(x, y, w, h, 0xffffff);
             gameImage.DrawLineX(x, y, w, panelTopLeftColour);
@@ -236,13 +237,13 @@ namespace OpenRS.Net.Client
             }
         }
 
-        protected void DrawComponentTextAligned(int componentIndex, int xPosition, int yPosition, string text, int fontIndex)
+        private void DrawComponentTextAligned(int componentIndex, int xPosition, int yPosition, string text, int fontIndex)
         {
             int textYPosition = yPosition + gameImage.TextHeightNumber(fontIndex) / 3;
             DrawComponentTextColored(componentIndex, xPosition, textYPosition, text, fontIndex);
         }
 
-        protected void DrawComponentTextColored(int componentIndex, int xPosition, int yPosition, string text, int fontIndex)
+        private void DrawComponentTextColored(int componentIndex, int xPosition, int yPosition, string text, int fontIndex)
         {
             int textColour;
             if (componentWhiteText[componentIndex])
@@ -257,7 +258,7 @@ namespace OpenRS.Net.Client
             gameImage.DrawString(text, xPosition, yPosition, fontIndex, textColour);
         }
 
-        protected void DrawInputBox(int componentIndex, int xPosition, int yPosition, int width, int height, string text, int fontIndex)
+        private void DrawInputBox(int componentIndex, int xPosition, int yPosition, int width, int height, string text, int fontIndex)
         {
             if (componentIsPasswordField[componentIndex])
             {
@@ -341,17 +342,17 @@ namespace OpenRS.Net.Client
             gameImage.DrawPicture(xPosition + width - 7, yPosition + height - 7, 5 + baseScrollPic);
         }
 
-        protected void DrawPicture(int xPosition, int yPosition, int pictureIndex)
+        private void DrawPicture(int xPosition, int yPosition, int pictureIndex)
         {
             gameImage.DrawPicture(xPosition, yPosition, pictureIndex);
         }
 
-        protected void DrawLineX(int xPosition, int yPosition, int width)
+        private void DrawLineX(int xPosition, int yPosition, int width)
         {
             gameImage.DrawLineX(xPosition, yPosition, width, 0);
         }
 
-        protected void DrawScrollableList(int componentIndex, int xPosition, int yPosition, int width, int height, int fontIndex, string[] textList,
+        private void DrawScrollableList(int componentIndex, int xPosition, int yPosition, int width, int height, int fontIndex, string[] textList,
                 int listLength, int shownEntries)
         {
             int visibleEntries = height / gameImage.TextHeightNumber(fontIndex);
@@ -441,7 +442,7 @@ namespace OpenRS.Net.Client
 
         }
 
-        protected void DrawScrollbar(int xPosition, int yPosition, int width, int height, int thumbOffset, int thumbSize)
+        private void DrawScrollbar(int xPosition, int yPosition, int width, int height, int thumbOffset, int thumbSize)
         {
             int scrollbarXOffset = xPosition + width - 12;
             gameImage.DrawBoxEdge(scrollbarXOffset, yPosition, 12, height, 0); // Border.
@@ -455,7 +456,7 @@ namespace OpenRS.Net.Client
             gameImage.DrawLineY(scrollbarXOffset + 2 + 8, thumbOffset + yPosition + 14, thumbSize, scrollBarDraggingBarLine2Color); // Dragging bar.
         }
 
-        protected void DrawHorizontalOptions(int componentIndex, int xPosition, int yPosition, int fontIndex, string[] options)
+        private void DrawHorizontalOptions(int componentIndex, int xPosition, int yPosition, int fontIndex, string[] options)
         {
             int totalWidth = 0;
             int optionCount = options.Length;
@@ -522,7 +523,7 @@ namespace OpenRS.Net.Client
 
         }
 
-        protected void DrawVerticalOptions(int componentIndex, int xPosition, int yPosition, int fontIndex, string[] options)
+        private void DrawVerticalOptions(int componentIndex, int xPosition, int yPosition, int fontIndex, string[] options)
         {
             int optionCount = options.Length;
             int currentY = yPosition - gameImage.TextHeightNumber(fontIndex) * (optionCount - 1) / 2;
@@ -578,7 +579,7 @@ namespace OpenRS.Net.Client
 
         }
         // DrawList(x, componentX[x], componentY[x], componentWidth[x], componentHeight[x], componentTextSize[x], componentTextList[x], listLength[x], gbc[x]);
-        protected void DrawList(int listIndex, int listX, int listY, int listWidth, int listHeight, int listTextSize, string[] listText,
+        private void DrawList(int listIndex, int listX, int listY, int listWidth, int listHeight, int listTextSize, string[] listText,
                 int listLength, int shownEntries)
         {
             int entryCount = listHeight / gameImage.TextHeightNumber(listTextSize);
@@ -932,7 +933,7 @@ namespace OpenRS.Net.Client
             return highlightedIndex;
         }
 
-        protected GameImage gameImage;
+        private readonly GameImage gameImage;
         private int menuItemsCount;
         private readonly int componentCapacity;
         public bool[] componentAcceptsInput;

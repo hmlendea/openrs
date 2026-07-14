@@ -29,6 +29,7 @@ namespace OpenRS.Net.Client
         {
             defaultColor = color;
         }
+
         public static void SetFont(this SpriteBatch spriteBatch, SpriteFont font)
         {
             defaultFont = font;
@@ -49,6 +50,7 @@ namespace OpenRS.Net.Client
                 //  spriteBatch.EndSafe();
             }
         }
+
         public static void DrawLine(this SpriteBatch spriteBatch, Vector2 start, Vector2 end, Color color)
         {
             if (dummyTexture is null)
@@ -125,6 +127,7 @@ namespace OpenRS.Net.Client
         {
             DrawRect(spriteBatch, new Rectangle(x, y, w, h), color);
         }
+
         public static void DrawRect(this SpriteBatch spriteBatch, Rectangle rectangle, Color color)
         {
             if (dummyTexture is null)

@@ -35,7 +35,7 @@ namespace OpenRS.Settings
 
         public SettingsManager()
         {
-            GraphicsSettings = new GraphicsSettings();
+            GraphicsSettings = new();
         }
 
         public void LoadContent()

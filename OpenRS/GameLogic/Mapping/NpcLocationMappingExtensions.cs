@@ -12,9 +12,9 @@ namespace OpenRS.GameLogic.Mapping
     {
         internal static NpcLocation ToDomainModel(this NpcLocationEntity npcLocationEntity) => new()
         {
-            InitialCoordinates = new Point2D(npcLocationEntity.InitialX, npcLocationEntity.InitialY),
-            MinimumCoordinates = new Point2D(npcLocationEntity.MinX, npcLocationEntity.MinY),
-            MaximumCoordinates = new Point2D(npcLocationEntity.MaxX, npcLocationEntity.MaxY)
+            InitialCoordinates = new(npcLocationEntity.InitialX, npcLocationEntity.InitialY),
+            MinimumCoordinates = new(npcLocationEntity.MinX, npcLocationEntity.MinY),
+            MaximumCoordinates = new(npcLocationEntity.MaxX, npcLocationEntity.MaxY)
         };
 
         internal static NpcLocationEntity ToDataObject(this NpcLocation npcLocation) => new()
@@ -26,6 +26,7 @@ namespace OpenRS.GameLogic.Mapping
             MaxX = npcLocation.MaximumCoordinates.X,
             MaxY = npcLocation.MaximumCoordinates.Y
         };
+
         internal static IEnumerable<NpcLocation> ToDomainModels(
             this IEnumerable<NpcLocationEntity> npcLocationEntities)
             => npcLocationEntities.Select(npcLocationEntity => npcLocationEntity.ToDomainModel());

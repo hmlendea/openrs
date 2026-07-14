@@ -3,13 +3,21 @@
     public sealed class Item
     {
         public string Id { get; set; }
+
         public string Name { get; set; }
+
         public string Description { get; set; }
+
         public string Command { get; set; }
+
         public int BasePrice { get; set; }
+
         public int SpriteId { get; set; }
+
         public int InventoryPicture { get; set; }
+
         public string SpriteName { get; set; }
+
         public int PictureMask { get; set; }
 
         // TODO: Convert to bool.

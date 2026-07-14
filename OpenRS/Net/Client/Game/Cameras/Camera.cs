@@ -1,5 +1,9 @@
 ﻿using System;
 
+using NuciLog.Core;
+
+using OpenRS.Settings;
+
 namespace OpenRS.Net.Client.Game.Cameras
 {
     public sealed class Camera
@@ -96,7 +100,7 @@ namespace OpenRS.Net.Client.Game.Cameras
         {
             if (gameObject is null)
             {
-                Console.WriteLine("Warning tried to add null object!");
+                logger.Warn("Attempted to add a null object.");
             }
 
             if (currentObjectCount < totalModelCount)
@@ -3592,6 +3596,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             }
 
         }
+
         public void UpdateLighting(int textureIndex)
         {
             if (objectTexturePixels[textureIndex] is null)
@@ -4236,6 +4241,8 @@ namespace OpenRS.Net.Client.Game.Cameras
         public static int farZ;
         public int sortRangeStart;
         public int sortRangeEnd;
+
+        private readonly ILogger logger = NuciLoggerFactory.CreateLogger<Camera>();
 
     }
 

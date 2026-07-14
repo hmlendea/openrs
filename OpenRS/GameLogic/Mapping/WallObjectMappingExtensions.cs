@@ -34,6 +34,7 @@ namespace OpenRS.GameLogic.Mapping
             ModelFaceBack = wallObject.ModelFaceBack,
             ModelFaceFront = wallObject.ModelFaceFront
         };
+
         internal static IEnumerable<WallObject> ToDomainModels(
             this IEnumerable<WallObjectEntity> wallObjectEntities)
             => wallObjectEntities.Select(wallObjectEntity => wallObjectEntity.ToDomainModel());

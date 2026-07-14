@@ -14,9 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.9" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.4" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4" />
     <PackageReference Include="NuciDAL" Version="3.1.0" />
+    <PackageReference Include="NuciLog" Version="1.2.1" />
+    <PackageReference Include="NuciLog.Core" Version="3.0.0" />
     <PackageReference Include="NuciXNA.DataAccess" Version="4.0.3" />
     <PackageReference Include="NuciXNA.Graphics" Version="2.2.3" />
     <PackageReference Include="NuciXNA.Gui" Version="3.3.0" />
@@ -25,6 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\Animations\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

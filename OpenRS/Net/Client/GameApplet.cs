@@ -7,6 +7,8 @@ using System.Threading;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using NuciLog.Core;
+
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 using OpenRS.Settings;
@@ -33,7 +35,7 @@ namespace OpenRS.Net.Client
 
         public void CreateWindow(int width, int height, string title, bool resizable)
         {
-            Console.WriteLine("Started application");
+            logger.Info("The application has started.");
             appletWidth = width;
             appletHeight = height;
             gameFrame = new GameFrame(this, width, height, title, resizable, false);
@@ -283,7 +285,7 @@ namespace OpenRS.Net.Client
 
         public void Init()
         {
-            Console.WriteLine("Started applet");
+            logger.Info("The applet has started.");
             appletWidth = 512;
             appletHeight = 344;
             gameLoadingScreen = 1;
@@ -318,7 +320,7 @@ namespace OpenRS.Net.Client
 
             if (runStatus == -1)
             {
-                Console.WriteLine("2 seconds expired, forcing kill");
+                logger.Warn("The 2-second timeout has expired, forcing kill.");
                 CloseProgram();
                 gameWindowThread?.Interrupt();
                 gameWindowThread = null;
@@ -328,7 +330,7 @@ namespace OpenRS.Net.Client
         public void CloseProgram()
         {
             runStatus = -2;
-            Console.WriteLine("Closing program");
+            logger.Info("The program is closing.");
             Close();
 
             try
@@ -539,7 +541,7 @@ namespace OpenRS.Net.Client
 
         public virtual sbyte[] UnpackData(string filename, string fileTitle, int startPercentage)
         {
-            Console.WriteLine("Using default load");
+            logger.Debug("Using default load.");
             int decompressedSize = 0;
             int compressedSize = 0;
             sbyte[] fileData = Link.GetFile(filename);
@@ -548,7 +550,10 @@ namespace OpenRS.Net.Client
             {
                 try
                 {
-                    Console.WriteLine("Loading " + fileTitle + " - 0%");
+                    logger.Debug(
+                        "Loading file.",
+                        new LogInfo(GameLogInfoKey.FileName, fileTitle),
+                        new LogInfo(GameLogInfoKey.LoadProgress, 0));
                     DrawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 0%");
                     BinaryReader inputStream = new(DataOperations.OpenInputStream(filename));
                     sbyte[] headerBytes = [
@@ -558,7 +563,10 @@ namespace OpenRS.Net.Client
                     decompressedSize = ((headerBytes[0] & 0xff) << 16) + ((headerBytes[1] & 0xff) << 8) + (headerBytes[2] & 0xff);
                     compressedSize = ((headerBytes[3] & 0xff) << 16) + ((headerBytes[4] & 0xff) << 8) + (headerBytes[5] & 0xff);
 
-                    Console.WriteLine("Loading " + fileTitle + " - 5%");
+                    logger.Debug(
+                        "Loading file.",
+                        new LogInfo(GameLogInfoKey.FileName, fileTitle),
+                        new LogInfo(GameLogInfoKey.LoadProgress, 5));
                     DrawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 5%");
 #warning this could break stuff
                     int bytesRead = 6;
@@ -579,7 +587,10 @@ namespace OpenRS.Net.Client
                         }
 
                         bytesRead += chunkSize;
-                        Console.WriteLine("Loading " + fileTitle + " - " + (5 + bytesRead * 95 / compressedSize) + "%");
+                        logger.Debug(
+                            "Loading file.",
+                            new LogInfo(GameLogInfoKey.FileName, fileTitle),
+                            new LogInfo(GameLogInfoKey.LoadProgress, 5 + bytesRead * 95 / compressedSize));
                         DrawLoadingBarText(startPercentage, "Loading " + fileTitle + " - " + (5 + bytesRead * 95 / compressedSize) + "%");
                     }
 
@@ -588,7 +599,7 @@ namespace OpenRS.Net.Client
                 catch (IOException) { }
             }
 
-            Console.WriteLine("Unpacking " + fileTitle);
+            logger.Debug("Unpacking file.", new LogInfo(GameLogInfoKey.FileName, fileTitle));
             DrawLoadingBarText(startPercentage, "Unpacking " + fileTitle);
 
             if (compressedSize != decompressedSize)
@@ -624,7 +635,10 @@ namespace OpenRS.Net.Client
 
         public void MouseScroll(bool begin, int scrollAmount)
         {
-            Console.WriteLine("mouseWheel(" + begin + ", " + scrollAmount + ")");
+            logger.Verbose(
+                "Mouse scroll event.",
+                new LogInfo(GameLogInfoKey.ScrollBegin, begin),
+                new LogInfo(GameLogInfoKey.ScrollAmount, scrollAmount));
         }
 
         public void InitGameApplet()
@@ -665,6 +679,8 @@ namespace OpenRS.Net.Client
         private int refreshRate;
         private int maxLoopCount;
         private long[] timeArray;
+
+        private readonly ILogger logger = NuciLoggerFactory.CreateLogger<GameApplet>();
         public static GameFrame gameFrame;
         public int runStatus;
         public int loadingAnimationCounter;

@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Text;
 
+using NuciLog.Core;
+
 using OpenRS.GameLogic.GameManagers;
 using OpenRS.Localisation;
 using OpenRS.Net.Client.Data;
@@ -14,6 +16,7 @@ namespace OpenRS.Net.Client.Loading
 {
     public sealed class GameLoader(GameClient client)
     {
+        private readonly ILogger logger = NuciLoggerFactory.CreateLogger<GameLoader>();
 
         public void SetLoginVars()
         {
@@ -26,11 +29,13 @@ namespace OpenRS.Net.Client.Loading
             client.playerCount = 0;
             client.npcCount = 0;
         }
+
         public void Close()
         {
             client.CallRequestLogout();
             client.CleanUp();
         }
+
         public void CreateLoginScreenBackgrounds()
         {
             int _bgScreenWidth = client.windowWidth;
@@ -186,6 +191,7 @@ client.RaiseOnLoadingSection(this, new EventArgs());
 
 client.RaiseOnLoadingSectionCompleted(this, new EventArgs());
         }
+
         public void InitVars()
         {
             client.systemUpdate = 0;
@@ -249,9 +255,11 @@ client.RaiseOnLoadingSectionCompleted(this, new EventArgs());
             client.isSleeping = false;
             client.friendsCount = 0;
         }
+
         public void LoadSounds()
         {
         }
+
         public void LoadGame()
         {
             int l = 0;
@@ -355,6 +363,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                 return;
             }
         }
+
         public void CreateLoginMenus()
         {
             client.loginMenuFirst = new Menu(client.gameGraphics, 50);
@@ -407,6 +416,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
             client.loginMenuCancelButton = client.loginMenuLogin.CreateButton(410, l, 120, 25);
             client.loginMenuLogin.SetFocus(client.loginMenuUserText);
         }
+
         public void LostConnection()
         {
             client.systemUpdate = 0;
@@ -421,6 +431,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                 return;
             }
         }
+
         public void LoadMedia()
         {
             sbyte[] indexData = LoadDataFile(ApplicationPaths.MediaDirectory, "index.dat");
@@ -476,6 +487,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                 client.gameGraphics.LoadImage(client.baseProjectilePic + pictureIndex);
             }
         }
+
         public void LoadAnimations()
         {
             StringBuilder sb = new();
@@ -563,8 +575,11 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                 }
             }
 
-            Console.WriteLine("Loaded: " + frameCount + " frames of animation");
+            logger.Info(
+                "Loaded animation frames.",
+                new LogInfo(GameLogInfoKey.AnimationFrameCount, frameCount));
         }
+
         public void CreateChatInputMenu()
         {
             client.chatInputMenu = new Menu(client.gameGraphics, 10);
@@ -574,6 +589,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
             client.messagesHandleType6 = client.chatInputMenu.CreateScrollableTextBox(5, 269, 502, 56, 1, 20, true);
             client.chatInputMenu.SetFocus(client.chatInputBox);
         }
+
         public void LoadConfig()
         {
             client.entityManager = new EntityManager();
@@ -593,6 +609,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
             client.DrawLoadingBarText(15, "Chat system");
             client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Chat system", 15));
         }
+
         public sbyte[] UnpackData(string fileName, string fileTitle, int progressPercentage)
         {
             sbyte[] abyte0 = Link.GetFile(fileName);
@@ -627,6 +644,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                 return client.CallBaseUnpackData(fileName, fileTitle, progressPercentage);
             }
         }
+
         public void CreateAppearanceWindow()
         {
             client.appearanceMenu = new Menu(client.gameGraphics, 100);
@@ -689,6 +707,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
             client.appearanceMenu.DrawText(l, i1, "Accept", 4, false);
             client.appearanceAcceptButton = client.appearanceMenu.CreateButton(l, i1, 200, 30);
         }
+
         public void LoadTextures()
         {
             sbyte[] textureIndexData = LoadDataFile(ApplicationPaths.TexturesDirectory, "index.dat");
@@ -787,6 +806,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                 catch { }
             }
         }
+
         public bool LoadSection(int x, int y)
         {
             if (client.playerAliveTimeout != 0)
@@ -863,8 +883,10 @@ client.RaiseOnLoadingSection(this, new EventArgs());
                 }
                 catch (Exception runtimeexception)
                 {
-                    Console.WriteLine("Loc Error: " + runtimeexception.ToString());
-                    Console.WriteLine("x:" + j2 + " obj:" + _obj);
+                    logger.Error(
+                        "Location error for object.",
+                        runtimeexception,
+                        new LogInfo(GameLogInfoKey.CoordinateX, j2));
                     //runtimeexception.printStackTrace();
                 }
             }
@@ -885,7 +907,7 @@ client.RaiseOnLoadingSection(this, new EventArgs());
                 }
                 catch (Exception runtimeexception1)
                 {
-                    Console.WriteLine("Bound Error: " + runtimeexception1.ToString());
+                    logger.Error("Boundary error while creating wall object.", runtimeexception1);
                     //runtimeexception1.printStackTrace();
                 }
             }

@@ -1,7 +1,7 @@
+using OpenRS.Net.Client.Game;
+
 namespace OpenRS.Net.Client
 {
-    using OpenRS.Net.Client.Game;
-
     public sealed class GameImageMiddleMan(int width, int height, int size) : GameImage(width, height, size)
     {
         public GameClient gameReference;
