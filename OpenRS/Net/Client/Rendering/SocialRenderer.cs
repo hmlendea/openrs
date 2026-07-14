@@ -384,7 +384,7 @@ namespace OpenRS.Net.Client.Rendering
                     int byteCount = ChatMessage.StringToBytes(messageText);
                     client.CallSendPrivateMessage(client.pmTarget, ChatMessage.lastChat, byteCount);
                     messageText = ChatMessage.BytesToString(ChatMessage.lastChat, 0, byteCount);
-                    client.DisplayMessage("@pri@You tell " + DataOperations.HashToName(client.pmTarget) + ": " + messageText);
+                    client.DisplayMessage(string.Format(LocalisationManager.GetString("social.private_message_sent"), DataOperations.HashToName(client.pmTarget), messageText));
                 }
             }
 

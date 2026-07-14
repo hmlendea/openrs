@@ -636,7 +636,7 @@
   },
   {
     "id": "35",
-    "name": "spell.35.name",
+    "name": "name.flames_of_zamorak",
     "description": "spell.35.description",
     "requiredLevel": 60,
     "type": 2,

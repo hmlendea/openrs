@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using OpenRS.GameLogic.GameManagers;
+using OpenRS.Localisation;
 using OpenRS.Models;
 using OpenRS.Net.Client.Entities;
 using OpenRS.Net.Client.Events;
@@ -73,7 +74,7 @@ namespace OpenRS.Net.Client
             return CreateMudclient("RuneScape", 512, 346);
         }
 
-        public new void Dispose()
+        public void Dispose()
         {
             Destroy();
         }
@@ -449,6 +450,50 @@ namespace OpenRS.Net.Client
             worldInteractionHandler = new WorldInteractionHandler(this);
             entityHandler = new ClientEntityHandler(this);
             utilities = new GameClientUtilities(this);
+
+            skillName =
+            [
+                LocalisationManager.GetString("skill.name.attack"),
+                LocalisationManager.GetString("skill.name.defence"),
+                LocalisationManager.GetString("skill.name.strength"),
+                LocalisationManager.GetString("skill.name.hits"),
+                LocalisationManager.GetString("skill.name.ranged"),
+                LocalisationManager.GetString("skill.name.prayer"),
+                LocalisationManager.GetString("skill.name.magic"),
+                LocalisationManager.GetString("skill.name.cooking"),
+                LocalisationManager.GetString("skill.name.woodcutting"),
+                LocalisationManager.GetString("skill.name.fletching"),
+                LocalisationManager.GetString("skill.name.fishing"),
+                LocalisationManager.GetString("skill.name.firemaking"),
+                LocalisationManager.GetString("skill.name.crafting"),
+                LocalisationManager.GetString("skill.name.smithing"),
+                LocalisationManager.GetString("skill.name.mining"),
+                LocalisationManager.GetString("skill.name.herblaw"),
+                LocalisationManager.GetString("skill.name.agility"),
+                LocalisationManager.GetString("skill.name.thieving"),
+            ];
+
+            skillNameVerb =
+            [
+                LocalisationManager.GetString("skill.verb.attack"),
+                LocalisationManager.GetString("skill.verb.defence"),
+                LocalisationManager.GetString("skill.verb.strength"),
+                LocalisationManager.GetString("skill.verb.hits"),
+                LocalisationManager.GetString("skill.verb.ranged"),
+                LocalisationManager.GetString("skill.verb.prayer"),
+                LocalisationManager.GetString("skill.verb.magic"),
+                LocalisationManager.GetString("skill.verb.cooking"),
+                LocalisationManager.GetString("skill.verb.woodcutting"),
+                LocalisationManager.GetString("skill.verb.fletching"),
+                LocalisationManager.GetString("skill.verb.fishing"),
+                LocalisationManager.GetString("skill.verb.firemaking"),
+                LocalisationManager.GetString("skill.verb.crafting"),
+                LocalisationManager.GetString("skill.verb.smithing"),
+                LocalisationManager.GetString("skill.verb.mining"),
+                LocalisationManager.GetString("skill.verb.herblaw"),
+                LocalisationManager.GetString("skill.verb.agility"),
+                LocalisationManager.GetString("skill.verb.thieving"),
+            ];
         }
 
         public string tradeOtherName;
@@ -498,10 +543,7 @@ namespace OpenRS.Net.Client
         public int[] playerStatCurrent;
         public int[] menuActionX;
         public int[] menuActionY;
-        public string[] skillNameVerb = [
-        "Attack", "Defense", "Strength", "Hits", "Ranged", "Prayer", "Magic", "Cooking", "Woodcutting", "Fletching",
-        "Fishing", "Firemaking", "Crafting", "Smithing", "Mining", "Herblaw", "Agility", "Thieving"
-    ];
+        public string[] skillNameVerb;
         public int[] menuActionID;
         public int playerAliveTimeout;
         public int cameraAutoRotatePlayerX;
@@ -654,10 +696,7 @@ namespace OpenRS.Net.Client
         public int lastLayerIndex;
         public int[] bankItems;
         public int[] bankItemCount;
-        public string[] skillName = [
-        "Attack", "Defense", "Strength", "Hits", "Ranged", "Prayer", "Magic", "Cooking", "Woodcut", "Fletching",
-        "Fishing", "Firemaking", "Crafting", "Smithing", "Mining", "Herblaw", "Agility", "Thieving"
-    ];
+        public string[] skillName;
         public int npcCount;
         public int lastNpcCount;
         public int combatTimeout;

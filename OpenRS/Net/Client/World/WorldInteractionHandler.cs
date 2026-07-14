@@ -1,5 +1,6 @@
 using System;
 
+using OpenRS.Localisation;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 using OpenRS.Settings;
@@ -188,7 +189,7 @@ namespace OpenRS.Net.Client.World
                 client.streamClass.FormatPacket();
                 client.selectedItem = -1;
                 client.drawMenuTab = 0;
-                client.DisplayMessage("Dropping " + client.entityManager.GetItem(client.inventoryItems[actionType]).Name, 4);
+                client.DisplayMessage(LocalisationManager.GetString("inventory.drop_action_prefix") + client.entityManager.GetItem(client.inventoryItems[actionType]).Name, 4);
             }
             if (actionID == (int)MenuAction.ExamineItem)
             {
@@ -1283,11 +1284,11 @@ namespace OpenRS.Net.Client.World
                         message = ChatFilter.FilterChat(message);
                     }
 
-                    client.DisplayMessage("@pri@You tell " + DataOperations.HashToName(recipient) + ": " + message);
+                    client.DisplayMessage(string.Format(LocalisationManager.GetString("social.private_message_sent"), DataOperations.HashToName(recipient), message));
                     return true;
                 }
             }
-            catch (Exception exception)
+            catch (Exception)
             {
             }
 

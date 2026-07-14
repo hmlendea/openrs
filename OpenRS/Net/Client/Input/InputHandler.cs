@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 using NuciLog.Core;
 
+using OpenRS.Localisation;
 using OpenRS.Logging;
 using OpenRS.Net.Client.Game;
 using OpenRS.Settings;
@@ -583,12 +584,12 @@ namespace OpenRS.Net.Client.Input
                     client.playerAliveTimeout -= 1;
                     if (client.playerAliveTimeout == 0)
                     {
-                        client.DisplayMessage("You have been granted another life. Be more careful this time!", 3);
+                        client.DisplayMessage(LocalisationManager.GetString("social.respawn_granted"), 3);
                     }
 
                     if (client.playerAliveTimeout == 0)
                     {
-                        client.DisplayMessage("You retain your skills. Your objects land where you died", 3);
+                        client.DisplayMessage(LocalisationManager.GetString("social.respawn_retain_skills"), 3);
                     }
                 }
             }

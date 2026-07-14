@@ -71,7 +71,7 @@ namespace OpenRS.Net.Client.Net
 
                 socket?.Close();
             }
-            catch (IOException _ex)
+            catch (IOException)
             {
                 logger.Error(GameOperation.NetworkDisconnect, "Failed to close the stream.");
             }

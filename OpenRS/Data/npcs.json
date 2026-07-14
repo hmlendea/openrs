@@ -399,7 +399,7 @@
     "id": "11",
     "name": "name.man",
     "description": "npc.11.description",
-    "command": "npc.11.command",
+    "command": "command.pickpocket",
     "sprites": [
       0,
       1,
@@ -1694,7 +1694,7 @@
   {
     "id": "47",
     "name": "name.rat",
-    "description": "npc.47.description",
+    "description": "description.overgrown_vermin",
     "command": "command.none",
     "sprites": [
       123,
@@ -1802,7 +1802,7 @@
   {
     "id": "50",
     "name": "name.skeleton",
-    "description": "npc.50.description",
+    "description": "description.it_rattles_when_it_walks",
     "command": "command.none",
     "sprites": [
       133,
@@ -2017,7 +2017,7 @@
   },
   {
     "id": "56",
-    "name": "npc.56.name",
+    "name": "name.merchant",
     "description": "description.i_can_buy_swords_off",
     "command": "command.none",
     "sprites": [
@@ -2271,7 +2271,7 @@
     "id": "63",
     "name": "name.farmer",
     "description": "npc.63.description",
-    "command": "npc.63.command",
+    "command": "command.pickpocket",
     "sprites": [
       0,
       1,
@@ -2343,7 +2343,7 @@
     "id": "65",
     "name": "name.guard",
     "description": "description.he_tries_to_keep_order",
-    "command": "npc.65.command",
+    "command": "command.pickpocket",
     "sprites": [
       0,
       1,
@@ -2595,7 +2595,7 @@
     "id": "72",
     "name": "name.man",
     "description": "npc.72.description",
-    "command": "npc.72.command",
+    "command": "command.pickpocket",
     "sprites": [
       0,
       1,
@@ -3099,7 +3099,7 @@
     "id": "86",
     "name": "name.warrior",
     "description": "npc.86.description",
-    "command": "npc.86.command",
+    "command": "command.pickpocket",
     "sprites": [
       6,
       1,
@@ -3603,7 +3603,7 @@
     "id": "100",
     "name": "name.guard",
     "description": "npc.100.description",
-    "command": "npc.100.command",
+    "command": "command.pickpocket",
     "sprites": [
       0,
       1,
@@ -4681,7 +4681,7 @@
   },
   {
     "id": "130",
-    "name": "npc.130.name",
+    "name": "name.shop_assistant",
     "description": "description.i_can_buy_swords_off",
     "command": "command.none",
     "sprites": [
@@ -5727,7 +5727,7 @@
     "id": "159",
     "name": "name.warrior",
     "description": "description.a_skilled_fighter",
-    "command": "npc.159.command",
+    "command": "command.pickpocket",
     "sprites": [
       3,
       56,
@@ -6446,7 +6446,7 @@
   {
     "id": "179",
     "name": "name.skeleton",
-    "description": "npc.179.description",
+    "description": "description.it_rattles_when_it_walks",
     "command": "command.none",
     "sprites": [
       134,
@@ -6482,7 +6482,7 @@
   {
     "id": "180",
     "name": "name.zombie",
-    "description": "npc.180.description",
+    "description": "description.the_living_dead",
     "command": "command.none",
     "sprites": [
       136,
@@ -6877,7 +6877,7 @@
   },
   {
     "id": "191",
-    "name": "npc.191.name",
+    "name": "name.dwarf",
     "description": "npc.191.description",
     "command": "command.none",
     "sprites": [
@@ -9289,7 +9289,7 @@
   },
   {
     "id": "258",
-    "name": "npc.258.name",
+    "name": "name.guard",
     "description": "description.a_vicious_pirate",
     "command": "command.none",
     "sprites": [
@@ -11053,7 +11053,7 @@
   },
   {
     "id": "307",
-    "name": "npc.307.name",
+    "name": "name.man",
     "description": "description.a_well_dressed_nobleman",
     "command": "command.none",
     "sprites": [
@@ -11451,7 +11451,7 @@
     "id": "318",
     "name": "name.man",
     "description": "npc.318.description",
-    "command": "npc.318.command",
+    "command": "command.pickpocket",
     "sprites": [
       0,
       1,
@@ -11487,7 +11487,7 @@
     "id": "319",
     "name": "name.farmer",
     "description": "npc.319.description",
-    "command": "npc.319.command",
+    "command": "command.pickpocket",
     "sprites": [
       0,
       1,
@@ -11523,7 +11523,7 @@
     "id": "320",
     "name": "name.warrior",
     "description": "description.a_skilled_fighter",
-    "command": "npc.320.command",
+    "command": "command.pickpocket",
     "sprites": [
       3,
       56,
@@ -11559,7 +11559,7 @@
     "id": "321",
     "name": "name.guard",
     "description": "npc.321.description",
-    "command": "npc.321.command",
+    "command": "command.pickpocket",
     "sprites": [
       0,
       1,
@@ -11595,7 +11595,7 @@
     "id": "322",
     "name": "npc.322.name",
     "description": "npc.322.description",
-    "command": "npc.322.command",
+    "command": "command.pickpocket",
     "sprites": [
       19,
       34,
@@ -11631,7 +11631,7 @@
     "id": "323",
     "name": "name.paladin",
     "description": "description.a_paladin_of_ardougne",
-    "command": "npc.323.command",
+    "command": "command.pickpocket",
     "sprites": [
       6,
       34,
@@ -11667,7 +11667,7 @@
     "id": "324",
     "name": "npc.324.name",
     "description": "npc.324.description",
-    "command": "npc.324.command",
+    "command": "command.pickpocket",
     "sprites": [
       0,
       33,
@@ -12315,7 +12315,7 @@
     "id": "342",
     "name": "npc.342.name",
     "description": "npc.342.description",
-    "command": "npc.342.command",
+    "command": "command.pickpocket",
     "sprites": [
       6,
       1,
@@ -14906,7 +14906,7 @@
   {
     "id": "414",
     "name": "npc.414.name",
-    "description": "npc.414.description",
+    "description": "description.an_old_fisherman",
     "command": "command.none",
     "sprites": [
       6,
@@ -17318,7 +17318,7 @@
   {
     "id": "481",
     "name": "npc.481.name",
-    "description": "npc.481.description",
+    "description": "description.an_old_fisherman",
     "command": "command.none",
     "sprites": [
       6,
@@ -17641,7 +17641,7 @@
   },
   {
     "id": "490",
-    "name": "npc.490.name",
+    "name": "name.chemist",
     "description": "description.human",
     "command": "command.none",
     "sprites": [
@@ -18145,7 +18145,7 @@
   },
   {
     "id": "504",
-    "name": "npc.504.name",
+    "name": "name.chemist",
     "description": "npc.504.description",
     "command": "command.none",
     "sprites": [
@@ -19009,8 +19009,8 @@
   },
   {
     "id": "528",
-    "name": "npc.528.name",
-    "description": "npc.528.description",
+    "name": "name.merchant",
+    "description": "description.he_sells_weapons",
     "command": "command.none",
     "sprites": [
       0,
@@ -20667,7 +20667,7 @@
     "id": "574",
     "name": "name.yanille_watchman",
     "description": "npc.574.description",
-    "command": "npc.574.command",
+    "command": "command.pickpocket",
     "sprites": [
       0,
       1,
@@ -20847,7 +20847,7 @@
     "id": "579",
     "name": "name.gnome_trainer",
     "description": "description.he_can_advise_on_training",
-    "command": "npc.579.command",
+    "command": "command.pickpocket",
     "sprites": [
       6,
       1,
@@ -20883,7 +20883,7 @@
     "id": "580",
     "name": "npc.580.name",
     "description": "npc.580.description",
-    "command": "npc.580.command",
+    "command": "command.pickpocket",
     "sprites": [
       0,
       1,
@@ -20919,7 +20919,7 @@
     "id": "581",
     "name": "npc.581.name",
     "description": "npc.581.description",
-    "command": "npc.581.command",
+    "command": "command.pickpocket",
     "sprites": [
       0,
       1,
@@ -20955,7 +20955,7 @@
     "id": "582",
     "name": "name.gnome_guard",
     "description": "description.a_tree_gnome_guard",
-    "command": "npc.582.command",
+    "command": "command.pickpocket",
     "sprites": [
       6,
       1,
@@ -20991,7 +20991,7 @@
     "id": "583",
     "name": "name.gnome_child",
     "description": "npc.583.description",
-    "command": "npc.583.command",
+    "command": "command.pickpocket",
     "sprites": [
       0,
       1,
@@ -21063,7 +21063,7 @@
     "id": "585",
     "name": "name.gnome_child",
     "description": "description.hes_a_little_fellow",
-    "command": "npc.585.command",
+    "command": "command.pickpocket",
     "sprites": [
       0,
       1,
@@ -21099,7 +21099,7 @@
     "id": "586",
     "name": "name.gnome_child",
     "description": "npc.586.description",
-    "command": "npc.586.command",
+    "command": "command.pickpocket",
     "sprites": [
       0,
       1,
@@ -21134,7 +21134,7 @@
   {
     "id": "587",
     "name": "npc.587.name",
-    "description": "npc.587.description",
+    "description": "description.he_sells_weapons",
     "command": "command.none",
     "sprites": [
       6,
@@ -21279,7 +21279,7 @@
     "id": "591",
     "name": "name.gnome_child",
     "description": "description.hes_a_little_fellow",
-    "command": "npc.591.command",
+    "command": "command.pickpocket",
     "sprites": [
       0,
       1,
@@ -21315,7 +21315,7 @@
     "id": "592",
     "name": "name.gnome_local",
     "description": "description.a_tree_gnome_villager",
-    "command": "npc.592.command",
+    "command": "command.pickpocket",
     "sprites": [
       6,
       1,
@@ -21351,7 +21351,7 @@
     "id": "593",
     "name": "name.gnome_local",
     "description": "description.a_tree_gnome_villager",
-    "command": "npc.593.command",
+    "command": "command.pickpocket",
     "sprites": [
       3,
       4,
@@ -21423,7 +21423,7 @@
     "id": "595",
     "name": "name.gnome_baller",
     "description": "description.a_tree_gnome_ball_player",
-    "command": "npc.595.command",
+    "command": "command.tackle",
     "sprites": [
       0,
       1,
@@ -21495,7 +21495,7 @@
     "id": "597",
     "name": "name.gnome_baller",
     "description": "description.a_tree_gnome_ball_player",
-    "command": "npc.597.command",
+    "command": "command.tackle",
     "sprites": [
       0,
       1,
@@ -21531,7 +21531,7 @@
     "id": "598",
     "name": "name.gnome_baller",
     "description": "description.a_tree_gnome_ball_player",
-    "command": "npc.598.command",
+    "command": "command.tackle",
     "sprites": [
       0,
       1,
@@ -21567,7 +21567,7 @@
     "id": "599",
     "name": "name.gnome_baller",
     "description": "description.a_tree_gnome_ball_player",
-    "command": "npc.599.command",
+    "command": "command.tackle",
     "sprites": [
       0,
       1,
@@ -21603,7 +21603,7 @@
     "id": "600",
     "name": "name.gnome_baller",
     "description": "description.a_tree_gnome_ball_player",
-    "command": "npc.600.command",
+    "command": "command.tackle",
     "sprites": [
       0,
       1,
@@ -21675,7 +21675,7 @@
     "id": "602",
     "name": "name.gnome_baller",
     "description": "description.a_tree_gnome_ball_player",
-    "command": "npc.602.command",
+    "command": "command.tackle",
     "sprites": [
       0,
       1,
@@ -21711,7 +21711,7 @@
     "id": "603",
     "name": "name.gnome_baller",
     "description": "description.a_tree_gnome_ball_player",
-    "command": "npc.603.command",
+    "command": "command.tackle",
     "sprites": [
       0,
       1,
@@ -21747,7 +21747,7 @@
     "id": "604",
     "name": "name.gnome_baller",
     "description": "description.a_tree_gnome_ball_player",
-    "command": "npc.604.command",
+    "command": "command.tackle",
     "sprites": [
       0,
       1,
@@ -21783,7 +21783,7 @@
     "id": "605",
     "name": "name.gnome_baller",
     "description": "description.a_tree_gnome_ball_player",
-    "command": "npc.605.command",
+    "command": "command.tackle",
     "sprites": [
       0,
       1,
@@ -21819,7 +21819,7 @@
     "id": "606",
     "name": "name.gnome_baller",
     "description": "description.a_tree_gnome_ball_player",
-    "command": "npc.606.command",
+    "command": "command.tackle",
     "sprites": [
       0,
       1,
@@ -21855,7 +21855,7 @@
     "id": "607",
     "name": "name.gnome_baller",
     "description": "description.a_tree_gnome_ball_player",
-    "command": "npc.607.command",
+    "command": "command.tackle",
     "sprites": [
       0,
       1,
@@ -21891,7 +21891,7 @@
     "id": "608",
     "name": "name.gnome_baller",
     "description": "description.a_tree_gnome_ball_player",
-    "command": "npc.608.command",
+    "command": "command.tackle",
     "sprites": [
       0,
       1,
@@ -21927,7 +21927,7 @@
     "id": "609",
     "name": "name.gnome_baller",
     "description": "description.hes_on_your_team",
-    "command": "npc.609.command",
+    "command": "command.pass_to",
     "sprites": [
       0,
       1,
@@ -21963,7 +21963,7 @@
     "id": "610",
     "name": "name.gnome_baller",
     "description": "description.hes_on_your_team",
-    "command": "npc.610.command",
+    "command": "command.pass_to",
     "sprites": [
       0,
       1,
@@ -25814,7 +25814,7 @@
   {
     "id": "717",
     "name": "name.shantay_pass_guard",
-    "description": "description.he_seems_to_be_guarding_2",
+    "description": "description.he_seems_to_be_guarding_shanty_pass",
     "command": "command.none",
     "sprites": [
       5,
@@ -25886,7 +25886,7 @@
   {
     "id": "719",
     "name": "name.shantay_pass_guard",
-    "description": "description.he_seems_to_be_guarding_2",
+    "description": "description.he_seems_to_be_guarding_shanty_pass",
     "command": "command.none",
     "sprites": [
       5,
@@ -25995,7 +25995,7 @@
     "id": "722",
     "name": "name.workman",
     "description": "npc.722.description",
-    "command": "npc.722.command",
+    "command": "command.pickpocket",
     "sprites": [
       5,
       1,
@@ -26355,7 +26355,7 @@
     "id": "732",
     "name": "name.civillian",
     "description": "description.he_looks_aggitated",
-    "command": "npc.732.command",
+    "command": "command.pickpocket",
     "sprites": [
       0,
       1,
@@ -26571,7 +26571,7 @@
     "id": "738",
     "name": "name.workman",
     "description": "npc.738.description",
-    "command": "npc.738.command",
+    "command": "command.pickpocket",
     "sprites": [
       5,
       1,

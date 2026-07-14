@@ -3,6 +3,7 @@ using System.Linq;
 
 using NuciLog.Core;
 
+using OpenRS.Localisation;
 using OpenRS.Logging;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
@@ -759,7 +760,7 @@ namespace OpenRS.Net.Client.Handlers
                                 mob.lastMessage = s5;
                                 if (playerIndex == client.ourPlayer.serverIndex)
                                 {
-                                    client.DisplayMessage("@yel@" + client.entityManager.GetNpc(mob.npcId).Name + ": " + mob.lastMessage, 5);
+                                    client.DisplayMessage(string.Format(LocalisationManager.GetString("social.npc_message"), client.entityManager.GetNpc(mob.npcId).Name, mob.lastMessage), 5);
                                 }
                             }
                             off += messageLength;

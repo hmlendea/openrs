@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using NuciLog.Core;
 
 using OpenRS.Audio;
+using OpenRS.Localisation;
 using OpenRS.Logging;
 using OpenRS.Models;
 using OpenRS.Net.Client.Data;
@@ -53,13 +54,13 @@ namespace OpenRS.Net.Client.Utilities
 
             if (client.combatTimeout > 450)
             {
-                client.DisplayMessage("@cya@You can't logout during combat!", (int)MessageType.Game);
+                client.DisplayMessage(LocalisationManager.GetString("social.cant_logout_combat"), (int)MessageType.Game);
                 return;
             }
 
             if (client.combatTimeout > 0)
             {
-                client.DisplayMessage("@cya@You can't logout for 10 seconds after combat", (int)MessageType.Game);
+                client.DisplayMessage(LocalisationManager.GetString("social.cant_logout_after_combat"), (int)MessageType.Game);
                 return;
             }
 
@@ -152,7 +153,7 @@ namespace OpenRS.Net.Client.Utilities
         public void CantLogout()
         {
             client.logoutTimer = 0;
-            client.DisplayMessage("@cya@Sorry, you can't logout at the moment", (int)MessageType.Game);
+            client.DisplayMessage(LocalisationManager.GetString("social.cant_logout_moment"), (int)MessageType.Game);
         }
 
         public GraphicsDevice GetGraphics() => GameClient.graphics;

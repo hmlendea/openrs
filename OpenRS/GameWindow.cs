@@ -8,6 +8,7 @@ using NuciXNA.Gui.Screens;
 using NuciXNA.Input;
 
 using OpenRS.Gui.Screens;
+using OpenRS.Localisation;
 using OpenRS.Net.Client;
 using OpenRS.Settings;
 
@@ -30,7 +31,7 @@ namespace OpenRS
 
             IsFixedTimeStep = false;
             graphics.SynchronizeWithVerticalRetrace = true;
-            Window.Title = "RuneScape Classic";
+            Window.Title = LocalisationManager.GetString("game.window_title");
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -72,7 +73,9 @@ namespace OpenRS
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
+            spriteBatch.Begin();
             ScreenManager.Instance.Draw(spriteBatch);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

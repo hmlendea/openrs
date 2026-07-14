@@ -7,6 +7,7 @@ using System.Threading;
 
 using NuciLog.Core;
 
+using OpenRS.Localisation;
 using OpenRS.Logging;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
@@ -353,12 +354,12 @@ namespace OpenRS.Net.Client
                     {
                         if (friendsWorld[friendIndex] == 0 && status != 0)
                         {
-                            DisplayMessage("@pri@" + DataOperations.HashToName(friend) + " has logged in");
+                            DisplayMessage(string.Format(LocalisationManager.GetString("social.friend_logged_in"), DataOperations.HashToName(friend)));
                         }
 
                         if (friendsWorld[friendIndex] != 0 && status == 0)
                         {
-                            DisplayMessage("@pri@" + DataOperations.HashToName(friend) + " has logged out");
+                            DisplayMessage(string.Format(LocalisationManager.GetString("social.friend_logged_out"), DataOperations.HashToName(friend)));
                         }
 
                         friendsWorld[friendIndex] = status;
@@ -403,7 +404,7 @@ namespace OpenRS.Net.Client
             {
                 long senderHash = DataOperations.GetLong(packetData, 1);
                 string messageText = ChatMessage.BytesToString(packetData, 9, length - 9);
-                DisplayMessage("@pri@" + DataOperations.HashToName(senderHash) + ": tells you " + messageText);
+                DisplayMessage(string.Format(LocalisationManager.GetString("social.private_message_received"), DataOperations.HashToName(senderHash), messageText));
 
                 return;
             }
@@ -548,7 +549,7 @@ namespace OpenRS.Net.Client
                 break;
             }
 
-            DisplayMessage("@pri@" + DataOperations.HashToName(usernameHash) + " has been removed from your friends list");
+            DisplayMessage(string.Format(LocalisationManager.GetString("social.friend_removed"), DataOperations.HashToName(usernameHash)));
         }
 
         protected void SendPrivateMessage(long recipientHash, byte[] messageBytes, int messageLength)

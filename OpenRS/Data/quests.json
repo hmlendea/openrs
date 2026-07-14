@@ -93,11 +93,11 @@
   },
   {
     "id": "family-crest",
-    "name": "quest.family-crest.name"
+    "name": "name.family_crest"
   },
   {
     "id": "tribal-totem",
-    "name": "quest.tribal-totem.name"
+    "name": "name.tribal_totem"
   },
   {
     "id": "fishing-contest",
@@ -157,7 +157,7 @@
   },
   {
     "id": "grand-tree",
-    "name": "quest.grand-tree.name"
+    "name": "name.grand_tree"
   },
   {
     "id": "shilo-village",

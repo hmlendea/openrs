@@ -8,28 +8,14 @@ namespace OpenRS.Net.Client.Rendering
     public sealed class OverlayRenderer(GameClient client)
     {
 
-        private static readonly string[] AbuseRuleDescriptions =
-        [
-            "1: Offensive language",
-            "2: Item scamming",
-            "3: Password scamming",
-            "4: Bug abuse",
-            "5: Jagex Staff impersonation",
-            "6: Account sharing/trading",
-            "7: Macroing",
-            "8: Mutiple logging in",
-            "9: Encouraging others to break rules",
-            "10: Misuse of customer support",
-            "11: Advertising / website",
-            "12: Real world item trading",
-        ];
+        private static int AbuseRuleCount => 12;
 
         public void DrawReportAbuseBox1()
         {
             client.reportAbuseOptionSelected = 0;
             int yOffset = 135;
 
-            for (int ruleIndex = 0; ruleIndex < 12; ruleIndex += 1)
+            for (int ruleIndex = 0; ruleIndex < AbuseRuleCount; ruleIndex += 1)
             {
                 if (client.mouseX > 66 &&
                     client.mouseX < 446 &&
@@ -90,7 +76,7 @@ namespace OpenRS.Net.Client.Rendering
             client.gameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_line5"), 256, yOffset, 1, 0xffff00);
             yOffset += 15;
 
-            for (int ruleIndex = 0; ruleIndex < AbuseRuleDescriptions.Length; ruleIndex += 1)
+            for (int ruleIndex = 0; ruleIndex < AbuseRuleCount; ruleIndex += 1)
             {
                 int selectedColour = 0xffffff;
 
@@ -100,7 +86,12 @@ namespace OpenRS.Net.Client.Rendering
                     selectedColour = 0xff8000;
                 }
 
-                client.gameGraphics.DrawText(AbuseRuleDescriptions[ruleIndex], 256, yOffset, 1, selectedColour);
+                client.gameGraphics.DrawText(
+                    LocalisationManager.GetString($"overlay.abuse_rule_{ruleIndex + 1}"),
+                    256,
+                    yOffset,
+                    1,
+                    selectedColour);
                 yOffset += 14;
             }
 

@@ -5,6 +5,7 @@ using NuciXNA.Gui.Controls;
 using NuciXNA.Input;
 using NuciXNA.Primitives;
 
+using OpenRS.Localisation;
 using OpenRS.Models;
 using OpenRS.Net.Client;
 
@@ -124,7 +125,9 @@ namespace OpenRS.Gui.Controls
 
         private void UpdateCombatState()
         {
-            combatLevelText.Text = $"Combat Level: {client.CurrentPlayer.CombatLevel}";
+            combatLevelText.Text =
+                LocalisationManager.GetString("character.combat_level_prefix") +
+                client.CurrentPlayer.CombatLevel;
 
             controlledStyleCard.IsToggled = client.CombatStyle == CombatStyle.Controlled;
             aggressiveStyleCard.IsToggled = client.CombatStyle == CombatStyle.Aggressive;
@@ -145,4 +148,3 @@ namespace OpenRS.Gui.Controls
             => client.SetCombatStyle(CombatStyle.Defensive);
     }
 }
-

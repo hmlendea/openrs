@@ -17,7 +17,12 @@ namespace OpenRS.Net.Client.Rendering
             client.gameGraphics.DrawBox(boxOffsetX, boxOffsetY, 468, 16, 192);
             int backgroundColour = 0x989898;
             client.gameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 16, 468, 246, backgroundColour, 160);
-            client.gameGraphics.DrawText("Please confirm your duel with @yel@" + DataOperations.HashToName(client.duelOpponentHash), boxOffsetX + 234, boxOffsetY + 12, 1, 0xffffff);
+            client.gameGraphics.DrawText(
+                LocalisationManager.GetString("trade.duel_confirm_prompt") + DataOperations.HashToName(client.duelOpponentHash),
+                boxOffsetX + 234,
+                boxOffsetY + 12,
+                1,
+                0xffffff);
             client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_your_stake"), boxOffsetX + 117, boxOffsetY + 30, 1, 0xffff00);
 
             for (int stakeIndex = 0; stakeIndex < client.duelOurStakeCount; stakeIndex += 1)
@@ -404,7 +409,12 @@ namespace OpenRS.Net.Client.Rendering
             client.gameGraphics.DrawBox(boxOffsetX, boxOffsetY, 468, 16, 192);
             int backgroundColour = 0x989898;
             client.gameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 16, 468, 246, backgroundColour, 160);
-            client.gameGraphics.DrawText("Please confirm your trade with @yel@" + DataOperations.HashToName(client.tradeConfirmOtherNameLong), boxOffsetX + 234, boxOffsetY + 12, 1, 0xffffff);
+            client.gameGraphics.DrawText(
+                LocalisationManager.GetString("trade.confirm_prompt") + DataOperations.HashToName(client.tradeConfirmOtherNameLong),
+                boxOffsetX + 234,
+                boxOffsetY + 12,
+                1,
+                0xffffff);
             client.gameGraphics.DrawText(LocalisationManager.GetString("trade.confirm_giving"), boxOffsetX + 117, boxOffsetY + 30, 1, 0xffff00);
 
             for (int ourStakeIndex = 0; ourStakeIndex < client.tradeConfigItemCount; ourStakeIndex += 1)
