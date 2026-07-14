@@ -43,6 +43,8 @@ namespace OpenRS.Settings
 
         public static string MapsDirectory => Path.Combine(DataDirectory, "Maps");
 
+        public static string ModelsDirectory => Path.Combine(DataDirectory, "Models");
+
         public static string TexturesDirectory => Path.Combine(DataDirectory, "Textures");
 
         public static string EntitiesDirectory => Path.Combine(DataDirectory, "Entities");

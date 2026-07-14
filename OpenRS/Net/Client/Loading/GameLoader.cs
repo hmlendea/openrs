@@ -760,29 +760,28 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
             GameData.GetModelNameIndex("clawspell5");
             GameData.GetModelNameIndex("spellcharge2");
             GameData.GetModelNameIndex("spellcharge3");
-            sbyte[] abyte0 = client.UnpackData("models.jag", "3d models", 60);
-            if (abyte0 is null)
-            {
-                client.errorLoading = true;
-                return;
-            }
-            for (int i1 = 0; i1 < GameData.modelCount; i1 += 1)
+
+            for (int modelIndex = 0; modelIndex < GameData.modelCount; modelIndex += 1)
             {
                 try
                 {
-                    long j1 = DataOperations.GetObjectOffset(GameData.modelName[i1] + ".ob3", abyte0);
-                    if (j1 != 0)
+                    string modelFilePath = Path.Combine(
+                        ApplicationPaths.ModelsDirectory,
+                        GameData.modelName[modelIndex].ToLower() + ".ob3");
+
+                    if (File.Exists(modelFilePath))
                     {
-                        client.gameDataObjects[i1] = new GameObject(abyte0, (int)j1, true);
+                        sbyte[] modelData = (sbyte[])(Array)File.ReadAllBytes(modelFilePath);
+                        client.gameDataObjects[modelIndex] = new GameObject(modelData, 0, true);
                     }
                     else
                     {
-                        client.gameDataObjects[i1] = new GameObject(1, 1);
+                        client.gameDataObjects[modelIndex] = new GameObject(1, 1);
                     }
 
-                    if (GameData.modelName[i1] == "giantcrystal")
+                    if (GameData.modelName[modelIndex] == "giantcrystal")
                     {
-                        client.gameDataObjects[i1].isGiantCrystal = true;
+                        client.gameDataObjects[modelIndex].isGiantCrystal = true;
                     }
                 }
                 catch { }
