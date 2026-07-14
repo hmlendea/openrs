@@ -37,7 +37,11 @@ namespace OpenRS.Settings
 
         public static string FontsDirectory => Path.Combine(DataDirectory, "Fonts");
 
+        public static string MediaDirectory => Path.Combine(DataDirectory, "Media");
+
         public static string MapsDirectory => Path.Combine(DataDirectory, "Maps");
+
+        public static string TexturesDirectory => Path.Combine(DataDirectory, "Textures");
 
         public static string EntitiesDirectory => Path.Combine(DataDirectory, "Entities");
 

@@ -49,7 +49,7 @@
     <None Update="Data\Maps\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\media.jag">
+    <None Update="Data\Media\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\models.jag">
@@ -58,7 +58,7 @@
     <None Update="Data\sounds.mem">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\textures.jag">
+    <None Update="Data\Textures\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\quests.json">

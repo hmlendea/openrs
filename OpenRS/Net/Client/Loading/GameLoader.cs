@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Text;
 
 using OpenRS.GameLogic.GameManagers;
@@ -433,62 +434,58 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
         }
         public void LoadMedia()
         {
-            sbyte[] media = client.UnpackData("media.jag", "2d client.graphics", 20);
-            if (media is null)
+            sbyte[] indexData = LoadDataFile(ApplicationPaths.MediaDirectory, "index.dat");
+            client.gameGraphics.UnpackImageData(client.baseInventoryPic, LoadDataFile(ApplicationPaths.MediaDirectory, "inv1.dat"), indexData, 1);
+            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 1, LoadDataFile(ApplicationPaths.MediaDirectory, "inv2.dat"), indexData, 6);
+            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 9, LoadDataFile(ApplicationPaths.MediaDirectory, "bubble.dat"), indexData, 1);
+            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 10, LoadDataFile(ApplicationPaths.MediaDirectory, "runescape.dat"), indexData, 1);
+            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 11, LoadDataFile(ApplicationPaths.MediaDirectory, "splat.dat"), indexData, 3);
+            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 14, LoadDataFile(ApplicationPaths.MediaDirectory, "icon.dat"), indexData, 8);
+            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 22, LoadDataFile(ApplicationPaths.MediaDirectory, "hbar.dat"), indexData, 1);
+            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 23, LoadDataFile(ApplicationPaths.MediaDirectory, "hbar2.dat"), indexData, 1);
+            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 24, LoadDataFile(ApplicationPaths.MediaDirectory, "compass.dat"), indexData, 1);
+            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 25, LoadDataFile(ApplicationPaths.MediaDirectory, "buttons.dat"), indexData, 2);
+            client.gameGraphics.UnpackImageData(client.baseScrollPic, LoadDataFile(ApplicationPaths.MediaDirectory, "scrollbar.dat"), indexData, 2);
+            client.gameGraphics.UnpackImageData(client.baseScrollPic + 2, LoadDataFile(ApplicationPaths.MediaDirectory, "corners.dat"), indexData, 4);
+            client.gameGraphics.UnpackImageData(client.baseScrollPic + 6, LoadDataFile(ApplicationPaths.MediaDirectory, "arrows.dat"), indexData, 2);
+            client.gameGraphics.UnpackImageData(client.baseProjectilePic, LoadDataFile(ApplicationPaths.MediaDirectory, "projectile.dat"), indexData, client.entityManager.SpellProjectileCount);
+
+            int remainingPictures = client.entityManager.HighestLoadedPicture;
+
+            for (int batchIndex = 1; remainingPictures > 0; batchIndex += 1)
             {
-                client.errorLoading = true;
-                return;
-            }
-            sbyte[] abyte1 = DataOperations.LoadData("index.dat", 0, media);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic, DataOperations.LoadData("inv1.dat", 0, media), abyte1, 1);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 1, DataOperations.LoadData("inv2.dat", 0, media), abyte1, 6);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 9, DataOperations.LoadData("bubble.dat", 0, media), abyte1, 1);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 10, DataOperations.LoadData("runescape.dat", 0, media), abyte1, 1);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 11, DataOperations.LoadData("splat.dat", 0, media), abyte1, 3);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 14, DataOperations.LoadData("icon.dat", 0, media), abyte1, 8);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 22, DataOperations.LoadData("hbar.dat", 0, media), abyte1, 1);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 23, DataOperations.LoadData("hbar2.dat", 0, media), abyte1, 1);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 24, DataOperations.LoadData("compass.dat", 0, media), abyte1, 1);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 25, DataOperations.LoadData("buttons.dat", 0, media), abyte1, 2);
-            client.gameGraphics.UnpackImageData(client.baseScrollPic, DataOperations.LoadData("scrollbar.dat", 0, media), abyte1, 2);
-            client.gameGraphics.UnpackImageData(client.baseScrollPic + 2, DataOperations.LoadData("corners.dat", 0, media), abyte1, 4);
-            client.gameGraphics.UnpackImageData(client.baseScrollPic + 6, DataOperations.LoadData("arrows.dat", 0, media), abyte1, 2);
-            client.gameGraphics.UnpackImageData(client.baseProjectilePic, DataOperations.LoadData("projectile.dat", 0, media), abyte1, client.entityManager.SpellProjectileCount);
-            int l = client.entityManager.HighestLoadedPicture;
-            for (int i1 = 1; l > 0; i1 += 1)
-            {
-                int j1 = l;
-                l -= 30;
-                if (j1 > 30)
+                int batchSize = remainingPictures;
+                remainingPictures -= 30;
+
+                if (batchSize > 30)
                 {
-                    j1 = 30;
+                    batchSize = 30;
                 }
 
-                client.gameGraphics.UnpackImageData(client.baseItemPicture + (i1 - 1) * 30, DataOperations.LoadData("objects" + i1 + ".dat", 0, media), abyte1, j1);
+                client.gameGraphics.UnpackImageData(
+                    client.baseItemPicture + (batchIndex - 1) * 30,
+                    LoadDataFile(ApplicationPaths.MediaDirectory, "objects" + batchIndex + ".dat"),
+                    indexData,
+                    batchSize);
             }
-            //gameGraphics.UpdateGameImage();
+
             client.gameGraphics.LoadImage(client.baseInventoryPic);
             client.gameGraphics.LoadImage(client.baseInventoryPic + 9);
-            for (int k1 = 11; k1 <= 26; k1 += 1)
+
+            for (int imageIndex = 11; imageIndex <= 26; imageIndex += 1)
             {
-                client.gameGraphics.LoadImage(client.baseInventoryPic + k1);
+                client.gameGraphics.LoadImage(client.baseInventoryPic + imageIndex);
             }
 
-            for (int l1 = 0; l1 < client.entityManager.SpellProjectileCount; l1 += 1)
+            for (int spellIndex = 0; spellIndex < client.entityManager.SpellProjectileCount; spellIndex += 1)
             {
-                client.gameGraphics.LoadImage(client.baseProjectilePic + l1);
+                client.gameGraphics.LoadImage(client.baseProjectilePic + spellIndex);
             }
 
-            for (int i2 = 0; i2 < client.entityManager.HighestLoadedPicture; i2 += 1)
+            for (int pictureIndex = 0; pictureIndex < client.entityManager.HighestLoadedPicture; pictureIndex += 1)
             {
-                client.gameGraphics.LoadImage(client.baseProjectilePic + i2);
-                //var w = ((GameImage)(gameGraphics)).pictureWidth[baseProjectilePic + i2];
-                //var h = ((GameImage)(gameGraphics)).pictureHeight[baseProjectilePic + i2];
-                //var texture = GameImage.UnpackedImages[baseProjectilePic + i2];
-                //if (texture is not null)
-                //    texture.SaveAsJpeg(System.IO.File.OpenWrite("c:/jpg/" + baseProjectilePic + i2 + ".jpg"), w, h);
+                client.gameGraphics.LoadImage(client.baseProjectilePic + pictureIndex);
             }
-
         }
         public void LoadAnimations()
         {
@@ -727,45 +724,52 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
         }
         public void LoadTextures()
         {
-            sbyte[] abyte0 = client.UnpackData("textures.jag", "Textures", 50);
-            if (abyte0 is null)
-            {
-                client.errorLoading = true;
-                return;
-            }
-            sbyte[] abyte1 = DataOperations.LoadData("index.dat", 0, abyte0);
+            sbyte[] textureIndexData = LoadDataFile(ApplicationPaths.TexturesDirectory, "index.dat");
             client.gameCamera.CreateTexture(client.entityManager.TextureCount, 7, 11);
 
-            for (int l = 0; l < client.entityManager.TextureCount; l += 1)
+            for (int textureIndex = 0; textureIndex < client.entityManager.TextureCount; textureIndex += 1)
             {
-                string s1 = client.entityManager.GetTexture(l).Name;
-                sbyte[] abyte2 = DataOperations.LoadData(s1 + ".dat", 0, abyte0);
-                client.gameGraphics.UnpackImageData(client.baseTexturePic, abyte2, abyte1, 1);
+                string textureName = client.entityManager.GetTexture(textureIndex).Name;
+                sbyte[] textureData = LoadDataFile(ApplicationPaths.TexturesDirectory, textureName + ".dat");
+                client.gameGraphics.UnpackImageData(client.baseTexturePic, textureData, textureIndexData, 1);
                 client.gameGraphics.DrawBox(0, 0, 128, 128, 0xff00ff);
                 client.gameGraphics.DrawPicture(0, 0, client.baseTexturePic);
-                int i1 = client.gameGraphics.pictureAssumedWidth[client.baseTexturePic];
-                string s2 = client.entityManager.GetTexture(l).SubName;
+                int textureWidth = client.gameGraphics.pictureAssumedWidth[client.baseTexturePic];
+                string subTextureName = client.entityManager.GetTexture(textureIndex).SubName;
 
-                if (s2 is not null && s2.Length > 0)
+                if (subTextureName is not null && subTextureName.Length > 0)
                 {
-                    sbyte[] abyte3 = DataOperations.LoadData(s2 + ".dat", 0, abyte0);
-                    client.gameGraphics.UnpackImageData(client.baseTexturePic, abyte3, abyte1, 1);
+                    sbyte[] subTextureData = LoadDataFile(ApplicationPaths.TexturesDirectory, subTextureName + ".dat");
+                    client.gameGraphics.UnpackImageData(client.baseTexturePic, subTextureData, textureIndexData, 1);
                     client.gameGraphics.DrawPicture(0, 0, client.baseTexturePic);
                 }
-                client.gameGraphics.DrawImage(client.subTexturePic + l, 0, 0, i1, i1);
-                int j1 = i1 * i1;
-                for (int k1 = 0; k1 < j1; k1 += 1)
+
+                client.gameGraphics.DrawImage(client.subTexturePic + textureIndex, 0, 0, textureWidth, textureWidth);
+                int pixelCount = textureWidth * textureWidth;
+
+                for (int pixelIndex = 0; pixelIndex < pixelCount; pixelIndex += 1)
                 {
-                    if (client.gameGraphics.pictureColors[client.subTexturePic + l][k1] == 65280)
+                    if (client.gameGraphics.pictureColors[client.subTexturePic + textureIndex][pixelIndex] == 65280)
                     {
-                        client.gameGraphics.pictureColors[client.subTexturePic + l][k1] = 0xff00ff;
+                        client.gameGraphics.pictureColors[client.subTexturePic + textureIndex][pixelIndex] = 0xff00ff;
                     }
                 }
 
-                client.gameGraphics.ApplyImage(client.subTexturePic + l);
-                client.gameCamera.SetTexture(l, client.gameGraphics.pictureColorIndexes[client.subTexturePic + l], client.gameGraphics.pictureColor[client.subTexturePic + l], i1 / 64 - 1);
+                client.gameGraphics.ApplyImage(client.subTexturePic + textureIndex);
+                client.gameCamera.SetTexture(
+                    textureIndex,
+                    client.gameGraphics.pictureColorIndexes[client.subTexturePic + textureIndex],
+                    client.gameGraphics.pictureColor[client.subTexturePic + textureIndex],
+                    textureWidth / 64 - 1);
             }
         }
+
+        private static sbyte[] LoadDataFile(string directory, string fileName)
+        {
+            string filePath = Path.Combine(directory, fileName);
+            return (sbyte[])(Array)File.ReadAllBytes(filePath);
+        }
+
         public void LoadModels()
         {
             GameData.GetModelNameIndex("torcha2");
