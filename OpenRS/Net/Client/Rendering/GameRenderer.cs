@@ -142,7 +142,7 @@ namespace OpenRS.Net.Client.Rendering
 
             if (client.errorLoading)
             {
-#warning add error loading event
+                client.RaiseOnErrorLoading(this, EventArgs.Empty);
                 client.SetRefreshRate(1);
 
                 return;
@@ -150,7 +150,7 @@ namespace OpenRS.Net.Client.Rendering
 
             if (client.memoryError)
             {
-#warning add memory exception event
+                client.RaiseOnMemoryError(this, EventArgs.Empty);
                 return;
             }
 
@@ -522,7 +522,7 @@ namespace OpenRS.Net.Client.Rendering
                         int attackerElevation = -client.engineHandle.GetAveragedElevation(attackerX, attackerY) - 110;
                         int targetX = targetMob.currentX;
                         int targetY = targetMob.currentY;
-                        int targetElevation = -client.engineHandle.GetAveragedElevation(targetX, targetY) - client.entityManager.GetNpc(targetMob.npcId).Camera2 / 2;
+                        int targetElevation = -client.engineHandle.GetAveragedElevation(targetX, targetY) - client.entityManager.GetNpc(targetMob.npcId).SpriteHeight / 2;
                         int projectileX = (attackerX * player.projectileDistance + targetX * (client.projectileRange - player.projectileDistance)) / client.projectileRange;
                         int projectileElevation = (attackerElevation * player.projectileDistance + targetElevation * (client.projectileRange - player.projectileDistance)) / client.projectileRange;
                         int projectileY = (attackerY * player.projectileDistance + targetY * (client.projectileRange - player.projectileDistance)) / client.projectileRange;
@@ -538,7 +538,7 @@ namespace OpenRS.Net.Client.Rendering
                 int npcWorldX = npc.currentX;
                 int npcWorldY = npc.currentY;
                 int npcElevation = -client.engineHandle.GetAveragedElevation(npcWorldX, npcWorldY);
-                int npcSpriteHandle = client.gameCamera.AddSpriteToScene(20000 + npcIndex, npcWorldX, npcElevation, npcWorldY, client.entityManager.GetNpc(npc.npcId).Camera1, client.entityManager.GetNpc(npc.npcId).Camera2, npcIndex + 30000);
+                int npcSpriteHandle = client.gameCamera.AddSpriteToScene(20000 + npcIndex, npcWorldX, npcElevation, npcWorldY, client.entityManager.GetNpc(npc.npcId).SpriteWidth, client.entityManager.GetNpc(npc.npcId).SpriteHeight, npcIndex + 30000);
                 client.drawUpdatesPerformed += 1;
 
                 if (npc.currentSprite == 8)
@@ -742,8 +742,6 @@ namespace OpenRS.Net.Client.Rendering
             client.chatInputMenu.DrawMenu();
             Menu.chatMenuTextHeightMod = 0;
             client.gameGraphics.DrawPicture(client.gameGraphics.gameWidth - 3 - 197, 3, client.baseInventoryPic, 128);
-
-#warning play with this! Create a new menu of choice :)
 
             DrawMenus();
 

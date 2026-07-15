@@ -226,7 +226,7 @@ namespace OpenRS.Net.Client.Handlers
                                         continue;
                                     }
 
-                                    client.groundItemObjectVar[client.groundItemCount] = client.entityManager.GetWorldObject(client.objectType[l23]).GroundItemVar;
+                                    client.groundItemObjectVar[client.groundItemCount] = client.entityManager.GetWorldObject(client.objectType[l23]).GroundItemElevationOffset;
                                     break;
                                 }
 
@@ -357,9 +357,8 @@ namespace OpenRS.Net.Client.Handlers
                                     }
                                     int l40 = (newSectionX + newSectionX + width) * client.gridSize / 2;
                                     int k42 = (newSectionY + newSectionY + height) * client.gridSize / 2;
-                                    int model = client.entityManager.GetWorldObject(index).ModelId;
+                                    int model = client.entityManager.GetWorldObject(index).ModelIndex;
                                     GameObject gameObject = client.gameDataObjects[model].CreateParent();
-    #warning object not being added to camera.
                                     client.gameCamera.AddModel(gameObject);
 
                                     gameObject.index = client.objectCount;
@@ -1166,7 +1165,6 @@ namespace OpenRS.Net.Client.Handlers
                     return;
                 }
 
-#warning have not fixed the following yet....
                 if (packetID == 251)
                 {
                     client.showTradeConfirmBox = true;
@@ -1500,12 +1498,6 @@ namespace OpenRS.Net.Client.Handlers
                 if (packetID == 129)
                 {
                     client.combatStyle = DataOperations.GetByte(client.packetData[1]);
-                    return;
-                }
-                if (packetID == 110)
-                {
-                    // TODO: Determine if this packet should be removed.
-                    logger.Debug(GameOperation.HandlePacket, "Received packet 110 (server info).");
                     return;
                 }
                 // Spell counts and quest progress - 2-byte value packets, silently accepted.

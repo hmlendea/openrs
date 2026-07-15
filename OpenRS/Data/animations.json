@@ -4,2060 +4,2060 @@
     "name": "head1",
     "characterColour": 1,
     "genderModel": 13,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "1",
     "name": "body1",
     "characterColour": 2,
     "genderModel": 6,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "2",
     "name": "legs1",
     "characterColour": 3,
     "genderModel": 15,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "3",
     "name": "fhead1",
     "characterColour": 1,
     "genderModel": 13,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "4",
     "name": "fbody1",
     "characterColour": 2,
     "genderModel": 10,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "5",
     "name": "head2",
     "characterColour": 1,
     "genderModel": 13,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "6",
     "name": "head3",
     "characterColour": 1,
     "genderModel": 5,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "7",
     "name": "head4",
     "characterColour": 1,
     "genderModel": 13,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "8",
     "name": "chefshat",
     "characterColour": 16777215,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "9",
     "name": "apron",
     "characterColour": 16777215,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "10",
     "name": "apron",
     "characterColour": 9789488,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "11",
     "name": "boots",
     "characterColour": 5592405,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "12",
     "name": "fullhelm",
     "characterColour": 16737817,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "13",
     "name": "fullhelm",
     "characterColour": 15654365,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "14",
     "name": "fullhelm",
     "characterColour": 15658734,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "15",
     "name": "fullhelm",
     "characterColour": 10072780,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "16",
     "name": "fullhelm",
     "characterColour": 11717785,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "17",
     "name": "fullhelm",
     "characterColour": 65535,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "18",
     "name": "fullhelm",
     "characterColour": 3158064,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "19",
     "name": "fullhelm",
     "characterColour": 16777215,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "20",
     "name": "chainmail",
     "characterColour": 16737817,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "21",
     "name": "chainmail",
     "characterColour": 15654365,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "22",
     "name": "chainmail",
     "characterColour": 15658734,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "23",
     "name": "chainmail",
     "characterColour": 10072780,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "24",
     "name": "chainmail",
     "characterColour": 11717785,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "25",
     "name": "chainmail",
     "characterColour": 65535,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "26",
     "name": "chainmail",
     "characterColour": 3158064,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "27",
     "name": "platemailtop",
     "characterColour": 16737817,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "28",
     "name": "platemailtop",
     "characterColour": 15654365,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "29",
     "name": "platemailtop",
     "characterColour": 15658734,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "30",
     "name": "platemailtop",
     "characterColour": 10072780,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "31",
     "name": "platemailtop",
     "characterColour": 11717785,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "32",
     "name": "platemailtop",
     "characterColour": 3158064,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "33",
     "name": "platemailtop",
     "characterColour": 65535,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "34",
     "name": "platemailtop",
     "characterColour": 16777215,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "35",
     "name": "platemailtop",
     "characterColour": 10083839,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "36",
     "name": "platemaillegs",
     "characterColour": 16737817,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "37",
     "name": "platemaillegs",
     "characterColour": 15654365,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "38",
     "name": "platemaillegs",
     "characterColour": 15658734,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "39",
     "name": "platemaillegs",
     "characterColour": 10072780,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "40",
     "name": "platemaillegs",
     "characterColour": 11717785,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "41",
     "name": "platemaillegs",
     "characterColour": 65535,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "42",
     "name": "platemaillegs",
     "characterColour": 4210752,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "43",
     "name": "platemaillegs",
     "characterColour": 16777215,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "44",
     "name": "platemaillegs",
     "characterColour": 10083839,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "45",
     "name": "leatherarmour",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "46",
     "name": "leathergloves",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "47",
     "name": "sword",
     "characterColour": 16737817,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "48",
     "name": "sword",
     "characterColour": 15654365,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "49",
     "name": "sword",
     "characterColour": 15658734,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "50",
     "name": "sword",
     "characterColour": 10072780,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "51",
     "name": "sword",
     "characterColour": 11717785,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "52",
     "name": "sword",
     "characterColour": 65535,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "53",
     "name": "sword",
     "characterColour": 3158064,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "54",
     "name": "fplatemailtop",
     "characterColour": 16737817,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "55",
     "name": "fplatemailtop",
     "characterColour": 15654365,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "56",
     "name": "fplatemailtop",
     "characterColour": 15658734,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "57",
     "name": "fplatemailtop",
     "characterColour": 10072780,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "58",
     "name": "fplatemailtop",
     "characterColour": 11717785,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "59",
     "name": "fplatemailtop",
     "characterColour": 65535,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "60",
     "name": "fplatemailtop",
     "characterColour": 3158064,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "61",
     "name": "apron",
     "characterColour": 16777215,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "62",
     "name": "cape",
     "characterColour": 16711680,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "63",
     "name": "cape",
     "characterColour": 2434341,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "64",
     "name": "cape",
     "characterColour": 4210926,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "65",
     "name": "cape",
     "characterColour": 4246592,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "66",
     "name": "cape",
     "characterColour": 15658560,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "67",
     "name": "cape",
     "characterColour": 15636736,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "68",
     "name": "cape",
     "characterColour": 11141341,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "69",
     "name": "mediumhelm",
     "characterColour": 16737817,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "70",
     "name": "mediumhelm",
     "characterColour": 15654365,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "71",
     "name": "mediumhelm",
     "characterColour": 15658734,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "72",
     "name": "mediumhelm",
     "characterColour": 10072780,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "73",
     "name": "mediumhelm",
     "characterColour": 11717785,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "74",
     "name": "mediumhelm",
     "characterColour": 65535,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "75",
     "name": "mediumhelm",
     "characterColour": 3158064,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "76",
     "name": "wizardsrobe",
     "characterColour": 255,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "77",
     "name": "wizardshat",
     "characterColour": 255,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "78",
     "name": "wizardshat",
     "characterColour": 4210752,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "79",
     "name": "necklace",
     "characterColour": 15658734,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "80",
     "name": "necklace",
     "characterColour": 16763980,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "81",
     "name": "skirt",
     "characterColour": 255,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "82",
     "name": "wizardsrobe",
     "characterColour": 4210752,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "83",
     "name": "Wizardsrobe",
     "characterColour": 10510400,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "84",
     "name": "wizardsrobe",
     "characterColour": 15609904,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "85",
     "name": "Wizardsrobe",
     "characterColour": 16777215,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "86",
     "name": "skirt",
     "characterColour": 16777215,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "87",
     "name": "skirt",
     "characterColour": 10510400,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "88",
     "name": "skirt",
     "characterColour": 4210752,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "89",
     "name": "skirt",
     "characterColour": 16036851,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "90",
     "name": "skirt",
     "characterColour": 15609904,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "91",
     "name": "Skirt",
     "characterColour": 8400921,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "92",
     "name": "skirt",
     "characterColour": 7824998,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "93",
     "name": "skirt",
     "characterColour": 7829367,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "94",
     "name": "skirt",
     "characterColour": 2245205,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "95",
     "name": "skirt",
     "characterColour": 4347170,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "96",
     "name": "skirt",
     "characterColour": 26214,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "97",
     "name": "squareshield",
     "characterColour": 16737817,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "98",
     "name": "squareshield",
     "characterColour": 15654365,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "99",
     "name": "squareshield",
     "characterColour": 15658734,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "100",
     "name": "squareshield",
     "characterColour": 10072780,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "101",
     "name": "squareshield",
     "characterColour": 11717785,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "102",
     "name": "squareshield",
     "characterColour": 56797,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "103",
     "name": "squareshield",
     "characterColour": 3158064,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "104",
     "name": "squareshield",
     "characterColour": 16750896,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "105",
     "name": "squareshield",
     "characterColour": 11363121,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "106",
     "name": "crossbow",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 0,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 0,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "107",
     "name": "longbow",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 0,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 0,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "108",
     "name": "battleaxe",
     "characterColour": 16737817,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "109",
     "name": "battleaxe",
     "characterColour": 15654365,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "110",
     "name": "battleaxe",
     "characterColour": 15658734,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "111",
     "name": "battleaxe",
     "characterColour": 10072780,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "112",
     "name": "battleaxe",
     "characterColour": 11717785,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "113",
     "name": "battleaxe",
     "characterColour": 65535,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "114",
     "name": "battleaxe",
     "characterColour": 3158064,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "115",
     "name": "mace",
     "characterColour": 16737817,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "116",
     "name": "mace",
     "characterColour": 15654365,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "117",
     "name": "mace",
     "characterColour": 15658734,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "118",
     "name": "mace",
     "characterColour": 10072780,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "119",
     "name": "mace",
     "characterColour": 11717785,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "120",
     "name": "mace",
     "characterColour": 65535,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "121",
     "name": "mace",
     "characterColour": 3158064,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "122",
     "name": "staff",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "123",
     "name": "rat",
     "characterColour": 4805259,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "124",
     "name": "demon",
     "characterColour": 16384000,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "125",
     "name": "spider",
     "characterColour": 13408576,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "126",
     "name": "spider",
     "characterColour": 16728144,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "127",
     "name": "camel",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "128",
     "name": "cow",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "129",
     "name": "sheep",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 0,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 0,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "130",
     "name": "unicorn",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "131",
     "name": "bear",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "132",
     "name": "chicken",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "133",
     "name": "skeleton",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "134",
     "name": "skelweap",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 1,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 1,
+    "spriteIndex": 0
   },
   {
     "id": "135",
     "name": "zombie",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "136",
     "name": "zombweap",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 1,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 1,
+    "spriteIndex": 0
   },
   {
     "id": "137",
     "name": "ghost",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "138",
     "name": "bat",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "139",
     "name": "goblin",
     "characterColour": 8969727,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "140",
     "name": "goblin",
     "characterColour": 16711680,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "141",
     "name": "goblin",
     "characterColour": 47872,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "142",
     "name": "gobweap",
     "characterColour": 65535,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 1,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 1,
+    "spriteIndex": 0
   },
   {
     "id": "143",
     "name": "scorpion",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "144",
     "name": "dragon",
     "characterColour": 65280,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "145",
     "name": "dragon",
     "characterColour": 16711680,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "146",
     "name": "dragon",
     "characterColour": 21981,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "147",
     "name": "Wolf",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "148",
     "name": "Wolf",
     "characterColour": 10066329,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "149",
     "name": "partyhat",
     "characterColour": 16711680,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "150",
     "name": "partyhat",
     "characterColour": 16776960,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "151",
     "name": "partyhat",
     "characterColour": 255,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "152",
     "name": "partyhat",
     "characterColour": 65280,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "153",
     "name": "partyhat",
     "characterColour": 16711935,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "154",
     "name": "partyhat",
     "characterColour": 16777215,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "155",
     "name": "leathergloves",
     "characterColour": 11202303,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "156",
     "name": "chicken",
     "characterColour": 16711680,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "157",
     "name": "fplatemailtop",
     "characterColour": 10083839,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "158",
     "name": "skirt",
     "characterColour": 1118481,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "159",
     "name": "Wolf",
     "characterColour": 9789488,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "160",
     "name": "spider",
     "characterColour": 65535,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "161",
     "name": "battleaxe",
     "characterColour": 16711748,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "162",
     "name": "sword",
     "characterColour": 16711748,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "163",
     "name": "eyepatch",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 1,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 1,
+    "spriteIndex": 0
   },
   {
     "id": "164",
     "name": "demon",
     "characterColour": 3158064,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "165",
     "name": "dragon",
     "characterColour": 3158064,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "166",
     "name": "spider",
     "characterColour": 14535680,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "167",
     "name": "Wolf",
     "characterColour": 2236962,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "168",
     "name": "unicorn",
     "characterColour": 2236962,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "169",
     "name": "demon",
     "characterColour": 6291456,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "170",
     "name": "spider",
     "characterColour": 2236962,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "171",
     "name": "necklace",
     "characterColour": 3158064,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "172",
     "name": "rat",
     "characterColour": 11184810,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "173",
     "name": "mediumhelm",
     "characterColour": 11250603,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "174",
     "name": "chainmail",
     "characterColour": 11250603,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "175",
     "name": "wizardshat",
     "characterColour": 16711680,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "176",
     "name": "legs1",
     "characterColour": 9785408,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "177",
     "name": "gasmask",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "178",
     "name": "mediumhelm",
     "characterColour": 16711748,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "179",
     "name": "spider",
     "characterColour": 3852326,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "180",
     "name": "spear",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "181",
     "name": "halloweenmask",
     "characterColour": 52224,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "182",
     "name": "wizardsrobe",
     "characterColour": 1052688,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "183",
     "name": "skirt",
     "characterColour": 1052688,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "184",
     "name": "halloweenmask",
     "characterColour": 16711680,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "185",
     "name": "halloweenmask",
     "characterColour": 255,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "186",
     "name": "skirt",
     "characterColour": 16755370,
     "genderModel": 15,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "187",
     "name": "skirt",
     "characterColour": 11206570,
     "genderModel": 15,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "188",
     "name": "skirt",
     "characterColour": 11184895,
     "genderModel": 15,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "189",
     "name": "skirt",
     "characterColour": 16777164,
     "genderModel": 15,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "190",
     "name": "skirt",
     "characterColour": 13434879,
     "genderModel": 15,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "191",
     "name": "wizardshat",
     "characterColour": 16755370,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "192",
     "name": "wizardshat",
     "characterColour": 11206570,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "193",
     "name": "wizardshat",
     "characterColour": 11184895,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "194",
     "name": "wizardshat",
     "characterColour": 16777164,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "195",
     "name": "wizardshat",
     "characterColour": 13434879,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "196",
     "name": "wizardsrobe",
     "characterColour": 16755370,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "197",
     "name": "wizardsrobe",
     "characterColour": 11206570,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "198",
     "name": "wizardsrobe",
     "characterColour": 11184895,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "199",
     "name": "wizardsrobe",
     "characterColour": 16777164,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "200",
     "name": "wizardsrobe",
     "characterColour": 13434879,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "201",
     "name": "Wizardsrobe",
     "characterColour": 3978097,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "202",
     "name": "skirt",
     "characterColour": 3978097,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "203",
     "name": "boots",
     "characterColour": 16755370,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "204",
     "name": "boots",
     "characterColour": 11206570,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "205",
     "name": "boots",
     "characterColour": 11184895,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "206",
     "name": "boots",
     "characterColour": 16777164,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "207",
     "name": "boots",
     "characterColour": 13434879,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "208",
     "name": "santahat",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "209",
     "name": "ibanstaff",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "210",
     "name": "souless",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "211",
     "name": "boots",
     "characterColour": 16777215,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "212",
     "name": "legs1",
     "characterColour": 16777215,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "213",
     "name": "Wizardsrobe",
     "characterColour": 8421376,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "214",
     "name": "skirt",
     "characterColour": 8421376,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "215",
     "name": "cape",
     "characterColour": 16777215,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "216",
     "name": "Wolf",
     "characterColour": 13420580,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "217",
     "name": "bunnyears",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "218",
     "name": "saradominstaff",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "219",
     "name": "spear",
     "characterColour": 56797,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "220",
     "name": "skirt",
     "characterColour": 1392384,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "221",
     "name": "wizardsrobe",
     "characterColour": 1392384,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "222",
     "name": "wolf",
     "characterColour": 5585408,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "223",
     "name": "chicken",
     "characterColour": 6893315,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "224",
     "name": "squareshield",
     "characterColour": 13500416,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "225",
     "name": "cape",
     "characterColour": 16777215,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "226",
     "name": "boots",
     "characterColour": 1118481,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "227",
     "name": "wizardsrobe",
     "characterColour": 1118481,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   },
   {
     "id": "228",
     "name": "Scythe",
     "characterColour": 0,
     "genderModel": 0,
-    "hasA": 1,
-    "hasF": 0,
-    "number": 0
+    "hasAttackFrames": 1,
+    "hasFemaleFrames": 0,
+    "spriteIndex": 0
   }
 ]

@@ -9,7 +9,7 @@
     "modelFaceBack": 2,
     "modelFaceFront": 2,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "1",
@@ -21,7 +21,7 @@
     "modelFaceBack": 4,
     "modelFaceFront": 4,
     "type": 0,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "2",
@@ -33,7 +33,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "3",
@@ -45,7 +45,7 @@
     "modelFaceBack": 5,
     "modelFaceFront": 5,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "4",
@@ -57,7 +57,7 @@
     "modelFaceBack": 10,
     "modelFaceFront": 10,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "5",
@@ -69,7 +69,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "6",
@@ -81,7 +81,7 @@
     "modelFaceBack": 18,
     "modelFaceFront": 18,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "7",
@@ -93,7 +93,7 @@
     "modelFaceBack": 2,
     "modelFaceFront": 2,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "8",
@@ -105,7 +105,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "9",
@@ -117,7 +117,7 @@
     "modelFaceBack": 4,
     "modelFaceFront": 4,
     "type": 0,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "10",
@@ -129,7 +129,7 @@
     "modelFaceBack": 2,
     "modelFaceFront": 2,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "11",
@@ -141,7 +141,7 @@
     "modelFaceBack": 4,
     "modelFaceFront": 4,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "12",
@@ -153,7 +153,7 @@
     "modelFaceBack": -31711,
     "modelFaceFront": -31711,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "13",
@@ -165,7 +165,7 @@
     "modelFaceBack": 7,
     "modelFaceFront": 7,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "14",
@@ -177,7 +177,7 @@
     "modelFaceBack": 21,
     "modelFaceFront": 21,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "15",
@@ -189,7 +189,7 @@
     "modelFaceBack": 22,
     "modelFaceFront": 22,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "16",
@@ -201,7 +201,7 @@
     "modelFaceBack": 12345678,
     "modelFaceFront": 12345678,
     "type": 0,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "17",
@@ -213,7 +213,7 @@
     "modelFaceBack": 12345678,
     "modelFaceFront": 12345678,
     "type": 0,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "18",
@@ -225,7 +225,7 @@
     "modelFaceBack": 23,
     "modelFaceFront": 23,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "19",
@@ -237,7 +237,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "20",
@@ -249,7 +249,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "21",
@@ -261,7 +261,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "22",
@@ -273,7 +273,7 @@
     "modelFaceBack": 2,
     "modelFaceFront": 2,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "23",
@@ -285,7 +285,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "24",
@@ -297,7 +297,7 @@
     "modelFaceBack": 26,
     "modelFaceFront": 26,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "25",
@@ -309,7 +309,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "26",
@@ -321,7 +321,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "27",
@@ -333,7 +333,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "28",
@@ -345,7 +345,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "29",
@@ -357,7 +357,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "30",
@@ -369,7 +369,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "31",
@@ -381,7 +381,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "32",
@@ -393,7 +393,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "33",
@@ -405,7 +405,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "34",
@@ -417,7 +417,7 @@
     "modelFaceBack": 27,
     "modelFaceFront": 27,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "35",
@@ -429,7 +429,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "36",
@@ -441,7 +441,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "37",
@@ -453,7 +453,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "38",
@@ -465,7 +465,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "39",
@@ -477,7 +477,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "40",
@@ -489,7 +489,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "41",
@@ -501,7 +501,7 @@
     "modelFaceBack": 28,
     "modelFaceFront": 28,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "42",
@@ -513,7 +513,7 @@
     "modelFaceBack": 29,
     "modelFaceFront": 29,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "43",
@@ -525,7 +525,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "44",
@@ -537,7 +537,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "45",
@@ -549,7 +549,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "46",
@@ -561,7 +561,7 @@
     "modelFaceBack": 30,
     "modelFaceFront": 30,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "47",
@@ -573,7 +573,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "48",
@@ -585,7 +585,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "49",
@@ -597,7 +597,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "50",
@@ -609,7 +609,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "51",
@@ -621,7 +621,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "52",
@@ -633,7 +633,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "53",
@@ -645,7 +645,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "54",
@@ -657,7 +657,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "55",
@@ -669,7 +669,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "56",
@@ -681,7 +681,7 @@
     "modelFaceBack": 3,
     "modelFaceFront": 3,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "57",
@@ -693,7 +693,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "58",
@@ -705,7 +705,7 @@
     "modelFaceBack": 29,
     "modelFaceFront": 29,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "59",
@@ -717,7 +717,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "60",
@@ -729,7 +729,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "61",
@@ -741,7 +741,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "62",
@@ -753,7 +753,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "63",
@@ -765,7 +765,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "64",
@@ -777,7 +777,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "65",
@@ -789,7 +789,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "66",
@@ -801,7 +801,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "67",
@@ -813,7 +813,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "68",
@@ -825,7 +825,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "69",
@@ -837,7 +837,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "70",
@@ -849,7 +849,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "71",
@@ -861,7 +861,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "72",
@@ -873,7 +873,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "73",
@@ -885,7 +885,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "74",
@@ -897,7 +897,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "75",
@@ -909,7 +909,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "76",
@@ -921,7 +921,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "77",
@@ -933,7 +933,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "78",
@@ -945,7 +945,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "79",
@@ -957,7 +957,7 @@
     "modelFaceBack": 21,
     "modelFaceFront": 21,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "80",
@@ -969,7 +969,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "81",
@@ -981,7 +981,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "82",
@@ -993,7 +993,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "83",
@@ -1005,7 +1005,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "84",
@@ -1017,7 +1017,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "85",
@@ -1029,7 +1029,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "86",
@@ -1041,7 +1041,7 @@
     "modelFaceBack": 12345678,
     "modelFaceFront": 12345678,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "87",
@@ -1053,7 +1053,7 @@
     "modelFaceBack": 2,
     "modelFaceFront": 2,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "88",
@@ -1065,7 +1065,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "89",
@@ -1077,7 +1077,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "90",
@@ -1089,7 +1089,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "91",
@@ -1101,7 +1101,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "92",
@@ -1113,7 +1113,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "93",
@@ -1125,7 +1125,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "94",
@@ -1137,7 +1137,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "95",
@@ -1149,7 +1149,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "96",
@@ -1161,7 +1161,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "97",
@@ -1173,7 +1173,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "98",
@@ -1185,7 +1185,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "99",
@@ -1197,7 +1197,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "100",
@@ -1209,7 +1209,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "101",
@@ -1221,7 +1221,7 @@
     "modelFaceBack": 10,
     "modelFaceFront": 10,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "102",
@@ -1233,7 +1233,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "103",
@@ -1245,7 +1245,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "104",
@@ -1257,7 +1257,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "105",
@@ -1269,7 +1269,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "106",
@@ -1281,7 +1281,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "107",
@@ -1293,7 +1293,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "108",
@@ -1305,7 +1305,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "109",
@@ -1317,7 +1317,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "110",
@@ -1329,7 +1329,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "111",
@@ -1341,7 +1341,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "112",
@@ -1353,7 +1353,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "113",
@@ -1365,7 +1365,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "114",
@@ -1377,7 +1377,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "115",
@@ -1389,7 +1389,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "116",
@@ -1401,7 +1401,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "117",
@@ -1413,7 +1413,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "118",
@@ -1425,7 +1425,7 @@
     "modelFaceBack": 44,
     "modelFaceFront": 44,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "119",
@@ -1437,7 +1437,7 @@
     "modelFaceBack": 12345678,
     "modelFaceFront": 12345678,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "120",
@@ -1449,7 +1449,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "121",
@@ -1461,7 +1461,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "122",
@@ -1473,7 +1473,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "123",
@@ -1485,7 +1485,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "124",
@@ -1497,7 +1497,7 @@
     "modelFaceBack": 3,
     "modelFaceFront": 3,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "125",
@@ -1509,7 +1509,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "126",
@@ -1521,7 +1521,7 @@
     "modelFaceBack": 45,
     "modelFaceFront": 45,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "127",
@@ -1533,7 +1533,7 @@
     "modelFaceBack": 10,
     "modelFaceFront": 10,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "128",
@@ -1545,7 +1545,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "129",
@@ -1557,7 +1557,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "130",
@@ -1569,7 +1569,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "131",
@@ -1581,7 +1581,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "132",
@@ -1593,7 +1593,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "133",
@@ -1605,7 +1605,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "134",
@@ -1617,7 +1617,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "135",
@@ -1629,7 +1629,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "136",
@@ -1641,7 +1641,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "137",
@@ -1653,7 +1653,7 @@
     "modelFaceBack": 10,
     "modelFaceFront": 10,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "138",
@@ -1665,7 +1665,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "139",
@@ -1677,7 +1677,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "140",
@@ -1689,7 +1689,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "141",
@@ -1701,7 +1701,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "142",
@@ -1713,7 +1713,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "143",
@@ -1725,7 +1725,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "144",
@@ -1737,7 +1737,7 @@
     "modelFaceBack": 46,
     "modelFaceFront": 46,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "145",
@@ -1749,7 +1749,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "146",
@@ -1761,7 +1761,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "147",
@@ -1773,7 +1773,7 @@
     "modelFaceBack": 17,
     "modelFaceFront": 17,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "148",
@@ -1785,7 +1785,7 @@
     "modelFaceBack": 17,
     "modelFaceFront": 17,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "149",
@@ -1797,7 +1797,7 @@
     "modelFaceBack": 17,
     "modelFaceFront": 17,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "150",
@@ -1809,7 +1809,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "151",
@@ -1821,7 +1821,7 @@
     "modelFaceBack": 29,
     "modelFaceFront": 29,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "152",
@@ -1833,7 +1833,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "153",
@@ -1845,7 +1845,7 @@
     "modelFaceBack": 3,
     "modelFaceFront": 3,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "154",
@@ -1857,7 +1857,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "155",
@@ -1869,7 +1869,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "156",
@@ -1881,7 +1881,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "157",
@@ -1893,7 +1893,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "158",
@@ -1905,7 +1905,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "159",
@@ -1917,7 +1917,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "160",
@@ -1929,7 +1929,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "161",
@@ -1941,7 +1941,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "162",
@@ -1953,7 +1953,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "163",
@@ -1965,7 +1965,7 @@
     "modelFaceBack": 2,
     "modelFaceFront": 2,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "164",
@@ -1977,7 +1977,7 @@
     "modelFaceBack": 2,
     "modelFaceFront": 2,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "165",
@@ -1989,7 +1989,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "166",
@@ -2001,7 +2001,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "167",
@@ -2013,7 +2013,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "168",
@@ -2025,7 +2025,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "169",
@@ -2037,7 +2037,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "170",
@@ -2049,7 +2049,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "171",
@@ -2061,7 +2061,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "172",
@@ -2073,7 +2073,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "173",
@@ -2085,7 +2085,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "174",
@@ -2097,7 +2097,7 @@
     "modelFaceBack": 4,
     "modelFaceFront": 4,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "175",
@@ -2109,7 +2109,7 @@
     "modelFaceBack": 36,
     "modelFaceFront": 36,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "176",
@@ -2121,7 +2121,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "177",
@@ -2133,7 +2133,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "178",
@@ -2145,7 +2145,7 @@
     "modelFaceBack": 27,
     "modelFaceFront": 27,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "179",
@@ -2157,7 +2157,7 @@
     "modelFaceBack": 17,
     "modelFaceFront": 17,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "180",
@@ -2169,7 +2169,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "181",
@@ -2181,7 +2181,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "182",
@@ -2193,7 +2193,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "183",
@@ -2205,7 +2205,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "184",
@@ -2217,7 +2217,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "185",
@@ -2229,7 +2229,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "186",
@@ -2241,7 +2241,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "187",
@@ -2253,7 +2253,7 @@
     "modelFaceBack": 26,
     "modelFaceFront": 26,
     "type": 0,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "188",
@@ -2265,7 +2265,7 @@
     "modelFaceBack": 26,
     "modelFaceFront": 26,
     "type": 0,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "189",
@@ -2277,7 +2277,7 @@
     "modelFaceBack": 26,
     "modelFaceFront": 26,
     "type": 0,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "190",
@@ -2289,7 +2289,7 @@
     "modelFaceBack": 26,
     "modelFaceFront": 26,
     "type": 0,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "191",
@@ -2301,7 +2301,7 @@
     "modelFaceBack": 26,
     "modelFaceFront": 26,
     "type": 0,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "192",
@@ -2313,7 +2313,7 @@
     "modelFaceBack": 26,
     "modelFaceFront": 26,
     "type": 0,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "193",
@@ -2325,7 +2325,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "194",
@@ -2337,7 +2337,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "195",
@@ -2349,7 +2349,7 @@
     "modelFaceBack": 2,
     "modelFaceFront": 2,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "196",
@@ -2361,7 +2361,7 @@
     "modelFaceBack": 50,
     "modelFaceFront": 50,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "197",
@@ -2373,7 +2373,7 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "198",
@@ -2385,7 +2385,7 @@
     "modelFaceBack": 50,
     "modelFaceFront": 50,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "199",
@@ -2397,7 +2397,7 @@
     "modelFaceBack": 10,
     "modelFaceFront": 10,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "200",
@@ -2409,7 +2409,7 @@
     "modelFaceBack": 12,
     "modelFaceFront": 12,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "201",
@@ -2421,7 +2421,7 @@
     "modelFaceBack": 2,
     "modelFaceFront": 2,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "202",
@@ -2433,7 +2433,7 @@
     "modelFaceBack": 25,
     "modelFaceFront": 25,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "203",
@@ -2445,7 +2445,7 @@
     "modelFaceBack": 24,
     "modelFaceFront": 24,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "204",
@@ -2457,7 +2457,7 @@
     "modelFaceBack": 8,
     "modelFaceFront": 8,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "205",
@@ -2469,7 +2469,7 @@
     "modelFaceBack": 5,
     "modelFaceFront": 5,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "206",
@@ -2481,7 +2481,7 @@
     "modelFaceBack": 51,
     "modelFaceFront": 51,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "207",
@@ -2493,7 +2493,7 @@
     "modelFaceBack": 52,
     "modelFaceFront": 52,
     "type": 0,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "208",
@@ -2505,7 +2505,7 @@
     "modelFaceBack": 53,
     "modelFaceFront": 53,
     "type": 0,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "209",
@@ -2517,7 +2517,7 @@
     "modelFaceBack": 54,
     "modelFaceFront": 54,
     "type": 1,
-    "unknown": 0
+    "faceRenderMode": 0
   },
   {
     "id": "210",
@@ -2529,7 +2529,7 @@
     "modelFaceBack": 54,
     "modelFaceFront": 54,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "211",
@@ -2541,7 +2541,7 @@
     "modelFaceBack": 28,
     "modelFaceFront": 28,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "212",
@@ -2553,7 +2553,7 @@
     "modelFaceBack": 2,
     "modelFaceFront": 2,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   },
   {
     "id": "213",
@@ -2565,6 +2565,6 @@
     "modelFaceBack": 0,
     "modelFaceFront": 0,
     "type": 1,
-    "unknown": 1
+    "faceRenderMode": 1
   }
 ]

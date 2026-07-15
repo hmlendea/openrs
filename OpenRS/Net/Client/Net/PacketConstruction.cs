@@ -26,10 +26,7 @@ namespace OpenRS.Net.Client.Net
                 }
             }
 
-            if (packetData is null)
-            {
-                packetData = new byte[maxPacketLength];
-            }
+            packetData ??= new byte[maxPacketLength];
 
             packetData[packetStart + 2] = (byte)id;
             packetData[packetStart + 3] = 0;

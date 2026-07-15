@@ -12,18 +12,22 @@ namespace OpenRS.Models
 {
     public abstract class MobInstance : GameEntityInstance
     {
+        private static int DefaultCombatLevel => 3;
+        private static int InitialSpriteIndex => 1;
+        private static int CombatSpriteIndexMin => 8;
+        private static int CombatSpriteIndexMax => 9;
+
         private int combatLevel;
         private int mobSprite;
         private readonly int[][] mobSprites;
         private readonly bool[] activatedPrayers;
         private readonly PathHandler pathHandler;
-        // viewArea
 
         private readonly ILogger logger = NuciLoggerFactory.CreateLogger<MobInstance>();
 
-        protected Dictionary<long, int> totalDamageTable;
-        protected Dictionary<long, int> meleeDamageTable;
-        protected Dictionary<long, int> rangeDamageTable;
+        private readonly Dictionary<long, int> totalDamageTable;
+        private readonly Dictionary<long, int> meleeDamageTable;
+        private readonly Dictionary<long, int> rangeDamageTable;
 
         private MobInstance CombatOpponent { get; set; }
 
@@ -77,7 +81,9 @@ namespace OpenRS.Models
         {
             get
             {
-                return (mobSprite == 8 || mobSprite == 9) && CombatOpponent is not null;
+                return
+                    (mobSprite == CombatSpriteIndexMin || mobSprite == CombatSpriteIndexMax) &&
+                    CombatOpponent is not null;
             }
         }
 
@@ -87,21 +93,20 @@ namespace OpenRS.Models
 
         public MobInstance()
         {
-            mobSprites = [
+            mobSprites =
+            [
                 [3, 2, 1],
                 [4, -1, 0],
                 [5, 6, 7]
             ];
-            mobSprite = 1;
-            combatLevel = 3;
+            mobSprite = InitialSpriteIndex;
+            combatLevel = DefaultCombatLevel;
             HasAppearanceChanged = true;
             AppearanceId = 0;
             LastMovementTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             activatedPrayers = new bool[Prayer.MaximumCount];
             LastCombatState = CombatState.Waiting;
-
             pathHandler = new PathHandler(this);
-
             totalDamageTable = [];
             meleeDamageTable = [];
             rangeDamageTable = [];
@@ -109,46 +114,29 @@ namespace OpenRS.Models
 
         public void UpdateKillStealing(long index, int damage, AttackType attackType)
         {
-            if (totalDamageTable.ContainsKey(index))
-            {
-                totalDamageTable[index] += damage;
-            }
-            else
-            {
-                totalDamageTable.Add(index, damage);
-            }
+            totalDamageTable[index] = totalDamageTable.GetValueOrDefault(index) + damage;
 
             switch (attackType)
             {
                 case AttackType.Melee:
-                    if (meleeDamageTable.ContainsKey(index))
-                    {
-                        meleeDamageTable[index] += damage;
-                        return;
-                    }
-
-                    meleeDamageTable.Add(index, damage);
+                    meleeDamageTable[index] = meleeDamageTable.GetValueOrDefault(index) + damage;
                     break;
 
                 case AttackType.Ranged:
-                    if (rangeDamageTable.ContainsKey(index))
-                    {
-                        rangeDamageTable[index] += damage;
-                        return;
-                    }
-
-                    rangeDamageTable.Add(index, damage);
+                    rangeDamageTable[index] = rangeDamageTable.GetValueOrDefault(index) + damage;
                     break;
             }
         }
 
         public abstract void Remove();
 
-        public void ResetCombat() => throw new NotImplementedException();
+        public void ResetCombat()
+            => throw new NotImplementedException();
 
         public void ResetPath() => pathHandler.ResetPath();
 
-        public bool IsAtObject() => throw new NotImplementedException();
+        public bool IsAtObject()
+            => throw new NotImplementedException();
 
         public bool IsPrayerActivated(int prayerIndex) => activatedPrayers[prayerIndex];
 

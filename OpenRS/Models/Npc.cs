@@ -16,15 +16,15 @@
 
         public Appearance Appearance { get; set; }
 
-        public int Camera1 { get; set; }
+        public int SpriteWidth { get; set; }
 
-        public int Camera2 { get; set; }
+        public int SpriteHeight { get; set; }
 
-        public int WalkModel { get; set; }
+        public int WalkAnimationSpeed { get; set; }
 
-        public int CombatModel { get; set; }
+        public int CombatAnimationSpeed { get; set; }
 
-        public int CombatSprite { get; set; }
+        public int CombatSwingOffset { get; set; }
 
         public int HealthLevel { get; set; }
 

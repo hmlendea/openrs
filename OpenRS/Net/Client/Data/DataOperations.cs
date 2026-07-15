@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 
 using OpenRS.Settings;
 
@@ -24,8 +24,8 @@ namespace OpenRS.Net.Client.Data
             else
             {
                 Uri url = new(CodeBase, fileName);
-                WebRequest webRequest = WebRequest.Create(url.ToString());
-                inputStream = webRequest.GetResponse().GetResponseStream();
+                using HttpClient httpClient = new();
+                inputStream = httpClient.GetStreamAsync(url).GetAwaiter().GetResult();
             }
 
             MemoryStream memory = new();
@@ -292,10 +292,7 @@ namespace OpenRS.Net.Client.Data
 
                 if (entryNameHash == nameHash)
                 {
-                    if (outputBuffer is null)
-                    {
-                        outputBuffer = new byte[decompressedSize + outputOffset];
-                    }
+                    outputBuffer ??= new byte[decompressedSize + outputOffset];
 
                     if (decompressedSize != compressedSize)
                     {
@@ -342,10 +339,7 @@ namespace OpenRS.Net.Client.Data
 
                 if (entryNameHash == nameHash)
                 {
-                    if (outputBuffer is null)
-                    {
-                        outputBuffer = new sbyte[decompressedSize + outputOffset];
-                    }
+                    outputBuffer ??= new sbyte[decompressedSize + outputOffset];
 
                     if (decompressedSize != compressedSize)
                     {

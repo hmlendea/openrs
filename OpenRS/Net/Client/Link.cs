@@ -111,9 +111,9 @@ namespace OpenRS.Net.Client
 
         public static int userId;
         private static int port;
-        private static readonly TcpClient socket;
+        private static readonly TcpClient socket = null;
         private static string ipLookup;
-        private static readonly string address;
+        private static readonly string address = null;
         private static int currentFile;
         private static readonly string[] fileNames = new string[50];
         private static readonly sbyte[][] fileData = new sbyte[50][];

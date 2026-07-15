@@ -20,9 +20,9 @@ namespace OpenRS.GameLogic.Mapping
             Type = worldObjectEntity.Type,
             Width = worldObjectEntity.Width,
             Height = worldObjectEntity.Height,
-            GroundItemVar = worldObjectEntity.GroundItemVar,
-            ObjectModel = worldObjectEntity.ObjectModel,
-            ModelId = worldObjectEntity.ModelId
+            GroundItemElevationOffset = worldObjectEntity.GroundItemElevationOffset,
+            ModelName = worldObjectEntity.ModelName,
+            ModelIndex = worldObjectEntity.ModelIndex
         };
 
         internal static WorldObjectEntity ToDataObject(this WorldObject worldObject) => new()
@@ -35,9 +35,9 @@ namespace OpenRS.GameLogic.Mapping
             Type = worldObject.Type,
             Width = worldObject.Width,
             Height = worldObject.Height,
-            GroundItemVar = worldObject.GroundItemVar,
-            ObjectModel = worldObject.ObjectModel,
-            ModelId = worldObject.ModelId
+            GroundItemElevationOffset = worldObject.GroundItemElevationOffset,
+            ModelName = worldObject.ModelName,
+            ModelIndex = worldObject.ModelIndex
         };
 
         internal static IEnumerable<WorldObject> ToServiceModels(

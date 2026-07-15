@@ -14,7 +14,7 @@ namespace OpenRS.DataAccess.DataObjects
 
         public int Type { get; set; }
 
-        public int Unknown { get; set; }
+        public int FaceRenderMode { get; set; }
 
         public int ModelHeight { get; set; }
 

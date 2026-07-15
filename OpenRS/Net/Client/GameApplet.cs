@@ -571,7 +571,6 @@ namespace OpenRS.Net.Client
                         new LogInfo(GameLogInfoKey.FileName, fileTitle),
                         new LogInfo(GameLogInfoKey.LoadProgress, 5));
                     DrawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 5%");
-#warning this could break stuff
                     int bytesRead = 6;
                     fileData = new sbyte[compressedSize];
 

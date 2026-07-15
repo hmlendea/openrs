@@ -31,13 +31,17 @@ namespace OpenRS.Net.Client
 
             if (socketTimeout > 0)
             {
-                LoginScreenPrint("Please wait...", "Connecting to server");
+                LoginScreenPrint(
+                    LocalisationManager.GetString("login.please_wait"),
+                    LocalisationManager.GetString("login.connecting_to_server"));
                 try
                 {
                     Thread.Sleep(2000);
                 }
                 catch (Exception) { }
-                LoginScreenPrint("Sorry! The server is currently full.", "Please try again later");
+                LoginScreenPrint(
+                    LocalisationManager.GetString("login.server_full"),
+                    LocalisationManager.GetString("login.please_try_again_later"));
                 return;
             }
             try
@@ -76,16 +80,22 @@ namespace OpenRS.Net.Client
 
             if (formattedUsername.Trim().Length == 0)
             {
-                LoginScreenPrint("You must enter both a username", "and a password - Please try again");
+                LoginScreenPrint(
+                    LocalisationManager.GetString("login.empty_credentials_line1"),
+                    LocalisationManager.GetString("login.empty_credentials_line2"));
                 return;
             }
             if (reconnecting)
             {
-                GameBoxPrint("Connection lost! Please wait...", "Attempting to re-establish");
+                GameBoxPrint(
+                    LocalisationManager.GetString("login.connection_lost_line1"),
+                    LocalisationManager.GetString("login.connection_lost_line2"));
             }
             else
             {
-                LoginScreenPrint("Please wait...", "Connecting to server");
+                LoginScreenPrint(
+                    LocalisationManager.GetString("login.please_wait"),
+                    LocalisationManager.GetString("login.connecting_to_server"));
             }
             try
             {
@@ -93,7 +103,7 @@ namespace OpenRS.Net.Client
             }
             catch (SocketException exception)
             {
-                LoginScreenPrint("Unable to Connect.", exception.Message);
+                LoginScreenPrint(LocalisationManager.GetString("login.unable_to_connect"), exception.Message);
                 return;
             }
             streamClass.maxPacketReadCount = maxPacketReadCount;
@@ -111,7 +121,9 @@ namespace OpenRS.Net.Client
             }
             catch (Exception ex)
             {
-                LoginScreenPrint("Unable to Connect.", "Server timed out");
+                LoginScreenPrint(
+                    LocalisationManager.GetString("login.unable_to_connect"),
+                    LocalisationManager.GetString("login.server_timed_out"));
                 logger.Error(
                     GameOperation.Authenticate,
                     "Failed to read the session ID.",
@@ -163,7 +175,9 @@ namespace OpenRS.Net.Client
             }
             catch (Exception)
             {
-                LoginScreenPrint("Unable to Connect.", "Server timed out");
+                LoginScreenPrint(
+                    LocalisationManager.GetString("login.unable_to_connect"),
+                    LocalisationManager.GetString("login.server_timed_out"));
                 streamClass.CloseStream();
                 return;
             }
@@ -201,51 +215,71 @@ namespace OpenRS.Net.Client
             }
             if (loginCode == (int)LoginCode.ServerTimeOut)
             {
-                LoginScreenPrint("Error unable to login.", "Server timed out");
+                LoginScreenPrint(
+                    LocalisationManager.GetString("login.error_unable_to_login"),
+                    LocalisationManager.GetString("login.server_timed_out"));
                 return;
             }
             if (loginCode == (int)LoginCode.InvalidCredentials)
             {
-                LoginScreenPrint("Invalid username or password.", "Try again, or create a new account");
+                LoginScreenPrint(
+                    LocalisationManager.GetString("login.invalid_credentials_line1"),
+                    LocalisationManager.GetString("login.invalid_credentials_line2"));
                 return;
             }
             if (loginCode == (int)LoginCode.UsernameAlreadyLoggedIn)
             {
-                LoginScreenPrint("That username is already logged in.", "Wait 60 seconds then retry");
+                LoginScreenPrint(
+                    LocalisationManager.GetString("login.username_already_logged_in_line1"),
+                    LocalisationManager.GetString("login.username_already_logged_in_line2"));
                 return;
             }
             if (loginCode == (int)LoginCode.ClientUpdated)
             {
-                LoginScreenPrint("The client has been updated.", "Please restart the client");
+                LoginScreenPrint(
+                    LocalisationManager.GetString("login.client_updated_line1"),
+                    LocalisationManager.GetString("login.client_updated_line2"));
                 return;
             }
             if (loginCode == (int)LoginCode.SessionRejected)
             {
-                LoginScreenPrint("Error unable to login.", "Please retry");
+                LoginScreenPrint(
+                    LocalisationManager.GetString("login.error_unable_to_login"),
+                    LocalisationManager.GetString("login.session_rejected"));
                 return;
             }
             if (loginCode == (int)LoginCode.AccountBanned)
             {
-                LoginScreenPrint("Account banned.", "Appeal on the forums, ASAP.");
+                LoginScreenPrint(
+                    LocalisationManager.GetString("login.account_banned_line1"),
+                    LocalisationManager.GetString("login.account_banned_line2"));
                 return;
             }
             if (loginCode == (int)LoginCode.ProfileDecodeFailure)
             {
-                LoginScreenPrint("Error - failed to decode profile.", "Contact an admin!");
+                LoginScreenPrint(
+                    LocalisationManager.GetString("login.profile_decode_failure_line1"),
+                    LocalisationManager.GetString("login.profile_decode_failure_line2"));
                 return;
             }
             if (loginCode == (int)LoginCode.TooManyConnections)
             {
-                LoginScreenPrint("Too many connections from your IP.", "Please try again later");
+                LoginScreenPrint(
+                    LocalisationManager.GetString("login.too_many_connections"),
+                    LocalisationManager.GetString("login.please_try_again_later"));
                 return;
             }
             if (loginCode == (int)LoginCode.AccountAlreadyLoggedIn)
             {
-                LoginScreenPrint("Account already in use.", "You may only login to one character at a time");
+                LoginScreenPrint(
+                    LocalisationManager.GetString("login.account_already_in_use_line1"),
+                    LocalisationManager.GetString("login.account_already_in_use_line2"));
                 return;
             }
 
-            LoginScreenPrint("Error unable to login.", "Unrecognised response code");
+            LoginScreenPrint(
+                LocalisationManager.GetString("login.error_unable_to_login"),
+                LocalisationManager.GetString("login.unrecognised_response_code"));
         }
 
         protected void RequestLogout()
@@ -263,14 +297,14 @@ namespace OpenRS.Net.Client
             username = "";
             password = "";
             ResetIntVars();
-            LoginScreenPrint("Please enter your usename and password", "");
+            LoginScreenPrint(LocalisationManager.GetString("login.enter_credentials"), "");
         }
 
         public virtual void LostConnection()
         {
             logger.Warn(GameOperation.LostConnection);
             // Connect(username, password, true);
-            LoginScreenPrint("Please enter your usename and password", "");
+            LoginScreenPrint(LocalisationManager.GetString("login.enter_credentials"), "");
         }
 
         protected void GameBoxPrint(string firstLine, string secondLine)

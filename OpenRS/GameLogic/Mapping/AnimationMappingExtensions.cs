@@ -14,9 +14,9 @@ namespace OpenRS.GameLogic.Mapping
             Name = animationEntity.Name,
             CharacterColour = animationEntity.CharacterColour,
             GenderModel = animationEntity.GenderModel,
-            HasA = animationEntity.HasA != 0,
-            HasF = animationEntity.HasF != 0,
-            Number = animationEntity.Number
+            HasAttackFrames = animationEntity.HasAttackFrames != 0,
+            HasFemaleFrames = animationEntity.HasFemaleFrames != 0,
+            SpriteIndex = animationEntity.SpriteIndex
         };
 
         internal static AnimationEntity ToDataObject(this Animation animation) => new()
@@ -24,9 +24,9 @@ namespace OpenRS.GameLogic.Mapping
             Name = animation.Name,
             CharacterColour = animation.CharacterColour,
             GenderModel = animation.GenderModel,
-            HasA = Convert.ToInt32(animation.HasA),
-            HasF = Convert.ToInt32(animation.HasF),
-            Number = animation.Number
+            HasAttackFrames = Convert.ToInt32(animation.HasAttackFrames),
+            HasFemaleFrames = Convert.ToInt32(animation.HasFemaleFrames),
+            SpriteIndex = animation.SpriteIndex
         };
 
         internal static IEnumerable<Animation> ToServiceModels(

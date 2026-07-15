@@ -6,6 +6,6 @@ namespace OpenRS.DataAccess.DataObjects
     {
         public int Roof { get; set; }
 
-        public int Unknown { get; set; }
+        public int Colour { get; set; }
     }
 }

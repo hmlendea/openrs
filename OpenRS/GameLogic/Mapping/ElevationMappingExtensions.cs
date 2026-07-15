@@ -11,13 +11,13 @@ namespace OpenRS.GameLogic.Mapping
         internal static Elevation ToServiceModel(this ElevationEntity elevationEntity) => new()
         {
             Roof = elevationEntity.Roof,
-            Unknown = elevationEntity.Unknown
+            Colour = elevationEntity.Colour
         };
 
         internal static ElevationEntity ToDataObject(this Elevation elevation) => new()
         {
             Roof = elevation.Roof,
-            Unknown = elevation.Unknown
+            Colour = elevation.Colour
         };
 
         internal static IEnumerable<Elevation> ToServiceModels(

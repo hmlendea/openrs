@@ -163,10 +163,7 @@ namespace OpenRS.Net.Client.Net
                 return;
             }
 
-            if (buffer is null)
-            {
-                buffer = new byte[5000];
-            }
+            buffer ??= new byte[5000];
             // lock (syncLock)
             {
                 for (int i = 0; i < byteCount; i += 1)

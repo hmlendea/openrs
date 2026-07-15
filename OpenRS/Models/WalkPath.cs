@@ -6,7 +6,7 @@ namespace OpenRS.Models
     {
         private readonly Point2D[] waypointOffsets;
 
-        public Point2D StartLocation { get; set; }
+        public Point2D StartLocation { get; }
 
         public int Length => waypointOffsets.Length;
 
@@ -16,22 +16,12 @@ namespace OpenRS.Models
             this.waypointOffsets = waypointOffsets;
         }
 
-        public WalkPath(Point2D location, Point2D destination)
+        public WalkPath(Point2D destination)
         {
             StartLocation = destination;
             waypointOffsets = [];
         }
 
         public Point2D GetWaypoint(int waypointIndex) => StartLocation + waypointOffsets[waypointIndex];
-
-        public Point2D GetWaypointOffset(int waypointIndex)
-        {
-            if (waypointIndex >= Length)
-            {
-                return Point2D.Empty;
-            }
-
-            return waypointOffsets[waypointIndex];
-        }
     }
 }

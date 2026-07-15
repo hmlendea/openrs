@@ -4,7 +4,7 @@ namespace OpenRS.Models
 {
     public sealed class Sector
     {
-        public static readonly Size2D Size = new(48, 48);
+        public static Size2D Size => new(48, 48);
 
         private readonly WorldTile[] tiles;
 
@@ -18,12 +18,14 @@ namespace OpenRS.Models
             }
         }
 
-        public void SetTile(int x, int y, WorldTile tile) => SetTile(x * Size.Width + y, tile);
+        public void SetTile(int x, int y, WorldTile tile) => SetTile(GetTileIndex(x, y), tile);
 
         public void SetTile(int index, WorldTile tile) => tiles[index] = tile;
 
-        public WorldTile GetTile(int x, int y) => GetTile(x * Size.Width + y);
+        public WorldTile GetTile(int x, int y) => GetTile(GetTileIndex(x, y));
 
         public WorldTile GetTile(int index) => tiles[index];
+
+        private static int GetTileIndex(int x, int y) => x * Size.Width + y;
     }
 }

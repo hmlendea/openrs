@@ -81,8 +81,6 @@ client.RaiseOnLoadingSection(this, new EventArgs());
                 client.gameGraphics.DrawTransparentLine(0, j1, 0, 194 - j1, _bgScreenWidth, 8);
             }
 
-#warning draws logo
-
             if (!client.DoNotDrawLogo)
             {
                 if (GameApplet.bgPixels is null)
@@ -508,7 +506,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                         continue;
                     }
 
-                    client.entityManager.GetAnimation(animationIndex).Number = client.entityManager.GetAnimation(previousIndex).Number;
+                    client.entityManager.GetAnimation(animationIndex).SpriteIndex = client.entityManager.GetAnimation(previousIndex).SpriteIndex;
                     isDuplicate = true;
                     break;
                 }
@@ -522,7 +520,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
 
                 if (!File.Exists(animationFilePath))
                 {
-                    client.entityManager.GetAnimation(animationIndex).Number = client.animationNumber;
+                    client.entityManager.GetAnimation(animationIndex).SpriteIndex = client.animationNumber;
                     client.animationNumber += 27;
                     continue;
                 }
@@ -534,7 +532,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                     client.gameGraphics.UnpackImageData(client.animationNumber, animationData, indexData, 15);
                     frameCount += 15;
 
-                    if (client.entityManager.GetAnimation(animationIndex).HasA)
+                    if (client.entityManager.GetAnimation(animationIndex).HasAttackFrames)
                     {
                         client.gameGraphics.UnpackImageData(
                             client.animationNumber + 15,
@@ -544,7 +542,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                         frameCount += 3;
                     }
 
-                    if (client.entityManager.GetAnimation(animationIndex).HasF)
+                    if (client.entityManager.GetAnimation(animationIndex).HasFemaleFrames)
                     {
                         client.gameGraphics.UnpackImageData(
                             client.animationNumber + 18,
@@ -564,16 +562,11 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                 }
                 catch { }
 
-                client.entityManager.GetAnimation(animationIndex).Number = client.animationNumber;
+                client.entityManager.GetAnimation(animationIndex).SpriteIndex = client.animationNumber;
                 client.animationNumber += 27;
 
                 sb.AppendLine("Loaded: " + frameCount + " frames of animation");
 
-#warning ugly fix for forcing animation count to 1143.
-                if (frameCount == 1143)
-                {
-                    break;
-                }
             }
 
             logger.Info(

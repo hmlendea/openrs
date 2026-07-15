@@ -70,10 +70,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             sceneObjectY = new int[maxSceneObjects];
             sceneObjectZ = new int[maxSceneObjects];
             sceneObjectFrames = new int[maxSceneObjects];
-            if (lookupTable is null)
-            {
-                lookupTable = new sbyte[17691];
-            }
+            lookupTable ??= new sbyte[17691];
 
             viewX = 0;
             ViewY = 0;

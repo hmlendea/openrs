@@ -4,59 +4,59 @@ namespace OpenRS.Net.Client.Data
     {
         internal BZip2BlockEntry()
         {
-            unzftab = new int[256];
-            cumulativeCounts = new int[257];
-            inUse = new bool[256];
-            symbolGroupFlags = new bool[16];
-            seqToUnseq = new int[256];
-            moveToFrontBuffer = new int[4096];
-            groupPositions = new int[16];
-            selector = new sbyte[18002];
-            selectorMtf = new sbyte[18002];
-            huffmanCodeLengths = RectangularArrays.ReturnRectangularSbyteArray(6, 258);
-            limit = RectangularArrays.ReturnRectangularIntArray(6, 258);
-            huffmanBaseValues = RectangularArrays.ReturnRectangularIntArray(6, 258);
-            huffmanPermutations = RectangularArrays.ReturnRectangularIntArray(6, 258);
-            minLengths = new int[6];
+            SymbolFrequencyTable = new int[256];
+            CumulativeCounts = new int[257];
+            InUse = new bool[256];
+            SymbolGroupFlags = new bool[16];
+            SequenceToSymbol = new int[256];
+            MoveToFrontBuffer = new int[4096];
+            GroupPositions = new int[16];
+            Selector = new sbyte[18002];
+            SelectorMoveToFront = new sbyte[18002];
+            HuffmanCodeLengths = RectangularArrays.ReturnRectangularSbyteArray(6, 258);
+            HuffmanLimits = RectangularArrays.ReturnRectangularIntArray(6, 258);
+            HuffmanBaseValues = RectangularArrays.ReturnRectangularIntArray(6, 258);
+            HuffmanPermutations = RectangularArrays.ReturnRectangularIntArray(6, 258);
+            HuffmanMinLengths = new int[6];
         }
 
-        internal sbyte[] inputBuffer;
-        internal int offset;
-        internal int compressedSize;
-        internal int bytesReadLow;
-        internal int bytesReadHigh;
-        internal sbyte[] outputBuffer;
-        internal int outputIndex;
-        internal int decompressedSize;
-        internal int bytesWrittenLow;
-        internal int bytesWrittenHigh;
-        internal sbyte lastOutputByte;
-        internal int runLength;
-        internal bool isRandomised;
-        internal int currentBitWord;
-        internal int bitsAvailable;
-        internal int blockSize100k;
-        internal int blocksRead;
-        internal int origPtr;
-        internal int linkedListNode;
-        internal int currentByteValue;
-        internal int[] unzftab;
-        internal int symbolIndex;
-        internal int[] cumulativeCounts;
-        internal static int[] transformVector;
-        internal int inUseOffset;
-        internal bool[] inUse;
-        internal bool[] symbolGroupFlags;
-        internal int[] seqToUnseq;
-        internal int[] moveToFrontBuffer;
-        internal int[] groupPositions;
-        internal sbyte[] selector;
-        internal sbyte[] selectorMtf;
-        internal sbyte[][] huffmanCodeLengths;
-        internal int[][] limit;
-        internal int[][] huffmanBaseValues;
-        internal int[][] huffmanPermutations;
-        internal int[] minLengths;
-        internal int lastSymbolIndex;
+        internal sbyte[] InputBuffer { get; set; }
+        internal int Offset { get; set; }
+        internal int CompressedSize { get; set; }
+        internal int BytesReadLow { get; set; }
+        internal int BytesReadHigh { get; set; }
+        internal sbyte[] OutputBuffer { get; set; }
+        internal int OutputIndex { get; set; }
+        internal int DecompressedSize { get; set; }
+        internal int BytesWrittenLow { get; set; }
+        internal int BytesWrittenHigh { get; set; }
+        internal sbyte LastOutputByte { get; set; }
+        internal int RunLength { get; set; }
+        internal bool IsRandomised { get; set; }
+        internal int CurrentBitWord { get; set; }
+        internal int BitsAvailable { get; set; }
+        internal int BlockSize100k { get; set; }
+        internal int BlocksRead { get; set; }
+        internal int OriginPointer { get; set; }
+        internal int LinkedListNode { get; set; }
+        internal int CurrentByteValue { get; set; }
+        internal int[] SymbolFrequencyTable { get; set; }
+        internal int SymbolIndex { get; set; }
+        internal int[] CumulativeCounts { get; set; }
+        internal static int[] TransformVector { get; set; }
+        internal int ActiveSymbolCount { get; set; }
+        internal bool[] InUse { get; set; }
+        internal bool[] SymbolGroupFlags { get; set; }
+        internal int[] SequenceToSymbol { get; set; }
+        internal int[] MoveToFrontBuffer { get; set; }
+        internal int[] GroupPositions { get; set; }
+        internal sbyte[] Selector { get; set; }
+        internal sbyte[] SelectorMoveToFront { get; set; }
+        internal sbyte[][] HuffmanCodeLengths { get; set; }
+        internal int[][] HuffmanLimits { get; set; }
+        internal int[][] HuffmanBaseValues { get; set; }
+        internal int[][] HuffmanPermutations { get; set; }
+        internal int[] HuffmanMinLengths { get; set; }
+        internal int LastSymbolIndex { get; set; }
     }
 }

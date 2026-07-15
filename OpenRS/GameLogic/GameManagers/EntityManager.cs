@@ -242,7 +242,7 @@ namespace OpenRS.GameLogic.GameManagers
         {
             foreach (WorldObject worldObject in worldObjects)
             {
-                worldObject.ModelId = GetModelIndex(worldObject.ObjectModel);
+                worldObject.ModelIndex = GetModelIndex(worldObject.ModelName);
             }
         }
     }

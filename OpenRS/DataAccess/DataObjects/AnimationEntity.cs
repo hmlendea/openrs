@@ -10,10 +10,10 @@ namespace OpenRS.DataAccess.DataObjects
 
         public int GenderModel { get; set; }
 
-        public int HasA { get; set; }
+        public int HasAttackFrames { get; set; }
 
-        public int HasF { get; set; }
+        public int HasFemaleFrames { get; set; }
 
-        public int Number { get; set; }
+        public int SpriteIndex { get; set; }
     }
 }

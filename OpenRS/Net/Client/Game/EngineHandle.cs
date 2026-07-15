@@ -341,10 +341,7 @@ namespace OpenRS.Net.Client.Game
 			LoadSection(sectionX - 1, sectionY, height, 2);
 			LoadSection(sectionX, sectionY, height, 3);
 			StitchAreaTileColors();
-			if (currentSectionObject is null)
-            {
-                currentSectionObject = new GameObject(18688, 18688, true, true, false, false, true);
-            }
+			currentSectionObject ??= new GameObject(18688, 18688, true, true, false, false, true);
 
             if (freshLoad)
 			{
@@ -359,8 +356,6 @@ namespace OpenRS.Net.Client.Game
 
 				GameObject sectionObj = currentSectionObject;
 				sectionObj.ResetObjectIndexes();
-
-#warning draw tiles ? -part-1- INITIALIZE
 
 				for (int j2 = 0; j2 < 96; j2 += 1)
 				{
@@ -393,8 +388,6 @@ namespace OpenRS.Net.Client.Game
 					}
 
 				}
-
-#warning draw tiles ? -part-2- APPLY TEXTURES TO TILES
 
 				for (int x1 = 0; x1 < 95; x1 += 1) //< 95
 				{
@@ -562,7 +555,6 @@ namespace OpenRS.Net.Client.Game
 
 				}
 
-#warning draw tiles ? -part-3- ?????
 
 				for (int x1 = 1; x1 < 95; x1 += 1)
 				{
@@ -657,7 +649,6 @@ namespace OpenRS.Net.Client.Game
 				sectionObj.UpdateShading(true, 40, 48, -50, -10, -50);
 				TileChunks = currentSectionObject.GetObjectsWithinArea(0, 0, 1536, 1536, 8, 64, 233, false);
 
-#warning adds all tiles
 				for (int j6 = 0; j6 < 64; j6 += 1)
                 {
                     _camera.AddModel(TileChunks[j6]);
@@ -679,7 +670,7 @@ namespace OpenRS.Net.Client.Game
 				for (int y1 = 0; y1 < 95; y1 += 1)
 				{
 					int k3 = GetHorizontalWall(x1, y1);
-					if (k3 > 0 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || showAllWalls))
+					if (k3 > 0 && (entityManager.GetWallObject(k3 - 1).FaceRenderMode == 0 || showAllWalls))
 					{
 						MakeWall(currentSectionObject, k3 - 1, x1, y1, x1 + 1, y1);
 						if (freshLoad && entityManager.GetWallObject(k3 - 1).Type != 0)
@@ -696,7 +687,7 @@ namespace OpenRS.Net.Client.Game
                         }
                     }
 					k3 = GetVerticalWall(x1, y1);
-					if (k3 > 0 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || showAllWalls))
+					if (k3 > 0 && (entityManager.GetWallObject(k3 - 1).FaceRenderMode == 0 || showAllWalls))
 					{
 						MakeWall(currentSectionObject, k3 - 1, x1, y1, x1, y1 + 1);
 						if (freshLoad && entityManager.GetWallObject(k3 - 1).Type != 0)
@@ -713,7 +704,7 @@ namespace OpenRS.Net.Client.Game
                         }
                     }
 					k3 = GetDiagonalWall(x1, y1);
-					if (k3 > 0 && k3 < 12000 && (entityManager.GetWallObject(k3 - 1).Unknown == 0 || showAllWalls))
+					if (k3 > 0 && k3 < 12000 && (entityManager.GetWallObject(k3 - 1).FaceRenderMode == 0 || showAllWalls))
 					{
 						MakeWall(currentSectionObject, k3 - 1, x1, y1, x1 + 1, y1 + 1);
 						if (freshLoad && entityManager.GetWallObject(k3 - 1).Type != 0)
@@ -728,7 +719,7 @@ namespace OpenRS.Net.Client.Game
 							gameGraphics.DrawMinimapPixel(x1 * 3 + 2, y1 * 3 + 2, j1);
 						}
 					}
-					if (k3 > 12000 && k3 < 24000 && (entityManager.GetWallObject(k3 - 12001).Unknown == 0 || showAllWalls))
+					if (k3 > 12000 && k3 < 24000 && (entityManager.GetWallObject(k3 - 12001).FaceRenderMode == 0 || showAllWalls))
 					{
 						MakeWall(currentSectionObject, k3 - 12001, x1 + 1, y1, x1, y1 + 1);
 						if (freshLoad && entityManager.GetWallObject(k3 - 12001).Type != 0)
@@ -784,11 +775,11 @@ namespace OpenRS.Net.Client.Game
 						*  probably nothing with the gameimage :p...
 						* */
 
-					// commenting out the following code -->
+					// Commenting out the following code -->
 					// it will fix it but also removes the roofs completely.
 					// :(
 
-#warning seems to be a problem with rendering the walls
+					// TODO: Fix the wall rendering.
 					/* begin known problem here */
 					int wallType = GetHorizontalWall(x1, y1);
 					if (wallType > 0)
@@ -1084,7 +1075,7 @@ namespace OpenRS.Net.Client.Game
                             i27 += byte0;
                         }
 
-                        i12 = entityManager.GetElevation(i12 - 1).Unknown;
+                        i12 = entityManager.GetElevation(i12 - 1).Colour;
 						j27 = -j27;
 						k27 = -k27;
 						l27 = -l27;
@@ -1182,7 +1173,6 @@ namespace OpenRS.Net.Client.Game
 								{
 									continue;
 								}
-#warning section object returned null, most likely not loaded properly before this function was called. was this done async or did the object get disposed?
 
 								int[] ai15 =
                                 [
@@ -1208,7 +1198,6 @@ namespace OpenRS.Net.Client.Game
 			currentSectionObject.UpdateShading(true, 50, 50, -50, -10, -50);
 			roofObject[height] = currentSectionObject.GetObjectsWithinArea(0, 0, 1536, 1536, 8, 64, 169, true);
 
-#warning wth is gih?
 			for (int l9 = 0; l9 < 64; l9 += 1)
             {
                 _camera.AddModel(roofObject[height][l9]);
@@ -1240,7 +1229,6 @@ namespace OpenRS.Net.Client.Game
 			LoadSection(x, y, height, true);
 			if (height == 0)
 			{
-#warning loadsection been modified.
 				LoadSection(x, y, 1, false);
 				LoadSection(x, y, 2, false);
 				LoadSection(sectionX - 1, sectionY - 1, height, 0);
@@ -1905,7 +1893,6 @@ namespace OpenRS.Net.Client.Game
 				tileX -= 48;
 				tileY -= 48;
 			}
-#warning /*0xff*/
 			return (tileGroundElevation[byte0][tileX * 48 + tileY] & 0xff) * 3;
 		}
 
@@ -2060,7 +2047,6 @@ namespace OpenRS.Net.Client.Game
 						x -= 48;
 						y -= 48;
 					}
-#warning /* & 0xff */
 			return tileVerticalWall[layer][x * 48 + y] & 0xff;
 		}
 
@@ -2088,8 +2074,6 @@ namespace OpenRS.Net.Client.Game
 				x -= 48;
 				y -= 48;
 			}
-#warning /* & 0xff */
-
 			return tileHorizontalWall[layer][x * 48 + y] & 0xff;
 		}
 
@@ -2146,7 +2130,7 @@ namespace OpenRS.Net.Client.Game
 								objectWidth = entityManager.GetWorldObject(objectIndex).Height;
 							}
 							CreateObject(x, y, objectIndex, objectRotation);
-							GameObject i2 = tileX[entityManager.GetWorldObject(objectIndex).ModelId].CreateParent(false, true, false, false);
+							GameObject i2 = tileX[entityManager.GetWorldObject(objectIndex).ModelIndex].CreateParent(false, true, false, false);
 							int j2 = (x + x + objectWidth) * 128 / 2;
 							int l2 = (y + y + objectHeight) * 128 / 2;
 							i2.OffsetPosition(j2, -GetAveragedElevation(j2, l2), l2);
@@ -2233,7 +2217,7 @@ namespace OpenRS.Net.Client.Game
             l3, i4, j4, k4
         ];
 			int l4 = wallObj.AddFaceVertices(4, ai, j2, k2);
-			if (entityManager.GetWallObject(wallObjIndex).Unknown == 5)
+			if (entityManager.GetWallObject(wallObjIndex).FaceRenderMode == 5)
 			{
 				wallObj.entityType[l4] = 30000 + wallObjIndex;
 				return;

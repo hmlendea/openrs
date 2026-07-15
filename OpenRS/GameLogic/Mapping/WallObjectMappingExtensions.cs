@@ -17,7 +17,7 @@ namespace OpenRS.GameLogic.Mapping
             Command1 = LocalisationManager.GetString(wallObjectEntity.Command1),
             Command2 = LocalisationManager.GetString(wallObjectEntity.Command2),
             Type = wallObjectEntity.Type,
-            Unknown = wallObjectEntity.Unknown,
+            FaceRenderMode = wallObjectEntity.FaceRenderMode,
             ModelHeight = wallObjectEntity.ModelHeight,
             ModelFaceBack = wallObjectEntity.ModelFaceBack,
             ModelFaceFront = wallObjectEntity.ModelFaceFront
@@ -30,7 +30,7 @@ namespace OpenRS.GameLogic.Mapping
             Command1 = wallObject.Command1,
             Command2 = wallObject.Command2,
             Type = wallObject.Type,
-            Unknown = wallObject.Unknown,
+            FaceRenderMode = wallObject.FaceRenderMode,
             ModelHeight = wallObject.ModelHeight,
             ModelFaceBack = wallObject.ModelFaceBack,
             ModelFaceFront = wallObject.ModelFaceFront

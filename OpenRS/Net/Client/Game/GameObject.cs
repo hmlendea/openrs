@@ -82,7 +82,6 @@ namespace OpenRS.Net.Client.Game
 
             _vertices = new Vector3[_vert_count];
 
-#warning possibly texture coordinates.
             faceNormalComponent = new int[_vert_count];
             vertexColor = new int[_vert_count];
 

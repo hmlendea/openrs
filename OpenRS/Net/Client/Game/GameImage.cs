@@ -2705,18 +2705,6 @@ namespace OpenRS.Net.Client.Game
         {
             try
             {
-#warning fix real draw string
-
-                //return;
-                //GameClient.spriteBatch.BeginSafe();
-                //GameClient.gameFont12
-                //if (!GameClient.spriteBatch.BeginIsActive()) return;
-                //GameClient.spriteBatch.DrawString(GameClient.gameFont12, _pixels, new Vector2(y, destX), Color.Red);
-
-                //GameClient.spriteBatch.EndSafe();
-
-                //return;
-
                 sbyte[] abyte0 = gameFonts[fontIndex];
                 try
                 {
@@ -2839,30 +2827,11 @@ namespace OpenRS.Net.Client.Game
                 }
                 catch { }
 
-                //stringsToDraw.Add(new StringDraw
-                //{
-                //    text = _pixels,
-                //    pos = new Vector2(y, destX),
-                //    forecolor = new Color((startColor & 0xff0000), (startColor & 0x00ff00), (startColor & 0x0000ff), 255),
-                //});
-
-                //else if (_pixels[x] == '~' && x + 4 < _pixels.Length && _pixels[x + 4] == '~')
-                //{
-                //    char c = _pixels[x + 1];
-                //    char c1 = _pixels[x + 2];
-                //    char c2 = _pixels[x + 3];
-                //    if (c >= '0' && c <= '9' && c1 >= '0' && c1 <= '9' && c2 >= '0' && c2 <= '9')
-                //        y = int.Parse(_pixels.Substring(x + 1, x + 4));
-                //    x += 4;
-                //}
-                //else
-
                 return;
             }
             catch (Exception exception)
             {
                 logger.Error(GameOperation.RenderText, "Error in the drawstring routine.", exception);
-                // exception.printStackTrace();
                 return;
             }
         }

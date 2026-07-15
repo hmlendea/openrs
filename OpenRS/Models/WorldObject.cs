@@ -18,10 +18,10 @@
 
         public int Height { get; set; }
 
-        public int GroundItemVar { get; set; }
+        public int GroundItemElevationOffset { get; set; }
 
-        public string ObjectModel { get; set; }
+        public string ModelName { get; set; }
 
-        public int ModelId { get; set; }
+        public int ModelIndex { get; set; }
     }
 }

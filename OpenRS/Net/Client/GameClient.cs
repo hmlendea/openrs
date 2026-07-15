@@ -36,10 +36,10 @@ namespace OpenRS.Net.Client
         public event EventHandler OnLoadingSection;
         public event EventHandler OnLoadingSectionCompleted;
         public event EventHandler<ContentLoadedEventArgs> OnContentLoaded;
+        public event EventHandler OnErrorLoading;
+        public event EventHandler OnMemoryError;
 
         public static Microsoft.Xna.Framework.GameWindow GameWindow;
-
-        public event ChatMessageEventHandler OnChatMessageReceived;
 
         public static GameClient CreateMudclient(string title, int width, int height)
         {
@@ -1074,6 +1074,8 @@ namespace OpenRS.Net.Client
         public void RaiseOnLoadingSectionCompleted(object sender, EventArgs e) => OnLoadingSectionCompleted?.Invoke(sender, e);
         public void RaiseOnContentLoaded(object sender, ContentLoadedEventArgs e) => OnContentLoaded?.Invoke(sender, e);
         public void RaiseOnContentLoadedCompleted(object sender, EventArgs e) => OnContentLoadedCompleted?.Invoke(sender, e);
+        public void RaiseOnErrorLoading(object sender, EventArgs e) => OnErrorLoading?.Invoke(sender, e);
+        public void RaiseOnMemoryError(object sender, EventArgs e) => OnMemoryError?.Invoke(sender, e);
         public void CallBaseLostConnection() => base.LostConnection();
 
         public sbyte[] CallBaseUnpackData(string fileName, string fileTitle, int progressPercentage)

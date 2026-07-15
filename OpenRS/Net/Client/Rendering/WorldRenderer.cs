@@ -109,7 +109,7 @@ namespace OpenRS.Net.Client.Rendering
 
                     if (isMirrored && effectiveDirection >= 1 && effectiveDirection <= 3)
                     {
-                        if (client.entityManager.GetAnimation(appearanceItemIndex).HasF)
+                        if (client.entityManager.GetAnimation(appearanceItemIndex).HasFemaleFrames)
                         {
                             animationFrameIndex += 15;
                         }
@@ -151,12 +151,12 @@ namespace OpenRS.Net.Client.Rendering
                         }
                     }
 
-                    if (effectiveDirection != 5 || client.entityManager.GetAnimation(appearanceItemIndex).HasA)
+                    if (effectiveDirection != 5 || client.entityManager.GetAnimation(appearanceItemIndex).HasAttackFrames)
                     {
-                        int pictureIndex = animationFrameIndex + client.entityManager.GetAnimation(appearanceItemIndex).Number;
+                        int pictureIndex = animationFrameIndex + client.entityManager.GetAnimation(appearanceItemIndex).SpriteIndex;
                         xOffset = xOffset * width / client.gameGraphics.pictureAssumedWidth[pictureIndex];
                         yOffset = yOffset * height / client.gameGraphics.pictureAssumedHeight[pictureIndex];
-                        int pictureWidth = width * client.gameGraphics.pictureAssumedWidth[pictureIndex] / client.gameGraphics.pictureAssumedWidth[client.entityManager.GetAnimation(appearanceItemIndex).Number];
+                        int pictureWidth = width * client.gameGraphics.pictureAssumedWidth[pictureIndex] / client.gameGraphics.pictureAssumedWidth[client.entityManager.GetAnimation(appearanceItemIndex).SpriteIndex];
                         xOffset -= (pictureWidth - width) / 2;
                         int characterColour = client.entityManager.GetAnimation(appearanceItemIndex).CharacterColour;
                         int skinColour = client.appearanceSkinColours[player.skinColour];
@@ -419,23 +419,23 @@ namespace OpenRS.Net.Client.Rendering
                 isMirrored = true;
             }
 
-            int animationFrameIndex = newFrameIndex * 3 + client.walkModel[npc.stepCount / client.entityManager.GetNpc(npc.npcId).WalkModel % 4];
+            int animationFrameIndex = newFrameIndex * 3 + client.walkModel[npc.stepCount / client.entityManager.GetNpc(npc.npcId).WalkAnimationSpeed % 4];
 
             if (npc.currentSprite == 8)
             {
                 newFrameIndex = 5;
                 frameIndex = 2;
                 isMirrored = false;
-                x -= client.entityManager.GetNpc(npc.npcId).CombatSprite * unknown2 / 100;
-                animationFrameIndex = newFrameIndex * 3 + client.combatModelArray1[client.tick / (client.entityManager.GetNpc(npc.npcId).CombatModel - 1) % 8];
+                x -= client.entityManager.GetNpc(npc.npcId).CombatSwingOffset * unknown2 / 100;
+                animationFrameIndex = newFrameIndex * 3 + client.combatModelArray1[client.tick / (client.entityManager.GetNpc(npc.npcId).CombatAnimationSpeed - 1) % 8];
             }
             else if (npc.currentSprite == 9)
             {
                 newFrameIndex = 5;
                 frameIndex = 2;
                 isMirrored = true;
-                x += client.entityManager.GetNpc(npc.npcId).CombatSprite * unknown2 / 100;
-                animationFrameIndex = newFrameIndex * 3 + client.combatModelArray2[client.tick / client.entityManager.GetNpc(npc.npcId).CombatModel % 8];
+                x += client.entityManager.GetNpc(npc.npcId).CombatSwingOffset * unknown2 / 100;
+                animationFrameIndex = newFrameIndex * 3 + client.combatModelArray2[client.tick / client.entityManager.GetNpc(npc.npcId).CombatAnimationSpeed % 8];
             }
 
             for (int bodyPartIndex = 0; bodyPartIndex < 12; bodyPartIndex += 1)
@@ -452,17 +452,17 @@ namespace OpenRS.Net.Client.Rendering
                     if (isMirrored &&
                         newFrameIndex >= 1 &&
                         newFrameIndex <= 3 &&
-                        client.entityManager.GetAnimation(spriteId).HasF)
+                        client.entityManager.GetAnimation(spriteId).HasFemaleFrames)
                     {
                         frameNumber += 15;
                     }
 
-                    if (newFrameIndex != 5 || client.entityManager.GetAnimation(spriteId).HasA)
+                    if (newFrameIndex != 5 || client.entityManager.GetAnimation(spriteId).HasAttackFrames)
                     {
-                        int actualFrame = frameNumber + client.entityManager.GetAnimation(spriteId).Number;
+                        int actualFrame = frameNumber + client.entityManager.GetAnimation(spriteId).SpriteIndex;
                         drawOffsetX = drawOffsetX * width / client.gameGraphics.pictureAssumedWidth[actualFrame];
                         drawOffsetY = drawOffsetY * height / client.gameGraphics.pictureAssumedHeight[actualFrame];
-                        int scaledWidth = width * client.gameGraphics.pictureAssumedWidth[actualFrame] / client.gameGraphics.pictureAssumedWidth[client.entityManager.GetAnimation(spriteId).Number];
+                        int scaledWidth = width * client.gameGraphics.pictureAssumedWidth[actualFrame] / client.gameGraphics.pictureAssumedWidth[client.entityManager.GetAnimation(spriteId).SpriteIndex];
                         drawOffsetX -= (scaledWidth - width) / 2;
                         int bodyColour = client.entityManager.GetAnimation(spriteId).CharacterColour;
                         int skinColour = 0;

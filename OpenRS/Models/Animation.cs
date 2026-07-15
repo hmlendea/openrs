@@ -8,10 +8,10 @@
 
         public int GenderModel { get; set; }
 
-        public bool HasA { get; set; }
+        public bool HasAttackFrames { get; set; }
 
-        public bool HasF { get; set; }
+        public bool HasFemaleFrames { get; set; }
 
-        public int Number { get; set; }
+        public int SpriteIndex { get; set; }
     }
 }
