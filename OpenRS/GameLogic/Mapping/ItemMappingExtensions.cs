@@ -13,6 +13,7 @@ namespace OpenRS.GameLogic.Mapping
         internal static Item ToServiceModel(this ItemEntity itemEntity) => new()
         {
             Id = itemEntity.Id,
+            V1Id = itemEntity.V1Id,
             Name = LocalisationManager.GetString(itemEntity.Name),
             Description = LocalisationManager.GetString(itemEntity.Description),
             Command = LocalisationManager.GetString(itemEntity.Command),
@@ -31,6 +32,7 @@ namespace OpenRS.GameLogic.Mapping
         internal static ItemEntity ToDataObject(this Item item) => new()
         {
             Id = item.Id,
+            V1Id = item.V1Id,
             Name = item.Name,
             Description = item.Description,
             Command = item.Command,

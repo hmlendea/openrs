@@ -6,6 +6,8 @@ namespace OpenRS.DataAccess.DataObjects
 {
     public sealed class NpcEntity : EntityBase
     {
+        public int V1Id { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }

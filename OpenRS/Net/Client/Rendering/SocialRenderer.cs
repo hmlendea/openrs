@@ -6,10 +6,9 @@ namespace OpenRS.Net.Client.Rendering
 {
     public sealed class SocialRenderer(GameClient client)
     {
-
         public void DrawFriendsMenu(bool canClick)
         {
-            int menuX = client.gameGraphics.gameWidth - 199;
+            int menuX = client.gameGraphics.GameWidth - 199;
             int menuY = 36;
             client.gameGraphics.DrawPicture(menuX - 49, 3, client.baseInventoryPic + 5);
             int menuWidth = 196;
@@ -137,12 +136,12 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            int clickOffsetX = client.mouseX - (client.gameGraphics.gameWidth - 199);
+            int clickOffsetX = client.mouseX - (client.gameGraphics.GameWidth - 199);
             int clickOffsetY = client.mouseY - 36;
 
             if (clickOffsetX >= 0 && clickOffsetY >= 0 && clickOffsetX < 196 && clickOffsetY < 182)
             {
-                client.friendsMenu.MouseClick(clickOffsetX + (client.gameGraphics.gameWidth - 199), clickOffsetY + 36, client.lastMouseButton, client.mouseButton);
+                client.friendsMenu.MouseClick(clickOffsetX + (client.gameGraphics.GameWidth - 199), clickOffsetY + 36, client.lastMouseButton, client.mouseButton);
 
                 if (clickOffsetY <= 24 && client.mouseButtonClick == 1)
                 {
@@ -205,7 +204,6 @@ namespace OpenRS.Net.Client.Rendering
                 client.mouseButtonClick = 0;
             }
         }
-
 
         public void DrawChatMessageTabs()
         {
@@ -359,7 +357,7 @@ namespace OpenRS.Net.Client.Rendering
                     client.enteredInputText = "";
                     client.showFriendsBox = 0;
 
-                    if (trimmedName.Length > 0 && PlayerNameEncoder.NameToHash(trimmedName) != client.ourPlayer.nameHash)
+                    if (trimmedName.Length > 0 && PlayerNameEncoder.NameToHash(trimmedName) != client.ourPlayer.NameHash)
                     {
                         client.CallAddFriend(trimmedName);
                     }
@@ -382,8 +380,8 @@ namespace OpenRS.Net.Client.Rendering
                     client.enteredPMText = "";
                     client.showFriendsBox = 0;
                     int byteCount = ChatMessage.StringToBytes(messageText);
-                    client.CallSendPrivateMessage(client.pmTarget, ChatMessage.lastChat, byteCount);
-                    messageText = ChatMessage.BytesToString(ChatMessage.lastChat, 0, byteCount);
+                    client.CallSendPrivateMessage(client.pmTarget, ChatMessage.LastChat, byteCount);
+                    messageText = ChatMessage.BytesToString(ChatMessage.LastChat, 0, byteCount);
                     client.DisplayMessage(string.Format(LocalisationManager.GetString("social.private_message_sent"), PlayerNameEncoder.HashToName(client.pmTarget), messageText));
                 }
             }
@@ -404,7 +402,7 @@ namespace OpenRS.Net.Client.Rendering
                     client.enteredInputText = "";
                     client.showFriendsBox = 0;
 
-                    if (trimmedIgnoreName.Length > 0 && PlayerNameEncoder.NameToHash(trimmedIgnoreName) != client.ourPlayer.nameHash)
+                    if (trimmedIgnoreName.Length > 0 && PlayerNameEncoder.NameToHash(trimmedIgnoreName) != client.ourPlayer.NameHash)
                     {
                         client.CallAddIgnore(trimmedIgnoreName);
                     }
@@ -420,7 +418,5 @@ namespace OpenRS.Net.Client.Rendering
 
             client.gameGraphics.DrawText(LocalisationManager.GetString("social.action_cancel"), 256, 208, 1, cancelLabelColour);
         }
-
-
     }
 }

@@ -7,7 +7,6 @@ using OpenRS.Localisation;
 using OpenRS.Logging;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
-using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Handlers
 {
@@ -47,10 +46,10 @@ namespace OpenRS.Net.Client.Handlers
                     int mapEnterY = client.sectionY * client.gridSize + 64;
                     if (sectionLoaded)
                     {
-                        client.ourPlayer.waypointCurrent = 0;
-                        client.ourPlayer.waypointsEndSprite = 0;
-                        client.ourPlayer.currentX = client.ourPlayer.waypointsX[0] = mapEnterX;
-                        client.ourPlayer.currentY = client.ourPlayer.waypointsY[0] = mapEnterY;
+                        client.ourPlayer.WaypointCurrent = 0;
+                        client.ourPlayer.WaypointsEndSprite = 0;
+                        client.ourPlayer.LocationX = client.ourPlayer.WaypointXPositions[0] = mapEnterX;
+                        client.ourPlayer.LocationY = client.ourPlayer.WaypointYPositions[0] = mapEnterY;
                     }
                     client.playerCount = 0;
                     client.ourPlayer = client.CreatePlayer(client.serverIndex, mapEnterX, mapEnterY, sprite);
@@ -73,9 +72,9 @@ namespace OpenRS.Net.Client.Handlers
                                 off += 3;
                                 if (mob is not null)
                                 {
-                                    int currentWaypoint = mob.waypointCurrent;
-                                    int newWaypointX = mob.waypointsX[currentWaypoint];
-                                    int newWaypointY = mob.waypointsY[currentWaypoint];
+                                    int currentWaypoint = mob.WaypointCurrent;
+                                    int newWaypointX = mob.WaypointXPositions[currentWaypoint];
+                                    int newWaypointY = mob.WaypointYPositions[currentWaypoint];
                                     if (currentNextSprite == 2 || currentNextSprite == 1 || currentNextSprite == 3)
                                     {
                                         newWaypointX += client.gridSize;
@@ -96,10 +95,10 @@ namespace OpenRS.Net.Client.Handlers
                                         newWaypointY -= client.gridSize;
                                     }
 
-                                    mob.nextSprite = currentNextSprite;
-                                    mob.waypointCurrent = currentWaypoint = (currentWaypoint + 1) % 10;
-                                    mob.waypointsX[currentWaypoint] = newWaypointX;
-                                    mob.waypointsY[currentWaypoint] = newWaypointY;
+                                    mob.NextSprite = currentNextSprite;
+                                    mob.WaypointCurrent = currentWaypoint = (currentWaypoint + 1) % 10;
+                                    mob.WaypointXPositions[currentWaypoint] = newWaypointX;
+                                    mob.WaypointYPositions[currentWaypoint] = newWaypointY;
                                 }
                             }
                             else
@@ -110,7 +109,7 @@ namespace OpenRS.Net.Client.Handlers
                                 {
                                     continue;
                                 }
-                                mob?.nextSprite = needsNextSprite;
+                                mob?.NextSprite = needsNextSprite;
                             }
                         }
                         if (mob is not null)
@@ -157,8 +156,8 @@ namespace OpenRS.Net.Client.Handlers
                         for (int k40 = 0; k40 < mobCount; k40 += 1)
                         {
                             ClientMob f5 = client.playerBufferArray[client.playerBufferArrayIndexes[k40]];
-                            client.streamClass.AddShort(f5.serverIndex);
-                            client.streamClass.AddShort(f5.serverID);
+                            client.streamClass.AddShort(f5.ServerIndex);
+                            client.streamClass.AddShort(f5.ServerId);
                         }
 
                         client.streamClass.FormatPacket();
@@ -432,8 +431,8 @@ namespace OpenRS.Net.Client.Handlers
                             int j30 = BinaryDataReader.GetShort(client.packetData, off);
                             off += 2;
 
-                            mob.playerSkullTimeout = 150;
-                            mob.itemAboveHeadID = j30;
+                            mob.PlayerSkullTimeout = 150;
+                            mob.ItemAboveHeadId = j30;
 
                         }
                         else if (mobUpdateType == 1)
@@ -450,7 +449,7 @@ namespace OpenRS.Net.Client.Handlers
                             bool ignore = false;
                             for (int i41 = 0; i41 < client.ignoresCount; i41 += 1)
                             {
-                                if (client.ignoresList[i41] == mob.nameHash)
+                                if (client.ignoresList[i41] == mob.NameHash)
                                 {
                                     ignore = true;
                                 }
@@ -458,9 +457,9 @@ namespace OpenRS.Net.Client.Handlers
 
                             if (!ignore)
                             {
-                                mob.lastMessageTimeout = 150;
-                                mob.lastMessage = s3;
-                                client.DisplayMessage(mob.username + ": " + mob.lastMessage, 2);
+                                mob.LastMessageTimeout = 150;
+                                mob.LastMessage = s3;
+                                client.DisplayMessage(mob.Username + ": " + mob.LastMessage, 2);
                             }
                             off += byte7;
                         }
@@ -472,10 +471,10 @@ namespace OpenRS.Net.Client.Handlers
                             off += 1;
                             int baseHits = BinaryDataReader.GetByte(client.packetData[off]);
                             off += 1;
-                            mob.lastDamageCount = lastDamageCount;
-                            mob.currentHits = currentHits;
-                            mob.baseHits = baseHits;
-                            mob.combatTimer = 200;
+                            mob.LastDamageCount = lastDamageCount;
+                            mob.CurrentHitpoints = currentHits;
+                            mob.BaseHitpoints = baseHits;
+                            mob.CombatTimer = 200;
                             if (mob == client.ourPlayer)
                             {
                                 client.playerStatCurrent[3] = currentHits;
@@ -490,10 +489,10 @@ namespace OpenRS.Net.Client.Handlers
                             off += 2;
                             int l34 = BinaryDataReader.GetShort(client.packetData, off);
                             off += 2;
-                            mob.projectileType = l30;
-                            mob.attackingNpcIndex = l34;
-                            mob.attackingPlayerIndex = -1;
-                            mob.projectileDistance = client.projectileRange;
+                            mob.ProjectileType = l30;
+                            mob.AttackingNpcIndex = l34;
+                            mob.AttackingPlayerIndex = -1;
+                            mob.ProjectileDistance = client.projectileRange;
                         }
                         else if (mobUpdateType == 4)
                         {
@@ -501,37 +500,37 @@ namespace OpenRS.Net.Client.Handlers
                             off += 2;
                             int i35 = BinaryDataReader.GetShort(client.packetData, off);
                             off += 2;
-                            mob.projectileType = i31;
-                            mob.attackingPlayerIndex = i35;
-                            mob.attackingNpcIndex = -1;
-                            mob.projectileDistance = client.projectileRange;
+                            mob.ProjectileType = i31;
+                            mob.AttackingPlayerIndex = i35;
+                            mob.AttackingNpcIndex = -1;
+                            mob.ProjectileDistance = client.projectileRange;
                         }
                         else if (mobUpdateType == 5)
                         {
-                            mob.serverID = BinaryDataReader.GetShort(client.packetData, off);
+                            mob.ServerId = BinaryDataReader.GetShort(client.packetData, off);
                             off += 2;
-                            mob.nameHash = BinaryDataReader.GetLong(client.packetData, off);
+                            mob.NameHash = BinaryDataReader.GetLong(client.packetData, off);
                             off += 8;
-                            mob.username = PlayerNameEncoder.HashToName(mob.nameHash);
+                            mob.Username = PlayerNameEncoder.HashToName(mob.NameHash);
                             int appearanceCount = BinaryDataReader.GetByte(client.packetData[off]);
                             off += 1;
                             for (int j35 = 0; j35 < appearanceCount; j35 += 1)
                             {
-                                mob.appearanceItems[j35] = BinaryDataReader.GetByte(client.packetData[off]);
+                                mob.AppearanceItems[j35] = BinaryDataReader.GetByte(client.packetData[off]);
                                 off += 1;
                             }
 
                             for (int j38 = appearanceCount; j38 < 12; j38 += 1)
                             {
-                                mob.appearanceItems[j38] = 0;
+                                mob.AppearanceItems[j38] = 0;
                             }
 
-                            mob.hairColour = client.packetData[off++] & 0xff;
-                            mob.topColour = client.packetData[off++] & 0xff;
-                            mob.bottomColour = client.packetData[off++] & 0xff;
-                            mob.skinColour = client.packetData[off++] & 0xff;
-                            mob.level = client.packetData[off++] & 0xff;
-                            mob.playerSkulled = client.packetData[off++] & 0xff;
+                            mob.Appearance.HairColour = client.packetData[off++] & 0xff;
+                            mob.Appearance.TopColour = client.packetData[off++] & 0xff;
+                            mob.Appearance.TrousersColour = client.packetData[off++] & 0xff;
+                            mob.Appearance.SkinColour = client.packetData[off++] & 0xff;
+                            mob.CombatLevel = client.packetData[off++] & 0xff;
+                            mob.PlayerSkulled = client.packetData[off++] & 0xff;
                             mob.Admin = client.packetData[off++] & 0xff;
                         }
                         else if (mobUpdateType == 6)
@@ -539,11 +538,11 @@ namespace OpenRS.Net.Client.Handlers
                             sbyte byte8 = client.packetData[off];
                             off += 1;
                             string s4 = ChatMessage.BytesToString(client.packetData, off, byte8);
-                            mob.lastMessageTimeout = 150;
-                            mob.lastMessage = s4;
+                            mob.LastMessageTimeout = 150;
+                            mob.LastMessage = s4;
                             if (mob == client.ourPlayer)
                             {
-                                client.DisplayMessage(mob.username + ": " + mob.lastMessage, 5);
+                                client.DisplayMessage(mob.Username + ": " + mob.LastMessage, 5);
                             }
 
                             off += byte8;
@@ -660,9 +659,9 @@ namespace OpenRS.Net.Client.Handlers
                             {
                                 int nextSprite = BinaryDataReader.GetBits(client.packetData, off, 3);
                                 off += 3;
-                                int waypointCurrent = newNpc.waypointCurrent;
-                                int waypointX = newNpc.waypointsX[waypointCurrent];
-                                int waypointY = newNpc.waypointsY[waypointCurrent];
+                                int waypointCurrent = newNpc.WaypointCurrent;
+                                int waypointX = newNpc.WaypointXPositions[waypointCurrent];
+                                int waypointY = newNpc.WaypointYPositions[waypointCurrent];
                                 if (nextSprite == 2 || nextSprite == 1 || nextSprite == 3)
                                 {
                                     waypointX += client.gridSize;
@@ -683,10 +682,10 @@ namespace OpenRS.Net.Client.Handlers
                                     waypointY -= client.gridSize;
                                 }
 
-                                newNpc.nextSprite = nextSprite;
-                                newNpc.waypointCurrent = waypointCurrent = (waypointCurrent + 1) % 10;
-                                newNpc.waypointsX[waypointCurrent] = waypointX;
-                                newNpc.waypointsY[waypointCurrent] = waypointY;
+                                newNpc.NextSprite = nextSprite;
+                                newNpc.WaypointCurrent = waypointCurrent = (waypointCurrent + 1) % 10;
+                                newNpc.WaypointXPositions[waypointCurrent] = waypointX;
+                                newNpc.WaypointYPositions[waypointCurrent] = waypointY;
                             }
                             else
                             {
@@ -696,7 +695,7 @@ namespace OpenRS.Net.Client.Handlers
                                 {
                                     continue;
                                 }
-                                newNpc.nextSprite = nextSprite;
+                                newNpc.NextSprite = nextSprite;
                             }
                         }
                         client.npcArray[client.npcCount++] = newNpc;
@@ -755,11 +754,11 @@ namespace OpenRS.Net.Client.Handlers
                             if (mob is not null)
                             {
                                 string s5 = ChatMessage.BytesToString(client.packetData, off, messageLength);
-                                mob.lastMessageTimeout = 150;
-                                mob.lastMessage = s5;
-                                if (playerIndex == client.ourPlayer.serverIndex)
+                                mob.LastMessageTimeout = 150;
+                                mob.LastMessage = s5;
+                                if (playerIndex == client.ourPlayer.ServerIndex)
                                 {
-                                    client.DisplayMessage(string.Format(LocalisationManager.GetString("social.npc_message"), client.entityManager.GetNpc(mob.npcId).Name, mob.lastMessage), 5);
+                                    client.DisplayMessage(string.Format(LocalisationManager.GetString("social.npc_message"), client.entityManager.GetNpc(mob.NpcIdentifier).Name, mob.LastMessage), 5);
                                 }
                             }
                             off += messageLength;
@@ -775,10 +774,10 @@ namespace OpenRS.Net.Client.Handlers
                                 off += 1;
                                 if (mob is not null)
                                 {
-                                    mob.lastDamageCount = lastDamageCount;
-                                    mob.currentHits = currentHits;
-                                    mob.baseHits = baseHits;
-                                    mob.combatTimer = 200;
+                                    mob.LastDamageCount = lastDamageCount;
+                                    mob.CurrentHitpoints = currentHits;
+                                    mob.BaseHitpoints = baseHits;
+                                    mob.CombatTimer = 200;
                                 }
                             }
                     }
@@ -946,7 +945,7 @@ namespace OpenRS.Net.Client.Handlers
                     int tradeOther = BinaryDataReader.GetShort(client.packetData, 1);
                     if (client.playerBufferArray[tradeOther] is not null)
                     {
-                        client.tradeOtherName = client.playerBufferArray[tradeOther].username;
+                        client.tradeOtherName = client.playerBufferArray[tradeOther].Username;
                     }
 
                     client.showTradeBox = true;
@@ -1144,7 +1143,7 @@ namespace OpenRS.Net.Client.Handlers
                     int k5 = BinaryDataReader.GetShort(client.packetData, 1);
                     if (client.playerBufferArray[k5] is not null)
                     {
-                        client.duelOpponent = client.playerBufferArray[k5].username;
+                        client.duelOpponent = client.playerBufferArray[k5].Username;
                     }
 
                     client.showDuelBox = true;

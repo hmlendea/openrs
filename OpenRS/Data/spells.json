@@ -1,6 +1,7 @@
 [
   {
     "id": "0",
+    "v1Id": 0,
     "name": "spell.0.name",
     "description": "spell.0.description",
     "requiredLevel": 1,
@@ -18,6 +19,7 @@
   },
   {
     "id": "1",
+    "v1Id": 1,
     "name": "spell.confuse.name",
     "description": "spell.confuse.description",
     "requiredLevel": 3,
@@ -37,6 +39,7 @@
   },
   {
     "id": "2",
+    "v1Id": 2,
     "name": "spell.2.name",
     "description": "spell.2.description",
     "requiredLevel": 5,
@@ -56,6 +59,7 @@
   },
   {
     "id": "3",
+    "v1Id": 3,
     "name": "spell.3.name",
     "description": "spell.3.description",
     "requiredLevel": 7,
@@ -73,6 +77,7 @@
   },
   {
     "id": "4",
+    "v1Id": 4,
     "name": "spell.4.name",
     "description": "spell.4.description",
     "requiredLevel": 9,
@@ -92,6 +97,7 @@
   },
   {
     "id": "5",
+    "v1Id": 5,
     "name": "spell.weaken.name",
     "description": "spell.weaken.description",
     "requiredLevel": 11,
@@ -111,6 +117,7 @@
   },
   {
     "id": "6",
+    "v1Id": 6,
     "name": "spell.6.name",
     "description": "spell.6.description",
     "requiredLevel": 13,
@@ -130,6 +137,7 @@
   },
   {
     "id": "7",
+    "v1Id": 7,
     "name": "spell.7.name",
     "description": "spell.7.description",
     "requiredLevel": 15,
@@ -149,6 +157,7 @@
   },
   {
     "id": "8",
+    "v1Id": 8,
     "name": "spell.8.name",
     "description": "spell.8.description",
     "requiredLevel": 17,
@@ -166,6 +175,7 @@
   },
   {
     "id": "9",
+    "v1Id": 9,
     "name": "spell.curse.name",
     "description": "spell.curse.description",
     "requiredLevel": 19,
@@ -185,6 +195,7 @@
   },
   {
     "id": "10",
+    "v1Id": 10,
     "name": "spell.low_level_alchemy.name",
     "description": "spell.low_level_alchemy.description",
     "requiredLevel": 21,
@@ -202,6 +213,7 @@
   },
   {
     "id": "11",
+    "v1Id": 11,
     "name": "spell.water_bolt.name",
     "description": "spell.water_bolt.description",
     "requiredLevel": 23,
@@ -221,6 +233,7 @@
   },
   {
     "id": "12",
+    "v1Id": 12,
     "name": "spell.teleport_to_varrock.name",
     "description": "spell.teleport_to_varrock.description",
     "requiredLevel": 25,
@@ -240,6 +253,7 @@
   },
   {
     "id": "13",
+    "v1Id": 13,
     "name": "spell.enchant_level2_amulet.name",
     "description": "spell.enchant_level2_amulet.description",
     "requiredLevel": 27,
@@ -257,6 +271,7 @@
   },
   {
     "id": "14",
+    "v1Id": 14,
     "name": "spell.earth_bolt.name",
     "description": "spell.earth_bolt.description",
     "requiredLevel": 29,
@@ -276,6 +291,7 @@
   },
   {
     "id": "15",
+    "v1Id": 15,
     "name": "spell.teleport_to_lumbridge.name",
     "description": "spell.teleport_to_lumbridge.description",
     "requiredLevel": 31,
@@ -295,6 +311,7 @@
   },
   {
     "id": "16",
+    "v1Id": 16,
     "name": "spell.16.name",
     "description": "spell.16.description",
     "requiredLevel": 33,
@@ -312,6 +329,7 @@
   },
   {
     "id": "17",
+    "v1Id": 17,
     "name": "spell.17.name",
     "description": "spell.17.description",
     "requiredLevel": 35,
@@ -331,6 +349,7 @@
   },
   {
     "id": "18",
+    "v1Id": 18,
     "name": "spell.teleport_to_falador.name",
     "description": "spell.teleport_to_falador.description",
     "requiredLevel": 37,
@@ -350,6 +369,7 @@
   },
   {
     "id": "19",
+    "v1Id": 19,
     "name": "spell.19.name",
     "description": "spell.19.description",
     "requiredLevel": 39,
@@ -369,6 +389,7 @@
   },
   {
     "id": "20",
+    "v1Id": 20,
     "name": "spell.20.name",
     "description": "spell.20.description",
     "requiredLevel": 41,
@@ -386,6 +407,7 @@
   },
   {
     "id": "21",
+    "v1Id": 21,
     "name": "spell.21.name",
     "description": "spell.21.description",
     "requiredLevel": 43,
@@ -403,6 +425,7 @@
   },
   {
     "id": "22",
+    "v1Id": 22,
     "name": "spell.22.name",
     "description": "spell.22.description",
     "requiredLevel": 45,
@@ -420,6 +443,7 @@
   },
   {
     "id": "23",
+    "v1Id": 23,
     "name": "spell.23.name",
     "description": "spell.23.description",
     "requiredLevel": 47,
@@ -439,6 +463,7 @@
   },
   {
     "id": "24",
+    "v1Id": 24,
     "name": "spell.24.name",
     "description": "spell.24.description",
     "requiredLevel": 49,
@@ -456,6 +481,7 @@
   },
   {
     "id": "25",
+    "v1Id": 25,
     "name": "spell.25.name",
     "description": "spell.25.description",
     "requiredLevel": 50,
@@ -473,8 +499,9 @@
   },
   {
     "id": "26",
-    "name": "spell.26.name",
-    "description": "spell.26.description",
+    "v1Id": 26,
+    "name": "spell.teleport_to_ardougne.name",
+    "description": "spell.teleport_to_ardougne.description",
     "requiredLevel": 51,
     "type": 0,
     "runeCount": 2,
@@ -490,8 +517,9 @@
   },
   {
     "id": "27",
-    "name": "spell.27.name",
-    "description": "spell.27.description",
+    "v1Id": 27,
+    "name": "spell.earth_blast.name",
+    "description": "spell.earth_blast.description",
     "requiredLevel": 53,
     "type": 2,
     "runeCount": 3,
@@ -509,6 +537,7 @@
   },
   {
     "id": "28",
+    "v1Id": 28,
     "name": "spell.high_level_alchemy.name",
     "description": "spell.high_level_alchemy.description",
     "requiredLevel": 55,
@@ -526,8 +555,9 @@
   },
   {
     "id": "29",
-    "name": "spell.29.name",
-    "description": "spell.29.description",
+    "v1Id": 29,
+    "name": "spell.charge_water_orb.name",
+    "description": "spell.charge_water_orb.description",
     "requiredLevel": 56,
     "type": 5,
     "runeCount": 3,
@@ -545,6 +575,7 @@
   },
   {
     "id": "30",
+    "v1Id": 30,
     "name": "spell.30.name",
     "description": "spell.30.description",
     "requiredLevel": 57,
@@ -562,8 +593,9 @@
   },
   {
     "id": "31",
-    "name": "spell.31.name",
-    "description": "spell.31.description",
+    "v1Id": 31,
+    "name": "spell.teleport_to_watchtower.name",
+    "description": "spell.teleport_to_watchtower.description",
     "requiredLevel": 58,
     "type": 0,
     "runeCount": 2,
@@ -579,8 +611,9 @@
   },
   {
     "id": "32",
-    "name": "spell.32.name",
-    "description": "spell.32.description",
+    "v1Id": 32,
+    "name": "spell.fire_blast.name",
+    "description": "spell.fire_blast.description",
     "requiredLevel": 59,
     "type": 2,
     "runeCount": 3,
@@ -598,8 +631,9 @@
   },
   {
     "id": "33",
-    "name": "spell.33.name",
-    "description": "spell.33.description",
+    "v1Id": 33,
+    "name": "spell.claws_of_guthix.name",
+    "description": "spell.claws_of_guthix.description",
     "requiredLevel": 60,
     "type": 2,
     "runeCount": 3,
@@ -617,8 +651,9 @@
   },
   {
     "id": "34",
-    "name": "spell.34.name",
-    "description": "spell.34.description",
+    "v1Id": 34,
+    "name": "spell.saradomin_strike.name",
+    "description": "spell.saradomin_strike.description",
     "requiredLevel": 60,
     "type": 2,
     "runeCount": 3,
@@ -636,8 +671,9 @@
   },
   {
     "id": "35",
-    "name": "name.flames_of_zamorak",
-    "description": "spell.35.description",
+    "v1Id": 35,
+    "name": "spell.flames_of_zamorak.name",
+    "description": "spell.flames_of_zamorak.description",
     "requiredLevel": 60,
     "type": 2,
     "runeCount": 3,
@@ -655,8 +691,9 @@
   },
   {
     "id": "36",
-    "name": "spell.36.name",
-    "description": "spell.36.description",
+    "v1Id": 36,
+    "name": "spell.charge_earth_orb.name",
+    "description": "spell.charge_earth_orb.description",
     "requiredLevel": 60,
     "type": 5,
     "runeCount": 3,
@@ -674,6 +711,7 @@
   },
   {
     "id": "37",
+    "v1Id": 37,
     "name": "spell.37.name",
     "description": "spell.37.description",
     "requiredLevel": 62,
@@ -691,6 +729,7 @@
   },
   {
     "id": "38",
+    "v1Id": 38,
     "name": "spell.38.name",
     "description": "spell.38.description",
     "requiredLevel": 63,
@@ -710,6 +749,7 @@
   },
   {
     "id": "39",
+    "v1Id": 39,
     "name": "spell.39.name",
     "description": "spell.39.description",
     "requiredLevel": 65,
@@ -729,6 +769,7 @@
   },
   {
     "id": "40",
+    "v1Id": 40,
     "name": "spell.40.name",
     "description": "spell.40.description",
     "requiredLevel": 66,
@@ -748,6 +789,7 @@
   },
   {
     "id": "41",
+    "v1Id": 41,
     "name": "spell.vulnerability.name",
     "description": "spell.vulnerability.description",
     "requiredLevel": 66,
@@ -767,6 +809,7 @@
   },
   {
     "id": "42",
+    "v1Id": 42,
     "name": "spell.42.name",
     "description": "spell.42.description",
     "requiredLevel": 68,
@@ -786,6 +829,7 @@
   },
   {
     "id": "43",
+    "v1Id": 43,
     "name": "spell.43.name",
     "description": "spell.43.description",
     "requiredLevel": 70,
@@ -805,6 +849,7 @@
   },
   {
     "id": "44",
+    "v1Id": 44,
     "name": "spell.enfeeble.name",
     "description": "spell.enfeeble.description",
     "requiredLevel": 73,
@@ -824,6 +869,7 @@
   },
   {
     "id": "45",
+    "v1Id": 45,
     "name": "spell.45.name",
     "description": "spell.45.description",
     "requiredLevel": 75,
@@ -843,6 +889,7 @@
   },
   {
     "id": "46",
+    "v1Id": 46,
     "name": "spell.stun.name",
     "description": "spell.stun.description",
     "requiredLevel": 80,
@@ -862,6 +909,7 @@
   },
   {
     "id": "47",
+    "v1Id": 47,
     "name": "spell.charge.name",
     "description": "spell.charge.description",
     "requiredLevel": 80,

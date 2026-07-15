@@ -1,6 +1,7 @@
 [
   {
     "id": "0",
+    "v1Id": 0,
     "name": "head1",
     "characterColour": 1,
     "genderModel": 13,
@@ -10,6 +11,7 @@
   },
   {
     "id": "1",
+    "v1Id": 1,
     "name": "body1",
     "characterColour": 2,
     "genderModel": 6,
@@ -19,6 +21,7 @@
   },
   {
     "id": "2",
+    "v1Id": 2,
     "name": "legs1",
     "characterColour": 3,
     "genderModel": 15,
@@ -28,6 +31,7 @@
   },
   {
     "id": "3",
+    "v1Id": 3,
     "name": "fhead1",
     "characterColour": 1,
     "genderModel": 13,
@@ -37,6 +41,7 @@
   },
   {
     "id": "4",
+    "v1Id": 4,
     "name": "fbody1",
     "characterColour": 2,
     "genderModel": 10,
@@ -46,6 +51,7 @@
   },
   {
     "id": "5",
+    "v1Id": 5,
     "name": "head2",
     "characterColour": 1,
     "genderModel": 13,
@@ -55,6 +61,7 @@
   },
   {
     "id": "6",
+    "v1Id": 6,
     "name": "head3",
     "characterColour": 1,
     "genderModel": 5,
@@ -64,6 +71,7 @@
   },
   {
     "id": "7",
+    "v1Id": 7,
     "name": "head4",
     "characterColour": 1,
     "genderModel": 13,
@@ -73,6 +81,7 @@
   },
   {
     "id": "8",
+    "v1Id": 8,
     "name": "chefshat",
     "characterColour": 16777215,
     "genderModel": 0,
@@ -82,6 +91,7 @@
   },
   {
     "id": "9",
+    "v1Id": 9,
     "name": "apron",
     "characterColour": 16777215,
     "genderModel": 0,
@@ -91,6 +101,7 @@
   },
   {
     "id": "10",
+    "v1Id": 10,
     "name": "apron",
     "characterColour": 9789488,
     "genderModel": 0,
@@ -100,6 +111,7 @@
   },
   {
     "id": "11",
+    "v1Id": 11,
     "name": "boots",
     "characterColour": 5592405,
     "genderModel": 0,
@@ -109,6 +121,7 @@
   },
   {
     "id": "12",
+    "v1Id": 12,
     "name": "fullhelm",
     "characterColour": 16737817,
     "genderModel": 0,
@@ -118,6 +131,7 @@
   },
   {
     "id": "13",
+    "v1Id": 13,
     "name": "fullhelm",
     "characterColour": 15654365,
     "genderModel": 0,
@@ -127,6 +141,7 @@
   },
   {
     "id": "14",
+    "v1Id": 14,
     "name": "fullhelm",
     "characterColour": 15658734,
     "genderModel": 0,
@@ -136,6 +151,7 @@
   },
   {
     "id": "15",
+    "v1Id": 15,
     "name": "fullhelm",
     "characterColour": 10072780,
     "genderModel": 0,
@@ -145,6 +161,7 @@
   },
   {
     "id": "16",
+    "v1Id": 16,
     "name": "fullhelm",
     "characterColour": 11717785,
     "genderModel": 0,
@@ -154,6 +171,7 @@
   },
   {
     "id": "17",
+    "v1Id": 17,
     "name": "fullhelm",
     "characterColour": 65535,
     "genderModel": 0,
@@ -163,6 +181,7 @@
   },
   {
     "id": "18",
+    "v1Id": 18,
     "name": "fullhelm",
     "characterColour": 3158064,
     "genderModel": 0,
@@ -172,6 +191,7 @@
   },
   {
     "id": "19",
+    "v1Id": 19,
     "name": "fullhelm",
     "characterColour": 16777215,
     "genderModel": 0,
@@ -181,6 +201,7 @@
   },
   {
     "id": "20",
+    "v1Id": 20,
     "name": "chainmail",
     "characterColour": 16737817,
     "genderModel": 0,
@@ -190,6 +211,7 @@
   },
   {
     "id": "21",
+    "v1Id": 21,
     "name": "chainmail",
     "characterColour": 15654365,
     "genderModel": 0,
@@ -199,6 +221,7 @@
   },
   {
     "id": "22",
+    "v1Id": 22,
     "name": "chainmail",
     "characterColour": 15658734,
     "genderModel": 0,
@@ -208,6 +231,7 @@
   },
   {
     "id": "23",
+    "v1Id": 23,
     "name": "chainmail",
     "characterColour": 10072780,
     "genderModel": 0,
@@ -217,6 +241,7 @@
   },
   {
     "id": "24",
+    "v1Id": 24,
     "name": "chainmail",
     "characterColour": 11717785,
     "genderModel": 0,
@@ -226,6 +251,7 @@
   },
   {
     "id": "25",
+    "v1Id": 25,
     "name": "chainmail",
     "characterColour": 65535,
     "genderModel": 0,
@@ -235,6 +261,7 @@
   },
   {
     "id": "26",
+    "v1Id": 26,
     "name": "chainmail",
     "characterColour": 3158064,
     "genderModel": 0,
@@ -244,6 +271,7 @@
   },
   {
     "id": "27",
+    "v1Id": 27,
     "name": "platemailtop",
     "characterColour": 16737817,
     "genderModel": 0,
@@ -253,6 +281,7 @@
   },
   {
     "id": "28",
+    "v1Id": 28,
     "name": "platemailtop",
     "characterColour": 15654365,
     "genderModel": 0,
@@ -262,6 +291,7 @@
   },
   {
     "id": "29",
+    "v1Id": 29,
     "name": "platemailtop",
     "characterColour": 15658734,
     "genderModel": 0,
@@ -271,6 +301,7 @@
   },
   {
     "id": "30",
+    "v1Id": 30,
     "name": "platemailtop",
     "characterColour": 10072780,
     "genderModel": 0,
@@ -280,6 +311,7 @@
   },
   {
     "id": "31",
+    "v1Id": 31,
     "name": "platemailtop",
     "characterColour": 11717785,
     "genderModel": 0,
@@ -289,6 +321,7 @@
   },
   {
     "id": "32",
+    "v1Id": 32,
     "name": "platemailtop",
     "characterColour": 3158064,
     "genderModel": 0,
@@ -298,6 +331,7 @@
   },
   {
     "id": "33",
+    "v1Id": 33,
     "name": "platemailtop",
     "characterColour": 65535,
     "genderModel": 0,
@@ -307,6 +341,7 @@
   },
   {
     "id": "34",
+    "v1Id": 34,
     "name": "platemailtop",
     "characterColour": 16777215,
     "genderModel": 0,
@@ -316,6 +351,7 @@
   },
   {
     "id": "35",
+    "v1Id": 35,
     "name": "platemailtop",
     "characterColour": 10083839,
     "genderModel": 0,
@@ -325,6 +361,7 @@
   },
   {
     "id": "36",
+    "v1Id": 36,
     "name": "platemaillegs",
     "characterColour": 16737817,
     "genderModel": 0,
@@ -334,6 +371,7 @@
   },
   {
     "id": "37",
+    "v1Id": 37,
     "name": "platemaillegs",
     "characterColour": 15654365,
     "genderModel": 0,
@@ -343,6 +381,7 @@
   },
   {
     "id": "38",
+    "v1Id": 38,
     "name": "platemaillegs",
     "characterColour": 15658734,
     "genderModel": 0,
@@ -352,6 +391,7 @@
   },
   {
     "id": "39",
+    "v1Id": 39,
     "name": "platemaillegs",
     "characterColour": 10072780,
     "genderModel": 0,
@@ -361,6 +401,7 @@
   },
   {
     "id": "40",
+    "v1Id": 40,
     "name": "platemaillegs",
     "characterColour": 11717785,
     "genderModel": 0,
@@ -370,6 +411,7 @@
   },
   {
     "id": "41",
+    "v1Id": 41,
     "name": "platemaillegs",
     "characterColour": 65535,
     "genderModel": 0,
@@ -379,6 +421,7 @@
   },
   {
     "id": "42",
+    "v1Id": 42,
     "name": "platemaillegs",
     "characterColour": 4210752,
     "genderModel": 0,
@@ -388,6 +431,7 @@
   },
   {
     "id": "43",
+    "v1Id": 43,
     "name": "platemaillegs",
     "characterColour": 16777215,
     "genderModel": 0,
@@ -397,6 +441,7 @@
   },
   {
     "id": "44",
+    "v1Id": 44,
     "name": "platemaillegs",
     "characterColour": 10083839,
     "genderModel": 0,
@@ -406,6 +451,7 @@
   },
   {
     "id": "45",
+    "v1Id": 45,
     "name": "leatherarmour",
     "characterColour": 0,
     "genderModel": 0,
@@ -415,6 +461,7 @@
   },
   {
     "id": "46",
+    "v1Id": 46,
     "name": "leathergloves",
     "characterColour": 0,
     "genderModel": 0,
@@ -424,6 +471,7 @@
   },
   {
     "id": "47",
+    "v1Id": 47,
     "name": "sword",
     "characterColour": 16737817,
     "genderModel": 0,
@@ -433,6 +481,7 @@
   },
   {
     "id": "48",
+    "v1Id": 48,
     "name": "sword",
     "characterColour": 15654365,
     "genderModel": 0,
@@ -442,6 +491,7 @@
   },
   {
     "id": "49",
+    "v1Id": 49,
     "name": "sword",
     "characterColour": 15658734,
     "genderModel": 0,
@@ -451,6 +501,7 @@
   },
   {
     "id": "50",
+    "v1Id": 50,
     "name": "sword",
     "characterColour": 10072780,
     "genderModel": 0,
@@ -460,6 +511,7 @@
   },
   {
     "id": "51",
+    "v1Id": 51,
     "name": "sword",
     "characterColour": 11717785,
     "genderModel": 0,
@@ -469,6 +521,7 @@
   },
   {
     "id": "52",
+    "v1Id": 52,
     "name": "sword",
     "characterColour": 65535,
     "genderModel": 0,
@@ -478,6 +531,7 @@
   },
   {
     "id": "53",
+    "v1Id": 53,
     "name": "sword",
     "characterColour": 3158064,
     "genderModel": 0,
@@ -487,6 +541,7 @@
   },
   {
     "id": "54",
+    "v1Id": 54,
     "name": "fplatemailtop",
     "characterColour": 16737817,
     "genderModel": 0,
@@ -496,6 +551,7 @@
   },
   {
     "id": "55",
+    "v1Id": 55,
     "name": "fplatemailtop",
     "characterColour": 15654365,
     "genderModel": 0,
@@ -505,6 +561,7 @@
   },
   {
     "id": "56",
+    "v1Id": 56,
     "name": "fplatemailtop",
     "characterColour": 15658734,
     "genderModel": 0,
@@ -514,6 +571,7 @@
   },
   {
     "id": "57",
+    "v1Id": 57,
     "name": "fplatemailtop",
     "characterColour": 10072780,
     "genderModel": 0,
@@ -523,6 +581,7 @@
   },
   {
     "id": "58",
+    "v1Id": 58,
     "name": "fplatemailtop",
     "characterColour": 11717785,
     "genderModel": 0,
@@ -532,6 +591,7 @@
   },
   {
     "id": "59",
+    "v1Id": 59,
     "name": "fplatemailtop",
     "characterColour": 65535,
     "genderModel": 0,
@@ -541,6 +601,7 @@
   },
   {
     "id": "60",
+    "v1Id": 60,
     "name": "fplatemailtop",
     "characterColour": 3158064,
     "genderModel": 0,
@@ -550,6 +611,7 @@
   },
   {
     "id": "61",
+    "v1Id": 61,
     "name": "apron",
     "characterColour": 16777215,
     "genderModel": 0,
@@ -559,6 +621,7 @@
   },
   {
     "id": "62",
+    "v1Id": 62,
     "name": "cape",
     "characterColour": 16711680,
     "genderModel": 0,
@@ -568,6 +631,7 @@
   },
   {
     "id": "63",
+    "v1Id": 63,
     "name": "cape",
     "characterColour": 2434341,
     "genderModel": 0,
@@ -577,6 +641,7 @@
   },
   {
     "id": "64",
+    "v1Id": 64,
     "name": "cape",
     "characterColour": 4210926,
     "genderModel": 0,
@@ -586,6 +651,7 @@
   },
   {
     "id": "65",
+    "v1Id": 65,
     "name": "cape",
     "characterColour": 4246592,
     "genderModel": 0,
@@ -595,6 +661,7 @@
   },
   {
     "id": "66",
+    "v1Id": 66,
     "name": "cape",
     "characterColour": 15658560,
     "genderModel": 0,
@@ -604,6 +671,7 @@
   },
   {
     "id": "67",
+    "v1Id": 67,
     "name": "cape",
     "characterColour": 15636736,
     "genderModel": 0,
@@ -613,6 +681,7 @@
   },
   {
     "id": "68",
+    "v1Id": 68,
     "name": "cape",
     "characterColour": 11141341,
     "genderModel": 0,
@@ -622,6 +691,7 @@
   },
   {
     "id": "69",
+    "v1Id": 69,
     "name": "mediumhelm",
     "characterColour": 16737817,
     "genderModel": 0,
@@ -631,6 +701,7 @@
   },
   {
     "id": "70",
+    "v1Id": 70,
     "name": "mediumhelm",
     "characterColour": 15654365,
     "genderModel": 0,
@@ -640,6 +711,7 @@
   },
   {
     "id": "71",
+    "v1Id": 71,
     "name": "mediumhelm",
     "characterColour": 15658734,
     "genderModel": 0,
@@ -649,6 +721,7 @@
   },
   {
     "id": "72",
+    "v1Id": 72,
     "name": "mediumhelm",
     "characterColour": 10072780,
     "genderModel": 0,
@@ -658,6 +731,7 @@
   },
   {
     "id": "73",
+    "v1Id": 73,
     "name": "mediumhelm",
     "characterColour": 11717785,
     "genderModel": 0,
@@ -667,6 +741,7 @@
   },
   {
     "id": "74",
+    "v1Id": 74,
     "name": "mediumhelm",
     "characterColour": 65535,
     "genderModel": 0,
@@ -676,6 +751,7 @@
   },
   {
     "id": "75",
+    "v1Id": 75,
     "name": "mediumhelm",
     "characterColour": 3158064,
     "genderModel": 0,
@@ -685,6 +761,7 @@
   },
   {
     "id": "76",
+    "v1Id": 76,
     "name": "wizardsrobe",
     "characterColour": 255,
     "genderModel": 0,
@@ -694,6 +771,7 @@
   },
   {
     "id": "77",
+    "v1Id": 77,
     "name": "wizardshat",
     "characterColour": 255,
     "genderModel": 0,
@@ -703,6 +781,7 @@
   },
   {
     "id": "78",
+    "v1Id": 78,
     "name": "wizardshat",
     "characterColour": 4210752,
     "genderModel": 0,
@@ -712,6 +791,7 @@
   },
   {
     "id": "79",
+    "v1Id": 79,
     "name": "necklace",
     "characterColour": 15658734,
     "genderModel": 0,
@@ -721,6 +801,7 @@
   },
   {
     "id": "80",
+    "v1Id": 80,
     "name": "necklace",
     "characterColour": 16763980,
     "genderModel": 0,
@@ -730,6 +811,7 @@
   },
   {
     "id": "81",
+    "v1Id": 81,
     "name": "skirt",
     "characterColour": 255,
     "genderModel": 0,
@@ -739,6 +821,7 @@
   },
   {
     "id": "82",
+    "v1Id": 82,
     "name": "wizardsrobe",
     "characterColour": 4210752,
     "genderModel": 0,
@@ -748,6 +831,7 @@
   },
   {
     "id": "83",
+    "v1Id": 83,
     "name": "Wizardsrobe",
     "characterColour": 10510400,
     "genderModel": 0,
@@ -757,6 +841,7 @@
   },
   {
     "id": "84",
+    "v1Id": 84,
     "name": "wizardsrobe",
     "characterColour": 15609904,
     "genderModel": 0,
@@ -766,6 +851,7 @@
   },
   {
     "id": "85",
+    "v1Id": 85,
     "name": "Wizardsrobe",
     "characterColour": 16777215,
     "genderModel": 0,
@@ -775,6 +861,7 @@
   },
   {
     "id": "86",
+    "v1Id": 86,
     "name": "skirt",
     "characterColour": 16777215,
     "genderModel": 0,
@@ -784,6 +871,7 @@
   },
   {
     "id": "87",
+    "v1Id": 87,
     "name": "skirt",
     "characterColour": 10510400,
     "genderModel": 0,
@@ -793,6 +881,7 @@
   },
   {
     "id": "88",
+    "v1Id": 88,
     "name": "skirt",
     "characterColour": 4210752,
     "genderModel": 0,
@@ -802,6 +891,7 @@
   },
   {
     "id": "89",
+    "v1Id": 89,
     "name": "skirt",
     "characterColour": 16036851,
     "genderModel": 0,
@@ -811,6 +901,7 @@
   },
   {
     "id": "90",
+    "v1Id": 90,
     "name": "skirt",
     "characterColour": 15609904,
     "genderModel": 0,
@@ -820,6 +911,7 @@
   },
   {
     "id": "91",
+    "v1Id": 91,
     "name": "Skirt",
     "characterColour": 8400921,
     "genderModel": 0,
@@ -829,6 +921,7 @@
   },
   {
     "id": "92",
+    "v1Id": 92,
     "name": "skirt",
     "characterColour": 7824998,
     "genderModel": 0,
@@ -838,6 +931,7 @@
   },
   {
     "id": "93",
+    "v1Id": 93,
     "name": "skirt",
     "characterColour": 7829367,
     "genderModel": 0,
@@ -847,6 +941,7 @@
   },
   {
     "id": "94",
+    "v1Id": 94,
     "name": "skirt",
     "characterColour": 2245205,
     "genderModel": 0,
@@ -856,6 +951,7 @@
   },
   {
     "id": "95",
+    "v1Id": 95,
     "name": "skirt",
     "characterColour": 4347170,
     "genderModel": 0,
@@ -865,6 +961,7 @@
   },
   {
     "id": "96",
+    "v1Id": 96,
     "name": "skirt",
     "characterColour": 26214,
     "genderModel": 0,
@@ -874,6 +971,7 @@
   },
   {
     "id": "97",
+    "v1Id": 97,
     "name": "squareshield",
     "characterColour": 16737817,
     "genderModel": 0,
@@ -883,6 +981,7 @@
   },
   {
     "id": "98",
+    "v1Id": 98,
     "name": "squareshield",
     "characterColour": 15654365,
     "genderModel": 0,
@@ -892,6 +991,7 @@
   },
   {
     "id": "99",
+    "v1Id": 99,
     "name": "squareshield",
     "characterColour": 15658734,
     "genderModel": 0,
@@ -901,6 +1001,7 @@
   },
   {
     "id": "100",
+    "v1Id": 100,
     "name": "squareshield",
     "characterColour": 10072780,
     "genderModel": 0,
@@ -910,6 +1011,7 @@
   },
   {
     "id": "101",
+    "v1Id": 101,
     "name": "squareshield",
     "characterColour": 11717785,
     "genderModel": 0,
@@ -919,6 +1021,7 @@
   },
   {
     "id": "102",
+    "v1Id": 102,
     "name": "squareshield",
     "characterColour": 56797,
     "genderModel": 0,
@@ -928,6 +1031,7 @@
   },
   {
     "id": "103",
+    "v1Id": 103,
     "name": "squareshield",
     "characterColour": 3158064,
     "genderModel": 0,
@@ -937,6 +1041,7 @@
   },
   {
     "id": "104",
+    "v1Id": 104,
     "name": "squareshield",
     "characterColour": 16750896,
     "genderModel": 0,
@@ -946,6 +1051,7 @@
   },
   {
     "id": "105",
+    "v1Id": 105,
     "name": "squareshield",
     "characterColour": 11363121,
     "genderModel": 0,
@@ -955,6 +1061,7 @@
   },
   {
     "id": "106",
+    "v1Id": 106,
     "name": "crossbow",
     "characterColour": 0,
     "genderModel": 0,
@@ -964,6 +1071,7 @@
   },
   {
     "id": "107",
+    "v1Id": 107,
     "name": "longbow",
     "characterColour": 0,
     "genderModel": 0,
@@ -973,6 +1081,7 @@
   },
   {
     "id": "108",
+    "v1Id": 108,
     "name": "battleaxe",
     "characterColour": 16737817,
     "genderModel": 0,
@@ -982,6 +1091,7 @@
   },
   {
     "id": "109",
+    "v1Id": 109,
     "name": "battleaxe",
     "characterColour": 15654365,
     "genderModel": 0,
@@ -991,6 +1101,7 @@
   },
   {
     "id": "110",
+    "v1Id": 110,
     "name": "battleaxe",
     "characterColour": 15658734,
     "genderModel": 0,
@@ -1000,6 +1111,7 @@
   },
   {
     "id": "111",
+    "v1Id": 111,
     "name": "battleaxe",
     "characterColour": 10072780,
     "genderModel": 0,
@@ -1009,6 +1121,7 @@
   },
   {
     "id": "112",
+    "v1Id": 112,
     "name": "battleaxe",
     "characterColour": 11717785,
     "genderModel": 0,
@@ -1018,6 +1131,7 @@
   },
   {
     "id": "113",
+    "v1Id": 113,
     "name": "battleaxe",
     "characterColour": 65535,
     "genderModel": 0,
@@ -1027,6 +1141,7 @@
   },
   {
     "id": "114",
+    "v1Id": 114,
     "name": "battleaxe",
     "characterColour": 3158064,
     "genderModel": 0,
@@ -1036,6 +1151,7 @@
   },
   {
     "id": "115",
+    "v1Id": 115,
     "name": "mace",
     "characterColour": 16737817,
     "genderModel": 0,
@@ -1045,6 +1161,7 @@
   },
   {
     "id": "116",
+    "v1Id": 116,
     "name": "mace",
     "characterColour": 15654365,
     "genderModel": 0,
@@ -1054,6 +1171,7 @@
   },
   {
     "id": "117",
+    "v1Id": 117,
     "name": "mace",
     "characterColour": 15658734,
     "genderModel": 0,
@@ -1063,6 +1181,7 @@
   },
   {
     "id": "118",
+    "v1Id": 118,
     "name": "mace",
     "characterColour": 10072780,
     "genderModel": 0,
@@ -1072,6 +1191,7 @@
   },
   {
     "id": "119",
+    "v1Id": 119,
     "name": "mace",
     "characterColour": 11717785,
     "genderModel": 0,
@@ -1081,6 +1201,7 @@
   },
   {
     "id": "120",
+    "v1Id": 120,
     "name": "mace",
     "characterColour": 65535,
     "genderModel": 0,
@@ -1090,6 +1211,7 @@
   },
   {
     "id": "121",
+    "v1Id": 121,
     "name": "mace",
     "characterColour": 3158064,
     "genderModel": 0,
@@ -1099,6 +1221,7 @@
   },
   {
     "id": "122",
+    "v1Id": 122,
     "name": "staff",
     "characterColour": 0,
     "genderModel": 0,
@@ -1108,6 +1231,7 @@
   },
   {
     "id": "123",
+    "v1Id": 123,
     "name": "rat",
     "characterColour": 4805259,
     "genderModel": 0,
@@ -1117,6 +1241,7 @@
   },
   {
     "id": "124",
+    "v1Id": 124,
     "name": "demon",
     "characterColour": 16384000,
     "genderModel": 0,
@@ -1126,6 +1251,7 @@
   },
   {
     "id": "125",
+    "v1Id": 125,
     "name": "spider",
     "characterColour": 13408576,
     "genderModel": 0,
@@ -1135,6 +1261,7 @@
   },
   {
     "id": "126",
+    "v1Id": 126,
     "name": "spider",
     "characterColour": 16728144,
     "genderModel": 0,
@@ -1144,6 +1271,7 @@
   },
   {
     "id": "127",
+    "v1Id": 127,
     "name": "camel",
     "characterColour": 0,
     "genderModel": 0,
@@ -1153,6 +1281,7 @@
   },
   {
     "id": "128",
+    "v1Id": 128,
     "name": "cow",
     "characterColour": 0,
     "genderModel": 0,
@@ -1162,6 +1291,7 @@
   },
   {
     "id": "129",
+    "v1Id": 129,
     "name": "sheep",
     "characterColour": 0,
     "genderModel": 0,
@@ -1171,6 +1301,7 @@
   },
   {
     "id": "130",
+    "v1Id": 130,
     "name": "unicorn",
     "characterColour": 0,
     "genderModel": 0,
@@ -1180,6 +1311,7 @@
   },
   {
     "id": "131",
+    "v1Id": 131,
     "name": "bear",
     "characterColour": 0,
     "genderModel": 0,
@@ -1189,6 +1321,7 @@
   },
   {
     "id": "132",
+    "v1Id": 132,
     "name": "chicken",
     "characterColour": 0,
     "genderModel": 0,
@@ -1198,6 +1331,7 @@
   },
   {
     "id": "133",
+    "v1Id": 133,
     "name": "skeleton",
     "characterColour": 0,
     "genderModel": 0,
@@ -1207,6 +1341,7 @@
   },
   {
     "id": "134",
+    "v1Id": 134,
     "name": "skelweap",
     "characterColour": 0,
     "genderModel": 0,
@@ -1216,6 +1351,7 @@
   },
   {
     "id": "135",
+    "v1Id": 135,
     "name": "zombie",
     "characterColour": 0,
     "genderModel": 0,
@@ -1225,6 +1361,7 @@
   },
   {
     "id": "136",
+    "v1Id": 136,
     "name": "zombweap",
     "characterColour": 0,
     "genderModel": 0,
@@ -1234,6 +1371,7 @@
   },
   {
     "id": "137",
+    "v1Id": 137,
     "name": "ghost",
     "characterColour": 0,
     "genderModel": 0,
@@ -1243,6 +1381,7 @@
   },
   {
     "id": "138",
+    "v1Id": 138,
     "name": "bat",
     "characterColour": 0,
     "genderModel": 0,
@@ -1252,6 +1391,7 @@
   },
   {
     "id": "139",
+    "v1Id": 139,
     "name": "goblin",
     "characterColour": 8969727,
     "genderModel": 0,
@@ -1261,6 +1401,7 @@
   },
   {
     "id": "140",
+    "v1Id": 140,
     "name": "goblin",
     "characterColour": 16711680,
     "genderModel": 0,
@@ -1270,6 +1411,7 @@
   },
   {
     "id": "141",
+    "v1Id": 141,
     "name": "goblin",
     "characterColour": 47872,
     "genderModel": 0,
@@ -1279,6 +1421,7 @@
   },
   {
     "id": "142",
+    "v1Id": 142,
     "name": "gobweap",
     "characterColour": 65535,
     "genderModel": 0,
@@ -1288,6 +1431,7 @@
   },
   {
     "id": "143",
+    "v1Id": 143,
     "name": "scorpion",
     "characterColour": 0,
     "genderModel": 0,
@@ -1297,6 +1441,7 @@
   },
   {
     "id": "144",
+    "v1Id": 144,
     "name": "dragon",
     "characterColour": 65280,
     "genderModel": 0,
@@ -1306,6 +1451,7 @@
   },
   {
     "id": "145",
+    "v1Id": 145,
     "name": "dragon",
     "characterColour": 16711680,
     "genderModel": 0,
@@ -1315,6 +1461,7 @@
   },
   {
     "id": "146",
+    "v1Id": 146,
     "name": "dragon",
     "characterColour": 21981,
     "genderModel": 0,
@@ -1324,6 +1471,7 @@
   },
   {
     "id": "147",
+    "v1Id": 147,
     "name": "Wolf",
     "characterColour": 0,
     "genderModel": 0,
@@ -1333,6 +1481,7 @@
   },
   {
     "id": "148",
+    "v1Id": 148,
     "name": "Wolf",
     "characterColour": 10066329,
     "genderModel": 0,
@@ -1342,6 +1491,7 @@
   },
   {
     "id": "149",
+    "v1Id": 149,
     "name": "partyhat",
     "characterColour": 16711680,
     "genderModel": 0,
@@ -1351,6 +1501,7 @@
   },
   {
     "id": "150",
+    "v1Id": 150,
     "name": "partyhat",
     "characterColour": 16776960,
     "genderModel": 0,
@@ -1360,6 +1511,7 @@
   },
   {
     "id": "151",
+    "v1Id": 151,
     "name": "partyhat",
     "characterColour": 255,
     "genderModel": 0,
@@ -1369,6 +1521,7 @@
   },
   {
     "id": "152",
+    "v1Id": 152,
     "name": "partyhat",
     "characterColour": 65280,
     "genderModel": 0,
@@ -1378,6 +1531,7 @@
   },
   {
     "id": "153",
+    "v1Id": 153,
     "name": "partyhat",
     "characterColour": 16711935,
     "genderModel": 0,
@@ -1387,6 +1541,7 @@
   },
   {
     "id": "154",
+    "v1Id": 154,
     "name": "partyhat",
     "characterColour": 16777215,
     "genderModel": 0,
@@ -1396,6 +1551,7 @@
   },
   {
     "id": "155",
+    "v1Id": 155,
     "name": "leathergloves",
     "characterColour": 11202303,
     "genderModel": 0,
@@ -1405,6 +1561,7 @@
   },
   {
     "id": "156",
+    "v1Id": 156,
     "name": "chicken",
     "characterColour": 16711680,
     "genderModel": 0,
@@ -1414,6 +1571,7 @@
   },
   {
     "id": "157",
+    "v1Id": 157,
     "name": "fplatemailtop",
     "characterColour": 10083839,
     "genderModel": 0,
@@ -1423,6 +1581,7 @@
   },
   {
     "id": "158",
+    "v1Id": 158,
     "name": "skirt",
     "characterColour": 1118481,
     "genderModel": 0,
@@ -1432,6 +1591,7 @@
   },
   {
     "id": "159",
+    "v1Id": 159,
     "name": "Wolf",
     "characterColour": 9789488,
     "genderModel": 0,
@@ -1441,6 +1601,7 @@
   },
   {
     "id": "160",
+    "v1Id": 160,
     "name": "spider",
     "characterColour": 65535,
     "genderModel": 0,
@@ -1450,6 +1611,7 @@
   },
   {
     "id": "161",
+    "v1Id": 161,
     "name": "battleaxe",
     "characterColour": 16711748,
     "genderModel": 0,
@@ -1459,6 +1621,7 @@
   },
   {
     "id": "162",
+    "v1Id": 162,
     "name": "sword",
     "characterColour": 16711748,
     "genderModel": 0,
@@ -1468,6 +1631,7 @@
   },
   {
     "id": "163",
+    "v1Id": 163,
     "name": "eyepatch",
     "characterColour": 0,
     "genderModel": 0,
@@ -1477,6 +1641,7 @@
   },
   {
     "id": "164",
+    "v1Id": 164,
     "name": "demon",
     "characterColour": 3158064,
     "genderModel": 0,
@@ -1486,6 +1651,7 @@
   },
   {
     "id": "165",
+    "v1Id": 165,
     "name": "dragon",
     "characterColour": 3158064,
     "genderModel": 0,
@@ -1495,6 +1661,7 @@
   },
   {
     "id": "166",
+    "v1Id": 166,
     "name": "spider",
     "characterColour": 14535680,
     "genderModel": 0,
@@ -1504,6 +1671,7 @@
   },
   {
     "id": "167",
+    "v1Id": 167,
     "name": "Wolf",
     "characterColour": 2236962,
     "genderModel": 0,
@@ -1513,6 +1681,7 @@
   },
   {
     "id": "168",
+    "v1Id": 168,
     "name": "unicorn",
     "characterColour": 2236962,
     "genderModel": 0,
@@ -1522,6 +1691,7 @@
   },
   {
     "id": "169",
+    "v1Id": 169,
     "name": "demon",
     "characterColour": 6291456,
     "genderModel": 0,
@@ -1531,6 +1701,7 @@
   },
   {
     "id": "170",
+    "v1Id": 170,
     "name": "spider",
     "characterColour": 2236962,
     "genderModel": 0,
@@ -1540,6 +1711,7 @@
   },
   {
     "id": "171",
+    "v1Id": 171,
     "name": "necklace",
     "characterColour": 3158064,
     "genderModel": 0,
@@ -1549,6 +1721,7 @@
   },
   {
     "id": "172",
+    "v1Id": 172,
     "name": "rat",
     "characterColour": 11184810,
     "genderModel": 0,
@@ -1558,6 +1731,7 @@
   },
   {
     "id": "173",
+    "v1Id": 173,
     "name": "mediumhelm",
     "characterColour": 11250603,
     "genderModel": 0,
@@ -1567,6 +1741,7 @@
   },
   {
     "id": "174",
+    "v1Id": 174,
     "name": "chainmail",
     "characterColour": 11250603,
     "genderModel": 0,
@@ -1576,6 +1751,7 @@
   },
   {
     "id": "175",
+    "v1Id": 175,
     "name": "wizardshat",
     "characterColour": 16711680,
     "genderModel": 0,
@@ -1585,6 +1761,7 @@
   },
   {
     "id": "176",
+    "v1Id": 176,
     "name": "legs1",
     "characterColour": 9785408,
     "genderModel": 0,
@@ -1594,6 +1771,7 @@
   },
   {
     "id": "177",
+    "v1Id": 177,
     "name": "gasmask",
     "characterColour": 0,
     "genderModel": 0,
@@ -1603,6 +1781,7 @@
   },
   {
     "id": "178",
+    "v1Id": 178,
     "name": "mediumhelm",
     "characterColour": 16711748,
     "genderModel": 0,
@@ -1612,6 +1791,7 @@
   },
   {
     "id": "179",
+    "v1Id": 179,
     "name": "spider",
     "characterColour": 3852326,
     "genderModel": 0,
@@ -1621,6 +1801,7 @@
   },
   {
     "id": "180",
+    "v1Id": 180,
     "name": "spear",
     "characterColour": 0,
     "genderModel": 0,
@@ -1630,6 +1811,7 @@
   },
   {
     "id": "181",
+    "v1Id": 181,
     "name": "halloweenmask",
     "characterColour": 52224,
     "genderModel": 0,
@@ -1639,6 +1821,7 @@
   },
   {
     "id": "182",
+    "v1Id": 182,
     "name": "wizardsrobe",
     "characterColour": 1052688,
     "genderModel": 0,
@@ -1648,6 +1831,7 @@
   },
   {
     "id": "183",
+    "v1Id": 183,
     "name": "skirt",
     "characterColour": 1052688,
     "genderModel": 0,
@@ -1657,6 +1841,7 @@
   },
   {
     "id": "184",
+    "v1Id": 184,
     "name": "halloweenmask",
     "characterColour": 16711680,
     "genderModel": 0,
@@ -1666,6 +1851,7 @@
   },
   {
     "id": "185",
+    "v1Id": 185,
     "name": "halloweenmask",
     "characterColour": 255,
     "genderModel": 0,
@@ -1675,6 +1861,7 @@
   },
   {
     "id": "186",
+    "v1Id": 186,
     "name": "skirt",
     "characterColour": 16755370,
     "genderModel": 15,
@@ -1684,6 +1871,7 @@
   },
   {
     "id": "187",
+    "v1Id": 187,
     "name": "skirt",
     "characterColour": 11206570,
     "genderModel": 15,
@@ -1693,6 +1881,7 @@
   },
   {
     "id": "188",
+    "v1Id": 188,
     "name": "skirt",
     "characterColour": 11184895,
     "genderModel": 15,
@@ -1702,6 +1891,7 @@
   },
   {
     "id": "189",
+    "v1Id": 189,
     "name": "skirt",
     "characterColour": 16777164,
     "genderModel": 15,
@@ -1711,6 +1901,7 @@
   },
   {
     "id": "190",
+    "v1Id": 190,
     "name": "skirt",
     "characterColour": 13434879,
     "genderModel": 15,
@@ -1720,6 +1911,7 @@
   },
   {
     "id": "191",
+    "v1Id": 191,
     "name": "wizardshat",
     "characterColour": 16755370,
     "genderModel": 0,
@@ -1729,6 +1921,7 @@
   },
   {
     "id": "192",
+    "v1Id": 192,
     "name": "wizardshat",
     "characterColour": 11206570,
     "genderModel": 0,
@@ -1738,6 +1931,7 @@
   },
   {
     "id": "193",
+    "v1Id": 193,
     "name": "wizardshat",
     "characterColour": 11184895,
     "genderModel": 0,
@@ -1747,6 +1941,7 @@
   },
   {
     "id": "194",
+    "v1Id": 194,
     "name": "wizardshat",
     "characterColour": 16777164,
     "genderModel": 0,
@@ -1756,6 +1951,7 @@
   },
   {
     "id": "195",
+    "v1Id": 195,
     "name": "wizardshat",
     "characterColour": 13434879,
     "genderModel": 0,
@@ -1765,6 +1961,7 @@
   },
   {
     "id": "196",
+    "v1Id": 196,
     "name": "wizardsrobe",
     "characterColour": 16755370,
     "genderModel": 0,
@@ -1774,6 +1971,7 @@
   },
   {
     "id": "197",
+    "v1Id": 197,
     "name": "wizardsrobe",
     "characterColour": 11206570,
     "genderModel": 0,
@@ -1783,6 +1981,7 @@
   },
   {
     "id": "198",
+    "v1Id": 198,
     "name": "wizardsrobe",
     "characterColour": 11184895,
     "genderModel": 0,
@@ -1792,6 +1991,7 @@
   },
   {
     "id": "199",
+    "v1Id": 199,
     "name": "wizardsrobe",
     "characterColour": 16777164,
     "genderModel": 0,
@@ -1801,6 +2001,7 @@
   },
   {
     "id": "200",
+    "v1Id": 200,
     "name": "wizardsrobe",
     "characterColour": 13434879,
     "genderModel": 0,
@@ -1810,6 +2011,7 @@
   },
   {
     "id": "201",
+    "v1Id": 201,
     "name": "Wizardsrobe",
     "characterColour": 3978097,
     "genderModel": 0,
@@ -1819,6 +2021,7 @@
   },
   {
     "id": "202",
+    "v1Id": 202,
     "name": "skirt",
     "characterColour": 3978097,
     "genderModel": 0,
@@ -1828,6 +2031,7 @@
   },
   {
     "id": "203",
+    "v1Id": 203,
     "name": "boots",
     "characterColour": 16755370,
     "genderModel": 0,
@@ -1837,6 +2041,7 @@
   },
   {
     "id": "204",
+    "v1Id": 204,
     "name": "boots",
     "characterColour": 11206570,
     "genderModel": 0,
@@ -1846,6 +2051,7 @@
   },
   {
     "id": "205",
+    "v1Id": 205,
     "name": "boots",
     "characterColour": 11184895,
     "genderModel": 0,
@@ -1855,6 +2061,7 @@
   },
   {
     "id": "206",
+    "v1Id": 206,
     "name": "boots",
     "characterColour": 16777164,
     "genderModel": 0,
@@ -1864,6 +2071,7 @@
   },
   {
     "id": "207",
+    "v1Id": 207,
     "name": "boots",
     "characterColour": 13434879,
     "genderModel": 0,
@@ -1873,6 +2081,7 @@
   },
   {
     "id": "208",
+    "v1Id": 208,
     "name": "santahat",
     "characterColour": 0,
     "genderModel": 0,
@@ -1882,6 +2091,7 @@
   },
   {
     "id": "209",
+    "v1Id": 209,
     "name": "ibanstaff",
     "characterColour": 0,
     "genderModel": 0,
@@ -1891,6 +2101,7 @@
   },
   {
     "id": "210",
+    "v1Id": 210,
     "name": "souless",
     "characterColour": 0,
     "genderModel": 0,
@@ -1900,6 +2111,7 @@
   },
   {
     "id": "211",
+    "v1Id": 211,
     "name": "boots",
     "characterColour": 16777215,
     "genderModel": 0,
@@ -1909,6 +2121,7 @@
   },
   {
     "id": "212",
+    "v1Id": 212,
     "name": "legs1",
     "characterColour": 16777215,
     "genderModel": 0,
@@ -1918,6 +2131,7 @@
   },
   {
     "id": "213",
+    "v1Id": 213,
     "name": "Wizardsrobe",
     "characterColour": 8421376,
     "genderModel": 0,
@@ -1927,6 +2141,7 @@
   },
   {
     "id": "214",
+    "v1Id": 214,
     "name": "skirt",
     "characterColour": 8421376,
     "genderModel": 0,
@@ -1936,6 +2151,7 @@
   },
   {
     "id": "215",
+    "v1Id": 215,
     "name": "cape",
     "characterColour": 16777215,
     "genderModel": 0,
@@ -1945,6 +2161,7 @@
   },
   {
     "id": "216",
+    "v1Id": 216,
     "name": "Wolf",
     "characterColour": 13420580,
     "genderModel": 0,
@@ -1954,6 +2171,7 @@
   },
   {
     "id": "217",
+    "v1Id": 217,
     "name": "bunnyears",
     "characterColour": 0,
     "genderModel": 0,
@@ -1963,6 +2181,7 @@
   },
   {
     "id": "218",
+    "v1Id": 218,
     "name": "saradominstaff",
     "characterColour": 0,
     "genderModel": 0,
@@ -1972,6 +2191,7 @@
   },
   {
     "id": "219",
+    "v1Id": 219,
     "name": "spear",
     "characterColour": 56797,
     "genderModel": 0,
@@ -1981,6 +2201,7 @@
   },
   {
     "id": "220",
+    "v1Id": 220,
     "name": "skirt",
     "characterColour": 1392384,
     "genderModel": 0,
@@ -1990,6 +2211,7 @@
   },
   {
     "id": "221",
+    "v1Id": 221,
     "name": "wizardsrobe",
     "characterColour": 1392384,
     "genderModel": 0,
@@ -1999,6 +2221,7 @@
   },
   {
     "id": "222",
+    "v1Id": 222,
     "name": "wolf",
     "characterColour": 5585408,
     "genderModel": 0,
@@ -2008,6 +2231,7 @@
   },
   {
     "id": "223",
+    "v1Id": 223,
     "name": "chicken",
     "characterColour": 6893315,
     "genderModel": 0,
@@ -2017,6 +2241,7 @@
   },
   {
     "id": "224",
+    "v1Id": 224,
     "name": "squareshield",
     "characterColour": 13500416,
     "genderModel": 0,
@@ -2026,6 +2251,7 @@
   },
   {
     "id": "225",
+    "v1Id": 225,
     "name": "cape",
     "characterColour": 16777215,
     "genderModel": 0,
@@ -2035,6 +2261,7 @@
   },
   {
     "id": "226",
+    "v1Id": 226,
     "name": "boots",
     "characterColour": 1118481,
     "genderModel": 0,
@@ -2044,6 +2271,7 @@
   },
   {
     "id": "227",
+    "v1Id": 227,
     "name": "wizardsrobe",
     "characterColour": 1118481,
     "genderModel": 0,
@@ -2053,6 +2281,7 @@
   },
   {
     "id": "228",
+    "v1Id": 228,
     "name": "Scythe",
     "characterColour": 0,
     "genderModel": 0,

@@ -1,6 +1,4 @@
 using System;
-
-using OpenRS.Net;
 using OpenRS.Net.Client.Game;
 
 namespace OpenRS.Net.Client.Entities
@@ -117,7 +115,7 @@ namespace OpenRS.Net.Client.Entities
                 if (client.gameGraphics is not null)
                 {
                     client.gameGraphics.CleanUp();
-                    client.gameGraphics.pixels = null;
+                    client.gameGraphics.Pixels = null;
                     client.gameGraphics = null;
                 }
 
@@ -155,8 +153,8 @@ namespace OpenRS.Net.Client.Entities
             {
                 client.playerBufferArray[index] = new ClientMob
                 {
-                    serverIndex = index,
-                    serverID = 0
+                    ServerIndex = index,
+                    ServerId = 0
                 };
             }
 
@@ -165,25 +163,25 @@ namespace OpenRS.Net.Client.Entities
 
             if (playerWasKnown)
             {
-                player.nextSprite = sprite;
-                int waypointIndex = player.waypointCurrent;
+                player.NextSprite = sprite;
+                int waypointIndex = player.WaypointCurrent;
 
-                if (x != player.waypointsX[waypointIndex] || y != player.waypointsY[waypointIndex])
+                if (x != player.WaypointXPositions[waypointIndex] || y != player.WaypointYPositions[waypointIndex])
                 {
-                    player.waypointCurrent = waypointIndex = (waypointIndex + 1) % WaypointRingSize;
-                    player.waypointsX[waypointIndex] = x;
-                    player.waypointsY[waypointIndex] = y;
+                    player.WaypointCurrent = waypointIndex = (waypointIndex + 1) % WaypointRingSize;
+                    player.WaypointXPositions[waypointIndex] = x;
+                    player.WaypointYPositions[waypointIndex] = y;
                 }
             }
             else
             {
-                player.serverIndex = index;
-                player.waypointsEndSprite = 0;
-                player.waypointCurrent = 0;
-                player.waypointsX[0] = player.currentX = x;
-                player.waypointsY[0] = player.currentY = y;
-                player.nextSprite = player.currentSprite = sprite;
-                player.stepCount = 0;
+                player.ServerIndex = index;
+                player.WaypointsEndSprite = 0;
+                player.WaypointCurrent = 0;
+                player.WaypointXPositions[0] = player.LocationX = x;
+                player.WaypointYPositions[0] = player.LocationY = y;
+                player.NextSprite = player.CurrentSprite = sprite;
+                player.StepCount = 0;
             }
 
             client.playerArray[client.playerCount] = player;
@@ -277,7 +275,7 @@ namespace OpenRS.Net.Client.Entities
             {
                 client.npcAttackingArray[index] = new ClientMob
                 {
-                    serverIndex = index
+                    ServerIndex = index
                 };
             }
 
@@ -286,27 +284,27 @@ namespace OpenRS.Net.Client.Entities
 
             if (npcWasKnown)
             {
-                npc.npcId = id;
-                npc.nextSprite = sprite;
-                int waypointIndex = npc.waypointCurrent;
+                npc.NpcIdentifier = id;
+                npc.NextSprite = sprite;
+                int waypointIndex = npc.WaypointCurrent;
 
-                if (x != npc.waypointsX[waypointIndex] || y != npc.waypointsY[waypointIndex])
+                if (x != npc.WaypointXPositions[waypointIndex] || y != npc.WaypointYPositions[waypointIndex])
                 {
-                    npc.waypointCurrent = waypointIndex = (waypointIndex + 1) % WaypointRingSize;
-                    npc.waypointsX[waypointIndex] = x;
-                    npc.waypointsY[waypointIndex] = y;
+                    npc.WaypointCurrent = waypointIndex = (waypointIndex + 1) % WaypointRingSize;
+                    npc.WaypointXPositions[waypointIndex] = x;
+                    npc.WaypointYPositions[waypointIndex] = y;
                 }
             }
             else
             {
-                npc.serverIndex = index;
-                npc.waypointsEndSprite = 0;
-                npc.waypointCurrent = 0;
-                npc.waypointsX[0] = npc.currentX = x;
-                npc.waypointsY[0] = npc.currentY = y;
-                npc.npcId = id;
-                npc.nextSprite = npc.currentSprite = sprite;
-                npc.stepCount = 0;
+                npc.ServerIndex = index;
+                npc.WaypointsEndSprite = 0;
+                npc.WaypointCurrent = 0;
+                npc.WaypointXPositions[0] = npc.LocationX = x;
+                npc.WaypointYPositions[0] = npc.LocationY = y;
+                npc.NpcIdentifier = id;
+                npc.NextSprite = npc.CurrentSprite = sprite;
+                npc.StepCount = 0;
             }
 
             client.npcArray[client.npcCount] = npc;
@@ -359,7 +357,7 @@ namespace OpenRS.Net.Client.Entities
         {
             for (int playerIndex = 0; playerIndex < client.lastPlayerCount; playerIndex += 1)
             {
-                if (client.lastPlayerArray[playerIndex].serverIndex == serverIndex)
+                if (client.lastPlayerArray[playerIndex].ServerIndex == serverIndex)
                 {
                     return client.lastPlayerArray[playerIndex];
                 }
@@ -372,7 +370,7 @@ namespace OpenRS.Net.Client.Entities
         {
             for (int npcIndex = 0; npcIndex < client.lastNpcCount; npcIndex += 1)
             {
-                if (client.lastNpcArray[npcIndex].serverIndex == serverIndex)
+                if (client.lastNpcArray[npcIndex].ServerIndex == serverIndex)
                 {
                     return client.lastNpcArray[npcIndex];
                 }
@@ -385,7 +383,7 @@ namespace OpenRS.Net.Client.Entities
         {
             for (int playerIndex = 0; playerIndex < client.lastPlayerCount; playerIndex += 1)
             {
-                if (client.lastPlayerArray[playerIndex].serverIndex == serverIndex)
+                if (client.lastPlayerArray[playerIndex].ServerIndex == serverIndex)
                 {
                     return true;
                 }
@@ -398,7 +396,7 @@ namespace OpenRS.Net.Client.Entities
         {
             for (int npcIndex = 0; npcIndex < client.lastNpcCount; npcIndex += 1)
             {
-                if (client.lastNpcArray[npcIndex].serverIndex == serverIndex)
+                if (client.lastNpcArray[npcIndex].ServerIndex == serverIndex)
                 {
                     return true;
                 }

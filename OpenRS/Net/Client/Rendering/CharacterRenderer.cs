@@ -11,7 +11,7 @@ namespace OpenRS.Net.Client.Rendering
 
         public void DrawPrayerMagicMenu(bool canClick)
         {
-            int menuX = client.gameGraphics.gameWidth - 199;
+            int menuX = client.gameGraphics.GameWidth - 199;
             int menuY = 36;
             client.gameGraphics.DrawPicture(menuX - 49, 3, client.baseInventoryPic + 4);
             int menuWidth = 196;
@@ -159,12 +159,12 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            int clickOffsetX = client.mouseX - (client.gameGraphics.gameWidth - 199);
+            int clickOffsetX = client.mouseX - (client.gameGraphics.GameWidth - 199);
             int clickOffsetY = client.mouseY - 36;
 
             if (clickOffsetX >= 0 && clickOffsetY >= 0 && clickOffsetX < 196 && clickOffsetY < 182)
             {
-                client.spellMenu.MouseClick(clickOffsetX + (client.gameGraphics.gameWidth - 199), clickOffsetY + 36, client.lastMouseButton, client.mouseButton);
+                client.spellMenu.MouseClick(clickOffsetX + (client.gameGraphics.GameWidth - 199), clickOffsetY + 36, client.lastMouseButton, client.mouseButton);
 
                 if (clickOffsetY <= 24 && client.mouseButtonClick == 1)
                 {
@@ -262,7 +262,7 @@ namespace OpenRS.Net.Client.Rendering
 
         public void DrawAppearanceWindow()
         {
-            client.gameGraphics.interlace = false;
+            client.gameGraphics.IsInterlaced = false;
             client.gameGraphics.ClearScreen();
             client.appearanceMenu.DrawMenu();
             int previewX = 140 + 116;
@@ -283,7 +283,7 @@ namespace OpenRS.Net.Client.Rendering
 
         public void DrawStatsQuestsMenu(bool canClick)
         {
-            int menuX = client.gameGraphics.gameWidth - 199;
+            int menuX = client.gameGraphics.GameWidth - 199;
             int menuY = 36;
             client.gameGraphics.DrawPicture(menuX - 49, 3, client.baseInventoryPic + 3);
             int menuWidth = 196;
@@ -391,7 +391,7 @@ namespace OpenRS.Net.Client.Rendering
 
                     client.gameGraphics.DrawString(LocalisationManager.GetString("player.skill_total_prefix") + totalSkillLevels, menuX + 5, textY, 1, 0xffffff);
                     textY += 12;
-                    client.gameGraphics.DrawString(LocalisationManager.GetString("player.combat_level_prefix") + client.ourPlayer.level, menuX + 5, textY, 1, 0xffffff);
+                    client.gameGraphics.DrawString(LocalisationManager.GetString("player.combat_level_prefix") + client.ourPlayer.CombatLevel, menuX + 5, textY, 1, 0xffffff);
                 }
             }
 
@@ -428,14 +428,14 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            int clickOffsetX = client.mouseX - (client.gameGraphics.gameWidth - 199);
+            int clickOffsetX = client.mouseX - (client.gameGraphics.GameWidth - 199);
             int clickOffsetY = client.mouseY - 36;
 
             if (clickOffsetX >= 0 && clickOffsetY >= 0 && clickOffsetX < menuWidth && clickOffsetY < menuHeight)
             {
                 if (client.questMenuSelected == 1)
                 {
-                    client.questMenu.MouseClick(clickOffsetX + (client.gameGraphics.gameWidth - 199), clickOffsetY + 36, client.lastMouseButton, client.mouseButton);
+                    client.questMenu.MouseClick(clickOffsetX + (client.gameGraphics.GameWidth - 199), clickOffsetY + 36, client.lastMouseButton, client.mouseButton);
                 }
 
                 if (clickOffsetY <= 24 && client.mouseButtonClick == 1)

@@ -11,6 +11,7 @@ namespace OpenRS.GameLogic.Mapping
     {
         internal static Animation ToServiceModel(this AnimationEntity animationEntity) => new()
         {
+            V1Id = animationEntity.V1Id,
             Name = animationEntity.Name,
             CharacterColour = animationEntity.CharacterColour,
             GenderModel = animationEntity.GenderModel,
@@ -21,6 +22,7 @@ namespace OpenRS.GameLogic.Mapping
 
         internal static AnimationEntity ToDataObject(this Animation animation) => new()
         {
+            V1Id = animation.V1Id,
             Name = animation.Name,
             CharacterColour = animation.CharacterColour,
             GenderModel = animation.GenderModel,

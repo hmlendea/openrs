@@ -2258,7 +2258,7 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/items/eye_patch.png
-#begin sprites/items/faladian_knight's_sword.png
+#begin sprites/items/blurite_sword.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -2268,7 +2268,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:sprites/items/faladian_knight's_sword.png
+/build:sprites/items/blurite_sword.png
 #begin sprites/items/family_crest.png
 /importer:TextureImporter
 /processor:TextureProcessor

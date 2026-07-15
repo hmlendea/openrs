@@ -743,8 +743,8 @@ namespace OpenRS.Net.Client
 
         public int DrawArrow(int xPosition, int yPosition, int pictureIndex)
         {
-            int pictureWidth = gameImage.pictureWidth[pictureIndex];
-            int pictureHeight = gameImage.pictureHeight[pictureIndex];
+            int pictureWidth = gameImage.PictureWidth[pictureIndex];
+            int pictureHeight = gameImage.PictureHeight[pictureIndex];
             componentType[menuItemsCount] = 12;
             componentAcceptsInput[menuItemsCount] = true;
             componentSkip[menuItemsCount] = false;

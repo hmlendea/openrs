@@ -6,7 +6,6 @@ using NuciLog.Core;
 using NuciXNA.Primitives;
 
 using OpenRS.Logging;
-using OpenRS.Settings;
 
 namespace OpenRS.Models
 {

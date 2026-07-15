@@ -13,6 +13,7 @@ namespace OpenRS.GameLogic.Mapping
             this WorldObjectEntity worldObjectEntity) => new()
         {
             Id = worldObjectEntity.Id,
+            V1Id = worldObjectEntity.V1Id,
             Name = LocalisationManager.GetString(worldObjectEntity.Name),
             Description = LocalisationManager.GetString(worldObjectEntity.Description),
             Command1 = LocalisationManager.GetString(worldObjectEntity.Command1),
@@ -28,6 +29,7 @@ namespace OpenRS.GameLogic.Mapping
         internal static WorldObjectEntity ToDataObject(this WorldObject worldObject) => new()
         {
             Id = worldObject.Id,
+            V1Id = worldObject.V1Id,
             Name = worldObject.Name,
             Description = worldObject.Description,
             Command1 = worldObject.Command1,

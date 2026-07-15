@@ -1,202 +1,252 @@
 [
   {
     "id": "black-knights-fortress",
+    "v1Id": -1,
     "name": "quest.black-knights-fortress.name"
   },
   {
     "id": "cooks-assistant",
+    "v1Id": -1,
     "name": "quest.cooks-assistant.name"
   },
   {
     "id": "demon-slayer",
+    "v1Id": -1,
     "name": "quest.demon-slayer.name"
   },
   {
     "id": "dorics-quest",
+    "v1Id": -1,
     "name": "quest.dorics-quest.name"
   },
   {
     "id": "the-restless-ghost",
+    "v1Id": -1,
     "name": "quest.the-restless-ghost.name"
   },
   {
     "id": "goblin-diplomacy",
+    "v1Id": -1,
     "name": "quest.goblin-diplomacy.name"
   },
   {
     "id": "ernest-the-chicken",
+    "v1Id": -1,
     "name": "quest.ernest-the-chicken.name"
   },
   {
     "id": "imp-catcher",
+    "v1Id": -1,
     "name": "quest.imp-catcher.name"
   },
   {
     "id": "pirates-treasure",
+    "v1Id": -1,
     "name": "quest.pirates-treasure.name"
   },
   {
     "id": "prince-ali-rescue",
+    "v1Id": -1,
     "name": "quest.prince-ali-rescue.name"
   },
   {
     "id": "romeo-and-juliet",
+    "v1Id": -1,
     "name": "quest.romeo-and-juliet.name"
   },
   {
     "id": "sheep-shearer",
+    "v1Id": -1,
     "name": "quest.sheep-shearer.name"
   },
   {
     "id": "shield-of-arrav",
+    "v1Id": -1,
     "name": "quest.shield-of-arrav.name"
   },
   {
     "id": "the-knights-sword",
+    "v1Id": -1,
     "name": "quest.the-knights-sword.name"
   },
   {
     "id": "vampire-slayer",
+    "v1Id": -1,
     "name": "quest.vampire-slayer.name"
   },
   {
     "id": "witchs-potion",
+    "v1Id": -1,
     "name": "quest.witchs-potion.name"
   },
   {
     "id": "dragon-slayer",
+    "v1Id": -1,
     "name": "quest.dragon-slayer.name"
   },
   {
     "id": "witchs-house",
+    "v1Id": -1,
     "name": "quest.witchs-house.name"
   },
   {
     "id": "lost-city",
+    "v1Id": -1,
     "name": "quest.lost-city.name"
   },
   {
     "id": "heros-quest",
+    "v1Id": -1,
     "name": "quest.heros-quest.name"
   },
   {
     "id": "druidic-ritual",
+    "v1Id": -1,
     "name": "quest.druidic-ritual.name"
   },
   {
     "id": "merlins-crystal",
+    "v1Id": -1,
     "name": "quest.merlins-crystal.name"
   },
   {
     "id": "scorpion-catcher",
+    "v1Id": -1,
     "name": "quest.scorpion-catcher.name"
   },
   {
     "id": "family-crest",
+    "v1Id": -1,
     "name": "name.family_crest"
   },
   {
     "id": "tribal-totem",
+    "v1Id": -1,
     "name": "name.tribal_totem"
   },
   {
     "id": "fishing-contest",
+    "v1Id": -1,
     "name": "quest.fishing-contest.name"
   },
   {
     "id": "monks-friend",
+    "v1Id": -1,
     "name": "quest.monks-friend.name"
   },
   {
     "id": "temple-of-ikov",
+    "v1Id": -1,
     "name": "quest.temple-of-ikov.name"
   },
   {
     "id": "clock-tower",
+    "v1Id": -1,
     "name": "quest.clock-tower.name"
   },
   {
     "id": "the-holy-grail",
+    "v1Id": -1,
     "name": "quest.the-holy-grail.name"
   },
   {
     "id": "fight-arena",
+    "v1Id": -1,
     "name": "quest.fight-arena.name"
   },
   {
     "id": "tree-gnome-village",
+    "v1Id": -1,
     "name": "quest.tree-gnome-village.name"
   },
   {
     "id": "the-hazeel-cult",
+    "v1Id": -1,
     "name": "quest.the-hazeel-cult.name"
   },
   {
     "id": "sheep-herder",
+    "v1Id": -1,
     "name": "quest.sheep-herder.name"
   },
   {
     "id": "plague-city",
+    "v1Id": -1,
     "name": "quest.plague-city.name"
   },
   {
     "id": "sea-slug",
+    "v1Id": -1,
     "name": "quest.sea-slug.name"
   },
   {
     "id": "waterfall-quest",
+    "v1Id": -1,
     "name": "quest.waterfall-quest.name"
   },
   {
     "id": "biohazard",
+    "v1Id": -1,
     "name": "quest.biohazard.name"
   },
   {
     "id": "jungle-potion",
+    "v1Id": -1,
     "name": "quest.jungle-potion.name"
   },
   {
     "id": "grand-tree",
+    "v1Id": -1,
     "name": "name.grand_tree"
   },
   {
     "id": "shilo-village",
+    "v1Id": -1,
     "name": "quest.shilo-village.name"
   },
   {
     "id": "underground-pass",
+    "v1Id": -1,
     "name": "quest.underground-pass.name"
   },
   {
     "id": "observatory-quest",
+    "v1Id": -1,
     "name": "quest.observatory-quest.name"
   },
   {
     "id": "tourist-trap",
+    "v1Id": -1,
     "name": "quest.tourist-trap.name"
   },
   {
     "id": "watchtower",
+    "v1Id": -1,
     "name": "quest.watchtower.name"
   },
   {
     "id": "dwarf-cannon",
+    "v1Id": -1,
     "name": "quest.dwarf-cannon.name"
   },
   {
     "id": "murder-mystery",
+    "v1Id": -1,
     "name": "quest.murder-mystery.name"
   },
   {
     "id": "digsite",
+    "v1Id": -1,
     "name": "quest.digsite.name"
   },
   {
     "id": "gertrudes-cat",
+    "v1Id": -1,
     "name": "quest.gertrudes-cat.name"
   },
   {
     "id": "legends-quest",
+    "v1Id": -1,
     "name": "quest.legends-quest.name"
   }
 ]

@@ -9,7 +9,6 @@ using NuciLog.Core;
 
 using OpenRS.Logging;
 using OpenRS.Net.Client.Data;
-using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Game
 {

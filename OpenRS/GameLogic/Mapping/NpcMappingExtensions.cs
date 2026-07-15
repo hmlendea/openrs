@@ -13,6 +13,7 @@ namespace OpenRS.GameLogic.Mapping
         internal static Npc ToServiceModel(this NpcEntity npcEntity) => new()
         {
             Id = npcEntity.Id,
+            V1Id = npcEntity.V1Id,
             Name = LocalisationManager.GetString(npcEntity.Name),
             Description = LocalisationManager.GetString(npcEntity.Description),
             Command = LocalisationManager.GetString(npcEntity.Command),
@@ -42,6 +43,7 @@ namespace OpenRS.GameLogic.Mapping
         internal static NpcEntity ToDataObject(this Npc npc) => new()
         {
             Id = npc.Id,
+            V1Id = npc.V1Id,
             Name = npc.Name,
             Description = npc.Description,
             Command = npc.Command,

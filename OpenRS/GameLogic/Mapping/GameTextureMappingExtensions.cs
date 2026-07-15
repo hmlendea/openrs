@@ -10,12 +10,14 @@ namespace OpenRS.GameLogic.Mapping
     {
         internal static GameTexture ToServiceModel(this GameTextureEntity textureEntity) => new()
         {
+            V1Id = textureEntity.V1Id,
             Name = textureEntity.Name,
             SubName = textureEntity.SubName
         };
 
         internal static GameTextureEntity ToDataObject(this GameTexture texture) => new()
         {
+            V1Id = texture.V1Id,
             Name = texture.Name,
             SubName = texture.SubName
         };

@@ -109,7 +109,7 @@ namespace OpenRS.Net.Client.Rendering
 
         public void DrawOptionsMenu(bool canClick)
         {
-            int menuX = client.gameGraphics.gameWidth - 199;
+            int menuX = client.gameGraphics.GameWidth - 199;
             int menuWidth = 196;
             client.gameGraphics.DrawPicture(menuX - 49, 3, client.baseInventoryPic + 6);
             client.gameGraphics.DrawBoxAlpha(menuX, 36, menuWidth, 62, GameImage.RgbToInt(181, 181, 181), 160);
@@ -269,12 +269,12 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            int relativeMouseX = client.mouseX - (client.gameGraphics.gameWidth - 199);
+            int relativeMouseX = client.mouseX - (client.gameGraphics.GameWidth - 199);
             int relativeMouseY = client.mouseY - 36;
 
             if (relativeMouseX >= 0 && relativeMouseY >= 0 && relativeMouseX < 196 && relativeMouseY < 280)
             {
-                int clickMenuX = client.gameGraphics.gameWidth - 199;
+                int clickMenuX = client.gameGraphics.GameWidth - 199;
                 int clickLabelX = clickMenuX + 3;
                 int clickLabelY = 36 + 30;
 

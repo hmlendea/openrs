@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Input;
 using NuciText.Censorship.English;
 
 using OpenRS.GameLogic.GameManagers;
-using OpenRS.Localisation;
 using OpenRS.Models;
 using OpenRS.Net.Client.Entities;
 using OpenRS.Net.Client.Events;

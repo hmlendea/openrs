@@ -2,6 +2,8 @@
 {
     public sealed class Animation
     {
+        public int V1Id { get; set; }
+
         public string Name { get; set; }
 
         public int CharacterColour { get; set; }

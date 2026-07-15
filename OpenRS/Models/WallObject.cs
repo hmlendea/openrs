@@ -2,6 +2,8 @@
 {
     public sealed class WallObject
     {
+        public int V1Id { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }

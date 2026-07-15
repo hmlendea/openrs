@@ -6,7 +6,6 @@ using System.Threading;
 using NuciLog.Core;
 
 using OpenRS.Logging;
-using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Net
 {

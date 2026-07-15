@@ -360,8 +360,8 @@ namespace OpenRS.Net.Client.World
 
         public bool IsValidCameraAngle(int cameraDirection)
         {
-            int playerTileX = client.ourPlayer.currentX / 128;
-            int playerTileY = client.ourPlayer.currentY / 128;
+            int playerTileX = client.ourPlayer.LocationX / 128;
+            int playerTileY = client.ourPlayer.LocationY / 128;
 
             for (int checkDistance = 2; checkDistance >= 1; checkDistance -= 1)
             {
@@ -674,9 +674,9 @@ namespace OpenRS.Net.Client.World
                             string levelColourCode = "";
                             int levelDifference = 0;
 
-                            if (client.ourPlayer.level > 0 && client.playerArray[entityIndex].level > 0)
+                            if (client.ourPlayer.CombatLevel > 0 && client.playerArray[entityIndex].CombatLevel > 0)
                             {
-                                levelDifference = client.ourPlayer.level - client.playerArray[entityIndex].level;
+                                levelDifference = client.ourPlayer.CombatLevel - client.playerArray[entityIndex].CombatLevel;
                             }
 
                             if (levelDifference < 0)
@@ -719,17 +719,17 @@ namespace OpenRS.Net.Client.World
                                 levelColourCode = "@gre@";
                             }
 
-                            levelColourCode = " " + levelColourCode + "(level-" + client.playerArray[entityIndex].level + ")";
+                            levelColourCode = " " + levelColourCode + "(level-" + client.playerArray[entityIndex].CombatLevel + ")";
                             if (client.selectedSpell >= 0)
                             {
                                 if (client.entityManager.GetSpell(client.selectedSpell).Type == 1 || client.entityManager.GetSpell(client.selectedSpell).Type == 2)
                                 {
                                     client.menuText1[client.menuOptionsCount] = "Cast " + client.entityManager.GetSpell(client.selectedSpell).Name + " on";
-                                    client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].username + levelColourCode;
+                                    client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].Username + levelColourCode;
                                     client.menuActionID[client.menuOptionsCount] = 800;
-                                    client.menuActionX[client.menuOptionsCount] = client.playerArray[entityIndex].currentX;
-                                    client.menuActionY[client.menuOptionsCount] = client.playerArray[entityIndex].currentY;
-                                    client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].serverIndex;
+                                    client.menuActionX[client.menuOptionsCount] = client.playerArray[entityIndex].LocationX;
+                                    client.menuActionY[client.menuOptionsCount] = client.playerArray[entityIndex].LocationY;
+                                    client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].ServerIndex;
                                     client.menuActionVar1[client.menuOptionsCount] = client.selectedSpell;
                                     client.menuOptionsCount += 1;
                                 }
@@ -737,20 +737,20 @@ namespace OpenRS.Net.Client.World
                             else if (client.selectedItem >= 0)
                             {
                                 client.menuText1[client.menuOptionsCount] = "Use " + client.selectedItemName + " with";
-                                client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].username + levelColourCode;
+                                client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].Username + levelColourCode;
                                 client.menuActionID[client.menuOptionsCount] = 810;
-                                client.menuActionX[client.menuOptionsCount] = client.playerArray[entityIndex].currentX;
-                                client.menuActionY[client.menuOptionsCount] = client.playerArray[entityIndex].currentY;
-                                client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].serverIndex;
+                                client.menuActionX[client.menuOptionsCount] = client.playerArray[entityIndex].LocationX;
+                                client.menuActionY[client.menuOptionsCount] = client.playerArray[entityIndex].LocationY;
+                                client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].ServerIndex;
                                 client.menuActionVar1[client.menuOptionsCount] = client.selectedItem;
                                 client.menuOptionsCount += 1;
                             }
                             else
                             {
-                                if (northernWildernessBoundary > 0 && (client.playerArray[entityIndex].currentY - 64) / client.gridSize + client.wildY + client.areaY < 2203)
+                                if (northernWildernessBoundary > 0 && (client.playerArray[entityIndex].LocationY - 64) / client.gridSize + client.wildY + client.areaY < 2203)
                                 {
                                     client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.attack");
-                                    client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].username + levelColourCode;
+                                    client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].Username + levelColourCode;
 
                                     if (levelDifference >= 0 && levelDifference < 5)
                                     {
@@ -761,32 +761,32 @@ namespace OpenRS.Net.Client.World
                                         client.menuActionID[client.menuOptionsCount] = 2805;
                                     }
 
-                                    client.menuActionX[client.menuOptionsCount] = client.playerArray[entityIndex].currentX;
-                                    client.menuActionY[client.menuOptionsCount] = client.playerArray[entityIndex].currentY;
-                                    client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].serverIndex;
+                                    client.menuActionX[client.menuOptionsCount] = client.playerArray[entityIndex].LocationX;
+                                    client.menuActionY[client.menuOptionsCount] = client.playerArray[entityIndex].LocationY;
+                                    client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].ServerIndex;
                                     client.menuOptionsCount += 1;
                                 }
                                 else if (Config.MembersFeatures)
                                 {
                                     client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.duel_with");
-                                    client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].username + levelColourCode;
-                                    client.menuActionX[client.menuOptionsCount] = client.playerArray[entityIndex].currentX;
-                                    client.menuActionY[client.menuOptionsCount] = client.playerArray[entityIndex].currentY;
+                                    client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].Username + levelColourCode;
+                                    client.menuActionX[client.menuOptionsCount] = client.playerArray[entityIndex].LocationX;
+                                    client.menuActionY[client.menuOptionsCount] = client.playerArray[entityIndex].LocationY;
                                     client.menuActionID[client.menuOptionsCount] = 2806;
-                                    client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].serverIndex;
+                                    client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].ServerIndex;
                                     client.menuOptionsCount += 1;
                                 }
 
-                                client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.trade_with");
-                                client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].username + levelColourCode;
+                                client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.barter_with");
+                                client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].Username + levelColourCode;
                                 client.menuActionID[client.menuOptionsCount] = 2810;
-                                client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].serverIndex;
+                                client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].ServerIndex;
                                 client.menuOptionsCount += 1;
 
                                 client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.follow");
-                                client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].username + levelColourCode;
+                                client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].Username + levelColourCode;
                                 client.menuActionID[client.menuOptionsCount] = 2820;
-                                client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].serverIndex;
+                                client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].ServerIndex;
                                 client.menuOptionsCount += 1;
                             }
                         }
@@ -838,7 +838,7 @@ namespace OpenRS.Net.Client.World
                         {
                             string npcLevelColourCode = "";
                             int npcLevelDifference = -1;
-                            int npcId = client.npcArray[entityIndex].npcId;
+                            int npcId = client.npcArray[entityIndex].NpcIdentifier;
 
                             if (client.entityManager.GetNpc(npcId).IsAttackable)
                             {
@@ -895,11 +895,11 @@ namespace OpenRS.Net.Client.World
                                 if (client.entityManager.GetSpell(client.selectedSpell).Type == 2)
                                 {
                                     client.menuText1[client.menuOptionsCount] = "Cast " + client.entityManager.GetSpell(client.selectedSpell).Name + " on";
-                                    client.menuText2[client.menuOptionsCount] = "@yel@" + client.entityManager.GetNpc(client.npcArray[entityIndex].npcId).Name;
+                                    client.menuText2[client.menuOptionsCount] = "@yel@" + client.entityManager.GetNpc(client.npcArray[entityIndex].NpcIdentifier).Name;
                                     client.menuActionID[client.menuOptionsCount] = 700;
-                                    client.menuActionX[client.menuOptionsCount] = client.npcArray[entityIndex].currentX;
-                                    client.menuActionY[client.menuOptionsCount] = client.npcArray[entityIndex].currentY;
-                                    client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].serverIndex;
+                                    client.menuActionX[client.menuOptionsCount] = client.npcArray[entityIndex].LocationX;
+                                    client.menuActionY[client.menuOptionsCount] = client.npcArray[entityIndex].LocationY;
+                                    client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].ServerIndex;
                                     client.menuActionVar1[client.menuOptionsCount] = client.selectedSpell;
                                     client.menuOptionsCount += 1;
                                 }
@@ -907,11 +907,11 @@ namespace OpenRS.Net.Client.World
                             else if (client.selectedItem >= 0)
                             {
                                 client.menuText1[client.menuOptionsCount] = "Use " + client.selectedItemName + " with";
-                                client.menuText2[client.menuOptionsCount] = "@yel@" + client.entityManager.GetNpc(client.npcArray[entityIndex].npcId).Name;
+                                client.menuText2[client.menuOptionsCount] = "@yel@" + client.entityManager.GetNpc(client.npcArray[entityIndex].NpcIdentifier).Name;
                                 client.menuActionID[client.menuOptionsCount] = 710;
-                                client.menuActionX[client.menuOptionsCount] = client.npcArray[entityIndex].currentX;
-                                client.menuActionY[client.menuOptionsCount] = client.npcArray[entityIndex].currentY;
-                                client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].serverIndex;
+                                client.menuActionX[client.menuOptionsCount] = client.npcArray[entityIndex].LocationX;
+                                client.menuActionY[client.menuOptionsCount] = client.npcArray[entityIndex].LocationY;
+                                client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].ServerIndex;
                                 client.menuActionVar1[client.menuOptionsCount] = client.selectedItem;
                                 client.menuOptionsCount += 1;
                             }
@@ -920,7 +920,7 @@ namespace OpenRS.Net.Client.World
                                 if (client.entityManager.GetNpc(npcId).IsAttackable)
                                 {
                                     client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.attack");
-                                    client.menuText2[client.menuOptionsCount] = "@yel@" + client.entityManager.GetNpc(client.npcArray[entityIndex].npcId).Name + npcLevelColourCode;
+                                    client.menuText2[client.menuOptionsCount] = "@yel@" + client.entityManager.GetNpc(client.npcArray[entityIndex].NpcIdentifier).Name + npcLevelColourCode;
 
                                     if (npcLevelDifference >= 0)
                                     {
@@ -931,35 +931,35 @@ namespace OpenRS.Net.Client.World
                                         client.menuActionID[client.menuOptionsCount] = 2715;
                                     }
 
-                                    client.menuActionX[client.menuOptionsCount] = client.npcArray[entityIndex].currentX;
-                                    client.menuActionY[client.menuOptionsCount] = client.npcArray[entityIndex].currentY;
-                                    client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].serverIndex;
+                                    client.menuActionX[client.menuOptionsCount] = client.npcArray[entityIndex].LocationX;
+                                    client.menuActionY[client.menuOptionsCount] = client.npcArray[entityIndex].LocationY;
+                                    client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].ServerIndex;
                                     client.menuOptionsCount += 1;
                                 }
 
                                 client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.talk_to");
-                                client.menuText2[client.menuOptionsCount] = "@yel@" + client.entityManager.GetNpc(client.npcArray[entityIndex].npcId).Name;
+                                client.menuText2[client.menuOptionsCount] = "@yel@" + client.entityManager.GetNpc(client.npcArray[entityIndex].NpcIdentifier).Name;
                                 client.menuActionID[client.menuOptionsCount] = 720;
-                                client.menuActionX[client.menuOptionsCount] = client.npcArray[entityIndex].currentX;
-                                client.menuActionY[client.menuOptionsCount] = client.npcArray[entityIndex].currentY;
-                                client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].serverIndex;
+                                client.menuActionX[client.menuOptionsCount] = client.npcArray[entityIndex].LocationX;
+                                client.menuActionY[client.menuOptionsCount] = client.npcArray[entityIndex].LocationY;
+                                client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].ServerIndex;
                                 client.menuOptionsCount += 1;
 
                                 if (client.entityManager.GetNpc(npcId).Command != "")
                                 {
                                     client.menuText1[client.menuOptionsCount] = client.entityManager.GetNpc(npcId).Command;
-                                    client.menuText2[client.menuOptionsCount] = "@yel@" + client.entityManager.GetNpc(client.npcArray[entityIndex].npcId).Name;
+                                    client.menuText2[client.menuOptionsCount] = "@yel@" + client.entityManager.GetNpc(client.npcArray[entityIndex].NpcIdentifier).Name;
                                     client.menuActionID[client.menuOptionsCount] = 725;
-                                    client.menuActionX[client.menuOptionsCount] = client.npcArray[entityIndex].currentX;
-                                    client.menuActionY[client.menuOptionsCount] = client.npcArray[entityIndex].currentY;
-                                    client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].serverIndex;
+                                    client.menuActionX[client.menuOptionsCount] = client.npcArray[entityIndex].LocationX;
+                                    client.menuActionY[client.menuOptionsCount] = client.npcArray[entityIndex].LocationY;
+                                    client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].ServerIndex;
                                     client.menuOptionsCount += 1;
                                 }
 
                                 client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.examine");
-                                client.menuText2[client.menuOptionsCount] = "@yel@" + client.entityManager.GetNpc(client.npcArray[entityIndex].npcId).Name;
+                                client.menuText2[client.menuOptionsCount] = "@yel@" + client.entityManager.GetNpc(client.npcArray[entityIndex].NpcIdentifier).Name;
                                 client.menuActionID[client.menuOptionsCount] = 3700;
-                                client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].npcId;
+                                client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].NpcIdentifier;
                                 client.menuOptionsCount += 1;
                             }
                         }
@@ -1156,84 +1156,84 @@ namespace OpenRS.Net.Client.World
 
         public void GetMenuHighlighted()
         {
-            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.gameWidth - 35 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.gameWidth - 3 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 && client.mouseY < 35)
             {
                 client.drawMenuTab = 1;
             }
 
-            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.gameWidth - 35 - 33 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.gameWidth - 3 - 33 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 33 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 33 && client.mouseY < 35)
             {
                 client.drawMenuTab = 2;
                 client.minimapRandomRotationX = (int)(Helper.Random.NextDouble() * 13D) - 6;
                 client.minimapRandomRotationY = (int)(Helper.Random.NextDouble() * 23D) - 11;
             }
-            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.gameWidth - 35 - 66 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.gameWidth - 3 - 66 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 66 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 66 && client.mouseY < 35)
             {
                 client.drawMenuTab = 3;
             }
 
-            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.gameWidth - 35 - 99 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.gameWidth - 3 - 99 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 99 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 99 && client.mouseY < 35)
             {
                 client.drawMenuTab = 4;
             }
 
-            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.gameWidth - 35 - 132 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.gameWidth - 3 - 132 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 132 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 132 && client.mouseY < 35)
             {
                 client.drawMenuTab = 5;
             }
 
-            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.gameWidth - 35 - 165 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.gameWidth - 3 - 165 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 165 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 165 && client.mouseY < 35)
             {
                 client.drawMenuTab = 6;
             }
 
-            if (client.drawMenuTab != 0 && client.mouseX >= client.gameGraphics.gameWidth - 35 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.gameWidth - 3 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 && client.mouseY < 26)
             {
                 client.drawMenuTab = 1;
             }
 
-            if (client.drawMenuTab != 0 && client.drawMenuTab != 2 && client.mouseX >= client.gameGraphics.gameWidth - 35 - 33 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.gameWidth - 3 - 33 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.drawMenuTab != 2 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 33 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 33 && client.mouseY < 26)
             {
                 client.drawMenuTab = 2;
                 client.minimapRandomRotationX = (int)(Helper.Random.NextDouble() * 13D) - 6;
                 client.minimapRandomRotationY = (int)(Helper.Random.NextDouble() * 23D) - 11;
             }
-            if (client.drawMenuTab != 0 && client.mouseX >= client.gameGraphics.gameWidth - 35 - 66 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.gameWidth - 3 - 66 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 66 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 66 && client.mouseY < 26)
             {
                 client.drawMenuTab = 3;
             }
 
-            if (client.drawMenuTab != 0 && client.mouseX >= client.gameGraphics.gameWidth - 35 - 99 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.gameWidth - 3 - 99 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 99 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 99 && client.mouseY < 26)
             {
                 client.drawMenuTab = 4;
             }
 
-            if (client.drawMenuTab != 0 && client.mouseX >= client.gameGraphics.gameWidth - 35 - 132 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.gameWidth - 3 - 132 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 132 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 132 && client.mouseY < 26)
             {
                 client.drawMenuTab = 5;
             }
 
-            if (client.drawMenuTab != 0 && client.mouseX >= client.gameGraphics.gameWidth - 35 - 165 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.gameWidth - 3 - 165 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 165 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 165 && client.mouseY < 26)
             {
                 client.drawMenuTab = 6;
             }
 
-            if (client.drawMenuTab == 1 && (client.mouseX < client.gameGraphics.gameWidth - 248 || client.mouseY > 36 + client.maxInventoryItems / 5 * 34))
+            if (client.drawMenuTab == 1 && (client.mouseX < client.gameGraphics.GameWidth - 248 || client.mouseY > 36 + client.maxInventoryItems / 5 * 34))
             {
                 client.drawMenuTab = 0;
             }
 
-            if (client.drawMenuTab == 3 && (client.mouseX < client.gameGraphics.gameWidth - 199 || client.mouseY > 316))
+            if (client.drawMenuTab == 3 && (client.mouseX < client.gameGraphics.GameWidth - 199 || client.mouseY > 316))
             {
                 client.drawMenuTab = 0;
             }
 
-            if ((client.drawMenuTab == 2 || client.drawMenuTab == 4 || client.drawMenuTab == 5) && (client.mouseX < client.gameGraphics.gameWidth - 199 || client.mouseY > 240))
+            if ((client.drawMenuTab == 2 || client.drawMenuTab == 4 || client.drawMenuTab == 5) && (client.mouseX < client.gameGraphics.GameWidth - 199 || client.mouseY > 240))
             {
                 client.drawMenuTab = 0;
             }
 
-            if (client.drawMenuTab == 6 && (client.mouseX < client.gameGraphics.gameWidth - 199 || client.mouseY > 326))
+            if (client.drawMenuTab == 6 && (client.mouseX < client.gameGraphics.GameWidth - 199 || client.mouseY > 326))
             {
                 client.drawMenuTab = 0;
             }
@@ -1287,8 +1287,8 @@ namespace OpenRS.Net.Client.World
                     }
 
                     int len = ChatMessage.StringToBytes(message);
-                    client.CallSendPrivateMessage(recipient, ChatMessage.lastChat, len);
-                    message = ChatMessage.BytesToString(ChatMessage.lastChat, 0, len);
+                    client.CallSendPrivateMessage(recipient, ChatMessage.LastChat, len);
+                    message = ChatMessage.BytesToString(ChatMessage.LastChat, 0, len);
 
                     if (client.useChatFilter && client.textCensor is not null)
                     {

@@ -10,7 +10,6 @@ using NuciLog.Core;
 using OpenRS.Localisation;
 using OpenRS.Logging;
 using OpenRS.Net.Client.Game;
-using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Input
 {
@@ -435,7 +434,7 @@ namespace OpenRS.Net.Client.Input
                 client.logoutTimer -= 1;
             }
 
-            if (client.ourPlayer.currentSprite == 8 || client.ourPlayer.currentSprite == 9)
+            if (client.ourPlayer.CurrentSprite == 8 || client.ourPlayer.CurrentSprite == 9)
             {
                 client.combatTimeout = 500;
             }
@@ -459,12 +458,12 @@ namespace OpenRS.Net.Client.Input
                     continue;
                 }
 
-                int nextWaypointIndex = (player.waypointCurrent + 1) % 10;
+                int nextWaypointIndex = (player.WaypointCurrent + 1) % 10;
 
-                if (player.waypointsEndSprite != nextWaypointIndex)
+                if (player.WaypointsEndSprite != nextWaypointIndex)
                 {
                     int direction = -1;
-                    int targetSprite = player.waypointsEndSprite;
+                    int targetSprite = player.WaypointsEndSprite;
                     int waypointDistance;
 
                     if (targetSprite < nextWaypointIndex)
@@ -483,35 +482,35 @@ namespace OpenRS.Net.Client.Input
                         movementSpeed = (waypointDistance - 1) * 4;
                     }
 
-                    if (player.waypointsX[targetSprite] - player.currentX > client.gridSize * 3 || player.waypointsY[targetSprite] - player.currentY > client.gridSize * 3 || player.waypointsX[targetSprite] - player.currentX < -client.gridSize * 3 || player.waypointsY[targetSprite] - player.currentY < -client.gridSize * 3 || waypointDistance > 8)
+                    if (player.WaypointXPositions[targetSprite] - player.LocationX > client.gridSize * 3 || player.WaypointYPositions[targetSprite] - player.LocationY > client.gridSize * 3 || player.WaypointXPositions[targetSprite] - player.LocationX < -client.gridSize * 3 || player.WaypointYPositions[targetSprite] - player.LocationY < -client.gridSize * 3 || waypointDistance > 8)
                     {
-                        player.currentX = player.waypointsX[targetSprite];
-                        player.currentY = player.waypointsY[targetSprite];
+                        player.LocationX = player.WaypointXPositions[targetSprite];
+                        player.LocationY = player.WaypointYPositions[targetSprite];
                     }
                     else
                     {
-                        if (player.currentX < player.waypointsX[targetSprite])
+                        if (player.LocationX < player.WaypointXPositions[targetSprite])
                         {
-                            player.currentX += movementSpeed;
-                            player.stepCount += 1;
+                            player.LocationX += movementSpeed;
+                            player.StepCount += 1;
                             direction = 2;
                         }
-                        else if (player.currentX > player.waypointsX[targetSprite])
+                        else if (player.LocationX > player.WaypointXPositions[targetSprite])
                         {
-                            player.currentX -= movementSpeed;
-                            player.stepCount += 1;
+                            player.LocationX -= movementSpeed;
+                            player.StepCount += 1;
                             direction = 6;
                         }
 
-                        if (player.currentX - player.waypointsX[targetSprite] < movementSpeed && player.currentX - player.waypointsX[targetSprite] > -movementSpeed)
+                        if (player.LocationX - player.WaypointXPositions[targetSprite] < movementSpeed && player.LocationX - player.WaypointXPositions[targetSprite] > -movementSpeed)
                         {
-                            player.currentX = player.waypointsX[targetSprite];
+                            player.LocationX = player.WaypointXPositions[targetSprite];
                         }
 
-                        if (player.currentY < player.waypointsY[targetSprite])
+                        if (player.LocationY < player.WaypointYPositions[targetSprite])
                         {
-                            player.currentY += movementSpeed;
-                            player.stepCount += 1;
+                            player.LocationY += movementSpeed;
+                            player.StepCount += 1;
 
                             if (direction == -1)
                             {
@@ -526,10 +525,10 @@ namespace OpenRS.Net.Client.Input
                                 direction = 5;
                             }
                         }
-                        else if (player.currentY > player.waypointsY[targetSprite])
+                        else if (player.LocationY > player.WaypointYPositions[targetSprite])
                         {
-                            player.currentY -= movementSpeed;
-                            player.stepCount += 1;
+                            player.LocationY -= movementSpeed;
+                            player.StepCount += 1;
 
                             if (direction == -1)
                             {
@@ -545,38 +544,38 @@ namespace OpenRS.Net.Client.Input
                             }
                         }
 
-                        if (player.currentY - player.waypointsY[targetSprite] < movementSpeed && player.currentY - player.waypointsY[targetSprite] > -movementSpeed)
+                        if (player.LocationY - player.WaypointYPositions[targetSprite] < movementSpeed && player.LocationY - player.WaypointYPositions[targetSprite] > -movementSpeed)
                         {
-                            player.currentY = player.waypointsY[targetSprite];
+                            player.LocationY = player.WaypointYPositions[targetSprite];
                         }
                     }
                     if (direction != -1)
                     {
-                        player.currentSprite = direction;
+                        player.CurrentSprite = direction;
                     }
 
-                    if (player.currentX == player.waypointsX[targetSprite] && player.currentY == player.waypointsY[targetSprite])
+                    if (player.LocationX == player.WaypointXPositions[targetSprite] && player.LocationY == player.WaypointYPositions[targetSprite])
                     {
-                        player.waypointsEndSprite = (targetSprite + 1) % 10;
+                        player.WaypointsEndSprite = (targetSprite + 1) % 10;
                     }
                 }
                 else
                 {
-                    player.currentSprite = player.nextSprite;
+                    player.CurrentSprite = player.NextSprite;
                 }
-                if (player.lastMessageTimeout > 0)
+                if (player.LastMessageTimeout > 0)
                 {
-                    player.lastMessageTimeout -= 1;
-                }
-
-                if (player.playerSkullTimeout > 0)
-                {
-                    player.playerSkullTimeout -= 1;
+                    player.LastMessageTimeout -= 1;
                 }
 
-                if (player.combatTimer > 0)
+                if (player.PlayerSkullTimeout > 0)
                 {
-                    player.combatTimer -= 1;
+                    player.PlayerSkullTimeout -= 1;
+                }
+
+                if (player.CombatTimer > 0)
+                {
+                    player.CombatTimer -= 1;
                 }
 
                 if (client.playerAliveTimeout > 0)
@@ -597,12 +596,12 @@ namespace OpenRS.Net.Client.Input
             for (int npcIndex = 0; npcIndex < client.npcCount; npcIndex += 1)
             {
                 ClientMob npcMob = client.npcArray[npcIndex];
-                int nextWaypointIndex = (npcMob.waypointCurrent + 1) % 10;
+                int nextWaypointIndex = (npcMob.WaypointCurrent + 1) % 10;
 
-                if (npcMob.waypointsEndSprite != nextWaypointIndex)
+                if (npcMob.WaypointsEndSprite != nextWaypointIndex)
                 {
                     int direction = -1;
-                    int targetSprite = npcMob.waypointsEndSprite;
+                    int targetSprite = npcMob.WaypointsEndSprite;
                     int waypointDistance;
 
                     if (targetSprite < nextWaypointIndex)
@@ -621,35 +620,35 @@ namespace OpenRS.Net.Client.Input
                         movementSpeed = (waypointDistance - 1) * 4;
                     }
 
-                    if (npcMob.waypointsX[targetSprite] - npcMob.currentX > client.gridSize * 3 || npcMob.waypointsY[targetSprite] - npcMob.currentY > client.gridSize * 3 || npcMob.waypointsX[targetSprite] - npcMob.currentX < -client.gridSize * 3 || npcMob.waypointsY[targetSprite] - npcMob.currentY < -client.gridSize * 3 || waypointDistance > 8)
+                    if (npcMob.WaypointXPositions[targetSprite] - npcMob.LocationX > client.gridSize * 3 || npcMob.WaypointYPositions[targetSprite] - npcMob.LocationY > client.gridSize * 3 || npcMob.WaypointXPositions[targetSprite] - npcMob.LocationX < -client.gridSize * 3 || npcMob.WaypointYPositions[targetSprite] - npcMob.LocationY < -client.gridSize * 3 || waypointDistance > 8)
                     {
-                        npcMob.currentX = npcMob.waypointsX[targetSprite];
-                        npcMob.currentY = npcMob.waypointsY[targetSprite];
+                        npcMob.LocationX = npcMob.WaypointXPositions[targetSprite];
+                        npcMob.LocationY = npcMob.WaypointYPositions[targetSprite];
                     }
                     else
                     {
-                        if (npcMob.currentX < npcMob.waypointsX[targetSprite])
+                        if (npcMob.LocationX < npcMob.WaypointXPositions[targetSprite])
                         {
-                            npcMob.currentX += movementSpeed;
-                            npcMob.stepCount += 1;
+                            npcMob.LocationX += movementSpeed;
+                            npcMob.StepCount += 1;
                             direction = 2;
                         }
-                        else if (npcMob.currentX > npcMob.waypointsX[targetSprite])
+                        else if (npcMob.LocationX > npcMob.WaypointXPositions[targetSprite])
                         {
-                            npcMob.currentX -= movementSpeed;
-                            npcMob.stepCount += 1;
+                            npcMob.LocationX -= movementSpeed;
+                            npcMob.StepCount += 1;
                             direction = 6;
                         }
 
-                        if (npcMob.currentX - npcMob.waypointsX[targetSprite] < movementSpeed && npcMob.currentX - npcMob.waypointsX[targetSprite] > -movementSpeed)
+                        if (npcMob.LocationX - npcMob.WaypointXPositions[targetSprite] < movementSpeed && npcMob.LocationX - npcMob.WaypointXPositions[targetSprite] > -movementSpeed)
                         {
-                            npcMob.currentX = npcMob.waypointsX[targetSprite];
+                            npcMob.LocationX = npcMob.WaypointXPositions[targetSprite];
                         }
 
-                        if (npcMob.currentY < npcMob.waypointsY[targetSprite])
+                        if (npcMob.LocationY < npcMob.WaypointYPositions[targetSprite])
                         {
-                            npcMob.currentY += movementSpeed;
-                            npcMob.stepCount += 1;
+                            npcMob.LocationY += movementSpeed;
+                            npcMob.StepCount += 1;
 
                             if (direction == -1)
                             {
@@ -664,10 +663,10 @@ namespace OpenRS.Net.Client.Input
                                 direction = 5;
                             }
                         }
-                        else if (npcMob.currentY > npcMob.waypointsY[targetSprite])
+                        else if (npcMob.LocationY > npcMob.WaypointYPositions[targetSprite])
                         {
-                            npcMob.currentY -= movementSpeed;
-                            npcMob.stepCount += 1;
+                            npcMob.LocationY -= movementSpeed;
+                            npcMob.StepCount += 1;
 
                             if (direction == -1)
                             {
@@ -683,96 +682,96 @@ namespace OpenRS.Net.Client.Input
                             }
                         }
 
-                        if (npcMob.currentY - npcMob.waypointsY[targetSprite] < movementSpeed && npcMob.currentY - npcMob.waypointsY[targetSprite] > -movementSpeed)
+                        if (npcMob.LocationY - npcMob.WaypointYPositions[targetSprite] < movementSpeed && npcMob.LocationY - npcMob.WaypointYPositions[targetSprite] > -movementSpeed)
                         {
-                            npcMob.currentY = npcMob.waypointsY[targetSprite];
+                            npcMob.LocationY = npcMob.WaypointYPositions[targetSprite];
                         }
                     }
 
                     if (direction != -1)
                     {
-                        npcMob.currentSprite = direction;
+                        npcMob.CurrentSprite = direction;
                     }
 
-                    if (npcMob.currentX == npcMob.waypointsX[targetSprite] && npcMob.currentY == npcMob.waypointsY[targetSprite])
+                    if (npcMob.LocationX == npcMob.WaypointXPositions[targetSprite] && npcMob.LocationY == npcMob.WaypointYPositions[targetSprite])
                     {
-                        npcMob.waypointsEndSprite = (targetSprite + 1) % 10;
+                        npcMob.WaypointsEndSprite = (targetSprite + 1) % 10;
                     }
                 }
                 else
                 {
-                    npcMob.currentSprite = npcMob.nextSprite;
+                    npcMob.CurrentSprite = npcMob.NextSprite;
 
-                    if (npcMob.npcId == 43)
+                    if (npcMob.NpcIdentifier == 43)
                     {
-                        npcMob.stepCount += 1;
+                        npcMob.StepCount += 1;
                     }
                 }
 
-                if (npcMob.lastMessageTimeout > 0)
+                if (npcMob.LastMessageTimeout > 0)
                 {
-                    npcMob.lastMessageTimeout -= 1;
+                    npcMob.LastMessageTimeout -= 1;
                 }
 
-                if (npcMob.playerSkullTimeout > 0)
+                if (npcMob.PlayerSkullTimeout > 0)
                 {
-                    npcMob.playerSkullTimeout -= 1;
+                    npcMob.PlayerSkullTimeout -= 1;
                 }
 
-                if (npcMob.combatTimer > 0)
+                if (npcMob.CombatTimer > 0)
                 {
-                    npcMob.combatTimer -= 1;
+                    npcMob.CombatTimer -= 1;
                 }
             }
 
             if (client.drawMenuTab != 2)
             {
-                if (GameImage.spiralDrawCount > 0)
+                if (GameImage.SpiralDrawCount > 0)
                 {
                     client.sleepWordDelayTimer += 1;
                 }
 
-                if (GameImage.characterDrawCount > 0)
+                if (GameImage.CharacterDrawCount > 0)
                 {
                     client.sleepWordDelayTimer = 0;
                 }
 
-                GameImage.spiralDrawCount = 0;
-                GameImage.characterDrawCount = 0;
+                GameImage.SpiralDrawCount = 0;
+                GameImage.CharacterDrawCount = 0;
             }
             for (int playerIndex = 0; playerIndex < client.playerCount; playerIndex += 1)
             {
                 ClientMob player = client.playerArray[playerIndex];
 
-                if (player.projectileDistance > 0)
+                if (player.ProjectileDistance > 0)
                 {
-                    player.projectileDistance -= 1;
+                    player.ProjectileDistance -= 1;
                 }
             }
 
             if (client.cameraAutoAngleDebug)
             {
-                if (client.cameraAutoRotatePlayerX - client.ourPlayer.currentX < -500 || client.cameraAutoRotatePlayerX - client.ourPlayer.currentX > 500 || client.cameraAutoRotatePlayerY - client.ourPlayer.currentY < -500 || client.cameraAutoRotatePlayerY - client.ourPlayer.currentY > 500)
+                if (client.cameraAutoRotatePlayerX - client.ourPlayer.LocationX < -500 || client.cameraAutoRotatePlayerX - client.ourPlayer.LocationX > 500 || client.cameraAutoRotatePlayerY - client.ourPlayer.LocationY < -500 || client.cameraAutoRotatePlayerY - client.ourPlayer.LocationY > 500)
                 {
-                    client.cameraAutoRotatePlayerX = client.ourPlayer.currentX;
-                    client.cameraAutoRotatePlayerY = client.ourPlayer.currentY;
+                    client.cameraAutoRotatePlayerX = client.ourPlayer.LocationX;
+                    client.cameraAutoRotatePlayerY = client.ourPlayer.LocationY;
                 }
             }
             else
             {
-                if (client.cameraAutoRotatePlayerX - client.ourPlayer.currentX < -500 || client.cameraAutoRotatePlayerX - client.ourPlayer.currentX > 500 || client.cameraAutoRotatePlayerY - client.ourPlayer.currentY < -500 || client.cameraAutoRotatePlayerY - client.ourPlayer.currentY > 500)
+                if (client.cameraAutoRotatePlayerX - client.ourPlayer.LocationX < -500 || client.cameraAutoRotatePlayerX - client.ourPlayer.LocationX > 500 || client.cameraAutoRotatePlayerY - client.ourPlayer.LocationY < -500 || client.cameraAutoRotatePlayerY - client.ourPlayer.LocationY > 500)
                 {
-                    client.cameraAutoRotatePlayerX = client.ourPlayer.currentX;
-                    client.cameraAutoRotatePlayerY = client.ourPlayer.currentY;
+                    client.cameraAutoRotatePlayerX = client.ourPlayer.LocationX;
+                    client.cameraAutoRotatePlayerY = client.ourPlayer.LocationY;
                 }
-                if (client.cameraAutoRotatePlayerX != client.ourPlayer.currentX)
+                if (client.cameraAutoRotatePlayerX != client.ourPlayer.LocationX)
                 {
-                    client.cameraAutoRotatePlayerX += (client.ourPlayer.currentX - client.cameraAutoRotatePlayerX) / (16 + (client.cameraDistance - 500) / 15);
+                    client.cameraAutoRotatePlayerX += (client.ourPlayer.LocationX - client.cameraAutoRotatePlayerX) / (16 + (client.cameraDistance - 500) / 15);
                 }
 
-                if (client.cameraAutoRotatePlayerY != client.ourPlayer.currentY)
+                if (client.cameraAutoRotatePlayerY != client.ourPlayer.LocationY)
                 {
-                    client.cameraAutoRotatePlayerY += (client.ourPlayer.currentY - client.cameraAutoRotatePlayerY) / (16 + (client.cameraDistance - 500) / 15);
+                    client.cameraAutoRotatePlayerY += (client.ourPlayer.LocationY - client.cameraAutoRotatePlayerY) / (16 + (client.cameraDistance - 500) / 15);
                 }
 
                 if (client.configCameraAutoAngle)
@@ -916,11 +915,11 @@ namespace OpenRS.Net.Client.Input
                 else
                 {
                     int chatMessageLength = ChatMessage.StringToBytes(input);
-                    client.CallSendChatMessage(ChatMessage.lastChat, chatMessageLength);
-                    input = ChatMessage.BytesToString(ChatMessage.lastChat, 0, chatMessageLength);
-                    client.ourPlayer.lastMessageTimeout = 150;
-                    client.ourPlayer.lastMessage = input;
-                    client.DisplayMessage(client.ourPlayer.username + ": " + input, 2);
+                    client.CallSendChatMessage(ChatMessage.LastChat, chatMessageLength);
+                    input = ChatMessage.BytesToString(ChatMessage.LastChat, 0, chatMessageLength);
+                    client.ourPlayer.LastMessageTimeout = 150;
+                    client.ourPlayer.LastMessage = input;
+                    client.DisplayMessage(client.ourPlayer.Username + ": " + input, 2);
                 }
             }
             if (client.messagesTab == 0)

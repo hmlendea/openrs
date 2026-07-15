@@ -1,6 +1,7 @@
 [
   {
     "id": "0",
+    "v1Id": 0,
     "name": "npc.unicorn.name",
     "description": "npc.unicorn.description",
     "command": "command.none",
@@ -37,6 +38,7 @@
   },
   {
     "id": "1",
+    "v1Id": 1,
     "name": "npc.1.name",
     "description": "description.an_axe_seller",
     "command": "command.none",
@@ -73,8 +75,9 @@
   },
   {
     "id": "2",
-    "name": "npc.2.name",
-    "description": "npc.2.description",
+    "v1Id": 2,
+    "name": "npc.sheep.name",
+    "description": "npc.sheep.description",
     "command": "command.none",
     "sprites": [
       129,
@@ -109,6 +112,7 @@
   },
   {
     "id": "3",
+    "v1Id": 3,
     "name": "name.chicken",
     "description": "description.yep_definitely_a_chicken",
     "command": "command.none",
@@ -145,6 +149,7 @@
   },
   {
     "id": "4",
+    "v1Id": 4,
     "name": "npc.goblin.name",
     "description": "description.an_ugly_green_creature",
     "command": "command.none",
@@ -181,6 +186,7 @@
   },
   {
     "id": "5",
+    "v1Id": 5,
     "name": "npc.5.name",
     "description": "npc.5.description",
     "command": "command.none",
@@ -217,6 +223,7 @@
   },
   {
     "id": "6",
+    "v1Id": 6,
     "name": "npc.cow.name",
     "description": "npc.6.description",
     "command": "command.none",
@@ -253,6 +260,7 @@
   },
   {
     "id": "7",
+    "v1Id": 7,
     "name": "npc.7.name",
     "description": "npc.7.description",
     "command": "command.none",
@@ -289,6 +297,7 @@
   },
   {
     "id": "8",
+    "v1Id": 8,
     "name": "npc.bear.name",
     "description": "description.eek_a_bear",
     "command": "command.none",
@@ -325,6 +334,7 @@
   },
   {
     "id": "9",
+    "v1Id": 9,
     "name": "npc.9.name",
     "description": "npc.9.description",
     "command": "command.none",
@@ -361,6 +371,7 @@
   },
   {
     "id": "10",
+    "v1Id": 10,
     "name": "npc.10.name",
     "description": "npc.10.description",
     "command": "command.none",
@@ -397,6 +408,7 @@
   },
   {
     "id": "11",
+    "v1Id": 11,
     "name": "npc.person_male.name",
     "description": "npc.person_male.description",
     "command": "command.pickpocket",
@@ -433,6 +445,7 @@
   },
   {
     "id": "12",
+    "v1Id": 12,
     "name": "npc.bartender.name",
     "description": "description.i_could_get_a_beer",
     "command": "command.none",
@@ -469,6 +482,7 @@
   },
   {
     "id": "13",
+    "v1Id": 13,
     "name": "npc.camel.name",
     "description": "npc.camel.description",
     "command": "command.none",
@@ -505,6 +519,7 @@
   },
   {
     "id": "14",
+    "v1Id": 14,
     "name": "npc.14.name",
     "description": "npc.14.description",
     "command": "command.none",
@@ -541,6 +556,7 @@
   },
   {
     "id": "15",
+    "v1Id": 15,
     "name": "npc.ghost.name",
     "description": "description.ooh_spooky",
     "command": "command.none",
@@ -577,6 +593,7 @@
   },
   {
     "id": "16",
+    "v1Id": 16,
     "name": "npc.16.name",
     "description": "npc.16.description",
     "command": "command.none",
@@ -613,7 +630,8 @@
   },
   {
     "id": "17",
-    "name": "npc.17.name",
+    "v1Id": 17,
+    "name": "npc.traiborn_the_wizard.name",
     "description": "description.an_old_wizard",
     "command": "command.none",
     "sprites": [
@@ -649,8 +667,9 @@
   },
   {
     "id": "18",
-    "name": "npc.18.name",
-    "description": "npc.18.description",
+    "v1Id": 18,
+    "name": "npc.captain_rovin.name",
+    "description": "npc.captain_rovin.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -685,6 +704,7 @@
   },
   {
     "id": "19",
+    "v1Id": 19,
     "name": "npc.rat.name",
     "description": "description.overgrown_vermin",
     "command": "command.none",
@@ -721,8 +741,9 @@
   },
   {
     "id": "20",
-    "name": "npc.20.name",
-    "description": "npc.20.description",
+    "v1Id": 20,
+    "name": "npc.reldo.name",
+    "description": "npc.reldo.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -757,6 +778,7 @@
   },
   {
     "id": "21",
+    "v1Id": 21,
     "name": "npc.21.name",
     "description": "npc.21.description",
     "command": "command.none",
@@ -793,6 +815,7 @@
   },
   {
     "id": "22",
+    "v1Id": 22,
     "name": "npc.lesser_demon.name",
     "description": "npc.lesser_demon.description",
     "command": "command.none",
@@ -829,6 +852,7 @@
   },
   {
     "id": "23",
+    "v1Id": 23,
     "name": "npc.giant_spider.name",
     "description": "description.i_think_this_spider_has",
     "command": "command.none",
@@ -865,6 +889,7 @@
   },
   {
     "id": "24",
+    "v1Id": 24,
     "name": "npc.person_male.name",
     "description": "npc.person_male_shifty.description",
     "command": "command.none",
@@ -901,6 +926,7 @@
   },
   {
     "id": "25",
+    "v1Id": 25,
     "name": "npc.25.name",
     "description": "npc.25.description",
     "command": "command.none",
@@ -937,6 +963,7 @@
   },
   {
     "id": "26",
+    "v1Id": 26,
     "name": "npc.baraek.name",
     "description": "npc.baraek.description",
     "command": "command.none",
@@ -973,6 +1000,7 @@
   },
   {
     "id": "27",
+    "v1Id": 27,
     "name": "npc.katrine.name",
     "description": "npc.katrine.description",
     "command": "command.none",
@@ -1009,6 +1037,7 @@
   },
   {
     "id": "28",
+    "v1Id": 28,
     "name": "npc.28.name",
     "description": "description.a_scruffy_looking_chap",
     "command": "command.none",
@@ -1045,6 +1074,7 @@
   },
   {
     "id": "29",
+    "v1Id": 29,
     "name": "npc.rat.name",
     "description": "npc.29.description",
     "command": "command.none",
@@ -1081,6 +1111,7 @@
   },
   {
     "id": "30",
+    "v1Id": 30,
     "name": "npc.30.name",
     "description": "npc.30.description",
     "command": "command.none",
@@ -1117,6 +1148,7 @@
   },
   {
     "id": "31",
+    "v1Id": 31,
     "name": "npc.31.name",
     "description": "npc.31.description",
     "command": "command.none",
@@ -1153,6 +1185,7 @@
   },
   {
     "id": "32",
+    "v1Id": 32,
     "name": "npc.32.name",
     "description": "npc.32.description",
     "command": "command.none",
@@ -1189,6 +1222,7 @@
   },
   {
     "id": "33",
+    "v1Id": 33,
     "name": "npc.33.name",
     "description": "npc.33.description",
     "command": "command.none",
@@ -1225,6 +1259,7 @@
   },
   {
     "id": "34",
+    "v1Id": 34,
     "name": "npc.34.name",
     "description": "npc.34.description",
     "command": "command.none",
@@ -1261,6 +1296,7 @@
   },
   {
     "id": "35",
+    "v1Id": 35,
     "name": "npc.35.name",
     "description": "description.a_freshly_summoned_demon",
     "command": "command.none",
@@ -1297,6 +1333,7 @@
   },
   {
     "id": "36",
+    "v1Id": 36,
     "name": "npc.36.name",
     "description": "description.she_doesnt_look_too_happy",
     "command": "command.none",
@@ -1333,6 +1370,7 @@
   },
   {
     "id": "37",
+    "v1Id": 37,
     "name": "npc.37.name",
     "description": "npc.37.description",
     "command": "command.none",
@@ -1369,8 +1407,9 @@
   },
   {
     "id": "38",
-    "name": "npc.38.name",
-    "description": "npc.38.description",
+    "v1Id": 38,
+    "name": "npc.professor_oddenstein.name",
+    "description": "npc.professor_oddenstein.description",
     "command": "command.none",
     "sprites": [
       7,
@@ -1405,6 +1444,7 @@
   },
   {
     "id": "39",
+    "v1Id": 39,
     "name": "npc.39.name",
     "description": "npc.39.description",
     "command": "command.none",
@@ -1441,6 +1481,7 @@
   },
   {
     "id": "40",
+    "v1Id": 40,
     "name": "npc.skeleton.name",
     "description": "description.it_rattles_as_it_walks",
     "command": "command.none",
@@ -1477,6 +1518,7 @@
   },
   {
     "id": "41",
+    "v1Id": 41,
     "name": "npc.zombie.name",
     "description": "description.the_living_dead",
     "command": "command.none",
@@ -1513,8 +1555,9 @@
   },
   {
     "id": "42",
-    "name": "npc.42.name",
-    "description": "npc.42.description",
+    "v1Id": 42,
+    "name": "npc.king_roald.name",
+    "description": "npc.king_roald.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -1549,6 +1592,7 @@
   },
   {
     "id": "43",
+    "v1Id": 43,
     "name": "npc.giant_bat.name",
     "description": "npc.giant_bat.description",
     "command": "command.none",
@@ -1585,6 +1629,7 @@
   },
   {
     "id": "44",
+    "v1Id": 44,
     "name": "npc.bartender.name",
     "description": "npc.44.description",
     "command": "command.none",
@@ -1621,6 +1666,7 @@
   },
   {
     "id": "45",
+    "v1Id": 45,
     "name": "npc.skeleton.name",
     "description": "description.it_rattles_as_it_walks",
     "command": "command.none",
@@ -1657,6 +1703,7 @@
   },
   {
     "id": "46",
+    "v1Id": 46,
     "name": "npc.skeleton.name",
     "description": "description.it_rattles_as_it_walks",
     "command": "command.none",
@@ -1693,6 +1740,7 @@
   },
   {
     "id": "47",
+    "v1Id": 47,
     "name": "npc.rat.name",
     "description": "description.overgrown_vermin",
     "command": "command.none",
@@ -1729,6 +1777,7 @@
   },
   {
     "id": "48",
+    "v1Id": 48,
     "name": "npc.48.name",
     "description": "npc.48.description",
     "command": "command.none",
@@ -1765,6 +1814,7 @@
   },
   {
     "id": "49",
+    "v1Id": 49,
     "name": "npc.bear.name",
     "description": "npc.49.description",
     "command": "command.none",
@@ -1801,6 +1851,7 @@
   },
   {
     "id": "50",
+    "v1Id": 50,
     "name": "npc.skeleton.name",
     "description": "description.it_rattles_when_it_walks",
     "command": "command.none",
@@ -1837,8 +1888,9 @@
   },
   {
     "id": "51",
+    "v1Id": 51,
     "name": "npc.merchant.name",
-    "description": "description.maybe_hed_like_to_buy",
+    "description": "npc.merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -1873,6 +1925,7 @@
   },
   {
     "id": "52",
+    "v1Id": 52,
     "name": "npc.zombie.name",
     "description": "description.the_living_dead",
     "command": "command.none",
@@ -1909,6 +1962,7 @@
   },
   {
     "id": "53",
+    "v1Id": 53,
     "name": "npc.ghost.name",
     "description": "description.ooh_spooky",
     "command": "command.none",
@@ -1945,6 +1999,7 @@
   },
   {
     "id": "54",
+    "v1Id": 54,
     "name": "npc.54.name",
     "description": "npc.54.description",
     "command": "command.none",
@@ -1981,6 +2036,7 @@
   },
   {
     "id": "55",
+    "v1Id": 55,
     "name": "npc.merchant.name",
     "description": "description.i_wonder_what_hes_got",
     "command": "command.none",
@@ -2017,6 +2073,7 @@
   },
   {
     "id": "56",
+    "v1Id": 56,
     "name": "npc.merchant.name",
     "description": "description.i_can_buy_swords_off",
     "command": "command.none",
@@ -2053,6 +2110,7 @@
   },
   {
     "id": "57",
+    "v1Id": 57,
     "name": "npc.dark_wizard.name",
     "description": "description.he_works_evil_magic",
     "command": "command.none",
@@ -2089,7 +2147,8 @@
   },
   {
     "id": "58",
-    "name": "npc.58.name",
+    "v1Id": 58,
+    "name": "npc.lowe.name",
     "description": "description.the_owner_of_the_archery",
     "command": "command.none",
     "sprites": [
@@ -2125,8 +2184,9 @@
   },
   {
     "id": "59",
-    "name": "npc.59.name",
-    "description": "npc.59.description",
+    "v1Id": 59,
+    "name": "npc.thessalia.name",
+    "description": "npc.thessalia.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -2161,6 +2221,7 @@
   },
   {
     "id": "60",
+    "v1Id": 60,
     "name": "npc.dark_wizard.name",
     "description": "description.he_works_evil_magic",
     "command": "command.none",
@@ -2197,6 +2258,7 @@
   },
   {
     "id": "61",
+    "v1Id": 61,
     "name": "npc.giant.name",
     "description": "npc.giant.description",
     "command": "command.none",
@@ -2233,6 +2295,7 @@
   },
   {
     "id": "62",
+    "v1Id": 62,
     "name": "npc.goblin.name",
     "description": "description.an_ugly_green_creature",
     "command": "command.none",
@@ -2269,6 +2332,7 @@
   },
   {
     "id": "63",
+    "v1Id": 63,
     "name": "npc.farmer.name",
     "description": "npc.63.description",
     "command": "command.pickpocket",
@@ -2305,6 +2369,7 @@
   },
   {
     "id": "64",
+    "v1Id": 64,
     "name": "npc.thief.name",
     "description": "npc.64.description",
     "command": "command.none",
@@ -2341,6 +2406,7 @@
   },
   {
     "id": "65",
+    "v1Id": 65,
     "name": "npc.guard.name",
     "description": "description.he_tries_to_keep_order",
     "command": "command.pickpocket",
@@ -2377,8 +2443,9 @@
   },
   {
     "id": "66",
+    "v1Id": 66,
     "name": "npc.black_knight.name",
-    "description": "description.a_sinister_looking_knight",
+    "description": "npc.black_knight.description",
     "command": "command.none",
     "sprites": [
       18,
@@ -2413,6 +2480,7 @@
   },
   {
     "id": "67",
+    "v1Id": 67,
     "name": "npc.hobgoblin.name",
     "description": "npc.67.description",
     "command": "command.none",
@@ -2449,6 +2517,7 @@
   },
   {
     "id": "68",
+    "v1Id": 68,
     "name": "npc.zombie.name",
     "description": "description.the_living_dead",
     "command": "command.none",
@@ -2485,6 +2554,7 @@
   },
   {
     "id": "69",
+    "v1Id": 69,
     "name": "npc.zaff.name",
     "description": "npc.zaff.description",
     "command": "command.none",
@@ -2521,6 +2591,7 @@
   },
   {
     "id": "70",
+    "v1Id": 70,
     "name": "npc.scorpion.name",
     "description": "npc.70.description",
     "command": "command.none",
@@ -2557,8 +2628,9 @@
   },
   {
     "id": "71",
+    "v1Id": 71,
     "name": "npc.silk_merchant.name",
-    "description": "npc.silk_merchant.description",
+    "description": "npc.silk_merchant_who_sells.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -2593,6 +2665,7 @@
   },
   {
     "id": "72",
+    "v1Id": 72,
     "name": "npc.person_male.name",
     "description": "npc.person_male.description",
     "command": "command.pickpocket",
@@ -2629,6 +2702,7 @@
   },
   {
     "id": "73",
+    "v1Id": 73,
     "name": "npc.guide.name",
     "description": "npc.73.description",
     "command": "command.none",
@@ -2665,6 +2739,7 @@
   },
   {
     "id": "74",
+    "v1Id": 74,
     "name": "npc.giant_spider.name",
     "description": "description.i_think_this_spider_has",
     "command": "command.none",
@@ -2701,8 +2776,9 @@
   },
   {
     "id": "75",
-    "name": "npc.75.name",
-    "description": "npc.75.description",
+    "v1Id": 75,
+    "name": "npc.peksa.name",
+    "description": "npc.peksa.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -2737,8 +2813,9 @@
   },
   {
     "id": "76",
-    "name": "npc.76.name",
-    "description": "description.not_civilised_looking",
+    "v1Id": 76,
+    "name": "npc.barbarian.name",
+    "description": "npc.barbarian.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -2773,8 +2850,9 @@
   },
   {
     "id": "77",
-    "name": "npc.77.name",
-    "description": "npc.77.description",
+    "v1Id": 77,
+    "name": "npc.fred_the_farmer.name",
+    "description": "npc.fred_the_farmer.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -2809,8 +2887,9 @@
   },
   {
     "id": "78",
-    "name": "npc.78.name",
-    "description": "npc.78.description",
+    "v1Id": 78,
+    "name": "npc.gunthor_the_brave.name",
+    "description": "npc.gunthor_the_brave.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -2845,6 +2924,7 @@
   },
   {
     "id": "79",
+    "v1Id": 79,
     "name": "npc.witch.name",
     "description": "description.shes_got_warts",
     "command": "command.none",
@@ -2881,6 +2961,7 @@
   },
   {
     "id": "80",
+    "v1Id": 80,
     "name": "npc.ghost.name",
     "description": "description.ooh_spooky",
     "command": "command.none",
@@ -2917,6 +2998,7 @@
   },
   {
     "id": "81",
+    "v1Id": 81,
     "name": "npc.wizard.name",
     "description": "description.an_old_wizard",
     "command": "command.none",
@@ -2953,8 +3035,9 @@
   },
   {
     "id": "82",
+    "v1Id": 82,
     "name": "npc.shop_assistant.name",
-    "description": "description.maybe_hed_like_to_buy",
+    "description": "npc.merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -2989,8 +3072,9 @@
   },
   {
     "id": "83",
+    "v1Id": 83,
     "name": "npc.shop_assistant.name",
-    "description": "description.maybe_hed_like_to_buy",
+    "description": "npc.merchant.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -3025,6 +3109,7 @@
   },
   {
     "id": "84",
+    "v1Id": 84,
     "name": "npc.84.name",
     "description": "npc.84.description",
     "command": "command.none",
@@ -3061,6 +3146,7 @@
   },
   {
     "id": "85",
+    "v1Id": 85,
     "name": "npc.85.name",
     "description": "npc.85.description",
     "command": "command.none",
@@ -3097,6 +3183,7 @@
   },
   {
     "id": "86",
+    "v1Id": 86,
     "name": "npc.warrior.name",
     "description": "npc.86.description",
     "command": "command.pickpocket",
@@ -3133,6 +3220,7 @@
   },
   {
     "id": "87",
+    "v1Id": 87,
     "name": "npc.merchant.name",
     "description": "description.i_wonder_what_hes_got",
     "command": "command.none",
@@ -3169,6 +3257,7 @@
   },
   {
     "id": "88",
+    "v1Id": 88,
     "name": "npc.shop_assistant.name",
     "description": "npc.88.description",
     "command": "command.none",
@@ -3205,6 +3294,7 @@
   },
   {
     "id": "89",
+    "v1Id": 89,
     "name": "npc.89.name",
     "description": "npc.89.description",
     "command": "command.none",
@@ -3241,6 +3331,7 @@
   },
   {
     "id": "90",
+    "v1Id": 90,
     "name": "npc.90.name",
     "description": "npc.90.description",
     "command": "command.none",
@@ -3277,6 +3368,7 @@
   },
   {
     "id": "91",
+    "v1Id": 91,
     "name": "name.chicken",
     "description": "description.yep_definitely_a_chicken",
     "command": "command.none",
@@ -3313,6 +3405,7 @@
   },
   {
     "id": "92",
+    "v1Id": 92,
     "name": "npc.92.name",
     "description": "npc.92.description",
     "command": "command.none",
@@ -3349,6 +3442,7 @@
   },
   {
     "id": "93",
+    "v1Id": 93,
     "name": "npc.93.name",
     "description": "description.a_peaceful_monk",
     "command": "command.none",
@@ -3385,6 +3479,7 @@
   },
   {
     "id": "94",
+    "v1Id": 94,
     "name": "npc.dwarf.name",
     "description": "description.a_short_angry_guy",
     "command": "command.none",
@@ -3421,6 +3516,7 @@
   },
   {
     "id": "95",
+    "v1Id": 95,
     "name": "npc.banker.name",
     "description": "description.he_can_look_after_my",
     "command": "command.none",
@@ -3457,6 +3553,7 @@
   },
   {
     "id": "96",
+    "v1Id": 96,
     "name": "npc.96.name",
     "description": "npc.96.description",
     "command": "command.none",
@@ -3493,6 +3590,7 @@
   },
   {
     "id": "97",
+    "v1Id": 97,
     "name": "npc.morgan.name",
     "description": "npc.morgan.description",
     "command": "command.none",
@@ -3529,6 +3627,7 @@
   },
   {
     "id": "98",
+    "v1Id": 98,
     "name": "npc.98.name",
     "description": "npc.98.description",
     "command": "command.none",
@@ -3565,6 +3664,7 @@
   },
   {
     "id": "99",
+    "v1Id": 99,
     "name": "npc.99.name",
     "description": "description.i_think_this_spider_has",
     "command": "command.none",
@@ -3601,6 +3701,7 @@
   },
   {
     "id": "100",
+    "v1Id": 100,
     "name": "npc.guard.name",
     "description": "npc.100.description",
     "command": "command.pickpocket",
@@ -3637,6 +3738,7 @@
   },
   {
     "id": "101",
+    "v1Id": 101,
     "name": "npc.101.name",
     "description": "npc.101.description",
     "command": "command.none",
@@ -3673,6 +3775,7 @@
   },
   {
     "id": "102",
+    "v1Id": 102,
     "name": "npc.102.name",
     "description": "npc.102.description",
     "command": "command.none",
@@ -3709,6 +3812,7 @@
   },
   {
     "id": "103",
+    "v1Id": 103,
     "name": "npc.103.name",
     "description": "description.a_merchant_of_some_sort",
     "command": "command.none",
@@ -3745,6 +3849,7 @@
   },
   {
     "id": "104",
+    "v1Id": 104,
     "name": "npc.moss_giant.name",
     "description": "description.his_beard_seems_to_have",
     "command": "command.none",
@@ -3781,6 +3886,7 @@
   },
   {
     "id": "105",
+    "v1Id": 105,
     "name": "npc.merchant.name",
     "description": "description.i_wonder_what_hes_got",
     "command": "command.none",
@@ -3817,8 +3923,9 @@
   },
   {
     "id": "106",
+    "v1Id": 106,
     "name": "npc.shop_assistant.name",
-    "description": "description.maybe_hed_like_to_buy",
+    "description": "npc.merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -3853,6 +3960,7 @@
   },
   {
     "id": "107",
+    "v1Id": 107,
     "name": "npc.witch.name",
     "description": "description.shes_got_warts",
     "command": "command.none",
@@ -3889,8 +3997,9 @@
   },
   {
     "id": "108",
+    "v1Id": 108,
     "name": "npc.black_knight.name",
-    "description": "description.a_sinister_looking_knight",
+    "description": "npc.black_knight.description",
     "command": "command.none",
     "sprites": [
       18,
@@ -3925,6 +4034,7 @@
   },
   {
     "id": "109",
+    "v1Id": 109,
     "name": "npc.109.name",
     "description": "npc.109.description",
     "command": "command.none",
@@ -3961,6 +4071,7 @@
   },
   {
     "id": "110",
+    "v1Id": 110,
     "name": "npc.110.name",
     "description": "npc.110.description",
     "command": "command.none",
@@ -3997,6 +4108,7 @@
   },
   {
     "id": "111",
+    "v1Id": 111,
     "name": "npc.111.name",
     "description": "npc.111.description",
     "command": "command.none",
@@ -4033,6 +4145,7 @@
   },
   {
     "id": "112",
+    "v1Id": 112,
     "name": "npc.112.name",
     "description": "npc.112.description",
     "command": "command.none",
@@ -4069,6 +4182,7 @@
   },
   {
     "id": "113",
+    "v1Id": 113,
     "name": "npc.113.name",
     "description": "npc.113.description",
     "command": "command.none",
@@ -4105,6 +4219,7 @@
   },
   {
     "id": "114",
+    "v1Id": 114,
     "name": "npc.114.name",
     "description": "npc.114.description",
     "command": "command.none",
@@ -4141,6 +4256,7 @@
   },
   {
     "id": "115",
+    "v1Id": 115,
     "name": "npc.115.name",
     "description": "npc.115.description",
     "command": "command.none",
@@ -4177,6 +4293,7 @@
   },
   {
     "id": "116",
+    "v1Id": 116,
     "name": "npc.116.name",
     "description": "description.an_old_gardener",
     "command": "command.none",
@@ -4213,7 +4330,8 @@
   },
   {
     "id": "117",
-    "name": "npc.117.name",
+    "v1Id": 117,
+    "name": "npc.wizard_mizgog.name",
     "description": "description.an_old_wizard",
     "command": "command.none",
     "sprites": [
@@ -4249,8 +4367,9 @@
   },
   {
     "id": "118",
+    "v1Id": 118,
     "name": "npc.prince_ali.name",
-    "description": "npc.118.description",
+    "description": "npc.young_prince.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -4285,8 +4404,9 @@
   },
   {
     "id": "119",
-    "name": "npc.119.name",
-    "description": "npc.119.description",
+    "v1Id": 119,
+    "name": "npc.hassan.name",
+    "description": "npc.hassan.description",
     "command": "command.none",
     "sprites": [
       7,
@@ -4321,8 +4441,9 @@
   },
   {
     "id": "120",
-    "name": "npc.120.name",
-    "description": "npc.120.description",
+    "v1Id": 120,
+    "name": "npc.osman.name",
+    "description": "npc.osman.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -4357,8 +4478,9 @@
   },
   {
     "id": "121",
-    "name": "npc.121.name",
-    "description": "npc.121.description",
+    "v1Id": 121,
+    "name": "npc.joe.name",
+    "description": "npc.joe.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -4393,8 +4515,9 @@
   },
   {
     "id": "122",
-    "name": "npc.122.name",
-    "description": "npc.122.description",
+    "v1Id": 122,
+    "name": "npc.leela.name",
+    "description": "npc.leela.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -4429,8 +4552,9 @@
   },
   {
     "id": "123",
-    "name": "npc.123.name",
-    "description": "npc.123.description",
+    "v1Id": 123,
+    "name": "npc.lady_keli.name",
+    "description": "npc.lady_keli.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -4465,8 +4589,9 @@
   },
   {
     "id": "124",
+    "v1Id": 124,
     "name": "npc.ned.name",
-    "description": "description.an_old_sailor",
+    "description": "npc.aged_sailor.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -4501,8 +4626,9 @@
   },
   {
     "id": "125",
-    "name": "npc.125.name",
-    "description": "description.a_witch",
+    "v1Id": 125,
+    "name": "npc.aggie.name",
+    "description": "npc.witch.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -4537,6 +4663,7 @@
   },
   {
     "id": "126",
+    "v1Id": 126,
     "name": "npc.prince_ali.name",
     "description": "npc.126.description",
     "command": "command.none",
@@ -4573,8 +4700,9 @@
   },
   {
     "id": "127",
-    "name": "npc.127.name",
-    "description": "npc.127.description",
+    "v1Id": 127,
+    "name": "npc.prison_guard.name",
+    "description": "npc.prison_guard.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -4609,8 +4737,9 @@
   },
   {
     "id": "128",
-    "name": "npc.128.name",
-    "description": "npc.128.description",
+    "v1Id": 128,
+    "name": "npc.redbeard_frank.name",
+    "description": "npc.redbeard_frank.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -4645,8 +4774,9 @@
   },
   {
     "id": "129",
-    "name": "npc.129.name",
-    "description": "npc.129.description",
+    "v1Id": 129,
+    "name": "npc.wydin.name",
+    "description": "npc.wydin.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -4681,6 +4811,7 @@
   },
   {
     "id": "130",
+    "v1Id": 130,
     "name": "npc.shop_assistant.name",
     "description": "description.i_can_buy_swords_off",
     "command": "command.none",
@@ -4717,7 +4848,8 @@
   },
   {
     "id": "131",
-    "name": "npc.131.name",
+    "v1Id": 131,
+    "name": "npc.brian.name",
     "description": "description.an_axe_seller",
     "command": "command.none",
     "sprites": [
@@ -4753,7 +4885,8 @@
   },
   {
     "id": "132",
-    "name": "npc.132.name",
+    "v1Id": 132,
+    "name": "npc.squire.name",
     "description": "description.a_young_squire",
     "command": "command.none",
     "sprites": [
@@ -4789,8 +4922,9 @@
   },
   {
     "id": "133",
-    "name": "npc.133.name",
-    "description": "npc.133.description",
+    "v1Id": 133,
+    "name": "npc.head_chef.name",
+    "description": "npc.head_chef.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -4825,6 +4959,7 @@
   },
   {
     "id": "134",
+    "v1Id": 134,
     "name": "npc.134.name",
     "description": "description.a_short_angry_guy",
     "command": "command.none",
@@ -4861,8 +4996,9 @@
   },
   {
     "id": "135",
-    "name": "npc.135.name",
-    "description": "npc.135.description",
+    "v1Id": 135,
+    "name": "npc.ice_giant.name",
+    "description": "npc.ice_giant.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -4897,6 +5033,7 @@
   },
   {
     "id": "136",
+    "v1Id": 136,
     "name": "npc.king_scorpion.name",
     "description": "npc.king_scorpion.description",
     "command": "command.none",
@@ -4933,6 +5070,7 @@
   },
   {
     "id": "137",
+    "v1Id": 137,
     "name": "npc.pirate.name",
     "description": "description.a_vicious_pirate",
     "command": "command.none",
@@ -4969,6 +5107,7 @@
   },
   {
     "id": "138",
+    "v1Id": 138,
     "name": "npc.138.name",
     "description": "npc.138.description",
     "command": "command.none",
@@ -5005,6 +5144,7 @@
   },
   {
     "id": "139",
+    "v1Id": 139,
     "name": "npc.monk_of_zamorak.name",
     "description": "description.an_evil_cleric",
     "command": "command.none",
@@ -5041,6 +5181,7 @@
   },
   {
     "id": "140",
+    "v1Id": 140,
     "name": "npc.monk_of_zamorak.name",
     "description": "description.an_evil_cleric",
     "command": "command.none",
@@ -5077,6 +5218,7 @@
   },
   {
     "id": "141",
+    "v1Id": 141,
     "name": "npc.141.name",
     "description": "npc.141.description",
     "command": "command.none",
@@ -5113,6 +5255,7 @@
   },
   {
     "id": "142",
+    "v1Id": 142,
     "name": "npc.142.name",
     "description": "npc.142.description",
     "command": "command.none",
@@ -5149,6 +5292,7 @@
   },
   {
     "id": "143",
+    "v1Id": 143,
     "name": "npc.143.name",
     "description": "npc.143.description",
     "command": "command.none",
@@ -5185,6 +5329,7 @@
   },
   {
     "id": "144",
+    "v1Id": 144,
     "name": "npc.144.name",
     "description": "npc.144.description",
     "command": "command.none",
@@ -5221,6 +5366,7 @@
   },
   {
     "id": "145",
+    "v1Id": 145,
     "name": "npc.merchant.name",
     "description": "description.i_wonder_what_hes_got",
     "command": "command.none",
@@ -5257,8 +5403,9 @@
   },
   {
     "id": "146",
+    "v1Id": 146,
     "name": "npc.shop_assistant.name",
-    "description": "description.maybe_hed_like_to_buy",
+    "description": "npc.merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -5293,6 +5440,7 @@
   },
   {
     "id": "147",
+    "v1Id": 147,
     "name": "npc.guide.name",
     "description": "description.she_gives_hints_to_new",
     "command": "command.none",
@@ -5329,8 +5477,9 @@
   },
   {
     "id": "148",
-    "name": "npc.148.name",
-    "description": "description.a_witch",
+    "v1Id": 148,
+    "name": "npc.hetty.name",
+    "description": "npc.witch.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -5365,8 +5514,9 @@
   },
   {
     "id": "149",
-    "name": "npc.149.name",
-    "description": "description.a_witch",
+    "v1Id": 149,
+    "name": "npc.betty.name",
+    "description": "npc.witch.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -5401,6 +5551,7 @@
   },
   {
     "id": "150",
+    "v1Id": 150,
     "name": "npc.bartender.name",
     "description": "description.i_could_get_a_beer",
     "command": "command.none",
@@ -5437,6 +5588,7 @@
   },
   {
     "id": "151",
+    "v1Id": 151,
     "name": "npc.151.name",
     "description": "description.an_ugly_green_creature",
     "command": "command.none",
@@ -5473,6 +5625,7 @@
   },
   {
     "id": "152",
+    "v1Id": 152,
     "name": "npc.152.name",
     "description": "description.an_ugly_green_creature",
     "command": "command.none",
@@ -5509,6 +5662,7 @@
   },
   {
     "id": "153",
+    "v1Id": 153,
     "name": "npc.goblin.name",
     "description": "description.an_ugly_green_creature",
     "command": "command.none",
@@ -5545,6 +5699,7 @@
   },
   {
     "id": "154",
+    "v1Id": 154,
     "name": "npc.goblin.name",
     "description": "description.an_ugly_green_creature",
     "command": "command.none",
@@ -5581,6 +5736,7 @@
   },
   {
     "id": "155",
+    "v1Id": 155,
     "name": "npc.155.name",
     "description": "npc.155.description",
     "command": "command.none",
@@ -5617,6 +5773,7 @@
   },
   {
     "id": "156",
+    "v1Id": 156,
     "name": "npc.156.name",
     "description": "description.the_owner_of_the_crafting",
     "command": "command.none",
@@ -5653,6 +5810,7 @@
   },
   {
     "id": "157",
+    "v1Id": 157,
     "name": "npc.157.name",
     "description": "npc.157.description",
     "command": "command.none",
@@ -5689,6 +5847,7 @@
   },
   {
     "id": "158",
+    "v1Id": 158,
     "name": "npc.158.name",
     "description": "description.a_strange_inhuman_warrior",
     "command": "command.none",
@@ -5725,6 +5884,7 @@
   },
   {
     "id": "159",
+    "v1Id": 159,
     "name": "npc.warrior.name",
     "description": "description.a_skilled_fighter",
     "command": "command.pickpocket",
@@ -5761,6 +5921,7 @@
   },
   {
     "id": "160",
+    "v1Id": 160,
     "name": "npc.160.name",
     "description": "npc.160.description",
     "command": "command.none",
@@ -5797,6 +5958,7 @@
   },
   {
     "id": "161",
+    "v1Id": 161,
     "name": "npc.border_guard.name.name",
     "description": "description.a_guard_from_al_kharid",
     "command": "command.none",
@@ -5833,6 +5995,7 @@
   },
   {
     "id": "162",
+    "v1Id": 162,
     "name": "npc.border_guard.name.name",
     "description": "description.a_guard_from_al_kharid",
     "command": "command.none",
@@ -5869,6 +6032,7 @@
   },
   {
     "id": "163",
+    "v1Id": 163,
     "name": "npc.163.name",
     "description": "npc.163.description",
     "command": "command.none",
@@ -5905,6 +6069,7 @@
   },
   {
     "id": "164",
+    "v1Id": 164,
     "name": "npc.164.name",
     "description": "npc.164.description",
     "command": "command.none",
@@ -5941,6 +6106,7 @@
   },
   {
     "id": "165",
+    "v1Id": 165,
     "name": "npc.165.name",
     "description": "npc.165.description",
     "command": "command.none",
@@ -5977,8 +6143,9 @@
   },
   {
     "id": "166",
-    "name": "npc.166.name",
-    "description": "description.an_old_sailor",
+    "v1Id": 166,
+    "name": "npc.captan_tobias.name",
+    "description": "npc.aged_sailor.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -6013,7 +6180,8 @@
   },
   {
     "id": "167",
-    "name": "npc.167.name",
+    "v1Id": 167,
+    "name": "npc.gerrant.name",
     "description": "description.i_wonder_what_hes_got",
     "command": "command.none",
     "sprites": [
@@ -6049,6 +6217,7 @@
   },
   {
     "id": "168",
+    "v1Id": 168,
     "name": "npc.merchant.name",
     "description": "description.i_wonder_what_hes_got",
     "command": "command.none",
@@ -6085,8 +6254,9 @@
   },
   {
     "id": "169",
+    "v1Id": 169,
     "name": "npc.shop_assistant.name",
-    "description": "description.maybe_hed_like_to_buy",
+    "description": "npc.merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -6121,8 +6291,9 @@
   },
   {
     "id": "170",
-    "name": "npc.170.name",
-    "description": "description.a_young_sailor",
+    "v1Id": 170,
+    "name": "npc.mariner_lorris.name",
+    "description": "npc.young_sailor.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -6157,8 +6328,9 @@
   },
   {
     "id": "171",
-    "name": "npc.171.name",
-    "description": "description.a_young_sailor",
+    "v1Id": 171,
+    "name": "npc.mariner_thresnor.name",
+    "description": "npc.young_sailor.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -6193,8 +6365,9 @@
   },
   {
     "id": "172",
-    "name": "npc.172.name",
-    "description": "npc.172.description",
+    "v1Id": 172,
+    "name": "npc.tanner.name",
+    "description": "npc.tanner.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -6229,7 +6402,8 @@
   },
   {
     "id": "173",
-    "name": "npc.173.name",
+    "v1Id": 173,
+    "name": "npc.dommik.name",
     "description": "description.the_owner_of_the_crafting",
     "command": "command.none",
     "sprites": [
@@ -6265,7 +6439,8 @@
   },
   {
     "id": "174",
-    "name": "npc.174.name",
+    "v1Id": 174,
+    "name": "npc.abbot_langley.name",
     "description": "description.a_peaceful_monk",
     "command": "command.none",
     "sprites": [
@@ -6301,8 +6476,9 @@
   },
   {
     "id": "175",
-    "name": "npc.175.name",
-    "description": "npc.175.description",
+    "v1Id": 175,
+    "name": "npc.thordur.name",
+    "description": "npc.thordur.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -6337,6 +6513,7 @@
   },
   {
     "id": "176",
+    "v1Id": 176,
     "name": "npc.176.name",
     "description": "description.human",
     "command": "command.none",
@@ -6373,6 +6550,7 @@
   },
   {
     "id": "177",
+    "v1Id": 177,
     "name": "npc.rat.name",
     "description": "description.overgrown_vermin",
     "command": "command.none",
@@ -6409,6 +6587,7 @@
   },
   {
     "id": "178",
+    "v1Id": 178,
     "name": "npc.ghost.name",
     "description": "description.ooh_spooky",
     "command": "command.none",
@@ -6445,6 +6624,7 @@
   },
   {
     "id": "179",
+    "v1Id": 179,
     "name": "npc.skeleton.name",
     "description": "description.it_rattles_when_it_walks",
     "command": "command.none",
@@ -6481,6 +6661,7 @@
   },
   {
     "id": "180",
+    "v1Id": 180,
     "name": "npc.zombie.name",
     "description": "description.the_living_dead",
     "command": "command.none",
@@ -6517,6 +6698,7 @@
   },
   {
     "id": "181",
+    "v1Id": 181,
     "name": "npc.lesser_demon.name",
     "description": "npc.lesser_demon.description",
     "command": "command.none",
@@ -6553,8 +6735,9 @@
   },
   {
     "id": "182",
-    "name": "npc.182.name",
-    "description": "npc.182.description",
+    "v1Id": 182,
+    "name": "npc.melzar.name",
+    "description": "npc.melzar.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -6589,8 +6772,9 @@
   },
   {
     "id": "183",
-    "name": "npc.183.name",
-    "description": "npc.183.description",
+    "v1Id": 183,
+    "name": "npc.scavvo.name",
+    "description": "npc.scavvo.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -6625,7 +6809,8 @@
   },
   {
     "id": "184",
-    "name": "npc.184.name",
+    "v1Id": 184,
+    "name": "npc.greater_demon.name",
     "description": "description.big_red_and_incredibly_evil",
     "command": "command.none",
     "sprites": [
@@ -6661,6 +6846,7 @@
   },
   {
     "id": "185",
+    "v1Id": 185,
     "name": "npc.merchant.name",
     "description": "description.i_wonder_what_hes_got",
     "command": "command.none",
@@ -6697,8 +6883,9 @@
   },
   {
     "id": "186",
+    "v1Id": 186,
     "name": "npc.shop_assistant.name",
-    "description": "description.maybe_hed_like_to_buy",
+    "description": "npc.merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -6733,6 +6920,7 @@
   },
   {
     "id": "187",
+    "v1Id": 187,
     "name": "npc.oziach.name",
     "description": "npc.oziach.description",
     "command": "command.none",
@@ -6769,6 +6957,7 @@
   },
   {
     "id": "188",
+    "v1Id": 188,
     "name": "npc.bear.name",
     "description": "description.eek_a_bear",
     "command": "command.none",
@@ -6805,8 +6994,9 @@
   },
   {
     "id": "189",
+    "v1Id": 189,
     "name": "npc.black_knight.name",
-    "description": "npc.189.description",
+    "description": "npc.black_knight_zamorak.description",
     "command": "command.none",
     "sprites": [
       18,
@@ -6841,8 +7031,9 @@
   },
   {
     "id": "190",
-    "name": "npc.190.name",
-    "description": "npc.190.description",
+    "v1Id": 190,
+    "name": "npc.chaos_dwarf.name",
+    "description": "npc.chaos_dwarf.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -6877,6 +7068,7 @@
   },
   {
     "id": "191",
+    "v1Id": 191,
     "name": "npc.dwarf.name",
     "description": "npc.191.description",
     "command": "command.none",
@@ -6913,8 +7105,9 @@
   },
   {
     "id": "192",
-    "name": "npc.192.name",
-    "description": "npc.192.description",
+    "v1Id": 192,
+    "name": "npc.wormbrain.name",
+    "description": "npc.wormbrain.description",
     "command": "command.none",
     "sprites": [
       139,
@@ -6949,8 +7142,9 @@
   },
   {
     "id": "193",
-    "name": "npc.193.name",
-    "description": "description.a_young_sailor",
+    "v1Id": 193,
+    "name": "npc.klarense.name",
+    "description": "npc.young_sailor.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -6985,8 +7179,9 @@
   },
   {
     "id": "194",
+    "v1Id": 194,
     "name": "npc.ned.name",
-    "description": "description.an_old_sailor",
+    "description": "npc.aged_sailor.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -7021,8 +7216,9 @@
   },
   {
     "id": "195",
+    "v1Id": 195,
     "name": "npc.skeleton.name",
-    "description": "npc.195.description",
+    "description": "npc.tall_skeleton.description",
     "command": "command.none",
     "sprites": [
       134,
@@ -7057,8 +7253,9 @@
   },
   {
     "id": "196",
-    "name": "npc.196.name",
-    "description": "npc.196.description",
+    "v1Id": 196,
+    "name": "npc.dragon.name",
+    "description": "npc.dragon.description",
     "command": "command.none",
     "sprites": [
       144,
@@ -7093,8 +7290,9 @@
   },
   {
     "id": "197",
-    "name": "npc.197.name",
-    "description": "npc.197.description",
+    "v1Id": 197,
+    "name": "npc.oracle.name",
+    "description": "npc.oracle.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -7129,8 +7327,9 @@
   },
   {
     "id": "198",
-    "name": "npc.198.name",
-    "description": "npc.198.description",
+    "v1Id": 198,
+    "name": "npc.duke_of_lumbridge.name",
+    "description": "npc.duke_of_lumbridge.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -7165,8 +7364,9 @@
   },
   {
     "id": "199",
-    "name": "npc.199.name",
-    "description": "npc.199.description",
+    "v1Id": 199,
+    "name": "npc.dark_warrior.name",
+    "description": "npc.dark_warrior.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -7201,8 +7401,9 @@
   },
   {
     "id": "200",
-    "name": "npc.200.name",
-    "description": "npc.200.description",
+    "v1Id": 200,
+    "name": "npc.druid.name",
+    "description": "npc.druid.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -7237,6 +7438,7 @@
   },
   {
     "id": "201",
+    "v1Id": 201,
     "name": "npc.red_dragon.name",
     "description": "npc.red_dragon.description",
     "command": "command.none",
@@ -7273,6 +7475,7 @@
   },
   {
     "id": "202",
+    "v1Id": 202,
     "name": "npc.202.name",
     "description": "npc.202.description",
     "command": "command.none",
@@ -7309,6 +7512,7 @@
   },
   {
     "id": "203",
+    "v1Id": 203,
     "name": "npc.203.name",
     "description": "npc.203.description",
     "command": "command.none",
@@ -7345,6 +7549,7 @@
   },
   {
     "id": "204",
+    "v1Id": 204,
     "name": "npc.204.name",
     "description": "npc.204.description",
     "command": "command.none",
@@ -7381,6 +7586,7 @@
   },
   {
     "id": "205",
+    "v1Id": 205,
     "name": "npc.205.name",
     "description": "npc.205.description",
     "command": "command.none",
@@ -7417,6 +7623,7 @@
   },
   {
     "id": "206",
+    "v1Id": 206,
     "name": "npc.206.name",
     "description": "npc.206.description",
     "command": "command.none",
@@ -7453,6 +7660,7 @@
   },
   {
     "id": "207",
+    "v1Id": 207,
     "name": "npc.adventurer.name",
     "description": "npc.207.description",
     "command": "command.none",
@@ -7489,6 +7697,7 @@
   },
   {
     "id": "208",
+    "v1Id": 208,
     "name": "npc.adventurer.name",
     "description": "npc.208.description",
     "command": "command.none",
@@ -7525,6 +7734,7 @@
   },
   {
     "id": "209",
+    "v1Id": 209,
     "name": "npc.adventurer.name",
     "description": "description.a_warrior",
     "command": "command.none",
@@ -7561,6 +7771,7 @@
   },
   {
     "id": "210",
+    "v1Id": 210,
     "name": "npc.adventurer.name",
     "description": "npc.210.description",
     "command": "command.none",
@@ -7597,6 +7808,7 @@
   },
   {
     "id": "211",
+    "v1Id": 211,
     "name": "npc.leprechaun.name",
     "description": "npc.leprechaun.description",
     "command": "command.none",
@@ -7633,6 +7845,7 @@
   },
   {
     "id": "212",
+    "v1Id": 212,
     "name": "npc.monk_of_entrana.name",
     "description": "description.a_peaceful_monk",
     "command": "command.none",
@@ -7669,6 +7882,7 @@
   },
   {
     "id": "213",
+    "v1Id": 213,
     "name": "npc.monk_of_entrana.name",
     "description": "description.a_peaceful_monk",
     "command": "command.none",
@@ -7705,6 +7919,7 @@
   },
   {
     "id": "214",
+    "v1Id": 214,
     "name": "npc.zombie.name",
     "description": "description.the_living_dead",
     "command": "command.none",
@@ -7741,6 +7956,7 @@
   },
   {
     "id": "215",
+    "v1Id": 215,
     "name": "npc.monk_of_entrana.name",
     "description": "description.a_peaceful_monk",
     "command": "command.none",
@@ -7777,6 +7993,7 @@
   },
   {
     "id": "216",
+    "v1Id": 216,
     "name": "npc.216.name",
     "description": "description.ooh_spooky",
     "command": "command.none",
@@ -7813,6 +8030,7 @@
   },
   {
     "id": "217",
+    "v1Id": 217,
     "name": "npc.cow.name",
     "description": "npc.217.description",
     "command": "command.none",
@@ -7849,6 +8067,7 @@
   },
   {
     "id": "218",
+    "v1Id": 218,
     "name": "npc.218.name",
     "description": "description.is_he_invisible_or_just",
     "command": "command.none",
@@ -7885,6 +8104,7 @@
   },
   {
     "id": "219",
+    "v1Id": 219,
     "name": "npc.219.name",
     "description": "npc.219.description",
     "command": "command.none",
@@ -7921,6 +8141,7 @@
   },
   {
     "id": "220",
+    "v1Id": 220,
     "name": "npc.220.name",
     "description": "npc.220.description",
     "command": "command.none",
@@ -7957,6 +8178,7 @@
   },
   {
     "id": "221",
+    "v1Id": 221,
     "name": "npc.221.name",
     "description": "npc.221.description",
     "command": "command.none",
@@ -7993,6 +8215,7 @@
   },
   {
     "id": "222",
+    "v1Id": 222,
     "name": "npc.222.name",
     "description": "description.i_wonder_what_hes_got",
     "command": "command.none",
@@ -8029,8 +8252,9 @@
   },
   {
     "id": "223",
+    "v1Id": 223,
     "name": "npc.223.name",
-    "description": "description.maybe_hed_like_to_buy",
+    "description": "npc.merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -8065,6 +8289,7 @@
   },
   {
     "id": "224",
+    "v1Id": 224,
     "name": "npc.224.name",
     "description": "description.he_can_look_after_my",
     "command": "command.none",
@@ -8101,6 +8326,7 @@
   },
   {
     "id": "225",
+    "v1Id": 225,
     "name": "npc.225.name",
     "description": "npc.225.description",
     "command": "command.none",
@@ -8137,6 +8363,7 @@
   },
   {
     "id": "226",
+    "v1Id": 226,
     "name": "npc.226.name",
     "description": "npc.226.description",
     "command": "command.none",
@@ -8173,6 +8400,7 @@
   },
   {
     "id": "227",
+    "v1Id": 227,
     "name": "npc.227.name",
     "description": "description.he_runs_a_fish_exchange",
     "command": "command.none",
@@ -8209,6 +8437,7 @@
   },
   {
     "id": "228",
+    "v1Id": 228,
     "name": "npc.gaius.name",
     "description": "npc.gaius.description",
     "command": "command.none",
@@ -8245,6 +8474,7 @@
   },
   {
     "id": "229",
+    "v1Id": 229,
     "name": "npc.229.name",
     "description": "npc.229.description",
     "command": "command.none",
@@ -8281,6 +8511,7 @@
   },
   {
     "id": "230",
+    "v1Id": 230,
     "name": "npc.230.name",
     "description": "npc.230.description",
     "command": "command.none",
@@ -8317,6 +8548,7 @@
   },
   {
     "id": "231",
+    "v1Id": 231,
     "name": "npc.master_crafter.name",
     "description": "npc.master_crafter.description",
     "command": "command.none",
@@ -8353,6 +8585,7 @@
   },
   {
     "id": "232",
+    "v1Id": 232,
     "name": "npc.bandit.name",
     "description": "description.hes_ready_for_a_fight",
     "command": "command.none",
@@ -8389,6 +8622,7 @@
   },
   {
     "id": "233",
+    "v1Id": 233,
     "name": "npc.233.name",
     "description": "npc.233.description",
     "command": "command.none",
@@ -8425,6 +8659,7 @@
   },
   {
     "id": "234",
+    "v1Id": 234,
     "name": "npc.bandit.name",
     "description": "npc.234.description",
     "command": "command.none",
@@ -8461,8 +8696,9 @@
   },
   {
     "id": "235",
-    "name": "npc.235.name",
-    "description": "npc.235.description",
+    "v1Id": 235,
+    "name": "npc.fat_tony.name",
+    "description": "npc.fat_tony.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -8497,6 +8733,7 @@
   },
   {
     "id": "236",
+    "v1Id": 236,
     "name": "npc.236.name",
     "description": "description.a_bandit_leader",
     "command": "command.none",
@@ -8533,6 +8770,7 @@
   },
   {
     "id": "237",
+    "v1Id": 237,
     "name": "npc.237.name",
     "description": "description.a_bandit_leader",
     "command": "command.none",
@@ -8569,6 +8807,7 @@
   },
   {
     "id": "238",
+    "v1Id": 238,
     "name": "npc.238.name",
     "description": "description.a_bandit_leader",
     "command": "command.none",
@@ -8605,6 +8844,7 @@
   },
   {
     "id": "239",
+    "v1Id": 239,
     "name": "npc.239.name",
     "description": "description.a_vicious_mountain_wolf",
     "command": "command.none",
@@ -8641,6 +8881,7 @@
   },
   {
     "id": "240",
+    "v1Id": 240,
     "name": "npc.240.name",
     "description": "npc.240.description",
     "command": "command.none",
@@ -8677,6 +8918,7 @@
   },
   {
     "id": "241",
+    "v1Id": 241,
     "name": "npc.rat.name",
     "description": "npc.241.description",
     "command": "command.none",
@@ -8713,6 +8955,7 @@
   },
   {
     "id": "242",
+    "v1Id": 242,
     "name": "npc.242.name",
     "description": "description.shes_got_warts",
     "command": "command.none",
@@ -8749,6 +8992,7 @@
   },
   {
     "id": "243",
+    "v1Id": 243,
     "name": "npc.243.name",
     "description": "description.a_sinister_looking_wolf",
     "command": "command.none",
@@ -8785,6 +9029,7 @@
   },
   {
     "id": "244",
+    "v1Id": 244,
     "name": "npc.shapeshifter.name",
     "description": "npc.244.description",
     "command": "command.none",
@@ -8821,6 +9066,7 @@
   },
   {
     "id": "245",
+    "v1Id": 245,
     "name": "npc.shapeshifter.name",
     "description": "description.i_think_this_spider_has",
     "command": "command.none",
@@ -8857,6 +9103,7 @@
   },
   {
     "id": "246",
+    "v1Id": 246,
     "name": "npc.shapeshifter.name",
     "description": "description.eek_a_bear",
     "command": "command.none",
@@ -8893,6 +9140,7 @@
   },
   {
     "id": "247",
+    "v1Id": 247,
     "name": "npc.shapeshifter.name",
     "description": "description.a_sinister_looking_wolf",
     "command": "command.none",
@@ -8929,6 +9177,7 @@
   },
   {
     "id": "248",
+    "v1Id": 248,
     "name": "npc.248.name",
     "description": "description.a_vicious_mountain_wolf",
     "command": "command.none",
@@ -8965,6 +9214,7 @@
   },
   {
     "id": "249",
+    "v1Id": 249,
     "name": "npc.249.name",
     "description": "description.a_vicious_mountain_wolf",
     "command": "command.none",
@@ -9001,6 +9251,7 @@
   },
   {
     "id": "250",
+    "v1Id": 250,
     "name": "npc.250.name",
     "description": "description.i_wonder_what_hes_got",
     "command": "command.none",
@@ -9037,6 +9288,7 @@
   },
   {
     "id": "251",
+    "v1Id": 251,
     "name": "npc.251.name",
     "description": "npc.251.description",
     "command": "command.none",
@@ -9073,6 +9325,7 @@
   },
   {
     "id": "252",
+    "v1Id": 252,
     "name": "npc.252.name",
     "description": "npc.252.description",
     "command": "command.none",
@@ -9109,6 +9362,7 @@
   },
   {
     "id": "253",
+    "v1Id": 253,
     "name": "npc.253.name",
     "description": "npc.253.description",
     "command": "command.none",
@@ -9145,6 +9399,7 @@
   },
   {
     "id": "254",
+    "v1Id": 254,
     "name": "npc.254.name",
     "description": "npc.254.description",
     "command": "command.none",
@@ -9181,6 +9436,7 @@
   },
   {
     "id": "255",
+    "v1Id": 255,
     "name": "npc.255.name",
     "description": "npc.255.description",
     "command": "command.none",
@@ -9217,6 +9473,7 @@
   },
   {
     "id": "256",
+    "v1Id": 256,
     "name": "npc.trobert.name",
     "description": "npc.trobert.description",
     "command": "command.none",
@@ -9253,6 +9510,7 @@
   },
   {
     "id": "257",
+    "v1Id": 257,
     "name": "npc.257.name",
     "description": "npc.257.description",
     "command": "command.none",
@@ -9289,6 +9547,7 @@
   },
   {
     "id": "258",
+    "v1Id": 258,
     "name": "npc.guard.name",
     "description": "description.a_vicious_pirate",
     "command": "command.none",
@@ -9325,6 +9584,7 @@
   },
   {
     "id": "259",
+    "v1Id": 259,
     "name": "npc.259.name",
     "description": "npc.259.description",
     "command": "command.none",
@@ -9361,6 +9621,7 @@
   },
   {
     "id": "260",
+    "v1Id": 260,
     "name": "npc.260.name",
     "description": "npc.260.description",
     "command": "command.none",
@@ -9397,6 +9658,7 @@
   },
   {
     "id": "261",
+    "v1Id": 261,
     "name": "npc.261.name",
     "description": "npc.261.description",
     "command": "command.none",
@@ -9433,6 +9695,7 @@
   },
   {
     "id": "262",
+    "v1Id": 262,
     "name": "npc.guard_dog.name",
     "description": "description.he_doesnt_seem_pleased_to",
     "command": "command.none",
@@ -9469,6 +9732,7 @@
   },
   {
     "id": "263",
+    "v1Id": 263,
     "name": "npc.263.name",
     "description": "description.i_think_this_spider_has",
     "command": "command.none",
@@ -9505,6 +9769,7 @@
   },
   {
     "id": "264",
+    "v1Id": 264,
     "name": "npc.pirate.name",
     "description": "description.a_vicious_pirate",
     "command": "command.none",
@@ -9541,8 +9806,9 @@
   },
   {
     "id": "265",
+    "v1Id": 265,
     "name": "npc.prison_guard.name",
-    "description": "npc.prison_guard.description",
+    "description": "npc.black_knights_prison_guard.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -9577,6 +9843,7 @@
   },
   {
     "id": "266",
+    "v1Id": 266,
     "name": "npc.lord_darquarius.name",
     "description": "npc.lord_darquarius.description",
     "command": "command.none",
@@ -9613,6 +9880,7 @@
   },
   {
     "id": "267",
+    "v1Id": 267,
     "name": "npc.seth.name",
     "description": "description.he_runs_a_fish_exchange",
     "command": "command.none",
@@ -9649,6 +9917,7 @@
   },
   {
     "id": "268",
+    "v1Id": 268,
     "name": "npc.banker.name",
     "description": "description.he_can_look_after_my",
     "command": "command.none",
@@ -9685,6 +9954,7 @@
   },
   {
     "id": "269",
+    "v1Id": 269,
     "name": "npc.helemos.name",
     "description": "npc.helemos.description",
     "command": "command.none",
@@ -9721,8 +9991,9 @@
   },
   {
     "id": "270",
+    "v1Id": 270,
     "name": "npc.chaos_druid.name",
-    "description": "description.a_crazy_evil_druid",
+    "description": "npc.chaos_druid.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -9757,6 +10028,7 @@
   },
   {
     "id": "271",
+    "v1Id": 271,
     "name": "npc.poison_scorpion.name",
     "description": "npc.poison_scorpion.description",
     "command": "command.none",
@@ -9793,6 +10065,7 @@
   },
   {
     "id": "272",
+    "v1Id": 272,
     "name": "npc.velrak_the_explorer.name",
     "description": "npc.velrak_the_explorer.description",
     "command": "command.none",
@@ -9829,6 +10102,7 @@
   },
   {
     "id": "273",
+    "v1Id": 273,
     "name": "npc.sir_lancelot.name",
     "description": "description.a_knight_of_the_round",
     "command": "command.none",
@@ -9865,6 +10139,7 @@
   },
   {
     "id": "274",
+    "v1Id": 274,
     "name": "npc.sir_gawain.name",
     "description": "description.a_knight_of_the_round",
     "command": "command.none",
@@ -9901,6 +10176,7 @@
   },
   {
     "id": "275",
+    "v1Id": 275,
     "name": "npc.king_arthur.name",
     "description": "npc.king_arthur.description",
     "command": "command.none",
@@ -9937,6 +10213,7 @@
   },
   {
     "id": "276",
+    "v1Id": 276,
     "name": "npc.sir_mordred.name",
     "description": "npc.sir_mordred.description",
     "command": "command.none",
@@ -9973,6 +10250,7 @@
   },
   {
     "id": "277",
+    "v1Id": 277,
     "name": "npc.277.name",
     "description": "npc.277.description",
     "command": "command.none",
@@ -10009,6 +10287,7 @@
   },
   {
     "id": "278",
+    "v1Id": 278,
     "name": "npc.davon.name",
     "description": "npc.davon.description",
     "command": "command.none",
@@ -10045,6 +10324,7 @@
   },
   {
     "id": "279",
+    "v1Id": 279,
     "name": "npc.bartender.name",
     "description": "npc.279.description",
     "command": "command.none",
@@ -10081,6 +10361,7 @@
   },
   {
     "id": "280",
+    "v1Id": 280,
     "name": "npc.280.name",
     "description": "npc.280.description",
     "command": "command.none",
@@ -10117,8 +10398,9 @@
   },
   {
     "id": "281",
-    "name": "npc.281.name",
-    "description": "npc.281.description",
+    "v1Id": 281,
+    "name": "npc.morgan_le_faye.name",
+    "description": "npc.morgan_le_faye.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -10153,6 +10435,7 @@
   },
   {
     "id": "282",
+    "v1Id": 282,
     "name": "npc.282.name",
     "description": "npc.282.description",
     "command": "command.none",
@@ -10189,6 +10472,7 @@
   },
   {
     "id": "283",
+    "v1Id": 283,
     "name": "npc.lady.name",
     "description": "description.she_has_a_hint_of",
     "command": "command.none",
@@ -10225,6 +10509,7 @@
   },
   {
     "id": "284",
+    "v1Id": 284,
     "name": "npc.lady.name",
     "description": "description.she_has_a_hint_of",
     "command": "command.none",
@@ -10261,6 +10546,7 @@
   },
   {
     "id": "285",
+    "v1Id": 285,
     "name": "npc.lady.name",
     "description": "description.she_has_a_hint_of",
     "command": "command.none",
@@ -10297,6 +10583,7 @@
   },
   {
     "id": "286",
+    "v1Id": 286,
     "name": "npc.286.name",
     "description": "description.a_scruffy_looking_chap",
     "command": "command.none",
@@ -10333,6 +10620,7 @@
   },
   {
     "id": "287",
+    "v1Id": 287,
     "name": "npc.merlin.name",
     "description": "description.an_old_wizard",
     "command": "command.none",
@@ -10369,6 +10657,7 @@
   },
   {
     "id": "288",
+    "v1Id": 288,
     "name": "npc.288.name",
     "description": "description.a_freshly_summoned_demon",
     "command": "command.none",
@@ -10405,6 +10694,7 @@
   },
   {
     "id": "289",
+    "v1Id": 289,
     "name": "npc.289.name",
     "description": "description.the_owner_of_the_archery",
     "command": "command.none",
@@ -10441,6 +10731,7 @@
   },
   {
     "id": "290",
+    "v1Id": 290,
     "name": "npc.black_demon.name",
     "description": "description.a_big_scary_jet_black",
     "command": "command.none",
@@ -10477,6 +10768,7 @@
   },
   {
     "id": "291",
+    "v1Id": 291,
     "name": "npc.291.name",
     "description": "npc.291.description",
     "command": "command.none",
@@ -10513,6 +10805,7 @@
   },
   {
     "id": "292",
+    "v1Id": 292,
     "name": "npc.292.name",
     "description": "description.i_think_this_spider_has",
     "command": "command.none",
@@ -10549,6 +10842,7 @@
   },
   {
     "id": "293",
+    "v1Id": 293,
     "name": "npc.monk_of_zamorak.name",
     "description": "description.an_evil_cleric",
     "command": "command.none",
@@ -10585,6 +10879,7 @@
   },
   {
     "id": "294",
+    "v1Id": 294,
     "name": "npc.294.name",
     "description": "description.hello_nice_doggy",
     "command": "command.none",
@@ -10621,6 +10916,7 @@
   },
   {
     "id": "295",
+    "v1Id": 295,
     "name": "npc.animated_axe.name",
     "description": "npc.animated_axe.description",
     "command": "command.none",
@@ -10657,6 +10953,7 @@
   },
   {
     "id": "296",
+    "v1Id": 296,
     "name": "npc.296.name",
     "description": "npc.296.description",
     "command": "command.none",
@@ -10693,6 +10990,7 @@
   },
   {
     "id": "297",
+    "v1Id": 297,
     "name": "npc.297.name",
     "description": "description.a_peaceful_monk",
     "command": "command.none",
@@ -10729,6 +11027,7 @@
   },
   {
     "id": "298",
+    "v1Id": 298,
     "name": "npc.298.name",
     "description": "description.is_he_invisible_or_just",
     "command": "command.none",
@@ -10765,6 +11064,7 @@
   },
   {
     "id": "299",
+    "v1Id": 299,
     "name": "npc.299.name",
     "description": "description.he_runs_a_fish_exchange",
     "command": "command.none",
@@ -10801,6 +11101,7 @@
   },
   {
     "id": "300",
+    "v1Id": 300,
     "name": "npc.thormac_the_sorcerer.name",
     "description": "npc.thormac_the_sorcerer.description",
     "command": "command.none",
@@ -10837,6 +11138,7 @@
   },
   {
     "id": "301",
+    "v1Id": 301,
     "name": "npc.301.name",
     "description": "description.an_old_wizard",
     "command": "command.none",
@@ -10873,6 +11175,7 @@
   },
   {
     "id": "302",
+    "v1Id": 302,
     "name": "name.kharid_scorpion",
     "description": "description.a_smaller_less_dangerous_scorpion",
     "command": "command.none",
@@ -10909,6 +11212,7 @@
   },
   {
     "id": "303",
+    "v1Id": 303,
     "name": "name.kharid_scorpion",
     "description": "description.a_smaller_less_dangerous_scorpion",
     "command": "command.none",
@@ -10945,6 +11249,7 @@
   },
   {
     "id": "304",
+    "v1Id": 304,
     "name": "name.kharid_scorpion",
     "description": "description.a_smaller_less_dangerous_scorpion",
     "command": "command.none",
@@ -10981,6 +11286,7 @@
   },
   {
     "id": "305",
+    "v1Id": 305,
     "name": "npc.305.name",
     "description": "npc.305.description",
     "command": "command.none",
@@ -11017,6 +11323,7 @@
   },
   {
     "id": "306",
+    "v1Id": 306,
     "name": "npc.bartender.name",
     "description": "description.i_could_get_a_beer",
     "command": "command.none",
@@ -11053,6 +11360,7 @@
   },
   {
     "id": "307",
+    "v1Id": 307,
     "name": "npc.person_male.name",
     "description": "description.a_well_dressed_nobleman",
     "command": "command.none",
@@ -11089,6 +11397,7 @@
   },
   {
     "id": "308",
+    "v1Id": 308,
     "name": "npc.gem_merchant.name",
     "description": "npc.gem_merchant.description",
     "command": "command.none",
@@ -11125,6 +11434,7 @@
   },
   {
     "id": "309",
+    "v1Id": 309,
     "name": "npc.309.name",
     "description": "description.a_well_dressed_nobleman",
     "command": "command.none",
@@ -11161,6 +11471,7 @@
   },
   {
     "id": "310",
+    "v1Id": 310,
     "name": "npc.310.name",
     "description": "npc.310.description",
     "command": "command.none",
@@ -11197,6 +11508,7 @@
   },
   {
     "id": "311",
+    "v1Id": 311,
     "name": "npc.hobgoblin.name",
     "description": "description.an_ugly_green_creature",
     "command": "command.none",
@@ -11233,6 +11545,7 @@
   },
   {
     "id": "312",
+    "v1Id": 312,
     "name": "npc.ogre.name",
     "description": "description.a_large_dim_looking_humanoid",
     "command": "command.none",
@@ -11269,6 +11582,7 @@
   },
   {
     "id": "313",
+    "v1Id": 313,
     "name": "npc.313.name",
     "description": "description.a_short_angry_guy",
     "command": "command.none",
@@ -11305,6 +11619,7 @@
   },
   {
     "id": "314",
+    "v1Id": 314,
     "name": "npc.wizard.name",
     "description": "npc.314.description",
     "command": "command.none",
@@ -11341,6 +11656,7 @@
   },
   {
     "id": "315",
+    "v1Id": 315,
     "name": "npc.315.name",
     "description": "npc.315.description",
     "command": "command.none",
@@ -11377,8 +11693,9 @@
   },
   {
     "id": "316",
+    "v1Id": 316,
     "name": "npc.316.name",
-    "description": "description.an_old_sailor",
+    "description": "npc.aged_sailor.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -11413,6 +11730,7 @@
   },
   {
     "id": "317",
+    "v1Id": 317,
     "name": "npc.317.name",
     "description": "npc.317.description",
     "command": "command.none",
@@ -11449,8 +11767,9 @@
   },
   {
     "id": "318",
+    "v1Id": 318,
     "name": "npc.person_male.name",
-    "description": "npc.318.description",
+    "description": "npc.person_male.description",
     "command": "command.pickpocket",
     "sprites": [
       0,
@@ -11485,6 +11804,7 @@
   },
   {
     "id": "319",
+    "v1Id": 319,
     "name": "npc.farmer.name",
     "description": "npc.319.description",
     "command": "command.pickpocket",
@@ -11521,6 +11841,7 @@
   },
   {
     "id": "320",
+    "v1Id": 320,
     "name": "npc.warrior.name",
     "description": "description.a_skilled_fighter",
     "command": "command.pickpocket",
@@ -11557,6 +11878,7 @@
   },
   {
     "id": "321",
+    "v1Id": 321,
     "name": "npc.guard.name",
     "description": "npc.321.description",
     "command": "command.pickpocket",
@@ -11593,6 +11915,7 @@
   },
   {
     "id": "322",
+    "v1Id": 322,
     "name": "npc.322.name",
     "description": "npc.322.description",
     "command": "command.pickpocket",
@@ -11629,6 +11952,7 @@
   },
   {
     "id": "323",
+    "v1Id": 323,
     "name": "npc.paladin.name",
     "description": "description.a_paladin_of_ardougne",
     "command": "command.pickpocket",
@@ -11665,6 +11989,7 @@
   },
   {
     "id": "324",
+    "v1Id": 324,
     "name": "npc.324.name",
     "description": "npc.324.description",
     "command": "command.pickpocket",
@@ -11701,6 +12026,7 @@
   },
   {
     "id": "325",
+    "v1Id": 325,
     "name": "npc.325.name",
     "description": "npc.325.description",
     "command": "command.none",
@@ -11737,8 +12063,9 @@
   },
   {
     "id": "326",
-    "name": "npc.326.name",
-    "description": "npc.326.description",
+    "v1Id": 326,
+    "name": "npc.silk_merchant.name",
+    "description": "npc.silk_merchant_who_purchases.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -11773,6 +12100,7 @@
   },
   {
     "id": "327",
+    "v1Id": 327,
     "name": "npc.fur_merchant.name",
     "description": "npc.fur_merchant.description",
     "command": "command.none",
@@ -11809,6 +12137,7 @@
   },
   {
     "id": "328",
+    "v1Id": 328,
     "name": "npc.328.name",
     "description": "npc.328.description",
     "command": "command.none",
@@ -11845,8 +12174,9 @@
   },
   {
     "id": "329",
-    "name": "npc.329.name",
-    "description": "npc.329.description",
+    "v1Id": 329,
+    "name": "npc.spice_merchant.name",
+    "description": "npc.spice_merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -11881,6 +12211,7 @@
   },
   {
     "id": "330",
+    "v1Id": 330,
     "name": "npc.330.name",
     "description": "npc.gem_merchant.description",
     "command": "command.none",
@@ -11917,6 +12248,7 @@
   },
   {
     "id": "331",
+    "v1Id": 331,
     "name": "npc.331.name",
     "description": "description.a_merchant_of_some_sort",
     "command": "command.none",
@@ -11953,6 +12285,7 @@
   },
   {
     "id": "332",
+    "v1Id": 332,
     "name": "npc.332.name",
     "description": "npc.332.description",
     "command": "command.none",
@@ -11989,6 +12322,7 @@
   },
   {
     "id": "333",
+    "v1Id": 333,
     "name": "npc.333.name",
     "description": "description.an_old_wizard",
     "command": "command.none",
@@ -12025,6 +12359,7 @@
   },
   {
     "id": "334",
+    "v1Id": 334,
     "name": "npc.rpdt_employee.name",
     "description": "npc.rpdt_employee.description",
     "command": "command.none",
@@ -12061,7 +12396,8 @@
   },
   {
     "id": "335",
-    "name": "npc.335.name",
+    "v1Id": 335,
+    "name": "npc.horacio.name",
     "description": "description.an_old_gardener",
     "command": "command.none",
     "sprites": [
@@ -12097,7 +12433,8 @@
   },
   {
     "id": "336",
-    "name": "npc.336.name",
+    "v1Id": 336,
+    "name": "npc.aemad.name",
     "description": "description.he_helps_run_the_adventurers",
     "command": "command.none",
     "sprites": [
@@ -12133,6 +12470,7 @@
   },
   {
     "id": "337",
+    "v1Id": 337,
     "name": "npc.337.name",
     "description": "description.he_helps_run_the_adventurers",
     "command": "command.none",
@@ -12169,6 +12507,7 @@
   },
   {
     "id": "338",
+    "v1Id": 338,
     "name": "npc.338.name",
     "description": "npc.338.description",
     "command": "command.none",
@@ -12205,6 +12544,7 @@
   },
   {
     "id": "339",
+    "v1Id": 339,
     "name": "npc.339.name",
     "description": "npc.339.description",
     "command": "command.none",
@@ -12241,6 +12581,7 @@
   },
   {
     "id": "340",
+    "v1Id": 340,
     "name": "npc.bartender.name",
     "description": "description.i_could_get_a_beer",
     "command": "command.none",
@@ -12277,6 +12618,7 @@
   },
   {
     "id": "341",
+    "v1Id": 341,
     "name": "npc.341.name",
     "description": "npc.341.description",
     "command": "command.none",
@@ -12313,6 +12655,7 @@
   },
   {
     "id": "342",
+    "v1Id": 342,
     "name": "npc.342.name",
     "description": "npc.342.description",
     "command": "command.pickpocket",
@@ -12349,6 +12692,7 @@
   },
   {
     "id": "343",
+    "v1Id": 343,
     "name": "npc.shadow_spider.name",
     "description": "npc.shadow_spider.description",
     "command": "command.none",
@@ -12385,6 +12729,7 @@
   },
   {
     "id": "344",
+    "v1Id": 344,
     "name": "npc.fire_giant.name",
     "description": "npc.fire_giant.description",
     "command": "command.none",
@@ -12421,6 +12766,7 @@
   },
   {
     "id": "345",
+    "v1Id": 345,
     "name": "npc.grandpa_jack.name",
     "description": "npc.grandpa_jack.description",
     "command": "command.none",
@@ -12457,6 +12803,7 @@
   },
   {
     "id": "346",
+    "v1Id": 346,
     "name": "npc.346.name",
     "description": "npc.346.description",
     "command": "command.none",
@@ -12493,6 +12840,7 @@
   },
   {
     "id": "347",
+    "v1Id": 347,
     "name": "npc.347.name",
     "description": "description.fishing_competition_organiser",
     "command": "command.none",
@@ -12529,6 +12877,7 @@
   },
   {
     "id": "348",
+    "v1Id": 348,
     "name": "npc.348.name",
     "description": "npc.348.description",
     "command": "command.none",
@@ -12565,6 +12914,7 @@
   },
   {
     "id": "349",
+    "v1Id": 349,
     "name": "npc.349.name",
     "description": "description.fishing_competition_organiser",
     "command": "command.none",
@@ -12601,6 +12951,7 @@
   },
   {
     "id": "350",
+    "v1Id": 350,
     "name": "npc.350.name",
     "description": "description.a_peaceful_monk",
     "command": "command.none",
@@ -12637,6 +12988,7 @@
   },
   {
     "id": "351",
+    "v1Id": 351,
     "name": "npc.thief.name",
     "description": "description.a_dastardly_blanket_thief",
     "command": "command.none",
@@ -12673,6 +13025,7 @@
   },
   {
     "id": "352",
+    "v1Id": 352,
     "name": "npc.352.name",
     "description": "description.a_dastardly_blanket_thief",
     "command": "command.none",
@@ -12709,6 +13062,7 @@
   },
   {
     "id": "353",
+    "v1Id": 353,
     "name": "npc.big_dave.name",
     "description": "npc.big_dave.description",
     "command": "command.none",
@@ -12745,6 +13099,7 @@
   },
   {
     "id": "354",
+    "v1Id": 354,
     "name": "npc.354.name",
     "description": "npc.354.description",
     "command": "command.none",
@@ -12781,6 +13136,7 @@
   },
   {
     "id": "355",
+    "v1Id": 355,
     "name": "npc.mountain_dwarf.name",
     "description": "description.a_short_angry_guy",
     "command": "command.none",
@@ -12817,6 +13173,7 @@
   },
   {
     "id": "356",
+    "v1Id": 356,
     "name": "npc.mountain_dwarf.name",
     "description": "description.a_short_angry_guy",
     "command": "command.none",
@@ -12853,6 +13210,7 @@
   },
   {
     "id": "357",
+    "v1Id": 357,
     "name": "npc.357.name",
     "description": "description.a_peaceful_monk",
     "command": "command.none",
@@ -12889,8 +13247,9 @@
   },
   {
     "id": "358",
-    "name": "npc.358.name",
-    "description": "npc.358.description",
+    "v1Id": 358,
+    "name": "npc.necromancer.name",
+    "description": "npc.necromancer.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -12925,6 +13284,7 @@
   },
   {
     "id": "359",
+    "v1Id": 359,
     "name": "npc.zombie.name",
     "description": "description.the_living_dead",
     "command": "command.none",
@@ -12961,6 +13321,7 @@
   },
   {
     "id": "360",
+    "v1Id": 360,
     "name": "npc.lucien.name",
     "description": "npc.360.description",
     "command": "command.none",
@@ -12997,6 +13358,7 @@
   },
   {
     "id": "361",
+    "v1Id": 361,
     "name": "npc.361.name",
     "description": "npc.361.description",
     "command": "command.none",
@@ -13033,8 +13395,9 @@
   },
   {
     "id": "362",
-    "name": "name.guardian_of_armadyl",
-    "description": "description.a_worshipper_of_armadyl",
+    "v1Id": 362,
+    "name": "npc.guardian_of_armadyl.name",
+    "description": "npc.guardian_of_armadyl.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -13069,8 +13432,9 @@
   },
   {
     "id": "363",
-    "name": "name.guardian_of_armadyl",
-    "description": "description.a_worshipper_of_armadyl",
+    "v1Id": 363,
+    "name": "npc.guardian_of_armadyl.name",
+    "description": "npc.guardian_of_armadyl.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -13105,6 +13469,7 @@
   },
   {
     "id": "364",
+    "v1Id": 364,
     "name": "npc.lucien.name",
     "description": "npc.364.description",
     "command": "command.none",
@@ -13141,8 +13506,9 @@
   },
   {
     "id": "365",
-    "name": "npc.365.name",
-    "description": "description.a_witch",
+    "v1Id": 365,
+    "name": "npc.winelda.name",
+    "description": "npc.witch.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -13177,6 +13543,7 @@
   },
   {
     "id": "366",
+    "v1Id": 366,
     "name": "npc.366.name",
     "description": "description.a_peaceful_monk",
     "command": "command.none",
@@ -13213,6 +13580,7 @@
   },
   {
     "id": "367",
+    "v1Id": 367,
     "name": "npc.367.name",
     "description": "description.overgrown_vermin",
     "command": "command.none",
@@ -13249,6 +13617,7 @@
   },
   {
     "id": "368",
+    "v1Id": 368,
     "name": "npc.master_fisher.name",
     "description": "npc.master_fisher.description",
     "command": "command.none",
@@ -13285,6 +13654,7 @@
   },
   {
     "id": "369",
+    "v1Id": 369,
     "name": "npc.369.name",
     "description": "description.he_runs_a_fish_exchange",
     "command": "command.none",
@@ -13321,6 +13691,7 @@
   },
   {
     "id": "370",
+    "v1Id": 370,
     "name": "npc.370.name",
     "description": "description.he_runs_a_fish_exchange",
     "command": "command.none",
@@ -13357,6 +13728,7 @@
   },
   {
     "id": "371",
+    "v1Id": 371,
     "name": "npc.merchant.name",
     "description": "description.he_smells_of_fish",
     "command": "command.none",
@@ -13393,6 +13765,7 @@
   },
   {
     "id": "372",
+    "v1Id": 372,
     "name": "npc.372.name",
     "description": "npc.372.description",
     "command": "command.none",
@@ -13429,6 +13802,7 @@
   },
   {
     "id": "373",
+    "v1Id": 373,
     "name": "npc.guard.name",
     "description": "description.its_one_of_general_khazards",
     "command": "command.none",
@@ -13465,6 +13839,7 @@
   },
   {
     "id": "374",
+    "v1Id": 374,
     "name": "npc.guard.name",
     "description": "description.its_one_of_general_khazards",
     "command": "command.none",
@@ -13501,6 +13876,7 @@
   },
   {
     "id": "375",
+    "v1Id": 375,
     "name": "npc.guard.name",
     "description": "description.its_one_of_general_khazards",
     "command": "command.none",
@@ -13537,6 +13913,7 @@
   },
   {
     "id": "376",
+    "v1Id": 376,
     "name": "npc.guard.name",
     "description": "description.its_one_of_general_khazards",
     "command": "command.none",
@@ -13573,6 +13950,7 @@
   },
   {
     "id": "377",
+    "v1Id": 377,
     "name": "npc.377.name",
     "description": "description.a_young_squire",
     "command": "command.none",
@@ -13609,6 +13987,7 @@
   },
   {
     "id": "378",
+    "v1Id": 378,
     "name": "npc.378.name",
     "description": "npc.378.description",
     "command": "command.none",
@@ -13645,6 +14024,7 @@
   },
   {
     "id": "379",
+    "v1Id": 379,
     "name": "npc.379.name",
     "description": "description.he_looks_mistreated_and_weak",
     "command": "command.none",
@@ -13681,6 +14061,7 @@
   },
   {
     "id": "380",
+    "v1Id": 380,
     "name": "npc.380.name",
     "description": "description.he_looks_mistreated_and_weak",
     "command": "command.none",
@@ -13717,6 +14098,7 @@
   },
   {
     "id": "381",
+    "v1Id": 381,
     "name": "npc.381.name",
     "description": "description.a_scruffy_looking_chap",
     "command": "command.none",
@@ -13753,6 +14135,7 @@
   },
   {
     "id": "382",
+    "v1Id": 382,
     "name": "npc.382.name",
     "description": "npc.382.description",
     "command": "command.none",
@@ -13789,6 +14172,7 @@
   },
   {
     "id": "383",
+    "v1Id": 383,
     "name": "npc.383.name",
     "description": "description.he_looks_real_nasty",
     "command": "command.none",
@@ -13825,6 +14209,7 @@
   },
   {
     "id": "384",
+    "v1Id": 384,
     "name": "npc.384.name",
     "description": "npc.384.description",
     "command": "command.none",
@@ -13861,6 +14246,7 @@
   },
   {
     "id": "385",
+    "v1Id": 385,
     "name": "npc.guard.name",
     "description": "description.its_one_of_general_khazards",
     "command": "command.none",
@@ -13897,6 +14283,7 @@
   },
   {
     "id": "386",
+    "v1Id": 386,
     "name": "npc.khazard_scorpion.name",
     "description": "npc.khazard_scorpion.description",
     "command": "command.none",
@@ -13933,6 +14320,7 @@
   },
   {
     "id": "387",
+    "v1Id": 387,
     "name": "npc.387.name",
     "description": "description.he_looks_mistreated_and_weak",
     "command": "command.none",
@@ -13969,6 +14357,7 @@
   },
   {
     "id": "388",
+    "v1Id": 388,
     "name": "npc.388.name",
     "description": "description.hello_nice_doggy",
     "command": "command.none",
@@ -14005,6 +14394,7 @@
   },
   {
     "id": "389",
+    "v1Id": 389,
     "name": "npc.389.name",
     "description": "npc.389.description",
     "command": "command.none",
@@ -14041,8 +14431,9 @@
   },
   {
     "id": "390",
+    "v1Id": 390,
     "name": "npc.390.name",
-    "description": "description.an_old_sailor",
+    "description": "npc.aged_sailor.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -14077,8 +14468,9 @@
   },
   {
     "id": "391",
+    "v1Id": 391,
     "name": "npc.merchant.name",
-    "description": "description.maybe_hed_like_to_buy",
+    "description": "npc.merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -14113,6 +14505,7 @@
   },
   {
     "id": "392",
+    "v1Id": 392,
     "name": "npc.fairy_queen.name",
     "description": "npc.fairy_queen.description",
     "command": "command.none",
@@ -14149,6 +14542,7 @@
   },
   {
     "id": "393",
+    "v1Id": 393,
     "name": "npc.merlin.name",
     "description": "description.an_old_wizard",
     "command": "command.none",
@@ -14185,6 +14579,7 @@
   },
   {
     "id": "394",
+    "v1Id": 394,
     "name": "npc.394.name",
     "description": "npc.394.description",
     "command": "command.none",
@@ -14221,6 +14616,7 @@
   },
   {
     "id": "395",
+    "v1Id": 395,
     "name": "npc.395.name",
     "description": "description.a_peaceful_monk",
     "command": "command.none",
@@ -14257,6 +14653,7 @@
   },
   {
     "id": "396",
+    "v1Id": 396,
     "name": "npc.396.name",
     "description": "description.its_a_tree_gnome",
     "command": "command.none",
@@ -14293,6 +14690,7 @@
   },
   {
     "id": "397",
+    "v1Id": 397,
     "name": "npc.397.name",
     "description": "description.its_a_tree_gnome",
     "command": "command.none",
@@ -14329,6 +14727,7 @@
   },
   {
     "id": "398",
+    "v1Id": 398,
     "name": "npc.398.name",
     "description": "description.its_a_tree_gnome",
     "command": "command.none",
@@ -14365,6 +14764,7 @@
   },
   {
     "id": "399",
+    "v1Id": 399,
     "name": "npc.399.name",
     "description": "npc.399.description",
     "command": "command.none",
@@ -14401,6 +14801,7 @@
   },
   {
     "id": "400",
+    "v1Id": 400,
     "name": "npc.400.name",
     "description": "description.its_a_gnome_he_looks",
     "command": "command.none",
@@ -14437,6 +14838,7 @@
   },
   {
     "id": "401",
+    "v1Id": 401,
     "name": "npc.401.name",
     "description": "npc.401.description",
     "command": "command.none",
@@ -14473,6 +14875,7 @@
   },
   {
     "id": "402",
+    "v1Id": 402,
     "name": "npc.402.name",
     "description": "npc.402.description",
     "command": "command.none",
@@ -14509,6 +14912,7 @@
   },
   {
     "id": "403",
+    "v1Id": 403,
     "name": "npc.403.name",
     "description": "description.a_peaceful_monk",
     "command": "command.none",
@@ -14545,6 +14949,7 @@
   },
   {
     "id": "404",
+    "v1Id": 404,
     "name": "npc.404.name",
     "description": "description.its_a_tree_gnome",
     "command": "command.none",
@@ -14581,6 +14986,7 @@
   },
   {
     "id": "405",
+    "v1Id": 405,
     "name": "npc.405.name",
     "description": "description.its_a_tree_gnome",
     "command": "command.none",
@@ -14617,6 +15023,7 @@
   },
   {
     "id": "406",
+    "v1Id": 406,
     "name": "npc.406.name",
     "description": "description.its_a_tree_gnome",
     "command": "command.none",
@@ -14653,6 +15060,7 @@
   },
   {
     "id": "407",
+    "v1Id": 407,
     "name": "npc.407.name",
     "description": "npc.407.description",
     "command": "command.none",
@@ -14689,6 +15097,7 @@
   },
   {
     "id": "408",
+    "v1Id": 408,
     "name": "npc.408.name",
     "description": "description.its_a_tree_gnome",
     "command": "command.none",
@@ -14725,6 +15134,7 @@
   },
   {
     "id": "409",
+    "v1Id": 409,
     "name": "npc.409.name",
     "description": "npc.409.description",
     "command": "command.none",
@@ -14761,6 +15171,7 @@
   },
   {
     "id": "410",
+    "v1Id": 410,
     "name": "npc.410.name",
     "description": "description.he_looks_real_nasty",
     "command": "command.none",
@@ -14797,6 +15208,7 @@
   },
   {
     "id": "411",
+    "v1Id": 411,
     "name": "npc.411.name",
     "description": "npc.411.description",
     "command": "command.none",
@@ -14833,6 +15245,7 @@
   },
   {
     "id": "412",
+    "v1Id": 412,
     "name": "npc.fisher_king.name",
     "description": "npc.fisher_king.description",
     "command": "command.none",
@@ -14869,6 +15282,7 @@
   },
   {
     "id": "413",
+    "v1Id": 413,
     "name": "npc.413.name",
     "description": "npc.413.description",
     "command": "command.none",
@@ -14905,7 +15319,8 @@
   },
   {
     "id": "414",
-    "name": "npc.414.name",
+    "v1Id": 414,
+    "name": "npc.fisherman.name",
     "description": "description.an_old_fisherman",
     "command": "command.none",
     "sprites": [
@@ -14941,6 +15356,7 @@
   },
   {
     "id": "415",
+    "v1Id": 415,
     "name": "npc.king_percival.name",
     "description": "npc.king_percival.description",
     "command": "command.none",
@@ -14977,6 +15393,7 @@
   },
   {
     "id": "416",
+    "v1Id": 416,
     "name": "npc.unhappy_peasant.name",
     "description": "npc.unhappy_peasant.description",
     "command": "command.none",
@@ -15013,6 +15430,7 @@
   },
   {
     "id": "417",
+    "v1Id": 417,
     "name": "npc.happy_peasant.name",
     "description": "npc.happy_peasant.description",
     "command": "command.none",
@@ -15049,8 +15467,9 @@
   },
   {
     "id": "418",
-    "name": "npc.418.name",
-    "description": "npc.418.description",
+    "v1Id": 418,
+    "name": "npc.ceril_carnillean.name",
+    "description": "npc.ceril_carnillean.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -15085,8 +15504,9 @@
   },
   {
     "id": "419",
-    "name": "npc.419.name",
-    "description": "npc.419.description",
+    "v1Id": 419,
+    "name": "npc.butler.name",
+    "description": "npc.butler.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -15121,8 +15541,9 @@
   },
   {
     "id": "420",
-    "name": "npc.420.name",
-    "description": "npc.420.description",
+    "v1Id": 420,
+    "name": "npc.carnillean_guard.name",
+    "description": "npc.carnillean_guard.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -15157,8 +15578,9 @@
   },
   {
     "id": "421",
-    "name": "npc.421.name",
-    "description": "npc.421.description",
+    "v1Id": 421,
+    "name": "npc.ribesman.name",
+    "description": "npc.ribesman.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -15193,6 +15615,7 @@
   },
   {
     "id": "422",
+    "v1Id": 422,
     "name": "npc.henryeta.name",
     "description": "npc.henryeta.description",
     "command": "command.none",
@@ -15229,6 +15652,7 @@
   },
   {
     "id": "423",
+    "v1Id": 423,
     "name": "npc.philipe.name",
     "description": "npc.philipe.description",
     "command": "command.none",
@@ -15265,6 +15689,7 @@
   },
   {
     "id": "424",
+    "v1Id": 424,
     "name": "npc.clivet.name",
     "description": "npc.clivet.description",
     "command": "command.none",
@@ -15301,6 +15726,7 @@
   },
   {
     "id": "425",
+    "v1Id": 425,
     "name": "npc.cult_member.name",
     "description": "npc.cult_member.description",
     "command": "command.none",
@@ -15337,8 +15763,9 @@
   },
   {
     "id": "426",
-    "name": "npc.426.name",
-    "description": "npc.426.description",
+    "v1Id": 426,
+    "name": "npc.lord_hazeel.name",
+    "description": "npc.lord_hazeel.description",
     "command": "command.none",
     "sprites": [
       18,
@@ -15373,6 +15800,7 @@
   },
   {
     "id": "427",
+    "v1Id": 427,
     "name": "npc.alomone.name",
     "description": "npc.alomone.description",
     "command": "command.none",
@@ -15409,6 +15837,7 @@
   },
   {
     "id": "428",
+    "v1Id": 428,
     "name": "npc.khazard_commander.name",
     "description": "npc.khazard_commander.description",
     "command": "command.none",
@@ -15445,8 +15874,9 @@
   },
   {
     "id": "429",
-    "name": "npc.429.name",
-    "description": "npc.429.description",
+    "v1Id": 429,
+    "name": "npc.claus.name",
+    "description": "npc.claus.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -15481,7 +15911,8 @@
   },
   {
     "id": "430",
-    "name": "npc.430.name",
+    "v1Id": 430,
+    "name": "npc.plague_sheep_1.name",
     "description": "description.the_sheep_has_the_plague",
     "command": "command.none",
     "sprites": [
@@ -15517,7 +15948,8 @@
   },
   {
     "id": "431",
-    "name": "npc.431.name",
+    "v1Id": 431,
+    "name": "npc.plague_sheep_2.name",
     "description": "description.the_sheep_has_the_plague",
     "command": "command.none",
     "sprites": [
@@ -15553,7 +15985,8 @@
   },
   {
     "id": "432",
-    "name": "npc.432.name",
+    "v1Id": 432,
+    "name": "npc.plague_sheep_3.name",
     "description": "description.the_sheep_has_the_plague",
     "command": "command.none",
     "sprites": [
@@ -15589,7 +16022,8 @@
   },
   {
     "id": "433",
-    "name": "npc.433.name",
+    "v1Id": 433,
+    "name": "npc.plague_sheep_4.name",
     "description": "description.the_sheep_has_the_plague",
     "command": "command.none",
     "sprites": [
@@ -15625,8 +16059,9 @@
   },
   {
     "id": "434",
-    "name": "npc.434.name",
-    "description": "npc.434.description",
+    "v1Id": 434,
+    "name": "npc.farmer_brumty.name",
+    "description": "npc.farmer_brumty.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -15661,8 +16096,9 @@
   },
   {
     "id": "435",
-    "name": "npc.435.name",
-    "description": "npc.435.description",
+    "v1Id": 435,
+    "name": "npc.doctor_orbon.name",
+    "description": "npc.doctor_orbon.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -15697,6 +16133,7 @@
   },
   {
     "id": "436",
+    "v1Id": 436,
     "name": "npc.councillor_halgrive.name",
     "description": "npc.councillor_halgrive.description",
     "command": "command.none",
@@ -15733,6 +16170,7 @@
   },
   {
     "id": "437",
+    "v1Id": 437,
     "name": "npc.edmond.name",
     "description": "npc.edmond.description",
     "command": "command.none",
@@ -15769,6 +16207,7 @@
   },
   {
     "id": "438",
+    "v1Id": 438,
     "name": "npc.citizen.name",
     "description": "npc.438.description",
     "command": "command.none",
@@ -15805,6 +16244,7 @@
   },
   {
     "id": "439",
+    "v1Id": 439,
     "name": "npc.citizen.name",
     "description": "npc.439.description",
     "command": "command.none",
@@ -15841,6 +16281,7 @@
   },
   {
     "id": "440",
+    "v1Id": 440,
     "name": "npc.citizen.name",
     "description": "npc.440.description",
     "command": "command.none",
@@ -15877,6 +16318,7 @@
   },
   {
     "id": "441",
+    "v1Id": 441,
     "name": "npc.citizen.name",
     "description": "npc.441.description",
     "command": "command.none",
@@ -15913,6 +16355,7 @@
   },
   {
     "id": "442",
+    "v1Id": 442,
     "name": "npc.citizen.name",
     "description": "npc.442.description",
     "command": "command.none",
@@ -15949,6 +16392,7 @@
   },
   {
     "id": "443",
+    "v1Id": 443,
     "name": "npc.jethick.name",
     "description": "npc.jethick.description",
     "command": "command.none",
@@ -15985,6 +16429,7 @@
   },
   {
     "id": "444",
+    "v1Id": 444,
     "name": "npc.mourner.name",
     "description": "description.a_mourner_or_plague_healer",
     "command": "command.none",
@@ -16021,6 +16466,7 @@
   },
   {
     "id": "445",
+    "v1Id": 445,
     "name": "npc.mourner.name",
     "description": "description.a_mourner_or_plague_healer",
     "command": "command.none",
@@ -16057,6 +16503,7 @@
   },
   {
     "id": "446",
+    "v1Id": 446,
     "name": "npc.446.name",
     "description": "npc.446.description",
     "command": "command.none",
@@ -16093,6 +16540,7 @@
   },
   {
     "id": "447",
+    "v1Id": 447,
     "name": "npc.mertha_rehnison.name",
     "description": "npc.mertha_rehnison.description",
     "command": "command.none",
@@ -16129,6 +16577,7 @@
   },
   {
     "id": "448",
+    "v1Id": 448,
     "name": "npc.448.name",
     "description": "npc.448.description",
     "command": "command.none",
@@ -16165,6 +16614,7 @@
   },
   {
     "id": "449",
+    "v1Id": 449,
     "name": "npc.449.name",
     "description": "npc.449.description",
     "command": "command.none",
@@ -16201,6 +16651,7 @@
   },
   {
     "id": "450",
+    "v1Id": 450,
     "name": "npc.450.name",
     "description": "npc.450.description",
     "command": "command.none",
@@ -16237,6 +16688,7 @@
   },
   {
     "id": "451",
+    "v1Id": 451,
     "name": "npc.mourner.name",
     "description": "description.a_mourner_or_plague_healer",
     "command": "command.none",
@@ -16273,6 +16725,7 @@
   },
   {
     "id": "452",
+    "v1Id": 452,
     "name": "npc.452.name",
     "description": "npc.452.description",
     "command": "command.none",
@@ -16309,6 +16762,7 @@
   },
   {
     "id": "453",
+    "v1Id": 453,
     "name": "npc.453.name",
     "description": "npc.453.description",
     "command": "command.none",
@@ -16345,6 +16799,7 @@
   },
   {
     "id": "454",
+    "v1Id": 454,
     "name": "npc.454.name",
     "description": "npc.454.description",
     "command": "command.none",
@@ -16381,6 +16836,7 @@
   },
   {
     "id": "455",
+    "v1Id": 455,
     "name": "npc.caroline.name",
     "description": "npc.caroline.description",
     "command": "command.none",
@@ -16417,8 +16873,9 @@
   },
   {
     "id": "456",
+    "v1Id": 456,
     "name": "name.holgart",
-    "description": "description.an_old_sailor",
+    "description": "npc.aged_sailor.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -16453,8 +16910,9 @@
   },
   {
     "id": "457",
+    "v1Id": 457,
     "name": "name.holgart",
-    "description": "description.an_old_sailor",
+    "description": "npc.aged_sailor.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -16489,8 +16947,9 @@
   },
   {
     "id": "458",
+    "v1Id": 458,
     "name": "name.holgart",
-    "description": "description.an_old_sailor",
+    "description": "npc.aged_sailor.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -16525,6 +16984,7 @@
   },
   {
     "id": "459",
+    "v1Id": 459,
     "name": "npc.459.name",
     "description": "npc.459.description",
     "command": "command.none",
@@ -16561,6 +17021,7 @@
   },
   {
     "id": "460",
+    "v1Id": 460,
     "name": "npc.460.name",
     "description": "npc.460.description",
     "command": "command.none",
@@ -16597,6 +17058,7 @@
   },
   {
     "id": "461",
+    "v1Id": 461,
     "name": "npc.461.name",
     "description": "npc.461.description",
     "command": "command.none",
@@ -16633,6 +17095,7 @@
   },
   {
     "id": "462",
+    "v1Id": 462,
     "name": "name.platform_fisherman",
     "description": "description.an_emotionless_fisherman",
     "command": "command.none",
@@ -16669,6 +17132,7 @@
   },
   {
     "id": "463",
+    "v1Id": 463,
     "name": "name.platform_fisherman",
     "description": "description.an_emotionless_fisherman",
     "command": "command.none",
@@ -16705,6 +17169,7 @@
   },
   {
     "id": "464",
+    "v1Id": 464,
     "name": "name.platform_fisherman",
     "description": "description.an_emotionless_fisherman",
     "command": "command.none",
@@ -16741,6 +17206,7 @@
   },
   {
     "id": "465",
+    "v1Id": 465,
     "name": "npc.elena.name",
     "description": "description.she_doesnt_look_too_happy",
     "command": "command.none",
@@ -16777,6 +17243,7 @@
   },
   {
     "id": "466",
+    "v1Id": 466,
     "name": "npc.466.name",
     "description": "description.he_doesnt_seem_to_mind",
     "command": "command.none",
@@ -16813,6 +17280,7 @@
   },
   {
     "id": "467",
+    "v1Id": 467,
     "name": "npc.467.name",
     "description": "description.he_doesnt_seem_to_mind",
     "command": "command.none",
@@ -16849,6 +17317,7 @@
   },
   {
     "id": "468",
+    "v1Id": 468,
     "name": "npc.468.name",
     "description": "npc.468.description",
     "command": "command.none",
@@ -16885,6 +17354,7 @@
   },
   {
     "id": "469",
+    "v1Id": 469,
     "name": "npc.469.name",
     "description": "npc.469.description",
     "command": "command.none",
@@ -16921,6 +17391,7 @@
   },
   {
     "id": "470",
+    "v1Id": 470,
     "name": "npc.almera.name",
     "description": "npc.almera.description",
     "command": "command.none",
@@ -16957,6 +17428,7 @@
   },
   {
     "id": "471",
+    "v1Id": 471,
     "name": "npc.471.name",
     "description": "description.a_young_boisterous_looking_lad",
     "command": "command.none",
@@ -16993,6 +17465,7 @@
   },
   {
     "id": "472",
+    "v1Id": 472,
     "name": "npc.472.name",
     "description": "npc.472.description",
     "command": "command.none",
@@ -17029,6 +17502,7 @@
   },
   {
     "id": "473",
+    "v1Id": 473,
     "name": "npc.rat.name",
     "description": "description.overgrown_vermin",
     "command": "command.none",
@@ -17065,6 +17539,7 @@
   },
   {
     "id": "474",
+    "v1Id": 474,
     "name": "npc.474.name",
     "description": "npc.474.description",
     "command": "command.none",
@@ -17101,6 +17576,7 @@
   },
   {
     "id": "475",
+    "v1Id": 475,
     "name": "npc.475.name",
     "description": "description.its_a_tree_gnome",
     "command": "command.none",
@@ -17137,6 +17613,7 @@
   },
   {
     "id": "476",
+    "v1Id": 476,
     "name": "npc.guide.name",
     "description": "description.she_gives_hints_to_new",
     "command": "command.none",
@@ -17173,6 +17650,7 @@
   },
   {
     "id": "477",
+    "v1Id": 477,
     "name": "npc.477.name",
     "description": "npc.477.description",
     "command": "command.none",
@@ -17209,6 +17687,7 @@
   },
   {
     "id": "478",
+    "v1Id": 478,
     "name": "npc.478.name",
     "description": "npc.478.description",
     "command": "command.none",
@@ -17245,6 +17724,7 @@
   },
   {
     "id": "479",
+    "v1Id": 479,
     "name": "npc.479.name",
     "description": "description.he_smells_of_fish",
     "command": "command.none",
@@ -17281,6 +17761,7 @@
   },
   {
     "id": "480",
+    "v1Id": 480,
     "name": "npc.480.name",
     "description": "npc.480.description",
     "command": "command.none",
@@ -17317,6 +17798,7 @@
   },
   {
     "id": "481",
+    "v1Id": 481,
     "name": "npc.481.name",
     "description": "description.an_old_fisherman",
     "command": "command.none",
@@ -17353,6 +17835,7 @@
   },
   {
     "id": "482",
+    "v1Id": 482,
     "name": "npc.482.name",
     "description": "description.a_short_angry_guy",
     "command": "command.none",
@@ -17389,6 +17872,7 @@
   },
   {
     "id": "483",
+    "v1Id": 483,
     "name": "npc.elena.name",
     "description": "npc.483.description",
     "command": "command.none",
@@ -17425,6 +17909,7 @@
   },
   {
     "id": "484",
+    "v1Id": 484,
     "name": "npc.484.name",
     "description": "npc.484.description",
     "command": "command.none",
@@ -17461,6 +17946,7 @@
   },
   {
     "id": "485",
+    "v1Id": 485,
     "name": "npc.485.name",
     "description": "npc.485.description",
     "command": "command.none",
@@ -17497,6 +17983,7 @@
   },
   {
     "id": "486",
+    "v1Id": 486,
     "name": "npc.486.name",
     "description": "npc.486.description",
     "command": "command.none",
@@ -17533,6 +18020,7 @@
   },
   {
     "id": "487",
+    "v1Id": 487,
     "name": "npc.487.name",
     "description": "npc.487.description",
     "command": "command.none",
@@ -17569,6 +18057,7 @@
   },
   {
     "id": "488",
+    "v1Id": 488,
     "name": "npc.488.name",
     "description": "npc.488.description",
     "command": "command.none",
@@ -17605,6 +18094,7 @@
   },
   {
     "id": "489",
+    "v1Id": 489,
     "name": "npc.quest_advisor.name",
     "description": "npc.quest_advisor.description",
     "command": "command.none",
@@ -17641,6 +18131,7 @@
   },
   {
     "id": "490",
+    "v1Id": 490,
     "name": "name.chemist",
     "description": "description.human",
     "command": "command.none",
@@ -17677,6 +18168,7 @@
   },
   {
     "id": "491",
+    "v1Id": 491,
     "name": "npc.mourner.name",
     "description": "description.a_mourner_or_plague_healer",
     "command": "command.none",
@@ -17713,6 +18205,7 @@
   },
   {
     "id": "492",
+    "v1Id": 492,
     "name": "npc.mourner.name",
     "description": "description.a_mourner_or_plague_healer",
     "command": "command.none",
@@ -17749,6 +18242,7 @@
   },
   {
     "id": "493",
+    "v1Id": 493,
     "name": "npc.493.name",
     "description": "description.hes_ready_for_a_fight",
     "command": "command.none",
@@ -17785,6 +18279,7 @@
   },
   {
     "id": "494",
+    "v1Id": 494,
     "name": "npc.494.name",
     "description": "description.an_old_wizard",
     "command": "command.none",
@@ -17821,6 +18316,7 @@
   },
   {
     "id": "495",
+    "v1Id": 495,
     "name": "npc.mourner.name",
     "description": "description.a_mourner_or_plague_healer",
     "command": "command.none",
@@ -17857,6 +18353,7 @@
   },
   {
     "id": "496",
+    "v1Id": 496,
     "name": "npc.496.name",
     "description": "npc.496.description",
     "command": "command.none",
@@ -17893,8 +18390,9 @@
   },
   {
     "id": "497",
+    "v1Id": 497,
     "name": "npc.497.name",
-    "description": "description.an_old_sailor",
+    "description": "npc.aged_sailor.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -17929,6 +18427,7 @@
   },
   {
     "id": "498",
+    "v1Id": 498,
     "name": "npc.498.name",
     "description": "description.it_rattles_as_it_walks",
     "command": "command.none",
@@ -17965,6 +18464,7 @@
   },
   {
     "id": "499",
+    "v1Id": 499,
     "name": "npc.499.name",
     "description": "description.hes_ready_for_a_fight",
     "command": "command.none",
@@ -18001,6 +18501,7 @@
   },
   {
     "id": "500",
+    "v1Id": 500,
     "name": "npc.500.name",
     "description": "npc.500.description",
     "command": "command.none",
@@ -18037,6 +18538,7 @@
   },
   {
     "id": "501",
+    "v1Id": 501,
     "name": "npc.501.name",
     "description": "npc.501.description",
     "command": "command.none",
@@ -18073,6 +18575,7 @@
   },
   {
     "id": "502",
+    "v1Id": 502,
     "name": "npc.mourner.name",
     "description": "description.a_mourner_or_plague_healer",
     "command": "command.none",
@@ -18109,6 +18612,7 @@
   },
   {
     "id": "503",
+    "v1Id": 503,
     "name": "npc.guard.name",
     "description": "description.he_tries_to_keep_order",
     "command": "command.none",
@@ -18145,6 +18649,7 @@
   },
   {
     "id": "504",
+    "v1Id": 504,
     "name": "name.chemist",
     "description": "npc.504.description",
     "command": "command.none",
@@ -18181,6 +18686,7 @@
   },
   {
     "id": "505",
+    "v1Id": 505,
     "name": "name.chancy",
     "description": "description.hes_ready_for_a_bet",
     "command": "command.none",
@@ -18217,6 +18723,7 @@
   },
   {
     "id": "506",
+    "v1Id": 506,
     "name": "name.hops",
     "description": "description.hes_drunk",
     "command": "command.none",
@@ -18253,6 +18760,7 @@
   },
   {
     "id": "507",
+    "v1Id": 507,
     "name": "npc.devinci.name",
     "description": "description.he_has_a_colourful_personality",
     "command": "command.none",
@@ -18289,6 +18797,7 @@
   },
   {
     "id": "508",
+    "v1Id": 508,
     "name": "npc.508.name",
     "description": "npc.508.description",
     "command": "command.none",
@@ -18325,6 +18834,7 @@
   },
   {
     "id": "509",
+    "v1Id": 509,
     "name": "name.chancy",
     "description": "description.hes_ready_for_a_bet",
     "command": "command.none",
@@ -18361,6 +18871,7 @@
   },
   {
     "id": "510",
+    "v1Id": 510,
     "name": "name.hops",
     "description": "description.hes_drunk",
     "command": "command.none",
@@ -18397,6 +18908,7 @@
   },
   {
     "id": "511",
+    "v1Id": 511,
     "name": "npc.devinci.name",
     "description": "description.he_has_a_colourful_personality",
     "command": "command.none",
@@ -18433,6 +18945,7 @@
   },
   {
     "id": "512",
+    "v1Id": 512,
     "name": "npc.king_lathas.name",
     "description": "npc.king_lathas.description",
     "command": "command.none",
@@ -18469,6 +18982,7 @@
   },
   {
     "id": "513",
+    "v1Id": 513,
     "name": "npc.513.name",
     "description": "npc.513.description",
     "command": "command.none",
@@ -18505,6 +19019,7 @@
   },
   {
     "id": "514",
+    "v1Id": 514,
     "name": "npc.514.name",
     "description": "description.an_old_wizard",
     "command": "command.none",
@@ -18541,6 +19056,7 @@
   },
   {
     "id": "515",
+    "v1Id": 515,
     "name": "npc.515.name",
     "description": "npc.515.description",
     "command": "command.none",
@@ -18577,6 +19093,7 @@
   },
   {
     "id": "516",
+    "v1Id": 516,
     "name": "npc.516.name",
     "description": "description.the_living_dead",
     "command": "command.none",
@@ -18613,6 +19130,7 @@
   },
   {
     "id": "517",
+    "v1Id": 517,
     "name": "npc.517.name",
     "description": "npc.517.description",
     "command": "command.none",
@@ -18649,6 +19167,7 @@
   },
   {
     "id": "518",
+    "v1Id": 518,
     "name": "npc.518.name",
     "description": "description.a_soldier_of_the_town",
     "command": "command.none",
@@ -18685,6 +19204,7 @@
   },
   {
     "id": "519",
+    "v1Id": 519,
     "name": "npc.519.name",
     "description": "description.a_soldier_of_the_town",
     "command": "command.none",
@@ -18721,6 +19241,7 @@
   },
   {
     "id": "520",
+    "v1Id": 520,
     "name": "npc.bartender.name",
     "description": "description.i_could_get_a_beer",
     "command": "command.none",
@@ -18757,6 +19278,7 @@
   },
   {
     "id": "521",
+    "v1Id": 521,
     "name": "npc.521.name",
     "description": "npc.521.description",
     "command": "command.none",
@@ -18793,6 +19315,7 @@
   },
   {
     "id": "522",
+    "v1Id": 522,
     "name": "npc.522.name",
     "description": "npc.522.description",
     "command": "command.none",
@@ -18829,6 +19352,7 @@
   },
   {
     "id": "523",
+    "v1Id": 523,
     "name": "npc.523.name",
     "description": "npc.523.description",
     "command": "command.none",
@@ -18865,6 +19389,7 @@
   },
   {
     "id": "524",
+    "v1Id": 524,
     "name": "npc.guard.name",
     "description": "description.he_tries_to_keep_order",
     "command": "command.none",
@@ -18901,6 +19426,7 @@
   },
   {
     "id": "525",
+    "v1Id": 525,
     "name": "npc.ogre.name",
     "description": "npc.525.description",
     "command": "command.none",
@@ -18937,6 +19463,7 @@
   },
   {
     "id": "526",
+    "v1Id": 526,
     "name": "npc.guard.name",
     "description": "description.he_tries_to_keep_order",
     "command": "command.none",
@@ -18973,6 +19500,7 @@
   },
   {
     "id": "527",
+    "v1Id": 527,
     "name": "npc.guard.name",
     "description": "description.he_tries_to_keep_order",
     "command": "command.none",
@@ -19009,6 +19537,7 @@
   },
   {
     "id": "528",
+    "v1Id": 528,
     "name": "npc.merchant.name",
     "description": "description.he_sells_weapons",
     "command": "command.none",
@@ -19045,6 +19574,7 @@
   },
   {
     "id": "529",
+    "v1Id": 529,
     "name": "npc.bartender.name",
     "description": "description.i_could_get_a_beer",
     "command": "command.none",
@@ -19081,6 +19611,7 @@
   },
   {
     "id": "530",
+    "v1Id": 530,
     "name": "npc.530.name",
     "description": "npc.530.description",
     "command": "command.none",
@@ -19117,6 +19648,7 @@
   },
   {
     "id": "531",
+    "v1Id": 531,
     "name": "npc.ogre_chieftain.name",
     "description": "npc.ogre_chieftain.description",
     "command": "command.none",
@@ -19153,6 +19685,7 @@
   },
   {
     "id": "532",
+    "v1Id": 532,
     "name": "npc.rometti.name",
     "description": "npc.rometti.description",
     "command": "command.none",
@@ -19189,6 +19722,7 @@
   },
   {
     "id": "533",
+    "v1Id": 533,
     "name": "npc.rashiliyia.name",
     "description": "npc.rashiliyia.description",
     "command": "command.none",
@@ -19225,6 +19759,7 @@
   },
   {
     "id": "534",
+    "v1Id": 534,
     "name": "npc.blurberry.name",
     "description": "npc.blurberry.description",
     "command": "command.none",
@@ -19261,6 +19796,7 @@
   },
   {
     "id": "535",
+    "v1Id": 535,
     "name": "npc.535.name",
     "description": "description.its_another_jolly_tree_gnome",
     "command": "command.none",
@@ -19297,6 +19833,7 @@
   },
   {
     "id": "536",
+    "v1Id": 536,
     "name": "npc.536.name",
     "description": "npc.536.description",
     "command": "command.none",
@@ -19333,6 +19870,7 @@
   },
   {
     "id": "537",
+    "v1Id": 537,
     "name": "npc.537.name",
     "description": "description.its_another_jolly_tree_gnome",
     "command": "command.none",
@@ -19369,6 +19907,7 @@
   },
   {
     "id": "538",
+    "v1Id": 538,
     "name": "npc.538.name",
     "description": "description.human",
     "command": "command.none",
@@ -19405,6 +19944,7 @@
   },
   {
     "id": "539",
+    "v1Id": 539,
     "name": "npc.539.name",
     "description": "npc.539.description",
     "command": "command.none",
@@ -19441,6 +19981,7 @@
   },
   {
     "id": "540",
+    "v1Id": 540,
     "name": "npc.gnome_banker.name",
     "description": "npc.gnome_banker.description",
     "command": "command.none",
@@ -19477,6 +20018,7 @@
   },
   {
     "id": "541",
+    "v1Id": 541,
     "name": "name.king_narnode_shareen",
     "description": "description.its_a_gnome_he_looks",
     "command": "command.none",
@@ -19513,6 +20055,7 @@
   },
   {
     "id": "542",
+    "v1Id": 542,
     "name": "npc.542.name",
     "description": "description.one_of_rashaliyas_minions",
     "command": "command.none",
@@ -19549,6 +20092,7 @@
   },
   {
     "id": "543",
+    "v1Id": 543,
     "name": "npc.543.name",
     "description": "npc.543.description",
     "command": "command.none",
@@ -19585,6 +20129,7 @@
   },
   {
     "id": "544",
+    "v1Id": 544,
     "name": "npc.544.name",
     "description": "description.human",
     "command": "command.none",
@@ -19621,6 +20166,7 @@
   },
   {
     "id": "545",
+    "v1Id": 545,
     "name": "name.king_narnode_shareen",
     "description": "description.its_a_gnome_he_looks",
     "command": "command.none",
@@ -19657,6 +20203,7 @@
   },
   {
     "id": "546",
+    "v1Id": 546,
     "name": "npc.546.name",
     "description": "description.an_ancient_looking_gnome",
     "command": "command.none",
@@ -19693,6 +20240,7 @@
   },
   {
     "id": "547",
+    "v1Id": 547,
     "name": "npc.glough.name",
     "description": "description.an_rough_looking_gnome",
     "command": "command.none",
@@ -19729,6 +20277,7 @@
   },
   {
     "id": "548",
+    "v1Id": 548,
     "name": "npc.548.name",
     "description": "npc.548.description",
     "command": "npc.548.command",
@@ -19765,6 +20314,7 @@
   },
   {
     "id": "549",
+    "v1Id": 549,
     "name": "npc.549.name",
     "description": "description.human",
     "command": "command.none",
@@ -19801,6 +20351,7 @@
   },
   {
     "id": "550",
+    "v1Id": 550,
     "name": "npc.550.name",
     "description": "npc.550.description",
     "command": "command.none",
@@ -19837,6 +20388,7 @@
   },
   {
     "id": "551",
+    "v1Id": 551,
     "name": "npc.gnome_guard.name",
     "description": "description.a_tree_gnome_guard",
     "command": "command.none",
@@ -19873,6 +20425,7 @@
   },
   {
     "id": "552",
+    "v1Id": 552,
     "name": "npc.gnome_pilot.name",
     "description": "description.he_can_fly_the_glider",
     "command": "command.none",
@@ -19909,6 +20462,7 @@
   },
   {
     "id": "553",
+    "v1Id": 553,
     "name": "npc.553.name",
     "description": "npc.553.description",
     "command": "npc.553.command",
@@ -19945,6 +20499,7 @@
   },
   {
     "id": "554",
+    "v1Id": 554,
     "name": "npc.554.name",
     "description": "npc.554.description",
     "command": "command.none",
@@ -19981,8 +20536,9 @@
   },
   {
     "id": "555",
-    "name": "npc.555.name",
-    "description": "description.a_crazy_evil_druid",
+    "v1Id": 555,
+    "name": "npc.chaos_druid_warrior.name",
+    "description": "npc.chaos_druid.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -20017,6 +20573,7 @@
   },
   {
     "id": "556",
+    "v1Id": 556,
     "name": "npc.gnome_pilot.name",
     "description": "description.he_can_fly_the_glider",
     "command": "command.none",
@@ -20053,7 +20610,8 @@
   },
   {
     "id": "557",
-    "name": "npc.shipyard_worker.name",
+    "v1Id": 557,
+    "name": "npc.shipyard_labourer.name",
     "description": "description.he_looks_busy",
     "command": "command.none",
     "sprites": [
@@ -20089,7 +20647,8 @@
   },
   {
     "id": "558",
-    "name": "npc.shipyard_worker.name",
+    "v1Id": 558,
+    "name": "npc.shipyard_labourer.name",
     "description": "description.he_looks_busy",
     "command": "command.none",
     "sprites": [
@@ -20125,7 +20684,8 @@
   },
   {
     "id": "559",
-    "name": "npc.shipyard_worker.name",
+    "v1Id": 559,
+    "name": "npc.shipyard_labourer.name",
     "description": "description.he_looks_busy",
     "command": "command.none",
     "sprites": [
@@ -20161,7 +20721,8 @@
   },
   {
     "id": "560",
-    "name": "npc.shipyard_foreman.name",
+    "v1Id": 560,
+    "name": "npc.shipyard_supervisor.name",
     "description": "description.he_looks_busy",
     "command": "command.none",
     "sprites": [
@@ -20197,7 +20758,8 @@
   },
   {
     "id": "561",
-    "name": "npc.shipyard_foreman.name",
+    "v1Id": 561,
+    "name": "npc.shipyard_supervisor.name",
     "description": "description.he_looks_busy",
     "command": "command.none",
     "sprites": [
@@ -20233,6 +20795,7 @@
   },
   {
     "id": "562",
+    "v1Id": 562,
     "name": "npc.gnome_guard.name",
     "description": "description.a_tree_gnome_guard",
     "command": "command.none",
@@ -20269,6 +20832,7 @@
   },
   {
     "id": "563",
+    "v1Id": 563,
     "name": "name.femi",
     "description": "description.its_a_little_tree_gnome",
     "command": "command.none",
@@ -20305,6 +20869,7 @@
   },
   {
     "id": "564",
+    "v1Id": 564,
     "name": "name.femi",
     "description": "description.its_a_little_tree_gnome",
     "command": "command.none",
@@ -20341,6 +20906,7 @@
   },
   {
     "id": "565",
+    "v1Id": 565,
     "name": "npc.565.name",
     "description": "description.its_a_little_tree_gnome",
     "command": "command.none",
@@ -20377,6 +20943,7 @@
   },
   {
     "id": "566",
+    "v1Id": 566,
     "name": "npc.glough.name",
     "description": "description.an_rough_looking_gnome",
     "command": "command.none",
@@ -20413,8 +20980,9 @@
   },
   {
     "id": "567",
-    "name": "npc.567.name",
-    "description": "description.a_crazy_evil_druid",
+    "v1Id": 567,
+    "name": "npc.salarin_the_twisted.name",
+    "description": "npc.chaos_druid.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -20449,6 +21017,7 @@
   },
   {
     "id": "568",
+    "v1Id": 568,
     "name": "npc.black_demon.name",
     "description": "description.a_big_scary_jet_black",
     "command": "command.none",
@@ -20485,6 +21054,7 @@
   },
   {
     "id": "569",
+    "v1Id": 569,
     "name": "npc.gnome_pilot.name",
     "description": "description.he_can_fly_the_glider",
     "command": "command.none",
@@ -20521,6 +21091,7 @@
   },
   {
     "id": "570",
+    "v1Id": 570,
     "name": "npc.gnome_pilot.name",
     "description": "description.he_can_fly_the_glider",
     "command": "command.none",
@@ -20557,6 +21128,7 @@
   },
   {
     "id": "571",
+    "v1Id": 571,
     "name": "npc.gnome_pilot.name",
     "description": "description.he_can_fly_the_glider",
     "command": "command.none",
@@ -20593,6 +21165,7 @@
   },
   {
     "id": "572",
+    "v1Id": 572,
     "name": "npc.gnome_pilot.name",
     "description": "description.he_can_fly_the_glider",
     "command": "command.none",
@@ -20629,6 +21202,7 @@
   },
   {
     "id": "573",
+    "v1Id": 573,
     "name": "npc.573.name",
     "description": "description.a_warrior",
     "command": "command.none",
@@ -20665,6 +21239,7 @@
   },
   {
     "id": "574",
+    "v1Id": 574,
     "name": "npc.yanille_watchman.name",
     "description": "npc.574.description",
     "command": "command.pickpocket",
@@ -20701,8 +21276,9 @@
   },
   {
     "id": "575",
-    "name": "npc.575.name",
-    "description": "npc.575.description",
+    "v1Id": 575,
+    "name": "npc.tower_guard.name",
+    "description": "npc.tower_guard.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -20737,6 +21313,7 @@
   },
   {
     "id": "576",
+    "v1Id": 576,
     "name": "npc.gnome_trainer.name",
     "description": "description.he_can_advise_on_training",
     "command": "command.none",
@@ -20773,6 +21350,7 @@
   },
   {
     "id": "577",
+    "v1Id": 577,
     "name": "npc.gnome_trainer.name",
     "description": "description.he_can_advise_on_training",
     "command": "command.none",
@@ -20809,6 +21387,7 @@
   },
   {
     "id": "578",
+    "v1Id": 578,
     "name": "npc.gnome_trainer.name",
     "description": "description.he_can_advise_on_training",
     "command": "command.none",
@@ -20845,6 +21424,7 @@
   },
   {
     "id": "579",
+    "v1Id": 579,
     "name": "npc.gnome_trainer.name",
     "description": "description.he_can_advise_on_training",
     "command": "command.pickpocket",
@@ -20881,8 +21461,9 @@
   },
   {
     "id": "580",
-    "name": "npc.580.name",
-    "description": "npc.580.description",
+    "v1Id": 580,
+    "name": "npc.blurberry_barman.name",
+    "description": "npc.blurberry_barman.description",
     "command": "command.pickpocket",
     "sprites": [
       0,
@@ -20917,8 +21498,9 @@
   },
   {
     "id": "581",
-    "name": "npc.581.name",
-    "description": "npc.581.description",
+    "v1Id": 581,
+    "name": "npc.gnome_waiter.name",
+    "description": "npc.gnome_waiter.description",
     "command": "command.pickpocket",
     "sprites": [
       0,
@@ -20953,6 +21535,7 @@
   },
   {
     "id": "582",
+    "v1Id": 582,
     "name": "npc.gnome_guard.name",
     "description": "description.a_tree_gnome_guard",
     "command": "command.pickpocket",
@@ -20989,6 +21572,7 @@
   },
   {
     "id": "583",
+    "v1Id": 583,
     "name": "npc.gnome_child.name",
     "description": "npc.583.description",
     "command": "command.pickpocket",
@@ -21025,7 +21609,8 @@
   },
   {
     "id": "584",
-    "name": "npc.584.name",
+    "v1Id": 584,
+    "name": "npc.earth_warrior.name",
     "description": "description.a_strange_inhuman_warrior",
     "command": "command.none",
     "sprites": [
@@ -21061,6 +21646,7 @@
   },
   {
     "id": "585",
+    "v1Id": 585,
     "name": "npc.gnome_child.name",
     "description": "description.hes_a_little_fellow",
     "command": "command.pickpocket",
@@ -21097,6 +21683,7 @@
   },
   {
     "id": "586",
+    "v1Id": 586,
     "name": "npc.gnome_child.name",
     "description": "npc.586.description",
     "command": "command.pickpocket",
@@ -21133,7 +21720,8 @@
   },
   {
     "id": "587",
-    "name": "npc.587.name",
+    "v1Id": 587,
+    "name": "npc.gulluck.name",
     "description": "description.he_sells_weapons",
     "command": "command.none",
     "sprites": [
@@ -21169,8 +21757,9 @@
   },
   {
     "id": "588",
-    "name": "npc.588.name",
-    "description": "description.not_civilised_looking",
+    "v1Id": 588,
+    "name": "npc.gunnjorn.name",
+    "description": "npc.barbarian.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -21205,8 +21794,9 @@
   },
   {
     "id": "589",
-    "name": "npc.589.name",
-    "description": "npc.589.description",
+    "v1Id": 589,
+    "name": "npc.zadimus.name",
+    "description": "npc.zadimus.description",
     "command": "command.none",
     "sprites": [
       137,
@@ -21241,7 +21831,8 @@
   },
   {
     "id": "590",
-    "name": "npc.590.name",
+    "v1Id": 590,
+    "name": "npc.brimstail.name",
     "description": "description.an_ancient_looking_gnome",
     "command": "command.none",
     "sprites": [
@@ -21277,6 +21868,7 @@
   },
   {
     "id": "591",
+    "v1Id": 591,
     "name": "npc.gnome_child.name",
     "description": "description.hes_a_little_fellow",
     "command": "command.pickpocket",
@@ -21313,6 +21905,7 @@
   },
   {
     "id": "592",
+    "v1Id": 592,
     "name": "npc.gnome_local.name",
     "description": "description.a_tree_gnome_villager",
     "command": "command.pickpocket",
@@ -21349,6 +21942,7 @@
   },
   {
     "id": "593",
+    "v1Id": 593,
     "name": "npc.gnome_local.name",
     "description": "description.a_tree_gnome_villager",
     "command": "command.pickpocket",
@@ -21385,6 +21979,7 @@
   },
   {
     "id": "594",
+    "v1Id": 594,
     "name": "npc.moss_giant.name",
     "description": "description.his_beard_seems_to_have",
     "command": "command.none",
@@ -21421,6 +22016,7 @@
   },
   {
     "id": "595",
+    "v1Id": 595,
     "name": "npc.gnome_baller.name",
     "description": "description.a_tree_gnome_ball_player",
     "command": "command.tackle",
@@ -21457,6 +22053,7 @@
   },
   {
     "id": "596",
+    "v1Id": 596,
     "name": "npc.596.name",
     "description": "npc.596.description",
     "command": "command.none",
@@ -21493,6 +22090,7 @@
   },
   {
     "id": "597",
+    "v1Id": 597,
     "name": "npc.gnome_baller.name",
     "description": "description.a_tree_gnome_ball_player",
     "command": "command.tackle",
@@ -21529,6 +22127,7 @@
   },
   {
     "id": "598",
+    "v1Id": 598,
     "name": "npc.gnome_baller.name",
     "description": "description.a_tree_gnome_ball_player",
     "command": "command.tackle",
@@ -21565,6 +22164,7 @@
   },
   {
     "id": "599",
+    "v1Id": 599,
     "name": "npc.gnome_baller.name",
     "description": "description.a_tree_gnome_ball_player",
     "command": "command.tackle",
@@ -21601,6 +22201,7 @@
   },
   {
     "id": "600",
+    "v1Id": 600,
     "name": "npc.gnome_baller.name",
     "description": "description.a_tree_gnome_ball_player",
     "command": "command.tackle",
@@ -21637,6 +22238,7 @@
   },
   {
     "id": "601",
+    "v1Id": 601,
     "name": "npc.601.name",
     "description": "npc.601.description",
     "command": "command.none",
@@ -21673,6 +22275,7 @@
   },
   {
     "id": "602",
+    "v1Id": 602,
     "name": "npc.gnome_baller.name",
     "description": "description.a_tree_gnome_ball_player",
     "command": "command.tackle",
@@ -21709,6 +22312,7 @@
   },
   {
     "id": "603",
+    "v1Id": 603,
     "name": "npc.gnome_baller.name",
     "description": "description.a_tree_gnome_ball_player",
     "command": "command.tackle",
@@ -21745,6 +22349,7 @@
   },
   {
     "id": "604",
+    "v1Id": 604,
     "name": "npc.gnome_baller.name",
     "description": "description.a_tree_gnome_ball_player",
     "command": "command.tackle",
@@ -21781,6 +22386,7 @@
   },
   {
     "id": "605",
+    "v1Id": 605,
     "name": "npc.gnome_baller.name",
     "description": "description.a_tree_gnome_ball_player",
     "command": "command.tackle",
@@ -21817,6 +22423,7 @@
   },
   {
     "id": "606",
+    "v1Id": 606,
     "name": "npc.gnome_baller.name",
     "description": "description.a_tree_gnome_ball_player",
     "command": "command.tackle",
@@ -21853,6 +22460,7 @@
   },
   {
     "id": "607",
+    "v1Id": 607,
     "name": "npc.gnome_baller.name",
     "description": "description.a_tree_gnome_ball_player",
     "command": "command.tackle",
@@ -21889,6 +22497,7 @@
   },
   {
     "id": "608",
+    "v1Id": 608,
     "name": "npc.gnome_baller.name",
     "description": "description.a_tree_gnome_ball_player",
     "command": "command.tackle",
@@ -21925,6 +22534,7 @@
   },
   {
     "id": "609",
+    "v1Id": 609,
     "name": "npc.gnome_baller.name",
     "description": "description.hes_on_your_team",
     "command": "command.pass_to",
@@ -21961,6 +22571,7 @@
   },
   {
     "id": "610",
+    "v1Id": 610,
     "name": "npc.gnome_baller.name",
     "description": "description.hes_on_your_team",
     "command": "command.pass_to",
@@ -21997,6 +22608,7 @@
   },
   {
     "id": "611",
+    "v1Id": 611,
     "name": "name.cheerleader",
     "description": "description.its_a_little_tree_gnome",
     "command": "command.none",
@@ -22033,6 +22645,7 @@
   },
   {
     "id": "612",
+    "v1Id": 612,
     "name": "name.cheerleader",
     "description": "description.its_a_little_tree_gnome",
     "command": "command.none",
@@ -22069,6 +22682,7 @@
   },
   {
     "id": "613",
+    "v1Id": 613,
     "name": "npc.613.name",
     "description": "description.one_of_rashaliyas_minions",
     "command": "command.none",
@@ -22105,6 +22719,7 @@
   },
   {
     "id": "614",
+    "v1Id": 614,
     "name": "npc.614.name",
     "description": "description.one_of_rashaliyas_minions",
     "command": "command.none",
@@ -22141,6 +22756,7 @@
   },
   {
     "id": "615",
+    "v1Id": 615,
     "name": "npc.615.name",
     "description": "description.one_of_rashaliyas_minions",
     "command": "command.none",
@@ -22177,6 +22793,7 @@
   },
   {
     "id": "616",
+    "v1Id": 616,
     "name": "npc.farnahei.name",
     "description": "npc.farnahei.description",
     "command": "command.none",
@@ -22213,6 +22830,7 @@
   },
   {
     "id": "617",
+    "v1Id": 617,
     "name": "npc.617.name",
     "description": "description.he_can_look_after_my",
     "command": "command.none",
@@ -22249,6 +22867,7 @@
   },
   {
     "id": "618",
+    "v1Id": 618,
     "name": "name.cart_driver",
     "description": "description.he_drives_the_cart",
     "command": "command.none",
@@ -22285,6 +22904,7 @@
   },
   {
     "id": "619",
+    "v1Id": 619,
     "name": "name.cart_driver",
     "description": "description.he_drives_the_cart",
     "command": "command.none",
@@ -22321,6 +22941,7 @@
   },
   {
     "id": "620",
+    "v1Id": 620,
     "name": "npc.obli.name",
     "description": "npc.obli.description",
     "command": "command.none",
@@ -22357,6 +22978,7 @@
   },
   {
     "id": "621",
+    "v1Id": 621,
     "name": "npc.kaleb.name",
     "description": "npc.kaleb.description",
     "command": "command.none",
@@ -22393,6 +23015,7 @@
   },
   {
     "id": "622",
+    "v1Id": 622,
     "name": "npc.yohnus.name",
     "description": "npc.yohnus.description",
     "command": "command.none",
@@ -22429,6 +23052,7 @@
   },
   {
     "id": "623",
+    "v1Id": 623,
     "name": "npc.serevel.name",
     "description": "npc.serevel.description",
     "command": "command.none",
@@ -22465,6 +23089,7 @@
   },
   {
     "id": "624",
+    "v1Id": 624,
     "name": "npc.yanni.name",
     "description": "npc.yanni.description",
     "command": "command.none",
@@ -22501,6 +23126,7 @@
   },
   {
     "id": "625",
+    "v1Id": 625,
     "name": "npc.official.name",
     "description": "npc.official.description",
     "command": "command.none",
@@ -22537,6 +23163,7 @@
   },
   {
     "id": "626",
+    "v1Id": 626,
     "name": "name.koftik",
     "description": "description.the_kings_top_tracker",
     "command": "command.none",
@@ -22573,6 +23200,7 @@
   },
   {
     "id": "627",
+    "v1Id": 627,
     "name": "name.koftik",
     "description": "description.the_kings_top_tracker",
     "command": "command.none",
@@ -22609,6 +23237,7 @@
   },
   {
     "id": "628",
+    "v1Id": 628,
     "name": "name.koftik",
     "description": "description.the_kings_top_tracker",
     "command": "command.none",
@@ -22645,6 +23274,7 @@
   },
   {
     "id": "629",
+    "v1Id": 629,
     "name": "name.koftik",
     "description": "description.the_kings_top_tracker",
     "command": "command.none",
@@ -22681,6 +23311,7 @@
   },
   {
     "id": "630",
+    "v1Id": 630,
     "name": "npc.blessed_vermen.name",
     "description": "npc.blessed_vermen.description",
     "command": "command.none",
@@ -22717,6 +23348,7 @@
   },
   {
     "id": "631",
+    "v1Id": 631,
     "name": "npc.blessed_spider.name",
     "description": "npc.blessed_spider.description",
     "command": "command.none",
@@ -22753,6 +23385,7 @@
   },
   {
     "id": "632",
+    "v1Id": 632,
     "name": "npc.paladin.name",
     "description": "description.a_paladin_of_ardougne",
     "command": "command.none",
@@ -22789,6 +23422,7 @@
   },
   {
     "id": "633",
+    "v1Id": 633,
     "name": "npc.paladin.name",
     "description": "description.a_paladin_of_ardougne",
     "command": "command.none",
@@ -22825,6 +23459,7 @@
   },
   {
     "id": "634",
+    "v1Id": 634,
     "name": "npc.slave.name",
     "description": "description.he_seems_possessed",
     "command": "command.none",
@@ -22861,6 +23496,7 @@
   },
   {
     "id": "635",
+    "v1Id": 635,
     "name": "npc.slave.name",
     "description": "description.he_seems_possessed",
     "command": "command.none",
@@ -22897,6 +23533,7 @@
   },
   {
     "id": "636",
+    "v1Id": 636,
     "name": "npc.slave.name",
     "description": "description.he_seems_to_have_been",
     "command": "command.none",
@@ -22933,6 +23570,7 @@
   },
   {
     "id": "637",
+    "v1Id": 637,
     "name": "npc.slave.name",
     "description": "description.he_seems_possessed",
     "command": "command.none",
@@ -22969,6 +23607,7 @@
   },
   {
     "id": "638",
+    "v1Id": 638,
     "name": "npc.slave.name",
     "description": "description.he_seems_to_have_been",
     "command": "command.none",
@@ -23005,6 +23644,7 @@
   },
   {
     "id": "639",
+    "v1Id": 639,
     "name": "npc.slave.name",
     "description": "description.he_seems_possessed",
     "command": "command.none",
@@ -23041,6 +23681,7 @@
   },
   {
     "id": "640",
+    "v1Id": 640,
     "name": "npc.slave.name",
     "description": "description.he_seems_to_have_been",
     "command": "command.none",
@@ -23077,6 +23718,7 @@
   },
   {
     "id": "641",
+    "v1Id": 641,
     "name": "npc.kalrag.name",
     "description": "npc.kalrag.description",
     "command": "command.none",
@@ -23113,6 +23755,7 @@
   },
   {
     "id": "642",
+    "v1Id": 642,
     "name": "npc.642.name",
     "description": "description.a_short_angry_guy",
     "command": "command.none",
@@ -23149,6 +23792,7 @@
   },
   {
     "id": "643",
+    "v1Id": 643,
     "name": "npc.643.name",
     "description": "description.shes_got_warts",
     "command": "command.none",
@@ -23185,6 +23829,7 @@
   },
   {
     "id": "644",
+    "v1Id": 644,
     "name": "name.souless",
     "description": "npc.644.description",
     "command": "command.none",
@@ -23221,6 +23866,7 @@
   },
   {
     "id": "645",
+    "v1Id": 645,
     "name": "npc.645.name",
     "description": "description.big_red_and_incredibly_evil",
     "command": "command.none",
@@ -23257,6 +23903,7 @@
   },
   {
     "id": "646",
+    "v1Id": 646,
     "name": "npc.646.name",
     "description": "description.a_big_scary_jet_black",
     "command": "command.none",
@@ -23293,6 +23940,7 @@
   },
   {
     "id": "647",
+    "v1Id": 647,
     "name": "npc.647.name",
     "description": "description.big_red_and_incredibly_evil",
     "command": "command.none",
@@ -23329,6 +23977,7 @@
   },
   {
     "id": "648",
+    "v1Id": 648,
     "name": "npc.648.name",
     "description": "description.a_short_angry_guy",
     "command": "command.none",
@@ -23365,6 +24014,7 @@
   },
   {
     "id": "649",
+    "v1Id": 649,
     "name": "npc.iban.name",
     "description": "npc.iban.description",
     "command": "command.none",
@@ -23401,6 +24051,7 @@
   },
   {
     "id": "650",
+    "v1Id": 650,
     "name": "name.koftik",
     "description": "description.the_kings_top_tracker",
     "command": "command.none",
@@ -23437,6 +24088,7 @@
   },
   {
     "id": "651",
+    "v1Id": 651,
     "name": "npc.goblin_guard.name",
     "description": "npc.goblin_guard.description",
     "command": "command.none",
@@ -23473,6 +24125,7 @@
   },
   {
     "id": "652",
+    "v1Id": 652,
     "name": "npc.observatory_professor.name",
     "description": "npc.observatory_professor.description",
     "command": "command.none",
@@ -23509,6 +24162,7 @@
   },
   {
     "id": "653",
+    "v1Id": 653,
     "name": "npc.ugthanki.name",
     "description": "npc.ugthanki.description",
     "command": "command.none",
@@ -23545,6 +24199,7 @@
   },
   {
     "id": "654",
+    "v1Id": 654,
     "name": "npc.observatory_assistant.name",
     "description": "npc.observatory_assistant.description",
     "command": "command.none",
@@ -23581,6 +24236,7 @@
   },
   {
     "id": "655",
+    "v1Id": 655,
     "name": "name.souless",
     "description": "npc.655.description",
     "command": "command.none",
@@ -23617,6 +24273,7 @@
   },
   {
     "id": "656",
+    "v1Id": 656,
     "name": "npc.dungeon_spider.name",
     "description": "npc.dungeon_spider.description",
     "command": "command.none",
@@ -23653,6 +24310,7 @@
   },
   {
     "id": "657",
+    "v1Id": 657,
     "name": "npc.657.name",
     "description": "description.a_short_angry_guy",
     "command": "command.none",
@@ -23689,6 +24347,7 @@
   },
   {
     "id": "658",
+    "v1Id": 658,
     "name": "npc.iban_disciple.name",
     "description": "npc.iban_disciple.description",
     "command": "command.none",
@@ -23725,6 +24384,7 @@
   },
   {
     "id": "659",
+    "v1Id": 659,
     "name": "name.koftik",
     "description": "description.the_kings_top_tracker",
     "command": "command.none",
@@ -23761,6 +24421,7 @@
   },
   {
     "id": "660",
+    "v1Id": 660,
     "name": "npc.goblin.name",
     "description": "npc.660.description",
     "command": "command.none",
@@ -23797,6 +24458,7 @@
   },
   {
     "id": "661",
+    "v1Id": 661,
     "name": "npc.chadwell.name",
     "description": "npc.chadwell.description",
     "command": "command.none",
@@ -23833,6 +24495,7 @@
   },
   {
     "id": "662",
+    "v1Id": 662,
     "name": "npc.professor.name",
     "description": "npc.professor.description",
     "command": "command.none",
@@ -23869,6 +24532,7 @@
   },
   {
     "id": "663",
+    "v1Id": 663,
     "name": "npc.san_tojalon.name",
     "description": "npc.san_tojalon.description",
     "command": "command.none",
@@ -23905,6 +24569,7 @@
   },
   {
     "id": "664",
+    "v1Id": 664,
     "name": "npc.ghost.name",
     "description": "npc.664.description",
     "command": "command.none",
@@ -23941,6 +24606,7 @@
   },
   {
     "id": "665",
+    "v1Id": 665,
     "name": "npc.spirit_of_scorpius.name",
     "description": "npc.spirit_of_scorpius.description",
     "command": "command.none",
@@ -23977,6 +24643,7 @@
   },
   {
     "id": "666",
+    "v1Id": 666,
     "name": "npc.scorpion.name",
     "description": "npc.666.description",
     "command": "command.none",
@@ -24013,6 +24680,7 @@
   },
   {
     "id": "667",
+    "v1Id": 667,
     "name": "npc.667.name",
     "description": "npc.667.description",
     "command": "command.none",
@@ -24049,6 +24717,7 @@
   },
   {
     "id": "668",
+    "v1Id": 668,
     "name": "npc.mercenary.name",
     "description": "description.he_seems_to_be_guarding",
     "command": "command.none",
@@ -24085,6 +24754,7 @@
   },
   {
     "id": "669",
+    "v1Id": 669,
     "name": "npc.mercenary_captain.name",
     "description": "npc.mercenary_captain.description",
     "command": "npc.mercenary_captain.command",
@@ -24121,6 +24791,7 @@
   },
   {
     "id": "670",
+    "v1Id": 670,
     "name": "npc.mercenary.name",
     "description": "description.he_seems_to_be_guarding",
     "command": "command.none",
@@ -24157,6 +24828,7 @@
   },
   {
     "id": "671",
+    "v1Id": 671,
     "name": "npc.mining_slave.name",
     "description": "npc.mining_slave.description",
     "command": "command.none",
@@ -24193,6 +24865,7 @@
   },
   {
     "id": "672",
+    "v1Id": 672,
     "name": "npc.watchtower_wizard.name",
     "description": "npc.watchtower_wizard.description",
     "command": "command.none",
@@ -24229,6 +24902,7 @@
   },
   {
     "id": "673",
+    "v1Id": 673,
     "name": "npc.ogre_shaman.name",
     "description": "npc.ogre_shaman.description",
     "command": "command.none",
@@ -24265,6 +24939,7 @@
   },
   {
     "id": "674",
+    "v1Id": 674,
     "name": "name.skavid",
     "description": "description.servant_race_to_the_ogres",
     "command": "command.none",
@@ -24301,6 +24976,7 @@
   },
   {
     "id": "675",
+    "v1Id": 675,
     "name": "npc.ogre_guard.name",
     "description": "description.these_ogres_protect_the_city",
     "command": "command.none",
@@ -24337,6 +25013,7 @@
   },
   {
     "id": "676",
+    "v1Id": 676,
     "name": "npc.ogre_guard.name",
     "description": "description.these_ogres_protect_the_city",
     "command": "command.none",
@@ -24373,6 +25050,7 @@
   },
   {
     "id": "677",
+    "v1Id": 677,
     "name": "npc.ogre_guard.name",
     "description": "description.these_ogres_protect_the_city",
     "command": "command.none",
@@ -24409,6 +25087,7 @@
   },
   {
     "id": "678",
+    "v1Id": 678,
     "name": "name.skavid",
     "description": "description.servant_race_to_the_ogres",
     "command": "command.none",
@@ -24445,6 +25124,7 @@
   },
   {
     "id": "679",
+    "v1Id": 679,
     "name": "name.skavid",
     "description": "description.servant_race_to_the_ogres",
     "command": "command.none",
@@ -24481,6 +25161,7 @@
   },
   {
     "id": "680",
+    "v1Id": 680,
     "name": "npc.680.name",
     "description": "description.the_chieftan_of_this_ogre",
     "command": "command.none",
@@ -24517,6 +25198,7 @@
   },
   {
     "id": "681",
+    "v1Id": 681,
     "name": "npc.681.name",
     "description": "description.the_chieftan_of_this_ogre",
     "command": "command.none",
@@ -24553,6 +25235,7 @@
   },
   {
     "id": "682",
+    "v1Id": 682,
     "name": "npc.682.name",
     "description": "description.the_chieftan_of_this_ogre",
     "command": "command.none",
@@ -24589,6 +25272,7 @@
   },
   {
     "id": "683",
+    "v1Id": 683,
     "name": "npc.gorad.name",
     "description": "npc.gorad.description",
     "command": "command.none",
@@ -24625,6 +25309,7 @@
   },
   {
     "id": "684",
+    "v1Id": 684,
     "name": "npc.ogre_guard.name",
     "description": "npc.684.description",
     "command": "command.none",
@@ -24661,6 +25346,7 @@
   },
   {
     "id": "685",
+    "v1Id": 685,
     "name": "npc.yanille_watchman.name",
     "description": "npc.685.description",
     "command": "command.none",
@@ -24697,6 +25383,7 @@
   },
   {
     "id": "686",
+    "v1Id": 686,
     "name": "npc.ogre_merchant.name",
     "description": "npc.ogre_merchant.description",
     "command": "command.none",
@@ -24733,6 +25420,7 @@
   },
   {
     "id": "687",
+    "v1Id": 687,
     "name": "npc.ogre_merchant.name",
     "description": "npc.687.description",
     "command": "command.none",
@@ -24769,6 +25457,7 @@
   },
   {
     "id": "688",
+    "v1Id": 688,
     "name": "npc.ogre_merchant.name",
     "description": "description.he_trades_in_food",
     "command": "command.none",
@@ -24805,6 +25494,7 @@
   },
   {
     "id": "689",
+    "v1Id": 689,
     "name": "npc.ogre_merchant.name",
     "description": "description.he_trades_in_food",
     "command": "command.none",
@@ -24841,6 +25531,7 @@
   },
   {
     "id": "690",
+    "v1Id": 690,
     "name": "npc.mercenary.name",
     "description": "description.he_seems_to_be_guarding",
     "command": "command.none",
@@ -24877,6 +25568,7 @@
   },
   {
     "id": "691",
+    "v1Id": 691,
     "name": "npc.ogre_city_guard.name",
     "description": "npc.ogre_city_guard.description",
     "command": "command.none",
@@ -24913,6 +25605,7 @@
   },
   {
     "id": "692",
+    "v1Id": 692,
     "name": "npc.mercenary.name",
     "description": "npc.692.description",
     "command": "command.none",
@@ -24949,8 +25642,9 @@
   },
   {
     "id": "693",
-    "name": "npc.693.name",
-    "description": "description.he_guards_the_mines",
+    "v1Id": 693,
+    "name": "npc.lawgof.name",
+    "description": "npc.dwarf_commander.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -24985,6 +25679,7 @@
   },
   {
     "id": "694",
+    "v1Id": 694,
     "name": "npc.dwarf.name",
     "description": "description.a_short_angry_guy",
     "command": "command.none",
@@ -25021,6 +25716,7 @@
   },
   {
     "id": "695",
+    "v1Id": 695,
     "name": "npc.lollk.name",
     "description": "npc.lollk.description",
     "command": "command.none",
@@ -25057,6 +25753,7 @@
   },
   {
     "id": "696",
+    "v1Id": 696,
     "name": "name.skavid",
     "description": "description.servant_race_to_the_ogres",
     "command": "command.none",
@@ -25093,6 +25790,7 @@
   },
   {
     "id": "697",
+    "v1Id": 697,
     "name": "npc.ogre_guard.name",
     "description": "description.these_ogres_protect_the_city",
     "command": "command.none",
@@ -25129,6 +25827,7 @@
   },
   {
     "id": "698",
+    "v1Id": 698,
     "name": "npc.698.name",
     "description": "description.hes_the_head_of_black",
     "command": "command.none",
@@ -25165,6 +25864,7 @@
   },
   {
     "id": "699",
+    "v1Id": 699,
     "name": "npc.dwarf.name",
     "description": "description.a_short_angry_guy",
     "command": "command.none",
@@ -25201,8 +25901,9 @@
   },
   {
     "id": "700",
-    "name": "npc.700.name",
-    "description": "npc.700.description",
+    "v1Id": 700,
+    "name": "npc.al_shabim.name",
+    "description": "npc.al_shabim.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -25237,8 +25938,9 @@
   },
   {
     "id": "701",
-    "name": "npc.701.name",
-    "description": "npc.701.description",
+    "v1Id": 701,
+    "name": "npc.bedabin_nomad.name",
+    "description": "npc.bedabin_nomad.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -25273,6 +25975,7 @@
   },
   {
     "id": "702",
+    "v1Id": 702,
     "name": "npc.captain_siad.name",
     "description": "npc.captain_siad.description",
     "command": "command.none",
@@ -25309,8 +26012,9 @@
   },
   {
     "id": "703",
-    "name": "npc.703.name",
-    "description": "npc.703.description",
+    "v1Id": 703,
+    "name": "npc.bedabin_nomad_guard.name",
+    "description": "npc.bedabin_nomad_guard.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -25345,8 +26049,9 @@
   },
   {
     "id": "704",
-    "name": "npc.704.name",
-    "description": "npc.704.description",
+    "v1Id": 704,
+    "name": "npc.ogre_citizen.name",
+    "description": "npc.ogre_citizen.description",
     "command": "command.none",
     "sprites": [
       7,
@@ -25381,8 +26086,9 @@
   },
   {
     "id": "705",
-    "name": "npc.705.name",
-    "description": "npc.705.description",
+    "v1Id": 705,
+    "name": "npc.rock_of_ages.name",
+    "description": "npc.rock_of_ages.description",
     "command": "command.none",
     "sprites": [
       124,
@@ -25417,6 +26123,7 @@
   },
   {
     "id": "706",
+    "v1Id": 706,
     "name": "npc.ogre.name",
     "description": "description.a_large_dim_looking_humanoid",
     "command": "command.none",
@@ -25453,6 +26160,7 @@
   },
   {
     "id": "707",
+    "v1Id": 707,
     "name": "name.skavid",
     "description": "description.servant_race_to_the_ogres",
     "command": "command.none",
@@ -25489,6 +26197,7 @@
   },
   {
     "id": "708",
+    "v1Id": 708,
     "name": "name.skavid",
     "description": "description.servant_race_to_the_ogres",
     "command": "command.none",
@@ -25525,6 +26234,7 @@
   },
   {
     "id": "709",
+    "v1Id": 709,
     "name": "name.skavid",
     "description": "description.servant_race_to_the_ogres",
     "command": "command.none",
@@ -25561,6 +26271,7 @@
   },
   {
     "id": "710",
+    "v1Id": 710,
     "name": "npc.draft_mercenary_guard.name",
     "description": "npc.draft_mercenary_guard.description",
     "command": "command.none",
@@ -25597,8 +26308,9 @@
   },
   {
     "id": "711",
-    "name": "npc.711.name",
-    "description": "npc.711.description",
+    "v1Id": 711,
+    "name": "npc.mining_cart_driver.name",
+    "description": "npc.mining_cart_driver.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -25633,6 +26345,7 @@
   },
   {
     "id": "712",
+    "v1Id": 712,
     "name": "npc.kolodion.name",
     "description": "description.he_runs_the_mage_arena",
     "command": "command.none",
@@ -25669,6 +26382,7 @@
   },
   {
     "id": "713",
+    "v1Id": 713,
     "name": "npc.kolodion.name",
     "description": "description.he_runs_the_mage_arena",
     "command": "command.none",
@@ -25705,8 +26419,9 @@
   },
   {
     "id": "714",
-    "name": "npc.714.name",
-    "description": "npc.714.description",
+    "v1Id": 714,
+    "name": "npc.gertrude.name",
+    "description": "npc.gertrude.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -25741,6 +26456,7 @@
   },
   {
     "id": "715",
+    "v1Id": 715,
     "name": "npc.715.name",
     "description": "description.a_young_boisterous_looking_lad",
     "command": "command.none",
@@ -25777,8 +26493,9 @@
   },
   {
     "id": "716",
-    "name": "npc.716.name",
-    "description": "npc.716.description",
+    "v1Id": 716,
+    "name": "npc.rowdy_guard.name",
+    "description": "npc.rowdy_guard.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -25813,6 +26530,7 @@
   },
   {
     "id": "717",
+    "v1Id": 717,
     "name": "npc.shantay_pass_guard.name",
     "description": "description.he_seems_to_be_guarding_shanty_pass",
     "command": "command.none",
@@ -25849,8 +26567,9 @@
   },
   {
     "id": "718",
-    "name": "npc.718.name",
-    "description": "npc.718.description",
+    "v1Id": 718,
+    "name": "npc.rowdy_slave.name",
+    "description": "npc.rowdy_slave.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -25885,6 +26604,7 @@
   },
   {
     "id": "719",
+    "v1Id": 719,
     "name": "npc.shantay_pass_guard.name",
     "description": "description.he_seems_to_be_guarding_shanty_pass",
     "command": "command.none",
@@ -25921,8 +26641,9 @@
   },
   {
     "id": "720",
-    "name": "npc.720.name",
-    "description": "npc.720.description",
+    "v1Id": 720,
+    "name": "npc.shantay_assistant.name",
+    "description": "npc.shantay_assistant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -25957,8 +26678,9 @@
   },
   {
     "id": "721",
-    "name": "npc.721.name",
-    "description": "npc.721.description",
+    "v1Id": 721,
+    "name": "npc.desert_wolf.name",
+    "description": "npc.desert_wolf.description",
     "command": "command.none",
     "sprites": [
       216,
@@ -25993,6 +26715,7 @@
   },
   {
     "id": "722",
+    "v1Id": 722,
     "name": "npc.workman.name",
     "description": "npc.722.description",
     "command": "command.pickpocket",
@@ -26029,6 +26752,7 @@
   },
   {
     "id": "723",
+    "v1Id": 723,
     "name": "npc.examiner.name",
     "description": "npc.examiner.description",
     "command": "command.none",
@@ -26065,6 +26789,7 @@
   },
   {
     "id": "724",
+    "v1Id": 724,
     "name": "npc.student.name",
     "description": "description.a_student_busily_digging",
     "command": "command.none",
@@ -26101,6 +26826,7 @@
   },
   {
     "id": "725",
+    "v1Id": 725,
     "name": "npc.student.name",
     "description": "description.a_student_busily_digging",
     "command": "command.none",
@@ -26137,6 +26863,7 @@
   },
   {
     "id": "726",
+    "v1Id": 726,
     "name": "npc.guide.name",
     "description": "npc.726.description",
     "command": "command.none",
@@ -26173,6 +26900,7 @@
   },
   {
     "id": "727",
+    "v1Id": 727,
     "name": "npc.student.name",
     "description": "description.a_student_busily_digging",
     "command": "command.none",
@@ -26209,8 +26937,9 @@
   },
   {
     "id": "728",
-    "name": "npc.728.name",
-    "description": "npc.728.description",
+    "v1Id": 728,
+    "name": "npc.archaeological_expert.name",
+    "description": "npc.archaeological_expert.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -26245,6 +26974,7 @@
   },
   {
     "id": "729",
+    "v1Id": 729,
     "name": "npc.civilian.name",
     "description": "description.he_looks_aggitated",
     "command": "command.none",
@@ -26281,6 +27011,7 @@
   },
   {
     "id": "730",
+    "v1Id": 730,
     "name": "npc.civilian.name",
     "description": "description.she_looks_aggitated",
     "command": "command.none",
@@ -26317,6 +27048,7 @@
   },
   {
     "id": "731",
+    "v1Id": 731,
     "name": "npc.civilian.name",
     "description": "description.she_looks_aggitated",
     "command": "command.none",
@@ -26353,6 +27085,7 @@
   },
   {
     "id": "732",
+    "v1Id": 732,
     "name": "npc.civilian.name",
     "description": "description.he_looks_aggitated",
     "command": "command.pickpocket",
@@ -26389,6 +27122,7 @@
   },
   {
     "id": "733",
+    "v1Id": 733,
     "name": "npc.murphy.name",
     "description": "npc.murphy.description",
     "command": "command.none",
@@ -26425,6 +27159,7 @@
   },
   {
     "id": "734",
+    "v1Id": 734,
     "name": "npc.murphy.name",
     "description": "npc.murphy.description",
     "command": "command.none",
@@ -26461,6 +27196,7 @@
   },
   {
     "id": "735",
+    "v1Id": 735,
     "name": "npc.sir_radimus_erkle.name",
     "description": "npc.sir_radimus_erkle.description",
     "command": "command.none",
@@ -26497,8 +27233,9 @@
   },
   {
     "id": "736",
-    "name": "npc.736.name",
-    "description": "npc.736.description",
+    "v1Id": 736,
+    "name": "npc.legends_guild_guard.name",
+    "description": "npc.legends_guild_guard.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -26533,8 +27270,9 @@
   },
   {
     "id": "737",
-    "name": "npc.737.name",
-    "description": "npc.737.description",
+    "v1Id": 737,
+    "name": "npc.escaping_mining_slave.name",
+    "description": "npc.escaping_mining_slave.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -26569,6 +27307,7 @@
   },
   {
     "id": "738",
+    "v1Id": 738,
     "name": "npc.workman.name",
     "description": "npc.738.description",
     "command": "command.pickpocket",
@@ -26605,6 +27344,7 @@
   },
   {
     "id": "739",
+    "v1Id": 739,
     "name": "npc.murphy.name",
     "description": "npc.murphy.description",
     "command": "command.none",
@@ -26641,8 +27381,9 @@
   },
   {
     "id": "740",
-    "name": "npc.740.name",
-    "description": "npc.740.description",
+    "v1Id": 740,
+    "name": "npc.echned_zekin.name",
+    "description": "npc.echned_zekin.description",
     "command": "command.none",
     "sprites": [
       137,
@@ -26677,6 +27418,7 @@
   },
   {
     "id": "741",
+    "v1Id": 741,
     "name": "npc.donovan_the_handyman.name",
     "description": "npc.donovan_the_handyman.description",
     "command": "command.none",
@@ -26713,8 +27455,9 @@
   },
   {
     "id": "742",
-    "name": "npc.742.name",
-    "description": "npc.742.description",
+    "v1Id": 742,
+    "name": "npc.pierre_the_dog_handler.name",
+    "description": "npc.pierre_the_dog_handler.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -26749,8 +27492,9 @@
   },
   {
     "id": "743",
-    "name": "npc.743.name",
-    "description": "npc.743.description",
+    "v1Id": 743,
+    "name": "npc.hobbes_the_butler.name",
+    "description": "npc.hobbes_the_butler.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -26785,8 +27529,9 @@
   },
   {
     "id": "744",
-    "name": "npc.744.name",
-    "description": "npc.744.description",
+    "v1Id": 744,
+    "name": "npc.louisa_the_cook.name",
+    "description": "npc.louisa_the_cook.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -26821,8 +27566,9 @@
   },
   {
     "id": "745",
-    "name": "npc.745.name",
-    "description": "npc.745.description",
+    "v1Id": 745,
+    "name": "npc.mary_the_maid.name",
+    "description": "npc.mary_the_maid.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -26857,8 +27603,9 @@
   },
   {
     "id": "746",
-    "name": "npc.746.name",
-    "description": "npc.746.description",
+    "v1Id": 746,
+    "name": "npc.stanford_the_gardener.name",
+    "description": "npc.stanford_the_gardener.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -26893,6 +27640,7 @@
   },
   {
     "id": "747",
+    "v1Id": 747,
     "name": "npc.guard.name",
     "description": "npc.747.description",
     "command": "command.none",
@@ -26929,6 +27677,7 @@
   },
   {
     "id": "748",
+    "v1Id": 748,
     "name": "npc.guard_dog.name",
     "description": "description.he_doesnt_seem_pleased_to",
     "command": "command.none",
@@ -26965,6 +27714,7 @@
   },
   {
     "id": "749",
+    "v1Id": 749,
     "name": "npc.guard.name",
     "description": "npc.749.description",
     "command": "command.none",
@@ -27001,6 +27751,7 @@
   },
   {
     "id": "750",
+    "v1Id": 750,
     "name": "npc.person_male.name",
     "description": "npm.man_thirsty.description",
     "command": "command.none",
@@ -27037,8 +27788,9 @@
   },
   {
     "id": "751",
-    "name": "npc.751.name",
-    "description": "npc.751.description",
+    "v1Id": 751,
+    "name": "npc.anna_sinclair.name",
+    "description": "npc.anna_sinclair.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -27073,8 +27825,9 @@
   },
   {
     "id": "752",
-    "name": "npc.752.name",
-    "description": "npc.752.description",
+    "v1Id": 752,
+    "name": "npc.bob_sinclair.name",
+    "description": "npc.bob_sinclair.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -27109,8 +27862,9 @@
   },
   {
     "id": "753",
-    "name": "npc.753.name",
-    "description": "npc.753.description",
+    "v1Id": 753,
+    "name": "npc.carol_sinclair.name",
+    "description": "npc.carol_sinclair.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -27145,8 +27899,9 @@
   },
   {
     "id": "754",
-    "name": "npc.754.name",
-    "description": "npc.754.description",
+    "v1Id": 754,
+    "name": "npc.david_sinclair.name",
+    "description": "npc.david_sinclair.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -27181,8 +27936,9 @@
   },
   {
     "id": "755",
-    "name": "npc.755.name",
-    "description": "npc.755.description",
+    "v1Id": 755,
+    "name": "npc.elizabeth_sinclair.name",
+    "description": "npc.elizabeth_sinclair.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -27217,8 +27973,9 @@
   },
   {
     "id": "756",
-    "name": "npc.756.name",
-    "description": "npc.756.description",
+    "v1Id": 756,
+    "name": "npc.frank_sinclair.name",
+    "description": "npc.frank_sinclair.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -27253,6 +28010,7 @@
   },
   {
     "id": "757",
+    "v1Id": 757,
     "name": "npc.kolodion.name",
     "description": "description.hes_a_shape_shifter",
     "command": "command.none",
@@ -27289,6 +28047,7 @@
   },
   {
     "id": "758",
+    "v1Id": 758,
     "name": "npc.kolodion.name",
     "description": "description.hes_a_shape_shifter",
     "command": "command.none",
@@ -27325,6 +28084,7 @@
   },
   {
     "id": "759",
+    "v1Id": 759,
     "name": "npc.kolodion.name",
     "description": "description.hes_a_shape_shifter",
     "command": "command.none",
@@ -27361,6 +28121,7 @@
   },
   {
     "id": "760",
+    "v1Id": 760,
     "name": "npc.kolodion.name",
     "description": "description.hes_a_shape_shifter",
     "command": "command.none",
@@ -27397,8 +28158,9 @@
   },
   {
     "id": "761",
-    "name": "npc.761.name",
-    "description": "npc.761.description",
+    "v1Id": 761,
+    "name": "npc.irving_senay.name",
+    "description": "npc.irving_senay.description",
     "command": "command.none",
     "sprites": [
       -1,
@@ -27433,8 +28195,9 @@
   },
   {
     "id": "762",
-    "name": "npc.762.name",
-    "description": "npc.762.description",
+    "v1Id": 762,
+    "name": "npc.ranalph_davere.name",
+    "description": "npc.ranalph_davere.description",
     "command": "command.none",
     "sprites": [
       -1,
@@ -27469,8 +28232,9 @@
   },
   {
     "id": "763",
-    "name": "npc.763.name",
-    "description": "npc.763.description",
+    "v1Id": 763,
+    "name": "npc.peter_potter.name",
+    "description": "npc.peter_potter.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -27505,8 +28269,9 @@
   },
   {
     "id": "764",
-    "name": "npc.764.name",
-    "description": "npc.764.description",
+    "v1Id": 764,
+    "name": "npc.gujuo.name",
+    "description": "npc.gujuo.description",
     "command": "command.none",
     "sprites": [
       7,
@@ -27541,8 +28306,9 @@
   },
   {
     "id": "765",
-    "name": "npc.765.name",
-    "description": "npc.765.description",
+    "v1Id": 765,
+    "name": "npc.jungle_forester.name",
+    "description": "npc.jungle_forester.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -27577,6 +28343,7 @@
   },
   {
     "id": "766",
+    "v1Id": 766,
     "name": "name.ungadulu",
     "description": "npc.766.description",
     "command": "command.none",
@@ -27613,6 +28380,7 @@
   },
   {
     "id": "767",
+    "v1Id": 767,
     "name": "name.ungadulu",
     "description": "npc.767.description",
     "command": "command.none",
@@ -27649,8 +28417,9 @@
   },
   {
     "id": "768",
-    "name": "npc.768.name",
-    "description": "npc.768.description",
+    "v1Id": 768,
+    "name": "npc.death_wing.name",
+    "description": "npc.death_wing.description",
     "command": "command.none",
     "sprites": [
       138,
@@ -27685,8 +28454,9 @@
   },
   {
     "id": "769",
-    "name": "npc.769.name",
-    "description": "npc.769.description",
+    "v1Id": 769,
+    "name": "npc.nezikchened.name",
+    "description": "npc.nezikchened.description",
     "command": "command.none",
     "sprites": [
       164,
@@ -27721,6 +28491,7 @@
   },
   {
     "id": "770",
+    "v1Id": 770,
     "name": "npc.770.name",
     "description": "description.hes_the_head_of_black",
     "command": "command.none",
@@ -27757,8 +28528,9 @@
   },
   {
     "id": "771",
-    "name": "npc.771.name",
-    "description": "description.he_guards_the_mines",
+    "v1Id": 771,
+    "name": "npc.dwarf_commander.name",
+    "description": "npc.dwarf_commander.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -27793,8 +28565,9 @@
   },
   {
     "id": "772",
-    "name": "npc.772.name",
-    "description": "npc.772.description",
+    "v1Id": 772,
+    "name": "npc.viyeldi.name",
+    "description": "npc.viyeldi.description",
     "command": "command.none",
     "sprites": [
       -1,
@@ -27829,8 +28602,9 @@
   },
   {
     "id": "773",
-    "name": "npc.773.name",
-    "description": "npc.773.description",
+    "v1Id": 773,
+    "name": "npc.nurmof.name",
+    "description": "npc.nurmof.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -27865,8 +28639,9 @@
   },
   {
     "id": "774",
-    "name": "npc.774.name",
-    "description": "npc.774.description",
+    "v1Id": 774,
+    "name": "npc.fatigue_expert.name",
+    "description": "npc.fatigue_expert.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -27901,6 +28676,7 @@
   },
   {
     "id": "775",
+    "v1Id": 775,
     "name": "npc.karamja_wolf.name",
     "description": "npc.karamja_wolf.description",
     "command": "command.none",
@@ -27937,6 +28713,7 @@
   },
   {
     "id": "776",
+    "v1Id": 776,
     "name": "npc.776.name",
     "description": "npc.776.description",
     "command": "command.none",
@@ -27973,8 +28750,9 @@
   },
   {
     "id": "777",
-    "name": "npc.777.name",
-    "description": "npc.777.description",
+    "v1Id": 777,
+    "name": "npc.oomlie_bird.name",
+    "description": "npc.oomlie_bird.description",
     "command": "command.none",
     "sprites": [
       223,
@@ -28009,8 +28787,9 @@
   },
   {
     "id": "778",
-    "name": "npc.778.name",
-    "description": "npc.778.description",
+    "v1Id": 778,
+    "name": "npc.sidney_smith.name",
+    "description": "npc.sidney_smith.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -28045,8 +28824,9 @@
   },
   {
     "id": "779",
-    "name": "npc.779.name",
-    "description": "npc.779.description",
+    "v1Id": 779,
+    "name": "npc.siegfried_erkle.name",
+    "description": "npc.siegfried_erkle.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -28081,6 +28861,7 @@
   },
   {
     "id": "780",
+    "v1Id": 780,
     "name": "npc.780.name",
     "description": "npc.780.description",
     "command": "command.none",
@@ -28117,6 +28898,7 @@
   },
   {
     "id": "781",
+    "v1Id": 781,
     "name": "npc.781.name",
     "description": "npc.781.description",
     "command": "command.none",
@@ -28153,6 +28935,7 @@
   },
   {
     "id": "782",
+    "v1Id": 782,
     "name": "npc.782.name",
     "description": "npc.782.description",
     "command": "command.none",
@@ -28189,6 +28972,7 @@
   },
   {
     "id": "783",
+    "v1Id": 783,
     "name": "npc.783.name",
     "description": "npc.783.description",
     "command": "command.none",
@@ -28225,6 +29009,7 @@
   },
   {
     "id": "784",
+    "v1Id": 784,
     "name": "npc.chamber_guardian.name",
     "description": "npc.chamber_guardian.description",
     "command": "command.none",
@@ -28261,6 +29046,7 @@
   },
   {
     "id": "785",
+    "v1Id": 785,
     "name": "npc.sir_radimus_erkle.name",
     "description": "npc.sir_radimus_erkle.description",
     "command": "command.none",
@@ -28297,6 +29083,7 @@
   },
   {
     "id": "786",
+    "v1Id": 786,
     "name": "npc.786.name",
     "description": "npc.786.description",
     "command": "command.none",
@@ -28333,6 +29120,7 @@
   },
   {
     "id": "787",
+    "v1Id": 787,
     "name": "npc.shadow_warrior.name",
     "description": "npc.shadow_warrior.description",
     "command": "command.none",
@@ -28369,6 +29157,7 @@
   },
   {
     "id": "788",
+    "v1Id": 788,
     "name": "npc.788.name",
     "description": "npc.788.description",
     "command": "command.none",
@@ -28405,6 +29194,7 @@
   },
   {
     "id": "789",
+    "v1Id": 789,
     "name": "npc.battle_mage.name",
     "description": "npc.789.description",
     "command": "command.none",
@@ -28441,6 +29231,7 @@
   },
   {
     "id": "790",
+    "v1Id": 790,
     "name": "npc.battle_mage.name",
     "description": "npc.790.description",
     "command": "command.none",
@@ -28477,6 +29268,7 @@
   },
   {
     "id": "791",
+    "v1Id": 791,
     "name": "npc.battle_mage.name",
     "description": "npc.791.description",
     "command": "command.none",
@@ -28513,6 +29305,7 @@
   },
   {
     "id": "792",
+    "v1Id": 792,
     "name": "npc.gundai.name",
     "description": "npc.gundai.description",
     "command": "command.none",
@@ -28549,6 +29342,7 @@
   },
   {
     "id": "793",
+    "v1Id": 793,
     "name": "npc.793.name",
     "description": "npc.793.description",
     "command": "command.none",

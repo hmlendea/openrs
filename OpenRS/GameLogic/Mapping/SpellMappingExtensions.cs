@@ -12,6 +12,7 @@ namespace OpenRS.GameLogic.Mapping
         internal static Spell ToServiceModel(this SpellEntity spellEntity) => new()
         {
             Id = spellEntity.Id,
+            V1Id = spellEntity.V1Id,
             Name = LocalisationManager.GetString(spellEntity.Name),
             Description = LocalisationManager.GetString(spellEntity.Description),
             RequiredLevel = spellEntity.RequiredLevel,
@@ -27,6 +28,7 @@ namespace OpenRS.GameLogic.Mapping
         internal static SpellEntity ToDataObject(this Spell spell) => new()
         {
             Id = spell.Id,
+            V1Id = spell.V1Id,
             Name = spell.Name,
             Description = spell.Description,
             RequiredLevel = spell.RequiredLevel,

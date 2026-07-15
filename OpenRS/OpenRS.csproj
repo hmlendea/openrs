@@ -70,10 +70,10 @@
     <None Update="Data\animations.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\world_objects.json">
+    <None Update="Data\wall_objects.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\wall_objects.json">
+    <None Update="Data\world_objects.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\textures.json">

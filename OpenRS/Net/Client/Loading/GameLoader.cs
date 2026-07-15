@@ -293,7 +293,7 @@ client.RaiseOnLoadingSectionCompleted(this, new EventArgs());
             Menu.isBackgroundPatternEnabled = false;
             Menu.baseScrollPic = client.baseScrollPic;
             client.spellMenu = new Menu(client.gameGraphics, 5);
-            int k1 = client.gameGraphics.gameWidth - 199;
+            int k1 = client.gameGraphics.GameWidth - 199;
             sbyte byte0 = 36;
             client.spellMenuHandle = client.spellMenu.CreateList(k1, byte0 + 24, 196, 90, 1, 500, true);
             client.friendsMenu = new Menu(client.gameGraphics, 5);
@@ -756,7 +756,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                 client.gameGraphics.UnpackImageData(client.baseTexturePic, textureData, textureIndexData, 1);
                 client.gameGraphics.DrawBox(0, 0, 128, 128, 0xff00ff);
                 client.gameGraphics.DrawPicture(0, 0, client.baseTexturePic);
-                int textureWidth = client.gameGraphics.pictureAssumedWidth[client.baseTexturePic];
+                int textureWidth = client.gameGraphics.PictureAssumedWidth[client.baseTexturePic];
                 string subTextureName = client.entityManager.GetTexture(textureIndex).SubName;
 
                 if (subTextureName is not null && subTextureName.Length > 0)
@@ -771,17 +771,17 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
 
                 for (int pixelIndex = 0; pixelIndex < pixelCount; pixelIndex += 1)
                 {
-                    if (client.gameGraphics.pictureColors[client.subTexturePic + textureIndex][pixelIndex] == 65280)
+                    if (client.gameGraphics.PictureColours[client.subTexturePic + textureIndex][pixelIndex] == 65280)
                     {
-                        client.gameGraphics.pictureColors[client.subTexturePic + textureIndex][pixelIndex] = 0xff00ff;
+                        client.gameGraphics.PictureColours[client.subTexturePic + textureIndex][pixelIndex] = 0xff00ff;
                     }
                 }
 
                 client.gameGraphics.ApplyImage(client.subTexturePic + textureIndex);
                 client.gameCamera.SetTexture(
                     textureIndex,
-                    client.gameGraphics.pictureColorIndexes[client.subTexturePic + textureIndex],
-                    client.gameGraphics.pictureColor[client.subTexturePic + textureIndex],
+                    client.gameGraphics.PictureColourIndexes[client.subTexturePic + textureIndex],
+                    client.gameGraphics.PictureColour[client.subTexturePic + textureIndex],
                     textureWidth / 64 - 1);
             }
         }
@@ -961,12 +961,12 @@ client.RaiseOnLoadingSection(this, new EventArgs());
             for (int j4 = 0; j4 < client.playerCount; j4 += 1)
             {
                 ClientMob f1 = client.playerArray[j4];
-                f1.currentX -= offsetX * client.gridSize;
-                f1.currentY -= offsetY * client.gridSize;
-                for (int l5 = 0; l5 <= f1.waypointCurrent; l5 += 1)
+                f1.LocationX -= offsetX * client.gridSize;
+                f1.LocationY -= offsetY * client.gridSize;
+                for (int l5 = 0; l5 <= f1.WaypointCurrent; l5 += 1)
                 {
-                    f1.waypointsX[l5] -= offsetX * client.gridSize;
-                    f1.waypointsY[l5] -= offsetY * client.gridSize;
+                    f1.WaypointXPositions[l5] -= offsetX * client.gridSize;
+                    f1.WaypointYPositions[l5] -= offsetY * client.gridSize;
                 }
 
             }
@@ -974,12 +974,12 @@ client.RaiseOnLoadingSection(this, new EventArgs());
             for (int i5 = 0; i5 < client.npcCount; i5 += 1)
             {
                 ClientMob f2 = client.npcArray[i5];
-                f2.currentX -= offsetX * client.gridSize;
-                f2.currentY -= offsetY * client.gridSize;
-                for (int k6 = 0; k6 <= f2.waypointCurrent; k6 += 1)
+                f2.LocationX -= offsetX * client.gridSize;
+                f2.LocationY -= offsetY * client.gridSize;
+                for (int k6 = 0; k6 <= f2.WaypointCurrent; k6 += 1)
                 {
-                    f2.waypointsX[k6] -= offsetX * client.gridSize;
-                    f2.waypointsY[k6] -= offsetY * client.gridSize;
+                    f2.WaypointXPositions[k6] -= offsetX * client.gridSize;
+                    f2.WaypointYPositions[k6] -= offsetY * client.gridSize;
                 }
 
             }

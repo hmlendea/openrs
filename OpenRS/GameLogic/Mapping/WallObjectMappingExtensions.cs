@@ -12,6 +12,7 @@ namespace OpenRS.GameLogic.Mapping
         internal static WallObject ToServiceModel(
             this WallObjectEntity wallObjectEntity) => new()
         {
+            V1Id = wallObjectEntity.V1Id,
             Name = LocalisationManager.GetString(wallObjectEntity.Name),
             Description = LocalisationManager.GetString(wallObjectEntity.Description),
             Command1 = LocalisationManager.GetString(wallObjectEntity.Command1),
@@ -25,6 +26,7 @@ namespace OpenRS.GameLogic.Mapping
 
         internal static WallObjectEntity ToDataObject(this WallObject wallObject) => new()
         {
+            V1Id = wallObject.V1Id,
             Name = wallObject.Name,
             Description = wallObject.Description,
             Command1 = wallObject.Command1,

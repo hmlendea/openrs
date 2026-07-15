@@ -7,7 +7,6 @@ using OpenRS.Logging;
 using OpenRS.Models;
 using OpenRS.Net.Client.Game;
 using OpenRS.Localisation;
-using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Rendering
 {
@@ -156,13 +155,13 @@ namespace OpenRS.Net.Client.Rendering
             {
                 if (!client.loggedIn)
                 {
-                    client.gameGraphics.loggedIn = false;
+                    client.gameGraphics.IsLoggedIn = false;
                     loginRenderer.DrawLoginScreens();
                 }
 
                 if (client.loggedIn)
                 {
-                    client.gameGraphics.loggedIn = true;
+                    client.gameGraphics.IsLoggedIn = true;
                     DrawGame();
 
                     return;
@@ -375,7 +374,7 @@ namespace OpenRS.Net.Client.Rendering
                 client.cameraZoom = true;
 
                 if (client.lastLayerIndex == 0 &&
-                    (client.engineHandle.tiles[client.ourPlayer.currentX / 128][client.ourPlayer.currentY / 128] & 0x80) == 0)
+                    (client.engineHandle.tiles[client.ourPlayer.LocationX / 128][client.ourPlayer.LocationY / 128] & 0x80) == 0)
                 {
                     if (client.showRoofs)
                     {
@@ -466,10 +465,10 @@ namespace OpenRS.Net.Client.Rendering
             {
                 ClientMob player = client.playerArray[playerSpriteIndex];
 
-                if (player.bottomColour != 255)
+                if (player.Appearance.TrousersColour != 255)
                 {
-                    int playerX = player.currentX;
-                    int playerY = player.currentY;
+                    int playerX = player.LocationX;
+                    int playerY = player.LocationY;
                     int playerElevation = -client.engineHandle.GetAveragedElevation(playerX, playerY);
                     int spriteHandle = client.gameCamera.AddSpriteToScene(5000 + playerSpriteIndex, playerX, playerElevation, playerY, 145, 220, playerSpriteIndex + 10000);
                     client.drawUpdatesPerformed += 1;
@@ -479,12 +478,12 @@ namespace OpenRS.Net.Client.Rendering
                         client.gameCamera.RemoveSprite(spriteHandle);
                     }
 
-                    if (player.currentSprite == 8)
+                    if (player.CurrentSprite == 8)
                     {
                         client.gameCamera.UpdateSpritePosition(spriteHandle, -30);
                     }
 
-                    if (player.currentSprite == 9)
+                    if (player.CurrentSprite == 9)
                     {
                         client.gameCamera.UpdateSpritePosition(spriteHandle, 30);
                     }
@@ -495,31 +494,31 @@ namespace OpenRS.Net.Client.Rendering
             {
                 ClientMob player = client.playerArray[playerProjectileIndex];
 
-                if (player.projectileDistance > 0)
+                if (player.ProjectileDistance > 0)
                 {
                     ClientMob targetMob = null;
 
-                    if (player.attackingNpcIndex != -1)
+                    if (player.AttackingNpcIndex != -1)
                     {
-                        targetMob = client.npcAttackingArray[player.attackingNpcIndex];
+                        targetMob = client.npcAttackingArray[player.AttackingNpcIndex];
                     }
-                    else if (player.attackingPlayerIndex != -1)
+                    else if (player.AttackingPlayerIndex != -1)
                     {
-                        targetMob = client.playerBufferArray[player.attackingPlayerIndex];
+                        targetMob = client.playerBufferArray[player.AttackingPlayerIndex];
                     }
 
                     if (targetMob is not null)
                     {
-                        int attackerX = player.currentX;
-                        int attackerY = player.currentY;
+                        int attackerX = player.LocationX;
+                        int attackerY = player.LocationY;
                         int attackerElevation = -client.engineHandle.GetAveragedElevation(attackerX, attackerY) - 110;
-                        int targetX = targetMob.currentX;
-                        int targetY = targetMob.currentY;
-                        int targetElevation = -client.engineHandle.GetAveragedElevation(targetX, targetY) - client.entityManager.GetNpc(targetMob.npcId).SpriteHeight / 2;
-                        int projectileX = (attackerX * player.projectileDistance + targetX * (client.projectileRange - player.projectileDistance)) / client.projectileRange;
-                        int projectileElevation = (attackerElevation * player.projectileDistance + targetElevation * (client.projectileRange - player.projectileDistance)) / client.projectileRange;
-                        int projectileY = (attackerY * player.projectileDistance + targetY * (client.projectileRange - player.projectileDistance)) / client.projectileRange;
-                        client.gameCamera.AddSpriteToScene(client.baseProjectilePic + player.projectileType, projectileX, projectileElevation, projectileY, 32, 32, 0);
+                        int targetX = targetMob.LocationX;
+                        int targetY = targetMob.LocationY;
+                        int targetElevation = -client.engineHandle.GetAveragedElevation(targetX, targetY) - client.entityManager.GetNpc(targetMob.NpcIdentifier).SpriteHeight / 2;
+                        int projectileX = (attackerX * player.ProjectileDistance + targetX * (client.projectileRange - player.ProjectileDistance)) / client.projectileRange;
+                        int projectileElevation = (attackerElevation * player.ProjectileDistance + targetElevation * (client.projectileRange - player.ProjectileDistance)) / client.projectileRange;
+                        int projectileY = (attackerY * player.ProjectileDistance + targetY * (client.projectileRange - player.ProjectileDistance)) / client.projectileRange;
+                        client.gameCamera.AddSpriteToScene(client.baseProjectilePic + player.ProjectileType, projectileX, projectileElevation, projectileY, 32, 32, 0);
                         client.drawUpdatesPerformed += 1;
                     }
                 }
@@ -528,18 +527,18 @@ namespace OpenRS.Net.Client.Rendering
             for (int npcIndex = 0; npcIndex < client.npcCount; npcIndex += 1)
             {
                 ClientMob npc = client.npcArray[npcIndex];
-                int npcWorldX = npc.currentX;
-                int npcWorldY = npc.currentY;
+                int npcWorldX = npc.LocationX;
+                int npcWorldY = npc.LocationY;
                 int npcElevation = -client.engineHandle.GetAveragedElevation(npcWorldX, npcWorldY);
-                int npcSpriteHandle = client.gameCamera.AddSpriteToScene(20000 + npcIndex, npcWorldX, npcElevation, npcWorldY, client.entityManager.GetNpc(npc.npcId).SpriteWidth, client.entityManager.GetNpc(npc.npcId).SpriteHeight, npcIndex + 30000);
+                int npcSpriteHandle = client.gameCamera.AddSpriteToScene(20000 + npcIndex, npcWorldX, npcElevation, npcWorldY, client.entityManager.GetNpc(npc.NpcIdentifier).SpriteWidth, client.entityManager.GetNpc(npc.NpcIdentifier).SpriteHeight, npcIndex + 30000);
                 client.drawUpdatesPerformed += 1;
 
-                if (npc.currentSprite == 8)
+                if (npc.CurrentSprite == 8)
                 {
                     client.gameCamera.UpdateSpritePosition(npcSpriteHandle, -30);
                 }
 
-                if (npc.currentSprite == 9)
+                if (npc.CurrentSprite == 9)
                 {
                     client.gameCamera.UpdateSpritePosition(npcSpriteHandle, 30);
                 }
@@ -572,9 +571,9 @@ namespace OpenRS.Net.Client.Rendering
                 }
             }
 
-            client.gameGraphics.interlace = false;
+            client.gameGraphics.IsInterlaced = false;
             client.gameGraphics.ClearScreen();
-            client.gameGraphics.interlace = client.keyF1Toggle;
+            client.gameGraphics.IsInterlaced = client.keyF1Toggle;
             if (client.lastLayerIndex == 3)
             {
                 int lightLevelR = 40 + (int)(Helper.Random.NextDouble() * 3D);
@@ -593,8 +592,8 @@ namespace OpenRS.Net.Client.Rendering
 
                     if (client.cameraAutoAngle != previousCameraAutoAngle)
                     {
-                        client.cameraAutoRotatePlayerX = client.ourPlayer.currentX;
-                        client.cameraAutoRotatePlayerY = client.ourPlayer.currentY;
+                        client.cameraAutoRotatePlayerX = client.ourPlayer.LocationX;
+                        client.cameraAutoRotatePlayerY = client.ourPlayer.LocationY;
                     }
                 }
                 if (client.fogOfWar)
@@ -734,11 +733,11 @@ namespace OpenRS.Net.Client.Rendering
             Menu.chatMenuTextHeightMod = 2;
             client.chatInputMenu.DrawMenu();
             Menu.chatMenuTextHeightMod = 0;
-            client.gameGraphics.DrawPicture(client.gameGraphics.gameWidth - 3 - 197, 3, client.baseInventoryPic, 128);
+            client.gameGraphics.DrawPicture(client.gameGraphics.GameWidth - 3 - 197, 3, client.baseInventoryPic, 128);
 
             DrawMenus();
 
-            client.gameGraphics.loggedIn = false;
+            client.gameGraphics.IsLoggedIn = false;
             socialRenderer.DrawChatMessageTabs();
 
             string text = "Coordinates: ( " + (client.sectionX + client.areaX) + "," + (client.sectionY + client.areaY) + " ) Section: (" + client.sectionX + "," + client.sectionY + ") Area: (" + client.areaX + "," + client.areaY + ")";

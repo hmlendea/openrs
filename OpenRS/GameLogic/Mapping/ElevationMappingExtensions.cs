@@ -10,12 +10,14 @@ namespace OpenRS.GameLogic.Mapping
     {
         internal static Elevation ToServiceModel(this ElevationEntity elevationEntity) => new()
         {
+            V1Id = elevationEntity.V1Id,
             Roof = elevationEntity.Roof,
             Colour = elevationEntity.Colour
         };
 
         internal static ElevationEntity ToDataObject(this Elevation elevation) => new()
         {
+            V1Id = elevation.V1Id,
             Roof = elevation.Roof,
             Colour = elevation.Colour
         };

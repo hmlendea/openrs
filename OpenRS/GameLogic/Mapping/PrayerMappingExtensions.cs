@@ -12,6 +12,7 @@ namespace OpenRS.GameLogic.Mapping
         internal static Prayer ToServiceModel(this PrayerEntity prayerEntity) => new()
         {
             Id = prayerEntity.Id,
+            V1Id = prayerEntity.V1Id,
             Name = LocalisationManager.GetString(prayerEntity.Name),
             Description = LocalisationManager.GetString(prayerEntity.Description),
             RequiredLevel = prayerEntity.RequiredLevel,
@@ -21,6 +22,7 @@ namespace OpenRS.GameLogic.Mapping
         internal static PrayerEntity ToDataObject(this Prayer prayer) => new()
         {
             Id = prayer.Id,
+            V1Id = prayer.V1Id,
             Name = prayer.Name,
             Description = prayer.Description,
             RequiredLevel = prayer.RequiredLevel,

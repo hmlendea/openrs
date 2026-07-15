@@ -18,8 +18,8 @@ namespace OpenRS.Net.Client.Rendering
         {
             int tileX = client.objectX[objectIndex];
             int tileY = client.objectY[objectIndex];
-            int relativeX = tileX - client.ourPlayer.currentX / 128;
-            int relativeY = tileY - client.ourPlayer.currentY / 128;
+            int relativeX = tileX - client.ourPlayer.LocationX / 128;
+            int relativeY = tileY - client.ourPlayer.LocationY / 128;
             byte viewRadius = 7;
 
             if (tileX >= 0 &&
@@ -52,7 +52,7 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            int direction = player.currentSprite + (client.cameraRotation + 16) / 32 & 7;
+            int direction = player.CurrentSprite + (client.cameraRotation + 16) / 32 & 7;
             bool isMirrored = false;
             int effectiveDirection = direction;
 
@@ -72,9 +72,9 @@ namespace OpenRS.Net.Client.Rendering
                 isMirrored = true;
             }
 
-            int walkAnimationIndex = effectiveDirection * 3 + client.walkModel[player.stepCount / 6 % 4];
+            int walkAnimationIndex = effectiveDirection * 3 + client.walkModel[player.StepCount / 6 % 4];
 
-            if (player.currentSprite == 8)
+            if (player.CurrentSprite == 8)
             {
                 effectiveDirection = 5;
                 direction = 2;
@@ -82,7 +82,7 @@ namespace OpenRS.Net.Client.Rendering
                 x -= 5 * scalePercentage / 100;
                 walkAnimationIndex = effectiveDirection * 3 + client.combatModelArray1[client.tick / 5 % 8];
             }
-            else if (player.currentSprite == 9)
+            else if (player.CurrentSprite == 9)
             {
                 effectiveDirection = 5;
                 direction = 2;
@@ -94,7 +94,7 @@ namespace OpenRS.Net.Client.Rendering
             for (int animationLayerIndex = 0; animationLayerIndex < 12; animationLayerIndex += 1)
             {
                 int animationModelIndex = client.animationModelArray[direction][animationLayerIndex];
-                int appearanceItemIndex = player.appearanceItems[animationModelIndex] - 1;
+                int appearanceItemIndex = player.AppearanceItems[animationModelIndex] - 1;
 
                 if (appearanceItemIndex > client.entityManager.AnimationCount - 1)
                 {
@@ -117,61 +117,61 @@ namespace OpenRS.Net.Client.Rendering
                         {
                             xOffset = -22;
                             yOffset = -3;
-                            animationFrameIndex = effectiveDirection * 3 + client.walkModel[(2 + player.stepCount / 6) % 4];
+                            animationFrameIndex = effectiveDirection * 3 + client.walkModel[(2 + player.StepCount / 6) % 4];
                         }
                         else if (animationModelIndex == 4 && effectiveDirection == 2)
                         {
                             xOffset = 0;
                             yOffset = -8;
-                            animationFrameIndex = effectiveDirection * 3 + client.walkModel[(2 + player.stepCount / 6) % 4];
+                            animationFrameIndex = effectiveDirection * 3 + client.walkModel[(2 + player.StepCount / 6) % 4];
                         }
                         else if (animationModelIndex == 4 && effectiveDirection == 3)
                         {
                             xOffset = 26;
                             yOffset = -5;
-                            animationFrameIndex = effectiveDirection * 3 + client.walkModel[(2 + player.stepCount / 6) % 4];
+                            animationFrameIndex = effectiveDirection * 3 + client.walkModel[(2 + player.StepCount / 6) % 4];
                         }
                         else if (animationModelIndex == 3 && effectiveDirection == 1)
                         {
                             xOffset = 22;
                             yOffset = 3;
-                            animationFrameIndex = effectiveDirection * 3 + client.walkModel[(2 + player.stepCount / 6) % 4];
+                            animationFrameIndex = effectiveDirection * 3 + client.walkModel[(2 + player.StepCount / 6) % 4];
                         }
                         else if (animationModelIndex == 3 && effectiveDirection == 2)
                         {
                             xOffset = 0;
                             yOffset = 8;
-                            animationFrameIndex = effectiveDirection * 3 + client.walkModel[(2 + player.stepCount / 6) % 4];
+                            animationFrameIndex = effectiveDirection * 3 + client.walkModel[(2 + player.StepCount / 6) % 4];
                         }
                         else if (animationModelIndex == 3 && effectiveDirection == 3)
                         {
                             xOffset = -26;
                             yOffset = 5;
-                            animationFrameIndex = effectiveDirection * 3 + client.walkModel[(2 + player.stepCount / 6) % 4];
+                            animationFrameIndex = effectiveDirection * 3 + client.walkModel[(2 + player.StepCount / 6) % 4];
                         }
                     }
 
                     if (effectiveDirection != 5 || client.entityManager.GetAnimation(appearanceItemIndex).HasAttackFrames)
                     {
                         int pictureIndex = animationFrameIndex + client.entityManager.GetAnimation(appearanceItemIndex).SpriteIndex;
-                        xOffset = xOffset * width / client.gameGraphics.pictureAssumedWidth[pictureIndex];
-                        yOffset = yOffset * height / client.gameGraphics.pictureAssumedHeight[pictureIndex];
-                        int pictureWidth = width * client.gameGraphics.pictureAssumedWidth[pictureIndex] / client.gameGraphics.pictureAssumedWidth[client.entityManager.GetAnimation(appearanceItemIndex).SpriteIndex];
+                        xOffset = xOffset * width / client.gameGraphics.PictureAssumedWidth[pictureIndex];
+                        yOffset = yOffset * height / client.gameGraphics.PictureAssumedHeight[pictureIndex];
+                        int pictureWidth = width * client.gameGraphics.PictureAssumedWidth[pictureIndex] / client.gameGraphics.PictureAssumedWidth[client.entityManager.GetAnimation(appearanceItemIndex).SpriteIndex];
                         xOffset -= (pictureWidth - width) / 2;
                         int characterColour = client.entityManager.GetAnimation(appearanceItemIndex).CharacterColour;
-                        int skinColour = client.appearanceSkinColours[player.skinColour];
+                        int skinColour = client.appearanceSkinColours[player.Appearance.SkinColour];
 
                         if (characterColour == 1)
                         {
-                            characterColour = client.appearanceHairColours[player.hairColour];
+                            characterColour = client.appearanceHairColours[player.Appearance.HairColour];
                         }
                         else if (characterColour == 2)
                         {
-                            characterColour = client.appearanceTopBottomColours[player.topColour];
+                            characterColour = client.appearanceTopBottomColours[player.Appearance.TopColour];
                         }
                         else if (characterColour == 3)
                         {
-                            characterColour = client.appearanceTopBottomColours[player.bottomColour];
+                            characterColour = client.appearanceTopBottomColours[player.Appearance.TrousersColour];
                         }
 
                         client.gameGraphics.DrawImage(x + xOffset, y + yOffset, pictureWidth, height, pictureIndex, characterColour, skinColour, cameraXOffset, isMirrored);
@@ -179,80 +179,80 @@ namespace OpenRS.Net.Client.Rendering
                 }
             }
 
-            if (player.lastMessageTimeout > 0)
+            if (player.LastMessageTimeout > 0)
             {
-                client.receivedMessageMidPoint[client.receivedMessagesCount] = client.gameGraphics.TextWidth(player.lastMessage, 1) / 2;
+                client.receivedMessageMidPoint[client.receivedMessagesCount] = client.gameGraphics.TextWidth(player.LastMessage, 1) / 2;
 
                 if (client.receivedMessageMidPoint[client.receivedMessagesCount] > 150)
                 {
                     client.receivedMessageMidPoint[client.receivedMessagesCount] = 150;
                 }
 
-                client.receivedMessageHeight[client.receivedMessagesCount] = client.gameGraphics.TextWidth(player.lastMessage, 1) / 300 * client.gameGraphics.TextHeightNumber(1);
+                client.receivedMessageHeight[client.receivedMessagesCount] = client.gameGraphics.TextWidth(player.LastMessage, 1) / 300 * client.gameGraphics.TextHeightNumber(1);
                 client.receivedMessageX[client.receivedMessagesCount] = x + width / 2;
                 client.receivedMessageY[client.receivedMessagesCount] = y;
-                client.receivedMessages[client.receivedMessagesCount] = player.lastMessage;
+                client.receivedMessages[client.receivedMessagesCount] = player.LastMessage;
                 client.receivedMessagesCount += 1;
             }
 
-            if (player.playerSkullTimeout > 0)
+            if (player.PlayerSkullTimeout > 0)
             {
                 client.itemAboveHeadX[client.itemsAboveHeadCount] = x + width / 2;
                 client.itemAboveHeadY[client.itemsAboveHeadCount] = y;
                 client.itemAboveHeadScale[client.itemsAboveHeadCount] = scalePercentage;
-                client.itemAboveHeadID[client.itemsAboveHeadCount] = player.itemAboveHeadID;
+                client.itemAboveHeadID[client.itemsAboveHeadCount] = player.ItemAboveHeadId;
                 client.itemsAboveHeadCount += 1;
             }
 
-            if (player.currentSprite == 8 || player.currentSprite == 9 || player.combatTimer != 0)
+            if (player.CurrentSprite == 8 || player.CurrentSprite == 9 || player.CombatTimer != 0)
             {
-                if (player.combatTimer > 0)
+                if (player.CombatTimer > 0)
                 {
                     int combatX = x;
 
-                    if (player.currentSprite == 8)
+                    if (player.CurrentSprite == 8)
                     {
                         combatX -= 20 * scalePercentage / 100;
                     }
-                    else if (player.currentSprite == 9)
+                    else if (player.CurrentSprite == 9)
                     {
                         combatX += 20 * scalePercentage / 100;
                     }
 
-                    int healthBarRatio = player.currentHits * 30 / player.baseHits;
+                    int healthBarRatio = player.CurrentHitpoints * 30 / player.BaseHitpoints;
                     client.healthBarX[client.healthBarVisibleCount] = combatX + width / 2;
                     client.healthBarY[client.healthBarVisibleCount] = y;
                     client.healthBarMissing[client.healthBarVisibleCount] = healthBarRatio;
                     client.healthBarVisibleCount += 1;
                 }
 
-                if (player.combatTimer > 150)
+                if (player.CombatTimer > 150)
                 {
                     int damageCombatX = x;
 
-                    if (player.currentSprite == 8)
+                    if (player.CurrentSprite == 8)
                     {
                         damageCombatX -= 10 * scalePercentage / 100;
                     }
-                    else if (player.currentSprite == 9)
+                    else if (player.CurrentSprite == 9)
                     {
                         damageCombatX += 10 * scalePercentage / 100;
                     }
 
                     client.gameGraphics.DrawPicture(damageCombatX + width / 2 - 12, y + height / 2 - 12, client.baseInventoryPic + 11);
-                    client.gameGraphics.DrawText(player.lastDamageCount.ToString(), damageCombatX + width / 2 - 1, y + height / 2 + 5, 3, 0xffffff);
+                    client.gameGraphics.DrawText(player.LastDamageCount.ToString(), damageCombatX + width / 2 - 1, y + height / 2 + 5, 3, 0xffffff);
                 }
             }
 
-            if (player.playerSkulled == 1 && player.playerSkullTimeout == 0)
+            if (player.PlayerSkulled == 1 && player.PlayerSkullTimeout == 0)
             {
                 int skullX = cameraXOffset + x + width / 2;
 
-                if (player.currentSprite == 8)
+                if (player.CurrentSprite == 8)
                 {
                     skullX -= 20 * scalePercentage / 100;
                 }
-                else if (player.currentSprite == 9)
+                else if (player.CurrentSprite == 9)
                 {
                     skullX += 20 * scalePercentage / 100;
                 }
@@ -266,7 +266,7 @@ namespace OpenRS.Net.Client.Rendering
 
         public void DrawMinimapMenu(bool canClick)
         {
-            int minimapX = client.gameGraphics.gameWidth - 199;
+            int minimapX = client.gameGraphics.GameWidth - 199;
             int minimapWidth = 156;
             int minimapHeight = 152;
             client.gameGraphics.DrawPicture(minimapX - 49, 3, client.baseInventoryPic + 2);
@@ -275,8 +275,8 @@ namespace OpenRS.Net.Client.Rendering
             client.gameGraphics.SetDimensions(minimapX, 36, minimapX + minimapWidth, 36 + minimapHeight);
             int zoomLevel = 192 + client.minimapRandomRotationY;
             int rotationAngle = client.cameraRotation + client.minimapRandomRotationX & 0xff;
-            int mapOffsetX = (client.ourPlayer.currentX - 6040) * 3 * zoomLevel / 2048;
-            int mapOffsetY = (client.ourPlayer.currentY - 6040) * 3 * zoomLevel / 2048;
+            int mapOffsetX = (client.ourPlayer.LocationX - 6040) * 3 * zoomLevel / 2048;
+            int mapOffsetY = (client.ourPlayer.LocationY - 6040) * 3 * zoomLevel / 2048;
             int cosine = Camera.TrigonometryTable[1024 - rotationAngle * 4 & 0x3ff];
             int sine = Camera.TrigonometryTable[(1024 - rotationAngle * 4 & 0x3ff) + 1024];
             int rotatedX = mapOffsetY * cosine + mapOffsetX * sine >> 18;
@@ -286,8 +286,8 @@ namespace OpenRS.Net.Client.Rendering
 
             for (int objectDrawIndex = 0; objectDrawIndex < client.objectCount; objectDrawIndex += 1)
             {
-                int objectMapX = (client.objectX[objectDrawIndex] * client.gridSize + 64 - client.ourPlayer.currentX) * 3 * zoomLevel / 2048;
-                int objectMapY = (client.objectY[objectDrawIndex] * client.gridSize + 64 - client.ourPlayer.currentY) * 3 * zoomLevel / 2048;
+                int objectMapX = (client.objectX[objectDrawIndex] * client.gridSize + 64 - client.ourPlayer.LocationX) * 3 * zoomLevel / 2048;
+                int objectMapY = (client.objectY[objectDrawIndex] * client.gridSize + 64 - client.ourPlayer.LocationY) * 3 * zoomLevel / 2048;
                 int rotatedObjectX = objectMapY * cosine + objectMapX * sine >> 18;
                 objectMapY = objectMapY * sine - objectMapX * cosine >> 18;
                 objectMapX = rotatedObjectX;
@@ -296,8 +296,8 @@ namespace OpenRS.Net.Client.Rendering
 
             for (int groundItemIndex = 0; groundItemIndex < client.groundItemCount; groundItemIndex += 1)
             {
-                int groundItemMapX = (client.groundItemX[groundItemIndex] * client.gridSize + 64 - client.ourPlayer.currentX) * 3 * zoomLevel / 2048;
-                int groundItemMapY = (client.groundItemY[groundItemIndex] * client.gridSize + 64 - client.ourPlayer.currentY) * 3 * zoomLevel / 2048;
+                int groundItemMapX = (client.groundItemX[groundItemIndex] * client.gridSize + 64 - client.ourPlayer.LocationX) * 3 * zoomLevel / 2048;
+                int groundItemMapY = (client.groundItemY[groundItemIndex] * client.gridSize + 64 - client.ourPlayer.LocationY) * 3 * zoomLevel / 2048;
                 int rotatedGroundItemX = groundItemMapY * cosine + groundItemMapX * sine >> 18;
                 groundItemMapY = groundItemMapY * sine - groundItemMapX * cosine >> 18;
                 groundItemMapX = rotatedGroundItemX;
@@ -307,8 +307,8 @@ namespace OpenRS.Net.Client.Rendering
             for (int npcDrawIndex = 0; npcDrawIndex < client.npcCount; npcDrawIndex += 1)
             {
                 ClientMob npc = client.npcArray[npcDrawIndex];
-                int npcMapX = (npc.currentX - client.ourPlayer.currentX) * 3 * zoomLevel / 2048;
-                int npcMapY = (npc.currentY - client.ourPlayer.currentY) * 3 * zoomLevel / 2048;
+                int npcMapX = (npc.LocationX - client.ourPlayer.LocationX) * 3 * zoomLevel / 2048;
+                int npcMapY = (npc.LocationY - client.ourPlayer.LocationY) * 3 * zoomLevel / 2048;
                 int rotatedNpcX = npcMapY * cosine + npcMapX * sine >> 18;
                 npcMapY = npcMapY * sine - npcMapX * cosine >> 18;
                 npcMapX = rotatedNpcX;
@@ -318,8 +318,8 @@ namespace OpenRS.Net.Client.Rendering
             for (int playerDrawIndex = 0; playerDrawIndex < client.playerCount; playerDrawIndex += 1)
             {
                 ClientMob otherPlayer = client.playerArray[playerDrawIndex];
-                int playerMapX = (otherPlayer.currentX - client.ourPlayer.currentX) * 3 * zoomLevel / 2048;
-                int playerMapY = (otherPlayer.currentY - client.ourPlayer.currentY) * 3 * zoomLevel / 2048;
+                int playerMapX = (otherPlayer.LocationX - client.ourPlayer.LocationX) * 3 * zoomLevel / 2048;
+                int playerMapY = (otherPlayer.LocationY - client.ourPlayer.LocationY) * 3 * zoomLevel / 2048;
                 int rotatedPlayerX = playerMapY * cosine + playerMapX * sine >> 18;
                 playerMapY = playerMapY * sine - playerMapX * cosine >> 18;
                 playerMapX = rotatedPlayerX;
@@ -327,7 +327,7 @@ namespace OpenRS.Net.Client.Rendering
 
                 for (int friendIndex = 0; friendIndex < client.friendsCount; friendIndex += 1)
                 {
-                    if (otherPlayer.nameHash != client.friendsList[friendIndex] || client.friendsWorld[friendIndex] != 99)
+                    if (otherPlayer.NameHash != client.friendsList[friendIndex] || client.friendsWorld[friendIndex] != 99)
                     {
                         continue;
                     }
@@ -349,14 +349,14 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            int relativeMouseX = client.mouseX - (client.gameGraphics.gameWidth - 199);
+            int relativeMouseX = client.mouseX - (client.gameGraphics.GameWidth - 199);
             int relativeMouseY = client.mouseY - 36;
 
             if (relativeMouseX >= 40 && relativeMouseY >= 0 && relativeMouseX < 196 && relativeMouseY < 152)
             {
                 int clickZoomLevel = 192 + client.minimapRandomRotationY;
                 int clickRotationAngle = client.cameraRotation + client.minimapRandomRotationX & 0xff;
-                int clickOriginX = client.gameGraphics.gameWidth - 199 + 40;
+                int clickOriginX = client.gameGraphics.GameWidth - 199 + 40;
                 int worldX = (client.mouseX - (clickOriginX + minimapWidth / 2)) * 16384 / (3 * clickZoomLevel);
                 int worldY = (client.mouseY - (36 + minimapHeight / 2)) * 16384 / (3 * clickZoomLevel);
                 int clickCosine = Camera.TrigonometryTable[1024 - clickRotationAngle * 4 & 0x3ff];
@@ -364,8 +364,8 @@ namespace OpenRS.Net.Client.Rendering
                 int rotatedWorldX = worldY * clickCosine + worldX * clickSine >> 15;
                 worldY = worldY * clickSine - worldX * clickCosine >> 15;
                 worldX = rotatedWorldX;
-                worldX += client.ourPlayer.currentX;
-                worldY = client.ourPlayer.currentY - worldY;
+                worldX += client.ourPlayer.LocationX;
+                worldY = client.ourPlayer.LocationY - worldY;
 
                 if (client.mouseButtonClick == 1)
                 {
@@ -399,7 +399,7 @@ namespace OpenRS.Net.Client.Rendering
         public void DrawNPC(int x, int y, int width, int height, int index, int unknown1, int unknown2)
         {
             ClientMob npc = client.npcArray[index];
-            int frameIndex = npc.currentSprite + (client.cameraRotation + 16) / 32 & 7;
+            int frameIndex = npc.CurrentSprite + (client.cameraRotation + 16) / 32 & 7;
             bool isMirrored = false;
             int newFrameIndex = frameIndex;
 
@@ -419,29 +419,29 @@ namespace OpenRS.Net.Client.Rendering
                 isMirrored = true;
             }
 
-            int animationFrameIndex = newFrameIndex * 3 + client.walkModel[npc.stepCount / client.entityManager.GetNpc(npc.npcId).WalkAnimationSpeed % 4];
+            int animationFrameIndex = newFrameIndex * 3 + client.walkModel[npc.StepCount / client.entityManager.GetNpc(npc.NpcIdentifier).WalkAnimationSpeed % 4];
 
-            if (npc.currentSprite == 8)
+            if (npc.CurrentSprite == 8)
             {
                 newFrameIndex = 5;
                 frameIndex = 2;
                 isMirrored = false;
-                x -= client.entityManager.GetNpc(npc.npcId).CombatSwingOffset * unknown2 / 100;
-                animationFrameIndex = newFrameIndex * 3 + client.combatModelArray1[client.tick / (client.entityManager.GetNpc(npc.npcId).CombatAnimationSpeed - 1) % 8];
+                x -= client.entityManager.GetNpc(npc.NpcIdentifier).CombatSwingOffset * unknown2 / 100;
+                animationFrameIndex = newFrameIndex * 3 + client.combatModelArray1[client.tick / (client.entityManager.GetNpc(npc.NpcIdentifier).CombatAnimationSpeed - 1) % 8];
             }
-            else if (npc.currentSprite == 9)
+            else if (npc.CurrentSprite == 9)
             {
                 newFrameIndex = 5;
                 frameIndex = 2;
                 isMirrored = true;
-                x += client.entityManager.GetNpc(npc.npcId).CombatSwingOffset * unknown2 / 100;
-                animationFrameIndex = newFrameIndex * 3 + client.combatModelArray2[client.tick / client.entityManager.GetNpc(npc.npcId).CombatAnimationSpeed % 8];
+                x += client.entityManager.GetNpc(npc.NpcIdentifier).CombatSwingOffset * unknown2 / 100;
+                animationFrameIndex = newFrameIndex * 3 + client.combatModelArray2[client.tick / client.entityManager.GetNpc(npc.NpcIdentifier).CombatAnimationSpeed % 8];
             }
 
             for (int bodyPartIndex = 0; bodyPartIndex < 12; bodyPartIndex += 1)
             {
                 int bodyPartType = client.animationModelArray[frameIndex][bodyPartIndex];
-                int spriteId = client.entityManager.GetNpc(npc.npcId).Sprites[bodyPartType];
+                int spriteId = client.entityManager.GetNpc(npc.NpcIdentifier).Sprites[bodyPartType];
 
                 if (spriteId >= 0)
                 {
@@ -460,27 +460,27 @@ namespace OpenRS.Net.Client.Rendering
                     if (newFrameIndex != 5 || client.entityManager.GetAnimation(spriteId).HasAttackFrames)
                     {
                         int actualFrame = frameNumber + client.entityManager.GetAnimation(spriteId).SpriteIndex;
-                        drawOffsetX = drawOffsetX * width / client.gameGraphics.pictureAssumedWidth[actualFrame];
-                        drawOffsetY = drawOffsetY * height / client.gameGraphics.pictureAssumedHeight[actualFrame];
-                        int scaledWidth = width * client.gameGraphics.pictureAssumedWidth[actualFrame] / client.gameGraphics.pictureAssumedWidth[client.entityManager.GetAnimation(spriteId).SpriteIndex];
+                        drawOffsetX = drawOffsetX * width / client.gameGraphics.PictureAssumedWidth[actualFrame];
+                        drawOffsetY = drawOffsetY * height / client.gameGraphics.PictureAssumedHeight[actualFrame];
+                        int scaledWidth = width * client.gameGraphics.PictureAssumedWidth[actualFrame] / client.gameGraphics.PictureAssumedWidth[client.entityManager.GetAnimation(spriteId).SpriteIndex];
                         drawOffsetX -= (scaledWidth - width) / 2;
                         int bodyColour = client.entityManager.GetAnimation(spriteId).CharacterColour;
                         int skinColour = 0;
 
                         if (bodyColour == 1)
                         {
-                            bodyColour = client.entityManager.GetNpc(npc.npcId).Appearance.HairColour;
-                            skinColour = client.entityManager.GetNpc(npc.npcId).Appearance.SkinColour;
+                            bodyColour = client.entityManager.GetNpc(npc.NpcIdentifier).Appearance.HairColour;
+                            skinColour = client.entityManager.GetNpc(npc.NpcIdentifier).Appearance.SkinColour;
                         }
                         else if (bodyColour == 2)
                         {
-                            bodyColour = client.entityManager.GetNpc(npc.npcId).Appearance.TopColour;
-                            skinColour = client.entityManager.GetNpc(npc.npcId).Appearance.SkinColour;
+                            bodyColour = client.entityManager.GetNpc(npc.NpcIdentifier).Appearance.TopColour;
+                            skinColour = client.entityManager.GetNpc(npc.NpcIdentifier).Appearance.SkinColour;
                         }
                         else if (bodyColour == 3)
                         {
-                            bodyColour = client.entityManager.GetNpc(npc.npcId).Appearance.TrousersColour;
-                            skinColour = client.entityManager.GetNpc(npc.npcId).Appearance.SkinColour;
+                            bodyColour = client.entityManager.GetNpc(npc.NpcIdentifier).Appearance.TrousersColour;
+                            skinColour = client.entityManager.GetNpc(npc.NpcIdentifier).Appearance.SkinColour;
                         }
 
                         client.gameGraphics.DrawImage(x + drawOffsetX, y + drawOffsetY, scaledWidth, height, actualFrame, bodyColour, skinColour, unknown1, isMirrored);
@@ -488,57 +488,57 @@ namespace OpenRS.Net.Client.Rendering
                 }
             }
 
-            if (npc.lastMessageTimeout > 0)
+            if (npc.LastMessageTimeout > 0)
             {
-                client.receivedMessageMidPoint[client.receivedMessagesCount] = client.gameGraphics.TextWidth(npc.lastMessage, 1) / 2;
+                client.receivedMessageMidPoint[client.receivedMessagesCount] = client.gameGraphics.TextWidth(npc.LastMessage, 1) / 2;
 
                 if (client.receivedMessageMidPoint[client.receivedMessagesCount] > 150)
                 {
                     client.receivedMessageMidPoint[client.receivedMessagesCount] = 150;
                 }
 
-                client.receivedMessageHeight[client.receivedMessagesCount] = client.gameGraphics.TextWidth(npc.lastMessage, 1) / 300 * client.gameGraphics.TextHeightNumber(1);
+                client.receivedMessageHeight[client.receivedMessagesCount] = client.gameGraphics.TextWidth(npc.LastMessage, 1) / 300 * client.gameGraphics.TextHeightNumber(1);
                 client.receivedMessageX[client.receivedMessagesCount] = x + width / 2;
                 client.receivedMessageY[client.receivedMessagesCount] = y;
-                client.receivedMessages[client.receivedMessagesCount++] = npc.lastMessage;
+                client.receivedMessages[client.receivedMessagesCount++] = npc.LastMessage;
             }
 
-            if (npc.currentSprite == 8 || npc.currentSprite == 9 || npc.combatTimer != 0)
+            if (npc.CurrentSprite == 8 || npc.CurrentSprite == 9 || npc.CombatTimer != 0)
             {
-                if (npc.combatTimer > 0)
+                if (npc.CombatTimer > 0)
                 {
                     int combatBarX = x;
 
-                    if (npc.currentSprite == 8)
+                    if (npc.CurrentSprite == 8)
                     {
                         combatBarX -= 20 * unknown2 / 100;
                     }
-                    else if (npc.currentSprite == 9)
+                    else if (npc.CurrentSprite == 9)
                     {
                         combatBarX += 20 * unknown2 / 100;
                     }
 
-                    int currentHealthPercent = npc.currentHits * 30 / npc.baseHits;
+                    int currentHealthPercent = npc.CurrentHitpoints * 30 / npc.BaseHitpoints;
                     client.healthBarX[client.healthBarVisibleCount] = combatBarX + width / 2;
                     client.healthBarY[client.healthBarVisibleCount] = y;
                     client.healthBarMissing[client.healthBarVisibleCount++] = currentHealthPercent;
                 }
 
-                if (npc.combatTimer > 150)
+                if (npc.CombatTimer > 150)
                 {
                     int combatImageX = x;
 
-                    if (npc.currentSprite == 8)
+                    if (npc.CurrentSprite == 8)
                     {
                         combatImageX -= 10 * unknown2 / 100;
                     }
-                    else if (npc.currentSprite == 9)
+                    else if (npc.CurrentSprite == 9)
                     {
                         combatImageX += 10 * unknown2 / 100;
                     }
 
                     client.gameGraphics.DrawPicture(combatImageX + width / 2 - 12, y + height / 2 - 12, client.baseInventoryPic + 12);
-                    client.gameGraphics.DrawText(npc.lastDamageCount.ToString(), combatImageX + width / 2 - 1, y + height / 2 + 5, 3, 0xffffff);
+                    client.gameGraphics.DrawText(npc.LastDamageCount.ToString(), combatImageX + width / 2 - 1, y + height / 2 + 5, 3, 0xffffff);
                 }
             }
         }

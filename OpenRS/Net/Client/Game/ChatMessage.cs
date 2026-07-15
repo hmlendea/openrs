@@ -3,210 +3,10 @@
 namespace OpenRS.Net.Client.Game
 {
 
-public sealed class ChatMessage {
-
-    public static string BytesToString(sbyte[] encodedBytes, int readOffset, int byteCount)
-    {
-        try {
-            int i = 0;
-            int j = -1;
-            for(int k = 0; k < byteCount; k += 1) {
-                int l = encodedBytes[readOffset += 1] & 0xff;
-                int i1 = l >> 4 & 0xf;
-                if(j == -1) {
-                    if(i1 < 13)
-                        {
-                            chatMessage[i++] = validChars[i1];
-                        }
-                        else
-                        {
-                            j = i1;
-                        }
-                    } else {
-                    chatMessage[i++] = validChars[(j << 4) + i1 - 195];
-                    j = -1;
-                }
-                i1 = l & 0xf;
-                if(j == -1) {
-                    if(i1 < 13)
-                        {
-                            chatMessage[i++] = validChars[i1];
-                        }
-                        else
-                        {
-                            j = i1;
-                        }
-                    } else {
-                    chatMessage[i++] = validChars[(j << 4) + i1 - 195];
-                    j = -1;
-                }
-            }
-
-            bool flag = true;
-            for(int j1 = 0; j1 < i; j1 += 1) {
-                char c = chatMessage[j1];
-                if(j1 > 4 && c == '@')
-                    {
-                        chatMessage[j1] = ' ';
-                    }
-
-                    if (c == '%')
-                    {
-                        chatMessage[j1] = ' ';
-                    }
-
-                    if (flag && c >= 'a' && c <= 'z') {
-                    chatMessage[j1] += '\uFFE0';
-                    flag = false;
-                }
-                if(c == '.' || c == '!')
-                    {
-                        flag = true;
-                    }
-                }
-
-            return new string(chatMessage, 0, i);
-        }
-        catch {
-            return ".";
-        }
-    }
-
-    public static string BytesToString(byte[] encodedBytes, int readOffset, int byteCount)
-    {
-        try
-        {
-            int i = 0;
-            int j = -1;
-            for (int k = 0; k < byteCount; k += 1)
-            {
-                int l = encodedBytes[readOffset += 1] & 0xff;
-                int i1 = l >> 4 & 0xf;
-                if (j == -1)
-                {
-                    if (i1 < 13)
-                        {
-                            chatMessage[i++] = validChars[i1];
-                        }
-                        else
-                        {
-                            j = i1;
-                        }
-                    }
-                else
-                {
-                    chatMessage[i++] = validChars[(j << 4) + i1 - 195];
-                    j = -1;
-                }
-                i1 = l & 0xf;
-                if (j == -1)
-                {
-                    if (i1 < 13)
-                        {
-                            chatMessage[i++] = validChars[i1];
-                        }
-                        else
-                        {
-                            j = i1;
-                        }
-                    }
-                else
-                {
-                    chatMessage[i++] = validChars[(j << 4) + i1 - 195];
-                    j = -1;
-                }
-            }
-
-            bool flag = true;
-            for (int j1 = 0; j1 < i; j1 += 1)
-            {
-                char c = chatMessage[j1];
-                if (j1 > 4 && c == '@')
-                    {
-                        chatMessage[j1] = ' ';
-                    }
-
-                    if (c == '%')
-                    {
-                        chatMessage[j1] = ' ';
-                    }
-
-                    if (flag && c >= 'a' && c <= 'z')
-                {
-                    chatMessage[j1] += '\uFFE0';
-                    flag = false;
-                }
-                if (c == '.' || c == '!')
-                    {
-                        flag = true;
-                    }
-                }
-
-            return new string(chatMessage, 0, i);
-        }
-        catch (Exception)
-        {
-            return ".";
-        }
-    }
-
-    public static int StringToBytes(string message) {
-        if(message.Length > 80)
-            {
-                message = message[..80];
-            }
-
-            message = message.ToLower();
-        int i = 0;
-        int j = -1;
-        for(int k = 0; k < message.Length; k += 1) {
-            char c = message[k];
-            int l = 0;
-            for(int i1 = 0; i1 < validChars.Length; i1 += 1) {
-                if(c != validChars[i1])
-                    {
-                        continue;
-                    }
-
-                    l = i1;
-                break;
-            }
-
-            if(l > 12)
-                {
-                    l += 195;
-                }
-
-                if (j == -1) {
-                if(l < 13)
-                    {
-                        j = l;
-                    }
-                    else
-                    {
-                        lastChat[i++] = (byte)l;
-                    }
-                } else
-            if(l < 13) {
-                lastChat[i++] = (byte)((j << 4) + l);
-                j = -1;
-            } else {
-                lastChat[i++] = (byte)((j << 4) + (l >> 4));
-                j = l & 0xf;
-            }
-        }
-
-        if(j != -1)
-            {
-                lastChat[i++] = (byte)(j << 4);
-            }
-
-            return i;
-    }
-
-    public static byte[] lastChat = new byte[100];
-    public static char[] chatMessage = new char[100];
-    private static readonly char[] validChars = [
+public sealed class ChatMessage
+{
+    private static readonly char[] validChars =
+    [
         ' ', 'e', 't', 'a', 'o', 'i', 'h', 'n', 's', 'r',
         'd', 'l', 'u', 'm', 'w', 'c', 'y', 'f', 'g', 'p',
         'b', 'v', 'k', 'x', 'j', 'q', 'z', '0', '1', '2',
@@ -216,6 +16,168 @@ public sealed class ChatMessage {
         ']'
     ];
 
+    public static byte[] LastChat = new byte[100];
+    private static char[] decodedMessageBuffer = new char[100];
+
+    private static int MaxMessageLength => 80;
+
+    private static int SingleNibbleThreshold => 13;
+
+    private static int DoubleNibbleOffset => 195;
+
+    private static int NibbleMask => 0xf;
+
+    private static int ByteMask => 0xff;
+
+    private static int MaxColourTagLength => 5;
+
+    public static string BytesToString(sbyte[] encodedBytes, int readOffset, int byteCount)
+    {
+        byte[] convertedBytes = Array.ConvertAll(encodedBytes, signedByte => (byte)signedByte);
+
+        return BytesToString(convertedBytes, readOffset, byteCount);
+    }
+
+    public static string BytesToString(byte[] encodedBytes, int readOffset, int byteCount)
+    {
+        try
+        {
+            int outputIndex = 0;
+            int pendingNibble = -1;
+
+            for (int byteIndex = 0; byteIndex < byteCount; byteIndex += 1)
+            {
+                readOffset += 1;
+                int currentByte = encodedBytes[readOffset] & ByteMask;
+                int upperNibble = currentByte >> 4 & NibbleMask;
+
+                if (pendingNibble == -1)
+                {
+                    if (upperNibble < SingleNibbleThreshold)
+                    {
+                        decodedMessageBuffer[outputIndex++] = validChars[upperNibble];
+                    }
+                    else
+                    {
+                        pendingNibble = upperNibble;
+                    }
+                }
+                else
+                {
+                    int encodedUpperChar = (pendingNibble << 4) + upperNibble - DoubleNibbleOffset;
+                    decodedMessageBuffer[outputIndex++] = validChars[encodedUpperChar];
+                    pendingNibble = -1;
+                }
+
+                int lowerNibble = currentByte & NibbleMask;
+
+                if (pendingNibble == -1)
+                {
+                    if (lowerNibble < SingleNibbleThreshold)
+                    {
+                        decodedMessageBuffer[outputIndex++] = validChars[lowerNibble];
+                    }
+                    else
+                    {
+                        pendingNibble = lowerNibble;
+                    }
+                }
+                else
+                {
+                    int encodedLowerChar = (pendingNibble << 4) + lowerNibble - DoubleNibbleOffset;
+                    decodedMessageBuffer[outputIndex++] = validChars[encodedLowerChar];
+                    pendingNibble = -1;
+                }
+            }
+
+            bool isSentenceStart = true;
+
+            for (int charIndex = 0; charIndex < outputIndex; charIndex += 1)
+            {
+                char currentChar = decodedMessageBuffer[charIndex];
+
+                if (charIndex >= MaxColourTagLength && currentChar == '@')
+                {
+                    decodedMessageBuffer[charIndex] = ' ';
+                }
+                if (currentChar == '%')
+                {
+                    decodedMessageBuffer[charIndex] = ' ';
+                }
+                if (isSentenceStart &&
+                    currentChar >= 'a' &&
+                    currentChar <= 'z')
+                {
+                    decodedMessageBuffer[charIndex] += '\uFFE0';
+                    isSentenceStart = false;
+                }
+                if (currentChar == '.' || currentChar == '!')
+                {
+                    isSentenceStart = true;
+                }
+            }
+
+            return new string(decodedMessageBuffer, 0, outputIndex);
+        }
+        catch (Exception)
+        {
+            return ".";
+        }
+    }
+
+    public static int StringToBytes(string message)
+    {
+        if (message.Length > MaxMessageLength)
+        {
+            message = message[..MaxMessageLength];
+        }
+
+        message = message.ToLower();
+        int outputIndex = 0;
+        int pendingNibble = -1;
+
+        for (int charIndex = 0; charIndex < message.Length; charIndex += 1)
+        {
+            char currentChar = message[charIndex];
+            int charCode = Array.IndexOf(validChars, currentChar);
+
+            if (charCode < 0)
+            {
+                charCode = 0;
+            }
+            if (charCode >= SingleNibbleThreshold)
+            {
+                charCode += DoubleNibbleOffset;
+            }
+            if (pendingNibble == -1)
+            {
+                if (charCode < SingleNibbleThreshold)
+                {
+                    pendingNibble = charCode;
+                }
+                else
+                {
+                    LastChat[outputIndex++] = (byte)charCode;
+                }
+            }
+            else if (charCode < SingleNibbleThreshold)
+            {
+                LastChat[outputIndex++] = (byte)((pendingNibble << 4) + charCode);
+                pendingNibble = -1;
+            }
+            else
+            {
+                LastChat[outputIndex++] = (byte)((pendingNibble << 4) + (charCode >> 4));
+                pendingNibble = charCode & NibbleMask;
+            }
+        }
+        if (pendingNibble != -1)
+        {
+            LastChat[outputIndex++] = (byte)(pendingNibble << 4);
+        }
+
+        return outputIndex;
+    }
 }
 
 }

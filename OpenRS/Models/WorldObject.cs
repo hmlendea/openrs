@@ -8,6 +8,8 @@
 
         public string Id { get; set; }
 
+        public int V1Id { get; set; }
+
         public string Command1 { get; set; }
 
         public string Command2 { get; set; }

@@ -103,7 +103,7 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            client.gameGraphics.interlace = false;
+            client.gameGraphics.IsInterlaced = false;
             client.gameGraphics.ClearScreen();
 
             if (client.loginScreen == 0 ||

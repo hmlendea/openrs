@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 
 using NuciLog.Core;
 
@@ -124,8 +123,8 @@ namespace OpenRS.Net.Client.Game.Cameras
             ScaleFactor = DefaultScaleFactor;
             DepthSortStride = 1;
             defaultScreenHalfWidth = DefaultScreenHalfWidth;
-            screenCentreX = gameImageSource.gameWidth / 2;
-            screenCentreY = gameImageSource.gameHeight / 2;
+            screenCentreX = gameImageSource.GameWidth / 2;
+            screenCentreY = gameImageSource.GameHeight / 2;
             screenMouseOffsetX = DefaultMouseOffsetX;
             scanlineBufferCentre = DefaultScanlineBufferCentre;
             screenProjectionShift = DefaultScreenProjectionShift;
@@ -149,7 +148,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
             sceneObjectTracker = new CameraSceneObjectTracker(maxSceneObjects, MaxHighlightedObjectCount);
             polygonRasteriser = new CameraPolygonRasteriser(sceneObjectTracker);
-            modelRenderer = new CameraModelRenderer(polygonRasteriser, textureManager, gameImageSource.pixels);
+            modelRenderer = new CameraModelRenderer(polygonRasteriser, textureManager, gameImageSource.Pixels);
             lookupTable ??= new sbyte[LookupTableSize];
         }
 
@@ -324,7 +323,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         public void FinishCamera()
         {
-            modelRenderer.IsRenderingInterlaced = gameImage.interlace;
+            modelRenderer.IsRenderingInterlaced = gameImage.IsInterlaced;
             SetupProjectionBounds();
 
             if (!ProjectAllObjects())

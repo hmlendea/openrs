@@ -106,12 +106,12 @@ namespace OpenRS.Gui.Controls
                         return;
                     }
 
-                    int pixelCount = client.gameGraphics.pixels.Length;
+                    int pixelCount = client.gameGraphics.Pixels.Length;
                     uint[] pixelColours = new uint[pixelCount];
 
                     for (int pixelIndex = 0; pixelIndex < pixelCount; pixelIndex += 1)
                     {
-                        int pixelValue = client.gameGraphics.pixels[pixelIndex];
+                        int pixelValue = client.gameGraphics.Pixels[pixelIndex];
                         byte[] pixelBytes = BitConverter.GetBytes(pixelValue);
                         byte redChannel = pixelBytes[RedChannelByteIndex];
                         byte greenChannel = pixelBytes[GreenChannelByteIndex];
@@ -134,7 +134,7 @@ namespace OpenRS.Gui.Controls
                     client.GameDisplayScaleY =
                         (float)destinationRectangle.Height / sourceRectangle.Height;
 
-                    if (client.gameGraphics.pixels.Any(pixel => pixel != 0) &&
+                    if (client.gameGraphics.Pixels.Any(pixel => pixel != 0) &&
                         client.DrawIsNecessary)
                     {
                         Texture2D imageTexture = new(

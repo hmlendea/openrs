@@ -2,47 +2,32 @@
 
 namespace OpenRS.Net.Client.Game
 {
-	public sealed class Face
-	{
-		private readonly int[] points;
-		private Color faceColor;
-		private readonly int image = -1;
-		public Face(Color c, int[] points)
-		{
-			this.points = points;
-			faceColor = c;
-		}
+    public sealed class Face
+    {
+        public int Image { get; } = NoImage;
 
-		public Face(int image, int[] points)
-		{
-			this.points = points;
-			this.image = image;
-		}
+        public int[] Points { get; }
 
-		public Face(int[] points)
-		{
-			this.points = points;
-			faceColor = Color.Red;
-		}
+        public Color FaceColour { get; set; }
 
-		public int GetImage()
-		{
-			return image;
-		}
+        private static int NoImage => -1;
 
-		public int[] GetPoints()
-		{
-			return points;
-		}
+        public Face(int[] points)
+        {
+            Points = points;
+            FaceColour = Color.Red;
+        }
 
-		public Color GetFaceColour()
-		{
-			return faceColor;
-		}
+        public Face(Color colour, int[] points)
+        {
+            Points = points;
+            FaceColour = colour;
+        }
 
-		public void SetFaceColor(Color faceColor)
-		{
-			this.faceColor = faceColor;
-		}
-	}
+        public Face(int image, int[] points)
+        {
+            Points = points;
+            Image = image;
+        }
+    }
 }

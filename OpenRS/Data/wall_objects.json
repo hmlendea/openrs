@@ -1,6 +1,7 @@
 [
   {
     "id": "0",
+    "v1Id": 0,
     "name": "name.wall",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -13,7 +14,8 @@
   },
   {
     "id": "1",
-    "name": "name.doorframe",
+    "v1Id": 1,
+    "name": "wall_objects.doorframe.name",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.close",
@@ -25,7 +27,8 @@
   },
   {
     "id": "2",
-    "name": "name.door",
+    "v1Id": 2,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -37,6 +40,7 @@
   },
   {
     "id": "3",
+    "v1Id": 3,
     "name": "name.window",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -49,6 +53,7 @@
   },
   {
     "id": "4",
+    "v1Id": 4,
     "name": "name.fence",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -61,6 +66,7 @@
   },
   {
     "id": "5",
+    "v1Id": 5,
     "name": "name.railings",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -73,6 +79,7 @@
   },
   {
     "id": "6",
+    "v1Id": 6,
     "name": "wall_object.6.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -85,6 +92,7 @@
   },
   {
     "id": "7",
+    "v1Id": 7,
     "name": "wall_object.7.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -97,7 +105,8 @@
   },
   {
     "id": "8",
-    "name": "name.door",
+    "v1Id": 8,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -109,7 +118,8 @@
   },
   {
     "id": "9",
-    "name": "name.doorframe",
+    "v1Id": 9,
+    "name": "wall_objects.doorframe.name",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.close",
@@ -121,6 +131,7 @@
   },
   {
     "id": "10",
+    "v1Id": 10,
     "name": "name.battlement",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -133,7 +144,8 @@
   },
   {
     "id": "11",
-    "name": "name.doorframe",
+    "v1Id": 11,
+    "name": "wall_objects.doorframe.name",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -145,6 +157,7 @@
   },
   {
     "id": "12",
+    "v1Id": 12,
     "name": "wall_object.12.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -157,6 +170,7 @@
   },
   {
     "id": "13",
+    "v1Id": 13,
     "name": "name.arrowslit",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -169,7 +183,8 @@
   },
   {
     "id": "14",
-    "name": "wall_object.14.name",
+    "v1Id": 14,
+    "name": "wall_object.timber_wall.name",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -181,7 +196,8 @@
   },
   {
     "id": "15",
-    "name": "wall_object.15.name",
+    "v1Id": 15,
+    "name": "wall_object.timber_window.name",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -193,6 +209,7 @@
   },
   {
     "id": "16",
+    "v1Id": 16,
     "name": "wall_object.16.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -205,6 +222,7 @@
   },
   {
     "id": "17",
+    "v1Id": 17,
     "name": "wall_object.17.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -217,6 +235,7 @@
   },
   {
     "id": "18",
+    "v1Id": 18,
     "name": "wall_object.18.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -229,7 +248,8 @@
   },
   {
     "id": "19",
-    "name": "name.door",
+    "v1Id": 19,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -241,7 +261,8 @@
   },
   {
     "id": "20",
-    "name": "name.door",
+    "v1Id": 20,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -253,7 +274,8 @@
   },
   {
     "id": "21",
-    "name": "name.door",
+    "v1Id": 21,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -265,6 +287,7 @@
   },
   {
     "id": "22",
+    "v1Id": 22,
     "name": "wall_object.22.name",
     "description": "description.this_wall_doesnt_look_quite",
     "command1": "command.push",
@@ -277,7 +300,8 @@
   },
   {
     "id": "23",
-    "name": "name.door",
+    "v1Id": 23,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -289,6 +313,7 @@
   },
   {
     "id": "24",
+    "v1Id": 24,
     "name": "name.web",
     "description": "description.a_spiders_web",
     "command1": "command.walk_to",
@@ -301,7 +326,8 @@
   },
   {
     "id": "25",
-    "name": "name.door",
+    "v1Id": 25,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -313,7 +339,8 @@
   },
   {
     "id": "26",
-    "name": "name.door",
+    "v1Id": 26,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -325,7 +352,8 @@
   },
   {
     "id": "27",
-    "name": "name.door",
+    "v1Id": 27,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -337,7 +365,8 @@
   },
   {
     "id": "28",
-    "name": "name.door",
+    "v1Id": 28,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -349,7 +378,8 @@
   },
   {
     "id": "29",
-    "name": "name.door",
+    "v1Id": 29,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -361,7 +391,8 @@
   },
   {
     "id": "30",
-    "name": "name.door",
+    "v1Id": 30,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -373,7 +404,8 @@
   },
   {
     "id": "31",
-    "name": "name.door",
+    "v1Id": 31,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -385,7 +417,8 @@
   },
   {
     "id": "32",
-    "name": "name.door",
+    "v1Id": 32,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -397,7 +430,8 @@
   },
   {
     "id": "33",
-    "name": "name.door",
+    "v1Id": 33,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -409,6 +443,7 @@
   },
   {
     "id": "34",
+    "v1Id": 34,
     "name": "name.window",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -421,7 +456,8 @@
   },
   {
     "id": "35",
-    "name": "name.door",
+    "v1Id": 35,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -433,7 +469,8 @@
   },
   {
     "id": "36",
-    "name": "name.door",
+    "v1Id": 36,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -445,7 +482,8 @@
   },
   {
     "id": "37",
-    "name": "name.door",
+    "v1Id": 37,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -457,7 +495,8 @@
   },
   {
     "id": "38",
-    "name": "name.door",
+    "v1Id": 38,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -469,7 +508,8 @@
   },
   {
     "id": "39",
-    "name": "name.door",
+    "v1Id": 39,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -481,7 +521,8 @@
   },
   {
     "id": "40",
-    "name": "name.door",
+    "v1Id": 40,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -493,6 +534,7 @@
   },
   {
     "id": "41",
+    "v1Id": 41,
     "name": "wall_object.41.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -505,6 +547,7 @@
   },
   {
     "id": "42",
+    "v1Id": 42,
     "name": "wall_object.42.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -517,7 +560,8 @@
   },
   {
     "id": "43",
-    "name": "name.door",
+    "v1Id": 43,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -529,7 +573,8 @@
   },
   {
     "id": "44",
-    "name": "name.door",
+    "v1Id": 44,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -541,7 +586,8 @@
   },
   {
     "id": "45",
-    "name": "name.door",
+    "v1Id": 45,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -553,6 +599,7 @@
   },
   {
     "id": "46",
+    "v1Id": 46,
     "name": "wall_object.46.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -565,7 +612,8 @@
   },
   {
     "id": "47",
-    "name": "name.door",
+    "v1Id": 47,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -577,7 +625,8 @@
   },
   {
     "id": "48",
-    "name": "name.door",
+    "v1Id": 48,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -589,7 +638,8 @@
   },
   {
     "id": "49",
-    "name": "name.door",
+    "v1Id": 49,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -601,7 +651,8 @@
   },
   {
     "id": "50",
-    "name": "name.door",
+    "v1Id": 50,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -613,7 +664,8 @@
   },
   {
     "id": "51",
-    "name": "name.door",
+    "v1Id": 51,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -625,7 +677,8 @@
   },
   {
     "id": "52",
-    "name": "name.door",
+    "v1Id": 52,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -637,7 +690,8 @@
   },
   {
     "id": "53",
-    "name": "name.door",
+    "v1Id": 53,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -649,7 +703,8 @@
   },
   {
     "id": "54",
-    "name": "name.door",
+    "v1Id": 54,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -661,7 +716,8 @@
   },
   {
     "id": "55",
-    "name": "name.door",
+    "v1Id": 55,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -673,6 +729,7 @@
   },
   {
     "id": "56",
+    "v1Id": 56,
     "name": "name.wall",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -685,7 +742,8 @@
   },
   {
     "id": "57",
-    "name": "name.door",
+    "v1Id": 57,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -697,6 +755,7 @@
   },
   {
     "id": "58",
+    "v1Id": 58,
     "name": "wall_object.58.name",
     "description": "description.this_wall_doesnt_look_quite",
     "command1": "command.push",
@@ -709,7 +768,8 @@
   },
   {
     "id": "59",
-    "name": "name.door",
+    "v1Id": 59,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -721,7 +781,8 @@
   },
   {
     "id": "60",
-    "name": "name.door",
+    "v1Id": 60,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -733,7 +794,8 @@
   },
   {
     "id": "61",
-    "name": "name.door",
+    "v1Id": 61,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -745,6 +807,7 @@
   },
   {
     "id": "62",
+    "v1Id": 62,
     "name": "wall_object.62.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -757,7 +820,8 @@
   },
   {
     "id": "63",
-    "name": "name.door",
+    "v1Id": 63,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -769,7 +833,8 @@
   },
   {
     "id": "64",
-    "name": "name.door",
+    "v1Id": 64,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -781,6 +846,7 @@
   },
   {
     "id": "65",
+    "v1Id": 65,
     "name": "wall_object.65.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
@@ -793,7 +859,8 @@
   },
   {
     "id": "66",
-    "name": "name.door",
+    "v1Id": 66,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -805,7 +872,8 @@
   },
   {
     "id": "67",
-    "name": "name.door",
+    "v1Id": 67,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -817,7 +885,8 @@
   },
   {
     "id": "68",
-    "name": "name.door",
+    "v1Id": 68,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -829,7 +898,8 @@
   },
   {
     "id": "69",
-    "name": "name.door",
+    "v1Id": 69,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -841,7 +911,8 @@
   },
   {
     "id": "70",
-    "name": "name.door",
+    "v1Id": 70,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -853,7 +924,8 @@
   },
   {
     "id": "71",
-    "name": "name.door",
+    "v1Id": 71,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -865,7 +937,8 @@
   },
   {
     "id": "72",
-    "name": "name.door",
+    "v1Id": 72,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -877,7 +950,8 @@
   },
   {
     "id": "73",
-    "name": "name.door",
+    "v1Id": 73,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -889,7 +963,8 @@
   },
   {
     "id": "74",
-    "name": "name.door",
+    "v1Id": 74,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -901,7 +976,8 @@
   },
   {
     "id": "75",
-    "name": "name.door",
+    "v1Id": 75,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -913,7 +989,8 @@
   },
   {
     "id": "76",
-    "name": "name.door",
+    "v1Id": 76,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -925,7 +1002,8 @@
   },
   {
     "id": "77",
-    "name": "name.door",
+    "v1Id": 77,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -937,7 +1015,8 @@
   },
   {
     "id": "78",
-    "name": "name.door",
+    "v1Id": 78,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -949,6 +1028,7 @@
   },
   {
     "id": "79",
+    "v1Id": 79,
     "name": "wall_object.79.name",
     "description": "description.this_wall_doesnt_look_quite",
     "command1": "command.push",
@@ -961,7 +1041,8 @@
   },
   {
     "id": "80",
-    "name": "name.door",
+    "v1Id": 80,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -973,7 +1054,8 @@
   },
   {
     "id": "81",
-    "name": "name.door",
+    "v1Id": 81,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -985,7 +1067,8 @@
   },
   {
     "id": "82",
-    "name": "name.door",
+    "v1Id": 82,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -997,7 +1080,8 @@
   },
   {
     "id": "83",
-    "name": "name.door",
+    "v1Id": 83,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1009,7 +1093,8 @@
   },
   {
     "id": "84",
-    "name": "name.door",
+    "v1Id": 84,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1021,7 +1106,8 @@
   },
   {
     "id": "85",
-    "name": "name.door",
+    "v1Id": 85,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1033,6 +1119,7 @@
   },
   {
     "id": "86",
+    "v1Id": 86,
     "name": "wall_object.86.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -1045,6 +1132,7 @@
   },
   {
     "id": "87",
+    "v1Id": 87,
     "name": "wall_object.87.name",
     "description": "description.this_wall_doesnt_look_quite",
     "command1": "command.push",
@@ -1057,7 +1145,8 @@
   },
   {
     "id": "88",
-    "name": "name.door",
+    "v1Id": 88,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1069,7 +1158,8 @@
   },
   {
     "id": "89",
-    "name": "name.door",
+    "v1Id": 89,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1081,7 +1171,8 @@
   },
   {
     "id": "90",
-    "name": "name.door",
+    "v1Id": 90,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1093,7 +1184,8 @@
   },
   {
     "id": "91",
-    "name": "name.door",
+    "v1Id": 91,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1105,7 +1197,8 @@
   },
   {
     "id": "92",
-    "name": "name.door",
+    "v1Id": 92,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1117,10 +1210,11 @@
   },
   {
     "id": "93",
-    "name": "name.door",
+    "v1Id": 93,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
-    "command2": "command.pick_lock",
+    "command2": "command.lockpick",
     "modelHeight": 192,
     "modelFaceBack": 0,
     "modelFaceFront": 0,
@@ -1129,10 +1223,11 @@
   },
   {
     "id": "94",
-    "name": "name.door",
+    "v1Id": 94,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
-    "command2": "command.pick_lock",
+    "command2": "command.lockpick",
     "modelHeight": 192,
     "modelFaceBack": 0,
     "modelFaceFront": 0,
@@ -1141,10 +1236,11 @@
   },
   {
     "id": "95",
-    "name": "name.door",
+    "v1Id": 95,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
-    "command2": "command.pick_lock",
+    "command2": "command.lockpick",
     "modelHeight": 192,
     "modelFaceBack": 0,
     "modelFaceFront": 0,
@@ -1153,10 +1249,11 @@
   },
   {
     "id": "96",
-    "name": "name.door",
+    "v1Id": 96,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
-    "command2": "command.pick_lock",
+    "command2": "command.lockpick",
     "modelHeight": 192,
     "modelFaceBack": 0,
     "modelFaceFront": 0,
@@ -1165,10 +1262,11 @@
   },
   {
     "id": "97",
-    "name": "name.door",
+    "v1Id": 97,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
-    "command2": "command.pick_lock",
+    "command2": "command.lockpick",
     "modelHeight": 192,
     "modelFaceBack": 0,
     "modelFaceFront": 0,
@@ -1177,7 +1275,8 @@
   },
   {
     "id": "98",
-    "name": "name.door",
+    "v1Id": 98,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1189,10 +1288,11 @@
   },
   {
     "id": "99",
-    "name": "name.door",
+    "v1Id": 99,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
-    "command2": "command.pick_lock",
+    "command2": "command.lockpick",
     "modelHeight": 192,
     "modelFaceBack": 0,
     "modelFaceFront": 0,
@@ -1201,10 +1301,11 @@
   },
   {
     "id": "100",
-    "name": "name.door",
+    "v1Id": 100,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
-    "command2": "command.pick_lock",
+    "command2": "command.lockpick",
     "modelHeight": 192,
     "modelFaceBack": 0,
     "modelFaceFront": 0,
@@ -1213,6 +1314,7 @@
   },
   {
     "id": "101",
+    "v1Id": 101,
     "name": "wall_object.101.name",
     "description": "wall_object.101.description",
     "command1": "command.push",
@@ -1225,7 +1327,8 @@
   },
   {
     "id": "102",
-    "name": "name.door",
+    "v1Id": 102,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1237,7 +1340,8 @@
   },
   {
     "id": "103",
-    "name": "name.door",
+    "v1Id": 103,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1249,7 +1353,8 @@
   },
   {
     "id": "104",
-    "name": "name.door",
+    "v1Id": 104,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1261,7 +1366,8 @@
   },
   {
     "id": "105",
-    "name": "name.door",
+    "v1Id": 105,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1273,7 +1379,8 @@
   },
   {
     "id": "106",
-    "name": "name.door",
+    "v1Id": 106,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1285,7 +1392,8 @@
   },
   {
     "id": "107",
-    "name": "name.door",
+    "v1Id": 107,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1297,7 +1405,8 @@
   },
   {
     "id": "108",
-    "name": "name.door",
+    "v1Id": 108,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1309,7 +1418,8 @@
   },
   {
     "id": "109",
-    "name": "name.door",
+    "v1Id": 109,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1321,7 +1431,8 @@
   },
   {
     "id": "110",
-    "name": "name.door",
+    "v1Id": 110,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1333,6 +1444,7 @@
   },
   {
     "id": "111",
+    "v1Id": 111,
     "name": "wall_object.rat_cage.name",
     "description": "wall_object.rat_cage.description",
     "command1": "command.search",
@@ -1345,7 +1457,8 @@
   },
   {
     "id": "112",
-    "name": "name.door",
+    "v1Id": 112,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1357,7 +1470,8 @@
   },
   {
     "id": "113",
-    "name": "name.door",
+    "v1Id": 113,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1369,7 +1483,8 @@
   },
   {
     "id": "114",
-    "name": "name.door",
+    "v1Id": 114,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1381,7 +1496,8 @@
   },
   {
     "id": "115",
-    "name": "name.door",
+    "v1Id": 115,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1393,7 +1509,8 @@
   },
   {
     "id": "116",
-    "name": "name.door",
+    "v1Id": 116,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1405,7 +1522,8 @@
   },
   {
     "id": "117",
-    "name": "name.door",
+    "v1Id": 117,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1417,6 +1535,7 @@
   },
   {
     "id": "118",
+    "v1Id": 118,
     "name": "name.arrowslit",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -1429,6 +1548,7 @@
   },
   {
     "id": "119",
+    "v1Id": 119,
     "name": "wall_object.119.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -1441,7 +1561,8 @@
   },
   {
     "id": "120",
-    "name": "name.door",
+    "v1Id": 120,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1453,7 +1574,8 @@
   },
   {
     "id": "121",
-    "name": "name.door",
+    "v1Id": 121,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1465,7 +1587,8 @@
   },
   {
     "id": "122",
-    "name": "name.door",
+    "v1Id": 122,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1477,7 +1600,8 @@
   },
   {
     "id": "123",
-    "name": "name.door",
+    "v1Id": 123,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1489,9 +1613,10 @@
   },
   {
     "id": "124",
+    "v1Id": 124,
     "name": "wall_object.124.name",
     "description": "wall_object.124.description",
-    "command1": "wall_object.124.command1",
+    "command1": "command.break",
     "command2": "command.examine",
     "modelHeight": 192,
     "modelFaceBack": 3,
@@ -1501,7 +1626,8 @@
   },
   {
     "id": "125",
-    "name": "name.door",
+    "v1Id": 125,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1513,6 +1639,7 @@
   },
   {
     "id": "126",
+    "v1Id": 126,
     "name": "wall_object.126.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -1525,6 +1652,7 @@
   },
   {
     "id": "127",
+    "v1Id": 127,
     "name": "name.low_fence",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -1537,7 +1665,8 @@
   },
   {
     "id": "128",
-    "name": "name.door",
+    "v1Id": 128,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1549,7 +1678,8 @@
   },
   {
     "id": "129",
-    "name": "name.door",
+    "v1Id": 129,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1561,7 +1691,8 @@
   },
   {
     "id": "130",
-    "name": "name.door",
+    "v1Id": 130,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1573,7 +1704,8 @@
   },
   {
     "id": "131",
-    "name": "name.door",
+    "v1Id": 131,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1585,7 +1717,8 @@
   },
   {
     "id": "132",
-    "name": "name.door",
+    "v1Id": 132,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1597,7 +1730,8 @@
   },
   {
     "id": "133",
-    "name": "name.door",
+    "v1Id": 133,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1609,7 +1743,8 @@
   },
   {
     "id": "134",
-    "name": "name.door",
+    "v1Id": 134,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1621,7 +1756,8 @@
   },
   {
     "id": "135",
-    "name": "name.door",
+    "v1Id": 135,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1633,7 +1769,8 @@
   },
   {
     "id": "136",
-    "name": "name.door",
+    "v1Id": 136,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1645,6 +1782,7 @@
   },
   {
     "id": "137",
+    "v1Id": 137,
     "name": "name.cooking_pot",
     "description": "wall_object.137.description",
     "command1": "command.walk_to",
@@ -1657,7 +1795,8 @@
   },
   {
     "id": "138",
-    "name": "name.door",
+    "v1Id": 138,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1669,7 +1808,8 @@
   },
   {
     "id": "139",
-    "name": "name.door",
+    "v1Id": 139,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1681,7 +1821,8 @@
   },
   {
     "id": "140",
-    "name": "name.door",
+    "v1Id": 140,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1693,7 +1834,8 @@
   },
   {
     "id": "141",
-    "name": "name.door",
+    "v1Id": 141,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1705,7 +1847,8 @@
   },
   {
     "id": "142",
-    "name": "name.door",
+    "v1Id": 142,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1717,7 +1860,8 @@
   },
   {
     "id": "143",
-    "name": "name.door",
+    "v1Id": 143,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1729,6 +1873,7 @@
   },
   {
     "id": "144",
+    "v1Id": 144,
     "name": "wall_object.144.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -1741,7 +1886,8 @@
   },
   {
     "id": "145",
-    "name": "name.door",
+    "v1Id": 145,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1753,7 +1899,8 @@
   },
   {
     "id": "146",
-    "name": "name.door",
+    "v1Id": 146,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1765,6 +1912,7 @@
   },
   {
     "id": "147",
+    "v1Id": 147,
     "name": "name.magic_portal",
     "description": "description.empty",
     "command1": "command.enter",
@@ -1777,6 +1925,7 @@
   },
   {
     "id": "148",
+    "v1Id": 148,
     "name": "name.magic_portal",
     "description": "description.empty",
     "command1": "command.enter",
@@ -1789,6 +1938,7 @@
   },
   {
     "id": "149",
+    "v1Id": 149,
     "name": "name.magic_portal",
     "description": "description.empty",
     "command1": "command.enter",
@@ -1801,7 +1951,8 @@
   },
   {
     "id": "150",
-    "name": "name.door",
+    "v1Id": 150,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1813,6 +1964,7 @@
   },
   {
     "id": "151",
+    "v1Id": 151,
     "name": "wall_object.151.name",
     "description": "wall_object.151.description",
     "command1": "command.walk_to",
@@ -1825,7 +1977,8 @@
   },
   {
     "id": "152",
-    "name": "name.door",
+    "v1Id": 152,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1837,7 +1990,8 @@
   },
   {
     "id": "153",
-    "name": "name.door",
+    "v1Id": 153,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.walk_through",
     "command2": "command.examine",
@@ -1849,7 +2003,8 @@
   },
   {
     "id": "154",
-    "name": "name.door",
+    "v1Id": 154,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.walk_through",
     "command2": "command.examine",
@@ -1861,7 +2016,8 @@
   },
   {
     "id": "155",
-    "name": "name.door",
+    "v1Id": 155,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.walk_through",
     "command2": "command.examine",
@@ -1873,7 +2029,8 @@
   },
   {
     "id": "156",
-    "name": "name.door",
+    "v1Id": 156,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.walk_through",
     "command2": "command.examine",
@@ -1885,7 +2042,8 @@
   },
   {
     "id": "157",
-    "name": "name.door",
+    "v1Id": 157,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.walk_through",
     "command2": "command.examine",
@@ -1897,7 +2055,8 @@
   },
   {
     "id": "158",
-    "name": "name.door",
+    "v1Id": 158,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.walk_through",
     "command2": "command.examine",
@@ -1909,7 +2068,8 @@
   },
   {
     "id": "159",
-    "name": "name.door",
+    "v1Id": 159,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.walk_through",
     "command2": "command.examine",
@@ -1921,7 +2081,8 @@
   },
   {
     "id": "160",
-    "name": "name.door",
+    "v1Id": 160,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.walk_through",
     "command2": "command.examine",
@@ -1933,7 +2094,8 @@
   },
   {
     "id": "161",
-    "name": "name.door",
+    "v1Id": 161,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1945,10 +2107,11 @@
   },
   {
     "id": "162",
-    "name": "name.door",
+    "v1Id": 162,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
-    "command2": "command.pick_lock",
+    "command2": "command.lockpick",
     "modelHeight": 192,
     "modelFaceBack": 0,
     "modelFaceFront": 0,
@@ -1957,6 +2120,7 @@
   },
   {
     "id": "163",
+    "v1Id": 163,
     "name": "name.low_wall",
     "description": "description.empty",
     "command1": "command.jump",
@@ -1969,6 +2133,7 @@
   },
   {
     "id": "164",
+    "v1Id": 164,
     "name": "name.low_wall",
     "description": "description.empty",
     "command1": "command.jump",
@@ -1981,6 +2146,7 @@
   },
   {
     "id": "165",
+    "v1Id": 165,
     "name": "wall_object.165.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
@@ -1993,9 +2159,10 @@
   },
   {
     "id": "166",
+    "v1Id": 166,
     "name": "name.railings",
     "description": "description.empty",
-    "command1": "command.pick_lock",
+    "command1": "command.lockpick",
     "command2": "command.examine",
     "modelHeight": 192,
     "modelFaceBack": 12,
@@ -2005,9 +2172,10 @@
   },
   {
     "id": "167",
+    "v1Id": 167,
     "name": "name.railings",
     "description": "description.empty",
-    "command1": "command.pick_lock",
+    "command1": "command.lockpick",
     "command2": "command.examine",
     "modelHeight": 192,
     "modelFaceBack": 12,
@@ -2017,9 +2185,10 @@
   },
   {
     "id": "168",
+    "v1Id": 168,
     "name": "name.railings",
     "description": "description.empty",
-    "command1": "command.pick_lock",
+    "command1": "command.lockpick",
     "command2": "command.search",
     "modelHeight": 192,
     "modelFaceBack": 12,
@@ -2029,9 +2198,10 @@
   },
   {
     "id": "169",
+    "v1Id": 169,
     "name": "name.railings",
     "description": "description.empty",
-    "command1": "command.pick_lock",
+    "command1": "command.lockpick",
     "command2": "command.search",
     "modelHeight": 192,
     "modelFaceBack": 12,
@@ -2041,9 +2211,10 @@
   },
   {
     "id": "170",
+    "v1Id": 170,
     "name": "name.railings",
     "description": "description.empty",
-    "command1": "command.pick_lock",
+    "command1": "command.lockpick",
     "command2": "command.search",
     "modelHeight": 192,
     "modelFaceBack": 12,
@@ -2053,6 +2224,7 @@
   },
   {
     "id": "171",
+    "v1Id": 171,
     "name": "name.railings",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -2065,6 +2237,7 @@
   },
   {
     "id": "172",
+    "v1Id": 172,
     "name": "name.railings",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -2077,7 +2250,8 @@
   },
   {
     "id": "173",
-    "name": "name.door",
+    "v1Id": 173,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "wall_object.173.command2",
@@ -2089,7 +2263,8 @@
   },
   {
     "id": "174",
-    "name": "name.doorframe",
+    "v1Id": 174,
+    "name": "wall_objects.doorframe.name",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.close",
@@ -2101,6 +2276,7 @@
   },
   {
     "id": "175",
+    "v1Id": 175,
     "name": "wall_object.175.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -2113,6 +2289,7 @@
   },
   {
     "id": "176",
+    "v1Id": 176,
     "name": "name.jail_door",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
@@ -2125,6 +2302,7 @@
   },
   {
     "id": "177",
+    "v1Id": 177,
     "name": "name.jail_door",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
@@ -2137,6 +2315,7 @@
   },
   {
     "id": "178",
+    "v1Id": 178,
     "name": "name.window",
     "description": "wall_object.178.description",
     "command1": "command.walk_to",
@@ -2149,6 +2328,7 @@
   },
   {
     "id": "179",
+    "v1Id": 179,
     "name": "name.magic_portal",
     "description": "wall_object.179.description",
     "command1": "command.walk_to",
@@ -2161,6 +2341,7 @@
   },
   {
     "id": "180",
+    "v1Id": 180,
     "name": "name.jail_door",
     "description": "description.a_solid_iron_gate",
     "command1": "command.open",
@@ -2173,6 +2354,7 @@
   },
   {
     "id": "181",
+    "v1Id": 181,
     "name": "name.railings",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -2185,6 +2367,7 @@
   },
   {
     "id": "182",
+    "v1Id": 182,
     "name": "name.railings",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -2197,6 +2380,7 @@
   },
   {
     "id": "183",
+    "v1Id": 183,
     "name": "name.railings",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -2209,6 +2393,7 @@
   },
   {
     "id": "184",
+    "v1Id": 184,
     "name": "name.railings",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -2221,6 +2406,7 @@
   },
   {
     "id": "185",
+    "v1Id": 185,
     "name": "name.railings",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -2233,6 +2419,7 @@
   },
   {
     "id": "186",
+    "v1Id": 186,
     "name": "name.railings",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -2245,6 +2432,7 @@
   },
   {
     "id": "187",
+    "v1Id": 187,
     "name": "name.cave_exit",
     "description": "description.the_way_out",
     "command1": "command.leave",
@@ -2257,6 +2445,7 @@
   },
   {
     "id": "188",
+    "v1Id": 188,
     "name": "name.cave_exit",
     "description": "description.the_way_out",
     "command1": "command.leave",
@@ -2269,6 +2458,7 @@
   },
   {
     "id": "189",
+    "v1Id": 189,
     "name": "name.cave_exit",
     "description": "description.the_way_out",
     "command1": "command.leave",
@@ -2281,6 +2471,7 @@
   },
   {
     "id": "190",
+    "v1Id": 190,
     "name": "name.cave_exit",
     "description": "description.the_way_out",
     "command1": "command.leave",
@@ -2293,6 +2484,7 @@
   },
   {
     "id": "191",
+    "v1Id": 191,
     "name": "name.cave_exit",
     "description": "description.the_way_out",
     "command1": "command.leave",
@@ -2305,6 +2497,7 @@
   },
   {
     "id": "192",
+    "v1Id": 192,
     "name": "name.cave_exit",
     "description": "description.the_way_out",
     "command1": "command.leave",
@@ -2317,6 +2510,7 @@
   },
   {
     "id": "193",
+    "v1Id": 193,
     "name": "name.railings",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -2329,7 +2523,8 @@
   },
   {
     "id": "194",
-    "name": "name.door",
+    "v1Id": 194,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -2341,6 +2536,7 @@
   },
   {
     "id": "195",
+    "v1Id": 195,
     "name": "name.battlement",
     "description": "wall_object.195.description",
     "command1": "command.climb_over",
@@ -2353,6 +2549,7 @@
   },
   {
     "id": "196",
+    "v1Id": 196,
     "name": "name.tent_door",
     "description": "description.an_entrance_into_the_tent",
     "command1": "command.go_through",
@@ -2365,7 +2562,8 @@
   },
   {
     "id": "197",
-    "name": "name.door",
+    "v1Id": 197,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -2377,6 +2575,7 @@
   },
   {
     "id": "198",
+    "v1Id": 198,
     "name": "name.tent_door",
     "description": "description.an_entrance_into_the_tent",
     "command1": "command.go_through",
@@ -2389,6 +2588,7 @@
   },
   {
     "id": "199",
+    "v1Id": 199,
     "name": "name.low_fence",
     "description": "wall_object.199.description",
     "command1": "command.search",
@@ -2401,6 +2601,7 @@
   },
   {
     "id": "200",
+    "v1Id": 200,
     "name": "wall_object.200.name",
     "description": "description.a_solid_iron_gate",
     "command1": "command.open",
@@ -2413,6 +2614,7 @@
   },
   {
     "id": "201",
+    "v1Id": 201,
     "name": "name.battlement",
     "description": "wall_object.201.description",
     "command1": "command.climb_over",
@@ -2425,6 +2627,7 @@
   },
   {
     "id": "202",
+    "v1Id": 202,
     "name": "name.water",
     "description": "wall_object.202.description",
     "command1": "command.walk_to",
@@ -2437,6 +2640,7 @@
   },
   {
     "id": "203",
+    "v1Id": 203,
     "name": "name.wheat",
     "description": "wall_object.203.description",
     "command1": "command.walk_to",
@@ -2449,6 +2653,7 @@
   },
   {
     "id": "204",
+    "v1Id": 204,
     "name": "wall_object.jungle.name",
     "description": "wall_object.jungle.description",
     "command1": "command.chop",
@@ -2461,6 +2666,7 @@
   },
   {
     "id": "205",
+    "v1Id": 205,
     "name": "name.window",
     "description": "wall_object.205.description",
     "command1": "command.investigate",
@@ -2473,6 +2679,7 @@
   },
   {
     "id": "206",
+    "v1Id": 206,
     "name": "wall_object.206.name",
     "description": "wall_object.206.description",
     "command1": "command.walk_to",
@@ -2485,6 +2692,7 @@
   },
   {
     "id": "207",
+    "v1Id": 207,
     "name": "wall_object.207.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -2497,6 +2705,7 @@
   },
   {
     "id": "208",
+    "v1Id": 208,
     "name": "wall_object.208.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -2509,6 +2718,7 @@
   },
   {
     "id": "209",
+    "v1Id": 209,
     "name": "wall_object.209.name",
     "description": "description.empty",
     "command1": "command.walk_to",
@@ -2521,6 +2731,7 @@
   },
   {
     "id": "210",
+    "v1Id": 210,
     "name": "wall_object.210.name",
     "description": "wall_object.210.description",
     "command1": "wall_object.210.command1",
@@ -2533,6 +2744,7 @@
   },
   {
     "id": "211",
+    "v1Id": 211,
     "name": "wall_object.ruined_wall.name",
     "description": "wall_object.ruined_wall.description",
     "command1": "command.walk_to",
@@ -2545,6 +2757,7 @@
   },
   {
     "id": "212",
+    "v1Id": 212,
     "name": "wall_object.212.name",
     "description": "wall_object.212.description",
     "command1": "command.use",
@@ -2557,7 +2770,8 @@
   },
   {
     "id": "213",
-    "name": "name.door",
+    "v1Id": 213,
+    "name": "wall_objects.door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",

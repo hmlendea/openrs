@@ -1,6 +1,7 @@
 [
   {
     "id": "thick-skin",
+    "v1Id": -1,
     "name": "prayer.thick-skin.name",
     "description": "prayer.thick-skin.description",
     "requiredLevel": 1,
@@ -8,6 +9,7 @@
   },
   {
     "id": "burst-of-strength",
+    "v1Id": -1,
     "name": "prayer.burst-of-strength.name",
     "description": "prayer.burst-of-strength.description",
     "requiredLevel": 4,
@@ -15,6 +17,7 @@
   },
   {
     "id": "clarity-of-thought",
+    "v1Id": -1,
     "name": "prayer.clarity-of-thought.name",
     "description": "prayer.clarity-of-thought.description",
     "requiredLevel": 7,
@@ -22,6 +25,7 @@
   },
   {
     "id": "rock-skin",
+    "v1Id": -1,
     "name": "prayer.rock-skin.name",
     "description": "prayer.rock-skin.description",
     "requiredLevel": 10,
@@ -29,6 +33,7 @@
   },
   {
     "id": "superhuman-strength",
+    "v1Id": -1,
     "name": "prayer.superhuman-strength.name",
     "description": "prayer.superhuman-strength.description",
     "requiredLevel": 13,
@@ -36,6 +41,7 @@
   },
   {
     "id": "improved-reflexes",
+    "v1Id": -1,
     "name": "prayer.improved-reflexes.name",
     "description": "prayer.improved-reflexes.description",
     "requiredLevel": 16,
@@ -43,6 +49,7 @@
   },
   {
     "id": "rapid-restore",
+    "v1Id": -1,
     "name": "prayer.rapid-restore.name",
     "description": "prayer.rapid-restore.description",
     "requiredLevel": 19,
@@ -50,6 +57,7 @@
   },
   {
     "id": "rapid-heal",
+    "v1Id": -1,
     "name": "prayer.rapid-heal.name",
     "description": "prayer.rapid-heal.description",
     "requiredLevel": 22,
@@ -57,6 +65,7 @@
   },
   {
     "id": "protect-item",
+    "v1Id": -1,
     "name": "prayer.protect-item.name",
     "description": "prayer.protect-item.description",
     "requiredLevel": 25,
@@ -64,6 +73,7 @@
   },
   {
     "id": "steel-skin",
+    "v1Id": -1,
     "name": "prayer.steel-skin.name",
     "description": "prayer.steel-skin.description",
     "requiredLevel": 28,
@@ -71,6 +81,7 @@
   },
   {
     "id": "ultimate-strength",
+    "v1Id": -1,
     "name": "prayer.ultimate-strength.name",
     "description": "prayer.ultimate-strength.description",
     "requiredLevel": 31,
@@ -78,6 +89,7 @@
   },
   {
     "id": "incredible-reflexes",
+    "v1Id": -1,
     "name": "prayer.incredible-reflexes.name",
     "description": "prayer.incredible-reflexes.description",
     "requiredLevel": 34,
@@ -85,6 +97,7 @@
   },
   {
     "id": "protect-from-missiles",
+    "v1Id": -1,
     "name": "prayer.protect-from-missiles.name",
     "description": "prayer.protect-from-missiles.description",
     "requiredLevel": 40,
@@ -92,6 +105,7 @@
   },
   {
     "id": "retribution",
+    "v1Id": -1,
     "name": "prayer.retribution.name",
     "description": "prayer.retribution.description",
     "requiredLevel": 46,

@@ -3,7 +3,6 @@ using System;
 using Microsoft.Extensions.Configuration;
 
 using OpenRS.Logging;
-using OpenRS.Settings;
 
 namespace OpenRS
 {

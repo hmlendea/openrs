@@ -10,6 +10,7 @@ namespace OpenRS.GameLogic.Mapping
     {
         internal static Tile ToServiceModel(this TileEntity tileEntity) => new()
         {
+            V1Id = tileEntity.V1Id,
             Colour = tileEntity.Colour,
             Unknown = tileEntity.Unknown,
             Type = tileEntity.Type
@@ -17,6 +18,7 @@ namespace OpenRS.GameLogic.Mapping
 
         internal static TileEntity ToDataObject(this Tile tile) => new()
         {
+            V1Id = tile.V1Id,
             Colour = tile.Colour,
             Unknown = tile.Unknown,
             Type = tile.Type

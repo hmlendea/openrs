@@ -66,7 +66,7 @@ namespace OpenRS.GameLogic.GameManagers
             ItemRepository itemRepository = new(GetDataFilePath(ItemsFileName));
             items = [.. itemRepository.GetAll()
                 .ToServiceModels()
-                .OrderBy(item => int.Parse(item.Id))];
+                .OrderBy(item => item.V1Id)];
 
             if (!Config.MembersFeatures)
             {

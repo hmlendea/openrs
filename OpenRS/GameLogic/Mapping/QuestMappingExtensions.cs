@@ -12,12 +12,14 @@ namespace OpenRS.GameLogic.Mapping
         internal static Quest ToServiceModel(this QuestEntity questEntity) => new()
         {
             Id = questEntity.Id,
+            V1Id = questEntity.V1Id,
             Name = LocalisationManager.GetString(questEntity.Name)
         };
 
         internal static QuestEntity ToDataObject(this Quest quest) => new()
         {
             Id = quest.Id,
+            V1Id = quest.V1Id,
             Name = quest.Name
         };
 

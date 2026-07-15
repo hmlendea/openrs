@@ -205,11 +205,11 @@ namespace OpenRS.Gui.Screens
                             return;
                         }
 
-                        uint[] pixelColours = new uint[gameClient.gameGraphics.pixels.Length];
+                        uint[] pixelColours = new uint[gameClient.gameGraphics.Pixels.Length];
 
-                        for (int pixelIndex = 0; pixelIndex < gameClient.gameGraphics.pixels.Length; pixelIndex += 1)
+                        for (int pixelIndex = 0; pixelIndex < gameClient.gameGraphics.Pixels.Length; pixelIndex += 1)
                         {
-                            byte[] pixelBytes = BitConverter.GetBytes(gameClient.gameGraphics.pixels[pixelIndex]);
+                            byte[] pixelBytes = BitConverter.GetBytes(gameClient.gameGraphics.Pixels[pixelIndex]);
                             byte redChannel = pixelBytes[RedChannelByteIndex];
                             byte greenChannel = pixelBytes[GreenChannelByteIndex];
                             byte blueChannel = pixelBytes[BlueChannelByteIndex];
@@ -222,8 +222,8 @@ namespace OpenRS.Gui.Screens
                         {
                             Texture2D imageTexture = new(
                                 GraphicsManager.Instance.Graphics.GraphicsDevice,
-                                gameClient.gameGraphics.gameWidth,
-                                gameClient.gameGraphics.gameHeight,
+                                gameClient.gameGraphics.GameWidth,
+                                gameClient.gameGraphics.GameHeight,
                                 false,
                                 SurfaceFormat.Color);
                             imageTexture.SetData(pixelColours);
@@ -373,13 +373,13 @@ namespace OpenRS.Gui.Screens
             {
                 if (!gameClient.loggedIn)
                 {
-                    gameClient.gameGraphics.loggedIn = false;
+                    gameClient.gameGraphics.IsLoggedIn = false;
                     gameClient.DrawLoginScreens();
                 }
 
                 if (gameClient.loggedIn)
                 {
-                    gameClient.gameGraphics.loggedIn = true;
+                    gameClient.gameGraphics.IsLoggedIn = true;
                     gameClient.DrawGame();
 
                     return true;

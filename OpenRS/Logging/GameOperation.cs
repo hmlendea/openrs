@@ -23,6 +23,7 @@ namespace OpenRS.Logging
         public static Operation RenderEntity => new GameOperation(nameof(RenderEntity));
         public static Operation RenderGame => new GameOperation(nameof(RenderGame));
         public static Operation RenderImage => new GameOperation(nameof(RenderImage));
+        public static Operation RenderMinimap => new GameOperation(nameof(RenderMinimap));
         public static Operation RenderSprite => new GameOperation(nameof(RenderSprite));
         public static Operation RenderText => new GameOperation(nameof(RenderText));
         public static Operation SendPing => new GameOperation(nameof(SendPing));
