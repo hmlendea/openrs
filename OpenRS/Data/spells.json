@@ -509,8 +509,8 @@
   },
   {
     "id": "28",
-    "name": "spell.28.name",
-    "description": "spell.28.description",
+    "name": "spell.high_level_alchemy.name",
+    "description": "spell.high_level_alchemy.description",
     "requiredLevel": 55,
     "type": 3,
     "runeCount": 2,

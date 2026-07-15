@@ -2688,7 +2688,7 @@ namespace OpenRS.Net.Client.Game
 
                 if (i > 0)
                 {
-                    DrawText(text.Substring(k), x, y, fontIndex, colour);
+                    DrawText(text[k..], x, y, fontIndex, colour);
                     return;
                 }
             }

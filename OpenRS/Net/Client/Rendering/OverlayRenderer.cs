@@ -373,20 +373,6 @@ namespace OpenRS.Net.Client.Rendering
                     client.mouseY < clickLabelY + 4 &&
                     client.mouseButtonClick == 1)
                 {
-                    client.streamClass.CreatePacket(157);
-                    client.streamClass.AddByte(6);
-                    client.streamClass.AddByte(0);
-                    client.streamClass.FormatPacket();
-                }
-
-                clickLabelY += 15;
-
-                if (client.mouseX > clickLabelX &&
-                    client.mouseX < clickLabelX + menuWidth &&
-                    client.mouseY > clickLabelY - 12 &&
-                    client.mouseY < clickLabelY + 4 &&
-                    client.mouseButtonClick == 1)
-                {
                     client.fogOfWar = !client.fogOfWar;
                 }
 

@@ -2,27 +2,38 @@
 {
     public sealed class CameraModel
     {
-        public CameraModel()
-        {
-            dependencyIndex = -1;
-        }
+        public int BoundsMinX { get; set; }
 
-        public int boundsMinX;
-        public int boundsMinY;
-        public int boundsMaxX;
-        public int boundsMaxY;
-        public int boundsMinZ;
-        public int boundsMaxZ;
-        public GameObject Object;
-        public int faceVertCountIndex1;
-        public int Scale;
-        public int normalX;
-        public int normalY;
-        public int normalZ;
-        public int visibilityDot;
-        public int currentTextureIndex;
-        public bool isSorted;
-        public int sortIndex;
-        public int dependencyIndex;
+        public int BoundsMinY { get; set; }
+
+        public int BoundsMaxX { get; set; }
+
+        public int BoundsMaxY { get; set; }
+
+        public int BoundsMinZ { get; set; }
+
+        public int BoundsMaxZ { get; set; }
+
+        public GameObject SourceObject { get; set; }
+
+        public int FaceIndex { get; set; }
+
+        public int Scale { get; set; }
+
+        public int NormalX { get; set; }
+
+        public int NormalY { get; set; }
+
+        public int NormalZ { get; set; }
+
+        public int VisibilityDot { get; set; }
+
+        public int CurrentTextureIndex { get; set; }
+
+        public bool IsSorted { get; set; }
+
+        public int SortIndex { get; set; }
+
+        public int DependencyIndex { get; set; } = -1;
     }
 }

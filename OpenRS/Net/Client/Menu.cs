@@ -125,7 +125,7 @@ namespace OpenRS.Net.Client
 
                 if (key == Keys.Back && currentLength > 0)
                 {
-                    componentText[selectedComponent] = componentText[selectedComponent].Substring(0, currentLength - 1);
+                    componentText[selectedComponent] = componentText[selectedComponent][..(currentLength - 1)];
                 }
 
                 if (key == Keys.Enter && currentLength > 0)

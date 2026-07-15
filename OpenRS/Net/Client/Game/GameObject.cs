@@ -1136,7 +1136,7 @@ namespace OpenRS.Net.Client.Game
                 int nearPlane)
         {
             UpdateWorldTransformation();
-            if (boundsMinZ > Camera.farZ || boundsMaxZ < Camera.nearZ || boundsMinX > Camera.farX || boundsMaxX < Camera.nearX || boundsMinY > Camera.farY || boundsMaxY < Camera.nearY)
+            if (boundsMinZ > Camera.FarZ || boundsMaxZ < Camera.NearZ || boundsMinX > Camera.FarX || boundsMaxX < Camera.NearX || boundsMinY > Camera.FarY || boundsMaxY < Camera.NearY)
             {
                 visible = false;
                 return;

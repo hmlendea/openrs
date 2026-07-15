@@ -664,7 +664,7 @@ namespace OpenRS.Net.Client.World
 
                 if (highlightedObject.entityType[entitySlotId] <= 65535 || highlightedObject.entityType[entitySlotId] >= 0x30d40 && highlightedObject.entityType[entitySlotId] <= 0x493e0)
                 {
-                    if (highlightedObject == client.gameCamera.highlightedObject)
+                    if (highlightedObject == client.gameCamera.HighlightedObject)
                     {
                         int entityIndex = highlightedObject.entityType[entitySlotId] % 10000;
                         int entityKind = highlightedObject.entityType[entitySlotId] / 10000;
@@ -749,7 +749,7 @@ namespace OpenRS.Net.Client.World
                             {
                                 if (northernWildernessBoundary > 0 && (client.playerArray[entityIndex].currentY - 64) / client.gridSize + client.wildY + client.areaY < 2203)
                                 {
-                                    client.menuText1[client.menuOptionsCount] = "Attack";
+                                    client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.attack");
                                     client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].username + levelColourCode;
 
                                     if (levelDifference >= 0 && levelDifference < 5)
@@ -768,7 +768,7 @@ namespace OpenRS.Net.Client.World
                                 }
                                 else if (Config.MembersFeatures)
                                 {
-                                    client.menuText1[client.menuOptionsCount] = "Duel with";
+                                    client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.duel_with");
                                     client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].username + levelColourCode;
                                     client.menuActionX[client.menuOptionsCount] = client.playerArray[entityIndex].currentX;
                                     client.menuActionY[client.menuOptionsCount] = client.playerArray[entityIndex].currentY;
@@ -777,13 +777,13 @@ namespace OpenRS.Net.Client.World
                                     client.menuOptionsCount += 1;
                                 }
 
-                                client.menuText1[client.menuOptionsCount] = "Trade with";
+                                client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.trade_with");
                                 client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].username + levelColourCode;
                                 client.menuActionID[client.menuOptionsCount] = 2810;
                                 client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].serverIndex;
                                 client.menuOptionsCount += 1;
 
-                                client.menuText1[client.menuOptionsCount] = "Follow";
+                                client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.follow");
                                 client.menuText2[client.menuOptionsCount] = "@whi@" + client.playerArray[entityIndex].username + levelColourCode;
                                 client.menuActionID[client.menuOptionsCount] = 2820;
                                 client.menuActionType[client.menuOptionsCount] = client.playerArray[entityIndex].serverIndex;
@@ -819,7 +819,7 @@ namespace OpenRS.Net.Client.World
                                 }
                                 else
                                 {
-                                    client.menuText1[client.menuOptionsCount] = "Take";
+                                    client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.take");
                                     client.menuText2[client.menuOptionsCount] = "@lre@" + client.entityManager.GetItem(client.groundItemID[entityIndex]).Name;
                                     client.menuActionID[client.menuOptionsCount] = 220;
                                     client.menuActionX[client.menuOptionsCount] = client.groundItemX[entityIndex];
@@ -827,7 +827,7 @@ namespace OpenRS.Net.Client.World
                                     client.menuActionType[client.menuOptionsCount] = client.groundItemID[entityIndex];
                                     client.menuOptionsCount += 1;
 
-                                    client.menuText1[client.menuOptionsCount] = "Examine";
+                                    client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.examine");
                                     client.menuText2[client.menuOptionsCount] = "@lre@" + client.entityManager.GetItem(client.groundItemID[entityIndex]).Name;
                                     client.menuActionID[client.menuOptionsCount] = 3200;
                                     client.menuActionType[client.menuOptionsCount] = client.groundItemID[entityIndex];
@@ -919,7 +919,7 @@ namespace OpenRS.Net.Client.World
                             {
                                 if (client.entityManager.GetNpc(npcId).IsAttackable)
                                 {
-                                    client.menuText1[client.menuOptionsCount] = "Attack";
+                                    client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.attack");
                                     client.menuText2[client.menuOptionsCount] = "@yel@" + client.entityManager.GetNpc(client.npcArray[entityIndex].npcId).Name + npcLevelColourCode;
 
                                     if (npcLevelDifference >= 0)
@@ -937,7 +937,7 @@ namespace OpenRS.Net.Client.World
                                     client.menuOptionsCount += 1;
                                 }
 
-                                client.menuText1[client.menuOptionsCount] = "Talk-to";
+                                client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.talk_to");
                                 client.menuText2[client.menuOptionsCount] = "@yel@" + client.entityManager.GetNpc(client.npcArray[entityIndex].npcId).Name;
                                 client.menuActionID[client.menuOptionsCount] = 720;
                                 client.menuActionX[client.menuOptionsCount] = client.npcArray[entityIndex].currentX;
@@ -956,7 +956,7 @@ namespace OpenRS.Net.Client.World
                                     client.menuOptionsCount += 1;
                                 }
 
-                                client.menuText1[client.menuOptionsCount] = "Examine";
+                                client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.examine");
                                 client.menuText2[client.menuOptionsCount] = "@yel@" + client.entityManager.GetNpc(client.npcArray[entityIndex].npcId).Name;
                                 client.menuActionID[client.menuOptionsCount] = 3700;
                                 client.menuActionType[client.menuOptionsCount] = client.npcArray[entityIndex].npcId;
@@ -1020,7 +1020,7 @@ namespace OpenRS.Net.Client.World
                                     client.menuOptionsCount += 1;
                                 }
 
-                                client.menuText1[client.menuOptionsCount] = "Examine";
+                                client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.examine");
                                 client.menuText2[client.menuOptionsCount] = "@cya@" + client.entityManager.GetWallObject(wallObjectId).Name;
                                 client.menuActionID[client.menuOptionsCount] = 3300;
                                 client.menuActionType[client.menuOptionsCount] = wallObjectId;
@@ -1090,7 +1090,7 @@ namespace OpenRS.Net.Client.World
                                     client.menuOptionsCount += 1;
                                 }
 
-                                client.menuText1[client.menuOptionsCount] = "Examine";
+                                client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.examine");
                                 client.menuText2[client.menuOptionsCount] = "@cya@" + client.entityManager.GetWorldObject(objectTypeId).Name;
                                 client.menuActionID[client.menuOptionsCount] = 3400;
                                 client.menuActionType[client.menuOptionsCount] = objectTypeId;
@@ -1144,7 +1144,7 @@ namespace OpenRS.Net.Client.World
                 }
                 else if (client.selectedItem < 0)
                 {
-                    client.menuText1[client.menuOptionsCount] = "Walk here";
+                    client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.walk_here");
                         client.menuText2[client.menuOptionsCount] = "";
                         client.menuActionID[client.menuOptionsCount] = 920;
                         client.menuActionX[client.menuOptionsCount] = client.engineHandle.selectedX[groundEntityIndex];
@@ -1244,32 +1244,43 @@ namespace OpenRS.Net.Client.World
             try
             {
                 int firstSpace = command.IndexOf(' ');
-                string cmd = command;
+                string commandText = command;
                 string[] args = [];
+
                 if (firstSpace != -1)
                 {
-                    cmd = command.Substring(0, firstSpace).Trim();
-                    args = command.Substring(firstSpace).Trim().Split(' ');
+                    commandText = command[..firstSpace].Trim();
+                    args = command[firstSpace..].Trim().Split(' ');
                 }
-                if (cmd == "closecon")
+
+                ClientCommand cmd = ClientCommand.FromString(commandText);
+
+                if (cmd == ClientCommand.CloseConnection)
                 {
                     client.streamClass.CloseStream();
+
                     return true;
                 }
-                if (cmd == "logout")
+
+                if (cmd == ClientCommand.Logout)
                 {
                     client.SendLogout();
+
                     return true;
                 }
-                if (cmd == "lostcon")
+
+                if (cmd == ClientCommand.LostConnection)
                 {
                     client.LostConnection();
+
                     return true;
                 }
-                if (cmd == "tell")
+
+                if (cmd == ClientCommand.Tell)
                 {
                     long recipient = PlayerNameEncoder.NameToHash(args[0]);
                     string message = client.JoinString(args, " ", 1).Trim();
+
                     if (message == "")
                     {
                         return true;
@@ -1279,12 +1290,13 @@ namespace OpenRS.Net.Client.World
                     client.CallSendPrivateMessage(recipient, ChatMessage.lastChat, len);
                     message = ChatMessage.BytesToString(ChatMessage.lastChat, 0, len);
 
-                    if (client.useChatFilter)
+                    if (client.useChatFilter && client.textCensor is not null)
                     {
-                        message = ChatFilter.FilterChat(message);
+                        message = client.textCensor.Censor(message);
                     }
 
                     client.DisplayMessage(string.Format(LocalisationManager.GetString("social.private_message_sent"), PlayerNameEncoder.HashToName(recipient), message));
+
                     return true;
                 }
             }

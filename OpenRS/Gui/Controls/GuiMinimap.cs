@@ -211,8 +211,8 @@ namespace OpenRS.Gui.Controls
             int trigIndex =
                 TrigonometryTableSineOffset - rotationAngle * RotationTableStep &
                 TrigonometryRotationMask;
-            int rotationCosine = Camera.trigonometryTable[trigIndex];
-            int rotationSine = Camera.trigonometryTable[trigIndex + TrigonometryTableSineOffset];
+            int rotationCosine = Camera.TrigonometryTable[trigIndex];
+            int rotationSine = Camera.TrigonometryTable[trigIndex + TrigonometryTableSineOffset];
 
             DrawMinimapTiles(spriteBatch);
 
@@ -358,6 +358,12 @@ namespace OpenRS.Gui.Controls
                 minimapLocation;
 
             if (!DisplayRectangle.Contains(screenLocation))
+            {
+                return;
+            }
+
+            if (minimapLocation.X < 0 || minimapLocation.X >= Size.Width ||
+                minimapLocation.Y < 0 || minimapLocation.Y >= Size.Height)
             {
                 return;
             }

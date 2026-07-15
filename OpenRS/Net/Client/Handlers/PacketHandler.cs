@@ -442,9 +442,9 @@ namespace OpenRS.Net.Client.Handlers
                             off += 1;
                             string s3 = ChatMessage.BytesToString(client.packetData, off, byte7);
 
-                            if (client.useChatFilter)
+                            if (client.useChatFilter && client.textCensor is not null)
                             {
-                                s3 = ChatFilter.FilterChat(s3);
+                                s3 = client.textCensor.Censor(s3);
                             }
 
                             bool ignore = false;

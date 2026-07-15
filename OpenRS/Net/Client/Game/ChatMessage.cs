@@ -153,7 +153,7 @@ public sealed class ChatMessage {
     public static int StringToBytes(string message) {
         if(message.Length > 80)
             {
-                message = message.Substring(0, 80);
+                message = message[..80];
             }
 
             message = message.ToLower();

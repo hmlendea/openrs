@@ -1041,7 +1041,7 @@
   },
   {
     "id": "65",
-    "name": "item.65.name",
+    "name": "item.adamantium_dagger.name",
     "description": "description.short_but_pointy",
     "command": "command.none",
     "basePrice": 800,
@@ -1105,7 +1105,7 @@
   },
   {
     "id": "69",
-    "name": "item.69.name",
+    "name": "item.adamantium_short_sword.name",
     "description": "description.a_razor_sharp_sword",
     "command": "command.none",
     "basePrice": 2080,
@@ -1185,7 +1185,7 @@
   },
   {
     "id": "74",
-    "name": "item.74.name",
+    "name": "item.adamantium_long_sword.name",
     "description": "description.a_razor_sharp_sword",
     "command": "command.none",
     "basePrice": 3200,
@@ -1281,7 +1281,7 @@
   },
   {
     "id": "80",
-    "name": "item.80.name",
+    "name": "item.adamantium_two_handed_sword.name",
     "description": "description.a_very_large_sword",
     "command": "command.none",
     "basePrice": 6400,
@@ -1377,7 +1377,7 @@
   },
   {
     "id": "86",
-    "name": "item.86.name",
+    "name": "item.adamantium_scimitar.name",
     "description": "description.a_vicious_curved_sword",
     "command": "command.none",
     "basePrice": 2560,
@@ -1473,7 +1473,7 @@
   },
   {
     "id": "92",
-    "name": "item.92.name",
+    "name": "item.adamantium_battle_axe.name",
     "description": "description.a_vicious_looking_axe",
     "command": "command.none",
     "basePrice": 4160,
@@ -1553,7 +1553,7 @@
   },
   {
     "id": "97",
-    "name": "item.97.name",
+    "name": "item.adamantium_mace.name",
     "description": "description.a_spiky_mace",
     "command": "command.none",
     "basePrice": 1440,
@@ -1618,7 +1618,7 @@
   {
     "id": "101",
     "name": "item.101.name",
-    "description": "description.a_magical_staff",
+    "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 1500,
     "spriteId": 0,
@@ -1634,7 +1634,7 @@
   {
     "id": "102",
     "name": "item.102.name",
-    "description": "description.a_magical_staff",
+    "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 1500,
     "spriteId": 0,
@@ -1650,7 +1650,7 @@
   {
     "id": "103",
     "name": "item.103.name",
-    "description": "description.a_magical_staff",
+    "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 1500,
     "spriteId": 0,
@@ -1713,7 +1713,7 @@
   },
   {
     "id": "107",
-    "name": "item.107.name",
+    "name": "item.adamantium_medium_helmet.name",
     "description": "description.a_medium_sized_helmet",
     "command": "command.none",
     "basePrice": 1920,
@@ -1777,7 +1777,7 @@
   },
   {
     "id": "111",
-    "name": "item.111.name",
+    "name": "item.adamantium_full_helmet.name",
     "description": "description.a_full_face_helmet",
     "command": "command.none",
     "basePrice": 3520,
@@ -1857,7 +1857,7 @@
   },
   {
     "id": "116",
-    "name": "item.116.name",
+    "name": "item.adamantium_chain_mail_body.name",
     "description": "description.a_series_of_connected_metal",
     "command": "command.none",
     "basePrice": 4800,
@@ -1921,7 +1921,7 @@
   },
   {
     "id": "120",
-    "name": "item.120.name",
+    "name": "item.adamantium_plate_mail_body.name",
     "description": "description.provides_excellent_protection",
     "command": "command.none",
     "basePrice": 12800,
@@ -1969,7 +1969,7 @@
   },
   {
     "id": "123",
-    "name": "item.123.name",
+    "name": "item.adamantium_plate_mail_leggings.name",
     "description": "description.these_look_pretty_heavy",
     "command": "command.none",
     "basePrice": 6400,
@@ -2033,7 +2033,7 @@
   },
   {
     "id": "127",
-    "name": "item.127.name",
+    "name": "item.adamantium_square_shield.name",
     "description": "description.a_medium_metal_shield",
     "command": "command.none",
     "basePrice": 3840,
@@ -2097,7 +2097,7 @@
   },
   {
     "id": "131",
-    "name": "item.131.name",
+    "name": "item.adamantium_kite_shield.name",
     "description": "description.a_large_metal_shield",
     "command": "command.none",
     "basePrice": 5440,
@@ -2465,7 +2465,7 @@
   },
   {
     "id": "154",
-    "name": "item.154.name",
+    "name": "item.adamantium_ore.name",
     "description": "description.this_needs_refining",
     "command": "command.none",
     "basePrice": 400,
@@ -2785,8 +2785,8 @@
   },
   {
     "id": "174",
-    "name": "item.174.name",
-    "description": "item.174.description",
+    "name": "item.adamantium_bar.name",
+    "description": "item.adamantium_bar.description",
     "command": "command.none",
     "basePrice": 640,
     "spriteId": 0,
@@ -3154,7 +3154,7 @@
   {
     "id": "197",
     "name": "item.197.name",
-    "description": "description.a_magical_staff",
+    "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 1500,
     "spriteId": 0,
@@ -3170,7 +3170,7 @@
   {
     "id": "198",
     "name": "item.198.name",
-    "description": "description.a_magical_staff",
+    "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 200,
     "spriteId": 0,
@@ -3265,7 +3265,7 @@
   },
   {
     "id": "204",
-    "name": "item.204.name",
+    "name": "item.adamantium_hatchet.name",
     "description": "description.a_powerful_hatchet",
     "command": "command.none",
     "basePrice": 1280,
@@ -3633,7 +3633,7 @@
   },
   {
     "id": "227",
-    "name": "item.227.name",
+    "name": "item.adamantium_plate_mail_skirt.name",
     "description": "description.designer_leg_protection",
     "command": "command.none",
     "basePrice": 6400,
@@ -4305,8 +4305,8 @@
   },
   {
     "id": "269",
-    "name": "item.269.name",
-    "description": "item.269.description",
+    "name": "item.dwarven_stout.name",
+    "description": "item.dwarven_stout.description",
     "command": "command.drink",
     "basePrice": 2,
     "spriteId": 0,
@@ -4977,7 +4977,7 @@
   },
   {
     "id": "311",
-    "name": "item.311.name",
+    "name": "item.adamantium_chestplate.name",
     "description": "description.armour_designed_for_females",
     "command": "command.none",
     "basePrice": 12800,
@@ -5361,8 +5361,8 @@
   },
   {
     "id": "335",
-    "name": "item.335.name",
-    "description": "item.335.description",
+    "name": "item.cake_slice.name",
+    "description": "item.cake_slice.description",
     "command": "command.eat",
     "basePrice": 10,
     "spriteId": 0,
@@ -6065,8 +6065,8 @@
   },
   {
     "id": "379",
-    "name": "item.379.name",
-    "description": "item.379.description",
+    "name": "item.harpoon.name",
+    "description": "item.harpoon.description",
     "command": "command.none",
     "basePrice": 5,
     "spriteId": 0,
@@ -8178,7 +8178,7 @@
   {
     "id": "511",
     "name": "name.cape",
-    "description": "item.511.description",
+    "description": "item.green_cape.description",
     "command": "command.none",
     "basePrice": 32,
     "spriteId": 0,
@@ -8194,7 +8194,7 @@
   {
     "id": "512",
     "name": "name.cape",
-    "description": "item.512.description",
+    "description": "item.yellow_cape.description",
     "command": "command.none",
     "basePrice": 32,
     "spriteId": 0,
@@ -8210,7 +8210,7 @@
   {
     "id": "513",
     "name": "name.cape",
-    "description": "item.513.description",
+    "description": "item.orange_cape.description",
     "command": "command.none",
     "basePrice": 32,
     "spriteId": 0,
@@ -8226,7 +8226,7 @@
   {
     "id": "514",
     "name": "name.cape",
-    "description": "item.514.description",
+    "description": "item.purple_cape.description",
     "command": "command.none",
     "basePrice": 32,
     "spriteId": 0,
@@ -9025,7 +9025,7 @@
   },
   {
     "id": "564",
-    "name": "item.564.name",
+    "name": "item.poisoned_adamantium_dagger.name",
     "description": "description.short_but_pointy",
     "command": "command.none",
     "basePrice": 800,
@@ -9842,7 +9842,7 @@
   {
     "id": "615",
     "name": "item.615.name",
-    "description": "description.a_magical_staff",
+    "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 15500,
     "spriteId": 0,
@@ -9858,7 +9858,7 @@
   {
     "id": "616",
     "name": "item.616.name",
-    "description": "description.a_magical_staff",
+    "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 15500,
     "spriteId": 0,
@@ -9874,7 +9874,7 @@
   {
     "id": "617",
     "name": "item.617.name",
-    "description": "description.a_magical_staff",
+    "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 15500,
     "spriteId": 0,
@@ -9890,7 +9890,7 @@
   {
     "id": "618",
     "name": "item.618.name",
-    "description": "description.a_magical_staff",
+    "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 15500,
     "spriteId": 0,
@@ -10305,8 +10305,8 @@
   },
   {
     "id": "644",
-    "name": "item.644.name",
-    "description": "item.644.description",
+    "name": "item.adamantium_arrows.name",
+    "description": "item.adamantium_arrows.description",
     "command": "command.none",
     "basePrice": 160,
     "spriteId": 0,
@@ -10321,7 +10321,7 @@
   },
   {
     "id": "645",
-    "name": "item.645.name",
+    "name": "item.poisoned_adamantium_arrows.name",
     "description": "description.venomous_looking_arrows",
     "command": "command.none",
     "basePrice": 160,
@@ -10769,7 +10769,7 @@
   },
   {
     "id": "673",
-    "name": "item.673.name",
+    "name": "item.adamantium_arrow_heads.name",
     "description": "description.not_much_use_without_the",
     "command": "command.none",
     "basePrice": 80,
@@ -10913,8 +10913,8 @@
   },
   {
     "id": "682",
-    "name": "item.682.name",
-    "description": "description.a_magical_staff",
+    "name": "item.enchanted_battlestaff_of_fire.namename",
+    "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 42500,
     "spriteId": 0,
@@ -10929,8 +10929,8 @@
   },
   {
     "id": "683",
-    "name": "item.683.name",
-    "description": "description.a_magical_staff",
+    "name": "item.enchanted_battlestaff_of_water.namename",
+    "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 42500,
     "spriteId": 0,
@@ -10945,8 +10945,8 @@
   },
   {
     "id": "684",
-    "name": "item.684.name",
-    "description": "description.a_magical_staff",
+    "name": "item.enchanted_battlestaff_of_air.namename",
+    "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 42500,
     "spriteId": 0,
@@ -10961,8 +10961,8 @@
   },
   {
     "id": "685",
-    "name": "item.685.name",
-    "description": "description.a_magical_staff",
+    "name": "item.enchanted_battlestaff_of_earth.namename",
+    "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 42500,
     "spriteId": 0,
@@ -11313,8 +11313,8 @@
   },
   {
     "id": "707",
-    "name": "item.707.name",
-    "description": "item.707.description",
+    "name": "item.spice.name",
+    "description": "item.spice.description",
     "command": "command.none",
     "basePrice": 230,
     "spriteId": 0,
@@ -11602,7 +11602,7 @@
   {
     "id": "725",
     "name": "item.725.name",
-    "description": "description.a_magical_staff",
+    "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 15,
     "spriteId": 0,
@@ -12161,8 +12161,8 @@
   },
   {
     "id": "760",
-    "name": "item.760.name",
-    "description": "item.760.description",
+    "name": "item.protective_jacket.name",
+    "description": "item.protective_jacket.description",
     "command": "command.none",
     "basePrice": 50,
     "spriteId": 0,
@@ -12177,8 +12177,8 @@
   },
   {
     "id": "761",
-    "name": "item.761.name",
-    "description": "item.761.description",
+    "name": "item.protective_trousers.name",
+    "description": "item.protective_trousers.description",
     "command": "command.none",
     "basePrice": 50,
     "spriteId": 0,
@@ -12529,8 +12529,8 @@
   },
   {
     "id": "783",
-    "name": "item.783.name",
-    "description": "item.783.description",
+    "name": "item.swamp_tar.name",
+    "description": "item.swamp_tar.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -12545,8 +12545,8 @@
   },
   {
     "id": "784",
-    "name": "item.784.name",
-    "description": "item.784.description",
+    "name": "item.uncooked_swamp_paste.name",
+    "description": "item.uncooked_swamp_paste.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -12561,8 +12561,8 @@
   },
   {
     "id": "785",
-    "name": "item.785.name",
-    "description": "item.785.description",
+    "name": "item.swamp_paste.name",
+    "description": "item.swamp_paste.description",
     "command": "command.none",
     "basePrice": 30,
     "spriteId": 0,
@@ -13201,8 +13201,8 @@
   },
   {
     "id": "825",
-    "name": "item.825.name",
-    "description": "item.825.description",
+    "name": "item.soul_rune.name",
+    "description": "item.soul_rune.description",
     "command": "command.none",
     "basePrice": 2500,
     "spriteId": 0,
@@ -13363,7 +13363,7 @@
     "id": "835",
     "name": "item.835.name",
     "description": "item.835.description",
-    "command": "command.look",
+    "command": "command.look_at",
     "basePrice": 1,
     "spriteId": 0,
     "inventoryPicture": 25,
@@ -14689,8 +14689,8 @@
   },
   {
     "id": "918",
-    "name": "item.918.name",
-    "description": "item.918.description",
+    "name": "item.tree_gnome_translation.name",
+    "description": "item.tree_gnome_translation.description",
     "command": "command.read",
     "basePrice": 2,
     "spriteId": 0,
@@ -15587,7 +15587,7 @@
     "id": "974",
     "name": "item.974.name",
     "description": "item.974.description",
-    "command": "command.look",
+    "command": "command.look_at",
     "basePrice": 1,
     "spriteId": 0,
     "inventoryPicture": 238,
@@ -16129,8 +16129,8 @@
   },
   {
     "id": "1008",
-    "name": "item.1008.name",
-    "description": "item.1008.description",
+    "name": "item.ibans_conscience.name",
+    "description": "item.ibans_conscience.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -16627,7 +16627,7 @@
     "id": "1039",
     "name": "item.1039.name",
     "description": "item.1039.description",
-    "command": "command.look",
+    "command": "command.look_at",
     "basePrice": 100,
     "spriteId": 0,
     "inventoryPicture": 359,
@@ -16689,8 +16689,8 @@
   },
   {
     "id": "1043",
-    "name": "item.1043.name",
-    "description": "item.1043.description",
+    "name": "item.ogre_tooth.name",
+    "description": "item.ogre_tooth.description",
     "command": "command.none",
     "basePrice": 0,
     "spriteId": 0,
@@ -16929,8 +16929,8 @@
   },
   {
     "id": "1058",
-    "name": "item.1058.name",
-    "description": "item.1058.description",
+    "name": "item.tenti_pineapple.name",
+    "description": "item.tenti_pineapple.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -17057,7 +17057,7 @@
   },
   {
     "id": "1066",
-    "name": "item.1066.name",
+    "name": "item.adamantium_dart_tips.name",
     "description": "description.dangerous_looking_dart_tips_need",
     "command": "command.none",
     "basePrice": 65,
@@ -17105,8 +17105,8 @@
   },
   {
     "id": "1069",
-    "name": "item.1069.name",
-    "description": "item.1069.description",
+    "name": "item.adamantium_throwing_dart.name",
+    "description": "item.adamantium_throwing_dart.description",
     "command": "command.none",
     "basePrice": 130,
     "spriteId": 0,
@@ -17265,7 +17265,7 @@
   },
   {
     "id": "1079",
-    "name": "item.1079.name",
+    "name": "item.adamantium_throwing_knife.name",
     "description": "description.a_finely_balanced_knife",
     "command": "command.none",
     "basePrice": 133,
@@ -17457,8 +17457,8 @@
   },
   {
     "id": "1091",
-    "name": "item.1091.name",
-    "description": "item.1091.description",
+    "name": "item.adamantium_spear.name",
+    "description": "item.adamantium_spear.description",
     "command": "command.none",
     "basePrice": 293,
     "spriteId": 0,
@@ -18017,8 +18017,8 @@
   },
   {
     "id": "1126",
-    "name": "item.1126.name",
-    "description": "item.1126.description",
+    "name": "item.poisoned_adamantium_throwing_dart.name",
+    "description": "item.poisoned_adamantium_throwing_dart.description",
     "command": "command.none",
     "basePrice": 130,
     "spriteId": 0,
@@ -18129,7 +18129,7 @@
   },
   {
     "id": "1133",
-    "name": "item.1133.name",
+    "name": "item.poisoned_adamantium_throwing_knife.name",
     "description": "description.a_finely_balanced_knife_with",
     "command": "command.none",
     "basePrice": 133,
@@ -18225,8 +18225,8 @@
   },
   {
     "id": "1139",
-    "name": "item.1139.name",
-    "description": "item.1139.description",
+    "name": "item.poisoned_adamantium_spear.name",
+    "description": "item.poisoned_adamantium_spear.description",
     "command": "command.none",
     "basePrice": 293,
     "spriteId": 0,
@@ -19985,8 +19985,8 @@
   },
   {
     "id": "1249",
-    "name": "item.1249.name",
-    "description": "item.1249.description",
+    "name": "item.cut_reed_plant.name",
+    "description": "item.cut_reed_plant.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -20177,8 +20177,8 @@
   },
   {
     "id": "1261",
-    "name": "item.1261.name",
-    "description": "item.1261.description",
+    "name": "item.adamantium_pickaxe.name",
+    "description": "item.adamantium_pickaxe.description",
     "command": "command.none",
     "basePrice": 3200,
     "spriteId": 0,
@@ -20241,8 +20241,8 @@
   },
   {
     "id": "1265",
-    "name": "item.1265.name",
-    "description": "item.1265.description",
+    "name": "item.aureate_totem_pole.name",
+    "description": "item.aureate_totem_pole.description",
     "command": "command.inspect",
     "basePrice": 20,
     "spriteId": 0,
@@ -20465,8 +20465,8 @@
   },
   {
     "id": "1279",
-    "name": "item.1279.name",
-    "description": "item.1279.description",
+    "name": "item.palm_tree_leaf.name",
+    "description": "item.palm_tree_leaf.description",
     "command": "command.none",
     "basePrice": 5,
     "spriteId": 0,

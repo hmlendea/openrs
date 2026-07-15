@@ -17,13 +17,16 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.9" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.4" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4" />
-    <PackageReference Include="NuciDAL" Version="3.1.0" />
-    <PackageReference Include="NuciLog" Version="1.2.1" />
+    <PackageReference Include="NuciDAL" Version="3.1.1" />
     <PackageReference Include="NuciLog.Core" Version="3.0.0" />
+    <PackageReference Include="NuciLog" Version="1.2.1" />
+    <PackageReference Include="NuciText.Censorship.English" Version="1.0.0" />
+    <PackageReference Include="NuciText.Censorship" Version="1.0.0" />
     <PackageReference Include="NuciXNA.DataAccess" Version="4.0.3" />
-    <PackageReference Include="NuciXNA.Graphics" Version="2.2.3" />
-    <PackageReference Include="NuciXNA.Gui" Version="3.3.0" />
-    <PackageReference Include="NuciXNA.Input" Version="2.1.0" />
+    <PackageReference Include="NuciXNA.Graphics" Version="2.2.5" />
+    <PackageReference Include="NuciXNA.Gui" Version="3.4.2" />
+    <PackageReference Include="NuciXNA.Input" Version="2.1.1" />
+    <PackageReference Include="NuciXNA.Primitives" Version="2.1.7" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
   </ItemGroup>
 
@@ -32,18 +35,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Animations\**">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\ChatFilter\bad.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\ChatFilter\fragments.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\ChatFilter\hosts.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\ChatFilter\tlds.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\Fonts\**">

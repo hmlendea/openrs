@@ -599,17 +599,17 @@ namespace OpenRS.Net.Client.Rendering
                 }
                 if (client.fogOfWar)
                 {
-                    client.gameCamera.zoom1 = 3000;
-                    client.gameCamera.zoom2 = 3000;
-                    client.gameCamera.zoom3 = 1;
-                    client.gameCamera.zoom4 = 2800;
+                    client.gameCamera.FarClipDistance = 3000;
+                    client.gameCamera.SpriteFarClipDistance = 3000;
+                    client.gameCamera.FogGradientStep = 1;
+                    client.gameCamera.FogStartDistance = 2800;
                 }
                 else
                 {
-                    client.gameCamera.zoom1 = 40000;
-                    client.gameCamera.zoom2 = 40000;
-                    client.gameCamera.zoom3 = 40000;
-                    client.gameCamera.zoom4 = 40000;
+                    client.gameCamera.FarClipDistance = 40000;
+                    client.gameCamera.SpriteFarClipDistance = 40000;
+                    client.gameCamera.FogGradientStep = 40000;
+                    client.gameCamera.FogStartDistance = 40000;
                 }
                 client.cameraRotation = client.cameraAutoAngle * 32;
                 int newCameraPosX = client.cameraAutoRotatePlayerX + client.cameraRotationXAmount;
@@ -627,25 +627,25 @@ namespace OpenRS.Net.Client.Rendering
                 {
                     if (!client.keyF1Toggle)
                     {
-                        client.gameCamera.zoom1 = 2400;
-                        client.gameCamera.zoom2 = 2400;
-                        client.gameCamera.zoom3 = 1;
-                        client.gameCamera.zoom4 = 2300;
+                        client.gameCamera.FarClipDistance = 2400;
+                        client.gameCamera.SpriteFarClipDistance = 2400;
+                        client.gameCamera.FogGradientStep = 1;
+                        client.gameCamera.FogStartDistance = 2300;
                     }
                     else
                     {
-                        client.gameCamera.zoom1 = 2200;
-                        client.gameCamera.zoom2 = 2200;
-                        client.gameCamera.zoom3 = 1;
-                        client.gameCamera.zoom4 = 2100;
+                        client.gameCamera.FarClipDistance = 2200;
+                        client.gameCamera.SpriteFarClipDistance = 2200;
+                        client.gameCamera.FogGradientStep = 1;
+                        client.gameCamera.FogStartDistance = 2100;
                     }
                 }
                 else
                 {
-                    client.gameCamera.zoom1 = 40000;
-                    client.gameCamera.zoom2 = 40000;
-                    client.gameCamera.zoom3 = 40000;
-                    client.gameCamera.zoom4 = 40000;
+                    client.gameCamera.FarClipDistance = 40000;
+                    client.gameCamera.SpriteFarClipDistance = 40000;
+                    client.gameCamera.FogGradientStep = 40000;
+                    client.gameCamera.FogStartDistance = 40000;
                 }
                 int cameraX = client.cameraAutoRotatePlayerX + client.cameraRotationXAmount;
                 int cameraY = client.cameraAutoRotatePlayerY + client.cameraRotationYAmount;

@@ -2,7 +2,7 @@ using System;
 
 namespace OpenRS.Net.Client.Game.Cameras
 {
-    internal sealed class CameraPolygonDrawer
+    internal static class CameraPolygonDrawer
     {
         internal static int Texture64RowMask => 0xfc0;
 
@@ -622,7 +622,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             }
         }
 
-        internal static void DrawVertexColorPolygon(
+        internal static void DrawVertexColourPolygon(
             int[] pixels,
             int startColour,
             int pixelBufferIndex,
@@ -669,7 +669,7 @@ namespace OpenRS.Net.Client.Game.Cameras
             }
         }
 
-        internal static void DrawShiftColorPolygon(
+        internal static void DrawShiftColourPolygon(
             int[] pixels,
             int startColour,
             int pixelBufferIndex,

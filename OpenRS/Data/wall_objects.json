@@ -2449,8 +2449,8 @@
   },
   {
     "id": "204",
-    "name": "wall_object.204.name",
-    "description": "wall_object.204.description",
+    "name": "wall_object.jungle.name",
+    "description": "wall_object.jungle.description",
     "command1": "command.chop",
     "command2": "command.examine",
     "modelHeight": 192,
@@ -2533,8 +2533,8 @@
   },
   {
     "id": "211",
-    "name": "wall_object.211.name",
-    "description": "wall_object.211.description",
+    "name": "wall_object.ruined_wall.name",
+    "description": "wall_object.ruined_wall.description",
     "command1": "command.walk_to",
     "command2": "command.jump",
     "modelHeight": 192,

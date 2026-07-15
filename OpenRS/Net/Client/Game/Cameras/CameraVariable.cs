@@ -2,15 +2,12 @@
 {
     public sealed class CameraVariable
     {
+        public int LeftX { get; set; }
 
-        public CameraVariable()
-        {
-        }
+        public int RightX { get; set; }
 
-        public int scanlineMinX;
-        public int scanlineMaxX;
-        public int scanlineMinValue;
-        public int scanlineMaxValue;
+        public int LeftShade { get; set; }
+
+        public int RightShade { get; set; }
     }
-
 }

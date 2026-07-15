@@ -2,7 +2,7 @@ using System;
 
 namespace OpenRS.Net.Client.Game.Cameras
 {
-    internal sealed class CameraModelBoundsCalculator
+    internal static class CameraModelBoundsCalculator
     {
         private static int FaceNormalNormaliseThreshold => 25000;
 
@@ -12,15 +12,10 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         private static int SpriteFrontFacingNormal => 1;
 
-        internal static void UpdateModelAtIndex(
-            CameraModel[] visibleModels,
-            int modelIndex,
-            int lightingFactor)
+        internal static void ComputePolygonBounds(CameraModel cameraModel, int lightingFactor)
         {
-            CameraModel cameraModel = visibleModels[modelIndex];
-            GameObject gameObject = cameraModel.Object;
-
-            int faceIndex = cameraModel.faceVertCountIndex1;
+            GameObject gameObject = cameraModel.SourceObject;
+            int faceIndex = cameraModel.FaceIndex;
             int[] faceVertices = gameObject.face_vertices[faceIndex];
             int faceVertCount = gameObject.face_vertices_count[faceIndex];
             int normaliseScale = gameObject.faceRenderFlag[faceIndex];
@@ -69,30 +64,29 @@ namespace OpenRS.Net.Client.Game.Cameras
                 normalZ >>= normaliseScale;
             }
 
-            cameraModel.visibilityDot =
+            cameraModel.VisibilityDot =
                 vert0X * normalX +
                 vert0Y * normalY +
                 vert0Depth * normalZ;
-            cameraModel.normalX = normalX;
-            cameraModel.normalY = normalY;
-            cameraModel.normalZ = normalZ;
+            cameraModel.NormalX = normalX;
+            cameraModel.NormalY = normalY;
+            cameraModel.NormalZ = normalZ;
 
             ApplyPolygonBounds(cameraModel, gameObject, faceVertices, faceVertCount);
         }
 
-        internal static void RemoveModelAtIndex(CameraModel[] visibleModels, int modelIndex)
+        internal static void ComputeSpriteBounds(CameraModel cameraModel)
         {
-            CameraModel cameraModel = visibleModels[modelIndex];
-            GameObject gameObject = cameraModel.Object;
-            int faceIndex = cameraModel.faceVertCountIndex1;
+            GameObject gameObject = cameraModel.SourceObject;
+            int faceIndex = cameraModel.FaceIndex;
             int[] faceVertices = gameObject.face_vertices[faceIndex];
             int vert0Depth = gameObject.projectedDepth[faceVertices[0]];
             gameObject.faceVisibility[faceIndex] = SpriteFrontFacingNormal;
             gameObject.faceRenderFlag[faceIndex] = 0;
-            cameraModel.visibilityDot = vert0Depth;
-            cameraModel.normalX = 0;
-            cameraModel.normalY = 0;
-            cameraModel.normalZ = SpriteFrontFacingNormal;
+            cameraModel.VisibilityDot = vert0Depth;
+            cameraModel.NormalX = 0;
+            cameraModel.NormalY = 0;
+            cameraModel.NormalZ = SpriteFrontFacingNormal;
 
             int vert1Depth = gameObject.projectedDepth[faceVertices[1]];
             int depthMin = Math.Min(vert0Depth, vert1Depth);
@@ -109,12 +103,12 @@ namespace OpenRS.Net.Client.Game.Cameras
                 projVMax = projVMin;
             }
 
-            cameraModel.boundsMinZ = depthMin;
-            cameraModel.boundsMaxZ = depthMax;
-            cameraModel.boundsMinX = projUMin - SpriteBoundsHorizontalPadding;
-            cameraModel.boundsMaxX = projUMax + SpriteBoundsHorizontalPadding;
-            cameraModel.boundsMinY = projVMin;
-            cameraModel.boundsMaxY = projVMax;
+            cameraModel.BoundsMinZ = depthMin;
+            cameraModel.BoundsMaxZ = depthMax;
+            cameraModel.BoundsMinX = projUMin - SpriteBoundsHorizontalPadding;
+            cameraModel.BoundsMaxX = projUMax + SpriteBoundsHorizontalPadding;
+            cameraModel.BoundsMinY = projVMin;
+            cameraModel.BoundsMaxY = projVMax;
         }
 
         private static void ApplyPolygonBounds(
@@ -141,12 +135,12 @@ namespace OpenRS.Net.Client.Game.Cameras
                 projVMax = Math.Max(projVMax, gameObject.projectedV[vertexIndex]);
             }
 
-            cameraModel.boundsMinZ = depthMin;
-            cameraModel.boundsMaxZ = depthMax;
-            cameraModel.boundsMinX = projUMin;
-            cameraModel.boundsMaxX = projUMax;
-            cameraModel.boundsMinY = projVMin;
-            cameraModel.boundsMaxY = projVMax;
+            cameraModel.BoundsMinZ = depthMin;
+            cameraModel.BoundsMaxZ = depthMax;
+            cameraModel.BoundsMinX = projUMin;
+            cameraModel.BoundsMaxX = projUMax;
+            cameraModel.BoundsMinY = projVMin;
+            cameraModel.BoundsMaxY = projVMax;
         }
     }
 }

@@ -173,12 +173,12 @@ namespace OpenRS.Net.Client
 
             if (key == Keys.Back && inputText.Length > 0)
             {
-                inputText = inputText.Substring(0, inputText.Length - 1);
+                inputText = inputText[..^1];
             }
 
             if (key == Keys.Back && pmText.Length > 0)
             {
-                pmText = pmText.Substring(0, pmText.Length - 1);
+                pmText = pmText[..^1];
             }
 
             if (key == Keys.Enter)

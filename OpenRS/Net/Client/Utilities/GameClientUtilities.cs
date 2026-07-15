@@ -163,16 +163,16 @@ namespace OpenRS.Net.Client.Utilities
 
             for (int separatorIndex = formattedCount.Length - 3; separatorIndex > 0; separatorIndex -= 3)
             {
-                formattedCount = formattedCount.Substring(0, separatorIndex) + "," + formattedCount.Substring(separatorIndex);
+                formattedCount = formattedCount[..separatorIndex] + "," + formattedCount[separatorIndex..];
             }
 
             if (formattedCount.Length > 8)
             {
-                formattedCount = "@gre@" + formattedCount.Substring(0, formattedCount.Length - 8) + " million @whi@(" + formattedCount + ")";
+                formattedCount = "@gre@" + formattedCount[..^8] + " million @whi@(" + formattedCount + ")";
             }
             else if (formattedCount.Length > 4)
             {
-                formattedCount = "@cya@" + formattedCount.Substring(0, formattedCount.Length - 4) + "K @whi@(" + formattedCount + ")";
+                formattedCount = "@cya@" + formattedCount[..^4] + "K @whi@(" + formattedCount + ")";
             }
 
             return formattedCount;
@@ -209,14 +209,14 @@ namespace OpenRS.Net.Client.Utilities
             {
                 while (message.Length > 5 && message[0] == '@' && message[4] == '@')
                 {
-                    message = message.Substring(5);
+                    message = message[5..];
                 }
 
                 int colonIndex = message.IndexOf(":");
 
                 if (colonIndex != -1)
                 {
-                    string senderName = message.Substring(0, colonIndex);
+                    string senderName = message[..colonIndex];
                     long senderNameHash = PlayerNameEncoder.NameToHash(senderName);
 
                     for (int ignoreIndex = 0; ignoreIndex < client.ignoresCount; ignoreIndex += 1)

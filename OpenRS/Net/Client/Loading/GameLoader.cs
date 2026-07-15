@@ -59,10 +59,10 @@ client.RaiseOnLoadingSection(this, new EventArgs());
             int cameraDistance = 1100;
             int cameraRotation = 888;
 
-            client.gameCamera.zoom1 = 4100;
-            client.gameCamera.zoom2 = 4100;
-            client.gameCamera.zoom3 = 1;
-            client.gameCamera.zoom4 = 4000;
+            client.gameCamera.FarClipDistance = 4100;
+            client.gameCamera.SpriteFarClipDistance = 4100;
+            client.gameCamera.FogGradientStep = 1;
+            client.gameCamera.FogStartDistance = 4000;
             client.gameCamera.SetCameraTransform(cameraX, -client.engineHandle.GetAveragedElevation(cameraX, cameraY), cameraY, 912, cameraRotation, 0, cameraDistance * 2);
             client.gameCamera.FinishCamera();
             client.gameGraphics.ScreenFadeToBlack();
@@ -100,10 +100,10 @@ client.RaiseOnLoadingSection(this, new EventArgs());
             cameraY = 9216;
             cameraDistance = 1100;
             client.cameraRotation = 888;
-            client.gameCamera.zoom1 = 4100;
-            client.gameCamera.zoom2 = 4100;
-            client.gameCamera.zoom3 = 1;
-            client.gameCamera.zoom4 = 4000;
+            client.gameCamera.FarClipDistance = 4100;
+            client.gameCamera.SpriteFarClipDistance = 4100;
+            client.gameCamera.FogGradientStep = 1;
+            client.gameCamera.FogStartDistance = 4000;
             client.gameCamera.SetCameraTransform(cameraX, -client.engineHandle.GetAveragedElevation(cameraX, cameraY), cameraY, 912, client.cameraRotation, 0, cameraDistance * 2);
             client.gameCamera.FinishCamera();
             client.gameGraphics.ScreenFadeToBlack();
@@ -152,10 +152,10 @@ client.RaiseOnLoadingSection(this, new EventArgs());
             cameraY = 10368;//'\u2880';
             cameraDistance = 500;//'\u01F4';
             client.cameraRotation = 376;//'\u0178';
-            client.gameCamera.zoom1 = 4100;
-            client.gameCamera.zoom2 = 4100;
-            client.gameCamera.zoom3 = 1;
-            client.gameCamera.zoom4 = 4000;
+            client.gameCamera.FarClipDistance = 4100;
+            client.gameCamera.SpriteFarClipDistance = 4100;
+            client.gameCamera.FogGradientStep = 1;
+            client.gameCamera.FogStartDistance = 4000;
             client.gameCamera.SetCameraTransform(cameraX, -client.engineHandle.GetAveragedElevation(cameraX, cameraY), cameraY, 912, client.cameraRotation, 0, cameraDistance * 2);
             client.gameCamera.FinishCamera();
             client.gameGraphics.ScreenFadeToBlack();
@@ -315,10 +315,10 @@ client.RaiseOnLoadingSectionCompleted(this, new EventArgs());
             client.gameCamera = new Camera(client.gameGraphics, 15000, 15000, 1000);
 
             client.gameCamera.SetCameraSize(client.windowWidth / 2, client.windowHeight / 2, client.windowWidth / 2, client.windowHeight / 2, client.windowWidth, client.cameraFieldOfView);
-            client.gameCamera.zoom1 = 2400;
-            client.gameCamera.zoom2 = 2400;
-            client.gameCamera.zoom3 = 1;
-            client.gameCamera.zoom4 = 2300;
+            client.gameCamera.FarClipDistance = 2400;
+            client.gameCamera.SpriteFarClipDistance = 2400;
+            client.gameCamera.FogGradientStep = 1;
+            client.gameCamera.FogStartDistance = 2300;
             client.gameCamera.OffsetAllModelColours(-50, -10, -50);
             client.engineHandle = new EngineHandle(
                 client.gameCamera,
@@ -589,6 +589,51 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
         {
             client.entityManager = new EntityManager();
             LocalisationManager.Load(Language.English);
+
+            client.skillName =
+            [
+                LocalisationManager.GetString("skill.name.attack"),
+                LocalisationManager.GetString("skill.name.defence"),
+                LocalisationManager.GetString("skill.name.strength"),
+                LocalisationManager.GetString("skill.name.hits"),
+                LocalisationManager.GetString("skill.name.ranged"),
+                LocalisationManager.GetString("skill.name.prayer"),
+                LocalisationManager.GetString("skill.name.magic"),
+                LocalisationManager.GetString("skill.name.cooking"),
+                LocalisationManager.GetString("skill.name.woodcutting"),
+                LocalisationManager.GetString("skill.name.fletching"),
+                LocalisationManager.GetString("skill.name.fishing"),
+                LocalisationManager.GetString("skill.name.firemaking"),
+                LocalisationManager.GetString("skill.name.crafting"),
+                LocalisationManager.GetString("skill.name.smithing"),
+                LocalisationManager.GetString("skill.name.mining"),
+                LocalisationManager.GetString("skill.name.herblaw"),
+                LocalisationManager.GetString("skill.name.agility"),
+                LocalisationManager.GetString("skill.name.thieving"),
+            ];
+
+            client.skillNameVerb =
+            [
+                LocalisationManager.GetString("skill.verb.attack"),
+                LocalisationManager.GetString("skill.verb.defence"),
+                LocalisationManager.GetString("skill.verb.strength"),
+                LocalisationManager.GetString("skill.verb.hits"),
+                LocalisationManager.GetString("skill.verb.ranged"),
+                LocalisationManager.GetString("skill.verb.prayer"),
+                LocalisationManager.GetString("skill.verb.magic"),
+                LocalisationManager.GetString("skill.verb.cooking"),
+                LocalisationManager.GetString("skill.verb.woodcutting"),
+                LocalisationManager.GetString("skill.verb.fletching"),
+                LocalisationManager.GetString("skill.verb.fishing"),
+                LocalisationManager.GetString("skill.verb.firemaking"),
+                LocalisationManager.GetString("skill.verb.crafting"),
+                LocalisationManager.GetString("skill.verb.smithing"),
+                LocalisationManager.GetString("skill.verb.mining"),
+                LocalisationManager.GetString("skill.verb.herblaw"),
+                LocalisationManager.GetString("skill.verb.agility"),
+                LocalisationManager.GetString("skill.verb.thieving"),
+            ];
+
             client.entityManager.LoadPrayers();
             client.entityManager.LoadItems();
             client.entityManager.LoadSpells(GameDefines.SpellProjectileCount);
@@ -599,10 +644,6 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
             client.entityManager.LoadTextures();
             client.entityManager.LoadElevations();
             client.entityManager.LoadTiles();
-
-            ChatFilter.Load();
-            client.DrawLoadingBarText(15, "Chat system");
-            client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Chat system", 15));
         }
 
         public sbyte[] UnpackData(string fileName, string fileTitle, int progressPercentage)

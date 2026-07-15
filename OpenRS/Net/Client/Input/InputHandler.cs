@@ -908,9 +908,9 @@ namespace OpenRS.Net.Client.Input
                 client.chatInputMenu.UpdateText(client.chatInputBox, "");
                 if (input.StartsWith("::"))
                 {
-                    if (!client.HandleCommand(input.Substring(2)))
+                    if (!client.HandleCommand(input[2..]))
                     {
-                        client.CallSendCommand(input.Substring(2));
+                        client.CallSendCommand(input[2..]);
                     }
                 }
                 else

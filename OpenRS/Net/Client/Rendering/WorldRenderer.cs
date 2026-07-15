@@ -277,8 +277,8 @@ namespace OpenRS.Net.Client.Rendering
             int rotationAngle = client.cameraRotation + client.minimapRandomRotationX & 0xff;
             int mapOffsetX = (client.ourPlayer.currentX - 6040) * 3 * zoomLevel / 2048;
             int mapOffsetY = (client.ourPlayer.currentY - 6040) * 3 * zoomLevel / 2048;
-            int cosine = Camera.trigonometryTable[1024 - rotationAngle * 4 & 0x3ff];
-            int sine = Camera.trigonometryTable[(1024 - rotationAngle * 4 & 0x3ff) + 1024];
+            int cosine = Camera.TrigonometryTable[1024 - rotationAngle * 4 & 0x3ff];
+            int sine = Camera.TrigonometryTable[(1024 - rotationAngle * 4 & 0x3ff) + 1024];
             int rotatedX = mapOffsetY * cosine + mapOffsetX * sine >> 18;
             mapOffsetY = mapOffsetY * sine - mapOffsetX * cosine >> 18;
             mapOffsetX = rotatedX;
@@ -359,8 +359,8 @@ namespace OpenRS.Net.Client.Rendering
                 int clickOriginX = client.gameGraphics.gameWidth - 199 + 40;
                 int worldX = (client.mouseX - (clickOriginX + minimapWidth / 2)) * 16384 / (3 * clickZoomLevel);
                 int worldY = (client.mouseY - (36 + minimapHeight / 2)) * 16384 / (3 * clickZoomLevel);
-                int clickCosine = Camera.trigonometryTable[1024 - clickRotationAngle * 4 & 0x3ff];
-                int clickSine = Camera.trigonometryTable[(1024 - clickRotationAngle * 4 & 0x3ff) + 1024];
+                int clickCosine = Camera.TrigonometryTable[1024 - clickRotationAngle * 4 & 0x3ff];
+                int clickSine = Camera.TrigonometryTable[(1024 - clickRotationAngle * 4 & 0x3ff) + 1024];
                 int rotatedWorldX = worldY * clickCosine + worldX * clickSine >> 15;
                 worldY = worldY * clickSine - worldX * clickCosine >> 15;
                 worldX = rotatedWorldX;
