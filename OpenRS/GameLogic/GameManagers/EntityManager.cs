@@ -43,7 +43,7 @@ namespace OpenRS.GameLogic.GameManagers
 
         public int NpcCount => npcs.Count;
 
-        public int ObjectModelCount => GameData.modelCount;
+        public int ObjectModelCount => GameData.ModelCount;
 
         public int PrayerCount => prayers.Count;
 
@@ -206,7 +206,7 @@ namespace OpenRS.GameLogic.GameManagers
 
         public int GetModelIndex(string model) => GameData.GetModelNameIndex(model);
 
-        public string GetObjectModelName(int index) => GameData.modelName[index];
+        public string GetObjectModelName(int index) => GameData.ModelNames[index];
 
         public Npc GetNpc(int index) => GetByIndex(npcs, index);
 

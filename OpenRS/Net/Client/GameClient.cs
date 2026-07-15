@@ -24,7 +24,7 @@ namespace OpenRS.Net.Client
     public sealed class GameClient : GameAppletMiddleMan
     {
         public InputHandler inputHandler;
-        public PacketHandler packetHandler;
+        public IPacketHandler packetHandler;
         public GameRenderer renderer;
         public GameLoader loader;
         public WorldInteractionHandler worldInteractionHandler;
@@ -428,7 +428,6 @@ namespace OpenRS.Net.Client
             cameraZoom = false;
 
             fogOfWar = true;
-            showCombatWindow = false;
             showRoofs = true;
             autoScreenshot = false;
             useChatFilter = true;
@@ -858,7 +857,6 @@ namespace OpenRS.Net.Client
         public bool cameraZoom;
 
         public bool fogOfWar;
-        public bool showCombatWindow;
         public bool showRoofs;
         public bool autoScreenshot;
         public bool useChatFilter;
@@ -916,8 +914,6 @@ namespace OpenRS.Net.Client
         public void DrawWelcomeBox() => renderer.DrawWelcomeBox();
 
         public void DrawOptionsMenu(bool canClick) => renderer.DrawOptionsMenu(canClick);
-
-        public void DrawCombatStyleBox() => renderer.DrawCombatStyleBox();
 
         public void DrawTradeBox() => renderer.DrawTradeBox();
 

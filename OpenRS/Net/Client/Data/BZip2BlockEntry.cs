@@ -13,10 +13,10 @@ namespace OpenRS.Net.Client.Data
             GroupPositions = new int[16];
             Selector = new sbyte[18002];
             SelectorMoveToFront = new sbyte[18002];
-            HuffmanCodeLengths = RectangularArrays.ReturnRectangularSbyteArray(6, 258);
-            HuffmanLimits = RectangularArrays.ReturnRectangularIntArray(6, 258);
-            HuffmanBaseValues = RectangularArrays.ReturnRectangularIntArray(6, 258);
-            HuffmanPermutations = RectangularArrays.ReturnRectangularIntArray(6, 258);
+            HuffmanCodeLengths = RectangularArrays.Create<sbyte>(6, 258);
+            HuffmanLimits = RectangularArrays.Create<int>(6, 258);
+            HuffmanBaseValues = RectangularArrays.Create<int>(6, 258);
+            HuffmanPermutations = RectangularArrays.Create<int>(6, 258);
             HuffmanMinLengths = new int[6];
         }
 

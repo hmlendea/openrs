@@ -75,8 +75,8 @@ namespace OpenRS.Net.Client
 
         private void DoConnect()
         {
-            string formattedUsername = DataOperations.FormatString(username, 20);
-            string formattedPassword = DataOperations.FormatString(password, 20);
+            string formattedUsername = PlayerNameEncoder.FormatString(username, 20);
+            string formattedPassword = PlayerNameEncoder.FormatString(password, 20);
 
             if (formattedUsername.Trim().Length == 0)
             {
@@ -108,7 +108,7 @@ namespace OpenRS.Net.Client
             }
             streamClass.maxPacketReadCount = maxPacketReadCount;
 
-            long nameHash = DataOperations.NameToHash(formattedUsername);
+            long nameHash = PlayerNameEncoder.NameToHash(formattedUsername);
             sessionNameHashByte = (int)(nameHash >> 16 & 31L);
             streamClass.CreatePacket((int)ClientPacket.SessionNameHash);
             streamClass.AddByte(sessionNameHashByte);
@@ -366,11 +366,11 @@ namespace OpenRS.Net.Client
             }
             if (command == (int)ServerCommand.FriendList)
             {
-                friendsCount = DataOperations.GetByte(packetData[1]);
+                friendsCount = BinaryDataReader.GetByte(packetData[1]);
                 for (int friendIndex = 0; friendIndex < friendsCount; friendIndex += 1)
                 {
-                    friendsList[friendIndex] = DataOperations.GetLong(packetData, 2 + friendIndex * 9);
-                    friendsWorld[friendIndex] = DataOperations.GetByte(packetData[10 + friendIndex * 9]);
+                    friendsList[friendIndex] = BinaryDataReader.GetLong(packetData, 2 + friendIndex * 9);
+                    friendsWorld[friendIndex] = BinaryDataReader.GetByte(packetData[10 + friendIndex * 9]);
                 }
 
                 ReOrderFriendsList();
@@ -380,7 +380,7 @@ namespace OpenRS.Net.Client
 
             if (command == (int)ServerCommand.FriendUpdate)
             {
-                long friend = DataOperations.GetLong(packetData, 1);
+                long friend = BinaryDataReader.GetLong(packetData, 1);
                 int status = packetData[9] & 0xff;
                 for (int friendIndex = 0; friendIndex < friendsCount; friendIndex += 1)
                 {
@@ -388,12 +388,12 @@ namespace OpenRS.Net.Client
                     {
                         if (friendsWorld[friendIndex] == 0 && status != 0)
                         {
-                            DisplayMessage(string.Format(LocalisationManager.GetString("social.friend_logged_in"), DataOperations.HashToName(friend)));
+                            DisplayMessage(string.Format(LocalisationManager.GetString("social.friend_logged_in"), PlayerNameEncoder.HashToName(friend)));
                         }
 
                         if (friendsWorld[friendIndex] != 0 && status == 0)
                         {
-                            DisplayMessage(string.Format(LocalisationManager.GetString("social.friend_logged_out"), DataOperations.HashToName(friend)));
+                            DisplayMessage(string.Format(LocalisationManager.GetString("social.friend_logged_out"), PlayerNameEncoder.HashToName(friend)));
                         }
 
                         friendsWorld[friendIndex] = status;
@@ -414,12 +414,12 @@ namespace OpenRS.Net.Client
             if (command == (int)ServerCommand.IgnoreList)
             {
                 ignoresCount = Math.Min(
-                    DataOperations.GetByte(packetData[1]),
+                    BinaryDataReader.GetByte(packetData[1]),
                     Math.Min(ignoresList.Length, (length - 2) / 8));
 
                 for (int ignoreIndex = 0; ignoreIndex < ignoresCount; ignoreIndex += 1)
                 {
-                    ignoresList[ignoreIndex] = DataOperations.GetLong(packetData, 2 + ignoreIndex * 8);
+                    ignoresList[ignoreIndex] = BinaryDataReader.GetLong(packetData, 2 + ignoreIndex * 8);
                 }
 
                 return;
@@ -436,9 +436,9 @@ namespace OpenRS.Net.Client
 
             if (command == (int)ServerCommand.PrivateMessage)
             {
-                long senderHash = DataOperations.GetLong(packetData, 1);
+                long senderHash = BinaryDataReader.GetLong(packetData, 1);
                 string messageText = ChatMessage.BytesToString(packetData, 9, length - 9);
-                DisplayMessage(string.Format(LocalisationManager.GetString("social.private_message_received"), DataOperations.HashToName(senderHash), messageText));
+                DisplayMessage(string.Format(LocalisationManager.GetString("social.private_message_received"), PlayerNameEncoder.HashToName(senderHash), messageText));
 
                 return;
             }
@@ -490,7 +490,7 @@ namespace OpenRS.Net.Client
 
         protected void AddIgnore(string username)
         {
-            long usernameHash = DataOperations.NameToHash(username);
+            long usernameHash = PlayerNameEncoder.NameToHash(username);
             streamClass.CreatePacket((int)ClientPacket.AddIgnore);
             streamClass.AddLong(usernameHash);
             streamClass.FormatPacket();
@@ -537,9 +537,9 @@ namespace OpenRS.Net.Client
         protected void AddFriend(string friendUsername)
         {
             streamClass.CreatePacket((int)ClientPacket.AddFriend);
-            streamClass.AddLong(DataOperations.NameToHash(friendUsername));
+            streamClass.AddLong(PlayerNameEncoder.NameToHash(friendUsername));
             streamClass.FormatPacket();
-            long selfHash = DataOperations.NameToHash(username);
+            long selfHash = PlayerNameEncoder.NameToHash(username);
 
             for (int friendIndex = 0; friendIndex < friendsCount; friendIndex += 1)
             {
@@ -583,7 +583,7 @@ namespace OpenRS.Net.Client
                 break;
             }
 
-            DisplayMessage(string.Format(LocalisationManager.GetString("social.friend_removed"), DataOperations.HashToName(usernameHash)));
+            DisplayMessage(string.Format(LocalisationManager.GetString("social.friend_removed"), PlayerNameEncoder.HashToName(usernameHash)));
         }
 
         protected void SendPrivateMessage(long recipientHash, byte[] messageBytes, int messageLength)

@@ -569,10 +569,10 @@ namespace OpenRS.Net.Client.Game
 
         public void UnpackImageData(int startIndex, sbyte[] imageData, sbyte[] metaData, int count)
         {
-            int i = DataOperations.GetShort(imageData, 0);
-            int k = DataOperations.GetShort(metaData, i);
+            int i = BinaryDataReader.GetShort(imageData, 0);
+            int k = BinaryDataReader.GetShort(metaData, i);
             i += 2;
-            int l = DataOperations.GetShort(metaData, i);
+            int l = BinaryDataReader.GetShort(metaData, i);
             i += 2;
             int i1 = metaData[i++] & 0xff;
             int[] ai = new int[i1];
@@ -603,9 +603,9 @@ namespace OpenRS.Net.Client.Game
 
                 pictureOffsetX[l1] = metaData[i++] & 0xff;
                 pictureOffsetY[l1] = metaData[i++] & 0xff;
-                pictureWidth[l1] = DataOperations.GetShort(metaData, i);
+                pictureWidth[l1] = BinaryDataReader.GetShort(metaData, i);
                 i += 2;
-                pictureHeight[l1] = DataOperations.GetShort(metaData, i);
+                pictureHeight[l1] = BinaryDataReader.GetShort(metaData, i);
                 i += 2;
                 int i2 = metaData[i++] & 0xff;
                 int j2 = pictureWidth[l1] * pictureHeight[l1];

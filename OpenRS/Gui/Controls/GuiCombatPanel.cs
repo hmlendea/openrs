@@ -126,7 +126,7 @@ namespace OpenRS.Gui.Controls
         private void UpdateCombatState()
         {
             combatLevelText.Text =
-                LocalisationManager.GetString("character.combat_level_prefix") +
+                LocalisationManager.GetString("player.combat_level_prefix") +
                 client.CurrentPlayer.CombatLevel;
 
             controlledStyleCard.IsToggled = client.CombatStyle == CombatStyle.Controlled;

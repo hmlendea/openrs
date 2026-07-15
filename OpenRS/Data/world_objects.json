@@ -144,8 +144,8 @@
   },
   {
     "id": "11",
-    "name": "name.range",
-    "description": "description.a_hot_well_stoked_range",
+    "name": "world_object.range.name",
+    "description": "world_object.range.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "range",
@@ -236,7 +236,7 @@
   {
     "id": "18",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -261,8 +261,8 @@
   },
   {
     "id": "20",
-    "name": "world_object.20.name",
-    "description": "world_object.20.description",
+    "name": "world_object.post.name",
+    "description": "world_object.post.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "wallpost",
@@ -625,8 +625,8 @@
   },
   {
     "id": "48",
-    "name": "world_object.48.name",
-    "description": "world_object.48.description",
+    "name": "world_object.sink.name",
+    "description": "world_object.sink.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "sink",
@@ -1068,7 +1068,7 @@
   {
     "id": "82",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -1549,7 +1549,7 @@
   {
     "id": "119",
     "name": "world_object.119.name",
-    "description": "description.a_hot_well_stoked_range",
+    "description": "world_object.range.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "range",
@@ -2133,7 +2133,7 @@
   },
   {
     "id": "164",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -2146,7 +2146,7 @@
   },
   {
     "id": "165",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -2159,7 +2159,7 @@
   },
   {
     "id": "166",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -2172,7 +2172,7 @@
   },
   {
     "id": "167",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -2185,7 +2185,7 @@
   },
   {
     "id": "168",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -2198,7 +2198,7 @@
   },
   {
     "id": "169",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -2211,7 +2211,7 @@
   },
   {
     "id": "170",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -2224,7 +2224,7 @@
   },
   {
     "id": "171",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -2237,7 +2237,7 @@
   },
   {
     "id": "172",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -2289,7 +2289,7 @@
   },
   {
     "id": "176",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -2380,8 +2380,8 @@
   },
   {
     "id": "183",
-    "name": "name.banana_tree",
-    "description": "world_object.183.description",
+    "name": "world_object.banana_tree.name",
+    "description": "world_object.banana_tree_with_fruits.description",
     "command1": "command.walk_to",
     "command2": "command.pick_banana",
     "modelName": "palm2",
@@ -2393,8 +2393,8 @@
   },
   {
     "id": "184",
-    "name": "name.banana_tree",
-    "description": "world_object.184.description",
+    "name": "world_object.banana_tree.name",
+    "description": "world_object.banana_tree_without_fruits.description",
     "command1": "command.walk_to",
     "command2": "command.pick_banana",
     "modelName": "palm2",
@@ -2433,7 +2433,7 @@
   {
     "id": "187",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -2562,7 +2562,7 @@
   },
   {
     "id": "197",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -2757,7 +2757,7 @@
   },
   {
     "id": "212",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -2783,7 +2783,7 @@
   },
   {
     "id": "214",
-    "name": "name.bone",
+    "name": "item.bone.name",
     "description": "world_object.214.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -2796,7 +2796,7 @@
   },
   {
     "id": "215",
-    "name": "name.bone",
+    "name": "item.bone.name",
     "description": "world_object.215.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -2888,7 +2888,7 @@
   {
     "id": "222",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -2979,7 +2979,7 @@
   {
     "id": "229",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -3005,7 +3005,7 @@
   {
     "id": "231",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -3226,7 +3226,7 @@
   {
     "id": "248",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -3460,7 +3460,7 @@
   {
     "id": "266",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -3576,8 +3576,8 @@
   },
   {
     "id": "275",
-    "name": "name.egg",
-    "description": "world_object.275.description",
+    "name": "item.egg.name",
+    "description": "world_object.egg.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "bigegg",
@@ -3589,8 +3589,8 @@
   },
   {
     "id": "276",
-    "name": "world_object.276.name",
-    "description": "world_object.276.description",
+    "name": "world_object.eggs.name",
+    "description": "world_object.eggs.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "eggs",
@@ -3667,8 +3667,8 @@
   },
   {
     "id": "282",
-    "name": "world_object.282.name",
-    "description": "world_object.282.description",
+    "name": "world_object.fountain_of_heroes.name",
+    "description": "world_object.fountain_of_heroes.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "fountain",
@@ -3732,8 +3732,8 @@
   },
   {
     "id": "287",
-    "name": "world_object.287.name",
-    "description": "world_object.287.description",
+    "name": "world_object.giant_crystal.name",
+    "description": "world_object.giant_crystal.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "giantcrystal",
@@ -4096,7 +4096,7 @@
   },
   {
     "id": "315",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -4331,7 +4331,7 @@
   {
     "id": "333",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -4344,7 +4344,7 @@
   {
     "id": "334",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.search_for_traps",
     "modelName": "ChestClosed",
@@ -4357,7 +4357,7 @@
   {
     "id": "335",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.search_for_traps",
     "modelName": "ChestClosed",
@@ -4370,7 +4370,7 @@
   {
     "id": "336",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.search_for_traps",
     "modelName": "ChestClosed",
@@ -4383,7 +4383,7 @@
   {
     "id": "337",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.search_for_traps",
     "modelName": "ChestClosed",
@@ -4396,7 +4396,7 @@
   {
     "id": "338",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.search_for_traps",
     "modelName": "ChestClosed",
@@ -4422,7 +4422,7 @@
   {
     "id": "340",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.search_for_traps",
     "modelName": "ChestClosed",
@@ -4876,8 +4876,8 @@
   },
   {
     "id": "375",
-    "name": "world_object.375.name",
-    "description": "world_object.375.description",
+    "name": "world_object.foodtrough.name",
+    "description": "world_object.foodtrough.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "Foodtrough",
@@ -4929,7 +4929,7 @@
   {
     "id": "379",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.pick_lock",
     "modelName": "ChestClosed",
@@ -4942,7 +4942,7 @@
   {
     "id": "380",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.pick_lock",
     "modelName": "ChestClosed",
@@ -5308,7 +5308,7 @@
     "name": "name.sacks",
     "description": "description.yep_theyre_sacks",
     "command1": "command.walk_to",
-    "command2": "world_object.408.command2",
+    "command2": "command.prod",
     "modelName": "sacks",
     "width": 1,
     "height": 1,
@@ -5332,7 +5332,7 @@
   {
     "id": "410",
     "name": "world_object.410.name",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -5423,7 +5423,7 @@
   {
     "id": "417",
     "name": "name.cave_entrance",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.enter",
     "command2": "command.examine",
     "modelName": "caveentrance",
@@ -5581,7 +5581,7 @@
     "name": "world_object.429.name",
     "description": "description.a_very_large_pot",
     "command1": "command.walk_to",
-    "command2": "world_object.429.command2",
+    "command2": "command.drink",
     "modelName": "cauldron",
     "width": 1,
     "height": 1,
@@ -5591,8 +5591,8 @@
   },
   {
     "id": "430",
-    "name": "name.pineapple_tree",
-    "description": "world_object.430.description",
+    "name": "world_object.pineapple_tree.name",
+    "description": "world_object.pineapple_tree_with_fruits.description",
     "command1": "command.walk_to",
     "command2": "command.pick_pineapple",
     "modelName": "palm2",
@@ -5604,8 +5604,8 @@
   },
   {
     "id": "431",
-    "name": "name.pineapple_tree",
-    "description": "world_object.431.description",
+    "name": "world_object.pineapple_tree.name",
+    "description": "world_object.pineapple_tree_without_fruits.description",
     "command1": "command.walk_to",
     "command2": "command.pick_pineapple",
     "modelName": "palm2",
@@ -5643,8 +5643,8 @@
   },
   {
     "id": "434",
-    "name": "world_object.434.name",
-    "description": "world_object.434.description",
+    "name": "world_object.tomb_of_hazeel.name",
+    "description": "world_object.tomb_of_hazeel.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "hazeeltomb",
@@ -5656,7 +5656,7 @@
   },
   {
     "id": "435",
-    "name": "name.range",
+    "name": "world_object.range.name",
     "description": "world_object.435.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -5696,7 +5696,7 @@
   {
     "id": "438",
     "name": "name.carnillean_chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -5903,8 +5903,8 @@
   },
   {
     "id": "454",
-    "name": "world_object.454.name",
-    "description": "world_object.454.description",
+    "name": "world_object.rowboat.name",
+    "description": "world_object.rowboat.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "rowboat",
@@ -5916,8 +5916,8 @@
   },
   {
     "id": "455",
-    "name": "world_object.455.name",
-    "description": "world_object.455.description",
+    "name": "world_object.damaged_rowboat.name",
+    "description": "world_object.damaged_rowboat.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "rowboatsinking",
@@ -6007,7 +6007,7 @@
   },
   {
     "id": "462",
-    "name": "name.leafless_tree",
+    "name": "world_object.leafless_tree.name",
     "description": "description.a_pointy_tree",
     "command1": "command.jump_off",
     "command2": "command.jump_to_next",
@@ -6020,7 +6020,7 @@
   },
   {
     "id": "463",
-    "name": "name.leafless_tree",
+    "name": "world_object.leafless_tree.name",
     "description": "description.a_pointy_tree",
     "command1": "command.jump_off",
     "command2": "command.jump_to_next",
@@ -6267,7 +6267,7 @@
   },
   {
     "id": "482",
-    "name": "name.leafless_tree",
+    "name": "world_object.leafless_tree.name",
     "description": "description.a_pointy_tree",
     "command1": "command.jump_off",
     "command2": "command.examine",
@@ -6384,8 +6384,8 @@
   },
   {
     "id": "491",
-    "name": "world_object.491.name",
-    "description": "description.a_hot_well_stoked_range",
+    "name": "world_object.range.name",
+    "description": "world_object.range.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "range",
@@ -6449,7 +6449,7 @@
   },
   {
     "id": "496",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -6696,7 +6696,7 @@
   },
   {
     "id": "515",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -6709,7 +6709,7 @@
   },
   {
     "id": "516",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -6722,7 +6722,7 @@
   },
   {
     "id": "517",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -6735,7 +6735,7 @@
   },
   {
     "id": "518",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -6748,7 +6748,7 @@
   },
   {
     "id": "519",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -6761,7 +6761,7 @@
   },
   {
     "id": "520",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -6774,7 +6774,7 @@
   },
   {
     "id": "521",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -6787,7 +6787,7 @@
   },
   {
     "id": "522",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -6800,7 +6800,7 @@
   },
   {
     "id": "523",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -6917,7 +6917,7 @@
   },
   {
     "id": "532",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -6930,7 +6930,7 @@
   },
   {
     "id": "533",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -6943,7 +6943,7 @@
   },
   {
     "id": "534",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -6956,7 +6956,7 @@
   },
   {
     "id": "535",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -6969,7 +6969,7 @@
   },
   {
     "id": "536",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -6982,7 +6982,7 @@
   },
   {
     "id": "537",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -6995,7 +6995,7 @@
   },
   {
     "id": "538",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -7008,7 +7008,7 @@
   },
   {
     "id": "539",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -7021,7 +7021,7 @@
   },
   {
     "id": "540",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -7034,7 +7034,7 @@
   },
   {
     "id": "541",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -7047,7 +7047,7 @@
   },
   {
     "id": "542",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -7060,7 +7060,7 @@
   },
   {
     "id": "543",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -7073,7 +7073,7 @@
   },
   {
     "id": "544",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -7086,7 +7086,7 @@
   },
   {
     "id": "545",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -7099,7 +7099,7 @@
   },
   {
     "id": "546",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -7112,7 +7112,7 @@
   },
   {
     "id": "547",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -7125,7 +7125,7 @@
   },
   {
     "id": "548",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -7138,7 +7138,7 @@
   },
   {
     "id": "549",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -7151,7 +7151,7 @@
   },
   {
     "id": "550",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -7164,7 +7164,7 @@
   },
   {
     "id": "551",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -7177,7 +7177,7 @@
   },
   {
     "id": "552",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -7216,7 +7216,7 @@
   },
   {
     "id": "555",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_moss_covered_rock",
     "command1": "command.mine",
     "command2": "command.search",
@@ -8218,7 +8218,7 @@
   {
     "id": "632",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -8673,7 +8673,7 @@
   {
     "id": "667",
     "name": "name.cave",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.enter",
     "command2": "command.examine",
     "modelName": "caveentrance",
@@ -9231,7 +9231,7 @@
   },
   {
     "id": "710",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.walk_to",
     "command2": "command.climb",
@@ -9348,7 +9348,7 @@
   },
   {
     "id": "719",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_rocky_outcrop",
     "command1": "command.climb",
     "command2": "command.climb",
@@ -9504,7 +9504,7 @@
   },
   {
     "id": "731",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9582,7 +9582,7 @@
   },
   {
     "id": "737",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9595,7 +9595,7 @@
   },
   {
     "id": "738",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9608,7 +9608,7 @@
   },
   {
     "id": "739",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9621,7 +9621,7 @@
   },
   {
     "id": "740",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9634,7 +9634,7 @@
   },
   {
     "id": "741",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9647,7 +9647,7 @@
   },
   {
     "id": "742",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9660,7 +9660,7 @@
   },
   {
     "id": "743",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9673,7 +9673,7 @@
   },
   {
     "id": "744",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9686,7 +9686,7 @@
   },
   {
     "id": "745",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9699,7 +9699,7 @@
   },
   {
     "id": "746",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9712,7 +9712,7 @@
   },
   {
     "id": "747",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9725,7 +9725,7 @@
   },
   {
     "id": "748",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9738,7 +9738,7 @@
   },
   {
     "id": "749",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9829,7 +9829,7 @@
   },
   {
     "id": "756",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9842,7 +9842,7 @@
   },
   {
     "id": "757",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9855,7 +9855,7 @@
   },
   {
     "id": "758",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9868,7 +9868,7 @@
   },
   {
     "id": "759",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9881,7 +9881,7 @@
   },
   {
     "id": "760",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9894,7 +9894,7 @@
   },
   {
     "id": "761",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9907,7 +9907,7 @@
   },
   {
     "id": "762",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9920,7 +9920,7 @@
   },
   {
     "id": "763",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9933,7 +9933,7 @@
   },
   {
     "id": "764",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9946,7 +9946,7 @@
   },
   {
     "id": "765",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -9959,7 +9959,7 @@
   },
   {
     "id": "766",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -10011,7 +10011,7 @@
   },
   {
     "id": "770",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.mine",
     "command2": "command.examine",
@@ -10037,7 +10037,7 @@
   },
   {
     "id": "772",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.you_should_be_able_to",
     "command1": "command.clear",
     "command2": "command.examine",
@@ -10050,7 +10050,7 @@
   },
   {
     "id": "773",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.you_should_be_able_to",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -10063,7 +10063,7 @@
   },
   {
     "id": "774",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.you_should_be_able_to",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -10297,7 +10297,7 @@
   },
   {
     "id": "792",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.walk_here",
     "command2": "command.examine",
@@ -10310,7 +10310,7 @@
   },
   {
     "id": "793",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.walk_here",
     "command2": "command.examine",
@@ -10349,7 +10349,7 @@
   },
   {
     "id": "796",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.you_should_be_able_to",
     "command1": "command.clear",
     "command2": "command.examine",
@@ -10362,7 +10362,7 @@
   },
   {
     "id": "797",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.you_should_be_able_to",
     "command1": "command.clear",
     "command2": "command.examine",
@@ -10453,7 +10453,7 @@
   },
   {
     "id": "804",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.more_rocks",
     "command1": "command.step_over",
     "command2": "command.search_for_traps",
@@ -10479,7 +10479,7 @@
   },
   {
     "id": "806",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.more_rocks",
     "command1": "command.step_over",
     "command2": "command.search",
@@ -10492,7 +10492,7 @@
   },
   {
     "id": "807",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.more_rocks",
     "command1": "command.step_over",
     "command2": "command.search",
@@ -10505,7 +10505,7 @@
   },
   {
     "id": "808",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.more_rocks",
     "command1": "command.step_over",
     "command2": "command.search",
@@ -10518,7 +10518,7 @@
   },
   {
     "id": "809",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.more_rocks",
     "command1": "command.step_over",
     "command2": "command.search",
@@ -10531,7 +10531,7 @@
   },
   {
     "id": "810",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.more_rocks",
     "command1": "command.step_over",
     "command2": "command.search",
@@ -10544,7 +10544,7 @@
   },
   {
     "id": "811",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.more_rocks",
     "command1": "command.step_over",
     "command2": "command.search",
@@ -10648,7 +10648,7 @@
   },
   {
     "id": "819",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.you_should_be_able_to",
     "command1": "command.clear",
     "command2": "command.search",
@@ -10661,7 +10661,7 @@
   },
   {
     "id": "820",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.you_should_be_able_to",
     "command1": "command.clear",
     "command2": "command.search",
@@ -10674,7 +10674,7 @@
   },
   {
     "id": "821",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.you_should_be_able_to",
     "command1": "command.clear",
     "command2": "command.search",
@@ -10687,7 +10687,7 @@
   },
   {
     "id": "822",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.you_should_be_able_to",
     "command1": "command.clear",
     "command2": "command.search",
@@ -10700,7 +10700,7 @@
   },
   {
     "id": "823",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.you_should_be_able_to",
     "command1": "command.clear",
     "command2": "command.search",
@@ -10713,7 +10713,7 @@
   },
   {
     "id": "824",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.you_should_be_able_to",
     "command1": "command.clear",
     "command2": "command.search",
@@ -11038,7 +11038,7 @@
   },
   {
     "id": "849",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -11051,7 +11051,7 @@
   },
   {
     "id": "850",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -11064,7 +11064,7 @@
   },
   {
     "id": "851",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -11077,7 +11077,7 @@
   },
   {
     "id": "852",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -11090,7 +11090,7 @@
   },
   {
     "id": "853",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -11103,7 +11103,7 @@
   },
   {
     "id": "854",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -11116,7 +11116,7 @@
   },
   {
     "id": "855",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -11129,7 +11129,7 @@
   },
   {
     "id": "856",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -11142,7 +11142,7 @@
   },
   {
     "id": "857",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -11155,7 +11155,7 @@
   },
   {
     "id": "858",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -11168,7 +11168,7 @@
   },
   {
     "id": "859",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -11181,7 +11181,7 @@
   },
   {
     "id": "860",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -11389,7 +11389,7 @@
   },
   {
     "id": "876",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -11467,7 +11467,7 @@
   },
   {
     "id": "882",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.more_rocks_2",
     "command1": "command.step_over",
     "command2": "command.search_for_traps",
@@ -11480,7 +11480,7 @@
   },
   {
     "id": "883",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.more_rocks_2",
     "command1": "command.step_over",
     "command2": "command.search_for_traps",
@@ -11858,7 +11858,7 @@
   {
     "id": "912",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -11870,8 +11870,8 @@
   },
   {
     "id": "913",
-    "name": "world_object.913.name",
-    "description": "world_object.913.description",
+    "name": "world_object.pit_of_the_damned.name",
+    "description": "world_object.pit_of_the_damned.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "cave temple alter",
@@ -12247,8 +12247,8 @@
   },
   {
     "id": "942",
-    "name": "world_object.942.name",
-    "description": "world_object.942.description",
+    "name": "world_object.bank_chest.name",
+    "description": "world_object.bank_chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -12390,7 +12390,7 @@
   },
   {
     "id": "953",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.i_wonder_if_i_can_ascend_these",
     "command1": "command.climb",
     "command2": "command.examine",
@@ -12403,7 +12403,7 @@
   },
   {
     "id": "954",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.i_wonder_if_i_can_ascend_these",
     "command1": "command.climb",
     "command2": "command.examine",
@@ -12546,7 +12546,7 @@
   },
   {
     "id": "965",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -12559,8 +12559,8 @@
   },
   {
     "id": "966",
-    "name": "world_object.966.name",
-    "description": "world_object.966.description",
+    "name": "world_object.lift.name",
+    "description": "world_object.lift.description",
     "command1": "command.operate",
     "command2": "command.examine",
     "modelName": "liftwinch",
@@ -12716,7 +12716,7 @@
   {
     "id": "978",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -12729,7 +12729,7 @@
   {
     "id": "979",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.close",
     "command2": "command.examine",
     "modelName": "ChestOpen",
@@ -12768,7 +12768,7 @@
   {
     "id": "982",
     "name": "name.cave_entrance",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.enter",
     "command2": "command.examine",
     "modelName": "caveentrance",
@@ -12936,7 +12936,7 @@
   },
   {
     "id": "995",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.some_rocks_are_close_to_the_edge",
     "command1": "command.jump_over",
     "command2": "command.look_at",
@@ -12949,7 +12949,7 @@
   },
   {
     "id": "996",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.some_rocks_are_close_to_the_edge",
     "command1": "command.jump_over",
     "command2": "command.look_at",
@@ -12976,7 +12976,7 @@
   {
     "id": "998",
     "name": "name.cave_entrance",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.enter",
     "command2": "command.examine",
     "modelName": "small caveentrance2",
@@ -13015,7 +13015,7 @@
   {
     "id": "1001",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -13041,7 +13041,7 @@
   {
     "id": "1003",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -13066,8 +13066,8 @@
   },
   {
     "id": "1005",
-    "name": "world_object.1005.name",
-    "description": "description.i_wonder_what_is_inside",
+    "name": "world_object.captains_chest.name",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -13092,7 +13092,7 @@
   },
   {
     "id": "1007",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "world_object.1007.description",
     "command1": "command.search",
     "command2": "command.examine",
@@ -13105,7 +13105,7 @@
   },
   {
     "id": "1008",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.search",
     "command2": "command.examine",
@@ -13342,7 +13342,7 @@
     "name": "world_object.1026.name",
     "description": "world_object.1026.description",
     "command1": "command.mine",
-    "command2": "world_object.1026.command2",
+    "command2": "command.prospect",
     "modelName": "cave bolder",
     "width": 2,
     "height": 2,
@@ -13391,7 +13391,7 @@
   },
   {
     "id": "1030",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "world_object.1030.description",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -13768,7 +13768,7 @@
   },
   {
     "id": "1059",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -14081,7 +14081,7 @@
   {
     "id": "1083",
     "name": "name.barrel",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.search",
     "command2": "command.examine",
     "modelName": "barrelredcross",
@@ -14107,7 +14107,7 @@
   {
     "id": "1085",
     "name": "name.chest",
-    "description": "description.i_wonder_what_is_inside",
+    "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
     "modelName": "ChestClosed",
@@ -14262,7 +14262,7 @@
   },
   {
     "id": "1097",
-    "name": "name.rope",
+    "name": "item.rope.name",
     "description": "description.its_a_rope_leading_upwards",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -14275,7 +14275,7 @@
   },
   {
     "id": "1098",
-    "name": "name.rope",
+    "name": "item.rope.name",
     "description": "description.its_a_rope_leading_upwards",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -14392,8 +14392,8 @@
   },
   {
     "id": "1107",
-    "name": "world_object.1107.name",
-    "description": "world_object.1107.description",
+    "name": "world_object.yommi_tree.name",
+    "description": "world_object.yommi_tree.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "totemtree1",
@@ -14509,7 +14509,7 @@
   },
   {
     "id": "1116",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "world_object.1116.description",
     "command1": "world_object.1116.command1",
     "command2": "command.examine",
@@ -14795,10 +14795,10 @@
   },
   {
     "id": "1138",
-    "name": "world_object.1138.name",
-    "description": "world_object.1138.description",
+    "name": "world_object.flour_barrel.name",
+    "description": "world_object.flour_barrel.description",
     "command1": "command.walk_to",
-    "command2": "world_object.1138.command2",
+    "command2": "world_object.flour_barrel.command2",
     "modelName": "barrel",
     "width": 1,
     "height": 1,
@@ -14860,7 +14860,7 @@
   },
   {
     "id": "1143",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "world_object.1143.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -14925,7 +14925,7 @@
   },
   {
     "id": "1148",
-    "name": "name.rocks",
+    "name": "item.rocks.name",
     "description": "description.a_small_rocky_outcrop",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -15302,10 +15302,10 @@
   },
   {
     "id": "1177",
-    "name": "world_object.1177.name",
-    "description": "world_object.1177.description",
+    "name": "world_object.grand_viziers_desk.name",
+    "description": "world_object.grand_viziers_desk.description",
     "command1": "command.walk_to",
-    "command2": "world_object.1177.command2",
+    "command2": "world_object.grand_viziers_desk.command2",
     "modelName": "counter",
     "width": 2,
     "height": 1,

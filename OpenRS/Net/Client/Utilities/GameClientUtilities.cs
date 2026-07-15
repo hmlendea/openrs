@@ -217,7 +217,7 @@ namespace OpenRS.Net.Client.Utilities
                 if (colonIndex != -1)
                 {
                     string senderName = message.Substring(0, colonIndex);
-                    long senderNameHash = DataOperations.NameToHash(senderName);
+                    long senderNameHash = PlayerNameEncoder.NameToHash(senderName);
 
                     for (int ignoreIndex = 0; ignoreIndex < client.ignoresCount; ignoreIndex += 1)
                     {

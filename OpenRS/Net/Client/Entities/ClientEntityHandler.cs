@@ -1,22 +1,28 @@
 using System;
 
+using OpenRS.Net;
 using OpenRS.Net.Client.Game;
 
 namespace OpenRS.Net.Client.Entities
 {
     public sealed class ClientEntityHandler(GameClient client)
     {
+        private static int WaypointRingSize => 10;
+        private static int WallObjectIndexOffset => 10000;
+        private static int TileBoundsMax => 96;
 
         public void UpdateAppearanceWindow()
         {
             client.appearanceMenu.MouseClick(client.mouseX, client.mouseY, client.lastMouseButton, client.mouseButton);
+
             if (client.appearanceMenu.IsClicked(client.appearanceHeadLeftArrow))
             {
                 do
                 {
                     client.appearanceHeadType = (client.appearanceHeadType - 1 + client.entityManager.AnimationCount) % client.entityManager.AnimationCount;
                 }
-                while ((client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 3) != 1 || (client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 4 * client.appearanceHeadGender) == 0);
+                while ((client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 3) != 1 ||
+                       (client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 4 * client.appearanceHeadGender) == 0);
             }
 
             if (client.appearanceMenu.IsClicked(client.appearanceHeadRightArrow))
@@ -25,7 +31,8 @@ namespace OpenRS.Net.Client.Entities
                 {
                     client.appearanceHeadType = (client.appearanceHeadType + 1) % client.entityManager.AnimationCount;
                 }
-                while ((client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 3) != 1 || (client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 4 * client.appearanceHeadGender) == 0);
+                while ((client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 3) != 1 ||
+                       (client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 4 * client.appearanceHeadGender) == 0);
             }
 
             if (client.appearanceMenu.IsClicked(client.appearanceHairLeftArrow))
@@ -38,18 +45,24 @@ namespace OpenRS.Net.Client.Entities
                 client.appearanceHairColour = (client.appearanceHairColour + 1) % client.appearanceHairColours.Length;
             }
 
-            if (client.appearanceMenu.IsClicked(client.appearanceGenderLeftArrow) || client.appearanceMenu.IsClicked(client.appearanceGenderRightArrow))
+            if (client.appearanceMenu.IsClicked(client.appearanceGenderLeftArrow) ||
+                client.appearanceMenu.IsClicked(client.appearanceGenderRightArrow))
             {
-                for (client.appearanceHeadGender = 3 - client.appearanceHeadGender; (client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 3) != 1 || (client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 4 * client.appearanceHeadGender) == 0; client.appearanceHeadType = (client.appearanceHeadType + 1) % client.entityManager.AnimationCount)
+                client.appearanceHeadGender = 3 - client.appearanceHeadGender;
+
+                while ((client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 3) != 1 ||
+                       (client.entityManager.GetAnimation(client.appearanceHeadType).GenderModel & 4 * client.appearanceHeadGender) == 0)
                 {
-                    ;
+                    client.appearanceHeadType = (client.appearanceHeadType + 1) % client.entityManager.AnimationCount;
                 }
 
-                for (; (client.entityManager.GetAnimation(client.appearanceBodyGender).GenderModel & 3) != 2 || (client.entityManager.GetAnimation(client.appearanceBodyGender).GenderModel & 4 * client.appearanceHeadGender) == 0; client.appearanceBodyGender = (client.appearanceBodyGender + 1) % client.entityManager.AnimationCount)
+                while ((client.entityManager.GetAnimation(client.appearanceBodyGender).GenderModel & 3) != 2 ||
+                       (client.entityManager.GetAnimation(client.appearanceBodyGender).GenderModel & 4 * client.appearanceHeadGender) == 0)
                 {
-                    ;
+                    client.appearanceBodyGender = (client.appearanceBodyGender + 1) % client.entityManager.AnimationCount;
                 }
             }
+
             if (client.appearanceMenu.IsClicked(client.appearanceTopLeftArrow))
             {
                 client.appearanceTopColour = (client.appearanceTopColour - 1 + client.appearanceTopBottomColours.Length) % client.appearanceTopBottomColours.Length;
@@ -82,7 +95,7 @@ namespace OpenRS.Net.Client.Entities
 
             if (client.appearanceMenu.IsClicked(client.appearanceAcceptButton))
             {
-                client.streamClass.CreatePacket(218);
+                client.streamClass.CreatePacket((int)ClientPacket.UpdateAppearance);
                 client.streamClass.AddByte(client.appearanceHeadGender);
                 client.streamClass.AddByte(client.appearanceHeadType);
                 client.streamClass.AddByte(client.appearanceBodyGender);
@@ -118,6 +131,7 @@ namespace OpenRS.Net.Client.Entities
                 client.npcAttackingArray = null;
                 client.npcArray = null;
                 client.ourPlayer = null;
+
                 if (client.engineHandle is not null)
                 {
                     client.engineHandle.TileChunks = null;
@@ -126,9 +140,8 @@ namespace OpenRS.Net.Client.Entities
                     client.engineHandle.currentSectionObject = null;
                     client.engineHandle = null;
                 }
-                //System.gc();
+
                 GC.Collect();
-                return;
             }
             catch (Exception)
             {
@@ -146,47 +159,41 @@ namespace OpenRS.Net.Client.Entities
                     serverID = 0
                 };
             }
-            ClientMob existingPlayer = client.playerBufferArray[index];
-            bool flag = false;
-            for (int l = 0; l < client.lastPlayerCount; l += 1)
-            {
-                if (client.lastPlayerArray[l].serverIndex != index)
-                {
-                    continue;
-                }
 
-                flag = true;
-                break;
-            }
+            ClientMob player = client.playerBufferArray[index];
+            bool playerWasKnown = IsInLastPlayerArray(index);
 
-            if (flag)
+            if (playerWasKnown)
             {
-                existingPlayer.nextSprite = sprite;
-                int i1 = existingPlayer.waypointCurrent;
-                if (x != existingPlayer.waypointsX[i1] || y != existingPlayer.waypointsY[i1])
+                player.nextSprite = sprite;
+                int waypointIndex = player.waypointCurrent;
+
+                if (x != player.waypointsX[waypointIndex] || y != player.waypointsY[waypointIndex])
                 {
-                    existingPlayer.waypointCurrent = i1 = (i1 + 1) % 10;
-                    existingPlayer.waypointsX[i1] = x;
-                    existingPlayer.waypointsY[i1] = y;
+                    player.waypointCurrent = waypointIndex = (waypointIndex + 1) % WaypointRingSize;
+                    player.waypointsX[waypointIndex] = x;
+                    player.waypointsY[waypointIndex] = y;
                 }
             }
             else
             {
-                existingPlayer.serverIndex = index;
-                existingPlayer.waypointsEndSprite = 0;
-                existingPlayer.waypointCurrent = 0;
-                existingPlayer.waypointsX[0] = existingPlayer.currentX = x;
-                existingPlayer.waypointsY[0] = existingPlayer.currentY = y;
-                existingPlayer.nextSprite = existingPlayer.currentSprite = sprite;
-                existingPlayer.stepCount = 0;
+                player.serverIndex = index;
+                player.waypointsEndSprite = 0;
+                player.waypointCurrent = 0;
+                player.waypointsX[0] = player.currentX = x;
+                player.waypointsY[0] = player.currentY = y;
+                player.nextSprite = player.currentSprite = sprite;
+                player.stepCount = 0;
             }
-            client.playerArray[client.playerCount++] = existingPlayer;
-            return existingPlayer;
+
+            client.playerArray[client.playerCount] = player;
+            client.playerCount += 1;
+
+            return player;
         }
 
         public GameObject CreateWallObject(int x, int y, int dir, int type, int totalCount)
         {
-
             int tileX = x;
             int tileY = y;
             int destTileX = x;
@@ -233,33 +240,28 @@ namespace OpenRS.Net.Client.Entities
                 destTileX = x + 1;
                 destTileY = y + 1;
             }
+
             tileX *= client.gridSize;
             tileY *= client.gridSize;
             destTileX *= client.gridSize;
             destTileY *= client.gridSize;
 
-            // add vertex index bottomLeft
-            int bLeft = wallModel.GetVertexIndex(tileX, -client.engineHandle.GetAveragedElevation(tileX, tileY), tileY);
+            int bottomLeft = wallModel.GetVertexIndex(tileX, -client.engineHandle.GetAveragedElevation(tileX, tileY), tileY);
+            int topLeft = wallModel.GetVertexIndex(tileX, -client.engineHandle.GetAveragedElevation(tileX, tileY) - wallHeight, tileY);
+            int topRight = wallModel.GetVertexIndex(destTileX, -client.engineHandle.GetAveragedElevation(destTileX, destTileY) - wallHeight, destTileY);
+            int bottomRight = wallModel.GetVertexIndex(destTileX, -client.engineHandle.GetAveragedElevation(destTileX, destTileY), destTileY);
+            int[] faceVertices = [bottomLeft, topLeft, topRight, bottomRight];
 
-            // add vertex index topLeft
-            int tLeft = wallModel.GetVertexIndex(tileX, -client.engineHandle.GetAveragedElevation(tileX, tileY) - wallHeight, tileY);
-
-            // add vertex index topRight
-            int tRight = wallModel.GetVertexIndex(destTileX, -client.engineHandle.GetAveragedElevation(destTileX, destTileY) - wallHeight, destTileY);
-
-            // vertex index bottomRight
-            int bRight = wallModel.GetVertexIndex(destTileX, -client.engineHandle.GetAveragedElevation(destTileX, destTileY), destTileY);
-            int[] faceVertices = [
-            bLeft, tLeft, tRight, bRight
-        ];
             wallModel.AddFaceVertices(4, faceVertices, textureBack, textureFront);
             wallModel.UpdateShading(false, 60, 24, -50, -10, -50);
-            if (x >= 0 && y >= 0 && x < 96 && y < 96)
+
+            if (x >= 0 && y >= 0 && x < TileBoundsMax && y < TileBoundsMax)
             {
                 client.gameCamera.AddModel(wallModel);
             }
 
-            wallModel.index = totalCount + 10000;
+            wallModel.index = totalCount + WallObjectIndexOffset;
+
             return wallModel;
         }
 
@@ -278,109 +280,131 @@ namespace OpenRS.Net.Client.Entities
                     serverIndex = index
                 };
             }
-            ClientMob f1 = client.npcAttackingArray[index];
-            bool flag = false;
-            for (int l = 0; l < client.lastNpcCount; l += 1)
-            {
-                if (client.lastNpcArray[l].serverIndex != index)
-                {
-                    continue;
-                }
 
-                flag = true;
-                break;
-            }
+            ClientMob npc = client.npcAttackingArray[index];
+            bool npcWasKnown = IsInLastNpcArray(index);
 
-            if (flag)
+            if (npcWasKnown)
             {
-                f1.npcId = id;
-                f1.nextSprite = sprite;
-                int i1 = f1.waypointCurrent;
-                if (x != f1.waypointsX[i1] || y != f1.waypointsY[i1])
+                npc.npcId = id;
+                npc.nextSprite = sprite;
+                int waypointIndex = npc.waypointCurrent;
+
+                if (x != npc.waypointsX[waypointIndex] || y != npc.waypointsY[waypointIndex])
                 {
-                    f1.waypointCurrent = i1 = (i1 + 1) % 10;
-                    f1.waypointsX[i1] = x;
-                    f1.waypointsY[i1] = y;
+                    npc.waypointCurrent = waypointIndex = (waypointIndex + 1) % WaypointRingSize;
+                    npc.waypointsX[waypointIndex] = x;
+                    npc.waypointsY[waypointIndex] = y;
                 }
             }
             else
             {
-                f1.serverIndex = index;
-                f1.waypointsEndSprite = 0;
-                f1.waypointCurrent = 0;
-                f1.waypointsX[0] = f1.currentX = x;
-                f1.waypointsY[0] = f1.currentY = y;
-                f1.npcId = id;
-                f1.nextSprite = f1.currentSprite = sprite;
-                f1.stepCount = 0;
+                npc.serverIndex = index;
+                npc.waypointsEndSprite = 0;
+                npc.waypointCurrent = 0;
+                npc.waypointsX[0] = npc.currentX = x;
+                npc.waypointsY[0] = npc.currentY = y;
+                npc.npcId = id;
+                npc.nextSprite = npc.currentSprite = sprite;
+                npc.stepCount = 0;
             }
-            client.npcArray[client.npcCount++] = f1;
-            return f1;
+
+            client.npcArray[client.npcCount] = npc;
+            client.npcCount += 1;
+
+            return npc;
         }
 
         public void UpdateBankItems()
         {
             client.bankItemsCount = client.serverBankItemsCount;
-            for (int l = 0; l < client.serverBankItemsCount; l += 1)
+
+            for (int bankIndex = 0; bankIndex < client.serverBankItemsCount; bankIndex += 1)
             {
-                client.bankItems[l] = client.serverBankItems[l];
-                client.bankItemCount[l] = client.serverBankItemCount[l];
+                client.bankItems[bankIndex] = client.serverBankItems[bankIndex];
+                client.bankItemCount[bankIndex] = client.serverBankItemCount[bankIndex];
             }
 
-            for (int i1 = 0; i1 < client.inventoryItemsCount; i1 += 1)
+            for (int inventoryIndex = 0; inventoryIndex < client.inventoryItemsCount; inventoryIndex += 1)
             {
                 if (client.bankItemsCount >= client.maxBankItems)
                 {
                     break;
                 }
 
-                int j1 = client.inventoryItems[i1];
-                bool flag = false;
-                for (int k1 = 0; k1 < client.bankItemsCount; k1 += 1)
+                int itemId = client.inventoryItems[inventoryIndex];
+                bool itemWasAlreadyBanked = false;
+
+                for (int bankItemIndex = 0; bankItemIndex < client.bankItemsCount; bankItemIndex += 1)
                 {
-                    if (client.bankItems[k1] != j1)
+                    if (client.bankItems[bankItemIndex] != itemId)
                     {
                         continue;
                     }
 
-                    flag = true;
+                    itemWasAlreadyBanked = true;
                     break;
                 }
 
-                if (!flag)
+                if (!itemWasAlreadyBanked)
                 {
-                    client.bankItems[client.bankItemsCount] = j1;
+                    client.bankItems[client.bankItemsCount] = itemId;
                     client.bankItemCount[client.bankItemsCount] = 0;
                     client.bankItemsCount += 1;
                 }
             }
-
         }
 
         public ClientMob GetLastPlayer(int serverIndex)
         {
-            for (int i1 = 0; i1 < client.lastPlayerCount; i1 += 1)
+            for (int playerIndex = 0; playerIndex < client.lastPlayerCount; playerIndex += 1)
             {
-                if (client.lastPlayerArray[i1].serverIndex == serverIndex)
+                if (client.lastPlayerArray[playerIndex].serverIndex == serverIndex)
                 {
-                    return client.lastPlayerArray[i1];
+                    return client.lastPlayerArray[playerIndex];
                 }
             }
+
             return null;
         }
 
         public ClientMob GetLastNpc(int serverIndex)
         {
-            for (int i1 = 0; i1 < client.lastNpcCount; i1 += 1)
+            for (int npcIndex = 0; npcIndex < client.lastNpcCount; npcIndex += 1)
             {
-                if (client.lastNpcArray[i1].serverIndex == serverIndex)
+                if (client.lastNpcArray[npcIndex].serverIndex == serverIndex)
                 {
-                    return client.lastNpcArray[i1];
+                    return client.lastNpcArray[npcIndex];
                 }
             }
+
             return null;
         }
 
-    }
+        private bool IsInLastPlayerArray(int serverIndex)
+        {
+            for (int playerIndex = 0; playerIndex < client.lastPlayerCount; playerIndex += 1)
+            {
+                if (client.lastPlayerArray[playerIndex].serverIndex == serverIndex)
+                {
+                    return true;
+                }
+            }
 
+            return false;
+        }
+
+        private bool IsInLastNpcArray(int serverIndex)
+        {
+            for (int npcIndex = 0; npcIndex < client.lastNpcCount; npcIndex += 1)
+            {
+                if (client.lastNpcArray[npcIndex].serverIndex == serverIndex)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
 }

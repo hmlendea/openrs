@@ -3,12 +3,10 @@ using System;
 using NuciLog.Core;
 
 using OpenRS.Logging;
-using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Data
 {
-
-    public sealed class DataFileDecrypter
+    internal sealed class DataFileDecrypter
     {
         private static readonly ILogger logger = NuciLoggerFactory.CreateLogger<DataFileDecrypter>();
 
@@ -31,34 +29,18 @@ namespace OpenRS.Net.Client.Data
                 BlocksRead = 0
             };
             ReadBlock(blockEntry);
-            decompressedSize -= blockEntry.DecompressedSize;
 
-            return decompressedSize;
+            return decompressedSize - blockEntry.DecompressedSize;
         }
 
         public static long UnpackData(byte[] outputBuffer, int decompressedSize, byte[] inputBuffer, int compressedSize, int startOffset)
         {
-            BZip2BlockEntry blockEntry = new()
-            {
-                InputBuffer = (sbyte[])(Array)inputBuffer,
-                Offset = startOffset,
-                OutputBuffer = (sbyte[])(Array)outputBuffer,
-                OutputIndex = 0,
-                CompressedSize = compressedSize,
-                DecompressedSize = decompressedSize,
-                BitsAvailable = 0,
-                CurrentBitWord = 0,
-                BytesReadLow = 0,
-                BytesReadHigh = 0,
-                BytesWrittenLow = 0,
-                BytesWrittenHigh = 0,
-                BlocksRead = 0
-            };
-
-            ReadBlock(blockEntry);
-            decompressedSize -= blockEntry.DecompressedSize;
-
-            return decompressedSize;
+            return UnpackData(
+                (sbyte[])(Array)outputBuffer,
+                decompressedSize,
+                (sbyte[])(Array)inputBuffer,
+                compressedSize,
+                startOffset);
         }
 
         private static void DecodeRunLength(BZip2BlockEntry blockEntry)
@@ -652,16 +634,14 @@ namespace OpenRS.Net.Client.Data
 
         private static int GetBits(int bitCount, BZip2BlockEntry blockEntry)
         {
-            int result;
-
-            do
+            while (true)
             {
                 if (blockEntry.BitsAvailable >= bitCount)
                 {
                     int value = blockEntry.CurrentBitWord >> blockEntry.BitsAvailable - bitCount & (1 << bitCount) - 1;
                     blockEntry.BitsAvailable -= bitCount;
-                    result = value;
-                    break;
+
+                    return value;
                 }
 
                 blockEntry.CurrentBitWord = blockEntry.CurrentBitWord << 8 | blockEntry.InputBuffer[blockEntry.Offset] & 0xff;
@@ -674,9 +654,7 @@ namespace OpenRS.Net.Client.Data
                 {
                     blockEntry.BytesReadHigh += 1;
                 }
-            } while (true);
-
-            return result;
+            }
         }
 
         private static void CreateMaps(BZip2BlockEntry blockEntry)
@@ -744,5 +722,4 @@ namespace OpenRS.Net.Client.Data
             }
         }
     }
-
 }

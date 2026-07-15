@@ -775,13 +775,13 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
             GameData.GetModelNameIndex("spellcharge2");
             GameData.GetModelNameIndex("spellcharge3");
 
-            for (int modelIndex = 0; modelIndex < GameData.modelCount; modelIndex += 1)
+            for (int modelIndex = 0; modelIndex < GameData.ModelCount; modelIndex += 1)
             {
                 try
                 {
                     string modelFilePath = Path.Combine(
                         ApplicationPaths.ModelsDirectory,
-                        GameData.modelName[modelIndex].ToLower() + ".ob3");
+                        GameData.ModelNames[modelIndex].ToLower() + ".ob3");
 
                     if (File.Exists(modelFilePath))
                     {
@@ -793,7 +793,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                         client.gameDataObjects[modelIndex] = new GameObject(1, 1);
                     }
 
-                    if (GameData.modelName[modelIndex] == "giantcrystal")
+                    if (GameData.ModelNames[modelIndex] == "giantcrystal")
                     {
                         client.gameDataObjects[modelIndex].isGiantCrystal = true;
                     }

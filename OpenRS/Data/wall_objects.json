@@ -1333,8 +1333,8 @@
   },
   {
     "id": "111",
-    "name": "wall_object.111.name",
-    "description": "wall_object.111.description",
+    "name": "wall_object.rat_cage.name",
+    "description": "wall_object.rat_cage.description",
     "command1": "command.search",
     "command2": "command.examine",
     "modelHeight": 192,

@@ -290,7 +290,7 @@ namespace OpenRS.Net.Client
             appletWidth = 512;
             appletHeight = 344;
             gameLoadingScreen = 1;
-            DataOperations.CodeBase = GetCodeBase();
+            GameResourceLoader.CodeBase = GetCodeBase();
         }
 
         public void Start()
@@ -557,7 +557,7 @@ namespace OpenRS.Net.Client
                         new LogInfo(GameLogInfoKey.FileName, fileTitle),
                         new LogInfo(GameLogInfoKey.LoadProgress, 0));
                     DrawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 0%");
-                    BinaryReader inputStream = new(DataOperations.OpenInputStream(filename));
+                    BinaryReader inputStream = new(GameResourceLoader.OpenInputStream(filename));
                     sbyte[] headerBytes = [
                         inputStream.ReadSByte(), inputStream.ReadSByte(), inputStream.ReadSByte(),
                         inputStream.ReadSByte(), inputStream.ReadSByte(), inputStream.ReadSByte()

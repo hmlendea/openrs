@@ -18,7 +18,7 @@ namespace OpenRS.Net.Client.Rendering
             int backgroundColour = 0x989898;
             client.gameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 16, 468, 246, backgroundColour, 160);
             client.gameGraphics.DrawText(
-                LocalisationManager.GetString("trade.duel_confirm_prompt") + DataOperations.HashToName(client.duelOpponentHash),
+                LocalisationManager.GetString("trade.duel_confirm_prompt") + PlayerNameEncoder.HashToName(client.duelOpponentHash),
                 boxOffsetX + 234,
                 boxOffsetY + 12,
                 1,
@@ -410,7 +410,7 @@ namespace OpenRS.Net.Client.Rendering
             int backgroundColour = 0x989898;
             client.gameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 16, 468, 246, backgroundColour, 160);
             client.gameGraphics.DrawText(
-                LocalisationManager.GetString("trade.confirm_prompt") + DataOperations.HashToName(client.tradeConfirmOtherNameLong),
+                LocalisationManager.GetString("trade.confirm_prompt") + PlayerNameEncoder.HashToName(client.tradeConfirmOtherNameLong),
                 boxOffsetX + 234,
                 boxOffsetY + 12,
                 1,

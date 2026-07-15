@@ -11,7 +11,7 @@ using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Handlers
 {
-    public sealed class PacketHandler(GameClient client)
+    public sealed class PacketHandler(GameClient client) : IPacketHandler
     {
         private readonly ILogger logger = NuciLoggerFactory.CreateLogger<PacketHandler>();
 
@@ -34,11 +34,11 @@ namespace OpenRS.Net.Client.Handlers
                     }
 
                     int off = 8;
-                    client.sectionX = DataOperations.GetBits(client.packetData, off, 11);
+                    client.sectionX = BinaryDataReader.GetBits(client.packetData, off, 11);
                     off += 11;
-                    client.sectionY = DataOperations.GetBits(client.packetData, off, 13);
+                    client.sectionY = BinaryDataReader.GetBits(client.packetData, off, 13);
                     off += 13;
-                    int sprite = DataOperations.GetBits(client.packetData, off, 4);
+                    int sprite = BinaryDataReader.GetBits(client.packetData, off, 4);
                     off += 4;
                     bool sectionLoaded = client.LoadSection(client.sectionX, client.sectionY);
                     client.sectionX -= client.areaX;
@@ -54,22 +54,22 @@ namespace OpenRS.Net.Client.Handlers
                     }
                     client.playerCount = 0;
                     client.ourPlayer = client.CreatePlayer(client.serverIndex, mapEnterX, mapEnterY, sprite);
-                    int newPlayerCount = DataOperations.GetBits(client.packetData, off, 8);
+                    int newPlayerCount = BinaryDataReader.GetBits(client.packetData, off, 8);
                     off += 8;
                     for (int currentNewPlayer = 0; currentNewPlayer < newPlayerCount; currentNewPlayer += 1)
                     {
                         //ClientMob mob = lastPlayerArray[currentNewPlayer + 1];
-                        ClientMob mob = client.GetLastPlayer(DataOperations.GetBits(client.packetData, off, 16));
+                        ClientMob mob = client.GetLastPlayer(BinaryDataReader.GetBits(client.packetData, off, 16));
                         off += 16;
-                        int playerAtTile = DataOperations.GetBits(client.packetData, off, 1);
+                        int playerAtTile = BinaryDataReader.GetBits(client.packetData, off, 1);
                         off += 1;
                         if (playerAtTile != 0)
                         {
-                            int waypointsLeft = DataOperations.GetBits(client.packetData, off, 1);
+                            int waypointsLeft = BinaryDataReader.GetBits(client.packetData, off, 1);
                             off += 1;
                             if (waypointsLeft == 0)
                             {
-                                int currentNextSprite = DataOperations.GetBits(client.packetData, off, 3);
+                                int currentNextSprite = BinaryDataReader.GetBits(client.packetData, off, 3);
                                 off += 3;
                                 if (mob is not null)
                                 {
@@ -104,7 +104,7 @@ namespace OpenRS.Net.Client.Handlers
                             }
                             else
                             {
-                                int needsNextSprite = DataOperations.GetBits(client.packetData, off, 4);
+                                int needsNextSprite = BinaryDataReader.GetBits(client.packetData, off, 4);
                                 off += 4;
                                 if ((needsNextSprite & 0xc) == 12)
                                 {
@@ -122,25 +122,25 @@ namespace OpenRS.Net.Client.Handlers
                     int mobCount = 0;
                     while (off + 24 < packetLength * 8)
                     {
-                        int mobIndex = DataOperations.GetBits(client.packetData, off, 16);
+                        int mobIndex = BinaryDataReader.GetBits(client.packetData, off, 16);
                         off += 16;
-                        int areaMobX = DataOperations.GetBits(client.packetData, off, 5);
+                        int areaMobX = BinaryDataReader.GetBits(client.packetData, off, 5);
                         off += 5;
                         if (areaMobX > 15)
                         {
                             areaMobX -= 32;
                         }
 
-                        int areaMobY = DataOperations.GetBits(client.packetData, off, 5);
+                        int areaMobY = BinaryDataReader.GetBits(client.packetData, off, 5);
                         off += 5;
                         if (areaMobY > 15)
                         {
                             areaMobY -= 32;
                         }
 
-                        int mobSprite = DataOperations.GetBits(client.packetData, off, 4);
+                        int mobSprite = BinaryDataReader.GetBits(client.packetData, off, 4);
                         off += 4;
-                        int addIndex = DataOperations.GetBits(client.packetData, off, 1);
+                        int addIndex = BinaryDataReader.GetBits(client.packetData, off, 1);
                         off += 1;
                         int mobX = (client.sectionX + areaMobX) * client.gridSize + 64;
                         int mobY = (client.sectionY + areaMobY) * client.gridSize + 64;
@@ -182,7 +182,7 @@ namespace OpenRS.Net.Client.Handlers
                     }
                     for (int off = 1; off < packetLength; )
                     {
-                        if (DataOperations.GetByte(client.packetData[off]) == 255)
+                        if (BinaryDataReader.GetByte(client.packetData[off]) == 255)
                         {
                             int newCount = 0;
                             int newSectionX = client.sectionX + client.packetData[off + 1] >> 3;
@@ -209,7 +209,7 @@ namespace OpenRS.Net.Client.Handlers
                         }
                         else
                         {
-                            int newID = DataOperations.GetShort(client.packetData, off);
+                            int newID = BinaryDataReader.GetShort(client.packetData, off);
                             off += 2;
                             int newX = client.sectionX + client.packetData[off++];
                             int newY = client.sectionY + client.packetData[off++];
@@ -266,7 +266,7 @@ namespace OpenRS.Net.Client.Handlers
                 {
                     for (int off = 1; off < packetLength; )
                     {
-                        if (DataOperations.GetByte(client.packetData[off]) == 255)
+                        if (BinaryDataReader.GetByte(client.packetData[off]) == 255)
                         {
                             int newCount = 0;
                             int newSectionX = client.sectionX + client.packetData[off + 1] >> 3;
@@ -300,7 +300,7 @@ namespace OpenRS.Net.Client.Handlers
                         }
                         else
                         {
-                            int index = DataOperations.GetShort(client.packetData, off);
+                            int index = BinaryDataReader.GetShort(client.packetData, off);
                             off += 2;
                             int newSectionX = client.sectionX + client.packetData[off++];
                             int newSectionY = client.sectionY + client.packetData[off++];
@@ -389,13 +389,13 @@ namespace OpenRS.Net.Client.Handlers
                     client.inventoryItemsCount = client.packetData[off++] & 0xff;
                     for (int item = 0; item < client.inventoryItemsCount; item += 1)
                     {
-                        int data = DataOperations.GetShort(client.packetData, off);
+                        int data = BinaryDataReader.GetShort(client.packetData, off);
                         off += 2;
                         client.inventoryItems[item] = data & 0x7fff;
                         client.inventoryItemEquipped[item] = data / 32768;
                         if (!client.entityManager.GetItem(data & 0x7fff).IsStackable)
                         {
-                            client.inventoryItemCount[item] = DataOperations.GetInt(client.packetData, off);
+                            client.inventoryItemCount[item] = BinaryDataReader.GetInt(client.packetData, off);
                             off += 4;
                         }
                         else
@@ -408,11 +408,11 @@ namespace OpenRS.Net.Client.Handlers
                 }
                 if (packetID == 53)
                 {
-                    int newMobCount = DataOperations.GetShort(client.packetData, 1);
+                    int newMobCount = BinaryDataReader.GetShort(client.packetData, 1);
                     int off = 3;
                     for (int current = 0; current < newMobCount; current += 1)
                     {
-                        int index = DataOperations.GetShort(client.packetData, off);
+                        int index = BinaryDataReader.GetShort(client.packetData, off);
                         off += 2;
                         if (index < 0 || index > client.playerBufferArray.Length)
                         {
@@ -429,7 +429,7 @@ namespace OpenRS.Net.Client.Handlers
                         off += 1;
                         if (mobUpdateType == 0)
                         {
-                            int j30 = DataOperations.GetShort(client.packetData, off);
+                            int j30 = BinaryDataReader.GetShort(client.packetData, off);
                             off += 2;
 
                             mob.playerSkullTimeout = 150;
@@ -466,11 +466,11 @@ namespace OpenRS.Net.Client.Handlers
                         }
                         else if (mobUpdateType == 2)
                         {
-                            int lastDamageCount = DataOperations.GetByte(client.packetData[off]);
+                            int lastDamageCount = BinaryDataReader.GetByte(client.packetData[off]);
                             off += 1;
-                            int currentHits = DataOperations.GetByte(client.packetData[off]);
+                            int currentHits = BinaryDataReader.GetByte(client.packetData[off]);
                             off += 1;
-                            int baseHits = DataOperations.GetByte(client.packetData[off]);
+                            int baseHits = BinaryDataReader.GetByte(client.packetData[off]);
                             off += 1;
                             mob.lastDamageCount = lastDamageCount;
                             mob.currentHits = currentHits;
@@ -486,9 +486,9 @@ namespace OpenRS.Net.Client.Handlers
                         }
                         else if (mobUpdateType == 3)
                         {
-                            int l30 = DataOperations.GetShort(client.packetData, off);
+                            int l30 = BinaryDataReader.GetShort(client.packetData, off);
                             off += 2;
-                            int l34 = DataOperations.GetShort(client.packetData, off);
+                            int l34 = BinaryDataReader.GetShort(client.packetData, off);
                             off += 2;
                             mob.projectileType = l30;
                             mob.attackingNpcIndex = l34;
@@ -497,9 +497,9 @@ namespace OpenRS.Net.Client.Handlers
                         }
                         else if (mobUpdateType == 4)
                         {
-                            int i31 = DataOperations.GetShort(client.packetData, off);
+                            int i31 = BinaryDataReader.GetShort(client.packetData, off);
                             off += 2;
-                            int i35 = DataOperations.GetShort(client.packetData, off);
+                            int i35 = BinaryDataReader.GetShort(client.packetData, off);
                             off += 2;
                             mob.projectileType = i31;
                             mob.attackingPlayerIndex = i35;
@@ -508,16 +508,16 @@ namespace OpenRS.Net.Client.Handlers
                         }
                         else if (mobUpdateType == 5)
                         {
-                            mob.serverID = DataOperations.GetShort(client.packetData, off);
+                            mob.serverID = BinaryDataReader.GetShort(client.packetData, off);
                             off += 2;
-                            mob.nameHash = DataOperations.GetLong(client.packetData, off);
+                            mob.nameHash = BinaryDataReader.GetLong(client.packetData, off);
                             off += 8;
-                            mob.username = DataOperations.HashToName(mob.nameHash);
-                            int appearanceCount = DataOperations.GetByte(client.packetData[off]);
+                            mob.username = PlayerNameEncoder.HashToName(mob.nameHash);
+                            int appearanceCount = BinaryDataReader.GetByte(client.packetData[off]);
                             off += 1;
                             for (int j35 = 0; j35 < appearanceCount; j35 += 1)
                             {
-                                mob.appearanceItems[j35] = DataOperations.GetByte(client.packetData[off]);
+                                mob.appearanceItems[j35] = BinaryDataReader.GetByte(client.packetData[off]);
                                 off += 1;
                             }
 
@@ -556,7 +556,7 @@ namespace OpenRS.Net.Client.Handlers
                 {
                     for (int off = 1; off < packetLength; )
                     {
-                        if (DataOperations.GetByte(client.packetData[off]) == 255)
+                        if (BinaryDataReader.GetByte(client.packetData[off]) == 255)
                         {
                             int newCount = 0;
                             int newSectionX = client.sectionX + client.packetData[off + 1] >> 3;
@@ -590,7 +590,7 @@ namespace OpenRS.Net.Client.Handlers
                         }
                         else
                         {
-                            int newID = DataOperations.GetShort(client.packetData, off);
+                            int newID = BinaryDataReader.GetShort(client.packetData, off);
                             off += 2;
                             int newSectionX = client.sectionX + client.packetData[off++];
                             int newSectionY = client.sectionY + client.packetData[off++];
@@ -644,21 +644,21 @@ namespace OpenRS.Net.Client.Handlers
                     }
 
                     int off = 8;
-                    int newCount = DataOperations.GetBits(client.packetData, off, 8);
+                    int newCount = BinaryDataReader.GetBits(client.packetData, off, 8);
                     off += 8;
                     for (int current = 0; current < newCount; current += 1)
                     {
-                        ClientMob newNpc = client.GetLastNpc(DataOperations.GetBits(client.packetData, off, 16));
+                        ClientMob newNpc = client.GetLastNpc(BinaryDataReader.GetBits(client.packetData, off, 16));
                         off += 16;
-                        int needsUpdate = DataOperations.GetBits(client.packetData, off, 1);
+                        int needsUpdate = BinaryDataReader.GetBits(client.packetData, off, 1);
                         off += 1;
                         if (needsUpdate != 0)
                         {
-                            int j32 = DataOperations.GetBits(client.packetData, off, 1);
+                            int j32 = BinaryDataReader.GetBits(client.packetData, off, 1);
                             off += 1;
                             if (j32 == 0)
                             {
-                                int nextSprite = DataOperations.GetBits(client.packetData, off, 3);
+                                int nextSprite = BinaryDataReader.GetBits(client.packetData, off, 3);
                                 off += 3;
                                 int waypointCurrent = newNpc.waypointCurrent;
                                 int waypointX = newNpc.waypointsX[waypointCurrent];
@@ -690,7 +690,7 @@ namespace OpenRS.Net.Client.Handlers
                             }
                             else
                             {
-                                int nextSprite = DataOperations.GetBits(client.packetData, off, 4);
+                                int nextSprite = BinaryDataReader.GetBits(client.packetData, off, 4);
                                 off += 4;
                                 if ((nextSprite & 0xc) == 12)
                                 {
@@ -704,27 +704,27 @@ namespace OpenRS.Net.Client.Handlers
 
                     while (off + 34 < packetLength * 8)
                     {
-                        int mobIndex = DataOperations.GetBits(client.packetData, off, 16);
+                        int mobIndex = BinaryDataReader.GetBits(client.packetData, off, 16);
                         off += 16;
-                        int areaMobX = DataOperations.GetBits(client.packetData, off, 5);
+                        int areaMobX = BinaryDataReader.GetBits(client.packetData, off, 5);
                         off += 5;
                         if (areaMobX > 15)
                         {
                             areaMobX -= 32;
                         }
 
-                        int areaMobY = DataOperations.GetBits(client.packetData, off, 5);
+                        int areaMobY = BinaryDataReader.GetBits(client.packetData, off, 5);
                         off += 5;
                         if (areaMobY > 15)
                         {
                             areaMobY -= 32;
                         }
 
-                        int mobSprite = DataOperations.GetBits(client.packetData, off, 4);
+                        int mobSprite = BinaryDataReader.GetBits(client.packetData, off, 4);
                         off += 4;
                         int mobX = (client.sectionX + areaMobX) * client.gridSize + 64;
                         int mobY = (client.sectionY + areaMobY) * client.gridSize + 64;
-                        int addIndex = DataOperations.GetBits(client.packetData, off, 10);
+                        int addIndex = BinaryDataReader.GetBits(client.packetData, off, 10);
                         off += 10;
                         if (addIndex >= client.entityManager.NpcCount)
                         {
@@ -737,18 +737,18 @@ namespace OpenRS.Net.Client.Handlers
                 }
                 if (packetID == 190)
                 {
-                    int newCount = DataOperations.GetShort(client.packetData, 1);
+                    int newCount = BinaryDataReader.GetShort(client.packetData, 1);
                     int off = 3;
                     for (int l16 = 0; l16 < newCount; l16 += 1)
                     {
-                        int npcIndex = DataOperations.GetShort(client.packetData, off);
+                        int npcIndex = BinaryDataReader.GetShort(client.packetData, off);
                         off += 2;
                         ClientMob mob = client.npcAttackingArray[npcIndex];
-                        int updateType = DataOperations.GetByte(client.packetData[off]);
+                        int updateType = BinaryDataReader.GetByte(client.packetData[off]);
                         off += 1;
                         if (updateType == 1)
                         {
-                            int playerIndex = DataOperations.GetShort(client.packetData, off);
+                            int playerIndex = BinaryDataReader.GetShort(client.packetData, off);
                             off += 2;
                             sbyte messageLength = client.packetData[off];
                             off += 1;
@@ -767,11 +767,11 @@ namespace OpenRS.Net.Client.Handlers
                         else
                             if (updateType == 2)
                             {
-                                int lastDamageCount = DataOperations.GetByte(client.packetData[off]);
+                                int lastDamageCount = BinaryDataReader.GetByte(client.packetData[off]);
                                 off += 1;
-                                int currentHits = DataOperations.GetByte(client.packetData[off]);
+                                int currentHits = BinaryDataReader.GetByte(client.packetData[off]);
                                 off += 1;
-                                int baseHits = DataOperations.GetByte(client.packetData[off]);
+                                int baseHits = BinaryDataReader.GetByte(client.packetData[off]);
                                 off += 1;
                                 if (mob is not null)
                                 {
@@ -788,12 +788,12 @@ namespace OpenRS.Net.Client.Handlers
                 if (packetID == 223)
                 {
                     client.showQuestionMenu = true;
-                    int count = DataOperations.GetByte(client.packetData[1]);
+                    int count = BinaryDataReader.GetByte(client.packetData[1]);
                     client.questionMenuCount = count;
                     int off = 2;
                     for (int index = 0; index < count; index += 1)
                     {
-                        int optionLength = DataOperations.GetByte(client.packetData[off]);
+                        int optionLength = BinaryDataReader.GetByte(client.packetData[off]);
                         off += 1;
                         client.questionMenuAnswer[index] = new string(client.packetData.Select(byteValue => (char)byteValue).ToArray(), off, optionLength);
                         off += optionLength;
@@ -809,11 +809,11 @@ namespace OpenRS.Net.Client.Handlers
                 if (packetID == 131)
                 {
                     client.loadArea = true;
-                    client.serverIndex = DataOperations.GetShort(client.packetData, 1);
-                    client.wildX = DataOperations.GetShort(client.packetData, 3);
-                    client.wildY = DataOperations.GetShort(client.packetData, 5);
-                    client.layerIndex = DataOperations.GetShort(client.packetData, 7);
-                    client.layerModifier = DataOperations.GetShort(client.packetData, 9);
+                    client.serverIndex = BinaryDataReader.GetShort(client.packetData, 1);
+                    client.wildX = BinaryDataReader.GetShort(client.packetData, 3);
+                    client.wildY = BinaryDataReader.GetShort(client.packetData, 5);
+                    client.layerIndex = BinaryDataReader.GetShort(client.packetData, 7);
+                    client.layerModifier = BinaryDataReader.GetShort(client.packetData, 9);
                     client.wildY -= client.layerIndex * client.layerModifier;
                     client.needsClear = true;
                     client.hasWorldInfo = true;
@@ -824,17 +824,17 @@ namespace OpenRS.Net.Client.Handlers
                     int off = 1;
                     for (int stat = 0; stat < 18; stat += 1)
                     {
-                        client.playerStatCurrent[stat] = DataOperations.GetByte(client.packetData[off++]);
+                        client.playerStatCurrent[stat] = BinaryDataReader.GetByte(client.packetData[off++]);
                     }
 
                     for (int stat = 0; stat < 18; stat += 1)
                     {
-                        client.playerStatBase[stat] = DataOperations.GetByte(client.packetData[off++]);
+                        client.playerStatBase[stat] = BinaryDataReader.GetByte(client.packetData[off++]);
                     }
 
                     for (int stat = 0; stat < 18; stat += 1)
                     {
-                        client.playerStatExp[stat] = DataOperations.GetInt(client.packetData, off);
+                        client.playerStatExp[stat] = BinaryDataReader.GetInt(client.packetData, off);
                         off += 4;
                     }
                     return;
@@ -844,7 +844,7 @@ namespace OpenRS.Net.Client.Handlers
                     int off = 1;
                     for (int j3 = 0; j3 < 5; j3 += 1)
                     {
-                        client.equipmentStatus[j3] = DataOperations.GetSignedShort(client.packetData, off);
+                        client.equipmentStatus[j3] = BinaryDataReader.GetSignedShort(client.packetData, off);
                         off += 2;
                     }
                     return;
@@ -859,8 +859,8 @@ namespace OpenRS.Net.Client.Handlers
                     int k3 = (packetLength - 1) / 4;
                     for (int i11 = 0; i11 < k3; i11 += 1)
                     {
-                        int k17 = client.sectionX + DataOperations.GetSignedShort(client.packetData, 1 + i11 * 4) >> 3;
-                        int i22 = client.sectionY + DataOperations.GetSignedShort(client.packetData, 3 + i11 * 4) >> 3;
+                        int k17 = client.sectionX + BinaryDataReader.GetSignedShort(client.packetData, 1 + i11 * 4) >> 3;
+                        int i22 = client.sectionY + BinaryDataReader.GetSignedShort(client.packetData, 3 + i11 * 4) >> 3;
                         int j25 = 0;
                         for (int l28 = 0; l28 < client.groundItemCount; l28 += 1)
                         {
@@ -943,7 +943,7 @@ namespace OpenRS.Net.Client.Handlers
                 }
                 if (packetID == 4)
                 {
-                    int tradeOther = DataOperations.GetShort(client.packetData, 1);
+                    int tradeOther = BinaryDataReader.GetShort(client.packetData, 1);
                     if (client.playerBufferArray[tradeOther] is not null)
                     {
                         client.tradeOtherName = client.playerBufferArray[tradeOther].username;
@@ -968,9 +968,9 @@ namespace OpenRS.Net.Client.Handlers
                     int i4 = 2;
                     for (int j11 = 0; j11 < client.tradeItemsOtherCount; j11 += 1)
                     {
-                        client.tradeItemsOther[j11] = DataOperations.GetShort(client.packetData, i4);
+                        client.tradeItemsOther[j11] = BinaryDataReader.GetShort(client.packetData, i4);
                         i4 += 2;
-                        client.tradeItemOtherCount[j11] = DataOperations.GetInt(client.packetData, i4);
+                        client.tradeItemOtherCount[j11] = BinaryDataReader.GetInt(client.packetData, i4);
                         i4 += 4;
                     }
 
@@ -1007,13 +1007,13 @@ namespace OpenRS.Net.Client.Handlers
 
                     for (int item = 0; item < newShopItemCount; item += 1)
                     {
-                        client.shopItems[item] = DataOperations.GetShort(client.packetData, off);
+                        client.shopItems[item] = BinaryDataReader.GetShort(client.packetData, off);
                         off += 2;
-                        client.shopItemCount[item] = DataOperations.GetShort(client.packetData, off);
+                        client.shopItemCount[item] = BinaryDataReader.GetShort(client.packetData, off);
                         off += 2;
-                        client.shopItemBuyPrice[item] = DataOperations.GetInt(client.packetData, off);
+                        client.shopItemBuyPrice[item] = BinaryDataReader.GetInt(client.packetData, off);
                         off += 4;
-                        client.shopItemSellPrice[item] = DataOperations.GetInt(client.packetData, off);
+                        client.shopItemSellPrice[item] = BinaryDataReader.GetInt(client.packetData, off);
                         off += 4;
                     }
 
@@ -1083,12 +1083,12 @@ namespace OpenRS.Net.Client.Handlers
                 }
                 if (packetID == 152)
                 {
-                    client.configCameraAutoAngle = DataOperations.GetByte(client.packetData[1]) == 1;
-                    client.configOneMouseButton = DataOperations.GetByte(client.packetData[2]) == 1;
-                    client.configSoundOff = DataOperations.GetByte(client.packetData[3]) == 1;
-                    client.showRoofs = DataOperations.GetByte(client.packetData[4]) == 1;
-                    client.autoScreenshot = DataOperations.GetByte(client.packetData[5]) == 1;
-                    client.showCombatWindow = DataOperations.GetByte(client.packetData[6]) == 1;
+                    client.configCameraAutoAngle = BinaryDataReader.GetByte(client.packetData[1]) == 1;
+                    client.configOneMouseButton = BinaryDataReader.GetByte(client.packetData[2]) == 1;
+                    client.configSoundOff = BinaryDataReader.GetByte(client.packetData[3]) == 1;
+                    client.showRoofs = BinaryDataReader.GetByte(client.packetData[4]) == 1;
+                    client.autoScreenshot = BinaryDataReader.GetByte(client.packetData[5]) == 1;
+                    //client.showCombatWindow = BinaryDataReader.GetByte(client.packetData[6]) == 1;
                     return;
                 }
                 if (packetID == 209)
@@ -1119,9 +1119,9 @@ namespace OpenRS.Net.Client.Handlers
                     client.maxBankItems = client.packetData[off++] & 0xff;
                     for (int l11 = 0; l11 < client.serverBankItemsCount; l11 += 1)
                     {
-                        client.serverBankItems[l11] = DataOperations.GetShort(client.packetData, off);
+                        client.serverBankItems[l11] = BinaryDataReader.GetShort(client.packetData, off);
                         off += 2;
-                        client.serverBankItemCount[l11] = DataOperations.GetInt(client.packetData, off);
+                        client.serverBankItemCount[l11] = BinaryDataReader.GetInt(client.packetData, off);
                         off += 4;
                     }
 
@@ -1136,12 +1136,12 @@ namespace OpenRS.Net.Client.Handlers
                 if (packetID == 211)
                 {
                     int j5 = client.packetData[1] & 0xff;
-                    client.playerStatExp[j5] = DataOperations.GetInt(client.packetData, 2);
+                    client.playerStatExp[j5] = BinaryDataReader.GetInt(client.packetData, 2);
                     return;
                 }
                 if (packetID == 229)
                 {
-                    int k5 = DataOperations.GetShort(client.packetData, 1);
+                    int k5 = BinaryDataReader.GetShort(client.packetData, 1);
                     if (client.playerBufferArray[k5] is not null)
                     {
                         client.duelOpponent = client.playerBufferArray[k5].username;
@@ -1171,23 +1171,23 @@ namespace OpenRS.Net.Client.Handlers
                     client.tradeConfirmAccepted = false;
                     client.showTradeBox = false;
                     int off = 1;
-                    client.tradeConfirmOtherNameLong = DataOperations.GetLong(client.packetData, off);
+                    client.tradeConfirmOtherNameLong = BinaryDataReader.GetLong(client.packetData, off);
                     off += 8;
                     client.tradeConfirmOtherItemCount = client.packetData[off++] & 0xff;
                     for (int i12 = 0; i12 < client.tradeConfirmOtherItemCount; i12 += 1)
                     {
-                        client.tradeConfirmOtherItems[i12] = DataOperations.GetShort(client.packetData, off);
+                        client.tradeConfirmOtherItems[i12] = BinaryDataReader.GetShort(client.packetData, off);
                         off += 2;
-                        client.tradeConfirmOtherItemsCount[i12] = DataOperations.GetInt(client.packetData, off);
+                        client.tradeConfirmOtherItemsCount[i12] = BinaryDataReader.GetInt(client.packetData, off);
                         off += 4;
                     }
 
                     client.tradeConfigItemCount = client.packetData[off++] & 0xff;
                     for (int l17 = 0; l17 < client.tradeConfigItemCount; l17 += 1)
                     {
-                        client.tradeConfirmItems[l17] = DataOperations.GetShort(client.packetData, off);
+                        client.tradeConfirmItems[l17] = BinaryDataReader.GetShort(client.packetData, off);
                         off += 2;
-                        client.tradeConfigItemsCount[l17] = DataOperations.GetInt(client.packetData, off);
+                        client.tradeConfigItemsCount[l17] = BinaryDataReader.GetInt(client.packetData, off);
                         off += 4;
                     }
 
@@ -1199,9 +1199,9 @@ namespace OpenRS.Net.Client.Handlers
                     int off = 2;
                     for (int j12 = 0; j12 < client.duelOpponentItemCount; j12 += 1)
                     {
-                        client.duelOpponentItems[j12] = DataOperations.GetShort(client.packetData, off);
+                        client.duelOpponentItems[j12] = BinaryDataReader.GetShort(client.packetData, off);
                         off += 2;
-                        client.duelOpponentItemsCount[j12] = DataOperations.GetInt(client.packetData, off);
+                        client.duelOpponentItemsCount[j12] = BinaryDataReader.GetInt(client.packetData, off);
                         off += 4;
                     }
 
@@ -1255,9 +1255,9 @@ namespace OpenRS.Net.Client.Handlers
                 {
                     int off = 1;
                     int itemSlot = client.packetData[off++] & 0xff;
-                    int itemID = DataOperations.GetShort(client.packetData, off);
+                    int itemID = BinaryDataReader.GetShort(client.packetData, off);
                     off += 2;
-                    int itemCount = DataOperations.GetInt(client.packetData, off);
+                    int itemCount = BinaryDataReader.GetInt(client.packetData, off);
                     off += 4;
                     if (itemCount == 0)
                     {
@@ -1286,11 +1286,11 @@ namespace OpenRS.Net.Client.Handlers
                     int off = 1;
                     int count = 1;
                     int newCount = client.packetData[off++] & 0xff;
-                    int data = DataOperations.GetShort(client.packetData, off);
+                    int data = BinaryDataReader.GetShort(client.packetData, off);
                     off += 2;
                     if (!client.entityManager.GetItem(data & 0x7fff).IsStackable)
                     {
-                        count = DataOperations.GetInt(client.packetData, off);
+                        count = BinaryDataReader.GetInt(client.packetData, off);
                         off += 4;
                     }
                     client.inventoryItems[newCount] = data & 0x7fff;
@@ -1320,9 +1320,9 @@ namespace OpenRS.Net.Client.Handlers
                 {
                     int off = 1;
                     int stat = client.packetData[off++] & 0xff;
-                    client.playerStatCurrent[stat] = DataOperations.GetByte(client.packetData[off++]);
-                    client.playerStatBase[stat] = DataOperations.GetByte(client.packetData[off++]);
-                    client.playerStatExp[stat] = DataOperations.GetInt(client.packetData, off);
+                    client.playerStatCurrent[stat] = BinaryDataReader.GetByte(client.packetData[off++]);
+                    client.playerStatBase[stat] = BinaryDataReader.GetByte(client.packetData[off++]);
+                    client.playerStatExp[stat] = BinaryDataReader.GetInt(client.packetData, off);
                     off += 4;
                     return;
                 }
@@ -1360,23 +1360,23 @@ namespace OpenRS.Net.Client.Handlers
                     client.duelConfirmOurAccepted = false;
                     client.showDuelBox = false;
                     int off = 1;
-                    client.duelOpponentHash = DataOperations.GetLong(client.packetData, off);
+                    client.duelOpponentHash = BinaryDataReader.GetLong(client.packetData, off);
                     off += 8;
                     client.duelOpponentStakeCount = client.packetData[off++] & 0xff;
                     for (int k13 = 0; k13 < client.duelOpponentStakeCount; k13 += 1)
                     {
-                        client.duelOpponentStakeItem[k13] = DataOperations.GetShort(client.packetData, off);
+                        client.duelOpponentStakeItem[k13] = BinaryDataReader.GetShort(client.packetData, off);
                         off += 2;
-                        client.duelOutStakeItemCount[k13] = DataOperations.GetInt(client.packetData, off);
+                        client.duelOutStakeItemCount[k13] = BinaryDataReader.GetInt(client.packetData, off);
                         off += 4;
                     }
 
                     client.duelOurStakeCount = client.packetData[off++] & 0xff;
                     for (int k18 = 0; k18 < client.duelOurStakeCount; k18 += 1)
                     {
-                        client.duelOurStakeItem[k18] = DataOperations.GetShort(client.packetData, off);
+                        client.duelOurStakeItem[k18] = BinaryDataReader.GetShort(client.packetData, off);
                         off += 2;
-                        client.duelOurStakeItemCount[k18] = DataOperations.GetInt(client.packetData, off);
+                        client.duelOurStakeItemCount[k18] = BinaryDataReader.GetInt(client.packetData, off);
                         off += 4;
                     }
 
@@ -1411,8 +1411,8 @@ namespace OpenRS.Net.Client.Handlers
                 {
                     if (!client.loginScreenShown)
                     {
-                        client.lastLoginDays = DataOperations.GetShort(client.packetData, 1);
-                        client.subDaysLeft = DataOperations.GetShort(client.packetData, 3);
+                        client.lastLoginDays = BinaryDataReader.GetShort(client.packetData, 1);
+                        client.subDaysLeft = BinaryDataReader.GetShort(client.packetData, 3);
                         client.lastLoginAddress = new string(client.packetData.Select(byteValue => (char)byteValue).ToArray(), 5, packetLength - 5);
                         client.showWelcomeBox = true;
                         client.loginScreenShown = true;
@@ -1435,12 +1435,12 @@ namespace OpenRS.Net.Client.Handlers
                 }
                 if (packetID == 126)
                 {
-                    client.fatigue = DataOperations.GetShort(client.packetData, 1);
+                    client.fatigue = BinaryDataReader.GetShort(client.packetData, 1);
                     return;
                 }
                 if (packetID == 206)
                 {
-                    client.killingSpree = DataOperations.GetShort(client.packetData, 1);
+                    client.killingSpree = BinaryDataReader.GetShort(client.packetData, 1);
                     return;
                 }
                 if (packetID == 224)
@@ -1455,7 +1455,7 @@ namespace OpenRS.Net.Client.Handlers
                 }
                 if (packetID == 172)
                 {
-                    client.systemUpdate = DataOperations.GetShort(client.packetData, 1) * 32;
+                    client.systemUpdate = BinaryDataReader.GetShort(client.packetData, 1) * 32;
                     return;
                 }
                 if (packetID == 181)
@@ -1470,7 +1470,7 @@ namespace OpenRS.Net.Client.Handlers
                 if (packetID == 182)
                 {
                     int off = 1;
-                    client.questPoints = DataOperations.GetShort(client.packetData, off);
+                    client.questPoints = BinaryDataReader.GetShort(client.packetData, off);
                     off += 2;
                     for (int l4 = 0; l4 < client.questName.Length; l4 += 1)
                     {
@@ -1481,15 +1481,15 @@ namespace OpenRS.Net.Client.Handlers
                 }
                 if (packetID == 233)
                 {
-                    client.questPoints = DataOperations.GetByte(client.packetData[1]);
-                    int count = DataOperations.GetByte(client.packetData[2]);
+                    client.questPoints = BinaryDataReader.GetByte(client.packetData[1]);
+                    int count = BinaryDataReader.GetByte(client.packetData[2]);
                     int off = 3;
                     string[] newQuestNames = new string[count];
                     int[] newQuestStage = new int[count];
                     for (int i = 0; i < count; i += 1)
                     {
-                        newQuestNames[i] = client.questName[DataOperations.GetByte(client.packetData[off++])];
-                        newQuestStage[i] = DataOperations.GetByte(client.packetData[off++]);
+                        newQuestNames[i] = client.questName[BinaryDataReader.GetByte(client.packetData[off++])];
+                        newQuestStage[i] = BinaryDataReader.GetByte(client.packetData[off++]);
                     }
                     client.usedQuestName = newQuestNames;
                     client.questStage = newQuestStage;
@@ -1497,7 +1497,7 @@ namespace OpenRS.Net.Client.Handlers
                 }
                 if (packetID == 129)
                 {
-                    client.combatStyle = DataOperations.GetByte(client.packetData[1]);
+                    client.combatStyle = BinaryDataReader.GetByte(client.packetData[1]);
                     return;
                 }
                 // Spell counts and quest progress - 2-byte value packets, silently accepted.

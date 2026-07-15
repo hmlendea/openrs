@@ -51,7 +51,7 @@ namespace OpenRS.Net.Client.Rendering
                         friendColourPrefix = "@yel@";
                     }
 
-                    client.friendsMenu.AddListItem(client.friendsMenuHandle, friendsListIndex, friendColourPrefix + DataOperations.HashToName(client.friendsList[friendsListIndex]) + "~439~@whi@Remove         WWWWWWWWWW");
+                    client.friendsMenu.AddListItem(client.friendsMenuHandle, friendsListIndex, friendColourPrefix + PlayerNameEncoder.HashToName(client.friendsList[friendsListIndex]) + "~439~@whi@Remove         WWWWWWWWWW");
                 }
             }
 
@@ -59,7 +59,7 @@ namespace OpenRS.Net.Client.Rendering
             {
                 for (int ignoreListIndex = 0; ignoreListIndex < client.ignoresCount; ignoreListIndex += 1)
                 {
-                    client.friendsMenu.AddListItem(client.friendsMenuHandle, ignoreListIndex, "@yel@" + DataOperations.HashToName(client.ignoresList[ignoreListIndex]) + "~439~@whi@Remove         WWWWWWWWWW");
+                    client.friendsMenu.AddListItem(client.friendsMenuHandle, ignoreListIndex, "@yel@" + PlayerNameEncoder.HashToName(client.ignoresList[ignoreListIndex]) + "~439~@whi@Remove         WWWWWWWWWW");
                 }
             }
 
@@ -73,19 +73,19 @@ namespace OpenRS.Net.Client.Rendering
                 {
                     if (client.mouseX > 429)
                     {
-                        client.gameGraphics.DrawText(LocalisationManager.GetString("social.friends_remove_prefix") + DataOperations.HashToName(client.friendsList[highlightedFriendIndex]), menuX + menuWidth / 2, menuY + 35, 1, 0xffffff);
+                        client.gameGraphics.DrawText(LocalisationManager.GetString("social.friends_remove_prefix") + PlayerNameEncoder.HashToName(client.friendsList[highlightedFriendIndex]), menuX + menuWidth / 2, menuY + 35, 1, 0xffffff);
                     }
                     else if (client.friendsWorld[highlightedFriendIndex] == 99)
                     {
-                        client.gameGraphics.DrawText(LocalisationManager.GetString("social.friends_message_prefix") + DataOperations.HashToName(client.friendsList[highlightedFriendIndex]), menuX + menuWidth / 2, menuY + 35, 1, 0xffffff);
+                        client.gameGraphics.DrawText(LocalisationManager.GetString("social.friends_message_prefix") + PlayerNameEncoder.HashToName(client.friendsList[highlightedFriendIndex]), menuX + menuWidth / 2, menuY + 35, 1, 0xffffff);
                     }
                     else if (client.friendsWorld[highlightedFriendIndex] > 0)
                     {
-                        client.gameGraphics.DrawText(DataOperations.HashToName(client.friendsList[highlightedFriendIndex]) + " is on world " + client.friendsWorld[highlightedFriendIndex], menuX + menuWidth / 2, menuY + 35, 1, 0xffffff);
+                        client.gameGraphics.DrawText(PlayerNameEncoder.HashToName(client.friendsList[highlightedFriendIndex]) + " is on world " + client.friendsWorld[highlightedFriendIndex], menuX + menuWidth / 2, menuY + 35, 1, 0xffffff);
                     }
                     else
                     {
-                        client.gameGraphics.DrawText(DataOperations.HashToName(client.friendsList[highlightedFriendIndex]) + " is offline", menuX + menuWidth / 2, menuY + 35, 1, 0xffffff);
+                        client.gameGraphics.DrawText(PlayerNameEncoder.HashToName(client.friendsList[highlightedFriendIndex]) + " is offline", menuX + menuWidth / 2, menuY + 35, 1, 0xffffff);
                     }
                 }
                 else
@@ -112,7 +112,7 @@ namespace OpenRS.Net.Client.Rendering
 
                 if (highlightedIgnoreIndex >= 0 && client.mouseX < 489 && client.mouseX > 429)
                 {
-                    client.gameGraphics.DrawText(LocalisationManager.GetString("social.friends_remove_prefix") + DataOperations.HashToName(client.ignoresList[highlightedIgnoreIndex]), menuX + menuWidth / 2, menuY + 35, 1, 0xffffff);
+                    client.gameGraphics.DrawText(LocalisationManager.GetString("social.friends_remove_prefix") + PlayerNameEncoder.HashToName(client.ignoresList[highlightedIgnoreIndex]), menuX + menuWidth / 2, menuY + 35, 1, 0xffffff);
                 }
                 else
                 {
@@ -359,7 +359,7 @@ namespace OpenRS.Net.Client.Rendering
                     client.enteredInputText = "";
                     client.showFriendsBox = 0;
 
-                    if (trimmedName.Length > 0 && DataOperations.NameToHash(trimmedName) != client.ourPlayer.nameHash)
+                    if (trimmedName.Length > 0 && PlayerNameEncoder.NameToHash(trimmedName) != client.ourPlayer.nameHash)
                     {
                         client.CallAddFriend(trimmedName);
                     }
@@ -371,7 +371,7 @@ namespace OpenRS.Net.Client.Rendering
                 client.gameGraphics.DrawBox(6, boxY, 500, 70, 0);
                 client.gameGraphics.DrawBoxEdge(6, boxY, 500, 70, 0xffffff);
                 boxY += 20;
-                client.gameGraphics.DrawText(LocalisationManager.GetString("social.friends_message_prompt") + DataOperations.HashToName(client.pmTarget), 256, boxY, 4, 0xffffff);
+                client.gameGraphics.DrawText(LocalisationManager.GetString("social.friends_message_prompt") + PlayerNameEncoder.HashToName(client.pmTarget), 256, boxY, 4, 0xffffff);
                 boxY += 20;
                 client.gameGraphics.DrawText(client.pmText + "*", 256, boxY, 4, 0xffffff);
 
@@ -384,7 +384,7 @@ namespace OpenRS.Net.Client.Rendering
                     int byteCount = ChatMessage.StringToBytes(messageText);
                     client.CallSendPrivateMessage(client.pmTarget, ChatMessage.lastChat, byteCount);
                     messageText = ChatMessage.BytesToString(ChatMessage.lastChat, 0, byteCount);
-                    client.DisplayMessage(string.Format(LocalisationManager.GetString("social.private_message_sent"), DataOperations.HashToName(client.pmTarget), messageText));
+                    client.DisplayMessage(string.Format(LocalisationManager.GetString("social.private_message_sent"), PlayerNameEncoder.HashToName(client.pmTarget), messageText));
                 }
             }
 
@@ -404,7 +404,7 @@ namespace OpenRS.Net.Client.Rendering
                     client.enteredInputText = "";
                     client.showFriendsBox = 0;
 
-                    if (trimmedIgnoreName.Length > 0 && DataOperations.NameToHash(trimmedIgnoreName) != client.ourPlayer.nameHash)
+                    if (trimmedIgnoreName.Length > 0 && PlayerNameEncoder.NameToHash(trimmedIgnoreName) != client.ourPlayer.nameHash)
                     {
                         client.CallAddIgnore(trimmedIgnoreName);
                     }

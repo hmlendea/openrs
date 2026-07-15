@@ -1,59 +1,9 @@
-using OpenRS.Net.Client.Game;
 using OpenRS.Localisation;
 
 namespace OpenRS.Net.Client.Rendering
 {
     public sealed class CombatRenderer(GameClient client)
     {
-        public void DrawCombatStyleBox()
-        {
-            int boxOffsetX = 7;
-            int boxOffsetY = 15;
-            int boxWidth = 175;
-
-            if (client.mouseButtonClick != 0)
-            {
-                for (int rowIndex = 0; rowIndex < 5; rowIndex += 1)
-                {
-                    if (rowIndex <= 0 ||
-                        client.mouseX <= boxOffsetX ||
-                        client.mouseX >= boxOffsetX + boxWidth ||
-                        client.mouseY <= boxOffsetY + rowIndex * 20 ||
-                        client.mouseY >= boxOffsetY + rowIndex * 20 + 20)
-                    {
-                        continue;
-                    }
-
-                    client.combatStyle = rowIndex - 1;
-                    client.mouseButtonClick = 0;
-                    client.streamClass.CreatePacket(42);
-                    client.streamClass.AddByte(client.combatStyle);
-                    client.streamClass.FormatPacket();
-                    break;
-                }
-            }
-
-            for (int rowIndex = 0; rowIndex < 5; rowIndex += 1)
-            {
-                int rowColour = GameImage.RgbToInt(190, 190, 190);
-
-                if (rowIndex == client.combatStyle + 1)
-                {
-                    rowColour = GameImage.RgbToInt(255, 0, 0);
-                }
-
-                client.gameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + rowIndex * 20, boxWidth, 20, rowColour, 128);
-                client.gameGraphics.DrawLineX(boxOffsetX, boxOffsetY + rowIndex * 20, boxWidth, 0);
-                client.gameGraphics.DrawLineX(boxOffsetX, boxOffsetY + rowIndex * 20 + 20, boxWidth, 0);
-            }
-
-            client.gameGraphics.DrawText(LocalisationManager.GetString("combat.select_style"), boxOffsetX + boxWidth / 2, boxOffsetY + 16, 3, 0xffffff);
-            client.gameGraphics.DrawText(LocalisationManager.GetString("combat.style_controlled"), boxOffsetX + boxWidth / 2, boxOffsetY + 36, 3, 0);
-            client.gameGraphics.DrawText(LocalisationManager.GetString("combat.style_aggressive"), boxOffsetX + boxWidth / 2, boxOffsetY + 56, 3, 0);
-            client.gameGraphics.DrawText(LocalisationManager.GetString("combat.style_accurate"), boxOffsetX + boxWidth / 2, boxOffsetY + 76, 3, 0);
-            client.gameGraphics.DrawText(LocalisationManager.GetString("combat.style_defensive"), boxOffsetX + boxWidth / 2, boxOffsetY + 96, 3, 0);
-        }
-
         public void DrawWildernessAlertBox()
         {
             int textY = 97;

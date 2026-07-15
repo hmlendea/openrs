@@ -1268,7 +1268,7 @@ namespace OpenRS.Net.Client.World
                 }
                 if (cmd == "tell")
                 {
-                    long recipient = DataOperations.NameToHash(args[0]);
+                    long recipient = PlayerNameEncoder.NameToHash(args[0]);
                     string message = client.JoinString(args, " ", 1).Trim();
                     if (message == "")
                     {
@@ -1284,7 +1284,7 @@ namespace OpenRS.Net.Client.World
                         message = ChatFilter.FilterChat(message);
                     }
 
-                    client.DisplayMessage(string.Format(LocalisationManager.GetString("social.private_message_sent"), DataOperations.HashToName(recipient), message));
+                    client.DisplayMessage(string.Format(LocalisationManager.GetString("social.private_message_sent"), PlayerNameEncoder.HashToName(recipient), message));
                     return true;
                 }
             }

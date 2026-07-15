@@ -83,8 +83,6 @@ namespace OpenRS.Net.Client.Rendering
 
         public void DrawOptionsMenu(bool canClick) => overlayRenderer.DrawOptionsMenu(canClick);
 
-        public void DrawCombatStyleBox() => combatRenderer.DrawCombatStyleBox();
-
         public void DrawTradeBox() => tradeRenderer.DrawTradeBox();
 
         public void DrawLogoutBox() => overlayRenderer.DrawLogoutBox();
@@ -237,11 +235,6 @@ namespace OpenRS.Net.Client.Rendering
                 if (client.showQuestionMenu)
                 {
                     overlayRenderer.DrawQuestionMenu();
-                }
-
-                if (client.showCombatWindow || client.ourPlayer.currentSprite == 8 || client.ourPlayer.currentSprite == 9)
-                {
-                    combatRenderer.DrawCombatStyleBox();
                 }
 
                 client.GetMenuHighlighted();

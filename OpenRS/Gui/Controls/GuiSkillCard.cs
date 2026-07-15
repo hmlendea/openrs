@@ -149,7 +149,7 @@ namespace OpenRS.Gui.Controls
         {
             detailsText.Location = Point2D.Empty;
             detailsText.Size = Size;
-            detailsText.Text = $"{LocalisationManager.GetString("character.skill_xp_label")}:{Environment.NewLine}{Experience}";
+            detailsText.Text = $"{LocalisationManager.GetString("player.skill_xp_label")}:{Environment.NewLine}{Experience}";
         }
 
         private void OnMouseEntered(object sender, MouseEventArgs e)

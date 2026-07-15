@@ -2,30 +2,33 @@ using System;
 
 namespace OpenRS.Net.Client.Data
 {
-    public sealed class GameData
+    internal sealed class GameData
     {
-        public static string[] modelName = new string[5000];
-        public static int modelCount;
+        private static int MaxModelCount => 5000;
+        private static string NotAvailableModelName => "na";
 
-        public static int GetModelNameIndex(string name)
+        internal static string[] ModelNames { get; } = new string[MaxModelCount];
+        internal static int ModelCount { get; private set; }
+
+        internal static int GetModelNameIndex(string name)
         {
-            if (string.Equals(name, "na", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(name, NotAvailableModelName, StringComparison.OrdinalIgnoreCase))
             {
                 return 0;
             }
 
-            for (int modelIndex = 0; modelIndex < modelCount; modelIndex += 1)
+            for (int modelIndex = 0; modelIndex < ModelCount; modelIndex += 1)
             {
-                if (string.Equals(modelName[modelIndex], name, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(ModelNames[modelIndex], name, StringComparison.OrdinalIgnoreCase))
                 {
                     return modelIndex;
                 }
             }
 
-            modelName[modelCount] = name;
-            modelCount += 1;
+            ModelNames[ModelCount] = name;
+            ModelCount += 1;
 
-            return modelCount - 1;
+            return ModelCount - 1;
         }
     }
 }

@@ -170,17 +170,6 @@ namespace OpenRS.Net.Client.Rendering
 
             labelY += 15;
 
-            if (client.showCombatWindow)
-            {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_fightmode_show"), labelX, labelY, 1, 0xffffff);
-            }
-            else
-            {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_fightmode_hide"), labelX, labelY, 1, 0xffffff);
-            }
-
-            labelY += 15;
-
             if (client.fogOfWar)
             {
                 client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_fog_show"), labelX, labelY, 1, 0xffffff);
@@ -384,17 +373,9 @@ namespace OpenRS.Net.Client.Rendering
                     client.mouseY < clickLabelY + 4 &&
                     client.mouseButtonClick == 1)
                 {
-                    client.showCombatWindow = !client.showCombatWindow;
                     client.streamClass.CreatePacket(157);
                     client.streamClass.AddByte(6);
-                    int showCombatWindowByte = 0;
-
-                    if (client.showCombatWindow)
-                    {
-                        showCombatWindowByte = 1;
-                    }
-
-                    client.streamClass.AddByte(showCombatWindowByte);
+                    client.streamClass.AddByte(0);
                     client.streamClass.FormatPacket();
                 }
 
@@ -572,7 +553,7 @@ namespace OpenRS.Net.Client.Rendering
 
                 if (trimmedName.Length > 0)
                 {
-                    long nameHash = DataOperations.NameToHash(trimmedName);
+                    long nameHash = PlayerNameEncoder.NameToHash(trimmedName);
                     client.streamClass.CreatePacket(7);
                     client.streamClass.AddLong(nameHash);
                     client.streamClass.AddByte(client.reportAbuseOptionSelected);
