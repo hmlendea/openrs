@@ -632,7 +632,7 @@
   {
     "id": "45",
     "v1Id": 45,
-    "name": "name.railing",
+    "name": "wall_object.railing.name",
     "description": "world_object.45.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -6849,7 +6849,7 @@
     "id": "489",
     "v1Id": 489,
     "name": "world_object.489.name",
-    "description": "description.oops",
+    "description": "item.burnt_fish.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "brokenlograft",

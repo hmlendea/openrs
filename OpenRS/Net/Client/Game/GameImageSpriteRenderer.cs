@@ -95,7 +95,7 @@ namespace OpenRS.Net.Client.Game
             }
             else
             {
-                GameImageSpriteBlitter.DrawSpriteOpaque(pixels, gameImage.PictureColours[pictureIndex], 0, j1, i1, l1, k1, i2, j2, byte0);
+                GameImageSpriteBlitter.DrawSpriteOpaque(pixels, gameImage.PictureColours[pictureIndex], j1, i1, l1, k1, i2, j2, byte0);
             }
         }
 
@@ -180,7 +180,7 @@ namespace OpenRS.Net.Client.Game
             }
             else
             {
-                GameImageSpriteBlitter.DrawSpriteColorShifted(pixels, gameImage.PictureColours[pictureIndex], 0, k1, j1, i2, l1, j2, k2, byte0, blendFactor);
+                GameImageSpriteBlitter.DrawSpriteColorShifted(pixels, gameImage.PictureColours[pictureIndex], k1, j1, i2, l1, j2, k2, byte0, blendFactor);
             }
         }
 
@@ -274,7 +274,7 @@ namespace OpenRS.Net.Client.Game
                     }
                 }
 
-                GameImageSpriteBlitter.DrawSpriteTransparent(pixels, gameImage.PictureColours[index], 0, i2, j2, j3, l3, width, height, k2, l2, k1, byte0);
+                GameImageSpriteBlitter.DrawSpriteTransparent(pixels, gameImage.PictureColours[index], i2, j2, j3, l3, width, height, k2, l2, k1, byte0);
             }
             catch (System.Exception)
             {

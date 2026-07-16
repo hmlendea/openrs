@@ -402,7 +402,6 @@ namespace OpenRS.Net.Client.Game
                             GameImageSpriteBlitter.DrawSpriteAlpha(
                                 pixels,
                                 pictureColours,
-                                0,
                                 pixelRowOffset + scanlineLeftX,
                                 textureLeftU,
                                 textureLeftV,
@@ -416,7 +415,6 @@ namespace OpenRS.Net.Client.Game
                             GameImageSpriteBlitter.DrawSpriteAlphaColorShifted(
                                 pixels,
                                 pictureColours,
-                                0,
                                 pixelRowOffset + scanlineLeftX,
                                 textureLeftU,
                                 textureLeftV,

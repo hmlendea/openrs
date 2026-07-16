@@ -41,7 +41,7 @@
   {
     "id": "3",
     "v1Id": 3,
-    "name": "name.window",
+    "name": "wall_object.window.name",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -67,7 +67,7 @@
   {
     "id": "5",
     "v1Id": 5,
-    "name": "name.railings",
+    "name": "wall_object.railing.names",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -444,7 +444,7 @@
   {
     "id": "34",
     "v1Id": 34,
-    "name": "name.window",
+    "name": "wall_object.window.name",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -2160,7 +2160,7 @@
   {
     "id": "166",
     "v1Id": 166,
-    "name": "name.railings",
+    "name": "wall_object.railing.names",
     "description": "description.empty",
     "command1": "command.lockpick",
     "command2": "command.examine",
@@ -2173,7 +2173,7 @@
   {
     "id": "167",
     "v1Id": 167,
-    "name": "name.railings",
+    "name": "wall_object.railing.names",
     "description": "description.empty",
     "command1": "command.lockpick",
     "command2": "command.examine",
@@ -2186,7 +2186,7 @@
   {
     "id": "168",
     "v1Id": 168,
-    "name": "name.railings",
+    "name": "wall_object.railing.names",
     "description": "description.empty",
     "command1": "command.lockpick",
     "command2": "command.search",
@@ -2199,7 +2199,7 @@
   {
     "id": "169",
     "v1Id": 169,
-    "name": "name.railings",
+    "name": "wall_object.railing.names",
     "description": "description.empty",
     "command1": "command.lockpick",
     "command2": "command.search",
@@ -2212,7 +2212,7 @@
   {
     "id": "170",
     "v1Id": 170,
-    "name": "name.railings",
+    "name": "wall_object.railing.names",
     "description": "description.empty",
     "command1": "command.lockpick",
     "command2": "command.search",
@@ -2225,7 +2225,7 @@
   {
     "id": "171",
     "v1Id": 171,
-    "name": "name.railings",
+    "name": "wall_object.railing.names",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -2238,7 +2238,7 @@
   {
     "id": "172",
     "v1Id": 172,
-    "name": "name.railings",
+    "name": "wall_object.railing.names",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "wall_object.172.command2",
@@ -2316,7 +2316,7 @@
   {
     "id": "178",
     "v1Id": 178,
-    "name": "name.window",
+    "name": "wall_object.window.name",
     "description": "wall_object.178.description",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -2355,7 +2355,7 @@
   {
     "id": "181",
     "v1Id": 181,
-    "name": "name.railings",
+    "name": "wall_object.railing.names",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -2368,7 +2368,7 @@
   {
     "id": "182",
     "v1Id": 182,
-    "name": "name.railings",
+    "name": "wall_object.railing.names",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -2381,7 +2381,7 @@
   {
     "id": "183",
     "v1Id": 183,
-    "name": "name.railings",
+    "name": "wall_object.railing.names",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -2394,7 +2394,7 @@
   {
     "id": "184",
     "v1Id": 184,
-    "name": "name.railings",
+    "name": "wall_object.railing.names",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -2407,7 +2407,7 @@
   {
     "id": "185",
     "v1Id": 185,
-    "name": "name.railings",
+    "name": "wall_object.railing.names",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -2420,7 +2420,7 @@
   {
     "id": "186",
     "v1Id": 186,
-    "name": "name.railings",
+    "name": "wall_object.railing.names",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -2511,7 +2511,7 @@
   {
     "id": "193",
     "v1Id": 193,
-    "name": "name.railings",
+    "name": "wall_object.railing.names",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -2667,7 +2667,7 @@
   {
     "id": "205",
     "v1Id": 205,
-    "name": "name.window",
+    "name": "wall_object.window.name",
     "description": "wall_object.205.description",
     "command1": "command.investigate",
     "command2": "command.examine",

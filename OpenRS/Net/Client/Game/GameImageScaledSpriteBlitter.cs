@@ -8,6 +8,8 @@ namespace OpenRS.Net.Client.Game
 {
     internal sealed class GameImageScaledSpriteBlitter
     {
+
+
         private static readonly ILogger logger = NuciLoggerFactory.CreateLogger<GameImageScaledSpriteBlitter>();
 
         internal static void DrawSpriteFlatShaded(

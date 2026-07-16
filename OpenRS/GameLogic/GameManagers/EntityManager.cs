@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -24,16 +23,16 @@ namespace OpenRS.GameLogic.GameManagers
         private static string WallObjectsFileName => "wall_objects.json";
         private static string WorldObjectsFileName => "world_objects.json";
 
-        private List<Animation> animations;
-        private List<Elevation> elevations;
-        private List<Item> items;
-        private List<Npc> npcs;
-        private List<Prayer> prayers;
-        private List<Spell> spells;
-        private List<GameTexture> textures;
-        private List<Tile> tiles;
-        private List<WallObject> wallObjects;
-        private List<WorldObject> worldObjects;
+        private EntityLookup<Animation> animations;
+        private EntityLookup<Elevation> elevations;
+        private EntityLookup<Item> items;
+        private EntityLookup<Npc> npcs;
+        private EntityLookup<Prayer> prayers;
+        private EntityLookup<Spell> spells;
+        private EntityLookup<GameTexture> textures;
+        private EntityLookup<Tile> tiles;
+        private EntityLookup<WallObject> wallObjects;
+        private EntityLookup<WorldObject> worldObjects;
 
         public int AnimationCount => animations.Count;
 
@@ -64,13 +63,14 @@ namespace OpenRS.GameLogic.GameManagers
         public void LoadItems()
         {
             ItemRepository itemRepository = new(GetDataFilePath(ItemsFileName));
-            items = [.. itemRepository.GetAll()
-                .ToServiceModels()
-                .OrderBy(item => item.V1Id)];
+            items = new EntityLookup<Item>(
+                itemRepository.GetAll().ToServiceModels(),
+                item => item.V1Id,
+                item => item.Id);
 
             if (!Config.MembersFeatures)
             {
-                foreach (Item item in items)
+                foreach (Item item in items.Values)
                 {
                     if (item.IsPremium)
                     {
@@ -90,51 +90,54 @@ namespace OpenRS.GameLogic.GameManagers
 
             if (items.Count > 0)
             {
-                HighestLoadedPicture = items.Max(item => item.InventoryPicture) + 1;
+                HighestLoadedPicture = items.Values.Max(item => item.InventoryPicture) + 1;
             }
         }
 
         public void LoadNpcs()
         {
             NpcRepository npcRepository = new(GetDataFilePath(NpcsFileName));
-            npcs = [.. npcRepository.GetAll()
-                .ToServiceModels()
-                .OrderBy(npc => int.Parse(npc.Id))];
+            npcs = new EntityLookup<Npc>(
+                npcRepository.GetAll().ToServiceModels(),
+                npc => npc.V1Id,
+                npc => npc.Id);
         }
 
         public void LoadSpells(int projectileCount)
         {
             SpellProjectileCount = projectileCount;
             SpellRepository spellRepository = new(GetDataFilePath(SpellsFileName));
-            spells = [.. spellRepository.GetAll()
-                .ToServiceModels()
-                .OrderBy(spell => int.Parse(spell.Id))];
+            spells = new EntityLookup<Spell>(
+                spellRepository.GetAll().ToServiceModels(),
+                spell => spell.V1Id,
+                spell => spell.Id);
         }
 
         public void LoadAnimations()
         {
             AnimationRepository animationRepository = new(GetDataFilePath(AnimationsFileName));
-            animations = [.. animationRepository.GetAll()
-                .OrderBy(animation => int.Parse(animation.Id))
-                .ToServiceModels()];
+            animations = new EntityLookup<Animation>(
+                animationRepository.GetAll().ToServiceModels(),
+                animation => animation.V1Id);
         }
 
         public void LoadWallObjects()
         {
             WallObjectRepository wallObjectRepository = new(
                 GetDataFilePath(WallObjectsFileName));
-            wallObjects = [.. wallObjectRepository.GetAll()
-                .OrderBy(wallObject => int.Parse(wallObject.Id))
-                .ToServiceModels()];
+            wallObjects = new EntityLookup<WallObject>(
+                wallObjectRepository.GetAll().ToServiceModels(),
+                wallObject => wallObject.V1Id);
         }
 
         public void LoadWorldObjects()
         {
             WorldObjectRepository worldObjectRepository = new(
                 GetDataFilePath(WorldObjectsFileName));
-            worldObjects = [.. worldObjectRepository.GetAll()
-                .ToServiceModels()
-                .OrderBy(worldObject => int.Parse(worldObject.Id))];
+            worldObjects = new EntityLookup<WorldObject>(
+                worldObjectRepository.GetAll().ToServiceModels(),
+                worldObject => worldObject.V1Id,
+                worldObject => worldObject.Id);
 
             AssignWorldObjectModelIds();
         }
@@ -142,31 +145,34 @@ namespace OpenRS.GameLogic.GameManagers
         public void LoadPrayers()
         {
             PrayerRepository prayerRepository = new(GetDataFilePath(PrayersFileName));
-            prayers = [.. prayerRepository.GetAll().ToServiceModels()];
+            prayers = new EntityLookup<Prayer>(
+                prayerRepository.GetAll().ToServiceModels(),
+                prayer => prayer.V1Id,
+                prayer => prayer.Id);
         }
 
         public void LoadTextures()
         {
             GameTextureRepository textureRepository = new(GetDataFilePath(TexturesFileName));
-            textures = [.. textureRepository.GetAll()
-                .OrderBy(texture => int.Parse(texture.Id))
-                .ToServiceModels()];
+            textures = new EntityLookup<GameTexture>(
+                textureRepository.GetAll().ToServiceModels(),
+                texture => texture.V1Id);
         }
 
         public void LoadElevations()
         {
             ElevationRepository elevationRepository = new(GetDataFilePath(ElevationsFileName));
-            elevations = [.. elevationRepository.GetAll()
-                .OrderBy(elevation => int.Parse(elevation.Id))
-                .ToServiceModels()];
+            elevations = new EntityLookup<Elevation>(
+                elevationRepository.GetAll().ToServiceModels(),
+                elevation => elevation.V1Id);
         }
 
         public void LoadTiles()
         {
             TileRepository tileRepository = new(GetDataFilePath(TilesFileName));
-            tiles = [.. tileRepository.GetAll()
-                .OrderBy(tile => int.Parse(tile.Id))
-                .ToServiceModels()];
+            tiles = new EntityLookup<Tile>(
+                tileRepository.GetAll().ToServiceModels(),
+                tile => tile.V1Id);
         }
 
         public void LoadContent()
@@ -184,63 +190,85 @@ namespace OpenRS.GameLogic.GameManagers
             WorldObjectRepository worldObjectRepository = new(
                 GetDataFilePath(WorldObjectsFileName));
 
-            animations = [.. animationRepository.GetAll().ToServiceModels()];
-            elevations = [.. elevationRepository.GetAll().ToServiceModels()];
-            items = [.. itemRepository.GetAll().ToServiceModels()];
-            npcs = [.. npcRepository.GetAll().ToServiceModels()];
-            prayers = [.. prayerRepository.GetAll().ToServiceModels()];
-            spells = [.. spellRepository.GetAll().ToServiceModels()];
-            textures = [.. textureRepository.GetAll().ToServiceModels()];
-            tiles = [.. tileRepository.GetAll().ToServiceModels()];
-            wallObjects = [.. wallObjectRepository.GetAll().ToServiceModels()];
-            worldObjects = [.. worldObjectRepository.GetAll().ToServiceModels()];
+            animations = new EntityLookup<Animation>(
+                animationRepository.GetAll().ToServiceModels(),
+                animation => animation.V1Id);
+            elevations = new EntityLookup<Elevation>(
+                elevationRepository.GetAll().ToServiceModels(),
+                elevation => elevation.V1Id);
+            items = new EntityLookup<Item>(
+                itemRepository.GetAll().ToServiceModels(),
+                item => item.V1Id,
+                item => item.Id);
+            npcs = new EntityLookup<Npc>(
+                npcRepository.GetAll().ToServiceModels(),
+                npc => npc.V1Id,
+                npc => npc.Id);
+            prayers = new EntityLookup<Prayer>(
+                prayerRepository.GetAll().ToServiceModels(),
+                prayer => prayer.V1Id,
+                prayer => prayer.Id);
+            spells = new EntityLookup<Spell>(
+                spellRepository.GetAll().ToServiceModels(),
+                spell => spell.V1Id,
+                spell => spell.Id);
+            textures = new EntityLookup<GameTexture>(
+                textureRepository.GetAll().ToServiceModels(),
+                texture => texture.V1Id);
+            tiles = new EntityLookup<Tile>(
+                tileRepository.GetAll().ToServiceModels(),
+                tile => tile.V1Id);
+            wallObjects = new EntityLookup<WallObject>(
+                wallObjectRepository.GetAll().ToServiceModels(),
+                wallObject => wallObject.V1Id);
+            worldObjects = new EntityLookup<WorldObject>(
+                worldObjectRepository.GetAll().ToServiceModels(),
+                worldObject => worldObject.V1Id,
+                worldObject => worldObject.Id);
 
             AssignWorldObjectModelIds();
         }
 
-        public Animation GetAnimation(int index) => GetByIndex(animations, index);
+        public Animation GetAnimation(int v1Id) => animations.GetByV1Id(v1Id);
 
-        public Elevation GetElevation(int index) => GetByIndex(elevations, index);
+        public Elevation GetElevation(int v1Id) => elevations.GetByV1Id(v1Id);
 
-        public Item GetItem(int index) => GetByIndex(items, index);
+        public Item GetItem(int v1Id) => items.GetByV1Id(v1Id);
+
+        public Item GetItem(string id) => items.GetById(id);
 
         public int GetModelIndex(string model) => GameData.GetModelNameIndex(model);
 
         public string GetObjectModelName(int index) => GameData.ModelNames[index];
 
-        public Npc GetNpc(int index) => GetByIndex(npcs, index);
+        public Npc GetNpc(int v1Id) => npcs.GetByV1Id(v1Id);
 
-        public Prayer GetPrayer(int index) => GetByIndex(prayers, index);
+        public Npc GetNpc(string id) => npcs.GetById(id);
 
-        public Spell GetSpell(int index) => GetByIndex(spells, index);
+        public Prayer GetPrayer(int v1Id) => prayers.GetByV1Id(v1Id);
 
-        public GameTexture GetTexture(int index) => GetByIndex(textures, index);
+        public Prayer GetPrayer(string id) => prayers.GetById(id);
 
-        public Tile GetTile(int index) => GetByIndex(tiles, index);
+        public Spell GetSpell(int v1Id) => spells.GetByV1Id(v1Id);
 
-        public WallObject GetWallObject(int index) => GetByIndex(wallObjects, index);
+        public Spell GetSpell(string id) => spells.GetById(id);
 
-        public WorldObject GetWorldObject(int index) => GetByIndex(worldObjects, index);
+        public GameTexture GetTexture(int v1Id) => textures.GetByV1Id(v1Id);
 
-        public WorldObject GetWorldObject(string id)
-            => worldObjects.FirstOrDefault(worldObject => worldObject.Id == id);
+        public Tile GetTile(int v1Id) => tiles.GetByV1Id(v1Id);
+
+        public WallObject GetWallObject(int v1Id) => wallObjects.GetByV1Id(v1Id);
+
+        public WorldObject GetWorldObject(int v1Id) => worldObjects.GetByV1Id(v1Id);
+
+        public WorldObject GetWorldObject(string id) => worldObjects.GetById(id);
 
         private static string GetDataFilePath(string fileName)
             => Path.Combine(ApplicationPaths.DataDirectory, fileName);
 
-        private static T GetByIndex<T>(List<T> list, int index) where T : class
-        {
-            if (index < 0 || index >= list.Count)
-            {
-                return null;
-            }
-
-            return list[index];
-        }
-
         private void AssignWorldObjectModelIds()
         {
-            foreach (WorldObject worldObject in worldObjects)
+            foreach (WorldObject worldObject in worldObjects.Values)
             {
                 worldObject.ModelIndex = GetModelIndex(worldObject.ModelName);
             }

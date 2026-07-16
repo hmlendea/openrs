@@ -1356,7 +1356,7 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/items/broken_staff.png
-#begin sprites/items/bronze_2-handed_sword.png
+#begin sprites/items/two_handed_sword.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1366,7 +1366,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:sprites/items/bronze_2-handed_sword.png
+/build:sprites/items/two_handed_sword.png
 #begin sprites/items/bronze_arrow_heads.png
 /importer:TextureImporter
 /processor:TextureProcessor

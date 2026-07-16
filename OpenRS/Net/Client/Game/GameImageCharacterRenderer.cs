@@ -476,7 +476,6 @@ namespace OpenRS.Net.Client.Game
                 GameImageSpriteBlitter.DrawSpriteFlippedColorShifted(
                     pixels,
                     gameImage.PictureColours[pictureIndex],
-                    0,
                     sourceStartX,
                     sourceStartY,
                     destinationIndex,
@@ -495,7 +494,6 @@ namespace OpenRS.Net.Client.Game
             GameImageSpriteBlitter.DrawSpriteFlipped(
                 pixels,
                 gameImage.PictureColours[pictureIndex],
-                0,
                 sourceStartX,
                 sourceStartY,
                 destinationIndex,
