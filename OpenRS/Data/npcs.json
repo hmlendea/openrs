@@ -779,8 +779,8 @@
   {
     "id": "21",
     "v1Id": 21,
-    "name": "npc.21.name",
-    "description": "npc.21.description",
+    "name": "npc.mugger.name",
+    "description": "npc.mugger.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -1112,8 +1112,8 @@
   {
     "id": "30",
     "v1Id": 30,
-    "name": "npc.30.name",
-    "description": "npc.30.description",
+    "name": "npc.romeo.name",
+    "description": "npc.romeo.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -1149,8 +1149,8 @@
   {
     "id": "31",
     "v1Id": 31,
-    "name": "npc.31.name",
-    "description": "npc.31.description",
+    "name": "npc.juliet.name",
+    "description": "npc.juliet.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -1186,8 +1186,8 @@
   {
     "id": "32",
     "v1Id": 32,
-    "name": "npc.32.name",
-    "description": "npc.32.description",
+    "name": "npc.father_lawrence.name",
+    "description": "npc.father_lawrence.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -1223,8 +1223,8 @@
   {
     "id": "33",
     "v1Id": 33,
-    "name": "npc.33.name",
-    "description": "npc.33.description",
+    "name": "npc.apothecary.name",
+    "description": "npc.apothecary.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -1260,8 +1260,8 @@
   {
     "id": "34",
     "v1Id": 34,
-    "name": "npc.34.name",
-    "description": "npc.34.description",
+    "name": "npc.spider.name",
+    "description": "npc.spider.description",
     "command": "command.none",
     "sprites": [
       125,
@@ -1297,7 +1297,7 @@
   {
     "id": "35",
     "v1Id": 35,
-    "name": "npc.35.name",
+    "name": "npc.delrith.name",
     "description": "description.a_freshly_summoned_demon",
     "command": "command.none",
     "sprites": [
@@ -1334,7 +1334,7 @@
   {
     "id": "36",
     "v1Id": 36,
-    "name": "npc.36.name",
+    "name": "npc.veronica.name",
     "description": "description.she_doesnt_look_too_happy",
     "command": "command.none",
     "sprites": [
@@ -1371,8 +1371,8 @@
   {
     "id": "37",
     "v1Id": 37,
-    "name": "npc.37.name",
-    "description": "npc.37.description",
+    "name": "npc.weaponmaster.name",
+    "description": "npc.weaponmaster.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -5922,8 +5922,8 @@
   {
     "id": "160",
     "v1Id": 160,
-    "name": "npc.160.name",
-    "description": "npc.160.description",
+    "name": "npc.thrander.name",
+    "description": "npc.thrander.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -6033,8 +6033,8 @@
   {
     "id": "163",
     "v1Id": 163,
-    "name": "npc.163.name",
-    "description": "npc.163.description",
+    "name": "npc.customs_officer.name",
+    "description": "npc.customs_officer.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -6070,8 +6070,8 @@
   {
     "id": "164",
     "v1Id": 164,
-    "name": "npc.164.name",
-    "description": "npc.164.description",
+    "name": "npc.luthas.name",
+    "description": "npc.luthas.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -6107,8 +6107,8 @@
   {
     "id": "165",
     "v1Id": 165,
-    "name": "npc.165.name",
-    "description": "npc.165.description",
+    "name": "npc.zambo.name",
+    "description": "npc.zambo.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -6514,7 +6514,7 @@
   {
     "id": "176",
     "v1Id": 176,
-    "name": "npc.176.name",
+    "name": "npc.brother_jered.name",
     "description": "description.human",
     "command": "command.none",
     "sprites": [
@@ -7476,8 +7476,8 @@
   {
     "id": "202",
     "v1Id": 202,
-    "name": "npc.202.name",
-    "description": "npc.202.description",
+    "name": "npc.blue_dragon.name",
+    "description": "npc.blue_dragon.description",
     "command": "command.none",
     "sprites": [
       146,
@@ -7513,8 +7513,8 @@
   {
     "id": "203",
     "v1Id": 203,
-    "name": "npc.203.name",
-    "description": "npc.203.description",
+    "name": "npc.baby_blue_dragon.name",
+    "description": "npc.baby_blue_dragon.description",
     "command": "command.none",
     "sprites": [
       146,
@@ -7550,8 +7550,8 @@
   {
     "id": "204",
     "v1Id": 204,
-    "name": "npc.204.name",
-    "description": "npc.204.description",
+    "name": "npc.kaqemeex.name",
+    "description": "npc.kaqemeex.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -7587,8 +7587,8 @@
   {
     "id": "205",
     "v1Id": 205,
-    "name": "npc.205.name",
-    "description": "npc.205.description",
+    "name": "npc.sanfew.name",
+    "description": "npc.sanfew.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -7624,8 +7624,8 @@
   {
     "id": "206",
     "v1Id": 206,
-    "name": "npc.206.name",
-    "description": "npc.206.description",
+    "name": "npc.suit_of_armour.name",
+    "description": "npc.suit_of_armour.description",
     "command": "command.none",
     "sprites": [
       -1,
@@ -7994,7 +7994,7 @@
   {
     "id": "216",
     "v1Id": 216,
-    "name": "npc.216.name",
+    "name": "npc.tree_spirit.name",
     "description": "description.ooh_spooky",
     "command": "command.none",
     "sprites": [
@@ -8068,7 +8068,7 @@
   {
     "id": "218",
     "v1Id": 218,
-    "name": "npc.218.name",
+    "name": "npc.irksol.name",
     "description": "description.is_he_invisible_or_just",
     "command": "command.none",
     "sprites": [
@@ -10991,7 +10991,7 @@
   {
     "id": "297",
     "v1Id": 297,
-    "name": "npc.297.name",
+    "name": "npc.frincos.name",
     "description": "description.a_peaceful_monk",
     "command": "command.none",
     "sprites": [
@@ -11028,7 +11028,7 @@
   {
     "id": "298",
     "v1Id": 298,
-    "name": "npc.298.name",
+    "name": "npc.otherworldly_creature.name",
     "description": "description.is_he_invisible_or_just",
     "command": "command.none",
     "sprites": [
@@ -11065,7 +11065,7 @@
   {
     "id": "299",
     "v1Id": 299,
-    "name": "npc.299.name",
+    "name": "npc.owen.name",
     "description": "description.he_runs_a_fish_exchange",
     "command": "command.none",
     "sprites": [
@@ -11139,7 +11139,7 @@
   {
     "id": "301",
     "v1Id": 301,
-    "name": "npc.301.name",
+    "name": "npc.seer.name",
     "description": "description.an_old_wizard",
     "command": "command.none",
     "sprites": [
@@ -11287,8 +11287,8 @@
   {
     "id": "305",
     "v1Id": 305,
-    "name": "npc.305.name",
-    "description": "npc.305.description",
+    "name": "npc.barbarian_guard.name",
+    "description": "npc.barbarian_guard.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -11435,7 +11435,7 @@
   {
     "id": "309",
     "v1Id": 309,
-    "name": "npc.309.name",
+    "name": "npc.dimintheis.name",
     "description": "description.a_well_dressed_nobleman",
     "command": "command.none",
     "sprites": [
@@ -11472,8 +11472,8 @@
   {
     "id": "310",
     "v1Id": 310,
-    "name": "npc.310.name",
-    "description": "npc.310.description",
+    "name": "npc.chef.name",
+    "description": "npc.chef.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -11657,8 +11657,8 @@
   {
     "id": "315",
     "v1Id": 315,
-    "name": "npc.315.name",
-    "description": "npc.315.description",
+    "name": "npc.chronozon.name",
+    "description": "npc.chronozon.description",
     "command": "command.none",
     "sprites": [
       169,
@@ -11694,7 +11694,7 @@
   {
     "id": "316",
     "v1Id": 316,
-    "name": "npc.316.name",
+    "name": "npc.captain_barnaby.name",
     "description": "npc.aged_sailor.description",
     "command": "command.none",
     "sprites": [
@@ -11731,8 +11731,8 @@
   {
     "id": "317",
     "v1Id": 317,
-    "name": "npc.317.name",
-    "description": "npc.317.description",
+    "name": "npc.customs_official.name",
+    "description": "npc.customs_official.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -11916,8 +11916,8 @@
   {
     "id": "322",
     "v1Id": 322,
-    "name": "npc.322.name",
-    "description": "npc.322.description",
+    "name": "npc.knight.name",
+    "description": "npc.knight.description",
     "command": "command.pickpocket",
     "sprites": [
       19,
@@ -11990,8 +11990,8 @@
   {
     "id": "324",
     "v1Id": 324,
-    "name": "npc.324.name",
-    "description": "npc.324.description",
+    "name": "npc.hero.name",
+    "description": "npc.hero.description",
     "command": "command.pickpocket",
     "sprites": [
       0,
@@ -12027,8 +12027,8 @@
   {
     "id": "325",
     "v1Id": 325,
-    "name": "npc.325.name",
-    "description": "npc.325.description",
+    "name": "npc.baker.name",
+    "description": "npc.baker.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -12138,8 +12138,8 @@
   {
     "id": "328",
     "v1Id": 328,
-    "name": "npc.328.name",
-    "description": "npc.328.description",
+    "name": "npc.silver_merchant.name",
+    "description": "npc.silver_merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -12212,7 +12212,7 @@
   {
     "id": "330",
     "v1Id": 330,
-    "name": "npc.330.name",
+    "name": "npc.germ_merchant.name",
     "description": "npc.gem_merchant.description",
     "command": "command.none",
     "sprites": [
@@ -12249,7 +12249,7 @@
   {
     "id": "331",
     "v1Id": 331,
-    "name": "npc.331.name",
+    "name": "npc.zenesha.name",
     "description": "description.a_merchant_of_some_sort",
     "command": "command.none",
     "sprites": [
@@ -12286,8 +12286,8 @@
   {
     "id": "332",
     "v1Id": 332,
-    "name": "npc.332.name",
-    "description": "npc.332.description",
+    "name": "npc.kangai_mau.name",
+    "description": "npc.kangai_mau.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -12323,7 +12323,7 @@
   {
     "id": "333",
     "v1Id": 333,
-    "name": "npc.333.name",
+    "name": "npc.wizard_cromperty.name",
     "description": "description.an_old_wizard",
     "command": "command.none",
     "sprites": [
@@ -12471,7 +12471,7 @@
   {
     "id": "337",
     "v1Id": 337,
-    "name": "npc.337.name",
+    "name": "npc.kortan.name",
     "description": "description.he_helps_run_the_adventurers",
     "command": "command.none",
     "sprites": [
@@ -12508,8 +12508,8 @@
   {
     "id": "338",
     "v1Id": 338,
-    "name": "npc.338.name",
-    "description": "npc.338.description",
+    "name": "npc.zoo_keeper.name",
+    "description": "npc.zoo_keeper.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -12619,8 +12619,8 @@
   {
     "id": "341",
     "v1Id": 341,
-    "name": "npc.341.name",
-    "description": "npc.341.description",
+    "name": "npc.chuck.name",
+    "description": "npc.chuck.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -12656,8 +12656,8 @@
   {
     "id": "342",
     "v1Id": 342,
-    "name": "npc.342.name",
-    "description": "npc.342.description",
+    "name": "npc.rogue.name",
+    "description": "npc.rogue.description",
     "command": "command.pickpocket",
     "sprites": [
       6,
@@ -12804,8 +12804,8 @@
   {
     "id": "346",
     "v1Id": 346,
-    "name": "npc.346.name",
-    "description": "npc.346.description",
+    "name": "npc.sinister_stranger.name",
+    "description": "npc.sinister_stranger.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -12841,7 +12841,7 @@
   {
     "id": "347",
     "v1Id": 347,
-    "name": "npc.347.name",
+    "name": "npc.bonzo.name",
     "description": "description.fishing_competition_organiser",
     "command": "command.none",
     "sprites": [
@@ -12878,8 +12878,8 @@
   {
     "id": "348",
     "v1Id": 348,
-    "name": "npc.348.name",
-    "description": "npc.348.description",
+    "name": "npc.forester.name",
+    "description": "npc.forester.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -12915,7 +12915,7 @@
   {
     "id": "349",
     "v1Id": 349,
-    "name": "npc.349.name",
+    "name": "npc.morris.name",
     "description": "description.fishing_competition_organiser",
     "command": "command.none",
     "sprites": [
@@ -12952,7 +12952,7 @@
   {
     "id": "350",
     "v1Id": 350,
-    "name": "npc.350.name",
+    "name": "npc.brother_omad.name",
     "description": "description.a_peaceful_monk",
     "command": "command.none",
     "sprites": [
@@ -13026,7 +13026,7 @@
   {
     "id": "352",
     "v1Id": 352,
-    "name": "npc.352.name",
+    "name": "npc.head_thief.name",
     "description": "description.a_dastardly_blanket_thief",
     "command": "command.none",
     "sprites": [
@@ -13100,8 +13100,8 @@
   {
     "id": "354",
     "v1Id": 354,
-    "name": "npc.354.name",
-    "description": "npc.354.description",
+    "name": "npc.joshua.name",
+    "description": "npc.joshua.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -13211,7 +13211,7 @@
   {
     "id": "357",
     "v1Id": 357,
-    "name": "npc.357.name",
+    "name": "npc.brother_cedric.name",
     "description": "description.a_peaceful_monk",
     "command": "command.none",
     "sprites": [
@@ -13544,7 +13544,7 @@
   {
     "id": "366",
     "v1Id": 366,
-    "name": "npc.366.name",
+    "name": "npc.brother_kojo.name",
     "description": "description.a_peaceful_monk",
     "command": "command.none",
     "sprites": [
@@ -13581,7 +13581,7 @@
   {
     "id": "367",
     "v1Id": 367,
-    "name": "npc.367.name",
+    "name": "npc.dungeon_rat.name",
     "description": "description.overgrown_vermin",
     "command": "command.none",
     "sprites": [
@@ -13655,7 +13655,7 @@
   {
     "id": "369",
     "v1Id": 369,
-    "name": "npc.369.name",
+    "name": "npc.orven.name",
     "description": "description.he_runs_a_fish_exchange",
     "command": "command.none",
     "sprites": [
@@ -13692,7 +13692,7 @@
   {
     "id": "370",
     "v1Id": 370,
-    "name": "npc.370.name",
+    "name": "npc.padik.name",
     "description": "description.he_runs_a_fish_exchange",
     "command": "command.none",
     "sprites": [
@@ -13766,8 +13766,8 @@
   {
     "id": "372",
     "v1Id": 372,
-    "name": "npc.372.name",
-    "description": "npc.372.description",
+    "name": "npc.lady_servil.name",
+    "description": "npc.lady_servil.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -13951,7 +13951,7 @@
   {
     "id": "377",
     "v1Id": 377,
-    "name": "npc.377.name",
+    "name": "npc.jeremy_servil.name",
     "description": "description.a_young_squire",
     "command": "command.none",
     "sprites": [
@@ -13988,8 +13988,8 @@
   {
     "id": "378",
     "v1Id": 378,
-    "name": "npc.378.name",
-    "description": "npc.378.description",
+    "name": "npc.justin_servil.name",
+    "description": "npc.justin_servil.description",
     "command": "command.none",
     "sprites": [
       0,

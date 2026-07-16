@@ -13,13 +13,11 @@ namespace OpenRS.Gui.Controls
     {
         private static string ItemSpritePathPrefix => "sprites/items/";
 
-        private static string SlotBackgroundContentFile => "ScreenManager/FillImage";
         private static string QuantityFontName => "ItemCardFont";
         private static int QuantityTextHeight => 10;
         private static int DefaultCardSize => 36;
         private static int IconRenderSize => 32;
 
-        private GuiImage slotBackground;
         private GuiImage icon;
         private GuiText quantity;
 
@@ -34,12 +32,6 @@ namespace OpenRS.Gui.Controls
 
         protected override void DoLoadContent()
         {
-            slotBackground = new GuiImage
-            {
-                Size = Size,
-                ContentFile = SlotBackgroundContentFile,
-                TintColour = new Colour(30, 20, 10)
-            };
             icon = new GuiImage
             {
                 Size = new Size2D(IconRenderSize, IconRenderSize),
@@ -54,7 +46,7 @@ namespace OpenRS.Gui.Controls
                 HorizontalAlignment = Alignment.Beginning
             };
 
-            RegisterChildren(slotBackground, icon, quantity);
+            RegisterChildren(icon, quantity);
             SetChildrenProperties();
         }
 

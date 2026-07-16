@@ -9,7 +9,6 @@ using NuciXNA.Input;
 using NuciXNA.Primitives;
 
 using OpenRS.Net.Client;
-using OpenRS.Settings;
 
 namespace OpenRS.Gui.Controls
 {
@@ -96,7 +95,7 @@ namespace OpenRS.Gui.Controls
                 Texture = ButtonTextureContentFile,
                 ButtonTileSize = new Size2D(ButtonTileWidth, ButtonTileHeight),
                 Icon = ExitButtonIconContentFile,
-                Size = new Size2D(ExitButtonWidth, ButtonTileHeight)
+                Size = new Size2D(ExitButtonWidth, ButtonTileHeight),
             };
 
             RegisterChildren(background, minimap);
@@ -183,7 +182,7 @@ namespace OpenRS.Gui.Controls
         {
             exitButton.Location = new Point2D(
                 (Size.Width - exitButton.Size.Width) / 2,
-                Size.Height - GameDefines.GuiTileSize);
+                Size.Height - exitButton.Size.Height);
 
             panel.Location = new Point2D(
                 (Size.Width - panel.Size.Width) / 2,

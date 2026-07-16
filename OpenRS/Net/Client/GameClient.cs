@@ -87,6 +87,10 @@ namespace OpenRS.Net.Client
         public void SetCombatStyle(CombatStyle style)
         {
             combatStyle = (int)style;
+
+            streamClass.CreatePacket((int)ClientPacket.SetCombatStyle);
+            streamClass.AddByte(combatStyle);
+            streamClass.FormatPacket();
         }
 
         public CombatStyle CombatStyle

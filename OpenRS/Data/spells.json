@@ -312,8 +312,8 @@
   {
     "id": "16",
     "v1Id": 16,
-    "name": "spell.16.name",
-    "description": "spell.16.description",
+    "name": "spell.telekinetic_grab.name",
+    "description": "spell.telekinetic_grab.description",
     "requiredLevel": 33,
     "type": 3,
     "runeCount": 2,

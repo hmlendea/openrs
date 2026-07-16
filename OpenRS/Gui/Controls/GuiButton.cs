@@ -37,13 +37,17 @@ namespace OpenRS.Gui.Controls
 
         protected override void DoLoadContent()
         {
-            icon = new GuiImage();
+            icon = new GuiImage { Size = Size2D.Empty };
             images = [];
             text = new GuiText();
 
             for (int sectionIndex = 0; sectionIndex < ButtonTileCount.Width; sectionIndex += 1)
             {
-                GuiImage image = new() { SourceRectangle = CalculateSourceRectangle(sectionIndex) };
+                GuiImage image = new()
+                {
+                    Size = ButtonTileSize,
+                    SourceRectangle = CalculateSourceRectangle(sectionIndex)
+                };
 
                 images.Add(image);
             }
@@ -98,6 +102,7 @@ namespace OpenRS.Gui.Controls
             {
                 GuiImage image = images[imageIndex];
                 image.ContentFile = Texture;
+                image.Size = ButtonTileSize;
                 image.Location = new(imageIndex * ButtonTileSize.Width, 0);
                 image.SourceRectangle = CalculateSourceRectangle(imageIndex);
             }
@@ -115,4 +120,3 @@ namespace OpenRS.Gui.Controls
         }
     }
 }
-

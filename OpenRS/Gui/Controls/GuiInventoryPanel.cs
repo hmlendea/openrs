@@ -10,7 +10,7 @@ namespace OpenRS.Gui.Controls
 {
     public sealed class GuiInventoryPanel(GameClient client) : GuiControl
     {
-        private static int Rows => 8;
+        private static int Rows => 7;
 
         private static int Columns => 4;
 

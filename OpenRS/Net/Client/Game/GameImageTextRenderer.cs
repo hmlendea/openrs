@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 using NuciLog.Core;
 
@@ -9,9 +8,24 @@ namespace OpenRS.Net.Client.Game
 {
     internal sealed class GameImageTextRenderer
     {
-        private static readonly sbyte[][] gameFonts = new sbyte[50][];
+        private static int MaxFontCount => 50;
+        private static int CharacterTableSize => 256;
+        private static int FontEntryStride => 9;
+        private static int FontFallbackIndex => 74;
+        private static int MaxFontShadowCount => 12;
+        private static int GlyphDataBitShiftHigh => 14;
+        private static int GlyphDataBitShiftMid => 7;
+        private static int GlyphDataMidMultiplier => 16384;
+        private static int GlyphDataLowMultiplier => 128;
+        private static int BlendThresholdLow => 30;
+        private static int BlendThresholdHigh => 230;
+        private static int BlendChannelScale => 256;
+        private static int FloatingTextMaxWidthOverride => 1000;
+        private static int ColourMaxRgb => 16777215;
+
+        private static readonly sbyte[][] gameFonts = new sbyte[MaxFontCount][];
         private static readonly int[] characterFontOffsetTable;
-        private static readonly bool[] fontShadowEnabled = new bool[12];
+        private static readonly bool[] fontShadowEnabled = new bool[MaxFontShadowCount];
         private static int currentFont;
 
         private readonly GameImage gameImage;
@@ -19,19 +33,21 @@ namespace OpenRS.Net.Client.Game
 
         static GameImageTextRenderer()
         {
-            string characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
-            characterFontOffsetTable = new int[256];
+            string characterSet =
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" +
+                "0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
+            characterFontOffsetTable = new int[CharacterTableSize];
 
-            for (int i = 0; i < 256; i += 1)
+            for (int charIndex = 0; charIndex < CharacterTableSize; charIndex += 1)
             {
-                int k = characterSet.IndexOf((char)i);
+                int setIndex = characterSet.IndexOf((char)charIndex);
 
-                if (k == -1)
+                if (setIndex == -1)
                 {
-                    k = 74;
+                    setIndex = FontFallbackIndex;
                 }
 
-                characterFontOffsetTable[i] = k * 9;
+                characterFontOffsetTable[charIndex] = setIndex * FontEntryStride;
             }
         }
 
@@ -44,71 +60,68 @@ namespace OpenRS.Net.Client.Game
         {
             gameFonts[currentFont] = bytes;
             currentFont += 1;
+
             return currentFont - 1;
         }
 
         internal void DrawLabel(string text, int x, int y, int fontIndex, int colour)
-        {
-            DrawString(text, x - TextWidth(text, fontIndex), y, fontIndex, colour);
-        }
+            => DrawString(text, x - TextWidth(text, fontIndex), y, fontIndex, colour);
 
         internal void DrawText(string text, int x, int y, int fontIndex, int colour)
-        {
-            DrawString(text, x - TextWidth(text, fontIndex) / 2, y, fontIndex, colour);
-        }
+            => DrawString(text, x - TextWidth(text, fontIndex) / 2, y, fontIndex, colour);
 
         internal void DrawFloatingText(string text, int x, int y, int fontIndex, int colour, int maxWidth)
         {
             try
             {
-                int i = 0;
-                sbyte[] abyte0 = gameFonts[fontIndex];
-                int k = 0;
-                int l = 0;
+                sbyte[] fontData = gameFonts[fontIndex];
+                int currentWidth = 0;
+                int lineStartIndex = 0;
+                int lastWordBreak = 0;
 
-                for (int i1 = 0; i1 < text.Length; i1 += 1)
+                for (int charIndex = 0; charIndex < text.Length; charIndex += 1)
                 {
-                    if (text[i1] == '@' && i1 + 4 < text.Length && text[i1 + 4] == '@')
+                    if (text[charIndex] == '@' && charIndex + 4 < text.Length && text[charIndex + 4] == '@')
                     {
-                        i1 += 4;
+                        charIndex += 4;
                     }
-                    else if (text[i1] == '~' && i1 + 4 < text.Length && text[i1 + 4] == '~')
+                    else if (text[charIndex] == '~' && charIndex + 4 < text.Length && text[charIndex + 4] == '~')
                     {
-                        i1 += 4;
+                        charIndex += 4;
                     }
                     else
                     {
-                        i += abyte0[characterFontOffsetTable[text[i1]] + 7];
+                        currentWidth += fontData[characterFontOffsetTable[text[charIndex]] + 7];
                     }
 
-                    if (text[i1] == ' ')
+                    if (text[charIndex] == ' ')
                     {
-                        l = i1;
+                        lastWordBreak = charIndex;
                     }
 
-                    if (text[i1] == '%')
+                    if (text[charIndex] == '%')
                     {
-                        l = i1;
-                        i = 1000;
+                        lastWordBreak = charIndex;
+                        currentWidth = FloatingTextMaxWidthOverride;
                     }
 
-                    if (i > maxWidth)
+                    if (currentWidth > maxWidth)
                     {
-                        if (l <= k)
+                        if (lastWordBreak <= lineStartIndex)
                         {
-                            l = i1;
+                            lastWordBreak = charIndex;
                         }
 
-                        DrawText(text.Substring(k, l), x, y, fontIndex, colour);
-                        i = 0;
-                        k = i1 = l + 1;
+                        DrawText(text.Substring(lineStartIndex, lastWordBreak), x, y, fontIndex, colour);
+                        currentWidth = 0;
+                        lineStartIndex = charIndex = lastWordBreak + 1;
                         y += TextHeightNumber(fontIndex);
                     }
                 }
 
-                if (i > 0)
+                if (currentWidth > 0)
                 {
-                    DrawText(text[k..], x, y, fontIndex, colour);
+                    DrawText(text[lineStartIndex..], x, y, fontIndex, colour);
                 }
             }
             catch (Exception exception)
@@ -121,125 +134,74 @@ namespace OpenRS.Net.Client.Game
         {
             try
             {
-                sbyte[] abyte0 = gameFonts[fontIndex];
+                sbyte[] fontData = gameFonts[fontIndex];
 
-                try
+                for (int charIndex = 0; charIndex < text.Length; charIndex += 1)
                 {
-                    for (int i = 0; i < text.Length; i += 1)
+                    if (text[charIndex] == '@' && charIndex + 4 < text.Length && text[charIndex + 4] == '@')
                     {
-                        if (text[i] == '@' && i + 4 < text.Length && text[i + 4] == '@')
+                        string colourCode = text.Substring(charIndex + 1, 3).ToLower();
+
+                        colour = colourCode switch
                         {
-                            string colourCode = text.Substring(i + 1, 3).ToLower();
+                            "red" => 0xff0000,
+                            "lre" => 0xff9040,
+                            "yel" => 0xffff00,
+                            "gre" => 0x00ff00,
+                            "blu" => 0x0000ff,
+                            "cya" => 0x00ffff,
+                            "mag" => 0xff00ff,
+                            "whi" => 0xffffff,
+                            "nor" => 0,
+                            "dre" => 0xc00000,
+                            "ora" => 0xff9040,
+                            "ran" => (int)(new Random().NextDouble() * ColourMaxRgb),
+                            "or1" => 0xffb000,
+                            "or2" => 0xff7000,
+                            "or3" => 0xff3000,
+                            "gr1" => 0xc0ff00,
+                            "gr2" => 0x80ff00,
+                            "gr3" => 0x40ff00,
+                            _ => colour
+                        };
 
-                            if (colourCode == "red")
-                            {
-                                colour = 0xff0000;
-                            }
-                            else if (colourCode == "lre")
-                            {
-                                colour = 0xff9040;
-                            }
-                            else if (colourCode == "yel")
-                            {
-                                colour = 0xffff00;
-                            }
-                            else if (colourCode == "gre")
-                            {
-                                colour = 65280;
-                            }
-                            else if (colourCode == "blu")
-                            {
-                                colour = 255;
-                            }
-                            else if (colourCode == "cya")
-                            {
-                                colour = 65535;
-                            }
-                            else if (colourCode == "mag")
-                            {
-                                colour = 0xff00ff;
-                            }
-                            else if (colourCode == "whi")
-                            {
-                                colour = 0xffffff;
-                            }
-                            else if (colourCode == "nor")
-                            {
-                                colour = 0;
-                            }
-                            else if (colourCode == "dre")
-                            {
-                                colour = 0xc00000;
-                            }
-                            else if (colourCode == "ora")
-                            {
-                                colour = 0xff9040;
-                            }
-                            else if (colourCode == "ran")
-                            {
-                                colour = (int)(new Random().NextDouble() * 16777215D);
-                            }
-                            else if (colourCode == "or1")
-                            {
-                                colour = 0xffb000;
-                            }
-                            else if (colourCode == "or2")
-                            {
-                                colour = 0xff7000;
-                            }
-                            else if (colourCode == "or3")
-                            {
-                                colour = 0xff3000;
-                            }
-                            else if (colourCode == "gr1")
-                            {
-                                colour = 0xc0ff00;
-                            }
-                            else if (colourCode == "gr2")
-                            {
-                                colour = 0x80ff00;
-                            }
-                            else if (colourCode == "gr3")
-                            {
-                                colour = 0x40ff00;
-                            }
+                        charIndex += 3;
+                        continue;
+                    }
+                    else if (text[charIndex] == '~' && charIndex + 4 < text.Length && text[charIndex + 4] == '~')
+                    {
+                        char digit0 = text[charIndex + 1];
+                        char digit1 = text[charIndex + 2];
+                        char digit2 = text[charIndex + 3];
 
-                            i += 3;
-                            continue;
-                        }
-                        else if (text[i] == '~' && i + 4 < text.Length && text[i + 4] == '~')
+                        if (digit0 >= '0' && digit0 <= '9' &&
+                            digit1 >= '0' && digit1 <= '9' &&
+                            digit2 >= '0' && digit2 <= '9')
                         {
-                            char c = text[i + 1];
-                            char c1 = text[i + 2];
-                            char c2 = text[i + 3];
-
-                            if (c >= '0' && c <= '9' && c1 >= '0' && c1 <= '9' && c2 >= '0' && c2 <= '9')
-                            {
-                                x = int.Parse(text.Substring(i + 1, i + 4));
-                            }
-
-                            i += 3;
+                            x = int.Parse(text.Substring(charIndex + 1, 3));
                         }
-                        else if (text[i] != '@' && text[i] != '~')
+
+                        charIndex += 3;
+                    }
+                    else if (text[charIndex] != '@' && text[charIndex] != '~')
+                    {
+                        int glyphOffset = characterFontOffsetTable[text[charIndex]];
+                        bool hasShadow = fontShadowEnabled[fontIndex];
+
+                        if (gameImage.IsLoggedIn && !hasShadow && colour != 0)
                         {
-                            int k = characterFontOffsetTable[text[i]];
-
-                            if (gameImage.IsLoggedIn && !fontShadowEnabled[fontIndex] && colour != 0)
-                            {
-                                UnpackSpriteRow(k, x + 1, y, 0, abyte0, fontShadowEnabled[fontIndex]);
-                            }
-
-                            if (gameImage.IsLoggedIn && !fontShadowEnabled[fontIndex] && colour != 0)
-                            {
-                                UnpackSpriteRow(k, x, y + 1, 0, abyte0, fontShadowEnabled[fontIndex]);
-                            }
-
-                            UnpackSpriteRow(k, x, y, colour, abyte0, fontShadowEnabled[fontIndex]);
-                            x += abyte0[k + 7];
+                            UnpackSpriteRow(glyphOffset, x + 1, y, 0, fontData, hasShadow);
                         }
+
+                        if (gameImage.IsLoggedIn && !hasShadow && colour != 0)
+                        {
+                            UnpackSpriteRow(glyphOffset, x, y + 1, 0, fontData, hasShadow);
+                        }
+
+                        UnpackSpriteRow(glyphOffset, x, y, colour, fontData, hasShadow);
+                        x += fontData[glyphOffset + 7];
                     }
                 }
-                catch { }
             }
             catch (Exception exception)
             {
@@ -288,10 +250,8 @@ namespace OpenRS.Net.Client.Game
             {
                 return 29;
             }
-            else
-            {
-                return GetCharacterWidth(fontIndex);
-            }
+
+            return GetCharacterWidth(fontIndex);
         }
 
         internal int GetCharacterWidth(int fontIndex)
@@ -300,34 +260,32 @@ namespace OpenRS.Net.Client.Game
             {
                 return gameFonts[fontIndex][8] - 2;
             }
-            else
-            {
-                return gameFonts[fontIndex][8] - 1;
-            }
+
+            return gameFonts[fontIndex][8] - 1;
         }
 
         internal int TextWidth(string text, int fontIndex)
         {
-            int i = 0;
-            sbyte[] abyte0 = gameFonts[fontIndex];
+            int totalWidth = 0;
+            sbyte[] fontData = gameFonts[fontIndex];
 
-            for (int k = 0; k < text.Length; k += 1)
+            for (int charIndex = 0; charIndex < text.Length; charIndex += 1)
             {
-                if (text[k] == '@' && k + 4 < text.Length && text[k + 4] == '@')
+                if (text[charIndex] == '@' && charIndex + 4 < text.Length && text[charIndex + 4] == '@')
                 {
-                    k += 4;
+                    charIndex += 4;
                 }
-                else if (text[k] == '~' && k + 4 < text.Length && text[k + 4] == '~')
+                else if (text[charIndex] == '~' && charIndex + 4 < text.Length && text[charIndex + 4] == '~')
                 {
-                    k += 4;
+                    charIndex += 4;
                 }
                 else
                 {
-                    i += abyte0[characterFontOffsetTable[text[k]] + 7];
+                    totalWidth += fontData[characterFontOffsetTable[text[charIndex]] + 7];
                 }
             }
 
-            return i;
+            return totalWidth;
         }
 
         private void UnpackSpriteRow(int charOffset, int x, int y, int colour, sbyte[] fontData, bool useShadow)
@@ -335,71 +293,101 @@ namespace OpenRS.Net.Client.Game
             int[] pixels = gameImage.Pixels;
             int gameWidth = gameImage.GameWidth;
 
-            int j1 = x + fontData[charOffset + 5];
-            int k1 = y - fontData[charOffset + 6];
-            int l1 = fontData[charOffset + 3];
-            int i2 = fontData[charOffset + 4];
-            int j2 = fontData[charOffset] * 16384 + fontData[charOffset + 1] * 128 + fontData[charOffset + 2];
-            int k2 = j1 + k1 * gameWidth;
-            int l2 = gameWidth - l1;
-            int i3 = 0;
+            int drawX = x + fontData[charOffset + 5];
+            int drawY = y - fontData[charOffset + 6];
+            int glyphWidth = fontData[charOffset + 3];
+            int glyphHeight = fontData[charOffset + 4];
+            int dataOffset =
+                fontData[charOffset] * GlyphDataMidMultiplier +
+                fontData[charOffset + 1] * GlyphDataLowMultiplier +
+                fontData[charOffset + 2];
+            int pixelOffset = drawX + drawY * gameWidth;
+            int screenStride = gameWidth - glyphWidth;
+            int fontStride = 0;
 
-            if (k1 < gameImage.ImageY)
+            if (drawY < gameImage.ImageY)
             {
-                int j3 = gameImage.ImageY - k1;
-                i2 -= j3;
-                k1 = gameImage.ImageY;
-                j2 += j3 * l1;
-                k2 += j3 * gameWidth;
+                int clippedRows = gameImage.ImageY - drawY;
+                glyphHeight -= clippedRows;
+                drawY = gameImage.ImageY;
+                dataOffset += clippedRows * glyphWidth;
+                pixelOffset += clippedRows * gameWidth;
             }
 
-            if (k1 + i2 >= gameImage.ImageHeight)
+            if (drawY + glyphHeight >= gameImage.ImageHeight)
             {
-                i2 -= k1 + i2 - gameImage.ImageHeight + 1;
+                glyphHeight -= drawY + glyphHeight - gameImage.ImageHeight + 1;
             }
 
-            if (j1 < gameImage.ImageX)
+            if (drawX < gameImage.ImageX)
             {
-                int k3 = gameImage.ImageX - j1;
-                l1 -= k3;
-                j1 = gameImage.ImageX;
-                j2 += k3;
-                k2 += k3;
-                i3 += k3;
-                l2 += k3;
+                int clippedCols = gameImage.ImageX - drawX;
+                glyphWidth -= clippedCols;
+                drawX = gameImage.ImageX;
+                dataOffset += clippedCols;
+                pixelOffset += clippedCols;
+                fontStride += clippedCols;
+                screenStride += clippedCols;
             }
 
-            if (j1 + l1 >= gameImage.ImageWidth)
+            if (drawX + glyphWidth >= gameImage.ImageWidth)
             {
-                int l3 = j1 + l1 - gameImage.ImageWidth + 1;
-                l1 -= l3;
-                i3 += l3;
-                l2 += l3;
+                int overflow = drawX + glyphWidth - gameImage.ImageWidth + 1;
+                glyphWidth -= overflow;
+                fontStride += overflow;
+                screenStride += overflow;
             }
 
-            if (l1 > 0 && i2 > 0)
+            if (glyphWidth > 0 && glyphHeight > 0)
             {
                 if (useShadow)
                 {
-                    DrawCharacterRow(pixels, fontData, colour, j2, k2, l1, i2, l2, i3);
+                    DrawCharacterRow(
+                        pixels,
+                        fontData,
+                        colour,
+                        dataOffset,
+                        pixelOffset,
+                        glyphWidth,
+                        glyphHeight,
+                        screenStride,
+                        fontStride);
+
                     return;
                 }
 
-                PlotLetter(pixels, fontData, colour, j2, k2, l1, i2, l2, i3);
+                PlotLetter(
+                    pixels,
+                    fontData,
+                    colour,
+                    dataOffset,
+                    pixelOffset,
+                    glyphWidth,
+                    glyphHeight,
+                    screenStride,
+                    fontStride);
             }
         }
 
-        private void PlotLetter(int[] screenPixels, sbyte[] fontData, int colour, int glyphOffset, int pixelOffset, int glyphWidth, int glyphHeight,
-                int screenStride, int fontStride)
+        private void PlotLetter(
+            int[] screenPixels,
+            sbyte[] fontData,
+            int colour,
+            int glyphOffset,
+            int pixelOffset,
+            int glyphWidth,
+            int glyphHeight,
+            int screenStride,
+            int fontStride)
         {
             try
             {
-                int i = -(glyphWidth >> 2);
-                glyphWidth = -(glyphWidth & 3);
+                int quadGroups = -(glyphWidth >> 2);
+                int remainder = -(glyphWidth & 3);
 
-                for (int k = -glyphHeight; k < 0; k += 1)
+                for (int rowIndex = -glyphHeight; rowIndex < 0; rowIndex += 1)
                 {
-                    for (int l = i; l < 0; l += 1)
+                    for (int quadIndex = quadGroups; quadIndex < 0; quadIndex += 1)
                     {
                         if (fontData[glyphOffset++] != 0)
                         {
@@ -438,7 +426,7 @@ namespace OpenRS.Net.Client.Game
                         }
                     }
 
-                    for (int i1 = glyphWidth; i1 < 0; i1 += 1)
+                    for (int remainderIndex = remainder; remainderIndex < 0; remainderIndex += 1)
                     {
                         if (fontData[glyphOffset++] != 0)
                         {
@@ -460,25 +448,35 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        private void DrawCharacterRow(int[] pixels, sbyte[] fontData, int colour, int glyphOffset, int pixelOffset, int glyphWidth, int glyphHeight,
-                int screenStride, int fontStride)
+        private void DrawCharacterRow(
+            int[] pixels,
+            sbyte[] fontData,
+            int colour,
+            int glyphOffset,
+            int pixelOffset,
+            int glyphWidth,
+            int glyphHeight,
+            int screenStride,
+            int fontStride)
         {
-            for (int i = -glyphHeight; i < 0; i += 1)
+            for (int rowIndex = -glyphHeight; rowIndex < 0; rowIndex += 1)
             {
-                for (int k = -glyphWidth; k < 0; k += 1)
+                for (int colIndex = -glyphWidth; colIndex < 0; colIndex += 1)
                 {
-                    int l = fontData[glyphOffset++] & 0xff;
+                    int alpha = fontData[glyphOffset++] & 0xff;
 
-                    if (l > 30)
+                    if (alpha > BlendThresholdLow)
                     {
-                        if (l >= 230)
+                        if (alpha >= BlendThresholdHigh)
                         {
                             pixels[pixelOffset++] = colour;
                         }
                         else
                         {
-                            int i1 = pixels[pixelOffset];
-                            pixels[pixelOffset++] = (int)(((colour & 0xff00ff) * l + (i1 & 0xff00ff) * (256 - l) & 0xff00ff00) + ((colour & 0xff00) * l + (i1 & 0xff00) * (256 - l) & 0xff0000) >> 8);
+                            int existingPixel = pixels[pixelOffset];
+                            pixels[pixelOffset++] = (int)(
+                                ((colour & 0xff00ff) * alpha + (existingPixel & 0xff00ff) * (BlendChannelScale - alpha) & 0xff00ff00) +
+                                ((colour & 0xff00) * alpha + (existingPixel & 0xff00) * (BlendChannelScale - alpha) & 0xff0000) >> 8);
                         }
                     }
                     else
