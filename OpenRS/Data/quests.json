@@ -2,117 +2,117 @@
   {
     "id": "black-knights-fortress",
     "v1Id": -1,
-    "name": "quest.black-knights-fortress.name"
+    "name": "quest.black_knights_fortress.name"
   },
   {
     "id": "cooks-assistant",
     "v1Id": -1,
-    "name": "quest.cooks-assistant.name"
+    "name": "quest.cooks_assistant.name"
   },
   {
     "id": "demon-slayer",
     "v1Id": -1,
-    "name": "quest.demon-slayer.name"
+    "name": "quest.demon_slayer.name"
   },
   {
     "id": "dorics-quest",
     "v1Id": -1,
-    "name": "quest.dorics-quest.name"
+    "name": "quest.dorics_quest.name"
   },
   {
     "id": "the-restless-ghost",
     "v1Id": -1,
-    "name": "quest.the-restless-ghost.name"
+    "name": "quest.the_restless_ghost.name"
   },
   {
     "id": "goblin-diplomacy",
     "v1Id": -1,
-    "name": "quest.goblin-diplomacy.name"
+    "name": "quest.goblin_diplomacy.name"
   },
   {
     "id": "ernest-the-chicken",
     "v1Id": -1,
-    "name": "quest.ernest-the-chicken.name"
+    "name": "quest.ernest_the_chicken.name"
   },
   {
     "id": "imp-catcher",
     "v1Id": -1,
-    "name": "quest.imp-catcher.name"
+    "name": "quest.imp_catcher.name"
   },
   {
     "id": "pirates-treasure",
     "v1Id": -1,
-    "name": "quest.pirates-treasure.name"
+    "name": "quest.pirates_treasure.name"
   },
   {
     "id": "prince-ali-rescue",
     "v1Id": -1,
-    "name": "quest.prince-ali-rescue.name"
+    "name": "quest.prince_ali_rescue.name"
   },
   {
     "id": "romeo-and-juliet",
     "v1Id": -1,
-    "name": "quest.romeo-and-juliet.name"
+    "name": "quest.romeo_and_juliet.name"
   },
   {
     "id": "sheep-shearer",
     "v1Id": -1,
-    "name": "quest.sheep-shearer.name"
+    "name": "quest.sheep_shearer.name"
   },
   {
     "id": "shield-of-arrav",
     "v1Id": -1,
-    "name": "quest.shield-of-arrav.name"
+    "name": "quest.shield_of_arrav.name"
   },
   {
     "id": "the-knights-sword",
     "v1Id": -1,
-    "name": "quest.the-knights-sword.name"
+    "name": "quest.the_knights_sword.name"
   },
   {
     "id": "vampire-slayer",
     "v1Id": -1,
-    "name": "quest.vampire-slayer.name"
+    "name": "quest.vampire_slayer.name"
   },
   {
     "id": "witchs-potion",
     "v1Id": -1,
-    "name": "quest.witchs-potion.name"
+    "name": "quest.witchs_potion.name"
   },
   {
     "id": "dragon-slayer",
     "v1Id": -1,
-    "name": "quest.dragon-slayer.name"
+    "name": "quest.dragon_slayer.name"
   },
   {
     "id": "witchs-house",
     "v1Id": -1,
-    "name": "quest.witchs-house.name"
+    "name": "quest.witchs_house.name"
   },
   {
     "id": "lost-city",
     "v1Id": -1,
-    "name": "quest.lost-city.name"
+    "name": "quest.lost_city.name"
   },
   {
     "id": "heros-quest",
     "v1Id": -1,
-    "name": "quest.heros-quest.name"
+    "name": "quest.heros_quest.name"
   },
   {
     "id": "druidic-ritual",
     "v1Id": -1,
-    "name": "quest.druidic-ritual.name"
+    "name": "quest.druidic_ritual.name"
   },
   {
     "id": "merlins-crystal",
     "v1Id": -1,
-    "name": "quest.merlins-crystal.name"
+    "name": "quest.merlins_crystal.name"
   },
   {
     "id": "scorpion-catcher",
     "v1Id": -1,
-    "name": "quest.scorpion-catcher.name"
+    "name": "quest.scorpion_catcher.name"
   },
   {
     "id": "family-crest",
@@ -127,62 +127,62 @@
   {
     "id": "fishing-contest",
     "v1Id": -1,
-    "name": "quest.fishing-contest.name"
+    "name": "quest.fishing_contest.name"
   },
   {
     "id": "monks-friend",
     "v1Id": -1,
-    "name": "quest.monks-friend.name"
+    "name": "quest.monks_friend.name"
   },
   {
     "id": "temple-of-ikov",
     "v1Id": -1,
-    "name": "quest.temple-of-ikov.name"
+    "name": "quest.temple_of_ikov.name"
   },
   {
     "id": "clock-tower",
     "v1Id": -1,
-    "name": "quest.clock-tower.name"
+    "name": "quest.clock_tower.name"
   },
   {
     "id": "the-holy-grail",
     "v1Id": -1,
-    "name": "quest.the-holy-grail.name"
+    "name": "quest.the_holy_grail.name"
   },
   {
     "id": "fight-arena",
     "v1Id": -1,
-    "name": "quest.fight-arena.name"
+    "name": "quest.fight_arena.name"
   },
   {
     "id": "tree-gnome-village",
     "v1Id": -1,
-    "name": "quest.tree-gnome-village.name"
+    "name": "quest.tree_gnome_village.name"
   },
   {
     "id": "the-hazeel-cult",
     "v1Id": -1,
-    "name": "quest.the-hazeel-cult.name"
+    "name": "quest.the_hazeel_cult.name"
   },
   {
     "id": "sheep-herder",
     "v1Id": -1,
-    "name": "quest.sheep-herder.name"
+    "name": "quest.sheep_herder.name"
   },
   {
     "id": "plague-city",
     "v1Id": -1,
-    "name": "quest.plague-city.name"
+    "name": "quest.plague_city.name"
   },
   {
     "id": "sea-slug",
     "v1Id": -1,
-    "name": "quest.sea-slug.name"
+    "name": "quest.sea_slug.name"
   },
   {
     "id": "waterfall-quest",
     "v1Id": -1,
-    "name": "quest.waterfall-quest.name"
+    "name": "quest.waterfall_quest.name"
   },
   {
     "id": "biohazard",
@@ -192,7 +192,7 @@
   {
     "id": "jungle-potion",
     "v1Id": -1,
-    "name": "quest.jungle-potion.name"
+    "name": "quest.jungle_potion.name"
   },
   {
     "id": "grand-tree",
@@ -202,22 +202,22 @@
   {
     "id": "shilo-village",
     "v1Id": -1,
-    "name": "quest.shilo-village.name"
+    "name": "quest.shilo_village.name"
   },
   {
     "id": "underground-pass",
     "v1Id": -1,
-    "name": "quest.underground-pass.name"
+    "name": "quest.underground_pass.name"
   },
   {
     "id": "observatory-quest",
     "v1Id": -1,
-    "name": "quest.observatory-quest.name"
+    "name": "quest.observatory_quest.name"
   },
   {
     "id": "tourist-trap",
     "v1Id": -1,
-    "name": "quest.tourist-trap.name"
+    "name": "quest.tourist_trap.name"
   },
   {
     "id": "watchtower",
@@ -227,12 +227,12 @@
   {
     "id": "dwarf-cannon",
     "v1Id": -1,
-    "name": "quest.dwarf-cannon.name"
+    "name": "quest.dwarf_cannon.name"
   },
   {
     "id": "murder-mystery",
     "v1Id": -1,
-    "name": "quest.murder-mystery.name"
+    "name": "quest.murder_mystery.name"
   },
   {
     "id": "digsite",
@@ -242,11 +242,11 @@
   {
     "id": "gertrudes-cat",
     "v1Id": -1,
-    "name": "quest.gertrudes-cat.name"
+    "name": "quest.gertrudes_cat.name"
   },
   {
     "id": "legends-quest",
     "v1Id": -1,
-    "name": "quest.legends-quest.name"
+    "name": "quest.legends_quest.name"
   }
 ]

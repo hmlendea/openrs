@@ -49,15 +49,15 @@ namespace OpenRS.Net.Client.Game.Cameras
             int bottomVertexIndex = HighlightedObject.AddVertex(x, y - height, z);
             int[] spriteVertexIndices = [topVertexIndex, bottomVertexIndex];
             HighlightedObject.AddFaceVertices(2, spriteVertexIndices, 0, 0);
-            HighlightedObject.entityType[sceneObjectCount] = entityType;
-            HighlightedObject.polygonTypeData[sceneObjectCount] = 0;
+            HighlightedObject.EntityType[sceneObjectCount] = entityType;
+            HighlightedObject.PolygonTypeData[sceneObjectCount] = 0;
             sceneObjectCount += 1;
 
             return sceneObjectCount - 1;
         }
 
         public void RemoveSprite(int spriteIndex)
-            => HighlightedObject.polygonTypeData[spriteIndex] = 1;
+            => HighlightedObject.PolygonTypeData[spriteIndex] = 1;
 
         public void UpdateSpritePosition(int spriteIndex, int frameIndex)
             => sceneObjectFrames[spriteIndex] = frameIndex;

@@ -662,12 +662,12 @@ namespace OpenRS.Net.Client.World
                 int entitySlotId = entitySlots[optionIndex];
                 GameObject highlightedObject = objects[optionIndex];
 
-                if (highlightedObject.entityType[entitySlotId] <= 65535 || highlightedObject.entityType[entitySlotId] >= 0x30d40 && highlightedObject.entityType[entitySlotId] <= 0x493e0)
+                if (highlightedObject.EntityType[entitySlotId] <= 65535 || highlightedObject.EntityType[entitySlotId] >= 0x30d40 && highlightedObject.EntityType[entitySlotId] <= 0x493e0)
                 {
                     if (highlightedObject == client.gameCamera.HighlightedObject)
                     {
-                        int entityIndex = highlightedObject.entityType[entitySlotId] % 10000;
-                        int entityKind = highlightedObject.entityType[entitySlotId] / 10000;
+                        int entityIndex = highlightedObject.EntityType[entitySlotId] % 10000;
+                        int entityKind = highlightedObject.EntityType[entitySlotId] / 10000;
 
                         if (entityKind == 1)
                         {
@@ -964,9 +964,9 @@ namespace OpenRS.Net.Client.World
                             }
                         }
                     }
-                    else if (highlightedObject is not null && highlightedObject.index >= 10000)
+                    else if (highlightedObject is not null && highlightedObject.Index >= 10000)
                     {
-                        int wallObjectSlotIndex = highlightedObject.index - 10000;
+                        int wallObjectSlotIndex = highlightedObject.Index - 10000;
                         int wallObjectId = client.wallObjectID[wallObjectSlotIndex];
 
                         if (!client.wallObjectAlreadyInMenu[wallObjectSlotIndex])
@@ -1030,9 +1030,9 @@ namespace OpenRS.Net.Client.World
                             client.wallObjectAlreadyInMenu[wallObjectSlotIndex] = true;
                         }
                     }
-                    else if (highlightedObject is not null && highlightedObject.index >= 0)
+                    else if (highlightedObject is not null && highlightedObject.Index >= 0)
                     {
-                        int objectSlotIndex = highlightedObject.index;
+                        int objectSlotIndex = highlightedObject.Index;
                         int objectTypeId = client.objectType[objectSlotIndex];
 
                         if (!client.objectAlreadyInMenu[objectSlotIndex])
@@ -1106,7 +1106,7 @@ namespace OpenRS.Net.Client.World
 
                         if (groundEntitySlotId >= 0)
                         {
-                            groundEntitySlotId = highlightedObject.entityType[entitySlotId] - 0x30d40;
+                            groundEntitySlotId = highlightedObject.EntityType[entitySlotId] - 0x30d40;
                         }
 
                         if (groundEntitySlotId >= 0)

@@ -69,7 +69,7 @@ namespace OpenRS.Net.Client.Game
 
                     int vertexIndex = sectionObj.GetVertexIndex(tileX * EngineHandle.TileWorldSize, elevation, tileY * EngineHandle.TileWorldSize);
                     int vertexColour = (int)(Helper.Random.NextDouble() * 10D) - 5;
-                    sectionObj.SetVertexColor(vertexIndex, vertexColour);
+                    sectionObj.SetVertexColour(vertexIndex, vertexColour);
                 }
             }
         }
@@ -209,7 +209,7 @@ namespace OpenRS.Net.Client.Game
                                 int faceIndex = sectionObj.AddFaceVertices(3, triangleCoords1, EngineHandle.EmptyTileColour, primaryTexture);
                                 engineHandle.selectedX[faceIndex] = tileX;
                                 engineHandle.selectedY[faceIndex] = tileY;
-                                sectionObj.entityType[faceIndex] = EngineHandle.TileEntityTypeBase + faceIndex;
+                                sectionObj.EntityType[faceIndex] = EngineHandle.TileEntityTypeBase + faceIndex;
                             }
 
                             if (secondaryTexture != EngineHandle.EmptyTileColour)
@@ -220,7 +220,7 @@ namespace OpenRS.Net.Client.Game
                                 int faceIndex = sectionObj.AddFaceVertices(3, triangleCoords2, EngineHandle.EmptyTileColour, secondaryTexture);
                                 engineHandle.selectedX[faceIndex] = tileX;
                                 engineHandle.selectedY[faceIndex] = tileY;
-                                sectionObj.entityType[faceIndex] = EngineHandle.TileEntityTypeBase + faceIndex;
+                                sectionObj.EntityType[faceIndex] = EngineHandle.TileEntityTypeBase + faceIndex;
                             }
                         }
                         else
@@ -233,7 +233,7 @@ namespace OpenRS.Net.Client.Game
                                 int faceIndex = sectionObj.AddFaceVertices(3, triangleCoords1, EngineHandle.EmptyTileColour, primaryTexture);
                                 engineHandle.selectedX[faceIndex] = tileX;
                                 engineHandle.selectedY[faceIndex] = tileY;
-                                sectionObj.entityType[faceIndex] = EngineHandle.TileEntityTypeBase + faceIndex;
+                                sectionObj.EntityType[faceIndex] = EngineHandle.TileEntityTypeBase + faceIndex;
                             }
 
                             if (secondaryTexture != EngineHandle.EmptyTileColour)
@@ -244,7 +244,7 @@ namespace OpenRS.Net.Client.Game
                                 int faceIndex = sectionObj.AddFaceVertices(3, triangleCoords2, EngineHandle.EmptyTileColour, secondaryTexture);
                                 engineHandle.selectedX[faceIndex] = tileX;
                                 engineHandle.selectedY[faceIndex] = tileY;
-                                sectionObj.entityType[faceIndex] = EngineHandle.TileEntityTypeBase + faceIndex;
+                                sectionObj.EntityType[faceIndex] = EngineHandle.TileEntityTypeBase + faceIndex;
                             }
                         }
                     }
@@ -260,7 +260,7 @@ namespace OpenRS.Net.Client.Game
                         int faceIndex = sectionObj.AddFaceVertices(4, quadCoords, EngineHandle.EmptyTileColour, primaryTexture);
                         engineHandle.selectedX[faceIndex] = tileX;
                         engineHandle.selectedY[faceIndex] = tileY;
-                        sectionObj.entityType[faceIndex] = EngineHandle.TileEntityTypeBase + faceIndex;
+                        sectionObj.EntityType[faceIndex] = EngineHandle.TileEntityTypeBase + faceIndex;
                     }
                 }
             }
@@ -288,7 +288,7 @@ namespace OpenRS.Net.Client.Game
                         int faceIndex = sectionObj.AddFaceVertices(4, faceVerts, tileColour, EngineHandle.EmptyTileColour);
                         engineHandle.selectedX[faceIndex] = tileX;
                         engineHandle.selectedY[faceIndex] = tileY;
-                        sectionObj.entityType[faceIndex] = EngineHandle.TileEntityTypeBase + faceIndex;
+                        sectionObj.EntityType[faceIndex] = EngineHandle.TileEntityTypeBase + faceIndex;
                         engineHandle.DrawMinimapPixel(tileX, tileY, 0, tileColour, tileColour);
                     }
                     else if (engineHandle.GetTileGroundOverlayIndex(tileX, tileY, height) == 0 ||
@@ -322,7 +322,7 @@ namespace OpenRS.Net.Client.Game
             int faceIndex = sectionObj.AddFaceVertices(4, faceVerts, tileColour, EngineHandle.EmptyTileColour);
             engineHandle.selectedX[faceIndex] = tileX;
             engineHandle.selectedY[faceIndex] = tileY;
-            sectionObj.entityType[faceIndex] = EngineHandle.TileEntityTypeBase + faceIndex;
+            sectionObj.EntityType[faceIndex] = EngineHandle.TileEntityTypeBase + faceIndex;
             engineHandle.DrawMinimapPixel(tileX, tileY, 0, tileColour, tileColour);
         }
 

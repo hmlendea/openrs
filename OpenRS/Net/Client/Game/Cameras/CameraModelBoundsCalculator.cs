@@ -16,18 +16,18 @@ namespace OpenRS.Net.Client.Game.Cameras
         {
             GameObject gameObject = cameraModel.SourceObject;
             int faceIndex = cameraModel.FaceIndex;
-            int[] faceVertices = gameObject.face_vertices[faceIndex];
-            int faceVertCount = gameObject.face_vertices_count[faceIndex];
-            int normaliseScale = gameObject.faceRenderFlag[faceIndex];
-            int vert0X = gameObject.projectedX[faceVertices[0]];
-            int vert0Y = gameObject.projectedY[faceVertices[0]];
-            int vert0Depth = gameObject.projectedDepth[faceVertices[0]];
-            int edge1X = gameObject.projectedX[faceVertices[1]] - vert0X;
-            int edge1Y = gameObject.projectedY[faceVertices[1]] - vert0Y;
-            int edge1Depth = gameObject.projectedDepth[faceVertices[1]] - vert0Depth;
-            int edge2X = gameObject.projectedX[faceVertices[2]] - vert0X;
-            int edge2Y = gameObject.projectedY[faceVertices[2]] - vert0Y;
-            int edge2Depth = gameObject.projectedDepth[faceVertices[2]] - vert0Depth;
+            int[] faceVertices = gameObject.FaceVertexIndices[faceIndex];
+            int faceVertCount = gameObject.FaceVertexCounts[faceIndex];
+            int normaliseScale = gameObject.FaceRenderFlag[faceIndex];
+            int vert0X = gameObject.ProjectedX[faceVertices[0]];
+            int vert0Y = gameObject.ProjectedY[faceVertices[0]];
+            int vert0Depth = gameObject.ProjectedDepth[faceVertices[0]];
+            int edge1X = gameObject.ProjectedX[faceVertices[1]] - vert0X;
+            int edge1Y = gameObject.ProjectedY[faceVertices[1]] - vert0Y;
+            int edge1Depth = gameObject.ProjectedDepth[faceVertices[1]] - vert0Depth;
+            int edge2X = gameObject.ProjectedX[faceVertices[2]] - vert0X;
+            int edge2Y = gameObject.ProjectedY[faceVertices[2]] - vert0Y;
+            int edge2Depth = gameObject.ProjectedDepth[faceVertices[2]] - vert0Depth;
             int normalX = edge1Y * edge2Depth - edge2Y * edge1Depth;
             int normalY = edge1Depth * edge2X - edge2Depth * edge1X;
             int normalZ = edge1X * edge2Y - edge2X * edge1Y;
@@ -49,13 +49,13 @@ namespace OpenRS.Net.Client.Game.Cameras
                     normalZ >>= 1;
                 }
 
-                gameObject.faceRenderFlag[faceIndex] = normaliseScale;
+                gameObject.FaceRenderFlag[faceIndex] = normaliseScale;
 
                 double normalMagnitude = Math.Sqrt(
                     normalX * normalX +
                     normalY * normalY +
                     normalZ * normalZ);
-                gameObject.faceVisibility[faceIndex] = (int)(lightingFactor * normalMagnitude);
+                gameObject.FaceVisibility[faceIndex] = (int)(lightingFactor * normalMagnitude);
             }
             else
             {
@@ -79,24 +79,24 @@ namespace OpenRS.Net.Client.Game.Cameras
         {
             GameObject gameObject = cameraModel.SourceObject;
             int faceIndex = cameraModel.FaceIndex;
-            int[] faceVertices = gameObject.face_vertices[faceIndex];
-            int vert0Depth = gameObject.projectedDepth[faceVertices[0]];
-            gameObject.faceVisibility[faceIndex] = SpriteFrontFacingNormal;
-            gameObject.faceRenderFlag[faceIndex] = 0;
+            int[] faceVertices = gameObject.FaceVertexIndices[faceIndex];
+            int vert0Depth = gameObject.ProjectedDepth[faceVertices[0]];
+            gameObject.FaceVisibility[faceIndex] = SpriteFrontFacingNormal;
+            gameObject.FaceRenderFlag[faceIndex] = 0;
             cameraModel.VisibilityDot = vert0Depth;
             cameraModel.NormalX = 0;
             cameraModel.NormalY = 0;
             cameraModel.NormalZ = SpriteFrontFacingNormal;
 
-            int vert1Depth = gameObject.projectedDepth[faceVertices[1]];
+            int vert1Depth = gameObject.ProjectedDepth[faceVertices[1]];
             int depthMin = Math.Min(vert0Depth, vert1Depth);
             int depthMax = Math.Max(vert0Depth, vert1Depth);
-            int vert0U = gameObject.projectedU[faceVertices[0]];
-            int vert1U = gameObject.projectedU[faceVertices[1]];
+            int vert0U = gameObject.ProjectedU[faceVertices[0]];
+            int vert1U = gameObject.ProjectedU[faceVertices[1]];
             int projUMin = Math.Min(vert0U, vert1U);
             int projUMax = Math.Max(vert0U, vert1U);
-            int projVMin = gameObject.projectedV[faceVertices[1]];
-            int projVMax = gameObject.projectedV[faceVertices[0]];
+            int projVMin = gameObject.ProjectedV[faceVertices[1]];
+            int projVMax = gameObject.ProjectedV[faceVertices[0]];
 
             if (projVMin > projVMax)
             {
@@ -117,22 +117,22 @@ namespace OpenRS.Net.Client.Game.Cameras
             int[] faceVertices,
             int faceVertCount)
         {
-            int depthMin = gameObject.projectedDepth[faceVertices[0]];
+            int depthMin = gameObject.ProjectedDepth[faceVertices[0]];
             int depthMax = depthMin;
-            int projUMin = gameObject.projectedU[faceVertices[0]];
+            int projUMin = gameObject.ProjectedU[faceVertices[0]];
             int projUMax = projUMin;
-            int projVMin = gameObject.projectedV[faceVertices[0]];
+            int projVMin = gameObject.ProjectedV[faceVertices[0]];
             int projVMax = projVMin;
 
             for (int vertLoopIndex = 1; vertLoopIndex < faceVertCount; vertLoopIndex += 1)
             {
                 int vertexIndex = faceVertices[vertLoopIndex];
-                depthMin = Math.Min(depthMin, gameObject.projectedDepth[vertexIndex]);
-                depthMax = Math.Max(depthMax, gameObject.projectedDepth[vertexIndex]);
-                projUMin = Math.Min(projUMin, gameObject.projectedU[vertexIndex]);
-                projUMax = Math.Max(projUMax, gameObject.projectedU[vertexIndex]);
-                projVMin = Math.Min(projVMin, gameObject.projectedV[vertexIndex]);
-                projVMax = Math.Max(projVMax, gameObject.projectedV[vertexIndex]);
+                depthMin = Math.Min(depthMin, gameObject.ProjectedDepth[vertexIndex]);
+                depthMax = Math.Max(depthMax, gameObject.ProjectedDepth[vertexIndex]);
+                projUMin = Math.Min(projUMin, gameObject.ProjectedU[vertexIndex]);
+                projUMax = Math.Max(projUMax, gameObject.ProjectedU[vertexIndex]);
+                projVMin = Math.Min(projVMin, gameObject.ProjectedV[vertexIndex]);
+                projVMax = Math.Max(projVMax, gameObject.ProjectedV[vertexIndex]);
             }
 
             cameraModel.BoundsMinZ = depthMin;

@@ -258,7 +258,7 @@ namespace OpenRS.Net.Client.Entities
                 client.gameCamera.AddModel(wallModel);
             }
 
-            wallModel.index = totalCount + WallObjectIndexOffset;
+            wallModel.Index = totalCount + WallObjectIndexOffset;
 
             return wallModel;
         }

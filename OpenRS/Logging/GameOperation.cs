@@ -12,6 +12,7 @@ namespace OpenRS.Logging
         public static Operation ForceShutdown => new GameOperation(nameof(ForceShutdown));
         public static Operation HandlePacket => new GameOperation(nameof(HandlePacket));
         public static Operation LoadAnimations => new GameOperation(nameof(LoadAnimations));
+        public static Operation LoadGameObject => new GameOperation(nameof(LoadGameObject));
         public static Operation LoadItemTexture => new GameOperation(nameof(LoadItemTexture));
         public static Operation LoadSection => new GameOperation(nameof(LoadSection));
         public static Operation Authenticate => new GameOperation(nameof(Authenticate));

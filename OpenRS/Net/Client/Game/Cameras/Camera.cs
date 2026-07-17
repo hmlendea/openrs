@@ -374,7 +374,7 @@ namespace OpenRS.Net.Client.Game.Cameras
         private bool ProjectAllObjects()
         {
             objectCache[currentObjectCount] = sceneObjectTracker.HighlightedObject;
-            sceneObjectTracker.HighlightedObject.objectState = 2;
+            sceneObjectTracker.HighlightedObject.ObjectState = 2;
 
             for (int projectionIndex = 0; projectionIndex < currentObjectCount; projectionIndex += 1)
             {
@@ -427,12 +427,12 @@ namespace OpenRS.Net.Client.Game.Cameras
                     continue;
                 }
 
-                if (!currentObject.visible)
+                if (!currentObject.IsVisible)
                 {
                     continue;
                 }
 
-                for (int faceIndex = 0; faceIndex < currentObject.face_count; faceIndex += 1)
+                for (int faceIndex = 0; faceIndex < currentObject.FaceCount; faceIndex += 1)
                 {
                     CollectVisibleFace(currentObject, faceIndex);
                 }
@@ -441,13 +441,13 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         private void CollectVisibleFace(GameObject currentObject, int faceIndex)
         {
-            int faceVertCount = currentObject.face_vertices_count[faceIndex];
-            int[] faceVertIndices = currentObject.face_vertices[faceIndex];
+            int faceVertCount = currentObject.FaceVertexCounts[faceIndex];
+            int[] faceVertIndices = currentObject.FaceVertexIndices[faceIndex];
             bool hasVisibleVertex = false;
 
             for (int vertIndex = 0; vertIndex < faceVertCount; vertIndex += 1)
             {
-                int vertDepth = currentObject.projectedDepth[faceVertIndices[vertIndex]];
+                int vertDepth = currentObject.ProjectedDepth[faceVertIndices[vertIndex]];
 
                 if (vertDepth <= NearPlane || vertDepth >= FarClipDistance)
                 {
@@ -467,7 +467,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
             for (int horzCheckIndex = 0; horzCheckIndex < faceVertCount; horzCheckIndex += 1)
             {
-                int projectedU = currentObject.projectedU[faceVertIndices[horzCheckIndex]];
+                int projectedU = currentObject.ProjectedU[faceVertIndices[horzCheckIndex]];
 
                 if (projectedU > -screenCentreX)
                 {
@@ -494,7 +494,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
             for (int vertCheckIndex = 0; vertCheckIndex < faceVertCount; vertCheckIndex += 1)
             {
-                int projectedV = currentObject.projectedV[faceVertIndices[vertCheckIndex]];
+                int projectedV = currentObject.ProjectedV[faceVertIndices[vertCheckIndex]];
 
                 if (projectedV > -screenCentreY)
                 {
@@ -525,11 +525,11 @@ namespace OpenRS.Net.Client.Game.Cameras
 
             if (cameraModel.VisibilityDot < 0)
             {
-                textureIndex = currentObject.texture_back[faceIndex];
+                textureIndex = currentObject.TextureBack[faceIndex];
             }
             else
             {
-                textureIndex = currentObject.texture_front[faceIndex];
+                textureIndex = currentObject.TextureFront[faceIndex];
             }
 
             if (textureIndex == NotSetSentinel)
@@ -541,10 +541,10 @@ namespace OpenRS.Net.Client.Game.Cameras
 
             for (int depthAccumIndex = 0; depthAccumIndex < faceVertCount; depthAccumIndex += 1)
             {
-                totalDepth += currentObject.projectedDepth[faceVertIndices[depthAccumIndex]];
+                totalDepth += currentObject.ProjectedDepth[faceVertIndices[depthAccumIndex]];
             }
 
-            cameraModel.Scale = totalDepth / faceVertCount + currentObject.scaleBias;
+            cameraModel.Scale = totalDepth / faceVertCount + currentObject.ScaleBias;
             cameraModel.CurrentTextureIndex = textureIndex;
             currentModelIndex += 1;
         }
@@ -553,18 +553,18 @@ namespace OpenRS.Net.Client.Game.Cameras
         {
             GameObject spriteScene = sceneObjectTracker.HighlightedObject;
 
-            if (!spriteScene.visible)
+            if (!spriteScene.IsVisible)
             {
                 return;
             }
 
-            for (int spriteIndex = 0; spriteIndex < spriteScene.face_count; spriteIndex += 1)
+            for (int spriteIndex = 0; spriteIndex < spriteScene.FaceCount; spriteIndex += 1)
             {
-                int[] spriteVertices = spriteScene.face_vertices[spriteIndex];
+                int[] spriteVertices = spriteScene.FaceVertexIndices[spriteIndex];
                 int firstVertexIndex = spriteVertices[0];
-                int spriteProjU = spriteScene.projectedU[firstVertexIndex];
-                int spriteProjV = spriteScene.projectedV[firstVertexIndex];
-                int spriteDepth = spriteScene.projectedDepth[firstVertexIndex];
+                int spriteProjU = spriteScene.ProjectedU[firstVertexIndex];
+                int spriteProjV = spriteScene.ProjectedV[firstVertexIndex];
+                int spriteDepth = spriteScene.ProjectedDepth[firstVertexIndex];
 
                 if (spriteDepth <= NearPlane || spriteDepth >= SpriteFarClipDistance)
                 {
@@ -583,7 +583,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                     spriteCameraModel.SourceObject = spriteScene;
                     spriteCameraModel.FaceIndex = spriteIndex;
                     CameraModelBoundsCalculator.ComputeSpriteBounds(spriteCameraModel);
-                    spriteCameraModel.Scale = (spriteDepth + spriteScene.projectedDepth[spriteVertices[1]]) / 2;
+                    spriteCameraModel.Scale = (spriteDepth + spriteScene.ProjectedDepth[spriteVertices[1]]) / 2;
                     currentModelIndex += 1;
                 }
             }
@@ -612,14 +612,14 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         private void RenderSpriteModel(GameObject model, int faceIndex)
         {
-            int[] spriteFaceVerts = model.face_vertices[faceIndex];
+            int[] spriteFaceVerts = model.FaceVertexIndices[faceIndex];
             int spriteFirstVertex = spriteFaceVerts[0];
-            int spriteProjU = model.projectedU[spriteFirstVertex];
-            int spriteProjV = model.projectedV[spriteFirstVertex];
-            int spriteDepth = model.projectedDepth[spriteFirstVertex];
+            int spriteProjU = model.ProjectedU[spriteFirstVertex];
+            int spriteProjV = model.ProjectedV[spriteFirstVertex];
+            int spriteDepth = model.ProjectedDepth[spriteFirstVertex];
             int spriteWidth = (sceneObjectTracker.SceneObjectWidths[faceIndex] << screenProjectionShift) / spriteDepth;
             int spriteHeight = (sceneObjectTracker.SceneObjectHeights[faceIndex] << screenProjectionShift) / spriteDepth;
-            int xOffset = model.projectedU[spriteFaceVerts[1]] - spriteProjU;
+            int xOffset = model.ProjectedU[spriteFaceVerts[1]] - spriteProjU;
             int screenX = spriteProjU - spriteWidth / 2;
             int screenY = scanlineBufferCentre + spriteProjV - spriteHeight;
             gameImage.DrawVisibleEntity(
@@ -642,8 +642,8 @@ namespace OpenRS.Net.Client.Game.Cameras
                 sceneObjectTracker.MouseAdjustedY <= screenY + spriteHeight &&
                 sceneObjectTracker.MouseAdjustedX >= hitScreenX &&
                 sceneObjectTracker.MouseAdjustedX <= hitScreenX + spriteWidth &&
-                !model.shareEntityArrays &&
-                model.polygonTypeData[faceIndex] == 0)
+                !model.DoesShareEntityArrays &&
+                model.PolygonTypeData[faceIndex] == 0)
             {
                 sceneObjectTracker.RecordHit(model, faceIndex);
             }
@@ -653,49 +653,49 @@ namespace OpenRS.Net.Client.Game.Cameras
         {
             int clippedVertCount = 0;
             int shadeLevel = 0;
-            int vertCount = model.face_vertices_count[faceIndex];
-            int[] modelFaceVerts = model.face_vertices[faceIndex];
+            int vertCount = model.FaceVertexCounts[faceIndex];
+            int[] modelFaceVerts = model.FaceVertexIndices[faceIndex];
 
-            if (model.gouraud_shade[faceIndex] != NotSetSentinel)
+            if (model.GouraudShade[faceIndex] != NotSetSentinel)
             {
                 if (sortedModel.VisibilityDot < 0)
                 {
-                    shadeLevel = model.baseShadeLevel - model.gouraud_shade[faceIndex];
+                    shadeLevel = model.BaseShadeLevel - model.GouraudShade[faceIndex];
                 }
                 else
                 {
-                    shadeLevel = model.baseShadeLevel + model.gouraud_shade[faceIndex];
+                    shadeLevel = model.BaseShadeLevel + model.GouraudShade[faceIndex];
                 }
             }
 
             for (int faceVertLoopIndex = 0; faceVertLoopIndex < vertCount; faceVertLoopIndex += 1)
             {
                 int vertIndex = modelFaceVerts[faceVertLoopIndex];
-                polygonVertexScreenX[faceVertLoopIndex] = model.projectedX[vertIndex];
-                polygonVertexScreenY[faceVertLoopIndex] = model.projectedY[vertIndex];
-                polygonVertexDepth[faceVertLoopIndex] = model.projectedDepth[vertIndex];
+                polygonVertexScreenX[faceVertLoopIndex] = model.ProjectedX[vertIndex];
+                polygonVertexScreenY[faceVertLoopIndex] = model.ProjectedY[vertIndex];
+                polygonVertexDepth[faceVertLoopIndex] = model.ProjectedDepth[vertIndex];
 
-                if (model.gouraud_shade[faceIndex] == NotSetSentinel)
+                if (model.GouraudShade[faceIndex] == NotSetSentinel)
                 {
                     if (sortedModel.VisibilityDot < 0)
                     {
-                        shadeLevel = model.baseShadeLevel - model.faceNormalComponent[vertIndex] + model.vertexColor[vertIndex];
+                        shadeLevel = model.BaseShadeLevel - model.FaceNormalComponent[vertIndex] + model.VertexColour[vertIndex];
                     }
                     else
                     {
-                        shadeLevel = model.baseShadeLevel + model.faceNormalComponent[vertIndex] + model.vertexColor[vertIndex];
+                        shadeLevel = model.BaseShadeLevel + model.FaceNormalComponent[vertIndex] + model.VertexColour[vertIndex];
                     }
                 }
 
-                if (model.projectedDepth[vertIndex] >= NearPlane)
+                if (model.ProjectedDepth[vertIndex] >= NearPlane)
                 {
-                    clippedPolygonScreenX[clippedVertCount] = model.projectedU[vertIndex];
-                    clippedPolygonScreenY[clippedVertCount] = model.projectedV[vertIndex];
+                    clippedPolygonScreenX[clippedVertCount] = model.ProjectedU[vertIndex];
+                    clippedPolygonScreenY[clippedVertCount] = model.ProjectedV[vertIndex];
                     clippedPolygonShadeLevels[clippedVertCount] = shadeLevel;
 
-                    if (model.projectedDepth[vertIndex] > FogStartDistance)
+                    if (model.ProjectedDepth[vertIndex] > FogStartDistance)
                     {
-                        clippedPolygonShadeLevels[clippedVertCount] += (model.projectedDepth[vertIndex] - FogStartDistance) / FogGradientStep;
+                        clippedPolygonShadeLevels[clippedVertCount] += (model.ProjectedDepth[vertIndex] - FogStartDistance) / FogGradientStep;
                     }
 
                     clippedVertCount += 1;
@@ -748,11 +748,11 @@ namespace OpenRS.Net.Client.Game.Cameras
                 prevAdjacentVertIndex = modelFaceVerts[faceVertLoopIndex - 1];
             }
 
-            if (model.projectedDepth[prevAdjacentVertIndex] >= NearPlane)
+            if (model.ProjectedDepth[prevAdjacentVertIndex] >= NearPlane)
             {
-                int prevDepthDiff = model.projectedDepth[vertIndex] - model.projectedDepth[prevAdjacentVertIndex];
-                int clippedX = model.projectedX[vertIndex] - (model.projectedX[vertIndex] - model.projectedX[prevAdjacentVertIndex]) * (model.projectedDepth[vertIndex] - NearPlane) / prevDepthDiff;
-                int clippedY = model.projectedY[vertIndex] - (model.projectedY[vertIndex] - model.projectedY[prevAdjacentVertIndex]) * (model.projectedDepth[vertIndex] - NearPlane) / prevDepthDiff;
+                int prevDepthDiff = model.ProjectedDepth[vertIndex] - model.ProjectedDepth[prevAdjacentVertIndex];
+                int clippedX = model.ProjectedX[vertIndex] - (model.ProjectedX[vertIndex] - model.ProjectedX[prevAdjacentVertIndex]) * (model.ProjectedDepth[vertIndex] - NearPlane) / prevDepthDiff;
+                int clippedY = model.ProjectedY[vertIndex] - (model.ProjectedY[vertIndex] - model.ProjectedY[prevAdjacentVertIndex]) * (model.ProjectedDepth[vertIndex] - NearPlane) / prevDepthDiff;
                 clippedPolygonScreenX[clippedVertCount] = (clippedX << screenProjectionShift) / NearPlane;
                 clippedPolygonScreenY[clippedVertCount] = (clippedY << screenProjectionShift) / NearPlane;
                 clippedPolygonShadeLevels[clippedVertCount] = shadeLevel;
@@ -770,11 +770,11 @@ namespace OpenRS.Net.Client.Game.Cameras
                 nextAdjacentVertIndex = modelFaceVerts[faceVertLoopIndex + 1];
             }
 
-            if (model.projectedDepth[nextAdjacentVertIndex] >= NearPlane)
+            if (model.ProjectedDepth[nextAdjacentVertIndex] >= NearPlane)
             {
-                int nextDepthDiff = model.projectedDepth[vertIndex] - model.projectedDepth[nextAdjacentVertIndex];
-                int nextClippedX = model.projectedX[vertIndex] - (model.projectedX[vertIndex] - model.projectedX[nextAdjacentVertIndex]) * (model.projectedDepth[vertIndex] - NearPlane) / nextDepthDiff;
-                int nextClippedY = model.projectedY[vertIndex] - (model.projectedY[vertIndex] - model.projectedY[nextAdjacentVertIndex]) * (model.projectedDepth[vertIndex] - NearPlane) / nextDepthDiff;
+                int nextDepthDiff = model.ProjectedDepth[vertIndex] - model.ProjectedDepth[nextAdjacentVertIndex];
+                int nextClippedX = model.ProjectedX[vertIndex] - (model.ProjectedX[vertIndex] - model.ProjectedX[nextAdjacentVertIndex]) * (model.ProjectedDepth[vertIndex] - NearPlane) / nextDepthDiff;
+                int nextClippedY = model.ProjectedY[vertIndex] - (model.ProjectedY[vertIndex] - model.ProjectedY[nextAdjacentVertIndex]) * (model.ProjectedDepth[vertIndex] - NearPlane) / nextDepthDiff;
                 clippedPolygonScreenX[clippedVertCount] = (nextClippedX << screenProjectionShift) / NearPlane;
                 clippedPolygonScreenY[clippedVertCount] = (nextClippedY << screenProjectionShift) / NearPlane;
                 clippedPolygonShadeLevels[clippedVertCount] = shadeLevel;
@@ -886,7 +886,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
             for (int modelIndex = 0; modelIndex < currentObjectCount; modelIndex += 1)
             {
-                objectCache[modelIndex].OffsetModelColors(redOffset, greenOffset, blueOffset);
+                objectCache[modelIndex].OffsetModelColours(redOffset, greenOffset, blueOffset);
             }
         }
 
@@ -899,7 +899,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
             for (int modelIndex = 0; modelIndex < currentObjectCount; modelIndex += 1)
             {
-                objectCache[modelIndex].SetModelColors(fromColour, toColour, x, y, z);
+                objectCache[modelIndex].SetModelColours(fromColour, toColour, x, y, z);
             }
         }
 

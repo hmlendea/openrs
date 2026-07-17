@@ -322,7 +322,7 @@ namespace OpenRS.Net.Client.Game
                         objectModel.SetRotation(0, engineHandle.GetTileRotation(x, y) * 32, 0);
                         objectModel.SetRotation(0, objectRotation * 32, 0);
                         engineHandle.camera.AddModel(objectModel);
-                        objectModel.SetModelColors(48, 48, -50, -10, -50);
+                        objectModel.SetModelColours(48, 48, -50, -10, -50);
 
                         if (objectWidth <= 1 && objectHeight <= 1)
                         {

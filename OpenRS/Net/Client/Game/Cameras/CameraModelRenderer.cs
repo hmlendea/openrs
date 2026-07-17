@@ -159,7 +159,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 scanlineStep = 2;
             }
 
-            if (gameObject.isPerspectiveTextured)
+            if (gameObject.IsPerspectiveTextured)
             {
                 for (int scanlineY = rasteriser.MinVisibleScanline; scanlineY < rasteriser.MaxVisibleScanline; scanlineY += scanlineStep)
                 {
@@ -381,7 +381,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 scanlineStep = 2;
             }
 
-            if (gameObject.isPerspectiveTextured)
+            if (gameObject.IsPerspectiveTextured)
             {
                 for (int scanlineY = rasteriser.MinVisibleScanline; scanlineY < rasteriser.MaxVisibleScanline; scanlineY += scanlineStep)
                 {
@@ -572,7 +572,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 scanlineStep = 2;
             }
 
-            if (gameObject.isGiantCrystal)
+            if (gameObject.IsGiantCrystal)
             {
                 for (int scanlineY = rasteriser.MinVisibleScanline; scanlineY < rasteriser.MaxVisibleScanline; scanlineY += scanlineStep)
                 {

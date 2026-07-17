@@ -827,7 +827,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                     if (File.Exists(modelFilePath))
                     {
                         sbyte[] modelData = (sbyte[])(Array)File.ReadAllBytes(modelFilePath);
-                        client.gameDataObjects[modelIndex] = new GameObject(modelData, 0, true);
+                        client.gameDataObjects[modelIndex] = new GameObject(modelData, 0);
                     }
                     else
                     {
@@ -836,7 +836,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
 
                     if (GameData.ModelNames[modelIndex] == "giantcrystal")
                     {
-                        client.gameDataObjects[modelIndex].isGiantCrystal = true;
+                        client.gameDataObjects[modelIndex].IsGiantCrystal = true;
                     }
                 }
                 catch { }

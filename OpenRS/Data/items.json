@@ -119,9 +119,9 @@
     "isUnused": 0
   },
   {
-    "id": "7",
+    "id": "iron_chain_mail_body",
     "v1Id": 7,
-    "name": "item.7.name",
+    "name": "item.iron_chain_mail_body.name",
     "description": "description.a_series_of_connected_metal",
     "command": "command.none",
     "basePrice": 210,
@@ -153,9 +153,9 @@
     "isUnused": 0
   },
   {
-    "id": "9",
+    "id": "iron_leggings",
     "v1Id": 9,
-    "name": "item.9.name",
+    "name": "item.iron_leggings.name",
     "description": "item.leggings.description",
     "command": "command.none",
     "basePrice": 280,
@@ -189,8 +189,8 @@
   {
     "id": "11",
     "v1Id": 11,
-    "name": "item.11.name",
-    "description": "item.11.description",
+    "name": "item.bronze_arrows.name",
+    "description": "item.bronze_arrows.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -206,7 +206,7 @@
   {
     "id": "12",
     "v1Id": 12,
-    "name": "item.12.name",
+    "name": "item.iron_hatchet.name",
     "description": "description.a_woodcutters_axe",
     "command": "command.none",
     "basePrice": 56,
@@ -221,10 +221,10 @@
     "isUnused": 0
   },
   {
-    "id": "13",
+    "id": "knife",
     "v1Id": 13,
-    "name": "item.13.name",
-    "description": "item.13.description",
+    "name": "item.knife.name",
+    "description": "item.knife.description",
     "command": "command.none",
     "basePrice": 6,
     "spriteId": 0,
@@ -238,10 +238,10 @@
     "isUnused": 0
   },
   {
-    "id": "14",
+    "id": "logs",
     "v1Id": 14,
-    "name": "name.logs",
-    "description": "item.14.description",
+    "name": "item.logs.name",
+    "description": "item.logs.description",
     "command": "command.none",
     "basePrice": 4,
     "spriteId": 0,
@@ -255,10 +255,10 @@
     "isUnused": 0
   },
   {
-    "id": "15",
+    "id": "leather_armour",
     "v1Id": 15,
-    "name": "item.15.name",
-    "description": "item.15.description",
+    "name": "item.leather_armour.name",
+    "description": "item.leather_armour.description",
     "command": "command.none",
     "basePrice": 21,
     "spriteId": 0,
@@ -272,10 +272,10 @@
     "isUnused": 0
   },
   {
-    "id": "16",
+    "id": "leather_gloves",
     "v1Id": 16,
-    "name": "item.16.name",
-    "description": "item.16.description",
+    "name": "item.leather_gloves.name",
+    "description": "item.leather_gloves.description",
     "command": "command.none",
     "basePrice": 6,
     "spriteId": 0,
@@ -308,7 +308,7 @@
   {
     "id": "18",
     "v1Id": 18,
-    "name": "name.cabbage",
+    "name": "item.cabbage.name",
     "description": "description.yuck_i_dont_like_cabbage",
     "command": "command.eat",
     "basePrice": 1,
@@ -358,10 +358,10 @@
     "isUnused": 0
   },
   {
-    "id": "21",
+    "id": "bucket",
     "v1Id": 21,
-    "name": "item.21.name",
-    "description": "description.its_a_wooden_bucket",
+    "name": "item.bucket.name",
+    "description": "item.bucket.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -375,10 +375,10 @@
     "isUnused": 0
   },
   {
-    "id": "22",
+    "id": "bucket_of_milk",
     "v1Id": 22,
-    "name": "item.22.name",
-    "description": "item.22.description",
+    "name": "item.bucket_of_milk.name",
+    "description": "item.bucket_of_milk.description",
     "command": "command.none",
     "basePrice": 6,
     "spriteId": 0,
@@ -394,7 +394,7 @@
   {
     "id": "23",
     "v1Id": 23,
-    "name": "name.flour",
+    "name": "item.flour.name",
     "description": "item.23.description",
     "command": "command.none",
     "basePrice": 2,
@@ -409,10 +409,10 @@
     "isUnused": 0
   },
   {
-    "id": "24",
+    "id": "ghostspeak_amulet",
     "v1Id": 24,
-    "name": "item.24.name",
-    "description": "item.24.description",
+    "name": "item.ghostspeak_amulet.name",
+    "description": "item.ghostspeak_amulet.description",
     "command": "command.none",
     "basePrice": 35,
     "spriteId": 0,
@@ -426,7 +426,7 @@
     "isUnused": 0
   },
   {
-    "id": "25",
+    "id": "silverlight_key_1",
     "v1Id": 25,
     "name": "item.silverlight_key_1.name",
     "description": "item.silverlight_key_1.description",
@@ -443,7 +443,7 @@
     "isUnused": 0
   },
   {
-    "id": "26",
+    "id": "silverlight_key_2",
     "v1Id": 26,
     "name": "item.silverlight_key_2.name",
     "description": "item.silverlight_key_2.description",
@@ -477,7 +477,7 @@
     "isUnused": 0
   },
   {
-    "id": "28",
+    "id": "iron_dagger",
     "v1Id": 28,
     "name": "item.iron_dagger.name",
     "description": "description.short_but_pointy",
@@ -494,7 +494,7 @@
     "isUnused": 0
   },
   {
-    "id": "29",
+    "id": "grain",
     "v1Id": 29,
     "name": "item.grain.name",
     "description": "item.grain.description",
@@ -528,7 +528,7 @@
     "isUnused": 0
   },
   {
-    "id": "31",
+    "id": "fire_rune",
     "v1Id": 31,
     "name": "item.fire_rune.name",
     "description": "description.one_of_the_4_basic",
@@ -545,9 +545,9 @@
     "isUnused": 0
   },
   {
-    "id": "32",
+    "id": "water_rune",
     "v1Id": 32,
-    "name": "item.32.name",
+    "name": "item.water_rune.name",
     "description": "description.one_of_the_4_basic",
     "command": "command.none",
     "basePrice": 4,
@@ -562,9 +562,9 @@
     "isUnused": 0
   },
   {
-    "id": "33",
+    "id": "air_rune",
     "v1Id": 33,
-    "name": "item.33.name",
+    "name": "item.air_rune.name",
     "description": "description.one_of_the_4_basic",
     "command": "command.none",
     "basePrice": 4,
@@ -579,9 +579,9 @@
     "isUnused": 0
   },
   {
-    "id": "34",
+    "id": "earth_rune",
     "v1Id": 34,
-    "name": "item.34.name",
+    "name": "item.earth_rune.name",
     "description": "description.one_of_the_4_basic",
     "command": "command.none",
     "basePrice": 4,
@@ -734,7 +734,7 @@
   {
     "id": "43",
     "v1Id": 43,
-    "name": "name.thread",
+    "name": "item.thread.name",
     "description": "item.43.description",
     "command": "command.none",
     "basePrice": 1,
@@ -854,7 +854,7 @@
     "id": "50",
     "v1Id": 50,
     "name": "name.water",
-    "description": "item.50.description",
+    "description": "item.bucket_of_water.description",
     "command": "command.none",
     "basePrice": 6,
     "spriteId": 0,
@@ -870,8 +870,8 @@
   {
     "id": "51",
     "v1Id": 51,
-    "name": "item.51.name",
-    "description": "item.51.description",
+    "name": "item.silverlight_key_3.name",
+    "description": "item.silverlight_key_3.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -887,8 +887,8 @@
   {
     "id": "52",
     "v1Id": 52,
-    "name": "item.52.name",
-    "description": "item.52.description",
+    "name": "item.silverlight.name",
+    "description": "item.silverlight.description",
     "command": "command.none",
     "basePrice": 50,
     "spriteId": 0,
@@ -938,7 +938,7 @@
   {
     "id": "55",
     "v1Id": 55,
-    "name": "item.55.name",
+    "name": "item.cadavaberries.name",
     "description": "description.poisonous_berries",
     "command": "command.none",
     "basePrice": 1,
@@ -953,10 +953,10 @@
     "isUnused": 0
   },
   {
-    "id": "56",
+    "id": "message",
     "v1Id": 56,
-    "name": "item.56.name",
-    "description": "item.56.description",
+    "name": "item.message.name",
+    "description": "item.message_from_juliet_to_romeo.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -972,8 +972,8 @@
   {
     "id": "57",
     "v1Id": 57,
-    "name": "item.57.name",
-    "description": "item.57.description",
+    "name": "item.cadava.name",
+    "description": "item.cadava.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -1004,10 +1004,10 @@
     "isUnused": 0
   },
   {
-    "id": "59",
+    "id": "phoenix_crossbow",
     "v1Id": 59,
-    "name": "item.59.name",
-    "description": "item.59.description",
+    "name": "item.phoenix_crossbow.name",
+    "description": "item.phoenix_crossbow.description",
     "command": "command.none",
     "basePrice": 4,
     "spriteId": 0,
@@ -1021,10 +1021,10 @@
     "isUnused": 0
   },
   {
-    "id": "60",
+    "id": "crossbow",
     "v1Id": 60,
-    "name": "item.60.name",
-    "description": "item.60.description",
+    "name": "item.crossbow.name",
+    "description": "item.crossbow.description",
     "command": "command.none",
     "basePrice": 70,
     "spriteId": 0,
@@ -1038,10 +1038,10 @@
     "isUnused": 0
   },
   {
-    "id": "61",
+    "id": "certificate",
     "v1Id": 61,
-    "name": "item.61.name",
-    "description": "item.61.description",
+    "name": "item.certificate.name",
+    "description": "item.certificate.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -1055,9 +1055,9 @@
     "isUnused": 0
   },
   {
-    "id": "62",
+    "id": "bronze_dagger",
     "v1Id": 62,
-    "name": "item.62.name",
+    "name": "item.bronze_dagger.name",
     "description": "description.short_but_pointy",
     "command": "command.none",
     "basePrice": 10,
@@ -1072,9 +1072,9 @@
     "isUnused": 0
   },
   {
-    "id": "63",
+    "id": "steel_dagger",
     "v1Id": 63,
-    "name": "item.63.name",
+    "name": "item.steel_dagger.name",
     "description": "description.short_but_pointy",
     "command": "command.none",
     "basePrice": 125,
@@ -1089,9 +1089,9 @@
     "isUnused": 0
   },
   {
-    "id": "64",
+    "id": "mithril_dagger",
     "v1Id": 64,
-    "name": "item.64.name",
+    "name": "item.mithril_dagger.name",
     "description": "description.short_but_pointy",
     "command": "command.none",
     "basePrice": 325,
@@ -1123,9 +1123,9 @@
     "isUnused": 0
   },
   {
-    "id": "66",
+    "id": "bronze_short_sword",
     "v1Id": 66,
-    "name": "item.66.name",
+    "name": "item.bronze_short_sword.name",
     "description": "item.sword.description",
     "command": "command.none",
     "basePrice": 26,
@@ -1293,9 +1293,9 @@
     "isUnused": 0
   },
   {
-    "id": "76",
+    "id": "bronze_two_handed_sword",
     "v1Id": 76,
-    "name": "item.76.name",
+    "name": "item.bronze_two_handed_sword.name",
     "description": "description.a_very_large_sword",
     "command": "command.none",
     "basePrice": 80,
@@ -1310,9 +1310,9 @@
     "isUnused": 0
   },
   {
-    "id": "77",
+    "id": "iron_two_handed_sword",
     "v1Id": 77,
-    "name": "item.77.name",
+    "name": "item.iron_two_handed_sword.name",
     "description": "description.a_very_large_sword",
     "command": "command.none",
     "basePrice": 280,
@@ -1327,9 +1327,9 @@
     "isUnused": 0
   },
   {
-    "id": "78",
+    "id": "steel_two_handed_sword",
     "v1Id": 78,
-    "name": "item.78.name",
+    "name": "item.steel_two_handed_sword.name",
     "description": "description.a_very_large_sword",
     "command": "command.none",
     "basePrice": 1000,
@@ -1344,9 +1344,9 @@
     "isUnused": 0
   },
   {
-    "id": "79",
+    "id": "mithril_two_handed_sword",
     "v1Id": 79,
-    "name": "item.79.name",
+    "name": "item.mithril_two_handed_sword.name",
     "description": "description.a_very_large_sword",
     "command": "command.none",
     "basePrice": 2600,
@@ -1446,9 +1446,9 @@
     "isUnused": 0
   },
   {
-    "id": "85",
+    "id": "mithril_scimitar",
     "v1Id": 85,
-    "name": "item.85.name",
+    "name": "item.mithril_scimitar.name",
     "description": "description.a_vicious_curved_sword",
     "command": "command.none",
     "basePrice": 1040,
@@ -1480,9 +1480,9 @@
     "isUnused": 0
   },
   {
-    "id": "87",
+    "id": "bronze_hatchet",
     "v1Id": 87,
-    "name": "item.87.name",
+    "name": "item.bronze_hatchet.name",
     "description": "description.a_woodcutters_axe",
     "command": "command.none",
     "basePrice": 16,
@@ -1497,9 +1497,9 @@
     "isUnused": 0
   },
   {
-    "id": "88",
+    "id": "steel_hatchet",
     "v1Id": 88,
-    "name": "item.88.name",
+    "name": "item.steel_hatchet.name",
     "description": "description.a_woodcutters_axe",
     "command": "command.none",
     "basePrice": 200,
@@ -1514,9 +1514,9 @@
     "isUnused": 0
   },
   {
-    "id": "89",
+    "id": "iron_battleaxe",
     "v1Id": 89,
-    "name": "item.89.name",
+    "name": "item.iron_battleaxe.name",
     "description": "description.a_vicious_looking_axe",
     "command": "command.none",
     "basePrice": 182,
@@ -1531,9 +1531,9 @@
     "isUnused": 0
   },
   {
-    "id": "90",
+    "id": "steel_battleaxe",
     "v1Id": 90,
-    "name": "item.90.name",
+    "name": "item.steel_battleaxe.name",
     "description": "description.a_vicious_looking_axe",
     "command": "command.none",
     "basePrice": 650,
@@ -1548,9 +1548,9 @@
     "isUnused": 0
   },
   {
-    "id": "91",
+    "id": "mithril_battleaxe",
     "v1Id": 91,
-    "name": "item.91.name",
+    "name": "item.mithril_battleaxe.name",
     "description": "description.a_vicious_looking_axe",
     "command": "command.none",
     "basePrice": 1690,
@@ -1582,9 +1582,9 @@
     "isUnused": 0
   },
   {
-    "id": "93",
+    "id": "rune_battleaxe",
     "v1Id": 93,
-    "name": "item.93.name",
+    "name": "item.rune_battleaxe.name",
     "description": "description.a_vicious_looking_axe",
     "command": "command.none",
     "basePrice": 41600,
@@ -1599,9 +1599,9 @@
     "isUnused": 0
   },
   {
-    "id": "94",
+    "id": "bronze_mace",
     "v1Id": 94,
-    "name": "item.94.name",
+    "name": "item.bronze_mace.name",
     "description": "item.mace.description",
     "command": "command.none",
     "basePrice": 18,
@@ -1616,9 +1616,9 @@
     "isUnused": 0
   },
   {
-    "id": "95",
+    "id": "steel_mace",
     "v1Id": 95,
-    "name": "item.95.name",
+    "name": "item.steel_mace.name",
     "description": "item.mace.description",
     "command": "command.none",
     "basePrice": 225,
@@ -1633,9 +1633,9 @@
     "isUnused": 0
   },
   {
-    "id": "96",
+    "id": "mithril_mace",
     "v1Id": 96,
-    "name": "item.96.name",
+    "name": "item.mithril_mace.name",
     "description": "item.mace.description",
     "command": "command.none",
     "basePrice": 585,
@@ -1667,9 +1667,9 @@
     "isUnused": 0
   },
   {
-    "id": "98",
+    "id": "rune_mace",
     "v1Id": 98,
-    "name": "item.98.name",
+    "name": "item.rune_mace.name",
     "description": "item.mace.description",
     "command": "command.none",
     "basePrice": 14400,
@@ -1701,9 +1701,9 @@
     "isUnused": 0
   },
   {
-    "id": "100",
+    "id": "staff",
     "v1Id": 100,
-    "name": "item.100.name",
+    "name": "item.staff.name",
     "description": "description.its_a_slightly_magical_stick",
     "command": "command.none",
     "basePrice": 15,
@@ -1720,7 +1720,7 @@
   {
     "id": "staff_of_air",
     "v1Id": 101,
-    "name": "item.staff_of_air.name",
+    "name": "item.air_staff.name",
     "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 1500,
@@ -1735,9 +1735,9 @@
     "isUnused": 0
   },
   {
-    "id": "102",
+    "id": "water_staff",
     "v1Id": 102,
-    "name": "item.102.name",
+    "name": "item.water_staff.name",
     "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 1500,
@@ -1752,9 +1752,9 @@
     "isUnused": 0
   },
   {
-    "id": "103",
+    "id": "earth_staff",
     "v1Id": 103,
-    "name": "item.103.name",
+    "name": "item.earth_staff.name",
     "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 1500,
@@ -1771,7 +1771,7 @@
   {
     "id": "104",
     "v1Id": 104,
-    "name": "item.104.name",
+    "name": "item.bronze_medium_helmet.name",
     "description": "description.a_medium_sized_helmet",
     "command": "command.none",
     "basePrice": 24,
@@ -1788,7 +1788,7 @@
   {
     "id": "105",
     "v1Id": 105,
-    "name": "item.105.name",
+    "name": "item.steel_medium_helmet.name",
     "description": "description.a_medium_sized_helmet",
     "command": "command.none",
     "basePrice": 300,
@@ -1805,7 +1805,7 @@
   {
     "id": "106",
     "v1Id": 106,
-    "name": "item.106.name",
+    "name": "item.mithril_medium_helmet.name",
     "description": "description.a_medium_sized_helmet",
     "command": "command.none",
     "basePrice": 780,
@@ -1839,7 +1839,7 @@
   {
     "id": "108",
     "v1Id": 108,
-    "name": "item.108.name",
+    "name": "item.bronze_full_helmet.name",
     "description": "description.a_full_face_helmet",
     "command": "command.none",
     "basePrice": 44,
@@ -1856,7 +1856,7 @@
   {
     "id": "109",
     "v1Id": 109,
-    "name": "item.109.name",
+    "name": "item.steel_full_helmet.name",
     "description": "description.a_full_face_helmet",
     "command": "command.none",
     "basePrice": 550,
@@ -1873,7 +1873,7 @@
   {
     "id": "110",
     "v1Id": 110,
-    "name": "item.110.name",
+    "name": "item.mithril_full_helmet.name",
     "description": "description.a_full_face_helmet",
     "command": "command.none",
     "basePrice": 1430,
@@ -1907,7 +1907,7 @@
   {
     "id": "112",
     "v1Id": 112,
-    "name": "item.112.name",
+    "name": "item.rune_full_helmet.name",
     "description": "description.a_full_face_helmet",
     "command": "command.none",
     "basePrice": 35200,
@@ -1924,7 +1924,7 @@
   {
     "id": "113",
     "v1Id": 113,
-    "name": "item.113.name",
+    "name": "item.bronze_chain_mail_body.name",
     "description": "description.a_series_of_connected_metal",
     "command": "command.none",
     "basePrice": 60,
@@ -1958,7 +1958,7 @@
   {
     "id": "115",
     "v1Id": 115,
-    "name": "item.115.name",
+    "name": "item.mithril_chain_mail_body.name",
     "description": "description.a_series_of_connected_metal",
     "command": "command.none",
     "basePrice": 1950,
@@ -2060,7 +2060,7 @@
   {
     "id": "121",
     "v1Id": 121,
-    "name": "item.121.name",
+    "name": "item.steel_leggings.name",
     "description": "item.leggings.description",
     "command": "command.none",
     "basePrice": 1000,
@@ -2075,9 +2075,9 @@
     "isUnused": 0
   },
   {
-    "id": "122",
+    "id": "mithril_leggings",
     "v1Id": 122,
-    "name": "item.122.name",
+    "name": "item.mithril_leggings.name",
     "description": "item.leggings.description",
     "command": "command.none",
     "basePrice": 2600,
@@ -2177,9 +2177,9 @@
     "isUnused": 0
   },
   {
-    "id": "128",
+    "id": "bronze_kite_shield",
     "v1Id": 128,
-    "name": "item.128.name",
+    "name": "item.bronze_kite_shield.name",
     "description": "description.a_large_metal_shield",
     "command": "command.none",
     "basePrice": 68,
@@ -2194,9 +2194,9 @@
     "isUnused": 0
   },
   {
-    "id": "129",
+    "id": "steel_kite_shield",
     "v1Id": 129,
-    "name": "item.129.name",
+    "name": "item.steel_kite_shield.name",
     "description": "description.a_large_metal_shield",
     "command": "command.none",
     "basePrice": 850,
@@ -2211,9 +2211,9 @@
     "isUnused": 0
   },
   {
-    "id": "130",
+    "id": "mithril_kite_shield",
     "v1Id": 130,
-    "name": "item.130.name",
+    "name": "item.mithril_kite_shield.name",
     "description": "description.a_large_metal_shield",
     "command": "command.none",
     "basePrice": 2210,
@@ -2245,9 +2245,9 @@
     "isUnused": 0
   },
   {
-    "id": "132",
+    "id": "cooked_meat",
     "v1Id": 132,
-    "name": "item.132.name",
+    "name": "item.cooked_meat.name",
     "description": "description.mmm_this_looks_tasty",
     "command": "command.eat",
     "basePrice": 4,
@@ -2262,9 +2262,9 @@
     "isUnused": 0
   },
   {
-    "id": "133",
+    "id": "raw_chicken",
     "v1Id": 133,
-    "name": "item.133.name",
+    "name": "item.raw_chicken.name",
     "description": "description.i_need_to_cook_this_first",
     "command": "command.none",
     "basePrice": 1,
@@ -2279,9 +2279,9 @@
     "isUnused": 0
   },
   {
-    "id": "134",
+    "id": "burnt_meat",
     "v1Id": 134,
-    "name": "item.134.name",
+    "name": "item.burnt_meat.name",
     "description": "description.oh_dear",
     "command": "command.none",
     "basePrice": 1,
@@ -2296,10 +2296,10 @@
     "isUnused": 0
   },
   {
-    "id": "135",
+    "id": "pot",
     "v1Id": 135,
-    "name": "item.135.name",
-    "description": "item.135.description",
+    "name": "item.pot.name",
+    "description": "item.pot.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -2315,7 +2315,7 @@
   {
     "id": "136",
     "v1Id": 136,
-    "name": "name.flour",
+    "name": "item.flour.name",
     "description": "item.136.description",
     "command": "command.none",
     "basePrice": 10,
@@ -2330,9 +2330,9 @@
     "isUnused": 0
   },
   {
-    "id": "137",
+    "id": "bread_dough",
     "v1Id": 137,
-    "name": "item.137.name",
+    "name": "item.bread_dough.name",
     "description": "description.some_uncooked_dough",
     "command": "command.none",
     "basePrice": 1,
@@ -2347,10 +2347,10 @@
     "isUnused": 0
   },
   {
-    "id": "138",
+    "id": "bread",
     "v1Id": 138,
-    "name": "item.138.name",
-    "description": "item.138.description",
+    "name": "item.bread.name",
+    "description": "item.bread.description",
     "command": "command.eat",
     "basePrice": 12,
     "spriteId": 0,
@@ -2364,10 +2364,10 @@
     "isUnused": 0
   },
   {
-    "id": "139",
+    "id": "burnt_bread",
     "v1Id": 139,
-    "name": "item.139.name",
-    "description": "item.139.description",
+    "name": "item.burnt_bread.name",
+    "description": "item.burnt_bread.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -2381,10 +2381,10 @@
     "isUnused": 0
   },
   {
-    "id": "140",
+    "id": "jug",
     "v1Id": 140,
-    "name": "item.140.name",
-    "description": "item.140.description",
+    "name": "item.jug.name",
+    "description": "item.jug.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -2415,9 +2415,9 @@
     "isUnused": 0
   },
   {
-    "id": "142",
+    "id": "jug_of_wine",
     "v1Id": 142,
-    "name": "item.142.name",
+    "name": "item.jug_of_wine.name",
     "description": "description.its_full_of_wine",
     "command": "command.drink",
     "basePrice": 1,
@@ -2432,10 +2432,10 @@
     "isUnused": 0
   },
   {
-    "id": "143",
+    "id": "grapes",
     "v1Id": 143,
-    "name": "item.143.name",
-    "description": "item.143.description",
+    "name": "item.grapes.name",
+    "description": "item.grapes.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -2449,10 +2449,10 @@
     "isUnused": 0
   },
   {
-    "id": "144",
+    "id": "shears",
     "v1Id": 144,
-    "name": "item.144.name",
-    "description": "item.144.description",
+    "name": "item.shears.name",
+    "description": "item.shears.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -2466,10 +2466,10 @@
     "isUnused": 0
   },
   {
-    "id": "145",
+    "id": "wool",
     "v1Id": 145,
-    "name": "item.145.name",
-    "description": "item.145.description",
+    "name": "item.wool.name",
+    "description": "item.wool.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -2483,9 +2483,9 @@
     "isUnused": 0
   },
   {
-    "id": "146",
+    "id": "fur",
     "v1Id": 146,
-    "name": "item.146.name",
+    "name": "item.fur.name",
     "description": "description.this_would_make_warm_clothing",
     "command": "command.none",
     "basePrice": 10,
@@ -2500,10 +2500,10 @@
     "isUnused": 0
   },
   {
-    "id": "147",
+    "id": "cow_hide",
     "v1Id": 147,
-    "name": "item.147.name",
-    "description": "item.147.description",
+    "name": "item.cow_hide.name",
+    "description": "item.cow_hide.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -2517,10 +2517,10 @@
     "isUnused": 0
   },
   {
-    "id": "148",
+    "id": "leather",
     "v1Id": 148,
-    "name": "item.148.name",
-    "description": "item.148.description",
+    "name": "item.leather.name",
+    "description": "item.leather.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -2534,10 +2534,10 @@
     "isUnused": 0
   },
   {
-    "id": "149",
+    "id": "clay",
     "v1Id": 149,
-    "name": "item.149.name",
-    "description": "item.149.description",
+    "name": "item.clay.name",
+    "description": "item.clay.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -2551,9 +2551,9 @@
     "isUnused": 0
   },
   {
-    "id": "150",
+    "id": "copper_ore",
     "v1Id": 150,
-    "name": "item.150.name",
+    "name": "item.copper_ore.name",
     "description": "description.this_needs_refining",
     "command": "command.none",
     "basePrice": 3,
@@ -2568,9 +2568,9 @@
     "isUnused": 0
   },
   {
-    "id": "151",
+    "id": "iron_ore",
     "v1Id": 151,
-    "name": "item.151.name",
+    "name": "item.iron_ore.name",
     "description": "description.this_needs_refining",
     "command": "command.none",
     "basePrice": 17,
@@ -2602,9 +2602,9 @@
     "isUnused": 0
   },
   {
-    "id": "153",
+    "id": "mithril_ore",
     "v1Id": 153,
-    "name": "item.153.name",
+    "name": "item.mithril_ore.name",
     "description": "description.this_needs_refining",
     "command": "command.none",
     "basePrice": 162,
@@ -2636,10 +2636,10 @@
     "isUnused": 0
   },
   {
-    "id": "155",
+    "id": "coal",
     "v1Id": 155,
-    "name": "item.155.name",
-    "description": "item.155.description",
+    "name": "item.coal.name",
+    "description": "item.coal.description",
     "command": "command.none",
     "basePrice": 45,
     "spriteId": 0,
@@ -2653,9 +2653,9 @@
     "isUnused": 0
   },
   {
-    "id": "156",
+    "id": "bronze_pickaxe",
     "v1Id": 156,
-    "name": "item.156.name",
+    "name": "item.bronze_pickaxe.name",
     "description": "description.used_for_mining",
     "command": "command.none",
     "basePrice": 1,
@@ -2670,9 +2670,9 @@
     "isUnused": 0
   },
   {
-    "id": "157",
+    "id": "uncut_diamond",
     "v1Id": 157,
-    "name": "item.157.name",
+    "name": "item.uncut_diamond.name",
     "description": "description.this_would_be_worth_more",
     "command": "command.none",
     "basePrice": 200,
@@ -2687,9 +2687,9 @@
     "isUnused": 0
   },
   {
-    "id": "158",
+    "id": "uncut_ruby",
     "v1Id": 158,
-    "name": "item.158.name",
+    "name": "item.uncut_ruby.name",
     "description": "description.this_would_be_worth_more",
     "command": "command.none",
     "basePrice": 100,
@@ -2704,9 +2704,9 @@
     "isUnused": 0
   },
   {
-    "id": "159",
+    "id": "uncut_emerald",
     "v1Id": 159,
-    "name": "item.159.name",
+    "name": "item.uncut_emerald.name",
     "description": "description.this_would_be_worth_more",
     "command": "command.none",
     "basePrice": 50,
@@ -2721,9 +2721,9 @@
     "isUnused": 0
   },
   {
-    "id": "160",
+    "id": "uncut_sapphire",
     "v1Id": 160,
-    "name": "item.160.name",
+    "name": "item.uncut_sapphire.name",
     "description": "description.this_would_be_worth_more",
     "command": "command.none",
     "basePrice": 25,
@@ -2738,9 +2738,9 @@
     "isUnused": 0
   },
   {
-    "id": "161",
+    "id": "diamond",
     "v1Id": 161,
-    "name": "item.161.name",
+    "name": "item.diamond.name",
     "description": "description.this_looks_valuable",
     "command": "command.none",
     "basePrice": 2000,
@@ -2755,9 +2755,9 @@
     "isUnused": 0
   },
   {
-    "id": "162",
+    "id": "ruby",
     "v1Id": 162,
-    "name": "item.162.name",
+    "name": "item.ruby.name",
     "description": "description.this_looks_valuable",
     "command": "command.none",
     "basePrice": 1000,
@@ -2772,9 +2772,9 @@
     "isUnused": 0
   },
   {
-    "id": "163",
+    "id": "emerald",
     "v1Id": 163,
-    "name": "item.163.name",
+    "name": "item.emerald.name",
     "description": "description.this_looks_valuable",
     "command": "command.none",
     "basePrice": 500,
@@ -2789,9 +2789,9 @@
     "isUnused": 0
   },
   {
-    "id": "164",
+    "id": "sapphire",
     "v1Id": 164,
-    "name": "item.164.name",
+    "name": "item.sapphire.name",
     "description": "description.this_looks_valuable",
     "command": "command.none",
     "basePrice": 250,
@@ -2823,10 +2823,10 @@
     "isUnused": 0
   },
   {
-    "id": "166",
+    "id": "tinderbox",
     "v1Id": 166,
-    "name": "item.166.name",
-    "description": "item.166.description",
+    "name": "item.tinderbox.name",
+    "description": "item.tinderbox.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -2857,10 +2857,10 @@
     "isUnused": 0
   },
   {
-    "id": "168",
+    "id": "hammer",
     "v1Id": 168,
-    "name": "item.168.name",
-    "description": "item.168.description",
+    "name": "item.hammer.name",
+    "description": "item.hammer.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -2874,10 +2874,10 @@
     "isUnused": 0
   },
   {
-    "id": "169",
+    "id": "bronze_bar",
     "v1Id": 169,
-    "name": "item.169.name",
-    "description": "item.169.description",
+    "name": "item.bronze_bar.name",
+    "description": "item.bronze_bar.description",
     "command": "command.none",
     "basePrice": 8,
     "spriteId": 0,
@@ -2891,10 +2891,10 @@
     "isUnused": 0
   },
   {
-    "id": "170",
+    "id": "iron_bar",
     "v1Id": 170,
-    "name": "item.170.name",
-    "description": "item.170.description",
+    "name": "item.iron_bar.name",
+    "description": "item.iron_bar.description",
     "command": "command.none",
     "basePrice": 28,
     "spriteId": 0,
@@ -2908,10 +2908,10 @@
     "isUnused": 0
   },
   {
-    "id": "171",
+    "id": "steel_bar",
     "v1Id": 171,
-    "name": "item.171.name",
-    "description": "item.171.description",
+    "name": "item.steel_bar.name",
+    "description": "item.steel_bar.description",
     "command": "command.none",
     "basePrice": 100,
     "spriteId": 0,
@@ -2942,10 +2942,10 @@
     "isUnused": 0
   },
   {
-    "id": "173",
+    "id": "mithril_bar",
     "v1Id": 173,
-    "name": "item.173.name",
-    "description": "item.173.description",
+    "name": "item.mithril_bar.name",
+    "description": "item.mithril_bar.description",
     "command": "command.none",
     "basePrice": 300,
     "spriteId": 0,
@@ -2976,10 +2976,10 @@
     "isUnused": 0
   },
   {
-    "id": "175",
+    "id": "pressure_gauge",
     "v1Id": 175,
-    "name": "item.175.name",
-    "description": "item.175.description",
+    "name": "item.pressure_gauge.name",
+    "description": "item.pressure_gauge.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -3010,9 +3010,9 @@
     "isUnused": 0
   },
   {
-    "id": "177",
+    "id": "poison",
     "v1Id": 177,
-    "name": "item.177.name",
+    "name": "item.poison.name",
     "description": "description.this_stuff_looks_nasty",
     "command": "command.none",
     "basePrice": 1,
@@ -3027,10 +3027,10 @@
     "isUnused": 0
   },
   {
-    "id": "178",
+    "id": "poisoned_fish_food",
     "v1Id": 178,
-    "name": "item.178.name",
-    "description": "item.178.description",
+    "name": "item.poisoned_fish_food.name",
+    "description": "item.poisoned_fish_food.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -3114,7 +3114,7 @@
   {
     "id": "183",
     "v1Id": 183,
-    "name": "name.cape",
+    "name": "item.cape.name",
     "description": "item.183.description",
     "command": "command.none",
     "basePrice": 2,
@@ -3129,9 +3129,9 @@
     "isUnused": 0
   },
   {
-    "id": "184",
+    "id": "blue_wizard_robe",
     "v1Id": 184,
-    "name": "item.184.name",
+    "name": "item.blue_wizard_robe.name",
     "description": "description.i_can_do_magic_better",
     "command": "command.none",
     "basePrice": 15,
@@ -3163,10 +3163,10 @@
     "isUnused": 0
   },
   {
-    "id": "186",
+    "id": "brass_necklace",
     "v1Id": 186,
-    "name": "item.186.name",
-    "description": "item.186.description",
+    "name": "item.brass_necklace.name",
+    "description": "item.brass_necklace.description",
     "command": "command.none",
     "basePrice": 30,
     "spriteId": 0,
@@ -3197,9 +3197,9 @@
     "isUnused": 0
   },
   {
-    "id": "188",
+    "id": "longbow",
     "v1Id": 188,
-    "name": "item.188.name",
+    "name": "item.longbow.name",
     "description": "description.a_nice_sturdy_bow",
     "command": "command.none",
     "basePrice": 80,
@@ -3214,9 +3214,9 @@
     "isUnused": 0
   },
   {
-    "id": "189",
+    "id": "shortbow",
     "v1Id": 189,
-    "name": "item.189.name",
+    "name": "item.shortbow.name",
     "description": "description.short_but_effective",
     "command": "command.none",
     "basePrice": 50,
@@ -3282,9 +3282,9 @@
     "isUnused": 0
   },
   {
-    "id": "193",
+    "id": "beer",
     "v1Id": 193,
-    "name": "item.193.name",
+    "name": "item.beer.name",
     "description": "description.a_glass_of_frothy_ale",
     "command": "command.drink",
     "basePrice": 2,
@@ -3350,9 +3350,9 @@
     "isUnused": 0
   },
   {
-    "id": "197",
+    "id": "fire_staff",
     "v1Id": 197,
-    "name": "item.197.name",
+    "name": "item.fire_staff.name",
     "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 1500,
@@ -3367,9 +3367,9 @@
     "isUnused": 0
   },
   {
-    "id": "198",
+    "id": "magic_staff",
     "v1Id": 198,
-    "name": "item.198.name",
+    "name": "item.magic_staff.name",
     "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 200,
@@ -3401,10 +3401,10 @@
     "isUnused": 0
   },
   {
-    "id": "200",
+    "id": "silk",
     "v1Id": 200,
-    "name": "item.200.name",
-    "description": "item.200.description",
+    "name": "item.silk.name",
+    "description": "item.silk.description",
     "command": "command.none",
     "basePrice": 30,
     "spriteId": 0,
@@ -3418,10 +3418,10 @@
     "isUnused": 0
   },
   {
-    "id": "201",
+    "id": "filier",
     "v1Id": 201,
-    "name": "item.201.name",
-    "description": "item.201.description",
+    "name": "item.filier.name",
+    "description": "item.filier.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -3435,9 +3435,9 @@
     "isUnused": 0
   },
   {
-    "id": "202",
+    "id": "tin_ore",
     "v1Id": 202,
-    "name": "item.202.name",
+    "name": "item.tin_ore.name",
     "description": "description.this_needs_refining",
     "command": "command.none",
     "basePrice": 3,
@@ -3452,9 +3452,9 @@
     "isUnused": 0
   },
   {
-    "id": "203",
+    "id": "mithril_hatchet",
     "v1Id": 203,
-    "name": "item.203.name",
+    "name": "item.mithril_hatchet.name",
     "description": "description.a_powerful_hatchet",
     "command": "command.none",
     "basePrice": 520,
@@ -3486,9 +3486,9 @@
     "isUnused": 0
   },
   {
-    "id": "205",
+    "id": "bronze_battleaxe",
     "v1Id": 205,
-    "name": "item.205.name",
+    "name": "item.bronze_battleaxe.name",
     "description": "description.a_vicious_looking_axe",
     "command": "command.none",
     "basePrice": 52,
@@ -3503,9 +3503,9 @@
     "isUnused": 0
   },
   {
-    "id": "206",
+    "id": "bronze_leggings",
     "v1Id": 206,
-    "name": "item.206.name",
+    "name": "item.bronze_leggings.name",
     "description": "item.leggings.description",
     "command": "command.none",
     "basePrice": 80,
@@ -3537,10 +3537,10 @@
     "isUnused": 0
   },
   {
-    "id": "208",
+    "id": "oil_canister",
     "v1Id": 208,
-    "name": "item.208.name",
-    "description": "item.208.description",
+    "name": "item.oil_canister.name",
+    "description": "item.oil_canister.description",
     "command": "command.none",
     "basePrice": 3,
     "spriteId": 0,
@@ -3556,7 +3556,7 @@
   {
     "id": "209",
     "v1Id": 209,
-    "name": "name.cape",
+    "name": "item.cape.name",
     "description": "item.209.description",
     "command": "command.none",
     "basePrice": 7,
@@ -3571,10 +3571,10 @@
     "isUnused": 0
   },
   {
-    "id": "210",
+    "id": "kebab",
     "v1Id": 210,
-    "name": "item.210.name",
-    "description": "item.210.description",
+    "name": "item.kebab.name",
+    "description": "item.kebab.description",
     "command": "command.eat",
     "basePrice": 3,
     "spriteId": 0,
@@ -3605,10 +3605,10 @@
     "isUnused": 0
   },
   {
-    "id": "212",
+    "id": "closet_key",
     "v1Id": 212,
-    "name": "item.212.name",
-    "description": "item.212.description",
+    "name": "item.closet_key.name",
+    "description": "item.closet_key.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -3622,10 +3622,10 @@
     "isUnused": 0
   },
   {
-    "id": "213",
+    "id": "rubber_tube",
     "v1Id": 213,
-    "name": "item.213.name",
-    "description": "item.213.description",
+    "name": "item.rubber_tube.name",
+    "description": "item.rubber_tube.description",
     "command": "command.none",
     "basePrice": 3,
     "spriteId": 0,
@@ -3690,10 +3690,10 @@
     "isUnused": 0
   },
   {
-    "id": "217",
+    "id": "wooden_stake",
     "v1Id": 217,
-    "name": "item.217.name",
-    "description": "item.217.description",
+    "name": "item.wooden_stake.name",
+    "description": "item.wooden_stake.description",
     "command": "command.none",
     "basePrice": 8,
     "spriteId": 0,
@@ -3707,10 +3707,10 @@
     "isUnused": 0
   },
   {
-    "id": "218",
+    "id": "garlic",
     "v1Id": 218,
-    "name": "item.218.name",
-    "description": "item.218.description",
+    "name": "item.garlic.name",
+    "description": "item.garlic.description",
     "command": "command.none",
     "basePrice": 3,
     "spriteId": 0,
@@ -3741,10 +3741,10 @@
     "isUnused": 0
   },
   {
-    "id": "220",
+    "id": "limpwurt_root",
     "v1Id": 220,
-    "name": "item.220.name",
-    "description": "item.220.description",
+    "name": "item.limpwurt_root.name",
+    "description": "item.limpwurt_root.description",
     "command": "command.none",
     "basePrice": 7,
     "spriteId": 0,
@@ -3879,7 +3879,7 @@
   {
     "id": "228",
     "v1Id": 228,
-    "name": "name.cabbage",
+    "name": "item.cabbage.name",
     "description": "description.yuck_i_dont_like_cabbage",
     "command": "command.eat",
     "basePrice": 1,
@@ -3896,8 +3896,8 @@
   {
     "id": "229",
     "v1Id": 229,
-    "name": "name.cape",
-    "description": "item.229.description",
+    "name": "item.cape.name",
+    "description": "item.blue_cape.description",
     "command": "command.none",
     "basePrice": 32,
     "spriteId": 0,
@@ -3911,9 +3911,9 @@
     "isUnused": 0
   },
   {
-    "id": "230",
+    "id": "black_full_helmet",
     "v1Id": 230,
-    "name": "item.230.name",
+    "name": "item.black_full_helmet.name",
     "description": "description.a_full_face_helmet",
     "command": "command.none",
     "basePrice": 1056,
@@ -3996,10 +3996,10 @@
     "isUnused": 0
   },
   {
-    "id": "235",
+    "id": "amulet_of_accuracy",
     "v1Id": 235,
-    "name": "item.235.name",
-    "description": "item.235.description",
+    "name": "item.amulet_of_accuracy.name",
+    "description": "item.amulet_of_accuracy.description",
     "command": "command.none",
     "basePrice": 100,
     "spriteId": 0,
@@ -4013,10 +4013,10 @@
     "isUnused": 0
   },
   {
-    "id": "236",
+    "id": "redberries",
     "v1Id": 236,
-    "name": "item.236.name",
-    "description": "item.236.description",
+    "name": "item.redberries.name",
+    "description": "item.redberries.description",
     "command": "command.none",
     "basePrice": 3,
     "spriteId": 0,
@@ -4047,9 +4047,9 @@
     "isUnused": 0
   },
   {
-    "id": "238",
+    "id": "red_dye",
     "v1Id": 238,
-    "name": "item.238.name",
+    "name": "item.red_dye.name",
     "description": "item.bottle_of_dye.description",
     "command": "command.none",
     "basePrice": 5,
@@ -4064,9 +4064,9 @@
     "isUnused": 0
   },
   {
-    "id": "239",
+    "id": "yellow_dye",
     "v1Id": 239,
-    "name": "item.239.name",
+    "name": "item.yellow_dye.name",
     "description": "item.bottle_of_dye.description",
     "command": "command.none",
     "basePrice": 5,
@@ -4081,10 +4081,10 @@
     "isUnused": 0
   },
   {
-    "id": "240",
+    "id": "paste",
     "v1Id": 240,
-    "name": "item.240.name",
-    "description": "item.240.description",
+    "name": "item.paste.name",
+    "description": "item.paste.description",
     "command": "command.none",
     "basePrice": 5,
     "spriteId": 0,
@@ -4098,10 +4098,10 @@
     "isUnused": 0
   },
   {
-    "id": "241",
+    "id": "onion",
     "v1Id": 241,
-    "name": "item.241.name",
-    "description": "item.241.description",
+    "name": "item.onion.name",
+    "description": "item.onion.description",
     "command": "command.none",
     "basePrice": 3,
     "spriteId": 0,
@@ -4117,7 +4117,7 @@
   {
     "id": "242",
     "v1Id": 242,
-    "name": "name.bronze_key",
+    "name": "item.bronze_key.name",
     "description": "description.a_heavy_key",
     "command": "command.none",
     "basePrice": 1,
@@ -4132,7 +4132,7 @@
     "isUnused": 0
   },
   {
-    "id": "243",
+    "id": "soft_clay",
     "v1Id": 243,
     "name": "item.soft_clay.name",
     "description": "item.soft_clay.description",
@@ -4152,7 +4152,7 @@
     "id": "244",
     "v1Id": 244,
     "name": "name.wig",
-    "description": "item.244.description",
+    "description": "item.blonde_wig.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -4200,7 +4200,7 @@
     "isUnused": 0
   },
   {
-    "id": "247",
+    "id": "keyprint",
     "v1Id": 247,
     "name": "item.keyprint.name",
     "description": "item.keyprint.description",
@@ -4234,7 +4234,7 @@
     "isUnused": 0
   },
   {
-    "id": "249",
+    "id": "banana",
     "v1Id": 249,
     "name": "item.banana.name",
     "description": "description.mmm_this_looks_tasty",
@@ -4251,7 +4251,7 @@
     "isUnused": 0
   },
   {
-    "id": "250",
+    "id": "pastry_dough",
     "v1Id": 250,
     "name": "item.pastry_dough.name",
     "description": "description.some_uncooked_dough",
@@ -4268,7 +4268,7 @@
     "isUnused": 0
   },
   {
-    "id": "251",
+    "id": "pie_dish",
     "v1Id": 251,
     "name": "item.pie_dish.name",
     "description": "item.pie_dish.description",
@@ -4285,7 +4285,7 @@
     "isUnused": 0
   },
   {
-    "id": "252",
+    "id": "cooking_apple",
     "v1Id": 252,
     "name": "item.cooking_apple.name",
     "description": "item.cooking_apple.description",
@@ -4302,7 +4302,7 @@
     "isUnused": 0
   },
   {
-    "id": "253",
+    "id": "pie_shell",
     "v1Id": 253,
     "name": "item.pie_shell.name",
     "description": "item.pie_shell.description",
@@ -4319,7 +4319,7 @@
     "isUnused": 0
   },
   {
-    "id": "254",
+    "id": "uncooked_apple_pie",
     "v1Id": 254,
     "name": "item.uncooked_apple_pie.name",
     "description": "description.i_need_to_cook_this_first",
@@ -4336,7 +4336,7 @@
     "isUnused": 0
   },
   {
-    "id": "255",
+    "id": "uncooked_meat_pie",
     "v1Id": 255,
     "name": "item.uncooked_meat_pie.name",
     "description": "description.i_need_to_cook_this_first",
@@ -4353,7 +4353,7 @@
     "isUnused": 0
   },
   {
-    "id": "256",
+    "id": "uncooked_redberry_pie",
     "v1Id": 256,
     "name": "item.uncooked_redberry_pie.name",
     "description": "description.i_need_to_cook_this_first",
@@ -4370,7 +4370,7 @@
     "isUnused": 0
   },
   {
-    "id": "257",
+    "id": "apple_pie",
     "v1Id": 257,
     "name": "item.apple_pie.name",
     "description": "description.mmm_apple_pie",
@@ -4387,7 +4387,7 @@
     "isUnused": 0
   },
   {
-    "id": "258",
+    "id": "redberry_pie",
     "v1Id": 258,
     "name": "item.redberry_pie.name",
     "description": "description.looks_tasty",
@@ -4404,7 +4404,7 @@
     "isUnused": 0
   },
   {
-    "id": "259",
+    "id": "meat_pie",
     "v1Id": 259,
     "name": "item.meat_pie.name",
     "description": "description.mighty_and_meaty",
@@ -4421,7 +4421,7 @@
     "isUnused": 0
   },
   {
-    "id": "260",
+    "id": "empty_dish",
     "v1Id": 260,
     "name": "item.empty_dish.name",
     "description": "item.empty_dish.description",
@@ -4540,7 +4540,7 @@
     "isUnused": 0
   },
   {
-    "id": "267",
+    "id": "asgarnian_ale",
     "v1Id": 267,
     "name": "item.asgarnian_ale.name",
     "description": "description.a_glass_of_frothy_ale",
@@ -4557,7 +4557,7 @@
     "isUnused": 0
   },
   {
-    "id": "268",
+    "id": "wizards_mind_bomb",
     "v1Id": 268,
     "name": "item.wizards_mind_bomb.name",
     "description": "item.wizards_mind_bomb.description",
@@ -4591,7 +4591,7 @@
     "isUnused": 0
   },
   {
-    "id": "270",
+    "id": "eye_of_newt",
     "v1Id": 270,
     "name": "item.eye_of_newt.name",
     "description": "item.eye_of_newt.description",
@@ -4608,7 +4608,7 @@
     "isUnused": 0
   },
   {
-    "id": "271",
+    "id": "rat_tail",
     "v1Id": 271,
     "name": "item.rat_tail.name",
     "description": "item.rat_tail.description",
@@ -4625,7 +4625,7 @@
     "isUnused": 0
   },
   {
-    "id": "272",
+    "id": "blue_dye",
     "v1Id": 272,
     "name": "item.blue_dye.name",
     "description": "item.bottle_of_dye.description",
@@ -4693,7 +4693,7 @@
     "isUnused": 0
   },
   {
-    "id": "276",
+    "id": "unstrung_longbow",
     "v1Id": 276,
     "name": "item.unstrung_longbow.name",
     "description": "description.i_need_to_find_a",
@@ -4710,7 +4710,7 @@
     "isUnused": 0
   },
   {
-    "id": "277",
+    "id": "unstrung_shortbow",
     "v1Id": 277,
     "name": "item.unstrung_shortbow.name",
     "description": "description.i_need_to_find_a",
@@ -4727,7 +4727,7 @@
     "isUnused": 0
   },
   {
-    "id": "278",
+    "id": "unfired_pie_dish",
     "v1Id": 278,
     "name": "item.unfired_pie_dish.name",
     "description": "description.i_need_to_put_this",
@@ -4744,7 +4744,7 @@
     "isUnused": 0
   },
   {
-    "id": "279",
+    "id": "unfired_pot",
     "v1Id": 279,
     "name": "item.unfired_pot.name",
     "description": "description.i_need_to_put_this",
@@ -4761,7 +4761,7 @@
     "isUnused": 0
   },
   {
-    "id": "280",
+    "id": "arrow_shafts",
     "v1Id": 280,
     "name": "item.arrow_shafts.name",
     "description": "item.arrow_shafts.description",
@@ -4778,7 +4778,7 @@
     "isUnused": 0
   },
   {
-    "id": "281",
+    "id": "woad_leaf",
     "v1Id": 281,
     "name": "item.woad_leaf.name",
     "description": "item.woad_leaf.description",
@@ -4795,7 +4795,7 @@
     "isUnused": 0
   },
   {
-    "id": "282",
+    "id": "orange_dye",
     "v1Id": 282,
     "name": "item.orange_dye.name",
     "description": "item.bottle_of_dye.description",
@@ -4812,7 +4812,7 @@
     "isUnused": 0
   },
   {
-    "id": "283",
+    "id": "gold_ring",
     "v1Id": 283,
     "name": "item.gold_ring.name",
     "description": "description.a_valuable_ring",
@@ -4829,7 +4829,7 @@
     "isUnused": 0
   },
   {
-    "id": "284",
+    "id": "sapphire_ring",
     "v1Id": 284,
     "name": "item.sapphire_ring.name",
     "description": "description.a_valuable_ring",
@@ -4846,7 +4846,7 @@
     "isUnused": 0
   },
   {
-    "id": "285",
+    "id": "emerald_ring",
     "v1Id": 285,
     "name": "item.emerald_ring.name",
     "description": "description.a_valuable_ring",
@@ -4880,7 +4880,7 @@
     "isUnused": 0
   },
   {
-    "id": "287",
+    "id": "diamond_ring",
     "v1Id": 287,
     "name": "item.diamond_ring.name",
     "description": "description.a_valuable_ring",
@@ -4897,7 +4897,7 @@
     "isUnused": 0
   },
   {
-    "id": "288",
+    "id": "gold_necklace",
     "v1Id": 288,
     "name": "item.gold_necklace.name",
     "description": "description.i_wonder_if_this_is",
@@ -4914,7 +4914,7 @@
     "isUnused": 0
   },
   {
-    "id": "289",
+    "id": "sapphire_necklace",
     "v1Id": 289,
     "name": "item.sapphire_necklace.name",
     "description": "description.i_wonder_if_this_is",
@@ -4931,7 +4931,7 @@
     "isUnused": 0
   },
   {
-    "id": "290",
+    "id": "emerald_necklace",
     "v1Id": 290,
     "name": "item.emerald_necklace.name",
     "description": "description.i_wonder_if_this_is",
@@ -4965,7 +4965,7 @@
     "isUnused": 0
   },
   {
-    "id": "292",
+    "id": "diamond_necklace",
     "v1Id": 292,
     "name": "item.diamond_necklace.name",
     "description": "description.i_wonder_if_this_is",
@@ -4982,7 +4982,7 @@
     "isUnused": 0
   },
   {
-    "id": "293",
+    "id": "ring_mould",
     "v1Id": 293,
     "name": "item.ring_mould.name",
     "description": "item.ring_mould.description",
@@ -4999,7 +4999,7 @@
     "isUnused": 0
   },
   {
-    "id": "294",
+    "id": "amulet_mould",
     "v1Id": 294,
     "name": "item.amulet_mould.name",
     "description": "item.amulet_mould.description",
@@ -5016,7 +5016,7 @@
     "isUnused": 0
   },
   {
-    "id": "295",
+    "id": "necklace_mould",
     "v1Id": 295,
     "name": "item.necklace_mould.name",
     "description": "item.necklace_mould.description",
@@ -5069,7 +5069,7 @@
   {
     "id": "298",
     "v1Id": 298,
-    "name": "name.emerald_amulet",
+    "name": "item.emerald_amulet.name",
     "description": "description.it_needs_a_string_so",
     "command": "command.none",
     "basePrice": 1275,
@@ -5154,7 +5154,7 @@
   {
     "id": "303",
     "v1Id": 303,
-    "name": "name.emerald_amulet",
+    "name": "item.emerald_amulet.name",
     "description": "description.i_wonder_if_i_can_get_this_enchanted",
     "command": "command.none",
     "basePrice": 1275,
@@ -5203,7 +5203,7 @@
     "isUnused": 0
   },
   {
-    "id": "306",
+    "id": "superchisel",
     "v1Id": 306,
     "name": "item.superchisel.name",
     "description": "description.i_wonder_if_i_can_get_this_enchanted",
@@ -5220,7 +5220,7 @@
     "isUnused": 0
   },
   {
-    "id": "307",
+    "id": "mace_of_zamorak",
     "v1Id": 307,
     "name": "item.mace_of_zamorak.name",
     "description": "item.mace_of_zamorak.description",
@@ -5339,7 +5339,7 @@
     "isUnused": 0
   },
   {
-    "id": "314",
+    "id": "sapphire_amulet_ring",
     "v1Id": 314,
     "name": "item.sapphire_amulet_ring.name",
     "description": "item.sapphire_amulet_ring.description",
@@ -5356,7 +5356,7 @@
     "isUnused": 0
   },
   {
-    "id": "315",
+    "id": "emerald_amulet_of_protection",
     "v1Id": 315,
     "name": "item.emerald_amulet_of_protection.name",
     "description": "description.it_improves_my_defense",
@@ -5373,7 +5373,7 @@
     "isUnused": 0
   },
   {
-    "id": "316",
+    "id": "ruby_amulet_of_strength",
     "v1Id": 316,
     "name": "item.ruby_amulet_of_strength.name",
     "description": "item.ruby_amulet_of_strength.description",
@@ -5390,7 +5390,7 @@
     "isUnused": 0
   },
   {
-    "id": "317",
+    "id": "dimond_amulet_of_power",
     "v1Id": 317,
     "name": "item.dimond_amulet_of_power.name",
     "description": "item.dimond_amulet_of_power.description",
@@ -5407,7 +5407,7 @@
     "isUnused": 0
   },
   {
-    "id": "318",
+    "id": "karamja_rum",
     "v1Id": 318,
     "name": "item.karamja_rum.name",
     "description": "item.karamja_rum.description",
@@ -5424,10 +5424,10 @@
     "isUnused": 0
   },
   {
-    "id": "319",
+    "id": "cheese",
     "v1Id": 319,
-    "name": "item.319.name",
-    "description": "item.319.description",
+    "name": "item.cheese.name",
+    "description": "item.cheese.description",
     "command": "command.eat",
     "basePrice": 4,
     "spriteId": 0,
@@ -5441,10 +5441,10 @@
     "isUnused": 0
   },
   {
-    "id": "320",
+    "id": "tomato",
     "v1Id": 320,
-    "name": "item.320.name",
-    "description": "item.320.description",
+    "name": "item.tomato.name",
+    "description": "item.tomato.description",
     "command": "command.eat",
     "basePrice": 4,
     "spriteId": 0,
@@ -5458,10 +5458,10 @@
     "isUnused": 0
   },
   {
-    "id": "321",
+    "id": "pizza_base",
     "v1Id": 321,
-    "name": "item.321.name",
-    "description": "item.321.description",
+    "name": "item.pizza_base.name",
+    "description": "item.pizza_base.description",
     "command": "command.none",
     "basePrice": 4,
     "spriteId": 0,
@@ -5475,10 +5475,10 @@
     "isUnused": 0
   },
   {
-    "id": "322",
+    "id": "burnt_pizza",
     "v1Id": 322,
-    "name": "item.322.name",
-    "description": "item.322.description",
+    "name": "item.burnt_pizza.name",
+    "description": "item.burnt_pizza.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -5492,10 +5492,10 @@
     "isUnused": 0
   },
   {
-    "id": "323",
+    "id": "incomplete_pizza",
     "v1Id": 323,
-    "name": "item.323.name",
-    "description": "item.323.description",
+    "name": "item.incomplete_pizza.name",
+    "description": "item.incomplete_pizza.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -5509,10 +5509,10 @@
     "isUnused": 0
   },
   {
-    "id": "324",
+    "id": "uncooked_pizza",
     "v1Id": 324,
-    "name": "item.324.name",
-    "description": "item.324.description",
+    "name": "item.uncooked_pizza.name",
+    "description": "item.uncooked_pizza.description",
     "command": "command.none",
     "basePrice": 25,
     "spriteId": 0,
@@ -5526,10 +5526,10 @@
     "isUnused": 0
   },
   {
-    "id": "325",
+    "id": "plain_pizza",
     "v1Id": 325,
-    "name": "item.325.name",
-    "description": "item.325.description",
+    "name": "item.plain_pizza.name",
+    "description": "item.plain_pizza.description",
     "command": "command.eat",
     "basePrice": 40,
     "spriteId": 0,
@@ -5543,10 +5543,10 @@
     "isUnused": 0
   },
   {
-    "id": "326",
+    "id": "meat_pizza",
     "v1Id": 326,
-    "name": "item.326.name",
-    "description": "item.326.description",
+    "name": "item.meat_pizza.name",
+    "description": "item.meat_pizza.description",
     "command": "command.eat",
     "basePrice": 50,
     "spriteId": 0,
@@ -5611,10 +5611,10 @@
     "isUnused": 0
   },
   {
-    "id": "330",
+    "id": "cake",
     "v1Id": 330,
-    "name": "item.330.name",
-    "description": "item.330.description",
+    "name": "item.cake.name",
+    "description": "item.cake.description",
     "command": "command.eat",
     "basePrice": 50,
     "spriteId": 0,
@@ -5628,10 +5628,10 @@
     "isUnused": 0
   },
   {
-    "id": "331",
+    "id": "burnt_cake",
     "v1Id": 331,
-    "name": "item.331.name",
-    "description": "item.331.description",
+    "name": "item.burnt_cake.name",
+    "description": "item.burnt_cake.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -5645,10 +5645,10 @@
     "isUnused": 0
   },
   {
-    "id": "332",
+    "id": "chocolate_cake",
     "v1Id": 332,
-    "name": "item.332.name",
-    "description": "item.332.description",
+    "name": "item.chocolate_cake.name",
+    "description": "item.chocolate_cake.description",
     "command": "command.eat",
     "basePrice": 70,
     "spriteId": 0,
@@ -5662,9 +5662,9 @@
     "isUnused": 0
   },
   {
-    "id": "333",
+    "id": "partial_cake",
     "v1Id": 333,
-    "name": "item.333.name",
+    "name": "item.partial_cake.name",
     "description": "description.someone_has_eaten_a_big",
     "command": "command.eat",
     "basePrice": 30,
@@ -5679,9 +5679,9 @@
     "isUnused": 0
   },
   {
-    "id": "334",
+    "id": "partial_chocolate_cake",
     "v1Id": 334,
-    "name": "item.334.name",
+    "name": "item.partial_chocolate_cake.name",
     "description": "description.someone_has_eaten_a_big",
     "command": "command.eat",
     "basePrice": 50,
@@ -5713,10 +5713,10 @@
     "isUnused": 0
   },
   {
-    "id": "336",
+    "id": "chocolate_slice",
     "v1Id": 336,
-    "name": "item.336.name",
-    "description": "item.336.description",
+    "name": "item.chocolate_slice.name",
+    "description": "item.chocolate_slice.description",
     "command": "command.eat",
     "basePrice": 30,
     "spriteId": 0,
@@ -5730,10 +5730,10 @@
     "isUnused": 0
   },
   {
-    "id": "337",
+    "id": "chocolate_bar",
     "v1Id": 337,
-    "name": "item.337.name",
-    "description": "item.337.description",
+    "name": "item.chocolate_bar.name",
+    "description": "item.chocolate_bar.description",
     "command": "command.eat",
     "basePrice": 10,
     "spriteId": 0,
@@ -5747,10 +5747,10 @@
     "isUnused": 0
   },
   {
-    "id": "338",
+    "id": "cake_tin",
     "v1Id": 338,
-    "name": "item.338.name",
-    "description": "item.338.description",
+    "name": "item.cake_tin.name",
+    "description": "item.cake_tin.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -5764,10 +5764,10 @@
     "isUnused": 0
   },
   {
-    "id": "339",
+    "id": "uncooked_cake",
     "v1Id": 339,
-    "name": "item.339.name",
-    "description": "item.339.description",
+    "name": "item.uncooked_cake.name",
+    "description": "item.uncooked_cake.description",
     "command": "command.none",
     "basePrice": 20,
     "spriteId": 0,
@@ -5781,9 +5781,9 @@
     "isUnused": 0
   },
   {
-    "id": "340",
+    "id": "unfired_bowl",
     "v1Id": 340,
-    "name": "item.340.name",
+    "name": "item.unfired_bowl.name",
     "description": "description.i_need_to_put_this",
     "command": "command.none",
     "basePrice": 2,
@@ -5815,10 +5815,10 @@
     "isUnused": 0
   },
   {
-    "id": "342",
+    "id": "bowl_of_water",
     "v1Id": 342,
-    "name": "item.342.name",
-    "description": "item.342.description",
+    "name": "item.bowl_of_water.name",
+    "description": "item.bowl_of_water.description",
     "command": "command.none",
     "basePrice": 3,
     "spriteId": 0,
@@ -5934,9 +5934,9 @@
     "isUnused": 0
   },
   {
-    "id": "349",
+    "id": "raw_shrimp",
     "v1Id": 349,
-    "name": "item.349.name",
+    "name": "item.raw_shrimp.name",
     "description": "irem.raw_fish.description",
     "command": "command.none",
     "basePrice": 5,
@@ -5951,9 +5951,9 @@
     "isUnused": 0
   },
   {
-    "id": "350",
+    "id": "shrimp",
     "v1Id": 350,
-    "name": "item.350.name",
+    "name": "item.shrimp.name",
     "description": "description.some_nicely_cooked_fish",
     "command": "command.eat",
     "basePrice": 5,
@@ -5968,9 +5968,9 @@
     "isUnused": 0
   },
   {
-    "id": "351",
+    "id": "raw_anchovies",
     "v1Id": 351,
-    "name": "item.351.name",
+    "name": "item.raw_anchovies.name",
     "description": "irem.raw_fish.description",
     "command": "command.none",
     "basePrice": 15,
@@ -5985,9 +5985,9 @@
     "isUnused": 0
   },
   {
-    "id": "352",
+    "id": "anchovies",
     "v1Id": 352,
-    "name": "item.352.name",
+    "name": "item.anchovies.name",
     "description": "description.some_nicely_cooked_fish",
     "command": "command.eat",
     "basePrice": 15,
@@ -6004,7 +6004,7 @@
   {
     "id": "353",
     "v1Id": 353,
-    "name": "name.burnt_fish",
+    "name": "item.burnt_fish.name",
     "description": "item.burnt_fish.description",
     "command": "command.none",
     "basePrice": 1,
@@ -6019,9 +6019,9 @@
     "isUnused": 0
   },
   {
-    "id": "354",
+    "id": "raw_sardine",
     "v1Id": 354,
-    "name": "item.354.name",
+    "name": "item.raw_sardine.name",
     "description": "irem.raw_fish.description",
     "command": "command.none",
     "basePrice": 10,
@@ -6036,9 +6036,9 @@
     "isUnused": 0
   },
   {
-    "id": "355",
+    "id": "sardine",
     "v1Id": 355,
-    "name": "item.355.name",
+    "name": "item.sardine.name",
     "description": "description.some_nicely_cooked_fish",
     "command": "command.eat",
     "basePrice": 10,
@@ -6123,7 +6123,7 @@
   {
     "id": "360",
     "v1Id": 360,
-    "name": "name.burnt_fish",
+    "name": "item.burnt_fish.name",
     "description": "item.burnt_fish.description",
     "command": "command.none",
     "basePrice": 1,
@@ -6208,7 +6208,7 @@
   {
     "id": "365",
     "v1Id": 365,
-    "name": "name.burnt_fish",
+    "name": "item.burnt_fish.name",
     "description": "item.burnt_fish.description",
     "command": "command.none",
     "basePrice": 1,
@@ -6259,7 +6259,7 @@
   {
     "id": "burnt_tuna",
     "v1Id": 368,
-    "name": "name.burnt_fish",
+    "name": "item.burnt_fish.name",
     "description": "item.burnt_fish.description",
     "command": "command.none",
     "basePrice": 1,
@@ -6395,7 +6395,7 @@
   {
     "id": "376",
     "v1Id": 376,
-    "name": "name.net",
+    "name": "item.fishing_net.name",
     "description": "item.376.description",
     "command": "command.none",
     "basePrice": 5,
@@ -6497,7 +6497,7 @@
   {
     "id": "382",
     "v1Id": 382,
-    "name": "name.chest_key",
+    "name": "item.chest_key.name",
     "description": "item.382.description",
     "command": "command.none",
     "basePrice": 1,
@@ -7891,7 +7891,7 @@
   {
     "id": "464",
     "v1Id": 464,
-    "name": "name.vial",
+    "name": "item.vial.name",
     "description": "description.its_full_of_water",
     "command": "command.none",
     "basePrice": 2,
@@ -7908,7 +7908,7 @@
   {
     "id": "465",
     "v1Id": 465,
-    "name": "name.vial",
+    "name": "item.vial.name",
     "description": "item.465.description",
     "command": "command.none",
     "basePrice": 2,
@@ -8163,7 +8163,7 @@
   {
     "id": "480",
     "v1Id": 480,
-    "name": "name.defense_potion",
+    "name": "item.defense_potion.name",
     "description": "description.3_doses_of_defense_potion",
     "command": "command.drink",
     "basePrice": 120,
@@ -8180,7 +8180,7 @@
   {
     "id": "481",
     "v1Id": 481,
-    "name": "name.defense_potion",
+    "name": "item.defense_potion.name",
     "description": "description.2_doses_of_defense_potion",
     "command": "command.drink",
     "basePrice": 90,
@@ -8197,7 +8197,7 @@
   {
     "id": "482",
     "v1Id": 482,
-    "name": "name.defense_potion",
+    "name": "item.defense_potion.name",
     "description": "description.1_dose_of_defense_potion",
     "command": "command.drink",
     "basePrice": 60,
@@ -8316,7 +8316,7 @@
   {
     "id": "489",
     "v1Id": 489,
-    "name": "name.fishing_potion",
+    "name": "item.fishing_potion.name",
     "description": "item.489.description",
     "command": "command.drink",
     "basePrice": 200,
@@ -8333,7 +8333,7 @@
   {
     "id": "490",
     "v1Id": 490,
-    "name": "name.fishing_potion",
+    "name": "item.fishing_potion.name",
     "description": "item.490.description",
     "command": "command.drink",
     "basePrice": 150,
@@ -8350,7 +8350,7 @@
   {
     "id": "491",
     "v1Id": 491,
-    "name": "name.fishing_potion",
+    "name": "item.fishing_potion.name",
     "description": "item.491.description",
     "command": "command.drink",
     "basePrice": 100,
@@ -8690,7 +8690,7 @@
   {
     "id": "511",
     "v1Id": 511,
-    "name": "name.cape",
+    "name": "item.cape.name",
     "description": "item.green_cape.description",
     "command": "command.none",
     "basePrice": 32,
@@ -8707,7 +8707,7 @@
   {
     "id": "512",
     "v1Id": 512,
-    "name": "name.cape",
+    "name": "item.cape.name",
     "description": "item.yellow_cape.description",
     "command": "command.none",
     "basePrice": 32,
@@ -8724,7 +8724,7 @@
   {
     "id": "513",
     "v1Id": 513,
-    "name": "name.cape",
+    "name": "item.cape.name",
     "description": "item.orange_cape.description",
     "command": "command.none",
     "basePrice": 32,
@@ -8741,7 +8741,7 @@
   {
     "id": "514",
     "v1Id": 514,
-    "name": "name.cape",
+    "name": "item.cape.name",
     "description": "item.purple_cape.description",
     "command": "command.none",
     "basePrice": 32,
@@ -8792,8 +8792,8 @@
   {
     "id": "517",
     "v1Id": 517,
-    "name": "item.517.name",
-    "description": "item.517.description",
+    "name": "item.iron_ore_certificate.name",
+    "description": "item.iron_ore_certificate.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -8809,8 +8809,8 @@
   {
     "id": "518",
     "v1Id": 518,
-    "name": "item.518.name",
-    "description": "item.518.description",
+    "name": "item.coal_ore.name",
+    "description": "item.coal_ore.description",
     "command": "command.none",
     "basePrice": 20,
     "spriteId": 0,
@@ -8826,8 +8826,8 @@
   {
     "id": "519",
     "v1Id": 519,
-    "name": "item.519.name",
-    "description": "item.519.description",
+    "name": "item.mithril_ore_certificate.name",
+    "description": "item.mithril_ore_certificate.description",
     "command": "command.none",
     "basePrice": 30,
     "spriteId": 0,
@@ -8843,8 +8843,8 @@
   {
     "id": "520",
     "v1Id": 520,
-    "name": "item.520.name",
-    "description": "item.520.description",
+    "name": "item.silver_certificate.name",
+    "description": "item.silver_certificate.description",
     "command": "command.none",
     "basePrice": 15,
     "spriteId": 0,
@@ -8860,8 +8860,8 @@
   {
     "id": "521",
     "v1Id": 521,
-    "name": "item.521.name",
-    "description": "item.521.description",
+    "name": "item.gold_certificate.name",
+    "description": "item.gold_certificate.description",
     "command": "command.none",
     "basePrice": 25,
     "spriteId": 0,
@@ -8894,8 +8894,8 @@
   {
     "id": "523",
     "v1Id": 523,
-    "name": "item.523.name",
-    "description": "item.523.description",
+    "name": "item.dragonstone.name",
+    "description": "item.dragonstone.description",
     "command": "command.none",
     "basePrice": 10000,
     "spriteId": 0,
@@ -8928,7 +8928,7 @@
   {
     "id": "525",
     "v1Id": 525,
-    "name": "item.525.name",
+    "name": "item.crystal_key.name",
     "description": "description.a_very_shiny_key",
     "command": "command.none",
     "basePrice": 1,
@@ -8979,8 +8979,8 @@
   {
     "id": "528",
     "v1Id": 528,
-    "name": "item.528.name",
-    "description": "item.528.description",
+    "name": "item.iron_bar_certificate.name",
+    "description": "item.iron_bar_certificate.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -8996,8 +8996,8 @@
   {
     "id": "529",
     "v1Id": 529,
-    "name": "item.529.name",
-    "description": "item.529.description",
+    "name": "item.steel_bar_certificate.name",
+    "description": "item.steel_bar_certificate.description",
     "command": "command.none",
     "basePrice": 20,
     "spriteId": 0,
@@ -9013,8 +9013,8 @@
   {
     "id": "530",
     "v1Id": 530,
-    "name": "item.530.name",
-    "description": "item.530.description",
+    "name": "item.mithril_bar_certificate.name",
+    "description": "item.mithril_bar_certificate.description",
     "command": "command.none",
     "basePrice": 30,
     "spriteId": 0,
@@ -9030,8 +9030,8 @@
   {
     "id": "531",
     "v1Id": 531,
-    "name": "item.531.name",
-    "description": "item.531.description",
+    "name": "item.silver_bar_certificate.name",
+    "description": "item.silver_bar_certificate.description",
     "command": "command.none",
     "basePrice": 15,
     "spriteId": 0,
@@ -9047,8 +9047,8 @@
   {
     "id": "532",
     "v1Id": 532,
-    "name": "item.532.name",
-    "description": "item.532.description",
+    "name": "item.gold_bar_certificate.name",
+    "description": "item.gold_bar_certificate.description",
     "command": "command.none",
     "basePrice": 25,
     "spriteId": 0,
@@ -9064,8 +9064,8 @@
   {
     "id": "533",
     "v1Id": 533,
-    "name": "item.533.name",
-    "description": "item.533.description",
+    "name": "item.lobster_certificate.name",
+    "description": "item.lobster_certificate.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -9081,8 +9081,8 @@
   {
     "id": "534",
     "v1Id": 534,
-    "name": "item.534.name",
-    "description": "item.534.description",
+    "name": "item.raw_lobster_certificate.name",
+    "description": "item.raw_lobster_certificate.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -9098,8 +9098,8 @@
   {
     "id": "535",
     "v1Id": 535,
-    "name": "item.535.name",
-    "description": "item.535.description",
+    "name": "item.swordfish_certificate.name",
+    "description": "item.swordfish_certificate.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -9115,8 +9115,8 @@
   {
     "id": "536",
     "v1Id": 536,
-    "name": "item.536.name",
-    "description": "item.536.description",
+    "name": "item.raw_swordfish_certificate.name",
+    "description": "item.raw_swordfish_certificate.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -9132,8 +9132,8 @@
   {
     "id": "537",
     "v1Id": 537,
-    "name": "item.537.name",
-    "description": "item.537.description",
+    "name": "item.diary.name",
+    "description": "item.diary.description",
     "command": "command.read",
     "basePrice": 1,
     "spriteId": 0,
@@ -9149,8 +9149,8 @@
   {
     "id": "538",
     "v1Id": 538,
-    "name": "item.538.name",
-    "description": "item.538.description",
+    "name": "item.front_door_key.name",
+    "description": "item.front_door_key.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -9166,8 +9166,8 @@
   {
     "id": "539",
     "v1Id": 539,
-    "name": "item.539.name",
-    "description": "item.539.description",
+    "name": "item.ball.name",
+    "description": "item.ball.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -9183,8 +9183,8 @@
   {
     "id": "540",
     "v1Id": 540,
-    "name": "item.540.name",
-    "description": "item.540.description",
+    "name": "item.magnet.name",
+    "description": "item.magnet.description",
     "command": "command.none",
     "basePrice": 3,
     "spriteId": 0,
@@ -9200,7 +9200,7 @@
   {
     "id": "541",
     "v1Id": 541,
-    "name": "item.541.name",
+    "name": "item.grey_wolf_fur.name",
     "description": "description.this_would_make_warm_clothing",
     "command": "command.none",
     "basePrice": 50,
@@ -9217,7 +9217,7 @@
   {
     "id": "542",
     "v1Id": 542,
-    "name": "item.542.name",
+    "name": "item.uncut_dragonstone.name",
     "description": "description.this_would_be_worth_more",
     "command": "command.none",
     "basePrice": 1000,
@@ -9234,7 +9234,7 @@
   {
     "id": "543",
     "v1Id": 543,
-    "name": "item.543.name",
+    "name": "item.dragonstone_ring.name",
     "description": "description.a_valuable_ring",
     "command": "command.none",
     "basePrice": 17625,
@@ -9251,7 +9251,7 @@
   {
     "id": "544",
     "v1Id": 544,
-    "name": "item.544.name",
+    "name": "item.dragonstone_necklace.name",
     "description": "description.i_wonder_if_this_is",
     "command": "command.none",
     "basePrice": 18375,
@@ -9268,7 +9268,7 @@
   {
     "id": "545",
     "v1Id": 545,
-    "name": "item.545.name",
+    "name": "item.raw_shark.name",
     "description": "irem.raw_fish.description",
     "command": "command.none",
     "basePrice": 300,
@@ -9302,7 +9302,7 @@
   {
     "id": "547",
     "v1Id": 547,
-    "name": "item.547.name",
+    "name": "item.burnt_shark.name",
     "description": "item.burnt_fish.description",
     "command": "command.none",
     "basePrice": 1,
@@ -9317,10 +9317,10 @@
     "isUnused": 0
   },
   {
-    "id": "548",
+    "id": "big_fishing_net",
     "v1Id": 548,
-    "name": "item.548.name",
-    "description": "item.548.description",
+    "name": "item.big_fishing_net.name",
+    "description": "item.big_fishing_net.description",
     "command": "command.none",
     "basePrice": 20,
     "spriteId": 0,
@@ -9336,8 +9336,8 @@
   {
     "id": "549",
     "v1Id": 549,
-    "name": "item.549.name",
-    "description": "item.549.description",
+    "name": "item.casket.name",
+    "description": "item.casket.description",
     "command": "command.open",
     "basePrice": 50,
     "spriteId": 0,
@@ -9353,7 +9353,7 @@
   {
     "id": "550",
     "v1Id": 550,
-    "name": "item.550.name",
+    "name": "item.raw_cod.name",
     "description": "irem.raw_fish.description",
     "command": "command.none",
     "basePrice": 25,
@@ -9370,7 +9370,7 @@
   {
     "id": "551",
     "v1Id": 551,
-    "name": "item.551.name",
+    "name": "item.cod.name",
     "description": "description.some_nicely_cooked_fish",
     "command": "command.eat",
     "basePrice": 25,
@@ -9387,7 +9387,7 @@
   {
     "id": "552",
     "v1Id": 552,
-    "name": "item.552.name",
+    "name": "item.raw_mackerel.name",
     "description": "irem.raw_fish.description",
     "command": "command.none",
     "basePrice": 17,
@@ -9404,7 +9404,7 @@
   {
     "id": "553",
     "v1Id": 553,
-    "name": "item.553.name",
+    "name": "item.mackerel.name",
     "description": "description.some_nicely_cooked_fish",
     "command": "command.eat",
     "basePrice": 17,
@@ -9421,7 +9421,7 @@
   {
     "id": "554",
     "v1Id": 554,
-    "name": "item.554.name",
+    "name": "item.raw_bass.name",
     "description": "irem.raw_fish.description",
     "command": "command.none",
     "basePrice": 120,
@@ -9438,7 +9438,7 @@
   {
     "id": "555",
     "v1Id": 555,
-    "name": "item.555.name",
+    "name": "item.bass.name",
     "description": "description.wow_this_is_a_big",
     "command": "command.eat",
     "basePrice": 120,
@@ -9455,8 +9455,8 @@
   {
     "id": "556",
     "v1Id": 556,
-    "name": "item.556.name",
-    "description": "item.556.description",
+    "name": "item.ice_gloves.name",
+    "description": "item.ice_gloves.description",
     "command": "command.none",
     "basePrice": 6,
     "spriteId": 0,
@@ -9472,7 +9472,7 @@
   {
     "id": "557",
     "v1Id": 557,
-    "name": "name.firebird_feather",
+    "name": "item.firebird_feather.name",
     "description": "item.557.description",
     "command": "command.none",
     "basePrice": 2,
@@ -9489,7 +9489,7 @@
   {
     "id": "558",
     "v1Id": 558,
-    "name": "name.firebird_feather",
+    "name": "item.firebird_feather.name",
     "description": "item.558.description",
     "command": "command.none",
     "basePrice": 2,
@@ -9506,7 +9506,7 @@
   {
     "id": "559",
     "v1Id": 559,
-    "name": "item.559.name",
+    "name": "item.poisoned_iron_dagger.name",
     "description": "description.short_but_pointy",
     "command": "command.none",
     "basePrice": 35,
@@ -9523,7 +9523,7 @@
   {
     "id": "560",
     "v1Id": 560,
-    "name": "item.560.name",
+    "name": "item.poisoned_bronze_dagger.name",
     "description": "description.short_but_pointy",
     "command": "command.none",
     "basePrice": 10,
@@ -9540,7 +9540,7 @@
   {
     "id": "561",
     "v1Id": 561,
-    "name": "item.561.name",
+    "name": "item.poisoned_steel_dagger.name",
     "description": "description.short_but_pointy",
     "command": "command.none",
     "basePrice": 125,
@@ -9557,7 +9557,7 @@
   {
     "id": "562",
     "v1Id": 562,
-    "name": "item.562.name",
+    "name": "item.poisoned_mithril_dagger.name",
     "description": "description.short_but_pointy",
     "command": "command.none",
     "basePrice": 325,
@@ -9574,7 +9574,7 @@
   {
     "id": "563",
     "v1Id": 563,
-    "name": "item.563.name",
+    "name": "item.poisoned_rune_dagger.name",
     "description": "description.short_but_pointy",
     "command": "command.none",
     "basePrice": 8000,
@@ -9608,7 +9608,7 @@
   {
     "id": "565",
     "v1Id": 565,
-    "name": "item.565.name",
+    "name": "item.poisoned_black_dagger.name",
     "description": "description.short_but_pointy",
     "command": "command.none",
     "basePrice": 240,
@@ -9625,7 +9625,7 @@
   {
     "id": "566",
     "v1Id": 566,
-    "name": "name.cure_poison_potion",
+    "name": "item.cure_poison_potion.name",
     "description": "item.566.description",
     "command": "command.drink",
     "basePrice": 288,
@@ -9642,7 +9642,7 @@
   {
     "id": "567",
     "v1Id": 567,
-    "name": "name.cure_poison_potion",
+    "name": "item.cure_poison_potion.name",
     "description": "item.567.description",
     "command": "command.drink",
     "basePrice": 216,
@@ -9659,7 +9659,7 @@
   {
     "id": "568",
     "v1Id": 568,
-    "name": "name.cure_poison_potion",
+    "name": "item.cure_poison_potion.name",
     "description": "item.568.description",
     "command": "command.drink",
     "basePrice": 144,
@@ -9759,9 +9759,9 @@
     "isUnused": 0
   },
   {
-    "id": "574",
+    "id": "poisoned_bronze_arrows",
     "v1Id": 574,
-    "name": "item.574.name",
+    "name": "item.poisoned_bronze_arrows.name",
     "description": "description.venomous_looking_arrows",
     "command": "command.none",
     "basePrice": 2,
@@ -9980,10 +9980,10 @@
     "isUnused": 0
   },
   {
-    "id": "587",
+    "id": "blamish_snail_slime",
     "v1Id": 587,
-    "name": "item.587.name",
-    "description": "item.587.description",
+    "name": "item.blamish_snail_slime.name",
+    "description": "item.blamish_snail_slime.description",
     "command": "command.none",
     "basePrice": 5,
     "spriteId": 0,
@@ -9997,10 +9997,10 @@
     "isUnused": 0
   },
   {
-    "id": "588",
+    "id": "blamish_oil",
     "v1Id": 588,
-    "name": "item.588.name",
-    "description": "item.588.description",
+    "name": "item.blamish_oil.name",
+    "description": "item.blamish_oil.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -10014,10 +10014,10 @@
     "isUnused": 0
   },
   {
-    "id": "589",
+    "id": "oily_fishing_rod",
     "v1Id": 589,
-    "name": "item.589.name",
-    "description": "item.589.description",
+    "name": "item.oily_fishing_rod.name",
+    "description": "item.oily_fishing_rod.description",
     "command": "command.none",
     "basePrice": 15,
     "spriteId": 0,
@@ -10048,10 +10048,10 @@
     "isUnused": 0
   },
   {
-    "id": "591",
+    "id": "raw_lava_eel",
     "v1Id": 591,
-    "name": "item.591.name",
-    "description": "item.591.description",
+    "name": "item.raw_lava_eel.name",
+    "description": "item.raw_lava_eel.description",
     "command": "command.none",
     "basePrice": 150,
     "spriteId": 0,
@@ -10082,10 +10082,10 @@
     "isUnused": 0
   },
   {
-    "id": "593",
+    "id": "dragon_sword",
     "v1Id": 593,
-    "name": "item.593.name",
-    "description": "item.593.description",
+    "name": "item.dragon_sword.name",
+    "description": "item.dragon_sword.description",
     "command": "command.none",
     "basePrice": 100000,
     "spriteId": 0,
@@ -10099,10 +10099,10 @@
     "isUnused": 0
   },
   {
-    "id": "594",
+    "id": "dragon_hatchet",
     "v1Id": 594,
-    "name": "item.594.name",
-    "description": "item.594.description",
+    "name": "item.dragon_hatchet.name",
+    "description": "item.dragon_hatchet.description",
     "command": "command.none",
     "basePrice": 200000,
     "spriteId": 0,
@@ -10116,10 +10116,10 @@
     "isUnused": 0
   },
   {
-    "id": "595",
+    "id": "prison_keys",
     "v1Id": 595,
-    "name": "item.595.name",
-    "description": "item.595.description",
+    "name": "item.prison_keys.name",
+    "description": "item.prison_keys.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -10133,10 +10133,10 @@
     "isUnused": 0
   },
   {
-    "id": "596",
+    "id": "dusty_key",
     "v1Id": 596,
-    "name": "item.596.name",
-    "description": "item.596.description",
+    "name": "item.dusty_key.name",
+    "description": "item.dusty_key.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -10167,10 +10167,10 @@
     "isUnused": 0
   },
   {
-    "id": "598",
+    "id": "grog",
     "v1Id": 598,
-    "name": "item.598.name",
-    "description": "item.598.description",
+    "name": "item.grog.name",
+    "description": "item.grog.description",
     "command": "command.drink",
     "basePrice": 3,
     "spriteId": 0,
@@ -10186,7 +10186,7 @@
   {
     "id": "599",
     "v1Id": 599,
-    "name": "name.candle",
+    "name": "item.candle.name",
     "description": "item.599.description",
     "command": "command.none",
     "basePrice": 3,
@@ -10203,7 +10203,7 @@
   {
     "id": "600",
     "v1Id": 600,
-    "name": "name.black_candle",
+    "name": "item.black_candle.name",
     "description": "item.600.description",
     "command": "command.none",
     "basePrice": 3,
@@ -10220,7 +10220,7 @@
   {
     "id": "601",
     "v1Id": 601,
-    "name": "name.candle",
+    "name": "item.candle.name",
     "description": "item.601.description",
     "command": "command.none",
     "basePrice": 3,
@@ -10237,7 +10237,7 @@
   {
     "id": "602",
     "v1Id": 602,
-    "name": "name.black_candle",
+    "name": "item.black_candle.name",
     "description": "item.602.description",
     "command": "command.none",
     "basePrice": 3,
@@ -10252,10 +10252,10 @@
     "isUnused": 0
   },
   {
-    "id": "603",
+    "id": "insect_repellant",
     "v1Id": 603,
-    "name": "item.603.name",
-    "description": "item.603.description",
+    "name": "item.insect_repellant.name",
+    "description": "item.insect_repellant.description",
     "command": "command.none",
     "basePrice": 3,
     "spriteId": 0,
@@ -10286,10 +10286,10 @@
     "isUnused": 0
   },
   {
-    "id": "605",
+    "id": "bucket_of_wax",
     "v1Id": 605,
-    "name": "item.605.name",
-    "description": "description.its_a_wooden_bucket",
+    "name": "item.bucket_of_wax.name",
+    "description": "item.bucket.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -10303,10 +10303,10 @@
     "isUnused": 0
   },
   {
-    "id": "606",
+    "id": "excalibur",
     "v1Id": 606,
-    "name": "item.606.name",
-    "description": "item.606.description",
+    "name": "item.excalibur.name",
+    "description": "item.excalibur.description",
     "command": "command.none",
     "basePrice": 200,
     "spriteId": 0,
@@ -10371,9 +10371,9 @@
     "isUnused": 0
   },
   {
-    "id": "610",
+    "id": "unenchanted_dragonstone_amulet",
     "v1Id": 610,
-    "name": "item.610.name",
+    "name": "item.unenchanted_dragonstone_amulet.name",
     "description": "description.i_wonder_if_i_can_get_this_enchanted",
     "command": "command.none",
     "basePrice": 17625,
@@ -10388,10 +10388,10 @@
     "isUnused": 0
   },
   {
-    "id": "611",
+    "id": "unpowered_orb",
     "v1Id": 611,
-    "name": "item.611.name",
-    "description": "item.611.description",
+    "name": "item.unpowered_orb.name",
+    "description": "item.unpowered_orb.description",
     "command": "command.none",
     "basePrice": 100,
     "spriteId": 0,
@@ -10405,9 +10405,9 @@
     "isUnused": 0
   },
   {
-    "id": "612",
+    "id": "fire_orb",
     "v1Id": 612,
-    "name": "item.612.name",
+    "name": "item.fire_orb.name",
     "description": "description.a_magic_glowing_orb",
     "command": "command.none",
     "basePrice": 300,
@@ -10422,9 +10422,9 @@
     "isUnused": 0
   },
   {
-    "id": "613",
+    "id": "water_orb",
     "v1Id": 613,
-    "name": "item.613.name",
+    "name": "item.water_orb.name",
     "description": "description.a_magic_glowing_orb",
     "command": "command.none",
     "basePrice": 300,
@@ -10439,9 +10439,9 @@
     "isUnused": 0
   },
   {
-    "id": "614",
+    "id": "battlestaff",
     "v1Id": 614,
-    "name": "item.614.name",
+    "name": "item.battlestaff.name",
     "description": "description.its_a_slightly_magical_stick",
     "command": "command.none",
     "basePrice": 7000,
@@ -10456,9 +10456,9 @@
     "isUnused": 0
   },
   {
-    "id": "615",
+    "id": "fire_battlestaff",
     "v1Id": 615,
-    "name": "item.615.name",
+    "name": "item.fire_battlestaff.name",
     "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 15500,
@@ -10473,9 +10473,9 @@
     "isUnused": 0
   },
   {
-    "id": "616",
+    "id": "water_battlestaff",
     "v1Id": 616,
-    "name": "item.616.name",
+    "name": "item.water_battlestaff.name",
     "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 15500,
@@ -10490,9 +10490,9 @@
     "isUnused": 0
   },
   {
-    "id": "617",
+    "id": "air_battlestaff",
     "v1Id": 617,
-    "name": "item.617.name",
+    "name": "item.air_battlestaff.name",
     "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 15500,
@@ -10507,9 +10507,9 @@
     "isUnused": 0
   },
   {
-    "id": "618",
+    "id": "earth_battlestaff",
     "v1Id": 618,
-    "name": "item.618.name",
+    "name": "item.earth_battlestaff.name",
     "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 15500,
@@ -10541,10 +10541,10 @@
     "isUnused": 0
   },
   {
-    "id": "620",
+    "id": "bear_glass",
     "v1Id": 620,
-    "name": "item.620.name",
-    "description": "item.620.description",
+    "name": "item.bear_glass.name",
+    "description": "item.bear_glass.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -10558,10 +10558,10 @@
     "isUnused": 0
   },
   {
-    "id": "621",
+    "id": "glassblowing_pipe",
     "v1Id": 621,
-    "name": "item.621.name",
-    "description": "item.621.description",
+    "name": "item.glassblowing_pipe.name",
+    "description": "item.glassblowing_pipe.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -10575,9 +10575,9 @@
     "isUnused": 0
   },
   {
-    "id": "622",
+    "id": "seaweed",
     "v1Id": 622,
-    "name": "item.622.name",
+    "name": "item.seaweed.name",
     "description": "description.slightly_damp_seaweed",
     "command": "command.none",
     "basePrice": 2,
@@ -10592,10 +10592,10 @@
     "isUnused": 0
   },
   {
-    "id": "623",
+    "id": "molten_glass",
     "v1Id": 623,
-    "name": "item.623.name",
-    "description": "item.623.description",
+    "name": "item.molten_glass.name",
+    "description": "item.molten_glass.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -10609,9 +10609,9 @@
     "isUnused": 0
   },
   {
-    "id": "624",
+    "id": "soda_ash",
     "v1Id": 624,
-    "name": "item.624.name",
+    "name": "item.soda_ash.name",
     "description": "description.one_of_the_ingredients_for",
     "command": "command.none",
     "basePrice": 2,
@@ -10626,9 +10626,9 @@
     "isUnused": 0
   },
   {
-    "id": "625",
+    "id": "sand",
     "v1Id": 625,
-    "name": "item.625.name",
+    "name": "item.sand.name",
     "description": "description.one_of_the_ingredients_for",
     "command": "command.none",
     "basePrice": 2,
@@ -10643,9 +10643,9 @@
     "isUnused": 0
   },
   {
-    "id": "626",
+    "id": "air_orb",
     "v1Id": 626,
-    "name": "item.626.name",
+    "name": "item.air_orb.name",
     "description": "description.a_magic_glowing_orb",
     "command": "command.none",
     "basePrice": 300,
@@ -10660,9 +10660,9 @@
     "isUnused": 0
   },
   {
-    "id": "627",
+    "id": "earth_orb",
     "v1Id": 627,
-    "name": "item.627.name",
+    "name": "item.earth_orb.name",
     "description": "description.a_magic_glowing_orb",
     "command": "command.none",
     "basePrice": 300,
@@ -10677,10 +10677,10 @@
     "isUnused": 0
   },
   {
-    "id": "628",
+    "id": "bass_certificate",
     "v1Id": 628,
-    "name": "item.628.name",
-    "description": "item.628.description",
+    "name": "item.bass_certificate.name",
+    "description": "item.bass_certificate.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -10694,10 +10694,10 @@
     "isUnused": 0
   },
   {
-    "id": "629",
+    "id": "raw_bass_certificate",
     "v1Id": 629,
-    "name": "item.629.name",
-    "description": "item.629.description",
+    "name": "item.raw_bass_certificate.name",
+    "description": "item.raw_bass_certificate.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -10711,10 +10711,10 @@
     "isUnused": 0
   },
   {
-    "id": "630",
+    "id": "shark_certificate",
     "v1Id": 630,
-    "name": "item.630.name",
-    "description": "item.630.description",
+    "name": "item.shark_certificate.name",
+    "description": "item.shark_certificate.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -10728,10 +10728,10 @@
     "isUnused": 0
   },
   {
-    "id": "631",
+    "id": "raw_shark_certificate",
     "v1Id": 631,
-    "name": "item.631.name",
-    "description": "item.631.description",
+    "name": "item.raw_shark_certificate.name",
+    "description": "item.raw_shark_certificate.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -10745,10 +10745,10 @@
     "isUnused": 0
   },
   {
-    "id": "632",
+    "id": "oak_legs",
     "v1Id": 632,
-    "name": "item.632.name",
-    "description": "item.632.description",
+    "name": "item.oak_legs.name",
+    "description": "item.oak_legs.description",
     "command": "command.none",
     "basePrice": 20,
     "spriteId": 0,
@@ -10762,10 +10762,10 @@
     "isUnused": 0
   },
   {
-    "id": "633",
+    "id": "willow_logs",
     "v1Id": 633,
-    "name": "item.633.name",
-    "description": "item.633.description",
+    "name": "item.willow_logs.name",
+    "description": "item.willow_logs.description",
     "command": "command.none",
     "basePrice": 40,
     "spriteId": 0,
@@ -10779,10 +10779,10 @@
     "isUnused": 0
   },
   {
-    "id": "634",
+    "id": "maple_logs",
     "v1Id": 634,
-    "name": "item.634.name",
-    "description": "item.634.description",
+    "name": "item.maple_logs.name",
+    "description": "item.maple_logs.description",
     "command": "command.none",
     "basePrice": 80,
     "spriteId": 0,
@@ -10796,10 +10796,10 @@
     "isUnused": 0
   },
   {
-    "id": "635",
+    "id": "yew_logs",
     "v1Id": 635,
-    "name": "item.635.name",
-    "description": "item.635.description",
+    "name": "item.yew_logs.name",
+    "description": "item.yew_logs.description",
     "command": "command.none",
     "basePrice": 160,
     "spriteId": 0,
@@ -10813,10 +10813,10 @@
     "isUnused": 0
   },
   {
-    "id": "636",
+    "id": "magic_logs",
     "v1Id": 636,
-    "name": "item.636.name",
-    "description": "item.636.description",
+    "name": "item.magic_logs.name",
+    "description": "item.magic_logs.description",
     "command": "command.none",
     "basePrice": 320,
     "spriteId": 0,
@@ -10830,10 +10830,10 @@
     "isUnused": 0
   },
   {
-    "id": "637",
+    "id": "headless_arrows",
     "v1Id": 637,
-    "name": "item.637.name",
-    "description": "item.637.description",
+    "name": "item.headless_arrows.name",
+    "description": "item.headless_arrows.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -10847,10 +10847,10 @@
     "isUnused": 0
   },
   {
-    "id": "638",
+    "id": "iron_arrows",
     "v1Id": 638,
-    "name": "item.638.name",
-    "description": "item.638.description",
+    "name": "item.iron_arrows.name",
+    "description": "item.iron_arrows.description",
     "command": "command.none",
     "basePrice": 6,
     "spriteId": 0,
@@ -10864,9 +10864,9 @@
     "isUnused": 0
   },
   {
-    "id": "639",
+    "id": "poison_iron_arrows",
     "v1Id": 639,
-    "name": "item.639.name",
+    "name": "item.poison_iron_arrows.name",
     "description": "description.venomous_looking_arrows",
     "command": "command.none",
     "basePrice": 6,
@@ -10883,8 +10883,8 @@
   {
     "id": "640",
     "v1Id": 640,
-    "name": "item.640.name",
-    "description": "item.640.description",
+    "name": "item.steel_arrows..name",
+    "description": "item.steel_arrows..description",
     "command": "command.none",
     "basePrice": 24,
     "spriteId": 0,
@@ -10898,9 +10898,9 @@
     "isUnused": 0
   },
   {
-    "id": "641",
+    "id": "poisoned_steel_arrows",
     "v1Id": 641,
-    "name": "item.641.name",
+    "name": "item.poisoned_steel_arrows.name",
     "description": "description.venomous_looking_arrows",
     "command": "command.none",
     "basePrice": 24,
@@ -10917,8 +10917,8 @@
   {
     "id": "642",
     "v1Id": 642,
-    "name": "item.642.name",
-    "description": "item.642.description",
+    "name": "item.mithril_arrows..name",
+    "description": "item.mithril_arrows..description",
     "command": "command.none",
     "basePrice": 64,
     "spriteId": 0,
@@ -10932,9 +10932,9 @@
     "isUnused": 0
   },
   {
-    "id": "643",
+    "id": "poisoned_mithril_arrows",
     "v1Id": 643,
-    "name": "item.643.name",
+    "name": "item.poisoned_mithril_arrows.name",
     "description": "description.venomous_looking_arrows",
     "command": "command.none",
     "basePrice": 64,
@@ -10983,10 +10983,10 @@
     "isUnused": 0
   },
   {
-    "id": "646",
+    "id": "rune_arrows",
     "v1Id": 646,
-    "name": "item.646.name",
-    "description": "item.646.description",
+    "name": "item.rune_arrows.name",
+    "description": "item.rune_arrows.description",
     "command": "command.none",
     "basePrice": 800,
     "spriteId": 0,
@@ -11000,9 +11000,9 @@
     "isUnused": 0
   },
   {
-    "id": "647",
+    "id": "poisoned_rune_arrows",
     "v1Id": 647,
-    "name": "item.647.name",
+    "name": "item.poisoned_rune_arrows.name",
     "description": "description.venomous_looking_arrows",
     "command": "command.none",
     "basePrice": 800,
@@ -11017,9 +11017,9 @@
     "isUnused": 0
   },
   {
-    "id": "648",
+    "id": "oak_longbow",
     "v1Id": 648,
-    "name": "item.648.name",
+    "name": "item.oak_longbow.name",
     "description": "description.a_nice_sturdy_bow",
     "command": "command.none",
     "basePrice": 160,
@@ -11034,9 +11034,9 @@
     "isUnused": 0
   },
   {
-    "id": "649",
+    "id": "oak_shortbow",
     "v1Id": 649,
-    "name": "item.649.name",
+    "name": "item.oak_shortbow.name",
     "description": "description.short_but_effective",
     "command": "command.none",
     "basePrice": 100,
@@ -11155,7 +11155,7 @@
   {
     "id": "656",
     "v1Id": 656,
-    "name": "item.656.name",
+    "name": "item.magic_longbow..name",
     "description": "description.a_nice_sturdy_bow",
     "command": "command.none",
     "basePrice": 2560,
@@ -11172,7 +11172,7 @@
   {
     "id": "657",
     "v1Id": 657,
-    "name": "item.657.name",
+    "name": "item.magic_shortbow..name",
     "description": "description.short_but_effective",
     "command": "command.none",
     "basePrice": 1600,
@@ -11478,7 +11478,7 @@
   {
     "id": "675",
     "v1Id": 675,
-    "name": "name.flax",
+    "name": "item.flax.name",
     "description": "item.675.description",
     "command": "command.none",
     "basePrice": 5,
@@ -11595,9 +11595,9 @@
     "isUnused": 0
   },
   {
-    "id": "682",
+    "id": "enchanted_fire_battlestaff",
     "v1Id": 682,
-    "name": "item.enchanted_battlestaff_of_fire.namename",
+    "name": "item.enchanted_fire_battlestaff.name",
     "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 42500,
@@ -11612,9 +11612,9 @@
     "isUnused": 0
   },
   {
-    "id": "683",
+    "id": "enchanted_water_battlestaff",
     "v1Id": 683,
-    "name": "item.enchanted_battlestaff_of_water.namename",
+    "name": "item.enchanted_water_battlestaff.name",
     "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 42500,
@@ -11629,9 +11629,9 @@
     "isUnused": 0
   },
   {
-    "id": "684",
+    "id": "enchanted_air_battlestaff",
     "v1Id": 684,
-    "name": "item.enchanted_battlestaff_of_air.namename",
+    "name": "item.enchanted_air_battlestaff.name",
     "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 42500,
@@ -11646,9 +11646,9 @@
     "isUnused": 0
   },
   {
-    "id": "685",
+    "id": "enchanted_earth_battlestaff",
     "v1Id": 685,
-    "name": "item.enchanted_battlestaff_of_earth.namename",
+    "name": "item.enchanted_earth_battlestaff.name",
     "description": "item.enchanted_battlestaff.description",
     "command": "command.none",
     "basePrice": 42500,
@@ -11818,7 +11818,7 @@
   {
     "id": "695",
     "v1Id": 695,
-    "name": "name.crest_fragment",
+    "name": "item.crest_fragment.name",
     "description": "description.part_of_the_fitzharmon_family",
     "command": "command.none",
     "basePrice": 10,
@@ -11835,7 +11835,7 @@
   {
     "id": "696",
     "v1Id": 696,
-    "name": "name.crest_fragment",
+    "name": "item.crest_fragment.name",
     "description": "description.part_of_the_fitzharmon_family",
     "command": "command.none",
     "basePrice": 10,
@@ -11852,7 +11852,7 @@
   {
     "id": "697",
     "v1Id": 697,
-    "name": "name.crest_fragment",
+    "name": "item.crest_fragment.name",
     "description": "description.part_of_the_fitzharmon_family",
     "command": "command.none",
     "basePrice": 10,
@@ -12311,7 +12311,7 @@
   {
     "id": "724",
     "v1Id": 724,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "item.724.description",
     "command": "command.none",
     "basePrice": 20,
@@ -12362,7 +12362,7 @@
   {
     "id": "727",
     "v1Id": 727,
-    "name": "name.large_cog",
+    "name": "world_object.large_cog.name",
     "description": "description.a_large_old_cog",
     "command": "command.none",
     "basePrice": 10,
@@ -12379,7 +12379,7 @@
   {
     "id": "728",
     "v1Id": 728,
-    "name": "name.large_cog",
+    "name": "world_object.large_cog.name",
     "description": "description.a_large_old_cog",
     "command": "command.none",
     "basePrice": 10,
@@ -12396,7 +12396,7 @@
   {
     "id": "729",
     "v1Id": 729,
-    "name": "name.large_cog",
+    "name": "world_object.large_cog.name",
     "description": "description.a_large_old_cog",
     "command": "command.none",
     "basePrice": 10,
@@ -12413,7 +12413,7 @@
   {
     "id": "730",
     "v1Id": 730,
-    "name": "name.large_cog",
+    "name": "world_object.large_cog.name",
     "description": "description.a_large_old_cog",
     "command": "command.none",
     "basePrice": 10,
@@ -12581,10 +12581,10 @@
     "isUnused": 0
   },
   {
-    "id": "740",
+    "id": "orb_of_protection",
     "v1Id": 740,
-    "name": "item.740.name",
-    "description": "item.740.description",
+    "name": "item.orb_of_protection.name",
+    "description": "item.orb_of_protection.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -12598,10 +12598,10 @@
     "isUnused": 0
   },
   {
-    "id": "741",
+    "id": "orbs_of_protection",
     "v1Id": 741,
-    "name": "item.741.name",
-    "description": "item.741.description",
+    "name": "item.orbs_of_protection.name",
+    "description": "item.orbs_of_protection.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -12615,10 +12615,10 @@
     "isUnused": 0
   },
   {
-    "id": "742",
+    "id": "holy_table_napkin",
     "v1Id": 742,
-    "name": "item.742.name",
-    "description": "item.742.description",
+    "name": "item.holy_table_napkin.name",
+    "description": "item.holy_table_napkin.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -12666,11 +12666,11 @@
     "isUnused": 0
   },
   {
-    "id": "745",
+    "id": "magic_golden_feather",
     "v1Id": 745,
-    "name": "item.745.name",
-    "description": "item.745.description",
-    "command": "item.745.command",
+    "name": "item.magic_golden_feather.name",
+    "description": "item.magic_golden_feather.description",
+    "command": "item.magic_golden_feather.command",
     "basePrice": 2,
     "spriteId": 0,
     "inventoryPicture": 176,
@@ -12751,10 +12751,10 @@
     "isUnused": 0
   },
   {
-    "id": "750",
+    "id": "pineapple_pizza",
     "v1Id": 750,
-    "name": "item.750.name",
-    "description": "item.750.description",
+    "name": "item.pineapple_pizza.name",
+    "description": "item.pineapple_pizza.description",
     "command": "command.eat",
     "basePrice": 100,
     "spriteId": 0,
@@ -12785,10 +12785,10 @@
     "isUnused": 0
   },
   {
-    "id": "752",
+    "id": "magic_scroll",
     "v1Id": 752,
-    "name": "item.752.name",
-    "description": "item.752.description",
+    "name": "item.magic_scroll.name",
+    "description": "item.magic_scroll.description",
     "command": "command.read",
     "basePrice": 1,
     "spriteId": 0,
@@ -12802,10 +12802,10 @@
     "isUnused": 0
   },
   {
-    "id": "753",
+    "id": "mark_of_hazeel",
     "v1Id": 753,
-    "name": "item.753.name",
-    "description": "item.753.description",
+    "name": "item.mark_of_hazeel.name",
+    "description": "item.mark_of_hazeel.description",
     "command": "command.none",
     "basePrice": 0,
     "spriteId": 0,
@@ -12819,9 +12819,9 @@
     "isUnused": 0
   },
   {
-    "id": "754",
+    "id": "bloody_axe_of_zamorak",
     "v1Id": 754,
-    "name": "item.754.name",
+    "name": "item.bloody_axe_of_zamorak.name",
     "description": "description.a_vicious_looking_axe",
     "command": "command.none",
     "basePrice": 5000,
@@ -12836,10 +12836,10 @@
     "isUnused": 0
   },
   {
-    "id": "755",
+    "id": "carnillean_armour",
     "v1Id": 755,
-    "name": "item.755.name",
-    "description": "item.755.description",
+    "name": "item.carnillean_armour.name",
+    "description": "item.carnillean_armour.description",
     "command": "command.none",
     "basePrice": 65,
     "spriteId": 0,
@@ -12853,10 +12853,10 @@
     "isUnused": 0
   },
   {
-    "id": "756",
+    "id": "carnillean_key",
     "v1Id": 756,
-    "name": "item.756.name",
-    "description": "item.756.description",
+    "name": "item.carnillean_key.name",
+    "description": "item.carnillean_key.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -12870,10 +12870,10 @@
     "isUnused": 0
   },
   {
-    "id": "757",
+    "id": "cattle_prod",
     "v1Id": 757,
-    "name": "item.757.name",
-    "description": "item.757.description",
+    "name": "item.cattle_prod.name",
+    "description": "item.cattle_prod.description",
     "command": "command.none",
     "basePrice": 15,
     "spriteId": 0,
@@ -12904,10 +12904,10 @@
     "isUnused": 0
   },
   {
-    "id": "759",
+    "id": "poisoned_animal_seed",
     "v1Id": 759,
-    "name": "item.759.name",
-    "description": "item.759.description",
+    "name": "item.poisoned_animal_seed.name",
+    "description": "item.poisoned_animal_seed.description",
     "command": "command.none",
     "basePrice": 0,
     "spriteId": 0,
@@ -13006,10 +13006,10 @@
     "isUnused": 0
   },
   {
-    "id": "765",
+    "id": "dwellberries",
     "v1Id": 765,
-    "name": "item.765.name",
-    "description": "item.765.description",
+    "name": "item.dwellberries.name",
+    "description": "item.dwellberries.description",
     "command": "command.eat",
     "basePrice": 4,
     "spriteId": 0,
@@ -13023,10 +13023,10 @@
     "isUnused": 0
   },
   {
-    "id": "766",
+    "id": "gas_mask",
     "v1Id": 766,
-    "name": "item.766.name",
-    "description": "item.766.description",
+    "name": "item.gas_mask.name",
+    "description": "item.gas_mask.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -13040,10 +13040,10 @@
     "isUnused": 0
   },
   {
-    "id": "767",
+    "id": "picture",
     "v1Id": 767,
-    "name": "item.767.name",
-    "description": "item.767.description",
+    "name": "item.picture.name",
+    "description": "item.picture.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -13074,10 +13074,10 @@
     "isUnused": 0
   },
   {
-    "id": "769",
+    "id": "seaslug",
     "v1Id": 769,
-    "name": "item.769.name",
-    "description": "item.769.description",
+    "name": "item.seaslug.name",
+    "description": "item.seaslug.description",
     "command": "command.none",
     "basePrice": 4,
     "spriteId": 0,
@@ -13108,10 +13108,10 @@
     "isUnused": 0
   },
   {
-    "id": "771",
+    "id": "hangover_cure",
     "v1Id": 771,
-    "name": "item.771.name",
-    "description": "item.771.description",
+    "name": "item.hangover_cure.name",
+    "description": "item.hangover_cure.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -13125,10 +13125,10 @@
     "isUnused": 0
   },
   {
-    "id": "772",
+    "id": "chocolate_dust",
     "v1Id": 772,
-    "name": "item.772.name",
-    "description": "item.772.description",
+    "name": "item.chocolate_dust.name",
+    "description": "item.chocolate_dust.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -13144,7 +13144,7 @@
   {
     "id": "773",
     "v1Id": 773,
-    "name": "name.torch",
+    "name": "item.torch.name",
     "description": "item.773.description",
     "command": "command.none",
     "basePrice": 4,
@@ -13161,7 +13161,7 @@
   {
     "id": "774",
     "v1Id": 774,
-    "name": "name.torch",
+    "name": "item.torch.name",
     "description": "item.774.description",
     "command": "command.none",
     "basePrice": 4,
@@ -13176,10 +13176,10 @@
     "isUnused": 0
   },
   {
-    "id": "775",
+    "id": "warrant",
     "v1Id": 775,
-    "name": "item.775.name",
-    "description": "item.775.description",
+    "name": "item.warrant.name",
+    "description": "item.warrant.description",
     "command": "command.none",
     "basePrice": 5,
     "spriteId": 0,
@@ -13193,7 +13193,7 @@
     "isUnused": 0
   },
   {
-    "id": "776",
+    "id": "moist_sticks",
     "v1Id": 776,
     "name": "item.moist_sticks.name",
     "description": "item.moist_sticks.description",
@@ -13210,11 +13210,11 @@
     "isUnused": 0
   },
   {
-    "id": "777",
+    "id": "dry_sticks",
     "v1Id": 777,
-    "name": "item.777.name",
-    "description": "item.777.description",
-    "command": "item.777.command",
+    "name": "item.dry_sticks.name",
+    "description": "item.dry_sticks.description",
+    "command": "item.dry_sticks.command",
     "basePrice": 0,
     "spriteId": 0,
     "inventoryPicture": 258,
@@ -13261,9 +13261,9 @@
     "isUnused": 0
   },
   {
-    "id": "780",
+    "id": "little_key",
     "v1Id": 780,
-    "name": "item.780.name",
+    "name": "item.little_key.name",
     "description": "description.quite_a_small_key",
     "command": "command.none",
     "basePrice": 1,
@@ -13278,10 +13278,10 @@
     "isUnused": 0
   },
   {
-    "id": "781",
+    "id": "scruffy_note",
     "v1Id": 781,
-    "name": "item.781.name",
-    "description": "item.781.description",
+    "name": "item.scruffy_note.name",
+    "description": "item.scruffy_note.description",
     "command": "command.read",
     "basePrice": 2,
     "spriteId": 0,
@@ -13295,10 +13295,10 @@
     "isUnused": 0
   },
   {
-    "id": "782",
+    "id": "glarials_amulet",
     "v1Id": 782,
-    "name": "item.782.name",
-    "description": "item.782.description",
+    "name": "item.glarials_amulet.name",
+    "description": "item.glarials_amulet.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -13363,10 +13363,10 @@
     "isUnused": 0
   },
   {
-    "id": "786",
+    "id": "oyster_pearl_bolts",
     "v1Id": 786,
-    "name": "item.786.name",
-    "description": "item.786.description",
+    "name": "item.oyster_pearl_bolts.name",
+    "description": "item.oyster_pearl_bolts.description",
     "command": "command.none",
     "basePrice": 110,
     "spriteId": 0,
@@ -13380,10 +13380,10 @@
     "isUnused": 0
   },
   {
-    "id": "787",
+    "id": "glrials_pebble",
     "v1Id": 787,
-    "name": "item.787.name",
-    "description": "item.787.description",
+    "name": "item.glrials_pebble.name",
+    "description": "item.glrials_pebble.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -13397,10 +13397,10 @@
     "isUnused": 0
   },
   {
-    "id": "788",
+    "id": "book_of_baxtorian",
     "v1Id": 788,
-    "name": "item.788.name",
-    "description": "item.788.description",
+    "name": "item.book_of_baxtorian.name",
+    "description": "item.book_of_baxtorian.description",
     "command": "command.read",
     "basePrice": 2,
     "spriteId": 0,
@@ -13431,10 +13431,10 @@
     "isUnused": 0
   },
   {
-    "id": "790",
+    "id": "oyster_pearl_bolt_tips",
     "v1Id": 790,
-    "name": "item.790.name",
-    "description": "item.790.description",
+    "name": "item.oyster_pearl_bolt_tips.name",
+    "description": "item.oyster_pearl_bolt_tips.description",
     "command": "command.none",
     "basePrice": 56,
     "spriteId": 0,
@@ -13499,10 +13499,10 @@
     "isUnused": 0
   },
   {
-    "id": "794",
+    "id": "bucket_of_soil",
     "v1Id": 794,
-    "name": "name.soil",
-    "description": "item.794.description",
+    "name": "item.bucket_of_soil.name",
+    "description": "item.bucket_of_soil.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -13516,9 +13516,9 @@
     "isUnused": 0
   },
   {
-    "id": "795",
+    "id": "dragon_medium_helmet",
     "v1Id": 795,
-    "name": "item.795.name",
+    "name": "item.dragon_medium_helmet.name",
     "description": "description.a_medium_sized_helmet",
     "command": "command.none",
     "basePrice": 100000,
@@ -13533,10 +13533,10 @@
     "isUnused": 0
   },
   {
-    "id": "796",
+    "id": "mithril_seeds",
     "v1Id": 796,
-    "name": "item.796.name",
-    "description": "item.796.description",
+    "name": "item.mithril_seeds.name",
+    "description": "item.mithril_seeds.description",
     "command": "command.open",
     "basePrice": 200,
     "spriteId": 0,
@@ -13567,10 +13567,10 @@
     "isUnused": 0
   },
   {
-    "id": "798",
+    "id": "pigeon_cage",
     "v1Id": 798,
-    "name": "item.798.name",
-    "description": "item.798.description",
+    "name": "item.pigeon_cage.name",
+    "description": "item.pigeon_cage.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -13584,11 +13584,11 @@
     "isUnused": 0
   },
   {
-    "id": "799",
+    "id": "messenger_pigeons",
     "v1Id": 799,
-    "name": "item.799.name",
-    "description": "item.799.description",
-    "command": "item.799.command",
+    "name": "item.messenger_pigeons.name",
+    "description": "item.messenger_pigeons.description",
+    "command": "item.messenger_pigeons.command",
     "basePrice": 1,
     "spriteId": 0,
     "inventoryPicture": 275,
@@ -13654,7 +13654,7 @@
   {
     "id": "803",
     "v1Id": 803,
-    "name": "name.bronze_key",
+    "name": "item.bronze_key.name",
     "description": "description.a_heavy_key",
     "command": "command.none",
     "basePrice": 1,
@@ -13669,10 +13669,10 @@
     "isUnused": 0
   },
   {
-    "id": "804",
+    "id": "distillator",
     "v1Id": 804,
-    "name": "item.804.name",
-    "description": "item.804.description",
+    "name": "item.distillator.name",
+    "description": "item.distillator.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -13688,7 +13688,7 @@
   {
     "id": "805",
     "v1Id": 805,
-    "name": "name.glarials_urn",
+    "name": "item.glarials_urn.name",
     "description": "item.805.description",
     "command": "command.none",
     "basePrice": 1,
@@ -13705,7 +13705,7 @@
   {
     "id": "806",
     "v1Id": 806,
-    "name": "name.glarials_urn",
+    "name": "item.glarials_urn.name",
     "description": "item.806.description",
     "command": "command.none",
     "basePrice": 1,
@@ -13720,9 +13720,9 @@
     "isUnused": 0
   },
   {
-    "id": "807",
+    "id": "priest_robe",
     "v1Id": 807,
-    "name": "item.807.name",
+    "name": "item.priest_robe.name",
     "description": "description.i_feel_closer_to_saradomin",
     "command": "command.none",
     "basePrice": 5,
@@ -13737,9 +13737,9 @@
     "isUnused": 0
   },
   {
-    "id": "808",
+    "id": "priest_gown",
     "v1Id": 808,
-    "name": "item.808.name",
+    "name": "item.priest_gown.name",
     "description": "description.i_feel_closer_to_saradomin",
     "command": "command.none",
     "basePrice": 5,
@@ -14111,9 +14111,9 @@
     "isUnused": 0
   },
   {
-    "id": "830",
+    "id": "greenmans_ale",
     "v1Id": 830,
-    "name": "item.830.name",
+    "name": "item.greenmans_ale.name",
     "description": "description.a_glass_of_frothy_ale",
     "command": "command.drink",
     "basePrice": 2,
@@ -14196,10 +14196,10 @@
     "isUnused": 0
   },
   {
-    "id": "835",
+    "id": "bone_key",
     "v1Id": 835,
-    "name": "item.835.name",
-    "description": "item.835.description",
+    "name": "item.bone_key.name",
+    "description": "item.bone_key.description",
     "command": "command.look_at",
     "basePrice": 1,
     "spriteId": 0,
@@ -14485,10 +14485,10 @@
     "isUnused": 0
   },
   {
-    "id": "852",
+    "id": "beads_of_the_dead",
     "v1Id": 852,
-    "name": "item.852.name",
-    "description": "item.852.description",
+    "name": "item.beads_of_the_dead.name",
+    "description": "item.beads_of_the_dead.description",
     "command": "command.none",
     "basePrice": 35,
     "spriteId": 0,
@@ -14536,9 +14536,9 @@
     "isUnused": 0
   },
   {
-    "id": "855",
+    "id": "lemon",
     "v1Id": 855,
-    "name": "item.855.name",
+    "name": "item.lemon.name",
     "description": "description.its_very_fresh",
     "command": "command.eat",
     "basePrice": 2,
@@ -14553,9 +14553,9 @@
     "isUnused": 0
   },
   {
-    "id": "856",
+    "id": "lemon_slices",
     "v1Id": 856,
-    "name": "item.856.name",
+    "name": "item.lemon_slices.name",
     "description": "description.its_very_fresh",
     "command": "command.eat",
     "basePrice": 2,
@@ -14570,9 +14570,9 @@
     "isUnused": 0
   },
   {
-    "id": "857",
+    "id": "orange",
     "v1Id": 857,
-    "name": "item.857.name",
+    "name": "item.orange.name",
     "description": "description.its_very_fresh",
     "command": "command.eat",
     "basePrice": 2,
@@ -14587,9 +14587,9 @@
     "isUnused": 0
   },
   {
-    "id": "858",
+    "id": "orange_slices",
     "v1Id": 858,
-    "name": "item.858.name",
+    "name": "item.orange_slices.name",
     "description": "description.its_very_fresh",
     "command": "command.eat",
     "basePrice": 2,
@@ -14604,10 +14604,10 @@
     "isUnused": 0
   },
   {
-    "id": "859",
+    "id": "diced_orange",
     "v1Id": 859,
-    "name": "item.859.name",
-    "description": "item.859.description",
+    "name": "item.diced_orange.name",
+    "description": "item.diced_orange.description",
     "command": "command.eat",
     "basePrice": 2,
     "spriteId": 0,
@@ -14621,10 +14621,10 @@
     "isUnused": 0
   },
   {
-    "id": "860",
+    "id": "diced_lemon",
     "v1Id": 860,
-    "name": "item.860.name",
-    "description": "item.860.description",
+    "name": "item.diced_lemon.name",
+    "description": "item.diced_lemon.description",
     "command": "command.eat",
     "basePrice": 2,
     "spriteId": 0,
@@ -14638,9 +14638,9 @@
     "isUnused": 0
   },
   {
-    "id": "861",
+    "id": "fresh_pineapple",
     "v1Id": 861,
-    "name": "item.861.name",
+    "name": "item.fresh_pineapple.name",
     "description": "description.it_can_be_cut_up",
     "command": "command.eat",
     "basePrice": 1,
@@ -14655,10 +14655,10 @@
     "isUnused": 0
   },
   {
-    "id": "862",
+    "id": "pineapple_chunks",
     "v1Id": 862,
-    "name": "item.862.name",
-    "description": "item.862.description",
+    "name": "item.pineapple_chunks.name",
+    "description": "item.pineapple_chunks.description",
     "command": "command.eat",
     "basePrice": 1,
     "spriteId": 0,
@@ -14672,9 +14672,9 @@
     "isUnused": 0
   },
   {
-    "id": "863",
+    "id": "lime",
     "v1Id": 863,
-    "name": "item.863.name",
+    "name": "item.lime.name",
     "description": "description.its_very_fresh",
     "command": "command.eat",
     "basePrice": 2,
@@ -14689,10 +14689,10 @@
     "isUnused": 0
   },
   {
-    "id": "864",
+    "id": "lime_chunks",
     "v1Id": 864,
-    "name": "item.864.name",
-    "description": "item.864.description",
+    "name": "item.lime_chunks.name",
+    "description": "item.lime_chunks.description",
     "command": "command.eat",
     "basePrice": 1,
     "spriteId": 0,
@@ -14706,9 +14706,9 @@
     "isUnused": 0
   },
   {
-    "id": "865",
+    "id": "lime_slices",
     "v1Id": 865,
-    "name": "item.865.name",
+    "name": "item.lime_slices.name",
     "description": "description.its_very_fresh",
     "command": "command.eat",
     "basePrice": 2,
@@ -14725,7 +14725,7 @@
   {
     "id": "866",
     "v1Id": 866,
-    "name": "name.fruit_blast",
+    "name": "item.fruit_blast.name",
     "description": "description.a_cool_refreshing_fruit_mix",
     "command": "command.drink",
     "basePrice": 2,
@@ -14740,10 +14740,10 @@
     "isUnused": 0
   },
   {
-    "id": "867",
+    "id": "odd_cocktail",
     "v1Id": 867,
-    "name": "item.867.name",
-    "description": "item.867.description",
+    "name": "item.odd_cocktail.name",
+    "description": "item.odd_cocktail.description",
     "command": "command.drink",
     "basePrice": 2,
     "spriteId": 0,
@@ -14774,9 +14774,9 @@
     "isUnused": 0
   },
   {
-    "id": "869",
+    "id": "vodka",
     "v1Id": 869,
-    "name": "item.869.name",
+    "name": "item.vodka.name",
     "description": "description.a_strong_spirit",
     "command": "command.drink",
     "basePrice": 5,
@@ -14791,9 +14791,9 @@
     "isUnused": 0
   },
   {
-    "id": "870",
+    "id": "gin",
     "v1Id": 870,
-    "name": "item.870.name",
+    "name": "item.gin.name",
     "description": "description.a_strong_spirit",
     "command": "command.drink",
     "basePrice": 5,
@@ -14808,10 +14808,10 @@
     "isUnused": 0
   },
   {
-    "id": "871",
+    "id": "cream",
     "v1Id": 871,
-    "name": "item.871.name",
-    "description": "item.871.description",
+    "name": "item.cream.name",
+    "description": "item.cream.description",
     "command": "command.eat",
     "basePrice": 2,
     "spriteId": 0,
@@ -14842,9 +14842,9 @@
     "isUnused": 0
   },
   {
-    "id": "873",
+    "id": "equa_leaves",
     "v1Id": 873,
-    "name": "item.873.name",
+    "name": "item.equa_leaves.name",
     "description": "description.small_sweet_smelling_leaves",
     "command": "command.eat",
     "basePrice": 2,
@@ -14893,9 +14893,9 @@
     "isUnused": 0
   },
   {
-    "id": "876",
+    "id": "brandy",
     "v1Id": 876,
-    "name": "item.876.name",
+    "name": "item.brandy.name",
     "description": "description.a_strong_spirit",
     "command": "command.drink",
     "basePrice": 5,
@@ -14912,7 +14912,7 @@
   {
     "id": "877",
     "v1Id": 877,
-    "name": "name.blurberry_special",
+    "name": "item.blurberry_special.name",
     "description": "description.looks_good_smells_strong",
     "command": "command.drink",
     "basePrice": 2,
@@ -14961,10 +14961,10 @@
     "isUnused": 0
   },
   {
-    "id": "880",
+    "id": "gnomebatta",
     "v1Id": 880,
-    "name": "item.880.name",
-    "description": "item.880.description",
+    "name": "item.gnomebatta.name",
+    "description": "item.gnomebatta.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -14978,11 +14978,11 @@
     "isUnused": 0
   },
   {
-    "id": "881",
+    "id": "mould",
     "v1Id": 881,
-    "name": "item.881.name",
-    "description": "item.881.description",
-    "command": "item.881.command",
+    "name": "item.mould.name",
+    "description": "item.mould.description",
+    "command": "item.mould.command",
     "basePrice": 2,
     "spriteId": 0,
     "inventoryPicture": 301,
@@ -15114,9 +15114,9 @@
     "isUnused": 0
   },
   {
-    "id": "889",
+    "id": "uncut_red_topaz",
     "v1Id": 889,
-    "name": "item.889.name",
+    "name": "item.uncut_red_topaz.name",
     "description": "description.a_semi_precious_stone",
     "command": "command.none",
     "basePrice": 40,
@@ -15131,9 +15131,9 @@
     "isUnused": 0
   },
   {
-    "id": "890",
+    "id": "uncut_jade",
     "v1Id": 890,
-    "name": "item.890.name",
+    "name": "item.uncut_jade.name",
     "description": "description.a_semi_precious_stone",
     "command": "command.none",
     "basePrice": 30,
@@ -15148,9 +15148,9 @@
     "isUnused": 0
   },
   {
-    "id": "891",
+    "id": "uncut_opal",
     "v1Id": 891,
-    "name": "item.891.name",
+    "name": "item.uncut_opal.name",
     "description": "description.a_semi_precious_stone",
     "command": "command.none",
     "basePrice": 20,
@@ -15165,9 +15165,9 @@
     "isUnused": 0
   },
   {
-    "id": "892",
+    "id": "red_topaz",
     "v1Id": 892,
-    "name": "item.892.name",
+    "name": "item.red_topaz.name",
     "description": "description.a_semi_precious_stone",
     "command": "command.none",
     "basePrice": 200,
@@ -15182,9 +15182,9 @@
     "isUnused": 0
   },
   {
-    "id": "893",
+    "id": "jade",
     "v1Id": 893,
-    "name": "item.893.name",
+    "name": "item.jade.name",
     "description": "description.a_semi_precious_stone",
     "command": "command.none",
     "basePrice": 150,
@@ -15199,9 +15199,9 @@
     "isUnused": 0
   },
   {
-    "id": "894",
+    "id": "opal",
     "v1Id": 894,
-    "name": "item.894.name",
+    "name": "item.opal.name",
     "description": "description.a_semi_precious_stone",
     "command": "command.none",
     "basePrice": 100,
@@ -15216,11 +15216,11 @@
     "isUnused": 0
   },
   {
-    "id": "895",
+    "id": "swamp_toad",
     "v1Id": 895,
-    "name": "item.895.name",
-    "description": "item.895.description",
-    "command": "item.895.command",
+    "name": "item.swamp_toad.name",
+    "description": "item.swamp_toad.description",
+    "command": "item.swamp_toad.command",
     "basePrice": 2,
     "spriteId": 0,
     "inventoryPicture": 307,
@@ -15233,9 +15233,9 @@
     "isUnused": 0
   },
   {
-    "id": "896",
+    "id": "toad_legs",
     "v1Id": 896,
-    "name": "item.896.name",
+    "name": "item.toad_legs.name",
     "description": "description.gnome_delicacy_apparently",
     "command": "command.eat",
     "basePrice": 2,
@@ -15250,9 +15250,9 @@
     "isUnused": 0
   },
   {
-    "id": "897",
+    "id": "king_worm",
     "v1Id": 897,
-    "name": "item.897.name",
+    "name": "item.king_worm.name",
     "description": "description.gnome_delicacy_apparently",
     "command": "command.eat",
     "basePrice": 2,
@@ -15267,10 +15267,10 @@
     "isUnused": 0
   },
   {
-    "id": "898",
+    "id": "gnome_spice",
     "v1Id": 898,
-    "name": "item.898.name",
-    "description": "item.898.description",
+    "name": "item.gnome_spice.name",
+    "description": "item.gnome_spice.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -15284,10 +15284,10 @@
     "isUnused": 0
   },
   {
-    "id": "899",
+    "id": "gianne_cook_book",
     "v1Id": 899,
-    "name": "item.899.name",
-    "description": "item.899.description",
+    "name": "item.gianne_cook_book.name",
+    "description": "item.gianne_cook_book.description",
     "command": "command.read",
     "basePrice": 2,
     "spriteId": 0,
@@ -15388,7 +15388,7 @@
   {
     "id": "905",
     "v1Id": 905,
-    "name": "name.fruit_batta",
+    "name": "item.fruit_batta.name",
     "description": "description.actually_smells_quite_good",
     "command": "command.eat",
     "basePrice": 2,
@@ -15422,7 +15422,7 @@
   {
     "id": "907",
     "v1Id": 907,
-    "name": "name.chocolate_bomb",
+    "name": "item.chocolate_bomb.name",
     "description": "description.looks_great",
     "command": "command.eat",
     "basePrice": 2,
@@ -15556,10 +15556,10 @@
     "isUnused": 0
   },
   {
-    "id": "915",
+    "id": "crushed_gemstone",
     "v1Id": 915,
-    "name": "item.915.name",
-    "description": "item.915.description",
+    "name": "item.crushed_gemstone.name",
+    "description": "item.crushed_gemstone.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -15624,10 +15624,10 @@
     "isUnused": 0
   },
   {
-    "id": "919",
+    "id": "bark_sample",
     "v1Id": 919,
-    "name": "item.919.name",
-    "description": "item.919.description",
+    "name": "item.bark_sample.name",
+    "description": "item.bark_sample.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -15658,10 +15658,10 @@
     "isUnused": 0
   },
   {
-    "id": "921",
+    "id": "gloughs_journal",
     "v1Id": 921,
-    "name": "item.921.name",
-    "description": "item.921.description",
+    "name": "item.gloughs_journal.name",
+    "description": "item.gloughs_journal.description",
     "command": "command.read",
     "basePrice": 2,
     "spriteId": 0,
@@ -15675,10 +15675,10 @@
     "isUnused": 0
   },
   {
-    "id": "922",
+    "id": "inovice",
     "v1Id": 922,
-    "name": "item.922.name",
-    "description": "item.922.description",
+    "name": "item.inovice.name",
+    "description": "item.inovice.description",
     "command": "command.read",
     "basePrice": 2,
     "spriteId": 0,
@@ -15692,10 +15692,10 @@
     "isUnused": 0
   },
   {
-    "id": "923",
+    "id": "ugthanki_kebab",
     "v1Id": 923,
-    "name": "item.923.name",
-    "description": "item.923.description",
+    "name": "item.ugthanki_kebab.name",
+    "description": "item.ugthanki_kebab.description",
     "command": "command.eat",
     "basePrice": 20,
     "spriteId": 0,
@@ -15709,10 +15709,10 @@
     "isUnused": 0
   },
   {
-    "id": "924",
+    "id": "special_curry",
     "v1Id": 924,
-    "name": "item.924.name",
-    "description": "item.924.description",
+    "name": "item.special_curry.name",
+    "description": "item.special_curry.description",
     "command": "command.eat",
     "basePrice": 20,
     "spriteId": 0,
@@ -15726,10 +15726,10 @@
     "isUnused": 0
   },
   {
-    "id": "925",
+    "id": "gloughs_key",
     "v1Id": 925,
-    "name": "item.925.name",
-    "description": "item.925.description",
+    "name": "item.gloughs_key.name",
+    "description": "item.gloughs_key.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -15743,10 +15743,10 @@
     "isUnused": 0
   },
   {
-    "id": "926",
+    "id": "gloughs_notes",
     "v1Id": 926,
-    "name": "item.926.name",
-    "description": "item.926.description",
+    "name": "item.gloughs_notes.name",
+    "description": "item.gloughs_notes.description",
     "command": "command.read",
     "basePrice": 2,
     "spriteId": 0,
@@ -15830,7 +15830,7 @@
   {
     "id": "931",
     "v1Id": 931,
-    "name": "name.daconia_rock",
+    "name": "item.daconia_rock.name",
     "description": "item.931.description",
     "command": "command.none",
     "basePrice": 40,
@@ -15845,10 +15845,10 @@
     "isUnused": 0
   },
   {
-    "id": "932",
+    "id": "sinister_key",
     "v1Id": 932,
-    "name": "item.932.name",
-    "description": "item.932.description",
+    "name": "item.sinister_key.name",
+    "description": "item.sinister_key.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -15879,9 +15879,9 @@
     "isUnused": 0
   },
   {
-    "id": "934",
+    "id": "torstol",
     "v1Id": 934,
-    "name": "item.934.name",
+    "name": "item.torstol.name",
     "description": "description.a_useful_herb",
     "command": "command.none",
     "basePrice": 25,
@@ -15913,10 +15913,10 @@
     "isUnused": 0
   },
   {
-    "id": "936",
+    "id": "jangerberries",
     "v1Id": 936,
-    "name": "item.936.name",
-    "description": "item.936.description",
+    "name": "item.jangerberries.name",
+    "description": "item.jangerberries.description",
     "command": "command.eat",
     "basePrice": 1,
     "spriteId": 0,
@@ -15932,7 +15932,7 @@
   {
     "id": "937",
     "v1Id": 937,
-    "name": "name.fruit_blast",
+    "name": "item.fruit_blast.name",
     "description": "description.a_cool_refreshing_fruit_mix",
     "command": "command.drink",
     "basePrice": 30,
@@ -15949,7 +15949,7 @@
   {
     "id": "938",
     "v1Id": 938,
-    "name": "name.blurberry_special",
+    "name": "item.blurberry_special.name",
     "description": "description.looks_good_smells_strong",
     "command": "command.drink",
     "basePrice": 30,
@@ -16119,7 +16119,7 @@
   {
     "id": "948",
     "v1Id": 948,
-    "name": "name.fruit_batta",
+    "name": "item.fruit_batta.name",
     "description": "description.actually_smells_quite_good",
     "command": "command.eat",
     "basePrice": 120,
@@ -16153,7 +16153,7 @@
   {
     "id": "950",
     "v1Id": 950,
-    "name": "name.chocolate_bomb",
+    "name": "item.chocolate_bomb.name",
     "description": "description.looks_great",
     "command": "command.eat",
     "basePrice": 160,
@@ -16287,10 +16287,10 @@
     "isUnused": 0
   },
   {
-    "id": "958",
+    "id": "stone_plaque",
     "v1Id": 958,
-    "name": "item.958.name",
-    "description": "item.958.description",
+    "name": "item.stone_plaque.name",
+    "description": "item.stone_plaque.description",
     "command": "command.read",
     "basePrice": 5,
     "spriteId": 0,
@@ -16304,10 +16304,10 @@
     "isUnused": 0
   },
   {
-    "id": "959",
+    "id": "tattered_scroll",
     "v1Id": 959,
-    "name": "item.959.name",
-    "description": "item.959.description",
+    "name": "item.tattered_scroll.name",
+    "description": "item.tattered_scroll.description",
     "command": "command.read",
     "basePrice": 5,
     "spriteId": 0,
@@ -16321,10 +16321,10 @@
     "isUnused": 0
   },
   {
-    "id": "960",
+    "id": "crumpled_scroll",
     "v1Id": 960,
-    "name": "item.960.name",
-    "description": "item.960.description",
+    "name": "item.crumpled_scroll.name",
+    "description": "item.crumpled_scroll.description",
     "command": "command.read",
     "basePrice": 5,
     "spriteId": 0,
@@ -16338,10 +16338,10 @@
     "isUnused": 0
   },
   {
-    "id": "961",
+    "id": "bervirius_tomb_notes",
     "v1Id": 961,
-    "name": "item.961.name",
-    "description": "item.961.description",
+    "name": "item.bervirius_tomb_notes.name",
+    "description": "item.bervirius_tomb_notes.description",
     "command": "command.read",
     "basePrice": 5,
     "spriteId": 0,
@@ -16355,10 +16355,10 @@
     "isUnused": 0
   },
   {
-    "id": "962",
+    "id": "zadimu_corpse",
     "v1Id": 962,
-    "name": "item.962.name",
-    "description": "item.962.description",
+    "name": "item.zadimu_corpse.name",
+    "description": "item.zadimu_corpse.description",
     "command": "command.bury",
     "basePrice": 1,
     "spriteId": 0,
@@ -16508,10 +16508,10 @@
     "isUnused": 0
   },
   {
-    "id": "971",
+    "id": "santa_hat",
     "v1Id": 971,
-    "name": "item.971.name",
-    "description": "item.971.description",
+    "name": "item.santa_hat.name",
+    "description": "item.santa_hat.description",
     "command": "command.none",
     "basePrice": 160,
     "spriteId": 0,
@@ -16525,10 +16525,10 @@
     "isUnused": 0
   },
   {
-    "id": "972",
+    "id": "locating_crystal",
     "v1Id": 972,
-    "name": "item.972.name",
-    "description": "item.972.description",
+    "name": "item.locating_crystal.name",
+    "description": "item.locating_crystal.description",
     "command": "command.activate",
     "basePrice": 100,
     "spriteId": 0,
@@ -16542,10 +16542,10 @@
     "isUnused": 0
   },
   {
-    "id": "973",
+    "id": "sword_pommel",
     "v1Id": 973,
-    "name": "item.973.name",
-    "description": "item.973.description",
+    "name": "item.sword_pommel.name",
+    "description": "item.sword_pommel.description",
     "command": "command.none",
     "basePrice": 100,
     "spriteId": 0,
@@ -16559,10 +16559,10 @@
     "isUnused": 0
   },
   {
-    "id": "974",
+    "id": "bone_shard",
     "v1Id": 974,
-    "name": "item.974.name",
-    "description": "item.974.description",
+    "name": "item.bone_shard.name",
+    "description": "item.bone_shard.description",
     "command": "command.look_at",
     "basePrice": 1,
     "spriteId": 0,
@@ -16576,9 +16576,9 @@
     "isUnused": 0
   },
   {
-    "id": "975",
+    "id": "steel_wire",
     "v1Id": 975,
-    "name": "item.975.name",
+    "name": "item.steel_wire.name",
     "description": "description.useful_for_crafting_items",
     "command": "command.none",
     "basePrice": 200,
@@ -16593,10 +16593,10 @@
     "isUnused": 0
   },
   {
-    "id": "976",
+    "id": "bone_beads",
     "v1Id": 976,
-    "name": "item.976.name",
-    "description": "item.976.description",
+    "name": "item.bone_beads.name",
+    "description": "item.bone_beads.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -16610,10 +16610,10 @@
     "isUnused": 0
   },
   {
-    "id": "977",
+    "id": "rashiliya_corpse",
     "v1Id": 977,
-    "name": "item.977.name",
-    "description": "item.977.description",
+    "name": "item.rashiliya_corpse.name",
+    "description": "item.rashiliya_corpse.description",
     "command": "command.bury",
     "basePrice": 1,
     "spriteId": 0,
@@ -16627,10 +16627,10 @@
     "isUnused": 0
   },
   {
-    "id": "978",
+    "id": "reset_crystal",
     "v1Id": 978,
-    "name": "item.978.name",
-    "description": "item.978.description",
+    "name": "item.reset_crystal.name",
+    "description": "item.reset_crystal.description",
     "command": "command.activate",
     "basePrice": 100,
     "spriteId": 0,
@@ -16644,9 +16644,9 @@
     "isUnused": 0
   },
   {
-    "id": "979",
+    "id": "bronze_wire",
     "v1Id": 979,
-    "name": "item.979.name",
+    "name": "item.bronze_wire.name",
     "description": "description.useful_for_crafting_items",
     "command": "command.none",
     "basePrice": 20,
@@ -16661,10 +16661,10 @@
     "isUnused": 0
   },
   {
-    "id": "980",
+    "id": "present",
     "v1Id": 980,
-    "name": "item.980.name",
-    "description": "item.980.description",
+    "name": "item.present.name",
+    "description": "item.present.description",
     "command": "command.open",
     "basePrice": 160,
     "spriteId": 0,
@@ -16678,11 +16678,11 @@
     "isUnused": 0
   },
   {
-    "id": "981",
+    "id": "gnome_ball",
     "v1Id": 981,
-    "name": "item.981.name",
-    "description": "item.981.description",
-    "command": "item.981.command",
+    "name": "item.gnome_ball.name",
+    "description": "item.gnome_ball.description",
+    "command": "item.gnome_ball.command",
     "basePrice": 10,
     "spriteId": 0,
     "inventoryPicture": 327,
@@ -16695,10 +16695,10 @@
     "isUnused": 0
   },
   {
-    "id": "982",
+    "id": "papyrus",
     "v1Id": 982,
-    "name": "item.982.name",
-    "description": "item.982.description",
+    "name": "item.papyrus.name",
+    "description": "item.papyrus.description",
     "command": "command.none",
     "basePrice": 9,
     "spriteId": 0,
@@ -16712,10 +16712,10 @@
     "isUnused": 0
   },
   {
-    "id": "983",
+    "id": "lump_of_charcoal",
     "v1Id": 983,
-    "name": "item.983.name",
-    "description": "item.983.description",
+    "name": "item.lump_of_charcoal.name",
+    "description": "item.lump_of_charcoal.description",
     "command": "command.none",
     "basePrice": 45,
     "spriteId": 0,
@@ -16729,10 +16729,10 @@
     "isUnused": 0
   },
   {
-    "id": "984",
+    "id": "arrow",
     "v1Id": 984,
-    "name": "item.984.name",
-    "description": "item.984.description",
+    "name": "item.arrow.name",
+    "description": "item.arrow.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -16746,10 +16746,10 @@
     "isUnused": 0
   },
   {
-    "id": "985",
+    "id": "lit_arrow",
     "v1Id": 985,
-    "name": "item.985.name",
-    "description": "item.985.description",
+    "name": "item.lit_arrow.name",
+    "description": "item.lit_arrow.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -16780,10 +16780,10 @@
     "isUnused": 0
   },
   {
-    "id": "987",
+    "id": "paramaya_rest_ticket",
     "v1Id": 987,
-    "name": "item.987.name",
-    "description": "item.987.description",
+    "name": "item.paramaya_rest_ticket.name",
+    "description": "item.paramaya_rest_ticket.description",
     "command": "command.none",
     "basePrice": 5,
     "spriteId": 0,
@@ -16814,7 +16814,7 @@
     "isUnused": 0
   },
   {
-    "id": "989",
+    "id": "moist_cloth",
     "v1Id": 989,
     "name": "item.moist_cloth.name",
     "description": "item.moist_cloth.description",
@@ -16831,10 +16831,10 @@
     "isUnused": 0
   },
   {
-    "id": "990",
+    "id": "desert_boots",
     "v1Id": 990,
-    "name": "item.990.name",
-    "description": "item.990.description",
+    "name": "item.desert_boots.name",
+    "description": "item.desert_boots.description",
     "command": "command.none",
     "basePrice": 20,
     "spriteId": 0,
@@ -16933,10 +16933,10 @@
     "isUnused": 0
   },
   {
-    "id": "996",
+    "id": "randas_journal",
     "v1Id": 996,
-    "name": "item.996.name",
-    "description": "item.996.description",
+    "name": "item.randas_journal.name",
+    "description": "item.randas_journal.description",
     "command": "command.read",
     "basePrice": 1,
     "spriteId": 0,
@@ -16969,7 +16969,7 @@
   {
     "id": "998",
     "v1Id": 998,
-    "name": "name.coat_of_arms",
+    "name": "item.coat_of_arms.name",
     "description": "description.a_symbol_of_truth_and",
     "command": "command.none",
     "basePrice": 10,
@@ -16986,7 +16986,7 @@
   {
     "id": "999",
     "v1Id": 999,
-    "name": "name.coat_of_arms",
+    "name": "item.coat_of_arms.name",
     "description": "description.a_symbol_of_truth_and",
     "command": "command.none",
     "basePrice": 10,
@@ -17003,7 +17003,7 @@
   {
     "id": "1000",
     "v1Id": 1000,
-    "name": "name.staff_of_iban",
+    "name": "item.staff_of_iban.name",
     "description": "description.its_a_slightly_magical_stick",
     "command": "command.none",
     "basePrice": 15,
@@ -17292,8 +17292,8 @@
   {
     "id": "1017",
     "v1Id": 1017,
-    "name": "item.1017.name",
-    "description": "item.1017.description",
+    "name": "item.lens_mould.name",
+    "description": "item.lens_mould.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -17326,8 +17326,8 @@
   {
     "id": "1019",
     "v1Id": 1019,
-    "name": "item.1019.name",
-    "description": "item.1019.description",
+    "name": "item.desert_robe.name",
+    "description": "item.desert_robe.description",
     "command": "command.none",
     "basePrice": 40,
     "spriteId": 0,
@@ -17343,8 +17343,8 @@
   {
     "id": "1020",
     "v1Id": 1020,
-    "name": "item.1020.name",
-    "description": "item.1020.description",
+    "name": "item.desert_shirt.name",
+    "description": "item.desert_shirt.description",
     "command": "command.none",
     "basePrice": 40,
     "spriteId": 0,
@@ -17360,8 +17360,8 @@
   {
     "id": "1021",
     "v1Id": 1021,
-    "name": "item.1021.name",
-    "description": "item.1021.description",
+    "name": "item.metal_key.name",
+    "description": "item.metal_key.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -17411,8 +17411,8 @@
   {
     "id": "1024",
     "v1Id": 1024,
-    "name": "item.1024.name",
-    "description": "item.1024.description",
+    "name": "item.steel_throwing_dart.name",
+    "description": "item.steel_throwing_dart.description",
     "command": "command.none",
     "basePrice": 20,
     "spriteId": 0,
@@ -17428,8 +17428,8 @@
   {
     "id": "1025",
     "v1Id": 1025,
-    "name": "item.1025.name",
-    "description": "item.1025.description",
+    "name": "item.astrology_book.name",
+    "description": "item.astrology_book.description",
     "command": "command.read",
     "basePrice": 2,
     "spriteId": 0,
@@ -17530,7 +17530,7 @@
   {
     "id": "1031",
     "v1Id": 1031,
-    "name": "name.staff_of_iban",
+    "name": "item.staff_of_iban.name",
     "description": "item.1031.description",
     "command": "item.1031.command",
     "basePrice": 15,
@@ -17613,10 +17613,10 @@
     "isUnused": 0
   },
   {
-    "id": "1036",
+    "id": "fingernails",
     "v1Id": 1036,
-    "name": "item.1036.name",
-    "description": "item.1036.description",
+    "name": "item.fingernails.name",
+    "description": "item.fingernails.description",
     "command": "command.none",
     "basePrice": 0,
     "spriteId": 0,
@@ -17666,8 +17666,8 @@
   {
     "id": "1039",
     "v1Id": 1039,
-    "name": "item.1039.name",
-    "description": "item.1039.description",
+    "name": "item.ana_in_a_barrel.name",
+    "description": "item.ana_in_a_barrel.description",
     "command": "command.look_at",
     "basePrice": 100,
     "spriteId": 0,
@@ -17683,8 +17683,8 @@
   {
     "id": "1040",
     "v1Id": 1040,
-    "name": "item.1040.name",
-    "description": "item.1040.description",
+    "name": "item.stolen_gold.name",
+    "description": "item.stolen_gold.description",
     "command": "command.none",
     "basePrice": 300,
     "spriteId": 0,
@@ -18278,7 +18278,7 @@
   {
     "id": "1075",
     "v1Id": 1075,
-    "name": "item.1075.name",
+    "name": "item.iron_throwing_knife.name",
     "description": "description.a_finely_balanced_knife",
     "command": "command.none",
     "basePrice": 6,
@@ -18295,7 +18295,7 @@
   {
     "id": "1076",
     "v1Id": 1076,
-    "name": "item.1076.name",
+    "name": "item.bronze_throwing_knife.name",
     "description": "description.a_finely_balanced_knife",
     "command": "command.none",
     "basePrice": 2,
@@ -18312,7 +18312,7 @@
   {
     "id": "1077",
     "v1Id": 1077,
-    "name": "item.1077.name",
+    "name": "item.steel_throwing_knife.name",
     "description": "description.a_finely_balanced_knife",
     "command": "command.none",
     "basePrice": 21,
@@ -18329,7 +18329,7 @@
   {
     "id": "1078",
     "v1Id": 1078,
-    "name": "item.1078.name",
+    "name": "item.mithril_throwing_knife.name",
     "description": "description.a_finely_balanced_knife",
     "command": "command.none",
     "basePrice": 54,
@@ -18380,7 +18380,7 @@
   {
     "id": "1081",
     "v1Id": 1081,
-    "name": "item.1081.name",
+    "name": "item.black_throwing_knife.name",
     "description": "description.a_finely_balanced_knife",
     "command": "command.none",
     "basePrice": 37,
@@ -18567,8 +18567,8 @@
   {
     "id": "1092",
     "v1Id": 1092,
-    "name": "item.1092.name",
-    "description": "item.1092.description",
+    "name": "item.rune_spear.name",
+    "description": "item.rune_spear.description",
     "command": "command.none",
     "basePrice": 1000,
     "spriteId": 0,
@@ -18618,7 +18618,7 @@
   {
     "id": "1095",
     "v1Id": 1095,
-    "name": "item.1095.name",
+    "name": "item.kittens.name",
     "description": "description.purrr",
     "command": "command.none",
     "basePrice": 2,
@@ -18635,7 +18635,7 @@
   {
     "id": "1096",
     "v1Id": 1096,
-    "name": "item.1096.name",
+    "name": "item.kitten.name",
     "description": "description.purrr",
     "command": "command.stroke",
     "basePrice": 2,
@@ -18652,8 +18652,8 @@
   {
     "id": "1097",
     "v1Id": 1097,
-    "name": "item.1097.name",
-    "description": "item.1097.description",
+    "name": "item.wrought_iron_key.name",
+    "description": "item.wrought_iron_key.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -18669,8 +18669,8 @@
   {
     "id": "1098",
     "v1Id": 1098,
-    "name": "item.1098.name",
-    "description": "item.1098.description",
+    "name": "item.cell_door_key.name",
+    "description": "item.cell_door_key.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -18703,7 +18703,7 @@
   {
     "id": "1100",
     "v1Id": 1100,
-    "name": "item.1100.name",
+    "name": "item.doogle_leaves.name",
     "description": "description.small_sweet_smelling_leaves",
     "command": "command.none",
     "basePrice": 2,
@@ -18720,7 +18720,7 @@
   {
     "id": "1101",
     "v1Id": 1101,
-    "name": "item.1101.name",
+    "name": "item.raw_ugthanki_meat.name",
     "description": "description.i_need_to_cook_this_first",
     "command": "command.none",
     "basePrice": 2,
@@ -18737,8 +18737,8 @@
   {
     "id": "1102",
     "v1Id": 1102,
-    "name": "item.1102.name",
-    "description": "item.1102.description",
+    "name": "item.tasty_ugthanki_kebab.name",
+    "description": "item.tasty_ugthanki_kebab.description",
     "command": "command.eat",
     "basePrice": 20,
     "spriteId": 0,
@@ -18754,8 +18754,8 @@
   {
     "id": "1103",
     "v1Id": 1103,
-    "name": "item.1103.name",
-    "description": "item.1103.description",
+    "name": "item.cooked_ugthanki_meat.name",
+    "description": "item.cooked_ugthanki_meat.description",
     "command": "command.eat",
     "basePrice": 5,
     "spriteId": 0,
@@ -18771,7 +18771,7 @@
   {
     "id": "1104",
     "v1Id": 1104,
-    "name": "item.1104.name",
+    "name": "item.uncooked_pitta_bread.name",
     "description": "description.i_need_to_cook_this",
     "command": "command.none",
     "basePrice": 4,
@@ -18788,8 +18788,8 @@
   {
     "id": "1105",
     "v1Id": 1105,
-    "name": "item.1105.name",
-    "description": "item.1105.description",
+    "name": "item.pitta_bread.name",
+    "description": "item.pitta_bread.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -18805,8 +18805,8 @@
   {
     "id": "1106",
     "v1Id": 1106,
-    "name": "item.1106.name",
-    "description": "item.1106.description",
+    "name": "item.tomato_mixture.name",
+    "description": "item.tomato_mixture.description",
     "command": "command.none",
     "basePrice": 3,
     "spriteId": 0,
@@ -18822,8 +18822,8 @@
   {
     "id": "1107",
     "v1Id": 1107,
-    "name": "item.1107.name",
-    "description": "item.1107.description",
+    "name": "item.onion_mixture.name",
+    "description": "item.onion_mixture.description",
     "command": "command.none",
     "basePrice": 3,
     "spriteId": 0,
@@ -18941,8 +18941,8 @@
   {
     "id": "1114",
     "v1Id": 1114,
-    "name": "item.1114.name",
-    "description": "item.1114.description",
+    "name": "item.rock_pick.name",
+    "description": "item.rock_pick.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -18958,8 +18958,8 @@
   {
     "id": "1115",
     "v1Id": 1115,
-    "name": "item.1115.name",
-    "description": "item.1115.description",
+    "name": "item.specimen_brush.name",
+    "description": "item.specimen_brush.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -18975,8 +18975,8 @@
   {
     "id": "1116",
     "v1Id": 1116,
-    "name": "item.1116.name",
-    "description": "item.1116.description",
+    "name": "item.specimen_jar.name",
+    "description": "item.specimen_jar.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -19009,8 +19009,8 @@
   {
     "id": "1118",
     "v1Id": 1118,
-    "name": "item.1118.name",
-    "description": "item.1118.description",
+    "name": "item.gold_nuggets.name",
+    "description": "item.gold_nuggets.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -19043,8 +19043,8 @@
   {
     "id": "1120",
     "v1Id": 1120,
-    "name": "item.1120.name",
-    "description": "item.1120.description",
+    "name": "item.scrumpled_piece_of_paper.name",
+    "description": "item.scrumpled_piece_of_paper.description",
     "command": "command.read",
     "basePrice": 10,
     "spriteId": 0,
@@ -19077,8 +19077,8 @@
   {
     "id": "1122",
     "v1Id": 1122,
-    "name": "item.1122.name",
-    "description": "item.1122.description",
+    "name": "item.poisoned_bronze_throwing_dart.name",
+    "description": "item.poisoned_bronze_throwing_dart.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -19094,8 +19094,8 @@
   {
     "id": "1123",
     "v1Id": 1123,
-    "name": "item.1123.name",
-    "description": "item.1123.description",
+    "name": "item.poisoned_iron_throwing_dart.name",
+    "description": "item.poisoned_iron_throwing_dart.description",
     "command": "command.none",
     "basePrice": 5,
     "spriteId": 0,
@@ -19111,8 +19111,8 @@
   {
     "id": "1124",
     "v1Id": 1124,
-    "name": "item.1124.name",
-    "description": "item.1124.description",
+    "name": "item.poisoned_steel_throwing_dart.name",
+    "description": "item.poisoned_steel_throwing_dart.description",
     "command": "command.none",
     "basePrice": 20,
     "spriteId": 0,
@@ -19128,8 +19128,8 @@
   {
     "id": "1125",
     "v1Id": 1125,
-    "name": "item.1125.name",
-    "description": "item.1125.description",
+    "name": "item.poisoned_mithril_throwing_dart.name",
+    "description": "item.poisoned_mithril_throwing_dart.description",
     "command": "command.none",
     "basePrice": 50,
     "spriteId": 0,
@@ -19162,8 +19162,8 @@
   {
     "id": "1127",
     "v1Id": 1127,
-    "name": "item.1127.name",
-    "description": "item.1127.description",
+    "name": "item.poisoned_rune_throwing_dart.name",
+    "description": "item.poisoned_rune_throwing_dart.description",
     "command": "command.none",
     "basePrice": 700,
     "spriteId": 0,
@@ -19179,7 +19179,7 @@
   {
     "id": "1128",
     "v1Id": 1128,
-    "name": "item.1128.name",
+    "name": "item.poisoned_bronze_throwing_knife.name",
     "description": "description.a_finely_balanced_knife_with",
     "command": "command.none",
     "basePrice": 2,
@@ -19196,7 +19196,7 @@
   {
     "id": "1129",
     "v1Id": 1129,
-    "name": "item.1129.name",
+    "name": "item.poisoned_iron_throwing_knife.name",
     "description": "description.a_finely_balanced_knife_with",
     "command": "command.none",
     "basePrice": 6,
@@ -19213,7 +19213,7 @@
   {
     "id": "1130",
     "v1Id": 1130,
-    "name": "item.1130.name",
+    "name": "item.poisoned_steel_throwing_knife.name",
     "description": "description.a_finely_balanced_knife_with",
     "command": "command.none",
     "basePrice": 21,
@@ -19230,7 +19230,7 @@
   {
     "id": "1131",
     "v1Id": 1131,
-    "name": "item.1131.name",
+    "name": "item.poisoned_mithril_throwing_knife.name",
     "description": "description.a_finely_balanced_knife_with",
     "command": "command.none",
     "basePrice": 54,
@@ -19247,7 +19247,7 @@
   {
     "id": "1132",
     "v1Id": 1132,
-    "name": "item.1132.name",
+    "name": "item.poisoned_black_throwing_knife.name",
     "description": "description.a_finely_balanced_knife_with",
     "command": "command.none",
     "basePrice": 37,
@@ -19281,7 +19281,7 @@
   {
     "id": "1134",
     "v1Id": 1134,
-    "name": "item.1134.name",
+    "name": "item.poisoned_rune_throwing_knife.name",
     "description": "description.a_finely_balanced_knife_with",
     "command": "command.none",
     "basePrice": 333,
@@ -19315,8 +19315,8 @@
   {
     "id": "1136",
     "v1Id": 1136,
-    "name": "item.1136.name",
-    "description": "item.1136.description",
+    "name": "item.poisoned_iron_spear.name",
+    "description": "item.poisoned_iron_spear.description",
     "command": "command.none",
     "basePrice": 13,
     "spriteId": 0,
@@ -19332,8 +19332,8 @@
   {
     "id": "1137",
     "v1Id": 1137,
-    "name": "item.1137.name",
-    "description": "item.1137.description",
+    "name": "item.poisoned_steel_spear.name",
+    "description": "item.poisoned_steel_spear.description",
     "command": "command.none",
     "basePrice": 46,
     "spriteId": 0,
@@ -19349,8 +19349,8 @@
   {
     "id": "1138",
     "v1Id": 1138,
-    "name": "item.1138.name",
-    "description": "item.1138.description",
+    "name": "item.poisoned_mithril_spear.name",
+    "description": "item.poisoned_mithril_spear.description",
     "command": "command.none",
     "basePrice": 119,
     "spriteId": 0,
@@ -19383,8 +19383,8 @@
   {
     "id": "1140",
     "v1Id": 1140,
-    "name": "item.1140.name",
-    "description": "item.1140.description",
+    "name": "item.poisoned_rune_spear.name",
+    "description": "item.poisoned_rune_spear.description",
     "command": "command.none",
     "basePrice": 1000,
     "spriteId": 0,
@@ -19468,8 +19468,8 @@
   {
     "id": "1145",
     "v1Id": 1145,
-    "name": "item.1145.name",
-    "description": "item.1145.description",
+    "name": "item.trowel.name",
+    "description": "item.trowel.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -19553,8 +19553,8 @@
   {
     "id": "1150",
     "v1Id": 1150,
-    "name": "item.1150.name",
-    "description": "item.1150.description",
+    "name": "item.cracked_rock_sample.name",
+    "description": "item.cracked_rock_sample.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -19570,8 +19570,8 @@
   {
     "id": "1151",
     "v1Id": 1151,
-    "name": "item.1151.name",
-    "description": "item.1151.description",
+    "name": "item.belt_buckle.name",
+    "description": "item.belt_buckle.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -19655,7 +19655,7 @@
   {
     "id": "1156",
     "v1Id": 1156,
-    "name": "item.1156.name",
+    "name": "item.bunny_ears.name",
     "description": "description.get_another_from_the_clothes",
     "command": "command.none",
     "basePrice": 1,
@@ -19672,7 +19672,7 @@
   {
     "id": "1157",
     "v1Id": 1157,
-    "name": "name.damaged_armour",
+    "name": "item.damaged_armour.name",
     "description": "description.thats_been_here_some_time",
     "command": "command.none",
     "basePrice": 1,
@@ -19689,7 +19689,7 @@
   {
     "id": "1158",
     "v1Id": 1158,
-    "name": "name.damaged_armour",
+    "name": "item.damaged_armour.name",
     "description": "description.thats_been_here_some_time",
     "command": "command.none",
     "basePrice": 1,
@@ -19706,7 +19706,7 @@
   {
     "id": "1159",
     "v1Id": 1159,
-    "name": "item.1159.name",
+    "name": "item.rusty_sword.name",
     "description": "description.thats_been_here_some_time",
     "command": "command.none",
     "basePrice": 1,
@@ -19723,8 +19723,8 @@
   {
     "id": "1160",
     "v1Id": 1160,
-    "name": "item.1160.name",
-    "description": "item.1160.description",
+    "name": "item.ammonium_nitrate.name",
+    "description": "item.ammonium_nitrate.description",
     "command": "command.none",
     "basePrice": 20,
     "spriteId": 0,
@@ -19740,7 +19740,7 @@
   {
     "id": "1161",
     "v1Id": 1161,
-    "name": "item.1161.name",
+    "name": "item.nitroglycerin.name",
     "description": "description.a_strong_acidic_formula",
     "command": "command.none",
     "basePrice": 2,
@@ -19791,7 +19791,7 @@
   {
     "id": "1164",
     "v1Id": 1164,
-    "name": "name.chest_key",
+    "name": "item.chest_key.name",
     "description": "item.1164.description",
     "command": "command.none",
     "basePrice": 1,
@@ -19825,8 +19825,8 @@
   {
     "id": "1166",
     "v1Id": 1166,
-    "name": "item.1166.name",
-    "description": "item.1166.description",
+    "name": "item.buttons.name",
+    "description": "item.buttons.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -19876,8 +19876,8 @@
   {
     "id": "1169",
     "v1Id": 1169,
-    "name": "item.1169.name",
-    "description": "item.1169.description",
+    "name": "item.ceramic_remains.name",
+    "description": "item.ceramic_remains.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -19894,7 +19894,7 @@
     "id": "1170",
     "v1Id": 1170,
     "name": "item.fractured_glass.name",
-    "description": "item.1170.description",
+    "description": "item.smashed_glass.description",
     "command": "command.none",
     "basePrice": 0,
     "spriteId": 0,
@@ -19910,8 +19910,8 @@
   {
     "id": "1171",
     "v1Id": 1171,
-    "name": "item.1171.name",
-    "description": "item.1171.description",
+    "name": "item.unidentified_powder.name",
+    "description": "item.unidentified_powder.description",
     "command": "command.none",
     "basePrice": 20,
     "spriteId": 0,
@@ -19961,8 +19961,8 @@
   {
     "id": "1174",
     "v1Id": 1174,
-    "name": "item.1174.name",
-    "description": "item.1174.description",
+    "name": "item.stone_tablet.name",
+    "description": "item.stone_tablet.description",
     "command": "command.read",
     "basePrice": 1,
     "spriteId": 0,
@@ -19978,8 +19978,8 @@
   {
     "id": "1175",
     "v1Id": 1175,
-    "name": "item.1175.name",
-    "description": "item.1175.description",
+    "name": "item.talisman_of_zaros.name",
+    "description": "item.talisman_of_zaros.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -19995,8 +19995,8 @@
   {
     "id": "1176",
     "v1Id": 1176,
-    "name": "item.1176.name",
-    "description": "item.1176.description",
+    "name": "item.explosive_compound.name",
+    "description": "item.explosive_compound.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -20012,8 +20012,8 @@
   {
     "id": "1177",
     "v1Id": 1177,
-    "name": "item.1177.name",
-    "description": "item.1177.description",
+    "name": "item.bull_roarer.name",
+    "description": "item.bull_roarer.description",
     "command": "command.swing",
     "basePrice": 1,
     "spriteId": 0,
@@ -20046,8 +20046,8 @@
   {
     "id": "1179",
     "v1Id": 1179,
-    "name": "item.1179.name",
-    "description": "item.1179.description",
+    "name": "item.ground_charcoal.name",
+    "description": "item.ground_charcoal.description",
     "command": "command.none",
     "basePrice": 20,
     "spriteId": 0,
@@ -20080,8 +20080,8 @@
   {
     "id": "1181",
     "v1Id": 1181,
-    "name": "item.1181.name",
-    "description": "item.1181.description",
+    "name": "item.spell_scroll.name",
+    "description": "item.spell_scroll.description",
     "command": "command.read",
     "basePrice": 5,
     "spriteId": 0,
@@ -20216,8 +20216,8 @@
   {
     "id": "1189",
     "v1Id": 1189,
-    "name": "item.1189.name",
-    "description": "item.1189.description",
+    "name": "item.golden_bowl_with_pure_water.name",
+    "description": "item.golden_bowl_with_pure_water.description",
     "command": "command.none",
     "basePrice": 1000,
     "spriteId": 0,
@@ -20233,7 +20233,7 @@
   {
     "id": "1190",
     "v1Id": 1190,
-    "name": "item.1190.name",
+    "name": "item.raw_manta_ray.name",
     "description": "description.a_rare_catch",
     "command": "command.none",
     "basePrice": 500,
@@ -20250,7 +20250,7 @@
   {
     "id": "1191",
     "v1Id": 1191,
-    "name": "item.1191.name",
+    "name": "item.manta_ray.name",
     "description": "description.a_rare_catch",
     "command": "command.eat",
     "basePrice": 500,
@@ -20267,7 +20267,7 @@
   {
     "id": "1192",
     "v1Id": 1192,
-    "name": "item.1192.name",
+    "name": "item.raw_sea_turtle.name",
     "description": "description.a_rare_catch",
     "command": "command.none",
     "basePrice": 500,
@@ -20284,8 +20284,8 @@
   {
     "id": "1193",
     "v1Id": 1193,
-    "name": "item.1193.name",
-    "description": "item.1193.description",
+    "name": "item.sea_turtle.name",
+    "description": "item.sea_turtle.description",
     "command": "command.eat",
     "basePrice": 500,
     "spriteId": 0,
@@ -20318,7 +20318,7 @@
   {
     "id": "1195",
     "v1Id": 1195,
-    "name": "name.bobs_silver_teacup",
+    "name": "item.bobs_silver_teacup.name",
     "description": "item.1195.description",
     "command": "command.none",
     "basePrice": 1,
@@ -20352,7 +20352,7 @@
   {
     "id": "1197",
     "v1Id": 1197,
-    "name": "name.davids_silver_book",
+    "name": "item.davids_silver_book.name",
     "description": "item.1197.description",
     "command": "command.none",
     "basePrice": 1,
@@ -20386,7 +20386,7 @@
   {
     "id": "1199",
     "v1Id": 1199,
-    "name": "name.franks_silver_pot",
+    "name": "item.franks_silver_pot.name",
     "description": "item.1199.description",
     "command": "command.none",
     "basePrice": 1,
@@ -20403,7 +20403,7 @@
   {
     "id": "1200",
     "v1Id": 1200,
-    "name": "name.thread",
+    "name": "item.thread.name",
     "description": "item.1200.description",
     "command": "command.none",
     "basePrice": 1,
@@ -20420,7 +20420,7 @@
   {
     "id": "1201",
     "v1Id": 1201,
-    "name": "name.thread",
+    "name": "item.thread.name",
     "description": "item.1201.description",
     "command": "command.none",
     "basePrice": 1,
@@ -20437,7 +20437,7 @@
   {
     "id": "1202",
     "v1Id": 1202,
-    "name": "name.thread",
+    "name": "item.thread.name",
     "description": "item.1202.description",
     "command": "command.none",
     "basePrice": 1,
@@ -20454,8 +20454,8 @@
   {
     "id": "1203",
     "v1Id": 1203,
-    "name": "item.1203.name",
-    "description": "item.1203.description",
+    "name": "item.flypaper.name",
+    "description": "item.flypaper.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -20471,8 +20471,8 @@
   {
     "id": "1204",
     "v1Id": 1204,
-    "name": "item.1204.name",
-    "description": "item.1204.description",
+    "name": "item.murder_scene_pot.name",
+    "description": "item.murder_scene_pot.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -20505,7 +20505,7 @@
   {
     "id": "1206",
     "v1Id": 1206,
-    "name": "item.1206.name",
+    "name": "item.murderer_fingerprint.name",
     "description": "description.an_impression_of_the_murderers",
     "command": "command.none",
     "basePrice": 1,
@@ -20522,8 +20522,8 @@
   {
     "id": "1207",
     "v1Id": 1207,
-    "name": "item.1207.name",
-    "description": "item.1207.description",
+    "name": "item.annas_fingerprint.name",
+    "description": "item.annas_fingerprint.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -20539,8 +20539,8 @@
   {
     "id": "1208",
     "v1Id": 1208,
-    "name": "item.1208.name",
-    "description": "item.1208.description",
+    "name": "item.bobs_fingerprint.name",
+    "description": "item.bobs_fingerprint.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -20556,8 +20556,8 @@
   {
     "id": "1209",
     "v1Id": 1209,
-    "name": "item.1209.name",
-    "description": "item.1209.description",
+    "name": "item.carols_fingerprint.name",
+    "description": "item.carols_fingerprint.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -20573,8 +20573,8 @@
   {
     "id": "1210",
     "v1Id": 1210,
-    "name": "item.1210.name",
-    "description": "item.1210.description",
+    "name": "item.davids_fingerprint.name",
+    "description": "item.davids_fingerprint.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -20590,8 +20590,8 @@
   {
     "id": "1211",
     "v1Id": 1211,
-    "name": "item.1211.name",
-    "description": "item.1211.description",
+    "name": "item.elizabeths_fingerprint.name",
+    "description": "item.elizabeths_fingerprint.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -20607,8 +20607,8 @@
   {
     "id": "1212",
     "v1Id": 1212,
-    "name": "item.1212.name",
-    "description": "item.1212.description",
+    "name": "item.franks_fingerprint.name",
+    "description": "item.franks_fingerprint.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -20673,9 +20673,9 @@
     "isUnused": 0
   },
   {
-    "id": "1216",
+    "id": "staff_of_zamorak",
     "v1Id": 1216,
-    "name": "item.1216.name",
+    "name": "item.staff_of_zamorak.name",
     "description": "description.its_a_stick_of_the",
     "command": "command.none",
     "basePrice": 80000,
@@ -20690,9 +20690,9 @@
     "isUnused": 0
   },
   {
-    "id": "1217",
+    "id": "staff_of_guthix",
     "v1Id": 1217,
-    "name": "item.1217.name",
+    "name": "item.staff_of_guthix.name",
     "description": "description.its_a_stick_of_the",
     "command": "command.none",
     "basePrice": 80000,
@@ -20707,9 +20707,9 @@
     "isUnused": 0
   },
   {
-    "id": "1218",
+    "id": "staff_or_saradomin",
     "v1Id": 1218,
-    "name": "item.1218.name",
+    "name": "item.staff_or_saradomin.name",
     "description": "description.its_a_stick_of_the",
     "command": "command.none",
     "basePrice": 80000,
@@ -20794,7 +20794,7 @@
   {
     "id": "1223",
     "v1Id": 1223,
-    "name": "item.1223.name",
+    "name": "item.unidentified_fingerprint.name",
     "description": "description.an_impression_of_the_murderers",
     "command": "command.none",
     "basePrice": 1,
@@ -20828,7 +20828,7 @@
   {
     "id": "1225",
     "v1Id": 1225,
-    "name": "name.bobs_silver_teacup",
+    "name": "item.bobs_silver_teacup.name",
     "description": "item.1225.description",
     "command": "command.none",
     "basePrice": 1,
@@ -20862,7 +20862,7 @@
   {
     "id": "1227",
     "v1Id": 1227,
-    "name": "name.davids_silver_book",
+    "name": "item.davids_silver_book.name",
     "description": "item.1227.description",
     "command": "command.none",
     "basePrice": 1,
@@ -20896,7 +20896,7 @@
   {
     "id": "1229",
     "v1Id": 1229,
-    "name": "name.franks_silver_pot",
+    "name": "item.franks_silver_pot.name",
     "description": "item.1229.description",
     "command": "command.none",
     "basePrice": 1,
@@ -20947,7 +20947,7 @@
   {
     "id": "1232",
     "v1Id": 1232,
-    "name": "item.1232.name",
+    "name": "item.unidentified_liquid.name",
     "description": "description.a_strong_acidic_formula",
     "command": "command.none",
     "basePrice": 2,
@@ -20981,8 +20981,8 @@
   {
     "id": "1234",
     "v1Id": 1234,
-    "name": "item.1234.name",
-    "description": "item.1234.description",
+    "name": "item.robe.name",
+    "description": "item.robe.description",
     "command": "command.none",
     "basePrice": 15,
     "spriteId": 0,
@@ -20998,8 +20998,8 @@
   {
     "id": "1235",
     "v1Id": 1235,
-    "name": "item.1235.name",
-    "description": "item.1235.description",
+    "name": "item.armour.name",
+    "description": "item.armour.description",
     "command": "command.none",
     "basePrice": 40,
     "spriteId": 0,
@@ -21015,7 +21015,7 @@
   {
     "id": "1236",
     "v1Id": 1236,
-    "name": "item.1236.name",
+    "name": "item.dagger.name",
     "description": "description.short_but_pointy",
     "command": "command.none",
     "basePrice": 35,
@@ -21066,9 +21066,9 @@
   {
     "id": "1239",
     "v1Id": 1239,
-    "name": "item.1239.name",
-    "description": "item.1239.description",
-    "command": "item.1239.command",
+    "name": "item.vial_of_holy_water.name",
+    "description": "item.vial_of_holy_water.description",
+    "command": "item.vial_of_holy_water.command",
     "basePrice": 3,
     "spriteId": 0,
     "inventoryPicture": 48,
@@ -21117,7 +21117,7 @@
   {
     "id": "1242",
     "v1Id": 1242,
-    "name": "item.1242.name",
+    "name": "item.crawled_notes.name",
     "description": "item.note.description",
     "command": "command.read",
     "basePrice": 20,
@@ -21168,7 +21168,7 @@
   {
     "id": "1245",
     "v1Id": 1245,
-    "name": "item.1245.name",
+    "name": "item.edible_seaweed.name",
     "description": "description.slightly_damp_seaweed",
     "command": "command.eat",
     "basePrice": 2,
@@ -21202,7 +21202,7 @@
   {
     "id": "1247",
     "v1Id": 1247,
-    "name": "item.1247.name",
+    "name": "item.burnt_manta_ray.name",
     "description": "item.burnt_fish.description",
     "command": "command.none",
     "basePrice": 500,
@@ -21353,10 +21353,10 @@
     "isUnused": 0
   },
   {
-    "id": "1256",
+    "id": "glowing_dark_dagger",
     "v1Id": 1256,
-    "name": "item.1256.name",
-    "description": "item.1256.description",
+    "name": "item.glowing_dark_dagger.name",
+    "description": "item.glowing_dark_dagger.description",
     "command": "command.none",
     "basePrice": 91,
     "spriteId": 0,
@@ -21370,11 +21370,11 @@
     "isUnused": 0
   },
   {
-    "id": "1257",
+    "id": "holy_force_spell",
     "v1Id": 1257,
-    "name": "item.1257.name",
-    "description": "item.1257.description",
-    "command": "item.1257.command",
+    "name": "item.holy_force_spell.name",
+    "description": "item.holy_force_spell.description",
+    "command": "item.holy_force_spell.command",
     "basePrice": 1,
     "spriteId": 0,
     "inventoryPicture": 423,
@@ -21387,9 +21387,9 @@
     "isUnused": 0
   },
   {
-    "id": "1258",
+    "id": "iron_pickaxe",
     "v1Id": 1258,
-    "name": "item.1258.name",
+    "name": "item.iron_pickaxe.name",
     "description": "description.used_for_mining",
     "command": "command.none",
     "basePrice": 140,
@@ -21404,10 +21404,10 @@
     "isUnused": 0
   },
   {
-    "id": "1259",
+    "id": "steel_pickaxe",
     "v1Id": 1259,
-    "name": "item.1259.name",
-    "description": "item.1259.description",
+    "name": "item.steel_pickaxe.name",
+    "description": "item.steel_pickaxe.description",
     "command": "command.none",
     "basePrice": 500,
     "spriteId": 0,
@@ -21421,10 +21421,10 @@
     "isUnused": 0
   },
   {
-    "id": "1260",
+    "id": "mithril_pickaxe",
     "v1Id": 1260,
-    "name": "item.1260.name",
-    "description": "item.1260.description",
+    "name": "item.mithril_pickaxe.name",
+    "description": "item.mithril_pickaxe.description",
     "command": "command.none",
     "basePrice": 1300,
     "spriteId": 0,
@@ -21455,10 +21455,10 @@
     "isUnused": 0
   },
   {
-    "id": "1262",
+    "id": "rune_pickaxe",
     "v1Id": 1262,
-    "name": "item.1262.name",
-    "description": "item.1262.description",
+    "name": "item.rune_pickaxe.name",
+    "description": "item.rune_pickaxe.description",
     "command": "command.none",
     "basePrice": 32000,
     "spriteId": 0,
@@ -21472,11 +21472,11 @@
     "isUnused": 0
   },
   {
-    "id": "1263",
+    "id": "sleeping_bag",
     "v1Id": 1263,
-    "name": "item.1263.name",
-    "description": "item.1263.description",
-    "command": "item.1263.command",
+    "name": "item.sleeping_bag.name",
+    "description": "item.sleeping_bag.description",
+    "command": "item.sleeping_bag.command",
     "basePrice": 30,
     "spriteId": 0,
     "inventoryPicture": 422,
@@ -21489,10 +21489,10 @@
     "isUnused": 0
   },
   {
-    "id": "1264",
+    "id": "blue_wizard_hat",
     "v1Id": 1264,
-    "name": "item.1264.name",
-    "description": "item.1264.description",
+    "name": "item.blue_wizard_hat.name",
+    "description": "item.blue_wizard_hat.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -21523,10 +21523,10 @@
     "isUnused": 0
   },
   {
-    "id": "1266",
+    "id": "blessed_golden_bowl",
     "v1Id": 1266,
-    "name": "item.1266.name",
-    "description": "item.1266.description",
+    "name": "item.blessed_golden_bowl.name",
+    "description": "item.blessed_golden_bowl.description",
     "command": "command.none",
     "basePrice": 1000,
     "spriteId": 0,
@@ -21557,10 +21557,10 @@
     "isUnused": 0
   },
   {
-    "id": "1268",
+    "id": "raw_oomlie_meat",
     "v1Id": 1268,
-    "name": "item.1268.name",
-    "description": "item.1268.description",
+    "name": "item.raw_oomlie_meat.name",
+    "description": "item.raw_oomlie_meat.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -21574,10 +21574,10 @@
     "isUnused": 0
   },
   {
-    "id": "1269",
+    "id": "cookied_oomlie_meat_parcel",
     "v1Id": 1269,
-    "name": "item.1269.name",
-    "description": "item.1269.description",
+    "name": "item.cookied_oomlie_meat_parcel.name",
+    "description": "item.cookied_oomlie_meat_parcel.description",
     "command": "command.eat",
     "basePrice": 35,
     "spriteId": 0,
@@ -21591,10 +21591,10 @@
     "isUnused": 0
   },
   {
-    "id": "1270",
+    "id": "dragon_bone_certificate",
     "v1Id": 1270,
-    "name": "item.1270.name",
-    "description": "item.1270.description",
+    "name": "item.dragon_bone_certificate.name",
+    "description": "item.dragon_bone_certificate.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -21608,10 +21608,10 @@
     "isUnused": 0
   },
   {
-    "id": "1271",
+    "id": "limpwurt_root_certificate",
     "v1Id": 1271,
-    "name": "item.1271.name",
-    "description": "item.1271.description",
+    "name": "item.limpwurt_root_certificate.name",
+    "description": "item.limpwurt_root_certificate.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -21625,10 +21625,10 @@
     "isUnused": 0
   },
   {
-    "id": "1272",
+    "id": "prayer_potion_certificate",
     "v1Id": 1272,
-    "name": "item.1272.name",
-    "description": "item.1272.description",
+    "name": "item.prayer_potion_certificate.name",
+    "description": "item.prayer_potion_certificate.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -21795,11 +21795,11 @@
     "isUnused": 0
   },
   {
-    "id": "1282",
+    "id": "bailing_bucket",
     "v1Id": 1282,
-    "name": "item.1282.name",
-    "description": "item.1282.description",
-    "command": "item.1282.command",
+    "name": "item.bailing_bucket.name",
+    "description": "item.bailing_bucket.description",
+    "command": "item.bailing_bucket.command",
     "basePrice": 10,
     "spriteId": 0,
     "inventoryPicture": 22,
@@ -21829,10 +21829,10 @@
     "isUnused": 0
   },
   {
-    "id": "1284",
+    "id": "arcenia_root",
     "v1Id": 1284,
-    "name": "item.1284.name",
-    "description": "item.1284.description",
+    "name": "item.arcenia_root.name",
+    "description": "item.arcenia_root.description",
     "command": "command.none",
     "basePrice": 7,
     "spriteId": 0,
@@ -21846,10 +21846,10 @@
     "isUnused": 0
   },
   {
-    "id": "1285",
+    "id": "display_tea",
     "v1Id": 1285,
-    "name": "item.1285.name",
-    "description": "item.1285.description",
+    "name": "item.display_tea.name",
+    "description": "item.display_tea.description",
     "command": "command.none",
     "basePrice": 10,
     "spriteId": 0,
@@ -21914,9 +21914,9 @@
     "isUnused": 0
   },
   {
-    "id": "1289",
+    "id": "scythe",
     "v1Id": 1289,
-    "name": "item.1289.name",
+    "name": "item.scythe.name",
     "description": "description.get_another_from_the_clothes",
     "command": "command.none",
     "basePrice": 15,

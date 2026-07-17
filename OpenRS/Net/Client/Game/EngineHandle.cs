@@ -510,12 +510,12 @@ public sealed class EngineHandle
             return;
         }
 
-        for (int vertIndex = 0; vertIndex < tileChunk.vert_count; vertIndex += 1)
+        for (int vertIndex = 0; vertIndex < tileChunk.VertexCount; vertIndex += 1)
         {
-            if (tileChunk.vert_x[vertIndex] == tileX * TileWorldSize &&
-                tileChunk.vert_z[vertIndex] == tileY * TileWorldSize)
+            if (tileChunk.VertexCoordinatesX[vertIndex] == tileX * TileWorldSize &&
+                tileChunk.VertexCoordinatesZ[vertIndex] == tileY * TileWorldSize)
             {
-                tileChunk.SetVertexColor(vertIndex, colourValue);
+                tileChunk.SetVertexColour(vertIndex, colourValue);
 
                 return;
             }
@@ -549,11 +549,11 @@ public sealed class EngineHandle
 
         if (entityManager.GetWallObject(wallTypeIndex).FaceRenderMode == 5)
         {
-            wallContainer.entityType[faceIndex] = 30000 + wallTypeIndex;
+            wallContainer.EntityType[faceIndex] = 30000 + wallTypeIndex;
         }
         else
         {
-            wallContainer.entityType[faceIndex] = 0;
+            wallContainer.EntityType[faceIndex] = 0;
         }
     }
 

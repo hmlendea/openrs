@@ -54,7 +54,7 @@
   {
     "id": "4",
     "v1Id": 4,
-    "name": "name.fence",
+    "name": "world_object.fence.name",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -132,7 +132,7 @@
   {
     "id": "10",
     "v1Id": 10,
-    "name": "name.battlement",
+    "name": "wall_object.battlement.name",
     "description": "description.empty",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -2290,7 +2290,7 @@
   {
     "id": "176",
     "v1Id": 176,
-    "name": "name.jail_door",
+    "name": "wall_object.prison_door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -2303,7 +2303,7 @@
   {
     "id": "177",
     "v1Id": 177,
-    "name": "name.jail_door",
+    "name": "wall_object.prison_door.name",
     "description": "description.the_door_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -2342,7 +2342,7 @@
   {
     "id": "180",
     "v1Id": 180,
-    "name": "name.jail_door",
+    "name": "wall_object.prison_door.name",
     "description": "description.a_solid_iron_gate",
     "command1": "command.open",
     "command2": "command.examine",
@@ -2433,7 +2433,7 @@
   {
     "id": "187",
     "v1Id": 187,
-    "name": "name.cave_exit",
+    "name": "wall_object.cave_exit.name",
     "description": "description.the_way_out",
     "command1": "command.leave",
     "command2": "command.examine",
@@ -2446,7 +2446,7 @@
   {
     "id": "188",
     "v1Id": 188,
-    "name": "name.cave_exit",
+    "name": "wall_object.cave_exit.name",
     "description": "description.the_way_out",
     "command1": "command.leave",
     "command2": "command.examine",
@@ -2459,7 +2459,7 @@
   {
     "id": "189",
     "v1Id": 189,
-    "name": "name.cave_exit",
+    "name": "wall_object.cave_exit.name",
     "description": "description.the_way_out",
     "command1": "command.leave",
     "command2": "command.examine",
@@ -2472,7 +2472,7 @@
   {
     "id": "190",
     "v1Id": 190,
-    "name": "name.cave_exit",
+    "name": "wall_object.cave_exit.name",
     "description": "description.the_way_out",
     "command1": "command.leave",
     "command2": "command.examine",
@@ -2485,7 +2485,7 @@
   {
     "id": "191",
     "v1Id": 191,
-    "name": "name.cave_exit",
+    "name": "wall_object.cave_exit.name",
     "description": "description.the_way_out",
     "command1": "command.leave",
     "command2": "command.examine",
@@ -2498,7 +2498,7 @@
   {
     "id": "192",
     "v1Id": 192,
-    "name": "name.cave_exit",
+    "name": "wall_object.cave_exit.name",
     "description": "description.the_way_out",
     "command1": "command.leave",
     "command2": "command.examine",
@@ -2537,7 +2537,7 @@
   {
     "id": "195",
     "v1Id": 195,
-    "name": "name.battlement",
+    "name": "wall_object.battlement.name",
     "description": "wall_object.195.description",
     "command1": "command.climb_over",
     "command2": "command.examine",
@@ -2615,7 +2615,7 @@
   {
     "id": "201",
     "v1Id": 201,
-    "name": "name.battlement",
+    "name": "wall_object.battlement.name",
     "description": "wall_object.201.description",
     "command1": "command.climb_over",
     "command2": "command.examine",

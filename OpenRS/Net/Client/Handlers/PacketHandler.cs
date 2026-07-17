@@ -280,7 +280,7 @@ namespace OpenRS.Net.Client.Handlers
                                     if (_obj != newCount)
                                     {
                                         client.objectArray[newCount] = client.objectArray[_obj];
-                                        client.objectArray[newCount].index = newCount;
+                                        client.objectArray[newCount].Index = newCount;
                                         client.objectX[newCount] = client.objectX[_obj];
                                         client.objectY[newCount] = client.objectY[_obj];
                                         client.objectType[newCount] = client.objectType[_obj];
@@ -312,7 +312,7 @@ namespace OpenRS.Net.Client.Handlers
                                     if (_obj != newCount)
                                     {
                                         client.objectArray[newCount] = client.objectArray[_obj];
-                                        client.objectArray[newCount].index = newCount;
+                                        client.objectArray[newCount].Index = newCount;
                                         client.objectX[newCount] = client.objectX[_obj];
                                         client.objectY[newCount] = client.objectY[_obj];
                                         client.objectType[newCount] = client.objectType[_obj];
@@ -360,7 +360,7 @@ namespace OpenRS.Net.Client.Handlers
                                     GameObject gameObject = client.gameDataObjects[model].CreateParent();
                                     client.gameCamera.AddModel(gameObject);
 
-                                    gameObject.index = client.objectCount;
+                                    gameObject.Index = client.objectCount;
                                     gameObject.OffsetMiniPosition(0, rotation * 32, 0);
                                     gameObject.OffsetPosition(l40, -client.engineHandle.GetAveragedElevation(l40, k42), k42);
                                     gameObject.UpdateShading(true, 48, 48, -50, -10, -50);
@@ -570,7 +570,7 @@ namespace OpenRS.Net.Client.Handlers
                                     if (current != newCount)
                                     {
                                         client.wallObjectArray[newCount] = client.wallObjectArray[current];
-                                        client.wallObjectArray[newCount].index = newCount + 10000;
+                                        client.wallObjectArray[newCount].Index = newCount + 10000;
                                         client.wallObjectX[newCount] = client.wallObjectX[current];
                                         client.wallObjectY[newCount] = client.wallObjectY[current];
                                         client.wallObjectDirection[newCount] = client.wallObjectDirection[current];
@@ -602,7 +602,7 @@ namespace OpenRS.Net.Client.Handlers
                                     if (current != newCount)
                                     {
                                         client.wallObjectArray[newCount] = client.wallObjectArray[current];
-                                        client.wallObjectArray[newCount].index = newCount + 10000;
+                                        client.wallObjectArray[newCount].Index = newCount + 10000;
                                         client.wallObjectX[newCount] = client.wallObjectX[current];
                                         client.wallObjectY[newCount] = client.wallObjectY[current];
                                         client.wallObjectDirection[newCount] = client.wallObjectDirection[current];
@@ -889,7 +889,7 @@ namespace OpenRS.Net.Client.Handlers
                                 if (k33 != j25)
                                 {
                                     client.objectArray[j25] = client.objectArray[k33];
-                                    client.objectArray[j25].index = j25;
+                                    client.objectArray[j25].Index = j25;
                                     client.objectX[j25] = client.objectX[k33];
                                     client.objectY[j25] = client.objectY[k33];
                                     client.objectType[j25] = client.objectType[k33];
@@ -915,7 +915,7 @@ namespace OpenRS.Net.Client.Handlers
                                 if (j37 != j25)
                                 {
                                     client.wallObjectArray[j25] = client.wallObjectArray[j37];
-                                    client.wallObjectArray[j25].index = j25 + 10000;
+                                    client.wallObjectArray[j25].Index = j25 + 10000;
                                     client.wallObjectX[j25] = client.wallObjectX[j37];
                                     client.wallObjectY[j25] = client.wallObjectY[j37];
                                     client.wallObjectDirection[j25] = client.wallObjectDirection[j37];

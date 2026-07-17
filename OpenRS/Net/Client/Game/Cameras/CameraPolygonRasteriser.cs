@@ -810,7 +810,7 @@ namespace OpenRS.Net.Client.Game.Cameras
                 bool isWithinScanlineX = sceneObjectTracker.MouseAdjustedX >= scanlineAtHitY.LeftX >> 8 &&
                                           sceneObjectTracker.MouseAdjustedX <= scanlineAtHitY.RightX >> 8;
                 bool hasScanlineSpan = scanlineAtHitY.LeftX <= scanlineAtHitY.RightX;
-                bool isHittablePolygon = !gameObject.shareEntityArrays && gameObject.polygonTypeData[faceVertexIndex] == 0;
+                bool isHittablePolygon = !gameObject.DoesShareEntityArrays && gameObject.PolygonTypeData[faceVertexIndex] == 0;
 
                 if (isWithinScanlineX && hasScanlineSpan && isHittablePolygon)
                 {

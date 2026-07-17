@@ -2,7 +2,7 @@
   {
     "id": "0",
     "v1Id": 0,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "description.a_pointy_tree",
     "command1": "command.chop",
     "command2": "command.examine",
@@ -16,7 +16,7 @@
   {
     "id": "1",
     "v1Id": 1,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "description.a_leafy_tree",
     "command1": "command.chop",
     "command2": "command.examine",
@@ -44,7 +44,7 @@
   {
     "id": "3",
     "v1Id": 3,
-    "name": "name.table",
+    "name": "world_object.table.name",
     "description": "world_object.3.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -58,7 +58,7 @@
   {
     "id": "4",
     "v1Id": 4,
-    "name": "world_object.4.name",
+    "name": "world_object.tree_stump.name",
     "description": "description.someone_has_chopped_this_tree",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -72,7 +72,7 @@
   {
     "id": "5",
     "v1Id": 5,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_upwards",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -86,7 +86,7 @@
   {
     "id": "6",
     "v1Id": 6,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_downwards",
     "command1": "command.descend",
     "command2": "command.examine",
@@ -114,7 +114,7 @@
   {
     "id": "8",
     "v1Id": 8,
-    "name": "name.logs",
+    "name": "item.logs.name",
     "description": "world_object.8.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -198,7 +198,7 @@
   {
     "id": "14",
     "v1Id": 14,
-    "name": "name.bed",
+    "name": "world_object.bed.name",
     "description": "world_object.14.description",
     "command1": "command.rest",
     "command2": "command.examine",
@@ -212,7 +212,7 @@
   {
     "id": "15",
     "v1Id": 15,
-    "name": "name.bed",
+    "name": "world_object.bed.name",
     "description": "description.its_a_bed_wow",
     "command1": "command.rest",
     "command2": "command.examine",
@@ -268,7 +268,7 @@
   {
     "id": "19",
     "v1Id": 19,
-    "name": "name.altar",
+    "name": "world_object.altar.name",
     "description": "description.its_an_altar",
     "command1": "command.recharge_at",
     "command2": "command.examine",
@@ -310,7 +310,7 @@
   {
     "id": "22",
     "v1Id": 22,
-    "name": "name.barrel",
+    "name": "world_object.barrel.name",
     "description": "world_object.22.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -324,7 +324,7 @@
   {
     "id": "23",
     "v1Id": 23,
-    "name": "name.bench",
+    "name": "world_object.bench.name",
     "description": "world_object.23.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -366,7 +366,7 @@
   {
     "id": "26",
     "v1Id": 26,
-    "name": "name.fountain",
+    "name": "world_object.fountain.name",
     "description": "world_object.26.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -436,8 +436,8 @@
   {
     "id": "31",
     "v1Id": 31,
-    "name": "world_object.31.name",
-    "description": "world_object.31.description",
+    "name": "world_object.target.name",
+    "description": "world_object.target.description",
     "command1": "command.practise",
     "command2": "command.examine",
     "modelName": "target",
@@ -478,7 +478,7 @@
   {
     "id": "34",
     "v1Id": 34,
-    "name": "name.fern",
+    "name": "world_object.fern.name",
     "description": "world_object.34.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -492,7 +492,7 @@
   {
     "id": "35",
     "v1Id": 35,
-    "name": "world_object.35.name",
+    "name": "world_object.cactus.name",
     "description": "description.it_looks_very_spikey",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -520,7 +520,7 @@
   {
     "id": "37",
     "v1Id": 37,
-    "name": "name.flower",
+    "name": "world_object.flower.name",
     "description": "description.ooh_thats_pretty",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -660,7 +660,7 @@
   {
     "id": "47",
     "v1Id": 47,
-    "name": "name.bookcase",
+    "name": "world_object.bookcase.name",
     "description": "description.a_large_collection_of_books",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -716,7 +716,7 @@
   {
     "id": "51",
     "v1Id": 51,
-    "name": "name.torch",
+    "name": "item.torch.name",
     "description": "world_object.51.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -730,7 +730,7 @@
   {
     "id": "52",
     "v1Id": 52,
-    "name": "name.hopper",
+    "name": "world_object.hopper.name",
     "description": "description.you_put_grain_in_here",
     "command1": "command.operate",
     "command2": "command.examine",
@@ -800,7 +800,7 @@
   {
     "id": "57",
     "v1Id": 57,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_closed",
     "command1": "command.open",
     "command2": "command.examine",
@@ -814,7 +814,7 @@
   {
     "id": "58",
     "v1Id": 58,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_open",
     "command1": "command.walk_to",
     "command2": "command.close",
@@ -828,7 +828,7 @@
   {
     "id": "59",
     "v1Id": 59,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_open",
     "command1": "command.walk_to",
     "command2": "command.close",
@@ -842,7 +842,7 @@
   {
     "id": "60",
     "v1Id": 60,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_closed",
     "command1": "command.open",
     "command2": "command.examine",
@@ -940,7 +940,7 @@
   {
     "id": "67",
     "v1Id": 67,
-    "name": "name.bookcase",
+    "name": "world_object.bookcase.name",
     "description": "world_object.67.description",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -982,7 +982,7 @@
   {
     "id": "70",
     "v1Id": 70,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "description.this_tree_doesnt_look_too",
     "command1": "command.walk_to",
     "command2": "command.chop",
@@ -1094,7 +1094,7 @@
   {
     "id": "78",
     "v1Id": 78,
-    "name": "name.manhole",
+    "name": "world_object.manhole.name",
     "description": "world_object.78.description",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1108,7 +1108,7 @@
   {
     "id": "79",
     "v1Id": 79,
-    "name": "name.manhole",
+    "name": "world_object.manhole.name",
     "description": "world_object.79.description",
     "command1": "command.descend",
     "command2": "command.close",
@@ -1164,7 +1164,7 @@
   {
     "id": "83",
     "v1Id": 83,
-    "name": "name.barrel",
+    "name": "world_object.barrel.name",
     "description": "world_object.83.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -1206,7 +1206,7 @@
   {
     "id": "86",
     "v1Id": 86,
-    "name": "name.fountain",
+    "name": "world_object.fountain.name",
     "description": "world_object.86.description",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -1234,7 +1234,7 @@
   {
     "id": "88",
     "v1Id": 88,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "description.this_tree_doesnt_look_too",
     "command1": "command.approach",
     "command2": "command.search",
@@ -1304,7 +1304,7 @@
   {
     "id": "93",
     "v1Id": 93,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.you_can_pass_through_this",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1318,7 +1318,7 @@
   {
     "id": "94",
     "v1Id": 94,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.you_can_pass_through_this",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1654,7 +1654,7 @@
   {
     "id": "118",
     "v1Id": 118,
-    "name": "name.furnace",
+    "name": "world_object.furnace.name",
     "description": "description.a_red_hot_furnace",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -1710,7 +1710,7 @@
   {
     "id": "122",
     "v1Id": 122,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "description.the_lever_is_up",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -1724,7 +1724,7 @@
   {
     "id": "123",
     "v1Id": 123,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "description.the_lever_is_down",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -1822,7 +1822,7 @@
   {
     "id": "130",
     "v1Id": 130,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_upwards",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -1920,7 +1920,7 @@
   {
     "id": "137",
     "v1Id": 137,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.you_can_pass_through_this",
     "command1": "command.open",
     "command2": "command.examine",
@@ -1934,7 +1934,7 @@
   {
     "id": "138",
     "v1Id": 138,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.you_can_pass_through_this",
     "command1": "command.open",
     "command2": "command.examine",
@@ -2004,7 +2004,7 @@
   {
     "id": "143",
     "v1Id": 143,
-    "name": "name.torch",
+    "name": "item.torch.name",
     "description": "world_object.143.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -2018,7 +2018,7 @@
   {
     "id": "144",
     "v1Id": 144,
-    "name": "name.altar",
+    "name": "world_object.altar.name",
     "description": "description.an_altar_to_the_evil",
     "command1": "command.recharge_at",
     "command2": "command.examine",
@@ -2060,7 +2060,7 @@
   {
     "id": "147",
     "v1Id": 147,
-    "name": "name.cauldron",
+    "name": "world_object.cauldron.name",
     "description": "description.a_very_large_pot",
     "command1": "command.walk_to",
     "command2": "world_object.147.command2",
@@ -2088,7 +2088,7 @@
   {
     "id": "149",
     "v1Id": 149,
-    "name": "name.mine_cart",
+    "name": "world_object.mine_cart.name",
     "description": "description.its_empty",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -2424,7 +2424,7 @@
   {
     "id": "173",
     "v1Id": 173,
-    "name": "name.hopper",
+    "name": "world_object.hopper.name",
     "description": "description.you_put_grain_in_here",
     "command1": "command.operate",
     "command2": "command.examine",
@@ -2522,7 +2522,7 @@
   {
     "id": "180",
     "v1Id": 180,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "world_object.180.description",
     "command1": "command.open",
     "command2": "command.examine",
@@ -2536,7 +2536,7 @@
   {
     "id": "181",
     "v1Id": 181,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "world_object.181.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -2634,7 +2634,7 @@
   {
     "id": "188",
     "v1Id": 188,
-    "name": "name.flower",
+    "name": "world_object.flower.name",
     "description": "description.ooh_thats_pretty",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -2690,7 +2690,7 @@
   {
     "id": "192",
     "v1Id": 192,
-    "name": "name.fish",
+    "name": "item.fish.name",
     "description": "description.i_can_see_fish_swimming",
     "command1": "command.lure",
     "command2": "command.bait",
@@ -2704,7 +2704,7 @@
   {
     "id": "193",
     "v1Id": 193,
-    "name": "name.fish",
+    "name": "item.fish.name",
     "description": "description.i_can_see_fish_swimming",
     "command1": "command.net",
     "command2": "command.bait",
@@ -2718,7 +2718,7 @@
   {
     "id": "194",
     "v1Id": 194,
-    "name": "name.fish",
+    "name": "item.fish.name",
     "description": "description.i_can_see_fish_swimming",
     "command1": "command.harpoon",
     "command2": "command.cage",
@@ -2774,7 +2774,7 @@
   {
     "id": "198",
     "v1Id": 198,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_upwards",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -2788,7 +2788,7 @@
   {
     "id": "199",
     "v1Id": 199,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_downwards",
     "command1": "command.descend",
     "command2": "command.examine",
@@ -2816,7 +2816,7 @@
   {
     "id": "201",
     "v1Id": 201,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_downwards",
     "command1": "command.descend",
     "command2": "command.examine",
@@ -3124,7 +3124,7 @@
   {
     "id": "223",
     "v1Id": 223,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_downwards",
     "command1": "command.descend",
     "command2": "command.examine",
@@ -3180,7 +3180,7 @@
   {
     "id": "227",
     "v1Id": 227,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_upwards",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -3320,7 +3320,7 @@
   {
     "id": "237",
     "v1Id": 237,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "description.a_leafy_tree",
     "command1": "command.search",
     "command2": "command.examine",
@@ -3418,7 +3418,7 @@
   {
     "id": "244",
     "v1Id": 244,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_downwards",
     "command1": "command.descend",
     "command2": "command.examine",
@@ -3446,7 +3446,7 @@
   {
     "id": "246",
     "v1Id": 246,
-    "name": "name.hopper",
+    "name": "world_object.hopper.name",
     "description": "description.you_put_grain_in_here",
     "command1": "command.operate",
     "command2": "command.examine",
@@ -3488,7 +3488,7 @@
   {
     "id": "249",
     "v1Id": 249,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_upwards",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -3530,7 +3530,7 @@
   {
     "id": "252",
     "v1Id": 252,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.you_can_pass_through_this",
     "command1": "command.open",
     "command2": "command.examine",
@@ -3544,7 +3544,7 @@
   {
     "id": "253",
     "v1Id": 253,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.you_can_pass_through_this",
     "command1": "command.open",
     "command2": "command.examine",
@@ -3558,7 +3558,7 @@
   {
     "id": "254",
     "v1Id": 254,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.you_can_pass_through_this",
     "command1": "command.open",
     "command2": "command.examine",
@@ -3586,7 +3586,7 @@
   {
     "id": "256",
     "v1Id": 256,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_closed",
     "command1": "command.open",
     "command2": "command.examine",
@@ -3600,7 +3600,7 @@
   {
     "id": "257",
     "v1Id": 257,
-    "name": "name.cauldron",
+    "name": "world_object.cauldron.name",
     "description": "description.a_very_large_pot",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -3642,7 +3642,7 @@
   {
     "id": "260",
     "v1Id": 260,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "world_object.260.description",
     "command1": "command.open",
     "command2": "command.examine",
@@ -3656,7 +3656,7 @@
   {
     "id": "261",
     "v1Id": 261,
-    "name": "name.fish",
+    "name": "item.fish.name",
     "description": "description.i_can_see_fish_swimming",
     "command1": "command.net",
     "command2": "command.harpoon",
@@ -3782,7 +3782,7 @@
   {
     "id": "270",
     "v1Id": 270,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_upwards",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -3796,7 +3796,7 @@
   {
     "id": "271",
     "v1Id": 271,
-    "name": "name.fish",
+    "name": "item.fish.name",
     "description": "world_object.271.description",
     "command1": "command.bait",
     "command2": "command.examine",
@@ -3810,7 +3810,7 @@
   {
     "id": "272",
     "v1Id": 272,
-    "name": "name.barrel",
+    "name": "world_object.barrel.name",
     "description": "world_object.272.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -3824,7 +3824,7 @@
   {
     "id": "273",
     "v1Id": 273,
-    "name": "name.table",
+    "name": "world_object.table.name",
     "description": "world_object.273.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -3908,7 +3908,7 @@
   {
     "id": "279",
     "v1Id": 279,
-    "name": "name.bench",
+    "name": "world_object.bench.name",
     "description": "world_object.279.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -3922,7 +3922,7 @@
   {
     "id": "280",
     "v1Id": 280,
-    "name": "name.table",
+    "name": "world_object.table.name",
     "description": "world_object.280.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -3936,7 +3936,7 @@
   {
     "id": "281",
     "v1Id": 281,
-    "name": "name.table",
+    "name": "world_object.table.name",
     "description": "world_object.281.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -3964,7 +3964,7 @@
   {
     "id": "283",
     "v1Id": 283,
-    "name": "name.bush",
+    "name": "world_object.bush.name",
     "description": "description.a_leafy_bush",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -3992,7 +3992,7 @@
   {
     "id": "285",
     "v1Id": 285,
-    "name": "name.flower",
+    "name": "world_object.flower.name",
     "description": "world_object.285.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -4118,7 +4118,7 @@
   {
     "id": "294",
     "v1Id": 294,
-    "name": "name.beehive",
+    "name": "world_object.beehive.name",
     "description": "world_object.294.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -4132,7 +4132,7 @@
   {
     "id": "295",
     "v1Id": 295,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_upwards",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -4146,7 +4146,7 @@
   {
     "id": "296",
     "v1Id": 296,
-    "name": "name.altar",
+    "name": "world_object.altar.name",
     "description": "description.an_altar_to_the_evil",
     "command1": "command.recharge_at",
     "command2": "command.search",
@@ -4230,8 +4230,8 @@
   {
     "id": "302",
     "v1Id": 302,
-    "name": "world_object.302.name",
-    "description": "world_object.302.description",
+    "name": "world_object.sand_pit.name",
+    "description": "world_object.sand_pit.description",
     "command1": "command.walk_to",
     "command2": "command.search",
     "modelName": "sandpit",
@@ -4244,7 +4244,7 @@
   {
     "id": "303",
     "v1Id": 303,
-    "name": "world_object.303.name",
+    "name": "world_object.obelisk_of_air.name",
     "description": "description.a_tall_stone_pointy_thing",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -4258,7 +4258,7 @@
   {
     "id": "304",
     "v1Id": 304,
-    "name": "world_object.304.name",
+    "name": "world_object.obelisk_of_earth.name",
     "description": "description.a_tall_stone_pointy_thing",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -4272,7 +4272,7 @@
   {
     "id": "305",
     "v1Id": 305,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.you_can_pass_through_this",
     "command1": "command.open",
     "command2": "command.examine",
@@ -4286,8 +4286,8 @@
   {
     "id": "306",
     "v1Id": 306,
-    "name": "world_object.306.name",
-    "description": "world_object.306.description",
+    "name": "world_object.oak_tree.name",
+    "description": "world_object.oak_tree.description",
     "command1": "command.chop",
     "command2": "command.examine",
     "modelName": "oaktree",
@@ -4300,8 +4300,8 @@
   {
     "id": "307",
     "v1Id": 307,
-    "name": "world_object.307.name",
-    "description": "world_object.307.description",
+    "name": "world_object.willow_tree.name",
+    "description": "world_object.willow_tree.description",
     "command1": "command.chop",
     "command2": "command.examine",
     "modelName": "willowtree",
@@ -4314,8 +4314,8 @@
   {
     "id": "308",
     "v1Id": 308,
-    "name": "world_object.308.name",
-    "description": "world_object.308.description",
+    "name": "world_object.maple_tree.name",
+    "description": "world_object.maple_tree.description",
     "command1": "command.chop",
     "command2": "command.examine",
     "modelName": "mapletree",
@@ -4328,8 +4328,8 @@
   {
     "id": "309",
     "v1Id": 309,
-    "name": "world_object.309.name",
-    "description": "world_object.309.description",
+    "name": "world_object.yew_tree.name",
+    "description": "world_object.yew_tree.description",
     "command1": "command.chop",
     "command2": "command.examine",
     "modelName": "yewtree",
@@ -4342,7 +4342,7 @@
   {
     "id": "310",
     "v1Id": 310,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "world_object.310.description",
     "command1": "command.chop",
     "command2": "command.examine",
@@ -4356,7 +4356,7 @@
   {
     "id": "311",
     "v1Id": 311,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "world_object.311.description",
     "command1": "command.open",
     "command2": "command.examine",
@@ -4384,7 +4384,7 @@
   {
     "id": "313",
     "v1Id": 313,
-    "name": "name.flax",
+    "name": "item.flax.name",
     "description": "world_object.313.description",
     "command1": "command.walk_to",
     "command2": "command.pick",
@@ -4398,7 +4398,7 @@
   {
     "id": "314",
     "v1Id": 314,
-    "name": "world_object.314.name",
+    "name": "world_object.large_tree_stump.name",
     "description": "description.someone_has_chopped_this_tree",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -4426,7 +4426,7 @@
   {
     "id": "316",
     "v1Id": 316,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "description.its_a_lever",
     "command1": "command.pull",
     "command2": "command.inspect",
@@ -4440,7 +4440,7 @@
   {
     "id": "317",
     "v1Id": 317,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "description.its_a_lever",
     "command1": "command.pull",
     "command2": "command.inspect",
@@ -4454,7 +4454,7 @@
   {
     "id": "318",
     "v1Id": 318,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "description.its_a_lever",
     "command1": "command.pull",
     "command2": "command.inspect",
@@ -4468,7 +4468,7 @@
   {
     "id": "319",
     "v1Id": 319,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.you_can_pass_through_this",
     "command1": "command.open",
     "command2": "command.examine",
@@ -4776,7 +4776,7 @@
   {
     "id": "341",
     "v1Id": 341,
-    "name": "world_object.341.name",
+    "name": "world_object.empty_stall.name",
     "description": "description.a_market_stall",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -4804,7 +4804,7 @@
   {
     "id": "343",
     "v1Id": 343,
-    "name": "name.hopper",
+    "name": "world_object.hopper.name",
     "description": "description.you_put_grain_in_here",
     "command1": "command.operate",
     "command2": "command.examine",
@@ -4846,7 +4846,7 @@
   {
     "id": "346",
     "v1Id": 346,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.you_can_pass_through_this",
     "command1": "command.open",
     "command2": "command.examine",
@@ -4860,7 +4860,7 @@
   {
     "id": "347",
     "v1Id": 347,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.you_can_pass_through_this",
     "command1": "command.open",
     "command2": "command.examine",
@@ -4874,7 +4874,7 @@
   {
     "id": "348",
     "v1Id": 348,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "description.the_lever_is_up",
     "command1": "command.pull",
     "command2": "command.examine",
@@ -4888,7 +4888,7 @@
   {
     "id": "349",
     "v1Id": 349,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "description.the_lever_is_up",
     "command1": "command.pull",
     "command2": "command.examine",
@@ -4916,7 +4916,7 @@
   {
     "id": "351",
     "v1Id": 351,
-    "name": "name.fish",
+    "name": "item.fish.name",
     "description": "description.i_can_see_fish_swimming",
     "command1": "command.bait",
     "command2": "command.examine",
@@ -4930,7 +4930,7 @@
   {
     "id": "352",
     "v1Id": 352,
-    "name": "name.fish",
+    "name": "item.fish.name",
     "description": "description.i_can_see_fish_swimming",
     "command1": "command.bait",
     "command2": "command.examine",
@@ -4944,7 +4944,7 @@
   {
     "id": "353",
     "v1Id": 353,
-    "name": "name.fish",
+    "name": "item.fish.name",
     "description": "description.i_can_see_fish_swimming",
     "command1": "command.bait",
     "command2": "command.examine",
@@ -4958,7 +4958,7 @@
   {
     "id": "354",
     "v1Id": 354,
-    "name": "name.fish",
+    "name": "item.fish.name",
     "description": "description.i_can_see_fish_swimming",
     "command1": "command.bait",
     "command2": "command.examine",
@@ -4986,7 +4986,7 @@
   {
     "id": "356",
     "v1Id": 356,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "world_object.356.description",
     "command1": "command.open",
     "command2": "command.examine",
@@ -5000,7 +5000,7 @@
   {
     "id": "357",
     "v1Id": 357,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_open",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -5014,7 +5014,7 @@
   {
     "id": "358",
     "v1Id": 358,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_closed",
     "command1": "command.open",
     "command2": "command.examine",
@@ -5056,7 +5056,7 @@
   {
     "id": "361",
     "v1Id": 361,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "description.its_a_lever",
     "command1": "command.pull",
     "command2": "world_object.361.command2",
@@ -5154,7 +5154,7 @@
   {
     "id": "368",
     "v1Id": 368,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "description.its_a_lever",
     "command1": "command.pull",
     "command2": "command.examine",
@@ -5196,7 +5196,7 @@
   {
     "id": "371",
     "v1Id": 371,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_closed",
     "command1": "command.open",
     "command2": "command.examine",
@@ -5210,7 +5210,7 @@
   {
     "id": "372",
     "v1Id": 372,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_open",
     "command1": "command.close",
     "command2": "command.examine",
@@ -5224,7 +5224,7 @@
   {
     "id": "373",
     "v1Id": 373,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "description.the_lever_is_up",
     "command1": "command.pull",
     "command2": "command.examine",
@@ -5238,7 +5238,7 @@
   {
     "id": "374",
     "v1Id": 374,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "description.the_lever_is_up",
     "command1": "command.push",
     "command2": "command.examine",
@@ -5266,7 +5266,7 @@
   {
     "id": "376",
     "v1Id": 376,
-    "name": "name.fish",
+    "name": "item.fish.name",
     "description": "description.i_can_see_fish_swimming",
     "command1": "command.cage",
     "command2": "command.harpoon",
@@ -5420,7 +5420,7 @@
   {
     "id": "387",
     "v1Id": 387,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "world_object.387.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -5434,8 +5434,8 @@
   {
     "id": "388",
     "v1Id": 388,
-    "name": "world_object.388.name",
-    "description": "world_object.388.description",
+    "name": "world_object.ballista.name",
+    "description": "world_object.ballista.description",
     "command1": "command.fire",
     "command2": "command.examine",
     "modelName": "catabow",
@@ -5490,7 +5490,7 @@
   {
     "id": "392",
     "v1Id": 392,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_closed",
     "command1": "world_object.392.command1",
     "command2": "command.examine",
@@ -5518,7 +5518,7 @@
   {
     "id": "394",
     "v1Id": 394,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "description.an_exotic_looking_tree",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -5532,7 +5532,7 @@
   {
     "id": "395",
     "v1Id": 395,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "description.an_exotic_looking_tree",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -5546,7 +5546,7 @@
   {
     "id": "396",
     "v1Id": 396,
-    "name": "name.fern",
+    "name": "world_object.fern.name",
     "description": "description.an_exotic_leafy_plant",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -5560,7 +5560,7 @@
   {
     "id": "397",
     "v1Id": 397,
-    "name": "name.fern",
+    "name": "world_object.fern.name",
     "description": "description.an_exotic_leafy_plant",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -5574,7 +5574,7 @@
   {
     "id": "398",
     "v1Id": 398,
-    "name": "name.fern",
+    "name": "world_object.fern.name",
     "description": "description.an_exotic_leafy_plant",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -5588,7 +5588,7 @@
   {
     "id": "399",
     "v1Id": 399,
-    "name": "name.fern",
+    "name": "world_object.fern.name",
     "description": "description.an_exotic_leafy_plant",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -5602,8 +5602,8 @@
   {
     "id": "400",
     "v1Id": 400,
-    "name": "world_object.400.name",
-    "description": "world_object.400.description",
+    "name": "world_object.fly_trap.name",
+    "description": "world_object.fly_trap.description",
     "command1": "command.approach",
     "command2": "command.search",
     "modelName": "jungle fly trap",
@@ -5616,7 +5616,7 @@
   {
     "id": "401",
     "v1Id": 401,
-    "name": "name.fern",
+    "name": "world_object.fern.name",
     "description": "description.an_exotic_leafy_plant",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -5630,7 +5630,7 @@
   {
     "id": "402",
     "v1Id": 402,
-    "name": "name.fern",
+    "name": "world_object.fern.name",
     "description": "world_object.402.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -5686,8 +5686,8 @@
   {
     "id": "406",
     "v1Id": 406,
-    "name": "world_object.406.name",
-    "description": "world_object.406.description",
+    "name": "world_object.stone_head.name",
+    "description": "world_object.stone_head.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "jungle statue",
@@ -5700,8 +5700,8 @@
   {
     "id": "407",
     "v1Id": 407,
-    "name": "world_object.407.name",
-    "description": "world_object.407.description",
+    "name": "world_object.dead_tree.name",
+    "description": "world_object.dead_tree.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "deadtree2",
@@ -5728,7 +5728,7 @@
   {
     "id": "409",
     "v1Id": 409,
-    "name": "world_object.409.name",
+    "name": "world_object.khazard_open_chest.name",
     "description": "description.perhaps_i_should_search_it",
     "command1": "command.search",
     "command2": "command.close",
@@ -5742,7 +5742,7 @@
   {
     "id": "410",
     "v1Id": 410,
-    "name": "world_object.410.name",
+    "name": "world_object.khazard_shut_chest.name",
     "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
@@ -5882,7 +5882,7 @@
   {
     "id": "420",
     "v1Id": 420,
-    "name": "name.tree_platform",
+    "name": "world_object.tree.name_platform",
     "description": "description.a_tree_gnome_construction",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -5896,7 +5896,7 @@
   {
     "id": "421",
     "v1Id": 421,
-    "name": "name.tree_platform",
+    "name": "world_object.tree.name_platform",
     "description": "description.a_tree_gnome_construction",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -5910,7 +5910,7 @@
   {
     "id": "422",
     "v1Id": 422,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_open",
     "command1": "command.close",
     "command2": "command.examine",
@@ -5924,7 +5924,7 @@
   {
     "id": "423",
     "v1Id": 423,
-    "name": "name.tree_platform",
+    "name": "world_object.tree.name_platform",
     "description": "description.a_tree_gnome_construction",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -5938,7 +5938,7 @@
   {
     "id": "424",
     "v1Id": 424,
-    "name": "name.tree_platform",
+    "name": "world_object.tree.name_platform",
     "description": "description.a_tree_gnome_construction",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -5980,7 +5980,7 @@
   {
     "id": "427",
     "v1Id": 427,
-    "name": "name.tree_platform",
+    "name": "world_object.tree.name_platform",
     "description": "description.a_tree_gnome_construction",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -5994,7 +5994,7 @@
   {
     "id": "428",
     "v1Id": 428,
-    "name": "name.tree_platform",
+    "name": "world_object.tree.name_platform",
     "description": "description.a_tree_gnome_construction",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -6106,7 +6106,7 @@
   {
     "id": "436",
     "v1Id": 436,
-    "name": "name.bookcase",
+    "name": "world_object.bookcase.name",
     "description": "description.a_large_collection_of_books",
     "command1": "command.search",
     "command2": "command.examine",
@@ -6120,7 +6120,7 @@
   {
     "id": "437",
     "v1Id": 437,
-    "name": "name.carnillean_chest",
+    "name": "world_object.carnillean_chest.name",
     "description": "description.perhaps_i_should_search_it",
     "command1": "command.walk_to",
     "command2": "command.close",
@@ -6134,7 +6134,7 @@
   {
     "id": "438",
     "v1Id": 438,
-    "name": "name.carnillean_chest",
+    "name": "world_object.carnillean_chest.name",
     "description": "world_object.chest.description",
     "command1": "command.open",
     "command2": "command.examine",
@@ -6162,7 +6162,7 @@
   {
     "id": "440",
     "v1Id": 440,
-    "name": "name.butlers_cupboard",
+    "name": "world_object.butlers_cupboard.name",
     "description": "description.the_cupboard_is_shut",
     "command1": "command.open",
     "command2": "command.examine",
@@ -6176,7 +6176,7 @@
   {
     "id": "441",
     "v1Id": 441,
-    "name": "name.butlers_cupboard",
+    "name": "world_object.butlers_cupboard.name",
     "description": "description.the_cupboard_is_open",
     "command1": "command.search",
     "command2": "command.close",
@@ -6190,7 +6190,7 @@
   {
     "id": "442",
     "v1Id": 442,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_open",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -6204,7 +6204,7 @@
   {
     "id": "443",
     "v1Id": 443,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_closed",
     "command1": "command.open",
     "command2": "command.examine",
@@ -6344,7 +6344,7 @@
   {
     "id": "453",
     "v1Id": 453,
-    "name": "name.fishing_crane",
+    "name": "world_object.fishing_crane.name",
     "description": "description.for_hauling_in_large_catches",
     "command1": "command.operate",
     "command2": "command.examine",
@@ -6386,7 +6386,7 @@
   {
     "id": "456",
     "v1Id": 456,
-    "name": "name.barrel",
+    "name": "world_object.barrel.name",
     "description": "world_object.456.description",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -6400,7 +6400,7 @@
   {
     "id": "457",
     "v1Id": 457,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_closed",
     "command1": "command.open",
     "command2": "command.examine",
@@ -6414,7 +6414,7 @@
   {
     "id": "458",
     "v1Id": 458,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_upwards",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -6428,7 +6428,7 @@
   {
     "id": "459",
     "v1Id": 459,
-    "name": "name.fishing_crane",
+    "name": "world_object.fishing_crane.name",
     "description": "description.for_hauling_in_large_catches",
     "command1": "command.operate",
     "command2": "command.examine",
@@ -6442,7 +6442,7 @@
   {
     "id": "460",
     "v1Id": 460,
-    "name": "name.fishing_crane",
+    "name": "world_object.fishing_crane.name",
     "description": "description.for_hauling_in_large_catches",
     "command1": "command.operate",
     "command2": "command.examine",
@@ -6582,7 +6582,7 @@
   {
     "id": "470",
     "v1Id": 470,
-    "name": "name.bookcase",
+    "name": "world_object.bookcase.name",
     "description": "description.a_large_collection_of_books",
     "command1": "command.search",
     "command2": "command.examine",
@@ -6722,7 +6722,7 @@
   {
     "id": "480",
     "v1Id": 480,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_closed",
     "command1": "command.open",
     "command2": "command.examine",
@@ -6820,7 +6820,7 @@
   {
     "id": "487",
     "v1Id": 487,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "description.the_lever_is_up",
     "command1": "command.pull",
     "command2": "command.examine",
@@ -6834,7 +6834,7 @@
   {
     "id": "488",
     "v1Id": 488,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "description.the_lever_is_up",
     "command1": "command.pull",
     "command2": "command.examine",
@@ -6862,7 +6862,7 @@
   {
     "id": "490",
     "v1Id": 490,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "description.a_pointy_tree",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -6904,7 +6904,7 @@
   {
     "id": "493",
     "v1Id": 493,
-    "name": "name.fish",
+    "name": "item.fish.name",
     "description": "description.i_can_see_fish_swimming",
     "command1": "command.net",
     "command2": "command.examine",
@@ -7058,7 +7058,7 @@
   {
     "id": "504",
     "v1Id": 504,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_closed",
     "command1": "command.open",
     "command2": "command.examine",
@@ -7114,7 +7114,7 @@
   {
     "id": "508",
     "v1Id": 508,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.you_can_pass_through_this",
     "command1": "command.open",
     "command2": "command.examine",
@@ -7184,7 +7184,7 @@
   {
     "id": "513",
     "v1Id": 513,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_closed",
     "command1": "command.open",
     "command2": "command.examine",
@@ -7198,7 +7198,7 @@
   {
     "id": "514",
     "v1Id": 514,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_open",
     "command1": "command.walk_to",
     "command2": "command.close",
@@ -7420,10 +7420,10 @@
     "modelIndex": 0
   },
   {
-    "id": "530",
+    "id": "log_1",
     "v1Id": 530,
-    "name": "name.log",
-    "description": "description.it_looks_slippery",
+    "name": "world_object.log.name",
+    "description": "world_object.log.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "log_balance1",
@@ -7434,10 +7434,10 @@
     "modelIndex": 0
   },
   {
-    "id": "531",
+    "id": "log_2",
     "v1Id": 531,
-    "name": "name.log",
-    "description": "description.it_looks_slippery",
+    "name": "world_object.log.name",
+    "description": "world_object.log.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
     "modelName": "log_balance2",
@@ -7800,7 +7800,7 @@
   {
     "id": "557",
     "v1Id": 557,
-    "name": "name.fish",
+    "name": "item.fish.name",
     "description": "description.i_can_see_fish_swimming",
     "command1": "command.harpoon",
     "command2": "command.cage",
@@ -7884,7 +7884,7 @@
   {
     "id": "563",
     "v1Id": 563,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_closed",
     "command1": "command.open",
     "command2": "command.examine",
@@ -8024,7 +8024,7 @@
   {
     "id": "573",
     "v1Id": 573,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "world_object.573.description",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -8052,7 +8052,7 @@
   {
     "id": "575",
     "v1Id": 575,
-    "name": "name.tree_platform",
+    "name": "world_object.tree.name_platform",
     "description": "description.a_tree_gnome_construction",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -8066,7 +8066,7 @@
   {
     "id": "576",
     "v1Id": 576,
-    "name": "name.tree_platform",
+    "name": "world_object.tree.name_platform",
     "description": "description.a_tree_gnome_construction",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -8192,7 +8192,7 @@
   {
     "id": "585",
     "v1Id": 585,
-    "name": "name.tree_ladder",
+    "name": "world_object.tree.name_ladder",
     "description": "description.its_a_ladder_leading_upwards",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -8206,7 +8206,7 @@
   {
     "id": "586",
     "v1Id": 586,
-    "name": "name.tree_ladder",
+    "name": "world_object.tree.name_ladder",
     "description": "description.its_a_ladder_leading_downwards",
     "command1": "command.descend",
     "command2": "command.examine",
@@ -8276,7 +8276,7 @@
   {
     "id": "591",
     "v1Id": 591,
-    "name": "name.net",
+    "name": "item.fishing_net.name",
     "description": "description.a_good_place_to_train",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -8304,7 +8304,7 @@
   {
     "id": "593",
     "v1Id": 593,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "description.it_has_a_branch_ideal",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -8318,7 +8318,7 @@
   {
     "id": "594",
     "v1Id": 594,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "description.i_wonder_who_put_that",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -8332,7 +8332,7 @@
   {
     "id": "595",
     "v1Id": 595,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "description.they_look_fun_to_swing",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -8360,7 +8360,7 @@
   {
     "id": "597",
     "v1Id": 597,
-    "name": "name.fence",
+    "name": "world_object.fence.name",
     "description": "description.it_doesnt_look_too_strong",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -8626,7 +8626,7 @@
   {
     "id": "616",
     "v1Id": 616,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_upwards",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -8640,7 +8640,7 @@
   {
     "id": "617",
     "v1Id": 617,
-    "name": "name.cage",
+    "name": "world_object.cage.name",
     "description": "world_object.617.description",
     "command1": "command.open",
     "command2": "command.examine",
@@ -8654,7 +8654,7 @@
   {
     "id": "618",
     "v1Id": 618,
-    "name": "name.glider",
+    "name": "world_object.glider.name",
     "description": "description.i_wonder_if_it_flies",
     "command1": "world_object.618.command1",
     "command2": "command.examine",
@@ -8710,7 +8710,7 @@
   {
     "id": "622",
     "v1Id": 622,
-    "name": "name.glider",
+    "name": "world_object.glider.name",
     "description": "description.i_wonder_if_it_flies",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -8724,7 +8724,7 @@
   {
     "id": "623",
     "v1Id": 623,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_open",
     "command1": "command.walk_to",
     "command2": "command.close",
@@ -8738,7 +8738,7 @@
   {
     "id": "624",
     "v1Id": 624,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_closed",
     "command1": "command.open",
     "command2": "command.examine",
@@ -9060,7 +9060,7 @@
   {
     "id": "647",
     "v1Id": 647,
-    "name": "name.net",
+    "name": "item.fishing_net.name",
     "description": "description.a_good_place_to_train",
     "command1": "command.climb",
     "command2": "command.examine",
@@ -9144,7 +9144,7 @@
   {
     "id": "653",
     "v1Id": 653,
-    "name": "name.net",
+    "name": "item.fishing_net.name",
     "description": "description.a_good_place_to_train",
     "command1": "command.climb",
     "command2": "command.examine",
@@ -9170,10 +9170,10 @@
     "modelIndex": 0
   },
   {
-    "id": "655",
+    "id": "log_3",
     "v1Id": 655,
-    "name": "name.log",
-    "description": "description.it_looks_slippery",
+    "name": "world_object.log.name",
+    "description": "world_object.log.description",
     "command1": "command.balance_on",
     "command2": "command.examine",
     "modelName": "log_balance1",
@@ -9228,7 +9228,7 @@
   {
     "id": "659",
     "v1Id": 659,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_upwards",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -9242,7 +9242,7 @@
   {
     "id": "660",
     "v1Id": 660,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_closed",
     "command1": "command.open",
     "command2": "command.examine",
@@ -9270,7 +9270,7 @@
   {
     "id": "662",
     "v1Id": 662,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "description.it_has_a_branch_ideal",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -9284,7 +9284,7 @@
   {
     "id": "663",
     "v1Id": 663,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "description.i_wonder_who_put_that",
     "command1": "command.swing_on",
     "command2": "command.examine",
@@ -9298,7 +9298,7 @@
   {
     "id": "664",
     "v1Id": 664,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "description.i_wonder_who_put_that",
     "command1": "command.swing_on",
     "command2": "command.examine",
@@ -9464,10 +9464,10 @@
     "modelIndex": 0
   },
   {
-    "id": "676",
+    "id": "log_4",
     "v1Id": 676,
-    "name": "name.log",
-    "description": "description.it_looks_slippery",
+    "name": "world_object.log.name",
+    "description": "world_object.log.description",
     "command1": "command.balance_on",
     "command2": "command.examine",
     "modelName": "log_balance1",
@@ -9480,7 +9480,7 @@
   {
     "id": "677",
     "v1Id": 677,
-    "name": "name.net",
+    "name": "item.fishing_net.name",
     "description": "description.a_good_place_to_train",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -9520,10 +9520,10 @@
     "modelIndex": 0
   },
   {
-    "id": "680",
+    "id": "log_5",
     "v1Id": 680,
-    "name": "name.log",
-    "description": "description.it_looks_slippery",
+    "name": "world_object.log.name",
+    "description": "world_object.log.description",
     "command1": "command.balance_on",
     "command2": "command.examine",
     "modelName": "log_balance1",
@@ -9534,10 +9534,10 @@
     "modelIndex": 0
   },
   {
-    "id": "681",
+    "id": "log_6",
     "v1Id": 681,
-    "name": "name.log",
-    "description": "description.it_looks_slippery",
+    "name": "world_object.log.name",
+    "description": "world_object.log.description",
     "command1": "command.balance_on",
     "command2": "command.examine",
     "modelName": "log_balance1",
@@ -9620,7 +9620,7 @@
   {
     "id": "687",
     "v1Id": 687,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "description.this_tree_doesnt_look_too",
     "command1": "command.walk_to",
     "command2": "command.balance",
@@ -9718,7 +9718,7 @@
   {
     "id": "694",
     "v1Id": 694,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "description.they_look_fun_to_swing",
     "command1": "command.swing_on",
     "command2": "command.examine",
@@ -9732,7 +9732,7 @@
   {
     "id": "695",
     "v1Id": 695,
-    "name": "name.tree",
+    "name": "world_object.tree.name",
     "description": "description.they_look_fun_to_swing",
     "command1": "command.swing_on",
     "command2": "command.examine",
@@ -9788,7 +9788,7 @@
   {
     "id": "699",
     "v1Id": 699,
-    "name": "name.daconia_rock",
+    "name": "item.daconia_rock.name",
     "description": "world_object.699.description",
     "command1": "command.mine",
     "command2": "command.prospect",
@@ -9830,7 +9830,7 @@
   {
     "id": "702",
     "v1Id": 702,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_closed",
     "command1": "command.open",
     "command2": "command.examine",
@@ -9844,7 +9844,7 @@
   {
     "id": "703",
     "v1Id": 703,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.enter_to_balance_into_an",
     "command1": "command.open",
     "command2": "command.examine",
@@ -9858,7 +9858,7 @@
   {
     "id": "704",
     "v1Id": 704,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.enter_to_balance_into_an",
     "command1": "command.open",
     "command2": "command.examine",
@@ -10054,7 +10054,7 @@
   {
     "id": "718",
     "v1Id": 718,
-    "name": "name.fence",
+    "name": "world_object.fence.name",
     "description": "description.it_doesnt_look_too_strong",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -10264,7 +10264,7 @@
   {
     "id": "733",
     "v1Id": 733,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "description.seems_to_be_some_sort",
     "command1": "command.pull",
     "command2": "command.examine",
@@ -10866,7 +10866,7 @@
   {
     "id": "776",
     "v1Id": 776,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "world_object.776.description",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -11216,7 +11216,7 @@
   {
     "id": "801",
     "v1Id": 801,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "description.seems_to_be_some_sort",
     "command1": "command.pull",
     "command2": "command.examine",
@@ -11230,7 +11230,7 @@
   {
     "id": "802",
     "v1Id": 802,
-    "name": "name.cage",
+    "name": "world_object.cage.name",
     "description": "description.seems_to_be_mechanical",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -11244,7 +11244,7 @@
   {
     "id": "803",
     "v1Id": 803,
-    "name": "name.cage",
+    "name": "world_object.cage.name",
     "description": "description.seems_to_be_mechanical",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -11384,7 +11384,7 @@
   {
     "id": "813",
     "v1Id": 813,
-    "name": "name.furnace",
+    "name": "world_object.furnace.name",
     "description": "world_object.813.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -12140,7 +12140,7 @@
   {
     "id": "867",
     "v1Id": 867,
-    "name": "name.boulder",
+    "name": "world_object.boulder.name",
     "description": "world_object.867.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -12322,7 +12322,7 @@
   {
     "id": "880",
     "v1Id": 880,
-    "name": "name.barrel",
+    "name": "world_object.barrel.name",
     "description": "world_object.880.description",
     "command1": "command.empty",
     "command2": "command.examine",
@@ -12420,7 +12420,7 @@
   {
     "id": "887",
     "v1Id": 887,
-    "name": "name.cage",
+    "name": "world_object.cage.name",
     "description": "description.thats_no_way_to_live",
     "command1": "command.search",
     "command2": "command.examine",
@@ -12434,7 +12434,7 @@
   {
     "id": "888",
     "v1Id": 888,
-    "name": "name.cage",
+    "name": "world_object.cage.name",
     "description": "description.thats_no_way_to_live",
     "command1": "command.search",
     "command2": "command.examine",
@@ -12882,7 +12882,7 @@
   {
     "id": "920",
     "v1Id": 920,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_upwards",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -12966,7 +12966,7 @@
   {
     "id": "926",
     "v1Id": 926,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "world_object.926.description",
     "command1": "command.open",
     "command2": "command.examine",
@@ -12994,7 +12994,7 @@
   {
     "id": "928",
     "v1Id": 928,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "world_object.928.description",
     "command1": "command.descend",
     "command2": "command.examine",
@@ -13036,7 +13036,7 @@
   {
     "id": "931",
     "v1Id": 931,
-    "name": "name.bookcase",
+    "name": "world_object.bookcase.name",
     "description": "world_object.931.description",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -13064,7 +13064,7 @@
   {
     "id": "933",
     "v1Id": 933,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "world_object.933.description",
     "command1": "command.descend",
     "command2": "command.examine",
@@ -13148,7 +13148,7 @@
   {
     "id": "939",
     "v1Id": 939,
-    "name": "name.altar",
+    "name": "world_object.altar.name",
     "description": "description.an_altar_to_the_evil",
     "command1": "command.recharge_at",
     "command2": "command.examine",
@@ -13316,7 +13316,7 @@
   {
     "id": "951",
     "v1Id": 951,
-    "name": "name.fence",
+    "name": "world_object.fence.name",
     "description": "world_object.951.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -13442,7 +13442,7 @@
   {
     "id": "960",
     "v1Id": 960,
-    "name": "name.bush",
+    "name": "world_object.bush.name",
     "description": "description.a_leafy_bush",
     "command1": "command.search",
     "command2": "command.examine",
@@ -13456,7 +13456,7 @@
   {
     "id": "961",
     "v1Id": 961,
-    "name": "name.bush",
+    "name": "world_object.bush.name",
     "description": "description.a_leafy_bush",
     "command1": "command.search",
     "command2": "command.examine",
@@ -13666,7 +13666,7 @@
   {
     "id": "976",
     "v1Id": 976,
-    "name": "name.mine_cart",
+    "name": "world_object.mine_cart.name",
     "description": "world_object.976.description",
     "command1": "command.look_at",
     "command2": "command.search",
@@ -13736,7 +13736,7 @@
   {
     "id": "981",
     "v1Id": 981,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_upwards",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -13792,7 +13792,7 @@
   {
     "id": "985",
     "v1Id": 985,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_downwards",
     "command1": "command.descend",
     "command2": "command.examine",
@@ -13834,7 +13834,7 @@
   {
     "id": "988",
     "v1Id": 988,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.this_gate_barrs_your_way",
     "command1": "command.open",
     "command2": "command.examine",
@@ -13848,7 +13848,7 @@
   {
     "id": "989",
     "v1Id": 989,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.this_gate_barrs_your_way",
     "command1": "command.open",
     "command2": "command.examine",
@@ -13862,7 +13862,7 @@
   {
     "id": "990",
     "v1Id": 990,
-    "name": "name.bush",
+    "name": "world_object.bush.name",
     "description": "description.a_leafy_bush",
     "command1": "command.search",
     "command2": "command.examine",
@@ -13876,7 +13876,7 @@
   {
     "id": "991",
     "v1Id": 991,
-    "name": "name.bush",
+    "name": "world_object.bush.name",
     "description": "description.a_leafy_bush",
     "command1": "command.search",
     "command2": "command.examine",
@@ -13890,7 +13890,7 @@
   {
     "id": "992",
     "v1Id": 992,
-    "name": "name.bush",
+    "name": "world_object.bush.name",
     "description": "description.a_leafy_bush",
     "command1": "command.search",
     "command2": "command.examine",
@@ -13904,7 +13904,7 @@
   {
     "id": "993",
     "v1Id": 993,
-    "name": "name.bush",
+    "name": "world_object.bush.name",
     "description": "description.a_leafy_bush",
     "command1": "command.search",
     "command2": "command.examine",
@@ -13960,7 +13960,7 @@
   {
     "id": "997",
     "v1Id": 997,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_downwards",
     "command1": "command.descend",
     "command2": "command.examine",
@@ -14058,7 +14058,7 @@
   {
     "id": "1004",
     "v1Id": 1004,
-    "name": "name.bookcase",
+    "name": "world_object.bookcase.name",
     "description": "description.a_large_collection_of_books",
     "command1": "command.look_at",
     "command2": "command.search",
@@ -14198,7 +14198,7 @@
   {
     "id": "1014",
     "v1Id": 1014,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "description.the_lever_is_up",
     "command1": "command.pull",
     "command2": "command.examine",
@@ -14212,7 +14212,7 @@
   {
     "id": "1015",
     "v1Id": 1015,
-    "name": "name.lever",
+    "name": "world_object.lever.name",
     "description": "description.the_lever_is_down",
     "command1": "command.pull",
     "command2": "command.examine",
@@ -14240,7 +14240,7 @@
   {
     "id": "1017",
     "v1Id": 1017,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_downwards",
     "command1": "command.descend",
     "command2": "command.examine",
@@ -14268,7 +14268,7 @@
   {
     "id": "1019",
     "v1Id": 1019,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_closed",
     "command1": "command.open",
     "command2": "command.examine",
@@ -14282,7 +14282,7 @@
   {
     "id": "1020",
     "v1Id": 1020,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.the_gate_is_closed",
     "command1": "command.open",
     "command2": "command.examine",
@@ -14296,7 +14296,7 @@
   {
     "id": "1021",
     "v1Id": 1021,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_upwards",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -14576,7 +14576,7 @@
   {
     "id": "1041",
     "v1Id": 1041,
-    "name": "name.barrel",
+    "name": "world_object.barrel.name",
     "description": "world_object.1041.description",
     "command1": "command.search",
     "command2": "command.examine",
@@ -14590,7 +14590,7 @@
   {
     "id": "1042",
     "v1Id": 1042,
-    "name": "name.brick",
+    "name": "world_object.brick.name",
     "description": "description.a_stone_brick",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -14604,7 +14604,7 @@
   {
     "id": "1043",
     "v1Id": 1043,
-    "name": "name.brick",
+    "name": "world_object.brick.name",
     "description": "description.a_stone_brick",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -14618,7 +14618,7 @@
   {
     "id": "1044",
     "v1Id": 1044,
-    "name": "name.brick",
+    "name": "world_object.brick.name",
     "description": "description.a_stone_brick",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -14632,7 +14632,7 @@
   {
     "id": "1045",
     "v1Id": 1045,
-    "name": "name.brick",
+    "name": "world_object.brick.name",
     "description": "description.a_stone_brick",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -14646,7 +14646,7 @@
   {
     "id": "1046",
     "v1Id": 1046,
-    "name": "name.brick",
+    "name": "world_object.brick.name",
     "description": "description.a_stone_brick",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -14660,7 +14660,7 @@
   {
     "id": "1047",
     "v1Id": 1047,
-    "name": "name.brick",
+    "name": "world_object.brick.name",
     "description": "description.a_stone_brick",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -14688,7 +14688,7 @@
   {
     "id": "1049",
     "v1Id": 1049,
-    "name": "name.buried_skeleton",
+    "name": "world_object.buried_skeleton.name",
     "description": "world_object.1049.description",
     "command1": "command.search",
     "command2": "command.examine",
@@ -14702,7 +14702,7 @@
   {
     "id": "1050",
     "v1Id": 1050,
-    "name": "name.brick",
+    "name": "world_object.brick.name",
     "description": "description.a_stone_brick",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -14716,7 +14716,7 @@
   {
     "id": "1051",
     "v1Id": 1051,
-    "name": "name.brick",
+    "name": "world_object.brick.name",
     "description": "description.a_stone_brick",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -14800,7 +14800,7 @@
   {
     "id": "1057",
     "v1Id": 1057,
-    "name": "name.buried_skeleton",
+    "name": "world_object.buried_skeleton.name",
     "description": "world_object.1057.description",
     "command1": "command.search",
     "command2": "command.examine",
@@ -14954,7 +14954,7 @@
   {
     "id": "1068",
     "v1Id": 1068,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "world_object.1068.description",
     "command1": "command.open",
     "command2": "command.examine",
@@ -14982,7 +14982,7 @@
   {
     "id": "1070",
     "v1Id": 1070,
-    "name": "name.barrel",
+    "name": "world_object.barrel.name",
     "description": "world_object.sinking_vessel.description",
     "command1": "world_object.1070.command1",
     "command2": "command.examine",
@@ -15010,7 +15010,7 @@
   {
     "id": "1072",
     "v1Id": 1072,
-    "name": "name.bush",
+    "name": "world_object.bush.name",
     "description": "description.a_leafy_bush",
     "command1": "command.search",
     "command2": "command.examine",
@@ -15024,7 +15024,7 @@
   {
     "id": "1073",
     "v1Id": 1073,
-    "name": "name.bush",
+    "name": "world_object.bush.name",
     "description": "description.a_leafy_bush",
     "command1": "command.search",
     "command2": "command.examine",
@@ -15150,7 +15150,7 @@
   {
     "id": "1082",
     "v1Id": 1082,
-    "name": "name.barrel",
+    "name": "world_object.barrel.name",
     "description": "world_object.1082.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -15164,7 +15164,7 @@
   {
     "id": "1083",
     "v1Id": 1083,
-    "name": "name.barrel",
+    "name": "world_object.barrel.name",
     "description": "world_object.chest.description",
     "command1": "command.search",
     "command2": "command.examine",
@@ -15248,7 +15248,7 @@
   {
     "id": "1089",
     "v1Id": 1089,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "description.you_can_pass_through_this",
     "command1": "command.open",
     "command2": "command.examine",
@@ -15262,7 +15262,7 @@
   {
     "id": "1090",
     "v1Id": 1090,
-    "name": "name.bookcase",
+    "name": "world_object.bookcase.name",
     "description": "description.a_large_collection_of_books",
     "command1": "command.search",
     "command2": "command.examine",
@@ -15304,7 +15304,7 @@
   {
     "id": "1093",
     "v1Id": 1093,
-    "name": "name.spray",
+    "name": "world_object.spray.name",
     "description": "description.theres_a_strong_wind",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -15318,7 +15318,7 @@
   {
     "id": "1094",
     "v1Id": 1094,
-    "name": "name.spray",
+    "name": "world_object.spray.name",
     "description": "description.theres_a_strong_wind",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -15346,7 +15346,7 @@
   {
     "id": "1096",
     "v1Id": 1096,
-    "name": "name.brick",
+    "name": "world_object.brick.name",
     "description": "world_object.1096.description",
     "command1": "command.search",
     "command2": "command.examine",
@@ -15444,7 +15444,7 @@
   {
     "id": "1103",
     "v1Id": 1103,
-    "name": "name.brick",
+    "name": "world_object.brick.name",
     "description": "world_object.1103.description",
     "command1": "command.walk_to",
     "command2": "command.examine",
@@ -15640,7 +15640,7 @@
   {
     "id": "1117",
     "v1Id": 1117,
-    "name": "name.boulder",
+    "name": "world_object.boulder.name",
     "description": "description.a_large_boulder_blocking_the",
     "command1": "command.walk_to",
     "command2": "command.smash_to_pieces",
@@ -15780,7 +15780,7 @@
   {
     "id": "1127",
     "v1Id": 1127,
-    "name": "name.beehive",
+    "name": "world_object.beehive.name",
     "description": "world_object.1127.description",
     "command1": "command.walk_to",
     "command2": "command.investigate",
@@ -15822,7 +15822,7 @@
   {
     "id": "1130",
     "v1Id": 1130,
-    "name": "name.fountain",
+    "name": "world_object.fountain.name",
     "description": "world_object.1130.description",
     "command1": "command.walk_to",
     "command2": "command.investigate",
@@ -15850,7 +15850,7 @@
   {
     "id": "1132",
     "v1Id": 1132,
-    "name": "name.barrel",
+    "name": "world_object.barrel.name",
     "description": "world_object.1132.description",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -15864,7 +15864,7 @@
   {
     "id": "1133",
     "v1Id": 1133,
-    "name": "name.barrel",
+    "name": "world_object.barrel.name",
     "description": "world_object.1133.description",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -15878,7 +15878,7 @@
   {
     "id": "1134",
     "v1Id": 1134,
-    "name": "name.barrel",
+    "name": "world_object.barrel.name",
     "description": "world_object.1134.description",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -15892,7 +15892,7 @@
   {
     "id": "1135",
     "v1Id": 1135,
-    "name": "name.barrel",
+    "name": "world_object.barrel.name",
     "description": "world_object.1135.description",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -15906,7 +15906,7 @@
   {
     "id": "1136",
     "v1Id": 1136,
-    "name": "name.barrel",
+    "name": "world_object.barrel.name",
     "description": "world_object.1136.description",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -15920,7 +15920,7 @@
   {
     "id": "1137",
     "v1Id": 1137,
-    "name": "name.barrel",
+    "name": "world_object.barrel.name",
     "description": "world_object.1137.description",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -15962,7 +15962,7 @@
   {
     "id": "1140",
     "v1Id": 1140,
-    "name": "name.gate",
+    "name": "world_object.gate.name",
     "description": "world_object.1140.description",
     "command1": "command.walk_to",
     "command2": "command.investigate",
@@ -16256,7 +16256,7 @@
   {
     "id": "1161",
     "v1Id": 1161,
-    "name": "name.table",
+    "name": "world_object.table.name",
     "description": "world_object.1161.description",
     "command1": "command.walk_to",
     "command2": "command.search",
@@ -16578,7 +16578,7 @@
   {
     "id": "1184",
     "v1Id": 1184,
-    "name": "name.boulder",
+    "name": "world_object.boulder.name",
     "description": "description.a_large_boulder_blocking_the",
     "command1": "command.walk_to",
     "command2": "command.smash_to_pieces",
@@ -16592,7 +16592,7 @@
   {
     "id": "1185",
     "v1Id": 1185,
-    "name": "name.boulder",
+    "name": "world_object.boulder.name",
     "description": "description.a_large_boulder_blocking_the",
     "command1": "command.walk_to",
     "command2": "command.smash_to_pieces",
@@ -16620,7 +16620,7 @@
   {
     "id": "1187",
     "v1Id": 1187,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_upwards",
     "command1": "command.ascend",
     "command2": "command.examine",
@@ -16634,7 +16634,7 @@
   {
     "id": "1188",
     "v1Id": 1188,
-    "name": "name.ladder",
+    "name": "world_object.ladder.name",
     "description": "description.its_a_ladder_leading_downwards",
     "command1": "command.descend",
     "command2": "command.examine",

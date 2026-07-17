@@ -1,3 +1,5 @@
+using System;
+
 using Microsoft.Extensions.Configuration;
 
 using NuciLog;
@@ -17,6 +19,14 @@ namespace OpenRS.Logging
         {
             ILogger logger = new NuciLogger(settings);
             logger.SetSourceContext<T>();
+
+            return logger;
+        }
+
+        internal static ILogger CreateLogger(Type type)
+        {
+            ILogger logger = new NuciLogger(settings);
+            logger.SetSourceContext(type);
 
             return logger;
         }

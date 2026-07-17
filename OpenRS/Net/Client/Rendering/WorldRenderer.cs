@@ -37,7 +37,7 @@ namespace OpenRS.Net.Client.Rendering
                 client.gameCamera.AddModel(newGameObject);
                 newGameObject.UpdateShading(true, 48, 48, -50, -10, -50);
                 newGameObject.CopyTranslation(client.objectArray[objectIndex]);
-                newGameObject.index = objectIndex;
+                newGameObject.Index = objectIndex;
                 client.objectArray[objectIndex] = newGameObject;
             }
         }

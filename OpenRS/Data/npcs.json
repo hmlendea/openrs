@@ -185,10 +185,10 @@
     "isAggressive": 0
   },
   {
-    "id": "5",
+    "id": "hans",
     "v1Id": 5,
-    "name": "npc.5.name",
-    "description": "npc.5.description",
+    "name": "npc.hans.name",
+    "description": "npc.hans.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -259,10 +259,10 @@
     "isAggressive": 0
   },
   {
-    "id": "7",
+    "id": "cook",
     "v1Id": 7,
-    "name": "npc.7.name",
-    "description": "npc.7.description",
+    "name": "npc.cook.name",
+    "description": "npc.cook.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -333,10 +333,10 @@
     "isAggressive": 0
   },
   {
-    "id": "9",
+    "id": "priest",
     "v1Id": 9,
-    "name": "npc.9.name",
-    "description": "npc.9.description",
+    "name": "npc.priest.name",
+    "description": "npc.priest.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -777,7 +777,7 @@
     "isAggressive": 0
   },
   {
-    "id": "21",
+    "id": "mugger",
     "v1Id": 21,
     "name": "npc.mugger.name",
     "description": "npc.mugger.description",
@@ -854,7 +854,7 @@
     "id": "23",
     "v1Id": 23,
     "name": "npc.giant_spider.name",
-    "description": "description.i_think_this_spider_has",
+    "description": "npc.giant_spider.description",
     "command": "command.none",
     "sprites": [
       125,
@@ -1110,7 +1110,7 @@
     "isAggressive": 0
   },
   {
-    "id": "30",
+    "id": "romeo",
     "v1Id": 30,
     "name": "npc.romeo.name",
     "description": "npc.romeo.description",
@@ -1147,7 +1147,7 @@
     "isAggressive": 0
   },
   {
-    "id": "31",
+    "id": "juliet",
     "v1Id": 31,
     "name": "npc.juliet.name",
     "description": "npc.juliet.description",
@@ -1184,7 +1184,7 @@
     "isAggressive": 0
   },
   {
-    "id": "32",
+    "id": "father_lawrence",
     "v1Id": 32,
     "name": "npc.father_lawrence.name",
     "description": "npc.father_lawrence.description",
@@ -1221,7 +1221,7 @@
     "isAggressive": 0
   },
   {
-    "id": "33",
+    "id": "apothecary",
     "v1Id": 33,
     "name": "npc.apothecary.name",
     "description": "npc.apothecary.description",
@@ -1258,7 +1258,7 @@
     "isAggressive": 0
   },
   {
-    "id": "34",
+    "id": "spider",
     "v1Id": 34,
     "name": "npc.spider.name",
     "description": "npc.spider.description",
@@ -1295,7 +1295,7 @@
     "isAggressive": 0
   },
   {
-    "id": "35",
+    "id": "delrith",
     "v1Id": 35,
     "name": "npc.delrith.name",
     "description": "description.a_freshly_summoned_demon",
@@ -1332,7 +1332,7 @@
     "isAggressive": 0
   },
   {
-    "id": "36",
+    "id": "veronica",
     "v1Id": 36,
     "name": "npc.veronica.name",
     "description": "description.she_doesnt_look_too_happy",
@@ -1369,7 +1369,7 @@
     "isAggressive": 0
   },
   {
-    "id": "37",
+    "id": "weaponmaster",
     "v1Id": 37,
     "name": "npc.weaponmaster.name",
     "description": "npc.weaponmaster.description",
@@ -1443,10 +1443,10 @@
     "isAggressive": 0
   },
   {
-    "id": "39",
+    "id": "curator",
     "v1Id": 39,
-    "name": "npc.39.name",
-    "description": "npc.39.description",
+    "name": "npc.curator.name",
+    "description": "npc.curator.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -1890,7 +1890,7 @@
     "id": "51",
     "v1Id": 51,
     "name": "npc.merchant.name",
-    "description": "npc.merchant.description",
+    "description": "npc.male_merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -2075,7 +2075,7 @@
     "id": "56",
     "v1Id": 56,
     "name": "npc.merchant.name",
-    "description": "description.i_can_buy_swords_off",
+    "description": "npc.swords_merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -2741,7 +2741,7 @@
     "id": "74",
     "v1Id": 74,
     "name": "npc.giant_spider.name",
-    "description": "description.i_think_this_spider_has",
+    "description": "npc.giant_spider.description",
     "command": "command.none",
     "sprites": [
       125,
@@ -3037,7 +3037,7 @@
     "id": "82",
     "v1Id": 82,
     "name": "npc.shop_assistant.name",
-    "description": "npc.merchant.description",
+    "description": "npc.male_merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -3074,7 +3074,7 @@
     "id": "83",
     "v1Id": 83,
     "name": "npc.shop_assistant.name",
-    "description": "npc.merchant.description",
+    "description": "npc.male_merchant.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -3108,10 +3108,10 @@
     "isAggressive": 0
   },
   {
-    "id": "84",
+    "id": "zeke",
     "v1Id": 84,
-    "name": "npc.84.name",
-    "description": "npc.84.description",
+    "name": "npc.zeke.name",
+    "description": "npc.zeke.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -3145,10 +3145,10 @@
     "isAggressive": 0
   },
   {
-    "id": "85",
+    "id": "louie_legs",
     "v1Id": 85,
-    "name": "npc.85.name",
-    "description": "npc.85.description",
+    "name": "npc.louie_legs.name",
+    "description": "npc.louie_legs.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -3259,7 +3259,7 @@
     "id": "88",
     "v1Id": 88,
     "name": "npc.shop_assistant.name",
-    "description": "npc.88.description",
+    "description": "npc.female_merchant.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -3293,10 +3293,10 @@
     "isAggressive": 0
   },
   {
-    "id": "89",
+    "id": "highwayman",
     "v1Id": 89,
-    "name": "npc.89.name",
-    "description": "npc.89.description",
+    "name": "npc.highwayman.name",
+    "description": "npc.highwayman.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -3330,10 +3330,10 @@
     "isAggressive": 0
   },
   {
-    "id": "90",
+    "id": "kebab_seller",
     "v1Id": 90,
-    "name": "npc.90.name",
-    "description": "npc.90.description",
+    "name": "npc.kebab_seller.name",
+    "description": "npc.kebab_seller.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -3404,10 +3404,10 @@
     "isAggressive": 0
   },
   {
-    "id": "92",
+    "id": "ernest",
     "v1Id": 92,
-    "name": "npc.92.name",
-    "description": "npc.92.description",
+    "name": "npc.ernest.name",
+    "description": "npc.ernest.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -3441,9 +3441,9 @@
     "isAggressive": 0
   },
   {
-    "id": "93",
+    "id": "monk",
     "v1Id": 93,
-    "name": "npc.93.name",
+    "name": "npc.monk.name",
     "description": "description.a_peaceful_monk",
     "command": "command.none",
     "sprites": [
@@ -3552,10 +3552,10 @@
     "isAggressive": 0
   },
   {
-    "id": "96",
+    "id": "count_draynor",
     "v1Id": 96,
-    "name": "npc.96.name",
-    "description": "npc.96.description",
+    "name": "npc.count_draynor.name",
+    "description": "npc.count_draynor.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -3626,10 +3626,10 @@
     "isAggressive": 0
   },
   {
-    "id": "98",
+    "id": "doctor_harlow",
     "v1Id": 98,
-    "name": "npc.98.name",
-    "description": "npc.98.description",
+    "name": "npc.doctor_harlow.name",
+    "description": "npc.doctor_harlow.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -3663,10 +3663,10 @@
     "isAggressive": 0
   },
   {
-    "id": "99",
+    "id": "deadly_red_spider",
     "v1Id": 99,
-    "name": "npc.99.name",
-    "description": "description.i_think_this_spider_has",
+    "name": "npc.deadly_red_spider.name",
+    "description": "npc.giant_spider.description",
     "command": "command.none",
     "sprites": [
       126,
@@ -3700,10 +3700,10 @@
     "isAggressive": 0
   },
   {
-    "id": "100",
+    "id": "fortress_guard",
     "v1Id": 100,
     "name": "npc.guard.name",
-    "description": "npc.100.description",
+    "description": "npc.fortress_guard.description",
     "command": "command.pickpocket",
     "sprites": [
       0,
@@ -3925,7 +3925,7 @@
     "id": "106",
     "v1Id": 106,
     "name": "npc.shop_assistant.name",
-    "description": "npc.merchant.description",
+    "description": "npc.male_merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -4366,10 +4366,10 @@
     "isAggressive": 0
   },
   {
-    "id": "118",
+    "id": "prince_ali",
     "v1Id": 118,
     "name": "npc.prince_ali.name",
-    "description": "npc.young_prince.description",
+    "description": "npc.prince_ali.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -4662,10 +4662,10 @@
     "isAggressive": 0
   },
   {
-    "id": "126",
+    "id": "prince_ali_disguised",
     "v1Id": 126,
     "name": "npc.prince_ali.name",
-    "description": "npc.126.description",
+    "description": "npc.prince_ali_disguised.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -4813,7 +4813,7 @@
     "id": "130",
     "v1Id": 130,
     "name": "npc.shop_assistant.name",
-    "description": "description.i_can_buy_swords_off",
+    "description": "npc.swords_merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -5405,7 +5405,7 @@
     "id": "146",
     "v1Id": 146,
     "name": "npc.shop_assistant.name",
-    "description": "npc.merchant.description",
+    "description": "npc.male_merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -5920,7 +5920,7 @@
     "isAggressive": 0
   },
   {
-    "id": "160",
+    "id": "thrander",
     "v1Id": 160,
     "name": "npc.thrander.name",
     "description": "npc.thrander.description",
@@ -6031,7 +6031,7 @@
     "isAggressive": 0
   },
   {
-    "id": "163",
+    "id": "customs_officer",
     "v1Id": 163,
     "name": "npc.customs_officer.name",
     "description": "npc.customs_officer.description",
@@ -6068,7 +6068,7 @@
     "isAggressive": 0
   },
   {
-    "id": "164",
+    "id": "luthas",
     "v1Id": 164,
     "name": "npc.luthas.name",
     "description": "npc.luthas.description",
@@ -6105,7 +6105,7 @@
     "isAggressive": 0
   },
   {
-    "id": "165",
+    "id": "zambo",
     "v1Id": 165,
     "name": "npc.zambo.name",
     "description": "npc.zambo.description",
@@ -6256,7 +6256,7 @@
     "id": "169",
     "v1Id": 169,
     "name": "npc.shop_assistant.name",
-    "description": "npc.merchant.description",
+    "description": "npc.male_merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -6512,7 +6512,7 @@
     "isAggressive": 0
   },
   {
-    "id": "176",
+    "id": "brother_jered",
     "v1Id": 176,
     "name": "npc.brother_jered.name",
     "description": "description.human",
@@ -6885,7 +6885,7 @@
     "id": "186",
     "v1Id": 186,
     "name": "npc.shop_assistant.name",
-    "description": "npc.merchant.description",
+    "description": "npc.male_merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -7067,10 +7067,10 @@
     "isAggressive": 0
   },
   {
-    "id": "191",
+    "id": "dwarf_mining_guild_guard",
     "v1Id": 191,
     "name": "npc.dwarf.name",
-    "description": "npc.191.description",
+    "description": "npc.dwarf_mining_guild_guard.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -7474,7 +7474,7 @@
     "isAggressive": 0
   },
   {
-    "id": "202",
+    "id": "blue_dragon",
     "v1Id": 202,
     "name": "npc.blue_dragon.name",
     "description": "npc.blue_dragon.description",
@@ -7511,7 +7511,7 @@
     "isAggressive": 0
   },
   {
-    "id": "203",
+    "id": "baby_blue_dragon",
     "v1Id": 203,
     "name": "npc.baby_blue_dragon.name",
     "description": "npc.baby_blue_dragon.description",
@@ -7548,7 +7548,7 @@
     "isAggressive": 0
   },
   {
-    "id": "204",
+    "id": "kaqemeex",
     "v1Id": 204,
     "name": "npc.kaqemeex.name",
     "description": "npc.kaqemeex.description",
@@ -7585,7 +7585,7 @@
     "isAggressive": 0
   },
   {
-    "id": "205",
+    "id": "sanfew",
     "v1Id": 205,
     "name": "npc.sanfew.name",
     "description": "npc.sanfew.description",
@@ -7622,7 +7622,7 @@
     "isAggressive": 0
   },
   {
-    "id": "206",
+    "id": "suit_of_armour",
     "v1Id": 206,
     "name": "npc.suit_of_armour.name",
     "description": "npc.suit_of_armour.description",
@@ -7659,10 +7659,10 @@
     "isAggressive": 0
   },
   {
-    "id": "207",
+    "id": "cleric_adventurer",
     "v1Id": 207,
     "name": "npc.adventurer.name",
-    "description": "npc.207.description",
+    "description": "npc.cleric_adventurer.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -7696,10 +7696,10 @@
     "isAggressive": 0
   },
   {
-    "id": "208",
+    "id": "wizard_adventurer",
     "v1Id": 208,
     "name": "npc.adventurer.name",
-    "description": "npc.208.description",
+    "description": "npc.wizard_adventurer.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -7773,7 +7773,7 @@
     "id": "210",
     "v1Id": 210,
     "name": "npc.adventurer.name",
-    "description": "npc.210.description",
+    "description": "npc.archer_adventurer.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -7992,7 +7992,7 @@
     "isAggressive": 0
   },
   {
-    "id": "216",
+    "id": "tree_spirit",
     "v1Id": 216,
     "name": "npc.tree_spirit.name",
     "description": "description.ooh_spooky",
@@ -8029,10 +8029,10 @@
     "isAggressive": 0
   },
   {
-    "id": "217",
+    "id": "dairy_cow",
     "v1Id": 217,
     "name": "npc.cow.name",
-    "description": "npc.217.description",
+    "description": "npc.dairy_cow.description",
     "command": "command.none",
     "sprites": [
       128,
@@ -8066,7 +8066,7 @@
     "isAggressive": 0
   },
   {
-    "id": "218",
+    "id": "irksol",
     "v1Id": 218,
     "name": "npc.irksol.name",
     "description": "description.is_he_invisible_or_just",
@@ -8254,7 +8254,7 @@
     "id": "fairy_shop_assistant",
     "v1Id": 223,
     "name": "npc.fairy_shop_assistant.name",
-    "description": "npc.merchant.description",
+    "description": "npc.male_merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -8658,10 +8658,10 @@
     "isAggressive": 0
   },
   {
-    "id": "234",
+    "id": "wilderness_bandit",
     "v1Id": 234,
     "name": "npc.bandit.name",
-    "description": "npc.234.description",
+    "description": "npc.wilderness_bandit.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -9068,7 +9068,7 @@
     "id": "245",
     "v1Id": 245,
     "name": "npc.shapeshifter.name",
-    "description": "description.i_think_this_spider_has",
+    "description": "npc.giant_spider.description",
     "command": "command.none",
     "sprites": [
       125,
@@ -9734,7 +9734,7 @@
     "id": "ice_spider",
     "v1Id": 263,
     "name": "npc.ice_spider.name",
-    "description": "description.i_think_this_spider_has",
+    "description": "npc.giant_spider.description",
     "command": "command.none",
     "sprites": [
       160,
@@ -10807,7 +10807,7 @@
     "id": "poisonous_spider",
     "v1Id": 292,
     "name": "npc.poisonous_spider.name",
-    "description": "description.i_think_this_spider_has",
+    "description": "npc.giant_spider.description",
     "command": "command.none",
     "sprites": [
       166,
@@ -10989,7 +10989,7 @@
     "isAggressive": 0
   },
   {
-    "id": "297",
+    "id": "frincos",
     "v1Id": 297,
     "name": "npc.frincos.name",
     "description": "description.a_peaceful_monk",
@@ -11026,7 +11026,7 @@
     "isAggressive": 0
   },
   {
-    "id": "298",
+    "id": "otherworldly_creature",
     "v1Id": 298,
     "name": "npc.otherworldly_creature.name",
     "description": "description.is_he_invisible_or_just",
@@ -11063,7 +11063,7 @@
     "isAggressive": 0
   },
   {
-    "id": "299",
+    "id": "owen",
     "v1Id": 299,
     "name": "npc.owen.name",
     "description": "description.he_runs_a_fish_exchange",
@@ -11137,7 +11137,7 @@
     "isAggressive": 0
   },
   {
-    "id": "301",
+    "id": "seer",
     "v1Id": 301,
     "name": "npc.seer.name",
     "description": "description.an_old_wizard",
@@ -11285,7 +11285,7 @@
     "isAggressive": 0
   },
   {
-    "id": "305",
+    "id": "barbarian_guard",
     "v1Id": 305,
     "name": "npc.barbarian_guard.name",
     "description": "npc.barbarian_guard.description",
@@ -11433,7 +11433,7 @@
     "isAggressive": 0
   },
   {
-    "id": "309",
+    "id": "dimintheis",
     "v1Id": 309,
     "name": "npc.dimintheis.name",
     "description": "description.a_well_dressed_nobleman",
@@ -11470,7 +11470,7 @@
     "isAggressive": 0
   },
   {
-    "id": "310",
+    "id": "chef",
     "v1Id": 310,
     "name": "npc.chef.name",
     "description": "npc.chef.description",
@@ -11655,7 +11655,7 @@
     "isAggressive": 0
   },
   {
-    "id": "315",
+    "id": "chronozon",
     "v1Id": 315,
     "name": "npc.chronozon.name",
     "description": "npc.chronozon.description",
@@ -11692,7 +11692,7 @@
     "isAggressive": 0
   },
   {
-    "id": "316",
+    "id": "captain_barnaby",
     "v1Id": 316,
     "name": "npc.captain_barnaby.name",
     "description": "npc.aged_sailor.description",
@@ -11729,7 +11729,7 @@
     "isAggressive": 0
   },
   {
-    "id": "317",
+    "id": "customs_official",
     "v1Id": 317,
     "name": "npc.customs_official.name",
     "description": "npc.customs_official.description",
@@ -11914,7 +11914,7 @@
     "isAggressive": 0
   },
   {
-    "id": "322",
+    "id": "knight",
     "v1Id": 322,
     "name": "npc.knight.name",
     "description": "npc.knight.description",
@@ -11988,7 +11988,7 @@
     "isAggressive": 0
   },
   {
-    "id": "324",
+    "id": "hero",
     "v1Id": 324,
     "name": "npc.hero.name",
     "description": "npc.hero.description",
@@ -12025,7 +12025,7 @@
     "isAggressive": 0
   },
   {
-    "id": "325",
+    "id": "baker",
     "v1Id": 325,
     "name": "npc.baker.name",
     "description": "npc.baker.description",
@@ -12136,7 +12136,7 @@
     "isAggressive": 0
   },
   {
-    "id": "328",
+    "id": "silver_merchant",
     "v1Id": 328,
     "name": "npc.silver_merchant.name",
     "description": "npc.silver_merchant.description",
@@ -12210,7 +12210,7 @@
     "isAggressive": 0
   },
   {
-    "id": "330",
+    "id": "germ_merchant",
     "v1Id": 330,
     "name": "npc.germ_merchant.name",
     "description": "npc.gem_merchant.description",
@@ -12247,7 +12247,7 @@
     "isAggressive": 0
   },
   {
-    "id": "331",
+    "id": "zenesha",
     "v1Id": 331,
     "name": "npc.zenesha.name",
     "description": "description.a_merchant_of_some_sort",
@@ -12284,7 +12284,7 @@
     "isAggressive": 0
   },
   {
-    "id": "332",
+    "id": "kangai_mau",
     "v1Id": 332,
     "name": "npc.kangai_mau.name",
     "description": "npc.kangai_mau.description",
@@ -12321,7 +12321,7 @@
     "isAggressive": 0
   },
   {
-    "id": "333",
+    "id": "wizard_cromperty",
     "v1Id": 333,
     "name": "npc.wizard_cromperty.name",
     "description": "description.an_old_wizard",
@@ -12469,7 +12469,7 @@
     "isAggressive": 0
   },
   {
-    "id": "337",
+    "id": "kortan",
     "v1Id": 337,
     "name": "npc.kortan.name",
     "description": "description.he_helps_run_the_adventurers",
@@ -12506,7 +12506,7 @@
     "isAggressive": 0
   },
   {
-    "id": "338",
+    "id": "zoo_keeper",
     "v1Id": 338,
     "name": "npc.zoo_keeper.name",
     "description": "npc.zoo_keeper.description",
@@ -12617,7 +12617,7 @@
     "isAggressive": 0
   },
   {
-    "id": "341",
+    "id": "chuck",
     "v1Id": 341,
     "name": "npc.chuck.name",
     "description": "npc.chuck.description",
@@ -12654,7 +12654,7 @@
     "isAggressive": 0
   },
   {
-    "id": "342",
+    "id": "rogue",
     "v1Id": 342,
     "name": "npc.rogue.name",
     "description": "npc.rogue.description",
@@ -12802,7 +12802,7 @@
     "isAggressive": 0
   },
   {
-    "id": "346",
+    "id": "sinister_stranger",
     "v1Id": 346,
     "name": "npc.sinister_stranger.name",
     "description": "npc.sinister_stranger.description",
@@ -12839,7 +12839,7 @@
     "isAggressive": 0
   },
   {
-    "id": "347",
+    "id": "bonzo",
     "v1Id": 347,
     "name": "npc.bonzo.name",
     "description": "description.fishing_competition_organiser",
@@ -12876,7 +12876,7 @@
     "isAggressive": 0
   },
   {
-    "id": "348",
+    "id": "forester",
     "v1Id": 348,
     "name": "npc.forester.name",
     "description": "npc.forester.description",
@@ -12913,7 +12913,7 @@
     "isAggressive": 0
   },
   {
-    "id": "349",
+    "id": "morris",
     "v1Id": 349,
     "name": "npc.morris.name",
     "description": "description.fishing_competition_organiser",
@@ -12950,7 +12950,7 @@
     "isAggressive": 0
   },
   {
-    "id": "350",
+    "id": "brother_omad",
     "v1Id": 350,
     "name": "npc.brother_omad.name",
     "description": "description.a_peaceful_monk",
@@ -13024,7 +13024,7 @@
     "isAggressive": 0
   },
   {
-    "id": "352",
+    "id": "head_thief",
     "v1Id": 352,
     "name": "npc.head_thief.name",
     "description": "description.a_dastardly_blanket_thief",
@@ -13098,7 +13098,7 @@
     "isAggressive": 0
   },
   {
-    "id": "354",
+    "id": "joshua",
     "v1Id": 354,
     "name": "npc.joshua.name",
     "description": "npc.joshua.description",
@@ -13209,7 +13209,7 @@
     "isAggressive": 0
   },
   {
-    "id": "357",
+    "id": "brother_cedric",
     "v1Id": 357,
     "name": "npc.brother_cedric.name",
     "description": "description.a_peaceful_monk",
@@ -13542,7 +13542,7 @@
     "isAggressive": 0
   },
   {
-    "id": "366",
+    "id": "brother_kojo",
     "v1Id": 366,
     "name": "npc.brother_kojo.name",
     "description": "description.a_peaceful_monk",
@@ -13579,7 +13579,7 @@
     "isAggressive": 0
   },
   {
-    "id": "367",
+    "id": "dungeon_rat",
     "v1Id": 367,
     "name": "npc.dungeon_rat.name",
     "description": "description.overgrown_vermin",
@@ -13653,7 +13653,7 @@
     "isAggressive": 0
   },
   {
-    "id": "369",
+    "id": "orven",
     "v1Id": 369,
     "name": "npc.orven.name",
     "description": "description.he_runs_a_fish_exchange",
@@ -13690,7 +13690,7 @@
     "isAggressive": 0
   },
   {
-    "id": "370",
+    "id": "padik",
     "v1Id": 370,
     "name": "npc.padik.name",
     "description": "description.he_runs_a_fish_exchange",
@@ -13764,7 +13764,7 @@
     "isAggressive": 0
   },
   {
-    "id": "372",
+    "id": "lady_servil",
     "v1Id": 372,
     "name": "npc.lady_servil.name",
     "description": "npc.lady_servil.description",
@@ -13949,7 +13949,7 @@
     "isAggressive": 0
   },
   {
-    "id": "377",
+    "id": "jeremy_servil",
     "v1Id": 377,
     "name": "npc.jeremy_servil.name",
     "description": "description.a_young_squire",
@@ -13986,7 +13986,7 @@
     "isAggressive": 0
   },
   {
-    "id": "378",
+    "id": "justin_servil",
     "v1Id": 378,
     "name": "npc.justin_servil.name",
     "description": "npc.justin_servil.description",
@@ -14023,9 +14023,9 @@
     "isAggressive": 0
   },
   {
-    "id": "379",
+    "id": "fightslave_joe",
     "v1Id": 379,
-    "name": "npc.379.name",
+    "name": "npc.fightslave_joe.name",
     "description": "description.he_looks_mistreated_and_weak",
     "command": "command.none",
     "sprites": [
@@ -14060,9 +14060,9 @@
     "isAggressive": 0
   },
   {
-    "id": "380",
+    "id": "fightslave_kelvin",
     "v1Id": 380,
-    "name": "npc.380.name",
+    "name": "npc.fightslave_kelvin.name",
     "description": "description.he_looks_mistreated_and_weak",
     "command": "command.none",
     "sprites": [
@@ -14097,9 +14097,9 @@
     "isAggressive": 0
   },
   {
-    "id": "381",
+    "id": "local",
     "v1Id": 381,
-    "name": "npc.381.name",
+    "name": "npc.local.name",
     "description": "description.a_scruffy_looking_chap",
     "command": "command.none",
     "sprites": [
@@ -14171,9 +14171,9 @@
     "isAggressive": 0
   },
   {
-    "id": "383",
+    "id": "general_khazard",
     "v1Id": 383,
-    "name": "npc.383.name",
+    "name": "npc.general_khazard.name",
     "description": "description.he_looks_real_nasty",
     "command": "command.none",
     "sprites": [
@@ -14208,10 +14208,10 @@
     "isAggressive": 0
   },
   {
-    "id": "384",
+    "id": "khazard_ogre",
     "v1Id": 384,
-    "name": "npc.384.name",
-    "description": "npc.384.description",
+    "name": "npc.khazard_ogre.name",
+    "description": "npc.khazard_ogre.description",
     "command": "command.none",
     "sprites": [
       7,
@@ -14319,9 +14319,9 @@
     "isAggressive": 0
   },
   {
-    "id": "387",
+    "id": "hengrad",
     "v1Id": 387,
-    "name": "npc.387.name",
+    "name": "npc.hengrad.name",
     "description": "description.he_looks_mistreated_and_weak",
     "command": "command.none",
     "sprites": [
@@ -14356,9 +14356,9 @@
     "isAggressive": 0
   },
   {
-    "id": "388",
+    "id": "bouncer",
     "v1Id": 388,
-    "name": "npc.388.name",
+    "name": "npc.bouncer.name",
     "description": "description.hello_nice_doggy",
     "command": "command.none",
     "sprites": [
@@ -14393,10 +14393,10 @@
     "isAggressive": 0
   },
   {
-    "id": "389",
+    "id": "stankers",
     "v1Id": 389,
-    "name": "npc.389.name",
-    "description": "npc.389.description",
+    "name": "npc.stankers.name",
+    "description": "npc.stankers.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -14430,9 +14430,9 @@
     "isAggressive": 0
   },
   {
-    "id": "390",
+    "id": "docky",
     "v1Id": 390,
-    "name": "npc.390.name",
+    "name": "npc.docky.name",
     "description": "npc.aged_sailor.description",
     "command": "command.none",
     "sprites": [
@@ -14470,7 +14470,7 @@
     "id": "391",
     "v1Id": 391,
     "name": "npc.merchant.name",
-    "description": "npc.merchant.description",
+    "description": "npc.male_merchant.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -14578,10 +14578,10 @@
     "isAggressive": 0
   },
   {
-    "id": "394",
+    "id": "crone",
     "v1Id": 394,
-    "name": "npc.394.name",
-    "description": "npc.394.description",
+    "name": "npc.crone.name",
+    "description": "npc.crone.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -14652,9 +14652,9 @@
     "isAggressive": 0
   },
   {
-    "id": "396",
+    "id": "elkoy",
     "v1Id": 396,
-    "name": "npc.396.name",
+    "name": "npc.elkoy.name",
     "description": "description.its_a_tree_gnome",
     "command": "command.none",
     "sprites": [
@@ -14689,9 +14689,9 @@
     "isAggressive": 0
   },
   {
-    "id": "397",
+    "id": "ramsai",
     "v1Id": 397,
-    "name": "npc.397.name",
+    "name": "npc.ramsai.name",
     "description": "description.its_a_tree_gnome",
     "command": "command.none",
     "sprites": [
@@ -14726,9 +14726,9 @@
     "isAggressive": 0
   },
   {
-    "id": "398",
+    "id": "bolkoy",
     "v1Id": 398,
-    "name": "npc.398.name",
+    "name": "npc.bolkoy.name",
     "description": "description.its_a_tree_gnome",
     "command": "command.none",
     "sprites": [
@@ -14763,10 +14763,10 @@
     "isAggressive": 0
   },
   {
-    "id": "399",
+    "id": "local_gnome",
     "v1Id": 399,
-    "name": "npc.399.name",
-    "description": "npc.399.description",
+    "name": "npc.local_gnome.name",
+    "description": "npc.local_gnome.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -14837,10 +14837,10 @@
     "isAggressive": 0
   },
   {
-    "id": "401",
+    "id": "black_knight_titan",
     "v1Id": 401,
-    "name": "npc.401.name",
-    "description": "npc.401.description",
+    "name": "npc.black_knight_titan.name",
+    "description": "npc.black_knight_titan.description",
     "command": "command.none",
     "sprites": [
       18,
@@ -14874,10 +14874,10 @@
     "isAggressive": 0
   },
   {
-    "id": "402",
+    "id": "kalron",
     "v1Id": 402,
-    "name": "npc.402.name",
-    "description": "npc.402.description",
+    "name": "npc.kalron.name",
+    "description": "npc.kalron.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -15096,9 +15096,9 @@
     "isAggressive": 0
   },
   {
-    "id": "408",
+    "id": "commander_montai",
     "v1Id": 408,
-    "name": "npc.408.name",
+    "name": "npc.commander_montai.name",
     "description": "description.its_a_tree_gnome",
     "command": "command.none",
     "sprites": [
@@ -15133,10 +15133,10 @@
     "isAggressive": 0
   },
   {
-    "id": "409",
+    "id": "gnome_trooper",
     "v1Id": 409,
-    "name": "npc.409.name",
-    "description": "npc.409.description",
+    "name": "npc.gnome_trooper.name",
+    "description": "npc.gnome_trooper.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -15170,9 +15170,9 @@
     "isAggressive": 0
   },
   {
-    "id": "410",
+    "id": "khazard_warlord",
     "v1Id": 410,
-    "name": "npc.410.name",
+    "name": "npc.khazard_warlord.name",
     "description": "description.he_looks_real_nasty",
     "command": "command.none",
     "sprites": [
@@ -15207,10 +15207,10 @@
     "isAggressive": 0
   },
   {
-    "id": "411",
+    "id": "sir_percival",
     "v1Id": 411,
-    "name": "npc.411.name",
-    "description": "npc.411.description",
+    "name": "npc.sir_percival.name",
+    "description": "npc.sir_percival.description",
     "command": "command.none",
     "sprites": [
       19,
@@ -16206,10 +16206,10 @@
     "isAggressive": 0
   },
   {
-    "id": "438",
+    "id": "fatigued_citizen",
     "v1Id": 438,
     "name": "npc.citizen.name",
-    "description": "npc.438.description",
+    "description": "npc.fatigued_male.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -16243,10 +16243,10 @@
     "isAggressive": 0
   },
   {
-    "id": "439",
+    "id": "terrified_citizen",
     "v1Id": 439,
     "name": "npc.citizen.name",
-    "description": "npc.439.description",
+    "description": "npc.terrifid_male.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -16280,10 +16280,10 @@
     "isAggressive": 0
   },
   {
-    "id": "440",
+    "id": "frustrated_citizen",
     "v1Id": 440,
     "name": "npc.citizen.name",
-    "description": "npc.440.description",
+    "description": "npc.frustrated_female.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -16317,10 +16317,10 @@
     "isAggressive": 0
   },
   {
-    "id": "441",
+    "id": "furious_citizen",
     "v1Id": 441,
     "name": "npc.citizen.name",
-    "description": "npc.441.description",
+    "description": "npc.furious_male.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -16354,10 +16354,10 @@
     "isAggressive": 0
   },
   {
-    "id": "442",
+    "id": "disillusioned_citizen",
     "v1Id": 442,
     "name": "npc.citizen.name",
-    "description": "npc.442.description",
+    "description": "npc.disillusioned_female.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -16502,10 +16502,10 @@
     "isAggressive": 0
   },
   {
-    "id": "446",
+    "id": "ted_rehnison",
     "v1Id": 446,
-    "name": "npc.446.name",
-    "description": "npc.446.description",
+    "name": "npc.ted_rehnison.name",
+    "description": "npc.ted_rehnison.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -16576,10 +16576,10 @@
     "isAggressive": 0
   },
   {
-    "id": "448",
+    "id": "billy_rehnison",
     "v1Id": 448,
-    "name": "npc.448.name",
-    "description": "npc.448.description",
+    "name": "npc.billy_rehnison.name",
+    "description": "npc.billy_rehnison.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -16613,10 +16613,10 @@
     "isAggressive": 0
   },
   {
-    "id": "449",
+    "id": "milli_rehnison",
     "v1Id": 449,
-    "name": "npc.449.name",
-    "description": "npc.449.description",
+    "name": "npc.milli_rehnison.name",
+    "description": "npc.milli_rehnison.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -16650,10 +16650,10 @@
     "isAggressive": 0
   },
   {
-    "id": "450",
+    "id": "alrena",
     "v1Id": 450,
-    "name": "npc.450.name",
-    "description": "npc.450.description",
+    "name": "npc.alrena.name",
+    "description": "npc.alrena.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -16724,10 +16724,10 @@
     "isAggressive": 0
   },
   {
-    "id": "452",
+    "id": "clerk",
     "v1Id": 452,
-    "name": "npc.452.name",
-    "description": "npc.452.description",
+    "name": "npc.clerk.name",
+    "description": "npc.clerk.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -16761,10 +16761,10 @@
     "isAggressive": 0
   },
   {
-    "id": "453",
+    "id": "carla",
     "v1Id": 453,
-    "name": "npc.453.name",
-    "description": "npc.453.description",
+    "name": "npc.carla.name",
+    "description": "npc.carla.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -16798,10 +16798,10 @@
     "isAggressive": 0
   },
   {
-    "id": "454",
+    "id": "bravek",
     "v1Id": 454,
-    "name": "npc.454.name",
-    "description": "npc.454.description",
+    "name": "npc.bravek.name",
+    "description": "npc.bravek.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -16983,10 +16983,10 @@
     "isAggressive": 0
   },
   {
-    "id": "459",
+    "id": "kent",
     "v1Id": 459,
-    "name": "npc.459.name",
-    "description": "npc.459.description",
+    "name": "npc.kent.name",
+    "description": "npc.kent.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -17020,10 +17020,10 @@
     "isAggressive": 0
   },
   {
-    "id": "460",
+    "id": "bailey",
     "v1Id": 460,
-    "name": "npc.460.name",
-    "description": "npc.460.description",
+    "name": "npc.bailey.name",
+    "description": "npc.bailey.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -17057,10 +17057,10 @@
     "isAggressive": 0
   },
   {
-    "id": "461",
+    "id": "kennith",
     "v1Id": 461,
-    "name": "npc.461.name",
-    "description": "npc.461.description",
+    "name": "npc.kennith.name",
+    "description": "npc.kennith.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -17242,9 +17242,9 @@
     "isAggressive": 0
   },
   {
-    "id": "466",
+    "id": "jinno",
     "v1Id": 466,
-    "name": "npc.466.name",
+    "name": "npc.jinno.name",
     "description": "description.he_doesnt_seem_to_mind",
     "command": "command.none",
     "sprites": [
@@ -17279,9 +17279,9 @@
     "isAggressive": 0
   },
   {
-    "id": "467",
+    "id": "watto",
     "v1Id": 467,
-    "name": "npc.467.name",
+    "name": "npc.watto.name",
     "description": "description.he_doesnt_seem_to_mind",
     "command": "command.none",
     "sprites": [
@@ -17316,10 +17316,10 @@
     "isAggressive": 0
   },
   {
-    "id": "468",
+    "id": "recruiter",
     "v1Id": 468,
-    "name": "npc.468.name",
-    "description": "npc.468.description",
+    "name": "npc.recruiter.name",
+    "description": "npc.recruiter.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -17353,10 +17353,10 @@
     "isAggressive": 0
   },
   {
-    "id": "469",
+    "id": "head_mourner",
     "v1Id": 469,
-    "name": "npc.469.name",
-    "description": "npc.469.description",
+    "name": "npc.head_mourner.name",
+    "description": "npc.head_mourner.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -17427,9 +17427,9 @@
     "isAggressive": 0
   },
   {
-    "id": "471",
+    "id": "hudon",
     "v1Id": 471,
-    "name": "npc.471.name",
+    "name": "npc.hudon.name",
     "description": "description.a_young_boisterous_looking_lad",
     "command": "command.none",
     "sprites": [
@@ -17464,10 +17464,10 @@
     "isAggressive": 0
   },
   {
-    "id": "472",
+    "id": "hadley",
     "v1Id": 472,
-    "name": "npc.472.name",
-    "description": "npc.472.description",
+    "name": "npc.hadley.name",
+    "description": "npc.hadley.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -17538,10 +17538,10 @@
     "isAggressive": 0
   },
   {
-    "id": "474",
+    "id": "combat_instructor",
     "v1Id": 474,
-    "name": "npc.474.name",
-    "description": "npc.474.description",
+    "name": "npc.combat_instructor.name",
+    "description": "npc.combat_instructor.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -17575,9 +17575,9 @@
     "isAggressive": 0
   },
   {
-    "id": "475",
+    "id": "golrie",
     "v1Id": 475,
-    "name": "npc.475.name",
+    "name": "npc.golrie.name",
     "description": "description.its_a_tree_gnome",
     "command": "command.none",
     "sprites": [
@@ -17649,10 +17649,10 @@
     "isAggressive": 0
   },
   {
-    "id": "477",
+    "id": "king_black_dragon",
     "v1Id": 477,
-    "name": "npc.477.name",
-    "description": "npc.477.description",
+    "name": "npc.king_black_dragon.name",
+    "description": "npc.king_black_dragon.description",
     "command": "command.none",
     "sprites": [
       165,
@@ -17686,10 +17686,10 @@
     "isAggressive": 0
   },
   {
-    "id": "478",
+    "id": "cooking_instructor",
     "v1Id": 478,
-    "name": "npc.478.name",
-    "description": "npc.478.description",
+    "name": "npc.cooking_instructor.name",
+    "description": "npc.cooking_instructor.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -17723,9 +17723,9 @@
     "isAggressive": 0
   },
   {
-    "id": "479",
+    "id": "fishing_instructor",
     "v1Id": 479,
-    "name": "npc.479.name",
+    "name": "npc.fishing_instructor.name",
     "description": "description.he_smells_of_fish",
     "command": "command.none",
     "sprites": [
@@ -17760,10 +17760,10 @@
     "isAggressive": 0
   },
   {
-    "id": "480",
+    "id": "financial_advisor",
     "v1Id": 480,
-    "name": "npc.480.name",
-    "description": "npc.480.description",
+    "name": "npc.financial_advisor.name",
+    "description": "npc.financial_advisor.description",
     "command": "command.none",
     "sprites": [
       7,
@@ -17797,9 +17797,9 @@
     "isAggressive": 0
   },
   {
-    "id": "481",
+    "id": "gerald",
     "v1Id": 481,
-    "name": "npc.481.name",
+    "name": "npc.gerald.name",
     "description": "description.an_old_fisherman",
     "command": "command.none",
     "sprites": [
@@ -17834,9 +17834,9 @@
     "isAggressive": 0
   },
   {
-    "id": "482",
+    "id": "mining_instructor",
     "v1Id": 482,
-    "name": "npc.482.name",
+    "name": "npc.mining_instructor.name",
     "description": "description.a_short_angry_guy",
     "command": "command.none",
     "sprites": [
@@ -17874,7 +17874,7 @@
     "id": "483",
     "v1Id": 483,
     "name": "npc.elena.name",
-    "description": "npc.483.description",
+    "description": "npc.elena.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -17908,10 +17908,10 @@
     "isAggressive": 0
   },
   {
-    "id": "484",
+    "id": "omart",
     "v1Id": 484,
-    "name": "npc.484.name",
-    "description": "npc.484.description",
+    "name": "npc.omart.name",
+    "description": "npc.omart.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -17945,10 +17945,10 @@
     "isAggressive": 0
   },
   {
-    "id": "485",
+    "id": "bank_assistant",
     "v1Id": 485,
-    "name": "npc.485.name",
-    "description": "npc.485.description",
+    "name": "npc.bank_assistant.name",
+    "description": "npc.bank_assistant.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -17982,10 +17982,10 @@
     "isAggressive": 0
   },
   {
-    "id": "486",
+    "id": "jerico",
     "v1Id": 486,
-    "name": "npc.486.name",
-    "description": "npc.486.description",
+    "name": "npc.jerico.name",
+    "description": "npc.jerico.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -18019,10 +18019,10 @@
     "isAggressive": 0
   },
   {
-    "id": "487",
+    "id": "kilron",
     "v1Id": 487,
-    "name": "npc.487.name",
-    "description": "npc.487.description",
+    "name": "npc.kilron.name",
+    "description": "npc.kilron.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -18056,10 +18056,10 @@
     "isAggressive": 0
   },
   {
-    "id": "488",
+    "id": "julie",
     "v1Id": 488,
-    "name": "npc.488.name",
-    "description": "npc.488.description",
+    "name": "npc.julie.name",
+    "description": "npc.julie.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -18241,9 +18241,9 @@
     "isAggressive": 0
   },
   {
-    "id": "493",
+    "id": "wilderness_guide",
     "v1Id": 493,
-    "name": "npc.493.name",
+    "name": "npc.wilderness_guide.name",
     "description": "description.hes_ready_for_a_fight",
     "command": "command.none",
     "sprites": [
@@ -18278,9 +18278,9 @@
     "isAggressive": 0
   },
   {
-    "id": "494",
+    "id": "magic_instructor",
     "v1Id": 494,
-    "name": "npc.494.name",
+    "name": "npc.magic_instructor.name",
     "description": "description.an_old_wizard",
     "command": "command.none",
     "sprites": [
@@ -18352,10 +18352,10 @@
     "isAggressive": 0
   },
   {
-    "id": "496",
+    "id": "community_instructor",
     "v1Id": 496,
-    "name": "npc.496.name",
-    "description": "npc.496.description",
+    "name": "npc.community_instructor.name",
+    "description": "npc.community_instructor.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -18389,9 +18389,9 @@
     "isAggressive": 0
   },
   {
-    "id": "497",
+    "id": "boatman",
     "v1Id": 497,
-    "name": "npc.497.name",
+    "name": "npc.boatman.name",
     "description": "npc.aged_sailor.description",
     "command": "command.none",
     "sprites": [
@@ -18426,9 +18426,9 @@
     "isAggressive": 0
   },
   {
-    "id": "498",
+    "id": "skeleton_mage",
     "v1Id": 498,
-    "name": "npc.498.name",
+    "name": "npc.skeleton_mage.name",
     "description": "description.it_rattles_as_it_walks",
     "command": "command.none",
     "sprites": [
@@ -18463,9 +18463,9 @@
     "isAggressive": 0
   },
   {
-    "id": "499",
+    "id": "controls_guide",
     "v1Id": 499,
-    "name": "npc.499.name",
+    "name": "npc.controls_guide.name",
     "description": "description.hes_ready_for_a_fight",
     "command": "command.none",
     "sprites": [
@@ -18500,10 +18500,10 @@
     "isAggressive": 0
   },
   {
-    "id": "500",
+    "id": "nurse_sarah",
     "v1Id": 500,
-    "name": "npc.500.name",
-    "description": "npc.500.description",
+    "name": "npc.nurse_sarah.name",
+    "description": "npc.nurse_sarah.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -18537,10 +18537,10 @@
     "isAggressive": 0
   },
   {
-    "id": "501",
+    "id": "tailor",
     "v1Id": 501,
-    "name": "npc.501.name",
-    "description": "npc.501.description",
+    "name": "npc.tailor.name",
+    "description": "npc.tailor.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -20461,11 +20461,11 @@
     "isAggressive": 0
   },
   {
-    "id": "553",
+    "id": "mehman",
     "v1Id": 553,
-    "name": "npc.553.name",
-    "description": "npc.553.description",
-    "command": "npc.553.command",
+    "name": "npc.mehman.name",
+    "description": "npc.mehman.description",
+    "command": "npc.mehman.command",
     "sprites": [
       7,
       1,
@@ -20498,10 +20498,10 @@
     "isAggressive": 0
   },
   {
-    "id": "554",
+    "id": "ana",
     "v1Id": 554,
-    "name": "npc.554.name",
-    "description": "npc.554.description",
+    "name": "npc.ana.name",
+    "description": "npc.ana.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -20833,7 +20833,7 @@
   {
     "id": "563",
     "v1Id": 563,
-    "name": "name.femi",
+    "name": "npc.femi.name",
     "description": "description.its_a_little_tree_gnome",
     "command": "command.none",
     "sprites": [
@@ -20870,7 +20870,7 @@
   {
     "id": "564",
     "v1Id": 564,
-    "name": "name.femi",
+    "name": "npc.femi.name",
     "description": "description.its_a_little_tree_gnome",
     "command": "command.none",
     "sprites": [
@@ -20905,9 +20905,9 @@
     "isAggressive": 0
   },
   {
-    "id": "565",
+    "id": "anita",
     "v1Id": 565,
-    "name": "npc.565.name",
+    "name": "npc.anita.name",
     "description": "description.its_a_little_tree_gnome",
     "command": "command.none",
     "sprites": [
@@ -21201,9 +21201,9 @@
     "isAggressive": 0
   },
   {
-    "id": "573",
+    "id": "sigbert_the_adventurer",
     "v1Id": 573,
-    "name": "npc.573.name",
+    "name": "npc.sigbert_the_adventurer.name",
     "description": "description.a_warrior",
     "command": "command.none",
     "sprites": [
@@ -22052,10 +22052,10 @@
     "isAggressive": 0
   },
   {
-    "id": "596",
+    "id": "goalie",
     "v1Id": 596,
-    "name": "npc.596.name",
-    "description": "npc.596.description",
+    "name": "npc.goalie.name",
+    "description": "npc.goalie.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -22237,10 +22237,10 @@
     "isAggressive": 0
   },
   {
-    "id": "601",
+    "id": "referee",
     "v1Id": 601,
-    "name": "npc.601.name",
-    "description": "npc.601.description",
+    "name": "npc.referee.name",
+    "description": "npc.referee.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -22681,9 +22681,9 @@
     "isAggressive": 0
   },
   {
-    "id": "613",
+    "id": "nazastarool_zombie",
     "v1Id": 613,
-    "name": "npc.613.name",
+    "name": "npc.nazastarool_zombie.name",
     "description": "description.one_of_rashaliyas_minions",
     "command": "command.none",
     "sprites": [
@@ -22718,9 +22718,9 @@
     "isAggressive": 0
   },
   {
-    "id": "614",
+    "id": "nazastarool_skeleton",
     "v1Id": 614,
-    "name": "npc.614.name",
+    "name": "npc.nazastarool_skeleton.name",
     "description": "description.one_of_rashaliyas_minions",
     "command": "command.none",
     "sprites": [
@@ -22755,9 +22755,9 @@
     "isAggressive": 0
   },
   {
-    "id": "615",
+    "id": "nazastarool_ghost",
     "v1Id": 615,
-    "name": "npc.615.name",
+    "name": "npc.nazastarool_ghost.name",
     "description": "description.one_of_rashaliyas_minions",
     "command": "command.none",
     "sprites": [
@@ -22829,9 +22829,9 @@
     "isAggressive": 0
   },
   {
-    "id": "617",
+    "id": "jungle_banker",
     "v1Id": 617,
-    "name": "npc.617.name",
+    "name": "npc.jungle_banker.name",
     "description": "description.he_can_look_after_my",
     "command": "command.none",
     "sprites": [
@@ -23164,8 +23164,8 @@
   {
     "id": "626",
     "v1Id": 626,
-    "name": "name.koftik",
-    "description": "description.the_kings_top_tracker",
+    "name": "npc.koftik.name",
+    "description": "npc.koftik.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -23201,8 +23201,8 @@
   {
     "id": "627",
     "v1Id": 627,
-    "name": "name.koftik",
-    "description": "description.the_kings_top_tracker",
+    "name": "npc.koftik.name",
+    "description": "npc.koftik.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -23238,8 +23238,8 @@
   {
     "id": "628",
     "v1Id": 628,
-    "name": "name.koftik",
-    "description": "description.the_kings_top_tracker",
+    "name": "npc.koftik.name",
+    "description": "npc.koftik.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -23275,8 +23275,8 @@
   {
     "id": "629",
     "v1Id": 629,
-    "name": "name.koftik",
-    "description": "description.the_kings_top_tracker",
+    "name": "npc.koftik.name",
+    "description": "npc.koftik.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -23754,9 +23754,9 @@
     "isAggressive": 0
   },
   {
-    "id": "642",
+    "id": "niloof",
     "v1Id": 642,
-    "name": "npc.642.name",
+    "name": "npc.niloof.name",
     "description": "description.a_short_angry_guy",
     "command": "command.none",
     "sprites": [
@@ -23791,9 +23791,9 @@
     "isAggressive": 0
   },
   {
-    "id": "643",
+    "id": "kardia_the_witch",
     "v1Id": 643,
-    "name": "npc.643.name",
+    "name": "npc.kardia_the_witch.name",
     "description": "description.shes_got_warts",
     "command": "command.none",
     "sprites": [
@@ -23865,9 +23865,9 @@
     "isAggressive": 0
   },
   {
-    "id": "645",
+    "id": "othainian",
     "v1Id": 645,
-    "name": "npc.645.name",
+    "name": "npc.othainian.name",
     "description": "description.big_red_and_incredibly_evil",
     "command": "command.none",
     "sprites": [
@@ -23902,9 +23902,9 @@
     "isAggressive": 0
   },
   {
-    "id": "646",
+    "id": "doomion",
     "v1Id": 646,
-    "name": "npc.646.name",
+    "name": "npc.doomion.name",
     "description": "description.a_big_scary_jet_black",
     "command": "command.none",
     "sprites": [
@@ -23939,9 +23939,9 @@
     "isAggressive": 0
   },
   {
-    "id": "647",
+    "id": "holthion",
     "v1Id": 647,
-    "name": "npc.647.name",
+    "name": "npc.holthion.name",
     "description": "description.big_red_and_incredibly_evil",
     "command": "command.none",
     "sprites": [
@@ -23976,9 +23976,9 @@
     "isAggressive": 0
   },
   {
-    "id": "648",
+    "id": "klank",
     "v1Id": 648,
-    "name": "npc.648.name",
+    "name": "npc.klank.name",
     "description": "description.a_short_angry_guy",
     "command": "command.none",
     "sprites": [
@@ -24052,8 +24052,8 @@
   {
     "id": "650",
     "v1Id": 650,
-    "name": "name.koftik",
-    "description": "description.the_kings_top_tracker",
+    "name": "npc.koftik.name",
+    "description": "npc.koftik.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -24309,9 +24309,9 @@
     "isAggressive": 0
   },
   {
-    "id": "657",
+    "id": "kamen",
     "v1Id": 657,
-    "name": "npc.657.name",
+    "name": "npc.kamen.name",
     "description": "description.a_short_angry_guy",
     "command": "command.none",
     "sprites": [
@@ -24385,8 +24385,8 @@
   {
     "id": "659",
     "v1Id": 659,
-    "name": "name.koftik",
-    "description": "description.the_kings_top_tracker",
+    "name": "npc.koftik.name",
+    "description": "npc.koftik.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -24679,10 +24679,10 @@
     "isAggressive": 0
   },
   {
-    "id": "667",
+    "id": "dark_mage",
     "v1Id": 667,
-    "name": "npc.667.name",
-    "description": "npc.667.description",
+    "name": "npc.dark_mage.name",
+    "description": "npc.dark_mage.description",
     "command": "command.none",
     "sprites": [
       6,
@@ -24940,7 +24940,7 @@
   {
     "id": "674",
     "v1Id": 674,
-    "name": "name.skavid",
+    "name": "npc.skavid.name",
     "description": "description.servant_race_to_the_ogres",
     "command": "command.none",
     "sprites": [
@@ -25088,7 +25088,7 @@
   {
     "id": "678",
     "v1Id": 678,
-    "name": "name.skavid",
+    "name": "npc.skavid.name",
     "description": "description.servant_race_to_the_ogres",
     "command": "command.none",
     "sprites": [
@@ -25125,7 +25125,7 @@
   {
     "id": "679",
     "v1Id": 679,
-    "name": "name.skavid",
+    "name": "npc.skavid.name",
     "description": "description.servant_race_to_the_ogres",
     "command": "command.none",
     "sprites": [
@@ -25160,9 +25160,9 @@
     "isAggressive": 0
   },
   {
-    "id": "680",
+    "id": "og",
     "v1Id": 680,
-    "name": "npc.680.name",
+    "name": "npc.og.name",
     "description": "description.the_chieftan_of_this_ogre",
     "command": "command.none",
     "sprites": [
@@ -25197,9 +25197,9 @@
     "isAggressive": 0
   },
   {
-    "id": "681",
+    "id": "grew",
     "v1Id": 681,
-    "name": "npc.681.name",
+    "name": "npc.grew.name",
     "description": "description.the_chieftan_of_this_ogre",
     "command": "command.none",
     "sprites": [
@@ -25234,9 +25234,9 @@
     "isAggressive": 0
   },
   {
-    "id": "682",
+    "id": "toban",
     "v1Id": 682,
-    "name": "npc.682.name",
+    "name": "npc.toban.name",
     "description": "description.the_chieftan_of_this_ogre",
     "command": "command.none",
     "sprites": [
@@ -25382,7 +25382,7 @@
     "isAggressive": 0
   },
   {
-    "id": "686",
+    "id": "ogre_merchant",
     "v1Id": 686,
     "name": "npc.ogre_merchant.name",
     "description": "npc.ogre_merchant.description",
@@ -25419,10 +25419,10 @@
     "isAggressive": 0
   },
   {
-    "id": "687",
+    "id": "ogre_metal_merchant",
     "v1Id": 687,
     "name": "npc.ogre_merchant.name",
-    "description": "npc.687.description",
+    "description": "npc.metal_merchant.description",
     "command": "command.none",
     "sprites": [
       7,
@@ -25456,10 +25456,10 @@
     "isAggressive": 0
   },
   {
-    "id": "688",
+    "id": "ogre_food_merchant_1",
     "v1Id": 688,
     "name": "npc.ogre_merchant.name",
-    "description": "description.he_trades_in_food",
+    "description": "npc.food_merchant.description",
     "command": "command.none",
     "sprites": [
       7,
@@ -25493,10 +25493,10 @@
     "isAggressive": 0
   },
   {
-    "id": "689",
+    "id": "ogre_food_merchant_2",
     "v1Id": 689,
     "name": "npc.ogre_merchant.name",
-    "description": "description.he_trades_in_food",
+    "description": "npc.food_merchant.description",
     "command": "command.none",
     "sprites": [
       7,
@@ -25754,7 +25754,7 @@
   {
     "id": "696",
     "v1Id": 696,
-    "name": "name.skavid",
+    "name": "npc.skavid.name",
     "description": "description.servant_race_to_the_ogres",
     "command": "command.none",
     "sprites": [
@@ -25826,9 +25826,9 @@
     "isAggressive": 0
   },
   {
-    "id": "698",
+    "id": "nulodion",
     "v1Id": 698,
-    "name": "npc.698.name",
+    "name": "npc.nulodion.name",
     "description": "description.hes_the_head_of_black",
     "command": "command.none",
     "sprites": [
@@ -26161,7 +26161,7 @@
   {
     "id": "707",
     "v1Id": 707,
-    "name": "name.skavid",
+    "name": "npc.skavid.name",
     "description": "description.servant_race_to_the_ogres",
     "command": "command.none",
     "sprites": [
@@ -26198,7 +26198,7 @@
   {
     "id": "708",
     "v1Id": 708,
-    "name": "name.skavid",
+    "name": "npc.skavid.name",
     "description": "description.servant_race_to_the_ogres",
     "command": "command.none",
     "sprites": [
@@ -26235,7 +26235,7 @@
   {
     "id": "709",
     "v1Id": 709,
-    "name": "name.skavid",
+    "name": "npc.skavid.name",
     "description": "description.servant_race_to_the_ogres",
     "command": "command.none",
     "sprites": [
@@ -26455,9 +26455,9 @@
     "isAggressive": 0
   },
   {
-    "id": "715",
+    "id": "shilop",
     "v1Id": 715,
-    "name": "npc.715.name",
+    "name": "npc.shilop.name",
     "description": "description.a_young_boisterous_looking_lad",
     "command": "command.none",
     "sprites": [
@@ -28490,9 +28490,9 @@
     "isAggressive": 0
   },
   {
-    "id": "770",
+    "id": "dwarf_cannon_engineer",
     "v1Id": 770,
-    "name": "npc.770.name",
+    "name": "npc.dwarf_cannon_engineer.name",
     "description": "description.hes_the_head_of_black",
     "command": "command.none",
     "sprites": [
@@ -28712,10 +28712,10 @@
     "isAggressive": 0
   },
   {
-    "id": "776",
+    "id": "jungle_savage",
     "v1Id": 776,
-    "name": "npc.776.name",
-    "description": "npc.776.description",
+    "name": "npc.jungle_savage.name",
+    "description": "npc.jungle_savage.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -28860,10 +28860,10 @@
     "isAggressive": 0
   },
   {
-    "id": "780",
+    "id": "tea_seller",
     "v1Id": 780,
-    "name": "npc.780.name",
-    "description": "npc.780.description",
+    "name": "npc.tea_seller.name",
+    "description": "npc.tea_seller.description",
     "command": "command.none",
     "sprites": [
       5,
@@ -28897,10 +28897,10 @@
     "isAggressive": 0
   },
   {
-    "id": "781",
+    "id": "wilough",
     "v1Id": 781,
-    "name": "npc.781.name",
-    "description": "npc.781.description",
+    "name": "npc.wilough.name",
+    "description": "npc.wilough.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -28934,10 +28934,10 @@
     "isAggressive": 0
   },
   {
-    "id": "782",
+    "id": "philop",
     "v1Id": 782,
-    "name": "npc.782.name",
-    "description": "npc.782.description",
+    "name": "npc.philop.name",
+    "description": "npc.philop.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -28971,10 +28971,10 @@
     "isAggressive": 0
   },
   {
-    "id": "783",
+    "id": "kanel",
     "v1Id": 783,
-    "name": "npc.783.name",
-    "description": "npc.783.description",
+    "name": "npc.kanel.name",
+    "description": "npc.kanel.description",
     "command": "command.none",
     "sprites": [
       0,
@@ -29082,10 +29082,10 @@
     "isAggressive": 0
   },
   {
-    "id": "786",
+    "id": "pit_scorpion",
     "v1Id": 786,
-    "name": "npc.786.name",
-    "description": "npc.786.description",
+    "name": "npc.pit_scorpion.name",
+    "description": "npc.pit_scorpion.description",
     "command": "command.none",
     "sprites": [
       143,
@@ -29156,10 +29156,10 @@
     "isAggressive": 0
   },
   {
-    "id": "788",
+    "id": "fionella",
     "v1Id": 788,
-    "name": "npc.788.name",
-    "description": "npc.788.description",
+    "name": "npc.fionella.name",
+    "description": "npc.fionella.description",
     "command": "command.none",
     "sprites": [
       3,
@@ -29341,10 +29341,10 @@
     "isAggressive": 0
   },
   {
-    "id": "793",
+    "id": "lundail",
     "v1Id": 793,
-    "name": "npc.793.name",
-    "description": "npc.793.description",
+    "name": "npc.lundail.name",
+    "description": "npc.lundail.description",
     "command": "command.none",
     "sprites": [
       6,
