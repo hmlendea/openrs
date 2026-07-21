@@ -25,10 +25,10 @@ namespace OpenRS.Net.Client.Rendering
             }
 
             int yPosition = 167 - boxHeight / 2;
-            client.gameGraphics.DrawBox(56, yPosition, 400, boxHeight, 0);
-            client.gameGraphics.DrawBoxEdge(56, yPosition, 400, boxHeight, 0xffffff);
+            client.GameGraphics.DrawBox(56, yPosition, 400, boxHeight, 0);
+            client.GameGraphics.DrawBoxEdge(56, yPosition, 400, boxHeight, 0xffffff);
             yPosition += 20;
-            client.gameGraphics.DrawText(LocalisationManager.GetString("login.welcome_title") + client.loginUsername, 256, yPosition, 4, 0xffff00);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("login.welcome_title") + client.loginUsername, 256, yPosition, 4, 0xffff00);
             yPosition += 30;
             string lastLoginDescription = client.lastLoginDays + " days ago";
 
@@ -43,15 +43,15 @@ namespace OpenRS.Net.Client.Rendering
 
             if (client.lastLoginAddress != "0.0.0.0")
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("login.last_login_prefix") + lastLoginDescription, 256, yPosition, 1, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("login.last_login_prefix") + lastLoginDescription, 256, yPosition, 1, 0xffffff);
                 yPosition += 15;
-                client.gameGraphics.DrawText(LocalisationManager.GetString("login.last_login_from_prefix") + client.lastLoginAddress, 256, yPosition, 1, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("login.last_login_from_prefix") + client.lastLoginAddress, 256, yPosition, 1, 0xffffff);
                 yPosition += 15;
             }
 
             if (client.subDaysLeft > 0)
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("login.subscription_prefix") + client.subDaysLeft + " days", 256, yPosition, 1, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("login.subscription_prefix") + client.subDaysLeft + " days", 256, yPosition, 1, 0xffffff);
                 yPosition += 15;
             }
 
@@ -62,7 +62,7 @@ namespace OpenRS.Net.Client.Rendering
                 closeButtonColour = 0xff0000;
             }
 
-            client.gameGraphics.DrawText(LocalisationManager.GetString("combat.close_window"), 256, yPosition, 1, closeButtonColour);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("combat.close_window"), 256, yPosition, 1, closeButtonColour);
 
             if (client.mouseButtonClick == 1)
             {
@@ -98,13 +98,13 @@ namespace OpenRS.Net.Client.Rendering
         {
             client.loginScreenShown = false;
 
-            if (client.gameGraphics is null)
+            if (client.GameGraphics is null)
             {
                 return;
             }
 
-            client.gameGraphics.IsInterlaced = false;
-            client.gameGraphics.ClearScreen();
+            client.GameGraphics.IsInterlaced = false;
+            client.GameGraphics.ClearScreen();
 
             if (client.loginScreen == 0 ||
                 client.loginScreen == 1 ||
@@ -115,29 +115,29 @@ namespace OpenRS.Net.Client.Rendering
 
                 if (animationFrame < 1024)
                 {
-                    client.gameGraphics.DrawPicture(0, 10, client.baseLoginScreenBackgroundPic);
+                    client.GameGraphics.DrawPicture(0, 10, client.baseLoginScreenBackgroundPic);
 
                     if (animationFrame > 768)
                     {
-                        client.gameGraphics.DrawPicture(0, 10, client.baseLoginScreenBackgroundPic + 1, animationFrame - 768);
+                        client.GameGraphics.DrawPicture(0, 10, client.baseLoginScreenBackgroundPic + 1, animationFrame - 768);
                     }
                 }
                 else if (animationFrame < 2048)
                 {
-                    client.gameGraphics.DrawPicture(0, 10, client.baseLoginScreenBackgroundPic + 1);
+                    client.GameGraphics.DrawPicture(0, 10, client.baseLoginScreenBackgroundPic + 1);
 
                     if (animationFrame > 1792)
                     {
-                        client.gameGraphics.DrawPicture(0, 10, client.baseInventoryPic + 10, animationFrame - 1792);
+                        client.GameGraphics.DrawPicture(0, 10, client.BaseInventoryPic + 10, animationFrame - 1792);
                     }
                 }
                 else
                 {
-                    client.gameGraphics.DrawPicture(0, 10, client.baseInventoryPic + 10);
+                    client.GameGraphics.DrawPicture(0, 10, client.BaseInventoryPic + 10);
 
                     if (animationFrame > 2816)
                     {
-                        client.gameGraphics.DrawPicture(0, 10, client.baseLoginScreenBackgroundPic, animationFrame - 2816);
+                        client.GameGraphics.DrawPicture(0, 10, client.baseLoginScreenBackgroundPic, animationFrame - 2816);
                     }
                 }
             }
@@ -162,7 +162,7 @@ namespace OpenRS.Net.Client.Rendering
                 client.loginMenuLogin.DrawMenu();
             }
 
-            client.gameGraphics.DrawPicture(0, client.windowHeight, client.baseInventoryPic + 22);
+            client.GameGraphics.DrawPicture(0, client.windowHeight, client.BaseInventoryPic + 22);
             client.OnDrawDone();
         }
 

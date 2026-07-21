@@ -11,9 +11,9 @@ namespace OpenRS.Net.Client.Rendering
 
         public void DrawPrayerMagicMenu(bool canClick)
         {
-            int menuX = client.gameGraphics.GameWidth - 199;
+            int menuX = client.GameGraphics.GameWidth - 199;
             int menuY = 36;
-            client.gameGraphics.DrawPicture(menuX - 49, 3, client.baseInventoryPic + 4);
+            client.GameGraphics.DrawPicture(menuX - 49, 3, client.BaseInventoryPic + 4);
             int menuWidth = 196;
             int menuHeight = 182;
             int magicTabColour = GameImage.RgbToInt(160, 160, 160);
@@ -28,15 +28,15 @@ namespace OpenRS.Net.Client.Rendering
                 prayerTabColour = GameImage.RgbToInt(220, 220, 220);
             }
 
-            client.gameGraphics.DrawBoxAlpha(menuX, menuY, menuWidth / 2, 24, magicTabColour, 128);
-            client.gameGraphics.DrawBoxAlpha(menuX + menuWidth / 2, menuY, menuWidth / 2, 24, prayerTabColour, 128);
-            client.gameGraphics.DrawBoxAlpha(menuX, menuY + 24, menuWidth, 90, GameImage.RgbToInt(220, 220, 220), 128);
-            client.gameGraphics.DrawBoxAlpha(menuX, menuY + 24 + 90, menuWidth, menuHeight - 90 - 24, GameImage.RgbToInt(160, 160, 160), 128);
-            client.gameGraphics.DrawLineX(menuX, menuY + 24, menuWidth, 0);
-            client.gameGraphics.DrawLineY(menuX + menuWidth / 2, menuY, 24, 0);
-            client.gameGraphics.DrawLineX(menuX, menuY + 113, menuWidth, 0);
-            client.gameGraphics.DrawText(LocalisationManager.GetString("player.tab_magic"), menuX + menuWidth / 4, menuY + 16, 4, 0);
-            client.gameGraphics.DrawText(LocalisationManager.GetString("player.tab_prayers"), menuX + menuWidth / 4 + menuWidth / 2, menuY + 16, 4, 0);
+            client.GameGraphics.DrawBoxAlpha(menuX, menuY, menuWidth / 2, 24, magicTabColour, 128);
+            client.GameGraphics.DrawBoxAlpha(menuX + menuWidth / 2, menuY, menuWidth / 2, 24, prayerTabColour, 128);
+            client.GameGraphics.DrawBoxAlpha(menuX, menuY + 24, menuWidth, 90, GameImage.RgbToInt(220, 220, 220), 128);
+            client.GameGraphics.DrawBoxAlpha(menuX, menuY + 24 + 90, menuWidth, menuHeight - 90 - 24, GameImage.RgbToInt(160, 160, 160), 128);
+            client.GameGraphics.DrawLineX(menuX, menuY + 24, menuWidth, 0);
+            client.GameGraphics.DrawLineY(menuX + menuWidth / 2, menuY, 24, 0);
+            client.GameGraphics.DrawLineX(menuX, menuY + 113, menuWidth, 0);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("player.tab_magic"), menuX + menuWidth / 4, menuY + 16, 4, 0);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("player.tab_prayers"), menuX + menuWidth / 4 + menuWidth / 2, menuY + 16, 4, 0);
 
             if (client.menuMagicPrayersSelected == 0)
             {
@@ -75,8 +75,8 @@ namespace OpenRS.Net.Client.Rendering
 
                 if (highlightedSpellIndex != -1)
                 {
-                    client.gameGraphics.DrawString(LocalisationManager.GetString("player.spell_level_prefix") + client.entityManager.GetSpell(highlightedSpellIndex).RequiredLevel + ": " + client.entityManager.GetSpell(highlightedSpellIndex).Name, menuX + 2, menuY + 124, 1, 0xffff00);
-                    client.gameGraphics.DrawString(client.entityManager.GetSpell(highlightedSpellIndex).Description, menuX + 2, menuY + 136, 0, 0xffffff);
+                    client.GameGraphics.DrawString(LocalisationManager.GetString("player.spell_level_prefix") + client.entityManager.GetSpell(highlightedSpellIndex).RequiredLevel + ": " + client.entityManager.GetSpell(highlightedSpellIndex).Name, menuX + 2, menuY + 124, 1, 0xffff00);
+                    client.GameGraphics.DrawString(client.entityManager.GetSpell(highlightedSpellIndex).Description, menuX + 2, menuY + 136, 0, 0xffffff);
 
                     int runeDisplayIndex = 0;
 
@@ -98,7 +98,7 @@ namespace OpenRS.Net.Client.Rendering
                             runeCountColour = "@gre@";
                         }
 
-                        client.gameGraphics.DrawString(
+                        client.GameGraphics.DrawString(
                             runeCountColour + runeInventoryCount + "/" + requiredRuneCount,
                             menuX + 2 + runeDisplayIndex * 44,
                             menuY + 150,
@@ -110,7 +110,7 @@ namespace OpenRS.Net.Client.Rendering
                 }
                 else
                 {
-                    client.gameGraphics.DrawString(LocalisationManager.GetString("player.spell_no_description"), menuX + 2, menuY + 124, 1, 0);
+                    client.GameGraphics.DrawString(LocalisationManager.GetString("player.spell_no_description"), menuX + 2, menuY + 124, 1, 0);
                 }
             }
 
@@ -144,13 +144,13 @@ namespace OpenRS.Net.Client.Rendering
                 if (highlightedPrayerIndex != -1)
                 {
                     Prayer highlightedPrayer = client.entityManager.GetPrayer(highlightedPrayerIndex);
-                    client.gameGraphics.DrawText(LocalisationManager.GetString("player.spell_level_prefix") + highlightedPrayer.RequiredLevel + ": " + highlightedPrayer.Name, menuX + menuWidth / 2, menuY + 130, 1, 0xffff00);
-                    client.gameGraphics.DrawText(highlightedPrayer.Description, menuX + menuWidth / 2, menuY + 145, 0, 0xffffff);
-                    client.gameGraphics.DrawText(LocalisationManager.GetString("player.prayer_drain_rate_prefix") + highlightedPrayer.DrainRate, menuX + menuWidth / 2, menuY + 160, 1, 0);
+                    client.GameGraphics.DrawText(LocalisationManager.GetString("player.spell_level_prefix") + highlightedPrayer.RequiredLevel + ": " + highlightedPrayer.Name, menuX + menuWidth / 2, menuY + 130, 1, 0xffff00);
+                    client.GameGraphics.DrawText(highlightedPrayer.Description, menuX + menuWidth / 2, menuY + 145, 0, 0xffffff);
+                    client.GameGraphics.DrawText(LocalisationManager.GetString("player.prayer_drain_rate_prefix") + highlightedPrayer.DrainRate, menuX + menuWidth / 2, menuY + 160, 1, 0);
                 }
                 else
                 {
-                    client.gameGraphics.DrawString(LocalisationManager.GetString("player.prayer_no_description"), menuX + 2, menuY + 124, 1, 0);
+                    client.GameGraphics.DrawString(LocalisationManager.GetString("player.prayer_no_description"), menuX + 2, menuY + 124, 1, 0);
                 }
             }
 
@@ -159,12 +159,12 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            int clickOffsetX = client.mouseX - (client.gameGraphics.GameWidth - 199);
+            int clickOffsetX = client.mouseX - (client.GameGraphics.GameWidth - 199);
             int clickOffsetY = client.mouseY - 36;
 
             if (clickOffsetX >= 0 && clickOffsetY >= 0 && clickOffsetX < 196 && clickOffsetY < 182)
             {
-                client.spellMenu.MouseClick(clickOffsetX + (client.gameGraphics.GameWidth - 199), clickOffsetY + 36, client.lastMouseButton, client.mouseButton);
+                client.spellMenu.MouseClick(clickOffsetX + (client.GameGraphics.GameWidth - 199), clickOffsetY + 36, client.lastMouseButton, client.mouseButton);
 
                 if (clickOffsetY <= 24 && client.mouseButtonClick == 1)
                 {
@@ -262,30 +262,30 @@ namespace OpenRS.Net.Client.Rendering
 
         public void DrawAppearanceWindow()
         {
-            client.gameGraphics.IsInterlaced = false;
-            client.gameGraphics.ClearScreen();
+            client.GameGraphics.IsInterlaced = false;
+            client.GameGraphics.ClearScreen();
             client.appearanceMenu.DrawMenu();
             int previewX = 140 + 116;
             int previewY = 50 - 25;
-            client.gameGraphics.DrawCharacterLegs(previewX - 32 - 55, previewY, 64, 102, client.entityManager.GetAnimation(client.appearance2Colour).SpriteIndex, client.appearanceTopBottomColours[client.appearanceBottomColour]);
-            client.gameGraphics.DrawImage(previewX - 32 - 55, previewY, 64, 102, client.entityManager.GetAnimation(client.appearanceBodyGender).SpriteIndex, client.appearanceTopBottomColours[client.appearanceTopColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
-            client.gameGraphics.DrawImage(previewX - 32 - 55, previewY, 64, 102, client.entityManager.GetAnimation(client.appearanceHeadType).SpriteIndex, client.appearanceHairColours[client.appearanceHairColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
-            client.gameGraphics.DrawCharacterLegs(previewX - 32, previewY, 64, 102, client.entityManager.GetAnimation(client.appearance2Colour).SpriteIndex + 6, client.appearanceTopBottomColours[client.appearanceBottomColour]);
-            client.gameGraphics.DrawImage(previewX - 32, previewY, 64, 102, client.entityManager.GetAnimation(client.appearanceBodyGender).SpriteIndex + 6, client.appearanceTopBottomColours[client.appearanceTopColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
-            client.gameGraphics.DrawImage(previewX - 32, previewY, 64, 102, client.entityManager.GetAnimation(client.appearanceHeadType).SpriteIndex + 6, client.appearanceHairColours[client.appearanceHairColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
-            client.gameGraphics.DrawCharacterLegs(previewX - 32 + 55, previewY, 64, 102, client.entityManager.GetAnimation(client.appearance2Colour).SpriteIndex + 12, client.appearanceTopBottomColours[client.appearanceBottomColour]);
-            client.gameGraphics.DrawImage(previewX - 32 + 55, previewY, 64, 102, client.entityManager.GetAnimation(client.appearanceBodyGender).SpriteIndex + 12, client.appearanceTopBottomColours[client.appearanceTopColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
-            client.gameGraphics.DrawImage(previewX - 32 + 55, previewY, 64, 102, client.entityManager.GetAnimation(client.appearanceHeadType).SpriteIndex + 12, client.appearanceHairColours[client.appearanceHairColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
-            client.gameGraphics.DrawPicture(0, client.windowHeight, client.baseInventoryPic + 22);
+            client.GameGraphics.DrawCharacterLegs(previewX - 32 - 55, previewY, 64, 102, client.entityManager.GetAnimation(client.appearance2Colour).SpriteIndex, client.appearanceTopBottomColours[client.appearanceBottomColour]);
+            client.GameGraphics.DrawImage(previewX - 32 - 55, previewY, 64, 102, client.entityManager.GetAnimation(client.appearanceBodyGender).SpriteIndex, client.appearanceTopBottomColours[client.appearanceTopColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
+            client.GameGraphics.DrawImage(previewX - 32 - 55, previewY, 64, 102, client.entityManager.GetAnimation(client.appearanceHeadType).SpriteIndex, client.appearanceHairColours[client.appearanceHairColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
+            client.GameGraphics.DrawCharacterLegs(previewX - 32, previewY, 64, 102, client.entityManager.GetAnimation(client.appearance2Colour).SpriteIndex + 6, client.appearanceTopBottomColours[client.appearanceBottomColour]);
+            client.GameGraphics.DrawImage(previewX - 32, previewY, 64, 102, client.entityManager.GetAnimation(client.appearanceBodyGender).SpriteIndex + 6, client.appearanceTopBottomColours[client.appearanceTopColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
+            client.GameGraphics.DrawImage(previewX - 32, previewY, 64, 102, client.entityManager.GetAnimation(client.appearanceHeadType).SpriteIndex + 6, client.appearanceHairColours[client.appearanceHairColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
+            client.GameGraphics.DrawCharacterLegs(previewX - 32 + 55, previewY, 64, 102, client.entityManager.GetAnimation(client.appearance2Colour).SpriteIndex + 12, client.appearanceTopBottomColours[client.appearanceBottomColour]);
+            client.GameGraphics.DrawImage(previewX - 32 + 55, previewY, 64, 102, client.entityManager.GetAnimation(client.appearanceBodyGender).SpriteIndex + 12, client.appearanceTopBottomColours[client.appearanceTopColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
+            client.GameGraphics.DrawImage(previewX - 32 + 55, previewY, 64, 102, client.entityManager.GetAnimation(client.appearanceHeadType).SpriteIndex + 12, client.appearanceHairColours[client.appearanceHairColour], client.appearanceSkinColours[client.appearanceSkinColour], 0, false);
+            client.GameGraphics.DrawPicture(0, client.windowHeight, client.BaseInventoryPic + 22);
             client.OnDrawDone();
         }
 
 
         public void DrawStatsQuestsMenu(bool canClick)
         {
-            int menuX = client.gameGraphics.GameWidth - 199;
+            int menuX = client.GameGraphics.GameWidth - 199;
             int menuY = 36;
-            client.gameGraphics.DrawPicture(menuX - 49, 3, client.baseInventoryPic + 3);
+            client.GameGraphics.DrawPicture(menuX - 49, 3, client.BaseInventoryPic + 3);
             int menuWidth = 196;
             int menuHeight = 275;
             int statsTabColour = GameImage.RgbToInt(160, 160, 160);
@@ -300,19 +300,19 @@ namespace OpenRS.Net.Client.Rendering
                 questsTabColour = GameImage.RgbToInt(220, 220, 220);
             }
 
-            client.gameGraphics.DrawBoxAlpha(menuX, menuY, menuWidth / 2, 24, statsTabColour, 128);
-            client.gameGraphics.DrawBoxAlpha(menuX + menuWidth / 2, menuY, menuWidth / 2, 24, questsTabColour, 128);
-            client.gameGraphics.DrawBoxAlpha(menuX, menuY + 24, menuWidth, menuHeight - 24, GameImage.RgbToInt(220, 220, 220), 128);
-            client.gameGraphics.DrawLineX(menuX, menuY + 24, menuWidth, 0);
-            client.gameGraphics.DrawLineY(menuX + menuWidth / 2, menuY, 24, 0);
-            client.gameGraphics.DrawText(LocalisationManager.GetString("player.tab_stats"), menuX + menuWidth / 4, menuY + 16, 4, 0);
-            client.gameGraphics.DrawText(LocalisationManager.GetString("player.tab_quests"), menuX + menuWidth / 4 + menuWidth / 2, menuY + 16, 4, 0);
+            client.GameGraphics.DrawBoxAlpha(menuX, menuY, menuWidth / 2, 24, statsTabColour, 128);
+            client.GameGraphics.DrawBoxAlpha(menuX + menuWidth / 2, menuY, menuWidth / 2, 24, questsTabColour, 128);
+            client.GameGraphics.DrawBoxAlpha(menuX, menuY + 24, menuWidth, menuHeight - 24, GameImage.RgbToInt(220, 220, 220), 128);
+            client.GameGraphics.DrawLineX(menuX, menuY + 24, menuWidth, 0);
+            client.GameGraphics.DrawLineY(menuX + menuWidth / 2, menuY, 24, 0);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("player.tab_stats"), menuX + menuWidth / 4, menuY + 16, 4, 0);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("player.tab_quests"), menuX + menuWidth / 4 + menuWidth / 2, menuY + 16, 4, 0);
 
             if (client.questMenuSelected == 0)
             {
                 int textY = 72;
                 int hoveredSkillIndex = -1;
-                client.gameGraphics.DrawString(LocalisationManager.GetString("player.skills_heading"), menuX + 5, textY, 3, 0xffff00);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("player.skills_heading"), menuX + 5, textY, 3, 0xffff00);
                 textY += 13;
 
                 for (int skillRowIndex = 0; skillRowIndex < 9; skillRowIndex += 1)
@@ -325,7 +325,7 @@ namespace OpenRS.Net.Client.Rendering
                         hoveredSkillIndex = skillRowIndex;
                     }
 
-                    client.gameGraphics.DrawString(client.skillName[skillRowIndex] + ":@yel@" + client.playerStatCurrent[skillRowIndex] + "/" + client.playerStatBase[skillRowIndex], menuX + 5, textY, 1, skillColour);
+                    client.GameGraphics.DrawString(client.skillName[skillRowIndex] + ":@yel@" + client.playerStatCurrent[skillRowIndex] + "/" + client.playerStatBase[skillRowIndex], menuX + 5, textY, 1, skillColour);
                     skillColour = 0xffffff;
 
                     if (client.mouseX >= menuX + 90 && client.mouseY >= textY - 13 - 11 && client.mouseY < textY - 13 + 2 && client.mouseX < menuX + 196)
@@ -334,35 +334,35 @@ namespace OpenRS.Net.Client.Rendering
                         hoveredSkillIndex = skillRowIndex + 9;
                     }
 
-                    client.gameGraphics.DrawString(client.skillName[skillRowIndex + 9] + ":@yel@" + client.playerStatCurrent[skillRowIndex + 9] + "/" + client.playerStatBase[skillRowIndex + 9], menuX + menuWidth / 2 - 5, textY - 13, 1, skillColour);
+                    client.GameGraphics.DrawString(client.skillName[skillRowIndex + 9] + ":@yel@" + client.playerStatCurrent[skillRowIndex + 9] + "/" + client.playerStatBase[skillRowIndex + 9], menuX + menuWidth / 2 - 5, textY - 13, 1, skillColour);
                     textY += 13;
                 }
 
-                client.gameGraphics.DrawString(LocalisationManager.GetString("player.quest_points_prefix") + client.questPoints, menuX + menuWidth / 2 - 5, textY - 13, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("player.quest_points_prefix") + client.questPoints, menuX + menuWidth / 2 - 5, textY - 13, 1, 0xffffff);
                 textY += 12;
-                client.gameGraphics.DrawString(LocalisationManager.GetString("player.fatigue_prefix") + client.fatigue * 100 / 750 + "%", menuX + 5, textY - 13, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("player.fatigue_prefix") + client.fatigue * 100 / 750 + "%", menuX + 5, textY - 13, 1, 0xffffff);
                 textY += 8;
-                client.gameGraphics.DrawString(LocalisationManager.GetString("player.equipment_status"), menuX + 5, textY, 3, 0xffff00);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("player.equipment_status"), menuX + 5, textY, 3, 0xffff00);
                 textY += 12;
 
                 for (int gearRowIndex = 0; gearRowIndex < 3; gearRowIndex += 1)
                 {
-                    client.gameGraphics.DrawString(client.gearStats[gearRowIndex] + ":@yel@" + client.equipmentStatus[gearRowIndex], menuX + 5, textY, 1, 0xffffff);
+                    client.GameGraphics.DrawString(client.gearStats[gearRowIndex] + ":@yel@" + client.equipmentStatus[gearRowIndex], menuX + 5, textY, 1, 0xffffff);
 
                     if (gearRowIndex < 2)
                     {
-                        client.gameGraphics.DrawString(client.gearStats[gearRowIndex + 3] + ":@yel@" + client.equipmentStatus[gearRowIndex + 3], menuX + menuWidth / 2 + 25, textY, 1, 0xffffff);
+                        client.GameGraphics.DrawString(client.gearStats[gearRowIndex + 3] + ":@yel@" + client.equipmentStatus[gearRowIndex + 3], menuX + menuWidth / 2 + 25, textY, 1, 0xffffff);
                     }
 
                     textY += 13;
                 }
 
                 textY += 6;
-                client.gameGraphics.DrawLineX(menuX, textY - 15, menuWidth, 0);
+                client.GameGraphics.DrawLineX(menuX, textY - 15, menuWidth, 0);
 
                 if (hoveredSkillIndex != -1)
                 {
-                    client.gameGraphics.DrawString(client.skillNameVerb[hoveredSkillIndex] + LocalisationManager.GetString("player.skill_hover_suffix"), menuX + 5, textY, 1, 0xffff00);
+                    client.GameGraphics.DrawString(client.skillNameVerb[hoveredSkillIndex] + LocalisationManager.GetString("player.skill_hover_suffix"), menuX + 5, textY, 1, 0xffff00);
                     textY += 12;
                     int nextLevelXp = client.experienceList[0];
 
@@ -374,13 +374,13 @@ namespace OpenRS.Net.Client.Rendering
                         }
                     }
 
-                    client.gameGraphics.DrawString(LocalisationManager.GetString("player.total_xp_prefix") + client.playerStatExp[hoveredSkillIndex], menuX + 5, textY, 1, 0xffffff);
+                    client.GameGraphics.DrawString(LocalisationManager.GetString("player.total_xp_prefix") + client.playerStatExp[hoveredSkillIndex], menuX + 5, textY, 1, 0xffffff);
                     textY += 12;
-                    client.gameGraphics.DrawString(LocalisationManager.GetString("player.next_level_prefix") + nextLevelXp, menuX + 5, textY, 1, 0xffffff);
+                    client.GameGraphics.DrawString(LocalisationManager.GetString("player.next_level_prefix") + nextLevelXp, menuX + 5, textY, 1, 0xffffff);
                 }
                 else
                 {
-                    client.gameGraphics.DrawString(LocalisationManager.GetString("player.overall_levels"), menuX + 5, textY, 1, 0xffff00);
+                    client.GameGraphics.DrawString(LocalisationManager.GetString("player.overall_levels"), menuX + 5, textY, 1, 0xffff00);
                     textY += 12;
                     int totalSkillLevels = 0;
 
@@ -389,9 +389,9 @@ namespace OpenRS.Net.Client.Rendering
                         totalSkillLevels += client.playerStatBase[skillSumIndex];
                     }
 
-                    client.gameGraphics.DrawString(LocalisationManager.GetString("player.skill_total_prefix") + totalSkillLevels, menuX + 5, textY, 1, 0xffffff);
+                    client.GameGraphics.DrawString(LocalisationManager.GetString("player.skill_total_prefix") + totalSkillLevels, menuX + 5, textY, 1, 0xffffff);
                     textY += 12;
-                    client.gameGraphics.DrawString(LocalisationManager.GetString("player.combat_level_prefix") + client.ourPlayer.CombatLevel, menuX + 5, textY, 1, 0xffffff);
+                    client.GameGraphics.DrawString(LocalisationManager.GetString("player.combat_level_prefix") + client.ourPlayer.CombatLevel, menuX + 5, textY, 1, 0xffffff);
                 }
             }
 
@@ -428,14 +428,14 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            int clickOffsetX = client.mouseX - (client.gameGraphics.GameWidth - 199);
+            int clickOffsetX = client.mouseX - (client.GameGraphics.GameWidth - 199);
             int clickOffsetY = client.mouseY - 36;
 
             if (clickOffsetX >= 0 && clickOffsetY >= 0 && clickOffsetX < menuWidth && clickOffsetY < menuHeight)
             {
                 if (client.questMenuSelected == 1)
                 {
-                    client.questMenu.MouseClick(clickOffsetX + (client.gameGraphics.GameWidth - 199), clickOffsetY + 36, client.lastMouseButton, client.mouseButton);
+                    client.questMenu.MouseClick(clickOffsetX + (client.GameGraphics.GameWidth - 199), clickOffsetY + 36, client.lastMouseButton, client.mouseButton);
                 }
 
                 if (clickOffsetY <= 24 && client.mouseButtonClick == 1)

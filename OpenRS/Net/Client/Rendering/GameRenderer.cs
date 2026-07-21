@@ -155,13 +155,13 @@ namespace OpenRS.Net.Client.Rendering
             {
                 if (!client.loggedIn)
                 {
-                    client.gameGraphics.IsLoggedIn = false;
+                    client.GameGraphics.IsLoggedIn = false;
                     loginRenderer.DrawLoginScreens();
                 }
 
                 if (client.loggedIn)
                 {
-                    client.gameGraphics.IsLoggedIn = true;
+                    client.GameGraphics.IsLoggedIn = true;
                     DrawGame();
 
                     return;
@@ -304,8 +304,8 @@ namespace OpenRS.Net.Client.Rendering
 
             if (client.playerAliveTimeout != 0)
             {
-                client.gameGraphics.ScreenFadeToBlack();
-                client.gameGraphics.DrawText(LocalisationManager.GetString("game.player_dead"), client.windowWidth / 2, client.windowHeight / 2, 7, 0xff0000);
+                client.GameGraphics.ScreenFadeToBlack();
+                client.GameGraphics.DrawText(LocalisationManager.GetString("game.player_dead"), client.windowWidth / 2, client.windowHeight / 2, 7, 0xff0000);
                 socialRenderer.DrawChatMessageTabs();
                 client.OnDrawDone();
 
@@ -319,79 +319,79 @@ namespace OpenRS.Net.Client.Rendering
             }
             if (client.isSleeping)
             {
-                client.gameGraphics.ScreenFadeToBlack();
+                client.GameGraphics.ScreenFadeToBlack();
                 if (Helper.Random.NextDouble() < 0.14999999999999999D)
                 {
-                    client.gameGraphics.DrawText("ZZZ", (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
+                    client.GameGraphics.DrawText("ZZZ", (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
                 }
 
                 if (Helper.Random.NextDouble() < 0.14999999999999999D)
                 {
-                    client.gameGraphics.DrawText("ZZZ", 512 - (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
+                    client.GameGraphics.DrawText("ZZZ", 512 - (int)(Helper.Random.NextDouble() * 80D), (int)(Helper.Random.NextDouble() * 334D), 5, (int)(Helper.Random.NextDouble() * 16777215D));
                 }
 
-                client.gameGraphics.DrawBox(client.windowWidth / 2 - 100, 160, 200, 40, 0);
-                client.gameGraphics.DrawText(LocalisationManager.GetString("game.sleeping"), client.windowWidth / 2, 50, 7, 0xffff00);
-                client.gameGraphics.DrawText(LocalisationManager.GetString("game.sleeping_fatigue_prefix") + client.fatigue * 100 / 750 + "%", client.windowWidth / 2, 90, 7, 0xffff00);
-                client.gameGraphics.DrawText(LocalisationManager.GetString("game.sleeping_instruction1"), client.windowWidth / 2, 140, 5, 0xffffff);
-                client.gameGraphics.DrawText(LocalisationManager.GetString("game.sleeping_instruction2"), client.windowWidth / 2, 160, 5, 0xffffff);
-                client.gameGraphics.DrawText(client.inputText + "*", client.windowWidth / 2, 180, 5, 65535);
+                client.GameGraphics.DrawBox(client.windowWidth / 2 - 100, 160, 200, 40, 0);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("game.sleeping"), client.windowWidth / 2, 50, 7, 0xffff00);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("game.sleeping_fatigue_prefix") + client.fatigue * 100 / 750 + "%", client.windowWidth / 2, 90, 7, 0xffff00);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("game.sleeping_instruction1"), client.windowWidth / 2, 140, 5, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("game.sleeping_instruction2"), client.windowWidth / 2, 160, 5, 0xffffff);
+                client.GameGraphics.DrawText(client.inputText + "*", client.windowWidth / 2, 180, 5, 65535);
                 if (client.sleepingStatusText is null)
                 {
-                    client.gameGraphics.DrawPixels(client.captchaPixels, client.windowWidth / 2 - 127, 230, client.captchaWidth, client.captchaHeight);
+                    client.GameGraphics.DrawPixels(client.captchaPixels, client.windowWidth / 2 - 127, 230, client.captchaWidth, client.captchaHeight);
                 }
                 else
                 {
-                    client.gameGraphics.DrawText(client.sleepingStatusText, client.windowWidth / 2, 260, 5, 0xff0000);
+                    client.GameGraphics.DrawText(client.sleepingStatusText, client.windowWidth / 2, 260, 5, 0xff0000);
                 }
 
-                client.gameGraphics.DrawBoxEdge(client.windowWidth / 2 - 128, 229, 257, 42, 0xffffff);
+                client.GameGraphics.DrawBoxEdge(client.windowWidth / 2 - 128, 229, 257, 42, 0xffffff);
                 socialRenderer.DrawChatMessageTabs();
-                client.gameGraphics.DrawText(LocalisationManager.GetString("game.sleeping_captcha_alternative"), client.windowWidth / 2, 290, 1, 0xffffff);
-                client.gameGraphics.DrawText(LocalisationManager.GetString("game.sleeping_captcha_action"), client.windowWidth / 2, 305, 1, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("game.sleeping_captcha_alternative"), client.windowWidth / 2, 290, 1, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("game.sleeping_captcha_action"), client.windowWidth / 2, 305, 1, 0xffffff);
                 client.OnDrawDone();
 
                 return;
             }
 
-            if (!client.engineHandle.playerIsAlive)
+            if (!client.engineHandle.PlayerIsAlive)
             {
                 return;
             }
 
             for (int modelIndex = 0; modelIndex < 64; modelIndex += 1)
             {
-                client.gameCamera.RemoveModel(client.engineHandle.roofObject[client.lastLayerIndex][modelIndex]);
+                client.gameCamera.RemoveModel(client.engineHandle.RoofObject[client.lastLayerIndex][modelIndex]);
 
                 if (client.lastLayerIndex == 0)
                 {
-                    client.gameCamera.RemoveModel(client.engineHandle.wallObject[1][modelIndex]);
-                    client.gameCamera.RemoveModel(client.engineHandle.roofObject[1][modelIndex]);
-                    client.gameCamera.RemoveModel(client.engineHandle.wallObject[2][modelIndex]);
-                    client.gameCamera.RemoveModel(client.engineHandle.roofObject[2][modelIndex]);
+                    client.gameCamera.RemoveModel(client.engineHandle.WallObject[1][modelIndex]);
+                    client.gameCamera.RemoveModel(client.engineHandle.RoofObject[1][modelIndex]);
+                    client.gameCamera.RemoveModel(client.engineHandle.WallObject[2][modelIndex]);
+                    client.gameCamera.RemoveModel(client.engineHandle.RoofObject[2][modelIndex]);
                 }
 
                 client.cameraZoom = true;
 
                 if (client.lastLayerIndex == 0 &&
-                    (client.engineHandle.tiles[client.ourPlayer.LocationX / 128][client.ourPlayer.LocationY / 128] & 0x80) == 0)
+                    (client.engineHandle.Tiles[client.ourPlayer.LocationX / 128][client.ourPlayer.LocationY / 128] & 0x80) == 0)
                 {
                     if (client.showRoofs)
                     {
-                        client.gameCamera.AddModel(client.engineHandle.roofObject[client.lastLayerIndex][modelIndex]);
+                        client.gameCamera.AddModel(client.engineHandle.RoofObject[client.lastLayerIndex][modelIndex]);
 
                         if (client.lastLayerIndex == 0)
                         {
                             // draw wall object at lv 1 / second layer
-                            client.gameCamera.AddModel(client.engineHandle.wallObject[1][modelIndex]);
+                            client.gameCamera.AddModel(client.engineHandle.WallObject[1][modelIndex]);
                             // draw roof object at lv 1 / second layer
-                            client.gameCamera.AddModel(client.engineHandle.roofObject[1][modelIndex]);
+                            client.gameCamera.AddModel(client.engineHandle.RoofObject[1][modelIndex]);
 
                             // draw wall object at lv 2 / third layer
-                            client.gameCamera.AddModel(client.engineHandle.wallObject[2][modelIndex]);
+                            client.gameCamera.AddModel(client.engineHandle.WallObject[2][modelIndex]);
 
                             // draw roof object at lv 2 / third layer
-                            client.gameCamera.AddModel(client.engineHandle.roofObject[2][modelIndex]);
+                            client.gameCamera.AddModel(client.engineHandle.RoofObject[2][modelIndex]);
                         }
                     }
 
@@ -571,9 +571,9 @@ namespace OpenRS.Net.Client.Rendering
                 }
             }
 
-            client.gameGraphics.IsInterlaced = false;
-            client.gameGraphics.ClearScreen();
-            client.gameGraphics.IsInterlaced = client.keyF1Toggle;
+            client.GameGraphics.IsInterlaced = false;
+            client.GameGraphics.ClearScreen();
+            client.GameGraphics.IsInterlaced = client.keyF1Toggle;
             if (client.lastLayerIndex == 3)
             {
                 int lightLevelR = 40 + (int)(Helper.Random.NextDouble() * 3D);
@@ -654,12 +654,12 @@ namespace OpenRS.Net.Client.Rendering
             worldRenderer.DrawAboveHeadThings();
             if (client.actionPictureType > 0)
             {
-                client.gameGraphics.DrawPicture(client.walkMouseX - 8, client.walkMouseY - 8, client.baseInventoryPic + 14 + (24 - client.actionPictureType) / 6);
+                client.GameGraphics.DrawPicture(client.walkMouseX - 8, client.walkMouseY - 8, client.BaseInventoryPic + 14 + (24 - client.actionPictureType) / 6);
             }
 
             if (client.actionPictureType < 0)
             {
-                client.gameGraphics.DrawPicture(client.walkMouseX - 8, client.walkMouseY - 8, client.baseInventoryPic + 18 + (24 + client.actionPictureType) / 6);
+                client.GameGraphics.DrawPicture(client.walkMouseX - 8, client.walkMouseY - 8, client.BaseInventoryPic + 18 + (24 + client.actionPictureType) / 6);
             }
 
             if (client.systemUpdate != 0)
@@ -669,11 +669,11 @@ namespace OpenRS.Net.Client.Rendering
                 seconds %= 60;
                 if (seconds < 10)
                 {
-                    client.gameGraphics.DrawText(LocalisationManager.GetString("game.system_update_prefix") + minutes + ":0" + seconds, 256, client.windowHeight - 7, 1, 0xffff00);
+                    client.GameGraphics.DrawText(LocalisationManager.GetString("game.system_update_prefix") + minutes + ":0" + seconds, 256, client.windowHeight - 7, 1, 0xffff00);
                 }
                 else
                 {
-                    client.gameGraphics.DrawText(LocalisationManager.GetString("game.system_update_prefix") + minutes + ":" + seconds, 256, client.windowHeight - 7, 1, 0xffff00);
+                    client.GameGraphics.DrawText(LocalisationManager.GetString("game.system_update_prefix") + minutes + ":" + seconds, 256, client.windowHeight - 7, 1, 0xffff00);
                 }
             }
             if (!client.loadArea)
@@ -688,9 +688,9 @@ namespace OpenRS.Net.Client.Rendering
                 if (wildernessYDistance > 0)
                 {
                     int wildernessLevel = 1 + wildernessYDistance / 6;
-                    client.gameGraphics.DrawPicture(453, client.windowHeight - 56, client.baseInventoryPic + 13);
-                    client.gameGraphics.DrawText(LocalisationManager.GetString("game.wilderness"), 465, client.windowHeight - 20, 1, 0xffff00);
-                    client.gameGraphics.DrawText(LocalisationManager.GetString("game.wilderness_level_prefix") + wildernessLevel, 465, client.windowHeight - 7, 1, 0xffff00);
+                    client.GameGraphics.DrawPicture(453, client.windowHeight - 56, client.BaseInventoryPic + 13);
+                    client.GameGraphics.DrawText(LocalisationManager.GetString("game.wilderness"), 465, client.windowHeight - 20, 1, 0xffff00);
+                    client.GameGraphics.DrawText(LocalisationManager.GetString("game.wilderness_level_prefix") + wildernessLevel, 465, client.windowHeight - 7, 1, 0xffff00);
 
                     if (client.wildType == 0)
                     {
@@ -710,7 +710,7 @@ namespace OpenRS.Net.Client.Rendering
                     if (client.messagesTimeout[messageIndex] > 0)
                     {
                         string messageText = client.messagesArray[messageIndex];
-                        client.gameGraphics.DrawString(messageText, 7, client.windowHeight - 18 - messageIndex * 12, 1, 0xffff00);
+                        client.GameGraphics.DrawString(messageText, 7, client.windowHeight - 18 - messageIndex * 12, 1, 0xffff00);
                     }
                 }
             }
@@ -733,17 +733,17 @@ namespace OpenRS.Net.Client.Rendering
             Menu.chatMenuTextHeightMod = 2;
             client.chatInputMenu.DrawMenu();
             Menu.chatMenuTextHeightMod = 0;
-            client.gameGraphics.DrawPicture(client.gameGraphics.GameWidth - 3 - 197, 3, client.baseInventoryPic, 128);
+            client.GameGraphics.DrawPicture(client.GameGraphics.GameWidth - 3 - 197, 3, client.BaseInventoryPic, 128);
 
             DrawMenus();
 
-            client.gameGraphics.IsLoggedIn = false;
+            client.GameGraphics.IsLoggedIn = false;
             socialRenderer.DrawChatMessageTabs();
 
             string text = "Coordinates: ( " + (client.sectionX + client.areaX) + "," + (client.sectionY + client.areaY) + " ) Section: (" + client.sectionX + "," + client.sectionY + ") Area: (" + client.areaX + "," + client.areaY + ")";
             // Text shadow
-            client.gameGraphics.DrawString(text, 10 + 11, 10 + 11, 1, 0x000000);
-            client.gameGraphics.DrawString(text, 10 + 10, 10 + 10, 1, 0xffffff);
+            client.GameGraphics.DrawString(text, 10 + 11, 10 + 11, 1, 0x000000);
+            client.GameGraphics.DrawString(text, 10 + 10, 10 + 10, 1, 0xffffff);
             client.OnDrawDone();
         }
     }

@@ -628,7 +628,7 @@ namespace OpenRS.Net.Client
         public int[] groundItemY;
         public int[] groundItemID;
         public int[] groundItemObjectVar;
-        public GameImageMiddleMan gameGraphics;
+        public GameImageMiddleMan GameGraphics;
         public int maxBankItems;
         public int tradeConfirmOtherItemCount;
         public int[] tradeConfirmOtherItems;
@@ -716,7 +716,7 @@ namespace OpenRS.Net.Client
         public int duelOpponentStakeCount;
         public int[] duelOpponentStakeItem;
         public int[] duelOutStakeItemCount;
-        public int baseInventoryPic;
+        public int BaseInventoryPic;
         public int baseScrollPic;
         public int baseItemPicture;
         public int baseProjectilePic;

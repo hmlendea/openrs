@@ -7,23 +7,23 @@ namespace OpenRS.Net.Client.Rendering
         public void DrawWildernessAlertBox()
         {
             int textY = 97;
-            client.gameGraphics.DrawBox(86, 77, 340, 180, 0);
-            client.gameGraphics.DrawBoxEdge(86, 77, 340, 180, 0xffffff);
-            client.gameGraphics.DrawText(LocalisationManager.GetString("combat.wilderness_warning_title"), 256, textY, 4, 0xff0000);
+            client.GameGraphics.DrawBox(86, 77, 340, 180, 0);
+            client.GameGraphics.DrawBoxEdge(86, 77, 340, 180, 0xffffff);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("combat.wilderness_warning_title"), 256, textY, 4, 0xff0000);
             textY += 26;
-            client.gameGraphics.DrawText(LocalisationManager.GetString("combat.wilderness_warning_line1"), 256, textY, 1, 0xffffff);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("combat.wilderness_warning_line1"), 256, textY, 1, 0xffffff);
             textY += 13;
-            client.gameGraphics.DrawText(LocalisationManager.GetString("combat.wilderness_warning_line2"), 256, textY, 1, 0xffffff);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("combat.wilderness_warning_line2"), 256, textY, 1, 0xffffff);
             textY += 13;
-            client.gameGraphics.DrawText(LocalisationManager.GetString("combat.wilderness_warning_line3"), 256, textY, 1, 0xffffff);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("combat.wilderness_warning_line3"), 256, textY, 1, 0xffffff);
             textY += 22;
-            client.gameGraphics.DrawText(LocalisationManager.GetString("combat.wilderness_warning_line4"), 256, textY, 1, 0xffffff);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("combat.wilderness_warning_line4"), 256, textY, 1, 0xffffff);
             textY += 13;
-            client.gameGraphics.DrawText(LocalisationManager.GetString("combat.wilderness_warning_line5"), 256, textY, 1, 0xffffff);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("combat.wilderness_warning_line5"), 256, textY, 1, 0xffffff);
             textY += 22;
-            client.gameGraphics.DrawText(LocalisationManager.GetString("combat.wilderness_warning_line6"), 256, textY, 1, 0xffffff);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("combat.wilderness_warning_line6"), 256, textY, 1, 0xffffff);
             textY += 13;
-            client.gameGraphics.DrawText(LocalisationManager.GetString("combat.wilderness_warning_line7"), 256, textY, 1, 0xffffff);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("combat.wilderness_warning_line7"), 256, textY, 1, 0xffffff);
             textY += 22;
             int closeLinkColour = 0xffffff;
 
@@ -32,7 +32,7 @@ namespace OpenRS.Net.Client.Rendering
                 closeLinkColour = 0xff0000;
             }
 
-            client.gameGraphics.DrawText(LocalisationManager.GetString("combat.close_window"), 256, textY, 1, closeLinkColour);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("combat.close_window"), 256, textY, 1, closeLinkColour);
 
             if (client.mouseButtonClick != 0)
             {

@@ -200,7 +200,7 @@ namespace OpenRS.Gui.Controls
 
         private void DrawMinimapMenu(SpriteBatch spriteBatch)
         {
-            if (client.gameGraphics is null || !client.loggedIn || client.CurrentPlayer is null)
+            if (client.GameGraphics is null || !client.loggedIn || client.CurrentPlayer is null)
             {
                 return;
             }

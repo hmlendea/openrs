@@ -196,7 +196,7 @@ namespace OpenRS.Gui.Screens
                     catch { }
                 }
 
-                if (gameClient.gameGraphics is not null)
+                if (gameClient.GameGraphics is not null)
                 {
                     if (!isSectionLoading)
                     {
@@ -205,11 +205,11 @@ namespace OpenRS.Gui.Screens
                             return;
                         }
 
-                        uint[] pixelColours = new uint[gameClient.gameGraphics.Pixels.Length];
+                        uint[] pixelColours = new uint[gameClient.GameGraphics.Pixels.Length];
 
-                        for (int pixelIndex = 0; pixelIndex < gameClient.gameGraphics.Pixels.Length; pixelIndex += 1)
+                        for (int pixelIndex = 0; pixelIndex < gameClient.GameGraphics.Pixels.Length; pixelIndex += 1)
                         {
-                            byte[] pixelBytes = BitConverter.GetBytes(gameClient.gameGraphics.Pixels[pixelIndex]);
+                            byte[] pixelBytes = BitConverter.GetBytes(gameClient.GameGraphics.Pixels[pixelIndex]);
                             byte redChannel = pixelBytes[RedChannelByteIndex];
                             byte greenChannel = pixelBytes[GreenChannelByteIndex];
                             byte blueChannel = pixelBytes[BlueChannelByteIndex];
@@ -222,8 +222,8 @@ namespace OpenRS.Gui.Screens
                         {
                             Texture2D imageTexture = new(
                                 GraphicsManager.Instance.Graphics.GraphicsDevice,
-                                gameClient.gameGraphics.GameWidth,
-                                gameClient.gameGraphics.GameHeight,
+                                gameClient.GameGraphics.GameWidth,
+                                gameClient.GameGraphics.GameHeight,
                                 false,
                                 SurfaceFormat.Color);
                             imageTexture.SetData(pixelColours);
@@ -364,7 +364,7 @@ namespace OpenRS.Gui.Screens
         {
             gameClient.Paint(GameClient.graphics);
 
-            if (gameClient.memoryError || gameClient.gameGraphics is null)
+            if (gameClient.memoryError || gameClient.GameGraphics is null)
             {
                 return false;
             }
@@ -373,13 +373,13 @@ namespace OpenRS.Gui.Screens
             {
                 if (!gameClient.loggedIn)
                 {
-                    gameClient.gameGraphics.IsLoggedIn = false;
+                    gameClient.GameGraphics.IsLoggedIn = false;
                     gameClient.DrawLoginScreens();
                 }
 
                 if (gameClient.loggedIn)
                 {
-                    gameClient.gameGraphics.IsLoggedIn = true;
+                    gameClient.GameGraphics.IsLoggedIn = true;
                     gameClient.DrawGame();
 
                     return true;

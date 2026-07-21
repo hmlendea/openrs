@@ -989,8 +989,8 @@
   {
     "id": "58",
     "v1Id": 58,
-    "name": "item.58.name",
-    "description": "item.58.description",
+    "name": "item.potionname",
+    "description": "item.potiondescription",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -8537,7 +8537,7 @@
   {
     "id": "502",
     "v1Id": 502,
-    "name": "item.502.name",
+    "name": "item.raw_bear_meat.name",
     "description": "description.i_need_to_cook_this_first",
     "command": "command.none",
     "basePrice": 1,
@@ -8554,7 +8554,7 @@
   {
     "id": "503",
     "v1Id": 503,
-    "name": "item.503.name",
+    "name": "item.raw_rat_meat.name",
     "description": "description.i_need_to_cook_this_first",
     "command": "command.none",
     "basePrice": 1,
@@ -8571,7 +8571,7 @@
   {
     "id": "504",
     "v1Id": 504,
-    "name": "item.504.name",
+    "name": "item.raw_beef.name",
     "description": "description.i_need_to_cook_this_first",
     "command": "command.none",
     "basePrice": 1,
@@ -8588,7 +8588,7 @@
   {
     "id": "505",
     "v1Id": 505,
-    "name": "item.505.name",
+    "name": "item.enchanted_bear_meat.name",
     "description": "description.i_dont_fancy_eating_this",
     "command": "command.none",
     "basePrice": 1,
@@ -8605,7 +8605,7 @@
   {
     "id": "506",
     "v1Id": 506,
-    "name": "item.506.name",
+    "name": "item.enchanted_rat_meat.name",
     "description": "description.i_dont_fancy_eating_this",
     "command": "command.none",
     "basePrice": 1,
@@ -8622,7 +8622,7 @@
   {
     "id": "507",
     "v1Id": 507,
-    "name": "item.507.name",
+    "name": "item.enchanted_beef.name",
     "description": "description.i_dont_fancy_eating_this",
     "command": "command.none",
     "basePrice": 1,
@@ -8639,7 +8639,7 @@
   {
     "id": "508",
     "v1Id": 508,
-    "name": "item.508.name",
+    "name": "item.enchanted_chicken_meat.name",
     "description": "description.i_dont_fancy_eating_this",
     "command": "command.none",
     "basePrice": 1,
@@ -9727,8 +9727,8 @@
   {
     "id": "572",
     "v1Id": 572,
-    "name": "item.572.name",
-    "description": "item.572.description",
+    "name": "item.weapon_poison.name",
+    "description": "item.weapon_poison.description",
     "command": "command.none",
     "basePrice": 144,
     "spriteId": 0,
@@ -9744,8 +9744,8 @@
   {
     "id": "573",
     "v1Id": 573,
-    "name": "item.573.name",
-    "description": "item.573.description",
+    "name": "item.identification_documentname",
+    "description": "item.identification_documentdescription",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -9778,8 +9778,8 @@
   {
     "id": "575",
     "v1Id": 575,
-    "name": "item.575.name",
-    "description": "item.575.description",
+    "name": "item.christmas_crackername",
+    "description": "item.christmas_crackerdescription",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -9897,8 +9897,8 @@
   {
     "id": "582",
     "v1Id": 582,
-    "name": "item.582.name",
-    "description": "item.582.description",
+    "name": "item.miscellaneous_keyname",
+    "description": "item.miscellaneous_keydescription",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -9914,8 +9914,8 @@
   {
     "id": "583",
     "v1Id": 583,
-    "name": "item.583.name",
-    "description": "item.583.description",
+    "name": "item.bunch_of_keysname",
+    "description": "item.bunch_of_keysdescription",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -9948,8 +9948,8 @@
   {
     "id": "585",
     "v1Id": 585,
-    "name": "item.585.name",
-    "description": "item.585.description",
+    "name": "item.candlestick.name",
+    "description": "item.candlestick.description",
     "command": "command.none",
     "basePrice": 5,
     "spriteId": 0,
@@ -9965,8 +9965,8 @@
   {
     "id": "586",
     "v1Id": 586,
-    "name": "item.586.name",
-    "description": "item.586.description",
+    "name": "item.master_thief_armband.name",
+    "description": "item.master_thief_armband.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -10152,9 +10152,9 @@
   {
     "id": "597",
     "v1Id": 597,
-    "name": "item.597.name",
+    "name": "item.charged_dragonstone_amulet.name",
     "description": "description.a_very_powerful_amulet",
-    "command": "item.597.command",
+    "command": "item.charged_dragonstone_amulet.command",
     "basePrice": 17625,
     "spriteId": 0,
     "inventoryPicture": 125,
@@ -11053,7 +11053,7 @@
   {
     "id": "650",
     "v1Id": 650,
-    "name": "item.650.name",
+    "name": "item.willow_longbow.name",
     "description": "description.a_nice_sturdy_bow",
     "command": "command.none",
     "basePrice": 320,
@@ -11070,7 +11070,7 @@
   {
     "id": "651",
     "v1Id": 651,
-    "name": "item.651.name",
+    "name": "item.willow_shortbow.name",
     "description": "description.short_but_effective",
     "command": "command.none",
     "basePrice": 200,

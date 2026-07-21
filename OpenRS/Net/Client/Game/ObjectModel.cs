@@ -1,243 +1,136 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenRS.Net.Client.Game
 {
-
-    public sealed class ObjectModel
+    public sealed class ObjectModel(IEnumerable<Vertex> vertices, IEnumerable<Face> faces)
     {
+        private static float FullRotationDegrees => 360F;
 
-        private List<Vertex> vertices;
-        private List<Face> faces;
-        private float xRot;
-        private float yRot;
-        private float zRot;
-        private float xScale;
-        private float yScale;
-        private float zScale;
-        private float xTranslate;
-        private float yTranslate;
-        private float zTranslate;
-        private int numTextures;
+        private float xRotation;
+        private float yRotation;
+        private float zRotation;
+        private List<Vertex> vertices = CreateVertexList(vertices);
+        private List<Face> faces = CreateFaceList(faces);
 
-        public ObjectModel(List<Vertex> vertices, List<Face> faces)
+        public IEnumerable<Vertex> Vertices
         {
-            this.vertices = vertices;// new ClonableStack<Vertex>();
-            this.faces = faces;// new Vector();
-            // this.faces = faces;
-            // this.vertices = vertices;
-            xRot = yRot = zRot = 0.0F;
-            xScale = yScale = zScale = 1.0F;
-            xTranslate = yTranslate = zTranslate = 0.0F;
+            get => vertices;
+            set => vertices = CreateVertexList(value);
         }
 
-        public ObjectModel(List<Vertex> vertices, List<Face> faces, List<Vertex> vertices1, List<Face> faces1)
+        public IEnumerable<Face> Faces
         {
-            this.vertices = vertices; //new Vector();
-            this.faces = faces;//new Vector();
-            //this.faces = faces;
-            //this.vertices = vertices;
-            xRot = yRot = zRot = 0.0F;
-            xScale = yScale = zScale = 1.0F;
-            xTranslate = yTranslate = zTranslate = 0.0F;
+            get => faces;
+            set => faces = CreateFaceList(value);
         }
+
+        public float XRotation
+        {
+            get => xRotation;
+            set => xRotation = ClampRotation(value);
+        }
+
+        public float YRotation
+        {
+            get => yRotation;
+            set => yRotation = ClampRotation(value);
+        }
+
+        public float ZRotation
+        {
+            get => zRotation;
+            set => zRotation = ClampRotation(value);
+        }
+
+        public float XScale { get; set; } = 1.0F;
+
+        public float YScale { get; set; } = 1.0F;
+
+        public float ZScale { get; set; } = 1.0F;
+
+        public float XTranslation { get; set; }
+
+        public float YTranslation { get; set; }
+
+        public float ZTranslation { get; set; }
+
+        public int TextureCount { get; set; }
 
         public ObjectModel()
+            : this([], [])
         {
-            vertices = [];
-            faces = [];
-            // faces = new Vector();
-            // vertices = new Vector();
-            xRot = yRot = zRot = 0.0F;
-            xScale = yScale = zScale = 1.0F;
-            xTranslate = yTranslate = zTranslate = 0.0F;
         }
 
         public void AddFace(Face face)
-        {
-            faces.Add(face);
-        }
+            => faces.Add(face);
 
-        public Face GetFace(int i)
-        {
-            return faces[i];
-        }
+        public Face GetFace(int index)
+            => faces[index];
 
-        public Face RemoveFace(int i)
+        public Face RemoveFace(int index)
         {
-            Face face = faces[i];
+            Face face = faces[index];
             faces.Remove(face);
+
             return face;
         }
 
-        public List<Face> GetFaces()
-        {
-            return faces;
-        }
+        public void AddVertex(Vertex vertex)
+            => vertices.Add(vertex);
 
-        public void AddVert(Vertex vertex)
-        {
-            vertices.Add(vertex);
-        }
+        public Vertex GetVertex(int index)
+            => vertices[index];
 
-        public Vertex RemoveVertex(int i)
+        public Vertex RemoveVertex(int index)
         {
-            Vertex vertex2 = vertices[i];
-            vertices.Remove(vertex2);
-            return vertex2;
-        }
+            Vertex vertex = vertices[index];
+            vertices.Remove(vertex);
 
-        public Vertex GetVertex(int i)
-        {
-            return vertices[i];
-        }
-
-        public List<Vertex> GetVertices()
-        {
-            return vertices;
-        }
-
-        public void SetVertices(List<Vertex> vertices)
-        {
-            this.vertices = vertices;
-        }
-
-        public void SetFaces(List<Face> faces)
-        {
-            this.faces = faces;
-        }
-
-        public float GetXRot()
-        {
-            return xRot;
-        }
-
-        public void SetXRot(float xRot)
-        {
-            if (xRot > 360F)
-            {
-                xRot -= 360F;
-            }
-            else
-                if (xRot < -360F)
-                {
-                    xRot += 360F;
-                }
-            this.xRot = xRot;
-        }
-
-        public float GetYRot()
-        {
-            return yRot;
-        }
-
-        public void SetYRot(float yRot)
-        {
-            if (yRot > 360F)
-            {
-                yRot -= 360F;
-            }
-            else
-                if (yRot < -360F)
-                {
-                    yRot += 360F;
-                }
-            this.yRot = yRot;
-        }
-
-        public float GetZRot()
-        {
-            return zRot;
-        }
-
-        public void SetZRot(float zRot)
-        {
-            if (zRot > 360F)
-            {
-                zRot -= 360F;
-            }
-            else
-                if (zRot < -360F)
-                {
-                    zRot += 360F;
-                }
-            this.zRot = zRot;
-        }
-
-        public float GetXScale()
-        {
-            return xScale;
-        }
-
-        public void SetXScale(float xScale)
-        {
-            this.xScale = xScale;
-        }
-
-        public float GetYScale()
-        {
-            return yScale;
-        }
-
-        public void SetYScale(float yScale)
-        {
-            this.yScale = yScale;
-        }
-
-        public float GetZScale()
-        {
-            return zScale;
-        }
-
-        public void SetZScale(float zScale)
-        {
-            this.zScale = zScale;
+            return vertex;
         }
 
         public void SetScale(float scale)
         {
-            SetXScale(scale);
-            SetYScale(scale);
-            SetZScale(scale);
+            XScale = scale;
+            YScale = scale;
+            ZScale = scale;
         }
 
-        public float GetXTranslate()
+        private static float ClampRotation(float rotation)
         {
-            return xTranslate;
+            if (rotation > FullRotationDegrees)
+            {
+                return rotation - FullRotationDegrees;
+            }
+
+            if (rotation < -FullRotationDegrees)
+            {
+                return rotation + FullRotationDegrees;
+            }
+
+            return rotation;
         }
 
-        public void SetXTranslate(float xTranslate)
-        {
-            this.xTranslate = xTranslate;
-        }
+        private static List<Face> CreateFaceList(IEnumerable<Face> faces)
+            => ValidateCollection(faces, nameof(faces)).ToList();
 
-        public float GetYTranslate()
-        {
-            return yTranslate;
-        }
+        private static List<Vertex> CreateVertexList(IEnumerable<Vertex> vertices)
+            => ValidateCollection(vertices, nameof(vertices)).ToList();
 
-        public void SetYTranslate(float yTranslate)
+        private static IEnumerable<TItem> ValidateCollection<TItem>(
+            IEnumerable<TItem> items,
+            string parameterName)
         {
-            this.yTranslate = yTranslate;
-        }
+            if (items is null)
+            {
+                throw new ArgumentNullException(
+                    parameterName,
+                    $"The {parameterName} collection cannot be null.");
+            }
 
-        public float GetZTranslate()
-        {
-            return zTranslate;
-        }
-
-        public void SetZTranslate(float zTranslate)
-        {
-            this.zTranslate = zTranslate;
-        }
-
-        public void SetNumTextures(int numTextures)
-        {
-            this.numTextures = numTextures;
-        }
-
-        public int GetNumTextures()
-        {
-            return numTextures;
+            return items;
         }
     }
 }

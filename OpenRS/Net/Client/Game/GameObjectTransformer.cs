@@ -2,6 +2,16 @@ namespace OpenRS.Net.Client.Game
 {
     internal static class GameObjectTransformer
     {
+        private static int FarBound => 0x98967f;
+
+        private static int RotationShift => 15;
+
+        private static int TransformShift => 8;
+
+        private static int RotationCosineTableOffset => 256;
+
+        private static int FineRotationCosineTableOffset => 1024;
+
         internal static void ApplyNullTransform(GameObject gameObject)
         {
             gameObject.ObjectState = 0;
@@ -13,9 +23,13 @@ namespace OpenRS.Net.Client.Game
                 gameObject.WorldVertZ[vertexIndex] = gameObject.VertexCoordinatesZ[vertexIndex];
             }
 
-            int farBound = 0x98967f;
-            gameObject.MaximumFaceSpan = gameObject.BoundsMaxX = gameObject.BoundsMaxY = gameObject.BoundsMaxZ = farBound;
-            gameObject.BoundsMinX = gameObject.BoundsMinY = gameObject.BoundsMinZ = -farBound;
+            gameObject.MaximumFaceSpan = FarBound;
+            gameObject.BoundsMaxX = FarBound;
+            gameObject.BoundsMaxY = FarBound;
+            gameObject.BoundsMaxZ = FarBound;
+            gameObject.BoundsMinX = -FarBound;
+            gameObject.BoundsMinY = -FarBound;
+            gameObject.BoundsMinZ = -FarBound;
         }
 
         internal static void ApplyFullTransform(
@@ -52,7 +66,14 @@ namespace OpenRS.Net.Client.Game
 
             if (transformType >= 4)
             {
-                ScaleVerticesShear(gameObject, secondaryScaleX, secondaryScaleY, secondaryScaleZ, tertiaryScaleX, tertiaryScaleY, tertiaryScaleZ);
+                ScaleVerticesShear(
+                    gameObject,
+                    secondaryScaleX,
+                    secondaryScaleY,
+                    secondaryScaleZ,
+                    tertiaryScaleX,
+                    tertiaryScaleY,
+                    tertiaryScaleZ);
             }
 
             if (transformType >= 1)
@@ -64,7 +85,9 @@ namespace OpenRS.Net.Client.Game
             GameObjectShaderCalculator.CalculatePolygonNormals(gameObject);
         }
 
-        internal static void ProjectVertices(GameObject gameObject, VertexProjectionContext context)
+        internal static void ProjectVertices(
+            GameObject gameObject,
+            VertexProjectionContext context)
         {
             for (int vertexIndex = 0; vertexIndex < gameObject.VertexCount; vertexIndex += 1)
             {
@@ -97,19 +120,22 @@ namespace OpenRS.Net.Client.Game
             if (rotationZAngle != 0)
             {
                 context.SinZ = GameObjectLookupTables.FineRotationTable[rotationZAngle];
-                context.CosZ = GameObjectLookupTables.FineRotationTable[rotationZAngle + 1024];
+                context.CosZ = GameObjectLookupTables.FineRotationTable[
+                    rotationZAngle + FineRotationCosineTableOffset];
             }
 
             if (rotationYAngle != 0)
             {
                 context.SinY = GameObjectLookupTables.FineRotationTable[rotationYAngle];
-                context.CosY = GameObjectLookupTables.FineRotationTable[rotationYAngle + 1024];
+                context.CosY = GameObjectLookupTables.FineRotationTable[
+                    rotationYAngle + FineRotationCosineTableOffset];
             }
 
             if (rotationXAngle != 0)
             {
                 context.SinX = GameObjectLookupTables.FineRotationTable[rotationXAngle];
-                context.CosX = GameObjectLookupTables.FineRotationTable[rotationXAngle + 1024];
+                context.CosX = GameObjectLookupTables.FineRotationTable[
+                    rotationXAngle + FineRotationCosineTableOffset];
             }
 
             return context;
@@ -135,11 +161,20 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        private static void RotateVertices(GameObject gameObject, int rotationXAmount, int rotationYAmount, int rotationZAmount)
+        private static void RotateVertices(
+            GameObject gameObject,
+            int rotationXAmount,
+            int rotationYAmount,
+            int rotationZAmount)
         {
             for (int vertexIndex = 0; vertexIndex < gameObject.VertexCount; vertexIndex += 1)
             {
-                RotateSingleVertex(gameObject, vertexIndex, rotationXAmount, rotationYAmount, rotationZAmount);
+                RotateSingleVertex(
+                    gameObject,
+                    vertexIndex,
+                    rotationXAmount,
+                    rotationYAmount,
+                    rotationZAmount);
             }
         }
 
@@ -152,39 +187,81 @@ namespace OpenRS.Net.Client.Game
         {
             if (rotationZAmount != 0)
             {
-                int sinZ = GameObjectLookupTables.RotationSinCosTable[rotationZAmount];
-                int cosZ = GameObjectLookupTables.RotationSinCosTable[rotationZAmount + 256];
-                int rotatedX = gameObject.WorldVertY[vertexIndex] * sinZ + gameObject.WorldVertX[vertexIndex] * cosZ >> 15;
-                gameObject.WorldVertY[vertexIndex] = gameObject.WorldVertY[vertexIndex] * cosZ - gameObject.WorldVertX[vertexIndex] * sinZ >> 15;
-                gameObject.WorldVertX[vertexIndex] = rotatedX;
+                RotateVertexAroundZ(gameObject, vertexIndex, rotationZAmount);
             }
 
             if (rotationXAmount != 0)
             {
-                int sinX = GameObjectLookupTables.RotationSinCosTable[rotationXAmount];
-                int cosX = GameObjectLookupTables.RotationSinCosTable[rotationXAmount + 256];
-                int rotatedY = gameObject.WorldVertY[vertexIndex] * cosX - gameObject.WorldVertZ[vertexIndex] * sinX >> 15;
-                gameObject.WorldVertZ[vertexIndex] = gameObject.WorldVertY[vertexIndex] * sinX + gameObject.WorldVertZ[vertexIndex] * cosX >> 15;
-                gameObject.WorldVertY[vertexIndex] = rotatedY;
+                RotateVertexAroundX(gameObject, vertexIndex, rotationXAmount);
             }
 
             if (rotationYAmount != 0)
             {
-                int sinY = GameObjectLookupTables.RotationSinCosTable[rotationYAmount];
-                int cosY = GameObjectLookupTables.RotationSinCosTable[rotationYAmount + 256];
-                int rotatedZ = gameObject.WorldVertZ[vertexIndex] * sinY + gameObject.WorldVertX[vertexIndex] * cosY >> 15;
-                gameObject.WorldVertZ[vertexIndex] = gameObject.WorldVertZ[vertexIndex] * cosY - gameObject.WorldVertX[vertexIndex] * sinY >> 15;
-                gameObject.WorldVertX[vertexIndex] = rotatedZ;
+                RotateVertexAroundY(gameObject, vertexIndex, rotationYAmount);
             }
+        }
+
+        private static void RotateVertexAroundZ(
+            GameObject gameObject,
+            int vertexIndex,
+            int rotationAmount)
+        {
+            int sine = GameObjectLookupTables.RotationSinCosTable[rotationAmount];
+            int cosine = GameObjectLookupTables.RotationSinCosTable[
+                rotationAmount + RotationCosineTableOffset];
+            int rotatedX =
+                (gameObject.WorldVertY[vertexIndex] * sine +
+                gameObject.WorldVertX[vertexIndex] * cosine) >> RotationShift;
+            gameObject.WorldVertY[vertexIndex] =
+                (gameObject.WorldVertY[vertexIndex] * cosine -
+                gameObject.WorldVertX[vertexIndex] * sine) >> RotationShift;
+            gameObject.WorldVertX[vertexIndex] = rotatedX;
+        }
+
+        private static void RotateVertexAroundX(
+            GameObject gameObject,
+            int vertexIndex,
+            int rotationAmount)
+        {
+            int sine = GameObjectLookupTables.RotationSinCosTable[rotationAmount];
+            int cosine = GameObjectLookupTables.RotationSinCosTable[
+                rotationAmount + RotationCosineTableOffset];
+            int rotatedY =
+                (gameObject.WorldVertY[vertexIndex] * cosine -
+                gameObject.WorldVertZ[vertexIndex] * sine) >> RotationShift;
+            gameObject.WorldVertZ[vertexIndex] =
+                (gameObject.WorldVertY[vertexIndex] * sine +
+                gameObject.WorldVertZ[vertexIndex] * cosine) >> RotationShift;
+            gameObject.WorldVertY[vertexIndex] = rotatedY;
+        }
+
+        private static void RotateVertexAroundY(
+            GameObject gameObject,
+            int vertexIndex,
+            int rotationAmount)
+        {
+            int sine = GameObjectLookupTables.RotationSinCosTable[rotationAmount];
+            int cosine = GameObjectLookupTables.RotationSinCosTable[
+                rotationAmount + RotationCosineTableOffset];
+            int rotatedZ =
+                (gameObject.WorldVertZ[vertexIndex] * sine +
+                gameObject.WorldVertX[vertexIndex] * cosine) >> RotationShift;
+            gameObject.WorldVertZ[vertexIndex] =
+                (gameObject.WorldVertZ[vertexIndex] * cosine -
+                gameObject.WorldVertX[vertexIndex] * sine) >> RotationShift;
+            gameObject.WorldVertX[vertexIndex] = rotatedZ;
         }
 
         private static void ScaleVertices(GameObject gameObject, int x, int y, int z)
         {
             for (int vertexIndex = 0; vertexIndex < gameObject.VertexCount; vertexIndex += 1)
             {
-                gameObject.WorldVertX[vertexIndex] = gameObject.WorldVertX[vertexIndex] * x >> 8;
-                gameObject.WorldVertY[vertexIndex] = gameObject.WorldVertY[vertexIndex] * y >> 8;
-                gameObject.WorldVertZ[vertexIndex] = gameObject.WorldVertZ[vertexIndex] * z >> 8;
+                gameObject.WorldVertX[vertexIndex] =
+                    gameObject.WorldVertX[vertexIndex] * x >> TransformShift;
+                gameObject.WorldVertY[vertexIndex] =
+                    gameObject.WorldVertY[vertexIndex] * y >> TransformShift;
+                gameObject.WorldVertZ[vertexIndex] =
+                    gameObject.WorldVertZ[vertexIndex] * z >> TransformShift;
             }
         }
 
@@ -199,7 +276,15 @@ namespace OpenRS.Net.Client.Game
         {
             for (int vertexIndex = 0; vertexIndex < gameObject.VertexCount; vertexIndex += 1)
             {
-                ApplyShearToVertex(gameObject, vertexIndex, shearXY, shearZY, shearXZ, shearYZ, shearZX, shearYX);
+                ApplyShearToVertex(
+                    gameObject,
+                    vertexIndex,
+                    shearXY,
+                    shearZY,
+                    shearXZ,
+                    shearYZ,
+                    shearZX,
+                    shearYX);
             }
         }
 
@@ -215,73 +300,94 @@ namespace OpenRS.Net.Client.Game
         {
             if (shearXY != 0)
             {
-                gameObject.WorldVertX[vertexIndex] += gameObject.WorldVertY[vertexIndex] * shearXY >> 8;
+                gameObject.WorldVertX[vertexIndex] +=
+                    gameObject.WorldVertY[vertexIndex] * shearXY >> TransformShift;
             }
 
             if (shearZY != 0)
             {
-                gameObject.WorldVertZ[vertexIndex] += gameObject.WorldVertY[vertexIndex] * shearZY >> 8;
+                gameObject.WorldVertZ[vertexIndex] +=
+                    gameObject.WorldVertY[vertexIndex] * shearZY >> TransformShift;
             }
 
             if (shearXZ != 0)
             {
-                gameObject.WorldVertX[vertexIndex] += gameObject.WorldVertZ[vertexIndex] * shearXZ >> 8;
+                gameObject.WorldVertX[vertexIndex] +=
+                    gameObject.WorldVertZ[vertexIndex] * shearXZ >> TransformShift;
             }
 
             if (shearYZ != 0)
             {
-                gameObject.WorldVertY[vertexIndex] += gameObject.WorldVertZ[vertexIndex] * shearYZ >> 8;
+                gameObject.WorldVertY[vertexIndex] +=
+                    gameObject.WorldVertZ[vertexIndex] * shearYZ >> TransformShift;
             }
 
             if (shearZX != 0)
             {
-                gameObject.WorldVertZ[vertexIndex] += gameObject.WorldVertX[vertexIndex] * shearZX >> 8;
+                gameObject.WorldVertZ[vertexIndex] +=
+                    gameObject.WorldVertX[vertexIndex] * shearZX >> TransformShift;
             }
 
             if (shearYX != 0)
             {
-                gameObject.WorldVertY[vertexIndex] += gameObject.WorldVertX[vertexIndex] * shearYX >> 8;
+                gameObject.WorldVertY[vertexIndex] +=
+                    gameObject.WorldVertX[vertexIndex] * shearYX >> TransformShift;
             }
         }
 
-        private static void ProjectSingleVertex(GameObject gameObject, int vertexIndex, VertexProjectionContext context)
+        private static void ProjectSingleVertex(
+            GameObject gameObject,
+            int vertexIndex,
+            VertexProjectionContext context)
         {
-            int vertX = gameObject.WorldVertX[vertexIndex] - context.OriginX;
-            int vertY = gameObject.WorldVertY[vertexIndex] - context.OriginY;
-            int vertZ = gameObject.WorldVertZ[vertexIndex] - context.OriginZ;
+            int vertexX = gameObject.WorldVertX[vertexIndex] - context.OriginX;
+            int vertexY = gameObject.WorldVertY[vertexIndex] - context.OriginY;
+            int vertexZ = gameObject.WorldVertZ[vertexIndex] - context.OriginZ;
 
             if (context.RotationZAngle != 0)
             {
-                int rotated = vertY * context.SinZ + vertX * context.CosZ >> 15;
-                vertY = vertY * context.CosZ - vertX * context.SinZ >> 15;
-                vertX = rotated;
+                int rotatedX =
+                    (vertexY * context.SinZ + vertexX * context.CosZ) >> RotationShift;
+                vertexY =
+                    (vertexY * context.CosZ - vertexX * context.SinZ) >> RotationShift;
+                vertexX = rotatedX;
             }
 
             if (context.RotationYAngle != 0)
             {
-                int rotated = vertZ * context.SinY + vertX * context.CosY >> 15;
-                vertZ = vertZ * context.CosY - vertX * context.SinY >> 15;
-                vertX = rotated;
+                int rotatedX =
+                    (vertexZ * context.SinY + vertexX * context.CosY) >> RotationShift;
+                vertexZ =
+                    (vertexZ * context.CosY - vertexX * context.SinY) >> RotationShift;
+                vertexX = rotatedX;
             }
 
             if (context.RotationXAngle != 0)
             {
-                int rotated = vertY * context.CosX - vertZ * context.SinX >> 15;
-                vertZ = vertY * context.SinX + vertZ * context.CosX >> 15;
-                vertY = rotated;
+                int rotatedY =
+                    (vertexY * context.CosX - vertexZ * context.SinX) >> RotationShift;
+                vertexZ =
+                    (vertexY * context.SinX + vertexZ * context.CosX) >> RotationShift;
+                vertexY = rotatedY;
             }
 
-            gameObject.ProjectedU[vertexIndex] = vertZ >= context.NearPlane
-                ? (vertX << context.ProjectionScale) / vertZ
-                : vertX << context.ProjectionScale;
+            if (vertexZ >= context.NearPlane)
+            {
+                gameObject.ProjectedU[vertexIndex] =
+                    (vertexX << context.ProjectionScale) / vertexZ;
+                gameObject.ProjectedV[vertexIndex] =
+                    (vertexY << context.ProjectionScale) / vertexZ;
+            }
+            else
+            {
+                gameObject.ProjectedU[vertexIndex] = vertexX << context.ProjectionScale;
+                gameObject.ProjectedV[vertexIndex] = vertexY << context.ProjectionScale;
+            }
 
-            gameObject.ProjectedV[vertexIndex] = vertZ >= context.NearPlane
-                ? (vertY << context.ProjectionScale) / vertZ
-                : vertY << context.ProjectionScale;
-
-            gameObject.ProjectedX[vertexIndex] = vertX;
-            gameObject.ProjectedY[vertexIndex] = vertY;
-            gameObject.ProjectedDepth[vertexIndex] = vertZ;
+            gameObject.ProjectedX[vertexIndex] = vertexX;
+            gameObject.ProjectedY[vertexIndex] = vertexY;
+            gameObject.ProjectedDepth[vertexIndex] = vertexZ;
         }
     }
 }
+

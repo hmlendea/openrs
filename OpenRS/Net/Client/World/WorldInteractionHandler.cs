@@ -365,42 +365,42 @@ namespace OpenRS.Net.Client.World
 
             for (int checkDistance = 2; checkDistance >= 1; checkDistance -= 1)
             {
-                if (cameraDirection == 1 && ((client.engineHandle.tiles[playerTileX][playerTileY - checkDistance] & 0x80) == 128 || (client.engineHandle.tiles[playerTileX - checkDistance][playerTileY] & 0x80) == 128 || (client.engineHandle.tiles[playerTileX - checkDistance][playerTileY - checkDistance] & 0x80) == 128))
+                if (cameraDirection == 1 && ((client.engineHandle.Tiles[playerTileX][playerTileY - checkDistance] & 0x80) == 128 || (client.engineHandle.Tiles[playerTileX - checkDistance][playerTileY] & 0x80) == 128 || (client.engineHandle.Tiles[playerTileX - checkDistance][playerTileY - checkDistance] & 0x80) == 128))
                 {
                     return false;
                 }
 
-                if (cameraDirection == 3 && ((client.engineHandle.tiles[playerTileX][playerTileY + checkDistance] & 0x80) == 128 || (client.engineHandle.tiles[playerTileX - checkDistance][playerTileY] & 0x80) == 128 || (client.engineHandle.tiles[playerTileX - checkDistance][playerTileY + checkDistance] & 0x80) == 128))
+                if (cameraDirection == 3 && ((client.engineHandle.Tiles[playerTileX][playerTileY + checkDistance] & 0x80) == 128 || (client.engineHandle.Tiles[playerTileX - checkDistance][playerTileY] & 0x80) == 128 || (client.engineHandle.Tiles[playerTileX - checkDistance][playerTileY + checkDistance] & 0x80) == 128))
                 {
                     return false;
                 }
 
-                if (cameraDirection == 5 && ((client.engineHandle.tiles[playerTileX][playerTileY + checkDistance] & 0x80) == 128 || (client.engineHandle.tiles[playerTileX + checkDistance][playerTileY] & 0x80) == 128 || (client.engineHandle.tiles[playerTileX + checkDistance][playerTileY + checkDistance] & 0x80) == 128))
+                if (cameraDirection == 5 && ((client.engineHandle.Tiles[playerTileX][playerTileY + checkDistance] & 0x80) == 128 || (client.engineHandle.Tiles[playerTileX + checkDistance][playerTileY] & 0x80) == 128 || (client.engineHandle.Tiles[playerTileX + checkDistance][playerTileY + checkDistance] & 0x80) == 128))
                 {
                     return false;
                 }
 
-                if (cameraDirection == 7 && ((client.engineHandle.tiles[playerTileX][playerTileY - checkDistance] & 0x80) == 128 || (client.engineHandle.tiles[playerTileX + checkDistance][playerTileY] & 0x80) == 128 || (client.engineHandle.tiles[playerTileX + checkDistance][playerTileY - checkDistance] & 0x80) == 128))
+                if (cameraDirection == 7 && ((client.engineHandle.Tiles[playerTileX][playerTileY - checkDistance] & 0x80) == 128 || (client.engineHandle.Tiles[playerTileX + checkDistance][playerTileY] & 0x80) == 128 || (client.engineHandle.Tiles[playerTileX + checkDistance][playerTileY - checkDistance] & 0x80) == 128))
                 {
                     return false;
                 }
 
-                if (cameraDirection == 0 && (client.engineHandle.tiles[playerTileX][playerTileY - checkDistance] & 0x80) == 128)
+                if (cameraDirection == 0 && (client.engineHandle.Tiles[playerTileX][playerTileY - checkDistance] & 0x80) == 128)
                 {
                     return false;
                 }
 
-                if (cameraDirection == 2 && (client.engineHandle.tiles[playerTileX - checkDistance][playerTileY] & 0x80) == 128)
+                if (cameraDirection == 2 && (client.engineHandle.Tiles[playerTileX - checkDistance][playerTileY] & 0x80) == 128)
                 {
                     return false;
                 }
 
-                if (cameraDirection == 4 && (client.engineHandle.tiles[playerTileX][playerTileY + checkDistance] & 0x80) == 128)
+                if (cameraDirection == 4 && (client.engineHandle.Tiles[playerTileX][playerTileY + checkDistance] & 0x80) == 128)
                 {
                     return false;
                 }
 
-                if (cameraDirection == 6 && (client.engineHandle.tiles[playerTileX + checkDistance][playerTileY] & 0x80) == 128)
+                if (cameraDirection == 6 && (client.engineHandle.Tiles[playerTileX + checkDistance][playerTileY] & 0x80) == 128)
                 {
                     return false;
                 }
@@ -1135,8 +1135,8 @@ namespace OpenRS.Net.Client.World
                         client.menuText1[client.menuOptionsCount] = "Cast " + client.entityManager.GetSpell(client.selectedSpell).Name + " on ground";
                         client.menuText2[client.menuOptionsCount] = "";
                         client.menuActionID[client.menuOptionsCount] = 900;
-                        client.menuActionX[client.menuOptionsCount] = client.engineHandle.selectedX[groundEntityIndex];
-                        client.menuActionY[client.menuOptionsCount] = client.engineHandle.selectedY[groundEntityIndex];
+                        client.menuActionX[client.menuOptionsCount] = client.engineHandle.SelectedX[groundEntityIndex];
+                        client.menuActionY[client.menuOptionsCount] = client.engineHandle.SelectedY[groundEntityIndex];
                         client.menuActionType[client.menuOptionsCount] = client.selectedSpell;
                         client.menuOptionsCount += 1;
                         return;
@@ -1147,8 +1147,8 @@ namespace OpenRS.Net.Client.World
                     client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("command.walk_here");
                         client.menuText2[client.menuOptionsCount] = "";
                         client.menuActionID[client.menuOptionsCount] = 920;
-                        client.menuActionX[client.menuOptionsCount] = client.engineHandle.selectedX[groundEntityIndex];
-                        client.menuActionY[client.menuOptionsCount] = client.engineHandle.selectedY[groundEntityIndex];
+                        client.menuActionX[client.menuOptionsCount] = client.engineHandle.SelectedX[groundEntityIndex];
+                        client.menuActionY[client.menuOptionsCount] = client.engineHandle.SelectedY[groundEntityIndex];
                         client.menuOptionsCount += 1;
                 }
             }
@@ -1156,84 +1156,84 @@ namespace OpenRS.Net.Client.World
 
         public void GetMenuHighlighted()
         {
-            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= client.GameGraphics.GameWidth - 35 && client.mouseY >= 3 && client.mouseX < client.GameGraphics.GameWidth - 3 && client.mouseY < 35)
             {
                 client.drawMenuTab = 1;
             }
 
-            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 33 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 33 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= client.GameGraphics.GameWidth - 35 - 33 && client.mouseY >= 3 && client.mouseX < client.GameGraphics.GameWidth - 3 - 33 && client.mouseY < 35)
             {
                 client.drawMenuTab = 2;
                 client.minimapRandomRotationX = (int)(Helper.Random.NextDouble() * 13D) - 6;
                 client.minimapRandomRotationY = (int)(Helper.Random.NextDouble() * 23D) - 11;
             }
-            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 66 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 66 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= client.GameGraphics.GameWidth - 35 - 66 && client.mouseY >= 3 && client.mouseX < client.GameGraphics.GameWidth - 3 - 66 && client.mouseY < 35)
             {
                 client.drawMenuTab = 3;
             }
 
-            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 99 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 99 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= client.GameGraphics.GameWidth - 35 - 99 && client.mouseY >= 3 && client.mouseX < client.GameGraphics.GameWidth - 3 - 99 && client.mouseY < 35)
             {
                 client.drawMenuTab = 4;
             }
 
-            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 132 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 132 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= client.GameGraphics.GameWidth - 35 - 132 && client.mouseY >= 3 && client.mouseX < client.GameGraphics.GameWidth - 3 - 132 && client.mouseY < 35)
             {
                 client.drawMenuTab = 5;
             }
 
-            if (client.drawMenuTab == 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 165 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 165 && client.mouseY < 35)
+            if (client.drawMenuTab == 0 && client.mouseX >= client.GameGraphics.GameWidth - 35 - 165 && client.mouseY >= 3 && client.mouseX < client.GameGraphics.GameWidth - 3 - 165 && client.mouseY < 35)
             {
                 client.drawMenuTab = 6;
             }
 
-            if (client.drawMenuTab != 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.mouseX >= client.GameGraphics.GameWidth - 35 && client.mouseY >= 3 && client.mouseX < client.GameGraphics.GameWidth - 3 && client.mouseY < 26)
             {
                 client.drawMenuTab = 1;
             }
 
-            if (client.drawMenuTab != 0 && client.drawMenuTab != 2 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 33 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 33 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.drawMenuTab != 2 && client.mouseX >= client.GameGraphics.GameWidth - 35 - 33 && client.mouseY >= 3 && client.mouseX < client.GameGraphics.GameWidth - 3 - 33 && client.mouseY < 26)
             {
                 client.drawMenuTab = 2;
                 client.minimapRandomRotationX = (int)(Helper.Random.NextDouble() * 13D) - 6;
                 client.minimapRandomRotationY = (int)(Helper.Random.NextDouble() * 23D) - 11;
             }
-            if (client.drawMenuTab != 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 66 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 66 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.mouseX >= client.GameGraphics.GameWidth - 35 - 66 && client.mouseY >= 3 && client.mouseX < client.GameGraphics.GameWidth - 3 - 66 && client.mouseY < 26)
             {
                 client.drawMenuTab = 3;
             }
 
-            if (client.drawMenuTab != 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 99 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 99 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.mouseX >= client.GameGraphics.GameWidth - 35 - 99 && client.mouseY >= 3 && client.mouseX < client.GameGraphics.GameWidth - 3 - 99 && client.mouseY < 26)
             {
                 client.drawMenuTab = 4;
             }
 
-            if (client.drawMenuTab != 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 132 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 132 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.mouseX >= client.GameGraphics.GameWidth - 35 - 132 && client.mouseY >= 3 && client.mouseX < client.GameGraphics.GameWidth - 3 - 132 && client.mouseY < 26)
             {
                 client.drawMenuTab = 5;
             }
 
-            if (client.drawMenuTab != 0 && client.mouseX >= client.gameGraphics.GameWidth - 35 - 165 && client.mouseY >= 3 && client.mouseX < client.gameGraphics.GameWidth - 3 - 165 && client.mouseY < 26)
+            if (client.drawMenuTab != 0 && client.mouseX >= client.GameGraphics.GameWidth - 35 - 165 && client.mouseY >= 3 && client.mouseX < client.GameGraphics.GameWidth - 3 - 165 && client.mouseY < 26)
             {
                 client.drawMenuTab = 6;
             }
 
-            if (client.drawMenuTab == 1 && (client.mouseX < client.gameGraphics.GameWidth - 248 || client.mouseY > 36 + client.maxInventoryItems / 5 * 34))
+            if (client.drawMenuTab == 1 && (client.mouseX < client.GameGraphics.GameWidth - 248 || client.mouseY > 36 + client.maxInventoryItems / 5 * 34))
             {
                 client.drawMenuTab = 0;
             }
 
-            if (client.drawMenuTab == 3 && (client.mouseX < client.gameGraphics.GameWidth - 199 || client.mouseY > 316))
+            if (client.drawMenuTab == 3 && (client.mouseX < client.GameGraphics.GameWidth - 199 || client.mouseY > 316))
             {
                 client.drawMenuTab = 0;
             }
 
-            if ((client.drawMenuTab == 2 || client.drawMenuTab == 4 || client.drawMenuTab == 5) && (client.mouseX < client.gameGraphics.GameWidth - 199 || client.mouseY > 240))
+            if ((client.drawMenuTab == 2 || client.drawMenuTab == 4 || client.drawMenuTab == 5) && (client.mouseX < client.GameGraphics.GameWidth - 199 || client.mouseY > 240))
             {
                 client.drawMenuTab = 0;
             }
 
-            if (client.drawMenuTab == 6 && (client.mouseX < client.gameGraphics.GameWidth - 199 || client.mouseY > 326))
+            if (client.drawMenuTab == 6 && (client.mouseX < client.GameGraphics.GameWidth - 199 || client.mouseY > 326))
             {
                 client.drawMenuTab = 0;
             }

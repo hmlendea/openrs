@@ -14,16 +14,16 @@ namespace OpenRS.Net.Client.Rendering
         {
             int boxOffsetX = 22;
             int boxOffsetY = 36;
-            client.gameGraphics.DrawBox(boxOffsetX, boxOffsetY, 468, 16, 192);
+            client.GameGraphics.DrawBox(boxOffsetX, boxOffsetY, 468, 16, 192);
             int backgroundColour = 0x989898;
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 16, 468, 246, backgroundColour, 160);
-            client.gameGraphics.DrawText(
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 16, 468, 246, backgroundColour, 160);
+            client.GameGraphics.DrawText(
                 LocalisationManager.GetString("trade.duel_confirm_prompt") + PlayerNameEncoder.HashToName(client.duelOpponentHash),
                 boxOffsetX + 234,
                 boxOffsetY + 12,
                 1,
                 0xffffff);
-            client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_your_stake"), boxOffsetX + 117, boxOffsetY + 30, 1, 0xffff00);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("trade.duel_your_stake"), boxOffsetX + 117, boxOffsetY + 30, 1, 0xffff00);
 
             for (int stakeIndex = 0; stakeIndex < client.duelOurStakeCount; stakeIndex += 1)
             {
@@ -35,15 +35,15 @@ namespace OpenRS.Net.Client.Rendering
                     stakeItemName = stakeItemName + " x " + GameClientUtilities.FormatItemCount(client.duelOurStakeItemCount[stakeIndex]);
                 }
 
-                client.gameGraphics.DrawText(stakeItemName, boxOffsetX + 117, boxOffsetY + 42 + stakeIndex * 12, 1, 0xffffff);
+                client.GameGraphics.DrawText(stakeItemName, boxOffsetX + 117, boxOffsetY + 42 + stakeIndex * 12, 1, 0xffffff);
             }
 
             if (client.duelOurStakeCount == 0)
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_nothing"), boxOffsetX + 117, boxOffsetY + 42, 1, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.duel_nothing"), boxOffsetX + 117, boxOffsetY + 42, 1, 0xffffff);
             }
 
-            client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_opponent_stake"), boxOffsetX + 351, boxOffsetY + 30, 1, 0xffff00);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("trade.duel_opponent_stake"), boxOffsetX + 351, boxOffsetY + 30, 1, 0xffff00);
 
             for (int opponentStakeIndex = 0; opponentStakeIndex < client.duelOpponentStakeCount; opponentStakeIndex += 1)
             {
@@ -55,60 +55,60 @@ namespace OpenRS.Net.Client.Rendering
                     opponentStakeItemName = opponentStakeItemName + " x " + GameClientUtilities.FormatItemCount(client.duelOutStakeItemCount[opponentStakeIndex]);
                 }
 
-                client.gameGraphics.DrawText(opponentStakeItemName, boxOffsetX + 351, boxOffsetY + 42 + opponentStakeIndex * 12, 1, 0xffffff);
+                client.GameGraphics.DrawText(opponentStakeItemName, boxOffsetX + 351, boxOffsetY + 42 + opponentStakeIndex * 12, 1, 0xffffff);
             }
 
             if (client.duelOpponentStakeCount == 0)
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_nothing"), boxOffsetX + 351, boxOffsetY + 42, 1, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.duel_nothing"), boxOffsetX + 351, boxOffsetY + 42, 1, 0xffffff);
             }
 
             if (client.duelRetreat == 0)
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_can_retreat"), boxOffsetX + 234, boxOffsetY + 180, 1, 65280);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.duel_can_retreat"), boxOffsetX + 234, boxOffsetY + 180, 1, 65280);
             }
             else
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_no_retreat"), boxOffsetX + 234, boxOffsetY + 180, 1, 0xff0000);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.duel_no_retreat"), boxOffsetX + 234, boxOffsetY + 180, 1, 0xff0000);
             }
 
             if (client.duelMagic == 0)
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_magic_allowed"), boxOffsetX + 234, boxOffsetY + 192, 1, 65280);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.duel_magic_allowed"), boxOffsetX + 234, boxOffsetY + 192, 1, 65280);
             }
             else
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_magic_forbidden"), boxOffsetX + 234, boxOffsetY + 192, 1, 0xff0000);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.duel_magic_forbidden"), boxOffsetX + 234, boxOffsetY + 192, 1, 0xff0000);
             }
 
             if (client.duelPrayer == 0)
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_prayer_allowed"), boxOffsetX + 234, boxOffsetY + 204, 1, 65280);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.duel_prayer_allowed"), boxOffsetX + 234, boxOffsetY + 204, 1, 65280);
             }
             else
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_prayer_forbidden"), boxOffsetX + 234, boxOffsetY + 204, 1, 0xff0000);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.duel_prayer_forbidden"), boxOffsetX + 234, boxOffsetY + 204, 1, 0xff0000);
             }
 
             if (client.duelWeapons == 0)
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_weapons_allowed"), boxOffsetX + 234, boxOffsetY + 216, 1, 65280);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.duel_weapons_allowed"), boxOffsetX + 234, boxOffsetY + 216, 1, 65280);
             }
             else
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_weapons_forbidden"), boxOffsetX + 234, boxOffsetY + 216, 1, 0xff0000);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.duel_weapons_forbidden"), boxOffsetX + 234, boxOffsetY + 216, 1, 0xff0000);
             }
 
-            client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_accept_prompt"), boxOffsetX + 234, boxOffsetY + 230, 1, 0xffffff);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("trade.duel_accept_prompt"), boxOffsetX + 234, boxOffsetY + 230, 1, 0xffffff);
 
             if (!client.duelConfirmOurAccepted)
             {
-                client.gameGraphics.DrawPicture(boxOffsetX + 118 - 35, boxOffsetY + 238, client.baseInventoryPic + 25);
-                client.gameGraphics.DrawPicture(boxOffsetX + 352 - 35, boxOffsetY + 238, client.baseInventoryPic + 26);
+                client.GameGraphics.DrawPicture(boxOffsetX + 118 - 35, boxOffsetY + 238, client.BaseInventoryPic + 25);
+                client.GameGraphics.DrawPicture(boxOffsetX + 352 - 35, boxOffsetY + 238, client.BaseInventoryPic + 26);
             }
             else
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_waiting"), boxOffsetX + 234, boxOffsetY + 250, 1, 0xffff00);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.duel_waiting"), boxOffsetX + 234, boxOffsetY + 250, 1, 0xffff00);
             }
 
             if (client.mouseButtonClick == 1)
@@ -278,83 +278,83 @@ namespace OpenRS.Net.Client.Rendering
 
             int boxOffsetX = 22;
             int boxOffsetY = 36;
-            client.gameGraphics.DrawBox(boxOffsetX, boxOffsetY, 468, 12, 192);
+            client.GameGraphics.DrawBox(boxOffsetX, boxOffsetY, 468, 12, 192);
             int backgroundColour = 0x989898;
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 12, 468, 18, backgroundColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 30, 8, 248, backgroundColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 205, boxOffsetY + 30, 11, 248, backgroundColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 462, boxOffsetY + 30, 6, 248, backgroundColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 133, 197, 22, backgroundColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 258, 197, 20, backgroundColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 216, boxOffsetY + 235, 246, 43, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 12, 468, 18, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 30, 8, 248, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 205, boxOffsetY + 30, 11, 248, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 462, boxOffsetY + 30, 6, 248, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 133, 197, 22, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 258, 197, 20, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 216, boxOffsetY + 235, 246, 43, backgroundColour, 160);
             int lightColour = 0xd0d0d0;
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 30, 197, 103, lightColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 155, 197, 103, lightColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 216, boxOffsetY + 30, 246, 205, lightColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 30, 197, 103, lightColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 155, 197, 103, lightColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 216, boxOffsetY + 30, 246, 205, lightColour, 160);
 
             for (int ourOfferRowIndex = 0; ourOfferRowIndex < 4; ourOfferRowIndex += 1)
             {
-                client.gameGraphics.DrawLineX(boxOffsetX + 8, boxOffsetY + 30 + ourOfferRowIndex * 34, 197, 0);
+                client.GameGraphics.DrawLineX(boxOffsetX + 8, boxOffsetY + 30 + ourOfferRowIndex * 34, 197, 0);
             }
 
             for (int theirOfferRowIndex = 0; theirOfferRowIndex < 4; theirOfferRowIndex += 1)
             {
-                client.gameGraphics.DrawLineX(boxOffsetX + 8, boxOffsetY + 155 + theirOfferRowIndex * 34, 197, 0);
+                client.GameGraphics.DrawLineX(boxOffsetX + 8, boxOffsetY + 155 + theirOfferRowIndex * 34, 197, 0);
             }
 
             for (int inventoryRowIndex = 0; inventoryRowIndex < 7; inventoryRowIndex += 1)
             {
-                client.gameGraphics.DrawLineX(boxOffsetX + 216, boxOffsetY + 30 + inventoryRowIndex * 34, 246, 0);
+                client.GameGraphics.DrawLineX(boxOffsetX + 216, boxOffsetY + 30 + inventoryRowIndex * 34, 246, 0);
             }
 
             for (int columnIndex = 0; columnIndex < 6; columnIndex += 1)
             {
                 if (columnIndex < 5)
                 {
-                    client.gameGraphics.DrawLineY(boxOffsetX + 8 + columnIndex * 49, boxOffsetY + 30, 103, 0);
+                    client.GameGraphics.DrawLineY(boxOffsetX + 8 + columnIndex * 49, boxOffsetY + 30, 103, 0);
                 }
 
                 if (columnIndex < 5)
                 {
-                    client.gameGraphics.DrawLineY(boxOffsetX + 8 + columnIndex * 49, boxOffsetY + 155, 103, 0);
+                    client.GameGraphics.DrawLineY(boxOffsetX + 8 + columnIndex * 49, boxOffsetY + 155, 103, 0);
                 }
 
-                client.gameGraphics.DrawLineY(boxOffsetX + 216 + columnIndex * 49, boxOffsetY + 30, 205, 0);
+                client.GameGraphics.DrawLineY(boxOffsetX + 216 + columnIndex * 49, boxOffsetY + 30, 205, 0);
             }
 
-            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.trade_with_prefix") + client.tradeOtherName, boxOffsetX + 1, boxOffsetY + 10, 1, 0xffffff);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.trade_your_offer"), boxOffsetX + 9, boxOffsetY + 27, 4, 0xffffff);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.trade_opponent_offer"), boxOffsetX + 9, boxOffsetY + 152, 4, 0xffffff);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.trade_your_inventory"), boxOffsetX + 216, boxOffsetY + 27, 4, 0xffffff);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("trade.trade_with_prefix") + client.tradeOtherName, boxOffsetX + 1, boxOffsetY + 10, 1, 0xffffff);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("trade.trade_your_offer"), boxOffsetX + 9, boxOffsetY + 27, 4, 0xffffff);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("trade.trade_opponent_offer"), boxOffsetX + 9, boxOffsetY + 152, 4, 0xffffff);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("trade.trade_your_inventory"), boxOffsetX + 216, boxOffsetY + 27, 4, 0xffffff);
 
             if (!client.tradeWeAccepted)
             {
-                client.gameGraphics.DrawPicture(boxOffsetX + 217, boxOffsetY + 238, client.baseInventoryPic + 25);
+                client.GameGraphics.DrawPicture(boxOffsetX + 217, boxOffsetY + 238, client.BaseInventoryPic + 25);
             }
 
-            client.gameGraphics.DrawPicture(boxOffsetX + 394, boxOffsetY + 238, client.baseInventoryPic + 26);
+            client.GameGraphics.DrawPicture(boxOffsetX + 394, boxOffsetY + 238, client.BaseInventoryPic + 26);
 
             if (client.tradeOtherAccepted)
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.trade_other_accepted"), boxOffsetX + 341, boxOffsetY + 246, 1, 0xffffff);
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.trade_has_accepted"), boxOffsetX + 341, boxOffsetY + 256, 1, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.trade_other_accepted"), boxOffsetX + 341, boxOffsetY + 246, 1, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.trade_has_accepted"), boxOffsetX + 341, boxOffsetY + 256, 1, 0xffffff);
             }
 
             if (client.tradeWeAccepted)
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.trade_waiting_for"), boxOffsetX + 217 + 35, boxOffsetY + 246, 1, 0xffffff);
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.trade_other_player"), boxOffsetX + 217 + 35, boxOffsetY + 256, 1, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.trade_waiting_for"), boxOffsetX + 217 + 35, boxOffsetY + 246, 1, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.trade_other_player"), boxOffsetX + 217 + 35, boxOffsetY + 256, 1, 0xffffff);
             }
 
             for (int inventoryIndex = 0; inventoryIndex < client.inventoryItemsCount; inventoryIndex += 1)
             {
                 int inventoryCellX = 217 + boxOffsetX + inventoryIndex % 5 * 49;
                 int inventoryCellY = 31 + boxOffsetY + inventoryIndex / 5 * 34;
-                client.gameGraphics.DrawImage(inventoryCellX, inventoryCellY, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.inventoryItems[inventoryIndex]).InventoryPicture, client.entityManager.GetItem(client.inventoryItems[inventoryIndex]).PictureMask, 0, 0, false);
+                client.GameGraphics.DrawImage(inventoryCellX, inventoryCellY, 48, 32, client.baseItemPicture + client.entityManager.GetItem(client.inventoryItems[inventoryIndex]).InventoryPicture, client.entityManager.GetItem(client.inventoryItems[inventoryIndex]).PictureMask, 0, 0, false);
 
                 if (!client.entityManager.GetItem(client.inventoryItems[inventoryIndex]).IsStackable)
                 {
-                    client.gameGraphics.DrawString(client.inventoryItemCount[inventoryIndex].ToString(), inventoryCellX + 1, inventoryCellY + 10, 1, 0xffff00);
+                    client.GameGraphics.DrawString(client.inventoryItemCount[inventoryIndex].ToString(), inventoryCellX + 1, inventoryCellY + 10, 1, 0xffff00);
                 }
             }
 
@@ -366,7 +366,7 @@ namespace OpenRS.Net.Client.Rendering
 
                 if (!client.entityManager.GetItem(client.tradeItemsOur[ourStakeIndex]).IsStackable)
                 {
-                    client.gameGraphics.DrawString(client.tradeItemOurCount[ourStakeIndex].ToString(), ourStakeCellX + 1, ourStakeCellY + 10, 1, 0xffff00);
+                    client.GameGraphics.DrawString(client.tradeItemOurCount[ourStakeIndex].ToString(), ourStakeCellX + 1, ourStakeCellY + 10, 1, 0xffff00);
                 }
 
                 if (client.mouseX > ourStakeCellX &&
@@ -375,7 +375,7 @@ namespace OpenRS.Net.Client.Rendering
                     client.mouseY < ourStakeCellY + 32)
                 {
                     Item tradeOurItem = client.entityManager.GetItem(client.tradeItemsOur[ourStakeIndex]);
-                    client.gameGraphics.DrawString(tradeOurItem.Name + ": @whi@" + tradeOurItem.Description, boxOffsetX + 8, boxOffsetY + 273, 1, 0xffff00);
+                    client.GameGraphics.DrawString(tradeOurItem.Name + ": @whi@" + tradeOurItem.Description, boxOffsetX + 8, boxOffsetY + 273, 1, 0xffff00);
                 }
             }
 
@@ -387,7 +387,7 @@ namespace OpenRS.Net.Client.Rendering
 
                 if (!client.entityManager.GetItem(client.tradeItemsOther[theirStakeIndex]).IsStackable)
                 {
-                    client.gameGraphics.DrawString(client.tradeItemOtherCount[theirStakeIndex].ToString(), theirStakeCellX + 1, theirStakeCellY + 10, 1, 0xffff00);
+                    client.GameGraphics.DrawString(client.tradeItemOtherCount[theirStakeIndex].ToString(), theirStakeCellX + 1, theirStakeCellY + 10, 1, 0xffff00);
                 }
 
                 if (client.mouseX > theirStakeCellX &&
@@ -396,7 +396,7 @@ namespace OpenRS.Net.Client.Rendering
                     client.mouseY < theirStakeCellY + 32)
                 {
                     Item tradeOtherItem = client.entityManager.GetItem(client.tradeItemsOther[theirStakeIndex]);
-                    client.gameGraphics.DrawString(tradeOtherItem.Name + ": @whi@" + tradeOtherItem.Description, boxOffsetX + 8, boxOffsetY + 273, 1, 0xffff00);
+                    client.GameGraphics.DrawString(tradeOtherItem.Name + ": @whi@" + tradeOtherItem.Description, boxOffsetX + 8, boxOffsetY + 273, 1, 0xffff00);
                 }
             }
         }
@@ -406,16 +406,16 @@ namespace OpenRS.Net.Client.Rendering
         {
             int boxOffsetX = 22;
             int boxOffsetY = 36;
-            client.gameGraphics.DrawBox(boxOffsetX, boxOffsetY, 468, 16, 192);
+            client.GameGraphics.DrawBox(boxOffsetX, boxOffsetY, 468, 16, 192);
             int backgroundColour = 0x989898;
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 16, 468, 246, backgroundColour, 160);
-            client.gameGraphics.DrawText(
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 16, 468, 246, backgroundColour, 160);
+            client.GameGraphics.DrawText(
                 LocalisationManager.GetString("trade.confirm_prompt") + PlayerNameEncoder.HashToName(client.tradeConfirmOtherNameLong),
                 boxOffsetX + 234,
                 boxOffsetY + 12,
                 1,
                 0xffffff);
-            client.gameGraphics.DrawText(LocalisationManager.GetString("trade.confirm_giving"), boxOffsetX + 117, boxOffsetY + 30, 1, 0xffff00);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("trade.confirm_giving"), boxOffsetX + 117, boxOffsetY + 30, 1, 0xffff00);
 
             for (int ourStakeIndex = 0; ourStakeIndex < client.tradeConfigItemCount; ourStakeIndex += 1)
             {
@@ -427,15 +427,15 @@ namespace OpenRS.Net.Client.Rendering
                     ourItemName = ourItemName + " x " + GameClientUtilities.FormatItemCount(client.tradeConfigItemsCount[ourStakeIndex]);
                 }
 
-                client.gameGraphics.DrawText(ourItemName, boxOffsetX + 117, boxOffsetY + 42 + ourStakeIndex * 12, 1, 0xffffff);
+                client.GameGraphics.DrawText(ourItemName, boxOffsetX + 117, boxOffsetY + 42 + ourStakeIndex * 12, 1, 0xffffff);
             }
 
             if (client.tradeConfigItemCount == 0)
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_nothing"), boxOffsetX + 117, boxOffsetY + 42, 1, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.duel_nothing"), boxOffsetX + 117, boxOffsetY + 42, 1, 0xffffff);
             }
 
-            client.gameGraphics.DrawText(LocalisationManager.GetString("trade.confirm_receiving"), boxOffsetX + 351, boxOffsetY + 30, 1, 0xffff00);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("trade.confirm_receiving"), boxOffsetX + 351, boxOffsetY + 30, 1, 0xffff00);
 
             for (int theirStakeIndex = 0; theirStakeIndex < client.tradeConfirmOtherItemCount; theirStakeIndex += 1)
             {
@@ -447,26 +447,26 @@ namespace OpenRS.Net.Client.Rendering
                     theirItemName = theirItemName + " x " + GameClientUtilities.FormatItemCount(client.tradeConfirmOtherItemsCount[theirStakeIndex]);
                 }
 
-                client.gameGraphics.DrawText(theirItemName, boxOffsetX + 351, boxOffsetY + 42 + theirStakeIndex * 12, 1, 0xffffff);
+                client.GameGraphics.DrawText(theirItemName, boxOffsetX + 351, boxOffsetY + 42 + theirStakeIndex * 12, 1, 0xffffff);
             }
 
             if (client.tradeConfirmOtherItemCount == 0)
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_nothing"), boxOffsetX + 351, boxOffsetY + 42, 1, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.duel_nothing"), boxOffsetX + 351, boxOffsetY + 42, 1, 0xffffff);
             }
 
-            client.gameGraphics.DrawText(LocalisationManager.GetString("trade.confirm_warning1"), boxOffsetX + 234, boxOffsetY + 200, 4, 65535);
-            client.gameGraphics.DrawText(LocalisationManager.GetString("trade.confirm_warning2"), boxOffsetX + 234, boxOffsetY + 215, 1, 0xffffff);
-            client.gameGraphics.DrawText(LocalisationManager.GetString("trade.confirm_warning3"), boxOffsetX + 234, boxOffsetY + 230, 1, 0xffffff);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("trade.confirm_warning1"), boxOffsetX + 234, boxOffsetY + 200, 4, 65535);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("trade.confirm_warning2"), boxOffsetX + 234, boxOffsetY + 215, 1, 0xffffff);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("trade.confirm_warning3"), boxOffsetX + 234, boxOffsetY + 230, 1, 0xffffff);
 
             if (!client.tradeConfirmAccepted)
             {
-                client.gameGraphics.DrawPicture(boxOffsetX + 118 - 35, boxOffsetY + 238, client.baseInventoryPic + 25);
-                client.gameGraphics.DrawPicture(boxOffsetX + 352 - 35, boxOffsetY + 238, client.baseInventoryPic + 26);
+                client.GameGraphics.DrawPicture(boxOffsetX + 118 - 35, boxOffsetY + 238, client.BaseInventoryPic + 25);
+                client.GameGraphics.DrawPicture(boxOffsetX + 352 - 35, boxOffsetY + 238, client.BaseInventoryPic + 26);
             }
             else
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.duel_waiting"), boxOffsetX + 234, boxOffsetY + 250, 1, 0xffff00);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.duel_waiting"), boxOffsetX + 234, boxOffsetY + 250, 1, 0xffff00);
             }
 
             if (client.mouseButtonClick == 1)
@@ -712,110 +712,110 @@ namespace OpenRS.Net.Client.Rendering
 
             int boxOffsetX = 22;
             int boxOffsetY = 36;
-            client.gameGraphics.DrawBox(boxOffsetX, boxOffsetY, 468, 12, 0xc90b1d);
+            client.GameGraphics.DrawBox(boxOffsetX, boxOffsetY, 468, 12, 0xc90b1d);
             int backgroundColour = 0x989898;
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 12, 468, 18, backgroundColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 30, 8, 248, backgroundColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 205, boxOffsetY + 30, 11, 248, backgroundColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 462, boxOffsetY + 30, 6, 248, backgroundColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 99, 197, 24, backgroundColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 192, 197, 23, backgroundColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 258, 197, 20, backgroundColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 216, boxOffsetY + 235, 246, 43, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 12, 468, 18, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 30, 8, 248, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 205, boxOffsetY + 30, 11, 248, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 462, boxOffsetY + 30, 6, 248, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 99, 197, 24, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 192, 197, 23, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 258, 197, 20, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 216, boxOffsetY + 235, 246, 43, backgroundColour, 160);
             int cellColour = 0xd0d0d0;
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 30, 197, 69, cellColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 123, 197, 69, cellColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 215, 197, 43, cellColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 216, boxOffsetY + 30, 246, 205, cellColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 30, 197, 69, cellColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 123, 197, 69, cellColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 8, boxOffsetY + 215, 197, 43, cellColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 216, boxOffsetY + 30, 246, 205, cellColour, 160);
 
             for (int ourRowIndex = 0; ourRowIndex < 3; ourRowIndex += 1)
             {
-                client.gameGraphics.DrawLineX(boxOffsetX + 8, boxOffsetY + 30 + ourRowIndex * 34, 197, 0);
+                client.GameGraphics.DrawLineX(boxOffsetX + 8, boxOffsetY + 30 + ourRowIndex * 34, 197, 0);
             }
 
             for (int theirRowIndex = 0; theirRowIndex < 3; theirRowIndex += 1)
             {
-                client.gameGraphics.DrawLineX(boxOffsetX + 8, boxOffsetY + 123 + theirRowIndex * 34, 197, 0);
+                client.GameGraphics.DrawLineX(boxOffsetX + 8, boxOffsetY + 123 + theirRowIndex * 34, 197, 0);
             }
 
             for (int inventoryRowIndex = 0; inventoryRowIndex < 7; inventoryRowIndex += 1)
             {
-                client.gameGraphics.DrawLineX(boxOffsetX + 216, boxOffsetY + 30 + inventoryRowIndex * 34, 246, 0);
+                client.GameGraphics.DrawLineX(boxOffsetX + 216, boxOffsetY + 30 + inventoryRowIndex * 34, 246, 0);
             }
 
             for (int columnIndex = 0; columnIndex < 6; columnIndex += 1)
             {
                 if (columnIndex < 5)
                 {
-                    client.gameGraphics.DrawLineY(boxOffsetX + 8 + columnIndex * 49, boxOffsetY + 30, 69, 0);
+                    client.GameGraphics.DrawLineY(boxOffsetX + 8 + columnIndex * 49, boxOffsetY + 30, 69, 0);
                 }
 
                 if (columnIndex < 5)
                 {
-                    client.gameGraphics.DrawLineY(boxOffsetX + 8 + columnIndex * 49, boxOffsetY + 123, 69, 0);
+                    client.GameGraphics.DrawLineY(boxOffsetX + 8 + columnIndex * 49, boxOffsetY + 123, 69, 0);
                 }
 
-                client.gameGraphics.DrawLineY(boxOffsetX + 216 + columnIndex * 49, boxOffsetY + 30, 205, 0);
+                client.GameGraphics.DrawLineY(boxOffsetX + 216 + columnIndex * 49, boxOffsetY + 30, 205, 0);
             }
 
-            client.gameGraphics.DrawLineX(boxOffsetX + 8, boxOffsetY + 215, 197, 0);
-            client.gameGraphics.DrawLineX(boxOffsetX + 8, boxOffsetY + 257, 197, 0);
-            client.gameGraphics.DrawLineY(boxOffsetX + 8, boxOffsetY + 215, 43, 0);
-            client.gameGraphics.DrawLineY(boxOffsetX + 204, boxOffsetY + 215, 43, 0);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.duel_with_prefix") + client.duelOpponent, boxOffsetX + 1, boxOffsetY + 10, 1, 0xffffff);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.duel_your_stake_tab"), boxOffsetX + 9, boxOffsetY + 27, 4, 0xffffff);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.duel_opponent_stake_tab"), boxOffsetX + 9, boxOffsetY + 120, 4, 0xffffff);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.duel_options"), boxOffsetX + 9, boxOffsetY + 212, 4, 0xffffff);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.trade_your_inventory"), boxOffsetX + 216, boxOffsetY + 27, 4, 0xffffff);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.duel_option_no_retreat"), boxOffsetX + 8 + 1, boxOffsetY + 215 + 16, 3, 0xffff00);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.duel_option_no_magic"), boxOffsetX + 8 + 1, boxOffsetY + 215 + 35, 3, 0xffff00);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.duel_option_no_prayer"), boxOffsetX + 8 + 102, boxOffsetY + 215 + 16, 3, 0xffff00);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("trade.duel_option_no_weapons"), boxOffsetX + 8 + 102, boxOffsetY + 215 + 35, 3, 0xffff00);
-            client.gameGraphics.DrawBoxEdge(boxOffsetX + 93, boxOffsetY + 215 + 6, 11, 11, 0xffff00);
+            client.GameGraphics.DrawLineX(boxOffsetX + 8, boxOffsetY + 215, 197, 0);
+            client.GameGraphics.DrawLineX(boxOffsetX + 8, boxOffsetY + 257, 197, 0);
+            client.GameGraphics.DrawLineY(boxOffsetX + 8, boxOffsetY + 215, 43, 0);
+            client.GameGraphics.DrawLineY(boxOffsetX + 204, boxOffsetY + 215, 43, 0);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("trade.duel_with_prefix") + client.duelOpponent, boxOffsetX + 1, boxOffsetY + 10, 1, 0xffffff);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("trade.duel_your_stake_tab"), boxOffsetX + 9, boxOffsetY + 27, 4, 0xffffff);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("trade.duel_opponent_stake_tab"), boxOffsetX + 9, boxOffsetY + 120, 4, 0xffffff);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("trade.duel_options"), boxOffsetX + 9, boxOffsetY + 212, 4, 0xffffff);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("trade.trade_your_inventory"), boxOffsetX + 216, boxOffsetY + 27, 4, 0xffffff);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("trade.duel_option_no_retreat"), boxOffsetX + 8 + 1, boxOffsetY + 215 + 16, 3, 0xffff00);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("trade.duel_option_no_magic"), boxOffsetX + 8 + 1, boxOffsetY + 215 + 35, 3, 0xffff00);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("trade.duel_option_no_prayer"), boxOffsetX + 8 + 102, boxOffsetY + 215 + 16, 3, 0xffff00);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("trade.duel_option_no_weapons"), boxOffsetX + 8 + 102, boxOffsetY + 215 + 35, 3, 0xffff00);
+            client.GameGraphics.DrawBoxEdge(boxOffsetX + 93, boxOffsetY + 215 + 6, 11, 11, 0xffff00);
 
             if (client.duelNoRetreating)
             {
-                client.gameGraphics.DrawBox(boxOffsetX + 95, boxOffsetY + 215 + 8, 7, 7, 0xffff00);
+                client.GameGraphics.DrawBox(boxOffsetX + 95, boxOffsetY + 215 + 8, 7, 7, 0xffff00);
             }
 
-            client.gameGraphics.DrawBoxEdge(boxOffsetX + 93, boxOffsetY + 215 + 25, 11, 11, 0xffff00);
+            client.GameGraphics.DrawBoxEdge(boxOffsetX + 93, boxOffsetY + 215 + 25, 11, 11, 0xffff00);
 
             if (client.duelNoMagic)
             {
-                client.gameGraphics.DrawBox(boxOffsetX + 95, boxOffsetY + 215 + 27, 7, 7, 0xffff00);
+                client.GameGraphics.DrawBox(boxOffsetX + 95, boxOffsetY + 215 + 27, 7, 7, 0xffff00);
             }
 
-            client.gameGraphics.DrawBoxEdge(boxOffsetX + 191, boxOffsetY + 215 + 6, 11, 11, 0xffff00);
+            client.GameGraphics.DrawBoxEdge(boxOffsetX + 191, boxOffsetY + 215 + 6, 11, 11, 0xffff00);
 
             if (client.duelNoPrayer)
             {
-                client.gameGraphics.DrawBox(boxOffsetX + 193, boxOffsetY + 215 + 8, 7, 7, 0xffff00);
+                client.GameGraphics.DrawBox(boxOffsetX + 193, boxOffsetY + 215 + 8, 7, 7, 0xffff00);
             }
 
-            client.gameGraphics.DrawBoxEdge(boxOffsetX + 191, boxOffsetY + 215 + 25, 11, 11, 0xffff00);
+            client.GameGraphics.DrawBoxEdge(boxOffsetX + 191, boxOffsetY + 215 + 25, 11, 11, 0xffff00);
 
             if (client.duelNoWeapons)
             {
-                client.gameGraphics.DrawBox(boxOffsetX + 193, boxOffsetY + 215 + 27, 7, 7, 0xffff00);
+                client.GameGraphics.DrawBox(boxOffsetX + 193, boxOffsetY + 215 + 27, 7, 7, 0xffff00);
             }
 
             if (!client.duelMyAccepted)
             {
-                client.gameGraphics.DrawPicture(boxOffsetX + 217, boxOffsetY + 238, client.baseInventoryPic + 25);
+                client.GameGraphics.DrawPicture(boxOffsetX + 217, boxOffsetY + 238, client.BaseInventoryPic + 25);
             }
 
-            client.gameGraphics.DrawPicture(boxOffsetX + 394, boxOffsetY + 238, client.baseInventoryPic + 26);
+            client.GameGraphics.DrawPicture(boxOffsetX + 394, boxOffsetY + 238, client.BaseInventoryPic + 26);
 
             if (client.duelOpponentAccepted)
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.trade_other_accepted"), boxOffsetX + 341, boxOffsetY + 246, 1, 0xffffff);
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.trade_has_accepted"), boxOffsetX + 341, boxOffsetY + 256, 1, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.trade_other_accepted"), boxOffsetX + 341, boxOffsetY + 246, 1, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.trade_has_accepted"), boxOffsetX + 341, boxOffsetY + 256, 1, 0xffffff);
             }
 
             if (client.duelMyAccepted)
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.trade_waiting_for"), boxOffsetX + 217 + 35, boxOffsetY + 246, 1, 0xffffff);
-                client.gameGraphics.DrawText(LocalisationManager.GetString("trade.trade_other_player"), boxOffsetX + 217 + 35, boxOffsetY + 256, 1, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.trade_waiting_for"), boxOffsetX + 217 + 35, boxOffsetY + 246, 1, 0xffffff);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("trade.trade_other_player"), boxOffsetX + 217 + 35, boxOffsetY + 256, 1, 0xffffff);
             }
 
             for (int inventoryIndex = 0; inventoryIndex < client.inventoryItemsCount; inventoryIndex += 1)
@@ -826,7 +826,7 @@ namespace OpenRS.Net.Client.Rendering
 
                 if (!client.entityManager.GetItem(client.inventoryItems[inventoryIndex]).IsStackable)
                 {
-                    client.gameGraphics.DrawString(client.inventoryItemCount[inventoryIndex].ToString(), inventoryCellX + 1, inventoryCellY + 10, 1, 0xffff00);
+                    client.GameGraphics.DrawString(client.inventoryItemCount[inventoryIndex].ToString(), inventoryCellX + 1, inventoryCellY + 10, 1, 0xffff00);
                 }
             }
 
@@ -838,7 +838,7 @@ namespace OpenRS.Net.Client.Rendering
 
                 if (!client.entityManager.GetItem(client.duelMyItems[ourStakeIndex]).IsStackable)
                 {
-                    client.gameGraphics.DrawString(client.duelMyItemsCount[ourStakeIndex].ToString(), ourStakeCellX + 1, ourStakeCellY + 10, 1, 0xffff00);
+                    client.GameGraphics.DrawString(client.duelMyItemsCount[ourStakeIndex].ToString(), ourStakeCellX + 1, ourStakeCellY + 10, 1, 0xffff00);
                 }
 
                 if (client.mouseX > ourStakeCellX &&
@@ -847,7 +847,7 @@ namespace OpenRS.Net.Client.Rendering
                     client.mouseY < ourStakeCellY + 32)
                 {
                     Item duelMyItem = client.entityManager.GetItem(client.duelMyItems[ourStakeIndex]);
-                    client.gameGraphics.DrawString(duelMyItem.Name + ": @whi@" + duelMyItem.Description, boxOffsetX + 8, boxOffsetY + 273, 1, 0xffff00);
+                    client.GameGraphics.DrawString(duelMyItem.Name + ": @whi@" + duelMyItem.Description, boxOffsetX + 8, boxOffsetY + 273, 1, 0xffff00);
                 }
             }
 
@@ -859,7 +859,7 @@ namespace OpenRS.Net.Client.Rendering
 
                 if (!client.entityManager.GetItem(client.duelOpponentItems[opponentStakeIndex]).IsStackable)
                 {
-                    client.gameGraphics.DrawString(client.duelOpponentItemsCount[opponentStakeIndex].ToString(), opponentStakeCellX + 1, opponentStakeCellY + 10, 1, 0xffff00);
+                    client.GameGraphics.DrawString(client.duelOpponentItemsCount[opponentStakeIndex].ToString(), opponentStakeCellX + 1, opponentStakeCellY + 10, 1, 0xffff00);
                 }
 
                 if (client.mouseX > opponentStakeCellX &&
@@ -868,7 +868,7 @@ namespace OpenRS.Net.Client.Rendering
                     client.mouseY < opponentStakeCellY + 32)
                 {
                     Item duelOpponentItem = client.entityManager.GetItem(client.duelOpponentItems[opponentStakeIndex]);
-                    client.gameGraphics.DrawString(duelOpponentItem.Name + ": @whi@" + duelOpponentItem.Description, boxOffsetX + 8, boxOffsetY + 273, 1, 0xffff00);
+                    client.GameGraphics.DrawString(duelOpponentItem.Name + ": @whi@" + duelOpponentItem.Description, boxOffsetX + 8, boxOffsetY + 273, 1, 0xffff00);
                 }
             }
         }

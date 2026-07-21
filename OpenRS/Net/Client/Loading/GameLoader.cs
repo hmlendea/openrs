@@ -65,36 +65,36 @@ client.RaiseOnLoadingSection(this, new EventArgs());
             client.gameCamera.FogStartDistance = 4000;
             client.gameCamera.SetCameraTransform(cameraX, -client.engineHandle.GetAveragedElevation(cameraX, cameraY), cameraY, 912, cameraRotation, 0, cameraDistance * 2);
             client.gameCamera.FinishCamera();
-            client.gameGraphics.ScreenFadeToBlack();
-            client.gameGraphics.ScreenFadeToBlack();
+            client.GameGraphics.ScreenFadeToBlack();
+            client.GameGraphics.ScreenFadeToBlack();
 
-            client.gameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0x000000); //_bgScreenWidth=512
+            client.GameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0x000000); //_bgScreenWidth=512
             for (int i1 = 6; i1 >= 1; i1 -= 1)
             {
-                client.gameGraphics.DrawTransparentLine(0, i1, 0, i1, _bgScreenWidth, 8);
+                client.GameGraphics.DrawTransparentLine(0, i1, 0, i1, _bgScreenWidth, 8);
             }
 
-            client.gameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0x000000);
+            client.GameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0x000000);
 
             for (int j1 = 6; j1 >= 1; j1 -= 1)
             {
-                client.gameGraphics.DrawTransparentLine(0, j1, 0, 194 - j1, _bgScreenWidth, 8);
+                client.GameGraphics.DrawTransparentLine(0, j1, 0, 194 - j1, _bgScreenWidth, 8);
             }
 
             if (!client.DoNotDrawLogo)
             {
                 if (GameApplet.bgPixels is null)
                 {
-                    client.gameGraphics.DrawPicture(15, 15, client.baseInventoryPic + 10);
+                    client.GameGraphics.DrawPicture(15, 15, client.BaseInventoryPic + 10);
                 }
                 else
                 {
-                    client.gameGraphics.DrawPixels(GameApplet.bgPixels, 0, 0, GameApplet.bgPixels.Length, GameApplet.bgPixels[0].Length);
+                    client.GameGraphics.DrawPixels(GameApplet.bgPixels, 0, 0, GameApplet.bgPixels.Length, GameApplet.bgPixels[0].Length);
                 }
             }
 
-            client.gameGraphics.DrawImage(client.baseLoginScreenBackgroundPic, 0, 0, _bgScreenWidth, 200);
-            client.gameGraphics.ApplyImage(client.baseLoginScreenBackgroundPic);
+            client.GameGraphics.DrawImage(client.baseLoginScreenBackgroundPic, 0, 0, _bgScreenWidth, 200);
+            client.GameGraphics.ApplyImage(client.baseLoginScreenBackgroundPic);
 
             cameraX = 9216;
             cameraY = 9216;
@@ -106,46 +106,46 @@ client.RaiseOnLoadingSection(this, new EventArgs());
             client.gameCamera.FogStartDistance = 4000;
             client.gameCamera.SetCameraTransform(cameraX, -client.engineHandle.GetAveragedElevation(cameraX, cameraY), cameraY, 912, client.cameraRotation, 0, cameraDistance * 2);
             client.gameCamera.FinishCamera();
-            client.gameGraphics.ScreenFadeToBlack();
-            client.gameGraphics.ScreenFadeToBlack();
+            client.GameGraphics.ScreenFadeToBlack();
+            client.GameGraphics.ScreenFadeToBlack();
 
-            client.gameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0);
+            client.GameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0);
             for (int k1 = 6; k1 >= 1; k1 -= 1)
             {
-                client.gameGraphics.DrawTransparentLine(0, k1, 0, k1, _bgScreenWidth, 8);
+                client.GameGraphics.DrawTransparentLine(0, k1, 0, k1, _bgScreenWidth, 8);
             }
 
-            client.gameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0);
+            client.GameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0);
             for (int l1 = 6; l1 >= 1; l1 -= 1)
             {
-                client.gameGraphics.DrawTransparentLine(0, l1, 0, 194 - l1, _bgScreenWidth, 8);
+                client.GameGraphics.DrawTransparentLine(0, l1, 0, 194 - l1, _bgScreenWidth, 8);
             }
 
             if (!client.DoNotDrawLogo)
             {
                 if (GameApplet.bgPixels is null)
                 {
-                    client.gameGraphics.DrawPicture(15, 15, client.baseInventoryPic + 10);
+                    client.GameGraphics.DrawPicture(15, 15, client.BaseInventoryPic + 10);
                 }
                 else
                 {
-                    client.gameGraphics.DrawPixels(GameApplet.bgPixels, 0, 0, GameApplet.bgPixels.Length, GameApplet.bgPixels[0].Length);
+                    client.GameGraphics.DrawPixels(GameApplet.bgPixels, 0, 0, GameApplet.bgPixels.Length, GameApplet.bgPixels[0].Length);
                 }
             }
 
-            client.gameGraphics.DrawImage(client.baseLoginScreenBackgroundPic + 1, 0, 0, _bgScreenWidth, 200);
-            client.gameGraphics.ApplyImage(client.baseLoginScreenBackgroundPic + 1);
+            client.GameGraphics.DrawImage(client.baseLoginScreenBackgroundPic + 1, 0, 0, _bgScreenWidth, 200);
+            client.GameGraphics.ApplyImage(client.baseLoginScreenBackgroundPic + 1);
 
             // Remove buildings
             for (int i2 = 0; i2 < 64; i2 += 1)
             {
 
-                client.gameCamera.RemoveModel(client.engineHandle.roofObject[0][i2]);
-                client.gameCamera.RemoveModel(client.engineHandle.wallObject[0][i2]);
-                client.gameCamera.RemoveModel(client.engineHandle.wallObject[1][i2]);
-                client.gameCamera.RemoveModel(client.engineHandle.roofObject[1][i2]);
-                client.gameCamera.RemoveModel(client.engineHandle.wallObject[2][i2]);
-                client.gameCamera.RemoveModel(client.engineHandle.roofObject[2][i2]);
+                client.gameCamera.RemoveModel(client.engineHandle.RoofObject[0][i2]);
+                client.gameCamera.RemoveModel(client.engineHandle.WallObject[0][i2]);
+                client.gameCamera.RemoveModel(client.engineHandle.WallObject[1][i2]);
+                client.gameCamera.RemoveModel(client.engineHandle.RoofObject[1][i2]);
+                client.gameCamera.RemoveModel(client.engineHandle.WallObject[2][i2]);
+                client.gameCamera.RemoveModel(client.engineHandle.RoofObject[2][i2]);
             }
 
             cameraX = 11136;//'\u2B80';
@@ -158,35 +158,35 @@ client.RaiseOnLoadingSection(this, new EventArgs());
             client.gameCamera.FogStartDistance = 4000;
             client.gameCamera.SetCameraTransform(cameraX, -client.engineHandle.GetAveragedElevation(cameraX, cameraY), cameraY, 912, client.cameraRotation, 0, cameraDistance * 2);
             client.gameCamera.FinishCamera();
-            client.gameGraphics.ScreenFadeToBlack();
-            client.gameGraphics.ScreenFadeToBlack();
+            client.GameGraphics.ScreenFadeToBlack();
+            client.GameGraphics.ScreenFadeToBlack();
 
-            client.gameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0);
+            client.GameGraphics.DrawBox(0, 0, _bgScreenWidth, 6, 0);
             for (int j2 = 6; j2 >= 1; j2 -= 1)
             {
-                client.gameGraphics.DrawTransparentLine(0, j2, 0, j2, _bgScreenWidth, 8);
+                client.GameGraphics.DrawTransparentLine(0, j2, 0, j2, _bgScreenWidth, 8);
             }
 
-            client.gameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0);
+            client.GameGraphics.DrawBox(0, 194, _bgScreenWidth, 20, 0);
             for (int k2 = 6; k2 >= 1; k2 -= 1)
             {
-                client.gameGraphics.DrawTransparentLine(0, k2, 0, 194, _bgScreenWidth, 8);
+                client.GameGraphics.DrawTransparentLine(0, k2, 0, 194, _bgScreenWidth, 8);
             }
 
             if (!client.DoNotDrawLogo)
             {
                 if (GameApplet.bgPixels is null)
                 {
-                    client.gameGraphics.DrawPicture(15, 15, client.baseInventoryPic + 10);
+                    client.GameGraphics.DrawPicture(15, 15, client.BaseInventoryPic + 10);
                 }
                 else
                 {
-                    client.gameGraphics.DrawPixels(GameApplet.bgPixels, 0, 0, GameApplet.bgPixels.Length, GameApplet.bgPixels[0].Length);
+                    client.GameGraphics.DrawPixels(GameApplet.bgPixels, 0, 0, GameApplet.bgPixels.Length, GameApplet.bgPixels[0].Length);
                 }
             }
 
-            client.gameGraphics.DrawImage(client.baseInventoryPic + 10, 0, 0, _bgScreenWidth, 200);
-            client.gameGraphics.ApplyImage(client.baseInventoryPic + 10);
+            client.GameGraphics.DrawImage(client.BaseInventoryPic + 10, 0, 0, _bgScreenWidth, 200);
+            client.GameGraphics.ApplyImage(client.BaseInventoryPic + 10);
 
 client.RaiseOnLoadingSectionCompleted(this, new EventArgs());
         }
@@ -199,7 +199,7 @@ client.RaiseOnLoadingSectionCompleted(this, new EventArgs());
             client.loginScreen = 0;
             client.loggedIn = true;
             client.ResetPrivateMessages();
-            client.gameGraphics.ClearScreen();
+            client.GameGraphics.ClearScreen();
             // gameGraphics.UpdateGameImage();
             //gameGraphics.DrawImage(spriteBatch, 0, 0);
             client.OnDrawDone();
@@ -276,8 +276,8 @@ client.RaiseOnLoadingSectionCompleted(this, new EventArgs());
             }
 
             GameAppletMiddleMan.maxPacketReadCount = 500;
-            client.baseInventoryPic = 2000;
-            client.baseScrollPic = client.baseInventoryPic + 100;
+            client.BaseInventoryPic = 2000;
+            client.baseScrollPic = client.BaseInventoryPic + 100;
             client.baseItemPicture = client.baseScrollPic + 50;
             client.baseLoginScreenBackgroundPic = client.baseItemPicture + 1000;
             client.baseProjectilePic = client.baseLoginScreenBackgroundPic + 10;
@@ -285,20 +285,20 @@ client.RaiseOnLoadingSectionCompleted(this, new EventArgs());
             client.subTexturePic = client.baseTexturePic + 10;
             GameClient.graphics = client.GetGraphics();
             client.SetRefreshRate(50);
-            client.gameGraphics = new GameImageMiddleMan(client.windowWidth, client.windowHeight + 12, 4000)
+            client.GameGraphics = new GameImageMiddleMan(client.windowWidth, client.windowHeight + 12, 4000)
             {
                 gameReference = client
             };
-            client.gameGraphics.SetDimensions(0, 0, client.windowWidth, client.windowHeight + 12);
+            client.GameGraphics.SetDimensions(0, 0, client.windowWidth, client.windowHeight + 12);
             Menu.isBackgroundPatternEnabled = false;
             Menu.baseScrollPic = client.baseScrollPic;
-            client.spellMenu = new Menu(client.gameGraphics, 5);
-            int k1 = client.gameGraphics.GameWidth - 199;
+            client.spellMenu = new Menu(client.GameGraphics, 5);
+            int k1 = client.GameGraphics.GameWidth - 199;
             sbyte byte0 = 36;
             client.spellMenuHandle = client.spellMenu.CreateList(k1, byte0 + 24, 196, 90, 1, 500, true);
-            client.friendsMenu = new Menu(client.gameGraphics, 5);
+            client.friendsMenu = new Menu(client.GameGraphics, 5);
             client.friendsMenuHandle = client.friendsMenu.CreateList(k1, byte0 + 40, 196, 126, 1, 500, true);
-            client.questMenu = new Menu(client.gameGraphics, 5);
+            client.questMenu = new Menu(client.GameGraphics, 5);
             client.questMenuHandle = client.questMenu.CreateList(k1, byte0 + 24, 196, 251, 1, 500, true);
             LoadMedia();
             if (client.errorLoading)
@@ -312,7 +312,7 @@ client.RaiseOnLoadingSectionCompleted(this, new EventArgs());
                 return;
             }
 
-            client.gameCamera = new Camera(client.gameGraphics, 15000, 15000, 1000);
+            client.gameCamera = new Camera(client.GameGraphics, 15000, 15000, 1000);
 
             client.gameCamera.SetCameraSize(client.windowWidth / 2, client.windowHeight / 2, client.windowWidth / 2, client.windowHeight / 2, client.windowWidth, client.cameraFieldOfView);
             client.gameCamera.FarClipDistance = 2400;
@@ -322,10 +322,10 @@ client.RaiseOnLoadingSectionCompleted(this, new EventArgs());
             client.gameCamera.OffsetAllModelColours(-50, -10, -50);
             client.engineHandle = new EngineHandle(
                 client.gameCamera,
-                client.gameGraphics,
+                client.GameGraphics,
                 client.entityManager)
             {
-                baseInventoryPic = client.baseInventoryPic
+                BaseInventoryPic = client.BaseInventoryPic
             };
 
             LoadTextures();
@@ -365,7 +365,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
 
         public void CreateLoginMenus()
         {
-            client.loginMenuFirst = new Menu(client.gameGraphics, 50);
+            client.loginMenuFirst = new Menu(client.GameGraphics, 50);
             int l = 40;
             if (!Config.MembersFeatures)
             {
@@ -385,7 +385,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                 client.loginMenuFirst.DrawText(256, 250 + l, "Click here to login", 5, false);
                 client.loginMenuLoginButton = client.loginMenuFirst.CreateButton(256, 250 + l, 200, 35);
             }
-            client.loginNewUser = new Menu(client.gameGraphics, 50);
+            client.loginNewUser = new Menu(client.GameGraphics, 50);
             l = 230;
             client.loginNewUser.DrawText(256, l + 8, "To create an account please go back to the", 4, true);
             l += 20;
@@ -394,7 +394,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
             client.loginNewUser.DrawButton(256, l + 17, 150, 34);
             client.loginNewUser.DrawText(256, l + 17, "Ok", 5, false);
             client.loginMenuOkButton = client.loginNewUser.CreateButton(256, l + 17, 150, 34);
-            client.loginMenuLogin = new Menu(client.gameGraphics, 50);
+            client.loginMenuLogin = new Menu(client.GameGraphics, 50);
             l = 230;
             client.loginMenuStatusText = client.loginMenuLogin.DrawText(256, l - 10, "Please enter your username and password", 4, true);
             l += 28;
@@ -434,20 +434,20 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
         public void LoadMedia()
         {
             sbyte[] indexData = LoadDataFile(ApplicationPaths.MediaDirectory, "index.dat");
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic, LoadDataFile(ApplicationPaths.MediaDirectory, "inv1.dat"), indexData, 1);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 1, LoadDataFile(ApplicationPaths.MediaDirectory, "inv2.dat"), indexData, 6);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 9, LoadDataFile(ApplicationPaths.MediaDirectory, "bubble.dat"), indexData, 1);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 10, LoadDataFile(ApplicationPaths.MediaDirectory, "runescape.dat"), indexData, 1);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 11, LoadDataFile(ApplicationPaths.MediaDirectory, "splat.dat"), indexData, 3);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 14, LoadDataFile(ApplicationPaths.MediaDirectory, "icon.dat"), indexData, 8);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 22, LoadDataFile(ApplicationPaths.MediaDirectory, "hbar.dat"), indexData, 1);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 23, LoadDataFile(ApplicationPaths.MediaDirectory, "hbar2.dat"), indexData, 1);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 24, LoadDataFile(ApplicationPaths.MediaDirectory, "compass.dat"), indexData, 1);
-            client.gameGraphics.UnpackImageData(client.baseInventoryPic + 25, LoadDataFile(ApplicationPaths.MediaDirectory, "buttons.dat"), indexData, 2);
-            client.gameGraphics.UnpackImageData(client.baseScrollPic, LoadDataFile(ApplicationPaths.MediaDirectory, "scrollbar.dat"), indexData, 2);
-            client.gameGraphics.UnpackImageData(client.baseScrollPic + 2, LoadDataFile(ApplicationPaths.MediaDirectory, "corners.dat"), indexData, 4);
-            client.gameGraphics.UnpackImageData(client.baseScrollPic + 6, LoadDataFile(ApplicationPaths.MediaDirectory, "arrows.dat"), indexData, 2);
-            client.gameGraphics.UnpackImageData(client.baseProjectilePic, LoadDataFile(ApplicationPaths.MediaDirectory, "projectile.dat"), indexData, client.entityManager.SpellProjectileCount);
+            client.GameGraphics.UnpackImageData(client.BaseInventoryPic, LoadDataFile(ApplicationPaths.MediaDirectory, "inv1.dat"), indexData, 1);
+            client.GameGraphics.UnpackImageData(client.BaseInventoryPic + 1, LoadDataFile(ApplicationPaths.MediaDirectory, "inv2.dat"), indexData, 6);
+            client.GameGraphics.UnpackImageData(client.BaseInventoryPic + 9, LoadDataFile(ApplicationPaths.MediaDirectory, "bubble.dat"), indexData, 1);
+            client.GameGraphics.UnpackImageData(client.BaseInventoryPic + 10, LoadDataFile(ApplicationPaths.MediaDirectory, "runescape.dat"), indexData, 1);
+            client.GameGraphics.UnpackImageData(client.BaseInventoryPic + 11, LoadDataFile(ApplicationPaths.MediaDirectory, "splat.dat"), indexData, 3);
+            client.GameGraphics.UnpackImageData(client.BaseInventoryPic + 14, LoadDataFile(ApplicationPaths.MediaDirectory, "icon.dat"), indexData, 8);
+            client.GameGraphics.UnpackImageData(client.BaseInventoryPic + 22, LoadDataFile(ApplicationPaths.MediaDirectory, "hbar.dat"), indexData, 1);
+            client.GameGraphics.UnpackImageData(client.BaseInventoryPic + 23, LoadDataFile(ApplicationPaths.MediaDirectory, "hbar2.dat"), indexData, 1);
+            client.GameGraphics.UnpackImageData(client.BaseInventoryPic + 24, LoadDataFile(ApplicationPaths.MediaDirectory, "compass.dat"), indexData, 1);
+            client.GameGraphics.UnpackImageData(client.BaseInventoryPic + 25, LoadDataFile(ApplicationPaths.MediaDirectory, "buttons.dat"), indexData, 2);
+            client.GameGraphics.UnpackImageData(client.baseScrollPic, LoadDataFile(ApplicationPaths.MediaDirectory, "scrollbar.dat"), indexData, 2);
+            client.GameGraphics.UnpackImageData(client.baseScrollPic + 2, LoadDataFile(ApplicationPaths.MediaDirectory, "corners.dat"), indexData, 4);
+            client.GameGraphics.UnpackImageData(client.baseScrollPic + 6, LoadDataFile(ApplicationPaths.MediaDirectory, "arrows.dat"), indexData, 2);
+            client.GameGraphics.UnpackImageData(client.baseProjectilePic, LoadDataFile(ApplicationPaths.MediaDirectory, "projectile.dat"), indexData, client.entityManager.SpellProjectileCount);
 
             int remainingPictures = client.entityManager.HighestLoadedPicture;
 
@@ -461,29 +461,29 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                     batchSize = 30;
                 }
 
-                client.gameGraphics.UnpackImageData(
+                client.GameGraphics.UnpackImageData(
                     client.baseItemPicture + (batchIndex - 1) * 30,
                     LoadDataFile(ApplicationPaths.MediaDirectory, "objects" + batchIndex + ".dat"),
                     indexData,
                     batchSize);
             }
 
-            client.gameGraphics.LoadImage(client.baseInventoryPic);
-            client.gameGraphics.LoadImage(client.baseInventoryPic + 9);
+            client.GameGraphics.LoadImage(client.BaseInventoryPic);
+            client.GameGraphics.LoadImage(client.BaseInventoryPic + 9);
 
             for (int imageIndex = 11; imageIndex <= 26; imageIndex += 1)
             {
-                client.gameGraphics.LoadImage(client.baseInventoryPic + imageIndex);
+                client.GameGraphics.LoadImage(client.BaseInventoryPic + imageIndex);
             }
 
             for (int spellIndex = 0; spellIndex < client.entityManager.SpellProjectileCount; spellIndex += 1)
             {
-                client.gameGraphics.LoadImage(client.baseProjectilePic + spellIndex);
+                client.GameGraphics.LoadImage(client.baseProjectilePic + spellIndex);
             }
 
             for (int pictureIndex = 0; pictureIndex < client.entityManager.HighestLoadedPicture; pictureIndex += 1)
             {
-                client.gameGraphics.LoadImage(client.baseProjectilePic + pictureIndex);
+                client.GameGraphics.LoadImage(client.baseProjectilePic + pictureIndex);
             }
         }
 
@@ -529,12 +529,12 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
 
                 try
                 {
-                    client.gameGraphics.UnpackImageData(client.animationNumber, animationData, indexData, 15);
+                    client.GameGraphics.UnpackImageData(client.animationNumber, animationData, indexData, 15);
                     frameCount += 15;
 
                     if (client.entityManager.GetAnimation(animationIndex).HasAttackFrames)
                     {
-                        client.gameGraphics.UnpackImageData(
+                        client.GameGraphics.UnpackImageData(
                             client.animationNumber + 15,
                             LoadDataFile(ApplicationPaths.AnimationsDirectory, animationName + "a.dat"),
                             indexData,
@@ -544,7 +544,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
 
                     if (client.entityManager.GetAnimation(animationIndex).HasFemaleFrames)
                     {
-                        client.gameGraphics.UnpackImageData(
+                        client.GameGraphics.UnpackImageData(
                             client.animationNumber + 18,
                             LoadDataFile(ApplicationPaths.AnimationsDirectory, animationName + "f.dat"),
                             indexData,
@@ -556,7 +556,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                     {
                         for (int imageIndex = client.animationNumber; imageIndex < client.animationNumber + 27; imageIndex += 1)
                         {
-                            client.gameGraphics.LoadImage(imageIndex);
+                            client.GameGraphics.LoadImage(imageIndex);
                         }
                     }
                 }
@@ -577,7 +577,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
 
         public void CreateChatInputMenu()
         {
-            client.chatInputMenu = new Menu(client.gameGraphics, 10);
+            client.chatInputMenu = new Menu(client.GameGraphics, 10);
             client.messagesHandleType2 = client.chatInputMenu.CreateScrollableTextBox(5, 269, 502, 56, 1, 20, true);
             client.chatInputBox = client.chatInputMenu.CreateTextInput(7, 324, 498, 14, 1, 80, false, true);
             client.messagesHandleType5 = client.chatInputMenu.CreateScrollableTextBox(5, 269, 502, 56, 1, 20, true);
@@ -683,7 +683,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
 
         public void CreateAppearanceWindow()
         {
-            client.appearanceMenu = new Menu(client.gameGraphics, 100);
+            client.appearanceMenu = new Menu(client.GameGraphics, 100);
             client.appearanceMenu.DrawText(256, 10, "Please design Your Character", 4, true);
             int l = 140;
             int i1 = 34;
@@ -753,35 +753,35 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
             {
                 string textureName = client.entityManager.GetTexture(textureIndex).Name;
                 sbyte[] textureData = LoadDataFile(ApplicationPaths.TexturesDirectory, textureName + ".dat");
-                client.gameGraphics.UnpackImageData(client.baseTexturePic, textureData, textureIndexData, 1);
-                client.gameGraphics.DrawBox(0, 0, 128, 128, 0xff00ff);
-                client.gameGraphics.DrawPicture(0, 0, client.baseTexturePic);
-                int textureWidth = client.gameGraphics.PictureAssumedWidth[client.baseTexturePic];
+                client.GameGraphics.UnpackImageData(client.baseTexturePic, textureData, textureIndexData, 1);
+                client.GameGraphics.DrawBox(0, 0, 128, 128, 0xff00ff);
+                client.GameGraphics.DrawPicture(0, 0, client.baseTexturePic);
+                int textureWidth = client.GameGraphics.PictureAssumedWidth[client.baseTexturePic];
                 string subTextureName = client.entityManager.GetTexture(textureIndex).SubName;
 
                 if (subTextureName is not null && subTextureName.Length > 0)
                 {
                     sbyte[] subTextureData = LoadDataFile(ApplicationPaths.TexturesDirectory, subTextureName + ".dat");
-                    client.gameGraphics.UnpackImageData(client.baseTexturePic, subTextureData, textureIndexData, 1);
-                    client.gameGraphics.DrawPicture(0, 0, client.baseTexturePic);
+                    client.GameGraphics.UnpackImageData(client.baseTexturePic, subTextureData, textureIndexData, 1);
+                    client.GameGraphics.DrawPicture(0, 0, client.baseTexturePic);
                 }
 
-                client.gameGraphics.DrawImage(client.subTexturePic + textureIndex, 0, 0, textureWidth, textureWidth);
+                client.GameGraphics.DrawImage(client.subTexturePic + textureIndex, 0, 0, textureWidth, textureWidth);
                 int pixelCount = textureWidth * textureWidth;
 
                 for (int pixelIndex = 0; pixelIndex < pixelCount; pixelIndex += 1)
                 {
-                    if (client.gameGraphics.PictureColours[client.subTexturePic + textureIndex][pixelIndex] == 65280)
+                    if (client.GameGraphics.PictureColours[client.subTexturePic + textureIndex][pixelIndex] == 65280)
                     {
-                        client.gameGraphics.PictureColours[client.subTexturePic + textureIndex][pixelIndex] = 0xff00ff;
+                        client.GameGraphics.PictureColours[client.subTexturePic + textureIndex][pixelIndex] = 0xff00ff;
                     }
                 }
 
-                client.gameGraphics.ApplyImage(client.subTexturePic + textureIndex);
+                client.GameGraphics.ApplyImage(client.subTexturePic + textureIndex);
                 client.gameCamera.SetTexture(
                     textureIndex,
-                    client.gameGraphics.PictureColourIndexes[client.subTexturePic + textureIndex],
-                    client.gameGraphics.PictureColour[client.subTexturePic + textureIndex],
+                    client.GameGraphics.PictureColourIndexes[client.subTexturePic + textureIndex],
+                    client.GameGraphics.PictureColour[client.subTexturePic + textureIndex],
                     textureWidth / 64 - 1);
             }
         }
@@ -847,7 +847,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
         {
             if (client.playerAliveTimeout != 0)
             {
-                client.engineHandle.playerIsAlive = false;
+                client.engineHandle.PlayerIsAlive = false;
                 return false;
             }
             client.loadArea = false;
@@ -855,12 +855,12 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
             y += client.wildY;
             if (client.lastLayerIndex == client.layerIndex && x > client.sectionWidth && x < client.sectionPosX && y > client.sectionHeight && y < client.sectionPosY)
             {
-                client.engineHandle.playerIsAlive = true;
+                client.engineHandle.PlayerIsAlive = true;
                 return false;
             }
 client.RaiseOnLoadingSection(this, new EventArgs());
 
-            client.gameGraphics.DrawText("Loading... Please wait", 256, 192, 1, 0xffffff);
+            client.GameGraphics.DrawText("Loading... Please wait", 256, 192, 1, 0xffffff);
             client.DrawChatMessageTabs();
 
             //gameGraphics.DrawImage(spriteBatch, 0, 0);
@@ -984,7 +984,7 @@ client.RaiseOnLoadingSection(this, new EventArgs());
 
             }
 
-            client.engineHandle.playerIsAlive = true;
+            client.engineHandle.PlayerIsAlive = true;
 client.RaiseOnLoadingSectionCompleted(this, new EventArgs());
 
             client.OnDrawDone();

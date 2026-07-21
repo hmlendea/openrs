@@ -92,7 +92,7 @@ namespace OpenRS.Gui.Controls
 
         private void DrawGame()
         {
-            if (client is null || client.gameGraphics is null)
+            if (client is null || client.GameGraphics is null)
             {
                 return;
             }
@@ -106,18 +106,18 @@ namespace OpenRS.Gui.Controls
                         return;
                     }
 
-                    int pixelCount = client.gameGraphics.Pixels.Length;
+                    int pixelCount = client.GameGraphics.Pixels.Length;
                     uint[] pixelColours = new uint[pixelCount];
 
                     for (int pixelIndex = 0; pixelIndex < pixelCount; pixelIndex += 1)
                     {
-                        int pixelValue = client.gameGraphics.Pixels[pixelIndex];
+                        int pixelValue = client.GameGraphics.Pixels[pixelIndex];
                         byte[] pixelBytes = BitConverter.GetBytes(pixelValue);
                         byte redChannel = pixelBytes[RedChannelByteIndex];
                         byte greenChannel = pixelBytes[GreenChannelByteIndex];
                         byte blueChannel = pixelBytes[BlueChannelByteIndex];
 
-                        pixelColours[pixelIndex] = GraphicsEngine.RgbaToUInt(
+                        pixelColours[pixelIndex] = GameImage.RgbaToUInt(
                             redChannel,
                             greenChannel,
                             blueChannel,
@@ -134,7 +134,7 @@ namespace OpenRS.Gui.Controls
                     client.GameDisplayScaleY =
                         (float)destinationRectangle.Height / sourceRectangle.Height;
 
-                    if (client.gameGraphics.Pixels.Any(pixel => pixel != 0) &&
+                    if (client.GameGraphics.Pixels.Any(pixel => pixel != 0) &&
                         client.DrawIsNecessary)
                     {
                         Texture2D imageTexture = new(
@@ -264,16 +264,16 @@ namespace OpenRS.Gui.Controls
 
         private Rectangle CalculateGameSourceRectangle(GameClient gameClient)
         {
-            int bufferWidth = gameClient.gameGraphics.GameSize.Width;
-            int bufferHeight = gameClient.gameGraphics.GameSize.Height;
+            int bufferWidth = gameClient.GameGraphics.GameSize.Width;
+            int bufferHeight = gameClient.GameGraphics.GameSize.Height;
 
             return new Rectangle(0, 0, bufferWidth, bufferHeight);
         }
 
         private Rectangle CalculateGameDestinationRectangle(GameClient gameClient)
         {
-            int bufferWidth = gameClient.gameGraphics.GameSize.Width;
-            int bufferHeight = gameClient.gameGraphics.GameSize.Height;
+            int bufferWidth = gameClient.GameGraphics.GameSize.Width;
+            int bufferHeight = gameClient.GameGraphics.GameSize.Height;
             float scale = Math.Min(
                 (float)Size.Width / bufferWidth,
                 (float)Size.Height / bufferHeight);
@@ -306,12 +306,12 @@ namespace OpenRS.Gui.Controls
             {
                 if (!gameClient.loggedIn)
                 {
-                    gameClient.gameGraphics.IsLoggedIn = false;
+                    gameClient.GameGraphics.IsLoggedIn = false;
                     gameClient.DrawLoginScreens();
                 }
                 else
                 {
-                    gameClient.gameGraphics.IsLoggedIn = true;
+                    gameClient.GameGraphics.IsLoggedIn = true;
                     gameClient.DrawGame();
 
                     return true;

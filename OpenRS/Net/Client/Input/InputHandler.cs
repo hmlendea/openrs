@@ -1241,7 +1241,7 @@ namespace OpenRS.Net.Client.Input
 
                 if (statusText is not null)
                 {
-                    client.gameGraphics.DrawString(statusText, 6, 14, 1, 0xffff00);
+                    client.GameGraphics.DrawString(statusText, 6, 14, 1, 0xffff00);
                 }
 
                 if (!client.configOneMouseButton && client.mouseButtonClick == 1 || client.configOneMouseButton && client.mouseButtonClick == 1 && client.menuOptionsCount == 1)
@@ -1253,10 +1253,10 @@ namespace OpenRS.Net.Client.Input
                 if (!client.configOneMouseButton && client.mouseButtonClick == 2 || client.configOneMouseButton && client.mouseButtonClick == 1)
                 {
                     client.menuHeight = (client.menuOptionsCount + 1) * 15;
-                    client.menuWidth = client.gameGraphics.TextWidth("Choose option", 1) + 5;
+                    client.menuWidth = client.GameGraphics.TextWidth("Choose option", 1) + 5;
                     for (int menuIndex = 0; menuIndex < client.menuOptionsCount; menuIndex += 1)
                     {
-                        int entryTextWidth = client.gameGraphics.TextWidth(client.menuText1[menuIndex] + " " + client.menuText2[menuIndex], 1) + 5;
+                        int entryTextWidth = client.GameGraphics.TextWidth(client.menuText1[menuIndex] + " " + client.menuText2[menuIndex], 1) + 5;
 
                         if (entryTextWidth > client.menuWidth)
                         {

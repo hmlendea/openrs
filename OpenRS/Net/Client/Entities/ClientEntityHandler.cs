@@ -103,7 +103,7 @@ namespace OpenRS.Net.Client.Entities
                 client.streamClass.AddByte(client.appearanceBottomColour);
                 client.streamClass.AddByte(client.appearanceSkinColour);
                 client.streamClass.FormatPacket();
-                client.gameGraphics.ClearScreen();
+                client.GameGraphics.ClearScreen();
                 client.showAppearanceWindow = false;
             }
         }
@@ -112,11 +112,11 @@ namespace OpenRS.Net.Client.Entities
         {
             try
             {
-                if (client.gameGraphics is not null)
+                if (client.GameGraphics is not null)
                 {
-                    client.gameGraphics.CleanUp();
-                    client.gameGraphics.Pixels = null;
-                    client.gameGraphics = null;
+                    client.GameGraphics.CleanUp();
+                    client.GameGraphics.Pixels = null;
+                    client.GameGraphics = null;
                 }
 
                 client.gameCamera?.CleanUp();
@@ -133,9 +133,9 @@ namespace OpenRS.Net.Client.Entities
                 if (client.engineHandle is not null)
                 {
                     client.engineHandle.TileChunks = null;
-                    client.engineHandle.wallObject = null;
-                    client.engineHandle.roofObject = null;
-                    client.engineHandle.currentSectionObject = null;
+                    client.engineHandle.WallObject = null;
+                    client.engineHandle.RoofObject = null;
+                    client.engineHandle.CurrentSectionObject = null;
                     client.engineHandle = null;
                 }
 

@@ -1,14 +1,17 @@
 namespace OpenRS.Net.Client.Game.Cameras
 {
-    internal sealed class CameraModelRenderer
+    internal sealed class CameraModelRenderer(
+        CameraPolygonRasteriser rasteriser,
+        CameraTextureManager textureManager,
+        int[] screenPixels)
     {
         public bool IsRenderingInterlaced { get; set; }
 
         public bool IsInterlaced { get; set; }
 
-        private readonly CameraPolygonRasteriser rasteriser;
-        private readonly CameraTextureManager textureManager;
-        private readonly int[] screenPixels;
+        private readonly CameraPolygonRasteriser rasteriser = rasteriser;
+        private readonly CameraTextureManager textureManager = textureManager;
+        private readonly int[] screenPixels = screenPixels;
         private int screenCentreX;
         private int screenMouseOffsetX;
         private int defaultScreenHalfWidth;
@@ -16,16 +19,6 @@ namespace OpenRS.Net.Client.Game.Cameras
         private int screenProjectionShift;
 
         private static int SquaredIntensityDivisor => 0x10000;
-
-        public CameraModelRenderer(
-            CameraPolygonRasteriser rasteriser,
-            CameraTextureManager textureManager,
-            int[] screenPixels)
-        {
-            this.rasteriser = rasteriser;
-            this.textureManager = textureManager;
-            this.screenPixels = screenPixels;
-        }
 
         public void Initialise(
             int newScreenCentreX,

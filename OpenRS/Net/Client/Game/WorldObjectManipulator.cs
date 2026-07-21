@@ -49,7 +49,7 @@ namespace OpenRS.Net.Client.Game
 
             if (wallDirection == 0)
             {
-                engineHandle.tiles[x][y] &= 0xfffe;
+                engineHandle.Tiles[x][y] &= 0xfffe;
 
                 if (y > 0)
                 {
@@ -58,7 +58,7 @@ namespace OpenRS.Net.Client.Game
             }
             else if (wallDirection == 1)
             {
-                engineHandle.tiles[x][y] &= 0xfffd;
+                engineHandle.Tiles[x][y] &= 0xfffd;
 
                 if (x > 0)
                 {
@@ -67,11 +67,11 @@ namespace OpenRS.Net.Client.Game
             }
             else if (wallDirection == 2)
             {
-                engineHandle.tiles[x][y] &= 0xffef;
+                engineHandle.Tiles[x][y] &= 0xffef;
             }
             else if (wallDirection == 3)
             {
-                engineHandle.tiles[x][y] &= 0xffdf;
+                engineHandle.Tiles[x][y] &= 0xffdf;
             }
 
             AddObjectToScene(x, y, 1, 1);
@@ -91,7 +91,7 @@ namespace OpenRS.Net.Client.Game
 
             if (wallDirection == 0)
             {
-                engineHandle.tiles[x][y] |= 1;
+                engineHandle.Tiles[x][y] |= 1;
 
                 if (y > 0)
                 {
@@ -100,7 +100,7 @@ namespace OpenRS.Net.Client.Game
             }
             else if (wallDirection == 1)
             {
-                engineHandle.tiles[x][y] |= 2;
+                engineHandle.Tiles[x][y] |= 2;
 
                 if (x > 0)
                 {
@@ -109,11 +109,11 @@ namespace OpenRS.Net.Client.Game
             }
             else if (wallDirection == 2)
             {
-                engineHandle.tiles[x][y] |= 0x10;
+                engineHandle.Tiles[x][y] |= 0x10;
             }
             else if (wallDirection == 3)
             {
-                engineHandle.tiles[x][y] |= 0x20;
+                engineHandle.Tiles[x][y] |= 0x20;
             }
 
             AddObjectToScene(x, y, 1, 1);
@@ -162,11 +162,11 @@ namespace OpenRS.Net.Client.Game
                 {
                     if (engineHandle.entityManager.GetWorldObject(objType).Type == 1)
                     {
-                        engineHandle.tiles[tileX][tileY] &= 0xffbf;
+                        engineHandle.Tiles[tileX][tileY] &= 0xffbf;
                     }
                     else if (objDir == 0)
                     {
-                        engineHandle.tiles[tileX][tileY] &= 0xfffd;
+                        engineHandle.Tiles[tileX][tileY] &= 0xfffd;
 
                         if (tileX > 0)
                         {
@@ -175,7 +175,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else if (objDir == 2)
                     {
-                        engineHandle.tiles[tileX][tileY] &= 0xfffb;
+                        engineHandle.Tiles[tileX][tileY] &= 0xfffb;
 
                         if (tileY < EngineHandle.GridSize - 1)
                         {
@@ -184,7 +184,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else if (objDir == 4)
                     {
-                        engineHandle.tiles[tileX][tileY] &= 0xfff7;
+                        engineHandle.Tiles[tileX][tileY] &= 0xfff7;
 
                         if (tileX < EngineHandle.GridSize - 1)
                         {
@@ -193,7 +193,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else if (objDir == 6)
                     {
-                        engineHandle.tiles[tileX][tileY] &= 0xfffe;
+                        engineHandle.Tiles[tileX][tileY] &= 0xfffe;
 
                         if (tileY > 0)
                         {
@@ -239,11 +239,11 @@ namespace OpenRS.Net.Client.Game
                 {
                     if (engineHandle.entityManager.GetWorldObject(index).Type == 1)
                     {
-                        engineHandle.tiles[tileX][tileY] |= 0x40;
+                        engineHandle.Tiles[tileX][tileY] |= 0x40;
                     }
                     else if (direction == 0)
                     {
-                        engineHandle.tiles[tileX][tileY] |= 2;
+                        engineHandle.Tiles[tileX][tileY] |= 2;
 
                         if (tileX > 0)
                         {
@@ -252,7 +252,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else if (direction == 2)
                     {
-                        engineHandle.tiles[tileX][tileY] |= 4;
+                        engineHandle.Tiles[tileX][tileY] |= 4;
 
                         if (tileY < EngineHandle.GridSize - 1)
                         {
@@ -261,7 +261,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else if (direction == 4)
                     {
-                        engineHandle.tiles[tileX][tileY] |= 8;
+                        engineHandle.Tiles[tileX][tileY] |= 8;
 
                         if (tileX < EngineHandle.GridSize - 1)
                         {
@@ -270,7 +270,7 @@ namespace OpenRS.Net.Client.Game
                     }
                     else if (direction == 6)
                     {
-                        engineHandle.tiles[tileX][tileY] |= 1;
+                        engineHandle.Tiles[tileX][tileY] |= 1;
 
                         if (tileY > 0)
                         {
@@ -321,7 +321,7 @@ namespace OpenRS.Net.Client.Game
                         objectModel.OffsetPosition(worldCentreX, -engineHandle.GetAveragedElevation(worldCentreX, worldCentreZ), worldCentreZ);
                         objectModel.SetRotation(0, engineHandle.GetTileRotation(x, y) * 32, 0);
                         objectModel.SetRotation(0, objectRotation * 32, 0);
-                        engineHandle.camera.AddModel(objectModel);
+                        engineHandle.WorldCamera.AddModel(objectModel);
                         objectModel.SetModelColours(48, 48, -50, -10, -50);
 
                         if (objectWidth <= 1 && objectHeight <= 1)
@@ -360,7 +360,7 @@ namespace OpenRS.Net.Client.Game
                                     sectorY -= EngineHandle.SectorSize;
                                 }
 
-                                engineHandle.tileDiagonalWall[sectorLayer][sectorX * EngineHandle.SectorSize + sectorY] = 0;
+                                engineHandle.TileDiagonalWall[sectorLayer][sectorX * EngineHandle.SectorSize + sectorY] = 0;
                             }
                         }
                     }

@@ -62,18 +62,18 @@ namespace OpenRS.Net.Client.Rendering
                 }
             }
 
-            client.gameGraphics.DrawBox(56, 35, 400, 290, 0);
-            client.gameGraphics.DrawBoxEdge(56, 35, 400, 290, 0xffffff);
+            client.GameGraphics.DrawBox(56, 35, 400, 290, 0);
+            client.GameGraphics.DrawBoxEdge(56, 35, 400, 290, 0xffffff);
             yOffset = 50;
-            client.gameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_line1"), 256, yOffset, 1, 0xffffff);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_line1"), 256, yOffset, 1, 0xffffff);
             yOffset += 15;
-            client.gameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_line2"), 256, yOffset, 1, 0xffffff);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_line2"), 256, yOffset, 1, 0xffffff);
             yOffset += 15;
-            client.gameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_line3"), 256, yOffset, 1, 0xff8000);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_line3"), 256, yOffset, 1, 0xff8000);
             yOffset += 25;
-            client.gameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_line4"), 256, yOffset, 1, 0xffff00);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_line4"), 256, yOffset, 1, 0xffff00);
             yOffset += 15;
-            client.gameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_line5"), 256, yOffset, 1, 0xffff00);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_line5"), 256, yOffset, 1, 0xffff00);
             yOffset += 15;
 
             for (int ruleIndex = 0; ruleIndex < AbuseRuleCount; ruleIndex += 1)
@@ -82,11 +82,11 @@ namespace OpenRS.Net.Client.Rendering
 
                 if (client.reportAbuseOptionSelected == ruleIndex + 1)
                 {
-                    client.gameGraphics.DrawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
+                    client.GameGraphics.DrawBoxEdge(66, yOffset - 12, 380, 15, 0xffffff);
                     selectedColour = 0xff8000;
                 }
 
-                client.gameGraphics.DrawText(
+                client.GameGraphics.DrawText(
                     LocalisationManager.GetString($"overlay.abuse_rule_{ruleIndex + 1}"),
                     256,
                     yOffset,
@@ -103,42 +103,42 @@ namespace OpenRS.Net.Client.Rendering
                 cancelColour = 0xffff00;
             }
 
-            client.gameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_cancel"), 256, yOffset, 1, cancelColour);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_cancel"), 256, yOffset, 1, cancelColour);
         }
 
 
         public void DrawOptionsMenu(bool canClick)
         {
-            int menuX = client.gameGraphics.GameWidth - 199;
+            int menuX = client.GameGraphics.GameWidth - 199;
             int menuWidth = 196;
-            client.gameGraphics.DrawPicture(menuX - 49, 3, client.baseInventoryPic + 6);
-            client.gameGraphics.DrawBoxAlpha(menuX, 36, menuWidth, 62, GameImage.RgbToInt(181, 181, 181), 160);
-            client.gameGraphics.DrawBoxAlpha(menuX, 98, menuWidth, 92, GameImage.RgbToInt(201, 201, 201), 160);
-            client.gameGraphics.DrawBoxAlpha(menuX, 190, menuWidth, 90, GameImage.RgbToInt(181, 181, 181), 160);
-            client.gameGraphics.DrawBoxAlpha(menuX, 280, menuWidth, 40, GameImage.RgbToInt(201, 201, 201), 160);
+            client.GameGraphics.DrawPicture(menuX - 49, 3, client.BaseInventoryPic + 6);
+            client.GameGraphics.DrawBoxAlpha(menuX, 36, menuWidth, 62, GameImage.RgbToInt(181, 181, 181), 160);
+            client.GameGraphics.DrawBoxAlpha(menuX, 98, menuWidth, 92, GameImage.RgbToInt(201, 201, 201), 160);
+            client.GameGraphics.DrawBoxAlpha(menuX, 190, menuWidth, 90, GameImage.RgbToInt(181, 181, 181), 160);
+            client.GameGraphics.DrawBoxAlpha(menuX, 280, menuWidth, 40, GameImage.RgbToInt(201, 201, 201), 160);
             int labelX = menuX + 3;
             int labelY = 36 + 15;
-            client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_title"), labelX, labelY, 1, 0);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_title"), labelX, labelY, 1, 0);
             labelY += 15;
 
             if (client.configCameraAutoAngle)
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_camera_auto"), labelX, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_camera_auto"), labelX, labelY, 1, 0xffffff);
             }
             else
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_camera_manual"), labelX, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_camera_manual"), labelX, labelY, 1, 0xffffff);
             }
 
             labelY += 15;
 
             if (client.configOneMouseButton)
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_mouse_one"), labelX, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_mouse_one"), labelX, labelY, 1, 0xffffff);
             }
             else
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_mouse_two"), labelX, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_mouse_two"), labelX, labelY, 1, 0xffffff);
             }
 
             labelY += 15;
@@ -147,95 +147,95 @@ namespace OpenRS.Net.Client.Rendering
             {
                 if (client.configSoundOff)
                 {
-                    client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_sound_off"), labelX, labelY, 1, 0xffffff);
+                    client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_sound_off"), labelX, labelY, 1, 0xffffff);
                 }
                 else
                 {
-                    client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_sound_on"), labelX, labelY, 1, 0xffffff);
+                    client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_sound_on"), labelX, labelY, 1, 0xffffff);
                 }
             }
 
             labelY += 15;
-            client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_assists_title"), labelX, labelY, 1, 0);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_assists_title"), labelX, labelY, 1, 0);
             labelY += 15;
 
             if (client.showRoofs)
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_roofs_show"), labelX, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_roofs_show"), labelX, labelY, 1, 0xffffff);
             }
             else
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_roofs_hide"), labelX, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_roofs_hide"), labelX, labelY, 1, 0xffffff);
             }
 
             labelY += 15;
 
             if (client.fogOfWar)
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_fog_show"), labelX, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_fog_show"), labelX, labelY, 1, 0xffffff);
             }
             else
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_fog_hide"), labelX, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_fog_hide"), labelX, labelY, 1, 0xffffff);
             }
 
             labelY += 15;
 
             if (client.autoScreenshot)
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_screenshots_on"), labelX, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_screenshots_on"), labelX, labelY, 1, 0xffffff);
             }
             else
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_screenshots_off"), labelX, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_screenshots_off"), labelX, labelY, 1, 0xffffff);
             }
 
             labelY += 15;
 
             if (client.useChatFilter)
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_chat_filter_on"), menuX + 3, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_chat_filter_on"), menuX + 3, labelY, 1, 0xffffff);
             }
             else
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_chat_filter_off"), menuX + 3, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_chat_filter_off"), menuX + 3, labelY, 1, 0xffffff);
             }
 
             labelY += 15;
-            client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_privacy_title"), labelX, labelY, 1, 0);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_privacy_title"), labelX, labelY, 1, 0);
             labelY += 15;
-            client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_privacy_subtitle"), labelX, labelY, 1, 0);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_privacy_subtitle"), labelX, labelY, 1, 0);
             labelY += 15;
 
             if (client.blockChat == 0)
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_block_chat_off"), menuX + 3, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_block_chat_off"), menuX + 3, labelY, 1, 0xffffff);
             }
             else
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_block_chat_on"), menuX + 3, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_block_chat_on"), menuX + 3, labelY, 1, 0xffffff);
             }
 
             labelY += 15;
 
             if (client.blockPrivate == 0)
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_block_public_off"), menuX + 3, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_block_public_off"), menuX + 3, labelY, 1, 0xffffff);
             }
             else
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_block_public_on"), menuX + 3, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_block_public_on"), menuX + 3, labelY, 1, 0xffffff);
             }
 
             labelY += 15;
 
             if (client.blockTrade == 0)
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_block_trade_off"), menuX + 3, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_block_trade_off"), menuX + 3, labelY, 1, 0xffffff);
             }
             else
             {
-                client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_block_trade_on"), menuX + 3, labelY, 1, 0xffffff);
+                client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_block_trade_on"), menuX + 3, labelY, 1, 0xffffff);
             }
 
             labelY += 15;
@@ -244,16 +244,16 @@ namespace OpenRS.Net.Client.Rendering
             {
                 if (client.blockDuel == 0)
                 {
-                    client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_block_duel_off"), menuX + 3, labelY, 1, 0xffffff);
+                    client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_block_duel_off"), menuX + 3, labelY, 1, 0xffffff);
                 }
                 else
                 {
-                    client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_block_duel_on"), menuX + 3, labelY, 1, 0xffffff);
+                    client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_block_duel_on"), menuX + 3, labelY, 1, 0xffffff);
                 }
             }
 
             labelY += 20;
-            client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.options_logout_hint"), labelX, labelY, 1, 0);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.options_logout_hint"), labelX, labelY, 1, 0);
             labelY += 15;
             int logoutColour = 0xffffff;
 
@@ -262,19 +262,19 @@ namespace OpenRS.Net.Client.Rendering
                 logoutColour = 0xffff00;
             }
 
-            client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.logout_button"), menuX + 3, labelY, 1, logoutColour);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.logout_button"), menuX + 3, labelY, 1, logoutColour);
 
             if (!canClick)
             {
                 return;
             }
 
-            int relativeMouseX = client.mouseX - (client.gameGraphics.GameWidth - 199);
+            int relativeMouseX = client.mouseX - (client.GameGraphics.GameWidth - 199);
             int relativeMouseY = client.mouseY - 36;
 
             if (relativeMouseX >= 0 && relativeMouseY >= 0 && relativeMouseX < 196 && relativeMouseY < 280)
             {
-                int clickMenuX = client.gameGraphics.GameWidth - 199;
+                int clickMenuX = client.GameGraphics.GameWidth - 199;
                 int clickLabelX = clickMenuX + 3;
                 int clickLabelY = 36 + 30;
 
@@ -482,9 +482,9 @@ namespace OpenRS.Net.Client.Rendering
 
         public void DrawLogoutBox()
         {
-            client.gameGraphics.DrawBox(126, 137, 260, 60, 0);
-            client.gameGraphics.DrawBoxEdge(126, 137, 260, 60, 0xffffff);
-            client.gameGraphics.DrawText(LocalisationManager.GetString("overlay.logging_out"), 256, 173, 5, 0xffffff);
+            client.GameGraphics.DrawBox(126, 137, 260, 60, 0);
+            client.GameGraphics.DrawBoxEdge(126, 137, 260, 60, 0xffffff);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("overlay.logging_out"), 256, 173, 5, 0xffffff);
         }
 
 
@@ -494,7 +494,7 @@ namespace OpenRS.Net.Client.Rendering
             {
                 for (int answerIndex = 0; answerIndex < client.questionMenuCount; answerIndex += 1)
                 {
-                    if (client.mouseX >= client.gameGraphics.TextWidth(client.questionMenuAnswer[answerIndex], 1) ||
+                    if (client.mouseX >= client.GameGraphics.TextWidth(client.questionMenuAnswer[answerIndex], 1) ||
                         client.mouseY <= answerIndex * 12 ||
                         client.mouseY >= 12 + answerIndex * 12)
                     {
@@ -517,14 +517,14 @@ namespace OpenRS.Net.Client.Rendering
             {
                 int answerColour = 65535;
 
-                if (client.mouseX < client.gameGraphics.TextWidth(client.questionMenuAnswer[answerDisplayIndex], 1) &&
+                if (client.mouseX < client.GameGraphics.TextWidth(client.questionMenuAnswer[answerDisplayIndex], 1) &&
                     client.mouseY > answerDisplayIndex * 12 &&
                     client.mouseY < 12 + answerDisplayIndex * 12)
                 {
                     answerColour = 0xff0000;
                 }
 
-                client.gameGraphics.DrawString(client.questionMenuAnswer[answerDisplayIndex], 6, 12 + answerDisplayIndex * 12, 1, answerColour);
+                client.GameGraphics.DrawString(client.questionMenuAnswer[answerDisplayIndex], 6, 12 + answerDisplayIndex * 12, 1, answerColour);
             }
         }
 
@@ -551,12 +551,12 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            client.gameGraphics.DrawBox(56, 130, 400, 100, 0);
-            client.gameGraphics.DrawBoxEdge(56, 130, 400, 100, 0xffffff);
+            client.GameGraphics.DrawBox(56, 130, 400, 100, 0);
+            client.GameGraphics.DrawBoxEdge(56, 130, 400, 100, 0xffffff);
             int textY = 160;
-            client.gameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_name_prompt"), 256, textY, 1, 0xffff00);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_name_prompt"), 256, textY, 1, 0xffff00);
             textY += 18;
-            client.gameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_name_prefix") + client.inputText + "*", 256, textY, 4, 0xffffff);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_name_prefix") + client.inputText + "*", 256, textY, 4, 0xffffff);
             textY = 222;
             int cancelLabelColour = 0xffffff;
 
@@ -571,7 +571,7 @@ namespace OpenRS.Net.Client.Rendering
                 }
             }
 
-            client.gameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_cancel"), 256, textY, 1, cancelLabelColour);
+            client.GameGraphics.DrawText(LocalisationManager.GetString("overlay.abuse_cancel"), 256, textY, 1, cancelLabelColour);
 
             if (client.mouseButtonClick == 1 &&
                 (client.mouseX < 56 || client.mouseX > 456 || client.mouseY < 130 || client.mouseY > 230))
@@ -611,8 +611,8 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            client.gameGraphics.DrawBoxAlpha(client.menuX, client.menuY, client.menuWidth, client.menuHeight, 0xd0d0d0, 160);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("overlay.context_menu_title"), client.menuX + 2, client.menuY + 12, 1, 65535);
+            client.GameGraphics.DrawBoxAlpha(client.menuX, client.menuY, client.menuWidth, client.menuHeight, 0xd0d0d0, 160);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("overlay.context_menu_title"), client.menuX + 2, client.menuY + 12, 1, 65535);
 
             for (int optionIndex = 0; optionIndex < client.menuOptionsCount; optionIndex += 1)
             {
@@ -625,7 +625,7 @@ namespace OpenRS.Net.Client.Rendering
                     labelColour = 0xffff00;
                 }
 
-                client.gameGraphics.DrawString(client.menuText1[client.menuIndexes[optionIndex]] + " " + client.menuText2[client.menuIndexes[optionIndex]], labelX, labelY, 1, labelColour);
+                client.GameGraphics.DrawString(client.menuText1[client.menuIndexes[optionIndex]] + " " + client.menuText2[client.menuIndexes[optionIndex]], labelX, labelY, 1, labelColour);
             }
         }
 

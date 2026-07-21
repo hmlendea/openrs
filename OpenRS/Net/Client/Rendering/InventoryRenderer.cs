@@ -10,8 +10,8 @@ namespace OpenRS.Net.Client.Rendering
     {
         public void DrawInventoryMenu(bool canRightClick)
         {
-            int inventoryStartX = client.gameGraphics.GameWidth - 248;
-            client.gameGraphics.DrawPicture(inventoryStartX, 3, client.baseInventoryPic + 1);
+            int inventoryStartX = client.GameGraphics.GameWidth - 248;
+            client.GameGraphics.DrawPicture(inventoryStartX, 3, client.BaseInventoryPic + 1);
 
             for (int itemIndex = 0; itemIndex < client.maxInventoryItems; itemIndex += 1)
             {
@@ -24,7 +24,7 @@ namespace OpenRS.Net.Client.Rendering
                     cellColour = 0xff0000;
                 }
 
-                client.gameGraphics.DrawBoxAlpha(cellX, cellY, 49, 34, cellColour, 128);
+                client.GameGraphics.DrawBoxAlpha(cellX, cellY, 49, 34, cellColour, 128);
 
                 if (itemIndex < client.inventoryItemsCount)
                 {
@@ -33,19 +33,19 @@ namespace OpenRS.Net.Client.Rendering
 
                     if (!inventoryItem.IsStackable)
                     {
-                        client.gameGraphics.DrawString(client.inventoryItemCount[itemIndex].ToString(), cellX + 1, cellY + 10, 1, 0xffff00);
+                        client.GameGraphics.DrawString(client.inventoryItemCount[itemIndex].ToString(), cellX + 1, cellY + 10, 1, 0xffff00);
                     }
                 }
             }
 
             for (int columnIndex = 1; columnIndex <= 4; columnIndex += 1)
             {
-                client.gameGraphics.DrawLineY(inventoryStartX + columnIndex * 49, 36, client.maxInventoryItems / 5 * 34, 0);
+                client.GameGraphics.DrawLineY(inventoryStartX + columnIndex * 49, 36, client.maxInventoryItems / 5 * 34, 0);
             }
 
             for (int rowIndex = 1; rowIndex <= client.maxInventoryItems / 5 - 1; rowIndex += 1)
             {
-                client.gameGraphics.DrawLineX(inventoryStartX, 36 + rowIndex * 34, 245, 0);
+                client.GameGraphics.DrawLineX(inventoryStartX, 36 + rowIndex * 34, 245, 0);
             }
 
             if (!canRightClick)
@@ -53,7 +53,7 @@ namespace OpenRS.Net.Client.Rendering
                 return;
             }
 
-            int relativeMouseX = client.mouseX - (client.gameGraphics.GameWidth - 248);
+            int relativeMouseX = client.mouseX - (client.GameGraphics.GameWidth - 248);
             int relativeMouseY = client.mouseY - 36;
 
             if (relativeMouseX >= 0 &&
@@ -154,7 +154,7 @@ namespace OpenRS.Net.Client.Rendering
         {
             int picture = client.entityManager.GetItem(itemID).InventoryPicture + client.baseItemPicture;
             int mask = client.entityManager.GetItem(itemID).PictureMask;
-            client.gameGraphics.DrawImage(x, y, width, height, picture, mask, 0, 0, false);
+            client.GameGraphics.DrawImage(x, y, width, height, picture, mask, 0, 0, false);
         }
 
 
@@ -235,13 +235,13 @@ namespace OpenRS.Net.Client.Rendering
 
             int boxOffsetX = 52;
             int boxOffsetY = 44;
-            client.gameGraphics.DrawBox(boxOffsetX, boxOffsetY, 408, 12, 192);
+            client.GameGraphics.DrawBox(boxOffsetX, boxOffsetY, 408, 12, 192);
             int backgroundColour = 0x989898;
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 12, 408, 17, backgroundColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 29, 8, 170, backgroundColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX + 399, boxOffsetY + 29, 9, 170, backgroundColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 199, 408, 47, backgroundColour, 160);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("shop_title"), boxOffsetX + 1, boxOffsetY + 10, 1, 0xffffff);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 12, 408, 17, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 29, 8, 170, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX + 399, boxOffsetY + 29, 9, 170, backgroundColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxOffsetX, boxOffsetY + 199, 408, 47, backgroundColour, 160);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("shop_title"), boxOffsetX + 1, boxOffsetY + 10, 1, 0xffffff);
             int closeLabelColour = 0xffffff;
 
             if (client.mouseX > boxOffsetX + 320 &&
@@ -252,10 +252,10 @@ namespace OpenRS.Net.Client.Rendering
                 closeLabelColour = 0xff0000;
             }
 
-            client.gameGraphics.DrawLabel(LocalisationManager.GetString("shop_close"), boxOffsetX + 406, boxOffsetY + 10, 1, closeLabelColour);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("shop_stock_hint"), boxOffsetX + 2, boxOffsetY + 24, 1, 65280);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("shop_owned_hint"), boxOffsetX + 135, boxOffsetY + 24, 1, 65535);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("shop_money_prefix") + client.GetInventoryItemTotalCount(10) + "gp", boxOffsetX + 280, boxOffsetY + 24, 1, 0xffff00);
+            client.GameGraphics.DrawLabel(LocalisationManager.GetString("shop_close"), boxOffsetX + 406, boxOffsetY + 10, 1, closeLabelColour);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("shop_stock_hint"), boxOffsetX + 2, boxOffsetY + 24, 1, 65280);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("shop_owned_hint"), boxOffsetX + 135, boxOffsetY + 24, 1, 65535);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("shop_money_prefix") + client.GetInventoryItemTotalCount(10) + "gp", boxOffsetX + 280, boxOffsetY + 24, 1, 0xffff00);
             int cellColour = 0xd0d0d0;
             int shopDisplayIndex = 0;
 
@@ -268,31 +268,31 @@ namespace OpenRS.Net.Client.Rendering
 
                     if (client.selectedShopItemIndex == shopDisplayIndex)
                     {
-                        client.gameGraphics.DrawBoxAlpha(itemCellX, itemCellY, 49, 34, 0xff0000, 160);
+                        client.GameGraphics.DrawBoxAlpha(itemCellX, itemCellY, 49, 34, 0xff0000, 160);
                     }
                     else
                     {
-                        client.gameGraphics.DrawBoxAlpha(itemCellX, itemCellY, 49, 34, cellColour, 160);
+                        client.GameGraphics.DrawBoxAlpha(itemCellX, itemCellY, 49, 34, cellColour, 160);
                     }
 
-                    client.gameGraphics.DrawBoxEdge(itemCellX, itemCellY, 50, 35, 0);
+                    client.GameGraphics.DrawBoxEdge(itemCellX, itemCellY, 50, 35, 0);
 
                     if (client.shopItems[shopDisplayIndex] != -1)
                     {
                         recordItemSprite(itemCellX, itemCellY, 48, 32, client.entityManager.GetItem(client.shopItems[shopDisplayIndex]));
-                        client.gameGraphics.DrawString(client.shopItemCount[shopDisplayIndex].ToString(), itemCellX + 1, itemCellY + 10, 1, 65280);
-                        client.gameGraphics.DrawLabel(client.GetInventoryItemTotalCount(client.shopItems[shopDisplayIndex]).ToString(), itemCellX + 47, itemCellY + 10, 1, 65535);
+                        client.GameGraphics.DrawString(client.shopItemCount[shopDisplayIndex].ToString(), itemCellX + 1, itemCellY + 10, 1, 65280);
+                        client.GameGraphics.DrawLabel(client.GetInventoryItemTotalCount(client.shopItems[shopDisplayIndex]).ToString(), itemCellX + 47, itemCellY + 10, 1, 65535);
                     }
 
                     shopDisplayIndex += 1;
                 }
             }
 
-            client.gameGraphics.DrawLineX(boxOffsetX + 5, boxOffsetY + 222, 398, 0);
+            client.GameGraphics.DrawLineX(boxOffsetX + 5, boxOffsetY + 222, 398, 0);
 
             if (client.selectedShopItemIndex == -1)
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("shop_select_hint"), boxOffsetX + 204, boxOffsetY + 214, 3, 0xffff00);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("shop_select_hint"), boxOffsetX + 204, boxOffsetY + 214, 3, 0xffff00);
 
                 return;
             }
@@ -311,7 +311,7 @@ namespace OpenRS.Net.Client.Rendering
                     }
 
                     int buyPrice = buyPriceModifier * client.entityManager.GetItem(selectedItemId).BasePrice / 100;
-                    client.gameGraphics.DrawString(LocalisationManager.GetString("shop.purchase_prefix") + client.entityManager.GetItem(selectedItemId).Name + " for " + buyPrice + "gp", boxOffsetX + 2, boxOffsetY + 214, 1, 0xffff00);
+                    client.GameGraphics.DrawString(LocalisationManager.GetString("shop.purchase_prefix") + client.entityManager.GetItem(selectedItemId).Name + " for " + buyPrice + "gp", boxOffsetX + 2, boxOffsetY + 214, 1, 0xffff00);
                     int buyButtonColour = 0xffffff;
 
                     if (client.mouseX > boxOffsetX + 298 &&
@@ -322,11 +322,11 @@ namespace OpenRS.Net.Client.Rendering
                         buyButtonColour = 0xff0000;
                     }
 
-                    client.gameGraphics.DrawLabel(LocalisationManager.GetString("shop.purchase_action"), boxOffsetX + 405, boxOffsetY + 214, 3, buyButtonColour);
+                    client.GameGraphics.DrawLabel(LocalisationManager.GetString("shop.purchase_action"), boxOffsetX + 405, boxOffsetY + 214, 3, buyButtonColour);
                 }
                 else
                 {
-                    client.gameGraphics.DrawText(LocalisationManager.GetString("shop.purchase_unavailable"), boxOffsetX + 204, boxOffsetY + 214, 3, 0xffff00);
+                    client.GameGraphics.DrawText(LocalisationManager.GetString("shop.purchase_unavailable"), boxOffsetX + 204, boxOffsetY + 214, 3, 0xffff00);
                 }
 
                 if (client.GetInventoryItemTotalCount(selectedItemId) > 0)
@@ -339,7 +339,7 @@ namespace OpenRS.Net.Client.Rendering
                     }
 
                     int sellPrice = sellPriceModifier * client.entityManager.GetItem(selectedItemId).BasePrice / 100;
-                    client.gameGraphics.DrawLabel(LocalisationManager.GetString("shop_sell_prefix") + client.entityManager.GetItem(selectedItemId).Name + " for " + sellPrice + "gp", boxOffsetX + 405, boxOffsetY + 239, 1, 0xffff00);
+                    client.GameGraphics.DrawLabel(LocalisationManager.GetString("shop_sell_prefix") + client.entityManager.GetItem(selectedItemId).Name + " for " + sellPrice + "gp", boxOffsetX + 405, boxOffsetY + 239, 1, 0xffff00);
                     int sellButtonColour = 0xffffff;
 
                     if (client.mouseX > boxOffsetX + 2 &&
@@ -350,12 +350,12 @@ namespace OpenRS.Net.Client.Rendering
                         sellButtonColour = 0xff0000;
                     }
 
-                    client.gameGraphics.DrawString(LocalisationManager.GetString("shop_sell_action"), boxOffsetX + 2, boxOffsetY + 239, 3, sellButtonColour);
+                    client.GameGraphics.DrawString(LocalisationManager.GetString("shop_sell_action"), boxOffsetX + 2, boxOffsetY + 239, 3, sellButtonColour);
 
                     return;
                 }
 
-                client.gameGraphics.DrawText(LocalisationManager.GetString("shop_sell_none"), boxOffsetX + 204, boxOffsetY + 239, 3, 0xffff00);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("shop_sell_none"), boxOffsetX + 204, boxOffsetY + 239, 3, 0xffff00);
             }
         }
 
@@ -564,13 +564,13 @@ namespace OpenRS.Net.Client.Rendering
 
             int boxLeft = 256 - bankWidth / 2;
             int boxTop = 170 - bankHeight / 2;
-            client.gameGraphics.DrawBox(boxLeft, boxTop, bankWidth, 12, 192);
+            client.GameGraphics.DrawBox(boxLeft, boxTop, bankWidth, 12, 192);
             int panelColour = 0x989898;
-            client.gameGraphics.DrawBoxAlpha(boxLeft, boxTop + 12, bankWidth, 17, panelColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxLeft, boxTop + 29, 8, 204, panelColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxLeft + 399, boxTop + 29, 9, 204, panelColour, 160);
-            client.gameGraphics.DrawBoxAlpha(boxLeft, boxTop + 233, bankWidth, 47, panelColour, 160);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("inventory.bank_title"), boxLeft + 1, boxTop + 10, 1, 0xffffff);
+            client.GameGraphics.DrawBoxAlpha(boxLeft, boxTop + 12, bankWidth, 17, panelColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxLeft, boxTop + 29, 8, 204, panelColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxLeft + 399, boxTop + 29, 9, 204, panelColour, 160);
+            client.GameGraphics.DrawBoxAlpha(boxLeft, boxTop + 233, bankWidth, 47, panelColour, 160);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("inventory.bank_title"), boxLeft + 1, boxTop + 10, 1, 0xffffff);
             int pageButtonX = 50;
 
             if (client.bankItemsCount > 48)
@@ -586,7 +586,7 @@ namespace OpenRS.Net.Client.Rendering
                     page1LabelColour = 0xffff00;
                 }
 
-                client.gameGraphics.DrawString("<page 1>", boxLeft + pageButtonX, boxTop + 10, 1, page1LabelColour);
+                client.GameGraphics.DrawString("<page 1>", boxLeft + pageButtonX, boxTop + 10, 1, page1LabelColour);
                 pageButtonX += 65;
                 int page2LabelColour = 0xffffff;
 
@@ -599,7 +599,7 @@ namespace OpenRS.Net.Client.Rendering
                     page2LabelColour = 0xffff00;
                 }
 
-                client.gameGraphics.DrawString("<page 2>", boxLeft + pageButtonX, boxTop + 10, 1, page2LabelColour);
+                client.GameGraphics.DrawString("<page 2>", boxLeft + pageButtonX, boxTop + 10, 1, page2LabelColour);
                 pageButtonX += 65;
             }
 
@@ -616,7 +616,7 @@ namespace OpenRS.Net.Client.Rendering
                     page3LabelColour = 0xffff00;
                 }
 
-                client.gameGraphics.DrawString("<page 3>", boxLeft + pageButtonX, boxTop + 10, 1, page3LabelColour);
+                client.GameGraphics.DrawString("<page 3>", boxLeft + pageButtonX, boxTop + 10, 1, page3LabelColour);
                 pageButtonX += 65;
             }
 
@@ -633,7 +633,7 @@ namespace OpenRS.Net.Client.Rendering
                     page4LabelColour = 0xffff00;
                 }
 
-                client.gameGraphics.DrawString("<page 4>", boxLeft + pageButtonX, boxTop + 10, 1, page4LabelColour);
+                client.GameGraphics.DrawString("<page 4>", boxLeft + pageButtonX, boxTop + 10, 1, page4LabelColour);
             }
 
             int closeLabelColour = 0xffffff;
@@ -643,9 +643,9 @@ namespace OpenRS.Net.Client.Rendering
                 closeLabelColour = 0xff0000;
             }
 
-            client.gameGraphics.DrawLabel(LocalisationManager.GetString("shop_close"), boxLeft + 406, boxTop + 10, 1, closeLabelColour);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("inventory.bank_stock_hint"), boxLeft + 7, boxTop + 24, 1, 65280);
-            client.gameGraphics.DrawString(LocalisationManager.GetString("inventory.bank_held_hint"), boxLeft + 289, boxTop + 24, 1, 65535);
+            client.GameGraphics.DrawLabel(LocalisationManager.GetString("shop_close"), boxLeft + 406, boxTop + 10, 1, closeLabelColour);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("inventory.bank_stock_hint"), boxLeft + 7, boxTop + 24, 1, 65280);
+            client.GameGraphics.DrawString(LocalisationManager.GetString("inventory.bank_held_hint"), boxLeft + 289, boxTop + 24, 1, 65535);
             int cellColour = 0xd0d0d0;
             int pageStartIndex = client.bankPage * 48;
 
@@ -658,31 +658,31 @@ namespace OpenRS.Net.Client.Rendering
 
                     if (client.selectedBankItem == pageStartIndex)
                     {
-                        client.gameGraphics.DrawBoxAlpha(cellX, cellY, 49, 34, 0xff0000, 160);
+                        client.GameGraphics.DrawBoxAlpha(cellX, cellY, 49, 34, 0xff0000, 160);
                     }
                     else
                     {
-                        client.gameGraphics.DrawBoxAlpha(cellX, cellY, 49, 34, cellColour, 160);
+                        client.GameGraphics.DrawBoxAlpha(cellX, cellY, 49, 34, cellColour, 160);
                     }
 
-                    client.gameGraphics.DrawBoxEdge(cellX, cellY, 50, 35, 0);
+                    client.GameGraphics.DrawBoxEdge(cellX, cellY, 50, 35, 0);
 
                     if (pageStartIndex < client.bankItemsCount && client.bankItems[pageStartIndex] != -1)
                     {
                         recordItemSprite(cellX, cellY, 48, 32, client.entityManager.GetItem(client.bankItems[pageStartIndex]));
-                        client.gameGraphics.DrawString(client.bankItemCount[pageStartIndex].ToString(), cellX + 1, cellY + 10, 1, 65280);
-                        client.gameGraphics.DrawLabel(client.GetInventoryItemTotalCount(client.bankItems[pageStartIndex]).ToString(), cellX + 47, cellY + 29, 1, 65535);
+                        client.GameGraphics.DrawString(client.bankItemCount[pageStartIndex].ToString(), cellX + 1, cellY + 10, 1, 65280);
+                        client.GameGraphics.DrawLabel(client.GetInventoryItemTotalCount(client.bankItems[pageStartIndex]).ToString(), cellX + 47, cellY + 29, 1, 65535);
                     }
 
                     pageStartIndex += 1;
                 }
             }
 
-            client.gameGraphics.DrawLineX(boxLeft + 5, boxTop + 256, 398, 0);
+            client.GameGraphics.DrawLineX(boxLeft + 5, boxTop + 256, 398, 0);
 
             if (client.selectedBankItem == -1)
             {
-                client.gameGraphics.DrawText(LocalisationManager.GetString("inventory.bank_select_hint"), boxLeft + 204, boxTop + 248, 3, 0xffff00);
+                client.GameGraphics.DrawText(LocalisationManager.GetString("inventory.bank_select_hint"), boxLeft + 204, boxTop + 248, 3, 0xffff00);
                 return;
             }
 
@@ -708,7 +708,7 @@ namespace OpenRS.Net.Client.Rendering
 
                 if (itemCount > 0)
                 {
-                    client.gameGraphics.DrawString(LocalisationManager.GetString("inventory.bank_withdraw_prefix") + client.entityManager.GetItem(selectedItemId).Name, boxLeft + 2, boxTop + 248, 1, 0xffffff);
+                    client.GameGraphics.DrawString(LocalisationManager.GetString("inventory.bank_withdraw_prefix") + client.entityManager.GetItem(selectedItemId).Name, boxLeft + 2, boxTop + 248, 1, 0xffffff);
                     int withdrawOneLabelColour = 0xffffff;
 
                     if (client.mouseX >= boxLeft + 220 && client.mouseY >= boxTop + 238 && client.mouseX < boxLeft + 250 && client.mouseY <= boxTop + 249)
@@ -716,7 +716,7 @@ namespace OpenRS.Net.Client.Rendering
                         withdrawOneLabelColour = 0xff0000;
                     }
 
-                    client.gameGraphics.DrawString("One", boxLeft + 222, boxTop + 248, 1, withdrawOneLabelColour);
+                    client.GameGraphics.DrawString("One", boxLeft + 222, boxTop + 248, 1, withdrawOneLabelColour);
 
                     if (itemCount >= 5)
                     {
@@ -727,7 +727,7 @@ namespace OpenRS.Net.Client.Rendering
                             withdrawFiveLabelColour = 0xff0000;
                         }
 
-                        client.gameGraphics.DrawString("Five", boxLeft + 252, boxTop + 248, 1, withdrawFiveLabelColour);
+                        client.GameGraphics.DrawString("Five", boxLeft + 252, boxTop + 248, 1, withdrawFiveLabelColour);
                     }
 
                     if (itemCount >= 25)
@@ -739,7 +739,7 @@ namespace OpenRS.Net.Client.Rendering
                             withdraw25LabelColour = 0xff0000;
                         }
 
-                        client.gameGraphics.DrawString("25", boxLeft + 282, boxTop + 248, 1, withdraw25LabelColour);
+                        client.GameGraphics.DrawString("25", boxLeft + 282, boxTop + 248, 1, withdraw25LabelColour);
                     }
 
                     if (itemCount >= 100)
@@ -751,7 +751,7 @@ namespace OpenRS.Net.Client.Rendering
                             withdraw100LabelColour = 0xff0000;
                         }
 
-                        client.gameGraphics.DrawString("100", boxLeft + 307, boxTop + 248, 1, withdraw100LabelColour);
+                        client.GameGraphics.DrawString("100", boxLeft + 307, boxTop + 248, 1, withdraw100LabelColour);
                     }
 
                     if (itemCount >= 500)
@@ -763,7 +763,7 @@ namespace OpenRS.Net.Client.Rendering
                             withdraw500LabelColour = 0xff0000;
                         }
 
-                        client.gameGraphics.DrawString("500", boxLeft + 337, boxTop + 248, 1, withdraw500LabelColour);
+                        client.GameGraphics.DrawString("500", boxLeft + 337, boxTop + 248, 1, withdraw500LabelColour);
                     }
 
                     if (itemCount >= 2500)
@@ -775,13 +775,13 @@ namespace OpenRS.Net.Client.Rendering
                             withdraw2500LabelColour = 0xff0000;
                         }
 
-                        client.gameGraphics.DrawString("2500", boxLeft + 370, boxTop + 248, 1, withdraw2500LabelColour);
+                        client.GameGraphics.DrawString("2500", boxLeft + 370, boxTop + 248, 1, withdraw2500LabelColour);
                     }
                 }
 
                 if (client.GetInventoryItemTotalCount(selectedItemId) > 0)
                 {
-                    client.gameGraphics.DrawString(LocalisationManager.GetString("inventory.bank_deposit_prefix") + client.entityManager.GetItem(selectedItemId).Name, boxLeft + 2, boxTop + 273, 1, 0xffffff);
+                    client.GameGraphics.DrawString(LocalisationManager.GetString("inventory.bank_deposit_prefix") + client.entityManager.GetItem(selectedItemId).Name, boxLeft + 2, boxTop + 273, 1, 0xffffff);
                     int depositOneLabelColour = 0xffffff;
 
                     if (client.mouseX >= boxLeft + 220 && client.mouseY >= boxTop + 263 && client.mouseX < boxLeft + 250 && client.mouseY <= boxTop + 274)
@@ -789,7 +789,7 @@ namespace OpenRS.Net.Client.Rendering
                         depositOneLabelColour = 0xff0000;
                     }
 
-                    client.gameGraphics.DrawString("One", boxLeft + 222, boxTop + 273, 1, depositOneLabelColour);
+                    client.GameGraphics.DrawString("One", boxLeft + 222, boxTop + 273, 1, depositOneLabelColour);
 
                     if (client.GetInventoryItemTotalCount(selectedItemId) >= 5)
                     {
@@ -800,7 +800,7 @@ namespace OpenRS.Net.Client.Rendering
                             depositFiveLabelColour = 0xff0000;
                         }
 
-                        client.gameGraphics.DrawString("Five", boxLeft + 252, boxTop + 273, 1, depositFiveLabelColour);
+                        client.GameGraphics.DrawString("Five", boxLeft + 252, boxTop + 273, 1, depositFiveLabelColour);
                     }
 
                     if (client.GetInventoryItemTotalCount(selectedItemId) >= 25)
@@ -812,7 +812,7 @@ namespace OpenRS.Net.Client.Rendering
                             deposit25LabelColour = 0xff0000;
                         }
 
-                        client.gameGraphics.DrawString("25", boxLeft + 282, boxTop + 273, 1, deposit25LabelColour);
+                        client.GameGraphics.DrawString("25", boxLeft + 282, boxTop + 273, 1, deposit25LabelColour);
                     }
 
                     if (client.GetInventoryItemTotalCount(selectedItemId) >= 100)
@@ -824,7 +824,7 @@ namespace OpenRS.Net.Client.Rendering
                             deposit100LabelColour = 0xff0000;
                         }
 
-                        client.gameGraphics.DrawString("100", boxLeft + 307, boxTop + 273, 1, deposit100LabelColour);
+                        client.GameGraphics.DrawString("100", boxLeft + 307, boxTop + 273, 1, deposit100LabelColour);
                     }
 
                     if (client.GetInventoryItemTotalCount(selectedItemId) >= 500)
@@ -836,7 +836,7 @@ namespace OpenRS.Net.Client.Rendering
                             deposit500LabelColour = 0xff0000;
                         }
 
-                        client.gameGraphics.DrawString("500", boxLeft + 337, boxTop + 273, 1, deposit500LabelColour);
+                        client.GameGraphics.DrawString("500", boxLeft + 337, boxTop + 273, 1, deposit500LabelColour);
                     }
 
                     if (client.GetInventoryItemTotalCount(selectedItemId) >= 2500)
@@ -848,7 +848,7 @@ namespace OpenRS.Net.Client.Rendering
                             deposit2500LabelColour = 0xff0000;
                         }
 
-                        client.gameGraphics.DrawString("2500", boxLeft + 370, boxTop + 273, 1, deposit2500LabelColour);
+                        client.GameGraphics.DrawString("2500", boxLeft + 370, boxTop + 273, 1, deposit2500LabelColour);
                     }
                 }
             }
