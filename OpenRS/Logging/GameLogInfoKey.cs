@@ -8,6 +8,8 @@ namespace OpenRS.Logging
 
         public static LogInfoKey CoordinateX => new GameLogInfoKey(nameof(CoordinateX));
 
+        public static LogInfoKey CoordinateY => new GameLogInfoKey(nameof(CoordinateY));
+
         public static LogInfoKey FileName => new GameLogInfoKey(nameof(FileName));
 
         public static LogInfoKey FilePath => new GameLogInfoKey(nameof(FilePath));

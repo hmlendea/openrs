@@ -1,372 +1,150 @@
+using OpenRS.Models;
+
 namespace OpenRS.Net.Client.Game
 {
     internal sealed class WorldObjectManipulator
     {
+        private static readonly int SingleTileSize = 1;
+
         private readonly EngineHandle engineHandle;
+        private readonly WorldObjectSceneAdder worldObjectSceneAdder;
+        private readonly WorldObjectTileFlagManager worldObjectTileFlagManager;
 
         internal WorldObjectManipulator(EngineHandle engineHandle)
         {
             this.engineHandle = engineHandle;
+            worldObjectTileFlagManager = new WorldObjectTileFlagManager(engineHandle);
+            worldObjectSceneAdder = new WorldObjectSceneAdder(
+                engineHandle,
+                worldObjectTileFlagManager);
         }
 
-        internal void AddObjectToScene(int x, int y, int objWidth, int objHeight)
+        internal void AddObjectToScene(
+            int tileX,
+            int tileY,
+            int objectWidth,
+            int objectHeight)
+            => worldObjectTileFlagManager.AddObjectToScene(
+                tileX,
+                tileY,
+                objectWidth,
+                objectHeight);
+
+        internal void RemoveWallObject(
+            int tileX,
+            int tileY,
+            int wallRotation,
+            int wallObjectIndex)
         {
-            if (x < 1 || y < 1 || x + objWidth >= EngineHandle.GridSize || y + objHeight >= EngineHandle.GridSize)
+            if (!worldObjectTileFlagManager.IsObjectAreaWithinBounds(tileX, tileY))
             {
                 return;
             }
 
-            for (int tileX = x; tileX <= x + objWidth; tileX += 1)
+            WallObject wallObject = engineHandle.entityManager.GetWallObject(wallObjectIndex);
+
+            if (!worldObjectTileFlagManager.IsSupportedWallObject(wallObject))
             {
-                for (int tileY = y; tileY <= y + objHeight; tileY += 1)
-                {
-                    if ((engineHandle.GetTile(tileX, tileY) & 0x63) != 0 ||
-                        (engineHandle.GetTile(tileX - 1, tileY) & 0x59) != 0 ||
-                        (engineHandle.GetTile(tileX, tileY - 1) & 0x56) != 0 ||
-                        (engineHandle.GetTile(tileX - 1, tileY - 1) & 0x6c) != 0)
-                    {
-                        engineHandle.SetTileFlags(tileX, tileY, 35);
-                    }
-                    else
-                    {
-                        engineHandle.SetTileFlags(tileX, tileY, 0);
-                    }
-                }
+                return;
             }
+
+            worldObjectTileFlagManager.RemoveWallTile(tileX, tileY, wallRotation);
+            AddObjectToScene(tileX, tileY, SingleTileSize, SingleTileSize);
         }
 
-        internal void RemoveWallObject(int x, int y, int wallDirection, int index)
+        internal void CreateWall(
+            int tileX,
+            int tileY,
+            int wallRotation,
+            int wallObjectIndex)
         {
-            if (x < 0 || y < 0 || x >= EngineHandle.GridSize - 1 || y >= EngineHandle.GridSize - 1)
+            if (!worldObjectTileFlagManager.IsObjectAreaWithinBounds(tileX, tileY))
             {
                 return;
             }
 
-            if (engineHandle.entityManager.GetWallObject(index).Type != 1)
+            WallObject wallObject = engineHandle.entityManager.GetWallObject(wallObjectIndex);
+
+            if (!worldObjectTileFlagManager.IsSupportedWallObject(wallObject))
             {
                 return;
             }
 
-            if (wallDirection == 0)
-            {
-                engineHandle.Tiles[x][y] &= 0xfffe;
-
-                if (y > 0)
-                {
-                    engineHandle.DrawObjectSprite(x, y - 1, 4);
-                }
-            }
-            else if (wallDirection == 1)
-            {
-                engineHandle.Tiles[x][y] &= 0xfffd;
-
-                if (x > 0)
-                {
-                    engineHandle.DrawObjectSprite(x - 1, y, 8);
-                }
-            }
-            else if (wallDirection == 2)
-            {
-                engineHandle.Tiles[x][y] &= 0xffef;
-            }
-            else if (wallDirection == 3)
-            {
-                engineHandle.Tiles[x][y] &= 0xffdf;
-            }
-
-            AddObjectToScene(x, y, 1, 1);
+            worldObjectTileFlagManager.CreateWallTile(tileX, tileY, wallRotation);
+            AddObjectToScene(tileX, tileY, SingleTileSize, SingleTileSize);
         }
 
-        internal void CreateWall(int x, int y, int wallDirection, int index)
+        internal void RegisterObjectDir(int tileX, int tileY, int direction)
         {
-            if (x < 0 || y < 0 || x >= EngineHandle.GridSize - 1 || y >= EngineHandle.GridSize - 1)
+            if (!worldObjectTileFlagManager.IsGridCoordinateWithinBounds(tileX, tileY))
             {
                 return;
             }
 
-            if (engineHandle.entityManager.GetWallObject(index).Type != 1)
-            {
-                return;
-            }
-
-            if (wallDirection == 0)
-            {
-                engineHandle.Tiles[x][y] |= 1;
-
-                if (y > 0)
-                {
-                    engineHandle.SetTileFlags(x, y - 1, 4);
-                }
-            }
-            else if (wallDirection == 1)
-            {
-                engineHandle.Tiles[x][y] |= 2;
-
-                if (x > 0)
-                {
-                    engineHandle.SetTileFlags(x - 1, y, 8);
-                }
-            }
-            else if (wallDirection == 2)
-            {
-                engineHandle.Tiles[x][y] |= 0x10;
-            }
-            else if (wallDirection == 3)
-            {
-                engineHandle.Tiles[x][y] |= 0x20;
-            }
-
-            AddObjectToScene(x, y, 1, 1);
+            engineHandle.objectDirs[tileX][tileY] = direction;
         }
 
-        internal void RegisterObjectDir(int x, int y, int dir)
+        internal void RemoveObject(
+            int tileX,
+            int tileY,
+            int worldObjectIndex,
+            int rotation)
         {
-            if (x < 0 || x >= EngineHandle.GridSize || y < 0 || y >= EngineHandle.GridSize)
+            if (!worldObjectTileFlagManager.IsObjectAreaWithinBounds(tileX, tileY))
             {
                 return;
             }
 
-            engineHandle.objectDirs[x][y] = dir;
+            WorldObject worldObject = engineHandle.entityManager.GetWorldObject(worldObjectIndex);
+
+            if (!worldObjectTileFlagManager.IsSupportedWorldObject(worldObject))
+            {
+                return;
+            }
+
+            int objectWidth = worldObjectTileFlagManager.GetObjectWidth(worldObject, rotation);
+            int objectHeight = worldObjectTileFlagManager.GetObjectHeight(worldObject, rotation);
+
+            worldObjectTileFlagManager.ClearObjectTiles(
+                tileX,
+                tileY,
+                objectWidth,
+                objectHeight,
+                worldObject.Type,
+                rotation);
+
+            AddObjectToScene(tileX, tileY, objectWidth, objectHeight);
         }
 
-        internal void RemoveObject(int x, int y, int objType, int objDir)
+        internal void CreateObject(int tileX, int tileY, int worldObjectIndex, int rotation)
         {
-            if (x < 0 || y < 0 || x >= EngineHandle.GridSize - 1 || y >= EngineHandle.GridSize - 1)
+            if (!worldObjectTileFlagManager.IsObjectAreaWithinBounds(tileX, tileY))
             {
                 return;
             }
 
-            if (engineHandle.entityManager.GetWorldObject(objType).Type != 1 &&
-                engineHandle.entityManager.GetWorldObject(objType).Type != 2)
+            WorldObject worldObject = engineHandle.entityManager.GetWorldObject(worldObjectIndex);
+
+            if (!worldObjectTileFlagManager.IsSupportedWorldObject(worldObject))
             {
                 return;
             }
 
-            int objWidth;
-            int objHeight;
+            int objectWidth = worldObjectTileFlagManager.GetObjectWidth(worldObject, rotation);
+            int objectHeight = worldObjectTileFlagManager.GetObjectHeight(worldObject, rotation);
 
-            if (objDir == 0 || objDir == 4)
-            {
-                objWidth = engineHandle.entityManager.GetWorldObject(objType).Width;
-                objHeight = engineHandle.entityManager.GetWorldObject(objType).Height;
-            }
-            else
-            {
-                objHeight = engineHandle.entityManager.GetWorldObject(objType).Width;
-                objWidth = engineHandle.entityManager.GetWorldObject(objType).Height;
-            }
+            worldObjectTileFlagManager.SetObjectTiles(
+                tileX,
+                tileY,
+                objectWidth,
+                objectHeight,
+                worldObject.Type,
+                rotation);
 
-            for (int tileX = x; tileX < x + objWidth; tileX += 1)
-            {
-                for (int tileY = y; tileY < y + objHeight; tileY += 1)
-                {
-                    if (engineHandle.entityManager.GetWorldObject(objType).Type == 1)
-                    {
-                        engineHandle.Tiles[tileX][tileY] &= 0xffbf;
-                    }
-                    else if (objDir == 0)
-                    {
-                        engineHandle.Tiles[tileX][tileY] &= 0xfffd;
-
-                        if (tileX > 0)
-                        {
-                            engineHandle.DrawObjectSprite(tileX - 1, tileY, 8);
-                        }
-                    }
-                    else if (objDir == 2)
-                    {
-                        engineHandle.Tiles[tileX][tileY] &= 0xfffb;
-
-                        if (tileY < EngineHandle.GridSize - 1)
-                        {
-                            engineHandle.DrawObjectSprite(tileX, tileY + 1, 1);
-                        }
-                    }
-                    else if (objDir == 4)
-                    {
-                        engineHandle.Tiles[tileX][tileY] &= 0xfff7;
-
-                        if (tileX < EngineHandle.GridSize - 1)
-                        {
-                            engineHandle.DrawObjectSprite(tileX + 1, tileY, 2);
-                        }
-                    }
-                    else if (objDir == 6)
-                    {
-                        engineHandle.Tiles[tileX][tileY] &= 0xfffe;
-
-                        if (tileY > 0)
-                        {
-                            engineHandle.DrawObjectSprite(tileX, tileY - 1, 4);
-                        }
-                    }
-                }
-            }
-
-            AddObjectToScene(x, y, objWidth, objHeight);
-        }
-
-        internal void CreateObject(int x, int y, int index, int direction)
-        {
-            if (x < 0 || y < 0 || x >= EngineHandle.GridSize - 1 || y >= EngineHandle.GridSize - 1)
-            {
-                return;
-            }
-
-            if (engineHandle.entityManager.GetWorldObject(index).Type != 1 &&
-                engineHandle.entityManager.GetWorldObject(index).Type != 2)
-            {
-                return;
-            }
-
-            int objectWidth;
-            int objectHeight;
-
-            if (direction == 0 || direction == 4)
-            {
-                objectWidth = engineHandle.entityManager.GetWorldObject(index).Width;
-                objectHeight = engineHandle.entityManager.GetWorldObject(index).Height;
-            }
-            else
-            {
-                objectHeight = engineHandle.entityManager.GetWorldObject(index).Width;
-                objectWidth = engineHandle.entityManager.GetWorldObject(index).Height;
-            }
-
-            for (int tileX = x; tileX < x + objectWidth; tileX += 1)
-            {
-                for (int tileY = y; tileY < y + objectHeight; tileY += 1)
-                {
-                    if (engineHandle.entityManager.GetWorldObject(index).Type == 1)
-                    {
-                        engineHandle.Tiles[tileX][tileY] |= 0x40;
-                    }
-                    else if (direction == 0)
-                    {
-                        engineHandle.Tiles[tileX][tileY] |= 2;
-
-                        if (tileX > 0)
-                        {
-                            engineHandle.SetTileFlags(tileX - 1, tileY, 8);
-                        }
-                    }
-                    else if (direction == 2)
-                    {
-                        engineHandle.Tiles[tileX][tileY] |= 4;
-
-                        if (tileY < EngineHandle.GridSize - 1)
-                        {
-                            engineHandle.SetTileFlags(tileX, tileY + 1, 1);
-                        }
-                    }
-                    else if (direction == 4)
-                    {
-                        engineHandle.Tiles[tileX][tileY] |= 8;
-
-                        if (tileX < EngineHandle.GridSize - 1)
-                        {
-                            engineHandle.SetTileFlags(tileX + 1, tileY, 2);
-                        }
-                    }
-                    else if (direction == 6)
-                    {
-                        engineHandle.Tiles[tileX][tileY] |= 1;
-
-                        if (tileY > 0)
-                        {
-                            engineHandle.SetTileFlags(tileX, tileY - 1, 4);
-                        }
-                    }
-                }
-            }
-
-            AddObjectToScene(x, y, objectWidth, objectHeight);
+            AddObjectToScene(tileX, tileY, objectWidth, objectHeight);
         }
 
         internal void AddObjects(GameObject[] tileModels)
-        {
-            for (int x = 0; x < EngineHandle.GridSize - 2; x += 1)
-            {
-                for (int y = 0; y < EngineHandle.GridSize - 2; y += 1)
-                {
-                    if (engineHandle.GetDiagonalWall(x, y) <= EngineHandle.LocationEntityBase ||
-                        engineHandle.GetDiagonalWall(x, y) >= 60000)
-                    {
-                        continue;
-                    }
-
-                    try
-                    {
-                        int objectIndex = engineHandle.GetDiagonalWall(x, y) - EngineHandle.LocationEntityBase - 1;
-                        int objectRotation = engineHandle.objectDirs[x][y];
-                        int objectWidth;
-                        int objectHeight;
-
-                        if (objectRotation == 0 || objectRotation == 4)
-                        {
-                            objectWidth = engineHandle.entityManager.GetWorldObject(objectIndex).Width;
-                            objectHeight = engineHandle.entityManager.GetWorldObject(objectIndex).Height;
-                        }
-                        else
-                        {
-                            objectHeight = engineHandle.entityManager.GetWorldObject(objectIndex).Width;
-                            objectWidth = engineHandle.entityManager.GetWorldObject(objectIndex).Height;
-                        }
-
-                        CreateObject(x, y, objectIndex, objectRotation);
-
-                        GameObject objectModel = tileModels[engineHandle.entityManager.GetWorldObject(objectIndex).ModelIndex].CreateParent(false, true, false, false);
-                        int worldCentreX = (x + x + objectWidth) * EngineHandle.TileWorldSize / 2;
-                        int worldCentreZ = (y + y + objectHeight) * EngineHandle.TileWorldSize / 2;
-                        objectModel.OffsetPosition(worldCentreX, -engineHandle.GetAveragedElevation(worldCentreX, worldCentreZ), worldCentreZ);
-                        objectModel.SetRotation(0, engineHandle.GetTileRotation(x, y) * 32, 0);
-                        objectModel.SetRotation(0, objectRotation * 32, 0);
-                        engineHandle.WorldCamera.AddModel(objectModel);
-                        objectModel.SetModelColours(48, 48, -50, -10, -50);
-
-                        if (objectWidth <= 1 && objectHeight <= 1)
-                        {
-                            continue;
-                        }
-
-                        for (int occupiedX = x; occupiedX < x + objectWidth; occupiedX += 1)
-                        {
-                            for (int occupiedY = y; occupiedY < y + objectHeight; occupiedY += 1)
-                            {
-                                if ((occupiedX <= x && occupiedY <= y) ||
-                                    engineHandle.GetDiagonalWall(occupiedX, occupiedY) - EngineHandle.LocationEntityBase - 1 != objectIndex)
-                                {
-                                    continue;
-                                }
-
-                                int sectorX = occupiedX;
-                                int sectorY = occupiedY;
-                                byte sectorLayer = 0;
-
-                                if (sectorX >= EngineHandle.SectorSize && sectorY < EngineHandle.SectorSize)
-                                {
-                                    sectorLayer = 1;
-                                    sectorX -= EngineHandle.SectorSize;
-                                }
-                                else if (sectorX < EngineHandle.SectorSize && sectorY >= EngineHandle.SectorSize)
-                                {
-                                    sectorLayer = 2;
-                                    sectorY -= EngineHandle.SectorSize;
-                                }
-                                else if (sectorX >= EngineHandle.SectorSize && sectorY >= EngineHandle.SectorSize)
-                                {
-                                    sectorLayer = 3;
-                                    sectorX -= EngineHandle.SectorSize;
-                                    sectorY -= EngineHandle.SectorSize;
-                                }
-
-                                engineHandle.TileDiagonalWall[sectorLayer][sectorX * EngineHandle.SectorSize + sectorY] = 0;
-                            }
-                        }
-                    }
-                    catch { }
-                }
-            }
-        }
+            => worldObjectSceneAdder.AddObjects(tileModels);
     }
 }

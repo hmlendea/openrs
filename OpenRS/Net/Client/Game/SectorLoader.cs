@@ -1,12 +1,19 @@
 using System;
 using System.IO;
 
+using NuciLog.Core;
+
+using OpenRS.Logging;
 using OpenRS.Settings;
 
 namespace OpenRS.Net.Client.Game
 {
     internal sealed class SectorLoader
     {
+        private readonly ILogger logger = NuciLoggerFactory.CreateLogger<SectorLoader>();
+
+        private readonly EngineHandle engineHandle;
+
         private static int ByteMask => 0xff;
 
         private static int RunLengthMask => 0x7f;
@@ -19,40 +26,47 @@ namespace OpenRS.Net.Client.Game
 
         private static sbyte GroundOverlayRoofValue => 8;
 
-        private readonly EngineHandle engineHandle;
-
-        internal SectorLoader(EngineHandle engineHandle)
-        {
-            this.engineHandle = engineHandle;
-        }
+        internal SectorLoader(EngineHandle engineHandle) => this.engineHandle = engineHandle;
 
         internal void LoadSector(int sectionX, int sectionY, int height, int sector)
         {
             string fileName = BuildSectorFileName(sectionX, sectionY, height);
 
-            try
+            if (TryLoadSector(fileName, sector))
             {
-                LoadHeightData(fileName, sector);
-
-                if (!LoadWallData(fileName, sector))
-                {
-                    return;
-                }
-
-                LoadLocationData(fileName, sector);
-            }
-            catch (IOException)
-            {
+                return;
             }
 
             ResetSectorData(sector, height);
         }
 
-        private static string BuildSectorFileName(int sectionX, int sectionY, int height)
-            =>
-                "m" + height +
-                sectionX / 10 + sectionX % 10 +
-                sectionY / 10 + sectionY % 10;
+        private bool TryLoadSector(string fileName, int sector)
+        {
+            try
+            {
+                LoadHeightData(fileName, sector);
+
+                if (!TryLoadWallData(fileName, sector))
+                {
+                    return true;
+                }
+
+                LoadLocationData(fileName, sector);
+
+                return true;
+            }
+            catch (IOException exception)
+            {
+                LogSectorLoadFailure(fileName, exception);
+
+                return false;
+            }
+        }
+
+        private static string BuildSectorFileName(int sectionX, int sectionY, int height) =>
+            "m" + height +
+            sectionX / 10 + sectionX % 10 +
+            sectionY / 10 + sectionY % 10;
 
         private static sbyte[] LoadMapFile(string fileName)
         {
@@ -66,42 +80,71 @@ namespace OpenRS.Net.Client.Game
             return (sbyte[])(Array)File.ReadAllBytes(filePath);
         }
 
+        private void LogSectorLoadFailure(string fileName, IOException exception)
+            => logger.Error(
+                GameOperation.LoadSection,
+                "Failed to load the sector data.",
+                exception,
+                new LogInfo(GameLogInfoKey.FileName, fileName));
+
         private void LoadHeightData(string fileName, int sector)
         {
             sbyte[] data = LoadMapFile(fileName + ".hei");
 
-            if (data is null || data.Length == 0)
+            if (IsMissingOrEmpty(data))
             {
                 ResetGroundData(sector);
                 return;
             }
 
-            int readOffset = 0;
-            readOffset = DecodeRepeatedSbyteValues(
+            int readOffset = LoadGroundElevationData(data, sector);
+            LoadGroundTextureData(data, readOffset, sector);
+        }
+
+        private int LoadGroundElevationData(sbyte[] data, int sector)
+        {
+            int readOffset = DecodeRepeatedSbyteValues(
                 data,
-                readOffset,
+                0,
                 engineHandle.TileGroundElevation[sector]);
+
             AccumulateSbyteColumns(
                 engineHandle.TileGroundElevation[sector],
                 ElevationInitialRunLengthValue);
-            readOffset = DecodeRepeatedIntValues(
+
+            return readOffset;
+        }
+
+        private void LoadGroundTextureData(sbyte[] data, int readOffset, int sector)
+        {
+            DecodeRepeatedIntValues(
                 data,
                 readOffset,
                 engineHandle.TileGroundTexture[sector]);
+
             AccumulateIntColumns(
                 engineHandle.TileGroundTexture[sector],
                 TextureInitialRunLengthValue);
         }
 
-        private bool LoadWallData(string fileName, int sector)
+        private bool TryLoadWallData(string fileName, int sector)
         {
             sbyte[] data = LoadMapFile(fileName + ".dat");
 
-            if (data is null || data.Length == 0)
+            if (IsMissingOrEmpty(data))
             {
                 return false;
             }
 
+            int readOffset = LoadWallSegments(data, sector);
+            readOffset = LoadRoofTypeData(data, readOffset, sector);
+            LoadGroundOverlayAndRotationData(data, readOffset, sector);
+
+            return true;
+        }
+
+        private int LoadWallSegments(sbyte[] data, int sector)
+        {
             int readOffset = 0;
             readOffset = CopySignedIntValues(
                 data,
@@ -115,28 +158,31 @@ namespace OpenRS.Net.Client.Game
                 data,
                 readOffset,
                 engineHandle.TileDiagonalWall[sector]);
-            readOffset = ApplyBackDiagonalWalls(data, readOffset, sector);
-            readOffset = DecodeZeroRunLengthValues(
-                data,
-                readOffset,
-                engineHandle.TileRoofType[sector]);
+
+            return ApplyBackDiagonalWalls(data, readOffset, sector);
+        }
+
+        private int LoadRoofTypeData(sbyte[] data, int readOffset, int sector)
+            => DecodeZeroRunLengthValues(data, readOffset, engineHandle.TileRoofType[sector]);
+
+        private void LoadGroundOverlayAndRotationData(sbyte[] data, int readOffset, int sector)
+        {
             readOffset = DecodeRepeatedIntValues(
                 data,
                 readOffset,
                 engineHandle.TileGroundOverlay[sector]);
+
             DecodeZeroRunLengthValues(
                 data,
                 readOffset,
                 engineHandle.TileObjectRotation[sector]);
-
-            return true;
         }
 
         private void LoadLocationData(string fileName, int sector)
         {
             sbyte[] data = LoadMapFile(fileName + ".loc");
 
-            if (data is null || data.Length == 0)
+            if (IsMissingOrEmpty(data))
             {
                 return;
             }
@@ -146,17 +192,31 @@ namespace OpenRS.Net.Client.Game
             for (int tile = 0; tile < EngineHandle.TilesPerSector;)
             {
                 int rawByte = data[readOffset++] & ByteMask;
-
-                if (rawByte < EngineHandle.RunLengthThreshold)
-                {
-                    engineHandle.TileDiagonalWall[sector][tile] =
-                        rawByte + EngineHandle.LocationEntityBase;
-                    tile += 1;
-                    continue;
-                }
-
-                tile += rawByte - EngineHandle.RunLengthThreshold;
+                tile = LoadLocationTile(rawByte, sector, tile);
             }
+        }
+
+        private int LoadLocationTile(int rawByte, int sector, int tile)
+        {
+            if (rawByte < EngineHandle.RunLengthThreshold)
+            {
+                engineHandle.TileDiagonalWall[sector][tile] =
+                    rawByte + EngineHandle.LocationEntityBase;
+
+                return tile + 1;
+            }
+
+            return tile + rawByte - EngineHandle.RunLengthThreshold;
+        }
+
+        private static bool IsMissingOrEmpty(sbyte[] data)
+        {
+            if (data is null)
+            {
+                return true;
+            }
+
+            return data.Length == 0;
         }
 
         private static int CopySignedIntValues(sbyte[] data, int readOffset, int[] destination)
@@ -211,10 +271,11 @@ namespace OpenRS.Net.Client.Game
                     destination[tile] = (sbyte)rawByte;
                     repeatedValue = rawByte;
                     tile += 1;
-                    continue;
                 }
-
-                tile = RepeatSbyteValue(destination, tile, repeatedValue, rawByte);
+                else
+                {
+                    tile = RepeatSbyteValue(destination, tile, repeatedValue, rawByte);
+                }
             }
 
             return readOffset;
@@ -233,10 +294,11 @@ namespace OpenRS.Net.Client.Game
                     destination[tile] = rawByte;
                     repeatedValue = rawByte;
                     tile += 1;
-                    continue;
                 }
-
-                tile = RepeatIntValue(destination, tile, repeatedValue, rawByte);
+                else
+                {
+                    tile = RepeatIntValue(destination, tile, repeatedValue, rawByte);
+                }
             }
 
             return readOffset;
@@ -258,6 +320,7 @@ namespace OpenRS.Net.Client.Game
             if (rawByte < EngineHandle.RunLengthThreshold)
             {
                 destination[tile] = rawByte;
+
                 return tile + 1;
             }
 
@@ -280,7 +343,11 @@ namespace OpenRS.Net.Client.Game
             return tile;
         }
 
-        private static int RepeatIntValue(int[] destination, int tile, int repeatedValue, int rawByte)
+        private static int RepeatIntValue(
+            int[] destination,
+            int tile,
+            int repeatedValue,
+            int rawByte)
         {
             int repeatedCount = rawByte - EngineHandle.RunLengthThreshold;
 
@@ -329,7 +396,8 @@ namespace OpenRS.Net.Client.Game
             for (int row = 0; row < EngineHandle.SectorSize; row += 1)
             {
                 int tileIndex = row * EngineHandle.SectorSize + column;
-                accumulatedValue = destination[tileIndex] + accumulatedValue & RunLengthMask;
+                accumulatedValue =
+                    (destination[tileIndex] + accumulatedValue) & RunLengthMask;
                 destination[tileIndex] = (sbyte)(accumulatedValue * 2);
             }
 
@@ -341,7 +409,8 @@ namespace OpenRS.Net.Client.Game
             for (int row = 0; row < EngineHandle.SectorSize; row += 1)
             {
                 int tileIndex = row * EngineHandle.SectorSize + column;
-                accumulatedValue = destination[tileIndex] + accumulatedValue & RunLengthMask;
+                accumulatedValue =
+                    (destination[tileIndex] + accumulatedValue) & RunLengthMask;
                 destination[tileIndex] = accumulatedValue * 2;
             }
 
@@ -352,24 +421,35 @@ namespace OpenRS.Net.Client.Game
         {
             for (int tile = 0; tile < EngineHandle.TilesPerSector; tile += 1)
             {
-                engineHandle.TileGroundElevation[sector][tile] = 0;
-                engineHandle.TileGroundTexture[sector][tile] = 0;
+                ResetGroundTile(sector, tile);
             }
         }
 
         private void ResetSectorData(int sector, int height)
         {
+            sbyte groundOverlayDefault = GetGroundOverlayDefault(height);
+
             for (int tile = 0; tile < EngineHandle.TilesPerSector; tile += 1)
             {
-                engineHandle.TileGroundElevation[sector][tile] = 0;
-                engineHandle.TileGroundTexture[sector][tile] = 0;
-                engineHandle.TileVerticalWall[sector][tile] = 0;
-                engineHandle.TileHorizontalWall[sector][tile] = 0;
-                engineHandle.TileDiagonalWall[sector][tile] = 0;
-                engineHandle.TileRoofType[sector][tile] = 0;
-                engineHandle.TileGroundOverlay[sector][tile] = GetGroundOverlayDefault(height);
-                engineHandle.TileObjectRotation[sector][tile] = 0;
+                ResetSectorTile(sector, tile, groundOverlayDefault);
             }
+        }
+
+        private void ResetGroundTile(int sector, int tile)
+        {
+            engineHandle.TileGroundElevation[sector][tile] = 0;
+            engineHandle.TileGroundTexture[sector][tile] = 0;
+        }
+
+        private void ResetSectorTile(int sector, int tile, sbyte groundOverlayDefault)
+        {
+            ResetGroundTile(sector, tile);
+            engineHandle.TileVerticalWall[sector][tile] = 0;
+            engineHandle.TileHorizontalWall[sector][tile] = 0;
+            engineHandle.TileDiagonalWall[sector][tile] = 0;
+            engineHandle.TileRoofType[sector][tile] = 0;
+            engineHandle.TileGroundOverlay[sector][tile] = groundOverlayDefault;
+            engineHandle.TileObjectRotation[sector][tile] = 0;
         }
 
         private static sbyte GetGroundOverlayDefault(int height)

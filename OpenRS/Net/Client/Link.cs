@@ -25,7 +25,7 @@ namespace OpenRS.Net.Client
             }
             catch (IOException) { }
 
-            return result.ToArray();
+            return [.. result];
         }
 
         public static void AddFile(string filename, BinaryReader reader)

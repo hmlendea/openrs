@@ -5,11 +5,12 @@ namespace OpenRS.Net.Client.Game
 {
     public sealed class StringDraw
     {
-        public string text { get; set; }
-        public Vector2 drawPosition { get; set; }
+        public string Text { get; set; }
 
-        public Color forecolor = new(255, 0, 0, 255);
+        public Vector2 DrawPosition { get; set; }
 
-        public SpriteFont font { get; set; }
+        public Color ForeColour { get; set; } = new(255, 0, 0, 255);
+
+        public SpriteFont Font { get; set; }
     }
 }

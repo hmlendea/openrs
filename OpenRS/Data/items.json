@@ -11087,7 +11087,7 @@
   {
     "id": "652",
     "v1Id": 652,
-    "name": "item.652.name",
+    "name": "item.maple_longbow.name",
     "description": "description.a_nice_sturdy_bow",
     "command": "command.none",
     "basePrice": 640,
@@ -11104,7 +11104,7 @@
   {
     "id": "653",
     "v1Id": 653,
-    "name": "item.653.name",
+    "name": "item.maple_shortbow.name",
     "description": "description.short_but_effective",
     "command": "command.none",
     "basePrice": 400,
@@ -11291,7 +11291,7 @@
   {
     "id": "664",
     "v1Id": 664,
-    "name": "item.664.name",
+    "name": "item.unstrung_yew_longbow.name",
     "description": "description.i_need_to_find_a",
     "command": "command.none",
     "basePrice": 640,
@@ -11308,7 +11308,7 @@
   {
     "id": "665",
     "v1Id": 665,
-    "name": "item.665.name",
+    "name": "item.unstrung_yew_shortbow.name",
     "description": "description.i_need_to_find_a",
     "command": "command.none",
     "basePrice": 400,
@@ -12651,7 +12651,7 @@
   {
     "id": "744",
     "v1Id": 744,
-    "name": "item.744.name",
+    "name": "item.gnome_emerald_amulet_of_protection.name",
     "description": "description.it_improves_my_defense",
     "command": "command.none",
     "basePrice": 0,
@@ -12770,7 +12770,7 @@
   {
     "id": "751",
     "v1Id": 751,
-    "name": "item.751.name",
+    "name": "item.half_pineapple_pizza.name",
     "description": "item.half_pizza.description",
     "command": "command.eat",
     "basePrice": 50,
@@ -13093,8 +13093,8 @@
   {
     "id": "770",
     "v1Id": 770,
-    "name": "item.770.name",
-    "description": "item.770.description",
+    "name": "item.chocolate_milk.name",
+    "description": "item.chocolate_milk.description",
     "command": "command.drink",
     "basePrice": 2,
     "spriteId": 0,
@@ -14096,7 +14096,7 @@
   {
     "id": "829",
     "v1Id": 829,
-    "name": "item.829.name",
+    "name": "item.dragon_bitter.name",
     "description": "description.a_glass_of_frothy_ale",
     "command": "command.drink",
     "basePrice": 2,
@@ -14470,8 +14470,8 @@
   {
     "id": "851",
     "v1Id": 851,
-    "name": "item.851.name",
-    "description": "item.851.description",
+    "name": "item.gnome_cocktail_guide.name",
+    "description": "item.gnome_cocktail_guide.description",
     "command": "command.read",
     "basePrice": 2,
     "spriteId": 0,
@@ -14997,8 +14997,8 @@
   {
     "id": "882",
     "v1Id": 882,
-    "name": "item.882.name",
-    "description": "item.882.description",
+    "name": "item.gnomebowl_dough.name",
+    "description": "item.gnomebowl_dough.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,
@@ -15014,8 +15014,8 @@
   {
     "id": "883",
     "v1Id": 883,
-    "name": "item.883.name",
-    "description": "item.883.description",
+    "name": "item.gnomecrunchie_dough.name",
+    "description": "item.gnomecrunchie_dough.description",
     "command": "command.none",
     "basePrice": 2,
     "spriteId": 0,

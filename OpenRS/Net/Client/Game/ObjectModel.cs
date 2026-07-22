@@ -114,10 +114,10 @@ namespace OpenRS.Net.Client.Game
         }
 
         private static List<Face> CreateFaceList(IEnumerable<Face> faces)
-            => ValidateCollection(faces, nameof(faces)).ToList();
+            => [.. ValidateCollection(faces, nameof(faces))];
 
         private static List<Vertex> CreateVertexList(IEnumerable<Vertex> vertices)
-            => ValidateCollection(vertices, nameof(vertices)).ToList();
+            => [.. ValidateCollection(vertices, nameof(vertices))];
 
         private static IEnumerable<TItem> ValidateCollection<TItem>(
             IEnumerable<TItem> items,
