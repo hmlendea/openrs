@@ -1,27 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using NuciExtensions;
+using NuciLog.Core;
+
 using NuciXNA.Primitives;
 
-using OpenRS.Models.Enumerations;
+using OpenRS.Logging;
 
 namespace OpenRS.Models
 {
     public abstract class MobInstance : GameEntityInstance
     {
-        int combatLevel;
-        int mobSprite;
-        int[][] mobSprites;
-        bool[] activatedPrayers;
-        PathHandler pathHandler;
-        // viewArea
+        private static int DefaultCombatLevel => 3;
+        private static int InitialSpriteIndex => 1;
+        private static int CombatSpriteIndexMin => 8;
+        private static int CombatSpriteIndexMax => 9;
 
-        protected Dictionary<long, int> totalDamageTable;
-        protected Dictionary<long, int> meleeDamageTable;
-        protected Dictionary<long, int> rangeDamageTable;
+        private int combatLevel;
+        private int mobSprite;
+        private readonly int[][] mobSprites;
+        private readonly bool[] activatedPrayers;
+        private readonly PathHandler pathHandler;
 
-        MobInstance CombatOpponent { get; set; }
+        private readonly ILogger logger = NuciLoggerFactory.CreateLogger<MobInstance>();
+
+        private readonly Dictionary<long, int> totalDamageTable;
+        private readonly Dictionary<long, int> meleeDamageTable;
+        private readonly Dictionary<long, int> rangeDamageTable;
+
+        private MobInstance CombatOpponent { get; set; }
 
         public CombatState LastCombatState { get; private set; }
 
@@ -73,7 +80,9 @@ namespace OpenRS.Models
         {
             get
             {
-                return (mobSprite == 8 || mobSprite == 9) && CombatOpponent != null;
+                return
+                    (mobSprite == CombatSpriteIndexMin || mobSprite == CombatSpriteIndexMax) &&
+                    CombatOpponent is not null;
             }
         }
 
@@ -83,57 +92,37 @@ namespace OpenRS.Models
 
         public MobInstance()
         {
-            mobSprites = new int[][] {
-                new int[] { 3, 2, 1 },
-                new int[] { 4, -1, 0 },
-                new int[] { 5, 6, 7 }
-            };
-            mobSprite = 1;
-            combatLevel = 3;
+            mobSprites =
+            [
+                [3, 2, 1],
+                [4, -1, 0],
+                [5, 6, 7]
+            ];
+            mobSprite = InitialSpriteIndex;
+            combatLevel = DefaultCombatLevel;
             HasAppearanceChanged = true;
             AppearanceId = 0;
             LastMovementTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            activatedPrayers = new bool[14];
+            activatedPrayers = new bool[Prayer.MaximumCount];
             LastCombatState = CombatState.Waiting;
-
             pathHandler = new PathHandler(this);
-
-            totalDamageTable = new Dictionary<long, int>();
-            meleeDamageTable = new Dictionary<long, int>();
-            rangeDamageTable = new Dictionary<long, int>();
+            totalDamageTable = [];
+            meleeDamageTable = [];
+            rangeDamageTable = [];
         }
 
         public void UpdateKillStealing(long index, int damage, AttackType attackType)
         {
-            if (totalDamageTable.ContainsKey(index))
-            {
-                totalDamageTable[index] += damage;
-            }
-            else
-            {
-                totalDamageTable.Add(index, damage);
-            }
+            totalDamageTable[index] = totalDamageTable.GetValueOrDefault(index) + damage;
 
             switch (attackType)
             {
                 case AttackType.Melee:
-                    if (meleeDamageTable.ContainsKey(index))
-                    {
-                        meleeDamageTable[index] += damage;
-                        return;
-                    }
-
-                    meleeDamageTable.Add(index, damage);
+                    meleeDamageTable[index] = meleeDamageTable.GetValueOrDefault(index) + damage;
                     break;
 
                 case AttackType.Ranged:
-                    if (rangeDamageTable.ContainsKey(index))
-                    {
-                        rangeDamageTable[index] += damage;
-                        return;
-                    }
-
-                    rangeDamageTable.Add(index, damage);
+                    rangeDamageTable[index] = rangeDamageTable.GetValueOrDefault(index) + damage;
                     break;
             }
         }
@@ -141,29 +130,16 @@ namespace OpenRS.Models
         public abstract void Remove();
 
         public void ResetCombat()
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
 
-        public void ResetPath()
-        {
-            pathHandler.ResetPath();
-        }
+        public void ResetPath() => pathHandler.ResetPath();
 
         public bool IsAtObject()
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
 
-        public bool IsPrayerActivated(int prayerIndex)
-        {
-            return activatedPrayers[prayerIndex];
-        }
+        public bool IsPrayerActivated(int prayerIndex) => activatedPrayers[prayerIndex];
 
-        public void TogglePrayer(int prayerIndex, bool toggleStatus)
-        {
-            activatedPrayers[prayerIndex] = toggleStatus;
-        }
+        public void TogglePrayer(int prayerIndex, bool toggleStatus) => activatedPrayers[prayerIndex] = toggleStatus;
 
         public void UpdateAppearanceId()
         {
@@ -173,25 +149,13 @@ namespace OpenRS.Models
             }
         }
 
-        public void UpdateCombatTime()
-        {
-            CombatTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        }
+        public void UpdateCombatTime() => CombatTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
-        public void UpdateLocation()
-        {
-            pathHandler.UpdateLocation();
-        }
+        public void UpdateLocation() => pathHandler.UpdateLocation();
 
-        public void UpdateMovementTime()
-        {
-            LastMovementTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        }
+        public void UpdateMovementTime() => LastMovementTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
 
-        public override void SetLocation(Point2D location)
-        {
-            SetLocation(location, false);
-        }
+        public override void SetLocation(Point2D location) => SetLocation(location, false);
 
         public void SetLocation(Point2D location, bool teleported)
         {
@@ -206,21 +170,15 @@ namespace OpenRS.Models
             base.SetLocation(location);
         }
 
-        public bool FinishedPath()
-        {
-            return pathHandler.FinishedPath();
-        }
+        public bool FinishedPath() => pathHandler.FinishedPath();
 
-        public void SetPath(WalkPath path)
-        {
-            pathHandler.SetPath(path);
-        }
+        public void SetPath(WalkPath path) => pathHandler.SetPath(path);
 
         protected void UpdateSprite(Point2D newLocation)
         {
             try
             {
-                Point2D index = new Point2D(
+                Point2D index = new(
                     Location.X - newLocation.X + 1,
                     Location.Y - newLocation.Y + 1);
 
@@ -228,8 +186,10 @@ namespace OpenRS.Models
             }
             catch (Exception ex)
             {
-                // TODO: Use logger
-                Console.WriteLine(ex);
+                logger.Error(
+                    GameOperation.UpdateEntitySprite,
+                    "Failed to update the mob sprite.",
+                    ex);
             }
         }
     }

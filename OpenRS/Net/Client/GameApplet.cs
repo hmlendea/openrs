@@ -1,29 +1,25 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using NuciExtensions;
+using NuciLog.Core;
 
+using OpenRS.Logging;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
+using OpenRS.Settings;
 
 namespace OpenRS.Net.Client
 {
-    public class GameApplet : IDisposable
+    public class GameApplet
     {
-        public void CreateWindow(int width, int height)
+        public GameApplet()
         {
-            Console.WriteLine("Started application");
-            appletWidth = width;
-            appletHeight = height;
-            gameFrame = new GameFrame(this, width, height, false);
-            gameLoadingScreen = 1;
-
-            InitGameApplet();
         }
 
         public virtual void LoadGame()
@@ -34,120 +30,267 @@ namespace OpenRS.Net.Client
         {
         }
 
-        public virtual void UnloadContent()
+        public virtual void Close()
         {
         }
 
-        public void SetRefreshRate(int i)
+        public void CreateWindow(int width, int height, string title, bool resizable)
         {
-            refreshRate = 1000 / i;
+            logger.Info(GameOperation.Startup, "The application has started.");
+            appletWidth = width;
+            appletHeight = height;
+            gameFrame = new GameFrame(this, width, height, title, resizable, false);
+            gameLoadingScreen = 1;
+
+            InitGameApplet();
+        }
+
+        public void SetRefreshRate(int rate)
+        {
+            refreshRate = 1000 / rate;
         }
 
         public void ResetTimings()
         {
-            for (int i = 0; i < 10; i++)
+            for (int timeIndex = 0; timeIndex < 10; timeIndex += 1)
             {
-                timeArray[i] = 0L;
+                timeArray[timeIndex] = 0L;
             }
         }
 
-        public void MouseEntered()
+        public void KeyTyped(EventArgs e)
         {
-            MouseMove();
+            // Ignore.
         }
 
-        public void MouseExited()
+        public void MouseClicked(EventArgs e)
         {
-            MouseMove();
+            // Ignore.
         }
 
-        public void MousePressed(MouseState evt)
+        public void KeyPressed(Keys key)
         {
-            mouseDown(evt.X, evt.Y, evt.RightButton == ButtonState.Pressed);
+            char[] keyChars = Encoding.UTF8.GetChars([(byte)key]);
+            KeyDown(key, keyChars[0]);
         }
 
-        public void MouseReleased()
+        public void KeyReleased(Keys key)
         {
-            MouseUp();
+            char[] keyChars = Encoding.UTF8.GetChars([(byte)key]);
+            KeyUp(key, keyChars[0]);
         }
 
-        public void MouseDragged(MouseState evt)
+        public void MouseEntered(MouseState mouseState)
         {
-            mouseDrag(evt.RightButton == ButtonState.Pressed);
+            MouseMove(mouseState.X, mouseState.Y);
         }
 
-        public void MouseMoved()
+        public void MouseExited(MouseState mouseState)
         {
-            MouseMove();
+            MouseMove(mouseState.X, mouseState.Y);
         }
 
-        public void KeyDown(Keys key, char c)
+        public void MousePressed(MouseState mouseState)
         {
-            HandleKeyDown(key, c);
+            MouseDown(mouseState.X, mouseState.Y, mouseState.RightButton == ButtonState.Pressed);
+        }
 
-            for (int i = 0; i < allowedChars.Length; i++)
+        public void MouseReleased(MouseState mouseState)
+        {
+            MouseUp(mouseState.X, mouseState.Y);
+        }
+
+        public void MouseDragged(MouseState mouseState)
+        {
+            MouseDrag(mouseState.Y, mouseState.X, mouseState.RightButton == ButtonState.Pressed);
+        }
+
+        public void MouseMoved(MouseState mouseState)
+        {
+            MouseMove(mouseState.X, mouseState.Y);
+        }
+
+        public void KeyDown(Keys key, char character)
+        {
+            HandleKeyDown(key, character);
+            if (key == Keys.Left)
             {
-                if (c != allowedChars[i] && key != Keys.Left && key != Keys.Right && key != Keys.Up && key != Keys.Down)
+                keyLeftDown = true;
+            }
+
+            if (key == Keys.Right)
+            {
+                keyRightDown = true;
+            }
+
+            if (key == Keys.Up)
+            {
+                keyUpDown = true;
+            }
+
+            if (key == Keys.Down)
+            {
+                keyDownDown = true;
+            }
+
+            if (key == Keys.Space)
+            {
+                keySpaceDown = true;
+            }
+
+            if (key == Keys.N || key == Keys.M)
+            {
+                keyNMDown = true;
+            }
+
+            if (key == Keys.F1)
+            {
+                keyF1Toggle = !keyF1Toggle;
+            }
+
+            bool charIsAllowed = false;
+
+            for (int charIndex = 0; charIndex < AllowedChars.Length; charIndex += 1)
+            {
+                if (character != AllowedChars[charIndex] && key != Keys.Left && key != Keys.Right && key != Keys.Up && key != Keys.Down)
                 {
                     continue;
                 }
 
+                charIsAllowed = true;
                 break;
+            }
+
+            if (charIsAllowed && inputText.Length < 20)
+            {
+                inputText += character;
+            }
+
+            if (charIsAllowed && pmText.Length < 80)
+            {
+                pmText += character;
+            }
+
+            if (key == Keys.Back && inputText.Length > 0)
+            {
+                inputText = inputText[..^1];
+            }
+
+            if (key == Keys.Back && pmText.Length > 0)
+            {
+                pmText = pmText[..^1];
+            }
+
+            if (key == Keys.Enter)
+            {
+                enteredInputText = inputText;
+                enteredPMText = pmText;
             }
         }
 
-        public virtual void HandleKeyDown(Keys key, char c)
+        public virtual void HandleKeyDown(Keys key, char character)
         {
         }
 
-        public bool MouseMove()
+        public void KeyUp(Keys key, char character)
         {
+            if (key == Keys.Left)
+            {
+                keyLeftDown = false;
+            }
+
+            if (key == Keys.Right)
+            {
+                keyRightDown = false;
+            }
+
+            if (key == Keys.Up)
+            {
+                keyUpDown = false;
+            }
+
+            if (key == Keys.Down)
+            {
+                keyDownDown = false;
+            }
+
+            if (key == Keys.Space)
+            {
+                keySpaceDown = false;
+            }
+
+            if (key == Keys.N || key == Keys.M)
+            {
+                keyNMDown = false;
+            }
+        }
+
+        public bool MouseMove(int x, int y)
+        {
+            mouseX = x;
+            mouseY = y - mouseYOffset;
             mouseButton = 0;
+
             return true;
         }
 
-        public bool MouseUp()
+        public bool MouseUp(int x, int y)
         {
+            mouseX = x;
+            mouseY = y - mouseYOffset;
             mouseButton = 0;
+
             return true;
         }
 
-        public bool mouseDown(int x, int y, bool metaDown)
+        public bool MouseDown(int x, int y, bool isMetaDown)
         {
-            mouseButton = metaDown ? 2 : 1;
+            mouseX = x;
+            mouseY = y - mouseYOffset;
+
+            if (isMetaDown)
+            {
+                mouseButton = 2;
+            }
+            else
+            {
+                mouseButton = 1;
+            }
+
             lastMouseButton = mouseButton;
-            handleMouseDown(mouseButton, x, y);
+            HandleMouseDown(mouseButton, x, y);
 
             return true;
         }
 
-        public virtual void handleMouseDown(int i, int k, int l)
+        public virtual void HandleMouseDown(int pressedMouseButton, int mouseXPosition, int mouseYPosition)
         {
         }
 
-        public bool mouseDrag(bool metaDown)
+        public bool MouseDrag(int x, int y, bool isMetaDown)
         {
-            mouseButton = metaDown ? 2 : 1;
+            mouseX = x;
+            mouseY = y - mouseYOffset;
+
+            if (isMetaDown)
+            {
+                mouseButton = 2;
+            }
+            else
+            {
+                mouseButton = 1;
+            }
+
             return true;
         }
 
-        public void Initialise()
+        public void Init()
         {
-            Console.WriteLine("Started applet");
-
+            logger.Info(GameOperation.Startup, "The applet has started.");
             appletWidth = 512;
             appletHeight = 344;
             gameLoadingScreen = 1;
-
-            DataOperations.codeBase = default(Uri);
-        }
-
-        public void StartThread(Action runnable)
-        {
-            ThreadStart threadStart = new ThreadStart(runnable);
-            Thread thread = new Thread(threadStart);
-
-            thread.Start();
+            GameResourceLoader.CodeBase = GetCodeBase();
         }
 
         public void Start()
@@ -166,53 +309,61 @@ namespace OpenRS.Net.Client
             }
         }
 
-        public void Dispose()
+        public void Destroy()
         {
             runStatus = -1;
 
-            Thread.Sleep(2000);
+            try
+            {
+                Thread.Sleep(2000);
+            }
+            catch (Exception) { }
 
             if (runStatus == -1)
             {
-                Console.WriteLine("2 seconds expired, forcing kill");
-
+                logger.Warn(GameOperation.ForceShutdown, "The 2-second timeout has expired, forcing kill.");
                 CloseProgram();
-
-                if (gameWindowThread != null)
-                {
-                    gameWindowThread.Abort();
-                    gameWindowThread = null;
-                }
+                gameWindowThread?.Interrupt();
+                gameWindowThread = null;
             }
         }
 
         public void CloseProgram()
         {
             runStatus = -2;
-            Console.WriteLine("Closing program");
+            logger.Info(GameOperation.Shutdown, "The program is closing.");
+            Close();
 
-            UnloadContent();
+            try
+            {
+                Thread.Sleep(1000);
+            }
+            catch (Exception) { }
         }
 
-        public void run()
+        public void LoadApp()
+        {
+        }
+
+        public void Run()
         {
             if (gameLoadingScreen == 1)
             {
                 gameLoadingScreen = 2;
-                loadLoadingScreen();
-                drawLoadingScreen(0, "Loading...");
+                LoadLoadingScreen();
+                DrawLoadingScreen(0, "Loading...");
                 LoadGame();
                 gameLoadingScreen = 0;
             }
 
-            for (int k1 = 0; k1 < 10; k1++)
+            for (int timeIndex = 0; timeIndex < 10; timeIndex += 1)
             {
-                timeArray[k1] = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                timeArray[timeIndex] = CurrentTimeMillis();
             }
 
             while (runStatus >= 0)
             {
-                UpdateGame(gameVar_i, gameVar_k, gameVar_sleepTime, gameVar_j1);
+                UpdateGame(gameTimingArrayIndex, gameTimingMultiplier, gameThreadSleepTime, gameLoopAccumulator);
                 OnDrawDone();
             }
 
@@ -225,242 +376,276 @@ namespace OpenRS.Net.Client
 
         public bool DrawIsNecessary;
 
-        public void OnDrawDone()
-        {
-            DrawIsNecessary = true;
-        }
+        public void OnDrawDone() => DrawIsNecessary = true;
 
-        public int gameVar_i;
-        public int gameVar_k = 256;
-        public int gameVar_sleepTime = 1;
-        public int gameVar_j1;
+        public int gameTimingArrayIndex;
+        public int gameTimingMultiplier = 256;
+        public int gameThreadSleepTime = 1;
+        public int gameLoopAccumulator;
 
-        public void UpdateGame(int i, int k, int sleepTime, int j1)
+        public void UpdateGame(int timingArrayIndex, int timingMultiplier, int sleepTime, int loopAccumulator)
         {
             if (runStatus > 0)
             {
-                runStatus--;
+                runStatus -= 1;
+
                 if (runStatus == 0)
                 {
                     CloseProgram();
                     gameWindowThread = null;
+
                     return;
                 }
             }
 
-            int i2 = k;
-            int j2 = sleepTime;
-            k = 300;
+            int savedTimingMultiplier = timingMultiplier;
+            int savedSleepTime = sleepTime;
+            timingMultiplier = 300;
             sleepTime = 1;
-            long l1 = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            if (timeArray[i] == 0L)
+            long currentTime = CurrentTimeMillis();
+
+            if (timeArray[timingArrayIndex] == 0L)
             {
-                k = i2;
-                sleepTime = j2;
+                timingMultiplier = savedTimingMultiplier;
+                sleepTime = savedSleepTime;
             }
-            else if (l1 > timeArray[i])
+            else if (currentTime > timeArray[timingArrayIndex])
             {
-                k = (int)(2560 * refreshRate / (l1 - timeArray[i]));
+                timingMultiplier = (int)(2560 * refreshRate / (currentTime - timeArray[timingArrayIndex]));
             }
 
-            if (k < 25)
+            if (timingMultiplier < 25)
             {
-                k = 25;
+                timingMultiplier = 25;
             }
 
-            if (k > 256)
+            if (timingMultiplier > 256)
             {
-                k = 256;
-                sleepTime = (int)(refreshRate - (l1 - timeArray[i]) / 10L);
+                timingMultiplier = 256;
+                sleepTime = (int)(refreshRate - (currentTime - timeArray[timingArrayIndex]) / 10L);
+
                 if (sleepTime < gameMinThreadSleepTime)
                 {
                     sleepTime = gameMinThreadSleepTime;
                 }
             }
 
-            Thread.Sleep(sleepTime);
+            try
+            {
+                Thread.Sleep(sleepTime);
+            }
+            catch (Exception) { }
 
-            timeArray[i] = l1;
-            i = (i + 1) % 10;
+            timeArray[timingArrayIndex] = currentTime;
+            timingArrayIndex = (timingArrayIndex + 1) % 10;
+
             if (sleepTime > 1)
             {
-                for (int k2 = 0; k2 < 10; k2++)
+                for (int timeIndex = 0; timeIndex < 10; timeIndex += 1)
                 {
-                    if (timeArray[k2] != 0L)
+                    if (timeArray[timeIndex] != 0L)
                     {
-                        timeArray[k2] += sleepTime;
+                        timeArray[timeIndex] += sleepTime;
                     }
                 }
             }
-            int l2 = 0;
 
-            while (j1 < 256)
+            int loopCount = 0;
+
+            while (loopAccumulator < 256)
             {
-                var start = DateTime.Now;
-
                 CheckInputs();
-                j1 += k;
+                loopAccumulator += timingMultiplier;
 
-                if (++l2 > fie)
+                loopCount += 1;
+
+                if (loopCount > maxLoopCount)
                 {
-                    j1 = 0;
-                    fij += 6;
-                    if (fij > 25)
+                    loopAccumulator = 0;
+                    loadingAnimationCounter += 6;
+
+                    if (loadingAnimationCounter > 25)
                     {
-                        fij = 0;
+                        loadingAnimationCounter = 0;
+                        keyF1Toggle = true;
                     }
+
                     break;
                 }
-
-                var end = DateTime.Now - start;
             }
 
-            fij--;
-            j1 &= 0xff;
+            loadingAnimationCounter -= 1;
         }
 
         public virtual void DrawWindow()
         {
-
         }
 
-        public void paint()
+        public void Paint(GraphicsDevice graphicsDevice)
         {
             if (gameLoadingScreen == 2)
             {
-                drawLoadingScreen(gameLoadingPercentage, gameLoadingFileTitle);
+                DrawLoadingScreen(gameLoadingPercentage, gameLoadingFileTitle);
+
                 return;
             }
         }
 
-        void loadLoadingScreen()
+        private void LoadLoadingScreen()
         {
-            sbyte[] bytes = unpackData("fonts.jag", "Game fonts", 0);
-
-            GraphicsEngine.addFont(DataOperations.loadData("h11p.jf", 0, bytes));
-            GraphicsEngine.addFont(DataOperations.loadData("h12b.jf", 0, bytes));
-            GraphicsEngine.addFont(DataOperations.loadData("h12p.jf", 0, bytes));
-            GraphicsEngine.addFont(DataOperations.loadData("h13b.jf", 0, bytes));
-            GraphicsEngine.addFont(DataOperations.loadData("h14b.jf", 0, bytes));
-            GraphicsEngine.addFont(DataOperations.loadData("h16b.jf", 0, bytes));
-            GraphicsEngine.addFont(DataOperations.loadData("h20b.jf", 0, bytes));
-            GraphicsEngine.addFont(DataOperations.loadData("h24b.jf", 0, bytes));
+            GameImage.AddFont(LoadFontFile("h11p.jf"));
+            GameImage.AddFont(LoadFontFile("h12b.jf"));
+            GameImage.AddFont(LoadFontFile("h12p.jf"));
+            GameImage.AddFont(LoadFontFile("h13b.jf"));
+            GameImage.AddFont(LoadFontFile("h14b.jf"));
+            GameImage.AddFont(LoadFontFile("h16b.jf"));
+            GameImage.AddFont(LoadFontFile("h20b.jf"));
+            GameImage.AddFont(LoadFontFile("h24b.jf"));
         }
 
-        void drawLoadingScreen(int percentage, string fileTitle)
+        private static sbyte[] LoadFontFile(string fileName)
+        {
+            string filePath = System.IO.Path.Combine(ApplicationPaths.FontsDirectory, fileName);
+            return (sbyte[])(Array)System.IO.File.ReadAllBytes(filePath);
+        }
+
+        private void DrawLoadingScreen(int percentage, string fileTitle)
         {
             try
             {
-                int i = (appletWidth - 281) / 2;
-                int k = (appletHeight - 148) / 2;
-
-                i += 2;
-                k += 90;
-
+                int xOffset = (appletWidth - 281) / 2;
+                int yOffset = (appletHeight - 148) / 2;
+                xOffset += 2;
+                yOffset += 90;
                 gameLoadingPercentage = percentage;
                 gameLoadingFileTitle = fileTitle;
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error has occured in {nameof(GameApplet)}.cs");
-                Console.WriteLine(ex);
-            }
+            catch (Exception) { }
         }
 
-        public void drawLoadingBarText(int i, string s)
+        public void DrawLoadingBarText(int percentage, string statusText)
         {
             try
             {
-                int k = (appletWidth - 281) / 2;
-                int l = (appletHeight - 148) / 2;
-                k += 2;
-                l += 90;
-                gameLoadingPercentage = i;
-                gameLoadingFileTitle = s;
-                int i1 = (277 * i) / 100;
-
-                return;
+                int xOffset = (appletWidth - 281) / 2;
+                int yOffset = (appletHeight - 148) / 2;
+                xOffset += 2;
+                yOffset += 90;
+                gameLoadingPercentage = percentage;
+                gameLoadingFileTitle = statusText;
+                int progressWidth = 277 * percentage / 100;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"An error has occured in {nameof(GameApplet)}.cs");
-                return;
             }
         }
 
-        public virtual sbyte[] unpackData(string filename, string fileTitle, int startPercentage)
+        public virtual sbyte[] UnpackData(string filename, string fileTitle, int startPercentage)
         {
-            Console.WriteLine("Using default load");
-            int i = 0;
-            int k = 0;
-            sbyte[] abyte0 = Link.GetFile(filename);
-            if (abyte0 == null)
+            logger.Debug(GameOperation.UnpackData, "Using default load.");
+            int decompressedSize = 0;
+            int compressedSize = 0;
+            sbyte[] fileData = Link.GetFile(filename);
+
+            if (fileData is null)
             {
                 try
                 {
-                    Console.WriteLine("Loading " + fileTitle + " - 0%");
-                    drawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 0%");
-                    var inputstream = new BinaryReader(DataOperations.openInputStream(filename));
-                    sbyte[] abyte2 = new sbyte[6] {
-                        inputstream.ReadSByte(),inputstream.ReadSByte(),inputstream.ReadSByte(),
-                        inputstream.ReadSByte(),inputstream.ReadSByte(),inputstream.ReadSByte()
-                    };
+                    logger.Debug(
+                        GameOperation.UnpackData,
+                        "Loading file.",
+                        new LogInfo(GameLogInfoKey.FileName, fileTitle),
+                        new LogInfo(GameLogInfoKey.LoadProgress, 0));
+                    DrawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 0%");
+                    BinaryReader inputStream = new(GameResourceLoader.OpenInputStream(filename));
+                    sbyte[] headerBytes = [
+                        inputStream.ReadSByte(), inputStream.ReadSByte(), inputStream.ReadSByte(),
+                        inputStream.ReadSByte(), inputStream.ReadSByte(), inputStream.ReadSByte()
+                    ];
+                    decompressedSize = ((headerBytes[0] & 0xff) << 16) + ((headerBytes[1] & 0xff) << 8) + (headerBytes[2] & 0xff);
+                    compressedSize = ((headerBytes[3] & 0xff) << 16) + ((headerBytes[4] & 0xff) << 8) + (headerBytes[5] & 0xff);
 
-                    i = ((abyte2[0] & 0xff) << 16) + ((abyte2[1] & 0xff) << 8) + (abyte2[2] & 0xff);
-                    k = ((abyte2[3] & 0xff) << 16) + ((abyte2[4] & 0xff) << 8) + (abyte2[5] & 0xff);
+                    logger.Debug(
+                        GameOperation.UnpackData,
+                        "Loading file.",
+                        new LogInfo(GameLogInfoKey.FileName, fileTitle),
+                        new LogInfo(GameLogInfoKey.LoadProgress, 5));
+                    DrawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 5%");
+                    int bytesRead = 6;
+                    fileData = new sbyte[compressedSize];
 
-                    Console.WriteLine("Loading " + fileTitle + " - 5%");
-                    drawLoadingBarText(startPercentage, "Loading " + fileTitle + " - 5%");
-#warning this could break stuff
-                    int l = 6;
-                    abyte0 = new sbyte[k];
-                    while (l < k)
+                    while (bytesRead < compressedSize)
                     {
-                        int i1 = k - l;
-                        if (i1 > 1000)
+                        int chunkSize = compressedSize - bytesRead;
+
+                        if (chunkSize > 1000)
                         {
-                            i1 = 1000;
+                            chunkSize = 1000;
                         }
 
-                        for (int t = 0; t < i1; t++)
+                        for (int chunkIndex = 0; chunkIndex < chunkSize; chunkIndex += 1)
                         {
-                            abyte0[l + t] = inputstream.ReadSByte();
+                            fileData[bytesRead + chunkIndex] = inputStream.ReadSByte();
                         }
 
-                        l += i1;
-                        Console.WriteLine("Loading " + fileTitle + " - " + (5 + (l * 95) / k) + "%");
-                        drawLoadingBarText(startPercentage, "Loading " + fileTitle + " - " + (5 + (l * 95) / k) + "%");
+                        bytesRead += chunkSize;
+                        logger.Debug(
+                            GameOperation.UnpackData,
+                            "Loading file.",
+                            new LogInfo(GameLogInfoKey.FileName, fileTitle),
+                            new LogInfo(GameLogInfoKey.LoadProgress, 5 + bytesRead * 95 / compressedSize));
+                        DrawLoadingBarText(startPercentage, "Loading " + fileTitle + " - " + (5 + bytesRead * 95 / compressedSize) + "%");
                     }
 
-                    inputstream.Close();
+                    inputStream.Close();
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"An error has occured in {nameof(GameApplet)}.cs");
-                }
+                catch (IOException) { }
             }
 
-            Console.WriteLine("Unpacking " + fileTitle);
-            drawLoadingBarText(startPercentage, "Unpacking " + fileTitle);
-            if (k != i)
+            logger.Debug(
+                GameOperation.UnpackData,
+                "Unpacking file.",
+                new LogInfo(GameLogInfoKey.FileName, fileTitle));
+            DrawLoadingBarText(startPercentage, "Unpacking " + fileTitle);
+
+            if (compressedSize != decompressedSize)
             {
-                sbyte[] abyte1 = new sbyte[i];
-                DataFileDecrypter.unpackData(abyte1, i, abyte0, k, 0);
-                return abyte1;
-            }
+                sbyte[] decompressedData = new sbyte[decompressedSize];
+                DataFileDecrypter.UnpackData(decompressedData, decompressedSize, fileData, compressedSize, 0);
 
-            return abyte0;
+                return decompressedData;
+            }
+            else
+            {
+                return fileData;
+            }
         }
 
-        protected TcpClient MakeSocket(string ip, int port)
+        public Uri GetCodeBase() => default;
+
+        public Uri GetDocumentBase() => default;
+
+        public string GetParameter(string parameterName) => "";
+
+        public TcpClient MakeSocket(string address, int port)
         {
-            TcpClient client = new TcpClient();
-            client.Connect(ip, port);
+            TcpClient socket = new(address, port)
+            {
+                SendTimeout = 30000,
+                ReceiveTimeout = 30000,
+                NoDelay = true
+            };
 
-            client.SendTimeout = 30000;
-            client.NoDelay = true;
+            return socket;
+        }
 
-            return client;
+        public void MouseScroll(bool begin, int scrollAmount)
+        {
+            logger.Verbose(
+                GameOperation.ProcessInput,
+                "Mouse scroll event.",
+                new LogInfo(GameLogInfoKey.ScrollBegin, begin),
+                new LogInfo(GameLogInfoKey.ScrollAmount, scrollAmount));
         }
 
         public void InitGameApplet()
@@ -468,31 +653,68 @@ namespace OpenRS.Net.Client
             appletWidth = 512;
             appletHeight = 384;
             refreshRate = 60;
-            fie = 1000;
+            maxLoopCount = 1000;
             timeArray = new long[10];
             gameLoadingScreen = 1;
             gameLoadingFileTitle = "Loading";
+            keyLeftDown = false;
+            keyRightDown = false;
+            keyUpDown = false;
+            keyDownDown = false;
+            keySpaceDown = false;
+            keyNMDown = false;
             gameMinThreadSleepTime = 1;
+            keyF1Toggle = false;
+            inputText = "";
+            enteredInputText = "";
+            pmText = "";
+            enteredPMText = "";
         }
 
-        int appletWidth;
-        int appletHeight;
+        public GameApplet(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+        {
+            InitGameApplet();
+        }
+
+        private static readonly DateTime Jan1st1970 = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        public static long CurrentTimeMillis() => (long)(DateTime.UtcNow - Jan1st1970).TotalMilliseconds;
+
+        private int appletWidth;
+        private int appletHeight;
         public Thread gameWindowThread;
-        int refreshRate;
-        int fie;
-        long[] timeArray;
+        private int refreshRate;
+        private int maxLoopCount;
+        private long[] timeArray;
+
+        private readonly ILogger logger = NuciLoggerFactory.CreateLogger<GameApplet>();
         public static GameFrame gameFrame;
         public int runStatus;
-        public int fij;
+        public int loadingAnimationCounter;
+        public int mouseYOffset;
         public int gameLoadingScreen;
         public int gameLoadingPercentage;
         public string gameLoadingFileTitle;
-        public static string allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
+        public static string AllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789!\"!$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
+        public bool keyLeftDown;
+        public bool keyRightDown;
+        public bool keyUpDown;
+        public bool keyDownDown;
+        public bool keySpaceDown;
+        public bool keyNMDown;
         public int gameMinThreadSleepTime;
+        public int mouseX;
+        public int mouseY;
         public int mouseButton;
         public int lastMouseButton;
+        public bool keyF1Toggle;
+        public string inputText;
+        public string enteredInputText;
+        public string pmText;
+        public string enteredPMText;
 
         public static int[][] bgPixels;
         public static Texture2D bgImage;
+
     }
 }

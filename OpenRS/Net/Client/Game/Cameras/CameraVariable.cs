@@ -1,21 +1,13 @@
 ﻿namespace OpenRS.Net.Client.Game.Cameras
 {
-    public class CameraVariable
+    public sealed class CameraVariable
     {
-        public CameraVariable()
-        {
-        }
+        public int LeftX { get; set; }
 
-        // TODO: Find meaning
-        public int Unknown1 { get; set; }
+        public int RightX { get; set; }
 
-        // TODO: Find meaning
-        public int Unknown2 { get; set; }
+        public int LeftShade { get; set; }
 
-        // TODO: Find meaning
-        public int Unknown3 { get; set; }
-
-        // TODO: Find meaning
-        public int Unknown4 { get; set; }
+        public int RightShade { get; set; }
     }
 }

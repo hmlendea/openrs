@@ -1,177 +1,187 @@
 using System;
 
+using NuciLog.Core;
+
+using OpenRS.Logging;
+
 namespace OpenRS.Net.Client.Data
 {
-
-    public class DataFileDecrypter
+    internal sealed class DataFileDecrypter
     {
+        private static readonly ILogger logger = NuciLoggerFactory.CreateLogger<DataFileDecrypter>();
 
-        public static long unpackData(sbyte[] abyte0, int decompressedSize, sbyte[] abyte1, int j, int k)
+        public static long UnpackData(sbyte[] outputBuffer, int decompressedSize, sbyte[] inputBuffer, int compressedSize, int startOffset)
         {
-            BZip2BlockEntry blockEntry = new BZip2BlockEntry();
-            blockEntry.inputBuffer = abyte1;
-            blockEntry.offset = k;
-            blockEntry.outputBuffer = abyte0;
-            blockEntry.aek = 0;
-            blockEntry.compressedSize = j;
-            blockEntry.decompressedSize = decompressedSize;
-            blockEntry.afe = 0;
-            blockEntry.afd = 0;
-            blockEntry.aeh = 0;
-            blockEntry.aei = 0;
-            blockEntry.aem = 0;
-            blockEntry.aen = 0;
-            blockEntry.afg = 0;
-            readBlock(blockEntry);
-            decompressedSize -= blockEntry.decompressedSize;
-            return decompressedSize;
+            BZip2BlockEntry blockEntry = new()
+            {
+                InputBuffer = inputBuffer,
+                Offset = startOffset,
+                OutputBuffer = outputBuffer,
+                OutputIndex = 0,
+                CompressedSize = compressedSize,
+                DecompressedSize = decompressedSize,
+                BitsAvailable = 0,
+                CurrentBitWord = 0,
+                BytesReadLow = 0,
+                BytesReadHigh = 0,
+                BytesWrittenLow = 0,
+                BytesWrittenHigh = 0,
+                BlocksRead = 0
+            };
+            ReadBlock(blockEntry);
+
+            return decompressedSize - blockEntry.DecompressedSize;
         }
 
-        public static long unpackData(byte[] abyte0, int decompressedSize, byte[] abyte1, int j, int k)
+        public static long UnpackData(byte[] outputBuffer, int decompressedSize, byte[] inputBuffer, int compressedSize, int startOffset)
         {
-            BZip2BlockEntry blockEntry = new BZip2BlockEntry();
-            blockEntry.inputBuffer = (sbyte[])(Array)abyte1;
-            blockEntry.offset = k;
-            blockEntry.outputBuffer = (sbyte[])(Array)abyte0;
-            blockEntry.aek = 0;
-            blockEntry.compressedSize = j;
-            blockEntry.decompressedSize = decompressedSize;
-            blockEntry.afe = 0;
-            blockEntry.afd = 0;
-            blockEntry.aeh = 0;
-            blockEntry.aei = 0;
-            blockEntry.aem = 0;
-            blockEntry.aen = 0;
-            blockEntry.afg = 0;
-            readBlock(blockEntry);
-            decompressedSize -= blockEntry.decompressedSize;
-            return decompressedSize;
+            return UnpackData(
+                (sbyte[])(Array)outputBuffer,
+                decompressedSize,
+                (sbyte[])(Array)inputBuffer,
+                compressedSize,
+                startOffset);
         }
 
-
-        static void glk(BZip2BlockEntry arg0)
+        private static void DecodeRunLength(BZip2BlockEntry blockEntry)
         {
-            sbyte sbyte4 = arg0.afa;
-            int i = arg0.afb;
-            int j = arg0.afl;
-            int k = arg0.afj;
-            int[] ai = BZip2BlockEntry.aga;
-            int l = arg0.afi;
-            sbyte[] abyte0 = arg0.outputBuffer;
-            int i1 = arg0.aek;
-            int j1 = arg0.decompressedSize;
-            int k1 = j1;
-            int l1 = arg0.aha + 1;
-            // label0:
+            sbyte currentRunByte = blockEntry.LastOutputByte;
+            int runCount = blockEntry.RunLength;
+            int symbolIndex = blockEntry.SymbolIndex;
+            int currentByte = blockEntry.CurrentByteValue;
+            int[] transformVector = BZip2BlockEntry.TransformVector;
+            int linkedListNode = blockEntry.LinkedListNode;
+            sbyte[] outputData = blockEntry.OutputBuffer;
+            int outputIndex = blockEntry.OutputIndex;
+            int remainingOutput = blockEntry.DecompressedSize;
+            int initialOutput = remainingOutput;
+            int symbolCount = blockEntry.LastSymbolIndex + 1;
+
             do
             {
-                if (i > 0)
+                if (runCount > 0)
                 {
                     do
                     {
-                        if (j1 == 0)
+                        if (remainingOutput == 0)
                         {
                             goto done;
                         }
 
-                        if (i == 1)
+                        if (runCount == 1)
                         {
                             break;
                         }
 
-                        abyte0[i1] = sbyte4;
-                        i--;
-                        i1++;
-                        j1--;
+                        outputData[outputIndex] = currentRunByte;
+                        runCount -= 1;
+                        outputIndex += 1;
+                        remainingOutput -= 1;
                     } while (true);
-                    if (j1 == 0)
+
+                    if (remainingOutput == 0)
                     {
-                        i = 1;
+                        runCount = 1;
                         break;
                     }
-                    abyte0[i1] = sbyte4;
-                    i1++;
-                    j1--;
+
+                    outputData[outputIndex] = currentRunByte;
+                    outputIndex += 1;
+                    remainingOutput -= 1;
                 }
-                bool flag = true;
-                while (flag)
+
+                bool shouldProcessSymbol = true;
+
+                while (shouldProcessSymbol)
                 {
-                    flag = false;
-                    if (j == l1)
+                    shouldProcessSymbol = false;
+
+                    if (symbolIndex == symbolCount)
                     {
-                        i = 0;
+                        runCount = 0;
                         goto done;
                     }
-                    sbyte4 = (sbyte)k;
-                    l = ai[l];
-                    byte sbyte0 = (byte)(l & 0xff);
-                    l >>= 8;
-                    j++;
-                    if (sbyte0 != k)
+
+                    currentRunByte = (sbyte)currentByte;
+                    linkedListNode = transformVector[linkedListNode];
+                    byte nextByte0 = (byte)(linkedListNode & 0xff);
+                    linkedListNode >>= 8;
+                    symbolIndex += 1;
+
+                    if (nextByte0 != currentByte)
                     {
-                        k = sbyte0;
-                        if (j1 == 0)
+                        currentByte = nextByte0;
+
+                        if (remainingOutput == 0)
                         {
-                            i = 1;
+                            runCount = 1;
                         }
                         else
                         {
-                            abyte0[i1] = sbyte4;
-                            i1++;
-                            j1--;
-                            flag = true;
+                            outputData[outputIndex] = currentRunByte;
+                            outputIndex += 1;
+                            remainingOutput -= 1;
+                            shouldProcessSymbol = true;
                             continue;
                         }
+
                         goto done;
                     }
-                    if (j != l1)
+
+                    if (symbolIndex != symbolCount)
                     {
                         continue;
                     }
 
-                    if (j1 == 0)
+                    if (remainingOutput == 0)
                     {
-                        i = 1;
+                        runCount = 1;
                         goto done;
                     }
-                    abyte0[i1] = sbyte4;
-                    i1++;
-                    j1--;
-                    flag = true;
+
+                    outputData[outputIndex] = currentRunByte;
+                    outputIndex += 1;
+                    remainingOutput -= 1;
+                    shouldProcessSymbol = true;
                 }
-                i = 2;
-                l = ai[l];
-                byte sbyte1 = (byte)(l & 0xff);
-                l >>= 8;
-                if (++j != l1)
+
+                runCount = 2;
+                linkedListNode = transformVector[linkedListNode];
+                byte nextByte1 = (byte)(linkedListNode & 0xff);
+                linkedListNode >>= 8;
+                symbolIndex += 1;
+
+                if (symbolIndex != symbolCount)
                 {
-                    if (sbyte1 != k)
+                    if (nextByte1 != currentByte)
                     {
-                        k = sbyte1;
+                        currentByte = nextByte1;
                     }
                     else
                     {
-                        i = 3;
-                        l = ai[l];
-                        byte sbyte2 = (byte)(l & 0xff);
-                        l >>= 8;
-                        if (++j != l1)
+                        runCount = 3;
+                        linkedListNode = transformVector[linkedListNode];
+                        byte nextByte2 = (byte)(linkedListNode & 0xff);
+                        linkedListNode >>= 8;
+                        symbolIndex += 1;
+
+                        if (symbolIndex != symbolCount)
                         {
-                            if (sbyte2 != k)
+                            if (nextByte2 != currentByte)
                             {
-                                k = sbyte2;
+                                currentByte = nextByte2;
                             }
                             else
                             {
-                                l = ai[l];
-                                byte sbyte3 = (byte)(l & 0xff);
-                                l >>= 8;
-                                j++;
-                                i = (sbyte3 & 0xff) + 4;
-                                l = ai[l];
-                                k = (l & 0xff);
-                                l >>= 8;
-                                j++;
+                                linkedListNode = transformVector[linkedListNode];
+                                byte nextByte3 = (byte)(linkedListNode & 0xff);
+                                linkedListNode >>= 8;
+                                symbolIndex += 1;
+                                runCount = (nextByte3 & 0xff) + 4;
+                                linkedListNode = transformVector[linkedListNode];
+                                currentByte = linkedListNode & 0xff;
+                                linkedListNode >>= 8;
+                                symbolIndex += 1;
                             }
                         }
                     }
@@ -180,512 +190,536 @@ namespace OpenRS.Net.Client.Data
 
         done:
 
-            int i2 = arg0.aem;
-            arg0.aem += k1 - j1;
-            if (arg0.aem < i2)
+            int outputDelta = blockEntry.BytesWrittenLow;
+            blockEntry.BytesWrittenLow += initialOutput - remainingOutput;
+
+            if (blockEntry.BytesWrittenLow < outputDelta)
             {
-                arg0.aen++;
+                blockEntry.BytesWrittenHigh += 1;
             }
 
-            arg0.afa = sbyte4;
-            arg0.afb = i;
-            arg0.afl = j;
-            arg0.afj = k;
-            BZip2BlockEntry.aga = ai;
-            arg0.afi = l;
-            arg0.outputBuffer = abyte0;
-            arg0.aek = i1;
-            arg0.decompressedSize = j1;
+            blockEntry.LastOutputByte = currentRunByte;
+            blockEntry.RunLength = runCount;
+            blockEntry.SymbolIndex = symbolIndex;
+            blockEntry.CurrentByteValue = currentByte;
+            BZip2BlockEntry.TransformVector = transformVector;
+            blockEntry.LinkedListNode = linkedListNode;
+            blockEntry.OutputBuffer = outputData;
+            blockEntry.OutputIndex = outputIndex;
+            blockEntry.DecompressedSize = remainingOutput;
         }
 
-     
-        static void readBlock(BZip2BlockEntry blockEntry)
+        private static void ReadBlock(BZip2BlockEntry blockEntry)
         {
-            int minLens_zt = 0;
-            int[] limit_zt = null;
-            int[] base_zt = null;
-            int[] perm_zt = null;
-            blockEntry.blockSize100k = 1;
-            if (BZip2BlockEntry.aga == null)
+            int currentGroupMinLength = 0;
+            int[] currentGroupLimits = null;
+            int[] currentGroupBaseValues = null;
+            int[] currentGroupPermutations = null;
+            blockEntry.BlockSize100k = 1;
+
+            BZip2BlockEntry.TransformVector ??= new int[blockEntry.BlockSize100k * 0x186a0];
+
+            bool hasMoreBlocks = true;
+
+            while (hasMoreBlocks)
             {
-                BZip2BlockEntry.aga = new int[blockEntry.blockSize100k * 0x186a0];
-            }
-            bool flag19 = true;
-            while (flag19)
-            {
-                sbyte tmpRegister = getUByte(blockEntry);
-                if (tmpRegister == 23)
+                sbyte headerByte = GetUByte(blockEntry);
+
+                if (headerByte == 23)
                 {
                     return;
                 }
-                tmpRegister = getUByte(blockEntry);
-                tmpRegister = getUByte(blockEntry);
-                tmpRegister = getUByte(blockEntry);
-                tmpRegister = getUByte(blockEntry);
-                tmpRegister = getUByte(blockEntry);
-                blockEntry.afg++;
-                tmpRegister = getUByte(blockEntry);
-                tmpRegister = getUByte(blockEntry);
-                tmpRegister = getUByte(blockEntry);
-                tmpRegister = getUByte(blockEntry);
-                tmpRegister = getBit(blockEntry);
-                if (tmpRegister != 0)
+
+                GetUByte(blockEntry);
+                GetUByte(blockEntry);
+                GetUByte(blockEntry);
+                GetUByte(blockEntry);
+                GetUByte(blockEntry);
+                blockEntry.BlocksRead += 1;
+                GetUByte(blockEntry);
+                GetUByte(blockEntry);
+                GetUByte(blockEntry);
+                GetUByte(blockEntry);
+                sbyte randomisedBit = GetBit(blockEntry);
+                blockEntry.IsRandomised = randomisedBit != 0;
+
+                if (blockEntry.IsRandomised)
                 {
-                    blockEntry.afc = true;
+                    logger.Error(GameOperation.ReadDataBlock, "Encountered a randomised block.");
                 }
-                else
+
+                blockEntry.OriginPointer = 0;
+                sbyte origPtrByte0 = GetUByte(blockEntry);
+                blockEntry.OriginPointer = blockEntry.OriginPointer << 8 | origPtrByte0 & 0xff;
+                sbyte origPtrByte1 = GetUByte(blockEntry);
+                blockEntry.OriginPointer = blockEntry.OriginPointer << 8 | origPtrByte1 & 0xff;
+                sbyte origPtrByte2 = GetUByte(blockEntry);
+                blockEntry.OriginPointer = blockEntry.OriginPointer << 8 | origPtrByte2 & 0xff;
+
+                for (int groupIndex = 0; groupIndex < 16; groupIndex += 1)
                 {
-                    blockEntry.afc = false;
-                }
-                if (blockEntry.afc)
-                {
-                    Console.WriteLine("PANIC! RANDOMISED BLOCK!");
-                }
-                blockEntry.origPtr = 0;
-                tmpRegister = getUByte(blockEntry);
-                blockEntry.origPtr = blockEntry.origPtr << 8 | tmpRegister & 0xff;
-                tmpRegister = getUByte(blockEntry);
-                blockEntry.origPtr = blockEntry.origPtr << 8 | tmpRegister & 0xff;
-                tmpRegister = getUByte(blockEntry);
-                blockEntry.origPtr = blockEntry.origPtr << 8 | tmpRegister & 0xff;
-                for (int j = 0; j < 16; j++)
-                {
-                    sbyte sbyte1 = getBit(blockEntry);
-                    if (sbyte1 == 1)
+                    sbyte groupActiveBit = GetBit(blockEntry);
+
+                    if (groupActiveBit == 1)
                     {
-                        blockEntry.inUse16[j] = true;
+                        blockEntry.SymbolGroupFlags[groupIndex] = true;
                     }
                     else
                     {
-                        blockEntry.inUse16[j] = false;
+                        blockEntry.SymbolGroupFlags[groupIndex] = false;
                     }
                 }
 
-                for (int k = 0; k < 256; k++)
+                for (int byteIndex = 0; byteIndex < 256; byteIndex += 1)
                 {
-                    blockEntry.inUse[k] = false;
+                    blockEntry.InUse[byteIndex] = false;
                 }
 
-                for (int l = 0; l < 16; l++)
+                for (int symbolGroupIndex = 0; symbolGroupIndex < 16; symbolGroupIndex += 1)
                 {
-                    if (blockEntry.inUse16[l])
+                    if (blockEntry.SymbolGroupFlags[symbolGroupIndex])
                     {
-                        for (int i3 = 0; i3 < 16; i3++)
+                        for (int symbolOffset = 0; symbolOffset < 16; symbolOffset += 1)
                         {
-                            sbyte sbyte2 = getBit(blockEntry);
-                            if (sbyte2 == 1)
+                            sbyte symbolActiveBit = GetBit(blockEntry);
+
+                            if (symbolActiveBit == 1)
                             {
-                                blockEntry.inUse[l * 16 + i3] = true;
+                                blockEntry.InUse[symbolGroupIndex * 16 + symbolOffset] = true;
                             }
                         }
-
                     }
                 }
 
-                createMaps(blockEntry);
-                int alphaSize = blockEntry.inUseOffset + 2;
-                int groupCount = getBits(3, blockEntry);
-                int selectorCount = getBits(15, blockEntry);
-                for (int i1 = 0; i1 < selectorCount; i1++)
+                CreateMaps(blockEntry);
+                int alphaSize = blockEntry.ActiveSymbolCount + 2;
+                int groupCount = GetBits(3, blockEntry);
+                int selectorCount = GetBits(15, blockEntry);
+
+                for (int selectorMtfIndex = 0; selectorMtfIndex < selectorCount; selectorMtfIndex += 1)
                 {
-                    int j3 = 0;
+                    int mtfPosition = 0;
+
                     do
                     {
-                        sbyte sbyte3 = getBit(blockEntry);
-                        if (sbyte3 == 0)
+                        sbyte selectorBit = GetBit(blockEntry);
+
+                        if (selectorBit == 0)
                         {
                             break;
                         }
-                        j3++;
+
+                        mtfPosition += 1;
                     } while (true);
-                     blockEntry.selectorMtf[i1] = (sbyte)j3;
-                    //blockEntry.selectorMtf[i1] = (byte)j3;
+
+                    blockEntry.SelectorMoveToFront[selectorMtfIndex] = (sbyte)mtfPosition;
                 }
 
-                sbyte[] pos = new sbyte[6];
-                for (sbyte sbyte16 = 0; sbyte16 < groupCount; sbyte16++)
+                sbyte[] selectorPositions = new sbyte[6];
+
+                for (sbyte positionIndex = 0; positionIndex < groupCount; positionIndex += 1)
                 {
-                    pos[sbyte16] = sbyte16;
+                    selectorPositions[positionIndex] = positionIndex;
                 }
 
-                for (int j1 = 0; j1 < selectorCount; j1++)
+                for (int selectorDecodeIndex = 0; selectorDecodeIndex < selectorCount; selectorDecodeIndex += 1)
                 {
-                    sbyte sbyte17 = blockEntry.selectorMtf[j1];
-                    sbyte sbyte15 = pos[sbyte17];
-                    for (; sbyte17 > 0; sbyte17--)
+                    sbyte mtfIndex = blockEntry.SelectorMoveToFront[selectorDecodeIndex];
+                    sbyte selectedGroupId = selectorPositions[mtfIndex];
+
+                    for (; mtfIndex > 0; mtfIndex -= 1)
                     {
-                        pos[sbyte17] = pos[sbyte17 - 1];
+                        selectorPositions[mtfIndex] = selectorPositions[mtfIndex - 1];
                     }
 
-                    pos[0] = sbyte15;
-                    blockEntry.selector[j1] = sbyte15;
+                    selectorPositions[0] = selectedGroupId;
+                    blockEntry.Selector[selectorDecodeIndex] = selectedGroupId;
                 }
 
-                for (int k3 = 0; k3 < groupCount; k3++)
+                for (int tableIndex = 0; tableIndex < groupCount; tableIndex += 1)
                 {
-                    int l6 = getBits(5, blockEntry);
-                    for (int k1 = 0; k1 < alphaSize; k1++)
+                    int currentCodeLength = GetBits(5, blockEntry);
+
+                    for (int symbolPosition = 0; symbolPosition < alphaSize; symbolPosition += 1)
                     {
                         do
                         {
-                            sbyte sbyte4 = getBit(blockEntry);
-                            if (sbyte4 == 0)
+                            sbyte bitAdjustDirection = GetBit(blockEntry);
+
+                            if (bitAdjustDirection == 0)
                             {
                                 break;
                             }
-                            sbyte4 = getBit(blockEntry);
-                            if (sbyte4 == 0)
+
+                            bitAdjustDirection = GetBit(blockEntry);
+
+                            if (bitAdjustDirection == 0)
                             {
-                                l6++;
+                                currentCodeLength += 1;
                             }
                             else
                             {
-                                l6--;
+                                currentCodeLength -= 1;
                             }
                         } while (true);
-                        blockEntry.len[k3][k1] = (sbyte)l6;
-                    }
 
+                        blockEntry.HuffmanCodeLengths[tableIndex][symbolPosition] = (sbyte)currentCodeLength;
+                    }
                 }
 
-                for (int l3 = 0; l3 < groupCount; l3++)
+                for (int huffmanGroupIndex = 0; huffmanGroupIndex < groupCount; huffmanGroupIndex += 1)
                 {
-                    sbyte minlen = 32;
-                    int maxlen = 0;
-                    for (int l1 = 0; l1 < alphaSize; l1++)
+                    sbyte minimumCodeLength = 32;
+                    int maximumCodeLength = 0;
+
+                    for (int lengthScanIndex = 0; lengthScanIndex < alphaSize; lengthScanIndex += 1)
                     {
-                        if (blockEntry.len[l3][l1] > maxlen)
+                        if (blockEntry.HuffmanCodeLengths[huffmanGroupIndex][lengthScanIndex] > maximumCodeLength)
                         {
-                            maxlen = blockEntry.len[l3][l1];
+                            maximumCodeLength = blockEntry.HuffmanCodeLengths[huffmanGroupIndex][lengthScanIndex];
                         }
-                        if (blockEntry.len[l3][l1] < minlen)
+
+                        if (blockEntry.HuffmanCodeLengths[huffmanGroupIndex][lengthScanIndex] < minimumCodeLength)
                         {
-                            minlen = blockEntry.len[l3][l1];
+                            minimumCodeLength = blockEntry.HuffmanCodeLengths[huffmanGroupIndex][lengthScanIndex];
                         }
                     }
 
-                    createDecodeTables(blockEntry.limit[l3], blockEntry._base[l3], blockEntry.perm[l3], blockEntry.len[l3], minlen, maxlen, alphaSize);
-                    blockEntry.agn[l3] = minlen;
+                    CreateDecodeTables(blockEntry.HuffmanLimits[huffmanGroupIndex], blockEntry.HuffmanBaseValues[huffmanGroupIndex], blockEntry.HuffmanPermutations[huffmanGroupIndex], blockEntry.HuffmanCodeLengths[huffmanGroupIndex], minimumCodeLength, maximumCodeLength, alphaSize);
+                    blockEntry.HuffmanMinLengths[huffmanGroupIndex] = minimumCodeLength;
                 }
 
-                int l4 = blockEntry.inUseOffset + 1;
-                int lastShadow = -1;
-                int groupPos = 0;
-                for (int i2 = 0; i2 <= 255; i2++)
+                int endOfStreamSymbol = blockEntry.ActiveSymbolCount + 1;
+                int currentSelectorIndex = -1;
+                int groupSymbolsRemaining = 0;
+
+                for (int tabResetIndex = 0; tabResetIndex <= 255; tabResetIndex += 1)
                 {
-                    blockEntry.unzftab[i2] = 0;
+                    blockEntry.SymbolFrequencyTable[tabResetIndex] = 0;
                 }
 
-                int j9 = 4095;
-                for (int l8 = 15; l8 >= 0; l8--)
+                int mtfBufferIndex = 4095;
+
+                for (int groupRowIndex = 15; groupRowIndex >= 0; groupRowIndex -= 1)
                 {
-                    for (int i9 = 15; i9 >= 0; i9--)
+                    for (int groupColIndex = 15; groupColIndex >= 0; groupColIndex -= 1)
                     {
-                        blockEntry.yy[j9] = (byte)(l8 * 16 + i9);
-                        j9--;
+                        blockEntry.MoveToFrontBuffer[mtfBufferIndex] = (byte)(groupRowIndex * 16 + groupColIndex);
+                        mtfBufferIndex -= 1;
                     }
 
-                    blockEntry.agg[l8] = j9 + 1;
+                    blockEntry.GroupPositions[groupRowIndex] = mtfBufferIndex + 1;
                 }
 
-                int i6 = 0;
-                if (groupPos == 0)
+                int decodedSymbolCount = 0;
+
+                if (groupSymbolsRemaining == 0)
                 {
-                    lastShadow++;
-                    groupPos = 50;
-                    sbyte sbyte12 = blockEntry.selector[lastShadow];
-                    minLens_zt = blockEntry.agn[sbyte12];
-                    limit_zt = blockEntry.limit[sbyte12];
-                    perm_zt = blockEntry.perm[sbyte12];
-                    base_zt = blockEntry._base[sbyte12];
-                }
-                groupPos--;
-                int i7 = minLens_zt;
-                int l7;
-                sbyte sbyte9;
-                for (l7 = getBits(i7, blockEntry); l7 > limit_zt[i7]; l7 = l7 << 1 | sbyte9)
-                {
-                    i7++;
-                    sbyte9 = getBit(blockEntry);
+                    currentSelectorIndex += 1;
+                    groupSymbolsRemaining = 50;
+                    sbyte selectorId = blockEntry.Selector[currentSelectorIndex];
+                    currentGroupMinLength = blockEntry.HuffmanMinLengths[selectorId];
+                    currentGroupLimits = blockEntry.HuffmanLimits[selectorId];
+                    currentGroupPermutations = blockEntry.HuffmanPermutations[selectorId];
+                    currentGroupBaseValues = blockEntry.HuffmanBaseValues[selectorId];
                 }
 
-                for (int nextSym = perm_zt[l7 - base_zt[i7]]; nextSym != l4; )
+                groupSymbolsRemaining -= 1;
+                int currentBitLength = currentGroupMinLength;
+                int currentCode;
+                sbyte nextDecodeBit;
+
+                for (currentCode = GetBits(currentBitLength, blockEntry); currentCode > currentGroupLimits[currentBitLength]; currentCode = currentCode << 1 | (byte)nextDecodeBit)
+                {
+                    currentBitLength += 1;
+                    nextDecodeBit = GetBit(blockEntry);
+                }
+
+                for (int nextSym = currentGroupPermutations[currentCode - currentGroupBaseValues[currentBitLength]]; nextSym != endOfStreamSymbol; )
                 {
                     if (nextSym == 0 || nextSym == 1)
                     {
-                        int j6 = -1;
-                        int k6 = 1;
+                        int runRepeatCount = -1;
+                        int runLengthMultiplier = 1;
+
                         do
                         {
                             if (nextSym == 0)
                             {
-                                j6 += k6;
+                                runRepeatCount += runLengthMultiplier;
                             }
                             else
                             {
                                 if (nextSym == 1)
                                 {
-                                    j6 += 2 * k6;
+                                    runRepeatCount += 2 * runLengthMultiplier;
                                 }
                             }
-                            k6 *= 2;
-                            if (groupPos == 0)
+
+                            runLengthMultiplier *= 2;
+
+                            if (groupSymbolsRemaining == 0)
                             {
-                                lastShadow++;
-                                groupPos = 50;
-                                sbyte sbyte13 = blockEntry.selector[lastShadow];
-                                minLens_zt = blockEntry.agn[sbyte13];
-                                limit_zt = blockEntry.limit[sbyte13];
-                                perm_zt = blockEntry.perm[sbyte13];
-                                base_zt = blockEntry._base[sbyte13];
-                            }
-                            groupPos--;
-                            int j7 = minLens_zt;
-                            int i8;
-                            sbyte sbyte10;
-                            for (i8 = getBits(j7, blockEntry); i8 > limit_zt[j7]; i8 = i8 << 1 | (byte)sbyte10)
-                            {
-                                j7++;
-                                sbyte10 = getBit(blockEntry);
+                                currentSelectorIndex += 1;
+                                groupSymbolsRemaining = 50;
+                                sbyte nextSelectorId = blockEntry.Selector[currentSelectorIndex];
+                                currentGroupMinLength = blockEntry.HuffmanMinLengths[nextSelectorId];
+                                currentGroupLimits = blockEntry.HuffmanLimits[nextSelectorId];
+                                currentGroupPermutations = blockEntry.HuffmanPermutations[nextSelectorId];
+                                currentGroupBaseValues = blockEntry.HuffmanBaseValues[nextSelectorId];
                             }
 
-                            nextSym = perm_zt[i8 - base_zt[j7]];
+                            groupSymbolsRemaining -= 1;
+                            int innerBitLength = currentGroupMinLength;
+                            int innerCode;
+                            sbyte innerNextBit;
+
+                            for (innerCode = GetBits(innerBitLength, blockEntry); innerCode > currentGroupLimits[innerBitLength]; innerCode = innerCode << 1 | (byte)innerNextBit)
+                            {
+                                innerBitLength += 1;
+                                innerNextBit = GetBit(blockEntry);
+                            }
+
+                            nextSym = currentGroupPermutations[innerCode - currentGroupBaseValues[innerBitLength]];
                         } while (nextSym == 0 || nextSym == 1);
-                        j6++;
-                        sbyte sbyte5 = (sbyte)blockEntry.seqToUnseq[blockEntry.yy[blockEntry.agg[0]] & 0xff];
-                        blockEntry.unzftab[sbyte5 & 0xff] += j6;
-                        for (; j6 > 0; j6--)
-                        {
-                            BZip2BlockEntry.aga[i6] = sbyte5 & 0xff;
-                            i6++;
-                        }
 
+                        runRepeatCount += 1;
+                        sbyte decodedOutputByte = (sbyte)blockEntry.SequenceToSymbol[blockEntry.MoveToFrontBuffer[blockEntry.GroupPositions[0]] & 0xff];
+                        blockEntry.SymbolFrequencyTable[decodedOutputByte & 0xff] += runRepeatCount;
+
+                        for (; runRepeatCount > 0; runRepeatCount -= 1)
+                        {
+                            BZip2BlockEntry.TransformVector[decodedSymbolCount] = decodedOutputByte & 0xff;
+                            decodedSymbolCount += 1;
+                        }
                     }
                     else
                     {
-                        int j11 = nextSym - 1;
-                        sbyte sbyte6;
-                        if (j11 < 16)
+                        int symbolTableOffset = nextSym - 1;
+                        sbyte moveToFrontValue;
+
+                        if (symbolTableOffset < 16)
                         {
-                            int j10 = blockEntry.agg[0];
-                            sbyte6 = (sbyte)blockEntry.yy[j10 + j11];
-                            for (; j11 > 3; j11 -= 4)
+                            int groupBaseIndex = blockEntry.GroupPositions[0];
+                            moveToFrontValue = (sbyte)blockEntry.MoveToFrontBuffer[groupBaseIndex + symbolTableOffset];
+
+                            for (; symbolTableOffset > 3; symbolTableOffset -= 4)
                             {
-                                int k11 = j10 + j11;
-                                blockEntry.yy[k11] = blockEntry.yy[k11 - 1];
-                                blockEntry.yy[k11 - 1] = blockEntry.yy[k11 - 2];
-                                blockEntry.yy[k11 - 2] = blockEntry.yy[k11 - 3];
-                                blockEntry.yy[k11 - 3] = blockEntry.yy[k11 - 4];
+                                int shiftIndex = groupBaseIndex + symbolTableOffset;
+                                blockEntry.MoveToFrontBuffer[shiftIndex] = blockEntry.MoveToFrontBuffer[shiftIndex - 1];
+                                blockEntry.MoveToFrontBuffer[shiftIndex - 1] = blockEntry.MoveToFrontBuffer[shiftIndex - 2];
+                                blockEntry.MoveToFrontBuffer[shiftIndex - 2] = blockEntry.MoveToFrontBuffer[shiftIndex - 3];
+                                blockEntry.MoveToFrontBuffer[shiftIndex - 3] = blockEntry.MoveToFrontBuffer[shiftIndex - 4];
                             }
 
-                            for (; j11 > 0; j11--)
+                            for (; symbolTableOffset > 0; symbolTableOffset -= 1)
                             {
-                                blockEntry.yy[j10 + j11] = blockEntry.yy[(j10 + j11) - 1];
+                                blockEntry.MoveToFrontBuffer[groupBaseIndex + symbolTableOffset] = blockEntry.MoveToFrontBuffer[groupBaseIndex + symbolTableOffset - 1];
                             }
 
-                            blockEntry.yy[j10] = sbyte6;
+                            blockEntry.MoveToFrontBuffer[groupBaseIndex] = moveToFrontValue;
                         }
                         else
                         {
-                            int l10 = j11 / 16;
-                            int i11 = j11 % 16;
-                            int k10 = blockEntry.agg[l10] + i11;
-                            sbyte6 = (sbyte)blockEntry.yy[k10];
-                            for (; k10 > blockEntry.agg[l10]; k10--)
+                            int blockGroupRow = symbolTableOffset / 16;
+                            int blockGroupCol = symbolTableOffset % 16;
+                            int blockGroupPos = blockEntry.GroupPositions[blockGroupRow] + blockGroupCol;
+                            moveToFrontValue = (sbyte)blockEntry.MoveToFrontBuffer[blockGroupPos];
+
+                            for (; blockGroupPos > blockEntry.GroupPositions[blockGroupRow]; blockGroupPos -= 1)
                             {
-                                blockEntry.yy[k10] = blockEntry.yy[k10 - 1];
+                                blockEntry.MoveToFrontBuffer[blockGroupPos] = blockEntry.MoveToFrontBuffer[blockGroupPos - 1];
                             }
 
-                            blockEntry.agg[l10]++;
-                            for (; l10 > 0; l10--)
+                            blockEntry.GroupPositions[blockGroupRow] += 1;
+
+                            for (; blockGroupRow > 0; blockGroupRow -= 1)
                             {
-                                blockEntry.agg[l10]--;
-                                blockEntry.yy[blockEntry.agg[l10]] = blockEntry.yy[(blockEntry.agg[l10 - 1] + 16) - 1];
+                                blockEntry.GroupPositions[blockGroupRow] -= 1;
+                                blockEntry.MoveToFrontBuffer[blockEntry.GroupPositions[blockGroupRow]] = blockEntry.MoveToFrontBuffer[blockEntry.GroupPositions[blockGroupRow - 1] + 16 - 1];
                             }
 
-                            blockEntry.agg[0]--;
-                            blockEntry.yy[blockEntry.agg[0]] = sbyte6;
-                            if (blockEntry.agg[0] == 0)
+                            blockEntry.GroupPositions[0] -= 1;
+                            blockEntry.MoveToFrontBuffer[blockEntry.GroupPositions[0]] = moveToFrontValue;
+
+                            if (blockEntry.GroupPositions[0] == 0)
                             {
-                                int i10 = 4095;
-                                for (int k9 = 15; k9 >= 0; k9--)
+                                int rebuildBufferIndex = 4095;
+
+                                for (int rebuildGroupRow = 15; rebuildGroupRow >= 0; rebuildGroupRow -= 1)
                                 {
-                                    for (int l9 = 15; l9 >= 0; l9--)
+                                    for (int rebuildGroupCol = 15; rebuildGroupCol >= 0; rebuildGroupCol -= 1)
                                     {
-                                        blockEntry.yy[i10] = blockEntry.yy[blockEntry.agg[k9] + l9];
-                                        i10--;
+                                        blockEntry.MoveToFrontBuffer[rebuildBufferIndex] = blockEntry.MoveToFrontBuffer[blockEntry.GroupPositions[rebuildGroupRow] + rebuildGroupCol];
+                                        rebuildBufferIndex -= 1;
                                     }
 
-                                    blockEntry.agg[k9] = i10 + 1;
+                                    blockEntry.GroupPositions[rebuildGroupRow] = rebuildBufferIndex + 1;
                                 }
-
                             }
                         }
-                        blockEntry.unzftab[blockEntry.seqToUnseq[sbyte6 & 0xff] & 0xff]++;
-                        BZip2BlockEntry.aga[i6] = blockEntry.seqToUnseq[sbyte6 & 0xff] & 0xff;
-                        i6++;
-                        if (groupPos == 0)
+
+                        blockEntry.SymbolFrequencyTable[blockEntry.SequenceToSymbol[moveToFrontValue & 0xff] & 0xff] += 1;
+                        BZip2BlockEntry.TransformVector[decodedSymbolCount] = blockEntry.SequenceToSymbol[moveToFrontValue & 0xff] & 0xff;
+                        decodedSymbolCount += 1;
+
+                        if (groupSymbolsRemaining == 0)
                         {
-                            lastShadow++;
-                            groupPos = 50;
-                            sbyte sbyte14 = blockEntry.selector[lastShadow];
-                            minLens_zt = blockEntry.agn[sbyte14];
-                            limit_zt = blockEntry.limit[sbyte14];
-                            perm_zt = blockEntry.perm[sbyte14];
-                            base_zt = blockEntry._base[sbyte14];
-                        }
-                        groupPos--;
-                        int k7 = minLens_zt;
-                        int j8;
-                        sbyte sbyte11;
-                        for (j8 = getBits(k7, blockEntry); j8 > limit_zt[k7]; j8 = j8 << 1 | sbyte11)
-                        {
-                            k7++;
-                            sbyte11 = getBit(blockEntry);
+                            currentSelectorIndex += 1;
+                            groupSymbolsRemaining = 50;
+                            sbyte updateSelectorId = blockEntry.Selector[currentSelectorIndex];
+                            currentGroupMinLength = blockEntry.HuffmanMinLengths[updateSelectorId];
+                            currentGroupLimits = blockEntry.HuffmanLimits[updateSelectorId];
+                            currentGroupPermutations = blockEntry.HuffmanPermutations[updateSelectorId];
+                            currentGroupBaseValues = blockEntry.HuffmanBaseValues[updateSelectorId];
                         }
 
-                        nextSym = perm_zt[j8 - base_zt[k7]];
+                        groupSymbolsRemaining -= 1;
+                        int outerBitLength = currentGroupMinLength;
+                        int outerCode;
+                        sbyte outerNextBit;
+
+                        for (outerCode = GetBits(outerBitLength, blockEntry); outerCode > currentGroupLimits[outerBitLength]; outerCode = outerCode << 1 | (byte)outerNextBit)
+                        {
+                            outerBitLength += 1;
+                            outerNextBit = GetBit(blockEntry);
+                        }
+
+                        nextSym = currentGroupPermutations[outerCode - currentGroupBaseValues[outerBitLength]];
                     }
                 }
 
-                blockEntry.afb = 0;
-                blockEntry.afa = 0;
-                blockEntry.afm[0] = 0;
-                for (int j2 = 1; j2 <= 256; j2++)
+                blockEntry.RunLength = 0;
+                blockEntry.LastOutputByte = 0;
+                blockEntry.CumulativeCounts[0] = 0;
+
+                for (int tabFillIndex = 1; tabFillIndex <= 256; tabFillIndex += 1)
                 {
-                    blockEntry.afm[j2] = blockEntry.unzftab[j2 - 1];
+                    blockEntry.CumulativeCounts[tabFillIndex] = blockEntry.SymbolFrequencyTable[tabFillIndex - 1];
                 }
 
-                for (int k2 = 1; k2 <= 256; k2++)
+                for (int cumulativeIndex = 1; cumulativeIndex <= 256; cumulativeIndex += 1)
                 {
-                    blockEntry.afm[k2] += blockEntry.afm[k2 - 1];
+                    blockEntry.CumulativeCounts[cumulativeIndex] += blockEntry.CumulativeCounts[cumulativeIndex - 1];
                 }
 
-                for (int l2 = 0; l2 < i6; l2++)
+                for (int transformIndex = 0; transformIndex < decodedSymbolCount; transformIndex += 1)
                 {
-                    int sbyte7 = ((BZip2BlockEntry.aga[l2]) & 0xff);
-                    BZip2BlockEntry.aga[blockEntry.afm[sbyte7 & 0xff]] |= l2 << 8;
-                    blockEntry.afm[sbyte7 & 0xff]++;
+                    int transformByte = BZip2BlockEntry.TransformVector[transformIndex] & 0xff;
+                    BZip2BlockEntry.TransformVector[blockEntry.CumulativeCounts[transformByte & 0xff]] |= transformIndex << 8;
+                    blockEntry.CumulativeCounts[transformByte & 0xff] += 1;
                 }
 
-                blockEntry.afi = BZip2BlockEntry.aga[blockEntry.origPtr] >> 8;
-                blockEntry.afl = 0;
-                blockEntry.afi = BZip2BlockEntry.aga[blockEntry.afi];
-                blockEntry.afj = (blockEntry.afi & 0xff);
-                blockEntry.afi >>= 8;
-                blockEntry.afl++;
-                blockEntry.aha = i6;
-                glk(blockEntry);
-                if (blockEntry.afl == blockEntry.aha + 1 && blockEntry.afb == 0)
+                blockEntry.LinkedListNode = BZip2BlockEntry.TransformVector[blockEntry.OriginPointer] >> 8;
+                blockEntry.SymbolIndex = 0;
+                blockEntry.LinkedListNode = BZip2BlockEntry.TransformVector[blockEntry.LinkedListNode];
+                blockEntry.CurrentByteValue = blockEntry.LinkedListNode & 0xff;
+                blockEntry.LinkedListNode >>= 8;
+                blockEntry.SymbolIndex += 1;
+                blockEntry.LastSymbolIndex = decodedSymbolCount;
+                DecodeRunLength(blockEntry);
+
+                hasMoreBlocks = false;
+
+                if (blockEntry.SymbolIndex == blockEntry.LastSymbolIndex + 1 && blockEntry.RunLength == 0)
                 {
-                    flag19 = true;
+                    hasMoreBlocks = true;
                 }
-                else
+            }
+        }
+
+        private static sbyte GetUByte(BZip2BlockEntry blockEntry) => (sbyte)GetBits(8, blockEntry);
+
+        private static sbyte GetBit(BZip2BlockEntry blockEntry) => (sbyte)GetBits(1, blockEntry);
+
+        private static int GetBits(int bitCount, BZip2BlockEntry blockEntry)
+        {
+            while (true)
+            {
+                if (blockEntry.BitsAvailable >= bitCount)
                 {
-                    flag19 = false;
+                    int value = blockEntry.CurrentBitWord >> blockEntry.BitsAvailable - bitCount & (1 << bitCount) - 1;
+                    blockEntry.BitsAvailable -= bitCount;
+
+                    return value;
+                }
+
+                blockEntry.CurrentBitWord = blockEntry.CurrentBitWord << 8 | blockEntry.InputBuffer[blockEntry.Offset] & 0xff;
+                blockEntry.BitsAvailable += 8;
+                blockEntry.Offset += 1;
+                blockEntry.CompressedSize -= 1;
+                blockEntry.BytesReadLow += 1;
+
+                if (blockEntry.BytesReadLow == 0)
+                {
+                    blockEntry.BytesReadHigh += 1;
                 }
             }
         }
 
-        static sbyte getUByte(BZip2BlockEntry o1)
+        private static void CreateMaps(BZip2BlockEntry blockEntry)
         {
-            return (sbyte)getBits(8, o1);
-        }
+            blockEntry.ActiveSymbolCount = 0;
 
-        static sbyte getBit(BZip2BlockEntry o1)
-        {
-            return (sbyte)getBits(1, o1);
-        }
-
-        static int getBits(int arg0, BZip2BlockEntry arg1)
-        {
-            int i;
-            do
+            for (int symbolIndex = 0; symbolIndex < 256; symbolIndex += 1)
             {
-                if (arg1.afe >= arg0)
+                if (blockEntry.InUse[symbolIndex])
                 {
-                    int j = arg1.afd >> arg1.afe - arg0 & (1 << arg0) - 1;
-                    arg1.afe -= arg0;
-                    i = j;
-                    break;
-                }
-                arg1.afd = arg1.afd << 8 | arg1.inputBuffer[arg1.offset] & 0xff;
-                arg1.afe += 8;
-                arg1.offset++;
-                arg1.compressedSize--;
-                arg1.aeh++;
-                if (arg1.aeh == 0)
-                {
-                    arg1.aei++;
-                }
-            } while (true);
-            return i;
-        }
-
-        static void createMaps(BZip2BlockEntry arg0)
-        {
-            arg0.inUseOffset = 0;
-            for (int i = 0; i < 256; i++)
-            {
-                if (arg0.inUse[i])
-                {
-                    arg0.seqToUnseq[arg0.inUseOffset] = (byte)i;
-                    arg0.inUseOffset++;
+                    blockEntry.SequenceToSymbol[blockEntry.ActiveSymbolCount] = (byte)symbolIndex;
+                    blockEntry.ActiveSymbolCount += 1;
                 }
             }
-
         }
 
-        static void createDecodeTables(int[] limit, int[] _base, int[] perm, sbyte[] length, int minlen, int maxlen, int alphasize)
+        private static void CreateDecodeTables(int[] limit, int[] baseValues, int[] permutations, sbyte[] codeLengths, int minimumLength, int maximumLength, int alphabetSize)
         {
-            int i = 0;
-            for (int j = minlen; j <= maxlen; j++)
+            int permIndex = 0;
+
+            for (int lengthLevel = minimumLength; lengthLevel <= maximumLength; lengthLevel += 1)
             {
-                for (int i2 = 0; i2 < alphasize; i2++)
+                for (int symbolScanIndex = 0; symbolScanIndex < alphabetSize; symbolScanIndex += 1)
                 {
-                    if (length[i2] == j)
+                    if (codeLengths[symbolScanIndex] == lengthLevel)
                     {
-                        perm[i] = i2;
-                        i++;
+                        permutations[permIndex] = symbolScanIndex;
+                        permIndex += 1;
                     }
                 }
-
             }
 
-            for (int k = 0; k < 23; k++)
+            for (int baseZeroIndex = 0; baseZeroIndex < 23; baseZeroIndex += 1)
             {
-                _base[k] = 0;
+                baseValues[baseZeroIndex] = 0;
             }
 
-            for (int l = 0; l < alphasize; l++)
+            for (int baseSetupIndex = 0; baseSetupIndex < alphabetSize; baseSetupIndex += 1)
             {
-                _base[length[l] + 1]++;
+                baseValues[codeLengths[baseSetupIndex] + 1] += 1;
             }
 
-            for (int i1 = 1; i1 < 23; i1++)
+            for (int baseCumulIndex = 1; baseCumulIndex < 23; baseCumulIndex += 1)
             {
-                _base[i1] += _base[i1 - 1];
+                baseValues[baseCumulIndex] += baseValues[baseCumulIndex - 1];
             }
 
-            for (int j1 = 0; j1 < 23; j1++)
+            for (int limitZeroIndex = 0; limitZeroIndex < 23; limitZeroIndex += 1)
             {
-                limit[j1] = 0;
+                limit[limitZeroIndex] = 0;
             }
 
-            int j2 = 0;
-            for (int k1 = minlen; k1 <= maxlen; k1++)
+            int limitAccumulator = 0;
+
+            for (int limitFillIndex = minimumLength; limitFillIndex <= maximumLength; limitFillIndex += 1)
             {
-                j2 += _base[k1 + 1] - _base[k1];
-                limit[k1] = j2 - 1;
-                j2 <<= 1;
+                limitAccumulator += baseValues[limitFillIndex + 1] - baseValues[limitFillIndex];
+                limit[limitFillIndex] = limitAccumulator - 1;
+                limitAccumulator <<= 1;
             }
 
-            for (int l1 = minlen + 1; l1 <= maxlen; l1++)
+            for (int baseAdjustIndex = minimumLength + 1; baseAdjustIndex <= maximumLength; baseAdjustIndex += 1)
             {
-                _base[l1] = (limit[l1 - 1] + 1 << 1) - _base[l1];
+                baseValues[baseAdjustIndex] = (limit[baseAdjustIndex - 1] + 1 << 1) - baseValues[baseAdjustIndex];
             }
-
         }
     }
-
 }

@@ -1,92 +1,59 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using OpenRS.DataAccess.DataObjects;
+using OpenRS.Localisation;
 using OpenRS.Models;
 
 namespace OpenRS.GameLogic.Mapping
 {
-    /// <summary>
-    /// Item mapping extensions for converting between entities and domain models.
-    /// </summary>
-    static class ItemMappingExtensions
+    internal static class ItemMappingExtensions
     {
-        /// <summary>
-        /// Converts the entity into a domain model.
-        /// </summary>
-        /// <returns>The domain model.</returns>
-        /// <param name="itemEntity">Item entity.</param>
-        internal static Item ToDomainModel(this ItemEntity itemEntity)
+        internal static Item ToServiceModel(this ItemEntity itemEntity) => new()
         {
-            Item item = new Item
-            {
-                Id = itemEntity.Id,
-                Name = itemEntity.Name,
-                Description = itemEntity.Description,
-                Command = itemEntity.Command,
-                BasePrice = itemEntity.BasePrice,
-                SpriteId = itemEntity.SpriteId,
-                InventoryPicture = itemEntity.InventoryPicture,
-                PictureMask = itemEntity.PictureMask,
-                IsEquipable = itemEntity.IsEquipable,
-                IsPremium = itemEntity.IsPremium,
-                IsSpecial = itemEntity.IsSpecial,
-                IsStackable = itemEntity.IsStackable,
-                IsUnused = itemEntity.IsUnused
-            };
+            Id = itemEntity.Id,
+            V1Id = itemEntity.V1Id,
+            Name = LocalisationManager.GetString(itemEntity.Name),
+            Description = LocalisationManager.GetString(itemEntity.Description),
+            Command = LocalisationManager.GetString(itemEntity.Command),
+            BasePrice = itemEntity.BasePrice,
+            SpriteId = itemEntity.SpriteId,
+            InventoryPicture = itemEntity.InventoryPicture,
+            SpriteName = itemEntity.SpriteName,
+            PictureMask = itemEntity.PictureMask,
+            IsEquipable = itemEntity.IsEquipable,
+            IsPremium = itemEntity.IsPremium != 0,
+            IsSpecial = itemEntity.IsSpecial != 0,
+            IsStackable = itemEntity.IsStackable != 0,
+            IsUnused = itemEntity.IsUnused != 0
+        };
 
-            return item;
-        }
-
-        /// <summary>
-        /// Converts the domain model into an entity.
-        /// </summary>
-        /// <returns>The entity.</returns>
-        /// <param name="item">Item.</param>
-        internal static ItemEntity ToEntity(this Item item)
+        internal static ItemEntity ToDataObject(this Item item) => new()
         {
-            ItemEntity itemEntity = new ItemEntity
-            {
-                Id = item.Id,
-                Name = item.Name,
-                Description = item.Description,
-                Command = item.Command,
-                BasePrice = item.BasePrice,
-                SpriteId = item.SpriteId,
-                InventoryPicture = item.InventoryPicture,
-                PictureMask = item.PictureMask,
-                IsEquipable = item.IsEquipable,
-                IsPremium = item.IsPremium,
-                IsSpecial = item.IsSpecial,
-                IsStackable = item.IsStackable,
-                IsUnused = item.IsUnused
-            };
+            Id = item.Id,
+            V1Id = item.V1Id,
+            Name = item.Name,
+            Description = item.Description,
+            Command = item.Command,
+            BasePrice = item.BasePrice,
+            SpriteId = item.SpriteId,
+            InventoryPicture = item.InventoryPicture,
+            SpriteName = item.SpriteName,
+            PictureMask = item.PictureMask,
+            IsEquipable = item.IsEquipable,
+            IsPremium = Convert.ToInt32(item.IsPremium),
+            IsSpecial = Convert.ToInt32(item.IsSpecial),
+            IsStackable = Convert.ToInt32(item.IsStackable),
+            IsUnused = Convert.ToInt32(item.IsUnused)
+        };
 
-            return itemEntity;
-        }
+        internal static IEnumerable<Item> ToServiceModels(
+            this IEnumerable<ItemEntity> itemEntities)
+            => itemEntities.Select(itemEntity => itemEntity.ToServiceModel());
 
-        /// <summary>
-        /// Converts the entities into domain models.
-        /// </summary>
-        /// <returns>The domain models.</returns>
-        /// <param name="itemEntities">Item entities.</param>
-        internal static IEnumerable<Item> ToDomainModels(this IEnumerable<ItemEntity> itemEntities)
-        {
-            IEnumerable<Item> items = itemEntities.Select(itemEntity => itemEntity.ToDomainModel());
-
-            return items;
-        }
-
-        /// <summary>
-        /// Converts the domain models into entities.
-        /// </summary>
-        /// <returns>The entities.</returns>
-        /// <param name="items">Items.</param>
-        internal static IEnumerable<ItemEntity> ToEntities(this IEnumerable<Item> items)
-        {
-            IEnumerable<ItemEntity> itemEntities = items.Select(item => item.ToEntity());
-
-            return itemEntities;
-        }
+        internal static IEnumerable<ItemEntity> ToDataObjects(
+            this IEnumerable<Item> items)
+            => items.Select(item => item.ToDataObject());
     }
 }

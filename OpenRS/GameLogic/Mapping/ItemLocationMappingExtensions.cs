@@ -1,75 +1,36 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using NuciXNA.Primitives;
-
 using OpenRS.DataAccess.DataObjects;
 using OpenRS.Models;
 
 namespace OpenRS.GameLogic.Mapping
 {
-    /// <summary>
-    /// ItemLocation mapping extensions for converting between entities and domain models.
-    /// </summary>
-    static class ItemLocationMappingExtensions
+    internal static class ItemLocationMappingExtensions
     {
-        /// <summary>
-        /// Converts the entity into a domain model.
-        /// </summary>
-        /// <returns>The domain model.</returns>
-        /// <param name="itemLocationEntity">ItemLocation entity.</param>
-        internal static ItemLocation ToDomainModel(this ItemLocationEntity itemLocationEntity)
+        internal static ItemLocation ToServiceModel(
+            this ItemLocationEntity itemLocationEntity) => new()
         {
-            ItemLocation itemLocation = new ItemLocation
-            {
-                Coordinates = new Point2D(itemLocationEntity.X, itemLocationEntity.Y),
-                Amount = itemLocationEntity.Amount,
-                RespawnTime = itemLocationEntity.RespawnTime
-            };
+            Coordinates = new(itemLocationEntity.XCoordinate, itemLocationEntity.YCoordinate),
+            Amount = itemLocationEntity.Amount,
+            RespawnTime = itemLocationEntity.RespawnTime
+        };
 
-            return itemLocation;
-        }
-
-        /// <summary>
-        /// Converts the domain model into an entity.
-        /// </summary>
-        /// <returns>The entity.</returns>
-        /// <param name="itemLocation">ItemLocation.</param>
-        internal static ItemLocationEntity ToEntity(this ItemLocation itemLocation)
+        internal static ItemLocationEntity ToDataObject(this ItemLocation itemLocation) => new()
         {
-            ItemLocationEntity itemLocationEntity = new ItemLocationEntity
-            {
-                X = itemLocation.Coordinates.X,
-                Y = itemLocation.Coordinates.Y,
-                Amount = itemLocation.Amount,
-                RespawnTime = itemLocation.RespawnTime
-            };
+            XCoordinate = itemLocation.Coordinates.X,
+            YCoordinate = itemLocation.Coordinates.Y,
+            Amount = itemLocation.Amount,
+            RespawnTime = itemLocation.RespawnTime
+        };
 
-            return itemLocationEntity;
-        }
+        internal static IEnumerable<ItemLocation> ToServiceModels(
+            this IEnumerable<ItemLocationEntity> itemLocationEntities)
+            => itemLocationEntities.Select(
+                itemLocationEntity => itemLocationEntity.ToServiceModel());
 
-        /// <summary>
-        /// Converts the entities into domain models.
-        /// </summary>
-        /// <returns>The domain models.</returns>
-        /// <param name="itemLocationEntities">ItemLocation entities.</param>
-        internal static IEnumerable<ItemLocation> ToDomainModels(this IEnumerable<ItemLocationEntity> itemLocationEntities)
-        {
-            IEnumerable<ItemLocation> itemLocations = itemLocationEntities.Select(itemLocationEntity => itemLocationEntity.ToDomainModel());
-
-            return itemLocations;
-        }
-
-        /// <summary>
-        /// Converts the domain models into entities.
-        /// </summary>
-        /// <returns>The entities.</returns>
-        /// <param name="itemLocations">ItemLocations.</param>
-        internal static IEnumerable<ItemLocationEntity> ToEntities(this IEnumerable<ItemLocation> itemLocations)
-        {
-            IEnumerable<ItemLocationEntity> itemLocationEntities = itemLocations.Select(itemLocation => itemLocation.ToEntity());
-
-            return itemLocationEntities;
-        }
+        internal static IEnumerable<ItemLocationEntity> ToDataObjects(
+            this IEnumerable<ItemLocation> itemLocations)
+            => itemLocations.Select(itemLocation => itemLocation.ToDataObject());
     }
 }

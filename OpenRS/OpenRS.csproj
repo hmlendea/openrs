@@ -1,129 +1,94 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>OpenRS</RootNamespace>
-    <Authors>Horațiu Mlendea</Authors>
-    <Copyright>Copyright 2019 © Horațiu Mlendea</Copyright>
+    <AssemblyName>OpenRS</AssemblyName>
+    <Nullable>disable</Nullable>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
-    <MonoGameContentReference Include="**\*.mgcb" />
+    <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.9" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.4" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4" />
-    <PackageReference Include="NuciDAL" Version="3.1.0" />
+    <PackageReference Include="NuciDAL" Version="3.1.1" />
+    <PackageReference Include="NuciLog.Core" Version="3.0.0" />
+    <PackageReference Include="NuciLog" Version="1.2.1" />
+    <PackageReference Include="NuciText.Censorship.English" Version="1.0.0" />
+    <PackageReference Include="NuciText.Censorship" Version="1.0.0" />
     <PackageReference Include="NuciXNA.DataAccess" Version="4.0.3" />
-    <PackageReference Include="NuciXNA.Graphics" Version="2.2.3" />
-    <PackageReference Include="NuciXNA.Gui" Version="3.3.0" />
-    <PackageReference Include="NuciXNA.Input" Version="2.1.0" />
+    <PackageReference Include="NuciXNA.Graphics" Version="2.2.5" />
+    <PackageReference Include="NuciXNA.Gui" Version="3.4.2" />
+    <PackageReference Include="NuciXNA.Input" Version="2.1.1" />
+    <PackageReference Include="NuciXNA.Primitives" Version="2.1.7" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Content\obj\DesktopGL\Content\.mgcontent" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Data\config.jag">
+    <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\Entities\animations.xml">
+    <None Update="Data\Animations\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\Entities\elevations.xml">
+    <None Update="Data\Fonts\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\Entities\items.xml">
+    <None Update="Data\Maps\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\Entities\npcs.xml">
+    <None Update="Data\Media\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\Entities\prayers.xml">
+    <None Update="Data\Models\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\Entities\quests.xml">
+    <None Update="Data\Textures\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\Entities\spells.xml">
+    <None Update="Data\quests.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\Entities\textures.xml">
+    <None Update="Data\prayers.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\Entities\tiles.xml">
+    <None Update="Data\items.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\Entities\wall_objects.xml">
+    <None Update="Data\spells.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\Entities\world_objects.xml">
+    <None Update="Data\npcs.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\entity.jag">
+    <None Update="Data\animations.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\entity.mem">
+    <None Update="Data\wall_objects.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\filter.jag">
+    <None Update="Data\world_objects.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\fonts.jag">
+    <None Update="Data\textures.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\land.jag">
+    <None Update="Data\elevations.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\land.mem">
+    <None Update="Data\tiles.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\maps.jag">
+    <None Update="Content\sprites\items\*.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\maps.mem">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\media.jag">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\models.jag">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\textures.jag">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="libopenal.1.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="libSDL2-2.0.0.dylib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="x64\libopenal.so.1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="x64\libSDL2-2.0.so.0">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="x64\SDL2.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="x64\soft_oal.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="x86\libopenal.so.1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="x86\libSDL2-2.0.so.0">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="x86\SDL2.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="x86\soft_oal.dll">
+    <None Update="Data\Localisation\en.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

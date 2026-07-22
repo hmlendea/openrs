@@ -1,0 +1,930 @@
+[
+  {
+    "id": "0",
+    "v1Id": 0,
+    "name": "spell.0.name",
+    "description": "spell.0.description",
+    "requiredLevel": 1,
+    "type": 2,
+    "runeCount": 2,
+    "requiredRunesIds": [
+      33,
+      35
+    ],
+    "requiredRunesCounts": [
+      1,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "1",
+    "v1Id": 1,
+    "name": "spell.confuse.name",
+    "description": "spell.confuse.description",
+    "requiredLevel": 3,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      32,
+      34,
+      36
+    ],
+    "requiredRunesCounts": [
+      3,
+      2,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "2",
+    "v1Id": 2,
+    "name": "spell.2.name",
+    "description": "spell.2.description",
+    "requiredLevel": 5,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      32,
+      33,
+      35
+    ],
+    "requiredRunesCounts": [
+      1,
+      1,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "3",
+    "v1Id": 3,
+    "name": "spell.3.name",
+    "description": "spell.3.description",
+    "requiredLevel": 7,
+    "type": 3,
+    "runeCount": 2,
+    "requiredRunesIds": [
+      32,
+      46
+    ],
+    "requiredRunesCounts": [
+      1,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "4",
+    "v1Id": 4,
+    "name": "spell.4.name",
+    "description": "spell.4.description",
+    "requiredLevel": 9,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      34,
+      33,
+      35
+    ],
+    "requiredRunesCounts": [
+      2,
+      1,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "5",
+    "v1Id": 5,
+    "name": "spell.weaken.name",
+    "description": "spell.weaken.description",
+    "requiredLevel": 11,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      32,
+      34,
+      36
+    ],
+    "requiredRunesCounts": [
+      3,
+      2,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "6",
+    "v1Id": 6,
+    "name": "spell.fire_strike.name",
+    "description": "spell.fire_strike.description",
+    "requiredLevel": 13,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      31,
+      33,
+      35
+    ],
+    "requiredRunesCounts": [
+      3,
+      2,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "7",
+    "v1Id": 7,
+    "name": "spell.bones_to_bananas.name",
+    "description": "spell.bones_to_bananas.description",
+    "requiredLevel": 15,
+    "type": 0,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      34,
+      32,
+      40
+    ],
+    "requiredRunesCounts": [
+      2,
+      2,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "8",
+    "v1Id": 8,
+    "name": "spell.wind_bolt.name",
+    "description": "spell.wind_bolt.description",
+    "requiredLevel": 17,
+    "type": 2,
+    "runeCount": 2,
+    "requiredRunesIds": [
+      33,
+      41
+    ],
+    "requiredRunesCounts": [
+      2,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "9",
+    "v1Id": 9,
+    "name": "spell.curse.name",
+    "description": "spell.curse.description",
+    "requiredLevel": 19,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      32,
+      34,
+      36
+    ],
+    "requiredRunesCounts": [
+      2,
+      3,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "10",
+    "v1Id": 10,
+    "name": "spell.low_level_alchemy.name",
+    "description": "spell.low_level_alchemy.description",
+    "requiredLevel": 21,
+    "type": 3,
+    "runeCount": 2,
+    "requiredRunesIds": [
+      31,
+      40
+    ],
+    "requiredRunesCounts": [
+      3,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "11",
+    "v1Id": 11,
+    "name": "spell.water_bolt.name",
+    "description": "spell.water_bolt.description",
+    "requiredLevel": 23,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      32,
+      33,
+      41
+    ],
+    "requiredRunesCounts": [
+      2,
+      2,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "12",
+    "v1Id": 12,
+    "name": "spell.teleport_to_varrock.name",
+    "description": "spell.teleport_to_varrock.description",
+    "requiredLevel": 25,
+    "type": 0,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      31,
+      33,
+      42
+    ],
+    "requiredRunesCounts": [
+      1,
+      3,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "13",
+    "v1Id": 13,
+    "name": "spell.enchant_level2_amulet.name",
+    "description": "spell.enchant_level2_amulet.description",
+    "requiredLevel": 27,
+    "type": 3,
+    "runeCount": 2,
+    "requiredRunesIds": [
+      33,
+      46
+    ],
+    "requiredRunesCounts": [
+      3,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "14",
+    "v1Id": 14,
+    "name": "spell.earth_bolt.name",
+    "description": "spell.earth_bolt.description",
+    "requiredLevel": 29,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      34,
+      33,
+      41
+    ],
+    "requiredRunesCounts": [
+      3,
+      2,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "15",
+    "v1Id": 15,
+    "name": "spell.teleport_to_lumbridge.name",
+    "description": "spell.teleport_to_lumbridge.description",
+    "requiredLevel": 31,
+    "type": 0,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      34,
+      33,
+      42
+    ],
+    "requiredRunesCounts": [
+      1,
+      3,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "16",
+    "v1Id": 16,
+    "name": "spell.telekinetic_grab.name",
+    "description": "spell.telekinetic_grab.description",
+    "requiredLevel": 33,
+    "type": 3,
+    "runeCount": 2,
+    "requiredRunesIds": [
+      33,
+      42
+    ],
+    "requiredRunesCounts": [
+      1,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "17",
+    "v1Id": 17,
+    "name": "spell.17.name",
+    "description": "spell.17.description",
+    "requiredLevel": 35,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      31,
+      33,
+      41
+    ],
+    "requiredRunesCounts": [
+      4,
+      3,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "18",
+    "v1Id": 18,
+    "name": "spell.teleport_to_falador.name",
+    "description": "spell.teleport_to_falador.description",
+    "requiredLevel": 37,
+    "type": 0,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      32,
+      33,
+      42
+    ],
+    "requiredRunesCounts": [
+      1,
+      3,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "19",
+    "v1Id": 19,
+    "name": "spell.19.name",
+    "description": "spell.19.description",
+    "requiredLevel": 39,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      34,
+      33,
+      41
+    ],
+    "requiredRunesCounts": [
+      2,
+      2,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "20",
+    "v1Id": 20,
+    "name": "spell.20.name",
+    "description": "spell.20.description",
+    "requiredLevel": 41,
+    "type": 2,
+    "runeCount": 2,
+    "requiredRunesIds": [
+      33,
+      38
+    ],
+    "requiredRunesCounts": [
+      3,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "21",
+    "v1Id": 21,
+    "name": "spell.21.name",
+    "description": "spell.21.description",
+    "requiredLevel": 43,
+    "type": 3,
+    "runeCount": 2,
+    "requiredRunesIds": [
+      31,
+      40
+    ],
+    "requiredRunesCounts": [
+      4,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "22",
+    "v1Id": 22,
+    "name": "spell.22.name",
+    "description": "spell.22.description",
+    "requiredLevel": 45,
+    "type": 0,
+    "runeCount": 2,
+    "requiredRunesIds": [
+      33,
+      42
+    ],
+    "requiredRunesCounts": [
+      5,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "23",
+    "v1Id": 23,
+    "name": "spell.23.name",
+    "description": "spell.23.description",
+    "requiredLevel": 47,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      32,
+      33,
+      38
+    ],
+    "requiredRunesCounts": [
+      3,
+      3,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "24",
+    "v1Id": 24,
+    "name": "spell.24.name",
+    "description": "spell.24.description",
+    "requiredLevel": 49,
+    "type": 3,
+    "runeCount": 2,
+    "requiredRunesIds": [
+      31,
+      46
+    ],
+    "requiredRunesCounts": [
+      5,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "25",
+    "v1Id": 25,
+    "name": "spell.25.name",
+    "description": "spell.25.description",
+    "requiredLevel": 50,
+    "type": 2,
+    "runeCount": 2,
+    "requiredRunesIds": [
+      31,
+      38
+    ],
+    "requiredRunesCounts": [
+      5,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "26",
+    "v1Id": 26,
+    "name": "spell.teleport_to_ardougne.name",
+    "description": "spell.teleport_to_ardougne.description",
+    "requiredLevel": 51,
+    "type": 0,
+    "runeCount": 2,
+    "requiredRunesIds": [
+      32,
+      42
+    ],
+    "requiredRunesCounts": [
+      2,
+      2
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "27",
+    "v1Id": 27,
+    "name": "spell.earth_blast.name",
+    "description": "spell.earth_blast.description",
+    "requiredLevel": 53,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      34,
+      33,
+      38
+    ],
+    "requiredRunesCounts": [
+      4,
+      3,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "28",
+    "v1Id": 28,
+    "name": "spell.high_level_alchemy.name",
+    "description": "spell.high_level_alchemy.description",
+    "requiredLevel": 55,
+    "type": 3,
+    "runeCount": 2,
+    "requiredRunesIds": [
+      31,
+      40
+    ],
+    "requiredRunesCounts": [
+      5,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "29",
+    "v1Id": 29,
+    "name": "spell.charge_water_orb.name",
+    "description": "spell.charge_water_orb.description",
+    "requiredLevel": 56,
+    "type": 5,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      32,
+      46,
+      611
+    ],
+    "requiredRunesCounts": [
+      30,
+      3,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "30",
+    "v1Id": 30,
+    "name": "spell.30.name",
+    "description": "spell.30.description",
+    "requiredLevel": 57,
+    "type": 3,
+    "runeCount": 2,
+    "requiredRunesIds": [
+      34,
+      46
+    ],
+    "requiredRunesCounts": [
+      10,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "31",
+    "v1Id": 31,
+    "name": "spell.teleport_to_watchtower.name",
+    "description": "spell.teleport_to_watchtower.description",
+    "requiredLevel": 58,
+    "type": 0,
+    "runeCount": 2,
+    "requiredRunesIds": [
+      34,
+      42
+    ],
+    "requiredRunesCounts": [
+      2,
+      2
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "32",
+    "v1Id": 32,
+    "name": "spell.fire_blast.name",
+    "description": "spell.fire_blast.description",
+    "requiredLevel": 59,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      31,
+      33,
+      38
+    ],
+    "requiredRunesCounts": [
+      5,
+      4,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "33",
+    "v1Id": 33,
+    "name": "spell.claws_of_guthix.name",
+    "description": "spell.claws_of_guthix.description",
+    "requiredLevel": 60,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      31,
+      33,
+      619
+    ],
+    "requiredRunesCounts": [
+      1,
+      4,
+      2
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "34",
+    "v1Id": 34,
+    "name": "spell.saradomin_strike.name",
+    "description": "spell.saradomin_strike.description",
+    "requiredLevel": 60,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      31,
+      33,
+      619
+    ],
+    "requiredRunesCounts": [
+      2,
+      4,
+      2
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "35",
+    "v1Id": 35,
+    "name": "spell.flames_of_zamorak.name",
+    "description": "spell.flames_of_zamorak.description",
+    "requiredLevel": 60,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      31,
+      33,
+      619
+    ],
+    "requiredRunesCounts": [
+      4,
+      1,
+      2
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "36",
+    "v1Id": 36,
+    "name": "spell.charge_earth_orb.name",
+    "description": "spell.charge_earth_orb.description",
+    "requiredLevel": 60,
+    "type": 5,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      34,
+      46,
+      611
+    ],
+    "requiredRunesCounts": [
+      30,
+      3,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "37",
+    "v1Id": 37,
+    "name": "spell.37.name",
+    "description": "spell.37.description",
+    "requiredLevel": 62,
+    "type": 2,
+    "runeCount": 2,
+    "requiredRunesIds": [
+      33,
+      619
+    ],
+    "requiredRunesCounts": [
+      5,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "38",
+    "v1Id": 38,
+    "name": "spell.38.name",
+    "description": "spell.38.description",
+    "requiredLevel": 63,
+    "type": 5,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      31,
+      46,
+      611
+    ],
+    "requiredRunesCounts": [
+      30,
+      3,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "39",
+    "v1Id": 39,
+    "name": "spell.39.name",
+    "description": "spell.39.description",
+    "requiredLevel": 65,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      32,
+      33,
+      619
+    ],
+    "requiredRunesCounts": [
+      7,
+      5,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "40",
+    "v1Id": 40,
+    "name": "spell.40.name",
+    "description": "spell.40.description",
+    "requiredLevel": 66,
+    "type": 5,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      33,
+      46,
+      611
+    ],
+    "requiredRunesCounts": [
+      30,
+      3,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "41",
+    "v1Id": 41,
+    "name": "spell.vulnerability.name",
+    "description": "spell.vulnerability.description",
+    "requiredLevel": 66,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      34,
+      32,
+      825
+    ],
+    "requiredRunesCounts": [
+      5,
+      5,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "42",
+    "v1Id": 42,
+    "name": "spell.42.name",
+    "description": "spell.42.description",
+    "requiredLevel": 68,
+    "type": 3,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      32,
+      34,
+      46
+    ],
+    "requiredRunesCounts": [
+      15,
+      15,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "43",
+    "v1Id": 43,
+    "name": "spell.earth_wave.name",
+    "description": "spell.earth_wave.description",
+    "requiredLevel": 70,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      34,
+      33,
+      619
+    ],
+    "requiredRunesCounts": [
+      7,
+      5,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "44",
+    "v1Id": 44,
+    "name": "spell.enfeeble.name",
+    "description": "spell.enfeeble.description",
+    "requiredLevel": 73,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      34,
+      32,
+      825
+    ],
+    "requiredRunesCounts": [
+      8,
+      8,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "45",
+    "v1Id": 45,
+    "name": "spell.fire_wave.name",
+    "description": "spell.fire_wave.description",
+    "requiredLevel": 75,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      31,
+      33,
+      619
+    ],
+    "requiredRunesCounts": [
+      7,
+      5,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "46",
+    "v1Id": 46,
+    "name": "spell.stun.name",
+    "description": "spell.stun.description",
+    "requiredLevel": 80,
+    "type": 2,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      34,
+      32,
+      825
+    ],
+    "requiredRunesCounts": [
+      12,
+      12,
+      1
+    ],
+    "experienceGain": 0
+  },
+  {
+    "id": "47",
+    "v1Id": 47,
+    "name": "spell.charge.name",
+    "description": "spell.charge.description",
+    "requiredLevel": 80,
+    "type": 0,
+    "runeCount": 3,
+    "requiredRunesIds": [
+      31,
+      33,
+      619
+    ],
+    "requiredRunesCounts": [
+      3,
+      3,
+      3
+    ],
+    "experienceGain": 0
+  }
+]
