@@ -40,7 +40,7 @@ namespace OpenRS.Net.Client.Loading
         public void CreateLoginScreenBackgrounds()
         {
             int _bgScreenWidth = client.windowWidth;
-client.RaiseOnLoadingSection(this, new EventArgs());
+            client.RaiseOnLoadingSection(this, new EventArgs());
 
             int l = 0;
             sbyte byte0 = 50;
@@ -607,7 +607,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Starting game...",
                 LocalisationManager.GetString("skill.name.crafting"),
                 LocalisationManager.GetString("skill.name.smithing"),
                 LocalisationManager.GetString("skill.name.mining"),
-                LocalisationManager.GetString("skill.name.herblaw"),
+                LocalisationManager.GetString("skill.item.herb.namelaw"),
                 LocalisationManager.GetString("skill.name.agility"),
                 LocalisationManager.GetString("skill.name.thieving"),
             ];
@@ -820,17 +820,47 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
             {
                 try
                 {
-                    string modelFilePath = Path.Combine(
-                        ApplicationPaths.ModelsDirectory,
-                        GameData.ModelNames[modelIndex].ToLower() + ".ob3");
+                    string modelName = GameData.ModelNames[modelIndex];
+                    string baseName = modelName.ToLower();
+                    string glbPath = Path.Combine(ApplicationPaths.ModelsGlbDirectory, baseName + ".glb");
+                    string ob3Path = Path.Combine(ApplicationPaths.ModelsDirectory, baseName + ".ob3");
 
-                    if (File.Exists(modelFilePath))
+                    if (File.Exists(glbPath))
                     {
-                        sbyte[] modelData = (sbyte[])(Array)File.ReadAllBytes(modelFilePath);
+                        try
+                        {
+                            client.gameDataObjects[modelIndex] = GlbModelLoader.LoadFromGlb(
+                                glbPath,
+                                client.entityManager);
+                        }
+                        catch (Exception exception)
+                        {
+                            logger.Warn(
+                                GameOperation.LoadGameObject,
+                                $"Failed to load GLB model '{modelName}' from '{glbPath}'. Falling back to OB3 if available.",
+                                exception);
+
+                            if (File.Exists(ob3Path))
+                            {
+                                sbyte[] modelData = (sbyte[])(Array)File.ReadAllBytes(ob3Path);
+                                client.gameDataObjects[modelIndex] = new GameObject(modelData, 0);
+                            }
+                            else
+                            {
+                                client.gameDataObjects[modelIndex] = new GameObject(1, 1);
+                            }
+                        }
+                    }
+                    else if (File.Exists(ob3Path))
+                    {
+                        sbyte[] modelData = (sbyte[])(Array)File.ReadAllBytes(ob3Path);
                         client.gameDataObjects[modelIndex] = new GameObject(modelData, 0);
                     }
                     else
                     {
+                        logger.Warn(
+                            GameOperation.LoadGameObject,
+                            $"Model '{modelName}' was not found as GLB or OB3. Using empty placeholder.");
                         client.gameDataObjects[modelIndex] = new GameObject(1, 1);
                     }
 
@@ -839,7 +869,13 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                         client.gameDataObjects[modelIndex].IsGiantCrystal = true;
                     }
                 }
-                catch { }
+                catch (Exception exception)
+                {
+                    logger.Error(
+                        GameOperation.LoadGameObject,
+                        $"Failed to initialise model '{GameData.ModelNames[modelIndex]}'.",
+                        exception);
+                }
             }
         }
 

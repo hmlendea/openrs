@@ -68,8 +68,8 @@ namespace OpenRS.Gui.Screens
         {
             itemSpriteBatch = new SpriteBatch(GraphicsManager.Instance.Graphics.GraphicsDevice);
 
-            contentLoadingFont = NuciContentManager.Instance.LoadSpriteFont("fonts/gameFont12");
-            sectionLoadingFont = NuciContentManager.Instance.LoadSpriteFont("fonts/gameFont16");
+            contentLoadingFont = NuciContentManager.Instance.LoadSpriteFont("Fonts/gameFont12");
+            sectionLoadingFont = NuciContentManager.Instance.LoadSpriteFont("Fonts/gameFont16");
 
             gameClient = GameClient.CreateMudclient("RuneScape Classic", GameDefines.GameViewportWidth, GameDefines.WindowHeight);
             gameClient.DoNotDrawLogo = true;

@@ -113,7 +113,7 @@
   {
     "id": "3",
     "v1Id": 3,
-    "name": "name.chicken",
+    "name": "npc.chicken.name",
     "description": "description.yep_definitely_a_chicken",
     "command": "command.none",
     "sprites": [
@@ -3369,7 +3369,7 @@
   {
     "id": "91",
     "v1Id": 91,
-    "name": "name.chicken",
+    "name": "npc.chicken.name",
     "description": "description.yep_definitely_a_chicken",
     "command": "command.none",
     "sprites": [
@@ -11176,7 +11176,7 @@
   {
     "id": "302",
     "v1Id": 302,
-    "name": "name.kharid_scorpion",
+    "name": "npc.kharid_scorpion.name",
     "description": "description.a_smaller_less_dangerous_scorpion",
     "command": "command.none",
     "sprites": [
@@ -11213,7 +11213,7 @@
   {
     "id": "303",
     "v1Id": 303,
-    "name": "name.kharid_scorpion",
+    "name": "npc.kharid_scorpion.name",
     "description": "description.a_smaller_less_dangerous_scorpion",
     "command": "command.none",
     "sprites": [
@@ -11250,7 +11250,7 @@
   {
     "id": "304",
     "v1Id": 304,
-    "name": "name.kharid_scorpion",
+    "name": "npc.kharid_scorpion.name",
     "description": "description.a_smaller_less_dangerous_scorpion",
     "command": "command.none",
     "sprites": [
@@ -16874,7 +16874,7 @@
   {
     "id": "456",
     "v1Id": 456,
-    "name": "name.holgart",
+    "name": "npc.holgart.name",
     "description": "npc.aged_sailor.description",
     "command": "command.none",
     "sprites": [
@@ -16911,7 +16911,7 @@
   {
     "id": "457",
     "v1Id": 457,
-    "name": "name.holgart",
+    "name": "npc.holgart.name",
     "description": "npc.aged_sailor.description",
     "command": "command.none",
     "sprites": [
@@ -16948,7 +16948,7 @@
   {
     "id": "458",
     "v1Id": 458,
-    "name": "name.holgart",
+    "name": "npc.holgart.name",
     "description": "npc.aged_sailor.description",
     "command": "command.none",
     "sprites": [
@@ -18132,7 +18132,7 @@
   {
     "id": "490",
     "v1Id": 490,
-    "name": "name.chemist",
+    "name": "npc.chemist.name",
     "description": "description.human",
     "command": "command.none",
     "sprites": [
@@ -18650,7 +18650,7 @@
   {
     "id": "504",
     "v1Id": 504,
-    "name": "name.chemist",
+    "name": "npc.chemist.name",
     "description": "npc.504.description",
     "command": "command.none",
     "sprites": [
@@ -18687,7 +18687,7 @@
   {
     "id": "505",
     "v1Id": 505,
-    "name": "name.chancy",
+    "name": "npc.chancy.name",
     "description": "description.hes_ready_for_a_bet",
     "command": "command.none",
     "sprites": [
@@ -18724,7 +18724,7 @@
   {
     "id": "506",
     "v1Id": 506,
-    "name": "name.hops",
+    "name": "npc.hops.name",
     "description": "description.hes_drunk",
     "command": "command.none",
     "sprites": [
@@ -18835,7 +18835,7 @@
   {
     "id": "509",
     "v1Id": 509,
-    "name": "name.chancy",
+    "name": "npc.chancy.name",
     "description": "description.hes_ready_for_a_bet",
     "command": "command.none",
     "sprites": [
@@ -18872,7 +18872,7 @@
   {
     "id": "510",
     "v1Id": 510,
-    "name": "name.hops",
+    "name": "npc.hops.name",
     "description": "description.hes_drunk",
     "command": "command.none",
     "sprites": [

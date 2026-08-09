@@ -117,7 +117,7 @@
   {
     "id": "family-crest",
     "v1Id": -1,
-    "name": "name.family_crest"
+    "name": "item.family_crest.name"
   },
   {
     "id": "tribal-totem",
@@ -197,7 +197,7 @@
   {
     "id": "grand-tree",
     "v1Id": -1,
-    "name": "name.grand_tree"
+    "name": "world_object.grand_tree.name"
   },
   {
     "id": "shilo-village",
