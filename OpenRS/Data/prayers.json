@@ -1,0 +1,114 @@
+[
+  {
+    "id": "thick-skin",
+    "v1Id": -1,
+    "name": "prayer.thick_skin.name",
+    "description": "prayer.thick_skin.description",
+    "requiredLevel": 1,
+    "drainRate": 1
+  },
+  {
+    "id": "burst-of-strength",
+    "v1Id": -1,
+    "name": "prayer.burst_of_strength.name",
+    "description": "prayer.burst_of_strength.description",
+    "requiredLevel": 4,
+    "drainRate": 1
+  },
+  {
+    "id": "clarity-of-thought",
+    "v1Id": -1,
+    "name": "prayer.clarity_of_thought.name",
+    "description": "prayer.clarity_of_thought.description",
+    "requiredLevel": 7,
+    "drainRate": 1
+  },
+  {
+    "id": "rock-skin",
+    "v1Id": -1,
+    "name": "prayer.rock_skin.name",
+    "description": "prayer.rock_skin.description",
+    "requiredLevel": 10,
+    "drainRate": 3
+  },
+  {
+    "id": "superhuman-strength",
+    "v1Id": -1,
+    "name": "prayer.superhuman_strength.name",
+    "description": "prayer.superhuman_strength.description",
+    "requiredLevel": 13,
+    "drainRate": 3
+  },
+  {
+    "id": "improved-reflexes",
+    "v1Id": -1,
+    "name": "prayer.improved_reflexes.name",
+    "description": "prayer.improved_reflexes.description",
+    "requiredLevel": 16,
+    "drainRate": 3
+  },
+  {
+    "id": "rapid-restore",
+    "v1Id": -1,
+    "name": "prayer.rapid_restore.name",
+    "description": "prayer.rapid_restore.description",
+    "requiredLevel": 19,
+    "drainRate": 1
+  },
+  {
+    "id": "rapid-heal",
+    "v1Id": -1,
+    "name": "prayer.rapid_heal.name",
+    "description": "prayer.rapid_heal.description",
+    "requiredLevel": 22,
+    "drainRate": 2
+  },
+  {
+    "id": "protect-item",
+    "v1Id": -1,
+    "name": "prayer.protect_item.name",
+    "description": "prayer.protect_item.description",
+    "requiredLevel": 25,
+    "drainRate": 2
+  },
+  {
+    "id": "steel-skin",
+    "v1Id": -1,
+    "name": "prayer.steel_skin.name",
+    "description": "prayer.steel_skin.description",
+    "requiredLevel": 28,
+    "drainRate": 5
+  },
+  {
+    "id": "ultimate-strength",
+    "v1Id": -1,
+    "name": "prayer.ultimate_strength.name",
+    "description": "prayer.ultimate_strength.description",
+    "requiredLevel": 31,
+    "drainRate": 5
+  },
+  {
+    "id": "incredible-reflexes",
+    "v1Id": -1,
+    "name": "prayer.incredible_reflexes.name",
+    "description": "prayer.incredible_reflexes.description",
+    "requiredLevel": 34,
+    "drainRate": 5
+  },
+  {
+    "id": "protect-from-missiles",
+    "v1Id": -1,
+    "name": "prayer.protect_from_missiles.name",
+    "description": "prayer.protect_from_missiles.description",
+    "requiredLevel": 40,
+    "drainRate": 10
+  },
+  {
+    "id": "retribution",
+    "v1Id": -1,
+    "name": "prayer.retribution.name",
+    "description": "prayer.retribution.description",
+    "requiredLevel": 46,
+    "drainRate": 3
+  }
+]

@@ -2,7 +2,7 @@
 
 namespace OpenRS.Models
 {
-    public class NpcLocation
+    public sealed class NpcLocation
     {
         public string Id { get; set; }
 

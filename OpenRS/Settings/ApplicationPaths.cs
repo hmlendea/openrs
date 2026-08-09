@@ -4,66 +4,49 @@ using System.Reflection;
 
 namespace OpenRS.Settings
 {
-    /// <summary>
-    /// Application paths.
-    /// </summary>
     public static class ApplicationPaths
     {
-        static string rootDirectory;
-        static string localAppData;
+        private static string rootDirectory;
+        private static string localAppData;
 
-        /// <summary>
-        /// The application directory.
-        /// </summary>
         public static string ApplicationDirectory
         {
             get
             {
-                if (rootDirectory == null)
-                {
-                    rootDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                }
+                rootDirectory ??= Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
                 return rootDirectory;
             }
         }
 
-        /// <summary>
-        /// Gets the user data directory.
-        /// </summary>
-        /// <value>The user data directory.</value>
         public static string UserDataDirectory
         {
             get
             {
-                if (localAppData == null)
-                {
-                    localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                }
+                localAppData ??= Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
                 return Path.Combine(localAppData, "OpenRS");
             }
         }
 
-        /// <summary>
-        /// The configuration directory.
-        /// </summary>
         public static string ConfigurationDirectory => Path.Combine(ApplicationDirectory, "Data");
 
-        /// <summary>
-        /// The data directory.
-        /// </summary>
         public static string DataDirectory => Path.Combine(ApplicationDirectory, "Data");
 
-        /// <summary>
-        /// The entities directory.
-        /// </summary>
+        public static string AnimationsDirectory => Path.Combine(DataDirectory, "Animations");
+
+        public static string FontsDirectory => Path.Combine(DataDirectory, "Fonts");
+
+        public static string MediaDirectory => Path.Combine(DataDirectory, "Media");
+
+        public static string MapsDirectory => Path.Combine(DataDirectory, "Maps");
+
+        public static string ModelsDirectory => Path.Combine(DataDirectory, "Models");
+
+        public static string TexturesDirectory => Path.Combine(DataDirectory, "Textures");
+
         public static string EntitiesDirectory => Path.Combine(DataDirectory, "Entities");
 
-        /// <summary>
-        /// Gets the options file.
-        /// </summary>
-        /// <value>The options file.</value>
         public static string SettingsFile => Path.Combine(UserDataDirectory, "Settings.xml");
     }
 }

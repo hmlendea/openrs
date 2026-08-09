@@ -2,83 +2,49 @@
 using System.Linq;
 
 using OpenRS.DataAccess.DataObjects;
+using OpenRS.Localisation;
 using OpenRS.Models;
 
 namespace OpenRS.GameLogic.Mapping
 {
-    /// <summary>
-    /// Spell mapping extensions for converting between entities and domain models.
-    /// </summary>
-    static class SpellMappingExtensions
+    internal static class SpellMappingExtensions
     {
-        /// <summary>
-        /// Converts the entity into a domain model.
-        /// </summary>
-        /// <returns>The domain model.</returns>
-        /// <param name="spellEntity">Spell entity.</param>
-        internal static Spell ToDomainModel(this SpellEntity spellEntity)
+        internal static Spell ToServiceModel(this SpellEntity spellEntity) => new()
         {
-            Spell spell = new Spell
-            {
-                Id = spellEntity.Id,
-                Name = spellEntity.Name,
-                Description = spellEntity.Description,
-                RequiredLevel = spellEntity.RequiredLevel,
-                Type = spellEntity.Type,
-                RuneCount = spellEntity.RuneCount,
-                RequiredRunesIds = spellEntity.RequiredRunesIds,
-                RequiredRunesCounts = spellEntity.RequiredRunesCounts,
-                ExperienceGain = spellEntity.ExperienceGain
-            };
+            Id = spellEntity.Id,
+            V1Id = spellEntity.V1Id,
+            Name = LocalisationManager.GetString(spellEntity.Name),
+            Description = LocalisationManager.GetString(spellEntity.Description),
+            RequiredLevel = spellEntity.RequiredLevel,
+            Type = spellEntity.Type,
+            RequiredRunes = Enumerable
+                .Range(0, spellEntity.RuneCount)
+                .ToDictionary(
+                    runeIndex => spellEntity.RequiredRunesIds[runeIndex],
+                    runeIndex => spellEntity.RequiredRunesCounts[runeIndex]),
+            ExperienceGain = spellEntity.ExperienceGain
+        };
 
-            return spell;
-        }
-
-        /// <summary>
-        /// Converts the domain model into an entity.
-        /// </summary>
-        /// <returns>The entity.</returns>
-        /// <param name="spell">Spell.</param>
-        internal static SpellEntity ToEntity(this Spell spell)
+        internal static SpellEntity ToDataObject(this Spell spell) => new()
         {
-            SpellEntity spellEntity = new SpellEntity
-            {
-                Id = spell.Id,
-                Name = spell.Name,
-                Description = spell.Description,
-                RequiredLevel = spell.RequiredLevel,
-                Type = spell.Type,
-                RuneCount = spell.RuneCount,
-                RequiredRunesIds = spell.RequiredRunesIds,
-                RequiredRunesCounts = spell.RequiredRunesCounts,
-                ExperienceGain = spell.ExperienceGain
-            };
+            Id = spell.Id,
+            V1Id = spell.V1Id,
+            Name = spell.Name,
+            Description = spell.Description,
+            RequiredLevel = spell.RequiredLevel,
+            Type = spell.Type,
+            RuneCount = spell.RequiredRunes.Count,
+            RequiredRunesIds = [.. spell.RequiredRunes.Keys],
+            RequiredRunesCounts = [.. spell.RequiredRunes.Values],
+            ExperienceGain = spell.ExperienceGain
+        };
 
-            return spellEntity;
-        }
+        internal static IEnumerable<Spell> ToServiceModels(
+            this IEnumerable<SpellEntity> spellEntities)
+            => spellEntities.Select(spellEntity => spellEntity.ToServiceModel());
 
-        /// <summary>
-        /// Converts the entities into domain models.
-        /// </summary>
-        /// <returns>The domain models.</returns>
-        /// <param name="spellEntities">Spell entities.</param>
-        internal static IEnumerable<Spell> ToDomainModels(this IEnumerable<SpellEntity> spellEntities)
-        {
-            IEnumerable<Spell> spells = spellEntities.Select(spellEntity => spellEntity.ToDomainModel());
-
-            return spells;
-        }
-
-        /// <summary>
-        /// Converts the domain models into entities.
-        /// </summary>
-        /// <returns>The entities.</returns>
-        /// <param name="spells">Spells.</param>
-        internal static IEnumerable<SpellEntity> ToEntities(this IEnumerable<Spell> spells)
-        {
-            IEnumerable<SpellEntity> spellEntities = spells.Select(spell => spell.ToEntity());
-
-            return spellEntities;
-        }
+        internal static IEnumerable<SpellEntity> ToDataObjects(
+            this IEnumerable<Spell> spells)
+            => spells.Select(spell => spell.ToDataObject());
     }
 }

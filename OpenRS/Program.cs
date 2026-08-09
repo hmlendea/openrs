@@ -1,80 +1,25 @@
 using System;
-#if MONOMAC
-using MonoMac.AppKit;
-using MonoMac.Foundation;
-#elif __IOS__ || __TVOS__
-using Foundation;
-using UIKit;
-#endif
+
+using Microsoft.Extensions.Configuration;
+
+using OpenRS.Logging;
 
 namespace OpenRS
 {
-#if __IOS__ || __TVOS__
-    [Register("AppDelegate")]
-    class Program : UIApplicationDelegate
-#else
-    static class Program
-#endif
+    internal static class Program
     {
-        static GameWindow game;
-
-        internal static void RunGame()
-        {
-            game = new GameWindow();
-            game.Run();
-#if !__IOS__ && !__TVOS__
-            game.Dispose();
-#endif
-        }
-
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-#if !MONOMAC && !__IOS__ && !__TVOS__
         [STAThread]
-#endif
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-#if MONOMAC
-            NSApplication.Init ();
+            IConfiguration configuration = new ConfigurationBuilder()
+                .SetBasePath(AppContext.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: true)
+                .Build();
 
-            using (var p = new NSAutoreleasePool ()) {
-                NSApplication.SharedApplication.Delegate = new AppDelegate();
-                NSApplication.Main(args);
-            }
-#elif __IOS__ || __TVOS__
-            UIApplication.Main(args, null, "AppDelegate");
-#else
-            RunGame();
-#endif
-        }
+            NuciLoggerFactory.Initialise(configuration);
 
-#if __IOS__ || __TVOS__
-        public override void FinishedLaunching(UIApplication app)
-        {
-            RunGame();
+            using GameWindow game = new();
+            game.Run();
         }
-#endif
     }
-
-#if MONOMAC
-    class AppDelegate : NSApplicationDelegate
-    {
-        public override void FinishedLaunching (MonoMac.Foundation.NSObject notification)
-        {
-            AppDomain.CurrentDomain.AssemblyResolve += (object sender, ResolveEventArgs a) =>  {
-                if (a.Name.StartsWith("MonoMac")) {
-                    return typeof(MonoMac.AppKit.AppKitFramework).Assembly;
-                }
-                return null;
-            };
-            Program.RunGame();
-        }
-
-        public override bool ApplicationShouldTerminateAfterLastWindowClosed (NSApplication sender)
-        {
-            return true;
-        }
-    }  
-#endif
 }

@@ -1,75 +1,62 @@
 namespace OpenRS.Net.Client.Data
 {
+    internal sealed class BZip2BlockEntry
+    {
+        internal BZip2BlockEntry()
+        {
+            SymbolFrequencyTable = new int[256];
+            CumulativeCounts = new int[257];
+            InUse = new bool[256];
+            SymbolGroupFlags = new bool[16];
+            SequenceToSymbol = new int[256];
+            MoveToFrontBuffer = new int[4096];
+            GroupPositions = new int[16];
+            Selector = new sbyte[18002];
+            SelectorMoveToFront = new sbyte[18002];
+            HuffmanCodeLengths = RectangularArrays.Create<sbyte>(6, 258);
+            HuffmanLimits = RectangularArrays.Create<int>(6, 258);
+            HuffmanBaseValues = RectangularArrays.Create<int>(6, 258);
+            HuffmanPermutations = RectangularArrays.Create<int>(6, 258);
+            HuffmanMinLengths = new int[6];
+        }
 
-	internal class BZip2BlockEntry
-	{
-
-		internal BZip2BlockEntry()
-		{
-			unzftab = new int[256];
-			afm = new int[257];
-			afn = new int[257];
-			inUse = new bool[256];
-			inUse16 = new bool[16];
-			seqToUnseq = new int[256];
-			yy = new int[4096];
-			agg = new int[16];
-			selector = new sbyte[18002];
-			selectorMtf = new sbyte[18002];
-//ORIGINAL LINE: len = new sbyte[6][258];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-			len = RectangularArrays.ReturnRectangularSbyteArray(6, 258);
-//ORIGINAL LINE: limit = new int[6][258];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-			limit = RectangularArrays.ReturnRectangularIntArray(6, 258);
-//ORIGINAL LINE: _base = new int[6][258];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-			_base = RectangularArrays.ReturnRectangularIntArray(6, 258);
-//ORIGINAL LINE: perm = new int[6][258];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-			perm = RectangularArrays.ReturnRectangularIntArray(6, 258);
-			agn = new int[6];
-		}
-
-		internal sbyte[] inputBuffer;
-		internal int offset;
-		internal int compressedSize;
-		internal int aeh;
-		internal int aei;
-		internal sbyte[] outputBuffer;
-		internal int aek;
-		internal int decompressedSize;
-		internal int aem;
-		internal int aen;
-		internal sbyte afa;
-		internal int afb;
-		internal bool afc;
-		internal int afd;
-		internal int afe;
-		internal int blockSize100k;
-		internal int afg;
-		internal int origPtr;
-		internal int afi;
-		internal int afj;
-		internal int[] unzftab;
-		internal int afl;
-		internal int[] afm;
-		internal int[] afn;
-		public static int[] aga;
-		internal int inUseOffset;
-		internal bool[] inUse;
-		internal bool[] inUse16;
-		internal int[] seqToUnseq;
-		internal int[] yy;
-		internal int[] agg;
-		internal sbyte[] selector;
-		internal sbyte[] selectorMtf;
-		internal sbyte[][] len;
-		internal int[][] limit;
-		internal int[][] _base;
-		internal int[][] perm;
-		internal int[] agn;
-		internal int aha;
-	}
-
+        internal sbyte[] InputBuffer { get; set; }
+        internal int Offset { get; set; }
+        internal int CompressedSize { get; set; }
+        internal int BytesReadLow { get; set; }
+        internal int BytesReadHigh { get; set; }
+        internal sbyte[] OutputBuffer { get; set; }
+        internal int OutputIndex { get; set; }
+        internal int DecompressedSize { get; set; }
+        internal int BytesWrittenLow { get; set; }
+        internal int BytesWrittenHigh { get; set; }
+        internal sbyte LastOutputByte { get; set; }
+        internal int RunLength { get; set; }
+        internal bool IsRandomised { get; set; }
+        internal int CurrentBitWord { get; set; }
+        internal int BitsAvailable { get; set; }
+        internal int BlockSize100k { get; set; }
+        internal int BlocksRead { get; set; }
+        internal int OriginPointer { get; set; }
+        internal int LinkedListNode { get; set; }
+        internal int CurrentByteValue { get; set; }
+        internal int[] SymbolFrequencyTable { get; set; }
+        internal int SymbolIndex { get; set; }
+        internal int[] CumulativeCounts { get; set; }
+        internal static int[] TransformVector { get; set; }
+        internal int ActiveSymbolCount { get; set; }
+        internal bool[] InUse { get; set; }
+        internal bool[] SymbolGroupFlags { get; set; }
+        internal int[] SequenceToSymbol { get; set; }
+        internal int[] MoveToFrontBuffer { get; set; }
+        internal int[] GroupPositions { get; set; }
+        internal sbyte[] Selector { get; set; }
+        internal sbyte[] SelectorMoveToFront { get; set; }
+        internal sbyte[][] HuffmanCodeLengths { get; set; }
+        internal int[][] HuffmanLimits { get; set; }
+        internal int[][] HuffmanBaseValues { get; set; }
+        internal int[][] HuffmanPermutations { get; set; }
+        internal int[] HuffmanMinLengths { get; set; }
+        internal int LastSymbolIndex { get; set; }
+    }
 }

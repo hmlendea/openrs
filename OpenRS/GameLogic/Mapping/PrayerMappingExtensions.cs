@@ -2,75 +2,39 @@
 using System.Linq;
 
 using OpenRS.DataAccess.DataObjects;
+using OpenRS.Localisation;
 using OpenRS.Models;
 
 namespace OpenRS.GameLogic.Mapping
 {
-    /// <summary>
-    /// Prayer mapping extensions for converting between entities and domain models.
-    /// </summary>
-    static class PrayerMappingExtensions
+    internal static class PrayerMappingExtensions
     {
-        /// <summary>
-        /// Converts the entity into a domain model.
-        /// </summary>
-        /// <returns>The domain model.</returns>
-        /// <param name="prayerEntity">Prayer entity.</param>
-        internal static Prayer ToDomainModel(this PrayerEntity prayerEntity)
+        internal static Prayer ToServiceModel(this PrayerEntity prayerEntity) => new()
         {
-            Prayer prayer = new Prayer
-            {
-                Id = prayerEntity.Id,
-                Name = prayerEntity.Name,
-                Description = prayerEntity.Description,
-                RequiredLevel = prayerEntity.RequiredLevel,
-                DrainRate = prayerEntity.DrainRate
-            };
+            Id = prayerEntity.Id,
+            V1Id = prayerEntity.V1Id,
+            Name = LocalisationManager.GetString(prayerEntity.Name),
+            Description = LocalisationManager.GetString(prayerEntity.Description),
+            RequiredLevel = prayerEntity.RequiredLevel,
+            DrainRate = prayerEntity.DrainRate
+        };
 
-            return prayer;
-        }
-
-        /// <summary>
-        /// Converts the domain model into an entity.
-        /// </summary>
-        /// <returns>The entity.</returns>
-        /// <param name="prayer">Prayer.</param>
-        internal static PrayerEntity ToEntity(this Prayer prayer)
+        internal static PrayerEntity ToDataObject(this Prayer prayer) => new()
         {
-            PrayerEntity prayerEntity = new PrayerEntity
-            {
-                Id = prayer.Id,
-                Name = prayer.Name,
-                Description = prayer.Description,
-                RequiredLevel = prayer.RequiredLevel,
-                DrainRate = prayer.DrainRate
-            };
+            Id = prayer.Id,
+            V1Id = prayer.V1Id,
+            Name = prayer.Name,
+            Description = prayer.Description,
+            RequiredLevel = prayer.RequiredLevel,
+            DrainRate = prayer.DrainRate
+        };
 
-            return prayerEntity;
-        }
+        internal static IEnumerable<Prayer> ToServiceModels(
+            this IEnumerable<PrayerEntity> prayerEntities)
+            => prayerEntities.Select(prayerEntity => prayerEntity.ToServiceModel());
 
-        /// <summary>
-        /// Converts the entities into domain models.
-        /// </summary>
-        /// <returns>The domain models.</returns>
-        /// <param name="prayerEntities">Prayer entities.</param>
-        internal static IEnumerable<Prayer> ToDomainModels(this IEnumerable<PrayerEntity> prayerEntities)
-        {
-            IEnumerable<Prayer> prayers = prayerEntities.Select(prayerEntity => prayerEntity.ToDomainModel());
-
-            return prayers;
-        }
-
-        /// <summary>
-        /// Converts the domain models into entities.
-        /// </summary>
-        /// <returns>The entities.</returns>
-        /// <param name="prayers">Prayers.</param>
-        internal static IEnumerable<PrayerEntity> ToEntities(this IEnumerable<Prayer> prayers)
-        {
-            IEnumerable<PrayerEntity> prayerEntities = prayers.Select(prayer => prayer.ToEntity());
-
-            return prayerEntities;
-        }
+        internal static IEnumerable<PrayerEntity> ToDataObjects(
+            this IEnumerable<Prayer> prayers)
+            => prayers.Select(prayer => prayer.ToDataObject());
     }
 }

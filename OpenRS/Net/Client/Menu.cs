@@ -1,147 +1,151 @@
-using Microsoft.Xna.Framework.Input;
-
-using NuciXNA.Primitives;
-using NuciXNA.Primitives.Mapping;
+﻿using Microsoft.Xna.Framework.Input;
 
 using OpenRS.Net.Client.Game;
 
 namespace OpenRS.Net.Client
 {
-    public class Menu
+    public sealed class Menu
     {
-        public Menu(GraphicsEngine j1, int i)
+
+        public Menu(GameImage gameImageInstance, int capacity)
         {
             selectedComponent = -1;
-            gdg = true;
-            gameImage = j1;
-            gal = i;
-            componentAcceptsInput = new bool[i];
-            gan = new bool[i];
-            componentIsPasswordField = new bool[i];
-            componentSkip = new bool[i];
-            componentWhiteText = new bool[i];
-            listShownEntries = new int[i];
-            listLength = new int[i];
-            gbe = new int[i];
-            gbf = new int[i];
-            componentX = new int[i];
-            componentY = new int[i];
-            componentType = new int[i];
-            componentWidth = new int[i];
-            componentHeight = new int[i];
-            copmonentInputMaxLength = new int[i];
-            componentTextSize = new int[i];
-            componentText = new string[i];
-            componentTextList = new string[i][];
-            scrollBarColour = rgbToIntMod(114, 114, 176);
-            scrollBarDraggingBarLine1Color = rgbToIntMod(200, 208, 232);
-            scrollBarDraggingBarColor = rgbToIntMod(96, 129, 184);
-            scrollBarDraggingBarLine2Color = rgbToIntMod(53, 95, 115);
-            gcn = rgbToIntMod(117, 142, 171);
-            gda = rgbToIntMod(98, 122, 158);
-            gdb = rgbToIntMod(86, 100, 136);
-            gdc = rgbToIntMod(135, 146, 179);
-            gdd = rgbToIntMod(97, 112, 151);
-            gde = rgbToIntMod(88, 102, 136);
-            gdf = rgbToIntMod(84, 93, 120);
+            isListSelectionHighlighted = true;
+            gameImage = gameImageInstance;
+            componentCapacity = capacity;
+            componentAcceptsInput = new bool[capacity];
+            isScrollDragging = new bool[capacity];
+            componentIsPasswordField = new bool[capacity];
+            componentSkip = new bool[capacity];
+            componentWhiteText = new bool[capacity];
+            listShownEntries = new int[capacity];
+            listLength = new int[capacity];
+            componentSelectedIndex = new int[capacity];
+            componentHighlightedIndex = new int[capacity];
+            componentX = new int[capacity];
+            componentY = new int[capacity];
+            componentType = new int[capacity];
+            componentWidth = new int[capacity];
+            componentHeight = new int[capacity];
+            copmonentInputMaxLength = new int[capacity];
+            componentTextSize = new int[capacity];
+            componentText = new string[capacity];
+            componentTextList = new string[capacity][];
+            scrollBarGradientColorTop = RgbToInt(114, 114, 176);
+            scrollBarGradientColorBottom = RgbToInt(14, 14, 62);
+            scrollBarDraggingBarLine1Color = RgbToInt(200, 208, 232);
+            scrollBarDraggingBarColor = RgbToInt(96, 129, 184);
+            scrollBarDraggingBarLine2Color = RgbToInt(53, 95, 115);
+            borderColourOutside = RgbToInt(117, 142, 171);
+            borderColourMiddle = RgbToInt(98, 122, 158);
+            borderColourInner = RgbToInt(86, 100, 136);
+            panelTopLeftColour = RgbToInt(135, 146, 179);
+            panelTopLeftAltColour = RgbToInt(97, 112, 151);
+            panelBottomRightAltColour = RgbToInt(88, 102, 136);
+            panelBottomRightColour = RgbToInt(84, 93, 120);
         }
 
-        int rgbToIntMod(int r, int g, int b)
+        public int RgbToInt(int redValue, int greenValue, int blueValue)
         {
-            return ColourTranslator.ToArgb((redMod * r) / 114, (greenMod * g) / 114, (blueMod * b) / 176);
+            return GameImage.RgbToInt(redMod * redValue / 114, greenMod * greenValue / 114, blueMod * blueValue / 176);
         }
 
-        public void mouseClick(int mouseX, int mouseY, int lastMouseButton, int mouseButton)
+        public void MouseClick(int mouseXPosition, int mouseYPosition, int lastMouseButtonState, int mouseButtonState)
         {
-            this.mouseX = mouseX;
-            this.mouseY = mouseY;
-            this.mouseButton = mouseButton;
-            if (lastMouseButton != 0)
+            this.mouseX = mouseXPosition;
+            this.mouseY = mouseYPosition;
+            this.mouseButton = mouseButtonState;
+
+            if (lastMouseButtonState != 0)
             {
-                this.lastMouseButton = lastMouseButton;
+                this.lastMouseButton = lastMouseButtonState;
             }
 
-            if (lastMouseButton == 1)
+            if (lastMouseButtonState == 1)
             {
-                for (int i = 0; i < menuItemsCount; i++)
+                for (int componentIndex = 0; componentIndex < menuItemsCount; componentIndex += 1)
                 {
-                    if (componentAcceptsInput[i] && componentType[i] == 10 && this.mouseX >= componentX[i] && this.mouseY >= componentY[i] && this.mouseX <= componentX[i] + componentWidth[i] && this.mouseY <= componentY[i] + componentHeight[i])
+                    if (componentAcceptsInput[componentIndex] && componentType[componentIndex] == 10 && this.mouseX >= componentX[componentIndex] && this.mouseY >= componentY[componentIndex] && this.mouseX <= componentX[componentIndex] + componentWidth[componentIndex] && this.mouseY <= componentY[componentIndex] + componentHeight[componentIndex])
                     {
-                        componentSkip[i] = true;
+                        componentSkip[componentIndex] = true;
                     }
 
-                    if (componentAcceptsInput[i] && componentType[i] == 14 && this.mouseX >= componentX[i] && this.mouseY >= componentY[i] && this.mouseX <= componentX[i] + componentWidth[i] && this.mouseY <= componentY[i] + componentHeight[i])
+                    if (componentAcceptsInput[componentIndex] && componentType[componentIndex] == 14 && this.mouseX >= componentX[componentIndex] && this.mouseY >= componentY[componentIndex] && this.mouseX <= componentX[componentIndex] + componentWidth[componentIndex] && this.mouseY <= componentY[componentIndex] + componentHeight[componentIndex])
                     {
-                        gbe[i] = 1 - gbe[i];
+                        componentSelectedIndex[componentIndex] = 1 - componentSelectedIndex[componentIndex];
                     }
                 }
-
             }
-            if (mouseButton == 1)
+
+            if (mouseButtonState == 1)
             {
-                gch++;
+                mouseClickHoldCounter += 1;
             }
             else
             {
-                gch = 0;
+                mouseClickHoldCounter = 0;
             }
 
-            if (lastMouseButton == 1 || gch > 20)
+            if (lastMouseButtonState == 1 || mouseClickHoldCounter > 20)
             {
-                for (int k = 0; k < menuItemsCount; k++)
+                for (int componentIndex = 0; componentIndex < menuItemsCount; componentIndex += 1)
                 {
-                    if (componentAcceptsInput[k] && componentType[k] == 15 && this.mouseX >= componentX[k] && this.mouseY >= componentY[k] && this.mouseX <= componentX[k] + componentWidth[k] && this.mouseY <= componentY[k] + componentHeight[k])
+                    if (componentAcceptsInput[componentIndex] && componentType[componentIndex] == 15 && this.mouseX >= componentX[componentIndex] && this.mouseY >= componentY[componentIndex] && this.mouseX <= componentX[componentIndex] + componentWidth[componentIndex] && this.mouseY <= componentY[componentIndex] + componentHeight[componentIndex])
                     {
-                        componentSkip[k] = true;
+                        componentSkip[componentIndex] = true;
                     }
                 }
 
-                gch -= 5;
+                mouseClickHoldCounter -= 5;
             }
         }
 
-        public bool isClicked(int i)
+        public bool IsClicked(int componentIndex)
         {
-            if (componentAcceptsInput[i] && componentSkip[i])
+            if (componentAcceptsInput[componentIndex] && componentSkip[componentIndex])
             {
-                componentSkip[i] = false;
+                componentSkip[componentIndex] = false;
+
                 return true;
             }
 
             return false;
         }
 
-        public void keyPress(Keys key, char c)
+        public void KeyPress(Keys key, char character)
         {
             if (key == 0)
             {
                 return;
             }
 
-            if (selectedComponent != -1 && componentText[selectedComponent] != null && componentAcceptsInput[selectedComponent])
+            if (selectedComponent != -1 && componentText[selectedComponent] is not null && componentAcceptsInput[selectedComponent])
             {
-                int i = componentText[selectedComponent].Length;
-                if (key == Keys.Back && i > 0)
+                int currentLength = componentText[selectedComponent].Length;
+
+                if (key == Keys.Back && currentLength > 0)
                 {
-                    componentText[selectedComponent] = componentText[selectedComponent].Substring(0, i - 1);
+                    componentText[selectedComponent] = componentText[selectedComponent][..(currentLength - 1)];
                 }
 
-                if ((key == Keys.Enter) && i > 0)
+                if (key == Keys.Enter && currentLength > 0)
                 {
                     componentSkip[selectedComponent] = true;
                 }
 
-                string s = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789!\"" + (char)243 + "$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
-                if (i < copmonentInputMaxLength[selectedComponent])
+                string allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789!\"" + (char)243 + "$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
+
+                if (currentLength < copmonentInputMaxLength[selectedComponent])
                 {
-                    for (int k = 0; k < s.Length; k++)
+                    for (int charIndex = 0; charIndex < allowedChars.Length; charIndex += 1)
                     {
-                        if (c == s[k])
+                        if (character == allowedChars[charIndex])
                         {
-                            componentText[selectedComponent] += c;
+                            componentText[selectedComponent] += character;
                         }
                     }
                 }
+
                 if (key == Keys.Tab)
                 {
                     do
@@ -149,64 +153,65 @@ namespace OpenRS.Net.Client
                         selectedComponent = (selectedComponent + 1) % menuItemsCount;
                     }
                     while (componentType[selectedComponent] != 5 && componentType[selectedComponent] != 6);
+
                     return;
                 }
             }
         }
 
-        public void drawMenu()
+        public void DrawMenu()
         {
-            for (int i = 0; i < menuItemsCount; i++)
+            for (int componentIndex = 0; componentIndex < menuItemsCount; componentIndex += 1)
             {
-                if (componentAcceptsInput[i])
+                if (componentAcceptsInput[componentIndex])
                 {
-                    if (componentType[i] == 0)
+                    if (componentType[componentIndex] == 0)
                     {
-                        gef(i, componentX[i], componentY[i], componentText[i], componentTextSize[i]);
+                        DrawComponentTextAligned(componentIndex, componentX[componentIndex], componentY[componentIndex], componentText[componentIndex], componentTextSize[componentIndex]);
                     }
-                    else if (componentType[i] == 1)
+                    else if (componentType[componentIndex] == 1)
                     {
-                        gef(i, componentX[i] - gameImage.textWidth(componentText[i], componentTextSize[i]) / 2, componentY[i], componentText[i], componentTextSize[i]);
+                        DrawComponentTextAligned(componentIndex, componentX[componentIndex] - gameImage.TextWidth(componentText[componentIndex], componentTextSize[componentIndex]) / 2, componentY[componentIndex], componentText[componentIndex], componentTextSize[componentIndex]);
                     }
-                    else if (componentType[i] == 2)
+                    else if (componentType[componentIndex] == 2)
                     {
-                        gei(componentX[i], componentY[i], componentWidth[i], componentHeight[i]);
+                        DrawBackgroundPanel(componentX[componentIndex], componentY[componentIndex], componentWidth[componentIndex], componentHeight[componentIndex]);
                     }
-                    else if (componentType[i] == 3)
+                    else if (componentType[componentIndex] == 3)
                     {
-                        drawLineX(componentX[i], componentY[i], componentWidth[i]);
+                        DrawLineX(componentX[componentIndex], componentY[componentIndex], componentWidth[componentIndex]);
                     }
-                    else if (componentType[i] == 4)
+                    else if (componentType[componentIndex] == 4)
                     {
-                        gem(i, componentX[i], componentY[i], componentWidth[i], componentHeight[i], componentTextSize[i], componentTextList[i], listLength[i], listShownEntries[i]);
+                        DrawScrollableList(componentIndex, componentX[componentIndex], componentY[componentIndex], componentWidth[componentIndex], componentHeight[componentIndex], componentTextSize[componentIndex], componentTextList[componentIndex], listLength[componentIndex], listShownEntries[componentIndex]);
                     }
-                    else if (componentType[i] == 5 || componentType[i] == 6)
+                    else if (componentType[componentIndex] == 5 || componentType[componentIndex] == 6)
                     {
-                        drawInputBox(i, componentX[i], componentY[i], componentWidth[i], componentHeight[i], componentText[i], componentTextSize[i]);
+                        DrawInputBox(componentIndex, componentX[componentIndex], componentY[componentIndex], componentWidth[componentIndex], componentHeight[componentIndex], componentText[componentIndex], componentTextSize[componentIndex]);
                     }
-                    else if (componentType[i] == 7)
+                    else if (componentType[componentIndex] == 7)
                     {
-                        gfa(i, componentX[i], componentY[i], componentTextSize[i], componentTextList[i]);
+                        DrawHorizontalOptions(componentIndex, componentX[componentIndex], componentY[componentIndex], componentTextSize[componentIndex], componentTextList[componentIndex]);
                     }
-                    else if (componentType[i] == 8)
+                    else if (componentType[componentIndex] == 8)
                     {
-                        gfb(i, componentX[i], componentY[i], componentTextSize[i], componentTextList[i]);
+                        DrawVerticalOptions(componentIndex, componentX[componentIndex], componentY[componentIndex], componentTextSize[componentIndex], componentTextList[componentIndex]);
                     }
-                    else if (componentType[i] == 9)
+                    else if (componentType[componentIndex] == 9)
                     {
-                        drawList(i, componentX[i], componentY[i], componentWidth[i], componentHeight[i], componentTextSize[i], componentTextList[i], listLength[i], listShownEntries[i]);
+                        DrawList(componentIndex, componentX[componentIndex], componentY[componentIndex], componentWidth[componentIndex], componentHeight[componentIndex], componentTextSize[componentIndex], componentTextList[componentIndex], listLength[componentIndex], listShownEntries[componentIndex]);
                     }
-                    else if (componentType[i] == 11)
+                    else if (componentType[componentIndex] == 11)
                     {
-                        gej(componentX[i], componentY[i], componentWidth[i], componentHeight[i]);
+                        DrawScrollCornerPanel(componentX[componentIndex], componentY[componentIndex], componentWidth[componentIndex], componentHeight[componentIndex]);
                     }
-                    else if (componentType[i] == 12)
+                    else if (componentType[componentIndex] == 12)
                     {
-                        drawPicture(componentX[i], componentY[i], componentTextSize[i]);
+                        DrawPicture(componentX[componentIndex], componentY[componentIndex], componentTextSize[componentIndex]);
                     }
-                    else if (componentType[i] == 14)
+                    else if (componentType[componentIndex] == 14)
                     {
-                        gee(i, componentX[i], componentY[i], componentWidth[i], componentHeight[i]);
+                        DrawBorderBox(componentIndex, componentX[componentIndex], componentY[componentIndex], componentWidth[componentIndex], componentHeight[componentIndex]);
                     }
                 }
             }
@@ -214,211 +219,222 @@ namespace OpenRS.Net.Client
             lastMouseButton = 0;
         }
 
-        protected void gee(int arg0, int x, int y, int width, int height)
+        private void DrawBorderBox(int componentIndex, int x, int y, int w, int h)
         {
-            gameImage.DrawBox(x, y, width, height, 0xffffff);
-            gameImage.DrawHorizontalLine(x, y, width, gdc);
-            gameImage.DrawVerticalLine(x, y, height, gdc);
-            gameImage.DrawHorizontalLine(x, (y + height) - 1, width, gdf);
-            gameImage.DrawVerticalLine((x + width) - 1, y, height, gdf);
+            gameImage.DrawBox(x, y, w, h, 0xffffff);
+            gameImage.DrawLineX(x, y, w, panelTopLeftColour);
+            gameImage.DrawLineY(x, y, h, panelTopLeftColour);
+            gameImage.DrawLineX(x, y + h - 1, w, panelBottomRightColour);
+            gameImage.DrawLineY(x + w - 1, y, h, panelBottomRightColour);
 
-            if (gbe[arg0] == 1)
+            if (componentSelectedIndex[componentIndex] == 1)
             {
-                for (int i = 0; i < height; i++)
+                for (int drawIndex = 0; drawIndex < h; drawIndex += 1)
                 {
-                    gameImage.DrawHorizontalLine(x + i, y + i, 1, 0);
-                    gameImage.DrawHorizontalLine((x + width) - 1 - i, y + i, 1, 0);
+                    gameImage.DrawLineX(x + drawIndex, y + drawIndex, 1, 0);
+                    gameImage.DrawLineX(x + w - 1 - drawIndex, y + drawIndex, 1, 0);
                 }
             }
         }
 
-        protected void gef(int i, int x, int y, string text, int i1)
+        private void DrawComponentTextAligned(int componentIndex, int xPosition, int yPosition, string text, int fontIndex)
         {
-            int j1 = y + gameImage.textHeightNumber(i1) / 3;
-            geg(i, x, j1, text, i1);
+            int textYPosition = yPosition + gameImage.TextHeightNumber(fontIndex) / 3;
+            DrawComponentTextColored(componentIndex, xPosition, textYPosition, text, fontIndex);
         }
 
-        protected void geg(int arg0, int x, int y, string text, int arg4)
+        private void DrawComponentTextColored(int componentIndex, int xPosition, int yPosition, string text, int fontIndex)
         {
-            int i;
-
-            if (componentWhiteText[arg0])
+            int textColour;
+            if (componentWhiteText[componentIndex])
             {
-                i = 0xffffff;
+                textColour = 0xffffff;
             }
             else
             {
-                i = 0;
+                textColour = 0;
             }
 
-            gameImage.DrawString(text, x, y, arg4, i);
+            gameImage.DrawString(text, xPosition, yPosition, fontIndex, textColour);
         }
 
-        protected void drawInputBox(int arg0, int x, int y, int width, int height, string text, int fontIndex)
+        private void DrawInputBox(int componentIndex, int xPosition, int yPosition, int width, int height, string text, int fontIndex)
         {
-            if (componentIsPasswordField[arg0])
+            if (componentIsPasswordField[componentIndex])
             {
-                int i = text.Length;
+                int maskedLength = text.Length;
                 text = "";
-                for (int l = 0; l < i; l++)
+
+                for (int maskIndex = 0; maskIndex < maskedLength; maskIndex += 1)
                 {
-                    text = text + "X";
+                    text += "X";
                 }
             }
 
-            if (componentType[arg0] == 5)
+            if (componentType[componentIndex] == 5)
             {
-                if (lastMouseButton == 1 && mouseX >= x && mouseY >= y - height / 2 && mouseX <= x + width && mouseY <= y + height / 2)
+                if (lastMouseButton == 1 && mouseX >= xPosition && mouseY >= yPosition - height / 2 && mouseX <= xPosition + width && mouseY <= yPosition + height / 2)
                 {
-                    selectedComponent = arg0;
+                    selectedComponent = componentIndex;
                 }
             }
-            else if (componentType[arg0] == 6)
+            else
             {
-                if (lastMouseButton == 1 && mouseX >= x - width / 2 && mouseY >= y - height / 2 && mouseX <= x + width / 2 && mouseY <= y + height / 2)
+                if (componentType[componentIndex] == 6)
                 {
-                    selectedComponent = arg0;
+                    if (lastMouseButton == 1 && mouseX >= xPosition - width / 2 && mouseY >= yPosition - height / 2 && mouseX <= xPosition + width / 2 && mouseY <= yPosition + height / 2)
+                    {
+                        selectedComponent = componentIndex;
+                    }
+
+                    xPosition -= gameImage.TextWidth(text, fontIndex) / 2;
                 }
-
-                x -= gameImage.textWidth(text, fontIndex) / 2;
             }
 
-            if (selectedComponent == arg0)
+            if (selectedComponent == componentIndex)
             {
-                text = text + "*";
+                text += "*";
             }
 
-            int k = y + gameImage.textHeightNumber(fontIndex) / 3;
-            geg(arg0, x, k, text, fontIndex);
+            int textY = yPosition + gameImage.TextHeightNumber(fontIndex) / 3;
+            DrawComponentTextColored(componentIndex, xPosition, textY, text, fontIndex);
         }
 
-        public void gei(int x, int y, int width, int height)
+        public void DrawBackgroundPanel(int xPosition, int yPosition, int width, int height)
         {
-            gameImage.SetDimensions(x, y, x + width, y + height);
-            gameImage.DrawBox(x, y, width, height, gdf);
-
-            if (gdh)
+            gameImage.SetDimensions(xPosition, yPosition, xPosition + width, yPosition + height);
+            gameImage.DrawGradientBox(xPosition, yPosition, width, height, panelBottomRightColour, panelTopLeftColour);
+            if (isBackgroundPatternEnabled)
             {
-                for (int i = x - (y & 0x3f); i < x + width; i += 128)
+                for (int i = xPosition - (yPosition & 0x3f); i < xPosition + width; i += 128)
                 {
-                    for (int k = y - (y & 0x1f); k < y + height; k += 128)
+                    for (int k = yPosition - (yPosition & 0x1f); k < yPosition + height; k += 128)
                     {
                         gameImage.DrawPicture(i, k, 6 + baseScrollPic, 128);
                     }
                 }
 
             }
-
-            gameImage.DrawHorizontalLine(x, y, width, gdc);
-            gameImage.DrawHorizontalLine(x + 1, y + 1, width - 2, gdc);
-            gameImage.DrawHorizontalLine(x + 2, y + 2, width - 4, gdd);
-            gameImage.DrawVerticalLine(x, y, height, gdc);
-            gameImage.DrawVerticalLine(x + 1, y + 1, height - 2, gdc);
-            gameImage.DrawVerticalLine(x + 2, y + 2, height - 4, gdd);
-            gameImage.DrawHorizontalLine(x, (y + height) - 1, width, gdf);
-            gameImage.DrawHorizontalLine(x + 1, (y + height) - 2, width - 2, gdf);
-            gameImage.DrawHorizontalLine(x + 2, (y + height) - 3, width - 4, gde);
-            gameImage.DrawVerticalLine((x + width) - 1, y, height, gdf);
-            gameImage.DrawVerticalLine((x + width) - 2, y + 1, height - 2, gdf);
-            gameImage.DrawVerticalLine((x + width) - 3, y + 2, height - 4, gde);
+            gameImage.DrawLineX(xPosition, yPosition, width, panelTopLeftColour);
+            gameImage.DrawLineX(xPosition + 1, yPosition + 1, width - 2, panelTopLeftColour);
+            gameImage.DrawLineX(xPosition + 2, yPosition + 2, width - 4, panelTopLeftAltColour);
+            gameImage.DrawLineY(xPosition, yPosition, height, panelTopLeftColour);
+            gameImage.DrawLineY(xPosition + 1, yPosition + 1, height - 2, panelTopLeftColour);
+            gameImage.DrawLineY(xPosition + 2, yPosition + 2, height - 4, panelTopLeftAltColour);
+            gameImage.DrawLineX(xPosition, yPosition + height - 1, width, panelBottomRightColour);
+            gameImage.DrawLineX(xPosition + 1, yPosition + height - 2, width - 2, panelBottomRightColour);
+            gameImage.DrawLineX(xPosition + 2, yPosition + height - 3, width - 4, panelBottomRightAltColour);
+            gameImage.DrawLineY(xPosition + width - 1, yPosition, height, panelBottomRightColour);
+            gameImage.DrawLineY(xPosition + width - 2, yPosition + 1, height - 2, panelBottomRightColour);
+            gameImage.DrawLineY(xPosition + width - 3, yPosition + 2, height - 4, panelBottomRightAltColour);
             gameImage.ResetDimensions();
         }
 
-        public void gej(int x, int y, int width, int height)
+        public void DrawScrollCornerPanel(int xPosition, int yPosition, int width, int height)
         {
-            gameImage.DrawBox(x, y, width, height, 0);
-            gameImage.DrawBoxEdge(x, y, width, height, gcn);
-            gameImage.DrawBoxEdge(x + 1, y + 1, width - 2, height - 2, gda);
-            gameImage.DrawBoxEdge(x + 2, y + 2, width - 4, height - 4, gdb);
-            gameImage.DrawPicture(x, y, 2 + baseScrollPic);
-            gameImage.DrawPicture((x + width) - 7, y, 3 + baseScrollPic);
-            gameImage.DrawPicture(x, (y + height) - 7, 4 + baseScrollPic);
-            gameImage.DrawPicture((x + width) - 7, (y + height) - 7, 5 + baseScrollPic);
+            gameImage.DrawBox(xPosition, yPosition, width, height, 0);
+            gameImage.DrawBoxEdge(xPosition, yPosition, width, height, borderColourOutside);
+            gameImage.DrawBoxEdge(xPosition + 1, yPosition + 1, width - 2, height - 2, borderColourMiddle);
+            gameImage.DrawBoxEdge(xPosition + 2, yPosition + 2, width - 4, height - 4, borderColourInner);
+            gameImage.DrawPicture(xPosition, yPosition, 2 + baseScrollPic);
+            gameImage.DrawPicture(xPosition + width - 7, yPosition, 3 + baseScrollPic);
+            gameImage.DrawPicture(xPosition, yPosition + height - 7, 4 + baseScrollPic);
+            gameImage.DrawPicture(xPosition + width - 7, yPosition + height - 7, 5 + baseScrollPic);
         }
 
-        protected void drawPicture(int x, int y, int size)
+        private void DrawPicture(int xPosition, int yPosition, int pictureIndex)
         {
-            gameImage.DrawPicture(x, y, size);
+            gameImage.DrawPicture(xPosition, yPosition, pictureIndex);
         }
 
-        protected void drawLineX(int x, int y, int width)
+        private void DrawLineX(int xPosition, int yPosition, int width)
         {
-            gameImage.DrawHorizontalLine(x, y, width, 0);
+            gameImage.DrawLineX(xPosition, yPosition, width, 0);
         }
 
-        protected void gem(int arg0, int x, int y, int width, int height, int textSize, string[] texts,
-                int arg7, int arg8)
+        private void DrawScrollableList(int componentIndex, int xPosition, int yPosition, int width, int height, int fontIndex, string[] textList,
+                int listLength, int shownEntries)
         {
-            int i = height / gameImage.textHeightNumber(textSize);
-            if (arg8 > arg7 - i)
+            int visibleEntries = height / gameImage.TextHeightNumber(fontIndex);
+
+            if (shownEntries > listLength - visibleEntries)
             {
-                arg8 = arg7 - i;
+                shownEntries = listLength - visibleEntries;
             }
 
-            if (arg8 < 0)
+            if (shownEntries < 0)
             {
-                arg8 = 0;
+                shownEntries = 0;
             }
 
-            listShownEntries[arg0] = arg8;
-            if (i < arg7)
+            listShownEntries[componentIndex] = shownEntries;
+
+            if (visibleEntries < listLength)
             {
-                int k = (x + width) - 12;
-                int i1 = ((height - 27) * i) / arg7;
-                if (i1 < 6)
+                int scrollbarX = xPosition + width - 12;
+                int scrollbarThumbSize = (height - 27) * visibleEntries / listLength;
+
+                if (scrollbarThumbSize < 6)
                 {
-                    i1 = 6;
+                    scrollbarThumbSize = 6;
                 }
 
-                int k1 = ((height - 27 - i1) * arg8) / (arg7 - i);
-                if (mouseButton == 1 && mouseX >= k && mouseX <= k + 12)
+                int scrollbarThumbOffset = (height - 27 - scrollbarThumbSize) * shownEntries / (listLength - visibleEntries);
+
+                if (mouseButton == 1 && mouseX >= scrollbarX && mouseX <= scrollbarX + 12)
                 {
-                    if (mouseY > y && mouseY < y + 12 && arg8 > 0)
+                    if (mouseY > yPosition && mouseY < yPosition + 12 && shownEntries > 0)
                     {
-                        arg8--;
+                        shownEntries -= 1;
                     }
 
-                    if (mouseY > (y + height) - 12 && mouseY < y + height && arg8 < arg7 - i)
+                    if (mouseY > yPosition + height - 12 && mouseY < yPosition + height && shownEntries < listLength - visibleEntries)
                     {
-                        arg8++;
+                        shownEntries += 1;
                     }
 
-                    listShownEntries[arg0] = arg8;
+                    listShownEntries[componentIndex] = shownEntries;
                 }
-                if (mouseButton == 1 && (mouseX >= k && mouseX <= k + 12 || mouseX >= k - 12 && mouseX <= k + 24 && gan[arg0]))
+
+                if (mouseButton == 1 && (mouseX >= scrollbarX && mouseX <= scrollbarX + 12 || mouseX >= scrollbarX - 12 && mouseX <= scrollbarX + 24 && isScrollDragging[componentIndex]))
                 {
-                    if (mouseY > y + 12 && mouseY < (y + height) - 12)
+                    if (mouseY > yPosition + 12 && mouseY < yPosition + height - 12)
                     {
-                        gan[arg0] = true;
-                        int i2 = mouseY - y - 12 - i1 / 2;
-                        arg8 = (i2 * arg7) / (height - 24);
-                        if (arg8 > arg7 - i)
+                        isScrollDragging[componentIndex] = true;
+                        int dragOffset = mouseY - yPosition - 12 - scrollbarThumbSize / 2;
+                        shownEntries = dragOffset * listLength / (height - 24);
+
+                        if (shownEntries > listLength - visibleEntries)
                         {
-                            arg8 = arg7 - i;
+                            shownEntries = listLength - visibleEntries;
                         }
 
-                        if (arg8 < 0)
+                        if (shownEntries < 0)
                         {
-                            arg8 = 0;
+                            shownEntries = 0;
                         }
 
-                        listShownEntries[arg0] = arg8;
+                        listShownEntries[componentIndex] = shownEntries;
                     }
                 }
                 else
                 {
-                    gan[arg0] = false;
+                    isScrollDragging[componentIndex] = false;
                 }
-                k1 = ((height - 27 - i1) * arg8) / (arg7 - i);
-                drawScrollbar(x, y, width, height, k1, i1);
+
+                scrollbarThumbOffset = (height - 27 - scrollbarThumbSize) * shownEntries / (listLength - visibleEntries);
+                DrawScrollbar(xPosition, yPosition, width, height, scrollbarThumbOffset, scrollbarThumbSize);
             }
-            int l = height - i * gameImage.textHeightNumber(textSize);
-            int j1 = y + (gameImage.textHeightNumber(textSize) * 5) / 6 + l / 2;
-            for (int l1 = arg8; l1 < arg7; l1++)
+
+            int remainingSpace = height - visibleEntries * gameImage.TextHeightNumber(fontIndex);
+            int textY = yPosition + gameImage.TextHeightNumber(fontIndex) * 5 / 6 + remainingSpace / 2;
+
+            for (int entryIndex = shownEntries; entryIndex < listLength; entryIndex += 1)
             {
-                geg(arg0, x + 2, j1, texts[l1], textSize);
-                j1 += gameImage.textHeightNumber(textSize);
-                if (j1 >= y + height)
+                DrawComponentTextColored(componentIndex, xPosition + 2, textY, textList[entryIndex], fontIndex);
+                textY += gameImage.TextHeightNumber(fontIndex) - chatMenuTextHeightMod;
+
+                if (textY >= yPosition + height)
                 {
                     return;
                 }
@@ -426,171 +442,183 @@ namespace OpenRS.Net.Client
 
         }
 
-        protected void drawScrollbar(int x, int y, int width, int height, int j1, int k1)
+        private void DrawScrollbar(int xPosition, int yPosition, int width, int height, int thumbOffset, int thumbSize)
         {
-            int l1 = (x + width) - 12;
-            gameImage.DrawBoxEdge(l1, y, 12, height, 0);// border
-            gameImage.DrawPicture(l1 + 1, y + 1, baseScrollPic);// up arrow
-            gameImage.DrawPicture(l1 + 1, (y + height) - 12, 1 + baseScrollPic);// down arrow
-            gameImage.DrawHorizontalLine(l1, y + 13, 12, 0);// up arrow border
-            gameImage.DrawHorizontalLine(l1, (y + height) - 13, 12, 0);// down arrow border
-            gameImage.DrawBox(l1 + 1, y + 14, 11, height - 27, scrollBarColour);
-            gameImage.DrawBox(l1 + 3, j1 + y + 14, 7, k1, scrollBarDraggingBarColor);// dragging bar
-            gameImage.DrawVerticalLine(l1 + 2, j1 + y + 14, k1, scrollBarDraggingBarLine1Color);// dragging bar
-            gameImage.DrawVerticalLine(l1 + 2 + 8, j1 + y + 14, k1, scrollBarDraggingBarLine2Color);// drawgging bar
+            int scrollbarXOffset = xPosition + width - 12;
+            gameImage.DrawBoxEdge(scrollbarXOffset, yPosition, 12, height, 0); // Border.
+            gameImage.DrawPicture(scrollbarXOffset + 1, yPosition + 1, baseScrollPic); // Up arrow.
+            gameImage.DrawPicture(scrollbarXOffset + 1, yPosition + height - 12, 1 + baseScrollPic); // Down arrow.
+            gameImage.DrawLineX(scrollbarXOffset, yPosition + 13, 12, 0); // Up arrow border.
+            gameImage.DrawLineX(scrollbarXOffset, yPosition + height - 13, 12, 0); // Down arrow border.
+            gameImage.DrawGradientBox(scrollbarXOffset + 1, yPosition + 14, 11, height - 27, scrollBarGradientColorTop, scrollBarGradientColorBottom); // Background gradient.
+            gameImage.DrawBox(scrollbarXOffset + 3, thumbOffset + yPosition + 14, 7, thumbSize, scrollBarDraggingBarColor); // Dragging bar.
+            gameImage.DrawLineY(scrollbarXOffset + 2, thumbOffset + yPosition + 14, thumbSize, scrollBarDraggingBarLine1Color); // Dragging bar.
+            gameImage.DrawLineY(scrollbarXOffset + 2 + 8, thumbOffset + yPosition + 14, thumbSize, scrollBarDraggingBarLine2Color); // Dragging bar.
         }
 
-        protected void gfa(int arg0, int x, int y, int fontIndex, string[] texts)
+        private void DrawHorizontalOptions(int componentIndex, int xPosition, int yPosition, int fontIndex, string[] options)
         {
-            int i = 0;
-            int k = texts.Length;
-            for (int l = 0; l < k; l++)
+            int totalWidth = 0;
+            int optionCount = options.Length;
+
+            for (int optionIndex = 0; optionIndex < optionCount; optionIndex += 1)
             {
-                i += gameImage.textWidth(texts[l], fontIndex);
-                if (l < k - 1)
+                totalWidth += gameImage.TextWidth(options[optionIndex], fontIndex);
+
+                if (optionIndex < optionCount - 1)
                 {
-                    i += gameImage.textWidth("  ", fontIndex);
+                    totalWidth += gameImage.TextWidth("  ", fontIndex);
                 }
             }
 
-            int i1 = x - i / 2;
-            int j1 = y + gameImage.textHeightNumber(fontIndex) / 3;
-            for (int k1 = 0; k1 < k; k1++)
+            int currentX = xPosition - totalWidth / 2;
+            int textY = yPosition + gameImage.TextHeightNumber(fontIndex) / 3;
+
+            for (int optionIndex = 0; optionIndex < optionCount; optionIndex += 1)
             {
-                int l1;
-                if (componentWhiteText[arg0])
+                int textColour;
+
+                if (componentWhiteText[componentIndex])
                 {
-                    l1 = 0xffffff;
+                    textColour = 0xffffff;
                 }
                 else
                 {
-                    l1 = 0;
+                    textColour = 0;
                 }
 
-                if (mouseX >= i1 && mouseX <= i1 + gameImage.textWidth(texts[k1], fontIndex) && mouseY <= j1 && mouseY > j1 - gameImage.textHeightNumber(fontIndex))
+                if (mouseX >= currentX && mouseX <= currentX + gameImage.TextWidth(options[optionIndex], fontIndex) && mouseY <= textY && mouseY > textY - gameImage.TextHeightNumber(fontIndex))
                 {
-                    if (componentWhiteText[arg0])
+                    if (componentWhiteText[componentIndex])
                     {
-                        l1 = 0x808080;
+                        textColour = 0x808080;
                     }
                     else
                     {
-                        l1 = 0xffffff;
+                        textColour = 0xffffff;
                     }
 
                     if (lastMouseButton == 1)
                     {
-                        gbe[arg0] = k1;
-                        componentSkip[arg0] = true;
-                    }
-                }
-                if (gbe[arg0] == k1)
-                {
-                    if (componentWhiteText[arg0])
-                    {
-                        l1 = 0xff0000;
-                    }
-                    else
-                    {
-                        l1 = 0xc00000;
+                        componentSelectedIndex[componentIndex] = optionIndex;
+                        componentSkip[componentIndex] = true;
                     }
                 }
 
-                gameImage.DrawString(texts[k1], i1, j1, fontIndex, l1);
-                i1 += gameImage.textWidth(texts[k1] + "  ", fontIndex);
+                if (componentSelectedIndex[componentIndex] == optionIndex)
+                {
+                    if (componentWhiteText[componentIndex])
+                    {
+                        textColour = 0xff0000;
+                    }
+                    else
+                    {
+                        textColour = 0xc00000;
+                    }
+                }
+
+                gameImage.DrawString(options[optionIndex], currentX, textY, fontIndex, textColour);
+                currentX += gameImage.TextWidth(options[optionIndex] + "  ", fontIndex);
             }
 
         }
 
-        protected void gfb(int arg0, int x, int y, int fontIndex, string[] texts)
+        private void DrawVerticalOptions(int componentIndex, int xPosition, int yPosition, int fontIndex, string[] options)
         {
-            int k = y - (gameImage.textHeightNumber(fontIndex) * (texts.Length - 1)) / 2;
+            int optionCount = options.Length;
+            int currentY = yPosition - gameImage.TextHeightNumber(fontIndex) * (optionCount - 1) / 2;
 
-            for (int l = 0; l < texts.Length; l++)
+            for (int optionIndex = 0; optionIndex < optionCount; optionIndex += 1)
             {
-                int i1;
+                int textColour;
 
-                if (componentWhiteText[arg0])
+                if (componentWhiteText[componentIndex])
                 {
-                    i1 = 0xffffff;
+                    textColour = 0xffffff;
                 }
                 else
                 {
-                    i1 = 0;
+                    textColour = 0;
                 }
 
-                int j1 = gameImage.textWidth(texts[l], fontIndex);
+                int optionWidth = gameImage.TextWidth(options[optionIndex], fontIndex);
 
-                if (mouseX >= x - j1 / 2 && mouseX <= x + j1 / 2 && mouseY - 2 <= k && mouseY - 2 > k - gameImage.textHeightNumber(fontIndex))
+                if (mouseX >= xPosition - optionWidth / 2 && mouseX <= xPosition + optionWidth / 2 && mouseY - 2 <= currentY && mouseY - 2 > currentY - gameImage.TextHeightNumber(fontIndex))
                 {
-                    if (componentWhiteText[arg0])
+                    if (componentWhiteText[componentIndex])
                     {
-                        i1 = 0x808080;
+                        textColour = 0x808080;
                     }
                     else
                     {
-                        i1 = 0xffffff;
+                        textColour = 0xffffff;
                     }
 
                     if (lastMouseButton == 1)
                     {
-                        gbe[arg0] = l;
-                        componentSkip[arg0] = true;
+                        componentSelectedIndex[componentIndex] = optionIndex;
+                        componentSkip[componentIndex] = true;
                     }
                 }
 
-                if (gbe[arg0] == l)
+                if (componentSelectedIndex[componentIndex] == optionIndex)
                 {
-                    if (componentWhiteText[arg0])
+                    if (componentWhiteText[componentIndex])
                     {
-                        i1 = 0xff0000;
+                        textColour = 0xff0000;
                     }
                     else
                     {
-                        i1 = 0xc00000;
+                        textColour = 0xc00000;
                     }
                 }
 
-                gameImage.DrawString(texts[l], x - j1 / 2, k, fontIndex, i1);
-                k += gameImage.textHeightNumber(fontIndex);
+                gameImage.DrawString(options[optionIndex], xPosition - optionWidth / 2, currentY, fontIndex, textColour);
+                currentY += gameImage.TextHeightNumber(fontIndex);
             }
+
         }
-        // drawList(x, componentX[x], componentY[x], componentWidth[x], componentHeight[x], componentTextSize[x], componentTextList[x], listLength[x], gbc[x]);
-        protected void drawList(int listIndex, int listX, int listY, int listWidth, int listHeight, int listTextSize, string[] listText,
+        // DrawList(x, componentX[x], componentY[x], componentWidth[x], componentHeight[x], componentTextSize[x], componentTextList[x], listLength[x], gbc[x]);
+        private void DrawList(int listIndex, int listX, int listY, int listWidth, int listHeight, int listTextSize, string[] listText,
                 int listLength, int shownEntries)
         {
-            int entryCount = listHeight / gameImage.textHeightNumber(listTextSize);
+            int entryCount = listHeight / gameImage.TextHeightNumber(listTextSize);
+
             if (entryCount < listLength)
             {
-                int k = (listX + listWidth) - 12;
-                int i1 = ((listHeight - 27) * entryCount) / listLength;
-                if (i1 < 6)
+                int scrollbarX = listX + listWidth - 12;
+                int thumbSize = (listHeight - 27) * entryCount / listLength;
+
+                if (thumbSize < 6)
                 {
-                    i1 = 6;
+                    thumbSize = 6;
                 }
 
-                int k1 = ((listHeight - 27 - i1) * shownEntries) / (listLength - entryCount);
-                if (mouseButton == 1 && mouseX >= k && mouseX <= k + 12)
+                int thumbOffset = (listHeight - 27 - thumbSize) * shownEntries / (listLength - entryCount);
+
+                if (mouseButton == 1 && mouseX >= scrollbarX && mouseX <= scrollbarX + 12)
                 {
                     if (mouseY > listY && mouseY < listY + 12 && shownEntries > 0)
                     {
-                        shownEntries--;
+                        shownEntries -= 1;
                     }
 
-                    if (mouseY > (listY + listHeight) - 12 && mouseY < listY + listHeight && shownEntries < listLength - entryCount)
+                    if (mouseY > listY + listHeight - 12 && mouseY < listY + listHeight && shownEntries < listLength - entryCount)
                     {
-                        shownEntries++;
+                        shownEntries += 1;
                     }
 
                     listShownEntries[listIndex] = shownEntries;
                 }
-                if (mouseButton == 1 && (mouseX >= k && mouseX <= k + 12 || mouseX >= k - 12 && mouseX <= k + 24 && gan[listIndex]))
+
+                if (mouseButton == 1 && (mouseX >= scrollbarX && mouseX <= scrollbarX + 12 || mouseX >= scrollbarX - 12 && mouseX <= scrollbarX + 24 && isScrollDragging[listIndex]))
                 {
-                    if (mouseY > listY + 12 && mouseY < (listY + listHeight) - 12)
+                    if (mouseY > listY + 12 && mouseY < listY + listHeight - 12)
                     {
-                        gan[listIndex] = true;
-                        int i2 = mouseY - listY - 12 - i1 / 2;
-                        shownEntries = (i2 * listLength) / (listHeight - 24);
+                        isScrollDragging[listIndex] = true;
+                        int dragOffset = mouseY - listY - 12 - thumbSize / 2;
+                        shownEntries = dragOffset * listLength / (listHeight - 24);
+
                         if (shownEntries < 0)
                         {
                             shownEntries = 0;
@@ -606,323 +634,350 @@ namespace OpenRS.Net.Client
                 }
                 else
                 {
-                    gan[listIndex] = false;
+                    isScrollDragging[listIndex] = false;
                 }
-                k1 = ((listHeight - 27 - i1) * shownEntries) / (listLength - entryCount);
-                drawScrollbar(listX, listY, listWidth, listHeight, k1, i1);
+
+                thumbOffset = (listHeight - 27 - thumbSize) * shownEntries / (listLength - entryCount);
+                DrawScrollbar(listX, listY, listWidth, listHeight, thumbOffset, thumbSize);
             }
             else
             {
                 shownEntries = 0;
                 listShownEntries[listIndex] = 0;
             }
-            gbf[listIndex] = -1;
-            int l = listHeight - entryCount * gameImage.textHeightNumber(listTextSize);
-            int j1 = listY + (gameImage.textHeightNumber(listTextSize) * 5) / 6 + l / 2;
-            for (int l1 = shownEntries; l1 < listLength; l1++)
+
+            componentHighlightedIndex[listIndex] = -1;
+            int remainingSpace = listHeight - entryCount * gameImage.TextHeightNumber(listTextSize);
+            int textY = listY + gameImage.TextHeightNumber(listTextSize) * 5 / 6 + remainingSpace / 2;
+
+            for (int entryIndex = shownEntries; entryIndex < listLength; entryIndex += 1)
             {
-                int j2;
+                int textColour;
+
                 if (componentWhiteText[listIndex])
                 {
-                    j2 = 0xffffff;
+                    textColour = 0xffffff;
                 }
                 else
                 {
-                    j2 = 0;
+                    textColour = 0;
                 }
 
-                if (mouseX >= listX + 2 && mouseX <= listX + 2 + gameImage.textWidth(listText[l1], listTextSize) && mouseY - 2 <= j1 && mouseY - 2 > j1 - gameImage.textHeightNumber(listTextSize))
+                if (mouseX >= listX + 2 && mouseX <= listX + 2 + gameImage.TextWidth(listText[entryIndex], listTextSize) && mouseY - 2 <= textY && mouseY - 2 > textY - gameImage.TextHeightNumber(listTextSize))
                 {
                     if (componentWhiteText[listIndex])
                     {
-                        j2 = 0x808080;
+                        textColour = 0x808080;
                     }
                     else
                     {
-                        j2 = 0xffffff;
+                        textColour = 0xffffff;
                     }
 
-                    gbf[listIndex] = l1;
+                    componentHighlightedIndex[listIndex] = entryIndex;
+
                     if (lastMouseButton == 1)
                     {
-                        gbe[listIndex] = l1;
+                        componentSelectedIndex[listIndex] = entryIndex;
                         componentSkip[listIndex] = true;
                     }
                 }
-                if (gbe[listIndex] == l1 && gdg)
+
+                if (componentSelectedIndex[listIndex] == entryIndex && isListSelectionHighlighted)
                 {
-                    j2 = 0xff0000;
+                    textColour = 0xff0000;
                 }
 
-                gameImage.DrawString(listText[l1], listX + 2, j1, listTextSize, j2);
-                j1 += gameImage.textHeightNumber(listTextSize);
-                if (j1 >= listY + listHeight)
+                gameImage.DrawString(listText[entryIndex], listX + 2, textY, listTextSize, textColour);
+                textY += gameImage.TextHeightNumber(listTextSize);
+
+                if (textY >= listY + listHeight)
                 {
                     return;
                 }
             }
-
         }
 
-        public int drawText(int i, int k, string s, int l, bool flag)
+        public int DrawText(int xPosition, int yPosition, string text, int fontIndex, bool isWhiteText)
         {
             componentType[menuItemsCount] = 1;
             componentAcceptsInput[menuItemsCount] = true;
             componentSkip[menuItemsCount] = false;
-            componentTextSize[menuItemsCount] = l;
-            componentWhiteText[menuItemsCount] = flag;
-            componentX[menuItemsCount] = i;
-            componentY[menuItemsCount] = k;
-            componentText[menuItemsCount] = s;
-            return menuItemsCount++;
+            componentTextSize[menuItemsCount] = fontIndex;
+            componentWhiteText[menuItemsCount] = isWhiteText;
+            componentX[menuItemsCount] = xPosition;
+            componentY[menuItemsCount] = yPosition;
+            componentText[menuItemsCount] = text;
+            menuItemsCount += 1;
+
+            return menuItemsCount - 1;
         }
 
-        public int drawButton(int i, int k, int l, int i1)
+        public int DrawButton(int xPosition, int yPosition, int width, int height)
         {
             componentType[menuItemsCount] = 2;
             componentAcceptsInput[menuItemsCount] = true;
             componentSkip[menuItemsCount] = false;
-            componentX[menuItemsCount] = i - l / 2;
-            componentY[menuItemsCount] = k - i1 / 2;
-            componentWidth[menuItemsCount] = l;
-            componentHeight[menuItemsCount] = i1;
-            return menuItemsCount++;
+            componentX[menuItemsCount] = xPosition - width / 2;
+            componentY[menuItemsCount] = yPosition - height / 2;
+            componentWidth[menuItemsCount] = width;
+            componentHeight[menuItemsCount] = height;
+            menuItemsCount += 1;
+
+            return menuItemsCount - 1;
         }
 
-        public int drawCurvedBox(int i, int k, int l, int i1)
+        public int DrawCurvedBox(int xPosition, int yPosition, int width, int height)
         {
             componentType[menuItemsCount] = 11;
             componentAcceptsInput[menuItemsCount] = true;
             componentSkip[menuItemsCount] = false;
-            componentX[menuItemsCount] = i - l / 2;
-            componentY[menuItemsCount] = k - i1 / 2;
-            componentWidth[menuItemsCount] = l;
-            componentHeight[menuItemsCount] = i1;
-            return menuItemsCount++;
+            componentX[menuItemsCount] = xPosition - width / 2;
+            componentY[menuItemsCount] = yPosition - height / 2;
+            componentWidth[menuItemsCount] = width;
+            componentHeight[menuItemsCount] = height;
+            menuItemsCount += 1;
+
+            return menuItemsCount - 1;
         }
 
-        public int drawArrow(int i, int k, int l)
+        public int DrawArrow(int xPosition, int yPosition, int pictureIndex)
         {
-            int i1 = gameImage.pictureWidth[l];
-            int j1 = gameImage.pictureHeight[l];
+            int pictureWidth = gameImage.PictureWidth[pictureIndex];
+            int pictureHeight = gameImage.PictureHeight[pictureIndex];
             componentType[menuItemsCount] = 12;
             componentAcceptsInput[menuItemsCount] = true;
             componentSkip[menuItemsCount] = false;
-            componentX[menuItemsCount] = i - i1 / 2;
-            componentY[menuItemsCount] = k - j1 / 2;
-            componentWidth[menuItemsCount] = i1;
-            componentHeight[menuItemsCount] = j1;
-            componentTextSize[menuItemsCount] = l;
-            return menuItemsCount++;
+            componentX[menuItemsCount] = xPosition - pictureWidth / 2;
+            componentY[menuItemsCount] = yPosition - pictureHeight / 2;
+            componentWidth[menuItemsCount] = pictureWidth;
+            componentHeight[menuItemsCount] = pictureHeight;
+            componentTextSize[menuItemsCount] = pictureIndex;
+            menuItemsCount += 1;
+
+            return menuItemsCount - 1;
         }
 
-        public int gfh(int i, int k, int l, int i1, int j1, int k1, bool flag)
+        public int CreateScrollableTextBox(int xPosition, int yPosition, int width, int height, int fontIndex, int maxItems, bool isWhiteText)
         {
             componentType[menuItemsCount] = 4;
             componentAcceptsInput[menuItemsCount] = true;
             componentSkip[menuItemsCount] = false;
-            componentX[menuItemsCount] = i;
-            componentY[menuItemsCount] = k;
-            componentWidth[menuItemsCount] = l;
-            componentHeight[menuItemsCount] = i1;
-            componentWhiteText[menuItemsCount] = flag;
-            componentTextSize[menuItemsCount] = j1;
-            copmonentInputMaxLength[menuItemsCount] = k1;
+            componentX[menuItemsCount] = xPosition;
+            componentY[menuItemsCount] = yPosition;
+            componentWidth[menuItemsCount] = width;
+            componentHeight[menuItemsCount] = height;
+            componentWhiteText[menuItemsCount] = isWhiteText;
+            componentTextSize[menuItemsCount] = fontIndex;
+            copmonentInputMaxLength[menuItemsCount] = maxItems;
             listLength[menuItemsCount] = 0;
             listShownEntries[menuItemsCount] = 0;
-            componentTextList[menuItemsCount] = new string[k1];
-            return menuItemsCount++;
+            componentTextList[menuItemsCount] = new string[maxItems];
+            menuItemsCount += 1;
+
+            return menuItemsCount - 1;
         }
 
-        public int gfi(int i, int k, int l, int i1, int j1, int k1, bool flag,
-                bool flag1)
+        public int CreateTextInput(int xPosition, int yPosition, int width, int height, int fontIndex, int maxLength, bool isPasswordField,
+                bool isWhiteText)
         {
             componentType[menuItemsCount] = 5;
             componentAcceptsInput[menuItemsCount] = true;
-            componentIsPasswordField[menuItemsCount] = flag;
+            componentIsPasswordField[menuItemsCount] = isPasswordField;
             componentSkip[menuItemsCount] = false;
-            componentTextSize[menuItemsCount] = j1;
-            componentWhiteText[menuItemsCount] = flag1;
-            componentX[menuItemsCount] = i;
-            componentY[menuItemsCount] = k;
-            componentWidth[menuItemsCount] = l;
-            componentHeight[menuItemsCount] = i1;
-            copmonentInputMaxLength[menuItemsCount] = k1;
+            componentTextSize[menuItemsCount] = fontIndex;
+            componentWhiteText[menuItemsCount] = isWhiteText;
+            componentX[menuItemsCount] = xPosition;
+            componentY[menuItemsCount] = yPosition;
+            componentWidth[menuItemsCount] = width;
+            componentHeight[menuItemsCount] = height;
+            copmonentInputMaxLength[menuItemsCount] = maxLength;
             componentText[menuItemsCount] = "";
-            return menuItemsCount++;
+            menuItemsCount += 1;
+
+            return menuItemsCount - 1;
         }
 
-        public int createInput(int i, int k, int l, int i1, int j1, int k1, bool flag,
-                bool flag1)
+        public int CreateInput(int xPosition, int yPosition, int width, int height, int fontIndex, int maxLength, bool isPasswordField,
+                bool isWhiteText)
         {
             componentType[menuItemsCount] = 6;
             componentAcceptsInput[menuItemsCount] = true;
-            componentIsPasswordField[menuItemsCount] = flag;
+            componentIsPasswordField[menuItemsCount] = isPasswordField;
             componentSkip[menuItemsCount] = false;
-            componentTextSize[menuItemsCount] = j1;
-            componentWhiteText[menuItemsCount] = flag1;
-            componentX[menuItemsCount] = i;
-            componentY[menuItemsCount] = k;
-            componentWidth[menuItemsCount] = l;
-            componentHeight[menuItemsCount] = i1;
-            copmonentInputMaxLength[menuItemsCount] = k1;
+            componentTextSize[menuItemsCount] = fontIndex;
+            componentWhiteText[menuItemsCount] = isWhiteText;
+            componentX[menuItemsCount] = xPosition;
+            componentY[menuItemsCount] = yPosition;
+            componentWidth[menuItemsCount] = width;
+            componentHeight[menuItemsCount] = height;
+            copmonentInputMaxLength[menuItemsCount] = maxLength;
             componentText[menuItemsCount] = "";
-            return menuItemsCount++;
+            menuItemsCount += 1;
+
+            return menuItemsCount - 1;
         }
 
-        public int createList(int i, int k, int l, int i1, int j1, int k1, bool flag)
+        public int CreateList(int xPosition, int yPosition, int width, int height, int fontIndex, int maxItems, bool isWhiteText)
         {
             componentType[menuItemsCount] = 9;
             componentAcceptsInput[menuItemsCount] = true;
             componentSkip[menuItemsCount] = false;
-            componentTextSize[menuItemsCount] = j1;
-            componentWhiteText[menuItemsCount] = flag;
-            componentX[menuItemsCount] = i;
-            componentY[menuItemsCount] = k;
-            componentWidth[menuItemsCount] = l;
-            componentHeight[menuItemsCount] = i1;
-            copmonentInputMaxLength[menuItemsCount] = k1;
-            componentTextList[menuItemsCount] = new string[k1];
+            componentTextSize[menuItemsCount] = fontIndex;
+            componentWhiteText[menuItemsCount] = isWhiteText;
+            componentX[menuItemsCount] = xPosition;
+            componentY[menuItemsCount] = yPosition;
+            componentWidth[menuItemsCount] = width;
+            componentHeight[menuItemsCount] = height;
+            copmonentInputMaxLength[menuItemsCount] = maxItems;
+            componentTextList[menuItemsCount] = new string[maxItems];
             listLength[menuItemsCount] = 0;
             listShownEntries[menuItemsCount] = 0;
-            gbe[menuItemsCount] = -1;
-            gbf[menuItemsCount] = -1;
-            return menuItemsCount++;
+            componentSelectedIndex[menuItemsCount] = -1;
+            componentHighlightedIndex[menuItemsCount] = -1;
+            menuItemsCount += 1;
+
+            return menuItemsCount - 1;
         }
 
-        public int createButton(int i, int k, int l, int i1)
+        public int CreateButton(int xPosition, int yPosition, int width, int height)
         {
             componentType[menuItemsCount] = 10;
             componentAcceptsInput[menuItemsCount] = true;
             componentSkip[menuItemsCount] = false;
-            componentX[menuItemsCount] = i - l / 2;
-            componentY[menuItemsCount] = k - i1 / 2;
-            componentWidth[menuItemsCount] = l;
-            componentHeight[menuItemsCount] = i1;
-            return menuItemsCount++;
+            componentX[menuItemsCount] = xPosition - width / 2;
+            componentY[menuItemsCount] = yPosition - height / 2;
+            componentWidth[menuItemsCount] = width;
+            componentHeight[menuItemsCount] = height;
+            menuItemsCount += 1;
+
+            return menuItemsCount - 1;
         }
 
-        public void clearList(int i)
+        public void ClearList(int componentIndex)
         {
-            listLength[i] = 0;
+            listLength[componentIndex] = 0;
         }
 
-        public void switchList(int i)
+        public void SwitchList(int componentIndex)
         {
-            listShownEntries[i] = 0;
-            gbf[i] = -1;
+            listShownEntries[componentIndex] = 0;
+            componentHighlightedIndex[componentIndex] = -1;
         }
 
-        public void addListItem(int i, int k, string s)
+        public void AddListItem(int componentIndex, int itemIndex, string text)
         {
-            componentTextList[i][k] = s;
-            if (k + 1 > listLength[i])
+            componentTextList[componentIndex][itemIndex] = text;
+
+            if (itemIndex + 1 > listLength[componentIndex])
             {
-                listLength[i] = k + 1;
+                listLength[componentIndex] = itemIndex + 1;
             }
         }
 
-        public void addMessage(int arg0, string arg1, bool arg2)
+        public void AddMessage(int componentIndex, string messageText, bool isScrollToBottom)
         {
-            int i = listLength[arg0]++;
-            if (i >= copmonentInputMaxLength[arg0])
+            int messageIndex = listLength[componentIndex] += 1;
+            if (messageIndex >= copmonentInputMaxLength[componentIndex])
             {
-                i--;
-                listLength[arg0]--;
-                for (int k = 0; k < i; k++)
+                messageIndex -= 1;
+                listLength[componentIndex] -= 1;
+                for (int k = 0; k < messageIndex; k += 1)
                 {
-                    componentTextList[arg0][k] = componentTextList[arg0][k + 1];
+                    componentTextList[componentIndex][k] = componentTextList[componentIndex][k + 1];
                 }
             }
-            componentTextList[arg0][i] = arg1;
-            if (arg2)
+            componentTextList[componentIndex][messageIndex] = messageText;
+            if (isScrollToBottom)
             {
-                listShownEntries[arg0] = 0xf423f;
+                listShownEntries[componentIndex] = 0xf423f;
             }
         }
 
-        public void updateText(int i, string s)
+        public void UpdateText(int componentIndex, string text)
         {
-            componentText[i] = s;
+            componentText[componentIndex] = text;
         }
 
-        public string getText(int i)
+        public string GetText(int componentIndex)
         {
-            if (componentText[i] == null)
+            if (componentText[componentIndex] is null)
             {
                 return "null";
             }
             else
             {
-                return componentText[i];
+                return componentText[componentIndex];
             }
         }
 
-        public void enableInput(int i)
+        public void EnableInput(int componentIndex)
         {
-            componentAcceptsInput[i] = true;
+            componentAcceptsInput[componentIndex] = true;
         }
 
-        public void disableInput(int i)
+        public void DisableInput(int componentIndex)
         {
-            componentAcceptsInput[i] = false;
+            componentAcceptsInput[componentIndex] = false;
         }
 
-        public void setFocus(int i)
+        public void SetFocus(int componentIndex)
         {
-            selectedComponent = i;
+            selectedComponent = componentIndex;
         }
 
-        public int getEntryHighlighted(int i)
+        public int GetEntryHighlighted(int componentIndex)
         {
-            int k = gbf[i];
-            return k;
+            int highlightedIndex = componentHighlightedIndex[componentIndex];
+
+            return highlightedIndex;
         }
 
-
-        protected GraphicsEngine gameImage;
-        int menuItemsCount;
-        int gal;
+        private readonly GameImage gameImage;
+        private int menuItemsCount;
+        private readonly int componentCapacity;
         public bool[] componentAcceptsInput;
-        public bool[] gan;
+        public bool[] isScrollDragging;
         public bool[] componentIsPasswordField;
         public bool[] componentSkip;
         public int[] listShownEntries;
         public int[] listLength;
-        public int[] gbe;
-        public int[] gbf;
-        bool[] componentWhiteText;
-        int[] componentX;
-        int[] componentY;
-        int[] componentType;
-        int[] componentWidth;
-        int[] componentHeight;
-        int[] copmonentInputMaxLength;
-        int[] componentTextSize;
-        string[] componentText;
-        string[][] componentTextList;
-        int mouseX;
-        int mouseY;
-        int lastMouseButton;
-        int mouseButton;
-        int selectedComponent;
-        int gch;
-        int scrollBarColour;
-        int scrollBarDraggingBarLine1Color;
-        int scrollBarDraggingBarColor;
-        int scrollBarDraggingBarLine2Color;
-        int gcn;
-        int gda;
-        int gdb;
-        int gdc;
-        int gdd;
-        int gde;
-        int gdf;
-        public bool gdg;
-        public static bool gdh = true;
+        public int[] componentSelectedIndex;
+        public int[] componentHighlightedIndex;
+        private readonly bool[] componentWhiteText;
+        private readonly int[] componentX;
+        private readonly int[] componentY;
+        private readonly int[] componentType;
+        private readonly int[] componentWidth;
+        private readonly int[] componentHeight;
+        private readonly int[] copmonentInputMaxLength;
+        private readonly int[] componentTextSize;
+        private readonly string[] componentText;
+        private readonly string[][] componentTextList;
+        private int mouseX;
+        private int mouseY;
+        private int lastMouseButton;
+        private int mouseButton;
+        private int selectedComponent;
+        private int mouseClickHoldCounter;
+        private readonly int scrollBarGradientColorTop;
+        private readonly int scrollBarGradientColorBottom;
+        private readonly int scrollBarDraggingBarLine1Color;
+        private readonly int scrollBarDraggingBarColor;
+        private readonly int scrollBarDraggingBarLine2Color;
+        private readonly int borderColourOutside;
+        private readonly int borderColourMiddle;
+        private readonly int borderColourInner;
+        private readonly int panelTopLeftColour;
+        private readonly int panelTopLeftAltColour;
+        private readonly int panelBottomRightAltColour;
+        private readonly int panelBottomRightColour;
+        public bool isListSelectionHighlighted;
+        public static bool isBackgroundPatternEnabled = true;
         public static int baseScrollPic;
         public static int redMod = 114;
         public static int greenMod = 114;
         public static int blueMod = 176;
+        public static int chatMenuTextHeightMod;
     }
 }

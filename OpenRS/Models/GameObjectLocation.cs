@@ -1,10 +1,8 @@
 ﻿using NuciXNA.Primitives;
 
-using OpenRS.Models.Enumerations;
-
 namespace OpenRS.Models
 {
-    public class GameObjectLocation
+    public sealed class GameObjectLocation
     {
         public Point2D Location { get; set; }
 

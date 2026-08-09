@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using OpenRS.DataAccess.DataObjects;
@@ -6,73 +7,36 @@ using OpenRS.Models;
 
 namespace OpenRS.GameLogic.Mapping
 {
-    /// <summary>
-    /// Animation mapping extensions for converting between entities and domain models.
-    /// </summary>
-    static class AnimationMappingExtensions
+    internal static class AnimationMappingExtensions
     {
-        /// <summary>
-        /// Converts the entity into a domain model.
-        /// </summary>
-        /// <returns>The domain model.</returns>
-        /// <param name="animationEntity">Animation entity.</param>
-        internal static Animation ToDomainModel(this AnimationEntity animationEntity)
+        internal static Animation ToServiceModel(this AnimationEntity animationEntity) => new()
         {
-            Animation animation = new Animation
-            {
-                Name = animationEntity.Name,
-                CharacterColour = animationEntity.CharacterColour,
-                GenderModel = animationEntity.GenderModel,
-                HasA = animationEntity.HasA,
-                HasF = animationEntity.HasF,
-                Number = animationEntity.Number
-            };
+            V1Id = animationEntity.V1Id,
+            Name = animationEntity.Name,
+            CharacterColour = animationEntity.CharacterColour,
+            GenderModel = animationEntity.GenderModel,
+            HasAttackFrames = animationEntity.HasAttackFrames != 0,
+            HasFemaleFrames = animationEntity.HasFemaleFrames != 0,
+            SpriteIndex = animationEntity.SpriteIndex
+        };
 
-            return animation;
-        }
-
-        /// <summary>
-        /// Converts the domain model into an entity.
-        /// </summary>
-        /// <returns>The entity.</returns>
-        /// <param name="animation">Animation.</param>
-        internal static AnimationEntity ToEntity(this Animation animation)
+        internal static AnimationEntity ToDataObject(this Animation animation) => new()
         {
-            AnimationEntity animationEntity = new AnimationEntity
-            {
-                Name = animation.Name,
-                CharacterColour = animation.CharacterColour,
-                GenderModel = animation.GenderModel,
-                HasA = animation.HasA,
-                HasF = animation.HasF,
-                Number = animation.Number
-            };
+            V1Id = animation.V1Id,
+            Name = animation.Name,
+            CharacterColour = animation.CharacterColour,
+            GenderModel = animation.GenderModel,
+            HasAttackFrames = Convert.ToInt32(animation.HasAttackFrames),
+            HasFemaleFrames = Convert.ToInt32(animation.HasFemaleFrames),
+            SpriteIndex = animation.SpriteIndex
+        };
 
-            return animationEntity;
-        }
+        internal static IEnumerable<Animation> ToServiceModels(
+            this IEnumerable<AnimationEntity> animationEntities)
+            => animationEntities.Select(animationEntity => animationEntity.ToServiceModel());
 
-        /// <summary>
-        /// Converts the entities into domain models.
-        /// </summary>
-        /// <returns>The domain models.</returns>
-        /// <param name="animationEntities">Animation entities.</param>
-        internal static IEnumerable<Animation> ToDomainModels(this IEnumerable<AnimationEntity> animationEntities)
-        {
-            IEnumerable<Animation> animations = animationEntities.Select(animationEntity => animationEntity.ToDomainModel());
-
-            return animations;
-        }
-
-        /// <summary>
-        /// Converts the domain models into entities.
-        /// </summary>
-        /// <returns>The entities.</returns>
-        /// <param name="animations">Animations.</param>
-        internal static IEnumerable<AnimationEntity> ToEntities(this IEnumerable<Animation> animations)
-        {
-            IEnumerable<AnimationEntity> animationEntities = animations.Select(animation => animation.ToEntity());
-
-            return animationEntities;
-        }
+        internal static IEnumerable<AnimationEntity> ToDataObjects(
+            this IEnumerable<Animation> animations)
+            => animations.Select(animation => animation.ToDataObject());
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace OpenRS.Models
 {
-    public class TileValue
+    public sealed class TileValue
     {
         public byte MapValue { get; set; }
 

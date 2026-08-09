@@ -6,67 +6,30 @@ using OpenRS.Models;
 
 namespace OpenRS.GameLogic.Mapping
 {
-    /// <summary>
-    /// Tile mapping extensions for converting between entities and domain models.
-    /// </summary>
-    static class TileMappingExtensions
+    internal static class TileMappingExtensions
     {
-        /// <summary>
-        /// Converts the entity into a domain model.
-        /// </summary>
-        /// <returns>The domain model.</returns>
-        /// <param name="tileEntity">Tile entity.</param>
-        internal static Tile ToDomainModel(this TileEntity tileEntity)
+        internal static Tile ToServiceModel(this TileEntity tileEntity) => new()
         {
-            Tile tile = new Tile
-            {
-                Colour = tileEntity.Colour,
-                Unknown = tileEntity.Unknown,
-                Type = tileEntity.Type
-            };
+            V1Id = tileEntity.V1Id,
+            Colour = tileEntity.Colour,
+            Unknown = tileEntity.Unknown,
+            Type = tileEntity.Type
+        };
 
-            return tile;
-        }
-
-        /// <summary>
-        /// Converts the domain model into an entity.
-        /// </summary>
-        /// <returns>The entity.</returns>
-        /// <param name="tile">Tile.</param>
-        internal static TileEntity ToEntity(this Tile tile)
+        internal static TileEntity ToDataObject(this Tile tile) => new()
         {
-            TileEntity tileEntity = new TileEntity
-            {
-                Colour = tile.Colour,
-                Unknown = tile.Unknown,
-                Type = tile.Type
-            };
+            V1Id = tile.V1Id,
+            Colour = tile.Colour,
+            Unknown = tile.Unknown,
+            Type = tile.Type
+        };
 
-            return tileEntity;
-        }
+        internal static IEnumerable<Tile> ToServiceModels(
+            this IEnumerable<TileEntity> tileEntities)
+            => tileEntities.Select(tileEntity => tileEntity.ToServiceModel());
 
-        /// <summary>
-        /// Converts the entities into domain models.
-        /// </summary>
-        /// <returns>The domain models.</returns>
-        /// <param name="tileEntities">Tile entities.</param>
-        internal static IEnumerable<Tile> ToDomainModels(this IEnumerable<TileEntity> tileEntities)
-        {
-            IEnumerable<Tile> tiles = tileEntities.Select(tileEntity => tileEntity.ToDomainModel());
-
-            return tiles;
-        }
-
-        /// <summary>
-        /// Converts the domain models into entities.
-        /// </summary>
-        /// <returns>The entities.</returns>
-        /// <param name="tiles">Tiles.</param>
-        internal static IEnumerable<TileEntity> ToEntities(this IEnumerable<Tile> tiles)
-        {
-            IEnumerable<TileEntity> tileEntities = tiles.Select(tile => tile.ToEntity());
-
-            return tileEntities;
-        }
+        internal static IEnumerable<TileEntity> ToDataObjects(
+            this IEnumerable<Tile> tiles)
+            => tiles.Select(tile => tile.ToDataObject());
     }
 }

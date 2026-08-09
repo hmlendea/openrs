@@ -6,65 +6,28 @@ using OpenRS.Models;
 
 namespace OpenRS.GameLogic.Mapping
 {
-    /// <summary>
-    /// Elevation mapping extensions for converting between entities and domain models.
-    /// </summary>
-    static class ElevationMappingExtensions
+    internal static class ElevationMappingExtensions
     {
-        /// <summary>
-        /// Converts the entity into a domain model.
-        /// </summary>
-        /// <returns>The domain model.</returns>
-        /// <param name="elevationEntity">Elevation entity.</param>
-        internal static Elevation ToDomainModel(this ElevationEntity elevationEntity)
+        internal static Elevation ToServiceModel(this ElevationEntity elevationEntity) => new()
         {
-            Elevation elevation = new Elevation
-            {
-                Roof = elevationEntity.Roof,
-                Unknown = elevationEntity.Unknown
-            };
+            V1Id = elevationEntity.V1Id,
+            Roof = elevationEntity.Roof,
+            Colour = elevationEntity.Colour
+        };
 
-            return elevation;
-        }
-
-        /// <summary>
-        /// Converts the domain model into an entity.
-        /// </summary>
-        /// <returns>The entity.</returns>
-        /// <param name="elevation">Elevation.</param>
-        internal static ElevationEntity ToEntity(this Elevation elevation)
+        internal static ElevationEntity ToDataObject(this Elevation elevation) => new()
         {
-            ElevationEntity elevationEntity = new ElevationEntity
-            {
-                Roof = elevation.Roof,
-                Unknown = elevation.Unknown
-            };
+            V1Id = elevation.V1Id,
+            Roof = elevation.Roof,
+            Colour = elevation.Colour
+        };
 
-            return elevationEntity;
-        }
+        internal static IEnumerable<Elevation> ToServiceModels(
+            this IEnumerable<ElevationEntity> elevationEntities)
+            => elevationEntities.Select(elevationEntity => elevationEntity.ToServiceModel());
 
-        /// <summary>
-        /// Converts the entities into domain models.
-        /// </summary>
-        /// <returns>The domain models.</returns>
-        /// <param name="elevationEntities">Elevation entities.</param>
-        internal static IEnumerable<Elevation> ToDomainModels(this IEnumerable<ElevationEntity> elevationEntities)
-        {
-            IEnumerable<Elevation> elevations = elevationEntities.Select(elevationEntity => elevationEntity.ToDomainModel());
-
-            return elevations;
-        }
-
-        /// <summary>
-        /// Converts the domain models into entities.
-        /// </summary>
-        /// <returns>The entities.</returns>
-        /// <param name="elevations">Elevations.</param>
-        internal static IEnumerable<ElevationEntity> ToEntities(this IEnumerable<Elevation> elevations)
-        {
-            IEnumerable<ElevationEntity> elevationEntities = elevations.Select(elevation => elevation.ToEntity());
-
-            return elevationEntities;
-        }
+        internal static IEnumerable<ElevationEntity> ToDataObjects(
+            this IEnumerable<Elevation> elevations)
+            => elevations.Select(elevation => elevation.ToDataObject());
     }
 }

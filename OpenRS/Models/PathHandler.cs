@@ -1,32 +1,46 @@
 ﻿using System;
 
+using NuciLog.Core;
+
 using NuciXNA.Primitives;
+
+using OpenRS.Logging;
 
 namespace OpenRS.Models
 {
-    public class PathHandler
+    public sealed class PathHandler
     {
-        public WalkPath Path { get; private set; }
-
-        int currentWaypoint;
-        MobInstance mob;
-        // world
-
-        public PathHandler(MobInstance mob)
+        [Flags]
+        private enum TileWallFlag : byte
         {
-            this.mob = mob;
-            ResetPath();
+            None = 0,
+            North = 1,
+            East = 2,
+            South = 4,
+            West = 8,
+            DiagonalBackslash = 16,
+            DiagonalForwardSlash = 32,
+            Unwalkable = 64
         }
 
-        public void SetPath(Point2D startLocation, Point2D waypointOffsets)
+        private static int NoWaypointIndex => -1;
+
+        public WalkPath Path { get; private set; }
+
+        private int currentWaypoint;
+        private readonly MobInstance mobInstance;
+
+        private readonly ILogger logger = NuciLoggerFactory.CreateLogger<PathHandler>();
+
+        public PathHandler(MobInstance mobInstance)
         {
-            WalkPath path = new WalkPath(startLocation, waypointOffsets);
-            SetPath(path);
+            this.mobInstance = mobInstance;
+            ResetPath();
         }
 
         public void SetPath(WalkPath path)
         {
-            currentWaypoint = -1;
+            currentWaypoint = NoWaypointIndex;
             Path = path;
         }
 
@@ -40,7 +54,7 @@ namespace OpenRS.Models
 
         public bool FinishedPath()
         {
-            if (Path == null)
+            if (Path is null)
             {
                 return true;
             }
@@ -56,194 +70,183 @@ namespace OpenRS.Models
         public void ResetPath()
         {
             Path = null;
-            currentWaypoint = -1;
+            currentWaypoint = NoWaypointIndex;
         }
 
-        protected bool AtStart()
-        {
-            return Path.StartLocation == mob.Location;
-        }
+        private bool AtStart() => Path.StartLocation == mobInstance.Location;
 
-        protected bool AtWaypoint(int waypoint)
-        {
-            return Path.GetWaypoint(waypoint).X == mob.Location.X &&
-                   Path.GetWaypoint(waypoint).Y == mob.Location.Y;
-        }
+        private bool AtWaypoint(int waypoint) => Path.GetWaypoint(waypoint) == mobInstance.Location;
 
-        protected Point2D GetNextPosition(Point2D start, Point2D destination)
+        private Point2D? GetNextPosition(Point2D start, Point2D destination)
         {
             try
             {
                 Point2D location = start;
 
-                bool myXblocked = false;
-                bool myYblocked = false;
+                bool startXBlocked = false;
+                bool startYBlocked = false;
 
                 if (start.X > destination.X)
                 {
-                    // Check right tiles left wall
-                    myXblocked = IsBlocking(new Point2D(start.X - 1, start.Y), 8);
+                    // Check the right tile's left wall.
+                    startXBlocked = IsBlocking(new Point2D(start.X - 1, start.Y), TileWallFlag.West);
                     location.X = start.X - 1;
                 }
                 else if (start.X < destination.X)
                 {
-                    // Check left tiles right wall
-                    myXblocked = IsBlocking(new Point2D(start.X + 1, start.Y), 2);
+                    // Check the left tile's right wall.
+                    startXBlocked = IsBlocking(new Point2D(start.X + 1, start.Y), TileWallFlag.East);
                     location.X = start.X + 1;
                 }
 
                 if (start.Y > destination.Y)
                 {
-                    // Check top tiles bottom wall
-                    myYblocked = IsBlocking(new Point2D(start.X, start.Y - 1), 4);
+                    // Check the top tile's bottom wall.
+                    startYBlocked = IsBlocking(new Point2D(start.X, start.Y - 1), TileWallFlag.South);
                     location.Y = start.Y - 1;
                 }
                 else if (start.Y < destination.Y)
                 {
-                    // Check bottom tiles top wall
-                    myYblocked = IsBlocking(new Point2D(start.X, start.Y + 1), 1);
+                    // Check the bottom tile's top wall.
+                    startYBlocked = IsBlocking(new Point2D(start.X, start.Y + 1), TileWallFlag.North);
                     location.Y = start.Y + 1;
                 }
 
-                // If both directions are blocked OR we are going straight and the direction is blocked
-                if ((myXblocked && myYblocked) ||
-                    (myXblocked && start.Y == destination.Y) ||
-                    (myYblocked && start.X == destination.X))
+                // If both directions are blocked, or moving straight and the direction is blocked.
+                if ((startXBlocked && startYBlocked) ||
+                    (startXBlocked && start.Y == destination.Y) ||
+                    (startYBlocked && start.X == destination.X))
                 {
-                    return CancelLocation();
+                    return null;
                 }
 
-                bool newXblocked = false;
-                bool newYblocked = false;
+                bool destinationXBlocked = false;
+                bool destinationYBlocked = false;
 
                 if (location.X > start.X)
                 {
-                    // Check destination tiles right wall
-                    newXblocked = IsBlocking(location, 2);
+                    // Check the destination tile's right wall.
+                    destinationXBlocked = IsBlocking(location, TileWallFlag.East);
                 }
                 else if (location.X < start.X)
                 {
-                    // Check destination tiles left wall
-                    newXblocked = IsBlocking(location, 8);
+                    // Check the destination tile's left wall.
+                    destinationXBlocked = IsBlocking(location, TileWallFlag.West);
                 }
 
                 if (location.Y > start.Y)
                 {
-                    // Check destination tiles top wall
-                    newYblocked = IsBlocking(location, 1);
+                    // Check the destination tile's top wall.
+                    destinationYBlocked = IsBlocking(location, TileWallFlag.North);
                 }
                 else if (location.Y < start.Y)
                 {
-                    // Check destination tiles bottom wall
-                    newYblocked = IsBlocking(location, 4);
+                    // Check the destination tile's bottom wall.
+                    destinationYBlocked = IsBlocking(location, TileWallFlag.South);
                 }
 
-                // If both directions are blocked OR we are going straight and the direction is blocked
-                if ((newXblocked && newYblocked) ||
-                    (newXblocked && start.Y == location.Y) ||
-                    (myYblocked && newYblocked))
+                // If both directions are blocked, or moving straight and the direction is blocked.
+                if ((destinationXBlocked && destinationYBlocked) ||
+                    (destinationXBlocked && start.Y == location.Y) ||
+                    (startYBlocked && destinationYBlocked))
                 {
-                    return CancelLocation();
+                    return null;
                 }
 
-                // If only one direction is blocked, but it blocks both tiles
-                if ((myXblocked && newXblocked) ||
-                    (myYblocked && newYblocked))
+                // If only one direction is blocked, but it blocks both tiles.
+                if ((startXBlocked && destinationXBlocked) ||
+                    (startYBlocked && destinationYBlocked))
                 {
-                    return CancelLocation();
+                    return null;
                 }
 
                 return location;
             }
             catch (Exception ex)
             {
-                // TODO: Use logger
-                Console.WriteLine(ex);
+                logger.Error(
+                    GameOperation.CalculatePath,
+                    "Failed to calculate the next path location.",
+                    ex);
             }
 
             return start;
         }
 
-        protected void SetNextPosition()
+        private void SetNextPosition()
         {
-            Point2D newLocation = new Point2D(-1, -1);
-
-            if (currentWaypoint == -1)
+            if (currentWaypoint == NoWaypointIndex)
             {
-                if (AtStart())
+                if (!AtStart())
                 {
-                    currentWaypoint = 0;
+                    Point2D? newLocation = GetNextPosition(mobInstance.Location, Path.StartLocation);
+
+                    if (newLocation is null)
+                    {
+                        ResetPath();
+                        return;
+                    }
+
+                    mobInstance.SetLocation(newLocation.Value);
+                    return;
                 }
-                else
-                {
-                    newLocation = GetNextPosition(mob.Location, Path.StartLocation);
-                }
+
+                currentWaypoint = 0;
             }
 
-            if (currentWaypoint > -1)
+            if (AtWaypoint(currentWaypoint))
             {
-                if (AtWaypoint(currentWaypoint))
-                {
-                    currentWaypoint += 1;
-                }
+                currentWaypoint += 1;
+            }
 
-                if (currentWaypoint < Path.Length)
-                {
-                    newLocation = GetNextPosition(mob.Location, Path.GetWaypoint(currentWaypoint));
-                }
-                else
+            if (currentWaypoint < Path.Length)
+            {
+                Point2D? newLocation = GetNextPosition(
+                    mobInstance.Location,
+                    Path.GetWaypoint(currentWaypoint));
+
+                if (newLocation is null)
                 {
                     ResetPath();
+                    return;
                 }
-            }
 
-            if (newLocation.X > -1 && newLocation.Y > -1)
+                mobInstance.SetLocation(newLocation.Value);
+            }
+            else
             {
-                mob.SetLocation(newLocation);
+                ResetPath();
             }
         }
 
-        Point2D CancelLocation()
+        private bool IsBlocking(Point2D location, TileWallFlag wallFlag)
         {
-            ResetPath();
-
-            Point2D location = new Point2D(-1, -1);
-
-            return location;
-        }
-
-        bool IsBlocking(Point2D location, int bit)
-        {
-            TileValue tileValue;
             throw new NotImplementedException();
-
-            return IsBlocking(tileValue.MapValue, (byte)bit) ||
-                   IsBlocking(tileValue.ObjectValue, (byte)bit);
         }
 
-        bool IsBlocking(byte val, byte bit)
+        private static bool IsBlocking(byte wallData, TileWallFlag wallFlag)
         {
-            if ((val & bit) != 0)
+            if ((wallData & (byte)wallFlag) != 0)
             {
-                // There is a wall in the way
+                // There is a wall in the way.
                 return true;
             }
 
-            if ((val & 16) != 0)
+            if ((wallData & (byte)TileWallFlag.DiagonalBackslash) != 0)
             {
-                // There is a diagonal wall here: \
+                // There is a diagonal wall here: \.
                 return true;
             }
 
-            if ((val & 32) != 0)
+            if ((wallData & (byte)TileWallFlag.DiagonalForwardSlash) != 0)
             {
-                // There is a diagonal wall here: /
+                // There is a diagonal wall here: /.
                 return true;
             }
 
-            if ((val & 64) != 0)
+            if ((wallData & (byte)TileWallFlag.Unwalkable) != 0)
             {
-                // This tile is unwalkable
+                // This tile is unwalkable.
                 return true;
             }
 

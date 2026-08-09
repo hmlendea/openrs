@@ -1,0 +1,177 @@
+[
+  {
+    "id": "0",
+    "v1Id": 0,
+    "colour": -16913,
+    "type": 1,
+    "unknown": 0
+  },
+  {
+    "id": "1",
+    "v1Id": 1,
+    "colour": 1,
+    "type": 3,
+    "unknown": 1
+  },
+  {
+    "id": "2",
+    "v1Id": 2,
+    "colour": 3,
+    "type": 2,
+    "unknown": 0
+  },
+  {
+    "id": "3",
+    "v1Id": 3,
+    "colour": 3,
+    "type": 4,
+    "unknown": 0
+  },
+  {
+    "id": "4",
+    "v1Id": 4,
+    "colour": -16913,
+    "type": 2,
+    "unknown": 0
+  },
+  {
+    "id": "5",
+    "v1Id": 5,
+    "colour": -27685,
+    "type": 2,
+    "unknown": 0
+  },
+  {
+    "id": "6",
+    "v1Id": 6,
+    "colour": 25,
+    "type": 3,
+    "unknown": 1
+  },
+  {
+    "id": "7",
+    "v1Id": 7,
+    "colour": 12345678,
+    "type": 5,
+    "unknown": 1
+  },
+  {
+    "id": "8",
+    "v1Id": 8,
+    "colour": -26426,
+    "type": 1,
+    "unknown": 1
+  },
+  {
+    "id": "9",
+    "v1Id": 9,
+    "colour": -1,
+    "type": 5,
+    "unknown": 1
+  },
+  {
+    "id": "10",
+    "v1Id": 10,
+    "colour": 31,
+    "type": 3,
+    "unknown": 1
+  },
+  {
+    "id": "11",
+    "v1Id": 11,
+    "colour": 3,
+    "type": 4,
+    "unknown": 0
+  },
+  {
+    "id": "12",
+    "v1Id": 12,
+    "colour": -4534,
+    "type": 2,
+    "unknown": 0
+  },
+  {
+    "id": "13",
+    "v1Id": 13,
+    "colour": 32,
+    "type": 2,
+    "unknown": 0
+  },
+  {
+    "id": "14",
+    "v1Id": 14,
+    "colour": -9225,
+    "type": 2,
+    "unknown": 0
+  },
+  {
+    "id": "15",
+    "v1Id": 15,
+    "colour": -3172,
+    "type": 2,
+    "unknown": 0
+  },
+  {
+    "id": "16",
+    "v1Id": 16,
+    "colour": 15,
+    "type": 2,
+    "unknown": 0
+  },
+  {
+    "id": "17",
+    "v1Id": 17,
+    "colour": -2,
+    "type": 2,
+    "unknown": 0
+  },
+  {
+    "id": "18",
+    "v1Id": 18,
+    "colour": -1,
+    "type": 3,
+    "unknown": 1
+  },
+  {
+    "id": "19",
+    "v1Id": 19,
+    "colour": -2,
+    "type": 4,
+    "unknown": 0
+  },
+  {
+    "id": "20",
+    "v1Id": 20,
+    "colour": -2,
+    "type": 4,
+    "unknown": 1
+  },
+  {
+    "id": "21",
+    "v1Id": 21,
+    "colour": -2,
+    "type": 0,
+    "unknown": 0
+  },
+  {
+    "id": "22",
+    "v1Id": 22,
+    "colour": -17793,
+    "type": 2,
+    "unknown": 0
+  },
+  {
+    "id": "23",
+    "v1Id": 23,
+    "colour": -14594,
+    "type": 1,
+    "unknown": 1
+  },
+  {
+    "id": "24",
+    "v1Id": 24,
+    "colour": 1,
+    "type": 3,
+    "unknown": 0
+  }
+]

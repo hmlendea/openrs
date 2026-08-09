@@ -1,6 +1,6 @@
 ﻿namespace OpenRS.Models
 {
-    public class InventoryItem
+    public sealed class InventoryItem
     {
         public string Id { get; set; }
 

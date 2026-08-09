@@ -9,57 +9,34 @@ using OpenRS.Settings;
 
 namespace OpenRS.GameLogic.GameManagers
 {
-    /// <summary>
-    /// Quest manager.
-    /// </summary>
-    public class QuestManager
+    public sealed class QuestManager
     {
-        List<Quest> quests;
+        private static string QuestsFileName => "quests.json";
 
-        /// <summary>
-        /// Gets the quests count.
-        /// </summary>
-        /// <value>The quests count.</value>
+        private List<Quest> quests;
+
         public int QuestsCount => quests.Count;
 
         public int QuestPoints { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="QuestManager"/> class.
-        /// </summary>
         public QuestManager()
         {
             LoadQuests();
         }
 
-        /// <summary>
-        /// Gets the quest.
-        /// </summary>
-        /// <returns>The quest.</returns>
-        /// <param name="id">Identifier.</param>
-        public Quest GetQuest(string id)
+        public Quest GetQuest(string id) => quests.FirstOrDefault(quest => quest.Id == id);
+
+        public string[] GetNames() => [.. quests.Select(quest => quest.Name)];
+
+        public void SetStage(string id, int stage) => GetQuest(id).Stage = stage;
+
+        private void LoadQuests()
         {
-            return quests.FirstOrDefault(quest => quest.Id == id);
-        }
+            QuestRepository questRepository = new(
+                Path.Combine(ApplicationPaths.DataDirectory, QuestsFileName));
 
-        /// <summary>
-        /// Sets the stage of a quest.
-        /// </summary>
-        /// <param name="id">Quest identifier.</param>
-        /// <param name="stage">Stage.</param>
-        public void SetStage(string id, int stage)
-        {
-            Quest quest = GetQuest(id);
-
-            quest.Stage = stage;
-        }
-
-        void LoadQuests()
-        {
-            string questRepositoryPath = Path.Combine(ApplicationPaths.EntitiesDirectory, "quests.xml");
-            QuestRepository questRepository = new QuestRepository(questRepositoryPath);
-
-            quests = questRepository.GetAll().ToDomainModels().ToList();
+            quests = [.. questRepository.GetAll().ToServiceModels()];
         }
     }
 }
+

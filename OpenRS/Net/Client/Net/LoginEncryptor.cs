@@ -1,105 +1,136 @@
-using System;
+﻿using System;
 using System.Numerics;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace OpenRS.Net.Client.Net
 {
-    public class LoginEncryptor
+    public sealed class LoginEncryptor
     {
-        public byte[] Packet { get; private set; }
-        public int Offset { get; private set; }
-
-        public LoginEncryptor(byte[] packet)
+        public void AddByte(int i)
         {
-            Packet = packet;
-            Offset = 0;
+            packet[offset++] = (byte)i;
         }
 
-        public void AddInt8(int value)
+        public void AddInt(int i)
         {
-            Packet[Offset++] = (byte)value;
+            packet[offset++] = (byte)(i >> 24);
+            packet[offset++] = (byte)(i >> 16);
+            packet[offset++] = (byte)(i >> 8);
+            packet[offset++] = (byte)i;
         }
 
-        public void AddInt32(int value)
+        public void AddString(string s)
         {
-            Packet[Offset++] = (byte)(value >> 24);
-            Packet[Offset++] = (byte)(value >> 16);
-            Packet[Offset++] = (byte)(value >> 8);
-            Packet[Offset++] = (byte)value;
+
+            byte[] encodedBytes = Encoding.UTF8.GetBytes(s);
+            Array.Copy(encodedBytes, 0, packet, offset, encodedBytes.Length);
+
+            //s.GetBytes(0, s.length(), packet, offset);
+            offset += encodedBytes.Length;
+            packet[offset++] = 10;
         }
 
-        public void AddString(string str)
+        public void AddBytes(byte[] bytes, int off, int length)
         {
-            byte[] bytes = Encoding.UTF8.GetBytes(str);
-
-            Array.Copy(bytes, 0, Packet, Offset, bytes.Length);
-
-            Offset += str.Length;
-
-            Packet[Offset++] = 10;
-        }
-
-        public void AddBytes(byte[] bytes, int index, int length)
-        {
-            for (int i = index; i < index + length; i++)
+            for (int i = off; i < off + length; i += 1)
             {
-                Packet[Offset++] = bytes[i];
+                packet[this.offset++] = bytes[i];
             }
         }
 
-        public int GetInt8()
+        public int GetByte()
         {
-            return Packet[Offset++] & 0xFF;
+            return packet[offset++] & 0xff;
         }
 
-        public int GetInt16()
+        public int GetShort()
         {
-            Offset += 2;
-
-            return ((Packet[Offset - 2] & 0xFF) << 8) +
-                   (Packet[Offset - 1] & 0xFF);
+            offset += 2;
+            return ((packet[offset - 2] & 0xff) << 8) + (packet[offset - 1] & 0xff);
         }
 
-        public int GetInt32()
+        public int GetInt()
         {
-            Offset += 4;
-
-            return ((Packet[Offset - 4] & 0xFF) << 24) +
-                   ((Packet[Offset - 3] & 0xFF) << 16) +
-                   ((Packet[Offset - 2] & 0xFF) << 8) +
-                   (Packet[Offset - 1] & 0xFF);
+            offset += 4;
+            return ((packet[offset - 4] & 0xff) << 24) + ((packet[offset - 3] & 0xff) << 16) + ((packet[offset - 2] & 0xff) << 8) + (packet[offset - 1] & 0xff);
         }
 
-        public void GetBytes(byte[] data, int index, int length)
+        public void GetBytes(byte[] outputBuffer, int startIndex, int byteCount)
         {
-            for (int i = index; i < index + length; i++)
+            for (int i = startIndex; i < startIndex + byteCount; i += 1)
             {
-                data[i] = Packet[Offset++];
+                outputBuffer[i] = packet[offset += 1];
             }
         }
 
-        public void EncryptPacket(BigInteger bigInt, BigInteger bigInt2)
+        public byte[] Encrypt(byte[] text) {
+            //Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            //cipher.init(Cipher.ENCRYPT_MODE, pubKey);
+            //cipherText = cipher.doFinal(text);
+
+            //return Crypto.Encrypt(text, false);
+            return text;
+
+        //return cipherText;
+    }
+
+        public void EncryptPacket(BigInteger key, BigInteger modulus)
         {
-            int i = Offset;
-
-            Offset = 0;
-
-            byte[] dummyPacket = new byte[i];
-            GetBytes(dummyPacket, 0, i);
-
-            Array.Reverse(dummyPacket);
-
-            BigInteger bigInt3 = new BigInteger(dummyPacket);
-            bigInt3 = BigInteger.ModPow(bigInt3, bigInt, bigInt2);
-
-            byte[] encryptedPacket = bigInt3.ToByteArray();
-
-            Array.Reverse(encryptedPacket);
-
-            Offset = 0;
-
-            AddInt8(encryptedPacket.Length);
-            AddBytes(encryptedPacket, 0, encryptedPacket.Length);
+            int i = offset;
+            offset = 0;
+            byte[] plain = new byte[i];
+            for (int k = 0; k < i; k += 1)
+            {
+                plain[k] = packet[offset++];
+            }
+            Array.Reverse(plain);
+            // Append 0x00 to ensure BigInteger treats value as positive (two's complement, little-endian)
+            byte[] plainUnsigned = new byte[plain.Length + 1];
+            Array.Copy(plain, plainUnsigned, plain.Length);
+            BigInteger plainInt = new(plainUnsigned);
+            BigInteger encInt = BigInteger.ModPow(plainInt, key, modulus);
+            byte[] enc = encInt.ToByteArray();
+            // Strip trailing 0x00 sign byte if present (ToByteArray is little-endian)
+            int encLen = enc.Length;
+            if (encLen > 1 && enc[encLen - 1] == 0x00)
+            {
+                encLen -= 1;
+            }
+            Array.Reverse(enc, 0, encLen);
+            offset = 0;
+            packet[offset++] = (byte)encLen;
+            for (int k = 0; k < encLen; k += 1)
+            {
+                packet[offset++] = enc[k];
+            }
         }
+
+        public LoginEncryptor(byte[] keyBytes)
+        {
+            packet = keyBytes;
+            offset = 0;
+            try
+            {
+                // keyFactory = KeyFactory.getInstance("RSA");
+
+                Crypto = new RSACryptoServiceProvider();
+                pubKey = Crypto.ExportParameters(false);
+
+                //parms.
+                //var key =
+                //    BigInteger.Parse(
+                //        "258483531987721813854435365666199783121097212864526576114955744050873252978581213214062885665119329089273296913884093898593877564098511382732309048889240854054459372263273672334107564088395710980478911359605768175143527864461996266529749955416370971506195317045377519645018157466830930794446490944537605962330090699836840861268493872513762630835769942133970804813091619416385064187784658945")
+                //        .ToByteArray();
+                //pubKey = keyFactory.generatePublic(new X509EncodedKeySpec());
+            }
+            catch { }
+        }
+
+        public byte[] packet;
+        public int offset;
+        public RSACryptoServiceProvider Crypto;
+        //private KeyFactory keyFactory;
+        private RSAParameters pubKey;
     }
 }

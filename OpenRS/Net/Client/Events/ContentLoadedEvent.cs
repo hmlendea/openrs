@@ -2,15 +2,10 @@
 
 namespace OpenRS.Net.Client.Events
 {
-    public class ContentLoadedEventArgs : EventArgs
+    public sealed class ContentLoadedEventArgs(string statusText, decimal progress) : EventArgs
     {
-        public string StatusText { get; set; }
-        public decimal Progress { get; set; }
+        public string StatusText { get; set; } = statusText;
 
-        public ContentLoadedEventArgs(string statusText, decimal progress)
-        {
-            StatusText = statusText;
-            Progress = progress;
-        }
+        public decimal Progress { get; set; } = progress;
     }
 }
