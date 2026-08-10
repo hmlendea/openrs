@@ -1,8 +1,6 @@
 using System;
 using System.IO;
 
-using Microsoft.Xna.Framework;
-
 using NuciLog.Core;
 
 using OpenRS.Logging;
@@ -87,23 +85,6 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        internal static int ReadBinaryData(
-            GameObject gameObject,
-            sbyte[] data,
-            int offset,
-            int readVertexCount,
-            int readFaceCount)
-        {
-            offset = ReadVertexCoordinates(gameObject, data, offset, readVertexCount);
-            gameObject.VertexCount = readVertexCount;
-            offset = ReadFaceVertexCounts(gameObject, data, offset, readFaceCount);
-            offset = ReadTextureData(gameObject, data, offset, readFaceCount);
-            offset = ReadGouraudShadeData(gameObject, data, offset, readFaceCount);
-            ReadFaceVertexIndices(gameObject, data, offset, readFaceCount, readVertexCount);
-
-            return offset;
-        }
-
         internal static sbyte[] LoadFromFile(GameObject gameObject, string fileName)
         {
             byte[] fileBuffer;
@@ -177,163 +158,6 @@ namespace OpenRS.Net.Client.Game
             {
                 ReadSingleFaceFromShadeBuffer(gameObject, fileData, faceIndex);
             }
-        }
-
-        private static int ReadVertexCoordinates(
-            GameObject gameObject,
-            sbyte[] data,
-            int offset,
-            int readVertexCount)
-        {
-            for (int vertexIndex = 0; vertexIndex < readVertexCount; vertexIndex += 1)
-            {
-                gameObject.polygonGroupMapping[vertexIndex] = new int[1];
-                gameObject.VertexCoordinatesX[vertexIndex] =
-                    BinaryDataReader.GetSignedShort(data, offset);
-                gameObject.VertexVectors[vertexIndex] = new Vector3(
-                    gameObject.VertexCoordinatesX[vertexIndex],
-                    gameObject.VertexVectors[vertexIndex].Y,
-                    gameObject.VertexVectors[vertexIndex].Z);
-                offset += 2;
-            }
-
-            for (int vertexIndex = 0; vertexIndex < readVertexCount; vertexIndex += 1)
-            {
-                gameObject.VertexCoordinatesY[vertexIndex] =
-                    BinaryDataReader.GetSignedShort(data, offset);
-                gameObject.VertexVectors[vertexIndex] = new Vector3(
-                    gameObject.VertexVectors[vertexIndex].X,
-                    gameObject.VertexCoordinatesY[vertexIndex],
-                    gameObject.VertexVectors[vertexIndex].Z);
-                offset += 2;
-            }
-
-            for (int vertexIndex = 0; vertexIndex < readVertexCount; vertexIndex += 1)
-            {
-                gameObject.VertexCoordinatesZ[vertexIndex] =
-                    BinaryDataReader.GetSignedShort(data, offset);
-                gameObject.VertexVectors[vertexIndex] = new Vector3(
-                    gameObject.VertexVectors[vertexIndex].X,
-                    gameObject.VertexVectors[vertexIndex].Y,
-                    gameObject.VertexCoordinatesZ[vertexIndex]);
-                offset += 2;
-            }
-
-            return offset;
-        }
-
-        private static int ReadFaceVertexCounts(
-            GameObject gameObject,
-            sbyte[] data,
-            int offset,
-            int readFaceCount)
-        {
-            for (int faceIndex = 0; faceIndex < readFaceCount; faceIndex += 1)
-            {
-                gameObject.FaceVertexCounts[faceIndex] = data[offset++] & 0xff;
-            }
-
-            return offset;
-        }
-
-        private static int ReadTextureData(
-            GameObject gameObject,
-            sbyte[] data,
-            int offset,
-            int readFaceCount)
-        {
-            for (int faceIndex = 0; faceIndex < readFaceCount; faceIndex += 1)
-            {
-                gameObject.TextureBack[faceIndex] =
-                    BinaryDataReader.GetSignedShort(data, offset);
-                offset += 2;
-
-                if (gameObject.TextureBack[faceIndex] == GameObject.TextureShadeMaxValue)
-                {
-                    gameObject.TextureBack[faceIndex] = GameObject.DefaultShadeValue;
-                }
-            }
-
-            for (int faceIndex = 0; faceIndex < readFaceCount; faceIndex += 1)
-            {
-                gameObject.TextureFront[faceIndex] =
-                    BinaryDataReader.GetSignedShort(data, offset);
-                offset += 2;
-
-                if (gameObject.TextureFront[faceIndex] == GameObject.TextureShadeMaxValue)
-                {
-                    gameObject.TextureFront[faceIndex] = GameObject.DefaultShadeValue;
-                }
-            }
-
-            return offset;
-        }
-
-        private static int ReadGouraudShadeData(
-            GameObject gameObject,
-            sbyte[] data,
-            int offset,
-            int readFaceCount)
-        {
-            for (int faceIndex = 0; faceIndex < readFaceCount; faceIndex += 1)
-            {
-                int shadeFlag = data[offset++] & 0xff;
-                gameObject.GouraudShade[faceIndex] = 0;
-
-                if (shadeFlag != 0)
-                {
-                    gameObject.GouraudShade[faceIndex] = GameObject.DefaultShadeValue;
-                }
-            }
-
-            return offset;
-        }
-
-        private static void ReadFaceVertexIndices(
-            GameObject gameObject,
-            sbyte[] data,
-            int offset,
-            int readFaceCount,
-            int readVertexCount)
-        {
-            for (int faceIndex = 0; faceIndex < readFaceCount; faceIndex += 1)
-            {
-                gameObject.FaceVertexIndices[faceIndex] =
-                    new int[gameObject.FaceVertexCounts[faceIndex]];
-                offset = ReadSingleFaceVertexIndices(
-                    gameObject,
-                    data,
-                    offset,
-                    faceIndex,
-                    readVertexCount);
-            }
-        }
-
-        private static int ReadSingleFaceVertexIndices(
-            GameObject gameObject,
-            sbyte[] data,
-            int offset,
-            int faceIndex,
-            int readVertexCount)
-        {
-            int faceVertexCount = gameObject.FaceVertexCounts[faceIndex];
-
-            for (int vertexPosition = 0; vertexPosition < faceVertexCount; vertexPosition += 1)
-            {
-                if (readVertexCount < 256)
-                {
-                    gameObject.FaceVertexIndices[faceIndex][vertexPosition] =
-                        data[offset++] & 0xff;
-                }
-                else
-                {
-                    gameObject.FaceVertexIndices[faceIndex][vertexPosition] =
-                        BinaryDataReader.GetShort(data, offset);
-                    offset += 2;
-                }
-            }
-
-            return offset;
         }
 
         private static void ReadSingleFaceFromShadeBuffer(

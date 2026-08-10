@@ -1,5 +1,3 @@
-using OpenRS.Net.Client.Data;
-
 namespace OpenRS.Net.Client.Handlers
 {
     internal sealed class MovementRegionSectionCleaner(GameClient client) : PacketHandlerBase(client)

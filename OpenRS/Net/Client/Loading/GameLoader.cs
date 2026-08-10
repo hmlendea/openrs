@@ -822,19 +822,19 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                 {
                     string modelName = GameData.ModelNames[modelIndex];
                     string baseName = modelName.ToLower();
-                    string glbPath = Path.Combine(ApplicationPaths.ModelsGlbDirectory, baseName + ".glb");
+                    string modelPath = Path.Combine(ApplicationPaths.ModelsDirectory, baseName + ".glb");
                     string sidecarPath = Path.Combine(
-                        ApplicationPaths.ModelsGlbDirectory,
+                        ApplicationPaths.ModelsDirectory,
                         baseName + ".textures.json");
 
-                    if (File.Exists(glbPath))
+                    if (File.Exists(modelPath))
                     {
                         try
                         {
-                            client.gameDataObjects[modelIndex] = GlbModelLoader.LoadFromGlb(
-                                glbPath,
+                            client.gameDataObjects[modelIndex] = ModelLoader.Load(
+                                modelPath,
                                 client.entityManager);
-                            ApplyGlbTextureSidecar(
+                            ApplyModelTextureSidecar(
                                 client.gameDataObjects[modelIndex],
                                 modelName,
                                 sidecarPath);
@@ -843,7 +843,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                         {
                             logger.Warn(
                                 GameOperation.LoadGameObject,
-                                $"Failed to load GLB model '{modelName}' from '{glbPath}'. Using empty placeholder.",
+                                $"Failed to load model '{modelName}' from '{modelPath}'. Using empty placeholder.",
                                 exception);
                             client.gameDataObjects[modelIndex] = new GameObject(1, 1);
                         }
@@ -871,7 +871,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
             }
         }
 
-        private void ApplyGlbTextureSidecar(
+        private void ApplyModelTextureSidecar(
             GameObject targetModel,
             string modelName,
             string sidecarPath)
@@ -881,7 +881,7 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                 return;
             }
 
-            if (GlbTextureSidecar.TryApplyToModel(targetModel, sidecarPath))
+            if (ModelTextureSidecar.TryApplyToModel(targetModel, sidecarPath))
             {
                 return;
             }
@@ -890,13 +890,13 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
             {
                 logger.Warn(
                     GameOperation.LoadGameObject,
-                    $"GLB texture sidecar is missing for model '{modelName}' at '{sidecarPath}'.");
+                    $"Model texture sidecar is missing for model '{modelName}' at '{sidecarPath}'.");
                 return;
             }
 
             logger.Warn(
                 GameOperation.LoadGameObject,
-                $"GLB texture sidecar for model '{modelName}' exists but could not be applied (invalid format or face count mismatch): '{sidecarPath}'.");
+                $"Model texture sidecar for model '{modelName}' exists but could not be applied (invalid format or face count mismatch): '{sidecarPath}'.");
         }
 
         public bool LoadSection(int x, int y)

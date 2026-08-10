@@ -1,4 +1,3 @@
-using OpenRS.Net;
 namespace OpenRS.Net.Client.Handlers
 {
     internal sealed class BankStatePacketHandler(GameClient client) : PacketHandlerBase(client)

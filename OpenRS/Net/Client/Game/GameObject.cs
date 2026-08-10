@@ -1,6 +1,4 @@
 using Microsoft.Xna.Framework;
-
-using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game.Cameras;
 
 namespace OpenRS.Net.Client.Game
@@ -171,23 +169,6 @@ namespace OpenRS.Net.Client.Game
         {
             GameObjectDataLoader.Initialise(this);
             GameObjectComposer.BuildComposite(this, childObjects, childCount, true);
-        }
-
-        public GameObject(sbyte[] data, int offset)
-        {
-            GameObjectDataLoader.Initialise(this);
-            int readVertCount = BinaryDataReader.GetShort(data, offset);
-            offset += 2;
-            int readFaceCount = BinaryDataReader.GetShort(data, offset);
-            offset += 2;
-
-            InitialiseArrays(readVertCount, readFaceCount);
-            polygonGroupMapping = new int[VertexCoordinatesX.Length][];
-
-            GameObjectDataLoader.ReadBinaryData(this, data, offset, readVertCount, readFaceCount);
-
-            FaceCount = readFaceCount;
-            ObjectState = ObjectStateRequiresTransform;
         }
 
         public GameObject(

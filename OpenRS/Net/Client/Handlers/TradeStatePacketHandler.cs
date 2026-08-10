@@ -1,4 +1,3 @@
-using OpenRS.Net;
 namespace OpenRS.Net.Client.Handlers
 {
     internal sealed class TradeStatePacketHandler(GameClient client) : PacketHandlerBase(client)
