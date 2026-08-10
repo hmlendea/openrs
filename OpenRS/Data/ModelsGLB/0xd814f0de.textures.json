@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "faceCount": 1,
+  "textureBack": [
+    1
+  ],
+  "textureFront": [
+    12345678
+  ],
+  "gouraudShade": [
+    12345678
+  ],
+  "faceVertexCounts": [
+    4
+  ]
+}

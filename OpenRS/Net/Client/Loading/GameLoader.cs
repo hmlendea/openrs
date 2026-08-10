@@ -823,7 +823,9 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                     string modelName = GameData.ModelNames[modelIndex];
                     string baseName = modelName.ToLower();
                     string glbPath = Path.Combine(ApplicationPaths.ModelsGlbDirectory, baseName + ".glb");
-                    string ob3Path = Path.Combine(ApplicationPaths.ModelsDirectory, baseName + ".ob3");
+                    string sidecarPath = Path.Combine(
+                        ApplicationPaths.ModelsGlbDirectory,
+                        baseName + ".textures.json");
 
                     if (File.Exists(glbPath))
                     {
@@ -832,35 +834,25 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                             client.gameDataObjects[modelIndex] = GlbModelLoader.LoadFromGlb(
                                 glbPath,
                                 client.entityManager);
+                            ApplyGlbTextureSidecar(
+                                client.gameDataObjects[modelIndex],
+                                modelName,
+                                sidecarPath);
                         }
                         catch (Exception exception)
                         {
                             logger.Warn(
                                 GameOperation.LoadGameObject,
-                                $"Failed to load GLB model '{modelName}' from '{glbPath}'. Falling back to OB3 if available.",
+                                $"Failed to load GLB model '{modelName}' from '{glbPath}'. Using empty placeholder.",
                                 exception);
-
-                            if (File.Exists(ob3Path))
-                            {
-                                sbyte[] modelData = (sbyte[])(Array)File.ReadAllBytes(ob3Path);
-                                client.gameDataObjects[modelIndex] = new GameObject(modelData, 0);
-                            }
-                            else
-                            {
-                                client.gameDataObjects[modelIndex] = new GameObject(1, 1);
-                            }
+                            client.gameDataObjects[modelIndex] = new GameObject(1, 1);
                         }
-                    }
-                    else if (File.Exists(ob3Path))
-                    {
-                        sbyte[] modelData = (sbyte[])(Array)File.ReadAllBytes(ob3Path);
-                        client.gameDataObjects[modelIndex] = new GameObject(modelData, 0);
                     }
                     else
                     {
                         logger.Warn(
                             GameOperation.LoadGameObject,
-                            $"Model '{modelName}' was not found as GLB or OB3. Using empty placeholder.");
+                            $"Model '{modelName}' was not found as GLB. Using empty placeholder.");
                         client.gameDataObjects[modelIndex] = new GameObject(1, 1);
                     }
 
@@ -877,6 +869,34 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                         exception);
                 }
             }
+        }
+
+        private void ApplyGlbTextureSidecar(
+            GameObject targetModel,
+            string modelName,
+            string sidecarPath)
+        {
+            if (targetModel is null)
+            {
+                return;
+            }
+
+            if (GlbTextureSidecar.TryApplyToModel(targetModel, sidecarPath))
+            {
+                return;
+            }
+
+            if (!File.Exists(sidecarPath))
+            {
+                logger.Warn(
+                    GameOperation.LoadGameObject,
+                    $"GLB texture sidecar is missing for model '{modelName}' at '{sidecarPath}'.");
+                return;
+            }
+
+            logger.Warn(
+                GameOperation.LoadGameObject,
+                $"GLB texture sidecar for model '{modelName}' exists but could not be applied (invalid format or face count mismatch): '{sidecarPath}'.");
         }
 
         public bool LoadSection(int x, int y)
