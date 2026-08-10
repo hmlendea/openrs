@@ -823,9 +823,6 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                     string modelName = GameData.ModelNames[modelIndex];
                     string baseName = modelName.ToLower();
                     string modelPath = Path.Combine(ApplicationPaths.ModelsDirectory, baseName + ".glb");
-                    string sidecarPath = Path.Combine(
-                        ApplicationPaths.ModelsDirectory,
-                        baseName + ".textures.json");
 
                     if (File.Exists(modelPath))
                     {
@@ -834,10 +831,6 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                             client.gameDataObjects[modelIndex] = ModelLoader.Load(
                                 modelPath,
                                 client.entityManager);
-                            ApplyModelTextureSidecar(
-                                client.gameDataObjects[modelIndex],
-                                modelName,
-                                sidecarPath);
                         }
                         catch (Exception exception)
                         {
@@ -869,34 +862,6 @@ client.RaiseOnContentLoaded(this, new ContentLoadedEventArgs("Unpacking " + file
                         exception);
                 }
             }
-        }
-
-        private void ApplyModelTextureSidecar(
-            GameObject targetModel,
-            string modelName,
-            string sidecarPath)
-        {
-            if (targetModel is null)
-            {
-                return;
-            }
-
-            if (ModelTextureSidecar.TryApplyToModel(targetModel, sidecarPath))
-            {
-                return;
-            }
-
-            if (!File.Exists(sidecarPath))
-            {
-                logger.Warn(
-                    GameOperation.LoadGameObject,
-                    $"Model texture sidecar is missing for model '{modelName}' at '{sidecarPath}'.");
-                return;
-            }
-
-            logger.Warn(
-                GameOperation.LoadGameObject,
-                $"Model texture sidecar for model '{modelName}' exists but could not be applied (invalid format or face count mismatch): '{sidecarPath}'.");
         }
 
         public bool LoadSection(int x, int y)

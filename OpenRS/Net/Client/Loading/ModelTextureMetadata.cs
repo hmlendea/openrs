@@ -1,11 +1,10 @@
-using System.IO;
 using System.Text.Json;
 
 using OpenRS.Net.Client.Game;
 
 namespace OpenRS.Net.Client.Loading
 {
-    internal static class ModelTextureSidecar
+    internal static class ModelTextureMetadata
     {
         private static string FaceCountPropertyName => "faceCount";
 
@@ -17,90 +16,94 @@ namespace OpenRS.Net.Client.Loading
 
         private static string FaceVertexCountsPropertyName => "faceVertexCounts";
 
-        private static string VersionPropertyName => "version";
-
-        private static int SidecarVersion => 1;
-
         private static int NoTextureSentinel => GameObject.DefaultShadeValue;
 
-        public static bool TryApplyToModel(GameObject targetModel, string sidecarPath)
+        private static string ExtrasPropertyName => "extras";
+
+        private static string EmbeddedTextureMetadataPropertyName => "modelTextureSidecar";
+
+        public static bool TryApplyToModel(GameObject targetModel, JsonElement gltfRoot)
         {
-            if (targetModel is null || !File.Exists(sidecarPath))
+            if (targetModel is null)
             {
                 return false;
             }
 
-            try
+            if (!gltfRoot.TryGetProperty(ExtrasPropertyName, out JsonElement extrasElement))
             {
-                byte[] fileData = File.ReadAllBytes(sidecarPath);
-                using JsonDocument document = JsonDocument.Parse(fileData);
-                JsonElement root = document.RootElement;
+                return false;
+            }
 
-                if (!root.TryGetProperty(FaceCountPropertyName, out JsonElement faceCountElement))
-                {
-                    return false;
-                }
+            if (!extrasElement.TryGetProperty(EmbeddedTextureMetadataPropertyName, out JsonElement textureMetadataElement))
+            {
+                return false;
+            }
 
-                int faceCount = faceCountElement.GetInt32();
-                int[] textureBack = ReadIntArray(root, TextureBackPropertyName, faceCount);
-                int[] textureFront = ReadIntArray(root, TextureFrontPropertyName, faceCount);
-                int[] gouraudShade = ReadIntArray(root, GouraudShadePropertyName, faceCount);
+            return TryApplyTextureMetadata(targetModel, textureMetadataElement);
+        }
 
-                if (textureBack is null || textureFront is null || gouraudShade is null)
-                {
-                    return false;
-                }
+        private static bool TryApplyTextureMetadata(GameObject targetModel, JsonElement root)
+        {
+            if (!root.TryGetProperty(FaceCountPropertyName, out JsonElement faceCountElement))
+            {
+                return false;
+            }
 
-                if (faceCount == targetModel.FaceCount)
-                {
-                    ApplyDirectFaceMapping(targetModel, faceCount, textureBack, textureFront, gouraudShade);
-                    return true;
-                }
+            int faceCount = faceCountElement.GetInt32();
+            int[] textureBack = ReadIntArray(root, TextureBackPropertyName, faceCount);
+            int[] textureFront = ReadIntArray(root, TextureFrontPropertyName, faceCount);
+            int[] gouraudShade = ReadIntArray(root, GouraudShadePropertyName, faceCount);
 
-                int[] faceVertexCounts = ReadIntArray(root, FaceVertexCountsPropertyName, faceCount);
+            if (textureBack is null || textureFront is null || gouraudShade is null)
+            {
+                return false;
+            }
 
-                if (faceVertexCounts is null)
-                {
-                    ApplyProportionalFallback(
-                        targetModel,
-                        textureBack,
-                        textureFront,
-                        gouraudShade);
-                    return true;
-                }
-
-                int triangulatedFaceCount = CalculateTriangulatedFaceCount(faceVertexCounts);
-
-                if (triangulatedFaceCount != targetModel.FaceCount)
-                {
-                    return false;
-                }
-
-                int targetFaceIndex = 0;
-
-                for (int sourceFaceIndex = 0; sourceFaceIndex < faceCount; sourceFaceIndex += 1)
-                {
-                    int sourceFaceVertexCount = faceVertexCounts[sourceFaceIndex];
-                    int triangleCountForFace = CalculateTriangleCountForFace(sourceFaceVertexCount);
-
-                    for (int triangleIndex = 0; triangleIndex < triangleCountForFace; triangleIndex += 1)
-                    {
-                        ApplySingleFaceTexture(
-                            targetModel,
-                            targetFaceIndex,
-                            textureBack[sourceFaceIndex],
-                            textureFront[sourceFaceIndex],
-                            gouraudShade[sourceFaceIndex]);
-                        targetFaceIndex += 1;
-                    }
-                }
-
+            if (faceCount == targetModel.FaceCount)
+            {
+                ApplyDirectFaceMapping(targetModel, faceCount, textureBack, textureFront, gouraudShade);
                 return true;
             }
-            catch
+
+            int[] faceVertexCounts = ReadIntArray(root, FaceVertexCountsPropertyName, faceCount);
+
+            if (faceVertexCounts is null)
+            {
+                ApplyProportionalFallback(
+                    targetModel,
+                    textureBack,
+                    textureFront,
+                    gouraudShade);
+                return true;
+            }
+
+            int triangulatedFaceCount = CalculateTriangulatedFaceCount(faceVertexCounts);
+
+            if (triangulatedFaceCount != targetModel.FaceCount)
             {
                 return false;
             }
+
+            int targetFaceIndex = 0;
+
+            for (int sourceFaceIndex = 0; sourceFaceIndex < faceCount; sourceFaceIndex += 1)
+            {
+                int sourceFaceVertexCount = faceVertexCounts[sourceFaceIndex];
+                int triangleCountForFace = CalculateTriangleCountForFace(sourceFaceVertexCount);
+
+                for (int triangleIndex = 0; triangleIndex < triangleCountForFace; triangleIndex += 1)
+                {
+                    ApplySingleFaceTexture(
+                        targetModel,
+                        targetFaceIndex,
+                        textureBack[sourceFaceIndex],
+                        textureFront[sourceFaceIndex],
+                        gouraudShade[sourceFaceIndex]);
+                    targetFaceIndex += 1;
+                }
+            }
+
+            return true;
         }
 
         private static void ApplyProportionalFallback(
@@ -214,6 +217,5 @@ namespace OpenRS.Net.Client.Loading
 
             return values;
         }
-
     }
 }

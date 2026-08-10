@@ -335,6 +335,8 @@ namespace OpenRS.Net.Client.Loading
                 go.AddFaceVertices(3, faceVerts, faceTextureIndex, faceTextureIndex);
             }
 
+            ModelTextureMetadata.TryApplyToModel(go, root);
+
             go.ObjectState = 1;
 
             return go;
