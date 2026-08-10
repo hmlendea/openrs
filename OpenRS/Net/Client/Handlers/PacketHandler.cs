@@ -3,7 +3,6 @@ using System;
 using NuciLog.Core;
 
 using OpenRS.Logging;
-using OpenRS.Net;
 
 namespace OpenRS.Net.Client.Handlers
 {

@@ -751,7 +751,7 @@
   {
     "id": "44",
     "v1Id": 44,
-    "name": "name.holy_symbol_of_saradomin",
+    "name": "item.holy_symbol_of_saradomin.name",
     "description": "item.44.description",
     "command": "command.none",
     "basePrice": 200,
@@ -2808,7 +2808,7 @@
   {
     "id": "165",
     "v1Id": 165,
-    "name": "name.herb",
+    "name": "item.herb.name",
     "description": "description.i_need_a_closer_look",
     "command": "command.identify",
     "basePrice": 1,
@@ -2927,7 +2927,7 @@
   {
     "id": "172",
     "v1Id": 172,
-    "name": "name.gold_bar",
+    "name": "item.gold_bar.name",
     "description": "description.this_looks_valuable",
     "command": "command.none",
     "basePrice": 300,
@@ -3675,7 +3675,7 @@
   {
     "id": "216",
     "v1Id": 216,
-    "name": "item.216.name",
+    "name": "item.black_robe.name",
     "description": "description.i_can_do_magic_better",
     "command": "command.none",
     "basePrice": 13,
@@ -5834,7 +5834,7 @@
   {
     "id": "343",
     "v1Id": 343,
-    "name": "name.incomplete_stew",
+    "name": "item.incomplete_stew.name",
     "description": "item.343.description",
     "command": "command.none",
     "basePrice": 4,
@@ -5851,7 +5851,7 @@
   {
     "id": "344",
     "v1Id": 344,
-    "name": "name.incomplete_stew",
+    "name": "item.incomplete_stew.name",
     "description": "item.344.description",
     "command": "command.none",
     "basePrice": 4,
@@ -6055,7 +6055,7 @@
   {
     "id": "356",
     "v1Id": 356,
-    "name": "item.356.name",
+    "name": "item.raw_salmon.name",
     "description": "irem.raw_fish.description",
     "command": "command.none",
     "basePrice": 50,
@@ -6072,7 +6072,7 @@
   {
     "id": "357",
     "v1Id": 357,
-    "name": "item.357.name",
+    "name": "item.salmon.name",
     "description": "description.some_nicely_cooked_fish",
     "command": "command.eat",
     "basePrice": 50,
@@ -6089,7 +6089,7 @@
   {
     "id": "358",
     "v1Id": 358,
-    "name": "item.358.name",
+    "name": "item.raw_trout.name",
     "description": "irem.raw_fish.description",
     "command": "command.none",
     "basePrice": 20,
@@ -6106,7 +6106,7 @@
   {
     "id": "359",
     "v1Id": 359,
-    "name": "item.359.name",
+    "name": "item.trout.name",
     "description": "description.some_nicely_cooked_fish",
     "command": "command.eat",
     "basePrice": 20,
@@ -6548,7 +6548,7 @@
   {
     "id": "385",
     "v1Id": 385,
-    "name": "name.holy_symbol_of_saradomin",
+    "name": "item.holy_symbol_of_saradomin.name",
     "description": "item.385.description",
     "command": "command.none",
     "basePrice": 300,
@@ -7398,7 +7398,7 @@
   {
     "id": "435",
     "v1Id": 435,
-    "name": "name.herb",
+    "name": "item.herb.name",
     "description": "description.i_need_a_closer_look",
     "command": "command.identify",
     "basePrice": 1,
@@ -7415,7 +7415,7 @@
   {
     "id": "436",
     "v1Id": 436,
-    "name": "name.herb",
+    "name": "item.herb.name",
     "description": "description.i_need_a_closer_look",
     "command": "command.identify",
     "basePrice": 1,
@@ -7432,7 +7432,7 @@
   {
     "id": "437",
     "v1Id": 437,
-    "name": "name.herb",
+    "name": "item.herb.name",
     "description": "description.i_need_a_closer_look",
     "command": "command.identify",
     "basePrice": 1,
@@ -7449,7 +7449,7 @@
   {
     "id": "438",
     "v1Id": 438,
-    "name": "name.herb",
+    "name": "item.herb.name",
     "description": "description.i_need_a_closer_look",
     "command": "command.identify",
     "basePrice": 1,
@@ -7466,7 +7466,7 @@
   {
     "id": "439",
     "v1Id": 439,
-    "name": "name.herb",
+    "name": "item.herb.name",
     "description": "description.i_need_a_closer_look",
     "command": "command.identify",
     "basePrice": 1,
@@ -7483,7 +7483,7 @@
   {
     "id": "440",
     "v1Id": 440,
-    "name": "name.herb",
+    "name": "item.herb.name",
     "description": "description.i_need_a_closer_look",
     "command": "command.identify",
     "basePrice": 1,
@@ -7500,7 +7500,7 @@
   {
     "id": "441",
     "v1Id": 441,
-    "name": "name.herb",
+    "name": "item.herb.name",
     "description": "description.i_need_a_closer_look",
     "command": "command.identify",
     "basePrice": 1,
@@ -7517,7 +7517,7 @@
   {
     "id": "442",
     "v1Id": 442,
-    "name": "name.herb",
+    "name": "item.herb.name",
     "description": "description.i_need_a_closer_look",
     "command": "command.identify",
     "basePrice": 1,
@@ -7534,7 +7534,7 @@
   {
     "id": "443",
     "v1Id": 443,
-    "name": "name.herb",
+    "name": "item.herb.name",
     "description": "description.i_need_a_closer_look",
     "command": "command.identify",
     "basePrice": 1,
@@ -8061,7 +8061,7 @@
   {
     "id": "474",
     "v1Id": 474,
-    "name": "name.attack_potion",
+    "name": "item.attack_potion.name",
     "description": "description.3_doses_of_attack_potion",
     "command": "command.drink",
     "basePrice": 12,
@@ -8078,7 +8078,7 @@
   {
     "id": "475",
     "v1Id": 475,
-    "name": "name.attack_potion",
+    "name": "item.attack_potion.name",
     "description": "description.2_doses_of_attack_potion",
     "command": "command.drink",
     "basePrice": 9,
@@ -8095,7 +8095,7 @@
   {
     "id": "476",
     "v1Id": 476,
-    "name": "name.attack_potion",
+    "name": "item.attack_potion.name",
     "description": "description.1_dose_of_attack_potion",
     "command": "command.drink",
     "basePrice": 6,
@@ -11750,7 +11750,7 @@
   {
     "id": "691",
     "v1Id": 691,
-    "name": "name.gold_bar",
+    "name": "item.gold_bar.name",
     "description": "description.this_looks_valuable",
     "command": "command.none",
     "basePrice": 300,
@@ -11801,7 +11801,7 @@
   {
     "id": "694",
     "v1Id": 694,
-    "name": "name.family_crest",
+    "name": "item.family_crest.name",
     "description": "item.694.description",
     "command": "command.none",
     "basePrice": 10,
@@ -13858,7 +13858,7 @@
   {
     "id": "815",
     "v1Id": 815,
-    "name": "name.herb",
+    "name": "item.herb.name",
     "description": "description.i_need_a_closer_look",
     "command": "command.identify",
     "basePrice": 1,
@@ -13892,7 +13892,7 @@
   {
     "id": "817",
     "v1Id": 817,
-    "name": "name.herb",
+    "name": "item.herb.name",
     "description": "description.i_need_a_closer_look",
     "command": "command.identify",
     "basePrice": 1,
@@ -13926,7 +13926,7 @@
   {
     "id": "819",
     "v1Id": 819,
-    "name": "name.herb",
+    "name": "item.herb.name",
     "description": "description.i_need_a_closer_look",
     "command": "command.identify",
     "basePrice": 1,
@@ -13960,7 +13960,7 @@
   {
     "id": "821",
     "v1Id": 821,
-    "name": "name.herb",
+    "name": "item.herb.name",
     "description": "description.i_need_a_closer_look",
     "command": "command.identify",
     "basePrice": 1,
@@ -13994,7 +13994,7 @@
   {
     "id": "823",
     "v1Id": 823,
-    "name": "name.herb",
+    "name": "item.herb.name",
     "description": "description.i_need_a_closer_look",
     "command": "command.identify",
     "basePrice": 1,
@@ -14215,7 +14215,7 @@
   {
     "id": "836",
     "v1Id": 836,
-    "name": "name.gnome_robe",
+    "name": "item.gnome_robe.name",
     "description": "description.a_high_fashion_robe",
     "command": "command.none",
     "basePrice": 180,
@@ -14232,7 +14232,7 @@
   {
     "id": "837",
     "v1Id": 837,
-    "name": "name.gnome_robe",
+    "name": "item.gnome_robe.name",
     "description": "description.a_high_fashion_robe",
     "command": "command.none",
     "basePrice": 180,
@@ -14249,7 +14249,7 @@
   {
     "id": "838",
     "v1Id": 838,
-    "name": "name.gnome_robe",
+    "name": "item.gnome_robe.name",
     "description": "description.a_high_fashion_robe",
     "command": "command.none",
     "basePrice": 180,
@@ -14266,7 +14266,7 @@
   {
     "id": "839",
     "v1Id": 839,
-    "name": "name.gnome_robe",
+    "name": "item.gnome_robe.name",
     "description": "description.a_high_fashion_robe",
     "command": "command.none",
     "basePrice": 180,
@@ -14283,7 +14283,7 @@
   {
     "id": "840",
     "v1Id": 840,
-    "name": "name.gnome_robe",
+    "name": "item.gnome_robe.name",
     "description": "description.a_high_fashion_robe",
     "command": "command.none",
     "basePrice": 180,
@@ -14385,7 +14385,7 @@
   {
     "id": "846",
     "v1Id": 846,
-    "name": "name.gnome_top",
+    "name": "item.gnome_top.name",
     "description": "item.846.description",
     "command": "command.none",
     "basePrice": 180,
@@ -14402,7 +14402,7 @@
   {
     "id": "847",
     "v1Id": 847,
-    "name": "name.gnome_top",
+    "name": "item.gnome_top.name",
     "description": "description.rometti_the_only_name_in",
     "command": "command.none",
     "basePrice": 180,
@@ -14419,7 +14419,7 @@
   {
     "id": "848",
     "v1Id": 848,
-    "name": "name.gnome_top",
+    "name": "item.gnome_top.name",
     "description": "description.rometti_the_only_name_in",
     "command": "command.none",
     "basePrice": 180,
@@ -14436,7 +14436,7 @@
   {
     "id": "849",
     "v1Id": 849,
-    "name": "name.gnome_top",
+    "name": "item.gnome_top.name",
     "description": "description.rometti_the_only_name_in",
     "command": "command.none",
     "basePrice": 180,
@@ -14453,7 +14453,7 @@
   {
     "id": "850",
     "v1Id": 850,
-    "name": "name.gnome_top",
+    "name": "item.gnome_top.name",
     "description": "description.rometti_the_only_name_in",
     "command": "command.none",
     "basePrice": 180,
@@ -15031,7 +15031,7 @@
   {
     "id": "884",
     "v1Id": 884,
-    "name": "name.gnome_batta",
+    "name": "item.gnome_batta.name",
     "description": "item.884.description",
     "command": "command.none",
     "basePrice": 2,
@@ -15048,7 +15048,7 @@
   {
     "id": "885",
     "v1Id": 885,
-    "name": "name.gnomebowl",
+    "name": "item.gnome_bowl.name",
     "description": "item.885.description",
     "command": "command.eat",
     "basePrice": 2,
@@ -15065,7 +15065,7 @@
   {
     "id": "886",
     "v1Id": 886,
-    "name": "name.gnome_batta",
+    "name": "item.gnome_batta.name",
     "description": "description.its_burnt_to_a_cinder",
     "command": "command.none",
     "basePrice": 2,
@@ -15099,7 +15099,7 @@
   {
     "id": "888",
     "v1Id": 888,
-    "name": "name.gnomebowl",
+    "name": "item.gnome_bowl.name",
     "description": "description.its_burnt_to_a_cinder",
     "command": "command.none",
     "basePrice": 2,
@@ -15354,7 +15354,7 @@
   {
     "id": "903",
     "v1Id": 903,
-    "name": "name.gnome_batta",
+    "name": "item.gnome_batta.name",
     "description": "description.smells_like_pants",
     "command": "command.eat",
     "basePrice": 2,
@@ -15864,7 +15864,7 @@
   {
     "id": "933",
     "v1Id": 933,
-    "name": "name.herb",
+    "name": "item.herb.name",
     "description": "description.i_need_a_closer_look",
     "command": "command.identify",
     "basePrice": 1,
@@ -16085,7 +16085,7 @@
   {
     "id": "946",
     "v1Id": 946,
-    "name": "name.gnome_batta",
+    "name": "item.gnome_batta.name",
     "description": "description.smells_like_pants",
     "command": "command.eat",
     "basePrice": 120,
@@ -17275,8 +17275,8 @@
   {
     "id": "1016",
     "v1Id": 1016,
-    "name": "item.1016.name",
-    "description": "item.1016.description",
+    "name": "item.full_water_skin.name",
+    "description": "item.full_water_skin.description",
     "command": "command.none",
     "basePrice": 30,
     "spriteId": 0,
@@ -17377,8 +17377,8 @@
   {
     "id": "1022",
     "v1Id": 1022,
-    "name": "item.1022.name",
-    "description": "item.1022.description",
+    "name": "item.slave_robe_bottom.name",
+    "description": "item.slave_robe_bottom.description",
     "command": "command.none",
     "basePrice": 40,
     "spriteId": 0,
@@ -17394,8 +17394,8 @@
   {
     "id": "1023",
     "v1Id": 1023,
-    "name": "item.1023.name",
-    "description": "item.1023.description",
+    "name": "item.slave_robe_top.name",
+    "description": "item.slave_robe_top.description",
     "command": "command.none",
     "basePrice": 40,
     "spriteId": 0,
@@ -17445,8 +17445,8 @@
   {
     "id": "1026",
     "v1Id": 1026,
-    "name": "item.1026.name",
-    "description": "item.1026.description",
+    "name": "item.unholy_symbol_mould.name",
+    "description": "item.unholy_symbol_mould.description",
     "command": "command.none",
     "basePrice": 200,
     "spriteId": 0,
@@ -17479,7 +17479,7 @@
   {
     "id": "1028",
     "v1Id": 1028,
-    "name": "item.1028.name",
+    "name": "item.unblessed_unholy_symbol_of_zamorak.name",
     "description": "description.this_needs_blessing",
     "command": "command.none",
     "basePrice": 200,
@@ -18448,8 +18448,8 @@
   {
     "id": "1085",
     "v1Id": 1085,
-    "name": "item.1085.name",
-    "description": "item.1085.description",
+    "name": "item.empty_water_skin.name",
+    "description": "item.empty_water_skin.description",
     "command": "command.none",
     "basePrice": 15,
     "spriteId": 0,
@@ -18839,8 +18839,8 @@
   {
     "id": "1108",
     "v1Id": 1108,
-    "name": "item.1108.name",
-    "description": "item.1108.description",
+    "name": "item.onion_and_tomato_mixture.name",
+    "description": "item.onion_and_tomato_mixture.description",
     "command": "command.none",
     "basePrice": 3,
     "spriteId": 0,
@@ -18856,8 +18856,8 @@
   {
     "id": "1109",
     "v1Id": 1109,
-    "name": "item.1109.name",
-    "description": "item.1109.description",
+    "name": "item.onion_and_tomato_and_ugthanki_mixture.name",
+    "description": "item.onion_and_tomato_and_ugthanki_mixture.description",
     "command": "command.none",
     "basePrice": 3,
     "spriteId": 0,
@@ -18873,8 +18873,8 @@
   {
     "id": "1110",
     "v1Id": 1110,
-    "name": "item.1110.name",
-    "description": "item.1110.description",
+    "name": "item.burnt_pitta_bread.name",
+    "description": "item.burnt_pitta_bread.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -19060,8 +19060,8 @@
   {
     "id": "1121",
     "v1Id": 1121,
-    "name": "item.1121.name",
-    "description": "item.1121.description",
+    "name": "item.digsite_info.name",
+    "description": "item.digsite_info.description",
     "command": "command.read",
     "basePrice": 63,
     "spriteId": 0,
@@ -20369,7 +20369,7 @@
   {
     "id": "1198",
     "v1Id": 1198,
-    "name": "name.elizabeths_silver_needle",
+    "name": "item.elizabeths_silver_needle.name",
     "description": "item.1198.description",
     "command": "command.none",
     "basePrice": 1,
@@ -20624,8 +20624,8 @@
   {
     "id": "1213",
     "v1Id": 1213,
-    "name": "item.1213.name",
-    "description": "item.1213.description",
+    "name": "item.zamorak_cape.name",
+    "description": "item.zamorak_cape.description",
     "command": "command.none",
     "basePrice": 100,
     "spriteId": 0,
@@ -20641,8 +20641,8 @@
   {
     "id": "1214",
     "v1Id": 1214,
-    "name": "item.1214.name",
-    "description": "item.1214.description",
+    "name": "item.saradomin_cape.name",
+    "description": "item.saradomin_cape.description",
     "command": "command.none",
     "basePrice": 100,
     "spriteId": 0,
@@ -20658,8 +20658,8 @@
   {
     "id": "1215",
     "v1Id": 1215,
-    "name": "item.1215.name",
-    "description": "item.1215.description",
+    "name": "item.guthix_cape.name",
+    "description": "item.guthix_cape.description",
     "command": "command.none",
     "basePrice": 100,
     "spriteId": 0,
@@ -20777,8 +20777,8 @@
   {
     "id": "1222",
     "v1Id": 1222,
-    "name": "item.1222.name",
-    "description": "item.1222.description",
+    "name": "item.red_crystal.name",
+    "description": "item.red_crystal.description",
     "command": "command.inspect",
     "basePrice": 2000,
     "spriteId": 0,
@@ -20879,7 +20879,7 @@
   {
     "id": "1228",
     "v1Id": 1228,
-    "name": "name.elizabeths_silver_needle",
+    "name": "item.elizabeths_silver_needle.name",
     "description": "item.1228.description",
     "command": "command.none",
     "basePrice": 1,
@@ -20930,8 +20930,8 @@
   {
     "id": "1231",
     "v1Id": 1231,
-    "name": "item.1231.name",
-    "description": "item.1231.description",
+    "name": "item.glowing_red_crystal.name",
+    "description": "item.glowing_red_crystal.description",
     "command": "command.none",
     "basePrice": 2000,
     "spriteId": 0,
@@ -21083,8 +21083,8 @@
   {
     "id": "1240",
     "v1Id": 1240,
-    "name": "item.1240.name",
-    "description": "item.1240.description",
+    "name": "item.enchanted_vial.name",
+    "description": "item.enchanted_vial.description",
     "command": "command.none",
     "basePrice": 200,
     "spriteId": 0,
@@ -21100,7 +21100,7 @@
   {
     "id": "1241",
     "v1Id": 1241,
-    "name": "item.1241.name",
+    "name": "item.scribbled_notes.name",
     "description": "item.note.description",
     "command": "command.read",
     "basePrice": 20,
@@ -21253,8 +21253,8 @@
   {
     "id": "1250",
     "v1Id": 1250,
-    "name": "item.1250.name",
-    "description": "item.1250.description",
+    "name": "item.magical_fire_pass.name",
+    "description": "item.magical_fire_pass.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -21287,8 +21287,8 @@
   {
     "id": "1252",
     "v1Id": 1252,
-    "name": "item.1252.name",
-    "description": "item.1252.description",
+    "name": "item.ardrigal_solution.name",
+    "description": "item.ardrigal_solution.description",
     "command": "command.none",
     "basePrice": 1,
     "spriteId": 0,
@@ -21338,8 +21338,8 @@
   {
     "id": "1255",
     "v1Id": 1255,
-    "name": "item.1255.name",
-    "description": "item.1255.description",
+    "name": "item.dark_dagger.name",
+    "description": "item.dark_dagger.description",
     "command": "command.none",
     "basePrice": 91,
     "spriteId": 0,
@@ -21899,8 +21899,8 @@
   {
     "id": "1288",
     "v1Id": 1288,
-    "name": "item.1288.name",
-    "description": "item.1288.description",
+    "name": "item.cape_of_legends.name",
+    "description": "item.cape_of_legends.description",
     "command": "command.none",
     "basePrice": 450,
     "spriteId": 0,

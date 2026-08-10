@@ -1,4 +1,3 @@
-using OpenRS.Net;
 using OpenRS.Net.Client.Data;
 using OpenRS.Net.Client.Game;
 

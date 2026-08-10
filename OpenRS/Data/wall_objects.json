@@ -2121,7 +2121,7 @@
   {
     "id": "163",
     "v1Id": 163,
-    "name": "name.low_wall",
+    "name": "wall_object.low_wall.name",
     "description": "description.empty",
     "command1": "command.jump",
     "command2": "command.examine",
@@ -2134,7 +2134,7 @@
   {
     "id": "164",
     "v1Id": 164,
-    "name": "name.low_wall",
+    "name": "wall_object.low_wall.name",
     "description": "description.empty",
     "command1": "command.jump",
     "command2": "command.examine",
