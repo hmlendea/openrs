@@ -7,41 +7,49 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         public void SortByDepth(CameraModel[] models, int startIndex, int endIndex)
         {
-            if (startIndex < endIndex)
+            if (startIndex >= endIndex)
             {
-                int leftPartition = startIndex - 1;
-                int rightPartition = endIndex + 1;
-                int midIndex = (startIndex + endIndex) / 2;
-                CameraModel pivotModel = models[midIndex];
-                models[midIndex] = models[startIndex];
-                models[startIndex] = pivotModel;
-                int pivotScale = pivotModel.Scale;
-
-                while (leftPartition < rightPartition)
-                {
-                    do
-                    {
-                        rightPartition -= 1;
-                    }
-                    while (models[rightPartition].Scale < pivotScale);
-
-                    do
-                    {
-                        leftPartition += 1;
-                    }
-                    while (models[leftPartition].Scale > pivotScale);
-
-                    if (leftPartition < rightPartition)
-                    {
-                        CameraModel swapModel = models[leftPartition];
-                        models[leftPartition] = models[rightPartition];
-                        models[rightPartition] = swapModel;
-                    }
-                }
-
-                SortByDepth(models, startIndex, rightPartition);
-                SortByDepth(models, rightPartition + 1, endIndex);
+                return;
             }
+
+            int partitionIndex = PartitionByDepth(models, startIndex, endIndex);
+            SortByDepth(models, startIndex, partitionIndex);
+            SortByDepth(models, partitionIndex + 1, endIndex);
+        }
+
+        private static int PartitionByDepth(CameraModel[] models, int startIndex, int endIndex)
+        {
+            int leftPartition = startIndex - 1;
+            int rightPartition = endIndex + 1;
+            int middleIndex = (startIndex + endIndex) / 2;
+            CameraModel pivotModel = models[middleIndex];
+            models[middleIndex] = models[startIndex];
+            models[startIndex] = pivotModel;
+            int pivotScale = pivotModel.Scale;
+
+            while (leftPartition < rightPartition)
+            {
+                do
+                {
+                    rightPartition -= 1;
+                }
+                while (models[rightPartition].Scale < pivotScale);
+
+                do
+                {
+                    leftPartition += 1;
+                }
+                while (models[leftPartition].Scale > pivotScale);
+
+                if (leftPartition < rightPartition)
+                {
+                    CameraModel swapModel = models[leftPartition];
+                    models[leftPartition] = models[rightPartition];
+                    models[rightPartition] = swapModel;
+                }
+            }
+
+            return rightPartition;
         }
 
         public void ResolveRenderOrder(int maxLookAheadCount, CameraModel[] models, int modelCount)

@@ -7,10 +7,13 @@ namespace OpenRS.Models
         private static readonly int[] ValidHeadSprites = [1, 4, 6, 7, 8];
         private static readonly int[] ValidBodySprites = [2, 5];
 
+        private static int AppearanceSpriteCount => 12;
+        private static int DefaultLegsSprite => 3;
         private static int MaximumHairColour => 9;
         private static int MaximumTopColour => 14;
         private static int MaximumTrousersColour => 14;
         private static int MaximumSkinColour => 4;
+        private static int NoSprite => 0;
 
         public int HairColour { get; set; }
 
@@ -36,10 +39,18 @@ namespace OpenRS.Models
         {
             0 => Head,
             1 => Body,
-            2 => 3,
-            _ => 0,
+            2 => DefaultLegsSprite,
+            _ => NoSprite,
         };
 
-        public int[] GetSprites() => [Head, Body, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        public int[] GetSprites()
+        {
+            int[] sprites = new int[AppearanceSpriteCount];
+            sprites[0] = Head;
+            sprites[1] = Body;
+            sprites[2] = DefaultLegsSprite;
+
+            return sprites;
+        }
     }
 }

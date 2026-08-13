@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 
 using NuciLog.Core;
 
@@ -290,35 +291,17 @@ namespace OpenRS.Net.Client.Game.Cameras
                 viewX = rotatedZ;
             }
 
-            if (viewX < NearX)
-            {
-                NearX = viewX;
-            }
+            ExpandProjectionBounds(viewX, viewY, viewZ);
+        }
 
-            if (viewX > FarX)
-            {
-                FarX = viewX;
-            }
-
-            if (viewY < NearY)
-            {
-                NearY = viewY;
-            }
-
-            if (viewY > FarY)
-            {
-                FarY = viewY;
-            }
-
-            if (viewZ < NearZ)
-            {
-                NearZ = viewZ;
-            }
-
-            if (viewZ > FarZ)
-            {
-                FarZ = viewZ;
-            }
+        private static void ExpandProjectionBounds(int positionX, int positionY, int positionZ)
+        {
+            NearX = Math.Min(NearX, positionX);
+            FarX = Math.Max(FarX, positionX);
+            NearY = Math.Min(NearY, positionY);
+            FarY = Math.Max(FarY, positionY);
+            NearZ = Math.Min(NearZ, positionZ);
+            FarZ = Math.Max(FarZ, positionZ);
         }
 
         public void FinishCamera()

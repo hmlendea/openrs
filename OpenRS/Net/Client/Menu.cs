@@ -6,6 +6,10 @@ namespace OpenRS.Net.Client
 {
     public sealed class Menu
     {
+        private static readonly string AllowedInputCharacters =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789!\"" +
+            (char)243 +
+            "$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
 
         public Menu(GameImage gameImageInstance, int capacity)
         {
@@ -65,12 +69,16 @@ namespace OpenRS.Net.Client
             {
                 for (int componentIndex = 0; componentIndex < menuItemsCount; componentIndex += 1)
                 {
-                    if (componentAcceptsInput[componentIndex] && componentType[componentIndex] == 10 && this.mouseX >= componentX[componentIndex] && this.mouseY >= componentY[componentIndex] && this.mouseX <= componentX[componentIndex] + componentWidth[componentIndex] && this.mouseY <= componentY[componentIndex] + componentHeight[componentIndex])
+                    if (componentAcceptsInput[componentIndex] &&
+                        componentType[componentIndex] == 10 &&
+                        IsMouseWithinComponent(componentIndex))
                     {
                         componentSkip[componentIndex] = true;
                     }
 
-                    if (componentAcceptsInput[componentIndex] && componentType[componentIndex] == 14 && this.mouseX >= componentX[componentIndex] && this.mouseY >= componentY[componentIndex] && this.mouseX <= componentX[componentIndex] + componentWidth[componentIndex] && this.mouseY <= componentY[componentIndex] + componentHeight[componentIndex])
+                    if (componentAcceptsInput[componentIndex] &&
+                        componentType[componentIndex] == 14 &&
+                        IsMouseWithinComponent(componentIndex))
                     {
                         componentSelectedIndex[componentIndex] = 1 - componentSelectedIndex[componentIndex];
                     }
@@ -90,7 +98,9 @@ namespace OpenRS.Net.Client
             {
                 for (int componentIndex = 0; componentIndex < menuItemsCount; componentIndex += 1)
                 {
-                    if (componentAcceptsInput[componentIndex] && componentType[componentIndex] == 15 && this.mouseX >= componentX[componentIndex] && this.mouseY >= componentY[componentIndex] && this.mouseX <= componentX[componentIndex] + componentWidth[componentIndex] && this.mouseY <= componentY[componentIndex] + componentHeight[componentIndex])
+                    if (componentAcceptsInput[componentIndex] &&
+                        componentType[componentIndex] == 15 &&
+                        IsMouseWithinComponent(componentIndex))
                     {
                         componentSkip[componentIndex] = true;
                     }
@@ -99,6 +109,12 @@ namespace OpenRS.Net.Client
                 mouseClickHoldCounter -= 5;
             }
         }
+
+        private bool IsMouseWithinComponent(int componentIndex) =>
+            mouseX >= componentX[componentIndex] &&
+            mouseY >= componentY[componentIndex] &&
+            mouseX <= componentX[componentIndex] + componentWidth[componentIndex] &&
+            mouseY <= componentY[componentIndex] + componentHeight[componentIndex];
 
         public bool IsClicked(int componentIndex)
         {
@@ -119,44 +135,63 @@ namespace OpenRS.Net.Client
                 return;
             }
 
-            if (selectedComponent != -1 && componentText[selectedComponent] is not null && componentAcceptsInput[selectedComponent])
+            if (selectedComponent == -1 ||
+                componentText[selectedComponent] is null ||
+                !componentAcceptsInput[selectedComponent])
             {
-                int currentLength = componentText[selectedComponent].Length;
+                return;
+            }
 
-                if (key == Keys.Back && currentLength > 0)
+            int currentLength = componentText[selectedComponent].Length;
+            RemoveLastInputCharacter(key, currentLength);
+            MarkInputSubmitted(key, currentLength);
+            AppendInputCharacter(character, currentLength);
+
+            if (key == Keys.Tab)
+            {
+                SelectNextInputComponent();
+            }
+        }
+
+        private void RemoveLastInputCharacter(Keys key, int currentLength)
+        {
+            if (key == Keys.Back && currentLength > 0)
+            {
+                componentText[selectedComponent] = componentText[selectedComponent][..(currentLength - 1)];
+            }
+        }
+
+        private void MarkInputSubmitted(Keys key, int currentLength)
+        {
+            if (key == Keys.Enter && currentLength > 0)
+            {
+                componentSkip[selectedComponent] = true;
+            }
+        }
+
+        private void AppendInputCharacter(char character, int currentLength)
+        {
+            if (currentLength >= copmonentInputMaxLength[selectedComponent])
+            {
+                return;
+            }
+
+            for (int charIndex = 0; charIndex < AllowedInputCharacters.Length; charIndex += 1)
+            {
+                if (character == AllowedInputCharacters[charIndex])
                 {
-                    componentText[selectedComponent] = componentText[selectedComponent][..(currentLength - 1)];
-                }
-
-                if (key == Keys.Enter && currentLength > 0)
-                {
-                    componentSkip[selectedComponent] = true;
-                }
-
-                string allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö0123456789!\"" + (char)243 + "$%^&*()-_=+[{]};:'@#~,<.>/?\\| ";
-
-                if (currentLength < copmonentInputMaxLength[selectedComponent])
-                {
-                    for (int charIndex = 0; charIndex < allowedChars.Length; charIndex += 1)
-                    {
-                        if (character == allowedChars[charIndex])
-                        {
-                            componentText[selectedComponent] += character;
-                        }
-                    }
-                }
-
-                if (key == Keys.Tab)
-                {
-                    do
-                    {
-                        selectedComponent = (selectedComponent + 1) % menuItemsCount;
-                    }
-                    while (componentType[selectedComponent] != 5 && componentType[selectedComponent] != 6);
-
-                    return;
+                    componentText[selectedComponent] += character;
                 }
             }
+        }
+
+        private void SelectNextInputComponent()
+        {
+            do
+            {
+                selectedComponent = (selectedComponent + 1) % menuItemsCount;
+            }
+            while (componentType[selectedComponent] != 5 && componentType[selectedComponent] != 6);
         }
 
         public void DrawMenu()

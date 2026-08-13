@@ -140,28 +140,33 @@ namespace OpenRS.Net.Client.Game
             {
                 for (int tileY = 0; tileY < GridSize; tileY += 1)
                 {
-                    if (GetTileGroundOverlayIndex(tileX, tileY, 0) != 250)
-                    {
-                        continue;
-                    }
-
-                    if (tileX == SectorSize - 1 &&
-                        GetTileGroundOverlayIndex(tileX + 1, tileY, 0) != 250 &&
-                        GetTileGroundOverlayIndex(tileX + 1, tileY, 0) != 2)
-                    {
-                        SetTileGroundOverlayHeight(tileX, tileY, 9);
-                    }
-                    else if (tileY == SectorSize - 1 &&
-                             GetTileGroundOverlayIndex(tileX, tileY + 1, 0) != 250 &&
-                             GetTileGroundOverlayIndex(tileX, tileY + 1, 0) != 2)
-                    {
-                        SetTileGroundOverlayHeight(tileX, tileY, 9);
-                    }
-                    else
-                    {
-                        SetTileGroundOverlayHeight(tileX, tileY, 2);
-                    }
+                    StitchTileColour(tileX, tileY);
                 }
+            }
+        }
+
+        private void StitchTileColour(int tileX, int tileY)
+        {
+            if (GetTileGroundOverlayIndex(tileX, tileY, 0) != 250)
+            {
+                return;
+            }
+
+            if (tileX == SectorSize - 1 &&
+                GetTileGroundOverlayIndex(tileX + 1, tileY, 0) != 250 &&
+                GetTileGroundOverlayIndex(tileX + 1, tileY, 0) != 2)
+            {
+                SetTileGroundOverlayHeight(tileX, tileY, 9);
+            }
+            else if (tileY == SectorSize - 1 &&
+                     GetTileGroundOverlayIndex(tileX, tileY + 1, 0) != 250 &&
+                     GetTileGroundOverlayIndex(tileX, tileY + 1, 0) != 2)
+            {
+                SetTileGroundOverlayHeight(tileX, tileY, 9);
+            }
+            else
+            {
+                SetTileGroundOverlayHeight(tileX, tileY, 2);
             }
         }
 
@@ -246,62 +251,62 @@ namespace OpenRS.Net.Client.Game
 
         public int GetTileGroundTextureIndex(int x, int y)
         {
-            if (x < 0 || x >= GridSize || y < 0 || y >= GridSize)
+            if (IsOutsideGrid(x, y))
             {
                 return 0;
             }
 
             SectorCoordinates coords = SectorCoordinates.From(x, y);
 
-            return TileGroundTexture[coords.Layer][coords.X * SectorSize + coords.Y] & 0xff;
+            return TileGroundTexture[coords.Layer][coords.TileIndex] & 0xff;
         }
 
         public int GetTileElevation(int tileX, int tileY)
         {
-            if (tileX < 0 || tileX >= GridSize || tileY < 0 || tileY >= GridSize)
+            if (IsOutsideGrid(tileX, tileY))
             {
                 return 0;
             }
 
             SectorCoordinates coords = SectorCoordinates.From(tileX, tileY);
 
-            return (TileGroundElevation[coords.Layer][coords.X * SectorSize + coords.Y] & 0xff) * 3;
+            return (TileGroundElevation[coords.Layer][coords.TileIndex] & 0xff) * 3;
         }
 
         public int GetTileRoofType(int tileX, int tileY)
         {
-            if (tileX < 0 || tileX >= GridSize || tileY < 0 || tileY >= GridSize)
+            if (IsOutsideGrid(tileX, tileY))
             {
                 return 0;
             }
 
             SectorCoordinates coords = SectorCoordinates.From(tileX, tileY);
 
-            return TileRoofType[coords.Layer][coords.X * SectorSize + coords.Y];
+            return TileRoofType[coords.Layer][coords.TileIndex];
         }
 
         public int GetTileRotation(int tileX, int tileY)
         {
-            if (tileX < 0 || tileX >= GridSize || tileY < 0 || tileY >= GridSize)
+            if (IsOutsideGrid(tileX, tileY))
             {
                 return 0;
             }
 
             SectorCoordinates coords = SectorCoordinates.From(tileX, tileY);
 
-            return TileObjectRotation[coords.Layer][coords.X * SectorSize + coords.Y];
+            return TileObjectRotation[coords.Layer][coords.TileIndex];
         }
 
         public int GetTileGroundOverlayIndex(int x, int y, int height)
         {
-            if (x < 0 || x >= GridSize || y < 0 || y >= GridSize)
+            if (IsOutsideGrid(x, y))
             {
                 return 0;
             }
 
             SectorCoordinates coords = SectorCoordinates.From(x, y);
 
-            return TileGroundOverlay[coords.Layer][coords.X * SectorSize + coords.Y] & 0xff;
+            return TileGroundOverlay[coords.Layer][coords.TileIndex] & 0xff;
         }
 
         public int GetTileGroundOverlayTextureOrDefault(int x, int y, int height, int defaultTexture)
@@ -335,54 +340,54 @@ namespace OpenRS.Net.Client.Game
 
         public int GetHorizontalWall(int x, int y)
         {
-            if (x < 0 || x >= GridSize || y < 0 || y >= GridSize)
+            if (IsOutsideGrid(x, y))
             {
                 return 0;
             }
 
             SectorCoordinates coords = SectorCoordinates.From(x, y);
 
-            return TileHorizontalWall[coords.Layer][coords.X * SectorSize + coords.Y] & 0xff;
+            return TileHorizontalWall[coords.Layer][coords.TileIndex] & 0xff;
         }
 
         public int GetVerticalWall(int x, int y)
         {
-            if (x < 0 || x >= GridSize || y < 0 || y >= GridSize)
+            if (IsOutsideGrid(x, y))
             {
                 return 0;
             }
 
             SectorCoordinates coords = SectorCoordinates.From(x, y);
 
-            return TileVerticalWall[coords.Layer][coords.X * SectorSize + coords.Y] & 0xff;
+            return TileVerticalWall[coords.Layer][coords.TileIndex] & 0xff;
         }
 
         public int GetDiagonalWall(int x, int y)
         {
-            if (x < 0 || x >= GridSize || y < 0 || y >= GridSize)
+            if (IsOutsideGrid(x, y))
             {
                 return 0;
             }
 
             SectorCoordinates coords = SectorCoordinates.From(x, y);
 
-            return TileDiagonalWall[coords.Layer][coords.X * SectorSize + coords.Y];
+            return TileDiagonalWall[coords.Layer][coords.TileIndex];
         }
 
         public void SetTileGroundOverlayHeight(int x, int y, int height)
         {
-            if (x < 0 || x >= GridSize || y < 0 || y >= GridSize)
+            if (IsOutsideGrid(x, y))
             {
                 return;
             }
 
             SectorCoordinates coords = SectorCoordinates.From(x, y);
-            TileGroundOverlay[coords.Layer][coords.X * SectorSize + coords.Y] = height;
+            TileGroundOverlay[coords.Layer][coords.TileIndex] = height;
         }
 
         public int GetTile(int x, int y)
         {
-            if (x < 0 || y < 0 || x >= GridSize || y >= GridSize)
+            if (IsOutsideGrid(x, y))
             {
                 return 0;
             }
@@ -626,5 +631,11 @@ namespace OpenRS.Net.Client.Game
 
             return wallContainer.AddFaceVertices(WallFaceVertexCount, faceVerts, backColour, frontColour);
         }
+
+        private static bool IsOutsideGrid(int positionX, int positionY) =>
+            positionX < 0 ||
+            positionX >= GridSize ||
+            positionY < 0 ||
+            positionY >= GridSize;
     }
 }

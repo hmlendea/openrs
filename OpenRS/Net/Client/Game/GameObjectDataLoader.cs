@@ -34,57 +34,6 @@ namespace OpenRS.Net.Client.Game
             gameObject.BaseShadeLevel = GameObject.DefaultBaseShadeLevel;
         }
 
-        internal static void AllocateOptionalArrays(
-            GameObject gameObject,
-            int vertexCapacity,
-            int faceCapacity)
-        {
-            if (!gameObject.DoesShareVertexArrays)
-            {
-                gameObject.ProjectedX = new int[vertexCapacity];
-                gameObject.ProjectedY = new int[vertexCapacity];
-                gameObject.ProjectedDepth = new int[vertexCapacity];
-                gameObject.ProjectedU = new int[vertexCapacity];
-                gameObject.ProjectedV = new int[vertexCapacity];
-            }
-
-            if (!gameObject.DoesShareEntityArrays)
-            {
-                gameObject.PolygonTypeData = new int[faceCapacity];
-                gameObject.EntityType = new int[faceCapacity];
-            }
-
-            if (gameObject.DoesShareWorldVertices)
-            {
-                gameObject.WorldVertX = gameObject.VertexCoordinatesX;
-                gameObject.WorldVertY = gameObject.VertexCoordinatesY;
-                gameObject.WorldVertZ = gameObject.VertexCoordinatesZ;
-            }
-            else
-            {
-                gameObject.WorldVertX = new int[vertexCapacity];
-                gameObject.WorldVertY = new int[vertexCapacity];
-                gameObject.WorldVertZ = new int[vertexCapacity];
-            }
-
-            if (!gameObject.DoesNotReceiveShadows || !gameObject.HasNoCollider)
-            {
-                gameObject.NormalX = new int[faceCapacity];
-                gameObject.NormalY = new int[faceCapacity];
-                gameObject.NormalZ = new int[faceCapacity];
-            }
-
-            if (!gameObject.HasNoCollider)
-            {
-                gameObject.faceBoundsMinX = new int[faceCapacity];
-                gameObject.faceBoundsMaxX = new int[faceCapacity];
-                gameObject.faceBoundsMinY = new int[faceCapacity];
-                gameObject.faceBoundsMaxY = new int[faceCapacity];
-                gameObject.faceBoundsMinZ = new int[faceCapacity];
-                gameObject.faceBoundsMaxZ = new int[faceCapacity];
-            }
-        }
-
         internal static sbyte[] LoadFromFile(GameObject gameObject, string fileName)
         {
             byte[] fileBuffer;

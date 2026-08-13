@@ -17,6 +17,9 @@ namespace OpenRS.Net.Client.Game
         private readonly GameImageCharacterRenderer characterRenderer;
         private readonly GameImageTextRenderer textRenderer;
         private readonly GameImageMinimapRenderer minimapRenderer;
+        private readonly GameImagePixelRasteriser pixelRasteriser;
+        private readonly GameImageShapeRasteriser shapeRasteriser;
+        private readonly GameImageBlurProcessor blurProcessor;
 
         public static int SpiralDrawCount { get; set; }
 
@@ -88,20 +91,6 @@ namespace OpenRS.Net.Client.Game
 
         internal int ImageHeight { get; set; }
 
-        private static int AlphaScale => 256;
-
-        private static int ByteMask => 0xff;
-
-        private static int RgbMask => 0xffffff;
-
-        private static int ScreenFadeHalfMask => 0x7f7f7f;
-
-        private static int ScreenFadeQuarterMask => 0x3f3f3f;
-
-        private static int ScreenFadeEighthMask => 0x1f1f1f;
-
-        private static int ScreenFadeSixteenthMask => 0x0f0f0f;
-
         public GameImage(int width, int height, int size)
         {
             ImageHeight = height;
@@ -125,392 +114,46 @@ namespace OpenRS.Net.Client.Game
             characterRenderer = new GameImageCharacterRenderer(this);
             textRenderer = new GameImageTextRenderer(this);
             minimapRenderer = new GameImageMinimapRenderer(this);
+            pixelRasteriser = new GameImagePixelRasteriser(this);
+            shapeRasteriser = new GameImageShapeRasteriser(this);
+            blurProcessor = new GameImageBlurProcessor(this);
         }
 
         public static int AddFont(sbyte[] bytes)
             => GameImageTextRenderer.AddFont(bytes);
 
         public void SetDimensions(int x, int y, int width, int height)
-        {
-            if (x < 0)
-            {
-                x = 0;
-            }
+            => pixelRasteriser.SetDimensions(x, y, width, height);
 
-            if (y < 0)
-            {
-                y = 0;
-            }
+        public void ResetDimensions() => pixelRasteriser.ResetDimensions();
 
-            if (width > GameWidth)
-            {
-                width = GameWidth;
-            }
-
-            if (height > GameHeight)
-            {
-                height = GameHeight;
-            }
-
-            ImageX = x;
-            ImageY = y;
-            ImageWidth = width;
-            ImageHeight = height;
-        }
-
-        public void ResetDimensions()
-        {
-            ImageX = 0;
-            ImageY = 0;
-            ImageWidth = GameWidth;
-            ImageHeight = GameHeight;
-        }
-
-        public void ClearScreen()
-        {
-            int pixelCount = GameWidth * GameHeight;
-
-            if (!IsInterlaced)
-            {
-                for (int pixelIndex = 0; pixelIndex < pixelCount; pixelIndex += 1)
-                {
-                    Pixels[pixelIndex] = 0;
-                }
-
-                return;
-            }
-
-            int index = 0;
-
-            for (int rowOffset = -GameHeight; rowOffset < 0; rowOffset += 2)
-            {
-                for (int columnOffset = -GameWidth; columnOffset < 0; columnOffset += 1)
-                {
-                    Pixels[index++] = 0;
-                }
-
-                index += GameWidth;
-            }
-        }
+        public void ClearScreen() => pixelRasteriser.ClearScreen();
 
         public void DrawCircle(int centreX, int centreY, int radius, int colour, int alpha)
-        {
-            int inverseAlpha = AlphaScale - alpha;
-            int scaledRed = (colour >> 16 & ByteMask) * alpha;
-            int scaledGreen = (colour >> 8 & ByteMask) * alpha;
-            int scaledBlue = (colour & ByteMask) * alpha;
-            int topY = centreY - radius;
-
-            if (topY < 0)
-            {
-                topY = 0;
-            }
-
-            int bottomY = centreY + radius;
-
-            if (bottomY >= GameHeight)
-            {
-                bottomY = GameHeight - 1;
-            }
-
-            byte rowStep = 1;
-
-            if (IsInterlaced)
-            {
-                rowStep = 2;
-
-                if ((topY & 1) != 0)
-                {
-                    topY += 1;
-                }
-            }
-
-            for (int scanY = topY; scanY <= bottomY; scanY += rowStep)
-            {
-                int relativeY = scanY - centreY;
-                int halfWidth = (int)Math.Sqrt(radius * radius - relativeY * relativeY);
-                int leftX = centreX - halfWidth;
-
-                if (leftX < 0)
-                {
-                    leftX = 0;
-                }
-
-                int rightX = centreX + halfWidth;
-
-                if (rightX >= GameWidth)
-                {
-                    rightX = GameWidth - 1;
-                }
-
-                int pixelIndex = leftX + scanY * GameWidth;
-
-                for (int columnX = leftX; columnX <= rightX; columnX += 1)
-                {
-                    int existingRed = (Pixels[pixelIndex] >> 16 & ByteMask) * inverseAlpha;
-                    int existingGreen = (Pixels[pixelIndex] >> 8 & ByteMask) * inverseAlpha;
-                    int existingBlue = (Pixels[pixelIndex] & ByteMask) * inverseAlpha;
-                    int blendedColour = ((scaledRed + existingRed >> 8) << 16) + ((scaledGreen + existingGreen >> 8) << 8) + (scaledBlue + existingBlue >> 8);
-                    Pixels[pixelIndex++] = blendedColour;
-                }
-            }
-        }
+            => shapeRasteriser.DrawCircle(centreX, centreY, radius, colour, alpha);
 
         public void DrawBoxAlpha(int x, int y, int width, int height, int colour, int alpha)
-        {
-            if (x < ImageX)
-            {
-                width -= ImageX - x;
-                x = ImageX;
-            }
-
-            if (y < ImageY)
-            {
-                height -= ImageY - y;
-                y = ImageY;
-            }
-
-            if (x + width > ImageWidth)
-            {
-                width = ImageWidth - x;
-            }
-
-            if (y + height > ImageHeight)
-            {
-                height = ImageHeight - y;
-            }
-
-            int inverseAlpha = AlphaScale - alpha;
-            int scaledRed = (colour >> 16 & ByteMask) * alpha;
-            int scaledGreen = (colour >> 8 & ByteMask) * alpha;
-            int scaledBlue = (colour & ByteMask) * alpha;
-            int rowStride = GameWidth - width;
-            byte rowStep = 1;
-
-            if (IsInterlaced)
-            {
-                rowStep = 2;
-                rowStride += GameWidth;
-
-                if ((y & 1) != 0)
-                {
-                    y += 1;
-                    height -= 1;
-                }
-            }
-
-            int pixelIndex = x + y * GameWidth;
-
-            for (int rowIndex = 0; rowIndex < height; rowIndex += rowStep)
-            {
-                for (int columnOffset = -width; columnOffset < 0; columnOffset += 1)
-                {
-                    int existingRed = (Pixels[pixelIndex] >> 16 & ByteMask) * inverseAlpha;
-                    int existingGreen = (Pixels[pixelIndex] >> 8 & ByteMask) * inverseAlpha;
-                    int existingBlue = (Pixels[pixelIndex] & ByteMask) * inverseAlpha;
-                    int blendedColour = ((scaledRed + existingRed >> 8) << 16) + ((scaledGreen + existingGreen >> 8) << 8) + (scaledBlue + existingBlue >> 8);
-                    Pixels[pixelIndex++] = blendedColour;
-                }
-
-                pixelIndex += rowStride;
-            }
-        }
+            => shapeRasteriser.DrawBoxAlpha(x, y, width, height, colour, alpha);
 
         public void DrawGradientBox(int x, int y, int width, int height, int startColour, int endColour)
-        {
-            if (x < ImageX)
-            {
-                width -= ImageX - x;
-                x = ImageX;
-            }
-
-            if (x + width > ImageWidth)
-            {
-                width = ImageWidth - x;
-            }
-
-            int endBlue = endColour >> 16 & ByteMask;
-            int endGreen = endColour >> 8 & ByteMask;
-            int endRed = endColour & ByteMask;
-            int startBlue = startColour >> 16 & ByteMask;
-            int startGreen = startColour >> 8 & ByteMask;
-            int startRed = startColour & ByteMask;
-            int rowStride = GameWidth - width;
-            byte rowStep = 1;
-
-            if (IsInterlaced)
-            {
-                rowStep = 2;
-                rowStride += GameWidth;
-
-                if ((y & 1) != 0)
-                {
-                    y += 1;
-                    height -= 1;
-                }
-            }
-
-            int pixelIndex = x + y * GameWidth;
-
-            for (int rowIndex = 0; rowIndex < height; rowIndex += rowStep)
-            {
-                if (rowIndex + y >= ImageY && rowIndex + y < ImageHeight)
-                {
-                    int rowColour =
-                        ((endBlue * rowIndex + startBlue * (height - rowIndex)) / height << 16) +
-                        ((endGreen * rowIndex + startGreen * (height - rowIndex)) / height << 8) +
-                        (endRed * rowIndex + startRed * (height - rowIndex)) / height;
-
-                    for (int columnOffset = -width; columnOffset < 0; columnOffset += 1)
-                    {
-                        Pixels[pixelIndex++] = rowColour;
-                    }
-
-                    pixelIndex += rowStride;
-                }
-                else
-                {
-                    pixelIndex += GameWidth;
-                }
-            }
-        }
+            => shapeRasteriser.DrawGradientBox(x, y, width, height, startColour, endColour);
 
         public void DrawBox(int x, int y, int width, int height, int colour)
-        {
-            if (x < ImageX)
-            {
-                width -= ImageX - x;
-                x = ImageX;
-            }
-
-            if (y < ImageY)
-            {
-                height -= ImageY - y;
-                y = ImageY;
-            }
-
-            if (x + width > ImageWidth)
-            {
-                width = ImageWidth - x;
-            }
-
-            if (y + height > ImageHeight)
-            {
-                height = ImageHeight - y;
-            }
-
-            int rowStride = GameWidth - width;
-            byte rowStep = 1;
-
-            if (IsInterlaced)
-            {
-                rowStep = 2;
-                rowStride += GameWidth;
-
-                if ((y & 1) != 0)
-                {
-                    y += 1;
-                    height -= 1;
-                }
-            }
-
-            int pixelIndex = x + y * GameWidth;
-
-            for (int rowIndex = -height; rowIndex < 0; rowIndex += rowStep)
-            {
-                for (int columnOffset = -width; columnOffset < 0; columnOffset += 1)
-                {
-                    Pixels[pixelIndex++] = colour;
-                }
-
-                pixelIndex += rowStride;
-            }
-        }
+            => pixelRasteriser.DrawBox(x, y, width, height, colour);
 
         public void DrawBoxEdge(int x, int y, int width, int height, int colour)
-        {
-            DrawLineX(x, y, width, colour);
-            DrawLineX(x, y + height - 1, width, colour);
-            DrawLineY(x, y, height, colour);
-            DrawLineY(x + width - 1, y, height, colour);
-        }
+            => pixelRasteriser.DrawBoxEdge(x, y, width, height, colour);
 
         public void DrawLineX(int x, int y, int length, int colour)
-        {
-            if (y < ImageY || y >= ImageHeight)
-            {
-                return;
-            }
-
-            if (x < ImageX)
-            {
-                length -= ImageX - x;
-                x = ImageX;
-            }
-
-            if (x + length > ImageWidth)
-            {
-                length = ImageWidth - x;
-            }
-
-            int startIndex = x + y * GameWidth;
-
-            for (int offset = 0; offset < length; offset += 1)
-            {
-                Pixels[startIndex + offset] = colour;
-            }
-        }
+            => pixelRasteriser.DrawLineX(x, y, length, colour);
 
         public void DrawLineY(int x, int y, int length, int colour)
-        {
-            if (x < ImageX || x >= ImageWidth)
-            {
-                return;
-            }
-
-            if (y < ImageY)
-            {
-                length -= ImageY - y;
-                y = ImageY;
-            }
-
-            if (y + length > ImageHeight)
-            {
-                length = ImageHeight - y;
-            }
-
-            int startIndex = x + y * GameWidth;
-
-            for (int offset = 0; offset < length; offset += 1)
-            {
-                Pixels[startIndex + offset * GameWidth] = colour;
-            }
-        }
+            => pixelRasteriser.DrawLineY(x, y, length, colour);
 
         public void DrawMinimapPixel(int x, int y, int colour)
-        {
-            if (x < ImageX || y < ImageY || x >= ImageWidth || y >= ImageHeight)
-            {
-                return;
-            }
+            => pixelRasteriser.DrawMinimapPixel(x, y, colour);
 
-            Pixels[x + y * GameWidth] = colour;
-        }
-
-        public void ScreenFadeToBlack()
-        {
-            int pixelCount = GameWidth * GameHeight;
-
-            for (int pixelIndex = 0; pixelIndex < pixelCount; pixelIndex += 1)
-            {
-                int pixelValue = Pixels[pixelIndex] & RgbMask;
-                Pixels[pixelIndex] = (int)(
-                    ((uint)pixelValue >> 1 & ScreenFadeHalfMask) +
-                    ((uint)pixelValue >> 2 & ScreenFadeQuarterMask) +
-                    ((uint)pixelValue >> 3 & ScreenFadeEighthMask) +
-                    ((uint)pixelValue >> 4 & ScreenFadeSixteenthMask));
-            }
-        }
+        public void ScreenFadeToBlack() => pixelRasteriser.FadeToBlack();
 
         public void DrawTransparentLine(
             int blurRadiusX,
@@ -519,38 +162,13 @@ namespace OpenRS.Net.Client.Game
             int destY,
             int areaWidth,
             int areaHeight)
-        {
-            for (int columnX = destX; columnX < destX + areaWidth; columnX += 1)
-            {
-                for (int rowY = destY; rowY < destY + areaHeight; rowY += 1)
-                {
-                    int totalRed = 0;
-                    int totalGreen = 0;
-                    int totalBlue = 0;
-                    int sampleCount = 0;
-
-                    for (int sampleX = columnX - blurRadiusX; sampleX <= columnX + blurRadiusX; sampleX += 1)
-                    {
-                        if (sampleX >= 0 && sampleX < GameWidth)
-                        {
-                            for (int sampleY = rowY - blurRadiusY; sampleY <= rowY + blurRadiusY; sampleY += 1)
-                            {
-                                if (sampleY >= 0 && sampleY < GameHeight)
-                                {
-                                    int samplePixel = Pixels[sampleX + GameWidth * sampleY];
-                                    totalRed += samplePixel >> 16 & ByteMask;
-                                    totalGreen += samplePixel >> 8 & ByteMask;
-                                    totalBlue += samplePixel & ByteMask;
-                                    sampleCount += 1;
-                                }
-                            }
-                        }
-                    }
-
-                    Pixels[columnX + GameWidth * rowY] = (totalRed / sampleCount << 16) + (totalGreen / sampleCount << 8) + totalBlue / sampleCount;
-                }
-            }
-        }
+            => blurProcessor.BlurArea(
+                blurRadiusX,
+                blurRadiusY,
+                destX,
+                destY,
+                areaWidth,
+                areaHeight);
 
         public static uint RgbaToUInt(int red, int green, int blue, int alpha)
         {
@@ -573,15 +191,7 @@ namespace OpenRS.Net.Client.Game
             => (red << 16) + (green << 8) + blue;
 
         public void DrawPixels(int[][] pixelGrid, int drawX, int drawY, int width, int height)
-        {
-            for (int x = drawX; x < drawX + width; x += 1)
-            {
-                for (int y = drawY; y < drawY + height; y += 1)
-                {
-                    Pixels[x + y * GameWidth] = pixelGrid[x - drawX][y - drawY];
-                }
-            }
-        }
+            => pixelRasteriser.DrawPixels(pixelGrid, drawX, drawY, width, height);
 
         public void CleanUp()
             => pictureManager.CleanUp();

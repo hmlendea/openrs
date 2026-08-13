@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+
 using OpenRS.Net.Client.Game.Cameras;
 
 namespace OpenRS.Net.Client.Game
@@ -115,19 +116,11 @@ namespace OpenRS.Net.Client.Game
             set => shadeBufferIndex = value;
         }
 
-        private static int AsciiLineFeed => 10;
-
-        private static int AsciiCarriageReturn => 13;
-
-        private static int ByteMaskValue => 0xff;
-
-        private static int ShadeHighByteMultiplier => 4096;
-
-        private static int ShadeMidByteMultiplier => 64;
-
-        private static int ShadeValueDecodingOffset => 0x20000;
-
-        private static int ShadeSpecialEncodedValue => 0x1e240;
+        internal int TotalFaceCapacity
+        {
+            get => totalFaceCapacity;
+            set => totalFaceCapacity = value;
+        }
 
         private static int NoTransformType => 0;
 
@@ -206,126 +199,33 @@ namespace OpenRS.Net.Client.Game
         }
 
         public void InitialiseArrays(int vertCapacity, int faceCapacity)
-        {
-            VertexCoordinatesX = new int[vertCapacity];
-            VertexCoordinatesY = new int[vertCapacity];
-            VertexCoordinatesZ = new int[vertCapacity];
-            VertexVectors = new Vector3[vertCapacity];
-            FaceNormalComponent = new int[vertCapacity];
-            VertexColour = new int[vertCapacity];
-            FaceVertexCounts = new int[faceCapacity];
-            FaceVertexIndices = new int[faceCapacity][];
-            TextureBack = new int[faceCapacity];
-            TextureFront = new int[faceCapacity];
-            GouraudShade = new int[faceCapacity];
-            FaceRenderFlag = new int[faceCapacity];
-            FaceVisibility = new int[faceCapacity];
-
-            GameObjectDataLoader.AllocateOptionalArrays(this, vertCapacity, faceCapacity);
-
-            FaceCount = 0;
-            VertexCount = 0;
-            TotalVertexCapacity = vertCapacity;
-            totalFaceCapacity = faceCapacity;
-            positionX = positionY = positionZ = 0;
-            rotationX = rotationY = rotationZ = 0;
-            scaleX = scaleY = scaleZ = DefaultScale;
-            secondaryScaleX = secondaryScaleY = secondaryScaleZ = DefaultScale;
-            tertiaryScaleX = tertiaryScaleY = tertiaryScaleZ = DefaultScale;
-            transformType = NoTransformType;
-        }
+            => GameObjectArrayInitialiser.Initialise(this, vertCapacity, faceCapacity);
 
         public void ResetVertexNormals()
-        {
-            ProjectedX = new int[VertexCount];
-            ProjectedY = new int[VertexCount];
-            ProjectedDepth = new int[VertexCount];
-            ProjectedU = new int[VertexCount];
-            ProjectedV = new int[VertexCount];
-        }
+            => GameObjectGeometryBuilder.ResetProjectionArrays(this);
 
         public void ResetObjectIndexes()
-        {
-            FaceCount = 0;
-            VertexCount = 0;
-        }
+            => GameObjectGeometryBuilder.ResetObjectIndexes(this);
 
         public void AddPolygonToGroup(int faceDecrement, int vertexDecrement)
-        {
-            FaceCount -= faceDecrement;
-
-            if (FaceCount < 0)
-            {
-                FaceCount = 0;
-            }
-
-            VertexCount -= vertexDecrement;
-
-            if (VertexCount < 0)
-            {
-                VertexCount = 0;
-            }
-        }
+            => GameObjectGeometryBuilder.RemoveLastGroup(this, faceDecrement, vertexDecrement);
 
         public int GetVertexIndex(int x, int y, int z)
-        {
-            for (int vertexIndex = 0; vertexIndex < VertexCount; vertexIndex += 1)
-            {
-                if (VertexCoordinatesX[vertexIndex] == x &&
-                    VertexCoordinatesY[vertexIndex] == y &&
-                    VertexCoordinatesZ[vertexIndex] == z)
-                {
-                    return vertexIndex;
-                }
-            }
-
-            if (VertexCount >= TotalVertexCapacity)
-            {
-                return -1;
-            }
-
-            VertexCoordinatesX[VertexCount] = x;
-            VertexCoordinatesY[VertexCount] = y;
-            VertexCoordinatesZ[VertexCount] = z;
-            VertexCount += 1;
-
-            return VertexCount - 1;
-        }
+            => GameObjectGeometryBuilder.GetOrAddVertex(this, x, y, z);
 
         public int AddVertex(int x, int y, int z)
-        {
-            if (VertexCount >= TotalVertexCapacity)
-            {
-                return -1;
-            }
-
-            VertexCoordinatesX[VertexCount] = x;
-            VertexCoordinatesY[VertexCount] = y;
-            VertexCoordinatesZ[VertexCount] = z;
-            VertexCount += 1;
-
-            return VertexCount - 1;
-        }
+            => GameObjectGeometryBuilder.AddVertex(this, x, y, z);
 
         public int AddFaceVertices(int vertexCountForFace, int[] faceVertices, int faceBack, int faceFront)
-        {
-            if (FaceCount >= totalFaceCapacity)
-            {
-                return -1;
-            }
-
-            FaceVertexCounts[FaceCount] = vertexCountForFace;
-            FaceVertexIndices[FaceCount] = faceVertices;
-            TextureBack[FaceCount] = faceBack;
-            TextureFront[FaceCount] = faceFront;
-            ObjectState = ObjectStateRequiresTransform;
-            FaceCount += 1;
-
-            return FaceCount - 1;
-        }
+            => GameObjectGeometryBuilder.AddFace(
+                this,
+                vertexCountForFace,
+                faceVertices,
+                faceBack,
+                faceFront);
 
         public void SetVertexColour(int vertexIndex, int value)
-            => VertexColour[vertexIndex] = value;
+            => GameObjectGeometryBuilder.SetVertexColour(this, vertexIndex, value);
 
         public void UpdateShading(
             bool applyShadeValue,
@@ -520,25 +420,7 @@ namespace OpenRS.Net.Client.Game
         }
 
         public int GetShadeValue(sbyte[] buffer)
-        {
-            SkipLineBreaks(buffer);
-
-            int highByte = ReadNextShadeTableEntry(buffer);
-            int midByte = ReadNextShadeTableEntry(buffer);
-            int lowByte = ReadNextShadeTableEntry(buffer);
-            int decodedValue =
-                highByte * ShadeHighByteMultiplier +
-                midByte * ShadeMidByteMultiplier +
-                lowByte -
-                ShadeValueDecodingOffset;
-
-            if (decodedValue == ShadeSpecialEncodedValue)
-            {
-                decodedValue = DefaultShadeValue;
-            }
-
-            return decodedValue;
-        }
+            => GameObjectShadeDecoder.Decode(this, buffer);
 
         private void ApplyNullWorldTransform()
             => GameObjectTransformer.ApplyNullTransform(this);
@@ -593,21 +475,5 @@ namespace OpenRS.Net.Client.Game
                 projectionScale,
                 nearPlane);
 
-        private void SkipLineBreaks(sbyte[] buffer)
-        {
-            while (buffer[ShadeBufferIndex] == AsciiLineFeed ||
-                buffer[ShadeBufferIndex] == AsciiCarriageReturn)
-            {
-                ShadeBufferIndex += 1;
-            }
-        }
-
-        private int ReadNextShadeTableEntry(sbyte[] buffer)
-        {
-            int value = GameObjectLookupTables.ShadeTable[buffer[ShadeBufferIndex] & ByteMaskValue];
-            ShadeBufferIndex += 1;
-
-            return value;
-        }
     }
 }

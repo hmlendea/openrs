@@ -13,7 +13,7 @@ The secondary objective is to improve execution performance where profiling demo
 The following contracts are immutable throughout the programme:
 - Every client packet identifier, field order, field width, signedness, text encoding, length prefix, compact-packet transformation, flush boundary, and transmission sequence.
 - Every server command identifier, packet boundary, bit offset, field interpretation, state mutation, and malformed-packet result.
-- The login sequence, client version, session hash, RSA operation, reconnect sequence, timeout semantics, server address defaults, and authentication result handling.
+- The login sequence, client version, session hash, RSA operation, reconnect seqtransliteration-apiuence, timeout semantics, server address defaults, and authentication result handling.
 - Every public type, member, constructor, enumeration name and value, event, default value, side effect, exception, and null result.
 - Every JSON property name, value type, identifier, localisation key, file name, relative path, case, default, ordering-sensitive operation, and save format.
 - Every content asset identifier, content-pipeline name, source asset, texture region, font, colour, scale, coordinate, draw order, blend mode, clipping result, and missing-content result.
@@ -31,6 +31,7 @@ The refactoring programme must not:
 - rename or eliminate public members, packet values, serialised fields, assets, localisation keys, or data files;
 - alter graphics, layouts, fonts, colours, animations, audio, input latency rules, or frame-update order;
 - update dependencies, the target framework, nullable settings, build properties, or content-pipeline versions during structural phases;
+- create integration, end-to-end, snapshot, golden-master, architecture, mutation, performance, or any other non-unit-test project or suite;
 - combine structural refactoring with formatting, asset conversion, data migration, performance optimisation, or feature development in the same change.
 
 Potential defect, security, and modernisation changes must be recorded separately and implemented only as explicitly approved compatibility changes after this programme.
@@ -39,8 +40,8 @@ Potential defect, security, and modernisation changes must be recorded separatel
 
 The baseline recorded on 13 August 2026 is:
 - `dotnet build OpenRS/OpenRS.csproj` succeeds for `net10.0`.
-- The solution contains one executable project and 265 C# source files.
-- No automated test project exists.
+- The solution contains one executable project and one NUnit unit-test project.
+- `OpenRS.UnitTests` contains 49 unit-test source files covering managers, models, cameras, pathfinding, protocol framing, login encryption, menus, and protocol identifiers.
 - Six `TODO` or `NotImplementedException` markers exist and are outside the refactoring scope.
 - Startup proceeds through `Program`, `GameWindow`, NuciXNA `ScreenManager`, and `SplashScreen`.
 - `GameClient` is the principal mutable client state and orchestration surface.
@@ -49,7 +50,7 @@ The baseline recorded on 13 August 2026 is:
 - Rendering is coordinated by `GameRenderer` and specialised renderers.
 - Runtime data and localisation are loaded from `OpenRS/Data`; compiled content is defined by `OpenRS/Content/Content.mgcb`.
 
-Tag or otherwise retain the approved source revision, dependency lock state, binaries, content production, data files, and configuration used to produce the baseline. Never regenerate golden files from refactored code.
+Tag or otherwise retain the approved source revision, dependency lock state, binaries, content production, data files, configuration, and unit-test results used to produce the baseline. Never revise a unit-test expectation merely to accept an unintended refactoring difference.
 
 ## Target Architecture
 
@@ -102,7 +103,7 @@ The intended owners are:
 | Interface selection and menus | Interface state | Input and menu application handlers | Presentation and packet-request creation |
 | Loading progress and errors | Loading session | Loading orchestration | Loading presentation and host lifecycle |
 
-Exactly one component owns mutation for each state category. Packet handlers, renderers, controls, and repositories must not become alternative state owners. Cross-domain operations must pass through an application handler whose ordered effects are covered by a scenario trace.
+Exactly one component owns mutation for each state category. Packet handlers, renderers, controls, and repositories must not become alternative state owners. Cross-domain operations must pass through an application handler whose ordered effects are covered by unit tests where the operation can be isolated and by a documented manual runtime check otherwise.
 
 ### Commands, Queries, And Events
 
@@ -166,17 +167,19 @@ An exceeded threshold requires either further decomposition or a concise archite
 - Packet decoders cannot draw, load content, access controls, or select audio devices.
 - Repositories cannot reference active client-session state or presentation types.
 - Cross-area access occurs through narrow interfaces, commands, queries, or immutable values owned by the inner consumer.
-- Architecture tests must enforce these rules by namespace and assembly dependency analysis.
+- Static dependency analysis and code review must enforce these rules by namespace and assembly dependency inspection.
 
 ### Test Quality
 
-- Characterisation tests describe retained legacy behaviour; specification tests describe the intended internal contract. Their names and locations must distinguish them.
-- Every changed branch has a direct test, including boundaries, errors, nulls, empty collections, maximum capacities, and malformed data where currently reachable.
-- Tests use controlled clocks, randomness, transport, file access, content manifests, and graphics fixtures where those influence results.
-- Tests assert complete relevant results and observable order, not private implementation details.
-- Shared fixture builders use domain terminology and expose meaningful defaults; opaque numeric packet arrays remain golden fixtures with decoded descriptions.
-- A test must fail when its protected behaviour is intentionally mutated. Critical golden-master tests require periodic mutation checks.
-- Flaky tests block the phase; retries cannot convert a failure into acceptance.
+- `OpenRS.UnitTests` is the only permitted automated test project, and every automated test must be a deterministic unit test.
+- Do not create integration, end-to-end, snapshot, golden-master, architecture, mutation, performance, server-dependent, graphics-device-dependent, or desktop-automation tests.
+- Unit tests may preserve legacy behaviour or define an internal contract, but they must isolate one production unit and replace external collaborators with test doubles.
+- Every changed branch has a direct unit test, including boundaries, errors, nulls, empty collections, maximum capacities, and malformed data where currently reachable.
+- Unit tests use controlled clocks, randomness, transport, and file access where those influence the isolated unit.
+- Unit tests cannot require a live server, graphics device, audio device, window manager, network connection, external account, or machine-specific file.
+- Unit tests assert complete relevant results and observable order, not private implementation details.
+- Shared fixture builders use domain terminology and expose meaningful defaults; opaque numeric packet arrays include decoded descriptions.
+- Flaky unit tests block the phase; retries cannot convert a failure into acceptance.
 
 ### Documentation And Decisions
 
@@ -204,7 +207,7 @@ In addition to exact compatibility, every production phase must demonstrate:
 - no increase in public API surface unless required to preserve an existing binary contract;
 - no increase in the maximum complexity of touched production methods or types;
 - a reduction in at least one measured defect in the targeted area: complexity, coupling, duplication, mutable-state exposure, responsibility count, or untested branches;
-- direct tests for every changed branch and architecture tests for every changed boundary;
+- direct unit tests for every changed branch and static dependency analysis for every changed boundary;
 - current documentation for changed ownership and dependencies;
 - a recorded rationale for every retained threshold violation and compatibility adapter;
 - an independently reviewable diff with no unrelated modifications.
@@ -213,18 +216,18 @@ A phase fails when the code remains equally difficult to comprehend but has mere
 
 ## Automation And Reporting
 
-The continuous integration pipeline must execute:
-1. Restore and compile with locked dependency versions.
-2. Formatting and static analysis configured to avoid behavioural rewrites.
-3. Unit, characterisation, integration, architecture, golden-master, and mutation checks.
-4. Public API manifest comparison.
-5. Protocol fixture and recorded-session comparison.
-6. Data, localisation, content, and produced-file hash comparison.
-7. Deterministic behaviour, draw-command, framebuffer, and audio-command comparison.
-8. Complexity, duplication, dependency-cycle, and changed-branch coverage reporting.
-9. Performance non-regression benchmarks on controlled reference hardware.
+The canonical continuous integration workflow must execute:
+1. Restore with the repository's locked dependency versions.
+2. Compile the solution.
+3. Execute the `OpenRS.UnitTests` unit-test suite, with no other test project or test category.
 
-Each phase report must include baseline and current values for source files, production lines, test lines, maximum and mean method complexity, methods above thresholds, types above thresholds, dependency cycles, forbidden dependencies, duplicated blocks, public API changes, changed-code branch coverage, benchmark distributions, allocations, garbage collections, and peak memory. Metrics inform review and do not reward fragmentation or deletion of useful tests.
+Before merge, execute these non-test verification activities locally:
+1. Formatting and static analysis configured to avoid behavioural rewrites.
+2. Public API manifest comparison.
+3. Data, localisation, content, and produced-file hash comparison.
+4. Complexity, duplication, dependency-cycle, and changed-branch coverage reporting where tooling is available.
+
+Each phase report must include baseline and current values for source files, production lines, unit-test lines, maximum and mean method complexity, methods above thresholds, types above thresholds, dependency cycles, forbidden dependencies, duplicated blocks, public API changes, and changed-code branch coverage. Performance profiling remains a separate non-test activity in Phase 13. Metrics inform review and do not reward fragmentation or deletion of useful unit tests.
 
 ## Performance Standards
 
@@ -261,13 +264,13 @@ Use Release production for performance acceptance. Debug measurements may assist
 
 ### Performance Gates
 
-- Each structural phase must pass performance non-regression tests before acceptance.
+- Each structural phase must retain comparable profiling measurements before acceptance when it touches a performance-sensitive path.
 - A result is a regression when the controlled benchmark demonstrates a statistically significant increase in cost at 95% confidence and the difference exceeds the benchmark's predeclared noise floor.
 - Frame-time, loading, allocation, collection, memory, and packet-processing regressions are evaluated independently; an improvement in one metric cannot conceal a regression in another.
 - Any accepted regression requires explicit user approval, an architecture decision record, quantified user impact, and evidence that compatibility cannot be preserved by a different implementation.
 - A performance optimisation must demonstrate a repeatable improvement in its declared primary metric on at least the controlled reference system and must pass all compatibility, maintainability, and other performance gates.
 - Benchmark thresholds, fixtures, sample counts, and noise floors must be declared before measuring a candidate optimisation and cannot be revised merely to accept it.
-- Hardware-dependent results require both command-trace equality and framebuffer equality so reduced execution cost does not conceal omitted work.
+- Hardware-dependent improvements require manual runtime confirmation that work has not been omitted.
 
 ### Optimisation Rules
 
@@ -299,9 +302,9 @@ Capture and retain:
 - hashes for copied data, configuration, native libraries, and compiled content;
 - the initial working-directory and environment assumptions.
 
-### Performance Baseline
+### Performance Observation Baseline
 
-Create deterministic benchmark scenarios before production refactoring:
+Record deterministic profiling scenarios before performance optimisation:
 - cold and warm startup;
 - content and data loading with fixed input hashes;
 - idle gameplay, movement, populated world, dense interface, combat, inventory, bank, shop, trade, duel, and chat;
@@ -310,63 +313,58 @@ Create deterministic benchmark scenarios before production refactoring:
 - sustained gameplay replay and maximum supported entity and interface populations;
 - repeated load, login, logout, reconnect, region transition, and shutdown cycles to reveal retention and resource leaks.
 
-Capture raw timing, allocation, collection, memory, frame pacing, and throughput samples. Execute enough independent process runs to establish stable distributions and a noise floor. Verify that benchmark instrumentation does not alter packet, state, draw, audio, or lifecycle traces.
+Capture raw timing, allocation, collection, memory, frame pacing, and throughput samples without creating a benchmark test project. Execute sufficient independent process runs to establish stable distributions and a noise floor.
 
-### Protocol Golden Masters
+### Protocol Unit Coverage
 
-Create a loopback protocol harness surrounding `PacketConstruction`, `StreamClass`, `GameAppletMiddleMan`, and `PacketHandler`.
-
-Fixtures must include:
+Unit-test protocol primitives and isolated handlers through test doubles. Unit-test fixtures must include:
 - every `ClientPacket` value emitted by reachable code;
 - compact payload lengths at 0, 1, 158, and 159 bytes;
 - extended payload lengths at 160, 161, 255, 256, and the maximum supported length;
 - signed and unsigned boundary values for bytes, shorts, integers, and longs;
 - empty, ASCII, and multibyte UTF-8 strings using current encoding semantics;
-- consecutive packets, delayed flushes, reconnects, timeouts, socket closure, and I/O failures;
+- consecutive packets, delayed flushes, timeouts, socket closure, and I/O failures where these can be isolated without a live server;
 - every `ServerCommand` handled by each specialised handler;
 - bit-packed movement and entity updates at byte boundaries and cross-byte boundaries;
 - unknown commands and malformed packets, preserving current logs and state effects.
 
-For outgoing traffic, compare exact byte arrays and packet boundaries. For incoming traffic, compare ordered state snapshots, events, logs, and exceptions. Capture an approved login and representative play session versus the reference server, redact credentials, and compare both traffic directions byte for byte.
+For outgoing traffic, unit tests compare exact byte arrays and packet boundaries. For incoming traffic, unit tests compare ordered state changes, events, logs, and exceptions produced by the isolated handler. Live-server traffic is outside the automated test suite and may only be inspected manually.
 
-### Behaviour Golden Masters
+### Manual Behaviour Verification
 
-Record deterministic scenario traces for:
+Manually inspect these scenarios at major phase boundaries without creating automated test artefacts:
 - startup, splash completion, login success, every login failure, logout, reconnect, and shutdown;
 - player and non-player-character movement, region changes, object updates, inventory, bank, shop, trade, duel, combat, prayer, spell, quest, chat, fatigue, and system updates;
 - mouse movement, mouse buttons, keyboard input, menu construction, menu selection, camera movement, and window focus changes;
 - loading success, absent content, invalid content, memory failure, and network failure.
 
-Each trace must contain ordered inputs, clock values, random sources where applicable, state mutations, emitted events, packets, logs, screen transitions, and terminal results. Compare complete traces, not selected assertions.
+Document the environment, inputs, server revision, observed screen transitions, and result for each performed check. Unit tests remain the only automated tests.
 
-### Visual Golden Masters
+### Manual Visual Verification
 
-Provide a deterministic capture mode with fixed assets, state, clock, input, random values, graphics settings, resolution, and graphics backend.
-
-Capture exact framebuffer images for:
+Manually inspect fixed representative states on the approved graphics environment:
 - splash, login, world loading, normal gameplay, every tab and overlay, menus, chat, inventory, bank, shop, trade, duel, combat, appearance, death, system update, and error states;
 - representative terrain, walls, objects, items, players, non-player characters, animations, camera angles, clipping, and imported models;
 - hover, pressed, selected, focused, disabled, empty, full, minimum, and maximum control states.
 
-Pixel buffers must be identical. A perceptual threshold is not sufficient. Also compare ordered draw-command traces so graphics-driver variance cannot conceal a changed draw order or parameter.
+Do not create screenshot, framebuffer, draw-trace, graphics-device, or desktop-automation tests. Any observable difference blocks the associated change.
 
-### Audio Golden Masters
+### Manual Audio Verification
 
-Capture the ordered sound commands, asset identifiers, volumes, loop flags, and timing for representative interactions. Where deterministic PCM capture is possible, compare the resulting stream exactly.
+Manually inspect asset selection, volume, loop state, and timing for representative interactions. Do not create audio-device or PCM-comparison tests.
 
-### Data And Content Golden Masters
+### Data And Content Verification
 
 For every repository, mapping extension, JSON file, localisation file, binary data file, and content asset:
 - hash input files before and after each phase;
-- snapshot deserialised object graphs with stable ordering;
-- round-trip writable repositories and compare exact bytes;
+- unit-test deserialised object graphs and writable repository round trips where these remain isolated and platform-safe;
 - validate identifier uniqueness, references, defaults, casing, and missing-value results;
 - compare the compiled content manifest and asset dimensions;
 - preserve GLB accessor offsets, strides, texture indices, winding, shading sentinels, and coordinate conversions.
 
-### Public Surface Golden Masters
+### Public Surface Manifest
 
-Generate an assembly API manifest containing all public and protected types and members, signatures, generic constraints, inheritance, interfaces, attributes, enumeration values, constants, and default parameter values. Compare the manifest after every phase. Existing public fields remain fields unless an explicitly compatible forwarding mechanism is proven by the manifest and behavioural tests.
+Generate an assembly API manifest containing all public and protected types and members, signatures, generic constraints, inheritance, interfaces, attributes, enumeration values, constants, and default parameter values. Compare the manifest after every phase as a build artefact, not a test project. Existing public fields remain fields unless an explicitly compatible forwarding mechanism is proven by the manifest and unit tests.
 
 ## Execution Rules
 
@@ -382,34 +380,34 @@ Each production change must:
 9. Report complexity, coupling, dependency, duplication, and changed-branch coverage deltas.
 10. Pass the architectural acceptance gates as well as compatibility verification.
 
-After each commit, execute the build, unit and integration suites, protocol comparison, API comparison, data and content hash comparison, deterministic scenario traces, visual comparison, and audio command comparison. Any difference blocks the phase until resolved or explicitly removed from scope.
+After each production change, execute the build, the complete `OpenRS.UnitTests` suite, static analysis, public API comparison, and data and content hash comparison. Perform the documented manual runtime checks at major phase boundaries. Any difference blocks the phase until resolved or explicitly removed from scope.
 
 ## Phase 0: Freeze The Reference
 
 Deliverables:
 - archive the approved executable production and runtime file manifest;
-- record reference-server traffic for approved deterministic scenarios;
-- capture behaviour, visual, audio, API, data, and content golden masters;
-- document required environment, server revision, accounts, world state, and test fixtures without retaining secrets;
-- establish a repeatable command that executes every compatibility comparison.
+- record the public API, data, localisation, content, and produced-file manifests;
+- record the passing `OpenRS.UnitTests` result;
+- document the approved manual runtime environment and checklist without retaining secrets;
+- establish repeatable commands for the build, unit tests, static analysis, manifests, and hashes.
 
 Exit gate:
-- a deliberately altered packet byte, draw command, public signature, JSON property, and state mutation must each cause the harness to fail;
-- two unmodified baseline executions must compare equal.
+- the clean build and complete unit-test suite pass;
+- repeated manifest and hash generation produces equal results from unchanged source.
 
-## Phase 1: Establish Test Projects
+## Phase 1: Confirm Unit-Test Coverage
 
-Create test projects without changing production behaviour:
-- unit tests for pure data readers, mappings, repositories, settings, and protocol framing;
-- integration tests for packet dispatch, state mutation, login transport, loading, and screen transitions;
-- golden-master tests for protocol, behaviour, visuals, audio commands, public API, and content manifests;
-- test doubles at existing virtual or external boundaries only; do not alter runtime selection or construction yet.
+Use only the existing `OpenRS.UnitTests` project without changing production behaviour solely to expose internals:
+- retain and extend unit tests for pure data readers, mappings, repositories, settings, protocol framing, state transitions, and deterministic calculations;
+- use test doubles at existing virtual or external boundaries only;
+- do not create another test project or any non-unit-test category;
+- do not add a live server, graphics device, audio device, window manager, network, or desktop dependency to unit tests.
 
 Prioritise `BinaryDataReader`, `PacketConstruction`, `LoginEncryptor`, mapping extensions, repositories, `PacketHandler`, and every packet enumeration.
 
 Exit gate:
-- the complete harness passes versus the frozen reference;
-- mutation checks demonstrate that each critical assertion detects an intentional incompatibility.
+- the complete unit-test suite passes from a clean checkout;
+- every production slice selected for refactoring has direct unit coverage for its existing public and observable branches.
 
 ## Phase 2: Mechanical Hygiene
 
@@ -423,7 +421,7 @@ Apply behaviour-neutral corrections in isolated changes:
 Do not combine hygiene with extraction. This phase may be omitted where churn provides no material maintenance value.
 
 Exit gate:
-- all global compatibility comparisons are exactly equal.
+- the build, unit tests, manifests, hashes, and applicable manual checks remain equal.
 
 ## Phase 3: Data Access And Mapping
 
@@ -436,7 +434,7 @@ Refactor from the lowest-dependency layer upward:
 - preserve all `Data` files and content copy rules unchanged.
 
 Exit gate:
-- all object-graph snapshots and round-trip bytes are equal;
+- all unit-tested object graphs and round-trip bytes are equal;
 - all source data, localisation, content, and output hashes are unchanged.
 
 ## Phase 4: Protocol Primitives
@@ -449,8 +447,8 @@ Refactor protocol code without altering its external or wire contract:
 - retain `ClientPacket`, `ServerCommand`, `LoginCode`, `MenuAction`, and `MessageType` names and numeric values.
 
 Exit gate:
-- all protocol fixtures and reference-server captures are byte-for-byte equal;
-- API and state traces are equal.
+- all protocol unit-test fixtures remain byte-for-byte equal;
+- the public API manifest is equal.
 
 ## Phase 5: Incoming Packet Handling
 
@@ -462,8 +460,8 @@ Refactor one specialised handler at a time:
 - introduce a dispatch table only after tests prove unique ownership and identical precedence for every numeric command.
 
 Exit gate:
-- every server-command fixture produces an identical complete state trace;
-- replayed server sessions produce no protocol, log, event, or state difference.
+- every isolated server-command unit fixture produces identical state, log, event, and exception results;
+- the documented manual server check reveals no protocol or state difference.
 
 ## Phase 6: Outgoing Actions And Input
 
@@ -474,7 +472,8 @@ Refactor input and world interaction by user action:
 - retain all outgoing packet construction at its current semantic boundary until action equivalence is complete.
 
 Exit gate:
-- each recorded input trace produces identical state, menus, packets, audio commands, and rendering commands.
+- each isolated input unit test produces identical state, menu, and packet results;
+- the documented manual input check reveals no visible or audio difference.
 
 ## Phase 7: Game State Extraction
 
@@ -488,7 +487,7 @@ Reduce `GameClient` incrementally without replacing it:
 
 Exit gate:
 - API manifests are identical;
-- every behaviour trace and packet replay produces an identical state graph, including reference identity where observable.
+- unit tests preserve state values and reference identity where observable.
 
 ## Phase 8: Loading And World Construction
 
@@ -500,7 +499,8 @@ Refactor loading in dependency order:
 - leave incomplete loaders and pathfinding semantics unchanged.
 
 Exit gate:
-- loaded object graphs, geometry buffers, texture selections, events, logs, and rendered frames are identical.
+- unit-tested loaded object graphs, geometry buffers, texture selections, events, and logs are identical;
+- manual loading and rendering checks reveal no difference.
 
 ## Phase 9: Rendering
 
@@ -512,8 +512,8 @@ Refactor rendering from leaf renderers towards `GameRenderer`:
 - refactor one visual subsystem per change: world, characters, items, interface, menus, inventory, bank, shop, trade, duel, chat, and overlays.
 
 Exit gate:
-- draw-command traces and framebuffers are exactly equal for all visual fixtures;
-- content manifests and audio command traces remain equal.
+- renderer unit tests and content manifests remain equal;
+- manual visual and audio checks reveal no difference.
 
 ## Phase 10: Screens, Controls, And Lifecycle
 
@@ -525,7 +525,8 @@ Refactor `GameWindow`, screens, and controls only after rendering equivalence:
 - preserve fixed timestep, vertical synchronisation, clearing, sprite-batch boundaries, window title, dimensions, and mouse visibility.
 
 Exit gate:
-- lifecycle traces, input traces, screen transitions, draw commands, framebuffers, and audio commands are exactly equal.
+- lifecycle and input unit tests remain equal;
+- manual screen, visual, and audio checks reveal no difference.
 
 ## Phase 11: Managers, Models, And Utilities
 
@@ -538,7 +539,7 @@ Refactor remaining domains in small dependency-directed groups:
 For each group, first map all callers and all observable effects. Preserve singleton timing, static state, cache lifetime, collection order, numeric overflow, culture, casing, logs, and exceptions.
 
 Exit gate:
-- the complete compatibility harness remains exactly equal after every group.
+- the build, complete unit-test suite, manifests, hashes, and applicable manual checks remain equal after every group.
 
 ## Phase 12: Dependency Direction And Composition
 
@@ -552,8 +553,8 @@ Only after the preceding extractions are stable:
 Do not introduce a dependency-injection container unless a separate proposal proves that object identity, creation order, disposal, performance, and all compatibility traces remain identical.
 
 Exit gate:
-- all global comparisons are exactly equal;
-- a clean checkout can restore, compile, test, and execute the deterministic scenarios with one documented command.
+- all automated non-runtime checks and unit tests are equal;
+- a clean checkout can restore, compile, and execute the unit-test suite with one documented command.
 
 ## Phase 13: Profile-Guided Performance Optimisation
 
@@ -562,7 +563,7 @@ Commence this phase only after structural refactoring and all architectural gate
 - establish a focused benchmark and declare its primary metric, secondary metrics, noise floor, and compatibility fixtures before editing production code;
 - prefer algorithmic and allocation improvements that preserve operation order and ownership boundaries;
 - verify retained caches, buffers, pooled resources, graphics resources, and event subscriptions across repeated lifecycle scenarios;
-- execute the complete compatibility suite and all performance non-regression benchmarks after each optimisation;
+- execute the complete unit-test suite and repeat the declared profiling measurements after each optimisation;
 - document rejected candidates where the benefit is insignificant, unstable, architecture-damaging, or incompatible.
 
 Candidate investigation areas, subject to profiling evidence, include:
@@ -583,17 +584,18 @@ Exit gate:
 ## Phase 14: Final Consolidation
 
 Perform no functional refactoring in this phase. Instead:
-- execute the entire baseline suite repeatedly on the approved environment;
-- execute a complete reference-server session covering login, movement, interaction, combat, inventory, bank, shop, trade, duel, chat, logout, and reconnect;
-- compare network captures, API manifests, data and content hashes, state traces, draw commands, framebuffers, audio commands, logs, and produced files;
+- execute the complete unit-test suite repeatedly on the approved environment;
+- manually execute a reference-server session covering login, movement, interaction, combat, inventory, bank, shop, trade, duel, chat, logout, and reconnect;
+- compare API manifests, data and content hashes, logs, produced files, and documented manual observations;
 - audit every changed public symbol, protocol constant, serialised field, asset reference, and lifecycle method;
 - update architecture documentation to describe only the verified implementation.
 
 Exit gate:
-- every deterministic comparison is exactly equal;
+- every automated non-runtime comparison and unit test is equal;
+- the manual runtime checklist records no observable difference;
 - no compatibility waiver remains;
 - the complete project compiles without new warnings;
-- all test and verification artefacts are reproducible from a clean checkout.
+- all unit-test and non-runtime verification artefacts are reproducible from a clean checkout.
 
 ## Recommended Change Order
 
@@ -616,17 +618,17 @@ Never execute two adjacent items concurrently when they share mutable `GameClien
 
 | Risk | Consequence | Mandatory Control |
 | --- | --- | --- |
-| No existing tests | Silent regressions | Complete Phase 0 and Phase 1 before production refactoring |
+| Incomplete unit coverage | Silent regressions | Select only production slices with direct unit coverage and extend unit tests first where necessary |
 | Mutable public fields | API or aliasing incompatibility | Preserve fields and compare API plus reference identity |
-| Compact packet framing | Server disconnect or corrupt commands | Byte-level golden masters at every length boundary |
+| Compact packet framing | Server disconnect or corrupt commands | Byte-level unit tests at every length boundary |
 | Packet dispatch precedence | Incorrect state mutation | Characterise command ownership before table dispatch |
 | Bit-packed updates | Position or entity corruption | Cross-byte fixtures and recorded packet replays |
 | Global singleton state | Changed initialisation or lifetime | Lifecycle traces and identity assertions |
-| Rendering operation order | Pixel or layering differences | Draw-command and pixel-exact comparisons |
+| Rendering operation order | Pixel or layering differences | Renderer unit tests plus documented manual visual inspection |
 | Floating-point reordering | Camera or geometry differences | Preserve numeric type and operation order |
 | Content identifiers and casing | Missing runtime assets | Manifest and case-sensitive path verification |
 | Repository ordering or defaults | Changed game data | Object-graph and exact round-trip comparisons |
-| Asynchronous networking | Changed packet timing or races | Deterministic transport harness and session replay |
+| Asynchronous networking | Changed packet timing or races | Isolated transport unit tests plus documented manual server verification |
 | Legacy incomplete code | Accidental behaviour expansion | Exclude repairs and retain current results |
 | Dependency upgrades | Unrelated runtime differences | Freeze packages and framework during refactoring |
 | Unmeasured optimisation | Complexity without material benefit | Require profile evidence and a reproducible benchmark |
@@ -637,25 +639,25 @@ Never execute two adjacent items concurrently when they share mutable `GameClien
 ## Completion Criteria
 
 The programme is complete only when:
-- all 265 source files have been classified as refactored, intentionally retained, generated, or excluded with a reason;
-- every reachable client and server packet has a golden fixture;
+- all production source files have been classified as refactored, intentionally retained, generated, or excluded with a reason;
+- every changed reachable client and server packet path has direct unit coverage;
 - every public and protected assembly member appears unchanged in the API manifest;
 - all runtime data, localisation, content, and output-file hashes match the baseline unless a file contains test-only additions;
-- all deterministic behaviour, lifecycle, visual, and audio scenarios match exactly;
-- representative reference-server sessions produce identical ordered network traffic and results;
+- all unit-tested deterministic behaviour and lifecycle scenarios remain equal;
+- the final documented manual runtime, visual, audio, and reference-server checklist records no observable difference;
 - every mutable state category has one documented authoritative owner;
-- the implemented dependencies conform to the target architecture and automated architecture tests detect violations;
+- the implemented dependencies conform to the target architecture and static dependency analysis detects violations;
 - no renderer, control, repository, or packet decoder owns unrelated game-state mutation;
 - `GameClient` is a documented compatibility facade and lifecycle coordinator rather than the default dependency for extracted code;
 - no unexplained dependency cycle, duplicated policy, service locator, new singleton, or new mutable global state remains;
 - all substantially refactored code satisfies the complexity limits or has an approved architecture decision record;
 - every touched area demonstrates reduced complexity, coupling, duplication, mutable-state exposure, or untested branching without increasing another measure without rationale;
-- changed production branches have direct deterministic tests and all critical golden masters have passed mutation checks;
+- changed production branches have direct deterministic unit tests;
 - the architecture overview, state-ownership catalogue, compatibility-shim catalogue, and architecture decision records describe the final verified structure;
 - controlled benchmarks demonstrate no unexplained performance regression versus the approved baseline;
 - every accepted optimisation has reproducible profile evidence, a material improvement, exact compatibility evidence, and proportionate maintenance cost;
-- startup, loading, frame pacing, update, draw, allocation, garbage collection, memory, packet processing, and stress-scenario budgets are documented and enforced in continuous integration;
+- startup, loading, frame pacing, update, draw, allocation, garbage collection, memory, packet processing, and stress-scenario observations are documented without creating performance tests;
 - the clean build succeeds and the complete compatibility suite passes;
-- no phase relies on visual inspection, compilation alone, or an undocumented compatibility exception.
+- no phase relies on compilation alone or an undocumented compatibility exception.
 
 The strict rule is simple: when equivalence cannot be demonstrated, retain the existing implementation.
