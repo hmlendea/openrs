@@ -10,6 +10,16 @@ namespace OpenRS.Net.Client.Game
     {
         private static readonly ILogger logger = NuciLoggerFactory.CreateLogger<GameImageSpriteBlitter>();
 
+        private static int RedBlueChannelMask => 0xff00ff;
+
+        private static uint RedBlueBlendMask => 0xff00ff00;
+
+        private static int GreenChannelMask => 0xff00;
+
+        private static int GreenBlendMask => 0xff0000;
+
+        private static int BlendShift => 8;
+
         internal static void DrawSpriteOpaque(
             int[] pixels,
             int[] colours,
@@ -251,16 +261,12 @@ namespace OpenRS.Net.Client.Game
 
                     if (currentColour != 0)
                     {
-                        int backgroundPixel = pixels[dstOffset];
-                        int blendedRedBlue =
-                            (int)((currentColour & 0xff00ff) * blendFactor +
-                            (backgroundPixel & 0xff00ff) * blendComplement &
-                            0xff00ff00);
-                        int blendedGreen =
-                            (currentColour & 0xff00) * blendFactor +
-                            (backgroundPixel & 0xff00) * blendComplement &
-                            0xff0000;
-                        pixels[dstOffset++] = (blendedRedBlue + blendedGreen) >> 8;
+                        pixels[dstOffset] = BlendColour(
+                            currentColour,
+                            pixels[dstOffset],
+                            blendFactor,
+                            blendComplement);
+                        dstOffset += 1;
                     }
                     else
                     {
@@ -297,16 +303,12 @@ namespace OpenRS.Net.Client.Game
                     if (colourIndex != 0)
                     {
                         int colour = colourLookup[colourIndex & 0xff];
-                        int backgroundPixel = pixels[dstOffset];
-                        int blendedRedBlue =
-                            (int)((colour & 0xff00ff) * blendFactor +
-                            (backgroundPixel & 0xff00ff) * blendComplement &
-                            0xff00ff00);
-                        int blendedGreen =
-                            (colour & 0xff00) * blendFactor +
-                            (backgroundPixel & 0xff00) * blendComplement &
-                            0xff0000;
-                        pixels[dstOffset++] = (blendedRedBlue + blendedGreen) >> 8;
+                        pixels[dstOffset] = BlendColour(
+                            colour,
+                            pixels[dstOffset],
+                            blendFactor,
+                            blendComplement);
+                        dstOffset += 1;
                     }
                     else
                     {
@@ -350,16 +352,12 @@ namespace OpenRS.Net.Client.Game
 
                         if (currentColour != 0)
                         {
-                            int backgroundPixel = pixels[dstOffset];
-                            int blendedRedBlue =
-                                (int)((currentColour & 0xff00ff) * blendFactor +
-                                (backgroundPixel & 0xff00ff) * blendComplement &
-                                0xff00ff00);
-                            int blendedGreen =
-                                (currentColour & 0xff00) * blendFactor +
-                                (backgroundPixel & 0xff00) * blendComplement &
-                                0xff0000;
-                            pixels[dstOffset++] = (blendedRedBlue + blendedGreen) >> 8;
+                            pixels[dstOffset] = BlendColour(
+                                currentColour,
+                                pixels[dstOffset],
+                                blendFactor,
+                                blendComplement);
+                            dstOffset += 1;
                         }
                         else
                         {
@@ -383,6 +381,24 @@ namespace OpenRS.Net.Client.Game
 
                 throw;
             }
+        }
+
+        private static int BlendColour(
+            int foregroundColour,
+            int backgroundColour,
+            int blendFactor,
+            int blendComplement)
+        {
+            int blendedRedBlue =
+                (int)((foregroundColour & RedBlueChannelMask) * blendFactor +
+                (backgroundColour & RedBlueChannelMask) * blendComplement &
+                RedBlueBlendMask);
+            int blendedGreen =
+                (foregroundColour & GreenChannelMask) * blendFactor +
+                (backgroundColour & GreenChannelMask) * blendComplement &
+                GreenBlendMask;
+
+            return (blendedRedBlue + blendedGreen) >> BlendShift;
         }
 
         internal static void DrawSpriteFlippedColorShifted(

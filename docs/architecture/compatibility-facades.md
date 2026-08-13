@@ -13,8 +13,19 @@ Delegates:
 - `GameImageShapeRasteriser`;
 - `GameImageBlurProcessor`;
 - `GameImagePictureManager`;
+- `GameImagePictureDataDecoder`;
+- `GameImageSleepSpriteDecoder`;
+- `GameImagePaletteConverter`;
+- `GameImagePictureCapture`;
 - `GameImageSpriteRenderer`;
+- `GameImageSpriteClip`;
+- `GameImageEntityClip`;
+- `GameImageSpriteBlitter`;
 - `GameImageCharacterRenderer`;
+- `GameImageCharacterClip`;
+- `GameImageScaledSpriteBlitter`;
+- `GameImageColourTint`;
+- `GameImageScaledScanline`;
 - `GameImageTextRenderer`;
 - `GameImageMinimapRenderer`.
 

@@ -51,7 +51,15 @@ Responsibilities:
 - `GameImagePixelRasteriser` for drawing-area state, clearing, boxes, lines, pixels, and fading;
 - `GameImageShapeRasteriser` for circles, alpha rectangles, and gradients;
 - `GameImageBlurProcessor` for area blur;
-- existing picture, sprite, character, text, and minimap collaborators.
+- `GameImagePictureManager` for picture lifecycle coordination, with focused collaborators for
+	metadata decoding, sleep-sprite decoding, palette conversion, and screen capture;
+- `GameImageSpriteRenderer` for direct and indexed picture drawing and scaled entities, with
+	allocation-free values for clipping and scaling state;
+- `GameImageCharacterRenderer` for tinting, flipping, and sheared character drawing, with
+	allocation-free layout and shared scaled-entity clipping state;
+- `GameImageScaledSpriteBlitter` for specialised direct and indexed colour paths, with shared
+	allocation-free tint classification and horizontal scanline clipping;
+- existing text and minimap collaborators.
 
 Presentation code must not become an alternative owner of network or domain state.
 

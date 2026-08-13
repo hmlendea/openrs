@@ -8,8 +8,6 @@ namespace OpenRS.Net.Client.Game
 {
     internal sealed class GameImageScaledSpriteBlitter
     {
-
-
         private static readonly ILogger logger = NuciLoggerFactory.CreateLogger<GameImageScaledSpriteBlitter>();
 
         internal static void DrawSpriteFlatShaded(
@@ -32,69 +30,42 @@ namespace OpenRS.Net.Client.Game
             int imageWidth,
             int gameWidth)
         {
-            int primaryRed = primaryColour >> 16 & 0xff;
-            int primaryGreen = primaryColour >> 8 & 0xff;
-            int primaryBlue = primaryColour & 0xff;
+            GameImageColourTint primaryTint = new(primaryColour);
 
             try
             {
-                int initialSrcX = srcX;
-
                 for (int rowIndex = -height; rowIndex < 0; rowIndex += 1)
                 {
                     int srcRowOffset = (srcY >> 16) * srcWidth;
-                    int currentX = xPosFixed >> 16;
-                    int clippedWidth = width;
-
-                    if (currentX < imageX)
-                    {
-                        int leftClipAmount = imageX - currentX;
-                        clippedWidth -= leftClipAmount;
-                        currentX = imageX;
-                        srcX += xStep * leftClipAmount;
-                    }
-
-                    if (currentX + clippedWidth >= imageWidth)
-                    {
-                        int rightClipAmount = currentX + clippedWidth - imageWidth;
-                        clippedWidth -= rightClipAmount;
-                    }
+                    GameImageScaledScanline scanline = GameImageScaledScanline.Calculate(
+                        srcX,
+                        xPosFixed,
+                        width,
+                        xStep,
+                        imageX,
+                        imageWidth);
 
                     interlaceFlag = 1 - interlaceFlag;
 
                     if (interlaceFlag != 0)
                     {
-                        int pixelEndX = currentX + clippedWidth;
+                        int sampleX = scanline.SourceX;
 
-                        for (int pixelX = currentX; pixelX < pixelEndX; pixelX += 1)
+                        for (int pixelX = scanline.StartX; pixelX < scanline.EndX; pixelX += 1)
                         {
-                            currentColour = colours[(srcX >> 16) + srcRowOffset];
+                            currentColour = colours[(sampleX >> 16) + srcRowOffset];
 
                             if (currentColour != 0)
                             {
-                                int red = currentColour >> 16 & 0xff;
-                                int green = currentColour >> 8 & 0xff;
-                                int blue = currentColour & 0xff;
-
-                                if (red == green && green == blue)
-                                {
-                                    pixels[pixelX + dstOffset] =
-                                        ((red * primaryRed >> 8) << 16) +
-                                        ((green * primaryGreen >> 8) << 8) +
-                                        (blue * primaryBlue >> 8);
-                                }
-                                else
-                                {
-                                    pixels[pixelX + dstOffset] = currentColour;
-                                }
+                                pixels[pixelX + dstOffset] = primaryTint.ApplyPrimary(
+                                    currentColour);
                             }
 
-                            srcX += xStep;
+                            sampleX += xStep;
                         }
                     }
 
                     srcY += yStep;
-                    srcX = initialSrcX;
                     dstOffset += gameWidth;
                     xPosFixed += xPosStep;
                 }
@@ -131,79 +102,44 @@ namespace OpenRS.Net.Client.Game
             int imageWidth,
             int gameWidth)
         {
-            int primaryRed = primaryColour >> 16 & 0xff;
-            int primaryGreen = primaryColour >> 8 & 0xff;
-            int primaryBlue = primaryColour & 0xff;
-            int secondaryRed = secondaryColour >> 16 & 0xff;
-            int secondaryGreen = secondaryColour >> 8 & 0xff;
-            int secondaryBlue = secondaryColour & 0xff;
+            GameImageColourTint primaryTint = new(primaryColour);
+            GameImageColourTint secondaryTint = new(secondaryColour);
 
             try
             {
-                int initialSrcX = srcX;
-
                 for (int rowIndex = -height; rowIndex < 0; rowIndex += 1)
                 {
                     int srcRowOffset = (srcY >> 16) * srcWidth;
-                    int currentX = xPosFixed >> 16;
-                    int clippedWidth = width;
-
-                    if (currentX < imageX)
-                    {
-                        int leftClipAmount = imageX - currentX;
-                        clippedWidth -= leftClipAmount;
-                        currentX = imageX;
-                        srcX += xStep * leftClipAmount;
-                    }
-
-                    if (currentX + clippedWidth >= imageWidth)
-                    {
-                        int rightClipAmount = currentX + clippedWidth - imageWidth;
-                        clippedWidth -= rightClipAmount;
-                    }
+                    GameImageScaledScanline scanline = GameImageScaledScanline.Calculate(
+                        srcX,
+                        xPosFixed,
+                        width,
+                        xStep,
+                        imageX,
+                        imageWidth);
 
                     interlaceFlag = 1 - interlaceFlag;
 
                     if (interlaceFlag != 0)
                     {
-                        int pixelEndX = currentX + clippedWidth;
+                        int sampleX = scanline.SourceX;
 
-                        for (int pixelX = currentX; pixelX < pixelEndX; pixelX += 1)
+                        for (int pixelX = scanline.StartX; pixelX < scanline.EndX; pixelX += 1)
                         {
-                            currentColour = colours[(srcX >> 16) + srcRowOffset];
+                            currentColour = colours[(sampleX >> 16) + srcRowOffset];
 
                             if (currentColour != 0)
                             {
-                                int red = currentColour >> 16 & 0xff;
-                                int green = currentColour >> 8 & 0xff;
-                                int blue = currentColour & 0xff;
-
-                                if (red == green && green == blue)
-                                {
-                                    pixels[pixelX + dstOffset] =
-                                        ((red * primaryRed >> 8) << 16) +
-                                        ((green * primaryGreen >> 8) << 8) +
-                                        (blue * primaryBlue >> 8);
-                                }
-                                else if (red == 255 && green == blue)
-                                {
-                                    pixels[pixelX + dstOffset] =
-                                        ((red * secondaryRed >> 8) << 16) +
-                                        ((green * secondaryGreen >> 8) << 8) +
-                                        (blue * secondaryBlue >> 8);
-                                }
-                                else
-                                {
-                                    pixels[pixelX + dstOffset] = currentColour;
-                                }
+                                pixels[pixelX + dstOffset] = primaryTint.ApplyPrimaryAndSecondary(
+                                    currentColour,
+                                    secondaryTint);
                             }
 
-                            srcX += xStep;
+                            sampleX += xStep;
                         }
                     }
 
                     srcY += yStep;
-                    srcX = initialSrcX;
                     dstOffset += gameWidth;
                     xPosFixed += xPosStep;
                 }
@@ -240,70 +176,43 @@ namespace OpenRS.Net.Client.Game
             int imageWidth,
             int gameWidth)
         {
-            int primaryRed = primaryColour >> 16 & 0xff;
-            int primaryGreen = primaryColour >> 8 & 0xff;
-            int primaryBlue = primaryColour & 0xff;
+            GameImageColourTint primaryTint = new(primaryColour);
 
             try
             {
-                int initialSrcX = srcX;
-
                 for (int rowIndex = -height; rowIndex < 0; rowIndex += 1)
                 {
                     int srcRowOffset = (srcY >> 16) * srcWidth;
-                    int currentX = xPosFixed >> 16;
-                    int clippedWidth = width;
-
-                    if (currentX < imageX)
-                    {
-                        int leftClipAmount = imageX - currentX;
-                        clippedWidth -= leftClipAmount;
-                        currentX = imageX;
-                        srcX += xStep * leftClipAmount;
-                    }
-
-                    if (currentX + clippedWidth >= imageWidth)
-                    {
-                        int rightClipAmount = currentX + clippedWidth - imageWidth;
-                        clippedWidth -= rightClipAmount;
-                    }
+                    GameImageScaledScanline scanline = GameImageScaledScanline.Calculate(
+                        srcX,
+                        xPosFixed,
+                        width,
+                        xStep,
+                        imageX,
+                        imageWidth);
 
                     interlaceFlag = 1 - interlaceFlag;
 
                     if (interlaceFlag != 0)
                     {
-                        int pixelEndX = currentX + clippedWidth;
+                        int sampleX = scanline.SourceX;
 
-                        for (int pixelX = currentX; pixelX < pixelEndX; pixelX += 1)
+                        for (int pixelX = scanline.StartX; pixelX < scanline.EndX; pixelX += 1)
                         {
-                            currentColour = colourIndexes[(srcX >> 16) + srcRowOffset] & 0xff;
+                            currentColour = colourIndexes[(sampleX >> 16) + srcRowOffset] & 0xff;
 
                             if (currentColour != 0)
                             {
                                 currentColour = colourLookup[currentColour];
-                                int red = currentColour >> 16 & 0xff;
-                                int green = currentColour >> 8 & 0xff;
-                                int blue = currentColour & 0xff;
-
-                                if (red == green && green == blue)
-                                {
-                                    pixels[pixelX + dstOffset] =
-                                        ((red * primaryRed >> 8) << 16) +
-                                        ((green * primaryGreen >> 8) << 8) +
-                                        (blue * primaryBlue >> 8);
-                                }
-                                else
-                                {
-                                    pixels[pixelX + dstOffset] = currentColour;
-                                }
+                                pixels[pixelX + dstOffset] = primaryTint.ApplyPrimary(
+                                    currentColour);
                             }
 
-                            srcX += xStep;
+                            sampleX += xStep;
                         }
                     }
 
                     srcY += yStep;
-                    srcX = initialSrcX;
                     dstOffset += gameWidth;
                     xPosFixed += xPosStep;
                 }
@@ -341,80 +250,45 @@ namespace OpenRS.Net.Client.Game
             int imageWidth,
             int gameWidth)
         {
-            int primaryRed = primaryColour >> 16 & 0xff;
-            int primaryGreen = primaryColour >> 8 & 0xff;
-            int primaryBlue = primaryColour & 0xff;
-            int secondaryRed = secondaryColour >> 16 & 0xff;
-            int secondaryGreen = secondaryColour >> 8 & 0xff;
-            int secondaryBlue = secondaryColour & 0xff;
+            GameImageColourTint primaryTint = new(primaryColour);
+            GameImageColourTint secondaryTint = new(secondaryColour);
 
             try
             {
-                int initialSrcX = srcX;
-
                 for (int rowIndex = -height; rowIndex < 0; rowIndex += 1)
                 {
                     int srcRowOffset = (srcY >> 16) * srcWidth;
-                    int currentX = xPosFixed >> 16;
-                    int clippedWidth = width;
-
-                    if (currentX < imageX)
-                    {
-                        int leftClipAmount = imageX - currentX;
-                        clippedWidth -= leftClipAmount;
-                        currentX = imageX;
-                        srcX += xStep * leftClipAmount;
-                    }
-
-                    if (currentX + clippedWidth >= imageWidth)
-                    {
-                        int rightClipAmount = currentX + clippedWidth - imageWidth;
-                        clippedWidth -= rightClipAmount;
-                    }
+                    GameImageScaledScanline scanline = GameImageScaledScanline.Calculate(
+                        srcX,
+                        xPosFixed,
+                        width,
+                        xStep,
+                        imageX,
+                        imageWidth);
 
                     interlaceFlag = 1 - interlaceFlag;
 
                     if (interlaceFlag != 0)
                     {
-                        int pixelEndX = currentX + clippedWidth;
+                        int sampleX = scanline.SourceX;
 
-                        for (int pixelX = currentX; pixelX < pixelEndX; pixelX += 1)
+                        for (int pixelX = scanline.StartX; pixelX < scanline.EndX; pixelX += 1)
                         {
-                            currentColour = colourIndexes[(srcX >> 16) + srcRowOffset] & 0xff;
+                            currentColour = colourIndexes[(sampleX >> 16) + srcRowOffset] & 0xff;
 
                             if (currentColour != 0)
                             {
                                 currentColour = colourLookup[currentColour];
-                                int red = currentColour >> 16 & 0xff;
-                                int green = currentColour >> 8 & 0xff;
-                                int blue = currentColour & 0xff;
-
-                                if (red == green && green == blue)
-                                {
-                                    pixels[pixelX + dstOffset] =
-                                        ((red * primaryRed >> 8) << 16) +
-                                        ((green * primaryGreen >> 8) << 8) +
-                                        (blue * primaryBlue >> 8);
-                                }
-                                else if (red == 255 && green == blue)
-                                {
-                                    pixels[pixelX + dstOffset] =
-                                        ((red * secondaryRed >> 8) << 16) +
-                                        ((green * secondaryGreen >> 8) << 8) +
-                                        (blue * secondaryBlue >> 8);
-                                }
-                                else
-                                {
-                                    pixels[pixelX + dstOffset] = currentColour;
-                                }
+                                pixels[pixelX + dstOffset] = primaryTint.ApplyPrimaryAndSecondary(
+                                    currentColour,
+                                    secondaryTint);
                             }
 
-                            srcX += xStep;
+                            sampleX += xStep;
                         }
                     }
 
                     srcY += yStep;
-                    srcX = initialSrcX;
                     dstOffset += gameWidth;
                     xPosFixed += xPosStep;
                 }

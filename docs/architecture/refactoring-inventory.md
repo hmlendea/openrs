@@ -24,6 +24,11 @@ This set-based rule classifies the complete production tree without relying on a
 | `Net/Client/Game/ChatMessage.cs` | Reduced to compatibility facade | `ChatMessageTests` |
 | `Net/Client/Game/EngineHandle.cs` | Centralised grid and sector allocation, grid guards, sector indexing, and seam policy | `EngineHandleTileTests`, `EngineHandlePathfindingTests` |
 | `Net/Client/Game/GameImage.cs` | Reduced to bounded drawing facade with delegated storage and colour packing | `GameImageDrawingTests`, `GameImageColourTests` |
+| `Net/Client/Game/GameImageCharacterRenderer.cs` | Centralised shear-aware layout and reused scaled-entity clipping across character paths | `GameImageCharacterTests` |
+| `Net/Client/Game/GameImagePictureManager.cs` | Reduced to picture lifecycle coordination with delegated decoding, palette conversion, and capture | `GameImagePictureTests` |
+| `Net/Client/Game/GameImageScaledSpriteBlitter.cs` | Centralised primary/secondary tint classification and horizontal scanline clipping | `GameImageCharacterTests` |
+| `Net/Client/Game/GameImageSpriteBlitter.cs` | Centralised identical direct, indexed, and flipped sprite blend arithmetic | `GameImageSpriteTests`, `GameImageCharacterTests` |
+| `Net/Client/Game/GameImageSpriteRenderer.cs` | Centralised picture clipping and extracted scaled-entity clipping state | `GameImageSpriteTests` |
 | `Net/Client/Game/GameObject.cs` | Delegated allocation, geometry mutation, and shade decoding | `GameObjectTests` |
 | `Net/Client/Game/GameObjectDataLoader.cs` | Removed misplaced optional-array allocation | `GameObjectTests` |
 | `Net/Client/Game/ObjectModel.cs` | Centralised copied vertex and face collection semantics | `ObjectModelTests` |
@@ -42,9 +47,18 @@ This set-based rule classifies the complete production tree without relying on a
 | --- | --- |
 | `Net/Client/Game/ChatMessageCodec.cs` | Chat nibble encoding, decoding, and normalisation |
 | `Net/Client/Game/GameImageBlurProcessor.cs` | Area blur |
+| `Net/Client/Game/GameImageCharacterClip.cs` | Allocation-free flipped and sheared character layout state |
+| `Net/Client/Game/GameImageColourTint.cs` | Allocation-free primary and secondary character tint classification |
 | `Net/Client/Game/GameImageColourPacker.cs` | Pure RGB/RGBA packing and channel clamping |
+| `Net/Client/Game/GameImageEntityClip.cs` | Allocation-free scaled-entity clipping and source sampling state |
+| `Net/Client/Game/GameImagePaletteConverter.cs` | Direct and indexed picture palette conversion |
+| `Net/Client/Game/GameImagePictureCapture.cs` | Row-major and column-major screen capture |
+| `Net/Client/Game/GameImagePictureDataDecoder.cs` | Picture metadata, palette, and pixel-index decoding |
 | `Net/Client/Game/GameImagePixelRasteriser.cs` | Basic pixel rasterisation and drawing-area state |
 | `Net/Client/Game/GameImageShapeRasteriser.cs` | Circle, alpha-rectangle, and gradient rasterisation |
+| `Net/Client/Game/GameImageScaledScanline.cs` | Allocation-free horizontal clipping for scaled sprite scanlines |
+| `Net/Client/Game/GameImageSleepSpriteDecoder.cs` | Legacy sleep-sprite run-length decoding |
+| `Net/Client/Game/GameImageSpriteClip.cs` | Allocation-free picture clipping and interlace state |
 | `Net/Client/Game/GameImageStorageInitialiser.cs` | Pixel and picture storage allocation |
 | `Net/Client/Game/GameObjectArrayInitialiser.cs` | Required and optional geometry-array allocation |
 | `Net/Client/Game/GameObjectGeometryBuilder.cs` | Vertex and face mutation |
@@ -70,7 +84,7 @@ This set-based rule classifies the complete production tree without relying on a
 
 The accepted automated baseline is:
 - command: `dotnet test OpenRS.slnx`;
-- discovered unit tests: 1,095;
+- discovered unit tests: 1,368;
 - failures: 0;
 - skipped: 0.
 
