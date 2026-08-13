@@ -474,7 +474,7 @@ namespace OpenRS.Net.Client.Game
                 y = ImageY;
             }
 
-            if (y + length > ImageWidth)
+            if (y + length > ImageHeight)
             {
                 length = ImageHeight - y;
             }

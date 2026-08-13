@@ -1,3 +1,5 @@
+using System;
+
 namespace OpenRS.Net.Client.Game
 {
     internal sealed class PathSearchQueue
@@ -7,8 +9,9 @@ namespace OpenRS.Net.Client.Game
 
         private int readIndex;
         private int writeIndex;
+        private int count;
 
-        internal bool IsEmpty => readIndex == writeIndex;
+        internal bool IsEmpty => count == 0;
 
         internal int CurrentX => bufferX[readIndex];
 
@@ -20,18 +23,26 @@ namespace OpenRS.Net.Client.Game
             this.bufferY = bufferY;
             readIndex = 0;
             writeIndex = 0;
+            count = 0;
         }
 
         internal void Enqueue(int x, int y)
         {
+            if (count > 0 && count == bufferX.Length)
+            {
+                throw new InvalidOperationException("The path search queue is full.");
+            }
+
             bufferX[writeIndex] = x;
             bufferY[writeIndex] = y;
             writeIndex = (writeIndex + 1) % bufferX.Length;
+            count += 1;
         }
 
         internal void Advance()
         {
             readIndex = (readIndex + 1) % bufferX.Length;
+            count -= 1;
         }
     }
 }

@@ -76,9 +76,9 @@ namespace OpenRS.Localisation
 
         public override string ToString() => Name;
 
-        public static bool operator ==(Language current, Language other) => current.Equals(other);
+        public static bool operator ==(Language current, Language other) => object.Equals(current, other);
 
-        public static bool operator !=(Language current, Language other) => !current.Equals(other);
+        public static bool operator !=(Language current, Language other) => !object.Equals(current, other);
 
         public static implicit operator string(Language language) => language.Name;
     }

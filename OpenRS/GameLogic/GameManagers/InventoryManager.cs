@@ -24,6 +24,10 @@ namespace OpenRS.GameLogic.GameManagers
 
         public void LoadContent()
         {
+            InventoryItemsCount = 0;
+            BankItemsCount = 0;
+            ServerBankItemsCount = 0;
+
             inventoryItems = new InventoryItem[InventorySlotCount];
             bankItems = new InventoryItem[BankSlotCount];
             serverBankItems = new InventoryItem[BankSlotCount];
@@ -175,4 +179,3 @@ namespace OpenRS.GameLogic.GameManagers
         }
     }
 }
-
