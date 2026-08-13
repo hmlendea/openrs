@@ -59,7 +59,9 @@ Responsibilities:
 	allocation-free layout and shared scaled-entity clipping state;
 - `GameImageScaledSpriteBlitter` for specialised direct and indexed colour paths, with shared
 	allocation-free tint classification and horizontal scanline clipping;
-- existing text and minimap collaborators.
+- `GameImageMinimapRenderer` for minimap draw coordination and error propagation, with focused
+	collaborators for projection, rotation tables, counters, and scanline rasterisation;
+- the existing text collaborator.
 
 Presentation code must not become an alternative owner of network or domain state.
 
@@ -141,7 +143,8 @@ Infrastructure may implement contracts required by inner areas, but it must not 
 
 The following public types deliberately retain legacy entry points while delegating focused responsibilities:
 - `GameImage` delegates raw pixel, shape, blur, picture, sprite, character, text, and minimap work.
-- `GameObject` delegates array allocation, geometry mutation, shade decoding, composition, transformation, shading, and projection work.
+- `GameObject` delegates array allocation, geometry mutation, shade decoding, composition,
+	area splitting, polygon copying, transformation, bounds, normals, lighting, and projection work.
 - `ChatMessage` delegates nibble encoding and decoding while retaining the public `LastChat` buffer.
 - `PacketConstruction` delegates stateless packet-length framing while retaining public transport state.
 - `GameClientUtilities` delegates pure item-count formatting while retaining its static method.

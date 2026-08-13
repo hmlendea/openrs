@@ -284,7 +284,7 @@ namespace OpenRS.Net.Client.Game
             int[] vertexIndices,
             int vertexCountForFace,
             int polygonIndex)
-            => GameObjectComposer.CopyPolygonData(
+            => GameObjectPolygonCopier.Copy(
                 destinationModel,
                 this,
                 vertexIndices,
@@ -300,10 +300,8 @@ namespace OpenRS.Net.Client.Game
             int chunkCount,
             int maximumVertexCount,
             bool applyLighting)
-            => GameObjectComposer.SplitByArea(
+            => GameObjectAreaSplitter.Split(
                 this,
-                x,
-                y,
                 width,
                 height,
                 chunkSize,
@@ -315,10 +313,10 @@ namespace OpenRS.Net.Client.Game
             => GameObjectComposer.BuildComposite(this, childObjects, childCount, applyLighting);
 
         public void Normalise()
-            => GameObjectShaderCalculator.RecalculateNormals(this);
+            => GameObjectNormalCalculator.Recalculate(this);
 
         public void CalculateNormals()
-            => GameObjectShaderCalculator.CalculatePolygonNormals(this);
+            => GameObjectNormalCalculator.CalculatePolygonNormals(this);
 
         public void ResetWorldTransform()
         {
@@ -454,7 +452,7 @@ namespace OpenRS.Net.Client.Game
             BoundsMaxY < Camera.NearY;
 
         private void ProjectAllVertices(VertexProjectionContext context)
-            => GameObjectTransformer.ProjectVertices(this, context);
+            => GameObjectProjector.Project(this, context);
 
         private static VertexProjectionContext BuildProjectionContext(
             int originX,
@@ -465,7 +463,7 @@ namespace OpenRS.Net.Client.Game
             int rotationZAngle,
             int projectionScale,
             int nearPlane)
-            => GameObjectTransformer.BuildProjectionContext(
+            => GameObjectProjector.BuildContext(
                 originX,
                 originY,
                 originZ,

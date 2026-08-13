@@ -25,12 +25,16 @@ This set-based rule classifies the complete production tree without relying on a
 | `Net/Client/Game/EngineHandle.cs` | Centralised grid and sector allocation, grid guards, sector indexing, and seam policy | `EngineHandleTileTests`, `EngineHandlePathfindingTests` |
 | `Net/Client/Game/GameImage.cs` | Reduced to bounded drawing facade with delegated storage and colour packing | `GameImageDrawingTests`, `GameImageColourTests` |
 | `Net/Client/Game/GameImageCharacterRenderer.cs` | Centralised shear-aware layout and reused scaled-entity clipping across character paths | `GameImageCharacterTests` |
+| `Net/Client/Game/GameImageMinimapRenderer.cs` | Reduced to projection, counter, and rasterisation coordination with retained error propagation | `GameImageMinimapTests` |
 | `Net/Client/Game/GameImagePictureManager.cs` | Reduced to picture lifecycle coordination with delegated decoding, palette conversion, and capture | `GameImagePictureTests` |
 | `Net/Client/Game/GameImageScaledSpriteBlitter.cs` | Centralised primary/secondary tint classification and horizontal scanline clipping | `GameImageCharacterTests` |
 | `Net/Client/Game/GameImageSpriteBlitter.cs` | Centralised identical direct, indexed, and flipped sprite blend arithmetic | `GameImageSpriteTests`, `GameImageCharacterTests` |
 | `Net/Client/Game/GameImageSpriteRenderer.cs` | Centralised picture clipping and extracted scaled-entity clipping state | `GameImageSpriteTests` |
-| `Net/Client/Game/GameObject.cs` | Delegated allocation, geometry mutation, and shade decoding | `GameObjectTests` |
+| `Net/Client/Game/GameObject.cs` | Delegated allocation, geometry mutation, shade decoding, composition, area splitting, polygon copying, bounds, normals, lighting, and projection | `GameObjectTests` |
+| `Net/Client/Game/GameObjectComposer.cs` | Reduced to child-object composite assembly and polygon-group mapping | `GameObjectTests` |
 | `Net/Client/Game/GameObjectDataLoader.cs` | Removed misplaced optional-array allocation | `GameObjectTests` |
+| `Net/Client/Game/GameObjectShaderCalculator.cs` | Reduced to lighting state, shade levels, and Gouraud-mode initialisation | `GameObjectTests` |
+| `Net/Client/Game/GameObjectTransformer.cs` | Reduced to local-to-world transformation with delegated bounds, normals, and camera projection | `GameObjectTests` |
 | `Net/Client/Game/ObjectModel.cs` | Centralised copied vertex and face collection semantics | `ObjectModelTests` |
 | `Net/Client/Game/PathFinder.cs` | Centralised cardinal and diagonal neighbour expansion rules | `EngineHandlePathfindingTests` |
 | `Net/Client/Game/RscSector.cs` | Centralised coordinate indexing and serialised tile sizing | `RscSectorTests`, `SectorTileTests` |
@@ -51,6 +55,10 @@ This set-based rule classifies the complete production tree without relying on a
 | `Net/Client/Game/GameImageColourTint.cs` | Allocation-free primary and secondary character tint classification |
 | `Net/Client/Game/GameImageColourPacker.cs` | Pure RGB/RGBA packing and channel clamping |
 | `Net/Client/Game/GameImageEntityClip.cs` | Allocation-free scaled-entity clipping and source sampling state |
+| `Net/Client/Game/GameImageMinimapDrawCounter.cs` | Legacy minimap draw-counter and rotation-state policy |
+| `Net/Client/Game/GameImageMinimapProjection.cs` | Allocation-free rotated minimap corner projection and vertical bounds |
+| `Net/Client/Game/GameImageMinimapRasteriser.cs` | Minimap edge rasterisation, scanline storage, and pixel drawing |
+| `Net/Client/Game/GameImageMinimapRotationTable.cs` | Lazy minimap trigonometry table initialisation |
 | `Net/Client/Game/GameImagePaletteConverter.cs` | Direct and indexed picture palette conversion |
 | `Net/Client/Game/GameImagePictureCapture.cs` | Row-major and column-major screen capture |
 | `Net/Client/Game/GameImagePictureDataDecoder.cs` | Picture metadata, palette, and pixel-index decoding |
@@ -60,8 +68,13 @@ This set-based rule classifies the complete production tree without relying on a
 | `Net/Client/Game/GameImageSleepSpriteDecoder.cs` | Legacy sleep-sprite run-length decoding |
 | `Net/Client/Game/GameImageSpriteClip.cs` | Allocation-free picture clipping and interlace state |
 | `Net/Client/Game/GameImageStorageInitialiser.cs` | Pixel and picture storage allocation |
+| `Net/Client/Game/GameObjectAreaSplitter.cs` | Spatial chunk sizing, construction, face assignment, and final projection-array sizing |
 | `Net/Client/Game/GameObjectArrayInitialiser.cs` | Required and optional geometry-array allocation |
+| `Net/Client/Game/GameObjectBoundsCalculator.cs` | Face, collider, and global transformed bounds |
 | `Net/Client/Game/GameObjectGeometryBuilder.cs` | Vertex and face mutation |
+| `Net/Client/Game/GameObjectNormalCalculator.cs` | Polygon normals, flat shading, and Gouraud normal accumulation |
+| `Net/Client/Game/GameObjectPolygonCopier.cs` | Vertex de-duplication and polygon geometry/render-metadata copying |
+| `Net/Client/Game/GameObjectProjector.cs` | Camera projection context and per-vertex projected coordinates |
 | `Net/Client/Game/GameObjectShadeDecoder.cs` | Stateful legacy shade decoding |
 | `Net/Client/Game/ObjectModelElementCollection.cs` | Copied, ordered model element collections |
 | `Net/Client/MenuComponentType.cs` | Named legacy menu component variants |

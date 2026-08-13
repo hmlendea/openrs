@@ -27,7 +27,11 @@ Delegates:
 - `GameImageColourTint`;
 - `GameImageScaledScanline`;
 - `GameImageTextRenderer`;
-- `GameImageMinimapRenderer`.
+- `GameImageMinimapRenderer`;
+- `GameImageMinimapProjection`;
+- `GameImageMinimapRotationTable`;
+- `GameImageMinimapDrawCounter`;
+- `GameImageMinimapRasteriser`.
 
 Preserved contracts:
 - all public drawing methods and properties;
@@ -41,10 +45,15 @@ Preserved contracts:
 Facade: `OpenRS.Net.Client.Game.GameObject`
 
 Delegates:
+- `GameObjectAreaSplitter`;
 - `GameObjectArrayInitialiser`;
+- `GameObjectBoundsCalculator`;
 - `GameObjectGeometryBuilder`;
+- `GameObjectNormalCalculator`;
+- `GameObjectPolygonCopier`;
+- `GameObjectProjector`;
 - `GameObjectShadeDecoder`;
-- existing loader, composer, transformer, transform controller, and shader calculator.
+- existing loader, composer, transformer, transform controller, and lighting calculator.
 
 Preserved contracts:
 - public fields, constructors, and methods;
