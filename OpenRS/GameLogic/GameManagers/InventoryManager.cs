@@ -18,9 +18,8 @@ namespace OpenRS.GameLogic.GameManagers
 
         public int ServerBankItemsCount { get; set; }
 
-        private InventoryItem[] inventoryItems;
-        private InventoryItem[] bankItems;
-        private InventoryItem[] serverBankItems;
+        private readonly InventoryBank inventoryBank = new();
+        private readonly InventoryItemCollection inventoryItems = new(entityManager);
 
         public void LoadContent()
         {
@@ -28,159 +27,53 @@ namespace OpenRS.GameLogic.GameManagers
             BankItemsCount = 0;
             ServerBankItemsCount = 0;
 
-            inventoryItems = CreateItemSlots(InventorySlotCount);
-            bankItems = CreateItemSlots(BankSlotCount);
-            serverBankItems = CreateItemSlots(BankSlotCount);
+            inventoryItems.Reset(CreateItemSlots(InventorySlotCount));
+            inventoryBank.Reset(
+                CreateItemSlots(BankSlotCount),
+                CreateItemSlots(BankSlotCount));
         }
 
         public bool IsItemEquipped(int itemIndex)
-        {
-            for (int slotIndex = 0; slotIndex < InventoryItemsCount; slotIndex += 1)
-            {
-                if (inventoryItems[slotIndex].Index == itemIndex &&
-                    inventoryItems[slotIndex].IsEquipped)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
+            => inventoryItems.IsItemEquipped(itemIndex, InventoryItemsCount);
 
         public void BankItem(int itemId, int itemSlot, int quantity)
-        {
-            if (quantity == 0)
-            {
-                RemoveServerBankItem(itemSlot);
-            }
-            else
-            {
-                SetServerBankItem(itemId, itemSlot, quantity);
-            }
+            => inventoryBank.SetItem(
+                this,
+                itemId,
+                itemSlot,
+                quantity,
+                inventoryItems.Items,
+                InventoryItemsCount,
+                MaximumBankSize);
 
-            UpdateBankItems();
-        }
+        public InventoryItem GetItem(int slot) => inventoryItems.GetItem(slot);
 
-        public InventoryItem GetItem(int slot) => inventoryItems[slot];
+        public InventoryItem GetBankItem(int slot) => inventoryBank.GetItem(slot);
 
-        public InventoryItem GetBankItem(int slot) => bankItems[slot];
-
-        public InventoryItem GetServerBankItem(int slot) => serverBankItems[slot];
+        public InventoryItem GetServerBankItem(int slot)
+            => inventoryBank.GetServerItem(slot);
 
         public void SetItem(int itemSlot, int numericalId)
-            => inventoryItems[itemSlot].Index = numericalId;
+            => inventoryItems.SetItem(itemSlot, numericalId);
 
         public void SetItemCount(int itemSlot, int quantity)
-            => inventoryItems[itemSlot].Quantity = quantity;
+            => inventoryItems.SetItemCount(itemSlot, quantity);
 
         public void SetItemEquippedStatus(int itemSlot, bool isEquipped)
-            => inventoryItems[itemSlot].IsEquipped = isEquipped;
+            => inventoryItems.SetItemEquippedStatus(itemSlot, isEquipped);
 
         public void RemoveItem(int itemSlot)
-        {
-            InventoryItemsCount -= 1;
-
-            for (int slotIndex = itemSlot; slotIndex < InventoryItemsCount; slotIndex += 1)
-            {
-                CopyItemValues(inventoryItems[slotIndex + 1], inventoryItems[slotIndex]);
-                inventoryItems[slotIndex].IsEquipped = inventoryItems[slotIndex + 1].IsEquipped;
-            }
-        }
+            => inventoryItems.RemoveItem(this, itemSlot);
 
         public void UpdateBankItems()
-        {
-            BankItemsCount = ServerBankItemsCount;
-            CopyServerBankItems();
-            AppendMissingInventoryItems();
-        }
-
-        private void CopyServerBankItems()
-        {
-            for (int serverSlotIndex = 0; serverSlotIndex < ServerBankItemsCount; serverSlotIndex += 1)
-            {
-                CopyItemValues(serverBankItems[serverSlotIndex], bankItems[serverSlotIndex]);
-            }
-        }
-
-        private void AppendMissingInventoryItems()
-        {
-            for (int itemSlot = 0; itemSlot < InventoryItemsCount; itemSlot += 1)
-            {
-                if (BankItemsCount >= MaximumBankSize)
-                {
-                    break;
-                }
-
-                int itemIndex = inventoryItems[itemSlot].Index;
-
-                if (!IsItemInBank(itemIndex))
-                {
-                    bankItems[BankItemsCount].Index = itemIndex;
-                    bankItems[BankItemsCount].Quantity = 0;
-                    bankItems[BankItemsCount].IsEquipped = false;
-
-                    BankItemsCount += 1;
-                }
-            }
-        }
+            => inventoryBank.Synchronise(
+                this,
+                inventoryItems.Items,
+                InventoryItemsCount,
+                MaximumBankSize);
 
         public int GetItemTotalCount(int itemIndex)
-        {
-            int quantity = 0;
-
-            for (int slotIndex = 0; slotIndex < InventoryItemsCount; slotIndex += 1)
-            {
-                if (inventoryItems[slotIndex].Index != itemIndex)
-                {
-                    continue;
-                }
-
-                if (entityManager.GetItem(itemIndex).IsStackable)
-                {
-                    quantity += 1;
-                }
-                else
-                {
-                    quantity += inventoryItems[slotIndex].Quantity;
-                }
-            }
-
-            return quantity;
-        }
-
-        private bool IsItemInBank(int itemIndex)
-        {
-            for (int bankSlot = 0; bankSlot < BankItemsCount; bankSlot += 1)
-            {
-                if (bankItems[bankSlot].Index == itemIndex)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private void RemoveServerBankItem(int itemSlot)
-        {
-            ServerBankItemsCount -= 1;
-
-            for (int slotIndex = itemSlot; slotIndex < ServerBankItemsCount; slotIndex += 1)
-            {
-                CopyItemValues(serverBankItems[slotIndex + 1], serverBankItems[slotIndex]);
-            }
-        }
-
-        private void SetServerBankItem(int itemId, int itemSlot, int quantity)
-        {
-            serverBankItems[itemSlot].Index = itemId;
-            serverBankItems[itemSlot].Quantity = quantity;
-
-            if (itemSlot >= ServerBankItemsCount)
-            {
-                ServerBankItemsCount = itemSlot + 1;
-            }
-        }
+            => inventoryItems.GetItemTotalCount(itemIndex, InventoryItemsCount);
 
         private static InventoryItem[] CreateItemSlots(int slotCount)
         {
@@ -192,12 +85,6 @@ namespace OpenRS.GameLogic.GameManagers
             }
 
             return items;
-        }
-
-        private static void CopyItemValues(InventoryItem source, InventoryItem destination)
-        {
-            destination.Index = source.Index;
-            destination.Quantity = source.Quantity;
         }
     }
 }

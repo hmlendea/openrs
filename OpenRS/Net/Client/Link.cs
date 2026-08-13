@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading;
@@ -11,34 +10,13 @@ namespace OpenRS.Net.Client
     public sealed class Link
     {
         public static sbyte[] StreamToSbyte(BinaryReader stream)
-        {
-            List<sbyte> result = [];
-
-            try
-            {
-                while (stream.BaseStream.Position < stream.BaseStream.Length)
-                {
-                    result.Add(stream.ReadSByte());
-                }
-            }
-            catch (IOException) { }
-
-            return [.. result];
-        }
+            => SignedByteStreamReader.ReadRemaining(stream);
 
         public static void AddFile(string filename, BinaryReader reader)
-        {
-            fileNames[currentFile] = filename;
-            fileData[currentFile] = StreamToSbyte(reader);
-            currentFile += 1;
-        }
+            => LinkFileCache.Add(filename, StreamToSbyte(reader));
 
         public static void AddFile(string fileName, sbyte[] data)
-        {
-            fileNames[currentFile] = fileName;
-            fileData[currentFile] = data;
-            currentFile += 1;
-        }
+            => LinkFileCache.Add(fileName, data);
 
         public static bool LoadFile(string fileName)
         {
@@ -63,12 +41,11 @@ namespace OpenRS.Net.Client
 
         public static sbyte[] GetFile(string fileName)
         {
-            for (int fileIndex = 0; fileIndex < currentFile; fileIndex += 1)
+            int fileIndex = LinkFileCache.FindIndex(fileName);
+
+            if (fileIndex >= 0)
             {
-                if (string.Equals(fileNames[fileIndex], fileName))
-                {
-                    return fileData[fileIndex];
-                }
+                return LinkFileCache.GetData(fileIndex);
             }
 
             if (LoadFile(fileName))
@@ -112,8 +89,5 @@ namespace OpenRS.Net.Client
         private static readonly TcpClient socket = null;
         private static string ipLookup;
         private static readonly string address = null;
-        private static int currentFile;
-        private static readonly string[] fileNames = new string[50];
-        private static readonly sbyte[][] fileData = new sbyte[50][];
     }
 }

@@ -1,18 +1,9 @@
-﻿using System;
-
-namespace OpenRS.Models
+﻿namespace OpenRS.Models
 {
     public sealed class Appearance
     {
-        private static readonly int[] ValidHeadSprites = [1, 4, 6, 7, 8];
-        private static readonly int[] ValidBodySprites = [2, 5];
-
         private static int AppearanceSpriteCount => 12;
         private static int DefaultLegsSprite => 3;
-        private static int MaximumHairColour => 9;
-        private static int MaximumTopColour => 14;
-        private static int MaximumTrousersColour => 14;
-        private static int MaximumSkinColour => 4;
         private static int NoSprite => 0;
 
         public int HairColour { get; set; }
@@ -27,13 +18,7 @@ namespace OpenRS.Models
 
         public int Body { get; set; }
 
-        public bool IsValid =>
-            Array.IndexOf(ValidHeadSprites, Head) >= 0 &&
-            Array.IndexOf(ValidBodySprites, Body) >= 0 &&
-            IsColourValid(HairColour, MaximumHairColour) &&
-            IsColourValid(TopColour, MaximumTopColour) &&
-            IsColourValid(TrousersColour, MaximumTrousersColour) &&
-            IsColourValid(SkinColour, MaximumSkinColour);
+        public bool IsValid => AppearanceValidator.IsValid(this);
 
         public int GetSprite(int position) => position switch
         {
@@ -52,8 +37,5 @@ namespace OpenRS.Models
 
             return sprites;
         }
-
-        private static bool IsColourValid(int colour, int maximumColour)
-            => colour >= 0 && colour <= maximumColour;
     }
 }

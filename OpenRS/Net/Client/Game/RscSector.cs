@@ -42,33 +42,7 @@ namespace OpenRS.Net.Client.Game
             => GetTile(GetTileIndex(x, y));
 
         public static RscSector Unpack(MemoryStream inputStream)
-        {
-            if (inputStream is null)
-            {
-                throw new ArgumentNullException(
-                    nameof(inputStream),
-                    "The input stream cannot be null.");
-            }
-
-            int tileCount = Width * Height;
-            int requiredByteCount = SectorTile.SerialisedByteCount * tileCount;
-
-            if (inputStream.Remaining() < requiredByteCount)
-            {
-                throw new IOException(
-                    $"The provided buffer is too short to unpack a sector. " +
-                    $"At least {requiredByteCount} bytes are required.");
-            }
-
-            RscSector sector = new();
-
-            for (int tileIndex = 0; tileIndex < tileCount; tileIndex += 1)
-            {
-                sector.SetTile(tileIndex, SectorTile.Unpack(inputStream));
-            }
-
-            return sector;
-        }
+            => RscSectorDecoder.Decode(inputStream);
 
         private static int GetTileIndex(int positionX, int positionY)
             => positionX * Width + positionY;

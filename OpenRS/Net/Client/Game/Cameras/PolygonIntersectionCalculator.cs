@@ -2,8 +2,6 @@ namespace OpenRS.Net.Client.Game.Cameras
 {
     internal sealed class PolygonIntersectionCalculator
     {
-        private static int LineSegmentHalfWidth => 20;
-
         internal static bool AreBoundsDisjoint(CameraModel modelA, CameraModel modelB)
         {
             if (modelA.BoundsMinX >= modelB.BoundsMaxX)
@@ -36,12 +34,18 @@ namespace OpenRS.Net.Client.Game.Cameras
                 return false;
             }
 
-            if (!IsAnyVertexOutsidePlane(modelA, modelB, isForwardCheck: true))
+            if (!CameraModelPlaneClassifier.HasAnyVertexOutside(
+                modelA,
+                modelB,
+                isForwardCheck: true))
             {
                 return true;
             }
 
-            if (!IsAnyVertexOutsidePlane(modelB, modelA, isForwardCheck: false))
+            if (!CameraModelPlaneClassifier.HasAnyVertexOutside(
+                modelB,
+                modelA,
+                isForwardCheck: false))
             {
                 return true;
             }
@@ -56,15 +60,27 @@ namespace OpenRS.Net.Client.Game.Cameras
             int[] faceVerticesB = objectB.FaceVertexIndices[faceIndexB];
             int vertCountB = objectB.FaceVertexCounts[faceIndexB];
 
-            ProjectedPolygon polygonA = BuildProjectedPolygon(objectA, faceVerticesA, vertCountA);
-            ProjectedPolygon polygonB = BuildProjectedPolygon(objectB, faceVerticesB, vertCountB);
+            ProjectedPolygon polygonA = ProjectedPolygonBuilder.Build(
+                objectA,
+                faceVerticesA,
+                vertCountA);
+            ProjectedPolygon polygonB = ProjectedPolygonBuilder.Build(
+                objectB,
+                faceVerticesB,
+                vertCountB);
 
             return !PolygonsIntersect(polygonA.X, polygonA.Y, polygonB.X, polygonB.Y);
         }
 
         internal static bool IsModelBehind(CameraModel frontModel, CameraModel behindModel) =>
-            !IsAnyVertexOutsidePlane(frontModel, behindModel, isForwardCheck: true) ||
-            !IsAnyVertexOutsidePlane(behindModel, frontModel, isForwardCheck: false);
+            !CameraModelPlaneClassifier.HasAnyVertexOutside(
+                frontModel,
+                behindModel,
+                isForwardCheck: true) ||
+            !CameraModelPlaneClassifier.HasAnyVertexOutside(
+                behindModel,
+                frontModel,
+                isForwardCheck: false);
 
         private static int LinearInterpolate(int valueA, int rangeStartY, int valueB, int rangeEndY, int targetY)
         {
@@ -920,81 +936,6 @@ namespace OpenRS.Net.Client.Game.Cameras
             return ComparePolygonRange(finalLeftEdgeAX, finalRightEdgeAX, finalSingleVertexBX, isIntersecting);
         }
 
-        private static bool IsAnyVertexOutsidePlane(
-            CameraModel sourceModel,
-            CameraModel referenceModel,
-            bool isForwardCheck)
-        {
-            GameObject sourceObject = sourceModel.SourceObject;
-            int sourceFaceIndex = sourceModel.FaceIndex;
-            int[] sourceFaceVertices = sourceObject.FaceVertexIndices[sourceFaceIndex];
-            int sourceVertCount = sourceObject.FaceVertexCounts[sourceFaceIndex];
-
-            GameObject referenceObject = referenceModel.SourceObject;
-            int referenceFaceIndex = referenceModel.FaceIndex;
-            int referenceFirstVertex = referenceObject.FaceVertexIndices[referenceFaceIndex][0];
-            int refX = referenceObject.ProjectedX[referenceFirstVertex];
-            int refY = referenceObject.ProjectedY[referenceFirstVertex];
-            int refDepth = referenceObject.ProjectedDepth[referenceFirstVertex];
-            int planeNormalX = referenceModel.NormalX;
-            int planeNormalY = referenceModel.NormalY;
-            int planeNormalZ = referenceModel.NormalZ;
-            int visibilityRange = referenceObject.FaceVisibility[referenceFaceIndex];
-            int facingDot = isForwardCheck ? referenceModel.VisibilityDot : -referenceModel.VisibilityDot;
-
-            for (int vertexIndex = 0; vertexIndex < sourceVertCount; vertexIndex += 1)
-            {
-                int vertex = sourceFaceVertices[vertexIndex];
-                int dotProduct =
-                    (refX - sourceObject.ProjectedX[vertex]) * planeNormalX +
-                    (refY - sourceObject.ProjectedY[vertex]) * planeNormalY +
-                    (refDepth - sourceObject.ProjectedDepth[vertex]) * planeNormalZ;
-
-                if ((dotProduct >= -visibilityRange || facingDot >= 0) &&
-                    (dotProduct <= visibilityRange || facingDot <= 0))
-                {
-                    continue;
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        private static ProjectedPolygon BuildProjectedPolygon(
-            GameObject gameObject,
-            int[] faceVertices,
-            int vertCount)
-        {
-            if (vertCount == 2)
-            {
-                int vertex0 = faceVertices[0];
-                int vertex1 = faceVertices[1];
-                int[] x = new int[4];
-                int[] y = new int[4];
-                x[0] = gameObject.ProjectedU[vertex0] - LineSegmentHalfWidth;
-                x[1] = gameObject.ProjectedU[vertex1] - LineSegmentHalfWidth;
-                x[2] = gameObject.ProjectedU[vertex1] + LineSegmentHalfWidth;
-                x[3] = gameObject.ProjectedU[vertex0] + LineSegmentHalfWidth;
-                y[0] = y[3] = gameObject.ProjectedV[vertex0];
-                y[1] = y[2] = gameObject.ProjectedV[vertex1];
-
-                return new ProjectedPolygon(x, y);
-            }
-
-            int[] polygonX = new int[vertCount];
-            int[] polygonY = new int[vertCount];
-
-            for (int vertexIndex = 0; vertexIndex < vertCount; vertexIndex += 1)
-            {
-                int vertex = faceVertices[vertexIndex];
-                polygonX[vertexIndex] = gameObject.ProjectedU[vertex];
-                polygonY[vertexIndex] = gameObject.ProjectedV[vertex];
-            }
-
-            return new ProjectedPolygon(polygonX, polygonY);
-        }
     }
 
 }
