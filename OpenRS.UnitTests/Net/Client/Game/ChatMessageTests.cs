@@ -10,6 +10,12 @@ namespace OpenRS.UnitTests.Net.Client.Game
     [NonParallelizable]
     public sealed class ChatMessageTests
     {
+        [SetUp]
+        public void SetUp() => ChatMessage.LastChat = new byte[100];
+
+        [TearDown]
+        public void TearDown() => ChatMessage.LastChat = new byte[100];
+
         [Test]
         public void GivenAChatMessage_WhenEncodingIt_ThenTheCompatibleNibbleBytesAreProduced()
         {
@@ -69,6 +75,87 @@ namespace OpenRS.UnitTests.Net.Client.Game
             Assert.That(
                 ChatMessage.BytesToString(encodedBytes, -1, byteCount),
                 Is.EqualTo("Test 42 "));
+        }
+
+        [TestCase("test%value", "Test value")]
+        [TestCase("123456@abc", "123456 Abc ")]
+        public void GivenAFilteredMarker_WhenDecodingIt_ThenTheMarkerIsReplacedWithASpace(
+            string message,
+            string expectedMessage)
+        {
+            int byteCount = ChatMessage.StringToBytes(message);
+
+            string decodedMessage = ChatMessage.BytesToString(ChatMessage.LastChat, -1, byteCount);
+
+            Assert.That(decodedMessage, Is.EqualTo(expectedMessage));
+        }
+
+        [Test]
+        public void GivenAnAtMarkerWithinTheFirstFiveCharacters_WhenDecodingIt_ThenItIsRetained()
+        {
+            int byteCount = ChatMessage.StringToBytes("@red@");
+
+            string decodedMessage = ChatMessage.BytesToString(ChatMessage.LastChat, -1, byteCount);
+
+            Assert.That(decodedMessage, Is.EqualTo("@Red@ "));
+        }
+
+        [Test]
+        public void GivenEncodedBytesAfterAPrefix_WhenDecodingFromThePrefixOffset_ThenOnlyTheMessageIsRead()
+        {
+            int byteCount = ChatMessage.StringToBytes("RuneScape");
+            byte[] encodedBytes = [42, .. ChatMessage.LastChat[..byteCount], 64];
+
+            string decodedMessage = ChatMessage.BytesToString(encodedBytes, 0, byteCount);
+
+            Assert.That(decodedMessage, Is.EqualTo("Runescape "));
+        }
+
+        [TestCase(0)]
+        [TestCase(-1)]
+        [TestCase(int.MinValue)]
+        public void GivenANonPositiveByteCount_WhenDecodingNullBytes_ThenAnEmptyMessageIsReturned(
+            int byteCount)
+            => Assert.That(
+                ChatMessage.BytesToString((byte[])null!, 42, byteCount),
+                Is.Empty);
+
+        [Test]
+        public void GivenNullSignedBytes_WhenDecodingThem_ThenAnArgumentNullExceptionIsThrown()
+            => Assert.That(
+                () => ChatMessage.BytesToString((sbyte[])null!, -1, 0),
+                Throws.TypeOf<ArgumentNullException>());
+
+        [TestCase(-2, 1)]
+        [TestCase(0, 2)]
+        [TestCase(int.MaxValue, 1)]
+        public void GivenAnInvalidReadRange_WhenDecodingBytes_ThenTheFallbackTextIsReturned(
+            int readOffset,
+            int byteCount)
+            => Assert.That(
+                ChatMessage.BytesToString([42], readOffset, byteCount),
+                Is.EqualTo("."));
+
+        [Test]
+        public void GivenTheMaximumNibblePair_WhenDecodingIt_ThenTheFinalCharacterIsReturned()
+            => Assert.That(
+                ChatMessage.BytesToString([0xff], -1, 1),
+            Is.EqualTo("]"));
+
+        [Test]
+        public void GivenNullText_WhenEncodingIt_ThenANullReferenceExceptionIsThrown()
+            => Assert.That(
+                () => ChatMessage.StringToBytes(null!),
+                Throws.TypeOf<NullReferenceException>());
+
+        [Test]
+        public void GivenAnEmptyPublicOutputBuffer_WhenEncodingText_ThenAnIndexExceptionIsThrown()
+        {
+            ChatMessage.LastChat = [];
+
+            Assert.That(
+                () => ChatMessage.StringToBytes("RuneScape"),
+                Throws.TypeOf<IndexOutOfRangeException>());
         }
 
         [Test]

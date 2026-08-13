@@ -236,6 +236,21 @@ namespace OpenRS.UnitTests.Net.Client.Game
         }
 
         [Test]
+        public void GivenAnInterlacedAlphaBoxStartingOnAnOddRow_WhenDrawingIt_ThenTheNextEvenRowIsBlended()
+        {
+            FillPixels(0x204060);
+            image.IsInterlaced = true;
+
+            image.DrawBoxAlpha(0, 1, Width, 3, 0x80c000, 128);
+
+            AssertRows(
+                [0x204060, 0x204060, 0x204060, 0x204060, 0x204060],
+                [0x204060, 0x204060, 0x204060, 0x204060, 0x204060],
+                [0x508030, 0x508030, 0x508030, 0x508030, 0x508030],
+                [0x204060, 0x204060, 0x204060, 0x204060, 0x204060]);
+        }
+
+        [Test]
         public void GivenAHorizontalGradient_WhenDrawingIt_ThenEachRowInterpolatesFromTheStartColour()
         {
             image.DrawGradientBox(1, 0, 3, 4, 0x000000, 0xffffff);
@@ -259,6 +274,18 @@ namespace OpenRS.UnitTests.Net.Client.Game
             Assert.That(GetPixel(2, 2), Is.EqualTo(0x7f7f7f));
             Assert.That(GetPixel(3, 2), Is.EqualTo(0x7f7f7f));
             Assert.That(GetPixel(4, 2), Is.Zero);
+        }
+
+        [Test]
+        public void GivenAGradientBeyondBothVerticalEdges_WhenDrawingIt_ThenOutsideRowsAreSkipped()
+        {
+            image.DrawGradientBox(0, -1, Width, 6, 0x000000, 0xffffff);
+
+            AssertRows(
+                [0x2a2a2a, 0x2a2a2a, 0x2a2a2a, 0x2a2a2a, 0x2a2a2a],
+                [0x555555, 0x555555, 0x555555, 0x555555, 0x555555],
+                [0x7f7f7f, 0x7f7f7f, 0x7f7f7f, 0x7f7f7f, 0x7f7f7f],
+                [0xaaaaaa, 0xaaaaaa, 0xaaaaaa, 0xaaaaaa, 0xaaaaaa]);
         }
 
         [Test]
@@ -290,6 +317,18 @@ namespace OpenRS.UnitTests.Net.Client.Game
         }
 
         [Test]
+        public void GivenACircleBeyondTheBottomRight_WhenDrawingIt_ThenBothEdgesClipTheShape()
+        {
+            image.DrawCircle(Width - 1, Height - 1, 2, 42, 256);
+
+            AssertRows(
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 42],
+            [0, 0, 0, 42, 42],
+            [0, 0, 42, 42, 42]);
+        }
+
+        [Test]
         public void GivenAnInterlacedCircle_WhenDrawingIt_ThenOnlyAlternatingRowsAreFilled()
         {
             GameImage circleImage = new(5, 5, 0)
@@ -306,6 +345,25 @@ namespace OpenRS.UnitTests.Net.Client.Game
                 [42, 42, 42, 42, 42],
                 [0, 0, 0, 0, 0],
                 [0, 0, 42, 0, 0]);
+        }
+
+        [Test]
+        public void GivenAnInterlacedCircleStartingOnAnOddRow_WhenDrawingIt_ThenItStartsOnTheNextEvenRow()
+        {
+            GameImage circleImage = new(5, 5, 0)
+            {
+                IsInterlaced = true,
+            };
+
+            circleImage.DrawCircle(2, 2, 1, 42, 256);
+
+            AssertPixels(
+                circleImage,
+                [0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0],
+                [0, 42, 42, 42, 0],
+                [0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0]);
         }
 
         [Test]
@@ -545,6 +603,25 @@ namespace OpenRS.UnitTests.Net.Client.Game
                 [0x666666, 0x666666, 0x666666],
                 [0, 0, 0],
                 [0xcccccc, 0xcccccc, 0xcccccc]);
+        }
+
+        [Test]
+        public void GivenAnInterlacedGradientStartingOnAnOddRow_WhenDrawingIt_ThenItStartsOnTheNextEvenRow()
+        {
+            GameImage gradientImage = new(3, 5, 0)
+            {
+                IsInterlaced = true,
+            };
+
+            gradientImage.DrawGradientBox(0, 1, 3, 4, 0x000000, 0xffffff);
+
+            AssertPixels(
+                gradientImage,
+                [0, 0, 0],
+                [0, 0, 0],
+                [0x000000, 0x000000, 0x000000],
+                [0, 0, 0],
+                [0xaaaaaa, 0xaaaaaa, 0xaaaaaa]);
         }
 
         [TestCase(0)]

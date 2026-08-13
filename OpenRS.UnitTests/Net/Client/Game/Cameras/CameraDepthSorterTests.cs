@@ -3,6 +3,7 @@ using System.Linq;
 
 using NUnit.Framework;
 
+using OpenRS.Net.Client.Game;
 using OpenRS.Net.Client.Game.Cameras;
 
 namespace OpenRS.UnitTests.Net.Client.Game.Cameras
@@ -135,6 +136,21 @@ namespace OpenRS.UnitTests.Net.Client.Game.Cameras
         }
 
         [Test]
+        public void GivenOverlappingModelsAtSeparateDepths_WhenResolvingRenderOrder_ThenADependencyIsAssigned()
+        {
+            CameraModel frontModel = BuildOverlappingModel(0, 8);
+            CameraModel backModel = BuildOverlappingModel(16, 32);
+            CameraModel[] models = [frontModel, backModel];
+
+            depthSorter.ResolveRenderOrder(8, models, models.Length);
+
+            Assert.That(models, Has.All.Property(nameof(CameraModel.IsSorted)).True);
+            Assert.That(backModel.DependencyIndex, Is.EqualTo(0));
+            Assert.That(models[0], Is.SameAs(backModel));
+            Assert.That(models[1], Is.SameAs(frontModel));
+        }
+
+        [Test]
         public void GivenANullArrayAndNoModels_WhenResolvingRenderOrder_ThenNoArrayAccessOccurs()
             => Assert.That(
                 () => depthSorter.ResolveRenderOrder(8, null!, 0),
@@ -153,6 +169,24 @@ namespace OpenRS.UnitTests.Net.Client.Game.Cameras
             BoundsMinY = 0,
             BoundsMaxY = 8,
         };
+
+        private static CameraModel BuildOverlappingModel(int minimumDepth, int maximumDepth)
+        {
+            GameObject sourceObject = new(1, 1);
+            sourceObject.AddVertex(0, 0, minimumDepth);
+            sourceObject.AddFaceVertices(1, [0], 42, 48);
+
+            return new CameraModel
+            {
+                BoundsMinX = 0,
+                BoundsMaxX = 8,
+                BoundsMinY = 0,
+                BoundsMaxY = 8,
+                BoundsMinZ = minimumDepth,
+                BoundsMaxZ = maximumDepth,
+                SourceObject = sourceObject,
+            };
+        }
 
         private static CameraModel BuildModel(int scale) => new()
         {
