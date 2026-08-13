@@ -54,59 +54,82 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         public void ResolveRenderOrder(int maxLookAheadCount, CameraModel[] models, int modelCount)
         {
-            for (int modelIndex = 0; modelIndex < modelCount; modelIndex += 1)
-            {
-                models[modelIndex].IsSorted = false;
-                models[modelIndex].SortIndex = modelIndex;
-                models[modelIndex].DependencyIndex = -1;
-            }
-
+            InitialiseRenderOrderState(models, modelCount);
             int searchIndex = 0;
 
             while (true)
             {
-                while (searchIndex < modelCount && models[searchIndex].IsSorted)
-                {
-                    searchIndex += 1;
-                }
+                searchIndex = FindNextUnsortedModel(models, searchIndex, modelCount);
 
                 if (searchIndex == modelCount)
                 {
                     return;
                 }
 
-                CameraModel currentModel = models[searchIndex];
-                currentModel.IsSorted = true;
-                int rangeStart = searchIndex;
-                int rangeEnd = searchIndex + maxLookAheadCount;
+                ResolveModelDependencies(maxLookAheadCount, models, modelCount, searchIndex);
+            }
+        }
 
-                if (rangeEnd >= modelCount)
+        private static void InitialiseRenderOrderState(CameraModel[] models, int modelCount)
+        {
+            for (int modelIndex = 0; modelIndex < modelCount; modelIndex += 1)
+            {
+                models[modelIndex].IsSorted = false;
+                models[modelIndex].SortIndex = modelIndex;
+                models[modelIndex].DependencyIndex = -1;
+            }
+        }
+
+        private static int FindNextUnsortedModel(
+            CameraModel[] models,
+            int searchIndex,
+            int modelCount)
+        {
+            while (searchIndex < modelCount && models[searchIndex].IsSorted)
+            {
+                searchIndex += 1;
+            }
+
+            return searchIndex;
+        }
+
+        private void ResolveModelDependencies(
+            int maximumLookAheadCount,
+            CameraModel[] models,
+            int modelCount,
+            int searchIndex)
+        {
+            CameraModel currentModel = models[searchIndex];
+            currentModel.IsSorted = true;
+            int rangeStart = searchIndex;
+            int rangeEnd = searchIndex + maximumLookAheadCount;
+
+            if (rangeEnd >= modelCount)
+            {
+                rangeEnd = modelCount - 1;
+            }
+
+            for (int compareIndex = rangeEnd; compareIndex >= rangeStart + 1; compareIndex -= 1)
+            {
+                CameraModel compareModel = models[compareIndex];
+
+                if (currentModel.BoundsMinX < compareModel.BoundsMaxX &&
+                    compareModel.BoundsMinX < currentModel.BoundsMaxX &&
+                    currentModel.BoundsMinY < compareModel.BoundsMaxY &&
+                    compareModel.BoundsMinY < currentModel.BoundsMaxY &&
+                    currentModel.SortIndex != compareModel.DependencyIndex &&
+                    !PolygonIntersectionCalculator.AreBoundsDisjoint(currentModel, compareModel) &&
+                    PolygonIntersectionCalculator.IsModelBehind(compareModel, currentModel))
                 {
-                    rangeEnd = modelCount - 1;
-                }
+                    TryReorderOverlappingModels(models, rangeStart, compareIndex);
 
-                for (int compareIndex = rangeEnd; compareIndex >= rangeStart + 1; compareIndex -= 1)
-                {
-                    CameraModel compareModel = models[compareIndex];
-
-                    if (currentModel.BoundsMinX < compareModel.BoundsMaxX &&
-                        compareModel.BoundsMinX < currentModel.BoundsMaxX &&
-                        currentModel.BoundsMinY < compareModel.BoundsMaxY &&
-                        compareModel.BoundsMinY < currentModel.BoundsMaxY &&
-                        currentModel.SortIndex != compareModel.DependencyIndex &&
-                        !PolygonIntersectionCalculator.AreBoundsDisjoint(currentModel, compareModel) &&
-                        PolygonIntersectionCalculator.IsModelBehind(compareModel, currentModel))
+                    if (models[compareIndex] != compareModel)
                     {
-                        TryReorderOverlappingModels(models, rangeStart, compareIndex);
-
-                        if (models[compareIndex] != compareModel)
-                        {
-                            compareIndex += 1;
-                        }
-
-                        rangeStart = reorderedRangeStart;
-                        compareModel.DependencyIndex = currentModel.SortIndex;
+                        compareIndex += 1;
                     }
+
+                    rangeStart = reorderedRangeStart;
+                    compareModel.DependencyIndex = currentModel.SortIndex;
                 }
             }
         }

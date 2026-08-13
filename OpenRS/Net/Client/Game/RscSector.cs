@@ -11,8 +11,6 @@ namespace OpenRS.Net.Client.Game
 
         public static short Height => 48;
 
-        private static int SectorTileByteSize => sizeof(byte) * 6 + sizeof(int);
-
         public RscSector()
         {
             tiles = new SectorTile[Width * Height];
@@ -35,13 +33,13 @@ namespace OpenRS.Net.Client.Game
         }
 
         public void SetTile(int x, int y, SectorTile tile)
-            => SetTile(x * Width + y, tile);
+            => SetTile(GetTileIndex(x, y), tile);
 
         public SectorTile GetTile(int index)
             => tiles[index];
 
         public SectorTile GetTile(int x, int y)
-            => GetTile(x * Width + y);
+            => GetTile(GetTileIndex(x, y));
 
         public static RscSector Unpack(MemoryStream inputStream)
         {
@@ -53,7 +51,7 @@ namespace OpenRS.Net.Client.Game
             }
 
             int tileCount = Width * Height;
-            int requiredByteCount = SectorTileByteSize * tileCount;
+            int requiredByteCount = SectorTile.SerialisedByteCount * tileCount;
 
             if (inputStream.Remaining() < requiredByteCount)
             {
@@ -71,5 +69,8 @@ namespace OpenRS.Net.Client.Game
 
             return sector;
         }
+
+        private static int GetTileIndex(int positionX, int positionY)
+            => positionX * Width + positionY;
     }
 }

@@ -93,22 +93,7 @@ namespace OpenRS.Net.Client.Game
 
         public GameImage(int width, int height, int size)
         {
-            ImageHeight = height;
-            ImageWidth = width;
-            Width = GameWidth = width;
-            Height = GameHeight = height;
-            Area = width * height;
-            Pixels = new int[width * height];
-            PictureColours = new int[size][];
-            HasTransparentBackground = new bool[size];
-            PictureColourIndexes = new sbyte[size][];
-            PictureColour = new int[size][];
-            PictureWidth = new int[size];
-            PictureHeight = new int[size];
-            PictureAssumedWidth = new int[size];
-            PictureAssumedHeight = new int[size];
-            PictureOffsetX = new int[size];
-            PictureOffsetY = new int[size];
+            GameImageStorageInitialiser.Initialise(this, width, height, size);
             pictureManager = new GameImagePictureManager(this);
             spriteRenderer = new GameImageSpriteRenderer(this);
             characterRenderer = new GameImageCharacterRenderer(this);
@@ -171,24 +156,10 @@ namespace OpenRS.Net.Client.Game
                 areaHeight);
 
         public static uint RgbaToUInt(int red, int green, int blue, int alpha)
-        {
-            if (((red | green | blue | alpha) & -256) != 0)
-            {
-                red = ClampToByte32(red);
-                green = ClampToByte32(green);
-                blue = ClampToByte32(blue);
-                alpha = ClampToByte32(alpha);
-            }
-
-            green <<= 8;
-            blue <<= 0x10;
-            alpha <<= 0x18;
-
-            return (uint)(red | green | blue | alpha);
-        }
+            => GameImageColourPacker.PackRgba(red, green, blue, alpha);
 
         public static int RgbToInt(int red, int green, int blue)
-            => (red << 16) + (green << 8) + blue;
+            => GameImageColourPacker.PackRgb(red, green, blue);
 
         public void DrawPixels(int[][] pixelGrid, int drawX, int drawY, int width, int height)
             => pixelRasteriser.DrawPixels(pixelGrid, drawX, drawY, width, height);
@@ -268,19 +239,5 @@ namespace OpenRS.Net.Client.Game
         public int TextWidth(string text, int fontIndex)
             => textRenderer.TextWidth(text, fontIndex);
 
-        private static int ClampToByte32(int value)
-        {
-            if (value < 0)
-            {
-                return 0;
-            }
-
-            if (value > 0xff)
-            {
-                return 0xff;
-            }
-
-            return value;
-        }
     }
 }

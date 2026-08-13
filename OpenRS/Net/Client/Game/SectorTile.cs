@@ -6,7 +6,7 @@ namespace OpenRS.Net.Client.Game
 {
     public sealed class SectorTile
     {
-        private static int TileDataSize => sizeof(byte) * 6 + sizeof(int);
+        internal static int SerialisedByteCount => sizeof(byte) * 6 + sizeof(int);
 
         public byte GroundElevation { get; set; }
 
@@ -62,11 +62,11 @@ namespace OpenRS.Net.Client.Game
                     "The input stream cannot be null.");
             }
 
-            if (inputStream.Remaining() < TileDataSize)
+            if (inputStream.Remaining() < SerialisedByteCount)
             {
                 throw new IOException(
                     $"The provided buffer is too short to unpack a sector tile. " +
-                    $"At least {TileDataSize} bytes are required.");
+                    $"At least {SerialisedByteCount} bytes are required.");
             }
         }
     }

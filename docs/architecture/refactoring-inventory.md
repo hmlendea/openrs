@@ -15,17 +15,24 @@ This set-based rule classifies the complete production tree without relying on a
 | File | Result | Verification |
 | --- | --- | --- |
 | `GameLogic/GameManagers/InventoryManager.cs` | Centralised slot creation and value copying; separated server-bank mutation and visible-bank coordination | `InventoryManagerTests` |
-| `Models/Appearance.cs` | Named fixed sprite protocol values | `AppearanceTests` |
+| `Models/Appearance.cs` | Named fixed sprite protocol values and centralised colour-range validation | `AppearanceTests` |
 | `Models/MobInstance.cs` | Shared immutable movement-sprite table | `MobInstanceTests` |
+| `Net/Client/Game/ClientMob.cs` | Named protocol capacities and unset combat-level state | `ClientMobTests` |
 | `Net/Client/Game/Cameras/Camera.cs` | Centralised projection-bound expansion | `CameraStateTests` |
-| `Net/Client/Game/Cameras/CameraDepthSorter.cs` | Separated depth partitioning from recursion | `CameraDepthSorterTests` |
+| `Net/Client/Game/Cameras/CameraDepthSorter.cs` | Separated depth partitioning, render-state initialisation, and dependency resolution coordination | `CameraDepthSorterTests` |
+| `Net/Client/Game/Cameras/CameraSceneObjectTracker.cs` | Centralised per-scene-object vertex ownership and separated metadata from geometry creation | `CameraSceneObjectTrackerTests`, `CameraStateTests` |
 | `Net/Client/Game/ChatMessage.cs` | Reduced to compatibility facade | `ChatMessageTests` |
-| `Net/Client/Game/EngineHandle.cs` | Centralised grid guards, sector indexing, and seam policy | `EngineHandleTileTests` |
-| `Net/Client/Game/GameImage.cs` | Reduced to bounded drawing facade | `GameImageDrawingTests`, `GameImageColourTests` |
+| `Net/Client/Game/EngineHandle.cs` | Centralised grid and sector allocation, grid guards, sector indexing, and seam policy | `EngineHandleTileTests`, `EngineHandlePathfindingTests` |
+| `Net/Client/Game/GameImage.cs` | Reduced to bounded drawing facade with delegated storage and colour packing | `GameImageDrawingTests`, `GameImageColourTests` |
 | `Net/Client/Game/GameObject.cs` | Delegated allocation, geometry mutation, and shade decoding | `GameObjectTests` |
 | `Net/Client/Game/GameObjectDataLoader.cs` | Removed misplaced optional-array allocation | `GameObjectTests` |
+| `Net/Client/Game/ObjectModel.cs` | Centralised copied vertex and face collection semantics | `ObjectModelTests` |
+| `Net/Client/Game/PathFinder.cs` | Centralised cardinal and diagonal neighbour expansion rules | `EngineHandlePathfindingTests` |
+| `Net/Client/Game/RscSector.cs` | Centralised coordinate indexing and serialised tile sizing | `RscSectorTests`, `SectorTileTests` |
+| `Net/Client/Game/SectorTile.cs` | Owns its serialised byte-count invariant | `SectorTileTests`, `RscSectorTests` |
 | `Net/Client/Game/SectorCoordinates.cs` | Coordinates now own local tile indexing | `EngineHandleTileTests` |
-| `Net/Client/Menu.cs` | Decomposed keyboard editing and centralised hit-testing | `MenuTests` |
+| `Net/Client/Link.cs` | Uses stream position as the remaining-byte conversion cursor | `LinkTests` |
+| `Net/Client/Menu.cs` | Decomposed keyboard editing, hit-testing, and component construction; replaced private numeric variants with `MenuComponentType` | `MenuTests` |
 | `Net/Client/Net/PacketConstruction.cs` | Decomposed framing, read state, metrics, and deferred errors | Packet construction unit suites |
 | `Net/Client/Utilities/GameClientUtilities.cs` | Delegated pure item-count formatting | `GameClientUtilitiesTests` |
 
@@ -35,11 +42,15 @@ This set-based rule classifies the complete production tree without relying on a
 | --- | --- |
 | `Net/Client/Game/ChatMessageCodec.cs` | Chat nibble encoding, decoding, and normalisation |
 | `Net/Client/Game/GameImageBlurProcessor.cs` | Area blur |
+| `Net/Client/Game/GameImageColourPacker.cs` | Pure RGB/RGBA packing and channel clamping |
 | `Net/Client/Game/GameImagePixelRasteriser.cs` | Basic pixel rasterisation and drawing-area state |
 | `Net/Client/Game/GameImageShapeRasteriser.cs` | Circle, alpha-rectangle, and gradient rasterisation |
+| `Net/Client/Game/GameImageStorageInitialiser.cs` | Pixel and picture storage allocation |
 | `Net/Client/Game/GameObjectArrayInitialiser.cs` | Required and optional geometry-array allocation |
 | `Net/Client/Game/GameObjectGeometryBuilder.cs` | Vertex and face mutation |
 | `Net/Client/Game/GameObjectShadeDecoder.cs` | Stateful legacy shade decoding |
+| `Net/Client/Game/ObjectModelElementCollection.cs` | Copied, ordered model element collections |
+| `Net/Client/MenuComponentType.cs` | Named legacy menu component variants |
 | `Net/Client/Net/PacketFraming.cs` | Compact and extended packet-length framing |
 | `Net/Client/Utilities/ItemCountFormatter.cs` | Pure inventory quantity display formatting |
 

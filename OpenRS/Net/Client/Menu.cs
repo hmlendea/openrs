@@ -28,7 +28,7 @@ namespace OpenRS.Net.Client
             componentHighlightedIndex = new int[capacity];
             componentX = new int[capacity];
             componentY = new int[capacity];
-            componentType = new int[capacity];
+            componentType = new MenuComponentType[capacity];
             componentWidth = new int[capacity];
             componentHeight = new int[capacity];
             copmonentInputMaxLength = new int[capacity];
@@ -70,14 +70,14 @@ namespace OpenRS.Net.Client
                 for (int componentIndex = 0; componentIndex < menuItemsCount; componentIndex += 1)
                 {
                     if (componentAcceptsInput[componentIndex] &&
-                        componentType[componentIndex] == 10 &&
+                        componentType[componentIndex] == MenuComponentType.Button &&
                         IsMouseWithinComponent(componentIndex))
                     {
                         componentSkip[componentIndex] = true;
                     }
 
                     if (componentAcceptsInput[componentIndex] &&
-                        componentType[componentIndex] == 14 &&
+                        componentType[componentIndex] == MenuComponentType.Toggle &&
                         IsMouseWithinComponent(componentIndex))
                     {
                         componentSelectedIndex[componentIndex] = 1 - componentSelectedIndex[componentIndex];
@@ -99,7 +99,7 @@ namespace OpenRS.Net.Client
                 for (int componentIndex = 0; componentIndex < menuItemsCount; componentIndex += 1)
                 {
                     if (componentAcceptsInput[componentIndex] &&
-                        componentType[componentIndex] == 15 &&
+                        componentType[componentIndex] == MenuComponentType.RepeatingButton &&
                         IsMouseWithinComponent(componentIndex))
                     {
                         componentSkip[componentIndex] = true;
@@ -191,7 +191,8 @@ namespace OpenRS.Net.Client
             {
                 selectedComponent = (selectedComponent + 1) % menuItemsCount;
             }
-            while (componentType[selectedComponent] != 5 && componentType[selectedComponent] != 6);
+            while (componentType[selectedComponent] != MenuComponentType.LeftAlignedTextInput &&
+                componentType[selectedComponent] != MenuComponentType.CentredTextInput);
         }
 
         public void DrawMenu()
@@ -200,51 +201,52 @@ namespace OpenRS.Net.Client
             {
                 if (componentAcceptsInput[componentIndex])
                 {
-                    if (componentType[componentIndex] == 0)
+                    if (componentType[componentIndex] == MenuComponentType.LeftAlignedText)
                     {
                         DrawComponentTextAligned(componentIndex, componentX[componentIndex], componentY[componentIndex], componentText[componentIndex], componentTextSize[componentIndex]);
                     }
-                    else if (componentType[componentIndex] == 1)
+                    else if (componentType[componentIndex] == MenuComponentType.CentredText)
                     {
                         DrawComponentTextAligned(componentIndex, componentX[componentIndex] - gameImage.TextWidth(componentText[componentIndex], componentTextSize[componentIndex]) / 2, componentY[componentIndex], componentText[componentIndex], componentTextSize[componentIndex]);
                     }
-                    else if (componentType[componentIndex] == 2)
+                    else if (componentType[componentIndex] == MenuComponentType.BackgroundPanel)
                     {
                         DrawBackgroundPanel(componentX[componentIndex], componentY[componentIndex], componentWidth[componentIndex], componentHeight[componentIndex]);
                     }
-                    else if (componentType[componentIndex] == 3)
+                    else if (componentType[componentIndex] == MenuComponentType.HorizontalLine)
                     {
                         DrawLineX(componentX[componentIndex], componentY[componentIndex], componentWidth[componentIndex]);
                     }
-                    else if (componentType[componentIndex] == 4)
+                    else if (componentType[componentIndex] == MenuComponentType.ScrollableTextBox)
                     {
                         DrawScrollableList(componentIndex, componentX[componentIndex], componentY[componentIndex], componentWidth[componentIndex], componentHeight[componentIndex], componentTextSize[componentIndex], componentTextList[componentIndex], listLength[componentIndex], listShownEntries[componentIndex]);
                     }
-                    else if (componentType[componentIndex] == 5 || componentType[componentIndex] == 6)
+                    else if (componentType[componentIndex] == MenuComponentType.LeftAlignedTextInput ||
+                        componentType[componentIndex] == MenuComponentType.CentredTextInput)
                     {
                         DrawInputBox(componentIndex, componentX[componentIndex], componentY[componentIndex], componentWidth[componentIndex], componentHeight[componentIndex], componentText[componentIndex], componentTextSize[componentIndex]);
                     }
-                    else if (componentType[componentIndex] == 7)
+                    else if (componentType[componentIndex] == MenuComponentType.HorizontalOptions)
                     {
                         DrawHorizontalOptions(componentIndex, componentX[componentIndex], componentY[componentIndex], componentTextSize[componentIndex], componentTextList[componentIndex]);
                     }
-                    else if (componentType[componentIndex] == 8)
+                    else if (componentType[componentIndex] == MenuComponentType.VerticalOptions)
                     {
                         DrawVerticalOptions(componentIndex, componentX[componentIndex], componentY[componentIndex], componentTextSize[componentIndex], componentTextList[componentIndex]);
                     }
-                    else if (componentType[componentIndex] == 9)
+                    else if (componentType[componentIndex] == MenuComponentType.SelectableList)
                     {
                         DrawList(componentIndex, componentX[componentIndex], componentY[componentIndex], componentWidth[componentIndex], componentHeight[componentIndex], componentTextSize[componentIndex], componentTextList[componentIndex], listLength[componentIndex], listShownEntries[componentIndex]);
                     }
-                    else if (componentType[componentIndex] == 11)
+                    else if (componentType[componentIndex] == MenuComponentType.CurvedPanel)
                     {
                         DrawScrollCornerPanel(componentX[componentIndex], componentY[componentIndex], componentWidth[componentIndex], componentHeight[componentIndex]);
                     }
-                    else if (componentType[componentIndex] == 12)
+                    else if (componentType[componentIndex] == MenuComponentType.Picture)
                     {
                         DrawPicture(componentX[componentIndex], componentY[componentIndex], componentTextSize[componentIndex]);
                     }
-                    else if (componentType[componentIndex] == 14)
+                    else if (componentType[componentIndex] == MenuComponentType.Toggle)
                     {
                         DrawBorderBox(componentIndex, componentX[componentIndex], componentY[componentIndex], componentWidth[componentIndex], componentHeight[componentIndex]);
                     }
@@ -306,7 +308,7 @@ namespace OpenRS.Net.Client
                 }
             }
 
-            if (componentType[componentIndex] == 5)
+            if (componentType[componentIndex] == MenuComponentType.LeftAlignedTextInput)
             {
                 if (lastMouseButton == 1 && mouseX >= xPosition && mouseY >= yPosition - height / 2 && mouseX <= xPosition + width && mouseY <= yPosition + height / 2)
                 {
@@ -315,7 +317,7 @@ namespace OpenRS.Net.Client
             }
             else
             {
-                if (componentType[componentIndex] == 6)
+                if (componentType[componentIndex] == MenuComponentType.CentredTextInput)
                 {
                     if (lastMouseButton == 1 && mouseX >= xPosition - width / 2 && mouseY >= yPosition - height / 2 && mouseX <= xPosition + width / 2 && mouseY <= yPosition + height / 2)
                     {
@@ -735,7 +737,7 @@ namespace OpenRS.Net.Client
 
         public int DrawText(int xPosition, int yPosition, string text, int fontIndex, bool isWhiteText)
         {
-            componentType[menuItemsCount] = 1;
+            componentType[menuItemsCount] = MenuComponentType.CentredText;
             componentAcceptsInput[menuItemsCount] = true;
             componentSkip[menuItemsCount] = false;
             componentTextSize[menuItemsCount] = fontIndex;
@@ -749,38 +751,26 @@ namespace OpenRS.Net.Client
         }
 
         public int DrawButton(int xPosition, int yPosition, int width, int height)
-        {
-            componentType[menuItemsCount] = 2;
-            componentAcceptsInput[menuItemsCount] = true;
-            componentSkip[menuItemsCount] = false;
-            componentX[menuItemsCount] = xPosition - width / 2;
-            componentY[menuItemsCount] = yPosition - height / 2;
-            componentWidth[menuItemsCount] = width;
-            componentHeight[menuItemsCount] = height;
-            menuItemsCount += 1;
-
-            return menuItemsCount - 1;
-        }
+            => CreateCentredRectangleComponent(
+                MenuComponentType.BackgroundPanel,
+                xPosition,
+                yPosition,
+                width,
+                height);
 
         public int DrawCurvedBox(int xPosition, int yPosition, int width, int height)
-        {
-            componentType[menuItemsCount] = 11;
-            componentAcceptsInput[menuItemsCount] = true;
-            componentSkip[menuItemsCount] = false;
-            componentX[menuItemsCount] = xPosition - width / 2;
-            componentY[menuItemsCount] = yPosition - height / 2;
-            componentWidth[menuItemsCount] = width;
-            componentHeight[menuItemsCount] = height;
-            menuItemsCount += 1;
-
-            return menuItemsCount - 1;
-        }
+            => CreateCentredRectangleComponent(
+                MenuComponentType.CurvedPanel,
+                xPosition,
+                yPosition,
+                width,
+                height);
 
         public int DrawArrow(int xPosition, int yPosition, int pictureIndex)
         {
             int pictureWidth = gameImage.PictureWidth[pictureIndex];
             int pictureHeight = gameImage.PictureHeight[pictureIndex];
-            componentType[menuItemsCount] = 12;
+            componentType[menuItemsCount] = MenuComponentType.Picture;
             componentAcceptsInput[menuItemsCount] = true;
             componentSkip[menuItemsCount] = false;
             componentX[menuItemsCount] = xPosition - pictureWidth / 2;
@@ -794,49 +784,54 @@ namespace OpenRS.Net.Client
         }
 
         public int CreateScrollableTextBox(int xPosition, int yPosition, int width, int height, int fontIndex, int maxItems, bool isWhiteText)
-        {
-            componentType[menuItemsCount] = 4;
-            componentAcceptsInput[menuItemsCount] = true;
-            componentSkip[menuItemsCount] = false;
-            componentX[menuItemsCount] = xPosition;
-            componentY[menuItemsCount] = yPosition;
-            componentWidth[menuItemsCount] = width;
-            componentHeight[menuItemsCount] = height;
-            componentWhiteText[menuItemsCount] = isWhiteText;
-            componentTextSize[menuItemsCount] = fontIndex;
-            copmonentInputMaxLength[menuItemsCount] = maxItems;
-            listLength[menuItemsCount] = 0;
-            listShownEntries[menuItemsCount] = 0;
-            componentTextList[menuItemsCount] = new string[maxItems];
-            menuItemsCount += 1;
-
-            return menuItemsCount - 1;
-        }
+            => CreateListComponent(
+                MenuComponentType.ScrollableTextBox,
+                xPosition,
+                yPosition,
+                width,
+                height,
+                fontIndex,
+                maxItems,
+                isWhiteText);
 
         public int CreateTextInput(int xPosition, int yPosition, int width, int height, int fontIndex, int maxLength, bool isPasswordField,
                 bool isWhiteText)
-        {
-            componentType[menuItemsCount] = 5;
-            componentAcceptsInput[menuItemsCount] = true;
-            componentIsPasswordField[menuItemsCount] = isPasswordField;
-            componentSkip[menuItemsCount] = false;
-            componentTextSize[menuItemsCount] = fontIndex;
-            componentWhiteText[menuItemsCount] = isWhiteText;
-            componentX[menuItemsCount] = xPosition;
-            componentY[menuItemsCount] = yPosition;
-            componentWidth[menuItemsCount] = width;
-            componentHeight[menuItemsCount] = height;
-            copmonentInputMaxLength[menuItemsCount] = maxLength;
-            componentText[menuItemsCount] = "";
-            menuItemsCount += 1;
-
-            return menuItemsCount - 1;
-        }
+            => CreateTextInputComponent(
+                MenuComponentType.LeftAlignedTextInput,
+                xPosition,
+                yPosition,
+                width,
+                height,
+                fontIndex,
+                maxLength,
+                isPasswordField,
+                isWhiteText);
 
         public int CreateInput(int xPosition, int yPosition, int width, int height, int fontIndex, int maxLength, bool isPasswordField,
                 bool isWhiteText)
+            => CreateTextInputComponent(
+                MenuComponentType.CentredTextInput,
+                xPosition,
+                yPosition,
+                width,
+                height,
+                fontIndex,
+                maxLength,
+                isPasswordField,
+                isWhiteText);
+
+        private int CreateTextInputComponent(
+            MenuComponentType inputComponentType,
+            int xPosition,
+            int yPosition,
+            int width,
+            int height,
+            int fontIndex,
+            int maximumLength,
+            bool isPasswordField,
+            bool isWhiteText)
         {
-            componentType[menuItemsCount] = 6;
+            componentType[menuItemsCount] = inputComponentType;
             componentAcceptsInput[menuItemsCount] = true;
             componentIsPasswordField[menuItemsCount] = isPasswordField;
             componentSkip[menuItemsCount] = false;
@@ -846,8 +841,8 @@ namespace OpenRS.Net.Client
             componentY[menuItemsCount] = yPosition;
             componentWidth[menuItemsCount] = width;
             componentHeight[menuItemsCount] = height;
-            copmonentInputMaxLength[menuItemsCount] = maxLength;
-            componentText[menuItemsCount] = "";
+            copmonentInputMaxLength[menuItemsCount] = maximumLength;
+            componentText[menuItemsCount] = string.Empty;
             menuItemsCount += 1;
 
             return menuItemsCount - 1;
@@ -855,7 +850,32 @@ namespace OpenRS.Net.Client
 
         public int CreateList(int xPosition, int yPosition, int width, int height, int fontIndex, int maxItems, bool isWhiteText)
         {
-            componentType[menuItemsCount] = 9;
+            int componentIndex = CreateListComponent(
+                MenuComponentType.SelectableList,
+                xPosition,
+                yPosition,
+                width,
+                height,
+                fontIndex,
+                maxItems,
+                isWhiteText);
+            componentSelectedIndex[componentIndex] = -1;
+            componentHighlightedIndex[componentIndex] = -1;
+
+            return componentIndex;
+        }
+
+        private int CreateListComponent(
+            MenuComponentType listComponentType,
+            int xPosition,
+            int yPosition,
+            int width,
+            int height,
+            int fontIndex,
+            int maximumItems,
+            bool isWhiteText)
+        {
+            componentType[menuItemsCount] = listComponentType;
             componentAcceptsInput[menuItemsCount] = true;
             componentSkip[menuItemsCount] = false;
             componentTextSize[menuItemsCount] = fontIndex;
@@ -864,20 +884,31 @@ namespace OpenRS.Net.Client
             componentY[menuItemsCount] = yPosition;
             componentWidth[menuItemsCount] = width;
             componentHeight[menuItemsCount] = height;
-            copmonentInputMaxLength[menuItemsCount] = maxItems;
-            componentTextList[menuItemsCount] = new string[maxItems];
+            copmonentInputMaxLength[menuItemsCount] = maximumItems;
+            componentTextList[menuItemsCount] = new string[maximumItems];
             listLength[menuItemsCount] = 0;
             listShownEntries[menuItemsCount] = 0;
-            componentSelectedIndex[menuItemsCount] = -1;
-            componentHighlightedIndex[menuItemsCount] = -1;
             menuItemsCount += 1;
 
             return menuItemsCount - 1;
         }
 
         public int CreateButton(int xPosition, int yPosition, int width, int height)
+            => CreateCentredRectangleComponent(
+                MenuComponentType.Button,
+                xPosition,
+                yPosition,
+                width,
+                height);
+
+        private int CreateCentredRectangleComponent(
+            MenuComponentType rectangleComponentType,
+            int xPosition,
+            int yPosition,
+            int width,
+            int height)
         {
-            componentType[menuItemsCount] = 10;
+            componentType[menuItemsCount] = rectangleComponentType;
             componentAcceptsInput[menuItemsCount] = true;
             componentSkip[menuItemsCount] = false;
             componentX[menuItemsCount] = xPosition - width / 2;
@@ -982,7 +1013,7 @@ namespace OpenRS.Net.Client
         private readonly bool[] componentWhiteText;
         private readonly int[] componentX;
         private readonly int[] componentY;
-        private readonly int[] componentType;
+        private readonly MenuComponentType[] componentType;
         private readonly int[] componentWidth;
         private readonly int[] componentHeight;
         private readonly int[] copmonentInputMaxLength;

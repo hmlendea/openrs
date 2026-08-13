@@ -30,10 +30,10 @@ namespace OpenRS.Models
         public bool IsValid =>
             Array.IndexOf(ValidHeadSprites, Head) >= 0 &&
             Array.IndexOf(ValidBodySprites, Body) >= 0 &&
-            HairColour >= 0 && HairColour <= MaximumHairColour &&
-            TopColour >= 0 && TopColour <= MaximumTopColour &&
-            TrousersColour >= 0 && TrousersColour <= MaximumTrousersColour &&
-            SkinColour >= 0 && SkinColour <= MaximumSkinColour;
+            IsColourValid(HairColour, MaximumHairColour) &&
+            IsColourValid(TopColour, MaximumTopColour) &&
+            IsColourValid(TrousersColour, MaximumTrousersColour) &&
+            IsColourValid(SkinColour, MaximumSkinColour);
 
         public int GetSprite(int position) => position switch
         {
@@ -52,5 +52,8 @@ namespace OpenRS.Models
 
             return sprites;
         }
+
+        private static bool IsColourValid(int colour, int maximumColour)
+            => colour >= 0 && colour <= maximumColour;
     }
 }

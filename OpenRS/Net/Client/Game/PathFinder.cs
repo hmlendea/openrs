@@ -193,39 +193,51 @@ namespace OpenRS.Net.Client.Game
             int currentY,
             PathSearchQueue searchQueue)
         {
-            int gridMaxIndex = EngineHandle.GridSize - 1;
+            TryExpandCardinalNeighbour(
+                currentX - 1,
+                currentY,
+                WestMovementMask,
+                TileDirectionEast,
+                searchQueue);
+            TryExpandCardinalNeighbour(
+                currentX + 1,
+                currentY,
+                EastMovementMask,
+                TileDirectionWest,
+                searchQueue);
+            TryExpandCardinalNeighbour(
+                currentX,
+                currentY - 1,
+                SouthMovementMask,
+                TileDirectionNorth,
+                searchQueue);
+            TryExpandCardinalNeighbour(
+                currentX,
+                currentY + 1,
+                NorthMovementMask,
+                TileDirectionSouth,
+                searchQueue);
+        }
 
-            if (currentX > 0 &&
-                engineHandle.Steps[currentX - 1][currentY] == 0 &&
-                (engineHandle.Tiles[currentX - 1][currentY] & WestMovementMask) == 0)
+        private void TryExpandCardinalNeighbour(
+            int targetX,
+            int targetY,
+            int movementMask,
+            int returnDirection,
+            PathSearchQueue searchQueue)
+        {
+            if (targetX < 0 ||
+                targetX >= EngineHandle.GridSize ||
+                targetY < 0 ||
+                targetY >= EngineHandle.GridSize ||
+                engineHandle.Steps[targetX][targetY] != 0 ||
+                (engineHandle.Tiles[targetX][targetY] & movementMask) != 0)
             {
-                searchQueue.Enqueue(currentX - 1, currentY);
-                engineHandle.Steps[currentX - 1][currentY] = TileDirectionEast;
+                return;
             }
 
-            if (currentX < gridMaxIndex &&
-                engineHandle.Steps[currentX + 1][currentY] == 0 &&
-                (engineHandle.Tiles[currentX + 1][currentY] & EastMovementMask) == 0)
-            {
-                searchQueue.Enqueue(currentX + 1, currentY);
-                engineHandle.Steps[currentX + 1][currentY] = TileDirectionWest;
-            }
-
-            if (currentY > 0 &&
-                engineHandle.Steps[currentX][currentY - 1] == 0 &&
-                (engineHandle.Tiles[currentX][currentY - 1] & SouthMovementMask) == 0)
-            {
-                searchQueue.Enqueue(currentX, currentY - 1);
-                engineHandle.Steps[currentX][currentY - 1] = TileDirectionNorth;
-            }
-
-            if (currentY < gridMaxIndex &&
-                engineHandle.Steps[currentX][currentY + 1] == 0 &&
-                (engineHandle.Tiles[currentX][currentY + 1] & NorthMovementMask) == 0)
-            {
-                searchQueue.Enqueue(currentX, currentY + 1);
-                engineHandle.Steps[currentX][currentY + 1] = TileDirectionSouth;
-            }
+            searchQueue.Enqueue(targetX, targetY);
+            engineHandle.Steps[targetX][targetY] = returnDirection;
         }
 
         private void ExpandDiagonalNeighbours(
@@ -233,51 +245,76 @@ namespace OpenRS.Net.Client.Game
             int currentY,
             PathSearchQueue searchQueue)
         {
-            int gridMaxIndex = EngineHandle.GridSize - 1;
+            TryExpandDiagonalNeighbour(
+                currentX,
+                currentY,
+                -1,
+                -1,
+                WestMovementMask,
+                SouthMovementMask,
+                SouthWestMovementMask,
+                DiagonalStepNorthEast,
+                searchQueue);
+            TryExpandDiagonalNeighbour(
+                currentX,
+                currentY,
+                1,
+                -1,
+                EastMovementMask,
+                SouthMovementMask,
+                SouthEastMovementMask,
+                DiagonalStepNorthWest,
+                searchQueue);
+            TryExpandDiagonalNeighbour(
+                currentX,
+                currentY,
+                -1,
+                1,
+                WestMovementMask,
+                NorthMovementMask,
+                NorthWestMovementMask,
+                DiagonalStepSouthEast,
+                searchQueue);
+            TryExpandDiagonalNeighbour(
+                currentX,
+                currentY,
+                1,
+                1,
+                EastMovementMask,
+                NorthMovementMask,
+                NorthEastMovementMask,
+                DiagonalStepSouthWest,
+                searchQueue);
+        }
 
-            if (currentX > 0 &&
-                currentY > 0 &&
-                (engineHandle.Tiles[currentX][currentY - 1] & SouthMovementMask) == 0 &&
-                (engineHandle.Tiles[currentX - 1][currentY] & WestMovementMask) == 0 &&
-                (engineHandle.Tiles[currentX - 1][currentY - 1] & SouthWestMovementMask) == 0 &&
-                engineHandle.Steps[currentX - 1][currentY - 1] == 0)
+        private void TryExpandDiagonalNeighbour(
+            int currentX,
+            int currentY,
+            int offsetX,
+            int offsetY,
+            int horizontalMovementMask,
+            int verticalMovementMask,
+            int diagonalMovementMask,
+            int returnDirection,
+            PathSearchQueue searchQueue)
+        {
+            int targetX = currentX + offsetX;
+            int targetY = currentY + offsetY;
+
+            if (targetX < 0 ||
+                targetX >= EngineHandle.GridSize ||
+                targetY < 0 ||
+                targetY >= EngineHandle.GridSize ||
+                (engineHandle.Tiles[targetX][currentY] & horizontalMovementMask) != 0 ||
+                (engineHandle.Tiles[currentX][targetY] & verticalMovementMask) != 0 ||
+                (engineHandle.Tiles[targetX][targetY] & diagonalMovementMask) != 0 ||
+                engineHandle.Steps[targetX][targetY] != 0)
             {
-                searchQueue.Enqueue(currentX - 1, currentY - 1);
-                engineHandle.Steps[currentX - 1][currentY - 1] = DiagonalStepNorthEast;
+                return;
             }
 
-            if (currentX < gridMaxIndex &&
-                currentY > 0 &&
-                (engineHandle.Tiles[currentX][currentY - 1] & SouthMovementMask) == 0 &&
-                (engineHandle.Tiles[currentX + 1][currentY] & EastMovementMask) == 0 &&
-                (engineHandle.Tiles[currentX + 1][currentY - 1] & SouthEastMovementMask) == 0 &&
-                engineHandle.Steps[currentX + 1][currentY - 1] == 0)
-            {
-                searchQueue.Enqueue(currentX + 1, currentY - 1);
-                engineHandle.Steps[currentX + 1][currentY - 1] = DiagonalStepNorthWest;
-            }
-
-            if (currentX > 0 &&
-                currentY < gridMaxIndex &&
-                (engineHandle.Tiles[currentX][currentY + 1] & NorthMovementMask) == 0 &&
-                (engineHandle.Tiles[currentX - 1][currentY] & WestMovementMask) == 0 &&
-                (engineHandle.Tiles[currentX - 1][currentY + 1] & NorthWestMovementMask) == 0 &&
-                engineHandle.Steps[currentX - 1][currentY + 1] == 0)
-            {
-                searchQueue.Enqueue(currentX - 1, currentY + 1);
-                engineHandle.Steps[currentX - 1][currentY + 1] = DiagonalStepSouthEast;
-            }
-
-            if (currentX < gridMaxIndex &&
-                currentY < gridMaxIndex &&
-                (engineHandle.Tiles[currentX][currentY + 1] & NorthMovementMask) == 0 &&
-                (engineHandle.Tiles[currentX + 1][currentY] & EastMovementMask) == 0 &&
-                (engineHandle.Tiles[currentX + 1][currentY + 1] & NorthEastMovementMask) == 0 &&
-                engineHandle.Steps[currentX + 1][currentY + 1] == 0)
-            {
-                searchQueue.Enqueue(currentX + 1, currentY + 1);
-                engineHandle.Steps[currentX + 1][currentY + 1] = DiagonalStepSouthWest;
-            }
+            searchQueue.Enqueue(targetX, targetY);
+            engineHandle.Steps[targetX][targetY] = returnDirection;
         }
 
         private int ReconstructPath(

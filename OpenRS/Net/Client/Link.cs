@@ -13,14 +13,12 @@ namespace OpenRS.Net.Client
         public static sbyte[] StreamToSbyte(BinaryReader stream)
         {
             List<sbyte> result = [];
-            int byteIndex = 0;
 
             try
             {
-                while (byteIndex < stream.BaseStream.Length)
+                while (stream.BaseStream.Position < stream.BaseStream.Length)
                 {
                     result.Add(stream.ReadSByte());
-                    byteIndex += 1;
                 }
             }
             catch (IOException) { }
@@ -83,7 +81,7 @@ namespace OpenRS.Net.Client
 
         public static TcpClient GetSocket(int port)
         {
-            for (Link.port = port; Link.port != 0; )
+            for (Link.port = port; Link.port != 0;)
             {
                 try
                 {
@@ -97,7 +95,7 @@ namespace OpenRS.Net.Client
 
         public static string GetAddress(string ip)
         {
-            for (ipLookup = ip; ipLookup is not null; )
+            for (ipLookup = ip; ipLookup is not null;)
             {
                 try
                 {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenRS.Net.Client.Game
 {
@@ -10,19 +9,19 @@ namespace OpenRS.Net.Client.Game
         private float xRotation;
         private float yRotation;
         private float zRotation;
-        private List<Vertex> vertices = CreateVertexList(vertices);
-        private List<Face> faces = CreateFaceList(faces);
+        private ObjectModelElementCollection<Vertex> vertices = new(vertices, nameof(vertices));
+        private ObjectModelElementCollection<Face> faces = new(faces, nameof(faces));
 
         public IEnumerable<Vertex> Vertices
         {
-            get => vertices;
-            set => vertices = CreateVertexList(value);
+            get => vertices.Items;
+            set => vertices = new(value, nameof(vertices));
         }
 
         public IEnumerable<Face> Faces
         {
-            get => faces;
-            set => faces = CreateFaceList(value);
+            get => faces.Items;
+            set => faces = new(value, nameof(faces));
         }
 
         public float XRotation
@@ -66,29 +65,17 @@ namespace OpenRS.Net.Client.Game
             => faces.Add(face);
 
         public Face GetFace(int index)
-            => faces[index];
+            => faces.Get(index);
 
-        public Face RemoveFace(int index)
-        {
-            Face face = faces[index];
-            faces.Remove(face);
-
-            return face;
-        }
+        public Face RemoveFace(int index) => faces.Remove(index);
 
         public void AddVertex(Vertex vertex)
             => vertices.Add(vertex);
 
         public Vertex GetVertex(int index)
-            => vertices[index];
+            => vertices.Get(index);
 
-        public Vertex RemoveVertex(int index)
-        {
-            Vertex vertex = vertices[index];
-            vertices.Remove(vertex);
-
-            return vertex;
-        }
+        public Vertex RemoveVertex(int index) => vertices.Remove(index);
 
         public void SetScale(float scale)
         {
@@ -112,24 +99,5 @@ namespace OpenRS.Net.Client.Game
             return rotation;
         }
 
-        private static List<Face> CreateFaceList(IEnumerable<Face> faces)
-            => [.. ValidateCollection(faces, nameof(faces))];
-
-        private static List<Vertex> CreateVertexList(IEnumerable<Vertex> vertices)
-            => [.. ValidateCollection(vertices, nameof(vertices))];
-
-        private static IEnumerable<TItem> ValidateCollection<TItem>(
-            IEnumerable<TItem> items,
-            string parameterName)
-        {
-            if (items is null)
-            {
-                throw new ArgumentNullException(
-                    parameterName,
-                    $"The {parameterName} collection cannot be null.");
-            }
-
-            return items;
-        }
     }
 }

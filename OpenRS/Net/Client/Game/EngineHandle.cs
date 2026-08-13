@@ -77,18 +77,10 @@ namespace OpenRS.Net.Client.Game
             this.entityManager = entityManager;
             InitialiseSectorArrays();
 
-            RoofTiles = new int[GridSize][];
-            Tiles = new int[GridSize][];
-            Steps = new int[GridSize][];
-            objectDirs = new int[GridSize][];
-
-            for (int gridIndex = 0; gridIndex < GridSize; gridIndex += 1)
-            {
-                RoofTiles[gridIndex] = new int[GridSize];
-                Tiles[gridIndex] = new int[GridSize];
-                Steps[gridIndex] = new int[GridSize];
-                objectDirs[gridIndex] = new int[GridSize];
-            }
+            RoofTiles = CreateGrid();
+            Tiles = CreateGrid();
+            Steps = CreateGrid();
+            objectDirs = CreateGrid();
 
             InitialiseScalarFields(worldCamera, graphicsHandler);
             GroundTexture = GroundTexturePalette.Create();
@@ -98,6 +90,18 @@ namespace OpenRS.Net.Client.Game
             sceneBuilder = new SectionSceneBuilder(this);
             roofBuilder = new RoofBuilder(this);
             worldObjectManipulator = new WorldObjectManipulator(this);
+        }
+
+        private static int[][] CreateGrid()
+        {
+            int[][] grid = new int[GridSize][];
+
+            for (int gridIndex = 0; gridIndex < GridSize; gridIndex += 1)
+            {
+                grid[gridIndex] = new int[GridSize];
+            }
+
+            return grid;
         }
 
         public void LoadSection(int x, int y, int height, bool freshLoad)
@@ -555,30 +559,28 @@ namespace OpenRS.Net.Client.Game
 
         private void InitialiseSectorArrays()
         {
-            TileHorizontalWall = new int[SectorCount][];
-            TileDiagonalWall = new int[SectorCount][];
-            TileGroundOverlay = new int[SectorCount][];
-            TileObjectRotation = new int[SectorCount][];
-            TileGroundTexture = new int[SectorCount][];
-            TileVerticalWall = new int[SectorCount][];
-            TileGroundElevation = new sbyte[SectorCount][];
-            TileRoofType = new int[SectorCount][];
-            WallObject = new GameObject[SectorCount][];
-            RoofObject = new GameObject[SectorCount][];
+            TileHorizontalWall = CreateSectorBuffers<int>(TilesPerSector);
+            TileDiagonalWall = CreateSectorBuffers<int>(TilesPerSector);
+            TileGroundOverlay = CreateSectorBuffers<int>(TilesPerSector);
+            TileObjectRotation = CreateSectorBuffers<int>(TilesPerSector);
+            TileGroundTexture = CreateSectorBuffers<int>(TilesPerSector);
+            TileVerticalWall = CreateSectorBuffers<int>(TilesPerSector);
+            TileGroundElevation = CreateSectorBuffers<sbyte>(TilesPerSector);
+            TileRoofType = CreateSectorBuffers<int>(TilesPerSector);
+            WallObject = CreateSectorBuffers<GameObject>(ChunkCount);
+            RoofObject = CreateSectorBuffers<GameObject>(ChunkCount);
+        }
+
+        private static TItem[][] CreateSectorBuffers<TItem>(int itemCount)
+        {
+            TItem[][] sectorBuffers = new TItem[SectorCount][];
 
             for (int sectorIndex = 0; sectorIndex < SectorCount; sectorIndex += 1)
             {
-                TileHorizontalWall[sectorIndex] = new int[TilesPerSector];
-                TileDiagonalWall[sectorIndex] = new int[TilesPerSector];
-                TileGroundOverlay[sectorIndex] = new int[TilesPerSector];
-                TileObjectRotation[sectorIndex] = new int[TilesPerSector];
-                TileGroundTexture[sectorIndex] = new int[TilesPerSector];
-                TileVerticalWall[sectorIndex] = new int[TilesPerSector];
-                TileGroundElevation[sectorIndex] = new sbyte[TilesPerSector];
-                TileRoofType[sectorIndex] = new int[TilesPerSector];
-                WallObject[sectorIndex] = new GameObject[ChunkCount];
-                RoofObject[sectorIndex] = new GameObject[ChunkCount];
+                sectorBuffers[sectorIndex] = new TItem[itemCount];
             }
+
+            return sectorBuffers;
         }
 
         private void InitialiseScalarFields(Camera worldCamera, GameImage graphicsHandler)
