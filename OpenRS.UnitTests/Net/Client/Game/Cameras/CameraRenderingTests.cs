@@ -253,6 +253,110 @@ namespace OpenRS.UnitTests.Net.Client.Game.Cameras
         }
 
         [Test]
+        public void GivenA128PerspectiveTexture_WhenFinishingTheCamera_ThenPerspectivePixelsArePainted()
+        {
+            camera.CreateTexture(1, 0, 1);
+            camera.SetTexture(0, new sbyte[16384], [0x00f800], 1);
+            GameObject model = BuildTriangle(128, 0);
+            model.IsPerspectiveTextured = true;
+            camera.AddModel(model);
+
+            camera.FinishCamera();
+
+            Assert.That(camera.SavedModelIndex, Is.EqualTo(1));
+            Assert.That(image.Pixels.Count(pixel => pixel != 0), Is.GreaterThan(0));
+        }
+
+        [Test]
+        public void GivenA128TransparentTexture_WhenFinishingTheCamera_ThenTheFaceIsCollectedWithoutPainting()
+        {
+            camera.CreateTexture(1, 0, 1);
+            camera.SetTexture(0, new sbyte[16384], [0xf800ff], 1);
+            camera.AddModel(BuildTriangle(128, 0));
+
+            camera.FinishCamera();
+
+            Assert.That(camera.SavedModelIndex, Is.EqualTo(1));
+            Assert.That(image.Pixels, Has.All.Zero);
+        }
+
+        [TestCase(0, 4096)]
+        [TestCase(1, 16384)]
+        public void GivenAnInterlacedTexture_WhenFinishingTheCamera_ThenAlternatingRowsArePainted(
+            int frameType,
+            int pixelCount)
+        {
+            image.IsInterlaced = true;
+            camera.CreateTexture(1, 1, 1);
+            camera.SetTexture(0, new sbyte[pixelCount], [0xf80000], frameType);
+            camera.AddModel(BuildTriangle(128, 0));
+
+            camera.FinishCamera();
+
+            Assert.That(image.Pixels.Count(pixel => pixel != 0), Is.GreaterThan(0));
+
+            for (int positionY = 1; positionY < image.GameHeight; positionY += 2)
+            {
+                Assert.That(
+                    image.Pixels.Skip(positionY * image.GameWidth).Take(image.GameWidth),
+                    Has.All.Zero);
+            }
+        }
+
+        [Test]
+        public void GivenAGiantCrystal_WhenFinishingTheCamera_ThenTheShiftedColourPathPaintsPixels()
+        {
+            GameObject model = BuildTriangle(128, Camera.GetTextureColour(255, 0, 0));
+            model.IsGiantCrystal = true;
+            camera.AddModel(model);
+
+            camera.FinishCamera();
+
+            Assert.That(camera.SavedModelIndex, Is.EqualTo(1));
+            Assert.That(image.Pixels.Count(pixel => pixel != 0), Is.GreaterThan(0));
+        }
+
+        [Test]
+        public void GivenAWideColouredPolygon_WhenFinishingTheCamera_ThenItsVisibleSpanIsClippedAndPainted()
+        {
+            GameObject model = new(4, 1);
+            model.AddVertex(-128, -16, 128);
+            model.AddVertex(128, -16, 128);
+            model.AddVertex(128, 16, 128);
+            model.AddVertex(-128, 16, 128);
+            int texture = Camera.GetTextureColour(255, 0, 0);
+            model.AddFaceVertices(4, [0, 1, 2, 3], texture, texture);
+            camera.AddModel(model);
+
+            camera.FinishCamera();
+
+            Assert.That(camera.SavedModelIndex, Is.EqualTo(1));
+            Assert.That(image.Pixels.Count(pixel => pixel != 0), Is.GreaterThan(0));
+        }
+
+        [TestCase(0, 4096)]
+        [TestCase(1, 16384)]
+        public void GivenAWideTexturedPolygon_WhenFinishingTheCamera_ThenItsVisibleSpanIsClippedAndPainted(
+            int frameType,
+            int pixelCount)
+        {
+            camera.CreateTexture(1, 1, 1);
+            camera.SetTexture(0, new sbyte[pixelCount], [0x00f800], frameType);
+            GameObject model = new(4, 1);
+            model.AddVertex(-128, -16, 128);
+            model.AddVertex(128, -16, 128);
+            model.AddVertex(128, 16, 128);
+            model.AddVertex(-128, 16, 128);
+            model.AddFaceVertices(4, [0, 1, 2, 3], 0, 0);
+            camera.AddModel(model);
+
+            camera.FinishCamera();
+
+            Assert.That(camera.SavedModelIndex, Is.EqualTo(1));
+            Assert.That(image.Pixels.Count(pixel => pixel != 0), Is.GreaterThan(0));
+        }
+
+        [Test]
         public void GivenATextureIndexBeyondTheLoadedCount_WhenFinishingTheCamera_ThenAnIndexExceptionIsThrown()
         {
             camera.CreateTexture(1, 1, 0);
@@ -323,6 +427,82 @@ namespace OpenRS.UnitTests.Net.Client.Game.Cameras
             Assert.That(image.Pixels, Has.All.Zero);
         }
 
+        [Test]
+        public void GivenAVisibleGeometryMatrix_WhenFinishingEachCamera_ThenEveryConfigurationCompletes()
+        {
+            int renderedConfigurationCount = 0;
+
+            for (int vertexCount = 3; vertexCount <= 8; vertexCount += 1)
+            {
+                for (int rotationStep = 0; rotationStep < 12; rotationStep += 1)
+                {
+                    for (int centreX = -32; centreX <= 32; centreX += 32)
+                    {
+                        for (int centreY = -24; centreY <= 24; centreY += 24)
+                        {
+                            GameImage targetImage = new(128, 96, 1);
+                            Camera targetCamera = new(targetImage, 4, 16, 4);
+                            targetCamera.SetCameraSize(64, 48, 64, 48, 128, 8);
+                            targetCamera.IsInterlaced = rotationStep % 3 == 0;
+                            targetImage.IsInterlaced = rotationStep % 4 == 0;
+                            GameObject model = BuildProjectedPolygon(
+                                vertexCount,
+                                centreX,
+                                centreY,
+                                128,
+                                16 + rotationStep % 3 * 8,
+                                rotationStep * Math.PI / 6D,
+                                Camera.GetTextureColour(255, 0, 0));
+
+                            if ((rotationStep & 1) != 0)
+                            {
+                                Array.Reverse(model.FaceVertexIndices[0]);
+                            }
+
+                            model.IsGiantCrystal = rotationStep % 5 == 0;
+                            targetCamera.AddModel(model);
+
+                            Assert.That(() => targetCamera.FinishCamera(), Throws.Nothing);
+
+                            if (targetCamera.SavedModelIndex > 0)
+                            {
+                                renderedConfigurationCount += 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            Assert.That(renderedConfigurationCount, Is.GreaterThan(0));
+        }
+
+        [Test]
+        public void GivenNearPlaneGeometryPermutations_WhenFinishingEachCamera_ThenClippedPolygonsComplete()
+        {
+            for (int nearVertexIndex = 0; nearVertexIndex < 4; nearVertexIndex += 1)
+            {
+                GameImage targetImage = new(128, 96, 1);
+                Camera targetCamera = new(targetImage, 4, 16, 4);
+                targetCamera.SetCameraSize(64, 48, 64, 48, 128, 8);
+                GameObject model = new(4, 1);
+                int[] positionsX = [-24, 24, 24, -24];
+                int[] positionsY = [-24, -24, 24, 24];
+
+                for (int vertexIndex = 0; vertexIndex < 4; vertexIndex += 1)
+                {
+                    int depth = vertexIndex == nearVertexIndex ? 4 : 128;
+                    model.AddVertex(positionsX[vertexIndex], positionsY[vertexIndex], depth);
+                }
+
+                int texture = Camera.GetTextureColour(0, 255, 0);
+                model.AddFaceVertices(4, [0, 1, 2, 3], texture, texture);
+                targetCamera.AddModel(model);
+
+                Assert.That(() => targetCamera.FinishCamera(), Throws.Nothing);
+                Assert.That(targetCamera.SavedModelIndex, Is.EqualTo(1));
+            }
+        }
+
         private static GameObject BuildTriangle(int depth, int texture)
         {
             GameObject model = new(3, 1);
@@ -344,6 +524,35 @@ namespace OpenRS.UnitTests.Net.Client.Game.Cameras
                 model.AddVertex(
                     (int)(Math.Cos(angle) * 16D),
                     (int)(Math.Sin(angle) * 16D),
+                    depth);
+            }
+
+            model.AddFaceVertices(
+                vertexCount,
+                Enumerable.Range(0, vertexCount).ToArray(),
+                texture,
+                texture);
+
+            return model;
+        }
+
+        private static GameObject BuildProjectedPolygon(
+            int vertexCount,
+            int centreX,
+            int centreY,
+            int depth,
+            int radius,
+            double rotation,
+            int texture)
+        {
+            GameObject model = new(vertexCount, 1);
+
+            for (int vertexIndex = 0; vertexIndex < vertexCount; vertexIndex += 1)
+            {
+                double angle = rotation + Math.PI * 2D * vertexIndex / vertexCount;
+                model.AddVertex(
+                    centreX + (int)Math.Round(Math.Cos(angle) * radius),
+                    centreY + (int)Math.Round(Math.Sin(angle) * radius),
                     depth);
             }
 

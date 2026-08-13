@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 using NUnit.Framework;
 
@@ -238,6 +239,117 @@ namespace OpenRS.UnitTests.Net.Client.Game
             => Assert.That(
                 () => image.DrawPicture(1, 1, 42),
                 Throws.TypeOf<IndexOutOfRangeException>());
+
+        [Test]
+        public void GivenAFivePixelDirectPicture_WhenDrawingIt_ThenGroupedAndRemainderPixelsAreCopied()
+        {
+            SetDirectPicture(0, 5, 1, [4, 8, 0, 16, 32]);
+
+            image.DrawPicture(0, 1, 0);
+
+            Assert.That(
+                image.Pixels.Skip(image.GameWidth).Take(5),
+                Is.EqualTo(new[] { 4, 8, 0, 16, 32 }));
+        }
+
+        [Test]
+        public void GivenAFivePixelIndexedPicture_WhenDrawingIt_ThenGroupedAndRemainderIndicesAreResolved()
+        {
+            SetIndexedPicture(0, 5, 1, [1, 2, 0, 3, 4], [0, 4, 8, 16, 32]);
+
+            image.DrawPicture(0, 1, 0);
+
+            Assert.That(
+                image.Pixels.Skip(image.GameWidth).Take(5),
+                Is.EqualTo(new[] { 4, 8, 0, 16, 32 }));
+        }
+
+        [Test]
+        public void GivenAFivePixelDirectPicture_WhenDrawingWithBlend_ThenEveryOpaquePixelIsBlended()
+        {
+            Array.Fill(image.Pixels, 0x204060);
+            SetDirectPicture(0, 5, 1, [0x80c000, 0, 0x80c000, 0x80c000, 0x80c000]);
+
+            image.DrawPicture(0, 1, 0, 128);
+
+            Assert.That(
+                image.Pixels.Skip(image.GameWidth).Take(5),
+                Is.EqualTo(new[] { 0x508030, 0x204060, 0x508030, 0x508030, 0x508030 }));
+        }
+
+        [Test]
+        public void GivenAFivePixelIndexedPicture_WhenDrawingWithBlend_ThenEveryOpaqueIndexIsBlended()
+        {
+            Array.Fill(image.Pixels, 0x204060);
+            SetIndexedPicture(0, 5, 1, [1, 0, 1, 1, 1], [0, 0x80c000]);
+
+            image.DrawPicture(0, 1, 0, 128);
+
+            Assert.That(
+                image.Pixels.Skip(image.GameWidth).Take(5),
+                Is.EqualTo(new[] { 0x508030, 0x204060, 0x508030, 0x508030, 0x508030 }));
+        }
+
+        [Test]
+        public void GivenABlendedPictureBeyondEveryEdge_WhenDrawingIt_ThenOnlyVisiblePixelsAreChanged()
+        {
+            Array.Fill(image.Pixels, 0x204060);
+            SetDirectPicture(0, 4, 4, Enumerable.Repeat(0x80c000, 16).ToArray());
+
+            image.DrawPicture(-1, -1, 0, 128);
+            image.DrawPicture(Width - 2, Height - 2, 0, 128);
+
+            Assert.That(image.Pixels.Count(pixel => pixel == 0x508030), Is.GreaterThan(0));
+            Assert.That(image.Pixels.Count(pixel => pixel == 0x204060), Is.GreaterThan(0));
+        }
+
+        [Test]
+        public void GivenAnInterlacedBlendedPictureStartingOnAnOddRow_WhenDrawingIt_ThenOnlyAlternatingRowsChange()
+        {
+            Array.Fill(image.Pixels, 0x204060);
+            SetDirectPicture(0, 2, 4, Enumerable.Repeat(0x80c000, 8).ToArray());
+            image.IsInterlaced = true;
+
+            image.DrawPicture(1, 1, 0, 128);
+
+            Assert.That(GetPixel(1, 1), Is.EqualTo(0x204060));
+            Assert.That(GetPixel(1, 2), Is.EqualTo(0x508030));
+            Assert.That(GetPixel(1, 3), Is.EqualTo(0x204060));
+            Assert.That(GetPixel(1, 4), Is.EqualTo(0x508030));
+        }
+
+        [Test]
+        public void GivenAScaledEntityBeyondTheTopLeft_WhenDrawingIt_ThenSourceSamplingIsClipped()
+        {
+            SetDirectPicture(0, 2, 2, [4, 8, 16, 32]);
+
+            image.DrawEntity(-1, -1, 4, 4, 0);
+
+            Assert.That(image.Pixels, Has.Some.Not.Zero);
+            Assert.That(GetPixel(0, 0), Is.EqualTo(4));
+        }
+
+        [Test]
+        public void GivenAScaledEntityBeyondTheBottomRight_WhenDrawingIt_ThenDestinationIsClipped()
+        {
+            SetDirectPicture(0, 2, 2, [4, 8, 16, 32]);
+
+            image.DrawEntity(Width - 2, Height - 2, 4, 4, 0);
+
+            Assert.That(image.Pixels, Has.Some.Not.Zero);
+        }
+
+        [Test]
+        public void GivenAnInterlacedScaledEntityStartingOnAnOddRow_WhenDrawingIt_ThenAlternatingRowsAreSkipped()
+        {
+            SetDirectPicture(0, 2, 2, [4, 8, 16, 32]);
+            image.IsInterlaced = true;
+
+            image.DrawEntity(1, 1, 4, 4, 0);
+
+            Assert.That(image.Pixels.Skip(image.GameWidth).Take(image.GameWidth), Has.All.Zero);
+            Assert.That(image.Pixels.Skip(image.GameWidth * 2).Take(image.GameWidth), Has.Some.Not.Zero);
+        }
 
         private void AssertRows(params int[][] expectedRows)
         {
