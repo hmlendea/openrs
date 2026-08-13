@@ -95,6 +95,52 @@ namespace OpenRS.UnitTests.Net.Client.Game.Cameras
         }
 
         [Test]
+        public void GivenZeroLookAhead_WhenResolvingRenderOrder_ThenEveryModelIsInitialisedAndSorted()
+        {
+            CameraModel[] models =
+            [
+                BuildDisjointModel(0),
+                BuildDisjointModel(42),
+                BuildDisjointModel(96),
+            ];
+            Array.ForEach(models, model => model.DependencyIndex = 42);
+
+            depthSorter.ResolveRenderOrder(0, models, models.Length);
+
+            Assert.That(models, Has.All.Property(nameof(CameraModel.IsSorted)).True);
+            Assert.That(models.Select(model => model.SortIndex), Is.EqualTo(new[] { 0, 1, 2 }));
+            Assert.That(models.Select(model => model.DependencyIndex), Has.All.EqualTo(-1));
+        }
+
+        [Test]
+        public void GivenAPrefixModelCount_WhenResolvingRenderOrder_ThenTheSuffixStateIsUnchanged()
+        {
+            CameraModel suffixModel = BuildDisjointModel(96);
+            suffixModel.IsSorted = false;
+            suffixModel.SortIndex = 42;
+            suffixModel.DependencyIndex = 64;
+            CameraModel[] models =
+            [
+                BuildDisjointModel(0),
+                BuildDisjointModel(42),
+                suffixModel,
+            ];
+
+            depthSorter.ResolveRenderOrder(8, models, 2);
+
+            Assert.That(models.Take(2), Has.All.Property(nameof(CameraModel.IsSorted)).True);
+            Assert.That(suffixModel.IsSorted, Is.False);
+            Assert.That(suffixModel.SortIndex, Is.EqualTo(42));
+            Assert.That(suffixModel.DependencyIndex, Is.EqualTo(64));
+        }
+
+        [Test]
+        public void GivenANullArrayAndNoModels_WhenResolvingRenderOrder_ThenNoArrayAccessOccurs()
+            => Assert.That(
+                () => depthSorter.ResolveRenderOrder(8, null!, 0),
+                Throws.Nothing);
+
+        [Test]
         public void GivenANullArrayWithAnActiveRange_WhenSortingByDepth_ThenANullReferenceExceptionIsThrown()
             => Assert.That(
                 () => depthSorter.SortByDepth(null!, 0, 1),

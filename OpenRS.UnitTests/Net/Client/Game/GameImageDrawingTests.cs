@@ -478,6 +478,86 @@ namespace OpenRS.UnitTests.Net.Client.Game
                 () => image.DrawPixels([[42]], Width, Height, 1, 1),
                 Throws.TypeOf<IndexOutOfRangeException>());
 
+        [Test]
+        public void GivenAnOddHeightImage_WhenClearingAnInterlacedScreen_ThenEvenRowsAreZero()
+        {
+            GameImage oddHeightImage = new(3, 5, 0)
+            {
+                IsInterlaced = true,
+            };
+            Array.Fill(oddHeightImage.Pixels, 42);
+
+            oddHeightImage.ClearScreen();
+
+            AssertPixels(
+                oddHeightImage,
+                [0, 0, 0],
+                [42, 42, 42],
+                [0, 0, 0],
+                [42, 42, 42],
+                [0, 0, 0]);
+        }
+
+        [Test]
+        public void GivenAnAlphaBoxBeyondEveryEdge_WhenDrawingIt_ThenTheEntireImageIsClippedAndFilled()
+        {
+            image.DrawBoxAlpha(-2, -1, 9, 7, 42, 256);
+
+            Assert.That(image.Pixels, Has.All.EqualTo(42));
+        }
+
+        [Test]
+        public void GivenAHalfAlphaZeroRadiusCircle_WhenDrawingIt_ThenOnlyTheCentrePixelIsBlended()
+        {
+            FillPixels(0x204060);
+
+            image.DrawCircle(2, 2, 0, 0x80c000, 128);
+
+            Assert.That(GetPixel(2, 2), Is.EqualTo(0x508030));
+            Assert.That(image.Pixels.Count(pixel => pixel == 0x508030), Is.EqualTo(1));
+            Assert.That(image.Pixels.Count(pixel => pixel == 0x204060), Is.EqualTo(19));
+        }
+
+        [Test]
+        public void GivenAZeroAlphaCircle_WhenDrawingIt_ThenExistingPixelsRemainUnchanged()
+        {
+            FillPixels(0x204060);
+
+            image.DrawCircle(2, 2, 2, 0x80c000, 0);
+
+            Assert.That(image.Pixels, Has.All.EqualTo(0x204060));
+        }
+
+        [Test]
+        public void GivenAnInterlacedGradient_WhenDrawingIt_ThenOnlyAlternatingRowsAreFilled()
+        {
+            GameImage gradientImage = new(3, 5, 0)
+            {
+                IsInterlaced = true,
+            };
+
+            gradientImage.DrawGradientBox(0, 0, 3, 5, 0x000000, 0xffffff);
+
+            AssertPixels(
+                gradientImage,
+                [0x000000, 0x000000, 0x000000],
+                [0, 0, 0],
+                [0x666666, 0x666666, 0x666666],
+                [0, 0, 0],
+                [0xcccccc, 0xcccccc, 0xcccccc]);
+        }
+
+        [TestCase(0)]
+        [TestCase(-1)]
+        [TestCase(-42)]
+        public void GivenANonPositiveLineLength_WhenDrawingLines_ThenNoPixelIsModified(int length)
+        {
+            image.DrawLineX(1, 1, length, 42);
+            image.DrawLineY(1, 1, length, 42);
+
+            Assert.That(image.Pixels, Has.All.Zero);
+        }
+
         private static void AssertPixels(GameImage targetImage, params int[][] expectedRows)
         {
             Assert.That(expectedRows, Has.Length.EqualTo(targetImage.GameHeight));

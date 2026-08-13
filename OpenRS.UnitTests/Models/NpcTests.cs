@@ -38,5 +38,17 @@ namespace OpenRS.UnitTests.Models
             Assert.That(firstNpc.Sprites, Is.Not.SameAs(secondNpc.Sprites));
             Assert.That(secondNpc.Sprites[0], Is.Zero);
         }
+
+        [Test]
+        public void GivenANewNpc_WhenReadingOptionalReferenceState_ThenItRemainsNull()
+        {
+            Npc npc = new();
+
+            Assert.That(npc.Id, Is.Null);
+            Assert.That(npc.Name, Is.Null);
+            Assert.That(npc.Description, Is.Null);
+            Assert.That(npc.Command, Is.Null);
+            Assert.That(npc.Drops, Is.Null);
+        }
     }
 }

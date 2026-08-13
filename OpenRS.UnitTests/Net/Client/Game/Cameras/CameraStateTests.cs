@@ -267,6 +267,34 @@ namespace OpenRS.UnitTests.Net.Client.Game.Cameras
                 () => camera.SetCameraSize(42, 64, 96, 128, 256, 8),
                 Throws.Nothing);
 
+        [Test]
+        public void GivenExpandedStaticBounds_WhenConstructingAnotherCamera_ThenTheBoundsRemainShared()
+        {
+            camera.SetViewAngle(-42, 64, -96);
+
+            _ = new Camera(new GameImage(128, 96, 0), 1, 1, 1);
+
+            Assert.That(Camera.NearX, Is.EqualTo(-42));
+            Assert.That(Camera.FarX, Is.Zero);
+            Assert.That(Camera.NearY, Is.Zero);
+            Assert.That(Camera.FarY, Is.EqualTo(64));
+            Assert.That(Camera.NearZ, Is.EqualTo(-96));
+            Assert.That(Camera.FarZ, Is.Zero);
+        }
+
+        [Test]
+        public void GivenExtremeViewCoordinates_WhenExpandingBounds_ThenTheExtremeValuesAreRetained()
+        {
+            camera.SetViewAngle(int.MinValue, int.MaxValue, int.MinValue);
+
+            Assert.That(Camera.NearX, Is.EqualTo(int.MinValue));
+            Assert.That(Camera.FarX, Is.Zero);
+            Assert.That(Camera.NearY, Is.Zero);
+            Assert.That(Camera.FarY, Is.EqualTo(int.MaxValue));
+            Assert.That(Camera.NearZ, Is.EqualTo(int.MinValue));
+            Assert.That(Camera.FarZ, Is.Zero);
+        }
+
         private static void AssertLightDirection(
             GameObject model,
             int expectedDirectionX,

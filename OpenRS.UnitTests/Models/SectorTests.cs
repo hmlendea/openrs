@@ -57,6 +57,16 @@ namespace OpenRS.UnitTests.Models
                 sector.GetTile(0, 48),
                 Is.SameAs(sector.GetTile(1, 0)));
 
+        [Test]
+        public void GivenAYCoordinateEqualToTheSectorHeight_WhenSettingATile_ThenTheNextLinearRowIsUpdated()
+        {
+            WorldTile expectedTile = new();
+
+            sector.SetTile(0, 48, expectedTile);
+
+            Assert.That(sector.GetTile(1, 0), Is.SameAs(expectedTile));
+        }
+
         [TestCase(0)]
         [TestCase(2303)]
         [TestCase(512)]
@@ -92,6 +102,31 @@ namespace OpenRS.UnitTests.Models
             int positionY)
             => Assert.That(
                 () => sector.GetTile(positionX, positionY),
+                Throws.TypeOf<IndexOutOfRangeException>());
+
+        [Test]
+        public void GivenANullTile_WhenSettingAValidSlot_ThenTheNullValueIsRetained()
+        {
+            sector.SetTile(42, null!);
+
+            Assert.That(sector.GetTile(42), Is.Null);
+        }
+
+        [TestCase(-1)]
+        [TestCase(2304)]
+        public void GivenAnInvalidIndex_WhenSettingATile_ThenAnIndexExceptionIsThrown(int tileIndex)
+            => Assert.That(
+                () => sector.SetTile(tileIndex, new WorldTile()),
+                Throws.TypeOf<IndexOutOfRangeException>());
+
+        [TestCase(-1, 0)]
+        [TestCase(0, -1)]
+        [TestCase(48, 0)]
+        public void GivenAnInvalidCoordinate_WhenSettingATile_ThenAnIndexExceptionIsThrown(
+            int positionX,
+            int positionY)
+            => Assert.That(
+                () => sector.SetTile(positionX, positionY, new WorldTile()),
                 Throws.TypeOf<IndexOutOfRangeException>());
     }
 }

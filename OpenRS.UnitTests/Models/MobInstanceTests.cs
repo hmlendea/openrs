@@ -69,6 +69,32 @@ namespace OpenRS.UnitTests.Models
                 Throws.TypeOf<IndexOutOfRangeException>());
 
         [Test]
+        public void GivenEveryPrayer_WhenActivatingThem_ThenEachPrayerRetainsItsState()
+        {
+            for (int prayerIndex = 0; prayerIndex < Prayer.MaximumCount; prayerIndex += 1)
+            {
+                mobInstance.TogglePrayer(prayerIndex, true);
+            }
+
+            for (int prayerIndex = 0; prayerIndex < Prayer.MaximumCount; prayerIndex += 1)
+            {
+                Assert.That(mobInstance.IsPrayerActivated(prayerIndex));
+            }
+        }
+
+        [Test]
+        public void GivenTwoActivePrayers_WhenDeactivatingOne_ThenTheOtherRemainsActive()
+        {
+            mobInstance.TogglePrayer(0, true);
+            mobInstance.TogglePrayer(Prayer.MaximumCount - 1, true);
+
+            mobInstance.TogglePrayer(0, false);
+
+            Assert.That(mobInstance.IsPrayerActivated(0), Is.False);
+            Assert.That(mobInstance.IsPrayerActivated(Prayer.MaximumCount - 1));
+        }
+
+        [Test]
         public void GivenAnAppearanceChange_WhenUpdatingItsIdentifier_ThenEachCallIncrementsIt()
         {
             mobInstance.UpdateAppearanceId();
@@ -123,6 +149,19 @@ namespace OpenRS.UnitTests.Models
             Assert.That(mobInstance.Location, Is.EqualTo(destination));
             Assert.That(mobInstance.MobSprite, Is.EqualTo(1));
             Assert.That(mobInstance.HasMoved, Is.False);
+            Assert.That(mobInstance.HasSpriteChanged, Is.False);
+        }
+
+        [Test]
+        public void GivenADistantLocation_WhenMovingWithoutTeleporting_ThenLocationChangesAndSpriteRemains()
+        {
+            Point2D destination = new(42, 64);
+
+            mobInstance.SetLocation(destination, false);
+
+            Assert.That(mobInstance.Location, Is.EqualTo(destination));
+            Assert.That(mobInstance.MobSprite, Is.EqualTo(1));
+            Assert.That(mobInstance.HasMoved);
             Assert.That(mobInstance.HasSpriteChanged, Is.False);
         }
 
