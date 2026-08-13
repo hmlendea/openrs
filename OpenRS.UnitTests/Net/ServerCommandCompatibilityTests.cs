@@ -1,0 +1,120 @@
+using System;
+
+using NUnit.Framework;
+
+using OpenRS.Net;
+
+namespace OpenRS.UnitTests.Net
+{
+    [TestFixture]
+    public sealed class ServerCommandCompatibilityTests
+    {
+        [TestCase(ServerCommand.Heartbeat, 1)]
+        [TestCase(ServerCommand.IgnoreList, 2)]
+        [TestCase(ServerCommand.OpenTradeWindow, 4)]
+        [TestCase(ServerCommand.PlaySound, 11)]
+        [TestCase(ServerCommand.TradeAcceptedBySelf, 18)]
+        [TestCase(ServerCommand.TeleBubble, 23)]
+        [TestCase(ServerCommand.FriendUpdate, 25)]
+        [TestCase(ServerCommand.GameObjectPositions, 27)]
+        [TestCase(ServerCommand.ServerAnnouncement, 48)]
+        [TestCase(ServerCommand.PlayerUpdates, 53)]
+        [TestCase(ServerCommand.DuelItems, 63)]
+        [TestCase(ServerCommand.AlertBig, 64)]
+        [TestCase(ServerCommand.DuelAcceptedByOther, 65)]
+        [TestCase(ServerCommand.NpcPositions, 77)]
+        [TestCase(ServerCommand.TradeAcceptedByOther, 92)]
+        [TestCase(ServerCommand.OpenBankWindow, 93)]
+        [TestCase(ServerCommand.WallObjects, 95)]
+        [TestCase(ServerCommand.WontImplement97, 97)]
+        [TestCase(ServerCommand.GroundItems, 109)]
+        [TestCase(ServerCommand.ServerInfo, 110)]
+        [TestCase(ServerCommand.Inventory, 114)]
+        [TestCase(ServerCommand.GroundItemSections, 115)]
+        [TestCase(ServerCommand.FatigueChange, 126)]
+        [TestCase(ServerCommand.CloseQuestionMenu, 127)]
+        [TestCase(ServerCommand.QuestPointsChange, 128)]
+        [TestCase(ServerCommand.CombatStyleChange, 129)]
+        [TestCase(ServerCommand.WorldInfo, 131)]
+        [TestCase(ServerCommand.Kills, 132)]
+        [TestCase(ServerCommand.TutorialChange, 133)]
+        [TestCase(ServerCommand.Deaths, 134)]
+        [TestCase(ServerCommand.LogoutCannot, 136)]
+        [TestCase(ServerCommand.DruidicRitual, 137)]
+        [TestCase(ServerCommand.ImpCatcher, 138)]
+        [TestCase(ServerCommand.BankItem, 139)]
+        [TestCase(ServerCommand.RomeoAndJuliet, 140)]
+        [TestCase(ServerCommand.SheepShearer, 141)]
+        [TestCase(ServerCommand.WitchPotion, 142)]
+        [TestCase(ServerCommand.DoricQuest, 143)]
+        [TestCase(ServerCommand.CookAssistant, 144)]
+        [TestCase(ServerCommand.PlayerPositions, 145)]
+        [TestCase(ServerCommand.DemonsSlayer, 146)]
+        [TestCase(ServerCommand.DuelConfirmation, 147)]
+        [TestCase(ServerCommand.AlertSmall, 148)]
+        [TestCase(ServerCommand.TheRuthlessGhost, 149)]
+        [TestCase(ServerCommand.PirateTreasure, 150)]
+        [TestCase(ServerCommand.ErnestTheChicken, 151)]
+        [TestCase(ServerCommand.GameSettings, 152)]
+        [TestCase(ServerCommand.WontImplement158, 158)]
+        [TestCase(ServerCommand.CloseDuelWindow, 160)]
+        [TestCase(ServerCommand.PlayerDied, 165)]
+        [TestCase(ServerCommand.PrivateMessage, 170)]
+        [TestCase(ServerCommand.CloseBankWindow, 171)]
+        [TestCase(ServerCommand.SystemUpdateTimer, 172)]
+        [TestCase(ServerCommand.PvpTournamentTimer, 173)]
+        [TestCase(ServerCommand.WildernessModeTimer, 174)]
+        [TestCase(ServerCommand.DropPartyTimer, 175)]
+        [TestCase(ServerCommand.EquipmentStats, 177)]
+        [TestCase(ServerCommand.UserStats, 180)]
+        [TestCase(ServerCommand.TakeScreenshot, 181)]
+        [TestCase(ServerCommand.WontImplement182, 182)]
+        [TestCase(ServerCommand.CloseTradeWindow, 187)]
+        [TestCase(ServerCommand.NpcUpdates, 190)]
+        [TestCase(ServerCommand.RemoveItem, 191)]
+        [TestCase(ServerCommand.DuelAcceptedBySelf, 197)]
+        [TestCase(ServerCommand.DuelSettings, 198)]
+        [TestCase(ServerCommand.TaskPointsChange, 202)]
+        [TestCase(ServerCommand.CompletedTasks, 203)]
+        [TestCase(ServerCommand.Remaining, 204)]
+        [TestCase(ServerCommand.MoneyTask, 205)]
+        [TestCase(ServerCommand.KillingSpree, 206)]
+        [TestCase(ServerCommand.ShowAppearanceWindow, 207)]
+        [TestCase(ServerCommand.UserStat, 208)]
+        [TestCase(ServerCommand.Prayers, 209)]
+        [TestCase(ServerCommand.GuthixSpells, 210)]
+        [TestCase(ServerCommand.SkillExperience, 211)]
+        [TestCase(ServerCommand.ZamorakSpells, 212)]
+        [TestCase(ServerCommand.SaradominSpells, 213)]
+        [TestCase(ServerCommand.TaskStatus, 214)]
+        [TestCase(ServerCommand.TaskExperience, 215)]
+        [TestCase(ServerCommand.TaskCash, 216)]
+        [TestCase(ServerCommand.TaskItem, 217)]
+        [TestCase(ServerCommand.CloseShopWindow, 220)]
+        [TestCase(ServerCommand.LogoutRequest, 222)]
+        [TestCase(ServerCommand.OpenQuestionMenu, 223)]
+        [TestCase(ServerCommand.Awake, 224)]
+        [TestCase(ServerCommand.WontImplement225, 225)]
+        [TestCase(ServerCommand.UpdateItem, 228)]
+        [TestCase(ServerCommand.OpenDuelWindow, 229)]
+        [TestCase(ServerCommand.WontImplement233, 233)]
+        [TestCase(ServerCommand.LoginScreen, 248)]
+        [TestCase(ServerCommand.FriendList, 249)]
+        [TestCase(ServerCommand.TradeItems, 250)]
+        [TestCase(ServerCommand.TradeConfirmation, 251)]
+        [TestCase(ServerCommand.OpenShopWindow, 253)]
+        [TestCase(ServerCommand.Mute, 2000)]
+        public void GivenAServerCommand_WhenReadingItsIdentifier_ThenTheValueRemainsCompatible(
+            ServerCommand serverCommand,
+            int expectedIdentifier)
+            => Assert.That(
+                (int)serverCommand,
+                Is.EqualTo(expectedIdentifier));
+
+        [Test]
+        public void GivenTheServerCommandContract_WhenCountingItsMembers_ThenNoMemberIsAddedOrRemoved()
+            => Assert.That(
+                Enum.GetValues<ServerCommand>(),
+                Has.Length.EqualTo(95));
+    }
+}

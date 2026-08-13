@@ -58,9 +58,10 @@ namespace OpenRS.Net.Client.Net
 
         public void GetBytes(byte[] outputBuffer, int startIndex, int byteCount)
         {
-            for (int i = startIndex; i < startIndex + byteCount; i += 1)
+            for (int outputIndex = startIndex; outputIndex < startIndex + byteCount; outputIndex += 1)
             {
-                outputBuffer[i] = packet[offset += 1];
+                outputBuffer[outputIndex] = packet[offset];
+                offset += 1;
             }
         }
 

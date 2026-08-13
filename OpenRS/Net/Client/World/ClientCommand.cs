@@ -56,7 +56,7 @@ namespace OpenRS.Net.Client.World
                 return true;
             }
 
-            return Name == other.Name;
+            return string.Equals(Name, other.Name, StringComparison.Ordinal);
         }
 
         public override bool Equals(object obj)
@@ -83,9 +83,11 @@ namespace OpenRS.Net.Client.World
 
         public override string ToString() => Name;
 
-        public static bool operator ==(ClientCommand current, ClientCommand other) => current.Equals(other);
+        public static bool operator ==(ClientCommand current, ClientCommand other)
+            => object.Equals(current, other);
 
-        public static bool operator !=(ClientCommand current, ClientCommand other) => !current.Equals(other);
+        public static bool operator !=(ClientCommand current, ClientCommand other)
+            => !object.Equals(current, other);
 
         public static implicit operator string(ClientCommand command) => command.Name;
     }
