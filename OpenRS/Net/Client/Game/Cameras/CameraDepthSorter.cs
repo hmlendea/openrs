@@ -46,7 +46,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         public void ResolveRenderOrder(int maxLookAheadCount, CameraModel[] models, int modelCount)
         {
-            for (int modelIndex = 0; modelIndex <= modelCount; modelIndex += 1)
+            for (int modelIndex = 0; modelIndex < modelCount; modelIndex += 1)
             {
                 models[modelIndex].IsSorted = false;
                 models[modelIndex].SortIndex = modelIndex;
@@ -57,7 +57,7 @@ namespace OpenRS.Net.Client.Game.Cameras
 
             while (true)
             {
-                while (models[searchIndex].IsSorted)
+                while (searchIndex < modelCount && models[searchIndex].IsSorted)
                 {
                     searchIndex += 1;
                 }
