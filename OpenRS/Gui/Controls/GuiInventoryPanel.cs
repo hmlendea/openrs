@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,15 +9,21 @@ using NuciXNA.Input;
 using NuciXNA.Primitives;
 
 using OpenRS.Models;
+using OpenRS.Net;
 using OpenRS.Net.Client;
 
 namespace OpenRS.Gui.Controls
 {
     public sealed class GuiInventoryPanel(GameClient client) : GuiControl
     {
+        private static string LegacyItemColourTag => "@lre@";
+
         private static int NoPendingInventorySlot => -1;
 
+        private GuiContextMenu contextMenu;
         private GuiItemCard[] itemCards;
+        private int pendingContextMenuSlotIndex = NoPendingInventorySlot;
+        private MenuAction? pendingContextMenuAction;
         private int pendingInventorySlotIndex = NoPendingInventorySlot;
         private MouseButton pendingMouseButton;
         private Point2D pendingMenuLocation;
@@ -32,7 +39,11 @@ namespace OpenRS.Gui.Controls
                 itemCards[slotIndex] = new GuiItemCard();
             }
 
+            contextMenu = new GuiContextMenu();
+            contextMenu.Hide();
+
             RegisterChildren(itemCards);
+            RegisterChild(contextMenu);
             RegisterEvents();
             SetChildrenProperties();
         }
@@ -40,7 +51,7 @@ namespace OpenRS.Gui.Controls
         protected override void DoUnloadContent()
         {
             UnregisterEvents();
-            client.HoveredInventorySlotIndex = null;
+            ResetInteractionState();
         }
 
         protected override void DoUpdate(GameTime gameTime)
@@ -48,6 +59,7 @@ namespace OpenRS.Gui.Controls
             SetChildrenProperties();
             SetItems();
             SynchroniseHoveredInventorySlot();
+            ProcessPendingContextMenuAction();
             ProcessPendingInteraction();
         }
 
@@ -97,6 +109,8 @@ namespace OpenRS.Gui.Controls
 
         private void RegisterEvents()
         {
+            Hidden += OnHidden;
+
             foreach (GuiItemCard itemCard in itemCards)
             {
                 itemCard.MouseButtonPressed += OnItemCardMouseButtonPressed;
@@ -107,6 +121,8 @@ namespace OpenRS.Gui.Controls
 
         private void UnregisterEvents()
         {
+            Hidden -= OnHidden;
+
             foreach (GuiItemCard itemCard in itemCards)
             {
                 itemCard.MouseButtonPressed -= OnItemCardMouseButtonPressed;
@@ -115,11 +131,29 @@ namespace OpenRS.Gui.Controls
             }
         }
 
+        private void OnHidden(object sender, EventArgs eventArgs) => ResetInteractionState();
+
+        private void ResetInteractionState()
+        {
+            if (contextMenu is not null)
+            {
+                contextMenu.Hide();
+            }
+
+            client.HoveredInventorySlotIndex = null;
+            pendingContextMenuSlotIndex = NoPendingInventorySlot;
+            pendingContextMenuAction = null;
+            pendingInventorySlotIndex = NoPendingInventorySlot;
+            pendingMouseButton = null;
+            pendingMenuLocation = Point2D.Empty;
+        }
+
         private void OnItemCardMouseButtonPressed(object sender, MouseButtonEventArgs eventArgs)
         {
             int inventorySlotIndex = GetInventorySlotIndex(sender);
 
-            if (client.entityManager is null ||
+            if (contextMenu.IsVisible ||
+                client.entityManager is null ||
                 inventorySlotIndex < 0 ||
                 inventorySlotIndex >= client.inventoryItemsCount ||
                 (!Equals(eventArgs.Button, MouseButton.Left) &&
@@ -137,7 +171,8 @@ namespace OpenRS.Gui.Controls
         {
             int inventorySlotIndex = GetInventorySlotIndex(sender);
 
-            if (client.entityManager is null ||
+            if (contextMenu.IsVisible ||
+                client.entityManager is null ||
                 inventorySlotIndex < 0 ||
                 inventorySlotIndex >= client.inventoryItemsCount)
             {
@@ -162,7 +197,8 @@ namespace OpenRS.Gui.Controls
 
         private void SynchroniseHoveredInventorySlot()
         {
-            if (!IsVisible ||
+            if (contextMenu.IsVisible ||
+                !IsVisible ||
                 client.entityManager is null ||
                 (client.HoveredInventorySlotIndex.HasValue &&
                  client.HoveredInventorySlotIndex.Value >= client.inventoryItemsCount))
@@ -201,10 +237,85 @@ namespace OpenRS.Gui.Controls
                 return;
             }
 
-            client.OpenInventorySlotMenu(
-                inventorySlotIndex,
-                menuLocation.X,
-                menuLocation.Y);
+            ShowContextMenu(inventorySlotIndex, menuLocation);
+        }
+
+        private void ShowContextMenu(int inventorySlotIndex, Point2D menuLocation)
+        {
+            client.PrepareInventorySlotMenu(inventorySlotIndex);
+            List<GuiContextMenuOption> options = [];
+
+            for (int optionIndex = 0; optionIndex < client.menuOptionsCount; optionIndex += 1)
+            {
+                int menuIndex = client.menuIndexes[optionIndex];
+                MenuAction menuAction = (MenuAction)client.menuActionID[menuIndex];
+
+                options.Add(new GuiContextMenuOption
+                {
+                    Text = BuildContextMenuOptionText(menuIndex),
+                    SelectedAction = () => QueueContextMenuAction(
+                        inventorySlotIndex,
+                        menuAction)
+                });
+            }
+
+            if (options.Count == 0)
+            {
+                contextMenu.Hide();
+                return;
+            }
+
+            client.HoveredInventorySlotIndex = null;
+            contextMenu.AnchorScreenLocation = menuLocation;
+            contextMenu.Options = options;
+            contextMenu.Show();
+        }
+
+        private string BuildContextMenuOptionText(int menuIndex)
+        {
+            string subjectText = client.menuText2[menuIndex];
+
+            if (subjectText is null)
+            {
+                subjectText = string.Empty;
+            }
+
+            subjectText = subjectText.Replace(
+                LegacyItemColourTag,
+                string.Empty,
+                StringComparison.Ordinal);
+
+            return (client.menuText1[menuIndex] + " " + subjectText).Trim();
+        }
+
+        private void QueueContextMenuAction(
+            int inventorySlotIndex,
+            MenuAction menuAction)
+        {
+            pendingContextMenuSlotIndex = inventorySlotIndex;
+            pendingContextMenuAction = menuAction;
+        }
+
+        private void ProcessPendingContextMenuAction()
+        {
+            if (pendingContextMenuSlotIndex == NoPendingInventorySlot ||
+                !pendingContextMenuAction.HasValue)
+            {
+                return;
+            }
+
+            int inventorySlotIndex = pendingContextMenuSlotIndex;
+            MenuAction menuAction = pendingContextMenuAction.Value;
+            pendingContextMenuSlotIndex = NoPendingInventorySlot;
+            pendingContextMenuAction = null;
+
+            if (client.entityManager is null ||
+                inventorySlotIndex >= client.inventoryItemsCount)
+            {
+                return;
+            }
+
+            client.ActivateInventorySlotMenuAction(inventorySlotIndex, menuAction);
         }
     }
 }

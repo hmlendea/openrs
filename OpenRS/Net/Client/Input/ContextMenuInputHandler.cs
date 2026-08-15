@@ -28,7 +28,7 @@ namespace OpenRS.Net.Client.Input
 
         internal void CheckMouseStatus()
         {
-            PrepareMenu();
+            PrepareContextMenu();
 
             if (client.menuOptionsCount <= 0)
             {
@@ -47,7 +47,7 @@ namespace OpenRS.Net.Client.Input
 
         internal void ActivatePrimaryMenuOption(int menuX, int menuY)
         {
-            PrepareMenu();
+            PrepareContextMenu();
 
             if (client.menuOptionsCount <= 0)
             {
@@ -64,16 +64,12 @@ namespace OpenRS.Net.Client.Input
             client.mouseButtonClick = 0;
         }
 
-        internal void OpenContextMenu(int menuX, int menuY)
+        internal void PrepareContextMenu()
         {
-            PrepareMenu();
-
-            if (client.menuOptionsCount <= 0)
-            {
-                return;
-            }
-
-            OpenMenu(menuX, menuY);
+            AddCancelOptionWhenRequired();
+            PopulateMenuIndexes();
+            SortMenuIndexes();
+            TrimMenuOptions();
         }
 
         private void AddCancelOptionWhenRequired()
@@ -206,14 +202,6 @@ namespace OpenRS.Net.Client.Input
             {
                 client.menuIndexes[menuIndex] = menuIndex;
             }
-        }
-
-        private void PrepareMenu()
-        {
-            AddCancelOptionWhenRequired();
-            PopulateMenuIndexes();
-            SortMenuIndexes();
-            TrimMenuOptions();
         }
 
         private void SortMenuIndexes()

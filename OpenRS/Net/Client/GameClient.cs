@@ -880,10 +880,31 @@ namespace OpenRS.Net.Client
             inputHandler.ActivatePrimaryMenuOption(menuX, menuY);
         }
 
-        internal void OpenInventorySlotMenu(int inventorySlotIndex, int menuX, int menuY)
+        internal void PrepareInventorySlotMenu(int inventorySlotIndex)
         {
             renderer.PopulateInventoryMenu(inventorySlotIndex);
-            inputHandler.OpenContextMenu(menuX, menuY);
+            inputHandler.PrepareContextMenu();
+            mouseButtonClick = 0;
+        }
+
+        internal void ActivateInventorySlotMenuAction(
+            int inventorySlotIndex,
+            MenuAction menuAction)
+        {
+            PrepareInventorySlotMenu(inventorySlotIndex);
+
+            for (int optionIndex = 0; optionIndex < menuOptionsCount; optionIndex += 1)
+            {
+                int menuIndex = menuIndexes[optionIndex];
+
+                if (!Equals(menuActionID[menuIndex], (int)menuAction))
+                {
+                    continue;
+                }
+
+                MenuClick(menuIndex);
+                return;
+            }
         }
 
         public void DrawMinimapMenu(bool canClick) => renderer.DrawMinimapMenu(canClick);

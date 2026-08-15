@@ -75,8 +75,7 @@ namespace OpenRS.Net.Client.Input
         internal void ActivatePrimaryMenuOption(int menuX, int menuY)
             => contextMenuInputHandler.ActivatePrimaryMenuOption(menuX, menuY);
 
-        internal void OpenContextMenu(int menuX, int menuY)
-            => contextMenuInputHandler.OpenContextMenu(menuX, menuY);
+        internal void PrepareContextMenu() => contextMenuInputHandler.PrepareContextMenu();
 
         public void HandleKeyDown(Keys key, char character)
         {
