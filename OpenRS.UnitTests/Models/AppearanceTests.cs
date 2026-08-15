@@ -107,6 +107,32 @@ namespace OpenRS.UnitTests.Models
                 Is.EqualTo(expectedSprites));
         }
 
+        [Test]
+        public void GivenAnAppearance_WhenRetrievingSpritesTwice_ThenTheArraysAreIndependent()
+        {
+            Appearance appearance = BuildValidAppearance();
+
+            int[] firstSprites = appearance.GetSprites();
+            int[] secondSprites = appearance.GetSprites();
+            firstSprites[0] = 42;
+
+            Assert.That(firstSprites, Is.Not.SameAs(secondSprites));
+            Assert.That(secondSprites[0], Is.EqualTo(appearance.Head));
+            Assert.That(appearance.GetSprite(0), Is.EqualTo(appearance.Head));
+        }
+
+        [Test]
+        public void GivenChangedHeadAndBodySprites_WhenRetrievingSprites_ThenCurrentValuesAreReturned()
+        {
+            Appearance appearance = BuildValidAppearance();
+            appearance.Head = 1;
+            appearance.Body = 2;
+
+            Assert.That(appearance.GetSprite(0), Is.EqualTo(1));
+            Assert.That(appearance.GetSprite(1), Is.EqualTo(2));
+            Assert.That(appearance.GetSprites()[..3], Is.EqualTo(new[] { 1, 2, 3 }));
+        }
+
         private static Appearance BuildValidAppearance() => new()
         {
             Head = 8,

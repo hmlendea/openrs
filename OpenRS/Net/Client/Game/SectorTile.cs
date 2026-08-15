@@ -1,12 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 
 namespace OpenRS.Net.Client.Game
 {
     public sealed class SectorTile
     {
-        private static int TileDataSize => sizeof(byte) * 6 + sizeof(int);
+        internal static int SerialisedByteCount => sizeof(byte) * 6 + sizeof(int);
 
         public byte GroundElevation { get; set; }
 
@@ -34,40 +32,6 @@ namespace OpenRS.Net.Client.Game
         }
 
         public static SectorTile Unpack(MemoryStream inputStream)
-        {
-            ValidateInputStream(inputStream);
-
-            using BinaryReader binaryReader = new(inputStream, Encoding.UTF8, true);
-
-            return ReadTile(binaryReader);
-        }
-
-        private static SectorTile ReadTile(BinaryReader binaryReader) => new()
-        {
-            GroundElevation = binaryReader.ReadByte(),
-            GroundTexture = binaryReader.ReadByte(),
-            GroundOverlay = binaryReader.ReadByte(),
-            RoofTexture = binaryReader.ReadByte(),
-            HorizontalWall = binaryReader.ReadByte(),
-            VerticalWall = binaryReader.ReadByte(),
-            DiagonalWalls = binaryReader.ReadInt32(),
-        };
-
-        private static void ValidateInputStream(MemoryStream inputStream)
-        {
-            if (inputStream is null)
-            {
-                throw new ArgumentNullException(
-                    nameof(inputStream),
-                    "The input stream cannot be null.");
-            }
-
-            if (inputStream.Remaining() < TileDataSize)
-            {
-                throw new IOException(
-                    $"The provided buffer is too short to unpack a sector tile. " +
-                    $"At least {TileDataSize} bytes are required.");
-            }
-        }
+            => SectorTileDecoder.Decode(inputStream);
     }
 }

@@ -8,6 +8,8 @@ namespace OpenRS.Net.Client.Game
 
         internal int Y { get; }
 
+        internal int TileIndex => X * EngineHandle.SectorSize + Y;
+
         private static int TopLeftLayer => 0;
 
         private static int TopRightLayer => 1;

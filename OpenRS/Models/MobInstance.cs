@@ -11,6 +11,13 @@ namespace OpenRS.Models
 {
     public abstract class MobInstance : GameEntityInstance
     {
+        private static readonly int[][] MovementSprites =
+        [
+            [3, 2, 1],
+            [4, -1, 0],
+            [5, 6, 7]
+        ];
+
         private static int DefaultCombatLevel => 3;
         private static int InitialSpriteIndex => 1;
         private static int CombatSpriteIndexMin => 8;
@@ -18,7 +25,6 @@ namespace OpenRS.Models
 
         private int combatLevel;
         private int mobSprite;
-        private readonly int[][] mobSprites;
         private readonly bool[] activatedPrayers;
         private readonly PathHandler pathHandler;
 
@@ -92,12 +98,6 @@ namespace OpenRS.Models
 
         public MobInstance()
         {
-            mobSprites =
-            [
-                [3, 2, 1],
-                [4, -1, 0],
-                [5, 6, 7]
-            ];
             mobSprite = InitialSpriteIndex;
             combatLevel = DefaultCombatLevel;
             HasAppearanceChanged = true;
@@ -182,7 +182,7 @@ namespace OpenRS.Models
                     Location.X - newLocation.X + 1,
                     Location.Y - newLocation.Y + 1);
 
-                MobSprite = mobSprites[index.X][index.Y];
+                MobSprite = MovementSprites[index.X][index.Y];
             }
             catch (Exception ex)
             {

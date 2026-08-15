@@ -94,6 +94,25 @@ namespace OpenRS.UnitTests.Models
             Assert.That(nextStep, Is.EqualTo(location));
         }
 
+        [TestCase(-1, 0)]
+        [TestCase(1, 0)]
+        [TestCase(0, -1)]
+        [TestCase(0, 1)]
+        [TestCase(-1, -1)]
+        [TestCase(1, 1)]
+        public void GivenAnotherLocation_WhenCalculatingTheNextStep_ThenCollisionLookupRemainsUnimplemented(
+            int destinationX,
+            int destinationY)
+        {
+            Point2D location = Point2D.Empty;
+            GameEntityInstance entity = BuildEntity(location.X, location.Y);
+            GameEntityInstance other = BuildEntity(destinationX, destinationY);
+
+            Assert.That(
+                () => entity.NextStep(location, other),
+                Throws.TypeOf<NotImplementedException>());
+        }
+
         private static GameEntityInstance BuildEntity(int positionX, int positionY)
         {
             GameEntityInstance entity = new();

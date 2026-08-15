@@ -359,6 +359,49 @@ namespace OpenRS.UnitTests.Net.Client
             Assert.That(menu.listLength[componentIndex], Is.Zero);
         }
 
+        [Test]
+        public void GivenAScrollableTextBox_WhenAddingAMessage_ThenItsLengthIncreases()
+        {
+            int componentIndex = menu.CreateScrollableTextBox(4, 8, 16, 32, 0, 4, true);
+
+            menu.AddMessage(componentIndex, "RuneScape", false);
+
+            Assert.That(menu.listLength[componentIndex], Is.EqualTo(1));
+            Assert.That(menu.listShownEntries[componentIndex], Is.Zero);
+        }
+
+        [Test]
+        public void GivenAScrollableTextBox_WhenAddingAMessageAtTheBottom_ThenBottomScrollingIsRequested()
+        {
+            int componentIndex = menu.CreateScrollableTextBox(4, 8, 16, 32, 0, 4, true);
+
+            menu.AddMessage(componentIndex, "RuneScape", true);
+
+            Assert.That(menu.listShownEntries[componentIndex], Is.EqualTo(0xf423f));
+        }
+
+        [Test]
+        public void GivenAFullScrollableTextBox_WhenAddingAnotherMessage_ThenItsCompatibleLengthIsRetained()
+        {
+            int componentIndex = menu.CreateScrollableTextBox(4, 8, 16, 32, 0, 3, true);
+            menu.AddMessage(componentIndex, "RuneScape", false);
+            menu.AddMessage(componentIndex, "Dark Souls III", false);
+
+            menu.AddMessage(componentIndex, "The Matrix", false);
+
+            Assert.That(menu.listLength[componentIndex], Is.EqualTo(2));
+        }
+
+        [Test]
+        public void GivenAZeroCapacityScrollableTextBox_WhenAddingAMessage_ThenAnIndexExceptionIsThrown()
+        {
+            int componentIndex = menu.CreateScrollableTextBox(4, 8, 16, 32, 0, 0, true);
+
+            Assert.That(
+                () => menu.AddMessage(componentIndex, "RuneScape", false),
+                Throws.TypeOf<IndexOutOfRangeException>());
+        }
+
         [TestCase(-1)]
         [TestCase(8)]
         [TestCase(42)]
@@ -366,6 +409,85 @@ namespace OpenRS.UnitTests.Net.Client
             int componentIndex)
             => Assert.That(
                 () => menu.IsClicked(componentIndex),
+                Throws.TypeOf<IndexOutOfRangeException>());
+
+        [Test]
+        public void GivenInputComponentsAroundAButton_WhenTabbingPastTheEnd_ThenFocusWrapsAndSkipsTheButton()
+        {
+            int firstComponent = menu.CreateTextInput(4, 8, 16, 32, 0, 8, false, true);
+            menu.CreateButton(16, 32, 42, 48);
+            int lastComponent = menu.CreateInput(16, 32, 42, 48, 0, 8, false, true);
+            menu.SetFocus(lastComponent);
+
+            menu.KeyPress(Keys.Tab, '\0');
+            menu.KeyPress(Keys.A, 'a');
+
+            Assert.That(menu.GetText(firstComponent), Is.EqualTo("a"));
+            Assert.That(menu.GetText(lastComponent), Is.Empty);
+        }
+
+        [TestCase('Å')]
+        [TestCase('ä')]
+        [TestCase('ö')]
+        [TestCase((char)243)]
+        [TestCase('|')]
+        public void GivenAnAllowedExtendedCharacter_WhenTypingIt_ThenItIsAppended(char character)
+        {
+            int componentIndex = CreateFocusedTextInput(8);
+
+            menu.KeyPress(Keys.A, character);
+
+            Assert.That(menu.GetText(componentIndex), Is.EqualTo(character.ToString()));
+        }
+
+        [Test]
+        public void GivenAQueuedClick_WhenDisablingAndEnablingTheComponent_ThenTheClickRemainsQueued()
+        {
+            int componentIndex = menu.CreateButton(32, 42, 16, 8);
+            menu.componentSkip[componentIndex] = true;
+            menu.DisableInput(componentIndex);
+
+            Assert.That(menu.IsClicked(componentIndex), Is.False);
+
+            menu.EnableInput(componentIndex);
+
+            Assert.That(menu.IsClicked(componentIndex));
+            Assert.That(menu.IsClicked(componentIndex), Is.False);
+        }
+
+        [Test]
+        public void GivenASelectedListEntry_WhenSwitchingTheList_ThenSelectionRemainsUnchanged()
+        {
+            int componentIndex = menu.CreateList(4, 8, 16, 32, 0, 8, true);
+            menu.componentSelectedIndex[componentIndex] = 4;
+            menu.componentHighlightedIndex[componentIndex] = 8;
+            menu.listShownEntries[componentIndex] = 42;
+
+            menu.SwitchList(componentIndex);
+
+            Assert.That(menu.componentSelectedIndex[componentIndex], Is.EqualTo(4));
+            Assert.That(menu.GetEntryHighlighted(componentIndex), Is.EqualTo(-1));
+            Assert.That(menu.listShownEntries[componentIndex], Is.Zero);
+        }
+
+        [Test]
+        public void GivenAnUninitialisedComponent_WhenReadingItsText_ThenTheCompatibilityTextIsReturned()
+            => Assert.That(menu.GetText(Capacity - 1), Is.EqualTo("null"));
+
+        [TestCase(-1)]
+        [TestCase(8)]
+        public void GivenAnInvalidComponentIndex_WhenUpdatingText_ThenAnIndexExceptionIsThrown(
+            int componentIndex)
+            => Assert.That(
+                () => menu.UpdateText(componentIndex, "RuneScape"),
+                Throws.TypeOf<IndexOutOfRangeException>());
+
+        [TestCase(-1)]
+        [TestCase(8)]
+        public void GivenAnInvalidComponentIndex_WhenReadingText_ThenAnIndexExceptionIsThrown(
+            int componentIndex)
+            => Assert.That(
+                () => menu.GetText(componentIndex),
                 Throws.TypeOf<IndexOutOfRangeException>());
 
         private int CreateFocusedTextInput(int maximumLength)

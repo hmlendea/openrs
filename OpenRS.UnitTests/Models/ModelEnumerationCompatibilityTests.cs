@@ -119,5 +119,9 @@ namespace OpenRS.UnitTests.Models
             Assert.That(Enum.GetValues<Gender>(), Has.Length.EqualTo(2));
             Assert.That(Enum.GetValues<RuneElement>(), Has.Length.EqualTo(4));
         }
+
+        [Test]
+        public void GivenThePrayerProtocolContract_WhenReadingItsCapacity_ThenItRemainsFourteen()
+            => Assert.That(Prayer.MaximumCount, Is.EqualTo(14));
     }
 }

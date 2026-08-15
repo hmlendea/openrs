@@ -195,6 +195,47 @@ namespace OpenRS.UnitTests.Net.Client.Game.Cameras
             Assert.That(tracker.IsHitCandidate, Is.False);
         }
 
+        [Test]
+        public void GivenAnUnusedValidSpriteIndex_WhenRemovingIt_ThenThePolygonSlotIsMarkedAsRemoved()
+        {
+            tracker.RemoveSprite(3);
+
+            Assert.That(tracker.HighlightedObject.PolygonTypeData[3], Is.EqualTo(1));
+        }
+
+        [TestCase(-1)]
+        [TestCase(4)]
+        public void GivenAnInvalidSpriteIndex_WhenRemovingIt_ThenAnIndexExceptionIsThrown(int spriteIndex)
+            => Assert.That(
+                () => tracker.RemoveSprite(spriteIndex),
+                Throws.TypeOf<IndexOutOfRangeException>());
+
+        [Test]
+        public void GivenSceneData_WhenInitialisingTheScene_ThenStoredMetadataRemainsInItsSlots()
+        {
+            AddSprite(42);
+
+            tracker.InitializeScene();
+
+            Assert.That(tracker.SceneObjectIds[0], Is.EqualTo(42));
+            Assert.That(tracker.SceneObjectWidths[0], Is.EqualTo(32));
+            Assert.That(tracker.SceneObjectHeights[0], Is.EqualTo(42));
+            Assert.That(tracker.SceneObjectFrames[0], Is.Zero);
+        }
+
+        [Test]
+        public void GivenARecordedHitWithoutAMouseFrame_WhenReadingIt_ThenTheHitIsStoredButNotActive()
+        {
+            GameObject expectedObject = new(0, 0);
+
+            tracker.RecordHit(expectedObject, 42);
+
+            Assert.That(tracker.GetOptionCount(), Is.EqualTo(1));
+            Assert.That(tracker.GetHighlightedObjects()[0], Is.SameAs(expectedObject));
+            Assert.That(tracker.GetHighlightedPlayers()[0], Is.EqualTo(42));
+            Assert.That(tracker.IsHitCandidate, Is.False);
+        }
+
         private int AddSprite(int objectIdentifier)
             => tracker.AddSpriteToScene(objectIdentifier, 4, 8, 16, 32, 42, 64);
     }

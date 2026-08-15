@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 
 using NUnit.Framework;
 
 using OpenRS.Net.Client.Game;
+using OpenRS.Net.Client.Game.Cameras;
 
 namespace OpenRS.UnitTests.Net.Client.Game
 {
@@ -244,6 +246,160 @@ namespace OpenRS.UnitTests.Net.Client.Game
             engineHandle.UpdateTileChunk(0, 0, 4, 8, 64);
 
             Assert.That(tileChunk.VertexColour, Is.EqualTo(new[] { 64, 0, 0 }));
+        }
+
+        [Test]
+        public void GivenATileChunkWithoutAMatchingVertex_WhenUpdatingItsColour_ThenNoVertexChanges()
+        {
+            GameObject tileChunk = new(2, 0);
+            tileChunk.AddVertex(4 * TileWorldSize, 0, 8 * TileWorldSize);
+            tileChunk.AddVertex(16 * TileWorldSize, 0, 32 * TileWorldSize);
+            engineHandle.TileChunks[0] = tileChunk;
+
+            engineHandle.UpdateTileChunk(0, 0, 42, 64, 96);
+
+            Assert.That(tileChunk.VertexColour, Has.All.Zero);
+        }
+
+        [Test]
+        public void GivenATileOnTwoChunkBoundaries_WhenSettingItsData_ThenAllFourChunksAreUpdated()
+        {
+            int tileX = 12;
+            int tileY = 12;
+            int[] affectedChunkIndices = [0, 1, 8, 9];
+
+            foreach (int chunkIndex in affectedChunkIndices)
+            {
+                GameObject tileChunk = new(1, 0);
+                tileChunk.AddVertex(tileX * TileWorldSize, 0, tileY * TileWorldSize);
+                engineHandle.TileChunks[chunkIndex] = tileChunk;
+            }
+
+            engineHandle.SetTileData(tileX, tileY, 42);
+
+            foreach (int chunkIndex in affectedChunkIndices)
+            {
+                Assert.That(engineHandle.TileChunks[chunkIndex].VertexColour[0], Is.EqualTo(42));
+            }
+        }
+
+        [Test]
+        public void GivenATileInsideAChunk_WhenSettingItsData_ThenOnlyItsCurrentChunkIsUpdated()
+        {
+            int tileX = 13;
+            int tileY = 13;
+            GameObject currentChunk = new(1, 0);
+            currentChunk.AddVertex(tileX * TileWorldSize, 0, tileY * TileWorldSize);
+            GameObject adjacentChunk = new(1, 0);
+            adjacentChunk.AddVertex(tileX * TileWorldSize, 0, tileY * TileWorldSize);
+            engineHandle.TileChunks[9] = currentChunk;
+            engineHandle.TileChunks[8] = adjacentChunk;
+
+            engineHandle.SetTileData(tileX, tileY, 42);
+
+            Assert.That(currentChunk.VertexColour[0], Is.EqualTo(42));
+            Assert.That(adjacentChunk.VertexColour[0], Is.Zero);
+        }
+
+        [TestCase(0, 0, 1)]
+        [TestCase(-1, 0, 1)]
+        [TestCase(0, -1, 2)]
+        [TestCase(-1, -1, 4)]
+        public void GivenABlockingSceneNeighbour_WhenRefreshingATile_ThenTheOccupiedFlagIsApplied(
+            int neighbourOffsetX,
+            int neighbourOffsetY,
+            int blockingFlag)
+        {
+            int tileX = 16;
+            int tileY = 32;
+            engineHandle.SetTileFlags(
+                tileX + neighbourOffsetX,
+                tileY + neighbourOffsetY,
+                blockingFlag);
+
+            engineHandle.AddObjectToScene(tileX, tileY, 0, 0);
+
+            Assert.That(engineHandle.GetTile(tileX, tileY), Is.EqualTo(35));
+        }
+
+        [Test]
+        public void GivenAnUnblockedSceneArea_WhenRefreshingIt_ThenNoTileFlagIsAdded()
+        {
+            engineHandle.AddObjectToScene(16, 32, 0, 0);
+
+            Assert.That(engineHandle.GetTile(16, 32), Is.Zero);
+        }
+
+        [Test]
+        public void GivenABlockingTileAndAnExtendedSceneArea_WhenRefreshingIt_ThenTheInclusiveAreaIsOccupied()
+        {
+            engineHandle.SetTileFlags(16, 32, 1);
+
+            engineHandle.AddObjectToScene(16, 32, 1, 1);
+
+            Assert.That(engineHandle.GetTile(16, 32), Is.EqualTo(35));
+            Assert.That(engineHandle.GetTile(16, 33), Is.EqualTo(35));
+            Assert.That(engineHandle.GetTile(17, 32), Is.EqualTo(35));
+            Assert.That(engineHandle.GetTile(17, 33), Is.EqualTo(35));
+        }
+
+        [TestCase(0, 16, 0, 0)]
+        [TestCase(16, 0, 0, 0)]
+        [TestCase(95, 16, 1, 0)]
+        [TestCase(16, 95, 0, 1)]
+        public void GivenASceneAreaOutsideTheGrid_WhenRefreshingIt_ThenNoTileChanges(
+            int tileX,
+            int tileY,
+            int objectWidth,
+            int objectHeight)
+        {
+            engineHandle.AddObjectToScene(tileX, tileY, objectWidth, objectHeight);
+
+            Assert.That(engineHandle.Tiles.SelectMany(row => row), Has.All.Zero);
+        }
+
+        [TestCase(0, new[]
+        {
+            0x7c0000, 0x7c0000, 0x7c0000,
+            0x7c0000, 0x7c0000, 0x007c00,
+            0x7c0000, 0x007c00, 0x007c00,
+        })]
+        [TestCase(1, new[]
+        {
+            0x007c00, 0x007c00, 0x007c00,
+            0x7c0000, 0x007c00, 0x007c00,
+            0x7c0000, 0x7c0000, 0x007c00,
+        })]
+        public void GivenTwoMinimapTextures_WhenDrawingAValidOrder_ThenTheTrianglePatternIsDrawn(
+            int drawOrder,
+            int[] expectedPixels)
+        {
+            GameImage minimapImage = new(3, 3, 0);
+            Camera camera = new(minimapImage, 1, 1, 1);
+            EngineHandle minimapEngine = new(camera, minimapImage, null!);
+            int redTexture = Camera.GetTextureColour(255, 0, 0);
+            int greenTexture = Camera.GetTextureColour(0, 255, 0);
+
+            minimapEngine.DrawMinimapPixel(0, 0, drawOrder, redTexture, greenTexture);
+
+            Assert.That(minimapImage.Pixels, Is.EqualTo(expectedPixels));
+        }
+
+        [TestCase(-1)]
+        [TestCase(2)]
+        [TestCase(42)]
+        public void GivenTwoMinimapTextures_WhenDrawingAnUnsupportedOrder_ThenNoPixelChanges(
+            int drawOrder)
+        {
+            GameImage minimapImage = new(3, 3, 0);
+            Camera camera = new(minimapImage, 1, 1, 1);
+            EngineHandle minimapEngine = new(camera, minimapImage, null!);
+            int redTexture = Camera.GetTextureColour(255, 0, 0);
+            int greenTexture = Camera.GetTextureColour(0, 255, 0);
+
+            minimapEngine.DrawMinimapPixel(0, 0, drawOrder, redTexture, greenTexture);
+
+            Assert.That(minimapImage.Pixels, Has.All.Zero);
         }
 
         [Test]

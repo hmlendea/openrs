@@ -9,6 +9,8 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         public bool IsInterlaced { get; set; }
 
+        private readonly CameraColourTableCache colourTableCache =
+            new(textureManager);
         private readonly CameraPolygonRasteriser rasteriser = rasteriser;
         private readonly CameraTextureManager textureManager = textureManager;
         private readonly int[] screenPixels = screenPixels;
@@ -17,8 +19,6 @@ namespace OpenRS.Net.Client.Game.Cameras
         private int defaultScreenHalfWidth;
         private int scanlineBufferCentre;
         private int screenProjectionShift;
-
-        private static int SquaredIntensityDivisor => 0x10000;
 
         public void Initialise(
             int newScreenCentreX,
@@ -80,474 +80,234 @@ namespace OpenRS.Net.Client.Game.Cameras
             int edge2X = modelVertX[vertCount] - vert0X;
             int edge2Y = modelVertY[vertCount] - vert0Y;
             int edge2Z = modelVertZ[vertCount] - vert0Z;
+            bool isTexture128 =
+                textureManager.textureLastAccessFrame[textureIndex] == 1;
+            int textureCoordinateShift = 6;
 
-            if (textureManager.textureLastAccessFrame[textureIndex] == 1)
+            if (isTexture128)
             {
-                RenderTexture128Scanlines(
-                    textureIndex,
-                    gameObject,
-                    vert0X, vert0Y, vert0Z,
-                    edge1X, edge1Y, edge1Z,
-                    edge2X, edge2Y, edge2Z);
+                textureCoordinateShift = 7;
             }
-            else
-            {
-                RenderTexture64Scanlines(
-                    textureIndex,
-                    gameObject,
-                    vert0X, vert0Y, vert0Z,
-                    edge1X, edge1Y, edge1Z,
-                    edge2X, edge2Y, edge2Z);
-            }
+
+            CameraTextureProjection textureProjection =
+                CameraTextureProjection.Calculate(
+                    vert0X,
+                    vert0Y,
+                    vert0Z,
+                    edge1X,
+                    edge1Y,
+                    edge1Z,
+                    edge2X,
+                    edge2Y,
+                    edge2Z,
+                    screenProjectionShift,
+                    textureCoordinateShift);
+            CameraTextureScanlineState scanlineState = new(
+                textureProjection,
+                rasteriser,
+                scanlineBufferCentre,
+                defaultScreenHalfWidth,
+                screenMouseOffsetX,
+                IsRenderingInterlaced);
+            CameraTextureRenderMode renderMode = ResolveTextureRenderMode(
+                isTexture128,
+                gameObject.IsPerspectiveTextured,
+                textureManager.textureIsTransparent[textureIndex]);
+            RenderTextureScanlines(textureIndex, renderMode, scanlineState);
         }
 
-        private void RenderTexture128Scanlines(
-            int textureIndex,
-            GameObject gameObject,
-            int vert0X,
-            int vert0Y,
-            int vert0Z,
-            int edge1X,
-            int edge1Y,
-            int edge1Z,
-            int edge2X,
-            int edge2Y,
-            int edge2Z)
+        private static CameraTextureRenderMode ResolveTextureRenderMode(
+            bool isTexture128,
+            bool isPerspectiveTextured,
+            bool isTransparent)
         {
-            int texUOrigin = edge2X * vert0Y - edge2Y * vert0X << 12;
-            int texURowStep = edge2Y * vert0Z - edge2Z * vert0Y << 5 - screenProjectionShift + 7 + 4;
-            int texUColStep = edge2Z * vert0X - edge2X * vert0Z << 5 - screenProjectionShift + 7;
-            int texVOrigin = edge1X * vert0Y - edge1Y * vert0X << 12;
-            int texVRowStep = edge1Y * vert0Z - edge1Z * vert0Y << 5 - screenProjectionShift + 7 + 4;
-            int texVColStep = edge1Z * vert0X - edge1X * vert0Z << 5 - screenProjectionShift + 7;
-            int texDenomOrigin = edge1Y * edge2X - edge1X * edge2Y << 5;
-            int texDenomRowStep = edge1Z * edge2Y - edge1Y * edge2Z << 5 - screenProjectionShift + 4;
-            int texDenomColStep = edge1X * edge2Z - edge1Z * edge2X >> screenProjectionShift - 5;
-            int texURowStepScaled = texURowStep >> 4;
-            int texVRowStepScaled = texVRowStep >> 4;
-            int texDenomRowStepScaled = texDenomRowStep >> 4;
-            int scanlineOffset = rasteriser.MinVisibleScanline - scanlineBufferCentre;
-            int rowStride = defaultScreenHalfWidth;
-            int pixelOffset = screenMouseOffsetX + rasteriser.MinVisibleScanline * rowStride;
-            byte scanlineStep = 1;
-            texUOrigin += texUColStep * scanlineOffset;
-            texVOrigin += texVColStep * scanlineOffset;
-            texDenomOrigin += texDenomColStep * scanlineOffset;
-
-            if (IsRenderingInterlaced)
+            if (isTexture128)
             {
-                if ((rasteriser.MinVisibleScanline & 1) == 1)
+                if (isPerspectiveTextured)
                 {
-                    rasteriser.MinVisibleScanline += 1;
-                    texUOrigin += texUColStep;
-                    texVOrigin += texVColStep;
-                    texDenomOrigin += texDenomColStep;
-                    pixelOffset += rowStride;
+                    return CameraTextureRenderMode.HalfBlended128;
                 }
 
-                texUColStep <<= 1;
-                texVColStep <<= 1;
-                texDenomColStep <<= 1;
-                rowStride <<= 1;
-                scanlineStep = 2;
+                if (!isTransparent)
+                {
+                    return CameraTextureRenderMode.Opaque128;
+                }
+
+                return CameraTextureRenderMode.Transparent128;
             }
 
-            if (gameObject.IsPerspectiveTextured)
+            if (isPerspectiveTextured)
             {
-                for (int scanlineY = rasteriser.MinVisibleScanline; scanlineY < rasteriser.MaxVisibleScanline; scanlineY += scanlineStep)
-                {
-                    CameraVariable scanline = rasteriser.ScanlineVariables[scanlineY];
-                    int scanlineX = scanline.LeftX >> 8;
-                    int scanlineMaxX = scanline.RightX >> 8;
-                    int spanWidth = scanlineMaxX - scanlineX;
-
-                    if (spanWidth <= 0)
-                    {
-                        texUOrigin += texUColStep;
-                        texVOrigin += texVColStep;
-                        texDenomOrigin += texDenomColStep;
-                        pixelOffset += rowStride;
-                        continue;
-                    }
-
-                    int shadeAccum = scanline.LeftShade;
-                    int shadeStep = (scanline.RightShade - shadeAccum) / spanWidth;
-
-                    if (scanlineX < -screenCentreX)
-                    {
-                        shadeAccum += (-screenCentreX - scanlineX) * shadeStep;
-                        scanlineX = -screenCentreX;
-                        spanWidth = scanlineMaxX - scanlineX;
-                    }
-
-                    if (scanlineMaxX > screenCentreX)
-                    {
-                        int clampedX = screenCentreX;
-                        spanWidth = clampedX - scanlineX;
-                    }
-
-                    CameraPolygonDrawer.DrawShadedPolygon(
-                        screenPixels,
-                        textureManager.objectTexturePixels[textureIndex],
-                        0,
-                        0,
-                        texUOrigin + texURowStepScaled * scanlineX,
-                        texVOrigin + texVRowStepScaled * scanlineX,
-                        texDenomOrigin + texDenomRowStepScaled * scanlineX,
-                        texURowStep,
-                        texVRowStep,
-                        texDenomRowStep,
-                        spanWidth,
-                        pixelOffset + scanlineX,
-                        shadeAccum,
-                        shadeStep << 2);
-                    texUOrigin += texUColStep;
-                    texVOrigin += texVColStep;
-                    texDenomOrigin += texDenomColStep;
-                    pixelOffset += rowStride;
-                }
-
-                return;
+                return CameraTextureRenderMode.HalfBlended64;
             }
 
-            if (!textureManager.textureIsTransparent[textureIndex])
+            if (!isTransparent)
             {
-                for (int scanlineY = rasteriser.MinVisibleScanline; scanlineY < rasteriser.MaxVisibleScanline; scanlineY += scanlineStep)
-                {
-                    CameraVariable scanline = rasteriser.ScanlineVariables[scanlineY];
-                    int scanlineX = scanline.LeftX >> 8;
-                    int scanlineMaxX = scanline.RightX >> 8;
-                    int spanWidth = scanlineMaxX - scanlineX;
-
-                    if (spanWidth <= 0)
-                    {
-                        texUOrigin += texUColStep;
-                        texVOrigin += texVColStep;
-                        texDenomOrigin += texDenomColStep;
-                        pixelOffset += rowStride;
-                        continue;
-                    }
-
-                    int shadeAccum64 = scanline.LeftShade;
-                    int shadeStep64 = (scanline.RightShade - shadeAccum64) / spanWidth;
-
-                    if (scanlineX < -screenCentreX)
-                    {
-                        shadeAccum64 += (-screenCentreX - scanlineX) * shadeStep64;
-                        scanlineX = -screenCentreX;
-                        spanWidth = scanlineMaxX - scanlineX;
-                    }
-
-                    if (scanlineMaxX > screenCentreX)
-                    {
-                        int clampedX = screenCentreX;
-                        spanWidth = clampedX - scanlineX;
-                    }
-
-                    CameraPolygonDrawer.DrawFlatPolygon(
-                        screenPixels,
-                        textureManager.objectTexturePixels[textureIndex],
-                        0,
-                        0,
-                        texUOrigin + texURowStepScaled * scanlineX,
-                        texVOrigin + texVRowStepScaled * scanlineX,
-                        texDenomOrigin + texDenomRowStepScaled * scanlineX,
-                        texURowStep,
-                        texVRowStep,
-                        texDenomRowStep,
-                        spanWidth,
-                        pixelOffset + scanlineX,
-                        shadeAccum64,
-                        shadeStep64 << 2);
-                    texUOrigin += texUColStep;
-                    texVOrigin += texVColStep;
-                    texDenomOrigin += texDenomColStep;
-                    pixelOffset += rowStride;
-                }
-
-                return;
+                return CameraTextureRenderMode.Opaque64;
             }
 
-            for (int scanlineY = rasteriser.MinVisibleScanline; scanlineY < rasteriser.MaxVisibleScanline; scanlineY += scanlineStep)
-            {
-                CameraVariable scanline = rasteriser.ScanlineVariables[scanlineY];
-                int scanlineX = scanline.LeftX >> 8;
-                int scanlineMaxX = scanline.RightX >> 8;
-                int spanWidth = scanlineMaxX - scanlineX;
-
-                if (spanWidth <= 0)
-                {
-                    texUOrigin += texUColStep;
-                    texVOrigin += texVColStep;
-                    texDenomOrigin += texDenomColStep;
-                    pixelOffset += rowStride;
-                    continue;
-                }
-
-                int shadeAccum = scanline.LeftShade;
-                int shadeStep = (scanline.RightShade - shadeAccum) / spanWidth;
-
-                if (scanlineX < -screenCentreX)
-                {
-                    shadeAccum += (-screenCentreX - scanlineX) * shadeStep;
-                    scanlineX = -screenCentreX;
-                    spanWidth = scanlineMaxX - scanlineX;
-                }
-
-                if (scanlineMaxX > screenCentreX)
-                {
-                    int clampedX = screenCentreX;
-                    spanWidth = clampedX - scanlineX;
-                }
-
-                CameraPolygonDrawer.DrawTexturedPolygon(
-                    screenPixels,
-                    0,
-                    0,
-                    0,
-                    textureManager.objectTexturePixels[textureIndex],
-                    texUOrigin + texURowStepScaled * scanlineX,
-                    texVOrigin + texVRowStepScaled * scanlineX,
-                    texDenomOrigin + texDenomRowStepScaled * scanlineX,
-                    texURowStep,
-                    texVRowStep,
-                    texDenomRowStep,
-                    spanWidth,
-                    pixelOffset + scanlineX,
-                    shadeAccum,
-                    shadeStep);
-                texUOrigin += texUColStep;
-                texVOrigin += texVColStep;
-                texDenomOrigin += texDenomColStep;
-                pixelOffset += rowStride;
-            }
+            return CameraTextureRenderMode.Transparent64;
         }
 
-        private void RenderTexture64Scanlines(
+        private void RenderTextureScanlines(
             int textureIndex,
-            GameObject gameObject,
-            int vert0X,
-            int vert0Y,
-            int vert0Z,
-            int edge1X,
-            int edge1Y,
-            int edge1Z,
-            int edge2X,
-            int edge2Y,
-            int edge2Z)
+            CameraTextureRenderMode renderMode,
+            CameraTextureScanlineState scanlineState)
         {
-            int texUOrigin = (edge2X * vert0Y - edge2Y * vert0X) << 11;
-            int texURowStep = (edge2Y * vert0Z - edge2Z * vert0Y) << 5 - screenProjectionShift + 6 + 4;
-            int texUColStep = (edge2Z * vert0X - edge2X * vert0Z) << 5 - screenProjectionShift + 6;
-            int texVOrigin = (edge1X * vert0Y - edge1Y * vert0X) << 11;
-            int texVRowStep = (edge1Y * vert0Z - edge1Z * vert0Y) << 5 - screenProjectionShift + 6 + 4;
-            int texVColStep = (edge1Z * vert0X - edge1X * vert0Z) << 5 - screenProjectionShift + 6;
-            int texDenomOrigin = (edge1Y * edge2X - edge1X * edge2Y) << 5;
-            int texDenomRowStep = (edge1Z * edge2Y - edge1Y * edge2Z) << 5 - screenProjectionShift + 4;
-            int texDenomColStep = (edge1X * edge2Z - edge1Z * edge2X) >> (screenProjectionShift - 5);
-            int texURowStepScaled = texURowStep >> 4;
-            int texVRowStepScaled = texVRowStep >> 4;
-            int texDenomRowStepScaled = texDenomRowStep >> 4;
-            int scanlineOffset = rasteriser.MinVisibleScanline - scanlineBufferCentre;
-            int rowStride = defaultScreenHalfWidth;
-            int pixelOffset = screenMouseOffsetX + rasteriser.MinVisibleScanline * rowStride;
-            byte scanlineStep = 1;
-            texUOrigin += texUColStep * scanlineOffset;
-            texVOrigin += texVColStep * scanlineOffset;
-            texDenomOrigin += texDenomColStep * scanlineOffset;
+            int textureUOrigin = scanlineState.UOrigin;
+            int textureVOrigin = scanlineState.VOrigin;
+            int denominatorOrigin = scanlineState.DenominatorOrigin;
+            int textureURowStepScaled = scanlineState.URowStep >> 4;
+            int textureVRowStepScaled = scanlineState.VRowStep >> 4;
+            int denominatorRowStepScaled =
+                scanlineState.DenominatorRowStep >> 4;
+            int pixelOffset = scanlineState.PixelOffset;
 
-            if (IsRenderingInterlaced)
-            {
-                if ((rasteriser.MinVisibleScanline & 1) == 1)
-                {
-                    rasteriser.MinVisibleScanline += 1;
-                    texUOrigin += texUColStep;
-                    texVOrigin += texVColStep;
-                    texDenomOrigin += texDenomColStep;
-                    pixelOffset += rowStride;
-                }
-
-                texUColStep <<= 1;
-                texVColStep <<= 1;
-                texDenomColStep <<= 1;
-                rowStride <<= 1;
-                scanlineStep = 2;
-            }
-
-            if (gameObject.IsPerspectiveTextured)
-            {
-                for (int scanlineY = rasteriser.MinVisibleScanline; scanlineY < rasteriser.MaxVisibleScanline; scanlineY += scanlineStep)
-                {
-                    CameraVariable scanline = rasteriser.ScanlineVariables[scanlineY];
-                    int scanlineX = scanline.LeftX >> 8;
-                    int clampedX64 = scanline.RightX >> 8;
-                    int spanWidth = clampedX64 - scanlineX;
-
-                    if (spanWidth <= 0)
-                    {
-                        texUOrigin += texUColStep;
-                        texVOrigin += texVColStep;
-                        texDenomOrigin += texDenomColStep;
-                        pixelOffset += rowStride;
-                        continue;
-                    }
-
-                    int shadeAccum = scanline.LeftShade;
-                    int shadeStep = (scanline.RightShade - shadeAccum) / spanWidth;
-
-                    if (scanlineX < -screenCentreX)
-                    {
-                        shadeAccum += (-screenCentreX - scanlineX) * shadeStep;
-                        scanlineX = -screenCentreX;
-                        spanWidth = clampedX64 - scanlineX;
-                    }
-
-                    if (clampedX64 > screenCentreX)
-                    {
-                        int clampedX = screenCentreX;
-                        spanWidth = clampedX - scanlineX;
-                    }
-
-                    CameraPolygonDrawer.DrawMaskedPolygon(
-                        screenPixels,
-                        textureManager.objectTexturePixels[textureIndex],
-                        0,
-                        0,
-                        texUOrigin + texURowStepScaled * scanlineX,
-                        texVOrigin + texVRowStepScaled * scanlineX,
-                        texDenomOrigin + texDenomRowStepScaled * scanlineX,
-                        texURowStep,
-                        texVRowStep,
-                        texDenomRowStep,
-                        spanWidth,
-                        pixelOffset + scanlineX,
-                        shadeAccum,
-                        shadeStep);
-                    texUOrigin += texUColStep;
-                    texVOrigin += texVColStep;
-                    texDenomOrigin += texDenomColStep;
-                    pixelOffset += rowStride;
-                }
-
-                return;
-            }
-
-            if (!textureManager.textureIsTransparent[textureIndex])
-            {
-                for (int scanlineY = rasteriser.MinVisibleScanline; scanlineY < rasteriser.MaxVisibleScanline; scanlineY += scanlineStep)
-                {
-                    CameraVariable scanline = rasteriser.ScanlineVariables[scanlineY];
-                    int scanlineX = scanline.LeftX >> 8;
-                    int scanlineMaxX = scanline.RightX >> 8;
-                    int spanWidth = scanlineMaxX - scanlineX;
-
-                    if (spanWidth <= 0)
-                    {
-                        texUOrigin += texUColStep;
-                        texVOrigin += texVColStep;
-                        texDenomOrigin += texDenomColStep;
-                        pixelOffset += rowStride;
-                        continue;
-                    }
-
-                    int shadeAccum = scanline.LeftShade;
-                    int shadeStep = (scanline.RightShade - shadeAccum) / spanWidth;
-
-                    if (scanlineX < -screenCentreX)
-                    {
-                        shadeAccum += (-screenCentreX - scanlineX) * shadeStep;
-                        scanlineX = -screenCentreX;
-                        spanWidth = scanlineMaxX - scanlineX;
-                    }
-
-                    if (scanlineMaxX > screenCentreX)
-                    {
-                        int clampedX = screenCentreX;
-                        spanWidth = clampedX - scanlineX;
-                    }
-
-                    CameraPolygonDrawer.DrawTransparentPolygon(
-                        screenPixels,
-                        textureManager.objectTexturePixels[textureIndex],
-                        0,
-                        0,
-                        texUOrigin + texURowStepScaled * scanlineX,
-                        texVOrigin + texVRowStepScaled * scanlineX,
-                        texDenomOrigin + texDenomRowStepScaled * scanlineX,
-                        texURowStep,
-                        texVRowStep,
-                        texDenomRowStep,
-                        spanWidth,
-                        pixelOffset + scanlineX,
-                        shadeAccum,
-                        shadeStep);
-                    texUOrigin += texUColStep;
-                    texVOrigin += texVColStep;
-                    texDenomOrigin += texDenomColStep;
-                    pixelOffset += rowStride;
-                }
-
-                return;
-            }
-
-            for (int scanlineY = rasteriser.MinVisibleScanline; scanlineY < rasteriser.MaxVisibleScanline; scanlineY += scanlineStep)
+            for (int scanlineY = rasteriser.MinVisibleScanline;
+                scanlineY < rasteriser.MaxVisibleScanline;
+                scanlineY += scanlineState.ScanlineStep)
             {
                 CameraVariable scanline = rasteriser.ScanlineVariables[scanlineY];
-                int scanlineX = scanline.LeftX >> 8;
-                int scanlineMaxX = scanline.RightX >> 8;
-                int spanWidth = scanlineMaxX - scanlineX;
+                CameraRenderedScanline renderedScanline =
+                    CameraRenderedScanline.Calculate(
+                        scanline,
+                        screenCentreX);
 
-                if (spanWidth <= 0)
+                if (renderedScanline.HasSourceSpan)
                 {
-                    texUOrigin += texUColStep;
-                    texVOrigin += texVColStep;
-                    texDenomOrigin += texDenomColStep;
-                    pixelOffset += rowStride;
-                    continue;
+                    int textureU =
+                        textureUOrigin +
+                        textureURowStepScaled * renderedScanline.StartX;
+                    int textureV =
+                        textureVOrigin +
+                        textureVRowStepScaled * renderedScanline.StartX;
+                    int denominator =
+                        denominatorOrigin +
+                        denominatorRowStepScaled * renderedScanline.StartX;
+                    int destinationOffset =
+                        pixelOffset + renderedScanline.StartX;
+                    int[] texturePixels =
+                        textureManager.objectTexturePixels[textureIndex];
+
+                    switch (renderMode)
+                    {
+                        case CameraTextureRenderMode.HalfBlended128:
+                            CameraPolygonDrawer.DrawShadedPolygon(
+                                screenPixels,
+                                texturePixels,
+                                0,
+                                0,
+                                textureU,
+                                textureV,
+                                denominator,
+                                scanlineState.URowStep,
+                                scanlineState.VRowStep,
+                                scanlineState.DenominatorRowStep,
+                                renderedScanline.Width,
+                                destinationOffset,
+                                renderedScanline.Shade,
+                                renderedScanline.ShadeStep << 2);
+                            break;
+                        case CameraTextureRenderMode.Opaque128:
+                            CameraPolygonDrawer.DrawFlatPolygon(
+                                screenPixels,
+                                texturePixels,
+                                0,
+                                0,
+                                textureU,
+                                textureV,
+                                denominator,
+                                scanlineState.URowStep,
+                                scanlineState.VRowStep,
+                                scanlineState.DenominatorRowStep,
+                                renderedScanline.Width,
+                                destinationOffset,
+                                renderedScanline.Shade,
+                                renderedScanline.ShadeStep << 2);
+                            break;
+                        case CameraTextureRenderMode.Transparent128:
+                            CameraPolygonDrawer.DrawTexturedPolygon(
+                                screenPixels,
+                                0,
+                                0,
+                                0,
+                                texturePixels,
+                                textureU,
+                                textureV,
+                                denominator,
+                                scanlineState.URowStep,
+                                scanlineState.VRowStep,
+                                scanlineState.DenominatorRowStep,
+                                renderedScanline.Width,
+                                destinationOffset,
+                                renderedScanline.Shade,
+                                renderedScanline.ShadeStep);
+                            break;
+                        case CameraTextureRenderMode.HalfBlended64:
+                            CameraPolygonDrawer.DrawMaskedPolygon(
+                                screenPixels,
+                                texturePixels,
+                                0,
+                                0,
+                                textureU,
+                                textureV,
+                                denominator,
+                                scanlineState.URowStep,
+                                scanlineState.VRowStep,
+                                scanlineState.DenominatorRowStep,
+                                renderedScanline.Width,
+                                destinationOffset,
+                                renderedScanline.Shade,
+                                renderedScanline.ShadeStep);
+                            break;
+                        case CameraTextureRenderMode.Opaque64:
+                            CameraPolygonDrawer.DrawTransparentPolygon(
+                                screenPixels,
+                                texturePixels,
+                                0,
+                                0,
+                                textureU,
+                                textureV,
+                                denominator,
+                                scanlineState.URowStep,
+                                scanlineState.VRowStep,
+                                scanlineState.DenominatorRowStep,
+                                renderedScanline.Width,
+                                destinationOffset,
+                                renderedScanline.Shade,
+                                renderedScanline.ShadeStep);
+                            break;
+                        case CameraTextureRenderMode.Transparent64:
+                            CameraPolygonDrawer.DrawFlatTexturedPolygon(
+                                screenPixels,
+                                0,
+                                0,
+                                0,
+                                texturePixels,
+                                textureU,
+                                textureV,
+                                denominator,
+                                scanlineState.URowStep,
+                                scanlineState.VRowStep,
+                                scanlineState.DenominatorRowStep,
+                                renderedScanline.Width,
+                                destinationOffset,
+                                renderedScanline.Shade,
+                                renderedScanline.ShadeStep);
+                            break;
+                    }
                 }
 
-                int shadeAccum = scanline.LeftShade;
-                int shadeStep = (scanline.RightShade - shadeAccum) / spanWidth;
-
-                if (scanlineX < -screenCentreX)
-                {
-                    shadeAccum += (-screenCentreX - scanlineX) * shadeStep;
-                    scanlineX = -screenCentreX;
-                    spanWidth = scanlineMaxX - scanlineX;
-                }
-
-                if (scanlineMaxX > screenCentreX)
-                {
-                    int spanWidth64 = screenCentreX;
-                    spanWidth = spanWidth64 - scanlineX;
-                }
-
-                CameraPolygonDrawer.DrawFlatTexturedPolygon(
-                    screenPixels,
-                    0,
-                    0,
-                    0,
-                    textureManager.objectTexturePixels[textureIndex],
-                    texUOrigin + texURowStepScaled * scanlineX,
-                    texVOrigin + texVRowStepScaled * scanlineX,
-                    texDenomOrigin + texDenomRowStepScaled * scanlineX,
-                    texURowStep,
-                    texVRowStep,
-                    texDenomRowStep,
-                    spanWidth,
-                    pixelOffset + scanlineX,
-                    shadeAccum,
-                    shadeStep);
-                texUOrigin += texUColStep;
-                texVOrigin += texVColStep;
-                texDenomOrigin += texDenomColStep;
-                pixelOffset += rowStride;
+                textureUOrigin += scanlineState.UColumnStep;
+                textureVOrigin += scanlineState.VColumnStep;
+                denominatorOrigin += scanlineState.DenominatorColumnStep;
+                pixelOffset += scanlineState.RowStride;
             }
         }
 
         private void RenderColouredModel(int textureIndex, GameObject gameObject)
         {
-            EnsureColourTable(textureIndex);
+            colourTableCache.Ensure(textureIndex);
 
             int rowStride = defaultScreenHalfWidth;
             int pixelOffset = screenMouseOffsetX + rasteriser.MinVisibleScanline * rowStride;
@@ -565,177 +325,85 @@ namespace OpenRS.Net.Client.Game.Cameras
                 scanlineStep = 2;
             }
 
+            CameraColourRenderMode renderMode = CameraColourRenderMode.Gradient;
+
             if (gameObject.IsGiantCrystal)
             {
-                for (int scanlineY = rasteriser.MinVisibleScanline; scanlineY < rasteriser.MaxVisibleScanline; scanlineY += scanlineStep)
-                {
-                    CameraVariable scanline = rasteriser.ScanlineVariables[scanlineY];
-                    int scanlineX = scanline.LeftX >> 8;
-                    int scanlineMaxX = scanline.RightX >> 8;
-                    int spanWidth = scanlineMaxX - scanlineX;
-
-                    if (spanWidth <= 0)
-                    {
-                        pixelOffset += rowStride;
-                        continue;
-                    }
-
-                    int shadeAccum = scanline.LeftShade;
-                    int shadeStep = (scanline.RightShade - shadeAccum) / spanWidth;
-
-                    if (scanlineX < -screenCentreX)
-                    {
-                        shadeAccum += (-screenCentreX - scanlineX) * shadeStep;
-                        scanlineX = -screenCentreX;
-                        spanWidth = scanlineMaxX - scanlineX;
-                    }
-
-                    if (scanlineMaxX > screenCentreX)
-                    {
-                        int clampedX = screenCentreX;
-                        spanWidth = clampedX - scanlineX;
-                    }
-
-                    CameraPolygonDrawer.DrawShiftColourPolygon(
-                        screenPixels,
-                        -spanWidth,
-                        pixelOffset + scanlineX,
-                        0,
-                        textureManager.textureClipSizes,
-                        shadeAccum,
-                        shadeStep);
-                    pixelOffset += rowStride;
-                }
-
-                return;
+                renderMode = CameraColourRenderMode.HalfBlended;
             }
-
-            if (IsInterlaced)
+            else if (IsInterlaced)
             {
-                for (int scanlineY = rasteriser.MinVisibleScanline; scanlineY < rasteriser.MaxVisibleScanline; scanlineY += scanlineStep)
-                {
-                    CameraVariable scanline = rasteriser.ScanlineVariables[scanlineY];
-                    int scanlineX = scanline.LeftX >> 8;
-                    int scanlineMaxX = scanline.RightX >> 8;
-                    int spanWidth = scanlineMaxX - scanlineX;
-
-                    if (spanWidth <= 0)
-                    {
-                        pixelOffset += rowStride;
-                        continue;
-                    }
-
-                    int shadeAccum = scanline.LeftShade;
-                    int shadeStep = (scanline.RightShade - shadeAccum) / spanWidth;
-
-                    if (scanlineX < -screenCentreX)
-                    {
-                        shadeAccum += (-screenCentreX - scanlineX) * shadeStep;
-                        scanlineX = -screenCentreX;
-                        spanWidth = scanlineMaxX - scanlineX;
-                    }
-
-                    if (scanlineMaxX > screenCentreX)
-                    {
-                        int clampedX = screenCentreX;
-                        spanWidth = clampedX - scanlineX;
-                    }
-
-                    CameraPolygonDrawer.DrawVertexColourPolygon(
-                        screenPixels,
-                        -spanWidth,
-                        pixelOffset + scanlineX,
-                        0,
-                        textureManager.textureClipSizes,
-                        shadeAccum,
-                        shadeStep);
-                    pixelOffset += rowStride;
-                }
-
-                return;
+                renderMode = CameraColourRenderMode.Vertex;
             }
 
+            RenderColourScanlines(
+                renderMode,
+                rowStride,
+                pixelOffset,
+                scanlineStep);
+        }
+
+        private void RenderColourScanlines(
+            CameraColourRenderMode renderMode,
+            int rowStride,
+            int pixelOffset,
+            int scanlineStep)
+        {
             for (int scanlineY = rasteriser.MinVisibleScanline; scanlineY < rasteriser.MaxVisibleScanline; scanlineY += scanlineStep)
             {
                 CameraVariable scanline = rasteriser.ScanlineVariables[scanlineY];
-                int scanlineX = scanline.LeftX >> 8;
-                int scanlineMaxX = scanline.RightX >> 8;
-                int spanWidth = scanlineMaxX - scanlineX;
+                CameraRenderedScanline renderedScanline =
+                    CameraRenderedScanline.Calculate(
+                        scanline,
+                        screenCentreX);
 
-                if (spanWidth <= 0)
+                if (!renderedScanline.HasSourceSpan)
                 {
                     pixelOffset += rowStride;
                     continue;
                 }
 
-                int shadeAccum = scanline.LeftShade;
-                int shadeStep = (scanline.RightShade - shadeAccum) / spanWidth;
+                int spanWidth = -renderedScanline.Width;
+                int destinationOffset =
+                    pixelOffset + renderedScanline.StartX;
 
-                if (scanlineX < -screenCentreX)
+                switch (renderMode)
                 {
-                    shadeAccum += (-screenCentreX - scanlineX) * shadeStep;
-                    scanlineX = -screenCentreX;
-                    spanWidth = scanlineMaxX - scanlineX;
+                    case CameraColourRenderMode.HalfBlended:
+                        CameraPolygonDrawer.DrawShiftColourPolygon(
+                            screenPixels,
+                            spanWidth,
+                            destinationOffset,
+                            0,
+                            textureManager.textureClipSizes,
+                            renderedScanline.Shade,
+                            renderedScanline.ShadeStep);
+                        break;
+                    case CameraColourRenderMode.Vertex:
+                        CameraPolygonDrawer.DrawVertexColourPolygon(
+                            screenPixels,
+                            spanWidth,
+                            destinationOffset,
+                            0,
+                            textureManager.textureClipSizes,
+                            renderedScanline.Shade,
+                            renderedScanline.ShadeStep);
+                        break;
+                    case CameraColourRenderMode.Gradient:
+                        CameraPolygonDrawer.DrawGradientPolygon(
+                            screenPixels,
+                            spanWidth,
+                            destinationOffset,
+                            0,
+                            textureManager.textureClipSizes,
+                            renderedScanline.Shade,
+                            renderedScanline.ShadeStep);
+                        break;
                 }
 
-                if (scanlineMaxX > screenCentreX)
-                {
-                    int clampedX = screenCentreX;
-                    spanWidth = clampedX - scanlineX;
-                }
-
-                CameraPolygonDrawer.DrawGradientPolygon(
-                    screenPixels,
-                    -spanWidth,
-                    pixelOffset + scanlineX,
-                    0,
-                    textureManager.textureClipSizes,
-                    shadeAccum,
-                    shadeStep);
                 pixelOffset += rowStride;
             }
         }
 
-        private void EnsureColourTable(int textureIndex)
-        {
-            for (int clipIndex = 0; clipIndex < textureManager.maxTextureCount; clipIndex += 1)
-            {
-                if (textureManager.textureClipIds[clipIndex] == textureIndex)
-                {
-                    textureManager.textureClipSizes = textureManager.textureClipData[clipIndex];
-                    return;
-                }
-
-                if (clipIndex != textureManager.maxTextureCount - 1)
-                {
-                    continue;
-                }
-
-                double randomValue = Helper.Random.NextDouble();
-                int randomSlot = (int)(randomValue * textureManager.maxTextureCount);
-
-                if (randomSlot >= textureManager.textureClipIds.Length)
-                {
-                    randomSlot -= 1;
-                }
-
-                textureManager.textureClipIds[randomSlot] = textureIndex;
-                int encodedTextureIndex = -1 - textureIndex;
-                int redChannel = (encodedTextureIndex >> 10 & 0x1f) * 8;
-                int greenChannel = (encodedTextureIndex >> 5 & 0x1f) * 8;
-                int blueChannel = (encodedTextureIndex & 0x1f) * 8;
-
-                for (int colourTableIndex = 0; colourTableIndex < 256; colourTableIndex += 1)
-                {
-                    int squaredIntensity = colourTableIndex * colourTableIndex;
-                    int redScaled = redChannel * squaredIntensity / SquaredIntensityDivisor;
-                    int greenScaled = greenChannel * squaredIntensity / SquaredIntensityDivisor;
-                    int blueScaled = blueChannel * squaredIntensity / SquaredIntensityDivisor;
-                    textureManager.textureClipData[randomSlot][255 - colourTableIndex] = (redScaled << 16) + (greenScaled << 8) + blueScaled;
-                }
-
-                textureManager.textureClipSizes = textureManager.textureClipData[randomSlot];
-            }
-        }
     }
 }

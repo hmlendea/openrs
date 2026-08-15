@@ -364,82 +364,8 @@ namespace OpenRS.Net.Client
                 CantLogout();
                 return;
             }
-            if (command == (int)ServerCommand.FriendList)
+            if (GameAppletSocialPacketHandler.TryHandle(this, command, length))
             {
-                friendsCount = BinaryDataReader.GetByte(packetData[1]);
-                for (int friendIndex = 0; friendIndex < friendsCount; friendIndex += 1)
-                {
-                    friendsList[friendIndex] = BinaryDataReader.GetLong(packetData, 2 + friendIndex * 9);
-                    friendsWorld[friendIndex] = BinaryDataReader.GetByte(packetData[10 + friendIndex * 9]);
-                }
-
-                ReOrderFriendsList();
-
-                return;
-            }
-
-            if (command == (int)ServerCommand.FriendUpdate)
-            {
-                long friend = BinaryDataReader.GetLong(packetData, 1);
-                int status = packetData[9] & 0xff;
-                for (int friendIndex = 0; friendIndex < friendsCount; friendIndex += 1)
-                {
-                    if (friendsList[friendIndex] == friend)
-                    {
-                        if (friendsWorld[friendIndex] == 0 && status != 0)
-                        {
-                            DisplayMessage(string.Format(LocalisationManager.GetString("social.friend_logged_in"), PlayerNameEncoder.HashToName(friend)));
-                        }
-
-                        if (friendsWorld[friendIndex] != 0 && status == 0)
-                        {
-                            DisplayMessage(string.Format(LocalisationManager.GetString("social.friend_logged_out"), PlayerNameEncoder.HashToName(friend)));
-                        }
-
-                        friendsWorld[friendIndex] = status;
-                        ReOrderFriendsList();
-
-                        return;
-                    }
-                }
-
-                friendsList[friendsCount] = friend;
-                friendsWorld[friendsCount] = status;
-                friendsCount += 1;
-                ReOrderFriendsList();
-
-                return;
-            }
-
-            if (command == (int)ServerCommand.IgnoreList)
-            {
-                ignoresCount = Math.Min(
-                    BinaryDataReader.GetByte(packetData[1]),
-                    Math.Min(ignoresList.Length, (length - 2) / 8));
-
-                for (int ignoreIndex = 0; ignoreIndex < ignoresCount; ignoreIndex += 1)
-                {
-                    ignoresList[ignoreIndex] = BinaryDataReader.GetLong(packetData, 2 + ignoreIndex * 8);
-                }
-
-                return;
-            }
-            if (command == (int)ServerCommand.WontImplement158)
-            {
-                blockChat = packetData[1];
-                blockPrivate = packetData[2];
-                blockTrade = packetData[3];
-                blockDuel = packetData[4];
-
-                return;
-            }
-
-            if (command == (int)ServerCommand.PrivateMessage)
-            {
-                long senderHash = BinaryDataReader.GetLong(packetData, 1);
-                string messageText = ChatMessage.BytesToString(packetData, 9, length - 9);
-                DisplayMessage(string.Format(LocalisationManager.GetString("social.private_message_received"), PlayerNameEncoder.HashToName(senderHash), messageText));
-
                 return;
             }
 
@@ -452,30 +378,6 @@ namespace OpenRS.Net.Client
             }
 
             HandlePacket(command, length, packetData);
-        }
-
-        private void ReOrderFriendsList()
-        {
-            bool hasSwapped = true;
-
-            while (hasSwapped)
-            {
-                hasSwapped = false;
-
-                for (int friendIndex = 0; friendIndex < friendsCount - 1; friendIndex += 1)
-                {
-                    if (friendsWorld[friendIndex] < friendsWorld[friendIndex + 1])
-                    {
-                        int tempWorld = friendsWorld[friendIndex];
-                        friendsWorld[friendIndex] = friendsWorld[friendIndex + 1];
-                        friendsWorld[friendIndex + 1] = tempWorld;
-                        long tempFriend = friendsList[friendIndex];
-                        friendsList[friendIndex] = friendsList[friendIndex + 1];
-                        friendsList[friendIndex + 1] = tempFriend;
-                        hasSwapped = true;
-                    }
-                }
-            }
         }
 
         protected void SendUpdatedPrivacyInfo(int blockChat, int blockPrivate, int blockTrade, int blockDuel)

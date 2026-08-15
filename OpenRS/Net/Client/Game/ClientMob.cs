@@ -6,9 +6,15 @@ namespace OpenRS.Net.Client.Game
 {
     public sealed class ClientMob
     {
-        public int[] WaypointXPositions = new int[10];
+        private static int WaypointCapacity => 10;
 
-        public int[] WaypointYPositions = new int[10];
+        private static int AppearanceItemCapacity => 12;
+
+        private static int UnsetCombatLevel => -1;
+
+        public int[] WaypointXPositions = new int[WaypointCapacity];
+
+        public int[] WaypointYPositions = new int[WaypointCapacity];
 
         public Appearance Appearance { get; set; }
 
@@ -86,8 +92,8 @@ namespace OpenRS.Net.Client.Game
         {
             Appearance = new();
             Location = new();
-            AppearanceItems = new int[12];
-            CombatLevel = -1;
+            AppearanceItems = new int[AppearanceItemCapacity];
+            CombatLevel = UnsetCombatLevel;
         }
     }
 }

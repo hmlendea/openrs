@@ -57,5 +57,45 @@ namespace OpenRS.UnitTests.Models
                 () => path.GetWaypoint(waypointIndex),
                 Throws.TypeOf<IndexOutOfRangeException>());
         }
+
+        [Test]
+        public void GivenAMutableWaypointArray_WhenChangingAnOffset_ThenThePathUsesTheCurrentOffset()
+        {
+            Point2D[] waypointOffsets = [new(4, 8)];
+            WalkPath path = new(new Point2D(32, 42), waypointOffsets);
+
+            waypointOffsets[0] = new Point2D(16, 32);
+
+            Assert.That(path.GetWaypoint(0), Is.EqualTo(new Point2D(48, 74)));
+        }
+
+        [Test]
+        public void GivenANullWaypointArray_WhenReadingItsLength_ThenANullReferenceExceptionIsThrown()
+        {
+            WalkPath path = new(new Point2D(32, 42), null!);
+
+            Assert.That(
+                () => _ = path.Length,
+                Throws.TypeOf<NullReferenceException>());
+        }
+
+        [Test]
+        public void GivenADestinationOnlyPath_WhenRetrievingAWaypoint_ThenAnIndexExceptionIsThrown()
+        {
+            WalkPath path = new(new Point2D(32, 42));
+
+            Assert.That(
+                () => path.GetWaypoint(0),
+                Throws.TypeOf<IndexOutOfRangeException>());
+        }
+
+        [Test]
+        public void GivenAZeroWaypointOffset_WhenRetrievingIt_ThenTheStartLocationIsReturned()
+        {
+            Point2D startLocation = new(32, 42);
+            WalkPath path = new(startLocation, [Point2D.Empty]);
+
+            Assert.That(path.GetWaypoint(0), Is.EqualTo(startLocation));
+        }
     }
 }

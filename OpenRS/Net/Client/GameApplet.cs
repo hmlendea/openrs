@@ -113,79 +113,7 @@ namespace OpenRS.Net.Client
         public void KeyDown(Keys key, char character)
         {
             HandleKeyDown(key, character);
-            if (key == Keys.Left)
-            {
-                keyLeftDown = true;
-            }
-
-            if (key == Keys.Right)
-            {
-                keyRightDown = true;
-            }
-
-            if (key == Keys.Up)
-            {
-                keyUpDown = true;
-            }
-
-            if (key == Keys.Down)
-            {
-                keyDownDown = true;
-            }
-
-            if (key == Keys.Space)
-            {
-                keySpaceDown = true;
-            }
-
-            if (key == Keys.N || key == Keys.M)
-            {
-                keyNMDown = true;
-            }
-
-            if (key == Keys.F1)
-            {
-                keyF1Toggle = !keyF1Toggle;
-            }
-
-            bool charIsAllowed = false;
-
-            for (int charIndex = 0; charIndex < AllowedChars.Length; charIndex += 1)
-            {
-                if (character != AllowedChars[charIndex] && key != Keys.Left && key != Keys.Right && key != Keys.Up && key != Keys.Down)
-                {
-                    continue;
-                }
-
-                charIsAllowed = true;
-                break;
-            }
-
-            if (charIsAllowed && inputText.Length < 20)
-            {
-                inputText += character;
-            }
-
-            if (charIsAllowed && pmText.Length < 80)
-            {
-                pmText += character;
-            }
-
-            if (key == Keys.Back && inputText.Length > 0)
-            {
-                inputText = inputText[..^1];
-            }
-
-            if (key == Keys.Back && pmText.Length > 0)
-            {
-                pmText = pmText[..^1];
-            }
-
-            if (key == Keys.Enter)
-            {
-                enteredInputText = inputText;
-                enteredPMText = pmText;
-            }
+            GameAppletKeyboardInputHandler.HandleKeyDown(this, key, character);
         }
 
         public virtual void HandleKeyDown(Keys key, char character)
@@ -193,72 +121,25 @@ namespace OpenRS.Net.Client
         }
 
         public void KeyUp(Keys key, char character)
-        {
-            if (key == Keys.Left)
-            {
-                keyLeftDown = false;
-            }
-
-            if (key == Keys.Right)
-            {
-                keyRightDown = false;
-            }
-
-            if (key == Keys.Up)
-            {
-                keyUpDown = false;
-            }
-
-            if (key == Keys.Down)
-            {
-                keyDownDown = false;
-            }
-
-            if (key == Keys.Space)
-            {
-                keySpaceDown = false;
-            }
-
-            if (key == Keys.N || key == Keys.M)
-            {
-                keyNMDown = false;
-            }
-        }
+            => GameAppletKeyboardInputHandler.HandleKeyUp(this, key);
 
         public bool MouseMove(int x, int y)
         {
-            mouseX = x;
-            mouseY = y - mouseYOffset;
-            mouseButton = 0;
+            GameAppletMouseInputHandler.Move(this, x, y);
 
             return true;
         }
 
         public bool MouseUp(int x, int y)
         {
-            mouseX = x;
-            mouseY = y - mouseYOffset;
-            mouseButton = 0;
+            GameAppletMouseInputHandler.Move(this, x, y);
 
             return true;
         }
 
         public bool MouseDown(int x, int y, bool isMetaDown)
         {
-            mouseX = x;
-            mouseY = y - mouseYOffset;
-
-            if (isMetaDown)
-            {
-                mouseButton = 2;
-            }
-            else
-            {
-                mouseButton = 1;
-            }
-
-            lastMouseButton = mouseButton;
-            HandleMouseDown(mouseButton, x, y);
+            GameAppletMouseInputHandler.Press(this, x, y, isMetaDown);
 
             return true;
         }
@@ -269,17 +150,7 @@ namespace OpenRS.Net.Client
 
         public bool MouseDrag(int x, int y, bool isMetaDown)
         {
-            mouseX = x;
-            mouseY = y - mouseYOffset;
-
-            if (isMetaDown)
-            {
-                mouseButton = 2;
-            }
-            else
-            {
-                mouseButton = 1;
-            }
+            GameAppletMouseInputHandler.Drag(this, x, y, isMetaDown);
 
             return true;
         }

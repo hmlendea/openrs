@@ -157,26 +157,8 @@ namespace OpenRS.Net.Client.Utilities
         }
 
         public GraphicsDevice GetGraphics() => GameClient.graphics;
-        public static string FormatItemCount(int itemCount)
-        {
-            string formattedCount = itemCount.ToString();
 
-            for (int separatorIndex = formattedCount.Length - 3; separatorIndex > 0; separatorIndex -= 3)
-            {
-                formattedCount = formattedCount[..separatorIndex] + "," + formattedCount[separatorIndex..];
-            }
-
-            if (formattedCount.Length > 8)
-            {
-                formattedCount = "@gre@" + formattedCount[..^8] + " million @whi@(" + formattedCount + ")";
-            }
-            else if (formattedCount.Length > 4)
-            {
-                formattedCount = "@cya@" + formattedCount[..^4] + "K @whi@(" + formattedCount + ")";
-            }
-
-            return formattedCount;
-        }
+        public static string FormatItemCount(int itemCount) => ItemCountFormatter.Format(itemCount);
 
         public bool HasRequiredRunes(int runeId, int requiredAmount)
         {

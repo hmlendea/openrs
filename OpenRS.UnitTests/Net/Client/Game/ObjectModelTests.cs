@@ -129,6 +129,44 @@ namespace OpenRS.UnitTests.Net.Client.Game
             Assert.That(model.GetFace(0), Is.SameAs(secondFace));
         }
 
+        [Test]
+        public void GivenTheReturnedVertexCollection_WhenMutatingItsConcreteCollection_ThenTheModelChanges()
+        {
+            ObjectModel model = new();
+            ICollection<Vertex> vertices = (ICollection<Vertex>)model.Vertices;
+            Vertex expectedVertex = new(4, 8, 16);
+
+            vertices.Add(expectedVertex);
+
+            Assert.That(model.GetVertex(0), Is.SameAs(expectedVertex));
+        }
+
+        [Test]
+        public void GivenDuplicateVertexReferences_WhenRemovingTheLaterIndex_ThenTheFirstMatchIsRemoved()
+        {
+            Vertex duplicateVertex = new(4, 8, 16);
+            Vertex middleVertex = new(32, 42, 48);
+            ObjectModel model = new([duplicateVertex, middleVertex, duplicateVertex], []);
+
+            Vertex removedVertex = model.RemoveVertex(2);
+
+            Assert.That(removedVertex, Is.SameAs(duplicateVertex));
+            Assert.That(model.GetVertex(0), Is.SameAs(middleVertex));
+            Assert.That(model.GetVertex(1), Is.SameAs(duplicateVertex));
+        }
+
+        [Test]
+        public void GivenNullElements_WhenAddingThem_ThenTheNullReferencesAreRetained()
+        {
+            ObjectModel model = new();
+
+            model.AddVertex(null!);
+            model.AddFace(null!);
+
+            Assert.That(model.GetVertex(0), Is.Null);
+            Assert.That(model.GetFace(0), Is.Null);
+        }
+
         [TestCase(-1)]
         [TestCase(0)]
         [TestCase(42)]
@@ -178,6 +216,37 @@ namespace OpenRS.UnitTests.Net.Client.Game
             Assert.That(model.XRotation, Is.EqualTo(expectedRotation));
             Assert.That(model.YRotation, Is.EqualTo(expectedRotation));
             Assert.That(model.ZRotation, Is.EqualTo(expectedRotation));
+        }
+
+        [TestCase(float.NegativeInfinity)]
+        [TestCase(float.PositiveInfinity)]
+        public void GivenAnInfiniteRotation_WhenSettingEachAxis_ThenInfinityIsRetained(float rotation)
+        {
+            ObjectModel model = new()
+            {
+                XRotation = rotation,
+                YRotation = rotation,
+                ZRotation = rotation,
+            };
+
+            Assert.That(model.XRotation, Is.EqualTo(rotation));
+            Assert.That(model.YRotation, Is.EqualTo(rotation));
+            Assert.That(model.ZRotation, Is.EqualTo(rotation));
+        }
+
+        [Test]
+        public void GivenANotANumberRotation_WhenSettingEachAxis_ThenNotANumberIsRetained()
+        {
+            ObjectModel model = new()
+            {
+                XRotation = float.NaN,
+                YRotation = float.NaN,
+                ZRotation = float.NaN,
+            };
+
+            Assert.That(model.XRotation, Is.NaN);
+            Assert.That(model.YRotation, Is.NaN);
+            Assert.That(model.ZRotation, Is.NaN);
         }
 
         [TestCase(float.NegativeInfinity)]
