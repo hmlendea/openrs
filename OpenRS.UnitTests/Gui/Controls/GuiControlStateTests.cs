@@ -86,11 +86,14 @@ namespace OpenRS.UnitTests.Gui.Controls
         }
 
         [Test]
-        public void GivenANewItemCard_WhenReadingIt_ThenCompatibleSizeAndStateAreUsed()
+        public void GivenTheItemSpriteContract_WhenReadingCanvasSize_ThenInventoryDimensionsAreUsed()
+            => Assert.That(GuiItemCard.SpriteCanvasSize, Is.EqualTo(new Size2D(48, 32)));
+
+        [Test]
+        public void GivenANewItemCard_WhenReadingIt_ThenStateIsRetained()
         {
             GuiItemCard card = new() { SpriteName = "RuneScape", Quantity = 42 };
 
-            Assert.That(card.Size, Is.EqualTo(new Size2D(36, 36)));
             Assert.That(card.SpriteName, Is.EqualTo("RuneScape"));
             Assert.That(card.Quantity, Is.EqualTo(42));
         }

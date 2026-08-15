@@ -15,27 +15,23 @@ namespace OpenRS.Gui.Controls
 
         private static string QuantityFontName => "ItemCardFont";
         private static int QuantityTextHeight => 10;
-        private static int DefaultCardSize => 36;
-        private static int IconRenderSize => 32;
 
         private GuiImage icon;
         private GuiText quantity;
+
+        public static Size2D SpriteCanvasSize => new(48, 32);
 
         public string SpriteName { get; set; }
 
         public int Quantity { get; set; }
 
-        public GuiItemCard()
-        {
-            Size = new Size2D(DefaultCardSize, DefaultCardSize);
-        }
-
         protected override void DoLoadContent()
         {
             icon = new GuiImage
             {
-                Size = new Size2D(IconRenderSize, IconRenderSize),
-                ContentFile = NuciContentManager.MissingTexturePlaceholder
+                ContentFile = NuciContentManager.MissingTexturePlaceholder,
+                SourceRectangle = new Rectangle2D(Point2D.Empty, SpriteCanvasSize),
+                TextureLayout = TextureLayout.Stretch
             };
             quantity = new GuiText
             {
@@ -68,6 +64,8 @@ namespace OpenRS.Gui.Controls
 
         private void UpdateIconProperties()
         {
+            icon.Size = Size;
+
             if (Quantity > 0 && !string.IsNullOrEmpty(SpriteName))
             {
                 string contentFile = ItemSpritePathPrefix + SpriteName;
@@ -94,6 +92,8 @@ namespace OpenRS.Gui.Controls
 
         private void UpdateQuantityProperties()
         {
+            quantity.Size = new Size2D(Size.Width, QuantityTextHeight);
+
             if (Quantity > 1)
             {
                 quantity.Location = Point2D.Empty;

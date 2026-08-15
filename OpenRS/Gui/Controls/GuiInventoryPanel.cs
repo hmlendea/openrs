@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 
 using NuciXNA.Gui.Controls;
+using NuciXNA.Primitives;
 
 using OpenRS.Models;
 using OpenRS.Net.Client;
@@ -10,19 +11,15 @@ namespace OpenRS.Gui.Controls
 {
     public sealed class GuiInventoryPanel(GameClient client) : GuiControl
     {
-        private static int Rows => 7;
-
-        private static int Columns => 4;
-
-        private static int SlotCount => Rows * Columns;
-
         private GuiItemCard[] itemCards;
 
         protected override void DoLoadContent()
         {
-            itemCards = new GuiItemCard[SlotCount];
+            itemCards = new GuiItemCard[GuiInventoryGridLayout.SlotCount];
 
-            for (int slotIndex = 0; slotIndex < SlotCount; slotIndex += 1)
+            for (int slotIndex = 0;
+                 slotIndex < GuiInventoryGridLayout.SlotCount;
+                 slotIndex += 1)
             {
                 itemCards[slotIndex] = new GuiItemCard();
             }
@@ -47,36 +44,42 @@ namespace OpenRS.Gui.Controls
 
         private void SetChildrenProperties()
         {
-            int spacingX = (Size.Width - Columns * itemCards[0].Size.Width) / (Columns + 1);
-            int spacingY = (Size.Height - Rows * itemCards[0].Size.Height) / (Rows + 1);
+            Size2D itemCardSize = GuiInventoryGridLayout.CalculateItemCardSize(Size);
 
-            for (int slotIndex = 0; slotIndex < SlotCount; slotIndex += 1)
+            for (int slotIndex = 0;
+                 slotIndex < GuiInventoryGridLayout.SlotCount;
+                 slotIndex += 1)
             {
-                int columnIndex = slotIndex % Columns;
-                int rowIndex = slotIndex / Columns;
-
-                itemCards[slotIndex].Location = new(
-                    spacingX * (columnIndex + 1) +
-                        itemCards[slotIndex].Size.Width * columnIndex,
-                    spacingY * (rowIndex + 1) + itemCards[slotIndex].Size.Height * rowIndex);
+                itemCards[slotIndex].Size = itemCardSize;
+                itemCards[slotIndex].Location =
+                    GuiInventoryGridLayout.CalculateItemCardLocation(Size, slotIndex);
             }
         }
 
         private void SetItems()
         {
-            if (client.inventoryManager is null || client.entityManager is null)
+            for (int slotIndex = 0;
+                 slotIndex < GuiInventoryGridLayout.SlotCount;
+                 slotIndex += 1)
             {
-                return;
-            }
+                if (client.entityManager is null || slotIndex >= client.inventoryItemsCount)
+                {
+                    ClearItem(slotIndex);
+                    continue;
+                }
 
-            for (int slotIndex = 0; slotIndex < SlotCount; slotIndex += 1)
-            {
-                InventoryItem inventoryItem = client.inventoryManager.GetItem(slotIndex);
-                Item item = client.entityManager.GetItem(inventoryItem.Index);
+                int itemIndex = client.inventoryItems[slotIndex];
+                Item item = client.entityManager.GetItem(itemIndex);
 
                 itemCards[slotIndex].SpriteName = item.SpriteName;
-                itemCards[slotIndex].Quantity = inventoryItem.Quantity;
+                itemCards[slotIndex].Quantity = client.inventoryItemCount[slotIndex];
             }
+        }
+
+        private void ClearItem(int slotIndex)
+        {
+            itemCards[slotIndex].SpriteName = null;
+            itemCards[slotIndex].Quantity = 0;
         }
     }
 }
