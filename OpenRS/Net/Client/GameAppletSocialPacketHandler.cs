@@ -161,32 +161,9 @@ namespace OpenRS.Net.Client
         }
 
         private static void ReorderFriendsList(GameAppletMiddleMan applet)
-        {
-            bool hasSwapped = true;
-
-            while (hasSwapped)
-            {
-                hasSwapped = false;
-
-                for (int friendIndex = 0;
-                    friendIndex < applet.friendsCount - 1;
-                    friendIndex += 1)
-                {
-                    if (applet.friendsWorld[friendIndex] <
-                        applet.friendsWorld[friendIndex + 1])
-                    {
-                        int temporaryWorld = applet.friendsWorld[friendIndex];
-                        applet.friendsWorld[friendIndex] =
-                            applet.friendsWorld[friendIndex + 1];
-                        applet.friendsWorld[friendIndex + 1] = temporaryWorld;
-                        long temporaryFriend = applet.friendsList[friendIndex];
-                        applet.friendsList[friendIndex] =
-                            applet.friendsList[friendIndex + 1];
-                        applet.friendsList[friendIndex + 1] = temporaryFriend;
-                        hasSwapped = true;
-                    }
-                }
-            }
-        }
+            => FriendListSorter.SortByWorldDescending(
+                applet.friendsList,
+                applet.friendsWorld,
+                applet.friendsCount);
     }
 }

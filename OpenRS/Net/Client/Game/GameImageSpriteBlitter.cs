@@ -10,15 +10,14 @@ namespace OpenRS.Net.Client.Game
     {
         private static readonly ILogger logger = NuciLoggerFactory.CreateLogger<GameImageSpriteBlitter>();
 
-        private static int RedBlueChannelMask => 0xff00ff;
+        private static string TransparentSpriteRenderingFailureMessage
+            => "The transparent sprite rendering has failed.";
 
-        private static uint RedBlueBlendMask => 0xff00ff00;
+        private static string FlippedSpriteRenderingFailureMessage
+            => "The flipped sprite rendering has failed.";
 
-        private static int GreenChannelMask => 0xff00;
-
-        private static int GreenBlendMask => 0xff0000;
-
-        private static int BlendShift => 8;
+        private static string ColourShiftedFlippedSpriteRenderingFailureMessage
+            => "The colour-shifted flipped sprite rendering has failed.";
 
         internal static void DrawSpriteOpaque(
             int[] pixels,
@@ -30,75 +29,73 @@ namespace OpenRS.Net.Client.Game
             int dstStride,
             int srcStride,
             int rowStep)
+            => DrawSpriteOpaque(
+                pixels,
+                new GameImageDirectSpriteColourSource(colours),
+                srcOffset,
+                dstOffset,
+                width,
+                height,
+                dstStride,
+                srcStride,
+                rowStep);
+
+        private static void DrawSpriteOpaque<TColourSource>(
+            int[] pixels,
+            TColourSource colourSource,
+            int sourceOffset,
+            int destinationOffset,
+            int width,
+            int height,
+            int destinationStride,
+            int sourceStride,
+            int rowStep)
+            where TColourSource : struct, IGameImageSpriteColourSource
         {
             int groupCount = -(width >> 2);
             int remainderCount = -(width & 3);
 
-            for (int rowIteration = -height; rowIteration < 0; rowIteration += rowStep)
+            for (int rowIteration = -height;
+                rowIteration < 0;
+                rowIteration += rowStep)
             {
-                for (int groupIndex = groupCount; groupIndex < 0; groupIndex += 1)
+                for (int groupIndex = groupCount;
+                    groupIndex < 0;
+                    groupIndex += 1)
                 {
-                    int currentColour = colours[srcOffset++];
-
-                    if (currentColour != 0)
-                    {
-                        pixels[dstOffset++] = currentColour;
-                    }
-                    else
-                    {
-                        dstOffset += 1;
-                    }
-
-                    currentColour = colours[srcOffset++];
-
-                    if (currentColour != 0)
-                    {
-                        pixels[dstOffset++] = currentColour;
-                    }
-                    else
-                    {
-                        dstOffset += 1;
-                    }
-
-                    currentColour = colours[srcOffset++];
-
-                    if (currentColour != 0)
-                    {
-                        pixels[dstOffset++] = currentColour;
-                    }
-                    else
-                    {
-                        dstOffset += 1;
-                    }
-
-                    currentColour = colours[srcOffset++];
-
-                    if (currentColour != 0)
-                    {
-                        pixels[dstOffset++] = currentColour;
-                    }
-                    else
-                    {
-                        dstOffset += 1;
-                    }
+                    GameImageSpriteSample sample =
+                        colourSource.Read(sourceOffset++);
+                    DrawSample(pixels, sample, destinationOffset++);
+                    sample = colourSource.Read(sourceOffset++);
+                    DrawSample(pixels, sample, destinationOffset++);
+                    sample = colourSource.Read(sourceOffset++);
+                    DrawSample(pixels, sample, destinationOffset++);
+                    sample = colourSource.Read(sourceOffset++);
+                    DrawSample(pixels, sample, destinationOffset++);
                 }
 
-                for (int remainderIndex = remainderCount; remainderIndex < 0; remainderIndex += 1)
+                for (int remainderIndex = remainderCount;
+                    remainderIndex < 0;
+                    remainderIndex += 1)
                 {
-                    int currentColour = colours[srcOffset++];
-
-                    if (currentColour != 0)
-                    {
-                        pixels[dstOffset++] = currentColour;
-                    }
-                    else
-                    {
-                        dstOffset += 1;
-                    }
+                    GameImageSpriteSample sample =
+                        colourSource.Read(sourceOffset++);
+                    DrawSample(pixels, sample, destinationOffset++);
                 }
 
-                dstOffset += dstStride;
-                srcOffset += srcStride;
+                destinationOffset += destinationStride;
+                sourceOffset += sourceStride;
+            }
+        }
+
+        private static void DrawSample(
+            int[] pixels,
+            GameImageSpriteSample sample,
+            int destinationOffset)
+        {
+            if (sample.IsVisible)
+            {
+                pixels[destinationOffset] = sample.Colour;
             }
         }
 
@@ -113,77 +110,18 @@ namespace OpenRS.Net.Client.Game
             int dstStride,
             int srcStride,
             int rowStep)
-        {
-            int groupCount = -(width >> 2);
-            int remainderCount = -(width & 3);
-
-            for (int rowIteration = -height; rowIteration < 0; rowIteration += rowStep)
-            {
-                for (int groupIndex = groupCount; groupIndex < 0; groupIndex += 1)
-                {
-                    sbyte colourIndex = colourIndexes[srcOffset++];
-
-                    if (colourIndex != 0)
-                    {
-                        pixels[dstOffset++] = colourLookup[colourIndex & 0xff];
-                    }
-                    else
-                    {
-                        dstOffset += 1;
-                    }
-
-                    colourIndex = colourIndexes[srcOffset++];
-
-                    if (colourIndex != 0)
-                    {
-                        pixels[dstOffset++] = colourLookup[colourIndex & 0xff];
-                    }
-                    else
-                    {
-                        dstOffset += 1;
-                    }
-
-                    colourIndex = colourIndexes[srcOffset++];
-
-                    if (colourIndex != 0)
-                    {
-                        pixels[dstOffset++] = colourLookup[colourIndex & 0xff];
-                    }
-                    else
-                    {
-                        dstOffset += 1;
-                    }
-
-                    colourIndex = colourIndexes[srcOffset++];
-
-                    if (colourIndex != 0)
-                    {
-                        pixels[dstOffset++] = colourLookup[colourIndex & 0xff];
-                    }
-                    else
-                    {
-                        dstOffset += 1;
-                    }
-                }
-
-                for (int remainderIndex = remainderCount; remainderIndex < 0; remainderIndex += 1)
-                {
-                    sbyte colourIndex = colourIndexes[srcOffset++];
-
-                    if (colourIndex != 0)
-                    {
-                        pixels[dstOffset++] = colourLookup[colourIndex & 0xff];
-                    }
-                    else
-                    {
-                        dstOffset += 1;
-                    }
-                }
-
-                dstOffset += dstStride;
-                srcOffset += srcStride;
-            }
-        }
+            => DrawSpriteOpaque(
+                pixels,
+                new GameImageIndexedSpriteColourSource(
+                    colourIndexes,
+                    colourLookup),
+                srcOffset,
+                dstOffset,
+                width,
+                height,
+                dstStride,
+                srcStride,
+                rowStep);
 
         internal static void DrawSpriteTransparent(
             int[] pixels,
@@ -199,44 +137,23 @@ namespace OpenRS.Net.Client.Game
             int srcWidth,
             int rowStep)
         {
-            try
-            {
-                int initialSrcX = srcX;
+            GameImageOpaqueSampledPixelComposer pixelComposer = new();
 
-                for (int rowIteration = -height; rowIteration < 0; rowIteration += rowStep)
-                {
-                    int srcRowOffset = (srcY >> 16) * srcWidth;
-
-                    for (int colIteration = -width; colIteration < 0; colIteration += 1)
-                    {
-                        int currentColour = colours[(srcX >> 16) + srcRowOffset];
-
-                        if (currentColour != 0)
-                        {
-                            pixels[dstOffset++] = currentColour;
-                        }
-                        else
-                        {
-                            dstOffset += 1;
-                        }
-
-                        srcX += xStep;
-                    }
-
-                    srcY += yStep;
-                    srcX = initialSrcX;
-                    dstOffset += dstStride;
-                }
-            }
-            catch (Exception exception)
-            {
-                logger.Error(
-                    GameOperation.RenderSprite,
-                    "The transparent sprite rendering has failed.",
-                    exception);
-
-                throw;
-            }
+            DrawSampledSprite(
+                pixels,
+                colours,
+                srcX,
+                srcY,
+                dstOffset,
+                dstStride,
+                width,
+                height,
+                xStep,
+                yStep,
+                srcWidth,
+                rowStep,
+                pixelComposer,
+                TransparentSpriteRenderingFailureMessage);
         }
 
         internal static void DrawSpriteColorShifted(
@@ -250,32 +167,58 @@ namespace OpenRS.Net.Client.Game
             int srcStride,
             int rowStep,
             int blendFactor)
+            => DrawSpriteColorShifted(
+                pixels,
+                new GameImageDirectSpriteColourSource(colours),
+                srcOffset,
+                dstOffset,
+                width,
+                height,
+                dstStride,
+                srcStride,
+                rowStep,
+                blendFactor);
+
+        private static void DrawSpriteColorShifted<TColourSource>(
+            int[] pixels,
+            TColourSource colourSource,
+            int sourceOffset,
+            int destinationOffset,
+            int width,
+            int height,
+            int destinationStride,
+            int sourceStride,
+            int rowStep,
+            int blendFactor)
+            where TColourSource : struct, IGameImageSpriteColourSource
         {
             int blendComplement = 256 - blendFactor;
 
-            for (int rowIteration = -height; rowIteration < 0; rowIteration += rowStep)
+            for (int rowIteration = -height;
+                rowIteration < 0;
+                rowIteration += rowStep)
             {
-                for (int colIteration = -width; colIteration < 0; colIteration += 1)
+                for (int columnIteration = -width;
+                    columnIteration < 0;
+                    columnIteration += 1)
                 {
-                    int currentColour = colours[srcOffset++];
+                    GameImageSpriteSample sample =
+                        colourSource.Read(sourceOffset++);
 
-                    if (currentColour != 0)
+                    if (sample.IsVisible)
                     {
-                        pixels[dstOffset] = BlendColour(
-                            currentColour,
-                            pixels[dstOffset],
+                        pixels[destinationOffset] = GameImageColourBlender.Blend(
+                            sample.Colour,
+                            pixels[destinationOffset],
                             blendFactor,
                             blendComplement);
-                        dstOffset += 1;
                     }
-                    else
-                    {
-                        dstOffset += 1;
-                    }
+
+                    destinationOffset += 1;
                 }
 
-                dstOffset += dstStride;
-                srcOffset += srcStride;
+                destinationOffset += destinationStride;
+                sourceOffset += sourceStride;
             }
         }
 
@@ -291,35 +234,19 @@ namespace OpenRS.Net.Client.Game
             int srcStride,
             int rowStep,
             int blendFactor)
-        {
-            int blendComplement = 256 - blendFactor;
-
-            for (int rowIteration = -height; rowIteration < 0; rowIteration += rowStep)
-            {
-                for (int colIteration = -width; colIteration < 0; colIteration += 1)
-                {
-                    int colourIndex = colourIndexes[srcOffset++];
-
-                    if (colourIndex != 0)
-                    {
-                        int colour = colourLookup[colourIndex & 0xff];
-                        pixels[dstOffset] = BlendColour(
-                            colour,
-                            pixels[dstOffset],
-                            blendFactor,
-                            blendComplement);
-                        dstOffset += 1;
-                    }
-                    else
-                    {
-                        dstOffset += 1;
-                    }
-                }
-
-                dstOffset += dstStride;
-                srcOffset += srcStride;
-            }
-        }
+            => DrawSpriteColorShifted(
+                pixels,
+                new GameImageIndexedSpriteColourSource(
+                    colourIndexes,
+                    colourLookup),
+                srcOffset,
+                dstOffset,
+                width,
+                height,
+                dstStride,
+                srcStride,
+                rowStep,
+                blendFactor);
 
         internal static void DrawSpriteFlipped(
             int[] pixels,
@@ -337,68 +264,24 @@ namespace OpenRS.Net.Client.Game
             int blendFactor)
         {
             int blendComplement = 256 - blendFactor;
+            GameImageBlendedSampledPixelComposer pixelComposer =
+                new(blendFactor, blendComplement);
 
-            try
-            {
-                int initialSrcX = srcX;
-
-                for (int rowIteration = -height; rowIteration < 0; rowIteration += rowStep)
-                {
-                    int srcRowOffset = (srcY >> 16) * srcWidth;
-
-                    for (int colIteration = -width; colIteration < 0; colIteration += 1)
-                    {
-                        int currentColour = colours[(srcX >> 16) + srcRowOffset];
-
-                        if (currentColour != 0)
-                        {
-                            pixels[dstOffset] = BlendColour(
-                                currentColour,
-                                pixels[dstOffset],
-                                blendFactor,
-                                blendComplement);
-                            dstOffset += 1;
-                        }
-                        else
-                        {
-                            dstOffset += 1;
-                        }
-
-                        srcX += xStep;
-                    }
-
-                    srcY += yStep;
-                    srcX = initialSrcX;
-                    dstOffset += dstStride;
-                }
-            }
-            catch (Exception exception)
-            {
-                logger.Error(
-                    GameOperation.RenderSprite,
-                    "The flipped sprite rendering has failed.",
-                    exception);
-
-                throw;
-            }
-        }
-
-        private static int BlendColour(
-            int foregroundColour,
-            int backgroundColour,
-            int blendFactor,
-            int blendComplement)
-        {
-            int blendedRedBlue =
-                (int)((foregroundColour & RedBlueChannelMask) * blendFactor +
-                (backgroundColour & RedBlueChannelMask) * blendComplement &
-                RedBlueBlendMask);
-            int blendedGreen =
-                (foregroundColour & GreenChannelMask) * blendFactor +
-                (backgroundColour & GreenChannelMask) * blendComplement &
-                GreenBlendMask;
-
-            return (blendedRedBlue + blendedGreen) >> BlendShift;
+            DrawSampledSprite(
+                pixels,
+                colours,
+                srcX,
+                srcY,
+                dstOffset,
+                dstStride,
+                width,
+                height,
+                xStep,
+                yStep,
+                srcWidth,
+                rowStep,
+                pixelComposer,
+                FlippedSpriteRenderingFailureMessage);
         }
 
         internal static void DrawSpriteFlippedColorShifted(
@@ -416,62 +299,23 @@ namespace OpenRS.Net.Client.Game
             int rowStep,
             int colour)
         {
-            int red = colour >> 16 & 0xff;
-            int green = colour >> 8 & 0xff;
-            int blue = colour & 0xff;
+            GameImageTintedSampledPixelComposer pixelComposer = new(colour);
 
-            try
-            {
-                int initialSrcX = srcX;
-
-                for (int rowIteration = -height; rowIteration < 0; rowIteration += rowStep)
-                {
-                    int srcRowOffset = (srcY >> 16) * srcWidth;
-
-                    for (int colIteration = -width; colIteration < 0; colIteration += 1)
-                    {
-                        int currentColour = colours[(srcX >> 16) + srcRowOffset];
-
-                        if (currentColour != 0)
-                        {
-                            int redComponent = currentColour >> 16 & 0xff;
-                            int greenComponent = currentColour >> 8 & 0xff;
-                            int blueComponent = currentColour & 0xff;
-
-                            if (redComponent == greenComponent && greenComponent == blueComponent)
-                            {
-                                pixels[dstOffset++] =
-                                    ((redComponent * red >> 8) << 16) +
-                                    ((greenComponent * green >> 8) << 8) +
-                                    (blueComponent * blue >> 8);
-                            }
-                            else
-                            {
-                                pixels[dstOffset++] = currentColour;
-                            }
-                        }
-                        else
-                        {
-                            dstOffset += 1;
-                        }
-
-                        srcX += xStep;
-                    }
-
-                    srcY += yStep;
-                    srcX = initialSrcX;
-                    dstOffset += dstStride;
-                }
-            }
-            catch (Exception exception)
-            {
-                logger.Error(
-                    GameOperation.RenderSprite,
-                    "The colour-shifted flipped sprite rendering has failed.",
-                    exception);
-
-                throw;
-            }
+            DrawSampledSprite(
+                pixels,
+                colours,
+                srcX,
+                srcY,
+                dstOffset,
+                dstStride,
+                width,
+                height,
+                xStep,
+                yStep,
+                srcWidth,
+                rowStep,
+                pixelComposer,
+                ColourShiftedFlippedSpriteRenderingFailureMessage);
         }
 
         internal static void DrawSpriteAlpha(
@@ -484,14 +328,17 @@ namespace OpenRS.Net.Client.Game
             int yStep,
             int count,
             int srcWidth)
-        {
-            for (int pixelIndex = count; pixelIndex < 0; pixelIndex += 1)
-            {
-                pixels[dstOffset++] = colours[(srcX >> 17) + (srcY >> 17) * srcWidth];
-                srcX += xStep;
-                srcY += yStep;
-            }
-        }
+            => DrawSpriteAlpha(
+                pixels,
+                colours,
+                dstOffset,
+                srcX,
+                srcY,
+                xStep,
+                yStep,
+                count,
+                srcWidth,
+                new GameImageOpaqueSampledPixelWriter());
 
         internal static void DrawSpriteAlphaColorShifted(
             int[] pixels,
@@ -503,22 +350,87 @@ namespace OpenRS.Net.Client.Game
             int yStep,
             int count,
             int srcWidth)
+            => DrawSpriteAlpha(
+                pixels,
+                colours,
+                dstOffset,
+                srcX,
+                srcY,
+                xStep,
+                yStep,
+                count,
+                srcWidth,
+                new GameImageTransparentSampledPixelWriter());
+
+        private static void DrawSpriteAlpha<TPixelWriter>(
+            int[] pixels,
+            int[] colours,
+            int destinationOffset,
+            int sourceX,
+            int sourceY,
+            int xStep,
+            int yStep,
+            int count,
+            int sourceWidth,
+            TPixelWriter pixelWriter)
+            where TPixelWriter : struct, IGameImageSampledPixelWriter
         {
             for (int pixelIndex = count; pixelIndex < 0; pixelIndex += 1)
             {
-                int currentColour = colours[(srcX >> 17) + (srcY >> 17) * srcWidth];
+                int sourceColour =
+                    colours[(sourceX >> 17) + (sourceY >> 17) * sourceWidth];
+                pixelWriter.Write(
+                    sourceColour,
+                    pixels,
+                    destinationOffset);
+                destinationOffset += 1;
+                sourceX += xStep;
+                sourceY += yStep;
+            }
+        }
 
-                if (currentColour != 0)
-                {
-                    pixels[dstOffset++] = currentColour;
-                }
-                else
-                {
-                    dstOffset += 1;
-                }
+        private static void DrawSampledSprite<TPixelComposer>(
+            int[] pixels,
+            int[] colours,
+            int sourceX,
+            int sourceY,
+            int destinationOffset,
+            int destinationStride,
+            int width,
+            int height,
+            int xStep,
+            int yStep,
+            int sourceWidth,
+            int rowStep,
+            TPixelComposer pixelComposer,
+            string failureMessage)
+            where TPixelComposer : struct, IGameImageSampledPixelComposer
+        {
+            try
+            {
+                GameImageSampledSpriteBlitter.Draw(
+                    pixels,
+                    colours,
+                    sourceX,
+                    sourceY,
+                    destinationOffset,
+                    destinationStride,
+                    width,
+                    height,
+                    xStep,
+                    yStep,
+                    sourceWidth,
+                    rowStep,
+                    pixelComposer);
+            }
+            catch (Exception exception)
+            {
+                logger.Error(
+                    GameOperation.RenderSprite,
+                    failureMessage,
+                    exception);
 
-                srcX += xStep;
-                srcY += yStep;
+                throw;
             }
         }
     }

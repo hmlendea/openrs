@@ -12,29 +12,37 @@ namespace OpenRS.Net.Client.Game
         {
             if (secondaryColour == DefaultColour)
             {
-                DrawPrimaryColour(pictureIndex, primaryColour, characterClip);
+                GameImageTintedSampledPixelComposer pixelComposer =
+                    new(primaryColour);
+                Draw(
+                    pictureIndex,
+                    characterClip,
+                    pixelComposer);
 
                 return;
             }
 
-            DrawPrimaryAndSecondaryColours(
+            GameImageDualTintedSampledPixelComposer dualPixelComposer =
+                new(primaryColour, secondaryColour);
+            Draw(
                 pictureIndex,
-                primaryColour,
-                secondaryColour,
-                characterClip);
+                characterClip,
+                dualPixelComposer);
         }
 
-        private void DrawPrimaryColour(
+        private void Draw<TPixelComposer>(
             int pictureIndex,
-            int primaryColour,
-            GameImageCharacterClip characterClip)
+            GameImageCharacterClip characterClip,
+            TPixelComposer pixelComposer)
+            where TPixelComposer : struct, IGameImageSampledPixelComposer
         {
-            if (gameImage.PictureColours[pictureIndex] is not null)
+            int[] colours = gameImage.PictureColours[pictureIndex];
+
+            if (colours is not null)
             {
-                GameImageScaledSpriteBlitter.DrawSpriteFlatShaded(
+                GameImageScaledSpriteBlitter.Draw(
                     gameImage.Pixels,
-                    gameImage.PictureColours[pictureIndex],
-                    0,
+                    new GameImageDirectSpriteColourSource(colours),
                     characterClip.SourceX,
                     characterClip.SourceY,
                     characterClip.DestinationOffset,
@@ -43,22 +51,22 @@ namespace OpenRS.Net.Client.Game
                     characterClip.ScaleX,
                     characterClip.ScaleY,
                     characterClip.SourceWidth,
-                    primaryColour,
                     characterClip.XPosition,
                     characterClip.XStep,
                     characterClip.ScanlineMode,
                     gameImage.ImageX,
                     gameImage.ImageWidth,
-                    gameImage.GameWidth);
+                    gameImage.GameWidth,
+                    pixelComposer);
 
                 return;
             }
 
-            GameImageScaledSpriteBlitter.DrawSpriteFlatShadedTextured(
+            GameImageScaledSpriteBlitter.Draw(
                 gameImage.Pixels,
-                gameImage.PictureColourIndexes[pictureIndex],
-                gameImage.PictureColour[pictureIndex],
-                0,
+                new GameImageIndexedSpriteColourSource(
+                    gameImage.PictureColourIndexes[pictureIndex],
+                    gameImage.PictureColour[pictureIndex]),
                 characterClip.SourceX,
                 characterClip.SourceY,
                 characterClip.DestinationOffset,
@@ -67,68 +75,13 @@ namespace OpenRS.Net.Client.Game
                 characterClip.ScaleX,
                 characterClip.ScaleY,
                 characterClip.SourceWidth,
-                primaryColour,
                 characterClip.XPosition,
                 characterClip.XStep,
                 characterClip.ScanlineMode,
                 gameImage.ImageX,
                 gameImage.ImageWidth,
-                gameImage.GameWidth);
-        }
-
-        private void DrawPrimaryAndSecondaryColours(
-            int pictureIndex,
-            int primaryColour,
-            int secondaryColour,
-            GameImageCharacterClip characterClip)
-        {
-            if (gameImage.PictureColours[pictureIndex] is not null)
-            {
-                GameImageScaledSpriteBlitter.DrawSpriteFlatShadedAlt(
-                    gameImage.Pixels,
-                    gameImage.PictureColours[pictureIndex],
-                    0,
-                    characterClip.SourceX,
-                    characterClip.SourceY,
-                    characterClip.DestinationOffset,
-                    characterClip.Width,
-                    characterClip.Height,
-                    characterClip.ScaleX,
-                    characterClip.ScaleY,
-                    characterClip.SourceWidth,
-                    primaryColour,
-                    secondaryColour,
-                    characterClip.XPosition,
-                    characterClip.XStep,
-                    characterClip.ScanlineMode,
-                    gameImage.ImageX,
-                    gameImage.ImageWidth,
-                    gameImage.GameWidth);
-
-                return;
-            }
-
-            GameImageScaledSpriteBlitter.DrawSpriteFlatShadedTexturedAlt(
-                gameImage.Pixels,
-                gameImage.PictureColourIndexes[pictureIndex],
-                gameImage.PictureColour[pictureIndex],
-                0,
-                characterClip.SourceX,
-                characterClip.SourceY,
-                characterClip.DestinationOffset,
-                characterClip.Width,
-                characterClip.Height,
-                characterClip.ScaleX,
-                characterClip.ScaleY,
-                characterClip.SourceWidth,
-                primaryColour,
-                secondaryColour,
-                characterClip.XPosition,
-                characterClip.XStep,
-                characterClip.ScanlineMode,
-                gameImage.ImageX,
-                gameImage.ImageWidth,
-                gameImage.GameWidth);
+                gameImage.GameWidth,
+                pixelComposer);
         }
     }
 }

@@ -50,6 +50,25 @@ namespace OpenRS.UnitTests.Net.Client
         }
 
         [Test]
+        public void GivenFriendsInTheSameWorld_WhenHandlingTheList_ThenTheirWireOrderIsPreserved()
+        {
+            long[] expectedFriends = [4L, 8L, 16L];
+            int[] expectedWorlds = [42, 42, 8];
+            applet.packetData[1] = 3;
+            WriteLong(applet.packetData, 2, 4L);
+            applet.packetData[10] = 42;
+            WriteLong(applet.packetData, 11, 8L);
+            applet.packetData[19] = 42;
+            WriteLong(applet.packetData, 20, 16L);
+            applet.packetData[28] = 8;
+
+            applet.HandlePacket((int)ServerCommand.FriendList, 29);
+
+            Assert.That(applet.friendsList[..3], Is.EqualTo(expectedFriends));
+            Assert.That(applet.friendsWorld[..3], Is.EqualTo(expectedWorlds));
+        }
+
+        [Test]
         public void GivenAnExistingFriendUpdate_WhenHandlingIt_ThenStatusAndOrderingAreUpdated()
         {
             applet.friendsCount = 2;
