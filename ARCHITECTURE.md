@@ -48,20 +48,27 @@ Responsibilities:
 - immutable or read-only consumption of game state.
 
 `GameImage` remains the public compatibility facade for legacy drawing methods. Raw operations are divided among:
-- `GameImagePixelRasteriser` for drawing-area state, clearing, boxes, lines, pixels, and fading;
-- `GameImageShapeRasteriser` for circles, alpha rectangles, and gradients;
+- `GameImagePixelRasteriser` for boxes, lines, individual pixels, and pixel-grid copies, with
+	shared rectangle clipping for opaque and alpha-filled boxes;
+- `GameImageViewportController` for drawing-area state and `GameImageScreenBufferProcessor` for
+	clearing and fading;
+- `GameImageShapeRasteriser` for circles, alpha rectangles, and gradients, with shared alpha
+	composition;
 - `GameImageBlurProcessor` for area blur;
 - `GameImagePictureManager` for picture lifecycle coordination, with focused collaborators for
-	metadata decoding, sleep-sprite decoding, palette conversion, and screen capture;
+	metadata decoding, pixel scan order, sleep-sprite decoding, indexed/direct palette conversion,
+	and screen capture;
 - `GameImageSpriteRenderer` for direct and indexed picture drawing and scaled entities, with
 	allocation-free values for clipping and scaling state;
 - `GameImageCharacterRenderer` for tinting, flipping, and sheared character drawing, with
-	allocation-free layout and shared scaled-entity clipping state;
+	dedicated colour-path and flipped-sprite renderers plus allocation-free layout state;
 - `GameImageScaledSpriteBlitter` for specialised direct and indexed colour paths, with shared
 	allocation-free tint classification and horizontal scanline clipping;
 - `GameImageMinimapRenderer` for minimap draw coordination and error propagation, with focused
-	collaborators for projection, rotation tables, counters, and scanline rasterisation;
-- the existing text collaborator.
+	collaborators for projection, rotation tables, counters, edge scan conversion, and scanline
+	rasterisation;
+- `GameImageTextRenderer` for text layout and tags, with a font registry, colour resolver, and
+	glyph rasteriser.
 
 Presentation code must not become an alternative owner of network or domain state.
 

@@ -2,6 +2,9 @@ namespace OpenRS.Net.Client.Game.Cameras
 {
     internal sealed class CameraPolygonRasteriser(CameraSceneObjectTracker sceneObjectTracker)
     {
+        private readonly CameraPolygonHitTester hitTester =
+            new(sceneObjectTracker);
+
         public CameraVariable[] ScanlineVariables { get; private set; }
 
         public int MinVisibleScanline { get; set; }
@@ -10,8 +13,6 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         private int scanlineBufferCentre;
         private int screenCentreY;
-
-        private static int NotSetSentinel => 0xbc614e;
 
         private static int ScanlineLeftXSentinel => 0xa0000;
 
@@ -50,14 +51,16 @@ namespace OpenRS.Net.Client.Game.Cameras
                 return;
             }
 
-            CheckPolygonMouseHit(gameObject, faceVertexIndex);
+            hitTester.Check(
+                gameObject,
+                faceVertexIndex,
+                ScanlineVariables,
+                MinVisibleScanline,
+                MaxVisibleScanline);
         }
 
         private void RenderTrianglePolygon(int[] polygonX, int[] polygonY, int[] shadeLevels)
         {
-            int scanlineY0 = polygonY[0] + scanlineBufferCentre;
-            int scanlineY1 = polygonY[1] + scanlineBufferCentre;
-            int scanlineY2 = polygonY[2] + scanlineBufferCentre;
             int vertX0 = polygonX[0];
             int vertX1 = polygonX[1];
             int vertX2 = polygonX[2];
@@ -65,125 +68,51 @@ namespace OpenRS.Net.Client.Game.Cameras
             int vertShade1 = shadeLevels[1];
             int vertShade2 = shadeLevels[2];
             int scanlineLimit = scanlineBufferCentre + screenCentreY - 1;
-            int edgeAX = 0;
-            int edgeAXSlope = 0;
-            int edgeAShade = 0;
-            int edgeAShadeSlope = 0;
-            int edgeAMinY = NotSetSentinel;
-            int edgeAMaxY = -NotSetSentinel;
-
-            if (scanlineY2 != scanlineY0)
-            {
-                edgeAXSlope = (vertX2 - vertX0 << 8) / (scanlineY2 - scanlineY0);
-                edgeAShadeSlope = (vertShade2 - vertShade0 << 8) / (scanlineY2 - scanlineY0);
-
-                if (scanlineY0 < scanlineY2)
-                {
-                    edgeAX = vertX0 << 8;
-                    edgeAShade = vertShade0 << 8;
-                    edgeAMinY = scanlineY0;
-                    edgeAMaxY = scanlineY2;
-                }
-                else
-                {
-                    edgeAX = vertX2 << 8;
-                    edgeAShade = vertShade2 << 8;
-                    edgeAMinY = scanlineY2;
-                    edgeAMaxY = scanlineY0;
-                }
-
-                if (edgeAMinY < 0)
-                {
-                    edgeAX -= edgeAXSlope * edgeAMinY;
-                    edgeAShade -= edgeAShadeSlope * edgeAMinY;
-                    edgeAMinY = 0;
-                }
-
-                if (edgeAMaxY > scanlineLimit)
-                {
-                    edgeAMaxY = scanlineLimit;
-                }
-            }
-
-            int edgeBX = 0;
-            int edgeBXSlope = 0;
-            int edgeBShade = 0;
-            int edgeBShadeSlope = 0;
-            int edgeBMinY = NotSetSentinel;
-            int edgeBMaxY = -NotSetSentinel;
-
-            if (scanlineY1 != scanlineY0)
-            {
-                edgeBXSlope = (vertX1 - vertX0 << 8) / (scanlineY1 - scanlineY0);
-                edgeBShadeSlope = (vertShade1 - vertShade0 << 8) / (scanlineY1 - scanlineY0);
-
-                if (scanlineY0 < scanlineY1)
-                {
-                    edgeBX = vertX0 << 8;
-                    edgeBShade = vertShade0 << 8;
-                    edgeBMinY = scanlineY0;
-                    edgeBMaxY = scanlineY1;
-                }
-                else
-                {
-                    edgeBX = vertX1 << 8;
-                    edgeBShade = vertShade1 << 8;
-                    edgeBMinY = scanlineY1;
-                    edgeBMaxY = scanlineY0;
-                }
-
-                if (edgeBMinY < 0)
-                {
-                    edgeBX -= edgeBXSlope * edgeBMinY;
-                    edgeBShade -= edgeBShadeSlope * edgeBMinY;
-                    edgeBMinY = 0;
-                }
-
-                if (edgeBMaxY > scanlineLimit)
-                {
-                    edgeBMaxY = scanlineLimit;
-                }
-            }
-
-            int edgeCX = 0;
-            int edgeCXSlope = 0;
-            int edgeCShade = 0;
-            int edgeCShadeSlope = 0;
-            int edgeCMinY = NotSetSentinel;
-            int edgeCMaxY = -NotSetSentinel;
-
-            if (scanlineY2 != scanlineY1)
-            {
-                edgeCXSlope = (vertX2 - vertX1 << 8) / (scanlineY2 - scanlineY1);
-                edgeCShadeSlope = (vertShade2 - vertShade1 << 8) / (scanlineY2 - scanlineY1);
-
-                if (scanlineY1 < scanlineY2)
-                {
-                    edgeCX = vertX1 << 8;
-                    edgeCShade = vertShade1 << 8;
-                    edgeCMinY = scanlineY1;
-                    edgeCMaxY = scanlineY2;
-                }
-                else
-                {
-                    edgeCX = vertX2 << 8;
-                    edgeCShade = vertShade2 << 8;
-                    edgeCMinY = scanlineY2;
-                    edgeCMaxY = scanlineY1;
-                }
-
-                if (edgeCMinY < 0)
-                {
-                    edgeCX -= edgeCXSlope * edgeCMinY;
-                    edgeCShade -= edgeCShadeSlope * edgeCMinY;
-                    edgeCMinY = 0;
-                }
-
-                if (edgeCMaxY > scanlineLimit)
-                {
-                    edgeCMaxY = scanlineLimit;
-                }
-            }
+            CameraPolygonEdge edgeA = CameraPolygonEdge.Calculate(
+                vertX0,
+                polygonY[0],
+                vertShade0,
+                vertX2,
+                polygonY[2],
+                vertShade2,
+                scanlineBufferCentre,
+                scanlineLimit);
+            int edgeAX = edgeA.CurrentX;
+            int edgeAXSlope = edgeA.XSlope;
+            int edgeAShade = edgeA.CurrentShade;
+            int edgeAShadeSlope = edgeA.ShadeSlope;
+            int edgeAMinY = edgeA.MinimumY;
+            int edgeAMaxY = edgeA.MaximumY;
+            CameraPolygonEdge edgeB = CameraPolygonEdge.Calculate(
+                vertX0,
+                polygonY[0],
+                vertShade0,
+                vertX1,
+                polygonY[1],
+                vertShade1,
+                scanlineBufferCentre,
+                scanlineLimit);
+            int edgeBX = edgeB.CurrentX;
+            int edgeBXSlope = edgeB.XSlope;
+            int edgeBShade = edgeB.CurrentShade;
+            int edgeBShadeSlope = edgeB.ShadeSlope;
+            int edgeBMinY = edgeB.MinimumY;
+            int edgeBMaxY = edgeB.MaximumY;
+            CameraPolygonEdge edgeC = CameraPolygonEdge.Calculate(
+                vertX1,
+                polygonY[1],
+                vertShade1,
+                vertX2,
+                polygonY[2],
+                vertShade2,
+                scanlineBufferCentre,
+                scanlineLimit);
+            int edgeCX = edgeC.CurrentX;
+            int edgeCXSlope = edgeC.XSlope;
+            int edgeCShade = edgeC.CurrentShade;
+            int edgeCShadeSlope = edgeC.ShadeSlope;
+            int edgeCMinY = edgeC.MinimumY;
+            int edgeCMaxY = edgeC.MaximumY;
 
             MinVisibleScanline = edgeAMinY;
 
@@ -280,10 +209,6 @@ namespace OpenRS.Net.Client.Game.Cameras
 
         private void RenderQuadPolygon(int[] polygonX, int[] polygonY, int[] shadeLevels)
         {
-            int scanlineY0 = polygonY[0] + scanlineBufferCentre;
-            int scanlineY1 = polygonY[1] + scanlineBufferCentre;
-            int scanlineY2 = polygonY[2] + scanlineBufferCentre;
-            int scanlineY3 = polygonY[3] + scanlineBufferCentre;
             int vertX0 = polygonX[0];
             int vertX1 = polygonX[1];
             int vertX2 = polygonX[2];
@@ -293,165 +218,69 @@ namespace OpenRS.Net.Client.Game.Cameras
             int vertShade2 = shadeLevels[2];
             int vertShade3 = shadeLevels[3];
             int scanlineLimit = scanlineBufferCentre + screenCentreY - 1;
-            int edgeAX = 0;
-            int edgeAXSlope = 0;
-            int edgeAShade = 0;
-            int edgeAShadeSlope = 0;
-            int edgeAMinY = NotSetSentinel;
-            int edgeAMaxY = -NotSetSentinel;
+            CameraPolygonEdge edgeA = CameraPolygonEdge.Calculate(
+                vertX0,
+                polygonY[0],
+                vertShade0,
+                vertX3,
+                polygonY[3],
+                vertShade3,
+                scanlineBufferCentre,
+                scanlineLimit);
+            int edgeAX = edgeA.CurrentX;
+            int edgeAXSlope = edgeA.XSlope;
+            int edgeAShade = edgeA.CurrentShade;
+            int edgeAShadeSlope = edgeA.ShadeSlope;
+            int edgeAMinY = edgeA.MinimumY;
+            int edgeAMaxY = edgeA.MaximumY;
 
-            if (scanlineY3 != scanlineY0)
-            {
-                edgeAXSlope = (vertX3 - vertX0 << 8) / (scanlineY3 - scanlineY0);
-                edgeAShadeSlope = (vertShade3 - vertShade0 << 8) / (scanlineY3 - scanlineY0);
+            CameraPolygonEdge edgeB = CameraPolygonEdge.Calculate(
+                vertX0,
+                polygonY[0],
+                vertShade0,
+                vertX1,
+                polygonY[1],
+                vertShade1,
+                scanlineBufferCentre,
+                scanlineLimit);
+            int edgeBX = edgeB.CurrentX;
+            int edgeBXSlope = edgeB.XSlope;
+            int edgeBShade = edgeB.CurrentShade;
+            int edgeBShadeSlope = edgeB.ShadeSlope;
+            int edgeBMinY = edgeB.MinimumY;
+            int edgeBMaxY = edgeB.MaximumY;
 
-                if (scanlineY0 < scanlineY3)
-                {
-                    edgeAX = vertX0 << 8;
-                    edgeAShade = vertShade0 << 8;
-                    edgeAMinY = scanlineY0;
-                    edgeAMaxY = scanlineY3;
-                }
-                else
-                {
-                    edgeAX = vertX3 << 8;
-                    edgeAShade = vertShade3 << 8;
-                    edgeAMinY = scanlineY3;
-                    edgeAMaxY = scanlineY0;
-                }
+            CameraPolygonEdge edgeC = CameraPolygonEdge.Calculate(
+                vertX1,
+                polygonY[1],
+                vertShade1,
+                vertX2,
+                polygonY[2],
+                vertShade2,
+                scanlineBufferCentre,
+                scanlineLimit);
+            int edgeCX = edgeC.CurrentX;
+            int edgeCXSlope = edgeC.XSlope;
+            int edgeCShade = edgeC.CurrentShade;
+            int edgeCShadeSlope = edgeC.ShadeSlope;
+            int edgeCMinY = edgeC.MinimumY;
+            int edgeCMaxY = edgeC.MaximumY;
 
-                if (edgeAMinY < 0)
-                {
-                    edgeAX -= edgeAXSlope * edgeAMinY;
-                    edgeAShade -= edgeAShadeSlope * edgeAMinY;
-                    edgeAMinY = 0;
-                }
-
-                if (edgeAMaxY > scanlineLimit)
-                {
-                    edgeAMaxY = scanlineLimit;
-                }
-            }
-
-            int edgeBX = 0;
-            int edgeBXSlope = 0;
-            int edgeBShade = 0;
-            int edgeBShadeSlope = 0;
-            int edgeBMinY = NotSetSentinel;
-            int edgeBMaxY = -NotSetSentinel;
-
-            if (scanlineY1 != scanlineY0)
-            {
-                edgeBXSlope = (vertX1 - vertX0 << 8) / (scanlineY1 - scanlineY0);
-                edgeBShadeSlope = (vertShade1 - vertShade0 << 8) / (scanlineY1 - scanlineY0);
-
-                if (scanlineY0 < scanlineY1)
-                {
-                    edgeBX = vertX0 << 8;
-                    edgeBShade = vertShade0 << 8;
-                    edgeBMinY = scanlineY0;
-                    edgeBMaxY = scanlineY1;
-                }
-                else
-                {
-                    edgeBX = vertX1 << 8;
-                    edgeBShade = vertShade1 << 8;
-                    edgeBMinY = scanlineY1;
-                    edgeBMaxY = scanlineY0;
-                }
-
-                if (edgeBMinY < 0)
-                {
-                    edgeBX -= edgeBXSlope * edgeBMinY;
-                    edgeBShade -= edgeBShadeSlope * edgeBMinY;
-                    edgeBMinY = 0;
-                }
-
-                if (edgeBMaxY > scanlineLimit)
-                {
-                    edgeBMaxY = scanlineLimit;
-                }
-            }
-
-            int edgeCX = 0;
-            int edgeCXSlope = 0;
-            int edgeCShade = 0;
-            int edgeCShadeSlope = 0;
-            int edgeCMinY = NotSetSentinel;
-            int edgeCMaxY = -NotSetSentinel;
-
-            if (scanlineY2 != scanlineY1)
-            {
-                edgeCXSlope = (vertX2 - vertX1 << 8) / (scanlineY2 - scanlineY1);
-                edgeCShadeSlope = (vertShade2 - vertShade1 << 8) / (scanlineY2 - scanlineY1);
-
-                if (scanlineY1 < scanlineY2)
-                {
-                    edgeCX = vertX1 << 8;
-                    edgeCShade = vertShade1 << 8;
-                    edgeCMinY = scanlineY1;
-                    edgeCMaxY = scanlineY2;
-                }
-                else
-                {
-                    edgeCX = vertX2 << 8;
-                    edgeCShade = vertShade2 << 8;
-                    edgeCMinY = scanlineY2;
-                    edgeCMaxY = scanlineY1;
-                }
-
-                if (edgeCMinY < 0)
-                {
-                    edgeCX -= edgeCXSlope * edgeCMinY;
-                    edgeCShade -= edgeCShadeSlope * edgeCMinY;
-                    edgeCMinY = 0;
-                }
-
-                if (edgeCMaxY > scanlineLimit)
-                {
-                    edgeCMaxY = scanlineLimit;
-                }
-            }
-
-            int edgeDX = 0;
-            int edgeDXSlope = 0;
-            int edgeDShade = 0;
-            int edgeDShadeSlope = 0;
-            int edgeDMinY = NotSetSentinel;
-            int edgeDMaxY = -NotSetSentinel;
-
-            if (scanlineY3 != scanlineY2)
-            {
-                edgeDXSlope = (vertX3 - vertX2 << 8) / (scanlineY3 - scanlineY2);
-                edgeDShadeSlope = (vertShade3 - vertShade2 << 8) / (scanlineY3 - scanlineY2);
-
-                if (scanlineY2 < scanlineY3)
-                {
-                    edgeDX = vertX2 << 8;
-                    edgeDShade = vertShade2 << 8;
-                    edgeDMinY = scanlineY2;
-                    edgeDMaxY = scanlineY3;
-                }
-                else
-                {
-                    edgeDX = vertX3 << 8;
-                    edgeDShade = vertShade3 << 8;
-                    edgeDMinY = scanlineY3;
-                    edgeDMaxY = scanlineY2;
-                }
-
-                if (edgeDMinY < 0)
-                {
-                    edgeDX -= edgeDXSlope * edgeDMinY;
-                    edgeDShade -= edgeDShadeSlope * edgeDMinY;
-                    edgeDMinY = 0;
-                }
-
-                if (edgeDMaxY > scanlineLimit)
-                {
-                    edgeDMaxY = scanlineLimit;
-                }
-            }
+            CameraPolygonEdge edgeD = CameraPolygonEdge.Calculate(
+                vertX2,
+                polygonY[2],
+                vertShade2,
+                vertX3,
+                polygonY[3],
+                vertShade3,
+                scanlineBufferCentre,
+                scanlineLimit);
+            int edgeDX = edgeD.CurrentX;
+            int edgeDXSlope = edgeD.XSlope;
+            int edgeDShade = edgeD.CurrentShade;
+            int edgeDShadeSlope = edgeD.ShadeSlope;
+            int edgeDMinY = edgeD.MinimumY;
+            int edgeDMaxY = edgeD.MaximumY;
 
             MinVisibleScanline = edgeAMinY;
 
@@ -800,23 +629,5 @@ namespace OpenRS.Net.Client.Game.Cameras
             }
         }
 
-        private void CheckPolygonMouseHit(GameObject gameObject, int faceVertexIndex)
-        {
-            if (sceneObjectTracker.IsHitCandidate &&
-                sceneObjectTracker.MouseAdjustedY >= MinVisibleScanline &&
-                sceneObjectTracker.MouseAdjustedY < MaxVisibleScanline)
-            {
-                CameraVariable scanlineAtHitY = ScanlineVariables[sceneObjectTracker.MouseAdjustedY];
-                bool isWithinScanlineX = sceneObjectTracker.MouseAdjustedX >= scanlineAtHitY.LeftX >> 8 &&
-                                          sceneObjectTracker.MouseAdjustedX <= scanlineAtHitY.RightX >> 8;
-                bool hasScanlineSpan = scanlineAtHitY.LeftX <= scanlineAtHitY.RightX;
-                bool isHittablePolygon = !gameObject.DoesShareEntityArrays && gameObject.PolygonTypeData[faceVertexIndex] == 0;
-
-                if (isWithinScanlineX && hasScanlineSpan && isHittablePolygon)
-                {
-                    sceneObjectTracker.RecordHit(gameObject, faceVertexIndex);
-                }
-            }
-        }
     }
 }

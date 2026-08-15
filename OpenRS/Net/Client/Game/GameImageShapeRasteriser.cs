@@ -4,16 +4,11 @@ namespace OpenRS.Net.Client.Game
 {
     internal sealed class GameImageShapeRasteriser(GameImage image)
     {
-        private static int AlphaScale => 256;
-
         private static int ByteMask => 0xff;
 
         internal void DrawCircle(int centreX, int centreY, int radius, int colour, int alpha)
         {
-            int inverseAlpha = AlphaScale - alpha;
-            int scaledRed = (colour >> 16 & ByteMask) * alpha;
-            int scaledGreen = (colour >> 8 & ByteMask) * alpha;
-            int scaledBlue = (colour & ByteMask) * alpha;
+            GameImageAlphaBlender alphaBlender = new(colour, alpha);
             int topY = centreY - radius;
 
             if (topY < 0)
@@ -62,78 +57,34 @@ namespace OpenRS.Net.Client.Game
 
                 for (int columnX = leftX; columnX <= rightX; columnX += 1)
                 {
-                    int existingRed = (image.Pixels[pixelIndex] >> 16 & ByteMask) * inverseAlpha;
-                    int existingGreen = (image.Pixels[pixelIndex] >> 8 & ByteMask) * inverseAlpha;
-                    int existingBlue = (image.Pixels[pixelIndex] & ByteMask) * inverseAlpha;
-                    int blendedColour =
-                        ((scaledRed + existingRed >> 8) << 16) +
-                        ((scaledGreen + existingGreen >> 8) << 8) +
-                        (scaledBlue + existingBlue >> 8);
-                    image.Pixels[pixelIndex++] = blendedColour;
+                    image.Pixels[pixelIndex] =
+                        alphaBlender.Blend(image.Pixels[pixelIndex]);
+                    pixelIndex += 1;
                 }
             }
         }
 
         internal void DrawBoxAlpha(int x, int y, int width, int height, int colour, int alpha)
         {
-            if (x < image.ImageX)
+            GameImageRectangleClip rectangleClip =
+                GameImageRectangleClip.Calculate(image, x, y, width, height);
+            GameImageAlphaBlender alphaBlender = new(colour, alpha);
+            int pixelIndex = rectangleClip.DestinationOffset;
+
+            for (int rowIndex = 0;
+                rowIndex < rectangleClip.Height;
+                rowIndex += rectangleClip.RowStep)
             {
-                width -= image.ImageX - x;
-                x = image.ImageX;
-            }
-
-            if (y < image.ImageY)
-            {
-                height -= image.ImageY - y;
-                y = image.ImageY;
-            }
-
-            if (x + width > image.ImageWidth)
-            {
-                width = image.ImageWidth - x;
-            }
-
-            if (y + height > image.ImageHeight)
-            {
-                height = image.ImageHeight - y;
-            }
-
-            int inverseAlpha = AlphaScale - alpha;
-            int scaledRed = (colour >> 16 & ByteMask) * alpha;
-            int scaledGreen = (colour >> 8 & ByteMask) * alpha;
-            int scaledBlue = (colour & ByteMask) * alpha;
-            int rowStride = image.GameWidth - width;
-            byte rowStep = 1;
-
-            if (image.IsInterlaced)
-            {
-                rowStep = 2;
-                rowStride += image.GameWidth;
-
-                if ((y & 1) != 0)
+                for (int columnOffset = -rectangleClip.Width;
+                    columnOffset < 0;
+                    columnOffset += 1)
                 {
-                    y += 1;
-                    height -= 1;
-                }
-            }
-
-            int pixelIndex = x + y * image.GameWidth;
-
-            for (int rowIndex = 0; rowIndex < height; rowIndex += rowStep)
-            {
-                for (int columnOffset = -width; columnOffset < 0; columnOffset += 1)
-                {
-                    int existingRed = (image.Pixels[pixelIndex] >> 16 & ByteMask) * inverseAlpha;
-                    int existingGreen = (image.Pixels[pixelIndex] >> 8 & ByteMask) * inverseAlpha;
-                    int existingBlue = (image.Pixels[pixelIndex] & ByteMask) * inverseAlpha;
-                    int blendedColour =
-                        ((scaledRed + existingRed >> 8) << 16) +
-                        ((scaledGreen + existingGreen >> 8) << 8) +
-                        (scaledBlue + existingBlue >> 8);
-                    image.Pixels[pixelIndex++] = blendedColour;
+                    image.Pixels[pixelIndex] =
+                        alphaBlender.Blend(image.Pixels[pixelIndex]);
+                    pixelIndex += 1;
                 }
 
-                pixelIndex += rowStride;
+                pixelIndex += rectangleClip.RowStride;
             }
         }
 

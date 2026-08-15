@@ -17532,7 +17532,7 @@
     "v1Id": 1031,
     "name": "item.staff_of_iban.name",
     "description": "item.1031.description",
-    "command": "item.1031.command",
+    "command": "inventory.action_wield",
     "basePrice": 15,
     "spriteId": 0,
     "inventoryPicture": 337,

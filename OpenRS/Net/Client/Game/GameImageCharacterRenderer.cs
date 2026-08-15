@@ -10,12 +10,16 @@ namespace OpenRS.Net.Client.Game
     {
         private static int DefaultColour => 0xffffff;
 
+        private readonly GameImageCharacterColourRenderer colourRenderer;
+        private readonly GameImageFlippedSpriteRenderer flippedSpriteRenderer;
         private readonly GameImage gameImage;
         private readonly ILogger logger = NuciLoggerFactory.CreateLogger<GameImageCharacterRenderer>();
 
         internal GameImageCharacterRenderer(GameImage gameImage)
         {
             this.gameImage = gameImage;
+            colourRenderer = new GameImageCharacterColourRenderer(gameImage);
+            flippedSpriteRenderer = new GameImageFlippedSpriteRenderer(gameImage);
         }
 
         internal void DrawTransparentImage(
@@ -28,7 +32,7 @@ namespace OpenRS.Net.Client.Game
         {
             try
             {
-                DrawFlippedSpriteInternal(
+                flippedSpriteRenderer.Draw(
                     x,
                     y,
                     drawWidth,
@@ -54,7 +58,7 @@ namespace OpenRS.Net.Client.Game
         {
             try
             {
-                DrawFlippedSpriteInternal(
+                flippedSpriteRenderer.Draw(
                     x,
                     y,
                     drawWidth,
@@ -103,13 +107,7 @@ namespace OpenRS.Net.Client.Game
                     shearFactor,
                     isFlipped);
 
-                if (secondaryColour == DefaultColour)
-                {
-                    DrawPrimaryColour(pictureIndex, primaryColour, characterClip);
-                    return;
-                }
-
-                DrawPrimaryAndSecondaryColours(
+                colourRenderer.Draw(
                     pictureIndex,
                     primaryColour,
                     secondaryColour,
@@ -122,164 +120,5 @@ namespace OpenRS.Net.Client.Game
             }
         }
 
-        private void DrawPrimaryColour(
-            int pictureIndex,
-            int primaryColour,
-            GameImageCharacterClip characterClip)
-        {
-            if (gameImage.PictureColours[pictureIndex] is not null)
-            {
-                GameImageScaledSpriteBlitter.DrawSpriteFlatShaded(
-                    gameImage.Pixels,
-                    gameImage.PictureColours[pictureIndex],
-                    0,
-                    characterClip.SourceX,
-                    characterClip.SourceY,
-                    characterClip.DestinationOffset,
-                    characterClip.Width,
-                    characterClip.Height,
-                    characterClip.ScaleX,
-                    characterClip.ScaleY,
-                    characterClip.SourceWidth,
-                    primaryColour,
-                    characterClip.XPosition,
-                    characterClip.XStep,
-                    characterClip.ScanlineMode,
-                    gameImage.ImageX,
-                    gameImage.ImageWidth,
-                    gameImage.GameWidth);
-
-                return;
-            }
-
-            GameImageScaledSpriteBlitter.DrawSpriteFlatShadedTextured(
-                gameImage.Pixels,
-                gameImage.PictureColourIndexes[pictureIndex],
-                gameImage.PictureColour[pictureIndex],
-                0,
-                characterClip.SourceX,
-                characterClip.SourceY,
-                characterClip.DestinationOffset,
-                characterClip.Width,
-                characterClip.Height,
-                characterClip.ScaleX,
-                characterClip.ScaleY,
-                characterClip.SourceWidth,
-                primaryColour,
-                characterClip.XPosition,
-                characterClip.XStep,
-                characterClip.ScanlineMode,
-                gameImage.ImageX,
-                gameImage.ImageWidth,
-                gameImage.GameWidth);
-        }
-
-        private void DrawPrimaryAndSecondaryColours(
-            int pictureIndex,
-            int primaryColour,
-            int secondaryColour,
-            GameImageCharacterClip characterClip)
-        {
-            if (gameImage.PictureColours[pictureIndex] is not null)
-            {
-                GameImageScaledSpriteBlitter.DrawSpriteFlatShadedAlt(
-                    gameImage.Pixels,
-                    gameImage.PictureColours[pictureIndex],
-                    0,
-                    characterClip.SourceX,
-                    characterClip.SourceY,
-                    characterClip.DestinationOffset,
-                    characterClip.Width,
-                    characterClip.Height,
-                    characterClip.ScaleX,
-                    characterClip.ScaleY,
-                    characterClip.SourceWidth,
-                    primaryColour,
-                    secondaryColour,
-                    characterClip.XPosition,
-                    characterClip.XStep,
-                    characterClip.ScanlineMode,
-                    gameImage.ImageX,
-                    gameImage.ImageWidth,
-                    gameImage.GameWidth);
-
-                return;
-            }
-
-            GameImageScaledSpriteBlitter.DrawSpriteFlatShadedTexturedAlt(
-                gameImage.Pixels,
-                gameImage.PictureColourIndexes[pictureIndex],
-                gameImage.PictureColour[pictureIndex],
-                0,
-                characterClip.SourceX,
-                characterClip.SourceY,
-                characterClip.DestinationOffset,
-                characterClip.Width,
-                characterClip.Height,
-                characterClip.ScaleX,
-                characterClip.ScaleY,
-                characterClip.SourceWidth,
-                primaryColour,
-                secondaryColour,
-                characterClip.XPosition,
-                characterClip.XStep,
-                characterClip.ScanlineMode,
-                gameImage.ImageX,
-                gameImage.ImageWidth,
-                gameImage.GameWidth);
-        }
-
-        private void DrawFlippedSpriteInternal(
-            int x,
-            int y,
-            int drawWidth,
-            int drawHeight,
-            int pictureIndex,
-            int colourTint,
-            bool isColourShifted)
-        {
-            GameImageEntityClip entityClip = GameImageEntityClip.Calculate(
-                gameImage,
-                x,
-                y,
-                drawWidth,
-                drawHeight,
-                pictureIndex);
-
-            if (isColourShifted)
-            {
-                GameImageSpriteBlitter.DrawSpriteFlippedColorShifted(
-                    gameImage.Pixels,
-                    gameImage.PictureColours[pictureIndex],
-                    entityClip.SourceX,
-                    entityClip.SourceY,
-                    entityClip.DestinationOffset,
-                    entityClip.DestinationRowStride,
-                    entityClip.Width,
-                    entityClip.Height,
-                    entityClip.ScaleX,
-                    entityClip.ScaleY,
-                    entityClip.SourceWidth,
-                    entityClip.RowStep,
-                    colourTint);
-
-                return;
-            }
-
-            GameImageSpriteBlitter.DrawSpriteFlipped(
-                gameImage.Pixels,
-                gameImage.PictureColours[pictureIndex],
-                entityClip.SourceX,
-                entityClip.SourceY,
-                entityClip.DestinationOffset,
-                entityClip.DestinationRowStride,
-                entityClip.Width,
-                entityClip.Height,
-                entityClip.ScaleX,
-                entityClip.ScaleY,
-                entityClip.SourceWidth,
-                entityClip.RowStep,
-                colourTint);
-        }
     }
 }

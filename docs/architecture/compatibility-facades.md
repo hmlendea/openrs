@@ -9,29 +9,42 @@ Compatibility facades preserve established public entry points while internal re
 Facade: `OpenRS.Net.Client.Game.GameImage`
 
 Delegates:
+- `GameImageAlphaBlender`;
 - `GameImagePixelRasteriser`;
+- `GameImageRectangleClip`;
+- `GameImageScreenBufferProcessor`;
+- `GameImageViewportController`;
 - `GameImageShapeRasteriser`;
 - `GameImageBlurProcessor`;
 - `GameImagePictureManager`;
 - `GameImagePictureDataDecoder`;
+- `GameImagePicturePixelDecoder`;
 - `GameImageSleepSpriteDecoder`;
 - `GameImagePaletteConverter`;
+- `GameImageIndexedPaletteBuilder`;
+- `GameImageDirectColourResolver`;
 - `GameImagePictureCapture`;
 - `GameImageSpriteRenderer`;
 - `GameImageSpriteClip`;
 - `GameImageEntityClip`;
 - `GameImageSpriteBlitter`;
 - `GameImageCharacterRenderer`;
+- `GameImageCharacterColourRenderer`;
+- `GameImageFlippedSpriteRenderer`;
 - `GameImageCharacterClip`;
 - `GameImageScaledSpriteBlitter`;
 - `GameImageColourTint`;
 - `GameImageScaledScanline`;
 - `GameImageTextRenderer`;
+- `GameImageFontRegistry`;
+- `GameImageTextColourResolver`;
+- `GameImageGlyphRasteriser`;
 - `GameImageMinimapRenderer`;
 - `GameImageMinimapProjection`;
 - `GameImageMinimapRotationTable`;
 - `GameImageMinimapDrawCounter`;
-- `GameImageMinimapRasteriser`.
+- `GameImageMinimapRasteriser`;
+- `GameImageMinimapScanlineBuilder`.
 
 Preserved contracts:
 - all public drawing methods and properties;
@@ -66,7 +79,11 @@ Preserved contracts:
 
 Facade: `OpenRS.Net.Client.Game.ChatMessage`
 
-Delegate: `ChatMessageCodec`.
+Delegates:
+- `ChatMessageCodec`;
+- `ChatMessageEncoder`;
+- `ChatMessageDecoder`;
+- `ChatMessageNibbleAlphabet`.
 
 Preserved contracts:
 - public mutable `LastChat` buffer;
@@ -79,7 +96,10 @@ Preserved contracts:
 
 Facade: `OpenRS.Net.Client.Net.PacketConstruction`
 
-Delegate: `PacketFraming`.
+Delegates:
+- `PacketFraming`;
+- `PacketConstructionReader`;
+- `PacketConstructionWriter`.
 
 Preserved contracts:
 - all public fields and virtual methods;
@@ -87,6 +107,21 @@ Preserved contracts:
 - extended packet length encoding;
 - counters, timeouts, deferred errors, and flush thresholds;
 - primitive byte order and UTF-8 bytes.
+
+## Login Encryptor
+
+Facade: `OpenRS.Net.Client.Net.LoginEncryptor`.
+
+Delegates:
+- `LoginPacketBuffer`;
+- `LoginPacketRsaEncryptor`.
+
+Preserved contracts:
+- public mutable packet and offset fields;
+- big-endian primitive and UTF-8 encoding;
+- RSA modular exponentiation and length prefixing;
+- partial cursor mutation when an operation throws;
+- the legacy no-op `Encrypt` method.
 
 ## Game Client Utilities
 

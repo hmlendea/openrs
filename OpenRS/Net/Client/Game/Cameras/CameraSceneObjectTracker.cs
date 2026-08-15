@@ -11,14 +11,10 @@ namespace OpenRS.Net.Client.Game.Cameras
         private readonly int[] sceneObjectWidths = new int[maxSceneObjects];
         private readonly int[] sceneObjectHeights = new int[maxSceneObjects];
         private readonly int[] sceneObjectFrames = new int[maxSceneObjects];
-        private readonly GameObject[] highlightedObjects = new GameObject[maxHighlightedObjects];
-        private readonly int[] highlightedPlayerIds = new int[maxHighlightedObjects];
+        private readonly CameraHitTracker hitTracker =
+            new(maxHighlightedObjects);
 
         private int sceneObjectCount;
-        private bool isMousePositionUpdated;
-        private int mouseAdjustedX;
-        private int mouseAdjustedY;
-        private int optionCount;
 
         public GameObject HighlightedObject { get; } = new GameObject(
             maxSceneObjects * VerticesPerSceneObject,
@@ -29,9 +25,9 @@ namespace OpenRS.Net.Client.Game.Cameras
         public int[] SceneObjectHeights => sceneObjectHeights;
         public int[] SceneObjectFrames => sceneObjectFrames;
 
-        public bool IsHitCandidate => isMousePositionUpdated && optionCount < maxHighlightedObjects;
-        public int MouseAdjustedX => mouseAdjustedX;
-        public int MouseAdjustedY => mouseAdjustedY;
+        public bool IsHitCandidate => hitTracker.IsHitCandidate;
+        public int MouseAdjustedX => hitTracker.MouseAdjustedX;
+        public int MouseAdjustedY => hitTracker.MouseAdjustedY;
 
         public int AddSpriteToScene(
             int objectId,
@@ -117,30 +113,21 @@ namespace OpenRS.Net.Client.Game.Cameras
         }
 
         public void SetMousePosition(int adjustedMouseX, int mouseY)
-        {
-            mouseAdjustedX = adjustedMouseX;
-            mouseAdjustedY = mouseY;
-            optionCount = 0;
-            isMousePositionUpdated = true;
-        }
+            => hitTracker.SetMousePosition(adjustedMouseX, mouseY);
 
         public int GetOptionCount()
-            => optionCount;
+            => hitTracker.GetOptionCount();
 
         public int[] GetHighlightedPlayers()
-            => highlightedPlayerIds;
+            => hitTracker.GetHighlightedPlayers();
 
         public GameObject[] GetHighlightedObjects()
-            => highlightedObjects;
+            => hitTracker.GetHighlightedObjects();
 
         public void RecordHit(GameObject gameObject, int faceIndex)
-        {
-            highlightedObjects[optionCount] = gameObject;
-            highlightedPlayerIds[optionCount] = faceIndex;
-            optionCount += 1;
-        }
+            => hitTracker.RecordHit(gameObject, faceIndex);
 
         public void FinaliseFrame()
-            => isMousePositionUpdated = false;
+            => hitTracker.FinaliseFrame();
     }
 }

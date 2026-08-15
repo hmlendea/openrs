@@ -4,9 +4,8 @@ namespace OpenRS.Net.Client.Game
 {
     internal sealed class GameImagePictureDataDecoder(GameImage gameImage)
     {
-        private static int LinearScanOrder => 0;
-
-        private static int ColumnMajorScanOrder => 1;
+        private readonly GameImagePicturePixelDecoder pixelDecoder =
+            new(gameImage);
 
         internal void Decode(int startIndex, sbyte[] imageData, sbyte[] metadata, int count)
         {
@@ -62,64 +61,11 @@ namespace OpenRS.Net.Client.Game
                     gameImage.HasTransparentBackground[pictureIndex] = true;
                 }
 
-                if (scanOrder == LinearScanOrder)
-                {
-                    imageDataOffset = DecodeLinearScan(
-                        pictureIndex,
-                        imageData,
-                        pixelCount,
-                        imageDataOffset);
-                }
-                else if (scanOrder == ColumnMajorScanOrder)
-                {
-                    imageDataOffset = DecodeColumnMajorScan(
-                        pictureIndex,
-                        imageData,
-                        imageDataOffset);
-                }
-            }
-        }
-
-        private int DecodeLinearScan(
-            int pictureIndex,
-            sbyte[] imageData,
-            int pixelCount,
-            int imageDataOffset)
-        {
-            for (int pixelIndex = 0; pixelIndex < pixelCount; pixelIndex += 1)
-            {
-                StorePixel(pictureIndex, pixelIndex, imageData[imageDataOffset]);
-                imageDataOffset += 1;
-            }
-
-            return imageDataOffset;
-        }
-
-        private int DecodeColumnMajorScan(
-            int pictureIndex,
-            sbyte[] imageData,
-            int imageDataOffset)
-        {
-            for (int column = 0; column < gameImage.PictureWidth[pictureIndex]; column += 1)
-            {
-                for (int row = 0; row < gameImage.PictureHeight[pictureIndex]; row += 1)
-                {
-                    int pixelIndex = column + row * gameImage.PictureWidth[pictureIndex];
-                    StorePixel(pictureIndex, pixelIndex, imageData[imageDataOffset]);
-                    imageDataOffset += 1;
-                }
-            }
-
-            return imageDataOffset;
-        }
-
-        private void StorePixel(int pictureIndex, int pixelIndex, sbyte colourIndex)
-        {
-            gameImage.PictureColourIndexes[pictureIndex][pixelIndex] = colourIndex;
-
-            if (colourIndex == 0)
-            {
-                gameImage.HasTransparentBackground[pictureIndex] = true;
+                imageDataOffset = pixelDecoder.Decode(
+                    pictureIndex,
+                    imageData,
+                    imageDataOffset,
+                    scanOrder);
             }
         }
     }

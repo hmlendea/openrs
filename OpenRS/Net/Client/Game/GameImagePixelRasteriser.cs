@@ -2,128 +2,33 @@ namespace OpenRS.Net.Client.Game
 {
     internal sealed class GameImagePixelRasteriser(GameImage image)
     {
-        private static int RgbMask => 0xffffff;
-
-        private static int ScreenFadeHalfMask => 0x7f7f7f;
-
-        private static int ScreenFadeQuarterMask => 0x3f3f3f;
-
-        private static int ScreenFadeEighthMask => 0x1f1f1f;
-
-        private static int ScreenFadeSixteenthMask => 0x0f0f0f;
-
         internal void SetDimensions(int x, int y, int width, int height)
-        {
-            if (x < 0)
-            {
-                x = 0;
-            }
-
-            if (y < 0)
-            {
-                y = 0;
-            }
-
-            if (width > image.GameWidth)
-            {
-                width = image.GameWidth;
-            }
-
-            if (height > image.GameHeight)
-            {
-                height = image.GameHeight;
-            }
-
-            image.ImageX = x;
-            image.ImageY = y;
-            image.ImageWidth = width;
-            image.ImageHeight = height;
-        }
+            => GameImageViewportController.Set(image, x, y, width, height);
 
         internal void ResetDimensions()
-        {
-            image.ImageX = 0;
-            image.ImageY = 0;
-            image.ImageWidth = image.GameWidth;
-            image.ImageHeight = image.GameHeight;
-        }
+            => GameImageViewportController.Reset(image);
 
         internal void ClearScreen()
-        {
-            int pixelCount = image.GameWidth * image.GameHeight;
-
-            if (!image.IsInterlaced)
-            {
-                for (int pixelIndex = 0; pixelIndex < pixelCount; pixelIndex += 1)
-                {
-                    image.Pixels[pixelIndex] = 0;
-                }
-
-                return;
-            }
-
-            int currentPixelIndex = 0;
-
-            for (int rowOffset = -image.GameHeight; rowOffset < 0; rowOffset += 2)
-            {
-                for (int columnOffset = -image.GameWidth; columnOffset < 0; columnOffset += 1)
-                {
-                    image.Pixels[currentPixelIndex++] = 0;
-                }
-
-                currentPixelIndex += image.GameWidth;
-            }
-        }
+            => GameImageScreenBufferProcessor.Clear(image);
 
         internal void DrawBox(int x, int y, int width, int height, int colour)
         {
-            if (x < image.ImageX)
+            GameImageRectangleClip rectangleClip =
+                GameImageRectangleClip.Calculate(image, x, y, width, height);
+            int pixelIndex = rectangleClip.DestinationOffset;
+
+            for (int rowIndex = -rectangleClip.Height;
+                rowIndex < 0;
+                rowIndex += rectangleClip.RowStep)
             {
-                width -= image.ImageX - x;
-                x = image.ImageX;
-            }
-
-            if (y < image.ImageY)
-            {
-                height -= image.ImageY - y;
-                y = image.ImageY;
-            }
-
-            if (x + width > image.ImageWidth)
-            {
-                width = image.ImageWidth - x;
-            }
-
-            if (y + height > image.ImageHeight)
-            {
-                height = image.ImageHeight - y;
-            }
-
-            int rowStride = image.GameWidth - width;
-            byte rowStep = 1;
-
-            if (image.IsInterlaced)
-            {
-                rowStep = 2;
-                rowStride += image.GameWidth;
-
-                if ((y & 1) != 0)
-                {
-                    y += 1;
-                    height -= 1;
-                }
-            }
-
-            int pixelIndex = x + y * image.GameWidth;
-
-            for (int rowIndex = -height; rowIndex < 0; rowIndex += rowStep)
-            {
-                for (int columnOffset = -width; columnOffset < 0; columnOffset += 1)
+                for (int columnOffset = -rectangleClip.Width;
+                    columnOffset < 0;
+                    columnOffset += 1)
                 {
                     image.Pixels[pixelIndex++] = colour;
                 }
 
-                pixelIndex += rowStride;
+                pixelIndex += rectangleClip.RowStride;
             }
         }
 
@@ -210,18 +115,6 @@ namespace OpenRS.Net.Client.Game
         }
 
         internal void FadeToBlack()
-        {
-            int pixelCount = image.GameWidth * image.GameHeight;
-
-            for (int pixelIndex = 0; pixelIndex < pixelCount; pixelIndex += 1)
-            {
-                int pixelValue = image.Pixels[pixelIndex] & RgbMask;
-                image.Pixels[pixelIndex] = (int)(
-                    ((uint)pixelValue >> 1 & ScreenFadeHalfMask) +
-                    ((uint)pixelValue >> 2 & ScreenFadeQuarterMask) +
-                    ((uint)pixelValue >> 3 & ScreenFadeEighthMask) +
-                    ((uint)pixelValue >> 4 & ScreenFadeSixteenthMask));
-            }
-        }
+            => GameImageScreenBufferProcessor.FadeToBlack(image);
     }
 }
