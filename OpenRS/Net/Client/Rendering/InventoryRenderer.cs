@@ -1,8 +1,8 @@
 using System;
 
+using OpenRS.Localisation;
 using OpenRS.Models;
 using OpenRS.Net.Client.Game;
-using OpenRS.Localisation;
 
 namespace OpenRS.Net.Client.Rendering
 {
@@ -63,92 +63,127 @@ namespace OpenRS.Net.Client.Rendering
             {
                 int hoveredItemIndex = relativeMouseX / 49 + relativeMouseY / 34 * 5;
 
-                if (hoveredItemIndex < client.inventoryItemsCount)
-                {
-                    int itemId = client.inventoryItems[hoveredItemIndex];
-                    Item inventoryItem = client.entityManager.GetItem(itemId);
-
-                    if (client.selectedSpell >= 0)
-                    {
-                        if (client.entityManager.GetSpell(client.selectedSpell).Type == 3)
-                        {
-                            client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("inventory.action_cast_prefix") + client.entityManager.GetSpell(client.selectedSpell).Name + " on";
-                            client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
-                            client.menuActionID[client.menuOptionsCount] = 600;
-                            client.menuActionType[client.menuOptionsCount] = hoveredItemIndex;
-                            client.menuActionVar1[client.menuOptionsCount] = client.selectedSpell;
-                            client.menuOptionsCount += 1;
-
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        if (client.selectedItem >= 0)
-                        {
-                            client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("inventory.action_use_prefix") + client.selectedItemName + " with";
-                            client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
-                            client.menuActionID[client.menuOptionsCount] = 610;
-                            client.menuActionType[client.menuOptionsCount] = hoveredItemIndex;
-                            client.menuActionVar1[client.menuOptionsCount] = client.selectedItem;
-                            client.menuOptionsCount += 1;
-
-                            return;
-                        }
-
-                        if (client.inventoryItemEquipped[hoveredItemIndex] == 1)
-                        {
-                            client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("inventory.action_remove");
-                            client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
-                            client.menuActionID[client.menuOptionsCount] = 620;
-                            client.menuActionType[client.menuOptionsCount] = hoveredItemIndex;
-                            client.menuOptionsCount += 1;
-                        }
-                        else if (inventoryItem.IsEquipable != 0)
-                        {
-                            string wieldLabel = LocalisationManager.GetString("inventory.action_wear");
-
-                            if ((inventoryItem.IsEquipable & 0x18) != 0)
-                            {
-                                wieldLabel = LocalisationManager.GetString("inventory.action_wield");
-                            }
-
-                            client.menuText1[client.menuOptionsCount] = wieldLabel;
-                            client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
-                            client.menuActionID[client.menuOptionsCount] = 630;
-                            client.menuActionType[client.menuOptionsCount] = hoveredItemIndex;
-                            client.menuOptionsCount += 1;
-                        }
-
-                        if (inventoryItem.Command != "")
-                        {
-                            client.menuText1[client.menuOptionsCount] = inventoryItem.Command;
-                            client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
-                            client.menuActionID[client.menuOptionsCount] = 640;
-                            client.menuActionType[client.menuOptionsCount] = hoveredItemIndex;
-                            client.menuOptionsCount += 1;
-                        }
-
-                        client.menuText1[client.menuOptionsCount] = "Use";
-                        client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
-                        client.menuActionID[client.menuOptionsCount] = 650;
-                        client.menuActionType[client.menuOptionsCount] = hoveredItemIndex;
-                        client.menuOptionsCount += 1;
-                        client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("inventory.action_drop");
-                        client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
-                        client.menuActionID[client.menuOptionsCount] = 660;
-                        client.menuActionType[client.menuOptionsCount] = hoveredItemIndex;
-                        client.menuOptionsCount += 1;
-                        client.menuText1[client.menuOptionsCount] = LocalisationManager.GetString("inventory.action_examine");
-                        client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
-                        client.menuActionID[client.menuOptionsCount] = 3600;
-                        client.menuActionType[client.menuOptionsCount] = itemId;
-                        client.menuOptionsCount += 1;
-                    }
-                }
+                PopulateInventoryMenu(hoveredItemIndex);
             }
         }
 
+        internal void PopulateInventoryMenu(int inventorySlotIndex)
+        {
+            client.menuOptionsCount = 0;
+
+            if (client.entityManager is null ||
+                inventorySlotIndex < 0 ||
+                inventorySlotIndex >= client.inventoryItemsCount)
+            {
+                return;
+            }
+
+            int itemId = client.inventoryItems[inventorySlotIndex];
+            Item inventoryItem = client.entityManager.GetItem(itemId);
+
+            if (client.selectedSpell >= 0)
+            {
+                if (client.entityManager.GetSpell(client.selectedSpell).Type == 3)
+                {
+                    client.menuText1[client.menuOptionsCount] =
+                        LocalisationManager.GetString("inventory.action_cast_prefix") +
+                        client.entityManager.GetSpell(client.selectedSpell).Name +
+                        " on";
+                    client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
+                    client.menuActionID[client.menuOptionsCount] = (int)MenuAction.CastSpellOnItem;
+                    client.menuActionType[client.menuOptionsCount] = inventorySlotIndex;
+                    client.menuActionVar1[client.menuOptionsCount] = client.selectedSpell;
+                    client.menuOptionsCount += 1;
+                }
+
+                return;
+            }
+
+            if (client.selectedItem >= 0)
+            {
+                client.menuText1[client.menuOptionsCount] =
+                    LocalisationManager.GetString("inventory.action_use_prefix") +
+                    client.selectedItemName +
+                    " with";
+                client.menuText2[client.menuOptionsCount] = "@lre@" + inventoryItem.Name;
+                client.menuActionID[client.menuOptionsCount] = (int)MenuAction.UseItemWithItem;
+                client.menuActionType[client.menuOptionsCount] = inventorySlotIndex;
+                client.menuActionVar1[client.menuOptionsCount] = client.selectedItem;
+                client.menuOptionsCount += 1;
+
+                return;
+            }
+
+            PopulateInventoryItemActions(inventorySlotIndex, itemId, inventoryItem);
+        }
+
+        private void PopulateInventoryItemActions(
+            int inventorySlotIndex,
+            int itemId,
+            Item inventoryItem)
+        {
+            if (client.inventoryItemEquipped[inventorySlotIndex] == 1)
+            {
+                AddInventoryMenuOption(
+                    LocalisationManager.GetString("inventory.action_remove"),
+                    inventoryItem.Name,
+                    MenuAction.RemoveItem,
+                    inventorySlotIndex);
+            }
+            else if (inventoryItem.IsEquipable != 0)
+            {
+                string equipLabel = LocalisationManager.GetString("inventory.action_wear");
+
+                if ((inventoryItem.IsEquipable & 0x18) != 0)
+                {
+                    equipLabel = LocalisationManager.GetString("inventory.action_wield");
+                }
+
+                AddInventoryMenuOption(
+                    equipLabel,
+                    inventoryItem.Name,
+                    MenuAction.EquipItem,
+                    inventorySlotIndex);
+            }
+
+            if (!string.IsNullOrEmpty(inventoryItem.Command))
+            {
+                AddInventoryMenuOption(
+                    inventoryItem.Command,
+                    inventoryItem.Name,
+                    MenuAction.CommandOnItem,
+                    inventorySlotIndex);
+            }
+
+            AddInventoryMenuOption(
+                "Use",
+                inventoryItem.Name,
+                MenuAction.UseItem,
+                inventorySlotIndex);
+            AddInventoryMenuOption(
+                LocalisationManager.GetString("inventory.action_drop"),
+                inventoryItem.Name,
+                MenuAction.DropItem,
+                inventorySlotIndex);
+            AddInventoryMenuOption(
+                LocalisationManager.GetString("inventory.action_examine"),
+                inventoryItem.Name,
+                MenuAction.ExamineItem,
+                itemId);
+        }
+
+        private void AddInventoryMenuOption(
+            string actionText,
+            string itemName,
+            MenuAction menuAction,
+            int actionType)
+        {
+            client.menuText1[client.menuOptionsCount] = actionText;
+            client.menuText2[client.menuOptionsCount] = "@lre@" + itemName;
+            client.menuActionID[client.menuOptionsCount] = (int)menuAction;
+            client.menuActionType[client.menuOptionsCount] = actionType;
+            client.menuOptionsCount += 1;
+        }
 
         public void DrawItem(int x, int y, int width, int height, int itemID, int xOffset, int yOffset)
         {
@@ -156,7 +191,6 @@ namespace OpenRS.Net.Client.Rendering
             int mask = client.entityManager.GetItem(itemID).PictureMask;
             client.GameGraphics.DrawImage(x, y, width, height, picture, mask, 0, 0, false);
         }
-
 
         public void DrawShopBox()
         {

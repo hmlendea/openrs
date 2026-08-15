@@ -76,6 +76,9 @@ namespace OpenRS.Net.Client.Rendering
 
         public void DrawInventoryMenu(bool canRightClick) => inventoryRenderer.DrawInventoryMenu(canRightClick);
 
+        internal void PopulateInventoryMenu(int inventorySlotIndex)
+            => inventoryRenderer.PopulateInventoryMenu(inventorySlotIndex);
+
         public void DrawMinimapMenu(bool canClick) => worldRenderer.DrawMinimapMenu(canClick);
 
         public void DrawWelcomeBox() => loginRenderer.DrawWelcomeBox();
@@ -277,6 +280,12 @@ namespace OpenRS.Net.Client.Rendering
                 if (client.drawMenuTab == 6)
                 {
                     overlayRenderer.DrawOptionsMenu(isMenuClosed);
+                }
+
+                if (isMenuClosed && client.HoveredInventorySlotIndex.HasValue)
+                {
+                    inventoryRenderer.PopulateInventoryMenu(
+                        client.HoveredInventorySlotIndex.Value);
                 }
 
                 if (!client.menuShow && !client.showQuestionMenu)

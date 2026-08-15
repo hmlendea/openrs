@@ -191,6 +191,8 @@ namespace OpenRS.Net.Client
 
         public IReadOnlyList<ItemSpriteDrawCall> PendingItemSpriteDrawCalls { get; set; } = [];
 
+        internal int? HoveredInventorySlotIndex { get; set; }
+
         public EntityManager entityManager;
 
         public InventoryManager inventoryManager;
@@ -871,6 +873,18 @@ namespace OpenRS.Net.Client
         public void DrawDuelConfirmBox() => renderer.DrawDuelConfirmBox();
 
         public void DrawInventoryMenu(bool canRightClick) => renderer.DrawInventoryMenu(canRightClick);
+
+        internal void ActivateInventorySlot(int inventorySlotIndex, int menuX, int menuY)
+        {
+            renderer.PopulateInventoryMenu(inventorySlotIndex);
+            inputHandler.ActivatePrimaryMenuOption(menuX, menuY);
+        }
+
+        internal void OpenInventorySlotMenu(int inventorySlotIndex, int menuX, int menuY)
+        {
+            renderer.PopulateInventoryMenu(inventorySlotIndex);
+            inputHandler.OpenContextMenu(menuX, menuY);
+        }
 
         public void DrawMinimapMenu(bool canClick) => renderer.DrawMinimapMenu(canClick);
 

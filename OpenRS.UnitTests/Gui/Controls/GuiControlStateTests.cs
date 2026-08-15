@@ -92,7 +92,11 @@ namespace OpenRS.UnitTests.Gui.Controls
         [Test]
         public void GivenANewItemCard_WhenReadingIt_ThenStateIsRetained()
         {
-            GuiItemCard card = new() { SpriteName = "RuneScape", Quantity = 42 };
+            GuiItemCard card = new()
+            {
+                SpriteName = "RuneScape",
+                Quantity = 42
+            };
 
             Assert.That(card.SpriteName, Is.EqualTo("RuneScape"));
             Assert.That(card.Quantity, Is.EqualTo(42));

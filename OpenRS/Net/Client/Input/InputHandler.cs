@@ -72,6 +72,12 @@ namespace OpenRS.Net.Client.Input
 
         public void CheckMouseStatus() => contextMenuInputHandler.CheckMouseStatus();
 
+        internal void ActivatePrimaryMenuOption(int menuX, int menuY)
+            => contextMenuInputHandler.ActivatePrimaryMenuOption(menuX, menuY);
+
+        internal void OpenContextMenu(int menuX, int menuY)
+            => contextMenuInputHandler.OpenContextMenu(menuX, menuY);
+
         public void HandleKeyDown(Keys key, char character)
         {
             if (IsArrowKey(key))

@@ -18,24 +18,17 @@ namespace OpenRS.Net.Client.Input
 
         private static int MenuDisplayY => 14;
 
-        private static int MenuHeightLimit => 315;
-
         private static int MenuHeightOffset => 7;
 
         private static int MenuItemHeight => 15;
 
         private static int MenuPadding => 5;
 
-        private static int MenuWidthLimit => 510;
-
         private static int MaximumDisplayedMenuOptions => 20;
 
         internal void CheckMouseStatus()
         {
-            AddCancelOptionWhenRequired();
-            PopulateMenuIndexes();
-            SortMenuIndexes();
-            TrimMenuOptions();
+            PrepareMenu();
 
             if (client.menuOptionsCount <= 0)
             {
@@ -50,6 +43,37 @@ namespace OpenRS.Net.Client.Input
             }
 
             TryOpenMenu();
+        }
+
+        internal void ActivatePrimaryMenuOption(int menuX, int menuY)
+        {
+            PrepareMenu();
+
+            if (client.menuOptionsCount <= 0)
+            {
+                return;
+            }
+
+            if (client.configOneMouseButton && client.menuOptionsCount > 1)
+            {
+                OpenMenu(menuX, menuY);
+                return;
+            }
+
+            client.MenuClick(client.menuIndexes[0]);
+            client.mouseButtonClick = 0;
+        }
+
+        internal void OpenContextMenu(int menuX, int menuY)
+        {
+            PrepareMenu();
+
+            if (client.menuOptionsCount <= 0)
+            {
+                return;
+            }
+
+            OpenMenu(menuX, menuY);
         }
 
         private void AddCancelOptionWhenRequired()
@@ -117,14 +141,14 @@ namespace OpenRS.Net.Client.Input
                 client.menuY = 0;
             }
 
-            if (client.menuX + client.menuWidth > MenuWidthLimit)
+            if (client.menuX + client.menuWidth > client.windowWidth)
             {
-                client.menuX = MenuWidthLimit - client.menuWidth;
+                client.menuX = client.windowWidth - client.menuWidth;
             }
 
-            if (client.menuY + client.menuHeight > MenuHeightLimit)
+            if (client.menuY + client.menuHeight > client.windowHeight)
             {
-                client.menuY = MenuHeightLimit - client.menuHeight;
+                client.menuY = client.windowHeight - client.menuHeight;
             }
         }
 
@@ -162,15 +186,15 @@ namespace OpenRS.Net.Client.Input
             return -1;
         }
 
-        private void OpenMenu()
+        private void OpenMenu(int menuX, int menuY)
         {
             client.menuHeight = (client.menuOptionsCount + 1) * MenuItemHeight;
             client.menuWidth =
                 client.GameGraphics.TextWidth(ChooseOptionTitle, MenuDisplayFontIndex) +
                 MenuPadding;
             UpdateMenuWidth();
-            client.menuX = client.mouseX - (client.menuWidth / 2);
-            client.menuY = client.mouseY - MenuHeightOffset;
+            client.menuX = menuX - (client.menuWidth / 2);
+            client.menuY = menuY - MenuHeightOffset;
             client.menuShow = true;
             ClampMenuBounds();
             client.mouseButtonClick = 0;
@@ -182,6 +206,14 @@ namespace OpenRS.Net.Client.Input
             {
                 client.menuIndexes[menuIndex] = menuIndex;
             }
+        }
+
+        private void PrepareMenu()
+        {
+            AddCancelOptionWhenRequired();
+            PopulateMenuIndexes();
+            SortMenuIndexes();
+            TrimMenuOptions();
         }
 
         private void SortMenuIndexes()
@@ -249,7 +281,7 @@ namespace OpenRS.Net.Client.Input
             if ((!client.configOneMouseButton && client.mouseButtonClick == 2) ||
                 (client.configOneMouseButton && client.mouseButtonClick == 1))
             {
-                OpenMenu();
+                OpenMenu(client.mouseX, client.mouseY);
             }
         }
 
